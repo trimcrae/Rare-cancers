@@ -2,9 +2,12 @@ name: Enumerate target drugs
 
 # Systematic target -> drug enumeration (METHODOLOGY.md §7, roadmap #1). Runs on the
 # GitHub runner (full internet) because the dev sandbox blocks egress. Queries the
-# DGIdb GraphQL API for the EMC targets in research/hypotheses/targets.json, writes
-# research/hypotheses/target-drug-matrix.json, and commits it to the default branch.
-# This is research data (a triage starting point), never served by Pages.
+# DGIdb GraphQL API for the EMC targets in research/hypotheses/targets.json and
+# publishes research/hypotheses/target-drug-matrix.json to the `enumeration-cache`
+# branch (like literature-cache: never served by Pages, never auto-merged to main, so
+# it can't collide with in-flight work). Sync it into main deliberately when wanted:
+#   git fetch origin enumeration-cache && \
+#   git checkout enumeration-cache -- research/hypotheses/target-drug-matrix.json
 
 on:
   workflow_dispatch:
@@ -28,10 +31,20 @@ jobs:
       - name: Enumerate approved drugs for EMC targets (DGIdb)
         run: node research/hypotheses/enumerate-drugs.mjs
 
-      - name: Commit the target-drug matrix
+      - name: Publish matrix to the enumeration-cache branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/hypotheses/target-drug-matrix.json "$RUNNER_TEMP/matrix.json"
+          git fetch origin enumeration-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/enumeration-cache; then
+            git checkout -B enumeration-cache origin/enumeration-cache
+          else
+            git checkout --orphan enumeration-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/hypotheses
+          cp "$RUNNER_TEMP/matrix.json" research/hypotheses/target-drug-matrix.json
           git add research/hypotheses/target-drug-matrix.json
-          git commit -m "Enumerate target drugs (DGIdb): refresh target-drug matrix" || { echo "No changes"; exit 0; }
-          git push origin HEAD:${GITHUB_REF_NAME}
+          git commit -m "Enumerate target drugs (DGIdb): refresh matrix" || { echo "No changes"; exit 0; }
+          git push origin enumeration-cache

@@ -20,7 +20,8 @@ research/
     candidates.json                 structured repurposing-candidate catalog (data)
     targets.json                    EMC drug-target list (drives the systematic enumeration)
     enumerate-drugs.mjs             DGIdb target->drug enumeration + gap analysis (runs in CI)
-    target-drug-matrix.json         enumeration output: approved drugs per EMC target (CI-generated)
+    target-drug-matrix.json         enumeration output: approved drugs per EMC target
+                                    (snapshot on main; auto-refreshed on the `enumeration-cache` branch)
   manuscripts/
     meta-analysis.md                manuscript skeleton (outcomes meta-analysis)
     repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)
