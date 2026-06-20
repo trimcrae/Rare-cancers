@@ -10,6 +10,11 @@ read it before making changes.
 - **Golden rule:** never fabricate medical facts, stats, citations, or patient
   data. Everything clinical must be cited. Non-real registry data must be
   flagged `SAMPLE_SYNTHETIC` and bannered. See AGENTS.md → "medical integrity".
+- **Citing & combining studies:** registry data uses a structured citation map
+  (`registry.citations` + `sourceId`/`primaryRef`, primary vs secondary) and a
+  fixed pooling method (crude denominator-weighted proportions + Wilson 95% CIs,
+  non-overlapping cohorts only). Read **[METHODOLOGY.md](./METHODOLOGY.md)** before
+  touching `registry`.
 - **To add a cancer:** `node scripts/new-cancer.mjs <slug> "Name" "ABBR" "Category"`,
   then fill `data/cancers/<slug>.json` (the EMC file is the worked example).
 - **A cancer page = one JSON file.** You rarely touch HTML/CSS/JS.

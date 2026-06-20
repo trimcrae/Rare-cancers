@@ -130,6 +130,7 @@
   const reg = data.registry || {};
   const patients = reg.patients || [];
   const cohorts = reg.cohorts || [];
+  const cites = reg.citations || {};
   const sample = reg.dataStatus === "SAMPLE_SYNTHETIC";
 
   const regBanner = reg.dataStatus !== "curated" ? el("div", { class: "banner" }, [
@@ -167,6 +168,28 @@
     return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
   };
   const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
+
+  // Wilson score 95% CI for a pooled proportion (robust at small n and extremes).
+  const wilson = (e, n) => {
+    if (!n) return null;
+    const z = 1.96, p = e / n, d = 1 + (z * z) / n;
+    const c = p + (z * z) / (2 * n);
+    const m = z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n));
+    return [Math.max(0, (c - m) / d), Math.min(1, (c + m) / d)];
+  };
+  const ci = (e, n) => { const w = wilson(e, n); return w ? Math.round(w[0] * 100) + "-" + Math.round(w[1] * 100) + "%" : "-"; };
+
+  // citation resolution (structured registry.citations + primary/secondary provenance)
+  const GH_METHODOLOGY = "https://github.com/trimcrae/rare-cancers/blob/main/METHODOLOGY.md";
+  const cite = (id) => cites[id] || null;
+  const citeLabel = (id) => { const c = cite(id); return c ? (c.short || ((c.authors || "").split(",")[0] + " " + (c.year || "")).trim()) : (id || ""); };
+  function sourceCell(o) {
+    const c = cite(o.sourceId);
+    if (!c) return el("span", {}, o.source || "");
+    if (o.provenance === "secondary" && o.primaryRef)
+      return el("span", { title: c.title || "" }, [ext(c.url, o.primaryRef), el("span", { class: "small muted" }, " — via " + citeLabel(o.sourceId))]);
+    return ext(c.url, citeLabel(o.sourceId));
+  }
 
   const breakdownWrap = el("div", { class: "table-scroll" });
 
@@ -244,9 +267,9 @@
       return;
     }
     statsWrap.appendChild(stat(String(totalN), "patients pooled", pooled.length + " source(s)"));
-    if (aDD.denom) statsWrap.appendChild(stat(pct(aDD.denom - aDD.events, aDD.denom) + "%", "disease-specific survival", "crude, " + aDD.denom + " pts"));
-    if (aRec.denom) statsWrap.appendChild(stat(pct(aRec.events, aRec.denom) + "%", "had local recurrence", "crude, " + aRec.denom + " pts"));
-    if (aMet.denom) statsWrap.appendChild(stat(pct(aMet.events, aMet.denom) + "%", "developed metastasis", "crude, " + aMet.denom + " pts"));
+    if (aDD.denom) statsWrap.appendChild(stat(pct(aDD.denom - aDD.events, aDD.denom) + "%", "disease-specific survival", "95% CI " + ci(aDD.denom - aDD.events, aDD.denom) + " · crude, mixed F/U · n=" + aDD.denom));
+    if (aRec.denom) statsWrap.appendChild(stat(pct(aRec.events, aRec.denom) + "%", "had local recurrence", "95% CI " + ci(aRec.events, aRec.denom) + " · n=" + aRec.denom));
+    if (aMet.denom) statsWrap.appendChild(stat(pct(aMet.events, aMet.denom) + "%", "developed metastasis", "95% CI " + ci(aMet.events, aMet.denom) + " · n=" + aMet.denom));
 
     // ---- transparent breakdown: every contributing study/cohort ----
     const cell = (m, pctVal, txt) => (m && m.denom) ? (pct(m.events, m.denom) + "% (" + m.events + "/" + m.denom + ")") : (pctVal != null ? pctVal + "%" : (txt || "-"));
@@ -262,19 +285,24 @@
       el("td", {}, isBaselineMet(e) ? "(at diagnosis)" : cell(e.metastasis, e.metastasisPct, e.metastasisText)),
       el("td", {}, dssCell(e)),
       el("td", {}, e.medianFollowupMonths != null ? e.medianFollowupMonths + " mo" : "-"),
-      el("td", {}, e.sourceUrl ? ext(e.sourceUrl, e.source || "source") : (e.isCases ? "see table below" : (e.source || ""))),
+      el("td", { title: e.note || "" }, e.isCases ? "see table below" : sourceCell(e)),
     ]));
     breakdownWrap.appendChild(el("table", {}, [el("thead", {}, head), el("tbody", {}, rows)]));
+    // between-study spread (heterogeneity signal)
+    const rateList = (key, pctKey) => entries.map((e) => { const m = e[key]; if (m && m.denom) return pct(m.events, m.denom); if (e[pctKey] != null) return e[pctKey]; return null; }).filter((x) => x != null);
+    const rng = (arr) => (arr.length > 1 ? Math.min(...arr) + "-" + Math.max(...arr) + "%" : (arr.length ? arr[0] + "%" : "n/a"));
     breakdownWrap.appendChild(el("p", { class: "small muted", style: "padding:8px 4px" },
       "Top-line figures sum only the 'pooled' rows (explicit patient counts, non-overlapping populations). 'Context' rows come from larger series shown for comparison - not added in, to avoid double-counting overlapping patients or mixing in percentage-only data."));
+    breakdownWrap.appendChild(el("p", { class: "small muted", style: "padding:0 4px 8px" },
+      "Between-study spread: local recurrence " + rng(rateList("recurrence", "recurrencePct")) + ", metastasis " + rng(rateList("metastasis", "metastasisPct")) + " across the rows above. Wide spread means the pooled point estimate hides real disagreement - treat it with extra caution."));
 
     // ---- the individual cases that fed the pool ----
     if (!outPatients.length) { tableWrap.appendChild(el("p", { class: "small muted", style: "padding:8px 4px" }, "No individual case reports match these filters.")); return; }
     const pcols = ["age", "sex", "grade", "stage", "sizeCm", "site", "fusion", "primaryTreatment", "followupMonths", "vitalStatus", "localRecurrence", "metastasis", "source"];
     const phead = el("tr", {}, pcols.map((c) => el("th", {}, c)));
     const prows = outPatients.map((p) => el("tr", {}, pcols.map((c) => {
-      if (c === "source" && p.sourceUrl) return el("td", { title: p.note || "" }, ext(p.sourceUrl, p.source || "source"));
-      return el("td", { title: c === "source" ? (p.note || "") : "" }, p[c] === undefined ? "" : String(p[c]));
+      if (c === "source") return el("td", { title: p.note || "" }, sourceCell(p));
+      return el("td", {}, p[c] === undefined ? "" : String(p[c]));
     })));
     tableWrap.appendChild(el("table", {}, [el("thead", {}, phead), el("tbody", {}, prows)]));
   }
@@ -288,11 +316,27 @@
       el("button", { class: "secondary", onclick: () => { controls.querySelectorAll("input,select").forEach((e) => (e.value = "")); applyFilters(); } }, "Reset"),
     ]),
   ]);
+  const methodNote = el("p", { class: "small muted" }, [
+    "Method: pooled figures are crude, denominator-weighted proportions with Wilson 95% CIs, summing only non-overlapping cohorts that report explicit patient counts; time-anchored survival (5/10-yr) is shown per study, not merged. Full policy: ",
+    ext(GH_METHODOLOGY, "METHODOLOGY.md"), ".",
+  ]);
+
+  // references actually used by this registry, rendered with provenance
+  const usedIds = Array.from(new Set([...patients.map((p) => p.sourceId), ...cohorts.map((c) => c.sourceId)].filter(Boolean)));
+  const sourcesList = el("ul", { class: "sources" }, usedIds.map((id) => {
+    const c = cite(id); if (!c) return null;
+    const meta = [c.journal, c.year].filter(Boolean).join(" ") +
+      (c.design ? "; " + c.design : "") + (c.n ? "; n=" + c.n : "") +
+      (c.license ? "; " + c.license : "") + (c.verified ? "; link verified" : "; unverified");
+    return el("li", {}, [ext(c.url, (c.short || id)), el("span", { class: "small muted" }, " — " + meta)]);
+  }).filter(Boolean));
+
   addSection("filter", "What happened to people like me?",
     el("p", { class: "intro" }, reg.intro || ""), regBanner, filterCard,
-    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Pooled result"), statsWrap]),
+    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Pooled result"), statsWrap, methodNote]),
     el("div", { class: "card" }, [el("div", { class: "kicker" }, "Where the numbers come from"), breakdownWrap]),
-    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Individual case reports in this pool"), el("div", { style: "margin-top:12px" }, tableWrap)])
+    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Individual case reports in this pool"), el("div", { style: "margin-top:12px" }, tableWrap)]),
+    usedIds.length ? el("div", { class: "card" }, [el("div", { class: "kicker" }, "Sources"), sourcesList]) : null
   );
   applyFilters(); // render the full pool on load
 

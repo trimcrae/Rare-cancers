@@ -230,7 +230,7 @@
   "registry": {
     "intro": "This tool pools two kinds of real, cited evidence to explore 'what happened to people like me?': (1) grouped outcomes from published EMC cohorts and registries (tens to hundreds of patients each), and (2) individual published case reports. Matching studies are summed into a crude top-line, and every contributing study is listed beneath it so you can see exactly where the numbers come from. Large series with population-overlap or percentage-only data are shown for context but not summed.",
     "dataStatus": "partial-curated",
-    "dataStatusBanner": "These numbers are pooled from REAL published EMC cohorts and individual case reports, each linked to its source - not synthetic data. The top-line figures are CRUDE pooled proportions across heterogeneous studies (different countries, eras and follow-up lengths), not a survival model, and some large series are shown for context only to avoid double-counting overlapping populations. Treat everything as a rough signal, never a personal prognosis.",
+    "dataStatusBanner": "These numbers are pooled from REAL published EMC cohorts and individual case reports, each linked to its source - not synthetic data. The top-line figures are CRUDE pooled proportions (with Wilson 95% confidence intervals) across heterogeneous studies of different countries, eras and follow-up - not a survival model. Some large series are shown for context only, to avoid double-counting overlapping populations. See METHODOLOGY.md. Treat everything as a rough signal, never a personal prognosis.",
     "fields": {
       "age": "Age at diagnosis (years)",
       "sex": "F or M",
@@ -264,8 +264,7 @@
         "localRecurrence": false,
         "metastasis": false,
         "note": "Dual-site abdominal-wall EMC at prior laparoscopic port sites (likely seeding); marginal excision, no adjuvant therapy; NED at 1.8 yr. Age reported only as 'in his 40s' (recorded as decade midpoint).",
-        "source": "Gunasekaran et al., Cureus 2026 (PMC12863220, CC-BY)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12863220/"
+        "sourceId": "gunasekaran2026"
       },
       {
         "age": 12,
@@ -282,8 +281,7 @@
         "localRecurrence": true,
         "metastasis": true,
         "note": "Paediatric EMC with rhabdoid features; lung metastasis at diagnosis (resected); surgery + ifosfamide/doxorubicin + RT 60 Gy; local relapse at 16 mo, re-excised, then lost to follow-up. Clinical size 13x17 cm, specimen 10x11.5x7.5 cm.",
-        "source": "Andrade Rojas et al., Cureus 2025 (PMC12285907, CC-BY)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12285907/"
+        "sourceId": "andradeRojas2025"
       },
       {
         "age": 17,
@@ -300,8 +298,7 @@
         "localRecurrence": false,
         "metastasis": false,
         "note": "Primary intracranial (right frontal) EMC; high-grade with INI1 loss and Ki-67 80%; gross total resection + RT 66 Gy/33 fx, no chemo; only 3-month follow-up so far.",
-        "source": "Wang et al., Oncol Lett 2026 (PMC12750061)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12750061/"
+        "sourceId": "wang2026"
       },
       {
         "age": 73,
@@ -318,8 +315,7 @@
         "localRecurrence": false,
         "metastasis": false,
         "note": "EMC around the left knee initially mistaken for myoepithelial tumour; TAF15::NR4A3 confirmed by RNA sequencing; extracapsular resection + distal femoral replacement, no adjuvant therapy; NED at 3 yr.",
-        "source": "Jiang et al., Case Rep Pathol 2026 (PMC13136674, CC-BY)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13136674/"
+        "sourceId": "jiang2026"
       }
     ],
     "cohorts": [
@@ -344,9 +340,11 @@
         },
         "fiveYearDSS": 91.3,
         "medianFollowupMonths": 38,
-        "source": "Masunaga et al., J Orthop Surg Res 2025 (PMC12398172)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12398172/",
-        "note": "Japanese National Bone & Soft Tissue Tumour Registry, 2002-2022. Prognostic subset; 8 non-surgically-treated localised cases excluded. R1/R2 margins were the main risk factor for recurrence."
+        "sourceId": "masunaga2025",
+        "provenance": "primary",
+        "populationKey": "masunaga2025-jpreg",
+        "stratum": "localized-surgical",
+        "note": "Prognostic subset; 8 non-surgically-treated localised cases excluded. R1/R2 margins were the main risk factor for recurrence."
       },
       {
         "label": "Metastatic at diagnosis",
@@ -361,12 +359,14 @@
         },
         "fiveYearDSS": 75.8,
         "medianFollowupMonths": 41,
-        "source": "Masunaga et al., J Orthop Surg Res 2025 (PMC12398172)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12398172/",
-        "note": "Same registry. 27 lung, 2 peritoneal metastases; 16 received systemic therapy for advanced disease. Metastasis is the inclusion criterion here, so it is not counted as an outcome in the pooled metastasis rate."
+        "sourceId": "masunaga2025",
+        "provenance": "primary",
+        "populationKey": "masunaga2025-jpreg",
+        "stratum": "metastatic-at-dx",
+        "note": "27 lung, 2 peritoneal metastases; 16 received systemic therapy. Metastasis is the inclusion criterion here, so it is not counted as a metastasis outcome."
       },
       {
-        "label": "Localised, single-institution series (Bishop et al.)",
+        "label": "Localised, single-institution series",
         "n": 41,
         "pool": false,
         "criteria": {
@@ -376,12 +376,14 @@
         "metastasisPct": 32,
         "dssText": "85% (10-yr DSS)",
         "medianFollowupMonths": 94,
-        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
-        "note": "10-yr local control 100% with surgery+radiotherapy vs 63% with surgery alone. Likely overlaps US SEER data, so shown for context, not pooled."
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Bishop et al. (single-institution series, n=41)",
+        "contextReason": "population-overlap",
+        "note": "10-yr local control 100% with surgery+RT vs 63% surgery alone. Likely overlaps US SEER, so not pooled."
       },
       {
-        "label": "Localised, US SEER population (Kemmerer et al.)",
+        "label": "Localised, US SEER population",
         "n": 156,
         "pool": false,
         "criteria": {
@@ -389,35 +391,146 @@
         },
         "dssText": "94% vs 85% (5-yr CSS, RT vs no RT)",
         "medianFollowupMonths": 33,
-        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
-        "note": "SEER 2004-2012; 94% had surgery, 32% radiotherapy. Population registry does not capture recurrence. Context only."
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Kemmerer et al. (SEER 2004-2012, n=156)",
+        "contextReason": "population-overlap; percentage-only",
+        "note": "94% had surgery, 32% radiotherapy. Population registry does not capture recurrence."
       },
       {
-        "label": "Local recurrence by surgical margin (Giner et al.)",
+        "label": "Local recurrence by surgical margin",
         "n": 31,
         "pool": false,
         "criteria": {
           "stage": "localized"
         },
         "recurrenceText": "58% involved vs 7% free margins",
-        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
-        "note": "Illustrates how strongly margin status drives local recurrence. Context only."
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Giner et al. (n=31)",
+        "contextReason": "percentage-only",
+        "note": "Shows how strongly margin status drives local recurrence."
       },
       {
-        "label": "Advanced disease on pazopanib (Stacchiotti et al., phase 2)",
+        "label": "Advanced disease on pazopanib",
         "n": 26,
         "pool": false,
         "criteria": {
           "stage": "distant"
         },
         "dssText": "90% (2-yr OS)",
-        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
-        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
-        "note": "Objective response 18%, median PFS 19 months; responses better with EWSR1::NR4A3 fusion. Treatment-response context for metastatic disease."
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Stacchiotti et al., Lancet Oncol 2019 phase 2 (n=26)",
+        "contextReason": "different-endpoint",
+        "note": "Objective response 18%, median PFS 19 months; better with EWSR1::NR4A3. Treatment-response context."
       }
-    ]
+    ],
+    "citations": {
+      "masunaga2025": {
+        "short": "Masunaga 2025",
+        "type": "journal-article",
+        "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma",
+        "authors": "Masunaga T, Tsukamoto S, Nagano A, et al.",
+        "journal": "J Orthop Surg Res",
+        "year": 2025,
+        "pmcid": "PMC12398172",
+        "doi": "10.1186/s13018-025-06245-6",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12398172/",
+        "license": "CC-BY-NC-ND-4.0",
+        "openAccess": true,
+        "design": "retrospective national registry cohort",
+        "n": 171,
+        "population": "Pathologically diagnosed EMC, Japanese National Bone & Soft Tissue Tumour Registry, 2002-2022",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "remiszewski2025": {
+        "short": "Remiszewski 2025 (review)",
+        "type": "review",
+        "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+        "authors": "Remiszewski P, Falkowski S, Szumera-Cieckiewicz A, et al.",
+        "journal": "J Cancer Res Clin Oncol",
+        "year": 2025,
+        "pmcid": "PMC12504171",
+        "doi": "10.1007/s00432-025-06316-5",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
+        "license": "CC-BY-NC-ND-4.0",
+        "openAccess": true,
+        "design": "narrative review",
+        "population": "Literature review of EMC diagnostics, prognosis and treatment",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "gunasekaran2026": {
+        "short": "Gunasekaran 2026",
+        "type": "case-report",
+        "title": "A Case Report of a Patient Presenting With Extra-skeletal Myxoid Chondrosarcoma",
+        "authors": "Gunasekaran K, Johnston V, Wong D, et al.",
+        "journal": "Cureus",
+        "year": 2026,
+        "pmcid": "PMC12863220",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12863220/",
+        "license": "CC-BY-4.0",
+        "openAccess": true,
+        "design": "case report",
+        "n": 1,
+        "population": "Single patient, dual-site abdominal-wall EMC",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "andradeRojas2025": {
+        "short": "Andrade Rojas 2025",
+        "type": "case-report",
+        "title": "Extraskeletal Myxoid Chondrosarcoma With Rhabdoid Features in a Pediatric Patient",
+        "authors": "Andrade Rojas JJ, Lizardo MJ, Hernandez Perez AD, et al.",
+        "journal": "Cureus",
+        "year": 2025,
+        "pmcid": "PMC12285907",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12285907/",
+        "license": "CC-BY-4.0",
+        "openAccess": true,
+        "design": "case report",
+        "n": 1,
+        "population": "Single paediatric patient, thigh EMC with lung metastasis",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "wang2026": {
+        "short": "Wang 2026",
+        "type": "case-report",
+        "title": "Primary intracranial extraskeletal myxoid chondrosarcoma in a teenager ...",
+        "authors": "Wang H, Wang F, Zhang H",
+        "journal": "Oncol Lett",
+        "year": 2026,
+        "pmcid": "PMC12750061",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12750061/",
+        "license": "CC-BY-NC-ND-4.0",
+        "openAccess": true,
+        "design": "case report",
+        "n": 1,
+        "population": "Single adolescent patient, primary intracranial EMC",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "jiang2026": {
+        "short": "Jiang 2026",
+        "type": "case-report",
+        "title": "Extraskeletal Myxoid Chondrosarcoma Mimicking Myoepithelial Tumor",
+        "authors": "Jiang B, Matsuoka M, Hatanaka KC, et al.",
+        "journal": "Case Rep Pathol",
+        "year": 2026,
+        "pmcid": "PMC13136674",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13136674/",
+        "license": "CC-BY-4.0",
+        "openAccess": true,
+        "design": "case report",
+        "n": 1,
+        "population": "Single patient, knee EMC with TAF15::NR4A3",
+        "accessed": "2026-06-20",
+        "verified": true
+      }
+    }
   },
   "treatments": {
     "intro": "General, plain-language summary of how EMC is typically managed, organised by situation. This is educational only and is based on published reviews and ESMO/NCCN soft-tissue sarcoma principles - it is not a treatment recommendation for any individual. Decisions must be made with a sarcoma multidisciplinary team (MDT).",

@@ -49,18 +49,40 @@ for (const file of files) {
   const reg = d.registry || {};
   if (!["SAMPLE_SYNTHETIC", "partial-curated", "curated"].includes(reg.dataStatus))
     errors.push(`${where}: registry.dataStatus must be SAMPLE_SYNTHETIC | partial-curated | curated`);
+  // structured citation registry (see METHODOLOGY.md)
+  const citations = reg.citations || {};
+  const hasCite = (id) => id && Object.prototype.hasOwnProperty.call(citations, id);
+  for (const [id, c] of Object.entries(citations)) {
+    const cw = `${where}: registry.citations.${id}`;
+    if (!c.title) errors.push(`${cw} missing "title"`);
+    if (!c.year) errors.push(`${cw} missing "year"`);
+    if (!c.pmid && !c.pmcid && !c.doi) errors.push(`${cw} needs a resolvable id (pmid|pmcid|doi)`);
+    if (!c.url) errors.push(`${cw} missing "url"`);
+    if (!c.license) warns.push(`${cw} has no license recorded`);
+  }
   (reg.patients || []).forEach((p, i) => {
-    for (const k of ["age", "sex", "stage", "vitalStatus", "source"]) if (p[k] === undefined) errors.push(`${where}: registry.patients[${i}] missing "${k}"`);
+    for (const k of ["age", "sex", "stage", "vitalStatus", "sourceId"]) if (p[k] === undefined) errors.push(`${where}: registry.patients[${i}] missing "${k}"`);
+    if (p.sourceId && !hasCite(p.sourceId)) errors.push(`${where}: registry.patients[${i}] sourceId "${p.sourceId}" has no registry.citations entry`);
     if (p.stage && !["localized", "regional", "distant"].includes(p.stage)) warns.push(`${where}: patient[${i}].stage "${p.stage}" not in localized|regional|distant`);
   });
+  const poolKeys = {};
   (reg.cohorts || []).forEach((c, i) => {
-    if (!c.label) errors.push(`${where}: registry.cohorts[${i}] missing "label"`);
-    if (typeof c.n !== "number") errors.push(`${where}: registry.cohorts[${i}] "${c.label || "?"}" needs numeric "n"`);
-    if (!c.source) errors.push(`${where}: registry.cohorts[${i}] "${c.label || "?"}" missing "source"`);
+    const cw = `${where}: registry.cohorts[${i}] "${c.label || "?"}"`;
+    if (!c.label) errors.push(`${cw} missing "label"`);
+    if (typeof c.n !== "number") errors.push(`${cw} needs numeric "n"`);
+    if (!hasCite(c.sourceId)) errors.push(`${cw} sourceId "${c.sourceId || ""}" has no registry.citations entry`);
+    if (c.provenance === "secondary" && !c.primaryRef) errors.push(`${cw} provenance:"secondary" requires "primaryRef" (the original study)`);
+    if (c.pool === false && !c.contextReason) warns.push(`${cw} is context (pool:false) but gives no contextReason`);
     for (const k of ["recurrence", "metastasis", "diseaseDeath"]) {
       const m = c[k];
       if (m && (typeof m.events !== "number" || typeof m.denom !== "number" || m.events > m.denom))
-        errors.push(`${where}: registry.cohorts[${i}] "${c.label || "?"}" ${k} needs events<=denom`);
+        errors.push(`${cw} ${k} needs events<=denom`);
+    }
+    // double-counting guard: pooled strata of the same study must be disjoint
+    if (c.pool !== false && c.populationKey) {
+      const key = `${c.populationKey}::${c.stratum || ""}`;
+      if (poolKeys[key]) warns.push(`${cw} shares populationKey+stratum with cohort[${poolKeys[key]}] - risk of double-counting in the pool`);
+      else poolKeys[key] = i;
     }
   });
   if (reg.dataStatus === "SAMPLE_SYNTHETIC" && !reg.dataStatusBanner)

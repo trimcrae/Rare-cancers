@@ -29,6 +29,11 @@ This site is read by frightened, newly diagnosed people. **Never invent medical
 facts, statistics, citations, or patient data.**
 
 - Every clinical claim and every statistic must come from a real, linked source.
+  Registry data uses the **structured citation system** (`registry.citations` +
+  `sourceId`/`primaryRef`); pooled outcome numbers follow a fixed **statistical
+  method**. Both are specified in **[METHODOLOGY.md](./METHODOLOGY.md)** — read it
+  before editing `registry`. Never read a number out of a review and present it
+  as the primary study's: set `provenance: "secondary"` and record `primaryRef`.
 - If you cannot find a source, write that the information is not yet available —
   do **not** fill the gap with a plausible-sounding number.
 - Patient-registry rows must be real, cited published cases, OR clearly flagged
@@ -91,10 +96,14 @@ shell, and the homepage entry (as `draft`). Then **do the research** and fill in
 2. **Overview** — plain language. Define genetics/biomarkers if any.
 3. **Outcomes** — `outcomes.published` = cited summary stats (use ranges).
    `prognosticFactors` and `treatmentResponse` similarly cited.
-4. **Registry** — ideally extract individual patients from case reports/series
-   into `registry.patients` with a `source` per row, and set `dataStatus`
-   accordingly. If you only have sample data, keep `SAMPLE_SYNTHETIC` and the
-   banner. Calibrate any sample data to published group statistics.
+4. **Registry** — extract real evidence into two pools (see METHODOLOGY.md):
+   individual patients from case reports → `registry.patients`, and grouped
+   outcomes from cohorts/series/registries → `registry.cohorts` (with explicit
+   `{events, denom}` counts where they can be pooled). Add every source to
+   `registry.citations` and reference it by `sourceId`. Set `dataStatus`
+   (`SAMPLE_SYNTHETIC` → `partial-curated` → `curated`). Pooled cohorts must be
+   non-overlapping and confirmed disease; overlapping/percentage-only series go
+   in as `pool: false` context with a `contextReason`.
 5. **Treatments** — educational, by stage, with `disclaimer`. Anchor to
    guideline bodies (ESMO/NCCN/etc.) and cite.
 6. **emergingTreatments** — investigational/new approaches. Each item needs a
