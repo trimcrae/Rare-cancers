@@ -44,6 +44,35 @@ def summarize(obj, depth=0, maxd=3):
         s = repr(obj)
         log(f"{pad}{t}: {s[:300]}")
 
+def _f(x):
+    try:
+        return float(x)
+    except Exception:
+        return x
+
+def build_idx2name(mapping, kind):
+    """Build {node_idx(float) -> name(str)} for a node kind ('disease'/'drug') from
+    TxGNN's retrieve_id_mapping(), tolerating several key layouts."""
+    if not isinstance(mapping, dict):
+        return {}
+    keys = {k.lower(): k for k in mapping.keys()}
+    def get(*subs):
+        for lk, ok in keys.items():
+            if kind in lk and all(s in lk for s in subs):
+                return mapping[ok]
+        return None
+    idx2name = get("idx2name") or get("idx", "name")
+    if isinstance(idx2name, dict) and idx2name:
+        return {_f(k): str(v) for k, v in idx2name.items()}
+    idx2id = get("idx2id")
+    id2name = get("id2name") or get("id", "name")
+    out = {}
+    if isinstance(idx2id, dict) and isinstance(id2name, dict):
+        for idx, _id in idx2id.items():
+            nm = id2name.get(_id, id2name.get(str(_id), _id))
+            out[_f(idx)] = str(nm)
+    return out
+
 def main():
     import numpy as np, pandas as pd
     import torch, dgl
@@ -63,30 +92,36 @@ def main():
     model.load_pretrained("./model_ckpt")
     log("Pretrained model loaded.")
 
-    # --- locate the EMC disease node by name -------------------------------------
-    df = txdata.df_train if hasattr(txdata, "df_train") and txdata.df_train is not None else txdata.df
-    parts = []
-    for xy in ("x", "y"):
-        sub = df[df[f"{xy}_type"] == "disease"][[f"{xy}_idx", f"{xy}_name"]]
-        sub.columns = ["idx", "name"]
-        parts.append(sub)
-    dd = pd.concat(parts).drop_duplicates()
-    cand = dd[dd["name"].str.contains(EMC_RX, case=False, na=False)]
-    log("disease-name matches for /%s/:" % EMC_RX)
-    log(cand.to_string())
-    emc = cand[cand["name"].str.contains("extraskeletal", case=False, na=False)]
-    row = (emc.iloc[0] if len(emc) else cand.iloc[0])
-    emc_idx = float(row["idx"]); emc_name = str(row["name"])
-    log(f"Using EMC disease node: idx={emc_idx} name={emc_name!r}")
+    # --- diagnostics: schema of the data objects --------------------------------
+    df = txdata.df_train if getattr(txdata, "df_train", None) is not None else txdata.df
+    log("df_train columns:", list(df.columns))
+    try:
+        log("txdata.df columns:", list(txdata.df.columns))
+    except Exception as e:
+        log("no txdata.df:", e)
 
-    # --- drug idx -> name map (in case the eval returns indices) ------------------
-    dparts = []
-    for xy in ("x", "y"):
-        sub = df[df[f"{xy}_type"] == "drug"][[f"{xy}_idx", f"{xy}_name"]]
-        sub.columns = ["idx", "name"]
-        dparts.append(sub)
-    drug_map = {float(r.idx): str(r.name) for r in pd.concat(dparts).drop_duplicates().itertuples()}
-    log(f"drug nodes in KG: {len(drug_map)}")
+    # Node names live in retrieve_id_mapping(), not in the edge list.
+    mapping = txdata.retrieve_id_mapping()
+    log("retrieve_id_mapping type:", type(mapping).__name__,
+        "keys:", list(mapping.keys()) if isinstance(mapping, dict) else "n/a")
+
+    disease_idx2name = build_idx2name(mapping, "disease")
+    drug_map = build_idx2name(mapping, "drug")
+    log(f"disease idx->name: {len(disease_idx2name)} | drug idx->name: {len(drug_map)}")
+    # sample a few disease names so we can see the format
+    for i, (k, v) in enumerate(disease_idx2name.items()):
+        if i >= 3: break
+        log("  sample disease:", k, "->", v)
+
+    # --- locate the EMC disease node by name ------------------------------------
+    matches = {k: v for k, v in disease_idx2name.items() if EMC_RX in str(v).lower()}
+    log("disease-name matches for /%s/: %s" % (EMC_RX, matches))
+    emc_items = {k: v for k, v in matches.items() if "extraskeletal" in str(v).lower()} or matches
+    if not emc_items:
+        raise RuntimeError("EMC disease node not found in id mapping")
+    emc_idx = float(next(iter(emc_items)))
+    emc_name = str(emc_items[next(iter(emc_items))])
+    log(f"Using EMC disease node: idx={emc_idx} name={emc_name!r}")
 
     # --- run the model on EMC, indication relation -------------------------------
     teval = TxEval(model=model)
