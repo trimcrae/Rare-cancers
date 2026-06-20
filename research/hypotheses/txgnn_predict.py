@@ -13,7 +13,19 @@ import os, sys, json, traceback
 
 OUT = "research/hypotheses/txgnn-emc-predictions.json"
 EMC_RX = "myxoid chondrosarcoma"
-TOPN = 50
+TOPN = 100
+
+# EMC-relevant drugs (our mechanism catalog + DGIdb enumeration) — we report WHERE TxGNN
+# ranked each in its full 7,957-drug list, as a triangulation signal (corroboration vs.
+# divergence), independent of TxGNN's own top hits.
+RELEVANT = [
+    "pazopanib", "sunitinib", "sorafenib", "regorafenib", "cabozantinib", "axitinib",
+    "nintedanib", "vandetanib", "tivozanib", "fruquintinib", "lenvatinib", "anlotinib", "apatinib",
+    "imatinib", "dasatinib", "nilotinib", "ponatinib", "masitinib", "midostaurin", "quizartinib", "ripretinib",
+    "trabectedin", "doxorubicin", "ifosfamide", "eribulin", "gemcitabine",
+    "sirolimus", "everolimus", "pioglitazone", "rosiglitazone", "zaltoprofen",
+    "pembrolizumab", "nivolumab",
+]
 
 def log(*a):
     print(*a, flush=True)
@@ -144,7 +156,25 @@ def main():
 
     # --- best-effort extraction of ranked (drug, score) --------------------------
     ranked = extract_ranked(out, drug_id2name)
-    log(f"extracted {len(ranked)} ranked drugs")
+    total = len(ranked)
+    log(f"extracted {total} ranked drugs")
+
+    # --- triangulation: where did TxGNN rank OUR mechanism/enumeration drugs? -----
+    relevant = []
+    for q in RELEVANT:
+        hit = next(((i, d) for i, d in enumerate(ranked, 1) if q in d["drug"].lower()), None)
+        if hit:
+            i, d = hit
+            relevant.append({"query": q, "matched": d["drug"], "rank": i, "of": total,
+                             "score": d["score"], "percentile": round(100.0 * (1 - i / total), 1)})
+        else:
+            relevant.append({"query": q, "matched": None, "rank": None, "of": total})
+    log("relevant-drug ranks (TxGNN full list):")
+    for r in relevant:
+        if r["rank"]:
+            log("  %-14s #%d/%d  (%.1f pct)  score=%s" % (r["query"], r["rank"], r["of"], r["percentile"], r["score"]))
+        else:
+            log("  %-14s not in KG drug set" % r["query"])
 
     result = {
         "model": "TxGNN (Huang et al., Nat Med 2024) — pretrained 'complex_disease' weights",
@@ -152,7 +182,9 @@ def main():
         "relation": "indication",
         "disease": {"name": emc_name, "kg_idx": emc_idx, "mondo_hint": "extraskeletal myxoid chondrosarcoma"},
         "note": "Genuine zero-shot output of the trained TxGNN model, NOT a hand-built heuristic. A high score is a model-predicted repurposing hypothesis to triage under METHODOLOGY, not evidence of efficacy.",
+        "totalRanked": total,
         "topDrugs": ranked[:TOPN],
+        "relevantDrugRanks": relevant,
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w") as f:
