@@ -129,10 +129,10 @@
   // ---- OUTCOMES FILTER TOOL (registry / IPD) ---------------------------
   const reg = data.registry || {};
   const patients = reg.patients || [];
-  const curated = reg.dataStatus === "curated";
+  const sample = reg.dataStatus === "SAMPLE_SYNTHETIC";
 
-  const regBanner = !curated ? el("div", { class: "banner" }, [
-    el("span", { html: "<strong>Illustrative data.</strong> " + (reg.dataStatusBanner || "These patient rows are placeholder/sample data and not real individuals.") }),
+  const regBanner = reg.dataStatus !== "curated" ? el("div", { class: "banner" }, [
+    el("span", { html: "<strong>" + (sample ? "Illustrative sample data." : "Real but limited data.") + "</strong> " + (reg.dataStatusBanner || "These patient rows are placeholder/sample data and not real individuals.") }),
   ]) : null;
 
   // filter controls
@@ -218,7 +218,10 @@
     }
     const cols = ["age", "sex", "grade", "stage", "sizeCm", "site", "fusion", "primaryTreatment", "followupMonths", "vitalStatus", "localRecurrence", "metastasis", "source"];
     const head = el("tr", {}, cols.map((c) => el("th", {}, c)));
-    const rows = out.map((p) => el("tr", {}, cols.map((c) => el("td", {}, p[c] === undefined ? "" : String(p[c])))));
+    const rows = out.map((p) => el("tr", {}, cols.map((c) => {
+      if (c === "source" && p.sourceUrl) return el("td", { title: p.note || "" }, ext(p.sourceUrl, p.source || "source"));
+      return el("td", { title: c === "source" ? (p.note || "") : "" }, p[c] === undefined ? "" : String(p[c]));
+    })));
     tableWrap.appendChild(el("table", {}, [el("thead", {}, head), el("tbody", {}, rows)]));
   }
 
