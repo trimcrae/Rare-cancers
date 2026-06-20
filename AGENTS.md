@@ -125,9 +125,20 @@ structure and tone.
   Scripts are plain Node ESM; the site is plain browser JS.
 - Match the existing vanilla-JS style in `cancer.js` (the `el()` helper).
 
+## Tests
+
+- `node scripts/validate.mjs` — checks the data files (structure, required
+  fields, citations present, sample data flagged).
+- `node scripts/smoke-render.mjs` — renders every `data/cancers/*.json` through
+  the real `assets/js/cancer.js` with a tiny DOM shim and asserts the page
+  renders (no thrown error), every section is present, and the outcomes filter
+  works. This catches the "blank page from a render error" class of bug. Both run
+  in CI (`pages.yml`) **before** deploy, so a broken page cannot go live.
+
 ## Before you commit (checklist)
 
 - [ ] `node scripts/validate.mjs` passes
+- [ ] `node scripts/smoke-render.mjs` passes
 - [ ] Every new clinical claim/number has a real linked source
 - [ ] Any non-curated registry data is flagged + bannered
 - [ ] `meta.lastReviewed` updated; `dataConfidence` honest
