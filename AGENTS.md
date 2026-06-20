@@ -161,10 +161,19 @@ environment's network egress allowlist (Claude Code on the web → environment
 network settings; docs: https://code.claude.com/docs/en/claude-code-on-the-web).
 WebSearch works without this; fetching full text needs the allowlist entry.
 
-Workflow to turn papers into page data: `sync` the open-access corpus →
-read `.cache/literature/*.txt` → extract studies into `studies.items` and, where
-papers give per-patient detail, real rows into `registry.patients` (one `source`
-citation per row). Never record a clinical value you can't point to in the text.
+Workflow to turn papers into page data: `sync` the corpus (search is paginated
+and also stores every record's abstract, not just open-access full text) →
+**triage** to find the papers worth reading → read `.cache/literature/*.txt`
+(or abstracts in `_index.json`) → extract into `studies.items`, grouped outcomes
+into `registry.cohorts`, per-patient detail into `registry.patients`, and
+genuine controversies into `evidenceQuestions` — each with a `registry.citations`
+entry. Never record a clinical value you can't point to in the text.
+
+```bash
+# rank ~thousands of records by likely cohort/outcome content before reading:
+git show origin/literature-cache:literature/<slug>/_index.json > /tmp/idx.json
+node scripts/triage-literature.mjs /tmp/idx.json --term "extraskeletal myxoid chondrosarcoma"
+```
 
 ## Tests
 
