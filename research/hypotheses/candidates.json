@@ -199,6 +199,16 @@
       "notTriedInEmc": false,
       "subsetRestricted": true,
       "patientPageEligible": "T3 — eligible for emergingTreatments pending clinician review",
+      "enumeratedAgents": [
+        "dasatinib",
+        "nilotinib",
+        "ponatinib",
+        "masitinib",
+        "midostaurin",
+        "quizartinib",
+        "ripretinib"
+      ],
+      "enumerationProvenance": "Systematic DGIdb enumeration (target-drug-matrix.json) lists these approved KIT inhibitors as alternatives for the KIT-mutant subset; choice should match the specific KIT mutation's drug sensitivity, not just KIT positivity.",
       "mechanism": "Inhibits KIT receptor tyrosine kinase signalling; exon-11 KIT mutations are the most imatinib-sensitive class in GIST.",
       "emcVulnerability": {
         "claim": "A somatic, imatinib-sensitive-class KIT exon-11 mutation occurs in a minority of EMC, and CD117/KIT is expressed in roughly half of cases.",
@@ -277,10 +287,22 @@
     },
     {
       "id": "vegfr-tki-extension",
-      "drug": "Regorafenib / cabozantinib / lenvatinib",
+      "drug": "Regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib, fruquintinib (approved multi-target VEGFR-TKIs)",
       "drugClass": "anti-angiogenic multikinase (VEGFR) TKI",
       "regulatoryStatus": "FDA/EMA-approved (other indications)",
       "notTriedInEmc": true,
+      "enumeratedAgents": [
+        "nintedanib",
+        "sorafenib",
+        "axitinib",
+        "vandetanib",
+        "tivozanib",
+        "fruquintinib",
+        "regorafenib",
+        "cabozantinib",
+        "ponatinib"
+      ],
+      "enumerationProvenance": "Systematic DGIdb target->drug enumeration (research/hypotheses/target-drug-matrix.json): each carries an 'inhibitor' interaction against EMC's VEGFR/PDGFR/KIT/RET targets and is neither catalogued nor reported as tried in EMC. Triaged OUT of this cluster: erlotinib & romiplostim (no inhibitor edge - indirect/regulatory) and rabeprazole (a PPI - biologically implausible DGIdb artifact).",
       "mechanism": "VEGFR2-centred multikinase inhibition suppressing tumour angiogenesis.",
       "emcVulnerability": {
         "claim": "Anti-angiogenic TKIs are EMC's most consistently active systemic class, and EMC expresses VEGFR/PDGFR-family kinases.",
@@ -303,7 +325,7 @@
           "sourceId": "cabozantinibSTS2022"
         }
       ],
-      "rationale": "If VEGFR blockade is the most active class, other already-approved VEGFR-TKIs with deeper sarcoma data are rational, shelf-ready candidates never reported in EMC.",
+      "rationale": "If VEGFR blockade is the most active class, other already-approved VEGFR-TKIs with deeper sarcoma data are rational, shelf-ready candidates never reported in EMC. A systematic public-database screen (DGIdb) independently surfaced this exact cluster - nintedanib, sorafenib, axitinib, vandetanib and tivozanib were among the highest target-reach approved agents untried in EMC - converting this from a hand-picked example into a reproducible shortlist.",
       "evidenceTier": "T1-preclinical-or-analog",
       "speculationLevel": "low",
       "keyRisks": "Class toxicity (hypertension, hand-foot, bleeding); likely to share pazopanib's resistance; TAF15::NR4A3 tumours may respond less.",

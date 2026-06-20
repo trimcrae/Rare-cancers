@@ -25,6 +25,15 @@ and citation rules — per `hypotheses/METHODOLOGY.md`. State explicitly that an
 claim tagged `needs-verification` in the catalog must be resolved to a primary
 source before publication.
 
+Candidate generation combined expert, literature-driven curation with a **systematic
+target→drug enumeration** (`hypotheses/enumerate-drugs.mjs`): the EMC drug targets in
+`targets.json` were queried against the DGIdb interaction database, approved drugs with
+an inhibitor interaction were retained, and a gap analysis against the catalog and the
+known-active EMC agents isolated genuinely unconsidered drugs (`target-drug-matrix.json`).
+This independently reproduced the anti-angiogenic-TKI cluster and broadened it (e.g.
+nintedanib, axitinib, vandetanib, tivozanib), mitigating single-rater coverage bias;
+implausible hits (e.g. a PPI, a thrombopoietin agonist) were triaged out on mechanism.
+
 ## 3. Candidates (from the scored catalog)
 We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the
 NR4A3 fusion / transcription; PPARγ / nuclear-receptor; epigenetic; cell-cycle;
