@@ -156,8 +156,13 @@ Cure) rather than being a silo.
   (EMC targets) → `enumerate-drugs.mjs` (DGIdb query + gap analysis vs the catalog)
   → `.github/workflows/enumerate-drugs.yml` → `target-drug-matrix.json`; its
   `gapAnalysis.newlySurfaced` lists approved drugs hitting EMC targets that we have
-  *not* yet catalogued, to triage under §1–§4; (2) CURE ID integration (mine +
-  contribute); (3) an offline TxGNN/CMap screen imported as cited data; (4) iterate
+  *not* yet catalogued, to triage under §1–§4; (2) CURE ID integration — **partly
+  done**: an outbound action path to the FDA/NCATS CURE ID registry is now on the
+  patient page (`clinicalTrials.finders`) so clinicians/patients can *browse and
+  report* real-world off-label drug use; programmatic *mining* is deferred (CURE ID
+  exposes no documented public API). Our imatinib/KIT-mutant case is exactly the kind
+  of real-world signal worth contributing there; (3) an offline TxGNN/CMap screen
+  imported as cited data; (4) iterate
   the scoring rubric (document provenance; consider weighting/uncertainty) once there
   is a systematic candidate set to calibrate against.
 
