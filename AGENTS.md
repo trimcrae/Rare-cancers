@@ -18,8 +18,10 @@ cancers**, one page per cancer. It was started by a patient diagnosed with
 6. Centres of excellence worldwide
 7. A "find a specialist near me" tool
 8. Treatment plans, filterable by stage
-9. Monitoring/surveillance plans for remission
-10. Good questions to ask your oncologist
+9. New & promising (investigational) treatments
+10. Clinical trials — finding actively enrolling/upcoming trials and how to join
+11. Monitoring/surveillance plans for remission
+12. Good questions to ask your oncologist
 
 ## The single most important rule: medical integrity
 
@@ -95,11 +97,18 @@ shell, and the homepage entry (as `draft`). Then **do the research** and fill in
    banner. Calibrate any sample data to published group statistics.
 5. **Treatments** — educational, by stage, with `disclaimer`. Anchor to
    guideline bodies (ESMO/NCCN/etc.) and cite.
-6. **Monitoring** — surveillance framework with `disclaimer`.
-7. **Support groups, centres, questions** — real links; centres need `lat`/`lng`
+6. **emergingTreatments** — investigational/new approaches. Each item needs a
+   `status` (e.g. "investigational", "off-label, case reports") and a source
+   `url`. Keep the `disclaimer`. Never imply these are proven or available.
+7. **clinicalTrials** — prefer auto-updating `liveSearches` links (e.g.
+   ClinicalTrials.gov filtered to recruiting via `&aggFilters=status:rec`) over a
+   static `trials` list, which goes stale. Include `howToEnroll` steps. Any
+   specific `trials[]` entry needs a registry ID, status, and a verified link.
+8. **Monitoring** — surveillance framework with `disclaimer`.
+9. **Support groups, centres, questions** — real links; centres need `lat`/`lng`
    for the "near me" tool.
-8. Run `node scripts/validate.mjs` and fix everything.
-9. When solid, set the homepage entry `status` to `"published"` and bump
+10. Run `node scripts/validate.mjs` and fix everything.
+11. When solid, set the homepage entry `status` to `"published"` and bump
    `meta.dataConfidence`.
 
 The EMC file (`data/cancers/emc.json`) is the reference example — copy its

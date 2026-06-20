@@ -18,6 +18,8 @@ a newly diagnosed person actually wishes they had.
 - 💬 **Support groups** (Facebook, Reddit, real-life networks)
 - 🏥 **Centres of excellence** worldwide + a **find-a-specialist-near-me** tool
 - 🩺 **Treatment plans**, filterable by stage
+- 💡 **New & promising treatments** under investigation
+- 🧪 **Clinical trials** — find actively enrolling/upcoming trials and how to join
 - 🔁 **Monitoring plans** for remission
 - ❓ **Good questions** to ask your oncologist
 

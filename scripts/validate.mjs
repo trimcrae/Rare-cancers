@@ -9,7 +9,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
 const warns = [];
 
-const REQUIRED_TOP = ["schemaVersion", "meta", "overview", "studies", "outcomes", "registry", "treatments", "monitoring", "supportGroups", "centers", "questionsForOncologist"];
+const REQUIRED_TOP = ["schemaVersion", "meta", "overview", "studies", "outcomes", "registry", "treatments", "emergingTreatments", "clinicalTrials", "monitoring", "supportGroups", "centers", "questionsForOncologist"];
 const REQUIRED_META = ["slug", "name", "abbreviation", "summary", "lastReviewed", "dataConfidence"];
 
 function loadJson(path) {
@@ -55,6 +55,19 @@ for (const file of files) {
   });
   if (reg.dataStatus === "SAMPLE_SYNTHETIC" && !reg.dataStatusBanner)
     warns.push(`${where}: SAMPLE data should set registry.dataStatusBanner so the UI warns users.`);
+
+  // emerging treatments
+  (d.emergingTreatments?.items || []).forEach((it, i) => {
+    if (!it.name) errors.push(`${where}: emergingTreatments.items[${i}] missing name`);
+    if (!it.url) warns.push(`${where}: emergingTreatments.items[${i}] "${it.name || "?"}" has no source url`);
+  });
+
+  // clinical trials
+  const ct = d.clinicalTrials || {};
+  if (!(ct.liveSearches || []).length && !(ct.trials || []).length)
+    warns.push(`${where}: clinicalTrials has no liveSearches and no trials - users won't find any trials.`);
+  (ct.liveSearches || []).forEach((s, i) => { if (!s.url || !s.label) errors.push(`${where}: clinicalTrials.liveSearches[${i}] needs label + url`); });
+  (ct.trials || []).forEach((t, i) => { if (!t.url || !t.title) errors.push(`${where}: clinicalTrials.trials[${i}] needs title + url`); });
 
   // centers need coords for the "near me" tool
   (d.centers?.list || []).forEach((c, i) => {

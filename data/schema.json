@@ -3,7 +3,7 @@
   "title": "Rare Cancer page data",
   "description": "One file per cancer at data/cancers/<slug>.json. The site renders entirely from this structure - no code changes are needed to add a cancer.",
   "type": "object",
-  "required": ["schemaVersion", "meta", "overview", "studies", "outcomes", "registry", "treatments", "monitoring", "supportGroups", "centers", "questionsForOncologist"],
+  "required": ["schemaVersion", "meta", "overview", "studies", "outcomes", "registry", "treatments", "emergingTreatments", "clinicalTrials", "monitoring", "supportGroups", "centers", "questionsForOncologist"],
   "properties": {
     "schemaVersion": {"const": 1},
     "meta": {
@@ -64,6 +64,21 @@
       }
     },
     "treatments": {"type": "object"},
+    "emergingTreatments": {
+      "type": "object",
+      "properties": {
+        "items": {"type": "array", "items": {"type": "object", "required": ["name"]}}
+      }
+    },
+    "clinicalTrials": {
+      "type": "object",
+      "properties": {
+        "liveSearches": {"type": "array", "items": {"type": "object", "required": ["label", "url"]}},
+        "finders": {"type": "array", "items": {"type": "object", "required": ["label", "url"]}},
+        "howToEnroll": {"type": "array", "items": {"type": "string"}},
+        "trials": {"type": "array", "items": {"type": "object", "required": ["title", "url"]}}
+      }
+    },
     "monitoring": {"type": "object"},
     "supportGroups": {"type": "object"},
     "centers": {

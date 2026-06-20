@@ -259,6 +259,52 @@
   );
   renderTx();
 
+  // ---- EMERGING / PROMISING TREATMENTS ---------------------------------
+  const et = data.emergingTreatments || {};
+  const etCards = el("div", { class: "grid cols-2" }, (et.items || []).map((it) =>
+    el("div", { class: "card" }, [
+      el("div", { class: "spread" }, [el("strong", {}, it.name), it.url ? ext(it.url, "source") : null]),
+      it.status ? el("div", { class: "small" }, [el("span", { class: "pill warn" }, "investigational"), " " + it.status]) : null,
+      it.summary ? el("p", { class: "small muted" }, it.summary) : null,
+    ])
+  ));
+  addSection("emerging", "New & promising treatments",
+    el("p", { class: "intro" }, et.intro || ""),
+    (et.items && et.items.length) ? etCards : el("p", { class: "small muted" }, "Nothing catalogued yet - check the clinical trials below."),
+    et.disclaimer ? el("p", { class: "disclaimer" }, et.disclaimer) : null
+  );
+
+  // ---- CLINICAL TRIALS --------------------------------------------------
+  const ct = data.clinicalTrials || {};
+  const ctSearch = (ct.liveSearches || []).length ? el("div", { class: "card" }, [
+    el("div", { class: "kicker" }, "Find trials open now (these links update automatically)"),
+    el("div", { class: "grid cols-2", style: "margin-top:8px" }, (ct.liveSearches || []).map((s) => el("div", {}, ext(s.url, s.label)))),
+  ]) : null;
+  const ctFinders = (ct.finders || []).length ? el("div", { class: "card" }, [
+    el("div", { class: "kicker" }, "Other trial finders & helplines"),
+    el("div", { class: "grid cols-3", style: "margin-top:8px" }, (ct.finders || []).map((s) => el("div", {}, ext(s.url, s.label)))),
+  ]) : null;
+  const ctHow = (ct.howToEnroll || []).length ? el("div", { class: "card" }, [
+    el("div", { class: "kicker" }, "How to sign up"),
+    el("ol", { style: "margin:6px 0 0; padding-left:20px" }, (ct.howToEnroll || []).map((x) => el("li", { style: "padding:4px 0" }, x))),
+  ]) : null;
+  const statusPill = (s) => {
+    const v = (s || "").toLowerCase();
+    const cls = (v.includes("recruit") && !v.includes("not yet")) ? "good" : (v.includes("not yet") || v.includes("active")) ? "warn" : "";
+    return el("span", { class: "pill " + cls }, s || "status unknown");
+  };
+  const ctTrials = (ct.trials || []).length ? el("div", { class: "card" }, (ct.trials || []).map((t) =>
+    el("div", { class: "study" }, [
+      el("div", { class: "title" }, [ext(t.url, t.title)]),
+      el("div", { class: "meta" }, [t.nctId ? el("span", { class: "tag" }, t.nctId) : null, t.phase ? el("span", { class: "tag" }, t.phase) : null, " ", statusPill(t.status)]),
+      t.intervention ? el("div", { class: "small" }, "Intervention: " + t.intervention) : null,
+      t.locations ? el("div", { class: "small muted" }, t.locations) : null,
+      t.note ? el("div", { class: "small muted" }, t.note) : null,
+    ])
+  )) : (ct.trialsNote ? el("p", { class: "disclaimer" }, ct.trialsNote) : null);
+  addSection("trials", "Clinical trials & how to join",
+    el("p", { class: "intro" }, ct.intro || ""), ctSearch, ctFinders, ctHow, ctTrials);
+
   // ---- MONITORING -------------------------------------------------------
   const mon = data.monitoring || {};
   const monRows = (mon.schedule || []).map((s) =>
