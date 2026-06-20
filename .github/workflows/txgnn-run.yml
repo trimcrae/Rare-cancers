@@ -1,0 +1,81 @@
+name: TxGNN EMC run
+
+# Runs the REAL pretrained TxGNN model (Huang et al., Nat Med 2024) to produce genuine
+# zero-shot drug-repurposing predictions for EMC. Heavy, 2023-era stack (Python 3.8 +
+# PyTorch 1.8 + DGL 0.5.2) pinned for compatibility. Publishes the ranked predictions to
+# the `txgnn-cache` branch (never main, never served by Pages). Iterative by nature.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: txgnn-run
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+
+      - name: Clone TxGNN
+        run: git clone --depth 1 https://github.com/mims-harvard/TxGNN.git txgnn
+
+      - name: Install pinned 2021-era ML stack + TxGNN
+        run: |
+          python -m pip install --upgrade "pip<24"
+          pip install "numpy==1.21.6" "scipy==1.7.3" "pandas==1.3.5" "scikit-learn==1.0.2" "networkx==2.6.3"
+          pip install "torch==1.8.1+cpu" -f https://download.pytorch.org/whl/torch_stable.html
+          pip install "dgl==0.5.2" -f https://data.dgl.ai/wheels/repo.html
+          pip install gdown "tqdm" "matplotlib==3.5.3" goatools
+          pip install --no-deps ./txgnn
+          python -c "import torch,dgl,txgnn; print('imports OK', torch.__version__, dgl.__version__)"
+
+      - name: Download pretrained TxGNN weights (public Google Drive)
+        run: |
+          set -x
+          pip install --upgrade gdown
+          gdown 1fxTFkjo2jvmz9k6vesDbCeucQjGRojLj -O weights.bin || \
+            gdown --fuzzy "https://drive.google.com/file/d/1fxTFkjo2jvmz9k6vesDbCeucQjGRojLj/view?usp=sharing" -O weights.bin
+          ls -la weights.bin || true
+          file weights.bin || true
+          mkdir -p extract
+          (unzip -o weights.bin -d extract || tar xf weights.bin -C extract || cp weights.bin extract/) 2>/dev/null || true
+          echo "=== extracted tree ==="; find extract -maxdepth 3 -type f | head -40
+          CKPT_FILE=$(find . -name 'config.pkl' 2>/dev/null | head -1)
+          if [ -z "$CKPT_FILE" ]; then CKPT_FILE=$(find extract -type f \( -name '*.pt' -o -name '*.pkl' -o -name '*.model' \) 2>/dev/null | head -1); fi
+          CKPT_DIR=$(dirname "$CKPT_FILE")
+          echo "CKPT_DIR=$CKPT_DIR"
+          rm -rf model_ckpt && mkdir -p model_ckpt
+          cp -r "$CKPT_DIR"/. model_ckpt/ 2>/dev/null || true
+          echo "=== ./model_ckpt ==="; ls -la model_ckpt
+
+      - name: Run TxGNN inference for EMC
+        run: python research/hypotheses/txgnn_predict.py
+
+      - name: Publish predictions to txgnn-cache branch
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/hypotheses/txgnn-emc-predictions.json "$RUNNER_TEMP/pred.json"
+          git fetch origin txgnn-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/txgnn-cache; then
+            git checkout -B txgnn-cache origin/txgnn-cache
+          else
+            git checkout --orphan txgnn-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/hypotheses
+          cp "$RUNNER_TEMP/pred.json" research/hypotheses/txgnn-emc-predictions.json
+          git add research/hypotheses/txgnn-emc-predictions.json
+          git commit -m "TxGNN EMC predictions: refresh" || { echo "No changes"; exit 0; }
+          git push origin txgnn-cache
