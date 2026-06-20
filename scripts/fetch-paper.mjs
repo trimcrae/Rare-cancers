@@ -30,7 +30,13 @@ const UA = "rare-cancers-hub/1.0 (open-access research aggregation; +https://git
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const RETRYABLE = new Set([429, 500, 502, 503, 504]);
 
-async function api(url, asText = false, attempts = 5) {
+// Throws on failure (never exits the process) so callers decide whether one
+// failed request is fatal (e.g. the initial search) or skippable (one paper in
+// a 1000-paper sync). Errors carry .exitCode and .blocked for the top-level handler.
+function apiError(message, { exitCode = 1, blocked = false } = {}) {
+  const e = new Error(message); e.exitCode = exitCode; e.blocked = blocked; return e;
+}
+async function api(url, asText = false, attempts = 6) {
   for (let attempt = 1; attempt <= attempts; attempt++) {
     let res, body;
     try {
@@ -38,20 +44,17 @@ async function api(url, asText = false, attempts = 5) {
       body = await res.text();
     } catch (e) {
       if (attempt < attempts) { const w = 1000 * 2 ** (attempt - 1); console.error(`Network error (${e.message}); retry ${attempt}/${attempts - 1} in ${w}ms`); await sleep(w); continue; }
-      console.error(`Network error reaching ${new URL(url).host}: ${e.message}`);
-      blockedHint();
-      process.exit(3);
+      throw apiError(`Network error reaching ${new URL(url).host}: ${e.message}`, { exitCode: 3, blocked: true });
     }
     if (res.ok) return asText ? body : JSON.parse(body);
-    if (/allowlist/i.test(body)) { console.error(`\nNETWORK BLOCKED: ${body.trim()}`); blockedHint(); process.exit(3); }
+    if (/allowlist/i.test(body)) throw apiError(`NETWORK BLOCKED: ${body.trim()}`, { exitCode: 3, blocked: true });
     if (RETRYABLE.has(res.status) && attempt < attempts) {
       const w = 1000 * 2 ** (attempt - 1);
       console.error(`HTTP ${res.status} from Europe PMC (transient); retry ${attempt}/${attempts - 1} in ${w}ms`);
       await sleep(w);
       continue;
     }
-    console.error(`HTTP ${res.status} from ${url}\n${body.slice(0, 300)}`);
-    process.exit(4);
+    throw apiError(`HTTP ${res.status} from ${url}\n${body.slice(0, 200)}`, { exitCode: 4 });
   }
 }
 
@@ -120,6 +123,7 @@ if (!cmd || !arg) {
   process.exit(arg ? 0 : 1);
 }
 
+try {
 if (cmd === "search") {
   const rows = await search(arg);
   console.log(`${rows.length} result(s) for "${arg}":\n`);
@@ -169,4 +173,9 @@ if (cmd === "search") {
 } else {
   console.error(`Unknown command: ${cmd}`);
   process.exit(1);
+}
+} catch (e) {
+  if (e.blocked) blockedHint();
+  console.error(e.message);
+  process.exit(e.exitCode || 1);
 }
