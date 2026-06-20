@@ -1,0 +1,36 @@
+name: TxGNN predictions probe
+
+# Roadmap #3, thoroughness pass: locate where GENUINE TxGNN predictions are published
+# (the Harvard Dataverse holds only the knowledge graph, not model outputs). Clones the
+# public mims-harvard/TxGNN repo and greps for prediction files / Explorer data / hosted
+# download URLs. Prints to the run log; commits nothing.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect mims-harvard/TxGNN for downloadable predictions
+        run: |
+          git clone --depth 1 https://github.com/mims-harvard/TxGNN.git txgnn || { echo "clone failed"; exit 1; }
+          echo "===== FILE TREE (depth 3) ====="
+          find txgnn -maxdepth 3 -type f -not -path '*/.git/*' | sort
+          echo
+          echo "===== README: predictions / explorer / download / data hosts ====="
+          grep -niE "predict|explorer|download|dataverse|zenodo|figshare|drive\.google|amazonaws|host" txgnn/README.md | head -80 || true
+          echo
+          echo "===== all external URLs in code/docs (filtered to likely data hosts) ====="
+          grep -rhoE "https?://[a-zA-Z0-9._~:/?#%@!$&'()*+,;=-]+" txgnn --include=*.py --include=*.md --include=*.ipynb --include=*.txt 2>/dev/null \
+            | sed 's/[).,"'"'"']*$//' | sort -u \
+            | grep -iE "dataverse|zenodo|figshare|drive|amazonaws|s3|harvard|txgnn|predict|explorer|data|huggingface" | head -60 || true
+          echo
+          echo "===== files that look like prediction/score outputs ====="
+          find txgnn -type f \( -iname '*pred*' -o -iname '*score*' -o -iname '*result*' -o -iname '*.pkl' -o -iname '*.csv' -o -iname '*.json' \) -not -path '*/.git/*' | head -40 || true
+          echo
+          echo "===== mentions of a separate Explorer repo / app ====="
+          grep -rniE "explorer|txgnn\.org|apps\.|streamlit|gradio" txgnn --include=*.py --include=*.md --include=*.ipynb 2>/dev/null | head -30 || true
