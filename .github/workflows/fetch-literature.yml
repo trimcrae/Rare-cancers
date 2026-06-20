@@ -74,8 +74,10 @@ jobs:
           else
             git checkout --orphan literature-cache
           fi
-          # Clear the working tree (keep .git) so the branch holds only the cache.
-          find . -mindepth 1 -maxdepth 1 -not -name '.git' -exec rm -rf {} +
+          # Keep the literature/ tree (other slugs/corpora) and .git; drop stray
+          # top-level files, then refresh ONLY this slug. Multi-slug safe.
+          find . -mindepth 1 -maxdepth 1 -not -name '.git' -not -name 'literature' -exec rm -rf {} +
+          rm -rf "literature/$slug"
           mkdir -p "literature/$slug"
           cp -r "$tmp"/. "literature/$slug"/
           git add -A

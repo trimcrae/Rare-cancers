@@ -153,6 +153,17 @@
       "doi": "10.1158/1078-0432.ccr-21-2480",
       "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8776602/",
       "verified": true
+    },
+    "transcriptionMech2016": {
+      "short": "Yoshimura 2016 (TFG-NR4A3 transcription)",
+      "title": "The TFG-TEC oncoprotein induces transcriptional activation of the human β-enolase gene via chromatin modification of the promoter region",
+      "authors": "(EMC fusion transcription study)",
+      "journal": "Mol Carcinog",
+      "year": 2016,
+      "pmid": "26310886",
+      "doi": "10.1002/mc.22384",
+      "url": "https://doi.org/10.1002/mc.22384",
+      "verified": true
     }
   },
   "candidates": [
@@ -629,17 +640,17 @@
       "notTriedInEmc": true,
       "mechanism": "Inhibit transcriptional co-regulators (BRD4, CDK7/9) that fusion oncoproteins depend on.",
       "emcVulnerability": {
-        "claim": "EMC's NR4A3 fusion is a chimeric transcription factor; related fusion translocation products activate transcription via chromatin remodelling.",
-        "sourceId": "remiszewski2025"
+        "claim": "EMC's NR4A3 fusion is a chimeric transcription factor that activates target genes via chromatin modification — a candidate transcriptional/chromatin dependency.",
+        "sourceId": "transcriptionMech2016"
       },
       "supportingEvidence": [
         {
-          "claim": "Related EWSR1-fusion sarcomas (e.g. Ewing) are sensitive to BET and transcriptional-CDK inhibition.",
-          "context": "analogous fusion sarcoma",
-          "sourceStatus": "needs-verification"
+          "claim": "The EMC fusion oncoprotein (TFG::NR4A3) drives transcriptional activation of target genes via chromatin modification of their promoters, indicating a chromatin/transcription dependency.",
+          "context": "EMC (mechanistic)",
+          "sourceId": "transcriptionMech2016"
         }
       ],
-      "rationale": "Targets the fusion's transcriptional addiction by analogy to Ewing sarcoma; investigational agents, no EMC data yet.",
+      "rationale": "Targets the fusion's transcriptional/chromatin addiction (an EMC-native mechanism); related EWSR1-fusion sarcomas such as Ewing are reportedly BET/CDK-sensitive, though that analogy is unconfirmed for EMC. Investigational agents, no EMC drug data yet.",
       "evidenceTier": "T1-preclinical-or-analog",
       "speculationLevel": "high",
       "keyRisks": "Narrow therapeutic window/toxicity; the Ewing analogy may not transfer; no EMC data.",

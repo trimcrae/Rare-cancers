@@ -23,6 +23,7 @@ const CITES = {
   giner2023ihc: { short: "Giner 2023 (p53/Ki-67/CDK4)", title: "Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome - an immunohistochemical and molecular analysis of 31 cases", authors: "Giner F, et al.", journal: "Virchows Arch", year: 2023, pmid: "36376703", doi: "10.1007/s00428-022-03453-x", url: "https://doi.org/10.1007/s00428-022-03453-x", verified: true },
   imatinibCase2021: { short: "Jennings 2021 (imatinib case)", title: "Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel KIT mutation", authors: "Jennings B, et al.", journal: "BMJ Case Rep", year: 2021, pmcid: "PMC8395296", doi: "10.1136/bcr-2021-242039", url: pmc("PMC8395296"), verified: true },
   cabozantinibSTS2022: { short: "O'Sullivan Coyne 2022 (cabozantinib STS)", title: "Clinical Activity of Single-Agent Cabozantinib (XL184), a Multi-receptor Tyrosine Kinase Inhibitor, in Patients with Refractory Soft-Tissue Sarcomas", authors: "O'Sullivan Coyne G, et al.", journal: "Clin Cancer Res", year: 2022, pmcid: "PMC8776602", doi: "10.1158/1078-0432.ccr-21-2480", url: pmc("PMC8776602"), verified: true },
+  transcriptionMech2016: { short: "Yoshimura 2016 (TFG-NR4A3 transcription)", title: "The TFG-TEC oncoprotein induces transcriptional activation of the human β-enolase gene via chromatin modification of the promoter region", authors: "(EMC fusion transcription study)", journal: "Mol Carcinog", year: 2016, pmid: "26310886", doi: "10.1002/mc.22384", url: "https://doi.org/10.1002/mc.22384", verified: true },
 };
 
 // sub-scores: each 0-3 (see scoring rubric). composite = sum (max 18).
@@ -122,10 +123,10 @@ const CANDIDATES = [
 
   { id: "transcriptional-bet-cdk", drug: "BET (BRD4) or CDK7/CDK9 inhibitors", drugClass: "transcriptional inhibitor", regulatoryStatus: "Investigational (oncology trials)", notTriedInEmc: true,
     mechanism: "Inhibit transcriptional co-regulators (BRD4, CDK7/9) that fusion oncoproteins depend on.",
-    emcVulnerability: { claim: "EMC's NR4A3 fusion is a chimeric transcription factor; related fusion translocation products activate transcription via chromatin remodelling.", sourceId: "remiszewski2025" },
+    emcVulnerability: { claim: "EMC's NR4A3 fusion is a chimeric transcription factor that activates target genes via chromatin modification — a candidate transcriptional/chromatin dependency.", sourceId: "transcriptionMech2016" },
     supportingEvidence: [
-      { claim: "Related EWSR1-fusion sarcomas (e.g. Ewing) are sensitive to BET and transcriptional-CDK inhibition.", context: "analogous fusion sarcoma", sourceStatus: "needs-verification" } ],
-    rationale: "Targets the fusion's transcriptional addiction by analogy to Ewing sarcoma; investigational agents, no EMC data yet.",
+      { claim: "The EMC fusion oncoprotein (TFG::NR4A3) drives transcriptional activation of target genes via chromatin modification of their promoters, indicating a chromatin/transcription dependency.", context: "EMC (mechanistic)", sourceId: "transcriptionMech2016" } ],
+    rationale: "Targets the fusion's transcriptional/chromatin addiction (an EMC-native mechanism); related EWSR1-fusion sarcomas such as Ewing are reportedly BET/CDK-sensitive, though that analogy is unconfirmed for EMC. Investigational agents, no EMC drug data yet.",
     evidenceTier: "T1-preclinical-or-analog", speculationLevel: "high",
     keyRisks: "Narrow therapeutic window/toxicity; the Ewing analogy may not transfer; no EMC data.",
     openQuestions: ["Is EWSR1::NR4A3 transcriptionally dependent on BRD4 or CDK7/9 in EMC models?"],
