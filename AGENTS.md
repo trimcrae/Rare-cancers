@@ -141,6 +141,22 @@ structure and tone.
   Scripts are plain Node ESM; the site is plain browser JS.
 - Match the existing vanilla-JS style in `cancer.js` (the `el()` helper).
 
+## Asking the human (always frame as a notified decision)
+
+When you need input from the maintainer, **always ask via the `AskUserQuestion`
+tool** — never bury the question in prose. This repo is worked on from a remote
+environment and the maintainer is often away from the screen: `AskUserQuestion`
+is what fires a push **notification**, and structured options are what let them
+answer in one tap.
+
+- Frame every question as a **concrete decision**: 2–4 mutually-exclusive options
+  (plus the automatic "Other"), each spelling out what happens if chosen — not an
+  open-ended "what do you think?".
+- Lead with your **recommended** option and label it "(Recommended)".
+- Reserve it for decisions that are genuinely the maintainer's to make (direction,
+  trade-offs, hard-to-reverse actions). For anything you can verify yourself or that
+  has an obvious default, decide, state it, and proceed.
+
 ## Automated literature ingestion (fetching papers)
 
 `scripts/fetch-paper.mjs` pulls real research papers via the **Europe PMC REST

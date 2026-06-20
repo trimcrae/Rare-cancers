@@ -1,0 +1,37 @@
+name: Enumerate target drugs
+
+# Systematic target -> drug enumeration (METHODOLOGY.md §7, roadmap #1). Runs on the
+# GitHub runner (full internet) because the dev sandbox blocks egress. Queries the
+# DGIdb GraphQL API for the EMC targets in research/hypotheses/targets.json, writes
+# research/hypotheses/target-drug-matrix.json, and commits it to the default branch.
+# This is research data (a triage starting point), never served by Pages.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: enumerate-drugs
+  cancel-in-progress: true
+
+jobs:
+  enumerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enumerate approved drugs for EMC targets (DGIdb)
+        run: node research/hypotheses/enumerate-drugs.mjs
+
+      - name: Commit the target-drug matrix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/hypotheses/target-drug-matrix.json
+          git commit -m "Enumerate target drugs (DGIdb): refresh target-drug matrix" || { echo "No changes"; exit 0; }
+          git push origin HEAD:${GITHUB_REF_NAME}

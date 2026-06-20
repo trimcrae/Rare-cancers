@@ -1,0 +1,14 @@
+{
+  "_comment": "EMC drug-target list that drives the systematic target->drug enumeration (enumerate-drugs.mjs). Each target maps to a documented EMC vulnerability; sourceId values resolve to the citation map in build-candidates.mjs. Genes use HGNC symbols (for DGIdb) and Ensembl IDs (for Open Targets, optional).",
+  "targets": [
+    { "gene": "KIT", "ensembl": "ENSG00000157404", "role": "KIT exon-11 mutation in a minority; CD117/KIT expressed in ~half of EMC", "sourceId": ["kitMutation2018", "warmke2023", "imatinibCase2021"] },
+    { "gene": "KDR", "ensembl": "ENSG00000128052", "role": "VEGFR2 - angiogenesis axis; target of pazopanib/sunitinib/anlotinib (the most active EMC systemic class)", "sourceId": ["emcNGS2017"] },
+    { "gene": "FLT1", "ensembl": "ENSG00000102755", "role": "VEGFR1 - angiogenesis axis measured in metastatic EMC", "sourceId": ["emcNGS2017"] },
+    { "gene": "FLT4", "ensembl": "ENSG00000037280", "role": "VEGFR3 - lymphangiogenesis/angiogenesis axis measured in EMC", "sourceId": ["emcNGS2017"] },
+    { "gene": "PDGFRA", "ensembl": "ENSG00000134853", "role": "PDGFR-alpha - expressed; sunitinib/pazopanib target", "sourceId": ["emcNGS2017"] },
+    { "gene": "PDGFRB", "ensembl": "ENSG00000113721", "role": "PDGFR-beta - expressed; sunitinib/pazopanib target", "sourceId": ["emcNGS2017"] },
+    { "gene": "RET", "ensembl": "ENSG00000165731", "role": "RET kinase - sunitinib target measured in EMC", "sourceId": ["emcNGS2017"] },
+    { "gene": "MET", "ensembl": "ENSG00000105976", "role": "MET receptor - elevated in sarcomas; cabozantinib (VEGF+MET) rationale", "sourceId": ["cabozantinibSTS2022"] },
+    { "gene": "PPARG", "ensembl": "ENSG00000132170", "role": "PPAR-gamma - chondrogenic/nuclear-receptor differentiation axis", "sourceId": ["zaltoprofen2023", "nor1Pga2_2005"] }
+  ]
+}

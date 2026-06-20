@@ -151,11 +151,19 @@ Cure) rather than being a silo.
 - **Keep:** the citation firewall, evidence tiers, the graduation rule, and honest
   speculation grading. These are our comparative advantage and are not what the big
   platforms optimise for.
-- **Adopt (roadmap, in priority order):** (1) systematic target→drug enumeration via
-  public APIs in CI to kill coverage bias; (2) CURE ID integration (mine + contribute);
-  (3) an offline TxGNN/CMap screen imported as cited data; (4) iterate the scoring
-  rubric (document provenance; consider weighting/uncertainty) once there is a
-  systematic candidate set to calibrate against.
+- **Adopt (roadmap, in priority order):** (1) **systematic target→drug enumeration**
+  via public APIs in CI to kill coverage bias — **implemented**: `targets.json`
+  (EMC targets) → `enumerate-drugs.mjs` (DGIdb query + gap analysis vs the catalog)
+  → `.github/workflows/enumerate-drugs.yml` → `target-drug-matrix.json`; its
+  `gapAnalysis.newlySurfaced` lists approved drugs hitting EMC targets that we have
+  *not* yet catalogued, to triage under §1–§4; (2) CURE ID integration (mine +
+  contribute); (3) an offline TxGNN/CMap screen imported as cited data; (4) iterate
+  the scoring rubric (document provenance; consider weighting/uncertainty) once there
+  is a systematic candidate set to calibrate against.
+
+> A target→drug link is a **triage starting point, not an efficacy claim**. A
+> newly-surfaced drug still must pass §1–§4 (mapped EMC vulnerability, cited
+> evidence, evidence tier, score) and the §5 firewall before it means anything.
 
 ### Further reading (external — not part of the local cited corpus)
 
