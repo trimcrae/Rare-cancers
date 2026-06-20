@@ -27,7 +27,7 @@
       "Trunk",
       "Less commonly upper limb, head and neck, retroperitoneum"
     ],
-    "molecular": "EMC is defined by rearrangement of the NR4A3 gene on chromosome 9q22. The most common fusion is EWSR1::NR4A3 (~62-75% of cases). Variant fusions include TAF15::NR4A3, TCF12::NR4A3, TFG::NR4A3 and FUS::NR4A3. Non-EWSR1 (variant) fusions are associated more often with high-grade/rhabdoid morphology and a more aggressive course.",
+    "molecular": "EMC is defined by rearrangement of the NR4A3 gene on chromosome 9q22. The most common fusion is EWSR1::NR4A3 (~62-75% of cases). Variant fusions include TAF15::NR4A3, TCF12::NR4A3, TFG::NR4A3 and FUS::NR4A3. In one molecularly confirmed series of 58 cases, fusions were EWSR1::NR4A3 in 79%, TAF15::NR4A3 in 16% and TCF12::NR4A3 in 3%. Non-EWSR1 (variant) fusions are associated more often with high-grade/rhabdoid morphology and a more aggressive course.",
     "howDiagnosed": "Diagnosis is made by an expert sarcoma pathologist using image-guided core-needle biopsy, immunohistochemistry, and confirmation of an NR4A3 rearrangement by FISH or RNA sequencing. MRI is the main imaging for the primary tumour; CT chest is used to look for lung metastases.",
     "keyPointsForNewlyDiagnosed": [
       "Get your pathology reviewed at a specialist sarcoma centre - EMC is frequently misdiagnosed.",
@@ -149,6 +149,25 @@
         "url": "https://www.pathologyoutlines.com/topic/softtissueeskchondrosarcomamyxoid.html",
         "verified": true,
         "notes": "Concise pathology reference with diagnostic criteria and references."
+      },
+      {
+        "title": "Extraskeletal Myxoid Chondrosarcomas: Combined Modality Therapy With Both Radiation and Surgery Improves Local Control.",
+        "authors": "Bishop AJ, Bird JE, Conley AP, Roland CL, Moon BS, Satcher RL, Livingston JA, Patel S, Wang WL, Lazar AJ, Lewis VO, Lin PP, Guadagnolo BA.",
+        "year": 2019,
+        "type": "cohort",
+        "url": "https://doi.org/10.1097/coc.0000000000000590",
+        "openAccessUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7771031/",
+        "verified": true,
+        "notes": "Single-institution series: combined surgery+radiotherapy improved 10-yr local control (100% vs 63%)."
+      },
+      {
+        "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion.",
+        "authors": "Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, Chang YM, Chang KC, Wu PS, Chen PC, Chen CH, Chang CD, Lee PH, Tai HC, Liu TT, Wen MC, Li WS, Yu SC, Wang JC, Huang HY.",
+        "year": 2023,
+        "type": "molecular series",
+        "url": "https://doi.org/10.1016/j.modpat.2023.100161",
+        "verified": true,
+        "notes": "58 molecularly confirmed EMC; fusion distribution EWSR1 79% / TAF15 16% / TCF12 3%."
       }
     ]
   },
@@ -449,11 +468,14 @@
         "metastasisPct": 32,
         "dssText": "85% (10-yr DSS)",
         "medianFollowupMonths": 94,
-        "sourceId": "remiszewski2025",
-        "provenance": "secondary",
-        "primaryRef": "Bishop et al. (single-institution series, n=41)",
-        "contextReason": "population-overlap",
-        "note": "10-yr local control 100% with surgery+RT vs 63% surgery alone. Likely overlaps US SEER, so not pooled."
+        "sourceId": "bishop2019",
+        "provenance": "primary",
+        "contextReason": "population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)",
+        "note": "41 consecutive localized EMC; 5/41 (12%) local relapse; 10-yr local control 100% with surgery+radiotherapy vs 63% surgery alone (HR 12.7). Not pooled to avoid double-counting the US population.",
+        "studyPeriod": [
+          1990,
+          2016
+        ]
       },
       {
         "label": "Localised, US SEER population",
@@ -840,6 +862,45 @@
         "population": "EMC, China",
         "accessed": "2026-06-20",
         "verified": true
+      },
+      "bishop2019": {
+        "short": "Bishop 2019",
+        "type": "journal-article",
+        "title": "Extraskeletal Myxoid Chondrosarcomas: Combined Modality Therapy With Both Radiation and Surgery Improves Local Control.",
+        "authors": "Bishop AJ, Bird JE, Conley AP, Roland CL, Moon BS, Satcher RL, Livingston JA, Patel S, Wang WL, Lazar AJ, Lewis VO, Lin PP, Guadagnolo BA.",
+        "year": 2019,
+        "pmid": "31436747",
+        "pmcid": "PMC7771031",
+        "doi": "10.1097/coc.0000000000000590",
+        "url": "https://doi.org/10.1097/coc.0000000000000590",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "single-institution retrospective (combined-modality)",
+        "n": 41,
+        "population": "Localized EMC, single institution 1990-2016",
+        "studyPeriod": [
+          1990,
+          2016
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "warmke2023": {
+        "short": "Warmke 2023",
+        "type": "journal-article",
+        "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion.",
+        "authors": "Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, Chang YM, Chang KC, Wu PS, Chen PC, Chen CH, Chang CD, Lee PH, Tai HC, Liu TT, Wen MC, Li WS, Yu SC, Wang JC, Huang HY.",
+        "year": 2023,
+        "pmid": "36948401",
+        "doi": "10.1016/j.modpat.2023.100161",
+        "url": "https://doi.org/10.1016/j.modpat.2023.100161",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "molecular case series",
+        "n": 58,
+        "population": "58 molecularly confirmed EMC (fusion distribution)",
+        "accessed": "2026-06-20",
+        "verified": true
       }
     }
   },
@@ -1222,10 +1283,13 @@
           "stance": "supports",
           "claim": "10-year local control 100% with surgery + radiotherapy vs 63% with surgery alone (p=0.004); surgery alone carried HR 12.7 for local recurrence.",
           "design": "single-institution retrospective, n=41",
-          "sourceId": "remiszewski2025",
-          "provenance": "secondary",
-          "primaryRef": "Bishop et al.",
-          "caveat": "Combined-modality patients differ systematically from surgery-alone patients; single centre."
+          "sourceId": "bishop2019",
+          "provenance": "primary",
+          "caveat": "Combined-modality patients differ systematically from surgery-alone patients; single centre.",
+          "studyPeriod": [
+            1990,
+            2016
+          ]
         },
         {
           "stance": "supports",
