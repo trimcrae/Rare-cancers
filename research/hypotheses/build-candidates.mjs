@@ -21,21 +21,24 @@ const CITES = {
   warmke2023: { short: "Warmke 2023", title: "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion", authors: "Huang SC, et al.", journal: "Mod Pathol", year: 2023, pmid: "36948401", doi: "10.1016/j.modpat.2023.100161", url: "https://doi.org/10.1016/j.modpat.2023.100161", verified: true },
   emcModels2023: { short: "Bangerter 2023 (USZ-EMC models)", title: "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models", authors: "Bangerter JL, et al.", journal: "Human Cell", year: 2023, pmcid: "PMC9813045", doi: "10.1007/s13577-022-00818-x", url: pmc("PMC9813045"), verified: true },
   giner2023ihc: { short: "Giner 2023 (p53/Ki-67/CDK4)", title: "Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome - an immunohistochemical and molecular analysis of 31 cases", authors: "Giner F, et al.", journal: "Virchows Arch", year: 2023, pmid: "36376703", doi: "10.1007/s00428-022-03453-x", url: "https://doi.org/10.1007/s00428-022-03453-x", verified: true },
+  imatinibCase2021: { short: "Jennings 2021 (imatinib case)", title: "Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel KIT mutation", authors: "Jennings B, et al.", journal: "BMJ Case Rep", year: 2021, pmcid: "PMC8395296", doi: "10.1136/bcr-2021-242039", url: pmc("PMC8395296"), verified: true },
+  cabozantinibSTS2022: { short: "O'Sullivan Coyne 2022 (cabozantinib STS)", title: "Clinical Activity of Single-Agent Cabozantinib (XL184), a Multi-receptor Tyrosine Kinase Inhibitor, in Patients with Refractory Soft-Tissue Sarcomas", authors: "O'Sullivan Coyne G, et al.", journal: "Clin Cancer Res", year: 2022, pmcid: "PMC8776602", doi: "10.1158/1078-0432.ccr-21-2480", url: pmc("PMC8776602"), verified: true },
 };
 
 // sub-scores: each 0-3 (see scoring rubric). composite = sum (max 18).
 const CANDIDATES = [
-  { id: "imatinib-kit-subset", drug: "Imatinib (and other KIT inhibitors)", drugClass: "KIT/ABL tyrosine kinase inhibitor", regulatoryStatus: "FDA/EMA-approved (CML, GIST, DFSP)", notTriedInEmc: true, subsetRestricted: true,
+  { id: "imatinib-kit-subset", drug: "Imatinib (and other KIT inhibitors)", drugClass: "KIT/ABL tyrosine kinase inhibitor", regulatoryStatus: "FDA/EMA-approved (CML, GIST, DFSP)", notTriedInEmc: false, subsetRestricted: true, patientPageEligible: "T3 — eligible for emergingTreatments pending clinician review",
     mechanism: "Inhibits KIT receptor tyrosine kinase signalling; exon-11 KIT mutations are the most imatinib-sensitive class in GIST.",
     emcVulnerability: { claim: "A somatic, imatinib-sensitive-class KIT exon-11 mutation occurs in a minority of EMC, and CD117/KIT is expressed in roughly half of cases.", sourceId: "kitMutation2018" },
     supportingEvidence: [
+      { claim: "An EMC patient with a KIT exon-11 mutation (c.1669T>G) and pulmonary metastases achieved stable disease on imatinib for 3 years.", context: "EMC (clinical, n=1)", sourceId: "imatinibCase2021" },
       { claim: "Somatic heterozygous KIT exon-11 in-frame deletion (D579del) with high KIT mRNA and receptor phosphorylation in 1/20 EMC; exon-11 mutations are the most imatinib-sensitive in GIST.", context: "EMC", sourceId: "kitMutation2018" },
       { claim: "CD117(KIT) immunopositivity in 52.6% and a KIT p.E554K mutation in 2/48 EMC.", context: "EMC", sourceId: "warmke2023" } ],
-    rationale: "For the molecularly-selected minority with an actionable KIT mutation (and possibly strongly CD117+ disease), imatinib is a shelf-ready, biomarker-driven option — never tried in EMC.",
-    evidenceTier: "T2-emc-case-signal", speculationLevel: "moderate",
-    keyRisks: "Only ~5% carry an actionable KIT mutation; CD117 expression alone does not prove KIT dependence; requires NGS selection.",
-    openQuestions: ["Does KIT-mutant or strongly CD117+ EMC respond to imatinib?"],
-    scores: { emcEvidence: 2, mechanisticFit: 2, availability: 3, safety: 3, biomarker: 3, novelty: 3 } },
+    rationale: "For the molecularly-selected minority with an actionable KIT exon-11 mutation, imatinib is a shelf-ready, biomarker-driven option — and a KIT-mutant EMC patient has already achieved 3-year disease stabilization on it, making this the most clinically-supported lead. Applies only to the KIT-mutant subset, not EMC generally.",
+    evidenceTier: "T3-emc-clinical-evidence", speculationLevel: "low",
+    keyRisks: "Single case; only ~5% carry an actionable KIT mutation; CD117 expression alone does not prove KIT dependence; requires NGS selection.",
+    openQuestions: ["What is the response rate to imatinib across KIT-mutant EMC beyond single cases?"],
+    scores: { emcEvidence: 3, mechanisticFit: 2, availability: 3, safety: 3, biomarker: 3, novelty: 1 } },
 
   { id: "zaltoprofen-pparg", drug: "Zaltoprofen (PPARγ-inducing NSAID)", drugClass: "NSAID / PPARγ inducer", regulatoryStatus: "Approved NSAID (Japan)", notTriedInEmc: true,
     mechanism: "Induces PPARγ (via Krox20, C/EBPβ/α), upregulating p21/p27/p53 and driving cell-cycle arrest and apoptosis.",
@@ -53,7 +56,8 @@ const CANDIDATES = [
     emcVulnerability: { claim: "Anti-angiogenic TKIs are EMC's most consistently active systemic class, and EMC expresses VEGFR/PDGFR-family kinases.", sourceId: "remiszewski2025" },
     supportingEvidence: [
       { claim: "Pazopanib ORR 18%, median PFS 19 months (phase 2); sunitinib ~60% partial responses.", context: "EMC", sourceId: "remiszewski2025" },
-      { claim: "Transcriptome profiling of metastatic EMC measured expression of sunitinib-target kinases KDR/VEGFR2, PDGFRA/B, KIT, RET, FLT1/4.", context: "EMC", sourceId: "emcNGS2017" } ],
+      { claim: "Transcriptome profiling of metastatic EMC measured expression of sunitinib-target kinases KDR/VEGFR2, PDGFRA/B, KIT, RET, FLT1/4.", context: "EMC", sourceId: "emcNGS2017" },
+      { claim: "Cabozantinib (VEGF+MET TKI) was active in refractory soft-tissue sarcoma broadly (6/54 partial responses) but has not been reported specifically in EMC.", context: "soft-tissue sarcoma (not EMC-specific)", sourceId: "cabozantinibSTS2022" } ],
     rationale: "If VEGFR blockade is the most active class, other already-approved VEGFR-TKIs with deeper sarcoma data are rational, shelf-ready candidates never reported in EMC.",
     evidenceTier: "T1-preclinical-or-analog", speculationLevel: "low",
     keyRisks: "Class toxicity (hypertension, hand-foot, bleeding); likely to share pazopanib's resistance; TAF15::NR4A3 tumours may respond less.",

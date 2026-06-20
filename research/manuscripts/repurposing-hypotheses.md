@@ -36,7 +36,7 @@ screens** anchor much of the preclinical evidence. Full per-criterion data:
 
 | # | Candidate | Tier | Score | Basis |
 |---|---|---|---|---|
-| 1 | Imatinib (KIT-mutant/CD117+ subset) | T2 | 16* | Actionable KIT exon-11 mutation + CD117 expression |
+| 1 | Imatinib (KIT-mutant subset) | **T3** | 15* | KIT-mutant EMC patient: 3-year stable disease on imatinib |
 | 2 | Zaltoprofen (PPARγ-inducing NSAID) | T1 | 14 | Inhibits EMC growth *in vivo* via PPARγ |
 | 2 | VEGFR-TKI extension (rego/cabo/lenva) | T1 | 14 | Extends EMC's most active class |
 | 4 | Pioglitazone (PPARγ agonist) | T1 | 13 | Direct PPARγ agonism |
