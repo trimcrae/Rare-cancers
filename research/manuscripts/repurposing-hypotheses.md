@@ -35,7 +35,7 @@ preclinical and n-of-1 investigation — explicitly **not** as evidence of effic
 *NR4A3* (also called *NOR1*/*CHN*/*TEC*), most often as the *EWSR1::NR4A3* fusion and less
 commonly *TAF15::NR4A3* and other variants. The fusion produces a chimeric transcription
 factor that drives the tumour's transcriptional programme — including activation of target
-genes via chromatin modification (Yoshimura et al. 2016) — making EMC a prototypical
+genes via chromatin modification (Kim et al. 2016) — making EMC a prototypical
 fusion-addicted, "transcription-factor" cancer. Clinically it is paradoxical: typically
 slow-growing and associated with prolonged survival, yet with a high cumulative rate of
 local recurrence and distant (especially pulmonary) metastasis over years to decades
@@ -48,8 +48,9 @@ is the anti-angiogenic multikinase TKIs — pazopanib and sunitinib in particula
 responses are usually partial and finite, and conventional cytotoxic chemotherapy has limited
 activity (Remiszewski et al. 2025). Compounding this, clinical next-generation sequencing of
 advanced EMC characteristically reveals **no recurrent, directly actionable driver mutations**
-beyond the defining fusion; an imatinib-sensitive *KIT* mutation occurs in only a small minority
-(Jennings et al. 2021; Warmke et al. 2023). EMC therefore sits in a difficult space: too rare
+beyond the defining fusion (Davis et al. 2017); an imatinib-sensitive *KIT* mutation occurs in
+only a small minority (Urbini et al. 2018; Jennings et al. 2021), and CD117/KIT is expressed in
+roughly half of cases (Huang SC et al. 2023). EMC therefore sits in a difficult space: too rare
 for adequately-powered de-novo trials, and without an obvious single druggable mutation to
 anchor a targeted-therapy programme.
 
@@ -128,7 +129,7 @@ apoptotic nodes, plus the validated VEGFR-TKI class, dominate the top of the lis
 *Citation status: all previously-unverified claims are now resolved — the mRNA-immunology
 claims to primary references (LNP-immunogenicity review, Exp Mol Med 2023; KEYNOTE-942,
 Weber et al. Lancet 2024), and the transcriptional rationale re-grounded in EMC-native
-evidence (Yoshimura et al. 2016); the Ewing BET/CDK comparison is retained only as a
+evidence (Kim et al. 2016); the Ewing BET/CDK comparison is retained only as a
 labelled analogy in the candidate's rationale, not as an evidence claim. `validate-research.mjs`
 reports zero `needs-verification` claims.*
 
@@ -203,3 +204,30 @@ model's divergence marks the current limits of automated repurposing for ultra-r
 We offer this catalogue not as a claim of efficacy but as an invitation: a feasibility-ranked
 starting point for the preclinical validation, biomarker-matched n-of-1 studies, and shared
 registry infrastructure that could realistically move EMC care forward.
+
+## References
+
+References for works cited above. EMC clinical/biological references are drawn from the
+catalogue's citation map (`hypotheses/candidates.json`) and the patient registry
+(`data/cancers/emc.json` → `registry.citations`); author lists are abbreviated ("et al.")
+where the full list is not carried in those sources. Every entry has a resolvable DOI or
+PMID/PMCID.
+
+1. Davis EJ, et al. Next generation sequencing of extraskeletal myxoid chondrosarcoma. *Oncotarget.* 2017. doi:10.18632/oncotarget.15568. PMC5400622.
+2. Urbini M, et al. Identification of an actionable mutation of KIT in a case of extraskeletal myxoid chondrosarcoma. *Int J Mol Sci.* 2018. doi:10.3390/ijms19071855. PMC6073125.
+3. Jennings B, et al. Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel KIT mutation. *BMJ Case Rep.* 2021. doi:10.1136/bcr-2021-242039. PMC8395296.
+4. Huang SC, et al. Extraskeletal myxoid chondrosarcomas: the uncommon clinicopathologic manifestations and significance of TAF15::NR4A3 fusion. *Mod Pathol.* 2023. doi:10.1016/j.modpat.2023.100161. PMID 36948401.
+5. Kim AY, Lim B, Choi J, Kim J. The TFG-TEC oncoprotein induces transcriptional activation of the human β-enolase gene via chromatin modification of the promoter region. *Mol Carcinog.* 2016. doi:10.1002/mc.22384. PMID 26310886.
+6. Higuchi T, et al. A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPARγ, p21, p27 and p53. *Cell Cycle.* 2023. doi:10.1080/15384101.2023.2166195. PMID 36636023.
+7. Bangerter JL, et al. Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models. *Human Cell.* 2023. doi:10.1007/s13577-022-00818-x. PMC9813045.
+8. Iwata S, et al. Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid chondrosarcoma. *Human Cell.* 2025. doi:10.1007/s13577-025-01250-7. PMID 40580361.
+9. O'Sullivan Coyne G, et al. Clinical activity of single-agent cabozantinib (XL184), a multi-receptor tyrosine kinase inhibitor, in patients with refractory soft-tissue sarcomas. *Clin Cancer Res.* 2022. doi:10.1158/1078-0432.CCR-21-2480. PMC8776602.
+10. Masunaga T, Tsukamoto S, Nagano A, et al. The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma. *J Orthop Surg Res.* 2025. doi:10.1186/s13018-025-06245-6. PMC12398172.
+11. Remiszewski P, Falkowski S, Szumera-Cieckiewicz A, et al. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol.* 2025. doi:10.1007/s00432-025-06316-5. PMC12504171.
+12. Huang K, Chandak P, Wang Q, et al. A foundation model for clinician-centered drug repurposing (TxGNN). *Nat Med.* 2024. doi:10.1038/s41591-024-03233-x. PMID 39148855.
+13. Weber JS, et al. Individualised neoantigen therapy mRNA-4157 (V940) plus pembrolizumab versus pembrolizumab monotherapy in resected melanoma (KEYNOTE-942): a randomised, phase 2b study. *Lancet.* 2024. doi:10.1016/S0140-6736(23)02268-7. PMID 38246194.
+14. Immunogenicity of lipid nanoparticles and its impact on the efficacy of mRNA vaccines and therapeutics. *Exp Mol Med.* 2023. doi:10.1038/s12276-023-01086-x. PMC10618257.
+15. The Drug–Gene Interaction Database (DGIdb). https://dgidb.org (Freshour SL, et al. *Nucleic Acids Res.* 2021; doi:10.1093/nar/gkaa1084).
+16. CURE ID — FDA / NCATS treatment registry. https://cure.ncats.io.
+
+*Author lists marked "et al." and any reference lacking volume/page detail must be completed to full journal style before submission; do not infer co-authors. The Kim et al. 2016 author list above is from the corpus record for PMID 26310886.*
