@@ -39,7 +39,9 @@ jobs:
           node-version: 22
 
       - name: Fetch open-access full text (Europe PMC)
-        run: node scripts/fetch-paper.mjs sync "${{ inputs.query }}"
+        env:
+          QUERY: ${{ inputs.query }}
+        run: node scripts/fetch-paper.mjs sync "$QUERY"
 
       - name: Keep full-text artifact (ephemeral, 14 days)
         uses: actions/upload-artifact@v4
@@ -50,11 +52,16 @@ jobs:
           if-no-files-found: warn
 
       - name: Publish corpus to literature-cache branch
+        # Inputs are passed via env (never interpolated into the script) so quotes
+        # in the query can't break tokenization or inject shell commands.
+        env:
+          QUERY: ${{ inputs.query }}
+          SLUG: ${{ inputs.slug }}
         run: |
           set -e
           [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
-          slug="${{ inputs.slug }}"
-          [ -n "$slug" ] || slug=$(echo "${{ inputs.query }}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
+          slug="$SLUG"
+          [ -n "$slug" ] || slug=$(printf '%s' "$QUERY" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
           tmp="$RUNNER_TEMP/litdata"
           rm -rf "$tmp"; mkdir -p "$tmp"
           cp -r .cache/literature/. "$tmp"/
@@ -72,5 +79,5 @@ jobs:
           mkdir -p "literature/$slug"
           cp -r "$tmp"/. "literature/$slug"/
           git add -A
-          git commit -m "Literature cache: ${{ inputs.query }}" || { echo "No changes"; exit 0; }
+          git commit -m "Literature cache update: $slug" || { echo "No changes"; exit 0; }
           git push origin literature-cache
