@@ -125,6 +125,31 @@ structure and tone.
   Scripts are plain Node ESM; the site is plain browser JS.
 - Match the existing vanilla-JS style in `cancer.js` (the `el()` helper).
 
+## Automated literature ingestion (fetching papers)
+
+`scripts/fetch-paper.mjs` pulls real research papers via the **Europe PMC REST
+API** (open-access, programmatic - do NOT scrape publisher HTML, which gets
+403-blocked). One host, `www.ebi.ac.uk`, gives both search and open-access
+full-text XML.
+
+```bash
+node scripts/fetch-paper.mjs search  "extraskeletal myxoid chondrosarcoma"   # list papers (+ [OA] flag)
+node scripts/fetch-paper.mjs studies "extraskeletal myxoid chondrosarcoma"   # JSON for studies.items (set verified after checking)
+node scripts/fetch-paper.mjs fetch   PMC7308468                              # one paper's full text -> .cache/literature/
+node scripts/fetch-paper.mjs sync    "extraskeletal myxoid chondrosarcoma"   # fetch ALL open-access full texts
+```
+
+**Network requirement:** this environment is deny-by-default for egress. The
+script fails with clear instructions until `www.ebi.ac.uk` is added to the
+environment's network egress allowlist (Claude Code on the web → environment
+network settings; docs: https://code.claude.com/docs/en/claude-code-on-the-web).
+WebSearch works without this; fetching full text needs the allowlist entry.
+
+Workflow to turn papers into page data: `sync` the open-access corpus →
+read `.cache/literature/*.txt` → extract studies into `studies.items` and, where
+papers give per-patient detail, real rows into `registry.patients` (one `source`
+citation per row). Never record a clinical value you can't point to in the text.
+
 ## Tests
 
 - `node scripts/validate.mjs` — checks the data files (structure, required
