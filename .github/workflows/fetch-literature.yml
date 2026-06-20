@@ -1,0 +1,71 @@
+name: Fetch literature
+
+# Pulls open-access research papers from the GitHub-hosted runner (which has
+# full internet access - no sandbox egress allowlist needed) using the Europe
+# PMC API via scripts/fetch-paper.mjs. The fetched corpus is published to the
+# `literature-cache` branch, which Pages never serves (pages.yml only copies
+# index.html, 404.html, assets/, data/, cancers/). A Claude session then does
+# `git fetch origin literature-cache` and extracts cited data into data/cancers/.
+#
+# Raw full text is a working cache, not site content. Record each paper's
+# licence when promoting facts into a cancer page; cite every clinical value.
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "Europe PMC search query"
+        required: true
+        default: "extraskeletal myxoid chondrosarcoma"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-literature
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch open-access full text (Europe PMC)
+        run: node scripts/fetch-paper.mjs sync "${{ inputs.query }}"
+
+      - name: Keep full-text artifact (ephemeral, 14 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: literature-${{ github.run_id }}
+          path: .cache/literature
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Publish corpus to literature-cache branch
+        run: |
+          set -e
+          [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
+          slug=$(echo "${{ inputs.query }}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
+          tmp="$RUNNER_TEMP/litdata"
+          rm -rf "$tmp"; mkdir -p "$tmp"
+          cp -r .cache/literature/. "$tmp"/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin literature-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/literature-cache; then
+            git checkout -B literature-cache origin/literature-cache
+          else
+            git checkout --orphan literature-cache
+          fi
+          # Clear the working tree (keep .git) so the branch holds only the cache.
+          find . -mindepth 1 -maxdepth 1 -not -name '.git' -exec rm -rf {} +
+          mkdir -p "literature/$slug"
+          cp -r "$tmp"/. "literature/$slug"/
+          git add -A
+          git commit -m "Literature cache: ${{ inputs.query }}" || { echo "No changes"; exit 0; }
+          git push origin literature-cache
