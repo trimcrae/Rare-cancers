@@ -1,0 +1,33 @@
+name: TxGNN API dump
+
+# Cheap helper: print TxGNN's public API (README usage + TxEval/TxGNN method
+# signatures) so the inference script can be written correctly before the
+# expensive model run. Prints to the log; commits nothing.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump TxGNN API surface
+        run: |
+          git clone --depth 1 https://github.com/mims-harvard/TxGNN.git txgnn
+          echo "############ README.md ############"
+          cat txgnn/README.md
+          echo
+          echo "############ txgnn/TxEval.py ############"
+          cat txgnn/txgnn/TxEval.py
+          echo
+          echo "############ method signatures: TxGNN.py / TxData.py / model.py ############"
+          grep -nE "def |class " txgnn/txgnn/TxGNN.py txgnn/txgnn/TxData.py txgnn/txgnn/model.py
+          echo
+          echo "############ requirements.txt ############"
+          cat txgnn/requirements.txt
+          echo
+          echo "############ setup.py / version ############"
+          cat txgnn/setup.py txgnn/txgnn/version.py 2>/dev/null || true
