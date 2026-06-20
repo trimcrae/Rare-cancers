@@ -24,6 +24,8 @@ const CITES = {
   imatinibCase2021: { short: "Jennings 2021 (imatinib case)", title: "Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel KIT mutation", authors: "Jennings B, et al.", journal: "BMJ Case Rep", year: 2021, pmcid: "PMC8395296", doi: "10.1136/bcr-2021-242039", url: pmc("PMC8395296"), verified: true },
   cabozantinibSTS2022: { short: "O'Sullivan Coyne 2022 (cabozantinib STS)", title: "Clinical Activity of Single-Agent Cabozantinib (XL184), a Multi-receptor Tyrosine Kinase Inhibitor, in Patients with Refractory Soft-Tissue Sarcomas", authors: "O'Sullivan Coyne G, et al.", journal: "Clin Cancer Res", year: 2022, pmcid: "PMC8776602", doi: "10.1158/1078-0432.ccr-21-2480", url: pmc("PMC8776602"), verified: true },
   transcriptionMech2016: { short: "Yoshimura 2016 (TFG-NR4A3 transcription)", title: "The TFG-TEC oncoprotein induces transcriptional activation of the human β-enolase gene via chromatin modification of the promoter region", authors: "(EMC fusion transcription study)", journal: "Mol Carcinog", year: 2016, pmid: "26310886", doi: "10.1002/mc.22384", url: "https://doi.org/10.1002/mc.22384", verified: true },
+  lnpImmuno2023: { short: "Exp Mol Med 2023 (LNP immunogenicity)", title: "Immunogenicity of lipid nanoparticles and its impact on the efficacy of mRNA vaccines and therapeutics", authors: "(review, Exp Mol Med)", journal: "Exp Mol Med", year: 2023, pmcid: "PMC10618257", doi: "10.1038/s12276-023-01086-x", url: "https://doi.org/10.1038/s12276-023-01086-x", verified: true, nonEmcContext: true },
+  keynote942: { short: "Weber 2024 (KEYNOTE-942)", title: "Individualised neoantigen therapy mRNA-4157 (V940) plus pembrolizumab versus pembrolizumab monotherapy in resected melanoma (KEYNOTE-942): a randomised, phase 2b study", authors: "Weber JS, et al.", journal: "Lancet", year: 2024, pmid: "38246194", doi: "10.1016/S0140-6736(23)02268-7", url: "https://doi.org/10.1016/S0140-6736(23)02268-7", verified: true, nonEmcContext: true },
 };
 
 // sub-scores: each 0-3 (see scoring rubric). composite = sum (max 18).
@@ -136,8 +138,8 @@ const CANDIDATES = [
     mechanism: "mRNA-LNP innate-immune agonism (type-I IFN) to convert a cold tumour hot, then checkpoint blockade to license a T-cell response.",
     emcVulnerability: { claim: "EMC is immunologically quiet, with checkpoint inhibitors not systematically active and only isolated immune responses reported.", sourceId: "remiszewski2025" },
     supportingEvidence: [
-      { claim: "mRNA-LNP vaccines are potent innate-immune stimulants (type-I IFN via TLR/RIG-I).", context: "general immunology", sourceStatus: "needs-verification" },
-      { claim: "In other cancers, peri-checkpoint-inhibitor mRNA vaccination has been linked to better outcomes, and intratumoral/neoantigen mRNA + anti-PD-1 are in trials.", context: "other cancers", sourceStatus: "needs-verification" } ],
+      { claim: "mRNA–lipid-nanoparticle vaccines are intrinsically immunostimulatory, driving type-I interferon and innate-immune activation (TLR/RIG-I/MDA5) without a separate adjuvant.", context: "mRNA-LNP immunology (general)", sourceId: "lnpImmuno2023" },
+      { claim: "In resected high-risk melanoma, adding an individualised neoantigen mRNA vaccine to pembrolizumab improved recurrence-free survival vs pembrolizumab alone (HR 0.56) in a randomised phase 2b trial (KEYNOTE-942).", context: "melanoma (not EMC)", sourceId: "keynote942" } ],
     rationale: "Address the cold-microenvironment problem with a readily available immune stimulant plus checkpoint blockade; the EWSR1::NR4A3 junction is a theoretical neoantigen.",
     evidenceTier: "T0-mechanistic", speculationLevel: "high",
     keyRisks: "Sarcoma immunotherapy generally underperforms; low neoantigen load; immune toxicity; no EMC data.",
