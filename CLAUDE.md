@@ -15,5 +15,5 @@ read it before making changes.
 - **A cancer page = one JSON file.** You rarely touch HTML/CSS/JS.
 - **Before committing:** `node scripts/validate.mjs` must pass.
 - **No dependencies, no build step.** Keep it that way.
-- **Deploy:** GitLab Pages (`.gitlab-ci.yml`) and GitHub Pages
-  (`.github/workflows/pages.yml`); keep all URLs relative.
+- **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
+  keep all URLs relative.

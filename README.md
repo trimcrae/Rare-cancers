@@ -56,11 +56,14 @@ rules) and **[CONTRIBUTING.md](./CONTRIBUTING.md)** for how to contribute data.
 
 ## Hosting
 
-The site is host-agnostic (all relative URLs). Deploy configs are included for:
+Deployed via **GitHub Pages** (`.github/workflows/pages.yml`). Every push to
+`main` validates the data and publishes the site.
 
-- **GitLab Pages** — `.gitlab-ci.yml` (publishes from the default branch)
-- **GitHub Pages** — `.github/workflows/pages.yml` (enable Settings → Pages →
-  Source: *GitHub Actions*)
+One-time setup by the repo owner: **Settings → Pages → Build and deployment →
+Source: _GitHub Actions_**. After that it's automatic.
+
+The site itself is host-agnostic (all relative URLs), so it can also be served
+from any other static host or a subpath without changes.
 
 ## Licence
 

@@ -1,5 +1,6 @@
-# GitHub Pages deployment for the zero-build static site.
-# In the repo: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+# Deploys the zero-build static site to GitHub Pages.
+# One-time setup (repo owner): Settings -> Pages -> Build and deployment ->
+# Source: "GitHub Actions". After that, every push to main publishes the site.
 name: Deploy to GitHub Pages
 
 on:
@@ -17,19 +18,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Validate data files
+        run: node scripts/validate.mjs
+      - name: Assemble site (static files only)
         run: |
-          if command -v node >/dev/null 2>&1; then node scripts/validate.mjs; fi
+          mkdir -p _site
+          cp index.html 404.html _site/
+          cp -r assets data cancers _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4

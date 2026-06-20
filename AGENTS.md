@@ -136,12 +136,11 @@ structure and tone.
 
 ## Deployment
 
-The user asked for GitLab Pages; the repo currently lives on GitHub. Both are
-configured and the site is host-agnostic:
-- **GitLab Pages:** `.gitlab-ci.yml` publishes from the default branch.
-- **GitHub Pages:** `.github/workflows/pages.yml` (enable Settings → Pages →
-  Source: GitHub Actions).
-Do not hard-code absolute base URLs anywhere; keep links relative.
+Host is **GitHub Pages** via `.github/workflows/pages.yml`: each push to `main`
+runs the validator, assembles a clean `_site/` (index.html, 404.html, assets,
+data, cancers — not AGENTS.md/scripts/.git), and deploys. One-time owner setup:
+Settings → Pages → Source: "GitHub Actions". The site stays host-agnostic
+(all relative URLs), so keep links relative and never hard-code a base URL.
 
 ## Branch / git
 
