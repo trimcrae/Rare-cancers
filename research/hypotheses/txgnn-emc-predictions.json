@@ -1,0 +1,776 @@
+{
+  "model": "TxGNN (Huang et al., Nat Med 2024) \u2014 pretrained 'complex_disease' weights",
+  "source": "https://github.com/mims-harvard/TxGNN ; weights via the repo's Google Drive link",
+  "relation": "indication",
+  "disease": {
+    "name": "extraskeletal myxoid chondrosarcoma",
+    "kg_idx": 1975.0,
+    "mondo_hint": "extraskeletal myxoid chondrosarcoma"
+  },
+  "note": "Genuine zero-shot output of the trained TxGNN model, NOT a hand-built heuristic. A high score is a model-predicted repurposing hypothesis to triage under METHODOLOGY, not evidence of efficacy.",
+  "totalRanked": 7957,
+  "topDrugs": [
+    {
+      "drug_id": "DB12271",
+      "drug": "ORE-1001",
+      "score": 1.50968
+    },
+    {
+      "drug_id": "DB09105",
+      "drug": "Asfotase alfa",
+      "score": 1.42989
+    },
+    {
+      "drug_id": "DB07115",
+      "drug": "N-(4-chlorobenzyl)-N-methylbenzene-1,4-disulfonamide",
+      "score": 1.2461
+    },
+    {
+      "drug_id": "DB03542",
+      "drug": "L-Myo-Inositol-1-Phosphate",
+      "score": 1.11491
+    },
+    {
+      "drug_id": "DB00053",
+      "drug": "Imiglucerase",
+      "score": 1.07806
+    },
+    {
+      "drug_id": "DB00088",
+      "drug": "Alglucerase",
+      "score": 1.07806
+    },
+    {
+      "drug_id": "DB08876",
+      "drug": "Taliglucerase alfa",
+      "score": 1.07806
+    },
+    {
+      "drug_id": "DB14751",
+      "drug": "Mecasermin rinfabate",
+      "score": 1.03727
+    },
+    {
+      "drug_id": "DB04478",
+      "drug": "Cp-166572, 2-Hydroxymethyl-4-(4-N,N-Dimethylaminosulfonyl-1-Piperazino)-Pyrimidine",
+      "score": 1.03483
+    },
+    {
+      "drug_id": "DB05166",
+      "drug": "APD668",
+      "score": 0.95307
+    },
+    {
+      "drug_id": "DB12965",
+      "drug": "Silver",
+      "score": 0.89372
+    },
+    {
+      "drug_id": "DB11781",
+      "drug": "Tosedostat",
+      "score": 0.87487
+    },
+    {
+      "drug_id": "DB02393",
+      "drug": "D-Gluco-2,5-Anhydro-1-Deoxy-1-Phosphonohexitol-6-Phosphate",
+      "score": 0.8498
+    },
+    {
+      "drug_id": "DB06720",
+      "drug": "Velaglucerase alfa",
+      "score": 0.77672
+    },
+    {
+      "drug_id": "DB04970",
+      "drug": "Lesopitron",
+      "score": 0.74521
+    },
+    {
+      "drug_id": "DB05339",
+      "drug": "MN-305",
+      "score": 0.74521
+    },
+    {
+      "drug_id": "DB03478",
+      "drug": "2'-O-Acetyl Adenosine-5-Diphosphoribose",
+      "score": 0.69231
+    },
+    {
+      "drug_id": "DB03130",
+      "drug": "S-P-Nitrobenzyloxycarbonylglutathione",
+      "score": 0.61268
+    },
+    {
+      "drug_id": "DB03330",
+      "drug": "S-(N-hydroxy-N-iodophenylcarbamoyl)glutathione",
+      "score": 0.61268
+    },
+    {
+      "drug_id": "DB00419",
+      "drug": "Miglustat",
+      "score": 0.54172
+    },
+    {
+      "drug_id": "DB04736",
+      "drug": "2-ACETAMIDO-2-DEOXY-BETA-D-GLUCOPYRANOSE(BETA1-4)-2-ACETAMIDO-1,6-ANHYDRO-3-O-[(R)-1-CARBOXYETHYL]-2-DEOXY-BETA-D-GLUCOPYRANOSE-L-ALANYL-GAMMA-D-GLUTAMYL-MESO-DIAMINOPIMELYL-D-ALANINE",
+      "score": 0.532
+    },
+    {
+      "drug_id": "DB01842",
+      "drug": "3'-Phosphate-Adenosine-5'-Diphosphate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB01961",
+      "drug": "Cytidine 3'-monophosphate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB02363",
+      "drug": "2'-Monophosphoadenosine-5'-Diphosphate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB02573",
+      "drug": "2'-deoxycytidine-2'-deoxyadenosine-3',5'-monophosphate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB02987",
+      "drug": "Cysteine-S-acetamide",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB03155",
+      "drug": "2'-fluoro-2'-deoxyuridine 3'-monophosphate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB03186",
+      "drug": "Adenylate-3'-phosphate-[[2'-deoxy-uridine-5'-phosphate]-3'-phosphate]",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB03326",
+      "drug": "Deoxycytidylyl-3',5'-guanosine",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB03447",
+      "drug": "Uridylyl-2'-5'-phospho-adenosine",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB03512",
+      "drug": "Uridine-2',3'-vanadate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB03726",
+      "drug": "Purine Riboside-5'-Monophosphate",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB04514",
+      "drug": "Uridylyl-2'-5'-phospho-guanosine",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB08596",
+      "drug": "5'-deoxy-5'-piperidin-1-ylthymidine",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB08661",
+      "drug": "1-(2,5-dideoxy-5-pyrrolidin-1-yl-beta-L-erythro-pentofuranosyl)-5-methylpyrimidine-2,4(1H,3H)-dione",
+      "score": 0.50856
+    },
+    {
+      "drug_id": "DB01812",
+      "drug": "Adenosine 3',5'-diphosphate",
+      "score": 0.49681
+    },
+    {
+      "drug_id": "DB02201",
+      "drug": "Malonate Ion",
+      "score": 0.49617
+    },
+    {
+      "drug_id": "DB01760",
+      "drug": "2-Methoxy-3-Isopropylpyrazine",
+      "score": 0.4928
+    },
+    {
+      "drug_id": "DB02924",
+      "drug": "(4R)-limonene 1\u03b1,2\u03b1-epoxide",
+      "score": 0.4928
+    },
+    {
+      "drug_id": "DB03087",
+      "drug": "2-(Sec-Butyl)Thiazole",
+      "score": 0.4928
+    },
+    {
+      "drug_id": "DB03711",
+      "drug": "6-Hydroxy-6-Methyl-Heptan-3-One",
+      "score": 0.4928
+    },
+    {
+      "drug_id": "DB04512",
+      "drug": "2-Isobutyl-3-methoxypyrazine",
+      "score": 0.4928
+    },
+    {
+      "drug_id": "DB04489",
+      "drug": "Guanidinoethylmercaptosuccinic acid",
+      "score": 0.46865
+    },
+    {
+      "drug_id": "DB12418",
+      "drug": "Saccharin",
+      "score": 0.46552
+    },
+    {
+      "drug_id": "DB02942",
+      "drug": "Inositol 1,3-Bisphosphate",
+      "score": 0.45965
+    },
+    {
+      "drug_id": "DB05305",
+      "drug": "Cintredekin Besudotox",
+      "score": 0.45732
+    },
+    {
+      "drug_id": "DB02306",
+      "drug": "Palmitoyl-Linoleoyl Phosphatidylcholine",
+      "score": 0.45488
+    },
+    {
+      "drug_id": "DB04372",
+      "drug": "L-Dilinoleoyllecithin",
+      "score": 0.45488
+    },
+    {
+      "drug_id": "DB06703",
+      "drug": "Gadobutrol",
+      "score": 0.43511
+    },
+    {
+      "drug_id": "DB03106",
+      "drug": "scyllo-inositol",
+      "score": 0.42095
+    },
+    {
+      "drug_id": "DB03468",
+      "drug": "1,2,3,4-Tetrahydro-Isoquinoline-7-Sulfonic Acid Amide",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB03824",
+      "drug": "7-Iodo-1,2,3,4-Tetrahydro-Isoquinoline",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB04273",
+      "drug": "8,9-Dichloro-2,3,4,5-Tetrahydro-1h-Benzo[C]Azepine",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB07597",
+      "drug": "CIS-(1R,2S)-2-AMINO-1,2,3,4-TETRAHYDRONAPHTHALEN-1-OL",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB07747",
+      "drug": "(3R)-N-(4-CHLOROPHENYL)-3-(HYDROXYMETHYL)-1,2,3,4-TETRAHYDROISOQUINOLINE-7-SULFONAMIDE",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB07798",
+      "drug": "(3R)-3-(FLUOROMETHYL)-N-(3,3,3-TRIFLUOROPROPYL)-1,2,3,4-TETRAHYDROISOQUINOLINE-7-SULFONAMIDE",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB07906",
+      "drug": "[(3R)-7-NITRO-1,2,3,4-TETRAHYDROISOQUINOLIN-3-YL]METHANOL",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB08128",
+      "drug": "(1S,4R,9S)-5-(trifluoromethyl)-1,2,3,4-tetrahydro-1,4-methanonaphthalen-9-amine",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB08129",
+      "drug": "(1R)-2-amino-1-[3-(trifluoromethyl)phenyl]ethanol",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB08631",
+      "drug": "N-(4-CHLOROPHENYL)-1,2,3,4-TETRAHYDROISOQUINOLINE-7-SULFONAMIDE",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB08654",
+      "drug": "TRANS-(1S,2S)-2-AMINO-1,2,3,4-TETRAHYDRONAPHTHALEN-1-OL",
+      "score": 0.40398
+    },
+    {
+      "drug_id": "DB03664",
+      "drug": "P1-(adenosine-5'-P5-(uridine-5')pentaphosphate",
+      "score": 0.39694
+    },
+    {
+      "drug_id": "DB02547",
+      "drug": "Guanosine-5'-Diphosphate-Rhamnose",
+      "score": 0.39034
+    },
+    {
+      "drug_id": "DB01966",
+      "drug": "Di-Stearoyl-3-Sn-Phosphatidylethanolamine",
+      "score": 0.38314
+    },
+    {
+      "drug_id": "DB06945",
+      "drug": "N-hydroxy-4-({4-[4-(trifluoromethyl)phenoxy]phenyl}sulfonyl)tetrahydro-2H-pyran-4-carboxamide",
+      "score": 0.37966
+    },
+    {
+      "drug_id": "DB05255",
+      "drug": "Ronacaleret",
+      "score": 0.33823
+    },
+    {
+      "drug_id": "DB02039",
+      "drug": "S-Acetyl-Cysteine",
+      "score": 0.33434
+    },
+    {
+      "drug_id": "DB07766",
+      "drug": "(2Z,3E)-2,3'-biindole-2',3(1H,1'H)-dione 3-{O-[(3R)-3,4-dihydroxybutyl]oxime}",
+      "score": 0.33317
+    },
+    {
+      "drug_id": "DB07204",
+      "drug": "(1S)-1-(1H-INDOL-3-YLMETHYL)-2-(2-PYRIDIN-4-YL-[1,7]NAPHTYRIDIN-5-YLOXY)-EHYLAMINE",
+      "score": 0.32489
+    },
+    {
+      "drug_id": "DB08568",
+      "drug": "A-674563",
+      "score": 0.32489
+    },
+    {
+      "drug_id": "DB08612",
+      "drug": "1,1,1-TRIFLUORO-3-(OCTYLTHIO)ACETONE",
+      "score": 0.31392
+    },
+    {
+      "drug_id": "DB12864",
+      "drug": "Melarsoprol",
+      "score": 0.29714
+    },
+    {
+      "drug_id": "DB05337",
+      "drug": "SOT-107",
+      "score": 0.29665
+    },
+    {
+      "drug_id": "DB03808",
+      "drug": "Hexamidine",
+      "score": 0.28478
+    },
+    {
+      "drug_id": "DB07558",
+      "drug": "acetylleucyl-leucyl-norleucinal",
+      "score": 0.28047
+    },
+    {
+      "drug_id": "DB00676",
+      "drug": "Benzyl benzoate",
+      "score": 0.27887
+    },
+    {
+      "drug_id": "DB03276",
+      "drug": "4-[(10s,14s,18s)-18-(2-Amino-2-Oxoethyl)-14-(1-Naphthylmethyl)-8,17,20-Trioxo-7,16,19-Triazaspiro[5.14]Icos-11-En-10-Yl]Benzylphosphonic Acid",
+      "score": 0.27865
+    },
+    {
+      "drug_id": "DB03738",
+      "drug": "Pantothenoylaminoethenethiol",
+      "score": 0.2747
+    },
+    {
+      "drug_id": "DB03109",
+      "drug": "2-acetylamino-2-deoxy-b-D-allopyranose",
+      "score": 0.26146
+    },
+    {
+      "drug_id": "DB03539",
+      "drug": "2-(Acetylamino)-2-Deoxy-6-O-Methyl-Alpha-D-Allopyranose",
+      "score": 0.26146
+    },
+    {
+      "drug_id": "DB03632",
+      "drug": "Argifin",
+      "score": 0.26146
+    },
+    {
+      "drug_id": "DB04350",
+      "drug": "Argadin",
+      "score": 0.26146
+    },
+    {
+      "drug_id": "DB04404",
+      "drug": "Allosamizoline",
+      "score": 0.26146
+    },
+    {
+      "drug_id": "DB04156",
+      "drug": "Aspartate Beryllium Trifluoride",
+      "score": 0.26101
+    },
+    {
+      "drug_id": "DB02872",
+      "drug": "Cis-[4,5-Bis-(4-Bromophenyl)-2-(2-Ethoxy-4-Methoxyphenyl)-4,5-Dihydroimidazol-1-Yl]-[4-(2-Hydroxyethyl)Piperazin-1-Yl]Methanone",
+      "score": 0.25706
+    },
+    {
+      "drug_id": "DB04144",
+      "drug": "Cis-[4,5-Bis-(4-Chlorophenyl)-2-(2-Isopropoxy-4-Methoxyphenyl)-4,5-Dihyd Roimidazol-1-Yl]-Piperazin-1-Yl-Methanone",
+      "score": 0.25706
+    },
+    {
+      "drug_id": "DB08396",
+      "drug": "4-{[(Z)-(5-oxo-2-phenyl-1,3-oxazol-4(5H)-ylidene)methyl]amino}butanoic acid",
+      "score": 0.24309
+    },
+    {
+      "drug_id": "DB08635",
+      "drug": "N-(TRANS-4'-NITRO-4-STILBENYL)-N-METHYL-5-AMINO-PENTANOIC ACID",
+      "score": 0.24309
+    },
+    {
+      "drug_id": "DB03639",
+      "drug": "1-Guanidinium-7-Aminoheptane",
+      "score": 0.24307
+    },
+    {
+      "drug_id": "DB02902",
+      "drug": "3'-phospho-5'-adenylyl sulfate",
+      "score": 0.21779
+    },
+    {
+      "drug_id": "DB00538",
+      "drug": "Gadoversetamide",
+      "score": 0.21653
+    },
+    {
+      "drug_id": "DB06258",
+      "drug": "Bimoclomol",
+      "score": 0.21105
+    },
+    {
+      "drug_id": "DB11104",
+      "drug": "Sulfur hexafluoride",
+      "score": 0.20689
+    },
+    {
+      "drug_id": "DB03506",
+      "drug": "9-Deazaadenine",
+      "score": 0.20431
+    },
+    {
+      "drug_id": "DB07525",
+      "drug": "3-(3-methoxybenzyl)-1H-pyrrolo[2,3-b]pyridine",
+      "score": 0.20379
+    },
+    {
+      "drug_id": "DB08577",
+      "drug": "3-[(3-(2-CARBOXYETHYL)-4-METHYLPYRROL-2-YL)METHYLENE]-2-INDOLINONE",
+      "score": 0.20379
+    },
+    {
+      "drug_id": "DB02598",
+      "drug": "N-Alpha-Acetyl-3,5-Diiodotyrosylglycine",
+      "score": 0.20166
+    },
+    {
+      "drug_id": "DB03448",
+      "drug": "2'-Deoxyuridine 3'-Monophosphate",
+      "score": 0.18926
+    },
+    {
+      "drug_id": "DB01996",
+      "drug": "3-Methylpyridine",
+      "score": 0.18895
+    },
+    {
+      "drug_id": "DB02049",
+      "drug": "2-{4-[4-(4-Chloro-Phenoxy)-Benzenesulfonyl]-Tetrahydro-Pyran-4-Yl}-N-Hydroxy-Acetamide",
+      "score": 0.18895
+    }
+  ],
+  "relevantDrugRanks": [
+    {
+      "query": "pazopanib",
+      "matched": "Pazopanib",
+      "rank": 6422,
+      "of": 7957,
+      "score": -3.75301,
+      "percentile": 19.3
+    },
+    {
+      "query": "sunitinib",
+      "matched": "Sunitinib",
+      "rank": 6382,
+      "of": 7957,
+      "score": -3.6549,
+      "percentile": 19.8
+    },
+    {
+      "query": "sorafenib",
+      "matched": "Sorafenib",
+      "rank": 6558,
+      "of": 7957,
+      "score": -4.32715,
+      "percentile": 17.6
+    },
+    {
+      "query": "regorafenib",
+      "matched": "Regorafenib",
+      "rank": 6094,
+      "of": 7957,
+      "score": -2.95898,
+      "percentile": 23.4
+    },
+    {
+      "query": "cabozantinib",
+      "matched": "Cabozantinib",
+      "rank": 6400,
+      "of": 7957,
+      "score": -3.69064,
+      "percentile": 19.6
+    },
+    {
+      "query": "axitinib",
+      "matched": "Axitinib",
+      "rank": 6297,
+      "of": 7957,
+      "score": -3.39135,
+      "percentile": 20.9
+    },
+    {
+      "query": "nintedanib",
+      "matched": "Nintedanib",
+      "rank": 6078,
+      "of": 7957,
+      "score": -2.94184,
+      "percentile": 23.6
+    },
+    {
+      "query": "vandetanib",
+      "matched": "Vandetanib",
+      "rank": 7051,
+      "of": 7957,
+      "score": -6.18528,
+      "percentile": 11.4
+    },
+    {
+      "query": "tivozanib",
+      "matched": "Tivozanib",
+      "rank": 5381,
+      "of": 7957,
+      "score": -2.27731,
+      "percentile": 32.4
+    },
+    {
+      "query": "fruquintinib",
+      "matched": null,
+      "rank": null,
+      "of": 7957
+    },
+    {
+      "query": "lenvatinib",
+      "matched": "Lenvatinib",
+      "rank": 6220,
+      "of": 7957,
+      "score": -3.19604,
+      "percentile": 21.8
+    },
+    {
+      "query": "anlotinib",
+      "matched": null,
+      "rank": null,
+      "of": 7957
+    },
+    {
+      "query": "apatinib",
+      "matched": "Lapatinib",
+      "rank": 6693,
+      "of": 7957,
+      "score": -4.88514,
+      "percentile": 15.9
+    },
+    {
+      "query": "imatinib",
+      "matched": "Imatinib",
+      "rank": 5951,
+      "of": 7957,
+      "score": -2.80534,
+      "percentile": 25.2
+    },
+    {
+      "query": "dasatinib",
+      "matched": "Dasatinib",
+      "rank": 6410,
+      "of": 7957,
+      "score": -3.71948,
+      "percentile": 19.4
+    },
+    {
+      "query": "nilotinib",
+      "matched": "Nilotinib",
+      "rank": 6406,
+      "of": 7957,
+      "score": -3.7081,
+      "percentile": 19.5
+    },
+    {
+      "query": "ponatinib",
+      "matched": "Ponatinib",
+      "rank": 5741,
+      "of": 7957,
+      "score": -2.57592,
+      "percentile": 27.8
+    },
+    {
+      "query": "masitinib",
+      "matched": "Masitinib",
+      "rank": 3784,
+      "of": 7957,
+      "score": -1.37333,
+      "percentile": 52.4
+    },
+    {
+      "query": "midostaurin",
+      "matched": "Midostaurin",
+      "rank": 6716,
+      "of": 7957,
+      "score": -4.97781,
+      "percentile": 15.6
+    },
+    {
+      "query": "quizartinib",
+      "matched": "Quizartinib",
+      "rank": 6492,
+      "of": 7957,
+      "score": -4.06378,
+      "percentile": 18.4
+    },
+    {
+      "query": "ripretinib",
+      "matched": "Ripretinib",
+      "rank": 5374,
+      "of": 7957,
+      "score": -2.27061,
+      "percentile": 32.5
+    },
+    {
+      "query": "trabectedin",
+      "matched": "Trabectedin",
+      "rank": 7158,
+      "of": 7957,
+      "score": -6.47714,
+      "percentile": 10.0
+    },
+    {
+      "query": "doxorubicin",
+      "matched": "13-deoxydoxorubicin",
+      "rank": 2017,
+      "of": 7957,
+      "score": -0.7773,
+      "percentile": 74.7
+    },
+    {
+      "query": "ifosfamide",
+      "matched": "Palifosfamide",
+      "rank": 5531,
+      "of": 7957,
+      "score": -2.41416,
+      "percentile": 30.5
+    },
+    {
+      "query": "eribulin",
+      "matched": "Eribulin",
+      "rank": 5564,
+      "of": 7957,
+      "score": -2.44074,
+      "percentile": 30.1
+    },
+    {
+      "query": "gemcitabine",
+      "matched": "Gemcitabine",
+      "rank": 7750,
+      "of": 7957,
+      "score": -8.2709,
+      "percentile": 2.6
+    },
+    {
+      "query": "sirolimus",
+      "matched": "Sirolimus",
+      "rank": 6242,
+      "of": 7957,
+      "score": -3.23184,
+      "percentile": 21.6
+    },
+    {
+      "query": "everolimus",
+      "matched": "Everolimus",
+      "rank": 6565,
+      "of": 7957,
+      "score": -4.3713,
+      "percentile": 17.5
+    },
+    {
+      "query": "pioglitazone",
+      "matched": "Pioglitazone",
+      "rank": 7725,
+      "of": 7957,
+      "score": -8.16117,
+      "percentile": 2.9
+    },
+    {
+      "query": "rosiglitazone",
+      "matched": "Rosiglitazone",
+      "rank": 6249,
+      "of": 7957,
+      "score": -3.24074,
+      "percentile": 21.5
+    },
+    {
+      "query": "zaltoprofen",
+      "matched": "Zaltoprofen",
+      "rank": 5283,
+      "of": 7957,
+      "score": -2.19408,
+      "percentile": 33.6
+    },
+    {
+      "query": "pembrolizumab",
+      "matched": "Pembrolizumab",
+      "rank": 6288,
+      "of": 7957,
+      "score": -3.36616,
+      "percentile": 21.0
+    },
+    {
+      "query": "nivolumab",
+      "matched": "Nivolumab",
+      "rank": 6166,
+      "of": 7957,
+      "score": -3.08476,
+      "percentile": 22.5
+    }
+  ]
+}

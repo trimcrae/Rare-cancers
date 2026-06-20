@@ -161,17 +161,16 @@ Cure) rather than being a silo.
   patient page (`clinicalTrials.finders`) so clinicians/patients can *browse and
   report* real-world off-label drug use; programmatic *mining* is deferred (CURE ID
   exposes no documented public API). Our imatinib/KIT-mutant case is exactly the kind
-  of real-world signal worth contributing there; (3) a graph/signature screen
-  (TxGNN/CMap) — **feasibility probed** (`kg-probe.mjs` + `kg-probe.yml`): EMC *is* a
-  node in the public TxGNN/PrimeKG knowledge graph (MONDO "extraskeletal myxoid
-  chondrosarcoma", plus myxoid chondrosarcoma and ~25 sarcoma relatives), so the
-  disease is representable. But producing TxGNN's *trained* zero-shot predictions needs
-  the model itself (heavy ML infra) that this static-site CI cannot run faithfully, and
-  a naive KG network-proximity proxy would largely duplicate the DGIdb enumeration
-  without being the model. Honest options: cite/point clinicians to the public **TxGNN
-  Explorer** for EMC, or (if a reproducible artifact is wanted) build an
-  explicitly-labelled KG network-proximity screen — neither passed off as the trained
-  model; (4) iterate
+  of real-world signal worth contributing there; (3) a graph-ML screen with **TxGNN**
+  (Huang et al., Nat Med 2024) — **done**: we ran the *real* pretrained model zero-shot
+  on the EMC node and ranked all 7,957 drugs (`txgnn_predict.py` + `txgnn-run.yml`;
+  output `txgnn-emc-predictions.json`; write-up `txgnn-emc-findings.md`). Result: TxGNN
+  **diverges from** mechanism curation and enumeration for EMC — its top picks are
+  metabolic/lysosomal-disease drugs, while EMC's most clinically-active agents
+  (pazopanib #6422, sunitinib #6382 of 7,957) and our T3 lead (imatinib #5951) rank in
+  the bottom quartile. EMC's sparse KG neighbourhood makes zero-shot similarity-transfer
+  pull toward unrelated diseases. A genuine, citable limitation finding for the
+  Methods/Limitations, not promoted to any candidate (firewall §5); (4) iterate
   the scoring rubric (document provenance; consider weighting/uncertainty) once there
   is a systematic candidate set to calibrate against.
 

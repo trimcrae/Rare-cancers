@@ -23,6 +23,9 @@ research/
     enumerate-drugs.mjs             DGIdb target->drug enumeration + gap analysis (runs in CI)
     target-drug-matrix.json         enumeration output: approved drugs per EMC target
                                     (snapshot on main; auto-refreshed on the `enumeration-cache` branch)
+    txgnn_predict.py                runs the real pretrained TxGNN model for EMC (CI)
+    txgnn-emc-predictions.json      TxGNN's genuine zero-shot ranking of 7,957 drugs for EMC
+    txgnn-emc-findings.md           interpretation: TxGNN diverges from mechanism/enumeration (a limitation finding)
   manuscripts/
     meta-analysis.md                manuscript skeleton (outcomes meta-analysis)
     repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)

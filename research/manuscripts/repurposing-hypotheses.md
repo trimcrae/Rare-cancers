@@ -34,6 +34,17 @@ This independently reproduced the anti-angiogenic-TKI cluster and broadened it (
 nintedanib, axitinib, vandetanib, tivozanib), mitigating single-rater coverage bias;
 implausible hits (e.g. a PPI, a thrombopoietin agonist) were triaged out on mechanism.
 
+As a third, independent line we ran the pretrained **TxGNN** graph foundation model
+(Huang et al., Nat Med 2024) zero-shot on the EMC knowledge-graph node and ranked all
+7,957 drugs (`hypotheses/txgnn-emc-findings.md`). Unlike curation and enumeration —
+which converge on oncology leads — TxGNN diverged: its top predictions were
+metabolic/lysosomal-storage-disease drugs, and EMC's most clinically-active agents
+(pazopanib, sunitinib) and our biomarker-supported lead (imatinib) ranked in the bottom
+quartile, a consequence of EMC's sparse graph neighbourhood driving zero-shot
+similarity-transfer toward unrelated diseases. We report this divergence as a limitation
+of knowledge-graph foundation models on ultra-rare cancers rather than acting on it; no
+TxGNN prediction was promoted to a candidate.
+
 ## 3. Candidates (from the scored catalog)
 We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the
 NR4A3 fusion / transcription; PPARγ / nuclear-receptor; epigenetic; cell-cycle;
