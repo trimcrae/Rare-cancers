@@ -2,91 +2,497 @@
   "schemaVersion": 1,
   "disease": "extraskeletal myxoid chondrosarcoma",
   "diseaseSlug": "emc",
-  "disclaimer": "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas for investigation, not treatments, not medical advice, and not endorsed for clinical use. Nothing here has been validated in EMC, and none of these drugs is known to work in EMC. Not for the patient-facing site. See research/hypotheses/METHODOLOGY.md.",
+  "disclaimer": "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas and prioritization scores for investigation - not treatments, not medical advice, and not endorsed for clinical use. None of these drugs is known to work in EMC. Not for the patient-facing site. See research/hypotheses/METHODOLOGY.md.",
   "tiers": {
     "T0-mechanistic": "Mechanistic rationale only; no EMC or close-analog data.",
-    "T1-preclinical-or-analog": "Preclinical signal or strong analogy in a related fusion-driven sarcoma.",
-    "T2-emc-case-signal": "Case report(s) / small signal in EMC or very close relatives.",
+    "T1-preclinical-or-analog": "Preclinical signal (in vitro/in vivo/screen) or strong analogy in a related fusion-driven sarcoma.",
+    "T2-emc-case-signal": "Case report(s)/molecular signal in EMC.",
     "T3-emc-clinical-evidence": "Prospective or substantial clinical evidence in EMC (eligible to graduate to the patient page after clinician review)."
+  },
+  "scoring": {
+    "method": "Each candidate is scored 0-3 on six criteria; composite priorityScore = sum (max 18). A transparent prioritization heuristic, NOT a probability of success.",
+    "criteria": {
+      "emcEvidence": "Strength of EMC-specific evidence (0 mechanism-only … 3 EMC clinical).",
+      "mechanisticFit": "Directness of engagement with a validated EMC driver.",
+      "availability": "0 preclinical-only … 2 investigational w/ human safety … 3 approved.",
+      "safety": "Tolerability/known safety (0 narrow window … 3 well-tolerated).",
+      "biomarker": "Existence of a biomarker to select likely responders.",
+      "novelty": "Degree to which it is untried in EMC."
+    }
   },
   "citations": {
     "remiszewski2025": {
       "short": "Remiszewski 2025 (review)",
       "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
-      "authors": "Remiszewski P, Falkowski S, Szumera-Cieckiewicz A, et al.",
+      "authors": "Remiszewski P, et al.",
       "journal": "J Cancer Res Clin Oncol",
       "year": 2025,
       "pmcid": "PMC12504171",
       "doi": "10.1007/s00432-025-06316-5",
       "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
       "verified": true
+    },
+    "zaltoprofen2023": {
+      "short": "Higuchi 2023 (zaltoprofen)",
+      "title": "A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPARγ, p21, p27, and p53",
+      "authors": "Higuchi T, et al.",
+      "journal": "Cell Cycle",
+      "year": 2023,
+      "pmid": "36636023",
+      "doi": "10.1080/15384101.2023.2166195",
+      "url": "https://doi.org/10.1080/15384101.2023.2166195",
+      "verified": true
+    },
+    "emcCellLine2025": {
+      "short": "Iwata 2025 (NCC-EMC1-C1)",
+      "title": "Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid chondrosarcoma",
+      "authors": "Iwata S, et al.",
+      "journal": "Human Cell",
+      "year": 2025,
+      "pmid": "40580361",
+      "doi": "10.1007/s13577-025-01250-7",
+      "url": "https://doi.org/10.1007/s13577-025-01250-7",
+      "verified": true
+    },
+    "kitMutation2018": {
+      "short": "Urbini 2018 (KIT)",
+      "title": "Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoid Chondrosarcoma",
+      "authors": "Urbini M, et al.",
+      "journal": "Int J Mol Sci",
+      "year": 2018,
+      "pmcid": "PMC6073125",
+      "doi": "10.3390/ijms19071855",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6073125/",
+      "verified": true
+    },
+    "emcNGS2017": {
+      "short": "Davis 2017 (NGS)",
+      "title": "Next generation sequencing of extraskeletal myxoid chondrosarcoma",
+      "authors": "Davis EJ, et al.",
+      "journal": "Oncotarget",
+      "year": 2017,
+      "pmcid": "PMC5400622",
+      "doi": "10.18632/oncotarget.15568",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5400622/",
+      "verified": true
+    },
+    "nor1Pga2_2005": {
+      "short": "Kagaya 2005 (PGA2/NOR1)",
+      "title": "Prostaglandin A2 acts as a transactivator for NOR1 (NR4A3) within the nuclear receptor superfamily",
+      "authors": "Kagaya S, et al.",
+      "journal": "Biol Pharm Bull",
+      "year": 2005,
+      "pmid": "16141523",
+      "doi": "10.1248/bpb.28.1603",
+      "url": "https://doi.org/10.1248/bpb.28.1603",
+      "verified": true
+    },
+    "nr4aReview2019": {
+      "short": "Herring 2019 (NR4A review)",
+      "title": "Function of Nr4a Orphan Nuclear Receptors in Proliferation, Apoptosis and Fuel Utilization Across Tissues",
+      "authors": "Herring JA, et al.",
+      "journal": "Cells",
+      "year": 2019,
+      "pmcid": "PMC6912296",
+      "doi": "10.3390/cells8111373",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6912296/",
+      "verified": true
+    },
+    "warmke2023": {
+      "short": "Warmke 2023",
+      "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion",
+      "authors": "Huang SC, et al.",
+      "journal": "Mod Pathol",
+      "year": 2023,
+      "pmid": "36948401",
+      "doi": "10.1016/j.modpat.2023.100161",
+      "url": "https://doi.org/10.1016/j.modpat.2023.100161",
+      "verified": true
     }
   },
   "candidates": [
     {
-      "id": "vegfr-tki-class-extension",
-      "drug": "Regorafenib / cabozantinib / lenvatinib (approved multikinase VEGFR inhibitors)",
-      "drugClass": "anti-angiogenic multikinase (VEGFR) TKI",
-      "regulatoryStatus": "FDA/EMA-approved in other indications; regorafenib has randomized soft-tissue-sarcoma data",
+      "id": "imatinib-kit-subset",
+      "drug": "Imatinib (and other KIT inhibitors)",
+      "drugClass": "KIT/ABL tyrosine kinase inhibitor",
+      "regulatoryStatus": "FDA/EMA-approved (CML, GIST, DFSP)",
       "notTriedInEmc": true,
-      "mechanism": "VEGFR2-centred multikinase inhibition that suppresses tumour angiogenesis.",
+      "subsetRestricted": true,
+      "mechanism": "Inhibits KIT receptor tyrosine kinase signalling; exon-11 KIT mutations are the most imatinib-sensitive class in GIST.",
       "emcVulnerability": {
-        "claim": "The most consistently active systemic class in EMC is anti-angiogenic TKIs; pazopanib sensitivity has been linked to upregulated VEGF (and Notch) signalling.",
-        "sourceId": "remiszewski2025"
+        "claim": "A somatic, imatinib-sensitive-class KIT exon-11 mutation occurs in a minority of EMC, and CD117/KIT is expressed in roughly half of cases.",
+        "sourceId": "kitMutation2018"
       },
       "supportingEvidence": [
-        { "claim": "Pazopanib achieved ORR 18% and median PFS 19 months in a phase 2 EMC trial.", "context": "EMC", "sourceId": "remiszewski2025" },
-        { "claim": "Sunitinib produced ~60% partial responses (median PFS 8.5 months) in NR4A3-positive EMC.", "context": "EMC", "sourceId": "remiszewski2025" }
+        {
+          "claim": "Somatic heterozygous KIT exon-11 in-frame deletion (D579del) with high KIT mRNA and receptor phosphorylation in 1/20 EMC; exon-11 mutations are the most imatinib-sensitive in GIST.",
+          "context": "EMC",
+          "sourceId": "kitMutation2018"
+        },
+        {
+          "claim": "CD117(KIT) immunopositivity in 52.6% and a KIT p.E554K mutation in 2/48 EMC.",
+          "context": "EMC",
+          "sourceId": "warmke2023"
+        }
       ],
-      "rationale": "If VEGFR blockade (pazopanib/sunitinib/anlotinib) is EMC's most active class, other already-approved VEGFR-TKIs with deeper soft-tissue-sarcoma data — regorafenib, cabozantinib, lenvatinib — are rational, low-barrier candidates: same mechanism, already on the shelf, never reported in EMC.",
+      "rationale": "For the molecularly-selected minority with an actionable KIT mutation (and possibly strongly CD117+ disease), imatinib is a shelf-ready, biomarker-driven option — never tried in EMC.",
+      "evidenceTier": "T2-emc-case-signal",
+      "speculationLevel": "moderate",
+      "keyRisks": "Only ~5% carry an actionable KIT mutation; CD117 expression alone does not prove KIT dependence; requires NGS selection.",
+      "openQuestions": [
+        "Does KIT-mutant or strongly CD117+ EMC respond to imatinib?"
+      ],
+      "scores": {
+        "emcEvidence": 2,
+        "mechanisticFit": 2,
+        "availability": 3,
+        "safety": 3,
+        "biomarker": 3,
+        "novelty": 3
+      },
+      "priorityScore": 16,
+      "rank": 1
+    },
+    {
+      "id": "zaltoprofen-pparg",
+      "drug": "Zaltoprofen (PPARγ-inducing NSAID)",
+      "drugClass": "NSAID / PPARγ inducer",
+      "regulatoryStatus": "Approved NSAID (Japan)",
+      "notTriedInEmc": true,
+      "mechanism": "Induces PPARγ (via Krox20, C/EBPβ/α), upregulating p21/p27/p53 and driving cell-cycle arrest and apoptosis.",
+      "emcVulnerability": {
+        "claim": "PPARγ is an antitumour target in chondrosarcoma; inducing it arrests EMC cell growth.",
+        "sourceId": "zaltoprofen2023"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "Zaltoprofen induced PPARγ and inhibited proliferation of EMC cells in vitro AND inhibited tumour growth (with apoptosis) in a mouse EMC model, while being well tolerated.",
+          "context": "EMC (in vitro + in vivo)",
+          "sourceId": "zaltoprofen2023"
+        }
+      ],
+      "rationale": "An approved, low-toxicity NSAID with direct in vivo anti-EMC activity through a defined mechanism — one of the strongest repurposing leads in EMC.",
       "evidenceTier": "T1-preclinical-or-analog",
       "speculationLevel": "moderate",
-      "keyRisks": "Class toxicity (hypertension, hand-foot syndrome, bleeding); likely to share pazopanib's eventual resistance; TAF15::NR4A3 tumours may respond less.",
-      "openQuestions": ["Does fusion partner (EWSR1 vs TAF15) predict response across the whole VEGFR-TKI class?"]
+      "keyRisks": "Preclinical only; PPARγ induction by an NSAID may not translate to clinical efficacy; NSAID class GI/renal/CV effects with chronic use.",
+      "openQuestions": [
+        "Does zaltoprofen (or direct PPARγ agonists) show activity in EMC patients or PDX models?"
+      ],
+      "scores": {
+        "emcEvidence": 2,
+        "mechanisticFit": 2,
+        "availability": 3,
+        "safety": 3,
+        "biomarker": 1,
+        "novelty": 3
+      },
+      "priorityScore": 14,
+      "rank": 2
     },
     {
-      "id": "mrna-vaccine-plus-checkpoint",
-      "drug": "mRNA-LNP vaccine (e.g. approved COVID-19 mRNA vaccines, or neoantigen mRNA) + PD-1/PD-L1 checkpoint inhibitor (± anti-angiogenic TKI)",
-      "drugClass": "innate-immune agonist + immune checkpoint inhibitor",
-      "regulatoryStatus": "Components individually approved; the combination is investigational",
+      "id": "vegfr-tki-extension",
+      "drug": "Regorafenib / cabozantinib / lenvatinib",
+      "drugClass": "anti-angiogenic multikinase (VEGFR) TKI",
+      "regulatoryStatus": "FDA/EMA-approved (other indications)",
       "notTriedInEmc": true,
-      "mechanism": "mRNA-LNP acts as a TLR/RIG-I innate-immune agonist driving type-I interferon and antigen presentation, potentially converting an immunologically 'cold' tumour 'hot' so that checkpoint blockade can license a T-cell response.",
+      "mechanism": "VEGFR2-centred multikinase inhibition suppressing tumour angiogenesis.",
       "emcVulnerability": {
-        "claim": "EMC is immunologically quiet: checkpoint inhibitors have not shown systematic activity, with only isolated responses (e.g. interferon-alpha) reported.",
+        "claim": "Anti-angiogenic TKIs are EMC's most consistently active systemic class, and EMC expresses VEGFR/PDGFR-family kinases.",
         "sourceId": "remiszewski2025"
       },
       "supportingEvidence": [
-        { "claim": "mRNA-LNP vaccines are potent innate-immune stimulants (type-I IFN via TLR/RIG-I sensing).", "context": "general immunology", "sourceStatus": "needs-verification" },
-        { "claim": "Observational data in other cancers have linked peri-checkpoint-inhibitor COVID-19 mRNA vaccination to improved outcomes, and intratumoral / neoantigen mRNA + anti-PD-1 combinations are in clinical trials.", "context": "other cancers", "sourceStatus": "needs-verification" }
+        {
+          "claim": "Pazopanib ORR 18%, median PFS 19 months (phase 2); sunitinib ~60% partial responses.",
+          "context": "EMC",
+          "sourceId": "remiszewski2025"
+        },
+        {
+          "claim": "Transcriptome profiling of metastatic EMC measured expression of sunitinib-target kinases KDR/VEGFR2, PDGFRA/B, KIT, RET, FLT1/4.",
+          "context": "EMC",
+          "sourceId": "emcNGS2017"
+        }
       ],
-      "rationale": "Use a readily available mRNA vaccine as a non-specific 'danger signal' to inflame EMC's cold microenvironment, then add checkpoint blockade (± pazopanib, which is active in EMC and immunomodulatory). The EWSR1::NR4A3 fusion junction is a theoretical tumour-specific neoantigen that such a response could, in principle, target.",
+      "rationale": "If VEGFR blockade is the most active class, other already-approved VEGFR-TKIs with deeper sarcoma data are rational, shelf-ready candidates never reported in EMC.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "low",
+      "keyRisks": "Class toxicity (hypertension, hand-foot, bleeding); likely to share pazopanib's resistance; TAF15::NR4A3 tumours may respond less.",
+      "openQuestions": [
+        "Does fusion partner (EWSR1 vs TAF15) or KDR expression predict response across the class?"
+      ],
+      "scores": {
+        "emcEvidence": 2,
+        "mechanisticFit": 3,
+        "availability": 3,
+        "safety": 2,
+        "biomarker": 2,
+        "novelty": 2
+      },
+      "priorityScore": 14,
+      "rank": 3
+    },
+    {
+      "id": "pioglitazone-pparg",
+      "drug": "Pioglitazone (and other PPARγ agonists)",
+      "drugClass": "PPARγ agonist (thiazolidinedione)",
+      "regulatoryStatus": "FDA/EMA-approved (type 2 diabetes)",
+      "notTriedInEmc": true,
+      "mechanism": "Direct PPARγ agonism — the same nuclear-receptor axis zaltoprofen engages indirectly.",
+      "emcVulnerability": {
+        "claim": "PPARγ is an antitumour target in chondrosarcoma; its activation drives differentiation/cell-cycle arrest.",
+        "sourceId": "zaltoprofen2023"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "Zaltoprofen's anti-EMC effect was mediated by PPARγ induction, implicating PPARγ agonism as the actionable node.",
+          "context": "EMC (mechanistic)",
+          "sourceId": "zaltoprofen2023"
+        }
+      ],
+      "rationale": "If PPARγ induction drives the anti-EMC effect, a direct, approved PPARγ agonist (pioglitazone) is an obvious low-toxicity test — untried in EMC.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "moderate",
+      "keyRisks": "PPARγ agonism is preclinically rational but unproven in EMC; pioglitazone class warnings (fluid retention, bladder-cancer signal).",
+      "openQuestions": [
+        "Does direct PPARγ agonism replicate zaltoprofen's anti-EMC activity?"
+      ],
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 2,
+        "availability": 3,
+        "safety": 3,
+        "biomarker": 1,
+        "novelty": 3
+      },
+      "priorityScore": 13,
+      "rank": 4
+    },
+    {
+      "id": "hdac-inhibitors",
+      "drug": "Romidepsin / panobinostat (HDAC inhibitors)",
+      "drugClass": "histone deacetylase inhibitor",
+      "regulatoryStatus": "Approved (CTCL/PTCL; myeloma)",
+      "notTriedInEmc": true,
+      "mechanism": "HDAC inhibition reshapes the chromatin/transcriptional state on which fusion oncoproteins depend.",
+      "emcVulnerability": {
+        "claim": "EMC is driven by an NR4A3 fusion transcription factor; epigenetic/transcriptional state is a candidate dependency.",
+        "sourceId": "remiszewski2025"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "High-throughput screen of 221 anticancer drugs on a patient-derived EMC cell line (NCC-EMC1-C1) identified romidepsin, panobinostat and brigatinib as low-IC50 hits.",
+          "context": "EMC (cell line)",
+          "sourceId": "emcCellLine2025"
+        }
+      ],
+      "rationale": "An unbiased drug screen on an EMC cell line flagged two approved HDAC inhibitors — concrete, EMC-derived preclinical support for an epigenetic strategy.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "moderate",
+      "keyRisks": "Single cell-line screen; HDAC-inhibitor toxicity (cytopenias, cardiac); in vitro IC50 may not translate.",
+      "openQuestions": [
+        "Do HDAC inhibitors show activity in EMC PDX/in vivo models?"
+      ],
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 2,
+        "availability": 3,
+        "safety": 2,
+        "biomarker": 0,
+        "novelty": 3
+      },
+      "priorityScore": 11,
+      "rank": 5
+    },
+    {
+      "id": "ntrk-inhibitors",
+      "drug": "Larotrectinib / entrectinib",
+      "drugClass": "TRK inhibitor",
+      "regulatoryStatus": "Approved (NTRK-fusion cancers)",
+      "notTriedInEmc": true,
+      "weakRationale": true,
+      "mechanism": "Inhibit TRK (NTRK) receptor kinases.",
+      "emcVulnerability": {
+        "claim": "EMC shows pan-Trk immunopositivity and NTRK2/3 transcript upregulation.",
+        "sourceId": "warmke2023"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "Pan-Trk positive in 35.4% of EMC with NTRK2/3 upregulation by RNA sequencing — but NO NTRK gene fusion was identified.",
+          "context": "EMC",
+          "sourceId": "warmke2023"
+        }
+      ],
+      "rationale": "Pan-Trk/NTRK expression raises the question of TRK inhibition, but EMC lacks NTRK fusions and expression alone rarely predicts TRK-inhibitor response — included to document the lead and its weakness.",
       "evidenceTier": "T0-mechanistic",
       "speculationLevel": "high",
-      "keyRisks": "Sarcoma immunotherapy generally underperforms; EMC's low neoantigen load may leave little for T cells to target; immune-related toxicity; there is NO EMC-specific evidence for this combination.",
+      "keyRisks": "Expression is not an NTRK fusion; TRK inhibitors work in fusion-positive disease, so the mechanistic rationale here is weak.",
       "openQuestions": [
-        "Is the EWSR1::NR4A3 junction peptide presented and immunogenic?",
-        "Does EMC have enough baseline T-cell infiltration to reinvigorate?"
-      ]
+        "Is any EMC TRK-pathway-dependent in functional assays?"
+      ],
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 1,
+        "availability": 3,
+        "safety": 2,
+        "biomarker": 1,
+        "novelty": 3
+      },
+      "priorityScore": 11,
+      "rank": 6
     },
     {
-      "id": "transcriptional-targeting-fusion",
-      "drug": "CDK7 / CDK9 inhibitors or BET (BRD4) inhibitors",
-      "drugClass": "transcriptional inhibitors",
-      "regulatoryStatus": "Investigational (several in oncology trials)",
+      "id": "brigatinib-screen-hit",
+      "drug": "Brigatinib",
+      "drugClass": "ALK/ROS1 (multikinase) inhibitor",
+      "regulatoryStatus": "Approved (ALK+ NSCLC)",
       "notTriedInEmc": true,
-      "mechanism": "Inhibit transcriptional machinery (CDK7/9, BRD4) on which fusion oncoproteins depend, aiming to collapse the aberrant transcriptional program.",
+      "mechanism": "ALK/ROS1 and multikinase inhibition; mechanism of any EMC effect is undefined (possible off-target multikinase activity).",
       "emcVulnerability": {
-        "claim": "EMC is driven by an NR4A3 fusion that yields a chimeric transcription factor with aberrant transcriptional activity — a candidate transcriptional dependency.",
+        "claim": "Empirical sensitivity in an EMC cell-line drug screen, mechanism not yet defined.",
+        "sourceId": "emcCellLine2025"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "Low IC50 in the NCC-EMC1-C1 patient-derived EMC cell-line screen.",
+          "context": "EMC (cell line)",
+          "sourceId": "emcCellLine2025"
+        }
+      ],
+      "rationale": "A hypothesis-generating screen hit worth mechanistic follow-up; included for completeness with the caveat that its EMC mechanism is unknown.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "high",
+      "keyRisks": "Single-cell-line screen; no mechanistic rationale; ALK/ROS1 not implicated in EMC.",
+      "openQuestions": [
+        "What target mediates brigatinib's effect in EMC cells?"
+      ],
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 1,
+        "availability": 3,
+        "safety": 2,
+        "biomarker": 0,
+        "novelty": 3
+      },
+      "priorityScore": 10,
+      "rank": 7
+    },
+    {
+      "id": "nr4a3-modulation",
+      "drug": "NR4A3/NOR1-directed modulators (e.g. prostaglandin-A2-related compounds, NR4A ligands)",
+      "drugClass": "nuclear-receptor modulator",
+      "regulatoryStatus": "No clinical-grade agent; research compounds",
+      "notTriedInEmc": true,
+      "mechanism": "Pharmacologically modulate the NR4A3 (NOR1) nuclear receptor that, as the EWSR1::NR4A3 fusion, drives EMC.",
+      "emcVulnerability": {
+        "claim": "The EWSR1::NR4A3 fusion transcription factor is EMC's defining oncogenic driver, and the NOR1 ligand-binding domain is pharmacologically engageable despite 'orphan' status.",
+        "sourceId": "nor1Pga2_2005"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "Prostaglandin A2 binds the NOR1 ligand-binding domain and transactivates it, indicating NOR1 is druggable.",
+          "context": "biochemical",
+          "sourceId": "nor1Pga2_2005"
+        },
+        {
+          "claim": "NR4A-family receptors regulate proliferation/apoptosis and are an emerging therapeutic target class.",
+          "context": "general",
+          "sourceId": "nr4aReview2019"
+        }
+      ],
+      "rationale": "The highest-value but hardest target: hit the fusion's DNA-binding receptor directly. Mechanistically central; pharmacologically immature.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "high",
+      "keyRisks": "No clinical-grade NR4A3 drug exists; whether to agonise or antagonise the fusion is unclear; selectivity within the NR4A family.",
+      "openQuestions": [
+        "Can a drug-like molecule modulate EWSR1::NR4A3 transcriptional output and kill EMC cells?"
+      ],
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 3,
+        "availability": 1,
+        "safety": 1,
+        "biomarker": 0,
+        "novelty": 3
+      },
+      "priorityScore": 9,
+      "rank": 8
+    },
+    {
+      "id": "transcriptional-bet-cdk",
+      "drug": "BET (BRD4) or CDK7/CDK9 inhibitors",
+      "drugClass": "transcriptional inhibitor",
+      "regulatoryStatus": "Investigational (oncology trials)",
+      "notTriedInEmc": true,
+      "mechanism": "Inhibit transcriptional co-regulators (BRD4, CDK7/9) that fusion oncoproteins depend on.",
+      "emcVulnerability": {
+        "claim": "EMC's NR4A3 fusion is a chimeric transcription factor; related fusion translocation products activate transcription via chromatin remodelling.",
         "sourceId": "remiszewski2025"
       },
       "supportingEvidence": [
-        { "claim": "Related EWSR1-fusion sarcomas (notably Ewing sarcoma) show sensitivity to transcriptional CDK and BET inhibition.", "context": "analogous fusion sarcoma", "sourceStatus": "needs-verification" }
+        {
+          "claim": "Related EWSR1-fusion sarcomas (e.g. Ewing) are sensitive to BET and transcriptional-CDK inhibition.",
+          "context": "analogous fusion sarcoma",
+          "sourceStatus": "needs-verification"
+        }
       ],
-      "rationale": "EMC shares EWSR1 fusion-driven transcription-factor biology with Ewing sarcoma, where CDK7/9 and BET inhibitors show activity; the same dependency may be druggable in EMC and has not been tested.",
+      "rationale": "Targets the fusion's transcriptional addiction by analogy to Ewing sarcoma; investigational agents, no EMC data yet.",
       "evidenceTier": "T1-preclinical-or-analog",
       "speculationLevel": "high",
-      "keyRisks": "Narrow therapeutic window / toxicity of transcriptional inhibitors; the Ewing analogy may not transfer; no EMC data.",
-      "openQuestions": ["Is EWSR1::NR4A3 transcriptionally dependent on CDK7/9 or BRD4 in EMC models?"]
+      "keyRisks": "Narrow therapeutic window/toxicity; the Ewing analogy may not transfer; no EMC data.",
+      "openQuestions": [
+        "Is EWSR1::NR4A3 transcriptionally dependent on BRD4 or CDK7/9 in EMC models?"
+      ],
+      "scores": {
+        "emcEvidence": 1,
+        "mechanisticFit": 3,
+        "availability": 1,
+        "safety": 1,
+        "biomarker": 0,
+        "novelty": 3
+      },
+      "priorityScore": 9,
+      "rank": 9
+    },
+    {
+      "id": "mrna-vaccine-checkpoint",
+      "drug": "mRNA-LNP vaccine + PD-1/PD-L1 checkpoint inhibitor (± anti-angiogenic TKI)",
+      "drugClass": "innate-immune agonist + checkpoint inhibitor",
+      "regulatoryStatus": "Components approved; combination investigational",
+      "notTriedInEmc": true,
+      "mechanism": "mRNA-LNP innate-immune agonism (type-I IFN) to convert a cold tumour hot, then checkpoint blockade to license a T-cell response.",
+      "emcVulnerability": {
+        "claim": "EMC is immunologically quiet, with checkpoint inhibitors not systematically active and only isolated immune responses reported.",
+        "sourceId": "remiszewski2025"
+      },
+      "supportingEvidence": [
+        {
+          "claim": "mRNA-LNP vaccines are potent innate-immune stimulants (type-I IFN via TLR/RIG-I).",
+          "context": "general immunology",
+          "sourceStatus": "needs-verification"
+        },
+        {
+          "claim": "In other cancers, peri-checkpoint-inhibitor mRNA vaccination has been linked to better outcomes, and intratumoral/neoantigen mRNA + anti-PD-1 are in trials.",
+          "context": "other cancers",
+          "sourceStatus": "needs-verification"
+        }
+      ],
+      "rationale": "Address the cold-microenvironment problem with a readily available immune stimulant plus checkpoint blockade; the EWSR1::NR4A3 junction is a theoretical neoantigen.",
+      "evidenceTier": "T0-mechanistic",
+      "speculationLevel": "high",
+      "keyRisks": "Sarcoma immunotherapy generally underperforms; low neoantigen load; immune toxicity; no EMC data.",
+      "openQuestions": [
+        "Is the EWSR1::NR4A3 junction presented/immunogenic?",
+        "Does EMC have enough T-cell infiltration to reinvigorate?"
+      ],
+      "scores": {
+        "emcEvidence": 0,
+        "mechanisticFit": 1,
+        "availability": 2,
+        "safety": 2,
+        "biomarker": 0,
+        "novelty": 3
+      },
+      "priorityScore": 8,
+      "rank": 10
     }
   ]
 }

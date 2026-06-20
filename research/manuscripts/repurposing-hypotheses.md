@@ -25,21 +25,32 @@ and citation rules — per `hypotheses/METHODOLOGY.md`. State explicitly that an
 claim tagged `needs-verification` in the catalog must be resolved to a primary
 source before publication.
 
-## 3. Candidates (from the graded catalog)
-For each: mechanism → mapped EMC vulnerability (cited) → existing evidence (EMC vs
-analogous fusion sarcoma vs general) → rationale → evidence tier → key risks →
-open questions. Current seed set:
+## 3. Candidates (from the scored catalog)
+We surveyed EMC's documented vulnerabilities across six axes (angiogenesis; the
+NR4A3 fusion / transcription; PPARγ / nuclear-receptor; epigenetic; kinase; immune)
+and scored 10 existing-drug candidates 0–3 on six criteria (EMC evidence,
+mechanistic fit, availability, safety, biomarker, novelty; composite max 18). Full
+data and per-criterion scores: `research/hypotheses/candidates.json`. Ranked:
 
-1. **VEGFR-TKI class extension** (regorafenib / cabozantinib / lenvatinib) —
-   *T1, moderate.* Extends EMC's most active class to other shelf-ready VEGFR-TKIs.
-2. **mRNA-LNP vaccine + checkpoint inhibitor (± anti-angiogenic TKI)** —
-   *T0, high.* Convert the cold microenvironment "hot," then license a T-cell
-   response; EWSR1::NR4A3 junction as a theoretical neoantigen. *(External
-   mechanistic/clinical claims flagged `needs-verification`.)*
-3. **Transcriptional inhibitors (CDK7/9, BET)** — *T0–T1, high.* Target the
-   fusion's transcriptional dependency, by analogy to Ewing sarcoma.
+| # | Candidate | Tier | Score | Basis |
+|---|---|---|---|---|
+| 1 | Imatinib (KIT-mutant/CD117+ subset) | T2 | 16* | Actionable KIT exon-11 mutation + CD117 expression in EMC |
+| 2 | Zaltoprofen (PPARγ-inducing NSAID) | T1 | 14 | Inhibits EMC growth in vivo via PPARγ/p21/p27/p53 |
+| 2 | VEGFR-TKI extension (regorafenib/cabozantinib/lenvatinib) | T1 | 14 | Extends EMC's most active class |
+| 4 | Pioglitazone (PPARγ agonist) | T1 | 13 | Direct PPARγ agonism (zaltoprofen's node) |
+| 5 | HDAC inhibitors (romidepsin/panobinostat) | T1 | 11 | Top hits in an unbiased EMC cell-line drug screen |
+| 5 | NTRK inhibitors | T0 | 11† | pan-Trk/NTRK expression — but no NTRK fusion (weak) |
+| 7 | Brigatinib | T1 | 10 | EMC cell-line screen hit; mechanism unknown |
+| 8 | NR4A3/NOR1 direct modulation | T1 | 9 | Drug the fusion's receptor (PGA2 binds NOR1 LBD) |
+| 8 | BET / CDK7-9 inhibitors | T1 | 9 | Fusion transcriptional addiction (Ewing analogy) |
+| 10 | mRNA vaccine + checkpoint inhibitor | T0 | 8 | Inflame the cold microenvironment |
 
-*(Catalog to be expanded after literature verification.)*
+\*subset-restricted (biomarker-defined minority). †weak mechanistic rationale,
+retained for completeness. The top tier rests on **EMC-specific preclinical/molecular
+evidence** (KIT, PPARγ/zaltoprofen, the cell-line HDAC screen), not analogy.
+
+*Remaining `needs-verification` claims (mRNA immunology; Ewing BET/CDK analogy) to be
+resolved before submission.*
 
 ## 4. Prioritization & a path to testing — *to write*
 Rank by tier × feasibility (drug availability, known safety, biomarker). Discuss

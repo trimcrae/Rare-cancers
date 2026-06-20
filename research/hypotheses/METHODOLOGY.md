@@ -42,6 +42,33 @@ Each axis claim must be cited (or flagged `needs-verification`).
 
 Also record `speculationLevel` (low / moderate / high) as a plain-language summary.
 
+### Breadth before narrowing
+
+Candidate generation must be **systematic and wide** — survey every documented EMC
+vulnerability and the full field of existing drugs/mechanisms that engage them
+(across angiogenesis, the NR4A3 fusion/transcription, nuclear-receptor/PPARγ,
+epigenetic, kinase, and immune axes), *including* unbiased EMC drug-screen hits —
+before shortlisting. Do not jump to a favoured few.
+
+### Prioritization scoring
+
+Each candidate is scored **0–3** on six criteria; the composite `priorityScore`
+is their sum (max 18). It is a transparent prioritization **heuristic, not a
+probability of success**, and is recomputed by `build-candidates.mjs`.
+
+| Criterion | 0 → 3 |
+|---|---|
+| `emcEvidence` | mechanism-only → EMC clinical evidence |
+| `mechanisticFit` | indirect → engages a validated EMC driver |
+| `availability` | preclinical-only → investigational (human safety) → approved |
+| `safety` | narrow window → well-tolerated |
+| `biomarker` | none → a selection biomarker exists |
+| `novelty` | already tried → fully untried in EMC |
+
+Flag `subsetRestricted` (applies only to a biomarker-defined minority) and
+`weakRationale` (kept for completeness despite a thin mechanistic basis) so the
+score is read in context.
+
 ## 4. Citation rules
 
 Inherits `METHODOLOGY.md` §1. Every `claim` carries either a `sourceId` resolving

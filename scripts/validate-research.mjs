@@ -50,6 +50,13 @@ cands.forEach((c, i) => {
   if (!tiers[c.evidenceTier]) errors.push(`${cw} evidenceTier "${c.evidenceTier}" not in tiers`);
   if (!SPEC.includes(c.speculationLevel)) errors.push(`${cw} speculationLevel must be ${SPEC.join("|")}`);
   if (typeof c.notTriedInEmc !== "boolean") errors.push(`${cw} needs boolean "notTriedInEmc"`);
+  const SC = ["emcEvidence", "mechanisticFit", "availability", "safety", "biomarker", "novelty"];
+  if (!c.scores) errors.push(`${cw} missing "scores"`);
+  else {
+    for (const k of SC) { const v = c.scores[k]; if (!Number.isInteger(v) || v < 0 || v > 3) errors.push(`${cw} scores.${k} must be an integer 0-3`); }
+    const tot = SC.reduce((a, k) => a + (c.scores[k] || 0), 0);
+    if (c.priorityScore !== tot) errors.push(`${cw} priorityScore ${c.priorityScore} != sum of sub-scores ${tot}`);
+  }
   if (!c.keyRisks) warns.push(`${cw} has no keyRisks stated`);
   if (!c.emcVulnerability) errors.push(`${cw} missing emcVulnerability`);
   else checkClaim(c.emcVulnerability, `${cw}.emcVulnerability`);
