@@ -27,22 +27,32 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CACHE = join(ROOT, ".cache", "literature");
 const UA = "rare-cancers-hub/1.0 (open-access research aggregation; +https://github.com/trimcrae/rare-cancers)";
 
-async function api(url, asText = false) {
-  let res;
-  try {
-    res = await fetch(url, { headers: { "User-Agent": UA, Accept: asText ? "application/xml" : "application/json" } });
-  } catch (e) {
-    console.error(`Network error reaching ${new URL(url).host}: ${e.message}`);
-    blockedHint();
-    process.exit(3);
-  }
-  const body = await res.text();
-  if (!res.ok) {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const RETRYABLE = new Set([429, 500, 502, 503, 504]);
+
+async function api(url, asText = false, attempts = 5) {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    let res, body;
+    try {
+      res = await fetch(url, { headers: { "User-Agent": UA, Accept: asText ? "application/xml" : "application/json" } });
+      body = await res.text();
+    } catch (e) {
+      if (attempt < attempts) { const w = 1000 * 2 ** (attempt - 1); console.error(`Network error (${e.message}); retry ${attempt}/${attempts - 1} in ${w}ms`); await sleep(w); continue; }
+      console.error(`Network error reaching ${new URL(url).host}: ${e.message}`);
+      blockedHint();
+      process.exit(3);
+    }
+    if (res.ok) return asText ? body : JSON.parse(body);
     if (/allowlist/i.test(body)) { console.error(`\nNETWORK BLOCKED: ${body.trim()}`); blockedHint(); process.exit(3); }
+    if (RETRYABLE.has(res.status) && attempt < attempts) {
+      const w = 1000 * 2 ** (attempt - 1);
+      console.error(`HTTP ${res.status} from Europe PMC (transient); retry ${attempt}/${attempts - 1} in ${w}ms`);
+      await sleep(w);
+      continue;
+    }
     console.error(`HTTP ${res.status} from ${url}\n${body.slice(0, 300)}`);
     process.exit(4);
   }
-  return asText ? body : JSON.parse(body);
 }
 
 function blockedHint() {
