@@ -126,13 +126,14 @@
     respList.length ? el("div", { class: "card" }, [el("div", { class: "kicker" }, "How it responds to treatment"), el("ul", { class: "clean" }, respList)]) : null
   );
 
-  // ---- OUTCOMES FILTER TOOL (registry / IPD) ---------------------------
+  // ---- OUTCOMES FILTER TOOL (registry: pooled cohorts + individual cases) ----
   const reg = data.registry || {};
   const patients = reg.patients || [];
+  const cohorts = reg.cohorts || [];
   const sample = reg.dataStatus === "SAMPLE_SYNTHETIC";
 
   const regBanner = reg.dataStatus !== "curated" ? el("div", { class: "banner" }, [
-    el("span", { html: "<strong>" + (sample ? "Illustrative sample data." : "Real but limited data.") + "</strong> " + (reg.dataStatusBanner || "These patient rows are placeholder/sample data and not real individuals.") }),
+    el("span", { html: "<strong>" + (sample ? "Illustrative sample data." : "Real but limited data.") + "</strong> " + (reg.dataStatusBanner || "These rows are placeholder/sample data and not real individuals.") }),
   ]) : null;
 
   // filter controls
@@ -167,8 +168,36 @@
   };
   const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
 
+  const breakdownWrap = el("div", { class: "table-scroll" });
+
+  // a published cohort's fixed criteria only EXCLUDE it when they directly contradict a set filter;
+  // a cohort that spans all values of a dimension still applies (it's broader evidence).
+  function cohortMatches(c, f) {
+    const cr = c.criteria || {};
+    const clash = (k, val) => val && cr[k] && cr[k] !== val;
+    if (clash("stage", f.stage) || clash("sex", f.sex) || clash("grade", f.grade) || clash("site", f.site) || clash("treatment", f.treatment)) return false;
+    if (f.ageMin != null && c.ageMax != null && c.ageMax < f.ageMin) return false;
+    if (f.ageMax != null && c.ageMin != null && c.ageMin > f.ageMax) return false;
+    if (f.sizeMin != null && c.sizeMax != null && c.sizeMax < f.sizeMin) return false;
+    if (f.sizeMax != null && c.sizeMin != null && c.sizeMin > f.sizeMax) return false;
+    return true;
+  }
+  function patientMatches(p, f) {
+    if (f.ageMin != null && !(p.age >= f.ageMin)) return false;
+    if (f.ageMax != null && !(p.age <= f.ageMax)) return false;
+    if (f.sex && p.sex !== f.sex) return false;
+    if (f.grade && p.grade !== f.grade) return false;
+    if (f.stage && p.stage !== f.stage) return false;
+    if (f.sizeMin != null && !(p.sizeCm >= f.sizeMin)) return false;
+    if (f.sizeMax != null && !(p.sizeCm <= f.sizeMax)) return false;
+    if (f.site && p.site !== f.site) return false;
+    if (f.treatment && p.primaryTreatment !== f.treatment) return false;
+    return true;
+  }
+  const addMetric = (agg, m) => { if (m && m.denom) { agg.events += m.events; agg.denom += m.denom; } };
+
   function applyFilters() {
-    const v = (id) => document.getElementById(id).value;
+    const v = (id) => { const e = document.getElementById(id); return e ? e.value : ""; };
     const nv = (id) => (v(id) === "" ? null : Number(v(id)));
     const f = {
       ageMin: nv("f-ageMin"), ageMax: nv("f-ageMax"), sex: v("f-sex"), grade: v("f-grade"),
@@ -176,58 +205,83 @@
       site: document.getElementById("f-site") ? v("f-site") : "",
       treatment: document.getElementById("f-treatment") ? v("f-treatment") : "",
     };
-    const out = patients.filter((p) => {
-      if (f.ageMin != null && !(p.age >= f.ageMin)) return false;
-      if (f.ageMax != null && !(p.age <= f.ageMax)) return false;
-      if (f.sex && p.sex !== f.sex) return false;
-      if (f.grade && p.grade !== f.grade) return false;
-      if (f.stage && p.stage !== f.stage) return false;
-      if (f.sizeMin != null && !(p.sizeCm >= f.sizeMin)) return false;
-      if (f.sizeMax != null && !(p.sizeCm <= f.sizeMax)) return false;
-      if (f.site && p.site !== f.site) return false;
-      if (f.treatment && p.primaryTreatment !== f.treatment) return false;
-      return true;
-    });
-    renderResults(out);
+    renderResults(patients.filter((p) => patientMatches(p, f)), cohorts.filter((c) => cohortMatches(c, f)));
   }
 
-  function renderResults(out) {
+  // collapse matched individual cases into one cohort-shaped row so they pool the same way
+  function casesAsCohort(ps) {
+    if (!ps.length) return null;
+    const rec = { events: 0, denom: 0 }, met = { events: 0, denom: 0 }, dd = { events: 0, denom: 0 };
+    ps.forEach((p) => {
+      if (typeof p.localRecurrence === "boolean") { rec.denom++; if (p.localRecurrence) rec.events++; }
+      if (p.stage !== "distant" && typeof p.metastasis === "boolean") { met.denom++; if (p.metastasis) met.events++; }
+      if (typeof p.diseaseSpecificDeath === "boolean") { dd.denom++; if (p.diseaseSpecificDeath) dd.events++; }
+    });
+    return { label: "Individual published case reports", n: ps.length, pool: true, isCases: true,
+      recurrence: rec, metastasis: met, diseaseDeath: dd,
+      medianFollowupMonths: median(ps.map((p) => p.followupMonths).filter((x) => typeof x === "number")) };
+  }
+
+  function renderResults(outPatients, outCohorts) {
     statsWrap.innerHTML = "";
+    breakdownWrap.innerHTML = "";
     tableWrap.innerHTML = "";
-    const n = out.length;
-    const withVital = out.filter((p) => p.vitalStatus === "alive" || p.vitalStatus === "dead");
-    const alive = withVital.filter((p) => p.vitalStatus === "alive").length;
-    const dsd = out.filter((p) => p.diseaseSpecificDeath === true).length;
-    const rec = out.filter((p) => p.localRecurrence === true).length;
-    const met = out.filter((p) => p.metastasis === true).length;
-    const fu = median(out.map((p) => p.followupMonths).filter((x) => typeof x === "number"));
 
-    const stat = (val, label) => el("div", { class: "card" }, [el("div", { class: "stat" }, val), el("div", { class: "stat-label" }, label)]);
-    statsWrap.appendChild(stat(String(n), "patients match"));
-    if (n) {
-      statsWrap.appendChild(stat(pct(alive, withVital.length) + "%", "alive at last follow-up"));
-      statsWrap.appendChild(stat(pct(n - dsd, n) + "%", "disease-specific survival"));
-      statsWrap.appendChild(stat(pct(rec, n) + "%", "had local recurrence"));
-      statsWrap.appendChild(stat(pct(met, n) + "%", "developed metastasis"));
-      statsWrap.appendChild(stat(fu != null ? fu + " mo" : "-", "median follow-up"));
-    }
+    // metastasis is an outcome only for entries not defined by metastasis-at-diagnosis
+    const isBaselineMet = (c) => (c.criteria || {}).stage === "distant";
+    const entries = outCohorts.map((c) => ({ ...c, metastasis: isBaselineMet(c) ? null : c.metastasis }));
+    const caseRow = casesAsCohort(outPatients);
+    if (caseRow) entries.push(caseRow);
 
-    if (!n) {
-      tableWrap.appendChild(el("p", { class: "small muted", style: "padding:12px" }, "No matching patients. Loosen the filters."));
+    const pooled = entries.filter((e) => e.pool !== false);
+    const totalN = pooled.reduce((s, e) => s + (e.n || 0), 0);
+    const aRec = { events: 0, denom: 0 }, aMet = { events: 0, denom: 0 }, aDD = { events: 0, denom: 0 };
+    pooled.forEach((e) => { addMetric(aRec, e.recurrence); addMetric(aMet, e.metastasis); addMetric(aDD, e.diseaseDeath); });
+
+    const stat = (val, label, sub) => el("div", { class: "card" }, [el("div", { class: "stat" }, val), el("div", { class: "stat-label" }, label), sub ? el("div", { class: "small muted" }, sub) : null]);
+    if (!entries.length) {
+      statsWrap.appendChild(el("p", { class: "small muted", style: "padding:12px" }, "No matching studies or cases. Loosen the filters."));
       return;
     }
-    const cols = ["age", "sex", "grade", "stage", "sizeCm", "site", "fusion", "primaryTreatment", "followupMonths", "vitalStatus", "localRecurrence", "metastasis", "source"];
+    statsWrap.appendChild(stat(String(totalN), "patients pooled", pooled.length + " source(s)"));
+    if (aDD.denom) statsWrap.appendChild(stat(pct(aDD.denom - aDD.events, aDD.denom) + "%", "disease-specific survival", "crude, " + aDD.denom + " pts"));
+    if (aRec.denom) statsWrap.appendChild(stat(pct(aRec.events, aRec.denom) + "%", "had local recurrence", "crude, " + aRec.denom + " pts"));
+    if (aMet.denom) statsWrap.appendChild(stat(pct(aMet.events, aMet.denom) + "%", "developed metastasis", "crude, " + aMet.denom + " pts"));
+
+    // ---- transparent breakdown: every contributing study/cohort ----
+    const cell = (m, pctVal, txt) => (m && m.denom) ? (pct(m.events, m.denom) + "% (" + m.events + "/" + m.denom + ")") : (pctVal != null ? pctVal + "%" : (txt || "-"));
+    const dssCell = (e) => e.fiveYearDSS != null ? e.fiveYearDSS + "% (5-yr)" : (e.diseaseDeath && e.diseaseDeath.denom ? pct(e.diseaseDeath.denom - e.diseaseDeath.events, e.diseaseDeath.denom) + "% (crude)" : (e.dssText || "-"));
+    const cols = ["study / cohort", "n", "role", "local recurrence", "metastasis", "disease-specific survival", "median F/U", "source"];
     const head = el("tr", {}, cols.map((c) => el("th", {}, c)));
-    const rows = out.map((p) => el("tr", {}, cols.map((c) => {
+    const order = [...entries].sort((a, b) => (a.pool === false) - (b.pool === false));
+    const rows = order.map((e) => el("tr", { class: e.pool === false ? "muted" : "" }, [
+      el("td", { title: e.note || "" }, e.label),
+      el("td", {}, String(e.n != null ? e.n : "-")),
+      el("td", {}, el("span", { class: "pill" }, e.pool === false ? "context" : "pooled")),
+      el("td", {}, cell(e.recurrence, e.recurrencePct, e.recurrenceText)),
+      el("td", {}, isBaselineMet(e) ? "(at diagnosis)" : cell(e.metastasis, e.metastasisPct, e.metastasisText)),
+      el("td", {}, dssCell(e)),
+      el("td", {}, e.medianFollowupMonths != null ? e.medianFollowupMonths + " mo" : "-"),
+      el("td", {}, e.sourceUrl ? ext(e.sourceUrl, e.source || "source") : (e.isCases ? "see table below" : (e.source || ""))),
+    ]));
+    breakdownWrap.appendChild(el("table", {}, [el("thead", {}, head), el("tbody", {}, rows)]));
+    breakdownWrap.appendChild(el("p", { class: "small muted", style: "padding:8px 4px" },
+      "Top-line figures sum only the 'pooled' rows (explicit patient counts, non-overlapping populations). 'Context' rows come from larger series shown for comparison - not added in, to avoid double-counting overlapping patients or mixing in percentage-only data."));
+
+    // ---- the individual cases that fed the pool ----
+    if (!outPatients.length) { tableWrap.appendChild(el("p", { class: "small muted", style: "padding:8px 4px" }, "No individual case reports match these filters.")); return; }
+    const pcols = ["age", "sex", "grade", "stage", "sizeCm", "site", "fusion", "primaryTreatment", "followupMonths", "vitalStatus", "localRecurrence", "metastasis", "source"];
+    const phead = el("tr", {}, pcols.map((c) => el("th", {}, c)));
+    const prows = outPatients.map((p) => el("tr", {}, pcols.map((c) => {
       if (c === "source" && p.sourceUrl) return el("td", { title: p.note || "" }, ext(p.sourceUrl, p.source || "source"));
       return el("td", { title: c === "source" ? (p.note || "") : "" }, p[c] === undefined ? "" : String(p[c]));
     })));
-    tableWrap.appendChild(el("table", {}, [el("thead", {}, head), el("tbody", {}, rows)]));
+    tableWrap.appendChild(el("table", {}, [el("thead", {}, phead), el("tbody", {}, prows)]));
   }
 
   const filterCard = el("div", { class: "card" }, [
-    el("div", { class: "kicker" }, "Filter the pooled patients by your own details"),
-    el("p", { class: "small muted" }, "Enter what applies to you to see how people with similar disease did. Small numbers - treat as a rough signal, never a prediction."),
+    el("div", { class: "kicker" }, "Filter the pooled evidence by your own details"),
+    el("p", { class: "small muted" }, "Enter what applies to you to pool the matching published cohorts and case reports. Small, heterogeneous numbers - treat as a rough signal, never a prediction."),
     controls,
     el("div", { class: "spread" }, [
       el("button", { onclick: applyFilters }, "Apply filters"),
@@ -236,8 +290,11 @@
   ]);
   addSection("filter", "What happened to people like me?",
     el("p", { class: "intro" }, reg.intro || ""), regBanner, filterCard,
-    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Results"), statsWrap, el("div", { style: "margin-top:12px" }, tableWrap)])
+    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Pooled result"), statsWrap]),
+    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Where the numbers come from"), breakdownWrap]),
+    el("div", { class: "card" }, [el("div", { class: "kicker" }, "Individual case reports in this pool"), el("div", { style: "margin-top:12px" }, tableWrap)])
   );
+  applyFilters(); // render the full pool on load
 
   // ---- TREATMENTS (filter by stage) ------------------------------------
   const tr = data.treatments || {};

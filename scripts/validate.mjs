@@ -53,6 +53,16 @@ for (const file of files) {
     for (const k of ["age", "sex", "stage", "vitalStatus", "source"]) if (p[k] === undefined) errors.push(`${where}: registry.patients[${i}] missing "${k}"`);
     if (p.stage && !["localized", "regional", "distant"].includes(p.stage)) warns.push(`${where}: patient[${i}].stage "${p.stage}" not in localized|regional|distant`);
   });
+  (reg.cohorts || []).forEach((c, i) => {
+    if (!c.label) errors.push(`${where}: registry.cohorts[${i}] missing "label"`);
+    if (typeof c.n !== "number") errors.push(`${where}: registry.cohorts[${i}] "${c.label || "?"}" needs numeric "n"`);
+    if (!c.source) errors.push(`${where}: registry.cohorts[${i}] "${c.label || "?"}" missing "source"`);
+    for (const k of ["recurrence", "metastasis", "diseaseDeath"]) {
+      const m = c[k];
+      if (m && (typeof m.events !== "number" || typeof m.denom !== "number" || m.events > m.denom))
+        errors.push(`${where}: registry.cohorts[${i}] "${c.label || "?"}" ${k} needs events<=denom`);
+    }
+  });
   if (reg.dataStatus === "SAMPLE_SYNTHETIC" && !reg.dataStatusBanner)
     warns.push(`${where}: SAMPLE data should set registry.dataStatusBanner so the UI warns users.`);
 

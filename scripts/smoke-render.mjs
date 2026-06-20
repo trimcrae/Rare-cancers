@@ -82,7 +82,7 @@ for (const file of files) {
   } else {
     try {
       applyBtn.listeners.click[0]();
-      if (!find(appEl, (n) => text(n) === "patients match")) problems.push("filter produced no results stats");
+      if (!find(appEl, (n) => text(n) === "patients pooled")) problems.push("filter produced no results stats");
     } catch (e) { problems.push("filter click threw: " + e.message); }
   }
 

@@ -228,9 +228,9 @@
     ]
   },
   "registry": {
-    "intro": "The goal of this section is an Individual Participant Data (IPD) registry: one row per reported patient, pooled from published case reports and series, so the filter tool below can explore 'what happened to people like me?'. The first real, cited cases are now in place (replacing the earlier synthetic sample); more are being added via the automated literature pipeline (see AGENTS.md and CONTRIBUTING.md).",
+    "intro": "This tool pools two kinds of real, cited evidence to explore 'what happened to people like me?': (1) grouped outcomes from published EMC cohorts and registries (tens to hundreds of patients each), and (2) individual published case reports. Matching studies are summed into a crude top-line, and every contributing study is listed beneath it so you can see exactly where the numbers come from. Large series with population-overlap or percentage-only data are shown for context but not summed.",
     "dataStatus": "partial-curated",
-    "dataStatusBanner": "These are REAL, individually published EMC patients - each row links to its source paper - not synthetic data. But this is a small, freshly-curated subset (4 cases to start), not a complete registry, and case reports skew toward unusual presentations. Treat them as real anecdotes, never as statistics or a personal prognosis. More cases are being added via the automated literature pipeline.",
+    "dataStatusBanner": "These numbers are pooled from REAL published EMC cohorts and individual case reports, each linked to its source - not synthetic data. The top-line figures are CRUDE pooled proportions across heterogeneous studies (different countries, eras and follow-up lengths), not a survival model, and some large series are shown for context only to avoid double-counting overlapping populations. Treat everything as a rough signal, never a personal prognosis.",
     "fields": {
       "age": "Age at diagnosis (years)",
       "sex": "F or M",
@@ -320,6 +320,102 @@
         "note": "EMC around the left knee initially mistaken for myoepithelial tumour; TAF15::NR4A3 confirmed by RNA sequencing; extracapsular resection + distal femoral replacement, no adjuvant therapy; NED at 3 yr.",
         "source": "Jiang et al., Case Rep Pathol 2026 (PMC13136674, CC-BY)",
         "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13136674/"
+      }
+    ],
+    "cohorts": [
+      {
+        "label": "Localised at diagnosis, surgically treated",
+        "n": 134,
+        "pool": true,
+        "criteria": {
+          "stage": "localized"
+        },
+        "recurrence": {
+          "events": 16,
+          "denom": 134
+        },
+        "metastasis": {
+          "events": 39,
+          "denom": 134
+        },
+        "diseaseDeath": {
+          "events": 9,
+          "denom": 134
+        },
+        "fiveYearDSS": 91.3,
+        "medianFollowupMonths": 38,
+        "source": "Masunaga et al., J Orthop Surg Res 2025 (PMC12398172)",
+        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12398172/",
+        "note": "Japanese National Bone & Soft Tissue Tumour Registry, 2002-2022. Prognostic subset; 8 non-surgically-treated localised cases excluded. R1/R2 margins were the main risk factor for recurrence."
+      },
+      {
+        "label": "Metastatic at diagnosis",
+        "n": 29,
+        "pool": true,
+        "criteria": {
+          "stage": "distant"
+        },
+        "diseaseDeath": {
+          "events": 9,
+          "denom": 29
+        },
+        "fiveYearDSS": 75.8,
+        "medianFollowupMonths": 41,
+        "source": "Masunaga et al., J Orthop Surg Res 2025 (PMC12398172)",
+        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12398172/",
+        "note": "Same registry. 27 lung, 2 peritoneal metastases; 16 received systemic therapy for advanced disease. Metastasis is the inclusion criterion here, so it is not counted as an outcome in the pooled metastasis rate."
+      },
+      {
+        "label": "Localised, single-institution series (Bishop et al.)",
+        "n": 41,
+        "pool": false,
+        "criteria": {
+          "stage": "localized"
+        },
+        "recurrencePct": 12,
+        "metastasisPct": 32,
+        "dssText": "85% (10-yr DSS)",
+        "medianFollowupMonths": 94,
+        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
+        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
+        "note": "10-yr local control 100% with surgery+radiotherapy vs 63% with surgery alone. Likely overlaps US SEER data, so shown for context, not pooled."
+      },
+      {
+        "label": "Localised, US SEER population (Kemmerer et al.)",
+        "n": 156,
+        "pool": false,
+        "criteria": {
+          "stage": "localized"
+        },
+        "dssText": "94% vs 85% (5-yr CSS, RT vs no RT)",
+        "medianFollowupMonths": 33,
+        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
+        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
+        "note": "SEER 2004-2012; 94% had surgery, 32% radiotherapy. Population registry does not capture recurrence. Context only."
+      },
+      {
+        "label": "Local recurrence by surgical margin (Giner et al.)",
+        "n": 31,
+        "pool": false,
+        "criteria": {
+          "stage": "localized"
+        },
+        "recurrenceText": "58% involved vs 7% free margins",
+        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
+        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
+        "note": "Illustrates how strongly margin status drives local recurrence. Context only."
+      },
+      {
+        "label": "Advanced disease on pazopanib (Stacchiotti et al., phase 2)",
+        "n": 26,
+        "pool": false,
+        "criteria": {
+          "stage": "distant"
+        },
+        "dssText": "90% (2-yr OS)",
+        "source": "Reviewed in Remiszewski et al., J Cancer Res Clin Oncol 2025 (PMC12504171)",
+        "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
+        "note": "Objective response 18%, median PFS 19 months; responses better with EWSR1::NR4A3 fusion. Treatment-response context for metastatic disease."
       }
     ]
   },
