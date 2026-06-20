@@ -1,0 +1,186 @@
+pmcJ Magn Reson ImagingJ Magn Reson Imaging379blackwellopenJMRIJournal of Magnetic Resonance Imaging1053-18071522-2586pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12063761PMC12063761.112063761120637613984398710.1002/jmri.29691JMRI296911Research ArticleResearch ArticleMusculoskeletal
+MRI Radiomics Analysis in the Diagnostic Differentiation of Malignant Soft Tissue Myxoid Sarcomas From Benign Soft Tissue Musculoskeletal Myxomas
+
+MRI Radiomics Myxoid Soft Tissue TumorsBenhabib et al.BenhabibHadasMD, MSc, FRCPC BrandenbergerDanielMD LajkoszKatherineMSc DemiccoElizabeth G.MD, PhD TsoiKim M.MD, PhD, FRCSC WunderJay S.MD, FRCSC FergusonPeter C.MD, MSc, FRCSC GriffinAnthony M.MSc NaraghiAliMBBS, MRCP, FRCR HaiderMasoom A.MD, FRCPC WhiteLawrence M.MD, FRCPChttps://orcid.org/0000-0001-6670-1756 lawrence.white@uhn.ca
+
+1
+
+Department of Medical Imaging
+University of Toronto
+Toronto
+Ontario
+Canada
+
+2
+
+Joint Department of Medical Imaging
+University Health Network, Sinai Health System, Women's College Hospital, Mount Sinai Hospital
+Toronto
+Ontario
+Canada
+
+3
+
+Institut für Radiologie und Nuklearmedizin
+Kantonsspital Baselland
+Liestal
+Switzerland
+
+4
+
+Department of Biostatistics
+University Health Network
+Toronto
+Ontario
+Canada
+
+5
+
+Department of Pathology and Laboratory Medicine
+Mount Sinai Hospital
+Toronto
+Ontario
+Canada
+
+6
+
+Department of Laboratory Medicine and Pathobiology
+University of Toronto
+Toronto
+Ontario
+Canada
+
+7
+
+Department of Surgery
+University of Toronto
+Toronto
+Ontario
+Canada
+
+8
+
+University Musculoskeletal Oncology Unit, Division of Orthopedic Surgery
+Mount Sinai Hospital
+Toronto
+Ontario
+Canada
+
+*
+Address reprint requests to: L.M.W., JDMI—Mount Sinai Hospital, 600 University Avenue, Toronto, Ontario, Canada M5G 1X5. E‐mail: lawrence.white@uhn.ca
+
+22120256202561648825210.1002/jmri.v61.626302641
+11122024
+01102024
+12122024
+090520251005202510052025© 2025 The Author(s). Journal of Magnetic Resonance Imaging published by Wiley Periodicals LLC on behalf of International Society for Magnetic Resonance in Medicine.https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Background
+Differentiation of benign myxomas and malignant myxoid sarcomas can be difficult with an overlapping spectrum of morphologic MR findings.
+
+## Purpose
+To assess the diagnostic utility of MRI radiomics in the differentiation of musculoskeletal myxomas and myxoid sarcomas.
+
+## Study Type
+Retrospective.
+
+## Population
+A total of 523 patients were included; histologically proven myxomas (N = 201) and myxoid sarcomas (N = 322), randomly divided (70:30) into training:test subsets.
+
+## Sequence/Field Strength
+T1‐weighted (T1W), T2‐weighted fat‐suppressed (fluid‐sensitive), and T1‐weighted post‐contrast (T1W + C) sequences at 1.0 T, 1.5 T, or 3.0 T.
+
+## Assessment
+Seven semantic (qualitative) tumor features were assessed in each case. Manual 3D tumor segmentations performed with radiomics features extracted from T1W, fluid‐sensitive, and T1W + C acquisitions. Models were constructed based on radiomic features from individual sequences and from their combination, both with and without the addition of qualitative tumor features.
+
+## Statistical Tests
+Intraclass correlation evaluated in 60 cases segmented by three readers. Features with intraclass correlation <0.7 excluded from further analysis. Boruta feature selection and Random Forest modeling performed using the training‐dataset, with resultant models used to assess class discrimination (myxoma vs. myxoid sarcoma) in the test dataset. Radiomics score defined as probability class = myxoma. Logistic regression modeling employed to estimate performance of the radiomics score. Area under the receiver operating characteristic curve (AUC) was used to assess diagnostic performance, and DeLong's test to assess performance between constructed models. A P‐value <0.05 was considered significant.
+
+## Results
+Four qualitative semantic features showed significant predictive power in class discrimination. Radiomic models demonstrated excellent differentiation of myxomas from myxoid sarcomas: AUC of 0.9271 (T1W), 0.9049 (fluid‐sensitive), and 0.9179 (T1W + C). Incorporation of multiparametric data or semantic features did not significantly improve model performance (P ≥ 0.08) compared to radiomic models derived from any individual MRI sequence alone.
+
+## Data Conclusion
+MRI radiomics appears to be accurate in the differentiation of myxomas from myxoid sarcomas. Classification performance did not improve when incorporating qualitative features or multiparametric imaging data.
+
+## Plain Language Summary
+Accurately distinguishing between benign soft tissue myxomas and malignant myxoid sarcomas is essential for guiding appropriate management but remains challenging with conventional MRI interpretation. This study utilized radiomics, a method that extracts quantitative mathematically derived features from images, to develop predictive models based on routine MRI examination. Analyzing over 500 cases, MRI radiomics demonstrated excellent diagnostic accuracy in differentiating between benign myxomas and malignant myxoid sarcomas, highlighting the potential of the technique, as a powerful non‐invasive tool that could complement current diagnostic approaches, and enhance clinical decision‐making in patients with soft tissue myxoid tumors of the musculoskeletal system.
+
+## Level of Evidence
+3
+
+## Technical Efficacy
+Stage 2
+
+radiomicsmyxomamyxoid sarcomasoft tissuesmusculoskeletal MRI examinations in the 523 patients included 516 T1‐weighted (T1W) acquisitions, 518 T2‐weighted fat suppressed or short tau inversion recovery (fluid‐sensitive) acquisitions, and 391 post‐contrast enhanced T1‐weighted fat suppressed (T1W + C) acquisitions. A summary of MRI systems on which examinations were performed, pulse sequences from which radiomics features were extracted, and original spatial resolution (voxel volumes) of the acquisitions, based on DICOM header data, are provided in Tables  and in the Supplemental Material.
+
+## Segmentation
+Three‐dimensional segmentations of tumors were performed using 3D slicer, version 5.0.3 (https://www.slicer.org/), an open‐source image computing platform. Tumors were manually segmented with lesion tissue delineated on every axial slice of all available T1W, fluid‐sensitive, and T1W + C MRI acquisitions. If an axial acquisition was not available, a corresponding coronal or sagittal acquisition, if present, was used for lesion segmentation. Perilesional edema was excluded from segmentation volumes. All operations to generate and manipulate the segmentations were achieved leveraging built‐in functions of 3D slicer (Fig.  ). Image interpolation was disabled during lesion segmentation to facilitate segmentation reproducibility and consistency across readers by allowing contouring on original unaltered slices only.
+ Segmentations of tumors were performed by one of three fellowship trained subspecialist musculoskeletal radiologists; with 5 (HB), 6 (BD), and 35 (L.M.W.) years of experience in musculoskeletal sarcoma imaging.
+A randomly selected subgroup of 60 cases (30 myxomas and 30 myxoid sarcomas) were independently segmented by each of the three readers. Readers were blinded to patient information and segmentation results of other readers.
+
+## Semantic Feature Assessment
+At the time of tumor segmentations, readers assessed a series of semantic features for each tumor on MRI, including tumor location, perilesional fat and edema, osseous or neurovascular involvement, and transcompartmental extension. Each of the three readers independently assessed semantic features in the subgroup of 60 cases (30 myxomas and 30 myxoid sarcomas) randomly selected for segmentation by each reader, with inter‐reader correlation assessed using Fleiss kappa analysis. Semantic feature assessments of the most experienced reader (L.M.W.) were used in further statistical analyses. For tumor location, lesions were defined as being situated “deep” or “superficial” to deep fascia, with lesion location defined as deep if any portion of the tumor extended deep to fascia. Tumors were categorized as being either intramuscular or extramuscular in location. The presence/absence of fat abutting any aspect of the tumor margin was categorized on T1W acquisitions and the presence/absence of any perilesional juxta‐capsular edema was assessed on fluid‐sensitive sequences. The presence/absence of osseous abutment, defined as direct contiguity of tumor with adjacent osseous structures without intervening normal tissue planes, was assessed. Similarly, the presence/absence of tumor abutment of major neurovascular structures was evaluated, with abutment characterized by loss of normal perineural or perivascular fat planes at locations contiguous with tumor. Lastly, the anatomic location of each tumor was catalogued, as was the presence/absence of transcompartmental tumor extension.
+
+## Preprocesssing and Radiomics Feature Extraction
+Image preprocessing and radiomics feature extraction were performed using pyRadiomics version 3.0.1 (https://github.com/AIM-Harvard/pyradiomics), compliant with IBSI. In all cases segmented image voxel signal intensities were normalized (scale set to 500) and resampled to an isotropic voxel size of (1 × 1 × 1) mm3 using a b‐spline interpolator, for texture feature sets to be rotationally invariant. Gray‐scale value discretization was set to a fixed bin width of 25. No image harmonization technique was applied.
+Hand‐crafted radiomic features were extracted from original and filtered images according to pyRadiomics definitions (https://pyradiomics.readthedocs.io/en/latest/features.html). Feature classes included first‐order statistics, shape‐based (3D), gray‐level co‐occurrence matrix, gray‐level size zone matrix, gray‐level run length matrix, neighboring gray tone difference matrix, and gray‐level dependence matrix (GLDM). A total of 1688 original and filtered features were extracted per segmentation, with original features used for model generation and analyses. All features were extracted in 3D space.
+A list of software versions, preprocessing and extraction settings, and all extracted features is provided as supplemental data (Tables  in the Supplemental Material).
+
+## Statistical Analysis
+Analyses were performed using R v4.4.0 (R Foundation for Statistical Computing). The subgroup of 60 cases (myxoma N = 30 and myxoid sarcoma N = 30) independently segmented by each of the three readers was employed for assessment of intraclass correlation (ICC). Radiomics features were excluded from consideration for modeling if they had ICC <0.7 and variance <0.01, which included five features for T1W, one feature for fluid‐sensitive, and no features for T1W + C acquisition‐based models.
+Due to incomplete data for certain imaging sequences (T1W, fluid‐sensitive and T1W + C), six different models were developed. The first two models included all patients with complete T1W (N = 516) and fluid‐sensitive (N = 518) data, and the remaining four focused on the subset of patients (N = 391) with complete data for all three sequences (N = 391). In the subset, a separate model was developed for each image sequence, along with a multiparametric model that combined the three sequences.
+To derive the models, the respective datasets were randomly split into training/test subsets using a 70/30 ratio. In the four subset models, the same patients were used in the respective training and test splits.
+Within each training set, first a preliminary univariate analysis was conducted by summarizing the distribution of each feature stratified by class. Differences in distribution were assessed using Mann–Whitney U tests. P‐values were adjusted for multiplicity using the Bonferroni correction.
+Next, to select the radiomics features for inclusion in the final model, the pairwise Spearman correlation coefficient for all features were calculated in the training set. For pairs exhibiting correlation greater than |0.90|, the feature with the highest average absolute correlation with all other remaining features was removed, and the average absolute correlation was re‐calculated with each feature removal. The process was repeated until all remaining features had pairwise correlations <|0.90|. The Boruta feature selection algorithm was then applied to the remaining features to identify the features with the highest variable importance for identifying histologic diagnosis (myxoma or myxoid sarcoma).
+The selected features were incorporated into a random forest model using the training subset. To select the optimal hyperparameters for the final random forest model, a grid search was used to select the hyperparameter values that maximized the area under the curve (AUC). The hyperparameters included the total number of trees (ntree), ranging from 1000 to 2500 in increments of 50, and the number of features to be sampled as split criteria (mtry) ranging from 2 to 10 in increments of 1. Performance was assessed using 10‐fold cross‐validation. The final model utilized the hyperparameters that maximized the cross‐validated AUC.
+The fitted model was utilized to distinguish class in the test set. The radiomics score was defined as the probability of class = myxoma, as calculated by the model. Patients with a probability of ≥0.5 were classified as myxoma, and patients with a probability of <0.5 were classified as myxoid sarcomas. The radiomic score's AUC, sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV) were estimated by comparing predicted score/class to actual class.
+Fleiss' kappa was used to evaluate interobserver agreement in sematic tumor feature assessment, in the subgroup of 60 cases independently assessed by each of the three readers. In the N = 391 subset the ability of semantic tumor features (location: deep/superficial, intramuscular/extramuscular; and presence/absence of perilesional fat and edema, osseous and neurovascular abutment, and transcompartmental extension) to differentiate myxoma vs. myxoid sarcoma was investigated with a univariable regression model, with odds ratio (OR) >1 denoting increased probability of myxoma. All semantic features with a P‐value of <0.05 were retained for further analysis in two multivariable logistic regression models, the first incorporating the semantic tumor features only, and the second combining semantic tumor features with the radiomics score in a nomographic model which incorporated calculated radiomics scores and statistically significant semantic features. The fitted models were used to predict class in the test set, and each models' AUC was calculated.
+In the four subset models, DeLong's test was used to assess differences in AUCs between 1) radiomics vs. radiomics + semantic features models, 2) semantic features vs. radiomics + semantic feature models, and 3) radiomics vs. semantic feature models, using T1W, fluid‐sensitive, T1W + C, and multiparametric radiomic models.
+
+## Results
+
+## Cohort Demographics
+Demographic details, source of tissue available for final histologic assessment and breakdown of final histopathologic diagnoses, are summarized in Table  . Anatomic location of the lesions included the lower extremity in 49% of myxomas and 68% of myxoid sarcomas, the trunk in 22% of myxomas and 15% of myxoid sarcomas, and the upper extremity in 29% of myxomas and 17% of myxoid sarcomas.
+
+## Overview of Selected Radiomics Features
+Radiomics feature summary statistics for each imaging sequence (T1W, fluid‐sensitive, and T1W + C), stratified by diagnosis, are presented in Table  in the Supplemental Material. Radiomic features derived from each imaging sequence/model that optimized class prediction were identified (Figs.  and ), with the relative predictive influence of features retained in models fit using the training sets shown in Fig.  . The correlation between selected features are visualized in Fig.  in the Supplemental Material, and the selected hyperparameters for each model are displayed in Table  in the Supplemental Material.
+ 
+
+## 
+T1W and Fluid‐Sensitive Complete Models
+The complete T1W radiomic model for prediction of class across the test dataset, derived from T1W radiomics features demonstrated the highest test AUC of 0.9271 (sensitivity = 0.815, specificity = 0.903, PPV = 0.830, NPV = 0.894), and the complete fluid‐sensitive model had a test AUC of 0.9049 (sensitivity = 0.833, specificity = 0.851, PPV = 0.763, NPV = 0.899). The T1W complete and subset models shared nine radiomics features, and the same seven features were selected for the fluid‐sensitive complete and subset models (Fig.  ).
+
+## Subset Analysis
+Seven qualitative semantic features were assessed on MRI, in each of the soft tissue myxomas and myxoid sarcomas cases (Table  ). Interobserver agreement in sematic tumor feature assessment, in the subgroup of 60 cases independently assessed by each of the three readers, was moderate to almost‐perfect for all seven features (Table  ), with semantic feature assessments of the most experienced reader (L.M.W.) used in further statistical analyses. Four out of the seven semantics features demonstrated significant predictive power by univariable analysis, in determination of tumor type (myxoma vs. myxoid sarcoma), including location deep to fascia, intramuscular, transcompartmental extension, and neurovascular abutment.
+ The subset T1W radiomic model had a test AUC of 0.9196 (sensitivity = 0.870, specificity = 0.889, PPV = 0.851, NPV = 0.903), the subset fluid‐sensitive MRI radiomic model a test AUC of 0.9089 (sensitivity = 0.826, specificity = 0.794, PPV = 0.745, NPV = 0.862) and the T1W + C MRI radiomic model demonstrated a test AUC of 0.9179 (sensitivity = 0.804, specificity = 0.937, PPV = 0.902, NPV = 0.868). A multiparametric model based on radiomic features derived from all three sequences, did not exhibit significantly improved discrimination for tumor classification compared to any individual sequence on their own (T1W P = 0.37, fluid‐sensitive P = 0.21, and T1W + C P = 0.08). All possible pairwise combinations were evaluated using DeLong's test, with no radiomic model (T1W, fluid‐sensitive, T1W + C or multiparametric) demonstrating significant discriminatory superiority over another (Table  ). For each model, Figure  in the Supplemental Material displays correlation heat maps for all retained features.
+ Nomographic models, derived from the addition of the four qualitative semantic features which demonstrated significant tumor‐type predictive power, were investigated to determine whether there was a significant impact on class discrimination. AUCs from radiomic models alone, and nomographic models (incorporating radiomic and semantic features) were compared, with no significant improvement in AUC identified for any sequence (T1W P = 0.37, fluid‐sensitive P = 0.96, T1W + C P = 0.67, and multiparametric P = 0.88) (Fig.  ). Furthermore, radiomic models significantly outperformed semantic features for T1W, T1W + C and multiparametric combined, with fluid‐sensitive approaching statistical significance (P = 0.054) (Table  ).
+ 
+
+## Discussion
+The current study focused on utilizing MRI radiomic models in the differentiation of myxoid sarcomas from myxomas. The results showed that radiomic models derived from T1W, fluid‐sensitive (T2‐FS or STIR), and T1W + C sequences all demonstrated excellent discrimination between benign myxomas and malignant myxoid sarcomas with AUCs greater than 0.9. T1‐weighted imaging demonstrated the highest AUC, while also exhibiting high sensitivity and specificity and very high NPV. A multiparametric radiomics‐based model, combining all three MRI sequences, also showed excellent differentiation between tumor types, but did not significantly outperform any of the individual sequence radiomic models.
+Medical imaging, in particular MRI, plays an important role in the diagnostic assessment of soft tissue tumors including the identification of prognostic factors such as size, location, degree of tumor necrosis, and involvement of local‐regional structures such as major nerves, vessels, and bone. , Classically, myxomas have been described as well‐defined intramuscular lesions, with markedly high intralesional signal intensity and increased signal intensity of adjacent muscle, due to edema, on T2‐weighted fat suppressed or short inversion time inversion‐recovery sequences. The slow‐growing nature of these tumors has also been hypothesized to cause atrophy of surrounding muscle tissue with associated fatty infiltration, resulting in the prominent rind of fat often associated with myxomas. , However, distinguishing benign myxomas from malignant myxoid sarcomas can be challenging due to overlapping MR imaging features. , 
+
+Four out of seven semantic features evaluated in this study had significant predictive power by univariable regression analysis, in the differentiation between benign from malignant myxoid tumors. Specifically, myxomas were more likely to be intramuscular, and located deep to fascia. Myxoid‐sarcomas, on the other hand, were prone to abut major neurovascular bundles and demonstrate transcompartmental extension. Interestingly, perilesional fat, which is classically used to characterize myxomas, was a feature present in nearly all myxomas and myxoid‐sarcomas. While qualitative semantic features can be promising predictors of diagnosis, models solely based on these features significantly underperformed compared to radiomics‐based models in differentiating myxomas and myxoid sarcomas. Furthermore, models combining semantic features and radiomics features did not improve diagnostic performance in tumor discrimination. This finding is in concordance with a recent study investigating the association between qualitative semantic features and quantitative radiomics features in other malignancies, including non‐small‐cell lung cancer and spinal metastases. 
+
+Radiomics offers a novel data‐driven method of mining a myriad of quantitative features from traditional tomographic images. , Radiomics‐based models, either in isolation or in combination with patient data, can be applied to various musculoskeletal tumor outcome categories, such as response to treatment, patient survival, histologic grade of tumors, presence of molecular tumor markers, and systemic spread of disease. Osteosarcomas represent one of the most extensively investigated group of tumors, with studies such as that of Wu et al establishing a prognostic non‐invasive nomogram to predict survival at the time of diagnosis through the combination of both clinical risk factors and CT radiomics features, and that of White et al employing radiomic modeling for prediction of histologic necrosis following neoadjuvant chemotherapy and patient survival outcomes based on initial presentation MRI. The present study follows the precedent set by established literature that has focused on utilizing radiomics in the differentiation of soft tissue lesions, most commonly lipomatous tumors. 
+
+In the current study, GLDM features, which are a subset of second order features reflective of image texture, were determined to have the greatest influence in optimizing class prediction and were the most important category of pyradiomics features influencing model accuracy for T1W + C and multiparametric data, and ranked second for T1W models. While not the most important feature influencing the accuracy of the fluid‐sensitive model, it was still significant, ranking seventh. GLDM, along with other texture features, are utilized to quantify and describe the heterogeneity and spatial pattern of intervoxel gray scale dependencies within an image, with changes in GLDM indicative of variations in tissue heterogeneity. While there is considerable overlap in MR imaging features of myxoid tumors, studies have shown that higher‐grade myxoid sarcomas more commonly exhibit heterogeneous signal compared to myxomas, which tend to be blander in cellularity. This observed signal heterogeneity in malignant tumors may be due to the variable and often more complex components, such as intratumoral hemorrhage and necrosis. , 
+
+There are few studies investigating the discriminating MR imaging features of myxoid soft‐tissue tumors, with many being either case reports or reviews. A prior study by Martin‐Carreras et al performed radiomic analyses in a relatively small number of cases (myxoma N = 29 and myxofibrosarcoma N = 27) to distinguish between myxoma and myxofibrosarcoma. The authors only performed radiomic analysis based on non‐enhanced T1‐weighted MRI sequences, and achieved an AUC of 0.885. However, a number of shortcomings of this study were noted, including a lack of training and validation test subsets, in addition to small study numbers that can severely limit artificial intelligence (AI)‐based analyses due to model‐overfitting. 
+
+Integrating refined quantitative data‐driven MRI radiomics analysis into the care pathway decision‐making process of patients with musculoskeletal soft tissue tumors may be beneficial. The distinction between myxomas and myxoid sarcomas is clinically significant, as it directly influences patient management and choice of surgical approach and treatment strategies for patients. Accurate MRI radiomics based models, such as those provided in the current study, potentially provide a means of non‐invasively differentiating the intrinsic histopathologic heterogeneity of myxoid lesions, often elusive to conventional imaging visual analysis and interpretation, and potentially avoiding the necessity of tissue sampling for diagnostic confirmation of benign disease.
+
+## Limitations
+This study was performed at a tertiary referral center and the available pretreatment MRI examinations were heterogeneous in nature. Many examinations were performed at outside imaging centers, with variable MRI system field strengths, vendors, models, operating software, pulse sequences, and sequence acquisition parameters. We did not evaluate or employ image harmonization techniques to address potential variables in MR imaging, including field strength, on extracted pyradiomic features and resultant radiomic models. While such heterogeneity could be seen as a constraint in the development of optimal radiomic modeling, heterogeneous MRI datasets help to address concerns and limitations of deep learning and artificial intelligence models developed using highly uniform homogeneous datasets obtained from a single center, and improve validity when applied to external datasets. This heterogeneity accurately reflects the variation seen in real‐world practice where MR imaging of soft tissue tumors is often performed at different centers prior to referral to tertiary centers of expertise in musculoskeletal sarcoma care. Inclusion of cases with MRI examinations performed at different sites also facilitated the analysis of a larger patient population, which is important for the accurate and reliable training and validation of radiomic and machine learning models. 
+
+A drawback to studying a large population, however, is the substantial effort and time required to manually delineate and contour each tumor, which in the case of the current study required over 1600 individual manual 3D volumetric tumor segmentations. Auto‐segmentation algorithms have rapidly evolved, offering high‐throughput processing and enhancing the scalability of radiomic studies. They provide several benefits such as improving consistency and reproducibility by minimizing interobserver variability, thereby ensuring reliable results across different radiologists and studies. , However, these algorithms may struggle with complex anatomic structures or subtle boundaries, impacting accuracy. Further opportunities in follow‐up to the current study include external validation of findings with large multi‐institutional datasets and prospective clinical studies to further support translation to use in routine clinical practice.
+
+## Conclusion
+This study demonstrated that MRI radiomics‐based models based on routine clinical T1W, fluid‐sensitive or T1W + C MRI acquisitions may accurately classify myxomas and myxoid sarcomas with excellent discrimination.
+
+## Author Contributions
+Hadas Benhabib and Daniel Brandenberger were involved in conceptualizing the research question; experimental design and methodology; data collection, analysis and interpretation; as well as manuscript draft preparation, revision, and approvals. Lawrence M. White and Masoom A. Haider were involved in conceptualizing the research question; experimental design and methodology; data collection, analysis and interpretation; manuscript preparation, revision, and approvals; and providing senior oversight and guidance throughout the project.
+
+## Supporting information
+
+Data S1 Supporting Information.
