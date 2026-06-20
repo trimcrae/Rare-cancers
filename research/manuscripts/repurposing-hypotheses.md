@@ -26,28 +26,39 @@ claim tagged `needs-verification` in the catalog must be resolved to a primary
 source before publication.
 
 ## 3. Candidates (from the scored catalog)
-We surveyed EMC's documented vulnerabilities across six axes (angiogenesis; the
-NR4A3 fusion / transcription; PPARγ / nuclear-receptor; epigenetic; kinase; immune)
-and scored 10 existing-drug candidates 0–3 on six criteria (EMC evidence,
-mechanistic fit, availability, safety, biomarker, novelty; composite max 18). Full
-data and per-criterion scores: `research/hypotheses/candidates.json`. Ranked:
+We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the
+NR4A3 fusion / transcription; PPARγ / nuclear-receptor; epigenetic; cell-cycle;
+apoptosis/proteostasis; immune) and scored **14 existing-drug candidates** 0–3 on
+six criteria (EMC evidence, mechanistic fit, availability, safety, biomarker,
+novelty; composite max 18). Two independent **patient-derived EMC model drug
+screens** anchor much of the preclinical evidence. Full per-criterion data:
+`research/hypotheses/candidates.json`. Ranked:
 
 | # | Candidate | Tier | Score | Basis |
 |---|---|---|---|---|
-| 1 | Imatinib (KIT-mutant/CD117+ subset) | T2 | 16* | Actionable KIT exon-11 mutation + CD117 expression in EMC |
-| 2 | Zaltoprofen (PPARγ-inducing NSAID) | T1 | 14 | Inhibits EMC growth in vivo via PPARγ/p21/p27/p53 |
-| 2 | VEGFR-TKI extension (regorafenib/cabozantinib/lenvatinib) | T1 | 14 | Extends EMC's most active class |
-| 4 | Pioglitazone (PPARγ agonist) | T1 | 13 | Direct PPARγ agonism (zaltoprofen's node) |
-| 5 | HDAC inhibitors (romidepsin/panobinostat) | T1 | 11 | Top hits in an unbiased EMC cell-line drug screen |
-| 5 | NTRK inhibitors | T0 | 11† | pan-Trk/NTRK expression — but no NTRK fusion (weak) |
-| 7 | Brigatinib | T1 | 10 | EMC cell-line screen hit; mechanism unknown |
-| 8 | NR4A3/NOR1 direct modulation | T1 | 9 | Drug the fusion's receptor (PGA2 binds NOR1 LBD) |
-| 8 | BET / CDK7-9 inhibitors | T1 | 9 | Fusion transcriptional addiction (Ewing analogy) |
-| 10 | mRNA vaccine + checkpoint inhibitor | T0 | 8 | Inflame the cold microenvironment |
+| 1 | Imatinib (KIT-mutant/CD117+ subset) | T2 | 16* | Actionable KIT exon-11 mutation + CD117 expression |
+| 2 | Zaltoprofen (PPARγ-inducing NSAID) | T1 | 14 | Inhibits EMC growth *in vivo* via PPARγ |
+| 2 | VEGFR-TKI extension (rego/cabo/lenva) | T1 | 14 | Extends EMC's most active class |
+| 4 | Pioglitazone (PPARγ agonist) | T1 | 13 | Direct PPARγ agonism |
+| 4 | CDK4/6 inhibitors (palbociclib) | T1 | 13 | CDK4 100% IHC + CDKN2A/2B loss |
+| 6 | HDAC inhibitors (romidepsin/panobinostat) | T1 | 11 | Cell-line drug-screen hits |
+| 6 | NTRK inhibitors | T0 | 11† | Expression, not fusion (weak) |
+| 6 | Venetoclax (BCL-2) | T1 | 11 | Validated in 2 EMC ex vivo models |
+| 9 | Brigatinib | T1 | 10 | Cell-line screen hit; mechanism unknown |
+| 9 | Carfilzomib (proteasome) | T1 | 10 | Validated in 2 EMC ex vivo models |
+| 9 | Anthracycline + venetoclax/carfilzomib | T1 | 10 | Screen-validated synergy on a current backbone |
+| 12 | NR4A3/NOR1 direct modulation | T1 | 9 | Drug the fusion's receptor (PGA2 binds NOR1 LBD) |
+| 12 | BET / CDK7-9 inhibitors | T1 | 9 | Fusion transcriptional addiction (Ewing analogy) |
+| 14 | mRNA vaccine + checkpoint inhibitor | T0 | 8 | Inflame the cold microenvironment |
 
 \*subset-restricted (biomarker-defined minority). †weak mechanistic rationale,
-retained for completeness. The top tier rests on **EMC-specific preclinical/molecular
-evidence** (KIT, PPARγ/zaltoprofen, the cell-line HDAC screen), not analogy.
+retained for completeness.
+
+**Framing — the quiet genome.** Clinical NGS of metastatic EMC found *no recurrent
+actionable mutations* (the KIT case is a ~5% exception), so the strategy is to
+target the fusion / lineage biology and to mine unbiased patient-derived-model
+screens — which is why approved drugs hitting PPARγ, cell-cycle, epigenetic and
+apoptotic nodes, plus the validated VEGFR-TKI class, dominate the top of the list.
 
 *Remaining `needs-verification` claims (mRNA immunology; Ewing BET/CDK analogy) to be
 resolved before submission.*

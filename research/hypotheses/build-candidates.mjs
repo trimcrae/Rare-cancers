@@ -19,6 +19,8 @@ const CITES = {
   nor1Pga2_2005: { short: "Kagaya 2005 (PGA2/NOR1)", title: "Prostaglandin A2 acts as a transactivator for NOR1 (NR4A3) within the nuclear receptor superfamily", authors: "Kagaya S, et al.", journal: "Biol Pharm Bull", year: 2005, pmid: "16141523", doi: "10.1248/bpb.28.1603", url: "https://doi.org/10.1248/bpb.28.1603", verified: true },
   nr4aReview2019: { short: "Herring 2019 (NR4A review)", title: "Function of Nr4a Orphan Nuclear Receptors in Proliferation, Apoptosis and Fuel Utilization Across Tissues", authors: "Herring JA, et al.", journal: "Cells", year: 2019, pmcid: "PMC6912296", doi: "10.3390/cells8111373", url: pmc("PMC6912296"), verified: true },
   warmke2023: { short: "Warmke 2023", title: "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion", authors: "Huang SC, et al.", journal: "Mod Pathol", year: 2023, pmid: "36948401", doi: "10.1016/j.modpat.2023.100161", url: "https://doi.org/10.1016/j.modpat.2023.100161", verified: true },
+  emcModels2023: { short: "Bangerter 2023 (USZ-EMC models)", title: "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models", authors: "Bangerter JL, et al.", journal: "Human Cell", year: 2023, pmcid: "PMC9813045", doi: "10.1007/s13577-022-00818-x", url: pmc("PMC9813045"), verified: true },
+  giner2023ihc: { short: "Giner 2023 (p53/Ki-67/CDK4)", title: "Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome - an immunohistochemical and molecular analysis of 31 cases", authors: "Giner F, et al.", journal: "Virchows Arch", year: 2023, pmid: "36376703", doi: "10.1007/s00428-022-03453-x", url: "https://doi.org/10.1007/s00428-022-03453-x", verified: true },
 };
 
 // sub-scores: each 0-3 (see scoring rubric). composite = sum (max 18).
@@ -136,6 +138,51 @@ const CANDIDATES = [
     keyRisks: "Sarcoma immunotherapy generally underperforms; low neoantigen load; immune toxicity; no EMC data.",
     openQuestions: ["Is the EWSR1::NR4A3 junction presented/immunogenic?", "Does EMC have enough T-cell infiltration to reinvigorate?"],
     scores: { emcEvidence: 0, mechanisticFit: 1, availability: 2, safety: 2, biomarker: 0, novelty: 3 } },
+
+  { id: "cdk4-6-inhibitors", drug: "Palbociclib / ribociclib / abemaciclib", drugClass: "CDK4/6 inhibitor", regulatoryStatus: "FDA/EMA-approved (HR+ breast cancer)", notTriedInEmc: true,
+    mechanism: "Inhibit CDK4/6-cyclin-D to restore RB-mediated cell-cycle arrest; CDKN2A loss increases dependence on CDK4/6.",
+    emcVulnerability: { claim: "EMC expresses CDK4 (100% by IHC in one series) and shows CDKN2A/CDKN2B copy loss, suggesting cell-cycle/CDK4-6 dependence.", sourceId: "giner2023ihc" },
+    supportingEvidence: [
+      { claim: "CDK4 immunopositive in 100% of cases in a 31-case EMC series.", context: "EMC", sourceId: "giner2023ihc" },
+      { claim: "Copy losses including CDKN2A/CDKN2B observed on EMC exome analysis.", context: "EMC", sourceId: "emcNGS2017" } ],
+    rationale: "CDK4 expression plus CDKN2A/2B loss is a recognised CDK4/6-inhibitor-sensitising context; palbociclib is approved and untried in EMC.",
+    evidenceTier: "T1-preclinical-or-analog", speculationLevel: "moderate",
+    keyRisks: "Expression/copy-loss is not proven functional dependence; CDK4/6-inhibitor cytopenias; EMC's quiet genome may limit single-agent effect.",
+    openQuestions: ["Is EMC RB-proficient and CDK4/6-dependent in functional assays?"],
+    scores: { emcEvidence: 1, mechanisticFit: 2, availability: 3, safety: 2, biomarker: 2, novelty: 3 } },
+
+  { id: "venetoclax-bcl2", drug: "Venetoclax", drugClass: "BCL-2 inhibitor (BH3-mimetic)", regulatoryStatus: "FDA/EMA-approved (CLL, AML)", notTriedInEmc: true,
+    mechanism: "Inhibits anti-apoptotic BCL-2 to lower the apoptotic threshold.",
+    emcVulnerability: { claim: "Patient-derived EMC ex vivo models are sensitive to venetoclax, implying an apoptotic vulnerability.", sourceId: "emcModels2023" },
+    supportingEvidence: [
+      { claim: "Venetoclax sensitivity was identified and validated (with doxorubicin and carfilzomib, including synergies) across two patient-derived EMC ex vivo models.", context: "EMC (ex vivo)", sourceId: "emcModels2023" } ],
+    rationale: "An approved BH3-mimetic with validated activity in two independent EMC models; a rational, biomarker-testable (BCL-2) repurposing lead, especially in combination.",
+    evidenceTier: "T1-preclinical-or-analog", speculationLevel: "moderate",
+    keyRisks: "Ex vivo only; BCL-2 dependence not yet confirmed in vivo; tumour-lysis/cytopenia risks.",
+    openQuestions: ["Does venetoclax (alone or with anthracycline) show activity in EMC in vivo?"],
+    scores: { emcEvidence: 1, mechanisticFit: 1, availability: 3, safety: 2, biomarker: 1, novelty: 3 } },
+
+  { id: "carfilzomib-proteasome", drug: "Carfilzomib", drugClass: "proteasome inhibitor", regulatoryStatus: "FDA/EMA-approved (multiple myeloma)", notTriedInEmc: true,
+    mechanism: "Irreversible proteasome inhibition causing proteotoxic stress and apoptosis.",
+    emcVulnerability: { claim: "Patient-derived EMC ex vivo models are sensitive to carfilzomib.", sourceId: "emcModels2023" },
+    supportingEvidence: [
+      { claim: "Carfilzomib sensitivity identified and validated across two patient-derived EMC ex vivo models, including synergistic combinations.", context: "EMC (ex vivo)", sourceId: "emcModels2023" } ],
+    rationale: "Approved proteasome inhibitor with validated EMC ex vivo activity; worth mechanistic follow-up and combination testing.",
+    evidenceTier: "T1-preclinical-or-analog", speculationLevel: "moderate",
+    keyRisks: "Ex vivo only; mechanism of EMC sensitivity undefined; cardiac/renal toxicity.",
+    openQuestions: ["What drives proteasome-inhibitor sensitivity in EMC, and does it hold in vivo?"],
+    scores: { emcEvidence: 1, mechanisticFit: 1, availability: 3, safety: 2, biomarker: 0, novelty: 3 } },
+
+  { id: "anthracycline-combination-synergy", drug: "Anthracycline + venetoclax or carfilzomib (combination)", drugClass: "cytotoxic + targeted combination", regulatoryStatus: "Individually approved; combination investigational", notTriedInEmc: true,
+    mechanism: "Pair standard anthracycline cytotoxicity with an apoptotic (BCL-2) or proteotoxic (proteasome) sensitiser identified as synergistic in EMC models.",
+    emcVulnerability: { claim: "EMC ex vivo models showed drug synergies between doxorubicin and venetoclax/carfilzomib.", sourceId: "emcModels2023" },
+    supportingEvidence: [
+      { claim: "Synergistic combinations (doxorubicin with venetoclax/carfilzomib) were identified by functional screening in patient-derived EMC models.", context: "EMC (ex vivo)", sourceId: "emcModels2023" } ],
+    rationale: "EMC is anthracycline-treated already; adding a screen-validated synergistic partner is a low-barrier way to improve on a current backbone.",
+    evidenceTier: "T1-preclinical-or-analog", speculationLevel: "moderate",
+    keyRisks: "Ex vivo synergy may not translate; overlapping toxicities; combination trials are harder in an ultra-rare disease.",
+    openQuestions: ["Does anthracycline + venetoclax/carfilzomib improve response over anthracycline alone in EMC models?"],
+    scores: { emcEvidence: 1, mechanisticFit: 2, availability: 3, safety: 2, biomarker: 0, novelty: 2 } },
 ];
 
 for (const c of CANDIDATES) c.priorityScore = Object.values(c.scores).reduce((a, b) => a + b, 0);
@@ -151,6 +198,7 @@ const doc = {
   schemaVersion: 1,
   disease: "extraskeletal myxoid chondrosarcoma",
   diseaseSlug: "emc",
+  landscapeNote: "EMC has a genomically QUIET landscape: clinical NGS of metastatic EMC found no recurrent clinically-actionable mutations (CDKN2A/2B copy loss noted), and the KIT mutation is a rare (~5%) exception. Repurposing should therefore target the NR4A3 fusion / lineage biology (angiogenesis, PPARγ, transcription/epigenetics, apoptosis) and lean on unbiased patient-derived-model drug screens, rather than expecting actionable driver mutations.",
   disclaimer: "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas and prioritization scores for investigation - not treatments, not medical advice, and not endorsed for clinical use. None of these drugs is known to work in EMC. Not for the patient-facing site. See research/hypotheses/METHODOLOGY.md.",
   tiers: {
     "T0-mechanistic": "Mechanistic rationale only; no EMC or close-analog data.",
