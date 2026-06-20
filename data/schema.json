@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Rare Cancer page data",
+  "description": "One file per cancer at data/cancers/<slug>.json. The site renders entirely from this structure - no code changes are needed to add a cancer.",
+  "type": "object",
+  "required": ["schemaVersion", "meta", "overview", "studies", "outcomes", "registry", "treatments", "monitoring", "supportGroups", "centers", "questionsForOncologist"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "meta": {
+      "type": "object",
+      "required": ["slug", "name", "abbreviation", "summary", "lastReviewed", "dataConfidence"],
+      "properties": {
+        "slug": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "name": {"type": "string"},
+        "abbreviation": {"type": "string"},
+        "aliases": {"type": "array", "items": {"type": "string"}},
+        "icdO": {"type": "string"},
+        "orphaCode": {"type": "string"},
+        "summary": {"type": "string"},
+        "lastReviewed": {"type": "string", "description": "YYYY-MM-DD"},
+        "reviewedBy": {"type": "string"},
+        "dataConfidence": {"enum": ["draft", "literature-reviewed", "clinician-reviewed"]},
+        "patientFriendlyOneLiner": {"type": "string"}
+      }
+    },
+    "overview": {"type": "object"},
+    "studies": {
+      "type": "object",
+      "required": ["items"],
+      "properties": {
+        "liveSearches": {"type": "array", "items": {"type": "object", "required": ["label", "url"]}},
+        "items": {"type": "array", "items": {"type": "object", "required": ["title", "url"]}}
+      }
+    },
+    "outcomes": {"type": "object"},
+    "registry": {
+      "type": "object",
+      "required": ["dataStatus", "patients"],
+      "properties": {
+        "dataStatus": {"enum": ["SAMPLE_SYNTHETIC", "partial-curated", "curated"]},
+        "patients": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["age", "sex", "stage", "vitalStatus", "source"],
+            "properties": {
+              "age": {"type": "number"},
+              "sex": {"enum": ["F", "M", "unknown"]},
+              "grade": {"enum": ["low", "high", "unknown"]},
+              "stage": {"enum": ["localized", "regional", "distant"]},
+              "sizeCm": {"type": "number"},
+              "site": {"type": "string"},
+              "fusion": {"type": "string"},
+              "primaryTreatment": {"type": "string"},
+              "followupMonths": {"type": "number"},
+              "vitalStatus": {"enum": ["alive", "dead", "unknown"]},
+              "diseaseSpecificDeath": {"type": "boolean"},
+              "localRecurrence": {"type": "boolean"},
+              "metastasis": {"type": "boolean"},
+              "source": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "treatments": {"type": "object"},
+    "monitoring": {"type": "object"},
+    "supportGroups": {"type": "object"},
+    "centers": {
+      "type": "object",
+      "properties": {
+        "list": {"type": "array", "items": {"type": "object", "required": ["name", "country"]}}
+      }
+    },
+    "questionsForOncologist": {"type": "object"}
+  }
+}

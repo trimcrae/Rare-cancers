@@ -1,0 +1,32 @@
+<!doctype html>
+<!--
+  Per-cancer page shell. Copy this to cancers/<slug>/index.html and replace every
+  __SLUG__ with the cancer's slug and __NAME__/__ABBR__ with its name.
+  The scaffolding script (scripts/new-cancer.mjs) does this for you.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>__NAME__ (__ABBR__) - Rare Cancer Info Hub</title>
+  <meta name="description" content="Studies, pooled outcomes, support groups, centres of excellence, treatment and monitoring plans, and questions to ask your oncologist for __NAME__ (__ABBR__)." />
+  <link rel="stylesheet" href="../../assets/css/styles.css" />
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="../../" style="color:inherit">Rare Cancer Info Hub</a>
+      <nav>
+        <a href="../../">All cancers</a>
+        <a href="https://github.com/trimcrae/rare-cancers" target="_blank" rel="noopener noreferrer">Contribute</a>
+      </nav>
+    </div>
+  </header>
+  <main id="app"></main>
+  <script>
+    window.CANCER_SLUG = "__SLUG__";
+    window.DATA_BASE = "../../";
+  </script>
+  <script src="../../assets/js/cancer.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# GitLab Pages deployment.
+# This is a zero-build static site, so "building" just means copying the static
+# files into the public/ directory that GitLab Pages serves.
+# Pages publishes from the project's default branch by default.
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - mkdir -p public
+    - cp index.html 404.html public/
+    - cp -r assets data cancers public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

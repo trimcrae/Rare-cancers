@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "slug": "REPLACE-slug",
+    "name": "REPLACE Full Name",
+    "abbreviation": "REPLACE",
+    "aliases": [],
+    "icdO": "",
+    "orphaCode": "",
+    "summary": "REPLACE one-paragraph plain-language summary.",
+    "lastReviewed": "YYYY-MM-DD",
+    "reviewedBy": "Initial automated draft - NOT yet clinician-reviewed",
+    "dataConfidence": "draft",
+    "patientFriendlyOneLiner": "REPLACE one sentence a scared newly-diagnosed person would want to read first."
+  },
+  "overview": {
+    "whatItIs": "REPLACE",
+    "howCommon": "REPLACE incidence / proportion of cases",
+    "typicalPatient": "REPLACE typical age / sex",
+    "commonSites": [],
+    "molecular": "REPLACE key genetics / biomarkers, if any",
+    "howDiagnosed": "REPLACE",
+    "keyPointsForNewlyDiagnosed": []
+  },
+  "studies": {
+    "intro": "Curated list of published literature. Add every paper you find.",
+    "liveSearches": [
+      {"label": "PubMed", "url": "https://pubmed.ncbi.nlm.nih.gov/?term=REPLACE+QUERY"},
+      {"label": "ClinicalTrials.gov", "url": "https://clinicaltrials.gov/search?cond=REPLACE"},
+      {"label": "Google Scholar", "url": "https://scholar.google.com/scholar?q=REPLACE"}
+    ],
+    "items": []
+  },
+  "outcomes": {
+    "intro": "Published outcome data, presented as an outcomes study would. Use ranges across studies.",
+    "published": [],
+    "prognosticFactors": [],
+    "treatmentResponse": []
+  },
+  "registry": {
+    "intro": "Individual Participant Data registry: one row per reported patient, pooled from every published report.",
+    "dataStatus": "SAMPLE_SYNTHETIC",
+    "dataStatusBanner": "These rows are placeholders. Replace with curated, cited, real published patient data before treating any number as real.",
+    "fields": {
+      "age": "Age at diagnosis (years)",
+      "sex": "F or M",
+      "grade": "low / high / unknown",
+      "stage": "localized / regional / distant",
+      "sizeCm": "Largest dimension (cm)",
+      "site": "Anatomic site",
+      "primaryTreatment": "surgery / surgery+RT / surgery+systemic / systemic only",
+      "followupMonths": "Follow-up (months)",
+      "vitalStatus": "alive / dead",
+      "diseaseSpecificDeath": "true if died of this cancer",
+      "localRecurrence": "true/false",
+      "metastasis": "true/false",
+      "source": "Citation (required for real data)"
+    },
+    "patients": []
+  },
+  "treatments": {
+    "intro": "Educational summary only - not a recommendation. Decisions belong with a specialist MDT.",
+    "principles": [],
+    "byStage": [
+      {"stage": "localized", "label": "Localised disease", "options": []},
+      {"stage": "regional", "label": "Locally advanced / regional disease", "options": []},
+      {"stage": "distant", "label": "Metastatic / advanced disease", "options": []}
+    ],
+    "disclaimer": "May be out of date and varies by country. Defer to your treating team."
+  },
+  "monitoring": {
+    "intro": "Suggested follow-up framework. Confirm your personal schedule with your team.",
+    "schedule": [],
+    "whatTheyWatchFor": [],
+    "selfMonitoring": [],
+    "disclaimer": "Illustrative, not a personalised plan."
+  },
+  "supportGroups": {
+    "intro": "Communities for this cancer (and broader networks that include it).",
+    "groups": [],
+    "wanted": "If you know of a group for this cancer, please add it."
+  },
+  "centers": {
+    "intro": "Specialist centres. Not exhaustive or ranked; inclusion is not an endorsement.",
+    "directories": [],
+    "list": []
+  },
+  "questionsForOncologist": {
+    "intro": "Questions worth asking your team. Bring a written copy.",
+    "groups": [
+      {"topic": "Diagnosis & pathology", "questions": []},
+      {"topic": "Treatment", "questions": []},
+      {"topic": "Outlook & follow-up", "questions": []},
+      {"topic": "Living with it", "questions": []}
+    ]
+  }
+}
