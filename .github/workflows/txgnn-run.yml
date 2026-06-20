@@ -67,6 +67,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           cp research/hypotheses/txgnn-emc-predictions.json "$RUNNER_TEMP/pred.json"
+          # remove the freshly-written (untracked) copy so switching to the existing
+          # txgnn-cache branch doesn't abort on an untracked-file overwrite
+          rm -f research/hypotheses/txgnn-emc-predictions.json
           git fetch origin txgnn-cache || true
           if git show-ref --verify --quiet refs/remotes/origin/txgnn-cache; then
             git checkout -B txgnn-cache origin/txgnn-cache
