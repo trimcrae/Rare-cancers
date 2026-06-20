@@ -73,6 +73,18 @@ def build_idx2name(mapping, kind):
             out[_f(idx)] = str(nm)
     return out
 
+def build_id2name(mapping, kind):
+    """{node_id(str) -> name(str)} for a node kind, from retrieve_id_mapping()."""
+    if not isinstance(mapping, dict):
+        return {}
+    keys = {k.lower(): k for k in mapping.keys()}
+    for lk, ok in keys.items():
+        if kind in lk and ("id2name" in lk or ("id" in lk and "name" in lk)):
+            d = mapping[ok]
+            if isinstance(d, dict) and d:
+                return {str(k): str(v) for k, v in d.items()}
+    return {}
+
 def main():
     import numpy as np, pandas as pd
     import torch, dgl
@@ -106,8 +118,8 @@ def main():
         "keys:", list(mapping.keys()) if isinstance(mapping, dict) else "n/a")
 
     disease_idx2name = build_idx2name(mapping, "disease")
-    drug_map = build_idx2name(mapping, "drug")
-    log(f"disease idx->name: {len(disease_idx2name)} | drug idx->name: {len(drug_map)}")
+    drug_id2name = build_id2name(mapping, "drug")
+    log(f"disease idx->name: {len(disease_idx2name)} | drug id->name: {len(drug_id2name)}")
     # sample a few disease names so we can see the format
     for i, (k, v) in enumerate(disease_idx2name.items()):
         if i >= 3: break
@@ -131,7 +143,7 @@ def main():
     summarize(out)
 
     # --- best-effort extraction of ranked (drug, score) --------------------------
-    ranked = extract_ranked(out, emc_idx, drug_map)
+    ranked = extract_ranked(out, drug_id2name)
     log(f"extracted {len(ranked)} ranked drugs")
 
     result = {
@@ -151,45 +163,35 @@ def main():
         for d in ranked[:15]:
             log("  %-32s %.4f" % (str(d.get('drug'))[:32], d.get('score', float('nan'))))
 
-def extract_ranked(out, emc_idx, drug_map):
-    """Coerce TxGNN's eval output into a sorted list of {drug, score}."""
-    import pandas as pd, numpy as np
-    node = out
-    if isinstance(out, dict):
-        # keyed by disease idx (int/float/str) — match flexibly
-        for k in out.keys():
-            try:
-                if float(k) == float(emc_idx):
-                    node = out[k]; break
-            except Exception:
-                pass
-        else:
-            node = next(iter(out.values()))
+def extract_ranked(out, drug_id2name):
+    """TxGNN eval returns {'prediction': {disease_id: {drug_id: score}}, 'label':..., 'result':...}.
+    Pull the per-drug indication scores for the (single) disease and sort descending."""
     pairs = []
-    if isinstance(node, pd.DataFrame):
-        cols = {c.lower(): c for c in node.columns}
-        namec = next((cols[c] for c in cols if "name" in c or "drug" in c), None)
-        scorec = next((cols[c] for c in cols if "score" in c or "pred" in c or "prob" in c), None)
-        idxc = next((cols[c] for c in cols if "idx" in c or "id" in c), None)
-        for _, r in node.iterrows():
-            nm = r[namec] if namec else drug_map.get(float(r[idxc]), r[idxc]) if idxc else None
-            sc = float(r[scorec]) if scorec else None
-            pairs.append({"drug": str(nm), "score": sc})
-    elif isinstance(node, dict):
-        # e.g. {'drug_name': [...], 'score': [...]} or {drug: score}
-        if any(isinstance(v, (list, tuple, np.ndarray)) for v in node.values()):
-            keys = {k.lower(): k for k in node.keys()}
-            namek = next((keys[k] for k in keys if "name" in k or "drug" in k), None)
-            scorek = next((keys[k] for k in keys if "score" in k or "pred" in k or "prob" in k), None)
-            names = node.get(namek, []) if namek else []
-            scores = node.get(scorek, []) if scorek else []
-            for nm, sc in zip(names, scores):
-                pairs.append({"drug": str(nm), "score": float(sc)})
-        else:
-            for nm, sc in node.items():
-                pairs.append({"drug": str(drug_map.get(float(nm), nm)) if _isnum(nm) else str(nm),
-                              "score": float(sc)})
-    pairs = [p for p in pairs if p.get("score") is not None]
+    pred = out.get("prediction") if isinstance(out, dict) else None
+    if isinstance(pred, dict) and pred:
+        disease_id = next(iter(pred))           # single disease evaluated
+        scores = pred[disease_id]               # {drug_id: score}
+        if isinstance(scores, dict):
+            for drug_id, sc in scores.items():
+                try:
+                    s = float(sc)
+                except Exception:
+                    continue
+                pairs.append({"drug_id": str(drug_id),
+                              "drug": str(drug_id2name.get(str(drug_id), drug_id)),
+                              "score": round(s, 5)})
+    if not pairs:
+        # fallback: result -> 'Ranked List' -> [ [name/id, score], ... ]
+        res = (out.get("result") if isinstance(out, dict) else None) or {}
+        rl = res.get("Ranked List") or {}
+        if isinstance(rl, dict) and rl:
+            lst = next(iter(rl.values()))
+            for item in (lst or []):
+                try:
+                    name, sc = item[0], float(item[1])
+                except Exception:
+                    continue
+                pairs.append({"drug": str(drug_id2name.get(str(name), name)), "score": round(sc, 5)})
     pairs.sort(key=lambda d: d["score"], reverse=True)
     return pairs
 
