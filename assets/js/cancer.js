@@ -156,6 +156,7 @@
     num("f-sizeMax", "Size to (cm)", "any"),
     sites.length ? sel("f-site", "Site", sites) : null,
     treatments.length ? sel("f-treatment", "Primary treatment", treatments) : null,
+    num("f-dxSince", "Diagnosed since (year)", "any"),
   ].filter(Boolean));
 
   const statsWrap = el("div", { class: "results-stats" });
@@ -178,6 +179,10 @@
     return [Math.max(0, (c - m) / d), Math.min(1, (c + m) / d)];
   };
   const ci = (e, n) => { const w = wilson(e, n); return w ? Math.round(w[0] * 100) + "-" + Math.round(w[1] * 100) + "%" : "-"; };
+
+  // temporal validity: anchor on diagnosis-year study period (see METHODOLOGY.md)
+  const NOW = new Date().getFullYear();
+  const periodText = (sp) => (Array.isArray(sp) && sp.length === 2) ? (sp[0] === sp[1] ? String(sp[0]) : sp[0] + "-" + sp[1]) : "not reported";
 
   // citation resolution (structured registry.citations + primary/secondary provenance)
   const GH_METHODOLOGY = "https://github.com/trimcrae/rare-cancers/blob/main/METHODOLOGY.md";
@@ -203,6 +208,8 @@
     if (f.ageMax != null && c.ageMin != null && c.ageMin > f.ageMax) return false;
     if (f.sizeMin != null && c.sizeMax != null && c.sizeMax < f.sizeMin) return false;
     if (f.sizeMax != null && c.sizeMin != null && c.sizeMin > f.sizeMax) return false;
+    // recency: drop a cohort only if its data demonstrably ENDS before the cutoff
+    if (f.dxSince != null && Array.isArray(c.studyPeriod) && c.studyPeriod[1] < f.dxSince) return false;
     return true;
   }
   function patientMatches(p, f) {
@@ -215,6 +222,7 @@
     if (f.sizeMax != null && !(p.sizeCm <= f.sizeMax)) return false;
     if (f.site && p.site !== f.site) return false;
     if (f.treatment && p.primaryTreatment !== f.treatment) return false;
+    if (f.dxSince != null && p.dxYear != null && p.dxYear < f.dxSince) return false;
     return true;
   }
   const addMetric = (agg, m) => { if (m && m.denom) { agg.events += m.events; agg.denom += m.denom; } };
@@ -227,6 +235,7 @@
       stage: v("f-stage"), sizeMin: nv("f-sizeMin"), sizeMax: nv("f-sizeMax"),
       site: document.getElementById("f-site") ? v("f-site") : "",
       treatment: document.getElementById("f-treatment") ? v("f-treatment") : "",
+      dxSince: nv("f-dxSince"),
     };
     renderResults(patients.filter((p) => patientMatches(p, f)), cohorts.filter((c) => cohortMatches(c, f)));
   }
@@ -240,8 +249,10 @@
       if (p.stage !== "distant" && typeof p.metastasis === "boolean") { met.denom++; if (p.metastasis) met.events++; }
       if (typeof p.diseaseSpecificDeath === "boolean") { dd.denom++; if (p.diseaseSpecificDeath) dd.events++; }
     });
+    const yrs = ps.map((p) => p.dxYear || (cite(p.sourceId) || {}).year).filter(Boolean);
     return { label: "Individual published case reports", n: ps.length, pool: true, isCases: true,
       recurrence: rec, metastasis: met, diseaseDeath: dd,
+      studyPeriod: yrs.length ? [Math.min(...yrs), Math.max(...yrs)] : undefined,
       medianFollowupMonths: median(ps.map((p) => p.followupMonths).filter((x) => typeof x === "number")) };
   }
 
@@ -271,16 +282,28 @@
     if (aRec.denom) statsWrap.appendChild(stat(pct(aRec.events, aRec.denom) + "%", "had local recurrence", "95% CI " + ci(aRec.events, aRec.denom) + " · n=" + aRec.denom));
     if (aMet.denom) statsWrap.appendChild(stat(pct(aMet.events, aMet.denom) + "%", "developed metastasis", "95% CI " + ci(aMet.events, aMet.denom) + " · n=" + aMet.denom));
 
+    // temporal-validity caveat: show the diagnosis-year span feeding the pool
+    const periods = pooled.map((e) => e.studyPeriod).filter(Array.isArray);
+    if (periods.length) {
+      const lo = Math.min(...periods.map((p) => p[0])), hi = Math.max(...periods.map((p) => p[1]));
+      const unknownN = pooled.filter((e) => !Array.isArray(e.studyPeriod)).reduce((s, e) => s + (e.n || 0), 0);
+      statsWrap.appendChild(el("p", { class: "small muted", style: "flex-basis:100%;margin:4px 0 0" },
+        "Underlying patients were diagnosed " + lo + "-" + hi + (unknownN ? " (plus " + unknownN + " from cohorts that don't state a diagnosis period)" : "") +
+        (lo < NOW - 12 ? ". Some of this data predates current treatments, so read the figures as a conservative floor, not a ceiling - outcomes for someone diagnosed today may be better." : ".") +
+        " Use 'Diagnosed since' to drop older data; see Emerging treatments and Trials below."));
+    }
+
     // ---- transparent breakdown: every contributing study/cohort ----
     const cell = (m, pctVal, txt) => (m && m.denom) ? (pct(m.events, m.denom) + "% (" + m.events + "/" + m.denom + ")") : (pctVal != null ? pctVal + "%" : (txt || "-"));
     const dssCell = (e) => e.fiveYearDSS != null ? e.fiveYearDSS + "% (5-yr)" : (e.diseaseDeath && e.diseaseDeath.denom ? pct(e.diseaseDeath.denom - e.diseaseDeath.events, e.diseaseDeath.denom) + "% (crude)" : (e.dssText || "-"));
-    const cols = ["study / cohort", "n", "role", "local recurrence", "metastasis", "disease-specific survival", "median F/U", "source"];
+    const cols = ["study / cohort", "n", "role", "pts diagnosed", "local recurrence", "metastasis", "disease-specific survival", "median F/U", "source"];
     const head = el("tr", {}, cols.map((c) => el("th", {}, c)));
     const order = [...entries].sort((a, b) => (a.pool === false) - (b.pool === false));
     const rows = order.map((e) => el("tr", { class: e.pool === false ? "muted" : "" }, [
       el("td", { title: e.note || "" }, e.label),
       el("td", {}, String(e.n != null ? e.n : "-")),
       el("td", {}, el("span", { class: "pill" }, e.pool === false ? "context" : "pooled")),
+      el("td", {}, periodText(e.studyPeriod)),
       el("td", {}, cell(e.recurrence, e.recurrencePct, e.recurrenceText)),
       el("td", {}, isBaselineMet(e) ? "(at diagnosis)" : cell(e.metastasis, e.metastasisPct, e.metastasisText)),
       el("td", {}, dssCell(e)),
@@ -317,7 +340,7 @@
     ]),
   ]);
   const methodNote = el("p", { class: "small muted" }, [
-    "Method: pooled figures are crude, denominator-weighted proportions with Wilson 95% CIs, summing only non-overlapping cohorts that report explicit patient counts; time-anchored survival (5/10-yr) is shown per study, not merged. Full policy: ",
+    "Method: pooled figures are crude, denominator-weighted proportions with Wilson 95% CIs, summing only non-overlapping cohorts that report explicit patient counts; time-anchored survival (5/10-yr) is shown per study, not merged. Each row shows when its patients were diagnosed - older data can understate today's outlook. Where studies genuinely conflict, see 'Where the evidence disagrees' below rather than trusting one pooled number. Full policy: ",
     ext(GH_METHODOLOGY, "METHODOLOGY.md"), ".",
   ]);
 
@@ -339,6 +362,28 @@
     usedIds.length ? el("div", { class: "card" }, [el("div", { class: "kicker" }, "Sources"), sourcesList]) : null
   );
   applyFilters(); // render the full pool on load
+
+  // ---- WHERE THE EVIDENCE DISAGREES (contested questions) ---------------
+  const eqs = data.evidenceQuestions || [];
+  if (eqs.length) {
+    const pillClass = { "contested": "warn", "consensus-against": "warn", "consensus-for": "good", "limited-evidence": "", "emerging": "" };
+    const stanceLabel = { supports: "Supports", against: "Against", mixed: "Mixed", null: "No effect" };
+    const qBlocks = eqs.map((q) => el("div", { class: "card" }, [
+      el("div", { class: "spread" }, [el("strong", {}, q.question), el("span", { class: "pill " + (pillClass[q.consensus] || "") }, (q.consensus || "").replace(/-/g, " "))]),
+      q.summary ? el("p", { class: "small" }, q.summary) : null,
+      el("ul", { class: "positions" }, (q.positions || []).map((p) => el("li", {}, [
+        el("strong", {}, (stanceLabel[p.stance] || p.stance) + ": "),
+        (p.claim || "") + " ",
+        el("span", { class: "small muted" }, "[" + [p.design, p.studyPeriod ? "dx " + periodText(p.studyPeriod) : null].filter(Boolean).join("; ") + "] "),
+        sourceCell(p),
+        p.caveat ? el("div", { class: "small muted" }, "Why it may mislead: " + p.caveat) : null,
+      ]))),
+      q.bottomLine ? el("p", { class: "small", style: "margin-top:6px" }, [el("strong", {}, "Bottom line: "), q.bottomLine]) : null,
+    ]));
+    addSection("evidence", "Where the evidence disagrees (and why)",
+      el("p", { class: "intro" }, "For some questions the published studies genuinely conflict. Rather than pick a winner or bury it inside a pooled average, here is each side with its source, its data vintage, and the most likely reason for the disagreement."),
+      ...qBlocks);
+  }
 
   // ---- TREATMENTS (filter by stage) ------------------------------------
   const tr = data.treatments || {};

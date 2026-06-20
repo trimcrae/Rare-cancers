@@ -144,10 +144,101 @@ never a personal prognosis.**
 
 ---
 
-## 3. Checklist when adding registry data
+## 3. Representing disagreement (contested evidence)
+
+Rare-cancer evidence frequently **conflicts** — small retrospective series reach
+opposite conclusions. The wrong response is to pick a winner, or to silently pool
+conflicting findings into one confident-looking number. The right response is to
+**show the disagreement and explain why it exists.**
+
+Contested clinical questions live in `evidenceQuestions[]`:
+
+```jsonc
+{
+  "id": "rt-localized-emc",
+  "question": "Does radiotherapy improve outcomes in localized EMC?",
+  "consensus": "contested",            // consensus-for | consensus-against |
+                                       // contested | limited-evidence | emerging
+  "summary": "...plain-language synthesis that states the uncertainty...",
+  "positions": [
+    { "stance": "supports",            // supports | against | mixed | null
+      "claim": "10-yr local control 100% vs 63% (surgery+RT vs surgery alone)",
+      "design": "single-institution, n=41",
+      "sourceId": "remiszewski2025", "provenance": "secondary",
+      "primaryRef": "Bishop et al.", "studyPeriod": [1989, 2014],
+      "caveat": "Combined-modality patients differ systematically from surgery-alone." },
+    { "stance": "against",
+      "claim": "No association between RT and local recurrence (HR 0.50, p=0.37)",
+      "design": "national registry, n=134", "sourceId": "masunaga2025",
+      "provenance": "primary", "studyPeriod": [2002, 2022],
+      "caveat": "Indication bias: RT given to higher-risk margins/sites." }
+  ],
+  "bottomLine": "Guideline-pragmatic stance + an explicit statement of what the data cannot prove."
+}
+```
+
+**Rules.** Every position carries a real `sourceId` (primary/secondary as in §1).
+A question marked `contested` must show **≥2 positions taking opposing stances**
+(validator-enforced) — you may not label something contested and then list one
+side. Always name the **mechanism of conflict** (indication bias, era effects,
+selection, tiny n). The `bottomLine` may give a guideline-based pragmatic stance
+but must state what remains unproven. **Never** resolve a genuine controversy
+with a fabricated consensus.
+
+**Link to the pool.** When a pooled metric shows wide between-study spread
+(§2.2 heterogeneity) and that spread maps onto a known controversy, point the
+user to the relevant `evidenceQuestions` entry rather than implying the pooled
+point estimate settles it.
+
+## 4. Temporal validity (data ages; prognoses move)
+
+Most rare-cancer outcome data is **retrospective**, often describing patients
+diagnosed years to **decades** ago. Cancer care improves (surgery, imaging,
+systemic agents — for EMC, anti-angiogenic TKIs are a post-2019 development —
+supportive care, stage migration). **Presenting a 5-year survival from patients
+treated in the 1990s as a today-patient's outlook is misleading and usually
+pessimistic.** This is handled at every step, and generalizes to every cancer.
+
+### 4.1 Anchor on study period, not publication year
+
+Every cohort/citation records `studyPeriod: [firstDxYear, lastDxYear]` — the
+years patients were **diagnosed/treated**, which is what determines how current
+the evidence is (a 2025 paper can describe 1990s patients). **Record it only
+from what the source states; never infer or fabricate it** — mark it absent and
+the UI shows "diagnosis period not reported", which is itself useful information.
+
+### 4.2 Surface vintage everywhere
+
+Each breakdown row shows its diagnosis period; the pooled result shows the
+**span of diagnosis years** feeding it and flags when it is dominated by old
+data. A user-facing **"diagnosed since (year)"** control lets people exclude
+cohorts whose data ends before a chosen year, so they can see the most current
+slice. (Cohorts spanning an era cannot be split without individual data; that
+limitation is stated, not hidden.)
+
+### 4.3 Direction of bias — conservative floor, not ceiling
+
+State explicitly that **older outcome data most likely *understate* the outlook
+for someone diagnosed today**, and should be read as a *conservative floor*
+rather than a prediction. Point users to current options (`emergingTreatments`,
+`clinicalTrials`). But **never silently adjust a number upward** to "correct" for
+age — improvement is not guaranteed for a given subtype, and inventing optimism
+is as dishonest as inventing pessimism. The correction is **transparency +
+stratification + qualitative direction**, never a black-box multiplier. Symmetric
+caution: do not over-claim that modern results are better without evidence.
+
+### 4.3 Generalization
+
+`studyPeriod`, vintage display, the "diagnosed since" lever, and the
+floor-not-ceiling caveat are generic and apply to every cancer page. Any pooled
+survival/recurrence figure on the site must travel with its data vintage.
+
+## 5. Checklist when adding registry data
 
 - [ ] Each new source added to `registry.citations` with ≥1 resolvable id + url + license.
 - [ ] Each patient/cohort uses `sourceId` (and `primaryRef` + `provenance:"secondary"` if read from a review).
 - [ ] Pooled cohorts have explicit `{events, denom}`, confirmed EMC, non-overlapping population, outcome ≠ inclusion criterion.
 - [ ] Overlapping / percentage-only / different-endpoint series set `pool:false` + `contextReason`.
+- [ ] Each cohort/citation has `studyPeriod` (diagnosis years) where the source states it; absent if not.
+- [ ] Genuinely conflicting findings are an `evidenceQuestions` entry with ≥2 opposing, cited positions and the mechanism of conflict — not pooled into one number.
 - [ ] `node scripts/validate.mjs` and `node scripts/smoke-render.mjs` pass.

@@ -228,7 +228,7 @@
     ]
   },
   "registry": {
-    "intro": "This tool pools two kinds of real, cited evidence to explore 'what happened to people like me?': (1) grouped outcomes from published EMC cohorts and registries (tens to hundreds of patients each), and (2) individual published case reports. Matching studies are summed into a crude top-line, and every contributing study is listed beneath it so you can see exactly where the numbers come from. Large series with population-overlap or percentage-only data are shown for context but not summed.",
+    "intro": "This tool pools two kinds of real, cited evidence to explore 'what happened to people like me?': grouped outcomes from published EMC cohorts/registries and individual case reports. Matching studies are summed into a crude top-line (with confidence intervals) and every contributing study is listed beneath it. Each row shows when its patients were diagnosed, because older data can understate today's outlook. Where studies genuinely disagree, see 'Where the evidence disagrees' below rather than trusting a single pooled number.",
     "dataStatus": "partial-curated",
     "dataStatusBanner": "These numbers are pooled from REAL published EMC cohorts and individual case reports, each linked to its source - not synthetic data. The top-line figures are CRUDE pooled proportions (with Wilson 95% confidence intervals) across heterogeneous studies of different countries, eras and follow-up - not a survival model. Some large series are shown for context only, to avoid double-counting overlapping populations. See METHODOLOGY.md. Treat everything as a rough signal, never a personal prognosis.",
     "fields": {
@@ -344,7 +344,11 @@
         "provenance": "primary",
         "populationKey": "masunaga2025-jpreg",
         "stratum": "localized-surgical",
-        "note": "Prognostic subset; 8 non-surgically-treated localised cases excluded. R1/R2 margins were the main risk factor for recurrence."
+        "note": "Prognostic subset; 8 non-surgically-treated localised cases excluded. R1/R2 margins were the main risk factor for recurrence.",
+        "studyPeriod": [
+          2002,
+          2022
+        ]
       },
       {
         "label": "Metastatic at diagnosis",
@@ -363,7 +367,11 @@
         "provenance": "primary",
         "populationKey": "masunaga2025-jpreg",
         "stratum": "metastatic-at-dx",
-        "note": "27 lung, 2 peritoneal metastases; 16 received systemic therapy. Metastasis is the inclusion criterion here, so it is not counted as a metastasis outcome."
+        "note": "27 lung, 2 peritoneal metastases; 16 received systemic therapy. Metastasis is the inclusion criterion here, so it is not counted as a metastasis outcome.",
+        "studyPeriod": [
+          2002,
+          2022
+        ]
       },
       {
         "label": "Localised, single-institution series",
@@ -395,7 +403,11 @@
         "provenance": "secondary",
         "primaryRef": "Kemmerer et al. (SEER 2004-2012, n=156)",
         "contextReason": "population-overlap; percentage-only",
-        "note": "94% had surgery, 32% radiotherapy. Population registry does not capture recurrence."
+        "note": "94% had surgery, 32% radiotherapy. Population registry does not capture recurrence.",
+        "studyPeriod": [
+          2004,
+          2012
+        ]
       },
       {
         "label": "Local recurrence by surgical margin",
@@ -443,7 +455,11 @@
         "n": 171,
         "population": "Pathologically diagnosed EMC, Japanese National Bone & Soft Tissue Tumour Registry, 2002-2022",
         "accessed": "2026-06-20",
-        "verified": true
+        "verified": true,
+        "studyPeriod": [
+          2002,
+          2022
+        ]
       },
       "remiszewski2025": {
         "short": "Remiszewski 2025 (review)",
@@ -899,5 +915,102 @@
         ]
       }
     ]
-  }
+  },
+  "evidenceQuestions": [
+    {
+      "id": "rt-localized-emc",
+      "question": "Does adjuvant or neoadjuvant radiotherapy improve outcomes in localized EMC?",
+      "consensus": "contested",
+      "summary": "Single-institution and population studies suggest radiotherapy improves local control (and possibly survival), while a large national registry and other cohorts found no effect on local recurrence. Much of both the apparent benefit and the apparent harm reflects indication bias: radiotherapy is preferentially given to higher-risk tumours (close or positive margins, large or truncal lesions). No randomized trials exist.",
+      "positions": [
+        {
+          "stance": "supports",
+          "claim": "10-year local control 100% with surgery + radiotherapy vs 63% with surgery alone (p=0.004); surgery alone carried HR 12.7 for local recurrence.",
+          "design": "single-institution retrospective, n=41",
+          "sourceId": "remiszewski2025",
+          "provenance": "secondary",
+          "primaryRef": "Bishop et al.",
+          "caveat": "Combined-modality patients differ systematically from surgery-alone patients; single centre."
+        },
+        {
+          "stance": "supports",
+          "claim": "External-beam radiotherapy associated with higher cancer-specific survival (5-yr CSS 94% vs 85%, p=0.01).",
+          "design": "SEER population, n=156",
+          "sourceId": "remiszewski2025",
+          "provenance": "secondary",
+          "primaryRef": "Kemmerer et al. (SEER 2004-2012)",
+          "studyPeriod": [
+            2004,
+            2012
+          ],
+          "caveat": "Observational; treatment not randomized; residual confounding likely."
+        },
+        {
+          "stance": "against",
+          "claim": "No association between (neo)adjuvant radiotherapy and local recurrence (HR 0.50, 95% CI 0.11-2.25; p=0.37). RT recipients far more often had positive margins (42% vs 18%).",
+          "design": "national registry, n=134 localized",
+          "sourceId": "masunaga2025",
+          "provenance": "primary",
+          "studyPeriod": [
+            2002,
+            2022
+          ],
+          "caveat": "Indication bias toward higher-risk tumours; RT even appeared as an adverse disease-specific-survival factor on univariate analysis for the same reason."
+        },
+        {
+          "stance": "against",
+          "claim": "No difference in local recurrence with vs without radiotherapy (41% vs 35%, p=0.79).",
+          "design": "retrospective cohort",
+          "sourceId": "remiszewski2025",
+          "provenance": "secondary",
+          "primaryRef": "Drilon et al.",
+          "caveat": "Retrospective; small numbers."
+        }
+      ],
+      "bottomLine": "Guideline-pragmatic practice (extrapolated from ESMO/NCCN soft-tissue-sarcoma guidance) is SELECTIVE radiotherapy for close/positive margins or large/truncal tumours, not routine radiotherapy for all localized EMC. The data cannot prove radiotherapy helps unselected patients, and the apparent survival 'harm' from radiotherapy is an artifact of it being given to worse-prognosis disease - not evidence that it is harmful."
+    },
+    {
+      "id": "adjuvant-chemo-localized-emc",
+      "question": "Does adjuvant or neoadjuvant chemotherapy improve outcomes in localized EMC?",
+      "consensus": "consensus-against",
+      "summary": "Multiple cohorts and a population analysis agree that perioperative chemotherapy does not measurably improve metastasis-free or overall survival in localized EMC, which is generally chemoresistant. (This is separate from the palliative use of systemic therapy in advanced disease - see Treatments.)",
+      "positions": [
+        {
+          "stance": "against",
+          "claim": "No association between (neo)adjuvant chemotherapy and distant metastasis (HR 0.57, p=0.58) or disease-specific survival.",
+          "design": "national registry, n=134 localized (6 received chemo)",
+          "sourceId": "masunaga2025",
+          "provenance": "primary",
+          "studyPeriod": [
+            2002,
+            2022
+          ],
+          "caveat": "Very few treated patients; underpowered for a small effect."
+        },
+        {
+          "stance": "against",
+          "claim": "7 patients given preoperative chemotherapy had no complete pathological responses and no significant improvement in disease-free or overall survival.",
+          "design": "multicentre review",
+          "sourceId": "remiszewski2025",
+          "provenance": "secondary",
+          "primaryRef": "Chiusole et al.",
+          "caveat": "Tiny n; retrospective."
+        },
+        {
+          "stance": "against",
+          "claim": "Chemotherapy did not improve overall survival and was associated with worse outcomes (HR up to 2.54 in surgically treated patients).",
+          "design": "SEER 1973-2016",
+          "sourceId": "remiszewski2025",
+          "provenance": "secondary",
+          "primaryRef": "Wagner et al. (SEER 1973-2016)",
+          "studyPeriod": [
+            1973,
+            2016
+          ],
+          "caveat": "Strong selection bias - sicker patients receive chemotherapy; also spans a very long, dated era."
+        }
+      ],
+      "bottomLine": "Routine adjuvant/neoadjuvant chemotherapy is not recommended for localized EMC. Cytotoxic and anti-angiogenic systemic therapy has a role in advanced/metastatic disease (covered under Treatments and Emerging Treatments), which is a different question."
+    }
+  ]
 }

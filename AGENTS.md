@@ -41,6 +41,13 @@ facts, statistics, citations, or patient data.**
   loud warning whenever data is not `curated`. Never relabel synthetic data as
   curated.
 - Prefer ranges across studies over a single false-precision number.
+- **When studies disagree, show the disagreement** — don't pick a winner or hide
+  it in a pooled average. Record it as an `evidenceQuestions[]` entry with ≥2
+  opposing, cited positions and the mechanism of conflict (METHODOLOGY.md §3).
+- **Account for data age.** Tag every cohort/citation with its `studyPeriod`
+  (diagnosis years). Old retrospective survival data usually *understates* a
+  today-patient's outlook; present it as a conservative floor and surface its
+  vintage — never silently "adjust" a number to look better (METHODOLOGY.md §4).
 - Keep the "not medical advice" framing; never phrase anything as a personal
   recommendation.
 - Set `meta.dataConfidence` honestly: `draft` (auto-drafted), then
