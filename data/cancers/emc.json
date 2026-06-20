@@ -374,6 +374,71 @@
         ]
       },
       {
+        "label": "Long-term outcome series (Meis-Kindblom)",
+        "n": 117,
+        "pool": true,
+        "sourceId": "meisKindblom1999",
+        "provenance": "primary",
+        "populationKey": "meisKindblom1999",
+        "recurrence": {
+          "events": 40,
+          "denom": 83
+        },
+        "metastasis": {
+          "events": 35,
+          "denom": 76
+        },
+        "diseaseDeath": {
+          "events": 18,
+          "denom": 99
+        },
+        "medianFollowupMonths": 108,
+        "studyPeriodUnknown": true,
+        "note": "Classic large pathology series; 5/10/15-yr survival 90/70/60%. Consultation cases (selection toward difficult tumours). Diagnosis years not stated (published 1999)."
+      },
+      {
+        "label": "US Sarcoma Collaborative database",
+        "n": 60,
+        "pool": true,
+        "criteria": {},
+        "sourceId": "ussc2022",
+        "provenance": "primary",
+        "populationKey": "ussc2022",
+        "recurrence": {
+          "events": 18,
+          "denom": 60
+        },
+        "studyPeriod": [
+          2000,
+          2016
+        ],
+        "note": "Locoregional recurrence 18/60; any relapse 41.6%. 5-yr OS 71% (85% primary-only). Chemo/RT associated with worse RFS but confounded by recurrent disease."
+      },
+      {
+        "label": "European two-institution series (Chiusole)",
+        "n": 49,
+        "pool": true,
+        "criteria": {
+          "stage": "localized"
+        },
+        "sourceId": "chiusole2020",
+        "provenance": "primary",
+        "populationKey": "chiusole2020",
+        "recurrence": {
+          "events": 14,
+          "denom": 49
+        },
+        "metastasis": {
+          "events": 20,
+          "denom": 49
+        },
+        "studyPeriod": [
+          1980,
+          2018
+        ],
+        "note": "49 curative-intent patients (of 59). R0 resection markedly lowered recurrence (7.6%) and metastasis (15.4%)."
+      },
+      {
         "label": "Localised, single-institution series",
         "n": 41,
         "pool": false,
@@ -436,6 +501,78 @@
         "primaryRef": "Stacchiotti et al., Lancet Oncol 2019 phase 2 (n=26)",
         "contextReason": "different-endpoint",
         "note": "Objective response 18%, median PFS 19 months; better with EWSR1::NR4A3. Treatment-response context."
+      },
+      {
+        "label": "SEER overall-survival series",
+        "n": 270,
+        "pool": false,
+        "criteria": {},
+        "sourceId": "seer270_2022",
+        "provenance": "primary",
+        "contextReason": "population-overlap; percentage-only",
+        "dssText": "76% (5-yr OS)",
+        "studyPeriod": [
+          2004,
+          2015
+        ],
+        "note": "Largest EMC survival dataset; SEER records survival but not recurrence and overlaps other SEER analyses."
+      },
+      {
+        "label": "Two-referral-center long-term series (Drilon)",
+        "n": 87,
+        "pool": false,
+        "criteria": {},
+        "sourceId": "drilon2008",
+        "provenance": "primary",
+        "contextReason": "percentage-only",
+        "recurrencePct": 37,
+        "metastasisPct": 26,
+        "dssText": "82/65/58% (5/10/15-yr OS)",
+        "studyPeriod": [
+          1975,
+          2008
+        ],
+        "note": "13% metastatic at presentation; chemotherapy gave no objective responses (median PFS 5.2 mo)."
+      },
+      {
+        "label": "Single-institution series (U Michigan)",
+        "n": 44,
+        "pool": false,
+        "criteria": {},
+        "sourceId": "uMich2023",
+        "provenance": "primary",
+        "contextReason": "population-overlap",
+        "metastasisPct": 59,
+        "dssText": "79% (5-yr OS)",
+        "studyPeriod": [
+          1998,
+          2021
+        ],
+        "note": "59% developed metastasis; 5-yr OS 86% localized vs 58% metastatic. May overlap the US Sarcoma Collaborative."
+      },
+      {
+        "label": "Japanese multi-institutional series",
+        "n": 42,
+        "pool": false,
+        "criteria": {},
+        "sourceId": "japan2003",
+        "provenance": "primary",
+        "contextReason": "different-endpoint",
+        "studyPeriodUnknown": true,
+        "dssText": "100/88% (5/10-yr OS)",
+        "note": "Wide-excision recurrence 14%; 5-yr DFS 45%. Diagnosis years not stated (published 2003)."
+      },
+      {
+        "label": "Chinese series",
+        "n": 40,
+        "pool": false,
+        "criteria": {},
+        "sourceId": "china2016",
+        "provenance": "primary",
+        "contextReason": "percentage-only",
+        "studyPeriodUnknown": true,
+        "dssText": "71/60% (5/7-yr OS)",
+        "note": "Median age 49; lower limb 60%."
       }
     ],
     "citations": {
@@ -543,6 +680,164 @@
         "design": "case report",
         "n": 1,
         "population": "Single patient, knee EMC with TAF15::NR4A3",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "meisKindblom1999": {
+        "short": "Meis-Kindblom 1999",
+        "type": "journal-article",
+        "title": "Extraskeletal myxoid chondrosarcoma: a reappraisal of its morphologic spectrum and prognostic factors based on 117 cases.",
+        "authors": "Meis-Kindblom JM, Bergh P, Gunterberg B, Kindblom LG.",
+        "year": 1999,
+        "pmid": "10366145",
+        "doi": "10.1097/00000478-199906000-00002",
+        "url": "https://doi.org/10.1097/00000478-199906000-00002",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "pathology series, long-term follow-up",
+        "n": 117,
+        "population": "117 EMC cases (AFIP), median follow-up 9 yr",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "ussc2022": {
+        "short": "US Sarcoma Collaborative 2022",
+        "type": "journal-article",
+        "title": "Extraskeletal myxoid chondrosarcoma: Clinicopathological features and outcomes from the United States sarcoma collaborative database.",
+        "authors": "Gusho CA, King D, Ethun CG, Cardona K, Harrison Howard J, Tran TB, Poultsides G, Tseng J, Roggin KK, Fields RC, Cullinan DR, Chouliaras K, Votanopoulos K, Grignol VP, Bedi M.",
+        "year": 2022,
+        "pmid": "35962783",
+        "doi": "10.1002/jso.27062",
+        "url": "https://doi.org/10.1002/jso.27062",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "multi-institution database",
+        "n": 60,
+        "population": "EMC, US Sarcoma Collaborative 2000-2016",
+        "studyPeriod": [
+          2000,
+          2016
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "chiusole2020": {
+        "short": "Chiusole 2020",
+        "type": "journal-article",
+        "title": "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and Outcomes of Patients Treated at Two Institutions.",
+        "authors": "Chiusole B, Le Cesne A, Rastrelli M, Maruzzo M, Lorenzi M, Cappellesso R, Del Fiore P, Imbevaro S, Sbaraglia M, Terrier P, Ruggieri P, Dei Tos AP, Rossi CR, Zagonel V, Brunello A.",
+        "year": 2020,
+        "pmid": "32612944",
+        "pmcid": "PMC7308468",
+        "doi": "10.3389/fonc.2020.00828",
+        "url": "https://doi.org/10.3389/fonc.2020.00828",
+        "license": "CC-BY-4.0",
+        "openAccess": true,
+        "design": "two-institution retrospective",
+        "n": 59,
+        "population": "EMC, Istituto Oncologico Veneto + Gustave Roussy 1980-2018",
+        "studyPeriod": [
+          1980,
+          2018
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "seer270_2022": {
+        "short": "SEER OS series 2022",
+        "type": "journal-article",
+        "title": "Extraskeletal myxoid chondrosarcoma: Clinical features and overall survival.",
+        "authors": "Brown JM, Rakoczy K, Pretell-Mazzini J.",
+        "year": 2022,
+        "pmid": "35144048",
+        "doi": "10.1016/j.ctarc.2022.100530",
+        "url": "https://doi.org/10.1016/j.ctarc.2022.100530",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "SEER population",
+        "n": 270,
+        "population": "EMC, SEER 2004-2015",
+        "studyPeriod": [
+          2004,
+          2015
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "drilon2008": {
+        "short": "Drilon 2008",
+        "type": "journal-article",
+        "title": "Extraskeletal myxoid chondrosarcoma: a retrospective review from 2 referral centers emphasizing long-term outcomes with surgery and chemotherapy.",
+        "authors": "Drilon AD, Popat S, Bhuchar G, D'Adamo DR, Keohan ML, Fisher C, Antonescu CR, Singer S, Brennan MF, Judson I, Maki RG.",
+        "year": 2008,
+        "pmid": "18951519",
+        "pmcid": "PMC2779719",
+        "doi": "10.1002/cncr.23978",
+        "url": "https://doi.org/10.1002/cncr.23978",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "two-referral-center retrospective",
+        "n": 87,
+        "population": "EMC, 2 referral centres 1975-2008",
+        "studyPeriod": [
+          1975,
+          2008
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "uMich2023": {
+        "short": "U Michigan 2023",
+        "type": "journal-article",
+        "title": "Extraskeletal Myxoid Chondrosarcoma: Retrospective Case Series Examining Prognostic Factors, Treatment Approaches, and Oncologic Outcomes.",
+        "authors": "Brodsky CN, Bucala MD, Abdulfatah EM, Siegel GW.",
+        "year": 2023,
+        "pmid": "36825763",
+        "doi": "10.1097/coc.0000000000000988",
+        "url": "https://doi.org/10.1097/coc.0000000000000988",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "single-institution series",
+        "n": 44,
+        "population": "EMC, University of Michigan 1998-2021",
+        "studyPeriod": [
+          1998,
+          2021
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "japan2003": {
+        "short": "Japan multi-institutional 2003",
+        "type": "journal-article",
+        "title": "Extraskeletal myxoid chondrosarcoma: a Multi-Institutional Study of 42 Cases in Japan.",
+        "authors": "Kawaguchi S, Wada T, Nagoya S, Ikeda T, Isu K, Yamashiro K, Kawai A, Ishii T, Araki N, Myoui A, Matsumoto S, Umeda T, Yoshikawa H, Hasegawa T, Multi-Institutional Study of 42 Cases in Japan.",
+        "year": 2003,
+        "pmid": "12599237",
+        "doi": "10.1002/cncr.11162",
+        "url": "https://doi.org/10.1002/cncr.11162",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "multi-institution series",
+        "n": 42,
+        "population": "EMC, 8 Japanese hospitals",
+        "accessed": "2026-06-20",
+        "verified": true
+      },
+      "china2016": {
+        "short": "China series 2016",
+        "type": "journal-article",
+        "title": "Clinicopathologic and radiologic features of extraskeletal myxoid chondrosarcoma: a retrospective study of 40 Chinese cases with literature review.",
+        "authors": "Shao R, Lao IW, Wang L, Yu L, Wang J, Fan Q.",
+        "year": 2016,
+        "pmid": "27402218",
+        "doi": "10.1016/j.anndiagpath.2016.04.004",
+        "url": "https://doi.org/10.1016/j.anndiagpath.2016.04.004",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "single-country series",
+        "n": 40,
+        "population": "EMC, China",
         "accessed": "2026-06-20",
         "verified": true
       }
@@ -965,6 +1260,18 @@
           "provenance": "secondary",
           "primaryRef": "Drilon et al.",
           "caveat": "Retrospective; small numbers."
+        },
+        {
+          "stance": "against",
+          "claim": "Radiotherapy independently predicted WORSE recurrence-free survival (HR 5.07, p=0.02) - but significance was lost in the primary-tumour-only subset.",
+          "design": "multi-institution database, n=60",
+          "sourceId": "ussc2022",
+          "provenance": "primary",
+          "studyPeriod": [
+            2000,
+            2016
+          ],
+          "caveat": "Classic confounding by indication: radiotherapy went to higher-risk/recurrent disease, so the association reverses once you restrict to primary tumours."
         }
       ],
       "bottomLine": "Guideline-pragmatic practice (extrapolated from ESMO/NCCN soft-tissue-sarcoma guidance) is SELECTIVE radiotherapy for close/positive margins or large/truncal tumours, not routine radiotherapy for all localized EMC. The data cannot prove radiotherapy helps unselected patients, and the apparent survival 'harm' from radiotherapy is an artifact of it being given to worse-prognosis disease - not evidence that it is harmful."
@@ -1008,6 +1315,18 @@
             2016
           ],
           "caveat": "Strong selection bias - sicker patients receive chemotherapy; also spans a very long, dated era."
+        },
+        {
+          "stance": "against",
+          "claim": "Chemotherapy independently predicted worse recurrence-free survival (HR 6.05, p=0.02), with significance again lost in the primary-only subset.",
+          "design": "multi-institution database, n=60",
+          "sourceId": "ussc2022",
+          "provenance": "primary",
+          "studyPeriod": [
+            2000,
+            2016
+          ],
+          "caveat": "Same selection effect - chemotherapy is given to worse-prognosis disease."
         }
       ],
       "bottomLine": "Routine adjuvant/neoadjuvant chemotherapy is not recommended for localized EMC. Cytotoxic and anti-angiogenic systemic therapy has a role in advanced/metastatic disease (covered under Treatments and Emerging Treatments), which is a different question."

@@ -81,7 +81,7 @@ for (const file of files) {
     if (c.provenance === "secondary" && !c.primaryRef) errors.push(`${cw} provenance:"secondary" requires "primaryRef" (the original study)`);
     if (c.pool === false && !c.contextReason) warns.push(`${cw} is context (pool:false) but gives no contextReason`);
     checkPeriod(c.studyPeriod, cw);
-    if (c.pool !== false && c.studyPeriod === undefined) warns.push(`${cw} is pooled but has no studyPeriod (diagnosis years) — record it if the source states it`);
+    if (c.pool !== false && c.studyPeriod === undefined && !c.studyPeriodUnknown) warns.push(`${cw} is pooled but has no studyPeriod (set it, or studyPeriodUnknown:true if the source doesn't state it)`);
     for (const k of ["recurrence", "metastasis", "diseaseDeath"]) {
       const m = c[k];
       if (m && (typeof m.events !== "number" || typeof m.denom !== "number" || m.events > m.denom))
