@@ -55,13 +55,16 @@ Consultation/referral series flagged for selection bias.
 
 ## 6. Statistical methods
 
-- **Current (implemented):** crude denominator-weighted pooled proportions
-  (Σevents/Σdenom) with **Wilson 95% confidence intervals**, over non-overlapping
-  explicit-count cohorts; between-study spread reported as a range.
-- **Planned upgrade for publication:** random-effects (DerSimonian–Laird or GLMM)
-  pooling of proportions with **I² / τ² heterogeneity**, forest plots, and
-  sensitivity analyses: (a) leave-one-out, (b) registry-only vs all-series,
-  (c) **era-stratified** (diagnosis period), (d) molecular-confirmed only.
+- **Patient-page tool:** crude denominator-weighted pooled proportions
+  (Σevents/Σdenom) with **Wilson 95% CIs** — fast, transparent, for the interactive
+  filter.
+- **Manuscript (implemented in `research/meta/meta-analysis.mjs`):** random-effects
+  **DerSimonian–Laird** pooling of **logit-transformed** proportions with **I² / τ²
+  heterogeneity** (0.5 continuity correction only for 0%/100% cells), SVG forest
+  plots, and sensitivity analyses: (a) **leave-one-out**, (b) **registry-only vs
+  all-series**, (c) **era-stratified** (diagnosis-period midpoint). Still to add:
+  GLMM/Freeman–Tukey cross-check, formal risk-of-bias, molecular-confirmed-only
+  subset.
 - Time-anchored survival (5/10/15-yr) is summarised per study, **not** pooled as a
   single crude proportion (differing follow-up/censoring).
 

@@ -40,10 +40,11 @@ research/
 
 ## Status
 
-- Meta-analysis: pooled dataset built (see `data/cancers/emc.json` → `registry`);
-  protocol drafted; manuscript skeleton drafted with current results. **Needs**
-  a methods upgrade (random-effects + I², formal risk-of-bias, PRISMA flow) before
-  submission.
+- Meta-analysis: pooled dataset built; protocol drafted; **random-effects engine
+  implemented** (`research/meta/meta-analysis.mjs` → DL pooling + I²/τ², forest
+  plots, PRISMA flow, leave-one-out / era / registry-vs-all sensitivity); manuscript
+  results populated. **Still needs** formal risk-of-bias scoring, a GLMM/Freeman–Tukey
+  cross-check, and clinician review before submission.
 - Repurposing: methodology + grading rubric drafted; catalog seeded with 3 graded
   candidates. **Needs** targeted literature verification of `needs-verification`
   claims and clinician review.
