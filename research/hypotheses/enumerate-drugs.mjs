@@ -47,11 +47,14 @@ function analyseGaps(approvedDrugIndex, catalog, knownNames = []) {
   const knownActiveInEmc = [];
   const newlySurfaced = [];
   for (const [name, info] of Object.entries(approvedDrugIndex)) {
-    const n = norm(name);
+    // Match on the INN root (first token) so salt forms map correctly
+    // ("Sunitinib Malate"->sunitinib) and substrings don't collide
+    // ("Lapatinib" must NOT match the EMC agent "apatinib").
+    const root = norm(name).split(" ")[0];
     const row = { drug: name, targets: info.targets };
-    if (n.length >= 4 && hay.includes(n)) inCatalog.push(row);           // already a candidate
-    else if ([...known].some((k) => n.includes(k))) knownActiveInEmc.push(row); // already tried in EMC
-    else newlySurfaced.push(row);                                         // genuinely not considered
+    if (root.length >= 4 && hay.includes(root)) inCatalog.push(row);  // already a candidate
+    else if (known.has(root)) knownActiveInEmc.push(row);             // already tried in EMC
+    else newlySurfaced.push(row);                                     // genuinely not considered
   }
   const byReach = (a, b) => b.targets.length - a.targets.length || a.drug.localeCompare(b.drug);
   return {
@@ -115,17 +118,19 @@ function buildMatrix(targetDefs, nodes) {
 // --- selftest (no network) ----------------------------------------------------
 function selftest() {
   const catalog = { candidates: [{ drug: "Imatinib (and other KIT inhibitors)", drugClass: "KIT/ABL TKI" }] };
-  const known = ["pazopanib", "sunitinib"];
+  const known = ["pazopanib", "sunitinib", "apatinib"];
   const index = {
     Imatinib: { conceptId: "chembl:CHEMBL941", targets: ["KIT", "PDGFRA"] },
     Regorafenib: { conceptId: "chembl:CHEMBL1946170", targets: ["KDR", "KIT", "RET"] },
     Pioglitazone: { conceptId: "chembl:CHEMBL595", targets: ["PPARG"] },
     "Sunitinib Malate": { conceptId: "chembl:CHEMBL535", targets: ["KIT", "KDR"] },
+    Lapatinib: { conceptId: "chembl:CHEMBL554", targets: ["KDR"] }, // must NOT match "apatinib"
   };
   const gaps = analyseGaps(index, catalog, known);
   const ok =
     gaps.inCatalog.length === 1 && gaps.inCatalog[0].drug === "Imatinib" &&
-    gaps.knownActiveInEmc.some((d) => d.drug === "Sunitinib Malate") &&
+    gaps.knownActiveInEmc.some((d) => d.drug === "Sunitinib Malate") &&     // salt form -> known
+    gaps.newlySurfaced.some((d) => d.drug === "Lapatinib") &&               // substring guard
     gaps.newlySurfaced.some((d) => d.drug === "Regorafenib") &&
     gaps.newlySurfaced.some((d) => d.drug === "Pioglitazone") &&
     !gaps.newlySurfaced.some((d) => /sunitinib/i.test(d.drug)) &&
