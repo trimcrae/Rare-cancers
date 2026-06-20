@@ -47,6 +47,7 @@
   const m = data.meta;
   document.title = `${m.name} (${m.abbreviation}) - Rare Cancer Info Hub`;
 
+  try {
   // ---- HERO -------------------------------------------------------------
   const confPill = { draft: "warn", "literature-reviewed": "warn", "clinician-reviewed": "good" }[m.dataConfidence] || "warn";
   const hero = el("section", { class: "hero" }, [
@@ -243,7 +244,7 @@
   ]);
   const txBlocks = el("div", { class: "grid" });
   function renderTx() {
-    const want = document.getElementById("tx-stage").value;
+    const want = stageSel.value;
     txBlocks.innerHTML = "";
     (tr.byStage || []).filter((b) => !want || b.stage === want).forEach((b) => {
       txBlocks.appendChild(el("div", { class: "card" }, [el("div", { class: "kicker" }, b.label || b.stage), list(b.options)]));
@@ -414,4 +415,8 @@
     el("div", { html: "<strong>Not medical advice.</strong> Reviewed status: " + m.dataConfidence + ". Sources are linked throughout - verify with your own team." }),
     el("div", {}, "Spot an error or have data to add? See CONTRIBUTING.md in the repository."),
   ])));
+  } catch (err) {
+    console.error(err);
+    app.appendChild(el("div", { class: "wrap" }, el("p", { class: "banner" }, "Sorry - this page hit a display error while rendering: " + err.message + ". The data is fine; please report this so it can be fixed.")));
+  }
 })();
