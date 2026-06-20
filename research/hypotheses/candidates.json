@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "disease": "extraskeletal myxoid chondrosarcoma",
+  "diseaseSlug": "emc",
+  "disclaimer": "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas for investigation, not treatments, not medical advice, and not endorsed for clinical use. Nothing here has been validated in EMC, and none of these drugs is known to work in EMC. Not for the patient-facing site. See research/hypotheses/METHODOLOGY.md.",
+  "tiers": {
+    "T0-mechanistic": "Mechanistic rationale only; no EMC or close-analog data.",
+    "T1-preclinical-or-analog": "Preclinical signal or strong analogy in a related fusion-driven sarcoma.",
+    "T2-emc-case-signal": "Case report(s) / small signal in EMC or very close relatives.",
+    "T3-emc-clinical-evidence": "Prospective or substantial clinical evidence in EMC (eligible to graduate to the patient page after clinician review)."
+  },
+  "citations": {
+    "remiszewski2025": {
+      "short": "Remiszewski 2025 (review)",
+      "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+      "authors": "Remiszewski P, Falkowski S, Szumera-Cieckiewicz A, et al.",
+      "journal": "J Cancer Res Clin Oncol",
+      "year": 2025,
+      "pmcid": "PMC12504171",
+      "doi": "10.1007/s00432-025-06316-5",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12504171/",
+      "verified": true
+    }
+  },
+  "candidates": [
+    {
+      "id": "vegfr-tki-class-extension",
+      "drug": "Regorafenib / cabozantinib / lenvatinib (approved multikinase VEGFR inhibitors)",
+      "drugClass": "anti-angiogenic multikinase (VEGFR) TKI",
+      "regulatoryStatus": "FDA/EMA-approved in other indications; regorafenib has randomized soft-tissue-sarcoma data",
+      "notTriedInEmc": true,
+      "mechanism": "VEGFR2-centred multikinase inhibition that suppresses tumour angiogenesis.",
+      "emcVulnerability": {
+        "claim": "The most consistently active systemic class in EMC is anti-angiogenic TKIs; pazopanib sensitivity has been linked to upregulated VEGF (and Notch) signalling.",
+        "sourceId": "remiszewski2025"
+      },
+      "supportingEvidence": [
+        { "claim": "Pazopanib achieved ORR 18% and median PFS 19 months in a phase 2 EMC trial.", "context": "EMC", "sourceId": "remiszewski2025" },
+        { "claim": "Sunitinib produced ~60% partial responses (median PFS 8.5 months) in NR4A3-positive EMC.", "context": "EMC", "sourceId": "remiszewski2025" }
+      ],
+      "rationale": "If VEGFR blockade (pazopanib/sunitinib/anlotinib) is EMC's most active class, other already-approved VEGFR-TKIs with deeper soft-tissue-sarcoma data — regorafenib, cabozantinib, lenvatinib — are rational, low-barrier candidates: same mechanism, already on the shelf, never reported in EMC.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "moderate",
+      "keyRisks": "Class toxicity (hypertension, hand-foot syndrome, bleeding); likely to share pazopanib's eventual resistance; TAF15::NR4A3 tumours may respond less.",
+      "openQuestions": ["Does fusion partner (EWSR1 vs TAF15) predict response across the whole VEGFR-TKI class?"]
+    },
+    {
+      "id": "mrna-vaccine-plus-checkpoint",
+      "drug": "mRNA-LNP vaccine (e.g. approved COVID-19 mRNA vaccines, or neoantigen mRNA) + PD-1/PD-L1 checkpoint inhibitor (± anti-angiogenic TKI)",
+      "drugClass": "innate-immune agonist + immune checkpoint inhibitor",
+      "regulatoryStatus": "Components individually approved; the combination is investigational",
+      "notTriedInEmc": true,
+      "mechanism": "mRNA-LNP acts as a TLR/RIG-I innate-immune agonist driving type-I interferon and antigen presentation, potentially converting an immunologically 'cold' tumour 'hot' so that checkpoint blockade can license a T-cell response.",
+      "emcVulnerability": {
+        "claim": "EMC is immunologically quiet: checkpoint inhibitors have not shown systematic activity, with only isolated responses (e.g. interferon-alpha) reported.",
+        "sourceId": "remiszewski2025"
+      },
+      "supportingEvidence": [
+        { "claim": "mRNA-LNP vaccines are potent innate-immune stimulants (type-I IFN via TLR/RIG-I sensing).", "context": "general immunology", "sourceStatus": "needs-verification" },
+        { "claim": "Observational data in other cancers have linked peri-checkpoint-inhibitor COVID-19 mRNA vaccination to improved outcomes, and intratumoral / neoantigen mRNA + anti-PD-1 combinations are in clinical trials.", "context": "other cancers", "sourceStatus": "needs-verification" }
+      ],
+      "rationale": "Use a readily available mRNA vaccine as a non-specific 'danger signal' to inflame EMC's cold microenvironment, then add checkpoint blockade (± pazopanib, which is active in EMC and immunomodulatory). The EWSR1::NR4A3 fusion junction is a theoretical tumour-specific neoantigen that such a response could, in principle, target.",
+      "evidenceTier": "T0-mechanistic",
+      "speculationLevel": "high",
+      "keyRisks": "Sarcoma immunotherapy generally underperforms; EMC's low neoantigen load may leave little for T cells to target; immune-related toxicity; there is NO EMC-specific evidence for this combination.",
+      "openQuestions": [
+        "Is the EWSR1::NR4A3 junction peptide presented and immunogenic?",
+        "Does EMC have enough baseline T-cell infiltration to reinvigorate?"
+      ]
+    },
+    {
+      "id": "transcriptional-targeting-fusion",
+      "drug": "CDK7 / CDK9 inhibitors or BET (BRD4) inhibitors",
+      "drugClass": "transcriptional inhibitors",
+      "regulatoryStatus": "Investigational (several in oncology trials)",
+      "notTriedInEmc": true,
+      "mechanism": "Inhibit transcriptional machinery (CDK7/9, BRD4) on which fusion oncoproteins depend, aiming to collapse the aberrant transcriptional program.",
+      "emcVulnerability": {
+        "claim": "EMC is driven by an NR4A3 fusion that yields a chimeric transcription factor with aberrant transcriptional activity — a candidate transcriptional dependency.",
+        "sourceId": "remiszewski2025"
+      },
+      "supportingEvidence": [
+        { "claim": "Related EWSR1-fusion sarcomas (notably Ewing sarcoma) show sensitivity to transcriptional CDK and BET inhibition.", "context": "analogous fusion sarcoma", "sourceStatus": "needs-verification" }
+      ],
+      "rationale": "EMC shares EWSR1 fusion-driven transcription-factor biology with Ewing sarcoma, where CDK7/9 and BET inhibitors show activity; the same dependency may be druggable in EMC and has not been tested.",
+      "evidenceTier": "T1-preclinical-or-analog",
+      "speculationLevel": "high",
+      "keyRisks": "Narrow therapeutic window / toxicity of transcriptional inhibitors; the Ewing analogy may not transfer; no EMC data.",
+      "openQuestions": ["Is EWSR1::NR4A3 transcriptionally dependent on CDK7/9 or BRD4 in EMC models?"]
+    }
+  ]
+}

@@ -203,6 +203,24 @@ data, cancers — not AGENTS.md/scripts/.git), and deploys. One-time owner setup
 Settings → Pages → Source: "GitHub Actions". The site stays host-agnostic
 (all relative URLs), so keep links relative and never hard-code a base URL.
 
+## Research program (`research/`)
+
+The project's goal is to **improve EMC outcomes**, not just inform. Beyond the
+patient page, `research/` holds (a) a systematic-review/meta-analysis protocol and
+manuscript built on the pooled registry, and (b) a graded, cited drug-repurposing
+hypothesis catalog (`research/hypotheses/candidates.json`). Rules:
+
+- **Firewall:** `research/` is never deployed (Pages ships only index/assets/data/
+  cancers). A repurposing hypothesis may reach the patient page's
+  `emergingTreatments` **only** at evidence tier **T3** (real EMC clinical evidence)
+  **and** after clinician review. T0–T2 stay in `research/`.
+- Hypotheses are hypotheses — every mechanistic claim cited or flagged
+  `needs-verification`; nothing is medical advice or an efficacy claim.
+- Publishing is human-in-the-loop: Claude drafts/cites; a named human author
+  reviews and submits. No automated preprint/journal posting.
+- Validate with `node scripts/validate-research.mjs`. See `research/README.md`,
+  `research/PROTOCOL.md`, `research/hypotheses/METHODOLOGY.md`.
+
 ## Branch / git
 
 Active development branch: `claude/rare-cancer-info-hub-vb8uui`. Commit with
