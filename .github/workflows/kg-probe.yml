@@ -1,0 +1,22 @@
+name: KG coverage probe
+
+# One-off feasibility probe for roadmap #3: checks whether EMC is a node in the public
+# TxGNN/PrimeKG knowledge graph (Harvard Dataverse). Prints to the run log only -
+# commits nothing. Read the result with the run's job logs.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe KG disease coverage
+        run: node research/hypotheses/kg-probe.mjs
