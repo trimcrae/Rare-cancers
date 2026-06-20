@@ -400,11 +400,28 @@
     });
   }
   stageSel.addEventListener("change", renderTx);
+  const sysEv = tr.systemicEvidence || [];
+  const sysCard = sysEv.length ? el("div", { class: "card" }, [
+    el("div", { class: "kicker" }, "Systemic therapy in advanced/metastatic disease — reported activity"),
+    el("p", { class: "small muted" }, tr.systemicEvidenceIntro || "Reported response rate (ORR) and median progression-free survival from small published studies. Educational, not a recommendation; anti-angiogenic TKIs are the most consistently active class."),
+    el("div", { class: "table-scroll" }, el("table", {}, [
+      el("thead", {}, el("tr", {}, ["agent", "n", "ORR", "median PFS", "key result", "source"].map((c) => el("th", {}, c)))),
+      el("tbody", {}, sysEv.map((e) => el("tr", {}, [
+        el("td", {}, e.agent || ""),
+        el("td", {}, e.n != null ? String(e.n) : "-"),
+        el("td", {}, e.orr != null ? e.orr + "%" : "-"),
+        el("td", {}, e.medianPfsMonths != null ? e.medianPfsMonths + " mo" : "-"),
+        el("td", {}, e.result || ""),
+        el("td", {}, sourceCell(e)),
+      ]))),
+    ])),
+  ]) : null;
   addSection("treatments", "Treatment plans",
     el("p", { class: "intro" }, tr.intro || ""),
     (tr.principles && tr.principles.length) ? el("div", { class: "card" }, [el("div", { class: "kicker" }, "General principles"), list(tr.principles)]) : null,
     el("div", { class: "card" }, [el("label", { class: "field", for: "tx-stage" }, "Filter by your stage"), stageSel]),
     txBlocks,
+    sysCard,
     tr.disclaimer ? el("p", { class: "disclaimer" }, tr.disclaimer) : null
   );
   renderTx();

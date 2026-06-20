@@ -119,6 +119,13 @@ for (const file of files) {
         errors.push(`${qw} is marked "contested" but lacks opposing positions (need both supports and against)`);
     }
   });
+  // cited systemic-therapy evidence (advanced disease)
+  (d.treatments?.systemicEvidence || []).forEach((e, i) => {
+    const tw = `${where}: treatments.systemicEvidence[${i}] "${e.agent || "?"}"`;
+    if (!e.agent) errors.push(`${tw} missing "agent"`);
+    if (!hasCite(e.sourceId)) errors.push(`${tw} sourceId "${e.sourceId || ""}" has no registry.citations entry`);
+    if (e.provenance === "secondary" && !e.primaryRef) errors.push(`${tw} provenance:"secondary" requires "primaryRef"`);
+  });
   if (reg.dataStatus === "SAMPLE_SYNTHETIC" && !reg.dataStatusBanner)
     warns.push(`${where}: SAMPLE data should set registry.dataStatusBanner so the UI warns users.`);
 

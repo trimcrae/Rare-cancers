@@ -901,6 +901,27 @@
         "population": "58 molecularly confirmed EMC (fusion distribution)",
         "accessed": "2026-06-20",
         "verified": true
+      },
+      "apatinib2020": {
+        "short": "Apatinib 2-center 2020",
+        "type": "journal-article",
+        "title": "Apatinib for Treatment of Inoperable Metastatic or Locally Advanced Chondrosarcoma: What We Can Learn About the Biological Behavior of Chondrosarcoma from a Two-Center Study.",
+        "authors": "Xie L, Xu J, Sun X, Liu K, Li X, He F, Liu X, Gu J, Lv Z, Yang R, Tang X, Yan T, Li D, Yang Y, Dong S, Sun K, Shen D, Guo W.",
+        "year": 2020,
+        "pmcid": "PMC7237692",
+        "doi": "10.2147/cmar.s253201",
+        "url": "https://doi.org/10.2147/cmar.s253201",
+        "license": "see article",
+        "openAccess": true,
+        "design": "two-center retrospective",
+        "n": 33,
+        "population": "Unresectable chondrosarcoma (incl. 3 EMC), 2009-2019",
+        "studyPeriod": [
+          2009,
+          2019
+        ],
+        "accessed": "2026-06-20",
+        "verified": true
       }
     }
   },
@@ -944,7 +965,73 @@
         ]
       }
     ],
-    "disclaimer": "Drug names and sequencing reflect published evidence and guidelines at the time of review and may be out of date. Availability differs by country. Always defer to your treating sarcoma team."
+    "disclaimer": "Drug names and sequencing reflect published evidence and guidelines at the time of review and may be out of date. Availability differs by country. Always defer to your treating sarcoma team.",
+    "systemicEvidenceIntro": "Reported response rate (ORR) and median progression-free survival from small published studies of advanced/metastatic EMC. Educational, not a recommendation; anti-angiogenic TKIs are the most consistently active class, and most cytotoxic chemotherapy mainly stabilises disease.",
+    "systemicEvidence": [
+      {
+        "agent": "Pazopanib (VEGFR TKI)",
+        "n": 26,
+        "orr": 18,
+        "medianPfsMonths": 19,
+        "result": "Phase 2; 24-mo OS 90%; better with EWSR1::NR4A3 fusion.",
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Stacchiotti et al., Lancet Oncol 2019 (NCT02066285)"
+      },
+      {
+        "agent": "Sunitinib (VEGFR TKI)",
+        "n": 10,
+        "orr": 60,
+        "medianPfsMonths": 8.5,
+        "result": "Retrospective; partial responses in NR4A3-positive EMC.",
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "sunitinib retrospective series"
+      },
+      {
+        "agent": "Apatinib (VEGFR TKI)",
+        "n": 33,
+        "orr": 18,
+        "medianPfsMonths": 12.4,
+        "result": "Two-center; across chondrosarcoma subtypes (3 EMC).",
+        "sourceId": "apatinib2020",
+        "provenance": "primary"
+      },
+      {
+        "agent": "Anthracycline-based chemo (1st-line)",
+        "n": 10,
+        "orr": 40,
+        "medianPfsMonths": 8,
+        "result": "Molecularly confirmed series; mostly disease stabilisation.",
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Stacchiotti et al. (Italian Rare Cancer Network)"
+      },
+      {
+        "agent": "Anthracycline ± ifosfamide",
+        "n": 20,
+        "medianPfsMonths": 5.2,
+        "result": "Two-institution; clinical benefit ~50% but short PFS.",
+        "sourceId": "chiusole2020",
+        "provenance": "primary"
+      },
+      {
+        "agent": "Trabectedin",
+        "n": 5,
+        "medianPfsMonths": 12.5,
+        "result": "Small series; 100% 6-month progression-free; mostly stable disease.",
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "Morioka et al."
+      },
+      {
+        "agent": "Immune checkpoint inhibitors",
+        "result": "Not systematically active in EMC; only isolated responses (e.g. interferon-alpha) reported.",
+        "sourceId": "remiszewski2025",
+        "provenance": "secondary",
+        "primaryRef": "various reports"
+      }
+    ]
   },
   "emergingTreatments": {
     "intro": "Newer and investigational approaches being studied for EMC. These are NOT standard of care - some are supported only by small series or case reports, and some are available only inside clinical trials. They are listed so you can raise them with your sarcoma team and ask whether a trial fits you. No drug specifically targets the defining NR4A3 fusion yet.",
