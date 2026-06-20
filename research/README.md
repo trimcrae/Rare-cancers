@@ -15,6 +15,7 @@ people with extraskeletal myxoid chondrosarcoma (EMC)**. That runs on three rail
 research/
   README.md                         this file
   PROTOCOL.md                       systematic-review / meta-analysis protocol (PRISMA-style)
+  IDEAS.md                          parked ideas / future-work backlog (e.g. upstreaming to TxGNN)
   hypotheses/
     METHODOLOGY.md                  how candidates are generated, graded, and cited
     candidates.json                 structured repurposing-candidate catalog (data)
