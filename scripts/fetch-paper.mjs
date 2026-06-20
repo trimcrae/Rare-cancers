@@ -70,14 +70,29 @@ function normalize(r) {
   return {
     title: r.title, authors: r.authorString, journal: r.journalTitle, year: Number(r.pubYear) || r.pubYear,
     pmid: r.pmid, pmcid: r.pmcid, doi: r.doi, source: r.source, id: r.id,
+    pubType: r.pubType || "", abstract: r.abstractText || "",
     isOpenAccess: r.isOpenAccess === "Y", citedBy: r.citedByCount, url,
   };
 }
 
-async function search(query, pageSize = 100) {
-  const url = `${API}/search?query=${encodeURIComponent(query)}&format=json&pageSize=${pageSize}&resultType=core&sort=P_PDATE_D%20desc`;
-  const data = await api(url);
-  return (data.resultList?.result || []).map(normalize);
+// Page through the ENTIRE result set with cursorMark so nothing is missed.
+async function searchAll(query, { pageSize = 1000, max = Infinity } = {}) {
+  let cursor = "*";
+  const out = [];
+  for (;;) {
+    const url = `${API}/search?query=${encodeURIComponent(query)}&format=json&pageSize=${pageSize}&resultType=core&cursorMark=${encodeURIComponent(cursor)}`;
+    const data = await api(url);
+    const batch = (data.resultList?.result || []).map(normalize);
+    out.push(...batch);
+    const next = data.nextCursorMark;
+    if (!batch.length || !next || next === cursor || out.length >= max) break;
+    cursor = next;
+  }
+  return max === Infinity ? out : out.slice(0, max);
+}
+
+async function search(query, max = 200) {
+  return searchAll(query, { max });
 }
 
 // Europe PMC full-text XML is available for the open-access subset only.
@@ -125,21 +140,32 @@ if (cmd === "search") {
   console.log(`Saved ${text.length.toLocaleString()} chars of full text -> ${base}.txt`);
 } else if (cmd === "sync") {
   mkdirSync(CACHE, { recursive: true });
-  const rows = await search(arg);
+  // Comprehensive: every matching record is catalogued (metadata + abstract),
+  // and open-access ones additionally get full text. Nothing is dropped.
+  const rows = await searchAll(arg);
   const oa = rows.filter((r) => r.isOpenAccess && r.pmcid);
-  console.log(`${rows.length} hits, ${oa.length} open-access. Fetching full text...`);
+  console.log(`${rows.length} total record(s); ${oa.length} open-access with fetchable full text. Building corpus...`);
   const index = [];
-  for (const r of oa) {
-    try {
-      const text = xmlToText(await fetchFullText(r.pmcid));
-      const base = join(CACHE, r.pmcid);
-      writeFileSync(base + ".txt", text);
-      index.push({ ...r, cacheFile: `.cache/literature/${r.pmcid}.txt`, chars: text.length });
-      console.log(`  OK  ${r.pmcid}  ${text.length.toLocaleString()} chars  ${r.title.slice(0, 60)}`);
-    } catch (e) { console.error(`  ERR ${r.pmcid}: ${e.message}`); }
+  let fetched = 0, failed = 0;
+  for (const r of rows) {
+    const rec = { ...r };
+    if (r.isOpenAccess && r.pmcid) {
+      try {
+        const text = xmlToText(await fetchFullText(r.pmcid));
+        writeFileSync(join(CACHE, r.pmcid + ".txt"), text);
+        rec.fullTextFile = `${r.pmcid}.txt`;
+        rec.chars = text.length;
+        fetched++;
+        if (fetched % 25 === 0) console.log(`  ...${fetched}/${oa.length} full texts fetched`);
+        await sleep(120); // be polite to Europe PMC
+      } catch (e) { failed++; console.error(`  ERR ${r.pmcid}: ${e.message}`); }
+    }
+    index.push(rec);
   }
   writeFileSync(join(CACHE, "_index.json"), JSON.stringify(index, null, 2));
-  console.log(`\nCached ${index.length} paper(s). Index: .cache/literature/_index.json`);
+  const withAbstract = index.filter((r) => r.abstract).length;
+  console.log(`\nCatalogued ${index.length} record(s): ${fetched} full texts (${failed} failed), ${withAbstract} with abstracts.`);
+  console.log(`Index: .cache/literature/_index.json`);
 } else {
   console.error(`Unknown command: ${cmd}`);
   process.exit(1);

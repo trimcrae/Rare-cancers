@@ -16,7 +16,11 @@ on:
       query:
         description: "Europe PMC search query"
         required: true
-        default: "extraskeletal myxoid chondrosarcoma"
+        default: '"extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma" OR "chordoid sarcoma" OR (NR4A3 AND chondrosarcoma)'
+      slug:
+        description: "Output folder under literature/ (defaults to a slug derived from the query)"
+        required: false
+        default: "extraskeletal-myxoid-chondrosarcoma"
 
 permissions:
   contents: write
@@ -49,7 +53,8 @@ jobs:
         run: |
           set -e
           [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
-          slug=$(echo "${{ inputs.query }}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
+          slug="${{ inputs.slug }}"
+          [ -n "$slug" ] || slug=$(echo "${{ inputs.query }}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
           tmp="$RUNNER_TEMP/litdata"
           rm -rf "$tmp"; mkdir -p "$tmp"
           cp -r .cache/literature/. "$tmp"/
