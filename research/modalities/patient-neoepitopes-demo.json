@@ -1,8 +1,9 @@
 {
-  "_note": "Per-patient EWSR1::NR4A3 junction neoepitope shortlist (MHCflurry-2.0). Predicted presentation is a screen, NOT proof of immunogenicity; confirm by immunopeptidomics + T-cell assay. Not medical advice.",
+  "_note": "Per-patient (EWSR1|TAF15)::NR4A3 junction neoepitope shortlist (MHCflurry-2.0). Predicted presentation is a screen, NOT proof of immunogenicity; confirm by immunopeptidomics + T-cell assay. Not medical advice.",
   "source": {
     "mode": "exon",
-    "EWSR1_exon": 7,
+    "partner": "EWSR1",
+    "partner_exon": 7,
     "NR4A3_exon": 3
   },
   "junction_context": "SQQSSSYGQQ|IVRTDSLKGR",
@@ -12,7 +13,7 @@
     "HLA-B*07:02",
     "HLA-B*08:01"
   ],
-  "novelty_filter": "applied: 0 self-peptides removed, 34 novel",
+  "novelty_filter": "applied vs ['EWSR1']+NR4A3: 0 self removed, 34 novel",
   "n_candidate_peptides": 34,
   "rank_column": "presentation_percentile",
   "n_presented_candidates": 6,
