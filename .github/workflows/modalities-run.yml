@@ -91,12 +91,14 @@ jobs:
             fi
           done
 
-      - name: CD4 / class-II helper-epitope demo (isolated venv, MHCnuggets)
+      - name: CD4 / class-II helper-epitope demo (py3.10 env, MHCnuggets)
         continue-on-error: true
         run: |
-          python -m venv /tmp/cd4venv
-          /tmp/cd4venv/bin/pip install -q mhcnuggets || echo "mhcnuggets install failed"
-          /tmp/cd4venv/bin/python research/modalities/patient_cd4_epitopes.py \
+          # MHCnuggets uses the old Keras optimizer 'lr=' arg, removed in Keras>=2.11
+          # (which py3.11 forces). Pin Python 3.10 + TensorFlow 2.10 via micromamba.
+          "$RUNNER_TEMP/bin/micromamba" create -y -p /tmp/cd4 -c conda-forge "python=3.10"
+          /tmp/cd4/bin/pip install -q "tensorflow-cpu==2.10" "numpy<1.24" "protobuf<3.20" mhcnuggets || echo "cd4 install issue"
+          /tmp/cd4/bin/python research/modalities/patient_cd4_epitopes.py \
             --partner EWSR1 --partner-exon 7 --nr4a3-exon 3 \
             --hla2 "DRB1*15:01,DRB1*03:01,DRB1*07:01" \
             --out research/modalities/patient-cd4-demo.json || true
