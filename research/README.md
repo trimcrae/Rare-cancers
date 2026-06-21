@@ -6,10 +6,13 @@ people with extraskeletal myxoid chondrosarcoma (EMC)**. That runs on three rail
 1. **Patient education** — the public hub (`/cancers/emc/`), already live.
 2. **Hypothesis generation** — find *existing* drugs whose mechanisms plausibly fit
    EMC's biology but have **not been tried** in EMC, as testable, cited hypotheses.
-3. **Dissemination** — two manuscripts toward a preprint / journal submission:
+3. **Dissemination** — manuscripts toward a preprint / journal submission:
    - a **systematic review & meta-analysis** of EMC outcomes (built on the pooled,
-     cited registry), and
-   - a **drug-repurposing hypothesis** paper.
+     cited registry),
+   - a **drug-repurposing hypothesis** paper, and
+   - a **computational target-assessment & novel-modality program** for the
+     EWSR1::NR4A3 fusion (structure-based druggability + fusion-junction neoantigen +
+     a prioritised degradation/ASO/immune/dependency-screen program).
 
 ```
 research/
@@ -27,9 +30,15 @@ research/
     txgnn-emc-predictions.json      TxGNN's genuine zero-shot ranking of 7,957 drugs for EMC
     txgnn-emc-findings.md           interpretation: TxGNN diverges from mechanism/enumeration (a limitation finding)
     txgnn-relatives-comparison.json interpretation: sparsity stress-test (EMC vs chondrosarcoma vs STS)
+  modalities/
+    nr4a3_structure.py              AlphaFold pLDDT (disorder) + fpocket druggability of NR4A3/EWSR1 (CI)
+    fusion_neoantigen.py            UniProt seqs + MHCflurry EWSR1::NR4A3 junction-neoantigen prediction (CI)
+    nr4a3-structure-assessment.json structure/druggability result (snapshot; refreshed on modalities-cache branch)
+    fusion-neoantigen-predictions.json junction-neoantigen result (snapshot; refreshed on modalities-cache branch)
   manuscripts/
     meta-analysis.md                manuscript skeleton (outcomes meta-analysis)
     repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)
+    novel-modalities.md             manuscript: structure-based target assessment + 5-modality program for the fusion
 ```
 
 ## Non-negotiable rules

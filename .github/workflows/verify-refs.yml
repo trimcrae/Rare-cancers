@@ -57,3 +57,25 @@ jobs:
             --data-urlencode 'format=json' --data-urlencode 'pageSize=25' --data-urlencode 'resultType=lite' -o pz.json
           echo "  raw head: $(head -c 120 pz.json)"
           node -e 'const fs=require("fs");try{const j=JSON.parse(fs.readFileSync("./pz.json","utf8"));console.log("  hitCount:",j.hitCount);const r=(j.resultList&&j.resultList.result)||[];r.forEach(x=>console.log("   ",(x.pmid||x.id||"?"),"|",x.pubYear||"?","|",(x.title||"").replace(/\s+/g," ").slice(0,95)));}catch(e){console.log("  PARSE-ERR",e.message)}'
+          echo
+          echo "===== 4) Crossref bibliographic search: resolve DOIs for novel-modalities refs ====="
+          # Find the DOI for each cited title so the manuscript can cite verified DOIs (not memorised ones).
+          while IFS='#' read -r q note; do
+            [ -z "$q" ] && continue
+            echo "  query: $q"
+            echo "    expect: $note"
+            curl -s -m 30 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
+              --data-urlencode "query.bibliographic=$q" --data-urlencode "rows=1" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const m=JSON.parse(s).message.items[0]||{};console.log("    -> DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,80),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]));}catch(e){console.log("    PARSE-ERR")}})'
+          done <<'REFS'
+          Structure and function of Nurr1 identifies a class of ligand-independent nuclear receptors#Wang 2003 Nature, Nurr1 LBD no classical pocket
+          Cancer-specific retargeting of BAF complexes by a prion-like domain#Boulay 2017 Cell, EWS-FLI1 prion-like domain
+          Phase transition of a disordered nuage protein generates environmentally responsive membraneless organelles#Kwon 2013 Cell, low-complexity domain phase transition
+          Highly accurate protein structure prediction with AlphaFold#Jumper 2021 Nature, AlphaFold
+          AlphaFold Protein Structure Database massively expanding the structural coverage of protein-sequence space#Varadi 2022 NAR, AFDB
+          Fpocket an open source platform for ligand pocket detection#Le Guilloux 2009 BMC Bioinformatics
+          MHCflurry 2.0 improved pan-allele prediction of MHC class I-presented peptides#O'Donnell 2020 Cell Systems
+          PROTAC targeted protein degraders the past is prologue#Bekes Crews 2022 Nat Rev Drug Discov
+          The dTAG system for immediate and target-specific protein degradation#Nabet 2018 Nat Chem Biol
+          Antisense technology an overview and prospectus#Crooke 2021 Nat Rev Drug Discov
+          REFS

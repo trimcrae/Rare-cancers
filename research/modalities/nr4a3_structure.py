@@ -34,11 +34,27 @@ import urllib.request
 
 OUT = os.path.join(os.path.dirname(__file__), "nr4a3-structure-assessment.json")
 
-AFDB = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v4.pdb"
+AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
 
 # UniProt accessions
 NR4A3 = "Q92570"   # NOR-1 / NR4A3, human canonical
 EWSR1 = "Q01844"   # EWSR1, human canonical
+
+
+def fetch_pdb(acc, dest):
+    """Resolve the model URL via the AFDB API (robust to version changes), then download."""
+    api = AFDB_API.format(acc=acc)
+    print(f"  resolving AFDB entry {api}")
+    with urllib.request.urlopen(api, timeout=60) as r:
+        data = json.load(r)
+    if not data:
+        raise RuntimeError(f"AFDB has no prediction for {acc}")
+    url = data[0].get("pdbUrl")
+    if not url:
+        raise RuntimeError(f"AFDB entry for {acc} has no pdbUrl")
+    print(f"  downloading {url}")
+    urllib.request.urlretrieve(url, dest)
+    return dest
 
 # Approximate functional regions (UniProt feature view; 1-based inclusive).
 # Used ONLY to average per-residue pLDDT over a region.
@@ -53,13 +69,6 @@ EWSR1_REGIONS = {
     "RNA-recognition motif (RRM)": (361, 442),
     "RGG/zinc-finger C-terminal": (443, 656),
 }
-
-
-def fetch_pdb(acc, dest):
-    url = AFDB.format(acc=acc)
-    print(f"  downloading {url}")
-    urllib.request.urlretrieve(url, dest)
-    return dest
 
 
 def per_residue_plddt(pdb_path):
@@ -145,36 +154,36 @@ def run_fpocket(pdb_path):
     return {"available": True, "pockets": pockets}
 
 
-def main():
+def assess(acc, regions, with_fpocket):
+    """Fetch + analyse one protein; never raises (records an error instead)."""
     work = os.environ.get("RUNNER_TEMP", "/tmp")
-    nr_pdb = fetch_pdb(NR4A3, os.path.join(work, f"AF-{NR4A3}.pdb"))
-    ew_pdb = fetch_pdb(EWSR1, os.path.join(work, f"AF-{EWSR1}.pdb"))
+    try:
+        pdb = fetch_pdb(acc, os.path.join(work, f"AF-{acc}.pdb"))
+        plddt = per_residue_plddt(pdb)
+        out = {
+            "uniprot": acc,
+            "length": max(plddt) if plddt else None,
+            "regions": region_summary(plddt, regions),
+        }
+        if with_fpocket:
+            out["fpocket"] = run_fpocket(pdb)
+            best = (out["fpocket"]["pockets"] or [{}])[0]
+            out["top_pocket_druggability"] = best.get("druggability")
+        return out
+    except Exception as e:  # noqa: BLE001 — keep the pipeline alive, surface the error in JSON
+        print(f"  ERROR assessing {acc}: {e}", file=sys.stderr)
+        return {"uniprot": acc, "error": str(e)}
 
-    nr_plddt = per_residue_plddt(nr_pdb)
-    ew_plddt = per_residue_plddt(ew_pdb)
 
+def main():
     result = {
-        "_note": "AlphaFold2 (AFDB v4) confidence + fpocket cavity analysis. "
+        "_note": "AlphaFold2 (AFDB) confidence + fpocket cavity analysis. "
                  "pLDDT is AlphaFold's per-residue confidence; <50 typically marks "
                  "intrinsic disorder. Druggability score is fpocket's 0-1 estimate "
                  "(>0.5 commonly considered druggable).",
-        "NR4A3": {
-            "uniprot": NR4A3,
-            "length": max(nr_plddt) if nr_plddt else None,
-            "regions": region_summary(nr_plddt, NR4A3_REGIONS),
-            "fpocket": run_fpocket(nr_pdb),
-        },
-        "EWSR1": {
-            "uniprot": EWSR1,
-            "length": max(ew_plddt) if ew_plddt else None,
-            "regions": region_summary(ew_plddt, EWSR1_REGIONS),
-        },
+        "NR4A3": assess(NR4A3, NR4A3_REGIONS, with_fpocket=True),
+        "EWSR1": assess(EWSR1, EWSR1_REGIONS, with_fpocket=False),
     }
-
-    # locate the best NR4A3 pocket relative to the LBD window, for the manuscript
-    best = (result["NR4A3"]["fpocket"]["pockets"] or [{}])[0]
-    result["NR4A3"]["top_pocket_druggability"] = best.get("druggability")
-
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=2)
     print("wrote", OUT)

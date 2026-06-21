@@ -50,14 +50,21 @@ jobs:
           mhcflurry-downloads fetch models_class1_presentation
 
       - name: Structure / druggability (NR4A3, EWSR1)
+        continue-on-error: true
         run: |
           which fpocket && fpocket -h >/dev/null 2>&1 || echo "fpocket check"
           python research/modalities/nr4a3_structure.py
 
       - name: Fusion-junction neoantigen prediction
+        continue-on-error: true
         run: python research/modalities/fusion_neoantigen.py
 
+      - name: Fusion-junction ASO design
+        continue-on-error: true
+        run: python research/modalities/junction_aso.py
+
       - name: Publish results to modalities-cache branch
+        if: always()
         run: |
           set -e
           git config user.name "github-actions[bot]"
@@ -65,6 +72,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/res"
           cp research/modalities/nr4a3-structure-assessment.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
