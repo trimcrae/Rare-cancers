@@ -126,29 +126,46 @@ def main():
         alleles={a: [a] for a in ALLELES},
         verbose=0,
     )
-    # df columns: peptide, peptide_num, sample_name, affinity, best_allele,
-    #             affinity_percentile, processing_score, presentation_score, presentation_percentile
-    result["_mhcflurry_columns"] = list(df.columns)  # provenance: confirm the percentile col exists
+    # Class1PresentationPredictor.predict columns (this MHCflurry build):
+    #   peptide, peptide_num, sample_name, affinity, best_allele,
+    #   processing_score, presentation_score, presentation_percentile
+    # There is NO 'affinity_percentile' column here — rank on presentation_percentile
+    # (lower = better presented); also report raw affinity (nM). We pick the rank column
+    # defensively and record which was used (provenance against silent-default artifacts).
+    cols = list(df.columns)
+    result["_mhcflurry_columns"] = cols
+    rank_col = ("presentation_percentile" if "presentation_percentile" in cols
+                else "affinity_percentile" if "affinity_percentile" in cols else None)
+    result["_rank_column_used"] = rank_col
+    if rank_col is None:
+        raise RuntimeError(f"no percentile column in MHCflurry output: {cols}")
+
+    # Binding thresholds: percentile (netMHC-style) AND raw affinity (nM) as a cross-check.
+    AFF_STRONG, AFF_WEAK = 50.0, 500.0  # nM, standard MHC-I binding cutoffs
     rows = []
     for _, row in df.iterrows():
-        rank = float(row.get("affinity_percentile", 100.0))
+        rank = float(row[rank_col])
+        aff = float(row["affinity"])
+        by_rank = "strong" if rank <= RANK_STRONG else ("weak" if rank <= RANK_WEAK else "non-binder")
+        by_aff = "strong" if aff <= AFF_STRONG else ("weak" if aff <= AFF_WEAK else "non-binder")
         rows.append({
             "peptide": row["peptide"],
             "allele": row["best_allele"],
-            "affinity_nM": round(float(row["affinity"]), 1),
-            "affinity_percentile": round(rank, 3),
+            "affinity_nM": round(aff, 1),
+            "presentation_percentile": round(rank, 4),
             "presentation_score": round(float(row.get("presentation_score", 0)), 3),
-            "class": "strong" if rank <= RANK_STRONG else ("weak" if rank <= RANK_WEAK else "non-binder"),
+            "class_by_percentile": by_rank,
+            "class_by_affinity": by_aff,
         })
-    rows.sort(key=lambda b: b["affinity_percentile"])
-    binders = [r for r in rows if r["affinity_percentile"] <= RANK_WEAK]
-    result["n_predicted_binders"] = len(binders)
-    result["n_strong_binders"] = sum(1 for b in binders if b["class"] == "strong")
-    # Always report the best predictions even if none pass threshold, so a NEGATIVE
-    # result is concrete and verifiable (rules out a silent percentile-default artifact).
-    result["best_affinity_percentile"] = rows[0]["affinity_percentile"] if rows else None
-    result["best_affinity_nM"] = rows[0]["affinity_nM"] if rows else None
-    result["top_predictions_any_rank"] = rows[:10]
+    rows.sort(key=lambda b: b["presentation_percentile"])
+    binders = [r for r in rows if r["class_by_percentile"] != "non-binder"]
+    aff_binders = [r for r in rows if r["class_by_affinity"] != "non-binder"]
+    result["n_predicted_binders_by_percentile"] = len(binders)
+    result["n_strong_binders_by_percentile"] = sum(1 for b in binders if b["class_by_percentile"] == "strong")
+    result["n_predicted_binders_by_affinity_500nM"] = len(aff_binders)
+    result["best_presentation_percentile"] = rows[0]["presentation_percentile"] if rows else None
+    result["best_affinity_nM"] = min((r["affinity_nM"] for r in rows), default=None)
+    result["top_predictions"] = rows[:12]
     result["binders"] = binders
     _write(result)
 
@@ -157,7 +174,7 @@ def _write(result):
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=2)
     print("wrote", OUT, file=sys.stderr)
-    skip = {"binders", "top_predictions_any_rank"}
+    skip = {"binders"}
     print(json.dumps({k: v for k, v in result.items() if k not in skip}, indent=2))
 
 
