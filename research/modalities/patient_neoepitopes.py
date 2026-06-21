@@ -47,22 +47,23 @@ def junction_from_seq(spec):
     return left, right
 
 
-def junction_from_exons(e_exon, n_exon):
+def junction_from_exons(partner, e_exon, n_exon):
     """Build the in-frame junction context from Ensembl exon structure (reuses the
-    population-analysis machinery). Returns (left, right) protein context around the seam."""
+    population-analysis machinery). `partner` is the 5' FET gene (EWSR1 or TAF15).
+    Returns (left, right) protein context around the seam."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from fusion_breakpoints import gene_model, translate  # type: ignore
-    ews, nr4 = gene_model("EWSR1"), gene_model("NR4A3")
-    if not (1 <= e_exon <= ews["n_coding_exons"]):
-        sys.exit(f"EWSR1 exon {e_exon} out of range (1..{ews['n_coding_exons']})")
+    fet, nr4 = gene_model(partner), gene_model("NR4A3")
+    if not (1 <= e_exon <= fet["n_coding_exons"]):
+        sys.exit(f"{partner} exon {e_exon} out of range (1..{fet['n_coding_exons']})")
     if not (2 <= n_exon <= nr4["n_coding_exons"]):
         sys.exit(f"NR4A3 exon {n_exon} out of range (2..{nr4['n_coding_exons']})")
-    p = ews["offsets"][e_exon - 1]
+    p = fet["offsets"][e_exon - 1]
     q = nr4["offsets"][n_exon - 2]
-    fusion_prot = translate(ews["cds"][:p] + nr4["cds"][q:])
+    fusion_prot = translate(fet["cds"][:p] + nr4["cds"][q:])
     if not fusion_prot.endswith(nr4["protein"][-100:]):
-        sys.exit(f"EWSR1 e{e_exon}::NR4A3 e{n_exon} is out of frame (NR4A3 C-terminus not "
-                 "intact) — not a viable in-frame fusion; check the breakpoint.")
+        sys.exit(f"{partner} e{e_exon}::NR4A3 e{n_exon} is out of frame (NR4A3 C-terminus "
+                 "not intact) — not a viable in-frame fusion; check the breakpoint.")
     j = p // 3
     return fusion_prot[:j], fusion_prot[j:]
 
@@ -83,7 +84,10 @@ def spanning_peptides(left, right):
 def main():
     ap = argparse.ArgumentParser(description="Per-patient EWSR1::NR4A3 neoepitope shortlister")
     ap.add_argument("--junction-seq", help="protein context 'LEFT|RIGHT' ('|' = seam)")
-    ap.add_argument("--ewsr1-exon", type=int, help="EWSR1 coding-exon end (Ensembl mode)")
+    ap.add_argument("--partner", default="EWSR1", choices=["EWSR1", "TAF15"],
+                    help="5' FET fusion partner for exon mode (default EWSR1; ~16%% are TAF15)")
+    ap.add_argument("--ewsr1-exon", "--partner-exon", dest="partner_exon", type=int,
+                    help="5' partner coding-exon end (Ensembl mode)")
     ap.add_argument("--nr4a3-exon", type=int, help="NR4A3 coding-exon start (Ensembl mode)")
     ap.add_argument("--hla", required=True, help="comma-separated HLA-I, e.g. 'A*02:01,B*07:02'")
     ap.add_argument("--out", default=None, help="write JSON here (default: stdout only)")
@@ -93,12 +97,13 @@ def main():
 
     if args.junction_seq:
         left, right = junction_from_seq(args.junction_seq)
-        source = {"mode": "junction-seq"}
-    elif args.ewsr1_exon and args.nr4a3_exon:
-        left, right = junction_from_exons(args.ewsr1_exon, args.nr4a3_exon)
-        source = {"mode": "exon", "EWSR1_exon": args.ewsr1_exon, "NR4A3_exon": args.nr4a3_exon}
+        source = {"mode": "junction-seq", "partner": "unspecified"}
+    elif args.partner_exon and args.nr4a3_exon:
+        left, right = junction_from_exons(args.partner, args.partner_exon, args.nr4a3_exon)
+        source = {"mode": "exon", "partner": args.partner,
+                  "partner_exon": args.partner_exon, "NR4A3_exon": args.nr4a3_exon}
     else:
-        sys.exit("provide --junction-seq OR (--ewsr1-exon AND --nr4a3-exon)")
+        sys.exit("provide --junction-seq OR (--partner-exon AND --nr4a3-exon)")
 
     alleles = []
     for a in args.hla.split(","):
@@ -110,22 +115,22 @@ def main():
     if not peps:
         sys.exit("no junction-spanning peptides — check the seam position")
 
-    # novelty: drop peptides that also occur in wild-type EWSR1 or NR4A3 (need parents)
+    # novelty: drop peptides that also occur in the wild-type 5' partner or NR4A3
     novelty_note = "not applied (offline / --no-novelty-filter)"
     if not args.no_novelty_filter:
         try:
             sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
             from fusion_breakpoints import gene_model  # type: ignore
-            ews_p = gene_model("EWSR1")["protein"]
-            nr4_p = gene_model("NR4A3")["protein"]
+            partners = ["EWSR1", "TAF15"] if source["partner"] == "unspecified" else [source["partner"]]
+            parent_seqs = [gene_model(g)["protein"] for g in partners] + [gene_model("NR4A3")["protein"]]
             before = len(peps)
-            peps = {p: m for p, m in peps.items() if p not in ews_p and p not in nr4_p}
-            novelty_note = f"applied: {before - len(peps)} self-peptides removed, {len(peps)} novel"
+            peps = {p: m for p, m in peps.items() if all(p not in s for s in parent_seqs)}
+            novelty_note = f"applied vs {partners}+NR4A3: {before - len(peps)} self removed, {len(peps)} novel"
         except Exception as e:  # noqa
             novelty_note = f"could not fetch parents ({e}); novelty NOT filtered"
 
     result = {
-        "_note": "Per-patient EWSR1::NR4A3 junction neoepitope shortlist (MHCflurry-2.0). "
+        "_note": "Per-patient (EWSR1|TAF15)::NR4A3 junction neoepitope shortlist (MHCflurry-2.0). "
                  "Predicted presentation is a screen, NOT proof of immunogenicity; confirm "
                  "by immunopeptidomics + T-cell assay. Not medical advice.",
         "source": source,

@@ -75,9 +75,31 @@ jobs:
         continue-on-error: true
         run: |
           python research/modalities/patient_neoepitopes.py \
-            --ewsr1-exon 7 --nr4a3-exon 3 \
+            --partner EWSR1 --partner-exon 7 --nr4a3-exon 3 \
             --hla "A*02:01,A*11:01,B*07:02,B*08:01" \
             --out research/modalities/patient-neoepitopes-demo.json
+
+      - name: TAF15::NR4A3 variant demo (find an in-frame TAF15 exon)
+        continue-on-error: true
+        run: |
+          for e in 4 5 6 7 8 9 10 11 12; do
+            if python research/modalities/patient_neoepitopes.py \
+                 --partner TAF15 --partner-exon "$e" --nr4a3-exon 3 \
+                 --hla "A*02:01,A*11:01,B*07:02,B*08:01" \
+                 --out research/modalities/patient-neoepitopes-taf15-demo.json; then
+              echo "TAF15 exon $e :: NR4A3 e3 is in-frame — demo written"; break
+            fi
+          done
+
+      - name: CD4 / class-II helper-epitope demo (isolated venv, MHCnuggets)
+        continue-on-error: true
+        run: |
+          python -m venv /tmp/cd4venv
+          /tmp/cd4venv/bin/pip install -q mhcnuggets || echo "mhcnuggets install failed"
+          /tmp/cd4venv/bin/python research/modalities/patient_cd4_epitopes.py \
+            --partner EWSR1 --partner-exon 7 --nr4a3-exon 3 \
+            --hla2 "DRB1*15:01,DRB1*03:01,DRB1*07:01" \
+            --out research/modalities/patient-cd4-demo.json || true
 
       - name: Publish results to modalities-cache branch
         if: always()
@@ -92,6 +114,8 @@ jobs:
           cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/hla-coverage.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-neoepitopes-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/patient-neoepitopes-taf15-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/patient-cd4-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
