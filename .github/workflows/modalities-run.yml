@@ -46,7 +46,7 @@ jobs:
         run: |
           set -e
           python -m pip install --upgrade pip
-          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas
+          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas matplotlib
           mhcflurry-downloads fetch models_class1_presentation
 
       - name: Structure / druggability (NR4A3, EWSR1)
@@ -70,6 +70,14 @@ jobs:
       - name: HLA population coverage of the junction neoepitopes (AFND)
         continue-on-error: true
         run: python research/modalities/hla_coverage.py
+
+      - name: Coverage vs. number-of-alleles curve + chart (broad HLA panel)
+        continue-on-error: true
+        run: python research/modalities/coverage_scan.py
+
+      - name: Candidate vaccine construct (minimal SLP + string-of-beads)
+        continue-on-error: true
+        run: python research/modalities/vaccine_construct.py
 
       - name: Per-patient neoepitope shortlister — worked demo (e7::e3 + common HLA)
         continue-on-error: true
@@ -115,6 +123,10 @@ jobs:
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/hla-coverage.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/epitope-allele-matrix.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/coverage-curve.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/coverage-curve.png "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/vaccine-construct.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-neoepitopes-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-neoepitopes-taf15-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-cd4-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
@@ -128,6 +140,8 @@ jobs:
           fi
           mkdir -p research/modalities
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          cp "$RUNNER_TEMP"/res/*.png research/modalities/ 2>/dev/null || true
           git add research/modalities/*.json
+          git add research/modalities/*.png 2>/dev/null || true
           git commit -m "Modalities compute: NR4A3 structure + fusion neoantigen results" || { echo "no changes"; exit 0; }
           git push origin modalities-cache

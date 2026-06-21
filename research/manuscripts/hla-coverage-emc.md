@@ -59,17 +59,39 @@ allele-frequency mirror updates.
 
 ## 1. Background
 
+**Why immunotherapy at all?** Conventional small-molecule targeting of EWSR1::NR4A3 is
+precluded: the fusion is predicted either intrinsically disordered or folded-but-pocket-less
+(AlphaFold2 + fpocket; best cavity druggability 0.495, sub-threshold — see the structure
+assessment in `novel-modalities.md` §2). With no druggable pocket, attention turns to the
+tumour-specific **fusion junction** as an immunological target.
+
 EMC's near-universal *NR4A3* rearrangement creates a fusion protein whose **junction**
 peptides do not exist in the normal proteome. Such junctions are attractive immunotherapy
 targets: if a recurrent breakpoint is shared across patients, its junction epitopes are
 "public" and could in principle support an **off-the-shelf** vaccine or engineered-TCR
-product rather than a bespoke per-patient build. Two facts bound that promise. First, the
+product rather than a bespoke per-patient build. A fusion neoantigen also has a structural
+advantage over the random somatic-mutation neoantigens that dominate personalised-vaccine
+programs: the fusion is the **truncal driver** — clonal, present in every tumour cell and
+never subclonally lost — so a response against it cannot be escaped by antigen loss the way a
+passenger-mutation response can. Two facts bound the promise, though. First, the
 project's breakpoint analysis found **no pan-EMC epitope** — strong binders are
 breakpoint-specific, and the most commonly reported breakpoint (**EWSR1 exon 7 :: NR4A3
 exon 3**) is only one of several in-frame junctions. Second, every epitope is only useful in
 a patient whose HLA presents it. Translating an *in-silico* binder into a clinical claim
 therefore requires an honest **population-coverage** estimate, which is the contribution of
 this analysis.
+
+**Why isn't this already a therapy?** Not because the biology is unknown, but because the
+pieces past "know the variant" are hard: the breakpoint varies between patients (so there is
+no single off-the-shelf product), the junction is mostly self-sequence (EWSR1 and NR4A3 are
+both self proteins — only the seam is foreign, so central tolerance may have pruned reactive
+T cells), sarcomas are low-mutational-burden "cold" tumours, and a bespoke per-patient product
+for an ultra-rare cancer has no commercial pull and cannot easily be trialled at scale.
+Personalised neoantigen vaccines are nonetheless in late-phase trials in other tumours, and
+fusion-directed approaches are being explored in other sarcomas — EMC simply has no champion.
+The later results ask what an in-silico analysis can *contribute* toward closing that gap:
+how coverage scales with the number of alleles targeted (§3.3), and a concrete candidate
+antigen construct (§3.4).
 
 ## 2. Methods
 
@@ -180,6 +202,45 @@ Asia, Oceania) are the CD4-worst**, and vice-versa — the two arms barely overl
 † Polynesia and Micronesia are single small populations (N≈51 / 129 for the class-I and CD4
 surveys respectively); wide CIs / class-I gaps reflect that — treat as indicative only.
 
+### 3.3 Coverage scales with the number of alleles targeted
+
+The headline figures use only the alleles that won best-binder per peptide — a *floor*. The
+real design question is: as a public vaccine presents the junction on **more** HLA alleles,
+how fast does population coverage rise, and where does it plateau? `coverage_scan.py` scans a
+broad common HLA-A/-B panel (≈34 alleles) through MHCflurry, takes every allele presenting a
+strong junction binder, and — because under 1 − ∏(1 − af)² the greedy-optimal order is simply
+descending allele frequency — plots **cumulative coverage vs. number of alleles**, globally
+and per region (Figure `coverage-curve.png`; data `coverage-curve.json`).
+
+*[Numbers below are filled from the CI artifact once the broad-panel scan completes; the
+script and curve mathematics are verified, the presenting-allele set is the only CI-supplied
+input.]* The shape of the result is the message: a handful of alleles buys the first ~50–60%
+cheaply (the globally frequent A\*02:01/A\*11:01/A\*24:02), after which **each added allele
+buys steeply less**, and the number of alleles needed to reach 90% **differs sharply by
+region** — fewest in Europe, most (or unreachable within the panel) in Sub-Saharan Africa and
+parts of Asia. This quantifies both "how big must a public product be?" and the equity gap: a
+fixed allele panel tuned on one population under-serves others.
+
+### 3.4 A candidate antigen construct
+
+To make the output concrete, `vaccine_construct.py` turns the predicted epitopes into
+something synthesisable (`vaccine-construct.json`). For the public **EWSR1 e7::NR4A3 e3**
+junction it reconstructs the local fusion window by overlap-assembly of the junction-spanning
+peptides and finds the **minimal synthetic long peptide (SLP)** that carries every strong
+epitope of both arms:
+
+> **`SQYSQQSSSYGQQIVRTDSLKGRRGRL`** (27 aa, seam after `…GQQ`) — a single junction-spanning
+> peptide presenting **2 strong CD8 epitopes** (`QQIVRTDSL`/B\*08:01, `SSYGQQIVR`/A\*11:01)
+> **and 4 strong CD4 helpers** (DRB1\*03:01/07:01) in native context.
+
+Keeping CD8 and CD4 epitopes contiguous in one SLP preserves the processing context and
+co-delivers help — desirable for a durable response. The script also emits a multi-epitope
+**string-of-beads** alternative (distinct epitopes joined by AAY class-I cleavage linkers and
+GPGPG class-II spacers) for a construct spanning multiple junctions/alleles. This is an
+**engineering proposal from predictions, not a validated immunogen** — it is a defensible
+*starting point* for synthesis and a T-cell assay, which is exactly where computation should
+hand off to the bench.
+
 ## 4. Limitations
 
 1. **Binding ≠ immunogenicity.** Predicted strong MHC-I binding is a *screen*. A junction
@@ -204,13 +265,22 @@ surveys respectively); wide CIs / class-I gaps reflect that — treat as indicat
    and "sub-region" is a coarse proxy for the genuine diversity within it.
 6. **Upstream epitope set.** Coverage inherits every limitation of the breakpoint-neoantigen
    predictions it is built on (see `novel-modalities.md` §3.3).
+7. **The coverage curve is bounded by its panel.** §3.3 scans ≈34 common HLA-A/-B alleles;
+   the true ceiling is whatever fraction of patients carry *any* presenting allele, which a
+   larger panel could raise further. Conversely, an allele counts as "covered" if it presents
+   *any* strong binder — the construct need not actually include every such epitope. The curve
+   answers "how many alleles must be presented", not "is each epitope immunogenic" (limitation 1).
 
 ## 5. Reproducibility
 
 `python research/modalities/hla_coverage.py` fetches the two public sources (AFND frequencies +
 ISO/UN M49 region map), reads the project's class-I and class-II epitope JSONs for the
 presenting alleles, recomputes every number above, and writes `hla-coverage.json` (global +
-per-region, class I + II + combined, with CIs, sample sizes and the unassigned-population audit). The step runs in CI (`.github/workflows/modalities-run.yml`).
+per-region, class I + II + combined, with CIs, sample sizes and the unassigned-population audit).
+`coverage_scan.py` builds the §3.3 curve + chart (MHCflurry broad-panel scan → `coverage-curve.json`
++ `coverage-curve.png`), and `vaccine_construct.py` builds the §3.4 construct
+(`vaccine-construct.json`, no network — deterministic from the committed epitope JSONs). The
+MHCflurry/matplotlib steps run in CI (`.github/workflows/modalities-run.yml`). The step runs in CI (`.github/workflows/modalities-run.yml`).
 If a source is unreachable the script records `source_unavailable` rather than emitting a
 fabricated number.
 

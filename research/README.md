@@ -35,7 +35,9 @@ research/
     fusion_neoantigen.py            UniProt seqs + MHCflurry EWSR1::NR4A3 junction-neoantigen prediction (CI)
     fusion_breakpoints.py           breakpoint-resolved neoantigens across real in-frame junctions (Ensembl exons)
     patient_neoepitopes.py          per-patient tool: fusion breakpoint + HLA -> ranked candidate epitopes
-    hla_coverage.py                 HLA population coverage of the neoepitopes (AFND mirror; Wilson CIs)
+    hla_coverage.py                 HLA population coverage of the neoepitopes (AFND mirror; Wilson CIs; class I+II)
+    coverage_scan.py                coverage vs #-alleles-targeted curve + chart (broad MHCflurry panel; CI)
+    vaccine_construct.py            minimal junction SLP + string-of-beads candidate construct (no network)
     nr4a3-structure-assessment.json structure/druggability result (snapshot; refreshed on modalities-cache branch)
     fusion-neoantigen-predictions.json junction-neoantigen result (snapshot; refreshed on modalities-cache branch)
   manuscripts/
