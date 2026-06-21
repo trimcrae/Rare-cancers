@@ -33,12 +33,16 @@ research/
   modalities/
     nr4a3_structure.py              AlphaFold pLDDT (disorder) + fpocket druggability of NR4A3/EWSR1 (CI)
     fusion_neoantigen.py            UniProt seqs + MHCflurry EWSR1::NR4A3 junction-neoantigen prediction (CI)
+    fusion_breakpoints.py           breakpoint-resolved neoantigens across real in-frame junctions (Ensembl exons)
+    patient_neoepitopes.py          per-patient tool: fusion breakpoint + HLA -> ranked candidate epitopes
+    hla_coverage.py                 (attempted) HLA population coverage of the neoepitopes
     nr4a3-structure-assessment.json structure/druggability result (snapshot; refreshed on modalities-cache branch)
     fusion-neoantigen-predictions.json junction-neoantigen result (snapshot; refreshed on modalities-cache branch)
   manuscripts/
     meta-analysis.md                manuscript skeleton (outcomes meta-analysis)
     repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)
-    novel-modalities.md             manuscript: structure-based target assessment + 5-modality program for the fusion
+    novel-modalities.md             manuscript: structure-based target assessment + routes to treatment for the fusion
+    clinical-brief-emc-neoantigen.md one-page brief for a sarcoma immuno-oncologist (personalised neoantigen route)
 ```
 
 ## Non-negotiable rules
