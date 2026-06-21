@@ -34,15 +34,26 @@ jobs:
               | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const m=JSON.parse(s).message;console.log("    crossref: "+((m.title||[])[0]||"?")+" | "+((m["container-title"]||[])[0]||"?")+" | "+(((m.published||m.issued||{})["date-parts"]||[[ "?" ]])[0][0]));}catch(e){console.log("    PARSE-ERR "+s.slice(0,80))}})'
           done
           echo
-          echo "===== 2) Bangerter 2023 (PMC9813045) full text — are the drugs named? ====="
-          curl -s -m 90 "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/fullTextXML" -o b.xml
-          echo "  fetched bytes: $(wc -c < b.xml)"
+          echo "===== 2) Bangerter 2023 (PMC9813045) full text — try multiple sources ====="
+          echo "  -- 2a) PMC open-access service (is full text freely available?) --"
+          curl -s -m 30 "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC9813045" | head -c 500; echo
+          echo "  -- 2b) Europe PMC isOpenAccess flag --"
+          curl -s -m 30 "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=PMC9813045&format=json&resultType=core" \
+            | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const r=JSON.parse(s).resultList.result[0]||{};console.log("    isOpenAccess:",r.isOpenAccess,"| inEPMC:",r.inEPMC,"| inPMC:",r.inPMC,"| hasTextMinedTerms:",r.hasTextMinedTerms);}catch(e){console.log("    parse-err",s.slice(0,120))}})'
+          echo "  -- 2c) NCBI efetch PMC XML --"
+          curl -s -m 60 "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=9813045&rettype=xml" -o b.xml
+          echo "    bytes: $(wc -c < b.xml)"
           for drug in venetoclax carfilzomib doxorubicin bortezomib panobinostat romidepsin brigatinib synerg; do
-            echo "  $drug: $(grep -io "$drug" b.xml | wc -l) mentions"
+            n=$(grep -io "$drug" b.xml | wc -l); [ "$n" -gt 0 ] && echo "    $drug: $n"
           done
-          echo "  --- sentences naming venetoclax/carfilzomib/doxorubicin ---"
-          grep -ioE "[^.<>]*\b(venetoclax|carfilzomib|doxorubicin)\b[^.<>]*" b.xml | sed 's/<[^>]*>//g' | sort -u | head -12
+          echo "    sentences naming the drugs:"; grep -ioE "[^.<>]*\b(venetoclax|carfilzomib|doxorubicin)\b[^.<>]*" b.xml | sed 's/<[^>]*>//g' | sort -u | head -10
+          echo "  -- 2d) Europe PMC text-mined chemicals for PMC9813045 --"
+          curl -s -m 30 "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/textMinedTerms?format=json" \
+            | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);const ch=((j.semanticTypeList&&j.semanticTypeList.semanticType)||[]).find(t=>/chem/i.test(t.name));console.log("    chemicals:",ch?ch.tmSummary.map(x=>x.term).join(", "):"none/none-OA");}catch(e){console.log("    none/parse-err")}})'
           echo
           echo "===== 3) Europe PMC: primary pazopanib/sunitinib EMC reports ====="
-          curl -s -m 40 "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal%20myxoid%20chondrosarcoma%22%20AND%20%28pazopanib%20OR%20sunitinib%20OR%20antiangiogenic%29&format=json&pageSize=25&resultType=lite" -o pz.json
-          node -e 'try{const j=require("./pz.json");const r=(j.resultList&&j.resultList.result)||[];console.log("  hits:",r.length);r.forEach(x=>console.log("   ",(x.pmid||x.id||"?"),"|",x.pubYear||"?","|",(x.title||"").replace(/\s+/g," ").slice(0,90)));}catch(e){console.log("  PARSE-ERR")}'
+          curl -s -m 40 -G "https://www.ebi.ac.uk/europepmc/webservices/rest/search" \
+            --data-urlencode 'query="extraskeletal myxoid chondrosarcoma" AND (pazopanib OR sunitinib OR anti-angiogenic OR antiangiogenic)' \
+            --data-urlencode 'format=json' --data-urlencode 'pageSize=25' --data-urlencode 'resultType=lite' -o pz.json
+          echo "  raw head: $(head -c 120 pz.json)"
+          node -e 'const fs=require("fs");try{const j=JSON.parse(fs.readFileSync("./pz.json","utf8"));console.log("  hitCount:",j.hitCount);const r=(j.resultList&&j.resultList.result)||[];r.forEach(x=>console.log("   ",(x.pmid||x.id||"?"),"|",x.pubYear||"?","|",(x.title||"").replace(/\s+/g," ").slice(0,95)));}catch(e){console.log("  PARSE-ERR",e.message)}'
