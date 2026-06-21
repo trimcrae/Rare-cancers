@@ -191,6 +191,28 @@ git show origin/literature-cache:literature/<slug>/_index.json > /tmp/idx.json
 node scripts/triage-literature.mjs /tmp/idx.json --term "extraskeletal myxoid chondrosarcoma"
 ```
 
+## Making figures (read before adding any figure)
+
+Hand-written SVG with manually-computed coordinates is **banned** for figures. It has no text
+measurement, so labels overflow their boxes, and this environment has no SVG rasterizer, so you
+cannot even see the result before committing. (We shipped a janky one exactly this way — don't
+repeat it.) Instead:
+
+1. **Tabular / categorical figure** (e.g. an evidence × novelty grid, a candidate list, a forest
+   plot's numbers) → a **Markdown table**. GitHub renders it; it auto-sizes; it never overflows.
+2. **Flowchart / schematic** (e.g. the method/firewall diagram) → a **Mermaid** code block
+   (```` ```mermaid ````). GitHub renders Mermaid natively; no coordinates to hand-tune.
+3. **Genuine data plot** (scatter / forest / bar that truly needs graphics) → generate it with a
+   **real plotting library in CI** (e.g. matplotlib/vega via a workflow, like the TxGNN jobs) and
+   **commit the rendered PNG only after viewing the raster** (read the PNG, or download the CI
+   artifact). Do **not** hand-emit the SVG.
+
+**Hard gate:** a figure is not "done" until you have *seen it rendered* — GitHub-rendered Markdown
+/Mermaid, or a rasterized PNG. If you cannot view it rendered, you must use a table or Mermaid, not
+hand-tuned SVG. Prefer a table whenever the content is fundamentally tabular (most "figures" here
+are). Keep figures reproducible: derive from the data files, and note "regenerate if the data
+changes."
+
 ## Tests
 
 - `node scripts/validate.mjs` — checks the data files (structure, required

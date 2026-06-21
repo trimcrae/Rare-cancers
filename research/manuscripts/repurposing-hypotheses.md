@@ -130,12 +130,31 @@ metabolic/lysosomal-storage-disease drugs, while EMC's most clinically-active ag
 reflects EMC's rarity: re-running the model on two commoner relatives (chondrosarcoma,
 soft-tissue sarcoma) did **not** rescue the leads — they ranked similarly low (median ≈17–18th
 percentile, slightly *worse* than EMC's ≈21st) and the model reproduced the same implausible
-top hits (**Figure 3**). The divergence is therefore **not attributable to EMC's sparsity specifically**; it
+top hits (table below). The divergence is therefore **not attributable to EMC's sparsity specifically**; it
 is a general property of this released checkpoint's indication ranking (which — being the
 held-out `complex_disease` split — also prevents any of the three diseases from serving as a
 clean data-rich control). We report this as a limitation rather than acting on it; no TxGNN
-prediction was promoted to a candidate. **Figure 2** summarises the three-method design and the
-patient firewall.
+prediction was promoted to a candidate. The three-method design and the patient firewall:
+
+```mermaid
+flowchart TD
+  A["Mechanism curation<br/>(expert, literature)"] --> D["Scored candidate catalogue<br/>14 existing drugs · tiers T0–T3"]
+  B["Target→drug enumeration<br/>(DGIdb, reproducible)"] --> D
+  C["Graph foundation model<br/>(TxGNN, zero-shot)"] -. "diverged — reported as a limitation;<br/>no hit promoted" .-> N["not used as a source"]
+  D --> F{"Firewall"}
+  F -- "T3 + clinician review only" --> P["Patient page"]
+  D --> M["Manuscript & path-to-testing<br/>(n-of-1 · basket · model validation · CURE ID)"]
+```
+
+TxGNN sparsity stress-test — our mechanism/enumeration drugs rank low for EMC *and* its commoner
+relatives, so the divergence is not an EMC-rarity effect (median percentile of our drugs in the
+model's 7,957-drug indication ranking; higher = better):
+
+| Disease | our drugs' median percentile | best-ranked of our drugs |
+|---|---|---|
+| EMC | 21.0 | doxorubicin (75th pct) |
+| chondrosarcoma | 17.7 | doxorubicin (80th pct) |
+| soft-tissue sarcoma | 17.4 | doxorubicin (72nd pct) |
 
 ## 3. Candidates
 
@@ -146,10 +165,23 @@ axes that actually matter to a reader — how strong the EMC-specific evidence i
 hypothesis is genuinely novel — rather than by a single rank.** (Each candidate also carries a
 transparent 0–18 composite triage score in the dataset and `METHODOLOGY.md`; we do *not* use it
 to order the presentation, because summing evidence with novelty, safety and availability floats
-the *known* drug to the top and is easily misread as a discovery ranking.) **Figure 1** is the
-evidence × novelty map; full per-criterion data: `research/hypotheses/candidates.json`.
+the *known* drug to the top and is easily misread as a discovery ranking.) Full per-criterion
+data: `research/hypotheses/candidates.json`.
 
-Organised by **what we actually know in EMC** (strongest first), with novelty shown explicitly:
+**The evidence × novelty map** (rows = EMC-specific evidence strength, strongest first; columns =
+how novel the hypothesis is) shows the structure at a glance:
+
+| EMC evidence ↓ / Novelty → | Known (tried) | Partly novel | Novel (untried) |
+|---|---|---|---|
+| **Clinical (EMC patient)** | Imatinib (KIT-mut) | — | — |
+| **Clinical (class)** | — | VEGFR-TKIs (rego/cabo/lenva…) | — |
+| **In-vivo (animal EMC)** | — | — | Zaltoprofen (PPARγ) |
+| **Ex-vivo (EMC models)** | — | Anthracycline + carfilzomib/venetoclax | Carfilzomib · Venetoclax · HDAC (romidepsin/panobinostat) · Brigatinib |
+| **Genomic / IHC** | — | — | CDK4/6 (palbociclib) |
+| **Mechanistic only** | — | — | Pioglitazone (PPARγ) · NTRK · NR4A3/NOR1 · BET/CDK7–9 · mRNA-vaccine + checkpoint |
+
+The empty **Novel × Clinical** cells are the headline: no new drug has EMC clinical evidence. The
+full detail, strongest evidence first:
 
 | Candidate (axis) | Evidence *in EMC* | Novel? |
 |---|---|---|
@@ -170,7 +202,7 @@ Organised by **what we actually know in EMC** (strongest first), with novelty sh
 The structure is the point: **evidence strength and novelty pull in opposite directions.** The
 *only* clinically-evidenced option (imatinib) is the *only* non-novel one and treats a ~4%
 minority; every genuinely novel hypothesis is preclinical, and the "novel + clinical" cell is
-**empty** — there is no new drug with EMC clinical evidence (Figure 1). The actionable leads are
+**empty** — there is no new drug with EMC clinical evidence (see the map). The actionable leads are
 therefore the *novel* candidates with the strongest *functional* EMC evidence (in-vivo, then
 ex-vivo), distilled next.
 

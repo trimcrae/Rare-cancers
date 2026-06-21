@@ -34,10 +34,11 @@ confirmations.
 2. **References to full journal style.** Entries are abbreviated ("et al.", no volume/pages).
    Expand author lists from the primary sources (do **not** infer co-authors), add
    volume/issue/pages, and confirm every DOI/PMID resolves.
-3. **Figures.** **Addressed (draft):** Figure 1 (candidate landscape — score × tier), Figure 2
-   (three-method triangulation + firewall schematic), and Figure 3 (cross-disease stress-test
-   strip plot) are in `figures/`, all reproducibly generated. The human authors should finalize
-   them to the target journal's style.
+3. **Figures.** **Addressed (draft):** the evidence × novelty **map**, the three-method/firewall
+   **diagram**, and the TxGNN stress-test are now **inline Markdown tables + a Mermaid flowchart**
+   (the earlier hand-drawn SVGs were removed — they overflowed their boxes and could not be
+   rasterised/verified here; see `AGENTS.md` → "Making figures"). Final journal figures should be
+   produced by the authors with a proper plotting tool.
 4. **Reproducibility of "not reported in EMC."** State the search strategy and dates used to
    judge that each candidate is genuinely untried in EMC (databases, queries, last-searched
    date) — currently implicit.
@@ -66,7 +67,7 @@ leads slightly *worse* (median ≈17–18th vs EMC's ≈21st percentile) with id
 top hits. The manuscript, METHODOLOGY and findings doc now state the divergence is a general
 property of the released checkpoint, **not** an EMC-rarity effect — and transparently note the
 revision. Remaining optional rigor: run the full-graph / `disease_eval` checkpoint to test the
-held-out-split caveat; added as Figure 3 (cross-disease rank strip plot).
+held-out-split caveat; presented as a stress-test table.
 
 ## Accuracy items verified in this pass
 - All 14 candidates' ranks/tiers/priority scores in §3 match `candidates.json`; every

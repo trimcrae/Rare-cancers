@@ -6,7 +6,7 @@ confirmation a hostile reviewer could demand; ✗ = found wrong and fixed.
 
 ## Replication (re-run, expect no drift)
 - `node research/hypotheses/build-candidates.mjs` → `candidates.json` byte-identical to committed. ✓
-- `node research/manuscripts/figures/make-figures.mjs` → both SVGs byte-identical. ✓
+- Figures are inline Markdown tables + a Mermaid diagram (no SVG); they render on GitHub.
 - `validate.mjs`, `validate-research.mjs`, `smoke-render.mjs` → all PASS. ✓
 - TxGNN outputs regenerate via CI (`txgnn-run.yml`); EMC ranks + stress-test reproduced. ✓
 
