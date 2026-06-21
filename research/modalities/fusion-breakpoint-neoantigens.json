@@ -1,0 +1,819 @@
+{
+  "_note": "Breakpoint-resolved EWSR1::NR4A3 junction neoantigens. Junctions derived from real Ensembl exon structure (no assumed breakpoint); only in-frame fusions with an intact NR4A3 C-terminus are kept. MHCflurry-2.0; presentation_percentile<=0.5 strong, <=2 weak.",
+  "EWSR1": {
+    "transcript": "ENST00000397938",
+    "length": 656
+  },
+  "NR4A3": {
+    "transcript": "ENST00000395097",
+    "length": 626
+  },
+  "windows": {
+    "EWSR1_exons": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "NR4A3_exons": [
+      2,
+      3,
+      4
+    ]
+  },
+  "n_inframe_junctions": 7,
+  "junctions": [
+    {
+      "EWSR1_exon_end": 7,
+      "NR4A3_exon_start": 3,
+      "ews_cds_nt": 793,
+      "nr4_cds_nt": 1081,
+      "junction_context": "SSYGQQ|IVRTDS",
+      "n_novel_peptides": 34,
+      "novel_peptides": [
+        "GQQIVRTD",
+        "GQQIVRTDS",
+        "GQQIVRTDSL",
+        "GQQIVRTDSLK",
+        "QIVRTDSL",
+        "QIVRTDSLK",
+        "QIVRTDSLKG",
+        "QIVRTDSLKGR",
+        "QQIVRTDS",
+        "QQIVRTDSL",
+        "QQIVRTDSLK",
+        "QQIVRTDSLKG",
+        "QQSSSYGQQI",
+        "QQSSSYGQQIV",
+        "QSSSYGQQI",
+        "QSSSYGQQIV",
+        "QSSSYGQQIVR",
+        "SQQSSSYGQQI",
+        "SSSYGQQI",
+        "SSSYGQQIV",
+        "SSSYGQQIVR",
+        "SSSYGQQIVRT",
+        "SSYGQQIV",
+        "SSYGQQIVR",
+        "SSYGQQIVRT",
+        "SSYGQQIVRTD",
+        "SYGQQIVR",
+        "SYGQQIVRT",
+        "SYGQQIVRTD",
+        "SYGQQIVRTDS",
+        "YGQQIVRT",
+        "YGQQIVRTD",
+        "YGQQIVRTDS",
+        "YGQQIVRTDSL"
+      ],
+      "binders": [
+        {
+          "peptide": "QQIVRTDSL",
+          "allele": "HLA-B*08:01",
+          "affinity_nM": 96.8,
+          "presentation_percentile": 0.037,
+          "presentation_score": 0.957,
+          "class": "strong"
+        },
+        {
+          "peptide": "SSYGQQIVR",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 61.2,
+          "presentation_percentile": 0.0822,
+          "presentation_score": 0.927,
+          "class": "strong"
+        },
+        {
+          "peptide": "QIVRTDSLK",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 99.9,
+          "presentation_percentile": 0.891,
+          "presentation_score": 0.469,
+          "class": "weak"
+        },
+        {
+          "peptide": "GQQIVRTDSL",
+          "allele": "HLA-B*15:01",
+          "affinity_nM": 4725.3,
+          "presentation_percentile": 1.3381,
+          "presentation_score": 0.308,
+          "class": "weak"
+        },
+        {
+          "peptide": "SSSYGQQIVR",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 266.6,
+          "presentation_percentile": 1.3493,
+          "presentation_score": 0.305,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 5
+    },
+    {
+      "EWSR1_exon_end": 9,
+      "NR4A3_exon_start": 3,
+      "ews_cds_nt": 1012,
+      "nr4_cds_nt": 1081,
+      "junction_context": "GFNKPG|VVRTDS",
+      "n_novel_peptides": 34,
+      "novel_peptides": [
+        "ERGGFNKPGV",
+        "ERGGFNKPGVV",
+        "FNKPGVVR",
+        "FNKPGVVRT",
+        "FNKPGVVRTD",
+        "FNKPGVVRTDS",
+        "GERGGFNKPGV",
+        "GFNKPGVV",
+        "GFNKPGVVR",
+        "GFNKPGVVRT",
+        "GFNKPGVVRTD",
+        "GGFNKPGV",
+        "GGFNKPGVV",
+        "GGFNKPGVVR",
+        "GGFNKPGVVRT",
+        "GVVRTDSL",
+        "GVVRTDSLK",
+        "GVVRTDSLKG",
+        "GVVRTDSLKGR",
+        "KPGVVRTD",
+        "KPGVVRTDS",
+        "KPGVVRTDSL",
+        "KPGVVRTDSLK",
+        "NKPGVVRT",
+        "NKPGVVRTD",
+        "NKPGVVRTDS",
+        "NKPGVVRTDSL",
+        "PGVVRTDS",
+        "PGVVRTDSL",
+        "PGVVRTDSLK",
+        "PGVVRTDSLKG",
+        "RGGFNKPGV",
+        "RGGFNKPGVV",
+        "RGGFNKPGVVR"
+      ],
+      "binders": [
+        {
+          "peptide": "KPGVVRTDSL",
+          "allele": "HLA-B*07:02",
+          "affinity_nM": 54.4,
+          "presentation_percentile": 0.1855,
+          "presentation_score": 0.86,
+          "class": "strong"
+        },
+        {
+          "peptide": "GVVRTDSLK",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 56.1,
+          "presentation_percentile": 0.5741,
+          "presentation_score": 0.622,
+          "class": "weak"
+        },
+        {
+          "peptide": "PGVVRTDSL",
+          "allele": "HLA-B*08:01",
+          "affinity_nM": 419.4,
+          "presentation_percentile": 1.5343,
+          "presentation_score": 0.258,
+          "class": "weak"
+        },
+        {
+          "peptide": "GGFNKPGVVR",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 1009.5,
+          "presentation_percentile": 1.5578,
+          "presentation_score": 0.252,
+          "class": "weak"
+        },
+        {
+          "peptide": "GVVRTDSLKGR",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 1148.3,
+          "presentation_percentile": 1.7785,
+          "presentation_score": 0.21,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 5
+    },
+    {
+      "EWSR1_exon_end": 10,
+      "NR4A3_exon_start": 3,
+      "ews_cds_nt": 1045,
+      "nr4_cds_nt": 1081,
+      "junction_context": "GPDLDL|VVRTDS",
+      "n_novel_peptides": 34,
+      "novel_peptides": [
+        "DEGPDLDLV",
+        "DEGPDLDLVV",
+        "DEGPDLDLVVR",
+        "DLDLVVRT",
+        "DLDLVVRTD",
+        "DLDLVVRTDS",
+        "DLDLVVRTDSL",
+        "DLVVRTDS",
+        "DLVVRTDSL",
+        "DLVVRTDSLK",
+        "DLVVRTDSLKG",
+        "EGPDLDLV",
+        "EGPDLDLVV",
+        "EGPDLDLVVR",
+        "EGPDLDLVVRT",
+        "GPDLDLVV",
+        "GPDLDLVVR",
+        "GPDLDLVVRT",
+        "GPDLDLVVRTD",
+        "LDLVVRTD",
+        "LDLVVRTDS",
+        "LDLVVRTDSL",
+        "LDLVVRTDSLK",
+        "LVVRTDSL",
+        "LVVRTDSLK",
+        "LVVRTDSLKG",
+        "LVVRTDSLKGR",
+        "MDEGPDLDLV",
+        "MDEGPDLDLVV",
+        "PDLDLVVR",
+        "PDLDLVVRT",
+        "PDLDLVVRTD",
+        "PDLDLVVRTDS",
+        "PMDEGPDLDLV"
+      ],
+      "binders": [
+        {
+          "peptide": "DLVVRTDSL",
+          "allele": "HLA-B*08:01",
+          "affinity_nM": 58.1,
+          "presentation_percentile": 0.033,
+          "presentation_score": 0.961,
+          "class": "strong"
+        },
+        {
+          "peptide": "LVVRTDSLK",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 62.0,
+          "presentation_percentile": 0.6408,
+          "presentation_score": 0.587,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 2
+    },
+    {
+      "EWSR1_exon_end": 11,
+      "NR4A3_exon_start": 2,
+      "ews_cds_nt": 1164,
+      "nr4_cds_nt": 951,
+      "junction_context": "QCGVVK|RTVQKN",
+      "n_novel_peptides": 30,
+      "novel_peptides": [
+        "CGVVKRTV",
+        "CGVVKRTVQ",
+        "CGVVKRTVQK",
+        "CGVVKRTVQKN",
+        "DFFKQCGVVKR",
+        "FFKQCGVVKR",
+        "FFKQCGVVKRT",
+        "FKQCGVVKR",
+        "FKQCGVVKRT",
+        "FKQCGVVKRTV",
+        "GVVKRTVQ",
+        "GVVKRTVQK",
+        "GVVKRTVQKN",
+        "GVVKRTVQKNA",
+        "KQCGVVKR",
+        "KQCGVVKRT",
+        "KQCGVVKRTV",
+        "KQCGVVKRTVQ",
+        "QCGVVKRT",
+        "QCGVVKRTV",
+        "QCGVVKRTVQ",
+        "QCGVVKRTVQK",
+        "VKRTVQKN",
+        "VKRTVQKNA",
+        "VKRTVQKNAK",
+        "VKRTVQKNAKY",
+        "VVKRTVQK",
+        "VVKRTVQKN",
+        "VVKRTVQKNA",
+        "VVKRTVQKNAK"
+      ],
+      "binders": [
+        {
+          "peptide": "GVVKRTVQK",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 32.2,
+          "presentation_percentile": 0.2352,
+          "presentation_score": 0.828,
+          "class": "strong"
+        },
+        {
+          "peptide": "KQCGVVKRTV",
+          "allele": "HLA-A*02:01",
+          "affinity_nM": 1213.2,
+          "presentation_percentile": 1.8016,
+          "presentation_score": 0.205,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 2
+    },
+    {
+      "EWSR1_exon_end": 11,
+      "NR4A3_exon_start": 4,
+      "ews_cds_nt": 1164,
+      "nr4_cds_nt": 1254,
+      "junction_context": "QCGVVK|YCPTDQ",
+      "n_novel_peptides": 34,
+      "novel_peptides": [
+        "CGVVKYCP",
+        "CGVVKYCPT",
+        "CGVVKYCPTD",
+        "CGVVKYCPTDQ",
+        "DFFKQCGVVKY",
+        "FFKQCGVVKY",
+        "FFKQCGVVKYC",
+        "FKQCGVVKY",
+        "FKQCGVVKYC",
+        "FKQCGVVKYCP",
+        "GVVKYCPT",
+        "GVVKYCPTD",
+        "GVVKYCPTDQ",
+        "GVVKYCPTDQA",
+        "KQCGVVKY",
+        "KQCGVVKYC",
+        "KQCGVVKYCP",
+        "KQCGVVKYCPT",
+        "KYCPTDQA",
+        "KYCPTDQAA",
+        "KYCPTDQAAA",
+        "KYCPTDQAAAG",
+        "QCGVVKYC",
+        "QCGVVKYCP",
+        "QCGVVKYCPT",
+        "QCGVVKYCPTD",
+        "VKYCPTDQ",
+        "VKYCPTDQA",
+        "VKYCPTDQAA",
+        "VKYCPTDQAAA",
+        "VVKYCPTD",
+        "VVKYCPTDQ",
+        "VVKYCPTDQA",
+        "VVKYCPTDQAA"
+      ],
+      "binders": [
+        {
+          "peptide": "KQCGVVKY",
+          "allele": "HLA-B*15:01",
+          "affinity_nM": 111.0,
+          "presentation_percentile": 0.1242,
+          "presentation_score": 0.898,
+          "class": "strong"
+        },
+        {
+          "peptide": "FKQCGVVKY",
+          "allele": "HLA-B*15:01",
+          "affinity_nM": 204.8,
+          "presentation_percentile": 0.5312,
+          "presentation_score": 0.646,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 2
+    },
+    {
+      "EWSR1_exon_end": 12,
+      "NR4A3_exon_start": 3,
+      "ews_cds_nt": 1294,
+      "nr4_cds_nt": 1081,
+      "junction_context": "AVEWFD|VVRTDS",
+      "n_novel_peptides": 34,
+      "novel_peptides": [
+        "AAVEWFDV",
+        "AAVEWFDVV",
+        "AAVEWFDVVR",
+        "AAVEWFDVVRT",
+        "AKAAVEWFDV",
+        "AKAAVEWFDVV",
+        "AVEWFDVV",
+        "AVEWFDVVR",
+        "AVEWFDVVRT",
+        "AVEWFDVVRTD",
+        "DVVRTDSL",
+        "DVVRTDSLK",
+        "DVVRTDSLKG",
+        "DVVRTDSLKGR",
+        "EWFDVVRT",
+        "EWFDVVRTD",
+        "EWFDVVRTDS",
+        "EWFDVVRTDSL",
+        "FDVVRTDS",
+        "FDVVRTDSL",
+        "FDVVRTDSLK",
+        "FDVVRTDSLKG",
+        "KAAVEWFDV",
+        "KAAVEWFDVV",
+        "KAAVEWFDVVR",
+        "TAKAAVEWFDV",
+        "VEWFDVVR",
+        "VEWFDVVRT",
+        "VEWFDVVRTD",
+        "VEWFDVVRTDS",
+        "WFDVVRTD",
+        "WFDVVRTDS",
+        "WFDVVRTDSL",
+        "WFDVVRTDSLK"
+      ],
+      "binders": [
+        {
+          "peptide": "FDVVRTDSL",
+          "allele": "HLA-B*08:01",
+          "affinity_nM": 185.1,
+          "presentation_percentile": 0.0932,
+          "presentation_score": 0.918,
+          "class": "strong"
+        },
+        {
+          "peptide": "AAVEWFDVV",
+          "allele": "HLA-A*02:01",
+          "affinity_nM": 111.0,
+          "presentation_percentile": 0.1641,
+          "presentation_score": 0.873,
+          "class": "strong"
+        },
+        {
+          "peptide": "WFDVVRTDSL",
+          "allele": "HLA-B*08:01",
+          "affinity_nM": 492.0,
+          "presentation_percentile": 0.5982,
+          "presentation_score": 0.609,
+          "class": "weak"
+        },
+        {
+          "peptide": "EWFDVVRTDSL",
+          "allele": "HLA-A*24:02",
+          "affinity_nM": 440.9,
+          "presentation_percentile": 0.7473,
+          "presentation_score": 0.535,
+          "class": "weak"
+        },
+        {
+          "peptide": "AAVEWFDVVR",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 1033.3,
+          "presentation_percentile": 1.726,
+          "presentation_score": 0.218,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 5
+    },
+    {
+      "EWSR1_exon_end": 13,
+      "NR4A3_exon_start": 3,
+      "ews_cds_nt": 1417,
+      "nr4_cds_nt": 1081,
+      "junction_context": "PPPLRG|VVRTDS",
+      "n_novel_peptides": 34,
+      "novel_peptides": [
+        "GMPPPLRGV",
+        "GMPPPLRGVV",
+        "GMPPPLRGVVR",
+        "GRGMPPPLRGV",
+        "GVVRTDSL",
+        "GVVRTDSLK",
+        "GVVRTDSLKG",
+        "GVVRTDSLKGR",
+        "LRGVVRTD",
+        "LRGVVRTDS",
+        "LRGVVRTDSL",
+        "LRGVVRTDSLK",
+        "MPPPLRGV",
+        "MPPPLRGVV",
+        "MPPPLRGVVR",
+        "MPPPLRGVVRT",
+        "PLRGVVRT",
+        "PLRGVVRTD",
+        "PLRGVVRTDS",
+        "PLRGVVRTDSL",
+        "PPLRGVVR",
+        "PPLRGVVRT",
+        "PPLRGVVRTD",
+        "PPLRGVVRTDS",
+        "PPPLRGVV",
+        "PPPLRGVVR",
+        "PPPLRGVVRT",
+        "PPPLRGVVRTD",
+        "RGMPPPLRGV",
+        "RGMPPPLRGVV",
+        "RGVVRTDS",
+        "RGVVRTDSL",
+        "RGVVRTDSLK",
+        "RGVVRTDSLKG"
+      ],
+      "binders": [
+        {
+          "peptide": "GMPPPLRGV",
+          "allele": "HLA-A*02:01",
+          "affinity_nM": 44.6,
+          "presentation_percentile": 0.1418,
+          "presentation_score": 0.888,
+          "class": "strong"
+        },
+        {
+          "peptide": "RGVVRTDSL",
+          "allele": "HLA-B*08:01",
+          "affinity_nM": 164.5,
+          "presentation_percentile": 0.3914,
+          "presentation_score": 0.729,
+          "class": "strong"
+        },
+        {
+          "peptide": "MPPPLRGVV",
+          "allele": "HLA-B*07:02",
+          "affinity_nM": 42.5,
+          "presentation_percentile": 0.4001,
+          "presentation_score": 0.723,
+          "class": "strong"
+        },
+        {
+          "peptide": "MPPPLRGV",
+          "allele": "HLA-B*07:02",
+          "affinity_nM": 212.8,
+          "presentation_percentile": 0.4347,
+          "presentation_score": 0.702,
+          "class": "strong"
+        },
+        {
+          "peptide": "GVVRTDSLK",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 56.1,
+          "presentation_percentile": 0.5741,
+          "presentation_score": 0.622,
+          "class": "weak"
+        },
+        {
+          "peptide": "MPPPLRGVVR",
+          "allele": "HLA-B*07:02",
+          "affinity_nM": 132.1,
+          "presentation_percentile": 0.637,
+          "presentation_score": 0.589,
+          "class": "weak"
+        },
+        {
+          "peptide": "GVVRTDSLKGR",
+          "allele": "HLA-A*11:01",
+          "affinity_nM": 1148.3,
+          "presentation_percentile": 1.7785,
+          "presentation_score": 0.21,
+          "class": "weak"
+        }
+      ],
+      "n_binders": 7
+    }
+  ],
+  "_rank_column_used": "presentation_percentile",
+  "predicted_binders_ranked": [
+    {
+      "peptide": "GVVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 56.1,
+      "presentation_percentile": 0.5741,
+      "presentation_score": 0.622,
+      "class": "weak",
+      "in_n_junctions": 2
+    },
+    {
+      "peptide": "GVVRTDSLKGR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 1148.3,
+      "presentation_percentile": 1.7785,
+      "presentation_score": 0.21,
+      "class": "weak",
+      "in_n_junctions": 2
+    },
+    {
+      "peptide": "DLVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 58.1,
+      "presentation_percentile": 0.033,
+      "presentation_score": 0.961,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "QQIVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 96.8,
+      "presentation_percentile": 0.037,
+      "presentation_score": 0.957,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "SSYGQQIVR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 61.2,
+      "presentation_percentile": 0.0822,
+      "presentation_score": 0.927,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "FDVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 185.1,
+      "presentation_percentile": 0.0932,
+      "presentation_score": 0.918,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "KQCGVVKY",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 111.0,
+      "presentation_percentile": 0.1242,
+      "presentation_score": 0.898,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "GMPPPLRGV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 44.6,
+      "presentation_percentile": 0.1418,
+      "presentation_score": 0.888,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "AAVEWFDVV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 111.0,
+      "presentation_percentile": 0.1641,
+      "presentation_score": 0.873,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "KPGVVRTDSL",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 54.4,
+      "presentation_percentile": 0.1855,
+      "presentation_score": 0.86,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "GVVKRTVQK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 32.2,
+      "presentation_percentile": 0.2352,
+      "presentation_score": 0.828,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "RGVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 164.5,
+      "presentation_percentile": 0.3914,
+      "presentation_score": 0.729,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "MPPPLRGVV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 42.5,
+      "presentation_percentile": 0.4001,
+      "presentation_score": 0.723,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "MPPPLRGV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 212.8,
+      "presentation_percentile": 0.4347,
+      "presentation_score": 0.702,
+      "class": "strong",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "FKQCGVVKY",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 204.8,
+      "presentation_percentile": 0.5312,
+      "presentation_score": 0.646,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "WFDVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 492.0,
+      "presentation_percentile": 0.5982,
+      "presentation_score": 0.609,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "MPPPLRGVVR",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 132.1,
+      "presentation_percentile": 0.637,
+      "presentation_score": 0.589,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "LVVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 62.0,
+      "presentation_percentile": 0.6408,
+      "presentation_score": 0.587,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "EWFDVVRTDSL",
+      "allele": "HLA-A*24:02",
+      "affinity_nM": 440.9,
+      "presentation_percentile": 0.7473,
+      "presentation_score": 0.535,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "QIVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 99.9,
+      "presentation_percentile": 0.891,
+      "presentation_score": 0.469,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "GQQIVRTDSL",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 4725.3,
+      "presentation_percentile": 1.3381,
+      "presentation_score": 0.308,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "SSSYGQQIVR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 266.6,
+      "presentation_percentile": 1.3493,
+      "presentation_score": 0.305,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "PGVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 419.4,
+      "presentation_percentile": 1.5343,
+      "presentation_score": 0.258,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "GGFNKPGVVR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 1009.5,
+      "presentation_percentile": 1.5578,
+      "presentation_score": 0.252,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "AAVEWFDVVR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 1033.3,
+      "presentation_percentile": 1.726,
+      "presentation_score": 0.218,
+      "class": "weak",
+      "in_n_junctions": 1
+    },
+    {
+      "peptide": "KQCGVVKRTV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 1213.2,
+      "presentation_percentile": 1.8016,
+      "presentation_score": 0.205,
+      "class": "weak",
+      "in_n_junctions": 1
+    }
+  ],
+  "n_distinct_binders": 26
+}

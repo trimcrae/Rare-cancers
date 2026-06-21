@@ -58,6 +58,25 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   resolved + CI-confirmed container=Nature, year 2021 via the author-constrained query.
   (DOIs were taken from CI Crossref output, never asserted from memory.)
 
+## Breakpoint-resolved redo (the biggest correction)
+- **✗→✓ The headline neoepitope GQQPCVQAQY was an artifact of a guessed breakpoint.**
+  `fusion_neoantigen.py` used one assumed junction (EWSR1 res 264 :: NR4A3 res 2).
+  `fusion_breakpoints.py` derives the *real* in-frame junctions from Ensembl exon
+  structure (self-check: translate(CDS)==Ensembl protein) and runs MHCflurry across all
+  7 of them. GQQPCVQAQY arises from **none** of them — it was a guess artifact. Corrected
+  in abstract + §3.3. Source: `fusion-breakpoint-neoantigens.json`.
+- Breakpoint-resolved truth: 7 in-frame junctions (EWSR1 e7/9/10/11/12/13 → mostly NR4A3
+  e3), 26 distinct predicted binders, **no pan-EMC epitope** (most-shared GVVRTDSLK in
+  2/7, weak). Strong binders are breakpoint-specific (e.g. QQIVRTDSL/B*08:01 from the
+  commonly-reported e7::e3). Honest conclusion: personalised, not off-the-shelf. ✓
+- **HLA coverage — NOT fabricated.** `hla_coverage.py` attempted AFND retrieval in CI;
+  AFND returns only its interactive search form (no data: n_decimals=0, no DataTable), so
+  no precise coverage % is reported. Stated qualitatively instead (presenting alleles
+  A*02:01/A*11:01/B*07:02/B*08:01 are among the most common worldwide). `_source_status`
+  records this. ✓ (honest gap, flagged as AFND/IEDB next step)
+- Treatment-precedent DOIs (CI-confirmed): KEYNOTE-942/mRNA-4157 `10.1016/S0140-6736(23)02268-7`
+  (Lancet 2024); autogene cevumeran/Rojas `10.1038/s41586-023-06063-y` (Nature 2023). ✓
+
 ## Honesty boundaries (claims we deliberately do NOT make)
 - No named drug/PROTAC/validated epitope as "the therapy" — would be fabrication.
 - Breakpoint is modelled (flagged in every JSON `_breakpoint_model`); per-patient junction

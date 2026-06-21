@@ -308,8 +308,8 @@ chemistry? (c) is the decisive de-risking experiment doable now?
 **Track A — fastest route to a patient: personalised fusion-directed immunotherapy
 (§3.3).** This is the lead because the *platform already exists in the clinic* —
 individualised neoantigen vaccines (e.g. mRNA-4157/V940 + pembrolizumab in melanoma,
-KEYNOTE-942 [Ref]; autogene cevumeran in pancreatic cancer [Ref]) and fusion-directed
-TCR-T are in human trials. Nothing chemically novel is required for EMC: sequence the
+KEYNOTE-942 [ref 15]; autogene cevumeran in pancreatic cancer [ref 16]) and
+fusion-directed TCR-T are in human trials. Nothing chemically novel is required for EMC: sequence the
 patient's breakpoint, run the pipeline built here to pick the presented junction
 neoepitopes, and feed an existing personalised-vaccine/TCR pipeline. It is intrinsically
 personalised — which our breakpoint analysis shows is *necessary* (no off-the-shelf
@@ -397,11 +397,11 @@ explicitly sought** — this program is designed to be handed to one.
 
 ## 8. References
 
-All 10 methods/tools DOIs below are ✓ CI-confirmed via Crossref (`verify-refs.yml`,
-sections 4–5; Boulay and Jumper were disambiguated from near-title decoys by adding
-author + journal + year constraints). EMC-biology refs (1–2, 12–13) are shared with the
-companion papers and cross-referenced to their fact-check log; ⚠ marks those still to be
-finalised there.
+All 12 methods/tools and treatment-precedent DOIs below are ✓ CI-confirmed via Crossref
+(`verify-refs.yml`, sections 4–6; Boulay, Jumper, and the two precedent trials were
+disambiguated from near-title decoys by adding author + journal + year constraints).
+EMC-biology refs (1–2, 12–13) are shared with the companion papers and cross-referenced
+to their fact-check log; ⚠ marks those still to be finalised there.
 
 **Methods / tools (CI-verified DOIs):**
 
@@ -425,6 +425,13 @@ finalised there.
     degradation. *Nat Chem Biol* 2018. ✓ doi:10.1038/s41589-018-0021-8
 14. Crooke ST, et al. Antisense technology: an overview and prospectus. *Nat Rev Drug
     Discov* 2021. ✓ doi:10.1038/s41573-021-00162-z
+15. Weber JS, et al. Individualised neoantigen therapy mRNA-4157 (V940) plus
+    pembrolizumab versus pembrolizumab in resected melanoma (KEYNOTE-942). *The Lancet*
+    2024. ✓ doi:10.1016/S0140-6736(23)02268-7  *(clinical precedent: personalised
+    neoantigen vaccine platform already in humans)*
+16. Rojas LA, et al. Personalized RNA neoantigen vaccines stimulate T cells in
+    pancreatic cancer (autogene cevumeran). *Nature* 2023. ✓
+    doi:10.1038/s41586-023-06063-y  *(clinical precedent)*
 5. Boulay G, et al. Cancer-specific retargeting of BAF complexes by a prion-like
    domain. *Cell* 2017. ✓ doi:10.1016/j.cell.2017.07.036  *(CI confirmed the Cell
    article over a near-title AACR abstract by constraining author + journal + year.)*
