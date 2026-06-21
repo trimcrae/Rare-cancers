@@ -30,10 +30,10 @@ confirmations.
 2. **References to full journal style.** Entries are abbreviated ("et al.", no volume/pages).
    Expand author lists from the primary sources (do **not** infer co-authors), add
    volume/issue/pages, and confirm every DOI/PMID resolves.
-3. **Figures.** **Mostly addressed:** Figure 1 (candidate landscape — score × tier) and Figure 2
-   (three-method triangulation + firewall schematic) are now in `figures/`. Still optional: a
-   TxGNN rank figure (our leads vs its top hits / the sparsity stress-test) once that data lands.
-   All are draft figures for the human authors to finalize to journal style.
+3. **Figures.** **Addressed (draft):** Figure 1 (candidate landscape — score × tier), Figure 2
+   (three-method triangulation + firewall schematic), and Figure 3 (cross-disease stress-test
+   strip plot) are in `figures/`, all reproducibly generated. The human authors should finalize
+   them to the target journal's style.
 4. **Reproducibility of "not reported in EMC."** State the search strategy and dates used to
    judge that each candidate is genuinely untried in EMC (databases, queries, last-searched
    date) — currently implicit.
@@ -67,8 +67,8 @@ held-out-split caveat; added as Figure 3 (cross-disease rank strip plot).
 ## Accuracy items verified in this pass
 - All 14 candidates' ranks/tiers/priority scores in §3 match `candidates.json`; every
   `priorityScore` equals the sum of its six sub-criteria (0–18).
-- TxGNN ranks cited in text match `txgnn-emc-predictions.json` (pazopanib #6422, sunitinib
-  #6382, imatinib #5951 of 7,957 → bottom quartile).
+- TxGNN ranks cited in text match `txgnn-emc-predictions.json` (pazopanib #6422 ≈19th pct,
+  sunitinib #6382 ≈20th — bottom quartile; imatinib #5951 ≈25th, just above the bottom quartile).
 - Two earlier author misattributions were corrected (Kim 2016, not "Yoshimura"; Huang SC 2023,
   not "Warmke"). All 16 references are cited inline.
 - Efficacy-language sweep clean (only "no effective therapy" usages).
@@ -92,7 +92,8 @@ held-out-split caveat; added as Figure 3 (cross-disease rank strip plot).
 - [ ] Recruit named authors incl. a sarcoma specialist; complete §8–§10.
 - [ ] Independent clinical review of each candidate and of the imatinib patient-page decision.
 - [ ] Expand references to full journal style; verify all identifiers resolve.
-- [ ] Add figures.
-- [ ] Document the "untried in EMC" search strategy + dates.
+- [x] Draft figures (1–3) generated; finalize to journal style.
+- [x] Document the "untried in EMC" search strategy (added to Methods); re-confirm with a dated
+      search at submission.
 - [ ] Choose target venue (e.g., a sarcoma/oncology *hypothesis/perspective* section, or a
       rare-disease journal) and reformat to its style.
