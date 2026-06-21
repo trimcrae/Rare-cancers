@@ -34,16 +34,25 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install tools (fpocket + mhcflurry)
+      - name: Install fpocket (conda-forge via micromamba)
         run: |
           set -e
-          sudo apt-get update && sudo apt-get install -y fpocket
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/menv" -c conda-forge fpocket
+          echo "$RUNNER_TEMP/menv/bin" >> "$GITHUB_PATH"
+
+      - name: Install MHCflurry
+        run: |
+          set -e
           python -m pip install --upgrade pip
           pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas
           mhcflurry-downloads fetch models_class1_presentation
 
       - name: Structure / druggability (NR4A3, EWSR1)
-        run: python research/modalities/nr4a3_structure.py
+        run: |
+          which fpocket && fpocket -h >/dev/null 2>&1 || echo "fpocket check"
+          python research/modalities/nr4a3_structure.py
 
       - name: Fusion-junction neoantigen prediction
         run: python research/modalities/fusion_neoantigen.py
