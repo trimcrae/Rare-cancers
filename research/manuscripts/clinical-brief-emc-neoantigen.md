@@ -38,8 +38,11 @@ generates from the patient's own tumour.
 2. **HLA class-I type the patient** (standard).
 3. **Generate candidate epitopes** — run `research/modalities/patient_neoepitopes.py` with
    the patient's junction + HLA. It returns a ranked shortlist of junction peptides
-   predicted presented on that patient's alleles (MHCflurry-2.0), with the tumour-specific
-   residues flagged. *(Reproducible, open, runs in minutes.)*
+   predicted presented on that patient's alleles (MHCflurry-2.0, CD8/class-I), with the
+   tumour-specific residues flagged. It covers **both** fusion partners — `--partner EWSR1`
+   and `--partner TAF15` (the ~16% TAF15::NR4A3 variant). A companion tool,
+   `patient_cd4_epitopes.py`, adds **CD4/class-II "helper" epitopes** (MHCnuggets) — class-II
+   help is important for durable vaccine responses. *(Reproducible, open, runs in minutes.)*
 4. **Validate before use** — confirm presentation (immunopeptidomics on tumour) and
    autologous **T-cell reactivity** ex vivo. Prediction is a screen, not proof.
 5. **Manufacture / deploy** a personalised peptide or mRNA vaccine, or isolate/engineer a
@@ -58,8 +61,14 @@ the tool returns **6 presented candidates, 2 strong**:
 
 A useful nuance the tool surfaces: `SSYGQQIVR` straddles the seam more evenly (6 + 3) so it
 is *more foreign* than the otherwise-strong `QQIVRTDSL` (2 + 7, mostly NR4A3-self) — a
-relevant tie-breaker when picking a vaccine/TCR target. **A real patient's run uses their
-own breakpoint + their own HLA**, which may give entirely different epitopes.
+relevant tie-breaker when picking a vaccine/TCR target.
+
+The **TAF15::NR4A3 variant** (~16%) yields its *own* strong candidates — for TAF15 exon 4
+:: NR4A3 e3 (`…GYSSYGQSQS|VVRTDSLKGR…`): 6 presented / 3 strong, e.g. `SVVRTDSLK`/A\*11:01
+(37 nM) and `QSVVRTDSL`/B\*08:01 (124 nM) — different from the EWSR1 epitopes, reinforcing
+that targets are patient-specific. **A real patient's run uses their own breakpoint +
+their own HLA** (and, for CD4 help, their class-II type), which may give entirely
+different epitopes.
 
 ## Honest caveats (please read)
 
