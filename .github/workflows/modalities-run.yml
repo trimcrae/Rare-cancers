@@ -63,6 +63,10 @@ jobs:
         continue-on-error: true
         run: python research/modalities/junction_aso.py
 
+      - name: Breakpoint-resolved junction neoantigens (Ensembl exon structure)
+        continue-on-error: true
+        run: python research/modalities/fusion_breakpoints.py
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -73,6 +77,7 @@ jobs:
           cp research/modalities/nr4a3-structure-assessment.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
