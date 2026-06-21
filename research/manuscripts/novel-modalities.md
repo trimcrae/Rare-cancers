@@ -79,19 +79,24 @@ deep ligand pocket. The rest of this paper makes that quantitative.
 
 ## 2. Structure-based target assessment (reproducible)
 
-**Method.** `research/modalities/nr4a3_structure.py` downloads the AlphaFold2 (AFDB
-v4) models for NR4A3 (UniProt Q92570) and EWSR1 (Q01844), reads per-residue pLDDT
+**Method.** `research/modalities/nr4a3_structure.py` downloads the AlphaFold2 (AFDB)
+models for NR4A3 (UniProt Q92570) and EWSR1 (Q01844), reads per-residue pLDDT
 (AlphaFold's confidence, a validated proxy for order/disorder: pLDDT < 50 marks
-predicted intrinsic disorder [Ref: Tunyasuvunakool/AlphaFold-DB; Akdel benchmark]),
-and runs fpocket [Ref: Le Guilloux 2009] to detect and score cavities on the NR4A3
-model. We summarise pLDDT over annotated domain windows and report every fpocket
-cavity with its druggability score (0–1; >0.5 conventionally "druggable").
+predicted intrinsic disorder [Ref: Varadi 2022/AlphaFold-DB]), and runs fpocket
+[Ref: Le Guilloux 2009] to detect and score cavities on the NR4A3 model. We summarise
+pLDDT over annotated domain windows and report every fpocket cavity with its
+druggability score (0–1; >0.5 conventionally "druggable"). Numbers below are the live
+CI output (`nr4a3-structure-assessment.json`, `modalities-cache` branch).
 
-### 2.1 The EWSR1-derived transactivation domain is predicted disordered
+### 2.1 Both transactivation domains are predicted intrinsically disordered
 
-> **[CI RESULT — fill from `nr4a3-structure-assessment.json`]**
-> EWSR1 SYGQ-rich N-terminal region (res 1–264): mean pLDDT = **___**, fraction of
-> residues with pLDDT < 50 = **___**. Interpretation: **___**.
+The EWSR1-derived **SYGQ-rich N-terminal region** that forms the fusion's
+transactivation module (res 1–264) has **mean pLDDT 38.8**, with **98.1%** of residues
+below 50 — i.e. AlphaFold predicts it as essentially fully disordered. NR4A3's own
+N-terminal AF1 region (res 1–260) is likewise disordered (mean pLDDT **37.7**, **96.5%**
+below 50). EWSR1's folded modules behave as expected by contrast (RRM res 361–442: mean
+pLDDT **85.1**, 0% disordered), confirming the method resolves order from disorder on
+these exact sequences rather than calling everything low-confidence.
 
 This quantifies, on the patient-relevant sequence, the long-held qualitative claim
 that the EWSR1 portion is an IDR. A disordered domain has no pocket to occupy — it
@@ -99,17 +104,25 @@ is essentially un-druggable by direct small-molecule inhibition, which is the si
 most important constraint on EMC drug design and the reason §3 leads with degradation
 and transcript/immune modalities rather than inhibitors.
 
-### 2.2 The NR4A3 ligand-binding domain: is there a pocket?
+### 2.2 The NR4A3 ligand-binding domain is well-folded — yet has no druggable pocket
 
-> **[CI RESULT — fill from fpocket]**
-> NR4A3 LBD (res ~373–626): mean pLDDT = **___** (fold confidence). fpocket top
-> cavity druggability = **___**; number of cavities overlapping the LBD = **___**;
-> best LBD-localised druggability = **___**. Interpretation vs. the Nurr1/Nur77
-> "no-pocket" precedent: **___**.
+Unlike the transactivation domains, the NR4A3 **ligand-binding domain (res 373–626) is
+confidently folded** (mean pLDDT **85.0**; only 9.1% of residues below 50), as is the
+DNA-binding domain (zinc fingers, res 261–337; mean pLDDT **76.1**). So the LBD is not
+disordered — AlphaFold returns a definite structure. The question is whether that
+structure presents a cavity a small molecule could occupy. It does not: across **all 33
+fpocket cavities on the entire NR4A3 model, the single most druggable pocket scores only
+0.495** — i.e. below the conventional 0.5 "druggable" threshold, and every other cavity
+scores ≤ 0.20. That best cavity does sit **within the LBD** (lining residues span 406–534,
+all assigned to the ligand-binding domain) — so this is not a case of "the tool looked in
+the wrong place": the most tractable pocket the LBD offers is still only borderline.
 
-The DNA-binding domain (zinc fingers, res ~261–337) is, by contrast, a well-ordered,
-sequence-specific fold (**[pLDDT ___]**) — relevant to modalities that block the
-fusion from engaging DNA, but historically even harder to drug than the LBD.
+This is precisely the **Nurr1/Nur77 precedent** [Ref: Wang 2003], now quantified for
+NR4A3: a structured orphan-receptor LBD whose canonical ligand pocket is effectively
+absent/occluded. The headline of the structural assessment is therefore stark — the
+fusion is *either* disordered (transactivation domains, no pocket) *or* folded-but-
+pocketless (LBD) — and it is the strongest possible argument for the non-occupancy
+modalities of §3.
 
 ### 2.3 What the structure implies for strategy
 
@@ -156,13 +169,19 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   RNase-H cleavage of the chimeric transcript while sparing wild-type *EWSR1* and
   *NR4A3* [Ref: ASO/ Crooke]. The quiet genome means there is one dominant transcript
   to silence.
-- **Groundwork specifiable now.** Enumerate junction-spanning antisense windows from
-  the modelled fusion transcript; score for specificity (no perfect genomic
-  off-target match) and standard gapmer design rules. This is a deterministic,
-  scriptable design task (a natural next addition to `research/modalities/`).
+- **Computational groundwork (done here).** `research/modalities/junction_aso.py`
+  fetches the RefSeq CDS of *EWSR1* (NM_005243) and *NR4A3* (NM_006981), builds the
+  modelled fusion transcript, and tiles 16-mer gapmers (5-6-5 LNA/DNA/LNA) whose
+  central DNA gap spans the junction, keeping only oligos that draw bases from **both**
+  sides of the seam and are absent as a perfect complement from either parent CDS. It
+  returns **5 fusion-specific candidate gapmers**. A real, honest design caveat surfaces
+  immediately: the junction here is **GC-rich** (top candidates ~75–81% GC), which is
+  outside the usual 40–60% comfort zone and would need chemistry tuning — exactly the
+  kind of constraint a design tool should expose up front rather than hide.
 - **Decisive experiment.** Junction-ASO knockdown vs. scrambled control in EMC lines;
   rescue specificity by sparing parental transcripts.
-- **Maturity:** design computable; delivery to tumour remains the hard, unsolved part.
+- **Maturity:** design computable and done; sequence is breakpoint-conditional, GC is
+  high, and delivery to tumour remains the hard, unsolved part.
 
 ### 3.3 Fusion-directed immunotherapy: the junction neoantigen (worked example)
 
