@@ -3,10 +3,10 @@
   "source": {
     "mode": "exon",
     "partner": "TAF15",
-    "partner_exon": 12,
+    "partner_exon": 4,
     "NR4A3_exon": 3
   },
-  "junction_context": "RGGGSGGGRR|VVRTDSLKGR",
+  "junction_context": "GYSSYGQSQS|VVRTDSLKGR",
   "patient_hla": [
     "HLA-A*02:01",
     "HLA-A*11:01",
@@ -16,1261 +16,1288 @@
   "novelty_filter": "applied vs ['TAF15']+NR4A3: 0 self removed, 34 novel",
   "n_candidate_peptides": 34,
   "rank_column": "presentation_percentile",
-  "n_presented_candidates": 3,
-  "n_strong": 1,
+  "n_presented_candidates": 6,
+  "n_strong": 3,
   "shortlist": [
     {
-      "peptide": "RVVRTDSLK",
+      "peptide": "QSVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 124.5,
+      "presentation_percentile": 0.1977,
+      "presentation_score": 0.852,
+      "call": "strong",
+      "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSVVR",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 34.9,
-      "presentation_percentile": 0.388,
-      "presentation_score": 0.732,
+      "affinity_nM": 134.9,
+      "presentation_percentile": 0.3199,
+      "presentation_score": 0.774,
+      "call": "strong",
+      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 37.4,
+      "presentation_percentile": 0.3698,
+      "presentation_score": 0.742,
       "call": "strong",
       "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSL",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 867.5,
-      "presentation_percentile": 0.6295,
-      "presentation_score": 0.593,
-      "call": "weak",
-      "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
-    },
-    {
-      "peptide": "RVVRTDSLKGR",
+      "peptide": "SVVRTDSLKGR",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 435.7,
-      "presentation_percentile": 0.8884,
-      "presentation_score": 0.47,
+      "affinity_nM": 636.1,
+      "presentation_percentile": 0.8833,
+      "presentation_score": 0.472,
       "call": "weak",
       "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
+    },
+    {
+      "peptide": "QSVVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 233.4,
+      "presentation_percentile": 1.2933,
+      "presentation_score": 0.32,
+      "call": "weak",
+      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 276.2,
+      "presentation_percentile": 1.5116,
+      "presentation_score": 0.263,
+      "call": "weak",
+      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
     }
   ],
   "all_predictions": [
     {
-      "peptide": "RVVRTDSLK",
+      "peptide": "QSVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 124.5,
+      "presentation_percentile": 0.1977,
+      "presentation_score": 0.852,
+      "call": "strong",
+      "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSVVR",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 34.9,
-      "presentation_percentile": 0.388,
-      "presentation_score": 0.732,
+      "affinity_nM": 134.9,
+      "presentation_percentile": 0.3199,
+      "presentation_score": 0.774,
+      "call": "strong",
+      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 37.4,
+      "presentation_percentile": 0.3698,
+      "presentation_score": 0.742,
       "call": "strong",
       "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSL",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 867.5,
-      "presentation_percentile": 0.6295,
-      "presentation_score": 0.593,
-      "call": "weak",
-      "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
-    },
-    {
-      "peptide": "RVVRTDSLKGR",
+      "peptide": "SVVRTDSLKGR",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 435.7,
-      "presentation_percentile": 0.8884,
-      "presentation_score": 0.47,
+      "affinity_nM": 636.1,
+      "presentation_percentile": 0.8833,
+      "presentation_score": 0.472,
       "call": "weak",
       "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSL",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 8401.3,
-      "presentation_percentile": 2.3455,
-      "presentation_score": 0.138,
-      "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
+      "peptide": "QSVVRTDSLK",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 233.4,
+      "presentation_percentile": 1.2933,
+      "presentation_score": 0.32,
+      "call": "weak",
+      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSL",
+      "peptide": "SSYGQSQSV",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 17142.4,
-      "presentation_percentile": 3.6392,
-      "presentation_score": 0.074,
+      "affinity_nM": 276.2,
+      "presentation_percentile": 1.5116,
+      "presentation_score": 0.263,
+      "call": "weak",
+      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "QSVVRTDSL",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 4652.8,
+      "presentation_percentile": 2.271,
+      "presentation_score": 0.146,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSL",
+      "peptide": "SQSVVRTDSLK",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 28854.8,
-      "presentation_percentile": 5.4494,
-      "presentation_score": 0.046,
+      "affinity_nM": 1623.9,
+      "presentation_percentile": 2.9707,
+      "presentation_score": 0.097,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
+    },
+    {
+      "peptide": "QSVVRTDSL",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 10591.7,
+      "presentation_percentile": 3.7646,
+      "presentation_score": 0.071,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "GSGGGRRVVR",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 2687.8,
-      "presentation_percentile": 6.3271,
-      "presentation_score": 0.04,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDSL",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 15586.7,
-      "presentation_percentile": 7.7781,
-      "presentation_score": 0.032,
+      "peptide": "SQSVVRTDSL",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 11202.7,
+      "presentation_percentile": 4.0479,
+      "presentation_score": 0.066,
       "call": "non-binder",
       "tumour_specific_residues": "3 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSL",
+      "peptide": "SQSVVRTDSL",
       "allele": "HLA-B*08:01",
-      "affinity_nM": 23381.5,
+      "affinity_nM": 15552.9,
+      "presentation_percentile": 5.2478,
+      "presentation_score": 0.049,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "SQSVVRTDSL",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 20962.6,
+      "presentation_percentile": 6.6313,
+      "presentation_score": 0.037,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "QSVVRTDSL",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 22667.7,
+      "presentation_percentile": 6.9628,
+      "presentation_score": 0.035,
+      "call": "non-binder",
+      "tumour_specific_residues": "2 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVVR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 5029.0,
       "presentation_percentile": 8.8393,
       "presentation_score": 0.027,
       "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 7 from NR4A3"
+      "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "GRRVVRTDSL",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 19839.8,
+      "peptide": "SSYGQSQSVVR",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 20316.5,
+      "presentation_percentile": 9.4942,
+      "presentation_score": 0.026,
+      "call": "non-binder",
+      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLKGR",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 24322.2,
       "presentation_percentile": 9.4942,
       "presentation_score": 0.025,
       "call": "non-binder",
+      "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
+    },
+    {
+      "peptide": "SQSVVRTDSL",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 30685.2,
+      "presentation_percentile": 9.4942,
+      "presentation_score": 0.026,
+      "call": "non-binder",
       "tumour_specific_residues": "3 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSL",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 26365.9,
-      "presentation_percentile": 9.8495,
-      "presentation_score": 0.024,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 7 from NR4A3"
-    },
-    {
-      "peptide": "RVVRTDSL",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 27957.6,
-      "presentation_percentile": 10.232,
+      "peptide": "GQSQSVVR",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 18380.7,
+      "presentation_percentile": 10.6558,
       "presentation_score": 0.023,
       "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 22545.6,
+      "presentation_percentile": 10.6558,
+      "presentation_score": 0.022,
+      "call": "non-binder",
       "tumour_specific_residues": "1 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "GGSGGGRRVVR",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 5546.5,
-      "presentation_percentile": 11.1158,
-      "presentation_score": 0.022,
+      "peptide": "SVVRTDSLKGR",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 30428.1,
+      "presentation_percentile": 11.6303,
+      "presentation_score": 0.02,
       "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
+      "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSL",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 33288.6,
+      "peptide": "SVVRTDSLKGR",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 29678.4,
+      "presentation_percentile": 11.6303,
+      "presentation_score": 0.021,
+      "call": "non-binder",
+      "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRT",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 9370.1,
       "presentation_percentile": 12.1872,
       "presentation_score": 0.02,
       "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSL",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 26135.2,
+      "presentation_percentile": 12.1872,
+      "presentation_score": 0.019,
+      "call": "non-binder",
       "tumour_specific_residues": "1 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "GRRVVRTDSL",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 29250.6,
+      "peptide": "SSYGQSQSVVR",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 29088.8,
+      "presentation_percentile": 12.8055,
+      "presentation_score": 0.018,
+      "call": "non-binder",
+      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSVVR",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 27966.7,
+      "presentation_percentile": 12.8055,
+      "presentation_score": 0.019,
+      "call": "non-binder",
+      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSL",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 28378.7,
       "presentation_percentile": 13.5009,
-      "presentation_score": 0.017,
+      "presentation_score": 0.018,
       "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 7 from NR4A3"
+      "tumour_specific_residues": "1 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLKGR",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 25118.7,
-      "presentation_percentile": 14.277,
-      "presentation_score": 0.017,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
-    },
-    {
-      "peptide": "SGGGRRVVR",
+      "peptide": "SVVRTDSL",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 6352.7,
-      "presentation_percentile": 14.277,
-      "presentation_score": 0.017,
-      "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDSL",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 32747.5,
+      "affinity_nM": 32519.2,
       "presentation_percentile": 15.161,
       "presentation_score": 0.016,
       "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 7 from NR4A3"
+      "tumour_specific_residues": "1 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLKGR",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 29788.2,
+      "peptide": "GQSQSVVR",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 29628.3,
       "presentation_percentile": 16.1576,
       "presentation_score": 0.014,
       "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
+      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLKGR",
+      "peptide": "GQSQSVVR",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 31934.3,
+      "presentation_percentile": 17.3056,
+      "presentation_score": 0.013,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVR",
       "allele": "HLA-B*08:01",
-      "affinity_nM": 30270.7,
-      "presentation_percentile": 16.1576,
+      "affinity_nM": 31353.4,
+      "presentation_percentile": 17.3056,
       "presentation_score": 0.014,
       "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 10 from NR4A3"
+      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "RGGGSGGGRRV",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 9428.2,
-      "presentation_percentile": 22.1923,
-      "presentation_score": 0.01,
+      "peptide": "SSYGQSQSV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 8582.1,
+      "presentation_percentile": 18.618,
+      "presentation_score": 0.013,
       "call": "non-binder",
-      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSLK",
+      "peptide": "YSSYGQSQSV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 8934.4,
+      "presentation_percentile": 20.2323,
+      "presentation_score": 0.011,
+      "call": "non-binder",
+      "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVR",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 16214.9,
+      "affinity_nM": 9762.9,
+      "presentation_percentile": 20.2323,
+      "presentation_score": 0.012,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSVV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 9591.8,
+      "presentation_percentile": 22.1923,
+      "presentation_score": 0.011,
+      "call": "non-binder",
+      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 12653.6,
       "presentation_percentile": 27.6174,
       "presentation_score": 0.009,
       "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
+      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 11909.9,
-      "presentation_percentile": 27.6174,
-      "presentation_score": 0.009,
+      "peptide": "QSQSVVRTDSL",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 27636.9,
+      "presentation_percentile": 31.6432,
+      "presentation_score": 0.008,
       "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 2 from NR4A3"
+      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVR",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 14933.5,
+      "peptide": "SQSVVRTDSLK",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 26361.4,
       "presentation_percentile": 31.6432,
       "presentation_score": 0.007,
       "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
+      "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "GGSGGGRRV",
+      "peptide": "QSQSVVRTDSL",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 27240.0,
+      "presentation_percentile": 31.6432,
+      "presentation_score": 0.008,
+      "call": "non-binder",
+      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRTDSL",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 27688.6,
+      "presentation_percentile": 31.6432,
+      "presentation_score": 0.008,
+      "call": "non-binder",
+      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLK",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 15653.3,
+      "affinity_nM": 19886.8,
       "presentation_percentile": 37.359,
       "presentation_score": 0.006,
       "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
+      "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "GSGGGRRVV",
+      "peptide": "YGQSQSVVR",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 15496.7,
+      "affinity_nM": 23011.6,
+      "presentation_percentile": 37.359,
+      "presentation_score": 0.006,
+      "call": "non-binder",
+      "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRT",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 30772.3,
+      "presentation_percentile": 37.359,
+      "presentation_score": 0.006,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRTDSL",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 32109.0,
       "presentation_percentile": 37.359,
       "presentation_score": 0.007,
       "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
+      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
     },
     {
-      "peptide": "RGGGSGGGRRV",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 16129.0,
+      "peptide": "GQSQSVVRT",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 31223.6,
       "presentation_percentile": 37.359,
       "presentation_score": 0.006,
       "call": "non-binder",
-      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "GGGSGGGRRVV",
+      "peptide": "SQSVVRTDSLK",
       "allele": "HLA-B*07:02",
-      "affinity_nM": 15631.8,
+      "affinity_nM": 29692.9,
       "presentation_percentile": 37.359,
       "presentation_score": 0.006,
       "call": "non-binder",
-      "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
+      "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "GGSGGGRRVV",
+      "peptide": "SSYGQSQSV",
       "allele": "HLA-B*07:02",
-      "affinity_nM": 16283.8,
-      "presentation_percentile": 37.359,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GGSGGGRRVVR",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 20687.4,
-      "presentation_percentile": 37.359,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVV",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 14688.5,
+      "affinity_nM": 16315.3,
       "presentation_percentile": 37.359,
       "presentation_score": 0.007,
       "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
+      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
     },
     {
-      "peptide": "GGGSGGGRRV",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 17079.5,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GGGSGGGRRVV",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 19639.9,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GGSGGGRRVV",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 20352.0,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GGSGGGRRVVR",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 22867.9,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDSLK",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 27600.0,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
-    },
-    {
-      "peptide": "RVVRTDSLK",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 21766.5,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVR",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 23808.4,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GGRRVVRTDSL",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 23831.3,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
-    },
-    {
-      "peptide": "SGGGRRVVR",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 18901.0,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.006,
-      "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVR",
+      "peptide": "GQSQSVVRT",
       "allele": "HLA-B*08:01",
-      "affinity_nM": 26940.1,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GGRRVVRTDSL",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 25943.4,
-      "presentation_percentile": 46.2247,
+      "affinity_nM": 30090.9,
+      "presentation_percentile": 37.359,
       "presentation_score": 0.006,
       "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
+      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "GGSGGGRRVVR",
+      "peptide": "SQSVVRTDSLK",
       "allele": "HLA-B*08:01",
-      "affinity_nM": 25089.7,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDSLK",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 27013.2,
-      "presentation_percentile": 46.2247,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVR",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 31389.0,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GGRRVVRTDSL",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 31501.9,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDSLK",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 31108.6,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
+      "affinity_nM": 29491.1,
+      "presentation_percentile": 37.359,
+      "presentation_score": 0.006,
       "call": "non-binder",
       "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "GSGGGRRVVR",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 23986.8,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
+      "peptide": "YGQSQSVVR",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 21100.3,
+      "presentation_percentile": 37.359,
+      "presentation_score": 0.007,
       "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
+      "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVR",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 23479.8,
-      "presentation_percentile": 62.7447,
+      "peptide": "YGQSQSVVR",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 27329.3,
+      "presentation_percentile": 46.2247,
       "presentation_score": 0.005,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTDSL",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 33270.3,
+      "peptide": "SYGQSQSVV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 20397.8,
+      "presentation_percentile": 46.2247,
+      "presentation_score": 0.005,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTD",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 28515.3,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 7 from NR4A3"
+      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "GRRVVRTDSLK",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 27488.8,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
-    },
-    {
-      "peptide": "RGGGSGGGRRV",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 21929.5,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVR",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 30978.6,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "GGGSGGGRRV",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 20946.4,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GGSGGGRRV",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 20649.4,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDSLK",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 29795.5,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVVR",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 25743.9,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDSLK",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 28568.0,
+      "peptide": "QSVVRTDSLK",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 26543.1,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.005,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLK",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 27922.9,
+      "peptide": "SQSVVRTD",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 32153.3,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
+      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVV",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 23842.9,
+      "peptide": "SVVRTDSLKG",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 26866.0,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 2 from NR4A3"
+      "tumour_specific_residues": "1 from EWSR1 + 9 from NR4A3"
     },
     {
-      "peptide": "GGGRRVVRT",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 24874.7,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "GGGSGGGRRVV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 24118.5,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GGSGGGRRVV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 25296.3,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDSLK",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 29061.4,
+      "peptide": "SYGQSQSVV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 21836.5,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.005,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 8 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 23687.3,
-      "presentation_percentile": 62.7447,
-      "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
     },
     {
-      "peptide": "GSGGGRRVVR",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 26539.1,
+      "peptide": "SYGQSQSVVR",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 27119.5,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "RGGGSGGGRRV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 23752.5,
+      "peptide": "SQSVVRTD",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 33292.5,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSLKG",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 29665.4,
+      "peptide": "SSYGQSQSVV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 24971.3,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 9 from NR4A3"
+      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLK",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 28312.6,
+      "peptide": "QSVVRTDSLK",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 31331.8,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
+    },
+    {
+      "peptide": "SQSVVRTD",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32525.0,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLK",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 28854.1,
       "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "GGGRRVVRT",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 27392.7,
-      "presentation_percentile": 99.2866,
+      "peptide": "SYGQSQSVV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 21408.0,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.005,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVR",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 28783.4,
+      "presentation_percentile": 62.7447,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
+      "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
     },
     {
-      "peptide": "GGGRRVVRTD",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 31679.8,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
+      "peptide": "QSVVRTDSLK",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 29433.2,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
+      "tumour_specific_residues": "2 from EWSR1 + 8 from NR4A3"
     },
     {
-      "peptide": "GGGRRVVRTDS",
+      "peptide": "SQSVVRTD",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 32143.3,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSVV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 27323.5,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLK",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 27649.4,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.005,
+      "call": "non-binder",
+      "tumour_specific_residues": "1 from EWSR1 + 8 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVR",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 27107.0,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 3 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 23127.0,
+      "presentation_percentile": 62.7447,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "6 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTDS",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 33005.6,
+      "affinity_nM": 30033.9,
       "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
+      "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRT",
+      "peptide": "GYSSYGQSQSV",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 32347.1,
+      "affinity_nM": 28233.5,
       "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRT",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 31727.7,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTD",
+      "peptide": "QSQSVVRTD",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 29696.1,
+      "affinity_nM": 28142.4,
       "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
+      "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTDS",
+      "peptide": "QSQSVVRTDS",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 33006.5,
+      "affinity_nM": 31651.3,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "GRRVVRTD",
+      "peptide": "QSVVRTDS",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 33514.3,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDS",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 32609.7,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRV",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 27075.2,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVVRT",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 28530.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDS",
-      "allele": "HLA-A*02:01",
-      "affinity_nM": 34096.2,
+      "affinity_nM": 33029.3,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSLKG",
+      "peptide": "QSVVRTDSLKG",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 31984.8,
+      "affinity_nM": 31136.3,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 9 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLKG",
+      "peptide": "SQSVVRTDS",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 27630.1,
+      "affinity_nM": 28110.0,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 9 from NR4A3"
+      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVV",
+      "peptide": "SYGQSQSV",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 30284.2,
+      "affinity_nM": 30469.2,
       "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVRT",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 30533.4,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 30167.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 2 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVRT",
+      "peptide": "YGQSQSVVRT",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 29236.7,
+      "affinity_nM": 29663.3,
       "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
+      "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVRTD",
+      "peptide": "YGQSQSVVRTD",
       "allele": "HLA-A*02:01",
-      "affinity_nM": 30238.3,
+      "affinity_nM": 30203.3,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "GGGRRVVRT",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 31489.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVRTD",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 32568.4,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVRTDS",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 33534.2,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GGGSGGGRRV",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 26863.7,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GGGSGGGRRVV",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 27629.4,
+      "peptide": "YSSYGQSQSVV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 25993.8,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRT",
+      "peptide": "GQSQSVVRTD",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 33767.7,
+      "affinity_nM": 32429.8,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTDS",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 33133.1,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "GYSSYGQSQSV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 33155.6,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRT",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 33310.4,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTD",
+      "peptide": "QSQSVVRTD",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 31748.0,
+      "affinity_nM": 30661.8,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTDS",
+      "peptide": "QSQSVVRTDS",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 33243.7,
+      "affinity_nM": 32134.5,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "GGSGGGRRV",
+      "peptide": "QSVVRTDS",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 28663.1,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GGSGGGRRVV",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 29738.9,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTD",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 34369.5,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDS",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 33700.3,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRV",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 31664.8,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVV",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 26987.3,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVVRT",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 31200.8,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDS",
-      "allele": "HLA-A*11:01",
-      "affinity_nM": 34870.8,
+      "affinity_nM": 33671.0,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "RRVVRTDSLKG",
+      "peptide": "QSVVRTDSLKG",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 33139.1,
+      "affinity_nM": 31951.6,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 9 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLKG",
+      "peptide": "SQSVVRTDS",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 27405.3,
+      "affinity_nM": 31945.2,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLKG",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 28148.0,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "1 from EWSR1 + 9 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVV",
+      "peptide": "SYGQSQSV",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 32645.7,
+      "affinity_nM": 33643.9,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 31362.1,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVRT",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 32841.0,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 33768.4,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 2 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVRT",
+      "peptide": "YGQSQSVVRT",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 30975.5,
+      "affinity_nM": 32495.6,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVRTD",
+      "peptide": "YGQSQSVVRTD",
       "allele": "HLA-A*11:01",
-      "affinity_nM": 30291.9,
+      "affinity_nM": 31704.5,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "GGGRRVVRT",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 30397.5,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVRTD",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 31192.1,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVRTDS",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 32121.1,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GGRRVVRT",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 32472.5,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "GGRRVVRTD",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 29703.9,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GGRRVVRTDS",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 31214.0,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTD",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 31915.1,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDS",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 29731.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRV",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 29624.9,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVVRT",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 31427.8,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDS",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 32251.2,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDSLKG",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 30356.3,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "2 from EWSR1 + 9 from NR4A3"
-    },
-    {
-      "peptide": "RVVRTDSLKG",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 31704.7,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 from EWSR1 + 9 from NR4A3"
-    },
-    {
-      "peptide": "SGGGRRVVRT",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 29936.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "SGGGRRVVRTD",
-      "allele": "HLA-B*07:02",
-      "affinity_nM": 28667.7,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "6 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVRTD",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 31026.4,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GGGRRVVRTDS",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 31583.2,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GGGSGGGRRV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 27270.3,
+      "peptide": "YSSYGQSQSV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 27798.2,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRT",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 30785.1,
+      "peptide": "YSSYGQSQSVV",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 32049.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTD",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 31837.9,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTDS",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32128.6,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "GYSSYGQSQSV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 28611.7,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRT",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 33446.2,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTD",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 28299.4,
+      "peptide": "QSQSVVRTD",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 30685.8,
       "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
+      "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 5 from NR4A3"
     },
     {
-      "peptide": "GGRRVVRTDS",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 30948.7,
+      "peptide": "QSQSVVRTDS",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32284.6,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "4 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "GGSGGGRRV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 27108.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTD",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 30939.3,
+      "peptide": "QSVVRTDS",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 33336.9,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 5 from NR4A3"
-    },
-    {
-      "peptide": "GRRVVRTDS",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 28030.7,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRV",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 31331.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
-    },
-    {
-      "peptide": "GSGGGRRVVRT",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 31483.6,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.003,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
-    },
-    {
-      "peptide": "RRVVRTDS",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 30016.8,
-      "presentation_percentile": 99.2866,
-      "presentation_score": 0.004,
       "call": "non-binder",
       "tumour_specific_residues": "2 from EWSR1 + 6 from NR4A3"
     },
     {
-      "peptide": "RVVRTDSLKG",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 32325.7,
+      "peptide": "QSVVRTDSLKG",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32718.9,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "2 from EWSR1 + 9 from NR4A3"
+    },
+    {
+      "peptide": "SQSVVRTDS",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 30999.4,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "SSYGQSQSVV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 27612.8,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "8 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLKG",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32058.5,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "1 from EWSR1 + 9 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVRT",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 27642.8,
+      "peptide": "SYGQSQSV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 28359.9,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVRT",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32307.6,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 30004.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "6 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVVRT",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 32641.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
       "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 4 from NR4A3"
     },
     {
-      "peptide": "SGGGRRVVRTD",
-      "allele": "HLA-B*08:01",
-      "affinity_nM": 28931.3,
+      "peptide": "YGQSQSVVRTD",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 31654.9,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "6 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "YSSYGQSQSV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 27474.6,
       "presentation_percentile": 99.2866,
       "presentation_score": 0.004,
       "call": "non-binder",
+      "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "YSSYGQSQSVV",
+      "allele": "HLA-B*07:02",
+      "affinity_nM": 29844.6,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTD",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 31374.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "GQSQSVVRTDS",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 31989.2,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "5 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "GYSSYGQSQSV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 28671.5,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "10 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRT",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 32328.2,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "4 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRTD",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 29880.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "4 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "QSQSVVRTDS",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 32139.1,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "4 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "QSVVRTDS",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 30743.5,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "2 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "QSVVRTDSLKG",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 31939.2,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "2 from EWSR1 + 9 from NR4A3"
+    },
+    {
+      "peptide": "SQSVVRTDS",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 30741.0,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "3 from EWSR1 + 6 from NR4A3"
+    },
+    {
+      "peptide": "SVVRTDSLKG",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 31867.9,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "1 from EWSR1 + 9 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 28085.5,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "SYGQSQSVVRT",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 31189.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "7 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVVRT",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 30948.6,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "6 from EWSR1 + 4 from NR4A3"
+    },
+    {
+      "peptide": "YGQSQSVVRTD",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 30225.6,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
       "tumour_specific_residues": "6 from EWSR1 + 5 from NR4A3"
+    },
+    {
+      "peptide": "YSSYGQSQSV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 27740.8,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.004,
+      "call": "non-binder",
+      "tumour_specific_residues": "9 from EWSR1 + 1 from NR4A3"
+    },
+    {
+      "peptide": "YSSYGQSQSVV",
+      "allele": "HLA-B*08:01",
+      "affinity_nM": 30345.3,
+      "presentation_percentile": 99.2866,
+      "presentation_score": 0.003,
+      "call": "non-binder",
+      "tumour_specific_residues": "9 from EWSR1 + 2 from NR4A3"
     }
   ]
 }

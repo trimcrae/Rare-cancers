@@ -1,74 +1,94 @@
 {
-  "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Intended method: sample-size-weighted global allele frequency from the Allele Frequency Net Database (AFND; Gonzalez-Galarza 2020); coverage = 1 - prod(1-af)^2 (fraction carrying >=1 presenting allele).",
-  "_source_status": "UNAVAILABLE: AFND serves data via an interactive/session interface, not a CI-fetchable endpoint (only the search form is returned). Coverage NOT computed rather than fabricated; compute per population via AFND/IEDB. See _diag per allele.",
+  "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Allele frequencies are denominator(2N)-weighted global means pooled over all AFND populations, with Wilson 95% CIs (per METHODOLOGY.md). Coverage = fraction carrying >=1 presenting allele = 1 - prod(1-af)^2 (independence across loci; IEDB population-coverage formula). Global means hide large between-population variation (see af_range_across_populations); confirm per target population before clinical inference.",
+  "_source": "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT).",
+  "_source_url": "https://raw.githubusercontent.com/slowkow/allelefrequencies/main/afnd.tsv",
+  "_source_status": "AFND frequencies retrieved from MIT-licensed mirror",
+  "_method": "pooled af = sum(copies)/sum(2N) over AFND populations; Wilson 95% CI; carrier = 1-(1-af)^2; coverage = 1-prod(1-af)^2; coverage CI propagated from per-allele Wilson bounds (approximate).",
   "allele_frequencies": {
     "HLA-A*02:01": {
-      "_diag": {
-        "html_len": 185145,
-        "allele_in_html": true,
-        "n_tr": 14,
-        "n_decimals_0to1": 0,
-        "has_datatable": false,
-        "first_decimal_context": "",
-        "n_pairs_parsed": 0,
-        "table_snippet": "<table class=\"table10\"> <tr> <td><a href=\"default.asp\"> <img src=\"images/banner.gif\" alt=\"Allele Frequencies in World Populations\" /></a></td> </tr> </table>"
-      }
+      "allele_frequency": 0.1518,
+      "af_95ci": [
+        0.1491,
+        0.1546
+      ],
+      "carrier_frequency": 0.2806,
+      "n_populations": 246,
+      "total_individuals": 33597,
+      "af_range_across_populations": [
+        0.0,
+        0.545
+      ]
     },
     "HLA-A*11:01": {
-      "_diag": {
-        "html_len": 185145,
-        "allele_in_html": true,
-        "n_tr": 14,
-        "n_decimals_0to1": 0,
-        "has_datatable": false,
-        "first_decimal_context": "",
-        "n_pairs_parsed": 0,
-        "table_snippet": "<table class=\"table10\"> <tr> <td><a href=\"default.asp\"> <img src=\"images/banner.gif\" alt=\"Allele Frequencies in World Populations\" /></a></td> </tr> </table>"
-      }
+      "allele_frequency": 0.1262,
+      "af_95ci": [
+        0.1236,
+        0.129
+      ],
+      "carrier_frequency": 0.2365,
+      "n_populations": 202,
+      "total_individuals": 28991,
+      "af_range_across_populations": [
+        0.0,
+        0.636
+      ]
     },
     "HLA-B*07:02": {
-      "_diag": {
-        "html_len": 185145,
-        "allele_in_html": true,
-        "n_tr": 14,
-        "n_decimals_0to1": 0,
-        "has_datatable": false,
-        "first_decimal_context": "",
-        "n_pairs_parsed": 0,
-        "table_snippet": "<table class=\"table10\"> <tr> <td><a href=\"default.asp\"> <img src=\"images/banner.gif\" alt=\"Allele Frequencies in World Populations\" /></a></td> </tr> </table>"
-      }
+      "allele_frequency": 0.048,
+      "af_95ci": [
+        0.0464,
+        0.0498
+      ],
+      "carrier_frequency": 0.0938,
+      "n_populations": 175,
+      "total_individuals": 30647,
+      "af_range_across_populations": [
+        0.0,
+        0.19
+      ]
     },
     "HLA-B*08:01": {
-      "_diag": {
-        "html_len": 185145,
-        "allele_in_html": true,
-        "n_tr": 14,
-        "n_decimals_0to1": 0,
-        "has_datatable": false,
-        "first_decimal_context": "",
-        "n_pairs_parsed": 0,
-        "table_snippet": "<table class=\"table10\"> <tr> <td><a href=\"default.asp\"> <img src=\"images/banner.gif\" alt=\"Allele Frequencies in World Populations\" /></a></td> </tr> </table>"
-      }
+      "allele_frequency": 0.0401,
+      "af_95ci": [
+        0.0386,
+        0.0416
+      ],
+      "carrier_frequency": 0.0786,
+      "n_populations": 196,
+      "total_individuals": 33082,
+      "af_range_across_populations": [
+        0.0,
+        0.182
+      ]
     },
     "HLA-B*15:01": {
-      "_diag": {
-        "html_len": 185145,
-        "allele_in_html": true,
-        "n_tr": 14,
-        "n_decimals_0to1": 0,
-        "has_datatable": false,
-        "first_decimal_context": "",
-        "n_pairs_parsed": 0,
-        "table_snippet": "<table class=\"table10\"> <tr> <td><a href=\"default.asp\"> <img src=\"images/banner.gif\" alt=\"Allele Frequencies in World Populations\" /></a></td> </tr> </table>"
-      }
+      "allele_frequency": 0.0435,
+      "af_95ci": [
+        0.0422,
+        0.0448
+      ],
+      "carrier_frequency": 0.085,
+      "n_populations": 265,
+      "total_individuals": 45574,
+      "af_range_across_populations": [
+        0.0,
+        0.4007
+      ]
     }
   },
   "e7e3_public_epitope_alleles": [
     "HLA-A*11:01",
     "HLA-B*08:01"
   ],
-  "coverage_e7e3_public": null,
-  "coverage_e7e3_alleles_used": [],
+  "coverage_e7e3_public": 0.2965,
+  "coverage_e7e3_public_95ci": [
+    0.2901,
+    0.3032
+  ],
+  "coverage_e7e3_alleles_used": [
+    "HLA-A*11:01",
+    "HLA-B*08:01"
+  ],
   "all_strong_binder_alleles": [
     "HLA-A*02:01",
     "HLA-A*11:01",
@@ -76,6 +96,16 @@
     "HLA-B*08:01",
     "HLA-B*15:01"
   ],
-  "coverage_any_strong_binder_allele": null,
-  "coverage_all_alleles_used": []
+  "coverage_any_strong_binder_allele": 0.5803,
+  "coverage_any_strong_binder_allele_95ci": [
+    0.5712,
+    0.5897
+  ],
+  "coverage_all_alleles_used": [
+    "HLA-A*02:01",
+    "HLA-A*11:01",
+    "HLA-B*07:02",
+    "HLA-B*08:01",
+    "HLA-B*15:01"
+  ]
 }
