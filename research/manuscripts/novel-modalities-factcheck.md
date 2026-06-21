@@ -50,10 +50,13 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   Nabet 2018 dTAG `10.1038/s41589-018-0021-8`; Crooke 2021 ASO `10.1038/s41573-021-00162-z`.
 - ✗→✓ "Kwon 2013" was a mislabel — the cited title belongs to **Nott 2015 Mol Cell**
   (`10.1016/j.molcel.2015.01.013`), which Crossref returned; corrected in the reference list.
-- ⚠ Boulay 2017 *Cell* — Crossref bibliographic search returned only the AACR abstract
-  (`10.1158/1538-7445.pedca17-pr09`); the journal-article DOI still to confirm.
-- ⚠ Jumper 2021 AlphaFold *Nature* — search returned a same-field decoy; DOI to confirm
-  (do not assert from memory).
+- ✗→✓ Boulay 2017 *Cell* `10.1016/j.cell.2017.07.036` — first searches returned only the
+  near-title AACR abstract (`10.1158/1538-7445.pedca17-pr09`); resolved by constraining
+  author + journal + year (verify-refs §5), CI-confirmed container=Cell, year 2017.
+- ✗→✓ Jumper 2021 AlphaFold *Nature* `10.1038/s41586-021-03819-2` — first searches
+  returned same-field decoys (a Nat Methods AlphaFold paper, a 2023 assembly paper);
+  resolved + CI-confirmed container=Nature, year 2021 via the author-constrained query.
+  (DOIs were taken from CI Crossref output, never asserted from memory.)
 
 ## Honesty boundaries (claims we deliberately do NOT make)
 - No named drug/PROTAC/validated epitope as "the therapy" — would be fabrication.

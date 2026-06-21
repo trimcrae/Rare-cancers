@@ -341,10 +341,11 @@ explicitly sought** — this program is designed to be handed to one.
 
 ## 8. References
 
-DOIs marked ✓ were resolved/confirmed in CI via Crossref (`verify-refs.yml`,
-section 4); ⚠ still needs confirmation (Crossref returned only a conference-abstract or
-a same-title decoy — to be resolved before submission). EMC-biology refs (1–2, 12–13)
-are shared with the companion papers and cross-referenced to their fact-check log.
+All 10 methods/tools DOIs below are ✓ CI-confirmed via Crossref (`verify-refs.yml`,
+sections 4–5; Boulay and Jumper were disambiguated from near-title decoys by adding
+author + journal + year constraints). EMC-biology refs (1–2, 12–13) are shared with the
+companion papers and cross-referenced to their fact-check log; ⚠ marks those still to be
+finalised there.
 
 **Methods / tools (CI-verified DOIs):**
 
@@ -368,14 +369,11 @@ are shared with the companion papers and cross-referenced to their fact-check lo
     degradation. *Nat Chem Biol* 2018. ✓ doi:10.1038/s41589-018-0021-8
 14. Crooke ST, et al. Antisense technology: an overview and prospectus. *Nat Rev Drug
     Discov* 2021. ✓ doi:10.1038/s41573-021-00162-z
-
-**Still to confirm (⚠):**
-
 5. Boulay G, et al. Cancer-specific retargeting of BAF complexes by a prion-like
-   domain. *Cell* 2017. ⚠ (CI returned only the AACR abstract
-   doi:10.1158/1538-7445.pedca17-pr09; confirm the *Cell* article DOI)
+   domain. *Cell* 2017. ✓ doi:10.1016/j.cell.2017.07.036  *(CI confirmed the Cell
+   article over a near-title AACR abstract by constraining author + journal + year.)*
 6. Jumper J, et al. Highly accurate protein structure prediction with AlphaFold.
-   *Nature* 2021. ⚠ (bibliographic search returned a same-field decoy; confirm DOI)
+   *Nature* 2021. ✓ doi:10.1038/s41586-021-03819-2
 
 **EMC biology (shared with companion papers; see their fact-check log):**
 
