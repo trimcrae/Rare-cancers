@@ -79,7 +79,7 @@ held-out-split caveat; optionally add a small cross-disease rank figure.
   Davis 2017); Iwata 2025's 221-drug screen (brigatinib, panobinostat, romidepsin) verified —
   it corroborates the screen-hit candidates.
 - **Accuracy corrections made this pass:** CD117 figure (was a single cherry-picked number) now
-  given as a verified range (≈53% Huang SC 2023, n=48; ≈84% Giner 2023, n=31); KIT-mutation
+  given as a verified range (≈53% Huang SC 2023; ≈84% of 31 Giner 2023); KIT-mutation
   frequency given as verified fractions (1/20 Urbini; 2/48 ≈4% Huang SC); imatinib's "bottom
   quartile" corrected (it sits at the 25th percentile, just above the bottom quartile — text now
   says 19th–25th percentile and reserves "bottom quartile" for pazopanib/sunitinib).

@@ -28,7 +28,7 @@ confirmation a hostile reviewer could demand; ✗ = found wrong and fixed.
 | No recurrent actionable mutations on NGS | Davis 2017 | ✓ |
 | Activating *KIT* mutation rare: 1/20 (Urbini); 2/48 ≈4% (Huang SC) | Urbini 2018; Huang SC 2023 | ✓ (exact fractions) |
 | Imatinib case: *KIT* exon-11 c.1669T>G, 3 yr stable disease | Jennings 2021 | ✓ (verbatim) |
-| CD117/KIT IHC positivity ≈53% (n=48) and ≈84% (n=31) — variable | Huang SC 2023; Giner 2023 | ✓ (range, not a single number) |
+| CD117/KIT IHC positivity ≈53% and ≈84% (n=31) — variable | Huang SC 2023; Giner 2023 | ✓ (range, not a single number) |
 | CDK4 IHC 100%; CDKN2A/2B copy loss | Giner 2023; Davis 2017 | ✓ |
 | Zaltoprofen inhibits EMC growth **in vivo** via PPARγ | Higuchi 2023 | ✓ ("mouse model of EMC", tumour-growth inhibition) |
 | Iwata model screen hits: brigatinib, panobinostat, romidepsin | Iwata 2025 | ✓ (221-drug HTS, named in abstract) |

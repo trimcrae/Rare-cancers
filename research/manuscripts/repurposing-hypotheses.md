@@ -54,7 +54,7 @@ beyond the defining fusion (Davis et al. 2017). An imatinib-sensitive activating
 is rare — reported in ~1 of 20 EMCs in one series (Urbini et al. 2018) and ~2 of 48 (≈4%) in
 another (Huang SC et al. 2023), in addition to the index treated case (Jennings et al. 2021).
 CD117/KIT *protein*, by contrast, is detectable by immunohistochemistry in a substantial but
-variable proportion of cases (≈53% of 48 in one series and ≈84% of 31 in another; Huang SC et
+variable proportion of cases (≈53% in one series and ≈84% of 31 in another; Huang SC et
 al. 2023; Giner et al. 2023) — a distinction that matters clinically, because imatinib acts on
 the activating mutation, not on mere protein expression. EMC therefore sits in a difficult
 space: too rare for adequately-powered de-novo trials, and without an obvious single druggable
