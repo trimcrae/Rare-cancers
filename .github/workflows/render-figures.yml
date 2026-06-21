@@ -1,0 +1,78 @@
+name: Render figures
+
+# Renders the manuscripts' Mermaid diagrams (and any committed SVGs) to PNG so an agent can
+# actually SEE them — closing the "view it rendered before committing" gate from AGENTS.md
+# without a human in the loop. CI has internet (the dev sandbox has no rasteriser). PNGs are
+# pushed to the `figure-renders` branch (never served); fetch it and open the PNGs:
+#   git fetch origin figure-renders && git checkout figure-renders -- figures-rendered/
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: render-figures
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install renderers (mermaid-cli + librsvg)
+        run: |
+          npm install -g @mermaid-js/mermaid-cli@11
+          sudo apt-get update && sudo apt-get install -y librsvg2-bin
+          printf '%s' '{"args":["--no-sandbox","--disable-gpu","--disable-dev-shm-usage"]}' > /tmp/pp.json
+
+      - name: Extract Mermaid blocks and render everything to PNG
+        run: |
+          set -e
+          mkdir -p out
+          node - <<'EOF'
+          const fs = require("fs"), path = require("path");
+          const files = fs.readdirSync("research/manuscripts").filter(f=>f.endsWith(".md")).map(f=>"research/manuscripts/"+f);
+          let n = 0;
+          for (const f of files) {
+            const t = fs.readFileSync(f, "utf8");
+            const re = /```mermaid\r?\n([\s\S]*?)```/g; let m, i = 0;
+            while ((m = re.exec(t))) { i++; const name = path.basename(f, ".md") + "--mermaid" + i;
+              fs.writeFileSync("out/" + name + ".mmd", m[1]); console.log("extracted", name); n++; }
+          }
+          console.log("mermaid blocks:", n);
+          EOF
+          for mmd in out/*.mmd; do
+            [ -e "$mmd" ] || continue
+            echo "rendering $mmd"
+            mmdc -i "$mmd" -o "${mmd%.mmd}.png" -p /tmp/pp.json -b white -s 2 || echo "MERMAID FAILED: $mmd"
+          done
+          # any committed SVGs too (future-proofing; currently none)
+          find research -name '*.svg' 2>/dev/null | while read -r s; do
+            rsvg-convert -b white "$s" -o "out/$(echo "$s" | tr '/' '_').png" || true
+          done
+          rm -f out/*.mmd
+          echo "=== rendered PNGs ==="; ls -la out/
+
+      - name: Publish PNGs to figure-renders branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp -r out "$RUNNER_TEMP/out"
+          git fetch origin figure-renders || true
+          if git show-ref --verify --quiet refs/remotes/origin/figure-renders; then
+            git checkout -B figure-renders origin/figure-renders
+          else
+            git checkout --orphan figure-renders
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          rm -rf figures-rendered && mkdir -p figures-rendered
+          cp "$RUNNER_TEMP"/out/*.png figures-rendered/ 2>/dev/null || true
+          git add figures-rendered
+          git commit -m "Render figures to PNG" || { echo "no changes"; exit 0; }
+          git push origin figure-renders
