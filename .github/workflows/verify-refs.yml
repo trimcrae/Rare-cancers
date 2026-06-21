@@ -96,3 +96,16 @@ jobs:
           Cancer-specific retargeting of BAF complexes by a prion-like domain#Boulay#Boulay 2017 Cell (want container=Cell, year 2017, NOT an Abstract)
           Highly accurate protein structure prediction with AlphaFold#Jumper#Jumper 2021 Nature (want container=Nature, year 2021)
           STRAG
+          echo
+          echo "===== 6) Treatment-precedent refs for the personalised-immunotherapy framing ====="
+          while IFS='#' read -r title author note; do
+            [ -z "$title" ] && continue
+            echo "  >>> $note"
+            curl -s -m 30 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
+              --data-urlencode "query.bibliographic=$title" --data-urlencode "query.author=$author" \
+              --data-urlencode "filter=type:journal-article" --data-urlencode "rows=5" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const items=JSON.parse(s).message.items||[];items.forEach((m,i)=>console.log("      ["+i+"] DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,72),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0])))}catch(e){console.log("      PARSE-ERR")}})'
+          done <<'TREAT'
+          Individualised neoantigen therapy mRNA-4157 V940 plus pembrolizumab in resected melanoma#Weber#mRNA-4157/KEYNOTE-942 melanoma (Lancet 2024)
+          Personalized RNA neoantigen vaccines stimulate T cells in pancreatic cancer#Rojas#autogene cevumeran, pancreatic (Nature 2023)
+          TREAT
