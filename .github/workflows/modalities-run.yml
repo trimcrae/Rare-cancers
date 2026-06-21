@@ -67,6 +67,10 @@ jobs:
         continue-on-error: true
         run: python research/modalities/fusion_breakpoints.py
 
+      - name: HLA population coverage of the junction neoepitopes (AFND)
+        continue-on-error: true
+        run: python research/modalities/hla_coverage.py
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -78,6 +82,7 @@ jobs:
           cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/hla-coverage.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then

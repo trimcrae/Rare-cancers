@@ -41,9 +41,13 @@ modalities — targeted protein degradation, fusion-junction antisense, fusion-d
 immunotherapy, synthetic-lethal dependency mapping, and transcriptional/coactivator
 disruption — and take each as far as present-day computation allows. As worked examples
 we (i) design fusion-specific gapmer antisense oligonucleotides against the junction
-transcript, and (ii) predict, with MHCflurry-2.0, that the junction peptide GQQPCVQAQY
-is a strong HLA-B\*15:01-presented neoantigen (44.6 nM; presentation percentile 0.07) —
-a concrete but HLA-restricted lead for a fusion-directed vaccine or TCR-T. We close with
+transcript, and (ii) resolve the fusion-junction neoantigen across the **real in-frame
+breakpoints** (derived from Ensembl exon structure, not an assumed junction) and predict
+MHC-I binding with MHCflurry-2.0. This second analysis overturned a first, breakpoint-
+*assumed* result: no single junction epitope is pan-EMC, but individual recurrent
+breakpoints (e.g. EWSR1 exon 7 :: NR4A3 exon 3) yield strong predicted binders on common
+alleles (e.g. `QQIVRTDSL`/HLA-B\*08:01) — implying a **personalised** fusion-directed
+vaccine/TCR-T strategy rather than an off-the-shelf one. We close with
 a prioritised, falsifiable experimental program and an explicit statement of where
 computation ends. All analyses are reproducible (`research/modalities/`), run in CI, and
 use only public data.
@@ -196,38 +200,58 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   form a peptide present in no normal protein. If presentable on MHC-I, it is a
   rational target for a fusion-directed vaccine or TCR-T — a modality that needs no
   druggable pocket at all.
-- **Computational groundwork (done here).**
-  `research/modalities/fusion_neoantigen.py` fetches the real UniProt sequences,
-  constructs junction-spanning 8–11mers for the modelled fusion, filters to true
-  neo-sequences (absent from both parents), and predicts MHC-I binding with
-  MHCflurry-2.0 [Ref: O'Donnell 2020] across ten high-frequency HLA-A/-B alleles.
+- **Computational groundwork (done here — and twice, the second time correcting the
+  first).** A first pass (`fusion_neoantigen.py`) used **one assumed junction** and
+  reported a strong HLA-B\*15:01 epitope `GQQPCVQAQY`. We did **not** trust it: the
+  breakpoint was a guess, so the epitope could be an artifact of the guess. A second,
+  breakpoint-resolved analysis (`fusion_breakpoints.py`) removed the assumption — it
+  derives the **real in-frame junctions** from Ensembl exon structure (self-checked:
+  translate(CDS) == Ensembl protein) and runs MHCflurry across all of them.
+  **The result overturned the first:** `GQQPCVQAQY` does **not** arise from any real
+  in-frame junction — it was an artifact of the guessed breakpoint. This is the single
+  most important correction in the paper, and it is exactly why the headline epitope must
+  come from sourced junctions, not a convenient assumption.
 
-  Of **34** novel junction-spanning peptides, **5** are predicted MHC-I binders
-  (presentation %ile ≤ 2) and **2** are strong (≤ 0.5); **3** also pass the raw-affinity
-  cutoff (≤ 500 nM). The result is dominated by one peptide on one allele:
+  The **7 in-frame junctions** (EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3,
+  whose retained sequence reads `…VVRTDS…`) yield **26 distinct predicted binders**, but
+  the central, honest finding is about *robustness*:
 
-  | peptide | HLA | affinity (nM) | presentation %ile | pres. score | call |
+  | predicted epitope | HLA | affinity (nM) | pres. %ile | call | in N / 7 junctions |
   |---|---|---|---|---|---|
-  | **GQQPCVQAQY** | **B\*15:01** | **44.6** | **0.07** | 0.94 | strong |
-  | QQPCVQAQY | B\*15:01 | 58.1 | 0.24 | 0.83 | strong |
-  | GQQPCVQAQY | A\*01:01 | 705 | 0.83 | 0.49 | weak |
-  | GQQPCVQAQY | B\*44:02 | 847 | 0.93 | 0.45 | weak |
-  | QPCVQAQY | B\*35:01 | 234 | 1.16 | 0.36 | weak |
+  | GVVRTDSLK | A\*11:01 | 56 | 0.57 | weak | **2** |
+  | QQIVRTDSL | B\*08:01 | 97 | 0.04 | strong | 1 (EWSR1 e7::e3) |
+  | DLVVRTDSL | B\*08:01 | 58 | 0.03 | strong | 1 (e10::e3) |
+  | SSYGQQIVR | A\*11:01 | 61 | 0.08 | strong | 1 (e7::e3) |
+  | FDVVRTDSL | B\*08:01 | 185 | 0.09 | strong | 1 (e12::e3) |
+  | GMPPPLRGV | A\*02:01 | 45 | 0.14 | strong | 1 (e13::e3) |
+  | KQCGVVKY | B\*15:01 | 111 | 0.12 | strong | 1 (e11::e2) |
 
-  The lead epitope **GQQPCVQAQY** (EWSR1 `GQQ` ⊕ NR4A3 `PCVQAQY`) is predicted to be
-  **strongly presented on HLA-B\*15:01** and weakly on HLA-A\*01:01/B\*44:02. So the
-  honest read is **conditionally positive and HLA-restricted**: fusion-directed
-  immunotherapy is a credible lead *for B\*15:01-positive patients* with this junction,
-  not a pan-population one. (Methodological note: an early version of this analysis read
-  the wrong MHCflurry output column and spuriously reported zero binders; the pipeline
-  now records `_rank_column_used` and cross-checks raw affinity so the result is
-  verifiable — see `fusion-neoantigen-predictions.json`.)
+  **No single epitope is pan-EMC** (the most-shared, `GVVRTDSLK`, appears in only 2 of 7
+  junctions and is merely a weak binder). Most strong binders are *breakpoint-specific*.
+  Two consequences, both honest:
+  1. A fusion-directed neoantigen therapy for EMC is most realistically **personalised** —
+     sequence the patient's breakpoint, generate the junction peptides, match to the
+     patient's HLA — rather than a single off-the-shelf vaccine.
+  2. *If* one breakpoint is recurrent enough to be a "public" target (the commonly reported
+     **EWSR1 exon 7 :: NR4A3 exon 3** junction is a candidate), its epitopes — e.g.
+     `QQIVRTDSL`/B\*08:01, `SSYGQQIVR`/A\*11:01 — become shared targets. Notably the
+     presenting alleles here (A\*02:01, A\*11:01, B\*07:02, B\*08:01) are among the most
+     frequent worldwide.
 
-- **Decisive experiment.** Confirm the patient's *actual* breakpoint by RNA-seq (the
-  exact junction peptide is breakpoint-specific — see Limitations), then validate
-  presentation (immunopeptidomics) and T-cell reactivity ex vivo.
-- **Maturity:** prediction pipeline real and reproducible; epitope list is conditional
-  on the modelled breakpoint and is a hypothesis to be confirmed per patient.
+  > **HLA population coverage [CI slot — fill from `hla-coverage.json`]:** for the
+  > EWSR1 e7::e3 candidate-public epitopes, the combined fraction of patients carrying ≥1
+  > presenting allele is **___%** (alleles + frequencies from the Allele Frequency Net
+  > Database). Caveat: a junction peptide that is mostly self-sequence with one junction
+  > residue is a weaker T-cell target than a fully foreign peptide — predicted binding is
+  > a screen, not proof of immunogenicity.
+
+- **Decisive experiment.** Sequence the patient's breakpoint by RNA-seq; generate
+  junction peptides; confirm presentation by immunopeptidomics and T-cell reactivity
+  ex vivo. For a public-epitope strategy, first establish how recurrent the e7::e3
+  junction actually is across an EMC cohort.
+- **Maturity:** prediction pipeline real, reproducible, and **self-correcting** (it caught
+  and overturned its own first result); epitopes are breakpoint- and HLA-conditional and
+  remain hypotheses to confirm per patient.
 
 ### 3.4 Synthetic-lethal & dependency mapping (discovery engine)
 
