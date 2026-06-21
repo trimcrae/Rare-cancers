@@ -1,5 +1,6 @@
 {
-  "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Allele frequencies are sample-size-weighted global means scraped from the Allele Frequency Net Database (AFND; Gonzalez-Galarza 2020). Coverage = fraction of individuals carrying >=1 presenting allele = 1 - prod(1-af)^2. Global means hide large between-population variation; confirm per target population.",
+  "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Intended method: sample-size-weighted global allele frequency from the Allele Frequency Net Database (AFND; Gonzalez-Galarza 2020); coverage = 1 - prod(1-af)^2 (fraction carrying >=1 presenting allele).",
+  "_source_status": "UNAVAILABLE: AFND serves data via an interactive/session interface, not a CI-fetchable endpoint (only the search form is returned). Coverage NOT computed rather than fabricated; compute per population via AFND/IEDB. See _diag per allele.",
   "allele_frequencies": {
     "HLA-A*02:01": {
       "_diag": {
