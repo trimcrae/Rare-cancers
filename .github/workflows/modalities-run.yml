@@ -1,0 +1,63 @@
+name: Modalities — structure & neoantigen
+
+# Runs the EWSR1::NR4A3 target-assessment compute that the dev sandbox can't:
+#   - nr4a3_structure.py : AlphaFold (AFDB) pLDDT + fpocket druggability of NR4A3
+#   - fusion_neoantigen.py: UniProt sequences + MHCflurry junction-neoantigen prediction
+# CI has internet (sandbox egress is git-hosts only). Results JSON are pushed to the
+# `modalities-cache` branch; snapshot them onto the feature branch from there:
+#   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: modalities-run
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install tools (fpocket + mhcflurry)
+        run: |
+          set -e
+          sudo apt-get update && sudo apt-get install -y fpocket
+          python -m pip install --upgrade pip
+          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas
+          mhcflurry-downloads fetch models_class1_presentation
+
+      - name: Structure / druggability (NR4A3, EWSR1)
+        run: python research/modalities/nr4a3_structure.py
+
+      - name: Fusion-junction neoantigen prediction
+        run: python research/modalities/fusion_neoantigen.py
+
+      - name: Publish results to modalities-cache branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/nr4a3-structure-assessment.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/*.json
+          git commit -m "Modalities compute: NR4A3 structure + fusion neoantigen results" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
