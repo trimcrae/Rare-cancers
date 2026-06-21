@@ -243,19 +243,22 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
      presenting alleles here (A\*02:01, A\*11:01, B\*07:02, B\*08:01) are among the most
      frequent worldwide.
 
-  > **HLA population coverage.** The presenting alleles here — **A\*02:01, A\*11:01,
-  > B\*07:02, B\*08:01** — are among the most commonly carried HLA-I alleles worldwide
-  > (A\*02:01 is the most frequent HLA-A allele in most populations), so for a recurrent-
-  > breakpoint epitope a substantial fraction of patients would carry ≥1 presenting
-  > allele. We do **not** report a precise coverage percentage here: our reproducible
-  > attempt to pull allele frequencies from the Allele Frequency Net Database in CI
-  > (`hla_coverage.py`) failed because AFND serves its data through an interactive,
-  > session-based interface, not a CI-fetchable endpoint — so a hard number would have to
-  > be hand-entered, which we refuse to fabricate. Exact, population-specific coverage is a
-  > defined next step (AFND/IEDB Population Coverage, per target population). Two honest
-  > caveats remain regardless of the number: (i) a junction peptide that is mostly self-
-  > sequence with one junction residue is a weaker T-cell target than a fully foreign
-  > peptide; (ii) predicted MHC binding is a screen, not proof of immunogenicity.
+  > **HLA population coverage.** `hla_coverage.py` now computes this in CI from real,
+  > sourced allele frequencies — the Allele Frequency Net Database (AFND; Gonzalez-Galarza
+  > 2020), via its MIT-licensed `slowkow/allelefrequencies` mirror (a stable raw TSV, since
+  > AFND itself serves only an interactive form to a non-browser client). Frequencies are
+  > denominator(2N)-weighted global means pooled over all AFND populations with Wilson 95%
+  > CIs, and coverage = 1 − ∏(1 − af)² (fraction carrying ≥1 presenting allele; the IEDB
+  > population-coverage formula). Results: the commonly-reported **EWSR1 e7::NR4A3 e3**
+  > public junction (presented on **A\*11:01** and **B\*08:01**) covers **≈30%** of patients
+  > (29.7%, 95% CI 29.0–30.3%); pooling **all** strong-binder alleles across the resolved
+  > breakpoints (A\*02:01, A\*11:01, B\*07:02, B\*08:01, B\*15:01) reaches **≈58%** (58.0%,
+  > 95% CI 57.1–59.0%). These global means hide large between-population variation (e.g.
+  > A\*11:01 ranges 0–64% across AFND populations), so confirm per target population before
+  > clinical inference. Two caveats hold regardless of the number: (i) a junction peptide
+  > that is mostly self-sequence with one junction residue is a weaker T-cell target than a
+  > fully foreign peptide; (ii) predicted MHC binding is a screen, not proof of
+  > immunogenicity. Source: `hla-coverage.json`.
 
 - **Patient-ready, both partners, CD8 + CD4.** `patient_neoepitopes.py` turns one
   patient's junction + HLA into a ranked CD8/class-I epitope shortlist; it covers **both**

@@ -69,11 +69,15 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   e3), 26 distinct predicted binders, **no pan-EMC epitope** (most-shared GVVRTDSLK in
   2/7, weak). Strong binders are breakpoint-specific (e.g. QQIVRTDSL/B*08:01 from the
   commonly-reported e7::e3). Honest conclusion: personalised, not off-the-shelf. ✓
-- **HLA coverage — NOT fabricated.** `hla_coverage.py` attempted AFND retrieval in CI;
-  AFND returns only its interactive search form (no data: n_decimals=0, no DataTable), so
-  no precise coverage % is reported. Stated qualitatively instead (presenting alleles
-  A*02:01/A*11:01/B*07:02/B*08:01 are among the most common worldwide). `_source_status`
-  records this. ✓ (honest gap, flagged as AFND/IEDB next step)
+- **HLA coverage — computed from real data, not fabricated.** `hla_coverage.py` pulls
+  AFND allele frequencies in CI from the MIT-licensed `slowkow/allelefrequencies` mirror
+  (AFND's own site serves only its interactive form to a non-browser client). Denominator
+  (2N)-weighted global pooling + Wilson 95% CIs (per METHODOLOGY.md): e7::e3 public junction
+  (A*11:01 + B*08:01) = **29.7%** (95% CI 29.0–30.3%); any strong-binder allele across all
+  resolved breakpoints (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%).
+  Global means; large between-population spread reported per allele
+  (`af_range_across_populations`). If the mirror is unreachable the script records
+  `source_unavailable` rather than guessing. Source: `hla-coverage.json`. ✓
 - Treatment-precedent DOIs (CI-confirmed): KEYNOTE-942/mRNA-4157 `10.1016/S0140-6736(23)02268-7`
   (Lancet 2024); autogene cevumeran/Rojas `10.1038/s41586-023-06063-y` (Nature 2023). ✓
 
