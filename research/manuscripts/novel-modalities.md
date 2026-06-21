@@ -1,20 +1,25 @@
-# A computational target-assessment and modality program for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
+# Computational routes to treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma: structure-guided modalities and a personalised fusion-neoantigen pipeline
 
-**Status: DRAFT v0.1 — pre-clinician-review, pre-wet-lab.** This is a hypothesis-
+**Status: DRAFT v0.2 — pre-clinician-review, pre-wet-lab.** This is a hypothesis-
 and methods paper. It contains **no validated drug candidate and no clinical claim.**
 Everything below is either (a) a reproducible computation on public data, run in CI
 (scripts in `research/modalities/`), or (b) a cited, explicitly-flagged hypothesis.
 Nothing here is medical advice or evidence that any agent works in EMC. It does not.
 
-> **Why this paper exists.** Our companion repurposing paper reached an honest but
-> deflating conclusion: of existing drugs, only imatinib has any real EMC clinical
-> signal, and it is not novel; every genuinely novel lead is preclinical. That paper
-> asks "what existing drug might we redeploy?" This paper asks the harder, more
-> forward question: **given EMC's specific molecular lesion, what would a
-> purpose-built therapeutic program look like, and how far can we de-risk it
-> computationally before a wet lab is ever involved?** The answer is "quite far" —
-> short of synthesising a molecule or dosing a patient, which is where computation
-> must stop and biology must begin.
+> **Why this paper exists — and where it is going.** Our companion repurposing paper
+> found that, of *existing* drugs, only imatinib has any real EMC clinical signal and it
+> is not novel. The wrong conclusion to draw is "nothing can be done." The right one is:
+> EMC's single, clonal driver demands a *purpose-built* approach, and several routes to
+> treatment do not require the one thing this target lacks — a druggable pocket. This
+> paper's job is to find the route most likely to reach a patient and build the
+> reproducible computational engine for it. We show, with public data and CI-run code,
+> that (i) conventional small-molecule inhibition is the wrong tool here (the fusion is
+> disordered or folded-but-pocket-less), which is *why* we pivot; and (ii) the most
+> treatment-ready route is **personalised fusion-directed immunotherapy** — sequence the
+> patient's fusion breakpoint, generate the junction neoepitopes, match them to the
+> patient's HLA, and feed a peptide/mRNA vaccine or TCR-T. That pipeline is built and
+> runs here. Personalised is acceptable: a real, patient-specific path to treatment beats
+> a tidy paper concluding the target is hard.
 
 ---
 
@@ -287,26 +292,40 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
 
 ---
 
-## 4. Prioritisation: a falsifiable decision tree
+## 4. Two tracks to treatment (ordered by how fast each could reach a patient)
 
-The modalities are not equally mature or equally decisive. We rank them by **(a) how
-clonal/specific the target is**, **(b) whether the decisive experiment is doable in
-existing EMC models now**, and **(c) independence from the undruggable-pocket problem**.
+We rank by **proximity to an actual patient**: (a) does the modality ride a platform
+*already in humans*, so only the EMC-specific content is new? (b) does it need new
+chemistry? (c) is the decisive de-risking experiment doable now?
 
-| Rank | Modality | Decisive next experiment | Needs new chemistry? | Doable in current EMC models? |
+**Track A — fastest route to a patient: personalised fusion-directed immunotherapy
+(§3.3).** This is the lead because the *platform already exists in the clinic* —
+individualised neoantigen vaccines (e.g. mRNA-4157/V940 + pembrolizumab in melanoma,
+KEYNOTE-942 [Ref]; autogene cevumeran in pancreatic cancer [Ref]) and fusion-directed
+TCR-T are in human trials. Nothing chemically novel is required for EMC: sequence the
+patient's breakpoint, run the pipeline built here to pick the presented junction
+neoepitopes, and feed an existing personalised-vaccine/TCR pipeline. It is intrinsically
+personalised — which our breakpoint analysis shows is *necessary* (no off-the-shelf
+epitope) and *acceptable* (the presenting alleles are common; see §3.3 coverage).
+
+**Track B — discovery track that could unlock more options (incl. small molecules).**
+
+| Rank | Modality | Decisive experiment | New chemistry? | Doable now? |
 |---|---|---|---|---|
-| 1 | **dTAG fusion-addiction test** (§3.1) | knock-in + acute degradation viability | No (degron is generic) | **Yes** |
-| 2 | **CRISPR dependency screen** (§3.4) | genome-wide KO, EMC vs control | No | **Yes** |
-| 3 | **Junction neoantigen** (§3.3) | breakpoint-specific immunopeptidomics + T-cell assay | No | Partly (needs patient material) |
-| 4 | **Junction ASO** (§3.2) | gapmer knockdown specificity | No (design only) | **Yes** in vitro |
-| 5 | **Degrader / coactivator drugs** (§3.1/§3.5) | medicinal chemistry / inhibitor panel | **Yes** (degrader) | Drugs: yes; degrader: no |
+| B1 | **dTAG fusion-addiction test** (§3.1) | degron knock-in + acute degradation viability | No | **Yes** (EMC lines) |
+| B2 | **CRISPR dependency screen** (§3.4) | genome-wide KO, EMC vs control | No | **Yes** (EMC lines) |
+| B3 | **Junction ASO** (§3.2) | gapmer knockdown specificity | No | **Yes** in vitro |
+| B4 | **Degrader / coactivator drugs** (§3.1/§3.5) | med-chem / inhibitor panel | **Yes** (degrader) | Drugs: yes |
 
-The unifying insight: **the first two experiments are the linchpin.** Before any
-chemistry, a dTAG knock-in (rank 1) answers the existential question — *is EMC
-addicted to acute fusion level?* — and the CRISPR screen (rank 2) supplies druggable
-fallbacks if it is not. Both are feasible **today** in the published EMC cell models,
-need no new molecule, and would convert this paper's hypotheses into data. That is the
-recommended entry point for a collaborating wet lab.
+Track B's linchpin is the dTAG addiction test (B1): if acute removal of the fusion kills
+EMC cells, every downstream modality — degraders, ASO, and the case for immune attack on
+fusion-expressing cells — is validated at once; the CRISPR screen (B2) then supplies
+druggable nodes. Both run today in the published EMC cell models with no new molecule.
+
+**The recommendation:** pursue Track A now for any consenting patient with a sequenced
+fusion (it needs no new biology, only an existing personalised-immunotherapy
+collaboration), while Track B's dTAG/CRISPR experiments run in parallel in a sarcoma lab
+to validate fusion-dependence and surface additional targets.
 
 ---
 
@@ -316,10 +335,16 @@ recommended entry point for a collaborating wet lab.
   sequence as "the drug", or claim a validated epitope. Proposing a specific validated
   novel compound from computation alone would be fabrication. The deliverable is a
   *de-risked, prioritised program*, not a candidate.
-- **The breakpoint is modelled.** §3.3's epitopes are computed for a canonical,
-  flagged EWSR1::NR4A3 junction. Real junctions vary by patient/transcript; the
-  pipeline is built to re-run on a sequenced breakpoint, and the epitope list must be
-  regenerated per patient.
+- **Epitopes are breakpoint- and HLA-specific (this is now handled, not assumed).**
+  §3.3 no longer rests on one guessed junction — it enumerates the *real* in-frame
+  junctions from exon structure and showed no off-the-shelf epitope exists. The clinical
+  consequence is intrinsic: the approach is **personalised**, and the per-patient epitope
+  list must be regenerated from that patient's sequenced breakpoint and HLA type. The
+  pipeline does exactly this; it is not a limitation so much as the design.
+- **Junction peptides are mostly self-sequence.** A neoepitope spanning the seam is often
+  one or two "foreign" residues on an otherwise self peptide; central T-cell tolerance may
+  blunt responses. This is a real immunological risk for *any* fusion-neoantigen approach
+  and must be tested (immunopeptidomics + T-cell reactivity), not assumed away.
 - **Structure predictions are predictions.** AlphaFold pLDDT and fpocket are strong,
   validated tools, but a predicted absent pocket is not the same as an experimentally
   proven one; cryptic/allosteric pockets can exist. The §2 result is a hypothesis-
