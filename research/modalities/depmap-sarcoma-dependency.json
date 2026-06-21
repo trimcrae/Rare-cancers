@@ -1,0 +1,233 @@
+{
+  "_note": "DepMap CRISPR (Chronos) selective-essentiality transfer prior for EWSR1::NR4A3 EMC, which has no DepMap line. Gene effect: more negative = more essential; < -0.5 = dependent; selectivity = rest_mean - sarcoma_mean (>0 = sarcoma-selective). A PRIOR from related sarcomas, NOT EMC data. See degrader-vs-synthetic-lethal.md.",
+  "data_source": "DepMap public release 24Q4 (figshare) CRISPRGeneEffect.csv + Model.csv",
+  "n_models_total": 2105,
+  "n_sarcoma_models": 176,
+  "dependent_threshold": -0.5,
+  "genes_by_group": {
+    "ncBAF (primary hypothesis)": [
+      {
+        "gene": "BRD9",
+        "sarcoma_mean": 0.105,
+        "rest_mean": 0.089,
+        "selectivity": -0.016,
+        "sarcoma_frac_dependent": 0.022,
+        "rest_frac_dependent": 0.017,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "BICRA",
+        "sarcoma_mean": 0.093,
+        "rest_mean": 0.07,
+        "selectivity": -0.023,
+        "sarcoma_frac_dependent": 0.0,
+        "rest_frac_dependent": 0.003,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "BICRAL",
+        "sarcoma_mean": -0.142,
+        "rest_mean": -0.127,
+        "selectivity": 0.015,
+        "sarcoma_frac_dependent": 0.011,
+        "rest_frac_dependent": 0.006,
+        "n_sarcoma": 91
+      }
+    ],
+    "BAF / SWI-SNF core": [
+      {
+        "gene": "SMARCA4",
+        "sarcoma_mean": -0.329,
+        "rest_mean": -0.307,
+        "selectivity": 0.022,
+        "sarcoma_frac_dependent": 0.319,
+        "rest_frac_dependent": 0.24,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "SMARCA2",
+        "sarcoma_mean": 0.0,
+        "rest_mean": -0.023,
+        "selectivity": -0.023,
+        "sarcoma_frac_dependent": 0.0,
+        "rest_frac_dependent": 0.04,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "SMARCB1",
+        "sarcoma_mean": -0.68,
+        "rest_mean": -0.832,
+        "selectivity": -0.152,
+        "sarcoma_frac_dependent": 0.758,
+        "rest_frac_dependent": 0.839,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "ARID1A",
+        "sarcoma_mean": -0.201,
+        "rest_mean": -0.239,
+        "selectivity": -0.039,
+        "sarcoma_frac_dependent": 0.11,
+        "rest_frac_dependent": 0.157,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "ARID1B",
+        "sarcoma_mean": 0.03,
+        "rest_mean": -0.014,
+        "selectivity": -0.044,
+        "sarcoma_frac_dependent": 0.0,
+        "rest_frac_dependent": 0.03,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "SMARCC1",
+        "sarcoma_mean": -0.236,
+        "rest_mean": -0.241,
+        "selectivity": -0.006,
+        "sarcoma_frac_dependent": 0.099,
+        "rest_frac_dependent": 0.086,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "PBRM1",
+        "sarcoma_mean": -0.153,
+        "rest_mean": -0.208,
+        "selectivity": -0.055,
+        "sarcoma_frac_dependent": 0.055,
+        "rest_frac_dependent": 0.09,
+        "n_sarcoma": 91
+      }
+    ],
+    "BET / transcriptional": [
+      {
+        "gene": "BRD4",
+        "sarcoma_mean": -0.954,
+        "rest_mean": -0.972,
+        "selectivity": -0.018,
+        "sarcoma_frac_dependent": 0.956,
+        "rest_frac_dependent": 0.952,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "BRD2",
+        "sarcoma_mean": -0.447,
+        "rest_mean": -0.44,
+        "selectivity": 0.007,
+        "sarcoma_frac_dependent": 0.429,
+        "rest_frac_dependent": 0.384,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "BRD3",
+        "sarcoma_mean": 0.018,
+        "rest_mean": 0.076,
+        "selectivity": 0.058,
+        "sarcoma_frac_dependent": 0.0,
+        "rest_frac_dependent": 0.0,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "CDK9",
+        "sarcoma_mean": -1.464,
+        "rest_mean": -1.447,
+        "selectivity": 0.017,
+        "sarcoma_frac_dependent": 1.0,
+        "rest_frac_dependent": 0.994,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "CDK7",
+        "sarcoma_mean": -1.847,
+        "rest_mean": -1.762,
+        "selectivity": 0.085,
+        "sarcoma_frac_dependent": 1.0,
+        "rest_frac_dependent": 0.999,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "EP300",
+        "sarcoma_mean": -0.35,
+        "rest_mean": -0.309,
+        "selectivity": 0.041,
+        "sarcoma_frac_dependent": 0.264,
+        "rest_frac_dependent": 0.286,
+        "n_sarcoma": 91
+      },
+      {
+        "gene": "CREBBP",
+        "sarcoma_mean": 0.102,
+        "rest_mean": -0.04,
+        "selectivity": -0.142,
+        "sarcoma_frac_dependent": 0.044,
+        "rest_frac_dependent": 0.078,
+        "n_sarcoma": 91
+      }
+    ]
+  },
+  "context_genes": [
+    {
+      "gene": "NR4A3",
+      "sarcoma_mean": 0.021,
+      "rest_mean": 0.023,
+      "selectivity": 0.002,
+      "sarcoma_frac_dependent": 0.0,
+      "rest_frac_dependent": 0.0,
+      "n_sarcoma": 91
+    },
+    {
+      "gene": "EWSR1",
+      "sarcoma_mean": -1.208,
+      "rest_mean": -0.835,
+      "selectivity": 0.373,
+      "sarcoma_frac_dependent": 0.967,
+      "rest_frac_dependent": 0.915,
+      "n_sarcoma": 91
+    },
+    {
+      "gene": "FLI1",
+      "sarcoma_mean": -0.247,
+      "rest_mean": -0.006,
+      "selectivity": 0.242,
+      "sarcoma_frac_dependent": 0.22,
+      "rest_frac_dependent": 0.019,
+      "n_sarcoma": 91
+    }
+  ],
+  "self_validation": {
+    "BRD9_in_synovial": {
+      "subtype_match": "synovial",
+      "n": 5,
+      "mean_gene_effect": -0.13,
+      "frac_dependent": 0.2
+    },
+    "SMARCB1_in_rhabdoid": {
+      "subtype_match": "rhabdoid",
+      "n": 13,
+      "mean_gene_effect": -0.025,
+      "frac_dependent": 0.077
+    },
+    "_pass_criterion": "each should show clearly more-negative mean_gene_effect / high frac_dependent vs the gene's rest_mean above"
+  },
+  "BRD9_by_fusion_sarcoma_subtype": {
+    "Ewing": {
+      "subtype_match": "ewing",
+      "n": 27,
+      "mean_gene_effect": 0.134,
+      "frac_dependent": 0.0
+    },
+    "Synovial": {
+      "subtype_match": "synovial",
+      "n": 5,
+      "mean_gene_effect": -0.13,
+      "frac_dependent": 0.2
+    },
+    "Myxoid_liposarcoma": null,
+    "Alveolar_RMS": {
+      "subtype_match": "alveolar",
+      "n": 8,
+      "mean_gene_effect": 0.046,
+      "frac_dependent": 0.0
+    }
+  }
+}
