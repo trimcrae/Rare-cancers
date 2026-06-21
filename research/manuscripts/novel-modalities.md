@@ -243,12 +243,19 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
      presenting alleles here (A\*02:01, A\*11:01, B\*07:02, B\*08:01) are among the most
      frequent worldwide.
 
-  > **HLA population coverage [CI slot — fill from `hla-coverage.json`]:** for the
-  > EWSR1 e7::e3 candidate-public epitopes, the combined fraction of patients carrying ≥1
-  > presenting allele is **___%** (alleles + frequencies from the Allele Frequency Net
-  > Database). Caveat: a junction peptide that is mostly self-sequence with one junction
-  > residue is a weaker T-cell target than a fully foreign peptide — predicted binding is
-  > a screen, not proof of immunogenicity.
+  > **HLA population coverage.** The presenting alleles here — **A\*02:01, A\*11:01,
+  > B\*07:02, B\*08:01** — are among the most commonly carried HLA-I alleles worldwide
+  > (A\*02:01 is the most frequent HLA-A allele in most populations), so for a recurrent-
+  > breakpoint epitope a substantial fraction of patients would carry ≥1 presenting
+  > allele. We do **not** report a precise coverage percentage here: our reproducible
+  > attempt to pull allele frequencies from the Allele Frequency Net Database in CI
+  > (`hla_coverage.py`) failed because AFND serves its data through an interactive,
+  > session-based interface, not a CI-fetchable endpoint — so a hard number would have to
+  > be hand-entered, which we refuse to fabricate. Exact, population-specific coverage is a
+  > defined next step (AFND/IEDB Population Coverage, per target population). Two honest
+  > caveats remain regardless of the number: (i) a junction peptide that is mostly self-
+  > sequence with one junction residue is a weaker T-cell target than a fully foreign
+  > peptide; (ii) predicted MHC binding is a screen, not proof of immunogenicity.
 
 - **Decisive experiment.** Sequence the patient's breakpoint by RNA-seq; generate
   junction peptides; confirm presentation by immunopeptidomics and T-cell reactivity

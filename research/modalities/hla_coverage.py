@@ -39,7 +39,7 @@ AFND_BASE = "https://www.allelefrequencies.net/hla6006a.asp"
 
 
 def fetch(url):
-    for i in range(4):
+    for i in range(2):  # AFND serves only its interactive form to CI; don't burn retries
         try:
             req = urllib.request.Request(url, headers={
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -153,12 +153,17 @@ def main():
     cov_e7e3, used_e7e3 = coverage({a: freqs[a] for a in sorted(e7e3_alleles)})
     cov_all, used_all = coverage(freqs)
 
+    have_data = any(v and v.get("allele_frequency") is not None for v in freqs.values())
     result = {
-        "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Allele "
-                 "frequencies are sample-size-weighted global means scraped from the Allele "
-                 "Frequency Net Database (AFND; Gonzalez-Galarza 2020). Coverage = fraction "
-                 "of individuals carrying >=1 presenting allele = 1 - prod(1-af)^2. Global "
-                 "means hide large between-population variation; confirm per target population.",
+        "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Intended "
+                 "method: sample-size-weighted global allele frequency from the Allele "
+                 "Frequency Net Database (AFND; Gonzalez-Galarza 2020); coverage = 1 - "
+                 "prod(1-af)^2 (fraction carrying >=1 presenting allele).",
+        "_source_status": ("AFND frequencies retrieved" if have_data else
+                           "UNAVAILABLE: AFND serves data via an interactive/session "
+                           "interface, not a CI-fetchable endpoint (only the search form "
+                           "is returned). Coverage NOT computed rather than fabricated; "
+                           "compute per population via AFND/IEDB. See _diag per allele."),
         "allele_frequencies": freqs,
         "e7e3_public_epitope_alleles": sorted(e7e3_alleles),
         "coverage_e7e3_public": cov_e7e3,
