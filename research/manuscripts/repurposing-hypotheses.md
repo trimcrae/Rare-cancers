@@ -3,8 +3,11 @@
 **Status: DRAFT v0.2 — full prose, pre-clinician-review, not for submission.**
 This is a *hypothesis-generating* paper (the genre of e.g. a "hypothesis" or
 "perspective" article). It proposes existing drugs whose mechanisms fit EMC biology
-but that have not been tested in EMC. **It asserts no efficacy.** Authors: TBD (must
-include a sarcoma clinician/researcher). Source of candidates:
+but that have not been tested in EMC. **It asserts no efficacy.**
+**Author:** [Name], Independent researcher, [City, Country] — this work was carried out
+independently, in a personal capacity, and is unconnected to the author's employer. Prepared
+with AI assistance (see §8). A sarcoma clinician/researcher collaborator is being sought and is
+recommended before clinical-facing submission. Source of candidates:
 `research/hypotheses/candidates.json`; method: `research/hypotheses/METHODOLOGY.md`.
 
 ## Abstract
@@ -260,19 +263,24 @@ cited published literature.
 
 ## 8. Author contributions
 
-*To be completed.* This draft was prepared with AI assistance for evidence aggregation,
-systematic enumeration, and the graph-model analysis; **all clinical interpretation, candidate
-selection, and final responsibility must rest with named human authors, who must include a
-sarcoma clinician/researcher.** No authorship is asserted by the tooling.
+[Name] (independent researcher) conceived the project, built the data pipeline and analyses,
+performed the literature curation and verification, and wrote the manuscript — independently and
+in a personal capacity. **AI tools (Anthropic Claude) were used for literature aggregation, the
+systematic target→drug enumeration, the graph-model (TxGNN) run, reference verification, and
+drafting; the author takes full responsibility for all content and conclusions.** AI is not, and
+cannot be, an author. A sarcoma clinician/researcher has not yet been involved: clinical
+collaboration is actively sought and is recommended to review candidate plausibility and the
+imatinib patient-page decision before any clinical-facing submission. No clinical recommendation
+is made in the absence of such review (see the firewall, §5).
 
 ## 9. Competing interests
 
-*To be completed by the authors.* The methodology uses only open, off-patent or
-already-approved agents and public databases; the work has no commercial sponsor.
+The author declares no competing interests. The work has no commercial sponsor and uses only
+public databases and already-approved or off-patent agents.
 
 ## 10. Funding
 
-*To be completed by the authors.* No dedicated funding supported this analysis.
+This work received no funding; it was conducted independently, in the author's own time.
 
 ## 11. Acknowledgements
 

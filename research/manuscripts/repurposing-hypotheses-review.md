@@ -24,9 +24,13 @@ confirmations.
   model validation, registry/CURE ID).
 
 ## Major issues (must resolve before submission)
-1. **Authorship & accountability.** No named authors. A hypothesis paper proposing drugs for
-   patients *requires* a sarcoma clinician/researcher as author, with explicit
-   AI-assistance disclosure (the draft says this — it must be actioned).
+1. **Authorship & accountability.** Authored by an **independent researcher** (personal capacity),
+   with AI assistance disclosed — now reflected in the drafts (headers + §8/§9/§10). A sarcoma
+   clinician/researcher co-author is **strongly recommended** for a clinical-facing journal (and
+   improves correctness) but is **not an absolute requirement**: a methods/reproducibility
+   framing — or a preprint (bioRxiv) / open-review venue (F1000Research) / JOSS / data
+   descriptor — supports solo independent authorship. Recommended: pursue one sarcoma-specialist
+   collaborator while preparing a methods-framed submission.
 2. **References to full journal style.** Entries are abbreviated ("et al.", no volume/pages).
    Expand author lists from the primary sources (do **not** infer co-authors), add
    volume/issue/pages, and confirm every DOI/PMID resolves.
@@ -89,7 +93,10 @@ held-out-split caveat; added as Figure 3 (cross-disease rank strip plot).
 - [x] ~~Confirm the Bangerter 2023 venetoclax/carfilzomib/doxorubicin identities~~ — **done via CI
       (NCBI efetch full text):** all three drugs' sensitivities + the carfilzomib synergies are
       named verbatim; candidates #8/#10/#11 confirmed.
-- [ ] Recruit named authors incl. a sarcoma specialist; complete §8–§10.
+- [x] Author/affiliation/disclosure sections drafted (independent researcher; AI disclosed;
+      clinician sought). Fill in the name/location placeholders.
+- [ ] Pursue a sarcoma-specialist collaborator (strongly recommended for a clinical venue), or
+      target a methods/preprint venue for solo submission.
 - [ ] Cite a primary EMC antiangiogenic-response report for the "most active class" claim
       (candidates surfaced by CI search: PMID 41323055, 36910639) rather than only the review.
 - [ ] Independent clinical review of each candidate and of the imatinib patient-page decision.

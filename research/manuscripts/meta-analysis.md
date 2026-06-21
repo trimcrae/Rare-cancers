@@ -1,10 +1,12 @@
 # Pooled outcomes of extraskeletal myxoid chondrosarcoma: a reproducible systematic review and meta-analysis
 
 **Status: DRAFT v0.2 — full prose, pre-clinician-review, not for submission.**
-Authors: TBD (must include a sarcoma clinician/methodologist). Results below are
-auto-generated from the project dataset and require the statistical upgrades in
-`PROTOCOL.md` §6 before submission. Numbers current as of the last data build —
-regenerate from `data/cancers/emc.json` before any version is circulated.
+**Author:** [Name], Independent researcher, [City, Country] — independent, personal-capacity
+work, unconnected to the author's employer; prepared with AI assistance (see §7). A sarcoma
+clinician/methodologist collaborator is being sought and is recommended before submission.
+Results below are auto-generated from the project dataset and require the statistical upgrades in
+`PROTOCOL.md` §6 before submission. Numbers current as of the last data build — regenerate from
+`data/cancers/emc.json` before any version is circulated.
 
 ## Abstract (structured)
 - **Background:** EMC is an ultra-rare NR4A3-rearranged sarcoma; its outcome data are
@@ -182,7 +184,18 @@ Search, triage, extraction and pooling are scripted (`scripts/fetch-paper.mjs`,
 `triage-literature.mjs`, `validate.mjs`; data in `data/cancers/emc.json`). Commit
 hash to be cited in the final manuscript.
 
-## 7. References
+## 7. Author, contributions & disclosures
+
+[Name] (independent researcher) designed and ran the reproducible search, extraction and pooling
+pipeline and wrote the manuscript, independently and in a personal capacity (unconnected to the
+author's employer). **AI tools (Anthropic Claude) were used for literature aggregation, the
+pooling/sensitivity-analysis code, reference verification, and drafting; the author takes full
+responsibility for all content.** AI is not, and cannot be, an author. A sarcoma
+clinician/methodologist has not yet been involved; collaboration is sought and recommended,
+particularly for the risk-of-bias appraisal and clinical interpretation, before submission. The
+author declares no competing interests; the work received no funding and uses only public data.
+
+## 8. References
 
 Studies cited above, drawn from the registry citation map (`data/cancers/emc.json →
 registry.citations`); every entry has a resolvable DOI or PMID/PMCID. **Draft — complete to the
