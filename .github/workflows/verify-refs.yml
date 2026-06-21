@@ -1,0 +1,48 @@
+name: Verify external references
+
+# Reviewer-grade verification of claims we cannot check offline (the egress allowlist blocks
+# Crossref/EuropePMC from the dev sandbox; CI has full internet). Verifies external DOIs via
+# Crossref, pulls Bangerter 2023 full text from Europe PMC to confirm the named drugs, and
+# searches for primary pazopanib/sunitinib EMC reports. Prints to the run log; commits nothing.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify DOIs, Bangerter full text, and pazopanib/sunitinib EMC reports
+        run: |
+          set +e
+          echo "===== 1) Crossref: DOI -> title / journal / year ====="
+          for entry in \
+            "10.1038/s41591-024-03233-x#TxGNN (expect: foundation model, clinician-centered drug repurposing; Nat Med 2024)" \
+            "10.1016/S0140-6736(23)02268-7#KEYNOTE-942 (expect: mRNA-4157/V940 + pembrolizumab, melanoma; Lancet 2024)" \
+            "10.1038/s12276-023-01086-x#LNP review (expect: immunogenicity of lipid nanoparticles; Exp Mol Med 2023)" \
+            "10.1093/nar/gkaa1084#DGIdb (expect: Drug-Gene Interaction Database 4.0; NAR 2021)"; do
+            doi="${entry%%#*}"; note="${entry#*#}"
+            echo "  DOI $doi"
+            echo "    expect: $note"
+            curl -s -m 30 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" "https://api.crossref.org/works/$doi" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const m=JSON.parse(s).message;console.log("    crossref: "+((m.title||[])[0]||"?")+" | "+((m["container-title"]||[])[0]||"?")+" | "+(((m.published||m.issued||{})["date-parts"]||[[ "?" ]])[0][0]));}catch(e){console.log("    PARSE-ERR "+s.slice(0,80))}})'
+          done
+          echo
+          echo "===== 2) Bangerter 2023 (PMC9813045) full text — are the drugs named? ====="
+          curl -s -m 90 "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9813045/fullTextXML" -o b.xml
+          echo "  fetched bytes: $(wc -c < b.xml)"
+          for drug in venetoclax carfilzomib doxorubicin bortezomib panobinostat romidepsin brigatinib synerg; do
+            echo "  $drug: $(grep -io "$drug" b.xml | wc -l) mentions"
+          done
+          echo "  --- sentences naming venetoclax/carfilzomib/doxorubicin ---"
+          grep -ioE "[^.<>]*\b(venetoclax|carfilzomib|doxorubicin)\b[^.<>]*" b.xml | sed 's/<[^>]*>//g' | sort -u | head -12
+          echo
+          echo "===== 3) Europe PMC: primary pazopanib/sunitinib EMC reports ====="
+          curl -s -m 40 "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal%20myxoid%20chondrosarcoma%22%20AND%20%28pazopanib%20OR%20sunitinib%20OR%20antiangiogenic%29&format=json&pageSize=25&resultType=lite" -o pz.json
+          node -e 'try{const j=require("./pz.json");const r=(j.resultList&&j.resultList.result)||[];console.log("  hits:",r.length);r.forEach(x=>console.log("   ",(x.pmid||x.id||"?"),"|",x.pubYear||"?","|",(x.title||"").replace(/\s+/g," ").slice(0,90)));}catch(e){console.log("  PARSE-ERR")}'
