@@ -93,7 +93,7 @@ n=29, dx 2002–2022); Meis-Kindblom 1999 (n=117); US Sarcoma Collaborative (n=6
 2000–2016); Chiusole 2020 (Europe, n=49 curative-intent, dx 1980–2018); plus 4 cited
 individual case reports. Context (not pooled — overlap / percentage-only /
 different-endpoint): SEER 2004–2015 (n=270), Drilon 2008 (n=87), U Michigan (n=44),
-Japan 2003 (n=42), China 2016 (n=40), Bishop, SEER/Kemmerer, Giner, pazopanib phase 2.
+Japan 2003 (n=42), China 2016 (n=40), Bishop 2019, Giner 2023.
 
 ### 3.2 Pooled estimates (random-effects, DerSimonian–Laird, logit scale)
 Studies = pooled cohorts grouped by source (a registry's disjoint strata counted
@@ -181,3 +181,28 @@ as a causal or definitive figure.
 Search, triage, extraction and pooling are scripted (`scripts/fetch-paper.mjs`,
 `triage-literature.mjs`, `validate.mjs`; data in `data/cancers/emc.json`). Commit
 hash to be cited in the final manuscript.
+
+## 7. References
+
+Studies cited above, drawn from the registry citation map (`data/cancers/emc.json →
+registry.citations`); every entry has a resolvable DOI or PMID/PMCID. **Draft — complete to the
+target journal's style (full author lists, volume/issue/pages) before submission; do not infer
+co-authors.** Pooled cohorts: refs 1–4; context (overlap / percentage-only / different-endpoint):
+5–12; individual case reports: 13–16.
+
+1. Masunaga T, et al. The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma. *J Orthop Surg Res.* 2025. doi:10.1186/s13018-025-06245-6; PMID 40885991.
+2. Meis-Kindblom JM, et al. Extraskeletal myxoid chondrosarcoma: a reappraisal of its morphologic spectrum and prognostic factors based on 117 cases. *Am J Surg Pathol.* 1999. doi:10.1097/00000478-199906000-00002; PMID 10366145.
+3. Gusho CA, et al. Extraskeletal myxoid chondrosarcoma: clinicopathological features and outcomes from the United States Sarcoma Collaborative database. *J Surg Oncol.* 2022. doi:10.1002/jso.27062; PMID 35962783.
+4. Chiusole B, et al. Extraskeletal myxoid chondrosarcoma: clinical and molecular characteristics and outcomes of patients treated at two institutions. *Front Oncol.* 2020. doi:10.3389/fonc.2020.00828; PMID 32612944.
+5. Brown JM, et al. Extraskeletal myxoid chondrosarcoma: clinical features and overall survival. *Cancer Treat Res Commun.* 2022. doi:10.1016/j.ctarc.2022.100530; PMID 35144048.
+6. Drilon AD, et al. Extraskeletal myxoid chondrosarcoma: a retrospective review from 2 referral centers emphasizing long-term outcomes with surgery and chemotherapy. *Cancer.* 2008. doi:10.1002/cncr.23978; PMID 18951519.
+7. Brodsky CN, et al. Extraskeletal myxoid chondrosarcoma: retrospective case series examining prognostic factors, treatment approaches, and oncologic outcomes. *Am J Clin Oncol.* 2023. doi:10.1097/COC.0000000000000988; PMID 36825763.
+8. Kawaguchi S, et al. Extraskeletal myxoid chondrosarcoma: a multi-institutional study of 42 cases in Japan. *Cancer.* 2003. doi:10.1002/cncr.11162; PMID 12599237.
+9. Shao R, et al. Clinicopathologic and radiologic features of extraskeletal myxoid chondrosarcoma: a retrospective study of 40 Chinese cases with literature review. *Ann Diagn Pathol.* 2016. doi:10.1016/j.anndiagpath.2016.04.004; PMID 27402218.
+10. Bishop AJ, et al. Extraskeletal myxoid chondrosarcomas: combined modality therapy with both radiation and surgery improves local control. *Am J Clin Oncol.* 2019. doi:10.1097/COC.0000000000000590; PMID 31436747.
+11. Huang SC, et al. Extraskeletal myxoid chondrosarcomas: the uncommon clinicopathologic manifestations and significance of TAF15::NR4A3 fusion. *Mod Pathol.* 2023. doi:10.1016/j.modpat.2023.100161; PMID 36948401.
+12. Giner F, et al. Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome — an immunohistochemical and molecular analysis of 31 cases. *Virchows Arch.* 2023. doi:10.1007/s00428-022-03453-x; PMID 36376703.
+13. Gunasekaran K, et al. A case report of a patient presenting with extraskeletal myxoid chondrosarcoma. *Cureus.* 2026. PMC12863220.
+14. Andrade Rojas JJ, et al. Extraskeletal myxoid chondrosarcoma with rhabdoid features in a pediatric patient. *Cureus.* 2025. PMC12285907.
+15. Wang H, et al. Primary intracranial extraskeletal myxoid chondrosarcoma in a teenager. *Oncol Lett.* 2026. PMC12750061.
+16. Jiang B, et al. Extraskeletal myxoid chondrosarcoma mimicking myoepithelial tumor. *Case Rep Pathol.* 2026. PMC13136674.
