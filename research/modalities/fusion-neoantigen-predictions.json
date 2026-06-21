@@ -1,0 +1,204 @@
+{
+  "_note": "MHC-I binding of EWSR1::NR4A3 junction-spanning peptides (MHCflurry-2.0). %rank<=0.5 strong, <=2 weak (netMHC convention).",
+  "_breakpoint_model": {
+    "assumption": true,
+    "EWSR1_kept_residues": "1-264 (UniProt Q01844)",
+    "NR4A3_kept_residues": "2-626 (UniProt Q92570)",
+    "caveat": "Exact junction residue is transcript/patient specific; this models the canonical fusion. Re-run with a sequenced breakpoint to get patient-specific epitopes.",
+    "junction_context_left10": "SQQSSSYGQQ",
+    "junction_context_right10": "PCVQAQYSPS"
+  },
+  "n_spanning_peptides": 34,
+  "n_novel_spanning_peptides": 34,
+  "alleles": [
+    "HLA-A*01:01",
+    "HLA-A*02:01",
+    "HLA-A*03:01",
+    "HLA-A*11:01",
+    "HLA-A*24:02",
+    "HLA-B*07:02",
+    "HLA-B*08:01",
+    "HLA-B*15:01",
+    "HLA-B*35:01",
+    "HLA-B*44:02"
+  ],
+  "lengths": [
+    8,
+    9,
+    10,
+    11
+  ],
+  "_mhcflurry_columns": [
+    "peptide",
+    "peptide_num",
+    "sample_name",
+    "affinity",
+    "best_allele",
+    "processing_score",
+    "presentation_score",
+    "presentation_percentile"
+  ],
+  "_rank_column_used": "presentation_percentile",
+  "n_predicted_binders_by_percentile": 5,
+  "n_strong_binders_by_percentile": 2,
+  "n_predicted_binders_by_affinity_500nM": 3,
+  "best_presentation_percentile": 0.0697,
+  "best_affinity_nM": 44.6,
+  "top_predictions": [
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 44.6,
+      "presentation_percentile": 0.0697,
+      "presentation_score": 0.935,
+      "class_by_percentile": "strong",
+      "class_by_affinity": "strong"
+    },
+    {
+      "peptide": "QQPCVQAQY",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 58.1,
+      "presentation_percentile": 0.2367,
+      "presentation_score": 0.826,
+      "class_by_percentile": "strong",
+      "class_by_affinity": "weak"
+    },
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-A*01:01",
+      "affinity_nM": 705.1,
+      "presentation_percentile": 0.834,
+      "presentation_score": 0.494,
+      "class_by_percentile": "weak",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-B*44:02",
+      "affinity_nM": 846.9,
+      "presentation_percentile": 0.9336,
+      "presentation_score": 0.45,
+      "class_by_percentile": "weak",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "QPCVQAQY",
+      "allele": "HLA-B*35:01",
+      "affinity_nM": 233.7,
+      "presentation_percentile": 1.1617,
+      "presentation_score": 0.362,
+      "class_by_percentile": "weak",
+      "class_by_affinity": "weak"
+    },
+    {
+      "peptide": "QQPCVQAQY",
+      "allele": "HLA-B*35:01",
+      "affinity_nM": 1695.6,
+      "presentation_percentile": 2.2023,
+      "presentation_score": 0.152,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-A*03:01",
+      "affinity_nM": 4130.6,
+      "presentation_percentile": 2.2316,
+      "presentation_score": 0.149,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "YGQQPCVQAQY",
+      "allele": "HLA-A*01:01",
+      "affinity_nM": 1076.8,
+      "presentation_percentile": 2.271,
+      "presentation_score": 0.146,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "SSYGQQPCV",
+      "allele": "HLA-A*02:01",
+      "affinity_nM": 765.1,
+      "presentation_percentile": 2.3903,
+      "presentation_score": 0.135,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "QQPCVQAQY",
+      "allele": "HLA-B*44:02",
+      "affinity_nM": 2018.0,
+      "presentation_percentile": 2.426,
+      "presentation_score": 0.132,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "QQPCVQAQY",
+      "allele": "HLA-A*01:01",
+      "affinity_nM": 2611.8,
+      "presentation_percentile": 2.8139,
+      "presentation_score": 0.106,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-A*11:01",
+      "affinity_nM": 6184.7,
+      "presentation_percentile": 2.8139,
+      "presentation_score": 0.106,
+      "class_by_percentile": "non-binder",
+      "class_by_affinity": "non-binder"
+    }
+  ],
+  "binders": [
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 44.6,
+      "presentation_percentile": 0.0697,
+      "presentation_score": 0.935,
+      "class_by_percentile": "strong",
+      "class_by_affinity": "strong"
+    },
+    {
+      "peptide": "QQPCVQAQY",
+      "allele": "HLA-B*15:01",
+      "affinity_nM": 58.1,
+      "presentation_percentile": 0.2367,
+      "presentation_score": 0.826,
+      "class_by_percentile": "strong",
+      "class_by_affinity": "weak"
+    },
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-A*01:01",
+      "affinity_nM": 705.1,
+      "presentation_percentile": 0.834,
+      "presentation_score": 0.494,
+      "class_by_percentile": "weak",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "GQQPCVQAQY",
+      "allele": "HLA-B*44:02",
+      "affinity_nM": 846.9,
+      "presentation_percentile": 0.9336,
+      "presentation_score": 0.45,
+      "class_by_percentile": "weak",
+      "class_by_affinity": "non-binder"
+    },
+    {
+      "peptide": "QPCVQAQY",
+      "allele": "HLA-B*35:01",
+      "affinity_nM": 233.7,
+      "presentation_percentile": 1.1617,
+      "presentation_score": 0.362,
+      "class_by_percentile": "weak",
+      "class_by_affinity": "weak"
+    }
+  ]
+}

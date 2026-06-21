@@ -30,17 +30,23 @@ an orphan-receptor ligand-binding domain. We assess this target objectively and
 build the scaffolding for a rational therapeutic program. Using AlphaFold2 models and
 open cavity-detection (fpocket), we quantify (i) the predicted disorder of the
 EWSR1-derived transactivation domain and (ii) the ligandability of the NR4A3
-ligand-binding domain (LBD), testing the hypothesis that, like its NR4A paralogues,
-it lacks a classical druggable pocket. We then specify five orthogonal modalities
-that do **not** depend on occupying that pocket — targeted protein degradation,
-fusion-junction antisense, fusion-directed immunotherapy, synthetic-lethal dependency
-mapping, and transcriptional/coactivator disruption — and take each as far as
-present-day computation allows. As a worked example we predict, with MHCflurry-2.0,
-which EWSR1::NR4A3 junction-spanning peptides are presentable on common HLA-I alleles,
-yielding a concrete, tumour-specific neoantigen shortlist for a fusion-directed
-vaccine or TCR-T. We close with a prioritised, falsifiable experimental program and
-an explicit statement of where computation ends. All analyses are reproducible
-(`research/modalities/`), run in CI, and use only public data.
+ligand-binding domain (LBD). We find both transactivation domains are predicted
+intrinsically disordered (EWSR1 1–264: mean pLDDT 38.8, 98% of residues < 50), while
+the NR4A3 LBD is confidently folded (mean pLDDT 85.0) — yet across all 33 fpocket
+cavities on the model the most druggable pocket scores only 0.495 (below the 0.5
+"druggable" threshold) and localises within the LBD, recapitulating the pocket-less
+Nurr1/Nur77 precedent. The fusion is therefore either disordered or folded-but-pocketless:
+a strong argument for modalities that do **not** occupy a pocket. We specify five such
+modalities — targeted protein degradation, fusion-junction antisense, fusion-directed
+immunotherapy, synthetic-lethal dependency mapping, and transcriptional/coactivator
+disruption — and take each as far as present-day computation allows. As worked examples
+we (i) design fusion-specific gapmer antisense oligonucleotides against the junction
+transcript, and (ii) predict, with MHCflurry-2.0, that the junction peptide GQQPCVQAQY
+is a strong HLA-B\*15:01-presented neoantigen (44.6 nM; presentation percentile 0.07) —
+a concrete but HLA-restricted lead for a fusion-directed vaccine or TCR-T. We close with
+a prioritised, falsifiable experimental program and an explicit statement of where
+computation ends. All analyses are reproducible (`research/modalities/`), run in CI, and
+use only public data.
 
 ---
 
@@ -196,12 +202,26 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   neo-sequences (absent from both parents), and predicts MHC-I binding with
   MHCflurry-2.0 [Ref: O'Donnell 2020] across ten high-frequency HLA-A/-B alleles.
 
-  > **[CI RESULT — fill from `fusion-neoantigen-predictions.json`]**
-  > Of **___** novel junction-spanning peptides, **___** are predicted binders
-  > (%rank ≤ 2) and **___** strong binders (≤ 0.5). Top epitopes:
-  > | peptide | HLA | affinity (nM) | %rank | class |
-  > |---|---|---|---|---|
-  > | ___ | ___ | ___ | ___ | ___ |
+  Of **34** novel junction-spanning peptides, **5** are predicted MHC-I binders
+  (presentation %ile ≤ 2) and **2** are strong (≤ 0.5); **3** also pass the raw-affinity
+  cutoff (≤ 500 nM). The result is dominated by one peptide on one allele:
+
+  | peptide | HLA | affinity (nM) | presentation %ile | pres. score | call |
+  |---|---|---|---|---|---|
+  | **GQQPCVQAQY** | **B\*15:01** | **44.6** | **0.07** | 0.94 | strong |
+  | QQPCVQAQY | B\*15:01 | 58.1 | 0.24 | 0.83 | strong |
+  | GQQPCVQAQY | A\*01:01 | 705 | 0.83 | 0.49 | weak |
+  | GQQPCVQAQY | B\*44:02 | 847 | 0.93 | 0.45 | weak |
+  | QPCVQAQY | B\*35:01 | 234 | 1.16 | 0.36 | weak |
+
+  The lead epitope **GQQPCVQAQY** (EWSR1 `GQQ` ⊕ NR4A3 `PCVQAQY`) is predicted to be
+  **strongly presented on HLA-B\*15:01** and weakly on HLA-A\*01:01/B\*44:02. So the
+  honest read is **conditionally positive and HLA-restricted**: fusion-directed
+  immunotherapy is a credible lead *for B\*15:01-positive patients* with this junction,
+  not a pan-population one. (Methodological note: an early version of this analysis read
+  the wrong MHCflurry output column and spuriously reported zero binders; the pipeline
+  now records `_rank_column_used` and cross-checks raw affinity so the result is
+  verifiable — see `fusion-neoantigen-predictions.json`.)
 
 - **Decisive experiment.** Confirm the patient's *actual* breakpoint by RNA-seq (the
   exact junction peptide is breakpoint-specific — see Limitations), then validate
@@ -296,12 +316,16 @@ All computation is public-data, scripted, and CI-run:
 
 - `research/modalities/nr4a3_structure.py` — AlphaFold pLDDT + fpocket druggability.
 - `research/modalities/fusion_neoantigen.py` — UniProt sequences + MHCflurry junction
-  neoantigen prediction.
-- `.github/workflows/modalities-run.yml` — runs both in CI (internet + fpocket/
-  MHCflurry), publishes results to the `modalities-cache` branch.
+  neoantigen prediction (records `_rank_column_used` for verifiability).
+- `research/modalities/junction_aso.py` — RefSeq CDS + fusion-junction gapmer ASO design.
+- `.github/workflows/modalities-run.yml` — runs all three in CI (internet + fpocket/
+  MHCflurry), publishes results to the `modalities-cache` branch (analyses are
+  `continue-on-error` and publishing is `if: always()`, so partial/failed runs stay
+  observable rather than silently dropping output).
 
 Result snapshots (`nr4a3-structure-assessment.json`,
-`fusion-neoantigen-predictions.json`) are versioned alongside this manuscript.
+`fusion-neoantigen-predictions.json`, `junction-aso-designs.json`) are produced on the
+`modalities-cache` branch and can be snapshotted alongside this manuscript.
 
 ---
 
@@ -317,27 +341,47 @@ explicitly sought** — this program is designed to be handed to one.
 
 ## 8. References
 
-*(To be completed to journal style and DOI-verified in CI via `verify-refs.yml`;
-entries marked ⚠ need verification.)*
+DOIs marked ✓ were resolved/confirmed in CI via Crossref (`verify-refs.yml`,
+section 4); ⚠ still needs confirmation (Crossref returned only a conference-abstract or
+a same-title decoy — to be resolved before submission). EMC-biology refs (1–2, 12–13)
+are shared with the companion papers and cross-referenced to their fact-check log.
+
+**Methods / tools (CI-verified DOIs):**
+
+3. Wang Z, et al. Structure and function of Nurr1 identifies a class of
+   ligand-independent nuclear receptors. *Nature* 2003. ✓ doi:10.1038/nature01645
+4. Nott TJ, et al. Phase transition of a disordered nuage protein generates
+   environmentally responsive membraneless organelles. *Mol Cell* 2015.
+   ✓ doi:10.1016/j.molcel.2015.01.013  *(general phase-separation reference; replaces a
+   mis-titled earlier entry caught in fact-checking)*
+7. Varadi M, et al. AlphaFold Protein Structure Database: massively expanding the
+   structural coverage of protein-sequence space. *Nucleic Acids Res* 2022.
+   ✓ doi:10.1093/nar/gkab1061
+8. Le Guilloux V, Schmidtke P, Tufféry P. Fpocket: an open source platform for ligand
+   pocket detection. *BMC Bioinformatics* 2009. ✓ doi:10.1186/1471-2105-10-168
+9. O'Donnell TJ, Rubinsteyn A, Laserson U. MHCflurry 2.0: improved pan-allele
+   prediction of MHC class I-presented peptides. *Cell Systems* 2020.
+   ✓ doi:10.1016/j.cels.2020.09.001
+10. Békés M, Langley DR, Crews CM. PROTAC targeted protein degraders: the past is
+    prologue. *Nat Rev Drug Discov* 2022. ✓ doi:10.1038/s41573-021-00371-6
+11. Nabet B, et al. The dTAG system for immediate and target-specific protein
+    degradation. *Nat Chem Biol* 2018. ✓ doi:10.1038/s41589-018-0021-8
+14. Crooke ST, et al. Antisense technology: an overview and prospectus. *Nat Rev Drug
+    Discov* 2021. ✓ doi:10.1038/s41573-021-00162-z
+
+**Still to confirm (⚠):**
+
+5. Boulay G, et al. Cancer-specific retargeting of BAF complexes by a prion-like
+   domain. *Cell* 2017. ⚠ (CI returned only the AACR abstract
+   doi:10.1158/1538-7445.pedca17-pr09; confirm the *Cell* article DOI)
+6. Jumper J, et al. Highly accurate protein structure prediction with AlphaFold.
+   *Nature* 2021. ⚠ (bibliographic search returned a same-field decoy; confirm DOI)
+
+**EMC biology (shared with companion papers; see their fact-check log):**
 
 1. Sjögren H, et al. EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma. ⚠
-2. Panagopoulos I, et al. Fusion variants and partners in EMC. ⚠
-3. Wang Z, et al. Structure and function of Nurr1 identifies a class of
-   ligand-independent nuclear receptors. *Nature* 2003. ⚠
-4. Boulay G, et al. Cancer-specific retargeting of BAF by the EWS-FLI1 prion-like
-   domain. *Cell* 2017. ⚠
-5. Kwon I, et al. Phase transition of low-complexity domains. *Cell* 2013. ⚠
-6. Jumper J, et al. Highly accurate protein structure prediction with AlphaFold.
-   *Nature* 2021. ⚠
-7. Varadi M, et al. AlphaFold Protein Structure Database. *Nucleic Acids Res* 2022. ⚠
-8. Le Guilloux V, et al. Fpocket: an open source platform for ligand pocket detection.
-   *BMC Bioinformatics* 2009. ⚠
-9. O'Donnell TJ, et al. MHCflurry 2.0. *Cell Systems* 2020. ⚠
-10. Békés M, Langley DR, Crews CM. PROTAC targeted protein degraders. *Nat Rev Drug
-    Discov* 2022. ⚠
-11. Nabet B, et al. The dTAG system for targeted protein degradation. *Nat Chem Biol*
-    2018. ⚠
-12. Bangerter ... USZ-EMC patient-derived EMC model (validated carfilzomib,
-    doxorubicin, venetoclax). ⚠ [cross-ref repurposing paper / fact-check-log]
+2. Panagopoulos I, et al. Fusion variants/partners in EMC (incl. TAF15, TCF12, TFG,
+   FUS; and the PGR-NR4A3 variant, PMID 36103645). ⚠
+12. Bangerter, et al. USZ-EMC patient-derived EMC model (full text confirms carfilzomib,
+    doxorubicin, venetoclax validated in both cell models — see fact-check-log). ⚠
 13. Iwata S, et al. NCC-EMC patient-derived EMC cell lines. ⚠
-14. Crooke ST, et al. Antisense technology: an overview and prospectus. ⚠
