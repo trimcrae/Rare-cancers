@@ -55,6 +55,7 @@ import urllib.request
 
 HERE = os.path.dirname(__file__)
 BREAKPOINTS = os.path.join(HERE, "fusion-breakpoint-neoantigens.json")
+CD4_DEMO = os.path.join(HERE, "patient-cd4-demo.json")  # class-II (DRB1) helper epitopes
 OUT = os.path.join(HERE, "hla-coverage.json")
 
 AFND_TSV_URL = "https://raw.githubusercontent.com/slowkow/allelefrequencies/main/afnd.tsv"
@@ -120,6 +121,8 @@ def build_region_resolver(iso_json):
         "taiwan": "Eastern Asia",
         "azores": "Southern Europe", "madeira": "Southern Europe", "kosovo": "Southern Europe",
         "gaza": "Western Asia", "sao tome": "Sub-Saharan Africa",
+        "ecuadorean": "Latin America and the Caribbean", "borneo": "South-eastern Asia",
+        "western samoa": "Polynesia",
     }
     name2reg.update(aliases)
     names_sorted = sorted(name2reg, key=len, reverse=True)
@@ -246,14 +249,28 @@ def coverage_with_ci(afs):
     return pt, [lo, hi], used
 
 
-def regional_table(racc, e7e3_raw, all_raw):
-    """Per-region coverage for the e7e3 set and the all-strong set."""
+def load_class_ii_alleles(path):
+    """DRB1 alleles presenting a *strong* CD4 helper binder in the class-II demo."""
+    try:
+        with open(path) as fh:
+            d = json.load(fh)
+    except (OSError, ValueError):
+        return [], None
+    strong = sorted({r["allele"] for r in d.get("all_predictions", [])
+                     if r.get("call") == "strong"})
+    return strong, d.get("patient_class2_hla")
+
+
+def regional_table(racc, e7e3_raw, all_raw, cd4_raw):
+    """Per-region coverage for the e7e3, all-strong (class I) and CD4 (class II) sets."""
     out = {}
     for region, alleles in racc.items():
         e7 = {a: _af_info_from_acc(alleles.get(a)) for a in e7e3_raw}
         allset = {a: _af_info_from_acc(alleles.get(a)) for a in all_raw}
+        cd4 = {a: _af_info_from_acc(alleles.get(a)) for a in cd4_raw}
         cov_e7, ci_e7, used_e7 = coverage_with_ci(e7)
         cov_all, ci_all, used_all = coverage_with_ci(allset)
+        cov_cd4, ci_cd4, used_cd4 = coverage_with_ci(cd4)
         total_indiv = max((alleles[a]["twoN"] // 2) for a in alleles)  # largest allele survey
         n_pops = max((alleles[a]["pops"]) for a in alleles)
         out[region] = {
@@ -263,6 +280,9 @@ def regional_table(racc, e7e3_raw, all_raw):
             "coverage_any_strong_binder_allele": cov_all,
             "coverage_any_strong_binder_allele_95ci": ci_all,
             "coverage_all_alleles_used": used_all,
+            "coverage_cd4_classii": cov_cd4,
+            "coverage_cd4_classii_95ci": ci_cd4,
+            "coverage_cd4_classii_alleles_used": used_cd4,
             "max_n_populations": n_pops,
             "max_total_individuals": total_indiv,
             "allele_frequencies": {a: _af_info_from_acc(alleles.get(a)) for a in all_raw},
@@ -286,7 +306,11 @@ def main():
                 if is_e7e3:
                     e7e3_alleles.add(b["allele"])
 
-    alleles = sorted(all_strong_alleles | e7e3_alleles)
+    # class II: DRB1 alleles presenting a strong CD4 helper binder (limited demo panel)
+    cd4_alleles_list, cd4_panel = load_class_ii_alleles(CD4_DEMO)
+    cd4_alleles = set(cd4_alleles_list)
+
+    alleles = sorted(all_strong_alleles | e7e3_alleles | cd4_alleles)
     print(f"  loading AFND frequencies for {len(alleles)} alleles: {alleles}", file=sys.stderr)
     resolve = build_region_resolver(fetch(ISO_JSON_URL))
     freqs, racc, source_ok, unassigned = load_afnd(alleles, resolve)
@@ -295,11 +319,20 @@ def main():
 
     cov_e7e3, ci_e7e3, used_e7e3 = coverage_with_ci(
         {a: freqs[a] for a in sorted(e7e3_alleles)})
-    cov_all, ci_all, used_all = coverage_with_ci(freqs)
+    cov_all, ci_all, used_all = coverage_with_ci(
+        {a: freqs[a] for a in sorted(all_strong_alleles)})
+    cov_cd4, ci_cd4, used_cd4 = coverage_with_ci(
+        {a: freqs[a] for a in sorted(cd4_alleles)}) if cd4_alleles else (None, None, [])
+
+    # Both arms: fraction with >=1 class-I presenting allele AND >=1 class-II helper allele
+    # (HLA-A/B and DRB1 are independent loci). A durable vaccine wants both CD8 and CD4.
+    cov_both = (round(cov_all * cov_cd4, 4)
+                if (cov_all is not None and cov_cd4 is not None) else None)
 
     e7e3_raw = sorted(a.replace("HLA-", "") for a in e7e3_alleles)
     all_raw = sorted(a.replace("HLA-", "") for a in all_strong_alleles)
-    regions = regional_table(racc, e7e3_raw, all_raw) if source_ok else {}
+    cd4_raw = sorted(a.replace("HLA-", "") for a in cd4_alleles)
+    regions = regional_table(racc, e7e3_raw, all_raw, cd4_raw) if source_ok else {}
 
     have_data = any(v.get("allele_frequency") is not None for v in freqs.values())
     result = {
@@ -338,20 +371,35 @@ def main():
             "coverage_any_strong_binder_allele": cov_all,
             "coverage_any_strong_binder_allele_95ci": ci_all,
             "coverage_all_alleles_used": used_all,
+            "class_ii_cd4_helper_alleles": sorted(cd4_alleles),
+            "coverage_cd4_classii": cov_cd4,
+            "coverage_cd4_classii_95ci": ci_cd4,
+            "coverage_cd4_classii_alleles_used": used_cd4,
+            "coverage_cd8_and_cd4_combined": cov_both,
         },
+        "_class_ii_note": (
+            "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder "
+            "in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested "
+            "only a 3-allele DR panel (" + ", ".join(cd4_panel or []) + "), so this coverage "
+            "is a FLOOR over a tested panel, not a complete DR scan: untested DR alleles may "
+            "also present the helper peptides, which would only raise coverage. "
+            "coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), "
+            "treating HLA-A/B and DRB1 as independent loci."),
         "regions": regions,
     }
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=2)
         fh.write("\n")
     print("wrote", OUT, file=sys.stderr)
-    summary = {"global_e7e3": cov_e7e3, "global_any_strong": cov_all,
+    summary = {"global_e7e3_classI": cov_e7e3, "global_any_strong_classI": cov_all,
+               "global_cd4_classII": cov_cd4, "global_cd8_and_cd4": cov_both,
                "n_regions": len(regions), "unassigned_pops": unassigned["populations"]}
     print(json.dumps(summary, indent=2))
     for reg, r in regions.items():
         print(f"  {reg:28s} e7e3={r['coverage_e7e3_public']}  "
-              f"any={r['coverage_any_strong_binder_allele']}  "
-              f"(<=N={r['max_total_individuals']})", file=sys.stderr)
+              f"anyI={r['coverage_any_strong_binder_allele']}  "
+              f"cd4={r['coverage_cd4_classii']}  (<=N={r['max_total_individuals']})",
+              file=sys.stderr)
 
 
 if __name__ == "__main__":

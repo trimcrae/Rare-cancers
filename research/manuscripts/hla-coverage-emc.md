@@ -25,6 +25,9 @@ allele-frequency mirror updates.
   (the IEDB population-coverage formula, ≥1 presenting allele under Hardy–Weinberg and
   cross-locus independence). Coverage was computed **globally** and, as a heterogeneity check,
   **per UN M49 sub-region** (AFND population label → country → region, sourced from ISO 3166).
+  The same machinery was applied to the **class-II (CD4 helper)** DRB1 alleles that present a
+  strong junction binder, and a **both-arms** figure (≥1 class-I *and* ≥1 class-II allele) was
+  derived as the product of the two (independent loci).
 - **Results:** The commonly-reported **EWSR1 exon 7 :: NR4A3 exon 3** public junction is
   presented on **A\*11:01** and **B\*08:01** and covers **≈30% of patients globally**
   (29.7%, 95% CI 29.0–30.3%). Pooling **all** strong-binder alleles across the resolved
@@ -35,15 +38,22 @@ allele-frequency mirror updates.
   (Sub-Saharan Africa)** to **79% (Northern Europe)**, and the e7::e3 public junction
   specifically ranges from **~10% (Sub-Saharan Africa, Latin America)** to **~53%
   (Melanesia)** / **42% (Eastern Asia)**, tracking the high frequency of A\*11:01 in East
-  Asian/Oceanian populations.
+  Asian/Oceanian populations. **CD4 help is the limiting arm:** the DRB1 alleles presenting
+  strong helpers (DRB1\*03:01, DRB1\*07:01) cover only **28.4% globally (95% CI 27.9–28.9%)**,
+  and — critically — this is **anti-correlated** with the e7::e3 CD8 coverage (high in Africa,
+  Southern Asia and Europe; near-zero in Melanesia/Polynesia and low in East Asia, the very
+  populations where the public CD8 junction does best). Requiring **both** a class-I and a
+  class-II allele therefore covers only **≈16% of patients globally**.
 - **Conclusions:** A public, off-the-shelf fusion-neoantigen approach to EMC is **partial by
   construction** and **inequitable if framed by a single global number**: the most "public"
   junction misses ~70% of patients overall and ~90% of Sub-Saharan African and Latin American
-  patients. This is the quantitative argument for a **personalised** pipeline (sequence the
-  patient's breakpoint → predict junction epitopes → match to the patient's own HLA), with
+  patients, and demanding both CD8 *and* CD4 coverage from public epitopes drops the addressable
+  fraction to ~16% — with the CD8-best and CD4-best populations barely overlapping. This is the
+  quantitative argument for a **personalised** pipeline (sequence the patient's breakpoint →
+  predict junction epitopes → match to the patient's own class-I *and* class-II HLA), with
   public junctions reserved for the specific allele groups where coverage is genuinely high.
-  Predicted binding is a screen, not proof of immunogenicity; all figures are
-  hypothesis-generating.
+  Predicted binding is a screen, not proof of immunogenicity; the class-II figure in particular
+  is a floor over a 3-allele test panel; all figures are hypothesis-generating.
 
 ---
 
@@ -87,16 +97,26 @@ Coverage of an allele **set** = 1 − ∏ᵢ(1 − afᵢ)² — the fraction car
 allele, assuming independence across loci; this is the standard **IEDB population-coverage**
 formula [3]. A coverage interval is propagated from the per-allele Wilson bounds (approximate).
 
-### 2.4 Regional breakdown (heterogeneity check)
+### 2.4 Class II (CD4 help) and the both-arms figure
+CD4 helper epitopes were taken from the project's class-II screen (`patient-cd4-demo.json`;
+MHCnuggets on the EWSR1 e7::e3 junction). The DRB1 alleles presenting a **strong** helper
+(DRB1\*03:01, DRB1\*07:01) were carried through the identical AFND pooling. **Important
+constraint:** that screen tested only a **3-allele DR panel** (DRB1\*15:01/03:01/07:01), so
+class-II coverage is a **floor over a tested panel**, not a complete DR scan — untested DR
+alleles that also present the helpers would only raise it. The "both-arms" coverage (a patient
+with ≥1 class-I presenting allele **and** ≥1 class-II helper allele, as a durable vaccine
+needs) is the product of the two coverages, treating HLA-A/B and DRB1 as independent loci.
+
+### 2.5 Regional breakdown (heterogeneity check)
 Because HLA frequencies vary enormously between populations, coverage was also computed within
 each **UN M49 sub-region**. AFND free-text population labels were resolved to a country by
 longest leading-country-name match (with a small curated alias table for AFND's informal
 spellings and a few territories), and the country mapped to its sub-region using the ISO 3166
 / UN M49 table [5]. This is a **sourced, reproducible approximation** of IEDB's geographic-area
 breakdown (IEDB's own population→area table is not reproducibly CI-fetchable). In the current
-build **all** populations for these five alleles resolved (0 unassigned); any unresolved
-population would be pooled into an "Unassigned" bucket and reported, never silently dropped,
-and would still count toward the global figures.
+build **all** populations for the seven class-I and class-II alleles resolved (0 unassigned);
+any unresolved population would be pooled into an "Unassigned" bucket and reported, never
+silently dropped, and would still count toward the global figures.
 
 ## 3. Results
 
@@ -113,10 +133,17 @@ frequencies (2N-weighted; n populations / individuals in the JSON):
 | B\*07:02 | 4.8% | 4.6–5.0% | 9.4% |
 | B\*08:01 | 4.0% | 3.9–4.2% | 7.9% |
 | B\*15:01 | 4.4% | 4.2–4.5% | 8.5% |
+| DRB1\*03:01 (CD4) | 6.7% | 6.5–6.8% | 12.9% |
+| DRB1\*07:01 (CD4) | 9.3% | 9.2–9.5% | 17.8% |
 
-**Read-out:** a single public junction reaches under a third of patients; even the full panel
-leaves ~40% with no predicted strong-binding allele. This is the quantitative case that EMC
-fusion-neoantigen therapy is **personalised-first**, not off-the-shelf.
+**CD8 read-out:** a single public junction reaches under a third of patients; even the full
+class-I panel leaves ~40% with no predicted strong-binding allele.
+
+**CD4 read-out:** the strong-helper DRB1 alleles cover **28.4% globally (95% CI 27.9–28.9%)**,
+and requiring **both** a class-I and a class-II allele — what a durable vaccine needs — covers
+only **16.5%** of patients globally. (The class-II figure is a floor over a 3-allele test
+panel; see §2.4 and §4.) This is the quantitative case that EMC fusion-neoantigen therapy is
+**personalised-first**, not off-the-shelf.
 
 ### 3.2 Coverage is strongly population-dependent (the caveat that governs interpretation)
 The global average hides a wide spread. The any-strong-allele coverage ranges from **36% to
@@ -127,26 +154,31 @@ and understates it for others, and must not be quoted alone.** Full table (from
 `hla-coverage.json`; "N≤" is the largest single-allele survey size in the region, a
 conservative sample-size indicator):
 
-| Sub-region | e7::e3 public | 95% CI | Any strong allele | 95% CI | N≤ |
-|---|---|---|---|---|---|
-| Northern Europe | 31.0% | 27.4–34.9 | **78.9%** | 74.9–82.6 | 1,022 |
-| Western Europe | 22.7% | 19.9–26.1 | 68.9% | 64.5–73.3 | 3,077 |
-| Northern America | 22.3% | 20.8–23.9 | 62.0% | 59.8–64.3 | 5,936 |
-| Southern Europe | 19.0% | 17.0–21.1 | 61.3% | 58.3–64.4 | 2,756 |
-| Eastern Asia | 41.8% | 40.7–43.0 | 61.3% | 59.6–63.0 | 8,351 |
-| Eastern Europe | 21.9% | 18.7–25.4 | 58.6% | 53.3–63.9 | 1,093 |
-| Australia & New Zealand | 31.5% | 27.4–36.0 | 55.7% | 49.3–62.4 | 743 |
-| Melanesia | **53.3%** | 49.5–57.2 | 54.4% | 50.0–59.6 | 579 |
-| Western Asia | 21.7% | 18.7–25.2 | 54.4% | 49.2–60.0 | 1,280 |
-| Latin America & Caribbean | 10.3% | 8.9–11.9 | 53.0% | 50.6–55.6 | 17,277 |
-| South-eastern Asia | 35.9% | 34.1–37.8 | 49.1% | 46.3–52.1 | 3,079 |
-| Polynesia † | 28.9% | 18.8–42.2 | 46.9% | 30.9–67.3 | 51 |
-| Northern Africa | 15.4% | 11.9–19.9 | 43.2% | 36.3–51.4 | 768 |
-| Southern Asia | 29.3% | 26.9–31.9 | 43.0% | 39.0–47.3 | 2,304 |
-| Sub-Saharan Africa | 10.5% | 8.9–12.3 | **35.9%** | 32.5–39.6 | 3,902 |
+CD8 columns are the class-I e7::e3 public junction and the any-strong-allele panel; the CD4
+column is the class-II DRB1 helper coverage. Note how the **CD8-best regions (Melanesia, East
+Asia, Oceania) are the CD4-worst**, and vice-versa — the two arms barely overlap.
 
-† Polynesia is a single small population (N≈51); its wide CI reflects that — treat as
-indicative only.
+| Sub-region | e7::e3 (CD8) | 95% CI | Any strong (CD8) | 95% CI | CD4 (DRB1) | 95% CI | N≤ |
+|---|---|---|---|---|---|---|---|
+| Northern Europe | 31.0% | 27.4–34.9 | **78.9%** | 74.9–82.6 | 38.0% | 35.0–41.1 | 1,641 |
+| Western Europe | 22.7% | 19.9–26.1 | 68.9% | 64.5–73.3 | 38.4% | 35.5–41.4 | 3,077 |
+| Northern America | 22.3% | 20.8–23.9 | 62.0% | 59.8–64.3 | 32.4% | 30.6–34.1 | 5,936 |
+| Southern Europe | 19.0% | 17.0–21.1 | 61.3% | 58.3–64.4 | 39.1% | 37.6–40.7 | 6,692 |
+| Eastern Asia | 41.8% | 40.7–43.0 | 61.3% | 59.6–63.0 | 17.9% | 17.0–18.9 | 11,275 |
+| Eastern Europe | 21.9% | 18.7–25.4 | 58.6% | 53.3–63.9 | 28.3% | 26.1–30.7 | 2,531 |
+| Australia & New Zealand | 31.4% | 27.4–36.0 | 55.7% | 49.3–62.4 | 15.1% | 10.7–21.0 | 743 |
+| Melanesia | **53.3%** | 49.5–57.2 | 54.4% | 50.0–59.6 | 0.6% | 0.2–2.4 | 707 |
+| Western Asia | 21.7% | 18.7–25.1 | 54.4% | 49.2–60.0 | 37.2% | 34.6–39.8 | 2,385 |
+| Latin America & Caribbean | 10.3% | 8.9–11.9 | 53.0% | 50.6–55.6 | 22.6% | 21.6–23.6 | 21,914 |
+| South-eastern Asia | 35.9% | 34.1–37.8 | 49.1% | 46.3–52.1 | 28.9% | 27.0–30.8 | 3,680 |
+| Polynesia † | 28.9% | 18.8–42.2 | 46.9% | 30.9–67.3 | 2.9% | 1.1–7.8 | 251 |
+| Northern Africa | 15.4% | 11.9–19.9 | 43.2% | 36.2–51.4 | **47.0%** | 43.9–50.1 | 1,610 |
+| Southern Asia | 29.3% | 26.9–31.9 | 43.0% | 39.0–47.3 | 42.1% | 40.1–44.1 | 3,694 |
+| Sub-Saharan Africa | 10.5% | 8.9–12.3 | **35.9%** | 32.5–39.6 | 26.0% | 24.2–28.0 | 3,902 |
+| Micronesia † | n/a | — | n/a | — | 0.0% | 0.0–2.9 | 129 |
+
+† Polynesia and Micronesia are single small populations (N≈51 / 129 for the class-I and CD4
+surveys respectively); wide CIs / class-I gaps reflect that — treat as indicative only.
 
 ## 4. Limitations
 
@@ -156,21 +188,29 @@ indicative only.
    are not modelled.
 2. **Frequencies are global/regional pools, not the patient in front of you.** Coverage is a
    population statistic; clinical eligibility requires the *individual's* HLA type.
-3. **Two-field resolution; class-I only.** AFND data here are 2-field (e.g. A\*02:01); we do
-   not model class-II help (covered separately by `patient_cd4_epitopes.py`) or linkage
-   disequilibrium between loci (the independence assumption in 1 − ∏(1 − af)² can modestly
-   mis-estimate coverage where haplotypes are correlated).
-4. **Region assignment is heuristic.** Populations are mapped by leading-country-name; AFND's
+3. **Class-II coverage is a floor over a 3-allele panel.** The class-I binders come from a
+   broad allele scan, but the class-II screen tested only DRB1\*15:01/03:01/07:01 for one
+   junction. Coverage over the two strong-helper alleles is therefore a *lower bound*: other
+   untested DR (or DQ/DP) alleles that also present the helpers would raise it. The both-arms
+   (16.5%) and CD4 (28.4%) figures should be read as "at least", and a full class-II scan is
+   the obvious next step before any of these numbers is quoted as final.
+4. **Two-field resolution; independence assumption.** AFND data here are 2-field (e.g.
+   A\*02:01); we ignore linkage disequilibrium between loci — the independence assumption in
+   1 − ∏(1 − af)² (and in the CD8×CD4 product) can modestly mis-estimate coverage where
+   haplotypes are correlated (e.g. the A1-B8-DR3 ancestral haplotype links B\*08:01 and
+   DRB1\*03:01, so the true both-arms figure may differ from the independent product).
+5. **Region assignment is heuristic.** Populations are mapped by leading-country-name; AFND's
    sampling is itself uneven (e.g. Latin America is heavily sampled, some regions thinly),
    and "sub-region" is a coarse proxy for the genuine diversity within it.
-5. **Upstream epitope set.** Coverage inherits every limitation of the breakpoint-neoantigen
+6. **Upstream epitope set.** Coverage inherits every limitation of the breakpoint-neoantigen
    predictions it is built on (see `novel-modalities.md` §3.3).
 
 ## 5. Reproducibility
 
-`python research/modalities/hla_coverage.py` fetches the two public sources, recomputes every
-number above, and writes `hla-coverage.json` (global + per-region, with CIs, sample sizes and
-the unassigned-population audit). The step runs in CI (`.github/workflows/modalities-run.yml`).
+`python research/modalities/hla_coverage.py` fetches the two public sources (AFND frequencies +
+ISO/UN M49 region map), reads the project's class-I and class-II epitope JSONs for the
+presenting alleles, recomputes every number above, and writes `hla-coverage.json` (global +
+per-region, class I + II + combined, with CIs, sample sizes and the unassigned-population audit). The step runs in CI (`.github/workflows/modalities-run.yml`).
 If a source is unreachable the script records `source_unavailable` rather than emitting a
 fabricated number.
 

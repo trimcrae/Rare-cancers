@@ -258,7 +258,11 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   > **79% (Northern Europe)**, and the e7::e3 junction from **~10%** (Sub-Saharan Africa,
   > Latin America) to **~53% (Melanesia)** / **42% (East Asia)** — so a single global number
   > overstates benefit for some patients and understates it for others; confirm per target
-  > population. (Full regional table + methods: `hla-coverage-emc.md`.) Two caveats hold
+  > population. **CD4 help is the limiting arm:** the DRB1 helper alleles (DRB1\*03:01,
+  > DRB1\*07:01) cover only **28.4%** globally and are *anti-correlated* with CD8 coverage by
+  > region, so requiring **both** a class-I and a class-II allele — what a durable vaccine
+  > needs — covers just **≈16%** (a floor, since the class-II screen tested only a 3-allele DR
+  > panel). (Full regional table + methods: `hla-coverage-emc.md`.) Two caveats hold
   > regardless of the number: (i) a junction peptide
   > that is mostly self-sequence with one junction residue is a weaker T-cell target than a
   > fully foreign peptide; (ii) predicted MHC binding is a screen, not proof of

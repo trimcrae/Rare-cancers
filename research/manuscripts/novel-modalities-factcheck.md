@@ -76,9 +76,11 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   (A*11:01 + B*08:01) = **29.7%** (95% CI 29.0–30.3%); any strong-binder allele across all
   resolved breakpoints (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%).
   Also pooled per UN M49 sub-region (AFND population→country→region via ISO 3166): any-strong
-  coverage 36% (Sub-Saharan Africa) → 79% (Northern Europe); 0 populations unassigned. The
-  global number is reported as the headline, the regional spread as an equity caveat — not as
-  a fabricated single figure. If a source is unreachable the script records
+  coverage 36% (Sub-Saharan Africa) → 79% (Northern Europe); 0 populations unassigned. Class II
+  added: DRB1 helper alleles (DRB1*03:01/07:01, strong binders from `patient-cd4-demo.json`)
+  cover **28.4%** globally; CD8∧CD4 both-arms **16.5%** — flagged as a FLOOR because the
+  class-II screen tested only a 3-allele DR panel (not fabricated up). The global number is the
+  headline, the regional spread an equity caveat. If a source is unreachable the script records
   `source_unavailable` rather than guessing. Sources: `hla-coverage.json`,
   `hla-coverage-emc.md`. ✓
 - Treatment-precedent DOIs (CI-confirmed): KEYNOTE-942/mRNA-4157 `10.1016/S0140-6736(23)02268-7`
