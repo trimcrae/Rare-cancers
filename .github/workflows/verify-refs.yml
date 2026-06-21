@@ -65,8 +65,8 @@ jobs:
             echo "  query: $q"
             echo "    expect: $note"
             curl -s -m 30 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
-              --data-urlencode "query.bibliographic=$q" --data-urlencode "rows=1" \
-              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const m=JSON.parse(s).message.items[0]||{};console.log("    -> DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,80),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]));}catch(e){console.log("    PARSE-ERR")}})'
+              --data-urlencode "query.bibliographic=$q" --data-urlencode "filter=type:journal-article" --data-urlencode "rows=3" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const items=JSON.parse(s).message.items||[];const m=items.find(x=>!/Faculty Opinions/i.test(((x["container-title"]||[])[0]||""))) || items[0] || {};console.log("    -> DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,80),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]));}catch(e){console.log("    PARSE-ERR")}})'
           done <<'REFS'
           Structure and function of Nurr1 identifies a class of ligand-independent nuclear receptors#Wang 2003 Nature, Nurr1 LBD no classical pocket
           Cancer-specific retargeting of BAF complexes by a prion-like domain#Boulay 2017 Cell, EWS-FLI1 prion-like domain
