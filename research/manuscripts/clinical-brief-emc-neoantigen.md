@@ -47,11 +47,19 @@ generates from the patient's own tumour.
 
 ## Worked example (from the reproducible pipeline)
 
-> **[CI slot — fill from `patient-neoepitopes-demo.json`]** For the commonly reported
-> **EWSR1 exon 7 :: NR4A3 exon 3** junction and a common HLA set (A\*02:01, A\*11:01,
-> B\*07:02, B\*08:01), the tool returns **___** presented candidate(s), **___** strong —
-> top: `___` on **___** (___ nM). A real patient's run uses *their* breakpoint + *their*
-> HLA.
+For the commonly reported **EWSR1 exon 7 :: NR4A3 exon 3** junction (context
+`…SQQSSSYGQQ|IVRTDSLKGR…`) and a common HLA set (A\*02:01, A\*11:01, B\*07:02, B\*08:01),
+the tool returns **6 presented candidates, 2 strong**:
+
+| epitope | HLA | affinity | pres. %ile | tumour-specific residues |
+|---|---|---|---|---|
+| `QQIVRTDSL` | B\*08:01 | 97 nM | 0.04 (strong) | 2 EWSR1 + 7 NR4A3 |
+| `SSYGQQIVR` | A\*11:01 | 61 nM | 0.08 (strong) | 6 EWSR1 + 3 NR4A3 |
+
+A useful nuance the tool surfaces: `SSYGQQIVR` straddles the seam more evenly (6 + 3) so it
+is *more foreign* than the otherwise-strong `QQIVRTDSL` (2 + 7, mostly NR4A3-self) — a
+relevant tie-breaker when picking a vaccine/TCR target. **A real patient's run uses their
+own breakpoint + their own HLA**, which may give entirely different epitopes.
 
 ## Honest caveats (please read)
 
