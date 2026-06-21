@@ -146,8 +146,14 @@ retained for completeness.
 **Framing — the quiet genome.** Clinical NGS of metastatic EMC found *no recurrent
 actionable mutations* (the *KIT* case is a ~5% exception), so the strategy is to
 target the fusion / lineage biology and to mine unbiased patient-derived-model
-screens — which is why approved drugs hitting PPARγ, cell-cycle, epigenetic and
-apoptotic nodes, plus the validated VEGFR-TKI class, dominate the top of the list.
+screens (Bangerter et al. 2023; Iwata et al. 2025) — which is why approved drugs hitting
+PPARγ, cell-cycle, epigenetic and apoptotic nodes, plus the validated VEGFR-TKI class,
+dominate the top of the list. The two lowest-ranked (T0) candidates are listed only for
+completeness: NTRK inhibition rests on expression rather than a fusion, and an
+mRNA-neoantigen-vaccine plus checkpoint-inhibitor combination is included by analogy to
+adjuvant melanoma (KEYNOTE-942; Weber et al. 2024), tempered by the lipid-nanoparticle
+immunogenicity that complicates mRNA therapeutics (lipid-nanoparticle immunogenicity
+review, 2023).
 
 ## 4. Prioritization & a path to testing
 
@@ -166,11 +172,13 @@ patient-facing page pending clinician review.
 **Tranche 2 — shelf-ready class extension.** The VEGFR-TKI extension (regorafenib,
 cabozantinib, lenvatinib, and the enumeration-surfaced nintedanib, sorafenib, axitinib,
 vandetanib, tivozanib) builds on EMC's *most validated* active class and needs no new
-biomarker. These are candidates for **histology-inclusive basket trials** of anti-angiogenic
-agents in sarcoma, or for prospective registry-embedded cohorts, with the caveat that they
-likely share pazopanib's eventual resistance.
+biomarker; the class's activity in unselected soft-tissue sarcoma is exemplified by
+cabozantinib (O'Sullivan Coyne et al. 2022). These are candidates for **histology-inclusive
+basket trials** of anti-angiogenic agents in sarcoma, or for prospective registry-embedded
+cohorts, with the caveat that they likely share pazopanib's eventual resistance.
 
-**Tranche 3 — preclinical-validation-first.** The PPARγ/lineage (zaltoprofen, pioglitazone),
+**Tranche 3 — preclinical-validation-first.** The PPARγ/lineage (zaltoprofen — which inhibits
+EMC-lineage growth *in vivo* via PPARγ induction, Higuchi et al. 2023 — and pioglitazone),
 cell-cycle (CDK4/6), epigenetic (HDAC, BET/CDK7-9), and apoptotic/proteostatic (venetoclax,
 carfilzomib) candidates rest on *in-vivo* or patient-derived-model screen signals rather than
 clinical data. Their natural next step is **confirmatory testing in the existing
