@@ -86,10 +86,12 @@ held-out-split caveat; added as Figure 3 (cross-disease rank strip plot).
 
 ## Required human actions before submission (checklist)
 *(Full verification trail: `fact-check-log.md`.)*
-- [ ] Confirm the Bangerter 2023 venetoclax/carfilzomib/doxorubicin identities against the
-      paper's full-text figures — its **abstract** reports a functional screen with synergies but
-      does not name these drugs (underpins candidates #8, #10, #11).
+- [x] ~~Confirm the Bangerter 2023 venetoclax/carfilzomib/doxorubicin identities~~ — **done via CI
+      (NCBI efetch full text):** all three drugs' sensitivities + the carfilzomib synergies are
+      named verbatim; candidates #8/#10/#11 confirmed.
 - [ ] Recruit named authors incl. a sarcoma specialist; complete §8–§10.
+- [ ] Cite a primary EMC antiangiogenic-response report for the "most active class" claim
+      (candidates surfaced by CI search: PMID 41323055, 36910639) rather than only the review.
 - [ ] Independent clinical review of each candidate and of the imatinib patient-page decision.
 - [ ] Expand references to full journal style; verify all identifiers resolve.
 - [x] Draft figures (1–3) generated; finalize to journal style.

@@ -14,10 +14,10 @@ confirmation a hostile reviewer could demand; ✗ = found wrong and fixed.
 - **12 EMC references cross-checked vs the PubMed corpus by PMID/PMCID → title, DOI, year: all ✓**
   (Davis 2017, Urbini 2018, Jennings 2021, Huang SC 2023, Kim 2016, Higuchi 2023, Bangerter 2023,
   Iwata 2025, O'Sullivan Coyne 2022, Masunaga 2025, Remiszewski 2025, Giner 2023).
-- 4 non-EMC references verified via earlier web search / curated map, ⚠ confirm at submission:
-  TxGNN/Huang K 2024 (doi 10.1038/s41591-024-03233-x; PMID 39148855); KEYNOTE-942/Weber 2024
-  (doi 10.1016/S0140-6736(23)02268-7; PMID 38246194); LNP review 2023 (PMC10618257); DGIdb /
-  Freshour 2021 (doi 10.1093/nar/gkaa1084).
+- **4 non-EMC references confirmed via Crossref in CI** (`verify-refs.yml`): titles + journals
+  match exactly — TxGNN (Nat Med 2024), KEYNOTE-942 (The Lancet 2024), LNP review (Exp & Mol
+  Med 2023), DGIdb 4.0 (Nucleic Acids Research). ✓ Note: Crossref dates DGIdb **2020**
+  (online-first); we cite **2021** (the NAR Database D1 issue year) — both are standard.
 - Author attributions fixed earlier: Kim 2016 (not "Yoshimura"); Huang SC 2023 (not "Warmke"). ✗→✓
 
 ## Key factual claims
@@ -32,8 +32,8 @@ confirmation a hostile reviewer could demand; ✗ = found wrong and fixed.
 | CDK4 IHC 100%; CDKN2A/2B copy loss | Giner 2023; Davis 2017 | ✓ |
 | Zaltoprofen inhibits EMC growth **in vivo** via PPARγ | Higuchi 2023 | ✓ ("mouse model of EMC", tumour-growth inhibition) |
 | Iwata model screen hits: brigatinib, panobinostat, romidepsin | Iwata 2025 | ✓ (221-drug HTS, named in abstract) |
-| Venetoclax/carfilzomib/doxorubicin sensitivity + synergy in 2 ex vivo models | Bangerter 2023 | ⚠ abstract confirms a functional screen with synergies but does **not name** these drugs — identities rest on full text/figures; confirm before submission |
-| Anti-angiogenic TKIs (pazopanib, sunitinib) most consistently active class | Remiszewski 2025 (review) | ⚠ secondary source; cite primary EMC reports at submission |
+| Venetoclax/carfilzomib/doxorubicin sensitivity + synergy in 2 ex vivo models | Bangerter 2023 | ✓ **full text verified via CI (NCBI efetch, `verify-refs.yml`)**: "Drug sensitivities for carfilzomib, doxorubicin and venetoclax were validated … for both cell models"; synergies carfilzomib+venetoclax and carfilzomib+doxorubicin. Resolves the earlier abstract-only gap. |
+| Anti-angiogenic TKIs (pazopanib, sunitinib) most consistently active class | Remiszewski 2025 (review) | ⚠ secondary, but **primary EMC reports exist to cite** (found via CI search): e.g. PMID 41323055 (2025, metastatic-EMC antiangiogenic response), 36910639 (2023, antiangiogenic + PD-1 in metastatic disease) |
 
 ## TxGNN numbers (vs `txgnn-emc-predictions.json` / `txgnn-relatives-comparison.json`)
 - pazopanib #6422 (19.3 pct), sunitinib #6382 (19.8), imatinib #5951 (25.2), of 7,957. ✓
