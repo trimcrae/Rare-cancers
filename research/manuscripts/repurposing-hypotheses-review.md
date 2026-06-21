@@ -85,6 +85,10 @@ held-out-split caveat; optionally add a small cross-disease rank figure.
   says 19th–25th percentile and reserves "bottom quartile" for pazopanib/sunitinib).
 
 ## Required human actions before submission (checklist)
+*(Full verification trail: `fact-check-log.md`.)*
+- [ ] Confirm the Bangerter 2023 venetoclax/carfilzomib/doxorubicin identities against the
+      paper's full-text figures — its **abstract** reports a functional screen with synergies but
+      does not name these drugs (underpins candidates #8, #10, #11).
 - [ ] Recruit named authors incl. a sarcoma specialist; complete §8–§10.
 - [ ] Independent clinical review of each candidate and of the imatinib patient-page decision.
 - [ ] Expand references to full journal style; verify all identifiers resolve.
