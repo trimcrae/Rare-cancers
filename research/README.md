@@ -66,3 +66,10 @@ research/
 - Repurposing: methodology + grading rubric drafted; catalog seeded with 3 graded
   candidates. **Needs** targeted literature verification of `needs-verification`
   claims and clinician review.
+- Novel modalities: manuscript drafted (`manuscripts/novel-modalities.md`) with **real,
+  reproducible CI compute** (`research/modalities/`, `modalities-run.yml`): AlphaFold/
+  fpocket druggability of NR4A3 (folded LBD, no druggable pocket — max 0.495), the
+  fusion-junction neoantigen (lead **GQQPCVQAQY** strong on HLA-B*15:01), and
+  fusion-specific ASO designs. Verification trail in `novel-modalities-factcheck.md`
+  (incl. a corrected MHCflurry column bug). **Needs** a wet-lab/sarcoma collaborator —
+  the program is explicitly designed to be handed to one — and confirmation of 2 ⚠ DOIs.
