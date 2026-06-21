@@ -116,8 +116,30 @@ def _band(mean):
     return "very low confidence (predicted intrinsically disordered)"
 
 
-def run_fpocket(pdb_path):
-    """Run fpocket; parse the per-pocket druggability scores from <stem>_info.txt."""
+def _domain_of(resid, regions):
+    for name, (lo, hi) in regions.items():
+        if lo <= resid <= hi:
+            return name
+    return "outside annotated regions"
+
+
+def _pocket_residues(stem, pocket_num):
+    """Residue seq-numbers lining a pocket, from <stem>_out/pockets/pocket{N}_atm.pdb."""
+    f = os.path.join(stem + "_out", "pockets", f"pocket{pocket_num}_atm.pdb")
+    res = set()
+    if os.path.exists(f):
+        with open(f) as fh:
+            for line in fh:
+                if line.startswith(("ATOM", "HETATM")):
+                    try:
+                        res.add(int(line[22:26]))
+                    except ValueError:
+                        pass
+    return sorted(res)
+
+
+def run_fpocket(pdb_path, regions):
+    """Run fpocket; parse per-pocket druggability and localise the top pocket to a domain."""
     try:
         subprocess.run(["fpocket", "-f", pdb_path], check=True,
                        capture_output=True, text=True)
@@ -144,14 +166,30 @@ def run_fpocket(pdb_path):
                     cur["druggability"] = float(line.split(":")[1])
                 elif "Score :" in line and "Druggability" not in line:
                     cur["score"] = float(line.split(":")[1])
-                elif "Volume" in line:
-                    cur["volume"] = float(line.split(":")[1])
                 elif "Number of Alpha Spheres" in line:
                     cur["alpha_spheres"] = int(float(line.split(":")[1]))
         if cur:
             pockets.append(cur)
     pockets.sort(key=lambda p: p.get("druggability", 0), reverse=True)
-    return {"available": True, "pockets": pockets}
+
+    # Localise the most-druggable pocket to a domain (does the best cavity sit in the LBD?)
+    top_locale = None
+    if pockets:
+        num = pockets[0]["pocket"].split()[-1]  # "Pocket 5" -> "5"
+        resids = _pocket_residues(stem, num)
+        if resids:
+            from collections import Counter
+            doms = Counter(_domain_of(r, regions) for r in resids)
+            top_locale = {
+                "pocket": pockets[0]["pocket"],
+                "druggability": pockets[0].get("druggability"),
+                "resid_min": resids[0], "resid_max": resids[-1],
+                "n_lining_residues": len(resids),
+                "domain_distribution": dict(doms),
+                "dominant_domain": doms.most_common(1)[0][0],
+            }
+    return {"available": True, "n_pockets": len(pockets),
+            "top_pocket_locale": top_locale, "pockets": pockets}
 
 
 def assess(acc, regions, with_fpocket):
@@ -166,7 +204,7 @@ def assess(acc, regions, with_fpocket):
             "regions": region_summary(plddt, regions),
         }
         if with_fpocket:
-            out["fpocket"] = run_fpocket(pdb)
+            out["fpocket"] = run_fpocket(pdb, regions)
             best = (out["fpocket"]["pockets"] or [{}])[0]
             out["top_pocket_druggability"] = best.get("druggability")
         return out

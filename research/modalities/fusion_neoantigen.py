@@ -128,21 +128,27 @@ def main():
     )
     # df columns: peptide, peptide_num, sample_name, affinity, best_allele,
     #             affinity_percentile, processing_score, presentation_score, presentation_percentile
-    binders = []
+    result["_mhcflurry_columns"] = list(df.columns)  # provenance: confirm the percentile col exists
+    rows = []
     for _, row in df.iterrows():
         rank = float(row.get("affinity_percentile", 100.0))
-        if rank <= RANK_WEAK:
-            binders.append({
-                "peptide": row["peptide"],
-                "allele": row["best_allele"],
-                "affinity_nM": round(float(row["affinity"]), 1),
-                "affinity_percentile": round(rank, 3),
-                "presentation_score": round(float(row.get("presentation_score", 0)), 3),
-                "class": "strong" if rank <= RANK_STRONG else "weak",
-            })
-    binders.sort(key=lambda b: b["affinity_percentile"])
+        rows.append({
+            "peptide": row["peptide"],
+            "allele": row["best_allele"],
+            "affinity_nM": round(float(row["affinity"]), 1),
+            "affinity_percentile": round(rank, 3),
+            "presentation_score": round(float(row.get("presentation_score", 0)), 3),
+            "class": "strong" if rank <= RANK_STRONG else ("weak" if rank <= RANK_WEAK else "non-binder"),
+        })
+    rows.sort(key=lambda b: b["affinity_percentile"])
+    binders = [r for r in rows if r["affinity_percentile"] <= RANK_WEAK]
     result["n_predicted_binders"] = len(binders)
     result["n_strong_binders"] = sum(1 for b in binders if b["class"] == "strong")
+    # Always report the best predictions even if none pass threshold, so a NEGATIVE
+    # result is concrete and verifiable (rules out a silent percentile-default artifact).
+    result["best_affinity_percentile"] = rows[0]["affinity_percentile"] if rows else None
+    result["best_affinity_nM"] = rows[0]["affinity_nM"] if rows else None
+    result["top_predictions_any_rank"] = rows[:10]
     result["binders"] = binders
     _write(result)
 
@@ -151,7 +157,8 @@ def _write(result):
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=2)
     print("wrote", OUT, file=sys.stderr)
-    print(json.dumps({k: v for k, v in result.items() if k != "binders"}, indent=2))
+    skip = {"binders", "top_predictions_any_rank"}
+    print(json.dumps({k: v for k, v in result.items() if k not in skip}, indent=2))
 
 
 if __name__ == "__main__":
