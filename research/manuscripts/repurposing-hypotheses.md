@@ -66,15 +66,38 @@ hypothesis by how speculative it is, and reporting where the methods agree and w
 do not.
 
 ## 2. Methods
-Vulnerability axes, candidate inclusion/exclusion, the T0–T3 evidence-tier rubric,
-and citation rules — per `hypotheses/METHODOLOGY.md`. State explicitly that any
-claim tagged `needs-verification` in the catalog must be resolved to a primary
-source before publication.
 
-Candidate generation combined expert, literature-driven curation with a **systematic
-target→drug enumeration** (`hypotheses/enumerate-drugs.mjs`): the EMC drug targets in
-`targets.json` were queried against the DGIdb interaction database, approved drugs with
-an inhibitor interaction were retained, and a gap analysis against the catalog and the
+**Scope and inclusion.** We considered only agents that (i) already exist as approved drugs
+or carry substantial human safety data, (ii) have a mechanistic rationale against a documented
+EMC vulnerability, and (iii) have not, to our knowledge, been reported as tried in EMC.
+Candidates were organised across seven vulnerability axes: angiogenesis; the *NR4A3* fusion and
+its transcriptional programme; PPARγ / nuclear-receptor signalling; epigenetic dependencies;
+the cell cycle; apoptosis / proteostasis; and the immune microenvironment.
+
+**Evidence tiers.** Each candidate is graded by the strength and proximity of its supporting
+evidence: **T3**, prospective or substantial clinical evidence in EMC; **T2**, case-level
+signal in EMC or a very close relative; **T1**, preclinical/in-vitro signal or a strong analogy
+in a related fusion-driven sarcoma; **T0**, mechanistic rationale only. The tier states *how
+speculative* a hypothesis is, not the expected effect size.
+
+**Priority score.** Independently of tier, each candidate is scored 0–3 on six criteria —
+EMC-specific evidence, mechanistic fit, availability, safety/tolerability, presence of a
+selection biomarker, and novelty (whether it is genuinely unconsidered) — for a composite of
+0–18. This is a transparent, equally-weighted triage heuristic to *order* the menu, not a
+calibrated probability of success (see Limitations). Per-criterion scores, rationale, risks and
+citations for every candidate are in `research/hypotheses/candidates.json`; the full method,
+including the firewall and pooling rules, is in `research/hypotheses/METHODOLOGY.md`.
+
+**Citation integrity.** Every clinical and biological claim in the underlying catalogue is tied
+to a primary source; any claim that could not be so grounded was tagged `needs-verification`
+and resolved to a primary reference (or removed) before this draft, and an automated check
+(`validate-research.mjs`) enforces zero unresolved claims. A strict firewall separates these
+hypotheses from any patient-facing material (see Limitations).
+
+**Candidate generation.** Candidate generation combined expert, literature-driven curation with
+a **systematic target→drug enumeration** (`hypotheses/enumerate-drugs.mjs`): the EMC drug
+targets in `targets.json` were queried against the DGIdb interaction database, approved drugs
+with an inhibitor interaction were retained, and a gap analysis against the catalog and the
 known-active EMC agents isolated genuinely unconsidered drugs (`target-drug-matrix.json`).
 This independently reproduced the anti-angiogenic-TKI cluster and broadened it (e.g.
 nintedanib, axitinib, vandetanib, tivozanib), mitigating single-rater coverage bias;
@@ -121,17 +144,10 @@ screens** anchor much of the preclinical evidence. Full per-criterion data:
 retained for completeness.
 
 **Framing — the quiet genome.** Clinical NGS of metastatic EMC found *no recurrent
-actionable mutations* (the KIT case is a ~5% exception), so the strategy is to
+actionable mutations* (the *KIT* case is a ~5% exception), so the strategy is to
 target the fusion / lineage biology and to mine unbiased patient-derived-model
 screens — which is why approved drugs hitting PPARγ, cell-cycle, epigenetic and
 apoptotic nodes, plus the validated VEGFR-TKI class, dominate the top of the list.
-
-*Citation status: all previously-unverified claims are now resolved — the mRNA-immunology
-claims to primary references (LNP-immunogenicity review, Exp Mol Med 2023; KEYNOTE-942,
-Weber et al. Lancet 2024), and the transcriptional rationale re-grounded in EMC-native
-evidence (Kim et al. 2016); the Ewing BET/CDK comparison is retained only as a
-labelled analogy in the candidate's rationale, not as an evidence claim. `validate-research.mjs`
-reports zero `needs-verification` claims.*
 
 ## 4. Prioritization & a path to testing
 
@@ -204,6 +220,38 @@ model's divergence marks the current limits of automated repurposing for ultra-r
 We offer this catalogue not as a claim of efficacy but as an invitation: a feasibility-ranked
 starting point for the preclinical validation, biomarker-matched n-of-1 studies, and shared
 registry infrastructure that could realistically move EMC care forward.
+
+## 7. Data and code availability
+
+All underlying data and the methods that generated them are open and reproducible. The scored
+candidate catalogue (`research/hypotheses/candidates.json`), the methodology
+(`research/hypotheses/METHODOLOGY.md`), the target→drug enumeration code and output
+(`enumerate-drugs.mjs`, `target-drug-matrix.json`), and the TxGNN run, output and write-up
+(`txgnn_predict.py`, `txgnn-emc-predictions.json`, `txgnn-emc-findings.md`) are in the project
+repository. No new patient data were generated; all clinical/biological inputs are from the
+cited published literature.
+
+## 8. Author contributions
+
+*To be completed.* This draft was prepared with AI assistance for evidence aggregation,
+systematic enumeration, and the graph-model analysis; **all clinical interpretation, candidate
+selection, and final responsibility must rest with named human authors, who must include a
+sarcoma clinician/researcher.** No authorship is asserted by the tooling.
+
+## 9. Competing interests
+
+*To be completed by the authors.* The methodology uses only open, off-patent or
+already-approved agents and public databases; the work has no commercial sponsor.
+
+## 10. Funding
+
+*To be completed by the authors.* No dedicated funding supported this analysis.
+
+## 11. Acknowledgements
+
+The public resources this work builds on, with thanks: DGIdb; the TxGNN / PrimeKG project
+(Zitnik laboratory); the FDA/NCATS CURE ID registry; and the authors of the primary EMC
+literature cited below.
 
 ## References
 
