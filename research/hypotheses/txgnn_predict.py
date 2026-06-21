@@ -12,6 +12,7 @@ Output: research/hypotheses/txgnn-emc-predictions.json
 import os, sys, json, traceback
 
 OUT = "research/hypotheses/txgnn-emc-predictions.json"
+COMPARISON_OUT = "research/hypotheses/txgnn-relatives-comparison.json"
 EMC_RX = "myxoid chondrosarcoma"
 TOPN = 100
 
@@ -137,101 +138,120 @@ def main():
         if i >= 3: break
         log("  sample disease:", k, "->", v)
 
-    # --- locate the EMC disease node by name ------------------------------------
-    matches = {k: v for k, v in disease_idx2name.items() if EMC_RX in str(v).lower()}
-    log("disease-name matches for /%s/: %s" % (EMC_RX, matches))
-    emc_items = {k: v for k, v in matches.items() if "extraskeletal" in str(v).lower()} or matches
-    if not emc_items:
-        raise RuntimeError("EMC disease node not found in id mapping")
-    emc_idx = float(next(iter(emc_items)))
-    emc_name = str(emc_items[next(iter(emc_items))])
-    log(f"Using EMC disease node: idx={emc_idx} name={emc_name!r}")
+    # --- locate EMC + two data-rich relatives (the sparsity stress-test) ---------
+    TARGETS = [
+        ("EMC", "extraskeletal myxoid chondrosarcoma"),
+        ("chondrosarcoma", "chondrosarcoma (disease)"),
+        ("soft tissue sarcoma", "soft tissue sarcoma"),
+    ]
+    picked = []  # (label, idx_float, name)
+    for label, needle in TARGETS:
+        exact = [(k, v) for k, v in disease_idx2name.items() if str(v).lower() == needle]
+        cont = [(k, v) for k, v in disease_idx2name.items() if needle in str(v).lower()]
+        hit = exact or cont
+        if hit:
+            k, v = hit[0]
+            picked.append((label, float(k), str(v)))
+            log(f"node for {label!r}: idx={float(k)} name={v!r}")
+        else:
+            log(f"NODE NOT FOUND for {label!r} (needle={needle!r})")
+    if not picked:
+        raise RuntimeError("no disease nodes found")
 
-    # --- run the model on EMC, indication relation -------------------------------
+    # --- run the model once for all diseases, indication relation ----------------
     teval = TxEval(model=model)
-    out = teval.eval_disease_centric(disease_idxs=[emc_idx], relation="indication",
+    out = teval.eval_disease_centric(disease_idxs=[p[1] for p in picked], relation="indication",
                                      save_result=False, return_raw=True)
     log("=== eval output structure ===")
     summarize(out)
 
-    # --- best-effort extraction of ranked (drug, score) --------------------------
-    ranked = extract_ranked(out, drug_id2name)
-    total = len(ranked)
-    log(f"extracted {total} ranked drugs")
+    preds = (out.get("prediction") if isinstance(out, dict) else {}) or {}
+    names = ((out.get("result") if isinstance(out, dict) else {}) or {}).get("Name", {}) or {}
 
-    # --- triangulation: where did TxGNN rank OUR mechanism/enumeration drugs? -----
-    relevant = []
+    def label_of(disease_id):
+        nm = str(names.get(disease_id, "")).lower()
+        for label, needle in TARGETS:
+            if needle in nm or (nm and nm in needle):
+                return label
+        return nm or str(disease_id)
+
+    comparison = []
+    emc_block = None
+    for disease_id, scores in preds.items():
+        if not isinstance(scores, dict):
+            continue
+        ranked = ranked_from_scores(scores, drug_id2name)
+        total = len(ranked)
+        relevant = relevant_ranks(ranked, total)
+        present = [r["percentile"] for r in relevant if r["rank"] is not None]
+        median_pct = round(sorted(present)[len(present) // 2], 1) if present else None
+        nm = str(names.get(disease_id, disease_id))
+        label = label_of(disease_id)
+        log(f"\n=== {label} ({nm}) : {total} drugs | relevant-drug median percentile = {median_pct} ===")
+        for r in sorted([x for x in relevant if x["rank"]], key=lambda x: x["rank"])[:8]:
+            log("  %-14s #%d (%.1f pct)" % (r["query"], r["rank"], r["percentile"]))
+        comparison.append({
+            "label": label, "disease": nm, "disease_id": disease_id, "totalRanked": total,
+            "relevantMedianPercentile": median_pct,
+            "topDrugs": ranked[:15], "relevantDrugRanks": relevant,
+        })
+        if "extraskeletal myxoid" in nm.lower():
+            emc_block = {
+                "model": "TxGNN (Huang et al., Nat Med 2024) — pretrained 'complex_disease' weights",
+                "source": "https://github.com/mims-harvard/TxGNN ; weights via the repo's Google Drive link",
+                "relation": "indication",
+                "disease": {"name": nm, "disease_id": disease_id, "mondo_hint": "extraskeletal myxoid chondrosarcoma"},
+                "note": "Genuine zero-shot output of the trained TxGNN model, NOT a hand-built heuristic. A high score is a model-predicted repurposing hypothesis to triage under METHODOLOGY, not evidence of efficacy.",
+                "totalRanked": total, "topDrugs": ranked[:TOPN], "relevantDrugRanks": relevant,
+            }
+
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    if emc_block:
+        with open(OUT, "w") as f:
+            json.dump(emc_block, f, indent=2)
+        log(f"WROTE {OUT}")
+    comp = {
+        "purpose": "Sparsity stress-test: do our mechanism/enumeration drugs rank higher for EMC's "
+                   "data-rich relatives (chondrosarcoma, soft-tissue sarcoma) than for EMC itself? A higher "
+                   "relevantMedianPercentile for the relatives isolates EMC's sparse KG neighbourhood — not "
+                   "model failure — as the cause of the EMC divergence.",
+        "relation": "indication",
+        "diseases": comparison,
+    }
+    with open(COMPARISON_OUT, "w") as f:
+        json.dump(comp, f, indent=2)
+    log(f"WROTE {COMPARISON_OUT}")
+    log("\n=== SPARSITY STRESS-TEST SUMMARY (relevant-drug median percentile; higher = better corroboration) ===")
+    for c in comparison:
+        log("  %-22s %s pct  (n_drugs=%d)" % (c["label"], c["relevantMedianPercentile"], c["totalRanked"]))
+
+def ranked_from_scores(scores, drug_id2name):
+    """Turn a {drug_id: score} dict (TxGNN out['prediction'][disease_id]) into a list of
+    {drug_id, drug, score} sorted by descending indication score."""
+    pairs = []
+    for drug_id, sc in scores.items():
+        try:
+            s = float(sc)
+        except Exception:
+            continue
+        pairs.append({"drug_id": str(drug_id),
+                      "drug": str(drug_id2name.get(str(drug_id), drug_id)),
+                      "score": round(s, 5)})
+    pairs.sort(key=lambda d: d["score"], reverse=True)
+    return pairs
+
+def relevant_ranks(ranked, total):
+    """For each EMC-relevant drug (RELEVANT), find its rank/percentile in the full list."""
+    out = []
     for q in RELEVANT:
         hit = next(((i, d) for i, d in enumerate(ranked, 1) if q in d["drug"].lower()), None)
         if hit:
             i, d = hit
-            relevant.append({"query": q, "matched": d["drug"], "rank": i, "of": total,
-                             "score": d["score"], "percentile": round(100.0 * (1 - i / total), 1)})
+            out.append({"query": q, "matched": d["drug"], "rank": i, "of": total,
+                        "score": d["score"], "percentile": round(100.0 * (1 - i / total), 1)})
         else:
-            relevant.append({"query": q, "matched": None, "rank": None, "of": total})
-    log("relevant-drug ranks (TxGNN full list):")
-    for r in relevant:
-        if r["rank"]:
-            log("  %-14s #%d/%d  (%.1f pct)  score=%s" % (r["query"], r["rank"], r["of"], r["percentile"], r["score"]))
-        else:
-            log("  %-14s not in KG drug set" % r["query"])
-
-    result = {
-        "model": "TxGNN (Huang et al., Nat Med 2024) — pretrained 'complex_disease' weights",
-        "source": "https://github.com/mims-harvard/TxGNN ; weights via the repo's Google Drive link",
-        "relation": "indication",
-        "disease": {"name": emc_name, "kg_idx": emc_idx, "mondo_hint": "extraskeletal myxoid chondrosarcoma"},
-        "note": "Genuine zero-shot output of the trained TxGNN model, NOT a hand-built heuristic. A high score is a model-predicted repurposing hypothesis to triage under METHODOLOGY, not evidence of efficacy.",
-        "totalRanked": total,
-        "topDrugs": ranked[:TOPN],
-        "relevantDrugRanks": relevant,
-    }
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w") as f:
-        json.dump(result, f, indent=2)
-    log(f"WROTE {OUT} with {len(result['topDrugs'])} drugs")
-    if ranked[:15]:
-        log("Top 15:")
-        for d in ranked[:15]:
-            log("  %-32s %.4f" % (str(d.get('drug'))[:32], d.get('score', float('nan'))))
-
-def extract_ranked(out, drug_id2name):
-    """TxGNN eval returns {'prediction': {disease_id: {drug_id: score}}, 'label':..., 'result':...}.
-    Pull the per-drug indication scores for the (single) disease and sort descending."""
-    pairs = []
-    pred = out.get("prediction") if isinstance(out, dict) else None
-    if isinstance(pred, dict) and pred:
-        disease_id = next(iter(pred))           # single disease evaluated
-        scores = pred[disease_id]               # {drug_id: score}
-        if isinstance(scores, dict):
-            for drug_id, sc in scores.items():
-                try:
-                    s = float(sc)
-                except Exception:
-                    continue
-                pairs.append({"drug_id": str(drug_id),
-                              "drug": str(drug_id2name.get(str(drug_id), drug_id)),
-                              "score": round(s, 5)})
-    if not pairs:
-        # fallback: result -> 'Ranked List' -> [ [name/id, score], ... ]
-        res = (out.get("result") if isinstance(out, dict) else None) or {}
-        rl = res.get("Ranked List") or {}
-        if isinstance(rl, dict) and rl:
-            lst = next(iter(rl.values()))
-            for item in (lst or []):
-                try:
-                    name, sc = item[0], float(item[1])
-                except Exception:
-                    continue
-                pairs.append({"drug": str(drug_id2name.get(str(name), name)), "score": round(sc, 5)})
-    pairs.sort(key=lambda d: d["score"], reverse=True)
-    return pairs
-
-def _isnum(x):
-    try:
-        float(x); return True
-    except Exception:
-        return False
+            out.append({"query": q, "matched": None, "rank": None, "of": total})
+    return out
 
 if __name__ == "__main__":
     try:

@@ -67,9 +67,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           cp research/hypotheses/txgnn-emc-predictions.json "$RUNNER_TEMP/pred.json"
-          # remove the freshly-written (untracked) copy so switching to the existing
+          cp research/hypotheses/txgnn-relatives-comparison.json "$RUNNER_TEMP/comp.json" 2>/dev/null || true
+          # remove the freshly-written (untracked) copies so switching to the existing
           # txgnn-cache branch doesn't abort on an untracked-file overwrite
-          rm -f research/hypotheses/txgnn-emc-predictions.json
+          rm -f research/hypotheses/txgnn-emc-predictions.json research/hypotheses/txgnn-relatives-comparison.json
           git fetch origin txgnn-cache || true
           if git show-ref --verify --quiet refs/remotes/origin/txgnn-cache; then
             git checkout -B txgnn-cache origin/txgnn-cache
@@ -79,6 +80,7 @@ jobs:
           fi
           mkdir -p research/hypotheses
           cp "$RUNNER_TEMP/pred.json" research/hypotheses/txgnn-emc-predictions.json
-          git add research/hypotheses/txgnn-emc-predictions.json
-          git commit -m "TxGNN EMC predictions: refresh" || { echo "No changes"; exit 0; }
+          cp "$RUNNER_TEMP/comp.json" research/hypotheses/txgnn-relatives-comparison.json 2>/dev/null || true
+          git add research/hypotheses/txgnn-emc-predictions.json research/hypotheses/txgnn-relatives-comparison.json
+          git commit -m "TxGNN EMC predictions + relatives comparison: refresh" || { echo "No changes"; exit 0; }
           git push origin txgnn-cache
