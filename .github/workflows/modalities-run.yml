@@ -9,6 +9,14 @@ name: Modalities — structure & neoantigen
 
 on:
   workflow_dispatch:
+  # push-triggered workflows run from the pushed branch (no default-branch dependency),
+  # so this fires on the feature branch without putting the file on main. Scoped to the
+  # modalities paths so unrelated pushes don't re-run the heavy MHCflurry install.
+  push:
+    branches: [claude/rare-cancer-info-hub-vb8uui]
+    paths:
+      - research/modalities/**
+      - .github/workflows/modalities-run.yml
 
 permissions:
   contents: write
