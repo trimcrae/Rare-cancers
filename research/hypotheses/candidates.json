@@ -11,7 +11,7 @@
     "T3-emc-clinical-evidence": "Prospective or substantial clinical evidence in EMC (eligible to graduate to the patient page after clinician review)."
   },
   "scoring": {
-    "method": "Each candidate is scored 0-3 on six criteria; composite priorityScore = sum (max 18). A transparent prioritization heuristic, NOT a probability of success.",
+    "method": "Each candidate is scored 0-3 on six criteria; composite priorityScore = sum (max 18). A transparent triage heuristic ONLY, NOT a probability of success and NOT a discovery ranking: it sums evidence with novelty/safety/availability, which floats already-known drugs to the top. Read candidates by evidenceType x novelty (these orthogonal fields), not by priorityScore.",
     "criteria": {
       "emcEvidence": "Strength of EMC-specific evidence (0 mechanism-only … 3 EMC clinical).",
       "mechanisticFit": "Directness of engagement with a validated EMC driver.",
@@ -247,6 +247,8 @@
         "novelty": 1
       },
       "priorityScore": 15,
+      "evidenceType": "clinical",
+      "evidenceStrength": 5,
       "rank": 1
     },
     {
@@ -283,6 +285,8 @@
         "novelty": 3
       },
       "priorityScore": 14,
+      "evidenceType": "in-vivo",
+      "evidenceStrength": 3,
       "rank": 2
     },
     {
@@ -341,6 +345,8 @@
         "novelty": 2
       },
       "priorityScore": 14,
+      "evidenceType": "clinical-class",
+      "evidenceStrength": 4,
       "rank": 3
     },
     {
@@ -377,6 +383,8 @@
         "novelty": 3
       },
       "priorityScore": 13,
+      "evidenceType": "mechanistic",
+      "evidenceStrength": 1,
       "rank": 4
     },
     {
@@ -418,6 +426,8 @@
         "novelty": 3
       },
       "priorityScore": 13,
+      "evidenceType": "genomic",
+      "evidenceStrength": 1.5,
       "rank": 5
     },
     {
@@ -454,6 +464,8 @@
         "novelty": 3
       },
       "priorityScore": 11,
+      "evidenceType": "ex-vivo",
+      "evidenceStrength": 2,
       "rank": 6
     },
     {
@@ -491,6 +503,8 @@
         "novelty": 3
       },
       "priorityScore": 11,
+      "evidenceType": "mechanistic",
+      "evidenceStrength": 1,
       "rank": 7
     },
     {
@@ -527,6 +541,8 @@
         "novelty": 3
       },
       "priorityScore": 11,
+      "evidenceType": "ex-vivo",
+      "evidenceStrength": 2,
       "rank": 8
     },
     {
@@ -563,6 +579,8 @@
         "novelty": 3
       },
       "priorityScore": 10,
+      "evidenceType": "ex-vivo",
+      "evidenceStrength": 2,
       "rank": 9
     },
     {
@@ -599,6 +617,8 @@
         "novelty": 3
       },
       "priorityScore": 10,
+      "evidenceType": "ex-vivo",
+      "evidenceStrength": 2,
       "rank": 10
     },
     {
@@ -635,6 +655,8 @@
         "novelty": 2
       },
       "priorityScore": 10,
+      "evidenceType": "ex-vivo",
+      "evidenceStrength": 2,
       "rank": 11
     },
     {
@@ -676,6 +698,8 @@
         "novelty": 3
       },
       "priorityScore": 9,
+      "evidenceType": "mechanistic",
+      "evidenceStrength": 1,
       "rank": 12
     },
     {
@@ -712,6 +736,8 @@
         "novelty": 3
       },
       "priorityScore": 9,
+      "evidenceType": "mechanistic",
+      "evidenceStrength": 1,
       "rank": 13
     },
     {
@@ -754,6 +780,8 @@
         "novelty": 3
       },
       "priorityScore": 8,
+      "evidenceType": "mechanistic",
+      "evidenceStrength": 1,
       "rank": 14
     }
   ]

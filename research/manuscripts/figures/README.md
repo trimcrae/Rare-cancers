@@ -7,9 +7,11 @@ catalogue changes:
 node research/manuscripts/figures/make-figures.mjs
 ```
 
-- **candidate-landscape.svg** (Figure 1) — the 14 existing-drug candidates as horizontal bars,
-  length = priority score (0–18), colour = evidence tier (T3→T0), ★ = patient-page-eligible.
-  Generated directly from `research/hypotheses/candidates.json`, so it cannot drift from the data.
+- **candidate-landscape.svg** (Figure 1) — **evidence × novelty map** (not a score ranking):
+  rows = EMC-specific evidence strength (clinical → mechanistic), columns = novelty (known →
+  novel). Green cells = novel + functional EMC evidence (the actionable leads); amber = evidenced
+  but known (imatinib); the empty "novel × clinical" cells show the field's core gap. Generated
+  from `candidates.json` (`evidenceType` × `scores.novelty`), so it cannot drift from the data.
 - **stress-test.svg** (Figure 3) — strip plot of where our 31 candidate drugs rank (percentile)
   in TxGNN's indication ranking for EMC vs chondrosarcoma vs soft-tissue sarcoma; the leads
   cluster low across all three (medians 21 / 17.7 / 17.4), refuting an EMC-sparsity explanation.

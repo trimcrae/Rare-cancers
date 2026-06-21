@@ -197,6 +197,41 @@ const CANDIDATES = [
 ];
 
 for (const c of CANDIDATES) c.priorityScore = Object.values(c.scores).reduce((a, b) => a + b, 0);
+
+// Evidence TYPE — what we actually know about this drug IN EMC. This is the honest axis for
+// "is this a real lead", kept ORTHOGONAL to novelty (notTriedInEmc / scores.novelty). The
+// composite priorityScore deliberately mixes the two and so must NOT be used as a discovery
+// ranking; presentation is organised by (evidenceType x novelty) instead.
+//   clinical       = direct EMC patient evidence
+//   clinical-class = the drug class is clinically active in EMC; these specific agents are extensions
+//   in-vivo        = animal EMC model
+//   ex-vivo        = patient-derived EMC cell model / functional drug screen
+//   genomic        = EMC tissue IHC / genomic rationale, not yet functional
+//   mechanistic    = mechanism / analogy only, no EMC-specific data
+const EVIDENCE_TYPE = {
+  "imatinib-kit-subset": "clinical",
+  "vegfr-tki-extension": "clinical-class",
+  "zaltoprofen-pparg": "in-vivo",
+  "carfilzomib-proteasome": "ex-vivo",
+  "venetoclax-bcl2": "ex-vivo",
+  "anthracycline-combination-synergy": "ex-vivo",
+  "hdac-inhibitors": "ex-vivo",
+  "brigatinib-screen-hit": "ex-vivo",
+  "cdk4-6-inhibitors": "genomic",
+  "pioglitazone-pparg": "mechanistic",
+  "ntrk-inhibitors": "mechanistic",
+  "nr4a3-modulation": "mechanistic",
+  "transcriptional-bet-cdk": "mechanistic",
+  "mrna-vaccine-checkpoint": "mechanistic",
+};
+const EVIDENCE_RANK = { clinical: 5, "clinical-class": 4, "in-vivo": 3, "ex-vivo": 2, genomic: 1.5, mechanistic: 1 };
+for (const c of CANDIDATES) {
+  if (!EVIDENCE_TYPE[c.id]) throw new Error("missing evidenceType for candidate " + c.id);
+  c.evidenceType = EVIDENCE_TYPE[c.id];
+  c.evidenceStrength = EVIDENCE_RANK[c.evidenceType];
+}
+// `rank` stays the (documented, secondary) priorityScore order; presentation in the manuscript
+// and figures is organised by evidenceType x novelty, not by this rank.
 CANDIDATES.sort((a, b) => b.priorityScore - a.priorityScore);
 CANDIDATES.forEach((c, i) => (c.rank = i + 1));
 
@@ -218,7 +253,7 @@ const doc = {
     "T3-emc-clinical-evidence": "Prospective or substantial clinical evidence in EMC (eligible to graduate to the patient page after clinician review).",
   },
   scoring: {
-    method: "Each candidate is scored 0-3 on six criteria; composite priorityScore = sum (max 18). A transparent prioritization heuristic, NOT a probability of success.",
+    method: "Each candidate is scored 0-3 on six criteria; composite priorityScore = sum (max 18). A transparent triage heuristic ONLY, NOT a probability of success and NOT a discovery ranking: it sums evidence with novelty/safety/availability, which floats already-known drugs to the top. Read candidates by evidenceType x novelty (these orthogonal fields), not by priorityScore.",
     criteria: {
       emcEvidence: "Strength of EMC-specific evidence (0 mechanism-only … 3 EMC clinical).",
       mechanisticFit: "Directness of engagement with a validated EMC driver.",

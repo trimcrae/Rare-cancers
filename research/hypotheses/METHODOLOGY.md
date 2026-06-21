@@ -53,8 +53,14 @@ before shortlisting. Do not jump to a favoured few.
 ### Prioritization scoring
 
 Each candidate is scored **0–3** on six criteria; the composite `priorityScore`
-is their sum (max 18). It is a transparent prioritization **heuristic, not a
-probability of success**, and is recomputed by `build-candidates.mjs`.
+is their sum (max 18). It is a transparent triage **heuristic, not a probability of
+success** — and crucially **not a discovery ranking**: because it sums *evidence* with
+*novelty*, *safety* and *availability*, it floats already-known, well-tolerated drugs
+(notably imatinib) to the top, which is easily misread as "the best lead". The composite is
+retained as one input, but **candidates are presented — in the manuscript and Figure 1 — by
+`evidenceType` × novelty** (two orthogonal fields), not ordered by `priorityScore`. Each
+candidate also carries `evidenceType` (clinical / clinical-class / in-vivo / ex-vivo / genomic
+/ mechanistic) and `evidenceStrength`, recomputed by `build-candidates.mjs`.
 
 | Criterion | 0 → 3 |
 |---|---|

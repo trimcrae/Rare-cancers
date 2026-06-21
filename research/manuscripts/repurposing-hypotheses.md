@@ -137,41 +137,42 @@ clean data-rich control). We report this as a limitation rather than acting on i
 prediction was promoted to a candidate. **Figure 2** summarises the three-method design and the
 patient firewall.
 
-## 3. Candidates (from the scored catalog)
-We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the
-NR4A3 fusion / transcription; PPARγ / nuclear-receptor; epigenetic; cell-cycle;
-apoptosis/proteostasis; immune) and scored **14 existing-drug candidates** 0–3 on
-six criteria (EMC evidence, mechanistic fit, availability, safety, biomarker,
-novelty; composite max 18). Two independent **patient-derived EMC model drug
-screens** anchor much of the preclinical evidence. Full per-criterion data:
-`research/hypotheses/candidates.json`; a visual summary is **Figure 1**
-(`figures/candidate-landscape.svg`, auto-generated from the catalogue). Ranked:
+## 3. Candidates
 
-| # | Candidate | Tier | Score | Basis |
-|---|---|---|---|---|
-| 1 | Imatinib (KIT-mutant subset) | **T3** | 15* | KIT-mutant EMC patient: 3-year stable disease on imatinib |
-| 2 | Zaltoprofen (PPARγ-inducing NSAID) | T1 | 14 | Inhibits EMC growth *in vivo* via PPARγ |
-| 2 | VEGFR-TKI extension (rego/cabo/lenva) | T1 | 14 | Extends EMC's most active class |
-| 4 | Pioglitazone (PPARγ agonist) | T1 | 13 | Direct PPARγ agonism |
-| 4 | CDK4/6 inhibitors (palbociclib) | T1 | 13 | CDK4 100% IHC + CDKN2A/2B loss |
-| 6 | HDAC inhibitors (romidepsin/panobinostat) | T1 | 11 | Cell-line drug-screen hits |
-| 6 | NTRK inhibitors | T0 | 11† | Expression, not fusion (weak) |
-| 6 | Venetoclax (BCL-2) | T1 | 11 | Validated in 2 EMC ex vivo models |
-| 9 | Brigatinib | T1 | 10 | Cell-line screen hit; mechanism unknown |
-| 9 | Carfilzomib (proteasome) | T1 | 10 | Validated in 2 EMC ex vivo models |
-| 9 | Anthracycline + venetoclax/carfilzomib | T1 | 10 | Screen-validated synergy on a current backbone |
-| 12 | NR4A3/NOR1 direct modulation | T1 | 9 | Drug the fusion's receptor (PGA2 binds NOR1 LBD) |
-| 12 | BET / CDK7-9 inhibitors | T1 | 9 | Fusion transcriptional addiction (Ewing analogy) |
-| 14 | mRNA vaccine + checkpoint inhibitor | T0 | 8 | Inflame the cold microenvironment |
+We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the *NR4A3* fusion
+/ transcription; PPARγ / nuclear-receptor; epigenetic; cell-cycle; apoptosis/proteostasis;
+immune) and assembled **14 existing-drug candidates**. We deliberately present them by the **two
+axes that actually matter to a reader — how strong the EMC-specific evidence is, and whether the
+hypothesis is genuinely novel — rather than by a single rank.** (Each candidate also carries a
+transparent 0–18 composite triage score in the dataset and `METHODOLOGY.md`; we do *not* use it
+to order the presentation, because summing evidence with novelty, safety and availability floats
+the *known* drug to the top and is easily misread as a discovery ranking.) **Figure 1** is the
+evidence × novelty map; full per-criterion data: `research/hypotheses/candidates.json`.
 
-\*subset-restricted (biomarker-defined minority). †weak mechanistic rationale,
-retained for completeness.
+Organised by **what we actually know in EMC** (strongest first), with novelty shown explicitly:
 
-**Reading the table — the score is not a discovery ranking.** The priority score blends six
-criteria (including availability, safety and novelty), so the top of the column is **not** the
-best *new* lead: imatinib ranks first on **evidence and availability** but is **not novel**
-(already reported) and treats only the *KIT*-mutant minority. An investigator looking for *new*
-leads should instead read the cut below — novelty × EMC-specific functional evidence × testability.
+| Candidate (axis) | Evidence *in EMC* | Novel? |
+|---|---|---|
+| **Imatinib** — *KIT*-mutant subset (KIT) | **Clinical** — 1 patient, 3-yr stable disease | **No** — already reported |
+| **VEGFR-TKIs**: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | **Clinical, class-level** — pazopanib/sunitinib are active in EMC; these specific agents are untested extensions | Partly |
+| **Zaltoprofen → pioglitazone** (PPARγ / lineage) | **In-vivo** — tumour-growth inhibition in a mouse EMC model via PPARγ | **Yes** |
+| **Carfilzomib** ± doxorubicin / venetoclax (proteostasis) | **Ex-vivo** — only 1 of 17 drugs with high sensitivity across **2** patient-derived EMC models; carfilzomib+doxorubicin & +venetoclax synergy | **Yes** |
+| **Venetoclax** (BCL-2 / apoptosis) | **Ex-vivo** — sensitivity validated in the 2 EMC models | **Yes** |
+| **HDAC inhibitors**: romidepsin / panobinostat (epigenetic) | **Ex-vivo** — top hits of a 221-drug screen in a patient-derived EMC line | **Yes** |
+| **Brigatinib** (kinome screen hit) | **Ex-vivo** — same EMC-line screen; mechanism unknown | **Yes** |
+| **CDK4/6 inhibitors**: palbociclib (cell cycle) | **Genomic/IHC** — CDK4 IHC 100% + CDKN2A/2B loss (not yet functional) | **Yes** |
+| **Pioglitazone** (PPARγ agonist) | **Mechanistic** — direct agonism; rides the PPARγ axis above | **Yes** |
+| **NTRK inhibitors**: larotrectinib / entrectinib | **Mechanistic** — pan-Trk *expression*, not a fusion (weak) | **Yes** |
+| **NR4A3/NOR1-directed modulation** (fusion TF) | **Mechanistic** — drug the driver; no clinical-grade agent yet | **Yes** |
+| **BET (BRD4) / CDK7–9 inhibitors** (fusion transcription) | **Mechanistic** — analogy to other fusion sarcomas | **Yes** |
+| **mRNA-vaccine + checkpoint inhibitor** (immune) | **Mechanistic** — cold-microenvironment hypothesis; no EMC data | **Yes** |
+
+The structure is the point: **evidence strength and novelty pull in opposite directions.** The
+*only* clinically-evidenced option (imatinib) is the *only* non-novel one and treats a ~4%
+minority; every genuinely novel hypothesis is preclinical, and the "novel + clinical" cell is
+**empty** — there is no new drug with EMC clinical evidence (Figure 1). The actionable leads are
+therefore the *novel* candidates with the strongest *functional* EMC evidence (in-vivo, then
+ex-vivo), distilled next.
 
 ### Leads for investigators (novel × EMC-specific functional evidence × testability)
 

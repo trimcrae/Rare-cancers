@@ -9,65 +9,80 @@ import { dirname, join } from "node:path";
 const here = dirname(fileURLToPath(import.meta.url));
 const cands = JSON.parse(readFileSync(join(here, "../../hypotheses/candidates.json"), "utf8")).candidates;
 
-const TIER_COLOR = { "T3": "#1b7837", "T2": "#5aae61", "T1": "#2c7fb8", "T0": "#9aa0a6" };
-const tierKey = (t) => String(t).split("-")[0].toUpperCase(); // "T1-preclinical-or-analog" -> "T1"
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-// short label per candidate
-function shortLabel(c) {
-  const d = c.drug || "";
-  const paren = d.indexOf("(");
-  let s = (paren > 0 ? d.slice(0, paren) : d).trim();
-  if (s.length > 30) s = s.split(/[\/,]/)[0].trim();
-  if (s.length > 30) s = s.slice(0, 29) + "…";
-  return s;
+// ---------------------------------------------------------------------------
+// Figure 1: evidence × novelty map — NOT a score ranking. Rows = how strong the
+// EMC-specific evidence is; columns = how novel the hypothesis is. The structure
+// (imatinib alone in evidenced-but-known; an empty novel×clinical cell) is the point.
+// ---------------------------------------------------------------------------
+const FIG_LABEL = {
+  "imatinib-kit-subset": "Imatinib (KIT-mut)",
+  "vegfr-tki-extension": "VEGFR-TKIs (rego/cabo/lenva…)",
+  "zaltoprofen-pparg": "Zaltoprofen (PPARγ)",
+  "carfilzomib-proteasome": "Carfilzomib",
+  "venetoclax-bcl2": "Venetoclax",
+  "anthracycline-combination-synergy": "Anthracycline + carfilzomib/venetoclax",
+  "hdac-inhibitors": "HDAC (romidepsin/panobinostat)",
+  "brigatinib-screen-hit": "Brigatinib",
+  "cdk4-6-inhibitors": "CDK4/6 (palbociclib)",
+  "pioglitazone-pparg": "Pioglitazone (PPARγ)",
+  "ntrk-inhibitors": "NTRK (laro/entrectinib)",
+  "nr4a3-modulation": "NR4A3/NOR1 modulation",
+  "transcriptional-bet-cdk": "BET / CDK7–9",
+  "mrna-vaccine-checkpoint": "mRNA-vaccine + checkpoint",
+};
+const ROWS = [
+  ["clinical", "Clinical (EMC patient)"],
+  ["clinical-class", "Clinical (class)"],
+  ["in-vivo", "In-vivo (animal EMC)"],
+  ["ex-vivo", "Ex-vivo (EMC models)"],
+  ["genomic", "Genomic / IHC"],
+  ["mechanistic", "Mechanistic only"],
+];
+const COLS = [[1, "Known (tried)"], [2, "Partly novel"], [3, "Novel (untried)"]];
+const cell = {};
+for (const c of cands) {
+  const ri = ROWS.findIndex((r) => r[0] === c.evidenceType);
+  const ci = COLS.findIndex((co) => co[0] === c.scores.novelty);
+  if (ri < 0 || ci < 0) continue;
+  (cell[ri + "_" + ci] = cell[ri + "_" + ci] || []).push(FIG_LABEL[c.id] || c.drug);
 }
-
-const rows = cands
-  .map((c) => ({ label: shortLabel(c), tier: tierKey(c.evidenceTier), score: c.priorityScore, page: !!c.patientPageEligible, rank: c.rank }))
-  .sort((a, b) => a.rank - b.rank);
-
-// layout
-const W = 760, padL = 250, padR = 70, padT = 64, rowH = 26, padB = 56;
-const H = padT + rows.length * rowH + padB;
-const maxScore = 18, plotW = W - padL - padR;
-const x = (v) => padL + (v / maxScore) * plotW;
-
-const parts = [];
-parts.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">`);
-parts.push(`<rect width="${W}" height="${H}" fill="#ffffff"/>`);
-parts.push(`<text x="${padL}" y="26" font-size="16" font-weight="700" fill="#202124">EMC existing-drug repurposing candidates</text>`);
-parts.push(`<text x="${padL}" y="44" font-size="11.5" fill="#5f6368">Priority score (0–18) by evidence tier · ★ = eligible for the patient page (pending clinician review)</text>`);
-
-// x gridlines + axis labels (0,6,12,18)
-for (const v of [0, 6, 12, 18]) {
-  parts.push(`<line x1="${x(v)}" y1="${padT - 8}" x2="${x(v)}" y2="${padT + rows.length * rowH}" stroke="#eceff1" stroke-width="1"/>`);
-  parts.push(`<text x="${x(v)}" y="${padT + rows.length * rowH + 16}" font-size="10" fill="#80868b" text-anchor="middle">${v}</text>`);
-}
-
-rows.forEach((r, i) => {
-  const y = padT + i * rowH;
-  const cy = y + rowH / 2;
-  const color = TIER_COLOR[r.tier] || "#9aa0a6";
-  parts.push(`<text x="${padL - 10}" y="${cy + 3.5}" font-size="11.5" fill="#202124" text-anchor="end">${esc(r.label)}${r.page ? " ★" : ""}</text>`);
-  parts.push(`<rect x="${padL}" y="${y + 4}" width="${Math.max(1, x(r.score) - padL)}" height="${rowH - 9}" rx="2" fill="${color}"/>`);
-  parts.push(`<text x="${x(r.score) + 6}" y="${cy + 3.5}" font-size="10.5" fill="#5f6368">${r.score} · ${r.tier}</text>`);
+const gPadL = 156, gPadT = 78, colW = 198, labelH = 15, rowMinH = 36;
+const rowH = ROWS.map((_, ri) => {
+  let mx = 0;
+  for (let ci = 0; ci < COLS.length; ci++) mx = Math.max(mx, (cell[ri + "_" + ci] || []).length);
+  return Math.max(rowMinH, mx * labelH + 18);
 });
+const rowY = []; let acc = gPadT; for (const h of rowH) { rowY.push(acc); acc += h; }
+const GW = gPadL + COLS.length * colW + 16, GH = acc + 50;
+const leadZone = (ri, ci) => (ROWS[ri][0] === "in-vivo" || ROWS[ri][0] === "ex-vivo") && COLS[ci][0] >= 2;
 
-// legend
-const ly = padT + rows.length * rowH + 34;
-let lx = padL;
-parts.push(`<text x="${padL - 10}" y="${ly + 3}" font-size="10.5" fill="#5f6368" text-anchor="end">Tier</text>`);
-for (const [t, c] of Object.entries(TIER_COLOR)) {
-  parts.push(`<rect x="${lx}" y="${ly - 8}" width="11" height="11" rx="2" fill="${c}"/>`);
-  parts.push(`<text x="${lx + 15}" y="${ly + 1.5}" font-size="10.5" fill="#5f6368">${t}</text>`);
-  lx += 60;
-}
-parts.push(`</svg>`);
-
+const p = [];
+p.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${GW}" height="${GH}" viewBox="0 0 ${GW} ${GH}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">`);
+p.push(`<rect width="${GW}" height="${GH}" fill="#ffffff"/>`);
+p.push(`<text x="16" y="26" font-size="15.5" font-weight="700" fill="#202124">EMC candidates by EMC-specific evidence × novelty — not a score ranking</text>`);
+p.push(`<text x="16" y="45" font-size="11.5" fill="#5f6368">Rows: how strong the EMC evidence is (top = strongest). Columns: how novel the hypothesis is.</text>`);
+p.push(`<text x="16" y="60" font-size="11.5" fill="#1b7837">Green = novel + functional EMC evidence = the actionable leads. Amber = evidenced but already known.</text>`);
+COLS.forEach((co, ci) => p.push(`<text x="${gPadL + ci * colW + colW / 2}" y="${gPadT - 8}" font-size="11.5" font-weight="700" fill="#202124" text-anchor="middle">${esc(co[1])}</text>`));
+ROWS.forEach((r, ri) => {
+  const y = rowY[ri], h = rowH[ri];
+  p.push(`<text x="${gPadL - 8}" y="${y + h / 2 + 3}" font-size="11" font-weight="700" fill="#202124" text-anchor="end">${esc(r[1])}</text>`);
+  COLS.forEach((co, ci) => {
+    const xx = gPadL + ci * colW, items = cell[ri + "_" + ci] || [];
+    const known = r[0] === "clinical" && co[0] === 1;
+    const fill = leadZone(ri, ci) ? "#e6f4ea" : known ? "#fff7e0" : "#fafafa";
+    p.push(`<rect x="${xx}" y="${y}" width="${colW - 6}" height="${h - 6}" rx="4" fill="${fill}" stroke="#e0e0e0" stroke-width="1"/>`);
+    items.forEach((lab, k) => p.push(`<text x="${xx + 9}" y="${y + 17 + k * labelH}" font-size="9.7" fill="#202124">• ${esc(lab)}</text>`));
+    if (!items.length && (r[0] === "clinical" || r[0] === "clinical-class") && co[0] === 3)
+      p.push(`<text x="${xx + colW / 2 - 3}" y="${y + h / 2 + 3}" font-size="10" font-style="italic" fill="#c5221f" text-anchor="middle">— none —</text>`);
+  });
+});
+p.push(`<text x="16" y="${GH - 16}" font-size="10.5" fill="#c5221f">The “novel × clinical” cells are empty: no new drug has EMC clinical evidence — the field's core gap.</text>`);
+p.push(`</svg>`);
 const out = join(here, "candidate-landscape.svg");
-writeFileSync(out, parts.join("\n") + "\n");
-console.log(`Wrote ${out} (${rows.length} candidates)`);
+writeFileSync(out, p.join("\n") + "\n");
+console.log(`Wrote ${out} (evidence × novelty map)`);
 
 // ---------------------------------------------------------------------------
 // Figure 2: three-method triangulation + patient firewall (schematic)
