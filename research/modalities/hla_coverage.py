@@ -35,13 +35,16 @@ HERE = os.path.dirname(__file__)
 BREAKPOINTS = os.path.join(HERE, "fusion-breakpoint-neoantigens.json")
 OUT = os.path.join(HERE, "hla-coverage.json")
 
-AFND = "http://www.allelefrequencies.net/hla6006a.asp?hla_allele1={al}"
+AFND_BASE = "https://www.allelefrequencies.net/hla6006a.asp"
 
 
 def fetch(url):
     for i in range(4):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 rare-cancers/1.0"})
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/120 Safari/537.36",
+                "Accept": "text/html"})
             with urllib.request.urlopen(req, timeout=90) as r:
                 return r.read().decode("utf-8", "replace")
         except Exception as e:  # noqa
@@ -51,11 +54,18 @@ def fetch(url):
 
 
 def afnd_allele_freq(allele):
-    """Sample-size-weighted global allele frequency from AFND. Returns (af, n_pops, n_indiv)."""
-    url = AFND.format(al=urllib.parse.quote(allele))
+    """Sample-size-weighted global allele frequency from AFND. Returns dict or None."""
+    params = {"hla_locus_type": "Classical", "hla_allele1": allele,
+              "hla_order": "order_1", "standard": "a"}
+    url = AFND_BASE + "?" + urllib.parse.urlencode(params)
     html = fetch(url)
+    # diagnostics so a failed scrape is debuggable from the published JSON, not silent
+    diag = {"html_len": len(html),
+            "allele_in_html": allele in html,
+            "n_tr": len(re.findall(r"<tr", html, flags=re.I)),
+            "has_freq_header": ("Allele Frequency" in html)}
     if not html:
-        return None
+        return {"_diag": diag}
     # AFND result rows carry the allele frequency (a small decimal) and a sample size.
     # Grab table rows and, within each, the first 0<x<1 decimal (allele freq) and a
     # plausible integer sample size (>=20). Weighted mean over populations.
@@ -81,13 +91,20 @@ def afnd_allele_freq(allele):
                     size = iv if (size is None or iv > size) else size
         if freq is not None and size is not None:
             pairs.append((freq, size))
+    diag["n_pairs_parsed"] = len(pairs)
+    # snapshot the first parsed table region to debug structure if parsing under-counts
+    if len(pairs) < 3:
+        mt = re.search(r"<table.*?</table>", html, flags=re.I | re.S)
+        diag["table_snippet"] = re.sub(r"\s+", " ", (mt.group(0)[:600] if mt else html[:600]))
     if not pairs:
-        return None
+        return {"_diag": diag}
     num = sum(f * n for f, n in pairs)
     den = sum(n for _, n in pairs)
     af = num / den if den else None
+    if af is None:
+        return {"_diag": diag}
     return {"allele_frequency": round(af, 4), "n_population_samples": len(pairs),
-            "total_individuals": den} if af is not None else None
+            "total_individuals": den, "_diag": diag}
 
 
 def coverage(afs):
