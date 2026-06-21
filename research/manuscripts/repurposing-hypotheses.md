@@ -128,7 +128,8 @@ apoptosis/proteostasis; immune) and scored **14 existing-drug candidates** 0–3
 six criteria (EMC evidence, mechanistic fit, availability, safety, biomarker,
 novelty; composite max 18). Two independent **patient-derived EMC model drug
 screens** anchor much of the preclinical evidence. Full per-criterion data:
-`research/hypotheses/candidates.json`. Ranked:
+`research/hypotheses/candidates.json`; a visual summary is **Figure 1**
+(`figures/candidate-landscape.svg`, auto-generated from the catalogue). Ranked:
 
 | # | Candidate | Tier | Score | Basis |
 |---|---|---|---|---|
