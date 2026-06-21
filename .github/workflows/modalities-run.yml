@@ -71,6 +71,14 @@ jobs:
         continue-on-error: true
         run: python research/modalities/hla_coverage.py
 
+      - name: Per-patient neoepitope shortlister — worked demo (e7::e3 + common HLA)
+        continue-on-error: true
+        run: |
+          python research/modalities/patient_neoepitopes.py \
+            --ewsr1-exon 7 --nr4a3-exon 3 \
+            --hla "A*02:01,A*11:01,B*07:02,B*08:01" \
+            --out research/modalities/patient-neoepitopes-demo.json
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -83,6 +91,7 @@ jobs:
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/hla-coverage.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/patient-neoepitopes-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
