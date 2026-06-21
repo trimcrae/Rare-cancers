@@ -60,10 +60,17 @@ def afnd_allele_freq(allele):
     url = AFND_BASE + "?" + urllib.parse.urlencode(params)
     html = fetch(url)
     # diagnostics so a failed scrape is debuggable from the published JSON, not silent
+    decimals = re.findall(r"\b0?\.\d{3,6}\b", html)
+    ctx = ""
+    m = re.search(r"0?\.\d{3,6}", html)
+    if m:
+        ctx = re.sub(r"\s+", " ", html[max(0, m.start()-160):m.start()+40])
     diag = {"html_len": len(html),
             "allele_in_html": allele in html,
             "n_tr": len(re.findall(r"<tr", html, flags=re.I)),
-            "has_freq_header": ("Allele Frequency" in html)}
+            "n_decimals_0to1": len(decimals),
+            "has_datatable": ("aaData" in html or "DataTable" in html or "fnAddData" in html),
+            "first_decimal_context": ctx}
     if not html:
         return {"_diag": diag}
     # AFND result rows carry the allele frequency (a small decimal) and a sample size.
