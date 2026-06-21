@@ -43,7 +43,11 @@ ALL_GENES = sorted({g for v in GENE_GROUPS.values() for g in v})
 CONTEXT_GENES = ["POLR2A", "NR4A3", "EWSR1", "FLI1"]
 DEPENDENT_THRESHOLD = -0.5
 
-FIGSHARE_SEARCH = "https://api.figshare.com/v2/articles?search_for=DepMap%20Public&page_size=40&order=published_date&order_direction=desc"
+# Known DepMap public-release figshare article IDs (newest first). Gene essentiality is stable
+# across releases, so an older but reliably-hosted release is an acceptable transfer prior.
+# 24Q4 is on Figshare+ (plus.figshare.com); 23Q2 (22765112) is on regular figshare and is the
+# confirmed reliable anchor — both expose CRISPRGeneEffect.csv + Model.csv.
+KNOWN_RELEASES = [("24Q4", 27993248), ("24Q4-alt", 27993966), ("23Q2", 22765112)]
 WANT_FILES = {"CRISPRGeneEffect.csv", "Model.csv"}
 
 
@@ -63,19 +67,34 @@ def _get(url, timeout=120, data=None, headers=None):
     raise RuntimeError(f"failed: {url}")
 
 
+def _article_files(aid):
+    try:
+        return json.loads(_get(f"https://api.figshare.com/v2/articles/{aid}")).get("files", [])
+    except Exception as e:  # noqa
+        print(f"  article {aid}: {e}", file=sys.stderr)
+        return []
+
+
 def discover_depmap_files():
-    """Find download URLs for CRISPRGeneEffect.csv + Model.csv from the newest DepMap release."""
-    arts = json.loads(_get(FIGSHARE_SEARCH))
-    print(f"  figshare: {len(arts)} candidate articles", file=sys.stderr)
-    for art in arts:
-        try:
-            files = json.loads(_get(f"https://api.figshare.com/v2/articles/{art['id']}"))["files"]
-        except Exception:
-            continue
-        by_name = {f["name"]: f["download_url"] for f in files}
+    """Resolve CRISPRGeneEffect.csv + Model.csv download URLs from a known DepMap release."""
+    for label, aid in KNOWN_RELEASES:
+        by_name = {f["name"]: f["download_url"] for f in _article_files(aid)}
+        have = WANT_FILES & set(by_name)
+        print(f"  DepMap {label} (figshare {aid}): exposes {sorted(have)}", file=sys.stderr)
         if WANT_FILES <= set(by_name):
-            print(f"  using article {art['id']}: {art.get('title','')[:70]}", file=sys.stderr)
-            return {n: by_name[n] for n in WANT_FILES}
+            print(f"  using DepMap {label} (figshare {aid})", file=sys.stderr)
+            return {"release": label, **{n: by_name[n] for n in WANT_FILES}}
+    # fallback: search the regular figshare repo by the distinctive filename token
+    try:
+        arts = json.loads(_get("https://api.figshare.com/v2/articles?search_for=CRISPRGeneEffect"
+                               "&page_size=20&order=published_date&order_direction=desc"))
+        for art in arts:
+            by_name = {f["name"]: f["download_url"] for f in _article_files(art["id"])}
+            if WANT_FILES <= set(by_name):
+                print(f"  using searched article {art['id']}", file=sys.stderr)
+                return {"release": f"searched:{art['id']}", **{n: by_name[n] for n in WANT_FILES}}
+    except Exception as e:  # noqa
+        print(f"  search fallback failed: {e}", file=sys.stderr)
     raise RuntimeError("no DepMap article exposes both CRISPRGeneEffect.csv and Model.csv")
 
 
@@ -88,6 +107,7 @@ def main():
         return
 
     urls = discover_depmap_files()
+    release = urls.get("release", "unknown")
 
     # Model metadata (small)
     model = pd.read_csv(io.BytesIO(_get(urls["Model.csv"], timeout=180)))
@@ -165,7 +185,7 @@ def main():
                  "< -0.5 = dependent; selectivity = rest_mean - sarcoma_mean (>0 = sarcoma-"
                  "selective). A PRIOR from related sarcomas, NOT EMC data. See "
                  "degrader-vs-synthetic-lethal.md.",
-        "data_source": "DepMap public (figshare-discovered) CRISPRGeneEffect.csv + Model.csv",
+        "data_source": f"DepMap public release {release} (figshare) CRISPRGeneEffect.csv + Model.csv",
         "n_models_total": int(len(model)),
         "n_sarcoma_models": len(sarcoma_ids),
         "dependent_threshold": DEPENDENT_THRESHOLD,
