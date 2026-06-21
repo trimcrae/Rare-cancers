@@ -43,6 +43,7 @@ research/
     repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)
     novel-modalities.md             manuscript: structure-based target assessment + routes to treatment for the fusion
     clinical-brief-emc-neoantigen.md one-page brief for a sarcoma immuno-oncologist (personalised neoantigen route)
+    hla-coverage-emc.md             manuscript: HLA population coverage of the public fusion-neoantigen (global + regional)
 ```
 
 ## Non-negotiable rules

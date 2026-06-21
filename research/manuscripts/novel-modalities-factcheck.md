@@ -75,9 +75,12 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   (2N)-weighted global pooling + Wilson 95% CIs (per METHODOLOGY.md): e7::e3 public junction
   (A*11:01 + B*08:01) = **29.7%** (95% CI 29.0–30.3%); any strong-binder allele across all
   resolved breakpoints (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%).
-  Global means; large between-population spread reported per allele
-  (`af_range_across_populations`). If the mirror is unreachable the script records
-  `source_unavailable` rather than guessing. Source: `hla-coverage.json`. ✓
+  Also pooled per UN M49 sub-region (AFND population→country→region via ISO 3166): any-strong
+  coverage 36% (Sub-Saharan Africa) → 79% (Northern Europe); 0 populations unassigned. The
+  global number is reported as the headline, the regional spread as an equity caveat — not as
+  a fabricated single figure. If a source is unreachable the script records
+  `source_unavailable` rather than guessing. Sources: `hla-coverage.json`,
+  `hla-coverage-emc.md`. ✓
 - Treatment-precedent DOIs (CI-confirmed): KEYNOTE-942/mRNA-4157 `10.1016/S0140-6736(23)02268-7`
   (Lancet 2024); autogene cevumeran/Rojas `10.1038/s41586-023-06063-y` (Nature 2023). ✓
 

@@ -26,7 +26,9 @@ jobs:
             "10.1038/s41591-024-03233-x#TxGNN (expect: foundation model, clinician-centered drug repurposing; Nat Med 2024)" \
             "10.1016/S0140-6736(23)02268-7#KEYNOTE-942 (expect: mRNA-4157/V940 + pembrolizumab, melanoma; Lancet 2024)" \
             "10.1038/s12276-023-01086-x#LNP review (expect: immunogenicity of lipid nanoparticles; Exp Mol Med 2023)" \
-            "10.1093/nar/gkaa1084#DGIdb (expect: Drug-Gene Interaction Database 4.0; NAR 2021)"; do
+            "10.1093/nar/gkaa1084#DGIdb (expect: Drug-Gene Interaction Database 4.0; NAR 2021)" \
+            "10.1093/nar/gkz1029#AFND 2020 (expect: Allele Frequency Net Database 2020 update; NAR 2020)" \
+            "10.1186/1471-2105-7-153#IEDB population coverage (expect: Bui 2006, T-cell epitope population coverage; BMC Bioinformatics 2006)"; do
             doi="${entry%%#*}"; note="${entry#*#}"
             echo "  DOI $doi"
             echo "    expect: $note"

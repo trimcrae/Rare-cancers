@@ -253,9 +253,13 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   > public junction (presented on **A\*11:01** and **B\*08:01**) covers **≈30%** of patients
   > (29.7%, 95% CI 29.0–30.3%); pooling **all** strong-binder alleles across the resolved
   > breakpoints (A\*02:01, A\*11:01, B\*07:02, B\*08:01, B\*15:01) reaches **≈58%** (58.0%,
-  > 95% CI 57.1–59.0%). These global means hide large between-population variation (e.g.
-  > A\*11:01 ranges 0–64% across AFND populations), so confirm per target population before
-  > clinical inference. Two caveats hold regardless of the number: (i) a junction peptide
+  > 95% CI 57.1–59.0%). These global means hide large between-population variation: pooled
+  > per UN M49 sub-region, any-strong coverage ranges from **36% (Sub-Saharan Africa)** to
+  > **79% (Northern Europe)**, and the e7::e3 junction from **~10%** (Sub-Saharan Africa,
+  > Latin America) to **~53% (Melanesia)** / **42% (East Asia)** — so a single global number
+  > overstates benefit for some patients and understates it for others; confirm per target
+  > population. (Full regional table + methods: `hla-coverage-emc.md`.) Two caveats hold
+  > regardless of the number: (i) a junction peptide
   > that is mostly self-sequence with one junction residue is a weaker T-cell target than a
   > fully foreign peptide; (ii) predicted MHC binding is a screen, not proof of
   > immunogenicity. Source: `hla-coverage.json`.
