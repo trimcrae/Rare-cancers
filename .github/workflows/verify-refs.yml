@@ -79,3 +79,20 @@ jobs:
           The dTAG system for immediate and target-specific protein degradation#Nabet 2018 Nat Chem Biol
           Antisense technology an overview and prospectus#Crooke 2021 Nat Rev Drug Discov
           REFS
+          echo
+          echo "===== 5) Targeted resolution for the 2 stragglers (author + title; print top 5) ====="
+          # Boulay 2017 Cell and Jumper 2021 Nature returned near-title decoys (an AACR
+          # abstract; a 2023 assembly paper). Constrain by author + title and print the
+          # top journal-article candidates with container + year so the right DOI is picked.
+          while IFS='#' read -r title author note; do
+            [ -z "$title" ] && continue
+            echo "  >>> $note"
+            echo "      title=\"$title\" author=\"$author\""
+            curl -s -m 30 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
+              --data-urlencode "query.bibliographic=$title" --data-urlencode "query.author=$author" \
+              --data-urlencode "filter=type:journal-article" --data-urlencode "rows=5" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const items=JSON.parse(s).message.items||[];items.forEach((m,i)=>console.log("      ["+i+"] DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,70),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0])))}catch(e){console.log("      PARSE-ERR")}})'
+          done <<'STRAG'
+          Cancer-specific retargeting of BAF complexes by a prion-like domain#Boulay#Boulay 2017 Cell (want container=Cell, year 2017, NOT an Abstract)
+          Highly accurate protein structure prediction with AlphaFold#Jumper#Jumper 2021 Nature (want container=Nature, year 2021)
+          STRAG
