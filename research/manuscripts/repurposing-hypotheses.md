@@ -123,7 +123,7 @@ metabolic/lysosomal-storage-disease drugs, while EMC's most clinically-active ag
 reflects EMC's rarity: re-running the model on two commoner relatives (chondrosarcoma,
 soft-tissue sarcoma) did **not** rescue the leads — they ranked similarly low (median ≈17–18th
 percentile, slightly *worse* than EMC's ≈21st) and the model reproduced the same implausible
-top hits. The divergence is therefore **not attributable to EMC's sparsity specifically**; it
+top hits (**Figure 3**). The divergence is therefore **not attributable to EMC's sparsity specifically**; it
 is a general property of this released checkpoint's indication ranking (which — being the
 held-out `complex_disease` split — also prevents any of the three diseases from serving as a
 clean data-rich control). We report this as a limitation rather than acting on it; no TxGNN

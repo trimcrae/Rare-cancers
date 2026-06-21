@@ -120,3 +120,45 @@ f.push(`</svg>`);
 const out2 = join(here, "triangulation.svg");
 writeFileSync(out2, f.join("\n") + "\n");
 console.log(`Wrote ${out2}`);
+
+// ---------------------------------------------------------------------------
+// Figure 3: TxGNN sparsity stress-test — where our leads rank across diseases
+// ---------------------------------------------------------------------------
+let comp = null;
+try {
+  comp = JSON.parse(readFileSync(join(here, "../../hypotheses/txgnn-relatives-comparison.json"), "utf8"));
+} catch { /* comparison not present (e.g. fresh checkout) — skip Fig 3 */ }
+
+if (comp && Array.isArray(comp.diseases) && comp.diseases.length) {
+  const SW = 760, rowH = 70, top = 78, padL = 200, padR = 36;
+  const axisW = SW - padL - padR;
+  const SH = top + comp.diseases.length * rowH + 46;
+  const sx = (pct) => padL + (Math.max(0, Math.min(100, pct)) / 100) * axisW;
+  const g = [];
+  g.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${SW}" height="${SH}" viewBox="0 0 ${SW} ${SH}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">`);
+  g.push(`<rect width="${SW}" height="${SH}" fill="#ffffff"/>`);
+  g.push(`<text x="24" y="28" font-size="15.5" font-weight="700" fill="#202124">TxGNN ranks our mechanism/enumeration leads low — for EMC and its commoner relatives</text>`);
+  g.push(`<text x="24" y="46" font-size="11.5" fill="#5f6368">Each dot = one of our 31 candidate drugs, placed at its percentile in TxGNN's 7,957-drug indication ranking (right = better). | = median.</text>`);
+  g.push(`<text x="24" y="62" font-size="11.5" fill="#c5221f">The relatives do not rank the leads any higher than EMC — refuting an "EMC-sparsity" explanation.</text>`);
+  // axis ticks
+  for (const v of [0, 25, 50, 75, 100]) {
+    g.push(`<line x1="${sx(v)}" y1="${top - 10}" x2="${sx(v)}" y2="${top + comp.diseases.length * rowH - 16}" stroke="${v === 50 ? "#cfd8dc" : "#eceff1"}" stroke-width="1"${v === 50 ? ' stroke-dasharray="4,4"' : ""}/>`);
+    g.push(`<text x="${sx(v)}" y="${top + comp.diseases.length * rowH - 2}" font-size="10" fill="#80868b" text-anchor="middle">${v}</text>`);
+  }
+  g.push(`<text x="${padL + axisW / 2}" y="${SH - 6}" font-size="10.5" fill="#5f6368" text-anchor="middle">percentile in TxGNN indication ranking (higher = ranked better)</text>`);
+  comp.diseases.forEach((d, i) => {
+    const cy = top + i * rowH + rowH / 2 - 8;
+    g.push(`<text x="${padL - 12}" y="${cy - 4}" font-size="12" font-weight="700" fill="#202124" text-anchor="end">${esc(d.label)}</text>`);
+    g.push(`<text x="${padL - 12}" y="${cy + 11}" font-size="10.5" fill="#5f6368" text-anchor="end">median ${d.relevantMedianPercentile} pct</text>`);
+    g.push(`<line x1="${sx(0)}" y1="${cy}" x2="${sx(100)}" y2="${cy}" stroke="#e0e0e0" stroke-width="1"/>`);
+    (d.relevantDrugRanks || []).filter((r) => r.rank).forEach((r) => {
+      g.push(`<circle cx="${sx(r.percentile)}" cy="${cy}" r="3.2" fill="#2c7fb8" fill-opacity="0.55"/>`);
+    });
+    const m = d.relevantMedianPercentile;
+    if (m != null) g.push(`<line x1="${sx(m)}" y1="${cy - 11}" x2="${sx(m)}" y2="${cy + 11}" stroke="#c5221f" stroke-width="2"/>`);
+  });
+  g.push(`</svg>`);
+  const out3 = join(here, "stress-test.svg");
+  writeFileSync(out3, g.join("\n") + "\n");
+  console.log(`Wrote ${out3}`);
+}

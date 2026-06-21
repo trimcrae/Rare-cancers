@@ -62,7 +62,7 @@ leads slightly *worse* (median ≈17–18th vs EMC's ≈21st percentile) with id
 top hits. The manuscript, METHODOLOGY and findings doc now state the divergence is a general
 property of the released checkpoint, **not** an EMC-rarity effect — and transparently note the
 revision. Remaining optional rigor: run the full-graph / `disease_eval` checkpoint to test the
-held-out-split caveat; optionally add a small cross-disease rank figure.
+held-out-split caveat; added as Figure 3 (cross-disease rank strip plot).
 
 ## Accuracy items verified in this pass
 - All 14 candidates' ranks/tiers/priority scores in §3 match `candidates.json`; every
