@@ -61,8 +61,8 @@ allele-frequency mirror updates.
 
 **Why immunotherapy at all?** Conventional small-molecule targeting of EWSR1::NR4A3 is
 precluded: the fusion is predicted either intrinsically disordered or folded-but-pocket-less
-(AlphaFold2 + fpocket; best cavity druggability 0.495, sub-threshold — see the structure
-assessment in `novel-modalities.md` §2). With no druggable pocket, attention turns to the
+(AlphaFold2 models from the AlphaFold DB + fpocket; best cavity druggability 0.495,
+sub-threshold — see the structure assessment in `novel-modalities.md` §2). With no druggable pocket, attention turns to the
 tumour-specific **fusion junction** as an immunological target.
 
 EMC's near-universal *NR4A3* rearrangement creates a fusion protein whose **junction**
