@@ -1,0 +1,16 @@
+{
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s' '{\"systemMessage\":\"🔔 Claude finished its turn — over to you.\"}'"
+          }
+        ]
+      }
+    ]
+  }
+}
