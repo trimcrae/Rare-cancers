@@ -68,3 +68,55 @@ parts.push(`</svg>`);
 const out = join(here, "candidate-landscape.svg");
 writeFileSync(out, parts.join("\n") + "\n");
 console.log(`Wrote ${out} (${rows.length} candidates)`);
+
+// ---------------------------------------------------------------------------
+// Figure 2: three-method triangulation + patient firewall (schematic)
+// ---------------------------------------------------------------------------
+function box(x, y, w, h, lines, opts = {}) {
+  const { fill = "#ffffff", stroke = "#5f6368", bold = false, fs = 11.5, dash = "" } = opts;
+  const s = [`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="1.3"${dash ? ` stroke-dasharray="${dash}"` : ""}/>`];
+  const arr = Array.isArray(lines) ? lines : [lines];
+  const cx = x + w / 2, startY = y + h / 2 - ((arr.length - 1) * (fs + 2)) / 2 + fs / 2 - 1;
+  arr.forEach((t, i) => s.push(`<text x="${cx}" y="${startY + i * (fs + 2)}" font-size="${fs}" ${bold ? 'font-weight="700"' : ""} fill="#202124" text-anchor="middle">${esc(t)}</text>`));
+  return s.join("\n");
+}
+function arrow(x1, y1, x2, y2, opts = {}) {
+  const { stroke = "#5f6368", dash = "" } = opts;
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="1.4" marker-end="url(#ah)"${dash ? ` stroke-dasharray="${dash}"` : ""}/>`;
+}
+
+const FW = 800, FH = 420;
+const f = [];
+f.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${FW}" height="${FH}" viewBox="0 0 ${FW} ${FH}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">`);
+f.push(`<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#5f6368"/></marker></defs>`);
+f.push(`<rect width="${FW}" height="${FH}" fill="#ffffff"/>`);
+f.push(`<text x="24" y="30" font-size="16" font-weight="700" fill="#202124">Three-method triangulation with a patient firewall</text>`);
+
+// inputs
+f.push(box(30, 60, 215, 54, ["Mechanism curation", "(expert, literature-driven)"], { fill: "#e8f0fe" }));
+f.push(box(292, 60, 215, 54, ["Target→drug enumeration", "(DGIdb, reproducible)"], { fill: "#e8f0fe" }));
+f.push(box(555, 60, 215, 54, ["Graph foundation model", "(TxGNN, zero-shot)"], { fill: "#fce8e6" }));
+
+// catalogue
+f.push(box(150, 175, 500, 56, ["Scored candidate catalogue — 14 existing drugs", "evidence tiers T0–T3 · priority score 0–18"], { fill: "#f1f3f4", bold: true }));
+
+// arrows from curation + enumeration into catalogue (converge)
+f.push(arrow(137, 114, 330, 173));
+f.push(arrow(399, 114, 399, 173));
+// TxGNN diverges -> side note (NOT into the catalogue)
+f.push(arrow(662, 114, 662, 138, { stroke: "#c5221f", dash: "5,4" }));
+f.push(`<text x="662" y="156" font-size="10.5" fill="#c5221f" text-anchor="middle">diverged — reported as a limitation;</text>`);
+f.push(`<text x="662" y="169" font-size="10.5" fill="#c5221f" text-anchor="middle">no TxGNN hit promoted to a candidate</text>`);
+
+// outputs
+f.push(arrow(300, 231, 230, 300));
+f.push(arrow(500, 231, 560, 300));
+f.push(box(70, 302, 320, 60, ["Patient page", "only T3 (real EMC clinical evidence) + clinician review"], { fill: "#e6f4ea", stroke: "#1b7837" }));
+f.push(box(440, 302, 320, 60, ["Manuscript & path-to-testing", "n-of-1 · basket trials · model validation · CURE ID"], { fill: "#fff7e0", stroke: "#b06000" }));
+// firewall label on the patient-page arrow
+f.push(`<text x="250" y="270" font-size="10.5" font-weight="700" fill="#1b7837" text-anchor="middle">FIREWALL</text>`);
+f.push(`</svg>`);
+
+const out2 = join(here, "triangulation.svg");
+writeFileSync(out2, f.join("\n") + "\n");
+console.log(`Wrote ${out2}`);

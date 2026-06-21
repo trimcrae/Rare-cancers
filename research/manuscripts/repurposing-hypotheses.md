@@ -119,7 +119,8 @@ metabolic/lysosomal-storage-disease drugs, and EMC's most clinically-active agen
 quartile, a consequence of EMC's sparse graph neighbourhood driving zero-shot
 similarity-transfer toward unrelated diseases. We report this divergence as a limitation
 of knowledge-graph foundation models on ultra-rare cancers rather than acting on it; no
-TxGNN prediction was promoted to a candidate.
+TxGNN prediction was promoted to a candidate. **Figure 2** summarises the three-method design
+and the patient firewall.
 
 ## 3. Candidates (from the scored catalog)
 We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the

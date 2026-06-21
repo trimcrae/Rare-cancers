@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#5f6368"/></marker></defs>
+<rect width="800" height="420" fill="#ffffff"/>
+<text x="24" y="30" font-size="16" font-weight="700" fill="#202124">Three-method triangulation with a patient firewall</text>
+<rect x="30" y="60" width="215" height="54" rx="6" fill="#e8f0fe" stroke="#5f6368" stroke-width="1.3"/>
+<text x="137.5" y="85" font-size="11.5"  fill="#202124" text-anchor="middle">Mechanism curation</text>
+<text x="137.5" y="98.5" font-size="11.5"  fill="#202124" text-anchor="middle">(expert, literature-driven)</text>
+<rect x="292" y="60" width="215" height="54" rx="6" fill="#e8f0fe" stroke="#5f6368" stroke-width="1.3"/>
+<text x="399.5" y="85" font-size="11.5"  fill="#202124" text-anchor="middle">Target→drug enumeration</text>
+<text x="399.5" y="98.5" font-size="11.5"  fill="#202124" text-anchor="middle">(DGIdb, reproducible)</text>
+<rect x="555" y="60" width="215" height="54" rx="6" fill="#fce8e6" stroke="#5f6368" stroke-width="1.3"/>
+<text x="662.5" y="85" font-size="11.5"  fill="#202124" text-anchor="middle">Graph foundation model</text>
+<text x="662.5" y="98.5" font-size="11.5"  fill="#202124" text-anchor="middle">(TxGNN, zero-shot)</text>
+<rect x="150" y="175" width="500" height="56" rx="6" fill="#f1f3f4" stroke="#5f6368" stroke-width="1.3"/>
+<text x="400" y="201" font-size="11.5" font-weight="700" fill="#202124" text-anchor="middle">Scored candidate catalogue — 14 existing drugs</text>
+<text x="400" y="214.5" font-size="11.5" font-weight="700" fill="#202124" text-anchor="middle">evidence tiers T0–T3 · priority score 0–18</text>
+<line x1="137" y1="114" x2="330" y2="173" stroke="#5f6368" stroke-width="1.4" marker-end="url(#ah)"/>
+<line x1="399" y1="114" x2="399" y2="173" stroke="#5f6368" stroke-width="1.4" marker-end="url(#ah)"/>
+<line x1="662" y1="114" x2="662" y2="138" stroke="#c5221f" stroke-width="1.4" marker-end="url(#ah)" stroke-dasharray="5,4"/>
+<text x="662" y="156" font-size="10.5" fill="#c5221f" text-anchor="middle">diverged — reported as a limitation;</text>
+<text x="662" y="169" font-size="10.5" fill="#c5221f" text-anchor="middle">no TxGNN hit promoted to a candidate</text>
+<line x1="300" y1="231" x2="230" y2="300" stroke="#5f6368" stroke-width="1.4" marker-end="url(#ah)"/>
+<line x1="500" y1="231" x2="560" y2="300" stroke="#5f6368" stroke-width="1.4" marker-end="url(#ah)"/>
+<rect x="70" y="302" width="320" height="60" rx="6" fill="#e6f4ea" stroke="#1b7837" stroke-width="1.3"/>
+<text x="230" y="330" font-size="11.5"  fill="#202124" text-anchor="middle">Patient page</text>
+<text x="230" y="343.5" font-size="11.5"  fill="#202124" text-anchor="middle">only T3 (real EMC clinical evidence) + clinician review</text>
+<rect x="440" y="302" width="320" height="60" rx="6" fill="#fff7e0" stroke="#b06000" stroke-width="1.3"/>
+<text x="600" y="330" font-size="11.5"  fill="#202124" text-anchor="middle">Manuscript &amp; path-to-testing</text>
+<text x="600" y="343.5" font-size="11.5"  fill="#202124" text-anchor="middle">n-of-1 · basket trials · model validation · CURE ID</text>
+<text x="250" y="270" font-size="10.5" font-weight="700" fill="#1b7837" text-anchor="middle">FIREWALL</text>
+</svg>

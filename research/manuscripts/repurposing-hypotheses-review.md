@@ -30,10 +30,10 @@ confirmations.
 2. **References to full journal style.** Entries are abbreviated ("et al.", no volume/pages).
    Expand author lists from the primary sources (do **not** infer co-authors), add
    volume/issue/pages, and confirm every DOI/PMID resolves.
-3. **Figures.** **Partly addressed:** Figure 1 (candidate landscape — score × tier, auto-generated
-   from the catalogue) is now in `figures/`. Still wanted: (a) a schematic of the three-method
-   triangulation/firewall; and (c) a TxGNN rank figure (our leads vs its top hits / the sparsity
-   stress-test) — to be added once the stress-test data lands.
+3. **Figures.** **Mostly addressed:** Figure 1 (candidate landscape — score × tier) and Figure 2
+   (three-method triangulation + firewall schematic) are now in `figures/`. Still optional: a
+   TxGNN rank figure (our leads vs its top hits / the sparsity stress-test) once that data lands.
+   All are draft figures for the human authors to finalize to journal style.
 4. **Reproducibility of "not reported in EMC."** State the search strategy and dates used to
    judge that each candidate is genuinely untried in EMC (databases, queries, last-searched
    date) — currently implicit.
