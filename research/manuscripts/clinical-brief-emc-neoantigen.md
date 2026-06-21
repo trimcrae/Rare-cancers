@@ -66,9 +66,13 @@ relevant tie-breaker when picking a vaccine/TCR target.
 The **TAF15::NR4A3 variant** (~16%) yields its *own* strong candidates — for TAF15 exon 4
 :: NR4A3 e3 (`…GYSSYGQSQS|VVRTDSLKGR…`): 6 presented / 3 strong, e.g. `SVVRTDSLK`/A\*11:01
 (37 nM) and `QSVVRTDSL`/B\*08:01 (124 nM) — different from the EWSR1 epitopes, reinforcing
-that targets are patient-specific. **A real patient's run uses their own breakpoint +
-their own HLA** (and, for CD4 help, their class-II type), which may give entirely
-different epitopes.
+that targets are patient-specific.
+
+**CD4 help is available too.** The class-II companion (EWSR1 e7::e3 vs DRB1\*15:01/03:01/
+07:01) predicts 9 junction-spanning helper epitopes, 4 strong — e.g. `SQYSQQSSSYGQQIV`/
+DRB1\*07:01 (14.5 nM) and `QIVRTDSLKGRRGRL`/DRB1\*03:01 (52 nM) — so a vaccine could pair
+CD8 targets with the CD4 help that drives durable responses. **A real patient's run uses
+their own breakpoint, class-I and class-II HLA**, which may give entirely different epitopes.
 
 ## Honest caveats (please read)
 

@@ -257,6 +257,13 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   > sequence with one junction residue is a weaker T-cell target than a fully foreign
   > peptide; (ii) predicted MHC binding is a screen, not proof of immunogenicity.
 
+- **Patient-ready, both partners, CD8 + CD4.** `patient_neoepitopes.py` turns one
+  patient's junction + HLA into a ranked CD8/class-I epitope shortlist; it covers **both**
+  fusion partners (`--partner EWSR1|TAF15` — the TAF15::NR4A3 variant, ~16%, yields its own
+  strong candidates, e.g. `SVVRTDSLK`/A\*11:01). `patient_cd4_epitopes.py` adds **CD4/
+  class-II helper** epitopes (MHCnuggets), which are needed for durable vaccine responses;
+  for the worked junction it predicts strong DR-restricted helpers (e.g. `SQYSQQSSSYGQQIV`/
+  DRB1\*07:01). A clinician-facing summary is in `clinical-brief-emc-neoantigen.md`.
 - **Decisive experiment.** Sequence the patient's breakpoint by RNA-seq; generate
   junction peptides; confirm presentation by immunopeptidomics and T-cell reactivity
   ex vivo. For a public-epitope strategy, first establish how recurrent the e7::e3

@@ -77,6 +77,18 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
 - Treatment-precedent DOIs (CI-confirmed): KEYNOTE-942/mRNA-4157 `10.1016/S0140-6736(23)02268-7`
   (Lancet 2024); autogene cevumeran/Rojas `10.1038/s41586-023-06063-y` (Nature 2023). ✓
 
+## Patient-ready tools (TAF15 + CD4)
+- **✓ TAF15::NR4A3 covered.** `patient_neoepitopes.py --partner TAF15` reuses the generic
+  Ensembl machinery; CI demo found TAF15 exon 4 :: NR4A3 e3 in-frame → 6 presented / 3
+  strong (e.g. SVVRTDSLK/A*11:01 37 nM). Source: `patient-neoepitopes-taf15-demo.json`.
+- **✗→✓ CD4/class-II.** `patient_cd4_epitopes.py` (MHCnuggets) first failed —
+  `Argument(s) not recognized: {'lr': 0.001}` — because MHCnuggets uses the old Keras
+  `lr=` optimizer arg removed in Keras≥2.11 (forced by py3.11). Fixed by pinning a
+  Python 3.10 + TensorFlow 2.10 micromamba env. CI demo (EWSR1 e7::e3 vs DRB1*15:01/
+  03:01/07:01): 9 binders / 4 strong (e.g. SQYSQQSSSYGQQIV/DRB1*07:01 14.5 nM). Source:
+  `patient-cd4-demo.json`. Both tools degrade gracefully (emit candidate peptides) when a
+  predictor is unavailable, and carry not-a-device / screen-not-proof disclaimers.
+
 ## Honesty boundaries (claims we deliberately do NOT make)
 - No named drug/PROTAC/validated epitope as "the therapy" — would be fabrication.
 - Breakpoint is modelled (flagged in every JSON `_breakpoint_model`); per-patient junction
