@@ -41,8 +41,12 @@ confirmations.
 - Some background facts lean on the 2025 review (Remiszewski) and registry (Masunaga) as
   secondary sources; where feasible, cite the **primary** pazopanib/sunitinib EMC reports for
   the "most active class" claim.
-- Confirm the exact CD117/KIT-positive proportion attributed to Huang SC 2023 ("roughly half")
-  and the "~5%" KIT-mutant figure against their reported numbers.
+- ~~Confirm the CD117/KIT proportion and the "~5%" KIT figure.~~ **Resolved (pass 3):** the
+  earlier "CD117 expressed in roughly half (Huang SC 2023)" was wrong and mis-cited — CD117 IHC
+  positivity is ≈84% (Giner et al. 2023, now ref 17); the unsupported "~5%" KIT figure was
+  replaced with "rare / no more than a few percent" (Huang SC 2023, 48-case sequencing), and the
+  expression-vs-activating-mutation distinction is now made explicit (it underpins the imatinib
+  rationale).
 - The mRNA-vaccine candidate (T0) is the most speculative; keep its analogy-only framing and
   consider whether it belongs in the main table or a "frontier ideas" footnote.
 - Consider a one-line plain-language summary / "key points" box for the target journal.

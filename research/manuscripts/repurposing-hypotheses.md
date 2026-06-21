@@ -48,9 +48,12 @@ is the anti-angiogenic multikinase TKIs — pazopanib and sunitinib in particula
 responses are usually partial and finite, and conventional cytotoxic chemotherapy has limited
 activity (Remiszewski et al. 2025). Compounding this, clinical next-generation sequencing of
 advanced EMC characteristically reveals **no recurrent, directly actionable driver mutations**
-beyond the defining fusion (Davis et al. 2017); an imatinib-sensitive *KIT* mutation occurs in
-only a small minority (Urbini et al. 2018; Jennings et al. 2021), and CD117/KIT is expressed in
-roughly half of cases (Huang SC et al. 2023). EMC therefore sits in a difficult space: too rare
+beyond the defining fusion (Davis et al. 2017); an imatinib-sensitive activating *KIT* mutation
+is rare — described at case level (Urbini et al. 2018; Jennings et al. 2021), with systematic
+*KIT* sequencing of EMC series placing it at no more than a few percent (Huang SC et al. 2023).
+CD117/KIT *protein*, by contrast, is detectable by immunohistochemistry in most cases (≈84%;
+Giner et al. 2023) — a distinction that matters clinically, because imatinib acts on the
+activating mutation, not on mere expression. EMC therefore sits in a difficult space: too rare
 for adequately-powered de-novo trials, and without an obvious single druggable mutation to
 anchor a targeted-therapy programme.
 
@@ -72,7 +75,11 @@ or carry substantial human safety data, (ii) have a mechanistic rationale agains
 EMC vulnerability, and (iii) have not, to our knowledge, been reported as tried in EMC.
 Candidates were organised across seven vulnerability axes: angiogenesis; the *NR4A3* fusion and
 its transcriptional programme; PPARγ / nuclear-receptor signalling; epigenetic dependencies;
-the cell cycle; apoptosis / proteostasis; and the immune microenvironment.
+the cell cycle; apoptosis / proteostasis; and the immune microenvironment. "Not yet reported in
+EMC" was assessed by structured review of the EMC literature corpus underlying this project and
+by the enumeration's gap analysis against agents with documented EMC activity; this status is
+time-sensitive and should be re-confirmed with a dated, documented database search at the point
+of submission.
 
 **Evidence tiers.** Each candidate is graded by the strength and proximity of its supporting
 evidence: **T3**, prospective or substantial clinical evidence in EMC; **T2**, case-level
@@ -144,7 +151,7 @@ screens** anchor much of the preclinical evidence. Full per-criterion data:
 retained for completeness.
 
 **Framing — the quiet genome.** Clinical NGS of metastatic EMC found *no recurrent
-actionable mutations* (the *KIT* case is a ~5% exception), so the strategy is to
+actionable mutations* (the *KIT*-mutant case is a rare, few-percent exception), so the strategy is to
 target the fusion / lineage biology and to mine unbiased patient-derived-model
 screens (Bangerter et al. 2023; Iwata et al. 2025) — which is why approved drugs hitting
 PPARγ, cell-cycle, epigenetic and apoptotic nodes, plus the validated VEGFR-TKI class,
@@ -165,8 +172,8 @@ availability (approved > investigational-with-safety-data), tolerability, and wh
 is the only candidate at T3 (direct EMC clinical evidence: a *KIT* exon-11–mutant patient with
 3 years of disease stabilisation; Jennings et al. 2021). It is approved, well-characterised,
 and biomarker-defined. The realistic route is **molecular pre-screening** (NGS for *KIT*
-mutations) followed by an **expanded-access / n-of-1** trial in the ~5% who qualify — not
-general use. This is the single most actionable lead and is flagged as eligible for the
+mutations) followed by an **expanded-access / n-of-1** trial in the small, mutation-defined
+minority who qualify — not general use. This is the single most actionable lead and is flagged as eligible for the
 patient-facing page pending clinician review.
 
 **Tranche 2 — shelf-ready class extension.** The VEGFR-TKI extension (regorafenib,
@@ -285,5 +292,6 @@ PMID/PMCID.
 14. Immunogenicity of lipid nanoparticles and its impact on the efficacy of mRNA vaccines and therapeutics. *Exp Mol Med.* 2023. doi:10.1038/s12276-023-01086-x. PMC10618257.
 15. The Drug–Gene Interaction Database (DGIdb). https://dgidb.org (Freshour SL, et al. *Nucleic Acids Res.* 2021; doi:10.1093/nar/gkaa1084).
 16. CURE ID — FDA / NCATS treatment registry. https://cure.ncats.io.
+17. Giner F, et al. Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome — an immunohistochemical and molecular analysis of 31 cases. *Virchows Arch.* 2023. doi:10.1007/s00428-022-03453-x. PMID 36376703.
 
 *Author lists marked "et al." and any reference lacking volume/page detail must be completed to full journal style before submission; do not infer co-authors. The Kim et al. 2016 author list above is from the corpus record for PMID 26310886.*
