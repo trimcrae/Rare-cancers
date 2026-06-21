@@ -26,6 +26,7 @@ research/
     txgnn_predict.py                runs the real pretrained TxGNN model for EMC (CI)
     txgnn-emc-predictions.json      TxGNN's genuine zero-shot ranking of 7,957 drugs for EMC
     txgnn-emc-findings.md           interpretation: TxGNN diverges from mechanism/enumeration (a limitation finding)
+    txgnn-relatives-comparison.json interpretation: sparsity stress-test (EMC vs chondrosarcoma vs STS)
   manuscripts/
     meta-analysis.md                manuscript skeleton (outcomes meta-analysis)
     repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)

@@ -25,9 +25,11 @@ prioritised menu of **14 candidates** spanning the angiogenic, *NR4A3*-transcrip
 PPARγ/lineage, cell-cycle, epigenetic, apoptotic and immune axes — led by imatinib for the
 small *KIT*-mutant subset (the one candidate with direct EMC clinical evidence) and an
 extension of the validated VEGFR-TKI class. The graph foundation model, by contrast, diverged
-sharply, illustrating a concrete limitation of knowledge-graph models on data-sparse rare
-cancers. We present this as a feasibility-ranked set of testable hypotheses to focus
-preclinical and n-of-1 investigation — explicitly **not** as evidence of efficacy.
+sharply — and a pre-specified stress-test on commoner sarcomas showed the divergence is **not**
+explained by EMC's rarity — illustrating a concrete limitation of deploying an off-the-shelf
+knowledge-graph model for this problem. We present this as a feasibility-ranked set of testable
+hypotheses to focus preclinical and n-of-1 investigation — explicitly **not** as evidence of
+efficacy.
 
 ## 1. Introduction
 
@@ -48,14 +50,15 @@ is the anti-angiogenic multikinase TKIs — pazopanib and sunitinib in particula
 responses are usually partial and finite, and conventional cytotoxic chemotherapy has limited
 activity (Remiszewski et al. 2025). Compounding this, clinical next-generation sequencing of
 advanced EMC characteristically reveals **no recurrent, directly actionable driver mutations**
-beyond the defining fusion (Davis et al. 2017); an imatinib-sensitive activating *KIT* mutation
-is rare — described at case level (Urbini et al. 2018; Jennings et al. 2021), with systematic
-*KIT* sequencing of EMC series placing it at no more than a few percent (Huang SC et al. 2023).
-CD117/KIT *protein*, by contrast, is detectable by immunohistochemistry in most cases (≈84%;
-Giner et al. 2023) — a distinction that matters clinically, because imatinib acts on the
-activating mutation, not on mere expression. EMC therefore sits in a difficult space: too rare
-for adequately-powered de-novo trials, and without an obvious single druggable mutation to
-anchor a targeted-therapy programme.
+beyond the defining fusion (Davis et al. 2017). An imatinib-sensitive activating *KIT* mutation
+is rare — reported in ~1 of 20 EMCs in one series (Urbini et al. 2018) and ~2 of 48 (≈4%) in
+another (Huang SC et al. 2023), in addition to the index treated case (Jennings et al. 2021).
+CD117/KIT *protein*, by contrast, is detectable by immunohistochemistry in a substantial but
+variable proportion of cases (≈53% of 48 in one series and ≈84% of 31 in another; Huang SC et
+al. 2023; Giner et al. 2023) — a distinction that matters clinically, because imatinib acts on
+the activating mutation, not on mere protein expression. EMC therefore sits in a difficult
+space: too rare for adequately-powered de-novo trials, and without an obvious single druggable
+mutation to anchor a targeted-therapy programme.
 
 **The case for repurposing.** Re-deploying drugs that are already approved (or have human
 safety data) is especially suited to this setting: it removes the largest cost and time
@@ -114,13 +117,18 @@ As a third, independent line we ran the pretrained **TxGNN** graph foundation mo
 (Huang et al., Nat Med 2024) zero-shot on the EMC knowledge-graph node and ranked all
 7,957 drugs (`hypotheses/txgnn-emc-findings.md`). Unlike curation and enumeration —
 which converge on oncology leads — TxGNN diverged: its top predictions were
-metabolic/lysosomal-storage-disease drugs, and EMC's most clinically-active agents
-(pazopanib, sunitinib) and our biomarker-supported lead (imatinib) ranked in the bottom
-quartile, a consequence of EMC's sparse graph neighbourhood driving zero-shot
-similarity-transfer toward unrelated diseases. We report this divergence as a limitation
-of knowledge-graph foundation models on ultra-rare cancers rather than acting on it; no
-TxGNN prediction was promoted to a candidate. **Figure 2** summarises the three-method design
-and the patient firewall.
+metabolic/lysosomal-storage-disease drugs, while EMC's most clinically-active agents
+(pazopanib, sunitinib) and our biomarker-supported lead (imatinib) ranked at roughly the
+19th–25th percentile of 7,957. We pre-specified a stress-test to ask whether this simply
+reflects EMC's rarity: re-running the model on two commoner relatives (chondrosarcoma,
+soft-tissue sarcoma) did **not** rescue the leads — they ranked similarly low (median ≈17–18th
+percentile, slightly *worse* than EMC's ≈21st) and the model reproduced the same implausible
+top hits. The divergence is therefore **not attributable to EMC's sparsity specifically**; it
+is a general property of this released checkpoint's indication ranking (which — being the
+held-out `complex_disease` split — also prevents any of the three diseases from serving as a
+clean data-rich control). We report this as a limitation rather than acting on it; no TxGNN
+prediction was promoted to a candidate. **Figure 2** summarises the three-method design and the
+patient firewall.
 
 ## 3. Candidates (from the scored catalog)
 We surveyed EMC's documented vulnerabilities across seven axes (angiogenesis; the
@@ -211,10 +219,12 @@ quiet — so target-level plausibility does not guarantee clinical activity. Sec
 reproducible target→drug enumeration, but the priority score remains an expert-elicited,
 equally-weighted heuristic, not a calibrated probability. Third, the graph foundation model
 (TxGNN) we used as an independent check **diverged** from the mechanism- and
-enumeration-derived leads, ranking EMC's most clinically-active agents in the bottom quartile;
-we interpret this as a limitation of knowledge-graph models on data-sparse rare cancers rather
-than as evidence against those agents, but it is a reminder that no single method is
-authoritative here. Fourth, biomarker-restricted candidates (notably imatinib) apply only to a
+enumeration-derived leads, ranking EMC's most clinically-active agents (pazopanib, sunitinib) in
+the bottom quartile of 7,957 drugs; a pre-specified stress-test on commoner sarcomas reproduced
+the same pattern, so we interpret this as a limitation of the off-the-shelf model's indication
+ranking — not as evidence against those agents, and not, as we had initially supposed, a simple
+consequence of EMC's rarity. Either way it is a reminder that no single method is authoritative
+here. Fourth, biomarker-restricted candidates (notably imatinib) apply only to a
 molecularly-defined minority and must not be generalised.
 
 Ethically, the chief risk is **false hope**: a plausible-sounding mechanism can be mistaken by
@@ -243,9 +253,9 @@ registry infrastructure that could realistically move EMC care forward.
 All underlying data and the methods that generated them are open and reproducible. The scored
 candidate catalogue (`research/hypotheses/candidates.json`), the methodology
 (`research/hypotheses/METHODOLOGY.md`), the target→drug enumeration code and output
-(`enumerate-drugs.mjs`, `target-drug-matrix.json`), and the TxGNN run, output and write-up
-(`txgnn_predict.py`, `txgnn-emc-predictions.json`, `txgnn-emc-findings.md`) are in the project
-repository. No new patient data were generated; all clinical/biological inputs are from the
+(`enumerate-drugs.mjs`, `target-drug-matrix.json`), and the TxGNN run, outputs and write-up
+(`txgnn_predict.py`, `txgnn-emc-predictions.json`, `txgnn-relatives-comparison.json`,
+`txgnn-emc-findings.md`) are in the project repository. No new patient data were generated; all clinical/biological inputs are from the
 cited published literature.
 
 ## 8. Author contributions

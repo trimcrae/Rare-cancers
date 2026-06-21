@@ -54,12 +54,15 @@ confirmations.
 - "Approved > investigational" feasibility wording: make sure every Tranche-2 agent listed is
   actually approved somewhere (fruquintinib/tivozanib approvals vary by region) — note region.
 
-## Strengthening the TxGNN result (optional, raises rigor)
-The divergence claim currently rests on one model, one disease node, the `complex_disease`
-checkpoint. To pre-empt "you used it wrong": (a) re-run on a *non-sparse* relative
-(chondrosarcoma / soft-tissue-sarcoma node) and show oncology drugs rank appropriately there —
-isolating sparsity as the cause; (b) optionally try the `disease_eval` split. If done, add as a
-short supplementary note. (Scaffold exists: `txgnn_predict.py` + `txgnn-run.yml`.)
+## TxGNN result — stress-tested (done; overturned a claim)
+The divergence was stress-tested by re-running the model on two commoner relatives
+(chondrosarcoma, soft-tissue sarcoma; `txgnn-relatives-comparison.json`). The result
+**overturned our initial "EMC-sparsity" explanation**: the relatives ranked the same oncology
+leads slightly *worse* (median ≈17–18th vs EMC's ≈21st percentile) with identical implausible
+top hits. The manuscript, METHODOLOGY and findings doc now state the divergence is a general
+property of the released checkpoint, **not** an EMC-rarity effect — and transparently note the
+revision. Remaining optional rigor: run the full-graph / `disease_eval` checkpoint to test the
+held-out-split caveat; optionally add a small cross-disease rank figure.
 
 ## Accuracy items verified in this pass
 - All 14 candidates' ranks/tiers/priority scores in §3 match `candidates.json`; every
@@ -69,6 +72,17 @@ short supplementary note. (Scaffold exists: `txgnn_predict.py` + `txgnn-run.yml`
 - Two earlier author misattributions were corrected (Kim 2016, not "Yoshimura"; Huang SC 2023,
   not "Warmke"). All 16 references are cited inline.
 - Efficacy-language sweep clean (only "no effective therapy" usages).
+- **All 12 EMC references cross-checked against the PubMed corpus** (PMID/PMCID → matching title,
+  DOI, year): all pass.
+- Imatinib case verified verbatim (Jennings 2021: "KIT exon 11 ... c.1669 T>G", "on imatinib …
+  for 3 years with stable disease"); CDK4 100% and CDKN2A/2B-loss bases verified (Giner 2023;
+  Davis 2017); Iwata 2025's 221-drug screen (brigatinib, panobinostat, romidepsin) verified —
+  it corroborates the screen-hit candidates.
+- **Accuracy corrections made this pass:** CD117 figure (was a single cherry-picked number) now
+  given as a verified range (≈53% Huang SC 2023, n=48; ≈84% Giner 2023, n=31); KIT-mutation
+  frequency given as verified fractions (1/20 Urbini; 2/48 ≈4% Huang SC); imatinib's "bottom
+  quartile" corrected (it sits at the 25th percentile, just above the bottom quartile — text now
+  says 19th–25th percentile and reserves "bottom quartile" for pazopanib/sunitinib).
 
 ## Required human actions before submission (checklist)
 - [ ] Recruit named authors incl. a sarcoma specialist; complete §8–§10.

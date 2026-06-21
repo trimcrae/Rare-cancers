@@ -37,24 +37,36 @@ biomarker-supported T3 lead (imatinib) all land in the **bottom ~20–25%**, whi
 model's top picks are clinically implausible for EMC. Two enumerated leads
 (**fruquintinib, anlotinib**) are **absent from the 2023 knowledge graph** entirely.
 
-## Why (honest interpretation)
+## Sparsity stress-test — and why our first explanation was wrong
 
-EMC is **data-sparse in PrimeKG** (few disease–gene/treatment edges). TxGNN's value comes
-from **zero-shot similarity transfer** — it borrows signal from the most graph-similar
-diseases. For EMC those neighbours appear to be metabolic / lysosomal-storage disorders,
-so predictions are pulled toward *their* drugs, **orthogonal to oncology mechanism**. This
-is a clean, citable illustration of where KG foundation models break down: **ultra-rare
-cancers with thin graph neighbourhoods.** It is not evidence that TxGNN is "wrong" in
-general — only that, for EMC specifically, it neither corroborates our leads nor surfaces
-plausible new ones.
+Our initial hypothesis was that EMC's **sparse** PrimeKG neighbourhood made zero-shot
+similarity-transfer borrow from metabolic/lysosomal diseases, dragging oncology drugs down.
+We tested it directly by re-running the same model on two **commoner** relatives
+(`txgnn-relatives-comparison.json`):
+
+| disease | our-drugs median percentile | top hit |
+|---|---:|---|
+| EMC | 21.0 | ORE-1001 |
+| chondrosarcoma | 17.7 | ORE-1001 |
+| soft-tissue sarcoma | 17.4 | ORE-1001 |
+
+The relatives did **not** rescue the leads — they ranked our drugs *slightly worse* than EMC
+did, with the **same** implausible top hits. **This refutes the sparsity explanation.** The
+divergence is not specific to EMC's rarity; it is a general property of this released
+checkpoint's *indication* ranking (across all three, only doxorubicin — a real sarcoma chemo —
+ranks well; the targeted/anti-angiogenic agents rank low everywhere). We therefore report the
+model as **non-corroboratory** for these leads, **without** ascribing a cause we cannot support.
 
 ## Caveats
 
-- Released **`complex_disease`** pretrained checkpoint; a `disease_eval`/full-graph model
-  could differ. Scores are logits (all our leads are negative = predicted *unlikely*
-  indications; top hits are positive).
-- KG currency: PrimeKG is ~2023, so newer agents (fruquintinib, anlotinib) are missing.
-- Single disease node; grouped MONDO `12825_4392`.
+- Released **`complex_disease`** pretrained checkpoint, which *holds out* drug–disease
+  treatment edges — so none of the three diseases is a clean "data-rich" positive control, and
+  a definitive mechanism would need the full-graph model. Scores are logits.
+- KG currency: PrimeKG is ~2023, so newer agents (fruquintinib, anlotinib) are absent.
+- One disease node each; EMC is grouped MONDO `12825_4392`.
+- **Process note:** the sparsity claim was in an earlier draft and was *removed* after this
+  stress-test contradicted it — an example of the verification catching an unsupported causal
+  claim before submission.
 
 ## What we do with it (firewall)
 

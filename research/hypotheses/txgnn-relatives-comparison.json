@@ -1,0 +1,1044 @@
+{
+  "purpose": "Sparsity stress-test: do our mechanism/enumeration drugs rank higher for EMC's data-rich relatives (chondrosarcoma, soft-tissue sarcoma) than for EMC itself? A higher relevantMedianPercentile for the relatives isolates EMC's sparse KG neighbourhood \u2014 not model failure \u2014 as the cause of the EMC divergence.",
+  "relation": "indication",
+  "diseases": [
+    {
+      "label": "EMC",
+      "disease": "extraskeletal myxoid chondrosarcoma",
+      "disease_id": "12825_4392",
+      "totalRanked": 7957,
+      "relevantMedianPercentile": 21.0,
+      "topDrugs": [
+        {
+          "drug_id": "DB12271",
+          "drug": "ORE-1001",
+          "score": 1.50968
+        },
+        {
+          "drug_id": "DB09105",
+          "drug": "Asfotase alfa",
+          "score": 1.42989
+        },
+        {
+          "drug_id": "DB07115",
+          "drug": "N-(4-chlorobenzyl)-N-methylbenzene-1,4-disulfonamide",
+          "score": 1.2461
+        },
+        {
+          "drug_id": "DB03542",
+          "drug": "L-Myo-Inositol-1-Phosphate",
+          "score": 1.11491
+        },
+        {
+          "drug_id": "DB00053",
+          "drug": "Imiglucerase",
+          "score": 1.07806
+        },
+        {
+          "drug_id": "DB00088",
+          "drug": "Alglucerase",
+          "score": 1.07806
+        },
+        {
+          "drug_id": "DB08876",
+          "drug": "Taliglucerase alfa",
+          "score": 1.07806
+        },
+        {
+          "drug_id": "DB14751",
+          "drug": "Mecasermin rinfabate",
+          "score": 1.03727
+        },
+        {
+          "drug_id": "DB04478",
+          "drug": "Cp-166572, 2-Hydroxymethyl-4-(4-N,N-Dimethylaminosulfonyl-1-Piperazino)-Pyrimidine",
+          "score": 1.03483
+        },
+        {
+          "drug_id": "DB05166",
+          "drug": "APD668",
+          "score": 0.95307
+        },
+        {
+          "drug_id": "DB12965",
+          "drug": "Silver",
+          "score": 0.89372
+        },
+        {
+          "drug_id": "DB11781",
+          "drug": "Tosedostat",
+          "score": 0.87487
+        },
+        {
+          "drug_id": "DB02393",
+          "drug": "D-Gluco-2,5-Anhydro-1-Deoxy-1-Phosphonohexitol-6-Phosphate",
+          "score": 0.8498
+        },
+        {
+          "drug_id": "DB06720",
+          "drug": "Velaglucerase alfa",
+          "score": 0.77672
+        },
+        {
+          "drug_id": "DB04970",
+          "drug": "Lesopitron",
+          "score": 0.74521
+        }
+      ],
+      "relevantDrugRanks": [
+        {
+          "query": "pazopanib",
+          "matched": "Pazopanib",
+          "rank": 6422,
+          "of": 7957,
+          "score": -3.75301,
+          "percentile": 19.3
+        },
+        {
+          "query": "sunitinib",
+          "matched": "Sunitinib",
+          "rank": 6382,
+          "of": 7957,
+          "score": -3.6549,
+          "percentile": 19.8
+        },
+        {
+          "query": "sorafenib",
+          "matched": "Sorafenib",
+          "rank": 6558,
+          "of": 7957,
+          "score": -4.32715,
+          "percentile": 17.6
+        },
+        {
+          "query": "regorafenib",
+          "matched": "Regorafenib",
+          "rank": 6094,
+          "of": 7957,
+          "score": -2.95898,
+          "percentile": 23.4
+        },
+        {
+          "query": "cabozantinib",
+          "matched": "Cabozantinib",
+          "rank": 6400,
+          "of": 7957,
+          "score": -3.69064,
+          "percentile": 19.6
+        },
+        {
+          "query": "axitinib",
+          "matched": "Axitinib",
+          "rank": 6297,
+          "of": 7957,
+          "score": -3.39135,
+          "percentile": 20.9
+        },
+        {
+          "query": "nintedanib",
+          "matched": "Nintedanib",
+          "rank": 6078,
+          "of": 7957,
+          "score": -2.94184,
+          "percentile": 23.6
+        },
+        {
+          "query": "vandetanib",
+          "matched": "Vandetanib",
+          "rank": 7051,
+          "of": 7957,
+          "score": -6.18528,
+          "percentile": 11.4
+        },
+        {
+          "query": "tivozanib",
+          "matched": "Tivozanib",
+          "rank": 5381,
+          "of": 7957,
+          "score": -2.27731,
+          "percentile": 32.4
+        },
+        {
+          "query": "fruquintinib",
+          "matched": null,
+          "rank": null,
+          "of": 7957
+        },
+        {
+          "query": "lenvatinib",
+          "matched": "Lenvatinib",
+          "rank": 6220,
+          "of": 7957,
+          "score": -3.19604,
+          "percentile": 21.8
+        },
+        {
+          "query": "anlotinib",
+          "matched": null,
+          "rank": null,
+          "of": 7957
+        },
+        {
+          "query": "apatinib",
+          "matched": "Lapatinib",
+          "rank": 6693,
+          "of": 7957,
+          "score": -4.88514,
+          "percentile": 15.9
+        },
+        {
+          "query": "imatinib",
+          "matched": "Imatinib",
+          "rank": 5951,
+          "of": 7957,
+          "score": -2.80534,
+          "percentile": 25.2
+        },
+        {
+          "query": "dasatinib",
+          "matched": "Dasatinib",
+          "rank": 6410,
+          "of": 7957,
+          "score": -3.71948,
+          "percentile": 19.4
+        },
+        {
+          "query": "nilotinib",
+          "matched": "Nilotinib",
+          "rank": 6406,
+          "of": 7957,
+          "score": -3.7081,
+          "percentile": 19.5
+        },
+        {
+          "query": "ponatinib",
+          "matched": "Ponatinib",
+          "rank": 5741,
+          "of": 7957,
+          "score": -2.57592,
+          "percentile": 27.8
+        },
+        {
+          "query": "masitinib",
+          "matched": "Masitinib",
+          "rank": 3784,
+          "of": 7957,
+          "score": -1.37333,
+          "percentile": 52.4
+        },
+        {
+          "query": "midostaurin",
+          "matched": "Midostaurin",
+          "rank": 6716,
+          "of": 7957,
+          "score": -4.97781,
+          "percentile": 15.6
+        },
+        {
+          "query": "quizartinib",
+          "matched": "Quizartinib",
+          "rank": 6492,
+          "of": 7957,
+          "score": -4.06378,
+          "percentile": 18.4
+        },
+        {
+          "query": "ripretinib",
+          "matched": "Ripretinib",
+          "rank": 5374,
+          "of": 7957,
+          "score": -2.27061,
+          "percentile": 32.5
+        },
+        {
+          "query": "trabectedin",
+          "matched": "Trabectedin",
+          "rank": 7158,
+          "of": 7957,
+          "score": -6.47714,
+          "percentile": 10.0
+        },
+        {
+          "query": "doxorubicin",
+          "matched": "13-deoxydoxorubicin",
+          "rank": 2017,
+          "of": 7957,
+          "score": -0.7773,
+          "percentile": 74.7
+        },
+        {
+          "query": "ifosfamide",
+          "matched": "Palifosfamide",
+          "rank": 5531,
+          "of": 7957,
+          "score": -2.41416,
+          "percentile": 30.5
+        },
+        {
+          "query": "eribulin",
+          "matched": "Eribulin",
+          "rank": 5564,
+          "of": 7957,
+          "score": -2.44074,
+          "percentile": 30.1
+        },
+        {
+          "query": "gemcitabine",
+          "matched": "Gemcitabine",
+          "rank": 7750,
+          "of": 7957,
+          "score": -8.2709,
+          "percentile": 2.6
+        },
+        {
+          "query": "sirolimus",
+          "matched": "Sirolimus",
+          "rank": 6242,
+          "of": 7957,
+          "score": -3.23184,
+          "percentile": 21.6
+        },
+        {
+          "query": "everolimus",
+          "matched": "Everolimus",
+          "rank": 6565,
+          "of": 7957,
+          "score": -4.3713,
+          "percentile": 17.5
+        },
+        {
+          "query": "pioglitazone",
+          "matched": "Pioglitazone",
+          "rank": 7725,
+          "of": 7957,
+          "score": -8.16117,
+          "percentile": 2.9
+        },
+        {
+          "query": "rosiglitazone",
+          "matched": "Rosiglitazone",
+          "rank": 6249,
+          "of": 7957,
+          "score": -3.24074,
+          "percentile": 21.5
+        },
+        {
+          "query": "zaltoprofen",
+          "matched": "Zaltoprofen",
+          "rank": 5283,
+          "of": 7957,
+          "score": -2.19408,
+          "percentile": 33.6
+        },
+        {
+          "query": "pembrolizumab",
+          "matched": "Pembrolizumab",
+          "rank": 6288,
+          "of": 7957,
+          "score": -3.36616,
+          "percentile": 21.0
+        },
+        {
+          "query": "nivolumab",
+          "matched": "Nivolumab",
+          "rank": 6166,
+          "of": 7957,
+          "score": -3.08476,
+          "percentile": 22.5
+        }
+      ]
+    },
+    {
+      "label": "chondrosarcoma",
+      "disease": "chondrosarcoma (disease)",
+      "disease_id": "8977.0",
+      "totalRanked": 7957,
+      "relevantMedianPercentile": 17.7,
+      "topDrugs": [
+        {
+          "drug_id": "DB12271",
+          "drug": "ORE-1001",
+          "score": 2.78003
+        },
+        {
+          "drug_id": "DB04970",
+          "drug": "Lesopitron",
+          "score": 2.37694
+        },
+        {
+          "drug_id": "DB05339",
+          "drug": "MN-305",
+          "score": 2.37694
+        },
+        {
+          "drug_id": "DB12965",
+          "drug": "Silver",
+          "score": 2.31547
+        },
+        {
+          "drug_id": "DB03542",
+          "drug": "L-Myo-Inositol-1-Phosphate",
+          "score": 2.21321
+        },
+        {
+          "drug_id": "DB05166",
+          "drug": "APD668",
+          "score": 2.18251
+        },
+        {
+          "drug_id": "DB07115",
+          "drug": "N-(4-chlorobenzyl)-N-methylbenzene-1,4-disulfonamide",
+          "score": 2.15573
+        },
+        {
+          "drug_id": "DB04478",
+          "drug": "Cp-166572, 2-Hydroxymethyl-4-(4-N,N-Dimethylaminosulfonyl-1-Piperazino)-Pyrimidine",
+          "score": 1.99232
+        },
+        {
+          "drug_id": "DB03614",
+          "drug": "Mecobalamin",
+          "score": 1.93549
+        },
+        {
+          "drug_id": "DB01842",
+          "drug": "3'-Phosphate-Adenosine-5'-Diphosphate",
+          "score": 1.82997
+        },
+        {
+          "drug_id": "DB01961",
+          "drug": "Cytidine 3'-monophosphate",
+          "score": 1.82997
+        },
+        {
+          "drug_id": "DB02363",
+          "drug": "2'-Monophosphoadenosine-5'-Diphosphate",
+          "score": 1.82997
+        },
+        {
+          "drug_id": "DB02573",
+          "drug": "2'-deoxycytidine-2'-deoxyadenosine-3',5'-monophosphate",
+          "score": 1.82997
+        },
+        {
+          "drug_id": "DB02987",
+          "drug": "Cysteine-S-acetamide",
+          "score": 1.82997
+        },
+        {
+          "drug_id": "DB03155",
+          "drug": "2'-fluoro-2'-deoxyuridine 3'-monophosphate",
+          "score": 1.82997
+        }
+      ],
+      "relevantDrugRanks": [
+        {
+          "query": "pazopanib",
+          "matched": "Pazopanib",
+          "rank": 6801,
+          "of": 7957,
+          "score": -5.89358,
+          "percentile": 14.5
+        },
+        {
+          "query": "sunitinib",
+          "matched": "Sunitinib",
+          "rank": 6936,
+          "of": 7957,
+          "score": -6.23642,
+          "percentile": 12.8
+        },
+        {
+          "query": "sorafenib",
+          "matched": "Sorafenib",
+          "rank": 6792,
+          "of": 7957,
+          "score": -5.85958,
+          "percentile": 14.6
+        },
+        {
+          "query": "regorafenib",
+          "matched": "Regorafenib",
+          "rank": 6552,
+          "of": 7957,
+          "score": -5.1295,
+          "percentile": 17.7
+        },
+        {
+          "query": "cabozantinib",
+          "matched": "Cabozantinib",
+          "rank": 7446,
+          "of": 7957,
+          "score": -7.5466,
+          "percentile": 6.4
+        },
+        {
+          "query": "axitinib",
+          "matched": "Axitinib",
+          "rank": 7453,
+          "of": 7957,
+          "score": -7.56457,
+          "percentile": 6.3
+        },
+        {
+          "query": "nintedanib",
+          "matched": "Nintedanib",
+          "rank": 6517,
+          "of": 7957,
+          "score": -5.01649,
+          "percentile": 18.1
+        },
+        {
+          "query": "vandetanib",
+          "matched": "Vandetanib",
+          "rank": 7851,
+          "of": 7957,
+          "score": -9.94797,
+          "percentile": 1.3
+        },
+        {
+          "query": "tivozanib",
+          "matched": "Tivozanib",
+          "rank": 6949,
+          "of": 7957,
+          "score": -6.26893,
+          "percentile": 12.7
+        },
+        {
+          "query": "fruquintinib",
+          "matched": null,
+          "rank": null,
+          "of": 7957
+        },
+        {
+          "query": "lenvatinib",
+          "matched": "Lenvatinib",
+          "rank": 7413,
+          "of": 7957,
+          "score": -7.4569,
+          "percentile": 6.8
+        },
+        {
+          "query": "anlotinib",
+          "matched": null,
+          "rank": null,
+          "of": 7957
+        },
+        {
+          "query": "apatinib",
+          "matched": "Lapatinib",
+          "rank": 7434,
+          "of": 7957,
+          "score": -7.51621,
+          "percentile": 6.6
+        },
+        {
+          "query": "imatinib",
+          "matched": "Imatinib",
+          "rank": 6221,
+          "of": 7957,
+          "score": -3.40667,
+          "percentile": 21.8
+        },
+        {
+          "query": "dasatinib",
+          "matched": "Dasatinib",
+          "rank": 4756,
+          "of": 7957,
+          "score": -1.60957,
+          "percentile": 40.2
+        },
+        {
+          "query": "nilotinib",
+          "matched": "Nilotinib",
+          "rank": 4641,
+          "of": 7957,
+          "score": -1.50749,
+          "percentile": 41.7
+        },
+        {
+          "query": "ponatinib",
+          "matched": "Ponatinib",
+          "rank": 5220,
+          "of": 7957,
+          "score": -1.96427,
+          "percentile": 34.4
+        },
+        {
+          "query": "masitinib",
+          "matched": "Masitinib",
+          "rank": 2399,
+          "of": 7957,
+          "score": -0.72361,
+          "percentile": 69.9
+        },
+        {
+          "query": "midostaurin",
+          "matched": "Midostaurin",
+          "rank": 6556,
+          "of": 7957,
+          "score": -5.14586,
+          "percentile": 17.6
+        },
+        {
+          "query": "quizartinib",
+          "matched": "Quizartinib",
+          "rank": 6386,
+          "of": 7957,
+          "score": -4.42909,
+          "percentile": 19.7
+        },
+        {
+          "query": "ripretinib",
+          "matched": "Ripretinib",
+          "rank": 4950,
+          "of": 7957,
+          "score": -1.73719,
+          "percentile": 37.8
+        },
+        {
+          "query": "trabectedin",
+          "matched": "Trabectedin",
+          "rank": 6572,
+          "of": 7957,
+          "score": -5.2361,
+          "percentile": 17.4
+        },
+        {
+          "query": "doxorubicin",
+          "matched": "Zoptarelin doxorubicin",
+          "rank": 1593,
+          "of": 7957,
+          "score": -0.44079,
+          "percentile": 80.0
+        },
+        {
+          "query": "ifosfamide",
+          "matched": "Palifosfamide",
+          "rank": 4173,
+          "of": 7957,
+          "score": -1.26618,
+          "percentile": 47.6
+        },
+        {
+          "query": "eribulin",
+          "matched": "Eribulin",
+          "rank": 6304,
+          "of": 7957,
+          "score": -3.93419,
+          "percentile": 20.8
+        },
+        {
+          "query": "gemcitabine",
+          "matched": "Gemcitabine",
+          "rank": 6646,
+          "of": 7957,
+          "score": -5.42524,
+          "percentile": 16.5
+        },
+        {
+          "query": "sirolimus",
+          "matched": "Sirolimus",
+          "rank": 6645,
+          "of": 7957,
+          "score": -5.41286,
+          "percentile": 16.5
+        },
+        {
+          "query": "everolimus",
+          "matched": "Everolimus",
+          "rank": 7300,
+          "of": 7957,
+          "score": -7.14904,
+          "percentile": 8.3
+        },
+        {
+          "query": "pioglitazone",
+          "matched": "Pioglitazone",
+          "rank": 7898,
+          "of": 7957,
+          "score": -10.62865,
+          "percentile": 0.7
+        },
+        {
+          "query": "rosiglitazone",
+          "matched": "Rosiglitazone",
+          "rank": 4119,
+          "of": 7957,
+          "score": -1.24433,
+          "percentile": 48.2
+        },
+        {
+          "query": "zaltoprofen",
+          "matched": "Zaltoprofen",
+          "rank": 4477,
+          "of": 7957,
+          "score": -1.3873,
+          "percentile": 43.7
+        },
+        {
+          "query": "pembrolizumab",
+          "matched": "Pembrolizumab",
+          "rank": 6243,
+          "of": 7957,
+          "score": -3.5212,
+          "percentile": 21.5
+        },
+        {
+          "query": "nivolumab",
+          "matched": "Nivolumab",
+          "rank": 6390,
+          "of": 7957,
+          "score": -4.43981,
+          "percentile": 19.7
+        }
+      ]
+    },
+    {
+      "label": "soft tissue sarcoma",
+      "disease": "soft tissue sarcoma",
+      "disease_id": "18078.0",
+      "totalRanked": 7957,
+      "relevantMedianPercentile": 17.4,
+      "topDrugs": [
+        {
+          "drug_id": "DB12271",
+          "drug": "ORE-1001",
+          "score": 2.15326
+        },
+        {
+          "drug_id": "DB03542",
+          "drug": "L-Myo-Inositol-1-Phosphate",
+          "score": 1.91512
+        },
+        {
+          "drug_id": "DB07115",
+          "drug": "N-(4-chlorobenzyl)-N-methylbenzene-1,4-disulfonamide",
+          "score": 1.85606
+        },
+        {
+          "drug_id": "DB02393",
+          "drug": "D-Gluco-2,5-Anhydro-1-Deoxy-1-Phosphonohexitol-6-Phosphate",
+          "score": 1.47374
+        },
+        {
+          "drug_id": "DB03478",
+          "drug": "2'-O-Acetyl Adenosine-5-Diphosphoribose",
+          "score": 1.47366
+        },
+        {
+          "drug_id": "DB05305",
+          "drug": "Cintredekin Besudotox",
+          "score": 1.42903
+        },
+        {
+          "drug_id": "DB05166",
+          "drug": "APD668",
+          "score": 1.36548
+        },
+        {
+          "drug_id": "DB07766",
+          "drug": "(2Z,3E)-2,3'-biindole-2',3(1H,1'H)-dione 3-{O-[(3R)-3,4-dihydroxybutyl]oxime}",
+          "score": 1.35924
+        },
+        {
+          "drug_id": "DB12418",
+          "drug": "Saccharin",
+          "score": 1.34487
+        },
+        {
+          "drug_id": "DB04478",
+          "drug": "Cp-166572, 2-Hydroxymethyl-4-(4-N,N-Dimethylaminosulfonyl-1-Piperazino)-Pyrimidine",
+          "score": 1.33285
+        },
+        {
+          "drug_id": "DB11988",
+          "drug": "Ocrelizumab",
+          "score": 1.31264
+        },
+        {
+          "drug_id": "DB01760",
+          "drug": "2-Methoxy-3-Isopropylpyrazine",
+          "score": 1.30574
+        },
+        {
+          "drug_id": "DB02924",
+          "drug": "(4R)-limonene 1\u03b1,2\u03b1-epoxide",
+          "score": 1.30574
+        },
+        {
+          "drug_id": "DB03087",
+          "drug": "2-(Sec-Butyl)Thiazole",
+          "score": 1.30574
+        },
+        {
+          "drug_id": "DB03711",
+          "drug": "6-Hydroxy-6-Methyl-Heptan-3-One",
+          "score": 1.30574
+        }
+      ],
+      "relevantDrugRanks": [
+        {
+          "query": "pazopanib",
+          "matched": "Pazopanib",
+          "rank": 6486,
+          "of": 7957,
+          "score": -3.53965,
+          "percentile": 18.5
+        },
+        {
+          "query": "sunitinib",
+          "matched": "Sunitinib",
+          "rank": 6622,
+          "of": 7957,
+          "score": -4.1244,
+          "percentile": 16.8
+        },
+        {
+          "query": "sorafenib",
+          "matched": "Sorafenib",
+          "rank": 6712,
+          "of": 7957,
+          "score": -4.44381,
+          "percentile": 15.6
+        },
+        {
+          "query": "regorafenib",
+          "matched": "Regorafenib",
+          "rank": 6489,
+          "of": 7957,
+          "score": -3.54964,
+          "percentile": 18.4
+        },
+        {
+          "query": "cabozantinib",
+          "matched": "Cabozantinib",
+          "rank": 6843,
+          "of": 7957,
+          "score": -4.88278,
+          "percentile": 14.0
+        },
+        {
+          "query": "axitinib",
+          "matched": "Axitinib",
+          "rank": 6745,
+          "of": 7957,
+          "score": -4.56252,
+          "percentile": 15.2
+        },
+        {
+          "query": "nintedanib",
+          "matched": "Nintedanib",
+          "rank": 6575,
+          "of": 7957,
+          "score": -3.91567,
+          "percentile": 17.4
+        },
+        {
+          "query": "vandetanib",
+          "matched": "Vandetanib",
+          "rank": 7553,
+          "of": 7957,
+          "score": -7.0459,
+          "percentile": 5.1
+        },
+        {
+          "query": "tivozanib",
+          "matched": "Tivozanib",
+          "rank": 6464,
+          "of": 7957,
+          "score": -3.4236,
+          "percentile": 18.8
+        },
+        {
+          "query": "fruquintinib",
+          "matched": null,
+          "rank": null,
+          "of": 7957
+        },
+        {
+          "query": "lenvatinib",
+          "matched": "Lenvatinib",
+          "rank": 6702,
+          "of": 7957,
+          "score": -4.41205,
+          "percentile": 15.8
+        },
+        {
+          "query": "anlotinib",
+          "matched": null,
+          "rank": null,
+          "of": 7957
+        },
+        {
+          "query": "apatinib",
+          "matched": "Lapatinib",
+          "rank": 6266,
+          "of": 7957,
+          "score": -2.76065,
+          "percentile": 21.3
+        },
+        {
+          "query": "imatinib",
+          "matched": "Imatinib",
+          "rank": 6391,
+          "of": 7957,
+          "score": -3.11113,
+          "percentile": 19.7
+        },
+        {
+          "query": "dasatinib",
+          "matched": "Dasatinib",
+          "rank": 6740,
+          "of": 7957,
+          "score": -4.54367,
+          "percentile": 15.3
+        },
+        {
+          "query": "nilotinib",
+          "matched": "Nilotinib",
+          "rank": 6750,
+          "of": 7957,
+          "score": -4.57345,
+          "percentile": 15.2
+        },
+        {
+          "query": "ponatinib",
+          "matched": "Ponatinib",
+          "rank": 6621,
+          "of": 7957,
+          "score": -4.11898,
+          "percentile": 16.8
+        },
+        {
+          "query": "masitinib",
+          "matched": "Masitinib",
+          "rank": 3089,
+          "of": 7957,
+          "score": -0.81191,
+          "percentile": 61.2
+        },
+        {
+          "query": "midostaurin",
+          "matched": "Midostaurin",
+          "rank": 6819,
+          "of": 7957,
+          "score": -4.78577,
+          "percentile": 14.3
+        },
+        {
+          "query": "quizartinib",
+          "matched": "Quizartinib",
+          "rank": 6469,
+          "of": 7957,
+          "score": -3.44106,
+          "percentile": 18.7
+        },
+        {
+          "query": "ripretinib",
+          "matched": "Ripretinib",
+          "rank": 5352,
+          "of": 7957,
+          "score": -1.69663,
+          "percentile": 32.7
+        },
+        {
+          "query": "trabectedin",
+          "matched": "Trabectedin",
+          "rank": 7211,
+          "of": 7957,
+          "score": -5.94755,
+          "percentile": 9.4
+        },
+        {
+          "query": "doxorubicin",
+          "matched": "13-deoxydoxorubicin",
+          "rank": 2264,
+          "of": 7957,
+          "score": -0.46448,
+          "percentile": 71.5
+        },
+        {
+          "query": "ifosfamide",
+          "matched": "Palifosfamide",
+          "rank": 4370,
+          "of": 7957,
+          "score": -1.27478,
+          "percentile": 45.1
+        },
+        {
+          "query": "eribulin",
+          "matched": "Eribulin",
+          "rank": 6428,
+          "of": 7957,
+          "score": -3.29511,
+          "percentile": 19.2
+        },
+        {
+          "query": "gemcitabine",
+          "matched": "Gemcitabine",
+          "rank": 7451,
+          "of": 7957,
+          "score": -6.67442,
+          "percentile": 6.4
+        },
+        {
+          "query": "sirolimus",
+          "matched": "Sirolimus",
+          "rank": 6586,
+          "of": 7957,
+          "score": -3.96268,
+          "percentile": 17.2
+        },
+        {
+          "query": "everolimus",
+          "matched": "Everolimus",
+          "rank": 6816,
+          "of": 7957,
+          "score": -4.78309,
+          "percentile": 14.3
+        },
+        {
+          "query": "pioglitazone",
+          "matched": "Pioglitazone",
+          "rank": 7801,
+          "of": 7957,
+          "score": -7.86752,
+          "percentile": 2.0
+        },
+        {
+          "query": "rosiglitazone",
+          "matched": "Rosiglitazone",
+          "rank": 5542,
+          "of": 7957,
+          "score": -1.86853,
+          "percentile": 30.4
+        },
+        {
+          "query": "zaltoprofen",
+          "matched": "Zaltoprofen",
+          "rank": 5433,
+          "of": 7957,
+          "score": -1.76208,
+          "percentile": 31.7
+        },
+        {
+          "query": "pembrolizumab",
+          "matched": "Pembrolizumab",
+          "rank": 6505,
+          "of": 7957,
+          "score": -3.62801,
+          "percentile": 18.2
+        },
+        {
+          "query": "nivolumab",
+          "matched": "Nivolumab",
+          "rank": 6348,
+          "of": 7957,
+          "score": -2.96507,
+          "percentile": 20.2
+        }
+      ]
+    }
+  ]
+}

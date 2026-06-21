@@ -167,10 +167,15 @@ Cure) rather than being a silo.
   output `txgnn-emc-predictions.json`; write-up `txgnn-emc-findings.md`). Result: TxGNN
   **diverges from** mechanism curation and enumeration for EMC — its top picks are
   metabolic/lysosomal-disease drugs, while EMC's most clinically-active agents
-  (pazopanib #6422, sunitinib #6382 of 7,957) and our T3 lead (imatinib #5951) rank in
-  the bottom quartile. EMC's sparse KG neighbourhood makes zero-shot similarity-transfer
-  pull toward unrelated diseases. A genuine, citable limitation finding for the
-  Methods/Limitations, not promoted to any candidate (firewall §5); (4) iterate
+  (pazopanib #6422 ≈19th pct, sunitinib #6382 ≈20th) and our T3 lead (imatinib #5951
+  ≈25th) rank low. A pre-specified sparsity stress-test on two commoner relatives
+  (chondrosarcoma, soft-tissue sarcoma; `txgnn-relatives-comparison.json`) did NOT rescue
+  the leads — they ranked similarly low (median ≈17–18th pct, slightly worse than EMC's
+  ≈21st) with the same implausible top hits — so the divergence is **not** explained by
+  EMC's sparsity (the earlier similarity-transfer hypothesis was refuted by this test);
+  it is a general property of the released `complex_disease` checkpoint's indication
+  ranking. A genuine, citable limitation finding for the Methods/Limitations, not promoted
+  to any candidate (firewall §5); (4) iterate
   the scoring rubric (document provenance; consider weighting/uncertainty) once there
   is a systematic candidate set to calibrate against.
 
