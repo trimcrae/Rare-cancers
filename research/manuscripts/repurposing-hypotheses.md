@@ -25,9 +25,13 @@ prediction from a graph foundation model (TxGNN). Each hypothesis is graded by a
 evidence tier (T0–T3) and a transparent six-criterion priority score, and is held behind a
 strict firewall from patient-facing material. Curation and enumeration converge on a
 prioritised menu of **14 candidates** spanning the angiogenic, *NR4A3*-transcriptional,
-PPARγ/lineage, cell-cycle, epigenetic, apoptotic and immune axes — led by imatinib for the
-small *KIT*-mutant subset (the one candidate with direct EMC clinical evidence) and an
-extension of the validated VEGFR-TKI class. The graph foundation model, by contrast, diverged
+PPARγ/lineage, cell-cycle, epigenetic, apoptotic and immune axes. We deliberately separate the
+**best-evidenced** option — imatinib, which has direct EMC clinical evidence but is **not novel**
+and applies only to the ~4% *KIT*-mutant minority — from the **most promising genuinely novel
+leads**, which are preclinical: PPARγ agonism (in-vivo EMC-model data) and the proteasome/BCL-2
+inhibitors carfilzomib and venetoclax (validated across two patient-derived EMC models). In EMC
+the evidence and novelty of a candidate are essentially anti-correlated, and naming that gap — not
+proposing a cure — is part of the contribution. The graph foundation model, by contrast, diverged
 sharply — and a pre-specified stress-test on commoner sarcomas showed the divergence is **not**
 explained by EMC's rarity — illustrating a concrete limitation of deploying an off-the-shelf
 knowledge-graph model for this problem. We present this as a feasibility-ranked set of testable
@@ -163,6 +167,30 @@ screens** anchor much of the preclinical evidence. Full per-criterion data:
 \*subset-restricted (biomarker-defined minority). †weak mechanistic rationale,
 retained for completeness.
 
+**Reading the table — the score is not a discovery ranking.** The priority score blends six
+criteria (including availability, safety and novelty), so the top of the column is **not** the
+best *new* lead: imatinib ranks first on **evidence and availability** but is **not novel**
+(already reported) and treats only the *KIT*-mutant minority. An investigator looking for *new*
+leads should instead read the cut below — novelty × EMC-specific functional evidence × testability.
+
+### Leads for investigators (novel × EMC-specific functional evidence × testability)
+
+Candidates that are (i) **not yet tried in EMC**, (ii) backed by **EMC-specific functional data**
+(not mechanism alone), and (iii) **testable now**, ranked for actionability:
+
+| Lead | Why it is a genuine new lead | EMC-specific functional evidence | Realistic test |
+|---|---|---|---|
+| **PPARγ agonism — pioglitazone** (motivated by zaltoprofen) | novel; targets EMC lineage/differentiation biology; safe, oral, globally available | **in-vivo**: zaltoprofen inhibited tumour growth in a mouse EMC model via PPARγ (Higuchi et al. 2023) | investigator-initiated window / n-of-1 with pioglitazone; no biomarker needed |
+| **Carfilzomib ± doxorubicin (± venetoclax)** | novel; an *unbiased screen* hit, not a hypothesis | **ex-vivo**: the only 1 of 17 drugs with high sensitivity across **two** patient-derived EMC models, with carfilzomib+doxorubicin and carfilzomib+venetoclax synergy (Bangerter et al. 2023) | preclinical confirmation, then a combination arm on the existing anthracycline backbone |
+| **HDAC inhibitors (panobinostat/romidepsin); brigatinib** | novel; hits from a **second, independent** EMC screen | **ex-vivo**: top hits of a 221-drug screen in a patient-derived EMC line (Iwata et al. 2025) | confirm across further EMC models; brigatinib's hit is mechanistically unexplained and worth dissecting |
+| **CDK4/6 inhibitors (palbociclib)** | novel; biomarker-rational | CDK4 IHC 100% + CDKN2A/2B loss (Giner et al. 2023; Davis et al. 2017) — *expression/genomic*, not yet functional | establish functional dependence in an EMC model, then a biomarker-selected window study |
+| **BET/CDK7–9; direct NR4A3 modulation** *(biology bet)* | most *on-target* — the fusion's transcriptional addiction | mechanistic/analogy only — **no EMC functional data yet** | a research programme, not a near-term trial |
+
+The actionable signal is **convergence on EMC-specific functional data**: PPARγ (mechanism +
+in-vivo), the proteasome/BCL-2 axis (two-model screen), and the HDAC/brigatinib hits (a separate
+screen) are each supported by EMC functional data and none has been tried clinically. **That short
+list — not the score rank — is what a clinician-researcher should leave with.**
+
 **Framing — the quiet genome.** Clinical NGS of metastatic EMC found *no recurrent
 actionable mutations* (the *KIT*-mutant case is a rare, few-percent exception), so the strategy is to
 target the fusion / lineage biology and to mine unbiased patient-derived-model
@@ -244,12 +272,15 @@ claims were resolved to primary references prior to drafting.
 For a cancer too rare to support large de-novo trials, a transparent, honestly-graded menu of
 *existing-drug* hypotheses is a pragmatic way to focus scarce investigative effort. Triangulating
 three independent methods, mechanism curation and reproducible target enumeration converge on a
-prioritised set led by a biomarker-matched, clinically-supported lead (imatinib in *KIT*-mutant
-disease) and an extension of EMC's validated anti-angiogenic class — while a graph foundation
-model's divergence marks the current limits of automated repurposing for ultra-rare cancers.
-We offer this catalogue not as a claim of efficacy but as an invitation: a feasibility-ranked
-starting point for the preclinical validation, biomarker-matched n-of-1 studies, and shared
-registry infrastructure that could realistically move EMC care forward.
+prioritised set in which the only clinically-evidenced targeted option (imatinib, *KIT*-mutant
+disease) is **non-novel and serves a small minority**, while the genuinely novel, testable leads
+— PPARγ agonism and screen-validated proteasome/BCL-2 inhibition — are supported only by EMC
+*preclinical* models. Naming that evidence–novelty gap honestly, and surfacing the short list of
+leads that are both new and EMC-supported (see "Leads for investigators"), is the practical
+contribution; a graph foundation model's divergence marks the current limits of automated
+repurposing for ultra-rare cancers. We offer this catalogue not as a claim of efficacy but as an
+invitation: a feasibility-ranked starting point for the preclinical validation, biomarker-matched
+n-of-1 studies, and shared registry infrastructure that could realistically move EMC care forward.
 
 ## 7. Data and code availability
 
