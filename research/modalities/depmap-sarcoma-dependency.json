@@ -229,5 +229,41 @@
       "mean_gene_effect": 0.046,
       "frac_dependent": 0.0
     }
+  },
+  "fusion_addiction_proxy": {
+    "_note": "Analogy prior for EMC fusion-addiction (the degrader gate). If FLI1 is a selective dependency in Ewing (where EWS-FLI1 is the driver), it supports the prior that a FET-fusion sarcoma depends on its fusion \u2014 i.e. that degrading EWSR1::NR4A3 could be lethal to EMC.",
+    "FLI1_in_ewing": {
+      "subtype_match": "ewing",
+      "n": 27,
+      "mean_gene_effect": -0.934,
+      "frac_dependent": 0.741
+    },
+    "FLI1_overall": {
+      "gene": "FLI1",
+      "sarcoma_mean": -0.247,
+      "rest_mean": -0.006,
+      "selectivity": 0.242,
+      "sarcoma_frac_dependent": 0.22,
+      "rest_frac_dependent": 0.019,
+      "n_sarcoma": 91
+    },
+    "NR4A3_overall": {
+      "gene": "NR4A3",
+      "sarcoma_mean": 0.021,
+      "rest_mean": 0.023,
+      "selectivity": 0.002,
+      "sarcoma_frac_dependent": 0.0,
+      "rest_frac_dependent": 0.0,
+      "n_sarcoma": 91
+    },
+    "EWSR1_overall": {
+      "gene": "EWSR1",
+      "sarcoma_mean": -1.208,
+      "rest_mean": -0.835,
+      "selectivity": 0.373,
+      "sarcoma_frac_dependent": 0.967,
+      "rest_frac_dependent": 0.915,
+      "n_sarcoma": 91
+    }
   }
 }
