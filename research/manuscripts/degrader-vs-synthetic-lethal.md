@@ -95,6 +95,34 @@ drives the recommendation in §3.
 
 ---
 
+## 2b. RESULT — DepMap transfer prior (computed this session)
+
+`depmap_sarcoma_dependency.py` was run against **DepMap 24Q4** (2105 models, 176 sarcoma;
+`depmap-sarcoma-dependency.json` + `.png`). The result is a **negative for the cheap BRD9 bet**:
+
+- **ncBAF is not a sarcoma dependency.** BRD9 mean gene effect in sarcoma is **+0.11**
+  (non-essential), BICRA/BICRAL likewise; selectivity ≈ 0. The primary hypothesis is **not
+  supported** at the pan-sarcoma level.
+- **Not supported even in the closest FET-fusion analog.** In **Ewing sarcoma (n=27)** — where
+  the EWSR1-prion→BAF mechanism is *proven* — BRD9 is **+0.13, 0% dependent**. The one place the
+  transfer logic should hold, it doesn't.
+- **BET/CDK targets give no selectivity window.** BRD4 (−0.95), CDK7 (−1.85), CDK9 (−1.46) are
+  strongly essential but *equally* outside sarcoma — pan-essential, not a therapeutic margin.
+- **Pipeline mechanics validated** by correct recovery of the pan-essential controls
+  (CDK7/BRD4/CDK9, ~100% dependent everywhere). Two *selective*-dependency self-checks were weak:
+  BRD9-in-synovial is an inherently modest DepMap signal (n=5, −0.13), and **SMARCB1-in-rhabdoid
+  was mis-specified** (rhabdoid tumours have *lost* SMARCB1, so non-dependence is correct biology,
+  not a pipeline failure). So distrust the controls, not the headline — which the working
+  pan-essential recovery supports.
+
+**Interpretation.** The cheap transfer prior does **not** support BRD9/ncBAF (or selective
+BET/CDK) as an EMC vulnerability. The synthetic-lethal route therefore has **no shortcut**: to
+pursue it honestly requires a *de novo* genome-wide CRISPR screen in the scarce patient-derived
+EMC lines — the expensive path, gated by model availability. This re-weights the decision in §3
+**toward the degrader route**, whose retained-LBD handle and class precedent now look comparatively
+stronger. (Caveat: "all sarcoma" is coarse and EMC is unrepresented; a negative transfer lowers,
+but does not eliminate, the prior — only a real EMC screen settles it.)
+
 ## 3. Convergence and recommendation
 
 **They meet at degraders.** Route D ends in an NR4A3 PROTAC; Route S's best node (BRD9) is
@@ -114,14 +142,18 @@ experiment — the dTAG fusion-addiction test (Route D), the CRISPR screen and t
 (Route S) — needs the scarce patient-derived lines. Securing/using those models is the enabling
 step neither route escapes.
 
-**Provisional verdict (to revisit, not a commitment).**
-- **Invest first in the synthetic-lethal / BRD9 arm**, because it is testable **now, with existing
-  drugs, in the existing (scarce) models** — a fast yes/no.
-- **Run the NR4A3-PROTAC feasibility groundwork in parallel** (computationally cheap; precedent
-  strong); treat the warhead chemistry as the long bet.
-- **The single most uncertainty-reducing *computational* step right now** is the **DepMap
-  pan-sarcoma BRD9 / transcriptional-dependency transfer prior** — it tells us whether the BRD9
-  bet is worth a wet-lab slot *before* we spend one. That is the proposed next action.
+**Verdict (updated 2026-06-21 after the §2b DepMap result).**
+- The DepMap transfer prior **came back negative**, so the "test an existing BRD9 degrader first"
+  shortcut is **no longer justified by transfer logic** — BRD9/ncBAF isn't a sarcoma dependency,
+  not even in Ewing. The synthetic-lethal route now requires the expensive de-novo CRISPR screen
+  in EMC models; do **not** spend a scarce wet-lab slot on a transfer-justified BRD9 test.
+- **The degrader route (NR4A3 LBD) is now the better-supported bet.** Next *computational* steps
+  (cheap, no wet lab): (i) map published NR4A-ligand contact residues onto fpocket Pocket-5
+  (406–534) to score warhead tractability and confirm the contacts are retained in the fusion;
+  (ii) check CRBN/VHL expression in EMC/sarcoma. The make-or-break wet-lab step for *either* route
+  remains the **dTAG fusion-addiction test** in EMC lines (`novel-modalities.md` §3.1).
+- Model scarcity is still the shared rate-limiter; nothing here escapes needing the patient-derived
+  EMC lines for its decisive experiment.
 
 ---
 

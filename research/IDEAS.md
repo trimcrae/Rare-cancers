@@ -6,6 +6,36 @@ Add to this rather than losing ideas in chat. Newest at top.
 
 ---
 
+## EMC treatment-discovery — route status board (updated 2026-06-21)
+
+**Read `research/manuscripts/degrader-vs-synthetic-lethal.md` first** — it is the live
+head-to-head. This board is the one-screen summary of what's shelved vs. active and the next
+step for each. The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
+*yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
+that could actually drug or immuno-target EWSR1::NR4A3 EMC.
+
+| Route | Status | Next step (★ = computational, no wet lab) |
+|---|---|---|
+| **TCR-T / engineered T cells vs a cancer-testis antigen (port the synovial-sarcoma win)** | **TOP NEAR-TERM LEAD — but gated by an unconfirmed fact.** afami-cel (MAGE-A4, HLA-A\*02) is FDA-approved (2024) for synovial sarcoma; letetresgene (NY-ESO-1) trials in synovial/myxoid-RC liposarcoma. The *product already exists*. Sidesteps the weak fusion-junction immunogenicity. | ★ **Gating check:** does EMC express MAGE-A4 / PRAME / NY-ESO-1 at a targetable frequency? (Lit hint: NY-ESO-1 is used to tell myxoid liposarcoma *apart from* EMC → EMC likely NY-ESO-1–low; MAGE-A4/PRAME in EMC under-characterised.) ★ Cross with HLA-A\*02 prevalence (our `hla_coverage.py` work feeds straight into eligibility). If antigen+, an approved/clinical TCR-T may apply to a subset. |
+| **Degrader — NR4A3-LBD PROTAC** | **LEADING small-molecule route** (after synth-lethal transfer prior went negative). Fusion retains the ordered NR4A3 LBD with the protein's only real pocket (fpocket 0.495); first approved PROTAC (vepdegestrant, 2025) degrades a nuclear receptor. | ★ Map NR4A-ligand contacts onto fpocket Pocket-5 (406–534); ★ CRBN/VHL expression in EMC. **AI accelerator:** de-novo binder design (RFdiffusion/AF-based) for the NR4A3-LBD warhead the route currently lacks. Then wet-lab dTAG fusion-addiction test. |
+| **ImmTAC / soluble-TCR bispecific (off-the-shelf)** | Speculative-but-real. Tebentafusp (gp100/HLA-A\*02) is approved (uveal melanoma); same platform could target a MAGE-A4/NY-ESO-1 peptide-HLA without cell manufacturing. | ★ Same antigen + HLA gating as TCR-T; then a platform/partner question. |
+| **Synthetic-lethal (BRD9/ncBAF via EWSR1-prion→BAF)** | **DOWNGRADED.** DepMap 24Q4 transfer prior **negative**: BRD9 not a sarcoma dependency, not even in Ewing; BET/CDK pan-essential, no selectivity window (`depmap-sarcoma-dependency.json`). | No cheap shortcut; needs a **de-novo CRISPR screen in patient-derived EMC lines**. Don't spend a wet-lab slot on a transfer-justified BRD9 test. |
+| **AF3 on a druggable interface** | Deferred; method not strategy. | ★ Only once the degrader route picks a ternary/PPI interface (fusion↔CBP/p300 or fusion↔E3). |
+| **Fusion-junction ASO** (`novel-modalities.md` §3.2) | Designed; 5 gapmers exist. | GC-rich (75–81%) + tumour delivery unsolved. |
+| **Vaccine / HLA-coverage paper** | **PARKED** (done, not a treatment path; self-adjacent junction in a cold tumour = weak immunogen). `hla-coverage-emc.md`. | Never built: (a) reality filters (distance-to-self/tolerance + anchor-vs-TCR position); (b) breakpoint-recurrence quant. `coverage_scan.py` §3.3 numbers + `coverage-curve.png` await a `modalities-cache` snapshot. **Reusable:** its HLA-A\*02 coverage feeds TCR-T eligibility above. |
+
+**Shared rate-limiter for every route:** EMC is nearly absent from public functional-genomics data
+(only new patient-derived lines: NCC-EMC1-C1 2025; USZ-EMC). The decisive experiment of *every*
+route needs those lines — that bottleneck, not idea-generation, is the real constraint.
+
+**Speculative / forward-looking (AI-era), kept honest:** de-novo binder/TCR design (diffusion
+models) to manufacture the warhead or TCR a route lacks; AI structure (AF3) for ternary/PPI
+interfaces; combination therapy (anti-angiogenic TKI — EMC's one real clinical signal — + IO).
+Lower-credibility for *near* term: CAR-T (no good EMC surface antigen), ADCs (ditto), "nanobots"
+(not a near-term clinical reality). Don't over-invest in these until a concrete target is in hand.
+
+---
+
 ## Modernize & help maintain the TxGNN repo (upstream contribution)
 
 **Status:** parked / idea only (filed 2026-06-20).

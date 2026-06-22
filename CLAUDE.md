@@ -22,3 +22,10 @@ read it before making changes.
 - **No dependencies, no build step.** Keep it that way.
 - **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
   keep all URLs relative.
+- **EMC treatment-discovery track (research, not the site):** the active drug/
+  immunotherapy exploration + every shelved idea and its next step are tracked in
+  **[research/IDEAS.md](./research/IDEAS.md)** ("route status board" at top), with the
+  live head-to-head in `research/manuscripts/degrader-vs-synthetic-lethal.md`.
+  **Read the board before resuming any treatment-research work** so you don't
+  re-litigate settled decisions (e.g. the synth-lethal/BRD9 route was downgraded
+  by a DepMap transfer-prior result; the vaccine/HLA-coverage paper is parked).
