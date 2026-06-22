@@ -1,5 +1,9 @@
 # Outline — the EMC treatment-strategy paper (the #1 deliverable)
 
+> **DRAFT WRITTEN:** a full first draft now exists at
+> [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). This outline is retained as the
+> planning scaffold / figure + claims checklist; edit the draft directly going forward.
+
 **Status:** skeleton for review (reshape freely). This is the publish-to-convince artifact the repo
 exists to produce: a rigorous, honest map of *what could drive an EMC treatment forward*, built
 entirely from the tracker (`emc-treatment-strategy.md`) and the in-silico evidence we generated. No
