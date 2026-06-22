@@ -8,9 +8,10 @@ Add to this rather than losing ideas in chat. Newest at top.
 
 ## EMC treatment-discovery — route status board (updated 2026-06-21)
 
-**Read `research/manuscripts/degrader-vs-synthetic-lethal.md` first** — it is the live
-head-to-head. This board is the one-screen summary of what's shelved vs. active and the next
-step for each. The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
+**Start with `research/manuscripts/emc-treatment-strategy.md`** — the capstone that ranks every
+route into a prioritized portfolio (per-route detail in the other memos; the synth-lethal-vs-
+degrader head-to-head is `degrader-vs-synthetic-lethal.md`). This board is the one-screen summary
+of what's shelved vs. active and the next step for each. The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
 *yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
 that could actually drug or immuno-target EWSR1::NR4A3 EMC.
 
