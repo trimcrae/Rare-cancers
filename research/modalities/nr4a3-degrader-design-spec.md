@@ -53,6 +53,35 @@ moment compute/tooling is in hand.
   (step 1); off-target structure fetch. → a real first-pass deliverable without a GPU.
 - **GPU needed:** RFdiffusion/ProteinMPNN/AF2/AF3, MD, generative small-molecule models.
 
+## GPU experiment plan (HIGH BENEFIT — run these if GPU is provisioned)
+Two experiments would materially change the degrader paper, both attacking the route's core
+weaknesses. Ranked by impact-per-effort:
+
+1. **MD cryptic-pocket detection (do first — rebuts the central objection).** The whole
+   "undruggable" verdict rests on the NR4A3 orthosteric pocket being *collapsed* in a single static
+   AF2 model. **GPU-accelerated MD (OpenMM) of the LBD** — solvated, µs-scale or enhanced-sampling
+   (metadynamics / `PocketMiner`-style transient-pocket detection) — directly tests whether a
+   **transient/cryptic druggable pocket opens**. A positive result *overturns the undruggability
+   prior* and is the single strongest possible figure for the paper. Inputs ready: AF2 NR4A3 LBD
+   (AF-Q92570, 373–626). Output: pocket-opening frequency/volume time series + representative holo
+   conformer to dock into. ~1–2 GPU-days.
+2. **De-novo selective warhead/binder design (the route's missing piece).** Turns the paper from
+   "a degrader *could* work" into "here is a *designed candidate*." Two parallel tracks:
+   - *Small molecule:* structure-based generative design conditioned on the (MD-revealed) pocket —
+     DiffSBDD / Pocket2Mol / TargetDiff — then dock-rescore and score **selectivity vs NR4A1/NR4A2
+     LBDs**. Output: novel candidate warhead scaffolds with predicted selectivity margins.
+   - *Protein binder (alt handle):* **RFdiffusion → ProteinMPNN → AF2 filtering** for a mini-binder
+     to the LBD surface (a biologic degrader handle if small-molecule selectivity stalls).
+   ~2–5 GPU-days for a first candidate set.
+
+*(Lower priority, also GPU:* AF3/AF2-multimer ternary NR4A3–PROTAC–CRBN/VHL modelling for
+degradability geometry; AF3 of the fusion↔coactivator interface for the transcriptional route.)*
+
+**What I'll prep now (CPU) so GPU time is spent immediately:** the OpenMM MD setup script (system
+build/solvation/run config for the AF2 LBD) and the selectivity-scoring harness (NR4A1/2 off-target
+structures + docking rescore), so a GPU box only has to *run*, not be configured. The MD result then
+feeds the generative design (dock into the cryptic conformer).
+
 ## The gate that governs whether any of this matters
 Pair every step with the **fusion-addiction evidence** (`depmap-sarcoma-dependency.json` →
 `fusion_addiction_proxy`; and the make-or-break dTAG argument). If EMC is not addicted to
