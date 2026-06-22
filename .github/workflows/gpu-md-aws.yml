@@ -17,6 +17,10 @@ on:
         description: "SageMaker GPU instance type"
         default: "ml.g5.xlarge"
         required: false
+      region:
+        description: "AWS region — must match where you deployed the stack + got the GPU quota"
+        default: "us-east-2"
+        required: false
 
 permissions:
   contents: read
@@ -34,13 +38,13 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           NS: ${{ inputs.ns }}
           INSTANCE: ${{ inputs.instance }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
-            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, SAGEMAKER_ROLE_ARN repo secrets first (see deploy/aws-sagemaker-setup.md)."
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first (region is a workflow input). See deploy/aws-sagemaker-setup.md."
             exit 1
           fi
           python research/modalities/nr4a3_md_sagemaker.py

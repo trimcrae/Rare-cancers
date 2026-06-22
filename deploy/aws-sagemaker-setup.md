@@ -18,13 +18,15 @@ you raise it. This approval can take **hours to a couple of days** — start it 
    - Console → **CloudFormation → Create stack → Upload a template file** → pick
      `deploy/aws-sagemaker.cfn.yaml` → name it `nr4a3-md` → acknowledge "IAM resources" → Create.
    - When it finishes, open the stack's **Outputs** tab — it lists the four values below.
-3. **Add four GitHub repo secrets** (repo → Settings → Secrets and variables → Actions → New secret):
+3. **Add three GitHub repo secrets** (repo → Settings → Secrets and variables → Actions → New secret):
    | Secret | Value |
    |---|---|
    | `AWS_ACCESS_KEY_ID` | from stack Outputs |
    | `AWS_SECRET_ACCESS_KEY` | from stack Outputs (shown once) |
-   | `AWS_REGION` | the region you deployed in, e.g. `us-east-1` |
    | `SAGEMAKER_ROLE_ARN` | from stack Outputs |
+
+   *(The **region is not a secret** — it's a workflow input that defaults to `us-east-2`. Deploy the
+   stack and request the quota in that same region, or override the `region` input at dispatch.)*
 
 ## Run it
 GitHub → **Actions → "GPU — NR4A3 MD (AWS SageMaker)" → Run workflow** → leave `ns=10` (cheap
