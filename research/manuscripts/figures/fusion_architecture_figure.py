@@ -46,8 +46,8 @@ def main():
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="320" '
          f'font-family="Helvetica,Arial,sans-serif" viewBox="0 0 {W} 320">',
          f'<rect width="{W}" height="320" fill="white"/>',
-         f'<text x="{PAD}" y="40" font-size="21" font-weight="700">EWSR1::NR4A3: a disordered '
-         f'transactivation domain fused to an ordered nuclear-receptor LBD</text>',
+         f'<text x="{PAD}" y="40" font-size="19" font-weight="700">EWSR1::NR4A3 — a disordered '
+         f'transactivation domain fused to an ordered NR4A3 LBD</text>',
          f'<text x="{PAD}" y="64" font-size="13" fill="#555">No druggable functional pocket '
          f'(best fpocket druggability {drug}, sub-threshold) — but the ordered LBD is retained, '
          f'giving a degrader a structural handle.</text>']

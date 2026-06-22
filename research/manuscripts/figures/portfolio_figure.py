@@ -49,6 +49,16 @@ def esc(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def wrap2(s, width=24):
+    """Split into <=2 lines at a word boundary near `width`."""
+    if len(s) <= width:
+        return s, ""
+    cut = s.rfind(" ", 0, width + 1)
+    if cut <= 0:
+        cut = width
+    return s[:cut], s[cut:].lstrip()
+
+
 def main():
     parts = []
     y = TOP
@@ -71,9 +81,11 @@ def main():
     for (tname, tdesc, cands), ytop in zip(TIERS, row_tops):
         parts.append(f'<text x="{PAD}" y="{ytop+22}" font-size="15" font-weight="700">{esc(tname)}</text>')
         # wrap the descriptor under the tier name
+        l1, l2 = wrap2(tdesc)
         parts.append(f'<text x="{PAD}" y="{ytop+40}" font-size="10.5" fill="#666">'
-                     f'<tspan x="{PAD}" dy="0">{esc(tdesc[:26])}</tspan>'
-                     f'<tspan x="{PAD}" dy="13">{esc(tdesc[26:])}</tspan></text>')
+                     f'<tspan x="{PAD}" dy="0">{esc(l1)}</tspan>'
+                     + (f'<tspan x="{PAD}" dy="13">{esc(l2)}</tspan>' if l2 else '')
+                     + '</text>')
         for i, (name, ev, cls) in enumerate(cands):
             col = i % 3
             row = i // 3
