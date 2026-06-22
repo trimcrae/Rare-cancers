@@ -128,7 +128,30 @@ so it supports FET-fusion addiction as a *class* property rather than proving NR
 dependence; and HLA/expression statistics are population priors, not the individual patient. These are stated so the work is read as hypothesis-prioritization and
 evidence-synthesis, not as demonstrated efficacy.
 
-## 7. Conclusion
+## 7. Why pursue an ultra-rare cancer — and how to make a candidate worth developing
+The hardest objection to any EMC drug program is not scientific but economic: EMC is too rare to
+generate commercial or translational pull on its own, so even a well-evidenced candidate risks
+never being made. We propose two mitigations that should be built into how any lead is advanced.
+First, **EMC's clean, single-driver biology makes it an unusually good proof-of-concept indication**
+for a mechanism that is hard to validate in messier, multi-driver common tumours — the fusion is
+truncal and near-universal, so an effect is causally interpretable. Second, and more importantly,
+**every lead here has a plausible path to common cancers**, which should be assessed and presented
+alongside the EMC case to widen the addressable population and the incentive to develop it:
+- the **NR4A3 degrader** generalises along two axes — the NR4A receptor family (NR4A1/2/3) is
+  implicated across leukaemia, melanoma, prostate, breast and colorectal cancer, and the underlying
+  *platform* (degrading an "undruggable" nuclear-receptor transcription factor via its retained LBD)
+  is itself transferable;
+- **B7-H3, PRAME and FAP are already pan-cancer targets** (B7-H3 ADCs in lung/prostate; PRAME in
+  melanoma/lung/ovarian/uterine; FAP across carcinomas), so EMC is best framed as one indication
+  within a broader program rather than a standalone orphan bet;
+- the **repurposed agents** (trabectedin, carfilzomib, TKI+ICI) already carry other-cancer evidence.
+
+This is cheap to substantiate in silico with the same public-data pipelines used here (they cover
+all lineages, not just sarcoma). The recommendation is therefore that any candidate which firms up
+be accompanied by a **broader-indication analysis** — positioning EMC as the entry point, not the
+endpoint.
+
+## 8. Conclusion
 A computation-only program can do for an orphan cancer what it most lacks: rank the routes, surface
 the existing evidence, generate new supporting evidence, and hand testable, de-risked hypotheses to
 those who can act. For EMC, the near-term path is smart repurposing (TKI+ICI, trabectedin,
