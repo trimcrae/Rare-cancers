@@ -89,9 +89,12 @@ EWSR1::NR4A3, a perfect degrader is useless — so the addiction case must be bu
 warhead, and both belong in the same publication.
 
 ## Immediate next action
-Wire a CPU docking step (smina + RDKit) that docks the published inverse-NOR-1-agonist set into the
-AF2 NR4A3 LBD and reports poses/affinities + the Pocket-5 residue list — the first piece of *new*
-in-silico evidence for the warhead, runnable in the existing CI pattern.
+The CPU docking (`nr4a3_dock.py` — dock real ChEMBL NR4A ligands into the AF2 LBD Pocket-5) is
+**built and committed** but **deferred**: three CI runs failed to publish (opaque, and it is a
+non-load-bearing *seed*). It is set to manual-dispatch and will be **run on the GPU box alongside
+the MD** (smina/openbabel are already in that environment). The load-bearing GPU experiments are the
+MD cryptic-pocket scan (`nr4a3_md.py` / `nr4a3_md_modal.py`) and de-novo warhead design — those are
+where in-silico effort should go next.
 
 ## References (verified)
 - Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022).

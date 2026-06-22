@@ -3,13 +3,12 @@ name: NR4A3 degrader — warhead docking (smina)
 # First in-silico warhead evidence: dock real ChEMBL NR4A ligands into the AlphaFold NR4A3 LBD
 # Pocket-5. Internet-only (ChEMBL + AFDB). Results pushed to the `modalities-cache` branch.
 
+# DEFERRED: manual-dispatch only. The CPU docking is a non-load-bearing site-characterisation
+# seed; three push-triggered runs failed to publish (opaque CI issue) and it isn't worth more
+# iteration. It will be run on the GPU box alongside the MD (nr4a3_md.py), where smina/openbabel
+# are already in the environment. Dispatch manually if needed.
 on:
   workflow_dispatch:
-  push:
-    branches: [claude/rare-cancer-info-hub-vb8uui]
-    paths:
-      - research/modalities/nr4a3_dock.py
-      - .github/workflows/nr4a3-dock.yml
 
 permissions:
   contents: write
