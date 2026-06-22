@@ -1,0 +1,588 @@
+{
+  "_note": "In-silico expression mining (DepMap OmicsExpression, log2(TPM+1)) of EMC treatment-candidate targets across SARCOMA lines as an EMC surrogate (EMC has no DepMap line). detectable=log2tpm>=1; expressed>=3. A SURROGATE PRIOR, not EMC data. Closes the surface-target/CTA expression gate in-silico per emc-treatment-strategy.md.",
+  "data_source": "DepMap 24Q4 OmicsExpressionProteinCodingGenesTPMLogp1.csv + Model.csv",
+  "n_sarcoma_lines": 176,
+  "thresholds": {
+    "detectable_log2tpm": 1.0,
+    "expressed_log2tpm": 3.0
+  },
+  "genes_by_group": {
+    "surface targets (ADC/CAR/bispecific)": [
+      {
+        "gene": "CD276",
+        "sarcoma_mean_log2tpm": 5.73,
+        "rest_mean_log2tpm": 4.85,
+        "sarcoma_frac_detectable": 1.0,
+        "sarcoma_frac_expressed": 0.99,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "NCAM1",
+        "sarcoma_mean_log2tpm": 3.23,
+        "rest_mean_log2tpm": 1.62,
+        "sarcoma_frac_detectable": 0.76,
+        "sarcoma_frac_expressed": 0.59,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "FAP",
+        "sarcoma_mean_log2tpm": 2.85,
+        "rest_mean_log2tpm": 1.35,
+        "sarcoma_frac_detectable": 0.67,
+        "sarcoma_frac_expressed": 0.44,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "ERBB2",
+        "sarcoma_mean_log2tpm": 4.07,
+        "rest_mean_log2tpm": 4.36,
+        "sarcoma_frac_detectable": 0.98,
+        "sarcoma_frac_expressed": 0.86,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "L1CAM",
+        "sarcoma_mean_log2tpm": 3.07,
+        "rest_mean_log2tpm": 3.01,
+        "sarcoma_frac_detectable": 0.72,
+        "sarcoma_frac_expressed": 0.45,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "MCAM",
+        "sarcoma_mean_log2tpm": 4.33,
+        "rest_mean_log2tpm": 3.34,
+        "sarcoma_frac_detectable": 0.9,
+        "sarcoma_frac_expressed": 0.73,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "EGFR",
+        "sarcoma_mean_log2tpm": 2.7,
+        "rest_mean_log2tpm": 3.44,
+        "sarcoma_frac_detectable": 0.72,
+        "sarcoma_frac_expressed": 0.5,
+        "n_sarcoma": 131
+      }
+    ],
+    "cancer-testis antigens (TCR-T/ImmTAC)": [
+      {
+        "gene": "MAGEA4",
+        "sarcoma_mean_log2tpm": 0.56,
+        "rest_mean_log2tpm": 1.16,
+        "sarcoma_frac_detectable": 0.09,
+        "sarcoma_frac_expressed": 0.07,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "CTAG1B",
+        "sarcoma_mean_log2tpm": 0.34,
+        "rest_mean_log2tpm": 0.45,
+        "sarcoma_frac_detectable": 0.07,
+        "sarcoma_frac_expressed": 0.05,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "PRAME",
+        "sarcoma_mean_log2tpm": 3.47,
+        "rest_mean_log2tpm": 2.76,
+        "sarcoma_frac_detectable": 0.58,
+        "sarcoma_frac_expressed": 0.53,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "MAGEA1",
+        "sarcoma_mean_log2tpm": 0.56,
+        "rest_mean_log2tpm": 0.9,
+        "sarcoma_frac_detectable": 0.14,
+        "sarcoma_frac_expressed": 0.07,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "MAGEA3",
+        "sarcoma_mean_log2tpm": 1.74,
+        "rest_mean_log2tpm": 2.19,
+        "sarcoma_frac_detectable": 0.36,
+        "sarcoma_frac_expressed": 0.28,
+        "n_sarcoma": 131
+      }
+    ],
+    "downstream effector": [
+      {
+        "gene": "PPARG",
+        "sarcoma_mean_log2tpm": 1.89,
+        "rest_mean_log2tpm": 2.62,
+        "sarcoma_frac_detectable": 0.6,
+        "sarcoma_frac_expressed": 0.27,
+        "n_sarcoma": 131
+      }
+    ],
+    "drivers / fusion partners": [
+      {
+        "gene": "NR4A3",
+        "sarcoma_mean_log2tpm": 1.03,
+        "rest_mean_log2tpm": 0.55,
+        "sarcoma_frac_detectable": 0.29,
+        "sarcoma_frac_expressed": 0.09,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "EWSR1",
+        "sarcoma_mean_log2tpm": 7.43,
+        "rest_mean_log2tpm": 7.6,
+        "sarcoma_frac_detectable": 1.0,
+        "sarcoma_frac_expressed": 1.0,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "FLI1",
+        "sarcoma_mean_log2tpm": 2.44,
+        "rest_mean_log2tpm": 1.66,
+        "sarcoma_frac_detectable": 0.71,
+        "sarcoma_frac_expressed": 0.45,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "TAF15",
+        "sarcoma_mean_log2tpm": 7.19,
+        "rest_mean_log2tpm": 7.38,
+        "sarcoma_frac_detectable": 1.0,
+        "sarcoma_frac_expressed": 1.0,
+        "n_sarcoma": 131
+      }
+    ],
+    "housekeeping (sanity control)": [
+      {
+        "gene": "ACTB",
+        "sarcoma_mean_log2tpm": 11.42,
+        "rest_mean_log2tpm": 11.28,
+        "sarcoma_frac_detectable": 1.0,
+        "sarcoma_frac_expressed": 1.0,
+        "n_sarcoma": 131
+      },
+      {
+        "gene": "GAPDH",
+        "sarcoma_mean_log2tpm": 11.96,
+        "rest_mean_log2tpm": 11.95,
+        "sarcoma_frac_detectable": 1.0,
+        "sarcoma_frac_expressed": 1.0,
+        "n_sarcoma": 131
+      }
+    ]
+  },
+  "surface_and_cta_by_subtype": {
+    "CD276": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 4.75,
+        "frac_expressed": 1.0
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 5.71,
+        "frac_expressed": 1.0
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 4.44,
+        "frac_expressed": 1.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 5.16,
+        "frac_expressed": 0.92
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 5.43,
+        "frac_expressed": 0.97
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 6.58,
+        "frac_expressed": 1.0
+      }
+    },
+    "NCAM1": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 2.54,
+        "frac_expressed": 0.5
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 3.77,
+        "frac_expressed": 0.67
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.03,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 5.31,
+        "frac_expressed": 1.0
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 2.75,
+        "frac_expressed": 0.49
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 3.05,
+        "frac_expressed": 0.36
+      }
+    },
+    "FAP": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 1.73,
+        "frac_expressed": 0.25
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 1.37,
+        "frac_expressed": 0.17
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.0,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 1.01,
+        "frac_expressed": 0.0
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 1.03,
+        "frac_expressed": 0.1
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 4.42,
+        "frac_expressed": 0.73
+      }
+    },
+    "ERBB2": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 3.92,
+        "frac_expressed": 0.83
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 4.98,
+        "frac_expressed": 1.0
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 5.29,
+        "frac_expressed": 1.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 3.12,
+        "frac_expressed": 0.58
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 4.35,
+        "frac_expressed": 0.85
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 3.87,
+        "frac_expressed": 0.91
+      }
+    },
+    "L1CAM": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 2.35,
+        "frac_expressed": 0.25
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 4.68,
+        "frac_expressed": 0.83
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 3.18,
+        "frac_expressed": 1.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 3.89,
+        "frac_expressed": 0.67
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 3.1,
+        "frac_expressed": 0.49
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 4.23,
+        "frac_expressed": 0.73
+      }
+    },
+    "MCAM": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 3.62,
+        "frac_expressed": 0.79
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 5.33,
+        "frac_expressed": 1.0
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.12,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 5.59,
+        "frac_expressed": 0.92
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 3.55,
+        "frac_expressed": 0.51
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 3.77,
+        "frac_expressed": 0.64
+      }
+    },
+    "EGFR": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 0.64,
+        "frac_expressed": 0.0
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 3.52,
+        "frac_expressed": 0.67
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.19,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 1.29,
+        "frac_expressed": 0.25
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 2.0,
+        "frac_expressed": 0.36
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 3.82,
+        "frac_expressed": 0.82
+      }
+    },
+    "MAGEA4": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 0.08,
+        "frac_expressed": 0.0
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 0.35,
+        "frac_expressed": 0.0
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.14,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 0.02,
+        "frac_expressed": 0.0
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 0.93,
+        "frac_expressed": 0.1
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 0.02,
+        "frac_expressed": 0.0
+      }
+    },
+    "CTAG1B": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 0.07,
+        "frac_expressed": 0.0
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 1.9,
+        "frac_expressed": 0.33
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.0,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 0.16,
+        "frac_expressed": 0.0
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 0.16,
+        "frac_expressed": 0.03
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 0.47,
+        "frac_expressed": 0.09
+      }
+    },
+    "PRAME": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 4.77,
+        "frac_expressed": 0.75
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 7.19,
+        "frac_expressed": 1.0
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 7.61,
+        "frac_expressed": 1.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 2.67,
+        "frac_expressed": 0.42
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 4.65,
+        "frac_expressed": 0.69
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 0.71,
+        "frac_expressed": 0.09
+      }
+    },
+    "MAGEA1": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 0.08,
+        "frac_expressed": 0.0
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 0.18,
+        "frac_expressed": 0.0
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.0,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 0.52,
+        "frac_expressed": 0.08
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 0.2,
+        "frac_expressed": 0.03
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 0.09,
+        "frac_expressed": 0.0
+      }
+    },
+    "MAGEA3": {
+      "ewing": {
+        "n": 24,
+        "mean_log2tpm": 0.72,
+        "frac_expressed": 0.08
+      },
+      "synovial": {
+        "n": 6,
+        "mean_log2tpm": 1.66,
+        "frac_expressed": 0.33
+      },
+      "myxoid": {
+        "n": 1,
+        "mean_log2tpm": 0.0,
+        "frac_expressed": 0.0
+      },
+      "alveolar": {
+        "n": 12,
+        "mean_log2tpm": 1.81,
+        "frac_expressed": 0.33
+      },
+      "rhabdo": {
+        "n": 39,
+        "mean_log2tpm": 1.21,
+        "frac_expressed": 0.21
+      },
+      "lipo": {
+        "n": 11,
+        "mean_log2tpm": 0.9,
+        "frac_expressed": 0.18
+      }
+    }
+  },
+  "self_validation": {
+    "ACTB_should_be_high": {
+      "gene": "ACTB",
+      "sarcoma_mean_log2tpm": 11.42,
+      "rest_mean_log2tpm": 11.28,
+      "sarcoma_frac_detectable": 1.0,
+      "sarcoma_frac_expressed": 1.0,
+      "n_sarcoma": 131
+    },
+    "GAPDH_should_be_high": {
+      "gene": "GAPDH",
+      "sarcoma_mean_log2tpm": 11.96,
+      "rest_mean_log2tpm": 11.95,
+      "sarcoma_frac_detectable": 1.0,
+      "sarcoma_frac_expressed": 1.0,
+      "n_sarcoma": 131
+    },
+    "CTAG1B_in_synovial_should_be_high": {
+      "n": 6,
+      "mean_log2tpm": 1.9,
+      "frac_expressed": 0.33
+    },
+    "MAGEA4_in_synovial_should_be_high": {
+      "n": 6,
+      "mean_log2tpm": 0.35,
+      "frac_expressed": 0.0
+    },
+    "_pass": "housekeeping high everywhere; CTAs high in synovial -> pipeline trustworthy"
+  }
+}
