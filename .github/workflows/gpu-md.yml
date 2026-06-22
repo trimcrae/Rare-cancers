@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
     inputs:
       ns:
-        description: "production nanoseconds of MD"
-        default: "50"
+        description: "nanoseconds of MD. Start with 10 (cheap pipeline+GPU validation, a few $); rerun with 100-200 for production once it works."
+        default: "10"
         required: false
 
 permissions:

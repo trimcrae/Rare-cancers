@@ -74,7 +74,14 @@ def main():
                              nonbondedCutoff=1.0 * unit.nanometer, constraints=app.HBonds)
     integrator = mm.LangevinMiddleIntegrator(310 * unit.kelvin, 1.0 / unit.picosecond,
                                              2.0 * unit.femtosecond)
-    sim = app.Simulation(modeller.topology, system, integrator)
+    sim = app.Simulation(modeller.topology, system, integrator)  # OpenMM auto-selects fastest platform
+    used = sim.context.getPlatform().getName()
+    print(f"  OpenMM platform: {used}", file=sys.stderr)
+    if used in ("CPU", "Reference"):
+        print("  ABORT: no GPU platform (CUDA/OpenCL) selected — refusing to run MD on CPU "
+              "(too slow/costly). Check the conda openmm CUDA build vs the GPU driver.",
+              file=sys.stderr)
+        sys.exit(2)
     sim.context.setPositions(modeller.positions)
 
     print("  minimizing...", file=sys.stderr)
@@ -91,7 +98,7 @@ def main():
 
     steps = int(NS * 1e6 / 2)  # 2 fs timestep
     dcd = os.path.join(os.path.dirname(__file__), "nr4a3-lbd-md.dcd")
-    sim.reporters.append(app.DCDReporter(dcd, 5000))            # every 10 ps
+    sim.reporters.append(app.DCDReporter(dcd, 25000))           # every 50 ps (keeps file size sane)
     sim.reporters.append(app.StateDataReporter(sys.stdout, 50000, step=True,
                          temperature=True, potentialEnergy=True, speed=True))
     print(f"  production {NS} ns ({steps} steps) -> {dcd}", file=sys.stderr)
