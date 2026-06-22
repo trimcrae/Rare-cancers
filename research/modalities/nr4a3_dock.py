@@ -216,4 +216,11 @@ def _which(prog):
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as exc:  # always leave a diagnostic so opaque CI failures become visible
+        import traceback
+        json.dump({"_status": "error", "error": str(exc),
+                   "trace": traceback.format_exc()[-1800:]}, open(OUT, "w"), indent=2)
+        print("ERROR:", exc, file=sys.stderr)
+        sys.exit(0)  # exit 0 so the publish step still uploads the diagnostic JSON

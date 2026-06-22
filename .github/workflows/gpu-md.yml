@@ -1,0 +1,37 @@
+name: GPU — NR4A3 cryptic-pocket MD (Modal cloud)
+
+# Runs the NR4A3 LBD MD (nr4a3_md.py) on a CLOUD GPU via Modal — no local GPU needed.
+# Manual-dispatch only (GPU costs money). REQUIRES two repo secrets:
+#   MODAL_TOKEN_ID, MODAL_TOKEN_SECRET   (from `modal token new` on modal.com)
+# Results land in the Modal Volume 'nr4a3-md' (retrieve with `modal volume get nr4a3-md ...`).
+
+on:
+  workflow_dispatch:
+    inputs:
+      ns:
+        description: "production nanoseconds of MD"
+        default: "50"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install modal
+      - name: Run NR4A3 MD on a Modal GPU
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+        run: |
+          if [ -z "$MODAL_TOKEN_ID" ]; then
+            echo "::error::Add MODAL_TOKEN_ID and MODAL_TOKEN_SECRET repo secrets first (modal.com -> modal token new)."
+            exit 1
+          fi
+          modal run research/modalities/nr4a3_md_modal.py --ns "${{ inputs.ns }}"
