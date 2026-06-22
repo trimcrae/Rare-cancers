@@ -45,10 +45,11 @@ def _get(url, timeout=60):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read()
         except Exception as e:  # noqa
-            print(f"  retry {i+1} {url[:90]}: {e}", file=sys.stderr)
             import time
+            short = url[:90]
+            print("  retry " + str(i + 1) + " " + short + ": " + str(e), file=sys.stderr)
             time.sleep(2 ** i)
-    raise RuntimeError(f"failed: {url}")
+    raise RuntimeError("failed: " + url)
 
 
 def chembl_smiles_by_name(name):
