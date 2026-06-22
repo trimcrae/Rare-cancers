@@ -1,0 +1,62 @@
+name: NR4A3 degrader — warhead docking (smina)
+
+# First in-silico warhead evidence: dock real ChEMBL NR4A ligands into the AlphaFold NR4A3 LBD
+# Pocket-5. Internet-only (ChEMBL + AFDB). Results pushed to the `modalities-cache` branch.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/rare-cancer-info-hub-vb8uui]
+    paths:
+      - research/modalities/nr4a3_dock.py
+      - .github/workflows/nr4a3-dock.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nr4a3-dock
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install smina (conda-forge/bioconda via micromamba) + RDKit
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/denv" -c conda-forge -c bioconda smina openbabel
+          echo "$RUNNER_TEMP/denv/bin" >> "$GITHUB_PATH"
+          python -m pip install --upgrade pip
+          pip install rdkit numpy
+
+      - name: Dock NR4A ligands into the NR4A3 LBD pocket
+        run: python research/modalities/nr4a3_dock.py
+
+      - name: Publish results to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/nr4a3-docking.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png research/modalities/*.pdb research/modalities/*.sdf
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache; git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/nr4a3-docking.json 2>/dev/null || true
+          git commit -m "NR4A3 docking compute" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
