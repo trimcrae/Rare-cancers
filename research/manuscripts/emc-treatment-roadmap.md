@@ -122,8 +122,10 @@ Nothing here is experimentally validated in EMC. DepMap analyses use sarcoma lin
 (no EMC line exists); cell lines silence cancer-testis antigens (CTA reads are lower bounds) and
 under-represent stromal FAP; AlphaFold yields a single static model (cryptic pockets unseen);
 predicted MHC binding and docking scores are screens, not proof; the fusion-addiction result is an
-**analogy** (FLI1/Ewing), not EMC data; and HLA/expression statistics are population priors, not the
-individual patient. These are stated so the work is read as hypothesis-prioritization and
+**analogy** (FLI1/Ewing), not EMC data — and an imperfect one, since EWS-FLI1 and EWSR1::NR4A3 share
+only the EWSR1 moiety while their DNA-binding partners (an ETS factor vs. a nuclear receptor) differ,
+so it supports FET-fusion addiction as a *class* property rather than proving NR4A3-fusion
+dependence; and HLA/expression statistics are population priors, not the individual patient. These are stated so the work is read as hypothesis-prioritization and
 evidence-synthesis, not as demonstrated efficacy.
 
 ## 7. Conclusion
@@ -144,6 +146,7 @@ Structure: AlphaFold2 (Jumper 2021) / AFDB; fpocket. Degrader: NOR-1 druggabilit
 (BRD9 degrader). Immunotherapy: afami-cel (Tecelra) approval 2024; NY-ESO-1 in sarcoma (PMC3518519);
 ImmunoSarc / sarcoma IO (ASCO EDBK 2024); brenetafusp PRAME ImmTAC (Immunocore 2024). Surface targets:
 B7-H3 in soft-tissue sarcoma (PMC11523878); FAPI radioligand therapy in sarcoma (Clin Cancer Res
-2022). Repurposing/ex-vivo: carfilzomib+anthracycline in EMC models (Bangerter 2023; see
+2022). Repurposing/ex-vivo: carfilzomib (top ex-vivo hit) ± anthracycline/venetoclax in two
+patient-derived EMC models (Bangerter et al., *Human Cell* 2023; PMID 36316541;
 `repurposing-hypotheses.md`). Data: DepMap 24Q4 (CRISPR + OmicsExpression); AFND (HLA).
 *(Full citations live in the per-route memos; verify-refs before submission.)*
