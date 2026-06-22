@@ -52,7 +52,8 @@ preprint for reach (the point is to mobilise testers).
 
 ## Figures (all already generated or one step away)
 - F1: EMC fusion architecture + AF2 disorder/pocket map (`nr4a3-structure-assessment.json`).
-- F2: the prioritized-portfolio tier chart (build from the capstone).
+- F2: the prioritized-portfolio tier chart — **GENERATED**: `figures/portfolio.svg`
+  (regenerate via `figures/portfolio_figure.py`).
 - F3: DepMap fusion-addiction proxy — FLI1-in-Ewing vs context (`depmap-sarcoma-dependency.*`).
 - F4: candidate-target expression in sarcoma (`depmap-target-expression.png`).
 - F5: HLA coverage curve, if the vaccine angle is kept as a contrast (`coverage-curve.png`, CI).
