@@ -179,6 +179,20 @@ def main():
                  {"Ewing": "ewing", "Synovial": "synovial",
                   "Myxoid_liposarcoma": "myxoid", "Alveolar_RMS": "alveolar"}.items()}
 
+    # Fusion-addiction proxy (degrader make-or-break): does a fusion partner read as a dependency
+    # in its driver context? EWS-FLI1 (FLI1) in Ewing is the canonical analogue for whether EMC
+    # would depend on EWSR1::NR4A3 — i.e. whether degrading the fusion should kill the cell.
+    addiction_proxy = {
+        "_note": "Analogy prior for EMC fusion-addiction (the degrader gate). If FLI1 is a "
+                 "selective dependency in Ewing (where EWS-FLI1 is the driver), it supports the "
+                 "prior that a FET-fusion sarcoma depends on its fusion — i.e. that degrading "
+                 "EWSR1::NR4A3 could be lethal to EMC.",
+        "FLI1_in_ewing": subtype_mean("FLI1", "ewing"),
+        "FLI1_overall": stats("FLI1"),
+        "NR4A3_overall": stats("NR4A3"),
+        "EWSR1_overall": stats("EWSR1"),
+    }
+
     result = {
         "_note": "DepMap CRISPR (Chronos) selective-essentiality transfer prior for EWSR1::NR4A3 "
                  "EMC, which has no DepMap line. Gene effect: more negative = more essential; "
@@ -193,6 +207,7 @@ def main():
         "context_genes": context_out,
         "self_validation": validation,
         "BRD9_by_fusion_sarcoma_subtype": analogues,
+        "fusion_addiction_proxy": addiction_proxy,
     }
     json.dump(result, open(OUT, "w"), indent=2)
     print("wrote", OUT, file=sys.stderr)

@@ -35,8 +35,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas matplotlib
 
-      - name: DepMap sarcoma dependency transfer prior
+      - name: DepMap sarcoma dependency transfer prior (+ fusion-addiction proxy)
         run: python research/modalities/depmap_sarcoma_dependency.py
+
+      - name: DepMap target-expression mining (surface/CTA/effector targets)
+        run: python research/modalities/depmap_target_expression.py
 
       - name: Publish results to modalities-cache branch
         if: always()
@@ -47,6 +50,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/res"
           cp research/modalities/depmap-sarcoma-dependency.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/depmap-sarcoma-dependency.png "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/depmap-target-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/depmap-target-expression.png "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -60,5 +65,7 @@ jobs:
           cp "$RUNNER_TEMP"/res/*.png research/modalities/ 2>/dev/null || true
           git add research/modalities/depmap-sarcoma-dependency.json 2>/dev/null || true
           git add research/modalities/depmap-sarcoma-dependency.png 2>/dev/null || true
+          git add research/modalities/depmap-target-expression.json 2>/dev/null || true
+          git add research/modalities/depmap-target-expression.png 2>/dev/null || true
           git commit -m "DepMap compute: sarcoma dependency transfer prior" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
