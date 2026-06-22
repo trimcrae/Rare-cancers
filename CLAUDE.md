@@ -5,8 +5,15 @@ read it before making changes.
 
 ## TL;DR for agents
 
-- **What:** a zero-build static site of one-page-per-rare-cancer information
-  hubs. First page: extraskeletal myxoid chondrosarcoma (EMC).
+- **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
+  forward an EMC treatment**. The crux is the tracked candidate-treatment portfolio —
+  start at **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
+  and the board in **[research/IDEAS.md](./research/IDEAS.md)**. Manuscripts/code build on
+  those. **No wet lab is available**, so every "next step" must be either (1) publish-to-
+  convince or (2) in-silico evaluation — never a wet-lab to-do.
+- **What (now shelved):** a zero-build static site of one-page-per-rare-cancer information
+  hubs (first page: EMC). The patient-facing UI is **deprioritized/shelved** — keep it
+  working if touched, but don't invest new effort there without being asked.
 - **Golden rule:** never fabricate medical facts, stats, citations, or patient
   data. Everything clinical must be cited. Non-real registry data must be
   flagged `SAMPLE_SYNTHETIC` and bannered. See AGENTS.md → "medical integrity".

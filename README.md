@@ -1,4 +1,22 @@
-# Rare Cancer Info Hub
+# Rare Cancer Info Hub → EMC treatment-advancement project
+
+> **Primary focus (2026-06):** this repo's number-one priority is **publishing work that
+> drives forward a treatment for extraskeletal myxoid chondrosarcoma (EMC)**. Its crux is a
+> tracked portfolio of candidate treatment ideas — why each is encouraging or unlikely, and how to
+> advance it **with no wet lab** (either a paper convincing enough that others test it, or in-silico
+> evaluation we run ourselves).
+>
+> - **Start here:** [`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md) — the prioritized portfolio (the crux).
+> - **Live tracker board:** [`research/IDEAS.md`](./research/IDEAS.md) — every candidate, status, next step.
+> - All other manuscripts/code exist to advance entries in that tracker.
+>
+> **The patient-facing info-hub site below is SHELVED** (deprioritized, not deleted) — see
+> "Patient-facing info hub (shelved)" below. Medical-integrity rules in [AGENTS.md](./AGENTS.md)
+> still apply to everything.
+
+---
+
+## Patient-facing info hub (shelved)
 
 Hard-to-find information, gathered in one place — for cancers too rare to
 research alone.

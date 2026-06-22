@@ -3,7 +3,31 @@
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with
 the cheapest experiments that unblock the most. Detail lives in the per-route memos; the live
-one-screen board is `research/IDEAS.md`. Goal throughout: a *real treatment*, not a paper.
+one-screen board is `research/IDEAS.md`. **This is the crux of the repo** — manuscripts and code
+exist to advance entries here.
+
+## What "success" means here — and the two paths we actually have
+
+Nothing in this portfolio is *proven*, and for an untested ultra-rare disease that is **not the
+bar**. The goal is to **push EMC treatment forward**: a promising, mechanistically-grounded idea
+that *hasn't been tested* is itself publishable and can mobilise people who can test it. So each
+candidate is judged on **how convincingly we can advance it**, not whether it's already de-risked.
+We can be the ones who build the case that something *could* work.
+
+**We have no wet lab.** That leaves exactly two ways to move a candidate — and every "next step" in
+this repo must be one of them:
+
+1. **Publish-to-convince** — assemble mechanism + evidence so rigorously that a group *with* models
+   or patients runs the experiment we can't. What makes this land: a falsifiable prediction, a
+   clearly specified decisive experiment, and honest kill-criteria.
+2. **In-silico evaluation** — use computation to *discover / eliminate / promote* candidates
+   ourselves, now or as near-future methods arrive (AI binder & structure design; perturbation-
+   prediction "virtual-cell" models e.g. scGPT/Geneformer-class; public-data mining). This is where
+   we generate *new evidence* instead of only arguing — and where we should deliberately prepare for
+   tools landing in the next 1–3 years.
+
+The strongest candidates are those where **both** apply. The ranking below therefore carries a
+*"how WE advance it"* judgement, not a wet-lab to-do list.
 
 ## The ranking
 
@@ -61,34 +85,57 @@ one-screen board is `research/IDEAS.md`. Goal throughout: a *real treatment*, no
 10. **Fusion-junction vaccine / HLA-coverage** — parked (self-adjacent junction in a cold tumour;
     economics favour a platform we don't control). Reusable: its HLA work feeds TCR-T/ADC eligibility.
 
-## The cross-cutting bottleneck (and the highest-leverage investment)
+## Kill-criteria — what would sink each lead (track the "unlikely-to-work" side honestly)
 
-**Almost every route is gated by the same thing: EMC tissue/model scarcity.** One small set of
-assets unblocks the most:
-- **A patient-derived EMC tissue microarray / cohort for IHC** → resolves B7-H3, CD56, FAP (gates
-  Tiers 2 *and* 6 — ADC, bispecific, RLT, CAR-T) in a single cheap experiment nobody has run.
-- **Patient-derived EMC cell lines** (NCC-EMC1-C1 2025; USZ-EMC) → the dTAG fusion-addiction test
-  (degrader make-or-break) and any CRISPR screen (synth-lethal).
-- **FAP-PET on EMC patients** → doubles as diagnostic + RLT eligibility.
+- **TKI+ICI / trabectedin / carfilzomib:** not novel, and EMC evidence is anecdotal/ex-vivo —
+  could simply fail to reproduce in prospective EMC patients. Publishable only as *evidence
+  synthesis*, not discovery.
+- **FAP-RLT, B7-H3 ADC/CAR-T:** die if EMC doesn't express the target. This is checkable *without a
+  wet lab* by mining public data (below); if EMC/nearest-surrogate is target-low, drop them.
+- **NR4A3 degrader:** dies if EMC is **not addicted to the fusion** (degrading it doesn't kill the
+  cell) or if no selective warhead is achievable. The addiction question is the make-or-break.
+- **CAR-T:** dies on target expression *or* on failure to penetrate the cold myxoid stroma.
+- **TCR-T/ImmTAC, BRD9 synth-lethal, vaccine:** already down-weighted (CTA-low; DepMap-negative;
+  weak junction). Tracked as *unlikely* with the reason, so we don't re-litigate.
 
-If the program could fund one wet-lab thing, it's the **EMC IHC/FAP-PET expression panel** — it
-de-risks four modalities at once and is cheap.
+## The shared data gap — and how we close it WITHOUT a wet lab
 
-## AI-era accelerators worth pursuing computationally
-- **De-novo binder design** (RFdiffusion / AlphaFold-based) to mature the inverse-NOR-1-agonist hit
-  into a selective NR4A3 PROTAC warhead — the degrader route's missing piece.
-- **Surfaceome screen** of the fusion's transcriptional output to discover an EMC-enriched CAR/ADC
-  target instead of a pan-sarcoma compromise (data-limited; uses published fusion-target gene sets).
-- **AF3** for a fusion↔coactivator / fusion↔E3 interface, *only* once a specific interface is chosen.
+Almost every route is gated by the same thing: **EMC-specific data we can't generate experimentally.**
+The methodical response is to get as far as possible in-silico / from existing public data, and to
+make the residual the explicit subject of a publish-to-convince paper:
 
-## Recommended portfolio (if forced to choose)
-- **Pursue now (clinical, existing drugs):** TKI+ICI and trabectedin — and the rational combination
-  of them — through sarcoma/basket trials. This is where a patient benefits soonest.
-- **Fund one experiment:** the EMC IHC/FAP-PET expression panel (unblocks ADC/RLT/CAR-T).
-- **Invest computationally (high ceiling):** the NR4A3-degrader warhead (AI binder design) + dTAG
-  validation — the only route that attacks the actual driver.
-- **Stop spending on:** the fusion-junction vaccine and the BRD9 transfer bet (both assessed and
-  down-weighted); keep TCR-T/ImmTAC only as a basket-trial option for the rare antigen⁺ subset.
+- **Target expression (B7-H3, CD56, FAP, PPARG):** mine **public proteomics/transcriptomics** —
+  Human Protein Atlas, ProteomicsDB, and public sarcoma/EMC RNA-seq (GEO/SRA), plus the nearest
+  surrogate lineages — *instead of* new IHC. An in-silico expression call (even on a surrogate)
+  is real evidence and is publishable. ★
+- **Fusion addiction (degrader gate):** can't run dTAG, so build the **in-silico/argument case** —
+  dependency on the analogous EWS-fusion in Ewing (DepMap), expression-level dependence of NOR-1,
+  and *prepare for* perturbation-prediction models (virtual-cell) that could predict EMC fusion
+  knockdown effects as they mature. ★
+- **The warhead the degrader lacks:** a pure in-silico design problem (next section). ★
+
+## What WE can actually build (the in-silico work program — this is our lane)
+- **De-novo binder design** (RFdiffusion / AlphaFold-based) to mature the inverse-NOR-1-agonist
+  starting point into a selective NR4A3 degrader warhead — the degrader route's missing piece, and
+  a *self-contained computational deliverable we can publish* (a designed candidate + rationale).
+- **Surfaceome screen** of the fusion's transcriptional output (published fusion-target gene sets ∩
+  membrane-protein annotations) to nominate an EMC-enriched CAR/ADC target rather than a pan-sarcoma
+  compromise.
+- **Public-data expression mining** for the surface/effector targets above (closes the data gap
+  without IHC).
+- **AF3** of a fusion↔coactivator / fusion↔E3 interface — *only* once a specific interface is chosen.
+- **Prepare for near-future tools:** structure the data/questions so virtual-cell / perturbation-
+  prediction models can be applied to EMC the moment they're usable.
+
+## Recommended program (no wet lab)
+- **Publish-to-convince, now:** an EMC treatment-landscape / hypothesis paper built on this tracker —
+  it makes the case for the clinical leads (TKI+ICI, trabectedin, carfilzomib) *and* the novel
+  mechanism (NR4A3 degrader), with explicit decisive experiments for others to run. This is the
+  #1 deliverable and the repo's reason to exist.
+- **Generate new in-silico evidence:** the NR4A3-degrader warhead design + the public-data expression
+  calls + the surfaceome screen — the parts where *we* can move the needle, not just argue.
+- **Stop spending on:** the fusion-junction vaccine and the BRD9 transfer bet (assessed, down-
+  weighted); keep TCR-T/ImmTAC only as a basket-trial note for the rare antigen⁺ subset.
 
 ## Source memos
 `immunotherapy-options-emc.md` · `emerging-modalities-scan-emc.md` · `car-t-strategies-emc.md` ·

@@ -1,8 +1,9 @@
-# Parked ideas / future-work backlog
+# EMC treatment tracker + parked-ideas backlog
 
-Ideas worth doing later but deliberately *not* started yet. Each entry: the idea, why
-it matters, rough effort/risk, open questions, and what to check before committing.
-Add to this rather than losing ideas in chat. Newest at top.
+**This file's main content is the EMC treatment-discovery route board below — the repo's crux**
+(paired with the `emc-treatment-strategy.md` capstone). Genuinely *parked* side-ideas (not the
+treatment routes) live further down under "Parked ideas". Add to this rather than losing ideas in
+chat; keep the board current as candidates move.
 
 ---
 
@@ -14,6 +15,13 @@ degrader head-to-head is `degrader-vs-synthetic-lethal.md`). This board is the o
 of what's shelved vs. active and the next step for each. The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
 *yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
 that could actually drug or immuno-target EWSR1::NR4A3 EMC.
+
+**No wet lab — read next-steps through that lens.** Our two levers are (1) **publish-to-convince**
+(make the case so a lab/clinician runs it) and (2) **in-silico evaluation** (★ items we can run
+ourselves — design, modelling, public-data mining — now or with near-future virtual-cell/
+perturbation models). Wet-lab items in the table (dTAG, IHC, CRISPR screen) are **not our to-do** —
+they're what a convincing paper should get *others* to do, or what we replace with an in-silico
+proxy. See `emc-treatment-strategy.md` → "two paths" + "in-silico work program".
 
 | Route | Status | Next step (★ = computational, no wet lab) |
 |---|---|---|
@@ -43,6 +51,8 @@ Lower-credibility for *near* term: CAR-T (no good EMC surface antigen), ADCs (di
 (not a near-term clinical reality). Don't over-invest in these until a concrete target is in hand.
 
 ---
+
+# Parked ideas (side-projects, not EMC treatment routes)
 
 ## Modernize & help maintain the TxGNN repo (upstream contribution)
 
