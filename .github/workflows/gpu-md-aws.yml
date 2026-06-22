@@ -1,0 +1,46 @@
+name: GPU — NR4A3 MD (AWS SageMaker)
+
+# Runs the NR4A3 cryptic-pocket MD as a managed AWS SageMaker Processing job: AWS provisions a GPU,
+# enforces a hard MaxRuntime cap, and tears the instance down on completion (nothing to shut off).
+# Manual-dispatch. REQUIRES repo secrets:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, SAGEMAKER_ROLE_ARN
+# New AWS accounts need a GPU service-quota increase first — see deploy/aws-sagemaker-setup.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ns:
+        description: "nanoseconds of MD. 10 = cheap validation (run this first); 100-200 = production."
+        default: "10"
+        required: false
+      instance:
+        description: "SageMaker GPU instance type"
+        default: "ml.g5.xlarge"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200" boto3
+      - name: Submit SageMaker MD job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          NS: ${{ inputs.ns }}
+          INSTANCE: ${{ inputs.instance }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, SAGEMAKER_ROLE_ARN repo secrets first (see deploy/aws-sagemaker-setup.md)."
+            exit 1
+          fi
+          python research/modalities/nr4a3_md_sagemaker.py

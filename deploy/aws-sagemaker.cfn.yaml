@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Minimal IAM for running the NR4A3 MD as a SageMaker Processing job from GitHub Actions.
+  Creates (1) a SageMaker execution role the job assumes, and (2) a CI IAM user + access key that
+  the workflow uses to submit jobs. Deploy once; put the outputs into GitHub repo secrets.
+  SageMaker auto-creates/uses the default S3 bucket (sagemaker-<region>-<account>) for outputs.
+
+Resources:
+  SageMakerExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: nr4a3-sagemaker-exec
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: sagemaker.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess   # includes the default-bucket S3 access
+
+  CIUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: nr4a3-ci-submitter
+      Policies:
+        - PolicyName: submit-sagemaker-md
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sagemaker:CreateProcessingJob
+                  - sagemaker:DescribeProcessingJob
+                  - sagemaker:StopProcessingJob
+                  - sagemaker:ListProcessingJobs
+                  - sagemaker:AddTags
+                Resource: "*"
+              - Effect: Allow            # let the CI user hand the execution role to SageMaker
+                Action: iam:PassRole
+                Resource: !GetAtt SageMakerExecutionRole.Arn
+              - Effect: Allow            # upload the job's source bundle + read results
+                Action: [ s3:CreateBucket, s3:PutObject, s3:GetObject, s3:ListBucket, s3:GetBucketLocation ]
+                Resource: "*"
+
+  CIKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref CIUser
+
+Outputs:
+  SAGEMAKER_ROLE_ARN:
+    Description: Put this in the SAGEMAKER_ROLE_ARN repo secret
+    Value: !GetAtt SageMakerExecutionRole.Arn
+  AWS_ACCESS_KEY_ID:
+    Description: Put this in the AWS_ACCESS_KEY_ID repo secret
+    Value: !Ref CIKey
+  AWS_SECRET_ACCESS_KEY:
+    Description: Put this in the AWS_SECRET_ACCESS_KEY repo secret (sensitive — copy once)
+    Value: !GetAtt CIKey.SecretAccessKey
