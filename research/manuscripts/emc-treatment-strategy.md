@@ -127,6 +127,17 @@ make the residual the explicit subject of a publish-to-convince paper:
 - **Prepare for near-future tools:** structure the data/questions so virtual-cell / perturbation-
   prediction models can be applied to EMC the moment they're usable.
 
+## In-silico results we have actually generated (DepMap, no wet lab) — `depmap-insilico-findings.md`
+Mining DepMap 24Q4 with sarcoma lines as the EMC surrogate (pipeline validated on housekeeping):
+- **Degrader premise supported by analogy:** FET-fusion sarcomas are fusion-addicted — **FLI1 in
+  Ewing = −0.93 gene effect, 74% dependent** — raising the prior that EMC depends on EWSR1::NR4A3,
+  i.e. that degrading it could be lethal. (No EMC line exists, so this is an analogy, not proof.)
+- **B7-H3/CD276 promoted:** expressed in **99% of sarcoma lines, high across every subtype incl.
+  myxoid** → surrogate support for the ADC/CAR-T/bispecific route (was gated on unrun IHC).
+- **PRAME is the best antigen-directed bet:** **53% of sarcoma lines, high in myxoid (7.6)/synovial
+  (7.2)**; MAGE-A4 (7%) and NY-ESO-1 (5%) confirmed low → favour **brenetafusp (PRAME ImmTAC)** over
+  afami-cel. (Cell lines silence CTAs, so these are lower bounds.)
+
 ## Recommended program (no wet lab)
 - **Publish-to-convince, now:** an EMC treatment-landscape / hypothesis paper built on this tracker —
   it makes the case for the clinical leads (TKI+ICI, trabectedin, carfilzomib) *and* the novel
