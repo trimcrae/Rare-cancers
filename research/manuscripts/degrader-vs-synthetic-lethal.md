@@ -42,11 +42,21 @@ drives the recommendation in §3.
   occupant. [established]
 - Degradation removes the protein rather than blocking a site, so it sidesteps the "no druggable
   functional pocket" verdict that kills classical inhibition (`novel-modalities.md` §2).
+- **Degradation is mechanistically ideal *here specifically*.** NOR-1/NR4A3 is constitutively
+  active and its transcriptional output scales with **expression level** [Munck 2022, NOR-1
+  druggability] — so lowering protein dose directly lowers oncogenic output, which is exactly what
+  a degrader does (an inhibitor would have to block a function NOR-1 may not even gate on a pocket).
+  And the family is degradable: an **NR4A1 PROTAC** degrades NR4A1 in cells — though notably it
+  does **not** cross-degrade NR4A3, so NR4A3 needs its own warhead. [established]
 
 **Practical limitations (honest).**
-1. **No usable warhead today.** Known NR4A binders are low-affinity (µM), non-selective, and
-   characterized mostly for **Nurr1/Nur77, not NR4A3/NOR-1**. A real degrader needs a med-chem
-   campaign to a selective NR4A3-LBD binder — a multi-year effort.
+1. **Warhead is early but real (revised up).** NR4A3-*specific* starting points now exist —
+   fragment-derived **inverse NOR-1 agonists** (low-µM) that alter NOR-1-regulated gene expression
+   in cells [Munck 2022], plus fatty-acid-mimetic NR4A ligands [J Med Chem 2023] — not just the
+   non-selective Nurr1/Nur77 compounds. Still low-affinity and pre-degrader, so a med-chem campaign
+   to a selective, potent NR4A3 warhead remains multi-year — but it starts from real chemical
+   matter, not zero. This is where **AI de-novo binder design** (RFdiffusion/AF-based) could
+   compress the timeline.
 2. **Selectivity vs. wild-type NR4A3.** A LBD-binding degrader hits WT NR4A3 too (the LBD is
    shared). Probably tolerable (NR4A3 is not a broad essential and the fusion is the pathogenic
    species), but unproven. [hypothesis]

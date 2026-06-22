@@ -66,6 +66,22 @@ rationale (pazopanib, sunitinib, anlotinib, regorafenib).
 
 ---
 
+## 2b. ImmTAC / soluble-TCR bispecific (tebentafusp platform) — **weak, same gate as TCR-T**
+
+ImmTACs are soluble affinity-enhanced TCRs fused to anti-CD3 that redirect T cells against an
+**intracellular antigen presented as peptide-HLA** (tebentafusp = gp100/HLA-A\*02, approved in
+uveal melanoma). Off-the-shelf, no cell manufacturing — attractive. **But it targets a
+peptide-HLA, so it inherits the *same* antigen gate as TCR-T:** the relevant ImmTACs are
+**brenetafusp** (IMC-F106C; PRAME peptide SLLQHLIGL / HLA-A\*02:01) and MAGE-A4 constructs — and
+EMC is PRAME-/MAGE-A4-low (§1). So the generic port is weak.
+
+**The one concrete thread:** brenetafusp runs a **tumour-agnostic Phase-1/2 basket** across many
+solid tumours, so a **PRAME⁺ / HLA-A\*02:01⁺ EMC patient** could be eligible *without a bespoke
+product*. Prior is small (PRAME ~8% × A\*02:01 carrier × …), but basket access is more realistic
+than building anything EMC-specific. The only *EMC-specific* ImmTAC would target the
+fusion-junction peptide-HLA — same weak self-adjacent-junction immunogenicity as the vaccine, plus
+a bespoke TCR-mimic discovery program. Not a near-term lead.
+
 ## 3. Bottom line for the board
 
 - **TCR-T/CTA:** downgrade to *weak* — EMC is CTA-low; only an EMC MAGE-A4/PRAME IHC series could
