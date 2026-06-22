@@ -51,7 +51,8 @@ preprint for reach (the point is to mobilise testers).
    single static model; predictions not validation.
 
 ## Figures (all already generated or one step away)
-- F1: EMC fusion architecture + AF2 disorder/pocket map (`nr4a3-structure-assessment.json`).
+- F1: EMC fusion architecture + AF2 disorder/pocket map — **GENERATED**:
+  `figures/fusion-architecture.svg` (via `figures/fusion_architecture_figure.py`).
 - F2: the prioritized-portfolio tier chart — **GENERATED**: `figures/portfolio.svg`
   (regenerate via `figures/portfolio_figure.py`).
 - F3: DepMap fusion-addiction proxy — FLI1-in-Ewing vs context (`depmap-sarcoma-dependency.*`).
