@@ -51,6 +51,39 @@ interfaces; combination therapy (anti-angiogenic TKI — EMC's one real clinical
 Lower-credibility for *near* term: CAR-T (no good EMC surface antigen), ADCs (ditto), "nanobots"
 (not a near-term clinical reality). Don't over-invest in these until a concrete target is in hand.
 
+## Cross-cutting strategy: broaden any promising candidate to OTHER (esp. common) cancers
+
+**The motivation problem (user insight, 2026-06-22).** Even a genuinely promising EMC candidate may
+not get developed — EMC is *too rare* to create commercial/translational pull on its own (the same
+economics that sank the vaccine route). A convincing paper about an EMC-only drug is necessary but
+may not be *sufficient* to make someone actually build it.
+
+**The fix.** For any candidate that firms up, also assess and write up **which other cancers its
+mechanism/target fits — prioritising common cancers and those with poor existing treatments / high
+unmet need.** Positioning EMC as the *entry* indication of a broader oncology opportunity widens the
+addressable market and gives a developer a real reason to act. (EMC's clean, single-driver biology
+also makes it a good *proof-of-concept* indication for a mechanism that then scales to messier common
+tumours.)
+
+**This is cheap to do in-silico with what we already built** — our DepMap pipeline already covers
+**all lineages, not just sarcoma**, so a pan-cancer expression/dependency readout is a one-flag
+extension:
+- **NR4A3 / NR4A degrader:** NR4A receptors (NR4A1/2/3) are implicated across leukemia, melanoma,
+  prostate, breast, colorectal, etc.; a degrader/the "degrade an undruggable nuclear-receptor TF via
+  its LBD" *platform* may generalise. ★ pull pan-cancer NR4A expression + any NR4A dependency from
+  DepMap.
+- **B7-H3, PRAME, FAP** are already **pan-cancer targets** (B7-H3 ADC in lung/prostate; PRAME in
+  melanoma/lung/ovarian/uterine; FAP pan-tumor) — frame EMC as one indication in a broader program;
+  ★ pan-cancer expression is already computable with `depmap_target_expression.py` (drop the
+  sarcoma-only filter).
+- **Repurposed drugs** (trabectedin, carfilzomib, TKI+ICI) already have other-cancer footprints —
+  cite them.
+
+**When to do it:** only once a candidate is concrete (don't pre-spread effort). The deliverable is a
+"broader-indication" section appended to that candidate's write-up: which cancers share the
+target/mechanism, their unmet need, and the supporting public-data evidence. Add it to the
+`emc-treatment-roadmap.md` discussion when the lead candidate is chosen.
+
 ---
 
 # Parked ideas (side-projects, not EMC treatment routes)
