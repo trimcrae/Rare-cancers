@@ -14,9 +14,25 @@ one-screen board is `research/IDEAS.md`. Goal throughout: a *real treatment*, no
 2. **Trabectedin (± RT, ± TKI/IO).** Approved for STS; its mechanism *is* displacing fusion
    transcription factors from promoters (proven in myxoid liposarcoma), and EMC has a reported
    impressive responder. *(emerging-modalities-scan-emc.md §1)*
+3. **Carfilzomib ± anthracycline (± venetoclax)** — *best ex-vivo EMC evidence of anything here.*
+   The only 1 of 17 drugs with high sensitivity across **two patient-derived EMC models**, with
+   carfilzomib+doxorubicin / +venetoclax synergy (Bangerter et al. 2023). Approved drugs; the play
+   is a combination arm on EMC's existing **anthracycline (doxorubicin)** backbone. Already in the
+   repurposing track — see `repurposing-hypotheses.md` (the unbiased-screen tier). *Carried here so
+   the portfolio isn't wrong by omission.*
 
-> **Headline:** the two best near-term options are **repurposing approved drugs with mechanistic
-> fit** — not novel modalities. That is the honest answer to "what could help a patient now."
+> **Headline:** the best near-term options are **repurposing approved drugs** — TKI+ICI and
+> trabectedin (mechanism-fit) and the **carfilzomib+anthracycline ex-vivo hit** — not novel
+> modalities. That is the honest answer to "what could help a patient now."
+
+> **Relationship to the existing repurposing work.** This capstone sits *on top of* the repo's
+> repurposing track (`repurposing-hypotheses.md`, `hypotheses/candidates.json`, TxGNN predictions),
+> which already covers doxorubicin (standard), the carfilzomib ex-vivo hit, and a *mechanistic* tier
+> (pioglitazone/PPARγ, BET/CDK7–9, NR4A3/NOR1, mRNA-vaccine+checkpoint). What the night's work
+> **adds**: trabectedin (fusion-TF mechanism + EMC responder), the **TKI+ICI ImmunoSarc EMC
+> responder**, FAP-RLT, B7-H3 surface modalities, the NR4A3-degrader specifics, and **data** that
+> *updates* two existing mechanistic hypotheses — the DepMap result down-weights BET/CDK
+> (no sarcoma selectivity), and §4 below is the same PPARG axis as the existing pioglitazone idea.
 
 ### Tier 2 — Emerging, plausible, gated by ONE cheap confirm
 3. **FAP-targeted radioligand therapy (FAPI-RLT).** ~50% disease control in advanced sarcoma; EMC's
@@ -35,7 +51,9 @@ one-screen board is `research/IDEAS.md`. Goal throughout: a *real treatment*, no
 
 ### Tier 4 — Speculative / downstream / parked
 7. **PPARG modulation (TZDs)** — the fusion transactivates PPARG; druggable downstream node, but
-   agonist-vs-antagonist direction unresolved. Cheap to explore.
+   agonist-vs-antagonist direction unresolved. *This is the same axis as the existing
+   **pioglitazone** mechanistic hypothesis in `repurposing-hypotheses.md`* — Phase-2 added the
+   fusion→PPARG transactivation mechanism behind it. Cheap to explore.
 8. **TCR-T / ImmTAC** — weak: EMC is cancer-testis-antigen-low. Only a PRAME⁺/HLA-A\*02⁺ subset, via
    the brenetafusp basket. *(immunotherapy-options-emc.md §1, §2b)*
 9. **Synthetic-lethal / BRD9** — **downgraded** by a computed DepMap transfer prior (BRD9/ncBAF not
