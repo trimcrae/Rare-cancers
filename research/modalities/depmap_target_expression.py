@@ -76,12 +76,11 @@ def main():
     sarcoma_ids = set(model.index[model[lin_col].isin(["Soft Tissue", "Bone"])])
     print(f"  {len(model)} models, {len(sarcoma_ids)} sarcoma", file=sys.stderr)
 
-    raw = dep._get(urls[EXPR_FILE], timeout=600)
-    header = pd.read_csv(io.BytesIO(raw), nrows=0)
-    cols = list(header.columns)
+    expr_path = dep._download(urls[EXPR_FILE], timeout=900)
+    cols = list(pd.read_csv(expr_path, nrows=0).columns)
     idx_col = cols[0]
     keep = {c.split(" (")[0]: c for c in cols[1:] if c.split(" (")[0] in set(ALL_GENES)}
-    ex = pd.read_csv(io.BytesIO(raw), usecols=[idx_col] + list(keep.values()), index_col=0)
+    ex = pd.read_csv(expr_path, usecols=[idx_col] + list(keep.values()), index_col=0)
     ex.columns = [c.split(" (")[0] for c in ex.columns]
     print(f"  expression: {ex.shape[0]} lines x {ex.shape[1]} genes "
           f"(found {sorted(ex.columns)})", file=sys.stderr)

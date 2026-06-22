@@ -67,6 +67,29 @@ def _get(url, timeout=120, data=None, headers=None):
     raise RuntimeError(f"failed: {url}")
 
 
+def _download(url, timeout=900):
+    """Stream a (large) file to a temp path without holding it all in memory. Returns path."""
+    import tempfile
+    import time
+    f = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
+    for i in range(4):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                while True:
+                    chunk = r.read(1 << 20)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+            f.close()
+            return f.name
+        except Exception as e:  # noqa
+            print(f"  retry {i+1} download {url[:80]}: {e}", file=sys.stderr)
+            f.seek(0); f.truncate()
+            time.sleep(2 ** i)
+    raise RuntimeError(f"failed download: {url}")
+
+
 def _article_files(aid):
     try:
         return json.loads(_get(f"https://api.figshare.com/v2/articles/{aid}")).get("files", [])
@@ -120,14 +143,13 @@ def main():
     sarcoma_ids = set(model.index[is_sarcoma])
     print(f"  {len(model)} models, {len(sarcoma_ids)} sarcoma (Soft Tissue/Bone)", file=sys.stderr)
 
-    # CRISPR gene effect — read header, keep only target columns (memory-safe)
-    raw = _get(urls["CRISPRGeneEffect.csv"], timeout=600)
-    header = pd.read_csv(io.BytesIO(raw), nrows=0)
-    cols = list(header.columns)
+    # CRISPR gene effect — stream to disk, then read only target columns (memory-safe)
+    crispr_path = _download(urls["CRISPRGeneEffect.csv"], timeout=900)
+    cols = list(pd.read_csv(crispr_path, nrows=0).columns)
     idx_col = cols[0]
     want = set(ALL_GENES) | set(CONTEXT_GENES)
     keep = {c.split(" (")[0]: c for c in cols[1:] if c.split(" (")[0] in want}
-    ge = pd.read_csv(io.BytesIO(raw), usecols=[idx_col] + list(keep.values()), index_col=0)
+    ge = pd.read_csv(crispr_path, usecols=[idx_col] + list(keep.values()), index_col=0)
     ge.columns = [c.split(" (")[0] for c in ge.columns]
     print(f"  gene-effect: {ge.shape[0]} lines x {ge.shape[1]} target genes "
           f"(found {sorted(ge.columns)})", file=sys.stderr)
