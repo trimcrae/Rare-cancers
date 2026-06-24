@@ -1,0 +1,14 @@
+{
+  "_note": "NR4A3\u2013PROTAC\u2013E3 ternary modelling prep (Boltz-2). Control = CRBN + E3 ligand (known answer); ternary = NR4A3 LBD + CRBN + PROTAC (template until a warhead SMILES exists). Inference needs GPU.",
+  "status": {},
+  "nr4a3_lbd_len": 254,
+  "crbn_len": 442,
+  "control": {
+    "complex": "CRBN + lenalidomide",
+    "ligand_chembl": "CHEMBL848",
+    "expected": "imide seats in CRBN tri-Trp pocket (W380/W386/W400 region)"
+  },
+  "ternary": {
+    "status": "TEMPLATE \u2014 supply --protac-smiles / $PROTAC_SMILES once a selective NR4A3 warhead is designed (degrader experiment #2)"
+  }
+}
