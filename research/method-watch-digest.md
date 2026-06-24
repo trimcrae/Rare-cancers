@@ -9,57 +9,57 @@ first; "🆕" = within 120 days.
 
 ### virtual-cell / perturbation prediction
 *Unlocks:* predicts held-out knockdown phenotype → test EMC EWSR1::NR4A3 fusion-dependence (the degrader make-or-break)
-- 🆕 **2026-07-01** — Preclinical and Virtual Models of Mucosal Melanoma: Bridging Translational Gaps in a Rare and Lethal Cancer. (MED:PMC13247539)
-- 🆕 **2026-04-28** — Divergent Rickettsia species exhibit distinct mechanisms of actin-based motility. (MED:PMC13137875)
-- 🆕 **2026-03-13** — A Comparison of Methods for Modeling Multistate Cancer Progression Using Screening Data with Censoring after Intervention. (MED:PMC13242538)
-- 🆕 **2026-03-11** — Quantitative Diffusion and T2 Mapping Using RF-Modulated Phase-Based Gradient Echo Imaging. (MED:PMC13156447)
-- **2026-02-09** — Artificial intelligence virtual extracellular vesicles (AIVEVs). (MED:PMC12907801)
-- 🆕 **2026-06-03** — Infrared Imaging for Autonomous Power Inspection: A Review from Detector to System Integration. (MED:PMC13258969)
+- 🆕 **2026-06-09** — Evaluating the role of pretraining dataset size and diversity on single-cell foundation model performance. (MED:MED/42265208)
+- 🆕 **2026-05-27** — Virtual cell: Current perspectives and future prospects. (MED:PMC13219940)
+- 🆕 **2026-05-18** — Sparse autoencoders reveal interpretable cell-type programs in single-cell foundation model representations. (MED:MED/42155660)
+- 🆕 **2026-05-05** — RegFormer: a single-cell foundation model powered by gene regulatory hierarchies. (MED:MED/42086551)
+- 🆕 **2026-04-23** — Discovery of candidate therapeutic targets with Geneformer. (MED:MED/42026145)
+- 🆕 **2026-03-18** — In Vitro and In Vivo Validation of Endothelium-Derived Potential Therapeutics for Myocardial Ischemia/Reperfusion Injury Identified by an AI-Enhanced Single-Cell and Virtual-Cell Paradigm. (MED:PMC13027327)
 
 ### AF3-class structure / ternary complex
 *Unlocks:* open ternary-complex prediction → model NR4A3–PROTAC–E3 degradability geometry
-- 🆕 **2026-06-10** — Trimeric hemagglutinin vaccine provides chickens complete protection against lethal H5 subtype avian influenza virus from clade 2.3.4.4b. (MED:PMC13255209)
-- 🆕 **2026-04-11** — Engineering a heme-dependent tryptophan hydroxylase pathway in &lt;i&gt;E. coli&lt;/i&gt; for enhanced melatonin production. (MED:PMC13091554)
-- 🆕 **2026-04-17** — Multi-modal feature learning to prioritize ADCs with favorable half-life in mice. (MED:PMC13094291)
-- 🆕 **2026-03-20** — Crystal structure of the &lt;i&gt;Legionella pneumophila&lt;/i&gt; effector SidL (Lpg0437) in complex with its metaeffector LegA11 (Lpg0436). (MED:PMC13007446)
-- 🆕 **2026-03-09** — Mapping the TNFR2-targeting antibody patent landscape: Insights from macro trends to structural signatures. (MED:PMC12973476)
-- 🆕 **2026-02-27** — Lipid nanoparticles with aptamers enable targeted mRNA delivery to CD4⁺ T cells. (MED:PMC12951662)
+- 🆕 **2026-05-20** — Targeted degradation of SETDB1 by an Aptamer-CRBNL PROTAC as a novel therapeutic strategy for breast cancer. (MED:MED/42176657)
+- 🆕 **2026-05-21** — Discovery of a selective and effective CRBN-recruiting ATR degrader with strong antitumor activity. (MED:MED/42176651)
+- 🆕 **2026-05-10** — Identification of RET PROTAC with excellent degradation efficiency against medullary thyroid carcinoma. (MED:MED/42161102)
+- 🆕 **2026-05-26** — PROTAC technology: clinical applications, future challenges, and innovative strategies. (MED:MED/42224977)
+- 🆕 **2026-05-05** — Discovery of GSI526: a potent IRAK4-targeting PROTAC degrader with efficient degradation and suppression of inflammatory signaling. (MED:MED/42097519)
+- 🆕 **2026-05-02** — Discovery and characterization of YSA64, a RBM39 degrader with in vivo efficacy and potent cellular activity in pediatric Ewing sarcoma A673. (MED:MED/42085934)
 
 ### de-novo selective small-molecule / binder design
 *Unlocks:* reliable generative + selectivity scoring → design the NR4A3 warhead at the nr4a-selectivity.json handles
-- 🆕 **2026-06-17** — Design, synthesis, and biological evaluation of 6-aryl-3-(3,4,5-trimethoxyphenyl)imidazo[1,2-a]pyridine derivatives as novel tubulin inhibitors with potent anticancer efficacy. (MED:PMC13276812)
-- 🆕 **2026-06-17** — The development of biologically contained Sudan virus as an alternative and safe tool for fundamental filovirus research. (MED:PMC13276821)
-- 🆕 **2026-06-15** — Synergistic application of taurine and spermidine enhances wheat tolerance to neodymium stress through redox homeostasis, metabolic adjustment, and nutrient regulation. (MED:PMC13274135)
-- 🆕 **2026-06-05** — Engineering of fructose-6-phosphate aldolase for one-carbon conversion to mannitol in a designed biotransformation system. (MED:PMC13259622)
-- 🆕 **2026-06-11** — Discovery of a novel and potent KRAS&lt;sup&gt;G12V&lt;/sup&gt;-targeting peptide with antiproliferative activity against colorectal cancer cells. (MED:PMC13262105)
-- 🆕 **2026-06-03** — Spider venom peptides Ht1a and Gg1a are toxic to honeybee parasite &lt;i&gt;Varroa destructor&lt;/i&gt; by topical application. (MED:PMC13233288)
+- 🆕 **2026-04-30** — Discovery of Hsp70 inhibitors for allosteric dissociation of the Hsp70/BAG3 complex via structure-based de novo design. (MED:MED/42068644)
+- 🆕 **2026-04-13** — AI-assisted transformation of PD-L1 inhibitory peptides into small molecules using amino acid mapping descriptor and activity improvement through structure-based drug design. (MED:MED/41980672)
+- 🆕 **2026-05-26** — Applying artificial intelligence and machine learning framework for de novo design of pyrazole-based VEGFR-2 inhibitors. (MED:MED/42208487)
+- **2026-02-14** — Structure-based drug design of sanguinarine derivatives targeting Babesia microti lactate dehydrogenase through computational approaches. (MED:MED/41932198)
+- 🆕 **2026-06-23** — CycleVI: Isolating cell cycle variation with an interpretable deep generative model. (MED:MED/42334940)
+- 🆕 **2026-06-05** — Integrating Single-Cell Profiling with Generative AI for &lt;i&gt;De Novo&lt;/i&gt; Design of MMP9 Protein Binders in Diffuse Large B-Cell Lymphoma. (MED:PMC13257871)
 
 ### cryptic-pocket / dynamics-based druggability
 *Unlocks:* robust cryptic-pocket prediction → re-grade the NR4A3 LBD undruggability prior without GPU MD
-- 🆕 **2026-05-11** — Targeting ALDH7A1 with covalent inhibitors reveals new chemical space for prostate cancer therapy. (MED:PMC13162559)
-- 🆕 **2026-04-27** — Engineering of acidic pH-responsive anti-CD3 binding antibodies. (MED:PMC13128029)
-- 🆕 **2026-03-08** — NAStructuralDB : structural database to facilitate computational studies of molecular modeling and recognition of proteins with special focus on antibody-antigen interactions. (MED:PMC12973472)
-- **2026-02-08** — A review of preclinical research on mechanically gated ion channels as therapeutic targets in neuropathic pain. (MED:PMC12888361)
-- **2026-01-08** — Dual anti-pseudomonal and resistance-modulatory actions of &lt;i&gt;Sida acuta&lt;/i&gt; (Malvaceae) via BamB-OprM targeting: insights from integrated metabolomics, computational, and &lt;i&gt;in vitro&lt;/i&gt; analyses. (MED:PMC12784639)
-- **2026-01-06** — Identification of the first peptide inhibitor of UBE2C enzymatic activity: insights from metadynamics-guided folding and binding studies. (MED:PMC12777749)
+- 🆕 **2026-05-10** — Spatiotemporal complexity and druggability of PTH1R: insights from small molecules and peptides. (MED:MED/42119631)
+- 🆕 **2026-03-20** — Discovery and computational characterization of a novel cryptic pocket in human farnesyl pyrophosphate synthase. (MED:MED/41865847)
+- 🆕 **2026-06-01** — Seeing the hidden pocket. (MED:MED/41087592)
+- **2025-08-15** — Druggability assessments of small peptides as protein-protein interaction inhibitors targeting EED-EZH2 binding within the Polycomb Repressive Complex 2 (PRC2), an epigenetic regulator. (MED:MED/40815358)
+- 🆕 **2026-05-20** — Sequence-based drug-target binding site pre-training enables cryptic pocket detection and improves binding affinity and kinetics prediction. (MED:MED/42163392)
+- 🆕 **2026-05-06** — A cryptic-site ligand stabilizes a non-canonical interface and blocks membrane insertion of the chloride intracellular channel CLIC1. (MED:PMC13253073)
 
 ### in-silico oligonucleotide / nanoparticle tumour-delivery prediction
 *Unlocks:* usable in-silico delivery/biodistribution/endosomal-escape predictor → score the B7-H3-targeted junction-siRNA/AOC delivery and re-grade the ASO route feasibility
-- 🆕 **2026-06-16** — Preventive and therapeutic efficacy of mRNA/LNP vaccines encoding HPV16 E6 and E7 in an early-intervention HPV tumor mouse models. (MED:PMC13274139)
-- 🆕 **2026-06-15** — Crosstalk between circRNAs and the classic signaling pathways in IBD. (MED:PMC13274161)
-- 🆕 **2026-06-11** — Nanomaterial-based vaccines: An advanced approach against rotavirus: A review article. (MED:PMC13274155)
-- 🆕 **2026-06-05** — Dual-ligand-modified cantharidin nanoparticles for the treatment of hepatocellular carcinoma via the inhibition of Ephb4. (MED:PMC13244520)
-- 🆕 **2026-06-05** — Local delivery of SBRT and IL-12 to murine PDAC tumors modulates hematopoiesis. (MED:PMC13245092)
-- 🆕 **2026-06-04** — Leveraging the bacteria for enhanced cancer immunotherapy: from a perspective of synthetic biology. (MED:PMC13240942)
+- 🆕 **2026-03-17** — A Calixsalan-based ionizable lipid for macrophage-targeted Trem2 siRNA delivery attenuates atherosclerosis. (MED:MED/41864150)
+- 🆕 **2026-07-01** — Structure-Guided Engineering of Histidine-Rich pH-Switchable Endosomolytic Peptides for Spleen-Selective siRNA Delivery to Inflammatory Macrophages. (MED:MED/42216305)
+- 🆕 **2026-05-21** — Ginseng-derived cholesterol analogues enhance pulmonary siRNA delivery and alleviate allergic asthma. (MED:MED/42208109)
+- 🆕 **2026-06-19** — A ROS-Responsive DNA Nanodevice for Targeted Cytosolic siRNA Delivery in Metabolic Dysfunction-Associated Steatohepatitis. (MED:MED/42319126)
+- 🆕 **2026-05-20** — A Janus polydopamine nanomotor hydrogel enables enhanced tumor penetration and potent synergistic photothermal-photodynamic therapy. (MED:PMC13224061)
+- 🆕 **2026-04-30** — Evaluation and forecasting of siRNA delivery technologies: An analysis of hierarchical decision model based on patent data. (MED:PMC13213759)
 
 ### NR4A3 / EWSR1::NR4A3 direct EMC advances
 *Unlocks:* any direct chemical/biological matter against NR4A3 or the fusion → fold into the relevant route memo immediately
-- 🆕 **2026-05-23** — Optimal Stenting Strategy During Chemotherapy: Impact of Time to First Reintervention on Survival in Malignant Hilar Biliary Obstruction. (MED:PMC13240403)
-- 🆕 **2026-05-19** — Case Report of a Rapidly Progressive Indolent T-Cell Lymphoma of the Gastrointestinal Tract. (MED:PMC13184716)
-- 🆕 **2026-04-27** — Patients With Pancreatitis-Related Gene Variants Showed Higher Incidence of Hyperpancreatic Enzymemia After Endoscopic Retrograde Cholangiopancreatography. (MED:PMC13121562)
-- 🆕 **2026-04-28** — Desmoid Fibromatosis of the Gastric Wall Mimicking Needle Tract Seeding after Endoscopic Ultrasound-Guided Fine-Needle Biopsy for Pancreatic Cancer: A Case Report. (MED:PMC13122257)
-- **2026-02-08** — Impact of Mild Traumatic Brain Injury (mTBI) on CYP2D6 Activity and the Restorative Effects of Melatonin and Vitamin C Supplementation. (MED:PMC13180301)
-- 🆕 **2026-06-16** — Preventive and therapeutic efficacy of mRNA/LNP vaccines encoding HPV16 E6 and E7 in an early-intervention HPV tumor mouse models. (MED:PMC13274139)
+- 🆕 **2026-06-06** — Chikusetsusaponin V improves vascular endothelial dysfunction by binding to ITGB1 and mediating PURA-eNOS activation in mice with diabetes mellitus. (MED:MED/42284643)
+- 🆕 **2026-02-26** — A series of extraskeletal myxoid chondrosarcomas with rare morphological and molecular variations. (MED:MED/41755350)
+- 🆕 **2026-03-11** — Distinct damage levels and transcriptional responses of lung in Hezuo pigs and Bama pigs during cold exposure. (MED:PMC13243925)
+- 🆕 **2026-03-09** — Smooth muscle NR4A3 upregulation caused by endothelial Caveolin-1 deficiency mediates vascular remodeling and pulmonary hypertension. (MED:MED/41812836)
+- **2026-01-24** — Targeting mechanosensitive EphA2 phase separation to alleviate arterial stiffening. (MED:PMC12860789)
+- 🆕 **2026-05-26** — Differential Expression Profiles of Orphan Nuclear Receptors (NR4A) and N-myc Downstream-Regulated Gene Family (NDRG) in Patients with Inflammatory Bowel Disease. (MED:PMC13257387)
 
 ## Tool / model release watch
 - 🆕 `google-deepmind/alphafold3` — v3.0.3 (2026-06-09) _(AF3 weights/code availability)_
