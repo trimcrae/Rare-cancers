@@ -57,8 +57,9 @@ experimentally validated in EMC.
   reported a partial response in an EMC patient; EMC is unusually TKI-sensitive, and TKIs remodel the
   cold tumour microenvironment — a mechanistic synergy, not coincidence.
 - **Trabectedin.** Approved for soft-tissue sarcoma; its mechanism is displacing fusion
-  transcription factors from target promoters (validated in myxoid liposarcoma), directly on-target
-  for EMC's biology; an impressive EMC responder is reported.
+  transcription factors from target promoters (validated in myxoid liposarcoma), mechanistically
+  apt for EMC's fusion-TF biology; an impressive EMC responder is reported (trabectedin +
+  radiotherapy, metastatic EMC).
 - **Carfilzomib + anthracycline (± venetoclax).** The only drug active across two patient-derived
   EMC models in an unbiased ex-vivo screen (Bangerter 2023) — the best *experimental* EMC evidence
   here; play it on the existing anthracycline backbone.
@@ -167,7 +168,9 @@ Structure: AlphaFold2 (Jumper 2021) / AFDB; fpocket. Degrader: NOR-1 druggabilit
 (Munck 2022, PMC9542104); NR4A ligands (PMC11267491); vepdegestrant first approved PROTAC (Arvinas
 2025). Synthetic-lethal: Boulay *Cell* 2017 (EWSR1 prion-domain BAF retargeting); Brien *eLife* 2018
 (BRD9 degrader). Immunotherapy: afami-cel (Tecelra) approval 2024; NY-ESO-1 in sarcoma (PMC3518519);
-ImmunoSarc / sarcoma IO (ASCO EDBK 2024); brenetafusp PRAME ImmTAC (Immunocore 2024). Surface targets:
+ImmunoSarc / sarcoma IO (ASCO EDBK 2024); brenetafusp PRAME ImmTAC (Immunocore 2024).
+EMC-specific clinical signal: sunitinib response in EMC (PMC3534218); trabectedin + radiotherapy
+long-term response in metastatic EMC (case report, *Impressive response and long-term survival…*). Surface targets:
 B7-H3 in soft-tissue sarcoma (PMC11523878); FAPI radioligand therapy in sarcoma (Clin Cancer Res
 2022). Repurposing/ex-vivo: carfilzomib (top ex-vivo hit) ± anthracycline/venetoclax in two
 patient-derived EMC models (Bangerter et al., *Human Cell* 2023; PMID 36316541;
