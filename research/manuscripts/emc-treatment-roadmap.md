@@ -105,6 +105,19 @@ occurrence count. The result is a ranked, off-target-screened shortlist across *
 (gapmer and siRNA) rather than an untriaged design list. This advances *specificity and potency-site
 selection only* — it does **not** address delivery, which remains the route's gating problem.
 
+*Result (first pass).* Screening the 5 fusion-specific gapmers against the full human RefSeq
+transcriptome (186,185 transcripts) returns a deliberately uncomfortable finding: **none is
+transcriptome-clean** — every candidate has at least one near-complementary off-target at ≤1
+mismatch (best candidate: 0 exact but 8 one-mismatch hits), the junction sites are **poorly
+accessible** (best ≈0.35 unpaired probability), they are **GC-rich (~75%)**, and only **2 of 5**
+place the RISC seed across the junction. This is the screen doing its job: "not a perfect complement
+of the two parents" passes all 5, but the stricter transcriptome-wide bar fails all 5. The actionable
+read is that a viable oligo here will need **wider design latitude than the canonical 16-mer at the
+canonical breakpoint** — longer/shifted gapmers or a junction-in-seed siRNA — pushed until the
+≤1-mismatch off-target count reaches zero on an accessible, lower-GC site. We report this as a
+negative-leaning *result*, not a flaw, because it converts an untested "fusion-specific in principle"
+claim into a measured specificity bar the eventual construct must clear.
+
 **Delivery strategy (the route's real gate, and a concrete proposal).** No oligonucleotide is yet
 approved for *targeted systemic delivery to a solid tumour*: the solved cases are liver (GalNAc→ASGPR;
 inclisiran-class), local CNS (intrathecal; nusinersen), and local eye. EMC is none of these, so

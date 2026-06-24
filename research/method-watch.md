@@ -44,3 +44,23 @@ testable, which would move the route off "delivery-limited."
 *Design principle (from `emc-treatment-strategy.md` Q3): keep this a periodic digest + this
 table. Do not over-engineer a "capability detector"; pipelines are kept modular so a new
 model swaps in cheaply.*
+
+## Open follow-ups from digests (triage log)
+Hits that crossed (or are warming) a trigger. A new session should action or clear these.
+
+- **[2026-06-24] AF3-class ternary modelling is now usable** (tool watch: AlphaFold3 v3.0.3,
+  Boltz v2.2.1, Protenix v2.0.0; + a wave of fresh PROTAC-degrader papers). This crosses the
+  *"open AF3-class ternary-complex prediction"* trigger → **model the NR4A3–PROTAC–E3 ternary
+  complex** (degradability geometry / accessible-lysine check) with Boltz/Protenix. Status: **open**
+  (GPU task; degrader spec `nr4a3-degrader-design-spec.md` §"GPU experiment plan" point 3).
+- **[2026-06-24] Degrader precedent in a sibling FET-fusion sarcoma — VERIFY BEFORE CITING.**
+  Digest title only: *"Discovery and characterization of YSA64, a RBM39 degrader with in vivo
+  efficacy and potent cellular activity in pediatric Ewing sarcoma A673"* (Europe PMC MED/42085934,
+  2026-05). Relevance: shows degrader-modality efficacy in an EWS-fusion sarcoma — **but it targets
+  the RBM39 dependency, not the fusion itself**, so it supports *"degraders deliver in FET-fusion
+  sarcoma"*, NOT *"the fusion was degraded."* Action: fetch + read (CI `fetch-literature.yml`),
+  confirm claims, then cite in the degrader spec/roadmap with that precise framing. Status: **open,
+  unverified** (do not assert in a manuscript until read).
+- **[2026-06-24] Virtual-cell target discovery warming up** — *"Discovery of candidate therapeutic
+  targets with Geneformer"* (MED/42026145, 2026-04). Not yet a held-out-knockdown predictor, but the
+  capability behind the EMC fusion-dependence trigger is maturing; keep watching. Status: **watch**.
