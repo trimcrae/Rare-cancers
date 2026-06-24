@@ -1,5 +1,10 @@
 # Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a reproducible HLA class-I analysis
 
+> **PARKED.** The vaccine/coverage route is not active (weak immunogen in a cold tumour; economics
+> favour a platform we don't control) — see [`../IDEAS.md`](../IDEAS.md). Reusable only as HLA input to
+> TCR-T/ADC eligibility. Active manuscript: [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md).
+> Folder map: [`README.md`](./README.md).
+
 **Status: DRAFT v0.1 — full prose, pre-clinician-review, not for submission.**
 **Author:** [Name], Independent researcher, [City, Country] — independent, personal-capacity
 work, unconnected to the author's employer; prepared with AI assistance (see §6). A sarcoma

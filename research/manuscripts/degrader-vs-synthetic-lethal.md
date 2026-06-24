@@ -1,5 +1,9 @@
 # Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison
 
+> **SOURCE MEMO (internal) — feeds the active manuscript** [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)
+> via the strategy capstone [`emc-treatment-strategy.md`](./emc-treatment-strategy.md). Not separately submitted.
+> Folder map: [`README.md`](./README.md).
+
 **Scope.** A deeper head-to-head than `novel-modalities.md` §3.1 (degradation) and §3.4–3.5
 (synthetic-lethal / transcriptional), written to decide **which route to invest in first**.
 This is a *decision memo*, not a results paper: no EMC wet-lab data exists, so everything below

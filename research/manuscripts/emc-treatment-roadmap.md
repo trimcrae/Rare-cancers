@@ -1,5 +1,10 @@
 # A prioritized, falsifiable roadmap to a treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma — a computation-only triage
 
+> **ACTIVE MANUSCRIPT — the repo's one paper currently being developed.** This is the single
+> publish-to-convince deliverable; everything else in this folder feeds it, records QA for it, or is
+> parked/separate-track. Strategy/source-of-truth: [`emc-treatment-strategy.md`](./emc-treatment-strategy.md).
+> Folder map: [`README.md`](./README.md).
+
 *Draft manuscript (2026-06). Authors/affiliations TBD. This is the repo's #1 deliverable — the
 publish-to-convince artifact. Built entirely from the tracker (`emc-treatment-strategy.md`) and the
 in-silico results in `research/modalities/`. Every claim is sourced or computed; nothing is wet-lab

@@ -1,11 +1,12 @@
-# Outline — the EMC treatment-strategy paper (the #1 deliverable)
+# Figure & claims-audit checklist for the active manuscript (retired outline)
 
-> **DRAFT WRITTEN:** a full first draft now exists at
-> [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). This outline is retained as the
-> planning scaffold / figure + claims checklist; edit the draft directly going forward.
+> **QA / CHECKLIST (not a manuscript).** The draft this outlined has been written — it is the active
+> manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). **Edit the draft directly**;
+> this file is retained only as the figure inventory + claims-audit checklist below. Folder map:
+> [`README.md`](./README.md).
 
-**Status:** skeleton for review (reshape freely). This is the publish-to-convince artifact the repo
-exists to produce: a rigorous, honest map of *what could drive an EMC treatment forward*, built
+**Original purpose (for context):** the planning scaffold for the publish-to-convince artifact the
+repo exists to produce — a rigorous, honest map of *what could drive an EMC treatment forward*, built
 entirely from the tracker (`emc-treatment-strategy.md`) and the in-silico evidence we generated. No
 wet lab; every claim is sourced or computed, with explicit kill-criteria.
 

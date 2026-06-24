@@ -1,5 +1,9 @@
 # Immunotherapy options for EMC beyond the parked vaccine
 
+> **SOURCE MEMO (internal) — feeds the active manuscript** [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)
+> via the strategy capstone [`emc-treatment-strategy.md`](./emc-treatment-strategy.md). Not separately submitted.
+> Folder map: [`README.md`](./README.md).
+
 **Scope.** Autonomous Phase-1 assessment (2026-06-22): does the synovial-sarcoma TCR-T success
 port to EWSR1::NR4A3 EMC, and what other immunotherapy actually has EMC evidence? Decision memo,
 literature-grounded; claims tagged **[established]/[EMC-specific]/[hypothesis]**. Companion to

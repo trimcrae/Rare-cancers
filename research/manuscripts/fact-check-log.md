@@ -1,5 +1,8 @@
 # Fact-check & replication log — repurposing-hypotheses.md
 
+> **QA / FACT-CHECK LOG (not a manuscript)** for [`repurposing-hypotheses.md`](./repurposing-hypotheses.md).
+> Active manuscript: [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). Folder map: [`README.md`](./README.md).
+
 Reviewer-grade verification trail. "Corpus" = the project's PubMed metadata index used to
 build the catalogue (abstracts + identifiers). ✓ = verified; ⚠ = needs full-text/online
 confirmation a hostile reviewer could demand; ✗ = found wrong and fixed.

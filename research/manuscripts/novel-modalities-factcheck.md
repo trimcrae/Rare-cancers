@@ -1,5 +1,8 @@
 # Fact-check & replication log — novel-modalities.md
 
+> **QA / FACT-CHECK LOG (not a manuscript)** for [`novel-modalities.md`](./novel-modalities.md).
+> Active manuscript: [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). Folder map: [`README.md`](./README.md).
+
 Reviewer-grade verification trail for the computational target-assessment paper.
 ✓ = verified/reproduced; ⚠ = needs confirmation a hostile reviewer could demand;
 ✗→✓ = found wrong and fixed. Every number in the manuscript traces to a CI-produced

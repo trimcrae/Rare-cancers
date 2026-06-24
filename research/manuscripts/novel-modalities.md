@@ -1,5 +1,9 @@
 # Computational routes to treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma: structure-guided modalities and a personalised fusion-neoantigen pipeline
 
+> **EARLIER TREATMENT-TRACK DRAFT — subsumed by the active manuscript**
+> [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md), which draws on this structure/neoantigen/ASO
+> work. Kept for reference / a possible follow-on; not the active push. Folder map: [`README.md`](./README.md).
+
 **Status: DRAFT v0.2 — pre-clinician-review, pre-wet-lab.** This is a hypothesis-
 and methods paper. It contains **no validated drug candidate and no clinical claim.**
 Everything below is either (a) a reproducible computation on public data, run in CI

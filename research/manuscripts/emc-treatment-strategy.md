@@ -1,5 +1,9 @@
 # EMC treatment strategy — prioritized portfolio (capstone)
 
+> **STRATEGY / SOURCE OF TRUTH (not a manuscript).** This capstone ranks every treatment route; the
+> active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md) is its publishable form.
+> Read this before resuming treatment-research work. Folder map: [`README.md`](./README.md).
+
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with
 the cheapest experiments that unblock the most. Detail lives in the per-route memos; the live
