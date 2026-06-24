@@ -1,0 +1,108 @@
+{
+  "_note": "NR4A1/2/3 LBD pocket characterisation + NR4A3-vs-paralogue divergent pocket residues = selectivity handles for the degrader warhead. AFDB models + fpocket; alignment BLOSUM62. Design prep, not validated.",
+  "paralogues": {
+    "NR4A1": {
+      "uniprot": "P22736",
+      "n_pockets": 38,
+      "top_pocket_druggability": 0.657,
+      "top_pocket_resid_span": 496
+    },
+    "NR4A2": {
+      "uniprot": "P43354",
+      "n_pockets": 40,
+      "top_pocket_druggability": 0.801,
+      "top_pocket_resid_span": 441
+    },
+    "NR4A3": {
+      "uniprot": "Q92570",
+      "n_pockets": 33,
+      "top_pocket_druggability": 0.495,
+      "top_pocket_resid_span": 406
+    }
+  },
+  "nr4a3_top_pocket_residues": [
+    406,
+    407,
+    410,
+    411,
+    412,
+    481,
+    484,
+    485,
+    531,
+    534
+  ],
+  "pocket_residue_selectivity": [
+    {
+      "nr4a3": "L406",
+      "nr4a1": "H",
+      "nr4a2": "H",
+      "divergent": true
+    },
+    {
+      "nr4a3": "T407",
+      "nr4a1": "L",
+      "nr4a2": "V",
+      "divergent": true
+    },
+    {
+      "nr4a3": "T410",
+      "nr4a1": "G",
+      "nr4a2": "N",
+      "divergent": true
+    },
+    {
+      "nr4a3": "P411",
+      "nr4a1": "P",
+      "nr4a2": "P",
+      "divergent": false
+    },
+    {
+      "nr4a3": "R412",
+      "nr4a1": "A",
+      "nr4a2": "T",
+      "divergent": true
+    },
+    {
+      "nr4a3": "R481",
+      "nr4a1": "R",
+      "nr4a2": "R",
+      "divergent": false
+    },
+    {
+      "nr4a3": "I484",
+      "nr4a1": "Y",
+      "nr4a2": "Y",
+      "divergent": true
+    },
+    {
+      "nr4a3": "R485",
+      "nr4a1": "R",
+      "nr4a2": "R",
+      "divergent": false
+    },
+    {
+      "nr4a3": "I531",
+      "nr4a1": "V",
+      "nr4a2": "I",
+      "divergent": true
+    },
+    {
+      "nr4a3": "L534",
+      "nr4a1": "F",
+      "nr4a2": "F",
+      "divergent": true
+    }
+  ],
+  "n_pocket_residues": 10,
+  "n_divergent_selectivity_handles": 7,
+  "selectivity_handles": [
+    "L406",
+    "T407",
+    "T410",
+    "R412",
+    "I484",
+    "I531",
+    "L534"
+  ]
+}
