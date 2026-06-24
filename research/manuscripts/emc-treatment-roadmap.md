@@ -99,6 +99,12 @@ should invest weights Axis B.
 | Synthetic-lethal / BRD9 | **Down-weighted** — DepMap transfer prior negative | Low — no selectivity window |
 | Fusion-junction vaccine / HLA-coverage | **Parked** | Low — weak immunogen in a cold tumour |
 
+![EMC treatment routes plotted on two axes: near-term readiness (x) against impact ceiling and driver-directedness (y). Repurposed approved drugs are ready but modest-ceiling; the NR4A3 degrader and junction ASO are the highest-ceiling, EMC-specific flagship but not near-term; surface/antigen routes sit between. The top-right — ready and high-ceiling — is empty.](figures/portfolio-quadrant.png)
+
+**Figure 2. The prioritized portfolio on both axes.** Graphical form of the table above — keep the two
+in sync; regenerate via `figures/portfolio_quadrant.py` (matplotlib). That no route occupies the
+top-right (ready *and* highest-ceiling) is the structural problem this roadmap navigates.
+
 *The routes below are presented narrative-first — near-term repurposing, then the flagship
 driver-directed bet, then surface/antigen, then down-weighted — for readability. **That order is not
 a combined rank;** read both axes off the table above.*

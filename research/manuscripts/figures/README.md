@@ -7,4 +7,10 @@ removed because it overflowed its boxes and cannot be rasterised/verified in thi
 - Repurposing paper (`repurposing-hypotheses.md`): the evidence × novelty **map** and the
   candidate detail are Markdown tables; the three-method/firewall diagram is a **Mermaid**
   flowchart; the TxGNN stress-test is a table.
+- Treatment roadmap (`emc-treatment-roadmap.md`, Fig 2): the prioritized portfolio is a two-axis
+  Markdown table **and** a genuine data plot, **`portfolio-quadrant.png`** — readiness × impact,
+  rendered with **matplotlib** via `portfolio_quadrant.py` and viewed before commit (the AGENTS.md
+  path for a real plot). Regenerate with `python3 portfolio_quadrant.py`; keep the data in the
+  script in sync with the table. *(The old hand-emitted single-tier `portfolio.svg` +
+  `portfolio_figure.py` were removed — superseded by this and banned by the "Making figures" rules.)*
 - Final journal figures should be produced by the authors with a proper plotting tool.
