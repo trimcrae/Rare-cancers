@@ -48,13 +48,16 @@ Resources:
     Properties:
       UserName: !Ref CIUser
 
+# NOTE: Output logical names must be alphanumeric (CloudFormation rejects underscores),
+# so they can't be literally "SAGEMAKER_ROLE_ARN" etc. The Description on each says which
+# GitHub repo secret to paste the value into.
 Outputs:
-  SAGEMAKER_ROLE_ARN:
+  SagemakerRoleArn:
     Description: Put this in the SAGEMAKER_ROLE_ARN repo secret
     Value: !GetAtt SageMakerExecutionRole.Arn
-  AWS_ACCESS_KEY_ID:
+  AwsAccessKeyId:
     Description: Put this in the AWS_ACCESS_KEY_ID repo secret
     Value: !Ref CIKey
-  AWS_SECRET_ACCESS_KEY:
+  AwsSecretAccessKey:
     Description: Put this in the AWS_SECRET_ACCESS_KEY repo secret (sensitive — copy once)
     Value: !GetAtt CIKey.SecretAccessKey
