@@ -148,6 +148,67 @@ Mining DepMap 24Q4 with sarcoma lines as the EMC surrogate (pipeline validated o
 - **Stop spending on:** the fusion-junction vaccine and the BRD9 transfer bet (assessed, down-
   weighted); keep TCR-T/ImmTAC only as a basket-trial note for the rare antigen⁺ subset.
 
+## Publishing & in-silico strategy (open strategic questions — current thinking, 2026-06)
+
+Standing program decisions. Revisit as results and tools land.
+
+### Q1 — Scope of the FIRST paper
+**Decision: paper 1 is the prioritized-portfolio roadmap (`emc-treatment-roadmap.md`) — not the
+MD→de-novo degrader, and not a broadened rare-cancer framework.**
+- The **degrader/MD→design paper is premature as paper 1** (no result yet: MD unrun, no designed
+  candidate). It is the natural **paper 2** — a focused, higher-impact *result* paper once the
+  cryptic-pocket MD + a designed selective warhead exist; it will cite paper 1.
+- The **roadmap is publishable now** and is the right trunk: it carries *new computed evidence*
+  (DepMap fusion-addiction proxy, target expression, structure) + falsifiable decisive experiments,
+  so it is more than a review; it establishes the program, claims priority, and — the point for an
+  orphan disease — **hands testable hypotheses to groups with models/patients** (mobilize-others).
+  Low novelty bar, fast to preprint.
+- **Don't over-broaden.** A general "computational triage for rare cancers" framing dilutes
+  actionability and credibility. Keep paper 1 EMC-specific and concrete; put generalizability + the
+  broader-indication idea (roadmap §7) in the Discussion as future work. Breadth becomes a later
+  *perspective* paper once there's a track record.
+- **Sequence:** P1 roadmap (now) → P2 degrader (MD + warhead, when results land) → result/update
+  papers → an eventual generalization/perspective.
+
+### Q2 — How in-silico testing improves over ~1 year → timing & cadence
+Methods are improving fast, but **that argues for shipping paper 1 SOON, not waiting** — the roadmap
+doesn't depend on better tools, and delay forfeits priority and collaborators. Better tools matter
+for the *result* papers. Capability curves to watch:
+- **Perturbation-prediction / "virtual-cell" models** (scGPT/Geneformer/State-class; Arc Virtual
+  Cell): the **highest-leverage** near-future capability for us — one that predicts a knockdown/
+  degradation phenotype in a held-out context could **predict EMC fusion-dependence in-silico,
+  substituting for the dTAG wet-lab experiment that gates the whole degrader route.** When usable,
+  top-priority re-run and likely its own paper.
+- **Structure/complex + binder/molecule design** (AF3-class: Boltz/Chai; RFdiffusion2; SBDD
+  diffusion): improve warhead design + PROTAC ternary modelling → refresh the design as they mature.
+- **Cheaper/better MD + ML force fields**: better cryptic-pocket sampling.
+- **Cadence:** publish P1 now; follow up roughly every **~6 months**, triggered by (a) a compute
+  result landing or (b) a watched capability crossing a usefulness threshold. Treat the roadmap as a
+  **living, versioned reference**, not a one-shot. Robust stance under tool-progress uncertainty:
+  ship what's publishable now; re-run/upgrade only when a *specific* gating capability actually
+  arrives — don't bet the schedule on tools that may slip.
+
+### Q3 — Automating the tracking of in-silico advances (use new tech as soon as it's ready)
+Build a lightweight **method-watch**, reusing the repo's existing scheduled-probe pattern
+(`fetch-literature.yml`, `txgnn-probe.yml`, `kg-probe.yml`):
+- A **cron CI job** (≈ monthly) running targeted searches (bioRxiv/arXiv/PubMed + GitHub releases)
+  for our gaps — *virtual cell / perturbation prediction, AlphaFold3 / Boltz / Chai, RFdiffusion,
+  de-novo binder design, PROTAC ternary prediction, cryptic pocket, NR4A3* — emitting a **digest**
+  (commit to a tracked `method-watch.md` or open an issue) for the next agent/human to triage.
+- A **capability → action trigger table** kept here so a hit is actionable:
+
+  | When this capability becomes usable | …re-run this |
+  |---|---|
+  | virtual-cell predicts held-out knockdown phenotype | EMC fusion-dependence (the degrader make-or-break) |
+  | open AF3-class ternary-complex prediction | NR4A3–PROTAC–E3 degradability geometry |
+  | reliable structure-based generative + selectivity scoring | NR4A3 warhead design (using `nr4a-selectivity.json` handles) |
+  | improved perturbation/DepMap-transfer models | re-test synth-lethal / nominate new dependencies |
+
+- **Keep pipelines modular** so a new model swaps in cheaply (structure step AF2→AF3/Boltz; design
+  step already separated from scoring). Pin versions, document the upgrade path.
+- *Trap to avoid:* over-engineering a "capability detector." A periodic search digest + this trigger
+  table is enough.
+
 ## Source memos
 `immunotherapy-options-emc.md` · `emerging-modalities-scan-emc.md` · `car-t-strategies-emc.md` ·
 `degrader-vs-synthetic-lethal.md` (+ `depmap-sarcoma-dependency.json`) · `hla-coverage-emc.md`
