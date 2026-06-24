@@ -17,7 +17,7 @@ validated, and the paper says so throughout.*
 > below; the `method-watch` digest is the automated input that drives them.
 >
 > **Changelog**
-> - *2026-06-24* — Added the junction **ASO/siRNA** route (Tier 2) + its in-silico evaluation arm and
+> - *2026-06-24* — Added the junction **ASO/siRNA** route (driver-directed, to-build) + its in-silico evaluation arm and
 >   first result (0/5 gapmers transcriptome-clean → specificity bar to clear); added the **delivery
 >   strategy** (B7-H3 AOC/siRNA). Degrader **ternary-complex** modelling re-primed (open AF3-class
 >   tools shipped) and pipeline built. Recorded a degrader-modality precedent in Ewing sarcoma
@@ -71,7 +71,39 @@ Limitations of each method are stated in §6; the headline caveat is that nothin
 experimentally validated in EMC.
 
 ## 3. Results — the prioritized portfolio
-**Tier 1 — actionable now (approved drugs, EMC evidence).**
+
+**Two axes, not one tier number.** A single ranked "tier" is misleading here, because a tier number
+blends two independent questions that do not move together: **(A) near-term readiness** — how close a
+route is to helping a real EMC patient (approved and available, with EMC evidence, vs. still to be
+discovered, built, or validated) — and **(B) impact ceiling & driver-directedness** — how high the
+potential benefit is and how directly it attacks the actual EWSR1::NR4A3 driver (EMC-specific vs. a
+generic borrowed drug). They pull apart: the repurposed approved drugs are the most *ready* but
+generic and modest-ceiling; the NR4A3 degrader is the highest-ceiling, EMC-specific bet but the
+furthest from a patient. We therefore score every route on **both** axes rather than forcing one rank —
+a clinician seeking the next option weights Axis A; a developer or scientist choosing where the field
+should invest weights Axis B.
+
+| Route | **Axis A — near-term readiness** | **Axis B — impact ceiling & driver-directedness** |
+|---|---|---|
+| Anti-angiogenic TKI + checkpoint inhibitor | **Now** — approved; real EMC responder | Moderate — generic IO + anti-angiogenic; partial responses, not driver-directed |
+| Trabectedin (± RT / combo) | **Now** — approved; reported EMC responder | Moderate–high — its MoA *is* fusion-TF displacement (mechanism-fit), but empirical in EMC |
+| Carfilzomib + anthracycline (± venetoclax) | **Now** — approved; best *ex-vivo* EMC evidence | Moderate — empirical screen hit, not driver-directed |
+| B7-H3 (CD276) ADC / bispecific | **Confirm-gated** — needs EMC B7-H3 IHC | High — EMC-directed surface target; ADC is the fastest high-ceiling route |
+| PRAME ImmTAC / cell therapy | **Confirm-gated** — needs EMC PRAME IHC | High — antigen-directed; basket access via brenetafusp |
+| FAP radioligand therapy | **Confirm-gated** — needs EMC FAP-PET | High — stroma-directed; theranostic (tracer = diagnostic) |
+| **NR4A3 degrader (PROTAC)** | **To build** — no selective warhead yet; no EMC validation | **Highest — directly removes the EWSR1::NR4A3 driver; EMC-specific. The program's flagship bet.** |
+| **Fusion-junction ASO / siRNA** | **To build** — tumour delivery unsolved | **Highest — the only *truly fusion-specific* route (silences the fusion alone)** |
+| B7-H3 / CD56 CAR-T | **To build** — harder than the ADC | High — EMC-directed, higher ceiling than the ADC; ADC/RLT reach a patient first |
+| PPARG modulation (TZDs) | **To build** — agonist-vs-antagonist direction unresolved | Low–moderate — druggable *downstream* node, not the driver |
+| TCR-T / ImmTAC (cancer-testis antigen) | **Down-weighted** — EMC is CTA-low | Low for EMC — antigen mostly absent; only a small PRAME⁺/A\*02⁺ subset |
+| Synthetic-lethal / BRD9 | **Down-weighted** — DepMap transfer prior negative | Low — no selectivity window |
+| Fusion-junction vaccine / HLA-coverage | **Parked** | Low — weak immunogen in a cold tumour |
+
+*The routes below are presented narrative-first — near-term repurposing, then the flagship
+driver-directed bet, then surface/antigen, then down-weighted — for readability. **That order is not
+a combined rank;** read both axes off the table above.*
+
+**Ready now — approved drugs with EMC evidence** *(Axis A: available now · Axis B: moderate, generic).*
 - **Anti-angiogenic TKI + checkpoint inhibitor.** The ImmunoSarc trial (sunitinib + nivolumab)
   reported a partial response in an EMC patient; EMC is unusually TKI-sensitive, and TKIs remodel the
   cold tumour microenvironment — a mechanistic synergy, not coincidence.
@@ -84,7 +116,7 @@ experimentally validated in EMC.
   here; play it on the existing anthracycline backbone.
 *These are repurposing of approved drugs, not novel modalities — the honest near-term answer.*
 
-**Tier 2 — driver-directed, high-ceiling: the NR4A3 degrader.**
+**Highest-ceiling, driver-directed — the NR4A3 degrader (the flagship)** *(Axis A: to build · Axis B: highest, EMC-specific).*
 The fusion retains the ordered NR4A3 ligand-binding domain, so a degrader can remove the oncoprotein
 without needing the collapsed functional pocket. Degradation is mechanistically ideal: NOR-1 is
 constitutively active and its output scales with **expression level** (Munck 2022), so lowering
@@ -143,7 +175,7 @@ inclisiran-class), local CNS (intrathecal; nusinersen), and local eye. EMC is no
 delivery — not sequence design — is what gates this route, and we say so plainly. But EMC has an
 unusually clean handle, and it falls out of our **own** surface-target analysis: **B7-H3 (CD276) is
 expressed in 99% of sarcoma lines, high across every subtype, and internalises** (it already powers
-the Tier-3 ADC arm). That makes an **anti-B7-H3 antibody–oligonucleotide conjugate (AOC)** — or a
+the surface-antigen B7-H3 ADC arm). That makes an **anti-B7-H3 antibody–oligonucleotide conjugate (AOC)** — or a
 B7-H3-decorated lipid nanoparticle — the logical EMC delivery vector: the same near-universal,
 internalising antigen that addresses an ADC payload can address the fusion-junction oligo, and an
 intracellular driver is something surface-targeting *alone* cannot reach. Corollaries: (a) prefer an
@@ -159,7 +191,7 @@ and (2) **watch for a usable in-silico delivery-prediction capability** in the m
 (`method-watch.md`) so the moment one matures, the B7-H3-targeted junction-siRNA can be scored
 computationally and the route's feasibility re-graded.
 
-**Tier 3 — surface/antigen modalities (surrogate-supported).**
+**Surface/antigen targets — gated by one cheap confirm** *(Axis A: confirm-gated · Axis B: high).*
 - **B7-H3 (CD276):** expressed in **99% of sarcoma lines, high across every subtype including
   myxoid** (DepMap; on top of 97% pan-STS by IHC) → the antibody-drug conjugate ifinatamab
   deruxtecan, a B7H3×CD3 bispecific, or B7-H3 CAR-T.
@@ -169,7 +201,7 @@ computationally and the route's feasibility re-graded.
 - **FAP-targeted radioligand therapy:** EMC's myxoid stroma is a strong candidate; the tracer is
   also diagnostic.
 
-**Tier 4 — down-weighted with data/logic.**
+**Down-weighted with data/logic** *(Axis A & B: low).*
 - **TCR-T / ImmTAC against NY-ESO-1 or MAGE-A4:** EMC is CTA-low (NY-ESO-1 5%, MAGE-A4 7% of sarcoma
   lines; NY-ESO-1 is used to distinguish myxoid liposarcoma *from* EMC) → the afami-cel/letetresgene
   port is weak; only a PRAME⁺ subset (above) is attractive.

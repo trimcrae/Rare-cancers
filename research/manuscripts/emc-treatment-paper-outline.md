@@ -54,8 +54,11 @@ preprint for reach (the point is to mobilise testers).
 ## Figures (all already generated or one step away)
 - F1: EMC fusion architecture + AF2 disorder/pocket map — **GENERATED**:
   `figures/fusion-architecture.svg` (via `figures/fusion_architecture_figure.py`).
-- F2: the prioritized-portfolio tier chart — **GENERATED**: `figures/portfolio.svg`
-  (regenerate via `figures/portfolio_figure.py`).
+- F2: the prioritized portfolio — **now a two-axis Markdown table** (Axis A readiness × Axis B impact/
+  driver-directedness) in `emc-treatment-roadmap.md` §3 and `emc-treatment-strategy.md`. The old
+  single-tier SVG (`figures/portfolio.svg`, generator `figures/portfolio_figure.py`) is **superseded**
+  by that table — regenerate as a two-axis quadrant only if a graphical figure is needed (per
+  AGENTS.md, prefer the table).
 - F3: DepMap fusion-addiction proxy — FLI1-in-Ewing vs context (`depmap-sarcoma-dependency.*`).
 - F4: candidate-target expression in sarcoma (`depmap-target-expression.png`).
 - F5: HLA coverage curve, if the vaccine angle is kept as a contrast (`coverage-curve.png`, CI).
