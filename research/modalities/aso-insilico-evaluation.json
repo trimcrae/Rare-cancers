@@ -15,7 +15,9 @@
     "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_rna.fna.gz"
   },
   "n_candidates_zero_offtarget": 0,
-  "ranking_key": "fewest off-targets > most accessible site > balanced junction > mid-GC > no G4 > fewer CpG",
+  "n_candidates_fusion_specific_sirna_seed": 2,
+  "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) \u2014 these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
+  "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
   "top_designs": [
     {
       "antisense_5to3": "ACGCAGGGCTGCTGCC",
@@ -48,6 +50,9 @@
           "mm": 1
         }
       ],
+      "sirna_guide_seed_7mer": "CCCTGCG",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 41204,
       "cpg_count": 1,
       "has_G4_motif": false,
       "max_homopolymer": 3,
@@ -84,6 +89,9 @@
           "mm": 1
         }
       ],
+      "sirna_guide_seed_7mer": "CCTGCGT",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 22695,
       "cpg_count": 1,
       "has_G4_motif": false,
       "max_homopolymer": 3,
@@ -120,6 +128,9 @@
           "mm": 1
         }
       ],
+      "sirna_guide_seed_7mer": "CTGCGTC",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 21218,
       "cpg_count": 1,
       "has_G4_motif": false,
       "max_homopolymer": 3,
@@ -156,6 +167,9 @@
           "mm": 1
         }
       ],
+      "sirna_guide_seed_7mer": "GCCCTGC",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 119486,
       "cpg_count": 1,
       "has_G4_motif": false,
       "max_homopolymer": 3,
@@ -192,6 +206,9 @@
           "mm": 1
         }
       ],
+      "sirna_guide_seed_7mer": "AGCCCTG",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 119279,
       "cpg_count": 1,
       "has_G4_motif": false,
       "max_homopolymer": 3,
