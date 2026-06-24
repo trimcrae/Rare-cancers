@@ -29,6 +29,9 @@ moment compute/tooling is in hand.
   MD-relaxed ensemble (the orthosteric pocket is collapsed/dynamic, so an ensemble matters).
 - **Off-targets for selectivity:** NR4A1 (P22736) and NR4A2/Nurr1 (P43354) LBDs — the warhead must
   be NR4A3-selective (the NR4A1 PROTAC's failure to hit NR4A3 shows the family is distinguishable).
+  **Pre-computed:** `nr4a_selectivity.py` → `nr4a-selectivity.json` characterises all three LBD
+  pockets and lists the NR4A3 pocket residues that *diverge* from NR4A1/2 — the positions a selective
+  warhead should exploit (constrain generation/scoring to favour contacts there).
 
 ## Pipeline
 1. **Site characterisation (CPU — do first).** Dock the known **inverse NOR-1 agonists** and

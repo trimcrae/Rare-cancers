@@ -46,7 +46,7 @@ jobs:
         run: |
           set -e
           python -m pip install --upgrade pip
-          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas matplotlib
+          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas matplotlib biopython
           mhcflurry-downloads fetch models_class1_presentation
 
       - name: Structure / druggability (NR4A3, EWSR1)
@@ -54,6 +54,10 @@ jobs:
         run: |
           which fpocket && fpocket -h >/dev/null 2>&1 || echo "fpocket check"
           python research/modalities/nr4a3_structure.py
+
+      - name: NR4A1/2/3 selectivity scaffold (degrader warhead design prep)
+        continue-on-error: true
+        run: python research/modalities/nr4a_selectivity.py
 
       - name: Fusion-junction neoantigen prediction
         continue-on-error: true
@@ -119,6 +123,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p "$RUNNER_TEMP/res"
           cp research/modalities/nr4a3-structure-assessment.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/nr4a-selectivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
