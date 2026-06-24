@@ -223,12 +223,14 @@ each matched to how fast its content changes:
   finding lands. Make this official: maintain a dated **changelog** at the top of the roadmap (what
   changed, why, which method-watch hit drove it) so a reader sees the live state and its provenance.
   The method-watch digest (Q3) is the automated *input* to this layer.
-- **Tier B — citable, versioned snapshots (latency: minutes–days).** Wire **GitHub releases →
-  Zenodo** so every tagged release mints a **versioned DOI** archiving that state of the roadmap;
-  and post the roadmap as a **bioRxiv preprint we bump (v2, v3…)** as Tier-1/2 routes change —
-  i.e., treat it as a *living preprint / living review*, an accepted genre. Cadence: cut a
-  release/DOI on any **Tier-1/2 route change** (or monthly if anything changed); bump the preprint on
-  any change a reader would act on differently.
+- **Tier B — citable, versioned snapshots (latency: minutes–days). MACHINERY BUILT.** **GitHub
+  releases → Zenodo** versioned DOIs are wired: `CITATION.cff` + `.zenodo.json` (author Tristan D.
+  McRae; Apache-2.0) supply the metadata, and `release.yml` (dispatch-only) cuts a tag + Release whose
+  notes are the roadmap changelog. *Remaining one-time manual steps* (need your accounts — see
+  `deploy/release-doi.md`): flip the Zenodo↔GitHub toggle ON and add your ORCID. Then post the roadmap
+  as a **bioRxiv preprint we bump (v2, v3…)** as routes change — a *living preprint / living review*.
+  Cadence: cut a release/DOI on any **Tier-1/2 route change** (or monthly if anything changed); bump
+  the preprint on any change a reader would act on differently.
 - **Tier C — peer-reviewed journal (latency: months, occasional).** Reserve this for the **stable
   core** that *doesn't* decay: the falsifiable kill-criteria framework, the methodology (pooling,
   citation map), and the "why pursue an ultra-rare cancer / broaden-to-common" argument. The journal

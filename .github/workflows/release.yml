@@ -1,0 +1,83 @@
+name: Release — citable roadmap snapshot (Zenodo DOI)
+
+# Cuts a citable snapshot of the living roadmap: tags the current commit and creates a GitHub
+# Release whose notes are the roadmap changelog. If the repo is connected to Zenodo (one-time toggle,
+# see deploy/release-doi.md), publishing the release auto-mints a VERSIONED DOI — the Tier-B latency
+# win from emc-treatment-strategy.md (Q4): the journal paper is slow, but a citable snapshot is minutes.
+#
+# Dispatch-only and intentionally NOT automatic: a published release + DOI is permanent. Dispatch from
+# `main`. Cadence: cut a release on any Tier-1/2 route change (or monthly if anything changed), after
+# adding a dated changelog entry to research/manuscripts/emc-treatment-roadmap.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag, e.g. v2026.06.24 (date-based recommended)"
+        required: true
+      notes:
+        description: "Release notes (blank = auto-extract the roadmap changelog)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build release notes
+        env:
+          NOTES: ${{ inputs.notes }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$NOTES" ]; then
+            printf '%s\n' "$NOTES" > /tmp/notes.md
+          else
+            python - <<'PY' > /tmp/notes.md
+          import re
+          src = "research/manuscripts/emc-treatment-roadmap.md"
+          txt = open(src).read()
+          # grab the blockquoted changelog: from "**Changelog**" through the end of the quote block
+          out, grab = [], False
+          for line in txt.splitlines():
+              if "**Changelog**" in line:
+                  grab = True
+                  continue
+              if grab:
+                  if line.startswith(">"):
+                      out.append(line.lstrip("> ").rstrip())
+                  elif line.strip() == "":
+                      continue
+                  else:
+                      break
+          body = "\n".join(l for l in out if l)
+          print("## EMC treatment roadmap — changelog\n")
+          print(body or "(See research/manuscripts/emc-treatment-roadmap.md)")
+          print("\n---\nLiving roadmap: research/manuscripts/emc-treatment-roadmap.md")
+          print("Strategy/portfolio: research/manuscripts/emc-treatment-strategy.md")
+          PY
+          fi
+          echo "----- release notes -----"; cat /tmp/notes.md
+
+      - name: Tag + create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "::error::tag $VERSION already exists"; exit 1
+          fi
+          git tag -a "$VERSION" -m "EMC treatment roadmap snapshot $VERSION"
+          git push origin "$VERSION"
+          gh release create "$VERSION" \
+            --title "EMC treatment roadmap $VERSION" \
+            --notes-file /tmp/notes.md
+          echo "Release $VERSION created. If Zenodo is connected, a versioned DOI is being minted."
