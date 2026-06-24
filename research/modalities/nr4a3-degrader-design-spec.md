@@ -7,6 +7,35 @@ and what output is publishable. It is the "de-novo binder design" arm of the in-
 (`emc-treatment-strategy.md`). Nothing here is run yet — it is *prepared* so it can be executed the
 moment compute/tooling is in hand.
 
+## Selectivity & safety rationale (why selectivity is non-negotiable)
+A LBD-binding degrader removes any NR4A protein whose LBD it engages, so two distinct selectivity
+questions arise — only one is solvable by a small molecule.
+
+**(a) NR4A3 vs NR4A1/NR4A2 — SOLVABLE and mandatory.** The paralogues have important normal roles, so
+off-target degradation has real, *characterized* toxicity (known from NR4A biology independent of
+EMC — knockout mice and family genetics, not from the rare tumour):
+  - **NR4A2/Nurr1** is essential for midbrain **dopamine neurons** (Parkinson's gene) → hitting it
+    risks neurotoxicity.
+  - **NR4A1 + NR4A3 lost together** → **acute myeloid leukaemia** in mice (Mullican et al., Nat Med
+    2007; redundant myeloid tumour suppressors) → a degrader must **spare NR4A1** to keep that safety
+    net intact.
+  → Design target: **NR4A3-selective, NR4A1/2-sparing**, using the 7 divergent pocket handles
+  (L406/R412/I484 + T407/T410/I531/L534; `nr4a-selectivity.json`). This matters *more* because
+  NR4A3's pocket is the *least* druggable of the three (0.495 vs 0.657/0.801) — a naive binder would
+  drift to the off-targets.
+
+**(b) Fusion vs wild-type NR4A3 — NOT solvable by this modality.** The fusion's only tumour-unique
+feature is the EWSR1::NR4A3 junction, which lies in a **disordered** region, not a structured pocket;
+the druggable LBD is **identical** in fusion and wild-type, so a LBD warhead degrades both. On-target
+wild-type-NR4A3 loss (vascular/metabolic/vestibular/bone roles) is the accepted cost — likely
+**tolerable** (paralogue redundancy; NR4A3 single-knockout animals are viable; catalytic, dose-able
+PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despite EMC's rarity.
+  → If sparing wild-type NR4A3 is required, that is the **ASO route's** advantage, not the degrader's:
+  the fusion *mRNA* junction is tumour-unique, so a junction ASO/siRNA (`junction_aso.py`) silences
+  only the fusion transcript. Degrader = more potent/druggable but not fusion-specific; ASO =
+  fusion-specific but delivery-limited. They are complementary. (Speculative frontier: FET-fusion
+  condensate biology may offer a fusion-specific state to exploit — unproven.)
+
 ## Why a degrader, and why design is the bottleneck (recap, sourced)
 - NOR-1's oncogenic activity scales with **expression level** → removing the protein removes the
   activity; degradation is mechanistically ideal (Munck 2022, NOR-1 druggability).
