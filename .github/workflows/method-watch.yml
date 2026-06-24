@@ -1,0 +1,58 @@
+name: Method-watch
+
+# Periodic digest of the in-silico capabilities we are waiting on (virtual-cell /
+# perturbation prediction, AF3-class ternary modelling, de-novo binder design, cryptic
+# pockets, and in-silico oligo/nanoparticle tumour-DELIVERY prediction, + direct NR4A3
+# advances). Runs scripts/method-watch.mjs and publishes the dated digest to the
+# `method-watch-cache` branch. Read it with:
+#   git fetch origin method-watch-cache
+#   git show origin/method-watch-cache:research/method-watch-digest.md
+# The watch config + capability->action trigger table is tracked at research/method-watch.md.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 1 * *"   # 07:00 UTC on the 1st of each month
+
+permissions:
+  contents: write
+
+concurrency:
+  group: method-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate method-watch digest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/method-watch.mjs research/method-watch-digest.md
+
+      - name: Publish digest to method-watch-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/method-watch-digest.md "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin method-watch-cache || true
+          rm -f research/method-watch-digest.md
+          if git show-ref --verify --quiet refs/remotes/origin/method-watch-cache; then
+            git checkout -B method-watch-cache origin/method-watch-cache
+          else
+            git checkout --orphan method-watch-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research
+          cp "$RUNNER_TEMP/res/method-watch-digest.md" research/ 2>/dev/null || true
+          git add research/method-watch-digest.md
+          git commit -m "Method-watch digest $(date -u +%Y-%m-%d)" || { echo "no changes"; exit 0; }
+          git push origin method-watch-cache

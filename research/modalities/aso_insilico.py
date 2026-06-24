@@ -25,6 +25,15 @@ that need no protein structure and no wet lab:
      immunostimulation), G-quadruplex (G>=4), and homopolymer runs — standard ASO triage
      heuristics.
 
+  4. siRNA seed-region off-target module. The same junction is targetable by RISC, whose
+     delivery toolbox is more mature (the route's real gate is delivery, not chemistry).
+     RNAi off-targeting is dominated by GUIDE SEED (positions g2-g8) complementarity, a
+     different liability than the gapmer's full-length RNase-H off-target. For each
+     candidate we treat the antisense as the RISC guide, extract the seed 7-mer, flag
+     whether the seed STRADDLES the junction (a fusion-unique seed = the design goal; a
+     seed lying wholly in one parent is a generic, promiscuous seed), and count its exact
+     transcriptome occurrences (seed-match off-target load). Reuses the same RefSeq pass.
+
 We then combine these into a ranked shortlist. What this CANNOT do: solve delivery to
 tumour (the route's real bottleneck, named in the roadmap paper). This advances
 specificity + potency-site selection, not deliverability.
@@ -107,6 +116,29 @@ def liabilities(candidates):
 
 
 # ---------------------------------------------------------------------------
+# 4. siRNA seed-region module (no network; the off-target count is filled in the scan)
+# ---------------------------------------------------------------------------
+def sirna_seed(candidates):
+    """Treat the antisense as the RISC guide; seed = guide positions g2-g8 (7 nt).
+
+    The mRNA 7-mer the seed base-pairs to is target[L-8 : L-1]. The seed STRADDLES the
+    junction (fusion-unique seed, the goal) iff that 7-mer spans the EWSR1|NR4A3 boundary
+    at target index = bases_from_EWSR1.
+    """
+    L = ja.OLIGO_LEN
+    lo, hi = L - 8, L - 1            # seed 7-mer occupies target[lo:hi]
+    for c in candidates:
+        t = c["target_mRNA_5to3"]
+        seed7 = t[lo:hi]
+        j = c["bases_from_EWSR1"]    # junction index within the target window
+        spans = (lo < j) and (j <= hi - 1)   # >=1 EWSR1 base and >=1 NR4A3 base in seed
+        c["sirna_guide_seed_7mer"] = seed7
+        c["sirna_seed_spans_junction"] = bool(spans)
+        c["_seed7"] = seed7          # internal, used by the scan; dropped from output
+        c["sirna_seed_offtarget_sites"] = 0
+
+
+# ---------------------------------------------------------------------------
 # 1. Transcriptome-wide off-target screen (seed-and-extend, <=1 mismatch)
 # ---------------------------------------------------------------------------
 def _mismatches(a, b):
@@ -141,6 +173,9 @@ def offtarget_scan(candidates, max_records=None):
         for ci, slist in seeds:
             c = candidates[ci]
             t = c["target_mRNA_5to3"]
+            seed7 = c.get("_seed7")
+            if seed7:                       # siRNA seed-match off-target load (RISC)
+                c["sirna_seed_offtarget_sites"] += seq.count(seed7)
             seen = set()
             for seed, off in slist:
                 idx = seq.find(seed)
@@ -187,10 +222,12 @@ def combine_rank(candidates):
         acc = acc if acc is not None else 0.0
         gc_pen = abs(c["gc_percent"] - 50)
         return (
-            -c.get("offtarget_le1mm", 0),     # fewer off-targets first
-            round(acc, 3),                    # more accessible
-            c["specificity_margin"],          # balanced junction
-            -gc_pen,                          # mid GC
+            -c.get("offtarget_le1mm", 0),         # fewer gapmer off-targets first (safety)
+            round(acc, 3),                        # more accessible site (potency)
+            1 if c.get("sirna_seed_spans_junction") else 0,  # fusion-unique siRNA seed
+            -c.get("sirna_seed_offtarget_sites", 0),         # lower RISC seed-match load
+            c["specificity_margin"],              # balanced junction
+            -gc_pen,                              # mid GC
             0 if not c["has_G4_motif"] else -1,
             -c.get("cpg_count", 0),
         )
@@ -211,6 +248,7 @@ def main():
 
     acc_status = accessibility(fusion, candidates)
     liabilities(candidates)
+    sirna_seed(candidates)
 
     ot_status = {"status": "skipped (ASO_OFFTARGET=0)"}
     if do_offtarget:
@@ -221,7 +259,10 @@ def main():
             print(f"  off-target scan failed: {e}", file=sys.stderr)
 
     ranked = combine_rank(candidates)
+    for c in candidates:
+        c.pop("_seed7", None)  # internal scratch
     n_clean = sum(1 for c in candidates if c.get("offtarget_le1mm", 0) == 0)
+    n_seed_specific = sum(1 for c in candidates if c.get("sirna_seed_spans_junction"))
 
     result = {
         "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome "
@@ -232,13 +273,19 @@ def main():
         "accessibility": acc_status,
         "offtarget_screen": ot_status,
         "n_candidates_zero_offtarget": n_clean if do_offtarget else None,
-        "ranking_key": "fewest off-targets > most accessible site > balanced junction > "
-                       "mid-GC > no G4 > fewer CpG",
+        "n_candidates_fusion_specific_sirna_seed": n_seed_specific,
+        "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside "
+                      "the guide seed (g2-g8) — these gapmer-derived windows are evaluated "
+                      "as-is, so seed-straddling is reported, not enforced.",
+        "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific "
+                       "siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 "
+                       "> fewer CpG",
         "top_designs": [
             {k: c.get(k) for k in (
                 "antisense_5to3", "target_mRNA_5to3", "architecture", "specificity_margin",
                 "gc_percent", "site_accessibility", "offtarget_exact", "offtarget_le1mm",
-                "offtarget_hits", "cpg_count", "has_G4_motif", "max_homopolymer",
+                "offtarget_hits", "sirna_guide_seed_7mer", "sirna_seed_spans_junction",
+                "sirna_seed_offtarget_sites", "cpg_count", "has_G4_motif", "max_homopolymer",
                 "fusion_specific")}
             for c in ranked[:12]
         ],

@@ -96,10 +96,36 @@ the whole human RefSeq transcriptome (GRCh38) for exact and ≤1-mismatch matche
 because hybridization-dependent off-target RNase-H cleavage is the dominant gapmer-toxicity mode and
 "not a perfect complement of the two parents" is too weak a specificity bar; (ii) **target-site
 accessibility**, folding the fusion mRNA (ViennaRNA partition function) to rank candidates by the
-single-stranded probability of their RNase-H site (potency); and (iii) **sequence-liability filters**
-(CpG/TLR9 immunostimulation, G-quadruplex, homopolymer runs). The result is a ranked, off-target-
-screened shortlist rather than an untriaged design list. This advances *specificity and potency-site
+single-stranded probability of their RNase-H site (potency); (iii) **sequence-liability filters**
+(CpG/TLR9 immunostimulation, G-quadruplex, homopolymer runs); and (iv) an **siRNA seed-region
+off-target** module — because the same junction is targetable by RISC, and RNAi off-targeting is
+driven by guide **seed** (g2–g8) complementarity, we report each candidate's seed 7-mer, whether the
+seed *straddles the junction* (a fusion-unique seed, the design goal), and its transcriptome
+occurrence count. The result is a ranked, off-target-screened shortlist across **both** chemistries
+(gapmer and siRNA) rather than an untriaged design list. This advances *specificity and potency-site
 selection only* — it does **not** address delivery, which remains the route's gating problem.
+
+**Delivery strategy (the route's real gate, and a concrete proposal).** No oligonucleotide is yet
+approved for *targeted systemic delivery to a solid tumour*: the solved cases are liver (GalNAc→ASGPR;
+inclisiran-class), local CNS (intrathecal; nusinersen), and local eye. EMC is none of these, so
+delivery — not sequence design — is what gates this route, and we say so plainly. But EMC has an
+unusually clean handle, and it falls out of our **own** surface-target analysis: **B7-H3 (CD276) is
+expressed in 99% of sarcoma lines, high across every subtype, and internalises** (it already powers
+the Tier-3 ADC arm). That makes an **anti-B7-H3 antibody–oligonucleotide conjugate (AOC)** — or a
+B7-H3-decorated lipid nanoparticle — the logical EMC delivery vector: the same near-universal,
+internalising antigen that addresses an ADC payload can address the fusion-junction oligo, and an
+intracellular driver is something surface-targeting *alone* cannot reach. Corollaries: (a) prefer an
+**siRNA chassis** for the delivery campaign — RISC has the mature conjugate/LNP toolbox and approved
+precedents (GalNAc, LNP, the clinical TfR1-AOC), and the junction is equally RISC-targetable; (b)
+expect EMC's **myxoid extracellular matrix** (hyaluronan-rich, high interstitial pressure) to be a
+penetration barrier, so a stroma-normalising adjunct (hyaluronidase-class) is a reasonable co-design.
+The decisive *biology* gate comes first and is delivery-independent — lipofected junction-knockdown
+must kill EMC cells before any delivery campaign is justified (the ASO's analogue of the degrader's
+dTAG gate). In-silico we cannot solve delivery (it is chemistry/formulation/biology); what we *can*
+do is (1) hand a delivery lab this specific B7-H3-AOC/siRNA starting design instead of "good luck",
+and (2) **watch for a usable in-silico delivery-prediction capability** in the method-watch
+(`method-watch.md`) so the moment one matures, the B7-H3-targeted junction-siRNA can be scored
+computationally and the route's feasibility re-graded.
 
 **Tier 3 — surface/antigen modalities (surrogate-supported).**
 - **B7-H3 (CD276):** expressed in **99% of sarcoma lines, high across every subtype including

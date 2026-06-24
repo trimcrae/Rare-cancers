@@ -189,19 +189,21 @@ for the *result* papers. Capability curves to watch:
   arrives — don't bet the schedule on tools that may slip.
 
 ### Q3 — Automating the tracking of in-silico advances (use new tech as soon as it's ready)
-Build a lightweight **method-watch**, reusing the repo's existing scheduled-probe pattern
-(`fetch-literature.yml`, `txgnn-probe.yml`, `kg-probe.yml`):
-- A **cron CI job** (≈ monthly) running targeted searches (bioRxiv/arXiv/PubMed + GitHub releases)
-  for our gaps — *virtual cell / perturbation prediction, AlphaFold3 / Boltz / Chai, RFdiffusion,
-  de-novo binder design, PROTAC ternary prediction, cryptic pocket, NR4A3* — emitting a **digest**
-  (commit to a tracked `method-watch.md` or open an issue) for the next agent/human to triage.
-- A **capability → action trigger table** kept here so a hit is actionable:
+**BUILT** — `scripts/method-watch.mjs` + `.github/workflows/method-watch.yml` (monthly cron),
+publishing a dated digest to the `method-watch-cache` branch; watch config + trigger table tracked
+at `research/method-watch.md`. Reuses the repo's scheduled-probe pattern (`fetch-literature.yml`):
+- A **cron CI job** (monthly) running targeted searches (Europe PMC + GitHub releases) for our gaps
+  — *virtual cell / perturbation prediction, AlphaFold3 / Boltz / Chai, RFdiffusion, de-novo binder
+  design, cryptic pocket, in-silico oligo/nanoparticle tumour-DELIVERY prediction, NR4A3* — emitting
+  a **digest** for the next agent/human to triage.
+- A **capability → action trigger table** (canonical copy in `research/method-watch.md`):
 
   | When this capability becomes usable | …re-run this |
   |---|---|
   | virtual-cell predicts held-out knockdown phenotype | EMC fusion-dependence (the degrader make-or-break) |
   | open AF3-class ternary-complex prediction | NR4A3–PROTAC–E3 degradability geometry |
   | reliable structure-based generative + selectivity scoring | NR4A3 warhead design (using `nr4a-selectivity.json` handles) |
+  | in-silico oligo/nanoparticle tumour-delivery predictor | score the B7-H3-targeted junction-siRNA/AOC delivery → re-grade the ASO route (its gate) |
   | improved perturbation/DepMap-transfer models | re-test synth-lethal / nominate new dependencies |
 
 - **Keep pipelines modular** so a new model swaps in cheaply (structure step AF2→AF3/Boltz; design
