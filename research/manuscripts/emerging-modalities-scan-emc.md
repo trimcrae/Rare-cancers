@@ -1,5 +1,9 @@
 # Emerging / other-modality scan for EMC (Phase 2)
 
+> **SOURCE MEMO (internal) — feeds the active manuscript** [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)
+> via the strategy capstone [`emc-treatment-strategy.md`](./emc-treatment-strategy.md). Not separately submitted.
+> Folder map: [`README.md`](./README.md).
+
 **Scope.** Autonomous Phase-2 sweep (2026-06-22) for treatment modalities *beyond* the routes
 already on the board (degrader, synth-lethal, vaccine, TCR-T, ImmTAC, TKI+ICI), checking which
 plausibly **apply to EWSR1::NR4A3 EMC**. Literature-grounded; tags **[EMC-specific]/[pan-sarcoma]/

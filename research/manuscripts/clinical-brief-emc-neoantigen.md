@@ -1,5 +1,9 @@
 # Clinical brief: a personalised fusion-neoantigen route to treatment in EMC
 
+> **EARLIER TREATMENT-TRACK DERIVATIVE — one-page brief drawn from** [`novel-modalities.md`](./novel-modalities.md).
+> Subsumed by the active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md); not the active push.
+> Folder map: [`README.md`](./README.md).
+
 **For:** sarcoma medical oncologists / immuno-oncologists and translational teams.
 **Ask:** for a patient with advanced extraskeletal myxoid chondrosarcoma (EMC) and no
 standard option, consider a personalised fusion-directed neoantigen approach — and tell us

@@ -1,5 +1,9 @@
 # Pooled outcomes of extraskeletal myxoid chondrosarcoma: a reproducible systematic review and meta-analysis
 
+> **SEPARATE-TRACK MANUSCRIPT (EMC outcomes, not treatment).** A distinct paper on prognosis built on
+> the patient registry — independent of the treatment-strategy track. Not the active treatment
+> manuscript ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)). Folder map: [`README.md`](./README.md).
+
 **Status: DRAFT v0.2 — full prose, pre-clinician-review, not for submission.**
 **Author:** [Name], Independent researcher, [City, Country] — independent, personal-capacity
 work, unconnected to the author's employer; prepared with AI assistance (see §7). A sarcoma

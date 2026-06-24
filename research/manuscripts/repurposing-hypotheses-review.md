@@ -1,5 +1,8 @@
 # Internal review — repurposing-hypotheses.md (draft v0.2)
 
+> **QA / INTERNAL REVIEW (not a manuscript)** of [`repurposing-hypotheses.md`](./repurposing-hypotheses.md).
+> Active manuscript: [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). Folder map: [`README.md`](./README.md).
+
 A critical self-review of the EMC drug-repurposing manuscript, written as a peer
 reviewer/editor would, to drive it toward submission quality. Not part of the manuscript.
 Reviewer: AI-assisted internal pass (2026-06-20). **This does not substitute for external

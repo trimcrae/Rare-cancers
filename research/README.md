@@ -41,11 +41,18 @@ research/
     nr4a3-structure-assessment.json structure/druggability result (snapshot; refreshed on modalities-cache branch)
     fusion-neoantigen-predictions.json junction-neoantigen result (snapshot; refreshed on modalities-cache branch)
   manuscripts/
-    meta-analysis.md                manuscript skeleton (outcomes meta-analysis)
-    repurposing-hypotheses.md       manuscript skeleton (repurposing hypotheses)
-    novel-modalities.md             manuscript: structure-based target assessment + routes to treatment for the fusion
-    clinical-brief-emc-neoantigen.md one-page brief for a sarcoma immuno-oncologist (personalised neoantigen route)
-    hla-coverage-emc.md             manuscript: HLA population coverage of the public fusion-neoantigen (global + regional)
+    README.md                       index: the ONE active manuscript + role of every other file (read this first)
+    emc-treatment-roadmap.md        ★ ACTIVE MANUSCRIPT — the prioritized, falsifiable treatment roadmap (#1 deliverable)
+    emc-treatment-strategy.md       strategy/source-of-truth capstone behind the roadmap (not a manuscript)
+    {immunotherapy-options,emerging-modalities-scan,car-t-strategies,degrader-vs-synthetic-lethal}-emc.md
+                                    source memos feeding the roadmap (per-route deep-dives)
+    repurposing-hypotheses.md       earlier treatment-track draft, subsumed by the roadmap
+    novel-modalities.md             earlier treatment-track draft, subsumed by the roadmap
+    clinical-brief-emc-neoantigen.md one-page clinician brief drawn from novel-modalities
+    hla-coverage-emc.md             PARKED: HLA coverage of the public fusion-neoantigen (reusable as eligibility input)
+    meta-analysis.md                SEPARATE track: outcomes systematic review/meta-analysis (prognosis, not treatment)
+    {fact-check-log,repurposing-hypotheses-review,novel-modalities-factcheck}.md
+                                    QA: fact-check & internal-review logs (not manuscripts)
 ```
 
 ## Non-negotiable rules

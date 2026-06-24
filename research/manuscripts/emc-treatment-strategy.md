@@ -1,5 +1,9 @@
 # EMC treatment strategy — prioritized portfolio (capstone)
 
+> **STRATEGY / SOURCE OF TRUTH (not a manuscript).** This capstone ranks every treatment route; the
+> active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md) is its publishable form.
+> Read this before resuming treatment-research work. Folder map: [`README.md`](./README.md).
+
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with
 the cheapest experiments that unblock the most. Detail lives in the per-route memos; the live
@@ -29,25 +33,72 @@ this repo must be one of them:
 The strongest candidates are those where **both** apply. The ranking below therefore carries a
 *"how WE advance it"* judgement, not a wet-lab to-do list.
 
-## The ranking
+## The ranking — two axes, not one tier number
 
-### Tier 1 — Actionable now (approved drugs, EMC evidence) — **the realistic near-term wins**
-1. **Anti-angiogenic TKI + checkpoint inhibitor.** Real EMC partial responder (ImmunoSarc
+A single ranked "tier" misleads here, because a tier number silently blends **two independent
+questions that do not move together**:
+
+- **Axis A — near-term readiness:** how close is this to helping a real EMC patient *now*? (Drug
+  approved and available? Real EMC evidence? Or must it still be discovered, built, or validated?)
+- **Axis B — driver-directedness:** how directly does it target the EWSR1::NR4A3 driver itself? Three
+  *defined* levels — **driver-directed** (the fusion itself) → **targeted, indirect** (an EMC target
+  that isn't the fusion) → **generic** (disease-agnostic). This is a categorical property of the
+  mechanism, used deliberately *instead of* a numeric "impact" score we cannot measure for untested agents.
+
+These pull in opposite directions. The **repurposed approved drugs are the most *ready*** (Axis A)
+but **generic** (Axis B); the **NR4A3 degrader and junction ASO are the only *driver-directed*
+routes** (Axis B) but the **furthest from a patient** (Axis A). Collapsing both onto one number is what
+made the old "Tier 1/2/3" labels inconsistent across documents. So we score every route on **both
+axes** and let the reader weight whichever they care about — a clinician seeking the next option
+leans on Axis A; a scientist or developer choosing where the field should invest leans on Axis B.
+*(This table mirrors the one in the active manuscript, `emc-treatment-roadmap.md` §3.)*
+
+| Route | **Axis A — near-term readiness** | **Axis B — driver-directedness** |
+|---|---|---|
+| Anti-angiogenic TKI + checkpoint inhibitor | **Now** — approved; real EMC responder | **Generic** — anti-angiogenic + checkpoint; disease-agnostic |
+| Trabectedin (± RT / combo) | **Now** — approved; reported EMC responder | **Targeted (indirect)** — displaces the fusion TF from promoters (mechanism-fit), not fusion-selective |
+| Carfilzomib + anthracycline (± venetoclax) | **Now** — approved; best *ex-vivo* EMC evidence | **Generic** — proteasome inhibitor; empirical ex-vivo hit, no fusion rationale |
+| B7-H3 (CD276) ADC / bispecific | **Confirm-gated** — needs EMC B7-H3 IHC | **Targeted (indirect)** — surface antigen (not the fusion); fastest such route |
+| PRAME ImmTAC / cell therapy | **Confirm-gated** — needs EMC PRAME IHC | **Targeted (indirect)** — cancer-testis antigen; basket access via brenetafusp |
+| FAP radioligand therapy | **Confirm-gated** — needs EMC FAP-PET | **Targeted (indirect)** — stromal target; theranostic (tracer = diagnostic) |
+| **NR4A3 degrader (PROTAC)** | **To build** — no selective warhead yet; no EMC validation | **Driver-directed** — degrades the EWSR1::NR4A3 fusion oncoprotein. *Flagship.* |
+| **Fusion-junction ASO / siRNA** | **To build** — tumour delivery unsolved | **Driver-directed** — silences the fusion transcript, junction-specific. *Flagship.* |
+| B7-H3 / CD56 CAR-T | **To build** — harder than the ADC | **Targeted (indirect)** — surface antigen; higher bar than the ADC |
+| PPARG modulation (TZDs) | **To build** — agonist-vs-antagonist direction unresolved | **Targeted (indirect)** — a node the fusion transactivates (downstream, not the driver) |
+| TCR-T / ImmTAC (cancer-testis antigen) | **Down-weighted** — EMC is CTA-low | **Targeted (indirect)** — antigen-directed in principle; gated on Axis A (EMC antigen-low) |
+| Synthetic-lethal / BRD9 | **Down-weighted** — DepMap transfer prior negative | **Targeted (indirect)** — a candidate dependency; not sarcoma-selective |
+| Fusion-junction vaccine / HLA-coverage | **Parked** | **Targeted (indirect)** — fusion neoantigen; weak immunogen in a cold tumour |
+
+> **Axis B levels (defined, not scored):** **Driver-directed** = acts on the EWSR1::NR4A3 fusion
+> product/transcript itself · **Targeted (indirect)** = engages EMC's fusion-driven biology at a point
+> *other* than the fusion (surface antigen, stroma, a transactivated node, a dependency, or fusion-TF
+> displacement) · **Generic** = a disease-agnostic mechanism. This categorical *directedness* is an
+> objective property of the mechanism; we use it rather than a numeric "impact" score we cannot measure
+> for untested agents. **Axis A** is likewise four defined states (available now / confirm-gated /
+> to build / down-weighted). Read a route from **both** cells — an antigen route is "targeted" on B yet
+> "down-weighted" on A when EMC doesn't express the antigen.
+
+The detail below is grouped by **Axis A (readiness)** for readability, with the flagship (Axis B)
+called out explicitly — *grouping is not a combined rank; read both axes off the table.*
+
+### Ready now — approved drugs with EMC evidence  *(Axis A: now · Axis B: generic)*
+- **Anti-angiogenic TKI + checkpoint inhibitor.** Real EMC partial responder (ImmunoSarc
    sunitinib+nivolumab); EMC is TKI-sensitive and the TKI remodels the cold TME (cold→hot) — a
    mechanistic synergy, not coincidence. All drugs approved. *(immunotherapy-options-emc.md §2)*
-2. **Trabectedin (± RT, ± TKI/IO).** Approved for STS; its mechanism *is* displacing fusion
+- **Trabectedin (± RT, ± TKI/IO).** Approved for STS; its mechanism *is* displacing fusion
    transcription factors from promoters (proven in myxoid liposarcoma), and EMC has a reported
    impressive responder. *(emerging-modalities-scan-emc.md §1)*
-3. **Carfilzomib ± anthracycline (± venetoclax)** — *best ex-vivo EMC evidence of anything here.*
+- **Carfilzomib ± anthracycline (± venetoclax)** — *best ex-vivo EMC evidence of anything here.*
    The only 1 of 17 drugs with high sensitivity across **two patient-derived EMC models**, with
    carfilzomib+doxorubicin / +venetoclax synergy (Bangerter et al. 2023). Approved drugs; the play
    is a combination arm on EMC's existing **anthracycline (doxorubicin)** backbone. Already in the
    repurposing track — see `repurposing-hypotheses.md` (the unbiased-screen tier). *Carried here so
    the portfolio isn't wrong by omission.*
 
-> **Headline:** the best near-term options are **repurposing approved drugs** — TKI+ICI and
-> trabectedin (mechanism-fit) and the **carfilzomib+anthracycline ex-vivo hit** — not novel
-> modalities. That is the honest answer to "what could help a patient now."
+> **Headline (Axis A — readiness):** the most *ready* options are **repurposing approved drugs** —
+> TKI+ICI and trabectedin (mechanism-fit) and the **carfilzomib+anthracycline ex-vivo hit** — not
+> novel modalities. That is the honest answer to "what could help a patient now." On Axis B they are
+> **generic** — for the only **driver-directed** bet see the **NR4A3 degrader**.
 
 > **Relationship to the existing repurposing work.** This capstone sits *on top of* the repo's
 > repurposing track (`repurposing-hypotheses.md`, `hypotheses/candidates.json`, TxGNN predictions),
@@ -58,31 +109,31 @@ The strongest candidates are those where **both** apply. The ranking below there
 > *updates* two existing mechanistic hypotheses — the DepMap result down-weights BET/CDK
 > (no sarcoma selectivity), and §4 below is the same PPARG axis as the existing pioglitazone idea.
 
-### Tier 2 — Emerging, plausible, gated by ONE cheap confirm
-3. **FAP-targeted radioligand therapy (FAPI-RLT).** ~50% disease control in advanced sarcoma; EMC's
+### Gated by one cheap confirm — surface/antigen targets  *(Axis A: confirm-gated · Axis B: targeted, indirect)*
+- **FAP-targeted radioligand therapy (FAPI-RLT).** ~50% disease control in advanced sarcoma; EMC's
    myxoid stroma is likely FAP⁺; the tracer is also the diagnostic. *Gate: EMC FAP-PET avidity.*
-4. **B7-H3 ADC (ifinatamab deruxtecan).** B7-H3 in 97% of STS; fastest surface-target route. *Gate:
+- **B7-H3 ADC (ifinatamab deruxtecan).** B7-H3 in 97% of STS; fastest surface-target route. *Gate:
    EMC-specific B7-H3 IHC — **not yet published** (ultra-rare tumour), favorable prior only.*
 
-### Tier 3 — High-ceiling, longer-horizon, real groundwork
-5. **Degrader — NR4A3 PROTAC** (the best "attack the actual driver" bet). Mechanistically ideal
+### To build — driver-directed & targeted, longer-horizon  *(Axis A: to build · Axis B: driver-directed / targeted)*
+- **Degrader — NR4A3 PROTAC** — **the flagship, driver-directed bet** ("attack the actual driver"). Mechanistically ideal
    (NOR-1 activity scales with expression level), the family is degradable (NR4A1 PROTAC works),
    NR4A3-specific warhead starting points exist (inverse NOR-1 agonists). *Needs: a selective
    warhead (med-chem or **AI de-novo binder design**) + the dTAG fusion-addiction test.*
-6. **CAR-T** (B7-H3 / CD56 ± TKI; armored / SynNotch-logic-gated / allogeneic). Same surface-target
-   gate as the ADC but harder; higher ceiling. Among surface modalities, **ADC/RLT beat CAR-T to a
+- **CAR-T** (B7-H3 / CD56 ± TKI; armored / SynNotch-logic-gated / allogeneic). Same surface-target
+   gate as the ADC but harder; higher bar. Among surface modalities, **ADC/RLT beat CAR-T to a
    patient.** *(car-t-strategies-emc.md)*
 
-### Tier 4 — Speculative / downstream / parked
-7. **PPARG modulation (TZDs)** — the fusion transactivates PPARG; druggable downstream node, but
+### Down-weighted / speculative / parked  *(Axis A: down-weighted)*
+- **PPARG modulation (TZDs)** — the fusion transactivates PPARG; druggable downstream node, but
    agonist-vs-antagonist direction unresolved. *This is the same axis as the existing
    **pioglitazone** mechanistic hypothesis in `repurposing-hypotheses.md`* — Phase-2 added the
    fusion→PPARG transactivation mechanism behind it. Cheap to explore.
-8. **TCR-T / ImmTAC** — weak: EMC is cancer-testis-antigen-low. Only a PRAME⁺/HLA-A\*02⁺ subset, via
+- **TCR-T / ImmTAC** — weak: EMC is cancer-testis-antigen-low. Only a PRAME⁺/HLA-A\*02⁺ subset, via
    the brenetafusp basket. *(immunotherapy-options-emc.md §1, §2b)*
-9. **Synthetic-lethal / BRD9** — **downgraded** by a computed DepMap transfer prior (BRD9/ncBAF not
+- **Synthetic-lethal / BRD9** — **downgraded** by a computed DepMap transfer prior (BRD9/ncBAF not
    sarcoma-selective, not even in Ewing). No shortcut; needs a de-novo CRISPR screen in EMC models.
-10. **Fusion-junction vaccine / HLA-coverage** — parked (self-adjacent junction in a cold tumour;
+- **Fusion-junction vaccine / HLA-coverage** — parked (self-adjacent junction in a cold tumour;
     economics favour a platform we don't control). Reusable: its HLA work feeds TCR-T/ADC eligibility.
 
 ## Kill-criteria — what would sink each lead (track the "unlikely-to-work" side honestly)
@@ -229,8 +280,8 @@ each matched to how fast its content changes:
   notes are the roadmap changelog. *Remaining one-time manual steps* (need your accounts — see
   `deploy/release-doi.md`): flip the Zenodo↔GitHub toggle ON and add your ORCID. Then post the roadmap
   as a **bioRxiv preprint we bump (v2, v3…)** as routes change — a *living preprint / living review*.
-  Cadence: cut a release/DOI on any **Tier-1/2 route change** (or monthly if anything changed); bump
-  the preprint on any change a reader would act on differently.
+  Cadence: cut a release/DOI on any **ready-now-or-flagship route change** (or monthly if anything
+  changed); bump the preprint on any change a reader would act on differently.
 - **Tier C — peer-reviewed journal (latency: months, occasional).** Reserve this for the **stable
   core** that *doesn't* decay: the falsifiable kill-criteria framework, the methodology (pooling,
   citation map), and the "why pursue an ultra-rare cancer / broaden-to-common" argument. The journal

@@ -1,5 +1,9 @@
 # Alternative ways to make CAR-T work for EMC (Phase 3)
 
+> **SOURCE MEMO (internal) — feeds the active manuscript** [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)
+> via the strategy capstone [`emc-treatment-strategy.md`](./emc-treatment-strategy.md). Not separately submitted.
+> Folder map: [`README.md`](./README.md).
+
 **Scope.** Autonomous Phase-3 brainstorm (2026-06-22), explicitly the hard case: can CAR-T be made
 to work for EWSR1::NR4A3 EMC? Honest about why it's hard, then concrete alternatives. Tags
 **[EMC-specific]/[pan-sarcoma]/[hypothesis]**. Feeds `research/IDEAS.md`.

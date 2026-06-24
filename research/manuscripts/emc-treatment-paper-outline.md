@@ -1,11 +1,12 @@
-# Outline — the EMC treatment-strategy paper (the #1 deliverable)
+# Figure & claims-audit checklist for the active manuscript (retired outline)
 
-> **DRAFT WRITTEN:** a full first draft now exists at
-> [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). This outline is retained as the
-> planning scaffold / figure + claims checklist; edit the draft directly going forward.
+> **QA / CHECKLIST (not a manuscript).** The draft this outlined has been written — it is the active
+> manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md). **Edit the draft directly**;
+> this file is retained only as the figure inventory + claims-audit checklist below. Folder map:
+> [`README.md`](./README.md).
 
-**Status:** skeleton for review (reshape freely). This is the publish-to-convince artifact the repo
-exists to produce: a rigorous, honest map of *what could drive an EMC treatment forward*, built
+**Original purpose (for context):** the planning scaffold for the publish-to-convince artifact the
+repo exists to produce — a rigorous, honest map of *what could drive an EMC treatment forward*, built
 entirely from the tracker (`emc-treatment-strategy.md`) and the in-silico evidence we generated. No
 wet lab; every claim is sourced or computed, with explicit kill-criteria.
 
@@ -53,8 +54,10 @@ preprint for reach (the point is to mobilise testers).
 ## Figures (all already generated or one step away)
 - F1: EMC fusion architecture + AF2 disorder/pocket map — **GENERATED**:
   `figures/fusion-architecture.svg` (via `figures/fusion_architecture_figure.py`).
-- F2: the prioritized-portfolio tier chart — **GENERATED**: `figures/portfolio.svg`
-  (regenerate via `figures/portfolio_figure.py`).
+- F2: the prioritized portfolio — a two-axis **Markdown table** (Axis A readiness × Axis B
+  driver-directedness) in `emc-treatment-roadmap.md` §3 and `emc-treatment-strategy.md`, **plus a
+  rendered categorical grid** `figures/portfolio-quadrant.png` (matplotlib, `figures/portfolio_quadrant.py`).
+  The old single-tier SVG (`portfolio.svg` / `portfolio_figure.py`) was **removed** as superseded.
 - F3: DepMap fusion-addiction proxy — FLI1-in-Ewing vs context (`depmap-sarcoma-dependency.*`).
 - F4: candidate-target expression in sarcoma (`depmap-target-expression.png`).
 - F5: HLA coverage curve, if the vaccine angle is kept as a contrast (`coverage-curve.png`, CI).

@@ -1,5 +1,9 @@
 # Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma
 
+> **EARLIER TREATMENT-TRACK DRAFT — subsumed by the active manuscript**
+> [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md), which sits on top of this work. Kept for
+> reference / a possible follow-on; not the active push. Folder map: [`README.md`](./README.md).
+
 **Status: DRAFT v0.2 — full prose, pre-clinician-review, not for submission.**
 This is a *hypothesis-generating* paper (the genre of e.g. a "hypothesis" or
 "perspective" article). It proposes existing drugs whose mechanisms fit EMC biology
