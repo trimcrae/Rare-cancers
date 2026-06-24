@@ -74,7 +74,20 @@ not cross-degrade NR4A3 — so NR4A3 needs its own warhead), NR4A3-selective lig
 exist (inverse NOR-1 agonists), and the first FDA-approved PROTAC (vepdegestrant, 2025) degrades a
 nuclear receptor. **New evidence:** the route's make-or-break premise — that EMC is *addicted* to its
 fusion — is supported by analogy in DepMap: in Ewing sarcoma, where the homologous EWS-FLI1 is the
-driver, **FLI1 has gene effect −0.93 and 74% of lines are dependent**.
+driver, **FLI1 has gene effect −0.93 and 74% of lines are dependent**. *Selectivity/safety:* a
+LBD warhead also degrades wild-type NR4A3 and could hit the paralogues NR4A1/NR4A2 — whose loss
+carries known liabilities (Nurr1/dopamine-neuron toxicity; NR4A1+NR4A3 double-loss → leukaemia in
+mice) — so the design target is **NR4A3-selective, NR4A1/2-sparing** (7 divergent pocket residues
+identified; `nr4a-selectivity.json`).
+
+**Also driver-directed, but transcript-level and uniquely fusion-specific: a junction ASO.** The
+fusion *mRNA* junction exists in no normal transcript, so an antisense oligonucleotide (or siRNA)
+spanning it silences **only** the fusion — sparing wild-type NR4A3 *and* EWSR1. This is the one
+truly tumour-specific route (the protein degrader cannot be, since the druggable LBD is shared);
+5 fusion-specific gapmers are designed (`junction_aso.py`). It is lower on near-term feasibility,
+not lower in principle: the EMC junction is **GC-rich (~75–81%)**, outside the usual comfort zone,
+and **tumour delivery is the unsolved problem** for oligonucleotides generally. Degrader and ASO are
+**complementary** — potent-but-not-fusion-specific vs. fusion-specific-but-delivery-limited.
 
 **Tier 3 — surface/antigen modalities (surrogate-supported).**
 - **B7-H3 (CD276):** expressed in **99% of sarcoma lines, high across every subtype including
@@ -105,6 +118,7 @@ The value of this paper to a reader is the decisive next experiment and the kill
 |---|---|---|
 | TKI + ICI; trabectedin; carfilzomib+anthracycline | prospective EMC cohort / case series | fails to reproduce in EMC patients |
 | NR4A3 degrader | dTAG acute-degradation viability in EMC lines | degrading the fusion doesn't kill EMC cells |
+| Junction ASO/siRNA | junction-knockdown vs scrambled in EMC lines (spare parental transcripts) | no fusion knockdown, or undeliverable to tumour |
 | B7-H3 ADC / CAR-T; FAP-RLT | EMC tissue IHC / FAP-PET, then the agent | EMC is target-negative |
 | PRAME ImmTAC/CAR | EMC PRAME IHC; brenetafusp basket enrolment | primary EMC PRAME-negative |
 | Synthetic-lethal/BRD9 | genome-wide CRISPR screen in EMC lines | (already down-weighted by DepMap) |
@@ -174,5 +188,6 @@ long-term response in metastatic EMC (case report, *Impressive response and long
 B7-H3 in soft-tissue sarcoma (PMC11523878); FAPI radioligand therapy in sarcoma (Clin Cancer Res
 2022). Repurposing/ex-vivo: carfilzomib (top ex-vivo hit) ± anthracycline/venetoclax in two
 patient-derived EMC models (Bangerter et al., *Human Cell* 2023; PMID 36316541;
-`repurposing-hypotheses.md`). Data: DepMap 24Q4 (CRISPR + OmicsExpression); AFND (HLA).
+`repurposing-hypotheses.md`). Fusion-junction ASO (5 fusion-specific gapmers; RNase-H mechanism): `junction_aso.py` /
+`novel-modalities.md` §3.2. Data: DepMap 24Q4 (CRISPR + OmicsExpression); AFND (HLA).
 *(Full citations live in the per-route memos; verify-refs before submission.)*
