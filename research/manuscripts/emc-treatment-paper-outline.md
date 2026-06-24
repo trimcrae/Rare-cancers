@@ -54,9 +54,9 @@ preprint for reach (the point is to mobilise testers).
 ## Figures (all already generated or one step away)
 - F1: EMC fusion architecture + AF2 disorder/pocket map — **GENERATED**:
   `figures/fusion-architecture.svg` (via `figures/fusion_architecture_figure.py`).
-- F2: the prioritized portfolio — a two-axis **Markdown table** (Axis A readiness × Axis B impact/
+- F2: the prioritized portfolio — a two-axis **Markdown table** (Axis A readiness × Axis B
   driver-directedness) in `emc-treatment-roadmap.md` §3 and `emc-treatment-strategy.md`, **plus a
-  rendered quadrant plot** `figures/portfolio-quadrant.png` (matplotlib, `figures/portfolio_quadrant.py`).
+  rendered categorical grid** `figures/portfolio-quadrant.png` (matplotlib, `figures/portfolio_quadrant.py`).
   The old single-tier SVG (`portfolio.svg` / `portfolio_figure.py`) was **removed** as superseded.
 - F3: DepMap fusion-addiction proxy — FLI1-in-Ewing vs context (`depmap-sarcoma-dependency.*`).
 - F4: candidate-target expression in sarcoma (`depmap-target-expression.png`).
