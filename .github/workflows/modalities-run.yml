@@ -136,7 +136,7 @@ jobs:
           cp research/modalities/patient-neoepitopes-taf15-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-cd4-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
-          rm -f research/modalities/*.json
+          rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
             git checkout -B modalities-cache origin/modalities-cache
           else
