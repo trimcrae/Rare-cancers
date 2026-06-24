@@ -14,11 +14,12 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 
 - **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** — *"Attacking an 'undruggable' fusion
   oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3 EMC."* The
-  single paper currently being developed for preprint/submission. **Its contribution is a method + a
-  driver-directed program** (degrader + junction-ASO against the fusion itself); the repurposing
-  portfolio is included as motivating landscape, not as the headline (rescope 2026-06-24, see
-  `emc-treatment-strategy.md` Q1). It is a **living document** (changelog at its top). If you came here
-  to work on "the manuscript," this is it.
+  single paper currently being developed for preprint/submission. **Its contribution is the novel
+  in-silico work** (done + planned) and the **driver-directed designs** it feeds (degrader + junction-ASO
+  against the fusion itself); the repurposing/standard-of-care material is *not* a contribution — it
+  appears only as one-paragraph context establishing the categorical gap (no targeted drug exists for
+  EMC). Grading known drugs was cut in the 2026-06-24 rescope (see `emc-treatment-strategy.md` Q1). It is
+  a **living document** (changelog at its top). If you came here to work on "the manuscript," this is it.
 
 ## Strategy / source of truth (internal — not a manuscript)
 

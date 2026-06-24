@@ -9,25 +9,25 @@
 (`emc-treatment-strategy.md`) and the in-silico results in `research/modalities/`. Every claim is
 sourced or computed; nothing is wet-lab validated, and the paper says so throughout.*
 
-> **Scope (read first).** This paper's **contribution is a method and a driver-directed program**, not
-> a ranking of known drugs. Concretely it offers: (1) a reproducible, computation-only framework for
-> triaging treatment routes for an orphan fusion cancer that has no models and no market; (2) the
-> first systematic computational attack on the EWSR1::NR4A3 **driver itself** — a structural
-> "undruggability" call, a reframing of the driver as a *degradation/knockdown* problem, and two
-> driver-directed modalities (a NR4A3 degrader and a fusion-junction ASO/siRNA) each with first
-> in-silico evidence and an explicit make-or-break experiment; and (3) a falsifiable kill-criterion
-> for every route. **The defining feature of the EMC landscape is categorical, not quantitative: no
-> therapy in clinical use targets the EWSR1::NR4A3 driver.** Everything EMC patients receive today is
-> generic or borrowed from other sarcomas (R0 surgery ± selective radiotherapy for localized disease;
-> for advanced disease, anti-angiogenic TKIs and anthracycline chemotherapy) — and none of it acts on
-> the fusion. **We make no efficacy claim:** our candidates are untested, and for an untested agent
-> efficacy is unmeasurable, so we do *not* assert that any of them would outperform the standard — that
-> would be unprovable. What we can defend is that they are *targeted* where the standard is not, and we
-> describe the real drugs patients actually use (not options nobody uses) so the gap is honest. The
-> structural insight the paper is organised around is that the "ready" and "driver-directed" quadrants
-> do not
-> overlap — *nothing that attacks the EMC driver is near-term, and nothing near-term attacks the
-> driver* — and closing that gap is the program defined here.
+> **Scope (read first).** **The contribution is the novel in-silico work — the computation that
+> generates new information — not a survey of known drugs.** Concretely: (1) the first systematic
+> computational attack on the EWSR1::NR4A3 **driver itself** — a structural "undruggability" call that
+> reframes the driver as a *degradation/knockdown* problem, DepMap surrogate target mining, a
+> FET-fusion-addiction class prior, and a transcriptome-wide ASO specificity screen — plus the
+> driver-directed designs that follow (a NR4A3 degrader and a fusion-junction ASO/siRNA), each with an
+> explicit make-or-break experiment; (2) the in-silico results we are *running* (LBD molecular dynamics
+> for a cryptic pocket; de-novo selective-warhead/binder design; the degrader ternary-complex model),
+> which this paper sets up and the follow-on reports; and (3) a falsifiable kill-criterion for every
+> route. **What we do *not* claim as a contribution is the repurposing/standard-of-care material.** We
+> name current care only to establish the gap, and the gap is **categorical, not an efficacy
+> comparison**: nothing in EMC clinical use targets the driver — surgery ± radiotherapy,
+> anti-angiogenic TKIs, and anthracycline chemotherapy are all generic or borrowed from other sarcomas.
+> Grading those known options is not new information and we present them as one-paragraph context, not
+> analysis. We make **no efficacy claim** for our candidates either — they are untested, and for an
+> untested agent efficacy is unmeasurable — only that they are *targeted* where nothing in use is, and
+> testable. The organising structural result is that no current route is **both** ready and
+> driver-directed (the "ready" routes are all generic; the only driver-directed routes are not yet
+> ready) — that empty intersection is the gap, and the in-silico program is the work of filling it.
 
 > **Status of the experiments (this is a work in progress — stated so reviewers read it correctly).**
 > Done and reported here: AlphaFold2/fpocket structural druggability; DepMap surrogate target-expression
@@ -49,6 +49,12 @@ sourced or computed; nothing is wet-lab validated, and the paper says so through
 > disclaims. Material changes are logged below; the `method-watch` digest is the automated input.
 >
 > **Changelog**
+> - *2026-06-24 (c)* — **Cut the per-drug repurposing write-up.** The repurposing/standard-of-care
+>   material is no longer presented as analysis or a contribution — grading drugs whose results are
+>   already published is not new information. Only a one-paragraph context note remains (enough to
+>   establish the categorical gap and populate the "ready" column of the landscape table); the per-drug
+>   detail lives in the source memos and git history. The paper's claimed contribution is now
+>   unambiguously the **novel in-silico work** (done + planned) and the driver-directed designs it feeds.
 > - *2026-06-24 (b)* — **Landscape reframed as a categorical gap, not an efficacy bar.** Removed all
 >   "improve on / benchmark against / beat the standard" language and the ORR/PFS numbers used as a
 >   comparator: our candidates are untested, so an efficacy comparison is unprovable. The landscape now
@@ -205,28 +211,15 @@ intersection — no route is both — is precisely the categorical gap, and the 
 is the structural problem this paper is organised around;** §4 is the attempt to build a route into
 that empty quadrant.
 
-**Repurposing within the current non-targeted paradigm (prior knowledge, not our discovery).** These are
-the repurposing moves available *without leaving* the generic/borrowed paradigm — they add to current
-practice but, except trabectedin's indirect mechanism, still do not act on the driver. We describe them
-so the landscape is complete and the "what now?" reader is served; we claim no novelty, and — per §3's
-rule — make no efficacy comparison.
-- **Add a checkpoint inhibitor to the anti-angiogenic TKI.** TKIs are *already* in clinical use; the
-  repurposing move is the combination — the ImmunoSarc trial (sunitinib + nivolumab) reported a partial
-  response in an EMC patient (single case within the trial), with the rationale that TKIs remodel the
-  cold tumour microenvironment (cold→hot). *Adds ICI to a drug class already used; still not
-  driver-directed. Evidence: one trial-embedded responder; anecdotal.*
-- **Trabectedin (combinations).** Approved for soft-tissue sarcoma and able to give disease control in
-  EMC; uniquely among these, its mechanism — displacing fusion transcription factors from target
-  promoters (validated in myxoid liposarcoma) — is mechanistically apt for EMC, so it is *targeted-
-  indirect* rather than generic. The repurposing move is rational trabectedin + TKI/RT combinations.
-  *EMC combination evidence: a case report (trabectedin + radiotherapy, metastatic EMC) — full citation
-  to be completed, see §References. Evidence: single case report.*
-- **Carfilzomib + anthracycline (± venetoclax).** The clearest "nobody uses it yet" candidate:
-  carfilzomib was the only drug active across two patient-derived EMC models in an unbiased ex-vivo
-  screen (Bangerter 2023) — the best *experimental* EMC evidence in the whole landscape — but it is
-  ex-vivo, carries no fusion rationale, and is not in EMC use. The repurposing move is to add it (or
-  venetoclax) to the **anthracycline backbone** EMC patients already receive. *A screen-nominated
-  partner on the existing backbone; generic, not driver-directed. Evidence: ex-vivo, two models.*
+**On the repurposing routes (table rows 1–3) — context, not a contribution.** We do not analyse or
+grade the approved/repurposed options (adding a checkpoint inhibitor to a TKI; trabectedin combinations;
+carfilzomib on the anthracycline backbone): they are prior, published results, and opining on them is not
+new information. They appear in the table only to populate the "ready" column and so make the empty
+top-right quadrant visible; trabectedin is the lone *targeted-indirect* one (its mechanism displaces
+fusion TFs from promoters), the rest are generic. The supporting EMC reports are catalogued in the
+source memos (`emerging-modalities-scan-emc.md`, `repurposing-hypotheses.md`) for the clinician who
+wants them; this paper spends its space on the in-silico work that *is* new. *(The per-drug write-up was
+removed in the 2026-06-24 rescope; it remains in git history and in the source memos.)*
 
 ## 4. The contribution — a driver-directed program against EWSR1::NR4A3
 
