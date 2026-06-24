@@ -16,16 +16,16 @@ sourced or computed; nothing is wet-lab validated, and the paper says so through
 > "undruggability" call, a reframing of the driver as a *degradation/knockdown* problem, and two
 > driver-directed modalities (a NR4A3 degrader and a fusion-junction ASO/siRNA) each with first
 > in-silico evidence and an explicit make-or-break experiment; and (3) a falsifiable kill-criterion
-> for every route. **The comparator we aim to improve on is the existing standard of care** — what EMC
-> patients actually receive today (R0 surgery ± selective radiotherapy for localized disease; for
-> advanced disease, anti-angiogenic TKIs — the most consistently active class, but ORR only ~18% — plus
-> anthracycline chemotherapy that mostly stabilizes). That standard is **prior, published knowledge**
-> and is the real-world baseline we benchmark against. The repurposing options we also discuss (adding a
-> **checkpoint inhibitor** to a TKI; trabectedin combinations; **carfilzomib + anthracycline**) are
-> *themselves proposed improvements on* that standard — not the standard, and not this paper's
-> discovery — so we compare our new, in-silico-evaluated candidates against the drugs people actually
-> use, not against options nobody uses. The structural insight the paper is organised around is that
-> the "ready" and "driver-directed" quadrants do not
+> for every route. **The defining feature of the EMC landscape is categorical, not quantitative: no
+> therapy in clinical use targets the EWSR1::NR4A3 driver.** Everything EMC patients receive today is
+> generic or borrowed from other sarcomas (R0 surgery ± selective radiotherapy for localized disease;
+> for advanced disease, anti-angiogenic TKIs and anthracycline chemotherapy) — and none of it acts on
+> the fusion. **We make no efficacy claim:** our candidates are untested, and for an untested agent
+> efficacy is unmeasurable, so we do *not* assert that any of them would outperform the standard — that
+> would be unprovable. What we can defend is that they are *targeted* where the standard is not, and we
+> describe the real drugs patients actually use (not options nobody uses) so the gap is honest. The
+> structural insight the paper is organised around is that the "ready" and "driver-directed" quadrants
+> do not
 > overlap — *nothing that attacks the EMC driver is near-term, and nothing near-term attacks the
 > driver* — and closing that gap is the program defined here.
 
@@ -49,6 +49,13 @@ sourced or computed; nothing is wet-lab validated, and the paper says so through
 > disclaims. Material changes are logged below; the `method-watch` digest is the automated input.
 >
 > **Changelog**
+> - *2026-06-24 (b)* — **Landscape reframed as a categorical gap, not an efficacy bar.** Removed all
+>   "improve on / benchmark against / beat the standard" language and the ORR/PFS numbers used as a
+>   comparator: our candidates are untested, so an efficacy comparison is unprovable. The landscape now
+>   makes the *categorical* point — **no therapy in EMC clinical use targets the EWSR1::NR4A3 driver**;
+>   current care is entirely generic or borrowed — and our claim is *directedness + testability*, not
+>   superiority. The repurposing section is recast as "repurposing within the current non-targeted
+>   paradigm." (§3 still describes real current care so the gap is stated against practice, not a strawman.)
 > - *2026-06-24* — **Rescope:** contribution reframed from "prioritized portfolio roadmap" to
 >   "computation-only **driver-directed** program"; the repurposing portfolio demoted to motivating
 >   landscape/triage output (it is prior knowledge, now labelled as such). Title changed. Surrogate
@@ -88,13 +95,14 @@ deliberately uncomfortable result (0 of 5 designed gapmers are transcriptome-cle
 "fusion-specific in principle" claim into a measured specificity bar; and DepMap surrogate mining
 (sarcoma lines stand in for the absent EMC line) nominates **B7-H3** and **PRAME** as the strongest
 surface/antigen targets while down-weighting NY-ESO-1/MAGE-A4 cell therapy and a fusion-junction
-vaccine. The comparator throughout is the **existing standard of care** — R0 surgery ± radiotherapy
-and, for advanced disease, anti-angiogenic TKIs (ORR ~18%) plus anthracycline chemotherapy that mostly
-stabilizes; the repurposing options we discuss (adding a checkpoint inhibitor to a TKI; trabectedin;
-carfilzomib + anthracycline) are framed as candidate *improvements on* that standard, not as our
-contribution. The deliverable is a method plus a driver-directed work program that benchmarks
-testable, de-risked hypotheses — each with an explicit kill-criterion — against the drugs EMC patients
-actually receive, and hands them to groups with EMC models or patients.
+vaccine. The gap we address is **categorical, not one of efficacy**: no therapy in EMC clinical use
+targets the EWSR1::NR4A3 driver — current care (surgery ± radiotherapy; anti-angiogenic TKIs;
+anthracycline chemotherapy) is entirely generic or borrowed. Because our candidates are untested we make
+**no claim that they outperform the standard** — that is unprovable; we claim only that they are
+*targeted* where nothing in use is, and we describe the real drugs patients receive (rather than unused
+options) so the gap is stated honestly. The deliverable is a method plus a driver-directed work program
+that hands testable, de-risked hypotheses — each with an explicit kill-criterion — to groups with EMC
+models or patients.
 
 ## 1. Background
 EMC is defined by rearrangement of *NR4A3*, most often fused to *EWSR1*. The chimeric protein is an
@@ -149,26 +157,30 @@ is a categorical property of the mechanism — **driver-directed** (acts on the 
 We use categorical directedness rather than a numeric "impact" score because the benefit of an untested
 agent is not measurable and a granular scale would be false precision.
 
-## 3. The baseline standard of care, the triage landscape, and the gap they expose
+## 3. The landscape: no therapy in EMC use targets the driver
 
-**The standard of care — the baseline we aim to improve on (prior knowledge, not our finding).** Any
-new candidate has to be judged against what EMC patients actually receive today, so we state that
-baseline explicitly. For **localized disease**, wide local excision to clear (R0) margins is the
-backbone, with selective radiotherapy for close/positive margins or large/high-grade tumours; routine
-systemic chemotherapy is *not* given. For **advanced/metastatic disease** — where the unmet need is —
-EMC is relatively chemo-resistant and often indolent, so options are limited: **anti-angiogenic TKIs
-are the single most consistently active class** (pazopanib ORR ~18%, median PFS ~19 months, better in
-EWSR1::NR4A3-positive disease), and **anthracycline-based chemotherapy** is used first for symptomatic
-or rapidly progressive disease but "mainly stabilises disease" rather than inducing durable responses;
-trabectedin can give disease control. *There is no targeted, fusion-directed, or curative systemic
-option — that absence is the gap this paper attacks.* (Sources: `data/cancers/emc.json` systemic-evidence
-table; Stacchiotti et al., *Lancet Oncol* 2019 for pazopanib; review Remiszewski 2025.)
+**What EMC patients receive today — and what it is missing (prior knowledge, not our finding).** We
+state current care explicitly so the gap is described against real practice, not a strawman. For
+**localized disease**, wide local excision to clear (R0) margins is the backbone, with selective
+radiotherapy for close/positive margins or large/high-grade tumours; routine systemic chemotherapy is
+*not* given. For **advanced/metastatic disease**, EMC is relatively chemo-resistant and often indolent,
+so systemic options are limited: anti-angiogenic TKIs are the most consistently used systemic class
+(pazopanib has reported activity, better in EWSR1::NR4A3-positive disease), and anthracycline-based
+chemotherapy is used for symptomatic or rapidly progressive disease, largely to stabilise; trabectedin
+can give disease control. **The decisive point is categorical, not a matter of degree: every one of
+these is generic or borrowed from other sarcomas, and none acts on the EWSR1::NR4A3 fusion. There is no
+targeted therapy for EMC.** That absence — not a published efficacy number — is the gap this paper
+attacks; we deliberately do *not* frame the standard as an efficacy bar, because our untested candidates
+have no measurable efficacy to compare and any "we beat it" claim would be unprovable. (Sources:
+`data/cancers/emc.json` systemic-evidence table; Stacchiotti et al., *Lancet Oncol* 2019 for pazopanib;
+review Remiszewski 2025.)
 
-The table below is the *output* of the framework applied to the full route list, **read against that
-baseline**. We foreground it not as a discovery — the entries that are "ready" are prior, published
-knowledge, and the TKI class is *already part of the standard above* — but because its **structure is
-the paper's motivating result**: the routes that are *ready* are all *generic*, and the only
-*driver-directed* routes are *not ready*. The driver-directed program in §4 exists to close that gap.
+The table below is the *output* of the framework applied to the full route list. We foreground it not as
+a discovery — the entries that are "ready" are prior, published knowledge, and the TKI class is *already
+in clinical use above* — but because its **structure is the paper's motivating result**: the routes that
+are *ready* are all *generic*, and the only *driver-directed* routes are *not ready*. The empty
+intersection — no route is both — is precisely the categorical gap, and the driver-directed program in
+§4 exists to fill it.
 
 | Route | **Axis A — near-term readiness** | **Axis B — driver-directedness** |
 |---|---|---|
@@ -193,28 +205,28 @@ the paper's motivating result**: the routes that are *ready* are all *generic*, 
 is the structural problem this paper is organised around;** §4 is the attempt to build a route into
 that empty quadrant.
 
-**Proposed improvements on the standard (repurposing — prior knowledge, not our discovery).** These are
-the repurposing moves that *escalate beyond* the baseline above; each is a delta on the standard, not
-the standard itself, and we claim no novelty for them — they are included so the comparison is honest
-and the "what now?" reader is served.
-- **Add a checkpoint inhibitor to the anti-angiogenic TKI.** TKIs are *already* the standard's most
-  active class; the proposed improvement is the combination — the ImmunoSarc trial (sunitinib +
-  nivolumab) reported a partial response in an EMC patient (single case within the trial), with the
-  rationale that TKIs remodel the cold tumour microenvironment (cold→hot). *Delta over standard: adding
-  ICI to a drug class already in use. Evidence weight: one trial-embedded responder; anecdotal.*
+**Repurposing within the current non-targeted paradigm (prior knowledge, not our discovery).** These are
+the repurposing moves available *without leaving* the generic/borrowed paradigm — they add to current
+practice but, except trabectedin's indirect mechanism, still do not act on the driver. We describe them
+so the landscape is complete and the "what now?" reader is served; we claim no novelty, and — per §3's
+rule — make no efficacy comparison.
+- **Add a checkpoint inhibitor to the anti-angiogenic TKI.** TKIs are *already* in clinical use; the
+  repurposing move is the combination — the ImmunoSarc trial (sunitinib + nivolumab) reported a partial
+  response in an EMC patient (single case within the trial), with the rationale that TKIs remodel the
+  cold tumour microenvironment (cold→hot). *Adds ICI to a drug class already used; still not
+  driver-directed. Evidence: one trial-embedded responder; anecdotal.*
 - **Trabectedin (combinations).** Approved for soft-tissue sarcoma and able to give disease control in
-  EMC (so it sits near the standard's edge); its mechanism is displacing fusion transcription factors
-  from target promoters (validated in myxoid liposarcoma), mechanistically apt for EMC. The proposed
-  improvement is rational trabectedin + TKI/RT combinations. *EMC combination evidence: a case report
-  (trabectedin + radiotherapy, metastatic EMC) — full citation to be completed, see §References. Evidence
-  weight: single case report.*
-- **Carfilzomib + anthracycline (± venetoclax).** This is the clearest "nobody uses it yet" candidate:
+  EMC; uniquely among these, its mechanism — displacing fusion transcription factors from target
+  promoters (validated in myxoid liposarcoma) — is mechanistically apt for EMC, so it is *targeted-
+  indirect* rather than generic. The repurposing move is rational trabectedin + TKI/RT combinations.
+  *EMC combination evidence: a case report (trabectedin + radiotherapy, metastatic EMC) — full citation
+  to be completed, see §References. Evidence: single case report.*
+- **Carfilzomib + anthracycline (± venetoclax).** The clearest "nobody uses it yet" candidate:
   carfilzomib was the only drug active across two patient-derived EMC models in an unbiased ex-vivo
   screen (Bangerter 2023) — the best *experimental* EMC evidence in the whole landscape — but it is
-  ex-vivo, carries no fusion rationale, and is not used in EMC. The proposed improvement is to add it
-  (or venetoclax) to the standard **anthracycline backbone** that EMC patients already receive. *Delta
-  over standard: a screen-validated synergistic partner on the existing backbone. Evidence weight:
-  ex-vivo, two models.*
+  ex-vivo, carries no fusion rationale, and is not in EMC use. The repurposing move is to add it (or
+  venetoclax) to the **anthracycline backbone** EMC patients already receive. *A screen-nominated
+  partner on the existing backbone; generic, not driver-directed. Evidence: ex-vivo, two models.*
 
 ## 4. The contribution — a driver-directed program against EWSR1::NR4A3
 
@@ -415,14 +427,14 @@ most lacks: take the driver seriously. We give a reproducible framework whose ce
 fill that gap — a NR4A3 degrader (rationalised by the very structural finding that rules out occupancy,
 its make-or-break fusion-addiction premise supported only as a class prior and explicitly gated on a
 dTAG test) and a uniquely tumour-specific fusion-junction ASO/siRNA (whose first transcriptome-wide
-screen sets a concrete specificity bar and whose delivery we propose but do not solve). The benchmark
-throughout is the **existing standard of care** — R0 surgery ± radiotherapy and, for advanced disease,
-anti-angiogenic TKIs (ORR ~18%) and anthracycline chemotherapy that mostly stabilizes — against which
-the repurposing moves (adding ICI to the TKI; trabectedin combinations; carfilzomib on the anthracycline
-backbone) are honest incremental improvements, and the driver-directed and surface/antigen routes
-(B7-H3, PRAME promoted on surrogate data) are the attempts at a step change. Every route, including our
-own flagship, carries an explicit decisive experiment and kill-criterion. We invite groups with EMC
-models or patients to run them.
+screen sets a concrete specificity bar and whose delivery we propose but do not solve). The gap is
+**categorical**: current EMC care — surgery ± radiotherapy, anti-angiogenic TKIs, anthracycline
+chemotherapy — is entirely generic or borrowed, and *nothing in use targets the driver*. We make no
+efficacy claim against that standard (our candidates are untested and such a claim would be unprovable);
+we claim only that the driver-directed routes, and the surface/antigen routes promoted on surrogate data
+(B7-H3, PRAME), are *targeted* where the standard is not, and that each is testable. Every route,
+including our own flagship, carries an explicit decisive experiment and kill-criterion. We invite groups
+with EMC models or patients to run them.
 
 ## References (verified in the underlying analyses; collate to journal format; run verify-refs before submission)
 NR4A3/EMC biology and EWSR1::NR4A3 → PPARG (PMC4429309); EMC neuroendocrine phenotype / INSM1
