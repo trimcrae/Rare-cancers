@@ -1,0 +1,53 @@
+name: GPU — NR4A3 ternary (Boltz, AWS SageMaker)
+
+# Runs the NR4A3–PROTAC–E3 ternary Boltz-2 prediction as a managed AWS SageMaker Processing job:
+# AWS provisions a GPU, enforces a hard MaxRuntime cap, and tears the instance down on completion.
+# Manual-dispatch. REQUIRES the same repo secrets as the MD job:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN  (region is a workflow input)
+# New AWS accounts need a GPU service-quota increase first — see deploy/aws-sagemaker-setup.md.
+#
+# With no protac_smiles, only the checkable CRBN+lenalidomide control runs. Supply a PROTAC SMILES
+# (once a selective NR4A3 warhead is designed) to run the real NR4A3-LBD+CRBN+PROTAC ternary.
+
+on:
+  workflow_dispatch:
+    inputs:
+      protac_smiles:
+        description: "PROTAC SMILES for the real ternary (blank = run CRBN+ligand control only)"
+        default: ""
+        required: false
+      instance:
+        description: "SageMaker GPU instance type"
+        default: "ml.g5.2xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where you deployed the stack + got the GPU quota"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200" boto3
+      - name: Submit SageMaker ternary job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          PROTAC_SMILES: ${{ inputs.protac_smiles }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first (region is a workflow input). See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_ternary_sagemaker.py

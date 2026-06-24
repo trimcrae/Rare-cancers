@@ -59,6 +59,10 @@ jobs:
         continue-on-error: true
         run: python research/modalities/nr4a_selectivity.py
 
+      - name: NR4A3–PROTAC–E3 ternary input prep + control assembly (CPU; Boltz run is GPU-only)
+        continue-on-error: true
+        run: python research/modalities/nr4a3_ternary.py
+
       - name: Fusion-junction neoantigen prediction
         continue-on-error: true
         run: python research/modalities/fusion_neoantigen.py
@@ -128,6 +132,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/res"
           cp research/modalities/nr4a3-structure-assessment.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-selectivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/nr4a3-ternary-prep.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/aso-insilico-evaluation.json "$RUNNER_TEMP/res/" 2>/dev/null || true

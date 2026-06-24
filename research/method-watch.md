@@ -51,8 +51,11 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
 - **[2026-06-24] AF3-class ternary modelling is now usable** (tool watch: AlphaFold3 v3.0.3,
   Boltz v2.2.1, Protenix v2.0.0; + a wave of fresh PROTAC-degrader papers). This crosses the
   *"open AF3-class ternary-complex prediction"* trigger → **model the NR4A3–PROTAC–E3 ternary
-  complex** (degradability geometry / accessible-lysine check) with Boltz/Protenix. Status: **open**
-  (GPU task; degrader spec `nr4a3-degrader-design-spec.md` §"GPU experiment plan" point 3).
+  complex** (degradability geometry / accessible-lysine check) with Boltz/Protenix. Status:
+  **pipeline BUILT, awaiting GPU** — `nr4a3_ternary.py` (CPU prep + CRBN+lenalidomide positive
+  control, validated in modalities-run CI) + `nr4a3_ternary_sagemaker.py` + `boltz_src/entry.py` +
+  `gpu-ternary-aws.yml` (dispatch-only). Runs the moment AWS GPU access lands; the real ternary
+  completes when a warhead SMILES exists (degrader experiment #2). See degrader spec point 3.
 - **[2026-06-24] Degrader precedent in a sibling FET-fusion sarcoma — VERIFY BEFORE CITING.**
   Digest title only: *"Discovery and characterization of YSA64, a RBM39 degrader with in vivo
   efficacy and potent cellular activity in pediatric Ewing sarcoma A673"* (Europe PMC MED/42085934,

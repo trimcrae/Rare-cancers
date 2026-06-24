@@ -211,6 +211,35 @@ at `research/method-watch.md`. Reuses the repo's scheduled-probe pattern (`fetch
 - *Trap to avoid:* over-engineering a "capability detector." A periodic search digest + this trigger
   table is enough.
 
+### Q4 — Low-latency dissemination (keep the roadmap fresher than the journal cycle)
+**Problem.** Peer review is months-slow; the method/treatment landscape moves in weeks (this repo
+already re-graded routes mid-cycle: degrader downgraded then re-primed once Boltz shipped; ASO added;
+delivery vector identified). A single journal paper is **stale on arrival** for the volatile parts.
+**Principle: put volatility in the low-latency layer and stability in the slow one.** Three tiers,
+each matched to how fast its content changes:
+
+- **Tier A — the git repo *is* the living roadmap (latency: instant, fully in our control).**
+  `emc-treatment-roadmap.md` + `IDEAS.md` are already version-controlled and updated the moment a
+  finding lands. Make this official: maintain a dated **changelog** at the top of the roadmap (what
+  changed, why, which method-watch hit drove it) so a reader sees the live state and its provenance.
+  The method-watch digest (Q3) is the automated *input* to this layer.
+- **Tier B — citable, versioned snapshots (latency: minutes–days).** Wire **GitHub releases →
+  Zenodo** so every tagged release mints a **versioned DOI** archiving that state of the roadmap;
+  and post the roadmap as a **bioRxiv preprint we bump (v2, v3…)** as Tier-1/2 routes change —
+  i.e., treat it as a *living preprint / living review*, an accepted genre. Cadence: cut a
+  release/DOI on any **Tier-1/2 route change** (or monthly if anything changed); bump the preprint on
+  any change a reader would act on differently.
+- **Tier C — peer-reviewed journal (latency: months, occasional).** Reserve this for the **stable
+  core** that *doesn't* decay: the falsifiable kill-criteria framework, the methodology (pooling,
+  citation map), and the "why pursue an ultra-rare cancer / broaden-to-common" argument. The journal
+  paper should **explicitly delegate the live portfolio** to the low-latency layer — e.g. *"the
+  current route prioritization is maintained at <repo + latest Zenodo DOI>"* — so its slowness never
+  makes it wrong, only less current on rankings it already disclaims.
+
+**Net:** the paper earns credibility once; the roadmap stays current continuously; the DOI/preprint
+layer makes the current state citable in between. Build order: changelog (now, free) → Zenodo release
+hook → preprint with a "living" banner pointing at the repo.
+
 ## Source memos
 `immunotherapy-options-emc.md` · `emerging-modalities-scan-emc.md` · `car-t-strategies-emc.md` ·
 `degrader-vs-synthetic-lethal.md` (+ `depmap-sarcoma-dependency.json`) · `hla-coverage-emc.md`

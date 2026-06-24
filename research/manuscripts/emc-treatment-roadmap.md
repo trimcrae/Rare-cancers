@@ -5,6 +5,20 @@ publish-to-convince artifact. Built entirely from the tracker (`emc-treatment-st
 in-silico results in `research/modalities/`. Every claim is sourced or computed; nothing is wet-lab
 validated, and the paper says so throughout.*
 
+> **Living document.** This roadmap is maintained continuously in git and is intended to move faster
+> than the peer-review cycle (rationale + dissemination tiers: `emc-treatment-strategy.md` → Q4). The
+> peer-reviewed version covers the stable core (kill-criteria framework, methodology); the **current
+> route prioritization lives here and in the latest tagged release/DOI.** Material changes are logged
+> below; the `method-watch` digest is the automated input that drives them.
+>
+> **Changelog**
+> - *2026-06-24* — Added the junction **ASO/siRNA** route (Tier 2) + its in-silico evaluation arm and
+>   first result (0/5 gapmers transcriptome-clean → specificity bar to clear); added the **delivery
+>   strategy** (B7-H3 AOC/siRNA). Degrader **ternary-complex** modelling re-primed (open AF3-class
+>   tools shipped) and pipeline built. Recorded a degrader-modality precedent in Ewing sarcoma
+>   (YSA64, RBM39 — *to verify*).
+> - *2026-06* — Initial ranked portfolio (repurposing / degrader / surface-antigen / down-weighted).
+
 ## Abstract
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma defined by an EWSR1::NR4A3 (or
 TAF15::NR4A3) fusion that produces an aberrant, undruggable transcription factor. It has no approved

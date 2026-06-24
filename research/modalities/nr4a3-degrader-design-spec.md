@@ -46,6 +46,15 @@ PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despit
   being collapsed (consistent with our fpocket druggability 0.495).
 - The fusion **retains the entire ordered NR4A3 LBD** (the warhead-binding region), so a LBD binder
   hits the oncoprotein.
+- **Degrader modality delivers in a sibling FET-fusion sarcoma (precedent, contextual).** A 2026
+  report describes **YSA64, an RBM39 degrader with in vivo efficacy and potent cellular activity in
+  pediatric Ewing sarcoma (A673)** (Europe PMC `MED/42085934`; *title-level — full text to verify via
+  `fetch-literature.yml` before final citation*). This is a useful *modality* precedent — a
+  CRBN-recruiting degrader achieving in vivo activity in an EWSR1-fusion sarcoma — **but note it
+  degrades the RBM39 splicing dependency, not the fusion oncoprotein itself**, so it supports
+  "degraders are tractable and efficacious in FET-fusion sarcoma," not "the fusion was degraded." It
+  does not lower our specific bottleneck (a selective NR4A3 warhead) but does de-risk the modality
+  bet for the route.
 
 ## Target definition (exact inputs)
 - **Protein:** NR4A3 / NOR-1, UniProt **Q92570**. Warhead-binding region = the **ligand-binding
@@ -113,8 +122,20 @@ weaknesses. Ranked by impact-per-effort:
      to the LBD surface (a biologic degrader handle if small-molecule selectivity stalls).
    ~2–5 GPU-days for a first candidate set.
 
-*(Lower priority, also GPU:* AF3/AF2-multimer ternary NR4A3–PROTAC–CRBN/VHL modelling for
-degradability geometry; AF3 of the fusion↔coactivator interface for the transcriptional route.)*
+3. **Ternary-complex (degradability geometry) — newly tractable, pipeline PRIMED.** Previously parked
+   as "lower priority" because open AF3-class ligand+multimer prediction wasn't available. As of
+   2026-06 it **is**: AlphaFold3 (v3.0.x), **Boltz-2**, and Protenix are released (method-watch hit).
+   This unblocks modelling the **NR4A3–PROTAC–E3 (CRBN/VHL) ternary complex** to score whether a
+   recruited PROTAC presents a **degradable-lysine geometry** — the degrader route's "is it
+   geometrically degradable" question, now answerable in-silico. **Pipeline prepared:**
+   `nr4a3_ternary.py` (Boltz-2; Protenix/AF3 are documented swap-ins per the "keep pipelines modular"
+   principle) + `nr4a3_ternary_sagemaker.py` + `gpu-ternary-aws.yml`, mirroring the MD pipeline.
+   Because no NR4A3 warhead/PROTAC exists yet, the script (a) runs a **CPU/CI input-prep + a
+   checkable positive control** now (CRBN + its known ligand lenalidomide — does Boltz seat the E3
+   ligand in CRBN's tri-Trp pocket?), and (b) emits the **NR4A3-LBD + CRBN + PROTAC** input
+   *template* that completes the moment a warhead SMILES is in hand (from experiment 2). Needs GPU
+   only to *run* (graceful CI skip, like the MD). *(Also primed for later: AF3 of the
+   fusion↔coactivator interface for the transcriptional route.)*
 
 **What I'll prep now (CPU) so GPU time is spent immediately:** the OpenMM MD setup script (system
 build/solvation/run config for the AF2 LBD) and the selectivity-scoring harness (NR4A1/2 off-target

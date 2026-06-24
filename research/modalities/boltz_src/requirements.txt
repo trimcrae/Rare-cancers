@@ -1,0 +1,4 @@
+# Installed into the SageMaker GPU container before entry.py runs.
+# Boltz-2 (open AF3-class protein+ligand+multimer prediction) pulls its own torch/CUDA stack;
+# pinned loosely so AWS's base image resolves a compatible build.
+boltz
