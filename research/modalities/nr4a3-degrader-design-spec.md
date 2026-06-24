@@ -29,9 +29,16 @@ moment compute/tooling is in hand.
   MD-relaxed ensemble (the orthosteric pocket is collapsed/dynamic, so an ensemble matters).
 - **Off-targets for selectivity:** NR4A1 (P22736) and NR4A2/Nurr1 (P43354) LBDs — the warhead must
   be NR4A3-selective (the NR4A1 PROTAC's failure to hit NR4A3 shows the family is distinguishable).
-  **Pre-computed:** `nr4a_selectivity.py` → `nr4a-selectivity.json` characterises all three LBD
-  pockets and lists the NR4A3 pocket residues that *diverge* from NR4A1/2 — the positions a selective
-  warhead should exploit (constrain generation/scoring to favour contacts there).
+  **Pre-computed (result):** `nr4a_selectivity.py` → `nr4a-selectivity.json`. Of 10 NR4A3 top-pocket
+  lining residues, **7 diverge** from both paralogues — the selectivity handles:
+  **L406** (NR4A3) vs H/H (NR4A1/2), **R412** vs A/T (a charge unique to NR4A3), **I484** vs Y/Y
+  (smaller → more room), T407, T410, I531, L534. Constrain generation/scoring to make specific
+  contacts at these (esp. L406, R412, I484).
+  **Important caveat:** NR4A3's pocket is the *least* druggable of the three (fpocket 0.495 vs NR4A1
+  0.657, NR4A2 0.801) — so a naive NR4A binder could *prefer* the off-targets; selectivity must be
+  *designed* at the divergent positions, not assumed (consistent with the NR4A1-PROTAC-not-hitting-
+  NR4A3 precedent). These handles are a v1 from the static AF2 pocket; refine against the
+  MD-revealed conformer.
 
 ## Pipeline
 1. **Site characterisation (CPU — do first).** Dock the known **inverse NOR-1 agonists** and
