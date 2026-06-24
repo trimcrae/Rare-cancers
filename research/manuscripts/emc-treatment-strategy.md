@@ -204,8 +204,21 @@ Mining DepMap 24Q4 with sarcoma lines as the EMC surrogate (pipeline validated o
 Standing program decisions. Revisit as results and tools land.
 
 ### Q1 — Scope of the FIRST paper
-**Decision: paper 1 is the prioritized-portfolio roadmap (`emc-treatment-roadmap.md`) — not the
-MD→de-novo degrader, and not a broadened rare-cancer framework.**
+**Decision (REVISED 2026-06-24): paper 1 is the computation-only `emc-treatment-roadmap.md`, but its
+*contribution* is reframed from "the prioritized portfolio" to "a method + a driver-directed program."**
+The earlier framing (below) made the *ranking of mostly-known repurposed drugs* the headline, which
+reads as review-grade and invites a "what's new?" rejection. Revised framing: the contribution is (1)
+the reproducible two-axis triage **method**, (2) the **driver-directed program** against EWSR1::NR4A3
+itself (structural undruggability call → degrader + junction-ASO, each with first in-silico evidence and
+a make-or-break experiment), and (3) the **falsifiable kill-criterion** per route. The repurposing
+portfolio is demoted to *motivating landscape / triage output* (prior knowledge, labelled as such); its
+volatile ranking is delegated to the living layer (Q4), so the journal paper's claim is the stable
+core. **This does NOT promote the degrader *result* paper to paper 1** — the MD/warhead-design *results*
+remain the focused follow-on (paper 2, §below); paper 1 claims the program and the completed in-silico
+pieces, not the pending results. Original decision retained for the record:
+
+> **(Superseded framing) paper 1 is the prioritized-portfolio roadmap (`emc-treatment-roadmap.md`) — not
+> the MD→de-novo degrader, and not a broadened rare-cancer framework.**
 - The **degrader/MD→design paper is premature as paper 1** (no result yet: MD unrun, no designed
   candidate). It is the natural **paper 2** — a focused, higher-impact *result* paper once the
   cryptic-pocket MD + a designed selective warhead exist; it will cite paper 1.

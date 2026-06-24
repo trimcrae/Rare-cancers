@@ -12,10 +12,13 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 
 ## ▶ Active manuscript (the repo's #1 deliverable)
 
-- **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** — *"A prioritized, falsifiable
-  roadmap to a treatment for EWSR1::NR4A3 EMC — a computation-only triage."* The single paper
-  currently being developed for preprint/submission. It is a **living document** (changelog at
-  its top). If you came here to work on "the manuscript," this is it.
+- **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** — *"Attacking an 'undruggable' fusion
+  oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3 EMC."* The
+  single paper currently being developed for preprint/submission. **Its contribution is a method + a
+  driver-directed program** (degrader + junction-ASO against the fusion itself); the repurposing
+  portfolio is included as motivating landscape, not as the headline (rescope 2026-06-24, see
+  `emc-treatment-strategy.md` Q1). It is a **living document** (changelog at its top). If you came here
+  to work on "the manuscript," this is it.
 
 ## Strategy / source of truth (internal — not a manuscript)
 
