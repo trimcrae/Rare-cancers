@@ -46,7 +46,7 @@ jobs:
         run: |
           set -e
           python -m pip install --upgrade pip
-          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas matplotlib biopython
+          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas matplotlib biopython ViennaRNA
           mhcflurry-downloads fetch models_class1_presentation
 
       - name: Structure / druggability (NR4A3, EWSR1)
@@ -66,6 +66,10 @@ jobs:
       - name: Fusion-junction ASO design
         continue-on-error: true
         run: python research/modalities/junction_aso.py
+
+      - name: Fusion-junction ASO in-silico evaluation (off-target + accessibility)
+        continue-on-error: true
+        run: python research/modalities/aso_insilico.py
 
       - name: Breakpoint-resolved junction neoantigens (Ensembl exon structure)
         continue-on-error: true
@@ -126,6 +130,7 @@ jobs:
           cp research/modalities/nr4a-selectivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-neoantigen-predictions.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/aso-insilico-evaluation.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fusion-breakpoint-neoantigens.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/hla-coverage.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/epitope-allele-matrix.json "$RUNNER_TEMP/res/" 2>/dev/null || true

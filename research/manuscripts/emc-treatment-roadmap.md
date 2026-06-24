@@ -89,6 +89,18 @@ not lower in principle: the EMC junction is **GC-rich (~75–81%)**, outside the
 and **tumour delivery is the unsolved problem** for oligonucleotides generally. Degrader and ASO are
 **complementary** — potent-but-not-fusion-specific vs. fusion-specific-but-delivery-limited.
 
+The ASO route also has its own **in-silico evaluation arm** that advances it without a wet lab
+(`aso_insilico.py`), since its open questions are sequence/RNA problems, not structure problems:
+(i) a **transcriptome-wide off-target screen** — every candidate's target window is scanned against
+the whole human RefSeq transcriptome (GRCh38) for exact and ≤1-mismatch matches (seed-and-extend),
+because hybridization-dependent off-target RNase-H cleavage is the dominant gapmer-toxicity mode and
+"not a perfect complement of the two parents" is too weak a specificity bar; (ii) **target-site
+accessibility**, folding the fusion mRNA (ViennaRNA partition function) to rank candidates by the
+single-stranded probability of their RNase-H site (potency); and (iii) **sequence-liability filters**
+(CpG/TLR9 immunostimulation, G-quadruplex, homopolymer runs). The result is a ranked, off-target-
+screened shortlist rather than an untriaged design list. This advances *specificity and potency-site
+selection only* — it does **not** address delivery, which remains the route's gating problem.
+
 **Tier 3 — surface/antigen modalities (surrogate-supported).**
 - **B7-H3 (CD276):** expressed in **99% of sarcoma lines, high across every subtype including
   myxoid** (DepMap; on top of 97% pan-STS by IHC) → the antibody-drug conjugate ifinatamab
@@ -118,7 +130,7 @@ The value of this paper to a reader is the decisive next experiment and the kill
 |---|---|---|
 | TKI + ICI; trabectedin; carfilzomib+anthracycline | prospective EMC cohort / case series | fails to reproduce in EMC patients |
 | NR4A3 degrader | dTAG acute-degradation viability in EMC lines | degrading the fusion doesn't kill EMC cells |
-| Junction ASO/siRNA | junction-knockdown vs scrambled in EMC lines (spare parental transcripts) | no fusion knockdown, or undeliverable to tumour |
+| Junction ASO/siRNA | in-silico pre-screen (`aso_insilico.py`: zero transcriptome off-targets + accessible site), then junction-knockdown vs scrambled in EMC lines (spare parental transcripts) | candidate has off-target ≤1mm transcriptome hits, no fusion knockdown, or undeliverable to tumour |
 | B7-H3 ADC / CAR-T; FAP-RLT | EMC tissue IHC / FAP-PET, then the agent | EMC is target-negative |
 | PRAME ImmTAC/CAR | EMC PRAME IHC; brenetafusp basket enrolment | primary EMC PRAME-negative |
 | Synthetic-lethal/BRD9 | genome-wide CRISPR screen in EMC lines | (already down-weighted by DepMap) |
@@ -130,7 +142,12 @@ pocket opens that the static AlphaFold model misses — a positive result would 
 "undruggable" prior; (ii) **de-novo selective warhead/binder design** (structure-based generative
 small-molecule design; or RFdiffusion→ProteinMPNN→AF2 for a binder), scored for selectivity against
 the homologous NR4A1/NR4A2; (iii) public-data expression mining to substitute for unavailable EMC
-IHC. Scripts and a cloud-GPU pipeline are provided; the MD is the highest-value single experiment.
+IHC. For the **ASO** route — whose questions are sequence/RNA rather than structure — we run a
+CPU-only arm now (`aso_insilico.py`): a transcriptome-wide off-target screen against human RefSeq
+RNA, ViennaRNA target-site accessibility, and sequence-liability filters, yielding a ranked,
+off-target-screened gapmer shortlist. Scripts and a cloud-GPU pipeline are provided; the MD is the
+highest-value single GPU experiment, and the ASO off-target/accessibility screen is the
+highest-value experiment that needs no GPU at all.
 
 ## 6. Limitations
 Nothing here is experimentally validated in EMC. DepMap analyses use sarcoma lines as a **surrogate**
@@ -189,5 +206,7 @@ B7-H3 in soft-tissue sarcoma (PMC11523878); FAPI radioligand therapy in sarcoma 
 2022). Repurposing/ex-vivo: carfilzomib (top ex-vivo hit) ± anthracycline/venetoclax in two
 patient-derived EMC models (Bangerter et al., *Human Cell* 2023; PMID 36316541;
 `repurposing-hypotheses.md`). Fusion-junction ASO (5 fusion-specific gapmers; RNase-H mechanism): `junction_aso.py` /
-`novel-modalities.md` §3.2. Data: DepMap 24Q4 (CRISPR + OmicsExpression); AFND (HLA).
+`novel-modalities.md` §3.2; ASO in-silico evaluation (transcriptome off-target screen, ViennaRNA
+target-site accessibility, sequence-liability filters): `aso_insilico.py`. Data: DepMap 24Q4
+(CRISPR + OmicsExpression); AFND (HLA); human RefSeq RNA GRCh38.p14 (ASO off-target screen).
 *(Full citations live in the per-route memos; verify-refs before submission.)*
