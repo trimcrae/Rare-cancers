@@ -31,33 +31,34 @@ const EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search";
 const TOPICS = [
   {
     key: "virtual-cell / perturbation prediction",
-    query: '("virtual cell" OR "perturbation prediction" OR scGPT OR Geneformer OR "State model" OR "Arc Virtual Cell") AND (knockdown OR knockout OR essentiality OR dependency)',
+    // TITLE-anchor the method term (kills the date-sorted noise), AND a relevance clause.
+    query: '(TITLE:"virtual cell" OR TITLE:"perturbation prediction" OR TITLE:scGPT OR TITLE:Geneformer OR TITLE:"single-cell foundation model") AND (gene OR transcriptomic OR knockout OR knockdown OR essentiality)',
     trigger: "predicts held-out knockdown phenotype → test EMC EWSR1::NR4A3 fusion-dependence (the degrader make-or-break)",
   },
   {
     key: "AF3-class structure / ternary complex",
-    query: '(AlphaFold3 OR Boltz OR "Chai-1" OR RoseTTAFold) AND (ligand OR "ternary complex" OR PROTAC OR "small molecule")',
+    query: '(TITLE:AlphaFold3 OR TITLE:"AlphaFold 3" OR TITLE:Boltz OR TITLE:"Chai-1" OR TITLE:"ternary complex" OR TITLE:PROTAC OR TITLE:degrader) AND (structure OR ligand OR complex OR degradation)',
     trigger: "open ternary-complex prediction → model NR4A3–PROTAC–E3 degradability geometry",
   },
   {
     key: "de-novo selective small-molecule / binder design",
-    query: '("structure-based" OR "de novo" OR diffusion OR RFdiffusion OR ProteinMPNN) AND ("binder design" OR "molecule generation" OR "selectivity") AND ("nuclear receptor" OR kinase OR protein)',
+    query: '(TITLE:RFdiffusion OR TITLE:ProteinMPNN OR TITLE:"de novo design" OR TITLE:"binder design" OR TITLE:"generative model" OR TITLE:"structure-based drug design") AND (protein OR molecule OR inhibitor OR selectivity OR binder)',
     trigger: "reliable generative + selectivity scoring → design the NR4A3 warhead at the nr4a-selectivity.json handles",
   },
   {
     key: "cryptic-pocket / dynamics-based druggability",
-    query: '("cryptic pocket" OR "transient pocket" OR PocketMiner OR "induced fit" OR metadynamics) AND (druggable OR "binding site" OR ligand)',
+    query: '(TITLE:"cryptic pocket" OR TITLE:"cryptic site" OR TITLE:"transient pocket" OR TITLE:PocketMiner OR TITLE:druggability OR TITLE:"hidden pocket") AND (protein OR pocket OR binding OR ligand)',
     trigger: "robust cryptic-pocket prediction → re-grade the NR4A3 LBD undruggability prior without GPU MD",
   },
   {
     // NEW: an in-silico way to test/predict tumour delivery — the ASO/siRNA route's gate.
     key: "in-silico oligonucleotide / nanoparticle tumour-delivery prediction",
-    query: '("antibody oligonucleotide conjugate" OR "siRNA delivery" OR "lipid nanoparticle" OR "nanoparticle tumor" OR "endosomal escape" OR "tumor penetration") AND ("machine learning" OR "deep learning" OR predict* OR "in silico" OR computational OR PBPK OR model)',
+    query: '(TITLE:"oligonucleotide conjugate" OR TITLE:"antibody-oligonucleotide" OR TITLE:"siRNA delivery" OR TITLE:"tumor delivery" OR TITLE:"tumour delivery" OR TITLE:"endosomal escape" OR TITLE:"tumor penetration" OR TITLE:"tumour penetration") AND (predict OR prediction OR "machine learning" OR "deep learning" OR "in silico" OR computational OR model)',
     trigger: "usable in-silico delivery/biodistribution/endosomal-escape predictor → score the B7-H3-targeted junction-siRNA/AOC delivery and re-grade the ASO route feasibility",
   },
   {
     key: "NR4A3 / EWSR1::NR4A3 direct EMC advances",
-    query: '(NR4A3 OR NOR-1 OR "EWSR1-NR4A3" OR "extraskeletal myxoid chondrosarcoma") AND (inhibitor OR degrader OR ligand OR "small molecule" OR therapy OR vulnerability)',
+    query: '(TITLE:NR4A3 OR TITLE:NOR-1 OR TITLE:"EWSR1-NR4A3" OR TITLE:"EWSR1::NR4A3" OR TITLE:"myxoid chondrosarcoma" OR ABSTRACT:"EWSR1-NR4A3" OR ABSTRACT:NR4A3)',
     trigger: "any direct chemical/biological matter against NR4A3 or the fusion → fold into the relevant route memo immediately",
   },
 ];
