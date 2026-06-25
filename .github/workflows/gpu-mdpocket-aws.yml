@@ -17,6 +17,22 @@ on:
         description: "AWS region — must match where the stack + trajectory live"
         default: "us-east-2"
         required: false
+      input_prefix:
+        description: "S3 prefix holding the trajectory to analyze (nr4a3-md = plain MD; nr4a3-metad = metadynamics)"
+        default: "nr4a3-md"
+        required: false
+      dcd_name:
+        description: "trajectory filename (nr4a3-lbd-md.dcd or nr4a3-lbd-metad.dcd)"
+        default: "nr4a3-lbd-md.dcd"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the analysis results"
+        default: "nr4a3-mdpocket"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
 
 permissions:
   contents: read
@@ -37,6 +53,10 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          DCD_NAME: ${{ inputs.dcd_name }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."

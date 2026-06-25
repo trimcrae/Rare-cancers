@@ -37,7 +37,9 @@ def main():
     import mdtraj as md
 
     top = os.path.join(IN, "nr4a3-lbd-solvated.pdb")
-    dcd = os.path.join(IN, "nr4a3-lbd-md.dcd")
+    # DCD_NAME lets the same analysis run on either trajectory: the plain MD (nr4a3-lbd-md.dcd,
+    # default) or the metadynamics run (nr4a3-lbd-metad.dcd). Same 50 ps/frame stride either way.
+    dcd = os.path.join(IN, os.environ.get("DCD_NAME", "nr4a3-lbd-md.dcd"))
     for p in (top, dcd):
         if not os.path.exists(p):
             sys.exit(f"  ABORT: missing input {p} (expected the MD outputs mounted at INPUT_DIR)")
@@ -72,9 +74,18 @@ def main():
     # (ASSUMPTIONS.md #6). Reported as production-frame-0 baseline, labelled honestly.
     baseline = float(pocket_sasa[0])
     opening = pocket_sasa - baseline
+    dcd_name = os.path.basename(dcd)
+    biased = "metad" in dcd_name      # metadynamics frames are biased samples, not a free population
     summary = {
         "frames": int(t.n_frames),
         "ns_per_frame": NS_PER_FRAME,
+        "trajectory": dcd_name,
+        "biased_sampling": biased,
+        "sampling_note": ("METADYNAMICS trajectory: frames are BIASED toward pocket opening, so "
+                          "per-frame druggability shows whether an OPENED conformation reaches "
+                          ">=0.5 (a structural feasibility readout), NOT an unbiased population or "
+                          "free energy. Use fes.dat for the energetics." if biased else
+                          "Unbiased MD: per-frame druggability reflects spontaneous breathing."),
         "pocket_residue_range": [POCKET_FIRST, POCKET_LAST],
         "residue_numbering": numbering,
         "pocket_residues_matched": len(pocket_pos),

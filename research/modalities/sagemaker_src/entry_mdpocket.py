@@ -14,9 +14,17 @@ OUT = "/opt/ml/processing/output"
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dcd-name", default="nr4a3-lbd-md.dcd",
+                    help="trajectory filename in the mounted input dir (use nr4a3-lbd-metad.dcd "
+                         "for the metadynamics run)")
+    ap.add_argument("--git-ref", default="main", help="repo ref to run; default main")
+    args = ap.parse_args()
+
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
                    check=False)
-    subprocess.run(["git", "clone", "--depth", "1",
+    subprocess.run(["git", "clone", "--depth", "1", "--branch", args.git_ref,
                     "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
     work = "/tmp/repo/research/modalities"
 
@@ -28,7 +36,9 @@ def main():
     env = os.environ.copy()
     env["INPUT_DIR"] = "/opt/ml/processing/input"
     env["OUTPUT_DIR"] = OUT
+    env["DCD_NAME"] = args.dcd_name
     os.makedirs(OUT, exist_ok=True)
+    print(f"[sagemaker] analyzing trajectory {args.dcd_name} (ref {args.git_ref})", flush=True)
     print("[sagemaker] running pocket analysis", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "an",
                         "python", "nr4a3_mdpocket.py"], cwd=work, env=env)
