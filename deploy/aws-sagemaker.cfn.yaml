@@ -42,6 +42,9 @@ Resources:
               - Effect: Allow            # upload the job's source bundle + read results
                 Action: [ s3:CreateBucket, s3:PutObject, s3:GetObject, s3:ListBucket, s3:GetBucketLocation ]
                 Resource: "*"
+              - Effect: Allow            # stream the job's CloudWatch logs back to CI (the submit runs logs=True)
+                Action: [ logs:GetLogEvents, logs:DescribeLogStreams, logs:DescribeLogGroups, logs:FilterLogEvents ]
+                Resource: "*"
 
   CIKey:
     Type: AWS::IAM::AccessKey
