@@ -134,17 +134,17 @@ def main():
 
 
 def _cv_ca_plumed_indices(topology):
-    """CA atom indices (PLUMED 1-based) of the CV residues. The LBD is trimmed contiguously from
-    LBD_FIRST, so protein residue at ordinal i corresponds to original residue LBD_FIRST + i —
-    robust to the solvated PDB being renumbered from 1."""
+    """CA atom indices (PLUMED 1-based) of the CV residues, via the unit-tested residue resolver
+    (handles the solvated PDB being renumbered from 1 vs. preserving AF2 numbering)."""
+    import residue_map as rm
     prot_residues = [r for r in topology.residues() if r.name in _AA]
-    cv_set = set(CV_RESIDUES)
+    resseqs = [r.resSeq for r in prot_residues]
+    positions, _ = rm.resolve_positions(resseqs, CV_RESIDUES, LBD_FIRST)
     out = []
-    for i, r in enumerate(prot_residues):
-        if LBD_FIRST + i in cv_set:
-            ca = next((a for a in r.atoms() if a.name == "CA"), None)
-            if ca is not None:
-                out.append(ca.index + 1)        # PLUMED indices are 1-based
+    for i in positions:
+        ca = next((a for a in prot_residues[i].atoms() if a.name == "CA"), None)
+        if ca is not None:
+            out.append(ca.index + 1)            # PLUMED indices are 1-based
     return out
 
 

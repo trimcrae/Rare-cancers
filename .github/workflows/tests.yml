@@ -1,0 +1,24 @@
+name: tests (modalities)
+
+# Runs the pure-Python unit tests for the research/modalities compute scripts on every push/PR.
+# These tests gate the parsing/mapping logic that the fpocket off-by-one bug lived in — no GPU/AWS
+# needed. Keep this green before dispatching any SageMaker experiment.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pytest
+      - run: python -m pytest research/modalities/tests -q

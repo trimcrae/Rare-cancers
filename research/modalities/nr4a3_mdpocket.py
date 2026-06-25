@@ -44,18 +44,12 @@ def main():
     prot = t.atom_slice(t.topology.select("protein"))      # strip water/ions
     print(f"  frames={t.n_frames} atoms={t.n_atoms} protein_atoms={prot.n_atoms}", flush=True)
 
-    # Map Pocket-5 onto the trajectory residues. OpenMM/PDBFixer may renumber the solvated PDB
-    # residues from 1 instead of preserving the AF2 numbering (373..626), so handle both: use
-    # resSeq if it still spans the pocket, else assume the LBD was trimmed contiguously from
-    # LBD_FIRST and map by position (original residue r -> position r - LBD_FIRST).
+    # Map Pocket-5 onto the trajectory residues via the unit-tested resolver (handles the solvated
+    # PDB being renumbered from 1 vs. preserving AF2 numbering — see residue_map.py).
+    import residue_map as rm
     prot_residues = list(prot.topology.residues)
     resseqs = [r.resSeq for r in prot_residues]
-    if min(resseqs) <= POCKET_FIRST and POCKET_LAST <= max(resseqs):
-        pocket_pos = [i for i, r in enumerate(prot_residues) if POCKET_FIRST <= r.resSeq <= POCKET_LAST]
-        numbering = "resSeq-preserved"
-    else:
-        pocket_pos = [i for i in range(len(prot_residues)) if POCKET_FIRST <= LBD_FIRST + i <= POCKET_LAST]
-        numbering = f"renumbered-assumed-contiguous-from-{LBD_FIRST}"
+    pocket_pos, numbering = rm.resolve_positions(resseqs, range(POCKET_FIRST, POCKET_LAST + 1), LBD_FIRST)
     print(f"  residue numbering: {numbering} (resSeq {min(resseqs)}..{max(resseqs)}); "
           f"pocket residues matched: {len(pocket_pos)}", flush=True)
     if not pocket_pos:

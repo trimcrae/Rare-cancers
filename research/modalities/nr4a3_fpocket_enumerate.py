@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Enumerate the exact lining residues of NR4A3 Pocket-5 (the orthosteric/degrader site) by re-running
-fpocket on the AF2 model with per-pocket residue output. nr4a3-structure-assessment.json stored only
-the pocket's residue min/max + count; the metadynamics collective variable needs the *precise* set.
+Enumerate the exact lining residues of the NR4A3 LBD pockets by running fpocket on the AF2 model, and
+report which pocket is the most druggable LBD cavity and which holds the selectivity handles.
 
-Identifies the LBD pocket — the one whose lining residues overlap the known 406-534 span (tie-broken
-by druggability closest to the recorded 0.495) — and writes its lining residues (restricted to the
-ordered LBD, 373-626) as the CV atom set.
+The file<->pocket mapping is DERIVED from the data (alpha-sphere fingerprints; see fpocket_lib) and
+asserted bijective — it does NOT assume a 0- or 1-based fpocket file convention. (That assumption was
+the off-by-one that mis-attributed a 0.495 druggability to the wrong residues in
+nr4a3-structure-assessment.json.) The derived mapping is cross-printed against the naive +0/+1
+assumptions so the real convention is auditable in the log.
 
-INPUT_DIR (default /opt/ml/processing/input) must contain AF-Q92570.pdb (the full AF2 model, as
-saved by the MD job to s3://<bucket>/nr4a3-md). OUTPUT_DIR (default /opt/ml/processing/output)
-receives pocket5_lining_residues.json. The AF2 model uses UniProt numbering, so resSeq == residue.
+INPUT_DIR (default /opt/ml/processing/input) must contain AF-Q92570.pdb. OUTPUT_DIR receives
+pocket5_lining_residues.json. The AF2 model uses UniProt numbering, so resSeq == residue.
 """
 import glob
 import json
@@ -20,12 +20,17 @@ import shutil
 import subprocess
 import sys
 
+import fpocket_lib as fl
+
 LBD_FIRST, LBD_LAST = 373, 626
-KNOWN_POCKET = (406, 534)                      # Pocket-5 span from nr4a3-structure-assessment.json
-KNOWN_DRUGGABILITY = 0.495
-HANDLES = [406, 407, 410, 412, 484, 531, 534]  # 7 selectivity-divergent handles (nr4a-selectivity.json)
+HANDLES = [406, 407, 410, 412, 484, 531, 534]   # 7 selectivity-divergent handles (nr4a-selectivity.json)
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
+
+
+def _read(path):
+    with open(path) as fh:
+        return fh.read()
 
 
 def main():
@@ -43,35 +48,51 @@ def main():
     print("  running fpocket", flush=True)
     subprocess.run(["fpocket", "-f", local_pdb], check=True)
     out_dir = os.path.join(work, "AF-Q92570_out")
-    drug = _druggability(os.path.join(out_dir, "AF-Q92570_info.txt"))
+
+    info = fl.parse_info(_read(os.path.join(out_dir, "AF-Q92570_info.txt")))
+    out_pdb = os.path.join(out_dir, "AF-Q92570_out.pdb")
+    out_coords = fl.out_pdb_sphere_coords(_read(out_pdb)) if os.path.exists(out_pdb) else {}
+
+    # Gather per-file (file_index) data from the residue + vertex files.
+    file_residues, file_counts, file_coords = {}, {}, {}
+    for f in glob.glob(os.path.join(out_dir, "pockets", "pocket*_atm.pdb")):
+        fidx = int(re.search(r"pocket(\d+)_atm", f).group(1))
+        file_residues[fidx] = fl.parse_atm_residues(_read(f))
+        vert = os.path.join(out_dir, "pockets", f"pocket{fidx}_vert.pqr")
+        coords = fl.pqr_sphere_coords(_read(vert)) if os.path.exists(vert) else frozenset()
+        file_coords[fidx] = coords
+        file_counts[fidx] = len(coords)
+    if not file_residues:
+        sys.exit("  ABORT: fpocket produced no pocket residue files")
+
+    # DERIVE the file -> info-pocket-number mapping (raises loudly on any ambiguity).
+    mapping = fl.map_files_to_pockets(info, file_counts, file_coords, out_coords)
+
+    # Audit: how the data-derived mapping compares to the naive +0 / +1 filename assumptions.
+    print("  MAPPING AUDIT (file_idx -> derived pocket | +0 assume | +1 assume):", flush=True)
+    for fidx in sorted(mapping):
+        print(f"    file {fidx:>2} -> pocket {mapping[fidx]:>2} | +0={fidx} | +1={fidx + 1}",
+              flush=True)
 
     pockets = []
-    for f in sorted(glob.glob(os.path.join(out_dir, "pockets", "pocket*_atm.pdb"))):
-        pid = int(re.search(r"pocket(\d+)_atm", f).group(1)) + 1     # files 0-indexed; info.txt 1-indexed
-        resids = _residues(f)
+    for fidx, resids in file_residues.items():
+        pid = mapping[fidx]
         pockets.append({
             "pocket": pid,
-            "druggability": drug.get(pid),
+            "druggability": info[pid]["druggability"],
+            "alpha_spheres": info[pid]["alpha_spheres"],
             "n_residues": len(resids),
             "residues": resids,
             "n_in_lbd": sum(LBD_FIRST <= r <= LBD_LAST for r in resids),
             "n_handles": sum(r in HANDLES for r in resids),
         })
-    if not pockets:
-        sys.exit("  ABORT: fpocket produced no pockets")
 
-    # Select the orthosteric/druggable LBD pocket the SAME way the manuscript did: highest
-    # druggability among pockets with residues in the LBD. (A prior overlap-first selector grabbed
-    # a low-druggability overlapping sub-pocket — the 0.026-vs-0.495 discrepancy.)
-    lbd_pockets = [p for p in pockets if p["n_in_lbd"] > 0]
-    if not lbd_pockets:
+    selected = fl.select_druggable_lbd_pocket(pockets, LBD_FIRST, LBD_LAST)
+    if selected is None:
         sys.exit("  ABORT: no fpocket pocket has residues in the LBD (373-626)")
-    selected = max(lbd_pockets, key=lambda p: (p["druggability"] or 0))
     cv_residues = sorted(r for r in selected["residues"] if LBD_FIRST <= r <= LBD_LAST)
-    # Cross-check: which pocket actually holds the known selectivity handles?
     handle_pocket = max(pockets, key=lambda p: p["n_handles"])
 
-    # Full table to the log so the result is auditable against nr4a3-structure-assessment.json.
     print("  FULL POCKET TABLE (pocket | druggability | n_res | n_in_lbd | n_handles | res_range):",
           flush=True)
     for p in sorted(pockets, key=lambda p: (p["druggability"] or 0), reverse=True):
@@ -80,50 +101,25 @@ def main():
               f"lbd {p['n_in_lbd']:>2} | handles {p['n_handles']} | {rr}", flush=True)
 
     result = {
-        "selected_pocket": selected["pocket"],
+        "selected_druggable_pocket": selected["pocket"],
         "selected_druggability": selected["druggability"],
-        "selection_rule": "highest druggability among LBD pockets (matches manuscript)",
-        "cv_residues": cv_residues,
-        "n_cv_residues": len(cv_residues),
+        "selection_rule": "highest druggability among LBD pockets",
+        "cv_residues_druggable": cv_residues,
         "handle_pocket": handle_pocket["pocket"],
         "handle_pocket_druggability": handle_pocket["druggability"],
+        "handle_pocket_residues": sorted(r for r in handle_pocket["residues"]
+                                         if LBD_FIRST <= r <= LBD_LAST),
         "handle_pocket_n_handles": handle_pocket["n_handles"],
+        "file_to_pocket_mapping": {str(k): v for k, v in mapping.items()},
         "all_pockets": pockets,
     }
     with open(os.path.join(OUT, "pocket5_lining_residues.json"), "w") as fh:
         json.dump(result, fh, indent=2)
-    print(f"  SELECTED (druggable) pocket {selected['pocket']} (druggability "
-          f"{selected['druggability']}); CV residues ({len(cv_residues)}): {cv_residues}", flush=True)
+    print(f"  DRUGGABLE pocket {selected['pocket']} (druggability {selected['druggability']}); "
+          f"LBD residues: {cv_residues}", flush=True)
     print(f"  HANDLE pocket {handle_pocket['pocket']} (druggability {handle_pocket['druggability']}) "
-          f"holds {handle_pocket['n_handles']}/{len(HANDLES)} handles", flush=True)
-
-
-def _residues(atm_pdb):
-    res = set()
-    with open(atm_pdb) as fh:
-        for line in fh:
-            if line.startswith(("ATOM", "HETATM")):
-                try:
-                    res.add(int(line[22:26]))
-                except ValueError:
-                    pass
-    return sorted(res)
-
-
-def _druggability(info_path):
-    drug, pid = {}, None
-    if not os.path.exists(info_path):
-        return drug
-    with open(info_path) as fh:
-        for line in fh:
-            m = re.match(r"\s*Pocket\s+(\d+)\s*:", line)
-            if m:
-                pid = int(m.group(1))
-            elif pid is not None and "Druggability Score" in line:
-                m2 = re.search(r"([0-9.]+)", line.split(":", 1)[1])
-                if m2:
-                    drug[pid] = float(m2.group(1))
-    return drug
+          f"holds {handle_pocket['n_handles']}/{len(HANDLES)} handles; "
+          f"residues: {result['handle_pocket_residues']}", flush=True)
 
 
 if __name__ == "__main__":
