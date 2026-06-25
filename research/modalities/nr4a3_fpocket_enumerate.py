@@ -23,6 +23,7 @@ import sys
 LBD_FIRST, LBD_LAST = 373, 626
 KNOWN_POCKET = (406, 534)                      # Pocket-5 span from nr4a3-structure-assessment.json
 KNOWN_DRUGGABILITY = 0.495
+HANDLES = [406, 407, 410, 412, 484, 531, 534]  # 7 selectivity-divergent handles (nr4a-selectivity.json)
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
 
@@ -54,26 +55,47 @@ def main():
             "n_residues": len(resids),
             "residues": resids,
             "n_in_lbd": sum(LBD_FIRST <= r <= LBD_LAST for r in resids),
-            "overlap_with_known_406_534": sum(KNOWN_POCKET[0] <= r <= KNOWN_POCKET[1] for r in resids),
+            "n_handles": sum(r in HANDLES for r in resids),
         })
     if not pockets:
         sys.exit("  ABORT: fpocket produced no pockets")
 
-    selected = max(pockets, key=lambda p: (p["overlap_with_known_406_534"],
-                                            -abs((p["druggability"] or 0) - KNOWN_DRUGGABILITY)))
+    # Select the orthosteric/druggable LBD pocket the SAME way the manuscript did: highest
+    # druggability among pockets with residues in the LBD. (A prior overlap-first selector grabbed
+    # a low-druggability overlapping sub-pocket — the 0.026-vs-0.495 discrepancy.)
+    lbd_pockets = [p for p in pockets if p["n_in_lbd"] > 0]
+    if not lbd_pockets:
+        sys.exit("  ABORT: no fpocket pocket has residues in the LBD (373-626)")
+    selected = max(lbd_pockets, key=lambda p: (p["druggability"] or 0))
     cv_residues = sorted(r for r in selected["residues"] if LBD_FIRST <= r <= LBD_LAST)
+    # Cross-check: which pocket actually holds the known selectivity handles?
+    handle_pocket = max(pockets, key=lambda p: p["n_handles"])
+
+    # Full table to the log so the result is auditable against nr4a3-structure-assessment.json.
+    print("  FULL POCKET TABLE (pocket | druggability | n_res | n_in_lbd | n_handles | res_range):",
+          flush=True)
+    for p in sorted(pockets, key=lambda p: (p["druggability"] or 0), reverse=True):
+        rr = f"{p['residues'][0]}-{p['residues'][-1]}" if p["residues"] else "-"
+        print(f"    pocket {p['pocket']:>2} | drug {p['druggability']} | n {p['n_residues']:>2} | "
+              f"lbd {p['n_in_lbd']:>2} | handles {p['n_handles']} | {rr}", flush=True)
 
     result = {
         "selected_pocket": selected["pocket"],
         "selected_druggability": selected["druggability"],
+        "selection_rule": "highest druggability among LBD pockets (matches manuscript)",
         "cv_residues": cv_residues,
         "n_cv_residues": len(cv_residues),
+        "handle_pocket": handle_pocket["pocket"],
+        "handle_pocket_druggability": handle_pocket["druggability"],
+        "handle_pocket_n_handles": handle_pocket["n_handles"],
         "all_pockets": pockets,
     }
     with open(os.path.join(OUT, "pocket5_lining_residues.json"), "w") as fh:
         json.dump(result, fh, indent=2)
-    print(f"  SELECTED pocket {selected['pocket']} (druggability {selected['druggability']}); "
-          f"CV residues ({len(cv_residues)}): {cv_residues}", flush=True)
+    print(f"  SELECTED (druggable) pocket {selected['pocket']} (druggability "
+          f"{selected['druggability']}); CV residues ({len(cv_residues)}): {cv_residues}", flush=True)
+    print(f"  HANDLE pocket {handle_pocket['pocket']} (druggability {handle_pocket['druggability']}) "
+          f"holds {handle_pocket['n_handles']}/{len(HANDLES)} handles", flush=True)
 
 
 def _residues(atm_pdb):
