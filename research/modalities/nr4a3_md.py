@@ -100,6 +100,14 @@ def main():
                              nonbondedCutoff=1.0 * unit.nanometer, constraints=app.HBonds)
     integrator = mm.LangevinMiddleIntegrator(310 * unit.kelvin, 1.0 / unit.picosecond,
                                              2.0 * unit.femtosecond)
+    avail = [mm.Platform.getPlatform(i).getName() for i in range(mm.Platform.getNumPlatforms())]
+    print(f"  OpenMM platforms available: {avail}", file=sys.stderr)
+    try:
+        fails = list(mm.Platform.getPluginLoadFailures())
+        if fails:
+            print(f"  OpenMM plugin load failures: {fails}", file=sys.stderr)
+    except Exception:  # noqa: BLE001 — diagnostics only
+        pass
     sim = app.Simulation(modeller.topology, system, integrator)  # OpenMM auto-selects fastest platform
     used = sim.context.getPlatform().getName()
     print(f"  OpenMM platform: {used}", file=sys.stderr)

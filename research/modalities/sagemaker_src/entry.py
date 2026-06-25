@@ -34,8 +34,14 @@ def main():
     # build matching the GPU driver — and run the MD with that env's python.
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating conda env with CUDA OpenMM via {conda}", flush=True)
+    create_env = os.environ.copy()
+    # The Processing container doesn't expose the GPU driver to conda's solver, so
+    # __cuda isn't auto-detected and conda would pick the CPU openmm build. Force the
+    # CUDA virtual package so it resolves the driver-matched GPU build.
+    create_env["CONDA_OVERRIDE_CUDA"] = "12.8"
     subprocess.run([conda, "create", "-y", "-n", "md", "-c", "conda-forge",
-                    "python=3.11", "openmm", "pdbfixer"], check=True)
+                    "python=3.11", "openmm", "pdbfixer"], check=True, env=create_env)
+    subprocess.run([conda, "list", "-n", "md", "openmm"], check=False)  # log build str (cuda vs cpu)
 
     env = os.environ.copy()
     env["NS"] = ns
