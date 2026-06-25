@@ -145,8 +145,9 @@ def pocket_residues_by_number(out_dir, stem_base):
         fidx = int(re.search(r"pocket(\d+)_atm", f).group(1))
         file_res[fidx] = fl.parse_atm_residues(_read(f))
         vert = os.path.join(out_dir, "pockets", f"pocket{fidx}_vert.pqr")
-        c = fl.pqr_sphere_coords(_read(vert)) if os.path.exists(vert) else frozenset()
-        coords[fidx], counts[fidx] = c, len(c)
+        vtext = _read(vert) if os.path.exists(vert) else ""
+        coords[fidx] = fl.pqr_sphere_coords(vtext)             # coordinate tie-break only
+        counts[fidx] = fl.count_pqr_spheres(vtext)             # TRUE count (raw lines), matches info.txt
     mapping = fl.map_files_to_pockets(info, counts, coords, out_coords)   # raises on ambiguity
     return {mapping[fidx]: res for fidx, res in file_res.items()}, info
 

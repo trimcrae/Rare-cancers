@@ -109,6 +109,22 @@ def test_pqr_sphere_coords_tolerates_chain_column():
     assert fl.pqr_sphere_coords(pqr) == frozenset({(1.23, 5.68, 9.01)})
 
 
+def test_count_pqr_spheres_is_raw_lines_not_deduped_coords():
+    """The mapping must use the TRUE alpha-sphere count (raw lines), not len(coords): two spheres that
+    round to the same xyz dedupe in the coord set and would undercount → spurious mapping failure
+    (the bug the regeneration caught)."""
+    pqr = (
+        "ATOM      1  C   STP 1       1.111   2.222   3.333  0.0  1.5\n"
+        "ATOM      2  C   STP 1       1.111   2.222   3.333  0.0  1.5\n"   # same rounded coord
+        "ATOM      3  C   STP 1       9.000   9.000   9.000  0.0  1.5\n"
+    )
+    assert fl.count_pqr_spheres(pqr) == 3                 # raw count — matches info.txt
+    assert len(fl.pqr_sphere_coords(pqr)) == 2            # deduped — would undercount
+    # mapping must succeed using the raw count
+    info = {1: {"alpha_spheres": 3}}
+    assert fl.map_files_to_pockets(info, {7: fl.count_pqr_spheres(pqr)}) == {7: 1}
+
+
 def test_select_druggable_lbd_pocket():
     pockets = [
         {"druggability": 0.495, "residues": [463, 547, 622]},   # in LBD, most druggable

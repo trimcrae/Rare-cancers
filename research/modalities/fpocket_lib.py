@@ -66,6 +66,13 @@ def pqr_sphere_coords(pqr_text, ndigits=2):
     return frozenset(coords)
 
 
+def count_pqr_spheres(pqr_text):
+    """TRUE alpha-sphere count = number of ATOM/HETATM records in a pocket{N}_vert.pqr. Use THIS to
+    match info.txt's 'Number of Alpha Spheres' — do NOT use len(pqr_sphere_coords(...)), which dedupes
+    spheres that round to the same coordinate and can undercount (that mismatch raises in mapping)."""
+    return sum(1 for line in pqr_text.splitlines() if line.startswith(("ATOM", "HETATM")))
+
+
 def out_pdb_sphere_coords(out_pdb_text, sphere_resname="STP", ndigits=2):
     """{pocket_number(int): frozenset((x,y,z))} from <name>_out.pdb alpha-sphere (STP) records, where
     each sphere atom's residue sequence number IS its (1-based) pocket number. Fixed PDB columns."""

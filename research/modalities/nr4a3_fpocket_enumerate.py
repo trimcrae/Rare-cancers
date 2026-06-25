@@ -59,9 +59,9 @@ def main():
         fidx = int(re.search(r"pocket(\d+)_atm", f).group(1))
         file_residues[fidx] = fl.parse_atm_residues(_read(f))
         vert = os.path.join(out_dir, "pockets", f"pocket{fidx}_vert.pqr")
-        coords = fl.pqr_sphere_coords(_read(vert)) if os.path.exists(vert) else frozenset()
-        file_coords[fidx] = coords
-        file_counts[fidx] = len(coords)
+        vtext = _read(vert) if os.path.exists(vert) else ""
+        file_coords[fidx] = fl.pqr_sphere_coords(vtext)        # for the coordinate tie-break only
+        file_counts[fidx] = fl.count_pqr_spheres(vtext)        # TRUE count (raw lines), matches info.txt
     if not file_residues:
         sys.exit("  ABORT: fpocket produced no pocket residue files")
 
