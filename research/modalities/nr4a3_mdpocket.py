@@ -2,14 +2,16 @@
 """
 Cryptic-pocket analysis of the NR4A3 LBD MD trajectory (post-processing for GPU experiment #1).
 
-The orthosteric (warhead-target) pocket is collapsed and ~undruggable in the static AF2 model
-(fpocket ~0.026 — corrected; see ASSUMPTIONS.md). This asks whether MD opens it, three ways:
+The orthosteric (warhead-target) pocket is borderline-druggable in the static AF2 model (fpocket
+0.495 — Pocket 5, residues 406-534; see ASSUMPTIONS.md), i.e. just under the conventional 0.5 cutoff.
+This asks whether MD pushes it over that line, three ways:
 
   1. SASA of the orthosteric lining residues (406-534) per frame (mdtraj shrake_rupley) — a rise
      suggests the site widening.
   2. **Per-frame fpocket druggability** of the orthosteric pocket — the FEASIBILITY readout: does the
-     static ~0.026 score reach a druggable >=0.5 at any frame? If never, a small-molecule orthosteric
-     warhead is not viable and we pivot (protein binder / AF-2 surface / ASO).
+     static 0.495 score cross the druggable >=0.5 threshold at any frame? If breathing reliably pushes
+     it over, the small-molecule orthosteric warhead is supported; if it instead collapses, the route
+     weakens and the backups (protein binder / AF-2 surface / ASO) gain weight.
   3. (best-effort) mdpocket transient-pocket density across the trajectory.
 
 Inputs (env INPUT_DIR, default /opt/ml/processing/input): nr4a3-lbd-solvated.pdb + nr4a3-lbd-md.dcd
@@ -124,7 +126,7 @@ def main():
     if dts.get("ran"):
         print(f"  DRUGGABILITY over MD: max={dts.get('max_druggability')} "
               f"min={dts.get('min_druggability')} crosses_0.5={dts.get('crosses_druggable_0.5')} "
-              f"(static ~0.026)", flush=True)
+              f"(static 0.495)", flush=True)
 
 
 def druggability_timeseries(prot, target_resseqs, time_ns, np):
@@ -167,10 +169,11 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np):
            "max_druggability": max(drugs) if drugs else None,
            "min_druggability": min(drugs) if drugs else None,
            "crosses_druggable_0.5": bool(any(d >= 0.5 for d in drugs)) if drugs else None,
-           "interpretation": ("FEASIBILITY: does the collapsed orthosteric pocket (static ~0.026) "
-                              "reach a druggable score (>=0.5) at any sampled frame? If never, a "
-                              "small-molecule orthosteric warhead is not viable -> pivot to a designed "
-                              "protein binder, the AF-2 surface cavity, or the junction ASO.")}
+           "interpretation": ("FEASIBILITY: the orthosteric pocket is borderline in the static model "
+                              "(0.495, just under 0.5). Does breathing push it over the druggable "
+                              ">=0.5 threshold at any sampled frame (supports the small-molecule "
+                              "orthosteric warhead) or collapse it (weakens the route -> lean on the "
+                              "designed protein binder, the AF-2 surface cavity, or the junction ASO)?")}
     try:
         import matplotlib
         matplotlib.use("Agg")
@@ -182,7 +185,7 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np):
             plt.figure(figsize=(8, 4))
             plt.plot(xs, ys, "o-", lw=0.8, ms=3)
             plt.axhline(0.5, color="r", ls="--", lw=0.7, label="druggable threshold 0.5")
-            plt.axhline(0.026, color="k", ls=":", lw=0.7, label="static model ~0.026")
+            plt.axhline(0.495, color="k", ls=":", lw=0.7, label="static model 0.495")
             plt.xlabel("time (ns)"); plt.ylabel("orthosteric-pocket fpocket druggability")
             plt.title("NR4A3 orthosteric pocket druggability over MD")
             plt.ylim(0, 1); plt.legend(); plt.tight_layout()

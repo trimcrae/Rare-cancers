@@ -1,13 +1,16 @@
 # Assumption audit — research/modalities compute scripts
 
 Systematic sweep for *silent* assumptions (ones that produce a wrong-but-plausible result with no
-error), prompted by the fpocket off-by-one. Status legend:
+error), prompted by a near-miss: an interim pocket-enumeration script produced a spurious "orthosteric
+= 0.026" result (a wrong alpha-sphere count + a tentative file-index assumption), which was caught and
+retracted in-session before it reached any manuscript number — the authoritative value is the original
+Pocket 5 = 0.495, residues 406-534. Status legend:
 **FIXED** (derived from data + unit-tested) · **GUARDED** (asserts/fails loud) · **AUDIT** (correct
 only if the next real run's log is checked) · **RISK** (documented, not yet mitigated).
 
 | # | Assumption | Where | If wrong → | Status |
 |---|---|---|---|---|
-| 1 | fpocket residue-file index == info.txt pocket number | was nr4a3_structure.py / nr4a_selectivity.py | wrong residues↔druggability (the shipped bug) | **FIXED** — `fpocket_lib.map_files_to_pockets` derives it from alpha-sphere fingerprints, asserts bijection, fails loud; regression test |
+| 1 | fpocket residue-file index == info.txt pocket number | was nr4a3_structure.py / nr4a_selectivity.py | wrong residues↔druggability (latent risk; convention happens to hold here, so original output was correct) | **FIXED** — `fpocket_lib.map_files_to_pockets` derives it from alpha-sphere fingerprints, asserts bijection, fails loud; regression test |
 | 2 | solvated PDB keeps AF2 numbering (vs renumbered from 1) | nr4a3_mdpocket / nr4a3_metad | zero or wrong residues matched (already hit once) | **FIXED** — `residue_map.resolve_positions`, both schemes tested |
 | 3 | PDB/PQR fixed-width columns (resSeq[22:26], xyz[30:54], name[12:16], resName[17:20], bfactor[60:66]) | all parsers | mis-parse on insertion codes / multi-char chains / nonstandard PDB | **GUARDED** for fpocket/AF inputs (standard format; tested in fpocket_lib). RISK for arbitrary PDBs |
 | 4 | PLUMED atom index = OpenMM atom.index + 1 (1-based over system order) | nr4a3_metad `_cv_ca_plumed_indices` | CV biases the WRONG atoms, silently | **AUDIT** — metad logs the chosen CA indices; verify they map to CV residues 406…534 in the first real run. Needs an in-run assertion |

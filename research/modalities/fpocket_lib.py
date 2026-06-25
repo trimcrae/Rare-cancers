@@ -2,12 +2,17 @@
 Pure, unit-tested parsing for fpocket output. No I/O, no external deps — every function takes text /
 plain data and returns plain data, so it is fully testable locally (tests/test_fpocket_lib.py).
 
-WHY THIS EXISTS. nr4a3_structure.py mapped fpocket residue files to pockets by *assuming* the file
-index equalled the info.txt pocket number (`pocket{N}_atm.pdb` for "Pocket N"). fpocket's file
-indexing is not guaranteed to match info.txt's 1-based numbering, so that assumption silently
-mis-attributed a 0.495 druggability to the wrong residues in nr4a3-structure-assessment.json. Here the
-mapping is DERIVED from the data (alpha-sphere fingerprints) and asserted bijective; ambiguity raises
-rather than guessing. Conventions are never assumed.
+WHY THIS EXISTS. nr4a3_structure.py originally mapped fpocket residue files to pockets by *assuming*
+the file index equalled the info.txt pocket number (`pocket{N}_atm.pdb` for "Pocket N"). In this
+environment that convention does hold (files are 1-indexed, matching info.txt), so the original output
+was in fact correct — but the assumption is a latent risk: fpocket's file indexing is not guaranteed
+to match info.txt's numbering across versions/builds. (During development an interim enumeration script
+that combined a tentative +1 index shift with an alpha-sphere *undercount* produced a spurious
+"orthosteric = 0.026" result; that was a bug in that script, caught in-session and never adopted — the
+authoritative numbers are Pocket 5 = 0.495, residues 406-534.) Here the mapping is DERIVED from the
+data (alpha-sphere fingerprints) and asserted bijective; ambiguity raises rather than guessing. The
+convention is never assumed, so a future fpocket whose file indexing differs can't silently corrupt the
+attribution.
 """
 import re
 

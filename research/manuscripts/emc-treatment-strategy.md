@@ -121,24 +121,22 @@ called out explicitly — *grouping is not a combined rank; read both axes off t
    NR4A3-specific warhead starting points exist (inverse NOR-1 agonists). *Needs: a selective
    warhead (med-chem or **AI de-novo binder design**) + the dTAG fusion-addiction test.*
 
-> **⚠️ FEASIBILITY REASSESSMENT (2026-06-25) — corrected druggability changes the warhead plan.**
-> A fixed fpocket off-by-one (see `research/modalities/ASSUMPTIONS.md`) revealed the **orthosteric
-> (warhead-target) pocket scores ~0.026, not 0.495** — essentially undruggable to small molecules in
-> the static model, not "borderline." (The 0.495 belongs to a *different*, more-druggable cavity at
-> ~463–622, likely the conserved AF-2/coactivator surface.) 0.026 is the more believable number — it
-> matches NR4A's atypical, ligand-independent biology (weak-binding NOR-1 inverse agonists). Effect on
-> the route:
-> - **Down-weight** the small-molecule orthosteric warhead as the lead: it now hinges *entirely* on the
->   cryptic-pocket MD/metadynamics showing the pocket transiently reaches a druggable state. That is now
->   the **make-or-break** experiment, with an explicit kill-criterion (per-frame fpocket druggability
->   never ≥0.5 ⇒ route dead).
-> - **Promote to co-lead the pocket-independent warheads:** (1) a **de-novo protein/mini-binder
->   degrader** (RFdiffusion → ProteinMPNN) — designed binders grip shallow surfaces a small molecule
->   can't, so 0.026 isn't a barrier; (2) the **junction ASO** (no pocket at all; delivery-gated).
-> - **New alternative anchor:** the **0.495 AF-2 cavity** could host a degrader warhead — *if* it is
->   selective vs NR4A1/2 (the AF-2 surface is conserved, so selectivity is the open question there;
->   the orthosteric "handles" had the selectivity but not the druggability — the central trade-off).
-> The degradation *strategy* and fusion-addiction premise are unchanged; only warhead-sourcing shifts.
+> **Feasibility check (2026-06-25, updated) — orthosteric druggability reconfirmed at 0.495.**
+> A 2026-06-25 "reassessment" briefly claimed the orthosteric pocket was ~0.026 (undruggable). **That
+> was retracted the same day: it was a self-inflicted bug** in an interim pocket-enumeration script
+> (a wrong alpha-sphere count + a filename→pocket index assumption), *not* a real druggability number.
+> Regenerating the JSONs from the count-fixed, data-derived pipeline (see
+> `research/modalities/ASSUMPTIONS.md`) reproduces the **original** values exactly: the orthosteric LBD
+> **Pocket 5 = druggability 0.495**, lining residues **406–534**, carrying **all 7 selectivity
+> handles** (L406, T407, T410, R412, I484, I531, L534). So the warhead plan is **unchanged** from the
+> original: a borderline-druggable orthosteric pocket (0.495, just under the conventional 0.5 cutoff)
+> that *also* holds the selectivity — druggability and selectivity coincide here, the favourable case.
+> - The **make-or-break in-silico test stands:** per-frame fpocket druggability over the cryptic-pocket
+>   MD/metadynamics — does breathing push the borderline 0.495 pocket **≥0.5** (cryptic opening, route
+>   live) or collapse it (route weakened)? This is wired into `nr4a3_mdpocket.py` and is what the
+>   metadynamics run reads out.
+> - The small-molecule orthosteric warhead **remains the lead**; the de-novo protein binder and
+>   junction ASO stay as the pocket-independent backups they always were (not promoted to co-lead).
 - **CAR-T** (B7-H3 / CD56 ± TKI; armored / SynNotch-logic-gated / allogeneic). Same surface-target
    gate as the ADC but harder; higher bar. Among surface modalities, **ADC/RLT beat CAR-T to a
    patient.** *(car-t-strategies-emc.md)*

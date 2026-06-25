@@ -1,9 +1,12 @@
-"""Unit tests for fpocket_lib — the parsing/mapping that the off-by-one bug lived in.
+"""Unit tests for fpocket_lib — the parsing/mapping that guards against a file-index/pocket-number
+mismatch.
 
-The headline test is `test_mapping_follows_data_not_filename`: it encodes the exact failure mode
-(residue-file index disagreeing with the info.txt pocket number) and asserts the mapping follows the
-alpha-sphere data, not the filename integer. That test fails on both the original (+0) and the interim
-(+1) index assumptions, and passes only for a data-derived mapping.
+The headline test is `test_mapping_follows_data_not_filename`: it constructs a synthetic case where the
+residue-file index disagrees with the info.txt pocket number and asserts the mapping follows the
+alpha-sphere data, not the filename integer. (In the real NR4A3 environment the filename convention
+happens to hold, so this is defensive: it would catch a future fpocket build whose indexing differs.)
+The test fails on both a naive +0 and a +1 filename assumption, and passes only for a data-derived
+mapping.
 """
 import pytest
 
@@ -57,8 +60,9 @@ def test_mapping_follows_data_not_filename():
     file_counts = {4: 31, 5: 16, 6: 17}
     mapping = fl.map_files_to_pockets(info, file_counts)
     assert mapping == {4: 1, 5: 2, 6: 3}
-    # the residues of file 5 (406,534) therefore belong to Pocket 2 (druggability 0.026) — the
-    # corrected attribution, the opposite of the original off-by-one.
+    # in this synthetic fixture the residues of file 5 (406,534) therefore belong to Pocket 2
+    # (druggability 0.026) by alpha-sphere count, NOT to the same-numbered Pocket 5 a filename
+    # assumption would pick — the property under test.
     assert info[mapping[5]]["druggability"] == 0.026
 
 

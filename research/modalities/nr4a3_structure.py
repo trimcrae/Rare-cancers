@@ -132,9 +132,10 @@ def _read(path):
 
 def pocket_residues_by_number(out_dir, stem_base):
     """{pocket_number(1-based): sorted[resid]} with the residue-file -> pocket mapping DERIVED from
-    the data via fpocket_lib (alpha-sphere fingerprints), not assumed from the filename. This is the
-    fix for the off-by-one that previously read pocket{N}_atm.pdb for "Pocket N" and mis-attributed
-    residues. Returns (residues_by_number, parsed_info)."""
+    the data via fpocket_lib (alpha-sphere fingerprints), not assumed from the filename. The earlier
+    code read pocket{N}_atm.pdb for "Pocket N"; that filename convention holds in this environment (so
+    the result is unchanged), but deriving the mapping removes the latent risk and fails loud if a
+    future fpocket build numbers files differently. Returns (residues_by_number, parsed_info)."""
     import glob
     import re
     info = fl.parse_info(_read(os.path.join(out_dir, stem_base + "_info.txt")))

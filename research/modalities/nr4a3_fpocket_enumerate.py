@@ -4,10 +4,11 @@ Enumerate the exact lining residues of the NR4A3 LBD pockets by running fpocket 
 report which pocket is the most druggable LBD cavity and which holds the selectivity handles.
 
 The file<->pocket mapping is DERIVED from the data (alpha-sphere fingerprints; see fpocket_lib) and
-asserted bijective — it does NOT assume a 0- or 1-based fpocket file convention. (That assumption was
-the off-by-one that mis-attributed a 0.495 druggability to the wrong residues in
-nr4a3-structure-assessment.json.) The derived mapping is cross-printed against the naive +0/+1
-assumptions so the real convention is auditable in the log.
+asserted bijective — it does NOT assume a 0- or 1-based fpocket file convention. (In this environment
+the files are 1-indexed to match info.txt, so the orthosteric Pocket 5 = 0.495, residues 406-534, is
+confirmed; deriving the mapping just removes the latent assumption and fails loud if a future build
+differs.) The derived mapping is cross-printed against the naive +0/+1 assumptions so the real
+convention is auditable in the log.
 
 INPUT_DIR (default /opt/ml/processing/input) must contain AF-Q92570.pdb. OUTPUT_DIR receives
 pocket5_lining_residues.json. The AF2 model uses UniProt numbering, so resSeq == residue.

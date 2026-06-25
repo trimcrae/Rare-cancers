@@ -1,12 +1,16 @@
 # Testing & methodology rigor — research/modalities
 
-This note exists because a **silent off-by-one bug shipped a wrong number into a manuscript**:
-`nr4a3_structure.py` mapped fpocket residue files to pockets by *assuming* the file index equalled
-the info.txt pocket number (`pocket{N}_atm.pdb` ⇄ "Pocket N"). fpocket's file numbering did not match
-that assumption, so a **0.495 druggability was attached to the wrong residues** in
-`nr4a3-structure-assessment.json` (and propagated into the degrader design spec). It was possible
-because (a) the code assumed an external tool's convention instead of deriving it, and (b) there were
-no tests. These rules prevent a repeat.
+This note exists because of a **near-miss**: an interim pocket-enumeration script produced a spurious
+"orthosteric pocket = 0.026 (undruggable)" result and a tentative "off-by-one" diagnosis — both wrong,
+caught and retracted in-session before they reached any manuscript number. The authoritative value is
+the original (now regenerated and confirmed): orthosteric **Pocket 5 = druggability 0.495, residues
+406-534**. The root cause of the false alarm was that `nr4a3_structure.py` mapped fpocket residue files
+to pockets by *assuming* the file index equalled the info.txt pocket number (`pocket{N}_atm.pdb` ⇄
+"Pocket N"). That convention *does* hold in this environment, so the original output was correct — but
+the assumption is a latent risk, and the interim script's combination of a wrong alpha-sphere count
+with a tentative index shift manufactured a plausible-looking wrong answer. It was possible because
+(a) the code assumed an external tool's convention instead of deriving it, and (b) there were no tests.
+These rules prevent a repeat.
 
 ## Rules
 
