@@ -46,6 +46,15 @@ def main():
 
     _fetch_af_model()
 
+    # Ground-truth residue identities (UniProt numbering) read straight from the AF2 model. Used below
+    # to assert the CV CA atoms in the solvated topology really are residues 406...534 — a count match
+    # alone wouldn't catch a contiguity shift (ASSUMPTIONS.md #7) selecting the wrong residues.
+    cv_identities = _af2_residue_names(AF2_PDB, CV_RESIDUES)
+    missing = [r for r in CV_RESIDUES if r not in cv_identities]
+    if missing:
+        sys.exit(f"  ABORT: CV residues {missing} absent from the AF2 model {AF2_PDB}")
+    print(f"  CV residue identities (AF2, UniProt numbering): {cv_identities}", file=sys.stderr)
+
     lbd_pdb = os.path.join(HERE, "nr4a3-lbd.pdb")
     with open(AF2_PDB) as fh, open(lbd_pdb, "w") as out:
         for line in fh:
@@ -74,7 +83,7 @@ def main():
                              nonbondedCutoff=1.0 * unit.nanometer, constraints=app.HBonds)
 
     # --- PLUMED well-tempered metadynamics on Rg of the CV-residue CA atoms -----------------------
-    plumed_atoms = _cv_ca_plumed_indices(modeller.topology)
+    plumed_atoms = _cv_ca_plumed_indices(modeller.topology, cv_identities)
     if len(plumed_atoms) != len(CV_RESIDUES):
         sys.exit(f"  ABORT: matched {len(plumed_atoms)}/{len(CV_RESIDUES)} CV CA atoms "
                  "(residue numbering mismatch in the solvated topology)")
@@ -110,8 +119,20 @@ def main():
 
     print("  minimizing...", file=sys.stderr)
     sim.minimizeEnergy()
-    app.PDBFile.writeFile(modeller.topology, sim.context.getState(getPositions=True).getPositions(),
+    minpos = sim.context.getState(getPositions=True).getPositions()
+    app.PDBFile.writeFile(modeller.topology, minpos,
                           open(os.path.join(HERE, "nr4a3-lbd-solvated.pdb"), "w"))
+
+    # Pre-flight (ASSUMPTIONS.md #5): the CV's starting Rg must sit inside the wall/grid window, else
+    # the bias is mis-scaled or the walls clip the basin before we've spent any GPU time on production.
+    rg0 = _rg_nm(minpos, plumed_atoms, unit)
+    print(f"  INITIAL CV Rg = {rg0:.3f} nm  (walls 0.6-2.2, grid 0.4-3.0, SIGMA 0.03)", file=sys.stderr)
+    if not (0.6 < rg0 < 2.2):
+        sys.exit(f"  ABORT: initial Rg {rg0:.3f} nm is outside the wall window [0.6, 2.2] — retune "
+                 "walls/grid before committing GPU time.")
+    if rg0 < 0.6 + 5 * 0.03 or rg0 > 2.2 - 5 * 0.03:
+        print(f"  WARNING: initial Rg {rg0:.3f} nm is within 5*SIGMA of a wall; basin may be clipped.",
+              file=sys.stderr)
 
     sim.context.setVelocitiesToTemperature(310 * unit.kelvin)
     print("  NVT/NPT equilibration (100 ps)...", file=sys.stderr)
@@ -133,19 +154,58 @@ def main():
           file=sys.stderr)
 
 
-def _cv_ca_plumed_indices(topology):
+def _af2_residue_names(pdb_path, residues):
+    """{resSeq: 3-letter resName} for the requested residues, read from a PDB in its own numbering."""
+    want, names = set(residues), {}
+    with open(pdb_path) as fh:
+        for line in fh:
+            if not line.startswith(("ATOM", "HETATM")):
+                continue
+            try:
+                rid = int(line[22:26])
+            except ValueError:
+                continue
+            if rid in want:
+                names[rid] = line[17:20].strip()
+    return names
+
+
+def _cv_ca_plumed_indices(topology, cv_identities):
     """CA atom indices (PLUMED 1-based) of the CV residues, via the unit-tested residue resolver
-    (handles the solvated PDB being renumbered from 1 vs. preserving AF2 numbering)."""
+    (handles the solvated PDB being renumbered from 1 vs. preserving AF2 numbering). Asserts each
+    selected residue's NAME matches the AF2 ground truth (`cv_identities`), so a contiguity shift
+    (ASSUMPTIONS.md #7) that picked the wrong residue is caught here, not discovered in the results."""
     import residue_map as rm
     prot_residues = [r for r in topology.residues() if r.name in _AA]
     resseqs = [r.resSeq for r in prot_residues]
-    positions, _ = rm.resolve_positions(resseqs, CV_RESIDUES, LBD_FIRST)
+    positions, label = rm.resolve_positions(resseqs, CV_RESIDUES, LBD_FIRST)
     out = []
     for i in positions:
+        # which CV residue is this position supposed to be, under the resolver's chosen scheme?
+        cv_res = resseqs[i] if label == "resSeq-preserved" else LBD_FIRST + i
+        expected = cv_identities.get(cv_res)
+        got = prot_residues[i].name
+        # normalise protonation/variant names (HID/HIE/HIP->HIS, CYX->CYS) for the identity check
+        norm = {"HID": "HIS", "HIE": "HIS", "HIP": "HIS", "HSD": "HIS", "HSE": "HIS", "CYX": "CYS"}
+        if expected is not None and norm.get(got, got) != norm.get(expected, expected):
+            sys.exit(f"  ABORT: CV residue {cv_res} ({label}) is {got} in the solvated topology but "
+                     f"{expected} in the AF2 model — residue mapping is wrong, not selecting 406...534.")
         ca = next((a for a in prot_residues[i].atoms() if a.name == "CA"), None)
         if ca is not None:
             out.append(ca.index + 1)            # PLUMED indices are 1-based
     return out
+
+
+def _rg_nm(positions, plumed_atoms, unit):
+    """Radius of gyration (nm) of the CV CA atoms, from OpenMM positions. `plumed_atoms` are 1-based."""
+    idx = [i - 1 for i in plumed_atoms]
+    xyz = [positions[i].value_in_unit(unit.nanometer) for i in idx]
+    n = len(xyz)
+    cx = sum(p[0] for p in xyz) / n
+    cy = sum(p[1] for p in xyz) / n
+    cz = sum(p[2] for p in xyz) / n
+    msd = sum((p[0] - cx) ** 2 + (p[1] - cy) ** 2 + (p[2] - cz) ** 2 for p in xyz) / n
+    return msd ** 0.5
 
 
 def _sum_hills(hills):
