@@ -45,18 +45,12 @@ ex-vivo immuno-oncology — **two indications from one chemical program**, bound
 tumour-suppressor contraindication** (NR4A1/NR4A3 loss is leukemogenic; Mullican 2007). Stating that
 boundary is part of the credibility, and it is *why* selectivity engineering is central.
 
-## What this changes downstream (NOT yet done — needs your go-ahead)
-- **`emc-treatment-roadmap.md`** (currently *the* EMC-led active manuscript) would be reframed, or the
-  degrader split out as the lead paper while the roadmap keeps the EMC-fusion-specific routes
-  (ASO/immuno/registry). Recommend: **degrader becomes its own lead paper; roadmap stays the
-  EMC-program paper.** (The README already anticipated "a degrader result paper".)
-- **`manuscripts/README.md`** "exactly ONE active manuscript" rule needs updating to reflect two
-  papers.
-
-## Divergence from the repo mandate (flagged, not unilaterally changed)
-`CLAUDE.md`/`AGENTS.md` state the repo's #1 priority is "publishing work that drives forward an EMC
-treatment." Leading with the NR4A3 degrader (EMC as one motivation) is a deliberate, user-approved
-departure *for the paper's framing*. The work still advances an EMC treatment (it's a lead indication),
-but the steering docs now under-describe the direction. **Proposed:** update CLAUDE.md/AGENTS.md TL;DR
-to "publishing the NR4A3-degrader work (EMC the lead clinical application among NR4A3/NR4A-degradation
-indications)." Not done here pending explicit OK to edit the steering docs.
+## What this changed downstream (EXECUTED 2026-06-25)
+- **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** created as the lead, target-centric result
+  paper (cryptic-pocket druggability, selectivity, degrader design; EMC the lead indication of several).
+- **`emc-treatment-roadmap.md`** re-bannered as the EMC-program paper; §4.1/§7 now cite the split-out
+  degrader paper for the in-silico degrader results.
+- **`README.md`** updated from "exactly ONE manuscript" to the two-paper structure.
+- **`CLAUDE.md`** PRIMARY FOCUS updated: lead vehicle = the NR4A3-degrader paper, *serving* (not
+  replacing) the EMC goal — per the user's framing that the steering-doc goal still applies and the
+  split paper is how we accomplish it. (AGENTS.md not edited; CLAUDE.md is the agent-facing TL;DR.)

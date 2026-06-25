@@ -6,11 +6,15 @@ read it before making changes.
 ## TL;DR for agents
 
 - **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
-  forward an EMC treatment**. The crux is the tracked candidate-treatment portfolio —
-  start at **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
-  and the board in **[research/IDEAS.md](./research/IDEAS.md)**. Manuscripts/code build on
-  those. **No wet lab is available**, so every "next step" must be either (1) publish-to-
-  convince or (2) in-silico evaluation — never a wet-lab to-do.
+  forward an EMC treatment**. As of 2026-06-25 the **lead publication vehicle is the split-out,
+  target-centric NR4A3-degrader result paper** — **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
+  (EMC is its lead clinical application among several NR4A3/NR4A indications); the
+  **[research/manuscripts/emc-treatment-roadmap.md](./research/manuscripts/emc-treatment-roadmap.md)**
+  remains the EMC-program paper. This serves, not replaces, the EMC goal (see
+  **[research/manuscripts/nr4a3-degrader-paper-positioning.md](./research/manuscripts/nr4a3-degrader-paper-positioning.md)**).
+  The crux of the portfolio is still **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
+  and the board in **[research/IDEAS.md](./research/IDEAS.md)**. **No wet lab is available**, so every
+  "next step" must be either (1) publish-to-convince or (2) in-silico evaluation — never a wet-lab to-do.
 - **What (now shelved):** a zero-build static site of one-page-per-rare-cancer information
   hubs (first page: EMC). The patient-facing UI is **deprioritized/shelved** — keep it
   working if touched, but don't invest new effort there without being asked.

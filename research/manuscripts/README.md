@@ -3,18 +3,18 @@
 This folder holds the treatment-track writing plus a few supporting and separate-track
 documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 
-> **There is exactly ONE active manuscript:
-> [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md).**
-> Everything else in this folder **feeds it**, **records QA for it**, or is **parked /
-> separate-track**. Every file carries a one-line role banner at its top saying which.
-
-> **⚠ REFRAME IN PROGRESS (2026-06-25):** per
-> [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md), the **degrader work
-> is being split out as its own lead paper framed target-centrically ("a selective NR4A3 degrader",
-> EMC = one motivating indication, not the headline).** Under that plan there will be **two** papers:
-> the NR4A3-degrader paper (lead) and this EMC-program roadmap (the EMC-fusion-specific routes:
-> ASO / immuno / registry). The "exactly ONE" rule above is pending that restructure — not yet
-> executed (awaiting go-ahead).
+> **TWO active manuscripts (split executed 2026-06-25):**
+> 1. **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** — **lead result paper**, target-centric:
+>    *computational design of a selective NR4A3 degrader* (cryptic-pocket druggability, selectivity
+>    handles, degrader design). EMC is the lead clinical application among several NR4A3/NR4A indications.
+> 2. **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** — **EMC-program paper**: the
+>    driver-directed framework, the categorical-gap landscape, and the EMC-fusion-specific routes
+>    (junction ASO/siRNA, immuno/surface targets, outcomes registry).
+>
+> Both still serve the repo's EMC goal (the degrader paper is *how* we advance it — see
+> [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md)). Everything else in this
+> folder **feeds** one of them, **records QA**, or is **parked / separate-track**; each file carries a
+> one-line role banner.
 
 ---
 

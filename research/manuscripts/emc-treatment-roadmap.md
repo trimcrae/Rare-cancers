@@ -1,9 +1,14 @@
 # Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
-> **ACTIVE MANUSCRIPT — the repo's one paper currently being developed.** This is the single
-> publish-to-convince deliverable; everything else in this folder feeds it, records QA for it, or is
-> parked/separate-track. Strategy/source-of-truth: [`emc-treatment-strategy.md`](./emc-treatment-strategy.md).
-> Folder map: [`README.md`](./README.md).
+> **EMC-PROGRAM MANUSCRIPT (one of two active papers).** As of 2026-06-25 the **NR4A3 degrader** is
+> split out as its own lead, target-centric result paper —
+> [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) (cryptic-pocket druggability, selectivity,
+> degrader design; EMC one of several NR4A3/NR4A indications). **This** roadmap remains the EMC-program
+> paper: the driver-directed framing, the categorical-gap landscape, and the genuinely EMC-fusion-specific
+> routes (junction ASO/siRNA, immuno/surface targets, the outcomes registry). The degrader appears here
+> as the §4.1 route, with its in-silico results now reported in the split-out paper. Rationale:
+> [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). Strategy/source-of-truth:
+> [`emc-treatment-strategy.md`](./emc-treatment-strategy.md). Folder map: [`README.md`](./README.md).
 
 *Draft manuscript (2026-06). Authors/affiliations TBD. Built entirely from the tracker
 (`emc-treatment-strategy.md`) and the in-silico results in `research/modalities/`. Every claim is
@@ -261,8 +266,10 @@ dynamics of the NR4A3 LBD to test whether a transient/cryptic druggable pocket o
 AlphaFold model misses — a positive result would directly challenge the "undruggable" prior of §1;
 (ii) de-novo selective-warhead/binder design scored against NR4A1/2; (iii) an AF3-class ternary-complex
 model of NR4A3–PROTAC–E3 geometry (re-primed now that open AF3-class tools shipped). These are the
-substance of the planned **follow-on result paper**; this paper claims the program and the structural
-rationale, not their outputs.
+substance of the **split-out lead result paper** ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)),
+which reports the cryptic-pocket result (the orthosteric pocket opens to fpocket druggability 0.751,
+above the calibrated drug-bound NR band — preliminary, 30 ns in progress); this EMC-program paper claims
+the program and the structural rationale, and cites that paper for the degrader's in-silico outputs.
 
 ### 4.2 The fusion-junction ASO/siRNA (the uniquely tumour-specific route)
 The fusion *mRNA* junction exists in no normal transcript, so an antisense oligonucleotide (or siRNA)
