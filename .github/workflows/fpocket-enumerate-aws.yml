@@ -1,0 +1,45 @@
+name: NR4A3 Pocket-5 fpocket enumeration (AWS SageMaker)
+
+# Enumerates the exact Pocket-5 lining residues with fpocket on the AF2 model already in S3
+# (s3://<default-bucket>/nr4a3-md/AF-Q92570.pdb), as a managed SageMaker Processing job. CPU work,
+# defaults to ml.g5.xlarge to reuse the GPU quota. Manual-dispatch. REQUIRES secrets:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN  (region is a workflow input).
+# Output feeds the metadynamics collective-variable atom set.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (g5.xlarge reuses the GPU quota)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + S3 data live"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit fpocket enumeration job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_fpocket_sagemaker.py
