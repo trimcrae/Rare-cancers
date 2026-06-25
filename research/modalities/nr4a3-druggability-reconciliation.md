@@ -1,0 +1,110 @@
+# Reconciling NR4A3's borderline fpocket score with the "undruggable" reputation
+
+**For the manuscript discussion/appendix.** NR4A receptors are widely called undruggable, yet our
+fpocket pipeline assigns the NR4A3 orthosteric pocket (Pocket 5, residues 406–534) a druggability of
+**0.495** — borderline, not zero. A reviewer will press on this. The tension is mostly *apparent*, and
+where it is real it sharpens our caveats rather than supporting an unfalsifiable "it's druggable"
+narrative. Five points, then the calibration that adjudicates them, then why AF3 is not the fix.
+
+## 1. The "0.80 for Nurr1" is an unlocalized *top* pocket — not the occluded orthosteric site
+During analysis our pipeline reported a top-pocket druggability of **~0.80** for the Nurr1/NR4A2 AF2
+model, which seems to clash with Nurr1's famously occluded pocket. But `nr4a_selectivity.py` recorded,
+for the paralogues, only the single **highest-scoring pocket anywhere on the LBD** (and its lowest
+lining residue), and **never localized it**. fpocket finds *all* cavities; the Nurr1 0.80 is very
+plausibly a surface/coactivator or interdomain cleft, not the classical ligand pocket — and Nurr1 is
+known to bind ligands at non-classical/surface sites (below). So the 0.80-vs-occluded "contradiction"
+compared Nurr1's *best* cavity against NR4A3's *orthosteric* cavity — apples to oranges. The
+calibration panel (§6) localizes it explicitly.
+
+## 2. fpocket is geometric, not pharmacological — and 0.495 is *sub*-threshold anyway
+"Undruggable" in the NR4A literature is a *pharmacological* claim (no reliable high-affinity selective
+small molecule for the classical pocket). fpocket's score is a *geometric* estimate of cavity
+size/shape/hydrophobicity — necessary but far from sufficient for a bindable drug site. And 0.495 is
+*below* the conventional 0.5 line: the pipeline is calling NR4A3 **not cleanly druggable**, which is
+broadly *concordant* with the reputation, not a refutation. The honest label is "borderline/occluded,"
+not "fpocket says druggable."
+
+## 3. The reputation is built on *static* structures; we test the *dynamic ensemble*
+The structural basis of "undruggable" is the Nurr1 LBD crystal (Wang et al., *Nature* 2003; PDB
+**1OVL**), where bulky side chains fill the canonical pocket — a single snapshot. Crucially, later work
+shows that snapshot is not the whole story: de Vera et al. (*Structure* 2019) found the Nurr1 pocket is
+**dynamic, highly solvent-accessible, exchanges between conformations on the µs–ms timescale, and
+expands from the collapsed crystallized conformation to bind unsaturated fatty acids.** That is
+*precisely* the cryptic-opening hypothesis we test for NR4A3 — so our approach is **precedented by the
+experimental NR4A literature**, not contrarian. The conventional claim and ours address different
+objects (static occlusion vs. dynamic accessibility).
+
+## 4. Our AF2 model likely *over-reports* the cavity — so 0.495 is an upper bound
+fpocket on an AF2 model can place side-chain rotamers/backbone leaving more apparent void than the
+packed experimental pocket. We test this directly (§6, Gate 0b): score the **NR4A2 AF2 model** vs the
+**1OVL crystal**. If the model reads substantially higher, our NR4A3 static 0.495 is an **upper bound**
+on static druggability (the true static pocket is likely tighter) — which is *why* the dynamic question
+matters: we are not claiming the static model is druggable.
+
+## 5. The field has moved from "undruggable" → "ligandable at cryptic/surface sites"
+Experimentally validated NR4A ligands bind **non-classical** sites: Nur77/NR4A1 binds THPN (PDB
+**4JGV**) and cytosporone B (PDB **6KZ5**) at **surface** pockets; Nurr1/NR4A2 co-crystallizes with
+prostaglandin-A1 and a dopamine metabolite (PDB **5Y41/5YD6/6DDA**) and binds amodiaquine (by NMR; no
+crystal). So the modern consensus is softer than "undruggable": *no open classical pocket, but
+ligandable at cryptic/alternative sites.* Our route sits inside that consensus.
+
+## 6. Calibration that adjudicates all of the above (`nr4a3_calibration.py`)
+Same fpocket pipeline (and `fpocket_lib` file→pocket mapping) on a nuclear-receptor panel:
+- **Known-druggable controls** — PPARγ LBD + rosiglitazone (PDB **2PRG**), ERα LBD + 17β-estradiol
+  (PDB **1ERE**): the ligand-site druggability here is what "druggable" *looks like in our pipeline*.
+- **NR4A crystals** — Nurr1 apo occluded **1OVL**, Nurr1 holo **5Y41**, Nur77 holo **4JGV**.
+- **NR4A AF2 models** — NR4A3/NR4A2/NR4A1 (the model-vs-crystal over-call check).
+
+This sets the working threshold **D\*** and the falsification gates fixed in
+[`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md), *before* the production numbers.
+
+### Calibration results — PENDING (gpu-calibration-aws.yml run, S3 `nr4a3-calibration`)
+*To be filled from `nr4a3-calibration.json` when the job completes:*
+
+| structure | type | max druggability | ligand-site druggability |
+|-----------|------|------------------|--------------------------|
+| PPARγ 2PRG | druggable control | _pending_ | _pending_ |
+| ERα 1ERE | druggable control | _pending_ | _pending_ |
+| Nurr1 1OVL | NR4A apo crystal (occluded) | _pending_ | — |
+| Nurr1 5Y41 | NR4A holo crystal | _pending_ | _pending_ |
+| Nur77 4JGV | NR4A holo crystal | _pending_ | _pending_ |
+| NR4A2 AF2 | NR4A model | _pending_ | — |
+| NR4A1 AF2 | NR4A model | _pending_ | — |
+| NR4A3 AF2 | NR4A model (our target) | 0.495 (Pocket 5) | — |
+
+*Interpretation to finalize once numbers land: where 0.5 sits for our pipeline (controls), whether the
+NR4A2 model over-calls vs 1OVL, and where the Nurr1 0.80 pocket actually is.*
+
+## Would AF3 give "better" results? No — not for this question
+The bottleneck is **not** backbone-prediction accuracy:
+- AF2 and AF3 both predict a single low-energy conformation; **neither models the conformational
+  ensemble**, and neither guarantees the packed side chains that close an occluded apo pocket. fpocket
+  can see a void in either. Swapping AF2→AF3 changes the snapshot slightly; it does not address
+  "single snapshot vs ensemble," which is the actual issue.
+- AF3's real gains are in **complexes** (protein–ligand, protein–nucleic-acid, ions, PTMs, multimers),
+  not apo single-domain side-chain packing or ensembles.
+- For probing conformational heterogeneity via structure prediction, the relevant tool is **AF2 with
+  MSA subsampling / AFSample-style ensembles**, not AF3.
+- NR4A2/NR4A1 have experimental LBD structures, but **NR4A3/NOR-1 does not** (hence the AF2 model);
+  AF3 would still be a prediction, not experimental data.
+- **Where AF3 *does* help us:** later, for the holo/ternary modeling — NR4A3 + warhead + E3 ligase and
+  the coactivator interface (the repo's `nr4a3_ternary.py` is primed for this). For the druggability
+  *baseline*, the fix is **ensemble + calibration + pre-registration**, not a different folding model.
+
+## References (verified against primary sources)
+- Wang Z, Benoit G, Liu J, Prasad S, Aarnisalo P, Liu X, Xu H, Walker NPC, Perlmann T. *Structure and
+  function of Nurr1 identifies a class of ligand-independent nuclear receptors.* **Nature** 423:555–560
+  (2003). PubMed 12774125. (PDB 1OVL.)
+- de Vera IMS, Munoz-Tello P, Zheng J, Dharmarajan V, Marciano DP, Matta-Camacho E, Giri PK, Shang J,
+  Hughes TS, Rance M, Griffin PR, Kojetin DJ. *Defining a Canonical Ligand-Binding Pocket in the Orphan
+  Nuclear Receptor Nurr1.* **Structure** 27(1):66–77.e5 (2019). PubMed 30416039.
+- Munoz-Tello P, et al. *Assessment of NR4A Ligands that Directly Bind and Modulate the Orphan Nuclear
+  Receptor Nurr1.* (PMC8006468; amodiaquine binding by NMR; PGA1/5,6-dihydroxyindole co-crystals
+  5Y41/5YD6/6DDA). *[journal/year locator to confirm before submission].*
+- Nur77/NR4A1 ligand co-crystals: PDB 4JGV (THPN), 6KZ5 (cytosporone B) — surface pockets. *[primary
+  citations to attach before submission].*
+- PPARγ control: PDB 2PRG (Nolte RT et al., PPARγ LBD + rosiglitazone, **Nature** 395:137, 1998).
+- ERα control: PDB 1ERE (Brzozowski AM et al., ERα LBD + 17β-estradiol, **Nature** 389:753, 1997).
+
+*Note (medical integrity): full locators for the NR4A-ligand precedent citations marked "[…to
+confirm]" must be verified against the primary sources before they enter the submitted manuscript.*

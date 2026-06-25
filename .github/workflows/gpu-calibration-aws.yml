@@ -1,0 +1,51 @@
+name: NR4A3 fpocket calibration panel (AWS SageMaker)
+
+# Runs the fpocket calibration/sanity panel (nr4a3_calibration.py) as a managed SageMaker Processing
+# job: scores a panel of nuclear-receptor LBDs (our AF2 NR4A models, experimental NR4A crystals, and
+# known-druggable NR controls PPARg/ERa) so the borderline NR4A3 0.495 is interpretable in absolute
+# terms. CPU work; defaults to ml.g5.xlarge to reuse the GPU quota. Fetches structures from AFDB/RCSB
+# at runtime (no S3 input). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+# SAGEMAKER_ROLE_ARN (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (g5.xlarge reuses the GPU quota; use a CPU type if you have that quota)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack lives"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker calibration job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_calibration_sagemaker.py
