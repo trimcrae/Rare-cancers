@@ -39,8 +39,11 @@ def main():
     # __cuda isn't auto-detected and conda would pick the CPU openmm build. Force the
     # CUDA virtual package so it resolves the driver-matched GPU build.
     create_env["CONDA_OVERRIDE_CUDA"] = "12.8"
+    # Pin the CUDA runtime to the driver's version (the box driver is CUDA 12.8); without
+    # this conda pulls cuda-nvrtc 12.9, which fails to init on a 12.8 driver -> CPU fallback.
     subprocess.run([conda, "create", "-y", "-n", "md", "-c", "conda-forge",
-                    "python=3.11", "openmm", "pdbfixer"], check=True, env=create_env)
+                    "python=3.11", "openmm", "pdbfixer", "cuda-version=12.8"],
+                   check=True, env=create_env)
     subprocess.run([conda, "list", "-n", "md", "openmm"], check=False)  # log build str (cuda vs cpu)
 
     env = os.environ.copy()

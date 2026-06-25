@@ -108,14 +108,16 @@ def main():
             print(f"  OpenMM plugin load failures: {fails}", file=sys.stderr)
     except Exception:  # noqa: BLE001 — diagnostics only
         pass
-    sim = app.Simulation(modeller.topology, system, integrator)  # OpenMM auto-selects fastest platform
+    # Force CUDA explicitly. If the GPU build/driver is wrong, this raises the real
+    # error instead of OpenMM silently falling back to (too-slow/costly) CPU.
+    try:
+        cuda = mm.Platform.getPlatformByName("CUDA")
+        sim = app.Simulation(modeller.topology, system, integrator, cuda, {"Precision": "mixed"})
+    except Exception as e:  # noqa: BLE001 — surface the real CUDA init failure
+        print(f"  ABORT: CUDA platform unavailable/uninitializable: {e}", file=sys.stderr)
+        sys.exit(2)
     used = sim.context.getPlatform().getName()
     print(f"  OpenMM platform: {used}", file=sys.stderr)
-    if used in ("CPU", "Reference"):
-        print("  ABORT: no GPU platform (CUDA/OpenCL) selected — refusing to run MD on CPU "
-              "(too slow/costly). Check the conda openmm CUDA build vs the GPU driver.",
-              file=sys.stderr)
-        sys.exit(2)
     sim.context.setPositions(modeller.positions)
 
     print("  minimizing...", file=sys.stderr)
