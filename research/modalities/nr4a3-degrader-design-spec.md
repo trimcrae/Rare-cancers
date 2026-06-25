@@ -102,6 +102,12 @@ PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despit
 - **GPU needed:** RFdiffusion/ProteinMPNN/AF2/AF3, MD, generative small-molecule models.
 
 ## GPU experiment plan (HIGH BENEFIT — run these if GPU is provisioned)
+
+> **STATUS 2026-06-25:** GPU is provisioned (AWS SageMaker). Experiment 1's pipeline is **validated
+> end-to-end** — a 10 ns LBD MD completed on an A10G (stable energetics, `nr4a3-lbd-md.dcd` in S3);
+> see `deploy/aws-sagemaker-setup.md` for the working config. **Next:** mdpocket/SASA analysis of the
+> 10 ns trajectory (does the Pocket-5 site open?), then the 100–200 ns production run.
+
 Two experiments would materially change the degrader paper, both attacking the route's core
 weaknesses. Ranked by impact-per-effort:
 

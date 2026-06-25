@@ -1,0 +1,45 @@
+name: NR4A3 MD pocket analysis (AWS SageMaker)
+
+# Runs the cryptic-pocket analysis (mdtraj SASA + best-effort mdpocket) on the NR4A3 MD trajectory
+# already in S3 (s3://<default-bucket>/nr4a3-md), as a managed SageMaker Processing job. CPU work,
+# but defaults to ml.g5.xlarge to reuse the GPU processing quota. Manual-dispatch. REQUIRES secrets:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN  (region is a workflow input).
+# Run this AFTER a successful gpu-md-aws.yml run has populated s3://<bucket>/nr4a3-md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (g5.xlarge reuses the GPU quota; use a CPU type if you have that quota)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + trajectory live"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker analysis job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_mdpocket_sagemaker.py
