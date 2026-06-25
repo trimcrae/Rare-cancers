@@ -38,6 +38,7 @@ submitted.
 - [`emerging-modalities-scan-emc.md`](./emerging-modalities-scan-emc.md) — trabectedin, FAP-RLT, PPARG (Phase 2)
 - [`car-t-strategies-emc.md`](./car-t-strategies-emc.md) — CAR-T surface-target strategies (Phase 3)
 - [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) — degrader vs. BRD9 head-to-head
+- [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md) — beyond-EMC motivation for the degrader (NR4A3-fusion sarcomas; NR4A in T-cell exhaustion / immuno-oncology; the AML tumour-suppressor contraindication)
 
 ## Earlier treatment-track drafts — subsumed by the roadmap
 

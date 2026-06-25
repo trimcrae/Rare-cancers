@@ -48,6 +48,34 @@ prostaglandin-A1 and a dopamine metabolite (PDB **5Y41/5YD6/6DDA**) and binds am
 crystal). So the modern consensus is softer than "undruggable": *no open classical pocket, but
 ligandable at cryptic/alternative sites.* Our route sits inside that consensus.
 
+## 5b. NR4A-family precedent for dynamic / cryptic pockets (paper-ready)
+The single strongest defense of our approach is that **the cryptic/dynamic-pocket mechanism is already
+demonstrated experimentally and computationally in NR4A3's close paralogues — but has never been
+examined in NR4A3 itself.** That makes our result simultaneously *credible* (precedented in a highly
+conserved family) and *novel* (first for NR4A3). The parallels to cite:
+
+- **NR4A2 / Nurr1 — canonical pocket is dynamic and expands (the closest precedent).** de Vera et al.
+  (*Structure* 2019) used NMR, HDX-MS and MD to show Nurr1's putative canonical pocket is **dynamic,
+  highly solvent-accessible, exchanges between conformations on the µs–ms timescale, and expands from
+  the collapsed crystallized conformation to bind unsaturated fatty acids.** This is our exact
+  hypothesis, on the *same* (orthosteric) pocket, in the nearest paralogue.
+- **NR4A1 / Nur77 — MD revealed a cryptic druggable pocket.** An in-silico/MD study reported a
+  *previously undetected, druggable* pocket in the Nur77 LBD (remote from the canonical site), stable
+  in simulation with conformational coupling to a distal loop ("In Silico Adoption of an Orphan Nuclear
+  Receptor NR4A1", PMC4535767). Independent evidence that NR4A LBDs harbour MD-revealable druggable
+  cavities invisible in static structures.
+- **Experimentally validated NR4A ligands bind cryptic/surface sites:** Nur77 + THPN (PDB 4JGV) and
+  + cytosporone B (PDB 6KZ5); Nurr1 + prostaglandin-A1 / dopamine-metabolite co-crystals (PDB
+  5Y41/5YD6/6DDA); Nurr1 + amodiaquine (NMR). Real NR4A ligands exist and engage non-classical sites.
+- **NR4A3 / NOR-1 itself: no experimental LBD structure and no published cryptic-pocket / MD study** —
+  the gap our work fills. NR4A LBDs are highly conserved (see `nr4a-selectivity.json`: most Pocket-5
+  lining residues are conserved across NR4A1/2/3), so the paralogue precedent transfers by homology.
+
+**Framing for the paper:** "A dynamic, ligand-accessible pocket has been demonstrated in the homologous
+Nurr1 (de Vera 2019) and a cryptic druggable pocket reported in Nur77 by MD, yet NR4A3 — the EMC fusion
+driver — has neither an experimental LBD structure nor any reported pocket-dynamics analysis. We provide
+the first."
+
 ## 6. Calibration that adjudicates all of the above (`nr4a3_calibration.py`)
 Same fpocket pipeline (and `fpocket_lib` file→pocket mapping) on a nuclear-receptor panel:
 - **Known-druggable controls** — PPARγ LBD + rosiglitazone (PDB **2PRG**), ERα LBD + 17β-estradiol
@@ -98,6 +126,8 @@ The bottleneck is **not** backbone-prediction accuracy:
 - de Vera IMS, Munoz-Tello P, Zheng J, Dharmarajan V, Marciano DP, Matta-Camacho E, Giri PK, Shang J,
   Hughes TS, Rance M, Griffin PR, Kojetin DJ. *Defining a Canonical Ligand-Binding Pocket in the Orphan
   Nuclear Receptor Nurr1.* **Structure** 27(1):66–77.e5 (2019). PubMed 30416039.
+- *In Silico Adoption of an Orphan Nuclear Receptor NR4A1* (PMC4535767) — MD-revealed cryptic druggable
+  pocket in the Nur77/NR4A1 LBD. *[journal/year locator to confirm before submission].*
 - Munoz-Tello P, et al. *Assessment of NR4A Ligands that Directly Bind and Modulate the Orphan Nuclear
   Receptor Nurr1.* (PMC8006468; amodiaquine binding by NMR; PGA1/5,6-dihydroxyindole co-crystals
   5Y41/5YD6/6DDA). *[journal/year locator to confirm before submission].*
