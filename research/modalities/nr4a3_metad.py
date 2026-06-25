@@ -58,7 +58,9 @@ MANIFEST     = os.path.join(HERE, "metad_manifest.json")     # params + cumulati
 METAD = {
     "sigma": 0.03, "height": 1.0, "pace": 500, "biasfactor": 10, "temp": 310,
     "grid_min": 0.4, "grid_max": 3.0, "grid_bin": 260,
-    "lower_wall": 0.6, "upper_wall": 2.2, "wall_kappa": 2000,
+    # lower wall lowered 0.6 -> 0.45 after the 5 ns validation showed the closed-state CV reaching
+    # ~0.477 nm (below 0.6): the old wall clipped the closed basin and would distort F(Rg) there.
+    "lower_wall": 0.45, "upper_wall": 2.2, "wall_kappa": 2000,
 }
 
 # Amino-acid residue names (for identifying the protein chain after solvation).

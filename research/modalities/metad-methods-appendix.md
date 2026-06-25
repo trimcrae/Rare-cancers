@@ -29,7 +29,9 @@ MD (10 ns unbiased MD showed only modest breathing, max +3.3 nm² SASA, no clear
   406, 407, 410, 411, 412, 481, 484, 485, 531, 534 (Pocket-5 lining, incl. all selectivity handles).
 - **Well-tempered metadynamics:** `SIGMA=0.03 nm`, `HEIGHT=1.0 kJ/mol`, `PACE=500` steps,
   `BIASFACTOR=10`, `TEMP=310 K`, grid `0.4–3.0 nm` (260 bins).
-- **Walls** (keep the CV physical): `LOWER_WALLS AT=0.6`, `UPPER_WALLS AT=2.2`, `KAPPA=2000`.
+- **Walls** (keep the CV physical): `LOWER_WALLS AT=0.45`, `UPPER_WALLS AT=2.2`, `KAPPA=2000`. (The
+  lower wall was lowered from 0.6 to 0.45 after the 5 ns validation showed the closed-state CV reaching
+  ~0.477 nm; the old wall clipped the closed basin and would bias F(Rg) near the closed state.)
 - These parameters live in one place (the `METAD` dict) and are written into every run's manifest.
 
 ## Integration
