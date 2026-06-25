@@ -10,6 +10,7 @@ import argparse
 import os
 import shutil
 import subprocess
+import sys
 
 OUT = "/opt/ml/processing/output"
 
@@ -38,6 +39,9 @@ def main():
             shutil.copy(p, os.path.join(OUT, f))
             print(f"[sagemaker] saved {f} ({os.path.getsize(p)} bytes)", flush=True)
     print(f"[sagemaker] MD exit={r.returncode}", flush=True)
+    if r.returncode != 0:
+        # Fail the processing job so a broken MD can't masquerade as a green run.
+        sys.exit(r.returncode)
 
 
 if __name__ == "__main__":

@@ -40,10 +40,36 @@ def main():
         return
 
     if not os.path.exists(AF2_PDB):
-        # fetch the AlphaFold model if the docking step didn't leave it here
+        # fetch the AlphaFold model if the docking step didn't leave it here.
+        # Resolve the URL from the AFDB API (version-agnostic) so a model_v* bump
+        # doesn't 404 us; fall back to enumerating known file-version suffixes.
+        import json
         import urllib.request
-        url = "https://alphafold.ebi.ac.uk/files/AF-Q92570-F1-model_v4.pdb"
-        urllib.request.urlretrieve(url, AF2_PDB)
+        import urllib.error
+        acc = "Q92570"  # NR4A3 / NOR-1
+        fetched = False
+        try:
+            api = f"https://alphafold.ebi.ac.uk/api/prediction/{acc}"
+            with urllib.request.urlopen(api, timeout=60) as r:
+                meta = json.load(r)
+            pdb_url = (meta[0] or {}).get("pdbUrl") if meta else None
+            if pdb_url:
+                urllib.request.urlretrieve(pdb_url, AF2_PDB)
+                fetched = True
+        except Exception as e:  # noqa: BLE001 — API best-effort; fall through to direct URLs
+            print(f"  AFDB API lookup failed ({e}); trying versioned file URLs", file=sys.stderr)
+        for v in ("v6", "v5", "v4", "v3", "v2", "v1"):
+            if fetched:
+                break
+            try:
+                urllib.request.urlretrieve(
+                    f"https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_{v}.pdb", AF2_PDB)
+                fetched = True
+            except urllib.error.HTTPError:
+                continue
+        if not fetched:
+            sys.exit(f"  ABORT: could not fetch the AlphaFold model for {acc} from AFDB "
+                     "(API + all versioned URLs failed).")
 
     # --- trim to the LBD (pre-filter the PDB to LBD-only atoms), then repair ----------------------
     lbd_pdb = os.path.join(os.path.dirname(__file__), "nr4a3-lbd.pdb")
