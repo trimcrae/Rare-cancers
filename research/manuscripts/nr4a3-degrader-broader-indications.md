@@ -1,5 +1,7 @@
-> **Role:** source memo — *feeds* the active manuscript (`emc-treatment-roadmap.md`). Motivation /
-> broader-indications material for the NR4A3-degrader route; not a standalone submission.
+> **Role:** the **indication stack** for the (reframed) NR4A3-degrader paper — see the positioning
+> decision in [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). The
+> degrader paper now *leads* with NR4A3 (target-centric); EMC is one motivating disease here, not the
+> headline.
 
 # Beyond EMC: what else could an NR4A3 (NR4A-family) degrader treat?
 

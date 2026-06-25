@@ -8,6 +8,14 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 > Everything else in this folder **feeds it**, **records QA for it**, or is **parked /
 > separate-track**. Every file carries a one-line role banner at its top saying which.
 
+> **⚠ REFRAME IN PROGRESS (2026-06-25):** per
+> [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md), the **degrader work
+> is being split out as its own lead paper framed target-centrically ("a selective NR4A3 degrader",
+> EMC = one motivating indication, not the headline).** Under that plan there will be **two** papers:
+> the NR4A3-degrader paper (lead) and this EMC-program roadmap (the EMC-fusion-specific routes:
+> ASO / immuno / registry). The "exactly ONE" rule above is pending that restructure — not yet
+> executed (awaiting go-ahead).
+
 ---
 
 ## ▶ Active manuscript (the repo's #1 deliverable)
