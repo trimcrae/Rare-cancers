@@ -1,0 +1,42 @@
+name: Stop SageMaker jobs (kill-switch)
+
+# Stops in-progress SageMaker Processing jobs to free the g5 quota slot / stop runaway cost.
+# Cancelling a workflow does NOT stop the SageMaker job it launched — use this. Manual-dispatch.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      name_prefix:
+        description: "Only stop jobs whose name starts with this (e.g. nr4a3-metad). Empty = ALL in-progress."
+        default: ""
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Stop in-progress processing jobs
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          NAME_PREFIX: ${{ inputs.name_prefix }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/stop_sagemaker_jobs.py
