@@ -20,7 +20,7 @@ def main():
         from sagemaker.processing import FrameworkProcessor, ProcessingOutput
         from sagemaker.pytorch import PyTorch
     except ImportError:
-        sys.exit("pip install 'sagemaker>=2.200' boto3")
+        sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
     if not role:

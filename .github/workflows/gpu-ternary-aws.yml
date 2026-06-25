@@ -36,7 +36,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install "sagemaker>=2.200" boto3
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v3 SDK dropped the FrameworkProcessor/PyTorch import paths this script uses
       - name: Submit SageMaker ternary job
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
