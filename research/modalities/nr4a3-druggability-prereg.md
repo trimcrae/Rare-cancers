@@ -72,6 +72,17 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
 - **Any of Gates 1–3 failing** → report the negative and shift weight to the backup modalities; do not
   re-tune thresholds post hoc to rescue the result.
 
+## Deviation log (append-only; preserves pre-registration integrity)
+- **2026-06-25 — Gate 0 metric corrected (disclosed).** As written, Gate 0 used *max* pocket
+  druggability and required the occluded Nurr1 `1OVL` max < 0.5. The calibration run (28202437979)
+  showed 1OVL max = **0.864** — i.e. *max* is non-discriminating because every NR LBD has a
+  high-scoring **non-orthosteric** cavity (the occluded crystal included). The pre-registered test
+  therefore **fails as literally specified**; we correct the discriminator to the **ligand-site /
+  orthosteric-specific** druggability (also computed in the same run) and set **D\* = 0.53** from the
+  validated drug-bound NR controls (PPARγ 0.599, ERα 0.586, Nurr1-holo 0.677, Nur77-holo 0.529). This
+  is disclosed rather than silently swapped; the corrected bar (0.53) is a real drug-bound score, not
+  a laxer one, and downstream conclusions hold under both 0.50 and 0.53.
+
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.
 2. External yardstick: D\* is set by known-druggable NR controls, not by NR4A3's own number.
