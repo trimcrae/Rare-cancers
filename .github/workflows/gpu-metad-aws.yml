@@ -29,6 +29,10 @@ on:
         description: "repo ref the GPU job clones + runs (branch/tag/sha)"
         default: "main"
         required: false
+      resume_from:
+        description: "continue a prior run's bias: '' = fresh, 'auto' = latest output prefix, or an s3:// path"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -52,6 +56,7 @@ jobs:
           INSTANCE: ${{ inputs.instance }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
           GIT_REF: ${{ inputs.git_ref }}
+          RESUME_FROM: ${{ inputs.resume_from }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."

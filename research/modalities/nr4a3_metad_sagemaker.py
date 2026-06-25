@@ -3,8 +3,16 @@
 Submit the NR4A3 LBD metadynamics as an AWS SageMaker Processing job (managed, auto-tears-down).
 
 Same managed-GPU path as nr4a3_md_sagemaker.py (entry_metad.py builds the CUDA OpenMM + PLUMED env).
-Outputs (COLVAR, HILLS, trajectory, fes.dat) go to s3://<default-bucket>/nr4a3-metad. Default
-MaxRuntime is 8 h to fit a ~30 ns biased run; raise MAX_RUNTIME for longer NS.
+Outputs (COLVAR, HILLS, trajectory, fes.dat, and the checkpoint/restart set) go to
+s3://<default-bucket>/nr4a3-metad. Default MaxRuntime is 8 h to fit a ~30 ns biased run; raise
+MAX_RUNTIME for longer NS.
+
+RESUME_FROM env: continue a prior run's accumulated bias instead of starting fresh.
+  - unset / ""     -> fresh run.
+  - "auto"         -> resume from the default output prefix s3://<bucket>/nr4a3-metad (the latest run;
+                      a completed run overwrites that prefix with its cumulative checkpoint + HILLS).
+  - "s3://..."     -> resume from that explicit prefix.
+A resume is refused inside nr4a3_metad.py if the CV or metad parameters changed.
 """
 import os
 import sys
@@ -13,7 +21,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingOutput
+        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
         from sagemaker.pytorch import PyTorch
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
@@ -25,10 +33,19 @@ def main():
     instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
     max_runtime = int(os.environ.get("MAX_RUNTIME", str(8 * 3600)))   # hard cap, AWS kills the job
     git_ref = os.environ.get("GIT_REF", "main")   # repo ref the job clones + runs (default main)
+    resume_from = os.environ.get("RESUME_FROM", "").strip()
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
+    out_prefix = f"s3://{bucket}/nr4a3-metad"
+
+    # Resolve the resume source. "auto" -> the default output prefix (the latest cumulative run).
+    resume_s3 = ""
+    if resume_from.lower() == "auto":
+        resume_s3 = out_prefix
+    elif resume_from:
+        resume_s3 = resume_from
 
     proc = FrameworkProcessor(
         estimator_cls=PyTorch,
@@ -41,18 +58,27 @@ def main():
         base_job_name="nr4a3-metad",
         sagemaker_session=sess,
     )
+
+    arguments = ["--ns", str(ns), "--git-ref", git_ref]
+    inputs = []
+    if resume_s3:
+        inputs.append(ProcessingInput(source=resume_s3, destination="/opt/ml/processing/resume",
+                                      input_name="resume"))
+        arguments += ["--resume-from", "/opt/ml/processing/resume"]
+
     print(f"submitting metadynamics: {instance}, ns={ns}, ref={git_ref}, "
-          f"max_runtime={max_runtime}s -> s3://{bucket}/nr4a3-metad", flush=True)
+          f"resume_from={resume_s3 or '(fresh)'}, max_runtime={max_runtime}s -> {out_prefix}",
+          flush=True)
     proc.run(
         code="entry_metad.py",
         source_dir=os.path.join(here, "sagemaker_src"),
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/nr4a3-metad")],
-        arguments=["--ns", str(ns), "--git-ref", git_ref],
+        inputs=inputs,
+        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=out_prefix)],
+        arguments=arguments,
         wait=True,
         logs=True,
     )
-    print(f"done — results in s3://{bucket}/nr4a3-metad", flush=True)
+    print(f"done — results in {out_prefix}", flush=True)
 
 
 if __name__ == "__main__":
