@@ -27,10 +27,21 @@ def main():
                     "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
 
     work = "/tmp/repo/research/modalities"
+
+    # The pip OpenMM wheel ships without a working CUDA platform on this DLC, so the
+    # MD aborts (OpenMM falls back to CPU). Install a CUDA-enabled OpenMM from
+    # conda-forge into an isolated env — conda's __cuda virtual package pulls the
+    # build matching the GPU driver — and run the MD with that env's python.
+    conda = shutil.which("conda") or "/opt/conda/bin/conda"
+    print(f"[sagemaker] creating conda env with CUDA OpenMM via {conda}", flush=True)
+    subprocess.run([conda, "create", "-y", "-n", "md", "-c", "conda-forge",
+                    "python=3.11", "openmm", "pdbfixer"], check=True)
+
     env = os.environ.copy()
     env["NS"] = ns
     print(f"[sagemaker] running MD for {ns} ns", flush=True)
-    r = subprocess.run(["python", "nr4a3_md.py"], cwd=work, env=env)
+    r = subprocess.run([conda, "run", "--no-capture-output", "-n", "md",
+                        "python", "nr4a3_md.py"], cwd=work, env=env)
 
     os.makedirs(OUT, exist_ok=True)
     for f in ("AF-Q92570.pdb", "nr4a3-lbd-solvated.pdb", "nr4a3-lbd-md.dcd"):

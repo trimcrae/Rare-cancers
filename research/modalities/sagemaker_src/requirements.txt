@@ -1,4 +1,3 @@
-openmm
-pdbfixer
-mdtraj
-numpy
+# OpenMM + pdbfixer are installed at runtime via conda-forge in entry.py (the pip
+# OpenMM wheel lacks a working CUDA platform on the SageMaker DLC, so the MD would
+# fall back to CPU and abort). Nothing GPU-related to pip-install here.
