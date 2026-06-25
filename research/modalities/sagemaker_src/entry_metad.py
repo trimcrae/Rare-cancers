@@ -17,12 +17,16 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--ns", default="30")
-    ns = ap.parse_args().ns
+    ap.add_argument("--git-ref", default="main",
+                    help="repo ref to run (branch/tag/sha); default main")
+    args = ap.parse_args()
+    ns = args.ns
     subprocess.run(["nvidia-smi"], check=False)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
                    check=False)
-    subprocess.run(["git", "clone", "--depth", "1",
+    subprocess.run(["git", "clone", "--depth", "1", "--branch", args.git_ref,
                     "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
+    print(f"[sagemaker] running ref={args.git_ref}", flush=True)
     work = "/tmp/repo/research/modalities"
 
     conda = shutil.which("conda") or "/opt/conda/bin/conda"

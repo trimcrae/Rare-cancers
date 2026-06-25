@@ -24,6 +24,7 @@ def main():
     ns = os.environ.get("NS", "30")
     instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
     max_runtime = int(os.environ.get("MAX_RUNTIME", str(8 * 3600)))   # hard cap, AWS kills the job
+    git_ref = os.environ.get("GIT_REF", "main")   # repo ref the job clones + runs (default main)
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
@@ -40,14 +41,14 @@ def main():
         base_job_name="nr4a3-metad",
         sagemaker_session=sess,
     )
-    print(f"submitting metadynamics: {instance}, ns={ns}, max_runtime={max_runtime}s -> "
-          f"s3://{bucket}/nr4a3-metad", flush=True)
+    print(f"submitting metadynamics: {instance}, ns={ns}, ref={git_ref}, "
+          f"max_runtime={max_runtime}s -> s3://{bucket}/nr4a3-metad", flush=True)
     proc.run(
         code="entry_metad.py",
         source_dir=os.path.join(here, "sagemaker_src"),
         outputs=[ProcessingOutput(source="/opt/ml/processing/output",
                                   destination=f"s3://{bucket}/nr4a3-metad")],
-        arguments=["--ns", str(ns)],
+        arguments=["--ns", str(ns), "--git-ref", git_ref],
         wait=True,
         logs=True,
     )
