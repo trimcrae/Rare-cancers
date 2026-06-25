@@ -86,17 +86,18 @@ def main():
             result["paralogues"][name] = {"uniprot": acc, "error": str(e)}
             print(f"  {name} {acc}: {e}", file=sys.stderr)
 
-    # NR4A3 top-pocket lining residues
-    if "NR4A3" in pdbs and pockets.get("NR4A3", {}).get("pockets"):
-        stem = pdbs["NR4A3"][:-4]
-        topnum = pockets["NR4A3"]["pockets"][0]["pocket"].split()[-1]
-        nr4a3_pocket = ns._pocket_residues(stem, topnum)
-    else:
-        nr4a3_pocket = []
-    result["nr4a3_top_pocket_residues"] = nr4a3_pocket
+    # NR4A3 LBD pockets with CORRECTLY-mapped lining residues (fpocket_lib, via nr4a3_structure).
+    # We classify divergence for EVERY LBD pocket and label each by druggability rather than
+    # silently analysing the most-druggable pocket: the degrader-warhead (orthosteric) target is the
+    # *collapsed, low-druggability* LBD pocket, NOT the top-druggability surface cavity (see
+    # ASSUMPTIONS.md). Downstream consumers pick the orthosteric pocket explicitly.
+    LBD = set(range(373, 627))
+    nr4a3_by_num = (pockets.get("NR4A3") or {}).get("pocket_residues", {})
+    nr4a3_drug = {int(p["pocket"].split()[-1]): p.get("druggability")
+                  for p in (pockets.get("NR4A3") or {}).get("pockets", [])}
 
-    # align NR4A3 to NR4A1/NR4A2 and classify each pocket residue
-    if nr4a3_pocket and "NR4A1" in seqs and "NR4A2" in seqs:
+    result["nr4a3_lbd_pockets"] = []
+    if nr4a3_by_num and "NR4A1" in seqs and "NR4A2" in seqs:
         aligner = PairwiseAligner()
         aligner.mode = "global"
         aligner.substitution_matrix = substitution_matrices.load("BLOSUM62")
@@ -106,32 +107,45 @@ def main():
         s3 = "".join(a for _, a in seqs["NR4A3"])
         s1 = "".join(a for _, a in seqs["NR4A1"])
         s2 = "".join(a for _, a in seqs["NR4A2"])
-        resnum3 = [r for r, _ in seqs["NR4A3"]]
-        idx_of_resnum3 = {r: i for i, r in enumerate(resnum3)}
+        idx_of_resnum3 = {r: i for i, (r, _) in enumerate(seqs["NR4A3"])}
         m31 = index_map(aligner, s3, s1)
         m32 = index_map(aligner, s3, s2)
 
-        rows, n_div = [], 0
-        for r in nr4a3_pocket:
-            i = idx_of_resnum3.get(r)
-            if i is None:
+        def classify(resids):
+            rows, ndiv = [], 0
+            for r in resids:
+                i = idx_of_resnum3.get(r)
+                if i is None:
+                    continue
+                aa3 = s3[i]
+                aa1 = s1[m31[i]] if i in m31 else "-"
+                aa2 = s2[m32[i]] if i in m32 else "-"
+                divergent = (aa3 != aa1) or (aa3 != aa2)
+                ndiv += divergent
+                rows.append({"nr4a3": f"{aa3}{r}", "nr4a1": aa1, "nr4a2": aa2, "divergent": divergent})
+            return rows, ndiv
+
+        for num in sorted(nr4a3_by_num):
+            resids = [r for r in nr4a3_by_num[num] if r in LBD]
+            if not resids:
                 continue
-            aa3 = s3[i]
-            aa1 = s1[m31[i]] if i in m31 else "-"
-            aa2 = s2[m32[i]] if i in m32 else "-"
-            divergent = (aa3 != aa1) or (aa3 != aa2)
-            n_div += divergent
-            rows.append({"nr4a3": f"{aa3}{r}", "nr4a1": aa1, "nr4a2": aa2, "divergent": divergent})
-        result["pocket_residue_selectivity"] = rows
-        result["n_pocket_residues"] = len(rows)
-        result["n_divergent_selectivity_handles"] = n_div
-        result["selectivity_handles"] = [x["nr4a3"] for x in rows if x["divergent"]]
+            rows, ndiv = classify(resids)
+            result["nr4a3_lbd_pockets"].append({
+                "pocket": num,
+                "druggability": nr4a3_drug.get(num),
+                "resid_span": [resids[0], resids[-1]],
+                "n_residues": len(rows),
+                "n_divergent": ndiv,
+                "selectivity_handles": [x["nr4a3"] for x in rows if x["divergent"]],
+                "residues": rows,
+            })
 
     json.dump(result, open(OUT, "w"), indent=2)
     print("wrote", OUT, file=sys.stderr)
-    print(json.dumps({k: result.get(k) for k in
-                      ("n_pocket_residues", "n_divergent_selectivity_handles", "selectivity_handles")},
-                     indent=2))
+    print(json.dumps([{"pocket": p["pocket"], "druggability": p["druggability"],
+                       "resid_span": p["resid_span"], "n_divergent": p["n_divergent"],
+                       "selectivity_handles": p["selectivity_handles"]}
+                      for p in result.get("nr4a3_lbd_pockets", [])], indent=2))
 
 
 if __name__ == "__main__":

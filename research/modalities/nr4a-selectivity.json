@@ -1,4 +1,5 @@
 {
+  "_CORRECTION_2026-06-25": "STALE — REGENERATION PENDING. `nr4a3_top_pocket_residues`, the per-paralogue `top_pocket_resid_span`, and the derived `selectivity_handles` were all computed through the fpocket file-index off-by-one (now fixed). The selectivity handles (406-534) actually line NR4A3's collapsed ORTHOSTERIC pocket (~0.026), not the most-druggable cavity (0.495 @ ~463-622) labeled here as the top pocket. Separately, the '0.495 vs 0.657/0.801' cross-paralogue comparison is top-pocket-vs-top-pocket, NOT orthosteric-vs-orthosteric, so it is not apples-to-apples. Regenerate with the corrected code (nr4a_selectivity.py now emits per-LBD-pocket handles) before citing. See research/modalities/ASSUMPTIONS.md.",
   "_note": "NR4A1/2/3 LBD pocket characterisation + NR4A3-vs-paralogue divergent pocket residues = selectivity handles for the degrader warhead. AFDB models + fpocket; alignment BLOSUM62. Design prep, not validated.",
   "paralogues": {
     "NR4A1": {

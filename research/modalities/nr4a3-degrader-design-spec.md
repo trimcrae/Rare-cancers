@@ -1,5 +1,16 @@
 # NR4A3 degrader — in-silico design spec (runnable when compute is available)
 
+> **⚠️ CORRECTION PENDING (2026-06-25).** An fpocket file-index off-by-one (now fixed in code, data
+> regeneration pending) corrupted the **pocket↔residue attribution** this doc relies on. Specifically:
+> the orthosteric (warhead-target) pocket is described below as **"fpocket Pocket 5, druggability 0.495,
+> residues 406–534"** — that conflates two cavities. The **0.495** cavity is a *different, more-druggable*
+> site at ~463–622 (likely the AF-2/coactivator surface); the residues **406–534** (incl. all 7
+> selectivity handles) line NR4A3's **collapsed orthosteric pocket, druggability ~0.026**. So the
+> warhead target is correct (406–534) but its **druggability is ~0.026, not 0.495**, which *strengthens*
+> the "undruggable orthosteric pocket → cryptic-pocket MD" thesis. The "least druggable of the three
+> (0.495 vs 0.657/0.801)" comparison is also top-pocket-vs-top-pocket, not orthosteric-matched. Treat the
+> specific 0.495/Pocket-5 numbers below as stale until regenerated. See `ASSUMPTIONS.md`.
+
 **Purpose.** The NR4A3 (NOR-1) degrader is the only route that attacks EMC's actual driver, and its
 one missing piece — a selective NR4A3 warhead — is a **pure in-silico design problem**. This is the
 spec for that design campaign: precise inputs, the pipeline, what runs on CPU now vs. needs a GPU,

@@ -32,6 +32,8 @@ import subprocess
 import sys
 import urllib.request
 
+import fpocket_lib as fl
+
 OUT = os.path.join(os.path.dirname(__file__), "nr4a3-structure-assessment.json")
 
 AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
@@ -123,26 +125,37 @@ def _domain_of(resid, regions):
     return "outside annotated regions"
 
 
-def _pocket_residues(stem, pocket_num):
-    """Residue seq-numbers lining a pocket, from <stem>_out/pockets/pocket{N}_atm.pdb."""
-    f = os.path.join(stem + "_out", "pockets", f"pocket{pocket_num}_atm.pdb")
-    res = set()
-    if os.path.exists(f):
-        with open(f) as fh:
-            for line in fh:
-                if line.startswith(("ATOM", "HETATM")):
-                    try:
-                        res.add(int(line[22:26]))
-                    except ValueError:
-                        pass
-    return sorted(res)
+def _read(path):
+    with open(path) as fh:
+        return fh.read()
+
+
+def pocket_residues_by_number(out_dir, stem_base):
+    """{pocket_number(1-based): sorted[resid]} with the residue-file -> pocket mapping DERIVED from
+    the data via fpocket_lib (alpha-sphere fingerprints), not assumed from the filename. This is the
+    fix for the off-by-one that previously read pocket{N}_atm.pdb for "Pocket N" and mis-attributed
+    residues. Returns (residues_by_number, parsed_info)."""
+    import glob
+    import re
+    info = fl.parse_info(_read(os.path.join(out_dir, stem_base + "_info.txt")))
+    out_pdb = os.path.join(out_dir, stem_base + "_out.pdb")
+    out_coords = fl.out_pdb_sphere_coords(_read(out_pdb)) if os.path.exists(out_pdb) else {}
+    file_res, counts, coords = {}, {}, {}
+    for f in glob.glob(os.path.join(out_dir, "pockets", "pocket*_atm.pdb")):
+        fidx = int(re.search(r"pocket(\d+)_atm", f).group(1))
+        file_res[fidx] = fl.parse_atm_residues(_read(f))
+        vert = os.path.join(out_dir, "pockets", f"pocket{fidx}_vert.pqr")
+        c = fl.pqr_sphere_coords(_read(vert)) if os.path.exists(vert) else frozenset()
+        coords[fidx], counts[fidx] = c, len(c)
+    mapping = fl.map_files_to_pockets(info, counts, coords, out_coords)   # raises on ambiguity
+    return {mapping[fidx]: res for fidx, res in file_res.items()}, info
 
 
 def run_fpocket(pdb_path, regions):
-    """Run fpocket; parse per-pocket druggability and localise the top pocket to a domain."""
+    """Run fpocket; report per-pocket druggability and localise the top pocket to a domain, with the
+    residue<->pocket mapping derived from data (fpocket_lib), not assumed."""
     try:
-        subprocess.run(["fpocket", "-f", pdb_path], check=True,
-                       capture_output=True, text=True)
+        subprocess.run(["fpocket", "-f", pdb_path], check=True, capture_output=True, text=True)
     except FileNotFoundError:
         print("  fpocket not installed; skipping pocket detection", file=sys.stderr)
         return {"available": False, "pockets": []}
@@ -151,45 +164,32 @@ def run_fpocket(pdb_path, regions):
         return {"available": False, "pockets": []}
 
     stem = pdb_path[:-4] if pdb_path.endswith(".pdb") else pdb_path
-    info = stem + "_out" + os.sep + os.path.basename(stem) + "_info.txt"
-    pockets = []
-    if os.path.exists(info):
-        cur = {}
-        with open(info) as fh:
-            for line in fh:
-                line = line.rstrip()
-                if line.startswith("Pocket"):
-                    if cur:
-                        pockets.append(cur)
-                    cur = {"pocket": line.split(":")[0].strip()}
-                elif "Druggability Score" in line:
-                    cur["druggability"] = float(line.split(":")[1])
-                elif "Score :" in line and "Druggability" not in line:
-                    cur["score"] = float(line.split(":")[1])
-                elif "Number of Alpha Spheres" in line:
-                    cur["alpha_spheres"] = int(float(line.split(":")[1]))
-        if cur:
-            pockets.append(cur)
-    pockets.sort(key=lambda p: p.get("druggability", 0), reverse=True)
+    out_dir, stem_base = stem + "_out", os.path.basename(stem)
+    resids_by_num, info = pocket_residues_by_number(out_dir, stem_base)
 
-    # Localise the most-druggable pocket to a domain (does the best cavity sit in the LBD?)
+    pockets = [{"pocket": f"Pocket {num}", "druggability": meta["druggability"],
+                "alpha_spheres": meta["alpha_spheres"],
+                "n_lining_residues": len(resids_by_num.get(num, []))}
+               for num, meta in info.items()]
+    pockets.sort(key=lambda p: (p.get("druggability") or 0), reverse=True)
+
     top_locale = None
     if pockets:
-        num = pockets[0]["pocket"].split()[-1]  # "Pocket 5" -> "5"
-        resids = _pocket_residues(stem, num)
+        topnum = int(pockets[0]["pocket"].split()[-1])
+        resids = resids_by_num.get(topnum, [])
         if resids:
             from collections import Counter
             doms = Counter(_domain_of(r, regions) for r in resids)
             top_locale = {
                 "pocket": pockets[0]["pocket"],
-                "druggability": pockets[0].get("druggability"),
+                "druggability": pockets[0]["druggability"],
                 "resid_min": resids[0], "resid_max": resids[-1],
                 "n_lining_residues": len(resids),
                 "domain_distribution": dict(doms),
                 "dominant_domain": doms.most_common(1)[0][0],
             }
-    return {"available": True, "n_pockets": len(pockets),
-            "top_pocket_locale": top_locale, "pockets": pockets}
+    return {"available": True, "n_pockets": len(pockets), "top_pocket_locale": top_locale,
+            "pockets": pockets, "pocket_residues": resids_by_num}
 
 
 def assess(acc, regions, with_fpocket):

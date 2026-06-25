@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 First in-silico warhead evidence for the NR4A3 degrader: dock real NR4A-relevant ligands into the
-AlphaFold NR4A3 ligand-binding domain (fpocket Pocket-5 site).
+AlphaFold NR4A3 ligand-binding domain (the orthosteric, collapsed LBD pocket, residues 406-534).
 
 This is the CPU-feasible first action from nr4a3-degrader-design-spec.md — characterise the
 warhead-binding site with REAL chemical matter (no fabricated structures):
   - Receptor: AlphaFold model AF-Q92570 (NR4A3), the LBD that the EWSR1::NR4A3 fusion retains.
-  - Site: fpocket Pocket 5 (residues 406-534) — box centred on those residues' CA centroid.
+  - Site: NR4A3 orthosteric (collapsed) LBD pocket, residues 406-534 — box on their CA centroid.
   - Ligands: REAL SMILES pulled from ChEMBL (named NR4A-relevant compounds + any NR4A3-target
     actives). RDKit makes 3D conformers; smina docks; we report binding scores (kcal/mol).
 
@@ -25,9 +25,12 @@ import urllib.request
 
 HERE = os.path.dirname(__file__)
 OUT = os.path.join(HERE, "nr4a3-docking.json")
-AFDB_PDB = "https://alphafold.ebi.ac.uk/files/AF-Q92570-F1-model_v4.pdb"
+AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/Q92570"  # resolve current model URL (no stale _v4)
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data"
-POCKET_RESIDUES = range(406, 535)   # fpocket Pocket 5 (NR4A3 LBD)
+# NR4A3 orthosteric (canonical ligand) pocket — the collapsed, low-druggability LBD cavity where the
+# NOR-1 inverse agonists / the degrader warhead bind. (Earlier code mislabeled this "fpocket Pocket 5
+# / druggability 0.495"; that 0.495 cavity is a different, more-druggable site — see ASSUMPTIONS.md.)
+POCKET_RESIDUES = range(406, 535)
 
 # Named, REAL NR4A-relevant compounds — SMILES are fetched from ChEMBL by name (never hard-coded),
 # so nothing is fabricated; names that don't resolve are skipped.
@@ -132,15 +135,18 @@ def make_sdf(ligands, path):
 
 def main():
     res = {"_note": "Docking of REAL NR4A-relevant ligands (ChEMBL) into the AlphaFold NR4A3 LBD "
-                    "Pocket-5 (residues 406-534), the site retained in EWSR1::NR4A3. Scores are a "
+                    "orthosteric (collapsed) pocket (residues 406-534), the site retained in "
+                    "EWSR1::NR4A3 where NOR-1 inverse agonists bind. Scores are a "
                     "site-characterisation prior (can the retained pocket bind drug-like matter? "
                     "which chemotypes?), NOT affinities. Seeds the warhead design "
                     "(nr4a3-degrader-design-spec.md).",
-           "receptor": "AF-Q92570 (AFDB v4)", "pocket": "fpocket Pocket 5 (406-534)"}
+           "receptor": "AF-Q92570 (AFDB, current model)",
+           "pocket": "NR4A3 orthosteric/collapsed LBD pocket (residues 406-534)"}
 
-    # 1) receptor
+    # 1) receptor — resolve the current AFDB model URL (version-agnostic; no stale _v4)
     pdb_path = os.path.join(HERE, "AF-Q92570.pdb")
-    open(pdb_path, "wb").write(_get(AFDB_PDB, timeout=120))
+    pdb_url = json.loads(_get(AFDB_API))[0]["pdbUrl"]
+    open(pdb_path, "wb").write(_get(pdb_url, timeout=120))
     center, npocket = pocket_box(pdb_path)
     res["box_center"] = [round(x, 2) for x in center]
     res["n_pocket_CA"] = npocket

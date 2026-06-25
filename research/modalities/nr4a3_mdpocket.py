@@ -62,7 +62,11 @@ def main():
     np.save(os.path.join(OUT, "pocket_sasa_nm2.npy"), pocket_sasa)
 
     time_ns = np.arange(t.n_frames, dtype=float) * NS_PER_FRAME
-    baseline = float(pocket_sasa[0])                       # frame 0 ~ the (minimized) static model
+    # NOTE: frame 0 is the first PRODUCTION frame (AFTER minimisation + 100 ps NVT/NPT equilibration),
+    # NOT the raw static AF2 model. So "opening vs baseline" is relative to the equilibrated state; a
+    # proper "opening beyond the collapsed static pocket" needs a separate static-model SASA reference
+    # (ASSUMPTIONS.md #6). Reported as production-frame-0 baseline, labelled honestly.
+    baseline = float(pocket_sasa[0])
     opening = pocket_sasa - baseline
     summary = {
         "frames": int(t.n_frames),
@@ -71,7 +75,7 @@ def main():
         "residue_numbering": numbering,
         "pocket_residues_matched": len(pocket_pos),
         "pocket_sasa_nm2": {
-            "baseline_frame0": baseline,
+            "baseline_production_frame0_post_equil": baseline,
             "min": float(pocket_sasa.min()),
             "max": float(pocket_sasa.max()),
             "mean": float(pocket_sasa.mean()),
@@ -82,8 +86,10 @@ def main():
             "frac_frames_more_open": float((opening > 0).mean()),
         },
         "interpretation": (
-            "A sustained/transient max_increase well above thermal noise (std) indicates the "
-            "Pocket-5 site opening beyond the static AF2 snapshot — the cryptic-pocket signal."
+            "max_increase is relative to the equilibrated production-frame-0 (NOT the static AF2 "
+            "model). A sustained/transient rise well above thermal noise (std) suggests pocket "
+            "opening during MD; a rigorous 'opens beyond the collapsed static pocket' claim needs a "
+            "separate static-model SASA reference (ASSUMPTIONS.md #6)."
         ),
     }
 
@@ -93,7 +99,7 @@ def main():
         import matplotlib.pyplot as plt
         plt.figure(figsize=(8, 4))
         plt.plot(time_ns, pocket_sasa, lw=0.8)
-        plt.axhline(baseline, color="k", ls="--", lw=0.7, label="frame-0 baseline")
+        plt.axhline(baseline, color="k", ls="--", lw=0.7, label="production frame-0 (post-equil)")
         plt.xlabel("time (ns)")
         plt.ylabel("Pocket-5 SASA (nm$^2$)")
         plt.title(f"NR4A3 LBD Pocket-5 (res {POCKET_FIRST}-{POCKET_LAST}) SASA over MD")
