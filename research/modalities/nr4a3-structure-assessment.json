@@ -2,7 +2,611 @@
   "_note": "AlphaFold2 (AFDB) confidence + fpocket cavity analysis. pLDDT is AlphaFold's per-residue confidence; <50 typically marks intrinsic disorder. Druggability score is fpocket's 0-1 estimate (>0.5 commonly considered druggable).",
   "NR4A3": {
     "uniprot": "Q92570",
-    "error": "residue file 1 (17 alpha spheres) matches no unused pocket in info.txt"
+    "length": 626,
+    "regions": {
+      "AF1/N-terminal (disordered)": {
+        "residues": "1-260",
+        "n": 260,
+        "mean_pLDDT": 37.7,
+        "frac_pLDDT_below_50": 0.965,
+        "interpretation": "very low confidence (predicted intrinsically disordered)"
+      },
+      "DNA-binding domain (zinc fingers)": {
+        "residues": "261-337",
+        "n": 77,
+        "mean_pLDDT": 76.1,
+        "frac_pLDDT_below_50": 0.338,
+        "interpretation": "confident (ordered)"
+      },
+      "hinge": {
+        "residues": "338-372",
+        "n": 35,
+        "mean_pLDDT": 84.6,
+        "frac_pLDDT_below_50": 0.086,
+        "interpretation": "confident (ordered)"
+      },
+      "ligand-binding domain": {
+        "residues": "373-626",
+        "n": 254,
+        "mean_pLDDT": 85.0,
+        "frac_pLDDT_below_50": 0.091,
+        "interpretation": "confident (ordered)"
+      }
+    },
+    "fpocket": {
+      "available": true,
+      "n_pockets": 33,
+      "top_pocket_locale": {
+        "pocket": "Pocket 5",
+        "druggability": 0.495,
+        "resid_min": 406,
+        "resid_max": 534,
+        "n_lining_residues": 10,
+        "domain_distribution": {
+          "ligand-binding domain": 10
+        },
+        "dominant_domain": "ligand-binding domain"
+      },
+      "pockets": [
+        {
+          "pocket": "Pocket 5",
+          "druggability": 0.495,
+          "alpha_spheres": 31,
+          "n_lining_residues": 10
+        },
+        {
+          "pocket": "Pocket 32",
+          "druggability": 0.196,
+          "alpha_spheres": 43,
+          "n_lining_residues": 11
+        },
+        {
+          "pocket": "Pocket 33",
+          "druggability": 0.065,
+          "alpha_spheres": 204,
+          "n_lining_residues": 35
+        },
+        {
+          "pocket": "Pocket 6",
+          "druggability": 0.026,
+          "alpha_spheres": 16,
+          "n_lining_residues": 6
+        },
+        {
+          "pocket": "Pocket 13",
+          "druggability": 0.016,
+          "alpha_spheres": 25,
+          "n_lining_residues": 7
+        },
+        {
+          "pocket": "Pocket 25",
+          "druggability": 0.015,
+          "alpha_spheres": 22,
+          "n_lining_residues": 6
+        },
+        {
+          "pocket": "Pocket 21",
+          "druggability": 0.013,
+          "alpha_spheres": 15,
+          "n_lining_residues": 5
+        },
+        {
+          "pocket": "Pocket 20",
+          "druggability": 0.012,
+          "alpha_spheres": 71,
+          "n_lining_residues": 18
+        },
+        {
+          "pocket": "Pocket 1",
+          "druggability": 0.007,
+          "alpha_spheres": 18,
+          "n_lining_residues": 8
+        },
+        {
+          "pocket": "Pocket 11",
+          "druggability": 0.007,
+          "alpha_spheres": 26,
+          "n_lining_residues": 8
+        },
+        {
+          "pocket": "Pocket 24",
+          "druggability": 0.007,
+          "alpha_spheres": 39,
+          "n_lining_residues": 9
+        },
+        {
+          "pocket": "Pocket 22",
+          "druggability": 0.006,
+          "alpha_spheres": 38,
+          "n_lining_residues": 10
+        },
+        {
+          "pocket": "Pocket 4",
+          "druggability": 0.005,
+          "alpha_spheres": 23,
+          "n_lining_residues": 10
+        },
+        {
+          "pocket": "Pocket 16",
+          "druggability": 0.003,
+          "alpha_spheres": 28,
+          "n_lining_residues": 8
+        },
+        {
+          "pocket": "Pocket 17",
+          "druggability": 0.003,
+          "alpha_spheres": 23,
+          "n_lining_residues": 3
+        },
+        {
+          "pocket": "Pocket 19",
+          "druggability": 0.003,
+          "alpha_spheres": 18,
+          "n_lining_residues": 7
+        },
+        {
+          "pocket": "Pocket 23",
+          "druggability": 0.003,
+          "alpha_spheres": 21,
+          "n_lining_residues": 9
+        },
+        {
+          "pocket": "Pocket 27",
+          "druggability": 0.003,
+          "alpha_spheres": 23,
+          "n_lining_residues": 3
+        },
+        {
+          "pocket": "Pocket 8",
+          "druggability": 0.002,
+          "alpha_spheres": 29,
+          "n_lining_residues": 10
+        },
+        {
+          "pocket": "Pocket 31",
+          "druggability": 0.002,
+          "alpha_spheres": 28,
+          "n_lining_residues": 10
+        },
+        {
+          "pocket": "Pocket 2",
+          "druggability": 0.001,
+          "alpha_spheres": 19,
+          "n_lining_residues": 8
+        },
+        {
+          "pocket": "Pocket 3",
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "n_lining_residues": 7
+        },
+        {
+          "pocket": "Pocket 7",
+          "druggability": 0.001,
+          "alpha_spheres": 24,
+          "n_lining_residues": 9
+        },
+        {
+          "pocket": "Pocket 12",
+          "druggability": 0.001,
+          "alpha_spheres": 26,
+          "n_lining_residues": 8
+        },
+        {
+          "pocket": "Pocket 28",
+          "druggability": 0.001,
+          "alpha_spheres": 21,
+          "n_lining_residues": 7
+        },
+        {
+          "pocket": "Pocket 9",
+          "druggability": 0.0,
+          "alpha_spheres": 33,
+          "n_lining_residues": 11
+        },
+        {
+          "pocket": "Pocket 10",
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "n_lining_residues": 9
+        },
+        {
+          "pocket": "Pocket 14",
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "n_lining_residues": 8
+        },
+        {
+          "pocket": "Pocket 15",
+          "druggability": 0.0,
+          "alpha_spheres": 27,
+          "n_lining_residues": 9
+        },
+        {
+          "pocket": "Pocket 18",
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "n_lining_residues": 5
+        },
+        {
+          "pocket": "Pocket 26",
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "n_lining_residues": 6
+        },
+        {
+          "pocket": "Pocket 29",
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "n_lining_residues": 5
+        },
+        {
+          "pocket": "Pocket 30",
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "n_lining_residues": 5
+        }
+      ],
+      "pocket_residues": {
+        "26": [
+          110,
+          111,
+          112,
+          169,
+          170,
+          171
+        ],
+        "8": [
+          408,
+          409,
+          410,
+          411,
+          446,
+          447,
+          450,
+          451,
+          454,
+          496
+        ],
+        "23": [
+          398,
+          456,
+          457,
+          460,
+          461,
+          554,
+          557,
+          558,
+          561
+        ],
+        "33": [
+          45,
+          46,
+          47,
+          48,
+          50,
+          51,
+          52,
+          53,
+          55,
+          540,
+          544,
+          545,
+          546,
+          547,
+          548,
+          549,
+          552,
+          553,
+          555,
+          556,
+          559,
+          560,
+          563,
+          566,
+          567,
+          580,
+          581,
+          583,
+          584,
+          585,
+          587,
+          588,
+          591,
+          592,
+          595
+        ],
+        "1": [
+          423,
+          426,
+          428,
+          430,
+          433,
+          504,
+          507,
+          508
+        ],
+        "32": [
+          547,
+          595,
+          598,
+          599,
+          602,
+          605,
+          620,
+          622,
+          623,
+          624,
+          625
+        ],
+        "11": [
+          418,
+          432,
+          435,
+          436,
+          439,
+          440,
+          497,
+          499
+        ],
+        "28": [
+          317,
+          321,
+          363,
+          364,
+          365,
+          367,
+          370
+        ],
+        "19": [
+          323,
+          324,
+          325,
+          326,
+          346,
+          349,
+          350
+        ],
+        "9": [
+          44,
+          46,
+          320,
+          321,
+          322,
+          323,
+          359,
+          360,
+          362,
+          364,
+          366
+        ],
+        "12": [
+          449,
+          453,
+          458,
+          463,
+          466,
+          467,
+          470,
+          471
+        ],
+        "3": [
+          334,
+          335,
+          336,
+          340,
+          341,
+          343,
+          344
+        ],
+        "24": [
+          510,
+          511,
+          512,
+          513,
+          516,
+          596,
+          599,
+          600,
+          603
+        ],
+        "22": [
+          325,
+          326,
+          327,
+          329,
+          330,
+          334,
+          342,
+          343,
+          344,
+          345
+        ],
+        "5": [
+          406,
+          407,
+          410,
+          411,
+          412,
+          481,
+          484,
+          485,
+          531,
+          534
+        ],
+        "7": [
+          332,
+          333,
+          334,
+          335,
+          336,
+          347,
+          350,
+          351,
+          354
+        ],
+        "21": [
+          550,
+          551,
+          552,
+          553,
+          554
+        ],
+        "13": [
+          483,
+          484,
+          524,
+          525,
+          528,
+          529,
+          534
+        ],
+        "2": [
+          433,
+          436,
+          437,
+          440,
+          505,
+          506,
+          509,
+          510
+        ],
+        "25": [
+          366,
+          367,
+          368,
+          369,
+          370,
+          375
+        ],
+        "20": [
+          468,
+          471,
+          472,
+          475,
+          476,
+          544,
+          545,
+          546,
+          547,
+          548,
+          591,
+          594,
+          595,
+          598,
+          619,
+          621,
+          622,
+          623
+        ],
+        "17": [
+          241,
+          242,
+          243
+        ],
+        "18": [
+          286,
+          287,
+          288,
+          289,
+          290
+        ],
+        "14": [
+          397,
+          399,
+          400,
+          532,
+          565,
+          568,
+          569,
+          572
+        ],
+        "4": [
+          463,
+          464,
+          465,
+          467,
+          468,
+          471,
+          547,
+          548,
+          550,
+          622
+        ],
+        "29": [
+          363,
+          372,
+          373,
+          374,
+          375
+        ],
+        "10": [
+          528,
+          530,
+          569,
+          570,
+          573,
+          575,
+          577,
+          579,
+          582
+        ],
+        "31": [
+          243,
+          412,
+          413,
+          414,
+          416,
+          485,
+          487,
+          490,
+          492,
+          494
+        ],
+        "16": [
+          516,
+          519,
+          520,
+          523,
+          589,
+          592,
+          593,
+          596
+        ],
+        "15": [
+          420,
+          424,
+          425,
+          427,
+          428,
+          432,
+          433,
+          436,
+          505
+        ],
+        "30": [
+          3,
+          339,
+          340,
+          342,
+          343
+        ],
+        "27": [
+          112,
+          113,
+          114
+        ],
+        "6": [
+          186,
+          187,
+          188,
+          189,
+          190,
+          191
+        ]
+      }
+    },
+    "top_pocket_druggability": 0.495
   },
   "EWSR1": {
     "uniprot": "Q01844",
