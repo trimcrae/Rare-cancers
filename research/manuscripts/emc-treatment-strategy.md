@@ -120,6 +120,25 @@ called out explicitly — *grouping is not a combined rank; read both axes off t
    (NOR-1 activity scales with expression level), the family is degradable (NR4A1 PROTAC works),
    NR4A3-specific warhead starting points exist (inverse NOR-1 agonists). *Needs: a selective
    warhead (med-chem or **AI de-novo binder design**) + the dTAG fusion-addiction test.*
+
+> **⚠️ FEASIBILITY REASSESSMENT (2026-06-25) — corrected druggability changes the warhead plan.**
+> A fixed fpocket off-by-one (see `research/modalities/ASSUMPTIONS.md`) revealed the **orthosteric
+> (warhead-target) pocket scores ~0.026, not 0.495** — essentially undruggable to small molecules in
+> the static model, not "borderline." (The 0.495 belongs to a *different*, more-druggable cavity at
+> ~463–622, likely the conserved AF-2/coactivator surface.) 0.026 is the more believable number — it
+> matches NR4A's atypical, ligand-independent biology (weak-binding NOR-1 inverse agonists). Effect on
+> the route:
+> - **Down-weight** the small-molecule orthosteric warhead as the lead: it now hinges *entirely* on the
+>   cryptic-pocket MD/metadynamics showing the pocket transiently reaches a druggable state. That is now
+>   the **make-or-break** experiment, with an explicit kill-criterion (per-frame fpocket druggability
+>   never ≥0.5 ⇒ route dead).
+> - **Promote to co-lead the pocket-independent warheads:** (1) a **de-novo protein/mini-binder
+>   degrader** (RFdiffusion → ProteinMPNN) — designed binders grip shallow surfaces a small molecule
+>   can't, so 0.026 isn't a barrier; (2) the **junction ASO** (no pocket at all; delivery-gated).
+> - **New alternative anchor:** the **0.495 AF-2 cavity** could host a degrader warhead — *if* it is
+>   selective vs NR4A1/2 (the AF-2 surface is conserved, so selectivity is the open question there;
+>   the orthosteric "handles" had the selectivity but not the druggability — the central trade-off).
+> The degradation *strategy* and fusion-addiction premise are unchanged; only warhead-sourcing shifts.
 - **CAR-T** (B7-H3 / CD56 ± TKI; armored / SynNotch-logic-gated / allogeneic). Same surface-target
    gate as the ADC but harder; higher bar. Among surface modalities, **ADC/RLT beat CAR-T to a
    patient.** *(car-t-strategies-emc.md)*

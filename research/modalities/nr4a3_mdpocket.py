@@ -2,18 +2,19 @@
 """
 Cryptic-pocket analysis of the NR4A3 LBD MD trajectory (post-processing for GPU experiment #1).
 
-The "NR4A3 is undruggable" verdict rests on the orthosteric (Pocket-5) site being *collapsed* in a
-single static AF2 model. This quantifies whether that site **opens** during the MD two ways:
+The orthosteric (warhead-target) pocket is collapsed and ~undruggable in the static AF2 model
+(fpocket ~0.026 — corrected; see ASSUMPTIONS.md). This asks whether MD opens it, three ways:
 
-  1. SASA of the Pocket-5 lining residues (406-534) per frame (mdtraj shrake_rupley). A transient
-     rise above the static-model baseline is the cryptic-pocket signal — solvent reaching into a
-     site that was closed in the AF2 snapshot.
-  2. (best-effort) mdpocket transient-pocket density at the site, if the fpocket/mdpocket binary is
-     present — the gold-standard map of where/when a pocket exists across the trajectory.
+  1. SASA of the orthosteric lining residues (406-534) per frame (mdtraj shrake_rupley) — a rise
+     suggests the site widening.
+  2. **Per-frame fpocket druggability** of the orthosteric pocket — the FEASIBILITY readout: does the
+     static ~0.026 score reach a druggable >=0.5 at any frame? If never, a small-molecule orthosteric
+     warhead is not viable and we pivot (protein binder / AF-2 surface / ASO).
+  3. (best-effort) mdpocket transient-pocket density across the trajectory.
 
 Inputs (env INPUT_DIR, default /opt/ml/processing/input): nr4a3-lbd-solvated.pdb + nr4a3-lbd-md.dcd
 (produced by nr4a3_md.py). Outputs (env OUTPUT_DIR, default /opt/ml/processing/output): a summary
-JSON, the per-frame SASA array, a SASA-vs-time plot, and any mdpocket grids.
+JSON, the per-frame SASA + druggability series, plots, and any mdpocket grids.
 """
 import json
 import os
@@ -22,8 +23,9 @@ import subprocess
 import sys
 
 LBD_FIRST = 373                               # AF2 LBD start (the trim used in nr4a3_md.py)
-POCKET_FIRST, POCKET_LAST = 406, 534          # Pocket-5 lining span (nr4a3-degrader-design-spec.md)
+POCKET_FIRST, POCKET_LAST = 406, 534          # orthosteric lining span (nr4a3-degrader-design-spec.md)
 NS_PER_FRAME = 0.05                            # DCDReporter wrote every 25000 steps * 2 fs = 50 ps
+N_FPOCKET_FRAMES = 25                         # frames sampled for the per-frame fpocket druggability
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
 
@@ -109,12 +111,85 @@ def main():
     except Exception as e:  # noqa: BLE001 — plot is a nicety, don't fail the job on it
         print(f"  plot skipped: {e}", file=sys.stderr)
 
+    # The feasibility readout: per-frame fpocket druggability of the orthosteric pocket.
+    target_resseqs = {resseqs[i] for i in pocket_pos}
+    summary["druggability_timeseries"] = druggability_timeseries(prot, target_resseqs, time_ns, np)
     summary["mdpocket"] = _mdpocket_best_effort(top, dcd)
 
     with open(os.path.join(OUT, "pocket_analysis_summary.json"), "w") as fh:
         json.dump(summary, fh, indent=2)
     print("  SUMMARY:", json.dumps(summary["pocket_sasa_nm2"]),
           json.dumps(summary["opening_vs_baseline_nm2"]), flush=True)
+    dts = summary["druggability_timeseries"]
+    if dts.get("ran"):
+        print(f"  DRUGGABILITY over MD: max={dts.get('max_druggability')} "
+              f"min={dts.get('min_druggability')} crosses_0.5={dts.get('crosses_druggable_0.5')} "
+              f"(static ~0.026)", flush=True)
+
+
+def druggability_timeseries(prot, target_resseqs, time_ns, np):
+    """Per-frame fpocket druggability of the orthosteric pocket (the pocket overlapping the target
+    residues most). Reuses the tested fpocket_lib mapping via nr4a3_structure. Best-effort: never
+    crashes the SASA result. `target_resseqs` are resSeq values in the trajectory's own numbering."""
+    if not shutil.which("fpocket"):
+        return {"ran": False, "reason": "fpocket not on PATH"}
+    import tempfile
+    import nr4a3_structure as ns
+
+    n = prot.n_frames
+    sample = sorted({int(round(x)) for x in np.linspace(0, n - 1, min(n, N_FPOCKET_FRAMES))})
+    series = []
+    for fi in sample:
+        d = tempfile.mkdtemp(prefix=f"fp_{fi}_", dir=OUT)
+        pdb = os.path.join(d, "frame.pdb")
+        try:
+            prot[fi].save_pdb(pdb)
+            subprocess.run(["fpocket", "-f", pdb], check=True, capture_output=True, text=True,
+                           timeout=300)
+            resids_by_num, info = ns.pocket_residues_by_number(os.path.join(d, "frame_out"), "frame")
+            best_num, best_ov = None, 0
+            for num, resids in resids_by_num.items():
+                ov = len(target_resseqs.intersection(resids))
+                if ov > best_ov:
+                    best_num, best_ov = num, ov
+            drug = info[best_num]["druggability"] if best_num is not None else None
+            series.append({"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
+                           "orthosteric_druggability": drug, "overlap_residues": best_ov})
+        except Exception as e:  # noqa: BLE001 — best-effort per frame
+            series.append({"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
+                           "error": str(e)[:200]})
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    drugs = [s["orthosteric_druggability"] for s in series
+             if s.get("orthosteric_druggability") is not None]
+    out = {"ran": True, "n_frames_sampled": len(sample), "series": series,
+           "max_druggability": max(drugs) if drugs else None,
+           "min_druggability": min(drugs) if drugs else None,
+           "crosses_druggable_0.5": bool(any(d >= 0.5 for d in drugs)) if drugs else None,
+           "interpretation": ("FEASIBILITY: does the collapsed orthosteric pocket (static ~0.026) "
+                              "reach a druggable score (>=0.5) at any sampled frame? If never, a "
+                              "small-molecule orthosteric warhead is not viable -> pivot to a designed "
+                              "protein binder, the AF-2 surface cavity, or the junction ASO.")}
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        pts = [(s["time_ns"], s["orthosteric_druggability"]) for s in series
+               if s.get("orthosteric_druggability") is not None]
+        if pts:
+            xs, ys = zip(*pts)
+            plt.figure(figsize=(8, 4))
+            plt.plot(xs, ys, "o-", lw=0.8, ms=3)
+            plt.axhline(0.5, color="r", ls="--", lw=0.7, label="druggable threshold 0.5")
+            plt.axhline(0.026, color="k", ls=":", lw=0.7, label="static model ~0.026")
+            plt.xlabel("time (ns)"); plt.ylabel("orthosteric-pocket fpocket druggability")
+            plt.title("NR4A3 orthosteric pocket druggability over MD")
+            plt.ylim(0, 1); plt.legend(); plt.tight_layout()
+            plt.savefig(os.path.join(OUT, "pocket_druggability.png"), dpi=130)
+    except Exception as e:  # noqa: BLE001
+        print(f"  druggability plot skipped: {e}", file=sys.stderr)
+    return out
 
 
 def _mdpocket_best_effort(top, dcd):
