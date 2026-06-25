@@ -177,7 +177,9 @@ def _cv_ca_plumed_indices(topology, cv_identities):
     (ASSUMPTIONS.md #7) that picked the wrong residue is caught here, not discovered in the results."""
     import residue_map as rm
     prot_residues = [r for r in topology.residues() if r.name in _AA]
-    resseqs = [r.resSeq for r in prot_residues]
+    # OpenMM topology Residue exposes the PDB residue number as `.id` (a string), not `.resSeq`
+    # (that is an mdtraj attribute) — cast to int for the resolver.
+    resseqs = [int(r.id) for r in prot_residues]
     positions, label = rm.resolve_positions(resseqs, CV_RESIDUES, LBD_FIRST)
     out = []
     for i in positions:
