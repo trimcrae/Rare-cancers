@@ -21,6 +21,7 @@ import shutil
 import subprocess
 import sys
 
+LBD_FIRST = 373                               # AF2 LBD start (the trim used in nr4a3_md.py)
 POCKET_FIRST, POCKET_LAST = 406, 534          # Pocket-5 lining span (nr4a3-degrader-design-spec.md)
 NS_PER_FRAME = 0.05                            # DCDReporter wrote every 25000 steps * 2 fs = 50 ps
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
@@ -43,15 +44,27 @@ def main():
     prot = t.atom_slice(t.topology.select("protein"))      # strip water/ions
     print(f"  frames={t.n_frames} atoms={t.n_atoms} protein_atoms={prot.n_atoms}", flush=True)
 
-    pocket_atoms = prot.topology.select(f"protein and resSeq {POCKET_FIRST} to {POCKET_LAST}")
-    if len(pocket_atoms) == 0:
-        sys.exit(f"  ABORT: no atoms matched Pocket-5 residues {POCKET_FIRST}-{POCKET_LAST} "
-                 "(check residue numbering in the solvated PDB)")
+    # Map Pocket-5 onto the trajectory residues. OpenMM/PDBFixer may renumber the solvated PDB
+    # residues from 1 instead of preserving the AF2 numbering (373..626), so handle both: use
+    # resSeq if it still spans the pocket, else assume the LBD was trimmed contiguously from
+    # LBD_FIRST and map by position (original residue r -> position r - LBD_FIRST).
+    prot_residues = list(prot.topology.residues)
+    resseqs = [r.resSeq for r in prot_residues]
+    if min(resseqs) <= POCKET_FIRST and POCKET_LAST <= max(resseqs):
+        pocket_pos = [i for i, r in enumerate(prot_residues) if POCKET_FIRST <= r.resSeq <= POCKET_LAST]
+        numbering = "resSeq-preserved"
+    else:
+        pocket_pos = [i for i in range(len(prot_residues)) if POCKET_FIRST <= LBD_FIRST + i <= POCKET_LAST]
+        numbering = f"renumbered-assumed-contiguous-from-{LBD_FIRST}"
+    print(f"  residue numbering: {numbering} (resSeq {min(resseqs)}..{max(resseqs)}); "
+          f"pocket residues matched: {len(pocket_pos)}", flush=True)
+    if not pocket_pos:
+        sys.exit(f"  ABORT: could not map Pocket-5 residues {POCKET_FIRST}-{POCKET_LAST} onto the "
+                 f"{len(prot_residues)} protein residues (resSeq {min(resseqs)}..{max(resseqs)})")
 
     # Per-residue SASA, summed over the pocket-lining residues -> one value per frame (nm^2).
     sasa_res = md.shrake_rupley(prot, mode="residue")
-    pocket_res_idx = sorted({prot.topology.atom(i).residue.index for i in pocket_atoms})
-    pocket_sasa = sasa_res[:, pocket_res_idx].sum(axis=1)
+    pocket_sasa = sasa_res[:, pocket_pos].sum(axis=1)
     np.save(os.path.join(OUT, "pocket_sasa_nm2.npy"), pocket_sasa)
 
     time_ns = np.arange(t.n_frames, dtype=float) * NS_PER_FRAME
@@ -61,6 +74,8 @@ def main():
         "frames": int(t.n_frames),
         "ns_per_frame": NS_PER_FRAME,
         "pocket_residue_range": [POCKET_FIRST, POCKET_LAST],
+        "residue_numbering": numbering,
+        "pocket_residues_matched": len(pocket_pos),
         "pocket_sasa_nm2": {
             "baseline_frame0": baseline,
             "min": float(pocket_sasa.min()),
