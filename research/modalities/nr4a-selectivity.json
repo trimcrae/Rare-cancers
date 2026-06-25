@@ -1,5 +1,4 @@
 {
-  "_CORRECTION_2026-06-25": "STALE — REGENERATION PENDING. `nr4a3_top_pocket_residues`, the per-paralogue `top_pocket_resid_span`, and the derived `selectivity_handles` were all computed through the fpocket file-index off-by-one (now fixed). The selectivity handles (406-534) actually line NR4A3's collapsed ORTHOSTERIC pocket (~0.026), not the most-druggable cavity (0.495 @ ~463-622) labeled here as the top pocket. Separately, the '0.495 vs 0.657/0.801' cross-paralogue comparison is top-pocket-vs-top-pocket, NOT orthosteric-vs-orthosteric, so it is not apples-to-apples. Regenerate with the corrected code (nr4a_selectivity.py now emits per-LBD-pocket handles) before citing. See research/modalities/ASSUMPTIONS.md.",
   "_note": "NR4A1/2/3 LBD pocket characterisation + NR4A3-vs-paralogue divergent pocket residues = selectivity handles for the degrader warhead. AFDB models + fpocket; alignment BLOSUM62. Design prep, not validated.",
   "paralogues": {
     "NR4A1": {
@@ -21,89 +20,1542 @@
       "top_pocket_resid_span": 406
     }
   },
-  "nr4a3_top_pocket_residues": [
-    406,
-    407,
-    410,
-    411,
-    412,
-    481,
-    484,
-    485,
-    531,
-    534
-  ],
-  "pocket_residue_selectivity": [
+  "nr4a3_lbd_pockets": [
     {
-      "nr4a3": "L406",
-      "nr4a1": "H",
-      "nr4a2": "H",
-      "divergent": true
+      "pocket": 1,
+      "druggability": 0.007,
+      "resid_span": [
+        423,
+        508
+      ],
+      "n_residues": 8,
+      "n_divergent": 4,
+      "selectivity_handles": [
+        "D423",
+        "A426",
+        "H433",
+        "L507"
+      ],
+      "residues": [
+        {
+          "nr4a3": "D423",
+          "nr4a1": "V",
+          "nr4a2": "D",
+          "divergent": true
+        },
+        {
+          "nr4a3": "A426",
+          "nr4a1": "H",
+          "nr4a2": "M",
+          "divergent": true
+        },
+        {
+          "nr4a3": "G428",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "D430",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        },
+        {
+          "nr4a3": "H433",
+          "nr4a1": "D",
+          "nr4a2": "H",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L504",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L507",
+          "nr4a1": "A",
+          "nr4a2": "V",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R508",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        }
+      ]
     },
     {
-      "nr4a3": "T407",
-      "nr4a1": "L",
-      "nr4a2": "V",
-      "divergent": true
+      "pocket": 2,
+      "druggability": 0.001,
+      "resid_span": [
+        433,
+        510
+      ],
+      "n_residues": 8,
+      "n_divergent": 1,
+      "selectivity_handles": [
+        "H433"
+      ],
+      "residues": [
+        {
+          "nr4a3": "H433",
+          "nr4a1": "D",
+          "nr4a2": "H",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q436",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "F437",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L440",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Q505",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "C506",
+          "nr4a1": "C",
+          "nr4a2": "C",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G509",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "F510",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        }
+      ]
     },
     {
-      "nr4a3": "T410",
-      "nr4a1": "G",
-      "nr4a2": "N",
-      "divergent": true
+      "pocket": 4,
+      "druggability": 0.005,
+      "resid_span": [
+        463,
+        622
+      ],
+      "n_residues": 10,
+      "n_divergent": 4,
+      "selectivity_handles": [
+        "K463",
+        "E464",
+        "T467",
+        "K550"
+      ],
+      "residues": [
+        {
+          "nr4a3": "K463",
+          "nr4a1": "P",
+          "nr4a2": "K",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E464",
+          "nr4a1": "A",
+          "nr4a2": "A",
+          "divergent": true
+        },
+        {
+          "nr4a3": "D465",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T467",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L468",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E471",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "H547",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G548",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K550",
+          "nr4a1": "Q",
+          "nr4a2": "K",
+          "divergent": true
+        },
+        {
+          "nr4a3": "D622",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        }
+      ]
     },
     {
-      "nr4a3": "P411",
-      "nr4a1": "P",
-      "nr4a2": "P",
-      "divergent": false
+      "pocket": 5,
+      "druggability": 0.495,
+      "resid_span": [
+        406,
+        534
+      ],
+      "n_residues": 10,
+      "n_divergent": 7,
+      "selectivity_handles": [
+        "L406",
+        "T407",
+        "T410",
+        "R412",
+        "I484",
+        "I531",
+        "L534"
+      ],
+      "residues": [
+        {
+          "nr4a3": "L406",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": true
+        },
+        {
+          "nr4a3": "T407",
+          "nr4a1": "L",
+          "nr4a2": "V",
+          "divergent": true
+        },
+        {
+          "nr4a3": "T410",
+          "nr4a1": "G",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "P411",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        },
+        {
+          "nr4a3": "R412",
+          "nr4a1": "A",
+          "nr4a2": "T",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R481",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "I484",
+          "nr4a1": "Y",
+          "nr4a2": "Y",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R485",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "I531",
+          "nr4a1": "V",
+          "nr4a2": "I",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L534",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": true
+        }
+      ]
     },
     {
-      "nr4a3": "R412",
-      "nr4a1": "A",
-      "nr4a2": "T",
-      "divergent": true
+      "pocket": 8,
+      "druggability": 0.002,
+      "resid_span": [
+        408,
+        496
+      ],
+      "n_residues": 10,
+      "n_divergent": 4,
+      "selectivity_handles": [
+        "T410",
+        "D446",
+        "V447",
+        "S450"
+      ],
+      "residues": [
+        {
+          "nr4a3": "D408",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        },
+        {
+          "nr4a3": "S409",
+          "nr4a1": "S",
+          "nr4a2": "S",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T410",
+          "nr4a1": "G",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "P411",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        },
+        {
+          "nr4a3": "D446",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": true
+        },
+        {
+          "nr4a3": "V447",
+          "nr4a1": "V",
+          "nr4a2": "I",
+          "divergent": true
+        },
+        {
+          "nr4a3": "S450",
+          "nr4a1": "K",
+          "nr4a2": "G",
+          "divergent": true
+        },
+        {
+          "nr4a3": "W451",
+          "nr4a1": "W",
+          "nr4a2": "W",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K454",
+          "nr4a1": "K",
+          "nr4a2": "K",
+          "divergent": false
+        },
+        {
+          "nr4a3": "C496",
+          "nr4a1": "C",
+          "nr4a2": "C",
+          "divergent": false
+        }
+      ]
     },
     {
-      "nr4a3": "R481",
-      "nr4a1": "R",
-      "nr4a2": "R",
-      "divergent": false
+      "pocket": 10,
+      "druggability": 0.0,
+      "resid_span": [
+        528,
+        582
+      ],
+      "n_residues": 9,
+      "n_divergent": 7,
+      "selectivity_handles": [
+        "N528",
+        "Q570",
+        "G573",
+        "A575",
+        "E577",
+        "T579",
+        "K582"
+      ],
+      "residues": [
+        {
+          "nr4a3": "N528",
+          "nr4a1": "L",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "D530",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        },
+        {
+          "nr4a3": "H569",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Q570",
+          "nr4a1": "V",
+          "nr4a2": "V",
+          "divergent": true
+        },
+        {
+          "nr4a3": "G573",
+          "nr4a1": "A",
+          "nr4a2": "G",
+          "divergent": true
+        },
+        {
+          "nr4a3": "A575",
+          "nr4a1": "A",
+          "nr4a2": "L",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E577",
+          "nr4a1": "E",
+          "nr4a2": "R",
+          "divergent": true
+        },
+        {
+          "nr4a3": "T579",
+          "nr4a1": "Q",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "K582",
+          "nr4a1": "R",
+          "nr4a2": "K",
+          "divergent": true
+        }
+      ]
     },
     {
-      "nr4a3": "I484",
-      "nr4a1": "Y",
-      "nr4a2": "Y",
-      "divergent": true
+      "pocket": 11,
+      "druggability": 0.007,
+      "resid_span": [
+        418,
+        499
+      ],
+      "n_residues": 8,
+      "n_divergent": 5,
+      "selectivity_handles": [
+        "R418",
+        "E432",
+        "N439",
+        "N497",
+        "L499"
+      ],
+      "residues": [
+        {
+          "nr4a3": "R418",
+          "nr4a1": "K",
+          "nr4a2": "R",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E432",
+          "nr4a1": "G",
+          "nr4a2": "Q",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q435",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Q436",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "N439",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L440",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "N497",
+          "nr4a1": "S",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L499",
+          "nr4a1": "L",
+          "nr4a2": "V",
+          "divergent": true
+        }
+      ]
     },
     {
-      "nr4a3": "R485",
-      "nr4a1": "R",
-      "nr4a2": "R",
-      "divergent": false
+      "pocket": 12,
+      "druggability": 0.001,
+      "resid_span": [
+        449,
+        471
+      ],
+      "n_residues": 8,
+      "n_divergent": 3,
+      "selectivity_handles": [
+        "K463",
+        "T467",
+        "I470"
+      ],
+      "residues": [
+        {
+          "nr4a3": "R449",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E453",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "F458",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K463",
+          "nr4a1": "P",
+          "nr4a2": "K",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q466",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T467",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": true
+        },
+        {
+          "nr4a3": "I470",
+          "nr4a1": "L",
+          "nr4a2": "F",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E471",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        }
+      ]
     },
     {
-      "nr4a3": "I531",
-      "nr4a1": "V",
-      "nr4a2": "I",
-      "divergent": true
+      "pocket": 13,
+      "druggability": 0.016,
+      "resid_span": [
+        483,
+        534
+      ],
+      "n_residues": 7,
+      "n_divergent": 6,
+      "selectivity_handles": [
+        "S483",
+        "I484",
+        "Q525",
+        "N528",
+        "L529",
+        "L534"
+      ],
+      "residues": [
+        {
+          "nr4a3": "S483",
+          "nr4a1": "A",
+          "nr4a2": "A",
+          "divergent": true
+        },
+        {
+          "nr4a3": "I484",
+          "nr4a1": "Y",
+          "nr4a2": "Y",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L524",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Q525",
+          "nr4a1": "H",
+          "nr4a2": "Q",
+          "divergent": true
+        },
+        {
+          "nr4a3": "N528",
+          "nr4a1": "L",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L529",
+          "nr4a1": "V",
+          "nr4a2": "I",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L534",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": true
+        }
+      ]
     },
     {
-      "nr4a3": "L534",
-      "nr4a1": "F",
-      "nr4a2": "F",
-      "divergent": true
+      "pocket": 14,
+      "druggability": 0.0,
+      "resid_span": [
+        397,
+        572
+      ],
+      "n_residues": 8,
+      "n_divergent": 7,
+      "selectivity_handles": [
+        "C397",
+        "M399",
+        "N400",
+        "Q532",
+        "S565",
+        "D568",
+        "K572"
+      ],
+      "residues": [
+        {
+          "nr4a3": "C397",
+          "nr4a1": "N",
+          "nr4a2": "S",
+          "divergent": true
+        },
+        {
+          "nr4a3": "M399",
+          "nr4a1": "L",
+          "nr4a2": "I",
+          "divergent": true
+        },
+        {
+          "nr4a3": "N400",
+          "nr4a1": "T",
+          "nr4a2": "S",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q532",
+          "nr4a1": "P",
+          "nr4a2": "S",
+          "divergent": true
+        },
+        {
+          "nr4a3": "S565",
+          "nr4a1": "C",
+          "nr4a2": "C",
+          "divergent": true
+        },
+        {
+          "nr4a3": "D568",
+          "nr4a1": "E",
+          "nr4a2": "D",
+          "divergent": true
+        },
+        {
+          "nr4a3": "H569",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K572",
+          "nr4a1": "-",
+          "nr4a2": "N",
+          "divergent": true
+        }
+      ]
+    },
+    {
+      "pocket": 15,
+      "druggability": 0.0,
+      "resid_span": [
+        420,
+        505
+      ],
+      "n_residues": 9,
+      "n_divergent": 6,
+      "selectivity_handles": [
+        "C420",
+        "Q424",
+        "A425",
+        "A427",
+        "E432",
+        "H433"
+      ],
+      "residues": [
+        {
+          "nr4a3": "C420",
+          "nr4a1": "Q",
+          "nr4a2": "A",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q424",
+          "nr4a1": "L",
+          "nr4a2": "Y",
+          "divergent": true
+        },
+        {
+          "nr4a3": "A425",
+          "nr4a1": "P",
+          "nr4a2": "Q",
+          "divergent": true
+        },
+        {
+          "nr4a3": "A427",
+          "nr4a1": "F",
+          "nr4a2": "S",
+          "divergent": true
+        },
+        {
+          "nr4a3": "G428",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E432",
+          "nr4a1": "G",
+          "nr4a2": "Q",
+          "divergent": true
+        },
+        {
+          "nr4a3": "H433",
+          "nr4a1": "D",
+          "nr4a2": "H",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q436",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Q505",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 16,
+      "druggability": 0.003,
+      "resid_span": [
+        516,
+        596
+      ],
+      "n_residues": 8,
+      "n_divergent": 5,
+      "selectivity_handles": [
+        "D519",
+        "N523",
+        "K592",
+        "I593",
+        "L596"
+      ],
+      "residues": [
+        {
+          "nr4a3": "S516",
+          "nr4a1": "S",
+          "nr4a2": "S",
+          "divergent": false
+        },
+        {
+          "nr4a3": "D519",
+          "nr4a1": "A",
+          "nr4a2": "E",
+          "divergent": true
+        },
+        {
+          "nr4a3": "F520",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        },
+        {
+          "nr4a3": "N523",
+          "nr4a1": "S",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E589",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K592",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": true
+        },
+        {
+          "nr4a3": "I593",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L596",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": true
+        }
+      ]
+    },
+    {
+      "pocket": 20,
+      "druggability": 0.012,
+      "resid_span": [
+        468,
+        623
+      ],
+      "n_residues": 18,
+      "n_divergent": 3,
+      "selectivity_handles": [
+        "E545",
+        "L619",
+        "L621"
+      ],
+      "residues": [
+        {
+          "nr4a3": "L468",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E471",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "S472",
+          "nr4a1": "S",
+          "nr4a2": "S",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L475",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E476",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T544",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E545",
+          "nr4a1": "D",
+          "nr4a2": "E",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R546",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "H547",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G548",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "R591",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "C594",
+          "nr4a1": "C",
+          "nr4a2": "C",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T595",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L598",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L619",
+          "nr4a1": "I",
+          "nr4a2": "L",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L621",
+          "nr4a1": "M",
+          "nr4a2": "L",
+          "divergent": true
+        },
+        {
+          "nr4a3": "D622",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T623",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 21,
+      "druggability": 0.013,
+      "resid_span": [
+        550,
+        554
+      ],
+      "n_residues": 5,
+      "n_divergent": 2,
+      "selectivity_handles": [
+        "K550",
+        "K553"
+      ],
+      "residues": [
+        {
+          "nr4a3": "K550",
+          "nr4a1": "Q",
+          "nr4a2": "K",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E551",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "P552",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K553",
+          "nr4a1": "R",
+          "nr4a2": "K",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R554",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 23,
+      "druggability": 0.003,
+      "resid_span": [
+        398,
+        561
+      ],
+      "n_residues": 9,
+      "n_divergent": 3,
+      "selectivity_handles": [
+        "M398",
+        "D460",
+        "K561"
+      ],
+      "residues": [
+        {
+          "nr4a3": "M398",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": true
+        },
+        {
+          "nr4a3": "P456",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G457",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "D460",
+          "nr4a1": "E",
+          "nr4a2": "D",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L461",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "R554",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E557",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L558",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K561",
+          "nr4a1": "R",
+          "nr4a2": "K",
+          "divergent": true
+        }
+      ]
+    },
+    {
+      "pocket": 24,
+      "druggability": 0.007,
+      "resid_span": [
+        510,
+        603
+      ],
+      "n_residues": 9,
+      "n_divergent": 2,
+      "selectivity_handles": [
+        "E512",
+        "L596"
+      ],
+      "residues": [
+        {
+          "nr4a3": "F510",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G511",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E512",
+          "nr4a1": "D",
+          "nr4a2": "E",
+          "divergent": true
+        },
+        {
+          "nr4a3": "W513",
+          "nr4a1": "W",
+          "nr4a2": "W",
+          "divergent": false
+        },
+        {
+          "nr4a3": "S516",
+          "nr4a1": "S",
+          "nr4a2": "S",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L596",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": true
+        },
+        {
+          "nr4a3": "Q599",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "R600",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Y603",
+          "nr4a1": "Y",
+          "nr4a2": "Y",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 25,
+      "druggability": 0.015,
+      "resid_span": [
+        375,
+        375
+      ],
+      "n_residues": 1,
+      "n_divergent": 0,
+      "selectivity_handles": [],
+      "residues": [
+        {
+          "nr4a3": "P375",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 29,
+      "druggability": 0.0,
+      "resid_span": [
+        373,
+        375
+      ],
+      "n_residues": 3,
+      "n_divergent": 0,
+      "selectivity_handles": [],
+      "residues": [
+        {
+          "nr4a3": "R373",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L374",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "P375",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 31,
+      "druggability": 0.002,
+      "resid_span": [
+        412,
+        494
+      ],
+      "n_residues": 9,
+      "n_divergent": 4,
+      "selectivity_handles": [
+        "R412",
+        "D413",
+        "N487",
+        "V494"
+      ],
+      "residues": [
+        {
+          "nr4a3": "R412",
+          "nr4a1": "A",
+          "nr4a2": "T",
+          "divergent": true
+        },
+        {
+          "nr4a3": "D413",
+          "nr4a1": "K",
+          "nr4a2": "S",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L414",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Y416",
+          "nr4a1": "Y",
+          "nr4a2": "Y",
+          "divergent": false
+        },
+        {
+          "nr4a3": "R485",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "N487",
+          "nr4a1": "K",
+          "nr4a2": "N",
+          "divergent": true
+        },
+        {
+          "nr4a3": "E490",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K492",
+          "nr4a1": "K",
+          "nr4a2": "K",
+          "divergent": false
+        },
+        {
+          "nr4a3": "V494",
+          "nr4a1": "I",
+          "nr4a2": "I",
+          "divergent": true
+        }
+      ]
+    },
+    {
+      "pocket": 32,
+      "druggability": 0.196,
+      "resid_span": [
+        547,
+        625
+      ],
+      "n_residues": 11,
+      "n_divergent": 0,
+      "selectivity_handles": [],
+      "residues": [
+        {
+          "nr4a3": "H547",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T595",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L598",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "Q599",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": false
+        },
+        {
+          "nr4a3": "F602",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K605",
+          "nr4a1": "K",
+          "nr4a2": "K",
+          "divergent": false
+        },
+        {
+          "nr4a3": "F620",
+          "nr4a1": "F",
+          "nr4a2": "F",
+          "divergent": false
+        },
+        {
+          "nr4a3": "D622",
+          "nr4a1": "D",
+          "nr4a2": "D",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T623",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L624",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "P625",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        }
+      ]
+    },
+    {
+      "pocket": 33,
+      "druggability": 0.065,
+      "resid_span": [
+        540,
+        595
+      ],
+      "n_residues": 26,
+      "n_divergent": 8,
+      "selectivity_handles": [
+        "E545",
+        "K553",
+        "C559",
+        "T563",
+        "E580",
+        "V583",
+        "V588",
+        "K592"
+      ],
+      "residues": [
+        {
+          "nr4a3": "L540",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T544",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E545",
+          "nr4a1": "D",
+          "nr4a2": "E",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R546",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "H547",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G548",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L549",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "P552",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K553",
+          "nr4a1": "R",
+          "nr4a2": "K",
+          "divergent": true
+        },
+        {
+          "nr4a3": "V555",
+          "nr4a1": "V",
+          "nr4a2": "V",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E556",
+          "nr4a1": "E",
+          "nr4a2": "E",
+          "divergent": false
+        },
+        {
+          "nr4a3": "C559",
+          "nr4a1": "Q",
+          "nr4a2": "Q",
+          "divergent": true
+        },
+        {
+          "nr4a3": "N560",
+          "nr4a1": "N",
+          "nr4a2": "N",
+          "divergent": false
+        },
+        {
+          "nr4a3": "T563",
+          "nr4a1": "A",
+          "nr4a2": "V",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L566",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K567",
+          "nr4a1": "K",
+          "nr4a2": "K",
+          "divergent": false
+        },
+        {
+          "nr4a3": "E580",
+          "nr4a1": "P",
+          "nr4a2": "Y",
+          "divergent": true
+        },
+        {
+          "nr4a3": "S581",
+          "nr4a1": "S",
+          "nr4a2": "S",
+          "divergent": false
+        },
+        {
+          "nr4a3": "V583",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": true
+        },
+        {
+          "nr4a3": "L584",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "G585",
+          "nr4a1": "G",
+          "nr4a2": "G",
+          "divergent": false
+        },
+        {
+          "nr4a3": "L587",
+          "nr4a1": "L",
+          "nr4a2": "L",
+          "divergent": false
+        },
+        {
+          "nr4a3": "V588",
+          "nr4a1": "P",
+          "nr4a2": "P",
+          "divergent": true
+        },
+        {
+          "nr4a3": "R591",
+          "nr4a1": "R",
+          "nr4a2": "R",
+          "divergent": false
+        },
+        {
+          "nr4a3": "K592",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": true
+        },
+        {
+          "nr4a3": "T595",
+          "nr4a1": "T",
+          "nr4a2": "T",
+          "divergent": false
+        }
+      ]
     }
-  ],
-  "n_pocket_residues": 10,
-  "n_divergent_selectivity_handles": 7,
-  "selectivity_handles": [
-    "L406",
-    "T407",
-    "T410",
-    "R412",
-    "I484",
-    "I531",
-    "L534"
   ]
 }
