@@ -1,0 +1,104 @@
+{
+  "_note": "Linker contour length -> ideal-chain effective molarity -> AND-gate fusion-vs-wildtype selectivity window. CPU/stdlib. Arm affinities fixed (Kd1=10 uM LBD, Kd2=100 uM EWS-LC) so EM is the only variable. EM is the COINCIDENT-SITE (d~0) UPPER BOUND; a mobile disordered EWS-LC anchor realises a lower EM, so windows here are optimistic ceilings.",
+  "_inputs_are_illustrative": true,
+  "_model": "EM = (3/(2*pi*Lc*b))^(3/2) * 1e24/NA ; b(Kuhn)=0.5 nm ; avidity Kd=Kd1*Kd2/EM",
+  "fixed": {
+    "Kd1_LBD_M": 9.999999999999999e-06,
+    "Kd2_EWS_M": 9.999999999999999e-05,
+    "free_ligand_M": 1e-06,
+    "kuhn_length_nm": 0.5
+  },
+  "by_linker": [
+    {
+      "linker_contour_nm": 1.0,
+      "approx_PEG_or_CH2_units": 3,
+      "effective_molarity_M": 1.5495520561654823,
+      "Kd_avidity_M": 6.453477932678153e-10,
+      "fusion_fraction_bound": 0.9994,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 11.0
+    },
+    {
+      "linker_contour_nm": 2.0,
+      "approx_PEG_or_CH2_units": 6,
+      "effective_molarity_M": 0.5478493833580852,
+      "Kd_avidity_M": 1.8253192033737858e-09,
+      "fusion_fraction_bound": 0.9982,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 11.0
+    },
+    {
+      "linker_contour_nm": 3.5,
+      "approx_PEG_or_CH2_units": 10,
+      "effective_molarity_M": 0.23664868967927857,
+      "Kd_avidity_M": 4.225673091007873e-09,
+      "fusion_fraction_bound": 0.9958,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 11.0
+    },
+    {
+      "linker_contour_nm": 5.0,
+      "approx_PEG_or_CH2_units": 14,
+      "effective_molarity_M": 0.13859614929042366,
+      "Kd_avidity_M": 7.215207674381579e-09,
+      "fusion_fraction_bound": 0.9928,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 10.9
+    },
+    {
+      "linker_contour_nm": 7.0,
+      "approx_PEG_or_CH2_units": 20,
+      "effective_molarity_M": 0.08366794661556441,
+      "Kd_avidity_M": 1.1952008390916742e-08,
+      "fusion_fraction_bound": 0.9882,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 10.9
+    },
+    {
+      "linker_contour_nm": 10.0,
+      "approx_PEG_or_CH2_units": 29,
+      "effective_molarity_M": 0.04900113850480083,
+      "Kd_avidity_M": 2.0407689096897737e-08,
+      "fusion_fraction_bound": 0.98,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 10.8
+    },
+    {
+      "linker_contour_nm": 14.0,
+      "approx_PEG_or_CH2_units": 40,
+      "effective_molarity_M": 0.02958108620990982,
+      "Kd_avidity_M": 3.380538472806298e-08,
+      "fusion_fraction_bound": 0.9673,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 10.6
+    },
+    {
+      "linker_contour_nm": 20.0,
+      "approx_PEG_or_CH2_units": 57,
+      "effective_molarity_M": 0.017324518661302957,
+      "Kd_avidity_M": 5.772166139505263e-08,
+      "fusion_fraction_bound": 0.9454,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 10.4
+    },
+    {
+      "linker_contour_nm": 30.0,
+      "approx_PEG_or_CH2_units": 86,
+      "effective_molarity_M": 0.009430273502114964,
+      "Kd_avidity_M": 1.0604146314268892e-07,
+      "fusion_fraction_bound": 0.9041,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_vs_wildtype_window": 9.9
+    }
+  ],
+  "best_within_30nm": {
+    "linker_contour_nm": 1.0,
+    "approx_PEG_or_CH2_units": 3,
+    "effective_molarity_M": 1.5495520561654823,
+    "Kd_avidity_M": 6.453477932678153e-10,
+    "fusion_fraction_bound": 0.9994,
+    "wildtype_fraction_bound": 0.0909,
+    "fusion_vs_wildtype_window": 11.0
+  },
+  "design_reading": "Shorter linkers give higher EM and a wider fusion-vs-WT window, but must still physically span from the LBD pocket to the EWS-LC anchor; longer linkers reach more easily but dilute EM and shrink the window. The physics confirms the avidity model's EM sweep is in a realistic range (~1e-2 to ~5e-1 M at the coincident-site bound), and that the realistic operating window is single-to-low-double-digit fold \u2014 a ceiling, not a guarantee, on a mobile IDR anchor."
+}

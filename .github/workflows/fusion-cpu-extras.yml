@@ -1,0 +1,61 @@
+name: Fusion CPU extras (IDR/LLPS features + junction siRNA)
+
+# Two internet-needing, CPU-only analyses the dev sandbox can't run (it blocks UniProt/NCBI):
+#   1. fusion_idr_features.py  — sequence-based LLPS/low-complexity descriptors of the EWS/TAF15
+#      LC domains vs folded + non-prion controls (condensate paper's deferred first-party step)
+#   2. junction_sirna.py       — junction-spanning siRNA designs (GC-tolerant alternative to the
+#      GC-rich gapmers; ASO paper)
+# Pure stdlib (urllib only); no pip, no AWS/GPU. Results pushed to the `modalities-cache` branch:
+#   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fusion-cpu-extras
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: IDR / LLPS sequence-feature analysis (UniProt)
+        working-directory: research/modalities
+        run: python fusion_idr_features.py || echo "idr-features failed (continuing)"
+
+      - name: Junction-spanning siRNA design (NCBI)
+        working-directory: research/modalities
+        run: python junction_sirna.py || echo "sirna design failed (continuing)"
+
+      - name: Publish results to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/fusion-idr-features.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/junction-sirna-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/fusion-idr-features.json 2>/dev/null || true
+          git add research/modalities/junction-sirna-designs.json 2>/dev/null || true
+          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA designs" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache

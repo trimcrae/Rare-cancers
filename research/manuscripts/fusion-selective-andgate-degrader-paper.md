@@ -163,6 +163,19 @@ story from the other side: making arm 1 *weaker* (Kd1 100 µM) drops wild-type o
 the window to ~9×, while making arm 1 *strong* (Kd1 1 µM) lifts wild-type to 50% bound and collapses the
 window to 1.8× — confirming the design rule.
 
+**EM is not a free parameter — it is set by the linker, and the physics is encouraging.** A second
+CPU/stdlib model ([`andgate_linker_em.py`](../modalities/andgate_linker_em.py) →
+[`fusion-andgate-linker-em.json`](../modalities/fusion-andgate-linker-em.json)) grounds EM in ideal-chain
+polymer physics: for a flexible linker of contour length L\_c and Kuhn length ~0.5 nm, the coincident-site
+effective molarity EM = (3/(2π·L\_c·b))^{3/2}·(1e24/N\_A). Over the synthesizable range this gives EM from
+~1.5 M (1 nm, ~3 PEG units) down to ~9×10⁻³ M (30 nm, ~86 units) — and, fed back into the avidity model,
+the fusion-vs-WT window stays **~10–11× across the entire range** (10.8× at 10 nm, 9.9× even at 30 nm).
+The design reading: because even a long tether keeps EM well above the weak arm-2 Kd (100 µM), the window
+is **robust to linker length** rather than fragile — the ceiling (~11×) is set by arm-1 strength, not the
+linker, so widening it means *weakening arm 1*, not shortening the tether. Honest caveat: this EM is the
+*coincident-site upper bound*; a mobile, disordered EWS-LC anchor will realise a lower EM, so these are
+optimistic ceilings (the §4 mobility point).
+
 **Design rule (from the model):** *pick **both** arms individually too weak to occupy wild-type NR4A3 at
 the dosed concentration, and rely on avidity (EM) to engage only the fusion, which uniquely presents both
 features on one chain.* Larger EM (shorter/optimised linker) and weaker single arms widen the
