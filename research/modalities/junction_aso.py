@@ -14,7 +14,8 @@ What this does (real, reproducible; sequences fetched from NCBI, nothing invente
   2. Builds the modelled fusion mRNA at the same canonical breakpoint used by
      fusion_neoantigen.py (EWSR1 N-terminal coding fragment :: retained NR4A3 CDS),
      keeping the junction in-frame and FLAGGING the breakpoint as a model assumption.
-  3. Tiles candidate gapmers (default 16-mer, 5-10-5 LNA/DNA/LNA architecture) whose
+  3. Tiles candidate gapmers (default 16-mer, 5-6-5 LNA/DNA/LNA architecture; 5-10-5 is the
+     common 20-mer template) whose
      central DNA gap spans the junction, i.e. each oligo must draw bases from BOTH
      sides of the seam (that is what makes it fusion-specific).
   4. Filters/annotates each candidate by standard design heuristics: %GC window,
@@ -50,7 +51,8 @@ EWSR1_KEEP_AA = 264
 NR4A3_KEEP_AA_FROM = 2
 
 OLIGO_LEN = 16          # total gapmer length
-WING = 5                # 5-10-5: 5 LNA wings, 10 DNA gap (gap must span junction)
+WING = 5                # with OLIGO_LEN=16 this is a 5-6-5 (5 LNA wings, 6 DNA gap that must span junction);
+                        # 5-10-5 is the common 20-mer template — change OLIGO_LEN to 20 for that layout
 GAP = OLIGO_LEN - 2 * WING
 
 EUTILS = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"

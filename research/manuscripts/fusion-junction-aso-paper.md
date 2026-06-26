@@ -7,9 +7,19 @@
 > [`../modalities/junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) (0 of 5 free of
 > gap-spanning near-matches), and a junction-siRNA design set
 > [`../modalities/junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) (0 of 5 pass;
-> min GC 73.7%), and a per-breakpoint feasibility scan
+> min GC 73.7%), a full-transcriptome (uncapped, 186,185-transcript) off-target + accessibility + siRNA-seed
+> evaluation [`../modalities/aso-insilico-evaluation.json`](../modalities/aso-insilico-evaluation.json) (0 of 5
+> canonical gapmers off-target-free; true ≤1-mismatch counts 8–95, not the capped "50"), a per-breakpoint
+> feasibility scan
 > [`../modalities/junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json) (390 modelled
-> breakpoints; 243, or 62%, favorable; the canonical one is not). Together these show feasibility is
+> breakpoints; 243, or 62%, favorable; the canonical one is not), and a gap-mismatch-resolved off-target
+> screen on a favorable breakpoint
+> [`../modalities/junction-aso-offtarget-bp200-8-gapres.json`](../modalities/junction-aso-offtarget-bp200-8-gapres.json)
+> (2 of 5 gapmers predicted clean — zero true RNase-H cleavage risk), corroborated by an uncapped
+> full-transcriptome screen on the same favorable breakpoint
+> [`../modalities/aso-insilico-evaluation-bp200-8.json`](../modalities/aso-insilico-evaluation-bp200-8.json)
+> (4 of 5 gapmers with zero ≤1-mismatch off-targets; 5 of 5 with zero exact — vs 0 of 5 clean at the
+> canonical junction). Together these show feasibility is
 > **breakpoint-conditional but breakpoint-selectable**: specificity and chemistry at the *canonical* modelled
 > junction are poor, but that is a property of that junction position — a clear majority of modelled
 > breakpoints yield clean, in-band, fusion-specific designs — not of the modality. **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
@@ -157,8 +167,10 @@ a real, committed result, not hidden.
 
 ### 3a-bis. Off-target screen and siRNA route — now done for the modelled breakpoint (real, committed)
 
-Two further CPU jobs were run on the modelled-breakpoint designs and committed as real outputs. Together they
-turn the abstract's GC caveat into a quantified, honest verdict on *this* junction.
+Three further CPU jobs were run on the modelled-breakpoint designs and committed as real outputs — a BLAST
+gap-spanning off-target screen (i), a GC-tolerant siRNA route (ii), and an uncapped full-transcriptome
+evaluation that also scores accessibility and siRNA-seed load (iii). Together they turn the abstract's GC
+caveat into a quantified, honest verdict on *this* junction.
 
 **(i) Transcriptome-wide off-target screen
 ([`junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json)).**
@@ -185,6 +197,31 @@ near-matches spread across unrelated genes (e.g. *OTOG*, *SPTBN2*, *MAP3K13*, *S
 but 0 pass all filters**, because the **minimum GC among the fusion-specific guides is 73.7%** — far above
 the 30–52% target window. So the siRNA route **does not rescue** the GC problem at this breakpoint; the same
 GC-rich seam that troubles the gapmer also disqualifies every siRNA guide.
+
+**(iii) Full-transcriptome (uncapped) off-target + accessibility + siRNA-seed evaluation
+([`aso-insilico-evaluation.json`](../modalities/aso-insilico-evaluation.json)).**
+[`aso_insilico.py`](../modalities/aso_insilico.py) re-screens the same five canonical-breakpoint gapmers
+against the **entire human RefSeq RNA transcriptome (GRCh38.p14; 186,185 transcripts)** downloaded in full —
+an **uncapped, local** scan that removes the §3a-bis(i) HITLIST-50 over-call and yields true counts. It adds
+two axes the BLAST screen does not: ViennaRNA target-site **accessibility** (potency) and an **siRNA
+seed-region** off-target module. The picture it draws of the canonical junction is more nuanced than the
+capped screen, and still negative on the bottom line:
+- **True off-target counts are real, not a floor — and lower than the capped "50" suggested.** All five
+  gapmers have **0 exact** transcriptome matches; their **≤1-mismatch** full-length counts are
+  **8, 16, 17, 58, 95** (the two 81.2 %-GC designs are by far the worst, at 58 and 95). So the best canonical
+  gapmer (`ACGCAGGGCTGCTGCC`) has only 8 near-complementary off-target sites genome-wide — but
+  **`n_candidates_zero_offtarget = 0`**: none is clean, consistent with the canonical junction being
+  unfavorable. (These are full-16-mer ≤1-mismatch hits, *not* gap-resolved, so like the BLAST screen they
+  still over-count true RNase-H cleavage risk — the gap-resolution of §3a-quater is what separates cleavable
+  from non-cleavable.)
+- **Target site is moderately accessible** (mean unpaired probability **0.34–0.42** across the five) — i.e.
+  potency is not obviously gated by mRNA structure at this junction; specificity, not accessibility, is the
+  canonical junction's problem.
+- **The siRNA seed route carries its own, large liability, reported honestly:** only **2 of 5** designs
+  present a guide seed that actually **straddles the junction** (the fusion-unique-seed goal), and the
+  seed-match off-target load is enormous (**~21,000–119,000** transcriptome seed sites), because a GC-rich
+  seed is intrinsically promiscuous. This is an independent reason the GC-rich canonical seam is hard for
+  RISC, complementing the GC-window failure in (ii).
 
 **Synthesis — feasibility is breakpoint-conditional, not modality-limited.** At the canonical *modelled*
 breakpoint, the EWSR1::NR4A3 junction sequence is simultaneously **GC-rich and low-complexity**, and this
@@ -248,7 +285,7 @@ BLAST off-target screen on that specific design. This strengthens the route's st
 mechanistically de-risked of the fusion-exclusive options, with breakpoint-favorability now demonstrated to
 be selectable rather than a roadblock.
 
-### 3a-quater. The BLAST screen on a favorable breakpoint, resolved to true RNase-H cleavage risk
+### 3a-quater. Two off-target screens on a favorable breakpoint — gap-resolved BLAST + uncapped full-transcriptome
 We ran the full §3a-bis(i) off-target screen *directly on the favorable 200/8 breakpoint* (junction GC
 50 %), then **resolved each near-match to the gap-mismatch level** — because RNase-H needs the central DNA
 gap (the 6 nt the gapmer cleaves through) fully base-paired: a near-match whose mismatch falls *inside* the
@@ -259,20 +296,38 @@ This is decisive, and positive:
   risk. Every near-match at this breakpoint is a weak **14/16** (2-mismatch) hit to a real gene
   (CSMD2, ADAMTSL2, DDR1, SLC66A1…), versus the canonical junction's stronger 15/16 hits.
 - **Once gap-mismatch position is resolved, 2 of the 5 gapmers are predicted genuinely clean — zero true
-  cleavage risks.** `CACAGCCGTATAGCCC` (62 % GC) has 21 near-matches but **all 21 are gap-disrupted** (the
-  mismatch lands in the DNA gap) → 0 cleavable; `ACAGCCGTATAGCCCT` (56 % GC) has a single near-match, also
-  gap-disrupted → 0 cleavable. The other three retain 15–29 true cleavage risks.
+  cleavage risks.** The gapmer (antisense) `5′-GGGCTATACGGCTGTG-3′` (62.5 % GC; target mRNA
+  `CACAGCCGTATAGCCC`) has 21 off-target near-matches but **all 21 are gap-disrupted** (the mismatch lands in
+  the DNA gap) → 0 cleavable; `5′-AGGGCTATACGGCTGT-3′` (56.2 % GC; target mRNA `ACAGCCGTATAGCCCT`) has a
+  **single** off-target near-match, also gap-disrupted → 0 cleavable. The other three retain 15, 27 and 29
+  true cleavage risks.
 - So **per-oligo selection is as important as breakpoint selection**, and the deciding filter is the
   gap-mismatch-resolved BLAST screen, not raw GC or raw near-match count.
+- **An orthogonal, uncapped full-transcriptome screen confirms it — and more cleanly.** We re-ran the §3a-bis(iii)
+  uncapped evaluation (full RefSeq, 186,185 transcripts; seed-and-extend) *on this same 200/8 favorable
+  breakpoint* ([`aso-insilico-evaluation-bp200-8.json`](../modalities/aso-insilico-evaluation-bp200-8.json)).
+  The contrast with the canonical junction is stark: **all 5 gapmers have 0 exact off-targets and 4 of 5 have
+  0 near-perfect (≤1-mismatch) off-targets** transcriptome-wide (the fifth has just 1), where the *canonical*
+  designs had 0 of 5 clean and 8–95 ≤1-mismatch hits. The two predicted-clean designs from the BLAST screen
+  (`GGGCTATACGGCTGTG`, `AGGGCTATACGGCTGT`) are among the four with zero ≤1-mismatch off-targets here, so the
+  screens agree. The siRNA-seed load also collapses at this breakpoint (the junction-straddling seed of
+  `GCTATACGGCTGTGTA` matches **3,366** transcriptome sites, vs ~119,000 for the GC-rich canonical seed). The
+  one honest reconciliation: the two screens use different stringency — the uncapped screen counts ≤1-mismatch
+  (≥15/16) full-length hits and calls 4 of 5 clean, while the wider BLAST screen counts ≥14/16 (≤2-mismatch)
+  near-matches and, after gap-resolution, calls 2 of 5 clean of *true* cleavage risk. Both agree the favorable
+  breakpoint yields predicted-clean gapmers; the exact count (2 vs 4) is set by how many mismatches one allows
+  an off-target before counting it.
 
 **Reading.** At a favorable breakpoint, the full workflow — breakpoint triage → per-oligo BLAST →
-gap-mismatch resolution — **does yield predicted-clean gapmers** (here 2 of 5, zero true cleavage risk),
-a path the GC-rich canonical junction could not offer. Specificity is therefore **achievable**, not merely
-improvable, at the right breakpoint. Honest bounds remain: this is *predicted* (a 14/16 hit with a gap
-mismatch is assumed non-cleaving per standard RNase-H behaviour, to be confirmed experimentally), the
+gap-mismatch resolution, now corroborated by an independent uncapped full-transcriptome screen — **does yield
+predicted-clean gapmers** (2 of 5 free of true ≤2-mismatch cleavage risk; 4 of 5 free of any ≤1-mismatch
+off-target), a path the GC-rich canonical junction could not offer. Specificity is therefore **achievable**,
+not merely improvable, at the right breakpoint. Honest bounds remain: this is *predicted* (a 14/16 hit with a
+gap mismatch is assumed non-cleaving per standard RNase-H behaviour, to be confirmed experimentally), the
 breakpoint is *modelled* not patient-sequenced, and delivery (§3c) is the separate, still-unsolved gate.
 The route stands as the most mechanistically de-risked fusion-exclusive option, now with *demonstrated
-in-silico specificity feasibility* at a selectable breakpoint.
+in-silico specificity feasibility* — under both a capped-BLAST and an uncapped full-transcriptome screen — at
+a selectable breakpoint.
 
 ### 3b. What is specifiable now, without any GPU
 
@@ -291,8 +346,10 @@ this draft:
    scan now complete (§3a-ter), the decisive remaining step is to **run this BLAST off-target screen on a
    chosen favorable breakpoint** (e.g. the in-band EWSR1 200 / NR4A3 8 example), where the input design is
    already ~50% GC and in-band — the screen is no longer being asked to rescue an intrinsically GC-rich,
-   low-complexity seam. (Also specifiable: re-run with the low-complexity filter on and an uncapped HITLIST
-   to replace the over-called 50-cap floor with a true count.)
+   low-complexity seam. (The uncapped re-screen the over-call called for is **now done** for the canonical
+   designs via a full local RefSeq scan — §3a-bis iii,
+   [`aso-insilico-evaluation.json`](../modalities/aso-insilico-evaluation.json) — giving true ≤1-mismatch
+   counts of 8–95 in place of the capped 50.)
 
    **Per-breakpoint feasibility scan — DONE (§3a-ter).** The sensitivity sweep over 390 modelled breakpoints
    has been run and committed ([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)):
@@ -383,9 +440,13 @@ beyond synthesising the listed oligos and no new biology beyond the published EM
 - **Poor predicted specificity at the modelled breakpoint.** The committed off-target screen (§3a-bis i)
   found **0 of 5** gapmers free of gap-spanning (RNase-H-cleavable) near-matches across the transcriptome,
   and the GC-tolerant siRNA route did not rescue it (0 of 5 guides pass; min GC 73.7%, §3a-bis ii). This
-  is a real, committed result. The 50-near-match figure is over-called (HITLIST capped at 50, low-complexity
-  filter off, on a low-complexity GC-rich window), so it is a floor in character — but the qualitative
-  verdict (this junction is specificity-poor) is robust.
+  is a real, committed result. The BLAST 50-near-match figure is over-called (HITLIST capped at 50,
+  low-complexity filter off, on a low-complexity GC-rich window), so it is a floor in character; the
+  **uncapped** full-transcriptome re-screen (§3a-bis iii) replaces that floor with true counts — all five
+  gapmers have 0 exact matches and 8–95 ≤1-mismatch off-targets, with `n_candidates_zero_offtarget = 0` — so
+  the qualitative verdict (this canonical junction is specificity-poor) is robust under both the capped and
+  the uncapped screen. That same evaluation also flags a large siRNA-seed off-target load (~21k–119k seed
+  sites) for the GC-rich seam.
 - **Breakpoint-conditional — a tractable selection step, not a roadblock.** Feasibility (chemistry GC,
   siRNA GC, predicted specificity) is a property of the *junction sequence*, not of the modality, and the
   **canonical** modelled junction is genuinely unfavorable. But the per-breakpoint scan (§3a-ter) shows
@@ -449,13 +510,30 @@ To verify (do **not** treat as established until sourced):
 - EMC-enriched surface receptor(s) suitable for AOC / targeted-nanoparticle delivery — **[citation to verify]**.
 - Specific non-EWSR1/FET recurrent-fusion cancers as platform extensions — **[citation to verify]** per indication.
 
-**Reproducibility.** The real results cited here are committed CPU outputs:
-[`junction-aso-designs.json`](../modalities/junction-aso-designs.json) (from
-[`junction_aso.py`](../modalities/junction_aso.py)),
-[`junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) (from
-[`junction_aso_offtarget.py`](../modalities/junction_aso_offtarget.py), blastn-short vs RefSeq RNA), and
-[`junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) (from
-[`junction_sirna.py`](../modalities/junction_sirna.py)), and
-[`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json) (from
-[`junction_breakpoint_scan.py`](../modalities/junction_breakpoint_scan.py), a 390-breakpoint GC/complexity/
-parent-specificity triage sweep). No GPU computation was performed for this draft.
+**Reproducibility.** The real results cited here are committed CPU outputs (snapshotted on the main branch;
+refreshed by GitHub Actions on the `modalities-cache` branch):
+
+- [`junction-aso-designs.json`](../modalities/junction-aso-designs.json) — 5 junction-spanning 5-6-5 gapmer
+  designs, from [`junction_aso.py`](../modalities/junction_aso.py).
+- [`junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) — NCBI BLAST API (blastn-short
+  vs RefSeq RNA) gap-spanning off-target screen of the canonical designs, from
+  [`junction_aso_offtarget.py`](../modalities/junction_aso_offtarget.py) (HITLIST-capped at 50; over-calls).
+- [`aso-insilico-evaluation.json`](../modalities/aso-insilico-evaluation.json) — **uncapped** full-RefSeq
+  (186,185-transcript) off-target screen + ViennaRNA accessibility + siRNA-seed module of the canonical
+  designs, from [`aso_insilico.py`](../modalities/aso_insilico.py).
+- [`junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) — junction siRNA route, from
+  [`junction_sirna.py`](../modalities/junction_sirna.py).
+- [`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json) — 390-breakpoint GC/
+  complexity/parent-specificity triage sweep, from
+  [`junction_breakpoint_scan.py`](../modalities/junction_breakpoint_scan.py).
+- [`junction-aso-offtarget-bp200-8.json`](../modalities/junction-aso-offtarget-bp200-8.json) and its
+  gap-mismatch-resolved companion
+  [`junction-aso-offtarget-bp200-8-gapres.json`](../modalities/junction-aso-offtarget-bp200-8-gapres.json) —
+  the BLAST off-target screen re-run on the favorable EWSR1-keep-200 / NR4A3-from-8 breakpoint, resolved to
+  true RNase-H cleavage risk, from [`junction_aso_offtarget.py`](../modalities/junction_aso_offtarget.py).
+- [`aso-insilico-evaluation-bp200-8.json`](../modalities/aso-insilico-evaluation-bp200-8.json) — the
+  **uncapped** full-RefSeq off-target + accessibility + siRNA-seed evaluation re-run on the same favorable
+  breakpoint (4 of 5 gapmers with zero ≤1-mismatch off-targets), from
+  [`aso_insilico.py`](../modalities/aso_insilico.py) (breakpoint-parameterised via env).
+
+No GPU computation was performed for this draft.
