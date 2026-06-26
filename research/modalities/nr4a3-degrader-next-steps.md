@@ -104,11 +104,13 @@ the family metad (in flight) is the fix.
    Output a per-candidate selectivity *fingerprint* across the three → partition into NR4A3-only / pan /
    NR4A1+NR4A3 anti-target cells. Also add a **conserved-residue contact score** + pan ranking, and **dedup**
    the candidate list (CHEMBL682 duplicated in run 28252182123).
-   - **DONE (2026-06-26):** the pure cell classifier `selectivity_fingerprint.py` (engage/margin/anti-target
-     logic + application map) + `tests/test_selectivity_fingerprint.py` (7 passing). **Remaining:** the
-     driver `nr4a3_matrix.py` (mount all three `*-metad` prefixes via ProcessingInput, extract each opened
-     conformer, dock the library into all three, call `classify()`) + entry + `gpu-matrix-aws.yml`. Build
-     this before the NR4A1/2 ensembles land so it launches immediately.
+   - **BUILT + LAUNCH-READY (2026-06-26):** classifier `selectivity_fingerprint.py` (7 tests) + driver
+     `nr4a3_matrix.py` (mounts all three `*-metad` prefixes, extracts each opened conformer, docks the
+     deduped library into all three, classifies via `classify()`, scores divergent-handle + conserved-CV
+     contacts) + `sagemaker_src/entry_matrix.py` + `nr4a3_matrix_sagemaker.py` + `.github/workflows/gpu-matrix-aws.yml`.
+     **To launch once all three `*-metad` ensembles are in S3:** dispatch `gpu-matrix-aws.yml` on `main`
+     (defaults fine). Output `s3://<bucket>/nr4a3-matrix/nr4a3-matrix.json` = per-candidate cell + census +
+     leads (nr4a3_selective / pan_nr4a / anti_targets).
 2. **Endpoint free energy (the defensible margin)** — MM-GBSA + per-residue decomposition on the top cell
    leads in all three opened ensembles; selectivity FEP on the lead 1–3. Docking stays triage only.
 3. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` stub: wire DiffSBDD/Pocket2Mol,
