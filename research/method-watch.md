@@ -23,6 +23,9 @@ below, do the paired action and open the follow-up; otherwise no action.
 | reliable **structure-based generative + selectivity** scoring | design the **NR4A3 warhead** at the `nr4a-selectivity.json` divergent handles |
 | robust **cryptic-pocket** prediction | re-grade the NR4A3 LBD **undruggability** prior without GPU MD |
 | **in-silico oligonucleotide/nanoparticle tumour-delivery** predictor (biodistribution / endosomal escape / PBPK / ML tumour-penetration) | score the **B7-H3-targeted junction-siRNA / AOC** delivery in-silico and **re-grade the ASO route feasibility** (delivery is the route's gate) |
+| calibrated **ASO off-target / RNase-H cleavage-activity** predictor | **retire the conservative "gap-mismatch ⇒ non-cleaving" heuristic** in the junction-ASO specificity screen (`fusion-junction-aso-paper.md` §3a-quater) and re-grade predicted specificity with a calibrated model |
+| improved **ASO/siRNA efficacy + target-site-accessibility** predictor | **re-rank the junction designs for potency** and replace the local-fold accessibility proxy (`fusion-junction-aso-paper.md` §3a-bis iii) |
+| new **patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) | **enables the decisive wet-lab experiment** — junction-ASO knockdown + parental-sparing in EMC cells (`fusion-junction-aso-paper.md` §4) — and a fusion-dependence readout |
 | improved **perturbation / DepMap-transfer** models | re-test synthetic-lethal / nominate new EMC dependencies |
 | any direct **chemical/biological matter against NR4A3** or the fusion | fold into the relevant route memo immediately |
 
@@ -39,7 +42,18 @@ testable, which would move the route off "delivery-limited."
 - cryptic-pocket / dynamics-based druggability (PocketMiner, metadynamics)
 - **in-silico oligo/nanoparticle tumour-delivery prediction** (AOC, siRNA delivery, LNP,
   endosomal escape, tumour penetration — ML / PBPK / computational)
+- **ASO/gapmer off-target & RNase-H cleavage prediction** (ASO-paper next step: retire the
+  gap-mismatch heuristic — §3a-quater)
+- **ASO/siRNA design, efficacy & target-accessibility prediction** (ASO-paper next step:
+  potency ranking + better accessibility than the local-fold proxy — §3a-bis iii)
+- **patient-derived EMC / FET-fusion-sarcoma functional models** (ASO-paper next step: unblocks
+  the decisive knockdown + parental-sparing experiment — §4)
 - NR4A3 / EWSR1::NR4A3 direct EMC advances
+
+> **ASO-paper coverage.** The last three rows above (plus the delivery row) are the
+> fusion-junction ASO paper's specific next-step gates, mirroring how the degrader paper's
+> gates (ternary modelling, warhead design, cryptic-pocket) are watched. Each maps to a
+> concrete in-paper action so a digest "🆕" can be triaged straight to a section to update.
 
 *Design principle (from `emc-treatment-strategy.md` Q3): keep this a periodic digest + this
 table. Do not over-engineer a "capability detector"; pipelines are kept modular so a new
@@ -47,6 +61,14 @@ model swaps in cheaply.*
 
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
+
+- **[2026-06-26] ASO-paper next-step gates added to the watch.** The fusion-junction ASO paper
+  now has its own watched capabilities (three new literature topics in `scripts/method-watch.mjs`
+  + trigger-table rows above): (1) ASO off-target / RNase-H cleavage prediction → retire the
+  §3a-quater gap-mismatch heuristic; (2) ASO/siRNA efficacy & accessibility prediction → re-rank
+  designs and replace the §3a-bis(iii) local-fold proxy; (3) patient-derived EMC / FET-fusion-sarcoma
+  models → unblock the §4 decisive experiment. Status: **watching** (no hits triaged yet — re-check on
+  the next monthly digest). Delivery (the route's dominant gate) was already watched.
 
 - **[2026-06-24] AF3-class ternary modelling is now usable** (tool watch: AlphaFold3 v3.0.3,
   Boltz v2.2.1, Protenix v2.0.0; + a wave of fresh PROTAC-degrader papers). This crosses the

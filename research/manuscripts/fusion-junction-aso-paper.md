@@ -581,6 +581,28 @@ to avoid over-claiming; each would need its own breakpoint sourcing — [citatio
 
 ---
 
+## 8. Keeping this paper current — method-watch
+
+This route's progress is **method-gated**: specific next steps unlock the moment an enabling technology
+becomes usable. Those gates are watched automatically by the repo's **method-watch** (monthly cron +
+on-demand: [`scripts/method-watch.mjs`](../../scripts/method-watch.mjs),
+[`.github/workflows/method-watch.yml`](../../.github/workflows/method-watch.yml); digest published to the
+`method-watch-cache` branch). The capability → action trigger table lives in
+[`research/method-watch.md`](../method-watch.md); the rows specific to this paper are:
+
+- **ASO off-target / RNase-H cleavage-activity predictor** → retire the conservative "gap-mismatch ⇒
+  non-cleaving" heuristic (§3a-quater) and re-grade predicted specificity with a calibrated model.
+- **ASO/siRNA efficacy + target-site-accessibility predictor** → re-rank the junction designs for potency
+  and replace the local-fold accessibility proxy (§3a-bis iii).
+- **New patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) → unblocks the
+  decisive knockdown + parental-sparing experiment (§4) and a fusion-dependence readout.
+- **In-silico oligo/nanoparticle tumour-delivery predictor** → score a targeted junction-siRNA/AOC and
+  re-grade the route's dominant gate, delivery (§3c).
+
+A digest "🆕" that crosses one of these is a prompt to update the cited section here, not an automatic edit.
+
+---
+
 ## References
 
 Verified reference pool (appear verified in the repo):
