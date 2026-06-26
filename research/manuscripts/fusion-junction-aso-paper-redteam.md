@@ -195,5 +195,13 @@ mutation that abolishes oligo complementarity as a specific ASO escape route.
 verify]` markers. The substantive corrections were: a self-undermining showcase example (F1), an overclaimed
 "canonical" label resting on a non-real breakpoint (F2), an under-specified discrimination mechanism and an
 overstating specificity metric (F3), a provenance-string bug (F4), and a too-rosy reconciliation of the two
-screens (F5/F6). All are fixed in the same change; the genuine open scientific gap the red-team surfaces — run
-the full pipeline on the **real exon-7/12 :: NR4A3 exon-3 junction** — is now stated as the lead next step.
+screens (F5/F6). All are fixed in the same change.
+
+**Update — the genuine open scientific gap F2 surfaced is now CLOSED.** The full design → gap-resolved BLAST →
+uncapped-eval pipeline was subsequently run on the **real** EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions
+(built exon-exact from Ensembl via `FUSION_JUNCTION_MODE=real`; paper §3a-quinquies). Outcome, recorded
+honestly: the real junctions are **far more GC-favorable** than the modelled reference (37–62% GC vs 75–81%),
+confirming the GC problem was largely an artifact of the non-real reference; and **E7::N3 yields a gapmer
+(`TACGGACAATCTGCTG`, 50% GC) predicted clean on both screens**, while the most-common E12::N3 is GC-friendly
+but AT-rich with a higher 2-mismatch off-target load (best design 3 predicted cleavage risks), so per-oligo
+selection remains decisive. The "real junction unscreened" caveats in §3a/§3b.2/§6 were updated accordingly.

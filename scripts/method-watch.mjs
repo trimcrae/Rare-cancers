@@ -4,7 +4,11 @@
 // WHY. The treatment program's bottleneck is not ideas but METHODS: several routes
 // unlock the moment a specific in-silico capability becomes usable (virtual-cell
 // perturbation prediction, open AF3-class ternary modelling, de-novo selective warhead
-// design, and now an in-silico way to predict/test oligonucleotide tumour DELIVERY).
+// design, and an in-silico way to predict/test oligonucleotide tumour DELIVERY).
+// It also watches the fusion-junction ASO paper's specific next-step gates: a calibrated
+// ASO off-target / RNase-H cleavage predictor (to retire the gap-mismatch heuristic), an
+// improved ASO/siRNA efficacy + target-accessibility predictor, and new patient-derived
+// EMC / FET-fusion-sarcoma functional models (to unblock the decisive knockdown experiment).
 // This script runs the search so a human/agent doesn't have to, and emits a digest tied
 // to a capability->action trigger table (kept in research/method-watch.md and the
 // strategy doc). It does NOT decide anything — it surfaces hits for triage.
@@ -55,6 +59,28 @@ const TOPICS = [
     key: "in-silico oligonucleotide / nanoparticle tumour-delivery prediction",
     query: '(TITLE:"oligonucleotide conjugate" OR TITLE:"antibody-oligonucleotide" OR TITLE:"siRNA delivery" OR TITLE:"tumor delivery" OR TITLE:"tumour delivery" OR TITLE:"endosomal escape" OR TITLE:"tumor penetration" OR TITLE:"tumour penetration") AND (predict OR prediction OR "machine learning" OR "deep learning" OR "in silico" OR computational OR model)',
     trigger: "usable in-silico delivery/biodistribution/endosomal-escape predictor → score the B7-H3-targeted junction-siRNA/AOC delivery and re-grade the ASO route feasibility",
+  },
+  {
+    // ASO next-step gate #1: a calibrated ASO off-target / RNase-H cleavage-activity predictor
+    // would let us replace the conservative "gap mismatch => non-cleaving" heuristic the junction-ASO
+    // specificity screen currently relies on (fusion-junction-aso-paper §3a-quater red-team finding).
+    key: "ASO/gapmer off-target & RNase-H cleavage prediction",
+    query: '(TITLE:antisense OR TITLE:gapmer OR TITLE:"antisense oligonucleotide" OR TITLE:ASO OR TITLE:"RNase H" OR TITLE:"RNase-H") AND (TITLE:"off-target" OR TITLE:specificity OR TITLE:toxicity OR TITLE:hepatotoxicity OR TITLE:cleavage OR TITLE:prediction OR TITLE:"machine learning" OR TITLE:"deep learning")',
+    trigger: "usable ASO off-target / RNase-H cleavage-activity predictor → replace the conservative gap-mismatch heuristic in the junction-ASO specificity screen (aso-paper §3a-quater) with a calibrated predictor and re-grade predicted specificity",
+  },
+  {
+    // ASO next-step gate #2: better ASO/siRNA efficacy + target-site accessibility prediction would
+    // improve design ranking and replace the local-fold accessibility proxy (aso-paper §3a-bis iii).
+    key: "ASO/siRNA design, efficacy & target-accessibility prediction",
+    query: '(TITLE:siRNA OR TITLE:gapmer OR TITLE:antisense OR TITLE:"antisense oligonucleotide" OR TITLE:RNAi) AND (TITLE:design OR TITLE:efficacy OR TITLE:potency OR TITLE:accessibility OR TITLE:"machine learning" OR TITLE:"deep learning" OR TITLE:"target site")',
+    trigger: "improved ASO/siRNA efficacy/accessibility predictor → re-rank the junction designs for potency and replace the local-fold accessibility proxy (aso-paper §3a-bis iii)",
+  },
+  {
+    // ASO next-step gate #3: a new patient-derived EMC / FET-fusion-sarcoma functional model unblocks
+    // the decisive wet-lab knockdown + parental-sparing experiment (aso-paper §4) and a fusion-dependence readout.
+    key: "patient-derived EMC / FET-fusion-sarcoma functional models",
+    query: '(TITLE:"myxoid chondrosarcoma" OR TITLE:"EWSR1-NR4A3" OR TITLE:"EWSR1::NR4A3" OR TITLE:"fusion-positive sarcoma" OR TITLE:"Ewing sarcoma") AND (TITLE:"cell line" OR TITLE:organoid OR TITLE:"patient-derived" OR TITLE:xenograft OR TITLE:PDX OR TITLE:model)',
+    trigger: "new patient-derived EMC model (line/organoid/PDX) → enables the decisive junction-ASO knockdown + parental-sparing experiment (aso-paper §4) and a fusion-dependence readout",
   },
   {
     key: "NR4A3 / EWSR1::NR4A3 direct EMC advances",

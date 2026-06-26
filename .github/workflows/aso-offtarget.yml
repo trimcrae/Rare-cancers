@@ -24,6 +24,9 @@ on:
       out_suffix:
         description: "Output filename suffix, e.g. -bp200-8"
         required: false
+      real_junctions:
+        description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon (e.g. '12:3 7:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval) and skips the codon-space screen."
+        required: false
 
 permissions:
   contents: write
@@ -35,7 +38,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,6 +46,7 @@ jobs:
           python-version: "3.11"
 
       - name: Transcriptome-wide off-target screen (NCBI BLAST, stdlib only)
+        if: ${{ inputs.real_junctions == '' }}
         working-directory: research/modalities
         env:
           EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
@@ -53,7 +57,26 @@ jobs:
       - name: Install ViennaRNA (for target-site accessibility)
         run: pip install ViennaRNA
 
+      - name: Real-junction pipeline (Ensembl exon junctions; design + gap-resolved BLAST + uncapped eval)
+        if: ${{ inputs.real_junctions != '' }}
+        working-directory: research/modalities
+        env:
+          FUSION_JUNCTION_MODE: real
+          JUNCS: ${{ inputs.real_junctions }}
+        run: |
+          set -u
+          for jpair in $JUNCS; do
+            e="${jpair%%:*}"; n="${jpair##*:}"
+            sfx="-e${e}n${n}"
+            echo "::group::real junction EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx})"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed e${e} n${n}"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed e${e} n${n}"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed e${e} n${n}"
+            echo "::endgroup::"
+          done
+
       - name: Uncapped full-transcriptome evaluation (off-target + accessibility + siRNA seed)
+        if: ${{ inputs.real_junctions == '' }}
         working-directory: research/modalities
         env:
           EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
@@ -68,6 +91,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
@@ -80,7 +104,8 @@ jobs:
           fi
           mkdir -p research/modalities
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/junction-aso-designs*.json 2>/dev/null || true
           git add research/modalities/junction-aso-offtarget*.json 2>/dev/null || true
           git add research/modalities/aso-insilico-evaluation*.json 2>/dev/null || true
-          git commit -m "ASO off-target + uncapped full-transcriptome eval: junction gapmers vs human transcriptome" || { echo "no changes"; exit 0; }
+          git commit -m "ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
