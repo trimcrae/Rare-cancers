@@ -28,8 +28,8 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating matrix env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy"],
-                   check=True)
+                    "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy",
+                    "matplotlib-base"], check=True)
 
     env = os.environ.copy()
     env["INPUT_DIR"] = "/opt/ml/processing/input"     # holds nr4a3/ nr4a1/ nr4a2/ subdirs

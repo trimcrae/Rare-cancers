@@ -145,8 +145,40 @@ def main():
     }
     res["_status"] = "ok"
     _write(res)
+    _plot_matrix(rows, OUT)
     print(json.dumps({"cell_census": res["matrix"]["cell_census"], "leads": res["leads"],
                       "n_candidates": res.get("n_candidates")}, indent=2), flush=True)
+
+
+def _plot_matrix(rows, out):
+    """Fig 4b: heatmap of the top candidates' docking dG into each opened pocket, annotated with the
+    assigned matrix cell. Best-effort (a missing matplotlib never fails the job)."""
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        import numpy as np
+        top = [r for r in rows if r["dG"]["NR4A3"] is not None][:20]
+        if not top:
+            return
+        cols = ("NR4A3", "NR4A1", "NR4A2")
+        M = np.array([[(r["dG"][t] if r["dG"][t] is not None else np.nan) for t in cols] for r in top])
+        fig, ax = plt.subplots(figsize=(6, max(3, 0.36 * len(top))))
+        im = ax.imshow(M, aspect="auto", cmap="viridis_r")
+        ax.set_xticks(range(3)); ax.set_xticklabels(cols)
+        ax.set_yticks(range(len(top)))
+        ax.set_yticklabels([f"{r['label'][:18]} [{r['cell']}]" for r in top], fontsize=7)
+        for i, r in enumerate(top):
+            for j, t in enumerate(cols):
+                v = r["dG"][t]
+                if v is not None:
+                    ax.text(j, i, f"{v:.1f}", ha="center", va="center", color="w", fontsize=6)
+        plt.colorbar(im, label="docking dG (kcal/mol; triage prior, not affinity)")
+        ax.set_title("NR4A selectivity matrix — opened-pocket docking dG")
+        plt.tight_layout()
+        plt.savefig(os.path.join(out, "nr4a3-matrix.png"), dpi=130)
+    except Exception as e:  # noqa: BLE001
+        print(f"  matrix plot skipped: {e}", file=sys.stderr)
 
 
 def _write(res):
