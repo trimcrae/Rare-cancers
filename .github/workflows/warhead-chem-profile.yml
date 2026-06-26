@@ -1,0 +1,58 @@
+name: Warhead cheminformatic profile (RDKit, CPU)
+
+# CPU half of in-silico degrader molecule design: drug-likeness / synthesizability (SAscore) /
+# structural-alert / PROTAC-handle profile of the warhead-screen hits (SMILES live from ChEMBL).
+# Needs internet + RDKit, which the dev sandbox lacks -> runs on a GitHub-hosted runner. No GPU/AWS.
+# Result published to the modalities-cache branch:
+#   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/warhead-chem-profile.json
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: warhead-chem-profile
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install RDKit
+        run: |
+          python -m pip install --upgrade pip
+          pip install rdkit
+
+      - name: Cheminformatic profile of the warhead-screen hits
+        working-directory: research/modalities
+        run: python warhead_chem_profile.py
+
+      - name: Publish result to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/warhead-chem-profile.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/warhead-chem-profile.json 2>/dev/null || true
+          git commit -m "Warhead cheminformatic profile (RDKit)" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache

@@ -175,6 +175,46 @@ the MD** (smina/openbabel are already in that environment). The load-bearing GPU
 MD cryptic-pocket scan (`nr4a3_md.py` / `nr4a3_md_modal.py`) and de-novo warhead design — those are
 where in-silico effort should go next.
 
+## Molecule-design execution update (2026-06-26) — "making the molecule" in-silico
+The warhead design is no longer all-prospective. Status + the staged plan, with the CPU/GPU split and the
+gate that governs it:
+
+**Done.** The **warhead screen ran** (smina docking of the real ChEMBL NR4A library into the opened pocket):
+NR4A3-favoured chemotypes (top **CHEMBL1873475**, ΔdG ≈ −8.34, margin +1.7, 4/5 handles; **amodiaquine**
+−7.63, +1.53). These margins are **confounded triage** (opened NR4A3 vs *static* paralogues) — a binding
+prior, not affinity.
+
+**Now (CPU, no GPU, pocket-independent) — the developability tier.** `warhead_chem_profile.py`
+(+ `.github/workflows/warhead-chem-profile.yml`) profiles the same docked hits with RDKit: drug-likeness
+(QED, Lipinski/Veber, beyond-Ro5 — relevant since PROTACs are bRo5), **synthesizability (SAscore =
+"can we make it")**, **PAINS/BRENK liability alerts**, and **PROTAC attachment handles** (amine/phenol/
+carboxylic-acid counts = candidate linker-conjugation chemistry). Output `warhead-chem-profile.json` ranks
+which docked chemotypes are worth carrying into a PROTAC — the in-silico "can we make this molecule" answer,
+needing no GPU and no firmed pocket.
+
+**PROTAC assembly (design, CPU + one GPU step).** Once a warhead is chosen: attach a known **E3 ligand** —
+CRBN (glutarimide, pomalidomide/lenalidomide-derived) or VHL (VH032-derived) — via a **linker** (PEG₂–PEG₆,
+alkyl C₂–C₁₂, or rigid piperazine/triazole), conjugated at a **solvent-exposed exit vector** of the docked
+warhead pose (away from the handle-contacting pharmacophore; the profile's handle counts seed the
+attachment chemistry). Then the **ternary-complex model** (`nr4a3_ternary.py`) scores degradable-lysine
+geometry per paralogue — degradation selectivity ≠ binding selectivity. *(E3/linker specifics are standard
+PROTAC chemistry; finalise the exact ligand/linker set against the current literature before submission.)*
+
+**De-novo generation + quantitative selectivity (GPU, APPROVAL-GATED).** `generate_denovo()` → DiffSBDD/
+Pocket2Mol, two campaigns (divergent-handle-conditioned = NR4A3-selective; conserved-conditioned = pan), on
+the opened pocket; then **MM-GBSA + per-residue decomposition → selectivity FEP** on the leads (the
+defensible margin; the family-matrix run supplies the state-matched paralogue pockets FEP needs).
+
+**The gate (honest, ties to the red-team).** All the *GPU* molecule design is **designing against a cryptic,
+biased-MD, provisional pocket** (Gate 1 basin-breathing only; Gate 3 provisional; 0.931 is a biased-MD peak).
+A warhead must *select/stabilise* the opened state, which docking/generative tools handle poorly. So the
+GPU campaign should be **gated on the unbiased release run** (does the opened pocket persist, or is it
+bias-induced strain?) — designing against an artifact would waste the effort. The **CPU developability tier
+above is not so gated** and runs now. The program's output is an **in-silico design package** (a named
+candidate + predicted binding mode, selectivity, ternary geometry, and developability/synthesizability) — a
+**design hypothesis, not a validated warhead**; the terminal blockers (synthesise it, prove it binds/
+degrades, prove EMC fusion-addiction via dTAG) remain the wet-lab hand-off.
+
 ## References (verified)
 - Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022).
   https://pmc.ncbi.nlm.nih.gov/articles/PMC9542104/
