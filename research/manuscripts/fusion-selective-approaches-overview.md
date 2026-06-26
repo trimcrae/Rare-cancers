@@ -30,43 +30,45 @@ New CPU computation produced for this batch: [`../modalities/andgate_selectivity
 
 ## Comparison
 
-| Route | Level | Fusion-exclusivity | Maturity / data in hand | Dominant gate or risk | Next step **without GPU** |
-|---|---|---|---|---|---|
-| **Junction ASO/siRNA** | RNA | High — by base-pairing | **Med–high**: 5 fusion-specific gapmers computed (GC-rich 75–81%) | **Tumour delivery** (unsolved) | CPU transcriptome-wide off-target screen; expanded tiling; junction-spanning siRNA set |
-| **Junction neoantigen** | Immune | **Highest** — peptide absent from the normal proteome | **High**: 7 in-frame junctions, 26 binders, HLA coverage all computed; human platforms exist | Mostly-self → tolerance; ~16% both-arm coverage; cold tumour | Per-patient pipeline already runs; mainly *polish-to-preprint* (cohort recurrence is wet-lab) |
-| **AND-gate degrader** | Protein | High — avidity coincidence | **Med**: new CPU avidity model (5.5×→~11× window); reuses the degrader's opened pocket | Arm-2 IDR/condensate ligand unproven; binding ≠ degradation selectivity | Linker/EM design space (CPU); arm-2 chemotype scoping (ternary modelling is deferred GPU) |
-| **Condensate disruption** | Protein | High in principle — fusion-emergent | **Low** (earliest-stage) | Selectivity vs the cell's **other** condensates | Sequence-based LLPS-propensity analysis (CPU; needs the EWS sequence fetched) |
-| **Coactivator PPI** | Protein | High *only at the fusion surface* | **Low–med** | Target coactivators are **pan-essential** (window forfeited if you bind the partner) | Provenance-tagged interactome table (CPU); AF-multimer interface model is deferred GPU |
+The right primary axis is **likelihood the biology actually works** — distinct from novelty or readiness.
+An earlier version of this memo ranked by novelty/ownability and put the AND-gate first; corrected here
+(2026-06-26) to lead with probability-of-success.
 
-## Recommendation
+| Route | Level | Fusion-exclusivity | **Likely to work (biology)** | Maturity / data | Dominant gate | Next step **w/o GPU** |
+|---|---|---|---|---|---|---|
+| **Junction ASO/siRNA** | RNA | High — by base-pairing | **HIGH — proven knockdown modality + strong fusion-addiction prior; the risk is *delivery*, not whether the biology works** | Med–high: 5 gapmers computed | **Tumour delivery** (engineering, not biology) | Transcriptome-wide off-target screen (needs internet → GitHub); siRNA set |
+| **Junction neoantigen** | Immune | **Highest** — absent from normal proteome | **MODERATE — platform proven in humans, but self-adjacent junction (tolerance) + cold tumour + ~16% both-arm coverage cast real *efficacy* doubt** | High: breakpoints + coverage computed | Immunogenicity (tolerance, cold tumour) | Polish to preprint; per-patient pipeline already runs |
+| **AND-gate degrader** | Protein | High — avidity coincidence | **LOW near-term — requires *unsolved* chemistry (a ligand for the disordered EWS-LC/condensate, arm 2); modest 5–11× window; binding ≠ degradation** | Med: new CPU avidity model | Arm-2 IDR ligand does not exist yet | Linker/EM design space; arm-2 scoping |
+| **Condensate disruption** | Protein | High in principle | **LOW — emerging field; selectivity vs the cell's *other* condensates unsolved** | Low (earliest-stage) | Which-condensate selectivity | LLPS-propensity seq analysis (needs EWS seq → GitHub) |
+| **Coactivator PPI** | Protein | High *only at the fusion surface* | **LOW — target coactivators are pan-essential; PPIs hard to drug** | Low–med | Pan-essential partners | Provenance-tagged interactome table |
 
-**Pursue two tracks, led by the AND-gate degrader for new in-silico work.**
+## Recommendation (re-ranked by likelihood of working)
 
-**Primary (new computational lead): the AND-gate fusion-selective degrader (paper 3).** It is the best
-combination of *novel + ownable + advanceable here*: (i) it is a genuinely new idea (coincidence detection
-to spare wild-type NR4A3) and is the **direct protein-level answer to "attack the fusion, spare healthy
-NR4A3"**; (ii) it **reuses the flagship degrader's assets** (the opened-LBD pocket as arm 1, the
-selectivity handles) rather than starting a separate program, so it compounds existing work; (iii) it
-already carries a real CPU result (the avidity model: a 5.5× base-case fusion-vs-wild-type window, tunable
-to ~11×), and its next steps (linker/effective-molarity design space) are partly CPU-doable now, with the
-ternary/condensate-partitioning modelling a well-scoped deferred GPU step. Its honest weakness — arm 2 must
-engage a disordered EWS-LC / condensate, an emerging chemistry — is shared with, and informed by, paper 4.
+**Lead with the junction ASO/siRNA (paper 1) — it is the route most likely to work on the biology.**
+Transcript knockdown of an addicted fusion is the most *de-risked mechanism* of the five: RNase-H gapmers
+and siRNA are an established, approved drug class, and EMC's fusion-addiction prior is strong (the Ewing
+FLI1 analogy: −0.93 gene effect, 74% dependent). Crucially, its one big uncertainty — **solid-tumour
+delivery** — is an *engineering* problem with active solutions (antibody–oligonucleotide conjugates,
+tumour-receptor-targeted nanoparticles), not a question of whether knocking the fusion down impairs the
+cell. That is a categorically more tractable risk than "does an unproven modality work at all." It is also
+genuinely fusion-exclusive (spares wild-type NR4A3 by sequence) — the property you asked for.
 
-**Parallel (most submission-ready / closest to a patient): the junction neoantigen (paper 2).** It needs
-the least additional work to reach a preprint — the breakpoint, epitope, and HLA-coverage analyses are
-already computed and committed — and it rides immunotherapy platforms **already in humans**. If the goal is
-to *convince a collaborator fastest*, this is the one to ship. The junction ASO (paper 1) is the cleanest
-mechanistic fusion-exclusivity and a natural third, gated by the unsolved delivery problem.
+**Second: the junction neoantigen (paper 2)** — most platform-ready (clinical neoantigen-vaccine platforms
+already in humans) and the cleanest selectivity, but its *efficacy* is more doubtful than the ASO's
+(mostly-self junction → central tolerance; cold tumour; partial HLA coverage). Ready to publish ≠ likely to
+cure.
 
-**Lower priority for now: condensate (paper 4) and coactivator-PPI (paper 5).** Both are real and honestly
-argued, but earliest-stage: condensate pharmacology is an emerging field whose hard problem is selectivity
-against *all* cellular condensates, and the PPI route's coactivators are pan-essential. Keep them as the
-mechanistic backbone that *informs arm 2 of the AND-gate* rather than standalone first moves.
+**De-prioritised for a "likely to work" goal: the AND-gate degrader (paper 3).** It is the most novel and
+the best selectivity *concept*, and the right long-horizon protein-level answer — but it depends on an
+**unsolved** chemistry (a small molecule that selectively engages the disordered EWS-LC/condensate as arm
+2), so its near-term probability of yielding a working drug is the *lowest* of the practical routes. Keep it
+as the high-ceiling, lower-odds bet, informed by the condensate work (paper 4). **Condensate (4) and PPI
+(5)** remain frontier/backbone, not first moves.
 
-## The choice is yours — three lenses
-- **Most novel + extends the flagship + advanceable in-silico now →** AND-gate degrader (paper 3).
-- **Most ready to publish / closest to a patient →** junction neoantigen (paper 2), then junction ASO.
-- **Highest-risk frontier (mechanistic upside, least mature) →** condensate (paper 4) or PPI (paper 5).
+## Three lenses (pick by what you weight)
+- **Most likely to work (biology) →** junction ASO/siRNA (paper 1), then junction neoantigen (paper 2).
+- **Most ready to publish *now* →** junction neoantigen (paper 2).
+- **Most novel / best selectivity, highest ceiling, lowest near-term odds →** AND-gate degrader (paper 3).
 
 *Medical-integrity note: every quantitative claim in the five papers is cited, quoted from a committed
 output, or flagged; the AND-gate model's Kd/EM inputs are illustrative assumptions (so labelled); no
