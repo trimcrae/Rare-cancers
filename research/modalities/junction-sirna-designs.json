@@ -1,0 +1,90 @@
+{
+  "_note": "Junction-spanning siRNA designs (RISC/Ago2 mechanism) \u2014 a GC-TOLERANT alternative to the 75-81% GC junction gapmers. DESIGN ONLY; hypotheses for wet-lab knockdown + parental-sparing testing. Specificity is predicted (central-cleavage-site discrimination), not validated.",
+  "_breakpoint_model": {
+    "assumption": true,
+    "EWSR1_mRNA": "NM_005243",
+    "NR4A3_mRNA": "NM_006981",
+    "caveat": "modelled breakpoint; re-run on a sequenced patient fusion"
+  },
+  "guide_length": 19,
+  "gc_window": [
+    30.0,
+    52.0
+  ],
+  "n_candidates": 5,
+  "n_fusion_specific": 5,
+  "n_passing_all_filters": 0,
+  "min_gc_among_fusion_specific": 73.7,
+  "top_designs": [
+    {
+      "guide_antisense_5to3": "ACGCAGGGCUGCUGCCCGU",
+      "passenger_sense_5to3": "ACGGGCAGCAGCCCUGCGU",
+      "target_DNA_window": "ACGGGCAGCAGCCCTGCGT",
+      "junction_pos_in_window": 11,
+      "gc_percent": 73.7,
+      "gc_in_window": false,
+      "antisense_5prime": "A",
+      "asymmetry_favours_guide_loading": true,
+      "no_run_of_4": true,
+      "bases_from_EWSR1": 11,
+      "bases_from_NR4A3": 8,
+      "fusion_specific": true
+    },
+    {
+      "guide_antisense_5to3": "UGGACGCAGGGCUGCUGCC",
+      "passenger_sense_5to3": "GGCAGCAGCCCUGCGUCCA",
+      "target_DNA_window": "GGCAGCAGCCCTGCGTCCA",
+      "junction_pos_in_window": 8,
+      "gc_percent": 73.7,
+      "gc_in_window": false,
+      "antisense_5prime": "U",
+      "asymmetry_favours_guide_loading": true,
+      "no_run_of_4": true,
+      "bases_from_EWSR1": 8,
+      "bases_from_NR4A3": 11,
+      "fusion_specific": true
+    },
+    {
+      "guide_antisense_5to3": "GACGCAGGGCUGCUGCCCG",
+      "passenger_sense_5to3": "CGGGCAGCAGCCCUGCGUC",
+      "target_DNA_window": "CGGGCAGCAGCCCTGCGTC",
+      "junction_pos_in_window": 10,
+      "gc_percent": 78.9,
+      "gc_in_window": false,
+      "antisense_5prime": "G",
+      "asymmetry_favours_guide_loading": false,
+      "no_run_of_4": true,
+      "bases_from_EWSR1": 10,
+      "bases_from_NR4A3": 9,
+      "fusion_specific": true
+    },
+    {
+      "guide_antisense_5to3": "GGACGCAGGGCUGCUGCCC",
+      "passenger_sense_5to3": "GGGCAGCAGCCCUGCGUCC",
+      "target_DNA_window": "GGGCAGCAGCCCTGCGTCC",
+      "junction_pos_in_window": 9,
+      "gc_percent": 78.9,
+      "gc_in_window": false,
+      "antisense_5prime": "G",
+      "asymmetry_favours_guide_loading": false,
+      "no_run_of_4": true,
+      "bases_from_EWSR1": 9,
+      "bases_from_NR4A3": 10,
+      "fusion_specific": true
+    },
+    {
+      "guide_antisense_5to3": "CGCAGGGCUGCUGCCCGUA",
+      "passenger_sense_5to3": "UACGGGCAGCAGCCCUGCG",
+      "target_DNA_window": "TACGGGCAGCAGCCCTGCG",
+      "junction_pos_in_window": 12,
+      "gc_percent": 73.7,
+      "gc_in_window": false,
+      "antisense_5prime": "C",
+      "asymmetry_favours_guide_loading": false,
+      "no_run_of_4": true,
+      "bases_from_EWSR1": 12,
+      "bases_from_NR4A3": 7,
+      "fusion_specific": true
+    }
+  ]
+}

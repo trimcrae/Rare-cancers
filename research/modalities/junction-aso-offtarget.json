@@ -1,0 +1,618 @@
+{
+  "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API). A clean oligo has zero gap-spanning off-target near-matches (the RNase-H-cleavable liability). Wing-only matches are weaker (affinity) liabilities. Predicted specificity, not validated; confirm by the parental-/off-target-sparing wet-lab controls.",
+  "method": {
+    "db": "refseq_rna (txid9606[ORGN])",
+    "program": "blastn (short, FILTER off)",
+    "near_match_threshold": ">= 14/16 identical",
+    "gap_region_1based": [
+      6,
+      11
+    ],
+    "breakpoint_model": "assumed canonical breakpoint (same as junction_aso.py)"
+  },
+  "n_oligos_screened": 5,
+  "n_screened_ok": 4,
+  "n_oligos_no_gap_spanning_offtarget": 0,
+  "oligos": [
+    {
+      "antisense_5to3": "ACGCAGGGCTGCTGCC",
+      "target_mRNA_5to3": "GGCAGCAGCCCTGCGT",
+      "gc_percent": 75.0,
+      "specificity_margin": 8,
+      "status": "screened",
+      "blast_rid": "3XUZDJCC016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_gap_spanning_offtargets": 50,
+      "offtargets": [
+        {
+          "acc": "NM_001277269",
+          "defn": "Homo sapiens otogelin (OTOG), transcript variant 1, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001292063",
+          "defn": "Homo sapiens otogelin (OTOG), transcript variant 2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001411025",
+          "defn": "Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant 2, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001437541",
+          "defn": "Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant 3, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_011513310",
+          "defn": "PREDICTED: Homo sapiens mitogen-activated protein kinase kinase kinase 13 (MAP3K13), transcript variant X3, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 2,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_011513866",
+          "defn": "PREDICTED: Homo sapiens solute carrier family 2 member 9 (SLC2A9), transcript variant X18, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_011545216",
+          "defn": "PREDICTED: Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant X17, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_011545217",
+          "defn": "PREDICTED: Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant X18, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_017007456",
+          "defn": "PREDICTED: Homo sapiens mitogen-activated protein kinase kinase kinase 13 (MAP3K13), transcript variant X2, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 2,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_017007457",
+          "defn": "PREDICTED: Homo sapiens mitogen-activated protein kinase kinase kinase 13 (MAP3K13), transcript variant X4, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 2,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_017018174",
+          "defn": "PREDICTED: Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant X10, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_017018176",
+          "defn": "PREDICTED: Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant X8, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_017018177",
+          "defn": "PREDICTED: Homo sapiens spectrin beta, non-erythrocytic 2 (SPTBN2), transcript variant X11, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_047415980",
+          "defn": "PREDICTED: Homo sapiens solute carrier family 2 member 9 (SLC2A9), transcript variant X25, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_047416674",
+          "defn": "PREDICTED: Homo sapiens tubulin polymerization promoting protein (TPPP), transcript variant X2, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 3,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "GACGCAGGGCTGCTGC",
+      "target_mRNA_5to3": "GCAGCAGCCCTGCGTC",
+      "gc_percent": 75.0,
+      "specificity_margin": 7,
+      "status": "screen_failed",
+      "error": "Remote end closed connection without response"
+    },
+    {
+      "antisense_5to3": "CGCAGGGCTGCTGCCC",
+      "target_mRNA_5to3": "GGGCAGCAGCCCTGCG",
+      "gc_percent": 81.2,
+      "specificity_margin": 7,
+      "status": "screened",
+      "blast_rid": "3XV10076016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_gap_spanning_offtargets": 50,
+      "offtargets": [
+        {
+          "acc": "NM_001256541",
+          "defn": "Homo sapiens transmembrane protein 204 (TMEM204), transcript variant 2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001289823",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001289824",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 3, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382619",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 4, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382620",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 5, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382621",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 6, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382622",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 7, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_002569",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 1, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_016584",
+          "defn": "Homo sapiens interleukin 23 subunit alpha (IL23A), mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_032048",
+          "defn": "Homo sapiens elastin microfibril interfacer 2 (EMILIN2), mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NR_168464",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 8, non-coding RNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_024447986",
+          "defn": "PREDICTED: Homo sapiens potassium calcium-activated channel subfamily M alpha 1 (KCNMA1), transcript variant X29, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_047420263",
+          "defn": "PREDICTED: Homo sapiens homeodomain interacting protein kinase 2 (HIPK2), transcript variant X11, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_047437884",
+          "defn": "PREDICTED: Homo sapiens elastin microfibril interfacer 2 (EMILIN2), transcript variant X1, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_047437885",
+          "defn": "PREDICTED: Homo sapiens elastin microfibril interfacer 2 (EMILIN2), transcript variant X2, mRNA >gi|2462561768|ref|XM_054319261.1| PREDICTED: Homo sapiens elastin microfibril interfacer 2 (EMILIN2), transcript variant X2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "GGACGCAGGGCTGCTG",
+      "target_mRNA_5to3": "CAGCAGCCCTGCGTCC",
+      "gc_percent": 75.0,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "3XV1U0XX016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_gap_spanning_offtargets": 50,
+      "offtargets": [
+        {
+          "acc": "XM_054314420",
+          "defn": "PREDICTED: Homo sapiens TAO kinase 2 (TAOK2), transcript variant X5, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054314421",
+          "defn": "PREDICTED: Homo sapiens TAO kinase 2 (TAOK2), transcript variant X6, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054314422",
+          "defn": "PREDICTED: Homo sapiens TAO kinase 2 (TAOK2), transcript variant X7, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054314423",
+          "defn": "PREDICTED: Homo sapiens TAO kinase 2 (TAOK2), transcript variant X8, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054314425",
+          "defn": "PREDICTED: Homo sapiens TAO kinase 2 (TAOK2), transcript variant X10, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054314426",
+          "defn": "PREDICTED: Homo sapiens TAO kinase 2 (TAOK2), transcript variant X11, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054316756",
+          "defn": "PREDICTED: Homo sapiens BAH domain and coiled-coil containing 1 (BAHCC1), transcript variant X1, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054316758",
+          "defn": "PREDICTED: Homo sapiens BAH domain and coiled-coil containing 1 (BAHCC1), transcript variant X3, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054316759",
+          "defn": "PREDICTED: Homo sapiens BAH domain and coiled-coil containing 1 (BAHCC1), transcript variant X5, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054323748",
+          "defn": "PREDICTED: Homo sapiens Ral GTPase activating protein catalytic subunit alpha 2 (RALGAPA2), transcript variant X9, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054348499",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 4 (VGLL4), transcript variant X1, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054348500",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 4 (VGLL4), transcript variant X2, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054348501",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 4 (VGLL4), transcript variant X3, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054348502",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 4 (VGLL4), transcript variant X4, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_054348503",
+          "defn": "PREDICTED: Homo sapiens vestigial like family member 4 (VGLL4), transcript variant X5, mRNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "GCAGGGCTGCTGCCCG",
+      "target_mRNA_5to3": "CGGGCAGCAGCCCTGC",
+      "gc_percent": 81.2,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "3XV2M1H4016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_gap_spanning_offtargets": 50,
+      "offtargets": [
+        {
+          "acc": "NM_001039029",
+          "defn": "Homo sapiens leucine rich repeat transmembrane protein 2 (LRTM2), transcript variant 1, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001163925",
+          "defn": "Homo sapiens leucine rich repeat transmembrane protein 2 (LRTM2), transcript variant 2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001163926",
+          "defn": "Homo sapiens leucine rich repeat transmembrane protein 2 (LRTM2), transcript variant 3, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001256541",
+          "defn": "Homo sapiens transmembrane protein 204 (TMEM204), transcript variant 2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001289823",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001289824",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 3, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382619",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 4, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382620",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 5, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382621",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 6, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_001382622",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 7, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_002569",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 1, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_016584",
+          "defn": "Homo sapiens interleukin 23 subunit alpha (IL23A), mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NM_032048",
+          "defn": "Homo sapiens elastin microfibril interfacer 2 (EMILIN2), mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "NR_168464",
+          "defn": "Homo sapiens furin, paired basic amino acid cleaving enzyme (FURIN), transcript variant 8, non-coding RNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "risk": "gap_spanning_cleavage_risk"
+        },
+        {
+          "acc": "XM_011521015",
+          "defn": "PREDICTED: Homo sapiens leucine rich repeat transmembrane protein 2 (LRTM2), transcript variant X2, mRNA >gi|2462497890|ref|XM_054332285.1| PREDICTED: Homo sapiens leucine rich repeat transmembrane protein 2 (LRTM2), transcript variant X2, mRNA",
+          "identity": 15,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "risk": "gap_spanning_cleavage_risk"
+        }
+      ]
+    }
+  ]
+}
