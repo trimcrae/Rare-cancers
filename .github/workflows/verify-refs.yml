@@ -111,3 +111,25 @@ jobs:
           Individualised neoantigen therapy mRNA-4157 V940 plus pembrolizumab in resected melanoma#Weber#mRNA-4157/KEYNOTE-942 melanoma (Lancet 2024)
           Personalized RNA neoantigen vaccines stimulate T cells in pancreatic cancer#Rojas#autogene cevumeran, pancreatic (Nature 2023)
           TREAT
+          echo
+          echo "===== 7) NR4A3 DEGRADER manuscript refs (verify cited IDs + resolve [to-confirm]) ====="
+          echo "  -- 7a) Europe PMC core for cited PMIDs/PMCIDs (author | title | journal | year | DOI) --"
+          for id in 30664630 30416039 17515897 PMC6341107 PMC7864866 PMC4535767 PMC8006468 PMC7565926; do
+            echo -n "    $id -> "
+            curl -s -m 30 -G "https://www.ebi.ac.uk/europepmc/webservices/rest/search" \
+              --data-urlencode "query=$id" --data-urlencode "format=json" --data-urlencode "resultType=core" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const r=JSON.parse(s).resultList.result[0]||{};console.log((r.authorString||"?").split(",")[0],"|",(r.title||"?").slice(0,66),"|",((r.journalInfo||{}).journal||{}).title||r.bookOrReportDetails||"?","|",r.pubYear||"?","| DOI:",r.doi||"?");}catch(e){console.log("parse-err")}})'
+          done
+          echo "  -- 7b) Crossref resolve the [to-confirm] titles to DOI | journal | year --"
+          while IFS='#' read -r q note; do
+            [ -z "$q" ] && continue
+            echo "    [$note]"
+            curl -s -m 30 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
+              --data-urlencode "query.bibliographic=$q" --data-urlencode "filter=type:journal-article" --data-urlencode "rows=2" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const m=(JSON.parse(s).message.items||[])[0]||{};console.log("      -> DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,72),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]));}catch(e){console.log("      PARSE-ERR")}})'
+          done <<'NR4A'
+          In Silico Adoption of an Orphan Nuclear Receptor NR4A1#PMC4535767 Nur77 cryptic pocket MD
+          Assessment of NR4A Ligands that Directly Bind and Modulate the Orphan Nuclear Receptor Nurr1#Munoz-Tello amodiaquine NMR
+          Oncogenic orphan nuclear receptor NR4A3 interacts and cooperates with MYB in acinic cell carcinoma#Haller 2020 NR4A3-MYB AciCC
+          NR4A transcription factors limit CAR T cell function in solid tumours#Chen 2019 Nature triple-NR4A
+          NR4A
