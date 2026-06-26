@@ -52,7 +52,16 @@ import urllib.request
 
 import junction_aso as ja  # reuse fetch_cds / build_fusion_cds / design (same dir)
 
-OUT = os.path.join(os.path.dirname(__file__), "aso-insilico-evaluation.json")
+# Breakpoint is parameterisable (env) so the SAME uncapped full-transcriptome evaluation can be
+# run on the canonical breakpoint OR on a favorable one identified by the per-breakpoint scan
+# (mirrors junction_aso_offtarget.py). This lets us complete the evidence arc: does a favorable
+# breakpoint's gapmer set also clear the uncapped off-target + accessibility + seed screen?
+if os.environ.get("EWSR1_KEEP_AA"):
+    ja.EWSR1_KEEP_AA = int(os.environ["EWSR1_KEEP_AA"])
+if os.environ.get("NR4A3_KEEP_AA_FROM"):
+    ja.NR4A3_KEEP_AA_FROM = int(os.environ["NR4A3_KEEP_AA_FROM"])
+_SUFFIX = os.environ.get("OUT_SUFFIX", "")
+OUT = os.path.join(os.path.dirname(__file__), f"aso-insilico-evaluation{_SUFFIX}.json")
 
 # Human RefSeq RNA (GRCh38.p14) — curated transcripts; stable NCBI FTP path.
 REFSEQ_RNA_URL = ("https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/"
@@ -269,6 +278,8 @@ def main():
                  "off-target screen + target-site accessibility + sequence liabilities. "
                  "EVALUATION ONLY — hypotheses for wet-lab testing, not a validated drug. "
                  "Does NOT address tumour delivery (the route's real bottleneck).",
+        "breakpoint": {"EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
+                       "is_canonical": (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)},
         "n_evaluated": len(candidates),
         "accessibility": acc_status,
         "offtarget_screen": ot_status,
