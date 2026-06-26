@@ -84,8 +84,10 @@ under-converged sampling frontier), not a *druggable* state: correlating per-fra
 F(Rg) shows the pocket is **already druggable (fpocket 0.80) at Rg ≈ 0.72, in the well-sampled basin, at
 only ~0.76 kcal/mol** — thermally accessible. So the single static structure (0.495) understated
 druggability; the thermally-populated ensemble is robustly druggable at negligible cost, rising to 0.93
-toward the open edge. *(An unbiased release run from the open conformer is in flight as orthogonal
-confirmation; the opened-frame handle-facing check remains.)*
+toward the open edge. *(Remaining check: confirm the opened/druggable frames keep the 7 selectivity
+handles pocket-facing. An unbiased "release" run was attempted as orthogonal confirmation of
+metastability but is not required — Gate 3 is resolved by the energetics above — and its pipeline is
+currently parked with a startup bug.)*
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
@@ -95,11 +97,16 @@ This is the design specification that lets the *same* program be tuned NR4A3-sel
 sarcomas, sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately broad (for
 immuno-oncology) — §3.
 
-### 2.4 Degrader / ternary design (primed)
-The degrader recruits the opened LBD to an E3 ligase. The ternary-complex modelling pipeline
-(`nr4a3_ternary.py`, AF3-class) is primed and runs a checkable CRBN+lenalidomide positive control now;
-it completes once a warhead SMILES exists (from structure-based generative design against the opened
-pocket conformer). *No molecule is synthesized; this is design prep.*
+### 2.4 Degrader / warhead / ternary design (built — the next computational step)
+With the pocket validated as druggable and accessible, the next step is a **selective warhead** against
+the *opened* conformer. That pipeline is **built and ready** (`nr4a3_warhead.py` + `gpu-warhead-aws.yml`):
+it extracts the most-druggable opened conformer from the trajectory, docks candidates into NR4A3-opened
+**and** the aligned NR4A1/NR4A2 pockets, and ranks by a selectivity margin + engagement of the 7 handles
+(§2.3). A de-novo structure-based generative layer (DiffSBDD/Pocket2Mol) is primed as an optional module.
+Once a warhead SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`, AF3-class;
+runs a CRBN+lenalidomide positive control now) scores degradable-lysine geometry. **No molecule is
+synthesized; this is design prep.** Exact run instructions + program state for resuming from a fresh
+session: [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
 
 ## 3. Indication landscape — a *selective* degrader's market (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).

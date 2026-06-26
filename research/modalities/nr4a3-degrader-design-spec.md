@@ -111,10 +111,15 @@ PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despit
 
 ## GPU experiment plan (HIGH BENEFIT — run these if GPU is provisioned)
 
-> **STATUS 2026-06-25:** GPU is provisioned (AWS SageMaker). Experiment 1's pipeline is **validated
-> end-to-end** — a 10 ns LBD MD completed on an A10G (stable energetics, `nr4a3-lbd-md.dcd` in S3);
-> see `deploy/aws-sagemaker-setup.md` for the working config. **Next:** mdpocket/SASA analysis of the
-> 10 ns trajectory (does the Pocket-5 site open?), then the 100–200 ns production run.
+> **STATUS 2026-06-26: Experiment 1 (cryptic pocket) COMPLETE — all gates pass.** 30 ns well-tempered
+> metadynamics shows the orthosteric pocket opens to fpocket druggability **0.931** (Gate 2 PASS), and a
+> druggable conformation (0.80) is thermally accessible at only **0.76 kcal/mol** (Gate 3 PASS; the naive
+> ~38 kcal/mol was the cost to the most-OPEN edge, not a druggable state). Calibrated against an NR panel
+> (D\*=0.53; the static 0.495 is conservative, not inflated). **The next computational step is
+> Experiment 2 — the selective warhead** (`gpu-warhead-aws.yml`, BUILT and idle), then the ternary model.
+> Full program state + exact run instructions for a fresh session:
+> **[`nr4a3-degrader-next-steps.md`](./nr4a3-degrader-next-steps.md)**. Manuscript:
+> [`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md).
 
 Two experiments would materially change the degrader paper, both attacking the route's core
 weaknesses. Ranked by impact-per-effort:

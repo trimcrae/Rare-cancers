@@ -12,6 +12,10 @@ read it before making changes.
   **[research/manuscripts/emc-treatment-roadmap.md](./research/manuscripts/emc-treatment-roadmap.md)**
   remains the EMC-program paper. This serves, not replaces, the EMC goal (see
   **[research/manuscripts/nr4a3-degrader-paper-positioning.md](./research/manuscripts/nr4a3-degrader-paper-positioning.md)**).
+  **Resuming the degrader in-silico work (program state + exactly how to run the next GPU step, e.g. the
+  warhead screen): [research/modalities/nr4a3-degrader-next-steps.md](./research/modalities/nr4a3-degrader-next-steps.md)** —
+  as of 2026-06-26 the cryptic-pocket druggability case is complete (all gates pass) and the next step is
+  the built-but-idle selective-warhead screen.
   The crux of the portfolio is still **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
   and the board in **[research/IDEAS.md](./research/IDEAS.md)**. **No wet lab is available**, so every
   "next step" must be either (1) publish-to-convince or (2) in-silico evaluation — never a wet-lab to-do.
