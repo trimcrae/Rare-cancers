@@ -69,19 +69,19 @@ nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../mo
 Thus the static orthosteric pocket sits *just below* the validated druggable band — concordant with
 "undruggable", and the right starting point for the cryptic-pocket question.
 
-### 2.2 Metadynamics opens a druggable cryptic pocket (preliminary; 30 ns in progress)
+### 2.2 Metadynamics opens a druggable cryptic pocket (30 ns production)
 Well-tempered metadynamics on the radius of gyration of the Pocket-5 lining Cα atoms (method:
 [`../modalities/metad-methods-appendix.md`](../modalities/metad-methods-appendix.md)) drives the pocket
-open (CV Rg ~0.5 → ~1.05 nm). Per-frame fpocket on the opened conformations reaches druggability
-**0.751** (`crosses_0.5 = True`), **above every drug-bound NR pocket in the calibration panel** and well
-above D\* = 0.53; SASA of the lining residues rises (+5 nm², 69% of frames more open than baseline). This
-is the **first evidence of a dynamic druggable pocket in NR4A3**, paralleling Nurr1 (de Vera 2019).
-*Weight:* preliminary — a 5 ns biased run on the AF2 model; the converged **30 ns production**
-(free-energy cost of opening; confirmation that opened frames still line 406–534 with handles facing in)
-is in progress. Gate scoring against the pre-registration is in
-[`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md): Gate 2
-(opened state druggable) **passes preliminarily**; Gate 3 (energetic accessibility) awaits the 30 ns
-F(Rg).
+open (CV Rg ~0.5 → ~1.05 nm). On the converged **30 ns** run (600 frames), per-frame fpocket on the
+opened conformations reaches druggability **0.931** (`crosses_0.5 = True`) — **above every drug-bound NR
+pocket in the calibration panel** and well above D\* = 0.53; SASA of the lining residues rises (+6.1 nm²,
+86.8 % of frames more open than baseline). (A 5 ns validation gave a consistent 0.751.) This is the
+**first evidence of a dynamic druggable pocket in NR4A3**, paralleling Nurr1 (de Vera 2019). Gate scoring
+([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)): **Gate 2
+(opened state druggable) PASSES** on the converged run; **Gate 3 (energetic accessibility)** — the
+free-energy cost of opening from the converged F(Rg) (`fes.dat`) — is being read out; and the
+opened-frame handle-facing check (residues 406–534, 7 handles pocket-facing, not a splayed artifact)
+remains to be confirmed.
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))

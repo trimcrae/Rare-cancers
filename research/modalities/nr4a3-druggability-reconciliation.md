@@ -98,7 +98,8 @@ This sets the working threshold **D\*** and the falsification gates fixed in
 | NR4A2 AF2 (Nurr1) | NR4A model | 0.801 | — |
 | NR4A1 AF2 (Nur77) | NR4A model | 0.657 | — |
 | NR4A3 AF2 (target) | NR4A model | **0.495** (Pocket 5, orthosteric) | — |
-| **NR4A3 metad opened** | **MD opened frames** | **0.751** (max over frames) | — |
+| NR4A3 metad opened (5 ns prelim) | MD opened frames | 0.751 (max over frames) | — |
+| **NR4A3 metad opened (30 ns converged)** | **MD opened frames** | **0.931** (max over 600 frames) | — |
 
 **Interpretation (three findings):**
 
@@ -129,10 +130,17 @@ This sets the working threshold **D\*** and the falsification gates fixed in
   computed), disclose the change, and adopt **D\* = 0.53** from the validated drug-bound controls. This
   correction makes the bar *real* (0.53, a true drug-bound score), not laxer.
 - **Gate 0b (model over-call) — refuted:** model ≈ crystal; the static 0.495 is conservative.
-- **Gate 2 (opened state druggable) — PASS, preliminary.** Opened-frame max 0.751 ≥ D\* 0.53 and
-  exceeds all validated NR ligand sites. Caveats remain: 5 ns biased run (not the converged 30 ns), and
-  the lining-residue/handle-facing check should be confirmed on the production trajectory before this is
-  called final.
+- **Gate 2 (opened state druggable) — PASS (converged 30 ns).** On the full 30 ns production run
+  (600 frames), opened-frame max druggability is **0.931** (≥ D\* 0.53; up from the 5 ns 0.751), with
+  86.8 % of frames more open than baseline and +6.1 nm² SASA — above every validated NR drug-bound site
+  in the panel. Remaining check: confirm the opened frames still line residues 406–534 with the 7
+  selectivity handles pocket-facing (not a splayed artifact).
+- **Gate 3 (energetic accessibility) — PENDING fes.dat readout.** The converged free-energy profile
+  F(Rg) is in `s3://…/nr4a3-metad/fes.dat`; the closed→druggable-open cost (≤ ~5 kcal/mol?) still needs
+  to be read out and scored.
+- *Infra note:* the 30 ns GitHub wrapper job was auto-cancelled at GitHub's 6 h job cap, but the
+  SageMaker job ran to completion independently and wrote the 30 ns outputs to S3 (frames=600 confirms).
+  The submitter is being hardened so long runs don't depend on that.
 
 ## Would AF3 give "better" results? No — not for this question
 The bottleneck is **not** backbone-prediction accuracy:
