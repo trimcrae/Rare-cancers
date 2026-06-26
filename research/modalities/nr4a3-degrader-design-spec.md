@@ -208,6 +208,15 @@ warhead pose (away from the handle-contacting pharmacophore; the profile's handl
 attachment chemistry). Then the **ternary-complex model** (`nr4a3_ternary.py`) scores degradable-lysine
 geometry per paralogue — degradation selectivity ≠ binding selectivity. *(E3/linker specifics are standard
 PROTAC chemistry; finalise the exact ligand/linker set against the current literature before submission.)*
+- **Result (`protac_feasibility.py`, run 2026-06-26).** All four candidate warheads carry a conjugation
+  handle (resveratrol 3 phenols; chloroquine/CHEMBL1873475 an amine; amodiaquine amine+phenol) and **all
+  assemble into property-space-viable PROTACs**: the best warhead × E3 × linker combos (e.g. amodiaquine +
+  VH032 + PEG2 ≈ MW 899; CHEMBL1873475 + pomalidomide + PEG4 ≈ 872; chloroquine + VH032 + PEG2 ≈ 863) land
+  **5/5** in the typical PROTAC window (MW ~860–900, RotB 17–25, HBA 10–16); all 4 E3 ligands resolved
+  (CRBN: pomalidomide/lenalidomide/thalidomide; VHL: VH032). So assembling a viable degrader is
+  in-silico-feasible for every scaffold. *Honest bounds:* additive property estimate (not a bonded SMILES);
+  exit vector is a chemical handle (the TRUE attachment vector needs the docked pose, a GPU step); these are
+  scaffolds, not selective warheads — the selective binder is still the de-novo (GPU) step.
 
 **De-novo generation + quantitative selectivity (GPU, APPROVAL-GATED).** `generate_denovo()` → DiffSBDD/
 Pocket2Mol, two campaigns (divergent-handle-conditioned = NR4A3-selective; conserved-conditioned = pan), on
