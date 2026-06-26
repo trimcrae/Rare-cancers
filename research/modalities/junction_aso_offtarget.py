@@ -36,7 +36,15 @@ import xml.etree.ElementTree as ET
 
 import junction_aso as ja   # reuse the committed design logic (no duplication)
 
-OUT = os.path.join(os.path.dirname(__file__), "junction-aso-offtarget.json")
+# Breakpoint is parameterisable (env) so the SAME screen can be run on the canonical breakpoint
+# OR on a favorable one identified by the per-breakpoint scan, to test whether the GC/complexity
+# "favorable" triage actually yields off-target cleanliness under the full BLAST screen.
+if os.environ.get("EWSR1_KEEP_AA"):
+    ja.EWSR1_KEEP_AA = int(os.environ["EWSR1_KEEP_AA"])
+if os.environ.get("NR4A3_KEEP_AA_FROM"):
+    ja.NR4A3_KEEP_AA_FROM = int(os.environ["NR4A3_KEEP_AA_FROM"])
+_SUFFIX = os.environ.get("OUT_SUFFIX", "")
+OUT = os.path.join(os.path.dirname(__file__), f"junction-aso-offtarget{_SUFFIX}.json")
 
 BLAST = "https://blast.ncbi.nlm.nih.gov/Blast.cgi"
 PARENT_ACCS = {"NM_005243", "NM_006981"}          # EWSR1, NR4A3 (the intended on-/parent hits)
@@ -166,6 +174,8 @@ def main():
     n_clean = sum(1 for r in screened
                   if r.get("status") == "screened" and r.get("n_gap_spanning_offtargets", 1) == 0)
     result = {
+        "breakpoint": {"EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
+                       "is_canonical": (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)},
         "_note": ("Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs "
                   "(blastn-short vs human RefSeq RNA, NCBI BLAST URL API). A clean oligo has "
                   "zero gap-spanning off-target near-matches (the RNase-H-cleavable liability). "

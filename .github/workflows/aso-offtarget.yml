@@ -11,6 +11,16 @@ name: ASO off-target screen (junction gapmers vs human transcriptome)
 
 on:
   workflow_dispatch:
+    inputs:
+      ews_keep:
+        description: "EWSR1 kept codons (breakpoint); blank = canonical 264"
+        required: false
+      nr4_from:
+        description: "NR4A3 start codon (breakpoint); blank = canonical 2"
+        required: false
+      out_suffix:
+        description: "Output filename suffix, e.g. -bp200-8"
+        required: false
 
 permissions:
   contents: write
@@ -31,6 +41,10 @@ jobs:
 
       - name: Transcriptome-wide off-target screen (NCBI BLAST, stdlib only)
         working-directory: research/modalities
+        env:
+          EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
+          NR4A3_KEEP_AA_FROM: ${{ inputs.nr4_from }}
+          OUT_SUFFIX: ${{ inputs.out_suffix }}
         run: python junction_aso_offtarget.py
 
       - name: Publish result to modalities-cache branch
@@ -40,7 +54,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p "$RUNNER_TEMP/res"
-          cp research/modalities/junction-aso-offtarget.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -51,6 +65,6 @@ jobs:
           fi
           mkdir -p research/modalities
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
-          git add research/modalities/junction-aso-offtarget.json 2>/dev/null || true
+          git add research/modalities/junction-aso-offtarget*.json 2>/dev/null || true
           git commit -m "ASO off-target screen: junction gapmers vs human transcriptome" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
