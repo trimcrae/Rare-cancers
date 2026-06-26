@@ -18,7 +18,10 @@ import sys
 OUT = "/opt/ml/processing/output"
 
 # The restart / reproducibility set written by nr4a3_metad.py. Staged IN on resume, copied OUT always.
-ARTIFACTS = ("AF-Q92570.pdb", "nr4a3-lbd-solvated.pdb", "nr4a3-lbd-metad.dcd", "COLVAR", "HILLS",
+# (The AF2 model — AF-<acc>.pdb, target-dependent — is copied out separately via a glob below.) The
+# solvated/trajectory filenames are kept target-agnostic on purpose so the downstream analysis
+# (nr4a3_mdpocket.py / nr4a3_handle_facing.py) runs unchanged on each paralogue's own S3 prefix.
+ARTIFACTS = ("nr4a3-lbd-solvated.pdb", "nr4a3-lbd-metad.dcd", "COLVAR", "HILLS",
              "fes.dat", "metad_system.xml", "metad_checkpoint.chk", "metad_state.xml",
              "metad_manifest.json")
 
@@ -27,6 +30,8 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--ns", default="30")
+    ap.add_argument("--target", default="NR4A3",
+                    help="NR4A3 (default), NR4A1, or NR4A2 — paralogue CV/LBD mapped by alignment")
     ap.add_argument("--git-ref", default="main",
                     help="repo ref to run (branch/tag/sha); default main")
     ap.add_argument("--resume-from", default="",
@@ -65,23 +70,25 @@ def main():
     create_env = os.environ.copy()
     create_env["CONDA_OVERRIDE_CUDA"] = "12.8"   # match the box driver; see deploy/aws-sagemaker-setup.md
     subprocess.run([conda, "create", "-y", "-n", "md", "-c", "conda-forge",
-                    "python=3.11", "openmm", "pdbfixer", "openmm-plumed", "plumed",
+                    "python=3.11", "openmm", "pdbfixer", "openmm-plumed", "plumed", "biopython",
                     "cuda-version=12.8"], check=True, env=create_env)
 
     env = os.environ.copy()
     env["NS"] = ns
+    env["TARGET"] = args.target
     env["GIT_REF"] = args.git_ref
     env["GIT_SHA"] = git_sha
     os.makedirs(OUT, exist_ok=True)
-    print(f"[sagemaker] running metadynamics for {ns} ns (sha {git_sha[:10]})", flush=True)
+    print(f"[sagemaker] running metadynamics for {ns} ns, target={args.target} (sha {git_sha[:10]})",
+          flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "md",
                         "python", "nr4a3_metad.py"], cwd=work, env=env)
 
-    for f in ARTIFACTS:
-        p = os.path.join(work, f)
+    import glob
+    for p in list(map(lambda f: os.path.join(work, f), ARTIFACTS)) + glob.glob(os.path.join(work, "AF-*.pdb")):
         if os.path.exists(p):
-            shutil.copy(p, os.path.join(OUT, f))
-            print(f"[sagemaker] saved {f} ({os.path.getsize(p)} bytes)", flush=True)
+            shutil.copy(p, os.path.join(OUT, os.path.basename(p)))
+            print(f"[sagemaker] saved {os.path.basename(p)} ({os.path.getsize(p)} bytes)", flush=True)
     print(f"[sagemaker] metad exit={r.returncode}", flush=True)
     if r.returncode != 0:
         sys.exit(r.returncode)

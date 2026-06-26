@@ -35,9 +35,22 @@ import os
 import subprocess
 import sys
 
-LBD_FIRST, LBD_LAST = 373, 626
-CV_RESIDUES = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]   # from pocket5_lining_residues.json
-AF2_PDB = os.path.join(os.path.dirname(__file__), "AF-Q92570.pdb")
+# TARGET paralogue. NR4A3 (default) is the reference; NR4A1/NR4A2 reuse this SAME pipeline to build the
+# family-wide opened-pocket ensembles for the selectivity matrix (see nr4a3-degrader-next-steps.md). A
+# paralogue's LBD trim window + CV (Pocket-5 lining) residues are derived at runtime by BLOSUM62
+# alignment of its AF2 model to the NR4A3 reference — the same alignment nr4a_selectivity.py /
+# nr4a3_warhead.py use (which mapped these exact paralogue pockets successfully) — so the CV tracks the
+# HOMOLOGOUS cryptic pocket in each paralogue and paralogue residue numbers are never hand-transcribed.
+TARGET = os.environ.get("TARGET", "NR4A3").upper()
+TARGET_ACC = {"NR4A3": "Q92570", "NR4A1": "P22736", "NR4A2": "P43354"}
+REF_ACC = "Q92570"                                                    # NR4A3 reference
+REF_LBD_FIRST, REF_LBD_LAST = 373, 626
+REF_CV_RESIDUES = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]  # NR4A3 Pocket-5 lining (handles incl.)
+
+# Resolved for the active TARGET in main(): NR4A3 = the reference values; paralogues via alignment.
+LBD_FIRST, LBD_LAST = REF_LBD_FIRST, REF_LBD_LAST
+CV_RESIDUES = list(REF_CV_RESIDUES)
+AF2_PDB = os.path.join(os.path.dirname(__file__), f"AF-{TARGET_ACC.get(TARGET, REF_ACC)}.pdb")
 NS = float(os.environ.get("NS", "30"))           # nanoseconds of biased MD to add THIS segment
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -79,11 +92,15 @@ def main():
         print(f"  needs openmm + pdbfixer + openmm-plumed (GPU box): {e}", file=sys.stderr)
         return
 
-    _fetch_af_model()
+    # Resolve the active target (NR4A3 reference values, or paralogue LBD bounds + homologous CV
+    # residues mapped by alignment). Sets the module-level LBD_FIRST/LAST, CV_RESIDUES, AF2_PDB used
+    # throughout the build, so the rest of the pipeline is target-agnostic.
+    global LBD_FIRST, LBD_LAST, CV_RESIDUES, AF2_PDB
+    LBD_FIRST, LBD_LAST, CV_RESIDUES, AF2_PDB = _resolve_target()
 
-    # Ground-truth residue identities (UniProt numbering) read straight from the AF2 model. Used below
-    # to assert the CV CA atoms in the solvated topology really are residues 406...534 — a count match
-    # alone wouldn't catch a contiguity shift (ASSUMPTIONS.md #7) selecting the wrong residues.
+    # Ground-truth residue identities (target's own numbering) read straight from the AF2 model. Used
+    # below to assert the CV CA atoms in the solvated topology really are the resolved CV residues — a
+    # count match alone wouldn't catch a contiguity shift (ASSUMPTIONS.md #7) selecting the wrong ones.
     cv_identities = _af2_residue_names(AF2_PDB, CV_RESIDUES)
     missing = [r for r in CV_RESIDUES if r not in cv_identities]
     if missing:
@@ -269,6 +286,9 @@ def _check_resume_params():
 
 def _write_manifest(cumulative_ns, plumed_atoms):
     man = {
+        "target": TARGET,
+        "target_acc": TARGET_ACC.get(TARGET),
+        "lbd_first": LBD_FIRST, "lbd_last": LBD_LAST,
         "cv_residues": CV_RESIDUES,
         "metad": METAD,
         "segment_ns": NS,
@@ -357,26 +377,96 @@ def _sum_hills():
         print(f"  sum_hills skipped: {e}", file=sys.stderr)
 
 
-def _fetch_af_model():
-    if os.path.exists(AF2_PDB):
+def _resolve_target():
+    """Resolve (lbd_first, lbd_last, cv_residues, af2_pdb) for the active TARGET.
+
+    NR4A3 = the reference constants. For NR4A1/NR4A2 the LBD trim window and the CV (Pocket-5 lining)
+    residues are mapped from the NR4A3 reference by BLOSUM62 alignment of the two AF2 models — the same
+    alignment nr4a_selectivity.py / nr4a3_warhead.py use (the warhead run mapped these exact paralogue
+    pockets successfully). The CV thus tracks the HOMOLOGOUS cryptic pocket, so the opened-state
+    ensembles are comparable across the family. Fails loud if any CV residue or too little of the LBD
+    aligns. Logs the residue map + identity for audit — the divergent selectivity handles are EXPECTED
+    to differ (that is the point), so substitutions are NOT treated as an error."""
+    acc = TARGET_ACC.get(TARGET)
+    if not acc:
+        sys.exit(f"  ABORT: unknown TARGET={TARGET} (expected one of {sorted(TARGET_ACC)})")
+    af_pdb = os.path.join(HERE, f"AF-{acc}.pdb")
+    _fetch_af_model(acc, af_pdb)
+    if TARGET == "NR4A3":
+        print(f"  TARGET=NR4A3 (reference): LBD {REF_LBD_FIRST}-{REF_LBD_LAST}, CV {REF_CV_RESIDUES}",
+              file=sys.stderr)
+        return REF_LBD_FIRST, REF_LBD_LAST, list(REF_CV_RESIDUES), af_pdb
+
+    ref_pdb = os.path.join(HERE, f"AF-{REF_ACC}.pdb")
+    _fetch_af_model(REF_ACC, ref_pdb)
+    mapping = _blosum_map(ref_pdb, af_pdb)                 # {nr4a3_resnum: paralogue_resnum}
+    cv = [mapping[r] for r in REF_CV_RESIDUES if r in mapping]
+    if len(cv) != len(REF_CV_RESIDUES):
+        missing = [r for r in REF_CV_RESIDUES if r not in mapping]
+        sys.exit(f"  ABORT: {TARGET} CV mapping incomplete — NR4A3 residues {missing} did not align "
+                 f"onto {acc}; refusing to run an ill-defined CV.")
+    mapped_lbd = [mapping[r] for r in range(REF_LBD_FIRST, REF_LBD_LAST + 1) if r in mapping]
+    if len(mapped_lbd) < 50:
+        sys.exit(f"  ABORT: {TARGET} LBD alignment mapped only {len(mapped_lbd)} residues onto {acc}; "
+                 "alignment looks wrong, refusing to run.")
+    lbd_first, lbd_last = min(mapped_lbd), max(mapped_lbd)
+    ref_names, tgt_names = _af2_residue_names(ref_pdb, REF_CV_RESIDUES), _af2_residue_names(af_pdb, cv)
+    pairs = [f"{ref_names.get(r0, '?')}{r0}->{tgt_names.get(r1, '?')}{r1}"
+             for r0, r1 in zip(REF_CV_RESIDUES, cv)]
+    nid = sum(1 for r0, r1 in zip(REF_CV_RESIDUES, cv) if ref_names.get(r0) == tgt_names.get(r1))
+    print(f"  TARGET={TARGET} ({acc}) via NR4A3 alignment: LBD {lbd_first}-{lbd_last}; CV {cv}; "
+          f"{nid}/{len(cv)} CV residues identical to NR4A3; map {pairs}", file=sys.stderr)
+    return lbd_first, lbd_last, cv, af_pdb
+
+
+def _blosum_map(ref_pdb, tgt_pdb):
+    """{ref_resnum: tgt_resnum} for aligned CA positions, via a global BLOSUM62 alignment of the two CA
+    sequences (identical method to nr4a3_warhead.map_pocket_to_paralogue)."""
+    from Bio.Align import PairwiseAligner, substitution_matrices
+    three2one = {"ALA": "A", "ARG": "R", "ASN": "N", "ASP": "D", "CYS": "C", "GLN": "Q", "GLU": "E",
+                 "GLY": "G", "HIS": "H", "ILE": "I", "LEU": "L", "LYS": "K", "MET": "M", "PHE": "F",
+                 "PRO": "P", "SER": "S", "THR": "T", "TRP": "W", "TYR": "Y", "VAL": "V"}
+
+    def seq_items(pdb):
+        d = {}
+        for line in open(pdb):
+            if line.startswith("ATOM") and line[12:16].strip() == "CA":
+                d[int(line[22:26])] = three2one.get(line[17:20].strip(), "X")
+        return sorted(d.items())
+
+    a = PairwiseAligner()
+    a.mode = "global"
+    a.substitution_matrix = substitution_matrices.load("BLOSUM62")
+    a.open_gap_score, a.extend_gap_score = -10, -0.5
+    s_ref, s_tgt = seq_items(ref_pdb), seq_items(tgt_pdb)
+    ref_nums, tgt_nums = [r for r, _ in s_ref], [r for r, _ in s_tgt]
+    aln = a.align("".join(x for _, x in s_ref), "".join(x for _, x in s_tgt))[0]
+    out = {}
+    for (a0, a1), (b0, b1) in zip(aln.aligned[0], aln.aligned[1]):
+        for off in range(a1 - a0):
+            out[ref_nums[a0 + off]] = tgt_nums[b0 + off]
+    return out
+
+
+def _fetch_af_model(acc, dest):
+    if os.path.exists(dest):
         return
     import json
     import urllib.request
     import urllib.error
-    acc = "Q92570"
     try:
         with urllib.request.urlopen(f"https://alphafold.ebi.ac.uk/api/prediction/{acc}", timeout=60) as r:
             meta = json.load(r)
         pdb_url = (meta[0] or {}).get("pdbUrl") if meta else None
         if pdb_url:
-            urllib.request.urlretrieve(pdb_url, AF2_PDB)
+            urllib.request.urlretrieve(pdb_url, dest)
             return
     except Exception as e:  # noqa: BLE001
         print(f"  AFDB API lookup failed ({e}); trying versioned URLs", file=sys.stderr)
     for v in ("v6", "v5", "v4", "v3", "v2", "v1"):
         try:
             urllib.request.urlretrieve(
-                f"https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_{v}.pdb", AF2_PDB)
+                f"https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_{v}.pdb", dest)
             return
         except urllib.error.HTTPError:
             continue

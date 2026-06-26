@@ -13,6 +13,14 @@ on:
         description: "nanoseconds of biased MD. 5-10 = pipeline validation; 30-50 = production."
         default: "30"
         required: false
+      target:
+        description: "NR4A3 (default), NR4A1, or NR4A2 — paralogue CV/LBD mapped by alignment to NR4A3"
+        default: "NR4A3"
+        required: false
+      output_prefix:
+        description: "S3 output prefix (default <target>-metad, e.g. nr4a1-metad)"
+        default: ""
+        required: false
       instance:
         description: "SageMaker GPU instance type"
         default: "ml.g5.xlarge"
@@ -53,6 +61,8 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           NS: ${{ inputs.ns }}
+          TARGET: ${{ inputs.target }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           INSTANCE: ${{ inputs.instance }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
           GIT_REF: ${{ inputs.git_ref }}
