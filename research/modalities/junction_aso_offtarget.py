@@ -106,7 +106,9 @@ def blast_hits(rid):
             qfrom = int(hsp.findtext("Hsp_query-from") or 0)
             qto = int(hsp.findtext("Hsp_query-to") or 0)
             hits.append({"acc": hid, "defn": hdef, "identity": ident, "align_len": alen,
-                         "q_from": qfrom, "q_to": qto})
+                         "q_from": qfrom, "q_to": qto,
+                         "qseq": hsp.findtext("Hsp_qseq") or "",
+                         "midline": hsp.findtext("Hsp_midline") or ""})
     return hits
 
 
@@ -119,10 +121,36 @@ def is_parent(h):
 
 
 def classify(h):
-    """RNase-H relevance: does the matched query span the central DNA gap [WING, LEN-WING]?"""
+    """RNase-H cleavage relevance, resolved to the gap-mismatch level.
+
+    Cleavage needs a contiguous DNA:RNA duplex across the central DNA gap (query positions
+    [WING+1 .. LEN-WING]); a mismatch INSIDE the gap disrupts cleavage even if the overall
+    identity is high. We walk the BLAST alignment, map each column to a query position, and
+    count gap-region mismatches.
+      - gap not fully covered  -> "wing_only_affinity_risk"  (no gap duplex; weak liability)
+      - gap covered, 0 gap mismatches -> "true_cleavage_risk" (the real RNase-H liability)
+      - gap covered, >=1 gap mismatch -> "gap_disrupted_no_cleavage" (mismatch falls in the gap)
+    Falls back to the coverage-only call if the alignment strings are absent."""
     gap_lo, gap_hi = ja.WING + 1, ja.OLIGO_LEN - ja.WING       # 1-based inclusive gap span
     spans_gap = h["q_from"] <= gap_lo and h["q_to"] >= gap_hi
-    return "gap_spanning_cleavage_risk" if spans_gap else "wing_only_affinity_risk"
+    if not spans_gap:
+        return "wing_only_affinity_risk"
+    qseq, mid = h.get("qseq", ""), h.get("midline", "")
+    if not qseq or not mid or len(qseq) != len(mid):
+        return "gap_spanning_cleavage_risk"                    # coverage-only fallback
+    qpos = h["q_from"]
+    gap_mismatches, gap_covered = 0, set()
+    for qc, mc in zip(qseq, mid):
+        if qc == "-":                                          # insertion in target; query pos unchanged
+            continue
+        if gap_lo <= qpos <= gap_hi:
+            gap_covered.add(qpos)
+            if mc != "|":
+                gap_mismatches += 1
+        qpos += 1
+    if len(gap_covered) < (gap_hi - gap_lo + 1):
+        return "wing_only_affinity_risk"
+    return "true_cleavage_risk" if gap_mismatches == 0 else "gap_disrupted_no_cleavage"
 
 
 def screen_one(design):
@@ -148,8 +176,12 @@ def screen_one(design):
             "blast_rid": rid,
             "n_parent_or_intended_hits": sum(1 for h in hits if is_parent(h)),
             "n_offtarget_near_matches": len(ranked),
-            "n_gap_spanning_offtargets": sum(1 for h in ranked
-                                             if h["risk"] == "gap_spanning_cleavage_risk"),
+            "n_true_cleavage_risk": sum(1 for h in ranked if h["risk"] == "true_cleavage_risk"),
+            "n_gap_disrupted_no_cleavage": sum(1 for h in ranked
+                                               if h["risk"] == "gap_disrupted_no_cleavage"),
+            "n_wing_only_affinity": sum(1 for h in ranked if h["risk"] == "wing_only_affinity_risk"),
+            "n_coverage_only_fallback": sum(1 for h in ranked
+                                            if h["risk"] == "gap_spanning_cleavage_risk"),
             "offtargets": ranked[:15],
         })
     except Exception as e:  # noqa: BLE001 — never crash the whole screen on one query
@@ -172,15 +204,17 @@ def main():
 
     n_ok = sum(1 for r in screened if r["status"] == "screened")
     n_clean = sum(1 for r in screened
-                  if r.get("status") == "screened" and r.get("n_gap_spanning_offtargets", 1) == 0)
+                  if r.get("status") == "screened" and r.get("n_true_cleavage_risk", 1) == 0)
     result = {
         "breakpoint": {"EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
                        "is_canonical": (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)},
         "_note": ("Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs "
-                  "(blastn-short vs human RefSeq RNA, NCBI BLAST URL API). A clean oligo has "
-                  "zero gap-spanning off-target near-matches (the RNase-H-cleavable liability). "
-                  "Wing-only matches are weaker (affinity) liabilities. Predicted specificity, "
-                  "not validated; confirm by the parental-/off-target-sparing wet-lab controls."),
+                  "(blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the "
+                  "gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose "
+                  "central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit "
+                  "(mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity "
+                  "liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted "
+                  "specificity, not validated; confirm by the parental-/off-target-sparing assays."),
         "method": {
             "db": "refseq_rna (txid9606[ORGN])", "program": "blastn (short, FILTER off)",
             "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
@@ -189,7 +223,7 @@ def main():
         },
         "n_oligos_screened": len(screened),
         "n_screened_ok": n_ok,
-        "n_oligos_no_gap_spanning_offtarget": n_clean,
+        "n_oligos_no_true_cleavage_risk": n_clean,
         "oligos": screened,
     }
     with open(OUT, "w") as fh:
