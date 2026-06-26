@@ -1,0 +1,100 @@
+{
+  "_note": "Coincidence-detection (AND-gate) avidity model for a fusion-selective bivalent NR4A3 degrader. CPU/stdlib only. Design prep, not a real compound; all Kd/EM are illustrative assumptions.",
+  "_inputs_are_illustrative": true,
+  "_model": "Kd_avidity ~ Kd1*Kd2/EM (effective-molarity avidity); WT engaged monovalently by arm 1 only; window = f_fusion / f_wildtype.",
+  "base_case": {
+    "Kd1_arm_LBD_M": 9.999999999999999e-06,
+    "Kd2_arm_EWS_M": 9.999999999999999e-05,
+    "effective_molarity_M": 0.001,
+    "free_ligand_M": 1e-06,
+    "Kd_avidity_fusion_M": 9.999999999999997e-07,
+    "fusion_fraction_bound": 0.5,
+    "wildtype_fraction_bound": 0.0909,
+    "fusion_vs_wildtype_window": 5.5,
+    "interpretation": "With each arm individually weak (Kd1=10 uM, Kd2=100 uM), wild-type NR4A3 \u2014 seen only monovalently by arm 1 \u2014 stays largely unbound, while the fusion is engaged with avidity-enhanced Kd_avidity = Kd1*Kd2/EM, giving a large fusion-vs-wildtype occupancy window. The window is a BINDING window; degradation selectivity additionally depends on the ternary complex."
+  },
+  "sweep_effective_molarity": [
+    {
+      "effective_molarity_M": 0.0001,
+      "Kd_avidity_M": 9.999999999999997e-06,
+      "fusion_fraction_bound": 0.0909,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 1.0
+    },
+    {
+      "effective_molarity_M": 0.0003,
+      "Kd_avidity_M": 3.3333333333333333e-06,
+      "fusion_fraction_bound": 0.2308,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 2.5
+    },
+    {
+      "effective_molarity_M": 0.001,
+      "Kd_avidity_M": 9.999999999999997e-07,
+      "fusion_fraction_bound": 0.5,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 5.5
+    },
+    {
+      "effective_molarity_M": 0.003,
+      "Kd_avidity_M": 3.333333333333333e-07,
+      "fusion_fraction_bound": 0.75,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 8.2
+    },
+    {
+      "effective_molarity_M": 0.01,
+      "Kd_avidity_M": 9.999999999999998e-08,
+      "fusion_fraction_bound": 0.9091,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 10.0
+    },
+    {
+      "effective_molarity_M": 0.03,
+      "Kd_avidity_M": 3.333333333333333e-08,
+      "fusion_fraction_bound": 0.9677,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 10.6
+    },
+    {
+      "effective_molarity_M": 0.1,
+      "Kd_avidity_M": 9.999999999999999e-09,
+      "fusion_fraction_bound": 0.9901,
+      "wildtype_fraction_bound": 0.0909,
+      "window": 10.9
+    }
+  ],
+  "sweep_arm1_affinity": [
+    {
+      "Kd1_arm_LBD_uM": 1.0,
+      "wildtype_fraction_bound": 0.5,
+      "fusion_fraction_bound": 0.9091,
+      "window": 1.8
+    },
+    {
+      "Kd1_arm_LBD_uM": 3.0,
+      "wildtype_fraction_bound": 0.25,
+      "fusion_fraction_bound": 0.7692,
+      "window": 3.1
+    },
+    {
+      "Kd1_arm_LBD_uM": 10.0,
+      "wildtype_fraction_bound": 0.0909,
+      "fusion_fraction_bound": 0.5,
+      "window": 5.5
+    },
+    {
+      "Kd1_arm_LBD_uM": 30.0,
+      "wildtype_fraction_bound": 0.0323,
+      "fusion_fraction_bound": 0.25,
+      "window": 7.7
+    },
+    {
+      "Kd1_arm_LBD_uM": 100.0,
+      "wildtype_fraction_bound": 0.0099,
+      "fusion_fraction_bound": 0.0909,
+      "window": 9.2
+    }
+  ],
+  "design_rule": "Pick BOTH arms individually too weak to occupy wild-type NR4A3 at the dosed concentration; rely on avidity (EM) to engage only the fusion, which uniquely presents both features on one chain. Larger EM (shorter/optimised linker) and weaker single arms widen the fusion-vs-WT window \u2014 at the cost of needing higher total dose."
+}
