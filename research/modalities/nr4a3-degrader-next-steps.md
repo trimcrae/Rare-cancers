@@ -160,6 +160,12 @@ the family metad (in flight) is the fix.
   (Gate 3 already resolved), so it's queued for a *free* GPU slot behind the family metad, not a priority —
   but it's launch-ready (`gpu-release-aws.yml`). NOTE: not yet validated on GPU, so treat as "should run"
   until a clean run confirms it.
+  - **2026-06-26 dispatch BLOCKED on GPU quota.** A dispatch (run 28269479539) failed in ~36 s with
+    `ResourceLimitExceeded`: the account's **ml.g5.xlarge processing-job quota is 1 instance and it was
+    already in use** (the in-flight family metad almost certainly holds the slot). Not a code bug — pure
+    capacity contention. Re-dispatch once the slot frees, or raise the quota, or stop the occupant
+    (`sagemaker-stop-aws.yml`). **GPU runs for the degrader are being driven from a separate thread as of
+    2026-06-26**, so don't double-dispatch from here.
 
 ## Open items (not blockers for the warhead)
 - [ ] **Report 0.931 as a distribution, not just a max (red-team F2).** The headline is the peak over 600
