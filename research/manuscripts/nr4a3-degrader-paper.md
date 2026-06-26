@@ -9,7 +9,8 @@
 
 *Draft (2026-06). Authors/affiliations TBD. In-silico design + feasibility study — no wet lab; no
 molecule synthesized. Every claim is sourced or computed and labelled with its weight. The 30 ns
-production metadynamics is in progress; results below from the 5 ns validation are marked preliminary.*
+production metadynamics is **complete (converged)**; the headline numbers below are from it, and the 5 ns
+validation is retained only where explicitly labelled as the preliminary cross-check.*
 
 ## Abstract
 NR4A nuclear receptors (NR4A1/2/3) are textbook "undruggable" transcription factors: the canonical
@@ -25,9 +26,10 @@ model (fpocket druggability 0.495, below the calibrated drug-bound band of 0.53�
 the family's reputation — and we show the apparent "0.80 druggable" reads reported for Nurr1 are a
 *non-orthosteric* cavity present even in the occluded crystal, not a model artifact. (2) **Well-tempered
 metadynamics opens a cryptic druggable pocket**: the orthosteric Rg coordinate expands and the opened
-conformations reach fpocket druggability **0.751** — above every experimentally drug-bound NR pocket in
-our panel — the first pocket-dynamics evidence for NR4A3, paralleling the experimentally demonstrated
-dynamic pocket of Nurr1 (de Vera 2019) and an MD-revealed cryptic pocket in Nur77. (3) We map 7
+conformations reach fpocket druggability **0.931** on the converged 30 ns run (the 5 ns validation gave
+0.751) — above every experimentally drug-bound NR pocket in our panel — the first pocket-dynamics
+evidence for NR4A3, paralleling the experimentally demonstrated dynamic pocket of Nurr1 (de Vera 2019)
+and an MD-revealed cryptic pocket in Nur77. (3) We map 7
 NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles**, enabling a tunable selectivity
 profile, and prime a degrader/E3 ternary-complex design on the opened pocket. The work is governed by a
 **pre-registered falsification scheme** (calibrated thresholds fixed before the production results).
@@ -84,8 +86,11 @@ under-converged sampling frontier), not a *druggable* state: correlating per-fra
 F(Rg) shows the pocket is **already druggable (fpocket 0.80) at Rg ≈ 0.72, in the well-sampled basin, at
 only ~0.76 kcal/mol** — thermally accessible. So the single static structure (0.495) understated
 druggability; the thermally-populated ensemble is robustly druggable at negligible cost, rising to 0.93
-toward the open edge. *(Remaining check: confirm the opened/druggable frames keep the 7 selectivity
-handles pocket-facing. An unbiased "release" run was attempted as orthogonal confirmation of
+toward the open edge. *(Remaining registered check: confirm the opened/druggable frames keep the 7 selectivity
+handles pocket-facing rather than splayed — the second clause of the pre-registered Gate-2 pass
+condition. The analysis is built and unit-tested (`../modalities/nr4a3_handle_facing.py`, run via
+`handle-facing-aws.yml`) and pending dispatch; it is also the precondition for the warhead screen's
+handle-contact scoring (§2.4). An unbiased "release" run was attempted as orthogonal confirmation of
 metastability but is not required — Gate 3 is resolved by the energetics above — and its pipeline is
 currently parked with a startup bug.)*
 
@@ -143,10 +148,13 @@ Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2.
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
 demonstrated efficacy**. The structure is an AF2 model (NR4A3 is uncrystallized) — the MD addresses
-exactly the single-snapshot limitation. The headline 0.751 is a **5 ns biased** preliminary result on
-the model; the converged 30 ns run, opened-pocket handle-facing confirmation, and the free-energy cost of
-opening are pending. fpocket druggability is a geometric screen, not affinity. Selectivity handles are a
-specification, not a demonstrated margin.
+exactly the single-snapshot limitation. The headline druggability **0.931** is from the converged **30 ns
+biased (metadynamics)** run (the 5 ns validation gave 0.751); the metadynamics samples are biased toward
+opening, so per-frame druggability is a structural-feasibility readout, with the free-energy cost of
+reaching a druggable state taken from F(Rg) (§2.2, Gate 3). The one **registered check still pending** is
+the opened-pocket handle-facing confirmation (§2.2; analysis built, awaiting dispatch). fpocket
+druggability is a geometric screen, not affinity. Selectivity handles are a specification, not a
+demonstrated margin.
 
 ## 6. Falsification (pre-registered)
 Every gate has a fixed pass/fail set *before* the production numbers

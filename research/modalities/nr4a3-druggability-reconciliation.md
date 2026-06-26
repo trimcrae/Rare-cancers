@@ -133,8 +133,10 @@ This sets the working threshold **D\*** and the falsification gates fixed in
 - **Gate 2 (opened state druggable) — PASS (converged 30 ns).** On the full 30 ns production run
   (600 frames), opened-frame max druggability is **0.931** (≥ D\* 0.53; up from the 5 ns 0.751), with
   86.8 % of frames more open than baseline and +6.1 nm² SASA — above every validated NR drug-bound site
-  in the panel. Remaining check: confirm the opened frames still line residues 406–534 with the 7
-  selectivity handles pocket-facing (not a splayed artifact).
+  in the panel. Remaining registered sub-check (the second clause of this gate): confirm the opened
+  frames still line residues 406–534 with the 7 selectivity handles pocket-facing (not a splayed
+  artifact). The analysis is built and unit-tested (`nr4a3_handle_facing.py` / `handle_facing_geom.py`,
+  run via `handle-facing-aws.yml`) and pending dispatch.
 - **Gate 3 (energetic accessibility) — PASS.** The naive closed→fully-open cost is ~38.5 kcal/mol, but
   that measures the cost to reach the *most-open edge* (Rg 1.06, the under-converged sampling frontier —
   monotonic wall, no open basin), **not** the cost to reach a *druggable* conformation. Correlating
@@ -145,8 +147,10 @@ This sets the working threshold **D\*** and the falsification gates fixed in
   accessible at <1 kcal/mol. Druggability rises further (to 0.93) toward the open edge, but the route does
   not depend on reaching it. *Reframing:* the single static AF2 model (0.495) understated druggability;
   the thermally-populated MD ensemble is robustly druggable at negligible cost. (An unbiased "release"
-  run from the open conformer is in flight as orthogonal confirmation of metastability.) Remaining check:
-  the opened/druggable frames still line residues 406–534 with the 7 selectivity handles facing in.
+  run from the open conformer was attempted as orthogonal confirmation of metastability but is not
+  required — Gate 3 is resolved by the energetics above — and its pipeline is parked with a startup bug.)
+  Remaining check (shared with Gate 2): confirm the opened/druggable frames still line residues 406–534
+  with the 7 selectivity handles facing in — built as `nr4a3_handle_facing.py`, pending dispatch.
 - *Infra note:* the 30 ns GitHub wrapper job was auto-cancelled at GitHub's 6 h job cap, but the
   SageMaker job ran to completion independently and wrote the 30 ns outputs to S3 (frames=600 confirms).
   The submitter is being hardened so long runs don't depend on that.

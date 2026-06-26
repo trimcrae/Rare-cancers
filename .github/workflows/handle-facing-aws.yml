@@ -1,0 +1,67 @@
+name: NR4A3 handle-facing confirmation (AWS SageMaker)
+
+# Closes the registered Gate-2 sub-condition (nr4a3-druggability-prereg.md): in the OPENED, DRUGGABLE
+# frames of the 30 ns metad trajectory (s3://<default-bucket>/nr4a3-metad), do the 7 NR4A3 selectivity
+# handles stay pocket-facing (designable), or splay outward (artifact)? Runs nr4a3_handle_facing.py as a
+# managed SageMaker Processing job. CPU work (~25 frames, well under an hour); defaults to ml.g5.xlarge to
+# reuse the GPU quota. This is the precondition for the warhead screen (whose ranking scores handle
+# contacts). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Run AFTER a 30 ns metad run has populated s3://<bucket>/nr4a3-metad.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (g5.xlarge reuses the GPU quota; CPU type if you have that quota)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + trajectory live"
+        default: "us-east-2"
+        required: false
+      input_prefix:
+        description: "S3 prefix with the metad trajectory (opened-pocket source)"
+        default: "nr4a3-metad"
+        required: false
+      dcd_name:
+        description: "trajectory filename"
+        default: "nr4a3-lbd-metad.dcd"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the handle-facing results"
+        default: "nr4a3-handle-facing"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker handle-facing job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          DCD_NAME: ${{ inputs.dcd_name }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_handle_facing_sagemaker.py
