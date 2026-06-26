@@ -248,6 +248,29 @@ BLAST off-target screen on that specific design. This strengthens the route's st
 mechanistically de-risked of the fusion-exclusive options, with breakpoint-favorability now demonstrated to
 be selectable rather than a roadblock.
 
+### 3a-quater. The BLAST screen on a favorable breakpoint — necessary, but GC-triage is not sufficient
+We then ran the full §3a-bis(i) off-target screen *directly on the favorable 200/8 breakpoint* (junction
+GC 50 %), to test whether GC/complexity "favorable" actually buys off-target cleanliness
+([`junction-aso-offtarget-bp200-8.json`](../modalities/junction-aso-offtarget-bp200-8.json)). The honest
+answer is **partly, but not fully — GC-triage is necessary, not sufficient**:
+- Off-target load **drops sharply and weakens** versus the canonical junction: every near-match here is
+  **14/16** (2 mismatches), versus the canonical's stronger 15/16 hits, and per-oligo counts fall from the
+  capped **≥50 for *every* canonical gapmer** to **1–38** here.
+- Individual oligos *within* the same favorable breakpoint vary enormously: the best gapmer
+  (`ACAGCCGTATAGCCCT`, 56 % GC) has just **1** gap-spanning 14/16 near-match (ADAMTSL2), while a sibling
+  window at the same breakpoint still has 38 — so **per-oligo BLAST selection matters as much as breakpoint
+  selection**.
+- But **none** reached zero ≥14/16 near-matches, and the hits are real genes (CSMD2, ADAMTSL2, DDR1,
+  SLC66A1…). Residual liability is therefore weak (2-mismatch) and its *true* RNase-H cleavage risk depends
+  on whether those mismatches fall inside the DNA gap (a gap-mismatch-position analysis the current screen
+  does not yet resolve — flagged as the next refinement).
+
+**Reading.** Breakpoint + oligo selection improves predicted specificity by roughly two orders of magnitude
+for the best candidate (1 vs ≥50 near-matches) — a real, large gain — but does **not** by itself yield a
+provably clean ASO. Specificity is thus a genuine, ongoing engineering task (breakpoint choice → per-oligo
+BLAST → gap-mismatch resolution → wet-lab confirmation), alongside delivery (§3c). The route stays the most
+mechanistically de-risked fusion-exclusive option, but its specificity is *improvable, not solved*.
+
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
