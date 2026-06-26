@@ -219,7 +219,11 @@ def main():
             "db": "refseq_rna (txid9606[ORGN])", "program": "blastn (short, FILTER off)",
             "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
             "gap_region_1based": [ja.WING + 1, ja.OLIGO_LEN - ja.WING],
-            "breakpoint_model": "assumed canonical breakpoint (same as junction_aso.py)",
+            "breakpoint_model": (
+                "modelled reference breakpoint (EWSR1 keep 264 / NR4A3 from 2; junction_aso.py default)"
+                if (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)
+                else f"modelled non-reference breakpoint (EWSR1 keep {ja.EWSR1_KEEP_AA} / "
+                     f"NR4A3 from {ja.NR4A3_KEEP_AA_FROM}); set via env override"),
         },
         "n_oligos_screened": len(screened),
         "n_screened_ok": n_ok,

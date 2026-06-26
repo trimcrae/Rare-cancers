@@ -27,7 +27,8 @@
 > EWSR1::NR4A3 while sparing wild-type *EWSR1* and wild-type *NR4A3* — true fusion-exclusivity, which an
 > LBD-binding degrader (identical domain in fusion and wild-type) cannot achieve. Every clinical/quantitative
 > claim is cited, computed from committed repo output, or flagged as a design hypothesis. Nothing here is a
-> validated drug or clinical evidence.
+> validated drug or clinical evidence. **An adversarial self-review of this manuscript — deficiencies and the
+> fixes applied — is recorded in [`fusion-junction-aso-paper-redteam.md`](./fusion-junction-aso-paper-redteam.md).**
 
 ---
 
@@ -56,9 +57,12 @@ all filters. The honest synthesis is that this *modelled* breakpoint sequence is
 low-complexity, hurting gapmer chemistry, siRNA GC, and predicted specificity at once — a property of this
 junction, not of the modality. A new per-breakpoint feasibility scan
 ([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)) confirms this directly:
-sweeping **390 modelled breakpoints**, the canonical position is indeed unfavorable, but **243 (62%) are
-favorable** — yielding balanced (~50% GC), fusion-specific in-band gapmer *and* siRNA designs (e.g. a 5-6-5
-gapmer `GCTATACGGCTGTGTA` at 50.0% GC with an in-band siRNA at 52.6% GC). So feasibility is
+sweeping **390 modelled breakpoints** (an arbitrary codon-space grid; the 62% is an upper bound on
+*designable* positions, not a real-patient breakpoint frequency), the reference position is unfavorable but a
+majority pass a GC/complexity/parent-substring triage and yield balanced (~50% GC) in-band gapmer *and* siRNA
+designs. Triage-passing is necessary but **not** sufficient: the gapmer the scan picks as in-band-best at the
+worked 200/8 example actually carries the most off-target cleavage risks there, so a per-oligo BLAST screen
+must follow the triage (§3a-ter/§3a-quater). So feasibility is
 **breakpoint-conditional but breakpoint-selectable**: junction sequence-favorability is a tractable
 selection step (sequence the patient's breakpoint, triage it, then BLAST-screen a favorable design), not a
 roadblock — with the honest bounds that these breakpoints are *modelled, not exon-exact*, that "favorable"
@@ -81,8 +85,12 @@ the NR4A nuclear-receptor subfamily [Sjögren; Panagopoulos]. *EWSR1::NR4A3* is 
 *TAF15::NR4A3* accounts for a substantial minority, with rarer partners (TCF12, TFG, FUS) [Panagopoulos].
 Critically, EMC otherwise carries **few recurrent secondary mutations** — a "quiet genome" — so the fusion
 is, to a first approximation, the single clonal driver of the disease [Panagopoulos; and see the
-EMC-program roadmap]. A therapy that neutralises the fusion transcript should therefore reach essentially
-every tumour cell, with no large mutational landscape offering obvious escape.
+EMC-program roadmap]. A therapy that neutralises the fusion transcript should therefore engage essentially
+every tumour cell at baseline. This lowers *baseline* heterogeneity but does **not** guarantee the absence of
+*acquired* resistance: downstream-pathway reactivation, delivery-driven heterogeneity of exposure, and — a
+risk specific to a junction-targeted oligo — a **point mutation at or near the patient's breakpoint that
+abolishes oligo complementarity** are all plausible escape routes. Clonality is an advantage, not a guarantee
+of no escape.
 
 **The central differentiator — why this paper exists alongside the degrader.** The repo's lead modality is
 a PROTAC/molecular-glue degrader that engages the **NR4A3 ligand-binding domain** and recruits an E3 ligase
@@ -116,10 +124,24 @@ the breakpoint so that fusion-exclusivity is enforced by base-pairing.
 resistance; the DNA gap, once hybridised to the target, recruits endogenous RNase-H1 to cleave the RNA
 strand [Crooke et al. 2021]. For fusion-exclusivity the central DNA gap must span the junction, because
 RNase-H1 cleaves within the DNA:RNA duplex of the gap — so the cleaved bond sits across the tumour-specific
-seam, and a parent transcript (matching only one wing-plus-partial-gap) does not form the contiguous duplex
-needed for catalysis. The committed designs (§3) use a 16-mer **5-6-5** LNA/DNA/LNA architecture; the
-design script's docstring also references the common **5-10-5** gapmer layout as the standard template
-[`junction_aso.py`].
+seam.
+
+> **Where the discrimination really lives — a precise (and limiting) statement.** "A parent transcript
+> matches only one wing" is *necessary but not sufficient*. RNase-H1 needs a contiguous DNA:RNA duplex of
+> roughly ≥5–6 base pairs across the **gap** to cleave; the wings (LNA/cEt) do not support cleavage. So
+> fusion-discrimination is set by how many junction-**unique** bases fall *inside the 6-nt catalytic gap on
+> each side of the seam*, not by the whole 16-mer. The committed `specificity_margin` is computed oligo-wide
+> (`min(bases_from_EWSR1, bases_from_NR4A3)` across all 16 nt), so it **overstates** true gap-level
+> discriminating power, and the design only requires the junction to fall *somewhere* in the gap
+> (`gap_start < j < gap_end`) — which permits a 1/5 split where one parent shares 5 of the 6 gap bases. The
+> defensible design rule (a fix this red-team adopts going forward, see §3b) is to require the junction near
+> the **gap centre** with ≥2–3 junction-unique bases on each side *within the gap*, and to treat the
+> transcriptome off-target screen (§3a-bis/§3a-quater), not the oligo-wide margin, as the operative
+> specificity filter. A parent transcript that happens to match the full gap plus a flank *can* be cleaved —
+> which is exactly why the gap-mismatch-resolved off-target screen (§3a-quater) is the load-bearing analysis.
+
+The committed designs (§3) use a 16-mer **5-6-5** LNA/DNA/LNA architecture; the design script's docstring
+also references the common **5-10-5** gapmer layout as the standard 20-mer template [`junction_aso.py`].
 
 **(b) Junction-spanning siRNA (parallel route).** An siRNA / shRNA whose guide strand is centred on the
 junction loads into RISC and directs Ago2 cleavage of the chimeric mRNA. siRNA chemistry (2′-OMe / 2′-F,
@@ -160,10 +182,21 @@ potential aggregation/tox risk that would require chemistry tuning (wing chemist
 route). This is exactly the kind of constraint a design tool should expose up front; it is recorded here as
 a real, committed result, not hidden.
 
-> **Integrity flag (breakpoint is modelled).** The committed designs use an *assumed* canonical breakpoint
-> (the JSON marks `_breakpoint_model.assumption = true`). They are correct as a worked example of the
-> method, but for any clinical design the script must be re-run on a patient's **sequenced** fusion
-> transcript (§3b). The five sequences are design hypotheses, not a drug.
+> **Integrity flag (the breakpoint is modelled, and "canonical" is a label of convenience — not a validated
+> clinical breakpoint).** The committed designs use a *modelled reference* breakpoint (EWSR1 kept to codon
+> 264, NR4A3 from codon 2; the JSON marks `_breakpoint_model.assumption = true`). We call this position
+> "canonical" only because it is the script default shared with the companion neoantigen work — **it is not a
+> validated common patient junction.** Two honest consequences. (1) The codon-264 cut coincides with the
+> EWSR1 1–264 IDR/transactivation boundary used elsewhere in this repo, i.e. it is a *protein-domain*
+> landmark, not an observed mRNA breakpoint. (2) The **real** recurrent EMC junctions are exon-level and join
+> **predominantly to NR4A3 exon 3** (the companion breakpoint-resolved work resolved EWSR1 exons 7/9/10/11/12/13
+> → NR4A3 exon 3; [`novel-modalities.md`](./novel-modalities.md) §3.3), whereas "NR4A3 from codon 2" retains
+> almost the entire NR4A3 CDS — so the *modelled* junction seam is not the seam of the commonly reported
+> EWSR1 exon-7/12 :: NR4A3 exon-3 fusion ([citation to verify] for the rank-order of recurrent exon
+> junctions). Neither off-target screen below has been run on that real exon-3 junction. The practical upshot
+> is unchanged — every clinical design must be re-derived from the patient's **sequenced** fusion transcript
+> (§3b) — but the reader should not read "canonical" as "the breakpoint patients actually carry." The five
+> sequences are design hypotheses on a modelled seam, not a drug.
 
 ### 3a-bis. Off-target screen and siRNA route — now done for the modelled breakpoint (real, committed)
 
@@ -214,9 +247,16 @@ capped screen, and still negative on the bottom line:
   unfavorable. (These are full-16-mer ≤1-mismatch hits, *not* gap-resolved, so like the BLAST screen they
   still over-count true RNase-H cleavage risk — the gap-resolution of §3a-quater is what separates cleavable
   from non-cleavable.)
+  Two method bounds on "true counts": the seed-and-extend scan finds every ≤1-**substitution** off-target
+  (the pigeonhole guarantee) but **not** 1-nt insertion/deletion (bulged) off-targets, and it counts
+  **sense-strand transcript** matches only — the cleavage-relevant orientation — not genomic/antisense
+  complementarity. "Uncapped true counts" should be read with those two scoping choices in mind.
 - **Target site is moderately accessible** (mean unpaired probability **0.34–0.42** across the five) — i.e.
   potency is not obviously gated by mRNA structure at this junction; specificity, not accessibility, is the
-  canonical junction's problem.
+  reference junction's problem. *Caveat:* this is a **local 180-nt fold** equilibrium proxy — it ignores
+  long-range pairing that could sequester the site in the full transcript (so it can *over-estimate*
+  accessibility) and is only a rough correlate of ASO potency (no kinetics, no in-cell protein occupancy);
+  the 0.34–0.42 spread is within method noise and is **not** a meaningful potency ranking among the five.
 - **The siRNA seed route carries its own, large liability, reported honestly:** only **2 of 5** designs
   present a guide seed that actually **straddles the junction** (the fusion-unique-seed goal), and the
   seed-match off-target load is enormous (**~21,000–119,000** transcriptome seed sites), because a GC-rich
@@ -234,8 +274,9 @@ conclusion is therefore that ASO/siRNA feasibility is **breakpoint-conditional**
 the patient's *sequenced* breakpoint, and junction sequence-favorability (GC content, complexity,
 off-target load) becomes a **patient/breakpoint selection criterion**. This tempers but does not overturn
 the route's standing — the *mechanism* (knockdown of an addicted fusion transcript) remains the most
-de-risked of the fusion-exclusive routes, and the per-breakpoint scan below (§3a-ter) shows that a clear
-majority of modelled breakpoints *do* yield clean, in-band designs — so the canonical junction's poor
+mechanistically unambiguous of the fusion-exclusive routes (conditional on breakpoint, gated by delivery),
+and the per-breakpoint scan below (§3a-ter) shows that a clear
+majority of modelled breakpoints *do* yield in-band designs (triage-clean, not yet off-target-screened) — so the reference junction's poor
 chemistry/specificity is a property of **that position**, not of the modality.
 
 ### 3a-ter. Per-breakpoint feasibility scan — favorability is a tractable selection step (real, committed)
@@ -255,12 +296,19 @@ breakpoint-conditional concern in the route's favor**:
 - The **canonical breakpoint (EWSR1 keep 264 / NR4A3 from 2) is NOT favorable**, exactly as the §3a / §3a-bis
   findings predicted: junction GC ±10 nt = **80%**, minimum gapmer GC **75.0%**, minimum siRNA GC **73.7%**,
   and **no in-band design** (`best_oligo: null`). The canonical position is genuinely a hard one.
-- A **well-balanced favorable example** (EWSR1 keep 200 / NR4A3 from 8) has junction GC ±10 nt = **50.0%**
-  and yields a fusion-specific 5-6-5 gapmer `5′-GCTATACGGCTGTGTA-3′` (target mRNA `TACACAGCCGTATAGC`,
-  **GC 50.0%**, specificity margin 6, no G-quadruplex motif) *together with* an in-band siRNA guide
-  (**GC 52.6%**) — i.e. a clean, balanced design on both routes. (The scan's single lowest-GC position,
-  EWSR1 keep 204 / NR4A3 from 16, is even lower at 35% junction GC but is GC-skewed; the 200/8 example is
-  reported here because it sits squarely in band on both modalities.)
+- A **well-balanced in-band example** (EWSR1 keep 200 / NR4A3 from 8) has junction GC ±10 nt = **50.0%** and
+  yields a fusion-specific 5-6-5 gapmer at **GC 50.0%** *together with* an in-band siRNA guide (**GC 52.6%**)
+  — i.e. balanced GC/complexity on both routes. **Crucial caveat, and the paper's own thesis in miniature:**
+  the gapmer the scan picks as 200/8's in-band best is `5′-GCTATACGGCTGTGTA-3′`, and the §3a-quater
+  gap-resolved BLAST screen shows that exact oligo carries **29 true cleavage risks** — the *worst* of the
+  five gapmers at this breakpoint. GC/complexity triage passing does **not** mean off-target-clean; the
+  actually-clean designs at 200/8 are the slightly higher-GC `GGGCTATACGGCTGTG` (62.5%) and
+  `AGGGCTATACGGCTGT` (56.2%) (§3a-quater). So 200/8 illustrates *both* halves of the thesis: breakpoint-level
+  favorability (in-band on both routes) **and** the separate, decisive need for per-oligo off-target
+  selection on top of it. (200/8 was chosen by hand as an in-band example on both modalities, not by the
+  scan's `most_favorable` rank; that rank — EWSR1 204 / NR4A3 16, 35% junction GC — is an artifact of ranking
+  by GC-extremity and in fact has **no** in-band gapmer at all (`best_gapmer_in_band_gc: null`), only a 42.1%
+  siRNA, so it is less useful than 200/8 despite being the script's top-ranked "favorable.")
 
 **Honest caveats on the scan (stated as plainly as the result):**
 
@@ -281,81 +329,99 @@ many; a clear majority of modelled breakpoints give balanced (~50% GC), fusion-s
 gapmer and siRNA routes. The GC/specificity problem documented in §3a/§3a-bis is therefore a property of the
 **canonical position**, not of the ASO/siRNA modality. The practical consequence is a concrete workflow:
 sequence the patient's breakpoint, triage it with this scan, and — for a favorable hit — run the §3a-bis(i)
-BLAST off-target screen on that specific design. This strengthens the route's standing as the most
-mechanistically de-risked of the fusion-exclusive options, with breakpoint-favorability now demonstrated to
-be selectable rather than a roadblock.
+BLAST off-target screen on that specific design (triage alone is not enough — §3a-quater). This supports the
+route's standing as the most mechanistically *unambiguous* of the fusion-exclusive options (gated by
+delivery), with breakpoint-favorability now demonstrated to be selectable rather than a roadblock.
 
 ### 3a-quater. Two off-target screens on a favorable breakpoint — gap-resolved BLAST + uncapped full-transcriptome
 We ran the full §3a-bis(i) off-target screen *directly on the favorable 200/8 breakpoint* (junction GC
-50 %), then **resolved each near-match to the gap-mismatch level** — because RNase-H needs the central DNA
-gap (the 6 nt the gapmer cleaves through) fully base-paired: a near-match whose mismatch falls *inside* the
-gap **cannot be cleaved** and is not a real liability
-([`junction-aso-offtarget-bp200-8-gapres.json`](../modalities/junction-aso-offtarget-bp200-8-gapres.json)).
-This is decisive, and positive:
+50 %), then **resolved each near-match to the gap-mismatch level** — because RNase-H cleavage requires the
+central DNA gap (the 6 nt the gapmer cleaves through) to be base-paired: a near-match whose mismatch falls
+*inside* the gap is **predicted strongly disfavoured** for cleavage and is treated here as not a real
+liability ([`junction-aso-offtarget-bp200-8-gapres.json`](../modalities/junction-aso-offtarget-bp200-8-gapres.json)).
+This is informative, and positive — with one explicit assumption flagged below:
 - **GC-triage alone is necessary but not sufficient**, and the coarse "gap-spanning" count *over-states*
   risk. Every near-match at this breakpoint is a weak **14/16** (2-mismatch) hit to a real gene
-  (CSMD2, ADAMTSL2, DDR1, SLC66A1…), versus the canonical junction's stronger 15/16 hits.
-- **Once gap-mismatch position is resolved, 2 of the 5 gapmers are predicted genuinely clean — zero true
-  cleavage risks.** The gapmer (antisense) `5′-GGGCTATACGGCTGTG-3′` (62.5 % GC; target mRNA
-  `CACAGCCGTATAGCCC`) has 21 off-target near-matches but **all 21 are gap-disrupted** (the mismatch lands in
-  the DNA gap) → 0 cleavable; `5′-AGGGCTATACGGCTGT-3′` (56.2 % GC; target mRNA `ACAGCCGTATAGCCCT`) has a
-  **single** off-target near-match, also gap-disrupted → 0 cleavable. The other three retain 15, 27 and 29
-  true cleavage risks.
+  (CSMD2, ADAMTSL2, DDR1, SLC66A1…), versus the reference junction's stronger 15/16 hits.
+- **Once gap-mismatch position is resolved, 2 of the 5 gapmers carry no predicted cleavable off-target under
+  a conservative all-gap-mismatch-blocks-cleavage assumption.** The gapmer (antisense) `5′-GGGCTATACGGCTGTG-3′`
+  (62.5 % GC; target mRNA `CACAGCCGTATAGCCC`) has 21 off-target near-matches but **all 21 are gap-disrupted**
+  (the mismatch lands in the DNA gap) → 0 predicted-cleavable; `5′-AGGGCTATACGGCTGT-3′` (56.2 % GC; target
+  mRNA `ACAGCCGTATAGCCCT`) has a **single** off-target near-match, also gap-disrupted → 0 predicted-cleavable.
+  The other three retain 15, 27 and 29 predicted cleavage risks.
+- **The cleanliness rests on one assumption, stated plainly.** "Gap mismatch ⇒ no cleavage" is a *conservative
+  heuristic*, not a measured fact: RNase-H1 tolerance of a single central mismatch is reduced but not
+  guaranteed zero, and depends on mismatch identity/position and on flanking-duplex length [citation to
+  verify for the quantitative gap-mismatch tolerance]. So "2 of 5 clean" is *predicted under this heuristic*,
+  to be confirmed by the §4 assays — not an established off-target-free claim.
 - So **per-oligo selection is as important as breakpoint selection**, and the deciding filter is the
-  gap-mismatch-resolved BLAST screen, not raw GC or raw near-match count.
+  gap-mismatch-resolved off-target screen, not raw GC or raw near-match count.
 - **An orthogonal, uncapped full-transcriptome screen confirms it — and more cleanly.** We re-ran the §3a-bis(iii)
   uncapped evaluation (full RefSeq, 186,185 transcripts; seed-and-extend) *on this same 200/8 favorable
   breakpoint* ([`aso-insilico-evaluation-bp200-8.json`](../modalities/aso-insilico-evaluation-bp200-8.json)).
   The contrast with the canonical junction is stark: **all 5 gapmers have 0 exact off-targets and 4 of 5 have
   0 near-perfect (≤1-mismatch) off-targets** transcriptome-wide (the fifth has just 1), where the *canonical*
   designs had 0 of 5 clean and 8–95 ≤1-mismatch hits. The two predicted-clean designs from the BLAST screen
-  (`GGGCTATACGGCTGTG`, `AGGGCTATACGGCTGT`) are among the four with zero ≤1-mismatch off-targets here, so the
-  screens agree. The siRNA-seed load also collapses at this breakpoint (the junction-straddling seed of
-  `GCTATACGGCTGTGTA` matches **3,366** transcriptome sites, vs ~119,000 for the GC-rich canonical seed). The
-  one honest reconciliation: the two screens use different stringency — the uncapped screen counts ≤1-mismatch
-  (≥15/16) full-length hits and calls 4 of 5 clean, while the wider BLAST screen counts ≥14/16 (≤2-mismatch)
-  near-matches and, after gap-resolution, calls 2 of 5 clean of *true* cleavage risk. Both agree the favorable
-  breakpoint yields predicted-clean gapmers; the exact count (2 vs 4) is set by how many mismatches one allows
-  an off-target before counting it.
+  The siRNA-seed load also collapses at this breakpoint (the junction-straddling seed of `GCTATACGGCTGTGTA`
+  matches **3,366** transcriptome sites, vs ~119,000 for the GC-rich reference seed). **The two screens agree
+  where it counts but diverge elsewhere — and the divergence is instructive, not extra reassurance.** They
+  agree on the two designs the BLAST screen calls clean (`GGGCTATACGGCTGTG`, `AGGGCTATACGGCTGT`): both also
+  have zero ≤1-mismatch off-targets in the uncapped scan. But for the other three they *disagree sharply* —
+  the uncapped scan reports `GCTATACGGCTGTGTA` and `GGCTATACGGCTGTGT` as 0 and 1 ≤1-mismatch off-target,
+  while the gap-resolved BLAST flags those same two as **29 and 15** predicted cleavage risks. The reason is
+  structural: the uncapped scan's ≤1-mismatch (≥15/16) cutoff **cannot see** the 14/16 (2-mismatch) hits that
+  drive the BLAST cleavage-risk counts, so its "4 of 5 clean" is cleaner only because it uses a *stricter
+  match threshold*, not because those oligos are safer. The defensible count is therefore the **2** designs
+  that survive the *wider* ≤2-mismatch, gap-resolved test; the "4 of 5" holds only if 2-mismatch off-targets
+  are deemed non-cleaving — the same heuristic flagged above.
 
 **Reading.** At a favorable breakpoint, the full workflow — breakpoint triage → per-oligo BLAST →
-gap-mismatch resolution, now corroborated by an independent uncapped full-transcriptome screen — **does yield
-predicted-clean gapmers** (2 of 5 free of true ≤2-mismatch cleavage risk; 4 of 5 free of any ≤1-mismatch
-off-target), a path the GC-rich canonical junction could not offer. Specificity is therefore **achievable**,
-not merely improvable, at the right breakpoint. Honest bounds remain: this is *predicted* (a 14/16 hit with a
-gap mismatch is assumed non-cleaving per standard RNase-H behaviour, to be confirmed experimentally), the
-breakpoint is *modelled* not patient-sequenced, and delivery (§3c) is the separate, still-unsolved gate.
-The route stands as the most mechanistically de-risked fusion-exclusive option, now with *demonstrated
-in-silico specificity feasibility* — under both a capped-BLAST and an uncapped full-transcriptome screen — at
-a selectable breakpoint.
+gap-mismatch resolution, corroborated by an independent uncapped full-transcriptome screen — **yields gapmers
+predicted off-target-clean** (a defensible **2 of 5** under the wider ≤2-mismatch gap-resolved test; up to 4
+of 5 if 2-mismatch hits are deemed non-cleaving), a result the GC-rich reference junction could not offer. So
+specificity looks **reachable** at the right breakpoint — *predicted*, not demonstrated. Honest bounds remain
+and are load-bearing: the "clean" calls rest on the conservative gap-mismatch heuristic ([citation to verify]),
+the breakpoint is *modelled* not patient-sequenced, and **delivery (§3c) is the separate, still-unsolved
+gate.** We therefore call this route the most mechanistically *unambiguous* fusion-exclusive option —
+knockdown of an addicted, fusion-only transcript, with no protein-conformation guesswork — **conditional on
+breakpoint-favorability and gated by delivery.** That is a narrower and more defensible claim than "most
+de-risked": the degrader's dominant risk (sparing wild-type NR4A3) differs in kind from the ASO's (delivery),
+and neither is strictly more de-risked overall.
 
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
 this draft:
 
-1. **Expanded tiling.** Re-run the existing tiler over a wider window and multiple oligo lengths (e.g.
-   14–20-mers) and both 5-6-5 and 5-10-5 architectures, to enumerate the full junction-spanning design
-   space rather than the top-5 snapshot, and to find any lower-GC register that still straddles the seam.
+1. **Expanded tiling, with a gap-centred specificity rule.** Re-run the existing tiler over a wider window
+   and multiple oligo lengths (e.g. 14–20-mers) and both 5-6-5 and 5-10-5 architectures, to enumerate the
+   full junction-spanning design space rather than the top-5 snapshot, and to find any lower-GC register that
+   still straddles the seam. **Adopt the §2a fix:** require the junction near the **gap centre** with ≥2–3
+   junction-unique bases on each side *inside the catalytic gap* (not the current "junction anywhere in the
+   gap" rule), and report a **gap-level** discriminating margin rather than the oligo-wide
+   `specificity_margin`, which overstates true discrimination.
 2. **Genome-wide off-target complementarity screen (CPU) — DONE for the modelled breakpoint (§3a-bis i).**
    The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
    CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
    (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** (blastn-short vs
-   RefSeq RNA) on the modelled-breakpoint (canonical) designs and returned a poor verdict (0 of 5 free of
-   gap-spanning near-matches) — but that was the *unfavorable canonical* junction. With the per-breakpoint
-   scan now complete (§3a-ter), the decisive remaining step is to **run this BLAST off-target screen on a
-   chosen favorable breakpoint** (e.g. the in-band EWSR1 200 / NR4A3 8 example), where the input design is
-   already ~50% GC and in-band — the screen is no longer being asked to rescue an intrinsically GC-rich,
-   low-complexity seam. (The uncapped re-screen the over-call called for is **now done** for the canonical
-   designs via a full local RefSeq scan — §3a-bis iii,
-   [`aso-insilico-evaluation.json`](../modalities/aso-insilico-evaluation.json) — giving true ≤1-mismatch
-   counts of 8–95 in place of the capped 50.)
+   The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
+   CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
+   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** on both the
+   modelled reference junction (poor — §3a-bis) and the favorable 200/8 junction (gap-resolved BLAST +
+   uncapped full-transcriptome — §3a-quater). **The genuine remaining gap is the *real* clinical junction:**
+   neither screen has been run on the commonly reported **EWSR1 exon-7/12 :: NR4A3 exon-3** fusion, because
+   the design scripts model the breakpoint in codon space rather than mapping exons. Building the exon-exact
+   real junction (via the companion `fusion_breakpoints.py` Ensembl exon structure) and re-running the full
+   design→triage→screen pipeline on it is the most important specifiable next step — the 200/8 result shows
+   the pipeline *can* find clean designs, but at a modelled position, not yet at a real one.
 
-   **Per-breakpoint feasibility scan — DONE (§3a-ter).** The sensitivity sweep over 390 modelled breakpoints
-   has been run and committed ([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)):
-   243/390 (62%) are favorable, the canonical position is not, and favorable in-band designs exist. This is
-   the step that turned "breakpoint-conditional" into "breakpoint-selectable"; the only remaining work above
-   it is the BLAST screen on a chosen favorable breakpoint.
+   **Per-breakpoint feasibility scan — DONE (§3a-ter), and the favorable-breakpoint screens are now DONE too
+   (§3a-quater).** The sensitivity sweep over 390 modelled breakpoints has been run and committed
+   ([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)); the reference position is
+   unfavorable and in-band designs exist elsewhere. Both the gap-resolved BLAST screen and the uncapped
+   full-transcriptome screen have since been run on the favorable 200/8 example (§3a-quater) — so the
+   remaining specifiable items are the **real exon-3 junction** designs (above) and the gap-centred re-tiling,
+   not "run a screen on a favorable breakpoint."
 3. **siRNA alternative (computable) — DONE for the modelled breakpoint (§3a-bis ii).** Junction-spanning
    19-mer siRNA guides have now been generated (asymmetry/end-stability/run filters); at this breakpoint 0
    of 5 pass (min GC 73.7%), so the GC-tolerant route does not rescue this junction. Seed off-target
@@ -375,18 +441,23 @@ this draft:
 Oligonucleotide *design* is tractable; **delivery to an EMC tumour is not**, and this is stated plainly as
 the limiting problem. Systemically administered naked gapmers distribute to liver/kidney; GalNAc
 conjugation (the one solved targeting handle) is hepatocyte-directed and useless for a soft-tissue sarcoma.
-Options below are **hypotheses, explicitly flagged**, not validated approaches:
+Options below are **hypotheses, explicitly flagged**, not validated approaches — and they are listed in
+*increasing* order of how much they depend on an unknown:
 
+- **Local / intratumoural administration** for accessible lesions, sidestepping systemic targeting entirely
+  — the only delivery hypothesis here that needs **no** EMC-specific surface marker, and therefore the most
+  tractable first-in-human setting. (Promoted to the top because the receptor-targeted routes below all
+  depend on an input that does not yet exist.)
 - **Receptor-targeted antibody–oligonucleotide conjugate (AOC).** Couple the gapmer/siRNA to an antibody
-  against a surface antigen enriched on EMC cells. **B7-H3 (CD276)** is one candidate worth evaluating as
-  an EMC surface marker — *flagged as a hypothesis to verify; B7-H3 expression in EMC specifically is
-  [citation to verify].* AOC platforms exist in other indications but none is established for EMC.
+  against a surface antigen enriched on EMC cells. The honest status of the one antigen we can even name:
+  **B7-H3 (CD276)** is broadly over-expressed across *many* sarcoma subtypes, but its expression **in EMC
+  specifically is unknown** — there is, to our knowledge, no EMC expression study, so naming it here is an
+  *extrapolation from other sarcomas*, not evidence [citation to verify]. An EMC immunohistochemistry / RNA-seq
+  survey is a prerequisite before B7-H3 (or any antigen) can be treated as an EMC delivery handle. AOC
+  platforms exist in other indications but none is established for EMC.
 - **Receptor-/ligand-targeted nanoparticle (LNP or polymer).** Encapsulate the oligo and decorate with a
-  ligand for an EMC-enriched receptor. Again, the specific EMC-enriched receptor is the unsolved input
+  ligand for an EMC-enriched receptor. The specific EMC-enriched receptor is, again, the unsolved input
   [citation to verify].
-- **Local/intratumoural administration** for accessible lesions, sidestepping systemic targeting — a
-  narrower but more tractable first-in-human setting (hypothesis).
-
 No delivery claim is made; this section exists to mark delivery as the dominant risk, not to assert a
 solution.
 
@@ -408,16 +479,30 @@ gymnose) the committed candidate gapmers — and a junction-spanning siRNA — i
 3. **Phenotype:** viability/proliferation/apoptosis, to test whether the cells are addicted to the fusion
    transcript.
 
-This is the experiment that converts five sequences and a mechanism into evidence. It needs no new molecule
-beyond synthesising the listed oligos and no new biology beyond the published EMC models.
+**The controls matter as much as the readouts — and an EMC line alone cannot prove fusion-exclusivity.** A
+scrambled control tests only sequence-independent toxicity; it does *not* test fusion-vs-wildtype
+discrimination. Two further controls are required to make the claim. (a) **A setting where wild-type NR4A3 is
+abundantly expressed** — in EMC cells wild-type *NR4A3* may be minimally expressed, so "sparing" cannot be
+demonstrated where the wild-type transcript is near-absent; the discriminating test is a **fusion-negative
+cell engineered to express the fusion** (or an isogenic fusion knock-in/parental pair) carrying *both* the
+chimera and abundant wild-type *NR4A3*/*EWSR1*. (b) **Single-parent-targeting positive controls** — ASOs
+against wild-type *EWSR1* or *NR4A3* alone — to prove the assays can detect wild-type knockdown when it
+occurs, so that "spared" is a real negative and not an insensitive assay. The phenotype arm likewise needs a
+**fusion-negative line** to separate fusion-knockdown lethality from generic oligo toxicity. With these
+controls the experiment converts five sequences and a mechanism into evidence; without them it can show
+on-target knockdown and EMC-cell killing but cannot *prove* the wild-type transcripts are spared. It needs no
+new molecule beyond synthesising the listed oligos and the engineered/isogenic models above.
 
 ---
 
 ## 5. Selectivity and safety
 
-- **Fusion-exclusive by sequence.** The active oligo spans the breakpoint; neither parent mRNA presents the
-  contiguous junction duplex required for RNase-H (gapmer) or RISC (siRNA) cleavage. Selectivity is
-  enforced by base-pairing, not by protein conformation.
+- **Fusion-exclusive by sequence — and the discrimination lives in the catalytic gap.** The active oligo
+  spans the breakpoint; selectivity is enforced by base-pairing, not by protein conformation. The precise
+  (and limiting) condition is that the **6-nt DNA gap** straddle the junction with junction-unique bases on
+  each side: "a parent matches only one wing" is necessary but not sufficient (a parent matching the full gap
+  plus a flank could still be cleaved). This is why the gap-mismatch-resolved off-target screen, not the
+  oligo-wide specificity margin, is the operative filter (§2a, §3a-quater).
 - **Spares wild-type NR4A3 — and therefore avoids the tumour-suppressor liability the degrader carries.**
   This is the key safety advantage over the LBD degrader. Because the junction is absent from wild-type
   *NR4A3*, the oligo does not touch the wild-type transcript, side-stepping the AML risk of combined
@@ -437,34 +522,45 @@ beyond synthesising the listed oligos and no new biology beyond the published EM
 - **GC-rich chemistry.** The modelled junction yields 75–81% GC gapmers — outside the comfort zone; high Tm
   and self-structure risk would need chemistry tuning, an alternative register, or the siRNA route (§2b).
   This is a real, committed finding, not a hypothetical.
-- **Poor predicted specificity at the modelled breakpoint.** The committed off-target screen (§3a-bis i)
-  found **0 of 5** gapmers free of gap-spanning (RNase-H-cleavable) near-matches across the transcriptome,
-  and the GC-tolerant siRNA route did not rescue it (0 of 5 guides pass; min GC 73.7%, §3a-bis ii). This
-  is a real, committed result. The BLAST 50-near-match figure is over-called (HITLIST capped at 50,
-  low-complexity filter off, on a low-complexity GC-rich window), so it is a floor in character; the
-  **uncapped** full-transcriptome re-screen (§3a-bis iii) replaces that floor with true counts — all five
-  gapmers have 0 exact matches and 8–95 ≤1-mismatch off-targets, with `n_candidates_zero_offtarget = 0` — so
-  the qualitative verdict (this canonical junction is specificity-poor) is robust under both the capped and
-  the uncapped screen. That same evaluation also flags a large siRNA-seed off-target load (~21k–119k seed
-  sites) for the GC-rich seam.
+- **Poor predicted specificity at the modelled reference breakpoint.** The BLAST off-target screen (§3a-bis i)
+  found **0 of the 4 successfully screened** gapmers free of gap-spanning near-matches (the 5th BLAST query
+  failed), and the GC-tolerant siRNA route did not rescue it (0 of 5 guides pass; min GC 73.7%, §3a-bis ii).
+  Two honest qualifiers on the BLAST number: it is over-called (HITLIST capped at 50, low-complexity filter
+  off, on a low-complexity GC-rich window), **and** — unlike the favorable-breakpoint run — it was scored
+  coverage-only, *not* gap-mismatch-resolved, so its "0 clean" is an upper-bound-on-risk count not strictly
+  comparable to the §3a-quater 200/8 BLAST screen. The **load-bearing** negative is therefore the
+  **uncapped, true-count** full-transcriptome re-screen (§3a-bis iii): all five gapmers have 0 exact matches
+  and **8–95 ≤1-mismatch** off-targets, `n_candidates_zero_offtarget = 0`. On that defensible footing the
+  reference junction is specificity-poor. That same evaluation also flags a large siRNA-seed off-target load
+  (~21k–119k seed sites; version-dependent point estimates) for the GC-rich seam.
 - **Breakpoint-conditional — a tractable selection step, not a roadblock.** Feasibility (chemistry GC,
   siRNA GC, predicted specificity) is a property of the *junction sequence*, not of the modality, and the
-  **canonical** modelled junction is genuinely unfavorable. But the per-breakpoint scan (§3a-ter) shows
-  **243 of 390 modelled breakpoints (62%) are favorable** — yielding balanced (~50% GC), fusion-specific
-  in-band designs on both routes — so junction-favorability is a *selectable* patient/breakpoint criterion,
-  not a fatal flaw. Honest bounds on this reassurance: the swept breakpoints are **modelled (codon-space),
-  not exon-exact**, so 62% describes the grid, not real-patient breakpoint frequencies; "favorable" is a
-  GC/complexity/parent-substring **triage, not the full BLAST off-target screen** (which must be re-run on a
-  chosen favorable design); and every clinical design must still be re-derived from the patient's
-  *sequenced* fusion transcript (the committed designs use a *modelled* breakpoint).
+  modelled reference junction is genuinely unfavorable. The per-breakpoint scan (§3a-ter) shows
+  **243 of 390 modelled breakpoints (62%) pass a GC/complexity/parent-substring triage** and yield in-band
+  designs — so junction-favorability is a *selectable* criterion, not a fatal flaw. But the reassurance is
+  bounded harder than the bare "62%" implies: (i) the 390 are an **arbitrary codon-space grid** with
+  hand-chosen thresholds, so 62% is an **upper bound on *designable* positions, not a real-patient breakpoint
+  frequency**; (ii) "favorable" requires only that a triage-passing in-band design *exists* — and triage is
+  **not** the off-target screen (the 200/8 worked example shows the scan's own in-band pick failing the BLAST
+  screen, §3a-ter/§3a-quater); and (iii) **neither off-target screen has been run on the real, commonly
+  reported EWSR1 exon-7/12 :: NR4A3 exon-3 junction** — only on modelled codon-space positions — so the whole
+  favorability narrative still owes a run on the real clinical seam (§3b.2). Every clinical design must be
+  re-derived from the patient's *sequenced* fusion transcript.
 - **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
   is the dominant risk for the whole modality.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
   durable, complete loss of fusion protein. Depth and duration of knockdown are empirical.
-- **Predicted specificity ≠ validated specificity.** The transcriptome-wide near-match screen has now been
-  **run** for the modelled breakpoint (§3a-bis i) and returned a poor result, but it remains *in-silico*
-  predicted specificity — and over-called by the 50-cap / no-low-complexity-filter settings. Only the §4
-  wet-lab experiment can confirm parental and off-target sparing in cells.
+- **"Predicted clean" rests on a conservative heuristic, and on a margin metric that overstates.** The
+  favorable-breakpoint "clean" calls (§3a-quater) assume any mismatch inside the 6-nt gap abolishes RNase-H
+  cleavage — a conservative rule, not a measured fact [citation to verify], and the two screens that
+  implement it disagree at the per-oligo level for the non-clean designs (§3a-quater). Separately, the
+  committed `specificity_margin` is computed oligo-wide and **overstates** true gap-level discrimination
+  (§2a); a gap-centred margin and gap-centred design rule are the fix (§3b.1).
+- **Predicted specificity ≠ validated specificity.** The transcriptome-wide near-match screens have been
+  **run** (modelled reference junction: poor; favorable 200/8: 2–4 of 5 predicted clean) but remain
+  *in-silico* — and the reference-junction BLAST number is over-called and coverage-only (§6, above). Only the
+  §4 wet-lab experiment, with the controls specified there, can confirm parental and off-target sparing in
+  cells.
 - **No molecule, no clinical claim.** This is a computation-only, publish-to-convince draft. Nothing here
   has been tested in a patient.
 
@@ -506,8 +602,14 @@ Verified reference pool (appear verified in the repo):
 
 To verify (do **not** treat as established until sourced):
 
-- B7-H3 (CD276) surface expression in EMC specifically — **[citation to verify]**.
+- B7-H3 (CD276) surface expression in EMC specifically — **[citation to verify]** (broadly expressed across
+  other sarcomas, but no EMC-specific study is known to us; §3c states this).
 - EMC-enriched surface receptor(s) suitable for AOC / targeted-nanoparticle delivery — **[citation to verify]**.
+- Rank-order of recurrent EMC exon junctions (the commonly reported **EWSR1 exon-7/12 :: NR4A3 exon-3**
+  fusion) — **[citation to verify]**; the in-repo companion ([`novel-modalities.md`](./novel-modalities.md)
+  §3.3) resolves EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3 from Ensembl exon structure.
+- Quantitative RNase-H1 tolerance of a single **gap-internal** mismatch (the basis of the "gap mismatch ⇒
+  non-cleaving" heuristic used in §3a-quater) — **[citation to verify]**.
 - Specific non-EWSR1/FET recurrent-fusion cancers as platform extensions — **[citation to verify]** per indication.
 
 **Reproducibility.** The real results cited here are committed CPU outputs (snapshotted on the main branch;
