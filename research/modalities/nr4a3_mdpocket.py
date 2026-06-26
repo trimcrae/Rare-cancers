@@ -126,12 +126,19 @@ def main():
 
     # The feasibility readout: per-frame fpocket druggability of the orthosteric pocket.
     target_resseqs = {resseqs[i] for i in pocket_pos}
-    summary["druggability_timeseries"] = druggability_timeseries(prot, target_resseqs, time_ns, np)
+    cv_rg_all = _cv_rg_series(prot, np)              # metad-CV Rg per frame (the fes.dat coordinate)
+    summary["druggability_timeseries"] = druggability_timeseries(prot, target_resseqs, time_ns, np,
+                                                                  cv_rg_all)
     summary["mdpocket"] = _mdpocket_best_effort(top, dcd)
     # Gate 3 energetics: the metadynamics free-energy profile F(Rg) (fes.dat, from plumed sum_hills) if
     # it was mounted alongside the trajectory. Reports the closed->open cost (the energetic accessibility
     # of the opened druggable state).
     summary["fes"] = read_fes(IN, np)
+    # The cheaper question: among the frames that are ALREADY druggable, which has the lowest CV Rg
+    # (least opening), and what does F(Rg) cost THERE? A partially-open druggable state may be far
+    # cheaper than the fully-open edge that the naive closed->open cost reports.
+    summary["lowest_cost_druggable"] = _lowest_cost_druggable(
+        summary["druggability_timeseries"], IN, np)
 
     with open(os.path.join(OUT, "pocket_analysis_summary.json"), "w") as fh:
         json.dump(summary, fh, indent=2)
@@ -147,6 +154,13 @@ def main():
         print(f"  GATE3 FES: closed Rg={f.get('rg_closed_min')} -> open Rg={f.get('rg_open_min')}; "
               f"open cost={f.get('open_cost_kcal_mol')} kcal/mol, barrier={f.get('barrier_kcal_mol')} "
               f"kcal/mol", flush=True)
+    lcd = summary.get("lowest_cost_druggable", {})
+    if lcd.get("ran") and lcd.get("thr_0.5"):
+        t = lcd["thr_0.5"]
+        print(f"  CHEAPEST DRUGGABLE: druggable (>=0.5) already at CV Rg={t.get('lowest_druggable_rg_nm')} "
+              f"nm (drug {t.get('druggability_there')}), F(Rg) cost there={t.get('cost_kcal_mol')} "
+              f"kcal/mol (vs {summary.get('fes', {}).get('open_cost_kcal_mol')} at the fully-open edge)",
+              flush=True)
 
 
 def read_fes(input_dir, np):
@@ -191,10 +205,79 @@ def read_fes(input_dir, np):
     return out
 
 
-def druggability_timeseries(prot, target_resseqs, time_ns, np):
+def _cv_rg_series(prot, np):
+    """metad-CV Rg (nm) per frame: Rg of the CA atoms of CV_RESIDUES (the same coordinate as fes.dat),
+    resolved onto the trajectory's (possibly renumbered) residues. None on failure."""
+    try:
+        import residue_map as rm
+        import nr4a3_metad as M
+        resseqs = [r.resSeq for r in prot.topology.residues]
+        positions, _ = rm.resolve_positions(resseqs, M.CV_RESIDUES, LBD_FIRST)
+        residues = list(prot.topology.residues)
+        idx = []
+        for i in positions:
+            ca = next((a.index for a in residues[i].atoms if a.name == "CA"), None)
+            if ca is not None:
+                idx.append(ca)
+        if len(idx) < 3:
+            return None
+        sub = prot.xyz[:, idx, :]
+        c = sub.mean(axis=1, keepdims=True)
+        return np.sqrt(((sub - c) ** 2).sum(axis=2).mean(axis=1))
+    except Exception as e:  # noqa: BLE001
+        print(f"  cv_rg series skipped: {e}", file=sys.stderr)
+        return None
+
+
+def cost_at_rg(input_dir, rg_target, np):
+    """F (kcal/mol, zeroed at global min) interpolated at rg_target from fes.dat; None if unavailable."""
+    p = os.path.join(input_dir, "fes.dat")
+    if not os.path.exists(p):
+        return None
+    rg, fe = [], []
+    for line in open(p):
+        s = line.strip()
+        if not s or s.startswith(("#", "@")):
+            continue
+        parts = s.split()
+        try:
+            rg.append(float(parts[0])); fe.append(float(parts[1]))
+        except (ValueError, IndexError):
+            continue
+    if len(rg) < 5:
+        return None
+    rg = np.array(rg); fe = np.array(fe); fe = fe - fe.min()
+    order = rg.argsort()
+    return round(float(np.interp(rg_target, rg[order], fe[order])) / 4.184, 2)
+
+
+def _lowest_cost_druggable(dts, input_dir, np, thresholds=(0.5, 0.53)):
+    """Among sampled frames already druggable (>= each threshold), the lowest CV Rg (least opening) and
+    the F(Rg) cost there (kcal/mol) — i.e. is there a CHEAPER partially-open druggable state than the
+    fully-open edge the naive closed->open cost reports?"""
+    if not dts.get("ran"):
+        return {"ran": False}
+    rows = [s for s in dts.get("series", [])
+            if s.get("orthosteric_druggability") is not None and s.get("cv_rg_nm") is not None]
+    out = {"ran": True}
+    for thr in thresholds:
+        hit = [s for s in rows if s["orthosteric_druggability"] >= thr]
+        if not hit:
+            out[f"thr_{thr}"] = None
+            continue
+        lo = min(hit, key=lambda s: s["cv_rg_nm"])
+        out[f"thr_{thr}"] = {"lowest_druggable_rg_nm": lo["cv_rg_nm"],
+                             "druggability_there": lo["orthosteric_druggability"],
+                             "cost_kcal_mol": cost_at_rg(input_dir, lo["cv_rg_nm"], np)}
+    return out
+
+
+def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
     """Per-frame fpocket druggability of the orthosteric pocket (the pocket overlapping the target
     residues most). Reuses the tested fpocket_lib mapping via nr4a3_structure. Best-effort: never
-    crashes the SASA result. `target_resseqs` are resSeq values in the trajectory's own numbering."""
+    crashes the SASA result. `target_resseqs` are resSeq values in the trajectory's own numbering.
+    `cv_rg_all` (optional, per-frame metad-CV Rg in nm) is attached so druggability can be correlated
+    with the free-energy coordinate (find the lowest-Rg / lowest-cost druggable opening)."""
     if not shutil.which("fpocket"):
         return {"ran": False, "reason": "fpocket not on PATH"}
     import tempfile
@@ -218,7 +301,9 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np):
                     best_num, best_ov = num, ov
             drug = info[best_num]["druggability"] if best_num is not None else None
             series.append({"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
-                           "orthosteric_druggability": drug, "overlap_residues": best_ov})
+                           "orthosteric_druggability": drug, "overlap_residues": best_ov,
+                           "cv_rg_nm": (None if cv_rg_all is None
+                                        else round(float(cv_rg_all[fi]), 4))})
         except Exception as e:  # noqa: BLE001 — best-effort per frame
             series.append({"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
                            "error": str(e)[:200]})
