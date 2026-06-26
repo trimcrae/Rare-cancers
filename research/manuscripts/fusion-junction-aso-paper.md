@@ -7,8 +7,12 @@
 > [`../modalities/junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) (0 of 5 free of
 > gap-spanning near-matches), and a junction-siRNA design set
 > [`../modalities/junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) (0 of 5 pass;
-> min GC 73.7%). Together these show feasibility is **breakpoint-conditional**: specificity and chemistry at
-> this *modelled* junction are poor, but that is a property of this junction sequence, not of the modality. **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
+> min GC 73.7%), and a per-breakpoint feasibility scan
+> [`../modalities/junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json) (390 modelled
+> breakpoints; 243, or 62%, favorable; the canonical one is not). Together these show feasibility is
+> **breakpoint-conditional but breakpoint-selectable**: specificity and chemistry at the *canonical* modelled
+> junction are poor, but that is a property of that junction position — a clear majority of modelled
+> breakpoints yield clean, in-band, fusion-specific designs — not of the modality. **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
 > present *only* in the chimera, so an RNase-H gapmer (or siRNA) targeting the junction silences
 > EWSR1::NR4A3 while sparing wild-type *EWSR1* and wild-type *NR4A3* — true fusion-exclusivity, which an
 > LBD-binding degrader (identical domain in fusion and wild-type) cannot achieve. Every clinical/quantitative
@@ -40,8 +44,16 @@ gap-spanning (RNase-H-cleavable) near-matches, and a GC-tolerant junction siRNA 
 the chemistry — its lowest-GC fusion-specific guide is still **73.7% GC**, so **0 of 5** siRNA guides pass
 all filters. The honest synthesis is that this *modelled* breakpoint sequence is intrinsically GC-rich and
 low-complexity, hurting gapmer chemistry, siRNA GC, and predicted specificity at once — a property of this
-junction, not of the modality — so feasibility is **breakpoint-conditional** and must be re-run on each
-patient's sequenced breakpoint. We then specify what else is computable *now* without any GPU (extended
+junction, not of the modality. A new per-breakpoint feasibility scan
+([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)) confirms this directly:
+sweeping **390 modelled breakpoints**, the canonical position is indeed unfavorable, but **243 (62%) are
+favorable** — yielding balanced (~50% GC), fusion-specific in-band gapmer *and* siRNA designs (e.g. a 5-6-5
+gapmer `GCTATACGGCTGTGTA` at 50.0% GC with an in-band siRNA at 52.6% GC). So feasibility is
+**breakpoint-conditional but breakpoint-selectable**: junction sequence-favorability is a tractable
+selection step (sequence the patient's breakpoint, triage it, then BLAST-screen a favorable design), not a
+roadblock — with the honest bounds that these breakpoints are *modelled, not exon-exact*, that "favorable"
+is a GC/complexity triage rather than the full BLAST screen, and that clinical design must still be re-run
+on each patient's sequenced breakpoint. We then specify what else is computable *now* without any GPU (extended
 tiling and a breakpoint-keyed per-patient panel), and we are explicit that the genuinely unsolved problem is **tumour delivery**, which
 we discuss only at the hypothesis level (e.g. a B7-H3-targeted antibody–oligonucleotide conjugate or a
 receptor-targeted nanoparticle). We ask others to run one decisive experiment: junction-ASO versus
@@ -185,8 +197,56 @@ conclusion is therefore that ASO/siRNA feasibility is **breakpoint-conditional**
 the patient's *sequenced* breakpoint, and junction sequence-favorability (GC content, complexity,
 off-target load) becomes a **patient/breakpoint selection criterion**. This tempers but does not overturn
 the route's standing — the *mechanism* (knockdown of an addicted fusion transcript) remains the most
-de-risked of the fusion-exclusive routes, but practical specificity at this *particular* modelled junction
-is poor.
+de-risked of the fusion-exclusive routes, and the per-breakpoint scan below (§3a-ter) shows that a clear
+majority of modelled breakpoints *do* yield clean, in-band designs — so the canonical junction's poor
+chemistry/specificity is a property of **that position**, not of the modality.
+
+### 3a-ter. Per-breakpoint feasibility scan — favorability is a tractable selection step (real, committed)
+
+The breakpoint-conditional hypothesis above makes a falsifiable prediction: if the canonical junction's
+GC/specificity problem is a property of *that* position rather than of the modality, then sweeping the
+breakpoint position should reveal many *other* positions whose junction is favorable. We tested this
+directly. [`junction_breakpoint_scan.py`](../modalities/junction_breakpoint_scan.py) sweeps a grid of
+**390 modelled in-frame breakpoints** (EWSR1 kept-length 200–300 codons × NR4A3 start 2–30 codons) and
+triages each junction by junction-window GC (±10 nt), ±12 nt Shannon entropy, low-complexity repeat, and
+whether a *fusion-specific* gapmer or siRNA exists with GC in the 40–60% comfort band. The committed result
+([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)) **largely resolves the
+breakpoint-conditional concern in the route's favor**:
+
+- **243 of 390 modelled breakpoints (62%) are FAVORABLE** — i.e. a fusion-specific gapmer or siRNA exists
+  with GC inside the 40–60% band. A clear majority of positions yield a chemically clean, specific design.
+- The **canonical breakpoint (EWSR1 keep 264 / NR4A3 from 2) is NOT favorable**, exactly as the §3a / §3a-bis
+  findings predicted: junction GC ±10 nt = **80%**, minimum gapmer GC **75.0%**, minimum siRNA GC **73.7%**,
+  and **no in-band design** (`best_oligo: null`). The canonical position is genuinely a hard one.
+- A **well-balanced favorable example** (EWSR1 keep 200 / NR4A3 from 8) has junction GC ±10 nt = **50.0%**
+  and yields a fusion-specific 5-6-5 gapmer `5′-GCTATACGGCTGTGTA-3′` (target mRNA `TACACAGCCGTATAGC`,
+  **GC 50.0%**, specificity margin 6, no G-quadruplex motif) *together with* an in-band siRNA guide
+  (**GC 52.6%**) — i.e. a clean, balanced design on both routes. (The scan's single lowest-GC position,
+  EWSR1 keep 204 / NR4A3 from 16, is even lower at 35% junction GC but is GC-skewed; the 200/8 example is
+  reported here because it sits squarely in band on both modalities.)
+
+**Honest caveats on the scan (stated as plainly as the result):**
+
+1. **These are MODELLED breakpoint positions** — a codon-space sensitivity sweep, not exon-exact clinical
+   breakpoints. The 62% is a property of the swept grid, **not** a claim about how often real patients carry
+   a favorable breakpoint; the companion exon work (EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3;
+   [`novel-modalities.md`](./novel-modalities.md) §3.3) is bracketed in codon space here, not mapped exon-exact.
+2. **"Favorable" = passes a GC/complexity/parent-substring TRIAGE**, not the full transcriptome BLAST
+   off-target screen of §3a-bis(i). A breakpoint chosen as favorable still owes that BLAST screen before any
+   specificity claim.
+3. **Real clinical design still needs the patient's actually-sequenced breakpoint** — the scan narrows the
+   design space and shows favorable positions exist; it does not substitute for sequencing the patient's
+   chimera.
+
+**What the scan changes.** It converts the breakpoint-conditional caveat from a near-fatal-sounding risk
+into a **tractable selection step**. The canonical junction is unfavorable, but it is one position out of
+many; a clear majority of modelled breakpoints give balanced (~50% GC), fusion-specific designs on both the
+gapmer and siRNA routes. The GC/specificity problem documented in §3a/§3a-bis is therefore a property of the
+**canonical position**, not of the ASO/siRNA modality. The practical consequence is a concrete workflow:
+sequence the patient's breakpoint, triage it with this scan, and — for a favorable hit — run the §3a-bis(i)
+BLAST off-target screen on that specific design. This strengthens the route's standing as the most
+mechanistically de-risked of the fusion-exclusive options, with breakpoint-favorability now demonstrated to
+be selectable rather than a roadblock.
 
 ### 3b. What is specifiable now, without any GPU
 
@@ -200,9 +260,19 @@ this draft:
    The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
    CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
    (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** (blastn-short vs
-   RefSeq RNA) on the modelled-breakpoint designs and returned a poor verdict (0 of 5 free of gap-spanning
-   near-matches). Remaining *specifiable* work: re-run with the low-complexity filter on and an uncapped
-   HITLIST to replace the over-called 50-cap floor with a true count, and re-run per sequenced breakpoint.
+   RefSeq RNA) on the modelled-breakpoint (canonical) designs and returned a poor verdict (0 of 5 free of
+   gap-spanning near-matches) — but that was the *unfavorable canonical* junction. With the per-breakpoint
+   scan now complete (§3a-ter), the decisive remaining step is to **run this BLAST off-target screen on a
+   chosen favorable breakpoint** (e.g. the in-band EWSR1 200 / NR4A3 8 example), where the input design is
+   already ~50% GC and in-band — the screen is no longer being asked to rescue an intrinsically GC-rich,
+   low-complexity seam. (Also specifiable: re-run with the low-complexity filter on and an uncapped HITLIST
+   to replace the over-called 50-cap floor with a true count.)
+
+   **Per-breakpoint feasibility scan — DONE (§3a-ter).** The sensitivity sweep over 390 modelled breakpoints
+   has been run and committed ([`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json)):
+   243/390 (62%) are favorable, the canonical position is not, and favorable in-band designs exist. This is
+   the step that turned "breakpoint-conditional" into "breakpoint-selectable"; the only remaining work above
+   it is the BLAST screen on a chosen favorable breakpoint.
 3. **siRNA alternative (computable) — DONE for the modelled breakpoint (§3a-bis ii).** Junction-spanning
    19-mer siRNA guides have now been generated (asymmetry/end-stability/run filters); at this breakpoint 0
    of 5 pass (min GC 73.7%), so the GC-tolerant route does not rescue this junction. Seed off-target
@@ -212,7 +282,9 @@ this draft:
    predominantly NR4A3 exon 3; see [`novel-modalities.md`](./novel-modalities.md) §3.3), the ASO sequence
    is **breakpoint-conditional**. The deployable artifact is therefore not one oligo but a *panel*:
    key each patient's design to their sequenced breakpoint, exactly as the script already supports by
-   re-running on the patient transcript. This is a feature of the modality, not a bug — it mirrors the
+   re-running on the patient transcript. The per-breakpoint scan (§3a-ter) now shows this panel is largely
+   tractable — a clear majority of modelled breakpoints yield clean in-band designs — so favorability is a
+   selection step, not a roadblock. This is a feature of the modality, not a bug — it mirrors the
    personalised logic the immunotherapy route reached independently.
 
 ### 3c. The honest hard part — tumour delivery (unsolved)
@@ -288,12 +360,16 @@ beyond synthesising the listed oligos and no new biology beyond the published EM
   is a real, committed result. The 50-near-match figure is over-called (HITLIST capped at 50, low-complexity
   filter off, on a low-complexity GC-rich window), so it is a floor in character — but the qualitative
   verdict (this junction is specificity-poor) is robust.
-- **Breakpoint-conditional (feasibility, not just sequence).** Feasibility itself — chemistry GC, siRNA GC,
-  and predicted specificity — is a property of *this* modelled junction sequence, not of the modality. The
-  active sequence depends on the patient's exact exon-level breakpoint, real patients carry ≥7 distinct
-  in-frame breakpoints (some likely more favorable), so junction sequence-favorability becomes a
-  patient/breakpoint **selection criterion**: every clinical design must be re-derived (and re-screened)
-  from a sequenced fusion transcript (the committed designs use a *modelled* breakpoint).
+- **Breakpoint-conditional — a tractable selection step, not a roadblock.** Feasibility (chemistry GC,
+  siRNA GC, predicted specificity) is a property of the *junction sequence*, not of the modality, and the
+  **canonical** modelled junction is genuinely unfavorable. But the per-breakpoint scan (§3a-ter) shows
+  **243 of 390 modelled breakpoints (62%) are favorable** — yielding balanced (~50% GC), fusion-specific
+  in-band designs on both routes — so junction-favorability is a *selectable* patient/breakpoint criterion,
+  not a fatal flaw. Honest bounds on this reassurance: the swept breakpoints are **modelled (codon-space),
+  not exon-exact**, so 62% describes the grid, not real-patient breakpoint frequencies; "favorable" is a
+  GC/complexity/parent-substring **triage, not the full BLAST off-target screen** (which must be re-run on a
+  chosen favorable design); and every clinical design must still be re-derived from the patient's
+  *sequenced* fusion transcript (the committed designs use a *modelled* breakpoint).
 - **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
   is the dominant risk for the whole modality.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
@@ -353,4 +429,7 @@ To verify (do **not** treat as established until sourced):
 [`junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) (from
 [`junction_aso_offtarget.py`](../modalities/junction_aso_offtarget.py), blastn-short vs RefSeq RNA), and
 [`junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) (from
-[`junction_sirna.py`](../modalities/junction_sirna.py)). No GPU computation was performed for this draft.
+[`junction_sirna.py`](../modalities/junction_sirna.py)), and
+[`junction-breakpoint-scan.json`](../modalities/junction-breakpoint-scan.json) (from
+[`junction_breakpoint_scan.py`](../modalities/junction_breakpoint_scan.py), a 390-breakpoint GC/complexity/
+parent-specificity triage sweep). No GPU computation was performed for this draft.
