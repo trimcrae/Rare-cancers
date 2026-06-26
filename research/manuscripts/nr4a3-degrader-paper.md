@@ -10,7 +10,8 @@
 *Draft (2026-06). Authors/affiliations TBD. In-silico design + feasibility study — no wet lab; no
 molecule synthesized. Every claim is sourced or computed and labelled with its weight. The 30 ns
 production metadynamics is **complete (converged)**; the headline numbers below are from it, and the 5 ns
-validation is retained only where explicitly labelled as the preliminary cross-check.*
+validation is retained only where explicitly labelled as the preliminary cross-check. Display-items plan
+(figures + tables): [`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md).*
 
 ## Abstract
 NR4A nuclear receptors (NR4A1/2/3) are textbook "undruggable" transcription factors: the canonical
