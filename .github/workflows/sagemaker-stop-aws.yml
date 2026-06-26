@@ -1,0 +1,42 @@
+name: Stop SageMaker jobs (free GPU)
+
+# Stops in-progress SageMaker Processing jobs by name prefix to free GPU when a run is no longer needed.
+# Cancelling a GitHub run does NOT stop the underlying SageMaker job (separate AWS resource), so this
+# calls StopProcessingJob directly. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+# (region is a workflow input). No SAGEMAKER_ROLE_ARN needed (no job is launched).
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_prefix:
+        description: "base-job-name fragment to stop (e.g. nr4a3-release, nr4a3-metad)"
+        required: true
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Stop matching SageMaker jobs
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          JOB_PREFIX: ${{ inputs.job_prefix }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/sagemaker_stop.py
