@@ -82,6 +82,18 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   validated drug-bound NR controls (PPARγ 0.599, ERα 0.586, Nurr1-holo 0.677, Nur77-holo 0.529). This
   is disclosed rather than silently swapped; the corrected bar (0.53) is a real drug-bound score, not
   a laxer one, and downstream conclusions hold under both 0.50 and 0.53.
+- **2026-06-26 — Gate 1 outcome qualified (disclosed; previously un-scored).** Gate 1 required the
+  converged F(Rg) to show "an accessible **minimum or shoulder** at an opened Rg distinct from the closed
+  basin (**not just biased excursions**)." The 30 ns F(Rg) is **monotonic — one closed basin, a rising
+  wall, no opened minimum/shoulder** (and the frontier is under-converged). The literal condition is
+  therefore **not met**: the druggable conformations arise from *basin-internal breathing* under the bias,
+  not a distinct opened metastable state. This is reported as a **weaker, basin-breathing pass** (still
+  consistent with the de Vera 2019 breathing-pocket precedent), and the metastability question is deferred
+  to the unbiased release run rather than scored as a pass. This corrects an earlier overstatement ("Gates
+  0–3 pass") that had never actually scored Gate 1. Per the decision rule this **weakens** the route's
+  energetic-accessibility leg until the release run confirms a populated sub-state; it does not on its own
+  abandon the route (Gate 2 druggability and the low basin-breathing cost still stand at feasibility
+  weight).
 
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.

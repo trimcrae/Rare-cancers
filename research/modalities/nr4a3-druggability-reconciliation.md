@@ -98,8 +98,18 @@ This sets the working threshold **D\*** and the falsification gates fixed in
 | NR4A2 AF2 (Nurr1) | NR4A model | 0.801 | — |
 | NR4A1 AF2 (Nur77) | NR4A model | 0.657 | — |
 | NR4A3 AF2 (target) | NR4A model | **0.495** (Pocket 5, orthosteric) | — |
-| NR4A3 metad opened (5 ns prelim) | MD opened frames | 0.751 (max over frames) | — |
-| **NR4A3 metad opened (30 ns converged)** | **MD opened frames** | **0.931** (max over 600 frames) | — |
+| NR4A3 metad opened (5 ns prelim) | MD opened frames | 0.751† (max over frames) | — |
+| **NR4A3 metad opened (30 ns)** | **MD opened frames** | **0.931†** (max over 600 frames) | — |
+
+> **† Metric note (important — avoid the apples-to-oranges trap §1 warns about).** For the *crystal/model*
+> rows above, the "max druggability" column is the **max-anywhere-on-LBD** cavity (non-discriminating;
+> e.g. 1OVL 0.864 is a non-orthosteric cleft). For the two **metad-opened** rows, 0.751/0.931 are the
+> **orthosteric Pocket-5** druggability (the *same* metric as the static NR4A3 0.495 and D\*=0.53), taken
+> as the max **over frames** of that pocket — *not* the max-anywhere cavity. So 0.931 is commensurate with
+> 0.495 and D\*, but it is a **biased-MD-frame** number (the metad CV is the pocket Rg, which inflates the
+> cavity fpocket rewards), so it is **not** on the same footing as the *static* drug-bound crystal sites
+> (0.53–0.68) and is **not yet calibrated** against an undruggable negative control under the same
+> protocol. Read it as a structural-feasibility readout, not a calibrated druggability.
 
 **Interpretation (three findings):**
 
@@ -117,10 +127,13 @@ This sets the working threshold **D\*** and the falsification gates fixed in
    validated drug-bound NR site). Then:
    - static NR4A3 orthosteric **0.495 < D\*** → sub-druggable in the static/occluded state (concordant
      with the "undruggable" reputation);
-   - **metad-opened NR4A3 0.751 > D\*** — and above *every* validated druggable NR ligand site in the
-     panel.
-   The conclusion is identical under a naive 0.5 cutoff or the calibrated 0.53, so it does not hinge on
-   the exact threshold.
+   - **metad-opened NR4A3 0.751 (5 ns) / 0.931 (30 ns) > D\*** — the breathing-open pocket geometrically
+     admits a druggable cavity. *Caveat (see † above):* this is a biased-MD-frame score and its raw
+     magnitude is **not** a like-for-like comparison to the *static* drug-bound crystal sites — we do not
+     claim "above every drug-bound NR pocket" as a calibrated result; that comparison awaits the
+     negative-control run.
+   The qualitative conclusion (static sub-D\*, breathing-open above D\*) is identical under a naive 0.5
+   cutoff or the calibrated 0.53, so it does not hinge on the exact threshold.
 
 ### Gate scoring against the pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md))
 - **Gate 0 — DEVIATION (disclosed).** As pre-registered, Gate 0 used **max** druggability and required
@@ -130,7 +143,18 @@ This sets the working threshold **D\*** and the falsification gates fixed in
   computed), disclose the change, and adopt **D\* = 0.53** from the validated drug-bound controls. This
   correction makes the bar *real* (0.53, a true drug-bound score), not laxer.
 - **Gate 0b (model over-call) — refuted:** model ≈ crystal; the static 0.495 is conservative.
-- **Gate 2 (opened state druggable) — PASS (converged 30 ns).** On the full 30 ns production run
+- **Gate 1 (a genuine cryptic *opening* occurs) — MET ONLY IN THE WEAKER, BASIN-BREATHING SENSE
+  (disclosed deviation).** Gate 1 as pre-registered required the converged F(Rg) to show "an accessible
+  **minimum or shoulder** at an opened Rg distinct from the closed basin (**not just biased excursions**)."
+  The 30 ns F(Rg) is instead **monotonic — a single closed basin with a rising wall and no opened
+  minimum/shoulder** (the opening frontier is also under-converged). So the literal Gate-1 condition is
+  **not** satisfied: the druggable conformations are reached by *basin-internal breathing* under the bias,
+  not via a distinct opened metastable state. This is still consistent with the de Vera 2019 *breathing*
+  Nurr1 pocket (the precedent is breathing, not a two-state switch), and it does not by itself sink the
+  route — but it must be scored honestly, and the metastability-vs-bias-induced-strain question is left to
+  the in-progress unbiased release run, **not** pre-judged as a pass. (Previously this gate was un-scored
+  while the program reported "Gates 0–3 pass"; that overstatement is corrected here and in the paper.)
+- **Gate 2 (opened state druggable) — PASS (30 ns).** On the full 30 ns production run
   (600 frames), opened-frame max druggability is **0.931** (≥ D\* 0.53; up from the 5 ns 0.751), with
   86.8 % of frames more open than baseline and +6.1 nm² SASA — above every validated NR drug-bound site
   in the panel. Second clause of this gate (handles pocket-facing) — **CONFIRMED
@@ -139,19 +163,21 @@ This sets the working threshold **D\*** and the falsification gates fixed in
   87.5 % keep ≥4 facing (not a splayed artifact). Five are reliably inward — L406, T410, I484, I531,
   L534 — while **T407 (0.0) and R412 (0.25) mostly splay outward**, so the engageable selectivity set is
   five handles, not seven. Gate 2 PASSES on both clauses, with that caveat noted for warhead design.
-- **Gate 3 (energetic accessibility) — PASS.** The naive closed→fully-open cost is ~38.5 kcal/mol, but
-  that measures the cost to reach the *most-open edge* (Rg 1.06, the under-converged sampling frontier —
-  monotonic wall, no open basin), **not** the cost to reach a *druggable* conformation. Correlating
-  per-frame druggability with the CV (F(Rg)-vs-druggability re-analysis) shows the orthosteric pocket is
-  **already druggable (fpocket 0.80) at Rg ≈ 0.717 nm**, essentially at the bottom of the free-energy
-  well, costing only **0.76 kcal/mol** — and 0.717 nm is in the *well-sampled* region of F(Rg), so this
-  number is reliable (the 38 was not). The opening cost was a red herring: a druggable state is thermally
-  accessible at <1 kcal/mol. Druggability rises further (to 0.93) toward the open edge, but the route does
-  not depend on reaching it. *Reframing:* the single static AF2 model (0.495) understated druggability;
-  the thermally-populated MD ensemble is robustly druggable at negligible cost. (An unbiased "release"
-  run from the open conformer was attempted as orthogonal confirmation of metastability but is not
-  required — Gate 3 is resolved by the energetics above — and its pipeline's startup crash is now fixed,
-  pending a confirmation run.)
+- **Gate 3 (energetic accessibility) — PROVISIONALLY MET (not closed).** The naive closed→fully-open cost
+  is ~38.5 kcal/mol, but that measures the cost to reach the *most-open edge* (Rg 1.06, the under-converged
+  sampling frontier — monotonic wall, no open basin), **not** the cost to reach a *druggable* conformation.
+  Correlating per-frame druggability with the CV (F(Rg)-vs-druggability re-analysis) shows the orthosteric
+  pocket is **already druggable (fpocket 0.80) at Rg ≈ 0.717 nm**, in the well-sampled basin region,
+  costing only **0.76 kcal/mol** — thermally plausible. **Honest caveat:** both the 0.76 and the 38 are
+  read off the *same* incompletely-converged biased F(Rg); the 0.76 is the more reliable of the two only
+  because the basin is better sampled than the frontier, but it is still one biased profile. So the opening
+  cost ~38 is best read as an artifact of reading the frontier, and a druggable conformation is *plausibly*
+  cheap — but the **independent** confirmation is the unbiased "release" run (does the breathing-open
+  geometry persist as a populated sub-state, or collapse as bias-induced strain?). That run's earlier
+  startup crash is fixed and it is queued; **until it reports, Gate 3 is "thermally plausible," not
+  resolved.** *Reframing:* the single static AF2 model (0.495) understated the pocket; the thermally-
+  populated MD ensemble breathes to a geometrically druggable cavity at low apparent cost — stated at
+  feasibility weight, not as a closed result.
   Shared check with Gate 2 (handles facing in) — CONFIRMED 2026-06-26 (mean 5.0/7 handles pocket-facing
   in the druggable frames; T407/R412 the outward-pointing exceptions; `nr4a3_handle_facing.py`).
 - *Infra note:* the 30 ns GitHub wrapper job was auto-cancelled at GitHub's 6 h job cap, but the

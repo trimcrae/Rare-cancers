@@ -6,9 +6,20 @@ pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.m
 anything. Last updated 2026-06-26.
 
 ## TL;DR
-Druggability case complete (Gates 0–3 pass, incl. the Gate-2 handle-facing sub-check, **CONFIRMED**
-2026-06-26, run 28249776934: mean **5.0/7** handles pocket-facing; engageable set **five — L406, T410,
-I484, I531, L534**; T407/R412 splay out). The **warhead screen ran** (run 28252182123): NR4A3-favoured
+Druggability case is a **feasibility result, stated honestly** (see the red-team:
+[`../manuscripts/nr4a3-degrader-paper-redteam.md`](../manuscripts/nr4a3-degrader-paper-redteam.md)).
+**Gate 0/0b** pass; **Gate 2** (opened-pocket druggable + handle-facing) passes; **Gate 1** is met only in
+the weaker *basin-breathing* sense (F(Rg) is **monotonic — no separate opened minimum**, so not the
+pre-registered "minimum/shoulder, not just biased excursions"); **Gate 3** (energetic accessibility) is
+**provisional** — the ~0.76 kcal/mol-to-druggable is read off the same under-converged biased F(Rg), and
+the independent metastability test (unbiased **release run**, queued) is what would close it. So do **not**
+restate "Gates 0–3 pass" without these qualifications. The 0.931/0.751 opened-frame druggability is the
+**orthosteric Pocket-5** metric (commensurate with the static 0.495) but is a **biased-MD-frame**,
+**uncalibrated** readout — not a like-for-like beat of the static drug-bound band, and not yet checked
+against an undruggable negative control under the same protocol. Gate-2 handle-facing **CONFIRMED**
+2026-06-26 (run 28249776934): mean **5.0/7** pocket-facing; engageable set **five — L406, T410, I484, I531,
+L534**; T407/R412 splay out. *Selectivity asymmetry:* engageable **divergent** handles are **5 vs NR4A1 but
+only 4 vs NR4A2** (I531 conserved with NR4A2). The **warhead screen ran** (run 28252182123): NR4A3-favoured
 chemotypes, top margin ~+1.7 kcal/mol (e.g. CHEMBL1873475), 4/5 engageable handles — but these margins are
 **confounded triage** (opened NR4A3 vs *static* paralogues; see below).
 
@@ -26,8 +37,9 @@ selectivity). **IN FLIGHT now:** `gpu-metad-aws.yml target=NR4A1` (run **2825666
 | Static orthosteric druggability (AF2) | **0.495** (Pocket 5, res 406–534) | `nr4a3-structure-assessment.json` |
 | Calibrated druggable threshold **D\*** | **0.53** (validated drug-bound NR band 0.53–0.68) | `gpu-calibration-aws.yml` → `nr4a3-calibration.json` |
 | Model over-call? | **No** — NR4A2 model 0.801 ≈ 1OVL crystal 0.864; 0.495 is conservative | calibration |
-| **Gate 2** opened-pocket druggability (30 ns) | **0.931** max; PASS | `gpu-mdpocket-aws.yml` on `nr4a3-metad` |
-| **Gate 3** energetic accessibility | **PASS** — druggable (0.80) at CV Rg 0.717 nm for **0.76 kcal/mol** (the ~38 kcal/mol was the cost to the most-OPEN *edge*, not a druggable state) | F(Rg)-vs-druggability re-analysis |
+| **Gate 1** cryptic *opening* (distinct opened basin) | **Weaker basin-breathing pass** — F(Rg) monotonic, no opened minimum/shoulder; not the literal pre-reg condition | `fes.dat` (sum_hills) |
+| **Gate 2** opened-pocket druggability (30 ns) | **0.931** (orthosteric Pocket-5, max over frames; biased-MD, uncalibrated); PASS | `gpu-mdpocket-aws.yml` on `nr4a3-metad` |
+| **Gate 3** energetic accessibility | **PROVISIONAL** — druggable (0.80) at CV Rg 0.717 nm for **0.76 kcal/mol** read off the same under-converged biased F(Rg) (the ~38 kcal/mol was the cost to the most-OPEN *edge*); release run is the independent confirmation | F(Rg)-vs-druggability re-analysis |
 | Selectivity handles (NR4A3 vs NR4A1/2) | **7**: L406, T407, T410, R412, I484, I531, L534 | `nr4a-selectivity.json` |
 
 Full reconciliation + gate scoring + the disclosed Gate-0 deviation:
@@ -149,6 +161,14 @@ the family metad (in flight) is the fix.
   until a clean run confirms it.
 
 ## Open items (not blockers for the warhead)
+- [ ] **Negative-control calibration of the opened-frame score (red-team F2).** Run the *same*
+      Rg-metadynamics + per-frame fpocket on a calibration LBD — ideally one genuinely-druggable and one
+      genuinely-undruggable pocket — to show an undruggable pocket does *not* inflate to ~0.9 under the
+      protocol. This is what makes the 0.931 comparable to the static panel; until then it is an
+      uncalibrated structural-feasibility readout. (Reuses the family metad infra; the NR4A1/NR4A2 runs
+      already partly serve this — add a true non-NR4A undruggable control.)
+- [ ] **Release run = the Gate-3/Gate-1 closer.** Already queued (`gpu-release-aws.yml`); prioritize it,
+      since it is now the gating evidence for "metastable druggable sub-state" vs "bias-induced strain."
 - [ ] Harden the metad submitter against the 6 h cap (segments / fire-and-forget).
 - [x] Opened-frame handle-facing confirmation — **DONE** (CONFIRMED 2026-06-26, run 28249776934; mean
       5.0/7 handles facing, T407/R412 the exceptions). Result written into paper §2.2/§5 and the

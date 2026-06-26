@@ -14,8 +14,13 @@ read it before making changes.
   **[research/manuscripts/nr4a3-degrader-paper-positioning.md](./research/manuscripts/nr4a3-degrader-paper-positioning.md)**).
   **Resuming the degrader in-silico work (program state + exactly how to run the next GPU step, e.g. the
   warhead screen): [research/modalities/nr4a3-degrader-next-steps.md](./research/modalities/nr4a3-degrader-next-steps.md)** —
-  as of 2026-06-26 the cryptic-pocket druggability case is complete (all gates pass) and the next step is
-  the built-but-idle selective-warhead screen.
+  as of 2026-06-26 the cryptic-pocket druggability case is a **feasibility result stated honestly** (a
+  2026-06-26 red-team corrected an earlier "all gates pass" overstatement: Gate 0/0b/2 pass; Gate 1 holds
+  only in the weaker *basin-breathing* sense — F(Rg) is monotonic with no separate opened basin; Gate 3 is
+  *provisional* pending the unbiased release run; the 0.931 opened-pocket score is a biased-MD,
+  *uncalibrated* readout). See [research/manuscripts/nr4a3-degrader-paper-redteam.md](./research/manuscripts/nr4a3-degrader-paper-redteam.md).
+  The next step is the built-but-idle selective-warhead screen (plus the queued release run + a
+  negative-control calibration of the opened-frame score).
   The crux of the portfolio is still **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
   and the board in **[research/IDEAS.md](./research/IDEAS.md)**. **No wet lab is available**, so every
   "next step" must be either (1) publish-to-convince or (2) in-silico evaluation — never a wet-lab to-do.

@@ -9,8 +9,12 @@
 
 *Draft (2026-06). Authors/affiliations TBD. In-silico design + feasibility study — no wet lab; no
 molecule synthesized. Every claim is sourced or computed and labelled with its weight. The 30 ns
-production metadynamics is **complete (converged)**; the headline numbers below are from it, and the 5 ns
-validation is retained only where explicitly labelled as the preliminary cross-check. Display-items plan
+production metadynamics is **complete and production-length; the closed basin is well-sampled, but the
+opening frontier of F(Rg) is not fully converged** (so the free-energy numbers below are read in the
+well-sampled basin region and treated accordingly — §2.2). The headline structural numbers are from the
+30 ns run, and the 5 ns validation is retained only where explicitly labelled as the preliminary
+cross-check. An adversarial self-review of this draft, with the deficiencies it surfaced and the fixes
+applied, is in [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md). Display-items plan
 (figures + tables): [`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md).*
 
 ## Abstract
@@ -26,11 +30,19 @@ nuclear-receptor panel, the NR4A3 orthosteric pocket is borderline/occluded in t
 model (fpocket druggability 0.495, below the calibrated drug-bound band of 0.53–0.68), consistent with
 the family's reputation — and we show the apparent "0.80 druggable" reads reported for Nurr1 are a
 *non-orthosteric* cavity present even in the occluded crystal, not a model artifact. (2) **Well-tempered
-metadynamics opens a cryptic druggable pocket**: the orthosteric Rg coordinate expands and the opened
-conformations reach fpocket druggability **0.931** on the converged 30 ns run (the 5 ns validation gave
-0.751) — above every experimentally drug-bound NR pocket in our panel — the first pocket-dynamics
-evidence for NR4A3, paralleling the experimentally demonstrated dynamic pocket of Nurr1 (de Vera 2019)
-and an MD-revealed cryptic pocket in Nur77. (3) We map 7
+metadynamics drives the orthosteric pocket to breathe into transiently druggable conformations**: under a
+bias on the pocket's radius-of-gyration coordinate, the *same orthosteric Pocket-5* fpocket druggability
+(the metric on which the static 0.495 and the calibrated threshold are defined — not the non-discriminating
+"max-anywhere" cavity) rises to **0.931** over the 30 ns ensemble (the 5 ns validation gave 0.751). This
+is a **biased-ensemble structural-feasibility readout**, not a calibrated affinity-like score — its raw
+magnitude is not directly comparable to the *static* drug-bound crystal sites (0.53–0.68) and is not yet
+calibrated against an undruggable negative control under the same protocol (§2.2, §5) — but it is the first
+pocket-dynamics evidence for NR4A3, paralleling the experimentally demonstrated *dynamic, breathing* pocket
+of Nurr1 (de Vera 2019) and an MD-revealed cryptic pocket in Nur77. We are careful that the free-energy
+profile shows **no separate opened basin** (a single closed basin with a rising wall); the druggable
+conformations are reached by *basin-internal breathing*, not a two-state cryptic switch, and whether they
+are a populated sub-state vs. bias-induced strain is the question the in-progress unbiased release run
+addresses. (3) We map 7
 NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles** (5 of which stay pocket-facing
 in the opened, druggable ensemble — a measured, not assumed, property), enabling a tunable selectivity
 profile. (4) Treating the opened pocket as a *programmable* design axis, we run the **same cryptic-pocket
@@ -79,38 +91,74 @@ nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../mo
 Thus the static orthosteric pocket sits *just below* the validated druggable band — concordant with
 "undruggable", and the right starting point for the cryptic-pocket question.
 
-### 2.2 Metadynamics opens a druggable cryptic pocket (30 ns production)
+### 2.2 Metadynamics drives the orthosteric pocket to breathe into a druggable state (30 ns production)
 Well-tempered metadynamics on the radius of gyration of the Pocket-5 lining Cα atoms (method:
 [`../modalities/metad-methods-appendix.md`](../modalities/metad-methods-appendix.md)) drives the pocket
-open (CV Rg ~0.5 → ~1.05 nm). On the converged **30 ns** run (600 frames), per-frame fpocket on the
-opened conformations reaches druggability **0.931** (`crosses_0.5 = True`) — **above every drug-bound NR
-pocket in the calibration panel** and well above D\* = 0.53; SASA of the lining residues rises (+6.1 nm²,
-86.8 % of frames more open than baseline). (A 5 ns validation gave a consistent 0.751.) This is the
-**first evidence of a dynamic druggable pocket in NR4A3**, paralleling Nurr1 (de Vera 2019). Gate scoring
-([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)): **Gate 2
-(opened state druggable) PASSES** and **Gate 3 (energetic accessibility) PASSES**. The naive
-closed→fully-open cost is ~38 kcal/mol, but that is the cost to reach the *most-open* edge (Rg 1.06, the
-under-converged sampling frontier), not a *druggable* state: correlating per-frame druggability with
-F(Rg) shows the pocket is **already druggable (fpocket 0.80) at Rg ≈ 0.72, in the well-sampled basin, at
-only ~0.76 kcal/mol** — thermally accessible. So the single static structure (0.495) understated
-druggability; the thermally-populated ensemble is robustly druggable at negligible cost, rising to 0.93
-toward the open edge. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
+open (CV Rg ~0.5 → ~1.05 nm). On the 30 ns run (600 frames), per-frame fpocket on the **orthosteric
+Pocket-5 cavity** (the *same* metric as the static 0.495 and D\*, not the non-discriminating "max-anywhere"
+cavity of §2.1) reaches druggability **0.931** (max over frames; `crosses_0.5 = True`); SASA of the lining
+residues rises (+6.1 nm², 86.8 % of frames more open than baseline). (A 5 ns validation gave a consistent
+0.751.) This is the **first pocket-dynamics evidence for NR4A3**, paralleling the *dynamic, breathing*
+Nurr1 pocket (de Vera 2019).
+
+**Read this number for what it is.** 0.931 is fpocket on a **bias-driven, maximally-expanded** MD frame,
+and the metadynamics CV is the pocket's own radius of gyration — i.e. the protocol inflates exactly the
+cavity dimension the fpocket score rewards. It is therefore a **biased-ensemble structural-feasibility
+readout**, not an affinity-like score on the same footing as the *static* drug-bound crystal sites
+(0.53–0.68); we do **not** claim "0.931 > the drug-bound band" as a like-for-like result. The calibration
+(§2.1) calibrates *static* fpocket scores; the opened-frame score is **not yet calibrated against a
+negative control** — the clean test, recommended as a strengthening control, is to run the *same*
+Rg-metadynamics on a calibration LBD (a known-druggable and a genuinely undruggable pocket) and confirm an
+undruggable pocket does *not* inflate to ~0.9 under the protocol. The honest claim is that the pocket
+*geometrically admits* a druggable cavity when it breathes open, with the magnitude uncalibrated.
+
+**Gate scoring** ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)):
+**Gate 2 (opened state druggable) PASSES** on both clauses (druggable frames + handles pocket-facing,
+below). **Gate 1 (a genuine cryptic *opening*) is met only in a weaker form than pre-registered:** Gate 1
+asked for an accessible *minimum or shoulder* at an opened Rg "not just biased excursions," but F(Rg) is
+**monotonic — a single closed basin and a rising wall, with no separate opened minimum**. So the druggable
+conformations are reached by **basin-internal breathing**, not a two-state cryptic opening; this is
+consistent with de Vera's breathing Nurr1 pocket, but it means "opened *state*" overstates — there is one
+basin whose thermal fluctuations transiently expose a druggable cavity. **Gate 3 (energetic accessibility)
+is provisionally met.** The naive closed→fully-open cost is ~38 kcal/mol, but that is the cost to the
+*most-open* edge (Rg 1.06) at the **under-converged sampling frontier**, not a *druggable* state:
+correlating per-frame druggability with F(Rg) shows the pocket is already druggable (fpocket 0.80) at
+Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat (disclosed, not buried):
+both numbers are read off the *same* incompletely-converged biased F(Rg), so the 0.76 rests on the
+basin region being better sampled than the frontier (it is, but it is a single biased profile). The
+**independent** test — whether the breathing-open geometry is a populated sub-state or bias-induced strain
+— is the in-progress **unbiased release run** (`nr4a3_md_release.py`); until it reports, Gate 3 is
+"thermally plausible," not closed. Net: the single static structure (0.495) understated the pocket; the
+thermally-populated ensemble breathes to a geometrically druggable cavity at low apparent cost — a
+feasibility result, stated at that weight. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
 (`../modalities/nr4a3_handle_facing.py`, run 2026-06-26 on the 30 ns trajectory) shows the opened,
 druggable frames keep the selectivity handles pocket-facing: across the druggable frames (fpocket ≥
 D\*=0.53) a mean of **5.0/7** handles point into the cavity and **87.5 %** keep ≥4 facing. Five are
 reliably pocket-facing — **L406, T410, I484, I531, L534** (≥0.875 of druggable frames) — while **T407
 and R412 mostly splay outward** (facing in 0.0 and 0.25 of druggable frames), so the demonstrated
 selective-engagement set is those five, not all seven. This is also the precondition for the warhead
-screen's handle-contact scoring (§2.4). An unbiased "release" run was attempted as orthogonal
-confirmation of metastability but is not required — Gate 3 is resolved by the energetics above — and its
-pipeline's startup crash is now fixed (pending a confirmation run).)*
+screen's handle-contact scoring (§2.4). The unbiased "release" run is the orthogonal metastability test
+that would upgrade Gate 3 from "thermally plausible" to confirmed (does the breathing-open geometry
+persist, or collapse as bias-induced strain?); its earlier startup crash is now fixed and it is queued —
+so the metastability question is **open, not resolved**, and the §2.2 energetics are stated at that
+weight.)*
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
-identifies **7 divergent Pocket-5 residues** — L406, T407, T410, R412, I484, I531, L534 — as selectivity
-handles. All 7 are within the metadynamics CV; of these the opened, druggable ensemble keeps **5
-pocket-facing** (L406, T410, I484, I531, L534 — §2.2), so those five are the realistically *engageable*
-handles a warhead can exploit (T407 and R412 mostly splay outward). This design specification lets the
+identifies, among the **10 Pocket-5 lining residues**, **7 divergent** ones — L406, T407, T410, R412,
+I484, I531, L534 — as selectivity handles. All 7 are within the metadynamics CV; of these the opened,
+druggable ensemble keeps **5 pocket-facing** (L406, T410, I484, I531, L534 — §2.2), so those five are the
+realistically *engageable* handles a warhead can exploit (T407 and R412 mostly splay outward).
+
+**The selectivity window is asymmetric across the two paralogues — and narrower against NR4A2.** "Divergent"
+in the alignment means *differs from NR4A1 or NR4A2*; selectivity must hold against **each** separately, and
+the subsets are not equal. Against **NR4A1**, all 7 handles differ (and all 5 engageable ones). Against
+**NR4A2**, only **6 of 7** differ — **I531 is identical (Ile in both NR4A3 and NR4A2)** — so of the 5
+engageable handles, only **4** distinguish NR4A3 from NR4A2 (L406, T410, I484, L534; I531 drops out). NR4A2
+selectivity therefore rests on a *narrower* engageable set than NR4A1 selectivity, which matters because
+NR4A2/Nurr1 is the paralogue carrying the dopaminergic-loss liability one most wants to spare. This is a
+specification with a quantified, paralogue-resolved window — not a demonstrated binding margin. This design
+specification lets the
 *same* opened pocket be tuned **NR4A3-selective** (engaging the divergent handles; for the fusion sarcomas,
 sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately **pan-NR4A** (engaging the
 conserved pocket residues; for ex-vivo immuno-oncology) — §3.
@@ -136,7 +184,11 @@ handles (selective) or the conserved residues (pan), is primed to populate empty
 nominates; quantitative selectivity requires endpoint free energy** — MM-GBSA with per-residue
 decomposition, and selectivity FEP on the leads — which the state-matched ensembles enable. Once a warhead
 SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`) scores degradable-lysine
-geometry per paralogue (degradation selectivity ≠ warhead-binding selectivity). **No molecule is
+geometry per paralogue. This is not a formality: the binding-selectivity matrix is a **necessary but not
+sufficient** filter, because a degrader's actual selectivity is set by the *ternary complex* — a
+non-selective binder can degrade selectively (productive ternary geometry on only one paralogue) and a
+selective binder can fail to degrade. The per-paralogue ternary model is therefore the gating step for any
+*degradation*-selectivity claim; the binding matrix triages which candidates enter it. **No molecule is
 synthesized; this is design prep.** Run instructions + program state:
 [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
 
@@ -152,7 +204,9 @@ matrix has three kinds of cell:
 1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
    enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB, Lee 2020). NR4A3 is the diagnostic driver;
-   a selective degrader removes it directly. **More common than EMC**, materially enlarging the market.
+   a selective degrader removes it directly. AciCC is a more common salivary-gland carcinoma than the
+   ultra-rare EMC, enlarging the addressable population for the *same* selective agent *(relative-incidence
+   locator to attach before submission — claim currently qualitative, not quantified)*.
 3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
 
 **Second design mode — pan-NR4A (a distinct molecule, not a contingency):** reversing CD8⁺ T-cell
@@ -187,14 +241,33 @@ triage priors. All parsing/mapping/classification logic is in pure, unit-tested 
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
 demonstrated efficacy**. The structure is an AF2 model (NR4A3 is uncrystallized) — the MD addresses
-exactly the single-snapshot limitation. The headline druggability **0.931** is from the converged **30 ns
-biased (metadynamics)** run (the 5 ns validation gave 0.751); the metadynamics samples are biased toward
-opening, so per-frame druggability is a structural-feasibility readout, with the free-energy cost of
-reaching a druggable state taken from F(Rg) (§2.2, Gate 3). The registered handle-facing check is now **complete and CONFIRMS** the
-handles stay pocket-facing in the druggable frames (mean 5.0/7; §2.2) — with the caveat that two of the
-seven (T407, R412) mostly point outward, so the demonstrated selective-engagement set is five handles,
-not seven. fpocket druggability is a geometric screen, not affinity. Selectivity handles are a
-specification (now with a measured pocket-facing fraction), not a demonstrated binding margin.
+exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
+made explicit rather than buried (full adversarial review:
+[`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md)):
+
+1. **The 0.931 is a biased-ensemble, uncalibrated structural readout.** It is fpocket on a bias-driven,
+   maximally-expanded MD frame, and the metadynamics CV is the pocket's own radius of gyration — the
+   protocol inflates the cavity dimension the score rewards. Its raw magnitude is **not** comparable to the
+   *static* drug-bound crystal sites (0.53–0.68), and it is not yet calibrated against an undruggable
+   negative control run through the same protocol (the recommended strengthening control). fpocket
+   druggability is in any case a geometric screen, not affinity.
+2. **No separate opened free-energy basin.** F(Rg) is monotonic (one closed basin, rising wall); the
+   druggable conformations are reached by *basin-internal breathing*, not a two-state cryptic opening, so
+   the pre-registered Gate 1 ("minimum or shoulder, not just biased excursions") is met only in this
+   weaker sense. "Opened state" is shorthand for these breathing sub-states, not a distinct metastable
+   conformation.
+3. **Gate 3 energetics are provisional.** The ~0.76 kcal/mol cost to a druggable conformation and the
+   ~38 kcal/mol to the open edge are read off the *same* incompletely-converged biased F(Rg); the
+   independent metastability test (unbiased release run) is in progress, so the accessibility claim is
+   "thermally plausible," not closed.
+4. **Selectivity handles are a specification with an asymmetric window.** The registered handle-facing
+   check confirms the handles stay pocket-facing in the druggable frames (mean 5.0/7; T407/R412 splay out,
+   so five engageable). But the engageable *divergent* set is **5 vs NR4A1 and only 4 vs NR4A2** (I531 is
+   conserved with NR4A2), so NR4A2 selectivity is the harder, narrower case — and these are a specification,
+   not a demonstrated binding margin.
+5. **Binding selectivity ≠ degradation selectivity.** The §2.4 matrix is a necessary-not-sufficient
+   filter; degradation selectivity is set by the per-paralogue ternary complex (the planned gating step).
+
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
 selectivity claim needs endpoint free energy (MM-GBSA with per-residue decomposition, selectivity FEP on
 the leads), and even then FEP on a cryptic/induced-fit pocket is sampling-limited. The selectivity matrix
@@ -206,10 +279,17 @@ is **"computationally designed for, and predicted to have, the intended selectiv
 
 ## 6. Falsification (pre-registered)
 Every gate has a fixed pass/fail set *before* the production numbers
-([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)); a
-pre-registration deviation (Gate 0 metric) is disclosed in that file's deviation log. The route is
-abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened state is not druggable,
-not energetically accessible, or no selective drug-like binder can be designed.
+([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)). Two
+gate outcomes deviate from the literal pre-registration and are **disclosed, not silently swapped**, in
+that file's deviation log: (i) the **Gate 0** metric (max → orthosteric/ligand-site, D\*=0.53 — a *real*
+drug-bound bar, not a laxer one); and (ii) **Gate 1**, which asked for a free-energy *minimum or shoulder*
+at an opened Rg "not just biased excursions" — F(Rg) is instead monotonic, so Gate 1 is reported as met
+only in the weaker *basin-breathing* sense (no separate opened basin), with the metastability question
+deferred to the in-progress unbiased release run rather than scored as an unqualified pass. We explicitly
+do **not** claim "Gates 0–3 all pass" without these qualifications. The route is abandoned (weight shifting
+to ASO/immuno backups in the roadmap) if the opened conformations are not druggable, not energetically
+accessible (the release run collapses them as bias-induced strain), or no selective drug-like binder can
+be designed.
 
 ## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear
