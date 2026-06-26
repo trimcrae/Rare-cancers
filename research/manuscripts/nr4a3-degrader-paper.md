@@ -30,13 +30,20 @@ conformations reach fpocket druggability **0.931** on the converged 30 ns run (t
 0.751) — above every experimentally drug-bound NR pocket in our panel — the first pocket-dynamics
 evidence for NR4A3, paralleling the experimentally demonstrated dynamic pocket of Nurr1 (de Vera 2019)
 and an MD-revealed cryptic pocket in Nur77. (3) We map 7
-NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles**, enabling a tunable selectivity
-profile, and prime a degrader/E3 ternary-complex design on the opened pocket. The work is governed by a
-**pre-registered falsification scheme** (calibrated thresholds fixed before the production results).
-The *same selective* agent — binding the NR4A3 LBD shared by the EMC fusion and over-expressed wild-type
-NR4A3 — addresses **EMC, acinic cell carcinoma, and the broader NR4A3-rearranged sarcoma spectrum**;
-pan-NR4A uses (reversing T-cell exhaustion, which needs all three NR4As degraded) require the *opposite*
-selectivity and are noted only as contingency, not motivation. The set is bounded by NR4A3's
+NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles** (5 of which stay pocket-facing
+in the opened, druggable ensemble — a measured, not assumed, property), enabling a tunable selectivity
+profile. (4) Treating the opened pocket as a *programmable* design axis, we run the **same cryptic-pocket
+metadynamics on NR4A1 and NR4A2** to build **state-matched opened-pocket ensembles for all three
+paralogues**, and dock one candidate library into each — yielding a per-candidate **selectivity
+fingerprint across the NR4A family** (tunable from NR4A3-selective to pan-NR4A) and removing the
+opened-target-vs-static-off-target bias that confounds naive selectivity docking. We prime a degrader/E3
+ternary-complex design on the opened pocket. The work is governed by a **pre-registered falsification
+scheme** (calibrated thresholds fixed before the production results). The NR4A3-selective agent — binding
+the NR4A3 LBD shared by the EMC fusion and over-expressed wild-type NR4A3 — is the lead, addressing
+**EMC, acinic cell carcinoma, and the broader NR4A3-rearranged sarcoma spectrum**; a deliberately
+**pan-NR4A** agent is a distinct second design mode for *ex-vivo* immuno-oncology (reversing T-cell
+exhaustion, which needs all three NR4As degraded; Chen 2019), while the AML-causing NR4A1+NR4A3
+combination is an explicit **anti-target** the matrix is used to design *away* from. The set is bounded by NR4A3's
 tumour-suppressor roles elsewhere (AML, HCC). EMC is the entry point, not the endpoint.
 
 ## 1. Background and rationale
@@ -105,39 +112,57 @@ This is the design specification that lets the *same* program be tuned NR4A3-sel
 sarcomas, sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately broad (for
 immuno-oncology) — §3.
 
-### 2.4 Degrader / warhead / ternary design (built — the next computational step)
-With the pocket validated as druggable and accessible, the next step is a **selective warhead** against
-the *opened* conformer. That pipeline is **built and ready** (`nr4a3_warhead.py` + `gpu-warhead-aws.yml`):
-it extracts the most-druggable opened conformer from the trajectory, docks candidates into NR4A3-opened
-**and** the aligned NR4A1/NR4A2 pockets, and ranks by a selectivity margin + engagement of the 7 handles
-(§2.3). A de-novo structure-based generative layer (DiffSBDD/Pocket2Mol) is primed as an optional module.
-Once a warhead SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`, AF3-class;
-runs a CRBN+lenalidomide positive control now) scores degradable-lysine geometry. **No molecule is
-synthesized; this is design prep.** Exact run instructions + program state for resuming from a fresh
-session: [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
+### 2.4 Warhead screen + the family-wide selectivity matrix (in progress)
+With the pocket validated as druggable and accessible, we screen a **selective warhead** against the
+*opened* conformer (`nr4a3_warhead.py` + `gpu-warhead-aws.yml`): it extracts the most-druggable opened
+conformer (frame 300, fpocket 0.931), docks a real ChEMBL NR4A library into NR4A3-opened **and** the
+aligned NR4A1/NR4A2 pockets, and ranks by a selectivity margin + engagement of the **5 pocket-facing**
+handles (§2.3). A first screen returns NR4A3-favoured chemotypes (e.g. an NR4A3-active scaffold,
+ΔdG ≈ +1.7 kcal/mol vs the paralogues); these docking margins are **triage priors, not affinities**.
 
-## 3. Indication landscape — a *selective* degrader's market (EMC is the entry point, not the endpoint)
+**The selectivity matrix.** A central methodological point: docking the *opened* NR4A3 pocket against
+*static* NR4A1/2 models biases toward apparent selectivity, because — by our own argument (de Vera 2019;
+the Nur77 cryptic pocket) — the paralogue pockets are likely cryptic too. We therefore run the **same
+metadynamics on NR4A1 and NR4A2** (one pipeline; paralogue CV/LBD mapped to NR4A3 by BLOSUM62 alignment)
+to obtain **state-matched opened-pocket ensembles** for all three, and dock one library into each. Each
+candidate then carries a **selectivity fingerprint** across the family, partitioning the library into
+NR4A3-selective (EMC/AciCC), pan-NR4A (ex-vivo immuno), and the AML-associated NR4A1+NR4A3 **anti-target**
+cells (§3). This makes the divergent-handle map a *demonstrated, tunable* design axis rather than an
+assertion. A de-novo structure-based generative layer (DiffSBDD/Pocket2Mol), conditioned on the divergent
+handles (selective) or the conserved residues (pan), is primed to populate empty cells. **Docking
+nominates; quantitative selectivity requires endpoint free energy** — MM-GBSA with per-residue
+decomposition, and selectivity FEP on the leads — which the state-matched ensembles enable. Once a warhead
+SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`) scores degradable-lysine
+geometry per paralogue (degradation selectivity ≠ warhead-binding selectivity). **No molecule is
+synthesized; this is design prep.** Run instructions + program state:
+[`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
+
+## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
-The EMC drug **must spare NR4A1/2** (their loss is toxic), so the relevant indications are those that
-want NR4A3 *down* with NR4A1/2 *spared* — and they are coherent because the warhead binds the NR4A3 LBD
-shared by the EMC fusion and by over-expressed wild-type NR4A3.
+The family-wide ensembles (§2.4) let a degrader be designed for a chosen NR4A *combination*. A cell of
+that matrix is a real application only where the disease wants those paralogue(s) **degraded** (direction
+matters: degrading neuroprotective Nurr1/NR4A2 in Parkinson's would be the *wrong* direction, so most
+single-paralogue cells are not degrader indications) — and some combinations are actively harmful. So the
+matrix has three kinds of cell:
 
-**Lead indications (NR4A3-selective — the same molecule):**
+**Lead — NR4A3-selective (the validated path):**
 1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
    enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB). NR4A3 is the diagnostic driver;
-   a selective degrader removes it directly. **More common than EMC**, materially enlarging the market for
-   the same selective agent.
+   a selective degrader removes it directly. **More common than EMC**, materially enlarging the market.
 3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
 
-**Contingency only (NOT motivation for the selective drug):** reversing CD8⁺ T-cell exhaustion is a
-large opportunity (NR4A-deficient CAR-T cells control solid tumours better; Chen, *Nature* 2019) **but
-requires degrading all three NR4As** (triple-knockout is needed) — the *opposite* of EMC's selectivity.
-It would only apply if our agent proved non-selective (a pan-NR4A degrader); recorded as optionality.
+**Second design mode — pan-NR4A (a distinct molecule, not a contingency):** reversing CD8⁺ T-cell
+exhaustion (NR4A-deficient CAR-T cells control solid tumours better; Chen, *Nature* 2019) **requires
+degrading all three NR4As**. This is the *opposite* selectivity profile, deliberately designed for from
+the conserved pocket residues, and scoped to **ex-vivo / transient** use (CAR-T manufacturing) so the
+systemic-toxicity bound below does not apply. The same matrix that yields the selective lead yields this.
 
-**Hard contraindication:** NR4A1/NR4A3 are myeloid **tumour suppressors** — combined loss causes AML
-(Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/lymphoma (Safe & Karki 2021).
-This both bounds the indication set and is *why* NR4A1-sparing selectivity (§2.3) is mandatory.
+**Anti-target — NR4A1+NR4A3 (design *away* from):** NR4A1/NR4A3 are myeloid **tumour suppressors** —
+combined loss causes AML (Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/
+lymphoma (Safe & Karki 2021). This cell is a liability, not an indication; the matrix is explicitly used
+to *avoid* it (and is *why* NR4A1-sparing selectivity (§2.3) is mandatory for the systemic lead). Showing
+the method can design **into** NR4A3-only and **away from** NR4A1+NR4A3 is itself a safety-design result.
 
 ## 4. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
@@ -146,7 +171,11 @@ Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (G
 fail-loud pre-flight guards ([`../modalities/metad-methods-appendix.md`](../modalities/metad-methods-appendix.md)).
 Calibration: NR-LBD panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)).
 Falsification: pre-registered gates ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)).
-Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2.
+Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Family-wide ensembles:** the *same*
+metadynamics pipeline is run on NR4A1 (P22736) and NR4A2 (P43354) — one target-agnostic script whose
+paralogue LBD trim + Pocket-5 CV residues are mapped to NR4A3 by the same BLOSUM62 alignment, with
+fail-loud guards + an audit log — to produce state-matched opened-pocket ensembles for the selectivity
+matrix (§2.4).
 
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
@@ -159,6 +188,14 @@ handles stay pocket-facing in the druggable frames (mean 5.0/7; §2.2) — with 
 seven (T407, R412) mostly point outward, so the demonstrated selective-engagement set is five handles,
 not seven. fpocket druggability is a geometric screen, not affinity. Selectivity handles are a
 specification (now with a measured pocket-facing fraction), not a demonstrated binding margin.
+**Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
+selectivity claim needs endpoint free energy (MM-GBSA with per-residue decomposition, selectivity FEP on
+the leads), and even then FEP on a cryptic/induced-fit pocket is sampling-limited. The selectivity matrix
+(§2.4) is only credible because the paralogues are treated **state-matched** (same metadynamics), not
+opened-target-vs-static-off-target; until the NR4A1/NR4A2 runs complete, the first warhead margins use
+static paralogue pockets and are upper bounds on selectivity. With no wet lab, the strongest honest claim
+is **"computationally designed for, and predicted to have, the intended selectivity profile,"** not
+"selective." Matrix cells are gated by degradation *direction* and bounded by the AML anti-target (§3).
 
 ## 6. Falsification (pre-registered)
 Every gate has a fixed pass/fail set *before* the production numbers

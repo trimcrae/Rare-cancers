@@ -30,6 +30,26 @@ paper.)
 3. A degrader/E3 ternary design pipeline primed on that pocket.
 *This is an in-silico design + feasibility study; no molecule is synthesized.*
 
+## Scope evolution (2026-06-26, trimcrae): a programmable family-wide selectivity matrix
+**Decision.** Run the *same* cryptic-pocket metadynamics on **NR4A1 and NR4A2** (one target-agnostic
+pipeline; paralogue CV/LBD mapped to NR4A3 by BLOSUM62 alignment) to build **state-matched opened-pocket
+ensembles for all three paralogues**, then dock one library into each → a per-candidate **selectivity
+fingerprint** across the family. Rationale (user): "we could make a whole matrix of drug candidates
+attacking any combination of NR4A versions… the paper could get even more applications for not much more
+work." Two reasons this strengthens the paper rather than just enlarging it:
+- **Rigor:** docking opened-NR4A3 vs *static* NR4A1/2 biases toward false selectivity (the paralogue
+  pockets are likely cryptic too — de Vera 2019; Nur77 MD). State-matched ensembles remove that confound.
+  This is the answer to the reviewer question "how do you know it won't bind the paralogue without MD on it?"
+- **Reframe (not just scope):** the paper becomes *"one cryptic-pocket method → programmable NR4A-family
+  selectivity,"* turning the divergent-handle map (§2.3) into a *demonstrated, tunable* design axis.
+**Honest bound (keeps the prior decision's safety logic):** the *binder* matrix is cheap, but the
+*application* matrix is gated by degradation **direction** (degrading neuroprotective Nurr1/NR4A2 in PD is
+wrong-direction) and bounded by the **NR4A1+NR4A3 = AML anti-target** (Mullican 2007). So pan-NR4A is a
+deliberate *second design mode* (ex-vivo/transient immuno), not blanket new indications — the "Contingency
+only" framing below is upgraded to "second design mode," but its safety bound is unchanged. Docking remains
+triage; quantitative selectivity needs MM-GBSA/FEP on the state-matched ensembles. Executed: paper §2.4/§3/§5
+rewritten; `gpu-metad-aws.yml` parameterized; NR4A1 (run 28256669839) + NR4A2 (run 28256671172) metad launched.
+
 ## Indication stack (CORRECTED 2026-06-25 — the EMC drug must be NR4A3-selective, so lead with
 ## indications that want NR4A3 down AND NR4A1/2 spared; sourced in `nr4a3-degrader-broader-indications.md`)
 **Lead (NR4A3-selective — the same molecule):**

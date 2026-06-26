@@ -6,13 +6,19 @@ pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.m
 anything. Last updated 2026-06-26.
 
 ## TL;DR
-The in-silico **druggability case is complete and positive** — Gates 0–3 pass, **including the registered
-Gate-2 handle-facing sub-check, CONFIRMED 2026-06-26** (run 28249776934: in the druggable frames a mean of
-**5.0/7** selectivity handles are pocket-facing; the engageable set is **five — L406, T410, I484, I531,
-L534**, while **T407 and R412 mostly splay outward**). The **next computational step is the
-selective-warhead screen** (`gpu-warhead-aws.yml`), **built and idle**. The screen now scores
-handle contacts over the **five engageable handles** (`ENGAGEABLE_HANDLES` = L406, T410, I484, I531, L534;
-T407/R412 excluded as non-pocket-facing, updated 2026-06-26). Nothing is running; no GPU is active.
+Druggability case complete (Gates 0–3 pass, incl. the Gate-2 handle-facing sub-check, **CONFIRMED**
+2026-06-26, run 28249776934: mean **5.0/7** handles pocket-facing; engageable set **five — L406, T410,
+I484, I531, L534**; T407/R412 splay out). The **warhead screen ran** (run 28252182123): NR4A3-favoured
+chemotypes, top margin ~+1.7 kcal/mol (e.g. CHEMBL1873475), 4/5 engageable handles — but these margins are
+**confounded triage** (opened NR4A3 vs *static* paralogues; see below).
+
+**STRATEGY (2026-06-26, user-directed): build a family-wide selectivity matrix.** Run the *same* 30 ns
+metad on **NR4A1 + NR4A2** → state-matched opened-pocket ensembles for all three → dock one library into
+each → per-candidate **selectivity fingerprint** (NR4A3-only / pan-NR4A / anti-target NR4A1+NR4A3). This
+is simultaneously the rigor fix (kills the opened-vs-static confound) and the scope expansion (programmable
+selectivity). **IN FLIGHT now:** `gpu-metad-aws.yml target=NR4A1` (run **28256669839**) and `target=NR4A2`
+(run **28256671172**), 30 ns each, ml.g5.xlarge (~$18–23 total). Verify completion via S3
+(`nr4a1-metad` / `nr4a2-metad`), not GitHub status (6 h-cap wrapper issue applies).
 
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
@@ -27,9 +33,11 @@ T407/R412 excluded as non-pocket-facing, updated 2026-06-26). Nothing is running
 Full reconciliation + gate scoring + the disclosed Gate-0 deviation:
 [`nr4a3-druggability-reconciliation.md`](./nr4a3-druggability-reconciliation.md).
 
-**Indications (the degrader must be NR4A3-SELECTIVE):** lead = EMC + acinic cell carcinoma (AciCC,
-NR4A3-overexpression-driven) + other NR4A3-fusion sarcomas. Immuno-oncology needs *pan*-NR4A (triple
-degradation) → contingency only, NOT motivation. AML/HCC contraindication. Detail:
+**Indications = a programmable matrix (see paper §3):** **lead** = NR4A3-selective → EMC + AciCC
+(NR4A3-overexpression-driven) + other NR4A3-fusion sarcomas. **Second design mode** = *pan*-NR4A (triple
+degradation) for ex-vivo/transient immuno-oncology (T-cell exhaustion; Chen 2019) — a distinct molecule,
+not a contingency. **Anti-target** = NR4A1+NR4A3 (combined loss → AML; design *away* from). HCC/breast
+also tumour-suppressive. Detail:
 [`../manuscripts/nr4a3-degrader-broader-indications.md`](../manuscripts/nr4a3-degrader-broader-indications.md).
 
 ## STEP 0 — handle-facing confirmation — ✅ DONE (CONFIRMED 2026-06-26, run 28249776934)
@@ -82,22 +90,39 @@ NR4A3-selective), and **handle-contact count**. Output → `s3://<bucket>/nr4a3-
 binds NR4A3-opened well, has a positive selectivity margin vs both paralogues, and contacts several of
 the 7 handles. Remember: docking = screening prior, NOT affinity; this nominates chemotypes, not a lead.
 
-**After the screen:**
-1. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` is a primed stub. Wire a
-   structure-based generative model (DiffSBDD / Pocket2Mol / TargetDiff) conditioned on the opened
-   conformer + GPU, set `DENOVO_MODEL`, to generate novel selective scaffolds (the screen only docks
-   known matter).
-2. **Ternary complex** — once a warhead SMILES exists, run the NR4A3–PROTAC–E3 ternary model
-   (`nr4a3_ternary.py` / `gpu-ternary-aws.yml`) to score degradable-lysine geometry.
-3. **Handle-facing confirmation** — now pulled forward to **Step 0 above** (run it *before* the warhead
-   screen, since the screen's handle-contact score depends on it).
+**Warhead screen — DONE (run 28252182123, 2026-06-26).** Top NR4A3-favoured: CHEMBL1873475
+(dG_NR4A3 −8.34, margin +1.7, 4/5 handles), amodiaquine (−7.63, +1.53). **Caveat:** a first run silently
+voided selectivity (paralogue docks failed on a residue-renumbering bug — the opened conformer is
+renumbered 1..254, not the AF2 406..534); fixed by passing the opened conformer's actual resSeqs (`box_res`)
+into `map_pocket_to_paralogue`, plus fail-loud guards (`selectivity_evaluated`, `paralogue_pocket_residues_mapped`).
+These margins are still **opened-NR4A3-vs-STATIC-paralogue = confounded upper bounds** on selectivity —
+the family metad (in flight) is the fix.
+
+**FAMILY-WIDE MATRIX — build steps once `nr4a1-metad` + `nr4a2-metad` land in S3:**
+1. **State-matched warhead matrix** — extend `nr4a3_warhead.py` to dock the library into each paralogue's
+   OWN opened conformer (extracted from `nr4a1-metad`/`nr4a2-metad` like NR4A3's), not the static AF model.
+   Output a per-candidate selectivity *fingerprint* across the three → partition into NR4A3-only / pan /
+   NR4A1+NR4A3 anti-target cells. Also add a **conserved-residue contact score** + pan ranking, and **dedup**
+   the candidate list (CHEMBL682 duplicated in run 28252182123).
+2. **Endpoint free energy (the defensible margin)** — MM-GBSA + per-residue decomposition on the top cell
+   leads in all three opened ensembles; selectivity FEP on the lead 1–3. Docking stays triage only.
+3. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` stub: wire DiffSBDD/Pocket2Mol,
+   two campaigns (divergent-handle-conditioned = selective; conserved-conditioned = pan) to fill empty cells.
+4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
+   for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
+5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **metad is now multi-target:** `gpu-metad-aws.yml` takes `target=NR4A3|NR4A1|NR4A2` (+ optional
+  `output_prefix`, default `<target>-metad`). Paralogue LBD trim + Pocket-5 CV residues are mapped to the
+  NR4A3 reference by BLOSUM62 alignment at runtime (fail-loud + audit log + the initial-Rg pre-flight).
+  One pipeline builds the whole family for the matrix.
 - **GitHub 6 h job cap:** the metad submitter uses `wait=True`, so a **>6 h** SageMaker run gets its
   GitHub *wrapper* cancelled at 6 h — but the SageMaker job **survives and finishes on AWS** (the 30 ns
   did exactly this; confirm via S3 / a follow-on analysis, not the GitHub status). **OPEN FIX:** harden
   `nr4a3_metad_sagemaker.py` to resume-chained segments (<6 h each, via the checkpoint/restart) or
-  fire-and-forget. Warhead/analysis/calibration jobs are < 6 h, so unaffected.
+  fire-and-forget. Warhead/analysis/calibration jobs are < 6 h, so unaffected. **The NR4A1/NR4A2 runs
+  in flight will hit this** — confirm via S3 `nr4a1-metad`/`nr4a2-metad`, not GitHub.
 - **Stopping GPU:** cancelling a GitHub run does NOT stop the SageMaker job. Use **`sagemaker-stop-aws.yml`**
   (`job_prefix=<base-name>`) which calls `StopProcessingJob`.
 - **S3 layout (`s3://<default-bucket>/...`):** `nr4a3-metad` = 30 ns outputs (trajectory, `fes.dat`,
