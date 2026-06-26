@@ -10,10 +10,9 @@ The in-silico **druggability case is complete and positive** — Gates 0–3 pas
 Gate-2 handle-facing sub-check, CONFIRMED 2026-06-26** (run 28249776934: in the druggable frames a mean of
 **5.0/7** selectivity handles are pocket-facing; the engageable set is **five — L406, T410, I484, I531,
 L534**, while **T407 and R412 mostly splay outward**). The **next computational step is the
-selective-warhead screen** (`gpu-warhead-aws.yml`), **built and idle**. NOTE for that screen: it currently
-scores handle contacts over all 7 `HANDLES`; consider restricting/weighting to the five engageable handles
-(T407/R412 rarely face the pocket, so contacts there are low-value for selectivity). Nothing is running;
-no GPU is active.
+selective-warhead screen** (`gpu-warhead-aws.yml`), **built and idle**. The screen now scores
+handle contacts over the **five engageable handles** (`ENGAGEABLE_HANDLES` = L406, T410, I484, I531, L534;
+T407/R412 excluded as non-pocket-facing, updated 2026-06-26). Nothing is running; no GPU is active.
 
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |

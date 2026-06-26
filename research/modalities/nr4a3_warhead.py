@@ -22,7 +22,9 @@ Pipeline (mounts the 30 ns metad outputs from S3 at INPUT_DIR):
                                 model + GPU are present, mirroring the repo's "pipeline primed" pattern.
  4. dock + score              — smina into NR4A3-opened / NR4A1 / NR4A2; per candidate:
                                   dG_NR4A3, selectivity margin = min(dG_NR4A1,dG_NR4A2) - dG_NR4A3
-                                  (more positive = more NR4A3-selective), and handle-contact count.
+                                  (more positive = more NR4A3-selective), and handle-contact count over
+                                  the 5 pocket-FACING handles (the engageable subset of the 7 divergent
+                                  residues; T407/R412 splay outward per handle-facing run 28249776934).
 
 Honest framing: docking scores are screening priors, not affinities; this nominates selective
 chemotypes against a validated design pocket — it is not a wet-validated lead. Output: nr4a3-warhead.json.
@@ -40,6 +42,11 @@ OUT = os.environ.get("OUTPUT_DIR", HERE)
 LBD_FIRST = 373
 POCKET_RESIDUES = list(range(406, 535))     # orthosteric Pocket-5 span (NR4A3 numbering)
 HANDLES = [406, 407, 410, 412, 484, 531, 534]   # the 7 NR4A3-vs-paralogue divergent residues
+# Of those 7, only these 5 stay pocket-FACING in the opened druggable frames (handle-facing run
+# 28249776934, 2026-06-26: T407 faced in 0.0 and R412 0.25 of druggable frames). A warhead can only
+# realistically engage the pocket-facing ones, so the selectivity handle-contact score below counts
+# only this engageable subset; the full divergent set is still reported for provenance.
+ENGAGEABLE_HANDLES = [406, 410, 484, 531, 534]
 PARALOGUES = {"NR4A1": "P22736", "NR4A2": "P43354"}
 N_FPOCKET_FRAMES = 25                        # frames sampled to find the best opened conformer
 _AA = {"ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU", "LYS", "MET",
@@ -242,9 +249,12 @@ def generate_denovo(receptor_pdb, center):
 def main():
     res = {"_note": "Selective NR4A3 warhead screen against the MD-OPENED pocket (30 ns metad, fpocket "
                     "~0.93). Docks candidates into NR4A3-opened + NR4A1/NR4A2 (aligned pockets) and "
-                    "scores selectivity margin + engagement of the 7 divergent handle residues. Scores "
-                    "are screening priors, NOT affinities; not a wet-validated lead.",
-           "handles": HANDLES, "pocket_residues": [POCKET_RESIDUES[0], POCKET_RESIDUES[-1]]}
+                    "scores selectivity margin + handle engagement. handle_contacts counts only the 5 "
+                    "pocket-FACING handles (handle-facing run 28249776934; T407/R412 splay outward, so "
+                    "are excluded as unengageable). Scores are screening priors, NOT affinities; not a "
+                    "wet-validated lead.",
+           "handles_divergent": HANDLES, "handles_engageable": ENGAGEABLE_HANDLES,
+           "pocket_residues": [POCKET_RESIDUES[0], POCKET_RESIDUES[-1]]}
     os.makedirs(OUT, exist_ok=True)
 
     # 1) opened conformer (receptor)
@@ -261,7 +271,8 @@ def main():
     import residue_map as rm
     pos, label = rm.resolve_positions(resseqs, POCKET_RESIDUES, LBD_FIRST)
     box_res = [resseqs[i] for i in pos]
-    handle_res = [resseqs[i] for i, r in zip(pos, POCKET_RESIDUES) if r in HANDLES] if box_res else HANDLES
+    handle_res = ([resseqs[i] for i, r in zip(pos, POCKET_RESIDUES) if r in ENGAGEABLE_HANDLES]
+                  if box_res else ENGAGEABLE_HANDLES)
     center3, n3 = pocket_box(rec3, box_res)
     res["numbering"] = label
     res["box_center_nr4a3"] = [round(x, 2) for x in center3]
