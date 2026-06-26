@@ -181,11 +181,13 @@ The bottleneck is **not** backbone-prediction accuracy:
 - de Vera IMS, Munoz-Tello P, Zheng J, Dharmarajan V, Marciano DP, Matta-Camacho E, Giri PK, Shang J,
   Hughes TS, Rance M, Griffin PR, Kojetin DJ. *Defining a Canonical Ligand-Binding Pocket in the Orphan
   Nuclear Receptor Nurr1.* **Structure** 27(1):66–77.e5 (2019). PubMed 30416039.
-- *In Silico Adoption of an Orphan Nuclear Receptor NR4A1* (PMC4535767) — MD-revealed cryptic druggable
-  pocket in the Nur77/NR4A1 LBD. *[journal/year locator to confirm before submission].*
+- Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* **PLoS ONE** 10(8):e0135246
+  (2015). PMC4535767; doi 10.1371/journal.pone.0135246. (MD-revealed cryptic druggable pocket in
+  Nur77/NR4A1; verified 2026-06-26.)
 - Munoz-Tello P, et al. *Assessment of NR4A Ligands that Directly Bind and Modulate the Orphan Nuclear
-  Receptor Nurr1.* (PMC8006468; amodiaquine binding by NMR; PGA1/5,6-dihydroxyindole co-crystals
-  5Y41/5YD6/6DDA). *[journal/year locator to confirm before submission].*
+  Receptor Nurr1.* **J Med Chem** (2020). PMC8006468; doi 10.1021/acs.jmedchem.0c00894. (Amodiaquine
+  binding by NMR; PGA1/5,6-dihydroxyindole co-crystals 5Y41/5YD6/6DDA; journal/year/DOI verified
+  2026-06-26 — volume/pages still to add from the primary record.)
 - Nur77/NR4A1 ligand co-crystals: PDB 4JGV (THPN), 6KZ5 (cytosporone B) — surface pockets. *[primary
   citations to attach before submission].*
 - PPARγ control: PDB 2PRG (Nolte RT et al., PPARγ LBD + rosiglitazone, **Nature** 395:137, 1998).

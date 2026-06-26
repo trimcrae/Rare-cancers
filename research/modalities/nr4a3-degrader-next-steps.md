@@ -156,4 +156,7 @@ the family metad (in flight) is the fix.
 - [x] Fix `nr4a3_md_release.py` startup crash (AF-fetch regression) — DONE; pending a GPU validation run
       for the orthogonal metastability confirmation (optional, not a blocker).
 - [ ] (optional) Converged longer metad to put a precise number on the full free-energy profile.
-- [ ] Verify all "[…to confirm]" reference locators before manuscript submission (medical integrity).
+- [x] Verify "[…to confirm]" reference locators — DONE 2026-06-26 via `verify-refs.yml` §7 (Crossref +
+      Europe PMC): resolved PMC4535767 (Lanig, PLoS ONE 2015), Munoz-Tello (J Med Chem 2020), and
+      corrected the NR4A3–MYB paper to Lee et al. 2020 (Cancers), not Haller. DOIs added to paper +
+      reconciliation + broader-indications. Remaining: a few volume/page numbers from the primary record.

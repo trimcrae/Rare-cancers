@@ -30,7 +30,7 @@ so one selective degrader covers all three.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands — the key second indication.** AciCC is driven
    by **NR4A3 over-expression via enhancer hijacking** — a recurrent t(4;9)(q13;q31) translocates SCPP
    (e.g. *HTN3*) secretory-gland enhancers upstream of *NR4A3*, switching it on as the oncogenic driver
-   (Haller et al., *Nat Commun* 2019); NR4A3 then cooperates with MYB (Haller et al. 2020). NR4A3 is the
+   (Haller et al., *Nat Commun* 2019); NR4A3 then cooperates with MYB (Lee et al. 2020, *Cancers* 12:2433). NR4A3 is the
    defining diagnostic marker and the driver. A **selective** degrader (remove over-expressed NR4A3,
    spare NR4A1/2) applies directly, and AciCC is **substantially more common than EMC** (a leading
    salivary-gland carcinoma, prominent in younger patients) — materially enlarging the addressable
@@ -90,8 +90,9 @@ systemic indication set and reinforces the selectivity requirement for the lead.
 ## References (verified against primary sources)
 - Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
   carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107 / PubMed 30664630.
-- Haller F, et al. *Oncogenic orphan nuclear receptor NR4A3 interacts and cooperates with MYB in acinic
-  cell carcinoma.* (PMC7565926, 2020). *(locator to confirm.)*
+- Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic
+  Cell Carcinoma.* **Cancers** 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433. (Verified
+  2026-06-26 — first author is Lee DY, not Haller; prior "Haller 2020" attribution corrected.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
   567:530–534 (2019). (triple-NR4A requirement.)
 - Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute

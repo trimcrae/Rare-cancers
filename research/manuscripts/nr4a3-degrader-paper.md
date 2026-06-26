@@ -151,7 +151,7 @@ matrix has three kinds of cell:
 **Lead — NR4A3-selective (the validated path):**
 1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
-   enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB). NR4A3 is the diagnostic driver;
+   enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB, Lee 2020). NR4A3 is the diagnostic driver;
    a selective degrader removes it directly. **More common than EMC**, materially enlarging the market.
 3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
 
@@ -211,21 +211,26 @@ pre-registration deviation (Gate 0 metric) is disclosed in that file's deviation
 abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened state is not druggable,
 not energetically accessible, or no selective drug-like binder can be designed.
 
-## References (verified; collate to journal format; run verify-refs before submission)
+## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear
   receptors.* **Nature** 423:555–560 (2003). PubMed 12774125. (PDB 1OVL.)
 - de Vera IMS, et al. *Defining a Canonical Ligand-Binding Pocket in the Orphan Nuclear Receptor Nurr1.*
-  **Structure** 27(1):66–77.e5 (2019). PubMed 30416039.
-- *In Silico Adoption of an Orphan Nuclear Receptor NR4A1* (PMC4535767). *[locator to confirm].*
+  **Structure** 27(1):66–77.e5 (2019). PubMed 30416039; doi 10.1016/j.str.2018.10.002.
+- Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* **PLoS ONE** 10:e0135246
+  (2015). PMC4535767; doi 10.1371/journal.pone.0135246. (MD-revealed cryptic druggable pocket in Nur77/NR4A1.)
 - Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
-  carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107 / PubMed 30664630.
+  carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
   (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
+- Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell
+  Carcinoma.* **Cancers** 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433. (NR4A3–MYB
+  cooperation in AciCC.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
-  567:530–534 (2019). (T-cell exhaustion — needs *triple*-NR4A; the pan-NR4A second design mode, ex-vivo.)
+  567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
+  pan-NR4A second design mode, ex-vivo.)
 - Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
-  myeloid leukemia.* **Nat Med** 13:730–735 (2007). PubMed 17515897.
+  myeloid leukemia.* **Nat Med** 13:730–735 (2007). PubMed 17515897; doi 10.1038/nm1579.
 - Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* **Mol Cancer
-  Res** 19(2):180–191 (2021). PMC7864866.
+  Res** 19(2):180–191 (2021). PMC7864866; doi 10.1158/1541-7786.mcr-20-0707.
 - Controls: PPARγ LBD + rosiglitazone (PDB 2PRG; Nolte 1998, Nature 395:137); ERα LBD + estradiol
   (PDB 1ERE; Brzozowski 1997, Nature 389:753). NR4A holo: Nur77 4JGV (THPN), 6KZ5 (cytosporone B);
   Nurr1 5Y41 (PGA1).
@@ -234,5 +239,7 @@ not energetically accessible, or no selective drug-like binder can be designed.
 - EMC clinical context + the fusion-addiction/ASO/surrogate evidence: see the EMC-program roadmap and its
   source memos.
 
-*Medical-integrity note: every citation flagged "to confirm" must be verified against the primary source
-before submission; no claim should outrun its cited evidence.*
+*Medical-integrity note: the NR4A-degrader citations above had their journal/year/DOI verified against
+Crossref + Europe PMC on 2026-06-26 (`verify-refs.yml` §7), which also corrected the NR4A3–MYB AciCC
+paper's first author (Lee, not Haller). Remaining to add from the primary record before submission: a few
+volume/page numbers (e.g. Munoz-Tello 2020). No claim should outrun its cited evidence.*
