@@ -44,16 +44,20 @@ so one selective degrader covers all three.
 level, so in both the fusion (EMC) and over-expression (AciCC) settings, *lowering NR4A3 lowers
 oncogenic activity* — degradation is the right modality, and selectivity is what makes it safe.
 
-## B. Contingency only — value IF the degrader turns out NON-selective (pan-NR4A)
-These do **not** motivate the selective EMC drug; they would only become relevant if the designed
-warhead/pocket proves non-selective and we instead obtain a **pan-NR4A** degrader. Recorded as
-optionality, explicitly *not* as justification for the selective program.
+## B. Second design mode — a *deliberately* pan-NR4A degrader (via the family-wide matrix)
+With state-matched opened-pocket ensembles for all three paralogues (the selectivity matrix; paper §2.4 +
+the positioning memo's 2026-06-26 scope note), a **pan-NR4A** degrader is no longer a mere contingency —
+it is a distinct molecule we can *deliberately* design, conditioning on the **conserved** pocket residues
+rather than the divergent handles. It is a separate product from the NR4A3-selective lead and is scoped to
+**ex-vivo / transient** use, so the systemic NR4A-loss toxicities (§C) do not apply.
 
 - **Immuno-oncology — reversing T-cell exhaustion.** NR4A1/2/3 drive CD8⁺ T-cell exhaustion, but the
   effect is **complementary across all three**: NR4A *triple* knockout is required for the full benefit
   (single/double KO underperform), and NR4A-triple-KO CAR-T cells resist exhaustion with superior
   tumour control (Chen et al., *Nature* 2019; Odagiu/CAR-T persistence work 2024). **This needs a
-  pan-NR4A degrader — the opposite of the EMC requirement — so it belongs here, not in the lead set.**
+  pan-NR4A degrader — the opposite of the EMC requirement — hence the *separate* design mode above;
+  scoped to ex-vivo CAR-T manufacturing, where transient triple-NR4A degradation avoids the systemic AML
+  risk of §C.**
   (A reciprocal BLIMP1↔NR4A3 axis in CAR-T stemness has an NR4A3-specific angle, but the dominant,
   reproducible result is triple-NR4A.)
 - **Solid tumours with oncogenic NR4A1/NR4A2.** Pro-oncogenic NR4A1/2 in pancreatic/lung/breast/
@@ -63,7 +67,8 @@ optionality, explicitly *not* as justification for the selective program.
 - **Myeloid/lymphoid malignancies (AML, some lymphomas):** NR4A1 and NR4A3 are **tumour suppressors** in
   the blood lineage — combined *Nr4a1/Nr4a3* loss causes AML and NR4A is low in blasts (Mullican et al.,
   *Nat Med* 2007). The goal there is to *raise* NR4A; a degrader is **leukemogenic**. (This is also the
-  toxicity that mandates NR4A1-sparing selectivity for systemic dosing.)
+  toxicity that mandates NR4A1-sparing selectivity for systemic dosing — the **NR4A1+NR4A3 cell is the
+  selectivity matrix's explicit anti-target**, §B.)
 - **Tumour-suppressor solid-tumour contexts:** NR4A3 is tumour-suppressive in hepatocellular carcinoma
   (low NR4A3 → poor prognosis), breast cancer and lymphoma (NR4A3 over-expression is pro-apoptotic), and
   bladder cancer (Safe & Karki 2021; HCC: IJBS 2024). A degrader is contraindicated there.
@@ -74,11 +79,13 @@ optionality, explicitly *not* as justification for the selective program.
 EMC: it targets the NR4A3 LBD shared by the EMC fusion and by wild-type NR4A3 over-expressed in acinic
 cell carcinoma of the salivary glands — a substantially more common cancer in which NR4A3, switched on by
 enhancer hijacking, is the oncogenic driver (Haller et al., Nat Commun 2019) — as well as the broader
-NR4A3-rearranged sarcoma spectrum. We explicitly do not invoke NR4A's role in T-cell exhaustion as
-motivation, because that requires pan-NR4A degradation (NR4A triple-knockout; Chen et al., Nature 2019),
-the opposite of the selectivity EMC demands; it is noted only as optional value should the agent prove
-non-selective. NR4A3 is tumour-suppressive in several other tissues (AML, HCC, breast/lymphoma), which
-bounds the indication set and reinforces the selectivity requirement."*
+NR4A3-rearranged sarcoma spectrum. The same family-wide design platform (state-matched opened-pocket
+ensembles for NR4A1/2/3) also yields a *deliberately* pan-NR4A degrader as a distinct, ex-vivo product
+for reversing T-cell exhaustion — which requires pan-NR4A degradation (NR4A triple-knockout; Chen et al.,
+Nature 2019), the opposite selectivity profile, designed from the conserved pocket — while the
+AML-associated combined NR4A1/NR4A3 loss is an explicit anti-target the matrix is used to design away from.
+NR4A3 is tumour-suppressive in several other tissues (AML, HCC, breast/lymphoma), which bounds the
+systemic indication set and reinforces the selectivity requirement for the lead."*
 
 ## References (verified against primary sources)
 - Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
