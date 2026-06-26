@@ -1,92 +1,98 @@
-> **Role:** the **indication stack** for the (reframed) NR4A3-degrader paper — see the positioning
-> decision in [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). The
-> degrader paper now *leads* with NR4A3 (target-centric); EMC is one motivating disease here, not the
-> headline.
+> **Role:** the **indication stack** for the NR4A3-degrader paper — see the positioning decision in
+> [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). The degrader paper
+> leads with NR4A3 (target-centric); EMC is the lead clinical application among several **NR4A3-selective**
+> indications.
 
-# Beyond EMC: what else could an NR4A3 (NR4A-family) degrader treat?
+# Beyond EMC: what else could a *selective* NR4A3 degrader treat?
 
 **Purpose (manuscript motivation section).** EMC is ultra-rare, which weakens the commercial case for
-*making* the molecule. But an LBD-directed NR4A3 degrader — or a deliberately broadened NR4A-family
-degrader built on the same chemistry — has substantially larger potential, *if* indication and
-selectivity are matched to NR4A biology. This section records the broader rationale, **including the
-contexts where a degrader would be harmful**, because the NR4A family is famously context-dependent and
-an honest account strengthens (not weakens) the selectivity argument.
+*making* the molecule. The degrader we design **must be NR4A3-selective** — it has to spare NR4A1 and
+NR4A2 to avoid their on-target toxicities (NR4A1/NR4A3 loss → leukaemia; NR4A1/Nurr1 loss →
+dopaminergic/neuronal liabilities). So the relevant question is **not** "where is *any* NR4A degrader
+useful" but specifically **"what else benefits from removing NR4A3 while sparing NR4A1/2."** The answer
+is what justifies the broadened framing — and it is coherent, because every lead indication below pulls
+in the *same* selectivity direction as EMC.
 
-## Framing: a degrader *reduces* NR4A activity — so it helps only where NR4A is *pathogenic*
-A degrader lowers NR4A3 protein (and, if cross-reactive, NR4A1/NR4A2). It is therapeutic only where
-*reducing* NR4A drives benefit. The NR4A subfamily has **paradoxical, tissue-specific roles**
-(reviewed in Safe et al., *Mol Cancer Res* 2021): oncogenic in some settings, tumour-suppressive in
-others. So "what else could it treat" must be answered indication-by-indication, and selectivity
-(NR4A3-only vs pan-NR4A) is a *design knob*, not just a safety filter.
+## Framing: the indication must want NR4A3 *down* AND NR4A1/2 *spared*
+A degrader lowers NR4A3 protein. It helps only where NR4A3 *specifically* is pathogenic, and it is safe
+only if NR4A1/2 are spared. NR4A biology is **paradoxical and tissue-specific** (Safe & Karki, *Mol
+Cancer Res* 2021): NR4A3 is oncogenic in a few contexts but **tumour-suppressive in many**, so the
+indication list is short and must be curated, not assumed.
 
-## Indications where *degrading* NR4A could help (beyond EMC)
+## A. Lead indications for an NR4A3-SELECTIVE degrader (coherent with EMC)
+These all want NR4A3 removed and NR4A1/2 spared — the *same* molecule we design for EMC. The warhead
+binds the NR4A3 LBD, which is present both in the EMC fusion **and** in over-expressed wild-type NR4A3,
+so one selective degrader covers all three.
 
-1. **Other NR4A3-rearranged sarcomas (direct extension).** EMC is defined by an *NR4A3* fusion; the
-   most common partner is EWSR1, with TAF15 second and rarer variants (e.g. TCF12, TFG). All converge
-   on an NR4A3-fusion transcription factor — the *same* degrader rationale applies across the EMC
-   fusion-variant spectrum. *(Exact partner list to verify against a current EMC cytogenetics review
-   before submission.)*
+1. **Extraskeletal myxoid chondrosarcoma (EMC) — lead / proof-of-concept.** EWSR1::NR4A3 (or
+   TAF15::NR4A3) fusion driver; the fusion retains a near-intact NR4A3 LBD. Clean single-driver biology.
 
-2. **Immuno-oncology — reversing T-cell exhaustion (the largest expansion).** NR4A1/NR4A2/NR4A3 are
-   **central drivers of CD8⁺ T-cell exhaustion/dysfunction** downstream of chronic NFAT signalling.
-   CAR-T cells lacking all three NR4As resist exhaustion, retain effector function, and produce
-   markedly better tumour control and survival in solid-tumour models (Chen et al., *Nature* 2019).
-   TOX/TOX2 cooperate with NR4A to impose the exhaustion program (Seo et al., *PNAS* 2019). **A
-   small-molecule NR4A degrader could therefore act as an immunotherapy adjuvant** — used during CAR-T
-   manufacture or alongside checkpoint blockade/adoptive therapy to keep anti-tumour T cells
-   functional. This applies across *common* solid tumours, dwarfing the EMC population.
-   - **Selectivity implication (opposite of EMC):** exhaustion is driven redundantly by all three
-     NR4As, so this use likely needs a **broad (pan-)NR4A** degrader — whereas EMC wants an
-     **NR4A3-selective** one. The same scaffold/chemistry, tuned for breadth vs selectivity, addresses
-     two very different markets. The selectivity-handle analysis (`nr4a-selectivity.json`) is what makes
-     deliberately dialing breadth up or down possible.
+2. **Acinic cell carcinoma (AciCC) of the salivary glands — the key second indication.** AciCC is driven
+   by **NR4A3 over-expression via enhancer hijacking** — a recurrent t(4;9)(q13;q31) translocates SCPP
+   (e.g. *HTN3*) secretory-gland enhancers upstream of *NR4A3*, switching it on as the oncogenic driver
+   (Haller et al., *Nat Commun* 2019); NR4A3 then cooperates with MYB (Haller et al. 2020). NR4A3 is the
+   defining diagnostic marker and the driver. A **selective** degrader (remove over-expressed NR4A3,
+   spare NR4A1/2) applies directly, and AciCC is **substantially more common than EMC** (a leading
+   salivary-gland carcinoma, prominent in younger patients) — materially enlarging the addressable
+   population for the *same selective drug*.
 
-3. **Solid tumours with oncogenic NR4A1/NR4A2 (if cross-reactive).** NR4A1 (and NR4A2) are
-   pro-oncogenic in several solid tumours (e.g. pancreatic, breast, lung, colorectal; Safe et al.
-   2021). A non-selective NR4A degrader could have direct anti-tumour activity there — a second reason
-   a *broad* NR4A degrader has value.
+3. **Other NR4A3-rearranged sarcomas (direct extension).** The EMC fusion-variant spectrum (EWSR1 most
+   common, TAF15 second, rarer partners) all converge on an NR4A3-fusion TF. *(Exact partner list to
+   verify against a current EMC cytogenetics review before submission.)*
 
-## Where a degrader would be HARMFUL (must state — safety boundary)
-- **Myeloid/lymphoid malignancies (AML, some lymphomas).** NR4A1 and NR4A3 are **tumour suppressors**
-  in the blood lineage: combined *Nr4a1/Nr4a3* knockout mice rapidly develop AML, and NR4A is low in
-  patient blasts (Mullican et al., *Nat Med* 2007). Here the therapeutic goal is to *raise* NR4A
-  (agonists), and a degrader would be **leukemogenic** — a hard contraindication.
-- **Tumour-suppressor solid-tumour contexts.** NR4A3 behaves as a tumour suppressor in hepatocellular
-  carcinoma (low NR4A3 → poor prognosis) and bladder cancer (NR4A3 downregulated; re-expression
-  reduces invasion) (Safe et al. 2021 and primary reports). A degrader is contraindicated there too.
+**Mechanistic aptness:** NR4A3 is constitutively active and its oncogenic output scales with protein
+level, so in both the fusion (EMC) and over-expression (AciCC) settings, *lowering NR4A3 lowers
+oncogenic activity* — degradation is the right modality, and selectivity is what makes it safe.
 
-**Why this strengthens the paper:** the leukemogenic liability of *pan*-NR4A loss is precisely why an
-**NR4A3-selective** degrader (the EMC design goal) is safer than a blunt pan-NR4A approach, and why the
-immuno-oncology use (which wants breadth) must be weighed against on-target myeloid risk and likely
-restricted to *ex vivo* CAR-T engineering rather than systemic dosing. The selectivity work is the
-fulcrum for both.
+## B. Contingency only — value IF the degrader turns out NON-selective (pan-NR4A)
+These do **not** motivate the selective EMC drug; they would only become relevant if the designed
+warhead/pocket proves non-selective and we instead obtain a **pan-NR4A** degrader. Recorded as
+optionality, explicitly *not* as justification for the selective program.
+
+- **Immuno-oncology — reversing T-cell exhaustion.** NR4A1/2/3 drive CD8⁺ T-cell exhaustion, but the
+  effect is **complementary across all three**: NR4A *triple* knockout is required for the full benefit
+  (single/double KO underperform), and NR4A-triple-KO CAR-T cells resist exhaustion with superior
+  tumour control (Chen et al., *Nature* 2019; Odagiu/CAR-T persistence work 2024). **This needs a
+  pan-NR4A degrader — the opposite of the EMC requirement — so it belongs here, not in the lead set.**
+  (A reciprocal BLIMP1↔NR4A3 axis in CAR-T stemness has an NR4A3-specific angle, but the dominant,
+  reproducible result is triple-NR4A.)
+- **Solid tumours with oncogenic NR4A1/NR4A2.** Pro-oncogenic NR4A1/2 in pancreatic/lung/breast/
+  colorectal (Safe & Karki 2021) — a *non-selective* degrader could help, again a pan-NR4A play.
+
+## C. Where a selective NR4A3 degrader would be HARMFUL (contraindications)
+- **Myeloid/lymphoid malignancies (AML, some lymphomas):** NR4A1 and NR4A3 are **tumour suppressors** in
+  the blood lineage — combined *Nr4a1/Nr4a3* loss causes AML and NR4A is low in blasts (Mullican et al.,
+  *Nat Med* 2007). The goal there is to *raise* NR4A; a degrader is **leukemogenic**. (This is also the
+  toxicity that mandates NR4A1-sparing selectivity for systemic dosing.)
+- **Tumour-suppressor solid-tumour contexts:** NR4A3 is tumour-suppressive in hepatocellular carcinoma
+  (low NR4A3 → poor prognosis), breast cancer and lymphoma (NR4A3 over-expression is pro-apoptotic), and
+  bladder cancer (Safe & Karki 2021; HCC: IJBS 2024). A degrader is contraindicated there.
 
 ## One-paragraph version for the manuscript
-*"Although EMC is rare, the NR4A-directed degrader chemistry developed here has broader potential.
-NR4A3 fusions define the EMC variant spectrum (EWSR1/TAF15/others), so the same agent could address
-NR4A3-rearranged sarcomas generally. More substantially, NR4A1/2/3 are central drivers of CD8⁺ T-cell
-exhaustion, and NR4A-deficient CAR-T cells show superior solid-tumour control (Chen et al., Nature
-2019); an NR4A degrader could serve as an immunotherapy adjuvant across common solid tumours. These
-broader uses, however, are bounded by NR4A's paradoxical biology: NR4A1/NR4A3 are tumour suppressors in
-the myeloid lineage (combined knockout causes AML; Mullican et al., Nat Med 2007), so a pan-NR4A
-degrader carries a leukemogenic liability. This makes the selectivity engineering central — an
-NR4A3-selective degrader for EMC and NR4A3-rearranged sarcomas, versus a deliberately broadened NR4A
-degrader for ex vivo immuno-oncology — two indications from one chemical program."*
+*"The degrader is designed to be NR4A3-selective, sparing NR4A1/2 to avoid their on-target toxicities
+(notably the leukaemia risk of combined NR4A1/NR4A3 loss). That same selective agent addresses more than
+EMC: it targets the NR4A3 LBD shared by the EMC fusion and by wild-type NR4A3 over-expressed in acinic
+cell carcinoma of the salivary glands — a substantially more common cancer in which NR4A3, switched on by
+enhancer hijacking, is the oncogenic driver (Haller et al., Nat Commun 2019) — as well as the broader
+NR4A3-rearranged sarcoma spectrum. We explicitly do not invoke NR4A's role in T-cell exhaustion as
+motivation, because that requires pan-NR4A degradation (NR4A triple-knockout; Chen et al., Nature 2019),
+the opposite of the selectivity EMC demands; it is noted only as optional value should the agent prove
+non-selective. NR4A3 is tumour-suppressive in several other tissues (AML, HCC, breast/lymphoma), which
+bounds the indication set and reinforces the selectivity requirement."*
 
 ## References (verified against primary sources)
-- Chen J, López-Moyado IF, Seo H, Lio C-WJ, Hempleman LJ, Sekiya T, Yoshimura A, Scott-Browne JP, Rao
-  A. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature** 567:530–534
-  (2019). (nature.com/articles/s41586-019-0985-x)
-- Seo H, et al. *TOX and TOX2 transcription factors cooperate with NR4A to impose CD8⁺ T cell
-  exhaustion.* **PNAS** 116:12410–12415 (2019). *(exact pages to confirm)*
+- Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
+  carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107 / PubMed 30664630.
+- Haller F, et al. *Oncogenic orphan nuclear receptor NR4A3 interacts and cooperates with MYB in acinic
+  cell carcinoma.* (PMC7565926, 2020). *(locator to confirm.)*
+- Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
+  567:530–534 (2019). (triple-NR4A requirement.)
 - Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
   myeloid leukemia.* **Nat Med** 13:730–735 (2007). PubMed 17515897.
 - Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* **Mol Cancer
-  Res** 19(2):180–191 (2021). PMC7864866. (tumour-suppressor vs oncogenic, tissue-by-tissue; HCC and
-  bladder tumour-suppressor roles)
-- EMC NR4A3 fusion-variant spectrum (EWSR1/TAF15/TCF12/TFG): *attach a current EMC molecular-pathology
-  review before submission.*
+  Res** 19(2):180–191 (2021). PMC7864866.
+- EMC NR4A3 fusion-variant spectrum (EWSR1/TAF15/…): *attach a current EMC molecular-pathology review
+  before submission.*
 
-*Medical-integrity note: claims here are sourced; locators flagged "to confirm" must be verified
-against the primary literature before they enter the submitted manuscript, and no clinical claim should
-outrun the cited evidence.*
+*Medical-integrity note: sourced claims; locators flagged "to confirm" must be verified against the
+primary literature before submission, and no clinical claim should outrun the cited evidence.*

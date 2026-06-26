@@ -30,20 +30,21 @@ paper.)
 3. A degrader/E3 ternary design pipeline primed on that pocket.
 *This is an in-silico design + feasibility study; no molecule is synthesized.*
 
-## Indication stack (motivation, ordered for impact — all sourced in `nr4a3-degrader-broader-indications.md`)
-1. **Immuno-oncology (headline impact, large market):** NR4A1/2/3 drive CD8⁺ T-cell exhaustion;
-   NR4A-deficient CAR-T cells show superior solid-tumour control (Chen et al., *Nature* 2019). A NR4A
-   degrader as an immunotherapy/CAR-T adjuvant. *(Motivation, not demonstrated here; likely wants a
-   broad/pan-NR4A profile — see selectivity knob.)*
-2. **Precision oncology — NR4A3-fusion sarcomas:** EMC (EWSR1/TAF15::NR4A3) and variants — a fusion
-   oncoprotein driver with **no targeted therapy**. The cleanest concrete application of a *selective*
-   NR4A3 degrader; EMC is the proof-of-concept/lead *example* within this.
-3. **NR4A1/NR4A2-driven solid tumours** (pancreatic, lung, breast, colorectal) if cross-reactive.
+## Indication stack (CORRECTED 2026-06-25 — the EMC drug must be NR4A3-selective, so lead with
+## indications that want NR4A3 down AND NR4A1/2 spared; sourced in `nr4a3-degrader-broader-indications.md`)
+**Lead (NR4A3-selective — the same molecule):**
+1. **EMC** (EWSR1/TAF15::NR4A3 fusion) — clean single-driver proof-of-concept.
+2. **Acinic cell carcinoma of the salivary glands** — NR4A3 *over-expression* via enhancer hijacking
+   (Haller, *Nat Commun* 2019); NR4A3 is the driver; a selective degrader applies directly and AciCC is
+   **more common than EMC** — the key second indication.
+3. **Other NR4A3-rearranged sarcomas** (EMC fusion-variant spectrum).
 
-**The spine is selectivity:** NR4A3-selective for the fusion sarcomas; deliberately broad NR4A for
-ex-vivo immuno-oncology — **two indications from one chemical program**, bounded by the **AML/myeloid
-tumour-suppressor contraindication** (NR4A1/NR4A3 loss is leukemogenic; Mullican 2007). Stating that
-boundary is part of the credibility, and it is *why* selectivity engineering is central.
+**Contingency only (NOT motivation):** immuno-oncology / T-cell exhaustion needs **pan-NR4A** degradation
+(triple-knockout; Chen *Nature* 2019) — the *opposite* selectivity to EMC; relevant only if the agent
+proves non-selective. (Earlier drafts wrongly headlined this for a *selective* drug — corrected.)
+
+**Contraindication:** NR4A1/NR4A3 are myeloid tumour suppressors (loss → AML; Mullican 2007); NR4A3 also
+tumour-suppressive in HCC/breast/lymphoma. Bounds the set and mandates NR4A1-sparing selectivity.
 
 ## What this changed downstream (EXECUTED 2026-06-25)
 - **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** created as the lead, target-centric result

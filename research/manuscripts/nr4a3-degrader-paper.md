@@ -14,10 +14,12 @@ production metadynamics is in progress; results below from the 5 ns validation a
 ## Abstract
 NR4A nuclear receptors (NR4A1/2/3) are textbook "undruggable" transcription factors: the canonical
 Nurr1/NR4A2 crystal structure shows a ligand-binding pocket occluded by bulky side chains, and NR4A3 has
-no experimental structure at all. Yet NR4A3 is a compelling degradation target — it is the driver fusion
-of extraskeletal myxoid chondrosarcoma (EMC; EWSR1/TAF15::NR4A3, which retains a near-intact NR4A3
-ligand-binding domain), and the NR4A family is a central brake on anti-tumour T-cell function. We present
-a **computation-only** program to design a **selective NR4A3 degrader**. (1) Calibrated against a
+no experimental structure at all. Yet NR4A3 is a compelling **selective** degradation target — it drives
+two cancers by *gain of NR4A3*: extraskeletal myxoid chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion,
+which retains a near-intact NR4A3 ligand-binding domain) and acinic cell carcinoma of the salivary glands
+(AciCC; NR4A3 over-expression via enhancer hijacking), and in both the goal is to remove NR4A3 while
+**sparing NR4A1/2** (whose loss is toxic, notably leukaemogenic). We present a **computation-only**
+program to design a **selective NR4A3 degrader**. (1) Calibrated against a
 nuclear-receptor panel, the NR4A3 orthosteric pocket is borderline/occluded in the static AlphaFold
 model (fpocket druggability 0.495, below the calibrated drug-bound band of 0.53–0.68), consistent with
 the family's reputation — and we show the apparent "0.80 druggable" reads reported for Nurr1 are a
@@ -29,10 +31,11 @@ dynamic pocket of Nurr1 (de Vera 2019) and an MD-revealed cryptic pocket in Nur7
 NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles**, enabling a tunable selectivity
 profile, and prime a degrader/E3 ternary-complex design on the opened pocket. The work is governed by a
 **pre-registered falsification scheme** (calibrated thresholds fixed before the production results).
-Because the pipeline is NR4A3-generic, the same chemistry — tuned NR4A3-selective or deliberately broad —
-addresses **NR4A3-fusion sarcomas (EMC the lead example)**, **immuno-oncology (reversing T-cell
-exhaustion)**, and **NR4A1/2-driven solid tumours**, bounded by the NR4A myeloid tumour-suppressor
-contraindication. EMC is the entry point, not the endpoint.
+The *same selective* agent — binding the NR4A3 LBD shared by the EMC fusion and over-expressed wild-type
+NR4A3 — addresses **EMC, acinic cell carcinoma, and the broader NR4A3-rearranged sarcoma spectrum**;
+pan-NR4A uses (reversing T-cell exhaustion, which needs all three NR4As degraded) require the *opposite*
+selectivity and are noted only as contingency, not motivation. The set is bounded by NR4A3's
+tumour-suppressor roles elsewhere (AML, HCC). EMC is the entry point, not the endpoint.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
@@ -94,21 +97,28 @@ The degrader recruits the opened LBD to an E3 ligase. The ternary-complex modell
 it completes once a warhead SMILES exists (from structure-based generative design against the opened
 pocket conformer). *No molecule is synthesized; this is design prep.*
 
-## 3. Indication landscape — why make it (EMC is the entry point, not the endpoint)
+## 3. Indication landscape — a *selective* degrader's market (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
-Ordered for impact:
-1. **Immuno-oncology (headline).** NR4A1/2/3 drive CD8⁺ T-cell exhaustion; NR4A-deficient CAR-T cells
-   show superior solid-tumour control (Chen, *Nature* 2019). A NR4A degrader as an immunotherapy/CAR-T
-   adjuvant across common solid tumours. *(Likely wants a broad NR4A profile — the selectivity knob.)*
-2. **Precision oncology — NR4A3-fusion sarcomas.** EMC (EWSR1/TAF15::NR4A3) and variants: a fusion
-   oncoprotein driver with **no targeted therapy**; the concrete application of a *selective* degrader.
-   EMC is the clean, single-driver **proof-of-concept** indication.
-3. **NR4A1/NR4A2-driven solid tumours** (pancreatic, lung, breast, colorectal), if cross-reactive.
+The EMC drug **must spare NR4A1/2** (their loss is toxic), so the relevant indications are those that
+want NR4A3 *down* with NR4A1/2 *spared* — and they are coherent because the warhead binds the NR4A3 LBD
+shared by the EMC fusion and by over-expressed wild-type NR4A3.
 
-**Hard contraindication (stated):** NR4A1/NR4A3 are myeloid **tumour suppressors** — combined loss
-causes AML (Mullican, *Nat Med* 2007); also HCC/bladder. A pan-NR4A degrader is leukemogenic, which is
-*why* selectivity engineering (§2.3) is central and the immuno-oncology use is best confined to *ex vivo*
-CAR-T engineering.
+**Lead indications (NR4A3-selective — the same molecule):**
+1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
+2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
+   enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB). NR4A3 is the diagnostic driver;
+   a selective degrader removes it directly. **More common than EMC**, materially enlarging the market for
+   the same selective agent.
+3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
+
+**Contingency only (NOT motivation for the selective drug):** reversing CD8⁺ T-cell exhaustion is a
+large opportunity (NR4A-deficient CAR-T cells control solid tumours better; Chen, *Nature* 2019) **but
+requires degrading all three NR4As** (triple-knockout is needed) — the *opposite* of EMC's selectivity.
+It would only apply if our agent proved non-selective (a pan-NR4A degrader); recorded as optionality.
+
+**Hard contraindication:** NR4A1/NR4A3 are myeloid **tumour suppressors** — combined loss causes AML
+(Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/lymphoma (Safe & Karki 2021).
+This both bounds the indication set and is *why* NR4A1-sparing selectivity (§2.3) is mandatory.
 
 ## 4. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
@@ -140,8 +150,11 @@ not energetically accessible, or no selective drug-like binder can be designed.
 - de Vera IMS, et al. *Defining a Canonical Ligand-Binding Pocket in the Orphan Nuclear Receptor Nurr1.*
   **Structure** 27(1):66–77.e5 (2019). PubMed 30416039.
 - *In Silico Adoption of an Orphan Nuclear Receptor NR4A1* (PMC4535767). *[locator to confirm].*
+- Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
+  carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107 / PubMed 30664630.
+  (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
-  567:530–534 (2019).
+  567:530–534 (2019). (T-cell exhaustion — needs *triple*-NR4A; contingency only.)
 - Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
   myeloid leukemia.* **Nat Med** 13:730–735 (2007). PubMed 17515897.
 - Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* **Mol Cancer
