@@ -1,0 +1,56 @@
+name: ASO off-target screen (junction gapmers vs human transcriptome)
+
+# Transcriptome-wide off-target screen for the fusion-junction gapmer ASOs: BLASTs each
+# committed fusion-specific gapmer's target window against human RefSeq RNA (NCBI BLAST URL
+# API) and flags near-complementary off-targets, distinguishing gap-spanning (RNase-H
+# cleavage) liabilities from wing-only (affinity) ones. Internet-only — the dev sandbox can't
+# reach NCBI, so this runs on a GitHub-hosted runner. Result JSON is pushed to the
+# `modalities-cache` branch:
+#   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/junction-aso-offtarget.json
+# CPU only; no AWS/SageMaker/GPU.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aso-offtarget
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Transcriptome-wide off-target screen (NCBI BLAST, stdlib only)
+        working-directory: research/modalities
+        run: python junction_aso_offtarget.py
+
+      - name: Publish result to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/junction-aso-offtarget.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/junction-aso-offtarget.json 2>/dev/null || true
+          git commit -m "ASO off-target screen: junction gapmers vs human transcriptome" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
