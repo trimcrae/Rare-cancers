@@ -78,10 +78,14 @@ pocket in the calibration panel** and well above D\* = 0.53; SASA of the lining 
 86.8 % of frames more open than baseline). (A 5 ns validation gave a consistent 0.751.) This is the
 **first evidence of a dynamic druggable pocket in NR4A3**, paralleling Nurr1 (de Vera 2019). Gate scoring
 ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)): **Gate 2
-(opened state druggable) PASSES** on the converged run; **Gate 3 (energetic accessibility)** — the
-free-energy cost of opening from the converged F(Rg) (`fes.dat`) — is being read out; and the
-opened-frame handle-facing check (residues 406–534, 7 handles pocket-facing, not a splayed artifact)
-remains to be confirmed.
+(opened state druggable) PASSES**. **Gate 3 (energetic accessibility) is UNRESOLVED** — the 30 ns F(Rg)
+gives an opening cost of ~38 kcal/mol (closed Rg 0.75 → open Rg 1.06), which would fail the ~5 kcal/mol
+bar, **but the profile is monotonic (no open basin) and the cost is read at the edge of the sampled CV
+range — both signatures of an under-converged run**, so this is an upper bound, not a converged cost. A
+converged estimate (longer run via checkpoint/restart; and correlating druggability with F(Rg) to find
+the lowest-cost druggable opening) is required before Gate 3 is called. *Honest status: the opened
+geometry is druggable, but whether it is thermally accessible is not yet established.* The handle-facing
+check also remains.
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))

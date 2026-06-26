@@ -135,9 +135,18 @@ This sets the working threshold **D\*** and the falsification gates fixed in
   86.8 % of frames more open than baseline and +6.1 nm² SASA — above every validated NR drug-bound site
   in the panel. Remaining check: confirm the opened frames still line residues 406–534 with the 7
   selectivity handles pocket-facing (not a splayed artifact).
-- **Gate 3 (energetic accessibility) — PENDING fes.dat readout.** The converged free-energy profile
-  F(Rg) is in `s3://…/nr4a3-metad/fes.dat`; the closed→druggable-open cost (≤ ~5 kcal/mol?) still needs
-  to be read out and scored.
+- **Gate 3 (energetic accessibility) — FAILS as scored on 30 ns, but UNRESOLVED (under-converged).**
+  The 30 ns F(Rg) gives closed basin Rg 0.753 nm → opened Rg 1.059 nm with an opening **cost ≈ 38.5
+  kcal/mol** (≈161 kJ/mol), far above the ~5 kcal/mol threshold. **However this is almost certainly an
+  over-estimate, not a converged cost:** the profile is *monotonic* (barrier == cost == 38.5 — there is
+  **no open free-energy basin**, only a rising wall), and the cost is read at Rg 1.059, i.e. **at the
+  very edge of the sampled CV range** (~1.05 nm max). Both are hallmarks of an under-converged
+  well-tempered run whose free energy at the sampling frontier is inflated. So the druggable opened
+  geometries (Gate 2, 0.931) are real but, on this run, look like **bias-induced strain rather than a
+  thermally populated cryptic state**. Treat Gate 3 as **unresolved with a ~38 kcal/mol upper bound**;
+  a converged estimate needs a much longer run (extend via checkpoint/restart) and/or correlating
+  druggability(Rg) with F(Rg) to locate the *lowest-cost* druggable opening (a partially-open state at
+  intermediate Rg may be both druggable and far cheaper than the fully-open edge).
 - *Infra note:* the 30 ns GitHub wrapper job was auto-cancelled at GitHub's 6 h job cap, but the
   SageMaker job ran to completion independently and wrote the 30 ns outputs to S3 (frames=600 confirms).
   The submitter is being hardened so long runs don't depend on that.
