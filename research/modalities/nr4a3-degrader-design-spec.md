@@ -191,6 +191,15 @@ prior, not affinity.
 carboxylic-acid counts = candidate linker-conjugation chemistry). Output `warhead-chem-profile.json` ranks
 which docked chemotypes are worth carrying into a PROTAC — the in-silico "can we make this molecule" answer,
 needing no GPU and no firmed pocket.
+- **Result (run 2026-06-26).** All 7 hits are **readily synthesizable** (SAscore 2.1–3.0; only celastrol
+  hard at 4.9). Developability ranks **chloroquine (QED 0.76) > resveratrol (0.69, 3 handles) > amodiaquine
+  (0.60, but a PAINS Mannich alert) > piperlongumine (0.78 but **0 conjugation handles**)**; the docking
+  top hit **CHEMBL1873475 is only mid-pack (QED 0.47)**, and cytosporone B / celastrol score poorly
+  (low QED; celastrol cLogP 6.7). **Key insight: the best *binder* (docking) is not the best *developable*
+  scaffold — the two priors are orthogonal**, which is exactly why both tiers are run. Caveats: these are
+  known NR4A tool/screening compounds = **starting scaffolds, not selective warheads** (the true warhead is
+  the de-novo step); alert catalogs are not exhaustive (e.g. celastrol's known covalent/promiscuous
+  character is not flagged); `warhead_promise` is a transparent triage heuristic, not affinity or selectivity.
 
 **PROTAC assembly (design, CPU + one GPU step).** Once a warhead is chosen: attach a known **E3 ligand** —
 CRBN (glutarimide, pomalidomide/lenalidomide-derived) or VHL (VH032-derived) — via a **linker** (PEG₂–PEG₆,
