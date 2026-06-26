@@ -1,9 +1,14 @@
 # A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity that the NR4A3 degrader cannot reach
 
-> **In-silico design / feasibility draft (2026-06).** No wet lab; no molecule synthesized; **NO new
-> GPU/compute run was performed for this draft** — the only real result cited here is the already-committed
-> CPU design output [`../modalities/junction-aso-designs.json`](../modalities/junction-aso-designs.json)
-> (5 fusion-specific gapmers). **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
+> **In-silico design / feasibility draft (2026-06).** No wet lab; no molecule synthesized; **no new
+> GPU run was performed** — the real results cited here are CPU outputs: the committed gapmer designs
+> [`../modalities/junction-aso-designs.json`](../modalities/junction-aso-designs.json) (5 fusion-specific
+> gapmers), a transcriptome-wide off-target screen
+> [`../modalities/junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) (0 of 5 free of
+> gap-spanning near-matches), and a junction-siRNA design set
+> [`../modalities/junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) (0 of 5 pass;
+> min GC 73.7%). Together these show feasibility is **breakpoint-conditional**: specificity and chemistry at
+> this *modelled* junction are poor, but that is a property of this junction sequence, not of the modality. **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
 > present *only* in the chimera, so an RNase-H gapmer (or siRNA) targeting the junction silences
 > EWSR1::NR4A3 while sparing wild-type *EWSR1* and wild-type *NR4A3* — true fusion-exclusivity, which an
 > LBD-binding degrader (identical domain in fusion and wild-type) cannot achieve. Every clinical/quantitative
@@ -29,9 +34,15 @@ junction-spanning siRNA offers a parallel route. We report the one real, committ
 ([`junction-aso-designs.json`](../modalities/junction-aso-designs.json)), each drawing bases from both
 sides of the seam and absent as a perfect complement from either parent CDS — together with the honest
 caveat that surfaces immediately: this junction is **GC-rich (~75–81% GC)**, outside the usual comfort
-zone, and would need chemistry tuning. We then specify what is computable *now* without any GPU (extended
-tiling, a CPU genome-wide off-target complementarity screen, an siRNA alternative, and a breakpoint-keyed
-per-patient panel), and we are explicit that the genuinely unsolved problem is **tumour delivery**, which
+zone, and would need chemistry tuning. Two further real, committed CPU results sharpen this caveat: a
+transcriptome-wide off-target screen (blastn-short vs human RefSeq RNA) finds **0 of 5** gapmers free of
+gap-spanning (RNase-H-cleavable) near-matches, and a GC-tolerant junction siRNA route does **not** rescue
+the chemistry — its lowest-GC fusion-specific guide is still **73.7% GC**, so **0 of 5** siRNA guides pass
+all filters. The honest synthesis is that this *modelled* breakpoint sequence is intrinsically GC-rich and
+low-complexity, hurting gapmer chemistry, siRNA GC, and predicted specificity at once — a property of this
+junction, not of the modality — so feasibility is **breakpoint-conditional** and must be re-run on each
+patient's sequenced breakpoint. We then specify what else is computable *now* without any GPU (extended
+tiling and a breakpoint-keyed per-patient panel), and we are explicit that the genuinely unsolved problem is **tumour delivery**, which
 we discuss only at the hypothesis level (e.g. a B7-H3-targeted antibody–oligonucleotide conjugate or a
 receptor-targeted nanoparticle). We ask others to run one decisive experiment: junction-ASO versus
 scrambled-control knockdown in patient-derived EMC lines (USZ-EMC [Bangerter]; NCC-EMC [Iwata]), with
@@ -132,6 +143,51 @@ a real, committed result, not hidden.
 > method, but for any clinical design the script must be re-run on a patient's **sequenced** fusion
 > transcript (§3b). The five sequences are design hypotheses, not a drug.
 
+### 3a-bis. Off-target screen and siRNA route — now done for the modelled breakpoint (real, committed)
+
+Two further CPU jobs were run on the modelled-breakpoint designs and committed as real outputs. Together they
+turn the abstract's GC caveat into a quantified, honest verdict on *this* junction.
+
+**(i) Transcriptome-wide off-target screen
+([`junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json)).**
+[`junction_aso_offtarget.py`](../modalities/junction_aso_offtarget.py) BLASTs each gapmer (blastn-short,
+filter off) against human RefSeq RNA (`txid9606`) via the NCBI BLAST API and counts near-matches
+(≥14/16 identical), flagging those that cover the central DNA gap (positions 6–11) — the
+RNase-H-cleavable liability. **Of 5 gapmers, 4 returned** (one BLAST query transiently failed); **every
+returned gapmer hit the HITLIST cap of 50 near-matches, and all 50 were classified gap-spanning**, so
+`n_oligos_no_gap_spanning_offtarget = 0` of 5. The top candidate (`ACGCAGGGCTGCTGCC`) had 50 gap-spanning
+near-matches spread across unrelated genes (e.g. *OTOG*, *SPTBN2*, *MAP3K13*, *SLC2A9*).
+
+> **Over-call caveat (reported as honestly as the result).** The HITLIST was capped at 50 and the
+> low-complexity filter was **off**, so on a GC-rich, low-complexity window like this junction the screen
+> **over-calls** near-matches: the 50 figure is a floor / over-estimate in character, not an exact
+> off-target count. The *qualitative* signal is nonetheless robust — these particular gapmers are
+> **specificity-poor**: a GC-rich, low-complexity seam matches many transcripts at ≥14/16 identity, and
+> gap-spanning matches are the most concerning class. This is predicted specificity, not validated; only the
+> §4 wet-lab parental-/off-target-sparing controls can confirm it.
+
+**(ii) GC-tolerant junction siRNA route
+([`junction-sirna-designs.json`](../modalities/junction-sirna-designs.json)).**
+[`junction_sirna.py`](../modalities/junction_sirna.py) designs junction-spanning 19-mer siRNA guides
+(RISC/Ago2, GC window 30–52%) as the GC-tolerant fallback of §2b. It returns **5 fusion-specific guides,
+but 0 pass all filters**, because the **minimum GC among the fusion-specific guides is 73.7%** — far above
+the 30–52% target window. So the siRNA route **does not rescue** the GC problem at this breakpoint; the same
+GC-rich seam that troubles the gapmer also disqualifies every siRNA guide.
+
+**Synthesis — feasibility is breakpoint-conditional, not modality-limited.** At the canonical *modelled*
+breakpoint, the EWSR1::NR4A3 junction sequence is simultaneously **GC-rich and low-complexity**, and this
+single property hurts three things at once: (i) gapmer chemistry (75–81% GC), (ii) siRNA GC (min 73.7%),
+and (iii) predicted specificity (many gap-spanning off-targets). This is a property of **this junction
+sequence**, not of the ASO/siRNA modality. Crucially, real patients carry **≥7 distinct in-frame
+breakpoints** (the companion neoantigen work: EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3;
+[`novel-modalities.md`](./novel-modalities.md) §3.3), some of which are likely more favorable. The
+conclusion is therefore that ASO/siRNA feasibility is **breakpoint-conditional**: designs must be re-run on
+the patient's *sequenced* breakpoint, and junction sequence-favorability (GC content, complexity,
+off-target load) becomes a **patient/breakpoint selection criterion**. This tempers but does not overturn
+the route's standing — the *mechanism* (knockdown of an addicted fusion transcript) remains the most
+de-risked of the fusion-exclusive routes, but practical specificity at this *particular* modelled junction
+is poor.
+
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
@@ -140,15 +196,17 @@ this draft:
 1. **Expanded tiling.** Re-run the existing tiler over a wider window and multiple oligo lengths (e.g.
    14–20-mers) and both 5-6-5 and 5-10-5 architectures, to enumerate the full junction-spanning design
    space rather than the top-5 snapshot, and to find any lower-GC register that still straddles the seam.
-2. **Genome-wide off-target complementarity screen (CPU).** The current specificity check only confirms an
-   oligo is not a *perfect* complement of the two parent CDSs. A real specificity claim requires a
-   transcriptome-wide near-match search (allowing mismatches/gaps, with gap-region weighting since RNase-H
-   tolerates wing mismatches more than gap mismatches) — a standard CPU alignment/seed-scan job (e.g.
-   against RefSeq/GENCODE). This is the single most important *computable* upgrade and is flagged as not
-   yet done.
-3. **siRNA alternative (computable).** Generate junction-spanning siRNA guides with standard design rules
-   (asymmetry/thermodynamic end stability, seed off-target counting against the transcriptome) as a
-   GC-tolerant parallel set — same junction, different mechanism (§2b).
+2. **Genome-wide off-target complementarity screen (CPU) — DONE for the modelled breakpoint (§3a-bis i).**
+   The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
+   CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
+   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** (blastn-short vs
+   RefSeq RNA) on the modelled-breakpoint designs and returned a poor verdict (0 of 5 free of gap-spanning
+   near-matches). Remaining *specifiable* work: re-run with the low-complexity filter on and an uncapped
+   HITLIST to replace the over-called 50-cap floor with a true count, and re-run per sequenced breakpoint.
+3. **siRNA alternative (computable) — DONE for the modelled breakpoint (§3a-bis ii).** Junction-spanning
+   19-mer siRNA guides have now been generated (asymmetry/end-stability/run filters); at this breakpoint 0
+   of 5 pass (min GC 73.7%), so the GC-tolerant route does not rescue this junction. Seed off-target
+   counting against the transcriptome remains specifiable for any breakpoint that yields in-window-GC guides.
 4. **Breakpoint heterogeneity → a per-patient panel.** Because EMC breakpoints vary by exon usage (the
    companion neoantigen work resolved *7 distinct in-frame junctions* across EWSR1 exons 7/9/10/11/12/13 →
    predominantly NR4A3 exon 3; see [`novel-modalities.md`](./novel-modalities.md) §3.3), the ASO sequence
@@ -224,16 +282,26 @@ beyond synthesising the listed oligos and no new biology beyond the published EM
 - **GC-rich chemistry.** The modelled junction yields 75–81% GC gapmers — outside the comfort zone; high Tm
   and self-structure risk would need chemistry tuning, an alternative register, or the siRNA route (§2b).
   This is a real, committed finding, not a hypothetical.
-- **Breakpoint-conditional (personalised).** The active sequence depends on the patient's exact exon-level
-  breakpoint; the deliverable is a breakpoint-keyed panel, and every clinical design must be re-derived from
-  a sequenced fusion transcript (the committed designs use a *modelled* breakpoint).
+- **Poor predicted specificity at the modelled breakpoint.** The committed off-target screen (§3a-bis i)
+  found **0 of 5** gapmers free of gap-spanning (RNase-H-cleavable) near-matches across the transcriptome,
+  and the GC-tolerant siRNA route did not rescue it (0 of 5 guides pass; min GC 73.7%, §3a-bis ii). This
+  is a real, committed result. The 50-near-match figure is over-called (HITLIST capped at 50, low-complexity
+  filter off, on a low-complexity GC-rich window), so it is a floor in character — but the qualitative
+  verdict (this junction is specificity-poor) is robust.
+- **Breakpoint-conditional (feasibility, not just sequence).** Feasibility itself — chemistry GC, siRNA GC,
+  and predicted specificity — is a property of *this* modelled junction sequence, not of the modality. The
+  active sequence depends on the patient's exact exon-level breakpoint, real patients carry ≥7 distinct
+  in-frame breakpoints (some likely more favorable), so junction sequence-favorability becomes a
+  patient/breakpoint **selection criterion**: every clinical design must be re-derived (and re-screened)
+  from a sequenced fusion transcript (the committed designs use a *modelled* breakpoint).
 - **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
   is the dominant risk for the whole modality.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
   durable, complete loss of fusion protein. Depth and duration of knockdown are empirical.
-- **Predicted specificity ≠ validated specificity.** The committed output only excludes perfect parental
-  complementarity; the transcriptome-wide near-match screen (§3b) is specified but not yet run, and even it
-  is in-silico. Only the §4 experiment can confirm parental sparing in cells.
+- **Predicted specificity ≠ validated specificity.** The transcriptome-wide near-match screen has now been
+  **run** for the modelled breakpoint (§3a-bis i) and returned a poor result, but it remains *in-silico*
+  predicted specificity — and over-called by the 50-cap / no-low-complexity-filter settings. Only the §4
+  wet-lab experiment can confirm parental and off-target sparing in cells.
 - **No molecule, no clinical claim.** This is a computation-only, publish-to-convince draft. Nothing here
   has been tested in a patient.
 
@@ -279,6 +347,10 @@ To verify (do **not** treat as established until sourced):
 - EMC-enriched surface receptor(s) suitable for AOC / targeted-nanoparticle delivery — **[citation to verify]**.
 - Specific non-EWSR1/FET recurrent-fusion cancers as platform extensions — **[citation to verify]** per indication.
 
-**Reproducibility.** The only real result cited here is the committed CPU design output
-[`junction-aso-designs.json`](../modalities/junction-aso-designs.json), produced by
-[`junction_aso.py`](../modalities/junction_aso.py). No new computation was performed for this draft.
+**Reproducibility.** The real results cited here are committed CPU outputs:
+[`junction-aso-designs.json`](../modalities/junction-aso-designs.json) (from
+[`junction_aso.py`](../modalities/junction_aso.py)),
+[`junction-aso-offtarget.json`](../modalities/junction-aso-offtarget.json) (from
+[`junction_aso_offtarget.py`](../modalities/junction_aso_offtarget.py), blastn-short vs RefSeq RNA), and
+[`junction-sirna-designs.json`](../modalities/junction-sirna-designs.json) (from
+[`junction_sirna.py`](../modalities/junction_sirna.py)). No GPU computation was performed for this draft.

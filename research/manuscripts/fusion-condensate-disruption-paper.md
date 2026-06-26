@@ -1,10 +1,12 @@
 # Disrupting the fusion's condensate: an EWS-low-complexity-domain phase-separation strategy as a fusion-selective route in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 > **IN-SILICO / CONCEPT PAPER — earliest-stage of the three protein-level fusion-unique routes.**
-> No wet lab. **No new GPU/AWS compute run was performed for this manuscript.** The only
-> first-party data here are previously-committed AlphaFold disorder numbers
-> (`../modalities/nr4a3-structure-assessment.json`); everything else is cited literature or an
-> explicitly-deferred, specifiable analysis. The rationale is **fusion-exclusive**: the aberrant
+> No wet lab. **No new GPU/AWS compute run was performed for this manuscript.** The first-party data
+> here are previously-committed AlphaFold disorder numbers
+> (`../modalities/nr4a3-structure-assessment.json`) plus a new **CPU-only sequence-feature analysis**
+> run on a GitHub runner (`../modalities/fusion-idr-features.json`, §3.2); everything else is cited
+> literature. The sequence-feature descriptors are phase-separation **proxies**, not a condensate
+> measurement. The rationale is **fusion-exclusive**: the aberrant
 > condensate/phase-separation behaviour is an *emergent* property of the EWS::NR4A3 chimera that
 > **wild-type NR4A3 does not have**, so a condensate-directed agent is functionally fusion-selective
 > in a way the repo's NR4A3 PROTAC (which binds the **shared** NR4A3 LBD) is not. **Read this caveat
@@ -37,9 +39,13 @@ EWS LC domain entirely**, so this condensate behaviour is **fusion-emergent**: a
 into, modulates, or prevents the fusion's condensates is, in mechanism, fusion-selective and spares
 wild-type NR4A3 and its tumour-suppressor functions. We ground the disorder premise on real committed
 data (EWSR1 1–264: mean pLDDT 38.8, 98.1% of residues < 50; NR4A3 has no comparable LC domain) and
-specify a **deferred, CPU-only** sequence-based LLPS/low-complexity-propensity analysis of the EWS LC
-domain as the next first-party computational step — deferred because the full EWS sequence is not
-available offline in this repo, and we will not invent its numbers. We outline three condensate-directed
+now add **first-party sequence-feature support**: a CPU-only, pure-stdlib descriptor analysis (run on a
+GitHub runner with a UniProt fetch; `../modalities/fusion-idr-features.json`) shows the EWS/TAF15 LC
+domains carry the LLPS/prion compositional signature (high SYGQ and aromatic content, low charge, low
+Shannon entropy) while folded controls do not — and, **crucially, the non-prion NR4A3_AF1 control
+(NR4A3's own disordered N-terminus) lacks the signature**, providing real first-party evidence that the
+condensate-driving composition is EWS/TAF15-emergent and not a generic property of NR4A3's own disorder.
+These remain sequence-derived **proxies** for phase-separation propensity, not a condensate measurement. We outline three condensate-directed
 modality classes, the decisive condensate assays others would run, and an honest selectivity/safety
 analysis whose real risk is **not** wild-type NR4A3 but cross-reactivity with the cell's many normal
 condensates. This is the **earliest-stage and least-proven** of the three protein-level fusion-unique
@@ -144,10 +150,10 @@ with an honest maturity tag, and all sit downstream of the emerging-field caveat
 
 ---
 
-## 3. Computational groundwork — what is real now, and the one deferred CPU step
+## 3. Computational groundwork — what is real now (committed pLDDT + first-party sequence features)
 
-We separate, strictly, the first-party data that exist from the analysis we are specifying but have
-**not** run.
+We separate, strictly, the first-party data that exist from the wet-lab measurements that computation
+cannot replace (§4).
 
 ### 3.1 What is real now (committed, first-party)
 The only first-party numbers in this paper are the previously-committed AlphaFold disorder values
@@ -167,25 +173,57 @@ wild-type NR4A3 lacks). They do **not**, by themselves, demonstrate condensate f
 necessary, not sufficient, for LLPS, and AlphaFold pLDDT is a disorder proxy, not a phase-separation
 measurement.
 
-### 3.2 The deferred, specifiable CPU next step (NOT run here)
-The natural first-party computational step that would *strengthen* the premise is a **sequence-based
-LLPS / low-complexity-propensity analysis of the EWS LC domain** — the kind of CPU-only,
-no-GPU analysis that scores a sequence for phase-separation propensity, low-complexity / prion-like
-character, and the SYGQ compositional bias, using established sequence predictors (e.g. the families
-of LLPS/IDR/prion-domain predictors in the literature [tools to specify and verify at run time]).
+### 3.2 First-party sequence-feature descriptors (now RUN — CPU-only, real)
+The natural first-party computational step that *strengthens* the premise — a **sequence-based
+low-complexity / LLPS-propensity analysis of the EWS LC domain** — has now been **run**. In an earlier
+draft it was deferred because the residue-level FASTA was not available offline; that blocker is gone.
+The committed JSON stores summarised pLDDT statistics over windows, not the sequence, so the analysis
+was executed on a **GitHub runner**: a one-shot job (`fusion_idr_features.py`) **fetched the EWSR1 /
+TAF15 / NR4A3 sequences from UniProt** and computed, with **pure Python stdlib** (no GPU, no external
+deps), a set of established composition/charge-patterning/complexity descriptors for each domain window.
+The result is committed first-party data at **`../modalities/fusion-idr-features.json`**.
 
-This step is **DEFERRED and explicitly not performed**, for a concrete reason: **the full EWS protein
-sequence is not available offline in this repo.** The committed JSON stores summarised pLDDT statistics
-over residue windows, not the residue-level FASTA. Running a sequence-propensity predictor requires the
-actual EWSR1 (Q01844) / TAF15 sequence, which would need to be fetched. We therefore:
-- do **not** claim to have run it,
-- do **not** invent any propensity scores, thresholds, or per-residue tracks, and
-- specify it as a clean CPU job for a future session: fetch the EWS (and TAF15) LC-domain sequence,
-  run the chosen LLPS/LCD/prion predictors, and report the scores against the predictors' published
-  thresholds — with the same medical-integrity discipline (real tools, real numbers, flagged
-  uncertainty) used elsewhere in the repo.
+The descriptors are: **frac_SYGQ** (fraction of Ser/Tyr/Gly/Gln, the hallmark FET LC-domain bias),
+**frac_aromatic(FYW)** (aromatic content, a known LLPS-driving "sticker" feature), **FCR** (fraction of
+charged residues; low charge favours LC-domain LLPS over charge-driven complex coacervation),
+**disorder-promoting** (fraction of disorder-promoting residues), **Shannon entropy** (sequence
+compositional complexity in bits; *lower* = lower-complexity), and **SCD** (sequence charge
+decoration, a charge-patterning statistic). Per window:
 
-No GPU/AWS run was performed or is required for that step; it is intentionally CPU- and sequence-only.
+| window | frac_SYGQ | frac_aromatic (FYW) | FCR | disorder-promoting | Shannon entropy (bits) | SCD |
+| --- | --- | --- | --- | --- | --- | --- |
+| **EWSR1_LC** (prion-like TAD, 1–264) | **0.561** | **0.140** | **0.030** | 0.648 | **3.154** | 0.218 |
+| **TAF15_LC** (alt partner, 1–205) | **0.683** | **0.132** | 0.166 | 0.668 | **3.239** | 1.940 |
+| NR4A3_AF1 (disordered, **NON-prion**, 1–260) | 0.258 | 0.077 | 0.108 | 0.589 | 3.875 | 0.028 |
+| EWSR1_RRM (folded control, 361–442) | 0.220 | 0.098 | 0.281 | 0.476 | 4.040 | −0.546 |
+| NR4A3_LBD (folded control, 373–626) | 0.197 | 0.067 | 0.236 | 0.484 | 4.035 | −0.340 |
+| NR4A3_DBD (folded control, 261–337) | 0.286 | 0.052 | 0.169 | 0.571 | 3.871 | −0.420 |
+
+**What the numbers say.** The two FET LC domains carry the LLPS/prion compositional signature and the
+folded controls are its mirror image:
+- **EWS_LC and TAF15_LC** have **very high SYGQ** (0.561 / 0.683) and **high aromatic** content
+  (0.140 / 0.132), **low charge** (FCR 0.030 / 0.166), and **low Shannon entropy** (3.154 / 3.239 bits)
+  — the classic low-complexity, sticker-rich, charge-poor profile that drives LC-domain phase
+  separation.
+- The **folded controls** (EWSR1_RRM, NR4A3_LBD, NR4A3_DBD) are the opposite: **high entropy** (~4.0
+  bits), **low SYGQ** (~0.20–0.29), and **higher charge** (FCR 0.169–0.281) — confirming the descriptors
+  separate low-complexity LC domains from ordinary folded sequence rather than calling everything
+  "disordered-looking."
+- **The decisive control is NR4A3_AF1** — NR4A3's own N-terminal region, which **is** disordered (high
+  disorder-promoting fraction, 0.589) but is **not** a prion-like LC domain. It **lacks the signature**:
+  SYGQ 0.258, aromatic 0.077, Shannon entropy 3.875 — far from the EWS/TAF15 LC values and close to the
+  folded controls on every composition axis. This is the key result: **the LLPS-driving compositional
+  signature is specific to the EWS/TAF15 LC domain and is not a generic consequence of NR4A3 having a
+  disordered region of its own.** It is real first-party quantitative support that the condensate
+  capacity is **EWS/TAF15-emergent** and absent from wild-type NR4A3.
+
+**Honest scope of this result.** These are **sequence-derived proxies** for phase-separation propensity
+(composition, charge patterning, low-complexity entropy), **not** a phase diagram and **not** a
+condensate measurement. They strengthen the premise — and sharpen the fusion-vs-wild-type
+asymmetry with NR4A3's own disorder as an internal negative control — but they **do not demonstrate
+condensate formation**. Demonstrating that the fusion phase-separates and that its transcription
+*depends* on the condensed state is still the wet-lab step in §4. No GPU/AWS run was involved; the job
+is CPU- and sequence-only, with real tools and real numbers reported as committed.
 
 ---
 
@@ -220,7 +258,11 @@ roadmap. We state that falsifier plainly.
 
 **The fusion-selectivity argument is genuinely strong on the wild-type-NR4A3 axis.** Because the
 condensate behaviour is encoded by the EWS LC domain that wild-type NR4A3 does not carry, a
-condensate-directed agent acts on a property the wild-type protein lacks. This is precisely the
+condensate-directed agent acts on a property the wild-type protein lacks. This now has **first-party
+sequence-feature support** (§3.2): the EWS/TAF15 LC domains carry the LLPS/prion compositional signature
+and the **non-prion NR4A3_AF1 control** — NR4A3's own disordered N-terminus — does **not**, evidence
+that the condensate-driving composition is fusion-emergent rather than a generic property of NR4A3's
+disorder. (These are sequence proxies, not a condensate measurement; see the §3.2 and §6 caveats.) This is precisely the
 selectivity gap the LBD-shared degrader cannot close: that agent removes NR4A3 protein (fusion and
 wild-type alike) and must rely on the tumour's *dependence* on NR4A3 for its therapeutic window,
 whereas a condensate-directed agent is, in mechanism, blind to wild-type NR4A3 monomer. Sparing
@@ -262,9 +304,12 @@ here must confront, and as a key counter-screen design requirement in §4.
 - **No EMC-specific condensate data exist in this work.** All condensate evidence cited is for the EWS
   LC domain / FET-fusion class (Boulay 2017; Nott 2015; Kwon 2013), not an EWSR1::NR4A3-resolved
   measurement. The decisive EMC experiments (§4) have not been done.
-- **No new computation was run.** The only first-party numbers are the pre-existing pLDDT values; the
-  one specifiable CPU step (sequence-based LLPS propensity) is **deferred** because the EWS sequence is
-  not available offline, and its results are **not** asserted or invented.
+- **The new computation is sequence proxies, not a condensate measurement.** The first-party numbers
+  are now the pre-existing pLDDT values **plus** the §3.2 sequence-feature descriptors
+  (`../modalities/fusion-idr-features.json`, run CPU-only on a GitHub runner). The latter are
+  composition/charge-patterning/entropy **proxies** for phase-separation propensity — they strengthen
+  the premise and supply the non-prion NR4A3_AF1 control, but they do **not** demonstrate that the
+  fusion forms condensates or that its transcription depends on them; that remains the §4 wet-lab step.
 - **Wild-type side stated carefully.** The selectivity claim is specifically that wild-type NR4A3
   lacks the EWS prion-like LC domain that drives FET-fusion LLPS — not a claim that wild-type NR4A3 is
   wholly devoid of disorder or coactivator interactions.
@@ -322,9 +367,11 @@ earliest-stage route, and this paper's job is to state the hypothesis honestly, 
 - Iwata S, et al. *NCC-EMC patient-derived EMC cell lines.* *(EMC cell models; see roadmap fact-check
   log.)*
 
-**To verify (do not treat as grounded):** the Kwon et al. 2013 locator above; any predictor names for
-the deferred §3.2 LLPS/LCD/prion sequence analysis; the broader-class non-FET condensate-fusion
-citations in §7. None of these should be cited as fact until grounded against the primary record.
+**To verify (do not treat as grounded):** the Kwon et al. 2013 locator above; the broader-class non-FET
+condensate-fusion citations in §7. (The §3.2 sequence-feature analysis uses first-party pure-stdlib
+descriptors, not a third-party predictor, so it carries no external-tool citation to verify; the
+descriptor families it implements — SYGQ/aromatic composition, FCR, SCD, Shannon entropy — are
+standard.) None of these should be cited as fact until grounded against the primary record.
 
 ---
 
@@ -333,6 +380,8 @@ with AI assistance (Claude) for drafting and structuring; all biological claims 
 sarcoma-specialist and biophysics review before any submission. No competing interests. No funding. A
 wet-lab/biophysics collaborator is explicitly sought to run the condensate assays of §4. Medical-
 integrity note: no medical facts, statistics, citations, DOIs, PMIDs, authors, or data were fabricated;
-the only first-party numbers (EWSR1 1–264 pLDDT 38.8 / 98.1% < 50; NR4A3 LBD 85.0) are the committed
-values in `../modalities/nr4a3-structure-assessment.json`; unverifiable citations are flagged
+the first-party numbers are the committed pLDDT values in `../modalities/nr4a3-structure-assessment.json`
+(EWSR1 1–264 pLDDT 38.8 / 98.1% < 50; NR4A3 LBD 85.0) and the §3.2 sequence-feature descriptors in
+`../modalities/fusion-idr-features.json` (run CPU-only on a GitHub runner; quoted faithfully and flagged
+as phase-separation proxies, not a condensate measurement); unverifiable citations are flagged
 "to verify"; condensate pharmacology is flagged throughout as an emerging, unproven field.*

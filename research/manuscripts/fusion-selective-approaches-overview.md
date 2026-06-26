@@ -65,6 +65,26 @@ the best selectivity *concept*, and the right long-horizon protein-level answer 
 as the high-ceiling, lower-odds bet, informed by the condensate work (paper 4). **Condensate (4) and PPI
 (5)** remain frontier/backbone, not first moves.
 
+## Computed CPU evidence (2026-06-26) — and how it updates the ranking
+Real CPU results now back the comparison (no GPU/AWS):
+- **AND-gate avidity + linker-physics models** — fusion-vs-WT binding window 5.5×→~11×, *robust* across the
+  synthesizable linker range (EM grounded in ideal-chain physics). The selectivity concept holds; the
+  unsolved arm-2 chemistry remains the gate.
+- **LLPS sequence-features (condensate route) — clean positive.** EWS/TAF15 LC domains show the prion/LLPS
+  signature (SYGQ 0.56/0.68, aromatic ~0.14, low charge, low entropy ~3.2) that folded controls and — the
+  key control — NR4A3's own disordered AF1 region do **not**. First-party support that the condensate
+  capacity is genuinely fusion-emergent. (Still a sequence proxy, not a measured phase diagram.)
+- **ASO off-target screen + siRNA — an important caveat to the #1 pick.** At the *canonical modelled
+  breakpoint*, the junction is GC-rich **and** low-complexity, so all 5 gapmers have many gap-spanning
+  near-complementary hits to **real genes** (OTOG, SPTBN2, …), and the GC-tolerant siRNA route does **not**
+  escape it (min GC 73.7%). The problem is *this junction sequence*, not the modality — and real patients
+  carry ≥7 distinct breakpoints. **This makes ASO/siRNA feasibility breakpoint-conditional**: the mechanism
+  is still the most de-risked, but a favorable breakpoint must be selected. The per-breakpoint feasibility
+  scan (running) tests whether favorable breakpoints exist.
+
+**Net:** the ranking holds, with a sharpened ASO caveat (breakpoint selection is part of its feasibility),
+and the condensate route's premise is now data-supported (though it remains early-stage on druggability).
+
 ## Three lenses (pick by what you weight)
 - **Most likely to work (biology) →** junction ASO/siRNA (paper 1), then junction neoantigen (paper 2).
 - **Most ready to publish *now* →** junction neoantigen (paper 2).

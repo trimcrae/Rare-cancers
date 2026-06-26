@@ -1,0 +1,54 @@
+name: EWSR1::NR4A3 ASO breakpoint-sensitivity scan
+
+# Sweeps the modelled in-frame EWSR1::NR4A3 breakpoint and asks whether some seams are far more
+# favorable (lower GC, lower complexity, more parent-specific) for a junction ASO/siRNA than the
+# off-target-prone canonical (264/2) breakpoint — informing breakpoint/patient selection. Pure
+# stdlib + urllib; needs internet (NCBI E-utilities) so it runs on a GitHub-hosted runner.
+# Result JSON is pushed to the `modalities-cache` branch:
+#   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aso-breakpoint-scan
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: EWSR1::NR4A3 junction breakpoint-sensitivity scan (stdlib only)
+        working-directory: research/modalities
+        run: python junction_breakpoint_scan.py
+
+      - name: Publish results to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/junction-breakpoint-scan.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/junction-breakpoint-scan.json 2>/dev/null || true
+          git commit -m "ASO breakpoint scan: junction-breakpoint-scan.json" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
