@@ -181,6 +181,21 @@ the dosed concentration, and rely on avidity (EM) to engage only the fusion, whi
 features on one chain.* Larger EM (shorter/optimised linker) and weaker single arms widen the
 fusion-vs-WT window — at the cost of needing a higher total dose to reach the avidity-bound fusion.
 
+**From a binding window to a degradation window (a third CPU model).** Because a degrader acts through a
+ternary complex, we modelled whether the binding window survives into *degradation*
+([`andgate_degradation_model.py`](../modalities/andgate_degradation_model.py) →
+[`fusion-andgate-degradation-model.json`](../modalities/fusion-andgate-degradation-model.json)): a
+cooperative 1:1:1 target–degrader–E3 equilibrium where the fusion is engaged at the avidity Kd and
+wild-type NR4A3 at the weak monovalent Kd1, with the **E3 arm and cooperativity shared** (both present the
+same LBD/E3 handle). The result is sobering and honest: the degradation window **does not inherit the full
+binding window** — it peaks near it (~6.8×) only at **low, sub-saturating** degrader and **erodes toward
+~1× at saturating dose** (the hook effect — ternary falling as the degrader separately saturates target and
+E3 — hits *both* species), and it **shrinks with stronger positive cooperativity** (5.4× at α=1 → 1.7× at
+α=30, because cooperativity proportionally rescues the weaker-binding wild-type). Design implications: run
+the AND-gate at **sub-saturating dose** and avoid strong cooperativity; and since the shared E3 side cannot
+add selectivity, **all** of it must come from the avidity arm. So degradation selectivity is *narrower and
+more dose-fragile* than the binding window — a genuine caveat, not a footnote.
+
 **Two honest caveats, stated up front, not buried:**
 1. **This is a binding window, not a degradation window.** Occupancy selectivity is necessary but not
    sufficient for *degradation* selectivity, which is additionally set by whether each species forms a

@@ -1,0 +1,110 @@
+{
+  "_note": "Cooperative 1:1:1 ternary model translating the AND-gate BINDING window into a DEGRADATION window. CPU/stdlib. All Kd/EM/alpha/concentrations are illustrative assumptions, not measured values.",
+  "_inputs_are_illustrative": true,
+  "params": {
+    "Kd1_LBD_M": 9.999999999999999e-06,
+    "Kd2_EWS_M": 9.999999999999999e-05,
+    "EM_M": 0.001,
+    "Kd_avidity_fusion_M": 9.999999999999997e-07,
+    "Kd_E3_M": 1e-06,
+    "cooperativity_alpha": 10.0,
+    "target_M": 1e-07,
+    "E3_M": 1e-06
+  },
+  "binding_window_for_comparison": 5.5,
+  "peak_dose_M": 1e-06,
+  "degradation_window_at_peak": 2.66,
+  "dose_response_curve": [
+    {
+      "degrader_M": 3e-09,
+      "ternary_fusion_frac": 0.0096,
+      "ternary_wildtype_frac": 0.00142,
+      "degradation_window": 6.77
+    },
+    {
+      "degrader_M": 1e-08,
+      "ternary_fusion_frac": 0.03146,
+      "ternary_wildtype_frac": 0.0047,
+      "degradation_window": 6.69
+    },
+    {
+      "degrader_M": 3e-08,
+      "ternary_fusion_frac": 0.08974,
+      "ternary_wildtype_frac": 0.01391,
+      "degradation_window": 6.45
+    },
+    {
+      "degrader_M": 1e-07,
+      "ternary_fusion_frac": 0.252,
+      "ternary_wildtype_frac": 0.04407,
+      "degradation_window": 5.72
+    },
+    {
+      "degrader_M": 3e-07,
+      "ternary_fusion_frac": 0.49607,
+      "ternary_wildtype_frac": 0.11536,
+      "degradation_window": 4.3
+    },
+    {
+      "degrader_M": 1e-06,
+      "ternary_fusion_frac": 0.68385,
+      "ternary_wildtype_frac": 0.25695,
+      "degradation_window": 2.66
+    },
+    {
+      "degrader_M": 3e-06,
+      "ternary_fusion_frac": 0.6649,
+      "ternary_wildtype_frac": 0.35322,
+      "degradation_window": 1.88
+    },
+    {
+      "degrader_M": 1e-05,
+      "ternary_fusion_frac": 0.46091,
+      "ternary_wildtype_frac": 0.31394,
+      "degradation_window": 1.47
+    },
+    {
+      "degrader_M": 3e-05,
+      "ternary_fusion_frac": 0.2395,
+      "ternary_wildtype_frac": 0.19561,
+      "degradation_window": 1.22
+    },
+    {
+      "degrader_M": 0.0001,
+      "ternary_fusion_frac": 0.08941,
+      "ternary_wildtype_frac": 0.08268,
+      "degradation_window": 1.08
+    },
+    {
+      "degrader_M": 0.0003,
+      "ternary_fusion_frac": 0.03206,
+      "ternary_wildtype_frac": 0.03116,
+      "degradation_window": 1.03
+    },
+    {
+      "degrader_M": 0.001,
+      "ternary_fusion_frac": 0.00988,
+      "ternary_wildtype_frac": 0.0098,
+      "degradation_window": 1.01
+    }
+  ],
+  "alpha_sensitivity_at_peak": [
+    {
+      "alpha": 1.0,
+      "degradation_window": 5.41
+    },
+    {
+      "alpha": 3.0,
+      "degradation_window": 4.18
+    },
+    {
+      "alpha": 10.0,
+      "degradation_window": 2.66
+    },
+    {
+      "alpha": 30.0,
+      "degradation_window": 1.73
+    }
+  ],
+  "reading": "The degradation window does NOT simply inherit the binding window \u2014 it is DOSE- and COOPERATIVITY-dependent and generally LOWER. It peaks near the binding window (~6.8x) at low, sub-saturating degrader, then erodes toward ~1x (no selectivity) at high dose, because the hook effect (ternary falling as the degrader saturates target and E3 separately) hits BOTH fusion and wild-type. It also SHRINKS with stronger positive cooperativity (5.4x at alpha=1 down to 1.7x at alpha=30), because cooperativity stabilises the ternary for both species and proportionally rescues the weaker-binding wild-type. Design implication: operate the AND-gate at SUB-SATURATING dose and avoid strong cooperativity to preserve the (already modest) fusion selectivity; the E3 side cannot add selectivity (it is shared), so all of it must come from the avidity arm. Illustrative inputs; true degradation needs the cellular assay (paper \u00a76)."
+}

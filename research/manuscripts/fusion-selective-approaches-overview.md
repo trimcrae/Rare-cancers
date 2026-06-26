@@ -82,8 +82,20 @@ Real CPU results now back the comparison (no GPU/AWS):
   is still the most de-risked, but a favorable breakpoint must be selected. The per-breakpoint feasibility
   scan (running) tests whether favorable breakpoints exist.
 
-**Net:** the ranking holds, with a sharpened ASO caveat (breakpoint selection is part of its feasibility),
-and the condensate route's premise is now data-supported (though it remains early-stage on druggability).
+**Update (per-breakpoint scan + degradation model, just computed):**
+- **ASO caveat largely resolved in the route's favor.** The breakpoint-sensitivity scan (390 modelled
+  breakpoints) finds **243 (62%) favorable** — clean, in-band (~50% GC), fusion-specific gapmer/siRNA
+  designs exist at most positions; the *canonical* breakpoint is just an unlucky GC-rich one. So the ASO/
+  siRNA route is feasible **at a favorable breakpoint**, and breakpoint selection is a tractable step, not
+  a roadblock — reinforcing the #1 ranking. (Caveat: modelled positions + GC/complexity triage, not
+  exon-exact breakpoints or a full BLAST screen.)
+- **AND-gate degradation window is *narrower* than its binding window.** A cooperative ternary model shows
+  the 5.5–11× binding window erodes to ~1× at saturating dose (hook effect) and shrinks with cooperativity;
+  it survives (~6.8×) only at sub-saturating dose. Another reason the AND-gate stays a lower-odds bet.
+
+**Net:** the ranking holds and is sharpened — the ASO route's main caveat is now a tractable breakpoint-
+selection step (it stays #1), the condensate premise is data-supported (still early on druggability), and
+the AND-gate's selectivity is real but modest and dose-fragile in degradation.
 
 ## Three lenses (pick by what you weight)
 - **Most likely to work (biology) →** junction ASO/siRNA (paper 1), then junction neoantigen (paper 2).
