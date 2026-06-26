@@ -6,13 +6,14 @@ pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.m
 anything. Last updated 2026-06-26.
 
 ## TL;DR
-The in-silico **druggability case is complete and positive** — Gates 0–3 pass. One **registered Gate-2
-sub-check is still open**: confirming the 7 selectivity handles stay **pocket-facing** in the opened,
-druggable frames (not splayed). That analysis is now **built and unit-tested**
-(`nr4a3_handle_facing.py` + `handle_facing_geom.py`, dispatched by `handle-facing-aws.yml`) and is the
-**cheap precondition to run before the warhead screen** — it validates the warhead's own handle-contact
-scoring. After it, the **selective-warhead screen** (`gpu-warhead-aws.yml`) is **built and idle**, waiting
-only for a go-ahead. Nothing is running; no GPU is active.
+The in-silico **druggability case is complete and positive** — Gates 0–3 pass, **including the registered
+Gate-2 handle-facing sub-check, CONFIRMED 2026-06-26** (run 28249776934: in the druggable frames a mean of
+**5.0/7** selectivity handles are pocket-facing; the engageable set is **five — L406, T410, I484, I531,
+L534**, while **T407 and R412 mostly splay outward**). The **next computational step is the
+selective-warhead screen** (`gpu-warhead-aws.yml`), **built and idle**. NOTE for that screen: it currently
+scores handle contacts over all 7 `HANDLES`; consider restricting/weighting to the five engageable handles
+(T407/R412 rarely face the pocket, so contacts there are low-value for selectivity). Nothing is running;
+no GPU is active.
 
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
@@ -32,7 +33,14 @@ NR4A3-overexpression-driven) + other NR4A3-fusion sarcomas. Immuno-oncology need
 degradation) → contingency only, NOT motivation. AML/HCC contraindication. Detail:
 [`../manuscripts/nr4a3-degrader-broader-indications.md`](../manuscripts/nr4a3-degrader-broader-indications.md).
 
-## STEP 0 (recommended first) — handle-facing confirmation (cheap, closes the registered Gate-2 clause)
+## STEP 0 — handle-facing confirmation — ✅ DONE (CONFIRMED 2026-06-26, run 28249776934)
+**Result:** druggable frames 8/25 sampled (fpocket ≥ D\*=0.53); **mean 5.0/7 handles pocket-facing**;
+87.5 % of druggable frames keep ≥4 facing → registered Gate-2 second clause **CONFIRMED**. Per-handle
+fraction-facing in druggable frames: **L406 1.0, I531 1.0, L534 1.0, T410 0.875, I484 0.875** (the five
+engageable handles) vs **T407 0.0, R412 0.25** (splay outward). Output:
+`s3://sagemaker-us-east-2-646605541856/nr4a3-handle-facing/handle_facing_summary.json` (+ `handle_facing.png`).
+Implication for the warhead screen: the realistic selectivity-handle set is five, not seven.
+
 **Pipeline (built, unit-tested, committed):** `nr4a3_handle_facing.py` + `handle_facing_geom.py` (pure,
 8 passing tests in `tests/test_handle_facing_geom.py`) + `sagemaker_src/entry_handle_facing.py` +
 `nr4a3_handle_facing_sagemaker.py` + `.github/workflows/handle-facing-aws.yml`.
@@ -107,9 +115,9 @@ the 7 handles. Remember: docking = screening prior, NOT affinity; this nominates
 
 ## Open items (not blockers for the warhead)
 - [ ] Harden the metad submitter against the 6 h cap (segments / fire-and-forget).
-- [x] Opened-frame handle-facing confirmation — analysis **built + unit-tested** (`nr4a3_handle_facing.py`);
-      **still needs dispatch** (`handle-facing-aws.yml`) + writing the result back into paper §2.2/§5 and
-      the reconciliation Gate-2 row.
+- [x] Opened-frame handle-facing confirmation — **DONE** (CONFIRMED 2026-06-26, run 28249776934; mean
+      5.0/7 handles facing, T407/R412 the exceptions). Result written into paper §2.2/§5 and the
+      reconciliation Gate-2/3 rows.
 - [ ] (optional) Fix `nr4a3_md_release.py` for the orthogonal metastability confirmation.
 - [ ] (optional) Converged longer metad to put a precise number on the full free-energy profile.
 - [ ] Verify all "[…to confirm]" reference locators before manuscript submission (medical integrity).

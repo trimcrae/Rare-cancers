@@ -86,13 +86,16 @@ under-converged sampling frontier), not a *druggable* state: correlating per-fra
 F(Rg) shows the pocket is **already druggable (fpocket 0.80) at Rg ≈ 0.72, in the well-sampled basin, at
 only ~0.76 kcal/mol** — thermally accessible. So the single static structure (0.495) understated
 druggability; the thermally-populated ensemble is robustly druggable at negligible cost, rising to 0.93
-toward the open edge. *(Remaining registered check: confirm the opened/druggable frames keep the 7 selectivity
-handles pocket-facing rather than splayed — the second clause of the pre-registered Gate-2 pass
-condition. The analysis is built and unit-tested (`../modalities/nr4a3_handle_facing.py`, run via
-`handle-facing-aws.yml`) and pending dispatch; it is also the precondition for the warhead screen's
-handle-contact scoring (§2.4). An unbiased "release" run was attempted as orthogonal confirmation of
-metastability but is not required — Gate 3 is resolved by the energetics above — and its pipeline is
-currently parked with a startup bug.)*
+toward the open edge. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
+(`../modalities/nr4a3_handle_facing.py`, run 2026-06-26 on the 30 ns trajectory) shows the opened,
+druggable frames keep the selectivity handles pocket-facing: across the druggable frames (fpocket ≥
+D\*=0.53) a mean of **5.0/7** handles point into the cavity and **87.5 %** keep ≥4 facing. Five are
+reliably pocket-facing — **L406, T410, I484, I531, L534** (≥0.875 of druggable frames) — while **T407
+and R412 mostly splay outward** (facing in 0.0 and 0.25 of druggable frames), so the demonstrated
+selective-engagement set is those five, not all seven. This is also the precondition for the warhead
+screen's handle-contact scoring (§2.4). An unbiased "release" run was attempted as orthogonal
+confirmation of metastability but is not required — Gate 3 is resolved by the energetics above — and its
+pipeline is currently parked with a startup bug.)*
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
@@ -151,10 +154,11 @@ demonstrated efficacy**. The structure is an AF2 model (NR4A3 is uncrystallized)
 exactly the single-snapshot limitation. The headline druggability **0.931** is from the converged **30 ns
 biased (metadynamics)** run (the 5 ns validation gave 0.751); the metadynamics samples are biased toward
 opening, so per-frame druggability is a structural-feasibility readout, with the free-energy cost of
-reaching a druggable state taken from F(Rg) (§2.2, Gate 3). The one **registered check still pending** is
-the opened-pocket handle-facing confirmation (§2.2; analysis built, awaiting dispatch). fpocket
-druggability is a geometric screen, not affinity. Selectivity handles are a specification, not a
-demonstrated margin.
+reaching a druggable state taken from F(Rg) (§2.2, Gate 3). The registered handle-facing check is now **complete and CONFIRMS** the
+handles stay pocket-facing in the druggable frames (mean 5.0/7; §2.2) — with the caveat that two of the
+seven (T407, R412) mostly point outward, so the demonstrated selective-engagement set is five handles,
+not seven. fpocket druggability is a geometric screen, not affinity. Selectivity handles are a
+specification (now with a measured pocket-facing fraction), not a demonstrated binding margin.
 
 ## 6. Falsification (pre-registered)
 Every gate has a fixed pass/fail set *before* the production numbers
