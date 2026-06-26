@@ -248,28 +248,31 @@ BLAST off-target screen on that specific design. This strengthens the route's st
 mechanistically de-risked of the fusion-exclusive options, with breakpoint-favorability now demonstrated to
 be selectable rather than a roadblock.
 
-### 3a-quater. The BLAST screen on a favorable breakpoint — necessary, but GC-triage is not sufficient
-We then ran the full §3a-bis(i) off-target screen *directly on the favorable 200/8 breakpoint* (junction
-GC 50 %), to test whether GC/complexity "favorable" actually buys off-target cleanliness
-([`junction-aso-offtarget-bp200-8.json`](../modalities/junction-aso-offtarget-bp200-8.json)). The honest
-answer is **partly, but not fully — GC-triage is necessary, not sufficient**:
-- Off-target load **drops sharply and weakens** versus the canonical junction: every near-match here is
-  **14/16** (2 mismatches), versus the canonical's stronger 15/16 hits, and per-oligo counts fall from the
-  capped **≥50 for *every* canonical gapmer** to **1–38** here.
-- Individual oligos *within* the same favorable breakpoint vary enormously: the best gapmer
-  (`ACAGCCGTATAGCCCT`, 56 % GC) has just **1** gap-spanning 14/16 near-match (ADAMTSL2), while a sibling
-  window at the same breakpoint still has 38 — so **per-oligo BLAST selection matters as much as breakpoint
-  selection**.
-- But **none** reached zero ≥14/16 near-matches, and the hits are real genes (CSMD2, ADAMTSL2, DDR1,
-  SLC66A1…). Residual liability is therefore weak (2-mismatch) and its *true* RNase-H cleavage risk depends
-  on whether those mismatches fall inside the DNA gap (a gap-mismatch-position analysis the current screen
-  does not yet resolve — flagged as the next refinement).
+### 3a-quater. The BLAST screen on a favorable breakpoint, resolved to true RNase-H cleavage risk
+We ran the full §3a-bis(i) off-target screen *directly on the favorable 200/8 breakpoint* (junction GC
+50 %), then **resolved each near-match to the gap-mismatch level** — because RNase-H needs the central DNA
+gap (the 6 nt the gapmer cleaves through) fully base-paired: a near-match whose mismatch falls *inside* the
+gap **cannot be cleaved** and is not a real liability
+([`junction-aso-offtarget-bp200-8-gapres.json`](../modalities/junction-aso-offtarget-bp200-8-gapres.json)).
+This is decisive, and positive:
+- **GC-triage alone is necessary but not sufficient**, and the coarse "gap-spanning" count *over-states*
+  risk. Every near-match at this breakpoint is a weak **14/16** (2-mismatch) hit to a real gene
+  (CSMD2, ADAMTSL2, DDR1, SLC66A1…), versus the canonical junction's stronger 15/16 hits.
+- **Once gap-mismatch position is resolved, 2 of the 5 gapmers are predicted genuinely clean — zero true
+  cleavage risks.** `CACAGCCGTATAGCCC` (62 % GC) has 21 near-matches but **all 21 are gap-disrupted** (the
+  mismatch lands in the DNA gap) → 0 cleavable; `ACAGCCGTATAGCCCT` (56 % GC) has a single near-match, also
+  gap-disrupted → 0 cleavable. The other three retain 15–29 true cleavage risks.
+- So **per-oligo selection is as important as breakpoint selection**, and the deciding filter is the
+  gap-mismatch-resolved BLAST screen, not raw GC or raw near-match count.
 
-**Reading.** Breakpoint + oligo selection improves predicted specificity by roughly two orders of magnitude
-for the best candidate (1 vs ≥50 near-matches) — a real, large gain — but does **not** by itself yield a
-provably clean ASO. Specificity is thus a genuine, ongoing engineering task (breakpoint choice → per-oligo
-BLAST → gap-mismatch resolution → wet-lab confirmation), alongside delivery (§3c). The route stays the most
-mechanistically de-risked fusion-exclusive option, but its specificity is *improvable, not solved*.
+**Reading.** At a favorable breakpoint, the full workflow — breakpoint triage → per-oligo BLAST →
+gap-mismatch resolution — **does yield predicted-clean gapmers** (here 2 of 5, zero true cleavage risk),
+a path the GC-rich canonical junction could not offer. Specificity is therefore **achievable**, not merely
+improvable, at the right breakpoint. Honest bounds remain: this is *predicted* (a 14/16 hit with a gap
+mismatch is assumed non-cleaving per standard RNase-H behaviour, to be confirmed experimentally), the
+breakpoint is *modelled* not patient-sequenced, and delivery (§3c) is the separate, still-unsolved gate.
+The route stands as the most mechanistically de-risked fusion-exclusive option, now with *demonstrated
+in-silico specificity feasibility* at a selectable breakpoint.
 
 ### 3b. What is specifiable now, without any GPU
 

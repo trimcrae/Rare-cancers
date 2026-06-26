@@ -83,22 +83,23 @@ Real CPU results now back the comparison (no GPU/AWS):
   scan (running) tests whether favorable breakpoints exist.
 
 **Update (per-breakpoint scan + degradation model, just computed):**
-- **ASO caveat improved but not fully solved.** The breakpoint scan (390 modelled breakpoints) finds
-  **243 (62%) favorable** by GC/complexity triage — the *canonical* breakpoint is just an unlucky GC-rich
-  one. But the full BLAST screen *re-run on a favorable breakpoint (200/8)* shows **GC-triage is necessary,
-  not sufficient**: off-target load drops ~two orders of magnitude for the best oligo (1 vs ≥50 near-matches)
-  and weakens (14/16 vs 15/16), yet *no* oligo is provably clean, and per-oligo selection matters as much as
-  breakpoint selection. So specificity is a real, *improvable* engineering task (breakpoint → per-oligo BLAST
-  → gap-mismatch resolution → wet-lab), alongside delivery — not a solved problem. ASO stays #1 on mechanism,
-  with eyes open on specificity.
+- **ASO specificity is achievable at a favorable breakpoint — demonstrated in-silico.** The breakpoint scan
+  (390 modelled) finds **243 (62%) favorable** by GC/complexity triage; the *canonical* is an unlucky
+  GC-rich one. The full BLAST screen on a favorable breakpoint (200/8), **resolved to gap-mismatch position**
+  (RNase-H can't cleave a near-match whose mismatch falls in the DNA gap), shows **2 of 5 gapmers are
+  predicted genuinely clean — zero true cleavage risks** (the residual 14/16 hits are gap-disrupted). So the
+  workflow breakpoint-triage → per-oligo BLAST → gap-mismatch resolution **yields clean candidates**;
+  specificity is achievable, not merely improvable. Caveats: predicted (not wet-lab-confirmed), modelled
+  breakpoint, and **delivery remains the separate unsolved gate**. ASO stays #1 on mechanism *and* now has
+  demonstrated in-silico specificity feasibility.
 - **AND-gate degradation window is *narrower* than its binding window.** A cooperative ternary model shows
   the 5.5–11× binding window erodes to ~1× at saturating dose (hook effect) and shrinks with cooperativity;
   it survives (~6.8×) only at sub-saturating dose. Another reason the AND-gate stays a lower-odds bet.
 
-**Net:** the ranking holds and is sharpened — the ASO route stays #1 on mechanism, with specificity now an
-*improvable engineering task* (breakpoint + per-oligo selection + BLAST confirmation), not a solved problem,
-sitting alongside delivery as its two real challenges; the condensate premise is data-supported (still early
-on druggability); and the AND-gate's selectivity is real but modest and dose-fragile in degradation.
+**Net:** the ranking holds and is sharpened — the ASO route stays #1 on mechanism, with **demonstrated
+in-silico specificity feasibility** (clean gapmers found at a favorable breakpoint), leaving **delivery as
+its single remaining unsolved gate**; the condensate premise is data-supported (still early on
+druggability); and the AND-gate's selectivity is real but modest and dose-fragile in degradation.
 
 ## Three lenses (pick by what you weight)
 - **Most likely to work (biology) →** junction ASO/siRNA (paper 1), then junction neoantigen (paper 2).
