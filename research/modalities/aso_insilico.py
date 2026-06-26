@@ -248,10 +248,8 @@ def main():
     max_records = os.environ.get("ASO_OFFTARGET_MAX")
     max_records = int(max_records) if max_records else None
 
-    ews = ja.fetch_cds(ja.EWSR1_MRNA)
-    nr4 = ja.fetch_cds(ja.NR4A3_MRNA)
-    ja.EWSR1_full, ja.NR4A3_full = ews, nr4
-    left, right, fusion = ja.build_fusion_cds(ews, nr4)
+    ews, nr4, left, right, fusion = ja.build_parents_and_fusion()
+    label, prov = ja.junction_label()
     designs = ja.design(left, right, fusion)
     candidates = [dict(d) for d in designs[:N_EVAL]]
 
@@ -278,8 +276,8 @@ def main():
                  "off-target screen + target-site accessibility + sequence liabilities. "
                  "EVALUATION ONLY — hypotheses for wet-lab testing, not a validated drug. "
                  "Does NOT address tumour delivery (the route's real bottleneck).",
-        "breakpoint": {"EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
-                       "is_canonical": (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)},
+        "junction_label": label,
+        "breakpoint": {**prov, "junction_context_mRNA": (left[-12:] + "|" + right[:12])},
         "n_evaluated": len(candidates),
         "accessibility": acc_status,
         "offtarget_screen": ot_status,

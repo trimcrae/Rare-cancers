@@ -90,6 +90,62 @@ def build_fusion_cds(ews_cds, nr4_cds):
     return left, right, left + right
 
 
+def junction_label():
+    """Human-readable label + provenance dict for the active breakpoint mode."""
+    if os.environ.get("FUSION_JUNCTION_MODE") == "real":
+        e = int(os.environ.get("EWSR1_EXON_END", "12"))
+        n = int(os.environ.get("NR4A3_EXON_START", "3"))
+        return f"EWSR1_e{e}__NR4A3_e{n}", {
+            "mode": "real_exon_junction",
+            "source": "Ensembl MANE/canonical exon structure (fusion_breakpoints.gene_model)",
+            "EWSR1_exon_end": e, "NR4A3_exon_start": n,
+            "note": ("Real in-frame EWSR1::NR4A3 exon junction (self-checked translate(CDS)==Ensembl "
+                     "protein; NR4A3 C-terminus intact). NOT the codon-space modelled reference."),
+        }
+    return "reference_codon264_from2", {
+        "mode": "modelled_reference_codon_space",
+        "EWSR1_coding_kept": f"codons 1-{EWSR1_KEEP_AA} (in-frame)",
+        "NR4A3_coding_kept": f"from codon {NR4A3_KEEP_AA_FROM} (in-frame)",
+        "note": ("Codon-space modelled reference breakpoint (junction_aso.py default; a label of "
+                 "convenience, NOT a validated clinical breakpoint)."),
+    }
+
+
+def build_parents_and_fusion():
+    """Return (ews_cds, nr4_cds, left, right, fusion) for either the codon-space modelled
+    reference breakpoint (default) or a REAL exon-level junction (env-selected), and set the
+    module parent-CDS globals used by design()'s specificity check.
+
+    Real mode (FUSION_JUNCTION_MODE=real): fetch Ensembl gene models via
+    fusion_breakpoints.gene_model (self-checked translate(CDS)==Ensembl protein; exon offsets
+    sum to CDS length), then cut EWSR1 at the coding end of exon EWSR1_EXON_END and resume
+    NR4A3 at the coding start of exon NR4A3_EXON_START — the same construction the companion
+    neoantigen work uses. The fusion is validated in-frame (NR4A3 C-terminus intact)."""
+    global EWSR1_full, NR4A3_full
+    if os.environ.get("FUSION_JUNCTION_MODE") == "real":
+        import fusion_breakpoints as fb
+        e_end = int(os.environ.get("EWSR1_EXON_END", "12"))
+        n_start = int(os.environ.get("NR4A3_EXON_START", "3"))
+        ews = fb.gene_model("EWSR1")
+        nr4 = fb.gene_model("NR4A3")
+        ews_cds, nr4_cds = ews["cds"], nr4["cds"]
+        p = ews["offsets"][e_end - 1]        # coding nt through end of EWSR1 exon e_end
+        q = nr4["offsets"][n_start - 2]      # coding nt before start of NR4A3 exon n_start
+        left, right = ews_cds[:p], nr4_cds[q:]
+        fusion = left + right
+        if not fb.translate(fusion).endswith(nr4["protein"][-100:]):
+            raise RuntimeError(f"EWSR1 e{e_end} :: NR4A3 e{n_start} is not in-frame "
+                               "(NR4A3 C-terminus not intact) — choose a valid exon pair")
+        EWSR1_full, NR4A3_full = ews_cds, nr4_cds
+        return ews_cds, nr4_cds, left, right, fusion
+    # default: codon-space modelled reference breakpoint (NCBI RefSeq CDS)
+    ews_cds = fetch_cds(EWSR1_MRNA)
+    nr4_cds = fetch_cds(NR4A3_MRNA)
+    EWSR1_full, NR4A3_full = ews_cds, nr4_cds
+    left, right, fusion = build_fusion_cds(ews_cds, nr4_cds)
+    return ews_cds, nr4_cds, left, right, fusion
+
+
 def gc(s):
     return round(100 * (s.count("G") + s.count("C")) / len(s), 1) if s else 0
 
@@ -135,24 +191,22 @@ NR4A3_full = ""
 
 
 def main():
-    global EWSR1_full, NR4A3_full
-    ews = fetch_cds(EWSR1_MRNA)
-    nr4 = fetch_cds(NR4A3_MRNA)
-    EWSR1_full, NR4A3_full = ews, nr4
-    left, right, fusion = build_fusion_cds(ews, nr4)
+    ews, nr4, left, right, fusion = build_parents_and_fusion()
     oligos = design(left, right, fusion)
+    label, prov = junction_label()
+    suffix = os.environ.get("OUT_SUFFIX", "")
+    out = os.path.join(os.path.dirname(__file__), f"junction-aso-designs{suffix}.json")
 
     result = {
         "_note": "Fusion-junction gapmer ASO designs (RNase-H1 mechanism). DESIGN ONLY "
                  "— hypotheses for wet-lab knockdown testing; not a validated drug.",
         "_breakpoint_model": {
-            "assumption": True,
+            "assumption": prov["mode"] != "real_exon_junction",
+            "junction_label": label,
             "EWSR1_mRNA": EWSR1_MRNA, "NR4A3_mRNA": NR4A3_MRNA,
-            "EWSR1_coding_kept": f"codons 1-{EWSR1_KEEP_AA} (in-frame)",
-            "NR4A3_coding_kept": f"from codon {NR4A3_KEEP_AA_FROM} (in-frame)",
             "junction_context_mRNA": (left[-12:] + "|" + right[:12]),
-            "caveat": "Breakpoint is modelled; re-run with a patient's sequenced fusion "
-                      "transcript for clinical design.",
+            "caveat": "Re-run with a patient's sequenced fusion transcript for clinical design.",
+            **prov,
         },
         "oligo_length": OLIGO_LEN,
         "architecture": f"{WING}-{GAP}-{WING}",
@@ -160,9 +214,9 @@ def main():
         "n_fusion_specific": sum(1 for o in oligos if o["fusion_specific"]),
         "top_designs": oligos[:12],
     }
-    with open(OUT, "w") as fh:
+    with open(out, "w") as fh:
         json.dump(result, fh, indent=2)
-    print("wrote", OUT, file=sys.stderr)
+    print("wrote", out, file=sys.stderr)
     print(json.dumps({k: v for k, v in result.items() if k != "top_designs"}, indent=2))
 
 

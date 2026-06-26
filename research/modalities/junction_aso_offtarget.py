@@ -190,10 +190,8 @@ def screen_one(design):
 
 
 def main():
-    ews = ja.fetch_cds(ja.EWSR1_MRNA)
-    nr4 = ja.fetch_cds(ja.NR4A3_MRNA)
-    ja.EWSR1_full, ja.NR4A3_full = ews, nr4
-    left, right, fusion = ja.build_fusion_cds(ews, nr4)
+    ews, nr4, left, right, fusion = ja.build_parents_and_fusion()
+    label, prov = ja.junction_label()
     designs = [o for o in ja.design(left, right, fusion) if o["fusion_specific"]][:N_OLIGOS]
 
     screened = []
@@ -206,8 +204,10 @@ def main():
     n_clean = sum(1 for r in screened
                   if r.get("status") == "screened" and r.get("n_true_cleavage_risk", 1) == 0)
     result = {
-        "breakpoint": {"EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
-                       "is_canonical": (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)},
+        "junction_label": label,
+        "breakpoint": {**prov,
+                       "EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
+                       "junction_context_mRNA": (left[-12:] + "|" + right[:12])},
         "_note": ("Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs "
                   "(blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the "
                   "gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose "
@@ -219,11 +219,7 @@ def main():
             "db": "refseq_rna (txid9606[ORGN])", "program": "blastn (short, FILTER off)",
             "near_match_threshold": f">= {NEAR_MATCH_MIN_IDENT}/{ja.OLIGO_LEN} identical",
             "gap_region_1based": [ja.WING + 1, ja.OLIGO_LEN - ja.WING],
-            "breakpoint_model": (
-                "modelled reference breakpoint (EWSR1 keep 264 / NR4A3 from 2; junction_aso.py default)"
-                if (ja.EWSR1_KEEP_AA == 264 and ja.NR4A3_KEEP_AA_FROM == 2)
-                else f"modelled non-reference breakpoint (EWSR1 keep {ja.EWSR1_KEEP_AA} / "
-                     f"NR4A3 from {ja.NR4A3_KEEP_AA_FROM}); set via env override"),
+            "breakpoint_model": prov["note"],
         },
         "n_oligos_screened": len(screened),
         "n_screened_ok": n_ok,
