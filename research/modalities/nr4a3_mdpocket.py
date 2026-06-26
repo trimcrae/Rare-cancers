@@ -128,6 +128,10 @@ def main():
     target_resseqs = {resseqs[i] for i in pocket_pos}
     summary["druggability_timeseries"] = druggability_timeseries(prot, target_resseqs, time_ns, np)
     summary["mdpocket"] = _mdpocket_best_effort(top, dcd)
+    # Gate 3 energetics: the metadynamics free-energy profile F(Rg) (fes.dat, from plumed sum_hills) if
+    # it was mounted alongside the trajectory. Reports the closed->open cost (the energetic accessibility
+    # of the opened druggable state).
+    summary["fes"] = read_fes(IN, np)
 
     with open(os.path.join(OUT, "pocket_analysis_summary.json"), "w") as fh:
         json.dump(summary, fh, indent=2)
@@ -138,6 +142,53 @@ def main():
         print(f"  DRUGGABILITY over MD: max={dts.get('max_druggability')} "
               f"min={dts.get('min_druggability')} crosses_0.5={dts.get('crosses_druggable_0.5')} "
               f"(static 0.495)", flush=True)
+    if summary.get("fes"):
+        f = summary["fes"]
+        print(f"  GATE3 FES: closed Rg={f.get('rg_closed_min')} -> open Rg={f.get('rg_open_min')}; "
+              f"open cost={f.get('open_cost_kcal_mol')} kcal/mol, barrier={f.get('barrier_kcal_mol')} "
+              f"kcal/mol", flush=True)
+
+
+def read_fes(input_dir, np):
+    """Parse the metadynamics free-energy profile F(Rg) (plumed sum_hills 'fes.dat': col0=Rg nm,
+    col1=free energy kJ/mol) and report the closed-basin minimum, the opened-state minimum (Rg well
+    above the closed basin), the closed->open cost, and the intervening barrier. Best-effort: returns
+    None if fes.dat is absent (e.g. analysing the plain MD) or unparseable."""
+    p = os.path.join(input_dir, "fes.dat")
+    if not os.path.exists(p):
+        return None
+    rg, fe = [], []
+    for line in open(p):
+        s = line.strip()
+        if not s or s.startswith(("#", "@")):
+            continue
+        parts = s.split()
+        try:
+            rg.append(float(parts[0])); fe.append(float(parts[1]))
+        except (ValueError, IndexError):
+            continue
+    if len(rg) < 5:
+        return None
+    rg = np.array(rg); fe = np.array(fe)
+    fe = fe - fe.min()                                  # zero at the global (closed) minimum
+    ci = int(fe.argmin()); rg_c = float(rg[ci])
+    out = {"rg_closed_min": round(rg_c, 3), "n_points": len(rg),
+           "note": "F(Rg) from plumed sum_hills; cost = F(open basin) - F(closed basin); barrier = peak "
+                   "F between them. Gate 3 PASS if open cost <= ~5 kcal/mol (transiently accessible)."}
+    open_mask = rg >= rg_c + 0.3                        # clearly opened (Rg >= closed + 0.3 nm)
+    if open_mask.any():
+        idxs = np.where(open_mask)[0]
+        oi = int(idxs[int(np.argmin(fe[idxs]))])
+        lo, hi = sorted((ci, oi))
+        barrier = float(fe[lo:hi + 1].max())
+        out.update({
+            "rg_open_min": round(float(rg[oi]), 3),
+            "open_cost_kJ_mol": round(float(fe[oi]), 2),
+            "open_cost_kcal_mol": round(float(fe[oi]) / 4.184, 2),
+            "barrier_kJ_mol": round(barrier, 2),
+            "barrier_kcal_mol": round(barrier / 4.184, 2),
+        })
+    return out
 
 
 def druggability_timeseries(prot, target_resseqs, time_ns, np):
