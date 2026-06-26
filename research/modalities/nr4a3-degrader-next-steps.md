@@ -140,15 +140,20 @@ the family metad (in flight) is the fix.
 - **Extending the metad** (if ever needed for a converged F(Rg)): `gpu-metad-aws.yml` with
   `resume_from=auto` continues from the saved checkpoint — but only if CV/metad params are unchanged
   (the manifest guard enforces this).
-- **Known-broken (abandoned):** `nr4a3_md_release.py` (unbiased release run) has a startup bug and
-  failed early; it was only orthogonal Gate-3 confirmation and is **not needed** (Gate 3 already
-  resolved). Fix only if that confirmation is later wanted.
+- **Release run (`nr4a3_md_release.py`) — startup crash FIXED 2026-06-26, pending a GPU validation run.**
+  It was parked after failing early; the identifiable crash was an AF-model-fetch regression
+  (`M._fetch_af_model()` signature) — now fixed + pinned to the NR4A3 reference CV/model (robust to the
+  metad TARGET refactor), compiles + imports clean. It's orthogonal Gate-3 confirmation and **not needed**
+  (Gate 3 already resolved), so it's queued for a *free* GPU slot behind the family metad, not a priority —
+  but it's launch-ready (`gpu-release-aws.yml`). NOTE: not yet validated on GPU, so treat as "should run"
+  until a clean run confirms it.
 
 ## Open items (not blockers for the warhead)
 - [ ] Harden the metad submitter against the 6 h cap (segments / fire-and-forget).
 - [x] Opened-frame handle-facing confirmation — **DONE** (CONFIRMED 2026-06-26, run 28249776934; mean
       5.0/7 handles facing, T407/R412 the exceptions). Result written into paper §2.2/§5 and the
       reconciliation Gate-2/3 rows.
-- [ ] (optional) Fix `nr4a3_md_release.py` for the orthogonal metastability confirmation.
+- [x] Fix `nr4a3_md_release.py` startup crash (AF-fetch regression) — DONE; pending a GPU validation run
+      for the orthogonal metastability confirmation (optional, not a blocker).
 - [ ] (optional) Converged longer metad to put a precise number on the full free-energy profile.
 - [ ] Verify all "[…to confirm]" reference locators before manuscript submission (medical integrity).

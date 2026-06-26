@@ -150,7 +150,8 @@ This sets the working threshold **D\*** and the falsification gates fixed in
   not depend on reaching it. *Reframing:* the single static AF2 model (0.495) understated druggability;
   the thermally-populated MD ensemble is robustly druggable at negligible cost. (An unbiased "release"
   run from the open conformer was attempted as orthogonal confirmation of metastability but is not
-  required — Gate 3 is resolved by the energetics above — and its pipeline is parked with a startup bug.)
+  required — Gate 3 is resolved by the energetics above — and its pipeline's startup crash is now fixed,
+  pending a confirmation run.)
   Shared check with Gate 2 (handles facing in) — CONFIRMED 2026-06-26 (mean 5.0/7 handles pocket-facing
   in the druggable frames; T407/R412 the outward-pointing exceptions; `nr4a3_handle_facing.py`).
 - *Infra note:* the 30 ns GitHub wrapper job was auto-cancelled at GitHub's 6 h job cap, but the

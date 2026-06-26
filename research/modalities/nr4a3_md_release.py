@@ -55,9 +55,14 @@ def main():
     with open(system_xml) as fh:
         system = mm.XmlSerializer.deserialize(fh.read())   # base system, NO PlumedForce = unbiased
 
-    # CV CA atoms (PLUMED 1-based) on the solvated topology, then 0-based for Rg.
-    M._fetch_af_model()
-    cv_identities = M._af2_residue_names(M.AF2_PDB, M.CV_RESIDUES)
+    # CV CA atoms (PLUMED 1-based) on the solvated topology, then 0-based for Rg. This release run is
+    # NR4A3-specific (it reuses the NR4A3 metad checkpoint), so pin the NR4A3 reference CV/model
+    # explicitly — robust to nr4a3_metad's TARGET being env-driven after the multi-paralogue refactor.
+    M.CV_RESIDUES = list(M.REF_CV_RESIDUES)
+    M.LBD_FIRST = M.REF_LBD_FIRST
+    af2_pdb = os.path.join(M.HERE, f"AF-{M.REF_ACC}.pdb")
+    M._fetch_af_model(M.REF_ACC, af2_pdb)
+    cv_identities = M._af2_residue_names(af2_pdb, M.CV_RESIDUES)
     plumed_atoms = M._cv_ca_plumed_indices(topology, cv_identities)
     if len(plumed_atoms) != len(M.CV_RESIDUES):
         sys.exit(f"  ABORT: matched {len(plumed_atoms)}/{len(M.CV_RESIDUES)} CV CA atoms")

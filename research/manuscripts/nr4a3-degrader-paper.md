@@ -102,7 +102,7 @@ and R412 mostly splay outward** (facing in 0.0 and 0.25 of druggable frames), so
 selective-engagement set is those five, not all seven. This is also the precondition for the warhead
 screen's handle-contact scoring (§2.4). An unbiased "release" run was attempted as orthogonal
 confirmation of metastability but is not required — Gate 3 is resolved by the energetics above — and its
-pipeline is currently parked with a startup bug.)*
+pipeline's startup crash is now fixed (pending a confirmation run).)*
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
