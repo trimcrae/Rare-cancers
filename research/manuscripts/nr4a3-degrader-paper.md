@@ -107,10 +107,12 @@ pipeline's startup crash is now fixed (pending a confirmation run).)*
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
 identifies **7 divergent Pocket-5 residues** — L406, T407, T410, R412, I484, I531, L534 — as selectivity
-handles. All 7 are within the metadynamics CV, so the opened pocket presents them to a designed warhead.
-This is the design specification that lets the *same* program be tuned NR4A3-selective (for the fusion
-sarcomas, sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately broad (for
-immuno-oncology) — §3.
+handles. All 7 are within the metadynamics CV; of these the opened, druggable ensemble keeps **5
+pocket-facing** (L406, T410, I484, I531, L534 — §2.2), so those five are the realistically *engageable*
+handles a warhead can exploit (T407 and R412 mostly splay outward). This design specification lets the
+*same* opened pocket be tuned **NR4A3-selective** (engaging the divergent handles; for the fusion sarcomas,
+sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately **pan-NR4A** (engaging the
+conserved pocket residues; for ex-vivo immuno-oncology) — §3.
 
 ### 2.4 Warhead screen + the family-wide selectivity matrix (in progress)
 With the pocket validated as druggable and accessible, we screen a **selective warhead** against the
@@ -175,7 +177,11 @@ Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Family-wide ensemble
 metadynamics pipeline is run on NR4A1 (P22736) and NR4A2 (P43354) — one target-agnostic script whose
 paralogue LBD trim + Pocket-5 CV residues are mapped to NR4A3 by the same BLOSUM62 alignment, with
 fail-loud guards + an audit log — to produce state-matched opened-pocket ensembles for the selectivity
-matrix (§2.4).
+matrix (§2.4). **Warhead / matrix:** smina docking of a real ChEMBL NR4A library into each paralogue's
+metad-opened conformer; per-candidate matrix cells assigned by `selectivity_fingerprint.py` (engage/margin
+thresholds; unit-tested). **Quantitative tier (planned):** MM-GBSA with per-residue decomposition, then
+selectivity FEP on the leads — enabled by the state-matched ensembles; docking scores are used only as
+triage priors. All parsing/mapping/classification logic is in pure, unit-tested modules (TESTING.md).
 
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
@@ -214,7 +220,7 @@ not energetically accessible, or no selective drug-like binder can be designed.
   carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107 / PubMed 30664630.
   (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
-  567:530–534 (2019). (T-cell exhaustion — needs *triple*-NR4A; contingency only.)
+  567:530–534 (2019). (T-cell exhaustion — needs *triple*-NR4A; the pan-NR4A second design mode, ex-vivo.)
 - Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
   myeloid leukemia.* **Nat Med** 13:730–735 (2007). PubMed 17515897.
 - Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* **Mol Cancer
