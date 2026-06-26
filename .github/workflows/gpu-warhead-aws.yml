@@ -1,0 +1,61 @@
+name: NR4A3 selective warhead screen (AWS SageMaker)
+
+# Runs the selective NR4A3 warhead screen (nr4a3_warhead.py) as a managed SageMaker Processing job:
+# extracts the MD-opened conformer from the 30 ns metad trajectory (s3://<bucket>/nr4a3-metad), docks
+# candidate ligands into NR4A3-opened + NR4A1/NR4A2, and scores selectivity margin + handle engagement.
+# CPU work (< 6 h); defaults to ml.g5.xlarge to reuse the GPU quota. REQUIRES secrets:
+# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is a workflow input).
+# Run AFTER a 30 ns metad run has populated s3://<bucket>/nr4a3-metad.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (g5.xlarge reuses the GPU quota; CPU type if you have that quota)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + trajectory live"
+        default: "us-east-2"
+        required: false
+      input_prefix:
+        description: "S3 prefix with the metad trajectory (opened conformer source)"
+        default: "nr4a3-metad"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the warhead results"
+        default: "nr4a3-warhead"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker warhead job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_warhead_sagemaker.py
