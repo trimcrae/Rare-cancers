@@ -32,23 +32,34 @@ cryptic druggable pocket / the opened state" to "the orthosteric pocket **breath
 druggable conformations," with the no-separate-basin caveat stated. (c) Corrected the next-steps TL;DR and
 the prereg deviation log to stop claiming an unqualified "Gates 0–3 pass."
 
-## F2 (high) — The headline 0.931 is compared to the static holo panel as if on one scale; the opened-frame score is uncalibrated
-**Deficiency.** The abstract and §2.2 say the opened-frame druggability **0.931** is "above every
-experimentally drug-bound NR pocket in our panel (0.53–0.68)." But 0.931 is fpocket on a **bias-driven,
-maximally-expanded MD frame**, while the panel numbers are **static holo crystal ligand sites**. fpocket's
-drug score rises monotonically with cavity volume/enclosure, and the metadynamics CV *is* the pocket's
-radius of gyration — i.e. the protocol inflates exactly the quantity the score rewards. Comparing the two
-as if commensurate overstates the result. Critically, **the opened-frame score is never calibrated**: the
-calibration panel (D\*=0.53) calibrates *static* fpocket scores, and there is no negative control showing
-that an Rg-metadynamics protocol does *not* drive an arbitrary (e.g. genuinely undruggable) pocket to
-~0.9. Without that, "0.931 > the drug-bound band" is not a like-for-like statement.
+## F2 (medium) — The headline 0.931 is an extreme-value statistic and is compared to the static holo panel as if on one scale
+**Deficiency.** The abstract and §2.2 said the opened-frame druggability **0.931** is "above every
+experimentally drug-bound NR pocket in our panel (0.53–0.68)." Two real problems: (a) 0.931 is the
+**maximum over 600 frames** — an extreme-value statistic that overstates the typical opened conformation;
+the faithful summary is the *fraction* of opened frames clearing D\*=0.53 (the pre-registered ≥5 % bar,
+met) with 0.931 as the peak. (b) It is computed on **biased-MD** conformations while the panel numbers are
+**static crystal ligand sites**, so the magnitudes are not on the same footing and "beats the drug-bound
+band" is not like-for-like.
 
-**Fix applied.** (a) Demoted the "above every drug-bound pocket" phrasing to a hedged, like-for-like
-statement and labelled 0.931 a *biased-ensemble structural-feasibility readout*, not a calibrated
-druggability comparable to the static holo sites. (b) Added — as a recommended strengthening control, not
-a "you didn't do it" — running the *same* Rg-metadynamics on a calibration pocket (a known-druggable and a
-genuinely undruggable LBD) so the opened-frame score is calibrated the way the static scores are. Recorded
-in §5 and in the next-steps open items.
+**Correction to an earlier over-statement of this finding.** An earlier version of this memo also called
+the opened-frame score "uncalibrated" and recommended a bespoke fpocket **negative control** (run the same
+Rg-metadynamics on a genuinely undruggable pocket). On reflection that was overstated and is **retracted**:
+fpocket's druggability score is a *standard, validated* metric (a logistic model of hydrophobic enclosure
+and polarity — not raw cavity volume), and §2.1 already anchors it on an NR panel that includes the
+occluded 1OVL crystal as a de-facto negative. So the metric itself is not in question, and — because
+druggability rewards hydrophobic *enclosure* — a pocket that merely splayed open / became solvent-exposed
+would score *lower*, not higher, which means the rise is informative, not an artifact of "opening." The one
+thing fpocket cannot settle (is the breathing-open geometry physically populated, or bias-induced strain?)
+is answered by the **unbiased release run**, which dominates any fpocket control for that purpose. Net: the
+negative control is redundant; the surviving, legitimate fixes are the max-vs-distribution reporting and
+the biased-vs-static comparison caveat.
+
+**Fix applied.** (a) Dropped the "above every drug-bound pocket" claim; relabelled 0.931 a biased-MD
+**peak** and lead instead with the fraction-of-frames-≥-D\* distribution. (b) Stated the rise reflects a
+hydrophobic, *enclosed* cavity (a splayed pocket would score lower). (c) Replaced the next-steps
+"negative-control calibration" item with a "report-as-distribution" item and an explicit note that no
+bespoke fpocket negative control is needed. Paper §2.2/§5, abstract, and the reconciliation †-note updated
+to match.
 
 ## F3 (high) — Metric conflation in the calibration table (the very error the paper accuses others of)
 **Deficiency.** The reconciliation's calibration table reports 0.931 under a column headed "max

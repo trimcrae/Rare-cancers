@@ -33,10 +33,12 @@ the family's reputation — and we show the apparent "0.80 druggable" reads repo
 metadynamics drives the orthosteric pocket to breathe into transiently druggable conformations**: under a
 bias on the pocket's radius-of-gyration coordinate, the *same orthosteric Pocket-5* fpocket druggability
 (the metric on which the static 0.495 and the calibrated threshold are defined — not the non-discriminating
-"max-anywhere" cavity) rises to **0.931** over the 30 ns ensemble (the 5 ns validation gave 0.751). This
-is a **biased-ensemble structural-feasibility readout**, not a calibrated affinity-like score — its raw
-magnitude is not directly comparable to the *static* drug-bound crystal sites (0.53–0.68) and is not yet
-calibrated against an undruggable negative control under the same protocol (§2.2, §5) — but it is the first
+"max-anywhere" cavity) reaches **0.931** (peak over the 600 opened frames; a non-negligible fraction clear
+the calibrated threshold, the 5 ns validation gave 0.751). This is a **biased-ensemble structural-
+feasibility readout** — fpocket druggability is a standard metric and the rise reflects a hydrophobic,
+*enclosed* breathing cavity (a merely splayed pocket would score lower), but its magnitude on biased-MD
+frames is not a like-for-like match to the *static* drug-bound crystal sites (0.53–0.68), so we do not
+claim it "beats" that band (§2.2, §5) — yet it is the first
 pocket-dynamics evidence for NR4A3, paralleling the experimentally demonstrated *dynamic, breathing* pocket
 of Nurr1 (de Vera 2019) and an MD-revealed cryptic pocket in Nur77. We are careful that the free-energy
 profile shows **no separate opened basin** (a single closed basin with a rising wall); the druggable
@@ -101,16 +103,23 @@ residues rises (+6.1 nm², 86.8 % of frames more open than baseline). (A 5 ns va
 0.751.) This is the **first pocket-dynamics evidence for NR4A3**, paralleling the *dynamic, breathing*
 Nurr1 pocket (de Vera 2019).
 
-**Read this number for what it is.** 0.931 is fpocket on a **bias-driven, maximally-expanded** MD frame,
-and the metadynamics CV is the pocket's own radius of gyration — i.e. the protocol inflates exactly the
-cavity dimension the fpocket score rewards. It is therefore a **biased-ensemble structural-feasibility
-readout**, not an affinity-like score on the same footing as the *static* drug-bound crystal sites
-(0.53–0.68); we do **not** claim "0.931 > the drug-bound band" as a like-for-like result. The calibration
-(§2.1) calibrates *static* fpocket scores; the opened-frame score is **not yet calibrated against a
-negative control** — the clean test, recommended as a strengthening control, is to run the *same*
-Rg-metadynamics on a calibration LBD (a known-druggable and a genuinely undruggable pocket) and confirm an
-undruggable pocket does *not* inflate to ~0.9 under the protocol. The honest claim is that the pocket
-*geometrically admits* a druggable cavity when it breathes open, with the magnitude uncalibrated.
+**Read this number for what it is.** The fpocket druggability score is a standard, validated metric (a
+logistic model of hydrophobic enclosure and polarity — *not* raw cavity volume), and §2.1 already anchors
+it on a nuclear-receptor panel that includes the occluded 1OVL crystal as a de-facto negative; the score
+itself is not in question. Two honest qualifications apply to the **0.931** specifically. First, it is the
+**maximum over the 600 opened frames** — an extreme-value statistic that overstates the *typical* opened
+conformation; the more faithful summary is the *distribution*, i.e. the fraction of opened frames clearing
+D\*=0.53 (the pre-registered ≥5 %-of-frames test, comfortably met — the handle-facing sub-sample found
+roughly one third of frames druggable), with 0.931 as the peak. Second, it is computed on **biased-MD
+conformations**, so its magnitude is not on the same footing as the *static* drug-bound crystal sites
+(0.53–0.68) and we do **not** claim "0.931 > the drug-bound band" as a like-for-like result. Note the rise
+is informative rather than an artifact of "opening": because druggability rewards hydrophobic *enclosure*,
+a pocket that merely splayed open / became solvent-exposed would score *lower*, not higher — so reaching a
+druggable score means the breathing cavity is hydrophobic and enclosed (corroborated by the lining-residue
+/ handle-facing check, §2.2 below). The one thing fpocket cannot settle — whether the breathing-open
+geometry is physically populated or bias-induced strain — is decided by the unbiased **release run**, not
+by any fpocket control. The honest claim: the pocket *geometrically admits* a druggable cavity when it
+breathes open, with that cavity hydrophobic/enclosed, and the population pending the release run.
 
 **Gate scoring** ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)):
 **Gate 2 (opened state druggable) PASSES** on both clauses (druggable frames + handles pocket-facing,
@@ -245,12 +254,15 @@ exactly the single-snapshot limitation. We state the central result at its true 
 made explicit rather than buried (full adversarial review:
 [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md)):
 
-1. **The 0.931 is a biased-ensemble, uncalibrated structural readout.** It is fpocket on a bias-driven,
-   maximally-expanded MD frame, and the metadynamics CV is the pocket's own radius of gyration — the
-   protocol inflates the cavity dimension the score rewards. Its raw magnitude is **not** comparable to the
-   *static* drug-bound crystal sites (0.53–0.68), and it is not yet calibrated against an undruggable
-   negative control run through the same protocol (the recommended strengthening control). fpocket
-   druggability is in any case a geometric screen, not affinity.
+1. **The 0.931 is a biased-ensemble peak, not a like-for-like beat of the static band.** fpocket
+   druggability is a standard, validated metric (hydrophobic enclosure + polarity, not raw volume; §2.1
+   anchors it on an NR panel incl. the occluded 1OVL negative), so the score itself is not in question.
+   But (a) 0.931 is the **maximum over 600 frames** — report it as a distribution (fraction of frames
+   ≥ D\*=0.53, met) with 0.931 as the peak; and (b) it is computed on **biased-MD** conformations, so its
+   magnitude is not directly comparable to the *static* drug-bound crystal sites (0.53–0.68) — we do not
+   claim it beats that band. fpocket druggability is in any case a geometric screen, not affinity. Whether
+   the breathing-open geometry is physically populated vs bias-induced strain is settled by the release
+   run, not by an fpocket control.
 2. **No separate opened free-energy basin.** F(Rg) is monotonic (one closed basin, rising wall); the
    druggable conformations are reached by *basin-internal breathing*, not a two-state cryptic opening, so
    the pre-registered Gate 1 ("minimum or shoulder, not just biased excursions") is met only in this

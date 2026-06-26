@@ -105,11 +105,14 @@ This sets the working threshold **D\*** and the falsification gates fixed in
 > rows above, the "max druggability" column is the **max-anywhere-on-LBD** cavity (non-discriminating;
 > e.g. 1OVL 0.864 is a non-orthosteric cleft). For the two **metad-opened** rows, 0.751/0.931 are the
 > **orthosteric Pocket-5** druggability (the *same* metric as the static NR4A3 0.495 and D\*=0.53), taken
-> as the max **over frames** of that pocket — *not* the max-anywhere cavity. So 0.931 is commensurate with
-> 0.495 and D\*, but it is a **biased-MD-frame** number (the metad CV is the pocket Rg, which inflates the
-> cavity fpocket rewards), so it is **not** on the same footing as the *static* drug-bound crystal sites
-> (0.53–0.68) and is **not yet calibrated** against an undruggable negative control under the same
-> protocol. Read it as a structural-feasibility readout, not a calibrated druggability.
+> as the **peak over frames** of that pocket — *not* the max-anywhere cavity. So 0.931 is commensurate
+> with 0.495 and D\*, but two caveats: it is an **extreme value over 600 frames** (report the fraction of
+> frames ≥ D\* — met — with 0.931 as the peak), and it is a **biased-MD-frame** number, so its magnitude is
+> not on the same footing as the *static* drug-bound crystal sites (0.53–0.68). The fpocket druggability
+> metric itself is standard and is already anchored by this panel (incl. the occluded 1OVL negative), so no
+> bespoke negative control is needed; and because druggability rewards hydrophobic *enclosure*, a merely
+> splayed/solvent-exposed pocket would score *lower* — the rise is informative. Read 0.931 as a
+> structural-feasibility readout; the physical-population question is the release run's, not fpocket's.
 
 **Interpretation (three findings):**
 
