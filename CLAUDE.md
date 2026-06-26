@@ -6,11 +6,20 @@ read it before making changes.
 ## TL;DR for agents
 
 - **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
-  forward an EMC treatment**. As of 2026-06-25 the **lead publication vehicle is the split-out,
-  target-centric NR4A3-degrader result paper** — **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
-  (EMC is its lead clinical application among several NR4A3/NR4A indications); the
+  forward an EMC treatment**. **As of 2026-06-26 (trimcrae decision), the TWO papers to publish first are:**
+  **(1)** the split-out, target-centric **NR4A3-degrader result paper** —
+  **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
+  (EMC is its lead clinical application among several NR4A3/NR4A indications); and **(2)** the
+  **fusion-junction ASO paper** — **[research/manuscripts/fusion-junction-aso-paper.md](./research/manuscripts/fusion-junction-aso-paper.md)** —
+  the most-likely-to-work *fusion-exclusive* route (RNA-level silencing of the chimera that **spares
+  wild-type NR4A3**, which the LBD-binding degrader cannot), now with a complete in-silico evidence arc
+  (design → transcriptome-wide off-target → breakpoint-favorability scan → gap-mismatch-resolved
+  predicted-clean gapmers; **delivery is its one remaining gate**). **Next tier, not the first two:** the
   **[research/manuscripts/emc-treatment-roadmap.md](./research/manuscripts/emc-treatment-roadmap.md)**
-  remains the EMC-program paper. This serves, not replaces, the EMC goal (see
+  (EMC-program paper) and the **fusion-exclusivity framework**
+  ([research/manuscripts/fusion-selective-approaches-overview.md](./research/manuscripts/fusion-selective-approaches-overview.md),
+  the 5-route design space for sparing wild-type NR4A3; AND-gate degrader / condensate / PPI / neoantigen).
+  This serves, not replaces, the EMC goal (see
   **[research/manuscripts/nr4a3-degrader-paper-positioning.md](./research/manuscripts/nr4a3-degrader-paper-positioning.md)**).
   **Resuming the degrader in-silico work (program state + exactly how to run the next GPU step, e.g. the
   warhead screen): [research/modalities/nr4a3-degrader-next-steps.md](./research/modalities/nr4a3-degrader-next-steps.md)** —

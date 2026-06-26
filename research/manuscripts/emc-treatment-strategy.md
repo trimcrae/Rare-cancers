@@ -221,6 +221,28 @@ Mining DepMap 24Q4 with sarcoma lines as the EMC surrogate (pipeline validated o
 Standing program decisions. Revisit as results and tools land.
 
 ### Q1 — Scope of the FIRST paper
+**Decision (2026-06-26, trimcrae) — the two papers to publish FIRST are the NR4A3-degrader paper and the
+fusion-junction ASO paper.** This supersedes the earlier "paper 1 = roadmap" sequencing *for what ships
+first*. The two priorities:
+1. **NR4A3-degrader result paper** ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)) — the
+   target-centric cryptic-pocket/selectivity/degrader-design result. NR4A3-selective but **not**
+   fusion-selective (shared LBD).
+2. **Fusion-junction ASO paper** ([`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)) — the
+   **fusion-exclusive** RNA-level route that spares wild-type NR4A3, and the **most-likely-to-work** of the
+   fusion-unique modalities (proven knockdown class + strong fusion-addiction prior). It now carries a
+   complete in-silico arc — gapmer/siRNA design → transcriptome-wide off-target screen → a per-breakpoint
+   favorability scan (the canonical junction is GC-rich/specificity-poor, but **62% of modelled breakpoints
+   are favorable**) → a **gap-mismatch-resolved** off-target screen that finds **predicted-clean gapmers
+   (2/5) at a favorable breakpoint** — plus a reusable specificity workflow that generalizes to any
+   recurrent-fusion ASO. **Delivery is its one remaining gate.** Rationale for elevating it over the
+   roadmap/program paper: it is a self-contained *result + method*, it is the highest-likelihood-of-working
+   fusion-exclusive route, and it pairs naturally with the degrader (the degrader spares the paralogues; the
+   ASO spares wild-type NR4A3 — the next selectivity tier). **Next tier (not first):** the
+   `emc-treatment-roadmap.md` program paper and the **fusion-exclusivity framework**
+   ([`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md), which houses the
+   four non-ASO fusion-unique routes as a comparative design space). The prior 2026-06-24 framing is
+   retained below for the record.
+
 **Decision (REVISED 2026-06-24): paper 1 is the computation-only `emc-treatment-roadmap.md`, but its
 *contribution* is reframed from "the prioritized portfolio" to "a method + a driver-directed program."**
 The earlier framing (below) made the *ranking of mostly-known repurposed drugs* the headline, which

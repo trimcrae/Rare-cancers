@@ -3,31 +3,46 @@
 This folder holds the treatment-track writing plus a few supporting and separate-track
 documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 
-> **TWO active manuscripts (split executed 2026-06-25):**
+> **TWO PRIORITY papers to publish first (trimcrae decision 2026-06-26):**
 > 1. **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** — **lead result paper**, target-centric:
 >    *computational design of a selective NR4A3 degrader* (cryptic-pocket druggability, selectivity
 >    handles, degrader design). EMC is the lead clinical application among several NR4A3/NR4A indications.
-> 2. **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** — **EMC-program paper**: the
->    driver-directed framework, the categorical-gap landscape, and the EMC-fusion-specific routes
->    (junction ASO/siRNA, immuno/surface targets, outcomes registry).
+>    *NR4A3-selective but NOT fusion-selective (the LBD is shared with wild-type NR4A3).*
+> 2. **[`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)** — **fusion-exclusive result
+>    paper**: an RNase-H gapmer / siRNA against the EWSR1::NR4A3 breakpoint junction that silences the
+>    chimera while **sparing wild-type NR4A3** — the most-likely-to-work fusion-unique route, with a
+>    complete in-silico arc (design → off-target → breakpoint-favorability scan → gap-mismatch-resolved
+>    predicted-clean gapmers; delivery is the one remaining gate). The standout of the fusion-exclusive set.
 >
-> Both still serve the repo's EMC goal (the degrader paper is *how* we advance it — see
+> **Next tier (not the first two):** **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** (the
+> EMC-program paper: driver-directed framework, categorical-gap landscape, fusion-specific routes) and the
+> **fusion-exclusivity framework** ([`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md))
+> spanning all five fusion-unique routes (ASO, neoantigen, AND-gate degrader, condensate, PPI) — the
+> framework houses the four non-ASO routes as a comparative design space.
+>
+> All still serve the repo's EMC goal (the degrader paper is *how* we advance it — see
 > [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md)). Everything else in this
 > folder **feeds** one of them, **records QA**, or is **parked / separate-track**; each file carries a
 > one-line role banner.
 
 ---
 
-## ▶ Active manuscript (the repo's #1 deliverable)
+## ▶ Priority manuscripts (publish first — 2026-06-26 decision)
+
+- **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** and
+  **[`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)** — the two papers to develop to
+  preprint/submission first (see the priority block at the top of this file and `emc-treatment-strategy.md`
+  Q1). The degrader is the target-selective result; the ASO is the fusion-exclusive result that spares
+  wild-type NR4A3.
 
 - **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** — *"Attacking an 'undruggable' fusion
   oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3 EMC."* The
-  single paper currently being developed for preprint/submission. **Its contribution is the novel
+  **EMC-program paper** — now **next-tier**, not the first to ship. **Its contribution is the novel
   in-silico work** (done + planned) and the **driver-directed designs** it feeds (degrader + junction-ASO
   against the fusion itself); the repurposing/standard-of-care material is *not* a contribution — it
   appears only as one-paragraph context establishing the categorical gap (no targeted drug exists for
   EMC). Grading known drugs was cut in the 2026-06-24 rescope (see `emc-treatment-strategy.md` Q1). It is
-  a **living document** (changelog at its top). If you came here to work on "the manuscript," this is it.
+  a **living document** (changelog at its top).
 
 ## Strategy / source of truth (internal — not a manuscript)
 

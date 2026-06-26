@@ -102,9 +102,22 @@ its single remaining unsolved gate**; the condensate premise is data-supported (
 druggability); and the AND-gate's selectivity is real but modest and dose-fragile in degradation.
 
 ## Three lenses (pick by what you weight)
-- **Most likely to work (biology) →** junction ASO/siRNA (paper 1), then junction neoantigen (paper 2).
-- **Most ready to publish *now* →** junction neoantigen (paper 2).
-- **Most novel / best selectivity, highest ceiling, lowest near-term odds →** AND-gate degrader (paper 3).
+- **Most likely to work (biology) →** junction ASO/siRNA, then junction neoantigen.
+- **Most ready to publish *now* →** junction neoantigen.
+- **Most novel / best selectivity, highest ceiling, lowest near-term odds →** AND-gate degrader.
+
+## Publishing decision (2026-06-26, trimcrae)
+**The two papers to publish FIRST are the NR4A3-degrader paper and the fusion-junction ASO paper** (the
+standout of this set — most-likely-to-work, with a complete in-silico arc ending in predicted-clean gapmers;
+delivery is its one gate). Of the five fusion-unique routes here, **only the ASO is promoted to a standalone
+priority paper.** The other four (neoantigen, AND-gate degrader, condensate, PPI) are **not** separate papers
+yet — they become the **comparative design space inside the fusion-exclusivity *framework* paper** (this
+overview, grown into a perspective/methods piece: *"target-selective ≠ fusion-selective — the computable
+design space for sparing the wild-type protein"*), which is **next-tier**, after the degrader + ASO. So the
+sequence is: **degrader + ASO (first) → fusion-exclusivity framework + EMC-program roadmap (next) →**
+individual route papers only if/when their gating step matures (AND-gate arm-2 chemistry; condensate
+druggability; PPI interactome). Recorded in `emc-treatment-strategy.md` Q1, `CLAUDE.md`, and
+`research/manuscripts/README.md`.
 
 *Medical-integrity note: every quantitative claim in the five papers is cited, quoted from a committed
 output, or flagged; the AND-gate model's Kd/EM inputs are illustrative assumptions (so labelled); no
