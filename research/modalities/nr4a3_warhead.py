@@ -114,9 +114,14 @@ def dock_read(path):
 
 
 # ----------------------------------------------------------------- 2. map pocket onto a paralogue
-def map_pocket_to_paralogue(nr4a3_pdb, para_pdb):
-    """Return the paralogue residue numbers homologous to the NR4A3 POCKET_RESIDUES, via a global
-    BLOSUM62 alignment of the two CA sequences (same approach as nr4a_selectivity.py)."""
+def map_pocket_to_paralogue(nr4a3_pdb, para_pdb, pocket_resnums):
+    """Return the paralogue residue numbers homologous to the NR4A3 pocket, via a global BLOSUM62
+    alignment of the two CA sequences (same approach as nr4a_selectivity.py).
+
+    `pocket_resnums` are the NR4A3 pocket residues IN THE NUMBERING OF nr4a3_pdb. The opened conformer
+    extracted from the trajectory is renumbered from 1 (resSeq 1..254), NOT the AF2 406..534 numbering —
+    passing the AF2 POCKET_RESIDUES here matched zero residues and silently produced empty paralogue
+    boxes (no selectivity). The caller resolves the correct resSeqs via residue_map (box_res)."""
     from Bio.Align import PairwiseAligner, substitution_matrices
     three2one = {"ALA": "A", "ARG": "R", "ASN": "N", "ASP": "D", "CYS": "C", "GLN": "Q", "GLU": "E",
                  "GLY": "G", "HIS": "H", "ILE": "I", "LEU": "L", "LYS": "K", "MET": "M", "PHE": "F",
@@ -143,7 +148,7 @@ def map_pocket_to_paralogue(nr4a3_pdb, para_pdb):
             m[a0 + off] = b0 + off
     para_nums = [pr for pr, _ in sp]
     out = []
-    for r in POCKET_RESIDUES:
+    for r in pocket_resnums:
         i = idx_of_resnum3.get(r)
         if i is not None and i in m:
             out.append(para_nums[m[i]])
@@ -297,18 +302,28 @@ def main():
     s3, pose3 = dock_into(rec3, center3, sdf, "nr4a3")
     contacts = handle_contacts(rec3, pose3, handle_res)
     para_scores = {}
+    para_mapped = {}            # audit: # pocket residues mapped onto each paralogue (0 => no selectivity)
     for name, acc in PARALOGUES.items():
         try:
             ppdb = os.path.join(OUT, f"AF-{acc}.pdb")
             url = json.loads(dock._get(f"https://alphafold.ebi.ac.uk/api/prediction/{acc}"))[0]["pdbUrl"]
             open(ppdb, "wb").write(dock._get(url, timeout=120))
-            para_res = map_pocket_to_paralogue(rec3, ppdb)
+            para_res = map_pocket_to_paralogue(rec3, ppdb, box_res)   # box_res = opened-conformer resSeqs
+            para_mapped[name] = len(para_res)
+            if not para_res:
+                raise RuntimeError(f"0 pocket residues mapped onto {name} — selectivity not evaluated "
+                                   f"(check numbering: opened-conformer resSeqs were {box_res[:3]}...)")
             pc, _ = pocket_box(ppdb, para_res)
             sc, _ = dock_into(ppdb, pc, sdf, name)
             para_scores[name] = sc
+            print(f"  paralogue {name}: mapped {len(para_res)} pocket residues, docked {len(sc)} ligands",
+                  flush=True)
         except Exception as e:  # noqa: BLE001
             print(f"  paralogue {name} dock failed: {e}", file=sys.stderr)
             para_scores[name] = {}
+            para_mapped.setdefault(name, 0)
+    res["paralogue_pocket_residues_mapped"] = para_mapped
+    res["selectivity_evaluated"] = any(v > 0 for v in para_mapped.values())
 
     # 4) selectivity scoring
     rows = []
@@ -330,7 +345,14 @@ def main():
     rows.sort(key=lambda r: (-(r["selectivity_margin"] or -99), r["dG_NR4A3"], -r["handle_contacts"]))
     res["candidates"] = rows
     res["best"] = rows[0] if rows else None
-    res["_status"] = "ok" if rows else "no docked scores"
+    if not rows:
+        res["_status"] = "no docked scores"
+    elif res.get("selectivity_evaluated"):
+        res["_status"] = "ok"
+    else:
+        res["_status"] = ("ok-NO-SELECTIVITY: NR4A3 affinity + handle contacts only; paralogue mapping "
+                          "failed so selectivity_margin is null for all candidates (see "
+                          "paralogue_pocket_residues_mapped)")
     json.dump(res, open(os.path.join(OUT, "nr4a3-warhead.json"), "w"), indent=2)
     print(json.dumps({"opened_conformer": res["opened_conformer"], "n_candidates": res.get("n_candidates"),
                       "best": res.get("best"), "top5": rows[:5]}, indent=2), flush=True)
