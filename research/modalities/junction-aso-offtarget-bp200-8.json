@@ -4,7 +4,7 @@
     "NR4A3_from_aa": 8,
     "is_canonical": false
   },
-  "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API). A clean oligo has zero gap-spanning off-target near-matches (the RNase-H-cleavable liability). Wing-only matches are weaker (affinity) liabilities. Predicted specificity, not validated; confirm by the parental-/off-target-sparing wet-lab controls.",
+  "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
   "method": {
     "db": "refseq_rna (txid9606[ORGN])",
     "program": "blastn (short, FILTER off)",
@@ -16,8 +16,8 @@
     "breakpoint_model": "assumed canonical breakpoint (same as junction_aso.py)"
   },
   "n_oligos_screened": 5,
-  "n_screened_ok": 4,
-  "n_oligos_no_gap_spanning_offtarget": 0,
+  "n_screened_ok": 5,
+  "n_oligos_no_true_cleavage_risk": 2,
   "oligos": [
     {
       "antisense_5to3": "GGGCTATACGGCTGTG",
@@ -25,10 +25,13 @@
       "gc_percent": 62.5,
       "specificity_margin": 8,
       "status": "screened",
-      "blast_rid": "3XWF159X014",
+      "blast_rid": "3Y0EC52Y014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 21,
-      "n_gap_spanning_offtargets": 21,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 21,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
       "offtargets": [
         {
           "acc": "NM_001281956",
@@ -37,7 +40,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "NM_052896",
@@ -46,7 +51,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "NR_002728",
@@ -55,7 +62,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||||||| ||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_017000185",
@@ -64,7 +73,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_047443607",
@@ -73,7 +84,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_047443642",
@@ -82,7 +95,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_047443656",
@@ -91,7 +106,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_047443666",
@@ -100,7 +117,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_047443685",
@@ -109,7 +128,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_054334092",
@@ -118,7 +139,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XR_001753449",
@@ -127,7 +150,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "||||||| |||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XR_002958225",
@@ -136,7 +161,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "||||||| |||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XR_007066371",
@@ -145,7 +172,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "||||||| |||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XR_007088414",
@@ -154,7 +183,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "||||||| |||||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XR_007088415",
@@ -163,7 +194,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "||||||| |||||||",
+          "risk": "gap_disrupted_no_cleavage"
         }
       ]
     },
@@ -172,8 +205,181 @@
       "target_mRNA_5to3": "ACACAGCCGTATAGCC",
       "gc_percent": 56.2,
       "specificity_margin": 7,
-      "status": "screen_failed",
-      "error": "Remote end closed connection without response"
+      "status": "screened",
+      "blast_rid": "3Y0F7SVD014",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 36,
+      "n_true_cleavage_risk": 15,
+      "n_gap_disrupted_no_cleavage": 21,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "offtargets": [
+        {
+          "acc": "NR_002728",
+          "defn": "Homo sapiens KCNQ1 opposite strand/antisense transcript 1 (KCNQ1OT1), long non-coding RNA",
+          "identity": 15,
+          "align_len": 16,
+          "q_from": 1,
+          "q_to": 16,
+          "qseq": "ACACAGCCGTATAGCC",
+          "midline": "||||||||||| ||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001014796",
+          "defn": "Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant 1, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001281956",
+          "defn": "Homo sapiens CUB and Sushi multiple domains 2 (CSMD2), transcript variant 1, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "NM_001354982",
+          "defn": "Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant 3, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001354983",
+          "defn": "Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant 4, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_006182",
+          "defn": "Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant 2, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_052896",
+          "defn": "Homo sapiens CUB and Sushi multiple domains 2 (CSMD2), transcript variant 2, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "XM_011509587",
+          "defn": "PREDICTED: Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant X2, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_011509588",
+          "defn": "PREDICTED: Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant X4, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_017000185",
+          "defn": "PREDICTED: Homo sapiens CUB and Sushi multiple domains 2 (CSMD2), transcript variant X2, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "XM_047421554",
+          "defn": "PREDICTED: Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant X1, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047421565",
+          "defn": "PREDICTED: Homo sapiens discoidin domain receptor tyrosine kinase 2 (DDR2), transcript variant X3, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047443607",
+          "defn": "PREDICTED: Homo sapiens CUB and Sushi multiple domains 2 (CSMD2), transcript variant X1, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "XM_047443642",
+          "defn": "PREDICTED: Homo sapiens CUB and Sushi multiple domains 2 (CSMD2), transcript variant X3, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "XM_047443656",
+          "defn": "PREDICTED: Homo sapiens CUB and Sushi multiple domains 2 (CSMD2), transcript variant X4, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "CACAGCCGTATAGCC",
+          "midline": "|||||| ||||||||",
+          "risk": "gap_disrupted_no_cleavage"
+        }
+      ]
     },
     {
       "antisense_5to3": "AGGGCTATACGGCTGT",
@@ -181,10 +387,13 @@
       "gc_percent": 56.2,
       "specificity_margin": 7,
       "status": "screened",
-      "blast_rid": "3XWG5J6Z014",
+      "blast_rid": "3Y0G189W014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 1,
-      "n_gap_spanning_offtargets": 1,
+      "n_true_cleavage_risk": 0,
+      "n_gap_disrupted_no_cleavage": 1,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
       "offtargets": [
         {
           "acc": "NM_001145320",
@@ -193,7 +402,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CAGCCGTATAGCCCT",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         }
       ]
     },
@@ -203,10 +414,13 @@
       "gc_percent": 50.0,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "3XWGZTTY014",
+      "blast_rid": "3Y0GWN03014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 38,
-      "n_gap_spanning_offtargets": 38,
+      "n_true_cleavage_risk": 29,
+      "n_gap_disrupted_no_cleavage": 9,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
       "offtargets": [
         {
           "acc": "NM_001014796",
@@ -215,7 +429,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NM_001040126",
@@ -224,7 +440,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_002728",
@@ -233,7 +451,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_109848",
@@ -242,7 +462,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "XM_005245916",
@@ -251,7 +473,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "XM_005272398",
@@ -260,7 +484,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_011509587",
@@ -269,7 +495,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "XM_011509588",
@@ -278,7 +506,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "XM_011541634",
@@ -287,7 +517,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "XM_011543837",
@@ -296,7 +528,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_011543838",
@@ -305,7 +539,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_011543840",
@@ -314,7 +550,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_024447292",
@@ -323,7 +561,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "TACACAGCCGTATAG",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "XM_047421554",
@@ -332,7 +572,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "XM_047421565",
@@ -341,7 +583,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "ACACAGCCGTATAGC",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
         }
       ]
     },
@@ -351,10 +595,13 @@
       "gc_percent": 56.2,
       "specificity_margin": 6,
       "status": "screened",
-      "blast_rid": "3XWHU0S5014",
+      "blast_rid": "3Y0HRXBR014",
       "n_parent_or_intended_hits": 0,
       "n_offtarget_near_matches": 28,
-      "n_gap_spanning_offtargets": 28,
+      "n_true_cleavage_risk": 27,
+      "n_gap_disrupted_no_cleavage": 1,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
       "offtargets": [
         {
           "acc": "NM_001145320",
@@ -363,7 +610,9 @@
           "align_len": 15,
           "q_from": 1,
           "q_to": 15,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "CAGCCGTATAGCCCT",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
         },
         {
           "acc": "NM_001321920",
@@ -372,7 +621,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NM_001321921",
@@ -381,7 +632,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NM_001321922",
@@ -390,7 +643,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NM_001321923",
@@ -399,7 +654,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NM_020447",
@@ -408,7 +665,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135841",
@@ -417,7 +676,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135842",
@@ -426,7 +687,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135843",
@@ -435,7 +698,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135844",
@@ -444,7 +709,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135845",
@@ -453,7 +720,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135846",
@@ -462,7 +731,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135847",
@@ -471,7 +742,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135848",
@@ -480,7 +753,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         },
         {
           "acc": "NR_135849",
@@ -489,7 +764,9 @@
           "align_len": 15,
           "q_from": 2,
           "q_to": 16,
-          "risk": "gap_spanning_cleavage_risk"
+          "qseq": "AGCCGTATAGCCCTT",
+          "midline": "||| |||||||||||",
+          "risk": "true_cleavage_risk"
         }
       ]
     }
