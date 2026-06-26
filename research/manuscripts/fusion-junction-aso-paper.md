@@ -19,7 +19,12 @@
 > full-transcriptome screen on the same favorable breakpoint
 > [`../modalities/aso-insilico-evaluation-bp200-8.json`](../modalities/aso-insilico-evaluation-bp200-8.json)
 > (4 of 5 gapmers with zero ≤1-mismatch off-targets; 5 of 5 with zero exact — vs 0 of 5 clean at the
-> canonical junction). Together these show feasibility is
+> canonical junction), and — closing the prior "only modelled breakpoints" gap — the **full pipeline run on
+> the real recurrent EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions** built exon-exact from Ensembl
+> ([`../modalities/aso-insilico-evaluation-e12n3.json`](../modalities/aso-insilico-evaluation-e12n3.json),
+> [`../modalities/junction-aso-offtarget-e7n3.json`](../modalities/junction-aso-offtarget-e7n3.json), etc.;
+> real junctions are 37–62% GC not 75–81%, and E7::N3 yields a gapmer predicted clean on both screens).
+> Together these show feasibility is
 > **breakpoint-conditional but breakpoint-selectable**: specificity and chemistry at the *canonical* modelled
 > junction are poor, but that is a property of that junction position — a clear majority of modelled
 > breakpoints yield clean, in-band, fusion-specific designs — not of the modality. **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
@@ -193,7 +198,8 @@ a real, committed result, not hidden.
 > → NR4A3 exon 3; [`novel-modalities.md`](./novel-modalities.md) §3.3), whereas "NR4A3 from codon 2" retains
 > almost the entire NR4A3 CDS — so the *modelled* junction seam is not the seam of the commonly reported
 > EWSR1 exon-7/12 :: NR4A3 exon-3 fusion ([citation to verify] for the rank-order of recurrent exon
-> junctions). Neither off-target screen below has been run on that real exon-3 junction. The practical upshot
+> junctions). The full pipeline **has since been run on those real exon-3 junctions** (§3a-quinquies), which
+> turn out to be far more GC-favorable than this modelled reference. The practical upshot
 > is unchanged — every clinical design must be re-derived from the patient's **sequenced** fusion transcript
 > (§3b) — but the reader should not read "canonical" as "the breakpoint patients actually carry." The five
 > sequences are design hypotheses on a modelled seam, not a drug.
@@ -388,6 +394,43 @@ breakpoint-favorability and gated by delivery.** That is a narrower and more def
 de-risked": the degrader's dominant risk (sparing wild-type NR4A3) differs in kind from the ASO's (delivery),
 and neither is strictly more de-risked overall.
 
+### 3a-quinquies. The REAL clinical junctions — EWSR1 e12 / e7 :: NR4A3 e3 (now run, real, committed)
+The red-team's lead open gap was that every screen above ran on *modelled* breakpoints, never on the
+**actually recurrent** EWSR1::NR4A3 exon junctions. That gap is now closed. We built the real fusion CDS
+directly from Ensembl MANE/canonical exon structure (reusing the companion `fusion_breakpoints.gene_model`;
+self-checked `translate(CDS) == Ensembl protein`, NR4A3 C-terminus intact) and ran the **full** pipeline —
+design → gap-resolved BLAST → uncapped full-transcriptome eval — on the two most commonly reported junctions,
+**EWSR1 exon-12 :: NR4A3 exon-3** (the most common) and **EWSR1 exon-7 :: NR4A3 exon-3**
+([`junction-aso-designs-e12n3.json`](../modalities/junction-aso-designs-e12n3.json),
+[`junction-aso-offtarget-e12n3.json`](../modalities/junction-aso-offtarget-e12n3.json),
+[`aso-insilico-evaluation-e12n3.json`](../modalities/aso-insilico-evaluation-e12n3.json), and the `-e7n3`
+counterparts). Both share the NR4A3 exon-3 right-side seam (`…|TTGTCCGTACAG`), as expected.
+
+Two findings, one of them important and positive:
+
+- **The GC-rich "chemistry problem" was largely an artifact of the non-real reference junction.** At the
+  *real* junctions the fusion-specific gapmers sit **in or near the comfort band** — **37.5–50% GC** at
+  E12::N3 and **50–62.5%** at E7::N3 — versus **75–81%** at the modelled codon-264 reference. The
+  most-common real junction (E12::N3) is, if anything, AT-rich. So the headline chemistry caveat from §3a/§6
+  is a property of that modelled position, not of the real clinical seams — exactly the red-team's F2 concern,
+  resolved in the route's favour.
+- **A predicted-clean gapmer exists at a real junction; specificity is still per-oligo.** At **E7::N3**, the
+  gapmer **`5′-TACGGACAATCTGCTG-3′` (50% GC) is predicted clean on *both* screens** — **0** true cleavage
+  risks under the ≤2-mismatch gap-resolved BLAST *and* **0** ≤1-mismatch off-targets in the uncapped scan
+  (all five E7::N3 designs have 0 exact matches). At **E12::N3**, the GC-friendly but AT-rich/low-complexity
+  seam carries a **higher 2-mismatch off-target load** (best design `GTACGGACAACATCAA`, 43.8% GC: 3 true
+  cleavage risks; one design is clean at the stricter ≤1-mismatch threshold) — so no E12::N3 design is fully
+  clean at ≤2 mismatches, and per-oligo selection is again decisive. The two screens reproduce the same
+  stringency split seen at the modelled 200/8 (uncapped ≤1mm is cleaner than gap-resolved ≤2mm).
+
+**Reading.** Run on the *real* clinical seams, the route looks **more** feasible on chemistry than the
+modelled reference implied (real junctions are 37–62% GC, not 75–81%) and yields **at least one predicted-clean
+gapmer at E7::N3**, while confirming that off-target load — not GC — is now the operative per-oligo gate, and
+that the single most common junction (E12::N3) needs careful oligo selection (best 3 predicted cleavage risks
+at ≤2 mismatches). Honest bounds unchanged: predicted not validated (same gap-mismatch heuristic, §3a-quater),
+these are the *canonical-transcript* exon junctions (a real patient's design must still come from their
+sequenced breakpoint), and delivery (§3c) remains the dominant gate.
+
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
@@ -406,14 +449,13 @@ this draft:
    (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** (blastn-short vs
    The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
    CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
-   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** on both the
-   modelled reference junction (poor — §3a-bis) and the favorable 200/8 junction (gap-resolved BLAST +
-   uncapped full-transcriptome — §3a-quater). **The genuine remaining gap is the *real* clinical junction:**
-   neither screen has been run on the commonly reported **EWSR1 exon-7/12 :: NR4A3 exon-3** fusion, because
-   the design scripts model the breakpoint in codon space rather than mapping exons. Building the exon-exact
-   real junction (via the companion `fusion_breakpoints.py` Ensembl exon structure) and re-running the full
-   design→triage→screen pipeline on it is the most important specifiable next step — the 200/8 result shows
-   the pipeline *can* find clean designs, but at a modelled position, not yet at a real one.
+   (RNase-H tolerates wing mismatches more than gap mismatches). **This has now been run** on the modelled
+   reference junction (poor — §3a-bis), the favorable modelled 200/8 junction (§3a-quater), **and — closing
+   the red-team's lead gap — on the real recurrent EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions
+   (§3a-quinquies)**, built exon-exact from Ensembl structure via the companion `fusion_breakpoints.py`. The
+   real junctions are markedly more GC-favorable than the modelled reference and yield a predicted-clean
+   gapmer at E7::N3; the remaining specifiable items are now the gap-centred re-tiling (§3b.1) and screening
+   any *additional* in-frame patient breakpoints as they are sequenced.
 
    **Per-breakpoint feasibility scan — DONE (§3a-ter), and the favorable-breakpoint screens are now DONE too
    (§3a-quater).** The sensitivity sweep over 390 modelled breakpoints has been run and committed
@@ -542,10 +584,11 @@ new molecule beyond synthesising the listed oligos and the engineered/isogenic m
   hand-chosen thresholds, so 62% is an **upper bound on *designable* positions, not a real-patient breakpoint
   frequency**; (ii) "favorable" requires only that a triage-passing in-band design *exists* — and triage is
   **not** the off-target screen (the 200/8 worked example shows the scan's own in-band pick failing the BLAST
-  screen, §3a-ter/§3a-quater); and (iii) **neither off-target screen has been run on the real, commonly
-  reported EWSR1 exon-7/12 :: NR4A3 exon-3 junction** — only on modelled codon-space positions — so the whole
-  favorability narrative still owes a run on the real clinical seam (§3b.2). Every clinical design must be
-  re-derived from the patient's *sequenced* fusion transcript.
+  screen, §3a-ter/§3a-quater). Caveat (iii) — that the screens had only run on modelled positions — has now
+  been **addressed**: the full pipeline was run on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions
+  (§3a-quinquies), which are more GC-favorable than the modelled grid and yield a predicted-clean gapmer at
+  E7::N3 (E12::N3 needs per-oligo selection). Every clinical design must still be re-derived from the
+  patient's *sequenced* fusion transcript.
 - **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
   is the dominant risk for the whole modality.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
@@ -659,5 +702,12 @@ refreshed by GitHub Actions on the `modalities-cache` branch):
   **uncapped** full-RefSeq off-target + accessibility + siRNA-seed evaluation re-run on the same favorable
   breakpoint (4 of 5 gapmers with zero ≤1-mismatch off-targets), from
   [`aso_insilico.py`](../modalities/aso_insilico.py) (breakpoint-parameterised via env).
+- **Real clinical junctions (§3a-quinquies):** `junction-aso-designs-{e12n3,e7n3}.json`,
+  `junction-aso-offtarget-{e12n3,e7n3}.json`, `aso-insilico-evaluation-{e12n3,e7n3}.json` — design +
+  gap-resolved BLAST + uncapped eval on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions, built
+  exon-exact from Ensembl MANE structure via `FUSION_JUNCTION_MODE=real` in
+  [`junction_aso.py`](../modalities/junction_aso.py) (reusing
+  [`fusion_breakpoints.py`](../modalities/fusion_breakpoints.py)`.gene_model`, self-checked
+  `translate(CDS)==protein`).
 
 No GPU computation was performed for this draft.
