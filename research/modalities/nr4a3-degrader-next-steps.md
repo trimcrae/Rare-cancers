@@ -137,12 +137,19 @@ the family metad (in flight) is the fix.
   `output_prefix`, default `<target>-metad`). Paralogue LBD trim + Pocket-5 CV residues are mapped to the
   NR4A3 reference by BLOSUM62 alignment at runtime (fail-loud + audit log + the initial-Rg pre-flight).
   One pipeline builds the whole family for the matrix.
-- **GitHub 6 h job cap:** the metad submitter uses `wait=True`, so a **>6 h** SageMaker run gets its
-  GitHub *wrapper* cancelled at 6 h — but the SageMaker job **survives and finishes on AWS** (the 30 ns
-  did exactly this; confirm via S3 / a follow-on analysis, not the GitHub status). **OPEN FIX:** harden
-  `nr4a3_metad_sagemaker.py` to resume-chained segments (<6 h each, via the checkpoint/restart) or
-  fire-and-forget. Warhead/analysis/calibration jobs are < 6 h, so unaffected. **The NR4A1/NR4A2 runs
-  in flight will hit this** — confirm via S3 `nr4a1-metad`/`nr4a2-metad`, not GitHub.
+- **SageMaker MaxRuntime must fit the run (incident 2026-06-27):** a 30 ns metad needs **~9-10 h of MD**
+  at NR4A LBD speeds (~80 ns/day). The old **8 h** `MaxRuntime` default **killed NR4A2 (and a first NR4A1)
+  before the script finished + uploaded → EMPTY S3 prefix, run wasted** (SageMaker uploads
+  `ProcessingOutput` only on clean completion in EndOfJob mode). **Fixed:** default `MaxRuntime` raised to
+  **20 h** (it's a CEILING — billed on actual runtime, so headroom is free), AND the restart set now
+  streams to S3 in **`S3UploadMode="Continuous"`** (the metad writes checkpoint/HILLS/DCD/system/state to
+  `OUTPUT_DIR`), so an interrupted run is **resumable from S3** (`resume_from=auto`) — verified live
+  (checkpoint+HILLS+system+solvated in `nr4a1-metad/` mid-run). **Always confirm a run via S3
+  (`verify-aws.yml`), not GitHub.**
+- **GitHub 6 h job cap (separate, harmless):** the metad submitter uses `wait=True`, so the GitHub
+  *wrapper* is cancelled at 6 h — but the SageMaker job **survives and finishes on AWS** to its MaxRuntime.
+  Confirm via S3, not GitHub status. (Resume-chained <6 h segments are now possible via the continuous
+  checkpoint set, if ever wanted; not needed with the 20 h ceiling.)
 - **Stopping GPU:** cancelling a GitHub run does NOT stop the SageMaker job. Use **`sagemaker-stop-aws.yml`**
   (`job_prefix=<base-name>`) which calls `StopProcessingJob`.
 - **S3 layout (`s3://<default-bucket>/...`):** `nr4a3-metad` = 30 ns outputs (trajectory, `fes.dat`,
@@ -176,7 +183,8 @@ the family metad (in flight) is the fix.
       run's job, below.)
 - [ ] **Release run = the Gate-3/Gate-1 closer.** Already queued (`gpu-release-aws.yml`); prioritize it,
       since it is now the gating evidence for "metastable druggable sub-state" vs "bias-induced strain."
-- [ ] Harden the metad submitter against the 6 h cap (segments / fire-and-forget).
+- [x] Harden the metad submitter against interruption — DONE 2026-06-27: 20 h MaxRuntime ceiling +
+      continuous S3 checkpoint upload (resumable). The 6 h GitHub-wrapper cancellation is now harmless.
 - [x] Opened-frame handle-facing confirmation — **DONE** (CONFIRMED 2026-06-26, run 28249776934; mean
       5.0/7 handles facing, T407/R412 the exceptions). Result written into paper §2.2/§5 and the
       reconciliation Gate-2/3 rows.
