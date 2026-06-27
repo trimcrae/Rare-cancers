@@ -26,8 +26,8 @@ on:
         default: "ml.g5.xlarge"
         required: false
       max_runtime:
-        description: "hard MaxRuntime cap (seconds). Raise for longer ns (≈8h per 30ns)."
-        default: "28800"
+        description: "SageMaker hard MaxRuntime cap (seconds). 30ns needs ~9h of MD at NR4A LBD speeds (~80 ns/day), so default 12h; the GitHub wrapper still dies at its own 6h cap but the SageMaker job runs to completion and uploads."
+        default: "43200"
         required: false
       region:
         description: "AWS region — must match where the stack + GPU quota live"
