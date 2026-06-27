@@ -250,12 +250,30 @@ triage priors. All parsing/mapping/classification logic is in pure, unit-tested 
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
 demonstrated efficacy**. **In particular, the therapeutic rationale for degrading NR4A3 in EMC (and
-AciCC) assumes the tumour remains *dependent on NR4A3 for survival* — a strong prior from the
-fusion-addiction of related EWSR1-fusion sarcomas (Ewing/FLI1: −0.93 DepMap gene effect, 74% dependent)
-and EMC's quiet-genome single-driver biology, but one that is *not yet demonstrated in EMC*. The acute,
-specific degradation (dTAG) test that would establish it is the make-or-break experiment, delegated to the
-EMC-program paper ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); this paper's claimed
-contribution is the target's druggability/selectivity, not EMC efficacy.** The structure is an AF2 model
+AciCC) assumes the tumour remains *dependent on NR4A3 for survival*, which is not yet demonstrated in
+EMC.** Two kinds of support raise this prior, each stated with its boundary so neither is mistaken for
+proof:
+- **A transfer prior — used to justify *testing* the target, not as EMC evidence.** Related EWSR1/FET-fusion
+  sarcomas are reliably *fusion-addicted* (Ewing/EWS-FLI1: −0.93 DepMap gene effect, 74 % of lines
+  dependent), and EMC shares the profile that makes addiction the class norm — a quiet genome with a single
+  near-clonal fusion driver. Reasoning from a represented lineage to an un-profiled one this way is standard
+  practice for prioritising a target; it raises the prior and warrants the experiment, but it **cannot
+  establish EMC dependence**. Its transferable content is also bounded: what these fusions share is the
+  **EWS low-complexity transactivation domain**, so the analogy supports "EMC is probably addicted to its
+  fusion," **not** "the NR4A3 effector specifically is the essential part" (EWS-FLI1's ETS-domain mechanism
+  at GGAA microsatellites differs from a nuclear receptor) — a caveat that matters because the degrader
+  engages the NR4A3 end.
+- **EMC-specific molecular evidence (non-transfer) that the fusion is a functional transcriptional driver.**
+  The chimera directly transactivates real targets — most concretely **PPARG**, via a bioinformatically
+  identified EWSR1/NR4A3 response element in the PPARG promoter confirmed by band-shift and transactivation
+  assays [Filion 2009], with further EMC-over-expressed targets reported (e.g. NDRG2). This is EMC-native
+  support that the fusion *does something* transcriptionally — but it shows the fusion is a functional
+  driver, **not** that the cell cannot survive its loss; *functional driver ≠ addiction*.
+
+The acute, specific degradation (dTAG) test that would convert this prior into a demonstration is the
+make-or-break experiment, delegated to the EMC-program paper
+([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); **this paper's claimed contribution is the
+target's druggability/selectivity, not EMC efficacy.** The structure is an AF2 model
 (NR4A3 is uncrystallized) — the MD addresses exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
 made explicit rather than buried (full adversarial review:
 [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md)):
@@ -334,6 +352,13 @@ be designed.
   Nurr1 5Y41 (PGA1).
 - Methods: AlphaFold2 (Jumper 2021, Nature, 10.1038/s41586-021-03819-2); fpocket (Le Guilloux 2009);
   OpenMM; PLUMED (Tribello 2014; PLUMED consortium, Nat Methods 2019).
+- Filion C, Motoi T, Olshen AB, Laé M, Emnett RJ, Gutmann DH, Perry A, Ladanyi M, Labelle Y. *The
+  EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor
+  gene.* **J Pathol** 217(1):83–93 (2009). PMC4429309. (EWSR1/NR4A3 response element in the PPARG promoter,
+  confirmed by band-shift + transactivation — a validated *direct* fusion target; EMC-specific evidence the
+  fusion is a functional transcriptional driver. DOI to confirm via `verify-refs.yml`.) Further
+  EMC-over-expressed fusion targets (e.g. NDRG2): *Tumor Biology* 33:1599–1607 (2012),
+  doi 10.1007/s13277-012-0415-2 — **[first author/details to verify]**.
 - EMC clinical context + the fusion-addiction/ASO/surrogate evidence: see the EMC-program roadmap and its
   source memos.
 
