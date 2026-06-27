@@ -85,3 +85,35 @@ is the most-likely-to-work fusion-exclusive route (complete in-silico arc; deliv
 pair naturally: degrader spares the paralogues, ASO spares wild-type NR4A3. Full sequencing + the
 fusion-exclusivity framework (the 5-route design space, next-tier) are in `emc-treatment-strategy.md` Q1 and
 [`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md).
+
+## Update (2026-06-27, trimcrae): keep the degrader STANDALONE — do not fold the other findings into it
+A novelty stress-test of the portfolio (degrader vs. ASO-solo, the ASO specificity *method*, and the
+fusion-exclusivity *framework*) reached a clear split:
+- **The degrader is the only piece currently on a path to a results-paper publication.** Its novelty is
+  *target/structure-level* — first pocket-dynamics + druggability-feasibility analysis of NR4A3 (no
+  experimental structure, "undruggable" reputation), the family-wide state-matched selectivity matrix, and
+  the calibration that corrects the misread "Nurr1 ~0.8 druggable" (non-orthosteric cavity). It clears the
+  "what's new?" bar. **Caveat:** publishability is gated on *finishing the in-silico tests* (the unbiased
+  release run that decides whether the breathing-open geometry is populated vs. bias-induced strain; the
+  NR4A1/NR4A2 ensembles; warhead/ternary) — i.e. gated on completion, not on novelty.
+- **The ASO-solo, the ASO method, and the framework are confirmed-but-NOT-novel** — each reframes a known
+  principle (fusion-exclusivity spares wild-type; junction ASOs; standard off-target screening + one
+  uncalibrated gap-mismatch heuristic; a design-space survey of mostly not-yet-working routes).
+
+**Decision: the degrader ships standalone (target-centric), and we do NOT make it the anchor of a combined
+"EMC + all our findings" paper.** Two reasons, beyond the existing "nothing in the pipeline is
+EMC-specific" argument:
+1. **All of the degrader's novelty is NR4A3-generic, and that is where its value/market lives** (AciCC —
+   bigger than EMC; NR4A-rearranged sarcomas; ex-vivo pan-NR4A immuno). An EMC frame hides the novel result
+   from the audience that values it and shrinks the apparent market to the smallest indication.
+2. **Novelty-contamination:** reviewers grade a multi-contribution paper by its weakest load-bearing claim.
+   Co-mingling the novel degrader result with the confirmed-but-not-novel ASO/framework material lets their
+   "what's new?" liability rub off on the one results paper that clears the bar. A tight paper doing *one*
+   novel thing well beats a sprawling program paper doing one novel thing and three reframings. (The ASO is
+   also *EMC-fusion-specific*, so it doesn't even belong in an NR4A3-*generic* degrader paper.)
+
+The non-novel-but-mission-relevant EMC work keeps its home in the **EMC-program paper**
+([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)) — a program/perspective piece whose contribution
+is the framework + falsifiable kill-criteria, where "not novel per-route" is not a fatal objection — which
+*cites* the degrader as its §4.1 route. This confirms, rather than changes, the existing two-paper split;
+recorded here so the standalone-vs-merge question is not re-opened.
