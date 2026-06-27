@@ -48,13 +48,16 @@ def main():
     git_sha = subprocess.run(["git", "-C", "/tmp/repo", "rev-parse", "HEAD"],
                              capture_output=True, text=True).stdout.strip()
 
-    # Stage a prior run's restart set into the work dir, if provided.
+    # Stage a prior run's restart set into OUT (= OUTPUT_DIR, where nr4a3_metad.py now reads/writes the
+    # restart set so SageMaker continuous-upload streams checkpoints to S3 live). On resume the script
+    # finds them there and continues the accumulated bias.
+    os.makedirs(OUT, exist_ok=True)
     staged = []
     if args.resume_from and os.path.isdir(args.resume_from):
         for f in ARTIFACTS:
             src = os.path.join(args.resume_from, f)
             if os.path.exists(src):
-                shutil.copy(src, os.path.join(work, f))
+                shutil.copy(src, os.path.join(OUT, f))
                 staged.append(f)
         print(f"[sagemaker] resume: staged {len(staged)} artifact(s) from {args.resume_from}: "
               f"{staged}", flush=True)
@@ -78,6 +81,7 @@ def main():
     env["TARGET"] = args.target
     env["GIT_REF"] = args.git_ref
     env["GIT_SHA"] = git_sha
+    env["OUTPUT_DIR"] = OUT       # script writes the restart set here -> continuous S3 upload (resumable)
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running metadynamics for {ns} ns, target={args.target} (sha {git_sha[:10]})",
           flush=True)

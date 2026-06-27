@@ -55,16 +55,21 @@ NS = float(os.environ.get("NS", "30"))           # nanoseconds of biased MD to a
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 # Reproducibility artifacts == the resume inputs. A run writes these; a follow-on run that finds them
-# (placed back in HERE by entry_metad.py --resume-from) continues from the saved state + accumulated bias.
-SYSTEM_XML   = os.path.join(HERE, "metad_system.xml")        # serialized base System (NO PlumedForce)
-SOLVATED_PDB = os.path.join(HERE, "nr4a3-lbd-solvated.pdb")  # solvated topology + reference coords
-CHECKPOINT   = os.path.join(HERE, "metad_checkpoint.chk")    # OpenMM binary checkpoint (fast resume)
-STATE_XML    = os.path.join(HERE, "metad_state.xml")         # portable state (archival / cross-env)
-HILLS        = os.path.join(HERE, "HILLS")                   # PLUMED deposited Gaussians (the bias)
-COLVAR       = os.path.join(HERE, "COLVAR")                  # CV + bias vs time
-DCD          = os.path.join(HERE, "nr4a3-lbd-metad.dcd")     # trajectory
-FES          = os.path.join(HERE, "fes.dat")                 # free energy vs Rg
-MANIFEST     = os.path.join(HERE, "metad_manifest.json")     # params + cumulative ns + git sha
+# (placed back in OUTDIR by entry_metad.py --resume-from) continues from the saved state + accumulated bias.
+# They are written to OUTDIR (= SageMaker's /opt/ml/processing/output), which the submitter uploads in
+# CONTINUOUS mode — so the CheckpointReporter's periodic checkpoint + the growing HILLS/DCD stream to S3
+# LIVE (every ~0.1 ns). A run killed/interrupted before clean completion is therefore RESUMABLE from S3
+# (resume_from=auto), not wasted. Defaults to HERE for local runs.
+OUTDIR = os.environ.get("OUTPUT_DIR", HERE)
+SYSTEM_XML   = os.path.join(OUTDIR, "metad_system.xml")        # serialized base System (NO PlumedForce)
+SOLVATED_PDB = os.path.join(OUTDIR, "nr4a3-lbd-solvated.pdb")  # solvated topology + reference coords
+CHECKPOINT   = os.path.join(OUTDIR, "metad_checkpoint.chk")    # OpenMM binary checkpoint (fast resume)
+STATE_XML    = os.path.join(OUTDIR, "metad_state.xml")         # portable state (archival / cross-env)
+HILLS        = os.path.join(OUTDIR, "HILLS")                   # PLUMED deposited Gaussians (the bias)
+COLVAR       = os.path.join(OUTDIR, "COLVAR")                  # CV + bias vs time
+DCD          = os.path.join(OUTDIR, "nr4a3-lbd-metad.dcd")     # trajectory
+FES          = os.path.join(OUTDIR, "fes.dat")                 # free energy vs Rg
+MANIFEST     = os.path.join(OUTDIR, "metad_manifest.json")     # params + cumulative ns + git sha
 
 # Well-tempered metadynamics parameters — shared by the PLUMED script AND the reproducibility manifest.
 # A resume is refused unless these match the prior segment (else the existing HILLS is meaningless).
@@ -91,6 +96,8 @@ def main():
     except ImportError as e:  # noqa: BLE001
         print(f"  needs openmm + pdbfixer + openmm-plumed (GPU box): {e}", file=sys.stderr)
         return
+
+    os.makedirs(OUTDIR, exist_ok=True)   # restart set + outputs stream here (continuous S3 upload)
 
     # Resolve the active target (NR4A3 reference values, or paralogue LBD bounds + homologous CV
     # residues mapped by alignment). Sets the module-level LBD_FIRST/LAST, CV_RESIDUES, AF2_PDB used

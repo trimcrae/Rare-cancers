@@ -81,7 +81,11 @@ def main():
         code="entry_metad.py",
         source_dir=os.path.join(here, "sagemaker_src"),
         inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=out_prefix)],
+        # CONTINUOUS upload: stream /opt/ml/processing/output (the live checkpoint/HILLS/DCD restart set)
+        # to S3 throughout the run — so an interrupted/killed run is RESUMABLE from S3 (resume_from=auto),
+        # not wasted, even if the job never reaches clean completion.
+        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=out_prefix,
+                                  s3_upload_mode="Continuous")],
         arguments=arguments,
         wait=True,
         logs=True,
