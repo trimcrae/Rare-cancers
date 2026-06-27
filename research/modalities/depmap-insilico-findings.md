@@ -14,9 +14,12 @@ The degrader route assumes EMC is *addicted to its fusion* (degrading EWSR1::NR4
 We can't test EMC directly, so we used the canonical analogue: **FLI1 dependency in Ewing sarcoma**,
 where EWS-FLI1 is the driver.
 - **FLI1 in Ewing: gene effect −0.93, 74% of lines dependent (n=27).** A strong, selective
-  dependency — FET-fusion sarcomas *are* addicted to their fusion.
-- This is the best in-silico support that **EMC likely depends on EWSR1::NR4A3**, i.e. that a
-  degrader *could* be lethal. It raises the prior on the one route that attacks the actual driver.
+  dependency — FET-fusion sarcomas *are* addicted to their fusion **as a class**.
+- This **raises the prior** (a bet-justifying analogy, **not** EMC evidence) that EMC depends on
+  EWSR1::NR4A3, i.e. that a degrader *could* be lethal — enough to justify *testing* the driver, not to
+  conclude it. Bounded by what actually transfers: the shared **EWS low-complexity transactivation domain**
+  drives much of Ewing's addiction, so the analogy supports "EMC is probably fusion-addicted," **not** "the
+  NR4A3 effector specifically is essential" (the fusion partners differ). The dTAG test is the make-or-break.
 - *Caveat:* NR4A3 itself reads non-essential here (0.02) only because **no line in DepMap is EMC**
   (the few NR4A3⁺ lines aren't EMC); EWSR1's essentiality (−1.2) is its housekeeping RNA-binding
   role, not fusion-specific. FLI1-in-Ewing is an analogy, not EMC proof — but it's a strong one.
