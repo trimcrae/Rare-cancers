@@ -32,10 +32,11 @@ def main():
     ns = os.environ.get("NS", "30")
     target = os.environ.get("TARGET", "NR4A3").upper()
     instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
-    # Hard cap; AWS kills the job at this. 30 ns needs ~9 h of MD at NR4A LBD speeds (~80 ns/day), so
-    # default 12 h — an 8 h cap truncates a 30 ns run BEFORE the script finishes + uploads, leaving an
-    # empty S3 prefix (the GitHub 6 h wrapper cancellation is separate and harmless).
-    max_runtime = int(os.environ.get("MAX_RUNTIME", str(12 * 3600)))
+    # Hard cap CEILING; AWS kills the job at this. You pay only for ACTUAL runtime, not the cap, so it's
+    # set generously: 30 ns needs ~9-10 h of MD at NR4A LBD speeds (~80 ns/day), default 20 h gives wide
+    # headroom so the job is never killed mid-run. (An 8 h cap truncated NR4A2 BEFORE the script finished
+    # + uploaded, leaving an empty S3 prefix; the GitHub 6 h wrapper cancellation is separate/harmless.)
+    max_runtime = int(os.environ.get("MAX_RUNTIME", str(20 * 3600)))
     git_ref = os.environ.get("GIT_REF", "main")   # repo ref the job clones + runs (default main)
     resume_from = os.environ.get("RESUME_FROM", "").strip()
 
