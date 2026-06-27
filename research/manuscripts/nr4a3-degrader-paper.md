@@ -249,8 +249,14 @@ triage priors. All parsing/mapping/classification logic is in pure, unit-tested 
 
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
-demonstrated efficacy**. The structure is an AF2 model (NR4A3 is uncrystallized) — the MD addresses
-exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
+demonstrated efficacy**. **In particular, the therapeutic rationale for degrading NR4A3 in EMC (and
+AciCC) assumes the tumour remains *dependent on NR4A3 for survival* — a strong prior from the
+fusion-addiction of related EWSR1-fusion sarcomas (Ewing/FLI1: −0.93 DepMap gene effect, 74% dependent)
+and EMC's quiet-genome single-driver biology, but one that is *not yet demonstrated in EMC*. The acute,
+specific degradation (dTAG) test that would establish it is the make-or-break experiment, delegated to the
+EMC-program paper ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); this paper's claimed
+contribution is the target's druggability/selectivity, not EMC efficacy.** The structure is an AF2 model
+(NR4A3 is uncrystallized) — the MD addresses exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
 made explicit rather than buried (full adversarial review:
 [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md)):
 
