@@ -1,0 +1,43 @@
+name: Report NR4A MM-GBSA rescoring (AWS)
+
+# Read-only: pulls s3://<default-bucket>/<output_prefix>/nr4a3-mmgbsa.json (written by the MM-GBSA job)
+# and prints the verdict census, lead lists, the ranked per-candidate table, and any distinct per-ligand
+# errors (for diagnosing an all-incomplete run). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+# Commits nothing. Fast boto3-only job (no SageMaker).
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      output_prefix:
+        description: "S3 prefix the MM-GBSA job wrote to"
+        default: "nr4a3-mmgbsa"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Read + print MM-GBSA JSON
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_mmgbsa.py
