@@ -75,11 +75,18 @@ roughly **1–3 days of g5.xlarge per protein**, ×3 proteins ×(1–3 leads) = 
   poses + opened PDBs already in S3). Far cheaper than FEP; tells us whether the docking selectivity even
   survives a better energy model before any alchemical spend. Can be built CPU-side (GitHub-Actions CPU or a
   short SageMaker job), no multi-day GPU. **This is the natural next quantitative step.**
-  **Status (2026-06-28): BUILT + HARDENED, one clean run pending.** Run 7 hung 82 min in the conda env build
-  (unpinned `openff-toolkit` dragging in an unused PyTorch-CUDA stack) and was killed; the pipeline is now
-  slimmed (`openff-toolkit-base`), continuously logged (heartbeat + per-step timeouts + a
-  `tail-cloudwatch-aws.yml` live tail), checkpointed per-ligand, and moved to a cheap CPU instance
-  (`ml.c5.2xlarge`). See `nr4a3-degrader-next-steps.md` → MM-GBSA for the post-mortem + how to run.
+  **Status (2026-06-28): DONE — run 11 (`mmgbsa-aws.yml`, g5/OpenCL, `_status: ok`, all 13 candidates).**
+  Census: rescued 3 · confirmed_selective 3 · reversed 3 · weakened 2 · confirmed_nonselective 2. **Result
+  validates the matrix's central caveat: the docking-level NR4A3-selectivity does NOT robustly survive a
+  physics-based energy model.** The headline docking hit **cytosporone B reverses** (NR4A3 margin +1.16 ->
+  **−5.83**; its duplicate library entry CHEMBL1221517 also reverses, −7.02) — the known Nur77/NR4A1 agonist
+  is correctly demoted, confirming the docking call was an artefact. **amodiaquine (CHEMBL682) and celastrol
+  hold up as `confirmed_selective`** (mm margins +2.2 / +2.6); both of amodiaquine's library entries agree
+  (internal consistency check passes). **Honest caveat:** single-snapshot MM-GBSA (no entropy, no ensemble)
+  inflates magnitudes (margins of ±3–7 kcal/mol are not affinities) — trust the *direction/verdict*, not the
+  numbers; still triage, FEP remains the affinity tier. Output `s3://<bucket>/nr4a3-mmgbsa/nr4a3-mmgbsa.json`;
+  re-read any time via `report-mmgbsa-aws.yml`. Infra post-mortem (runs 7–11) in
+  `nr4a3-degrader-next-steps.md` → MM-GBSA.
 - **Unbiased release run** — the actual gate on whether the opened pocket is real (already launch-ready).
 - **De-novo design (matrix step 3)** to fill the cells with real selective candidates before FEP.
 

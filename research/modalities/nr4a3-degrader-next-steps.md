@@ -155,7 +155,12 @@ the family metad (in flight) is the fix.
      in the STATUS block above; lead = **cytosporone B** (NR4A3-selective, margins +1.42/+1.16), pan leads =
      celastrol + CHEMBL1873475, **anti-target cell empty**.
 2. **Endpoint free energy (the defensible margin)** — MM-GBSA then selectivity FEP. Docking stays triage only.
-   - **MM-GBSA — BUILT + HARDENED (2026-06-28), still NOT successfully run; one clean run pending.**
+   - **MM-GBSA — DONE (2026-06-28, run 11): docking selectivity does NOT robustly survive; cytosporone B
+     reverses as predicted.** Census of 13: rescued 3 · confirmed_selective 3 (amodiaquine, celastrol +
+     amodiaquine's dup) · reversed 3 (cytosporone B + its CHEMBL1221517 dup, piperlongumine) · weakened 2 ·
+     confirmed_nonselective 2. Same molecule under two library labels gets the same verdict (consistency
+     check passes). Magnitudes are inflated by the single-snapshot/no-entropy approximation — trust the
+     verdict/direction, not the kcal/mol. Read it via `report-mmgbsa-aws.yml`. Full build/run history:**
      Single-snapshot 1-trajectory MM-GBSA (enthalpy + GBn2 implicit solvent; **no entropy, no ensemble
      average**) that **re-scores the matrix's own docked poses** — pure `mmgbsa_select.py` (10 tests) +
      `mmgbsa_energy.py` (OpenMM + OpenFF/GAFF-2.11 + PDBFixer; guarded heavy deps) + driver `nr4a3_mmgbsa.py`
@@ -211,9 +216,16 @@ the family metad (in flight) is the fix.
      - **Fix applied: add `ocl-icd-system` to the slim env** (entry_mmgbsa.py) — the ICD bridged to the
        instance's NVIDIA OpenCL driver, so OpenMM's OpenCL platform registers and runs on the A10G,
        sidestepping the CUDA PTX problem (the original point of the CUDA->OpenCL design).
-     - **NEXT: one more watched g5 run.** Expect `[mmgbsa] OpenMM platform: OpenCL`; if so, 13x3 finishes in
-       minutes and we get the verdict. If OpenCL still won't register, fall back to pinning `openmm` to a
-       CUDA the A10G driver supports (older `cuda-version`). Fail-fast keeps a wrong guess to ~$0.25.
+     - **Run 11 (2026-06-28, g5) — SUCCESS, the OpenCL ICD fix worked.** Live tail showed `CUDA unavailable:
+       UNSUPPORTED_PTX_VERSION` then **`[mmgbsa] OpenMM platform: OpenCL`** — OpenCL now drives the A10G;
+       ~1–2 min/ligand, all 13 done in ~25 min, `_status: ok`. The full chain that unblocked it: slim env
+       (run 8) + `ocl-icd-system` loader (run 10) + writing `/etc/OpenCL/vendors/nvidia.icd` (run 11). The
+       no-CPU fail-fast kept every wrong guess (runs 8–10) to seconds/~$0.25 and the live tail diagnosed each
+       without a kill. **MM-GBSA is now a working, repeatable GPU pipeline.**
+     - **Result (the science):** see the census above. Bottom line — docking's specific NR4A3-selectivity
+       calls are mostly *not* robust to a better energy model (headline hit cytosporone B reverses, as its
+       known NR4A1 pharmacology demands), but amodiaquine and celastrol survive as `confirmed_selective`.
+       Treat as triage (inflated magnitudes); FEP stays the affinity tier, still gated behind the release run.
      - **To launch (asks first — GPU rule still applies to the c5 spend by courtesy):** dispatch
        `mmgbsa-aws.yml` on `main` (defaults fine), then `tail-cloudwatch-aws.yml` to watch, then
        `report-mmgbsa-aws.yml` for the verdict census + ranked table. This tests the matrix's central caveat
