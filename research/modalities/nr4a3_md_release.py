@@ -89,6 +89,24 @@ def main():
     except Exception as e:  # noqa: BLE001
         sys.exit(f"  ABORT: CUDA platform unavailable: {e}")
 
+    # The opened frame is a STRAINED, biased metad configuration — seeding unbiased dynamics from it
+    # directly explodes on step 1 ("Particle coordinate is NaN"). Relax it with an energy minimization
+    # first. A minimizer is LOCAL: it removes bad contacts / steep clashes without crossing conformational
+    # barriers, so a genuine open basin stays open while an over-strained frame just sheds the strain. We
+    # record the post-minimization Rg so a reader can tell "minimization collapsed it" (open_Rg -> min_Rg
+    # already near the closed 0.753) from "dynamics collapsed it" (min_Rg open, but replicas drift closed).
+    _mi = mm.LangevinMiddleIntegrator(M.METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
+                                      2.0 * unit.femtosecond)
+    _ms = app.Simulation(topology, system, _mi, cuda, {"Precision": "mixed"})
+    _ms.context.setPositions(open_positions)
+    _ms.minimizeEnergy(maxIterations=5000)
+    open_positions = _ms.context.getState(getPositions=True).getPositions(asNumpy=True)
+    rg_min = _rg_one(open_positions.value_in_unit(unit.nanometer), idx0)
+    summary["minimized_Rg_nm"] = round(float(rg_min), 3)
+    print(f"  minimized opened frame: CV Rg {rg_open:.3f} -> {rg_min:.3f} nm "
+          f"(closed ref 0.753)", file=sys.stderr, flush=True)
+    del _ms, _mi
+
     steps = int(NS * 1e6 / 2)                       # 2 fs timestep
     report = 25000                                  # every 50 ps
     for rep in range(N_REP):
