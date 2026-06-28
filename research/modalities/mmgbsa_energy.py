@@ -55,6 +55,11 @@ def prepare_receptor(receptor_pdb):
     fixer.findMissingAtoms()
     fixer.addMissingAtoms()
     fixer.addMissingHydrogens(7.0)
+    # The opened-conformer PDBs carry a periodic box (CRYST1 from the solvated metad). With a box,
+    # SystemGenerator treats the system as PERIODIC and applies a periodic nonbonded method, which is
+    # illegal with GB implicit solvent ("Illegal nonbonded method for use with implicit solvent"). Strip
+    # the box so the implicit-solvent system is unambiguously non-periodic (NoCutoff).
+    fixer.topology.setPeriodicBoxVectors(None)
     return fixer.topology, fixer.positions
 
 
@@ -109,6 +114,7 @@ def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=500, cache=None):
     openmm, app, unit, _SG, _Mol, _PF = _mm()
 
     lig_top = offmol.to_topology().to_openmm()
+    lig_top.setPeriodicBoxVectors(None)        # implicit solvent must be non-periodic (see prepare_receptor)
     lig_pos = offmol.conformers[0].to_openmm()
 
     sysgen = _generator(offmol, cache=cache)
@@ -118,6 +124,7 @@ def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=500, cache=None):
     n_rec = modeller.topology.getNumAtoms()
     modeller.add(lig_top, lig_pos)
     cpx_top, cpx_pos = modeller.topology, modeller.positions
+    cpx_top.setPeriodicBoxVectors(None)        # belt-and-suspenders: keep the complex non-periodic too
     n_lig = cpx_top.getNumAtoms() - n_rec
 
     cpx_sys = sysgen.create_system(cpx_top)
