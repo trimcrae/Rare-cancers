@@ -70,9 +70,13 @@ def main():
           f"(openff-toolkit-base, no nagl/pytorch)", flush=True)
     # --override-channels keeps the solve on conda-forge only (no defaults mixing). libmamba is conda's
     # default solver (fast, reliable). Heartbeat + timeout so a stalled build is seen and bounded.
+    # ocl-icd-system: the OpenCL ICD loader, bridged to the instance's NVIDIA OpenCL driver. Run 9 proved
+    # CUDA is dead on the g5 (PTX mismatch) AND OpenCL was "not registered" — because slimming the env
+    # dropped the ICD that run 7's bloated env happened to carry. OpenMM's OpenCL platform needs libOpenCL
+    # at runtime to register; with it present, OpenCL runs on the A10G and sidesteps the CUDA PTX problem.
     run_logged([conda, "create", "-y", "-n", "mmg", "--override-channels", "-c", "conda-forge",
                 "python=3.11", "openmm", "openmmforcefields", "openff-toolkit-base", "ambertools",
-                "pdbfixer", "rdkit", "numpy"], "conda-create-mmg", timeout=env_build_timeout)
+                "pdbfixer", "rdkit", "numpy", "ocl-icd-system"], "conda-create-mmg", timeout=env_build_timeout)
 
     # Capture an EXACT lockfile of what just solved, for free — a future run can pin to it for full
     # reproducibility (`conda create --file mmg-lock.txt`) instead of re-rolling the conda-forge dice.

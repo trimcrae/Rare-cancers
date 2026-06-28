@@ -202,11 +202,18 @@ the family metad (in flight) is the fix.
        probes the platform up front so the job dies fast with a clear message. Compute timeout cut 90 -> 30
        min. Instance defaults flipped back to `ml.g5.xlarge`. Escape hatch: `MMGBSA_ALLOW_CPU=1` (explicit
        opt-in only).
-     - **NEXT: one watched GPU run.** Re-run on `ml.g5.xlarge` (slim env now builds fast) and **watch the
-       `[mmgbsa] OpenMM platform:` line** — the open unknown is whether OpenCL actually engages on the A10G
-       (CUDA fails via PTX mismatch). With the no-CPU-fallback fail-fast + live tail, if OpenCL doesn't load
-       the job ends in seconds telling us so (then fix the OpenCL ICD / install a driver-matched openmm);
-       if it does, 13x3 finishes in minutes. Subject to the ask-before-GPU rule.
+     - **Run 9 (2026-06-28, g5, watched live) — both GPU platforms unusable; fail-fast worked; ROOT CAUSE
+       found.** The live `tail-cloudwatch-aws.yml` caught it in real time: `CUDA unavailable: ...
+       UNSUPPORTED_PTX_VERSION` AND `OpenCL unavailable: There is no registered Platform called "OpenCL"`,
+       so the no-CPU path raised and the job **died in seconds** (exit 1, ~$0.25) with a clear message — no
+       grind. Cause of the OpenCL miss: **slimming the env dropped the OpenCL ICD loader** that run 7's
+       bloated env carried transitively; OpenMM's OpenCL plugin needs `libOpenCL` at runtime to register.
+     - **Fix applied: add `ocl-icd-system` to the slim env** (entry_mmgbsa.py) — the ICD bridged to the
+       instance's NVIDIA OpenCL driver, so OpenMM's OpenCL platform registers and runs on the A10G,
+       sidestepping the CUDA PTX problem (the original point of the CUDA->OpenCL design).
+     - **NEXT: one more watched g5 run.** Expect `[mmgbsa] OpenMM platform: OpenCL`; if so, 13x3 finishes in
+       minutes and we get the verdict. If OpenCL still won't register, fall back to pinning `openmm` to a
+       CUDA the A10G driver supports (older `cuda-version`). Fail-fast keeps a wrong guess to ~$0.25.
      - **To launch (asks first — GPU rule still applies to the c5 spend by courtesy):** dispatch
        `mmgbsa-aws.yml` on `main` (defaults fine), then `tail-cloudwatch-aws.yml` to watch, then
        `report-mmgbsa-aws.yml` for the verdict census + ranked table. This tests the matrix's central caveat
