@@ -97,26 +97,39 @@ def _generator(offmol, cache=None):
 _PLATFORM = None
 
 
-def _platform(openmm):
-    """Best available OpenMM platform, cached. The job runs on a g5.xlarge (A10G GPU), so prefer CUDA —
-    minimising a ~4000-atom GB complex on the CPU platform (4 vCPUs) is ~10-50x slower and was the runtime
-    bottleneck. Fall back to OpenCL then CPU so the pipeline still runs on a CPU box."""
+def _platform(openmm, unit):
+    """Best WORKING OpenMM platform, cached. The job runs on a g5.xlarge (A10G GPU), so prefer a GPU
+    platform — minimising a ~4000-atom GB complex on CPU (4 vCPUs) is ~10-50x slower and was the runtime
+    bottleneck. But `getPlatformByName` only checks the platform is REGISTERED, not that its kernels load:
+    the conda OpenMM is built against a newer CUDA than the instance driver supports, so CUDA registers yet
+    fails at kernel load (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`). So actually VALIDATE each platform with a
+    tiny single-particle energy eval and pick the first that runs: CUDA -> OpenCL (GPU, no PTX issue) -> CPU."""
     global _PLATFORM
     if _PLATFORM is None:
         for name in ("CUDA", "OpenCL", "CPU"):
             try:
-                _PLATFORM = openmm.Platform.getPlatformByName(name)
+                plat = openmm.Platform.getPlatformByName(name)
+                sys = openmm.System(); sys.addParticle(1.0)
+                integ = openmm.VerletIntegrator(1.0 * unit.femtoseconds)
+                ctx = openmm.Context(sys, integ, plat)
+                ctx.setPositions([openmm.Vec3(0, 0, 0)] * unit.nanometer)
+                ctx.getState(getEnergy=True).getPotentialEnergy()   # forces kernel load -> catches bad CUDA
+                del ctx, integ
+                _PLATFORM = plat
                 print(f"[mmgbsa] OpenMM platform: {name}", flush=True)
                 break
-            except Exception:  # noqa: BLE001 — try the next platform
+            except Exception as e:  # noqa: BLE001 — platform registered but unusable; try the next
+                print(f"[mmgbsa] platform {name} unavailable: {str(e)[:90]}", flush=True)
                 continue
+        if _PLATFORM is None:
+            raise RuntimeError("no working OpenMM platform (CUDA/OpenCL/CPU all failed)")
     return _PLATFORM
 
 
 def _energy(openmm, unit, system, topology, positions):
     """Single-point potential energy (kcal/mol) of `system` at `positions` on the best platform."""
     integrator = openmm.VerletIntegrator(1.0 * unit.femtoseconds)
-    platform = _platform(openmm)
+    platform = _platform(openmm, unit)
     context = openmm.Context(system, integrator, platform)
     context.setPositions(positions)
     e = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
@@ -150,7 +163,7 @@ def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=250, cache=None):
 
     # minimise the complex (relieve docking clashes), then read back the minimised geometry.
     integrator = openmm.VerletIntegrator(1.0 * unit.femtoseconds)
-    sim = app.Simulation(cpx_top, cpx_sys, integrator, _platform(openmm))
+    sim = app.Simulation(cpx_top, cpx_sys, integrator, _platform(openmm, unit))
     sim.context.setPositions(cpx_pos)
     sim.minimizeEnergy(maxIterations=int(minimize_iters))
     state = sim.context.getState(getEnergy=True, getPositions=True)
