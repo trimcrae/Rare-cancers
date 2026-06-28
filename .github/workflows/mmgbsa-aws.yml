@@ -1,0 +1,61 @@
+name: NR4A MM-GBSA endpoint rescoring (AWS SageMaker)
+
+# Re-scores the selectivity-matrix docked poses with single-snapshot 1-trajectory MM-GBSA (enthalpy +
+# GBn2; no entropy/ensemble) to test whether the docking-level NR4A3-selectivity survives a physics-based
+# energy model. Reuses s3://<bucket>/nr4a3-matrix (receptors + docked_*.sdf) — NO re-docking, NO MD, so
+# CPU work (~13 candidates x 3 targets, minutes). Defaults to ml.g5.xlarge to reuse the single GPU quota
+# slot (OpenMM runs on the CPU platform). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+# SAGEMAKER_ROLE_ARN. Run only after the matrix job populated s3://<bucket>/nr4a3-matrix.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (g5.xlarge reuses the GPU quota; a CPU type works too)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the matrix outputs live"
+        default: "us-east-2"
+        required: false
+      input_prefix:
+        description: "S3 prefix holding the matrix outputs (receptors + docked_*.sdf)"
+        default: "nr4a3-matrix"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the MM-GBSA results"
+        default: "nr4a3-mmgbsa"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker MM-GBSA job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_mmgbsa_sagemaker.py

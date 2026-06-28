@@ -154,8 +154,24 @@ the family metad (in flight) is the fix.
      back with `report-matrix-aws.yml`** (read-only S3 dump → ranked table + census + leads). Result summary
      in the STATUS block above; lead = **cytosporone B** (NR4A3-selective, margins +1.42/+1.16), pan leads =
      celastrol + CHEMBL1873475, **anti-target cell empty**.
-2. **Endpoint free energy (the defensible margin)** — MM-GBSA + per-residue decomposition on the top cell
-   leads in all three opened ensembles; selectivity FEP on the lead 1–3. Docking stays triage only.
+2. **Endpoint free energy (the defensible margin)** — MM-GBSA then selectivity FEP. Docking stays triage only.
+   - **MM-GBSA — BUILT + LAUNCH-READY (2026-06-28), NOT yet run.** Single-snapshot 1-trajectory MM-GBSA
+     (enthalpy + GBn2 implicit solvent; **no entropy, no ensemble average**) that **re-scores the matrix's
+     own docked poses** — pure `mmgbsa_select.py` (10 tests) + `mmgbsa_energy.py` (OpenMM + OpenFF/GAFF-2.11
+     + PDBFixer; guarded heavy deps) + driver `nr4a3_mmgbsa.py` (mounts `s3://<bucket>/nr4a3-matrix`, prepares
+     each receptor once, computes ΔG into NR4A3/NR4A1/NR4A2, recomputes selectivity margins, emits a
+     **verdict** vs the docking margins: confirmed_selective / reversed / weakened / rescued) +
+     `sagemaker_src/entry_mmgbsa.py` + `nr4a3_mmgbsa_sagemaker.py` + `.github/workflows/mmgbsa-aws.yml`.
+     **NO re-dock, NO MD → CPU work, minutes** (not a multi-hour GPU run); OpenMM uses the CPU platform but
+     the job defaults to `ml.g5.xlarge` to reuse the 1 quota slot. Output `s3://<bucket>/nr4a3-mmgbsa/nr4a3-mmgbsa.json`.
+     **Numerics validate on the first cloud run** (the MM env builds there; pure logic + compile are green).
+     **To launch:** dispatch `mmgbsa-aws.yml` on `main` (defaults fine). This directly tests the matrix's
+     central caveat (every selectivity call within docking noise; top hit cytosporone B is a known NR4A1
+     agonist → expect a `reversed` verdict if the docking selectivity is artefactual). **Per-residue
+     decomposition + multi-snapshot averaging are the documented follow-ups.**
+   - **Selectivity FEP** on the lead 1–3 — the program's dominant GPU cost (~1–3 weeks serial). **DEFERRED**
+     pending (i) the unbiased release run confirming the opened pocket is metastable and (ii) MM-GBSA + a
+     de-novo *bona fide* selective candidate worth the spend. See `nr4a3-matrix-result.md` for the go/no-go.
 3. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` stub: wire DiffSBDD/Pocket2Mol,
    two campaigns (divergent-handle-conditioned = selective; conserved-conditioned = pan) to fill empty cells.
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
