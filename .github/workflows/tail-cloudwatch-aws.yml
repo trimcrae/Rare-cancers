@@ -1,0 +1,49 @@
+name: Tail SageMaker CloudWatch logs (AWS)
+
+# Read-only LIVE tail of a SageMaker job's CloudWatch logs, so we can watch a RUNNING job's progress
+# without cancelling it (GitHub only renders the streamed job log when its step ends; CloudWatch has it
+# live). Prints the last TAIL_LINES events from the most recent Processing job matching JOB_PREFIX.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (region is a workflow input). Starts no
+# instance; commits nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_prefix:
+        description: "Processing-job NameContains filter (e.g. nr4a3-mmgbsa, nr4a3-metad)"
+        default: "nr4a3-mmgbsa"
+        required: false
+      tail_lines:
+        description: "How many of the most recent log events to print"
+        default: "200"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  tail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Tail CloudWatch for the job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          JOB_PREFIX: ${{ inputs.job_prefix }}
+          TAIL_LINES: ${{ inputs.tail_lines }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/tail_cloudwatch.py

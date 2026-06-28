@@ -16,7 +16,10 @@ top hit cytosporone B is a known NR4A1 agonist). It is STILL triage, not affinit
 """
 import json
 import os
+import signal
 import sys
+import threading
+import time
 import traceback
 
 import mmgbsa_select as ms
@@ -27,6 +30,27 @@ KEY = {"nr4a3": "NR4A3", "nr4a1": "NR4A1", "nr4a2": "NR4A2"}
 IN = os.environ.get("INPUT_DIR", os.path.dirname(os.path.abspath(__file__)))
 OUT = os.environ.get("OUTPUT_DIR", IN)
 MINIMIZE_ITERS = int(os.environ.get("MMGBSA_MIN_ITERS", "250"))
+# Per-(ligand,target) wall-clock cap. One endpoint_dG that hangs (e.g. a pathological minimise) must not
+# stall the whole run silently — SIGALRM turns it into a normal per-leg failure recorded in _errors.
+TARGET_TIMEOUT = int(os.environ.get("MMGBSA_TARGET_TIMEOUT", "600"))
+
+
+class _LegTimeout(Exception):
+    """Raised by the SIGALRM handler when one endpoint_dG leg exceeds TARGET_TIMEOUT."""
+
+
+def _on_alarm(_sig, _frame):
+    raise _LegTimeout(f"endpoint_dG exceeded {TARGET_TIMEOUT}s")
+
+
+# Shared progress state for the heartbeat thread (so even a long single leg shows liveness in CloudWatch).
+_progress = {"done": 0, "n": 0, "current": "(starting)"}
+
+
+def _heartbeat(stop, start, every=60):
+    while not stop.wait(every):
+        print(f"[hb] mmgbsa: {_progress['done']}/{_progress['n']} ligands done, "
+              f"on {_progress['current']}, {int(time.time() - start)}s elapsed", flush=True)
 
 
 def _docking_margins(matrix_json):
@@ -82,21 +106,44 @@ def main():
     labels = list(poses["nr4a3"].keys())
     cache = os.path.join(OUT, "sysgen_cache.json")
     rows = []
-    for label in labels:
+
+    # Print the chosen OpenMM platform UP FRONT (CPU vs OpenCL/CUDA) so the very first seconds of the log
+    # tell us where the compute is running — no more discovering it only by killing the job.
+    try:
+        omm, _app, ommunit, *_ = mme._mm()
+        mme._platform(omm, ommunit)
+    except Exception as e:  # noqa: BLE001 — platform probe is diagnostic; the per-leg path re-raises if real
+        print(f"[mmgbsa] platform probe failed: {str(e)[:120]}", flush=True)
+
+    _progress["n"] = len(labels)
+    res["_status"], res["_progress"] = "in_progress", f"0/{len(labels)}"
+    _write(res)                                          # checkpoint before the first (slow) leg
+    print(f"[mmgbsa] rescoring {len(labels)} candidates x {len(receptors)} targets "
+          f"(min_iters={MINIMIZE_ITERS}, per-leg timeout={TARGET_TIMEOUT}s)", flush=True)
+    signal.signal(signal.SIGALRM, _on_alarm)
+    stop = threading.Event()
+    threading.Thread(target=_heartbeat, args=(stop, time.time()), daemon=True).start()
+
+    for i, label in enumerate(labels, 1):
+        _progress["current"] = label[:32]
+        t0 = time.time()
         dg = {}
         errs = {}
         for tag in PARALOGUES:
             if tag not in poses or label not in poses[tag]:
                 dg[tag] = None
                 continue
+            signal.alarm(TARGET_TIMEOUT)
             try:
                 rec_top, rec_pos = receptors[tag]
                 r = mme.endpoint_dG(rec_top, rec_pos, poses[tag][label],
                                     minimize_iters=MINIMIZE_ITERS, cache=cache)
                 dg[tag] = r["dG"]
-            except Exception as e:  # noqa: BLE001 — record + continue; one bad ligand never voids the run
+            except Exception as e:  # noqa: BLE001 — record + continue; one bad leg never voids the run
                 dg[tag] = None
                 errs[KEY[tag]] = str(e)[:160]
+            finally:
+                signal.alarm(0)
         mar = ms.margins(dg["nr4a3"], dg["nr4a1"], dg["nr4a2"])
         d = dock.get(label, {})
         v = ms.verdict(d.get("dock_min_margin"), mar["min_margin"])
@@ -109,9 +156,13 @@ def main():
         if errs:
             row["_errors"] = errs
         rows.append(row)
-        print(f"  {label[:24]:<24} mmΔG3={dg['nr4a3']} mmMargin={mar['min_margin']} "
-              f"dockMargin={d.get('dock_min_margin')} -> {v}", flush=True)
+        _progress["done"] = i
+        print(f"  [{i}/{len(labels)}] {label[:24]:<24} mmΔG3={dg['nr4a3']} mmMargin={mar['min_margin']} "
+              f"dockMargin={d.get('dock_min_margin')} -> {v} ({int(time.time() - t0)}s)", flush=True)
+        res["candidates"], res["_progress"] = rows, f"{i}/{len(labels)}"
+        _write(res)                                      # checkpoint after every ligand (crash/stop-safe)
 
+    stop.set()
     rows = ms.rank_rows(rows)
     res["candidates"] = rows
     res["verdict_census"] = ms.census(rows)

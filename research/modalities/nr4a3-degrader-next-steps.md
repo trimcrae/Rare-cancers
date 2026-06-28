@@ -155,20 +155,41 @@ the family metad (in flight) is the fix.
      in the STATUS block above; lead = **cytosporone B** (NR4A3-selective, margins +1.42/+1.16), pan leads =
      celastrol + CHEMBL1873475, **anti-target cell empty**.
 2. **Endpoint free energy (the defensible margin)** — MM-GBSA then selectivity FEP. Docking stays triage only.
-   - **MM-GBSA — BUILT + LAUNCH-READY (2026-06-28), NOT yet run.** Single-snapshot 1-trajectory MM-GBSA
-     (enthalpy + GBn2 implicit solvent; **no entropy, no ensemble average**) that **re-scores the matrix's
-     own docked poses** — pure `mmgbsa_select.py` (10 tests) + `mmgbsa_energy.py` (OpenMM + OpenFF/GAFF-2.11
-     + PDBFixer; guarded heavy deps) + driver `nr4a3_mmgbsa.py` (mounts `s3://<bucket>/nr4a3-matrix`, prepares
-     each receptor once, computes ΔG into NR4A3/NR4A1/NR4A2, recomputes selectivity margins, emits a
-     **verdict** vs the docking margins: confirmed_selective / reversed / weakened / rescued) +
-     `sagemaker_src/entry_mmgbsa.py` + `nr4a3_mmgbsa_sagemaker.py` + `.github/workflows/mmgbsa-aws.yml`.
-     **NO re-dock, NO MD → CPU work, minutes** (not a multi-hour GPU run); OpenMM uses the CPU platform but
-     the job defaults to `ml.g5.xlarge` to reuse the 1 quota slot. Output `s3://<bucket>/nr4a3-mmgbsa/nr4a3-mmgbsa.json`.
-     **Numerics validate on the first cloud run** (the MM env builds there; pure logic + compile are green).
-     **To launch:** dispatch `mmgbsa-aws.yml` on `main` (defaults fine). This directly tests the matrix's
-     central caveat (every selectivity call within docking noise; top hit cytosporone B is a known NR4A1
-     agonist → expect a `reversed` verdict if the docking selectivity is artefactual). **Per-residue
-     decomposition + multi-snapshot averaging are the documented follow-ups.**
+   - **MM-GBSA — BUILT + HARDENED (2026-06-28), still NOT successfully run; one clean run pending.**
+     Single-snapshot 1-trajectory MM-GBSA (enthalpy + GBn2 implicit solvent; **no entropy, no ensemble
+     average**) that **re-scores the matrix's own docked poses** — pure `mmgbsa_select.py` (10 tests) +
+     `mmgbsa_energy.py` (OpenMM + OpenFF/GAFF-2.11 + PDBFixer; guarded heavy deps) + driver `nr4a3_mmgbsa.py`
+     (mounts `s3://<bucket>/nr4a3-matrix`, prepares each receptor once, computes ΔG into NR4A3/NR4A1/NR4A2,
+     recomputes selectivity margins, emits a **verdict** vs the docking margins: confirmed_selective /
+     reversed / weakened / rescued) + `sagemaker_src/entry_mmgbsa.py` + `nr4a3_mmgbsa_sagemaker.py` +
+     `.github/workflows/mmgbsa-aws.yml`. **NO re-dock, NO MD → CPU work, minutes** (not a multi-hour GPU run).
+     Output `s3://<bucket>/nr4a3-mmgbsa/nr4a3-mmgbsa.json`.
+     - **Run-7 post-mortem (2026-06-28) — the real story behind the "5 fixes".** Runs ≤4 failed *fast*
+       all-`incomplete` on a cascade of platform bugs in `mmgbsa_energy.py` (nonbonded kwargs → box strip →
+       GPU platform → CUDA-PTX→OpenCL fallback). **Run 7 then hung for 82 min in TOTAL SILENCE and had to be
+       killed.** Reading the cancelled job's CloudWatch log showed it never reached the compute at all: it
+       stalled in **conda env creation**. Root cause = the env was **unpinned** and `openff-toolkit` (the
+       metapackage) pulls `openff-nagl`, which drags in the multi-GB **PyTorch-CUDA stack** we never use; that
+       bloat stalled the build, and there was **no heartbeat/timeout** so it would have burned to the 4 h cap.
+       So the four `mmgbsa_energy.py` platform fixes addressed a *downstream* problem run 7 never reached.
+     - **The hardening (this session) — three changes, all CPU-side/free:** (1) **slim env** — install
+       `openff-toolkit-base` (no nagl → no PyTorch/CUDA); AM1-BCC charges for gaff-2.11 come from AmberTools
+       `sqm`, so nothing is lost; `entry_mmgbsa.py` also captures a `conda list --explicit` lock to
+       `mmg-lock.txt` for future pinning. (2) **never go blind** — every long step streams live + prints an
+       elapsed heartbeat + has a hard wall-clock timeout (30 min env build, 90 min compute, 600 s/leg via
+       SIGALRM); the compute prints the chosen OpenMM platform up front and **checkpoints `nr4a3-mmgbsa.json`
+       after every ligand**. (3) **cheap + certain instance** — default flipped from `ml.g5.xlarge` to
+       **`ml.c5.2xlarge`** (CPU; this step never needed a GPU — removes the OpenCL uncertainty; ~$0.34/h,
+       a clean run ≈ $0.2). Override with `INSTANCE=ml.g5.xlarge` for GPU.
+     - **NEW observability tool:** `tail-cloudwatch-aws.yml` (+ `tail_cloudwatch.py`) — read-only, dispatch
+       any time to print the last N CloudWatch events of a **running** job (`job_prefix=nr4a3-mmgbsa`). Use it
+       to watch a live run instead of cancelling to see the log.
+     - **To launch (asks first — GPU rule still applies to the c5 spend by courtesy):** dispatch
+       `mmgbsa-aws.yml` on `main` (defaults fine), then `tail-cloudwatch-aws.yml` to watch, then
+       `report-mmgbsa-aws.yml` for the verdict census + ranked table. This tests the matrix's central caveat
+       (every selectivity call within docking noise; top hit cytosporone B is a known NR4A1 agonist → expect a
+       `reversed` verdict if the docking selectivity is artefactual). **Per-residue decomposition +
+       multi-snapshot averaging remain the documented follow-ups.**
    - **Selectivity FEP** on the lead 1–3 — the program's dominant GPU cost (~1–3 weeks serial). **DEFERRED**
      pending (i) the unbiased release run confirming the opened pocket is metastable and (ii) MM-GBSA + a
      de-novo *bona fide* selective candidate worth the spend. See `nr4a3-matrix-result.md` for the go/no-go.

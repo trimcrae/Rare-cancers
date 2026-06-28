@@ -75,6 +75,11 @@ roughly **1–3 days of g5.xlarge per protein**, ×3 proteins ×(1–3 leads) = 
   poses + opened PDBs already in S3). Far cheaper than FEP; tells us whether the docking selectivity even
   survives a better energy model before any alchemical spend. Can be built CPU-side (GitHub-Actions CPU or a
   short SageMaker job), no multi-day GPU. **This is the natural next quantitative step.**
+  **Status (2026-06-28): BUILT + HARDENED, one clean run pending.** Run 7 hung 82 min in the conda env build
+  (unpinned `openff-toolkit` dragging in an unused PyTorch-CUDA stack) and was killed; the pipeline is now
+  slimmed (`openff-toolkit-base`), continuously logged (heartbeat + per-step timeouts + a
+  `tail-cloudwatch-aws.yml` live tail), checkpointed per-ligand, and moved to a cheap CPU instance
+  (`ml.c5.2xlarge`). See `nr4a3-degrader-next-steps.md` → MM-GBSA for the post-mortem + how to run.
 - **Unbiased release run** — the actual gate on whether the opened pocket is real (already launch-ready).
 - **De-novo design (matrix step 3)** to fill the cells with real selective candidates before FEP.
 
