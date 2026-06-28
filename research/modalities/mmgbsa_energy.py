@@ -76,12 +76,15 @@ def load_poses(pose_sdf):
 
 def _generator(offmol, cache=None):
     openmm, app, unit, SystemGenerator, _Mol, _PF = _mm()
-    ff_kwargs = {"constraints": app.HBonds, "nonbondedMethod": app.NoCutoff, "removeCMMotion": False}
+    # openmmforcefields requires nonbondedMethod in (non)periodic_forcefield_kwargs, NOT forcefield_kwargs.
+    # GBn2 implicit solvent is non-periodic, so NoCutoff goes in nonperiodic_forcefield_kwargs.
+    ff_kwargs = {"constraints": app.HBonds, "removeCMMotion": False}
     return SystemGenerator(
         forcefields=["amber14/protein.ff14SB.xml", "implicit/gbn2.xml"],
         small_molecule_forcefield="gaff-2.11",
         molecules=[offmol],
         forcefield_kwargs=ff_kwargs,
+        nonperiodic_forcefield_kwargs={"nonbondedMethod": app.NoCutoff},
         cache=cache,
     )
 
