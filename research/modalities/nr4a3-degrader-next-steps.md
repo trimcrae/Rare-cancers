@@ -28,20 +28,33 @@ chemotypes, top margin ~+1.7 kcal/mol (e.g. CHEMBL1873475), 4/5 engageable handl
 metad on **NR4A1 + NR4A2** → state-matched opened-pocket ensembles for all three → dock one library into
 each → per-candidate **selectivity fingerprint** (NR4A3-only / pan-NR4A / anti-target NR4A1+NR4A3). This
 is simultaneously the rigor fix (kills the opened-vs-static confound) and the scope expansion (programmable
-selectivity). **STATUS (2026-06-28):**
-- **NR4A1 — DONE.** `nr4a1-metad` ensemble landed in S3 (full ~732 MB trajectory, `COMPLETE-SET: YES`,
-  SageMaker job `Completed`). The first NR4A1 attempt was wasted by the 8 h `MaxRuntime` truncation; the
-  rerun under the 20 h cap + continuous checkpointing completed cleanly.
-- **NR4A2 — relaunched, expected complete.** Run **28303055273** (launched 2026-06-27 21:59,
-  `target=NR4A2`, `MAX_RUNTIME=72000`, continuous checkpointing), confirmed past pre-flight; by elapsed
-  time the SageMaker job has finished and its ensemble is persisted at `nr4a2-metad/`. Confirm via
-  **`verify-aws.yml`** (`COMPLETE-SET: YES` + job `Completed`) before the matrix dispatch.
-- **NEXT ACTION (the one pending step): dispatch `gpu-matrix-aws.yml` on `main`** (defaults fine) once
-  `nr4a2-metad` is confirmed — this is the central deliverable (per-candidate selectivity fingerprint +
-  Fig 4 heatmap). As of 2026-06-28 this is **blocked only on GitHub Actions access** (the GitHub MCP
-  server was disconnected); all code is committed/tested and git-over-HTTPS works, so the launch is
-  immediate once Actions dispatch is available again. Verify completion via S3 (`nr4a1-metad` /
-  `nr4a2-metad` / `nr4a3-matrix`), not GitHub status (6 h-cap wrapper issue applies).
+selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
+- **All three `*-metad` ensembles confirmed in S3** (`verify-aws.yml` run 28319715809, 2026-06-28):
+  `nr4a3-metad` (640 MB), `nr4a1-metad` (732 MB), `nr4a2-metad` (711 MB) all `COMPLETE-SET: YES`;
+  SageMaker jobs `nr4a1-metad-2026-06-27-11-44-08` + `nr4a2-metad-2026-06-27-22-00-03` both `Completed`.
+  (The earlier NR4A1/NR4A2 truncations were the 8 h `MaxRuntime` incident; the 20 h-cap reruns completed.)
+- **MATRIX — DONE.** `gpu-matrix-aws.yml` run 28319737517 (2026-06-28, ~25 min SageMaker docking,
+  `Completed`) wrote `s3://<bucket>/nr4a3-matrix/nr4a3-matrix.json` (+ the three opened-conformer PDBs,
+  docked SDFs, and `nr4a3-matrix.png` = Fig 4 heatmap). State-matched opened conformers docked: **NR4A3
+  frame 300 (druggability 0.931), NR4A1 frame 524 (0.981), NR4A2 frame 125 (0.938)** — this kills the
+  opened-vs-static confound that flagged the first warhead screen. Read the full ranked table any time via
+  `report-matrix-aws.yml` (read-only S3 dump). **RESULT (13 deduped candidates, all contact 4/5 engageable
+  handles):**
+  - **NR4A3-selective lead (EMC/AciCC):** **cytosporone B** (= dup `CHEMBL1221517`) — dG_NR4A3 −7.08,
+    margins **+1.42 vs NR4A1, +1.16 vs NR4A2** (only candidate clearing the strict ≥~1 kcal/mol-both bar).
+    **amodiaquine** (= dup `CHEMBL682`) is the runner-up NR4A3-only cell (dG_NR4A3 −7.82, margins
+    +1.31/+0.89 — sub-threshold on NR4A2 only, so NR4A3-leaning with better raw potency).
+  - **pan-NR4A leads (ex-vivo immuno / triple degrader):** **celastrol** (−8.58, engages all three,
+    margins +0.44/+0.96) and **`CHEMBL1873475`** (−8.40, margins ≈0/−0.40). These are the conserved-pocket
+    design starting points for the distinct pan molecule.
+  - **NR4A1+NR4A3 anti-target cell (AML-risk, design AWAY from): EMPTY (0)** — no candidate combines
+    NR4A1+NR4A3 engagement while sparing NR4A2, so nothing to design away from here. Off-target leakage
+    instead leans NR4A2 (`resveratrol` → NR4A1+NR4A2 cell; `CHEMBL475`/`CHEMBL196` → NR4A2-side).
+  - **Census:** NR4A3-only 4, pan-NR4A 3, none 3, NR4A2+NR4A3 1, NR4A2-only 1, NR4A1+NR4A2 1, NR4A1+NR4A3 0.
+- **NEXT ACTION:** the **MM-GBSA / FEP quantitative tier** (matrix step 2 below) — docking dG here is a
+  triage prior, not affinity, so the margins nominate chemotypes, not a lead. **Flag the FEP cost before
+  launching** (selectivity FEP on 1–3 leads × 3 paralogues is the expensive step; MM-GBSA endpoint rescoring
+  is cheap and should go first).
 
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
@@ -128,13 +141,14 @@ the family metad (in flight) is the fix.
    Output a per-candidate selectivity *fingerprint* across the three → partition into NR4A3-only / pan /
    NR4A1+NR4A3 anti-target cells. Also add a **conserved-residue contact score** + pan ranking, and **dedup**
    the candidate list (CHEMBL682 duplicated in run 28252182123).
-   - **BUILT + LAUNCH-READY (2026-06-26):** classifier `selectivity_fingerprint.py` (7 tests) + driver
+   - **DONE (2026-06-28, run 28319737517).** classifier `selectivity_fingerprint.py` (7 tests) + driver
      `nr4a3_matrix.py` (mounts all three `*-metad` prefixes, extracts each opened conformer, docks the
      deduped library into all three, classifies via `classify()`, scores divergent-handle + conserved-CV
      contacts) + `sagemaker_src/entry_matrix.py` + `nr4a3_matrix_sagemaker.py` + `.github/workflows/gpu-matrix-aws.yml`.
-     **To launch once all three `*-metad` ensembles are in S3:** dispatch `gpu-matrix-aws.yml` on `main`
-     (defaults fine). Output `s3://<bucket>/nr4a3-matrix/nr4a3-matrix.json` = per-candidate cell + census +
-     leads (nr4a3_selective / pan_nr4a / anti_targets).
+     Output `s3://<bucket>/nr4a3-matrix/nr4a3-matrix.json` = per-candidate cell + census + leads. **Read it
+     back with `report-matrix-aws.yml`** (read-only S3 dump → ranked table + census + leads). Result summary
+     in the STATUS block above; lead = **cytosporone B** (NR4A3-selective, margins +1.42/+1.16), pan leads =
+     celastrol + CHEMBL1873475, **anti-target cell empty**.
 2. **Endpoint free energy (the defensible margin)** — MM-GBSA + per-residue decomposition on the top cell
    leads in all three opened ensembles; selectivity FEP on the lead 1–3. Docking stays triage only.
 3. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` stub: wire DiffSBDD/Pocket2Mol,
