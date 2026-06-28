@@ -179,6 +179,16 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 GPU runs cost money — ASK FIRST (trimcrae standing rule, 2026-06-28).** Before dispatching ANY new
+  GPU/SageMaker run (anything that spins up a `ml.g5.*` / GPU instance — metad, matrix, MM-GBSA, FEP,
+  release, ternary, warhead, calibration), present the user a decision pop-up (`AskUserQuestion`) with a
+  **cost estimate** and the **payoff value**, and let them choose. Do NOT auto-launch GPU jobs under the
+  "drive autonomously" authorization — that authorization covers the pipeline logic and commits/merges, NOT
+  spending on new GPU runs. (Read-only/CPU GitHub-Actions jobs — `verify-aws`, `report-*`, the stop
+  workflows — do not need this; they don't start a GPU instance.) **Rough cost (ml.g5.xlarge SageMaker,
+  us-east-2, ~$1.4/h, billed on actual runtime):** a ~25 min job (matrix / optimized MM-GBSA) ≈ **$0.5–0.7**;
+  a 30 ns metad (~9–10 h) ≈ **$13–15**; selectivity **FEP** (~1–3 weeks serial) ≈ **hundreds of $** — always
+  the one to flag hardest. Quote a number + payoff in the pop-up; if unsure, say so and give a range.
 - **metad is now multi-target:** `gpu-metad-aws.yml` takes `target=NR4A3|NR4A1|NR4A2` (+ optional
   `output_prefix`, default `<target>-metad`). Paralogue LBD trim + Pocket-5 CV residues are mapped to the
   NR4A3 reference by BLOSUM62 alignment at runtime (fail-loud + audit log + the initial-Rg pre-flight).
