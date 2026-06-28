@@ -183,7 +183,26 @@ the family metad (in flight) is the fix.
        a clean run ≈ $0.2). Override with `INSTANCE=ml.g5.xlarge` for GPU.
      - **NEW observability tool:** `tail-cloudwatch-aws.yml` (+ `tail_cloudwatch.py`) — read-only, dispatch
        any time to print the last N CloudWatch events of a **running** job (`job_prefix=nr4a3-mmgbsa`). Use it
-       to watch a live run instead of cancelling to see the log.
+       to watch a live run instead of cancelling to see the log. **NOTE: a brand-new workflow is only
+       API-dispatchable once it exists on the *default branch* — merge `tail-cloudwatch-aws.yml` to `main`
+       before relying on live-tailing.**
+     - **Run 8 (2026-06-28, CPU `ml.c5.2xlarge`, on the fix branch) — env fix CONFIRMED, CPU NON-VIABLE.**
+       The hardening worked exactly as designed: the slim env built in **172 s** (vs run 7's 82-min hang),
+       `mmg-lock.txt` (212 lines) was captured, the platform line printed (`OpenMM platform: CPU` — CUDA/OpenCL
+       not registered on a c5), heartbeats streamed throughout, and the job **timed out cleanly at 90 min**
+       (exit 124) with a per-ligand checkpoint written — no blind burn, full visibility. BUT the CPU compute
+       is brutally slow: `[1/13] celastrol -> incomplete (2866s)` — one ligand took **48 min** and still came
+       back incomplete (an NR4A3 leg failed/over-ran); ligand 2 was mid-flight at the cap. The ~4000-atom GB
+       minimisations need a GPU; 13×3 on CPU would be ~10+ h. **Takeaway: the env was the real bug (fixed);
+       the compute genuinely needs the GPU after all** — the original g5 instinct was right, just sabotaged by
+       the env hang. (Watch celastrol's `incomplete` — if it's a real GAFF/AM1-BCC param failure, not just
+       slowness, it will recur on GPU.)
+     - **NEXT: one watched GPU run.** Re-run on `ml.g5.xlarge` (slim env now builds fast) and **watch the
+       `[mmgbsa] OpenMM platform:` line** — the open unknown is whether OpenCL actually engages on the A10G
+       (CUDA fails via PTX mismatch; if OpenCL also falls back to CPU we must fix the OpenCL ICD / install a
+       driver-matched openmm before MM-GBSA is feasible). With the live tail + heartbeats we can confirm the
+       platform + first-ligand speed within minutes and abort early if it falls to CPU again. Subject to the
+       ask-before-GPU rule.
      - **To launch (asks first — GPU rule still applies to the c5 spend by courtesy):** dispatch
        `mmgbsa-aws.yml` on `main` (defaults fine), then `tail-cloudwatch-aws.yml` to watch, then
        `report-mmgbsa-aws.yml` for the verdict census + ranked table. This tests the matrix's central caveat
