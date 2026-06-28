@@ -89,6 +89,14 @@ def main():
     except Exception as e:  # noqa: BLE001 — lock capture is best-effort, never fail the run on it
         print(f"[sagemaker] could not capture conda lock: {e}", flush=True)
 
+    # Run 10: ocl-icd-system (the ICD *loader*) still left OpenCL "not registered". The g5 container mounts
+    # NVIDIA's OpenCL driver (libnvidia-opencl.so.1) but NOT its ICD *vendor file*, so the loader finds no
+    # device and OpenMM's OpenCL platform never registers. Write the vendor file so the loader sees the A10G.
+    subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
+                    "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd && "
+                    "echo '[sagemaker] wrote /etc/OpenCL/vendors/nvidia.icd' && "
+                    "ls -l /etc/OpenCL/vendors/"], check=False)
+
     env = os.environ.copy()
     env["INPUT_DIR"] = "/opt/ml/processing/input"     # nr4a3-matrix outputs mounted here
     env["OUTPUT_DIR"] = OUT
