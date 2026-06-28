@@ -94,10 +94,29 @@ def _generator(offmol, cache=None):
     )
 
 
+_PLATFORM = None
+
+
+def _platform(openmm):
+    """Best available OpenMM platform, cached. The job runs on a g5.xlarge (A10G GPU), so prefer CUDA —
+    minimising a ~4000-atom GB complex on the CPU platform (4 vCPUs) is ~10-50x slower and was the runtime
+    bottleneck. Fall back to OpenCL then CPU so the pipeline still runs on a CPU box."""
+    global _PLATFORM
+    if _PLATFORM is None:
+        for name in ("CUDA", "OpenCL", "CPU"):
+            try:
+                _PLATFORM = openmm.Platform.getPlatformByName(name)
+                print(f"[mmgbsa] OpenMM platform: {name}", flush=True)
+                break
+            except Exception:  # noqa: BLE001 — try the next platform
+                continue
+    return _PLATFORM
+
+
 def _energy(openmm, unit, system, topology, positions):
-    """Single-point potential energy (kcal/mol) of `system` at `positions` on the reference CPU platform."""
+    """Single-point potential energy (kcal/mol) of `system` at `positions` on the best platform."""
     integrator = openmm.VerletIntegrator(1.0 * unit.femtoseconds)
-    platform = openmm.Platform.getPlatformByName("CPU")
+    platform = _platform(openmm)
     context = openmm.Context(system, integrator, platform)
     context.setPositions(positions)
     e = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
@@ -105,7 +124,7 @@ def _energy(openmm, unit, system, topology, positions):
     return e / KJ_PER_KCAL
 
 
-def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=500, cache=None):
+def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=250, cache=None):
     """1-trajectory MM-GBSA ΔG_bind (kcal/mol) for one pose, given a PDBFixer-prepared receptor
     (`prepare_receptor`) and a loaded OpenFF pose molecule (`load_poses`). Returns a dict:
         {dG, E_complex, E_receptor, E_ligand, n_receptor_atoms, n_ligand_atoms}  (energies kcal/mol)
@@ -131,7 +150,7 @@ def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=500, cache=None):
 
     # minimise the complex (relieve docking clashes), then read back the minimised geometry.
     integrator = openmm.VerletIntegrator(1.0 * unit.femtoseconds)
-    sim = app.Simulation(cpx_top, cpx_sys, integrator, openmm.Platform.getPlatformByName("CPU"))
+    sim = app.Simulation(cpx_top, cpx_sys, integrator, _platform(openmm))
     sim.context.setPositions(cpx_pos)
     sim.minimizeEnergy(maxIterations=int(minimize_iters))
     state = sim.context.getState(getEnergy=True, getPositions=True)

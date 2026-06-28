@@ -26,7 +26,7 @@ KEY = {"nr4a3": "NR4A3", "nr4a1": "NR4A1", "nr4a2": "NR4A2"}
 
 IN = os.environ.get("INPUT_DIR", os.path.dirname(os.path.abspath(__file__)))
 OUT = os.environ.get("OUTPUT_DIR", IN)
-MINIMIZE_ITERS = int(os.environ.get("MMGBSA_MIN_ITERS", "500"))
+MINIMIZE_ITERS = int(os.environ.get("MMGBSA_MIN_ITERS", "250"))
 
 
 def _docking_margins(matrix_json):
