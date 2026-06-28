@@ -54,7 +54,12 @@ selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
 - **NEXT ACTION:** the **MM-GBSA / FEP quantitative tier** (matrix step 2 below) — docking dG here is a
   triage prior, not affinity, so the margins nominate chemotypes, not a lead. **Flag the FEP cost before
   launching** (selectivity FEP on 1–3 leads × 3 paralogues is the expensive step; MM-GBSA endpoint rescoring
-  is cheap and should go first).
+  is cheap and should go first). **Full result + robustness + FEP go/no-go memo:
+  [`nr4a3-matrix-result.md`](./nr4a3-matrix-result.md).** Headline of the memo: matrix succeeds as the
+  *framework* result (programmable selectivity; anti-target cell empty), but 6/9 calls are within docking
+  noise and the top "NR4A3-selective" hit (cytosporone B) is a **known NR4A1 agonist** — so **FEP is
+  recommended DEFERRED** behind (i) the unbiased release run confirming the pocket is metastable and (ii)
+  MM-GBSA + de-novo *bona fide* selective candidates worth a multi-day alchemical run.
 
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
