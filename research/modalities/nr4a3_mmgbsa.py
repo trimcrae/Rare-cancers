@@ -107,13 +107,12 @@ def main():
     cache = os.path.join(OUT, "sysgen_cache.json")
     rows = []
 
-    # Print the chosen OpenMM platform UP FRONT (CPU vs OpenCL/CUDA) so the very first seconds of the log
-    # tell us where the compute is running — no more discovering it only by killing the job.
-    try:
-        omm, _app, ommunit, *_ = mme._mm()
-        mme._platform(omm, ommunit)
-    except Exception as e:  # noqa: BLE001 — platform probe is diagnostic; the per-leg path re-raises if real
-        print(f"[mmgbsa] platform probe failed: {str(e)[:120]}", flush=True)
+    # Select + print the OpenMM platform UP FRONT, and FAIL FAST if no GPU platform loads. There is no CPU
+    # fallback (run 8: ~48 min/ligand on CPU), so this raises within seconds on a GPU-less/ICD-broken box —
+    # the job dies immediately with a clear message instead of grinding to the timeout. (Outer __main__
+    # handler writes the error JSON + exits 1.)
+    omm, _app, ommunit, *_ = mme._mm()
+    mme._platform(omm, ommunit)
 
     _progress["n"] = len(labels)
     res["_status"], res["_progress"] = "in_progress", f"0/{len(labels)}"

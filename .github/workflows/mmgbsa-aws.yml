@@ -3,9 +3,9 @@ name: NR4A MM-GBSA endpoint rescoring (AWS SageMaker)
 # Re-scores the selectivity-matrix docked poses with single-snapshot 1-trajectory MM-GBSA (enthalpy +
 # GBn2; no entropy/ensemble) to test whether the docking-level NR4A3-selectivity survives a physics-based
 # energy model. Reuses s3://<bucket>/nr4a3-matrix (receptors + docked_*.sdf) — NO re-docking, NO MD, so
-# CPU work (~13 candidates x 3 targets, minutes). Defaults to ml.c5.2xlarge (CPU — this step never needed
-# a GPU; run 7's hang was the conda env build, not compute speed; see entry_mmgbsa.py); set instance to
-# ml.g5.xlarge for GPU. Watch a running job with tail-cloudwatch-aws.yml. REQUIRES secrets:
+# ~13 candidates x 3 targets, minutes on a GPU. Defaults to ml.g5.xlarge (A10G): run 8 proved CPU is
+# ~48 min/ligand, so the compute needs the GPU and there is NO CPU fallback (the job fails fast in seconds
+# if no GPU platform loads). Watch a running job with tail-cloudwatch-aws.yml. REQUIRES secrets:
 # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN. Run only after the matrix populated
 # s3://<bucket>/nr4a3-matrix.
 
@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
     inputs:
       instance:
-        description: "SageMaker instance type (CPU c5/m5 recommended; ml.g5.xlarge for GPU)"
-        default: "ml.c5.2xlarge"
+        description: "SageMaker instance type (GPU required; ml.g5.xlarge default — no CPU fallback)"
+        default: "ml.g5.xlarge"
         required: false
       region:
         description: "AWS region — must match where the matrix outputs live"

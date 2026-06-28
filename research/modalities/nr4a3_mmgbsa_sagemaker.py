@@ -4,11 +4,12 @@ Submit the MM-GBSA endpoint rescoring as an AWS SageMaker Processing job.
 
 Mounts the matrix outputs (s3://<bucket>/nr4a3-matrix) as one ProcessingInput at
 /opt/ml/processing/input, runs entry_mmgbsa.py -> nr4a3_mmgbsa.py, and writes s3://<bucket>/nr4a3-mmgbsa.
-This is endpoint rescoring of existing docked poses (single-snapshot, no MD), so it runs fine on CPU and
-defaults to a CHEAP CPU instance (ml.c5.2xlarge, ~$0.34/h, 8 vCPU for the multi-threaded OpenMM CPU
-platform) — NOT a g5: it removes the GPU/OpenCL uncertainty entirely (run 7's 82-min silent hang was the
-unpinned conda env dragging in an unused PyTorch-CUDA stack, not a compute-speed problem; see
-entry_mmgbsa.py). Override with INSTANCE=ml.g5.xlarge to use the GPU. Needs AWS creds + SAGEMAKER_ROLE_ARN.
+This is endpoint rescoring of existing docked poses (single-snapshot, no MD). Defaults to ml.g5.xlarge
+(A10G GPU): run 8 proved the ~4000-atom GB minimisation is ~48 min/ligand on CPU, so the compute genuinely
+needs the GPU — and there is now NO CPU fallback (mmgbsa_energy.py fails fast if no GPU platform loads).
+The earlier env hang (run 7) was the unpinned conda env, not the instance, and is fixed independently (slim
+env in entry_mmgbsa.py). Override INSTANCE=ml.c5.* only with MMGBSA_ALLOW_CPU=1. Needs AWS creds +
+SAGEMAKER_ROLE_ARN.
 
 Prereq: the matrix job must have populated s3://<bucket>/nr4a3-matrix (receptors + docked_*.sdf).
 """
@@ -27,10 +28,10 @@ def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
     if not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set (the SageMaker execution-role ARN)")
-    instance = os.environ.get("INSTANCE", "ml.c5.2xlarge")
-    # Backstop only — entry_mmgbsa.py enforces tighter per-step timeouts (30 min env build, 90 min compute)
-    # that end a hang fast and visibly. 2 h here just caps a pathological case from running away.
-    max_runtime = int(os.environ.get("MAX_RUNTIME", str(2 * 3600)))
+    instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
+    # Backstop only — entry_mmgbsa.py enforces tighter per-step timeouts (30 min env build, 30 min compute)
+    # that end a hang fast and visibly. 90 min here just caps a pathological case from running away.
+    max_runtime = int(os.environ.get("MAX_RUNTIME", str(90 * 60)))
     in_prefix = os.environ.get("INPUT_PREFIX", "nr4a3-matrix")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-mmgbsa")
     git_ref = os.environ.get("GIT_REF", "main")

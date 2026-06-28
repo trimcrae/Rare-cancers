@@ -197,12 +197,16 @@ the family metad (in flight) is the fix.
        the compute genuinely needs the GPU after all** — the original g5 instinct was right, just sabotaged by
        the env hang. (Watch celastrol's `incomplete` — if it's a real GAFF/AM1-BCC param failure, not just
        slowness, it will recur on GPU.)
+     - **NO CPU FALLBACK (trimcrae, 2026-06-28).** `mmgbsa_energy._platform` now tries only CUDA -> OpenCL
+       and **raises in seconds** if neither GPU platform loads (no silent CPU grind); `nr4a3_mmgbsa.py`
+       probes the platform up front so the job dies fast with a clear message. Compute timeout cut 90 -> 30
+       min. Instance defaults flipped back to `ml.g5.xlarge`. Escape hatch: `MMGBSA_ALLOW_CPU=1` (explicit
+       opt-in only).
      - **NEXT: one watched GPU run.** Re-run on `ml.g5.xlarge` (slim env now builds fast) and **watch the
        `[mmgbsa] OpenMM platform:` line** — the open unknown is whether OpenCL actually engages on the A10G
-       (CUDA fails via PTX mismatch; if OpenCL also falls back to CPU we must fix the OpenCL ICD / install a
-       driver-matched openmm before MM-GBSA is feasible). With the live tail + heartbeats we can confirm the
-       platform + first-ligand speed within minutes and abort early if it falls to CPU again. Subject to the
-       ask-before-GPU rule.
+       (CUDA fails via PTX mismatch). With the no-CPU-fallback fail-fast + live tail, if OpenCL doesn't load
+       the job ends in seconds telling us so (then fix the OpenCL ICD / install a driver-matched openmm);
+       if it does, 13x3 finishes in minutes. Subject to the ask-before-GPU rule.
      - **To launch (asks first — GPU rule still applies to the c5 spend by courtesy):** dispatch
        `mmgbsa-aws.yml` on `main` (defaults fine), then `tail-cloudwatch-aws.yml` to watch, then
        `report-mmgbsa-aws.yml` for the verdict census + ranked table. This tests the matrix's central caveat

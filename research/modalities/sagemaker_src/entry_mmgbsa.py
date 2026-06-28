@@ -91,7 +91,9 @@ def main():
     present = sorted(f for f in os.listdir(env["INPUT_DIR"])) if os.path.isdir(env["INPUT_DIR"]) else []
     print(f"[sagemaker] mounted matrix inputs: {present}", flush=True)
     print(f"[sagemaker] running MM-GBSA rescoring (ref {args.git_ref})", flush=True)
-    compute_timeout = int(os.environ.get("COMPUTE_TIMEOUT", str(90 * 60)))
+    # 30 min: a GPU run of 13x3 endpoint MM-GBSA is minutes. There is no CPU fallback (nr4a3_mmgbsa.py
+    # fails fast if no GPU platform loads), so a run that drags past this is a real problem, not slow CPU.
+    compute_timeout = int(os.environ.get("COMPUTE_TIMEOUT", str(30 * 60)))
     rc = 0
     try:
         # `python -u` => unbuffered child stdout (per-ligand progress streams live, not at process exit).

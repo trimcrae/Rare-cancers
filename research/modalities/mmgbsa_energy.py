@@ -98,15 +98,22 @@ _PLATFORM = None
 
 
 def _platform(openmm, unit):
-    """Best WORKING OpenMM platform, cached. The job runs on a g5.xlarge (A10G GPU), so prefer a GPU
-    platform — minimising a ~4000-atom GB complex on CPU (4 vCPUs) is ~10-50x slower and was the runtime
-    bottleneck. But `getPlatformByName` only checks the platform is REGISTERED, not that its kernels load:
-    the conda OpenMM is built against a newer CUDA than the instance driver supports, so CUDA registers yet
-    fails at kernel load (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`). So actually VALIDATE each platform with a
-    tiny single-particle energy eval and pick the first that runs: CUDA -> OpenCL (GPU, no PTX issue) -> CPU."""
+    """Best WORKING **GPU** OpenMM platform, cached. **There is deliberately NO CPU fallback** (trimcrae,
+    2026-06-28): run 8 proved a ~4000-atom GB minimisation on CPU takes ~48 min/ligand, so a silent CPU
+    fallback just burns the whole timeout. If no GPU platform loads we RAISE immediately, so the job fails
+    fast (seconds) with a clear message instead of grinding for an hour — then we go fix the GPU/ICD.
+
+    `getPlatformByName` only checks the platform is REGISTERED, not that its kernels load: the conda OpenMM
+    is built against a newer CUDA than the g5 driver supports, so CUDA registers yet fails at kernel load
+    (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`). So actually VALIDATE each candidate with a tiny single-particle
+    energy eval and pick the first that runs: CUDA -> OpenCL (GPU, no PTX issue). Set MMGBSA_ALLOW_CPU=1 to
+    append CPU as an explicit, opt-in last resort (NOT on by default — there is no automatic CPU fallback)."""
     global _PLATFORM
     if _PLATFORM is None:
-        for name in ("CUDA", "OpenCL", "CPU"):
+        candidates = ["CUDA", "OpenCL"]
+        if os.environ.get("MMGBSA_ALLOW_CPU") == "1":
+            candidates.append("CPU")          # explicit opt-in only; never an automatic fallback
+        for name in candidates:
             try:
                 plat = openmm.Platform.getPlatformByName(name)
                 sys = openmm.System(); sys.addParticle(1.0)
@@ -122,7 +129,10 @@ def _platform(openmm, unit):
                 print(f"[mmgbsa] platform {name} unavailable: {str(e)[:90]}", flush=True)
                 continue
         if _PLATFORM is None:
-            raise RuntimeError("no working OpenMM platform (CUDA/OpenCL/CPU all failed)")
+            raise RuntimeError(
+                f"no working GPU OpenMM platform (tried {candidates}); refusing to run on CPU "
+                "(run 8: ~48 min/ligand). Fix CUDA/OpenCL on the instance, or set MMGBSA_ALLOW_CPU=1 "
+                "to force a (slow) CPU run.")
     return _PLATFORM
 
 
