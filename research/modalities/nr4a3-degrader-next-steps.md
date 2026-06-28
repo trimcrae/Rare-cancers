@@ -28,9 +28,20 @@ chemotypes, top margin ~+1.7 kcal/mol (e.g. CHEMBL1873475), 4/5 engageable handl
 metad on **NR4A1 + NR4A2** → state-matched opened-pocket ensembles for all three → dock one library into
 each → per-candidate **selectivity fingerprint** (NR4A3-only / pan-NR4A / anti-target NR4A1+NR4A3). This
 is simultaneously the rigor fix (kills the opened-vs-static confound) and the scope expansion (programmable
-selectivity). **IN FLIGHT now:** `gpu-metad-aws.yml target=NR4A1` (run **28256669839**) and `target=NR4A2`
-(run **28256671172**), 30 ns each, ml.g5.xlarge (~$18–23 total). Verify completion via S3
-(`nr4a1-metad` / `nr4a2-metad`), not GitHub status (6 h-cap wrapper issue applies).
+selectivity). **STATUS (2026-06-28):**
+- **NR4A1 — DONE.** `nr4a1-metad` ensemble landed in S3 (full ~732 MB trajectory, `COMPLETE-SET: YES`,
+  SageMaker job `Completed`). The first NR4A1 attempt was wasted by the 8 h `MaxRuntime` truncation; the
+  rerun under the 20 h cap + continuous checkpointing completed cleanly.
+- **NR4A2 — relaunched, expected complete.** Run **28303055273** (launched 2026-06-27 21:59,
+  `target=NR4A2`, `MAX_RUNTIME=72000`, continuous checkpointing), confirmed past pre-flight; by elapsed
+  time the SageMaker job has finished and its ensemble is persisted at `nr4a2-metad/`. Confirm via
+  **`verify-aws.yml`** (`COMPLETE-SET: YES` + job `Completed`) before the matrix dispatch.
+- **NEXT ACTION (the one pending step): dispatch `gpu-matrix-aws.yml` on `main`** (defaults fine) once
+  `nr4a2-metad` is confirmed — this is the central deliverable (per-candidate selectivity fingerprint +
+  Fig 4 heatmap). As of 2026-06-28 this is **blocked only on GitHub Actions access** (the GitHub MCP
+  server was disconnected); all code is committed/tested and git-over-HTTPS works, so the launch is
+  immediate once Actions dispatch is available again. Verify completion via S3 (`nr4a1-metad` /
+  `nr4a2-metad` / `nr4a3-matrix`), not GitHub status (6 h-cap wrapper issue applies).
 
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
