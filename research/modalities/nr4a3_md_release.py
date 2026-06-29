@@ -143,7 +143,13 @@ def main():
             pos = st.getPositions(asNumpy=True).value_in_unit(unit.nanometer)
             rg = _rg_one(pos, idx0)
             rgs.append(rg)
-            rgf.write(f"{(b + 1) * report * 2e-6:.3f}  {rg:.4f}\n")
+            t_ns = (b + 1) * report * 2e-6
+            rgf.write(f"{t_ns:.3f}  {rg:.4f}\n")
+            # Stream Rg(t) LIVE to CloudWatch every block (~50 ps) so a collapse is visible in real time
+            # via tail-cloudwatch-aws.yml — enables killing fast on collapse / early confidence if it holds.
+            # (Collapse is fast: the max-Rg-frontier run fell within the first ~1-2 ns.) flush so it streams.
+            print(f"  [rep{rep}] t={t_ns:5.2f} ns  CV Rg {rg:.3f} nm  "
+                  f"(seed {rg_seed:.3f}, closed ref 0.753)", file=sys.stderr, flush=True)
         rgf.close()
         import numpy as np
         rgs = np.array(rgs)
