@@ -31,10 +31,11 @@ def main():
     instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
     # Backstop only — entry_mmgbsa.py enforces tighter per-step timeouts (30 min env build, 30 min compute)
     # that end a hang fast and visibly. 90 min here just caps a pathological case from running away.
-    max_runtime = int(os.environ.get("MAX_RUNTIME", str(90 * 60)))
+    max_runtime = int(os.environ.get("MAX_RUNTIME", str(120 * 60)))
     in_prefix = os.environ.get("INPUT_PREFIX", "nr4a3-matrix")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-mmgbsa")
     git_ref = os.environ.get("GIT_REF", "main")
+    compute_timeout = os.environ.get("COMPUTE_TIMEOUT", "")   # entry default 30 min; raise for big sets
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
@@ -49,13 +50,20 @@ def main():
                               destination="/opt/ml/processing/input", input_name="matrix")]
     print(f"submitting mmgbsa: {instance}; input s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}",
           flush=True)
+    # Continuous upload: the per-ligand checkpoint (nr4a3-mmgbsa.json, rewritten after every ligand) streams
+    # to S3 AS IT IS WRITTEN, so a compute-timeout or crash leaves the partial verdicts in S3 rather than
+    # losing them (EndOfJob would only upload on a clean exit — and a timeout exits non-zero).
+    arguments = ["--git-ref", git_ref]
+    if compute_timeout:
+        arguments += ["--compute-timeout", str(compute_timeout)]
     proc.run(
         code="entry_mmgbsa.py",
         source_dir=os.path.join(here, "sagemaker_src"),
         inputs=inputs,
         outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
-        arguments=["--git-ref", git_ref],
+                                  destination=f"s3://{bucket}/{out_prefix}",
+                                  s3_upload_mode="Continuous")],
+        arguments=arguments,
         wait=True, logs=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
