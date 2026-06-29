@@ -1,0 +1,147 @@
+{
+  "_note": "NR4A3 de-novo selectivity blueprint (generation-conditioning spec). Classifies the orthosteric Pocket-5 lining residues into engageable divergent handles (selectivity levers) vs the conserved core, from nr4a-selectivity.json + the handle-facing run. Design prep / screening prior, NOT a validated lead. The receptor to condition on is the druggable UNBIASED RELEASE sub-ensemble (Step 0 / nr4a3-release-druggable), not the biased-metad frame.",
+  "pocket": 5,
+  "pocket_druggability_static": 0.495,
+  "pocket_resid_span": [
+    406,
+    534
+  ],
+  "engageable_source": "handle-facing run 28249776934 (mean 5.0/7 facing; T407/R412 splay outward)",
+  "classification": {
+    "selective_handles": [
+      {
+        "residue": "L406",
+        "num": 406,
+        "discriminates": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "weight": 2,
+        "nr4a1": "H",
+        "nr4a2": "H"
+      },
+      {
+        "residue": "T410",
+        "num": 410,
+        "discriminates": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "weight": 2,
+        "nr4a1": "G",
+        "nr4a2": "N"
+      },
+      {
+        "residue": "I484",
+        "num": 484,
+        "discriminates": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "weight": 2,
+        "nr4a1": "Y",
+        "nr4a2": "Y"
+      },
+      {
+        "residue": "L534",
+        "num": 534,
+        "discriminates": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "weight": 2,
+        "nr4a1": "F",
+        "nr4a2": "F"
+      },
+      {
+        "residue": "I531",
+        "num": 531,
+        "discriminates": [
+          "NR4A1"
+        ],
+        "weight": 1,
+        "nr4a1": "V",
+        "nr4a2": "I"
+      }
+    ],
+    "divergent_non_engageable": [
+      {
+        "residue": "T407",
+        "num": 407,
+        "discriminates": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "weight": 2,
+        "nr4a1": "L",
+        "nr4a2": "V"
+      },
+      {
+        "residue": "R412",
+        "num": 412,
+        "discriminates": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "weight": 2,
+        "nr4a1": "A",
+        "nr4a2": "T"
+      }
+    ],
+    "conserved_core": [
+      {
+        "residue": "P411",
+        "num": 411
+      },
+      {
+        "residue": "R481",
+        "num": 481
+      },
+      {
+        "residue": "R485",
+        "num": 485
+      }
+    ],
+    "summary": {
+      "n_selective_handles": 5,
+      "n_discriminate_both": 4,
+      "n_discriminate_nr4a1_only": 1,
+      "n_discriminate_nr4a2_only": 0,
+      "n_divergent_non_engageable": 2,
+      "n_conserved_core": 3
+    }
+  },
+  "campaigns": {
+    "selective": {
+      "goal": "NR4A3-selective warhead (EMC/AciCC; NR4A3-overexpression-driven indications)",
+      "condition_on_handles": [
+        406,
+        410,
+        484,
+        534,
+        531
+      ],
+      "prioritise_handles_discriminating_both_paralogues": [
+        "L406",
+        "T410",
+        "I484",
+        "L534"
+      ],
+      "anchor_on_conserved": [
+        411,
+        481,
+        485
+      ],
+      "note": "Weight contacts to both-paralogue handles (L406,T410,I484,L534) over the NR4A1-only lever I531 (I531 is identical to NR4A2 \u2014 the 5-vs-NR4A1/4-vs-NR4A2 asymmetry). Score generated molecules by engageable-handle contact + selectivity margin downstream (matrix / MM-GBSA)."
+    },
+    "pan": {
+      "goal": "pan-NR4A (triple-degrader) warhead for ex-vivo/transient immuno-oncology",
+      "condition_on_conserved": [
+        411,
+        481,
+        485
+      ],
+      "note": "Distinct molecule; conditions on the conserved core so it engages all three paralogues. Comparison/contrast campaign, not a contingency."
+    }
+  }
+}
