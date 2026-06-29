@@ -62,7 +62,8 @@ def main():
     # biopython=1.79: DiffSBDD imports Bio.PDB.Polypeptide.three_to_one, which Biopython >=1.80 REMOVED.
     # 1.79 is the last release with that API (and any sibling three_to_one/one_to_three calls DiffSBDD uses).
     _run([conda, "create", "-y", "-n", "diffsbdd", "-c", "conda-forge", "python=3.10",
-          "rdkit=2022.03", "openbabel", "biopython=1.79", "scipy", "numpy<2", "networkx", "pandas", "pip"],
+          "rdkit=2022.03", "openbabel", "biopython=1.79", "scipy", "numpy<2", "networkx", "pandas",
+          "libstdcxx-ng", "pip"],
          1800, "conda create diffsbdd env")
 
     def pip(pkgs, timeout, label, extra=()):
@@ -108,6 +109,10 @@ def main():
          1800, "download DiffSBDD checkpoint")
 
     env = os.environ.copy()
+    # The SageMaker container puts the BASE conda's older libstdc++ ahead of the env's on the load path,
+    # so matplotlib's compiled ext (pulled by seaborn) can't find CXXABI_1.3.15. Prepend the env lib dir
+    # so the diffsbdd env's newer libstdc++ wins (propagates to the generate_ligands subprocess too).
+    env["LD_LIBRARY_PATH"] = "/opt/conda/envs/diffsbdd/lib:" + env.get("LD_LIBRARY_PATH", "")
     env["RECEPTOR_DIR"] = "/opt/ml/processing/input/receptor"
     env["DIFFSBDD_DIR"] = DIFFSBDD_DIR
     env["CKPT"] = ckpt
