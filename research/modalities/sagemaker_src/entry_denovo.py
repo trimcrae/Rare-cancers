@@ -59,8 +59,10 @@ def main():
 
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     # conda layer: RDKit (+ SA_Score contrib) + OpenBabel + the non-torch deps; CUDA comes via pip wheels.
+    # biopython=1.79: DiffSBDD imports Bio.PDB.Polypeptide.three_to_one, which Biopython >=1.80 REMOVED.
+    # 1.79 is the last release with that API (and any sibling three_to_one/one_to_three calls DiffSBDD uses).
     _run([conda, "create", "-y", "-n", "diffsbdd", "-c", "conda-forge", "python=3.10",
-          "rdkit=2022.03", "openbabel", "biopython", "scipy", "numpy<2", "networkx", "pandas", "pip"],
+          "rdkit=2022.03", "openbabel", "biopython=1.79", "scipy", "numpy<2", "networkx", "pandas", "pip"],
          1800, "conda create diffsbdd env")
 
     def pip(pkgs, timeout, label, extra=()):
