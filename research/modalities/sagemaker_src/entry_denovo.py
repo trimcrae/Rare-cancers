@@ -74,6 +74,10 @@ def main():
     pip(["torch-scatter==2.0.9", "torch-sparse==0.6.15", "torch-cluster==1.6.0"], 1800,
         "pip PyG companion wheels (torch-1.12.1+cu116)",
         extra=("-f", "https://data.pyg.org/whl/torch-1.12.1+cu116.html"))
+    # pytorch-lightning 1.7.4 (the version DiffSBDD's code targets) ships legacy "torch (>=1.9.*)" metadata
+    # that pip>=24.1 rejects; downgrade pip in-env first so the pinned PL installs (the project README's
+    # own "Please use pip<24.1" guidance).
+    pip(["pip<24.1"], 300, "downgrade pip <24.1 (legacy PL 1.7.4 metadata)")
     pip(["torch-geometric==2.1.0", "pytorch-lightning==1.7.4", "wandb", "seaborn", "imageio"],
         1200, "pip DiffSBDD framework deps")
 
