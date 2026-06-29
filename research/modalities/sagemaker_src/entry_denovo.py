@@ -83,9 +83,11 @@ def main():
     # (via torchmetrics' newest build), and cu130 needs a CUDA-13 driver the g5 (driver 12.8) lacks ->
     # the GPU probe caught it (cuda_available False, fail-fast). torchmetrics 0.9.3 is the torch-1.12-era
     # build PL 1.7.4 accepts (>=0.7.0); keeping the cu116 index lets torch stay pinned.
+    # setuptools<81: v81 (2025) REMOVED the bundled pkg_resources, which pytorch-lightning 1.7.4 imports
+    # at startup (ModuleNotFoundError otherwise). 80.9.0 is the last with it.
     pip(["torch==1.12.1+cu116", "torchmetrics==0.9.3", "torch-geometric==2.1.0",
-         "pytorch-lightning==1.7.4", "wandb", "seaborn", "imageio"],
-        1200, "pip DiffSBDD framework deps (torch + torchmetrics pinned)",
+         "pytorch-lightning==1.7.4", "setuptools<81", "wandb", "seaborn", "imageio"],
+        1200, "pip DiffSBDD framework deps (torch + torchmetrics + setuptools pinned)",
         extra=("--extra-index-url", "https://download.pytorch.org/whl/cu116"))
 
     # Fail-fast GPU probe — no CPU grind (the MM-GBSA no-CPU rule).
