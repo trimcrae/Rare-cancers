@@ -2,31 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>The degrader idea, in one slide</title>
+<title>The degrader research, step by step</title>
 <style>
   :root{
     --ink:#11203f; --blue:#2f6df0; --teal:#0f9d8f;
-    --amber:#e08a00; --rose:#e0457b; --violet:#7a52d6; --line:#e6eaf2;
+    --amber:#e08a00; --rose:#e0457b; --violet:#7a52d6; --green:#1f9d55; --line:#e6eaf2;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:#eef1f7; padding:30px; color:#11203f; -webkit-font-smoothing:antialiased;}
-  .slide{width:1100px;margin:0 auto;background:#fff;border-radius:24px;overflow:hidden;
+  .slide{width:1240px;margin:0 auto;background:#fff;border-radius:24px;overflow:hidden;
     box-shadow:0 18px 50px rgba(17,32,63,.12);border:1px solid var(--line);}
-  .hero{padding:38px 48px;background:linear-gradient(135deg,#13234a,#2f6df0);color:#fff;}
-  .hero h1{font-size:38px;font-weight:800;line-height:1.15;}
-  .hero p{font-size:19px;opacity:.9;margin-top:10px;}
-  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding:14px 20px 6px;}
-  .step{padding:26px 16px;text-align:center;position:relative;}
-  .step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:78px;
-    font-size:26px;color:#c2cadb;font-weight:700;}
-  .art{height:104px;display:grid;place-items:center;margin-bottom:14px;}
-  .lbl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;opacity:.65;}
-  .step h3{font-size:19px;font-weight:800;margin:6px 0 4px;line-height:1.2;}
-  .step p{font-size:14px;color:#5a657d;line-height:1.4;}
+  .hero{padding:36px 48px;background:linear-gradient(135deg,#13234a,#2f6df0);color:#fff;}
+  .hero h1{font-size:36px;font-weight:800;line-height:1.15;}
+  .hero p{font-size:18px;opacity:.9;margin-top:9px;}
+  .hero b{color:#bfe0ff;}
+  .row{display:grid;grid-template-columns:repeat(6,1fr);padding:16px 18px 4px;}
+  .step{padding:24px 12px;text-align:center;position:relative;}
+  .step:not(:last-child)::after{content:"";position:absolute;right:0;top:64px;width:18px;height:2px;
+    background:#cfd7e6;}
+  .step:not(:last-child)::before{content:"";position:absolute;right:-4px;top:60px;
+    border-left:7px solid #cfd7e6;border-top:5px solid transparent;border-bottom:5px solid transparent;}
+  .stepnum{font-size:12px;font-weight:800;color:#aab4c8;}
+  .art{height:92px;display:grid;place-items:center;margin:4px 0 12px;}
+  .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;}
+  .step h3{font-size:17px;font-weight:800;margin:5px 0 5px;line-height:1.2;}
+  .step p{font-size:13px;color:#5a657d;line-height:1.42;}
   .s1 .lbl{color:var(--blue);} .s2 .lbl{color:var(--amber);} .s3 .lbl{color:var(--teal);}
-  .s4 .lbl{color:var(--violet);} .s5 .lbl{color:var(--rose);}
-  .foot{margin:8px 48px 36px;padding:16px 20px;background:#f3f7ff;border:1px solid #dbe6ff;
+  .s4 .lbl{color:var(--violet);} .s5 .lbl{color:var(--rose);} .s6 .lbl{color:var(--green);}
+  .foot{margin:6px 48px 34px;padding:14px 20px;background:#f3f7ff;border:1px solid #dbe6ff;
     border-radius:14px;text-align:center;font-size:15px;color:#33405a;}
   .foot b{color:#13234a;}
 </style>
@@ -35,84 +39,109 @@
 <div class="slide">
 
   <div class="hero">
-    <h1>Designing a medicine for a rare cancer — on a computer</h1>
-    <p>The cancer is driven by one broken protein. The plan: <b>throw that protein in the bin.</b></p>
+    <h1>How we're hunting for the drug — step by step</h1>
+    <p>The cancer is driven by one broken protein. The goal: a molecule that <b>throws it in the bin</b>. Here's the actual pipeline — all on a computer.</p>
   </div>
 
   <div class="row">
 
+    <!-- 1 build model -->
     <div class="step s1">
+      <div class="stepnum">STEP 1</div>
       <div class="art">
-        <svg width="86" height="86" viewBox="0 0 86 86" fill="none">
-          <rect x="14" y="22" width="58" height="42" rx="9" fill="#eaf1ff" stroke="#2f6df0" stroke-width="3"/>
-          <rect x="44" y="30" width="22" height="26" rx="5" fill="#2f6df0"/>
-          <text x="55" y="47" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">ON</text>
-          <path d="M55 22 v-8 M55 14 l-5 5 M55 14 l5 5" stroke="#e0457b" stroke-width="3" stroke-linecap="round"/>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <path d="M40 14 L62 26 V52 L40 64 L18 52 V26 Z" fill="#eaf1ff" stroke="#2f6df0" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M40 14 V40 M40 40 L62 26 M40 40 L18 26" stroke="#2f6df0" stroke-width="2.5"/>
+          <path d="M64 16 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" fill="#e0457b"/>
         </svg>
       </div>
-      <div class="lbl">The problem</div>
-      <h3>Stuck "on"</h3>
-      <p>One protein is jammed on, driving the tumour.</p>
+      <div class="lbl">Build the model</div>
+      <h3>Predict its shape</h3>
+      <p>No real 3D structure exists, so AI builds one.</p>
     </div>
 
+    <!-- 2 check pocket -->
     <div class="step s2">
+      <div class="stepnum">STEP 2</div>
       <div class="art">
-        <svg width="86" height="86" viewBox="0 0 86 86" fill="none">
-          <circle cx="43" cy="43" r="32" fill="#fff3e0" stroke="#e08a00" stroke-width="3"/>
-          <path d="M28 45 a15 15 0 0 1 30 0" fill="none" stroke="#e08a00" stroke-width="3"/>
-          <path d="M20 20 L66 66" stroke="#e0457b" stroke-width="5" stroke-linecap="round"/>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <path d="M20 30 a20 14 0 0 0 40 0" fill="#fff3e0" stroke="#e08a00" stroke-width="3"/>
+          <circle cx="35" cy="40" r="16" fill="none" stroke="#e08a00" stroke-width="3.5"/>
+          <path d="M46 51 l12 12" stroke="#e08a00" stroke-width="4" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="lbl">Why it's hard</div>
-      <h3>No keyhole</h3>
-      <p>Normal drugs need a pocket. This one is shut.</p>
+      <div class="lbl">Check the pocket</div>
+      <h3>Is there a way in?</h3>
+      <p>Measure it against known drugs — it looks shut.</p>
     </div>
 
+    <!-- 3 simulate -->
     <div class="step s3">
+      <div class="stepnum">STEP 3</div>
       <div class="art">
-        <svg width="86" height="86" viewBox="0 0 86 86" fill="none">
-          <circle cx="34" cy="30" r="12" fill="#2f6df0"/>
-          <path d="M20 56 h30 l-5 12 h-20 z" fill="#0f9d8f"/>
-          <path d="M27 56 v12 M34 56 v12 M41 56 v12" stroke="#fff" stroke-width="2"/>
-          <path d="M48 36 L62 22 M62 22 h-9 M62 22 v9" stroke="#0f9d8f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="6" fill="#0f9d8f"/>
+          <ellipse cx="40" cy="40" rx="26" ry="11" fill="none" stroke="#0f9d8f" stroke-width="2.5"/>
+          <ellipse cx="40" cy="40" rx="26" ry="11" fill="none" stroke="#0f9d8f" stroke-width="2.5" transform="rotate(60 40 40)"/>
+          <ellipse cx="40" cy="40" rx="26" ry="11" fill="none" stroke="#0f9d8f" stroke-width="2.5" transform="rotate(120 40 40)"/>
+          <circle cx="66" cy="40" r="4" fill="#2f6df0"/><circle cx="27" cy="62" r="4" fill="#e0457b"/>
         </svg>
       </div>
-      <div class="lbl">The idea</div>
-      <h3>Bin it</h3>
-      <p>A "degrader" hands it to the cell's trash.</p>
+      <div class="lbl">Set it in motion</div>
+      <h3>Simulate it moving</h3>
+      <p>GPU physics shows the pocket breathes open.</p>
     </div>
 
+    <!-- 4 selectivity -->
     <div class="step s4">
+      <div class="stepnum">STEP 4</div>
       <div class="art">
-        <svg width="86" height="86" viewBox="0 0 86 86" fill="none">
-          <rect x="18" y="18" width="50" height="50" rx="8" fill="#f0eaff" stroke="#7a52d6" stroke-width="3"/>
-          <path d="M43 18 v50" stroke="#7a52d6" stroke-width="2.5"/>
-          <path d="M43 20 q16 8 16 23 q0 15 -16 23 z" fill="#7a52d6" opacity=".55"/>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle cx="32" cy="40" r="20" fill="#f0eaff" stroke="#7a52d6" stroke-width="3"/>
+          <circle cx="50" cy="40" r="20" fill="none" stroke="#9aa3b5" stroke-width="3" stroke-dasharray="4 4"/>
+          <circle cx="28" cy="32" r="3.5" fill="#e0457b"/><circle cx="24" cy="46" r="3.5" fill="#e0457b"/>
         </svg>
       </div>
-      <div class="lbl">The find</div>
-      <h3>Door flickers open</h3>
-      <p>Simulations: it cracks open ~1 in 4 moments.</p>
+      <div class="lbl">Find safe grips</div>
+      <h3>Spot what's unique</h3>
+      <p>Compare to its twins for handholds only it has.</p>
     </div>
 
+    <!-- 5 dock / design -->
     <div class="step s5">
+      <div class="stepnum">STEP 5</div>
       <div class="art">
-        <svg width="86" height="86" viewBox="0 0 86 86" fill="none">
-          <circle cx="26" cy="43" r="15" fill="#ffe9f1" stroke="#e0457b" stroke-width="3"/>
-          <circle cx="52" cy="43" r="13" fill="#eef0f4" stroke="#9aa3b5" stroke-width="3"/>
-          <circle cx="71" cy="43" r="8" fill="#eef0f4" stroke="#9aa3b5" stroke-width="3"/>
-          <circle cx="26" cy="31" r="3" fill="#e0457b"/><circle cx="16" cy="48" r="3" fill="#e0457b"/>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <path d="M16 50 a24 14 0 0 1 48 0" fill="#ffe9f1" stroke="#e0457b" stroke-width="3"/>
+          <path d="M40 14 l10 6 v12 l-10 6 -10 -6 v-12 z" fill="none" stroke="#e0457b" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M40 38 v8" stroke="#e0457b" stroke-width="3" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="lbl">Make it safe</div>
-      <h3>Hit only the bad one</h3>
-      <p>Spare its near-identical twins.</p>
+      <div class="lbl">Test-fit molecules</div>
+      <h3>Try the keys</h3>
+      <p>Dock a library + AI-design new ones; rank them.</p>
+    </div>
+
+    <!-- 6 next -->
+    <div class="step s6">
+      <div class="stepnum">NEXT</div>
+      <div class="art">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <path d="M34 14 h12 v16 l12 26 a4 4 0 0 1 -3.6 6 H25.6 a4 4 0 0 1 -3.6 -6 l12 -26 z"
+                fill="#e7f6ee" stroke="#1f9d55" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M30 44 h20" stroke="#1f9d55" stroke-width="3"/>
+          <circle cx="37" cy="52" r="2.5" fill="#1f9d55"/><circle cx="45" cy="56" r="2.5" fill="#1f9d55"/>
+        </svg>
+      </div>
+      <div class="lbl">Into the lab</div>
+      <h3>Make &amp; test it</h3>
+      <p>Hand the best design to real-world testing.</p>
     </div>
 
   </div>
 
   <div class="foot">
-    All done <b>on computers — no lab yet.</b> It's a blueprint built to prove the idea's worth testing for real.
+    Steps 1–5 are <b>done — entirely on computers, no lab yet.</b> The paper's job is to prove the blueprint is worth building for real (step 6).
   </div>
 
 </div>
