@@ -266,11 +266,31 @@ the family metad (in flight) is the fix.
        selective handles** — **4 discriminate BOTH paralogues (L406, T410, I484, L534)**, **1 NR4A1-only
        (I531 ≡ NR4A2)** — conserved core **P411, R481, R485** (pan campaign). Selective campaign weights the
        both-paralogue handles over I531.
-     - **Step 2 (NEXT) — DiffSBDD pipeline:** `nr4a3_denovo.py` + `sagemaker_src/entry_denovo.py` (PIN torch
-       to CUDA 12.8 per the MM-GBSA driver gotcha) + `nr4a3_denovo_sagemaker.py` + `gpu-denovo-aws.yml`,
-       conditioned on `nr4a3-denovo-blueprint.json` handles against the Step-0 `docking_primary_receptor`
-       (+ sub-ensemble). **$5 PILOT FIRST** (~200 mols → eyeball → ~20 through dock+MM-GBSA). GPU spend —
-       pilot-scale autonomy granted this session (sub-$25); FEP still gated explicitly.
+     - **Step 2 — DiffSBDD PIPELINE BUILT + PILOT RAN (run 28381505291, g5, DONE 2026-06-29).** Pipeline:
+       `nr4a3_denovo.py` + `denovo_funnel.py` (pure, 7 tests) + `sagemaker_src/entry_denovo.py` +
+       `nr4a3_denovo_sagemaker.py` + `gpu-denovo-aws.yml`. Conditions DiffSBDD (pretrained CrossDocked,
+       Zenodo 8183747) on the Step-0 `docking_primary_receptor` pocket (resi_list = the 12 fpocket box
+       residues; handles mapped via residue_map), then RDKit-profiles + counts engageable-handle contacts
+       from the GENERATED POSE + ranks (denovo_funnel).
+       - **ENV SHAKEOUT (6 runs, each caught live via streamed log + fail-fast, ~$0.2–0.5 each).** DiffSBDD
+         is a 2023 repo; on the g5 it needed: (1) `pip<24.1` (PL 1.7.4 legacy metadata); (2) pin
+         `torch==1.12.1+cu116` + `torchmetrics==0.9.3` (else framework deps pull a CUDA-13 torch the A10G
+         driver rejects — caught by the no-CPU GPU probe); (3) `setuptools<81` (PL imports removed
+         `pkg_resources`); (4) `biopython=1.79` (`Bio.PDB.Polypeptide.three_to_one` removed ≥1.80);
+         (5) `libstdcxx-ng` + prepend env lib to `LD_LIBRARY_PATH` (base-conda libstdc++ shadowed the env's,
+         matplotlib CXXABI_1.3.15). All five fixes are in `entry_denovo.py` and ran clean on run 6.
+       - **PILOT RESULT (selective campaign, n=200):** generation 95 s; **191/197 valid, 182 unique;
+         synthesizable SA≤4.5 = 0.874, PAINS-free = 0.99, contacts ≥4 handles = 0.901 (max 5).** Pipeline
+         validated end-to-end. **CAVEAT (the eyeball finding): top-ranked hits are FRAGMENT-sized**
+         (benzoic acid, toluic acid, 4-Cl-N-cyclopropylaniline) — generation ran with UNCONSTRAINED ligand
+         size and the promise score (QED + low SAscore) rewards trivially-small fragments. Not leads.
+         **Production run needs a ligand-SIZE constraint** (`--num_nodes_lig` / a lead-sized node
+         distribution, ~25–40 heavy atoms) **+ a MW/heavy-atom floor in `denovo_funnel.score_molecule`**,
+         then re-rank. Output `s3://<bucket>/nr4a3-denovo/` (nr4a3-denovo.json + .sdf + raw .sdf + plot).
+       - **NEXT:** (a) re-generate with size constraint + scoring floor (cheap, ~$2–5) → lead-sized
+         candidates; (b) then the gated dock-into-3-paralogues + MM-GBSA funnel on the top ~20 (~$15–25);
+         (c) pan campaign (conserved-core resi_list) for contrast. FEP still gated explicitly behind a
+         bona-fide selective candidate.
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
    for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
