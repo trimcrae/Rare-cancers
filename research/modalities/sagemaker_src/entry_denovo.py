@@ -78,8 +78,15 @@ def main():
     # that pip>=24.1 rejects; downgrade pip in-env first so the pinned PL installs (the project README's
     # own "Please use pip<24.1" guidance).
     pip(["pip<24.1"], 300, "downgrade pip <24.1 (legacy PL 1.7.4 metadata)")
-    pip(["torch-geometric==2.1.0", "pytorch-lightning==1.7.4", "wandb", "seaborn", "imageio"],
-        1200, "pip DiffSBDD framework deps")
+    # CRITICAL: re-pin torch (and torchmetrics, which pytorch-lightning pulls) IN THIS command so the
+    # resolver does NOT upgrade torch. Run 2 silently bumped torch 1.12.1+cu116 -> 2.12.1+cu130 here
+    # (via torchmetrics' newest build), and cu130 needs a CUDA-13 driver the g5 (driver 12.8) lacks ->
+    # the GPU probe caught it (cuda_available False, fail-fast). torchmetrics 0.9.3 is the torch-1.12-era
+    # build PL 1.7.4 accepts (>=0.7.0); keeping the cu116 index lets torch stay pinned.
+    pip(["torch==1.12.1+cu116", "torchmetrics==0.9.3", "torch-geometric==2.1.0",
+         "pytorch-lightning==1.7.4", "wandb", "seaborn", "imageio"],
+        1200, "pip DiffSBDD framework deps (torch + torchmetrics pinned)",
+        extra=("--extra-index-url", "https://download.pytorch.org/whl/cu116"))
 
     # Fail-fast GPU probe — no CPU grind (the MM-GBSA no-CPU rule).
     _run([conda, "run", "--no-capture-output", "-n", "diffsbdd", "python", "-c",
