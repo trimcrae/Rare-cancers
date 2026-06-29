@@ -62,7 +62,7 @@ with its known NR4A1 agonism) — motivating **de-novo design**. (6) We therefor
 generative campaign** (DiffSBDD, conditioned on the divergent handles, against the thermally-real
 druggable *release* conformation) and funnel the generated, lead-sized molecules through the same dock +
 MM-GBSA selectivity pipeline: this yields **three MM-GBSA-confirmed NR4A3-selective candidates with no
-candidate reversing**, led by **`denovo_15`, selective at *both* docking and MM-GBSA** — the first
+candidate reversing**, led by **`denovo_15`, NR4A3-favoured at *both* docking and MM-GBSA** — the first
 *designed* NR4A3-selective warhead candidate this program has produced (a screening-grade prediction, not a
 synthesized or affinity-validated lead). We prime a degrader/E3 ternary-complex design on the opened pocket. The work is governed by a **pre-registered falsification
 scheme** (calibrated thresholds fixed before the production results). The NR4A3-selective agent — binding
@@ -255,17 +255,21 @@ conditioned on the lining residues incl. the engageable divergent handles; a lea
 clean: of ~200 generations, **191/195 valid, 191 unique, 96 % PAINS-free, 92 % contacting ≥4 of the 5
 engageable handles** in the generated pose. (3) **Funnel.** We docked the top-20 generations into the
 state-matched NR4A3-release / NR4A1 / NR4A2 pockets for a selectivity fingerprint (`denovo_15` the
-docking-level NR4A3-selective cell), then **MM-GBSA-rescored all 20**. The result is qualitatively different
+docking-level NR4A3-selective lead **by margin** — NR4A3 favoured over both paralogues by ≥1 kcal/mol),
+then **MM-GBSA-rescored all 20**. The result is qualitatively different
 from the repurposed library: **3 candidates are *confirmed_selective* (`denovo_15`, `denovo_94`,
 `denovo_57`) and NONE reverse** (census: confirmed_selective 3 · rescued 7 · weakened 1 ·
-confirmed_nonselective 9 · **reversed 0**). The lead **`denovo_15`** is the only candidate selective at
-*both* tiers — docking margin +1.0 and **MM-GBSA margin +10.7 kcal/mol** (magnitude inflated, direction
-robust); the chemistry-promise top hit (`denovo_189`) instead landed in the docking anti-target cell and did
-not come back selective, a useful reminder that drug-likeness ≠ selectivity. This is the program's **first
-*designed* NR4A3-selective warhead candidate** — a screening-grade, pose-aware prediction across two energy
-tiers, **not** a synthesized or affinity-validated molecule (selectivity FEP, then the ternary-complex /
-degradation-selectivity step, remain the gates ahead). The exact `denovo_15` structure is in the program
-output (`nr4a3-denovo.json`; SMILES to collate into the figure legend before submission).
+confirmed_nonselective 9 · **reversed 0**). The lead **`denovo_15`** (SMILES
+`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`; QED 0.774, SAscore 5.08, contacts 4 of the 5
+handles) is NR4A3-selective at *both* tiers — docking selectivity margin +1.0 (the dock-tier `nr4a3_selective`
+lead; in absolute engagement NR4A2 is weakly co-engaged at the permissive −7 kcal/mol cutoff, so its matrix
+*cell* is NR4A2+NR4A3, but NR4A3 is the favoured paralogue at both tiers) and **MM-GBSA margin +10.7
+kcal/mol** (magnitude inflated by the single-snapshot approximation; the *direction* is the robust part).
+The chemistry-promise top hit (`denovo_189`) instead landed in the docking anti-target cell and did not come
+back selective, a useful reminder that drug-likeness ≠ selectivity. This is the program's **first *designed*
+NR4A3-selective warhead candidate** — a screening-grade, pose-aware prediction across two energy tiers,
+**not** a synthesized or affinity-validated molecule (selectivity FEP, then the ternary-complex /
+degradation-selectivity step, remain the gates ahead).
 
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
