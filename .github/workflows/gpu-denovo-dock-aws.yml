@@ -35,6 +35,10 @@ on:
         description: "S3 prefix for the funnel docking output (MM-GBSA reads this)"
         default: "nr4a3-denovo-matrix"
         required: false
+      denovo_prefix:
+        description: "S3 prefix holding the generations to dock (nr4a3-denovo, or a re-gen like nr4a3-denovo-v2)"
+        default: "nr4a3-denovo"
+        required: false
       git_ref:
         description: "repo ref the job clones + runs"
         default: "main"
@@ -60,6 +64,7 @@ jobs:
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           INSTANCE: ${{ inputs.instance }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          DENOVO_PREFIX: ${{ inputs.denovo_prefix }}
           TOP_N: ${{ inputs.top_n }}
           DEVELOPABLE_ONLY: ${{ inputs.developable_only }}
           RECEPTOR_MODE: ${{ inputs.receptor_mode }}
