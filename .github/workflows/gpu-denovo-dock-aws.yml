@@ -23,6 +23,10 @@ on:
         description: "release = unbiased druggable NR4A3 frame; metad = NR4A3 metad-opened (state-matched)"
         default: "release"
         required: false
+      decoy:
+        description: "1 = dock the non-NR4A decoy NULL set through the identical funnel (specificity control)"
+        default: "0"
+        required: false
       instance:
         description: "SageMaker instance type (CPU is plenty for smina docking)"
         default: "ml.c5.2xlarge"
@@ -68,6 +72,7 @@ jobs:
           TOP_N: ${{ inputs.top_n }}
           DEVELOPABLE_ONLY: ${{ inputs.developable_only }}
           RECEPTOR_MODE: ${{ inputs.receptor_mode }}
+          DECOY_MODE: ${{ inputs.decoy }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then

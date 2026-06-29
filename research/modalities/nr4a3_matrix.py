@@ -128,7 +128,15 @@ def main():
 
     # 1) candidate library. De-novo funnel mode: top-N generated candidates by denovo_promise. Default:
     #    real ChEMBL matter, deduplicated by ChEMBL id + label.
-    if CANDIDATE_JSON and os.path.exists(CANDIDATE_JSON):
+    if os.environ.get("DECOY_MODE") == "1":
+        # red-team Tier-1 #2: dock a fixed non-NR4A decoy set through the identical funnel as a specificity
+        # NULL. All decoys are docked (no developability filter) to measure the null NR4A3-favourable rate.
+        import denovo_library as dl
+        import decoy_library as decoys
+        ligands = dl.top_candidates(decoys.decoy_candidate_json(), 10_000)
+        res["candidate_source"] = f"DECOY negative control ({len(ligands)} non-NR4A marketed drugs)"
+        print(f"  candidate library: {res['candidate_source']}", flush=True)
+    elif CANDIDATE_JSON and os.path.exists(CANDIDATE_JSON):
         import denovo_library as dl
         denovo = json.load(open(CANDIDATE_JSON))
         if os.environ.get("DEVELOPABLE_ONLY") == "1":
