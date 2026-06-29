@@ -52,6 +52,40 @@ def test_missing_sascore_defaults_not_crash():
     assert isinstance(s, float)
 
 
+def test_developability_gate_demotes_artifacts():
+    # Identical good base chemistry + full handle engagement, differing only in a structural-alert
+    # liability: the clean one must outrank the artifact by exactly the developability penalty.
+    clean = _prof(); clean["structural_liabilities"] = []; clean["aromatic_rings"] = 2
+    dirty = _prof(); dirty["structural_liabilities"] = ["peroxide"]; dirty["aromatic_rings"] = 2
+    s_clean = df.score_molecule(clean, handle_contacts=5)
+    s_dirty = df.score_molecule(dirty, handle_contacts=5)
+    assert s_clean > s_dirty
+    assert round(s_clean - s_dirty, 3) == df.DEVELOPABILITY_PENALTY
+
+
+def test_non_aromatic_is_not_developable():
+    p = _prof(); p["structural_liabilities"] = []; p["aromatic_rings"] = 0
+    assert df.developability(p)["developable"] is False
+    assert "no_aromatic_ring" in df.developability(p)["reasons"]
+
+
+def test_developability_clean_profile():
+    p = _prof(sa=3.0); p["structural_liabilities"] = []; p["aromatic_rings"] = 1
+    assert df.developability(p)["developable"] is True
+
+
+def test_summarize_reports_developable():
+    rows = [
+        {"smiles": "c1ccccc1O", "denovo_promise": 0.5, "QED": 0.6, "SAscore": 3.0, "PAINS_alerts": [],
+         "handle_contacts": 4, "structural_liabilities": [], "aromatic_rings": 1},
+        {"smiles": "X", "denovo_promise": 0.2, "QED": 0.5, "SAscore": 3.0, "PAINS_alerts": [],
+         "handle_contacts": 2, "structural_liabilities": ["peroxide"], "aromatic_rings": 1},
+    ]
+    s = df.summarize(rows)
+    assert s["n_developable"] == 1
+    assert s["frac_developable"] == 0.5
+
+
 def test_rank_orders_by_promise_invalids_last():
     rows = [
         {"id": "a", "denovo_promise": 0.1},

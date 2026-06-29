@@ -99,6 +99,13 @@ def profile(smiles, rdkit):
         sa = round(sascorer.calculateScore(m), 2)
     except Exception:  # noqa
         sa = None
+    # stability/reactivity structural alerts (beyond PAINS/BRENK) — the developability gate the de-novo
+    # red-team added after artifacts (carbamic acid, peroxide, ...) topped the funnel
+    try:
+        import structural_alerts as _sa
+        liabilities = _sa.find_liabilities(m, Chem)
+    except Exception:  # noqa — never let the alert step break profiling
+        liabilities = []
     return {
         "MW": round(mw, 1), "cLogP": round(logp, 2), "HBD": hbd, "HBA": hba,
         "TPSA": round(tpsa, 1), "RotB": rotb, "FractionCsp3": round(rdMD.CalcFractionCSP3(m), 2),
@@ -107,6 +114,7 @@ def profile(smiles, rdkit):
         "Ro5_violations": ro5, "beyond_Ro5": ro5 >= 2,
         "veber_pass": (rotb <= 10 and tpsa <= 140),
         "PAINS_alerts": pains, "BRENK_alert_count": len(brenk),
+        "structural_liabilities": liabilities,
         "protac_handles": {"amine": amine, "phenol": phenol, "carboxylic_acid": cooh,
                            "total": amine + phenol + cooh},
     }
