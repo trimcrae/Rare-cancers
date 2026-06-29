@@ -31,6 +31,7 @@ def main():
     git_ref = os.environ.get("GIT_REF", "main")
     n_samples = os.environ.get("N_SAMPLES", "200")
     campaign = os.environ.get("CAMPAIGN", "selective")
+    num_nodes_list = os.environ.get("NUM_NODES_LIST", "24,28,32,36")
     ckpt_url = os.environ.get("CKPT_URL", "")
 
     sess = sagemaker.Session()
@@ -44,7 +45,8 @@ def main():
     )
     print(f"submitting de-novo generation: {instance}, campaign={campaign}, n={n_samples}, "
           f"receptor=s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}", flush=True)
-    arguments = ["--git-ref", git_ref, "--n-samples", str(n_samples), "--campaign", campaign]
+    arguments = ["--git-ref", git_ref, "--n-samples", str(n_samples), "--campaign", campaign,
+                 "--num-nodes-list", num_nodes_list]
     if ckpt_url:
         arguments += ["--ckpt-url", ckpt_url]
     proc.run(

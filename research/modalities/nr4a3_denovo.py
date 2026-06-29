@@ -40,7 +40,11 @@ DIFFSBDD_DIR = os.environ.get("DIFFSBDD_DIR", "/opt/diffsbdd")
 CKPT = os.environ.get("CKPT", "/opt/ckpt/crossdocked_fullatom_cond.ckpt")
 N_SAMPLES = int(os.environ.get("N_SAMPLES", "200"))
 CAMPAIGN = os.environ.get("CAMPAIGN", "selective")
-GEN_TIMEOUT = int(os.environ.get("GEN_TIMEOUT", "5400"))     # 90 min hard cap on generation
+# Lead-size constraint (the pilot showed unconstrained generation top-ranks fragments). Comma-separated
+# DiffSBDD --num_nodes_lig values (heavy-atom counts); N_SAMPLES is split evenly across them so the output
+# spans lead-sized molecules (~MW 300-450). Empty -> let the model sample its own size distribution.
+NUM_NODES_LIST = os.environ.get("NUM_NODES_LIST", "24,28,32,36")
+GEN_TIMEOUT = int(os.environ.get("GEN_TIMEOUT", "5400"))     # 90 min hard cap on generation (total)
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
 
 
@@ -100,25 +104,22 @@ def _resi_list_and_handles(pdb, box_resnums):
     return resi_list, handle_rs, len(residues)
 
 
-def _generate(pdb, resi_list, out_sdf):
-    """Invoke DiffSBDD generate_ligands.py to sample N_SAMPLES molecules into the pocket. Streams output;
-    hard wall-clock timeout. Raises on failure / empty output."""
-    gen = os.path.join(DIFFSBDD_DIR, "generate_ligands.py")
-    if not os.path.exists(gen):
-        sys.exit(f"  ABORT: DiffSBDD generate_ligands.py not found at {gen} (DIFFSBDD_DIR wrong?)")
-    if not os.path.exists(CKPT):
-        sys.exit(f"  ABORT: checkpoint not found at {CKPT} (download failed? set CKPT)")
+def _run_diffsbdd(gen, pdb, resi_list, out_sdf, n, num_nodes, deadline):
+    """One DiffSBDD generate_ligands.py invocation (optionally at a fixed --num_nodes_lig). Streams output;
+    enforces the shared wall-clock deadline. Raises on failure."""
     cmd = ["python", gen, CKPT, "--pdbfile", pdb, "--outfile", out_sdf,
-           "--n_samples", str(N_SAMPLES), "--sanitize", "--resi_list"] + resi_list
-    print(f"  [denovo] generating {N_SAMPLES} molecules → {os.path.basename(out_sdf)}", flush=True)
-    print(f"  [denovo] resi_list ({len(resi_list)} res): {' '.join(resi_list)}", flush=True)
-    t0 = time.time()
+           "--n_samples", str(n), "--sanitize"]
+    if num_nodes is not None:
+        cmd += ["--num_nodes_lig", str(num_nodes)]
+    cmd += ["--resi_list"] + resi_list
+    tag = f"n={n}" + (f" size={num_nodes}" if num_nodes is not None else " size=model")
+    print(f"  [denovo] generating ({tag}) → {os.path.basename(out_sdf)}", flush=True)
     proc = subprocess.Popen(cmd, cwd=DIFFSBDD_DIR, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                             text=True, bufsize=1)
     try:
         for line in proc.stdout:
             print(f"    [diffsbdd] {line.rstrip()}", flush=True)
-            if time.time() - t0 > GEN_TIMEOUT:
+            if time.time() > deadline:
                 proc.kill()
                 sys.exit(f"  ABORT: generation exceeded {GEN_TIMEOUT}s wall clock")
         rc = proc.wait()
@@ -126,7 +127,38 @@ def _generate(pdb, resi_list, out_sdf):
         if proc.poll() is None:
             proc.kill()
     if rc != 0:
-        sys.exit(f"  ABORT: DiffSBDD generate_ligands.py exit {rc}")
+        sys.exit(f"  ABORT: DiffSBDD generate_ligands.py ({tag}) exit {rc}")
+
+
+def _generate(pdb, resi_list, out_sdf):
+    """Sample N_SAMPLES molecules into the pocket, split across the configured lead-size list
+    (NUM_NODES_LIST) so the output spans lead-sized molecules rather than fragments. Concatenates the
+    per-size SDFs into out_sdf (SDF = concatenated $$$$ blocks). Raises on failure / empty output."""
+    gen = os.path.join(DIFFSBDD_DIR, "generate_ligands.py")
+    if not os.path.exists(gen):
+        sys.exit(f"  ABORT: DiffSBDD generate_ligands.py not found at {gen} (DIFFSBDD_DIR wrong?)")
+    if not os.path.exists(CKPT):
+        sys.exit(f"  ABORT: checkpoint not found at {CKPT} (download failed? set CKPT)")
+    sizes = [int(s) for s in NUM_NODES_LIST.split(",") if s.strip()] if NUM_NODES_LIST.strip() else []
+    print(f"  [denovo] resi_list ({len(resi_list)} res): {' '.join(resi_list)}", flush=True)
+    print(f"  [denovo] lead-size split: {sizes or 'model size distribution'}", flush=True)
+    t0 = time.time()
+    deadline = t0 + GEN_TIMEOUT
+    if not sizes:
+        _run_diffsbdd(gen, pdb, resi_list, out_sdf, N_SAMPLES, None, deadline)
+    else:
+        per = max(1, N_SAMPLES // len(sizes))
+        parts = []
+        for sz in sizes:
+            part = out_sdf.replace(".sdf", f"_n{sz}.sdf")
+            _run_diffsbdd(gen, pdb, resi_list, part, per, sz, deadline)
+            if os.path.exists(part) and os.path.getsize(part) > 0:
+                parts.append(part)
+            else:
+                print(f"  [denovo] WARN: size {sz} produced no SDF", file=sys.stderr)
+        with open(out_sdf, "w") as o:
+            for p in parts:
+                o.write(open(p).read())
     if not os.path.exists(out_sdf) or os.path.getsize(out_sdf) == 0:
         sys.exit("  ABORT: DiffSBDD produced no molecules")
     print(f"  [denovo] generation done in {int(time.time() - t0)}s", flush=True)
@@ -169,7 +201,8 @@ def main():
                     "UNBIASED RELEASE conformation). Pilot tier: generate + cheminformatics + pose handle "
                     "contact. Screening priors, NOT affinity / not a validated lead. Paralogue selectivity "
                     "is enforced downstream (dock into 3 opened pockets + MM-GBSA).",
-           "campaign": CAMPAIGN, "n_samples_requested": N_SAMPLES, "receptor_source": src,
+           "campaign": CAMPAIGN, "n_samples_requested": N_SAMPLES, "num_nodes_list": NUM_NODES_LIST,
+           "receptor_source": src,
            "checkpoint": os.path.basename(CKPT), "resi_list": resi_list,
            "engageable_handle_resseqs": handle_rs}
 

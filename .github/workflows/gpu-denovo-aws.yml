@@ -19,6 +19,10 @@ on:
         description: "selective (divergent-handle pocket) | pan (conserved core) — label for the output"
         default: "selective"
         required: false
+      num_nodes_list:
+        description: "comma-separated DiffSBDD ligand sizes (heavy atoms) to split n_samples across; empty = model size dist"
+        default: "24,28,32,36"
+        required: false
       instance:
         description: "SageMaker instance type (g5.xlarge = A10G)"
         default: "ml.g5.xlarge"
@@ -67,6 +71,7 @@ jobs:
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           N_SAMPLES: ${{ inputs.n_samples }}
           CAMPAIGN: ${{ inputs.campaign }}
+          NUM_NODES_LIST: ${{ inputs.num_nodes_list }}
           CKPT_URL: ${{ inputs.ckpt_url }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |

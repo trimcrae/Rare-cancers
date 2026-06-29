@@ -14,17 +14,21 @@ These are SCREENING PRIORS for which generations to advance, NOT affinity or a v
 N_ENGAGEABLE_HANDLES = 5     # L406, T410, I484, I531, L534 (the pocket-facing divergent handles)
 
 
-def score_molecule(profile, handle_contacts, n_handles=N_ENGAGEABLE_HANDLES):
+def score_molecule(profile, handle_contacts, n_handles=N_ENGAGEABLE_HANDLES, min_mw=250.0):
     """Composite triage score for one generated molecule.
 
-    profile: the RDKit profile dict (QED, SAscore, PAINS_alerts, BRENK_alert_count, protac_handles, ...),
+    profile: the RDKit profile dict (MW, QED, SAscore, PAINS_alerts, BRENK_alert_count, protac_handles, ...),
              or a dict containing {"error": ...} for an invalid/unparseable generation.
     handle_contacts: # of engageable handle residues the generated pose contacts (0..n_handles).
+    min_mw: below this molecular weight a SIZE PENALTY applies (the pilot showed unconstrained generation
+            top-ranks trivially-small fragments — benzoic acid etc. — that ace QED/SAscore but are not
+            warheads). Penalty = 0.002 * (min_mw - MW) Da, so MW 122 (benzoic acid) loses ~0.26 while a
+            ~350 Da lead loses 0. MW missing -> no penalty (don't punish an un-profiled molecule).
     Returns a float (higher = more promising), or None if the molecule is invalid.
 
-    Mirrors warhead_chem_profile.promise (QED - 0.1*SA - 0.15*PAINS - 0.05*BRENK +/- PROTAC handle) and
-    adds a handle-engagement term (+0.2 * fraction of engageable handles contacted) — the selectivity-lever
-    contact is the whole point of conditioning generation on the divergent handles.
+    Mirrors warhead_chem_profile.promise (QED - 0.1*SA - 0.15*PAINS - 0.05*BRENK +/- PROTAC handle), adds a
+    handle-engagement term (+0.2 * fraction of engageable handles contacted — the selectivity-lever contact
+    is the point of conditioning on the divergent handles), and the lead-size floor.
     """
     if not profile or "error" in profile:
         return None
@@ -35,7 +39,9 @@ def score_molecule(profile, handle_contacts, n_handles=N_ENGAGEABLE_HANDLES):
     brenk = profile.get("BRENK_alert_count") or 0
     handle_term = 0.1 if (profile.get("protac_handles") or {}).get("total", 0) > 0 else -0.2
     frac = (handle_contacts or 0) / float(n_handles) if n_handles else 0.0
-    return round(qed - 0.1 * sa - 0.15 * pains - 0.05 * brenk + handle_term + 0.2 * frac, 3)
+    mw = profile.get("MW")
+    size_penalty = 0.0 if (mw is None or mw >= min_mw) else round(0.002 * (min_mw - mw), 4)
+    return round(qed - 0.1 * sa - 0.15 * pains - 0.05 * brenk + handle_term + 0.2 * frac - size_penalty, 3)
 
 
 def rank(rows):
@@ -59,6 +65,7 @@ def summarize(rows, n_handles=N_ENGAGEABLE_HANDLES):
     contacts = [r.get("handle_contacts", 0) for r in valid]
     sas = [r["SAscore"] for r in valid if r.get("SAscore") is not None]
     qeds = [r["QED"] for r in valid if r.get("QED") is not None]
+    mws = [r["MW"] for r in valid if r.get("MW") is not None]
     return {
         "n_generated": n,
         "n_valid": nv,
@@ -67,11 +74,13 @@ def summarize(rows, n_handles=N_ENGAGEABLE_HANDLES):
         "frac_druglike_qed_ge_0.5": frac(lambda r: (r.get("QED") or 0) >= 0.5),
         "frac_synthesizable_sa_le_4.5": frac(lambda r: (r.get("SAscore") or 99) <= 4.5),
         "frac_pains_free": frac(lambda r: len(r.get("PAINS_alerts") or []) == 0),
+        "frac_lead_size_mw_250_500": frac(lambda r: 250 <= (r.get("MW") or 0) <= 500),
         "frac_contacts_ge_3_handles": frac(lambda r: r.get("handle_contacts", 0) >= 3),
         "frac_contacts_ge_4_handles": frac(lambda r: r.get("handle_contacts", 0) >= 4),
         "max_handle_contacts": max(contacts) if contacts else None,
         "mean_handle_contacts": round(sum(contacts) / len(contacts), 2) if contacts else None,
         "mean_SAscore": round(sum(sas) / len(sas), 2) if sas else None,
         "mean_QED": round(sum(qeds) / len(qeds), 3) if qeds else None,
+        "mean_MW": round(sum(mws) / len(mws), 1) if mws else None,
         "n_engageable_handles": n_handles,
     }

@@ -44,6 +44,8 @@ def main():
     ap.add_argument("--git-ref", default="main")
     ap.add_argument("--n-samples", default="200")
     ap.add_argument("--campaign", default="selective")
+    ap.add_argument("--num-nodes-list", default="24,28,32,36",
+                    help="comma-separated DiffSBDD --num_nodes_lig sizes (lead-size split); empty = model dist")
     ap.add_argument("--ckpt-url", default=DEFAULT_CKPT_URL)
     ap.add_argument("--diffsbdd-ref", default="main", help="DiffSBDD repo ref to clone")
     args = ap.parse_args()
@@ -119,6 +121,7 @@ def main():
     env["OUTPUT_DIR"] = OUT
     env["N_SAMPLES"] = args.n_samples
     env["CAMPAIGN"] = args.campaign
+    env["NUM_NODES_LIST"] = args.num_nodes_list
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running de-novo generation (campaign={args.campaign}, n={args.n_samples})", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "diffsbdd",

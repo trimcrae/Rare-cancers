@@ -6,9 +6,9 @@ order, and the summary aggregation without RDKit/IO (TESTING.md #3).
 import denovo_funnel as df
 
 
-def _prof(qed=0.6, sa=3.0, pains=0, brenk=0, handles_total=1):
+def _prof(qed=0.6, sa=3.0, pains=0, brenk=0, handles_total=1, mw=350.0):
     return {"QED": qed, "SAscore": sa, "PAINS_alerts": ["x"] * pains,
-            "BRENK_alert_count": brenk, "protac_handles": {"total": handles_total}}
+            "BRENK_alert_count": brenk, "protac_handles": {"total": handles_total}, "MW": mw}
 
 
 def test_score_rewards_handle_contact():
@@ -23,6 +23,22 @@ def test_score_penalises_pains_and_sa():
     clean = df.score_molecule(_prof(pains=0, sa=2.0), handle_contacts=3)
     dirty = df.score_molecule(_prof(pains=3, sa=8.0), handle_contacts=3)
     assert clean > dirty
+
+
+def test_size_penalty_demotes_fragments():
+    # Same chemistry/handles, only MW differs: a fragment (benzoic acid, MW 122) must score below a
+    # lead-sized molecule (MW 350) because of the min_mw=250 size floor.
+    lead = df.score_molecule(_prof(mw=350.0), handle_contacts=4)
+    frag = df.score_molecule(_prof(mw=122.0), handle_contacts=4)
+    assert frag < lead
+    assert round(lead - frag, 3) == round(0.002 * (250 - 122), 3)   # exactly the size penalty
+
+
+def test_no_size_penalty_when_mw_missing():
+    # MW absent -> no penalty (don't punish an un-profiled molecule)
+    p = {"QED": 0.6, "SAscore": 3.0, "PAINS_alerts": [], "BRENK_alert_count": 0,
+         "protac_handles": {"total": 1}}
+    assert isinstance(df.score_molecule(p, handle_contacts=4), float)
 
 
 def test_invalid_molecule_scores_none():
