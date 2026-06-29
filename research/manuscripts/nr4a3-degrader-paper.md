@@ -269,6 +269,21 @@ proof:
   assays [Filion 2009], with further EMC-over-expressed targets reported (e.g. NDRG2). This is EMC-native
   support that the fusion *does something* transcriptionally — but it shows the fusion is a functional
   driver, **not** that the cell cannot survive its loss; *functional driver ≠ addiction*.
+- **Why NR4A3's wild-type tumour-suppressor role does *not* argue against fusion-addiction.**
+  A natural objection — *NR4A3 is itself growth-suppressive (combined Nr4a1/Nr4a3 loss is
+  leukaemogenic [Mullican 2007]; tumour-suppressive in HCC/breast/lymphoma [Safe & Karki 2021]),
+  so how can a cancer be addicted to it?* — rests on a category slip: the dependency is on the
+  **EWSR1::NR4A3 fusion**, not wild-type NR4A3. The two share the LBD, but the neomorphic element
+  is the **appended EWS low-complexity transactivation domain**. The objection only bites under a
+  **dominant-negative** model (the fusion *inactivating* wild-type NR4A3, making the oncogenic state
+  a loss-of-function — under which knockdown would relieve repression rather than kill, i.e. *not*
+  addiction). The EMC-native evidence points the other way, to **neomorphic gain-of-function**
+  (the chimera directly transactivates PPARG via an EWSR1/NR4A3 response element [Filion 2009], and
+  carries a heterologous EWS activation domain wild-type NR4A3 lacks). Under gain-of-function the
+  tumour-suppressor fact is **orthogonal-to-mildly-supportive**: the very potency that lets wild-type
+  NR4A3 control growth is what makes it a credible chassis to hijack, not a reason against dependency.
+  Where the tumour-suppressor role *does* bite is **safety/therapeutic window** (an LBD degrader
+  removes wild-type NR4A3 too), addressed by the fusion-exclusive routes — not the addiction prior.
 
 The acute, specific degradation (dTAG) test that would convert this prior into a demonstration is the
 make-or-break experiment, delegated to the EMC-program paper

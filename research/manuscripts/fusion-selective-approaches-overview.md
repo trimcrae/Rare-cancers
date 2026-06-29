@@ -12,7 +12,10 @@ A drug can be selective at three increasingly tight levels: tumour-vs-normal (we
 removes wild-type NR4A3) → **fusion-exclusive** (acts only on the chimera). The third level is the most
 targeted and lowest-toxicity option, and — uniquely — it neutralises the **tumour-suppressor liability** of
 depleting wild-type NR4A3 systemically (NR4A3 is tumour-suppressive in HCC/breast/lymphoma; combined
-NR4A1/NR4A3 loss is leukaemogenic — Mullican 2007; Safe & Karki 2021). You can only be fusion-exclusive by
+NR4A1/NR4A3 loss is leukaemogenic — Mullican 2007; Safe & Karki 2021). Note this is a **safety /
+therapeutic-window** argument — *distinct from, and not in tension with,* the fusion-addiction premise:
+EMC is addicted to the **chimera**, not wild-type NR4A3, so wild-type NR4A3's tumour-suppressor role is a
+reason to *spare* it, not a reason to doubt that targeting the fusion works. You can only be fusion-exclusive by
 targeting something the fusion has that **neither parent** does: the mRNA junction, the junction
 neopeptide, or the fusion-emergent protein behaviour (the appended EWS low-complexity domain and its
 condensate / coactivator activity).
