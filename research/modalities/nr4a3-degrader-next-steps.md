@@ -247,6 +247,30 @@ the family metad (in flight) is the fix.
      de-novo *bona fide* selective candidate worth the spend. See `nr4a3-matrix-result.md` for the go/no-go.
 3. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` stub: wire DiffSBDD/Pocket2Mol,
    two campaigns (divergent-handle-conditioned = selective; conserved-conditioned = pan) to fill empty cells.
+   - **DE-NOVO SESSION 2026-06-29 — Step 0 + Step 1 DONE; DiffSBDD wiring (Step 2) next.**
+     - **Step 0 — receptor RE-ANCHORED to a druggable UNBIASED RELEASE frame (run 28365883750, CPU c5,
+       DONE).** New pipeline `release_frame_select.py` (pure, 9 tests) + `nr4a3_release_druggable.py` +
+       `sagemaker_src/entry_release_druggable.py` + `nr4a3_release_druggable_sagemaker.py` +
+       `.github/workflows/release-druggable-aws.yml`. Reuses the `nr4a3-release-pocket` per-frame
+       druggability to pick candidates, then re-runs fpocket on each chosen frame to CONFIRM + read the
+       docking box. Output `s3://<bucket>/nr4a3-release-druggable/` (manifest + 4 receptor PDBs + plot).
+       **Result:** **primary = rep0 frame 95, Rg 0.7367 (≈ target 0.737), confirmed druggability 0.667**
+       (in the 0.53–0.68 drug-bound band). Druggable **sub-ensemble = primary + alt1 (0.536) + alt3
+       (0.642)**, spanning Rg 0.737–0.764. **alt2 (frame 41) DROPPED:** reused-summary 0.558 but confirmed
+       **0.001** on re-extraction (single-frame fpocket / fpocket-build fragility — the reason the driver
+       re-confirms). Driver hardened to confirm-filter the sub-ensemble (`druggable_subensemble`,
+       `docking_primary_receptor`) so the manifest is self-describing; **downstream docking/MM-GBSA must use
+       the confirmed sub-ensemble, not the biased-metad frame and not every chosen frame.**
+     - **Step 1 — selectivity BLUEPRINT DONE (CPU/local).** `denovo_blueprint.py` (pure, 8 tests) +
+       `nr4a3_denovo_blueprint.py` → `nr4a3-denovo-blueprint.json`. Classifies Pocket-5: **5 engageable
+       selective handles** — **4 discriminate BOTH paralogues (L406, T410, I484, L534)**, **1 NR4A1-only
+       (I531 ≡ NR4A2)** — conserved core **P411, R481, R485** (pan campaign). Selective campaign weights the
+       both-paralogue handles over I531.
+     - **Step 2 (NEXT) — DiffSBDD pipeline:** `nr4a3_denovo.py` + `sagemaker_src/entry_denovo.py` (PIN torch
+       to CUDA 12.8 per the MM-GBSA driver gotcha) + `nr4a3_denovo_sagemaker.py` + `gpu-denovo-aws.yml`,
+       conditioned on `nr4a3-denovo-blueprint.json` handles against the Step-0 `docking_primary_receptor`
+       (+ sub-ensemble). **$5 PILOT FIRST** (~200 mols → eyeball → ~20 through dock+MM-GBSA). GPU spend —
+       pilot-scale autonomy granted this session (sub-$25); FEP still gated explicitly.
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
    for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
