@@ -27,6 +27,7 @@ def main():
     git_ref = os.environ.get("GIT_REF", "main")
     ns = os.environ.get("NS", "5")
     n_rep = os.environ.get("N_REP", "3")
+    target_rg = os.environ.get("TARGET_RG", "0.717")   # seed-frame CV Rg; <=0 = legacy max-Rg frontier
     in_prefix = os.environ.get("INPUT_PREFIX", "nr4a3-metad")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-release")
 
@@ -48,7 +49,8 @@ def main():
                                 destination="/opt/ml/processing/input")],
         outputs=[ProcessingOutput(source="/opt/ml/processing/output",
                                   destination=f"s3://{bucket}/{out_prefix}")],
-        arguments=["--ns", str(ns), "--n-rep", str(n_rep), "--git-ref", git_ref],
+        arguments=["--ns", str(ns), "--n-rep", str(n_rep), "--target-rg", str(target_rg),
+                   "--git-ref", git_ref],
         wait=True, logs=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)

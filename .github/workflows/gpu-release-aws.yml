@@ -16,6 +16,10 @@ on:
         description: "number of unbiased replicas (different velocity seeds)"
         default: "3"
         required: false
+      target_rg:
+        description: "seed-frame CV Rg (nm): 0.717 = low-energy DRUGGABLE state (default); <=0 = max-Rg frontier (legacy)"
+        default: "0.717"
+        required: false
       instance:
         description: "SageMaker instance type"
         default: "ml.g5.xlarge"
@@ -50,6 +54,7 @@ jobs:
           INSTANCE: ${{ inputs.instance }}
           NS: ${{ inputs.ns }}
           N_REP: ${{ inputs.n_rep }}
+          TARGET_RG: ${{ inputs.target_rg }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then

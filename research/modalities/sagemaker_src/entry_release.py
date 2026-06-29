@@ -19,6 +19,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ns", default="5")
     ap.add_argument("--n-rep", default="3")
+    ap.add_argument("--target-rg", default="0.717")
     ap.add_argument("--git-ref", default="main")
     args = ap.parse_args()
     subprocess.run(["nvidia-smi"], check=False)
@@ -40,6 +41,7 @@ def main():
     env["OUTPUT_DIR"] = OUT
     env["NS"] = args.ns
     env["N_REP"] = args.n_rep
+    env["TARGET_RG"] = args.target_rg
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running unbiased release MD ({args.n_rep} x {args.ns} ns)", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "md",

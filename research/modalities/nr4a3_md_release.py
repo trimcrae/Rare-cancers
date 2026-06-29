@@ -13,11 +13,15 @@ metastable druggable basin (38 kcal/mol was a convergence artifact); fast collap
 
 Reuses the checkpoint artifacts from the metad run (mounted at INPUT_DIR): metad_system.xml is the base
 System WITHOUT the PLUMED bias, so an unbiased run is just "load it, seed an opened frame, integrate".
-We pick the opened frame from nr4a3-lbd-metad.dcd by max CV Rg, launch N_REP replicas (different
-velocity seeds) of NS ns each, and write per-replica Rg(t) (release_rg_repK.dat) + trajectories.
+We pick the SEED frame from nr4a3-lbd-metad.dcd by TARGET_RG — default the LOW-ENERGY DRUGGABLE state
+(CV Rg ~0.717 nm, fpocket 0.80, ~0.76 kcal/mol per the F(Rg)-vs-druggability reconciliation), NOT the
+max-Rg frontier. (Seeding the max-Rg frame — the ~38 kcal/mol opening edge — is the worst case; it
+collapsed in run 28339743810. TARGET_RG<=0 restores that legacy max-Rg behaviour.) We launch N_REP
+replicas (different velocity seeds) of NS ns each, and write per-replica Rg(t) (release_rg_repK.dat) +
+trajectories. Confirm DRUGGABILITY persistence separately by running nr4a3_mdpocket on release_rep*.dcd.
 
-Output: release_summary.json (per replica: start Rg, end Rg, mean/min/max Rg, fraction of time within
-0.1 nm of the opened start) + the Rg traces. Forced CUDA platform, same as the other GPU runs.
+Output: release_summary.json (per replica: seed Rg, end Rg, mean/min/max Rg, fraction of time within
+0.1 nm of the seed) + the Rg traces. Forced CUDA platform, same as the other GPU runs.
 """
 import json
 import os
@@ -67,22 +71,33 @@ def main():
     if len(plumed_atoms) != len(M.CV_RESIDUES):
         sys.exit(f"  ABORT: matched {len(plumed_atoms)}/{len(M.CV_RESIDUES)} CV CA atoms")
 
-    # pick the most-OPEN frame (max CV Rg) from the metad trajectory.
+    import numpy as np
+    # Seed frame selection. Default = the LOW-ENERGY DRUGGABLE state (TARGET_RG ~0.717 nm), the realistic
+    # design target — NOT the max-Rg frontier (the ~38 kcal/mol edge), whose metastability is the worst
+    # case and already failed. TARGET_RG<=0 restores the legacy max-Rg (argmax) seed.
     t = md.load(dcd, top=solvated)
     idx0 = [i - 1 for i in plumed_atoms]
     rg_traj = _rg_series(t.xyz, idx0)              # nm (mdtraj xyz already in nm)
-    open_frame = int(rg_traj.argmax())
-    rg_open = float(rg_traj[open_frame])
-    print(f"  opened frame {open_frame}/{t.n_frames}: CV Rg {rg_open:.3f} nm "
+    target_rg = float(os.environ.get("TARGET_RG", "0.717"))
+    if target_rg <= 0:
+        seed_frame = int(rg_traj.argmax())
+        seed_mode = "max-Rg frontier (legacy)"
+    else:
+        seed_frame = int(np.abs(rg_traj - target_rg).argmin())
+        seed_mode = f"nearest TARGET_RG={target_rg:.3f}"
+    rg_seed = float(rg_traj[seed_frame])
+    print(f"  seed frame {seed_frame}/{t.n_frames} [{seed_mode}]: CV Rg {rg_seed:.3f} nm "
           f"(traj Rg range {rg_traj.min():.3f}-{rg_traj.max():.3f})", file=sys.stderr)
-    open_positions = t.xyz[open_frame] * unit.nanometer
+    open_positions = t.xyz[seed_frame] * unit.nanometer
 
-    summary = {"_note": "Unbiased release MD from the metad-opened pocket. Persistence near the opened "
-                        "CV Rg => metastable druggable basin (the 38 kcal/mol metad cost is a "
-                        "convergence artifact); fast collapse toward the closed Rg (~0.75 nm) => "
-                        "bias-induced strain, not a thermally accessible state.",
-               "opened_frame": open_frame, "opened_Rg_nm": round(rg_open, 3),
-               "closed_Rg_ref_nm": 0.753, "ns_per_replica": NS, "n_replicas": N_REP, "replicas": []}
+    summary = {"_note": "Unbiased release MD seeded from a chosen metad frame (default: the low-energy "
+                        "DRUGGABLE state ~0.717 nm, NOT the max-Rg frontier). Persistence near the seed "
+                        "Rg => the druggable conformation is thermally metastable; drift away => not "
+                        "metastable. Druggability persistence is confirmed separately by running "
+                        "nr4a3_mdpocket on release_rep*.dcd (DCD_NAME=release_rep0.dcd).",
+               "seed_mode": seed_mode, "seed_frame": seed_frame, "seed_Rg_nm": round(rg_seed, 3),
+               "target_rg_nm": target_rg, "closed_Rg_ref_nm": 0.753, "ns_per_replica": NS,
+               "n_replicas": N_REP, "replicas": []}
 
     try:
         cuda = mm.Platform.getPlatformByName("CUDA")
@@ -103,7 +118,7 @@ def main():
     open_positions = _ms.context.getState(getPositions=True).getPositions(asNumpy=True)
     rg_min = _rg_one(open_positions.value_in_unit(unit.nanometer), idx0)
     summary["minimized_Rg_nm"] = round(float(rg_min), 3)
-    print(f"  minimized opened frame: CV Rg {rg_open:.3f} -> {rg_min:.3f} nm "
+    print(f"  minimized seed frame: CV Rg {rg_seed:.3f} -> {rg_min:.3f} nm "
           f"(closed ref 0.753)", file=sys.stderr, flush=True)
     del _ms, _mi
 
@@ -132,32 +147,39 @@ def main():
         rgf.close()
         import numpy as np
         rgs = np.array(rgs)
-        within = float((np.abs(rgs - rg_open) <= 0.1).mean())     # fraction of time still ~open
+        within = float((np.abs(rgs - rg_seed) <= 0.1).mean())     # fraction of time still near the seed
         summary["replicas"].append({
-            "replica": rep, "start_Rg": round(rg_open, 3), "end_Rg": round(float(rgs[-1]), 3),
+            "replica": rep, "seed_Rg": round(rg_seed, 3), "end_Rg": round(float(rgs[-1]), 3),
             "mean_Rg": round(float(rgs.mean()), 3), "min_Rg": round(float(rgs.min()), 3),
             "max_Rg": round(float(rgs.max()), 3),
-            "frac_time_within_0.1nm_of_open": round(within, 3)})
+            "frac_time_within_0.1nm_of_seed": round(within, 3)})
         print(f"  replica {rep}: end Rg {rgs[-1]:.3f} nm, mean {rgs.mean():.3f}, "
-              f"frac-near-open {within:.2f}", file=sys.stderr, flush=True)
+              f"frac-near-seed {within:.2f}", file=sys.stderr, flush=True)
 
-    # verdict heuristic: did it stay open or collapse toward the closed reference?
-    ends = [r["end_Rg"] for r in summary["replicas"]]
-    means = [r["mean_Rg"] for r in summary["replicas"]]
-    closed, opened = 0.753, rg_open
-    midpoint = 0.5 * (closed + opened)
-    collapsed = sum(1 for m in means if m < midpoint)
+    # Verdict (Rg proxy): did the replicas stay near the DRUGGABLE SEED conformation, or drift away?
+    # Direction-agnostic on purpose — the seed (default ~0.717 nm) can sit BELOW the 0.753 closed ref, so
+    # the old "collapse below the open/closed midpoint" logic is invalid here. The DEFINITIVE
+    # druggability-persistence call comes from nr4a3_mdpocket on release_rep*.dcd, not from Rg alone.
+    means = np.array([r["mean_Rg"] for r in summary["replicas"]])
+    fracs = np.array([r["frac_time_within_0.1nm_of_seed"] for r in summary["replicas"]])
+    ends = np.array([r["end_Rg"] for r in summary["replicas"]])
+    drift = float(np.abs(means - rg_seed).mean())
+    near = int((fracs >= 0.5).sum())
+    summary["mean_end_Rg"] = round(float(ends.mean()), 3)
+    summary["mean_abs_drift_from_seed_nm"] = round(drift, 3)
     summary["verdict"] = (
-        f"{collapsed}/{N_REP} replicas relaxed below the closed/open midpoint ({midpoint:.2f} nm). "
-        + ("Predominant COLLAPSE -> opened state is NOT metastable (supports costly/inaccessible)."
-           if collapsed > N_REP / 2 else
-           "Predominant PERSISTENCE -> opened druggable state is metastable (the 38 kcal/mol metad "
-           "cost is a convergence artifact; Gate 3 plausibly accessible)."))
-    summary["mean_end_Rg"] = round(sum(ends) / len(ends), 3)
+        f"{near}/{N_REP} replicas spent >=50% of the time within 0.1 nm of the seed Rg ({rg_seed:.3f} nm); "
+        f"mean |drift from seed| {drift:.3f} nm. "
+        + ("PERSISTENCE near the seed -> the druggable conformation looks thermally metastable. CONFIRM "
+           "druggability with nr4a3_mdpocket on release_rep*.dcd before trusting it."
+           if near > N_REP / 2 else
+           "DRIFT away from the seed -> not obviously metastable. Check WHERE it drifted (a low-Rg drift "
+           "toward ~0.573 may still be druggable; a high-Rg drift is the frontier) + run nr4a3_mdpocket."))
     with open(os.path.join(OUT, "release_summary.json"), "w") as fh:
         json.dump(summary, fh, indent=2)
-    print(json.dumps({k: summary[k] for k in ("opened_Rg_nm", "closed_Rg_ref_nm", "mean_end_Rg",
-                                              "verdict")}, indent=2), flush=True)
+    print(json.dumps({k: summary[k] for k in ("seed_Rg_nm", "closed_Rg_ref_nm", "mean_end_Rg",
+                                              "mean_abs_drift_from_seed_nm", "verdict")}, indent=2),
+          flush=True)
 
 
 def _rg_series(xyz, idx0):
