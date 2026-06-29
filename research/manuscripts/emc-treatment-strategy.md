@@ -183,9 +183,15 @@ make the residual the explicit subject of a publish-to-convince paper:
 - **The warhead the degrader lacks:** a pure in-silico design problem (next section). ★
 
 ## What WE can actually build (the in-silico work program — this is our lane)
-- **De-novo binder design** (RFdiffusion / AlphaFold-based) to mature the inverse-NOR-1-agonist
-  starting point into a selective NR4A3 degrader warhead — the degrader route's missing piece, and
-  a *self-contained computational deliverable we can publish* (a designed candidate + rationale).
+- **De-novo binder design** (DiffSBDD small-molecule warhead; RFdiffusion/AF protein binder as the
+  alt handle) to mature the inverse-NOR-1-agonist starting point into a selective NR4A3 degrader
+  warhead — the degrader route's missing piece, and a *self-contained computational deliverable we can
+  publish* (a designed candidate + rationale). **Pipeline now built (2026-06-29):** two GPU runs only
+  (DiffSBDD generation + MM-GBSA confirmation), a free GitHub-CPU screen between them; the full
+  downstream in-silico arc through to the wet-lab wall (ternary cooperativity, linker optimisation,
+  ADMET, retrosynthesis, off-target panel) is the consolidated roadmap in
+  [`../modalities/nr4a3-degrader-design-spec.md`](../modalities/nr4a3-degrader-design-spec.md);
+  campaign spec in [`../modalities/nr4a3-denovo-result.md`](../modalities/nr4a3-denovo-result.md).
 - **Surfaceome screen** of the fusion's transcriptional output (published fusion-target gene sets ∩
   membrane-protein annotations) to nominate an EMC-enriched CAR/ADC target rather than a pan-sarcoma
   compromise.

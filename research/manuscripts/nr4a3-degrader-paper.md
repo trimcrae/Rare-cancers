@@ -201,6 +201,27 @@ selective binder can fail to degrade. The per-paralogue ternary model is therefo
 synthesized; this is design prep.** Run instructions + program state:
 [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
 
+### 2.5 A *designed* selective warhead candidate (de-novo generation)
+The completed matrix is a *framework* result: it shows programmable, state-matched selectivity (and an
+empty AML-risk anti-target cell), but its specific leads are repurposed tool compounds within docking
+noise — the top "NR4A3-selective" hit, cytosporone B, is a known NR4A1 agonist and **reverses** under
+MM-GBSA. A bona-fide selective warhead therefore has to be *designed*, not repurposed. We wire a
+de-novo structure-based generative model (**DiffSBDD**) conditioned on the opened pocket — the `selective`
+campaign on the five engageable divergent handles, the `pan` campaign on the conserved CV — and pass the
+output through a deliberately cheap funnel: a **free** screen (novelty vs known NR4A actives →
+developability → docking into all three state-matched opened pockets → selectivity fingerprint → PROTAC
+attachment handle), then the **one** MM-GBSA confirmation run on the surviving shortlist. A molecule that
+returns `confirmed_selective`, is developable, and is PROTAC-assemblable is the paper's designed candidate
+(Fig 6) — the result the repurposing matrix could not provide. The cost discipline is deliberate:
+generation is cheap and the screen is free, so the program spends GPU only twice and reserves the expensive
+selectivity-FEP tier for that single confirmed lead. Every output here is a **model-generated design
+hypothesis** (novelty-filtered against known chemotypes), not a validated warhead — docking is a screening
+prior, the MM-GBSA verdict is direction-only, and the pocket is biased-MD-opened; the campaign is gated on
+the unbiased release run confirming the pocket. Spec + how-to:
+[`../modalities/nr4a3-denovo-result.md`](../modalities/nr4a3-denovo-result.md); the full downstream arc to
+the wet-lab handoff is the roadmap in
+[`../modalities/nr4a3-degrader-design-spec.md`](../modalities/nr4a3-degrader-design-spec.md).
+
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
 The family-wide ensembles (§2.4) let a degrader be designed for a chosen NR4A *combination*. A cell of

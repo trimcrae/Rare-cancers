@@ -218,10 +218,18 @@ PROTAC chemistry; finalise the exact ligand/linker set against the current liter
   exit vector is a chemical handle (the TRUE attachment vector needs the docked pose, a GPU step); these are
   scaffolds, not selective warheads — the selective binder is still the de-novo (GPU) step.
 
-**De-novo generation + quantitative selectivity (GPU, APPROVAL-GATED).** `generate_denovo()` → DiffSBDD/
-Pocket2Mol, two campaigns (divergent-handle-conditioned = NR4A3-selective; conserved-conditioned = pan), on
-the opened pocket; then **MM-GBSA + per-residue decomposition → selectivity FEP** on the leads (the
-defensible margin; the family-matrix run supplies the state-matched paralogue pockets FEP needs).
+**De-novo generation + quantitative selectivity (GPU, APPROVAL-GATED) — PIPELINE BUILT (2026-06-29).**
+`generate_denovo()` is now **wired to DiffSBDD** (the SOTA pocket-conditioned diffusion model), split into a
+minimal-compute funnel: **two GPU runs only** (generation + MM-GBSA), with the whole screen FREE on a GitHub
+CPU runner. `nr4a3_denovo.py MODE=generate` (`gpu-denovo-aws.yml`) samples two campaigns
+(divergent-handle-conditioned = NR4A3-selective; conserved-conditioned = pan) against the opened pocket;
+`MODE=screen` (`denovo-screen.yml`, free CPU) runs novelty → developability → 3-pocket docking →
+`selectivity_fingerprint` → PROTAC-handle, and emits the shortlist-only MM-GBSA handoff so the EXISTING
+`mmgbsa-aws.yml` confirms the shortlist unchanged (`input_prefix=nr4a3-denovo`). A molecule returning
+`confirmed_selective` is the designed candidate. Both GPU runs are gated behind the unbiased release run
+(designing/quantifying against a confirmed pocket, not an artifact). FEP stays deferred to the one confirmed
+lead. Full spec + how-to: [`nr4a3-denovo-result.md`](./nr4a3-denovo-result.md). Pure gates/ranking are
+unit-tested in `denovo_select.py`.
 
 **The gate (honest, ties to the red-team).** All the *GPU* molecule design is **designing against a cryptic,
 biased-MD, provisional pocket** (Gate 1 basin-breathing only; Gate 3 provisional; 0.931 is a biased-MD peak).
@@ -232,6 +240,44 @@ above is not so gated** and runs now. The program's output is an **in-silico des
 candidate + predicted binding mode, selectivity, ternary geometry, and developability/synthesizability) — a
 **design hypothesis, not a validated warhead**; the terminal blockers (synthesise it, prove it binds/
 degrades, prove EMC fusion-addiction via dTAG) remain the wet-lab hand-off.
+
+## Remaining in-silico roadmap → wet-lab handoff
+The first **designed candidate** (de-novo generation → CPU screen → MM-GBSA confirmation, above) is the
+near-term deliverable. This is the *complete* in-silico arc that lies downstream of it — every tier is a
+**design hypothesis / prediction, not validation**, and all are **deferred behind the first candidate**.
+The point is to be explicit about how far computation can carry this and exactly where it stops.
+
+**Already in the pipeline (built / specified — cross-linked, not re-derived here):**
+- **Ternary degradable-lysine geometry** — `nr4a3_ternary.py` / `gpu-ternary-aws.yml` (NR4A3–PROTAC–CRBN/VHL;
+  binding selectivity ≠ degradation selectivity, so this is the gating geometry step once a warhead SMILES
+  exists; positive control = CRBN + lenalidomide).
+- **Selectivity FEP** — the affinity tier (ABFE/relative across the three opened pockets); the program's
+  dominant GPU cost, deferred to the one confirmed lead (see `nr4a3-matrix-result.md` go/no-go).
+- **Developability + PROTAC assembly** — `warhead_chem_profile.py` (QED, SAscore, PAINS/BRENK, bRo5,
+  conjugation handles) + `protac_feasibility.py` (E3 × linker property-window check). Light ADMET only.
+
+**Missing — additional in-silico tiers to add as the candidate matures (in priority order):**
+1. **Ternary cooperativity (α) + short MD stability.** Beyond static degradable-lysine geometry: predict
+   positive/negative cooperativity and run short MD on the predicted ternary to confirm it is *stable*
+   (productive sandwich), not just formable.
+2. **Linker-optimisation loop.** Score linker length/rigidity/exit-vector *against the ternary model*
+   (replacing `protac_feasibility.py`'s one-shot property-window check) to maximise the degradable-lysine
+   presentation — a small design loop, not a single pass.
+3. **Fuller ADMET / developability.** Predicted aqueous solubility, permeability, metabolic stability,
+   hERG / CYP liabilities — the "survives in a body" questions beyond drug-likeness heuristics.
+4. **Retrosynthesis / synthetic route.** A concrete proposed route (e.g. an AiZynthFinder-class search)
+   so a chemistry group can make it — beyond the SAscore heuristic.
+5. **Broad off-target / polypharmacology panel.** Dock/screen the final candidate against a wider
+   nuclear-receptor / proteome panel to flag off-target liabilities beyond the three NR4A paralogues.
+6. *(optional)* **Resistance-mutation scan** of the NR4A3 LBD — which pocket mutations could blunt the
+   warhead.
+
+**The hard wall — inherently wet-lab, NOT closable in silico (no matter how many tiers are stacked):**
+synthesise the molecule; prove it **binds** NR4A3 (and is selective) in a real assay; prove it **degrades**
+NR4A3 in cells; and the make-or-break — prove **EMC is fusion-addicted** (that killing EWSR1::NR4A3 kills
+the tumour) via the **dTAG** experiment, today supported only by transfer-analogy (DepMap/Ewing-FLI1). The
+in-silico program's terminal output is a fully-specified **design package** that hands off to a chemistry
+lab and a sarcoma lab — a hypothesis, not a validated therapeutic.
 
 ## References (verified)
 - Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022).

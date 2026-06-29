@@ -51,6 +51,20 @@
 - Lead (NR4A3-only → EMC/AciCC) / second mode (pan → ex-vivo immuno) / anti-target (NR4A1+NR4A3 → AML,
   design away), with the degrader/E3 ternary cartoon. Schematic, no new data.
 
+**Fig 6 — A *designed* selective warhead candidate (§2.5; matrix step 3).**
+- (a) The de-novo funnel: DiffSBDD generation on the opened pocket → free-CPU screen (novelty →
+  developability → 3-pocket docking → selectivity fingerprint → PROTAC handle) → MM-GBSA confirmation.
+  Schematic of the two-GPU-run, free-CPU-middle pipeline.
+- (b) The designed candidate: 2D structure + predicted binding pose in the opened NR4A3 pocket, annotated
+  with the engageable handles it contacts. Asset: `nr4a3-denovo.json` ⚙️ + `docked_nr4a3.sdf` (after the
+  screen). ⚙️ RDKit/PyMOL render.
+- (c) Its selectivity bar: MM-GBSA ΔG into NR4A3 vs NR4A1/NR4A2 (the `confirmed_selective` verdict), beside
+  its developability/PROTAC-assembly profile. Asset: `nr4a3-mmgbsa.json` (denovo run) ⚙️.
+- **Caption must state:** the molecule is a **model-generated, novel** design hypothesis (ECFP Tanimoto
+  ≤ 0.40 to any known NR4A active), docking is a screening prior, MM-GBSA is direction-only, the pocket is
+  biased-MD-opened — not a validated warhead. *Message:* the design space yields a bona-fide selective
+  candidate, the result the repurposing matrix could not provide.
+
 ## Tables
 
 - **Table 1 — Calibration panel** (structure, type, max druggability, ligand-site druggability) from
@@ -60,6 +74,9 @@
 - **Table 3 — Pre-registered gates and outcomes** (Gate 0/0b/1/2/3/4, pass/fail, with the Gate-0 *and
   Gate-1* disclosed deviations — Gate 1 met only in the weaker basin-breathing sense; Gate 3 provisional)
   from `nr4a3-druggability-prereg.md` ✅.
+- **Table 4 — The designed candidate** (label, novel SMILES, ECFP Tanimoto to nearest known active, dG into
+  each opened pocket, MM-GBSA margins + verdict, QED/SAscore/PAINS, PROTAC handle) from `nr4a3-denovo.json`
+  + the denovo `nr4a3-mmgbsa.json` ⚙️ (after the screen + confirmation). Flag: designed hypothesis, not a lead.
 
 ## Generation notes
 - Plots that read committed JSON (Figs 1b, 3b; Tables 1,3) can render now; Figs 2,4 + Table 2 need the

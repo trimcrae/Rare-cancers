@@ -242,13 +242,20 @@ def handle_contacts(receptor_pdb, pose_sdf, handle_resnums, cutoff=4.0):
     return out
 
 
-def generate_denovo(receptor_pdb, center):
-    """OPTIONAL de-novo SBDD layer (DiffSBDD / Pocket2Mol / TargetDiff) conditioned on the opened pocket.
-    Primed but skipped unless the model + GPU are present (mirrors the repo's 'pipeline primed' pattern);
-    returns generated (label, id, smiles) or []. TODO: wire a concrete model when one is provisioned."""
-    if os.environ.get("DENOVO_MODEL"):
-        print("  [denovo] DENOVO_MODEL set but no concrete model wired yet — skipping", file=sys.stderr)
-    return []
+def generate_denovo(receptor_pdb, center, campaign="selective"):
+    """OPTIONAL de-novo SBDD layer (DiffSBDD) conditioned on the opened pocket. Now WIRED: delegates to
+    nr4a3_denovo.generate (guarded — returns [] unless DIFFSBDD_DIR/DIFFSBDD_CKPT + a GPU are present,
+    the repo's 'pipeline primed' pattern). Returns (label, id, smiles) tuples for this screen's call
+    site; the standalone two-mode driver (generate/screen) is nr4a3_denovo.py. Imported lazily to avoid
+    the import cycle (nr4a3_denovo imports this module)."""
+    try:
+        import nr4a3_denovo as dn
+    except Exception as e:  # noqa: BLE001
+        print(f"  [denovo] nr4a3_denovo unavailable: {e}", file=sys.stderr)
+        return []
+    resseqs = dn._resseqs_from_pdb(receptor_pdb)
+    recs = dn.generate(campaign, receptor_pdb, resseqs)
+    return [(r["label"], r["label"], r["smiles"]) for r in recs]
 
 
 def main():

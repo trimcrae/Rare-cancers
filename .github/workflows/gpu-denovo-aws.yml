@@ -1,0 +1,79 @@
+name: De-novo warhead generation (AWS SageMaker, GPU)
+
+# DiffSBDD samples molecules against the metad-OPENED NR4A3 pocket (matrix step 3) — the only GPU spend in
+# the de-novo step; the screen runs free on a GitHub CPU runner (denovo-screen.yml). Runs
+# nr4a3_denovo.py MODE=generate as a managed SageMaker Processing job, mounting s3://<bucket>/nr4a3-matrix
+# (for nr4a3-opened.pdb) and writing the SMILES pool to s3://<bucket>/nr4a3-denovo.
+#
+# 🛑 GPU COST + GATE: this spins up a GPU instance. Dispatch ONLY after (1) the AskUserQuestion cost/payoff
+# pop-up and (2) the unbiased release-run pocket gate has cleared (designing against a confirmed pocket).
+# DiffSBDD is operator-provided (no model URL is committed): set diffsbdd_repo + diffsbdd_ckpt_url, else
+# generation skips gracefully. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker GPU instance type"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + matrix outputs live"
+        default: "us-east-2"
+        required: false
+      input_prefix:
+        description: "S3 prefix holding nr4a3-opened.pdb (the matrix outputs)"
+        default: "nr4a3-matrix"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the generated pool"
+        default: "nr4a3-denovo"
+        required: false
+      diffsbdd_repo:
+        description: "DiffSBDD git repo URL (operator-provided; empty -> generation skips)"
+        default: ""
+        required: false
+      diffsbdd_ckpt_url:
+        description: "DiffSBDD pretrained checkpoint URL (operator-provided)"
+        default: ""
+        required: false
+      n_per_campaign:
+        description: "molecules to sample per campaign (selective + pan)"
+        default: "200"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker de-novo generation job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          DIFFSBDD_REPO: ${{ inputs.diffsbdd_repo }}
+          DIFFSBDD_CKPT_URL: ${{ inputs.diffsbdd_ckpt_url }}
+          N_PER_CAMPAIGN: ${{ inputs.n_per_campaign }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_denovo_sagemaker.py

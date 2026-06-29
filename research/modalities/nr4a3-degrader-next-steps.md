@@ -235,8 +235,26 @@ the family metad (in flight) is the fix.
    - **Selectivity FEP** on the lead 1–3 — the program's dominant GPU cost (~1–3 weeks serial). **DEFERRED**
      pending (i) the unbiased release run confirming the opened pocket is metastable and (ii) MM-GBSA + a
      de-novo *bona fide* selective candidate worth the spend. See `nr4a3-matrix-result.md` for the go/no-go.
-3. **De-novo generative design** — `nr4a3_warhead.py::generate_denovo()` stub: wire DiffSBDD/Pocket2Mol,
-   two campaigns (divergent-handle-conditioned = selective; conserved-conditioned = pan) to fill empty cells.
+3. **De-novo generative design — PIPELINE BUILT (2026-06-29), idle pending the pocket gate.** This is the
+   route's one genuinely missing piece (a *designed* selective warhead, not a repurposed tool compound).
+   `generate_denovo()` is now wired to **DiffSBDD** (the SOTA pocket-conditioned diffusion model), split
+   into a minimal-compute funnel that spends GPU only twice and keeps the screen free:
+   - **Generate (GPU, ~$1–3):** `nr4a3_denovo.py MODE=generate` (`gpu-denovo-aws.yml`) — DiffSBDD samples
+     against the opened NR4A3 pocket (matrix's `nr4a3-opened.pdb`); `selective` campaign conditions on the
+     5 engageable handles, `pan` on the conserved CV. DiffSBDD is operator-provided (`diffsbdd_repo` +
+     `diffsbdd_ckpt_url`; no model URL committed → graceful skip if absent). Writes `nr4a3-denovo-pool.json`.
+   - **Screen (FREE GitHub CPU):** `nr4a3_denovo.py MODE=screen` (`denovo-screen.yml`) — novelty (ECFP
+     Tanimoto vs known actives) → developability (`warhead_chem_profile`) → smina dock into the three
+     state-matched opened pockets → `selectivity_fingerprint` → PROTAC handle. Pure gates/ranking in
+     `denovo_select.py` (unit-tested). Emits `nr4a3-denovo.json` **and** the shortlist-only MM-GBSA handoff
+     (`<tag>-opened.pdb`, `docked_<tag>.sdf`, matrix-shaped `nr4a3-matrix.json`) into `nr4a3-denovo/`.
+   - **Confirm (GPU, ~$0.5–0.7):** the EXISTING `mmgbsa-aws.yml` unchanged, `input_prefix=nr4a3-denovo` →
+     a shortlist molecule returning `confirmed_selective` is the designed candidate.
+   - **🛑 GATE:** both GPU runs are gated behind the unbiased **release run** (designing/quantifying against
+     a confirmed pocket, not a biased-MD artifact) and the standing GPU cost pop-up. Full spec + how-to:
+     [`nr4a3-denovo-result.md`](./nr4a3-denovo-result.md). The broader downstream arc (ternary cooperativity,
+     linker optimisation, ADMET, retrosynthesis, off-target panel → the wet-lab wall) is the consolidated
+     roadmap in [`nr4a3-degrader-design-spec.md`](./nr4a3-degrader-design-spec.md).
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
    for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.

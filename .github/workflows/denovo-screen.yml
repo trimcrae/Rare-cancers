@@ -1,0 +1,120 @@
+name: De-novo warhead screen (smina + RDKit, CPU)
+
+# The FREE half of the de-novo step: screen the DiffSBDD pool with no AWS GPU. Stages the generated pool +
+# the three state-matched opened pockets from S3, runs nr4a3_denovo.py MODE=screen on a GitHub-hosted CPU
+# runner (smina docking + RDKit developability/novelty + the pure denovo_select gates), then (1) uploads
+# the screened result + the shortlist-only MM-GBSA handoff trio back to s3://<bucket>/<output_prefix> and
+# (2) publishes nr4a3-denovo.json to the modalities-cache branch for easy reading.
+#
+# Reuses the matrix's pre-extracted opened conformers (no trajectories/mdtraj), so it fits a CPU runner.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (read S3 inputs + write the result back).
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      pool_prefix:
+        description: "S3 prefix holding the generated pool (nr4a3-denovo-pool.json)"
+        default: "nr4a3-denovo"
+        required: false
+      matrix_prefix:
+        description: "S3 prefix holding the opened conformers (<tag>-opened.pdb)"
+        default: "nr4a3-matrix"
+        required: false
+      output_prefix:
+        description: "S3 prefix to write the screened result + MM-GBSA handoff to"
+        default: "nr4a3-denovo"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: denovo-screen
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ inputs.region }}
+      POOL_PREFIX: ${{ inputs.pool_prefix }}
+      MATRIX_PREFIX: ${{ inputs.matrix_prefix }}
+      OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard secrets
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+
+      - name: Install smina + RDKit (conda-forge)
+        run: |
+          $CONDA/bin/conda install -y -n base -c conda-forge smina rdkit numpy biopython boto3
+          echo "$CONDA/bin" >> "$GITHUB_PATH"
+
+      - name: Stage S3 inputs
+        run: |
+          set -e
+          ACCT=$(python -c "import boto3;print(boto3.client('sts').get_caller_identity()['Account'])")
+          BUCKET=${BUCKET:-sagemaker-${AWS_DEFAULT_REGION}-${ACCT}}
+          echo "BUCKET=$BUCKET" >> "$GITHUB_ENV"
+          mkdir -p stage
+          aws s3 cp "s3://$BUCKET/$POOL_PREFIX/nr4a3-denovo-pool.json" stage/nr4a3-denovo-pool.json
+          for tag in nr4a3 nr4a1 nr4a2; do
+            aws s3 cp "s3://$BUCKET/$MATRIX_PREFIX/${tag}-opened.pdb" "stage/${tag}-opened.pdb"
+            mkdir -p "stage/${tag}"
+            aws s3 cp "s3://$BUCKET/${tag}-metad/metad_manifest.json" "stage/${tag}/metad_manifest.json"
+          done
+          ls -R stage
+
+      - name: Run the screen
+        env:
+          INPUT_DIR: ${{ github.workspace }}/stage
+          OUTPUT_DIR: ${{ github.workspace }}/out
+          MODE: screen
+        working-directory: research/modalities
+        run: |
+          mkdir -p "$OUTPUT_DIR"
+          python nr4a3_denovo.py
+
+      - name: Upload result + MM-GBSA handoff to S3
+        if: always()
+        run: |
+          set -e
+          if [ -d out ]; then
+            aws s3 cp out/ "s3://$BUCKET/$OUTPUT_PREFIX/" --recursive \
+              --exclude "*" --include "nr4a3-denovo.json" --include "nr4a3-matrix.json" \
+              --include "*-opened.pdb" --include "docked_*.sdf" --include "denovo_candidates.sdf"
+          fi
+
+      - name: Publish nr4a3-denovo.json to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp out/nr4a3-denovo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/nr4a3-denovo.json 2>/dev/null || true
+          git commit -m "De-novo warhead screen result (smina + RDKit)" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
