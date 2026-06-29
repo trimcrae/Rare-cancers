@@ -10,10 +10,13 @@ Druggability case is a **feasibility result, stated honestly** (see the red-team
 [`../manuscripts/nr4a3-degrader-paper-redteam.md`](../manuscripts/nr4a3-degrader-paper-redteam.md)).
 **Gate 0/0b** pass; **Gate 2** (opened-pocket druggable + handle-facing) passes; **Gate 1** is met only in
 the weaker *basin-breathing* sense (F(Rg) is **monotonic — no separate opened minimum**, so not the
-pre-registered "minimum/shoulder, not just biased excursions"); **Gate 3** (energetic accessibility) is
-**provisional** — the ~0.76 kcal/mol-to-druggable is read off the same under-converged biased F(Rg), and
-the independent metastability test (unbiased **release run**, queued) is what would close it. So do **not**
-restate "Gates 0–3 pass" without these qualifications. The 0.931/0.751 opened-frame druggability is the
+pre-registered "minimum/shoulder, not just biased excursions"); **Gate 3** (energetic accessibility) now
+**FAILS the independent test (2026-06-29 release run): the opened pocket COLLAPSES** to the closed Rg within
+5 ns of unbiased dynamics (replica 0: frac-near-open 0.00), i.e. bias-induced strain, not a metastable
+druggable basin — see the Release-run entry below (n=1, stopped early; triplicate would make it definitive).
+So do **not** restate "Gates 0–3 pass"; as of 2026-06-29 the honest status is **Gate 3 looks NEGATIVE** and
+the cryptic-pocket druggability case is in question until the target is redefined or the collapse is shown
+to be a replica-0 fluke. The 0.931/0.751 opened-frame druggability is the
 **orthosteric Pocket-5** metric (commensurate with the static 0.495) but is a **biased-MD-frame peak over
 frames** — report it as the fraction of opened frames ≥ D\*=0.53 (≥5% pre-reg bar, met) with 0.931 as the
 peak, and not as a like-for-like beat of the *static* drug-bound band. (fpocket itself is standard and the
@@ -279,19 +282,27 @@ the family metad (in flight) is the fix.
 - **Extending the metad** (if ever needed for a converged F(Rg)): `gpu-metad-aws.yml` with
   `resume_from=auto` continues from the saved checkpoint — but only if CV/metad params are unchanged
   (the manifest guard enforces this).
-- **Release run (`nr4a3_md_release.py`) — startup crash FIXED 2026-06-26, pending a GPU validation run.**
-  It was parked after failing early; the identifiable crash was an AF-model-fetch regression
-  (`M._fetch_af_model()` signature) — now fixed + pinned to the NR4A3 reference CV/model (robust to the
-  metad TARGET refactor), compiles + imports clean. It's orthogonal Gate-3 confirmation and **not needed**
-  (Gate 3 already resolved), so it's queued for a *free* GPU slot behind the family metad, not a priority —
-  but it's launch-ready (`gpu-release-aws.yml`). NOTE: not yet validated on GPU, so treat as "should run"
-  until a clean run confirms it.
-  - **2026-06-26 dispatch BLOCKED on GPU quota.** A dispatch (run 28269479539) failed in ~36 s with
-    `ResourceLimitExceeded`: the account's **ml.g5.xlarge processing-job quota is 1 instance and it was
-    already in use** (the in-flight family metad almost certainly holds the slot). Not a code bug — pure
-    capacity contention. Re-dispatch once the slot frees, or raise the quota, or stop the occupant
-    (`sagemaker-stop-aws.yml`). **GPU runs for the degrader are being driven from a separate thread as of
-    2026-06-26**, so don't double-dispatch from here.
+- **Release run (`nr4a3_md_release.py`) — RAN 2026-06-29 (run 28339743810): the opened pocket COLLAPSES.**
+  ⚠️ **This is a red flag for the cryptic-pocket druggability case.** Two bugs had to be fixed first: a NaN
+  explosion on step 1 (seeded unbiased dynamics from the strained metad-opened frame with **no energy
+  minimization** — added `minimizeEnergy(5000)`). After the fix, replica 0 ran clean on the A10G (CUDA
+  loaded fine for the lighter `md` env) and gave a **decisive collapse**:
+  - opened frame CV Rg **0.984** nm → after minimization **0.980** (so minimization KEPT it open — a real
+    local minimum), but over **5 ns of unbiased dynamics**: `end Rg 0.782, mean 0.784, frac-near-open 0.00`.
+    It fell to the **closed reference (0.753)** and spent **zero** time near the opened state.
+  - **Interpretation:** the opened pocket is a *shallow* local minimum that is **not thermally metastable** —
+    it collapses toward closed on the ~ns timescale once the metad bias is removed. i.e. **bias-induced
+    strain, not a thermally accessible druggable basin.** This is exactly the Gate-3 disambiguation, and it
+    answers AGAINST the opened pocket as currently defined.
+  - **Caveat (n=1):** this is replica 0 only — the job was **stopped after replica 0** (trimcrae cost rule:
+    don't spend replicas 1–2 to re-confirm a clear collapse). The collapse is decisive (frac 0.00, full
+    relaxation to closed), but two more seeds would make it triplicate-definitive. Re-run all 3 (cheap,
+    ~$3–6) if a hard yes/no is needed before any downstream spend.
+  - **Consequence for the program:** the matrix + MM-GBSA selectivity work was built on this opened conformer.
+    If the pocket isn't metastable, those results describe binding to a **transiently-sampled / bias-propped**
+    state, not a stable druggable site. **Do NOT launch FEP or the de-novo design campaign against this pocket
+    until the target is redefined** (e.g. a shallower partially-open state that IS metastable, or accept the
+    pocket only as a transient and design for induced-fit) or the collapse is shown to be a replica-0 fluke.
 
 ## Open items (not blockers for the warhead)
 - [ ] **Report 0.931 as a distribution, not just a max (red-team F2).** The headline is the peak over 600
@@ -300,8 +311,11 @@ the family metad (in flight) is the fix.
       bespoke fpocket negative control is **not** needed — fpocket druggability is standard and the §2.1
       panel, incl. the occluded 1OVL, already anchors it; the biased-vs-physical question is the release
       run's job, below.)
-- [ ] **Release run = the Gate-3/Gate-1 closer.** Already queued (`gpu-release-aws.yml`); prioritize it,
-      since it is now the gating evidence for "metastable druggable sub-state" vs "bias-induced strain."
+- [x] **Release run = the Gate-3/Gate-1 closer — RAN 2026-06-29, result NEGATIVE.** Replica 0 collapsed
+      (opened Rg 0.984→0.980 after min, then →0.78 closed over 5 ns unbiased; frac-near-open 0.00). The
+      opened pocket is **bias-induced strain, not metastable**. Stopped after replica 0 (cost rule); n=1 so
+      not yet triplicate-definitive. See the Release-run entry above. **Gates the FEP + de-novo spend: both
+      should NOT launch against this pocket until it's redefined or the collapse is shown to be a fluke.**
 - [x] Harden the metad submitter against interruption — DONE 2026-06-27: 20 h MaxRuntime ceiling +
       continuous S3 checkpoint upload (resumable). The 6 h GitHub-wrapper cancellation is now harmless.
 - [x] Opened-frame handle-facing confirmation — **DONE** (CONFIRMED 2026-06-26, run 28249776934; mean
