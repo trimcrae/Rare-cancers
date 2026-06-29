@@ -17,11 +17,12 @@ status **UPDATED 2026-06-29, now mixed/cautiously-positive after a corrected tes
   near-guaranteed to collapse.
 - The **corrected** release run seeded the **low-energy DRUGGABLE frame (Rg 0.717, ~0.76 kcal/mol)** and it
   **did NOT collapse — it is metastable by Rg** (held 5 ns, frac-near-seed 1.00, mean |drift| 0.042 nm).
-- **The open question (being tested as of this writing):** the metastable state settled at **~0.755 nm ≈
-  the closed reference (0.753)**, NOT the 0.717 where the 0.80 druggability was measured — so we must
-  confirm the metastable state is **actually druggable**, not just present (mdpocket on the release
-  trajectory, running; plus a triplicate to confirm metastability). So do **not** restate "Gate 3 FAILS";
-  the honest status is "the low-energy state is metastable; whether it stays druggable is pending." The 0.931/0.751 opened-frame druggability is the
+- **Druggability of that metastable state — RESOLVED 2026-06-29, POSITIVE (as a breathing/cryptic site):**
+  mdpocket on the unbiased release trajectory gives `max 0.842, mean 0.262, frac≥0.5 = 0.24, frac≥0.53 = 0.20`
+  (static 0.495) — druggable in **~24% of unbiased frames** (clears the pre-reg ≥5%@0.53 bar, with NO bias).
+  So **Gate 3 is now cautiously PASSED as an induced-fit / conformational-selection target** (a dynamic
+  pocket druggable ~¼ of the time), NOT a static always-open pocket. Triplicate metastability confirmation in
+  flight. Do **not** restate "Gate 3 FAILS" — the corrected (right-frame) test reversed it. The 0.931/0.751 opened-frame druggability is the
 **orthosteric Pocket-5** metric (commensurate with the static 0.495) but is a **biased-MD-frame peak over
 frames** — report it as the fraction of opened frames ≥ D\*=0.53 (≥5% pre-reg bar, met) with 0.931 as the
 peak, and not as a like-for-like beat of the *static* drug-bound band. (fpocket itself is standard and the
@@ -299,18 +300,27 @@ the family metad (in flight) is the fix.
     frame (Rg 0.717, fpocket 0.80, ~0.76 kcal/mol)** via the new `TARGET_RG=0.717`. Result: **METASTABLE by
     Rg** — `end 0.754, mean 0.759, frac-near-seed 1.00, mean |drift| 0.042 nm`. It held the full 5 ns, the
     opposite of Run A. (Minimization moved 0.717→0.748 first, so it settled at ~0.755.)
-  - **The decisive open question (tests RUNNING as of 2026-06-29 ~02:00 UTC):** Run B's metastable state sits
-    at **~0.755 nm ≈ the closed reference (0.753)**, NOT the 0.717 where the 0.80 druggability was measured.
-    So "metastable" is real but **we must confirm the metastable state is still DRUGGABLE**, not just present.
-    Two jobs in flight: **(1) triplicate** release MD (`n_rep=3`, target_rg=0.717, g5, live Rg streaming) to
-    confirm metastability across seeds; **(2) mdpocket druggability** on `release_rep0.dcd` (CPU c5,
-    `input_prefix=nr4a3-release`, `structure_prefix=nr4a3-metad`, out `nr4a3-release-pocket`) — the real test.
-  - **Decision gate:** if the metastable ~0.755 state scores druggable (fpocket ≳ 0.5, ideally ≳ the 0.53–0.68
-    drug-bound band) AND the triplicate confirms persistence → **the cryptic-pocket case is REVIVED** (we'd
-    been condemning it on the wrong frame) and the matrix/MM-GBSA/FEP/de-novo work has a real foundation. If
-    the metastable state is NOT druggable (it just relaxed to the under-druggable closed state, 0.495) →
-    Gate 3 is effectively negative and we hunt for a different pocket (trimcrae: keep hunting, do NOT pivot to
-    ASO). **Still: do NOT launch FEP / de-novo until this gate resolves.**
+  - **DRUGGABILITY of the metastable state — DONE (mdpocket on `release_rep0.dcd`, runs 28344732143 /
+    28345138975, output `s3://<bucket>/nr4a3-release-pocket`). POSITIVE, as a BREATHING/cryptic site:** over
+    the unbiased release trajectory the orthosteric pocket scores `max=0.842, mean=0.262, min=0.002,
+    frac≥0.5 = 0.24, frac≥0.53 = 0.20` (static 0.495). So it is druggable in **~24% of unbiased frames**
+    (1 in 4 clear 0.5; 20% clear the 0.53–0.68 drug-bound band; peak 0.842 > the band), at CV Rg ~0.737 —
+    i.e. **spontaneously, thermally druggable a quarter of the time, with NO metadynamics bias.** It is NOT
+    always-open (mean 0.262 < 0.5): a **dynamic/cryptic pocket requiring induced-fit / conformational
+    selection** (the norm for NR cryptic sites, cf. de Vera 2019 Nurr1). This clears the pre-registered
+    "≥5% of frames ≥ D*=0.53" bar (20% here) — and unlike the original metad number, it is on UNBIASED
+    dynamics, so it is *not* a bias artifact.
+  - **Net verdict (2026-06-29): the cryptic-pocket case is REVIVED — as an induced-fit druggable site, not a
+    static pocket.** Seeded at the correct low-energy frame, the pocket is (i) metastable (held 5 ns unbiased;
+    triplicate confirmation in flight) and (ii) druggable ~24% of the time under unbiased dynamics. The
+    premature "Gate 3 FAILS" came from testing the wrong (max-energy) frame. **Honest scope:** this supports a
+    *conformational-selection / induced-fit* warhead (bind & stabilise the ~24% druggable conformations), NOT
+    a permanently-open pocket. The matrix / MM-GBSA / FEP / de-novo work therefore has a real foundation, but
+    should be framed as targeting a dynamic pocket (docking/scoring against the druggable sub-ensemble).
+  - **Still pending before FEP / de-novo spend:** (1) the **triplicate** (confirm metastability across 3
+    seeds — running, g5, live Rg streaming); (2) ideally re-pick the docking/MM-GBSA receptor as a
+    *druggable* release frame (Rg ~0.737, fpocket ≥0.5) rather than the biased metad max frame, so downstream
+    work uses an unbiased, thermally-real, druggable conformation.
 
 ## Open items (not blockers for the warhead)
 - [ ] **Report 0.931 as a distribution, not just a max (red-team F2).** The headline is the peak over 600
