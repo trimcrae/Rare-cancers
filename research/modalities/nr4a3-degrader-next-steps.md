@@ -287,10 +287,21 @@ the family metad (in flight) is the fix.
          **Production run needs a ligand-SIZE constraint** (`--num_nodes_lig` / a lead-sized node
          distribution, ~25–40 heavy atoms) **+ a MW/heavy-atom floor in `denovo_funnel.score_molecule`**,
          then re-rank. Output `s3://<bucket>/nr4a3-denovo/` (nr4a3-denovo.json + .sdf + raw .sdf + plot).
-       - **NEXT:** (a) re-generate with size constraint + scoring floor (cheap, ~$2–5) → lead-sized
-         candidates; (b) then the gated dock-into-3-paralogues + MM-GBSA funnel on the top ~20 (~$15–25);
-         (c) pan campaign (conserved-core resi_list) for contrast. FEP still gated explicitly behind a
-         bona-fide selective candidate.
+       - **SIZE-CONSTRAINED RE-RUN — DONE (run 28384233714, 2026-06-29). Fragments fixed.** Added a
+         lead-size split (`NUM_NODES_LIST=24,28,32,36` heavy atoms via DiffSBDD `--num_nodes_lig`, N split
+         across them) + a `min_mw=250` size penalty in `denovo_funnel.score_molecule`. Result: **191/195
+         valid, 191 unique, PAINS-free 0.963, contacts ≥4 handles 0.916 (max 5).** Top candidates are now
+         LEAD-SIZED (not fragments): **denovo_189** `COc1ccc(-c2cc(C(C)=O)cc(C(=O)O)c2)cc1` (promise 0.953,
+         QED 0.87, SA 1.73, 4 handles, ~270 Da, COOH PROTAC handle) · denovo_17
+         `NCC(=O)Nc1ccc(CCC2CC2)cc1` (0.814, amine handle) · **denovo_106** (0.701, **5/5 handles**) ·
+         denovo_139 (thienopyrimidine, QED 0.82). SA≤4.5 frac fell to 0.393 (larger mols → higher SA), but
+         the top hits remain very synthesizable. Output `s3://<bucket>/nr4a3-denovo/` (nr4a3-denovo.json +
+         .sdf + per-size raw SDFs + plot). These are bona-fide de-novo selective-warhead starting points.
+       - **NEXT (gated on user):** the dock-into-3-opened-paralogue-pockets + MM-GBSA funnel on the top
+         ~20 lead-sized candidates (~$15–25) — reuse the matrix + mmgbsa pipelines pointed at
+         nr4a3-denovo.sdf + the Step-0 receptor/sub-ensemble → per-candidate selectivity fingerprint. Then
+         the pan campaign (conserved-core resi_list) for contrast. FEP still gated explicitly behind a
+         survivor of MM-GBSA.
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
    for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
