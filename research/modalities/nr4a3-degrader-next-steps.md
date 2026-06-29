@@ -307,16 +307,27 @@ the family metad (in flight) is the fix.
          denovo_51; **anti-target (NR4A1+NR4A3) = denovo_189** (the top-by-chemistry hit — so chemistry
          promise ≠ selectivity). Census/20: NR4A2+NR4A3 4 · pan 4 · none 5 · NR4A2-only 3 · NR4A1+NR4A2 2 ·
          NR4A1+NR4A3 1 · NR4A1-only 1.
-       - **FUNNEL — MM-GBSA TIER RUNNING (run dispatched 2026-06-29, g5, ~$15–25, pre-approved).**
-         `mmgbsa-aws.yml` with `input_prefix=nr4a3-denovo-matrix` → `nr4a3-denovo-mmgbsa`. Re-scores the
-         de-novo docked poses (single-snapshot 1-traj MM-GBSA, OpenCL/A10G) → per-candidate verdict
-         (confirmed_selective / reversed / weakened / rescued) vs the docking margins. **This is the real
-         test of whether any de-novo candidate's NR4A3-selectivity survives a physics-based energy model**
-         (recall the repurposed cytosporone B *reversed*). Read via `report-mmgbsa-aws.yml`.
-       - **NEXT after MM-GBSA:** if a de-novo candidate is `confirmed_selective`, it's the first bona-fide
-         in-silico NR4A3-selective warhead lead → gate the selectivity FEP tail (the $-hundreds step) on it.
-         Also: the pan campaign (conserved-core resi_list) for contrast; ternary-complex modeling to turn a
-         selective binder into a selective degrader.
+       - **FUNNEL — MM-GBSA TIER DONE (run 28393997521, g5/OpenCL, 2026-06-29). HEADLINE RESULT.** Re-scored
+         the 20 de-novo docked poses (single-snapshot 1-traj MM-GBSA) → per-candidate verdict vs docking.
+         (First attempt run 28391025615 hit the old 30-min compute cap on 20×3 legs and — being EndOfJob
+         upload — lost the partial; that prompted the continuous-upload + configurable-timeout fix above, and
+         the re-run with `compute_timeout=3600` finished all 20 in 46 min.) **Verdict census: confirmed_selective
+         3 · rescued 7 · weakened 1 · confirmed_nonselective 9 · REVERSED 0.** Output
+         `s3://<bucket>/nr4a3-denovo-mmgbsa/` (read via `report-mmgbsa-aws.yml`).
+         - **confirmed_selective = `denovo_15`, `denovo_94`, `denovo_57`.** Unlike the repurposed-compound
+           MM-GBSA (where the headline cytosporone B **reversed**), **NO de-novo candidate reversed** — the
+           de-novo route produced selectivity that survives a physics-based energy model.
+         - **LEAD = `denovo_15`** (`Clc1ccc(NC2CC2)cc1`-class? — confirm SMILES from nr4a3-denovo.json): the
+           ONLY candidate selective at BOTH tiers (docking margin +1.0, **MM-GBSA margin +10.71 kcal/mol**),
+           the most robust call. denovo_94 (+0.15 dock, +5.02 mm) second. (MM-GBSA magnitudes are inflated by
+           the single-snapshot/no-entropy approximation — trust verdict/direction, not kcal/mol.) denovo_189
+           (top-by-chemistry / docking anti-target) did NOT come back selective — consistent.
+       - **NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead
+         candidate. Options: (a) selectivity FEP on denovo_15 (the defensible affinity tier; $-hundreds,
+         ~1–3 wk serial — gate hardest); (b) ternary-complex modeling (`gpu-ternary-aws.yml`) to turn the
+         selective binder into a selective degrader; (c) pan campaign (conserved-core resi_list) for contrast.
+         **This whole de-novo arc (Step 0 → blueprint → DiffSBDD → dock → MM-GBSA) is now a complete, citable
+         in-silico result for the degrader paper: a designed, MM-GBSA-confirmed NR4A3-selective warhead.**
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
    for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
