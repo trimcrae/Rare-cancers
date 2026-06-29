@@ -302,11 +302,16 @@ the family metad (in flight) is the fix.
          `nr4a3_denovo_dock_sagemaker.py` + `gpu-denovo-dock-aws.yml`. Docked the top-20 de-novo candidates
          into the **Step-0 NR4A3 release receptor** (box on its 12 fpocket residues) + NR4A1 frame 524
          (0.981) + NR4A2 frame 125 (0.938). Output `s3://<bucket>/nr4a3-denovo-matrix/` in the SAME format
-         MM-GBSA consumes. **Selectivity fingerprint (DOCKING PRIOR, within noise):** NR4A3-selective =
-         **denovo_15** (the only NR4A3-only cell); pan-NR4A = denovo_21 / **denovo_106** (5/5 handles) /
-         denovo_51; **anti-target (NR4A1+NR4A3) = denovo_189** (the top-by-chemistry hit — so chemistry
-         promise ≠ selectivity). Census/20: NR4A2+NR4A3 4 · pan 4 · none 5 · NR4A2-only 3 · NR4A1+NR4A2 2 ·
-         NR4A1+NR4A3 1 · NR4A1-only 1.
+         MM-GBSA consumes. **Selectivity fingerprint (DOCKING PRIOR, within noise):** NR4A3-favoured-by-margin =
+         **denovo_15** (margin +1.0; **NB its strict matrix cell is NR4A2+NR4A3** — at the permissive
+         −7 kcal/mol engagement cutoff NR4A2 is weakly co-engaged, so it is the *favoured* paralogue, not an
+         exclusive NR4A3-only cell. There is **no NR4A3-only cell** in the census below — an earlier "the only
+         NR4A3-only cell" note here was wrong; the paper §2.5 states it the careful way, reconcile to that).
+         **Caveat: this de-novo dock is NOT state-matched** (NR4A3 unbiased-release frame 0.667 vs biased-metad
+         NR4A1 524 / NR4A2 125 — conservative for NR4A3-selectivity). pan-NR4A = denovo_21 / **denovo_106**
+         (5/5 handles) / denovo_51; **anti-target (NR4A1+NR4A3) = denovo_189** (the top-by-chemistry hit — so
+         chemistry promise ≠ selectivity). Census/20: NR4A2+NR4A3 4 · pan 4 · none 5 · NR4A2-only 3 ·
+         NR4A1+NR4A2 2 · NR4A1+NR4A3 1 · NR4A1-only 1.
        - **FUNNEL — MM-GBSA TIER DONE (run 28393997521, g5/OpenCL, 2026-06-29). HEADLINE RESULT.** Re-scored
          the 20 de-novo docked poses (single-snapshot 1-traj MM-GBSA) → per-candidate verdict vs docking.
          (First attempt run 28391025615 hit the old 30-min compute cap on 20×3 legs and — being EndOfJob
@@ -322,8 +327,19 @@ the family metad (in flight) is the fix.
            figures): the
            ONLY candidate selective at BOTH tiers (docking margin +1.0, **MM-GBSA margin +10.71 kcal/mol**),
            the most robust call. denovo_94 (+0.15 dock, +5.02 mm) second. (MM-GBSA magnitudes are inflated by
-           the single-snapshot/no-entropy approximation — trust verdict/direction, not kcal/mol.) denovo_189
-           (top-by-chemistry / docking anti-target) did NOT come back selective — consistent.
+           the single-snapshot/no-entropy approximation — trust verdict/direction, not kcal/mol; and that
+           direction is itself a single-snapshot, unreplicated point estimate — no ensemble/replicate error.)
+           denovo_189 (top-by-chemistry / docking anti-target) did NOT come back selective — consistent.
+         - **🛑 CHEMISTRY RED-TEAM on `denovo_15` (2026-06-29, RDKit on the SMILES) — it is a chemotype/pose
+           hypothesis, NOT a developable molecule.** The SMILES carries DiffSBDD-typical liabilities: a
+           **carbamic acid** (`NC(=O)O`, the polar handle — hydrolytically unstable → amine + CO₂), a
+           **1,3-cyclopentadiene** (reactive diene), an **imine**, an **exocyclic alkene**, and **no aromatic
+           ring** (C19H24N2O3, MW 328); **SAscore 5.08 is ABOVE the campaign's own ≤4.5 synthesizability cut**
+           (QED 0.774 does not screen stability/reactivity). The durable result is the *funnel + selectivity
+           direction* (de-novo matter survives MM-GBSA without reversing; repurposed matter reversed), not this
+           molecule. **Next de-novo steps:** add a stability/reactivity filter to `denovo_funnel.score_molecule`,
+           re-check denovo_94/denovo_57 (the other two confirmed_selective) for cleaner chemistry, and
+           re-generate; only then consider a single defensible candidate for FEP/ternary.
        - **NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead
          candidate. Options: (a) selectivity FEP on denovo_15 (the defensible affinity tier; $-hundreds,
          ~1–3 wk serial — gate hardest); (b) ternary-complex modeling (`gpu-ternary-aws.yml`) to turn the

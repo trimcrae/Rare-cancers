@@ -68,7 +68,11 @@
 - (d) **Lead `denovo_15`** 2D structure (`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`;
   QED 0.774, SA 5.08) in the NR4A3-release pocket, the 4 engaged handles labelled; MM-GBSA NR4A3-margin
   +10.7 kcal/mol (direction, not affinity). Asset: `nr4a3-denovo.sdf` (pose) + receptor ✅ (S3, via
-  `report-denovo-aws.yml`). ⚙️ render.
+  `report-denovo-aws.yml`). ⚙️ render. **Caption MUST flag the chemistry liabilities** (carbamic acid,
+  1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SA 5.08 > the ≤4.5 cut) — annotate the
+  unstable/reactive groups on the depiction and label it a **selective chemotype/pose hypothesis to be
+  re-designed**, not a developable warhead. (If `denovo_15`'s chemistry is judged too liability-laden to be
+  the figure's hero, substitute whichever of denovo_94/57 reads cleaner — pending the user's call.)
 - *Message:* a **designed** NR4A3-selective warhead candidate that survives *two* energy tiers with no
   reversal — the de-novo route succeeds where repurposed matter did not (screening-grade prediction; no
   wet lab; FEP/ternary ahead).
