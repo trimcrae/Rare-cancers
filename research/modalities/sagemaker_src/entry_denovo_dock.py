@@ -67,7 +67,9 @@ def main():
     print(f"[sagemaker] receptor_mode={args.receptor_mode} developable_only={args.developable_only}",
           flush=True)
     os.makedirs(OUT, exist_ok=True)
-    for name, p in (("candidates", env["CANDIDATE_JSON"]), ("NR4A3 receptor", env["NR4A3_RECEPTOR"]),
+    # In metad mode NR4A3_RECEPTOR is unset (NR4A3 comes from the input/nr4a3 metad ensemble), so use .get.
+    nr4a3_rec = env.get("NR4A3_RECEPTOR", os.path.join(IN, "nr4a3"))
+    for name, p in (("candidates", env["CANDIDATE_JSON"]), ("NR4A3 receptor", nr4a3_rec),
                     ("nr4a1", os.path.join(IN, "nr4a1")), ("nr4a2", os.path.join(IN, "nr4a2"))):
         print(f"  {name}: {'present' if os.path.exists(p) else 'MISSING'} ({p})", flush=True)
     print(f"[sagemaker] running de-novo dock funnel (top {args.top_n}, ref {args.git_ref})", flush=True)
