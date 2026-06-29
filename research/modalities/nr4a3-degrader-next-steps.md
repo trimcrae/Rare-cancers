@@ -317,7 +317,9 @@ the family metad (in flight) is the fix.
          - **confirmed_selective = `denovo_15`, `denovo_94`, `denovo_57`.** Unlike the repurposed-compound
            MM-GBSA (where the headline cytosporone B **reversed**), **NO de-novo candidate reversed** — the
            de-novo route produced selectivity that survives a physics-based energy model.
-         - **LEAD = `denovo_15`** (`Clc1ccc(NC2CC2)cc1`-class? — confirm SMILES from nr4a3-denovo.json): the
+         - **LEAD = `denovo_15`** (SMILES `C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`;
+           QED 0.774, SAscore 5.08, contacts 4/5 handles — resolved from nr4a3-denovo.json into paper §2.5 +
+           figures): the
            ONLY candidate selective at BOTH tiers (docking margin +1.0, **MM-GBSA margin +10.71 kcal/mol**),
            the most robust call. denovo_94 (+0.15 dock, +5.02 mm) second. (MM-GBSA magnitudes are inflated by
            the single-snapshot/no-entropy approximation — trust verdict/direction, not kcal/mol.) denovo_189

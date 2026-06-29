@@ -214,8 +214,8 @@ handles (§2.3). A first screen returns NR4A3-favoured chemotypes (e.g. an NR4A3
 the Nur77 cryptic pocket) — the paralogue pockets are likely cryptic too. We therefore ran the **same
 metadynamics on NR4A1 and NR4A2** (one pipeline; paralogue CV/LBD mapped to NR4A3 by BLOSUM62 alignment)
 to obtain **state-matched opened-pocket ensembles** for all three, and docked one library into each
-(`nr4a3_matrix.py`; state-matched opened conformers NR4A3 / NR4A1 frame 524 (druggability 0.981) / NR4A2
-frame 125 (0.938)). Each candidate carries a **selectivity fingerprint** across the family, partitioning
+(`nr4a3_matrix.py`; state-matched opened conformers NR4A3 frame 300 (druggability 0.931) / NR4A1 frame 524
+(0.981) / NR4A2 frame 125 (0.938)). Each candidate carries a **selectivity fingerprint** across the family, partitioning
 the library into NR4A3-selective (EMC/AciCC), pan-NR4A (ex-vivo immuno), and the AML-associated NR4A1+NR4A3
 **anti-target** cells (§3). The **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 while
 sparing NR4A2 — nothing to design away from in this library), and the NR4A3-leaning leads are repurposed NR4A
@@ -251,9 +251,10 @@ band) — the thermally-real induced-fit conformation from §2.2, not the biased
 druggable sub-ensemble since the pocket is dynamic. (2) **Generation.** DiffSBDD (pocket-conditioned
 diffusion, pretrained CrossDocked weights; `nr4a3_denovo.py`) generated molecules into that pocket,
 conditioned on the lining residues incl. the engageable divergent handles; a lead-size constraint
-(`--num_nodes_lig`) plus a molecular-weight floor in scoring removed an initial fragment bias. The pilot was
-clean: of ~200 generations, **191/195 valid, 191 unique, 96 % PAINS-free, 92 % contacting ≥4 of the 5
-engageable handles** in the generated pose. (3) **Funnel.** We docked the top-20 generations into the
+(`--num_nodes_lig`) plus a molecular-weight floor in scoring removed a fragment bias seen in an
+unconstrained pilot (whose top hits were trivially small benzoic/toluic-acid-class fragments). The
+size-constrained production generation was clean: of 195 generations, **191 valid and unique, 96 %
+PAINS-free, 92 % contacting ≥4 of the 5 engageable handles** in the generated pose. (3) **Funnel.** We docked the top-20 generations into the
 state-matched NR4A3-release / NR4A1 / NR4A2 pockets for a selectivity fingerprint (`denovo_15` the
 docking-level NR4A3-selective lead **by margin** — NR4A3 favoured over both paralogues by ≥1 kcal/mol),
 then **MM-GBSA-rescored all 20**. The result is qualitatively different
@@ -322,10 +323,13 @@ MM-GBSA endpoint rescoring of the matrix's docked poses (OpenMM + OpenFF/GAFF-2.
 AM1-BCC charges; `nr4a3_mmgbsa.py`, OpenCL on the A10G), emitting a per-candidate verdict
 (confirmed_selective / reversed / weakened / rescued) vs the docking margins; magnitudes are inflated
 (no entropy/ensemble average) and read as direction, not affinity; selectivity FEP on the lead is the next
-(unrun) tier. **De-novo design:** DiffSBDD pocket-conditioned diffusion (pretrained CrossDocked weights;
-`nr4a3_denovo.py` + `entry_denovo.py`) conditioned on the druggable release-frame pocket / divergent
-handles, with a lead-size constraint and an RDKit cheminformatics + pose-handle-contact triage
-(`denovo_funnel.py`); generated candidates are funneled through the same matrix dock + MM-GBSA pipeline
+(unrun) tier. **De-novo design:** a selectivity blueprint (`denovo_blueprint.py` → `nr4a3-denovo-blueprint.json`)
+classifies the Pocket-5 lining residues into the five engageable selective handles (four discriminating
+both paralogues — L406/T410/I484/L534 — and the NR4A1-only lever I531) vs the conserved core
+(P411/R481/R485), weighting the both-paralogue handles in the selective campaign; DiffSBDD pocket-conditioned
+diffusion (pretrained CrossDocked weights; `nr4a3_denovo.py` + `entry_denovo.py`) conditioned on the
+druggable release-frame pocket / divergent handles, with a lead-size constraint and an RDKit cheminformatics
++ pose-handle-contact triage (`denovo_funnel.py`); generated candidates are funneled through the same matrix dock + MM-GBSA pipeline
 (`nr4a3_matrix.py` candidate mode). Docking scores are used only as triage priors. All
 parsing/mapping/classification/scoring logic is in pure, unit-tested modules (TESTING.md).
 
