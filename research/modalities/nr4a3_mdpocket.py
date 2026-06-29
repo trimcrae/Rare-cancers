@@ -152,8 +152,10 @@ def main():
     dts = summary["druggability_timeseries"]
     if dts.get("ran"):
         print(f"  DRUGGABILITY over MD: max={dts.get('max_druggability')} "
-              f"min={dts.get('min_druggability')} crosses_0.5={dts.get('crosses_druggable_0.5')} "
-              f"(static 0.495)", flush=True)
+              f"mean={dts.get('mean_druggability')} min={dts.get('min_druggability')} "
+              f"frac>=0.5={dts.get('frac_frames_druggable_0.5')} "
+              f"frac>=0.53={dts.get('frac_frames_druggable_0.53')} "
+              f"crosses_0.5={dts.get('crosses_druggable_0.5')} (static 0.495)", flush=True)
     if summary.get("fes"):
         f = summary["fes"]
         print(f"  GATE3 FES: closed Rg={f.get('rg_closed_min')} -> open Rg={f.get('rg_open_min')}; "
@@ -320,6 +322,11 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
     out = {"ran": True, "n_frames_sampled": len(sample), "series": series,
            "max_druggability": max(drugs) if drugs else None,
            "min_druggability": min(drugs) if drugs else None,
+           "mean_druggability": round(float(np.mean(drugs)), 3) if drugs else None,
+           # The HONEST headline metric (red-team: report the distribution, not the max): what fraction of
+           # sampled frames clear the druggable >=0.5 bar, and the drug-bound band (>=0.53).
+           "frac_frames_druggable_0.5": round(float(np.mean([d >= 0.5 for d in drugs])), 3) if drugs else None,
+           "frac_frames_druggable_0.53": round(float(np.mean([d >= 0.53 for d in drugs])), 3) if drugs else None,
            "crosses_druggable_0.5": bool(any(d >= 0.5 for d in drugs)) if drugs else None,
            "interpretation": ("FEASIBILITY: the orthosteric pocket is borderline in the static model "
                               "(0.495, just under 0.5). Does breathing push it over the druggable "
