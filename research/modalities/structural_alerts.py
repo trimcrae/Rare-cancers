@@ -23,6 +23,10 @@ LIABILITY_SMARTS = {
     "peroxide":            ("[OX2][OX2]", "O-O bond: unstable / potentially explosive"),
     "carbamic_acid":       ("[NX3][CX3](=O)[OX2H1,OX1-]", "decomposes to amine + CO2"),
     "cyclopentadiene":     ("[CR1]1=[CR1][CR1]=[CR1][CR1]1", "reactive 1,3-diene (Diels-Alder)"),
+    "cyclohexadiene":      ("[CR1]1=[CR1][CR1]=[CR1][CR1][CR1]1", "non-aromatic 1,3-cyclohexadiene, oxidisable/reactive"),
+    "michael_acceptor":    ("[CX3;!a]=[CX3;!a][CX3,CX2]=[O,S,N;!a]", "Michael acceptor (reactive electrophile; off-target covalency)"),
+    "vinyl_nitrile_sulfone": ("[CX3;!a]=[CX3;!a][$([CX2]#[NX1]),$([SX4](=O)(=O))]", "activated vinyl (Michael acceptor)"),
+    "NO_single_bond":      ("[#7;!a]-[#8;!a]", "N-O single bond (hydroxylamine/isoxazolidine/oxime ether), weak/labile"),
     "allene":              ("[CX3]=[CX2]=[CX3]", "strained/reactive cumulated diene"),
     "ketene":              ("[CX3]=[CX2]=[OX1]", "highly reactive ketene"),
     "isocyanate":          ("[NX2]=[CX2]=[OX1]", "reactive isocyanate"),
@@ -66,18 +70,24 @@ def liabilities_from_smiles(smiles):
     return find_liabilities(m, Chem)
 
 
-def developable_verdict(liabilities, aromatic_rings, sascore, max_sa=MAX_SASCORE):
+def developable_verdict(liabilities, aromatic_rings, sascore, max_sa=MAX_SASCORE, brenk_alerts=0):
     """PURE pass/fail gate for a generated molecule (no RDKit). A molecule is developable only if it has
-    NO structural-alert liability, at least one aromatic ring, and SAscore <= max_sa.
+    NO curated structural-alert liability, NO BRENK alert, at least one aromatic ring, and SAscore <= max_sa.
+    This is the "BRENK + curated reactive/unstable SMARTS + real synthesizability cutoff" medchem-realism
+    gate (deliberately strict: favours false negatives — there are hundreds of generations to choose from).
 
-    liabilities: list of liability names from find_liabilities (or []).
+    liabilities: list of curated-liability names from find_liabilities (or []).
     aromatic_rings: int (profile['aromatic_rings']); None -> treated as 0 (fail the aromatic rule).
     sascore: float (profile['SAscore']); None -> treated as too-hard (fail).
+    brenk_alerts: int (profile['BRENK_alert_count']); >0 -> fail (catches Michael acceptors, N-O, etc. the
+                  curated set may miss). Default 0 so callers without BRENK data are unaffected.
     Returns {"developable": bool, "reasons": [..]} where reasons are the failing criteria (empty if clean).
     """
     reasons = []
     if liabilities:
         reasons.extend(f"alert:{n}" for n in liabilities)
+    if brenk_alerts:
+        reasons.append(f"BRENK:{brenk_alerts}")
     if not aromatic_rings:                          # 0, None -> no aromatic ring
         reasons.append("no_aromatic_ring")
     if sascore is None or sascore > max_sa:

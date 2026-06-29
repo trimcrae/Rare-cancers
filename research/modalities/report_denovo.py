@@ -60,11 +60,13 @@ def main():
         _rdkit_ok = False
 
     def _dev(c):
-        """Return (developable: bool|None, liabilities: list, reasons: list) for a candidate row."""
+        """Return (developable: bool|None, liabilities: list, reasons: list) for a candidate row. Applies
+        the full BRENK + curated-SMARTS + aromatic + SA<=4.5 medchem-realism gate."""
         if not _rdkit_ok or not c.get("smiles"):
             return None, [], []
         liab = _sa.liabilities_from_smiles(c["smiles"])
-        v = _sa.developable_verdict(liab, c.get("aromatic_rings"), c.get("SAscore"))
+        v = _sa.developable_verdict(liab, c.get("aromatic_rings"), c.get("SAscore"),
+                                    brenk_alerts=c.get("BRENK_alert_count") or 0)
         return v["developable"], liab, v["reasons"]
     # the leads list key differs between the saved JSON and the stdout summary — accept either
     leads_sel = (mmg.get("leads_confirmed_selective") or mmg.get("confirmed_selective") or [])
@@ -101,8 +103,9 @@ def main():
             dev, liab, _why = _dev(c)
             if dev:
                 clean.append((c, cell.get(c.get("name")), verdict.get(c.get("name"))))
-        print(f"\n=== DEVELOPABLE candidates ({len(clean)} of {len(rows)} clean: no liability + aromatic + "
-              f"SA<=4.5) ===")
+        clean_hi = [t for t in clean if (t[0].get("handle_contacts") or 0) >= 4]
+        print(f"\n=== DEVELOPABLE candidates ({len(clean)} of {len(rows)} clean: BRENK-free + no curated "
+              f"liability + aromatic + SA<=4.5; of those {len(clean_hi)} also contact >=4 handles) ===")
         # NR4A3-favourable-cell developables first (already scored), then the rest (to advance to docking)
         scored = [t for t in clean if t[1]]
         unscored = [t for t in clean if not t[1]]

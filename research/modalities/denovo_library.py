@@ -26,3 +26,33 @@ def top_candidates(denovo, top_n=20):
         if len(out) >= top_n:
             break
     return out
+
+
+def top_developable_candidates(denovo, liability_fn, top_n=20):
+    """Like top_candidates, but FIRST filters to DEVELOPABLE candidates (no structural-alert liability +
+    aromatic ring + SAscore<=4.5) before ranking by denovo_promise. This is the red-team Tier-1 #1 fix: the
+    original funnel docked artifacts (denovo_15 carbamic acid, denovo_94 peroxide); this advances only the
+    clean candidates to dock+MM-GBSA.
+
+    liability_fn(smiles) -> list[str] of liability names (injected so this stays testable; the driver passes
+    structural_alerts.liabilities_from_smiles, RDKit-backed). aromatic_rings + SAscore are read from each
+    candidate's stored profile. Returns up to top_n (label, id, smiles), deduplicated by SMILES."""
+    import structural_alerts as sa
+    cands = [c for c in denovo.get("candidates", [])
+             if c.get("denovo_promise") is not None and c.get("smiles") and "error" not in c]
+    cands.sort(key=lambda c: (c["denovo_promise"], c.get("name", "")), reverse=True)
+    out, seen = [], set()
+    for c in cands:
+        smi = c["smiles"]
+        if smi in seen:
+            continue
+        verdict = sa.developable_verdict(liability_fn(smi), c.get("aromatic_rings"), c.get("SAscore"),
+                                         brenk_alerts=c.get("BRENK_alert_count") or 0)
+        if not verdict["developable"]:
+            continue
+        seen.add(smi)
+        name = c.get("name") or f"cand_{len(out)}"
+        out.append((name, name, smi))
+        if len(out) >= top_n:
+            break
+    return out
