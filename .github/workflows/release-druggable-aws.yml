@@ -1,0 +1,73 @@
+name: NR4A3 druggable-release receptor re-anchor (AWS SageMaker)
+
+# STEP 0 of the de-novo program: re-anchor the docking/MM-GBSA receptor from the BIASED metad
+# max-druggability frame to a DRUGGABLE UNBIASED RELEASE frame (Rg ~0.737, fpocket >= D*), keeping a small
+# breathing sub-ensemble (primary + alternates). Reuses the per-frame druggability already in
+# s3://<bucket>/nr4a3-release-pocket (mounts nr4a3-release for the DCDs and nr4a3-metad for the topology),
+# runs nr4a3_release_druggable.py as a managed SageMaker Processing job, and writes the receptor PDBs +
+# manifest to s3://<bucket>/nr4a3-release-druggable. CPU work (defaults to ml.c5.2xlarge — no GPU, separate
+# quota). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Run AFTER the unbiased release run + its mdpocket analysis have populated nr4a3-release / nr4a3-release-pocket.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (CPU is plenty; c5 is a separate quota from the g5)"
+        default: "ml.c5.2xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + trajectories live"
+        default: "us-east-2"
+        required: false
+      target_rg:
+        description: "CV Rg (nm) of the druggable state to anchor the primary receptor on"
+        default: "0.737"
+        required: false
+      n_alt:
+        description: "alternate receptor frames to keep (the breathing sub-ensemble)"
+        default: "3"
+        required: false
+      d_star:
+        description: "druggable threshold (calibrated drug-bound band lower edge)"
+        default: "0.53"
+        required: false
+      force_scan:
+        description: "set to 1 to ignore the reusable release-pocket summary and re-scan with fpocket"
+        default: ""
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker receptor re-anchor job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          TARGET_RG: ${{ inputs.target_rg }}
+          N_ALT: ${{ inputs.n_alt }}
+          D_STAR: ${{ inputs.d_star }}
+          FORCE_SCAN: ${{ inputs.force_scan }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_release_druggable_sagemaker.py
