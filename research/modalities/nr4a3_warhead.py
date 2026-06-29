@@ -244,8 +244,11 @@ def handle_contacts(receptor_pdb, pose_sdf, handle_resnums, cutoff=4.0):
 
 def generate_denovo(receptor_pdb, center):
     """OPTIONAL de-novo SBDD layer (DiffSBDD / Pocket2Mol / TargetDiff) conditioned on the opened pocket.
-    Primed but skipped unless the model + GPU are present (mirrors the repo's 'pipeline primed' pattern);
-    returns generated (label, id, smiles) or []. TODO: wire a concrete model when one is provisioned."""
+    REALIZED as a standalone GPU pipeline — see nr4a3_denovo.py + sagemaker_src/entry_denovo.py +
+    gpu-denovo-aws.yml (DiffSBDD pocket-conditioned generation against the Step-0 druggable-release
+    receptor, with cheminformatics + pose handle-contact triage). This inline hook stays a no-op so the
+    CPU warhead screen does not require a GPU; run the de-novo pipeline separately, then feed its SDF here.
+    Returns generated (label, id, smiles) or []."""
     if os.environ.get("DENOVO_MODEL"):
         print("  [denovo] DENOVO_MODEL set but no concrete model wired yet — skipping", file=sys.stderr)
     return []

@@ -1,0 +1,77 @@
+name: NR4A3 de-novo warhead generation — DiffSBDD (AWS SageMaker)
+
+# STEP 2 of the de-novo program: DiffSBDD pocket-conditioned generation of NR4A3-selective warhead
+# candidates, conditioned on the Step-0 DRUGGABLE UNBIASED RELEASE receptor (s3://<bucket>/nr4a3-release-druggable).
+# Runs nr4a3_denovo.py as a managed SageMaker Processing job on ml.g5.xlarge (DiffSBDD diffusion on the
+# A10G), writing generations + cheminformatics + pose handle-contact to s3://<bucket>/nr4a3-denovo.
+# PILOT default n_samples=200 (~$2-5). Watch live with tail-cloudwatch-aws.yml (job_prefix=nr4a3-denovo).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Prereq: the Step-0 receptor re-anchor (release-druggable-aws.yml) has populated nr4a3-release-druggable.
+
+on:
+  workflow_dispatch:
+    inputs:
+      n_samples:
+        description: "molecules to generate (200 = pilot; scale up after the eyeball)"
+        default: "200"
+        required: false
+      campaign:
+        description: "selective (divergent-handle pocket) | pan (conserved core) — label for the output"
+        default: "selective"
+        required: false
+      instance:
+        description: "SageMaker instance type (g5.xlarge = A10G)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack lives"
+        default: "us-east-2"
+        required: false
+      input_prefix:
+        description: "S3 prefix with the Step-0 druggable-release receptor + manifest"
+        default: "nr4a3-release-druggable"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the de-novo generations"
+        default: "nr4a3-denovo"
+        required: false
+      ckpt_url:
+        description: "override the DiffSBDD checkpoint URL (default: Zenodo crossdocked_fullatom_cond)"
+        default: ""
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker de-novo generation job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          N_SAMPLES: ${{ inputs.n_samples }}
+          CAMPAIGN: ${{ inputs.campaign }}
+          CKPT_URL: ${{ inputs.ckpt_url }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_denovo_sagemaker.py
