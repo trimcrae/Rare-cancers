@@ -42,6 +42,15 @@ way (free CPU), so both are run.
    in the schema the MM-GBSA job already reads). A shortlist molecule returning `confirmed_selective` is
    the designed candidate. Read via `report-mmgbsa-aws.yml`.
 
+## Follow-on (do before any GPU spend)
+- [ ] **Free-CPU dry-run of the screen against a stand-in pool.** Before the first GPU generation run,
+      dispatch `denovo-screen.yml` pointed at a *stand-in* pool — feed the existing ChEMBL **matrix**
+      library through the screen as if it were "generated" (e.g. write the matrix candidates into a
+      `nr4a3-denovo-pool.json` shape) — to prove the Stage-2 cascade (dock → classify → developability →
+      PROTAC handle) runs end-to-end on a GitHub CPU runner and reproduces the known matrix cells. This is
+      verification step 2 of the plan; it validates the funnel at $0. It needs GitHub runners + S3, so it
+      cannot run from the dev sandbox.
+
 ## What the code is (built + unit-tested now, CPU-only)
 - `denovo_select.py` — **pure** novelty/developability gates + screen-pass verdict + ranking (no deps;
   10+ tests in `tests/test_denovo_select.py`). Reuses `selectivity_fingerprint.classify`.
