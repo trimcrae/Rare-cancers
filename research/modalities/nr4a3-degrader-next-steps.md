@@ -349,6 +349,19 @@ the family metad (in flight) is the fix.
            molecule. **Next de-novo steps:** add a stability/reactivity filter to `denovo_funnel.score_molecule`
            (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals, non-aromatic warheads, SA>4.5)
            and **re-generate**; only then consider a single defensible candidate for FEP/ternary.
+         - **DEVELOPABILITY GATE BUILT + 191 RE-SCREENED (2026-06-29, red-team Tier-1 #1 + external review).**
+           New `structural_alerts.py` (BRENK + curated reactive/unstable SMARTS: peroxide, carbamic acid,
+           hemiketal/aminal, acetals, cyclopenta-/cyclohexadiene, Michael acceptor, N-O bond, thiocarbonyl,
+           ...) + aromatic-ring + SA≤4.5 gate, wired into `denovo_funnel.score_molecule`,
+           `denovo_library.top_developable_candidates`, and `report_denovo.py` (run via `report-denovo-aws.yml`,
+           now installs rdkit). **Re-screen of the 191 generations: only 11 are clean (BRENK was the big
+           filter, 30→11), 9 of those contact ≥4 handles, and NONE of the clean ones is currently
+           NR4A3-selective** — the clean+favourable docking cells are pan/nonselective or the NR4A1+NR4A3
+           anti-target; denovo_57 is the only clean confirmed_selective but lands in dock cell "none". Only 3
+           clean candidates were never docked (denovo_170, denovo_0, denovo_83). **Implication: clean hits are
+           sparse → the real lever is re-generation with the filter in-loop over a larger pool (Tier 2), not
+           docking the existing set.** `gpu-denovo-dock-aws.yml` now takes `developable_only` (default 1) +
+           `receptor_mode` (release|metad, the Tier-1 #3 state-matched re-dock).
        - **NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead
          candidate. Options: (a) selectivity FEP on denovo_15 (the defensible affinity tier; $-hundreds,
          ~1–3 wk serial — gate hardest); (b) ternary-complex modeling (`gpu-ternary-aws.yml`) to turn the

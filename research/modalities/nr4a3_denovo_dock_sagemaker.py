@@ -28,10 +28,19 @@ def main():
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-denovo-matrix")
     git_ref = os.environ.get("GIT_REF", "main")
     top_n = os.environ.get("TOP_N", "20")
+    developable_only = os.environ.get("DEVELOPABLE_ONLY", "1")     # red-team Tier-1 #1: dock only clean gens
+    receptor_mode = os.environ.get("RECEPTOR_MODE", "release")     # release | metad (Tier-1 #3 state-match)
     prefixes = {"denovo": os.environ.get("DENOVO_PREFIX", "nr4a3-denovo"),
                 "receptor": os.environ.get("RECEPTOR_PREFIX", "nr4a3-release-druggable"),
                 "nr4a1": os.environ.get("NR4A1_PREFIX", "nr4a1-metad"),
                 "nr4a2": os.environ.get("NR4A2_PREFIX", "nr4a2-metad")}
+    # State-matched re-dock (Tier-1 #3): NR4A3 in its metad-opened conformer (like the paralogues), not the
+    # unbiased release frame. Mount the nr4a3-metad ensemble at input/nr4a3 so the driver extracts NR4A3's
+    # opened conformer there (it does this whenever NR4A3_RECEPTOR is unset, which entry sets per receptor-mode).
+    mount_tags = ["denovo", "receptor", "nr4a1", "nr4a2"]
+    if receptor_mode == "metad":
+        prefixes["nr4a3"] = os.environ.get("NR4A3_METAD_PREFIX", "nr4a3-metad")
+        mount_tags.append("nr4a3")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
@@ -44,9 +53,10 @@ def main():
     )
     inputs = [ProcessingInput(source=f"s3://{bucket}/{prefixes[t]}",
                               destination=f"/opt/ml/processing/input/{t}", input_name=t)
-              for t in ("denovo", "receptor", "nr4a1", "nr4a2")]
-    print(f"submitting de-novo dock: {instance}, top {top_n}; inputs " +
-          ", ".join(f"{t}=s3://{bucket}/{prefixes[t]}" for t in prefixes) +
+              for t in mount_tags]
+    print(f"submitting de-novo dock: {instance}, top {top_n}, developable_only={developable_only}, "
+          f"receptor_mode={receptor_mode}; inputs " +
+          ", ".join(f"{t}=s3://{bucket}/{prefixes[t]}" for t in mount_tags) +
           f" -> s3://{bucket}/{out_prefix}", flush=True)
     proc.run(
         code="entry_denovo_dock.py",
@@ -54,7 +64,8 @@ def main():
         inputs=inputs,
         outputs=[ProcessingOutput(source="/opt/ml/processing/output",
                                   destination=f"s3://{bucket}/{out_prefix}")],
-        arguments=["--git-ref", git_ref, "--top-n", str(top_n)],
+        arguments=["--git-ref", git_ref, "--top-n", str(top_n),
+                   "--developable-only", developable_only, "--receptor-mode", receptor_mode],
         wait=True, logs=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
