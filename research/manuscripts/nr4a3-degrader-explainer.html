@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What this degrader project is doing — a plain-language slide</title>
+<style>
+  :root{
+    --ink:#1c2230; --muted:#5b657a; --line:#dfe4ee;
+    --blue:#2f6df0; --blueSoft:#eaf1ff;
+    --teal:#0f9d8f; --tealSoft:#e3f7f3;
+    --amber:#e08a00; --amberSoft:#fff3e0;
+    --rose:#e0457b; --roseSoft:#ffe9f1;
+    --violet:#7a52d6; --violetSoft:#f0eaff;
+    --good:#1f9d55;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:#f4f6fb; padding:28px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .slide{
+    width:1180px; margin:0 auto; background:#fff; border-radius:22px;
+    box-shadow:0 18px 50px rgba(28,34,48,.12); overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .hero{
+    padding:34px 44px 26px; background:linear-gradient(135deg,#11203f 0%,#23386b 55%,#2f6df0 130%);
+    color:#fff;
+  }
+  .kicker{font-size:14px; letter-spacing:.14em; text-transform:uppercase; opacity:.8; font-weight:700;}
+  .hero h1{margin:8px 0 10px; font-size:34px; line-height:1.15; font-weight:800;}
+  .hero p{margin:0; font-size:18px; line-height:1.5; opacity:.92; max-width:880px;}
+  .hero .big{color:#9fd0ff; font-weight:700;}
+
+  .grid{padding:30px 44px 14px; display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  .card{
+    border:1px solid var(--line); border-radius:16px; padding:20px 22px; background:#fff;
+    position:relative; display:flex; gap:16px; align-items:flex-start;
+  }
+  .card.full{grid-column:1 / -1;}
+  .num{
+    flex:0 0 auto; width:40px; height:40px; border-radius:11px; display:grid; place-items:center;
+    font-weight:800; font-size:19px; color:#fff;
+  }
+  .ico{flex:0 0 auto; width:66px; height:66px;}
+  .body h3{margin:0 0 6px; font-size:19px; font-weight:800;}
+  .body p{margin:0; font-size:15.5px; line-height:1.5; color:#33405a;}
+  .body .em{font-weight:700; color:var(--ink);}
+  .tag{display:inline-block; font-size:12.5px; font-weight:700; padding:3px 9px; border-radius:999px; margin-bottom:8px;}
+
+  .c1 .num{background:var(--blue);}   .c1 .tag{background:var(--blueSoft); color:var(--blue);}
+  .c2 .num{background:var(--amber);}  .c2 .tag{background:var(--amberSoft); color:var(--amber);}
+  .c3 .num{background:var(--teal);}   .c3 .tag{background:var(--tealSoft); color:var(--teal);}
+  .c4 .num{background:var(--violet);} .c4 .tag{background:var(--violetSoft); color:var(--violet);}
+  .c5 .num{background:var(--rose);}   .c5 .tag{background:var(--roseSoft); color:var(--rose);}
+
+  .footer{
+    margin:6px 44px 34px; padding:18px 22px; border-radius:16px;
+    background:#f3f7ff; border:1px solid #dbe6ff; display:flex; gap:16px; align-items:flex-start;
+  }
+  .footer .ico{width:54px;height:54px;}
+  .footer h3{margin:0 0 5px; font-size:17px; font-weight:800; color:#21407a;}
+  .footer p{margin:0; font-size:14.5px; line-height:1.5; color:#33405a;}
+  .stamp{
+    text-align:center; font-size:12.5px; color:var(--muted); padding:0 44px 30px;
+  }
+  .stamp b{color:#41506b;}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="hero">
+    <div class="kicker">Designing a cancer medicine — on a computer</div>
+    <h1>Disarming the one faulty protein behind a rare cancer</h1>
+    <p>A rare cancer called <span class="big">EMC</span> is driven by a single broken protein, <span class="big">NR4A3</span>.
+       This work is a step-by-step plan — worked out entirely in computer simulations — for a medicine that
+       <span class="big">finds that protein and throws it away</span>, while leaving everything healthy untouched.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="card c1">
+      <div class="num">1</div>
+      <svg class="ico" viewBox="0 0 66 66" fill="none">
+        <rect x="6" y="14" width="54" height="38" rx="7" fill="#eaf1ff" stroke="#2f6df0" stroke-width="2.5"/>
+        <circle cx="24" cy="33" r="6" fill="#2f6df0"/>
+        <rect x="36" y="22" width="16" height="22" rx="4" fill="#2f6df0"/>
+        <path d="M44 18 v-6 M44 12 l-4 4 M44 12 l4 4" stroke="#e0457b" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="44" y="36" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">ON</text>
+      </svg>
+      <div class="body">
+        <span class="tag">THE PROBLEM</span>
+        <h3>One protein is stuck "on"</h3>
+        <p>Cells are run by tiny machines called <span class="em">proteins</span>. In this cancer, one protein
+           (NR4A3) is jammed in the <span class="em">on</span> position, like a light switch taped down — and it
+           keeps telling the cell to grow into a tumour.</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card c2">
+      <div class="num">2</div>
+      <svg class="ico" viewBox="0 0 66 66" fill="none">
+        <circle cx="33" cy="33" r="26" fill="#fff3e0" stroke="#e08a00" stroke-width="2.5"/>
+        <path d="M21 33 a12 12 0 0 1 24 0" fill="none" stroke="#e08a00" stroke-width="2.5"/>
+        <circle cx="33" cy="33" r="3.5" fill="#e08a00"/>
+        <path d="M14 14 L52 52" stroke="#e0457b" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div class="body">
+        <span class="tag">WHY IT'S HARD</span>
+        <h3>There's no keyhole for a drug</h3>
+        <p>Most drugs work like a <span class="em">key in a lock</span> — they plug into a pocket on the protein.
+           NR4A3's pocket is <span class="em">collapsed shut</span>, so there's nowhere to put a key. For decades
+           this made it "undruggable."</p>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card c3">
+      <div class="num">3</div>
+      <svg class="ico" viewBox="0 0 66 66" fill="none">
+        <circle cx="23" cy="26" r="9" fill="#2f6df0"/>
+        <path d="M30 33 l9 9" stroke="#0f9d8f" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M40 40 m-7 0 a7 7 0 1 0 14 0 a7 7 0 1 0 -14 0" fill="#e3f7f3" stroke="#0f9d8f" stroke-width="2.5"/>
+        <path d="M48 30 L58 20 M58 20 h-7 M58 20 v7" stroke="#0f9d8f" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M14 50 h22 l-4 8 h-14 z" fill="#0f9d8f"/>
+        <path d="M18 50 v8 M23 50 v8 M28 50 v8" stroke="#fff" stroke-width="1.6"/>
+      </svg>
+      <div class="body">
+        <span class="tag">THE BIG IDEA</span>
+        <h3>Don't block it — bin it</h3>
+        <p>So we don't try to jam the machine. Instead we design a molecule that <span class="em">grabs the bad
+           protein and hands it to the cell's own garbage disposal</span>. To do that you only need a
+           <span class="em">handhold</span> — not a keyhole. This kind of drug is called a <span class="em">degrader</span>.</p>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card c4">
+      <div class="num">4</div>
+      <svg class="ico" viewBox="0 0 66 66" fill="none">
+        <rect x="10" y="12" width="46" height="42" rx="6" fill="#f0eaff" stroke="#7a52d6" stroke-width="2.5"/>
+        <path d="M33 12 v42" stroke="#7a52d6" stroke-width="2"/>
+        <path d="M33 14 q14 6 14 19 q0 13 -14 19 z" fill="#7a52d6" opacity="0.55"/>
+        <circle cx="29" cy="33" r="2.6" fill="#7a52d6"/>
+        <path d="M52 20 q5 13 0 26" stroke="#0f9d8f" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="2 4"/>
+      </svg>
+      <div class="body">
+        <span class="tag">THE BREAKTHROUGH</span>
+        <h3>We caught the door fluttering open</h3>
+        <p>Using physics simulations on powerful computers, we found the "shut" pocket isn't really frozen — it
+           <span class="em">breathes open for a moment about 1 time in 4</span>. That brief opening is exactly the
+           handhold our degrader needs.</p>
+      </div>
+    </div>
+
+    <!-- 5 full width -->
+    <div class="card c5 full">
+      <div class="num">5</div>
+      <svg class="ico" viewBox="0 0 66 66" fill="none">
+        <circle cx="17" cy="33" r="11" fill="#ffe9f1" stroke="#e0457b" stroke-width="2.5"/>
+        <circle cx="38" cy="33" r="11" fill="#eef0f4" stroke="#9aa3b5" stroke-width="2.5"/>
+        <circle cx="59" cy="33" r="6.5" fill="#eef0f4" stroke="#9aa3b5" stroke-width="2.5"/>
+        <circle cx="17" cy="24" r="2.4" fill="#e0457b"/>
+        <circle cx="11" cy="38" r="2.4" fill="#e0457b"/>
+        <circle cx="23" cy="38" r="2.4" fill="#e0457b"/>
+        <path d="M17 47 l-3 6 h6 z" fill="#e0457b"/>
+      </svg>
+      <div class="body">
+        <span class="tag">MAKING IT SAFE</span>
+        <h3>Hit the bad one — spare its near-identical twins</h3>
+        <p>NR4A3 has two <span class="em">almost-identical sibling proteins</span> that the body genuinely needs
+           (harming them can cause leukaemia or Parkinson's-like damage). The danger is a drug that can't tell them
+           apart. We mapped a handful of <span class="em">tiny bumps unique to the bad protein</span>, so the
+           degrader can grab <span class="em">only NR4A3</span> and leave the healthy twins alone. We even used AI to
+           invent brand-new candidate molecules built to fit those bumps.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <svg class="ico" viewBox="0 0 54 54" fill="none">
+      <rect x="7" y="9" width="40" height="30" rx="4" fill="#fff" stroke="#21407a" stroke-width="2.4"/>
+      <path d="M13 16 h16 M13 22 h22 M13 28 h12" stroke="#2f6df0" stroke-width="2.2" stroke-linecap="round"/>
+      <rect x="20" y="43" width="14" height="3.5" rx="1.5" fill="#21407a"/>
+      <rect x="16" y="46.5" width="22" height="3.5" rx="1.5" fill="#21407a"/>
+    </svg>
+    <div>
+      <h3>Where this stands — the honest version</h3>
+      <p>Everything here was done <b>on computers</b> — no medicine has been made or tested in a lab yet. Think of it
+         as a careful, evidence-backed <b>blueprint and feasibility case</b>: it shows the idea is sound and worth the
+         next step. The goal of the paper is to <b>convince the wider research world this is worth taking into the lab.</b></p>
+    </div>
+  </div>
+
+  <div class="stamp">
+    <b>EMC</b> = extraskeletal myxoid chondrosarcoma, a very rare cancer &nbsp;·&nbsp;
+    <b>NR4A3</b> = the protein that drives it &nbsp;·&nbsp;
+    <b>Degrader</b> = a drug that throws a protein away instead of blocking it
+  </div>
+
+</div>
+</body>
+</html>
