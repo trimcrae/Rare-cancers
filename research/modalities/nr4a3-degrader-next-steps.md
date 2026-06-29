@@ -71,6 +71,34 @@ selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
   recommended DEFERRED** behind (i) the unbiased release run confirming the pocket is metastable and (ii)
   MM-GBSA + de-novo *bona fide* selective candidates worth a multi-day alchemical run.
 
+## Red-team Tier-1/2/3 in-silico execution — state (2026-06-29, async; resume here)
+Strengthening the de-novo case (red-team). All code merged to `main`. Several SageMaker jobs are async; the
+dependent steps below must be dispatched as each upstream job lands (verify via S3 / the run conclusion).
+- **Tier 1 #1 (developability gate) — DONE.** Gate built (`structural_alerts.py`: BRENK + curated SMARTS +
+  aromatic + SA≤4.5), wired into funnel/selector/report. **Result: 11/191 generations clean, 9 with ≥4
+  handles, NONE currently NR4A3-selective** (denovo_57 clean+confirmed_selective but dock cell "none").
+  Developable-only **release** dock **succeeded** → `s3://<bucket>/nr4a3-denovo-matrix-dev`. **MM-GBSA
+  dispatched** → `nr4a3-denovo-mmgbsa-dev` (read with `report-mmgbsa-aws.yml input=nr4a3-denovo-mmgbsa-dev`).
+- **Tier 1 #2 (decoy/specificity control) — DONE (code).** `decoy_library.py` (38 non-NR4A drugs). Decoy dock
+  **running** → `nr4a3-decoy-matrix` (`gpu-denovo-dock-aws.yml decoy=1 developable_only=0`). **NEXT: MM-GBSA on
+  `nr4a3-decoy-matrix` → `nr4a3-decoy-mmgbsa`**, then compare the NR4A3-favourable / confirmed_selective RATE
+  vs the de-novo rate (enrichment = specificity evidence).
+- **Tier 1 #3 (state-matched re-dock) — DONE (code).** `gpu-denovo-dock-aws.yml receptor_mode=metad` (NR4A3 in
+  its metad-opened conformer, matching the paralogue metad frames). First run failed on a `NR4A3_RECEPTOR`
+  KeyError in the pre-flight print (metad pops it) — **fixed** (entry uses `env.get`), **re-dispatched** →
+  `nr4a3-denovo-matrix-statematch`. **NEXT: MM-GBSA → `nr4a3-denovo-mmgbsa-statematch`**; the de-novo
+  selectivity direction should hold under state-matching if it is real.
+- **Tier 2 #4 (re-generate with the filter in-loop) — RUNNING.** `gpu-denovo-aws.yml n_samples=500
+  output_prefix=nr4a3-denovo-v2` (the funnel now demotes non-developable, so clean candidates rank top).
+  **NEXT once it lands: dock `gpu-denovo-dock-aws.yml denovo_prefix=nr4a3-denovo-v2 developable_only=1
+  output_prefix=nr4a3-denovo-matrix-v2` → MM-GBSA → `nr4a3-denovo-mmgbsa-v2`**; goal = a clean AND
+  NR4A3-selective hit (the existing pool had none). Re-screen with `report-denovo-aws.yml denovo_prefix=nr4a3-denovo-v2`.
+- **Tier 3 #6/#7 — READY FOLLOW-UPS (gated on a clean selective lead).** #7 ensemble docking over the druggable
+  release sub-ensemble (primary+alt1+alt3 from `nr4a3-release-druggable`) instead of one frame — a receptor-set
+  change in `nr4a3_matrix.py::_use_release_receptor`. #6 multi-snapshot / MD-relaxed MM-GBSA + per-residue
+  decomposition + error bars (the documented MM-GBSA follow-up) — apply to whichever candidate survives Tier 2.
+  Both are best run on a real lead; neither is built yet.
+
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
 |--------|-------|--------|
