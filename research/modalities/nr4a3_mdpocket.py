@@ -30,13 +30,18 @@ NS_PER_FRAME = 0.05                            # DCDReporter wrote every 25000 s
 N_FPOCKET_FRAMES = 25                         # frames sampled for the per-frame fpocket druggability
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
+# Topology source. Defaults to INPUT_DIR (trajectory + solvated PDB co-located, e.g. nr4a3-md / nr4a3-metad),
+# but STRUCTURE_DIR can point elsewhere so we can analyse a trajectory whose solvated PDB lives in a
+# DIFFERENT S3 prefix — e.g. the unbiased release run (release_rep*.dcd in nr4a3-release, but the
+# nr4a3-lbd-solvated.pdb topology in nr4a3-metad; the release MD was built from that same solvated PDB).
+STRUCTURE_DIR = os.environ.get("STRUCTURE_DIR", IN)
 
 
 def main():
     import numpy as np
     import mdtraj as md
 
-    top = os.path.join(IN, "nr4a3-lbd-solvated.pdb")
+    top = os.path.join(STRUCTURE_DIR, "nr4a3-lbd-solvated.pdb")
     # DCD_NAME lets the same analysis run on either trajectory: the plain MD (nr4a3-lbd-md.dcd,
     # default) or the metadynamics run (nr4a3-lbd-metad.dcd). Same 50 ps/frame stride either way.
     dcd = os.path.join(IN, os.environ.get("DCD_NAME", "nr4a3-lbd-md.dcd"))

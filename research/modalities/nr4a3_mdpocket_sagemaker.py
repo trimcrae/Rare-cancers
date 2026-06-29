@@ -31,6 +31,9 @@ def main():
     in_prefix = os.environ.get("INPUT_PREFIX", "nr4a3-md")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-mdpocket")
     dcd_name = os.environ.get("DCD_NAME", "nr4a3-lbd-md.dcd")
+    # Optional separate source for nr4a3-lbd-solvated.pdb when the trajectory prefix lacks it (e.g. analyse
+    # release_rep0.dcd from nr4a3-release with the topology from nr4a3-metad). Empty = co-located in in_prefix.
+    struct_prefix = os.environ.get("STRUCTURE_PREFIX", "")
     git_ref = os.environ.get("GIT_REF", "main")
 
     sess = sagemaker.Session()
@@ -48,16 +51,23 @@ def main():
         base_job_name="nr4a3-mdpocket",
         sagemaker_session=sess,
     )
-    print(f"submitting analysis: {instance}, trajectory={dcd_name}, "
-          f"s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}", flush=True)
+    inputs = [ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
+                              destination="/opt/ml/processing/input")]
+    extra_args = []
+    if struct_prefix:
+        inputs.append(ProcessingInput(source=f"s3://{bucket}/{struct_prefix}",
+                                      destination="/opt/ml/processing/structure"))
+        extra_args = ["--structure-dir", "/opt/ml/processing/structure"]
+    print(f"submitting analysis: {instance}, trajectory={dcd_name} from {in_prefix}"
+          f"{', structure from ' + struct_prefix if struct_prefix else ''} "
+          f"-> s3://{bucket}/{out_prefix}", flush=True)
     proc.run(
         code="entry_mdpocket.py",
         source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=[ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                                destination="/opt/ml/processing/input")],
+        inputs=inputs,
         outputs=[ProcessingOutput(source="/opt/ml/processing/output",
                                   destination=f"s3://{bucket}/{out_prefix}")],
-        arguments=["--dcd-name", dcd_name, "--git-ref", git_ref],
+        arguments=["--dcd-name", dcd_name, "--git-ref", git_ref] + extra_args,
         wait=True,
         logs=True,
     )

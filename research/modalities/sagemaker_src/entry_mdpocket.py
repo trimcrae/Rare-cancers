@@ -18,7 +18,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dcd-name", default="nr4a3-lbd-md.dcd",
                     help="trajectory filename in the mounted input dir (use nr4a3-lbd-metad.dcd "
-                         "for the metadynamics run)")
+                         "for the metadynamics run, or release_rep0.dcd for the release run)")
+    ap.add_argument("--structure-dir", default="",
+                    help="dir holding nr4a3-lbd-solvated.pdb when it is NOT in the trajectory input dir "
+                         "(a separately-mounted structure prefix); empty = same as INPUT_DIR")
     ap.add_argument("--git-ref", default="main", help="repo ref to run; default main")
     args = ap.parse_args()
 
@@ -37,6 +40,8 @@ def main():
     env["INPUT_DIR"] = "/opt/ml/processing/input"
     env["OUTPUT_DIR"] = OUT
     env["DCD_NAME"] = args.dcd_name
+    if args.structure_dir:
+        env["STRUCTURE_DIR"] = args.structure_dir   # solvated PDB mounted from a separate prefix
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] analyzing trajectory {args.dcd_name} (ref {args.git_ref})", flush=True)
     print("[sagemaker] running pocket analysis", flush=True)

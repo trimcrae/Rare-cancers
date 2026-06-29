@@ -18,12 +18,16 @@ on:
         default: "us-east-2"
         required: false
       input_prefix:
-        description: "S3 prefix holding the trajectory to analyze (nr4a3-md = plain MD; nr4a3-metad = metadynamics)"
+        description: "S3 prefix holding the trajectory to analyze (nr4a3-md = plain MD; nr4a3-metad = metadynamics; nr4a3-release = release MD)"
         default: "nr4a3-md"
         required: false
       dcd_name:
-        description: "trajectory filename (nr4a3-lbd-md.dcd or nr4a3-lbd-metad.dcd)"
+        description: "trajectory filename (nr4a3-lbd-md.dcd, nr4a3-lbd-metad.dcd, or release_rep0.dcd)"
         default: "nr4a3-lbd-md.dcd"
+        required: false
+      structure_prefix:
+        description: "S3 prefix holding nr4a3-lbd-solvated.pdb if NOT in input_prefix (e.g. nr4a3-metad when analyzing a release trajectory); empty = co-located"
+        default: ""
         required: false
       output_prefix:
         description: "S3 prefix for the analysis results"
@@ -55,6 +59,7 @@ jobs:
           INSTANCE: ${{ inputs.instance }}
           INPUT_PREFIX: ${{ inputs.input_prefix }}
           DCD_NAME: ${{ inputs.dcd_name }}
+          STRUCTURE_PREFIX: ${{ inputs.structure_prefix }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
