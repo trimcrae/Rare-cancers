@@ -300,10 +300,21 @@ not screen for stability/reactivity). These are characteristic DiffSBDD artifact
 to *fit and score* in the pocket, not to be stable or makeable. The honest contribution is therefore the
 **funnel and the selectivity *direction* it produces** (de-novo matter that survives MM-GBSA without
 reversing, where repurposed matter reversed), with `denovo_15` as a **selective chemotype/pose hypothesis to
-be re-designed into a stable, synthesizable analogue** — not a warhead ready for synthesis. (denovo_94 and
-denovo_57 are the other two `confirmed_selective` hits and are candidate fallbacks if their chemistry reads
-cleaner; that triage, plus a stability/reactivity filter in `denovo_funnel.score_molecule` and a re-generation,
-are the obvious next de-novo steps.)
+be re-designed into a stable, synthesizable analogue** — not a warhead ready for synthesis.
+
+**The other two `confirmed_selective` hits do not rescue this** (full RDKit triage, 2026-06-29): **`denovo_94`**
+(MM-GBSA margin +5.02, 4 handles) carries a **peroxide (1,2-dioxane)** plus N,S- and O,S-acetals — equally
+non-viable; **`denovo_57`** (`NC[C@@H]1CCN(Cc2ccccc2)C1`, a 3-(aminomethyl)-1-benzylpyrrolidine) is the **one
+chemically clean, readily synthesizable** hit (SAscore 2.09, aromatic, basic amine, no flagged liabilities) —
+but it is the **weakest** selectivity signal (margin +1.07), engages only **2** of the 5 handles, and falls in
+the docking "none" cell. So the three confirmed-selective hits split into *strong-but-artifactual*
+(denovo_15/94) and *clean-but-weak* (denovo_57); **none is simultaneously chemically viable and a strong
+selective binder.** This is the expected behaviour of a pretrained pocket-conditioned diffusion model with no
+stability/synthesizability term in its objective. The load-bearing, honest claim is therefore the **method**
+(the funnel produces de-novo matter whose NR4A3-selectivity survives an endpoint energy model, unlike the
+repurposed library), not a specific developable molecule. **Next de-novo steps:** add a stability/reactivity
+filter to `denovo_funnel.score_molecule` (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals,
+non-aromatic warheads, SA > 4.5) and **re-generate**, aiming for a hit that is clean *and* strongly selective.
 
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).

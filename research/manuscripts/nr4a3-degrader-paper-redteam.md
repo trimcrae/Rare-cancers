@@ -156,9 +156,18 @@ where repurposed matter reversed) — not this specific molecule.
 
 **Fix applied.** Recast `denovo_15` throughout (abstract, §2.5, §5 caveat 6, §6 Gate 4, figures Fig 5d,
 next-steps) as a **selective chemotype/pose hypothesis to be re-designed into a stable, synthesizable
-analogue**, with the specific liabilities + the SA-vs-cut tension named. **Escalated to trimcrae** (decision
-below): whether to keep `denovo_15` as the hero with caveats, re-feature denovo_94/57 if cleaner, or add a
-stability filter + re-generate before publishing the de-novo arc.
+analogue**, with the specific liabilities + the SA-vs-cut tension named.
+
+**Triage of the other two `confirmed_selective` hits (report-denovo run 28405141248 + RDKit, 2026-06-29) —
+neither rescues the headline.** `denovo_94` (mm +5.02, 4 handles) carries a **peroxide (1,2-dioxane)** + N,S-/
+O,S-acetals — equally non-viable. `denovo_57` (`NC[C@@H]1CCN(Cc2ccccc2)C1`) is the **only chemically clean,
+synthesizable** hit (SA 2.09, aromatic, basic amine) but is the **weakest** selectivity (mm +1.07), engages
+only **2** handles, and is in the docking "none" cell. So the three confirmed-selective hits are
+*strong-but-artifactual* (15/94) or *clean-but-weak* (57); **none is both viable and strongly selective.** The
+defensible claim collapses to the **method** (the funnel produces de-novo matter whose selectivity survives an
+endpoint energy model, unlike the repurposed library), not a developable molecule. Recorded in §2.5 + next-steps.
+**Escalated to trimcrae** (decision below): re-frame §2.5 around the method (recommended), and whether to add a
+stability/reactivity filter + re-generate before publishing the de-novo arc.
 
 ### F10 (medium-high) — The de-novo selectivity tier is NOT state-matched, but was labelled "state-matched"
 **Deficiency.** §2.4's whole rigor claim is state-matching (all three paralogues docked in their *metad-opened*

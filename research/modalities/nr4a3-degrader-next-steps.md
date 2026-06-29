@@ -337,9 +337,18 @@ the family metad (in flight) is the fix.
            ring** (C19H24N2O3, MW 328); **SAscore 5.08 is ABOVE the campaign's own ≤4.5 synthesizability cut**
            (QED 0.774 does not screen stability/reactivity). The durable result is the *funnel + selectivity
            direction* (de-novo matter survives MM-GBSA without reversing; repurposed matter reversed), not this
-           molecule. **Next de-novo steps:** add a stability/reactivity filter to `denovo_funnel.score_molecule`,
-           re-check denovo_94/denovo_57 (the other two confirmed_selective) for cleaner chemistry, and
-           re-generate; only then consider a single defensible candidate for FEP/ternary.
+           molecule.
+         - **94/57 SCREEN DONE (report-denovo run 28405141248 + RDKit, 2026-06-29) — neither rescues the lead.**
+           **denovo_94** (`CO[C@H]1S[C@H](N[C@H]2CCOO[C@@]2(C)CO)c2nc(-c3ccccc3F)ccc21`, mm +5.02, 4 handles,
+           cell NR4A2+NR4A3) carries a **peroxide (1,2-dioxane)** + N,S-/O,S-acetals — non-viable. **denovo_57**
+           (`NC[C@@H]1CCN(Cc2ccccc2)C1`, 3-(aminomethyl)-1-benzylpyrrolidine, mm +1.07, **2** handles, cell
+           **none**) is the **only chemically clean** hit (SA 2.09, aromatic, basic amine, no flags) but is the
+           **weakest** selectivity signal / fewest handles. **Net: the 3 confirmed_selective hits are
+           strong-but-artifactual (15/94) or clean-but-weak (57); none is both viable AND strongly selective** —
+           so the honest paper claim is the **method/funnel** (selectivity survives MM-GBSA), not a developable
+           molecule. **Next de-novo steps:** add a stability/reactivity filter to `denovo_funnel.score_molecule`
+           (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals, non-aromatic warheads, SA>4.5)
+           and **re-generate**; only then consider a single defensible candidate for FEP/ternary.
        - **NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead
          candidate. Options: (a) selectivity FEP on denovo_15 (the defensible affinity tier; $-hundreds,
          ~1–3 wk serial — gate hardest); (b) ternary-complex modeling (`gpu-ternary-aws.yml`) to turn the
