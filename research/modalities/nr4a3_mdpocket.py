@@ -164,7 +164,7 @@ def main():
         t = lcd["thr_0.5"]
         print(f"  CHEAPEST DRUGGABLE: druggable (>=0.5) already at CV Rg={t.get('lowest_druggable_rg_nm')} "
               f"nm (drug {t.get('druggability_there')}), F(Rg) cost there={t.get('cost_kcal_mol')} "
-              f"kcal/mol (vs {summary.get('fes', {}).get('open_cost_kcal_mol')} at the fully-open edge)",
+              f"kcal/mol (vs {(summary.get('fes') or {}).get('open_cost_kcal_mol')} at the fully-open edge)",
               flush=True)
 
 
