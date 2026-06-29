@@ -95,6 +95,20 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   abandon the route (Gate 2 druggability and the low basin-breathing cost still stand at feasibility
   weight).
 
+- **2026-06-29 — Gate 4 scored explicitly (disclosed; previously only gestured at).** Gate 4 (a selective,
+  drug-like ligand can engage the opened pocket) had not been scored even after the de-novo campaign, which is
+  its test. Scored now as **cautiously met *in silico***: `denovo_15` docks into the druggable unbiased-release
+  pocket, contacts 4/5 engageable handles, and is NR4A3-favoured at both docking and single-snapshot MM-GBSA
+  with no reversal (§2.5). Two honest qualifications keep it from an unqualified pass: (i) the affinity-grade
+  tier (selectivity FEP) is **unrun**, so both energy tiers are screening-grade; and (ii) "drug-like" holds on
+  QED but **not** on stability/synthesizability — `denovo_15` carries generative-model liabilities (carbamic
+  acid, 1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SAscore 5.08 > the campaign's ≤4.5
+  cut), so Gate 4 is cleared by a *chemotype/pose hypothesis*, not a developable warhead. Recorded as "met in
+  silico, pending a stable re-designed analogue + FEP." Also noted: the de-novo selectivity tier is **not**
+  state-matched the way the §2.4 matrix is (unbiased-release NR4A3 vs biased-metad paralogues; the asymmetry is
+  conservative for NR4A3-selectivity), and the MM-GBSA verdicts are single-snapshot, unreplicated point
+  estimates.
+
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.
 2. External yardstick: D\* is set by known-druggable NR controls, not by NR4A3's own number.

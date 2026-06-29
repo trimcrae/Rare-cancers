@@ -28,6 +28,10 @@ on:
         description: "S3 prefix for the MM-GBSA results"
         default: "nr4a3-mmgbsa"
         required: false
+      compute_timeout:
+        description: "overall compute wall-clock seconds (raise for >13 candidates; 20x3 needs ~3600). Empty = entry default 1800."
+        default: ""
+        required: false
       git_ref:
         description: "repo ref the job clones + runs (branch/tag/sha)"
         default: "main"
@@ -54,6 +58,7 @@ jobs:
           INSTANCE: ${{ inputs.instance }}
           INPUT_PREFIX: ${{ inputs.input_prefix }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then

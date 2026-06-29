@@ -1,0 +1,53 @@
+name: Report NR4A3 de-novo candidates (AWS)
+
+# Read-only: pulls the de-novo generation result (s3://<bucket>/<denovo_prefix>/nr4a3-denovo.json) and
+# merges, if present, the dock-funnel selectivity cell + the MM-GBSA verdict, printing a ranked table of
+# the generated candidates WITH SMILES (so the lead's structure can be collated into the manuscript/figure).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY. Commits nothing. Fast boto3-only job (no SageMaker).
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      denovo_prefix:
+        description: "S3 prefix the generation job wrote to"
+        default: "nr4a3-denovo"
+        required: false
+      matrix_prefix:
+        description: "S3 prefix the de-novo dock funnel wrote to (for the selectivity cell)"
+        default: "nr4a3-denovo-matrix"
+        required: false
+      mmgbsa_prefix:
+        description: "S3 prefix the de-novo MM-GBSA wrote to (for the verdict)"
+        default: "nr4a3-denovo-mmgbsa"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3 rdkit
+      - name: Read + print de-novo candidates
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          DENOVO_PREFIX: ${{ inputs.denovo_prefix }}
+          MATRIX_PREFIX: ${{ inputs.matrix_prefix }}
+          MMGBSA_PREFIX: ${{ inputs.mmgbsa_prefix }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_denovo.py

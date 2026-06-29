@@ -287,15 +287,97 @@ the family metad (in flight) is the fix.
          **Production run needs a ligand-SIZE constraint** (`--num_nodes_lig` / a lead-sized node
          distribution, ~25–40 heavy atoms) **+ a MW/heavy-atom floor in `denovo_funnel.score_molecule`**,
          then re-rank. Output `s3://<bucket>/nr4a3-denovo/` (nr4a3-denovo.json + .sdf + raw .sdf + plot).
-       - **NEXT:** (a) re-generate with size constraint + scoring floor (cheap, ~$2–5) → lead-sized
-         candidates; (b) then the gated dock-into-3-paralogues + MM-GBSA funnel on the top ~20 (~$15–25);
-         (c) pan campaign (conserved-core resi_list) for contrast. FEP still gated explicitly behind a
-         bona-fide selective candidate.
+       - **SIZE-CONSTRAINED RE-RUN — DONE (run 28384233714, 2026-06-29). Fragments fixed.** Added a
+         lead-size split (`NUM_NODES_LIST=24,28,32,36` heavy atoms via DiffSBDD `--num_nodes_lig`, N split
+         across them) + a `min_mw=250` size penalty in `denovo_funnel.score_molecule`. Result: **191/195
+         valid, 191 unique, PAINS-free 0.963, contacts ≥4 handles 0.916 (max 5).** Top candidates are now
+         LEAD-SIZED (not fragments): **denovo_189** `COc1ccc(-c2cc(C(C)=O)cc(C(=O)O)c2)cc1` (promise 0.953,
+         QED 0.87, SA 1.73, 4 handles, ~270 Da, COOH PROTAC handle) · denovo_17
+         `NCC(=O)Nc1ccc(CCC2CC2)cc1` (0.814, amine handle) · **denovo_106** (0.701, **5/5 handles**) ·
+         denovo_139 (thienopyrimidine, QED 0.82). SA≤4.5 frac fell to 0.393 (larger mols → higher SA), but
+         the top hits remain very synthesizable. Output `s3://<bucket>/nr4a3-denovo/` (nr4a3-denovo.json +
+         .sdf + per-size raw SDFs + plot). These are bona-fide de-novo selective-warhead starting points.
+       - **FUNNEL — DOCK TIER DONE (run 28387098688, CPU c5, 2026-06-29).** New env-guarded de-novo mode in
+         `nr4a3_matrix.py` (+ `denovo_library.py`, 4 tests) + `entry_denovo_dock.py` +
+         `nr4a3_denovo_dock_sagemaker.py` + `gpu-denovo-dock-aws.yml`. Docked the top-20 de-novo candidates
+         into the **Step-0 NR4A3 release receptor** (box on its 12 fpocket residues) + NR4A1 frame 524
+         (0.981) + NR4A2 frame 125 (0.938). Output `s3://<bucket>/nr4a3-denovo-matrix/` in the SAME format
+         MM-GBSA consumes. **Selectivity fingerprint (DOCKING PRIOR, within noise):** NR4A3-favoured-by-margin =
+         **denovo_15** (margin +1.0; **NB its strict matrix cell is NR4A2+NR4A3** — at the permissive
+         −7 kcal/mol engagement cutoff NR4A2 is weakly co-engaged, so it is the *favoured* paralogue, not an
+         exclusive NR4A3-only cell. There is **no NR4A3-only cell** in the census below — an earlier "the only
+         NR4A3-only cell" note here was wrong; the paper §2.5 states it the careful way, reconcile to that).
+         **Caveat: this de-novo dock is NOT state-matched** (NR4A3 unbiased-release frame 0.667 vs biased-metad
+         NR4A1 524 / NR4A2 125 — conservative for NR4A3-selectivity). pan-NR4A = denovo_21 / **denovo_106**
+         (5/5 handles) / denovo_51; **anti-target (NR4A1+NR4A3) = denovo_189** (the top-by-chemistry hit — so
+         chemistry promise ≠ selectivity). Census/20: NR4A2+NR4A3 4 · pan 4 · none 5 · NR4A2-only 3 ·
+         NR4A1+NR4A2 2 · NR4A1+NR4A3 1 · NR4A1-only 1.
+       - **FUNNEL — MM-GBSA TIER DONE (run 28393997521, g5/OpenCL, 2026-06-29). HEADLINE RESULT.** Re-scored
+         the 20 de-novo docked poses (single-snapshot 1-traj MM-GBSA) → per-candidate verdict vs docking.
+         (First attempt run 28391025615 hit the old 30-min compute cap on 20×3 legs and — being EndOfJob
+         upload — lost the partial; that prompted the continuous-upload + configurable-timeout fix above, and
+         the re-run with `compute_timeout=3600` finished all 20 in 46 min.) **Verdict census: confirmed_selective
+         3 · rescued 7 · weakened 1 · confirmed_nonselective 9 · REVERSED 0.** Output
+         `s3://<bucket>/nr4a3-denovo-mmgbsa/` (read via `report-mmgbsa-aws.yml`).
+         - **confirmed_selective = `denovo_15`, `denovo_94`, `denovo_57`.** Unlike the repurposed-compound
+           MM-GBSA (where the headline cytosporone B **reversed**), **NO de-novo candidate reversed** — the
+           de-novo route produced selectivity that survives a physics-based energy model.
+         - **LEAD = `denovo_15`** (SMILES `C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`;
+           QED 0.774, SAscore 5.08, contacts 4/5 handles — resolved from nr4a3-denovo.json into paper §2.5 +
+           figures): the
+           ONLY candidate selective at BOTH tiers (docking margin +1.0, **MM-GBSA margin +10.71 kcal/mol**),
+           the most robust call. denovo_94 (+0.15 dock, +5.02 mm) second. (MM-GBSA magnitudes are inflated by
+           the single-snapshot/no-entropy approximation — trust verdict/direction, not kcal/mol; and that
+           direction is itself a single-snapshot, unreplicated point estimate — no ensemble/replicate error.)
+           denovo_189 (top-by-chemistry / docking anti-target) did NOT come back selective — consistent.
+         - **🛑 CHEMISTRY RED-TEAM on `denovo_15` (2026-06-29, RDKit on the SMILES) — it is a chemotype/pose
+           hypothesis, NOT a developable molecule.** The SMILES carries DiffSBDD-typical liabilities: a
+           **carbamic acid** (`NC(=O)O`, the polar handle — hydrolytically unstable → amine + CO₂), a
+           **1,3-cyclopentadiene** (reactive diene), an **imine**, an **exocyclic alkene**, and **no aromatic
+           ring** (C19H24N2O3, MW 328); **SAscore 5.08 is ABOVE the campaign's own ≤4.5 synthesizability cut**
+           (QED 0.774 does not screen stability/reactivity). The durable result is the *funnel + selectivity
+           direction* (de-novo matter survives MM-GBSA without reversing; repurposed matter reversed), not this
+           molecule.
+         - **94/57 SCREEN DONE (report-denovo run 28405141248 + RDKit, 2026-06-29) — neither rescues the lead.**
+           **denovo_94** (`CO[C@H]1S[C@H](N[C@H]2CCOO[C@@]2(C)CO)c2nc(-c3ccccc3F)ccc21`, mm +5.02, 4 handles,
+           cell NR4A2+NR4A3) carries a **peroxide (1,2-dioxane)** + N,S-/O,S-acetals — non-viable. **denovo_57**
+           (`NC[C@@H]1CCN(Cc2ccccc2)C1`, 3-(aminomethyl)-1-benzylpyrrolidine, mm +1.07, **2** handles, cell
+           **none**) is the **only chemically clean** hit (SA 2.09, aromatic, basic amine, no flags) but is the
+           **weakest** selectivity signal / fewest handles. **Net: the 3 confirmed_selective hits are
+           strong-but-artifactual (15/94) or clean-but-weak (57); none is both viable AND strongly selective** —
+           so the honest paper claim is the **method/funnel** (selectivity survives MM-GBSA), not a developable
+           molecule. **Next de-novo steps:** add a stability/reactivity filter to `denovo_funnel.score_molecule`
+           (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals, non-aromatic warheads, SA>4.5)
+           and **re-generate**; only then consider a single defensible candidate for FEP/ternary.
+       - **NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead
+         candidate. Options: (a) selectivity FEP on denovo_15 (the defensible affinity tier; $-hundreds,
+         ~1–3 wk serial — gate hardest); (b) ternary-complex modeling (`gpu-ternary-aws.yml`) to turn the
+         selective binder into a selective degrader; (c) pan campaign (conserved-core resi_list) for contrast.
+         **This whole de-novo arc (Step 0 → blueprint → DiffSBDD → dock → MM-GBSA) is now a complete, citable
+         in-silico result for the degrader paper: a designed, MM-GBSA-confirmed NR4A3-selective warhead.**
 4. **Ternary complex per paralogue** — once a warhead SMILES exists, `nr4a3_ternary.py` / `gpu-ternary-aws.yml`
    for degradable-lysine geometry (degradation selectivity ≠ warhead-binding selectivity).
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 CHECKPOINT + DURABLE (CONTINUOUS) UPLOAD ON ANY RUN WHOSE RUNTIME YOU'RE GUESSING (trimcrae standing
+  rule, 2026-06-29).** Repeated wasted-GPU-hours incidents all came from the same shape: launch a job with a
+  *guessed* wall-clock timeout and no durable checkpoint, so a timeout/crash discards EVERY completed unit of
+  work and forces a full re-run. **Before launching ANY long/GPU SageMaker job, all four must hold:**
+  1. **Incremental checkpoint** — the driver writes partial results to `OUTPUT_DIR` after *each unit*
+     (per ligand / frame / candidate / window), NOT only at the end.
+  2. **Continuous upload** — the `ProcessingOutput` uses `s3_upload_mode="Continuous"` so those checkpoints
+     reach S3 *as they are written*. Default **EndOfJob uploads ONLY on a clean (exit 0) finish**, so a
+     timeout (exit 124) or crash → job `Failed` → **nothing uploaded, all partial work lost** (this is the
+     MM-GBSA 20×3 incident, run 28391025615: the per-ligand checkpoint existed but EndOfJob + non-zero exit
+     meant it never landed in S3; fixed in `entry_mmgbsa.py` / `nr4a3_mmgbsa_sagemaker.py`).
+  3. **Right-sized, configurable timeout** — the overall wall-clock cap is an *input* scaled to the work
+     (N units × per-unit cost) with generous headroom, never a hardcoded guess. The real fast-fail guard is a
+     **per-unit timeout** (e.g. SIGALRM per leg), so the overall cap can be loose without risking a silent hang.
+  4. **Treat the partial as the deliverable** — on hitting the cap, read the partial S3 checkpoint (via the
+     `report-*` workflow) and decide from it; only raise the cap + re-run if too few units finished. Never
+     re-run blind. **Apply this pattern to every GPU pipeline (release, metad, matrix, mmgbsa, denovo, ternary,
+     FEP).** The metad set already does continuous upload + resume — mirror it.
 - **🛑 GPU runs cost money — ASK FIRST (trimcrae standing rule, 2026-06-28).** Before dispatching ANY new
   GPU/SageMaker run (anything that spins up a `ml.g5.*` / GPU instance — metad, matrix, MM-GBSA, FEP,
   release, ternary, warhead, calibration), present the user a decision pop-up (`AskUserQuestion`) with a

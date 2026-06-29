@@ -11,7 +11,25 @@ RDKit profile + handle-contact count computed from the generated pose.
 These are SCREENING PRIORS for which generations to advance, NOT affinity or a validated lead.
 """
 
+import structural_alerts as _sa
+
 N_ENGAGEABLE_HANDLES = 5     # L406, T410, I484, I531, L534 (the pocket-facing divergent handles)
+
+# Hard demotion for a non-developable molecule (structural-alert liability, no aromatic ring, or SA>4.5).
+# Large enough to sink any artifact below every clean candidate, but finite so the ranking still ORDERS the
+# artifacts (we want to SEE them, not silently drop them — the de-novo MM-GBSA artifacts were the whole point).
+DEVELOPABILITY_PENALTY = 1.0
+
+
+def developability(profile, max_sa=_sa.MAX_SASCORE):
+    """Developability verdict for one generated molecule from its RDKit profile. Reads the profile's
+    'structural_liabilities' (list, computed by the driver via structural_alerts.find_liabilities),
+    'aromatic_rings', and 'SAscore'. Returns {"developable": bool, "reasons": [..]}; an invalid profile is
+    not developable."""
+    if not profile or "error" in profile:
+        return {"developable": False, "reasons": ["invalid"]}
+    return _sa.developable_verdict(profile.get("structural_liabilities") or [],
+                                   profile.get("aromatic_rings"), profile.get("SAscore"), max_sa=max_sa)
 
 
 def score_molecule(profile, handle_contacts, n_handles=N_ENGAGEABLE_HANDLES, min_mw=250.0):
@@ -41,7 +59,12 @@ def score_molecule(profile, handle_contacts, n_handles=N_ENGAGEABLE_HANDLES, min
     frac = (handle_contacts or 0) / float(n_handles) if n_handles else 0.0
     mw = profile.get("MW")
     size_penalty = 0.0 if (mw is None or mw >= min_mw) else round(0.002 * (min_mw - mw), 4)
-    return round(qed - 0.1 * sa - 0.15 * pains - 0.05 * brenk + handle_term + 0.2 * frac - size_penalty, 3)
+    # Developability gate: a structural-alert liability / non-aromatic / SA>4.5 molecule is hard-demoted, so
+    # the unstable-but-high-scoring artifacts (denovo_15 carbamic acid, denovo_94 peroxide) can no longer
+    # float to the top of the funnel. The clean candidates win.
+    dev_penalty = 0.0 if developability(profile)["developable"] else DEVELOPABILITY_PENALTY
+    return round(qed - 0.1 * sa - 0.15 * pains - 0.05 * brenk + handle_term + 0.2 * frac
+                 - size_penalty - dev_penalty, 3)
 
 
 def rank(rows):
@@ -74,6 +97,8 @@ def summarize(rows, n_handles=N_ENGAGEABLE_HANDLES):
         "frac_druglike_qed_ge_0.5": frac(lambda r: (r.get("QED") or 0) >= 0.5),
         "frac_synthesizable_sa_le_4.5": frac(lambda r: (r.get("SAscore") or 99) <= 4.5),
         "frac_pains_free": frac(lambda r: len(r.get("PAINS_alerts") or []) == 0),
+        "frac_developable": frac(lambda r: developability(r)["developable"]),
+        "n_developable": sum(1 for r in valid if developability(r)["developable"]),
         "frac_lead_size_mw_250_500": frac(lambda r: 250 <= (r.get("MW") or 0) <= 500),
         "frac_contacts_ge_3_handles": frac(lambda r: r.get("handle_contacts", 0) >= 3),
         "frac_contacts_ge_4_handles": frac(lambda r: r.get("handle_contacts", 0) >= 4),

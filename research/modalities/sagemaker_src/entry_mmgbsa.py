@@ -55,6 +55,8 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--git-ref", default="main", help="repo ref to run; default main")
+    ap.add_argument("--compute-timeout", default="", help="overall compute wall-clock seconds (overrides "
+                    "COMPUTE_TIMEOUT env / 30 min default); scale up for more candidates")
     args = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
 
@@ -103,9 +105,12 @@ def main():
     present = sorted(f for f in os.listdir(env["INPUT_DIR"])) if os.path.isdir(env["INPUT_DIR"]) else []
     print(f"[sagemaker] mounted matrix inputs: {present}", flush=True)
     print(f"[sagemaker] running MM-GBSA rescoring (ref {args.git_ref})", flush=True)
-    # 30 min: a GPU run of 13x3 endpoint MM-GBSA is minutes. There is no CPU fallback (nr4a3_mmgbsa.py
-    # fails fast if no GPU platform loads), so a run that drags past this is a real problem, not slow CPU.
-    compute_timeout = int(os.environ.get("COMPUTE_TIMEOUT", str(30 * 60)))
+    # Overall compute wall-clock. 30 min suits 13x3 legs; SCALE IT UP for bigger candidate sets (20x3
+    # de-novo legs ~30+ min, which overran the old 30 min cap). Per-leg SIGALRM (TARGET_TIMEOUT, 600s) is
+    # the real hang-guard; this cap is a backstop. Crucially, the per-ligand checkpoint is uploaded
+    # CONTINUOUSLY (ProcessingOutput s3_upload_mode=Continuous), so even hitting this cap leaves the partial
+    # verdicts in S3 — they are not lost.
+    compute_timeout = int(args.compute_timeout or os.environ.get("COMPUTE_TIMEOUT", str(30 * 60)))
     rc = 0
     try:
         # `python -u` => unbuffered child stdout (per-ligand progress streams live, not at process exit).

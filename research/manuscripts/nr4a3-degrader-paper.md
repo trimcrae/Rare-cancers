@@ -42,17 +42,34 @@ claim it "beats" that band (§2.2, §5) — yet it is the first
 pocket-dynamics evidence for NR4A3, paralleling the experimentally demonstrated *dynamic, breathing* pocket
 of Nurr1 (de Vera 2019) and an MD-revealed cryptic pocket in Nur77. We are careful that the free-energy
 profile shows **no separate opened basin** (a single closed basin with a rising wall); the druggable
-conformations are reached by *basin-internal breathing*, not a two-state cryptic switch, and whether they
-are a populated sub-state vs. bias-induced strain is the question the in-progress unbiased release run
-addresses. (3) We map 7
+conformations are reached by *basin-internal breathing*, not a two-state cryptic switch. The decisive test
+of whether these conformations are physically populated or bias-induced strain is an **unbiased "release"
+run seeded at the low-energy druggable frame: it finds the breathing-open geometry *metastable* (3/3
+unbiased replicas held 5 ns, mean drift 0.025 nm) and *druggable in ~24 % of unbiased frames* (fraction ≥
+D\*=0.53 of 0.20, peak 0.842; static 0.495) — i.e. a thermally-real, induced-fit / conformational-selection
+cavity druggable about a quarter of the time, not a static always-open pocket and not a bias artifact.**
+(3) We map 7
 NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles** (5 of which stay pocket-facing
 in the opened, druggable ensemble — a measured, not assumed, property), enabling a tunable selectivity
 profile. (4) Treating the opened pocket as a *programmable* design axis, we run the **same cryptic-pocket
 metadynamics on NR4A1 and NR4A2** to build **state-matched opened-pocket ensembles for all three
 paralogues**, and dock one candidate library into each — yielding a per-candidate **selectivity
 fingerprint across the NR4A family** (tunable from NR4A3-selective to pan-NR4A) and removing the
-opened-target-vs-static-off-target bias that confounds naive selectivity docking. We prime a degrader/E3
-ternary-complex design on the opened pocket. The work is governed by a **pre-registered falsification
+opened-target-vs-static-off-target bias that confounds naive selectivity docking. (5) Re-scoring the matrix
+poses with **endpoint MM-GBSA** shows the *repurposed* ChEMBL actives mostly do **not** hold up as
+NR4A3-selective under a physics-based energy model (the apparent lead cytosporone B *reverses*, consistent
+with its known NR4A1 agonism) — motivating **de-novo design**. (6) We therefore run a **pocket-conditioned
+generative campaign** (DiffSBDD, conditioned on the divergent handles, against the thermally-real
+druggable *release* conformation) and funnel the generated, lead-sized molecules through the same dock +
+MM-GBSA selectivity pipeline: this yields **three MM-GBSA-confirmed NR4A3-selective candidates with no
+candidate reversing**, led by **`denovo_15`, NR4A3-favoured at *both* docking and MM-GBSA** — the first
+*designed* NR4A3-selective warhead candidate this program has produced (a screening-grade prediction, not a
+synthesized or affinity-validated lead). We read this honestly: `denovo_15` itself carries generative-model
+**stability/synthesizability liabilities** (a carbamic acid, a 1,3-cyclopentadiene, an imine and an exocyclic
+alkene; no aromatic ring; SAscore 5.08 — *above* the campaign's own ≤4.5 synthesizability cut), so it is a
+selective **chemotype/pose hypothesis to be re-designed into a stable, synthesizable analogue**, not a
+developable molecule; the durable result is that the de-novo funnel produces selectivity that survives a
+physics-based energy model where repurposed matter did not. We prime a degrader/E3 ternary-complex design on the opened pocket. The work is governed by a **pre-registered falsification
 scheme** (calibrated thresholds fixed before the production results). The NR4A3-selective agent — binding
 the NR4A3 LBD shared by the EMC fusion and over-expressed wild-type NR4A3 — is the lead, addressing
 **EMC, acinic cell carcinoma, and the broader NR4A3-rearranged sarcoma spectrum**; a deliberately
@@ -136,10 +153,33 @@ Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The
 both numbers are read off the *same* incompletely-converged biased F(Rg), so the 0.76 rests on the
 basin region being better sampled than the frontier (it is, but it is a single biased profile). The
 **independent** test — whether the breathing-open geometry is a populated sub-state or bias-induced strain
-— is the in-progress **unbiased release run** (`nr4a3_md_release.py`); until it reports, Gate 3 is
-"thermally plausible," not closed. Net: the single static structure (0.495) understated the pocket; the
-thermally-populated ensemble breathes to a geometrically druggable cavity at low apparent cost — a
-feasibility result, stated at that weight. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
+— is the **unbiased release run** (`nr4a3_md_release.py`), **now complete and POSITIVE** (next paragraph).
+Net: the single static structure (0.495) understated the pocket; the
+thermally-populated ensemble breathes to a geometrically druggable cavity at low apparent cost, and an
+unbiased run confirms that cavity is metastable and druggable without any bias — a feasibility result,
+stated at that weight.
+
+**The unbiased release run resolves Gate 3 — cautiously POSITIVE, as an induced-fit cavity.** Seeding
+unbiased dynamics from a *strained* metad frame requires care: a first run seeded the max-Rg frontier frame
+(0.984 nm, the ~38 kcal/mol opening edge) and it collapsed (frac-near-open 0.00) — the *worst-case* frame,
+near-guaranteed to collapse, and not the realistic target. Re-seeded at the **low-energy druggable frame
+(CV Rg 0.717)**, the breathing-open geometry is **metastable: 3/3 unbiased replicas held the full 5 ns**
+(frac-near-seed 1.00, mean |drift| 0.025 nm, no collapse in any replica). Running fpocket on the *unbiased*
+release trajectory, the orthosteric Pocket-5 is **druggable in ~24 % of frames** (max 0.842, mean 0.262,
+fraction ≥ 0.5 = 0.24, fraction ≥ D\*=0.53 = 0.20; static 0.495) at CV Rg ≈ 0.737 — clearing the
+pre-registered "≥5 % of frames ≥ D\*" bar (20 % here), and crucially **on unbiased dynamics, so not a bias
+artifact**. *(Two scope notes so the two numbers are not over-read as one. (i) The **3/3 metastability** is an
+**Rg-persistence** result across the triplicate; the **~24 % druggability fraction** is measured on the
+**single** `release_rep0` trajectory — the other two replicas confirm the geometry persists, not
+independently that it is druggable a quarter of the time. (ii) **5 ns is a short persistence window**: it
+rules out fast (sub-ns) collapse of the seeded conformation, but a pocket can read as metastable on 5 ns and
+still relax on tens–hundreds of ns, so "metastable" here means "does not promptly collapse," not "a verified
+long-lived sub-state.")* The honest reading: this is **not** an always-open pocket (mean 0.262 < 0.5) but a **dynamic /
+induced-fit cavity that is thermally, spontaneously druggable about a quarter of the time** — the expected
+behaviour of a nuclear-receptor cryptic site (cf. de Vera 2019, Nurr1). So **Gate 3 is cautiously passed as
+a conformational-selection target**: a warhead must select-and-stabilise the ~24 % druggable conformations,
+not occupy a static pocket. All downstream design (below) is therefore anchored to a **druggable unbiased
+release frame** (Rg ≈ 0.737, fpocket ≥ 0.5; `nr4a3_release_druggable.py`), not the biased-metad frame. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
 (`../modalities/nr4a3_handle_facing.py`, run 2026-06-26 on the 30 ns trajectory) shows the opened,
 druggable frames keep the selectivity handles pocket-facing: across the druggable frames (fpocket ≥
 D\*=0.53) a mean of **5.0/7** handles point into the cavity and **87.5 %** keep ≥4 facing. Five are
@@ -147,10 +187,10 @@ reliably pocket-facing — **L406, T410, I484, I531, L534** (≥0.875 of druggab
 and R412 mostly splay outward** (facing in 0.0 and 0.25 of druggable frames), so the demonstrated
 selective-engagement set is those five, not all seven. This is also the precondition for the warhead
 screen's handle-contact scoring (§2.4). The unbiased "release" run is the orthogonal metastability test
-that would upgrade Gate 3 from "thermally plausible" to confirmed (does the breathing-open geometry
-persist, or collapse as bias-induced strain?); its earlier startup crash is now fixed and it is queued —
-so the metastability question is **open, not resolved**, and the §2.2 energetics are stated at that
-weight.)*
+that upgrades Gate 3 from "thermally plausible" to confirmed (does the breathing-open geometry persist, or
+collapse as bias-induced strain?); it has now **run and resolved POSITIVE** — metastable (3/3 replicas) and
+druggable in ~24 % of unbiased frames when seeded at the low-energy druggable frame — so the metastability
+question is **resolved**, as an induced-fit cavity (see the release-run paragraph above).)*
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
@@ -172,34 +212,109 @@ specification lets the
 sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately **pan-NR4A** (engaging the
 conserved pocket residues; for ex-vivo immuno-oncology) — §3.
 
-### 2.4 Warhead screen + the family-wide selectivity matrix (in progress)
+### 2.4 Warhead screen and the family-wide selectivity matrix
 With the pocket validated as druggable and accessible, we screen a **selective warhead** against the
 *opened* conformer (`nr4a3_warhead.py` + `gpu-warhead-aws.yml`): it extracts the most-druggable opened
-conformer (frame 300, fpocket 0.931), docks a real ChEMBL NR4A library into NR4A3-opened **and** the
+conformer, docks a real ChEMBL NR4A library into NR4A3-opened **and** the
 aligned NR4A1/NR4A2 pockets, and ranks by a selectivity margin + engagement of the **5 pocket-facing**
 handles (§2.3). A first screen returns NR4A3-favoured chemotypes (e.g. an NR4A3-active scaffold,
 ΔdG ≈ +1.7 kcal/mol vs the paralogues); these docking margins are **triage priors, not affinities**.
 
 **The selectivity matrix.** A central methodological point: docking the *opened* NR4A3 pocket against
 *static* NR4A1/2 models biases toward apparent selectivity, because — by our own argument (de Vera 2019;
-the Nur77 cryptic pocket) — the paralogue pockets are likely cryptic too. We therefore run the **same
+the Nur77 cryptic pocket) — the paralogue pockets are likely cryptic too. We therefore ran the **same
 metadynamics on NR4A1 and NR4A2** (one pipeline; paralogue CV/LBD mapped to NR4A3 by BLOSUM62 alignment)
-to obtain **state-matched opened-pocket ensembles** for all three, and dock one library into each. Each
-candidate then carries a **selectivity fingerprint** across the family, partitioning the library into
-NR4A3-selective (EMC/AciCC), pan-NR4A (ex-vivo immuno), and the AML-associated NR4A1+NR4A3 **anti-target**
-cells (§3). This makes the divergent-handle map a *demonstrated, tunable* design axis rather than an
-assertion. A de-novo structure-based generative layer (DiffSBDD/Pocket2Mol), conditioned on the divergent
-handles (selective) or the conserved residues (pan), is primed to populate empty cells. **Docking
-nominates; quantitative selectivity requires endpoint free energy** — MM-GBSA with per-residue
-decomposition, and selectivity FEP on the leads — which the state-matched ensembles enable. Once a warhead
-SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`) scores degradable-lysine
-geometry per paralogue. This is not a formality: the binding-selectivity matrix is a **necessary but not
-sufficient** filter, because a degrader's actual selectivity is set by the *ternary complex* — a
-non-selective binder can degrade selectively (productive ternary geometry on only one paralogue) and a
-selective binder can fail to degrade. The per-paralogue ternary model is therefore the gating step for any
-*degradation*-selectivity claim; the binding matrix triages which candidates enter it. **No molecule is
-synthesized; this is design prep.** Run instructions + program state:
+to obtain **state-matched opened-pocket ensembles** for all three, and docked one library into each
+(`nr4a3_matrix.py`; state-matched opened conformers NR4A3 frame 300 (druggability 0.931) / NR4A1 frame 524
+(0.981) / NR4A2 frame 125 (0.938)). Each candidate carries a **selectivity fingerprint** across the family, partitioning
+the library into NR4A3-selective (EMC/AciCC), pan-NR4A (ex-vivo immuno), and the AML-associated NR4A1+NR4A3
+**anti-target** cells (§3). The **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 while
+sparing NR4A2 — nothing to design away from in this library), and the NR4A3-leaning leads are repurposed NR4A
+actives (e.g. cytosporone B, amodiaquine). This makes the divergent-handle map a *demonstrated, tunable*
+design axis rather than an assertion — but the docking dG are within noise, so they nominate chemotypes,
+not a lead.
+
+**Docking nominates; endpoint free energy decides — and it disqualifies the repurposed actives.** We
+re-scored the matrix's own docked poses with single-snapshot **MM-GBSA** (enthalpy + GBn2 implicit solvent,
+no entropy/ensemble average; OpenCL on the A10G; `nr4a3_mmgbsa.py`). The docking-level NR4A3-selectivity
+**mostly does not survive**: the apparent docking lead **cytosporone B reverses** (as its known NR4A1
+agonism demands), and across the 13 deduplicated candidates the verdict census is *confirmed_selective* 3
+(amodiaquine, celastrol, + a duplicate), *reversed* 3, *weakened* 2, *rescued* 3, *confirmed_nonselective*
+2. MM-GBSA magnitudes here are inflated by the single-snapshot/no-entropy approximation, so we read the
+**verdict/direction, not the kcal/mol** — but the direction is clear: **repurposed NR4A chemical matter is
+method-validation, not a selective lead**, which is exactly why a *de-novo* design is needed (§2.5).
+(Selectivity FEP on a survivor is the defensible affinity tier, gated behind a bona-fide selective
+candidate.) Once a warhead SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`)
+scores degradable-lysine geometry per paralogue. This is not a formality: the binding-selectivity matrix is
+a **necessary but not sufficient** filter, because a degrader's actual selectivity is set by the *ternary
+complex* — a non-selective binder can degrade selectively (productive ternary geometry on only one
+paralogue) and a selective binder can fail to degrade. The per-paralogue ternary model is therefore the
+gating step for any *degradation*-selectivity claim; the binding matrix triages which candidates enter it.
+**No molecule is synthesized; this is design prep.** Run instructions + program state:
 [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
+
+### 2.5 De-novo design yields an MM-GBSA-confirmed NR4A3-selective warhead candidate
+Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
+ran a **pocket-conditioned de-novo generative campaign** and put its output through the *same* selectivity
+funnel. (1) **Receptor.** We anchored generation and docking to a **druggable unbiased *release* frame**
+(`nr4a3_release_druggable.py`: Rg ≈ 0.737, confirmed fpocket druggability 0.667, in the calibrated drug-bound
+band) — the thermally-real induced-fit conformation from §2.2, not the biased-metad frame — keeping a small
+druggable sub-ensemble since the pocket is dynamic. (2) **Generation.** DiffSBDD (pocket-conditioned
+diffusion, pretrained CrossDocked weights; `nr4a3_denovo.py`) generated molecules into that pocket,
+conditioned on the lining residues incl. the engageable divergent handles; a lead-size constraint
+(`--num_nodes_lig`) plus a molecular-weight floor in scoring removed a fragment bias seen in an
+unconstrained pilot (whose top hits were trivially small benzoic/toluic-acid-class fragments). The
+size-constrained production generation was clean: of 195 generations, **191 valid and unique, 96 %
+PAINS-free, 92 % contacting ≥4 of the 5 engageable handles** in the generated pose. (3) **Funnel.** We docked the top-20 generations into the
+NR4A3-release / NR4A1 / NR4A2 pockets for a selectivity fingerprint (`denovo_15` the
+docking-level NR4A3-selective lead **by margin** — NR4A3 favoured over both paralogues by ≥1 kcal/mol),
+then **MM-GBSA-rescored all 20**. *(Receptor-state caveat: unlike the §2.4 repurposed matrix, which was
+fully state-matched — all three paralogues at their metad-opened frames — this de-novo funnel docks NR4A3 in
+its thermally-real **unbiased release** frame (fpocket 0.667) against the **biased-metad** NR4A1 frame 524
+(0.981) / NR4A2 frame 125 (0.938), because the release run (§2.2) made the unbiased frame the defensible
+NR4A3 receptor. The states are therefore **not** matched the way §2.4's are — but the asymmetry runs
+**against** NR4A3-selectivity (the paralogue pockets are scored in their more-druggable opened state, which
+tends to dock ligands more favourably), so a positive NR4A3-selectivity call here is conservative rather
+than flattered. A fully state-matched re-dock — NR4A3 metad-opened, or the paralogues in their own release
+frames — is a cheap CPU follow-up.)* The result is qualitatively different
+from the repurposed library: **3 candidates are *confirmed_selective* (`denovo_15`, `denovo_94`,
+`denovo_57`) and NONE reverse** (census: confirmed_selective 3 · rescued 7 · weakened 1 ·
+confirmed_nonselective 9 · **reversed 0**). The lead **`denovo_15`** (SMILES
+`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`; QED 0.774, SAscore 5.08, contacts 4 of the 5
+handles) is NR4A3-selective at *both* tiers — docking selectivity margin +1.0 (the dock-tier `nr4a3_selective`
+lead; in absolute engagement NR4A2 is weakly co-engaged at the permissive −7 kcal/mol cutoff, so its matrix
+*cell* is NR4A2+NR4A3, but NR4A3 is the favoured paralogue at both tiers) and **MM-GBSA margin +10.7
+kcal/mol** (magnitude inflated by the single-snapshot approximation; the *direction* is the robust part).
+The chemistry-promise top hit (`denovo_189`) instead landed in the docking anti-target cell and did not come
+back selective, a useful reminder that drug-likeness ≠ selectivity. This is the program's **first *designed*
+NR4A3-selective warhead candidate** — a screening-grade, pose-aware prediction across two energy tiers,
+**not** a synthesized or affinity-validated molecule (selectivity FEP, then the ternary-complex /
+degradation-selectivity step, remain the gates ahead).
+
+**Read `denovo_15` as a chemotype/pose hypothesis, not a developable molecule.** A medicinal-chemistry pass
+on the SMILES (RDKit) flags several **generative-model liabilities**: a **carbamic acid** (`NC(=O)O`, the
+polar "handle" — hydrolytically unstable, decomposing to the amine + CO₂), a **1,3-cyclopentadiene** (a
+reactive diene), an **imine** and an **exocyclic alkene**, and **no aromatic ring at all** — and its
+**SAscore 5.08 sits above the campaign's own ≤4.5 synthesizability cut** (QED 0.774 is favourable but does
+not screen for stability/reactivity). These are characteristic DiffSBDD artifacts: the molecule is optimised
+to *fit and score* in the pocket, not to be stable or makeable. The honest contribution is therefore the
+**funnel and the selectivity *direction* it produces** (de-novo matter that survives MM-GBSA without
+reversing, where repurposed matter reversed), with `denovo_15` as a **selective chemotype/pose hypothesis to
+be re-designed into a stable, synthesizable analogue** — not a warhead ready for synthesis.
+
+**The other two `confirmed_selective` hits do not rescue this** (full RDKit triage, 2026-06-29): **`denovo_94`**
+(MM-GBSA margin +5.02, 4 handles) carries a **peroxide (1,2-dioxane)** plus N,S- and O,S-acetals — equally
+non-viable; **`denovo_57`** (`NC[C@@H]1CCN(Cc2ccccc2)C1`, a 3-(aminomethyl)-1-benzylpyrrolidine) is the **one
+chemically clean, readily synthesizable** hit (SAscore 2.09, aromatic, basic amine, no flagged liabilities) —
+but it is the **weakest** selectivity signal (margin +1.07), engages only **2** of the 5 handles, and falls in
+the docking "none" cell. So the three confirmed-selective hits split into *strong-but-artifactual*
+(denovo_15/94) and *clean-but-weak* (denovo_57); **none is simultaneously chemically viable and a strong
+selective binder.** This is the expected behaviour of a pretrained pocket-conditioned diffusion model with no
+stability/synthesizability term in its objective. The load-bearing, honest claim is therefore the **method**
+(the funnel produces de-novo matter whose NR4A3-selectivity survives an endpoint energy model, unlike the
+repurposed library), not a specific developable molecule. **Next de-novo steps:** add a stability/reactivity
+filter to `denovo_funnel.score_molecule` (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals,
+non-aromatic warheads, SA > 4.5) and **re-generate**, aiming for a hit that is clean *and* strongly selective.
 
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
@@ -235,6 +350,10 @@ Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (G
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,
 `fpocket_lib.py`). Cryptic pocket: OpenMM + PLUMED well-tempered metadynamics with checkpoint/restart and
 fail-loud pre-flight guards ([`../modalities/metad-methods-appendix.md`](../modalities/metad-methods-appendix.md)).
+**Metastability / Gate 3:** unbiased "release" MD (`nr4a3_md_release.py`, OpenMM, no PLUMED) seeded at the
+low-energy druggable frame (triplicate replicas), with per-frame fpocket on the release trajectory; the
+druggable receptor for all downstream design is extracted from the release trajectory
+(`nr4a3_release_druggable.py`).
 Calibration: NR-LBD panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)).
 Falsification: pre-registered gates ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)).
 Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Family-wide ensembles:** the *same*
@@ -243,9 +362,20 @@ paralogue LBD trim + Pocket-5 CV residues are mapped to NR4A3 by the same BLOSUM
 fail-loud guards + an audit log — to produce state-matched opened-pocket ensembles for the selectivity
 matrix (§2.4). **Warhead / matrix:** smina docking of a real ChEMBL NR4A library into each paralogue's
 metad-opened conformer; per-candidate matrix cells assigned by `selectivity_fingerprint.py` (engage/margin
-thresholds; unit-tested). **Quantitative tier (planned):** MM-GBSA with per-residue decomposition, then
-selectivity FEP on the leads — enabled by the state-matched ensembles; docking scores are used only as
-triage priors. All parsing/mapping/classification logic is in pure, unit-tested modules (TESTING.md).
+thresholds; unit-tested). **Quantitative tier (run):** single-snapshot 1-trajectory
+MM-GBSA endpoint rescoring of the matrix's docked poses (OpenMM + OpenFF/GAFF-2.11 + GBn2 implicit solvent,
+AM1-BCC charges; `nr4a3_mmgbsa.py`, OpenCL on the A10G), emitting a per-candidate verdict
+(confirmed_selective / reversed / weakened / rescued) vs the docking margins; magnitudes are inflated
+(no entropy/ensemble average) and read as direction, not affinity; selectivity FEP on the lead is the next
+(unrun) tier. **De-novo design:** a selectivity blueprint (`denovo_blueprint.py` → `nr4a3-denovo-blueprint.json`)
+classifies the Pocket-5 lining residues into the five engageable selective handles (four discriminating
+both paralogues — L406/T410/I484/L534 — and the NR4A1-only lever I531) vs the conserved core
+(P411/R481/R485), weighting the both-paralogue handles in the selective campaign; DiffSBDD pocket-conditioned
+diffusion (pretrained CrossDocked weights; `nr4a3_denovo.py` + `entry_denovo.py`) conditioned on the
+druggable release-frame pocket / divergent handles, with a lead-size constraint and an RDKit cheminformatics
++ pose-handle-contact triage (`denovo_funnel.py`); generated candidates are funneled through the same matrix dock + MM-GBSA pipeline
+(`nr4a3_matrix.py` candidate mode). Docking scores are used only as triage priors. All
+parsing/mapping/classification/scoring logic is in pure, unit-tested modules (TESTING.md).
 
 ## 5. Limitations
 In-silico throughout; no molecule synthesized; broader indications (§3) are **motivation, not
@@ -292,10 +422,15 @@ made explicit rather than buried (full adversarial review:
    the pre-registered Gate 1 ("minimum or shoulder, not just biased excursions") is met only in this
    weaker sense. "Opened state" is shorthand for these breathing sub-states, not a distinct metastable
    conformation.
-3. **Gate 3 energetics are provisional.** The ~0.76 kcal/mol cost to a druggable conformation and the
-   ~38 kcal/mol to the open edge are read off the *same* incompletely-converged biased F(Rg); the
-   independent metastability test (unbiased release run) is in progress, so the accessibility claim is
-   "thermally plausible," not closed.
+3. **Gate 3 accessibility — now release-confirmed as an induced-fit cavity, not always-open.** The
+   ~0.76 kcal/mol cost to a druggable conformation and ~38 kcal/mol to the open edge are read off the *same*
+   incompletely-converged biased F(Rg), so those numbers remain provisional; but the *independent*
+   metastability test is no longer pending. The unbiased release run (seeded at the low-energy druggable
+   frame) shows the breathing-open geometry is **metastable (3/3 replicas) and druggable in ~24 % of
+   unbiased frames** — confirming a thermally-real, **induced-fit / conformational-selection** cavity (not a
+   bias artifact), but explicitly **not** a static always-open pocket (unbiased mean druggability 0.262).
+   The design consequence is real: the warhead must select-and-stabilise the ~quarter of conformations that
+   are druggable, which is a harder ask than occupying a permanent pocket.
 4. **Selectivity handles are a specification with an asymmetric window.** The registered handle-facing
    check confirms the handles stay pocket-facing in the druggable frames (mean 5.0/7; T407/R412 splay out,
    so five engageable). But the engageable *divergent* set is **5 vs NR4A1 and only 4 vs NR4A2** (I531 is
@@ -303,15 +438,35 @@ made explicit rather than buried (full adversarial review:
    not a demonstrated binding margin.
 5. **Binding selectivity ≠ degradation selectivity.** The §2.4 matrix is a necessary-not-sufficient
    filter; degradation selectivity is set by the per-paralogue ternary complex (the planned gating step).
+6. **The de-novo lead is a chemotype/pose hypothesis with flagged liabilities, not a developable molecule.**
+   `denovo_15` carries DiffSBDD-typical instability/synthesizability liabilities (carbamic acid,
+   1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SAscore 5.08 > the campaign's ≤4.5 cut) —
+   QED does not screen these. The durable claim is the *funnel and the selectivity direction*, not the
+   specific molecule; a stability/reactivity filter + re-generation (and a check of the other two
+   `confirmed_selective` hits, denovo_94/57) are the next de-novo steps.
+7. **The de-novo selectivity tier is not state-matched the way §2.4 is, and MM-GBSA verdicts are
+   single-snapshot point estimates.** The de-novo funnel docks an *unbiased-release* NR4A3 receptor against
+   *biased-metad* paralogue receptors (asymmetry conservative for NR4A3-selectivity — §2.5), and the
+   single-snapshot, single-pose MM-GBSA carries **no replicate or ensemble average**, so even the
+   *direction* of each verdict (incl. the "reversed 0" census) is an unreplicated point estimate, not a
+   confidence-bounded result; multi-snapshot averaging + a fully state-matched re-dock are the documented
+   follow-ups.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
-selectivity claim needs endpoint free energy (MM-GBSA with per-residue decomposition, selectivity FEP on
-the leads), and even then FEP on a cryptic/induced-fit pocket is sampling-limited. The selectivity matrix
-(§2.4) is only credible because the paralogues are treated **state-matched** (same metadynamics), not
-opened-target-vs-static-off-target; until the NR4A1/NR4A2 runs complete, the first warhead margins use
-static paralogue pockets and are upper bounds on selectivity. With no wet lab, the strongest honest claim
-is **"computationally designed for, and predicted to have, the intended selectivity profile,"** not
-"selective." Matrix cells are gated by degradation *direction* and bounded by the AML anti-target (§3).
+selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 metadynamics runs are
+**complete**, so the matrix (§2.4) is genuinely state-matched (not opened-target-vs-static-off-target), and
+the quantitative tier is now **MM-GBSA-run** rather than planned — but single-snapshot MM-GBSA has **no
+entropy and no ensemble average**, so its magnitudes are inflated and only the **verdict/direction** is
+trusted; **selectivity FEP** (the defensible affinity tier) is **not yet run**, and even FEP on a
+cryptic/induced-fit pocket is sampling-limited. The **de-novo lead `denovo_15` (§2.5)** is therefore a
+prediction that survives **two screening tiers** (pocket-conditioned docking *and* endpoint MM-GBSA, with
+no reversal), which is materially stronger than a docking-only nomination — but it remains a **screening-grade,
+unsynthesized, non-FEP, no-wet-lab** candidate, and "MM-GBSA-confirmed selective" means *survives the
+better energy model in silico*, not *validated*. With no wet lab, the strongest honest claim is
+**"computationally designed for, and predicted across two energy tiers to have, the intended selectivity
+profile,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
+anti-target (§3); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity
+(caveat 5).
 
 ## 6. Falsification (pre-registered)
 Every gate has a fixed pass/fail set *before* the production numbers
@@ -320,12 +475,27 @@ gate outcomes deviate from the literal pre-registration and are **disclosed, not
 that file's deviation log: (i) the **Gate 0** metric (max → orthosteric/ligand-site, D\*=0.53 — a *real*
 drug-bound bar, not a laxer one); and (ii) **Gate 1**, which asked for a free-energy *minimum or shoulder*
 at an opened Rg "not just biased excursions" — F(Rg) is instead monotonic, so Gate 1 is reported as met
-only in the weaker *basin-breathing* sense (no separate opened basin), with the metastability question
-deferred to the in-progress unbiased release run rather than scored as an unqualified pass. We explicitly
-do **not** claim "Gates 0–3 all pass" without these qualifications. The route is abandoned (weight shifting
-to ASO/immuno backups in the roadmap) if the opened conformations are not druggable, not energetically
-accessible (the release run collapses them as bias-induced strain), or no selective drug-like binder can
-be designed.
+only in the weaker *basin-breathing* sense (no separate opened basin). The metastability question that
+deferral left open is now **answered by the completed unbiased release run** (§2.2): the breathing-open
+geometry is metastable (3/3 replicas) and druggable in ~24 % of unbiased frames, i.e. an induced-fit cavity
+rather than bias-induced strain — so **Gate 3 is cautiously passed** (as conformational selection), not
+deferred. We explicitly do **not** claim "Gates 0–3 all pass" as *unqualified* passes — Gate 1 holds only
+in the weaker basin-breathing sense and Gate 3 as an induced-fit (not always-open) cavity. The route is
+abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened conformations are not
+druggable, not energetically accessible (the release run would have collapsed them as bias-induced strain —
+it did **not**), or no selective drug-like binder can be designed.
+
+**Gate 4 (a selective, drug-like ligand can engage the opened pocket) — scored explicitly, cautiously met
+*in silico*.** The pre-registered Gate 4 asked for drug-like matter that docks with a reasonable score,
+contacts a meaningful subset of the selectivity handles, and shows a predicted selectivity margin vs
+NR4A1/NR4A2. The de-novo campaign (§2.5) meets the *letter* of this — `denovo_15` docks into the druggable
+release pocket, contacts 4 of the 5 engageable handles, and is NR4A3-favoured at both docking and MM-GBSA
+with no reversal — but with two pre-registration-honest qualifications: (a) the energy tiers are screening
+priors (docking) and a single-snapshot endpoint model (MM-GBSA), **not** the affinity-grade FEP, which is
+unrun; and (b) "drug-like" is satisfied on QED but **not** on stability/synthesizability — `denovo_15`'s
+generative-model liabilities (caveat 6, §5) mean Gate 4 is cleared by a *chemotype/pose hypothesis*, not a
+developable warhead. So Gate 4 is recorded as **cautiously met in silico, pending a stable re-designed
+analogue and FEP** — not as an unqualified pass. (Disclosed in the prereg deviation log.)
 
 ## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear

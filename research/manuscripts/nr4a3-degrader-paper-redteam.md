@@ -134,6 +134,94 @@ selectivity," but the matrix is still framed as the selectivity deliverable.
 that degradation-direction selectivity is set downstream by the per-paralogue ternary model — already the
 planned tier, now explicitly labelled as the gating step for any selectivity claim.
 
+## Second pass (2026-06-29) — fresh adversarial review after the de-novo result landed
+
+> The F1–F8 pass predates the matrix / MM-GBSA / de-novo results being folded into the paper. This second
+> pass re-reviews the *current* draft (incl. §2.5 de-novo) and verifies claims against the committed data.
+> Findings F9–F14; fixes applied in the same change. F9 also carries a decision escalated to trimcrae.
+
+### F9 (severity: high) — The headline de-novo lead `denovo_15` is a generative-model artifact, presented as a "warhead candidate"
+**Deficiency.** RDKit on the committed SMILES (`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`,
+C19H24N2O3, MW 328) shows `denovo_15` carries multiple **instability/reactivity liabilities**: a **carbamic
+acid** (`NC(=O)O` — its polar "handle", which is hydrolytically unstable and decomposes to the amine + CO₂),
+a **1,3-cyclopentadiene** (a reactive diene), an **imine**, an **exocyclic alkene**, and **no aromatic ring
+at all**. Its **SAscore 5.08 is above the campaign's own ≤4.5 synthesizability cut**. The paper called it
+"the first *designed* NR4A3-selective warhead candidate" with QED 0.774 cited as drug-likeness — but QED does
+not screen stability/reactivity, and a med-chem reviewer flags these groups immediately. This is the textbook
+DiffSBDD failure mode (optimise to *fit and score* a pocket, not to be stable or makeable).
+
+**Why it matters.** "Warhead candidate" overstates what `denovo_15` is. The defensible, durable result is the
+**funnel and the selectivity *direction* it produces** (de-novo matter survives MM-GBSA without reversing,
+where repurposed matter reversed) — not this specific molecule.
+
+**Fix applied.** Recast `denovo_15` throughout (abstract, §2.5, §5 caveat 6, §6 Gate 4, figures Fig 5d,
+next-steps) as a **selective chemotype/pose hypothesis to be re-designed into a stable, synthesizable
+analogue**, with the specific liabilities + the SA-vs-cut tension named.
+
+**Triage of the other two `confirmed_selective` hits (report-denovo run 28405141248 + RDKit, 2026-06-29) —
+neither rescues the headline.** `denovo_94` (mm +5.02, 4 handles) carries a **peroxide (1,2-dioxane)** + N,S-/
+O,S-acetals — equally non-viable. `denovo_57` (`NC[C@@H]1CCN(Cc2ccccc2)C1`) is the **only chemically clean,
+synthesizable** hit (SA 2.09, aromatic, basic amine) but is the **weakest** selectivity (mm +1.07), engages
+only **2** handles, and is in the docking "none" cell. So the three confirmed-selective hits are
+*strong-but-artifactual* (15/94) or *clean-but-weak* (57); **none is both viable and strongly selective.** The
+defensible claim collapses to the **method** (the funnel produces de-novo matter whose selectivity survives an
+endpoint energy model, unlike the repurposed library), not a developable molecule. Recorded in §2.5 + next-steps.
+**Escalated to trimcrae** (decision below): re-frame §2.5 around the method (recommended), and whether to add a
+stability/reactivity filter + re-generate before publishing the de-novo arc.
+
+### F10 (medium-high) — The de-novo selectivity tier is NOT state-matched, but was labelled "state-matched"
+**Deficiency.** §2.4's whole rigor claim is state-matching (all three paralogues docked in their *metad-opened*
+frames, killing the opened-vs-static confound). §2.5 reused the phrase "state-matched NR4A3-release / NR4A1 /
+NR4A2 pockets" — but per the data the de-novo funnel docks NR4A3 in its **unbiased-release** frame (fpocket
+0.667) against **biased-metad** NR4A1 frame 524 (0.981) / NR4A2 frame 125 (0.938). Those states are *not*
+matched; the label was inaccurate.
+
+**Why it matters / direction.** The mismatch biases **against** NR4A3-selectivity (paralogue pockets scored
+in their more-druggable opened state dock ligands more favourably), so a positive NR4A3 call is *conservative*
+rather than flattered — but the paper must not claim the §2.4 state-matching rigor for the §2.5 tier.
+
+**Fix applied.** Dropped "state-matched" from §2.5's funnel sentence; added an explicit receptor-state caveat
+(the asymmetry + its conservative direction + the cheap fully-state-matched re-dock follow-up) to §2.5 and §5
+(caveat 7) and the next-steps dock-tier entry.
+
+### F11 (medium) — Gate 4 was never scored, though the de-novo campaign is its test (the F1 failure mode, repeated)
+**Deficiency.** Exactly parallel to F1 (Gate 1 unscored): the prereg defines Gate 4 ("a selective, drug-like
+ligand can engage the opened pocket"); §6 gestured at it ("the first to clear this last condition") but never
+*scored* it, and the deviation log had no Gate 4 entry.
+
+**Fix applied.** Added an explicit Gate 4 scoring paragraph to §6 and a deviation-log entry: **cautiously met
+in silico**, with the two honest qualifications (energy tiers are screening-grade, FEP unrun; "drug-like" holds
+on QED but not on stability — F9), i.e. cleared by a chemotype/pose hypothesis pending a stable analogue + FEP.
+
+### F12 (medium) — "metastable (3/3) AND druggable ~24 %" conflates a triplicate Rg result with a single-replica druggability result
+**Deficiency.** The abstract/§2.2 present "metastable (3/3 replicas) and druggable in ~24 % of frames" as one
+joint finding. The **3/3** is an Rg-persistence result across the triplicate; the **~24 %** druggability
+fraction is measured on the **single** `release_rep0` trajectory only. Also "metastable" rests on a **5 ns**
+window, which excludes fast collapse but not tens–hundreds-of-ns relaxation.
+
+**Fix applied.** Added a scope note to §2.2: the 24 % is rep0 (the other two confirm Rg persistence, not
+druggability independently), and 5 ns "metastable" = "does not promptly collapse", not a verified long-lived
+sub-state.
+
+### F13 (medium) — MM-GBSA "direction is robust" is asserted without any replicate/error estimate
+**Deficiency.** The paper leans on "trust the verdict/direction, not the magnitude" for both the §2.4 and §2.5
+MM-GBSA censuses (incl. the de-novo "reversed 0"). But single-snapshot, single-pose MM-GBSA has **no replicate
+or ensemble average**, so the *direction* of each verdict is itself an unreplicated point estimate whose sign
+can move with pose/snapshot — "direction is the robust part" is asserted, not shown.
+
+**Fix applied.** §5 caveat 7 now states the verdicts (incl. "reversed 0") are single-snapshot unreplicated
+point estimates, not confidence-bounded; multi-snapshot averaging is the documented follow-up (already in
+next-steps).
+
+### F14 (low) — Internal inconsistency: `denovo_15`'s matrix cell (paper "NR4A2+NR4A3" vs next-steps "the only NR4A3-only cell")
+**Deficiency.** The paper §2.5 says `denovo_15`'s strict cell is NR4A2+NR4A3 (NR4A3 favoured, NR4A2 weakly
+co-engaged at the −7 cutoff); the next-steps handoff said "the only NR4A3-only cell." The next-steps census in
+the *same* entry lists **no NR4A3-only cell** at all (20 = NR4A2+NR4A3 4 · pan 4 · none 5 · NR4A2-only 3 ·
+NR4A1+NR4A2 2 · NR4A1+NR4A3 1 · NR4A1-only 1), so the paper is right and the handoff line was stale/wrong.
+
+**Fix applied.** Corrected the next-steps dock-tier line to "NR4A3-favoured-by-margin (cell NR4A2+NR4A3)" with
+a note that there is no NR4A3-only cell, reconciling to the paper.
+
 ## Not changed (judged acceptable as written)
 - The **Gate 0 metric swap** (max → orthosteric/ligand-site, D\*=0.53) is post-hoc but openly disclosed,
   the new bar is a *real* drug-bound score (not laxer), and the conclusion holds under 0.50 or 0.53.
@@ -141,5 +229,3 @@ planned tier, now explicitly labelled as the gating step for any selectivity cla
 - The **AF2-not-AF3** justification is sound and well-argued.
 - The **de Vera 2019 / Nur77-MD precedent** framing is appropriate (and, post-F1, now *more* accurate —
   de Vera's "breathing" pocket is the right analogy for basin-internal dynamics, not a two-state switch).
-</content>
-</invoke>

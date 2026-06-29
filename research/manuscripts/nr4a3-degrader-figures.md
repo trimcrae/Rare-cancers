@@ -28,8 +28,15 @@
   *provisional* read). Asset: `pocket_druggability.png` ✅ (regenerate from `pocket_analysis_summary.json`).
 - (c) Closed (static AF2) vs opened (frame 300, 0.931) pocket surface render. Asset: `nr4a3-opened.pdb`
   (warhead output, S3) ⚙️.
-- *Message:* the pocket *breathes* to a geometrically druggable cavity at low apparent cost — a
-  feasibility readout (biased ensemble; metastability pending the release run), not a calibrated affinity.
+- (d) **Unbiased release run (Gate 3 resolved).** Two-panel: (i) Rg trace of the 3 unbiased replicas
+  seeded at the low-energy druggable frame, all holding ~0.74 nm for 5 ns (metastable, no collapse); (ii)
+  per-frame fpocket on the unbiased release trajectory as a distribution, marking fraction ≥ D\*=0.53 = 0.20
+  (~24 % druggable). Asset: `nr4a3-release/release_summary.json` + `nr4a3-release-pocket/` ✅ (S3). ⚙️.
+  **Caption:** druggable on *unbiased* dynamics ~¼ of the time → induced-fit / conformational-selection
+  cavity, **not** a bias artifact and **not** always-open.
+- *Message:* the pocket *breathes* to a geometrically druggable cavity at low apparent cost, and an
+  unbiased release run confirms that cavity is **metastable and druggable ~24 % of the time** — a
+  thermally-real induced-fit site, not a calibrated affinity and not always-open.
 
 **Fig 3 — Selectivity handles and the handle-facing confirmation (§2.3).**
 - (a) The 7 divergent Pocket-5 residues mapped on the opened pocket, the 5 engageable ones highlighted.
@@ -42,12 +49,35 @@
 - (a) Schematic: the *same* cryptic-pocket metadynamics on NR4A1/NR4A2/NR4A3 → three state-matched opened
   ensembles → one library docked into each.
 - (b) Matrix heatmap: candidates (rows) × {NR4A3, NR4A1, NR4A2} opened-pocket dG (columns), annotated with
-  the assigned cell (NR4A3-only / pan / NR4A1+NR4A3 anti-target). Asset: `nr4a3-matrix.json` ⚙️ (after the
-  matrix run). ⚙️ matplotlib heatmap.
-- (c) Cell census + the three actionable sets (selective leads / pan leads / flagged anti-targets).
+  the assigned cell (NR4A3-only / pan / NR4A1+NR4A3 anti-target). Asset: `nr4a3-matrix.json` ✅ (S3;
+  matrix run complete) + `nr4a3-matrix.png` ✅. ⚙️ matplotlib heatmap.
+- (c) Cell census + the three actionable sets (selective leads / pan leads / flagged anti-targets) — the
+  **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 sparing NR4A2). Read via `report-matrix-aws.yml`.
 - *Message:* programmable, state-matched selectivity — the divergent-handle map as a demonstrated design axis.
 
-**Fig 5 — Indication matrix + degrader schematic (§3) [optional/overview].**
+**Fig 5 — De-novo design and MM-GBSA confirmation of a selective warhead candidate (§2.5; the result figure).**
+- (a) Funnel schematic: Step-0 druggable *release* receptor → DiffSBDD pocket-conditioned generation (lead-size
+  constrained) → cheminformatics + pose handle-contact triage → dock into 3 state-matched pockets → MM-GBSA.
+  Schematic.
+- (b) Generation quality scatter: SAscore vs QED of the ~200 generations, coloured by engageable-handle
+  contacts. Asset: `nr4a3-denovo.png` ✅ / `nr4a3-denovo.json` ✅ (S3). ⚙️.
+- (c) **MM-GBSA verdict panel:** the de-novo verdict census (confirmed_selective 3 · rescued 7 · weakened 1 ·
+  confirmed_nonselective 9 · **reversed 0**) contrasted with the *repurposed*-library MM-GBSA (where the
+  apparent lead cytosporone B **reverses**). Asset: `nr4a3-denovo-mmgbsa` + `nr4a3-mmgbsa` ✅ (S3, via
+  `report-mmgbsa-aws.yml`). ⚙️ bar.
+- (d) **Lead `denovo_15`** 2D structure (`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`;
+  QED 0.774, SA 5.08) in the NR4A3-release pocket, the 4 engaged handles labelled; MM-GBSA NR4A3-margin
+  +10.7 kcal/mol (direction, not affinity). Asset: `nr4a3-denovo.sdf` (pose) + receptor ✅ (S3, via
+  `report-denovo-aws.yml`). ⚙️ render. **Caption MUST flag the chemistry liabilities** (carbamic acid,
+  1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SA 5.08 > the ≤4.5 cut) — annotate the
+  unstable/reactive groups on the depiction and label it a **selective chemotype/pose hypothesis to be
+  re-designed**, not a developable warhead. (If `denovo_15`'s chemistry is judged too liability-laden to be
+  the figure's hero, substitute whichever of denovo_94/57 reads cleaner — pending the user's call.)
+- *Message:* a **designed** NR4A3-selective warhead candidate that survives *two* energy tiers with no
+  reversal — the de-novo route succeeds where repurposed matter did not (screening-grade prediction; no
+  wet lab; FEP/ternary ahead).
+
+**Fig 6 — Indication matrix + degrader schematic (§3) [optional/overview].**
 - Lead (NR4A3-only → EMC/AciCC) / second mode (pan → ex-vivo immuno) / anti-target (NR4A1+NR4A3 → AML,
   design away), with the degrader/E3 ternary cartoon. Schematic, no new data.
 
@@ -56,14 +86,23 @@
 - **Table 1 — Calibration panel** (structure, type, max druggability, ligand-site druggability) from
   `nr4a3-calibration.json` ✅ + the reconciliation table.
 - **Table 2 — Top matrix candidates**: label, ChEMBL id, dG into each opened pocket, margins, cell,
-  engageable-handle + conserved contacts. From `nr4a3-matrix.json` ⚙️ (after the matrix run).
+  engageable-handle + conserved contacts. From `nr4a3-matrix.json` ✅ (matrix run complete; via
+  `report-matrix-aws.yml`).
 - **Table 3 — Pre-registered gates and outcomes** (Gate 0/0b/1/2/3/4, pass/fail, with the Gate-0 *and
-  Gate-1* disclosed deviations — Gate 1 met only in the weaker basin-breathing sense; Gate 3 provisional)
-  from `nr4a3-druggability-prereg.md` ✅.
+  Gate-1* disclosed deviations — Gate 1 met only in the weaker basin-breathing sense; **Gate 3 now
+  release-confirmed as an induced-fit cavity**, no longer provisional) from `nr4a3-druggability-prereg.md` ✅.
+- **Table 4 — De-novo candidates funneled to MM-GBSA**: name, SMILES, QED, SAscore, engageable-handle
+  contacts, docking cell, MM-GBSA NR4A3-margin, verdict — for the top-20 generations, spotlighting the 3
+  *confirmed_selective* (denovo_15 / 94 / 57). From `nr4a3-denovo.json` + `nr4a3-denovo-mmgbsa` ✅ (S3, via
+  `report-denovo-aws.yml`). Caption: MM-GBSA magnitudes inflated (direction, not affinity); screening-grade.
 
 ## Generation notes
-- Plots that read committed JSON (Figs 1b, 3b; Tables 1,3) can render now; Figs 2,4 + Table 2 need the
-  S3 ensemble/matrix outputs (regenerate plots in the analysis/matrix jobs and copy out, OR add a
-  `render-figures` step that pulls the JSON).
+- Plots that read committed JSON (Figs 1b, 3b; Tables 1,3) can render now; Figs 2,4,5 + Tables 2,4 read S3
+  outputs that now **exist** (release, matrix, MM-GBSA, de-novo) — pull them via the `report-*-aws.yml`
+  read-only jobs (matrix / mmgbsa / denovo) or add a `render-figures` step that fetches the JSON/PNG.
 - Keep every panel caption's claim within its data weight: AF2 = model; metad = biased MD ensemble;
-  docking dG = triage prior (not affinity); MM-GBSA/FEP = the planned quantitative tier (not yet run).
+  unbiased release = thermally-real but induced-fit (~24 % druggable); docking dG = triage prior (not
+  affinity); **MM-GBSA = run, but single-snapshot/no-entropy → read the verdict/direction, not the
+  kcal/mol**; FEP = the defensible affinity tier, **not yet run**.
+- **Before submission:** collate the `denovo_15` 2D depiction + its pose (Fig 5d) and Table 4 from the
+  `report-denovo-aws.yml` output; the SMILES is `C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`.

@@ -1,0 +1,62 @@
+name: NR4A3 de-novo selectivity funnel — dock tier (AWS SageMaker)
+
+# Funnel tier 1 (docking): docks the top-N de-novo candidates (s3://<bucket>/nr4a3-denovo) into the Step-0
+# druggable-release NR4A3 receptor (s3://<bucket>/nr4a3-release-druggable) + the NR4A1/NR4A2 metad-opened
+# conformers, and classifies each candidate's selectivity fingerprint. Reuses nr4a3_matrix.py in candidate
+# mode -> writes s3://<bucket>/nr4a3-denovo-matrix in the SAME format the MM-GBSA tier consumes (run
+# mmgbsa-aws.yml next with INPUT_PREFIX=nr4a3-denovo-matrix). CPU (smina docking; ml.c5.2xlarge, ~$0.3-0.7).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Prereq: nr4a3-denovo (generation), nr4a3-release-druggable (Step 0), nr4a1-metad, nr4a2-metad all in S3.
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: "number of top de-novo candidates (by denovo_promise) to dock"
+        default: "20"
+        required: false
+      instance:
+        description: "SageMaker instance type (CPU is plenty for smina docking)"
+        default: "ml.c5.2xlarge"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the funnel docking output (MM-GBSA reads this)"
+        default: "nr4a3-denovo-matrix"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker de-novo dock funnel job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          TOP_N: ${{ inputs.top_n }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_denovo_dock_sagemaker.py
