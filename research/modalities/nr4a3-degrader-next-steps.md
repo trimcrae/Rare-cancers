@@ -322,6 +322,24 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 CHECKPOINT + DURABLE (CONTINUOUS) UPLOAD ON ANY RUN WHOSE RUNTIME YOU'RE GUESSING (trimcrae standing
+  rule, 2026-06-29).** Repeated wasted-GPU-hours incidents all came from the same shape: launch a job with a
+  *guessed* wall-clock timeout and no durable checkpoint, so a timeout/crash discards EVERY completed unit of
+  work and forces a full re-run. **Before launching ANY long/GPU SageMaker job, all four must hold:**
+  1. **Incremental checkpoint** — the driver writes partial results to `OUTPUT_DIR` after *each unit*
+     (per ligand / frame / candidate / window), NOT only at the end.
+  2. **Continuous upload** — the `ProcessingOutput` uses `s3_upload_mode="Continuous"` so those checkpoints
+     reach S3 *as they are written*. Default **EndOfJob uploads ONLY on a clean (exit 0) finish**, so a
+     timeout (exit 124) or crash → job `Failed` → **nothing uploaded, all partial work lost** (this is the
+     MM-GBSA 20×3 incident, run 28391025615: the per-ligand checkpoint existed but EndOfJob + non-zero exit
+     meant it never landed in S3; fixed in `entry_mmgbsa.py` / `nr4a3_mmgbsa_sagemaker.py`).
+  3. **Right-sized, configurable timeout** — the overall wall-clock cap is an *input* scaled to the work
+     (N units × per-unit cost) with generous headroom, never a hardcoded guess. The real fast-fail guard is a
+     **per-unit timeout** (e.g. SIGALRM per leg), so the overall cap can be loose without risking a silent hang.
+  4. **Treat the partial as the deliverable** — on hitting the cap, read the partial S3 checkpoint (via the
+     `report-*` workflow) and decide from it; only raise the cap + re-run if too few units finished. Never
+     re-run blind. **Apply this pattern to every GPU pipeline (release, metad, matrix, mmgbsa, denovo, ternary,
+     FEP).** The metad set already does continuous upload + resume — mirror it.
 - **🛑 GPU runs cost money — ASK FIRST (trimcrae standing rule, 2026-06-28).** Before dispatching ANY new
   GPU/SageMaker run (anything that spins up a `ml.g5.*` / GPU instance — metad, matrix, MM-GBSA, FEP,
   release, ternary, warhead, calibration), present the user a decision pop-up (`AskUserQuestion`) with a

@@ -48,6 +48,16 @@ read it before making changes.
   then fill `data/cancers/<slug>.json` (the EMC file is the worked example).
 - **A cancer page = one JSON file.** You rarely touch HTML/CSS/JS.
 - **Before committing:** `node scripts/validate.mjs` must pass.
+- **GPU/long SageMaker runs — checkpoint + upload continuously, never guess-and-lose
+  (trimcrae standing rule).** Any job whose runtime you're estimating MUST: (1) checkpoint
+  partial results to `OUTPUT_DIR` after *each* unit of work (per ligand/frame/candidate),
+  (2) set the `ProcessingOutput` to `s3_upload_mode="Continuous"` so those checkpoints reach
+  S3 as written — **default EndOfJob uploads only on a clean exit, so a timeout/crash loses
+  ALL partial work**, (3) make the overall timeout a config input scaled to the work (with a
+  per-unit timeout as the real hang-guard), and (4) treat the partial S3 checkpoint as the
+  deliverable on a timeout. Full rule + the MM-GBSA incident that prompted it:
+  **[research/modalities/nr4a3-degrader-next-steps.md](./research/modalities/nr4a3-degrader-next-steps.md)
+  → "Infra gotchas a fresh session MUST know"**.
 - **No dependencies, no build step.** Keep it that way.
 - **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
   keep all URLs relative.
