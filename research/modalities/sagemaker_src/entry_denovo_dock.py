@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+"""SageMaker entry for the DE-NOVO selectivity funnel — docking tier (nr4a3_matrix.py in candidate mode).
+
+Docks the top-N de-novo candidates into the Step-0 druggable-release NR4A3 receptor + the NR4A1/NR4A2
+metad-opened conformers, and classifies each candidate's selectivity fingerprint. Reuses nr4a3_matrix.py
+(env-guarded de-novo mode) so the OUTPUT IS THE SAME nr4a3-matrix.json + <tag>-opened.pdb + docked_<tag>.sdf
+format the MM-GBSA step consumes — the next tier needs no new wiring (just INPUT_PREFIX=nr4a3-denovo-matrix).
+CPU work (smina docking); no GPU.
+
+ProcessingInputs (mounted under /opt/ml/processing/input):
+  denovo/   : nr4a3-denovo            (nr4a3-denovo.json — the ranked generated candidates)
+  receptor/ : nr4a3-release-druggable (nr4a3-release-druggable.pdb + manifest with box_residues)
+  nr4a1/    : nr4a1-metad             (paralogue opened ensemble)
+  nr4a2/    : nr4a2-metad             (paralogue opened ensemble)
+"""
+import os
+import shutil
+import subprocess
+import sys
+
+OUT = "/opt/ml/processing/output"
+IN = "/opt/ml/processing/input"
+
+
+def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--git-ref", default="main")
+    ap.add_argument("--top-n", default="20")
+    args = ap.parse_args()
+
+    subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
+                   check=False)
+    subprocess.run(["git", "clone", "--depth", "1", "--branch", args.git_ref,
+                    "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
+    work = "/tmp/repo/research/modalities"
+
+    conda = shutil.which("conda") or "/opt/conda/bin/conda"
+    print(f"[sagemaker] creating funnel env via {conda}", flush=True)
+    subprocess.run([conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
+                    "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy",
+                    "matplotlib-base"], check=True)
+
+    env = os.environ.copy()
+    env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ subdirs
+    env["OUTPUT_DIR"] = OUT
+    env["CANDIDATE_JSON"] = os.path.join(IN, "denovo", "nr4a3-denovo.json")
+    env["NR4A3_RECEPTOR"] = os.path.join(IN, "receptor", "nr4a3-release-druggable.pdb")
+    env["TOP_N"] = args.top_n
+    os.makedirs(OUT, exist_ok=True)
+    for name, p in (("candidates", env["CANDIDATE_JSON"]), ("NR4A3 receptor", env["NR4A3_RECEPTOR"]),
+                    ("nr4a1", os.path.join(IN, "nr4a1")), ("nr4a2", os.path.join(IN, "nr4a2"))):
+        print(f"  {name}: {'present' if os.path.exists(p) else 'MISSING'} ({p})", flush=True)
+    print(f"[sagemaker] running de-novo dock funnel (top {args.top_n}, ref {args.git_ref})", flush=True)
+    r = subprocess.run([conda, "run", "--no-capture-output", "-n", "mx",
+                        "python", "nr4a3_matrix.py"], cwd=work, env=env)
+    for f in sorted(os.listdir(OUT)):
+        print(f"[sagemaker] output {f} ({os.path.getsize(os.path.join(OUT, f))} bytes)", flush=True)
+    print(f"[sagemaker] de-novo dock exit={r.returncode}", flush=True)
+    if r.returncode != 0:
+        sys.exit(r.returncode)
+
+
+if __name__ == "__main__":
+    main()

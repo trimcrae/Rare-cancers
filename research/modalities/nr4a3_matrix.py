@@ -39,6 +39,16 @@ ENGAGEABLE_HANDLES = [406, 410, 484, 531, 534]   # divergent + pocket-facing (NR
 CONSERVED_CV = [411, 481, 485]                    # Pocket-5 CV residues that are NOT divergent handles
 LBD_FIRST_NR4A3 = 373
 
+# DE-NOVO FUNNEL MODE (env-guarded; default = original ChEMBL-library / metad-NR4A3 behaviour):
+#  - CANDIDATE_JSON: path to nr4a3-denovo.json -> library = top TOP_N de-novo candidates by denovo_promise.
+#  - NR4A3_RECEPTOR: path to the Step-0 druggable-release receptor PDB -> dock NR4A3 into THAT (the
+#    thermally-real conformation the candidates were designed against), not the biased-metad conformer.
+#    Box residues come from NR4A3_BOX_RES (comma resSeqs), else the Step-0 manifest, else Pocket-5.
+CANDIDATE_JSON = os.environ.get("CANDIDATE_JSON")
+TOP_N = int(os.environ.get("TOP_N", "20"))
+NR4A3_RECEPTOR = os.environ.get("NR4A3_RECEPTOR")
+NR4A3_BOX_RES = os.environ.get("NR4A3_BOX_RES", "")
+
 
 def read_manifest(input_dir):
     """cv_residues + lbd_first from a paralogue's metad manifest (written by nr4a3_metad.py)."""
@@ -49,6 +59,54 @@ def read_manifest(input_dir):
         m = json.load(fh)
     return {"cv_residues": m.get("cv_residues"), "lbd_first": m.get("lbd_first", LBD_FIRST_NR4A3),
             "target": m.get("target")}
+
+
+def _pdb_resseqs(pdb):
+    """Ordered unique CA resSeqs of a protein PDB."""
+    seen, out = set(), []
+    for line in open(pdb):
+        if line.startswith("ATOM") and line[12:16].strip() == "CA":
+            try:
+                rs = int(line[22:26])
+            except ValueError:
+                continue
+            if rs not in seen:
+                seen.add(rs); out.append(rs)
+    return out
+
+
+def _release_box_residues(resseqs):
+    """Box residues for the Step-0 release receptor: NR4A3_BOX_RES env, else the Step-0 manifest's
+    box_residues for this receptor, else the Pocket-5 lining mapped onto the receptor numbering."""
+    if NR4A3_BOX_RES.strip():
+        return [int(x) for x in NR4A3_BOX_RES.split(",") if x.strip()]
+    man = os.path.join(os.path.dirname(NR4A3_RECEPTOR), "nr4a3-release-druggable.json")
+    if os.path.exists(man):
+        try:
+            m = json.load(open(man))
+            want = os.path.basename(NR4A3_RECEPTOR)
+            for r in m.get("receptors", []):
+                if r.get("pdb") == want and r.get("box_residues"):
+                    return list(r["box_residues"])
+        except Exception:  # noqa: BLE001 — fall through to Pocket-5
+            pass
+    pos, _ = rm.resolve_positions(resseqs, range(406, 535), LBD_FIRST_NR4A3)
+    return [resseqs[i] for i in pos]
+
+
+def _use_release_receptor(conf):
+    """Copy the Step-0 release receptor to `conf`, read its resSeqs, box on its pocket. Returns
+    (receptor_pdb, resseqs, box_center)."""
+    import shutil
+    shutil.copy(NR4A3_RECEPTOR, conf)
+    resseqs = _pdb_resseqs(conf)
+    box_res = [rs for rs in _release_box_residues(resseqs) if rs in set(resseqs)]
+    if not box_res:
+        raise RuntimeError("no NR4A3 box residues resolved on the release receptor")
+    center, _ = wh.pocket_box(conf, box_res)
+    print(f"  NR4A3 release receptor {os.path.basename(NR4A3_RECEPTOR)}: {len(resseqs)} res, "
+          f"box on {len(box_res)} residues", flush=True)
+    return conf, resseqs, center
 
 
 def box_for(conformer_pdb, resseqs, cv_residues, lbd_first):
@@ -68,15 +126,24 @@ def main():
            "engageable_handles": ENGAGEABLE_HANDLES, "paralogues": {}}
     os.makedirs(OUT, exist_ok=True)
 
-    # 1) candidate library (real ChEMBL matter), deduplicated by ChEMBL id + label.
-    ligands, seen = [], set()
-    for nm in dock.LIGAND_NAMES:
-        hit = dock.chembl_smiles_by_name(nm)
-        if hit and (nm, hit[0]) not in seen:
-            ligands.append((nm, hit[0], hit[1])); seen.add((nm, hit[0]))
-    for label, cid, smi in dock.chembl_nr4a3_actives():
-        if (label, cid) not in seen:
-            ligands.append((label, cid, smi)); seen.add((label, cid))
+    # 1) candidate library. De-novo funnel mode: top-N generated candidates by denovo_promise. Default:
+    #    real ChEMBL matter, deduplicated by ChEMBL id + label.
+    if CANDIDATE_JSON and os.path.exists(CANDIDATE_JSON):
+        import denovo_library as dl
+        ligands = dl.top_candidates(json.load(open(CANDIDATE_JSON)), TOP_N)
+        res["candidate_source"] = (f"de-novo top {len(ligands)} by denovo_promise "
+                                   f"({os.path.basename(CANDIDATE_JSON)})")
+        print(f"  candidate library: {res['candidate_source']}", flush=True)
+    else:
+        ligands, seen = [], set()
+        for nm in dock.LIGAND_NAMES:
+            hit = dock.chembl_smiles_by_name(nm)
+            if hit and (nm, hit[0]) not in seen:
+                ligands.append((nm, hit[0], hit[1])); seen.add((nm, hit[0]))
+        for label, cid, smi in dock.chembl_nr4a3_actives():
+            if (label, cid) not in seen:
+                ligands.append((label, cid, smi)); seen.add((label, cid))
+        res["candidate_source"] = "ChEMBL NR4A actives"
     if not ligands:
         res["_status"] = "no candidate ligands resolved"
         _write(res); return
@@ -87,6 +154,20 @@ def main():
     # 2) per paralogue: extract its opened conformer, box on its own CV, dock the library.
     per = {}
     for tag in PARALOGUES:
+        # NR4A3 funnel override: dock into the Step-0 druggable-release receptor instead of a metad conformer.
+        if tag == "nr4a3" and NR4A3_RECEPTOR:
+            conf = os.path.join(OUT, f"{tag}-opened.pdb")
+            try:
+                rec, resseqs, center = _use_release_receptor(conf)
+                scores, pose = wh.dock_into(rec, center, sdf, tag)
+            except Exception as e:  # noqa: BLE001
+                res.setdefault("_warnings", []).append(f"NR4A3 release-receptor dock failed: {e}")
+                continue
+            per[tag] = {"conformer": rec, "resseqs": resseqs, "scores": scores, "pose": pose,
+                        "manifest": None}
+            res["paralogues"][KEY[tag]] = {"receptor": os.path.basename(NR4A3_RECEPTOR),
+                                           "source": "step0-druggable-release", "n_docked": len(scores)}
+            continue
         d = os.path.join(IN, tag)
         if not os.path.isdir(d):
             res.setdefault("_warnings", []).append(f"missing input dir {d} ({KEY[tag]} skipped)")
