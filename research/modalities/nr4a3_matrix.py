@@ -130,9 +130,18 @@ def main():
     #    real ChEMBL matter, deduplicated by ChEMBL id + label.
     if CANDIDATE_JSON and os.path.exists(CANDIDATE_JSON):
         import denovo_library as dl
-        ligands = dl.top_candidates(json.load(open(CANDIDATE_JSON)), TOP_N)
-        res["candidate_source"] = (f"de-novo top {len(ligands)} by denovo_promise "
-                                   f"({os.path.basename(CANDIDATE_JSON)})")
+        denovo = json.load(open(CANDIDATE_JSON))
+        if os.environ.get("DEVELOPABLE_ONLY") == "1":
+            # red-team Tier-1 #1: advance only DEVELOPABLE generations (no structural-alert liability +
+            # aromatic + SA<=4.5) to dock+MM-GBSA, so artifacts (carbamic acid / peroxide / ...) are skipped.
+            import structural_alerts as sa
+            ligands = dl.top_developable_candidates(denovo, sa.liabilities_from_smiles, TOP_N)
+            res["candidate_source"] = (f"de-novo top {len(ligands)} DEVELOPABLE by denovo_promise "
+                                       f"({os.path.basename(CANDIDATE_JSON)}; structural-alert filtered)")
+        else:
+            ligands = dl.top_candidates(denovo, TOP_N)
+            res["candidate_source"] = (f"de-novo top {len(ligands)} by denovo_promise "
+                                       f"({os.path.basename(CANDIDATE_JSON)})")
         print(f"  candidate library: {res['candidate_source']}", flush=True)
     else:
         ligands, seen = [], set()

@@ -42,6 +42,13 @@ def test_reasons_accumulate():
     assert len(v["reasons"]) == 4         # 2 alerts + no_aromatic_ring + SAscore
 
 
+def test_brenk_alerts_fail():
+    # BRENK>0 fails the gate (the "BRENK + curated" medchem-realism gate); default 0 has no effect
+    assert sa.developable_verdict([], 2, 3.0, brenk_alerts=1)["developable"] is False
+    assert "BRENK:1" in sa.developable_verdict([], 2, 3.0, brenk_alerts=1)["reasons"]
+    assert sa.developable_verdict([], 2, 3.0)["developable"] is True            # default brenk=0 passes
+
+
 # ---- SMARTS catalog (needs RDKit) ----
 
 def _has_rdkit():
@@ -62,8 +69,16 @@ def test_catalog_flags_artifacts_and_passes_clean():
     assert sa.liabilities_from_smiles("NC[C@@H]1CCN(Cc2ccccc2)C1") == []        # denovo_57 clean
     for drug in ("CC(=O)Oc1ccccc1C(=O)O",                                       # aspirin
                  "CC(C)Cc1ccc(C(C)C(=O)O)cc1",                                  # ibuprofen
-                 "Cn1cnc2c1c(=O)n(C)c(=O)n2C"):                                 # caffeine
+                 "Cn1cnc2c1c(=O)n(C)c(=O)n2C",                                  # caffeine
+                 "Cc1ccc(NC(=O)c2ccc(CN3CCN(C)CC3)cc2)cc1Nc1nccc(-c2cccnc2)n1"):  # imatinib
         assert sa.liabilities_from_smiles(drug) == []
+
+
+@pytest.mark.skipif(not _has_rdkit(), reason="RDKit not installed")
+def test_catalog_flags_michael_and_NO_bond():
+    assert "michael_acceptor" in sa.liabilities_from_smiles("C=CC(C)=O")        # methyl vinyl ketone
+    assert "NO_single_bond" in sa.liabilities_from_smiles("CN(O)C")             # hydroxylamine
+    assert sa.liabilities_from_smiles("c1cc(C)on1") == []                       # aromatic isoxazole N-O is fine
 
 
 @pytest.mark.skipif(not _has_rdkit(), reason="RDKit not installed")

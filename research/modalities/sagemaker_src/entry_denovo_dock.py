@@ -27,6 +27,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--git-ref", default="main")
     ap.add_argument("--top-n", default="20")
+    ap.add_argument("--developable-only", default="1",
+                    help="1 = dock only structural-alert-clean generations (red-team Tier-1 #1); 0 = all")
+    ap.add_argument("--receptor-mode", default="release", choices=["release", "metad"],
+                    help="release = Step-0 unbiased druggable-release NR4A3 frame (default); "
+                         "metad = NR4A3 metad-opened conformer, STATE-MATCHED to the paralogue metad frames "
+                         "(red-team Tier-1 #3). 'metad' needs the nr4a3-metad ensemble mounted at input/nr4a3.")
     args = ap.parse_args()
 
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
@@ -42,11 +48,20 @@ def main():
                     "matplotlib-base"], check=True)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ subdirs
+    env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ (and nr4a3/ in metad mode)
     env["OUTPUT_DIR"] = OUT
     env["CANDIDATE_JSON"] = os.path.join(IN, "denovo", "nr4a3-denovo.json")
-    env["NR4A3_RECEPTOR"] = os.path.join(IN, "receptor", "nr4a3-release-druggable.pdb")
     env["TOP_N"] = args.top_n
+    env["DEVELOPABLE_ONLY"] = args.developable_only
+    # NR4A3 receptor: release frame (set NR4A3_RECEPTOR -> driver docks the Step-0 unbiased druggable frame)
+    # vs metad frame (unset -> driver extracts NR4A3's metad-opened conformer from input/nr4a3, STATE-MATCHED
+    # to the paralogue metad frames). See nr4a3_matrix.py candidate-mode receptor logic.
+    if args.receptor_mode == "release":
+        env["NR4A3_RECEPTOR"] = os.path.join(IN, "receptor", "nr4a3-release-druggable.pdb")
+    else:
+        env.pop("NR4A3_RECEPTOR", None)
+    print(f"[sagemaker] receptor_mode={args.receptor_mode} developable_only={args.developable_only}",
+          flush=True)
     os.makedirs(OUT, exist_ok=True)
     for name, p in (("candidates", env["CANDIDATE_JSON"]), ("NR4A3 receptor", env["NR4A3_RECEPTOR"]),
                     ("nr4a1", os.path.join(IN, "nr4a1")), ("nr4a2", os.path.join(IN, "nr4a2"))):
