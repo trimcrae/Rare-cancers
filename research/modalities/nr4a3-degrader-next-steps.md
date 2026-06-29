@@ -21,8 +21,9 @@ status **UPDATED 2026-06-29, now mixed/cautiously-positive after a corrected tes
   mdpocket on the unbiased release trajectory gives `max 0.842, mean 0.262, frac≥0.5 = 0.24, frac≥0.53 = 0.20`
   (static 0.495) — druggable in **~24% of unbiased frames** (clears the pre-reg ≥5%@0.53 bar, with NO bias).
   So **Gate 3 is now cautiously PASSED as an induced-fit / conformational-selection target** (a dynamic
-  pocket druggable ~¼ of the time), NOT a static always-open pocket. Triplicate metastability confirmation in
-  flight. Do **not** restate "Gate 3 FAILS" — the corrected (right-frame) test reversed it. The 0.931/0.751 opened-frame druggability is the
+  pocket druggable ~¼ of the time), NOT a static always-open pocket. **Metastability CONFIRMED 3/3** (triplicate
+  replicas all held 5 ns, mean |drift| 0.025 nm). Do **not** restate "Gate 3 FAILS" — the corrected
+  (right-frame) test reversed it. The 0.931/0.751 opened-frame druggability is the
 **orthosteric Pocket-5** metric (commensurate with the static 0.495) but is a **biased-MD-frame peak over
 frames** — report it as the fraction of opened frames ≥ D\*=0.53 (≥5% pre-reg bar, met) with 0.931 as the
 peak, and not as a like-for-like beat of the *static* drug-bound band. (fpocket itself is standard and the
@@ -310,17 +311,22 @@ the family metad (in flight) is the fix.
     selection** (the norm for NR cryptic sites, cf. de Vera 2019 Nurr1). This clears the pre-registered
     "≥5% of frames ≥ D*=0.53" bar (20% here) — and unlike the original metad number, it is on UNBIASED
     dynamics, so it is *not* a bias artifact.
+  - **METASTABILITY — CONFIRMED 3/3 (triplicate, run 28343901058, DONE 2026-06-29):** all three independent
+    velocity seeds held near the seed Rg for the full 5 ns — replicas mean Rg 0.741 / ~0.74 / 0.732, every
+    one frac-near-seed 1.00, **mean |drift from seed| 0.025 nm**, verdict "3/3 PERSISTENCE → thermally
+    metastable." No collapse in any replica. (Live Rg streaming let us watch all three hold in real time.)
   - **Net verdict (2026-06-29): the cryptic-pocket case is REVIVED — as an induced-fit druggable site, not a
-    static pocket.** Seeded at the correct low-energy frame, the pocket is (i) metastable (held 5 ns unbiased;
-    triplicate confirmation in flight) and (ii) druggable ~24% of the time under unbiased dynamics. The
-    premature "Gate 3 FAILS" came from testing the wrong (max-energy) frame. **Honest scope:** this supports a
-    *conformational-selection / induced-fit* warhead (bind & stabilise the ~24% druggable conformations), NOT
-    a permanently-open pocket. The matrix / MM-GBSA / FEP / de-novo work therefore has a real foundation, but
-    should be framed as targeting a dynamic pocket (docking/scoring against the druggable sub-ensemble).
-  - **Still pending before FEP / de-novo spend:** (1) the **triplicate** (confirm metastability across 3
-    seeds — running, g5, live Rg streaming); (2) ideally re-pick the docking/MM-GBSA receptor as a
-    *druggable* release frame (Rg ~0.737, fpocket ≥0.5) rather than the biased metad max frame, so downstream
-    work uses an unbiased, thermally-real, druggable conformation.
+    static pocket.** Seeded at the correct low-energy frame, the pocket is (i) **metastable (3/3 replicas held
+    5 ns unbiased, drift 0.025 nm)** and (ii) **druggable ~24% of unbiased frames** (frac≥0.5 0.24, ≥0.53
+    0.20, peak 0.842; static 0.495). The premature "Gate 3 FAILS" came from testing the wrong (max-energy)
+    frame. **Honest scope:** this supports a *conformational-selection / induced-fit* warhead (bind &
+    stabilise the ~24% druggable conformations), NOT a permanently-open pocket. The matrix / MM-GBSA / FEP /
+    de-novo work therefore has a real foundation, but should be framed as targeting a *dynamic* pocket
+    (dock/score against the druggable sub-ensemble, not one static frame).
+  - **Next, before FEP / de-novo spend (for trimcrae):** re-pick the docking/MM-GBSA receptor as a
+    *druggable UNBIASED release frame* (Rg ~0.737, fpocket ≥0.5 — extract from `release_rep*.dcd`) rather than
+    the biased metad max frame, so all downstream work uses a thermally-real, druggable conformation. Then the
+    matrix selectivity + MM-GBSA verdicts should be re-confirmed on that receptor before any FEP.
 
 ## Open items (not blockers for the warhead)
 - [ ] **Report 0.931 as a distribution, not just a max (red-team F2).** The headline is the peak over 600
