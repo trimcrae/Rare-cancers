@@ -222,12 +222,41 @@ def main():
               f"confirmed_drug={info['confirmed_druggability']} box_res={len(info['box_residues'])} "
               f"-> {fname}", flush=True)
     res["receptors"] = receptors
-    res["primary_receptor"] = "nr4a3-release-druggable.pdb"
-    res["_status"] = "ok"
+    res["selection_primary_receptor"] = "nr4a3-release-druggable.pdb"
+
+    # CONFIRM-FILTER the sub-ensemble. The candidate-pool druggability (reused from the older
+    # nr4a3-release-pocket summary) and the fresh CONFIRMATION fpocket run can disagree — single-frame
+    # fpocket pocket-detection is fragile and the two summaries may even use different fpocket builds. The
+    # *confirmed* score (this run's fpocket, the same method we will box/dock on) governs. Downstream MUST
+    # dock against this confirmed sub-ensemble, not every chosen frame.
+    drug_sub = [r for r in receptors
+                if r["confirmed_druggability"] is not None and r["confirmed_druggability"] >= D_STAR]
+    dropped = [r for r in receptors if r not in drug_sub]
+    drug_sub_sorted = sorted(drug_sub, key=lambda r: abs((r["selection_rg"] or 1e9) - TARGET_RG))
+    res["druggable_subensemble"] = [r["pdb"] for r in drug_sub_sorted]
+    # The receptor downstream docking should treat as primary = the confirmed-druggable frame closest to
+    # target Rg (normally the selection primary, but promote an alternate if the primary failed confirmation).
+    res["docking_primary_receptor"] = drug_sub_sorted[0]["pdb"] if drug_sub_sorted else None
+    res["confirm_filter"] = {
+        "d_star": D_STAR,
+        "n_confirmed_druggable": len(drug_sub),
+        "n_dropped": len(dropped),
+        "dropped": [{"pdb": r["pdb"], "confirmed_druggability": r["confirmed_druggability"],
+                     "selection_druggability": r["selection_druggability"]} for r in dropped],
+        "note": ("Sub-ensemble filtered by CONFIRMED fpocket druggability >= D*. Frames whose reused-summary "
+                 "druggability did not reproduce on re-extraction are dropped (e.g. a single-frame fpocket "
+                 "pocket-detection / fpocket-build discrepancy). Dock/score against druggable_subensemble."),
+    }
+    res["_status"] = ("ok" if drug_sub else
+                      "no chosen frame confirmed druggable (>= D*) on re-extraction — receptor re-anchor "
+                      "produced no usable docking receptor; inspect candidate pool / rerun with FORCE_SCAN")
     _write(res)
     _plot(records, sel, np)
-    print(f"  DONE: primary receptor nr4a3-release-druggable.pdb + {len(receptors) - 1} alternate(s); "
-          f"manifest nr4a3-release-druggable.json", flush=True)
+    if not drug_sub:
+        print("  WARNING: no chosen frame confirmed druggable on re-extraction", file=sys.stderr)
+    print(f"  DONE: docking primary={res['docking_primary_receptor']}; "
+          f"druggable sub-ensemble={res['druggable_subensemble']} "
+          f"({len(dropped)} dropped on confirm); manifest nr4a3-release-druggable.json", flush=True)
 
 
 def _write(res):
