@@ -71,6 +71,25 @@ selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
   recommended DEFERRED** behind (i) the unbiased release run confirming the pocket is metastable and (ii)
   MM-GBSA + de-novo *bona fide* selective candidates worth a multi-day alchemical run.
 
+## ⚠️ MULTI-SNAPSHOT CONFIRMATION REFUTES denovo_393 (2026-06-30) — single-snapshot harvest is noise
+Built the multi-snapshot de-noising tier (`endpoint_dG_multisnapshot`: minimize → short GB Langevin MD → ΔG
+averaged over 10 frames + SD) and ran it on the lead set (run 28467383090, `nr4a3-denovo-mmgbsa-v3deep-ms`):
+| candidate | single-snapshot | **multi-snapshot mean ± SD** | verdict |
+|-----------|-----------------|------------------------------|---------|
+| denovo_393 (was BEST, above decoy max) | +18.34 | **−2.95 ± 3.65** | **reversed** (selectivity gone) |
+| denovo_780 | +14.66 | +2.07 ± 6.36 | within noise of 0 |
+| denovo_924 (neg control) | −19.41 | −25.20 ± 4.55 | stays nonselective ✓ (method works) |
+**The single-snapshot MM-GBSA selectivity margins have SD ~4–6 kcal/mol — LARGER than the margins — so the
+"above-null" harvest (decoy bar was also single-snapshot) is dominated by noise.** denovo_393's +18.34 was an
+extreme-value artifact; de-noised it is ~0/slightly paralogue-favoring. The negative control behaving correctly
+makes this a TRUSTWORTHY refutation, not a method failure. **This $1.50 step avoided a ~$300 inconclusive FEP.**
+Checking denovo_401 (+denovo_94) under multi-snapshot next (run 28469110227, `-v2-ms`); given the strongest
+lead collapsed, expect the others to as well. **Implication: single-snapshot scoring cannot find a real
+selective lead here; a genuine candidate needs multi-snapshot (or FEP) scoring IN THE SELECTION LOOP, not just
+at the end — which is far costlier per candidate. Strategic decision pending trimcrae (do NOT publish a null;
+options: multi-snapshot-in-the-loop lead-opt around a scaffold; revisit whether the cryptic pocket can support
+selective small-molecule binding at all; or shift weight to the degrader's other legs / ASO).**
+
 ## Red-team Tier-1/2/3 in-silico execution — state (2026-06-29, async; resume here)
 Strengthening the de-novo case (red-team). All code merged to `main`. Several SageMaker jobs are async; the
 dependent steps below must be dispatched as each upstream job lands (verify via S3 / the run conclusion).
