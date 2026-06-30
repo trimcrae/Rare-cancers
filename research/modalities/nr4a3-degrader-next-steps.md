@@ -71,6 +71,21 @@ selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
   recommended DEFERRED** behind (i) the unbiased release run confirming the pocket is metastable and (ii)
   MM-GBSA + de-novo *bona fide* selective candidates worth a multi-day alchemical run.
 
+## ✅ denovo_401 SURVIVES MULTI-SNAPSHOT (2026-06-30) — first FEP-worthy selective lead
+Ran the multi-snapshot de-noising tier on `denovo_401` (run 28469414513, report 28470289876, `nr4a3-denovo-mmgbsa-v2-ms`):
+| candidate | single-snapshot | **multi-snapshot mean ± SD** | NR4A3 ΔG | NR4A1 ΔG | NR4A2 ΔG | margin − SD | verdict |
+|-----------|-----------------|------------------------------|----------|----------|----------|-------------|---------|
+| **denovo_401** | +13.92 | **+12.83 ± 2.98** | **−38.18** | −22.98 | −25.35 | **+9.85** | **confirmed_selective** |
+**This is the breakthrough.** Where denovo_393 *collapsed* under the identical tier (+18.34 → −2.95 ± 3.65),
+denovo_401 *holds*: the multi-snapshot margin (+12.83) is barely below its single-snapshot value, the SD (2.98)
+is small (vs the 4–6 that buried 393/780), and **margin − SD = +9.85 ≫ 0** — the FEP-worthy bar is cleanly met.
+NR4A3 binding is strong and favorable (−38.18 kcal/mol) with both paralogues ~13–15 kcal/mol weaker. So the
+de-noising tier is *discriminating*, not destroying: it killed a noise artifact (393) and confirmed a real
+lead (401). **denovo_401 is the first candidate queued for FEP** (do NOT launch yet per trimcrae). SMILES
+`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` (MW 304, QED 0.80, SA 3.87, clean — no structural
+alerts). Next: keep the multi-snapshot screen running over the remaining v3deep pool to find siblings, and
+scaffold-seed lead-opt around denovo_401's chemotype.
+
 ## ⚠️ MULTI-SNAPSHOT CONFIRMATION REFUTES denovo_393 (2026-06-30) — single-snapshot harvest is noise
 Built the multi-snapshot de-noising tier (`endpoint_dG_multisnapshot`: minimize → short GB Langevin MD → ΔG
 averaged over 10 frames + SD) and ran it on the lead set (run 28467383090, `nr4a3-denovo-mmgbsa-v3deep-ms`):
