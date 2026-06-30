@@ -91,11 +91,14 @@ dependent steps below must be dispatched as each upstream job lands (verify via 
   ensemble MM-GBSA (or FEP) that must BEAT the decoy null — now necessary, not optional; keep the decoy set as
   a standing specificity gate.** (Single-snapshot MM-GBSA on the small clean de-novo/decoy sets is cheap, but
   multi-snapshot is the real tier.)
-- **Tier 1 #3 (state-matched re-dock) — DONE (code).** `gpu-denovo-dock-aws.yml receptor_mode=metad` (NR4A3 in
-  its metad-opened conformer, matching the paralogue metad frames). First run failed on a `NR4A3_RECEPTOR`
-  KeyError in the pre-flight print (metad pops it) — **fixed** (entry uses `env.get`), **re-dispatched** →
-  `nr4a3-denovo-matrix-statematch`. **NEXT: MM-GBSA → `nr4a3-denovo-mmgbsa-statematch`**; the de-novo
-  selectivity direction should hold under state-matching if it is real.
+- **Tier 1 #3 (state-matched re-dock) — DONE + reinforces the negative (2026-06-30).** `receptor_mode=metad`
+  (NR4A3 in its metad-opened conformer). First run failed on a `NR4A3_RECEPTOR` KeyError (fixed, env.get),
+  re-dispatched → `nr4a3-denovo-matrix-statematch`, MM-GBSA → `nr4a3-denovo-mmgbsa-statematch` (run 28416206108,
+  success). **RESULT: the MM-GBSA "selective" set is NOT robust to receptor-frame choice.** Release-frame dev
+  confirmed_selective = {denovo_111, denovo_67}; state-matched confirmed_selective = {denovo_111, denovo_170,
+  denovo_0} (+denovo_67 rescued). **Only denovo_111 is NR4A3-favoured in BOTH states** — the rest flip. Layered
+  on the decoy non-specificity (#2), this confirms the single-snapshot verdict is unstable + non-specific; even
+  denovo_111 is not above the ~39–58 % decoy null. Reinforces: a controlled multi-snapshot/FEP tier is required.
 - **Tier 2 #4 (re-generate with the filter in-loop) — RUNNING.** `gpu-denovo-aws.yml n_samples=500
   output_prefix=nr4a3-denovo-v2` (the funnel now demotes non-developable, so clean candidates rank top).
   **NEXT once it lands: dock `gpu-denovo-dock-aws.yml denovo_prefix=nr4a3-denovo-v2 developable_only=1
