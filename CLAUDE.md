@@ -58,17 +58,27 @@ read it before making changes.
   deliverable on a timeout. Full rule + the MM-GBSA incident that prompted it:
   **[research/modalities/nr4a3-degrader-next-steps.md](./research/modalities/nr4a3-degrader-next-steps.md)
   → "Infra gotchas a fresh session MUST know"**.
-- **Self-wake for autonomous/overnight runs = CRON (best available), not ScheduleWakeup — but it is NOT
-  fully reliable (verified 2026-06-29/30).** Use **`CronCreate`** (e.g. `7,27,47 * * * *` ~every-20-min; off
-  the :00/:30 marks) — it fires on the idle REPL and re-invokes you *while the session lives*. **`ScheduleWakeup`
-  did NOT fire** outside `/loop` dynamic mode. **Known failure: a cron VANISHED at the midnight/context-window
-  boundary** — `durable: true` was passed but the harness still reported the job "session-only (not written to
-  disk)" and `CronList` was empty after the rollover, so it never fired again. Mitigations: (1) make the loop
-  **self-healing** — each fire's prompt should `CronList` and re-`CronCreate` itself if missing; (2) the prompt
-  must carry the full task + state pointer (read `nr4a3-degrader-next-steps.md`) so any fire is self-contained;
-  (3) final iteration `CronDelete`s itself. **Bottom line: cron keeps momentum within a live session but cannot
-  be trusted across a session/context teardown — do not promise guaranteed overnight persistence; expect to
-  re-arm after a boundary.**
+- **Reliable self-wake for autonomous/overnight runs = a BACKGROUND-BASH POLLER, not cron/ScheduleWakeup
+  (verified 2026-06-30; a sibling session ran 48 h this way).** Launch a polling loop as a **`run_in_background:
+  true`** Bash command; when it exits, the harness delivers a `<task-notification>` that **re-invokes you** —
+  that completion *is* the wake-up. Pattern: poll the **public GitHub Actions API** (no auth needed for a public
+  repo, ~60 req/h limit so `sleep 70`) for the run you're waiting on and **exit early when it finishes**, with a
+  loop bound that exceeds the job's wall time:
+  ```
+  for i in $(seq 1 60); do
+    s=$(curl -s "https://api.github.com/repos/trimcrae/Rare-cancers/actions/runs/<RUN_ID>" \
+        | python3 -c "import sys,json;print(json.load(sys.stdin).get('status'))")
+    [ "$s" = completed ] && { echo DONE; break; }; sleep 70
+  done
+  ```
+  On wake: read the poller's output file, act (read results via `report-*-aws.yml`, dispatch the next job, fix
+  failures, commit/merge), then launch a FRESH poller on the next run id. **Restart-resilient** because all state
+  lives in the repo/S3, not the container — after a restart just relaunch the poller against the same branch/run
+  state. Get a freshly-dispatched run's id via
+  `curl .../actions/workflows/<wf>.yml/runs?per_page=1`. Only inefficiency: a mistuned bound can wake you early
+  with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
+  / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
+  so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
   **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` (GPU) job — serialize all GPU jobs
   (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap.**
 - **No dependencies, no build step.** Keep it that way.
