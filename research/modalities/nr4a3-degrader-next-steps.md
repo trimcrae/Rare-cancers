@@ -79,10 +79,18 @@ dependent steps below must be dispatched as each upstream job lands (verify via 
   handles, NONE currently NR4A3-selective** (denovo_57 clean+confirmed_selective but dock cell "none").
   Developable-only **release** dock **succeeded** → `s3://<bucket>/nr4a3-denovo-matrix-dev`. **MM-GBSA
   dispatched** → `nr4a3-denovo-mmgbsa-dev` (read with `report-mmgbsa-aws.yml input=nr4a3-denovo-mmgbsa-dev`).
-- **Tier 1 #2 (decoy/specificity control) — DONE (code).** `decoy_library.py` (38 non-NR4A drugs). Decoy dock
-  **running** → `nr4a3-decoy-matrix` (`gpu-denovo-dock-aws.yml decoy=1 developable_only=0`). **NEXT: MM-GBSA on
-  `nr4a3-decoy-matrix` → `nr4a3-decoy-mmgbsa`**, then compare the NR4A3-favourable / confirmed_selective RATE
-  vs the de-novo rate (enrichment = specificity evidence).
+- **Tier 1 #2 (decoy/specificity control) — DONE + DECISIVE NEGATIVE (2026-06-30).** `decoy_library.py` (38
+  non-NR4A drugs) docked → `nr4a3-decoy-matrix`, MM-GBSA → `nr4a3-decoy-mmgbsa` (run 28414348202, needed
+  `compute_timeout=7200` for 38×3 legs). **RESULT: the single-snapshot MM-GBSA "NR4A3-selective" verdict is
+  NON-SPECIFIC.** Decoy null `confirmed_selective` **15/38 = 39 %** (~58 % positive NR4A3 margin), incl.
+  caffeine/ibuprofen/lidocaine/phenytoin; developability-gated de-novo set (`nr4a3-denovo-mmgbsa-dev`)
+  `confirmed_selective` **2/11 = 18 %** (denovo_111, denovo_67) — **below the decoy baseline, NOT enriched.**
+  → The MM-GBSA selectivity tier as run **cannot support a selectivity claim** (it labels ~40–58 % of any
+  drug-like matter selective; explains why artifact denovo_15 scored "selective"). Paper §2.5/abstract/§6 Gate
+  4 + red-team F15 updated to retract "MM-GBSA-confirmed selective". **The fix = Tier 3 #6 multi-snapshot /
+  ensemble MM-GBSA (or FEP) that must BEAT the decoy null — now necessary, not optional; keep the decoy set as
+  a standing specificity gate.** (Single-snapshot MM-GBSA on the small clean de-novo/decoy sets is cheap, but
+  multi-snapshot is the real tier.)
 - **Tier 1 #3 (state-matched re-dock) — DONE (code).** `gpu-denovo-dock-aws.yml receptor_mode=metad` (NR4A3 in
   its metad-opened conformer, matching the paralogue metad frames). First run failed on a `NR4A3_RECEPTOR`
   KeyError in the pre-flight print (metad pops it) — **fixed** (entry uses `env.get`), **re-dispatched** →

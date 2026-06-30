@@ -134,6 +134,36 @@ selectivity," but the matrix is still framed as the selectivity deliverable.
 that degradation-direction selectivity is set downstream by the per-paralogue ternary model — already the
 planned tier, now explicitly labelled as the gating step for any selectivity claim.
 
+## Third pass (2026-06-30) — the decoy control invalidates the MM-GBSA selectivity tier (DECISIVE)
+
+### F15 (severity: HIGH) — Single-snapshot MM-GBSA "NR4A3-selective" verdict is NON-SPECIFIC (no enrichment over a non-NR4A decoy null)
+**Test.** Built a decoy/specificity control (red-team Tier-1 #2): 38 diverse **non-NR4A marketed drugs**
+(`decoy_library.py`) pushed through the *identical* dock→single-snapshot-MM-GBSA funnel as the de-novo
+candidates (same NR4A3 release receptor + NR4A1/NR4A2 metad frames), then compared the rate of
+"NR4A3-selective" calls.
+**Result (run 28414348202 / report 28416243043).** The decoy null is **`confirmed_selective` 15/38 = 39 %**
+(census: confirmed_selective 15 · rescued 3 · weakened 2 · reversed 2 · confirmed_nonselective 16), and
+**~58 %** of decoys have a *positive* NR4A3 MM-GBSA margin. The "selective" decoys include **caffeine,
+ibuprofen, lidocaine, phenytoin, diazepam, atenolol** — molecules with no plausible NR4A3 selectivity. The
+developability-gated **de-novo set is `confirmed_selective` 2/11 = 18 %** — i.e. **below** the decoy baseline,
+**not enriched**.
+**Why it matters (load-bearing).** The paper's de-novo headline ("**MM-GBSA-confirmed NR4A3-selective**
+candidates", §2.5/abstract) rests on this verdict. The control shows the verdict has **no specificity** — the
+single-snapshot, single-pose MM-GBSA + the asymmetric receptor (NR4A3 scored in its druggable release frame
+vs paralogues) systematically favours NR4A3, so ~40–58 % of *any* drug-like matter scores "NR4A3-selective."
+This **retro-explains** why the original artifact `denovo_15` came back "confirmed_selective" (the metric
+calls everything selective) and means **the MM-GBSA tier cannot support a selectivity claim as run.**
+**Fix applied.** (a) §2.5 + abstract + §5: retract/​downgrade "MM-GBSA-confirmed NR4A3-selective" to "the
+single-snapshot MM-GBSA selectivity verdict **fails a decoy control** (39 % of non-NR4A drugs score
+selective; de-novo not enriched), so selectivity is **not established** by this tier — a properly-controlled
+**multi-snapshot/ensemble MM-GBSA or selectivity FEP** is required." (b) Recorded the decoy control as a
+**standing gate**: any future selectivity tier must beat the decoy null. (c) next-steps updated: Tier 3 #6
+(multi-snapshot MM-GBSA with the decoy control re-run) is now the *necessary* fix, not optional polish.
+**Decision for trimcrae (surfaced):** this guts the de-novo section's selectivity claim. Options: re-frame
+§2.5 as "funnel + honest negative control (endpoint metric non-specific; FEP needed)", or hold the de-novo
+arc out of the paper until a controlled energy method shows real enrichment. Awaiting steer; the honest
+write-up is in place either way.
+
 ## Second pass (2026-06-29) — fresh adversarial review after the de-novo result landed
 
 > The F1–F8 pass predates the matrix / MM-GBSA / de-novo results being folded into the paper. This second
