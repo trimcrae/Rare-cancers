@@ -86,6 +86,15 @@ lead (401). **denovo_401 is the first candidate queued for FEP** (do NOT launch 
 alerts). Next: keep the multi-snapshot screen running over the remaining v3deep pool to find siblings, and
 scaffold-seed lead-opt around denovo_401's chemotype.
 
+**v3deep-ms2 batch (run 28470643031, 6 candidates) — ZERO further survivors; denovo_401 stands alone.**
+Multi-snapshot on denovo_921/277/804/431/838/924(neg ctrl): best is denovo_921 +4.22±5.23 (margin−SD=−1.01),
+then denovo_277 +2.23±3.52 (−1.29) — both "confirmed_selective" by sign but **neither survives de-noising**;
+804/431/838 weakened/nonselective; neg control denovo_924 −20.78 (stays nonselective ✓, method discriminating).
+So across ~10 candidates now multi-snapshot-tested, **denovo_401 (margin−SD=+9.85) is the SOLE survivor** —
+an honest, sobering count: the funnel does NOT reliably produce de-noising survivors. Reinforces the paper's
+"n=1 of ~10" caveat (§2.6) and the architecture conclusion that binder selectivity is the fragile place to
+source it (§2.7). No new GPU jobs dispatched (trimcrae stopping for a fresh red-team before FEP).
+
 ## ⚠️ MULTI-SNAPSHOT CONFIRMATION REFUTES denovo_393 (2026-06-30) — single-snapshot harvest is noise
 Built the multi-snapshot de-noising tier (`endpoint_dG_multisnapshot`: minimize → short GB Langevin MD → ΔG
 averaged over 10 frames + SD) and ran it on the lead set (run 28467383090, `nr4a3-denovo-mmgbsa-v3deep-ms`):

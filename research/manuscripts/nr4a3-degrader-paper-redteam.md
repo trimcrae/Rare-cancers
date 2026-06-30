@@ -269,8 +269,10 @@ weaker reading on each.
   (+12.83 ± 2.98, margin − SD = +9.85)** as the one survivor → the single FEP-justified lead. **Open angles
   to press:** (a) the **decoy null was not recomputed at multi-snapshot**, so "survives de-noising" ≠ "above
   a multi-snapshot null" — the paper now says this (§2.6, caveat 7); check it is never quietly upgraded;
-  (b) it is **single-trajectory GB-implicit MD, not FEP**; (c) n=1 survivor out of a handful tested — the
-  funnel is not shown to *reliably* produce de-noising survivors, only that one exists; (d) `denovo_111`
+  (b) it is **single-trajectory GB-implicit MD, not FEP**; (c) n=1 survivor out of ~10 tested at
+  multi-snapshot (denovo_401 alone; the 6-candidate v3deep-ms2 batch added zero — best denovo_921
+  +4.22 ± 5.23 fails margin − SD > 0) — the funnel is not shown to *reliably* produce de-noising survivors,
+  only that one exists; (d) `denovo_111`
   (the single-snapshot decoy-null foothold) has **not** been multi-snapshot-tested, so the paper carries two
   differently-derived "leads" — watch for conflation.
 - **Selectivity-architecture analysis added (§2.7 + `nr4a3-degrader-selectivity-architecture.md`).** New

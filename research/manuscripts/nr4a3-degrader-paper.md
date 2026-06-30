@@ -396,7 +396,13 @@ FEP**, **unsynthesized**, and **un-validated**. Critically, the decoy null (§2.
 artifact**, not that it beats a re-calibrated specificity baseline. The defensible claim is: *of the
 single-snapshot harvest, `denovo_401` is the one candidate whose selectivity margin is robust to ensemble
 de-noising, making it the justified single candidate to advance to FEP* — and a multi-snapshot decoy
-re-calibration is the matching specificity control to run alongside.
+re-calibration is the matching specificity control to run alongside. **A further 6-candidate multi-snapshot
+batch (`denovo_921/277/804/431/838` + the `denovo_924` negative control) returned *no additional survivor*:
+the best two, `denovo_921` (+4.22 ± 5.23) and `denovo_277` (+2.23 ± 3.52), are positive-margin but **fail
+the margin − SD > 0 bar**, while the negative control stayed non-selective.** So across ~10 candidates now
+multi-snapshot-tested, **`denovo_401` is the *sole* survivor** — a sobering count: the funnel does **not**
+reliably yield de-noising survivors (it found one), consistent with §2.7's conclusion that the cryptic pocket
+is a fragile place to source a robust selectivity margin.
 
 ### 2.7 Selectivity architecture: the pocket is a selectivity *hotspot*, and the burden is shared with the ternary
 Treating "where should selectivity come from" as its own optimization (full analysis:
