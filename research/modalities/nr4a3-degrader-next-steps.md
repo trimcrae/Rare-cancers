@@ -115,10 +115,15 @@ The decoy control is a **calibrated yardstick**, not a stop sign. Decoy null (n=
 9.74, **95th 13.12**, max 16.46 (`selectivity_calibration.py`, unit-tested). Against the 95th-pct bar
 **`denovo_111` (+15.7) is the ONE candidate that clears the null** (clean fluoro-phenyl-pyrrolidine, QED 0.87 /
 SA 2.9, favoured in both receptor states; 1/38 decoys above it). That is the foothold. Plan:
-1. **Mine v2 — RUNNING.** v2 MM-GBSA (`nr4a3-denovo-matrix-v2` → `nr4a3-denovo-mmgbsa-v2`, run 28437077111,
-   compute_timeout 4500) then `selectivity_calibration.rank_against_null` over **dev + v2** margins vs the decoy
-   bar → harvest every above-null candidate (denovo_111 + any v2 hits). Decoy-calibration makes single-snapshot
-   MM-GBSA a *useful filter* again (raw margin>0 was junk; >13.1 is meaningful).
+1. **Mine v2 — DONE (2026-06-30). TWO above-null leads now.** v2 MM-GBSA (run 28437077111) done; ranked dev +
+   v2 vs the decoy bar (+13.1). **Above-null set (clean + margin > +13.1):**
+   - **`denovo_401`** (v2) `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` — margin **+13.92**, **dock
+     cell NR4A3-only** (selective at BOTH tiers), QED 0.80 / SA 3.87 / MW 304, CLEAN. The strongest foothold.
+   - **`denovo_111`** (dev) `CC[C@H](C)c1cc(OCCO)cc(N2CCCC2)c1F` — margin **+15.70** (MM-GBSA, both receptor
+     states), QED 0.87 / SA 2.9 / MW 281, CLEAN.
+   (Other v2 confirmed_selective — denovo_65 +9.79, denovo_297 +7.63, denovo_269 +2.55 — are below the decoy
+   bar; not above-null.) So blind generation yields ~1 above-null hit per ~500 gens → brute-force scales but
+   the higher-value move is lead-opt around these two (step 2).
 2. **Lead-opt around denovo_111 (+ any v2 above-null hits).** Scaffold-seeded generation (keep the
    fluoro-phenyl-pyrrolidine core, vary substituents) conditioned hard on the FOUR both-paralogue divergent
    handles (L406/T410/I484/L534 — the physical basis of selectivity), heavily oversampled (≥1000), developability-
