@@ -50,14 +50,25 @@ def main():
     print(f"reversed:            {res.get('leads_reversed')}")
 
     rows = res.get("candidates", [])
+    multisnap = any("mm_min_margin_sd" in r for r in rows)   # multi-snapshot run carries SDs
     print(f"\n=== ranked candidates ({len(rows)}) ===")
-    hdr = f"{'#':>2} {'label':<24} {'mmΔG3':>8} {'mmΔG1':>8} {'mmΔG2':>8} {'mmMin':>7} {'dockMin':>7}  verdict"
+    if multisnap:
+        hdr = (f"{'#':>2} {'label':<24} {'mmMin':>7} {'±SD':>6} {'mmΔG3':>8} {'mmΔG1':>8} {'mmΔG2':>8} "
+               f"{'dockMin':>7}  verdict")
+    else:
+        hdr = (f"{'#':>2} {'label':<24} {'mmΔG3':>8} {'mmΔG1':>8} {'mmΔG2':>8} {'mmMin':>7} {'dockMin':>7}"
+               f"  verdict")
     print(hdr); print("-" * len(hdr))
     for i, r in enumerate(rows, 1):
         g = r.get("dG_mmgbsa", {})
-        print(f"{i:>2} {str(r.get('label'))[:24]:<24} {_f(g.get('NR4A3'))} {_f(g.get('NR4A1'))} "
-              f"{_f(g.get('NR4A2'))} {_f(r.get('mm_min_margin'),7)} {_f(r.get('dock_min_margin'),7)}  "
-              f"{r.get('verdict')}")
+        if multisnap:
+            print(f"{i:>2} {str(r.get('label'))[:24]:<24} {_f(r.get('mm_min_margin'),7)} "
+                  f"{_f(r.get('mm_min_margin_sd'),6)} {_f(g.get('NR4A3'))} {_f(g.get('NR4A1'))} "
+                  f"{_f(g.get('NR4A2'))} {_f(r.get('dock_min_margin'),7)}  {r.get('verdict')}")
+        else:
+            print(f"{i:>2} {str(r.get('label'))[:24]:<24} {_f(g.get('NR4A3'))} {_f(g.get('NR4A1'))} "
+                  f"{_f(g.get('NR4A2'))} {_f(r.get('mm_min_margin'),7)} {_f(r.get('dock_min_margin'),7)}  "
+                  f"{r.get('verdict')}")
 
     # surface distinct per-ligand errors (key for diagnosing an all-incomplete run)
     seen = {}
