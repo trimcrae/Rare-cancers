@@ -122,6 +122,20 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   success: the control caught a metric that would otherwise "confirm" selectivity for almost any molecule, and
   converted it into a calibrated threshold that isolates a genuine lead.
 
+- **2026-06-30 (later) — Gate 4 foothold upgraded by the multi-snapshot de-noising tier (disclosed; §2.6).**
+  The follow-up the previous entry named as "pending" — multi-snapshot endpoint MM-GBSA (`endpoint_dG_multisnapshot`:
+  minimize → short GB Langevin MD → ΔG over 10 frames + SD) — was run on the lead set. It is **discriminating,
+  not merely destructive**: the negative control `denovo_924` stays non-selective (−25.20 ± 4.55), the
+  single-snapshot best `denovo_393` **collapses** (+18.34 → −2.95 ± 3.65), and **`denovo_401` holds**
+  (+12.83 ± 2.98, **margin − SD = +9.85**; NR4A3 ΔG −38.18, both paralogues ~13–15 kcal/mol weaker). So Gate 4's
+  small-molecule leg now rests on **`denovo_401`** — the single candidate whose selectivity margin survives
+  ensemble de-noising and the one justified to advance to FEP — **superseding** the single-snapshot decoy-null
+  foothold `denovo_111` (not yet multi-snapshot-tested). Two honest bounds keep this from an unqualified pass:
+  (i) it is **single-trajectory GB-implicit MD, not FEP**, unsynthesized, un-validated; and (ii) the decoy null
+  was computed at *single-snapshot*, so "survives de-noising" is **not** the same as "above a multi-snapshot
+  null" — a multi-snapshot decoy re-calibration is the matching control still to run. Gate 4: **provisionally
+  supported by one de-noised, FEP-justified lead**, pending that re-calibration + FEP.
+
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.
 2. External yardstick: D\* is set by known-druggable NR controls, not by NR4A3's own number.

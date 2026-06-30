@@ -448,9 +448,11 @@ matrix has three kinds of cell:
 1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
    enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB, Lee 2020). NR4A3 is the diagnostic driver;
-   a selective degrader removes it directly. AciCC is a more common salivary-gland carcinoma than the
-   ultra-rare EMC, enlarging the addressable population for the *same* selective agent *(relative-incidence
-   locator to attach before submission — claim currently qualitative, not quantified)*.
+   a selective degrader removes it directly. AciCC is the **third most common malignant salivary-gland
+   tumour** (≈6–15 % of salivary-gland carcinomas; annual incidence on the order of ~0.1 per 100,000
+   [Khan 2023]), whereas EMC is **ultra-rare** (<1 per 1,000,000 per year [Stacchiotti 2020]) — so the
+   same selective agent addresses a materially larger population through AciCC. (Both are rare; the
+   comparison is order-of-magnitude, not a precise ratio.)
 3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
 
 **Second design mode — pan-NR4A (a distinct molecule, not a contingency):** reversing CD8⁺ T-cell
@@ -662,6 +664,13 @@ unqualified pass.
 - Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell
   Carcinoma.* **Cancers** 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433. (NR4A3–MYB
   cooperation in AciCC.)
+- Khan J, Ullah A, Goodbee M, Lee KT, Yasinzai AQK, Lewis JS Jr, Mesa H. *Acinic Cell Carcinoma in the 21st
+  Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances.*
+  **Cancers** 15(13):3373 (2023). PMC10340722; doi 10.3390/cancers15133373. (AciCC epidemiology — third most
+  common salivary-gland malignancy; the §3 relative-incidence anchor.)
+- Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of the
+  Art and Current Research on Biology and Clinical Management.* **Cancers** 12(9):2703 (2020). PMC7563993;
+  doi 10.3390/cancers12092703. (EMC ultra-rare, <1 per 1,000,000/year; the §3 EMC-incidence anchor.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
   567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
   pan-NR4A second design mode, ex-vivo.)
@@ -686,5 +695,8 @@ unqualified pass.
 
 *Medical-integrity note: the NR4A-degrader citations above had their journal/year/DOI verified against
 Crossref + Europe PMC on 2026-06-26 (`verify-refs.yml` §7), which also corrected the NR4A3–MYB AciCC
-paper's first author (Lee, not Haller). Remaining to add from the primary record before submission: a few
-volume/page numbers (e.g. Munoz-Tello 2020). No claim should outrun its cited evidence.*
+paper's first author (Lee, not Haller). The two §3 incidence anchors (Khan 2023, Stacchiotti 2020) were
+added 2026-06-30 from MDPI/PMC (DOIs + PMCIDs above) to replace the prior unsourced relative-incidence
+claim and **should be run through `verify-refs.yml` with the rest before submission**. Remaining to add
+from the primary record before submission: a few volume/page numbers (e.g. Munoz-Tello 2020). No claim
+should outrun its cited evidence.*
