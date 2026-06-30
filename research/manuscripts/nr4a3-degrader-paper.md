@@ -75,10 +75,11 @@ synthesized or affinity-validated lead). (6b) Building the **multi-snapshot endp
 tier** the §2.5 plan named, we find the single-snapshot harvest is noise-dominated (the single-snapshot best,
 `denovo_393` +18.34, collapses to −2.95 ± 3.65) — but **one candidate survives de-noising: `denovo_401`
 (+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
-multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP (still
+multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP —
+superseding the single-snapshot `denovo_111` foothold (not yet multi-snapshot-tested) — (still
 single-trajectory GB-implicit MD, not FEP; a multi-snapshot decoy re-calibration is the matching control —
 §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
-paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % LBD-wide) — so
+paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
 binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
 **multiplicative budget** best spent with the binder optimized for affinity, **paralogue** selectivity
 sourced from the ternary complex (NR4A1) + pharmacokinetics (NR4A2), and **fusion-vs-wild-type** selectivity
@@ -560,7 +561,7 @@ made explicit rather than buried (full adversarial review:
    per-paralogue ternary complex (the planned gating step). The selectivity-architecture analysis sharpens
    this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
    kinetics), so the binder need not carry it. The computed result that the orthosteric pocket is the
-   *most* paralogue-divergent zone of the LBD (70 % vs 43 % LBD-wide) means binder selectivity is
+   *most* paralogue-divergent zone of the LBD (70 % vs 43 % across the rest of the LBD) means binder selectivity is
    handle-rich but druggability/noise-limited — so the rational plan optimizes the binder for affinity,
    sources **paralogue** selectivity from the **ternary** (NR4A1) + **pharmacokinetics** (NR4A2), and
    recognizes **fusion-vs-wild-type** selectivity is **unobtainable from the degrader** (route to the ASO).
@@ -589,13 +590,18 @@ selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 meta
 the quantitative tier is now **MM-GBSA-run** rather than planned — but single-snapshot MM-GBSA has **no
 entropy and no ensemble average**, so its magnitudes are inflated and only the **verdict/direction** is
 trusted; **selectivity FEP** (the defensible affinity tier) is **not yet run**, and even FEP on a
-cryptic/induced-fit pocket is sampling-limited. The **de-novo lead `denovo_15` (§2.5)** is therefore a
-prediction that survives **two screening tiers** (pocket-conditioned docking *and* endpoint MM-GBSA, with
-no reversal), which is materially stronger than a docking-only nomination — but it remains a **screening-grade,
-unsynthesized, non-FEP, no-wet-lab** candidate, and "MM-GBSA-confirmed selective" means *survives the
-better energy model in silico*, not *validated*. With no wet lab, the strongest honest claim is
-**"computationally designed for, and predicted across two energy tiers to have, the intended selectivity
-profile,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
+cryptic/induced-fit pocket is sampling-limited. Crucially, the **single-snapshot MM-GBSA "confirmed_selective"
+verdict that originally nominated `denovo_15` failed a decoy control** (§2.5): it labels 39 % of non-NR4A
+marketed drugs "NR4A3-selective," so a raw two-tier (docking + single-snapshot MM-GBSA) survival is **not**
+selectivity evidence, and the earlier "MM-GBSA-confirmed selective" headline (and `denovo_15` as the lead) is
+**retracted**. What survives are two differently-derived footholds: **`denovo_111`**, the single candidate above
+the **decoy-calibrated null** (+15.7 vs the +13.1 95th-percentile bar; §2.5), and **`denovo_401`**, the single
+candidate whose margin **survives multi-snapshot de-noising** (+12.83 ± 2.98, margin − SD = +9.85; §2.6) and is
+therefore the lead justified to advance to FEP. Both remain **screening-grade, single-trajectory GB-implicit
+(non-FEP), unsynthesized, no-wet-lab** candidates — not validated, and `denovo_401` is not yet re-tested against a
+multi-snapshot decoy null. With no wet lab, the strongest honest claim is **"computationally designed for, and —
+for `denovo_401` — predicted to retain the intended selectivity profile under ensemble de-noising,"** not
+"selective." Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (§3); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity
 (caveat 5).
 

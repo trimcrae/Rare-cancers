@@ -55,27 +55,35 @@
   **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 sparing NR4A2). Read via `report-matrix-aws.yml`.
 - *Message:* programmable, state-matched selectivity — the divergent-handle map as a demonstrated design axis.
 
-**Fig 5 — De-novo design and MM-GBSA confirmation of a selective warhead candidate (§2.5; the result figure).**
+**Fig 5 — De-novo design, the decoy specificity control, and multi-snapshot de-noising of a selective candidate (§2.5–§2.6; the result figure).**
+> **Updated 2026-06-30 to match the current paper.** The earlier version made `denovo_15` the
+> "MM-GBSA-confirmed selective" hero. That is **retracted**: the single-snapshot MM-GBSA verdict failed a
+> decoy control (39 % of non-NR4A drugs score "selective"), so the figure must lead with the *control* and the
+> two surviving footholds (`denovo_111` decoy-calibrated; `denovo_401` multi-snapshot-confirmed), not `denovo_15`.
 - (a) Funnel schematic: Step-0 druggable *release* receptor → DiffSBDD pocket-conditioned generation (lead-size
-  constrained) → cheminformatics + pose handle-contact triage → dock into 3 state-matched pockets → MM-GBSA.
-  Schematic.
+  constrained) → cheminformatics + developability gate + pose handle-contact triage → dock → single-snapshot
+  MM-GBSA → **decoy-null calibration → multi-snapshot de-noising**. Schematic.
 - (b) Generation quality scatter: SAscore vs QED of the ~200 generations, coloured by engageable-handle
   contacts. Asset: `nr4a3-denovo.png` ✅ / `nr4a3-denovo.json` ✅ (S3). ⚙️.
-- (c) **MM-GBSA verdict panel:** the de-novo verdict census (confirmed_selective 3 · rescued 7 · weakened 1 ·
-  confirmed_nonselective 9 · **reversed 0**) contrasted with the *repurposed*-library MM-GBSA (where the
-  apparent lead cytosporone B **reverses**). Asset: `nr4a3-denovo-mmgbsa` + `nr4a3-mmgbsa` ✅ (S3, via
-  `report-mmgbsa-aws.yml`). ⚙️ bar.
-- (d) **Lead `denovo_15`** 2D structure (`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`;
-  QED 0.774, SA 5.08) in the NR4A3-release pocket, the 4 engaged handles labelled; MM-GBSA NR4A3-margin
-  +10.7 kcal/mol (direction, not affinity). Asset: `nr4a3-denovo.sdf` (pose) + receptor ✅ (S3, via
-  `report-denovo-aws.yml`). ⚙️ render. **Caption MUST flag the chemistry liabilities** (carbamic acid,
-  1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SA 5.08 > the ≤4.5 cut) — annotate the
-  unstable/reactive groups on the depiction and label it a **selective chemotype/pose hypothesis to be
-  re-designed**, not a developable warhead. (If `denovo_15`'s chemistry is judged too liability-laden to be
-  the figure's hero, substitute whichever of denovo_94/57 reads cleaner — pending the user's call.)
-- *Message:* a **designed** NR4A3-selective warhead candidate that survives *two* energy tiers with no
-  reversal — the de-novo route succeeds where repurposed matter did not (screening-grade prediction; no
-  wet lab; FEP/ternary ahead).
+- (c) **Decoy specificity control (the load-bearing negative):** distribution of single-snapshot MM-GBSA
+  NR4A3-margins for the 38 non-NR4A decoy drugs vs the de-novo set, marking the **95th-percentile decoy bar
+  (+13.1 kcal/mol)** and the **39 % decoy `confirmed_selective` rate** — showing the raw verdict is non-specific
+  and the de-novo set is *not enriched*. `denovo_111` (+15.7) is the one candidate above the bar. Asset:
+  `nr4a3-decoy-mmgbsa` + `nr4a3-denovo-mmgbsa-dev` ✅ (S3, via `report-mmgbsa-aws.yml`). ⚙️ bar/strip.
+- (d) **Multi-snapshot de-noising panel (§2.6):** single-snapshot vs multi-snapshot mean ± SD for the lead set
+  — `denovo_393` collapses (+18.34 → −2.95 ± 3.65), negative control `denovo_924` stays non-selective, and
+  **`denovo_401` holds (+12.83 ± 2.98, margin − SD = +9.85)**. Asset: `nr4a3-denovo-mmgbsa-v2-ms` /
+  `-v3deep-ms` ✅ (S3, via `report-mmgbsa-aws.yml`). ⚙️ bar with error bars.
+- (e) **Lead `denovo_401`** 2D structure (`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`;
+  MW 304, QED 0.80, SA 3.87, no structural alerts) in the NR4A3-release pocket, the engaged handles labelled.
+  Asset: `nr4a3-denovo-v2` pose + receptor ✅ (S3, via `report-denovo-aws.yml`). ⚙️ render. **Caption:** the
+  first multi-snapshot-confirmed NR4A3-selective candidate; still single-trajectory GB-implicit (non-FEP),
+  unsynthesized. (`denovo_15` may appear in an SI panel **only** as the retracted artifact — annotate its
+  liabilities: carbamic acid, 1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SA 5.08 > the
+  ≤4.5 cut — never as a lead.)
+- *Message:* the de-novo funnel's raw endpoint metric is **non-specific** (decoy control), but decoy-calibration
+  plus multi-snapshot de-noising isolate a single robust candidate (`denovo_401`) — a screening-grade prediction;
+  no wet lab; FEP/ternary ahead.
 
 **Fig 6 — Indication matrix + degrader schematic (§3) [optional/overview].**
 - Lead (NR4A3-only → EMC/AciCC) / second mode (pan → ex-vivo immuno) / anti-target (NR4A1+NR4A3 → AML,
@@ -91,10 +99,13 @@
 - **Table 3 — Pre-registered gates and outcomes** (Gate 0/0b/1/2/3/4, pass/fail, with the Gate-0 *and
   Gate-1* disclosed deviations — Gate 1 met only in the weaker basin-breathing sense; **Gate 3 now
   release-confirmed as an induced-fit cavity**, no longer provisional) from `nr4a3-druggability-prereg.md` ✅.
-- **Table 4 — De-novo candidates funneled to MM-GBSA**: name, SMILES, QED, SAscore, engageable-handle
-  contacts, docking cell, MM-GBSA NR4A3-margin, verdict — for the top-20 generations, spotlighting the 3
-  *confirmed_selective* (denovo_15 / 94 / 57). From `nr4a3-denovo.json` + `nr4a3-denovo-mmgbsa` ✅ (S3, via
-  `report-denovo-aws.yml`). Caption: MM-GBSA magnitudes inflated (direction, not affinity); screening-grade.
+- **Table 4 — De-novo candidates funneled to MM-GBSA, decoy bar, and multi-snapshot**: name, SMILES, QED,
+  SAscore, engageable-handle contacts, docking cell, single-snapshot MM-GBSA NR4A3-margin, **above decoy null?
+  (+13.1)**, **multi-snapshot mean ± SD**, verdict — spotlighting the decoy-calibrated foothold **`denovo_111`**
+  and the multi-snapshot-confirmed lead **`denovo_401`** (and listing `denovo_15` only as the **retracted**
+  single-snapshot artifact). From `nr4a3-denovo.json` + `nr4a3-denovo-mmgbsa*` + `nr4a3-decoy-mmgbsa` ✅ (S3, via
+  `report-denovo-aws.yml` / `report-mmgbsa-aws.yml`). Caption: single-snapshot MM-GBSA is non-specific (decoy
+  control); read decoy-calibrated + multi-snapshot, not raw margin; screening-grade.
 
 ## Generation notes
 - Plots that read committed JSON (Figs 1b, 3b; Tables 1,3) can render now; Figs 2,4,5 + Tables 2,4 read S3
@@ -104,5 +115,7 @@
   unbiased release = thermally-real but induced-fit (~24 % druggable); docking dG = triage prior (not
   affinity); **MM-GBSA = run, but single-snapshot/no-entropy → read the verdict/direction, not the
   kcal/mol**; FEP = the defensible affinity tier, **not yet run**.
-- **Before submission:** collate the `denovo_15` 2D depiction + its pose (Fig 5d) and Table 4 from the
-  `report-denovo-aws.yml` output; the SMILES is `C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`.
+- **Before submission:** collate the `denovo_401` 2D depiction + its pose (Fig 5e) and Table 4 from the
+  `report-denovo-aws.yml` output; the lead SMILES is `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`
+  (`denovo_15`, SMILES `C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`, appears only as the
+  retracted artifact). Also pull the decoy-control (Fig 5c) and multi-snapshot (Fig 5d) panels.
