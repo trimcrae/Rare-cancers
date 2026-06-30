@@ -71,7 +71,9 @@ read it before making changes.
     [ "$s" = completed ] && { echo DONE; break; }; sleep 70
   done
   ```
-  On wake: read the poller's output file, act (read results via `report-*-aws.yml`, dispatch the next job, fix
+  (Empirically confirmed 2026-06-30 with a controlled test: a 90 s background `sleep` re-invoked the agent
+  ~16 s after it exited, with **no** user message — so the wake is genuinely autonomous, not just delivered on
+  the next user turn.) On wake: read the poller's output file, act (read results via `report-*-aws.yml`, dispatch the next job, fix
   failures, commit/merge), then launch a FRESH poller on the next run id. **Restart-resilient** because all state
   lives in the repo/S3, not the container — after a restart just relaunch the poller against the same branch/run
   state. Get a freshly-dispatched run's id via
