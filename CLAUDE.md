@@ -58,6 +58,15 @@ read it before making changes.
   deliverable on a timeout. Full rule + the MM-GBSA incident that prompted it:
   **[research/modalities/nr4a3-degrader-next-steps.md](./research/modalities/nr4a3-degrader-next-steps.md)
   → "Infra gotchas a fresh session MUST know"**.
+- **Reliable self-wake for autonomous/overnight runs = CRON, not ScheduleWakeup (verified 2026-06-29).**
+  When asked to "keep going without being poked" / babysit async SageMaker jobs across turns, use **`CronCreate`**
+  (e.g. `7,27,47 * * * *` for ~every-20-min; off the :00/:30 marks) — it fires on the idle REPL and reliably
+  re-invokes you. **`ScheduleWakeup` did NOT fire here** (it only works inside `/loop` *dynamic* mode), so do
+  not rely on it for a plain "wake me later" outside `/loop`. The cron prompt should carry the full task +
+  state pointer so each fire is self-contained; have the final iteration `CronDelete` itself. Caveat: a
+  session-only cron dies if the session is torn down; pass `durable: true` only if it must survive restarts.
+  **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` (GPU) job — serialize all GPU jobs
+  (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap.**
 - **No dependencies, no build step.** Keep it that way.
 - **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
   keep all URLs relative.
