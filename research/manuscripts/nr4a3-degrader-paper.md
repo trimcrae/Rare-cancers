@@ -75,10 +75,11 @@ synthesized or affinity-validated lead). (6b) Building the **multi-snapshot endp
 tier** the §2.5 plan named, we find the single-snapshot harvest is noise-dominated (the single-snapshot best,
 `denovo_393` +18.34, collapses to −2.95 ± 3.65) — but **one candidate survives de-noising: `denovo_401`
 (+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
-multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP (still
+multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP —
+superseding the single-snapshot `denovo_111` foothold (not yet multi-snapshot-tested) — (still
 single-trajectory GB-implicit MD, not FEP; a multi-snapshot decoy re-calibration is the matching control —
 §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
-paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % LBD-wide) — so
+paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
 binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
 **multiplicative budget** best spent with the binder optimized for affinity, **paralogue** selectivity
 sourced from the ternary complex (NR4A1) + pharmacokinetics (NR4A2), and **fusion-vs-wild-type** selectivity
@@ -453,9 +454,11 @@ matrix has three kinds of cell:
 1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
    enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB, Lee 2020). NR4A3 is the diagnostic driver;
-   a selective degrader removes it directly. AciCC is a more common salivary-gland carcinoma than the
-   ultra-rare EMC, enlarging the addressable population for the *same* selective agent *(relative-incidence
-   locator to attach before submission — claim currently qualitative, not quantified)*.
+   a selective degrader removes it directly. AciCC is the **third most common malignant salivary-gland
+   tumour** (≈6–15 % of salivary-gland carcinomas; annual incidence on the order of ~0.1 per 100,000
+   [Khan 2023]), whereas EMC is **ultra-rare** (<1 per 1,000,000 per year [Stacchiotti 2020]) — so the
+   same selective agent addresses a materially larger population through AciCC. (Both are rare; the
+   comparison is order-of-magnitude, not a precise ratio.)
 3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
 
 **Second design mode — pan-NR4A (a distinct molecule, not a contingency):** reversing CD8⁺ T-cell
@@ -566,7 +569,7 @@ made explicit rather than buried (full adversarial review:
    per-paralogue ternary complex (the planned gating step). The selectivity-architecture analysis sharpens
    this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
    kinetics), so the binder need not carry it. The computed result that the orthosteric pocket is the
-   *most* paralogue-divergent zone of the LBD (70 % vs 43 % LBD-wide) means binder selectivity is
+   *most* paralogue-divergent zone of the LBD (70 % vs 43 % across the rest of the LBD) means binder selectivity is
    handle-rich but druggability/noise-limited — so the rational plan optimizes the binder for affinity,
    sources **paralogue** selectivity from the **ternary** (NR4A1) + **pharmacokinetics** (NR4A2), and
    recognizes **fusion-vs-wild-type** selectivity is **unobtainable from the degrader** (route to the ASO).
@@ -595,13 +598,18 @@ selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 meta
 the quantitative tier is now **MM-GBSA-run** rather than planned — but single-snapshot MM-GBSA has **no
 entropy and no ensemble average**, so its magnitudes are inflated and only the **verdict/direction** is
 trusted; **selectivity FEP** (the defensible affinity tier) is **not yet run**, and even FEP on a
-cryptic/induced-fit pocket is sampling-limited. The **de-novo lead `denovo_15` (§2.5)** is therefore a
-prediction that survives **two screening tiers** (pocket-conditioned docking *and* endpoint MM-GBSA, with
-no reversal), which is materially stronger than a docking-only nomination — but it remains a **screening-grade,
-unsynthesized, non-FEP, no-wet-lab** candidate, and "MM-GBSA-confirmed selective" means *survives the
-better energy model in silico*, not *validated*. With no wet lab, the strongest honest claim is
-**"computationally designed for, and predicted across two energy tiers to have, the intended selectivity
-profile,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
+cryptic/induced-fit pocket is sampling-limited. Crucially, the **single-snapshot MM-GBSA "confirmed_selective"
+verdict that originally nominated `denovo_15` failed a decoy control** (§2.5): it labels 39 % of non-NR4A
+marketed drugs "NR4A3-selective," so a raw two-tier (docking + single-snapshot MM-GBSA) survival is **not**
+selectivity evidence, and the earlier "MM-GBSA-confirmed selective" headline (and `denovo_15` as the lead) is
+**retracted**. What survives are two differently-derived footholds: **`denovo_111`**, the single candidate above
+the **decoy-calibrated null** (+15.7 vs the +13.1 95th-percentile bar; §2.5), and **`denovo_401`**, the single
+candidate whose margin **survives multi-snapshot de-noising** (+12.83 ± 2.98, margin − SD = +9.85; §2.6) and is
+therefore the lead justified to advance to FEP. Both remain **screening-grade, single-trajectory GB-implicit
+(non-FEP), unsynthesized, no-wet-lab** candidates — not validated, and `denovo_401` is not yet re-tested against a
+multi-snapshot decoy null. With no wet lab, the strongest honest claim is **"computationally designed for, and —
+for `denovo_401` — predicted to retain the intended selectivity profile under ensemble de-noising,"** not
+"selective." Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (§3); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity
 (caveat 5).
 
@@ -662,6 +670,13 @@ unqualified pass.
 - Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell
   Carcinoma.* **Cancers** 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433. (NR4A3–MYB
   cooperation in AciCC.)
+- Khan J, Ullah A, Goodbee M, Lee KT, Yasinzai AQK, Lewis JS Jr, Mesa H. *Acinic Cell Carcinoma in the 21st
+  Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances.*
+  **Cancers** 15(13):3373 (2023). PMC10340722; doi 10.3390/cancers15133373. (AciCC epidemiology — third most
+  common salivary-gland malignancy; the §3 relative-incidence anchor.)
+- Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of the
+  Art and Current Research on Biology and Clinical Management.* **Cancers** 12(9):2703 (2020). PMC7563993;
+  doi 10.3390/cancers12092703. (EMC ultra-rare, <1 per 1,000,000/year; the §3 EMC-incidence anchor.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
   567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
   pan-NR4A second design mode, ex-vivo.)
@@ -686,5 +701,8 @@ unqualified pass.
 
 *Medical-integrity note: the NR4A-degrader citations above had their journal/year/DOI verified against
 Crossref + Europe PMC on 2026-06-26 (`verify-refs.yml` §7), which also corrected the NR4A3–MYB AciCC
-paper's first author (Lee, not Haller). Remaining to add from the primary record before submission: a few
-volume/page numbers (e.g. Munoz-Tello 2020). No claim should outrun its cited evidence.*
+paper's first author (Lee, not Haller). The two §3 incidence anchors (Khan 2023, Stacchiotti 2020) were
+added 2026-06-30 from MDPI/PMC (DOIs + PMCIDs above) to replace the prior unsourced relative-incidence
+claim and **should be run through `verify-refs.yml` with the rest before submission**. Remaining to add
+from the primary record before submission: a few volume/page numbers (e.g. Munoz-Tello 2020). No claim
+should outrun its cited evidence.*
