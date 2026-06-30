@@ -147,6 +147,20 @@ the seeds for scaffold-seeded lead-opt + the multi-snapshot/FEP confirmation tie
 will extend this. NOTE single-snapshot noise is real (denovo_277 +13.07 top-20 → +11.01 deep), so multi-
 snapshot confirmation is needed before FEP, but the decoy bar reliably ranks the strong outliers.
 
+## STATUS 2026-06-30 ~17:15 UTC: blind generation exhausted; PIVOT to confirm + optimize
+v4-deep (1000 gen, top-60) MM-GBSA added **0 above-null** (top denovo_799 +6.47, all < the +13.12 bar). With
+v3-deep giving 2 and v4-deep giving 0, **blind generation has diminishing returns** — stop spinning new blind
+rounds (waste of the single g5). Portfolio stands at **4 above-null clean leads, denovo_393 the standout
+(+18.34, above the decoy max, NR4A3-only both tiers)**. (Minor: v4-deep `nr4a3-mmgbsa.json` `_status` read
+`in_progress` — per-candidate rows all present/ranked, only the final census write missed; no above-null so
+immaterial.) **Next phase (deliberate builds, gated on trimcrae steer + GPU spend):**
+1. **Confirm denovo_393 (+401/111) with decoy-calibrated MULTI-snapshot MM-GBSA** (Tier-3 #6: short MD relax +
+   multi-frame avg + SD; re-score a decoy subset to re-calibrate). denovo_393 above the decoy *max* is the most
+   noise-robust, most worth confirming.
+2. **Scaffold-seeded lead-opt around denovo_393/401** — DiffSBDD inpainting (fix core, regenerate substituents)
+   conditioned on the divergent handles; far higher above-null hit-rate than blind generation.
+Then FEP only on a multi-snapshot-confirmed above-null lead. Do NOT keep firing blind generation rounds.
+
 ## KEY LEVER (2026-06-30 late): DOCK DEEPER, don't just generate more
 The dock funnel only scores **TOP_N=20 by `denovo_promise`** — but promise ranks on QED/SA/handles, **NOT
 selectivity** — so above-null selective candidates ranked >20 by promise are never docked/scored. Evidence:
