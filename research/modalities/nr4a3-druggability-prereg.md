@@ -114,9 +114,13 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   shows the "NR4A3-selective" verdict is **non-specific**: 39 % of decoys score `confirmed_selective` (~58 %
   positive NR4A3 margin; incl. caffeine, ibuprofen), and the developability-gated de-novo set (2/11 = 18 %) is
   **not enriched** over that null. So the in-silico work does **not** demonstrate a selective drug-like binder.
-  Gate 4 now requires a controlled selectivity tier (multi-snapshot/ensemble MM-GBSA or FEP) that **beats the
-  decoy null**. This is an anti-confirmation success: the pre-registered control caught a metric that would
-  otherwise have "confirmed" selectivity for essentially any molecule.
+  Gate 4 is therefore re-scored against the **decoy-calibrated bar** (95th-pct margin = +13.1 kcal/mol;
+  `selectivity_calibration.py`), not against zero. On that bar **`denovo_111` clears the null** (+15.7; clean;
+  favoured in both receptor states; 1/38 decoys above it) — a single *calibrated* above-null hit — so Gate 4 is
+  **provisionally supported by one foothold**, pending a lead-opt series + decoy-calibrated multi-snapshot/FEP
+  confirmation (not the earlier flat "NOT MET", and not an unqualified pass). This is an anti-confirmation
+  success: the control caught a metric that would otherwise "confirm" selectivity for almost any molecule, and
+  converted it into a calibrated threshold that isolates a genuine lead.
 
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.

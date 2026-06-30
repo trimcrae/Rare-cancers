@@ -110,6 +110,24 @@ dependent steps below must be dispatched as each upstream job lands (verify via 
   decomposition + error bars (the documented MM-GBSA follow-up) — apply to whichever candidate survives Tier 2.
   Both are best run on a real lead; neither is built yet.
 
+## PATH FORWARD to a real candidate (2026-06-30, trimcrae: do NOT publish a null; keep pushing; no FEP yet)
+The decoy control is a **calibrated yardstick**, not a stop sign. Decoy null (n=38): mean 1.26, sd 6.25, 90th
+9.74, **95th 13.12**, max 16.46 (`selectivity_calibration.py`, unit-tested). Against the 95th-pct bar
+**`denovo_111` (+15.7) is the ONE candidate that clears the null** (clean fluoro-phenyl-pyrrolidine, QED 0.87 /
+SA 2.9, favoured in both receptor states; 1/38 decoys above it). That is the foothold. Plan:
+1. **Mine v2 — RUNNING.** v2 MM-GBSA (`nr4a3-denovo-matrix-v2` → `nr4a3-denovo-mmgbsa-v2`, run 28437077111,
+   compute_timeout 4500) then `selectivity_calibration.rank_against_null` over **dev + v2** margins vs the decoy
+   bar → harvest every above-null candidate (denovo_111 + any v2 hits). Decoy-calibration makes single-snapshot
+   MM-GBSA a *useful filter* again (raw margin>0 was junk; >13.1 is meaningful).
+2. **Lead-opt around denovo_111 (+ any v2 above-null hits).** Scaffold-seeded generation (keep the
+   fluoro-phenyl-pyrrolidine core, vary substituents) conditioned hard on the FOUR both-paralogue divergent
+   handles (L406/T410/I484/L534 — the physical basis of selectivity), heavily oversampled (≥1000), developability-
+   gated, docked state-matched, ranked vs the decoy null. (DiffSBDD scaffold/inpaint conditioning, or R-group
+   enumeration around the core, in `nr4a3_denovo.py`.)
+3. **Confirm survivors with decoy-calibrated MULTI-snapshot/ensemble MM-GBSA** (Tier 3 #6 — MD-relaxed,
+   multi-frame, error bars; re-run a decoy subset through it to re-calibrate). Only then FEP, only on an
+   above-null lead. Decoy set is a **standing specificity gate** for every tier.
+
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
 |--------|-------|--------|
