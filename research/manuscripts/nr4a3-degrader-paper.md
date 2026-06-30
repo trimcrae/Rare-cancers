@@ -61,8 +61,12 @@ NR4A3-selective under a physics-based energy model (the apparent lead cytosporon
 with its known NR4A1 agonism) — motivating **de-novo design**. (6) We therefore run a **pocket-conditioned
 generative campaign** (DiffSBDD, conditioned on the divergent handles, against the thermally-real
 druggable *release* conformation) and funnel the generated, lead-sized molecules through the same dock +
-MM-GBSA selectivity pipeline: this yields **three MM-GBSA-confirmed NR4A3-selective candidates with no
-candidate reversing**, led by **`denovo_15`, NR4A3-favoured at *both* docking and MM-GBSA** — the first
+MM-GBSA selectivity pipeline: this yields candidates the single-snapshot MM-GBSA *labels* NR4A3-selective — **but a decoy
+control (added 2026-06-30) shows that label is non-specific: 39 % of non-NR4A marketed drugs (caffeine,
+ibuprofen, …) score "NR4A3-selective" by the same metric, and the de-novo set is *not enriched* over that
+null — so selectivity is NOT established by this endpoint tier and a properly-controlled multi-snapshot
+MM-GBSA / selectivity FEP is required (§2.5, §5).** The earlier headline that this yielded "three
+MM-GBSA-confirmed NR4A3-selective candidates" led by **`denovo_15`** is retracted on that basis — the first
 *designed* NR4A3-selective warhead candidate this program has produced (a screening-grade prediction, not a
 synthesized or affinity-validated lead). We read this honestly: `denovo_15` itself carries generative-model
 **stability/synthesizability liabilities** (a carbamic acid, a 1,3-cyclopentadiene, an imine and an exocyclic
@@ -316,6 +320,25 @@ repurposed library), not a specific developable molecule. **Next de-novo steps:*
 filter to `denovo_funnel.score_molecule` (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals,
 non-aromatic warheads, SA > 4.5) and **re-generate**, aiming for a hit that is clean *and* strongly selective.
 
+**Decisive control (2026-06-30): the single-snapshot MM-GBSA selectivity verdict fails a decoy test, so
+selectivity is NOT established by this tier.** We ran a **specificity control** — 38 diverse **non-NR4A
+marketed drugs** (`decoy_library.py`) through the *identical* dock→MM-GBSA funnel — and a **developability-gated
+re-screen** of the generations (the structural-alert gate of §2.4 added after the artifact finding;
+`structural_alerts.py`). Two results force a retraction of the "MM-GBSA-confirmed selective" claim. (i) The
+decoy null is **`confirmed_selective` in 39 % of cases (15/38; ~58 % have a positive NR4A3 margin)** —
+including **caffeine, ibuprofen, lidocaine, phenytoin** — while the developable de-novo set is
+`confirmed_selective` in only **2/11 (18 %)**, i.e. **below the decoy baseline and not enriched.** The
+single-snapshot, single-pose MM-GBSA plus the asymmetric receptor (NR4A3 scored in its druggable release
+frame vs the paralogue frames) systematically favours NR4A3, so the verdict labels ~40–58 % of *any* drug-like
+matter "NR4A3-selective" — it has **no demonstrated specificity**, which also explains why the artifact
+`denovo_15` had scored "confirmed_selective." (ii) Of the generations, only **11/191 survive the
+developability gate**, and **none of the clean ones is robustly NR4A3-selective** once the decoy baseline is
+accounted for. **Honest conclusion: the de-novo *funnel* runs end-to-end and the developability gate removes
+the artifacts, but neither docking nor single-snapshot MM-GBSA establishes NR4A3-selectivity** — that needs a
+properly-controlled **multi-snapshot/ensemble MM-GBSA or selectivity FEP that beats the decoy null**, which is
+the gating next step (the decoy control is retained as a standing specificity gate). The de-novo contribution
+is therefore the *method + an honest negative control*, not a validated selective candidate.
+
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
 The family-wide ensembles (§2.4) let a degrader be designed for a chosen NR4A *combination*. A cell of
@@ -495,7 +518,13 @@ priors (docking) and a single-snapshot endpoint model (MM-GBSA), **not** the aff
 unrun; and (b) "drug-like" is satisfied on QED but **not** on stability/synthesizability — `denovo_15`'s
 generative-model liabilities (caveat 6, §5) mean Gate 4 is cleared by a *chemotype/pose hypothesis*, not a
 developable warhead. So Gate 4 is recorded as **cautiously met in silico, pending a stable re-designed
-analogue and FEP** — not as an unqualified pass. (Disclosed in the prereg deviation log.)
+analogue and FEP** — not as an unqualified pass. (Disclosed in the prereg deviation log.) **Update
+(2026-06-30): Gate 4 is downgraded to NOT MET.** A decoy control (§2.5) shows the single-snapshot MM-GBSA
+selectivity verdict is **non-specific** — 39 % of non-NR4A drugs score "NR4A3-selective" and the de-novo set
+is not enriched over that null — so the in-silico evidence does **not** demonstrate a *selective* drug-like
+binder. Gate 4 now requires a selectivity tier (multi-snapshot MM-GBSA / FEP) that **beats the decoy null**;
+until then the small-molecule-warhead leg is unsupported and weight stays on the degradation modality's other
+gates + the ASO/immuno backups.
 
 ## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear

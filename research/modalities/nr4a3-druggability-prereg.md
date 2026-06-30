@@ -109,6 +109,15 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   conservative for NR4A3-selectivity), and the MM-GBSA verdicts are single-snapshot, unreplicated point
   estimates.
 
+- **2026-06-30 — Gate 4 downgraded to NOT MET (disclosed; corrects the 2026-06-29 "met in silico").** A decoy
+  specificity control (38 non-NR4A marketed drugs through the identical dock→single-snapshot-MM-GBSA funnel)
+  shows the "NR4A3-selective" verdict is **non-specific**: 39 % of decoys score `confirmed_selective` (~58 %
+  positive NR4A3 margin; incl. caffeine, ibuprofen), and the developability-gated de-novo set (2/11 = 18 %) is
+  **not enriched** over that null. So the in-silico work does **not** demonstrate a selective drug-like binder.
+  Gate 4 now requires a controlled selectivity tier (multi-snapshot/ensemble MM-GBSA or FEP) that **beats the
+  decoy null**. This is an anti-confirmation success: the pre-registered control caught a metric that would
+  otherwise have "confirmed" selectivity for essentially any molecule.
+
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.
 2. External yardstick: D\* is set by known-druggable NR controls, not by NR4A3's own number.
