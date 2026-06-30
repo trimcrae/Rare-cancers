@@ -71,7 +71,18 @@ the **one candidate that clears the decoy null** — the program's first calibra
 hit and the lead for an ongoing optimization campaign (the earlier raw "three MM-GBSA-confirmed selective"
 headline led by the artifact `denovo_15` is retracted in favour of this decoy-calibrated read; §2.5, §5) — the first
 *designed* NR4A3-selective warhead candidate this program has produced (a screening-grade prediction, not a
-synthesized or affinity-validated lead). We read this honestly: `denovo_15` itself carries generative-model
+synthesized or affinity-validated lead). (6b) Building the **multi-snapshot endpoint-MM-GBSA de-noising
+tier** the §2.5 plan named, we find the single-snapshot harvest is noise-dominated (the single-snapshot best,
+`denovo_393` +18.34, collapses to −2.95 ± 3.65) — but **one candidate survives de-noising: `denovo_401`
+(+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
+multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP (still
+single-trajectory GB-implicit MD, not FEP; a multi-snapshot decoy re-calibration is the matching control —
+§2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
+paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % LBD-wide) — so
+binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
+**multiplicative budget** best spent with the binder optimized for affinity, **paralogue** selectivity
+sourced from the ternary complex (NR4A1) + pharmacokinetics (NR4A2), and **fusion-vs-wild-type** selectivity
+sourced not from the degrader at all (it is unobtainable here) but from the complementary ASO. We read this honestly: `denovo_15` itself carries generative-model
 **stability/synthesizability liabilities** (a carbamic acid, a 1,3-cyclopentadiene, an imine and an exocyclic
 alkene; no aromatic ring; SAscore 5.08 — *above* the campaign's own ≤4.5 synthesizability cut), so it is a
 selective **chemotype/pose hypothesis to be re-designed into a stable, synthesizable analogue**, not a
@@ -260,7 +271,7 @@ gating step for any *degradation*-selectivity claim; the binding matrix triages 
 **No molecule is synthesized; this is design prep.** Run instructions + program state:
 [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
 
-### 2.5 De-novo design yields an MM-GBSA-confirmed NR4A3-selective warhead candidate
+### 2.5 De-novo design yields NR4A3-selective candidates: decoy-calibrated, then multi-snapshot-confirmed (§2.6)
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
 ran a **pocket-conditioned de-novo generative campaign** and put its output through the *same* selectivity
 funnel. (1) **Receptor.** We anchored generation and docking to a **druggable unbiased *release* frame**
@@ -348,6 +359,81 @@ the four paralogue-divergent handles (L406/T410/I484/L534), heavily oversampled 
 ranked against the decoy null — with **decoy-calibrated multi-snapshot MM-GBSA** to confirm the survivors and
 selectivity FEP reserved for an above-null lead. The decoy control is retained as a **standing specificity
 gate** every candidate must clear.
+
+### 2.6 Multi-snapshot de-noising refutes the single-snapshot harvest but confirms one lead (`denovo_401`)
+The decoy control (§2.5) showed the *raw* single-snapshot MM-GBSA margin is non-specific. We built the
+follow-up tier the §2.5 plan named — **multi-snapshot endpoint MM-GBSA** (`endpoint_dG_multisnapshot`:
+minimize → short GB Langevin MD → ΔG averaged over 10 frames + SD) — and ran it on the lead set. It
+**independently confirms the noise diagnosis and then isolates a survivor**:
+
+| candidate | single-snapshot margin | **multi-snapshot mean ± SD** | margin − SD | verdict |
+|-----------|------------------------|------------------------------|-------------|---------|
+| `denovo_393` (was the single-snapshot best, above decoy *max*) | +18.34 | **−2.95 ± 3.65** | — | **collapses** (selectivity gone) |
+| `denovo_780` | +14.66 | +2.07 ± 6.36 | <0 | within noise of 0 |
+| `denovo_924` (negative control) | −19.41 | −25.20 ± 4.55 | — | stays non-selective ✓ (method discriminates) |
+| **`denovo_401`** | +13.92 | **+12.83 ± 2.98** | **+9.85** | **holds** (confirmed_selective) |
+
+Two things follow. (i) The single-snapshot margins carry **SD ~4–6 kcal/mol — larger than the margins
+themselves** — so the single-snapshot "above-null" harvest is noise-dominated; `denovo_393`'s +18.34 was an
+extreme-value artifact (de-noised, it is ~0/slightly paralogue-favouring). The negative control behaving
+correctly (staying non-selective) makes this a **trustworthy refutation, not a method failure**, and it
+corroborates the decoy finding from an orthogonal direction. (ii) **`denovo_401` is the exception that
+survives**: its multi-snapshot margin (+12.83) is barely below its single-snapshot value, the SD (2.98) is
+small, and **margin − SD = +9.85 ≫ 0** — strong, favourable NR4A3 binding (mean ΔG −38.18 kcal/mol) with
+both paralogues ~13–15 kcal/mol weaker. So the de-noising tier is **discriminating, not merely destructive**:
+it killed a noise artifact and confirmed a genuine lead. `denovo_401`
+(`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SA 3.87, no structural alerts)
+is the program's **first multi-snapshot-confirmed NR4A3-selective candidate and the lead queued for
+selectivity FEP** — superseding the single-snapshot foothold `denovo_111`, which has not yet been
+multi-snapshot-tested.
+
+**Honest weight (a fresh red-team should hold these).** `denovo_401` clears the **FEP-worthiness bar this
+program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
+a real upgrade over a single-snapshot point estimate — but it is **single-trajectory GB-implicit MD, not
+FEP**, **unsynthesized**, and **un-validated**. Critically, the decoy null (§2.5) was computed at
+*single-snapshot*; a **multi-snapshot decoy null has not yet been run**, so "+12.83 survives de-noising" is
+*not* the same as "+12.83 is above a multi-snapshot null" — the de-noising shows the margin is **not a noise
+artifact**, not that it beats a re-calibrated specificity baseline. The defensible claim is: *of the
+single-snapshot harvest, `denovo_401` is the one candidate whose selectivity margin is robust to ensemble
+de-noising, making it the justified single candidate to advance to FEP* — and a multi-snapshot decoy
+re-calibration is the matching specificity control to run alongside.
+
+### 2.7 Selectivity architecture: the pocket is a selectivity *hotspot*, and the burden is shared with the ternary
+Treating "where should selectivity come from" as its own optimization (full analysis:
+[`nr4a3-degrader-selectivity-architecture.md`](./nr4a3-degrader-selectivity-architecture.md)) yields a
+result that **reframes the campaign** and is computed, not asserted. Comparing NR4A1/2/3 divergence in the
+orthosteric cryptic pocket (the warhead's contact residues) against the LBD-wide pocket-residue census
+(same `nr4a-selectivity.json` alignment):
+
+| residue set | n | divergent vs ≥1 paralogue | divergent vs **both** paralogues |
+|---|---|---|---|
+| **orthosteric cryptic pocket (warhead contacts)** | 10 | **70 %** | **60 %** |
+| LBD-wide pocket census | 148 | 45 % | 28 % |
+| non-orthosteric remainder (surface/PPI proxy) | 138 | 43 % | — |
+
+The warhead pocket is **~1.6× more paralogue-divergent than the rest of the LBD** — it is the *most*
+divergent zone, a selectivity hotspot, not a conserved wall. So the binder's selectivity problem was
+**never handle scarcity**; it is **pocket druggability + affinity-margin robustness** (the cryptic, least-
+druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This carries three design conclusions:
+
+1. **Selectivity is a multiplicative budget** across binding × ternary × kinetics; the binder need not carry
+   it alone (the basis of "binding selectivity ≠ degradation selectivity", caveat 5). The rational design
+   optimizes the **binder for affinity + a productive linker exit vector**, treating its real-but-fragile
+   pocket selectivity (`denovo_401`) as a *bonus that relaxes the ternary's burden*, not the gate.
+2. **Paralogue selectivity is best sourced per-paralogue by matched levers:** NR4A1 (the AML-safety-net,
+   mandatory) from the **ternary complex** (the documented degrader strength — running `nr4a3_ternary.py`
+   across NR4A1/2/3 is the highest-value un-run experiment); NR4A2 (the molecularly hardest case — I531 is
+   NR4A3=NR4A2-identical, §2.3) from **pharmacokinetics / CNS-exclusion**, since its tox is CNS-localized and
+   EMC is a peripheral sarcoma.
+3. **Fusion-vs-wild-type selectivity is unobtainable from the degrader at any stage** (the warhead binds a
+   LBD identical in fusion and wild-type, and the ternary forms at that LBD, nowhere near the N-terminal
+   fusion partner). It is the **ASO's** job (RNA-level junction targeting); the degrader's honest scope is
+   paralogue selectivity + accepted wild-type-NR4A3 loss, **not** tumour-exclusivity. Effort spent making
+   the degrader fusion-selective is effort misallocated.
+
+(Caveat: the "surface/PPI proxy" row uses pocket-lining residues across all cavities as a stand-in for the
+true E3-facing interface, which is not yet mapped; the real interface conservation should be computed on the
+predicted ternary before this comparison is load-bearing — flagged in the architecture doc §8.)
 
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
@@ -469,21 +555,33 @@ made explicit rather than buried (full adversarial review:
    so five engageable). But the engageable *divergent* set is **5 vs NR4A1 and only 4 vs NR4A2** (I531 is
    conserved with NR4A2), so NR4A2 selectivity is the harder, narrower case — and these are a specification,
    not a demonstrated binding margin.
-5. **Binding selectivity ≠ degradation selectivity.** The §2.4 matrix is a necessary-not-sufficient
-   filter; degradation selectivity is set by the per-paralogue ternary complex (the planned gating step).
+5. **Binding selectivity ≠ degradation selectivity — and that reallocates the whole selectivity problem
+   (§2.7).** The §2.4 matrix is a necessary-not-sufficient filter; degradation selectivity is set by the
+   per-paralogue ternary complex (the planned gating step). The selectivity-architecture analysis sharpens
+   this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
+   kinetics), so the binder need not carry it. The computed result that the orthosteric pocket is the
+   *most* paralogue-divergent zone of the LBD (70 % vs 43 % LBD-wide) means binder selectivity is
+   handle-rich but druggability/noise-limited — so the rational plan optimizes the binder for affinity,
+   sources **paralogue** selectivity from the **ternary** (NR4A1) + **pharmacokinetics** (NR4A2), and
+   recognizes **fusion-vs-wild-type** selectivity is **unobtainable from the degrader** (route to the ASO).
+   This is a strategic reframing the prior draft did not make, and it *raises* the priority of running the
+   (built, un-run) ternary model over further binder-selectivity optimization.
 6. **The de-novo lead is a chemotype/pose hypothesis with flagged liabilities, not a developable molecule.**
    `denovo_15` carries DiffSBDD-typical instability/synthesizability liabilities (carbamic acid,
    1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SAscore 5.08 > the campaign's ≤4.5 cut) —
    QED does not screen these. The durable claim is the *funnel and the selectivity direction*, not the
    specific molecule; a stability/reactivity filter + re-generation (and a check of the other two
    `confirmed_selective` hits, denovo_94/57) are the next de-novo steps.
-7. **The de-novo selectivity tier is not state-matched the way §2.4 is, and MM-GBSA verdicts are
-   single-snapshot point estimates.** The de-novo funnel docks an *unbiased-release* NR4A3 receptor against
-   *biased-metad* paralogue receptors (asymmetry conservative for NR4A3-selectivity — §2.5), and the
-   single-snapshot, single-pose MM-GBSA carries **no replicate or ensemble average**, so even the
-   *direction* of each verdict (incl. the "reversed 0" census) is an unreplicated point estimate, not a
-   confidence-bounded result; multi-snapshot averaging + a fully state-matched re-dock are the documented
-   follow-ups.
+7. **The de-novo selectivity tier is not state-matched the way §2.4 is; single-snapshot MM-GBSA is
+   non-specific, and multi-snapshot — now run — de-noises but is not yet decoy-recalibrated.** The de-novo
+   funnel docks an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors (asymmetry
+   conservative for NR4A3-selectivity — §2.5). The single-snapshot, single-pose MM-GBSA carries no
+   replicate/ensemble average and **fails the decoy control** (§2.5); the **multi-snapshot de-noising tier
+   is now run** (§2.6) and is discriminating (refutes `denovo_393`, confirms `denovo_401`), but it is
+   **single-trajectory GB-implicit MD, not FEP**, and the **decoy null has not yet been recomputed at
+   multi-snapshot** — so `denovo_401`'s survival proves its margin is *not a noise artifact*, not that it
+   clears a re-calibrated specificity baseline. Multi-snapshot decoy re-calibration + a fully state-matched
+   re-dock + selectivity FEP are the remaining gates, in that order.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
 selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 metadynamics runs are
@@ -537,6 +635,13 @@ receptor states) — a *calibrated* above-null NR4A3-selective hit, while the re
 therefore **provisionally supported by a single foothold**, pending (i) the lead-optimization campaign around
 `denovo_111` producing a robust above-null series and (ii) decoy-calibrated multi-snapshot MM-GBSA / FEP
 confirmation. Not an unqualified pass, but **not failed** — the small-molecule-warhead leg has a live lead.
+**Update (2026-06-30, multi-snapshot tier): the de-noising step (ii) is now run and upgrades the foothold to
+a single FEP-justified lead.** Multi-snapshot endpoint MM-GBSA (§2.6) shows the single-snapshot harvest is
+noise-dominated (`denovo_393` +18.34 → −2.95 ± 3.65, collapses) but isolates **`denovo_401` (+12.83 ± 2.98,
+margin − SD = +9.85)** as the one candidate whose selectivity survives ensemble de-noising — clearing the
+pre-committed FEP-worthiness bar. Gate 4 is thus **supported by a de-noised lead justified to enter FEP**,
+still pending the matching multi-snapshot decoy re-calibration and the FEP itself. Live, advancing, not an
+unqualified pass.
 
 ## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear

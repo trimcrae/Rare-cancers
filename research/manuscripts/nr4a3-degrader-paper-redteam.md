@@ -259,3 +259,25 @@ a note that there is no NR4A3-only cell, reconciling to the paper.
 - The **AF2-not-AF3** justification is sound and well-argued.
 - The **de Vera 2019 / Nur77-MD precedent** framing is appropriate (and, post-F1, now *more* accurate —
   de Vera's "breathing" pocket is the right analogy for basin-internal dynamics, not a two-state switch).
+
+## Update for the next red-team (2026-06-30) — state at this checkpoint
+Two things changed since the F15 decoy finding; a fresh adversarial pass should hold the paper to the
+weaker reading on each.
+- **Multi-snapshot de-noising tier is now run (§2.6).** It resolves the F15/caveat-7 follow-up the paper had
+  listed as pending. It is *discriminating* (negative control `denovo_924` stays non-selective; the
+  single-snapshot best `denovo_393` collapses +18.34 → −2.95 ± 3.65) and isolates **`denovo_401`
+  (+12.83 ± 2.98, margin − SD = +9.85)** as the one survivor → the single FEP-justified lead. **Open angles
+  to press:** (a) the **decoy null was not recomputed at multi-snapshot**, so "survives de-noising" ≠ "above
+  a multi-snapshot null" — the paper now says this (§2.6, caveat 7); check it is never quietly upgraded;
+  (b) it is **single-trajectory GB-implicit MD, not FEP**; (c) n=1 survivor out of a handful tested — the
+  funnel is not shown to *reliably* produce de-noising survivors, only that one exists; (d) `denovo_111`
+  (the single-snapshot decoy-null foothold) has **not** been multi-snapshot-tested, so the paper carries two
+  differently-derived "leads" — watch for conflation.
+- **Selectivity-architecture analysis added (§2.7 + `nr4a3-degrader-selectivity-architecture.md`).** New
+  computed claim: the orthosteric pocket is the *most* paralogue-divergent LBD zone (70 % vs 43 %). **Press
+  points:** (a) the "surface/PPI-proxy" row uses pocket-lining residues across all cavities, **not** the true
+  E3 interface — flagged in the doc, but the binder-vs-ternary conclusion partly rests on it, so not settled
+  until the real interface conservation is computed; (b) "source paralogue selectivity from the ternary"
+  rests on the **un-run** ternary model — an argued strategy, not a demonstrated result; (c) the
+  "fusion-vs-WT is unobtainable from the degrader" claim is load-bearing — verify it reads as a structural
+  impossibility (shared LBD + LBD-distal fusion partner), not an empirical not-yet.
