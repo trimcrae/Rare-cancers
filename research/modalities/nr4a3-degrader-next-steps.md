@@ -133,6 +133,20 @@ SA 2.9, favoured in both receptor states; 1/38 decoys above it). That is the foo
    multi-frame, error bars; re-run a decoy subset through it to re-calibrate). Only then FEP, only on an
    above-null lead. Decoy set is a **standing specificity gate** for every tier.
 
+## KEY LEVER (2026-06-30 late): DOCK DEEPER, don't just generate more
+The dock funnel only scores **TOP_N=20 by `denovo_promise`** — but promise ranks on QED/SA/handles, **NOT
+selectivity** — so above-null selective candidates ranked >20 by promise are never docked/scored. Evidence:
+v2 (500 gen, top-20) → 1 above-null (denovo_401); v3 (1000 gen, top-20) → 0 (best denovo_277 +13.07, just
+under the +13.12 bar). Scaling generation didn't help because we under-sample each pool. **Fix: raise TOP_N
+(dock the full developable set, ~60–110 for 1000 gens) so the decoy-calibrated MM-GBSA can find the buried
+above-null hits.** Dock is CPU (cheap, overlaps the g5 generation); MM-GBSA on ~60 cands = ~2–3 h g5 (~$3–4).
+- **v3-deep dock RUNNING** (`top_n=60` → `nr4a3-denovo-matrix-v3deep`); then MM-GBSA → rank vs decoy bar.
+- **v4 generation RUNNING** (`nr4a3-denovo-v4`, n=1000) — dock it deep too (top_n=60), not top-20.
+- **Also deepen v2** (top_n=60) — cheap, may surface more siblings of denovo_401.
+- Better still (next build): rank the developable set by a **selectivity-aware prior** before docking (e.g.
+  divergent-handle-contact count from the generated pose) instead of `denovo_promise`, so the docked subset is
+  enriched for selectivity, not drug-likeness. Then the scaffold-seeded DiffSBDD inpainting around denovo_401.
+
 ## Where the science landed (all committed to `main`)
 | Result | Value | Source |
 |--------|-------|--------|
