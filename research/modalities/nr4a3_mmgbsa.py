@@ -30,6 +30,15 @@ KEY = {"nr4a3": "NR4A3", "nr4a1": "NR4A1", "nr4a2": "NR4A2"}
 IN = os.environ.get("INPUT_DIR", os.path.dirname(os.path.abspath(__file__)))
 OUT = os.environ.get("OUTPUT_DIR", IN)
 MINIMIZE_ITERS = int(os.environ.get("MMGBSA_MIN_ITERS", "250"))
+# Multi-snapshot (de-noising) tier: short GB MD + ensemble-averaged ΔG with an SD (red-team confirmation of
+# denovo_393). MULTISNAPSHOT=1 switches endpoint_dG -> endpoint_dG_multisnapshot.
+MULTISNAPSHOT = os.environ.get("MULTISNAPSHOT") == "1"
+MS_FRAMES = int(os.environ.get("MMGBSA_FRAMES", "10"))
+MS_INTERVAL_PS = float(os.environ.get("MMGBSA_FRAME_PS", "10"))
+MS_EQUIL_PS = float(os.environ.get("MMGBSA_EQUIL_PS", "20"))
+# Optional comma-separated label whitelist (e.g. "denovo_393,denovo_401") — only score these candidates.
+# Multi-snapshot is expensive, so confirmation runs a small set, not all 60.
+CANDIDATE_FILTER = [s.strip() for s in os.environ.get("CANDIDATE_FILTER", "").split(",") if s.strip()]
 # Per-(ligand,target) wall-clock cap. One endpoint_dG that hangs (e.g. a pathological minimise) must not
 # stall the whole run silently — SIGALRM turns it into a normal per-leg failure recorded in _errors.
 TARGET_TIMEOUT = int(os.environ.get("MMGBSA_TARGET_TIMEOUT", "600"))
@@ -76,8 +85,12 @@ def main():
                     "docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, "
                     "NOT an affinity — that is the FEP tier.",
            "method": {"model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
-                      "scheme": "1-trajectory single-snapshot; minimize complex then slice components",
-                      "minimize_iters": MINIMIZE_ITERS, "entropy": "omitted", "ensemble": "single snapshot"},
+                      "scheme": ("1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, ΔG averaged "
+                                 f"over {MS_FRAMES} frames @ {MS_INTERVAL_PS} ps (equil {MS_EQUIL_PS} ps)")
+                                if MULTISNAPSHOT else
+                                "1-trajectory single-snapshot; minimize complex then slice components",
+                      "minimize_iters": MINIMIZE_ITERS, "entropy": "omitted",
+                      "ensemble": (f"{MS_FRAMES}-frame MD average" if MULTISNAPSHOT else "single snapshot")},
            "paralogues": {}, "candidates": []}
     os.makedirs(OUT, exist_ok=True)
 
@@ -102,8 +115,16 @@ def main():
         res["_status"] = "NR4A3 receptor/poses unavailable — cannot rescore"
         _write(res); print(json.dumps({k: res[k] for k in ('_status', '_warnings') if k in res})); return
 
-    # 2) the candidate set = the labels docked into NR4A3 (rescoring follows the matrix library).
+    # 2) the candidate set = the labels docked into NR4A3 (rescoring follows the matrix library), optionally
+    #    restricted to a whitelist (multi-snapshot confirmation scores a small set, not all candidates).
     labels = list(poses["nr4a3"].keys())
+    if CANDIDATE_FILTER:
+        labels = [lbl for lbl in labels if lbl in CANDIDATE_FILTER]
+        missing = [lbl for lbl in CANDIDATE_FILTER if lbl not in poses["nr4a3"]]
+        if missing:
+            res.setdefault("_warnings", []).append(f"CANDIDATE_FILTER labels not in NR4A3 poses: {missing}")
+        print(f"[mmgbsa] CANDIDATE_FILTER -> scoring {len(labels)} of "
+              f"{len(poses['nr4a3'])}: {labels}", flush=True)
     cache = os.path.join(OUT, "sysgen_cache.json")
     rows = []
 
@@ -127,6 +148,7 @@ def main():
         _progress["current"] = label[:32]
         t0 = time.time()
         dg = {}
+        dg_sd = {}
         errs = {}
         for tag in PARALOGUES:
             if tag not in poses or label not in poses[tag]:
@@ -135,9 +157,17 @@ def main():
             signal.alarm(TARGET_TIMEOUT)
             try:
                 rec_top, rec_pos = receptors[tag]
-                r = mme.endpoint_dG(rec_top, rec_pos, poses[tag][label],
-                                    minimize_iters=MINIMIZE_ITERS, cache=cache)
-                dg[tag] = r["dG"]
+                if MULTISNAPSHOT:
+                    r = mme.endpoint_dG_multisnapshot(
+                        rec_top, rec_pos, poses[tag][label], n_frames=MS_FRAMES,
+                        frame_interval_ps=MS_INTERVAL_PS, equil_ps=MS_EQUIL_PS,
+                        minimize_iters=MINIMIZE_ITERS, cache=cache)
+                    dg[tag] = r["dG"]
+                    dg_sd[tag] = r.get("dG_sd")
+                else:
+                    r = mme.endpoint_dG(rec_top, rec_pos, poses[tag][label],
+                                        minimize_iters=MINIMIZE_ITERS, cache=cache)
+                    dg[tag] = r["dG"]
             except Exception as e:  # noqa: BLE001 — record + continue; one bad leg never voids the run
                 dg[tag] = None
                 errs[KEY[tag]] = str(e)[:160]
@@ -146,12 +176,22 @@ def main():
         mar = ms.margins(dg["nr4a3"], dg["nr4a1"], dg["nr4a2"])
         d = dock.get(label, {})
         v = ms.verdict(d.get("dock_min_margin"), mar["min_margin"])
+        # SD of the min-margin = quadrature of the NR4A3 SD and the binding paralogue's SD (multi-snapshot).
+        min_margin_sd = None
+        if MULTISNAPSHOT and dg_sd.get("nr4a3") is not None:
+            paras = [(mar["margin_vs_NR4A1"], dg_sd.get("nr4a1")), (mar["margin_vs_NR4A2"], dg_sd.get("nr4a2"))]
+            binding = [p for p in paras if p[0] is not None and p[0] == mar["min_margin"]]
+            psd = (binding[0][1] if binding and binding[0][1] is not None else 0.0)
+            min_margin_sd = round((dg_sd["nr4a3"] ** 2 + psd ** 2) ** 0.5, 2)
         row = {"label": label, "chembl_id": d.get("chembl_id"),
                "dG_mmgbsa": {KEY[t]: dg[t] for t in PARALOGUES},
                "mm_margin_vs_NR4A1": mar["margin_vs_NR4A1"], "mm_margin_vs_NR4A2": mar["margin_vs_NR4A2"],
                "mm_min_margin": mar["min_margin"],
                "dock_min_margin": d.get("dock_min_margin"), "dock_cell": d.get("dock_cell"),
                "verdict": v}
+        if MULTISNAPSHOT:
+            row["dG_sd"] = {KEY[t]: dg_sd.get(t) for t in PARALOGUES}
+            row["mm_min_margin_sd"] = min_margin_sd
         if errs:
             row["_errors"] = errs
         rows.append(row)

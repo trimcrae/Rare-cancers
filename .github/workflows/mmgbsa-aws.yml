@@ -32,6 +32,22 @@ on:
         description: "overall compute wall-clock seconds (raise for >13 candidates; 20x3 needs ~3600). Empty = entry default 1800."
         default: ""
         required: false
+      multisnapshot:
+        description: "1 = multi-snapshot de-noising tier (short GB MD; ΔG averaged + SD). Empty = single-snapshot."
+        default: ""
+        required: false
+      candidate_filter:
+        description: "comma-separated label whitelist (e.g. denovo_393,denovo_401) — only score these"
+        default: ""
+        required: false
+      frames:
+        description: "multi-snapshot frame count (default 10)"
+        default: ""
+        required: false
+      target_timeout:
+        description: "per-(ligand,target) wall-clock cap seconds (raise for multi-snapshot, e.g. 1800)"
+        default: ""
+        required: false
       git_ref:
         description: "repo ref the job clones + runs (branch/tag/sha)"
         default: "main"
@@ -59,6 +75,10 @@ jobs:
           INPUT_PREFIX: ${{ inputs.input_prefix }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
+          MULTISNAPSHOT: ${{ inputs.multisnapshot }}
+          CANDIDATE_FILTER: ${{ inputs.candidate_filter }}
+          MMGBSA_FRAMES: ${{ inputs.frames }}
+          MMGBSA_TARGET_TIMEOUT: ${{ inputs.target_timeout }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then

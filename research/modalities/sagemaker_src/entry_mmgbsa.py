@@ -57,6 +57,10 @@ def main():
     ap.add_argument("--git-ref", default="main", help="repo ref to run; default main")
     ap.add_argument("--compute-timeout", default="", help="overall compute wall-clock seconds (overrides "
                     "COMPUTE_TIMEOUT env / 30 min default); scale up for more candidates")
+    ap.add_argument("--multisnapshot", default="", help="1 = multi-snapshot (short GB MD, ΔG averaged + SD)")
+    ap.add_argument("--candidate-filter", default="", help="comma-separated label whitelist to score")
+    ap.add_argument("--frames", default="", help="multi-snapshot frame count (default 10)")
+    ap.add_argument("--target-timeout", default="", help="per-(ligand,target) wall-clock cap seconds")
     args = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
 
@@ -102,6 +106,18 @@ def main():
     env = os.environ.copy()
     env["INPUT_DIR"] = "/opt/ml/processing/input"     # nr4a3-matrix outputs mounted here
     env["OUTPUT_DIR"] = OUT
+    # Multi-snapshot confirmation knobs (passed as args so the container env need not be pre-set).
+    if args.multisnapshot:
+        env["MULTISNAPSHOT"] = args.multisnapshot
+    if args.candidate_filter:
+        env["CANDIDATE_FILTER"] = args.candidate_filter
+    if args.frames:
+        env["MMGBSA_FRAMES"] = args.frames
+    if args.target_timeout:
+        env["MMGBSA_TARGET_TIMEOUT"] = args.target_timeout
+    print(f"[sagemaker] multisnapshot={args.multisnapshot or '0'} "
+          f"candidate_filter={args.candidate_filter or '(all)'} frames={args.frames or '(default)'}",
+          flush=True)
     present = sorted(f for f in os.listdir(env["INPUT_DIR"])) if os.path.isdir(env["INPUT_DIR"]) else []
     print(f"[sagemaker] mounted matrix inputs: {present}", flush=True)
     print(f"[sagemaker] running MM-GBSA rescoring (ref {args.git_ref})", flush=True)

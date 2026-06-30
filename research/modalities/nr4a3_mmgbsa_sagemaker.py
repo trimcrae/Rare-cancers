@@ -36,6 +36,10 @@ def main():
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-mmgbsa")
     git_ref = os.environ.get("GIT_REF", "main")
     compute_timeout = os.environ.get("COMPUTE_TIMEOUT", "")   # entry default 30 min; raise for big sets
+    multisnapshot = os.environ.get("MULTISNAPSHOT", "")        # "1" = multi-snapshot de-noising tier
+    candidate_filter = os.environ.get("CANDIDATE_FILTER", "")  # comma-sep label whitelist
+    ms_frames = os.environ.get("MMGBSA_FRAMES", "")
+    target_timeout = os.environ.get("MMGBSA_TARGET_TIMEOUT", "")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
@@ -56,6 +60,14 @@ def main():
     arguments = ["--git-ref", git_ref]
     if compute_timeout:
         arguments += ["--compute-timeout", str(compute_timeout)]
+    if multisnapshot:
+        arguments += ["--multisnapshot", str(multisnapshot)]
+    if candidate_filter:
+        arguments += ["--candidate-filter", str(candidate_filter)]
+    if ms_frames:
+        arguments += ["--frames", str(ms_frames)]
+    if target_timeout:
+        arguments += ["--target-timeout", str(target_timeout)]
     proc.run(
         code="entry_mmgbsa.py",
         source_dir=os.path.join(here, "sagemaker_src"),

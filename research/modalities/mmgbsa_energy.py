@@ -190,3 +190,64 @@ def endpoint_dG(rec_top, rec_pos, offmol, minimize_iters=250, cache=None):
     dG = e_complex - e_receptor - e_ligand
     return {"dG": round(dG, 2), "E_complex": round(e_complex, 2), "E_receptor": round(e_receptor, 2),
             "E_ligand": round(e_ligand, 2), "n_receptor_atoms": n_rec, "n_ligand_atoms": n_lig}
+
+
+def endpoint_dG_multisnapshot(rec_top, rec_pos, offmol, n_frames=10, frame_interval_ps=10.0,
+                              equil_ps=20.0, temperature_K=300.0, timestep_fs=2.0,
+                              minimize_iters=250, cache=None):
+    """MULTI-snapshot 1-trajectory MM-GBSA: minimise the complex, run short GB-implicit Langevin MD, and
+    average ΔG_bind over `n_frames` snapshots — giving a MEAN and a STANDARD DEVIATION instead of one
+    noisy number. This is the de-noising tier (red-team 2026-06-30): the single-snapshot margin swung
+    several kcal/mol between runs, so a confirmed selectivity claim needs an ensemble average + error bar.
+    Still enthalpy + implicit solvent, NO configurational-entropy term — for defensible ΔΔG you still need FEP.
+
+    Returns: {dG (mean), dG_sd, dG_sem, dG_frames:[...], n_frames, n_receptor_atoms, n_ligand_atoms}.
+    Single-trajectory: receptor/ligand energies are sliced from each complex frame (cancels intramol strain).
+    """
+    import statistics
+    openmm, app, unit, _SG, _Mol, _PF = _mm()
+
+    lig_top = offmol.to_topology().to_openmm()
+    lig_top.setPeriodicBoxVectors(None)
+    lig_pos = offmol.conformers[0].to_openmm()
+    sysgen = _generator(offmol, cache=cache)
+
+    modeller = app.Modeller(rec_top, rec_pos)
+    n_rec = modeller.topology.getNumAtoms()
+    modeller.add(lig_top, lig_pos)
+    cpx_top, cpx_pos = modeller.topology, modeller.positions
+    cpx_top.setPeriodicBoxVectors(None)
+    n_lig = cpx_top.getNumAtoms() - n_rec
+    cpx_sys = sysgen.create_system(cpx_top)
+
+    # Langevin MD (GB implicit; non-periodic). Minimise to relieve docking clashes, then equilibrate.
+    integ = openmm.LangevinMiddleIntegrator(temperature_K * unit.kelvin,
+                                            1.0 / unit.picosecond,
+                                            timestep_fs * unit.femtoseconds)
+    sim = app.Simulation(cpx_top, cpx_sys, integ, _platform(openmm, unit))
+    sim.context.setPositions(cpx_pos)
+    sim.minimizeEnergy(maxIterations=int(minimize_iters))
+    sim.context.setVelocitiesToTemperature(temperature_K * unit.kelvin)
+    steps = lambda ps: max(1, int(ps * 1000.0 / timestep_fs))  # noqa: E731
+    sim.step(steps(equil_ps))
+
+    rec_sys = sysgen.create_system(rec_top)
+    lig_sys = sysgen.create_system(lig_top)
+
+    dgs = []
+    for _f in range(int(n_frames)):
+        sim.step(steps(frame_interval_ps))
+        st = sim.context.getState(getEnergy=True, getPositions=True)
+        e_cpx = st.getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole) / KJ_PER_KCAL
+        pos = st.getPositions(asNumpy=True)
+        e_rec = _energy(openmm, unit, rec_sys, rec_top, pos[:n_rec])
+        e_lig = _energy(openmm, unit, lig_sys, lig_top, pos[n_rec:])
+        dgs.append(e_cpx - e_rec - e_lig)
+    del sim, integ
+
+    mean = statistics.fmean(dgs)
+    sd = statistics.pstdev(dgs) if len(dgs) > 1 else 0.0
+    return {"dG": round(mean, 2), "dG_sd": round(sd, 2),
+            "dG_sem": round(sd / (len(dgs) ** 0.5), 2) if dgs else None,
+            "dG_frames": [round(x, 2) for x in dgs], "n_frames": len(dgs),
+            "n_receptor_atoms": n_rec, "n_ligand_atoms": n_lig}
