@@ -243,6 +243,34 @@ first*. The two priorities:
    four non-ASO fusion-unique routes as a comparative design space). The prior 2026-06-24 framing is
    retained below for the record.
 
+**Note (2026-06-30, honest-assessment pass — two corrections to hold; don't re-litigate).**
+1. **Publishability rests on novel *findings*, not novel *methods* — do not conflate them.** A passing
+   framing in discussion drifted to "the methods aren't novel, so there's nothing to publish." That is a
+   category error. Both flagship papers use *standard* tools (metadynamics, docking, MM-GBSA, DiffSBDD,
+   transcriptome off-target BLAST) — but their **findings are first-in-target**: the first
+   druggability/cryptic-pocket characterization of NR4A3 (no prior structure or pocket analysis), the first
+   family-wide *state-matched* NR4A1/2/3 selectivity map, and a designed NR4A3-selective candidate
+   (`denovo_401`) that survives an unusually complete control battery (docking → single- **and
+   multi-snapshot** MM-GBSA → **single- and multi-snapshot decoy nulls** → state-matched re-dock →
+   clean/synthesizable, no structural alerts). That is a legitimate, publishable contribution at
+   **specialized-journal tier** (JCIM / IJMS / PLoS Comp. Biol. / Front. Pharmacol. / Sci. Rep.) — *not*
+   methods-novel, *not* high-impact, and the candidate must be framed as **designed/predicted, not
+   validated** (no wet lab). Sell the **target knowledge + the controlled candidate**, never the methods.
+   The same logic applies to the ASO paper (first junction-specificity map + clean designed gapmers);
+   its weaker spots are the delivery caveat and a thinner candidate battery, not "nothing to publish."
+2. **WT-NR4A3 — resolve the bet-vs-hedge contradiction before submission.** The repo asserts *both* (a) the
+   degrader's "WT NR4A3 loss is **tolerable** (paralogue redundancy; viable single-KO animals)" and (b) the
+   ASO's "**sparing** WT NR4A3 is a headline advantage / avoids the tumour-suppressor liability the degrader
+   carries." As two confident *independent* claims they contradict. Reconcile as **one bet and its hedge**:
+   WT-NR4A3-loss tolerability is *uncertain* — paralogue redundancy plausibly covers the *physiological*
+   roles, but the *tumour-suppressor* axis (HCC/breast/lymphoma) under chronic systemic loss is far less
+   certain; the **degrader bets it is tolerable**, the **ASO hedges** against that bet being wrong. Frame the
+   ASO's WT-sparing as *insurance + automatic paralogue/tumour-exclusivity*, **not** as an independent win the
+   degrader's own thesis declares moot. Align both manuscripts' WT-NR4A3 language to this.
+   *(A third, related inconsistency — §2.7's "source paralogue selectivity from the ternary, not the binder"
+   reads as contradicting the whole binder campaign; the fix is "binder **+** ternary," pending trimcrae's
+   call on cut/soften/keep.)*
+
 **Decision (REVISED 2026-06-24): paper 1 is the computation-only `emc-treatment-roadmap.md`, but its
 *contribution* is reframed from "the prioritized portfolio" to "a method + a driver-directed program."**
 The earlier framing (below) made the *ranking of mostly-known repurposed drugs* the headline, which
