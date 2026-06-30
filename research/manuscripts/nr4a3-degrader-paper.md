@@ -77,8 +77,10 @@ tier** the §2.5 plan named, we find the single-snapshot harvest is noise-domina
 (+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
 multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP —
 superseding the single-snapshot `denovo_111` foothold (not yet multi-snapshot-tested) — (still
-single-trajectory GB-implicit MD, not FEP; a multi-snapshot decoy re-calibration is the matching control —
-§2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
+single-trajectory GB-implicit MD, not FEP; but it now **also clears the matching multi-snapshot decoy
+re-calibration** — multi-snapshot decoy 95th-pct +6.69, max decoy +7.10, so margin − SD +9.85 sits above
+the whole decoy null — and its selectivity *direction* is reproduced in a fully state-matched re-dock
+(+7.44 ± 4.18), the magnitude being frame-dependent — §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
 paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
 binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
 **multiplicative budget** best spent with the binder optimized for affinity, **paralogue** selectivity
@@ -294,8 +296,9 @@ its thermally-real **unbiased release** frame (fpocket 0.667) against the **bias
 NR4A3 receptor. The states are therefore **not** matched the way §2.4's are — but the asymmetry runs
 **against** NR4A3-selectivity (the paralogue pockets are scored in their more-druggable opened state, which
 tends to dock ligands more favourably), so a positive NR4A3-selectivity call here is conservative rather
-than flattered. A fully state-matched re-dock — NR4A3 metad-opened, or the paralogues in their own release
-frames — is a cheap CPU follow-up.)* The result is qualitatively different
+than flattered. A fully state-matched re-dock (NR4A3 metad-opened) **has since been run for the lead**
+(`denovo_401`, §2.6): it stays NR4A3-selective there too (+7.44 ± 4.18), so the call is not a receptor-frame
+artifact.)* The result is qualitatively different
 from the repurposed library: **3 candidates are *confirmed_selective* (`denovo_15`, `denovo_94`,
 `denovo_57`) and NONE reverse** (census: confirmed_selective 3 · rescued 7 · weakened 1 ·
 confirmed_nonselective 9 · **reversed 0**). The lead **`denovo_15`** (SMILES
@@ -391,13 +394,24 @@ multi-snapshot-tested.
 **Honest weight (a fresh red-team should hold these).** `denovo_401` clears the **FEP-worthiness bar this
 program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
 a real upgrade over a single-snapshot point estimate — but it is **single-trajectory GB-implicit MD, not
-FEP**, **unsynthesized**, and **un-validated**. Critically, the decoy null (§2.5) was computed at
-*single-snapshot*; a **multi-snapshot decoy null has not yet been run**, so "+12.83 survives de-noising" is
-*not* the same as "+12.83 is above a multi-snapshot null" — the de-noising shows the margin is **not a noise
-artifact**, not that it beats a re-calibrated specificity baseline. The defensible claim is: *of the
-single-snapshot harvest, `denovo_401` is the one candidate whose selectivity margin is robust to ensemble
-de-noising, making it the justified single candidate to advance to FEP* — and a multi-snapshot decoy
-re-calibration is the matching specificity control to run alongside. **A further 6-candidate multi-snapshot
+FEP**, **unsynthesized**, and **un-validated**. The decoy null (§2.5) was originally computed at
+*single-snapshot*, so the matching question was whether "+12.83 survives de-noising" is the same as "+12.83
+is above a *multi-snapshot* null." **That control has now been run (2026-06-30, run 28473680997): re-scoring
+all 38 decoys through the identical multi-snapshot tier gives a far tighter null — mean −3.47, 95th
+percentile **+6.69**, max decoy **+7.10**, `confirmed_selective` 11/38 (29 %) — vs the single-snapshot
++13.1 / +16.46 / 39 %.** Against that re-calibrated bar **`denovo_401`'s +12.83 ± 2.98 clears the
+multi-snapshot 95th percentile and exceeds the single highest decoy even after subtracting its SD
+(margin − SD = +9.85 > +7.10)** — so the margin is not merely de-noised but **genuinely above a like-for-like
+specificity baseline**, the first candidate in the program to clear one. **A receptor-robustness check (a
+fully state-matched re-dock — NR4A3 in its *metad-opened* frame rather than the release frame — then the same
+multi-snapshot rescore; runs 28473682532/28480041030) keeps `denovo_401` NR4A3-selective but weaker:
++7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80).** So the selectivity *direction* is robust
+across receptor frames (it is not a release-frame artifact), while the *magnitude* is frame-dependent and
+must not be over-read; a matched metad-frame decoy null was not run, so the +7.44 is reported as
+direction-confirming, not as clearing a null. The defensible claim is therefore now stronger than the
+single-snapshot read: *`denovo_401` is the one candidate of the harvest whose NR4A3-selectivity survives
+ensemble de-noising **and** sits above a multi-snapshot decoy null in the release frame, with the direction
+confirmed in the fully state-matched frame* — the justified single candidate to advance to FEP. **A further 6-candidate multi-snapshot
 batch (`denovo_921/277/804/431/838` + the `denovo_924` negative control) returned *no additional survivor*:
 the best two, `denovo_921` (+4.22 ± 5.23) and `denovo_277` (+2.23 ± 3.52), are positive-margin but **fail
 the margin − SD > 0 bar**, while the negative control stayed non-selective.** So across ~10 candidates now
@@ -581,16 +595,18 @@ made explicit rather than buried (full adversarial review:
    QED does not screen these. The durable claim is the *funnel and the selectivity direction*, not the
    specific molecule; a stability/reactivity filter + re-generation (and a check of the other two
    `confirmed_selective` hits, denovo_94/57) are the next de-novo steps.
-7. **The de-novo selectivity tier is not state-matched the way §2.4 is; single-snapshot MM-GBSA is
-   non-specific, and multi-snapshot — now run — de-noises but is not yet decoy-recalibrated.** The de-novo
-   funnel docks an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors (asymmetry
-   conservative for NR4A3-selectivity — §2.5). The single-snapshot, single-pose MM-GBSA carries no
-   replicate/ensemble average and **fails the decoy control** (§2.5); the **multi-snapshot de-noising tier
-   is now run** (§2.6) and is discriminating (refutes `denovo_393`, confirms `denovo_401`), but it is
-   **single-trajectory GB-implicit MD, not FEP**, and the **decoy null has not yet been recomputed at
-   multi-snapshot** — so `denovo_401`'s survival proves its margin is *not a noise artifact*, not that it
-   clears a re-calibrated specificity baseline. Multi-snapshot decoy re-calibration + a fully state-matched
-   re-dock + selectivity FEP are the remaining gates, in that order.
+7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
+   re-calibration are now run, and `denovo_401` clears them — leaving FEP as the remaining tier.** The de-novo
+   funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
+   (asymmetry conservative for NR4A3-selectivity — §2.5), and the single-snapshot, single-pose MM-GBSA carries
+   no replicate/ensemble average and **fails the decoy control** (§2.5). Both follow-ups the prior draft listed
+   as pending have since run (§2.6): (a) the **multi-snapshot decoy null** (all 38 decoys re-scored
+   multi-snapshot: 95th pct +6.69, max +7.10) — `denovo_401` (+12.83 ± 2.98, margin − SD +9.85) **clears it**,
+   so the margin is above a like-for-like specificity baseline, not merely de-noised; and (b) a **fully
+   state-matched re-dock** (NR4A3 metad-opened) — `denovo_401` stays NR4A3-selective (+7.44 ± 4.18), confirming
+   the *direction* is not a release-frame artifact though the magnitude is frame-dependent. What remains is
+   **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the one remaining quantitative
+   gate**; a metad-frame decoy null (to judge the +7.44 against a matched baseline) is the minor open control.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
 selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 metadynamics runs are
@@ -655,7 +671,16 @@ noise-dominated (`denovo_393` +18.34 → −2.95 ± 3.65, collapses) but isolate
 margin − SD = +9.85)** as the one candidate whose selectivity survives ensemble de-noising — clearing the
 pre-committed FEP-worthiness bar. Gate 4 is thus **supported by a de-noised lead justified to enter FEP**,
 still pending the matching multi-snapshot decoy re-calibration and the FEP itself. Live, advancing, not an
-unqualified pass.
+unqualified pass. **Update (2026-06-30, matching controls now run): the multi-snapshot decoy re-calibration
+named just above has been run, and `denovo_401` clears it.** Re-scoring all 38 decoys multi-snapshot tightens
+the null to a 95th percentile of **+6.69** (max decoy +7.10); `denovo_401`'s +12.83 ± 2.98 (margin − SD
++9.85) sits **above the entire decoy null**, and a fully state-matched re-dock (NR4A3 metad-opened) keeps it
+NR4A3-selective (+7.44 ± 4.18), confirming the direction is not a receptor-frame artifact. So Gate 4 is now
+**met in silico by a single lead (`denovo_401`) that clears a properly-controlled, like-for-like specificity
+baseline** — the strongest the in-silico evidence supports — with **selectivity FEP** the one remaining
+quantitative gate (and a stable, synthesizable status for `denovo_401`, which unlike `denovo_15` carries no
+structural alerts, already in hand). Still not an unqualified pass (no FEP, no wet lab), but materially
+upgraded: the small-molecule-warhead leg now has a specificity-controlled lead, not just an above-noise one.
 
 ## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear

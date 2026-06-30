@@ -86,6 +86,22 @@ lead (401). **denovo_401 is the first candidate queued for FEP** (do NOT launch 
 alerts). Next: keep the multi-snapshot screen running over the remaining v3deep pool to find siblings, and
 scaffold-seed lead-opt around denovo_401's chemotype.
 
+## ✅ MATCHING CONTROLS RUN (2026-06-30, red-team follow-up) — denovo_401 clears a like-for-like multi-snapshot decoy null
+Two controls the paper had flagged as pending (caveat 7 / §2.6) were run and folded into the paper + prereg:
+- **Multi-snapshot decoy null** (`mmgbsa-aws.yml` multisnapshot=1 on `nr4a3-decoy-matrix`, run **28473680997**
+  → `nr4a3-decoy-mmgbsa-ms`; read via `report-mmgbsa-aws.yml output_prefix=nr4a3-decoy-mmgbsa-ms`). All 38
+  decoys re-scored multi-snapshot collapse to **mean −3.47, 95th +6.69, max +7.10, confirmed_selective 11/38
+  (29 %)** (vs single-snapshot +13.1 / +16.46 / 39 %). **denovo_401 (+12.83 ± 2.98, margin−SD +9.85) clears the
+  whole null** — first like-for-like specificity-controlled hit.
+- **Fully state-matched re-dock** (`gpu-denovo-dock-aws.yml receptor_mode=metad top_n=60 denovo_prefix=nr4a3-denovo-v2`,
+  dock run **28473682532** → `nr4a3-denovo-matrix-v2-statematch`; rescore `mmgbsa-aws.yml multisnapshot=1
+  candidate_filter=denovo_401,denovo_111`, run **28480041030** → `nr4a3-denovo-mmgbsa-v2-statematch`). With NR4A3
+  in its metad-opened frame, **denovo_401 stays selective but weaker: +7.44 ± 4.18** (ΔG3 −32.37 / ΔG1 −24.93 /
+  ΔG2 −22.80) → **direction robust, magnitude frame-dependent.** (denovo_111 is a dev-set candidate, not in the
+  v2 pool, so it was not in the state-matched poses — not rescored here.)
+- **Remaining gates:** selectivity FEP (the one quantitative tier left); a **matched metad-frame decoy null**
+  is the minor open control to judge the +7.44 state-matched margin against a like-for-like baseline.
+
 **v3deep-ms2 batch (run 28470643031, 6 candidates) — ZERO further survivors; denovo_401 stands alone.**
 Multi-snapshot on denovo_921/277/804/431/838/924(neg ctrl): best is denovo_921 +4.22±5.23 (margin−SD=−1.01),
 then denovo_277 +2.23±3.52 (−1.29) — both "confirmed_selective" by sign but **neither survives de-noising**;

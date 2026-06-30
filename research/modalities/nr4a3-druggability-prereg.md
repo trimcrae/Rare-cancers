@@ -136,6 +136,21 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   null" — a multi-snapshot decoy re-calibration is the matching control still to run. Gate 4: **provisionally
   supported by one de-noised, FEP-justified lead**, pending that re-calibration + FEP.
 
+- **2026-06-30 (latest) — Gate 4 matching controls run; `denovo_401` clears a like-for-like multi-snapshot
+  decoy null (disclosed).** The two controls the previous entry left pending have run. (i) **Multi-snapshot
+  decoy re-calibration** (run 28473680997, output `nr4a3-decoy-mmgbsa-ms`): all 38 decoys re-scored through
+  the identical multi-snapshot tier give a far tighter null than single-snapshot — mean −3.47, **95th pct
+  +6.69, max decoy +7.10**, `confirmed_selective` 11/38 (29 %) (vs single-snapshot +13.1 / +16.46 / 39 %).
+  `denovo_401`'s **+12.83 ± 2.98 (margin − SD +9.85)** sits **above the entire decoy null** — the first
+  candidate to clear a *like-for-like* specificity baseline, not merely survive de-noising. (ii) **Fully
+  state-matched re-dock** (dock run 28473682532 → rescore 28480041030, `nr4a3-denovo-mmgbsa-v2-statematch`):
+  with NR4A3 in its *metad-opened* frame (not the release frame), `denovo_401` stays NR4A3-selective but weaker
+  — **+7.44 ± 4.18** (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80) — so the selectivity **direction** is
+  robust across receptor frames while the **magnitude** is frame-dependent. Net: Gate 4 is **met in silico by a
+  single specificity-controlled lead (`denovo_401`)**, with **selectivity FEP** the one remaining quantitative
+  gate (and a matched metad-frame decoy null the minor open control for the +7.44). Honest bounds unchanged:
+  single-trajectory GB-implicit MD, unsynthesized, no wet lab — not an unqualified pass.
+
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.
 2. External yardstick: D\* is set by known-druggable NR controls, not by NR4A3's own number.
