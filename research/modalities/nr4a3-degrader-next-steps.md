@@ -105,6 +105,20 @@ at the end — which is far costlier per candidate. Strategic decision pending t
 options: multi-snapshot-in-the-loop lead-opt around a scaffold; revisit whether the cryptic pocket can support
 selective small-molecule binding at all; or shift weight to the degrader's other legs / ASO).**
 
+## Selectivity architecture — binder vs ternary (2026-06-30 analysis)
+Full rigorous treatment: **[../manuscripts/nr4a3-degrader-selectivity-architecture.md](../manuscripts/nr4a3-degrader-selectivity-architecture.md)**.
+Key computed result that reframes the campaign: the **orthosteric cryptic pocket is a selectivity HOTSPOT**
+(7/10 warhead-contact residues divergent = 70%, vs 43% for the rest of the LBD; 60% vs 28% on the
+"differs from BOTH paralogues" criterion). So the binder's problem was never handle scarcity — it is
+pocket druggability + affinity-margin-robustness. Strategic conclusions: (1) selectivity is a
+*multiplicative budget* across binding × ternary × kinetics — the binder need not carry it alone;
+(2) **fusion-vs-WT is unobtainable from the degrader at any stage** → that is the ASO's job, accept WT loss;
+(3) source **paralogue selectivity from the TERNARY** (run the primed `nr4a3_ternary.py` across NR4A1/2/3 —
+highest-value un-run experiment), and **NR4A2 safety from PK/CNS-exclusion** (I531 is NR4A3=NR4A2-identical,
+so NR4A2 is the hardest molecular case but the tox is CNS-localized); (4) pan-NR4A is ex-vivo-CAR-T-only,
+off-table for systemic EMC. denovo_401's pocket selectivity is a *bonus* that relaxes the ternary's burden,
+not the gate.
+
 ## Red-team Tier-1/2/3 in-silico execution — state (2026-06-29, async; resume here)
 Strengthening the de-novo case (red-team). All code merged to `main`. Several SageMaker jobs are async; the
 dependent steps below must be dispatched as each upstream job lands (verify via S3 / the run conclusion).
