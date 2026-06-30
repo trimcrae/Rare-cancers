@@ -133,6 +133,20 @@ SA 2.9, favoured in both receptor states; 1/38 decoys above it). That is the foo
    multi-frame, error bars; re-run a decoy subset through it to re-calibrate). Only then FEP, only on an
    above-null lead. Decoy set is a **standing specificity gate** for every tier.
 
+## ABOVE-NULL LEAD SET (2026-06-30, decoy bar = +13.12; grows as deeper docks land)
+Dock-deeper worked: the v3-deep (top-60) MM-GBSA surfaced the two best candidates that top-20-by-promise had
+buried. Current clean, above-decoy-null NR4A3-selective leads (margin = NR4A3 MM-GBSA selectivity margin):
+| lead | margin | dock cell | QED/SA/MW | SMILES | note |
+|------|--------|-----------|-----------|--------|------|
+| **denovo_393** | **+18.34** | **NR4A3-only** | 0.77/3.63/233 | `C[C@@]1(N2CCc3ccccc32)CC[C@@H](O)[C@@H]1O` | **BEST** — both tiers, above decoy MAX (16.46); small+clean (indoline + cyclohexane-1,2-diol) |
+| denovo_111 | +15.70 | none | 0.87/2.9/281 | `CC[C@H](C)c1cc(OCCO)cc(N2CCCC2)c1F` | MM-GBSA both states |
+| denovo_780 | +14.66 | pan-NR4A | 0.41/4.38/494 | (large) | weak: pan dock cell, low QED, MW 494 |
+| denovo_401 | +13.92 | **NR4A3-only** | 0.80/3.87/304 | `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` | both tiers, clean |
+**Strongest = denovo_393 + denovo_401** (NR4A3-only at docking AND above the decoy MM-GBSA bar AND clean) —
+the seeds for scaffold-seeded lead-opt + the multi-snapshot/FEP confirmation tier. v4-deep MM-GBSA running →
+will extend this. NOTE single-snapshot noise is real (denovo_277 +13.07 top-20 → +11.01 deep), so multi-
+snapshot confirmation is needed before FEP, but the decoy bar reliably ranks the strong outliers.
+
 ## KEY LEVER (2026-06-30 late): DOCK DEEPER, don't just generate more
 The dock funnel only scores **TOP_N=20 by `denovo_promise`** — but promise ranks on QED/SA/handles, **NOT
 selectivity** — so above-null selective candidates ranked >20 by promise are never docked/scored. Evidence:
