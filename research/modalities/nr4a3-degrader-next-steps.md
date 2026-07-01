@@ -122,13 +122,20 @@ Two controls the paper had flagged as pending (caveat 7 / §2.6) were run and fo
      (requirements.txt + entry.py), and **entry.py now `raise SystemExit(r.returncode)`** so a Boltz crash fails
      loud, not false-green. **NOTE: may need further Boltz env shakeout** (this is a 2023-era-style dep cascade,
      cf. the DiffSBDD 6-run shakeout) — the deps are a best-effort fix, not verified end-to-end.
-  **DECISION (2026-07-01): DEFER the ternary re-run.** Rationale: (a) denovo_401 is now a *frame-dependent* hit
-  (metad-frame decoy null), so the ternary is "nice-to-have completeness," not critical path; (b) the preprint
-  stands on the pocket characterization + honestly-caveated candidate without it; (c) three infra walls = stop
-  burning attempts (regime: don't let more testing delay shipping). **Revisit** as a method-watch item — the code
-  is ready for a clean attempt (`gpu-ternary-aws.yml`, defaults now correct); re-run when the ternary is actually
-  worth the debugging (e.g. once a PROTAC is built for the *real* degradation-geometry question, or a fresh
-  session wants it for the paper).
+  4. **`cuequivariance_ops_torch` kernel ImportError** — even with the dep installed, boltz>=2 crashed when it
+     *called* the accel kernel (CUDA-ops build mismatch on the A10G), AND `nr4a3_ternary.py` swallowed the failure
+     and exited 0 (recorded `control_run: 1` but returned green). Fixed: **`boltz predict --no_kernels`**
+     (pure-PyTorch triangle path — sidesteps the whole cuequivariance chain) + `nr4a3_ternary.py` now
+     `sys.exit` non-zero on a boltz failure (no more false-green at the script level).
+  **✅ CONTROL VALIDATED (2026-07-01, run 28513626068).** With `--no_kernels`, Boltz-2 ran clean (`control_run: 0`,
+  "Number of failed examples: 0", ~11 min). Read via **`report-ternary-aws.yml`** (new read-only reporter:
+  `report_ternary.py`, boto3+gemmi — Boltz confidence + a ligand↔tri-Trp geometry check). **Result: Boltz-2 seats
+  lenalidomide's glutarimide in CRBN's tri-Trp pocket** — closest heavy-atom approach **2.85 Å to W380** (3.39 Å
+  W386, 3.47 Å W400; 3/3 within 8 Å), **ligand-iPTM 0.99** / confidence 0.87. Recovers the known IMiD binding
+  mode → the ternary pipeline is **trustworthy** for the NR4A3 degradation-geometry question. Folded into paper
+  §2.4 + preprint §2.7/Limitations. **STILL AHEAD (Stage 2, the real result):** the NR4A3–PROTAC–E3 degradation-
+  geometry prediction needs a warhead **PROTAC** (denovo_401 + linker + CRBN/VHL ligand) — future work, dispatch
+  `gpu-ternary-aws.yml` with `protac_smiles=...` once built. Defaults are now correct (g5.xlarge, --no_kernels).
 
 **v3deep-ms2 batch (run 28470643031, 6 candidates) — ZERO further survivors; denovo_401 stands alone.**
 Multi-snapshot on denovo_921/277/804/431/838/924(neg ctrl): best is denovo_921 +4.22±5.23 (margin−SD=−1.01),

@@ -184,8 +184,12 @@ affinity-margin robustness in a cryptic, least-druggable-of-three pocket. Three 
 First, selectivity is a **multiplicative** budget across binding × ternary × kinetics whose factors compound:
 a selective binder is strictly valuable and remains the primary goal (`denovo_401` provides a real, if
 fragile, first factor), and the ternary complex can multiply that margin rather than replace it. Second,
-paralogue selectivity is best sourced per paralogue by matched levers — NR4A1 from the ternary complex (the
-documented degrader strength; the highest-value un-run experiment), NR4A2 from pharmacokinetics/CNS-exclusion
+paralogue selectivity is best sourced per paralogue by matched levers — NR4A1 from the **ternary complex**
+(the documented degrader strength; the highest-value experiment ahead). We built and **validated the ternary
+pipeline (Boltz-2) on a positive control**: predicting CRBN + lenalidomide, Boltz-2 seats the glutarimide in
+CRBN's tri-tryptophan pocket (closest approach 2.85 Å to W380; ligand-iPTM 0.99), recovering the known IMiD
+binding mode — so the pipeline is trustworthy for the NR4A3–PROTAC–E3 degradation-geometry prediction, which
+awaits a warhead PROTAC. NR4A2 is sourced from pharmacokinetics/CNS-exclusion
 (its tox is CNS-localized and EMC is a peripheral sarcoma). Third, **fusion-versus-wild-type selectivity is
 unobtainable from the degrader** at any stage — the warhead binds an LBD identical in fusion and wild-type —
 so tumour-exclusivity is the complementary antisense route's job, and the degrader's honest scope is
@@ -223,7 +227,8 @@ the druggability case is a **feasibility** result — an induced-fit cavity drug
 not an always-open pocket. The lead `denovo_401` is a **receptor-frame-dependent** predicted-selective
 chemotype: it clears a like-for-like decoy null in its design frame but not in the biased metad-opened frame,
 its endpoint MM-GBSA is single-trajectory and not affinity-grade, and selectivity free-energy perturbation
-plus the degradation-selectivity (ternary) step remain un-run. Binding selectivity is necessary but not
+remains un-run. The degradation-selectivity (ternary) pipeline is validated on a positive control but the
+NR4A3-specific degradation-geometry prediction is future work, gated on a synthesizable warhead PROTAC. Binding selectivity is necessary but not
 sufficient for *degradation* selectivity. The therapeutic rationale assumes EMC remains dependent on NR4A3 for
 survival — supported by a transfer prior from reliably fusion-addicted EWSR1/FET-fusion sarcomas and by
 EMC-native evidence that the fusion is a functional transcriptional driver [Filion 2009], but **not yet

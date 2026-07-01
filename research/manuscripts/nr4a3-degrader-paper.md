@@ -269,8 +269,13 @@ agonism demands), and across the 13 deduplicated candidates the verdict census i
 **verdict/direction, not the kcal/mol** — but the direction is clear: **repurposed NR4A chemical matter is
 method-validation, not a selective lead**, which is exactly why a *de-novo* design is needed (§2.5).
 (Selectivity FEP on a survivor is the defensible affinity tier, gated behind a bona-fide selective
-candidate.) Once a warhead SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`)
-scores degradable-lysine geometry per paralogue. This is not a formality: the binding-selectivity matrix is
+candidate.) Once a warhead SMILES exists, the NR4A3–PROTAC–E3 ternary-complex model (`nr4a3_ternary.py`,
+Boltz-2) scores degradable-lysine geometry per paralogue. **This pipeline is validated on a positive
+control:** predicting the CRBN + lenalidomide complex, Boltz-2 **seats the glutarimide in CRBN's
+tri-tryptophan pocket** — closest heavy-atom approach 2.85 Å to W380 (3.4 Å to W386/W400), with high
+confidence (ligand-iPTM 0.99) — recovering the experimentally known IMiD binding mode, so the model can be
+trusted for the NR4A3 degradation-geometry prediction (the un-run *degradation*-selectivity step, pending a
+warhead PROTAC). This is not a formality: the binding-selectivity matrix is
 a **necessary but not sufficient** filter, because a degrader's actual selectivity is set by the *ternary
 complex* — a non-selective binder can degrade selectively (productive ternary geometry on only one
 paralogue) and a selective binder can fail to degrade. The per-paralogue ternary model is therefore the

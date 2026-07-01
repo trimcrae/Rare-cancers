@@ -28,12 +28,11 @@ posting, with journal submission in parallel. Regime: `emc-treatment-strategy.md
    release/design frame (+12.83 vs 95th +6.69) but **NOT** in the biased metad-opened frame (+7.44 vs 95th
    +17.70, max decoy +24.74) — a **receptor-frame-dependent** hit. Already in abstract/§2.6/§5-caveat-7/§6/prereg.
    → **State the candidate at this (frame-dependent) weight throughout the preprint; do not upgrade it.**
-2. **Ternary — DEFERRED, NOT blocking (3 infra walls; see next-steps handoff).** The CRBN+lenalidomide Boltz-2
-   control did not validate (empty-args → g5.2xlarge-quota-0 → missing cuequivariance dep; all fixed in code,
-   re-run deferred). **Ship the preprint WITHOUT the ternary** — it's nice-to-have completeness, not critical
-   path, especially now denovo_401 is frame-dependent. So **no §2.8 and no Fig 6 for this version**; note the
-   ternary/degradation-geometry model as *future work* in the Discussion + Limitations. Revisit later (method-
-   watch), ideally once a PROTAC is built for the real degradation-geometry question.
+2. **Ternary control — DONE + VALIDATED (2026-07-01, after 4 infra walls; see next-steps handoff).** Boltz-2
+   seats lenalidomide in CRBN's tri-Trp pocket (2.85 Å to W380; ligand-iPTM 0.99), recovering the known IMiD
+   mode → the degradation-geometry pipeline is trustworthy. **Folded into §2.7 + Limitations (not a new §2.8;
+   no Fig 6)** as a validated-positive-control note. The **NR4A3-specific degradation-geometry prediction
+   (Stage 2) is still future work** — needs a warhead PROTAC — stated as such in Discussion/Limitations.
 
 ## Structural conversion (working doc → preprint)
 The manuscript carries a lot of *process scaffolding* that must move out of the main text:
