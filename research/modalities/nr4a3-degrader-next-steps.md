@@ -129,6 +129,20 @@ Fourth-pass red-team findings (F16–F20; see the red-team memo) and their GPU m
 - **F19 (med)** denovo_111 never multi-snapshot-tested → dock + multi-snapshot it (both leads on one footing).
 - **F20 (low)** abstract editing/bloat → editorial (no GPU).
 Progress is logged inline below as each job lands; results folded into paper/preprint/red-team + merged to main.
+
+**✅ F19 DONE (2026-07-01, run 28516596503 → `nr4a3-denovo-mmgbsa-dev-ms111`, report 28517438970).**
+denovo_111 multi-snapshot MM-GBSA (release frame, 10-frame GB-MD avg): **+14.60 ± 4.10** (ΔG3 −34.02,
+ΔG1 −18.30, ΔG2 −19.42), **confirmed_selective, margin − SD = +10.50 > 0.** So denovo_111 **also survives
+de-noising** and clears the release-frame multi-snapshot decoy null (95th +6.69, max +7.10) — a **SECOND**
+de-noised, decoy-null-clearing foothold alongside denovo_401 (+12.83 ± 2.98, margin − SD +9.85). Resolves F19
+and *strengthens* the paper: "sole survivor / n=1 of ~10" becomes **n=2** at the release-frame multi-snapshot
+tier. Caveats preserved: denovo_111 SD (4.10) is larger (noisier); both are release/design-frame results (F16
+still applies to both); denovo_111 not yet state-matched (metad-frame) re-docked, so its frame-dependence is
+uncharacterized (unlike denovo_401).
+
+**🟢 F18 RUNNING (2026-07-01, run 28517419306, `gpu-ternary-aws.yml`).** denovo_401-PROTAC (RDKit-validated,
+C41H56N4O8, MW 733) ternary across NR4A3/NR4A1/NR4A2 LBD + CRBN, Boltz-2 `--no_kernels`, + CRBN/lenalidomide
+control. Read via `report-ternary-aws.yml` when done (Boltz confidence + degradation-lysine geometry proxy).
 - **Ternary control — 3 infra walls hit 2026-07-01; all fixed at the code level, but the re-run is DEFERRED
   (not on the preprint critical path).** The CRBN+lenalidomide Boltz-2 control never validated. Failures, in order:
   1. **Empty `ContainerArguments`** (control mode passed `[]`) → SageMaker `ParamValidationError` (run 28488228214,
