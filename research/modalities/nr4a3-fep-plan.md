@@ -131,9 +131,11 @@ of these.)
 - [x] **Protonation — denovo_111 WITHDRAWN (RESOLVED 2026-07-01).** Basic pyrrolidine → cationic at pH 7.4; the
       cation **reverses** selectivity (multi-snapshot −15.01 ± 5.14, NR4A1 −36.81 < NR4A3 −21.80). Its neutral-form
       selectivity was an artifact → not an FEP candidate. denovo_401 is the sole robust lead.
-- [ ] **Pose-stability MD (highest-value).** Short unbiased MD replicas of the lead–NR4A3 (and NR4A1/2)
-      complex: does the docked pose hold (ligand RMSD, key contacts) in this cryptic/induced-fit pocket? Pick
-      the stable frame as the FEP start. A collapsing pose ⇒ FEP is moot — learn it for ~$5, not ~$50.
+- [~] **Pose-stability MD — SKIPPED (trimcrae 2026-07-01, redundant with FEP).** FEP's complex-leg
+      equilibration already stress-tests the pose, and the early-stop monitor catches a collapsing pose in the
+      pilot windows (bad energies / poor overlap → StopTrainingJob), so a separate pose-stability MD (~$10–20
+      incl. new-pipeline shakeout) buys only earlier detection, not new information. Decision: rely on
+      FEP + early-stop as the pose safety net.
 - [ ] **Ensemble selectivity over the druggable release sub-ensemble** (primary+alt1+alt3) + matching decoy
       null — confirm the selectivity is not a single-frame artifact (closes the F16 frame-dependence residual)
       before FEP.
