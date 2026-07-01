@@ -104,7 +104,11 @@ def run_boltz(yaml_path, out_dir):
         print("  no CUDA GPU detected — refusing to run Boltz on CPU (would be unusably slow). "
               "Dispatch gpu-ternary-aws.yml.", file=sys.stderr)
         return None
-    cmd = ["boltz", "predict", yaml_path, "--use_msa_server", "--out_dir", out_dir]
+    # --no_kernels: use the pure-PyTorch triangle-multiplication path instead of the cuEquivariance/Triton
+    # accelerated kernels. boltz>=2 HARD-CRASHES on this A10G container when the accel kernels' CUDA ops fail
+    # to import (2026-07-01: ModuleNotFoundError then ops ImportError); --no_kernels avoids the whole
+    # dependency chain — slower, but it runs. Chasing the exact cuequivariance/CUDA build match is a rabbit hole.
+    cmd = ["boltz", "predict", yaml_path, "--use_msa_server", "--out_dir", out_dir, "--no_kernels"]
     print("  running:", " ".join(cmd), file=sys.stderr)
     return subprocess.run(cmd).returncode
 
@@ -163,6 +167,14 @@ def main():
     json.dump(out, open(os.path.join(HERE, "nr4a3-ternary-prep.json"), "w"), indent=2)
     print(json.dumps({k: out.get(k) for k in
                       ("nr4a3_lbd_len", "crbn_len", "control", "ternary", "status")}, indent=2))
+
+    # Fail loud: a Boltz run that returned non-zero must exit non-zero, not report false-green (the prep JSON
+    # above is already written, so partials still upload). None = skipped (no GPU / not installed) → not a failure.
+    if args.run:
+        rcs = [out["status"].get("control_run"), out["status"].get("ternary_run")]
+        failed = [rc for rc in rcs if rc not in (0, None)]
+        if failed:
+            sys.exit(f"Boltz inference FAILED (return codes {failed}); see traceback above.")
 
 
 if __name__ == "__main__":
