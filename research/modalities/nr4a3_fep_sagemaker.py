@@ -132,11 +132,22 @@ def main():
     for i, shard in enumerate(plan["shards"]):
         chan = _upload_shard(bucket, i, shard)
         est = make_estimator(i)
-        est.fit({"shard": TrainingInput(chan), **inputs_common}, wait=False)   # wait=False → shards run in parallel
+        try:
+            est.fit({"shard": TrainingInput(chan), **inputs_common}, wait=False)   # wait=False → parallel
+        except Exception as e:  # noqa: BLE001 — SageMaker training does NOT queue on quota; excess -> error
+            msg = str(e)
+            if "ResourceLimitExceeded" in msg or "quota" in msg.lower():
+                print(f"[fep] shard {i}: spot quota reached after {len(launched)} concurrent jobs "
+                      f"({e.__class__.__name__}). Stopping fan-out — RE-DISPATCH mode=run later and resume will "
+                      f"pick up the remaining shards. Raise the 'ml.g5.xlarge for spot training job usage' quota "
+                      f"(or lower n_shards) to widen parallelism.", flush=True)
+                break
+            raise
         launched.append(est.latest_training_job.name)
         print(f"[fep] launched spot shard {i} ({len(shard)} units): {launched[-1]}")
-    print(f"[fep] {len(launched)} spot jobs launched (parallel, bounded by spot quota). "
-          f"Reduce with report_fep.py when all complete. Jobs: {launched}")
+    print(f"[fep] {len(launched)} spot jobs launched (parallel; bounded by spot quota). Poll fep_monitor.py "
+          f"for early-stop; reduce with report_fep.py when complete; re-dispatch to resume any un-launched "
+          f"shards. Jobs: {launched}")
 
 
 if __name__ == "__main__":
