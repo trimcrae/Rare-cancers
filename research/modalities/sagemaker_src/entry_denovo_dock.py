@@ -36,6 +36,9 @@ def main():
     ap.add_argument("--decoy", default="0",
                     help="1 = dock the fixed non-NR4A decoy set (specificity NULL, red-team Tier-1 #2) "
                          "through the identical funnel instead of the generations.")
+    ap.add_argument("--species", default="0",
+                    help="1 = dock the pre-FEP species set (denovo_401 stereoisomers + denovo_111 "
+                         "protonation variants) to pick the correct 3D species to FEP.")
     args = ap.parse_args()
 
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
@@ -57,6 +60,7 @@ def main():
     env["TOP_N"] = args.top_n
     env["DEVELOPABLE_ONLY"] = args.developable_only
     env["DECOY_MODE"] = args.decoy
+    env["SPECIES_MODE"] = args.species
     # NR4A3 receptor: release frame (set NR4A3_RECEPTOR -> driver docks the Step-0 unbiased druggable frame)
     # vs metad frame (unset -> driver extracts NR4A3's metad-opened conformer from input/nr4a3, STATE-MATCHED
     # to the paralogue metad frames). See nr4a3_matrix.py candidate-mode receptor logic.

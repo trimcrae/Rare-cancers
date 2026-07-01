@@ -128,7 +128,15 @@ def main():
 
     # 1) candidate library. De-novo funnel mode: top-N generated candidates by denovo_promise. Default:
     #    real ChEMBL matter, deduplicated by ChEMBL id + label.
-    if os.environ.get("DECOY_MODE") == "1":
+    if os.environ.get("SPECIES_MODE") == "1":
+        # pre-FEP species resolution: dock denovo_401's 16 stereoisomers + denovo_111's protonation variants
+        # through the identical funnel so MM-GBSA picks the correct 3D species to FEP (no developability filter).
+        import denovo_library as dl
+        import fep_species as sp
+        ligands = dl.top_candidates(sp.species_candidate_json(), 10_000)
+        res["candidate_source"] = f"FEP species set ({len(ligands)}: denovo_401 stereoisomers + denovo_111 protonation)"
+        print(f"  candidate library: {res['candidate_source']}", flush=True)
+    elif os.environ.get("DECOY_MODE") == "1":
         # red-team Tier-1 #2: dock a fixed non-NR4A decoy set through the identical funnel as a specificity
         # NULL. All decoys are docked (no developability filter) to measure the null NR4A3-favourable rate.
         import denovo_library as dl

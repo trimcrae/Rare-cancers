@@ -31,6 +31,7 @@ def main():
     developable_only = os.environ.get("DEVELOPABLE_ONLY", "1")     # red-team Tier-1 #1: dock only clean gens
     receptor_mode = os.environ.get("RECEPTOR_MODE", "release")     # release | metad (Tier-1 #3 state-match)
     decoy_mode = os.environ.get("DECOY_MODE", "0")                 # 1 = dock the decoy NULL (Tier-1 #2)
+    species_mode = os.environ.get("SPECIES_MODE", "0")            # 1 = dock the pre-FEP species set
     prefixes = {"denovo": os.environ.get("DENOVO_PREFIX", "nr4a3-denovo"),
                 "receptor": os.environ.get("RECEPTOR_PREFIX", "nr4a3-release-druggable"),
                 "nr4a1": os.environ.get("NR4A1_PREFIX", "nr4a1-metad"),
@@ -67,7 +68,7 @@ def main():
                                   destination=f"s3://{bucket}/{out_prefix}")],
         arguments=["--git-ref", git_ref, "--top-n", str(top_n),
                    "--developable-only", developable_only, "--receptor-mode", receptor_mode,
-                   "--decoy", decoy_mode],
+                   "--decoy", decoy_mode, "--species", species_mode],
         wait=True, logs=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
