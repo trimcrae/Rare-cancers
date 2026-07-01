@@ -79,6 +79,13 @@ How it's wired:
    is live, or from a babysit loop.
 3. **Decision logic is pure + unit-tested** (`fep_decision.py`, `tests/test_fep_decision.py`): stop_fail /
    stop_success / stop_unconverged / continue, with the provisional numbers + reason attached for the log.
+4. **"Why did it fail" is captured BEFORE any stop** (`fep_decompose.py`, `tests/test_fep_decompose.py`): the
+   coupled-endpoint per-residue ligand-interaction decomposition → per-residue selectivity attribution
+   (drivers vs eroders, handle-annotated) + a redesign hint. The monitor **gates stop_fail on this diagnostic
+   being ready** (`diagnostic_ready`), so we never stop a fail without knowing which residues caused it. The
+   attribution + hint are written into `STOP.json` and printed. (The per-residue MD decomposition in
+   `nr4a3_fep.py` is first-pass/shakeout-pending like the rest of the real compute; the smoke path emits a
+   synthetic map so the gating + attribution are validated end-to-end.)
 
 Tunables (workflow inputs): `target_ddg` (selectivity bar, default −1.0 kcal/mol), `z` (confidence on the ΔΔG
 SE, default 1.0), `min_windows` (data before deciding, default 6).
@@ -145,9 +152,13 @@ of these.)
 Each also strengthens the preprint regardless of the eventual FEP result.
 
 ## FEP outcome → next step (the failure mode is diagnostic)
-"FEP fails" is not one thing; the *mode* points to different next moves. Make the run diagnostic (report
-per-receptor ΔG + λ-overlap — done; **per-residue decomposition = a cheap add worth making** so a selectivity
-fail names the culprit interactions).
+"FEP fails" is not one thing; the *mode* points to different next moves. The run is diagnostic: per-receptor
+ΔG + λ-overlap **and** a **per-residue selectivity attribution** (`fep_decompose.py` + a coupled-endpoint
+per-residue decomposition in `nr4a3_fep.py`). **The early-stop is COUPLED to this diagnostic (trimcrae
+2026-07-01): the monitor will NOT reclaim the fleet on a selectivity fail until the per-residue WHY-map is
+captured for all three receptors** (`fep_decompose.diagnostic_ready`); until then a fail signal *holds the run
+sampling* rather than stopping blind. So a fail always tells us *why* (which residues erode selectivity) before
+we stop — directly feeding the next-candidate design.
 - **Mode 1 — doesn't converge** (poor λ-overlap / hysteresis / huge error bars; convergence early-stop trips).
   = **receptor/protocol failure, not a candidate failure** — says nothing about denovo_401. Next: better
   protocol (more windows, longer, HREX, restraints) → ensemble FEP over the druggable release sub-ensemble → if

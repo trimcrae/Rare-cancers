@@ -26,9 +26,22 @@ SUCCESS_STOP = os.environ.get("FEP_SUCCESS_STOP", "0") == "1"
 DRYRUN = os.environ.get("FEP_MONITOR_DRYRUN", "0") == "1"
 
 
+def _collect_per_residue(results):
+    """Per-receptor per-residue ligand-interaction map from the window-0 complex-leg results (the coupled
+    endpoint carries the 'per_residue' decomposition — the WHY map)."""
+    per = {}
+    for r in results:
+        if r.get("leg") == "complex" and r.get("window") == 0 and r.get("per_residue"):
+            per[r["receptor"]] = {int(k): v for k, v in r["per_residue"].items()}
+    return per
+
+
 def decide(results):
-    """Pure-ish decision from partial results. Returns {action, reason, ddg?, binding?, convergence?}."""
+    """One decision from partial results. CRUCIALLY: a selectivity fail (stop_fail) is GATED on the per-residue
+    WHY-map being captured — we never reclaim the fleet on a fail without first knowing *why* it failed (so the
+    next candidate can be designed from it). Returns {action, reason, ddg?, binding?, convergence?, why?, hint?}."""
     import fep_decision as fd
+    import fep_decompose as fdc
     import report_fep as rf
     est = rf.estimate(results)
     needed = {"nr4a3", "nr4a1", "nr4a2"}
@@ -38,11 +51,28 @@ def decide(results):
                 f"{sorted(have)}; need {sorted(needed)})", "binding": est}
     binding_se = {r: {"dg": est[r]["dg"], "se": est[r]["se"]} for r in needed}
     conv = fd.convergence_flag([o for r in needed for o in est[r]["overlaps"]])
+    per_res = _collect_per_residue(results)
+    diag_ready = fdc.diagnostic_ready(per_res)
+
     if not conv["ok"]:
-        return {"action": "stop_unconverged", "reason": conv["reason"], "binding": binding_se, "convergence": conv}
+        # convergence fail: the "why" is the overlap map itself; attach the per-residue attribution too if ready
+        d = {"action": "stop_unconverged", "reason": conv["reason"], "binding": binding_se, "convergence": conv}
+        if diag_ready:
+            d["why"] = fdc.selectivity_attribution(per_res); d["hint"] = fdc.redesign_hint(d["why"])
+        return d
+
     d = fd.early_stop(binding_se, "nr4a3", target_ddg=TARGET, z=Z, allow_success_stop=SUCCESS_STOP)
     d["binding"] = binding_se
     d["convergence"] = conv
+    if d["action"] == "stop_fail":
+        # ── the coupling the user required: do NOT stop a fail until we know WHY ──
+        if not diag_ready:
+            return {"action": "continue", "pending_diagnostic": True, "binding": binding_se, "convergence": conv,
+                    "reason": ("FAIL signal present, but the per-residue WHY-map is not yet captured (need the "
+                               "window-0 complex-leg per_residue decomposition for all three receptors) — "
+                               "continuing sampling so we do NOT stop blind; will stop once the diagnostic lands")}
+        d["why"] = fdc.selectivity_attribution(per_res)
+        d["hint"] = fdc.redesign_hint(d["why"])
     return d
 
 
@@ -75,11 +105,17 @@ def main():
     print(f"[fep-monitor] decision: {d['action']} — {d['reason']}", flush=True)
     if d.get("ddg"):
         print(f"[fep-monitor] provisional ΔΔG: {d['ddg']}", flush=True)
+    if d.get("pending_diagnostic"):
+        print("[fep-monitor] (fail signal held: NOT stopping until the per-residue WHY-map is captured)", flush=True)
+    if d.get("why"):
+        print("[fep-monitor] WHY (per-residue selectivity attribution):", flush=True)
+        for para, hint in (d.get("hint") or {}).items():
+            print(f"    {hint}", flush=True)
     if d["action"].startswith("stop"):
         if DRYRUN:
-            print("[fep-monitor] DRYRUN — would stop the fleet now.", flush=True)
+            print("[fep-monitor] DRYRUN — would stop the fleet now (why-map captured above).", flush=True)
         else:
-            _stop_fleet(d["reason"], {k: d.get(k) for k in ("action", "reason", "ddg", "binding")})
+            _stop_fleet(d["reason"], {k: d.get(k) for k in ("action", "reason", "ddg", "binding", "why", "hint")})
         # non-zero exit only for a genuine failure verdict (so a babysit loop can branch)
         sys.exit(0 if d["action"] == "stop_success" else 2)
 

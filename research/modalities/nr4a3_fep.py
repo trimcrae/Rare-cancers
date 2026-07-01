@@ -55,14 +55,29 @@ def _write(unit, payload):
     print(f"  [fep] wrote {unit['id']}", flush=True)
 
 
+def _smoke_per_residue(receptor):
+    """Synthetic per-residue ligand-interaction map for the smoke path (lets the monitor's stop-gating +
+    attribution be tested end-to-end without MD). NR4A3 stabilized more at handle 410; residue 600 favours NR4A1."""
+    base = {406: -1.0, 410: -3.0, 484: -2.0, 531: -1.5, 600: -0.5}
+    if receptor == "nr4a1":
+        base = {406: -0.9, 410: -0.6, 484: -1.8, 531: -1.4, 600: -3.0}
+    elif receptor == "nr4a2":
+        base = {406: -1.0, 410: -2.8, 484: -2.1, 531: -1.5, 600: -0.4}
+    return {str(k): v for k, v in base.items()}
+
+
 def run_smoke(unit, phase="prod"):
     """Trivial, deterministic per-unit stub — proves orchestration/spot/checkpoint/resume without MD."""
     lam = unit["lambda"]
     u_self = 10.0 * lam
-    _write(unit, {"mode": "smoke", "phase": phase, "reduced_potential_self": round(u_self, 4),
-                  "u_neighbors": {"prev": round(10.0 * max(lam - 0.09, 0), 4),
-                                  "next": round(10.0 * min(lam + 0.09, 1), 4)},
-                  "_t": 0.0})
+    payload = {"mode": "smoke", "phase": phase, "reduced_potential_self": round(u_self, 4),
+               "u_neighbors": {"prev": round(10.0 * max(lam - 0.09, 0), 4),
+                               "next": round(10.0 * min(lam + 0.09, 1), 4)},
+               "_t": 0.0}
+    # coupled endpoint of the complex leg carries the per-residue "why" map (see run_real)
+    if unit["leg"] == "complex" and unit["window"] == 0:
+        payload["per_residue"] = _smoke_per_residue(unit["receptor"])
+    _write(unit, payload)
 
 
 def run_real(unit, phase="prod"):
@@ -113,7 +128,9 @@ def run_real(unit, phase="prod"):
     kT = (ou.MOLAR_GAS_CONSTANT_R * 300 * ou.kelvin)
     neighbours = {"self": lam, "prev": max(lam - 1.0 / 11, 0.0), "next": min(lam + 1.0 / 11, 1.0)}
     u = {k: [] for k in neighbours}
-    for _ in range(n_samples):
+    frames = []                                          # positions kept for the per-residue "why" map
+    want_decomp = (leg == "complex" and unit["window"] == 0)   # coupled endpoint = the physical bound state
+    for i in range(n_samples):
         integrator.step(step_per)
         for k, lv in neighbours.items():
             alch_state.lambda_electrostatics = max(0.0, 1.0 - 2.0 * lv)
@@ -125,10 +142,65 @@ def run_real(unit, phase="prod"):
         alch_state.lambda_electrostatics = max(0.0, 1.0 - 2.0 * lam)
         alch_state.lambda_sterics = min(1.0, max(0.0, 2.0 - 2.0 * lam))
         alch_state.apply_to_context(ctx)
-    _write(unit, {"mode": "real", "phase": phase, "restraint_corr_kJ": restraint_corr,
-                  "reduced_potentials": {k: [round(x, 5) for x in v] for k, v in u.items()},
-                  "neighbours": {k: round(v, 6) for k, v in neighbours.items()},
-                  "_t": round(time.time() - t0, 1)})
+        if want_decomp and i % 20 == 0:                 # a few frames are plenty for a relative attribution
+            frames.append(ctx.getState(getPositions=True).getPositions(asNumpy=True).value_in_unit(ou.nanometer))
+    payload = {"mode": "real", "phase": phase, "restraint_corr_kJ": restraint_corr,
+               "reduced_potentials": {k: [round(x, 5) for x in v] for k, v in u.items()},
+               "neighbours": {k: round(v, 6) for k, v in neighbours.items()},
+               "_t": round(time.time() - t0, 1)}
+    if want_decomp:
+        try:                                            # best-effort; a decomp failure must not kill the window
+            payload["per_residue"] = _per_residue_ligand_interaction(system, topology, frames, lig_atoms)
+        except Exception as e:  # noqa: BLE001
+            payload["per_residue_error"] = str(e)[:200]
+    _write(unit, payload)
+
+
+def _per_residue_ligand_interaction(system, topology, frames, lig_atoms):
+    """Per-receptor-residue ligand interaction energy (kcal/mol; more negative = more stabilizing), averaged
+    over `frames` (nm coords). Direct pairwise Coulomb+LJ (Lorentz-Berthelot) using the NonbondedForce
+    parameters — a decomposition APPROXIMATION for *relative* per-residue attribution (the "why" map), not an
+    absolute energy. FIRST-PASS (shakeout-pending like the rest of the FEP compute)."""
+    import numpy as np
+    import openmm
+    nb = next(f for f in system.getForces() if isinstance(f, openmm.NonbondedForce))
+    q = np.zeros(system.getNumParticles()); sig = np.zeros_like(q); eps = np.zeros_like(q)
+    for i in range(system.getNumParticles()):
+        c, s, e = nb.getParticleParameters(i)
+        q[i] = c.value_in_unit(openmm.unit.elementary_charge)
+        sig[i] = s.value_in_unit(openmm.unit.nanometer)
+        eps[i] = e.value_in_unit(openmm.unit.kilojoule_per_mole)
+    lig = set(int(a) for a in lig_atoms)
+    # map each protein atom -> (resid) using the topology residues (skip the ligand + solvent/ions)
+    res_atoms = {}
+    aa = {"ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU",
+          "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL"}
+    for res in topology.residues():
+        if res.name not in aa:
+            continue
+        idxs = [a.index for a in res.atoms() if a.index not in lig]
+        if idxs:
+            res_atoms[int(res.id)] = idxs
+    ONE_4PI = 138.935456  # kJ*nm/(mol*e^2)
+    KJ2KCAL = 1.0 / 4.184
+    ligi = sorted(lig)
+    acc = {r: 0.0 for r in res_atoms}
+    for pos in frames:
+        pos = np.asarray(pos)
+        for r, idxs in res_atoms.items():
+            e_kj = 0.0
+            for j in idxs:
+                for i in ligi:
+                    d = pos[i] - pos[j]
+                    r_ij = float(np.sqrt(d @ d)) or 1e-6
+                    e_kj += ONE_4PI * q[i] * q[j] / r_ij
+                    s_ij = 0.5 * (sig[i] + sig[j]); e_ij = (eps[i] * eps[j]) ** 0.5
+                    if e_ij > 0 and s_ij > 0:
+                        sr6 = (s_ij / r_ij) ** 6
+                        e_kj += 4.0 * e_ij * (sr6 * sr6 - sr6)
+            acc[r] += e_kj
+    n = max(len(frames), 1)
+    return {str(r): round(v / n * KJ2KCAL, 3) for r, v in acc.items()}
 
 
 def main():
