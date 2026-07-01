@@ -91,6 +91,34 @@ SE, default 1.0), `min_windows` (data before deciding, default 6).
   (Selectivity only needs ΔΔG, so the solvent leg is shared where the same ligand is used — a further saving.)
 - These are planning numbers; the shakeout run calibrates window count + sampling time to the real convergence.
 
+## AWS prerequisites — the two manual steps (discovered by the smoke test, 2026-07-01)
+`mode=plan` passed (shard plan + cost, no spend). `mode=smoke` got all the way to the SageMaker API and failed
+with **`AccessDeniedException: sagemaker:CreateTrainingJob`** — so the wiring is correct; two account-side
+changes are needed before any spot FEP can run:
+
+1. **IAM (blocking, do first).** The CI user `nr4a3-ci-submitter` can create *Processing* jobs (all current
+   pipelines) but not *Training* jobs. Add a policy statement allowing the Training + monitor actions
+   (`iam:PassRole` on the SageMaker execution role is already granted — Processing uses it):
+   ```json
+   { "Effect": "Allow",
+     "Action": [
+       "sagemaker:CreateTrainingJob", "sagemaker:DescribeTrainingJob",
+       "sagemaker:StopTrainingJob", "sagemaker:ListTrainingJobs", "sagemaker:AddTags"
+     ],
+     "Resource": "*" }
+   ```
+   (`ListTrainingJobs` has no resource-level scoping → `"*"`; the others may be scoped to
+   `arn:aws:sagemaker:us-east-2:<acct>:training-job/nr4a3-*` if you prefer least-privilege. `StopTrainingJob`
+   + `ListTrainingJobs` are what the early-stop monitor needs.)
+2. **Spot quota (sets parallel width).** Service Quotas → Amazon SageMaker → **"ml.g5.xlarge for spot training
+   job usage"** (region us-east-2) → *Request increase at account level* → set to the parallel width you want
+   (**8** matches the default `n_shards` for 12 windows; 16 for headroom). This is separate from the 1×
+   on-demand "…for training job usage" quota. Until raised it may be low/0; the fan-out degrades gracefully
+   (launches up to the quota, resume picks up the rest).
+
+After both: re-run `mode=smoke` (validates spot + checkpoint + resume for cents and confirms the quota), then
+`mode=run` on go-ahead. `n_shards` should be ≤ the spot quota.
+
 ## Guardrails
 - **Do NOT launch `mode=run` (production FEP) without trimcrae's explicit go-ahead** (standing FEP carve-out).
 - `mode=plan` and `mode=smoke` are safe/cheap and are how we validate the wiring.
