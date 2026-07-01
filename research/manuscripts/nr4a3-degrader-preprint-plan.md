@@ -1,5 +1,12 @@
 # NR4A3-degrader paper → preprint: conversion plan & checklist
 
+> **✅ CLEAN PREPRINT DRAFTED (2026-07-01): [`nr4a3-degrader-preprint.md`](./nr4a3-degrader-preprint.md).**
+> The conversion pass below is largely done — scaffolding stripped, front matter added, `denovo_401` stated
+> at its frame-dependent weight, ternary omitted (future work). **Remaining before posting:** fill in
+> author/affiliation/corresponding-email; render the figures (incl. the release-vs-metad decoy-null contrast
+> panel); confirm the target journal's preprint policy; then post to ChemRxiv + send the outreach emails.
+> The working doc [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) is kept as the internal red-teamed record.
+
 **Goal:** turn the working manuscript ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)) — which is
 currently an *internal, red-teamed working doc* — into a clean, self-contained **preprint** for immediate
 posting, with journal submission in parallel. Regime: `emc-treatment-strategy.md → "Operating regime
