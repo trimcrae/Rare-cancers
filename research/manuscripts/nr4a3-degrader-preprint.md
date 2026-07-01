@@ -34,8 +34,10 @@ like-for-like multi-snapshot decoy null **in its unbiased design-frame receptor*
 that null in the biased metad-opened frame, making it a **receptor-frame-dependent** predicted-selective
 chemotype rather than an unqualified hit. We conclude that NR4A3's "undruggable" orthosteric pocket is
 computationally tractable as a dynamic, induced-fit site, and that selectivity is best treated as a
-multiplicative budget spent across the binder and the (future) degrader ternary complex. All claims are
-in-silico predictions requiring experimental validation.
+multiplicative budget spent across the binder and the degrader ternary complex — whose Boltz-2 prediction
+pipeline we validate on a positive control (correctly seating lenalidomide in CRBN's tri-tryptophan pocket),
+leaving the NR4A3-specific degradation-geometry prediction as defined future work. All claims are in-silico
+predictions requiring experimental validation.
 
 ---
 
@@ -155,7 +157,8 @@ frames, with error bars) and applied it to the harvest. It is discriminating rat
 a negative control stayed non-selective, the single-snapshot "best" collapsed (+18.34 → −2.95 ± 3.65), and
 **one candidate held — `denovo_401`** (multi-snapshot margin **+12.83 ± 2.98**, margin − SD **+9.85**; NR4A3
 ΔG −38.18 kcal/mol, both paralogues 13–15 kcal/mol weaker). `denovo_401` is chemically clean and synthesizable
-(MW 304, QED 0.80, SAscore 3.87, no structural alerts; its one synthetic caveat is four stereocentres).
+(SMILES `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SAscore 3.87, no PAINS/
+BRENK structural alerts; its one synthetic caveat is four stereocentres).
 
 Judged against a **like-for-like multi-snapshot decoy null**, the result is real but **receptor-frame-
 dependent**, and we report both directions honestly:
@@ -196,7 +199,7 @@ so tumour-exclusivity is the complementary antisense route's job, and the degrad
 paralogue selectivity plus accepted wild-type-NR4A3 loss.
 
 ## 3. Indication landscape
-The family-wide ensembles make the degrader a *programmable* design axis. The validated **NR4A3-selective**
+The family-wide ensembles make the degrader a *programmable* design axis. The primary **NR4A3-selective**
 path addresses EMC (clean single-driver proof-of-concept), AciCC (the more common, NR4A3-over-expression
 indication), and other NR4A3-rearranged sarcomas. A deliberately **pan-NR4A** profile (engaging the conserved
 pocket residues) is a distinct second design mode for *ex-vivo* immuno-oncology, where reversing CD8⁺ T-cell

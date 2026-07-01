@@ -55,8 +55,13 @@ The manuscript carries a lot of *process scaffolding* that must move out of the 
       References. *(No §2.8 — the ternary is deferred; see Results status above.)*
 
 ## Front matter to add
-- [ ] **Title** (candidate): *"Computational design of a selective NR4A3 degrader: opening a cryptic pocket in
-      a 'ligand-independent' nuclear receptor."* (already the working title — keep.)
+- [ ] **Title** — current: *"Computational design of a selective NR4A3 degrader: opening a cryptic pocket in
+      a 'ligand-independent' nuclear receptor."* **Author decision:** the deliverable is a cryptic-pocket
+      druggability case + a selective *warhead* candidate + a *validated ternary pipeline* — not a completed
+      degrader. "degrader" describes the program's aim and is defensible (the abstract is explicit about scope),
+      but a reviewer-proof alternative leads with the concrete result, e.g. *"Opening a cryptic pocket in the
+      'undruggable' nuclear receptor NR4A3: computational druggability and a selective degrader-warhead
+      candidate."* Pick one before posting.
 - [ ] **Authors / affiliations** — trimcrae + "Claude (Anthropic)" acknowledgment per preference (decide author
       vs. acknowledgment; most venues want human authors + an AI-assistance statement in Methods).
 - [ ] **Abstract** — ready to finalize now (metad-frame decoy null folded in; ternary deferred). Trim its
