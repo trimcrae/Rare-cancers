@@ -163,6 +163,20 @@ uncharacterized (unlike denovo_401).
   Lys-proximity is a CRBN-only proxy (no full CRL4^CRBN + E2~Ub). So "no ternary selectivity" is a
   single-pose, single-linker in-silico result, not definitive — but it replaces an untested hopeful assumption
   with a computed one.
+
+**✅ F17 DONE (2026-07-01, run 28518978321 → `nr4a3-denovo-mmgbsa-v2-ms-rep2`, report 28519893316).**
+Independent-seed multi-snapshot replicate of `denovo_401` (the MD is unseeded, so a re-run is a genuinely
+independent estimate): **+14.75 ± 4.82** (ΔG3 −37.50 / ΔG1 −22.75 / ΔG2 −20.43), confirmed_selective — vs the
+original +12.83 ± 2.98. The margin **reproduces (slightly higher) under an independent trajectory → not a
+single-draw artifact**, bounding the winner's-curse (within-candidate/seed) concern. Between-candidate best-of-N
+selection remains a bounded caveat (only re-selection-from-scratch or FEP fully removes it). Folded into §2.6.
+
+**🎯 PROGRAM COMPLETE (2026-07-01):** all fourth-pass red-team findings mitigated — F16 (narrowed + empirically
+bounded), F17 (replicate reproduces), F18 (ternary run: productive-not-selective), F19 (2nd foothold), F20
+(typo + factually current). **FEP is the one remaining SOTA tier — GATED on trimcrae go-ahead (GPU-setup
+change expected); do NOT auto-start.** Representative PROTAC SMILES (for any ternary follow-up):
+`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)OCCOCCNC(=O)CCC(=O)Nc2ccc3c(c2)CN(C4CCC(=O)NC4=O)C3=O)C1`.
+
 - **Ternary control — 3 infra walls hit 2026-07-01; all fixed at the code level, but the re-run is DEFERRED
   (not on the preprint critical path).** The CRBN+lenalidomide Boltz-2 control never validated. Failures, in order:
   1. **Empty `ContainerArguments`** (control mode passed `[]`) → SageMaker `ParamValidationError` (run 28488228214,

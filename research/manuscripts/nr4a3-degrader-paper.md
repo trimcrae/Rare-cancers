@@ -444,7 +444,13 @@ a real upgrade over a single-snapshot point estimate — but it is **single-traj
 FEP**, **unsynthesized**, and **un-validated**. It is also the **best-of-~10** candidates multi-snapshot-tested
 (and best-of-~200 generated), so its +12.83 point estimate carries a **selection (winner's-curse) bias on top
 of the reported ±2.98 SD** — the same extreme-value logic that demotes `denovo_393`'s single-snapshot +18.34
-applies to picking `denovo_401` as the survivor; an independent re-run (or FEP) is what would de-bias it. The decoy null (§2.5) was originally computed at
+applies to picking `denovo_401` as the survivor; an independent re-run (or FEP) is what would de-bias it.
+**We ran that independent re-run** (fresh Langevin seed, run 28518978321): `denovo_401` reproduces at
+**+14.75 ± 4.82** (vs the original +12.83 ± 2.98; ΔG NR4A3 −37.50 / NR4A1 −22.75 / NR4A2 −20.43) — the margin
+does **not** regress toward the null under an independent trajectory (it lands slightly higher), so the lead is
+**not a single-draw artifact**. This bounds the *within-candidate/seed* variance; the *between-candidate*
+best-of-N selection remains a (now-bounded) caveat that only re-selection-from-scratch or FEP fully removes.
+The decoy null (§2.5) was originally computed at
 *single-snapshot*, so the matching question was whether "+12.83 survives de-noising" is the same as "+12.83
 is above a *multi-snapshot* null." **That control has now been run (2026-06-30, run 28473680997): re-scoring
 all 38 decoys through the identical multi-snapshot tier gives a far tighter null — mean −3.47, 95th

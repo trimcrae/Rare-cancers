@@ -162,7 +162,8 @@ themselves, so we built a **multi-snapshot endpoint MM-GBSA** tier (short GB Lan
 frames, with error bars) and applied it to the harvest. It is discriminating rather than merely destructive:
 a negative control stayed non-selective and the single-snapshot "best" collapsed (+18.34 → −2.95 ± 3.65),
 while **two candidates held** — **`denovo_401`** (multi-snapshot margin **+12.83 ± 2.98**, margin − SD **+9.85**;
-NR4A3 ΔG −38.18, both paralogues 13–15 kcal/mol weaker) and **`denovo_111`** (**+14.60 ± 4.10**, margin − SD
+NR4A3 ΔG −38.18, both paralogues 13–15 kcal/mol weaker; reproduced under an independent-seed replicate at
+**+14.75 ± 4.82**, so not a single-draw artifact) and **`denovo_111`** (**+14.60 ± 4.10**, margin − SD
 **+10.50**) — out of ~11 multi-snapshot-tested (a low but non-zero hit-rate). Both are chemically clean and
 synthesizable (denovo_401 `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`, MW 304, QED 0.80, SA 3.87;
 denovo_111 `CC[C@H](C)c1cc(OCCO)cc(N2CCCC2)c1F`, MW 281, QED 0.87, SA 2.9; no PAINS/BRENK alerts). `denovo_401`
