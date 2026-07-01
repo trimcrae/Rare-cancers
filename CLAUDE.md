@@ -41,7 +41,10 @@ read it before making changes.
   to NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations (don't wait on peer review). Remaining
   in-silico = **cheap completeness only** (metad-frame decoy null; the ternary control → denovo_401-PROTAC
   degradation geometry); **SKIP FEP** (ceiling-bound + least reliable on this cryptic/AF2 pocket). Don't let
-  "more testing" delay shipping.
+  "more testing" delay shipping. **Preprint conversion checklist:**
+  [research/manuscripts/nr4a3-degrader-preprint-plan.md](./research/manuscripts/nr4a3-degrader-preprint-plan.md);
+  **ready-to-send outreach emails** (send the day the preprint posts):
+  [research/manuscripts/nr4a3-degrader-outreach-emails.md](./research/manuscripts/nr4a3-degrader-outreach-emails.md).
 - **What (now shelved):** a zero-build static site of one-page-per-rare-cancer information
   hubs (first page: EMC). The patient-facing UI is **deprioritized/shelved** — keep it
   working if touched, but don't invest new effort there without being asked.

@@ -63,10 +63,11 @@ The manuscript carries a lot of *process scaffolding* that must move out of the 
 
 ## Dissemination (do NOT wait for journal acceptance)
 - [ ] Post ChemRxiv preprint the day the ternary result is folded in.
-- [ ] **Outreach shortlist** (draft emails separately): NR4A/nuclear-receptor structural labs; the **SGC**
-      (understudied nuclear receptors); **EMC/sarcoma foundations + patient-advocacy orgs**; the de Vera /
-      Nurr1-pocket group (natural reviewers/adopters). One short "here's the preprint + data, happy to
-      collaborate / hand off" note each.
+- [ ] **Outreach** — ready-to-send email drafts are in
+      **[`nr4a3-degrader-outreach-emails.md`](./nr4a3-degrader-outreach-emails.md)** (5 templates: NR4A/NR
+      structural labs, the de Vera / Nurr1-pocket group, the **SGC**, sarcoma/EMC translational labs,
+      rare-cancer foundations). Fill in `[PREPRINT_URL]`/`[DOI]`/`[REPO_URL]` + personalise one line each,
+      then send the day the preprint posts. Log responses in that file's tracking table.
 - [ ] Submit to the chosen journal in parallel.
 
 ## Explicitly NOT doing (per regime)
