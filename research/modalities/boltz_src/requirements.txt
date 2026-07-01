@@ -2,3 +2,7 @@
 # Boltz-2 (open AF3-class protein+ligand+multimer prediction) pulls its own torch/CUDA stack;
 # pinned loosely so AWS's base image resolves a compatible build.
 boltz
+# boltz>=2 imports cuequivariance_torch in its triangular-mult kernel and HARD-CRASHES if absent
+# (the 2026-07-01 control failure); ship the accel stack. entry.py also pip-installs these as a fallback.
+cuequivariance-torch
+cuequivariance-ops-torch-cu12

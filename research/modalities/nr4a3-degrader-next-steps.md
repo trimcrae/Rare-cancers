@@ -110,11 +110,25 @@ Two controls the paper had flagged as pending (caveat 7 / §2.6) were run and fo
   release sub-ensemble (not one frame)** — a method-watch/near-term follow-up, not blocking the preprint.
 - **Remaining gates:** selectivity FEP (the one quantitative tier left; frame-dependence best fixed by ensemble
   scoring first).
-- **Ternary submitter bug FIXED 2026-07-01:** control-mode dispatch (blank PROTAC) passed an empty
-  `ContainerArguments` list → SageMaker `ParamValidationError` (min length 1), so run 28488228214 died at
-  submission ($0, no GPU). Fixed in `nr4a3_ternary_sagemaker.py` (+ `boltz_src/entry.py`): control mode now
-  passes a benign `--control` sentinel. Re-dispatch `gpu-ternary-aws.yml` (blank PROTAC) for the
-  CRBN+lenalidomide Boltz-2 control.
+- **Ternary control — 3 infra walls hit 2026-07-01; all fixed at the code level, but the re-run is DEFERRED
+  (not on the preprint critical path).** The CRBN+lenalidomide Boltz-2 control never validated. Failures, in order:
+  1. **Empty `ContainerArguments`** (control mode passed `[]`) → SageMaker `ParamValidationError` (run 28488228214,
+     $0). Fixed: `--control` sentinel in `nr4a3_ternary_sagemaker.py` + `boltz_src/entry.py`.
+  2. **`ml.g5.2xlarge` quota = 0 instances** → `ResourceLimitExceeded` (run 28488478427, $0). Fixed: default
+     instance flipped to **`ml.g5.xlarge`** (account has quota; ran fine in 16 GB RAM) in the workflow + submitter.
+  3. **`ModuleNotFoundError: cuequivariance_torch`** — boltz>=2 hard-crashes in its triangular-mult kernel without
+     the cuEquivariance accel stack (run 28488554878; job reported false-green because entry.py didn't propagate
+     the non-zero exit). Fixed: add `cuequivariance-torch` + `cuequivariance-ops-torch-cu12` to the Boltz install
+     (requirements.txt + entry.py), and **entry.py now `raise SystemExit(r.returncode)`** so a Boltz crash fails
+     loud, not false-green. **NOTE: may need further Boltz env shakeout** (this is a 2023-era-style dep cascade,
+     cf. the DiffSBDD 6-run shakeout) — the deps are a best-effort fix, not verified end-to-end.
+  **DECISION (2026-07-01): DEFER the ternary re-run.** Rationale: (a) denovo_401 is now a *frame-dependent* hit
+  (metad-frame decoy null), so the ternary is "nice-to-have completeness," not critical path; (b) the preprint
+  stands on the pocket characterization + honestly-caveated candidate without it; (c) three infra walls = stop
+  burning attempts (regime: don't let more testing delay shipping). **Revisit** as a method-watch item — the code
+  is ready for a clean attempt (`gpu-ternary-aws.yml`, defaults now correct); re-run when the ternary is actually
+  worth the debugging (e.g. once a PROTAC is built for the *real* degradation-geometry question, or a fresh
+  session wants it for the paper).
 
 **v3deep-ms2 batch (run 28470643031, 6 candidates) — ZERO further survivors; denovo_401 stands alone.**
 Multi-snapshot on denovo_921/277/804/431/838/924(neg ctrl): best is denovo_921 +4.22±5.23 (margin−SD=−1.01),

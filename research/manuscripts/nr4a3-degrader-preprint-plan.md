@@ -16,12 +16,17 @@ posting, with journal submission in parallel. Regime: `emc-treatment-strategy.md
   NR4A3 druggability/selectivity + a control-validated *designed/predicted* candidate** — NOT as a methods
   advance, NOT as a validated drug. Every candidate claim reads "predicted / designed," never "selective."
 
-## Two pending results to fold in before posting
-1. **Metad-frame decoy null** (running; run 28483612927 → `nr4a3-decoy-mmgbsa-metad-ms`) → completes
-   denovo_401's control battery; update §2.6.
-2. **Ternary** (fires when #1 finishes): CRBN+lenalidomide Boltz-2 control → denovo_401-PROTAC degradation
-   geometry → a new short Results subsection (§2.8) on degradation-geometry / paralogue ternary. This is the
-   mechanism-relevant add for a *degrader* paper.
+## Results status (2026-07-01)
+1. **Metad-frame decoy null — DONE (partial-negative, folded in).** `denovo_401` clears the decoy null in its
+   release/design frame (+12.83 vs 95th +6.69) but **NOT** in the biased metad-opened frame (+7.44 vs 95th
+   +17.70, max decoy +24.74) — a **receptor-frame-dependent** hit. Already in abstract/§2.6/§5-caveat-7/§6/prereg.
+   → **State the candidate at this (frame-dependent) weight throughout the preprint; do not upgrade it.**
+2. **Ternary — DEFERRED, NOT blocking (3 infra walls; see next-steps handoff).** The CRBN+lenalidomide Boltz-2
+   control did not validate (empty-args → g5.2xlarge-quota-0 → missing cuequivariance dep; all fixed in code,
+   re-run deferred). **Ship the preprint WITHOUT the ternary** — it's nice-to-have completeness, not critical
+   path, especially now denovo_401 is frame-dependent. So **no §2.8 and no Fig 6 for this version**; note the
+   ternary/degradation-geometry model as *future work* in the Discussion + Limitations. Revisit later (method-
+   watch), ideally once a PROTAC is built for the real degradation-geometry question.
 
 ## Structural conversion (working doc → preprint)
 The manuscript carries a lot of *process scaffolding* that must move out of the main text:
@@ -39,15 +44,17 @@ The manuscript carries a lot of *process scaffolding* that must move out of the 
       push the exhaustive version to SI.
 - [ ] **Clean section arc:** Abstract · Introduction (NR4A3/EMC + "undruggable" reputation) · Results
       (2.1 static pocket → 2.2 cryptic opening + release → 2.3 handles → 2.4 matrix → 2.5 de-novo + decoy
-      control → 2.6 multi-snapshot + decoy-null → **2.7 selectivity architecture** → **2.8 ternary/degradation
-      geometry (new)**) · Discussion · Limitations · Methods · Data/Code availability · References.
+      control → 2.6 multi-snapshot + decoy-null → **2.7 selectivity architecture**) · Discussion (incl. the
+      ternary/degradation-geometry model as future work) · Limitations · Methods · Data/Code availability ·
+      References. *(No §2.8 — the ternary is deferred; see Results status above.)*
 
 ## Front matter to add
 - [ ] **Title** (candidate): *"Computational design of a selective NR4A3 degrader: opening a cryptic pocket in
       a 'ligand-independent' nuclear receptor."* (already the working title — keep.)
 - [ ] **Authors / affiliations** — trimcrae + "Claude (Anthropic)" acknowledgment per preference (decide author
       vs. acknowledgment; most venues want human authors + an AI-assistance statement in Methods).
-- [ ] **Abstract** — finalize *after* the ternary lands (it's results-dependent; don't rewrite twice).
+- [ ] **Abstract** — ready to finalize now (metad-frame decoy null folded in; ternary deferred). Trim its
+      internal red-team scaffolding to a clean results paragraph.
 - [ ] **Data & Code Availability** — point to the public GitHub repo + note S3 artifacts available on request;
       list the key scripts.
 - [ ] **Competing interests / Funding** — "no funding; no competing interests" (accurate at solo scale).
@@ -56,13 +63,13 @@ The manuscript carries a lot of *process scaffolding* that must move out of the 
 
 ## Figures & tables (from `nr4a3-degrader-figures.md`)
 - [ ] Finalize Fig 1 (calibration), Fig 2 (cryptic opening + release), Fig 3 (handles), Fig 4 (matrix), Fig 5
-      (de-novo + decoy control + multi-snapshot — already reframed around denovo_401), + a **new Fig 6 (ternary
-      / degradation geometry)** once that lands.
+      (de-novo + decoy control + multi-snapshot — already reframed around denovo_401; **add the release-vs-metad
+      decoy-null contrast panel** showing the frame-dependence). *(No Fig 6 — ternary deferred.)*
 - [ ] Render via `render-figures.yml`; ensure each caption states its data weight (model / biased-MD / docking-
       prior / MM-GBSA-direction) and that the candidate is *predicted*.
 
 ## Dissemination (do NOT wait for journal acceptance)
-- [ ] Post ChemRxiv preprint the day the ternary result is folded in.
+- [ ] Post ChemRxiv preprint once the conversion pass is done (results are complete — ternary deferred).
 - [ ] **Outreach** — ready-to-send email drafts are in
       **[`nr4a3-degrader-outreach-emails.md`](./nr4a3-degrader-outreach-emails.md)** (5 templates: NR4A/NR
       structural labs, the de Vera / Nurr1-pocket group, the **SGC**, sarcoma/EMC translational labs,

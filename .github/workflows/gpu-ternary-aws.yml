@@ -17,8 +17,8 @@ on:
         default: ""
         required: false
       instance:
-        description: "SageMaker GPU instance type"
-        default: "ml.g5.2xlarge"
+        description: "SageMaker GPU instance type (account has ml.g5.xlarge quota; ml.g5.2xlarge is 0)"
+        default: "ml.g5.xlarge"
         required: false
       region:
         description: "AWS region — must match where you deployed the stack + got the GPU quota"

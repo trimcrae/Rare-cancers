@@ -25,7 +25,9 @@ def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
     if not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set (the SageMaker execution-role ARN)")
-    instance = os.environ.get("INSTANCE", "ml.g5.2xlarge")            # A10G, more RAM for Boltz
+    # ml.g5.xlarge (A10G, 16 GB RAM) — the account has quota for this; ml.g5.2xlarge is 0 instances
+    # (2026-07-01 ResourceLimitExceeded). The control ran within 16 GB RAM before its dep crash, so xlarge is fine.
+    instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
     max_runtime = int(os.environ.get("MAX_RUNTIME", str(6 * 3600)))   # hard cap
     protac = os.environ.get("PROTAC_SMILES", "")
 

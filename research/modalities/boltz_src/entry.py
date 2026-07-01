@@ -24,7 +24,10 @@ def main():
     subprocess.run(["nvidia-smi"], check=False)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
                    check=False)
-    subprocess.run(["pip", "install", "--quiet", "boltz"], check=False)
+    # boltz + its cuEquivariance accel kernel (boltz>=2 imports cuequivariance_torch in the triangular-mult
+    # kernel and HARD-CRASHES if absent — the 2026-07-01 control failure). Install the accel stack too.
+    subprocess.run(["pip", "install", "--quiet", "boltz",
+                    "cuequivariance-torch", "cuequivariance-ops-torch-cu12"], check=False)
     subprocess.run(["git", "clone", "--depth", "1",
                     "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
 
@@ -44,6 +47,10 @@ def main():
     if os.path.isdir(boltz_out):
         shutil.copytree(boltz_out, os.path.join(OUT, "boltz_out"), dirs_exist_ok=True)
     print(f"[sagemaker] ternary exit={r.returncode}", flush=True)
+    # Propagate the real exit code: a Boltz crash (e.g. the missing-accel-module failure) must FAIL the
+    # job, not report false-green. Prep JSON + YAMLs are already copied above, so partials still upload.
+    if r.returncode != 0:
+        raise SystemExit(r.returncode)
 
 
 if __name__ == "__main__":
