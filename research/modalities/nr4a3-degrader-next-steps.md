@@ -143,9 +143,26 @@ tier. Caveats preserved: denovo_111 SD (4.10) is larger (noisier); both are rele
 still applies to both); denovo_111 not yet state-matched (metad-frame) re-docked, so its frame-dependence is
 uncharacterized (unlike denovo_401).
 
-**🟢 F18 RUNNING (2026-07-01, run 28517419306, `gpu-ternary-aws.yml`).** denovo_401-PROTAC (RDKit-validated,
-C41H56N4O8, MW 733) ternary across NR4A3/NR4A1/NR4A2 LBD + CRBN, Boltz-2 `--no_kernels`, + CRBN/lenalidomide
-control. Read via `report-ternary-aws.yml` when done (Boltz confidence + degradation-lysine geometry proxy).
+**✅ F18 DONE (2026-07-01, run 28517419306 → `nr4a3-ternary`, report run 28518979909).** denovo_401-PROTAC
+(RDKit-validated, C41H56N4O8, MW 733) ternary across NR4A3/NR4A1/NR4A2 LBD + CRBN, Boltz-2 `--no_kernels`.
+- **Control reproduced:** CRBN+lenalidomide SEATED in tri-Trp (2.85 Å W380, ligand-iPTM 0.99).
+- **NR4A ternaries — all three form a productive-geometry-proxy complex, NOT NR4A3-selective:**
+  | target | iptm | ligand_iptm | bridges | closest Lys→CRBN | Lys ≤8/12/16 Å |
+  |--------|------|-------------|---------|------------------|-----------------|
+  | NR4A3 | 0.720 | 0.930 | yes (3.06/2.77) | K195 @ 3.12 Å | 2/5/10 |
+  | NR4A1 | 0.829 | 0.951 | yes (2.91/2.45) | K53 @ 2.34 Å | 4/6/7 |
+  | NR4A2 | 0.820 | 0.961 | yes (3.05/2.51) | K175 @ 3.96 Å | 4/5/5 |
+- **Honest reading (mitigates F18 + corrects §2.7):** we ran the *actual* NR4A ternary prediction (not just the
+  in-distribution control). Result: for this representative PROTAC the ternary forms productively for **all three**
+  paralogues with comparable (within-Boltz-noise) confidence — **no NR4A3 ternary-selectivity signal**. So §2.7's
+  hope that "the ternary can *multiply* the binder's NR4A3 margin (the highest-value un-run experiment)" is **not
+  borne out for this linker**: degradation selectivity would have to come from the **binder** margin
+  (denovo_401/111), with **linker/exit-vector design** the (untested) lever to try to add ternary selectivity.
+- **Caveats:** the PROTAC linker/exit-vector is REPRESENTATIVE (one arbitrary choice); Boltz gives a single
+  ternary pose (not the productive-ensemble/cooperativity α that sets real degradation selectivity); the
+  Lys-proximity is a CRBN-only proxy (no full CRL4^CRBN + E2~Ub). So "no ternary selectivity" is a
+  single-pose, single-linker in-silico result, not definitive — but it replaces an untested hopeful assumption
+  with a computed one.
 - **Ternary control — 3 infra walls hit 2026-07-01; all fixed at the code level, but the re-run is DEFERRED
   (not on the preprint critical path).** The CRBN+lenalidomide Boltz-2 control never validated. Failures, in order:
   1. **Empty `ContainerArguments`** (control mode passed `[]`) → SageMaker `ParamValidationError` (run 28488228214,
