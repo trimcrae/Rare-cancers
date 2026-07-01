@@ -119,6 +119,27 @@ changes are needed before any spot FEP can run:
 After both: re-run `mode=smoke` (validates spot + checkpoint + resume for cents and confirms the quota), then
 `mode=run` on go-ahead. `n_shards` should be ≤ the spot quota.
 
+## Pre-FEP candidate-robustness checklist (do on the on-demand path while the spot quota is pending)
+FEP is the expensive tier — de-risk the candidate on cheap on-demand Processing jobs first, so we FEP a
+*correct, stable, well-defined* molecule and don't waste the spend. (No spot / quota / new IAM needed for any
+of these.)
+- [ ] **Stereochemistry — denovo_401 is 1 of 16 (RDKit, 2026-07-01).** All 4 stereocenters are assigned
+      (3S,10R,13S,18R) but by **DiffSBDD**, whose chirality is arbitrary. **Dock + MM-GBSA the stereoisomer set
+      and confirm the generated isomer is competitive (or switch to the best) before FEP.** Otherwise we FEP an
+      arbitrary 1-of-16. (denovo_401 is otherwise clean: neutral, no ionizable groups, no tautomer ambiguity.)
+- [ ] **Protonation — denovo_111 has a basic pyrrolidine → cationic at pH 7.4 (RDKit, 2026-07-01).** Confirm
+      which protonation state prior scores used and which to FEP; a buried cation ≠ neutral. Only 2 stereoisomers.
+- [ ] **Pose-stability MD (highest-value).** Short unbiased MD replicas of the lead–NR4A3 (and NR4A1/2)
+      complex: does the docked pose hold (ligand RMSD, key contacts) in this cryptic/induced-fit pocket? Pick
+      the stable frame as the FEP start. A collapsing pose ⇒ FEP is moot — learn it for ~$5, not ~$50.
+- [ ] **Ensemble selectivity over the druggable release sub-ensemble** (primary+alt1+alt3) + matching decoy
+      null — confirm the selectivity is not a single-frame artifact (closes the F16 frame-dependence residual)
+      before FEP.
+- [ ] **FEP-protocol shakeout on-demand:** run one window / the solvent leg as an *on-demand Processing* job
+      and check a checkable number (e.g. ligand hydration ΔG vs a known value) — validate the openmmtools
+      alchemy machinery before the spot fleet spends on it.
+Each also strengthens the preprint regardless of the eventual FEP result.
+
 ## Guardrails
 - **Do NOT launch `mode=run` (production FEP) without trimcrae's explicit go-ahead** (standing FEP carve-out).
 - `mode=plan` and `mode=smoke` are safe/cheap and are how we validate the wiring.
