@@ -120,6 +120,10 @@ to main as you go. Dont come back to me until all your red team findings are mit
 override of the "GPU runs cost money — ASK FIRST" standing rule** — for this program, dispatch the warranted GPU
 jobs without a per-job AskUserQuestion. (The ASK-FIRST rule still applies to *future* unrelated work.) The regime
 was also updated (no GPU-$ ceiling gating paper quality; FEP no longer skipped; preprint waits on this work).
+**💸 STANDING AUTHORIZATION (trimcrae 2026-07-01): any single GPU run under **$10** may be launched WITHOUT
+asking.** ("You don't need to ask me for permission to run an <$10 run.") So the ASK-FIRST standing rule now
+only applies to runs ≥ $10 (e.g. metad ~$15, or the full FEP fleet) and to the FEP carve-out below. Cheap
+Processing/MM-GBSA/dock jobs: just run them and report.
 **⛔ FEP CARVE-OUT (trimcrae 2026-07-01): do NOT start any FEP job without checking with the user first** — they
 expect GPU-setup changes are needed for it. This is the ONE exception to the autonomous-GPU authorization above.
 FEP is "no longer skipped" (it's the SOTA gate) but it is **gated on an explicit user go-ahead**, not auto-dispatched.
