@@ -1,0 +1,47 @@
+name: Report NR4A3 ternary control (AWS)
+
+# Read-only: pulls s3://<default-bucket>/<output_prefix>/ (the Boltz-2 ternary output) and reports the
+# Boltz confidence scores + a geometry check of whether lenalidomide seated in CRBN's tri-Trp pocket
+# (the control's known answer). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY. Commits nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      output_prefix:
+        description: "S3 prefix the ternary job wrote to"
+        default: "nr4a3-ternary"
+        required: false
+      tritrp:
+        description: "CRBN tri-Trp residue numbers (comma-sep)"
+        default: "380,386,400"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3 gemmi
+      - name: Read + report ternary output
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          TRITRP: ${{ inputs.tritrp }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_ternary.py
