@@ -1,30 +1,32 @@
 #!/usr/bin/env python3
 """
-NR4A3–PROTAC–E3 ternary-complex modelling (degrader GPU experiment #3 — degradability geometry).
+NR4A–PROTAC–E3 ternary-complex modelling (degrader GPU experiment #3 — degradation geometry).
 
-WHY NOW. The "is the fusion geometrically degradable?" question needs an AF3-class model that folds
-two proteins + a small molecule together. That capability is open as of 2026-06 (AlphaFold3, Boltz-2,
-Protenix — method-watch hit), so this experiment moved from "parked" to "primed." We model the
-**NR4A3 LBD + E3 substrate receptor (CRBN) + PROTAC** ternary and score whether the recruited complex
-presents a solvent-exposed lysine near the E3 in a geometry compatible with ubiquitin transfer.
+WHY. A degrader's *degradation* selectivity is set by the ternary complex, not by warhead binding alone
+(paper §2.7 / caveat 5): a non-selective binder can degrade selectively (productive ternary on only one
+paralogue) and a selective binder can fail to degrade. So the highest-value degradation experiment is to
+fold **NR4A-LBD + E3 substrate receptor (CRBN) + PROTAC** for each paralogue and ask whether the recruited
+complex presents a solvent-exposed lysine near the E3 in a geometry compatible with ubiquitin transfer.
+This is the red-team **F18** mitigation: the CRBN+lenalidomide control (below) is an in-distribution sanity
+check; the NR4A-specific ternary predictions here are the actual, previously-un-run result.
 
-HONEST STATUS. No selective NR4A3 warhead/PROTAC exists yet (that is degrader experiment #2). So this
-script does two things:
-  (1) PREP + POSITIVE CONTROL (CPU/CI, runnable now): fetch the NR4A3 LBD (AFDB Q92570, 373-626) and
-      CRBN (AFDB Q96SW2) sequences and a real E3 ligand (lenalidomide, fetched from ChEMBL by name),
-      assemble Boltz inputs, and build a *checkable control* — CRBN + lenalidomide — whose right
-      answer is known (the imide should seat in CRBN's tri-tryptophan pocket). If Boltz can't recover
-      that, we don't trust its NR4A3 ternary.
-  (2) TERNARY TEMPLATE: emit the NR4A3-LBD + CRBN + PROTAC Boltz input, with the PROTAC SMILES taken
-      from $PROTAC_SMILES (or --protac-smiles). Until a warhead is designed this is a template that
-      completes the instant a SMILES exists — no rework.
+WHAT (2026-07-01, extended from NR4A3-only to the whole family for the degradation-selectivity read):
+  (1) CONTROL (known answer): CRBN + lenalidomide — the imide should seat in CRBN's tri-Trp pocket
+      (W380/W386/W400). If Boltz can't recover that, we don't trust the NR4A ternaries.
+  (2) TERNARY, per paralogue: **NR4A{3,1,2}-LBD + CRBN + PROTAC**, with the PROTAC SMILES taken from
+      $PROTAC_SMILES / --protac-smiles. Running all three lets us compare degradation geometry across the
+      family (does the productive, Lys-near-CRBN geometry form for NR4A3 but *not* NR4A1/NR4A2?), which is
+      the ternary contribution to paralogue selectivity §2.7 calls the highest-value un-run experiment.
 
-Inference needs a GPU (Boltz/torch); like the MD it is PREPARED to run as-is and skips gracefully in
-CI. Tool is Boltz-2 by default; Protenix/AF3 are documented swap-ins (keep the pipeline modular).
+LBD definition: the NR4A ligand-binding domain is the C-terminal domain; NR4A3's repo range (373-626) is
+exactly its **last 254 residues**, so we define each paralogue's LBD the same principled way (last 254
+residues; NR4A3 kept explicit at 373-626 for exact reproducibility) — no alignment/dependency needed.
 
-Outputs: nr4a3-ternary-control.yaml, nr4a3-ternary-protac.yaml (Boltz inputs) +
-nr4a3-ternary-prep.json (what was assembled / status). Boltz predictions (when GPU-run) land under
-boltz_out/.
+Inference needs a GPU (Boltz/torch); prepared to run as-is and skips gracefully in CI. Tool is Boltz-2.
+
+Outputs (written incrementally into $OUTPUT_DIR so a timeout still uploads completed targets — the
+checkpoint/continuous-upload standing rule): the Boltz input YAMLs, per-target Boltz predictions under
+<OUTPUT_DIR>/, and nr4a3-ternary-prep.json (what was assembled / status), updated after each target.
 """
 import argparse
 import json
@@ -36,9 +38,15 @@ import urllib.request
 import nr4a3_structure as ns  # reuse fetch_pdb (AFDB resolve + download)
 
 HERE = os.path.dirname(__file__)
-NR4A3 = "Q92570"
+OUT_DIR = os.environ.get("OUTPUT_DIR", os.path.join(HERE, "boltz_out"))
 CRBN = "Q96SW2"
-LBD_FIRST, LBD_LAST = 373, 626
+# (accession, lbd_first, lbd_last) — None/None = take the C-terminal 254 residues (matches NR4A3 373-626).
+NR4A_TARGETS = {
+    "NR4A3": ("Q92570", 373, 626),
+    "NR4A1": ("P22736", None, None),
+    "NR4A2": ("P43354", None, None),
+}
+LBD_LEN = 254  # NR4A3 373..626 inclusive == 254 residues; the family LBD is this C-terminal domain.
 
 THREE2ONE = {
     "ALA": "A", "ARG": "R", "ASN": "N", "ASP": "D", "CYS": "C", "GLN": "Q", "GLU": "E",
@@ -65,6 +73,14 @@ def fetch_seq(acc, lo=None, hi=None):
     return pdb_sequence(pdb, lo, hi)
 
 
+def lbd_seq(acc, lo, hi):
+    """LBD one-letter sequence: explicit [lo,hi] if given, else the C-terminal LBD_LEN residues."""
+    if lo is not None and hi is not None:
+        return fetch_seq(acc, lo, hi)
+    full = fetch_seq(acc)
+    return full[-LBD_LEN:]
+
+
 def fetch_ligand_smiles(name):
     url = CHEMBL.format(name=urllib.parse.quote(name))
     with urllib.request.urlopen(url, timeout=60) as r:
@@ -80,7 +96,7 @@ def boltz_yaml(proteins, ligand_smiles):
     """Minimal Boltz-2 YAML: list of protein chains + one ligand (SMILES)."""
     lines = ["version: 1", "sequences:"]
     for cid, seq in proteins:
-        lines += [f"  - protein:", f"      id: {cid}", f"      sequence: {seq}"]
+        lines += ["  - protein:", f"      id: {cid}", f"      sequence: {seq}"]
     lines += ["  - ligand:", "      id: L", f"      smiles: '{ligand_smiles}'"]
     return "\n".join(lines) + "\n"
 
@@ -104,13 +120,19 @@ def run_boltz(yaml_path, out_dir):
         print("  no CUDA GPU detected — refusing to run Boltz on CPU (would be unusably slow). "
               "Dispatch gpu-ternary-aws.yml.", file=sys.stderr)
         return None
-    # --no_kernels: use the pure-PyTorch triangle-multiplication path instead of the cuEquivariance/Triton
-    # accelerated kernels. boltz>=2 HARD-CRASHES on this A10G container when the accel kernels' CUDA ops fail
-    # to import (2026-07-01: ModuleNotFoundError then ops ImportError); --no_kernels avoids the whole
-    # dependency chain — slower, but it runs. Chasing the exact cuequivariance/CUDA build match is a rabbit hole.
+    # --no_kernels: pure-PyTorch triangle path. boltz>=2 HARD-CRASHES on this A10G container when the
+    # accelerated cuEquivariance/Triton kernels' CUDA ops fail to import (2026-07-01); --no_kernels avoids
+    # the whole dependency chain — slower, but it runs.
     cmd = ["boltz", "predict", yaml_path, "--use_msa_server", "--out_dir", out_dir, "--no_kernels"]
     print("  running:", " ".join(cmd), file=sys.stderr)
     return subprocess.run(cmd).returncode
+
+
+def _write_prep(out):
+    os.makedirs(OUT_DIR, exist_ok=True)
+    json.dump(out, open(os.path.join(OUT_DIR, "nr4a3-ternary-prep.json"), "w"), indent=2)
+    # also keep a copy next to the code (back-compat with the old reporter path)
+    json.dump(out, open(os.path.join(HERE, "nr4a3-ternary-prep.json"), "w"), indent=2)
 
 
 def main():
@@ -118,60 +140,79 @@ def main():
     ap.add_argument("--run", action="store_true", help="run Boltz inference (needs GPU); else prep only")
     ap.add_argument("--e3-ligand", default="lenalidomide", help="ChEMBL name for the E3 ligand control")
     ap.add_argument("--protac-smiles", default=os.environ.get("PROTAC_SMILES", ""),
-                    help="PROTAC SMILES for the real NR4A3 ternary (none until a warhead exists)")
+                    help="PROTAC SMILES for the real NR4A ternaries (none until a warhead exists)")
+    ap.add_argument("--control", action="store_true", help="no-op; keeps the SageMaker arg list non-empty")
     args = ap.parse_args()
 
-    out = {"_note": "NR4A3–PROTAC–E3 ternary modelling prep (Boltz-2). Control = CRBN + E3 ligand "
-                    "(known answer); ternary = NR4A3 LBD + CRBN + PROTAC (template until a warhead "
-                    "SMILES exists). Inference needs GPU.", "status": {}}
+    os.makedirs(OUT_DIR, exist_ok=True)
+    out = {"_note": "NR4A–PROTAC–E3 ternary modelling (Boltz-2). Control = CRBN + E3 ligand (known "
+                    "answer); ternaries = NR4A{3,1,2}-LBD + CRBN + PROTAC. Degradation-geometry read = an "
+                    "exposed NR4A Lys near CRBN (ubiquitin reach). Inference needs GPU.",
+           "lbd_definition": f"C-terminal {LBD_LEN} residues (NR4A3 == 373-626)",
+           "targets": {}, "status": {}}
+
+    # sequences
     try:
-        nr4a3_lbd = fetch_seq(NR4A3, LBD_FIRST, LBD_LAST)
         crbn = fetch_seq(CRBN)
-        out["nr4a3_lbd_len"] = len(nr4a3_lbd)
         out["crbn_len"] = len(crbn)
+        for name, (acc, lo, hi) in NR4A_TARGETS.items():
+            seq = lbd_seq(acc, lo, hi)
+            out["targets"][name] = {"accession": acc, "lbd_len": len(seq)}
     except Exception as e:  # noqa
         out["status"]["sequences"] = f"error: {e}"
-        json.dump(out, open(os.path.join(HERE, "nr4a3-ternary-prep.json"), "w"), indent=2)
+        _write_prep(out)
         print(f"sequence fetch failed: {e}", file=sys.stderr)
         return
+    _write_prep(out)
 
     # (1) positive control: CRBN + E3 ligand (known to bind the tri-Trp pocket)
     try:
         e3_smiles, e3_id = fetch_ligand_smiles(args.e3_ligand)
         ctrl = boltz_yaml([("A", crbn)], e3_smiles)
+        open(os.path.join(OUT_DIR, "nr4a3-ternary-control.yaml"), "w").write(ctrl)
         open(os.path.join(HERE, "nr4a3-ternary-control.yaml"), "w").write(ctrl)
         out["control"] = {"complex": f"CRBN + {args.e3_ligand}", "ligand_chembl": e3_id,
                           "expected": "imide seats in CRBN tri-Trp pocket (W380/W386/W400 region)"}
     except Exception as e:  # noqa
         out["status"]["control"] = f"error: {e}"
+    _write_prep(out)
 
-    # (2) real ternary template: NR4A3 LBD + CRBN + PROTAC
+    # (2) real ternaries: NR4A{3,1,2}-LBD + CRBN + PROTAC (one YAML per paralogue)
     if args.protac_smiles:
-        tern = boltz_yaml([("A", nr4a3_lbd), ("B", crbn)], args.protac_smiles)
-        open(os.path.join(HERE, "nr4a3-ternary-protac.yaml"), "w").write(tern)
-        out["ternary"] = {"complex": "NR4A3-LBD + CRBN + PROTAC", "protac_smiles": args.protac_smiles,
-                          "scoring": "look for an exposed NR4A3 Lys near CRBN within ubiquitin reach"}
+        for name, (acc, lo, hi) in NR4A_TARGETS.items():
+            seq = lbd_seq(acc, lo, hi)
+            tern = boltz_yaml([("A", seq), ("B", crbn)], args.protac_smiles)
+            stem = f"{name.lower()}-ternary-protac.yaml"
+            open(os.path.join(OUT_DIR, stem), "w").write(tern)
+            open(os.path.join(HERE, stem), "w").write(tern)
+            out["targets"][name]["yaml"] = stem
+        out["ternary"] = {"complex": "NR4A{3,1,2}-LBD + CRBN + PROTAC", "protac_smiles": args.protac_smiles,
+                          "scoring": "exposed NR4A Lys near CRBN within ubiquitin reach; compare across paralogues"}
     else:
-        out["ternary"] = {"status": "TEMPLATE — supply --protac-smiles / $PROTAC_SMILES once a "
-                          "selective NR4A3 warhead is designed (degrader experiment #2)"}
+        out["ternary"] = {"status": "TEMPLATE — supply --protac-smiles / $PROTAC_SMILES once a selective "
+                          "NR4A warhead is designed"}
+    _write_prep(out)
 
     if args.run:
-        out_dir = os.path.join(HERE, "boltz_out")
-        os.makedirs(out_dir, exist_ok=True)
-        ctrl_yaml = os.path.join(HERE, "nr4a3-ternary-control.yaml")
-        out["status"]["control_run"] = run_boltz(ctrl_yaml, out_dir)
-        tern_yaml = os.path.join(HERE, "nr4a3-ternary-protac.yaml")
-        if os.path.exists(tern_yaml):
-            out["status"]["ternary_run"] = run_boltz(tern_yaml, out_dir)
+        # control first (cheap, validates the pipeline), then each paralogue ternary; upload incrementally.
+        ctrl_yaml = os.path.join(OUT_DIR, "nr4a3-ternary-control.yaml")
+        if os.path.exists(ctrl_yaml):
+            out["status"]["control_run"] = run_boltz(ctrl_yaml, OUT_DIR)
+            _write_prep(out)
+        if args.protac_smiles:
+            for name in NR4A_TARGETS:
+                yml = os.path.join(OUT_DIR, f"{name.lower()}-ternary-protac.yaml")
+                if os.path.exists(yml):
+                    out["status"][f"{name}_run"] = run_boltz(yml, OUT_DIR)
+                    _write_prep(out)
 
-    json.dump(out, open(os.path.join(HERE, "nr4a3-ternary-prep.json"), "w"), indent=2)
     print(json.dumps({k: out.get(k) for k in
-                      ("nr4a3_lbd_len", "crbn_len", "control", "ternary", "status")}, indent=2))
+                      ("crbn_len", "targets", "control", "ternary", "status")}, indent=2))
 
-    # Fail loud: a Boltz run that returned non-zero must exit non-zero, not report false-green (the prep JSON
-    # above is already written, so partials still upload). None = skipped (no GPU / not installed) → not a failure.
+    # Fail loud: any Boltz run that returned non-zero must exit non-zero (prep JSON already uploaded, so
+    # partials survive). None = skipped (no GPU / not installed) → not a failure.
     if args.run:
-        rcs = [out["status"].get("control_run"), out["status"].get("ternary_run")]
+        rcs = [v for k, v in out["status"].items() if k.endswith("_run")]
         failed = [rc for rc in rcs if rc not in (0, None)]
         if failed:
             sys.exit(f"Boltz inference FAILED (return codes {failed}); see traceback above.")

@@ -35,17 +35,21 @@ def main():
     env = os.environ.copy()
     if protac:
         env["PROTAC_SMILES"] = protac
+    # Write Boltz outputs + prep JSON DIRECTLY into the SageMaker output dir so the Continuous S3 upload
+    # (set in the submitter) captures each target as it finishes — a timeout after target N still uploads
+    # targets 1..N (the checkpoint/continuous-upload standing rule). nr4a3_ternary.py honours $OUTPUT_DIR.
+    os.makedirs(OUT, exist_ok=True)
+    env["OUTPUT_DIR"] = OUT
     print(f"[sagemaker] running Boltz ternary (protac={'set' if protac else 'control-only'})", flush=True)
     r = subprocess.run(["python", "nr4a3_ternary.py", "--run"], cwd=work, env=env)
 
-    os.makedirs(OUT, exist_ok=True)
-    for f in ("nr4a3-ternary-control.yaml", "nr4a3-ternary-protac.yaml", "nr4a3-ternary-prep.json"):
-        p = os.path.join(work, f)
-        if os.path.exists(p):
-            shutil.copy(p, os.path.join(OUT, f))
-    boltz_out = os.path.join(work, "boltz_out")
-    if os.path.isdir(boltz_out):
-        shutil.copytree(boltz_out, os.path.join(OUT, "boltz_out"), dirs_exist_ok=True)
+    # belt-and-braces: also copy any YAML/prep left next to the code (back-compat)
+    import glob
+    for p in glob.glob(os.path.join(work, "*-ternary-*.yaml")) + \
+            glob.glob(os.path.join(work, "nr4a3-ternary-prep.json")):
+        dst = os.path.join(OUT, os.path.basename(p))
+        if not os.path.exists(dst):
+            shutil.copy(p, dst)
     print(f"[sagemaker] ternary exit={r.returncode}", flush=True)
     # Propagate the real exit code: a Boltz crash (e.g. the missing-accel-module failure) must FAIL the
     # job, not report false-green. Prep JSON + YAMLs are already copied above, so partials still upload.
