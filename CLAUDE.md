@@ -33,15 +33,25 @@ read it before making changes.
   The crux of the portfolio is still **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
   and the board in **[research/IDEAS.md](./research/IDEAS.md)**. **No wet lab is available**, so every
   "next step" must be either (1) publish-to-convince or (2) in-silico evaluation — never a wet-lab to-do.
-- **OPERATING REGIME (2026-07-01, trimcrae) — solo-researcher scale; ship a preprint, hand off to wet labs.**
+- **★ NORTH STAR (2026-07-01, trimcrae):** produce **the state of the art of what in-silico testing can do for
+  an NR4A3-selective degrader** — the most complete, rigorous, honest computational characterization achievable
+  with no wet lab (cryptic-pocket druggability → selective warhead → paralogue-selectivity controls → ternary /
+  degradation geometry → FEP), every result at its true weight. The preprint documents *that*, not a
+  ship-when-adequate minimum.
+- **OPERATING REGIME (2026-07-01, trimcrae; UPDATED) — solo-researcher scale; make the paper as strong as
+  in-silico allows BEFORE preprinting, then hand off to wet labs.**
   See **emc-treatment-strategy.md → "Operating regime (2026-07-01)"**. In short: one independent researcher,
-  no wet lab, **GPU budget ceiling low-hundreds-$ total**; a self-funded wet-lab program ($5–25k) is **OFF the
-  table** (that's a funded collaborator/foundation's budget — never propose it as a next step). Deliverable =
-  a rigorous, honest **preprint** (ChemRxiv degrader / bioRxiv ASO) posted immediately + **targeted outreach**
-  to NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations (don't wait on peer review). Remaining
-  in-silico = **cheap completeness only** (metad-frame decoy null; the ternary control → denovo_401-PROTAC
-  degradation geometry); **SKIP FEP** (ceiling-bound + least reliable on this cryptic/AF2 pocket). Don't let
-  "more testing" delay shipping. **Preprint conversion checklist:**
+  **no wet lab** (a self-funded wet-lab program $5–25k is **OFF the table** — a funded collaborator/foundation's
+  budget, never propose it as a next step). **GPU spend is NOT a gate on paper quality** — the earlier
+  low-hundreds-$ ceiling / "cheap completeness only" / "SKIP FEP" / "don't let testing delay shipping" directive
+  is **removed** (it was deferring rigor-critical work to ship fast). New rule: **run the warranted in-silico
+  experiments — including the expensive ones (selectivity FEP, generation-matched decoy null, ensemble scoring,
+  the ternary) — to strengthen or honestly refute the claims, and post the preprint only once that work is done
+  and folded in.** Cost is a reason to sequence + right-size (checkpoint/continuous-upload, serialize the single
+  g5), not to skip a decision-relevant run. Deliverable = a rigorous, honest **preprint** (ChemRxiv degrader /
+  bioRxiv ASO) + **targeted outreach** to NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations
+  (journal submission in parallel; don't wait on peer review — but do wait on the warranted GPU work).
+  **Preprint conversion checklist:**
   [research/manuscripts/nr4a3-degrader-preprint-plan.md](./research/manuscripts/nr4a3-degrader-preprint-plan.md);
   **ready-to-send outreach emails** (send the day the preprint posts):
   [research/manuscripts/nr4a3-degrader-outreach-emails.md](./research/manuscripts/nr4a3-degrader-outreach-emails.md).

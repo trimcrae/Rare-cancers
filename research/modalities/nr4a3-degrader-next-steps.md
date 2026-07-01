@@ -107,9 +107,28 @@ Two controls the paper had flagged as pending (caveat 7 / §2.6) were run and fo
   specificity-controlled result is **release-frame-specific**, not universal — a real but **receptor-frame-
   dependent** hit (clears the release-frame null +12.83 vs +6.69/+7.10; fails the metad-frame null). Folded into
   paper abstract/§2.6/§5-caveat-7/§6-Gate-4 + prereg. **Right resolution = ensemble scoring over the druggable
-  release sub-ensemble (not one frame)** — a method-watch/near-term follow-up, not blocking the preprint.
+  release sub-ensemble (not one frame)** — **now a PRE-PREPRINT task** (regime updated 2026-07-01: paper must be
+  as strong as in-silico allows before posting), being run in the red-team-mitigation program below.
 - **Remaining gates:** selectivity FEP (the one quantitative tier left; frame-dependence best fixed by ensemble
-  scoring first).
+  scoring first) — **no longer skipped** (regime updated 2026-07-01).
+
+## 🔴 RED-TEAM MITIGATION PROGRAM (2026-07-01, trimcrae authorized autonomous GPU) — IN PROGRESS
+**★ North star (trimcrae 2026-07-01):** produce **the state of the art of what in-silico testing can do for an
+NR4A3-selective degrader.** Every warranted run below serves that; the preprint documents the SOTA in-silico case.
+**Authorization:** trimcrae, 2026-07-01: *"Do the GPU runs that are warranted to strengthen the claims. Merge
+to main as you go. Dont come back to me until all your red team findings are mitigated."* This is a **task-scoped
+override of the "GPU runs cost money — ASK FIRST" standing rule** — for this program, dispatch the warranted GPU
+jobs without a per-job AskUserQuestion. (The ASK-FIRST rule still applies to *future* unrelated work.) The regime
+was also updated (no GPU-$ ceiling gating paper quality; FEP no longer skipped; preprint waits on this work).
+Fourth-pass red-team findings (F16–F20; see the red-team memo) and their GPU mitigations:
+- **F16 (HIGH)** decoy null doesn't control the generative step / best-of-N → ensemble scoring over the release
+  sub-ensemble + a generation-matched decoy null (and, ultimately, FEP).
+- **F17 (med-high)** winner's-curse on the best-of-~10 survivor → ensemble/multi-frame de-biasing + independent re-run.
+- **F18 (med)** ternary "positive control" is in-distribution (CRBN/IMiD) → run the actual denovo_401-PROTAC
+  degradation-geometry prediction across NR4A1/2/3.
+- **F19 (med)** denovo_111 never multi-snapshot-tested → dock + multi-snapshot it (both leads on one footing).
+- **F20 (low)** abstract editing/bloat → editorial (no GPU).
+Progress is logged inline below as each job lands; results folded into paper/preprint/red-team + merged to main.
 - **Ternary control — 3 infra walls hit 2026-07-01; all fixed at the code level, but the re-run is DEFERRED
   (not on the preprint critical path).** The CRBN+lenalidomide Boltz-2 control never validated. Failures, in order:
   1. **Empty `ContainerArguments`** (control mode passed `[]`) → SageMaker `ParamValidationError` (run 28488228214,

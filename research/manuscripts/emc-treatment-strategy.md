@@ -273,27 +273,44 @@ first*. The two priorities:
    control-validated; the ternary is an *additional* robustness lever, not a substitute). Corrected in the
    paper §2.7/§5/abstract and `nr4a3-degrader-selectivity-architecture.md` thesis + §7.)*
 
-### Operating regime (2026-07-01, trimcrae) — solo-researcher scale; ship a preprint, hand off to wet labs
+### Operating regime (2026-07-01, trimcrae; UPDATED — make the paper as strong as in-silico allows *before* preprinting)
 This is the governing regime for *how* the work reaches impact. Do not re-scope it upward.
-- **Scale = one independent researcher, no wet lab, minimal budget.** GPU spend ceiling is **low hundreds of $
-  total** (the ~$3–15 cheap-completeness jobs). **A self-funded wet-lab program ($5–25k assays/synthesis) is
-  OFF the table** — that is a *funded collaborator/foundation's* budget, never the solo researcher's. Do not
-  propose it as a next step.
+- **★ NORTH STAR (2026-07-01, trimcrae):** the goal of this program is to **produce the state of the art of what
+  in-silico testing can do for an NR4A3-selective degrader** — the most complete, rigorous, honest computational
+  characterization achievable without a wet lab (druggability of the cryptic pocket → selective warhead design →
+  paralogue-selectivity controls → ternary/degradation geometry → the affinity-grade FEP tier), each result
+  stated at its true weight. That is the deliverable the preprint documents. "As good as it can be before
+  preprinting" means *state-of-the-art in-silico*, not merely "enough to post."
+- **Scale = one independent researcher, no wet lab.** **A self-funded wet-lab program ($5–25k assays/synthesis)
+  is OFF the table** — that is a *funded collaborator/foundation's* budget, never the solo researcher's. Do not
+  propose wet-lab work as a next step. **The one hard constraint is "no wet lab," NOT a GPU-dollar ceiling.**
+- **GPU spend is NOT a gate on paper quality (UPDATED 2026-07-01, trimcrae).** The earlier "low-hundreds-$
+  ceiling / cheap-completeness-only / SKIP FEP / don't let testing delay shipping" directive is **removed** — it
+  was causing rigor-critical in-silico work to be deferred so the preprint could ship fast. New rule: **run the
+  in-silico experiments that are warranted to strengthen (or honestly refute) the paper's claims, including the
+  expensive ones (selectivity FEP, generation-matched controls, ensemble scoring, the ternary), before the
+  preprint goes out.** Cost is a reason to sequence and to right-size jobs (checkpoint + continuous upload,
+  serialize the single g5), **not** a reason to skip a run that would materially change what the paper can claim.
 - **Deliverable = a rigorous, honest PREPRINT** (ChemRxiv for the degrader/med-chem paper; bioRxiv for the
-  ASO/bio paper), posted immediately, with journal submission **in parallel** (don't wait on peer review).
-  The real audience is **wet-lab groups + rare-cancer foundations who can validate/advance it**, not only
-  journal readers — so the paper is written to be *picked up and built on*, and paired with **targeted
-  outreach** (a short list of NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations & patient orgs).
-  "Publish and hope it's found" is too weak for an orphan target — publish **and** nudge.
-- **In-silico scope going forward = cheap *completeness* only, not the expensive *best-number* chase.**
-  Finish: (1) the metad-frame decoy null (denovo_401's control battery), (2) the **ternary** — CRBN+lenalidomide
-  Boltz-2 control → denovo_401-PROTAC degradation geometry (the mechanism-relevant add for a *degrader* paper).
-  **SKIP FEP** — ceiling-bound (no wet lab to validate against) and least reliable exactly here (cryptic/
-  induced-fit pocket on an AF2 model, frame-dependent selectivity); at most an optional ~$100 spot version, and
-  only if a specific reviewer/venue demands it. Don't let "more testing" delay shipping the preprint.
-- **Impact model:** the achievable win is a **public, control-validated, honest in-silico artifact that lowers
-  the barrier for a lab/foundation to pick up NR4A3/EMC** — not a self-funded path to a validated drug. FEP and
-  assays are things that happen *after* someone with resources adopts the work.
+  ASO/bio paper) — **posted once the in-silico case is as strong as it can be made** (i.e. the warranted GPU
+  work above is done and folded in), with journal submission **in parallel** (don't wait on peer review). Do
+  **not** post the preprint while a warranted, decision-relevant experiment is still un-run. The real audience
+  is **wet-lab groups + rare-cancer foundations who can validate/advance it**, not only journal readers — so the
+  paper is written to be *picked up and built on*, and paired with **targeted outreach** (a short list of
+  NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations & patient orgs). "Publish and hope it's
+  found" is too weak for an orphan target — publish **and** nudge, but publish the *strongest honest version*.
+- **In-silico scope going forward = whatever makes the claims as defensible as in-silico can (rigor first, not
+  cost first).** The live queue (red-team-driven): the **ternary** (denovo_401-PROTAC degradation geometry
+  across NR4A1/2/3 — the real Stage-2 result, CRBN control already validated); **ensemble scoring** over the
+  druggable release sub-ensemble (resolves denovo_401's frame-dependence); a **generation-matched decoy null**
+  (controls the generative-step confound the plain decoy null misses); **denovo_111 multi-snapshot** (put both
+  footholds on one footing); and **selectivity FEP** on the surviving lead (the affinity-grade tier — no longer
+  skipped). FEP is still acknowledged as sampling-limited on this cryptic/AF2/induced-fit pocket, so it is
+  reported at its true weight, but it is **run, not skipped**.
+- **Impact model:** the achievable win is a **public, honest, and as-rigorous-as-in-silico-allows artifact that
+  lowers the barrier for a lab/foundation to pick up NR4A3/EMC** — not a self-funded path to a validated drug.
+  Wet-lab assays are what happen *after* someone with resources adopts the work; the in-silico rigor (incl. FEP)
+  is *ours to finish first* so the artifact is worth adopting.
 - **This is a LONG-LIVED, REVISITABLE project on a RISING in-silico frontier — not a one-shot (trimcrae, standing
   assumption).** In-silico drug-discovery capability is advancing fast (AF3-class co-folding, ML interatomic
   potentials, generative + selectivity design, cheaper/better free-energy methods, and — critically for the ASO —
