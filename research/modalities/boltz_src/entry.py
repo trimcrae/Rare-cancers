@@ -17,6 +17,8 @@ OUT = "/opt/ml/processing/output"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--protac-smiles", default="")
+    ap.add_argument("--control", action="store_true",
+                    help="control-only (no PROTAC); no-op flag so the SageMaker arg list is non-empty")
     protac = ap.parse_args().protac_smiles
 
     subprocess.run(["nvidia-smi"], check=False)

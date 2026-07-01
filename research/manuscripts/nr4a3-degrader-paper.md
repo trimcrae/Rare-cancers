@@ -77,10 +77,13 @@ tier** the §2.5 plan named, we find the single-snapshot harvest is noise-domina
 (+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
 multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP —
 superseding the single-snapshot `denovo_111` foothold (not yet multi-snapshot-tested) — (still
-single-trajectory GB-implicit MD, not FEP; but it now **also clears the matching multi-snapshot decoy
-re-calibration** — multi-snapshot decoy 95th-pct +6.69, max decoy +7.10, so margin − SD +9.85 sits above
-the whole decoy null — and its selectivity *direction* is reproduced in a fully state-matched re-dock
-(+7.44 ± 4.18), the magnitude being frame-dependent — §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
+still
+single-trajectory GB-implicit MD, not FEP; and its decoy-null clearance is **receptor-frame-dependent**:
+it clears the matching multi-snapshot decoy null **in its release/design frame** (95th-pct +6.69, max decoy
++7.10, so margin − SD +9.85 sits above the whole null), but in the biased **metad-opened** frame both its
+margin and the decoy null inflate — the metad-frame decoy 95th-pct is +17.70 (max +24.74), and `denovo_401`'s
++7.44 there does **not** clear it (~84th pct) — so that frame is a poor, promiscuous discriminator and the
+specificity-controlled result is release-frame-specific, not universal — §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
 paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
 binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
 **multiplicative budget** whose factors compound: keep the binder selective (`denovo_401` is, control-validated)
@@ -405,14 +408,23 @@ multi-snapshot 95th percentile and exceeds the single highest decoy even after s
 (margin − SD = +9.85 > +7.10)** — so the margin is not merely de-noised but **genuinely above a like-for-like
 specificity baseline**, the first candidate in the program to clear one. **A receptor-robustness check (a
 fully state-matched re-dock — NR4A3 in its *metad-opened* frame rather than the release frame — then the same
-multi-snapshot rescore; runs 28473682532/28480041030) keeps `denovo_401` NR4A3-selective but weaker:
-+7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80).** So the selectivity *direction* is robust
-across receptor frames (it is not a release-frame artifact), while the *magnitude* is frame-dependent and
-must not be over-read; a matched metad-frame decoy null was not run, so the +7.44 is reported as
-direction-confirming, not as clearing a null. The defensible claim is therefore now stronger than the
-single-snapshot read: *`denovo_401` is the one candidate of the harvest whose NR4A3-selectivity survives
-ensemble de-noising **and** sits above a multi-snapshot decoy null in the release frame, with the direction
-confirmed in the fully state-matched frame* — the justified single candidate to advance to FEP. **A further 6-candidate multi-snapshot
+multi-snapshot rescore; runs 28473682532/28480041030) keeps `denovo_401` NR4A3-favoured but weaker:
++7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80)** — so the selectivity *direction* is robust
+across receptor frames (not a release-frame artifact), but the *magnitude* is frame-dependent. **The matching
+metad-frame decoy null has since been run (run 28483612927), and it forces an honest narrowing: `denovo_401`
+does *not* clear it.** In the metad-opened frame the decoy null *balloons* — mean +1.59, 95th percentile
+**+17.70**, max decoy **+24.74** (vs the release frame's +6.69 / +7.10) — because the biased wide-open pocket
+scores *most* drug-like matter as strongly NR4A3-favoured (diphenhydramine +24.74, lidocaine +22.08); against
+that inflated null `denovo_401`'s +7.44 sits at only ~the **84th percentile** (6/38 decoys score higher). So the
+metad-opened frame is a **poor, promiscuous discriminator**, and `denovo_401`'s specificity-controlled result is
+**release-frame-specific**: real in its unbiased *design* receptor, but it does **not** generalise to the
+biased-open frame. The honest, narrowed claim: *`denovo_401` is the one candidate whose NR4A3-selectivity
+survives ensemble de-noising **and** clears a like-for-like multi-snapshot decoy null **in its release (design)
+receptor** — a real but **receptor-frame-dependent** signal (it fails the null in the biased metad-opened frame,
+which is itself non-discriminating), consistent with §2.7's finding that this cryptic pocket is a fragile place
+to source a robust margin.* It stays the justified single candidate to advance to FEP, but as a **frame-dependent
+hit, not an unqualified one** — and the right resolution is ensemble scoring over the druggable release
+sub-ensemble rather than any single frame (method-watch: better induced-fit/ensemble affinity). **A further 6-candidate multi-snapshot
 batch (`denovo_921/277/804/431/838` + the `denovo_924` negative control) returned *no additional survivor*:
 the best two, `denovo_921` (+4.22 ± 5.23) and `denovo_277` (+2.23 ± 3.52), are positive-margin but **fail
 the margin − SD > 0 bar**, while the negative control stayed non-selective.** So across ~10 candidates now
@@ -615,10 +627,14 @@ made explicit rather than buried (full adversarial review:
    as pending have since run (§2.6): (a) the **multi-snapshot decoy null** (all 38 decoys re-scored
    multi-snapshot: 95th pct +6.69, max +7.10) — `denovo_401` (+12.83 ± 2.98, margin − SD +9.85) **clears it**,
    so the margin is above a like-for-like specificity baseline, not merely de-noised; and (b) a **fully
-   state-matched re-dock** (NR4A3 metad-opened) — `denovo_401` stays NR4A3-selective (+7.44 ± 4.18), confirming
-   the *direction* is not a release-frame artifact though the magnitude is frame-dependent. What remains is
-   **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the one remaining quantitative
-   gate**; a metad-frame decoy null (to judge the +7.44 against a matched baseline) is the minor open control.
+   state-matched re-dock** (NR4A3 metad-opened) — `denovo_401` stays NR4A3-favoured (+7.44 ± 4.18), confirming
+   the *direction* is not a release-frame artifact, though the magnitude is frame-dependent. **The matching
+   metad-frame decoy null was then run (§2.6) and, honestly, `denovo_401` does *not* clear it**: in the biased
+   metad-opened frame the decoy null balloons (95th +17.70, max +24.74, driven by drugs like diphenhydramine
+   +24.74) and +7.44 sits at only ~the 84th percentile — so the metad-opened frame is a poor discriminator and
+   the specificity-controlled result is **release-frame-specific**, not universal. What remains is
+   **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the one remaining quantitative gate**;
+   the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
 selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 metadynamics runs are

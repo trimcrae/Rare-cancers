@@ -146,10 +146,15 @@ Dock/generate into the best opened conformer (`nr4a3_dock.py` + generative desig
   state-matched re-dock** (dock run 28473682532 → rescore 28480041030, `nr4a3-denovo-mmgbsa-v2-statematch`):
   with NR4A3 in its *metad-opened* frame (not the release frame), `denovo_401` stays NR4A3-selective but weaker
   — **+7.44 ± 4.18** (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80) — so the selectivity **direction** is
-  robust across receptor frames while the **magnitude** is frame-dependent. Net: Gate 4 is **met in silico by a
-  single specificity-controlled lead (`denovo_401`)**, with **selectivity FEP** the one remaining quantitative
-  gate (and a matched metad-frame decoy null the minor open control for the +7.44). Honest bounds unchanged:
-  single-trajectory GB-implicit MD, unsynthesized, no wet lab — not an unqualified pass.
+  robust across receptor frames while the **magnitude** is frame-dependent. **Update (2026-07-01): the matching
+  metad-frame decoy null was run (run 28483612927) and `denovo_401` does NOT clear it** — the biased metad-opened
+  frame inflates the null (95th +17.70, max +24.74) and +7.44 sits at ~the 84th percentile, so that frame is a
+  poor discriminator and the specificity-controlled result is **release-frame-specific, not universal**. Net:
+  Gate 4 is **met in silico by a single lead (`denovo_401`) whose specificity control passes in its release
+  (design) frame but is receptor-frame-dependent** — a real but qualified pass, consistent with the "fragile in
+  a cryptic pocket" thesis (§2.7). **Selectivity FEP** is the one remaining quantitative gate; the frame
+  dependence is best resolved by ensemble scoring over the druggable release sub-ensemble. Honest bounds
+  unchanged: single-trajectory GB-implicit MD, unsynthesized, no wet lab — not an unqualified pass.
 
 ## Anti-confirmation safeguards
 1. Thresholds (D\*, 5 % frames, ~5 kcal/mol) are fixed here, before the production/calibration numbers.

@@ -99,8 +99,22 @@ Two controls the paper had flagged as pending (caveat 7 / §2.6) were run and fo
   in its metad-opened frame, **denovo_401 stays selective but weaker: +7.44 ± 4.18** (ΔG3 −32.37 / ΔG1 −24.93 /
   ΔG2 −22.80) → **direction robust, magnitude frame-dependent.** (denovo_111 is a dev-set candidate, not in the
   v2 pool, so it was not in the state-matched poses — not rescored here.)
-- **Remaining gates:** selectivity FEP (the one quantitative tier left); a **matched metad-frame decoy null**
-  is the minor open control to judge the +7.44 state-matched margin against a like-for-like baseline.
+- **⚠️ Metad-frame decoy null — RUN 2026-07-01 (run 28483612927 → `nr4a3-decoy-mmgbsa-metad-ms`), PARTIAL
+  NEGATIVE.** The matched control for the +7.44 state-matched margin is done, and it flips the verdict: in the
+  biased metad-opened frame the decoy null **balloons** (mean +1.59, **95th +17.70, max +24.74**; top decoys
+  diphenhydramine +24.74, lidocaine +22.08) and **`denovo_401`'s +7.44 does NOT clear it** (~84th pct; 6/38
+  decoys higher). So the metad-opened frame is a **poor, promiscuous discriminator**, and denovo_401's
+  specificity-controlled result is **release-frame-specific**, not universal — a real but **receptor-frame-
+  dependent** hit (clears the release-frame null +12.83 vs +6.69/+7.10; fails the metad-frame null). Folded into
+  paper abstract/§2.6/§5-caveat-7/§6-Gate-4 + prereg. **Right resolution = ensemble scoring over the druggable
+  release sub-ensemble (not one frame)** — a method-watch/near-term follow-up, not blocking the preprint.
+- **Remaining gates:** selectivity FEP (the one quantitative tier left; frame-dependence best fixed by ensemble
+  scoring first).
+- **Ternary submitter bug FIXED 2026-07-01:** control-mode dispatch (blank PROTAC) passed an empty
+  `ContainerArguments` list → SageMaker `ParamValidationError` (min length 1), so run 28488228214 died at
+  submission ($0, no GPU). Fixed in `nr4a3_ternary_sagemaker.py` (+ `boltz_src/entry.py`): control mode now
+  passes a benign `--control` sentinel. Re-dispatch `gpu-ternary-aws.yml` (blank PROTAC) for the
+  CRBN+lenalidomide Boltz-2 control.
 
 **v3deep-ms2 batch (run 28470643031, 6 candidates) — ZERO further survivors; denovo_401 stands alone.**
 Multi-snapshot on denovo_921/277/804/431/838/924(neg ctrl): best is denovo_921 +4.22±5.23 (margin−SD=−1.01),

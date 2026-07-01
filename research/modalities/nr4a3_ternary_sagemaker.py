@@ -44,7 +44,9 @@ def main():
         base_job_name="nr4a3-ternary",
         sagemaker_session=sess,
     )
-    args = ["--protac-smiles", protac] if protac else []
+    # SageMaker rejects an empty ContainerArguments list (min length 1), so in control mode (no PROTAC)
+    # pass a benign --control sentinel rather than [].
+    args = ["--protac-smiles", protac] if protac else ["--control"]
     print(f"submitting SageMaker ternary job: {instance}, protac={'set' if protac else 'control-only'}, "
           f"max_runtime={max_runtime}s, outputs -> s3://{bucket}/nr4a3-ternary", flush=True)
     proc.run(
