@@ -1,0 +1,65 @@
+name: FEP early-stop monitor (scheduled — robust, session-independent)
+
+# Robust early-stop for the parallel FEP fleet: runs fep_monitor.py on a SCHEDULE (server-side, independent of
+# any interactive session), so the fail-fast + fleet-reclaim does NOT depend on a local poller staying alive.
+# Each tick is self-healing (any error is logged and swallowed → the next tick retries), self-limiting (cheap
+# no-op when no FEP jobs are in-flight), idempotent (safe once a STOP has been issued), and — critically —
+# will NOT stop the fleet on a selectivity fail until the per-residue WHY-map is captured (fep_monitor gating).
+#
+# It runs every ~15 min while enabled. It only does real work while a spot FEP fleet is in-flight; otherwise it
+# no-ops in seconds. Disable it (Actions UI → this workflow → Disable, or remove the schedule) once FEP is done.
+# Also manually dispatchable. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"        # every 15 min (GitHub cron min ~5 min; may be delayed under load — fine here)
+  workflow_dispatch:
+    inputs:
+      target_ddg:
+        description: "early-stop ΔΔG bar (kcal/mol)"
+        default: "-1.0"
+        required: false
+      z:
+        description: "confidence multiple on the ΔΔG stderr"
+        default: "1.0"
+        required: false
+      min_windows:
+        description: "min windows/receptor before deciding"
+        default: "6"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fep-monitor        # never overlap ticks
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3          # fast; MBAR stack (numpy/pymbar) installed only when a fleet is active
+      - name: FEP monitor tick
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-2"
+          FEP_TAG: "nr4a3-fep"
+          FEP_TARGET_DDG: ${{ inputs.target_ddg || '-1.0' }}
+          FEP_Z: ${{ inputs.z || '1.0' }}
+          FEP_MIN_WINDOWS: ${{ inputs.min_windows || '6' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "no creds; skipping"; exit 0; fi
+          cd research/modalities
+          # cheap boto3-only check first; only install the MBAR stack + run the full monitor if a fleet is live
+          if python fep_monitor.py --check-active; then
+            pip install --quiet numpy pymbar
+            python fep_monitor.py
+          else
+            echo "no in-flight FEP jobs — idle no-op (skipped heavy install)"
+          fi

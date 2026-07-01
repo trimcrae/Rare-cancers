@@ -111,16 +111,24 @@ def _download(bucket, prefix, dest):
 
 def load_results(bucket=None):
     """Load all per-unit results from s3://<bucket>/<TAG>/ckpt/** (or a local FEP_LOCAL_DIR for testing)."""
+    def _load_dir(d):
+        out = []
+        for p in glob.glob(os.path.join(d, "*.json")):
+            try:                                   # skip torn / half-synced spot writes — robustness
+                out.append(json.load(open(p)))
+            except Exception:  # noqa: BLE001
+                pass
+        return out
     local = os.environ.get("FEP_LOCAL_DIR")
     if local:
-        return [json.load(open(p)) for p in glob.glob(os.path.join(local, "*.json"))]
+        return _load_dir(local)
     import boto3
     bucket = bucket or f"sagemaker-{os.environ.get('AWS_DEFAULT_REGION','us-east-2')}-" \
                        f"{boto3.client('sts').get_caller_identity()['Account']}"
     with tempfile.TemporaryDirectory() as tmp:
         n = _download(bucket, f"{TAG}/ckpt/", tmp)
         print(f"loaded {n} per-unit results from s3://{bucket}/{TAG}/ckpt/", flush=True)
-        return [json.load(open(p)) for p in glob.glob(os.path.join(tmp, "*.json"))]
+        return _load_dir(tmp)
 
 
 def main():

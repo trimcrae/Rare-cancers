@@ -98,11 +98,52 @@ def _stop_fleet(reason, decision):
     return stopped
 
 
-def main():
+def _bucket():
+    import boto3
+    return f"sagemaker-{os.environ.get('AWS_DEFAULT_REGION','us-east-2')}-" \
+           f"{boto3.client('sts').get_caller_identity()['Account']}"
+
+
+def _inflight_jobs():
+    """Names of in-flight <TAG> spot training jobs (empty if none)."""
+    import boto3
+    sm = boto3.client("sagemaker")
+    names = []
+    for page in sm.get_paginator("list_training_jobs").paginate(NameContains=TAG, StatusEquals="InProgress"):
+        names += [j["TrainingJobName"] for j in page.get("TrainingJobSummaries", [])]
+    return names
+
+
+def _already_stopped():
+    import boto3
+    try:
+        boto3.client("s3").head_object(Bucket=_bucket(), Key=f"{TAG}/STOP.json")
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _run_once():
+    """One robust monitor tick. Safe to call repeatedly (cron): no-ops when there's no active fleet, is
+    idempotent once a STOP has been issued, and NEVER stops on incomplete/erroring data."""
     import report_fep as rf
+    local = bool(os.environ.get("FEP_LOCAL_DIR"))       # local dry-run: skip AWS-dependent guards
+    # (1) if we already decided to stop, just mop up any stragglers (idempotent) and leave.
+    if not local and _already_stopped():
+        strag = _inflight_jobs()
+        if strag and not DRYRUN:
+            _stop_fleet("re-affirm prior STOP (idempotent straggler cleanup)", {"action": "stop_idempotent"})
+        print(f"[fep-monitor] STOP already issued; {len(strag)} straggler(s) handled — no-op.", flush=True)
+        return 0
+    # (2) the monitor only STOPS a *running* fleet; if nothing is in-flight there's nothing to reclaim (final
+    #     analysis is report_fep's job). This self-limits a standing cron to cheap no-ops when idle.
+    inflight = ["local"] if local else _inflight_jobs()
+    if not inflight:
+        print("[fep-monitor] no in-flight FEP jobs — nothing to monitor (no-op).", flush=True)
+        return 0
     results = rf.load_results()
     d = decide(results)
-    print(f"[fep-monitor] decision: {d['action']} — {d['reason']}", flush=True)
+    print(f"[fep-monitor] decision: {d['action']} — {d['reason']} (in-flight jobs: {len(inflight)})", flush=True)
     if d.get("ddg"):
         print(f"[fep-monitor] provisional ΔΔG: {d['ddg']}", flush=True)
     if d.get("pending_diagnostic"):
@@ -116,9 +157,35 @@ def main():
             print("[fep-monitor] DRYRUN — would stop the fleet now (why-map captured above).", flush=True)
         else:
             _stop_fleet(d["reason"], {k: d.get(k) for k in ("action", "reason", "ddg", "binding", "why", "hint")})
-        # non-zero exit only for a genuine failure verdict (so a babysit loop can branch)
-        sys.exit(0 if d["action"] == "stop_success" else 2)
+        return 0 if d["action"] == "stop_success" else 2
+    return 0
+
+
+def main():
+    """Self-healing wrapper for the scheduled cron: ANY unexpected error in a tick is logged and swallowed
+    (exit 0) so a transient failure never (a) hard-fails the schedule or (b) stops the fleet blind — the NEXT
+    scheduled tick simply retries. The only decisive actions (StopTrainingJob) live behind the conservative,
+    diagnostic-gated decision in _run_once and are idempotent."""
+    # cheap fast-path for the cron: is a fleet in-flight? (boto3 only — lets an idle tick skip the MBAR install)
+    if "--check-active" in sys.argv:
+        try:
+            n = len(_inflight_jobs())
+        except Exception as e:  # noqa: BLE001 — if we can't tell, assume active so we don't skip monitoring
+            print(f"[fep-monitor] check-active error ({e}) — assuming active.", flush=True)
+            return 0
+        print(f"[fep-monitor] in-flight FEP jobs: {n}", flush=True)
+        return 0 if n > 0 else 3          # 0 = active (run full monitor); 3 = idle (skip)
+    if not os.environ.get("AWS_ACCESS_KEY_ID") and not os.environ.get("FEP_LOCAL_DIR"):
+        print("[fep-monitor] no AWS creds — skipping tick.", flush=True)
+        return 0
+    try:
+        return _run_once()
+    except Exception as e:  # noqa: BLE001 — a failed poll must self-heal, not crash the schedule
+        import traceback
+        print(f"[fep-monitor] tick error (self-healing; next scheduled tick retries): {e}", flush=True)
+        traceback.print_exc()
+        return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

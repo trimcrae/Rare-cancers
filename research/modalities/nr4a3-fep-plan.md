@@ -71,12 +71,21 @@ How it's wired:
 1. **Pilot-first compute (`nr4a3_fep.py`, two-pass):** every window runs a short `FEP_PILOT_PS` pilot *first*
    (pass 1), writing a provisional result, then the full `FEP_PROD_PS` production (pass 2). So a fast, complete
    ΔΔG *signal across all windows* exists long before production finishes.
-2. **Central monitor (`fep_monitor.py`, one poll = one decision):** reads the partial/pilot results
-   (`report_fep.estimate`), and once every receptor has ≥ `FEP_MIN_WINDOWS` windows applies the pure
-   `fep_decision.early_stop` + `convergence_flag` rules. On a stop verdict it writes an S3 `STOP.json` record
-   and calls **`StopTrainingJob` on every in-flight `<TAG>` spot job** — completed windows are already durable
-   in the checkpoint prefix, so only in-flight windows are lost. Poll it (workflow `mode=monitor`) while a run
-   is live, or from a babysit loop.
+2. **Central monitor (`fep_monitor.py`, one tick = one decision):** reads the partial/pilot results pooled
+   across ALL shards (`report_fep.estimate`), and once every receptor has ≥ `FEP_MIN_WINDOWS` windows applies
+   the pure `fep_decision.early_stop` + `convergence_flag` rules. On a stop verdict it writes an S3 `STOP.json`
+   record and calls **`StopTrainingJob` on every in-flight `<TAG>` spot job** — completed windows are already
+   durable in the checkpoint prefix, so only in-flight windows are lost. **The decision is central/aggregate —
+   no single shard decides; the monitor judges the pooled result and reclaims the whole remaining fleet.**
+2b. **Robust, session-independent scheduling (`.github/workflows/fep-monitor-cron.yml`).** The monitor runs on
+    a **GitHub Actions `schedule` cron (~every 15 min), server-side — it does NOT depend on any interactive
+    session's poller staying alive** (that was the fragility to avoid). Each tick is: **self-healing** (any
+    error is logged + swallowed → the next tick retries; a failed poll never hard-fails nor stops blind),
+    **self-limiting** (cheap no-op in seconds when no `<TAG>` jobs are in-flight), **idempotent** (once `STOP`
+    is issued, later ticks just mop up stragglers), and **conservative** (only stops on a confident aggregate
+    fail *with* the why-map). Defence-in-depth: an in-session background poller can also fire it for promptness,
+    but the cron is the reliable backbone. Cost is also bounded independently by each shard's `max_run`/`max_wait`
+    caps, so even total monitor failure can't run the fleet past its ceiling. (Disable the cron once FEP is done.)
 3. **Decision logic is pure + unit-tested** (`fep_decision.py`, `tests/test_fep_decision.py`): stop_fail /
    stop_success / stop_unconverged / continue, with the provisional numbers + reason attached for the log.
 4. **"Why did it fail" is captured BEFORE any stop** (`fep_decompose.py`, `tests/test_fep_decompose.py`): the
