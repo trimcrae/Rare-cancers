@@ -1,0 +1,118 @@
+name: GPU — selectivity FEP (spot, parallel, early-stop; AWS SageMaker)
+
+# Spot-priced, parallel selectivity FEP for the lead across NR4A3/NR4A1/NR4A2 (see nr4a3-fep-plan.md).
+# Uses SageMaker managed-SPOT *Training* jobs (Processing can't do spot), fanned out one per shard of
+# (receptor, leg, λ-window) units, with continuous-checkpoint spot resume and a pilot-first early-stop path.
+#
+# MODES:
+#   plan    - DRY RUN: print the shard plan + would-be jobs + cost estimate. No AWS spend. (default)
+#   smoke   - launch ONE tiny spot job (no MD) to validate the spot+checkpoint+resume path / probe spot quota.
+#   run     - launch the full spot fleet.  ** requires explicit go-ahead (FEP carve-out) **
+#   monitor - one early-stop poll: read pilot/partial returns; if the run will fail (non-selective or
+#             non-converging), StopTrainingJob the whole fleet. Poll repeatedly while a run is live.
+#   reduce  - fan-in: BAR/MBAR across windows -> per-receptor ΔG_bind + NR4A3-vs-paralogue ΔΔG.
+#
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# One manual AWS step for real parallelism: raise the Service Quota "ml.g5.xlarge for spot training job usage".
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "plan | smoke | run | monitor | reduce"
+        default: "plan"
+        required: true
+      n_windows:
+        description: "λ-windows per (receptor, leg)"
+        default: "12"
+        required: false
+      n_shards:
+        description: "max concurrent spot shards (<= your spot g5 quota)"
+        default: "8"
+        required: false
+      instance:
+        description: "SageMaker GPU instance"
+        default: "ml.g5.xlarge"
+        required: false
+      spot:
+        description: "1 = managed spot (cheap); 0 = on-demand"
+        default: "1"
+        required: false
+      max_wait_hours:
+        description: "spot max_wait (>= max_run; incl. spot-wait)"
+        default: "20"
+        required: false
+      max_run_hours:
+        description: "per-shard max_run"
+        default: "12"
+        required: false
+      ligand:
+        description: "lead label to run FEP on"
+        default: "denovo_401"
+        required: false
+      target_ddg:
+        description: "early-stop: ΔΔG (kcal/mol) a candidate must reach to count selective"
+        default: "-1.0"
+        required: false
+      z:
+        description: "early-stop: confidence multiple on ΔΔG stderr"
+        default: "1.0"
+        required: false
+      min_windows:
+        description: "early-stop: min windows/receptor before deciding"
+        default: "6"
+        required: false
+      receptor_prefix:
+        description: "S3 prefix with <receptor>-opened.pdb + docked_<receptor>.sdf"
+        default: "nr4a3-denovo-matrix-v2"
+        required: false
+      git_ref:
+        description: "repo ref the jobs clone + run"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  fep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3 numpy pymbar
+      - name: FEP dispatch
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-2"
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          MODE: ${{ inputs.mode }}
+          N_WINDOWS: ${{ inputs.n_windows }}
+          N_SHARDS: ${{ inputs.n_shards }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          MAX_WAIT_HOURS: ${{ inputs.max_wait_hours }}
+          MAX_RUN_HOURS: ${{ inputs.max_run_hours }}
+          FEP_LIGAND: ${{ inputs.ligand }}
+          FEP_TARGET_DDG: ${{ inputs.target_ddg }}
+          FEP_Z: ${{ inputs.z }}
+          FEP_MIN_WINDOWS: ${{ inputs.min_windows }}
+          RECEPTOR_PREFIX: ${{ inputs.receptor_prefix }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          if [ "$MODE" = "run" ]; then
+            echo "::warning::mode=run launches the full spot FEP fleet — only use on explicit go-ahead (FEP carve-out)."
+          fi
+          cd research/modalities
+          case "$MODE" in
+            monitor) python fep_monitor.py ;;
+            reduce)  python report_fep.py ;;
+            *)       python nr4a3_fep_sagemaker.py ;;
+          esac

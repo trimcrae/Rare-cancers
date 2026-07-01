@@ -123,6 +123,17 @@ was also updated (no GPU-$ ceiling gating paper quality; FEP no longer skipped; 
 **⛔ FEP CARVE-OUT (trimcrae 2026-07-01): do NOT start any FEP job without checking with the user first** — they
 expect GPU-setup changes are needed for it. This is the ONE exception to the autonomous-GPU authorization above.
 FEP is "no longer skipped" (it's the SOTA gate) but it is **gated on an explicit user go-ahead**, not auto-dispatched.
+**FEP HARNESS BUILT (2026-07-01, spot + parallel + early-stop; NOT yet run) — the GPU-setup change trimcrae asked
+for.** Full design: [`nr4a3-fep-plan.md`](./nr4a3-fep-plan.md). Spot Training jobs (Processing can't do spot),
+fanned out one per (receptor×leg×λ-window) shard, continuous-checkpoint spot resume, **pilot-first two-pass +
+central early-stop monitor** that `StopTrainingJob`s the whole fleet if the pilot ΔΔG is confidently
+non-selective or non-converging. Files: `fep_sharding.py`+`fep_decision.py` (pure, 16 tests), `nr4a3_fep.py`,
+`sagemaker_src/entry_fep.py`, `nr4a3_fep_sagemaker.py`, `report_fep.py`, `fep_monitor.py`,
+`.github/workflows/gpu-fep-aws.yml` (modes: plan/smoke/run/monitor/reduce; **default plan = dry-run, no spend**).
+**Two things still needed before a real run:** (a) trimcrae go-ahead for `mode=run`; (b) a Service-Quotas
+increase for *"ml.g5.xlarge for spot training job usage"* (sets the parallel width). `mode=smoke` validates the
+spot+checkpoint path cheaply and probes that quota. The real compute protocol (openmmtools alchemy) is
+first-pass and needs a shakeout run before its numbers are trusted (like every prior pipeline here).
 Fourth-pass red-team findings (F16–F20; see the red-team memo) and their GPU mitigations:
 - **F16 (HIGH)** decoy null doesn't control the generative step / best-of-N → ensemble scoring over the release
   sub-ensemble + a generation-matched decoy null (and, ultimately, FEP).
