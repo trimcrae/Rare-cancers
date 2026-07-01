@@ -4,7 +4,7 @@
 (EWSR1/TAF15::NR4A3) degrader program. Written 2026-06-30.
 **One-line thesis:** *Selectivity is a **multiplicative** budget whose factors **compound** across three
 pharmacological stages and two independent axes — so the levers **add to** each other, none replaces another.
-A selective **binder is the primary goal and strictly valuable** (`denovo_401` is one, control-validated); the
+A selective **binder is the primary goal and strictly valuable** (`denovo_401` is a decoy-null-screened foothold — not fully control-validated, since the null does not control the generative step, F16); the
 architecture's point is that because binder selectivity is **fragile** in this cryptic pocket, a robust
 degrader should **also** draw paralogue selectivity from the ternary complex (compounding the binder's margin;
 plus pharmacokinetics for NR4A2), and route fusion-vs-wild-type — unobtainable from the degrader — to the ASO.
@@ -207,7 +207,9 @@ Evidence-led, EMC as the fixed goal:
 
 1. **Binder:** keep it **selective *and*** optimize for **affinity + a productive, solvent-exposed exit
    vector** (for the linker) — a selective binder is the primary goal and strictly valuable, and `denovo_401`
-   already delivers a **control-validated** paralogue margin (clears a like-for-like multi-snapshot decoy null).
+   already delivers a **decoy-null-screened** paralogue margin (exceeds a same-tier multi-snapshot decoy null in
+   its design frame — a foothold, not fully control-validated, since that null does not control the generative
+   step or the best-of-N selection, F16).
    The realistic caveat is only that this margin is **fragile** in a poorly druggable cryptic pocket (one
    survivor out of ~10 multi-snapshot-tested), so **don't rely on the binder *alone*** and don't expect blind
    generation to keep yielding survivors — but that argues for *compounding* the binder margin with the ternary,

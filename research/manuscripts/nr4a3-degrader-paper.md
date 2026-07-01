@@ -77,8 +77,11 @@ tier** the §2.5 plan named, we find the single-snapshot harvest is noise-domina
 (+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
 multi-snapshot-confirmed NR4A3-selective candidate and the single lead justified to advance to FEP —
 superseding the single-snapshot `denovo_111` foothold (not yet multi-snapshot-tested) — (still
-still
-single-trajectory GB-implicit MD, not FEP; and its decoy-null clearance is **receptor-frame-dependent**:
+single-trajectory GB-implicit MD, not FEP; and its decoy-null clearance is **receptor-frame-dependent** and
+**does not control the generative step that produced it** (F16): the decoy null scores marketed drugs through
+the same *docking*, but only `denovo_401` was DiffSBDD-fit to the NR4A3 release pocket it clears the null in,
+and it is the best-of-~200 generations / ~10 de-noised candidates — so "above-null" here is a de-noised
+foothold, not a demonstrated specificity result:
 it clears the matching multi-snapshot decoy null **in its release/design frame** (95th-pct +6.69, max decoy
 +7.10, so margin − SD +9.85 sits above the whole null), but in the biased **metad-opened** frame both its
 margin and the decoy null inflate — the metad-frame decoy 95th-pct is +17.70 (max +24.74), and `denovo_401`'s
@@ -86,7 +89,7 @@ margin and the decoy null inflate — the metad-frame decoy 95th-pct is +17.70 (
 specificity-controlled result is release-frame-specific, not universal — §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
 paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
 binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
-**multiplicative budget** whose factors compound: keep the binder selective (`denovo_401` is, control-validated)
+**multiplicative budget** whose factors compound: keep the binder selective (`denovo_401` is a decoy-null-screened foothold — not fully control-validated, since the null does not control the generative step, F16)
 **and** optimized for affinity, then **add** **paralogue** selectivity from the ternary complex (NR4A1,
 compounding the binder margin) + pharmacokinetics (NR4A2), while **fusion-vs-wild-type** selectivity is
 sourced not from the degrader at all (it is unobtainable here) but from the complementary ASO. We read this honestly: `denovo_15` itself carries generative-model
@@ -273,9 +276,12 @@ candidate.) Once a warhead SMILES exists, the NR4A3–PROTAC–E3 ternary-comple
 Boltz-2) scores degradable-lysine geometry per paralogue. **This pipeline is validated on a positive
 control:** predicting the CRBN + lenalidomide complex, Boltz-2 **seats the glutarimide in CRBN's
 tri-tryptophan pocket** — closest heavy-atom approach 2.85 Å to W380 (3.4 Å to W386/W400), with high
-confidence (ligand-iPTM 0.99) — recovering the experimentally known IMiD binding mode, so the model can be
-trusted for the NR4A3 degradation-geometry prediction (the un-run *degradation*-selectivity step, pending a
-warhead PROTAC). This is not a formality: the binding-selectivity matrix is
+confidence (ligand-iPTM 0.99) — recovering the experimentally known IMiD binding mode. This is a **necessary
+sanity check, not a demonstration of generalization** (F18): CRBN/IMiD is one of the most-deposited ligase
+complexes in the PDB and is almost certainly in Boltz-2's training data, so recovering it is
+memorization-consistent and says little about performance on an **AF2-modeled cryptic NR4A3 LBD** with a
+**de-novo** warhead and a possibly different E3 — the actual (un-run) *degradation*-selectivity step, pending a
+warhead PROTAC. This is not a formality: the binding-selectivity matrix is
 a **necessary but not sufficient** filter, because a degrader's actual selectivity is set by the *ternary
 complex* — a non-selective binder can degrade selectively (productive ternary geometry on only one
 paralogue) and a selective binder can fail to degrade. The per-paralogue ternary model is therefore the
@@ -364,8 +370,12 @@ accounted for. **We use the decoy run as a calibrated null, and one candidate cl
 non-discriminating "margin > 0", we set the selectivity bar at the **decoy 95th percentile (+13.1 kcal/mol;
 `selectivity_calibration.py`)**. Against that bar, **`denovo_111`** (a clean fluoro-phenyl-pyrrolidine,
 QED 0.87 / SA 2.9, NR4A3-margin **+15.7**, favoured in *both* receptor states, only 1 of 38 decoys above it)
-is the **first calibrated above-null NR4A3-selective hit** — every other de-novo and decoy molecule falls in
-the null. So the honest read is **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
+is the **first calibrated above-null NR4A3-selective hit** — every other de-novo and decoy molecule *in that
+harvest* falls in the null. *(A later generation batch produced `denovo_401`, whose single-snapshot margin
++13.92 also exceeds this +13.1 bar and which additionally survives multi-snapshot de-noising (§2.6); it — not
+`denovo_111` — is the carried lead, and `denovo_111` is retained only as the earlier single-snapshot foothold,
+not yet de-noised. So "the one candidate that clears the null" is batch-relative, not a global claim.)* So the
+honest read is **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
 non-specific, but decoy-calibration isolates `denovo_111` as a genuine foothold**." The de-novo program
 continues as a **lead-optimization campaign around `denovo_111`** — scaffold-seeded generation conditioned on
 the four paralogue-divergent handles (L406/T410/I484/L534), heavily oversampled + developability-gated, and
@@ -403,15 +413,27 @@ multi-snapshot-tested.
 **Honest weight (a fresh red-team should hold these).** `denovo_401` clears the **FEP-worthiness bar this
 program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
 a real upgrade over a single-snapshot point estimate — but it is **single-trajectory GB-implicit MD, not
-FEP**, **unsynthesized**, and **un-validated**. The decoy null (§2.5) was originally computed at
+FEP**, **unsynthesized**, and **un-validated**. It is also the **best-of-~10** candidates multi-snapshot-tested
+(and best-of-~200 generated), so its +12.83 point estimate carries a **selection (winner's-curse) bias on top
+of the reported ±2.98 SD** — the same extreme-value logic that demotes `denovo_393`'s single-snapshot +18.34
+applies to picking `denovo_401` as the survivor; an independent re-run (or FEP) is what would de-bias it. The decoy null (§2.5) was originally computed at
 *single-snapshot*, so the matching question was whether "+12.83 survives de-noising" is the same as "+12.83
 is above a *multi-snapshot* null." **That control has now been run (2026-06-30, run 28473680997): re-scoring
 all 38 decoys through the identical multi-snapshot tier gives a far tighter null — mean −3.47, 95th
 percentile **+6.69**, max decoy **+7.10**, `confirmed_selective` 11/38 (29 %) — vs the single-snapshot
 +13.1 / +16.46 / 39 %.** Against that re-calibrated bar **`denovo_401`'s +12.83 ± 2.98 clears the
 multi-snapshot 95th percentile and exceeds the single highest decoy even after subtracting its SD
-(margin − SD = +9.85 > +7.10)** — so the margin is not merely de-noised but **genuinely above a like-for-like
-specificity baseline**, the first candidate in the program to clear one. **A receptor-robustness check (a
+(margin − SD = +9.85 > +7.10)** — so the margin is not merely de-noised but **above a decoy null recomputed at
+the same tier.** *(Read this at its true weight — F16. That null controls the **docking/MM-GBSA scoring** step
+(marketed drugs pushed through the identical dock→multi-snapshot funnel), but it does **not** control the
+**generative** step: `denovo_401` is a DiffSBDD molecule pocket-conditioned on the NR4A3 **release** frame,
+whereas the decoys were fit to no pocket — so in the release frame `denovo_401` carries a design-match
+advantage the decoys lack, which inflates its NR4A3 leg (hence its margin) relative to the null. Consistent
+with this, in the **metad-opened** frame — which `denovo_401` was *not* conditioned on, so neither it nor the
+decoys have a generation advantage — it does **not** clear the null (below; the paper elsewhere reads that as
+the metad frame being non-discriminating, but it is also the less-confounded specificity test). A fully clean
+specificity test would require a generation-matched decoy null; against the null we have, "above-null" is a
+**de-noised foothold, not a demonstrated specificity result**.)* **A receptor-robustness check (a
 fully state-matched re-dock — NR4A3 in its *metad-opened* frame rather than the release frame — then the same
 multi-snapshot rescore; runs 28473682532/28480041030) keeps `denovo_401` NR4A3-favoured but weaker:
 +7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80)** — so the selectivity *direction* is robust
@@ -458,8 +480,9 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
 1. **Selectivity is a *multiplicative* budget** across binding × ternary × kinetics — the factors
    **compound** (binder *and* ternary *and* kinetics); none *replaces* another. A selective binder is
    therefore strictly valuable and **remains the program's primary goal** — `denovo_401`'s pocket
-   selectivity is a **real, control-validated first factor** (it clears a like-for-like multi-snapshot decoy
-   null, §2.6), not a discardable bonus. The architecture's contribution is the *complementary* point:
+   selectivity is a **decoy-null-screened first factor** (it exceeds a same-tier multi-snapshot decoy null in
+   its design frame, §2.6 — a foothold, not fully control-validated, since that null does not control the
+   generative step, F16), not a discardable bonus. The architecture's contribution is the *complementary* point:
    because that binder selectivity is **fragile** in this cryptic, least-druggable-of-three pocket (a sole
    survivor out of ~10 multi-snapshot-tested; §2.6), a *robust* degrader should **add** ternary selectivity
    *on top of* the binder's, so the full budget never rests on the binder **alone**. Binder optimization
@@ -609,7 +632,7 @@ made explicit rather than buried (full adversarial review:
    per-paralogue ternary complex (the planned gating step). The selectivity-architecture analysis sharpens
    this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
    kinetics) whose factors **compound**, so the binder need not carry it *alone* — but a selective binder is
-   still strictly valuable and is the primary goal (`denovo_401` is one, control-validated; §2.6). The
+   still strictly valuable and is the primary goal (`denovo_401` is one, decoy-null-screened but not fully control-validated — F16; §2.6). The
    computed result that the orthosteric pocket is the *most* paralogue-divergent zone of the LBD
    (70 % vs 43 % across the rest of the LBD) means binder selectivity is handle-rich but
    druggability/noise-limited — so the rational plan keeps the binder selective **and** optimizes it for
@@ -631,13 +654,19 @@ made explicit rather than buried (full adversarial review:
    no replicate/ensemble average and **fails the decoy control** (§2.5). Both follow-ups the prior draft listed
    as pending have since run (§2.6): (a) the **multi-snapshot decoy null** (all 38 decoys re-scored
    multi-snapshot: 95th pct +6.69, max +7.10) — `denovo_401` (+12.83 ± 2.98, margin − SD +9.85) **clears it**,
-   so the margin is above a like-for-like specificity baseline, not merely de-noised; and (b) a **fully
+   so the margin is above a decoy null recomputed at the same tier, not merely de-noised — **but that null
+   controls the docking/MM-GBSA scoring step only, not the generative step or the best-of-N selection (F16):
+   `denovo_401` was DiffSBDD-fit to the release frame it clears the null in, while the decoys were fit to no
+   pocket, and it is the best of ~200 generations / ~10 de-noised candidates. So this is a de-noised
+   *foothold*, not a demonstrated specificity result** (consistent with its metad-frame failure below, the
+   frame it was *not* designed for); and (b) a **fully
    state-matched re-dock** (NR4A3 metad-opened) — `denovo_401` stays NR4A3-favoured (+7.44 ± 4.18), confirming
    the *direction* is not a release-frame artifact, though the magnitude is frame-dependent. **The matching
    metad-frame decoy null was then run (§2.6) and, honestly, `denovo_401` does *not* clear it**: in the biased
    metad-opened frame the decoy null balloons (95th +17.70, max +24.74, driven by drugs like diphenhydramine
-   +24.74) and +7.44 sits at only ~the 84th percentile — so the metad-opened frame is a poor discriminator and
-   the specificity-controlled result is **release-frame-specific**, not universal. What remains is
+   +24.74) and +7.44 sits at only ~the 84th percentile — so the metad-opened frame is a poor discriminator, but
+   it is also the frame `denovo_401` was *not* generatively fit to, so the above-null result is
+   **release-frame-specific (= design-frame-specific)**, not universal (F16). What remains is
    **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the one remaining quantitative gate**;
    the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
 
@@ -709,11 +738,15 @@ named just above has been run, and `denovo_401` clears it.** Re-scoring all 38 d
 the null to a 95th percentile of **+6.69** (max decoy +7.10); `denovo_401`'s +12.83 ± 2.98 (margin − SD
 +9.85) sits **above the entire decoy null**, and a fully state-matched re-dock (NR4A3 metad-opened) keeps it
 NR4A3-selective (+7.44 ± 4.18), confirming the direction is not a receptor-frame artifact. So Gate 4 is now
-**met in silico by a single lead (`denovo_401`) that clears a properly-controlled, like-for-like specificity
-baseline** — the strongest the in-silico evidence supports — with **selectivity FEP** the one remaining
-quantitative gate (and a stable, synthesizable status for `denovo_401`, which unlike `denovo_15` carries no
-structural alerts, already in hand). Still not an unqualified pass (no FEP, no wet lab), but materially
-upgraded: the small-molecule-warhead leg now has a specificity-controlled lead, not just an above-noise one.
+**met in silico by a single de-noised lead (`denovo_401`) whose margin exceeds a same-tier decoy null in its
+design (release) frame** — the strongest the in-silico evidence supports — with two honest limits (F16): that
+null controls the *scoring* step only, not the *generative* step (`denovo_401` was fit to the release frame;
+the decoys were not) or the best-of-~200/~10 selection, and the signal does not survive into the
+non-design (metad) frame — so this is a **de-noised foothold, not a demonstrated specificity result**.
+**Selectivity FEP** remains the one quantitative gate (a stable, synthesizable status for `denovo_401`, which
+unlike `denovo_15` carries no structural alerts, is already in hand). Still not an unqualified pass (no FEP, no
+wet lab, generation-matched null not run): the small-molecule-warhead leg has a de-noised foothold, upgraded
+from an above-noise one but short of a specificity-controlled lead.
 
 ## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear

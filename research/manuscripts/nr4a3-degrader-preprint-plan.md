@@ -20,8 +20,13 @@ posting, with journal submission in parallel. Regime: `emc-treatment-strategy.md
   *J. Med. Chem.* (comp), *PLoS Comput. Biol.*, *Front. Pharmacol.*, or *Sci. Rep.* All are preprint-friendly
   (confirm each journal's preprint policy before submitting — nearly all in this list allow ChemRxiv).
 - **Framing (per the honest-assessment note):** sell it as **first-in-target computational characterization of
-  NR4A3 druggability/selectivity + a control-validated *designed/predicted* candidate** — NOT as a methods
-  advance, NOT as a validated drug. Every candidate claim reads "predicted / designed," never "selective."
+  NR4A3 druggability/selectivity + a decoy-null-screened *designed/predicted* candidate (a foothold, not a
+  fully control-validated one — the decoy null does not control the generative step; F16 red-team)** — NOT as a
+  methods advance, NOT as a validated drug. Every candidate claim reads "predicted / designed," never
+  "selective," and never "control-validated" unqualified.
+- **Abstract (F20):** the working-doc abstract is ~90 lines and tracks three successive leads through two
+  retractions; the preprint abstract must state the honest bottom line cleanly (feasibility druggability +
+  one de-noised foothold, no FEP, no wet lab). Keep it tight; do not re-import the retraction history.
 
 ## Results status (2026-07-01)
 1. **Metad-frame decoy null — DONE (partial-negative, folded in).** `denovo_401` clears the decoy null in its

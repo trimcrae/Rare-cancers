@@ -283,3 +283,109 @@ weaker reading on each.
   rests on the **un-run** ternary model — an argued strategy, not a demonstrated result; (c) the
   "fusion-vs-WT is unobtainable from the degrader" claim is load-bearing — verify it reads as a structural
   impossibility (shared LBD + LBD-distal fusion partner), not an empirical not-yet.
+
+## Fourth pass (2026-07-01) — the decoy null does not control the step that produced the lead (DECISIVE for the §2.6 headline)
+
+> Fresh adversarial review of the *current* draft (post the multi-snapshot + matching-decoy-null updates).
+> The prior passes established that single-snapshot MM-GBSA is non-specific (F15) and that de-noising leaves
+> one survivor (`denovo_401`). This pass presses the strongest surviving claim — that `denovo_401` "clears a
+> like-for-like specificity baseline" (§2.6, §5 caveat 7, §6 Gate 4) — and finds it confounded. Findings
+> ordered by severity; honest fixes applied to the paper in the same change.
+
+### F16 (severity: HIGH) — The decoy null controls the *scoring* step but not the *generation* step or the *best-of-N* selection, so "above a like-for-like specificity baseline" overstates what is shown
+**Deficiency.** The specificity control is built to make one comparison (its own docstring, `decoy_library.py`:
+"Enrichment = (de-novo NR4A3-favourable **rate**) vs (decoy **rate**)"). That designed test was **negative**:
+the developable de-novo set is `confirmed_selective` 18 % vs the decoy 39 % (§2.5) — de-novo matter is **not
+enriched** over non-NR4A drugs. The paper then rescues a single molecule by switching from a rate comparison
+to "does the single best candidate exceed the decoy 95th percentile," and reports `denovo_401` clearing the
+multi-snapshot null (release frame: 95th +6.69, max +7.10; margin − SD +9.85). Three confounds make that a
+weaker result than "like-for-like specificity baseline" implies:
+1. **The null does not control the generation step.** `denovo_401` is a DiffSBDD molecule **pocket-conditioned
+   on the NR4A3 release-druggable frame** (`nr4a3_denovo.py` L8-9: "We condition it on the … DRUGGABLE
+   UNBIASED RELEASE conformation … NOT the biased-metad frame"). The decoys are marketed drugs pushed through
+   **only** the dock→MM-GBSA scoring (`decoy_library.py` L8-11) — they are never fit to any pocket. So the
+   release-frame decoy null controls for scoring, but `denovo_401` additionally enjoys a **generation-step fit
+   to the exact NR4A3 receptor** the decoys lack. The margin (NR4A3 ΔG − paralogue ΔG) inflates because the
+   NR4A3 leg is design-matched while the paralogue legs and all decoy legs are not. A complete null for the
+   funnel that produced `denovo_401` would have to generate the decoys the same way (or select the best of a
+   generated decoy library), which it does not.
+2. **The one frame it passes is the frame it was designed for; the level-playing-field frame it fails.** In
+   the **metad-opened** NR4A3 frame — which `denovo_401` was explicitly *not* conditioned on, so neither it nor
+   the decoys have a generation advantage there — `denovo_401` **fails** the null (~84th pct; §2.6). The paper
+   attributes that failure solely to the metad frame being "a poor, promiscuous discriminator." That is partly
+   true, but it is not the whole story: the metad frame is also the *less-confounded* specificity test (no
+   design-match advantage), and there the signal disappears. Both the release-frame *pass* and the metad-frame
+   *fail* carry confounds, so **neither frame delivers an unconfounded specificity test for a generatively
+   designed molecule** — which is the honest bottom line, not "release-frame result is real, metad-frame result
+   is discardable."
+3. **Best-of-N selection is a multiple-comparisons setup the null does not absorb.** ~200 molecules are
+   generated (`N_SAMPLES=200`), 11 pass developability, and the single most-extreme margin is compared to the
+   95th percentile of a **38-decoy** null. With ~11–200 candidates you *expect* one to land in the top 5 % of a
+   38-point null by chance under no true signal; the decoys received no matching "best-of-N after generation"
+   selection. This is the same extreme-value logic the paper correctly uses to demote `denovo_393`'s
+   single-snapshot +18.34 — but it is not applied to the selection of `denovo_401` itself.
+**Why it matters (load-bearing).** §2.6 / §5 caveat 7 / §6 Gate 4 now lean on "genuinely above a like-for-like
+specificity baseline … the first candidate in the program to clear one." Given (1)–(3), the defensible claim is
+narrower: *`denovo_401`'s margin survives ensemble de-noising and exceeds a decoy null **that does not control
+for the generation step or the best-of-N selection, and only in the frame it was designed against** — a real
+de-noising result and a promising foothold, but not a demonstrated specificity result.*
+**Fix applied.** Narrowed the "clears a like-for-like / properly-controlled specificity baseline" language in
+§2.6, §5 caveat 7, and §6 Gate 4 to state explicitly that the decoy null controls scoring but not generation
+or best-of-N, that the release frame is the design frame, and that the clean statement is "survives de-noising,
+foothold-grade" rather than "specificity-controlled." The remedy (a generation-matched null, or ensemble
+scoring over the release sub-ensemble) is noted; FEP remains the gate.
+
+### F17 (medium-high) — Winner's-curse on the multi-snapshot survivor is not acknowledged
+**Deficiency.** `denovo_401` is the sole survivor of ~10 candidates multi-snapshot-tested (§2.6). Selecting the
+maximum of ~10 noisy estimates (each SD ~3–6) upward-biases the winner's point estimate even if every estimate
+is individually unbiased — a between-candidate selection bias distinct from the within-candidate SD the paper
+does report (margin − SD). The paper applies exactly this critique to `denovo_393`'s single-snapshot extreme
+but not to its own selection of `denovo_401`. `denovo_401`'s true margin is therefore likely regressed toward
+the mean relative to the reported +12.83.
+**Fix applied.** Added one clause to §2.6's "honest weight" paragraph noting the survivor is a best-of-~10
+selection, so its point estimate carries a selection (winner's-curse) bias on top of the reported SD, and an
+independent re-run / FEP is what would de-bias it.
+
+### F18 (medium) — The Boltz-2 ternary "positive control" is a canonical, near-certainly-in-training-data complex, so "the model can be trusted for the NR4A3 prediction" overclaims generalization
+**Deficiency.** §2.4 validates the ternary pipeline by recovering the CRBN + lenalidomide binding mode
+(glutarimide in the tri-Trp pocket, 2.85 Å to W380, ligand-iPTM 0.99) and concludes "so the model can be
+trusted for the NR4A3 degradation-geometry prediction." CRBN/IMiD is one of the most-deposited, most-studied
+ligase complexes in the PDB and is almost certainly abundant in Boltz-2's training data; recovering it is a
+memorization-consistent result and weak evidence of **generalization** to (a) an AF2-modeled cryptic NR4A3
+LBD with no experimental structure, (b) a *de-novo* / hypothetical PROTAC warhead, and (c) a different E3.
+The control shows the pipeline runs and reproduces a known mode; it does not license trust in the un-run
+NR4A3 prediction on which §2.7 / caveat 5 lean heavily.
+**Fix applied.** Softened §2.4 from "so the model can be trusted for the NR4A3 … prediction" to "so the
+pipeline reproduces a *known* IMiD ternary mode — a necessary sanity check, not a demonstration it
+generalizes to a de-novo warhead on the AF2 NR4A3 LBD," and flagged in §5 that the ternary strategy remains
+un-run and its validation is on an in-distribution complex.
+
+### F19 (medium) — Stale/absolute claim: "denovo_111 is the one candidate that clears the decoy null — every other de-novo molecule falls in the null" is contradicted by denovo_401's own single-snapshot margin
+**Deficiency.** §2.5 states `denovo_111` (+15.7) is "the one candidate that clears the decoy null — **every
+other de-novo and decoy molecule falls in the null**" (single-snapshot 95th pct +13.1). But §2.6's table gives
+`denovo_401` a single-snapshot margin of **+13.92**, which is **above** that +13.1/+13.12 bar — so by the
+paper's own `above_null = margin > threshold` rule (`selectivity_calibration.py`), `denovo_401` *also* clears
+the single-snapshot null. The §2.5 sentence is only true within the original harvest batch (denovo_401 came
+from a later generation), so "every other de-novo molecule falls in the null" now reads as internally
+inconsistent with §2.6, and blurs the paper's own "two differently-derived footholds" framing (they are not
+cleanly tier-separated — `denovo_401` passes `denovo_111`'s test too, and additionally survives de-noising).
+**Fix applied.** Qualified §2.5 to "the one candidate **in that harvest**" and added a pointer that
+`denovo_401` (a later batch) also clears the single-snapshot bar and dominates on the de-noising tier, so it —
+not `denovo_111` — is the carried lead; `denovo_111` is retained only as the earlier single-snapshot foothold.
+
+### F20 (low) — Abstract is an editing artifact away from unreadable, and buries the honest bottom line
+**Deficiency.** The abstract carries a literal duplication — "… (still\nstill single-trajectory GB-implicit
+MD …" (a doubled "still") — and, at ~85 lines tracking three successive leads (`denovo_15` → `denovo_111` →
+`denovo_401`) through two retractions, a reader cannot extract the paper's actual, narrowed claim. For a
+publish-to-convince preprint the abstract must state the honest bottom line cleanly (feasibility druggability
+result + one de-noised foothold, no FEP, no wet lab) rather than re-litigate the retraction history inline.
+**Fix applied.** Removed the doubled "still." (Left the full abstract rewrite as a flagged preprint-conversion
+task rather than a red-team edit, since condensing it is an editorial pass, not a claim correction — noted in
+the preprint plan.)
+
+## Not changed this pass (judged acceptable / already disclosed)
+- The **generation-step confound (F16)** is a real limit of *any* decoy-vs-designed comparison; the fix is a
+  narrowed claim, not a new experiment (a generation-matched decoy null is a possible follow-up but not
+  required to publish honestly, and no wet lab / heavy GPU spend is warranted per the operating regime).
+- The **n=38 decoy null → 95th percentile** is statistically thin (interpolated between the top two ranks),
+  but this compounds F16 rather than standing alone; the narrowed F16 language covers it.

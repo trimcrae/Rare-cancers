@@ -29,10 +29,11 @@ metadynamics on NR4A1 and NR4A2 yields **state-matched** opened-pocket ensembles
 enabling a per-candidate family-wide selectivity fingerprint; repurposed NR4A actives largely fail to hold
 up as NR4A3-selective under endpoint MM-GBSA. (5) A pocket-conditioned de-novo generative campaign, funnelled
 through docking and endpoint MM-GBSA against a decoy null of non-NR4A drugs, yields one candidate,
-**`denovo_401`**, whose NR4A3-selectivity survives multi-snapshot ensemble de-noising and clears a
-like-for-like multi-snapshot decoy null **in its unbiased design-frame receptor** — while honestly failing
-that null in the biased metad-opened frame, making it a **receptor-frame-dependent** predicted-selective
-chemotype rather than an unqualified hit. We conclude that NR4A3's "undruggable" orthosteric pocket is
+**`denovo_401`**, whose NR4A3-selectivity survives multi-snapshot ensemble de-noising and exceeds a
+same-tier multi-snapshot decoy null **in its unbiased design-frame receptor** — while failing
+that null in the biased metad-opened frame. Because the decoy null controls the scoring step but not the
+generative step (the candidate, unlike the decoys, was fit to that receptor) or the best-of-N selection, we
+report `denovo_401` as a **receptor-frame-dependent de-noised foothold**, not a demonstrated-specificity hit. We conclude that NR4A3's "undruggable" orthosteric pocket is
 computationally tractable as a dynamic, induced-fit site, and that selectivity is best treated as a
 multiplicative budget spent across the binder and the degrader ternary complex — whose Boltz-2 prediction
 pipeline we validate on a positive control (correctly seating lenalidomide in CRBN's tri-tryptophan pocket),
@@ -160,8 +161,8 @@ a negative control stayed non-selective, the single-snapshot "best" collapsed (+
 (SMILES `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SAscore 3.87, no PAINS/
 BRENK structural alerts; its one synthetic caveat is four stereocentres).
 
-Judged against a **like-for-like multi-snapshot decoy null**, the result is real but **receptor-frame-
-dependent**, and we report both directions honestly:
+Judged against a **same-tier multi-snapshot decoy null**, the result is **receptor-frame-dependent** (and, as
+we note below, confounded by the null not controlling the generative step); we report both directions honestly:
 
 | receptor frame | multi-snapshot decoy null (95th pct / max) | `denovo_401` margin | clears the null? |
 |---|---|---|---|
@@ -170,13 +171,19 @@ dependent**, and we report both directions honestly:
 
 In the biased metad-opened frame the decoy null *balloons* — random drugs such as diphenhydramine (+24.74)
 and lidocaine (+22.08) score as strongly "NR4A3-selective" — so that frame is a poor, promiscuous
-discriminator, and `denovo_401`'s margin does not stand out in it. The defensible claim is therefore narrow
-but genuine: *`denovo_401` is the one candidate of the harvest whose NR4A3-selectivity survives ensemble
-de-noising and clears a like-for-like decoy null in its unbiased design-frame receptor — a real but
-receptor-frame-dependent predicted-selective chemotype*, consistent with the finding (§2.7) that this
-cryptic pocket is a fragile place to source a robust margin. The natural resolution is ensemble scoring over
-the druggable release sub-ensemble rather than any single frame, and — as the affinity-grade tier — relative
-selectivity free-energy perturbation; neither is run here.
+discriminator, and `denovo_401`'s margin does not stand out in it. One caveat sharpens this: the decoy null
+controls the **docking/MM-GBSA scoring** step (the decoys are marketed drugs pushed through the identical
+funnel) but **not** the **generative** step — `denovo_401` was DiffSBDD-fit to the release pocket, whereas the
+decoys were fit to no pocket, so in the release *design* frame `denovo_401` carries a receptor-match advantage
+the decoys lack, and it is additionally the best of ~200 generations / ~10 de-noised candidates. Tellingly,
+the frame it clears the null in is the one it was designed for; the metad frame it *fails* is the one it was
+not (and the less design-confounded of the two). The defensible claim is therefore narrow: *`denovo_401` is the
+one candidate of the harvest whose NR4A3-selectivity survives ensemble de-noising and exceeds a same-tier decoy
+null in its unbiased design frame — a de-noised **foothold**, not a demonstrated specificity result, since the
+null does not control the generative step or the best-of-N selection*, consistent with the finding (§2.7) that
+this cryptic pocket is a fragile place to source a robust margin. The natural resolutions — a generation-matched
+decoy null, ensemble scoring over the druggable release sub-ensemble, and, as the affinity-grade tier, relative
+selectivity free-energy perturbation — are none of them run here.
 
 ### 2.7 Selectivity architecture: a binder × ternary budget
 Comparing NR4A1/2/3 divergence in the orthosteric cryptic pocket (the warhead's contact residues) against
@@ -185,14 +192,17 @@ the LBD-wide pocket-residue census, the warhead pocket is the **most paralogue-d
 binder's selectivity problem was therefore never handle scarcity — it is pocket druggability and
 affinity-margin robustness in a cryptic, least-druggable-of-three pocket. Three design conclusions follow.
 First, selectivity is a **multiplicative** budget across binding × ternary × kinetics whose factors compound:
-a selective binder is strictly valuable and remains the primary goal (`denovo_401` provides a real, if
-fragile, first factor), and the ternary complex can multiply that margin rather than replace it. Second,
+a selective binder is strictly valuable and remains the primary goal (`denovo_401` provides a decoy-null-
+screened, if fragile, first factor — a foothold, not a fully controlled specificity result, since the null
+does not control the generative step), and the ternary complex can multiply that margin rather than replace it. Second,
 paralogue selectivity is best sourced per paralogue by matched levers — NR4A1 from the **ternary complex**
 (the documented degrader strength; the highest-value experiment ahead). We built and **validated the ternary
 pipeline (Boltz-2) on a positive control**: predicting CRBN + lenalidomide, Boltz-2 seats the glutarimide in
 CRBN's tri-tryptophan pocket (closest approach 2.85 Å to W380; ligand-iPTM 0.99), recovering the known IMiD
-binding mode — so the pipeline is trustworthy for the NR4A3–PROTAC–E3 degradation-geometry prediction, which
-awaits a warhead PROTAC. NR4A2 is sourced from pharmacokinetics/CNS-exclusion
+binding mode. This is a necessary sanity check rather than a demonstration of generalization — CRBN/IMiD is
+heavily represented in the structural databases the model was trained on, so the NR4A3–PROTAC–E3
+degradation-geometry prediction (on an AF2-modelled cryptic LBD, a de-novo warhead, and possibly a different
+E3) remains genuinely predictive and awaits a warhead PROTAC. NR4A2 is sourced from pharmacokinetics/CNS-exclusion
 (its tox is CNS-localized and EMC is a peripheral sarcoma). Third, **fusion-versus-wild-type selectivity is
 unobtainable from the degrader** at any stage — the warhead binds an LBD identical in fusion and wild-type —
 so tumour-exclusivity is the complementary antisense route's job, and the degrader's honest scope is
@@ -228,9 +238,12 @@ candidates are predictions. The receptor is an AF2 model (NR4A3 is uncrystallize
 addresses the single-snapshot limitation but the opening free-energy frontier is not fully converged, and
 the druggability case is a **feasibility** result — an induced-fit cavity druggable ~a quarter of the time,
 not an always-open pocket. The lead `denovo_401` is a **receptor-frame-dependent** predicted-selective
-chemotype: it clears a like-for-like decoy null in its design frame but not in the biased metad-opened frame,
-its endpoint MM-GBSA is single-trajectory and not affinity-grade, and selectivity free-energy perturbation
-remains un-run. The degradation-selectivity (ternary) pipeline is validated on a positive control but the
+chemotype: it exceeds a same-tier decoy null in its design frame but not in the biased metad-opened frame, and
+that null controls the scoring step only — not the generative step (the candidate, unlike the decoys, was fit
+to the receptor) or the best-of-N selection — so it is a **de-noised foothold, not a controlled specificity
+result**. Its endpoint MM-GBSA is single-trajectory and not affinity-grade, and selectivity free-energy
+perturbation remains un-run. The degradation-selectivity (ternary) pipeline is checked against a positive
+control (an in-distribution CRBN/IMiD complex, so a sanity check rather than a generalization test) but the
 NR4A3-specific degradation-geometry prediction is future work, gated on a synthesizable warhead PROTAC. Binding selectivity is necessary but not
 sufficient for *degradation* selectivity. The therapeutic rationale assumes EMC remains dependent on NR4A3 for
 survival — supported by a transfer prior from reliably fusion-addicted EWSR1/FET-fusion sarcomas and by
