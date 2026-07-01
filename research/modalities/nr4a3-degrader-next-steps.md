@@ -120,6 +120,9 @@ to main as you go. Dont come back to me until all your red team findings are mit
 override of the "GPU runs cost money — ASK FIRST" standing rule** — for this program, dispatch the warranted GPU
 jobs without a per-job AskUserQuestion. (The ASK-FIRST rule still applies to *future* unrelated work.) The regime
 was also updated (no GPU-$ ceiling gating paper quality; FEP no longer skipped; preprint waits on this work).
+**⛔ FEP CARVE-OUT (trimcrae 2026-07-01): do NOT start any FEP job without checking with the user first** — they
+expect GPU-setup changes are needed for it. This is the ONE exception to the autonomous-GPU authorization above.
+FEP is "no longer skipped" (it's the SOTA gate) but it is **gated on an explicit user go-ahead**, not auto-dispatched.
 Fourth-pass red-team findings (F16–F20; see the red-team memo) and their GPU mitigations:
 - **F16 (HIGH)** decoy null doesn't control the generative step / best-of-N → ensemble scoring over the release
   sub-ensemble + a generation-matched decoy null (and, ultimately, FEP).
