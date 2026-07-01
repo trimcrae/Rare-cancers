@@ -144,6 +144,29 @@ of these.)
       alchemy machinery before the spot fleet spends on it.
 Each also strengthens the preprint regardless of the eventual FEP result.
 
+## FEP outcome → next step (the failure mode is diagnostic)
+"FEP fails" is not one thing; the *mode* points to different next moves. Make the run diagnostic (report
+per-receptor ΔG + λ-overlap — done; **per-residue decomposition = a cheap add worth making** so a selectivity
+fail names the culprit interactions).
+- **Mode 1 — doesn't converge** (poor λ-overlap / hysteresis / huge error bars; convergence early-stop trips).
+  = **receptor/protocol failure, not a candidate failure** — says nothing about denovo_401. Next: better
+  protocol (more windows, longer, HREX, restraints) → ensemble FEP over the druggable release sub-ensemble → if
+  still stuck, this is the **AF2-cryptic-pocket ceiling**: honest SOTA finding that in-silico affinity-grade
+  selectivity needs an **experimental structure**. Points to **wet-lab/structural outreach**, NOT a new molecule.
+- **Mode 2 — converges but NOT selective.** Sub-shape matters (per-residue decomposition tells which):
+  - *reversed / paralogues comparable* → MM-GBSA selectivity was a scoring/frame artifact (F16 realized); the
+    **binder route is pocket-limited** → pivot selectivity to the **ternary-linker** toward the divergent
+    C-terminal patch (E545/T563/Q570/S571/L576/E580/V588) and/or the **ASO**.
+  - *right direction, small ΔΔG (near-miss)* → **FEP-informed scaffold optimization around denovo_401**
+    (engage the handles the decomposition flags), NOT brute-force generation (funnel hit-rate ~2/11).
+  - *weak absolute NR4A3 affinity* → affinity-focused generation / grow into the pocket.
+- **Mode 3 — converges and confirms selectivity** = the win; proceed to ternary/linker + outreach.
+- **More denovo vs different pocket?** More denovo only for the near-miss (as targeted scaffold-opt). A
+  *different pocket* is a downgrade for a *binder* (the orthosteric cryptic pocket is the MOST paralogue-
+  divergent zone) — the real "different site" pivot is the **ternary PPI interface** or the **ASO modality**.
+- **Meta:** several failure modes converge on "need an experimental structure," which is the project's
+  wet-lab-handoff endgame anyway — so a FEP failure strengthens the outreach case, it doesn't dead-end it.
+
 ## Guardrails
 - **Do NOT launch `mode=run` (production FEP) without trimcrae's explicit go-ahead** (standing FEP carve-out).
 - `mode=plan` and `mode=smoke` are safe/cheap and are how we validate the wiring.
