@@ -2,12 +2,14 @@
 
 **Status:** design analysis (in-silico + literature reasoning; no wet lab). Scoped to the EMC
 (EWSR1/TAF15::NR4A3) degrader program. Written 2026-06-30.
-**One-line thesis:** *Selectivity is a multiplicative budget spent across three pharmacological stages
-and two independent axes; the rational EMC allocation is **mechanism-matched** — paralogue selectivity
-from the ternary complex (plus pharmacokinetics for NR4A2), fusion-vs-wild-type selectivity not from the
-degrader at all (it is unobtainable here — route it to the ASO). The binder should be optimized for
-**affinity + a productive exit vector**, treating its real-but-fragile pocket selectivity as a bonus that
-relaxes the ternary's burden, never as the gate.*
+**One-line thesis:** *Selectivity is a **multiplicative** budget whose factors **compound** across three
+pharmacological stages and two independent axes — so the levers **add to** each other, none replaces another.
+A selective **binder is the primary goal and strictly valuable** (`denovo_401` is one, control-validated); the
+architecture's point is that because binder selectivity is **fragile** in this cryptic pocket, a robust
+degrader should **also** draw paralogue selectivity from the ternary complex (compounding the binder's margin;
+plus pharmacokinetics for NR4A2), and route fusion-vs-wild-type — unobtainable from the degrader — to the ASO.
+The binder should be optimized for **affinity + a productive exit vector + the paralogue selectivity it already
+shows**, with the ternary an **additional** robustness lever, not a substitute for the binder campaign.*
 
 This document treats "where does selectivity come from" as its own optimization problem, deliberately
 independent of the binder-hunting campaign's momentum. It is **evidence-led**: the central claim is a
@@ -201,15 +203,20 @@ genetics-vs-pharmacology gap rather than pretending it is closed.
 
 ## 7. Recommendation for EMC (the allocation)
 
-Evidence-led, EMC as the fixed goal, deliberately not swayed by the binder campaign's momentum:
+Evidence-led, EMC as the fixed goal:
 
-1. **Binder:** optimize for **affinity + a productive, solvent-exposed exit vector** (for the linker),
-   **not** for selectivity as a gate. Keep denovo_401's pocket selectivity as a *bonus* that relaxes the
-   ternary requirement. Do **not** burn further large campaigns trying to maximize binder selectivity in
-   a poorly druggable cryptic pocket — diminishing returns, and the wrong stage to carry the burden.
-2. **Paralogue selectivity (NR4A1):** source primarily from the **ternary complex** — run the
-   already-built ternary model across NR4A1/2/3 to find an E3 + linker geometry that is productive on
-   NR4A3 and *un*productive on NR4A1. This is the highest-value un-run experiment in the program.
+1. **Binder:** keep it **selective *and*** optimize for **affinity + a productive, solvent-exposed exit
+   vector** (for the linker) — a selective binder is the primary goal and strictly valuable, and `denovo_401`
+   already delivers a **control-validated** paralogue margin (clears a like-for-like multi-snapshot decoy null).
+   The realistic caveat is only that this margin is **fragile** in a poorly druggable cryptic pocket (one
+   survivor out of ~10 multi-snapshot-tested), so **don't rely on the binder *alone*** and don't expect blind
+   generation to keep yielding survivors — but that argues for *compounding* the binder margin with the ternary,
+   **not** for abandoning binder selectivity. (Prior wording here said "optimize for affinity, *not* selectivity"
+   / "don't burn campaigns on binder selectivity"; that overstated the case and contradicted the campaign — corrected.)
+2. **Paralogue selectivity (NR4A1):** the binder already discriminates NR4A1 (ΔG NR4A3 −38.18 vs NR4A1 −22.98);
+   **compound** that with the **ternary complex** — run the already-built ternary model across NR4A1/2/3 to find
+   an E3 + linker geometry that is productive on NR4A3 and *un*productive on NR4A1. This is the highest-value
+   un-run experiment in the program — an *additional* lever on top of the binder's margin, not a replacement.
 3. **Paralogue safety (NR4A2):** source primarily from **PK / CNS-exclusion** (peripheral restriction),
    because the molecular handle is the weakest (I531 shared) and the tox is CNS-localized.
 4. **Fusion vs wild-type:** **do not attempt with the degrader.** Accept wild-type NR4A3 loss as a

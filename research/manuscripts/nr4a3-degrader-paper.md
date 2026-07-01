@@ -83,8 +83,9 @@ the whole decoy null — and its selectivity *direction* is reproduced in a full
 (+7.44 ± 4.18), the magnitude being frame-dependent — §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
 paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
 binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
-**multiplicative budget** best spent with the binder optimized for affinity, **paralogue** selectivity
-sourced from the ternary complex (NR4A1) + pharmacokinetics (NR4A2), and **fusion-vs-wild-type** selectivity
+**multiplicative budget** whose factors compound: keep the binder selective (`denovo_401` is, control-validated)
+**and** optimized for affinity, then **add** **paralogue** selectivity from the ternary complex (NR4A1,
+compounding the binder margin) + pharmacokinetics (NR4A2), while **fusion-vs-wild-type** selectivity is
 sourced not from the degrader at all (it is unobtainable here) but from the complementary ASO. We read this honestly: `denovo_15` itself carries generative-model
 **stability/synthesizability liabilities** (a carbamic acid, a 1,3-cyclopentadiene, an imine and an exocyclic
 alkene; no aromatic ring; SAscore 5.08 — *above* the campaign's own ≤4.5 synthesizability cut), so it is a
@@ -419,10 +420,10 @@ multi-snapshot-tested, **`denovo_401` is the *sole* survivor** — a sobering co
 reliably yield de-noising survivors (it found one), consistent with §2.7's conclusion that the cryptic pocket
 is a fragile place to source a robust selectivity margin.
 
-### 2.7 Selectivity architecture: the pocket is a selectivity *hotspot*, and the burden is shared with the ternary
+### 2.7 Selectivity architecture: the pocket is a selectivity *hotspot*, and selectivity is a binder × ternary budget
 Treating "where should selectivity come from" as its own optimization (full analysis:
 [`nr4a3-degrader-selectivity-architecture.md`](./nr4a3-degrader-selectivity-architecture.md)) yields a
-result that **reframes the campaign** and is computed, not asserted. Comparing NR4A1/2/3 divergence in the
+computed result (not asserted) that **contextualizes — not contradicts — the binder campaign**. Comparing NR4A1/2/3 divergence in the
 orthosteric cryptic pocket (the warhead's contact residues) against the LBD-wide pocket-residue census
 (same `nr4a-selectivity.json` alignment):
 
@@ -437,15 +438,23 @@ divergent zone, a selectivity hotspot, not a conserved wall. So the binder's sel
 **never handle scarcity**; it is **pocket druggability + affinity-margin robustness** (the cryptic, least-
 druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This carries three design conclusions:
 
-1. **Selectivity is a multiplicative budget** across binding × ternary × kinetics; the binder need not carry
-   it alone (the basis of "binding selectivity ≠ degradation selectivity", caveat 5). The rational design
-   optimizes the **binder for affinity + a productive linker exit vector**, treating its real-but-fragile
-   pocket selectivity (`denovo_401`) as a *bonus that relaxes the ternary's burden*, not the gate.
-2. **Paralogue selectivity is best sourced per-paralogue by matched levers:** NR4A1 (the AML-safety-net,
-   mandatory) from the **ternary complex** (the documented degrader strength — running `nr4a3_ternary.py`
-   across NR4A1/2/3 is the highest-value un-run experiment); NR4A2 (the molecularly hardest case — I531 is
-   NR4A3=NR4A2-identical, §2.3) from **pharmacokinetics / CNS-exclusion**, since its tox is CNS-localized and
-   EMC is a peripheral sarcoma.
+1. **Selectivity is a *multiplicative* budget** across binding × ternary × kinetics — the factors
+   **compound** (binder *and* ternary *and* kinetics); none *replaces* another. A selective binder is
+   therefore strictly valuable and **remains the program's primary goal** — `denovo_401`'s pocket
+   selectivity is a **real, control-validated first factor** (it clears a like-for-like multi-snapshot decoy
+   null, §2.6), not a discardable bonus. The architecture's contribution is the *complementary* point:
+   because that binder selectivity is **fragile** in this cryptic, least-druggable-of-three pocket (a sole
+   survivor out of ~10 multi-snapshot-tested; §2.6), a *robust* degrader should **add** ternary selectivity
+   *on top of* the binder's, so the full budget never rests on the binder **alone**. Binder optimization
+   should accordingly pursue **affinity, a productive linker exit vector, *and* the paralogue selectivity
+   `denovo_401` already shows** — with the ternary as an *additional* robustness-adding lever, not a
+   substitute for the binder campaign (the basis of "binding selectivity ≠ degradation selectivity", caveat 5).
+2. **Paralogue selectivity then compounds per-paralogue via matched levers:** NR4A1 (the AML-safety-net,
+   mandatory) — `denovo_401` already discriminates it at the binder level (ΔG NR4A3 −38.18 vs NR4A1 −22.98,
+   §2.6), and the **ternary complex** can *multiply* that margin (the documented degrader strength — running
+   `nr4a3_ternary.py` across NR4A1/2/3 is the highest-value un-run experiment); NR4A2 (the molecularly hardest
+   case — I531 is NR4A3=NR4A2-identical, §2.3) is topped up from **pharmacokinetics / CNS-exclusion**, since
+   its tox is CNS-localized and EMC is a peripheral sarcoma.
 3. **Fusion-vs-wild-type selectivity is unobtainable from the degrader at any stage** (the warhead binds a
    LBD identical in fusion and wild-type, and the ternary forms at that LBD, nowhere near the N-terminal
    fusion partner). It is the **ASO's** job (RNA-level junction targeting); the degrader's honest scope is
@@ -582,13 +591,16 @@ made explicit rather than buried (full adversarial review:
    (§2.7).** The §2.4 matrix is a necessary-not-sufficient filter; degradation selectivity is set by the
    per-paralogue ternary complex (the planned gating step). The selectivity-architecture analysis sharpens
    this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
-   kinetics), so the binder need not carry it. The computed result that the orthosteric pocket is the
-   *most* paralogue-divergent zone of the LBD (70 % vs 43 % across the rest of the LBD) means binder selectivity is
-   handle-rich but druggability/noise-limited — so the rational plan optimizes the binder for affinity,
-   sources **paralogue** selectivity from the **ternary** (NR4A1) + **pharmacokinetics** (NR4A2), and
-   recognizes **fusion-vs-wild-type** selectivity is **unobtainable from the degrader** (route to the ASO).
-   This is a strategic reframing the prior draft did not make, and it *raises* the priority of running the
-   (built, un-run) ternary model over further binder-selectivity optimization.
+   kinetics) whose factors **compound**, so the binder need not carry it *alone* — but a selective binder is
+   still strictly valuable and is the primary goal (`denovo_401` is one, control-validated; §2.6). The
+   computed result that the orthosteric pocket is the *most* paralogue-divergent zone of the LBD
+   (70 % vs 43 % across the rest of the LBD) means binder selectivity is handle-rich but
+   druggability/noise-limited — so the rational plan keeps the binder selective **and** optimizes it for
+   affinity + a productive exit vector, then **adds** paralogue selectivity from the **ternary** (NR4A1,
+   compounding the binder's already-favourable margin) + **pharmacokinetics** (NR4A2), and recognizes
+   **fusion-vs-wild-type** selectivity is **unobtainable from the degrader** (route to the ASO). This
+   *raises* the priority of running the (built, un-run) ternary model as an **additional** selectivity lever —
+   not as a replacement for the binder campaign.
 6. **The de-novo lead is a chemotype/pose hypothesis with flagged liabilities, not a developable molecule.**
    `denovo_15` carries DiffSBDD-typical instability/synthesizability liabilities (carbamic acid,
    1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SAscore 5.08 > the campaign's ≤4.5 cut) —

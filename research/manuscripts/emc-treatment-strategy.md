@@ -268,8 +268,10 @@ first*. The two priorities:
    ASO's WT-sparing as *insurance + automatic paralogue/tumour-exclusivity*, **not** as an independent win the
    degrader's own thesis declares moot. Align both manuscripts' WT-NR4A3 language to this.
    *(A third, related inconsistency — §2.7's "source paralogue selectivity from the ternary, not the binder"
-   reads as contradicting the whole binder campaign; the fix is "binder **+** ternary," pending trimcrae's
-   call on cut/soften/keep.)*
+   read as contradicting the whole binder campaign — was **fixed 2026-07-01** (trimcrae): reframed to
+   "binder **+** ternary" (factors compound; a selective binder is the primary goal and `denovo_401` is one,
+   control-validated; the ternary is an *additional* robustness lever, not a substitute). Corrected in the
+   paper §2.7/§5/abstract and `nr4a3-degrader-selectivity-architecture.md` thesis + §7.)*
 
 **Decision (REVISED 2026-06-24): paper 1 is the computation-only `emc-treatment-roadmap.md`, but its
 *contribution* is reframed from "the prioritized portfolio" to "a method + a driver-directed program."**
