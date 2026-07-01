@@ -45,6 +45,11 @@ read it before making changes.
   [research/manuscripts/nr4a3-degrader-preprint-plan.md](./research/manuscripts/nr4a3-degrader-preprint-plan.md);
   **ready-to-send outreach emails** (send the day the preprint posts):
   [research/manuscripts/nr4a3-degrader-outreach-emails.md](./research/manuscripts/nr4a3-degrader-outreach-emails.md).
+  **This is a LONG-LIVED project on a RISING in-silico frontier, NOT a one-shot:** the limits of in-silico today
+  aren't its limits in 6–12 months, so parked/"SKIP" items (FEP; ASO delivery) are **"revisit when capability X
+  lands," not dead**, and even *completed* work is worth re-grading as methods improve — mechanism +
+  trigger table in [research/method-watch.md](./research/method-watch.md). Guardrail: a coming capability
+  justifies waiting/re-running, **never** claiming a result before the method supports it.
 - **What (now shelved):** a zero-build static site of one-page-per-rare-cancer information
   hubs (first page: EMC). The patient-facing UI is **deprioritized/shelved** — keep it
   working if touched, but don't invest new effort there without being asked.

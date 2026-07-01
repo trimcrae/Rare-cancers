@@ -6,6 +6,17 @@ trigger table** (what to look for, and what to do when it appears). The periodic
 itself is automated — `scripts/method-watch.mjs`, run monthly by
 `.github/workflows/method-watch.yml` — which emits a dated **digest**.
 
+**Operating assumption (trimcrae, standing).** In-silico drug-discovery capability is on a
+**steep, rising frontier** — the limits of today are not the limits in 6–12 months — and this is
+a **long-lived, revisitable project that rides that frontier even if a wet-lab partner never
+materialises** (regime: `emc-treatment-strategy.md → "Operating regime (2026-07-01)"`). So this
+watch has **two jobs, not one**: (1) *unblock* stalled/parked routes when a capability lands
+(the trigger table below), and (2) prompt a **re-grade of even *completed* work** as methods
+improve — a cleared route or a shipped result is a *snapshot at a capability level*, worth
+re-running when the frontier moves. Nothing here is "dead"; parked = "revisit when X lands."
+**Integrity guardrail:** a coming capability justifies waiting and re-running — it never licenses
+claiming the result before the method can support it.
+
 > **Read the latest auto-digest:**
 > `git fetch origin method-watch-cache`
 > `git show origin/method-watch-cache:research/method-watch-digest.md`
@@ -22,6 +33,8 @@ below, do the paired action and open the follow-up; otherwise no action.
 | open **AF3-class ternary-complex** prediction | model **NR4A3–PROTAC–E3** degradability geometry |
 | reliable **structure-based generative + selectivity** scoring | design the **NR4A3 warhead** at the `nr4a-selectivity.json` divergent handles |
 | robust **cryptic-pocket** prediction | re-grade the NR4A3 LBD **undruggability** prior without GPU MD |
+| cheaper / more reliable **free-energy (FEP or ML free-energy)** on **cryptic / induced-fit** pockets | run the **denovo_401 selectivity FEP** currently SKIP-ped as ceiling-bound + least-reliable-here, and re-grade the binder-selectivity claim against it |
+| better **induced-fit / conformational-ensemble docking or ML affinity** | re-score denovo_401 (and the de-novo pool) against the *dynamic* NR4A3 pocket instead of single/few frames — tightens the frame-dependent margin (+12.83 release vs +7.44 metad) |
 | **in-silico oligonucleotide/nanoparticle tumour-delivery** predictor (biodistribution / endosomal escape / PBPK / ML tumour-penetration) | score the **B7-H3-targeted junction-siRNA / AOC** delivery in-silico and **re-grade the ASO route feasibility** (delivery is the route's gate) |
 | calibrated **ASO off-target / RNase-H cleavage-activity** predictor | **retire the conservative "gap-mismatch ⇒ non-cleaving" heuristic** in the junction-ASO specificity screen (`fusion-junction-aso-paper.md` §3a-quater) and re-grade predicted specificity with a calibrated model |
 | improved **ASO/siRNA efficacy + target-site-accessibility** predictor | **re-rank the junction designs for potency** and replace the local-fold accessibility proxy (`fusion-junction-aso-paper.md` §3a-bis iii) |
