@@ -98,7 +98,8 @@ the LBD** — it is a selectivity hotspot.
   contact. NR4A2 is the harder paralogue to spare **molecularly** — which matters for §6.
 
 **Caveat on the proxy.** "Non-orthosteric remainder" is pocket-lining residues across all 33 fpocket
-cavities, used as a stand-in for the true E3-facing PPI surface (which we have not yet mapped — see §8).
+cavities, used as a stand-in for the true E3-facing PPI surface (**now directly mapped on the F18 ternary —
+§8.3 step 3: 24 % divergent vs each paralogue, distinct from the pocket** — so the proxy below is superseded).
 It is a reasonable but imperfect proxy; the ternary-surface conservation should be computed directly on
 the actual predicted E3 interface before this comparison is load-bearing in a manuscript.
 
@@ -245,10 +246,12 @@ not yet have its evidence. Concrete, runnable steps (all in-silico):
 2. **Degradable-lysine map per paralogue:** SASA + geometric reachability of lysines within the
    ubiquitin-transfer zone of each ternary, for NR4A3 vs NR4A1/2. Lysine *positions* can differ even
    where sequence is conserved — an orthogonal, possibly larger, selectivity source than pocket contacts.
-3. **True PPI-surface conservation map:** replace the §2 proxy — map per-residue NR4A1/2/3 divergence onto
-   the *actual* predicted E3-facing interface from step 1, to test directly whether the ternary surface
-   offers exploitable paralogue handles (the §2 proxy says the average surface is less divergent than the
-   pocket; the real interface may concentrate or dilute that).
+3. **True PPI-surface conservation map — ✅ DONE (2026-07-01, F18 ternary + `report_ternary.py` interface
+   mode).** The predicted NR4A3–CRBN interface (33 residues) is **24 % divergent vs each paralogue (8/33), 18 %
+   vs both (6/33: E545/T563/Q570/S571/L576/E580/V588…)** — *less* selectivity-rich than the orthosteric pocket
+   (70 %/60 %) but **not conserved**, and it is a surface **distinct from the pocket handles** (0 of 7 handles
+   at the interface). So ternary selectivity is **structurally available on an independent surface** (real
+   multiplicative gain), though single-pose Boltz can flag availability, not optimize/validate it.
 4. **E3 / linker-exit-vector scan:** since the binder is being optimized for a productive exit vector
    (§7), enumerate linker attachment points on denovo_401 and score ternary productivity vs each paralogue
    — making the binder and ternary optimizations explicitly *joint*, not sequential.
@@ -257,10 +260,11 @@ not yet have its evidence. Concrete, runnable steps (all in-silico):
 
 ## 9. Falsification — what would change these conclusions
 
-- If the true E3-interface conservation map (step 3) shows the PPI surface is **as divergent as or more
-  divergent than** the pocket → ternary paralogue selectivity is *easier* than argued and the
-  recommendation strengthens. If it shows the interface is **highly conserved** → ternary selectivity is
-  harder than hoped, and binder selectivity (denovo_401) becomes more load-bearing — re-weight toward §7.1.
+- The true E3-interface conservation map (step 3) has now been computed (F18): the interface is **24 %
+  divergent vs each paralogue — less than the pocket (70 %) but not conserved.** Per this test that lands
+  *between* the two extremes: ternary selectivity is **available but the interface is less selectivity-rich
+  than the pocket**, so the **binder stays the primary lever** (§7.1) and the ternary is a *real secondary*
+  one (a divergent patch to design a linker toward), not the dominant source once hoped.
 - If the ternary model (step 1) finds **no** E3/linker geometry that discriminates NR4A3 from NR4A1 →
   paralogue selectivity may be unobtainable from *either* stage, forcing either (a) reliance on PK/tissue
   restriction for *all* paralogues, or (b) a re-examination of whether NR4A1 co-degradation is actually
@@ -276,10 +280,15 @@ not yet have its evidence. Concrete, runnable steps (all in-silico):
 
 - **No wet lab.** Every tox/tolerability statement is reasoning from published genetics + tissue
   distribution, not measured therapeutic index. The genetics-vs-pharmacology gap (§6, §9) is real and open.
-- **§2 uses a pocket-residue proxy** for the PPI surface; the real interface is not yet mapped (§8.3).
-- **The ternary axis is argued, not yet demonstrated** — the model is primed but unrun. This document
-  raises the ternary from "necessary caveat" to "primary selectivity source," which **raises the priority**
-  of running it; it does not claim the result.
+- **§2 used a pocket-residue proxy** for the PPI surface; the real interface has since been mapped on the F18
+  ternary (§8.3, step 3) — 24 % divergent vs each paralogue, distinct from the pocket — so the proxy is no
+  longer load-bearing.
+- **The ternary axis has now been RUN (F18, 2026-07-01), not just argued:** the NR4A3/1/2–CRBN–denovo_401-PROTAC
+  ternaries all form productively (mechanism viable) and are **not paralogue-selective for the representative
+  linker**, while the interface itself is divergent (ternary selectivity *available* but unrealized). So the
+  ternary is a **real secondary** selectivity lever, **not the primary source** this document once leaned
+  toward — the binder (§7.1) stays primary. Single-pose Boltz cannot optimize/validate ternary selectivity
+  (a ternary-ensemble/cooperativity method is the right tool — method-watch).
 - **PROTAC cooperativity citations** (Gadd 2017; Bondeson 2018) are used for a mechanistic principle and
   should be verified before formal use.
 

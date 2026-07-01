@@ -213,11 +213,17 @@ LBD and CRBN and each LBD presents an exposed lysine within ubiquitin reach of C
 **productive (the degrader mechanism is viable) but not paralogue-selective** for this linker: it does not add
 NR4A3 selectivity on top of the binder. This is mechanistically unsurprising — the PROTAC engages the conserved
 LBD fold — and it *narrows* the selectivity budget onto the **binder** (+ pharmacokinetics/CNS-exclusion for
-NR4A2, whose tox is CNS-localized and EMC is a peripheral sarcoma). Caveats: one representative linker/exit
-vector; Boltz gives a single ternary pose, not the cooperativity (α)/productive-ensemble that sets real
-degradation selectivity; the Lys-proximity is a CRBN-only proxy (no full CRL4^CRBN + E2~Ub). Ternary-linker
-engineering remains a *possible* (untested, and low-reliability by single-pose docking) route to add ternary
-selectivity. Third, **fusion-versus-wild-type selectivity is
+NR4A2, whose tox is CNS-localized and EMC is a peripheral sarcoma). **But the ternary is not a spent lever:**
+mapping paralogue divergence at the predicted NR4A3–CRBN interface shows **8 of 33 interface residues differ
+from each paralogue (6 from both: E545/T563/Q570/S571/L576/E580/V588…), on a surface *distinct* from the pocket
+handles** — so ternary selectivity is **structurally available** (a divergent patch a linker could be designed
+toward), just not realized by this representative linker, and the binder and ternary would then draw on
+*independent* residue sets (a genuine multiplicative gain). Caveats: one representative linker/exit vector (the
+interface — and its divergent-patch set — will shift with the linker); Boltz gives a single ternary pose, not
+the cooperativity (α)/productive-ensemble that sets real degradation selectivity, so single-pose docking can
+*flag availability* but cannot *optimize or validate* ternary selectivity (a ternary-ensemble method is the
+right tool — a method-watch item); the Lys-proximity is a CRBN-only proxy (no full CRL4^CRBN + E2~Ub). Third,
+**fusion-versus-wild-type selectivity is
 unobtainable from the degrader** at any stage — the warhead binds an LBD identical in fusion and wild-type —
 so tumour-exclusivity is the complementary antisense route's job, and the degrader's honest scope is
 paralogue selectivity plus accepted wild-type-NR4A3 loss.

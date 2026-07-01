@@ -171,10 +171,21 @@ original +12.83 ± 2.98. The margin **reproduces (slightly higher) under an inde
 single-draw artifact**, bounding the winner's-curse (within-candidate/seed) concern. Between-candidate best-of-N
 selection remains a bounded caveat (only re-selection-from-scratch or FEP fully removes it). Folded into §2.6.
 
+**✅ TERNARY-INTERFACE DIVERGENCE (2026-07-01, report run 28520559139; `report_ternary.py` interface mode).**
+Follow-up to trimcrae's "is it not advantageous to have both binder AND ternary selective?" — computed on the
+F18 structures (read-only, no GPU). **NR4A3–CRBN interface = 33 residues; 8 divergent vs NR4A1, 8 vs NR4A2, 6 vs
+both (E545/T563/Q570/S571/L576/E580/V588…); ZERO of the 7 pocket handles are at the interface.** So ternary
+selectivity is **structurally AVAILABLE** (a divergent patch a linker could target) on a surface **independent**
+of the binder's pocket handles → binder × ternary is a genuine multiplicative budget, not double-counting. The
+representative linker didn't *realize* it (F18), and single-pose Boltz can flag availability but can't
+optimize/validate ternary selectivity (needs a ternary-ensemble/cooperativity method — method-watch). Closes
+the §2.7 "surface/PPI proxy" caveat (real interface now mapped). Folded into paper §2.7 table + preprint §2.7.
+
 **🎯 PROGRAM COMPLETE (2026-07-01):** all fourth-pass red-team findings mitigated — F16 (narrowed + empirically
-bounded), F17 (replicate reproduces), F18 (ternary run: productive-not-selective), F19 (2nd foothold), F20
-(typo + factually current). **FEP is the one remaining SOTA tier — GATED on trimcrae go-ahead (GPU-setup
-change expected); do NOT auto-start.** Representative PROTAC SMILES (for any ternary follow-up):
+bounded), F17 (replicate reproduces), F18 (ternary run: productive-not-selective, but interface divergent →
+ternary selectivity engineerable), F19 (2nd foothold), F20 (typo + factually current). **FEP is the one
+remaining SOTA tier — GATED on trimcrae go-ahead (GPU-setup change expected); do NOT auto-start.**
+Representative PROTAC SMILES (for any ternary follow-up):
 `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)OCCOCCNC(=O)CCC(=O)Nc2ccc3c(c2)CN(C4CCC(=O)NC4=O)C3=O)C1`.
 
 - **Ternary control — 3 infra walls hit 2026-07-01; all fixed at the code level, but the re-run is DEFERRED

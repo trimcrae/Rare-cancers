@@ -510,11 +510,17 @@ orthosteric cryptic pocket (the warhead's contact residues) against the LBD-wide
 | residue set | n | divergent vs ≥1 paralogue | divergent vs **both** paralogues |
 |---|---|---|---|
 | **orthosteric cryptic pocket (warhead contacts)** | 10 | **70 %** | **60 %** |
+| **predicted NR4A3–CRBN ternary interface (§2.4/F18)** | 33 | **24 % (8)** | **18 % (6)** |
 | LBD-wide pocket census | 148 | 45 % | 28 % |
 | non-orthosteric remainder (surface/PPI proxy) | 138 | 43 % | — |
 
 The warhead pocket is **~1.6× more paralogue-divergent than the rest of the LBD** — it is the *most*
-divergent zone, a selectivity hotspot, not a conserved wall. So the binder's selectivity problem was
+divergent zone, a selectivity hotspot, not a conserved wall. **The predicted ternary interface — now computed
+on the real F18 complex rather than the earlier surface/PPI *proxy* (caveat closed) — is *also* paralogue-
+divergent** (8/33 interface residues differ vs each paralogue, 6 vs both: E545, T563, Q570, S571, L576, E580,
+V588…), and critically it is a **different surface from the pocket handles** (zero of the seven pocket handles
+sit at the ternary interface). So the binder and the ternary would draw selectivity from **independent**
+residue sets — the multiplicative budget is real, not double-counting one patch. So the binder's selectivity problem was
 **never handle scarcity**; it is **pocket druggability + affinity-margin robustness** (the cryptic, least-
 druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This carries three design conclusions:
 
@@ -530,15 +536,25 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
    representative `denovo_401`-PROTAC, does *not* add it** (all three paralogues form an equally productive
    ternary). So on current evidence the full budget rests **more heavily on the binder** than this architecture
    originally hoped: binder optimization must pursue **affinity, a productive linker exit vector, *and* the
-   paralogue selectivity `denovo_401`/`denovo_111` already show**, and the ternary is *not* a reliable
-   additional lever unless **linker design** can be shown to introduce ternary selectivity (untested). The
-   "binding selectivity ≠ degradation selectivity" point (caveat 5) now cuts the *other* way here: a selective
-   binder whose ternary is non-selective.
+   paralogue selectivity `denovo_401`/`denovo_111` already show**. **The ternary is not a *spent* lever, though —
+   the interface-divergence analysis (table above) shows the induced NR4A3–CRBN interface carries a
+   paralogue-divergent patch (6 residues divergent vs both, E545/T563/Q570/S571/L576/E580/V588…) on a surface
+   distinct from the pocket handles.** So ternary selectivity is **structurally available but not yet realized**:
+   the *representative* linker did not exploit it, but a linker **designed to place the induced interface against
+   that divergent patch** could, in principle, add a *second, independent* selectivity factor — the doubly-
+   selective degrader is a rational goal, not a dead end. The honest limit is tooling: single-pose Boltz can
+   flag that the divergent patch *exists at the interface*, but it cannot **optimize or validate** ternary
+   selectivity (that needs ternary-ensemble/cooperativity scoring — a method-watch item), so this is an
+   engineerable-but-unvalidated lever. The "binding selectivity ≠ degradation selectivity" point (caveat 5)
+   still holds: here a selective binder gave a non-selective ternary *for this linker*, with a divergent
+   interface patch as the route to fix that.
 2. **Paralogue selectivity then compounds per-paralogue via matched levers — but the ternary is now a *tested,
    negative* lever, not a hoped-for one:** NR4A1 (the AML-safety-net, mandatory) — `denovo_401` discriminates it
    at the binder level (ΔG NR4A3 −38.18 vs NR4A1 −22.98, §2.6), but the **ternary does *not* multiply that
    margin** for the representative PROTAC (§2.4/F18: NR4A1 forms an equally productive ternary), so NR4A1
-   selectivity currently rests on the **binder** (plus, speculatively, linker engineering); NR4A2 (the
+   selectivity currently rests on the **binder** — plus linker engineering toward the divergent interface patch
+   the analysis above identifies (E545/T563/G573/L576/E580/V588 all differ NR4A3→NR4A1), an available-but-
+   untested route; NR4A2 (the
    molecularly hardest case — I531 is NR4A3=NR4A2-identical, §2.3) is topped up from **pharmacokinetics /
    CNS-exclusion**, since its tox is CNS-localized and EMC is a peripheral sarcoma.
 3. **Fusion-vs-wild-type selectivity is unobtainable from the degrader at any stage** (the warhead binds a
@@ -547,9 +563,12 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
    paralogue selectivity + accepted wild-type-NR4A3 loss, **not** tumour-exclusivity. Effort spent making
    the degrader fusion-selective is effort misallocated.
 
-(Caveat: the "surface/PPI proxy" row uses pocket-lining residues across all cavities as a stand-in for the
-true E3-facing interface, which is not yet mapped; the real interface conservation should be computed on the
-predicted ternary before this comparison is load-bearing — flagged in the architecture doc §8.)
+(Caveat — now largely resolved: the "surface/PPI proxy" row used pocket-lining residues across all cavities as
+a stand-in for the true E3-facing interface. The real NR4A3–CRBN interface has since been computed on the F18
+ternary (row 2 of the table; §2.4) and is paralogue-divergent (8/33 vs each, 6 vs both), confirming the
+binder-vs-ternary comparison is not double-counting one patch. Remaining limits: it is a single-pose,
+single-linker interface — the divergent-patch set is expected to shift with linker/exit-vector choice — so the
+*specific* residues are indicative, not fixed.)
 
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
