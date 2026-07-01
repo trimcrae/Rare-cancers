@@ -384,8 +384,37 @@ task rather than a red-team edit, since condensing it is an editorial pass, not 
 the preprint plan.)
 
 ## Not changed this pass (judged acceptable / already disclosed)
-- The **generation-step confound (F16)** is a real limit of *any* decoy-vs-designed comparison; the fix is a
-  narrowed claim, not a new experiment (a generation-matched decoy null is a possible follow-up but not
-  required to publish honestly, and no wet lab / heavy GPU spend is warranted per the operating regime).
 - The **n=38 decoy null → 95th percentile** is statistically thin (interpolated between the top two ranks),
   but this compounds F16 rather than standing alone; the narrowed F16 language covers it.
+
+## Mitigations EXECUTED with GPU runs (2026-07-01, trimcrae-authorized autonomous program)
+After the fourth pass, trimcrae updated the regime (no GPU-$ ceiling gating paper quality; FEP no longer
+skipped; preprint waits on the warranted work) with the goal *"produce the state of the art of what in-silico
+can do for an NR4A3-selective degrader."* The warranted GPU runs were executed and folded into the
+paper/preprint (full log: `../modalities/nr4a3-degrader-next-steps.md` → "Red-team mitigation program"):
+
+- **F18 (ternary) — RESOLVED by running it.** Built the NR4A3/NR4A1/NR4A2-LBD + CRBN + PROTAC ternary
+  (representative RDKit-validated denovo_401-PROTAC; Boltz-2, control reproduced). **Result: all three
+  paralogues form an equally productive-geometry ternary → no NR4A3 ternary-selectivity for this linker.** This
+  both mitigates F18 (the actual prediction ran, not just the in-distribution control) and *corrects* §2.7's
+  hope that the ternary "multiplies" the binder margin — it doesn't; selectivity rests on the binder. Folded
+  into paper §2.4/§2.7/§5-caveat-5/abstract + preprint §2.6/§2.7/§2.abstract/Limitations.
+- **F19 (denovo_111 never de-noised) — RESOLVED.** Multi-snapshot MM-GBSA on denovo_111: **+14.60 ± 4.10,
+  margin − SD +10.50, confirmed_selective**, clearing the release-frame multi-snapshot decoy null. So there are
+  **two** de-noised footholds (denovo_401 + denovo_111), not the "sole survivor n=1" the draft reported — a
+  strengthening. Folded into §2.5/§2.6/abstract (both papers). (denovo_111 is release-frame only; not yet
+  state-matched — stated.)
+- **F17 (winner's-curse) — mitigation in flight.** Independent-seed multi-snapshot replicate of denovo_401
+  (fresh Langevin seed; the MD is unseeded, so a re-run is a genuine independent estimate) — fold the result
+  when it lands; if the margin holds, the best-of-~11 selection bias is directly bounded.
+- **F16 (generation-step confound) — narrowed + empirically bounded, not fully resolved (FEP is the decisive
+  test).** The claim was narrowed to "de-noised foothold, not a demonstrated specificity result." New: the
+  confound is **empirically bounded small** — all ~191 developable generations were conditioned on the same
+  release frame, yet the set is *not enriched* over the marketed-drug decoys and only 2 of ~11 survive
+  de-noising; if being generated-for-NR4A3 uniformly inflated the margin, the whole set would clear the null.
+  The decisive resolution is **FEP** (machinery-independent), which trimcrae has **gated on a GPU-setup change
+  — do NOT start it without an explicit go-ahead.** A dedicated generation-matched decoy null remains a
+  possible-but-lower-value follow-up (the non-enrichment already bounds the confound; FEP dominates it).
+- **F20 (abstract bloat) — the doubled "still" was removed; the abstract was kept factually current
+  (two footholds, ternary run) but a full length-condense of the working-doc abstract is still an editorial
+  TODO (the preprint abstract is the tighter, deliverable version).**
