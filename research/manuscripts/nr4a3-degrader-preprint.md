@@ -28,13 +28,15 @@ engageable divergent set is asymmetric — five versus NR4A1, four versus NR4A2)
 metadynamics on NR4A1 and NR4A2 yields **state-matched** opened-pocket ensembles for all three paralogues,
 enabling a per-candidate family-wide selectivity fingerprint; repurposed NR4A actives largely fail to hold
 up as NR4A3-selective under endpoint MM-GBSA. (5) A pocket-conditioned de-novo generative campaign, funnelled
-through docking and endpoint MM-GBSA against a decoy null of non-NR4A drugs, yields **two candidates**
-(**`denovo_401`** and **`denovo_111`**) whose NR4A3-selectivity survives multi-snapshot ensemble de-noising and
-exceeds a same-tier multi-snapshot decoy null **in their unbiased design-frame receptor** (denovo_401 also
-failing that null in the biased metad-opened frame). Because the decoy null controls the scoring step but not
-the generative step (the candidates, unlike the decoys, were fit to that receptor) or the best-of-N selection —
-and because the generated set is *not* enriched over the decoys — we report these as **receptor-frame-dependent
-de-noised footholds**, not demonstrated-specificity hits. (6) We then **predict the NR4A3/NR4A1/NR4A2–CRBN–
+through docking and endpoint MM-GBSA against a decoy null of non-NR4A drugs, yields **`denovo_401`**, whose
+NR4A3-selectivity survives multi-snapshot ensemble de-noising and exceeds a same-tier multi-snapshot decoy null
+**in its unbiased design-frame receptor** (while failing that null in the biased metad-opened frame). Because
+the decoy null controls the scoring step but not the generative step (the candidate, unlike the decoys, was fit
+to that receptor) or the best-of-N selection — and because the generated set is *not* enriched over the decoys —
+we report it as a **receptor-frame-dependent de-noised foothold**, not a demonstrated-specificity hit. (A second
+candidate, `denovo_111`, de-noised well as the neutral form but was withdrawn by a pre-FEP species sweep — its
+physiological cation reverses selectivity — and a pre-FEP stereoisomer sweep shows denovo_401's selectivity is
+stereochemistry-robust with the generated diastereomer near-optimal, so `denovo_401` is the sole robust lead.) (6) We then **predict the NR4A3/NR4A1/NR4A2–CRBN–
 PROTAC ternaries** (a representative denovo_401-PROTAC; pipeline validated on the CRBN + lenalidomide control,
 which it correctly seats in the tri-tryptophan pocket): **all three paralogues form an equally productive
 ternary** (bridged, each presenting an exposed lysine within ubiquitin reach), so the degrader mechanism is
@@ -156,19 +158,24 @@ and require candidates to beat it. (An early single-snapshot "lead," `denovo_15`
 beyond the non-specific score, medicinal-chemistry triage flags generative-model liabilities — a carbamic
 acid, a 1,3-cyclopentadiene, an imine — and a synthesizability score above the campaign cut.)
 
-### 2.6 Two candidates survive multi-snapshot de-noising — as frame-dependent hits
+### 2.6 One robust lead survives multi-snapshot de-noising (denovo_401), after species resolution
 Single-snapshot MM-GBSA margins carried standard deviations (4–6 kcal/mol) larger than the margins
 themselves, so we built a **multi-snapshot endpoint MM-GBSA** tier (short GB Langevin MD; ΔG averaged over
 frames, with error bars) and applied it to the harvest. It is discriminating rather than merely destructive:
 a negative control stayed non-selective and the single-snapshot "best" collapsed (+18.34 → −2.95 ± 3.65),
-while **two candidates held** — **`denovo_401`** (multi-snapshot margin **+12.83 ± 2.98**, margin − SD **+9.85**;
-NR4A3 ΔG −38.18, both paralogues 13–15 kcal/mol weaker; reproduced under an independent-seed replicate at
-**+14.75 ± 4.82**, so not a single-draw artifact) and **`denovo_111`** (**+14.60 ± 4.10**, margin − SD
-**+10.50**) — out of ~11 multi-snapshot-tested (a low but non-zero hit-rate). Both are chemically clean and
-synthesizable (denovo_401 `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`, MW 304, QED 0.80, SA 3.87;
-denovo_111 `CC[C@H](C)c1cc(OCCO)cc(N2CCCC2)c1F`, MW 281, QED 0.87, SA 2.9; no PAINS/BRENK alerts). `denovo_401`
-is the lead because it is additionally characterized across receptor frames (below); `denovo_111` has been
-de-noised only in the release/design frame (larger SD, frame-dependence uncharacterized).
+while two candidates initially held — **`denovo_401`** (multi-snapshot margin **+12.83 ± 2.98**, margin − SD
+**+9.85**; NR4A3 ΔG −38.18, both paralogues 13–15 kcal/mol weaker; reproduced under an independent-seed
+replicate at **+14.75 ± 4.82**, so not a single-draw artifact) and the neutral form of `denovo_111`
+(+14.60 ± 4.10) — out of ~11 multi-snapshot-tested (a low but non-zero hit-rate). A **pre-FEP species-resolution
+sweep** (dock + MM-GBSA of denovo_401's 16 stereoisomers and denovo_111's protonation forms) then sharpened
+this to a single robust lead: **denovo_111 is withdrawn** — it carries a basic pyrrolidine, and its
+physiological **cation reverses** selectivity (multi-snapshot **−15.01 ± 5.14**, binding NR4A1 *more* tightly
+than NR4A3), so its neutral-form margin was an artifact; while **denovo_401's selectivity is
+stereochemistry-robust** — nearly all 16 diastereomers scored selective, and the DiffSBDD-generated isomer is
+near-optimal (de-noised +9.54 ± 4.26), co-best with its C13-epimer iso08 (+11.36 ± 5.25, within SD), so the FEP
+subject is that resolved epimer pair. **`denovo_401` is thus the sole robust lead** (chemically clean:
+`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`, MW 304, QED 0.80, SA 3.87, no PAINS/BRENK alerts),
+characterized across receptor frames (below).
 
 Judged against a **same-tier multi-snapshot decoy null**, the result is **receptor-frame-dependent** (and, as
 we note below, confounded by the null not controlling the generative step); we report both directions honestly:
@@ -201,9 +208,9 @@ the LBD-wide pocket-residue census, the warhead pocket is the **most paralogue-d
 binder's selectivity problem was therefore never handle scarcity — it is pocket druggability and
 affinity-margin robustness in a cryptic, least-druggable-of-three pocket. Three design conclusions follow.
 First, selectivity is a **multiplicative** budget across binding × ternary × kinetics whose factors compound:
-a selective binder is strictly valuable and remains the primary goal (`denovo_401`/`denovo_111` provide
-decoy-null-screened, if fragile, footholds — not fully controlled specificity results, since the null does not
-control the generative step). We had hoped the **ternary** could *multiply* that margin; **we tested it and it
+a selective binder is strictly valuable and remains the primary goal (`denovo_401` provides a
+decoy-null-screened, if fragile, foothold — not a fully controlled specificity result, since the null does not
+control the generative step; species resolution withdrew the second candidate denovo_111 as protonation-fragile). We had hoped the **ternary** could *multiply* that margin; **we tested it and it
 does not** (for a representative PROTAC). We validated the ternary pipeline (Boltz-2) on the CRBN + lenalidomide
 control (glutarimide seated in the tri-Trp pocket, 2.85 Å to W380, ligand-iPTM 0.99 — a necessary sanity check
 on an in-distribution complex, not a generalization proof), then ran the actual **NR4A3/NR4A1/NR4A2-LBD + CRBN
@@ -260,9 +267,11 @@ the druggability case is a **feasibility** result — an induced-fit cavity drug
 not an always-open pocket. The lead `denovo_401` is a **receptor-frame-dependent** predicted-selective
 chemotype: it exceeds a same-tier decoy null in its design frame but not in the biased metad-opened frame, and
 that null controls the scoring step only — not the generative step (the candidate, unlike the decoys, was fit
-to the receptor) or the best-of-N selection — so it (and the second foothold `denovo_111`) are **de-noised
-footholds, not controlled specificity results** (the generated set is not enriched over the decoys, bounding
-the confound). Their endpoint MM-GBSA is single-trajectory and not affinity-grade, and selectivity free-energy
+to the receptor) or the best-of-N selection — so it is a **de-noised foothold, not a controlled specificity
+result** (the generated set is not enriched over the decoys, bounding the confound). A pre-FEP species sweep
+resolved denovo_401's stereochemistry (selectivity is stereochemistry-robust; the generated diastereomer is
+near-optimal) and **withdrew the second candidate denovo_111** (its physiological cation reverses selectivity).
+denovo_401's endpoint MM-GBSA is single-trajectory and not affinity-grade, and selectivity free-energy
 perturbation remains un-run (the one remaining affinity tier). The degradation-selectivity (ternary) pipeline
 is validated on the CRBN/IMiD control (in-distribution, a sanity check not a generalization test); the actual
 NR4A3/NR4A1/NR4A2 ternaries were then predicted for a **representative** denovo_401-PROTAC and all three form an

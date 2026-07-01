@@ -59,7 +59,9 @@
 > **Updated 2026-06-30 to match the current paper.** The earlier version made `denovo_15` the
 > "MM-GBSA-confirmed selective" hero. That is **retracted**: the single-snapshot MM-GBSA verdict failed a
 > decoy control (39 % of non-NR4A drugs score "selective"), so the figure must lead with the *control* and the
-> two surviving footholds (`denovo_111` decoy-calibrated; `denovo_401` multi-snapshot-confirmed), not `denovo_15`.
+> the robust lead **`denovo_401`** (multi-snapshot-confirmed + species-resolved), not `denovo_15`. (The
+> single-snapshot decoy-calibrated `denovo_111` was later **withdrawn** — its physiological cation reverses
+> selectivity, pre-FEP species sweep — so denovo_401 is the sole robust lead.)
 - (a) Funnel schematic: Step-0 druggable *release* receptor → DiffSBDD pocket-conditioned generation (lead-size
   constrained) → cheminformatics + developability gate + pose handle-contact triage → dock → single-snapshot
   MM-GBSA → **decoy-null calibration → multi-snapshot de-noising**. Schematic.

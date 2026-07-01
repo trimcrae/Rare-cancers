@@ -196,9 +196,24 @@ representative linker didn't *realize* it (F18), and single-pose Boltz can flag 
 optimize/validate ternary selectivity (needs a ternary-ensemble/cooperativity method — method-watch). Closes
 the §2.7 "surface/PPI proxy" caveat (real interface now mapped). Folded into paper §2.7 table + preprint §2.7.
 
+**✅ PRE-FEP SPECIES RESOLUTION DONE (2026-07-01, dock 28538579322 → MM-GBSA single 28540078644 / multi
+28542048560; species set = `fep_species.py`).** Docked+scored denovo_401's 16 stereoisomers + denovo_111
+neutral/cation to pick the correct 3D species BEFORE spending on FEP.
+- **denovo_401 stereochemistry — RESOLVED; the chemotype is stereochemistry-robust.** Nearly all 16
+  diastereomers were confirmed_selective (single-snapshot); de-noised top four: **iso08 +11.36 ± 5.25**
+  (C13-epimer, nominal best), **gen +9.54 ± 4.26** (the DiffSBDD-generated isomer all prior denovo_401 work used
+  → those results stand on a near-optimal isomer), iso14 +8.56, iso00 +6.75. iso08 vs gen overlap within SD →
+  **FEP subjects = denovo_401 iso08 + gen** (FEP resolves the epimer at affinity grade). iso08 SMILES
+  `COC[C@H](c1ccccc1)[C@@H]1CC[C@@H](CC(C)(C)[C@@H](C)O)C1`.
+- **denovo_111 — DEMOTED (protonation-fragile).** Neutral form selective (single-snapshot +8.76) but the
+  **cation (physiological pH 7.4) REVERSES**: multi-snapshot **−15.01 ± 5.14**, binding NR4A1 *tighter* than
+  NR4A3 (−36.81 vs −21.80). Its selectivity was a neutral-form artifact → **not an FEP candidate**; denovo_401
+  is the sole robust lead. The F19 "two footholds" claim is corrected in paper §2.6/abstract + preprint.
+
 **🎯 PROGRAM COMPLETE (2026-07-01):** all fourth-pass red-team findings mitigated — F16 (narrowed + empirically
 bounded), F17 (replicate reproduces), F18 (ternary run: productive-not-selective, but interface divergent →
-ternary selectivity engineerable), F19 (2nd foothold), F20 (typo + factually current). **FEP is the one
+ternary selectivity engineerable), F19 (denovo_111 later demoted — protonation-fragile; denovo_401 sole robust
+lead, stereochemistry-resolved), F20 (typo + factually current). **FEP is the one
 remaining SOTA tier — GATED on trimcrae go-ahead (GPU-setup change expected); do NOT auto-start.**
 Representative PROTAC SMILES (for any ternary follow-up):
 `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)OCCOCCNC(=O)CCC(=O)Nc2ccc3c(c2)CN(C4CCC(=O)NC4=O)C3=O)C1`.

@@ -399,11 +399,12 @@ paper/preprint (full log: `../modalities/nr4a3-degrader-next-steps.md` → "Red-
   both mitigates F18 (the actual prediction ran, not just the in-distribution control) and *corrects* §2.7's
   hope that the ternary "multiplies" the binder margin — it doesn't; selectivity rests on the binder. Folded
   into paper §2.4/§2.7/§5-caveat-5/abstract + preprint §2.6/§2.7/§2.abstract/Limitations.
-- **F19 (denovo_111 never de-noised) — RESOLVED.** Multi-snapshot MM-GBSA on denovo_111: **+14.60 ± 4.10,
-  margin − SD +10.50, confirmed_selective**, clearing the release-frame multi-snapshot decoy null. So there are
-  **two** de-noised footholds (denovo_401 + denovo_111), not the "sole survivor n=1" the draft reported — a
-  strengthening. Folded into §2.5/§2.6/abstract (both papers). (denovo_111 is release-frame only; not yet
-  state-matched — stated.)
+- **F19 (denovo_111 never de-noised) — RESOLVED, then SUPERSEDED by species resolution.** Multi-snapshot MM-GBSA
+  on denovo_111 (neutral) came back +14.60 ± 4.10, briefly giving "two footholds." **But the pre-FEP species
+  sweep (2026-07-01) then WITHDREW denovo_111:** it is cationic at pH 7.4 and in that physiological protonation
+  state its selectivity **reverses** (multi-snapshot −15.01 ± 5.14, binds NR4A1 tighter than NR4A3). So the final
+  state is **denovo_401 the sole robust lead** (stereochemistry-resolved: generated isomer near-optimal, FEP
+  subject = iso08/gen epimer pair). Folded into §2.5/§2.6/§2.7/§5/abstract (both papers) + figures.
 - **F17 (winner's-curse) — mitigation in flight.** Independent-seed multi-snapshot replicate of denovo_401
   (fresh Langevin seed; the MD is unseeded, so a re-run is a genuine independent estimate) — fold the result
   when it lands; if the margin holds, the best-of-~11 selection bias is directly bounded.

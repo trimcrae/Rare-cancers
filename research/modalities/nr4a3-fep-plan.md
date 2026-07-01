@@ -123,12 +123,14 @@ After both: re-run `mode=smoke` (validates spot + checkpoint + resume for cents 
 FEP is the expensive tier — de-risk the candidate on cheap on-demand Processing jobs first, so we FEP a
 *correct, stable, well-defined* molecule and don't waste the spend. (No spot / quota / new IAM needed for any
 of these.)
-- [ ] **Stereochemistry — denovo_401 is 1 of 16 (RDKit, 2026-07-01).** All 4 stereocenters are assigned
-      (3S,10R,13S,18R) but by **DiffSBDD**, whose chirality is arbitrary. **Dock + MM-GBSA the stereoisomer set
-      and confirm the generated isomer is competitive (or switch to the best) before FEP.** Otherwise we FEP an
-      arbitrary 1-of-16. (denovo_401 is otherwise clean: neutral, no ionizable groups, no tautomer ambiguity.)
-- [ ] **Protonation — denovo_111 has a basic pyrrolidine → cationic at pH 7.4 (RDKit, 2026-07-01).** Confirm
-      which protonation state prior scores used and which to FEP; a buried cation ≠ neutral. Only 2 stereoisomers.
+- [x] **Stereochemistry — denovo_401 (RESOLVED 2026-07-01, dock 28538579322 → MM-GBSA 28540078644/28542048560).**
+      Docked+scored all 16 diastereomers: **selectivity is stereochemistry-robust** (nearly all confirmed_selective),
+      the DiffSBDD-generated isomer is **near-optimal** (de-noised +9.54 ± 4.26), co-best with its C13-epimer
+      **iso08** (+11.36 ± 5.25, within SD). **FEP subject = iso08 + as-generated epimer pair** (FEP resolves which).
+      So prior denovo_401 results stand on a good isomer.
+- [x] **Protonation — denovo_111 WITHDRAWN (RESOLVED 2026-07-01).** Basic pyrrolidine → cationic at pH 7.4; the
+      cation **reverses** selectivity (multi-snapshot −15.01 ± 5.14, NR4A1 −36.81 < NR4A3 −21.80). Its neutral-form
+      selectivity was an artifact → not an FEP candidate. denovo_401 is the sole robust lead.
 - [ ] **Pose-stability MD (highest-value).** Short unbiased MD replicas of the lead–NR4A3 (and NR4A1/2)
       complex: does the docked pose hold (ligand RMSD, key contacts) in this cryptic/induced-fit pocket? Pick
       the stable frame as the FEP start. A collapsing pose ⇒ FEP is moot — learn it for ~$5, not ~$50.
