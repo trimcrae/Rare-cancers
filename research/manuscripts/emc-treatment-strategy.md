@@ -273,6 +273,28 @@ first*. The two priorities:
    control-validated; the ternary is an *additional* robustness lever, not a substitute). Corrected in the
    paper §2.7/§5/abstract and `nr4a3-degrader-selectivity-architecture.md` thesis + §7.)*
 
+### Operating regime (2026-07-01, trimcrae) — solo-researcher scale; ship a preprint, hand off to wet labs
+This is the governing regime for *how* the work reaches impact. Do not re-scope it upward.
+- **Scale = one independent researcher, no wet lab, minimal budget.** GPU spend ceiling is **low hundreds of $
+  total** (the ~$3–15 cheap-completeness jobs). **A self-funded wet-lab program ($5–25k assays/synthesis) is
+  OFF the table** — that is a *funded collaborator/foundation's* budget, never the solo researcher's. Do not
+  propose it as a next step.
+- **Deliverable = a rigorous, honest PREPRINT** (ChemRxiv for the degrader/med-chem paper; bioRxiv for the
+  ASO/bio paper), posted immediately, with journal submission **in parallel** (don't wait on peer review).
+  The real audience is **wet-lab groups + rare-cancer foundations who can validate/advance it**, not only
+  journal readers — so the paper is written to be *picked up and built on*, and paired with **targeted
+  outreach** (a short list of NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations & patient orgs).
+  "Publish and hope it's found" is too weak for an orphan target — publish **and** nudge.
+- **In-silico scope going forward = cheap *completeness* only, not the expensive *best-number* chase.**
+  Finish: (1) the metad-frame decoy null (denovo_401's control battery), (2) the **ternary** — CRBN+lenalidomide
+  Boltz-2 control → denovo_401-PROTAC degradation geometry (the mechanism-relevant add for a *degrader* paper).
+  **SKIP FEP** — ceiling-bound (no wet lab to validate against) and least reliable exactly here (cryptic/
+  induced-fit pocket on an AF2 model, frame-dependent selectivity); at most an optional ~$100 spot version, and
+  only if a specific reviewer/venue demands it. Don't let "more testing" delay shipping the preprint.
+- **Impact model:** the achievable win is a **public, control-validated, honest in-silico artifact that lowers
+  the barrier for a lab/foundation to pick up NR4A3/EMC** — not a self-funded path to a validated drug. FEP and
+  assays are things that happen *after* someone with resources adopts the work.
+
 **Decision (REVISED 2026-06-24): paper 1 is the computation-only `emc-treatment-roadmap.md`, but its
 *contribution* is reframed from "the prioritized portfolio" to "a method + a driver-directed program."**
 The earlier framing (below) made the *ranking of mostly-known repurposed drugs* the headline, which

@@ -33,6 +33,15 @@ read it before making changes.
   The crux of the portfolio is still **[research/manuscripts/emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)**
   and the board in **[research/IDEAS.md](./research/IDEAS.md)**. **No wet lab is available**, so every
   "next step" must be either (1) publish-to-convince or (2) in-silico evaluation — never a wet-lab to-do.
+- **OPERATING REGIME (2026-07-01, trimcrae) — solo-researcher scale; ship a preprint, hand off to wet labs.**
+  See **emc-treatment-strategy.md → "Operating regime (2026-07-01)"**. In short: one independent researcher,
+  no wet lab, **GPU budget ceiling low-hundreds-$ total**; a self-funded wet-lab program ($5–25k) is **OFF the
+  table** (that's a funded collaborator/foundation's budget — never propose it as a next step). Deliverable =
+  a rigorous, honest **preprint** (ChemRxiv degrader / bioRxiv ASO) posted immediately + **targeted outreach**
+  to NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations (don't wait on peer review). Remaining
+  in-silico = **cheap completeness only** (metad-frame decoy null; the ternary control → denovo_401-PROTAC
+  degradation geometry); **SKIP FEP** (ceiling-bound + least reliable on this cryptic/AF2 pocket). Don't let
+  "more testing" delay shipping.
 - **What (now shelved):** a zero-build static site of one-page-per-rare-cancer information
   hubs (first page: EMC). The patient-facing UI is **deprioritized/shelved** — keep it
   working if touched, but don't invest new effort there without being asked.
