@@ -51,7 +51,7 @@
 | E3 | Degradation geometry / surface-lysine accessibility / ubiquitination zone | 🟡 | `degradation_geometry` in report_ternary computes it; not yet written up as a first-class result with a lysine-accessibility readout. | ¢ |
 | E4 | Linker **exit-vector** feasibility (does the warhead's solvent-exposed vector admit a CRBN linker?) | ❌ | Required to claim a *buildable* degrader vs an abstract binder. | ¢ |
 | E5 | Ternary **cooperativity (α)** estimate | ❌ | | $ |
-| E6 | E3-ligase choice (CRBN) rationale + **CRBN/E3 expression in EMC-relevant tissue** | ❌ | A degrader is only as good as ligase availability where the tumour is. | ¢ |
+| E6 | E3-ligase (CRBN) availability | ✅ | **DONE 2026-07-02** (`nr4a3_e3_expression.py`, HPA): the full CRL4^CRBN machinery — **CRBN, DDB1, CUL4A, CUL4B, RBX1 — is "Detected in all" tissues**, so the degrader's ligase is available in soft-tissue/mesenchymal contexts (premise grounded). | ¢ |
 | E7 | Molecular-glue **neo-substrate off-target** risk (the thalidomide/IMiD lesson) | ❌ | CRBN-recruiting warheads risk degrading unintended neo-substrates (e.g. zinc-finger degrons). Worth an in-silico flag. | ¢–$ |
 
 ## F. Developability / ADMET  →  DONE 2026-07-02 (`nr4a3_developability.py`)
