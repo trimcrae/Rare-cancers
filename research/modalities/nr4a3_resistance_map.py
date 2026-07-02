@@ -35,7 +35,8 @@ PARALOGUES = [("NR4A1_HUMAN", "P22736"), ("NR4A2_HUMAN", "P43354")]
 # Orthologs are fetched by UniProt gene+organism QUERY (not hardcoded accessions, which are error-prone) so
 # we always get the actual reviewed NR4A3 for each species. taxon ids: mouse/rat/bovine/pig/chicken/xenopus.
 ORTHOLOG_TAXA = [("NR4A3_MOUSE", 10090), ("NR4A3_RAT", 10116), ("NR4A3_BOVIN", 9913),
-                 ("NR4A3_PIG", 9823), ("NR4A3_CHICK", 9031)]
+                 ("NR4A3_PIG", 9823), ("NR4A3_CHICK", 9031), ("NR4A3_XENTR", 8364),
+                 ("NR4A3_DANRE", 7955)]      # +chicken/xenopus/zebrafish deepen the evolutionary sample
 MIN_IDENTITY_FOR_DURABILITY = 0.70   # below this overall identity, the alignment is untrustworthy → exclude
 
 
@@ -85,21 +86,33 @@ def _blosum62():
 
 
 def _fetch_ortholog(taxon, timeout=60):
-    """Fetch the reviewed NR4A3 for a taxon by UniProt query (robust to my not knowing the accession)."""
-    url = ("https://rest.uniprot.org/uniprotkb/search?query="
-           f"gene:NR4A3+AND+organism_id:{taxon}+AND+reviewed:true&format=fasta&size=1")
-    for i in range(4):
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers/1.0"})
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                lines = r.read().decode().splitlines()
-            seq = "".join(l for l in lines if not l.startswith(">"))
-            if seq:
-                return seq
-        except Exception as e:  # noqa: BLE001
-            print(f"  retry {i+1} taxon {taxon}: {e}", file=sys.stderr)
-            import time
-            time.sleep(2 ** i)
+    """Fetch the NR4A3 for a taxon by UniProt query (robust to not knowing the accession). Prefer a reviewed
+    Swiss-Prot entry; fall back to the longest unreviewed hit for species with no curated NR4A3 (chicken/
+    frog/zebrafish). The downstream identity guard rejects any low-quality/mis-identified sequence."""
+    for extra in ("+AND+reviewed:true", ""):     # reviewed first, then any
+        url = ("https://rest.uniprot.org/uniprotkb/search?query="
+               f"gene:NR4A3+AND+organism_id:{taxon}{extra}&format=fasta&size=5")
+        for i in range(3):
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers/1.0"})
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    txt = r.read().decode()
+                # take the longest sequence among returned hits (avoids fragments)
+                seqs, cur = [], []
+                for line in txt.splitlines():
+                    if line.startswith(">"):
+                        if cur:
+                            seqs.append("".join(cur)); cur = []
+                    else:
+                        cur.append(line)
+                if cur:
+                    seqs.append("".join(cur))
+                if seqs:
+                    return max(seqs, key=len)
+            except Exception as e:  # noqa: BLE001
+                print(f"  retry {i+1} taxon {taxon}{extra}: {e}", file=sys.stderr)
+                import time
+                time.sleep(2 ** i)
     return None
 
 
