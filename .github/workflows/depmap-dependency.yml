@@ -41,6 +41,10 @@ jobs:
       - name: DepMap target-expression mining (surface/CTA/effector targets)
         run: python research/modalities/depmap_target_expression.py
 
+      - name: NR4A safety genetics (gnomAD constraint + IMPC single-KO + HPA expression)
+        if: always()
+        run: python research/modalities/nr4a_safety_genetics.py || echo "safety-genetics soft-fail (network); non-blocking"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -52,6 +56,7 @@ jobs:
           cp research/modalities/depmap-sarcoma-dependency.png "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/depmap-target-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/depmap-target-expression.png "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/nr4a-safety-genetics.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -67,5 +72,6 @@ jobs:
           git add research/modalities/depmap-sarcoma-dependency.png 2>/dev/null || true
           git add research/modalities/depmap-target-expression.json 2>/dev/null || true
           git add research/modalities/depmap-target-expression.png 2>/dev/null || true
-          git commit -m "DepMap compute: sarcoma dependency transfer prior" || { echo "no changes"; exit 0; }
+          git add research/modalities/nr4a-safety-genetics.json 2>/dev/null || true
+          git commit -m "DepMap + NR4A safety-genetics compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
