@@ -32,8 +32,11 @@ HANDLES = {406, 407, 410, 412, 484, 531, 534}       # the paralogue-selectivity 
 # NR4A3 human is the reference (numbering anchor). Paralogues + orthologs for the two conservation axes.
 REF = ("NR4A3_HUMAN", "Q92570")
 PARALOGUES = [("NR4A1_HUMAN", "P22736"), ("NR4A2_HUMAN", "P43354")]
-ORTHOLOGS = [("NR4A3_MOUSE", "Q9QZB6"), ("NR4A3_RAT", "Q9WU45"), ("NR4A3_BOVIN", "Q0VCX8"),
-             ("NR4A3_XENTR", "Q6NU29")]
+# Orthologs are fetched by UniProt gene+organism QUERY (not hardcoded accessions, which are error-prone) so
+# we always get the actual reviewed NR4A3 for each species. taxon ids: mouse/rat/bovine/pig/chicken/xenopus.
+ORTHOLOG_TAXA = [("NR4A3_MOUSE", 10090), ("NR4A3_RAT", 10116), ("NR4A3_BOVIN", 9913),
+                 ("NR4A3_PIG", 9823), ("NR4A3_CHICK", 9031)]
+MIN_IDENTITY_FOR_DURABILITY = 0.70   # below this overall identity, the alignment is untrustworthy → exclude
 
 
 def _fetch_fasta(acc, timeout=60):
@@ -52,7 +55,9 @@ def _fetch_fasta(acc, timeout=60):
 
 
 def _align_and_map(ref_seq, other_seq):
-    """Global-align ref vs other; return dict ref_position(1-based) -> aligned other residue (or '-')."""
+    """Global-align ref vs other; return (mapping, overall_identity). mapping: ref_position(1-based) ->
+    aligned other residue. overall_identity: fraction of ref positions matching (alignment-quality guard —
+    a genuine ortholog LBD should be high; a low value flags a wrong/garbage sequence, not real divergence)."""
     from Bio import Align
     aligner = Align.PairwiseAligner()
     aligner.mode = "global"
@@ -60,20 +65,42 @@ def _align_and_map(ref_seq, other_seq):
     aligner.extend_gap_score = -0.5
     aligner.substitution_matrix = _blosum62()
     aln = aligner.align(ref_seq, other_seq)[0]
-    # walk the aligned columns, tracking ref index
     ref_idx = 0
     mapping = {}
+    match = 0
     a_ref, a_oth = str(aln[0]), str(aln[1])
     for cr, co in zip(a_ref, a_oth):
         if cr != "-":
             ref_idx += 1
             mapping[ref_idx] = co
-    return mapping
+            if cr == co:
+                match += 1
+    identity = match / ref_idx if ref_idx else 0.0
+    return mapping, identity
 
 
 def _blosum62():
     from Bio.Align import substitution_matrices
     return substitution_matrices.load("BLOSUM62")
+
+
+def _fetch_ortholog(taxon, timeout=60):
+    """Fetch the reviewed NR4A3 for a taxon by UniProt query (robust to my not knowing the accession)."""
+    url = ("https://rest.uniprot.org/uniprotkb/search?query="
+           f"gene:NR4A3+AND+organism_id:{taxon}+AND+reviewed:true&format=fasta&size=1")
+    for i in range(4):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                lines = r.read().decode().splitlines()
+            seq = "".join(l for l in lines if not l.startswith(">"))
+            if seq:
+                return seq
+        except Exception as e:  # noqa: BLE001
+            print(f"  retry {i+1} taxon {taxon}: {e}", file=sys.stderr)
+            import time
+            time.sleep(2 ** i)
+    return None
 
 
 def main():
@@ -88,9 +115,15 @@ def main():
         json.dump({"_status": "could not fetch reference NR4A3"}, open(OUT, "w"), indent=2); return
 
     para_maps = {name: _align_and_map(ref_seq, s) for name, acc in PARALOGUES
-                 if (s := _fetch_fasta(acc))}
-    orth_maps = {name: _align_and_map(ref_seq, s) for name, acc in ORTHOLOGS
-                 if (s := _fetch_fasta(acc))}
+                 if (s := _fetch_fasta(acc))}                      # {name: (mapping, identity)}
+    orth_maps_all = {name: _align_and_map(ref_seq, s) for name, tax in ORTHOLOG_TAXA
+                     if (s := _fetch_ortholog(tax))}
+    # alignment-quality guard: drop any "ortholog" whose overall identity is too low to trust (wrong/garbage
+    # sequence) — this is exactly the check that caught the first bad-accession run.
+    identities = {name: round(iden, 3) for name, (_m, iden) in orth_maps_all.items()}
+    orth_maps = {name: m for name, (m, iden) in orth_maps_all.items() if iden >= MIN_IDENTITY_FOR_DURABILITY}
+    dropped = {name: identities[name] for name in orth_maps_all if name not in orth_maps}
+    para_maps = {name: m for name, (m, _iden) in para_maps.items()}
 
     rows = []
     for pos in POCKET_RESIDUES:
@@ -133,6 +166,12 @@ def main():
                  "ortholog-conservation axis, so a residue can be both a good selectivity handle AND a durable "
                  "anchor if it is paralogue-divergent yet ortholog-conserved.",
         "reference": REF[0],
+        "ortholog_alignment_identity": identities,
+        "orthologs_used": sorted(orth_maps.keys()),
+        "orthologs_dropped_low_identity": dropped,
+        "_alignment_note": f"orthologs with overall identity < {MIN_IDENTITY_FOR_DURABILITY} are dropped as "
+                           "untrustworthy (guards against wrong sequences). Durability is scored only over the "
+                           "retained, high-identity orthologs. If few are retained, treat durability as weak.",
         "pocket_residues": rows,
         "summary": {
             "durable_anchors": [r["position"] for r in rows
