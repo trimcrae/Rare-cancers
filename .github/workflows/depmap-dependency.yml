@@ -49,6 +49,10 @@ jobs:
         if: always()
         run: python research/modalities/nr4a3_resistance_map.py || echo "resistance-map soft-fail (network); non-blocking"
 
+      - name: CRBN E3-machinery tissue expression (degrader-completeness E6)
+        if: always()
+        run: python research/modalities/nr4a3_e3_expression.py || echo "e3-expression soft-fail (network); non-blocking"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -62,6 +66,7 @@ jobs:
           cp research/modalities/depmap-target-expression.png "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-safety-genetics.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-resistance-map.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/nr4a-e3-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -79,5 +84,6 @@ jobs:
           git add research/modalities/depmap-target-expression.png 2>/dev/null || true
           git add research/modalities/nr4a-safety-genetics.json 2>/dev/null || true
           git add research/modalities/nr4a-resistance-map.json 2>/dev/null || true
-          git commit -m "DepMap + NR4A safety-genetics + resistance-map compute" || { echo "no changes"; exit 0; }
+          git add research/modalities/nr4a-e3-expression.json 2>/dev/null || true
+          git commit -m "DepMap + NR4A safety-genetics + resistance-map + E3-expression compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
