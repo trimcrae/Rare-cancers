@@ -92,3 +92,52 @@ Ranked by (impact on the *selective-degrader* claim) × (how cheap to close):
 5. **The two queued GPU campaigns (C4/D2, A2 release run)** — already scoped; the expensive, decisive ones.
 
 **Everything in tiers 1–4 is free or a single <$10 run and is currently missing or unwritten.** Closing them is what moves the paper from "a good binder story with a big FEP pending" to "a genuinely complete in-silico characterization."
+
+---
+
+## Audit-expanded gaps — adversarial multi-lens sweep (2026-07-02, `insilico-completeness-audit` workflow)
+8 expert lenses proposed ~36 candidate omissions; **each was handed to an independent skeptic agent that tried
+to refute it** (real? no-wet-lab-feasible? material? already-covered?). Result: **35 KEEP / 9 DROP**. The DROP
+layer is as valuable as the KEEP layer — it caught false positives (including one *I* had ranked "critical").
+
+### ✂️ DROPPED as already-covered (do NOT spend on these — verified redundant)
+- **Cross-validate the AF2 cryptic pocket against experimental NR4A (Nurr1/Nur77) LBD crystals** — DROP ×3
+  (already covered: §2.1 anchors druggability on an NR panel *including the occluded 1OVL Nurr1 LBD as the
+  negative control*). *This corrects my earlier "critical gap" call — the adversarial verify refuted it.*
+- **Full stereoisomer enumeration / eutomer ID** — covered by the pre-FEP species resolution (16 diastereomers).
+- **Paralogue cryptic-pocket formability rerun** — covered by the state-matched NR4A1/NR4A2 metadynamics (§2.4).
+- Fraction-unbound/PPB, CYP soft-spot mapping, allosteric H12/AF-2 effect, a duplicate QSP model — low materiality.
+
+### ✅ KEEP — adversarially-verified real gaps, clustered + ranked (materiality × cheapness)
+**Tier A — do first (critical/high, cheap):**
+1. **Bound-pose physical validity + torsional strain of denovo_401** (PoseBusters + bioactive-conformation
+   strain-energy) — KEEP ×4, high. *DiffSBDD poses need an explicit physical-validity QC; free/CPU.* [¢]
+2. **Quantitative degradation model** — predicted DC50/Dmax + hook effect from binary Kds + cooperativity α,
+   and steady-state degradation ceiling vs NR4A3 resynthesis rate — KEEP ×4, high. *Turns "forms a ternary"
+   into a predicted degradation window; free/CPU analytical.* [¢]
+3. **Cryptic-pocket OPENING free energy / apo open-state population** — KEEP, **critical**. *Rigorously quantify
+   ΔG(apo→open) + equilibrium open population; partly addressed by the release run (24 % druggable frames) but
+   the opening free energy is still read off an unconverged biased F(Rg) — this is the honest gate.* [single-GPU/$]
+
+**Tier B — high value, cheap-to-moderate:**
+4. **AF2 conformational ensemble (MSA-subsampling / AF-Cluster / AlphaFlow)** as MD-orthogonal evidence the
+   pocket opens — KEEP ×4, high. *Independent of the biased MD our claim currently rests on.* [single-GPU/$]
+5. **Proteome-wide off-target** — structure-based reverse-docking/pocket-similarity **and** ligand-based
+   polypharmacology (with OOD applicability flag), beyond the NR fold — KEEP ×4, high. *This is Tier 2 (D4),
+   now sharpened: go proteome-wide, not just NR-family.* [¢–$]
+6. **bRo5 permeability & chameleonicity** — 3D-PSA / intramolecular-H-bond / Rg ensemble + efflux (P-gp/BCRP)
+   substrate-liability — KEEP ×2, high/med. *Extends F4/F5; the real ADMET question for a degrader.* [¢]
+7. **Pocket hydration thermodynamics** (GIST / inhomogeneous solvation) — KEEP ×3, high. *Are there displaceable
+   high-energy waters driving the affinity? energetic druggability beyond fpocket geometry.* [$–campaign]
+8. **In-silico resistance / escape-mutation ΔΔG scan** of the warhead pocket (+ CRBN patch) — KEEP ×2, med.
+   *The clinical failure mode for any fusion-oncogene degrader.* [¢–$]
+
+**Tier C — high value, GPU-campaign (sequence after the cheap wins):**
+9. **Ternary-complex MD stability / kinetic persistence** (not just static Boltz-2) + **binary & ternary
+   residence-time / koff** (τ-RAMD / infrequent metadynamics) — KEEP ×3, high. *Degrader efficacy is
+   koff/residence-driven; static ternary confidence isn't enough.* [campaign]
+10. **CRBN / ubiquitin-machinery co-partitioning into the EWSR1::NR4A3 condensate** — KEEP, med. *Does the E3
+    even reach the fusion's phase-separated compartment? a degrader-in-context question.* [¢–$]
+
+**Sequencing note.** Tier A #1 and #2 are free and I start them immediately. The GPU items serialize behind the
+one-concurrent-g5 rule and the queued FEP/release runs — none is a wet-lab ask; all fit the no-lab mandate.
