@@ -1,0 +1,97 @@
+{
+  "_title": "NR4A3 PROTAC degradation model \u2014 DC50 / Dmax / hook (ledger Tier-A #2)",
+  "_status": "MECHANISTIC MODEL + SENSITIVITY MAP, not a calibrated prediction. Binary Kd_target and cooperativity alpha are the two parameters the queued selectivity FEP + ternary will set; until then the absolute DC50 is illustrative. The per-alpha map shows how the degradation window MOVES with cooperativity \u2014 and this same harness consumes FEP-derived per-paralogue Kd's to produce NR4A3-vs-NR4A1/NR4A2 degradation-selectivity windows.",
+  "_refs": "Douglass et al. JACS 2013 (three-body equilibrium); Gadd et al. Nat Chem Biol 2017 (alpha).",
+  "parameters_illustrative": {
+    "T_tot": 5e-08,
+    "E_tot": 2e-07,
+    "Kd_target": 1e-07,
+    "Kd_e3": 1e-06,
+    "ksyn_over_kdeg": 0.1
+  },
+  "sensitivity_over_cooperativity_alpha": {
+    "alpha_0.3": {
+      "Dmax": 0.249,
+      "DC50_M": null,
+      "hook": {
+        "ternary_peak_frac": 0.03318290077110636,
+        "ternary_peak_P_M": 4.2517863033828945e-07,
+        "post_peak_decline": 0.03317690132607345,
+        "hook_effect_present": true
+      }
+    },
+    "alpha_1.0": {
+      "Dmax": 0.503,
+      "DC50_M": 4.2517863033828945e-07,
+      "hook": {
+        "ternary_peak_frac": 0.10108097426297778,
+        "ternary_peak_P_M": 4.2517863033828945e-07,
+        "post_peak_decline": 0.10106097646279678,
+        "hook_effect_present": true
+      }
+    },
+    "alpha_3.0": {
+      "Dmax": 0.71,
+      "DC50_M": 5.352681822847106e-08,
+      "hook": {
+        "ternary_peak_frac": 0.24520807839104075,
+        "ternary_peak_P_M": 4.2517863033828945e-07,
+        "post_peak_decline": 0.24514808798965196,
+        "hook_effect_present": true
+      }
+    },
+    "alpha_10.0": {
+      "Dmax": 0.834,
+      "DC50_M": 1.6378937069540648e-08,
+      "hook": {
+        "ternary_peak_frac": 0.5021816254392268,
+        "ternary_peak_P_M": 4.2517863033828945e-07,
+        "post_peak_decline": 0.5019816924156006,
+        "hook_effect_present": true
+      }
+    }
+  },
+  "sensitivity_over_binary_Kd_target": {
+    "KdTarget_1e-08": {
+      "Dmax": 0.758,
+      "DC50_M": 1.6378937069540648e-08,
+      "hook": {
+        "ternary_peak_frac": 0.31351025634324636,
+        "ternary_peak_P_M": 1.7492711874398424e-07,
+        "post_peak_decline": 0.3134502654019688,
+        "hook_effect_present": true
+      }
+    },
+    "KdTarget_1e-07": {
+      "Dmax": 0.71,
+      "DC50_M": 5.352681822847106e-08,
+      "hook": {
+        "ternary_peak_frac": 0.24520807839104075,
+        "ternary_peak_P_M": 4.2517863033828945e-07,
+        "post_peak_decline": 0.24514808798965196,
+        "hook_effect_present": true
+      }
+    },
+    "KdTarget_1e-06": {
+      "Dmax": 0.559,
+      "DC50_M": 4.2517863033828945e-07,
+      "hook": {
+        "ternary_peak_frac": 0.12660516442328393,
+        "ternary_peak_P_M": 1.033441063880556e-06,
+        "post_peak_decline": 0.12654517942024854,
+        "hook_effect_present": true
+      }
+    },
+    "KdTarget_1e-05": {
+      "Dmax": 0.249,
+      "DC50_M": null,
+      "hook": {
+        "ternary_peak_frac": 0.03320353636904426,
+        "ternary_peak_P_M": 3.377313908791009e-06,
+        "post_peak_decline": 0.03314360529615464,
+        "hook_effect_present": true
+      }
+    }
+  },
+  "interpretation": "Positive cooperativity (alpha>1) lowers DC50 and raises the ternary peak; the hook effect (ternary decline at high [PROTAC]) is the dosing ceiling. Degradation SELECTIVITY between paralogues will come from the ratio of per-paralogue [ternary] at matched dose \u2014 computed here once FEP supplies Kd_target for NR4A3 vs NR4A1 vs NR4A2."
+}
