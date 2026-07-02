@@ -1,0 +1,86 @@
+{
+  "_title": "NR4A3-degrader safety evidence (H1) \u2014 human/mouse genetics beyond DepMap",
+  "_purpose": "Fill the tolerability gap DepMap cannot (post-mitotic / tissue-specific loss). Three orthogonal database sources; all values pulled live; gaps flagged not guessed.",
+  "gnomad_lof_constraint": {
+    "_note": "gnomAD v-latest GraphQL constraint. LOEUF (oe_lof_upper): < 0.35 => LoF-intolerant; higher => LoF-tolerant. pLI: > 0.9 => intolerant. LoF-TOLERANT for NR4A3 is direct human-genetic support that losing one allele/gene is not strongly selected against. Caveat: population constraint reflects reproductive fitness, not adult drug tolerability \u2014 a supporting datum, not proof.",
+    "source": "gnomAD (gnomad.broadinstitute.org GraphQL API)",
+    "thresholds": {
+      "loeuf_intolerant_below": 0.35,
+      "pli_intolerant_above": 0.9
+    },
+    "genes": {
+      "NR4A1": {
+        "pli": 0.0016966855735042019,
+        "loeuf": 0.7099620773349774,
+        "oe_lof": 0.5048259739411187,
+        "obs_lof": 24,
+        "exp_lof": 47.54113543848535,
+        "mis_z": 1.8160894451749583,
+        "lof_z": 2.896390821246362,
+        "lof_intolerant": false,
+        "interpretation": "LoF-tolerant"
+      },
+      "NR4A2": {
+        "pli": 0.9999999999243868,
+        "loeuf": 0.09398750285892003,
+        "oe_lof": 0.019812434038653074,
+        "obs_lof": 1,
+        "exp_lof": 50.473354159769045,
+        "mis_z": 2.513711846353322,
+        "lof_z": 5.907514601001773,
+        "lof_intolerant": true,
+        "interpretation": "LoF-intolerant (constrained)"
+      },
+      "NR4A3": {
+        "pli": 0.9999855229970023,
+        "loeuf": 0.37170862509716357,
+        "oe_lof": 0.2337951944598404,
+        "obs_lof": 13,
+        "exp_lof": 55.60422244792137,
+        "mis_z": 2.6285457644963452,
+        "lof_z": 4.8468914008551005,
+        "lof_intolerant": true,
+        "interpretation": "LoF-intolerant (constrained)"
+      }
+    }
+  },
+  "impc_single_ko": {
+    "_note": "IMPC (International Mouse Phenotyping Consortium) single-gene KO calls. The key safety datum is whether the Nr4a3 single-KO is VIABLE (no lethal term) \u2014 if so, in-vivo evidence that losing NR4A3 alone is tolerated in a mammal. Absence of an IMPC record means the KO was not phenotyped there (fall back to primary literature PMIDs), NOT that the gene is dispensable. Zygosity matters: homozygous = full KO.",
+    "source": "IMPC solr (www.ebi.ac.uk/mi/impc)",
+    "genes": {
+      "NR4A1": {
+        "_status": "no IMPC genotype-phenotype record (KO not phenotyped or no calls)"
+      },
+      "NR4A2": {
+        "_status": "no IMPC genotype-phenotype record (KO not phenotyped or no calls)"
+      },
+      "NR4A3": {
+        "_status": "no IMPC genotype-phenotype record (KO not phenotyped or no calls)"
+      }
+    }
+  },
+  "hpa_tissue_expression": {
+    "_note": "Human Protein Atlas RNA tissue expression. Question: where do NR4A1/2/3 co-express (paralogue compensation available => losing NR4A3 is buffered) vs where is NR4A3 expressed without NR4A1/2 (candidate on-target risk tissue). 'Low tissue specificity' co-expression across many tissues supports broad buffering. NR4A2's CNS/dopaminergic enrichment is the exception to watch.",
+    "source": "Human Protein Atlas (proteinatlas.org)",
+    "genes": {
+      "NR4A1": {
+        "ensembl": "ENSG00000123358",
+        "rna_tissue_specificity": "Low tissue specificity",
+        "rna_tissue_distribution": "Detected in all",
+        "rna_tissue_specific_nTPM": null
+      },
+      "NR4A2": {
+        "ensembl": "ENSG00000153234",
+        "rna_tissue_specificity": "Tissue enhanced",
+        "rna_tissue_distribution": "Detected in all",
+        "rna_tissue_specific_nTPM": null
+      },
+      "NR4A3": {
+        "ensembl": "ENSG00000119508",
+        "rna_tissue_specificity": "Low tissue specificity",
+        "rna_tissue_distribution": "Detected in many",
+        "rna_tissue_specific_nTPM": null
+      }
+    }
+  }
+}
