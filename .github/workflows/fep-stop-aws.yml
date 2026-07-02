@@ -1,0 +1,53 @@
+name: Stop FEP training jobs (kill-switch)
+
+# Emergency kill-switch for the spot FEP fleet: calls StopTrainingJob on every InProgress SageMaker
+# TRAINING job whose name contains the FEP tag. The generic stop_sagemaker_jobs.py only stops PROCESSING
+# jobs — FEP uses spot TRAINING jobs, so this is the training-job equivalent. Cancelling the GitHub run
+# does NOT stop the underlying SageMaker jobs. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "TrainingJob NameContains filter"
+        default: "nr4a3-fep"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Stop matching FEP training jobs
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, boto3
+          tag = os.environ.get("TAG", "nr4a3-fep")
+          sm = boto3.client("sagemaker")
+          stopped, seen = [], []
+          for page in sm.get_paginator("list_training_jobs").paginate(
+                  NameContains=tag, StatusEquals="InProgress"):
+              for j in page.get("TrainingJobSummaries", []):
+                  name = j["TrainingJobName"]; seen.append(name)
+                  try:
+                      sm.stop_training_job(TrainingJobName=name); stopped.append(name)
+                  except Exception as e:
+                      print(f"  could not stop {name}: {e}")
+          print(f"in-flight matching '{tag}': {len(seen)} -> stopped {len(stopped)}: {stopped}")
+          PY
