@@ -112,9 +112,13 @@ layer is as valuable as the KEEP layer — it caught false positives (including 
 **Tier A — do first (critical/high, cheap):**
 1. **Bound-pose physical validity + torsional strain of denovo_401** (PoseBusters + bioactive-conformation
    strain-energy) — KEEP ×4, high. *DiffSBDD poses need an explicit physical-validity QC; free/CPU.* [¢]
-2. **Quantitative degradation model** — predicted DC50/Dmax + hook effect from binary Kds + cooperativity α,
-   and steady-state degradation ceiling vs NR4A3 resynthesis rate — KEEP ×4, high. *Turns "forms a ternary"
-   into a predicted degradation window; free/CPU analytical.* [¢]
+2. ✅ **DONE 2026-07-02 — Quantitative degradation model** (`nr4a3_degradation_model.py`, 4 unit tests).
+   Three-body cooperative equilibrium (Douglass 2013) + steady-state synthesis/degradation → DC50, Dmax,
+   hook. Delivered as a mechanistic harness + **sensitivity maps over α and binary Kd_target** (the two
+   quantities the queued FEP sets), so it *becomes* the analysis layer the selectivity FEP feeds — the
+   NR4A3-vs-NR4A1/2 spread in the Kd_target map IS the predicted degradation selectivity. Illustrative regime:
+   DC50 425 nM → 16 nM as α 1 → 10; hook present throughout. Not a calibrated point prediction until FEP (so
+   labelled). [¢]
 3. **Cryptic-pocket OPENING free energy / apo open-state population** — KEEP, **critical**. *Rigorously quantify
    ΔG(apo→open) + equilibrium open population; partly addressed by the release run (24 % druggable frames) but
    the opening free energy is still read off an unconverged biased F(Rg) — this is the honest gate.* [single-GPU/$]
