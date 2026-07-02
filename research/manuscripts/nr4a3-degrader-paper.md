@@ -254,6 +254,18 @@ specification lets the
 sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately **pan-NR4A** (engaging the
 conserved pocket residues; for ex-vivo immuno-oncology) — §3.
 
+**These same handles are an escape-resistant anchor set — divergent across paralogues yet invariant across
+NR4A3 orthologs.** A degrader against a fusion-driven cancer will face selective pressure for target-site
+escape mutation, so we asked whether the warhead pocket is evolutionarily mutable (`nr4a3_resistance_map.py`).
+All ten Pocket-5 lining residues — including all seven selectivity handles — are **fully conserved across five
+NR4A3 orthologs spanning ~300 My of amniote evolution** (human, mouse, rat, cow, pig, chicken; overall LBD
+identity 0.79–0.95, with more-divergent xenopus/zebrafish excluded by an alignment-identity guard). So the
+handles occupy the rare sweet spot for a selective degrader: **paralogue-divergent** (the source of NR4A3
+selectivity) yet **ortholog-invariant** (mutating them to escape the drug would cost the oncoprotein's own
+conserved function), making pocket-mutation escape evolutionarily disfavoured. This is the conservation half of
+the resistance forecast; the energetic half — a computational alanine scan (per-residue MM-GBSA ΔΔG of
+`denovo_401`) — is built and GPU-queued (`nr4a3_resistance_ddg.py`).
+
 ### 2.4 Warhead screen and the family-wide selectivity matrix
 With the pocket validated as druggable and accessible, we screen a **selective warhead** against the
 *opened* conformer (`nr4a3_warhead.py` + `gpu-warhead-aws.yml`): it extracts the most-druggable opened

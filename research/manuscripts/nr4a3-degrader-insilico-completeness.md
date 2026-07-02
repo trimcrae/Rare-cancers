@@ -139,8 +139,15 @@ layer is as valuable as the KEEP layer — it caught false positives (including 
    substrate-liability — KEEP ×2, high/med. *Extends F4/F5; the real ADMET question for a degrader.* [¢]
 7. **Pocket hydration thermodynamics** (GIST / inhomogeneous solvation) — KEEP ×3, high. *Are there displaceable
    high-energy waters driving the affinity? energetic druggability beyond fpocket geometry.* [$–campaign]
-8. **In-silico resistance / escape-mutation ΔΔG scan** of the warhead pocket (+ CRBN patch) — KEEP ×2, med.
-   *The clinical failure mode for any fusion-oncogene degrader.* [¢–$]
+8. 🟡→ **Resistance / escape-mutation forecast** of the warhead pocket — KEEP ×2, med. **Conservation half
+   DONE 2026-07-02** (`nr4a3_resistance_map.py`): all 10 pocket residues are **invariant across 5 NR4A3
+   orthologs spanning ~300 My (human→chicken; xenopus/zebrafish auto-dropped by the alignment-identity
+   guard)**, so escape via pocket mutation is evolutionarily disfavoured — and the selectivity handles are
+   **paralogue-divergent yet ortholog-invariant** (selective *and* durable). *(A first run with hardcoded
+   accessions gave a spurious "no anchors"; caught by the identity guard, refetched by organism query.)*
+   **Energetic half BUILT + GPU-queued** (`nr4a3_resistance_ddg.py` + `gpu-resistance-aws.yml`): computational
+   Ala scan (mutate each pocket residue → Ala, re-score denovo_401 by MM-GBSA → ΔΔG), dispatches when the g5
+   frees from metad. [¢ done / $ queued]
 
 **Tier C — high value, GPU-campaign (sequence after the cheap wins):**
 9. **Ternary-complex MD stability / kinetic persistence** (not just static Boltz-2) + **binary & ternary
