@@ -2,6 +2,16 @@
   "_title": "NR4A3 warhead-pocket resistance / escape-liability map (conservation half)",
   "_note": "Durable anchor = ortholog-conserved pocket residue (mutating it costs oncoprotein fitness \u2192 escape unlikely); resistance-liable = ortholog-variable (cheap to mutate). A robust warhead should anchor on the DURABLE residues. The energetic \u0394\u0394G half (MM-GBSA/FEP on point mutants of these positions) is the GPU follow-up. Note: selectivity handles are DIVERGENT across paralogues BY DESIGN (that is what gives selectivity) \u2014 durability is the orthogonal, ortholog-conservation axis, so a residue can be both a good selectivity handle AND a durable anchor if it is paralogue-divergent yet ortholog-conserved.",
   "reference": "NR4A3_HUMAN",
+  "ortholog_alignment_identity": {
+    "NR4A3_MOUSE": 0.925,
+    "NR4A3_RAT": 0.93
+  },
+  "orthologs_used": [
+    "NR4A3_MOUSE",
+    "NR4A3_RAT"
+  ],
+  "orthologs_dropped_low_identity": {},
+  "_alignment_note": "orthologs with overall identity < 0.7 are dropped as untrustworthy (guards against wrong sequences). Durability is scored only over the retained, high-identity orthologs. If few are retained, treat durability as weak.",
   "pocket_residues": [
     {
       "position": 406,
@@ -14,12 +24,10 @@
       "paralogue_conserved_count": "0/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "L",
-        "NR4A3_RAT": "I",
-        "NR4A3_BOVIN": "F",
-        "NR4A3_XENTR": "M"
+        "NR4A3_RAT": "L"
       },
-      "ortholog_conserved_fraction": 0.25,
-      "resistance_durability": "resistance-liable (ortholog-variable)"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 407,
@@ -32,12 +40,10 @@
       "paralogue_conserved_count": "0/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "T",
-        "NR4A3_RAT": "P",
-        "NR4A3_BOVIN": "C",
-        "NR4A3_XENTR": "T"
+        "NR4A3_RAT": "T"
       },
-      "ortholog_conserved_fraction": 0.5,
-      "resistance_durability": "moderately durable"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 410,
@@ -50,12 +56,10 @@
       "paralogue_conserved_count": "0/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "T",
-        "NR4A3_RAT": "I",
-        "NR4A3_BOVIN": "S",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "T"
       },
-      "ortholog_conserved_fraction": 0.25,
-      "resistance_durability": "resistance-liable (ortholog-variable)"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 411,
@@ -68,12 +72,10 @@
       "paralogue_conserved_count": "2/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "P",
-        "NR4A3_RAT": "H",
-        "NR4A3_BOVIN": "P",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "P"
       },
-      "ortholog_conserved_fraction": 0.5,
-      "resistance_durability": "moderately durable"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 412,
@@ -86,12 +88,10 @@
       "paralogue_conserved_count": "0/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "R",
-        "NR4A3_RAT": "T",
-        "NR4A3_BOVIN": "R",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "R"
       },
-      "ortholog_conserved_fraction": 0.5,
-      "resistance_durability": "moderately durable"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 481,
@@ -104,12 +104,10 @@
       "paralogue_conserved_count": "2/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "R",
-        "NR4A3_RAT": "L",
-        "NR4A3_BOVIN": "Q",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "R"
       },
-      "ortholog_conserved_fraction": 0.25,
-      "resistance_durability": "resistance-liable (ortholog-variable)"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 484,
@@ -122,12 +120,10 @@
       "paralogue_conserved_count": "0/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "I",
-        "NR4A3_RAT": "I",
-        "NR4A3_BOVIN": "Q",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "I"
       },
-      "ortholog_conserved_fraction": 0.5,
-      "resistance_durability": "moderately durable"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 485,
@@ -140,12 +136,10 @@
       "paralogue_conserved_count": "2/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "R",
-        "NR4A3_RAT": "R",
-        "NR4A3_BOVIN": "Q",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "R"
       },
-      "ortholog_conserved_fraction": 0.5,
-      "resistance_durability": "moderately durable"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 531,
@@ -158,12 +152,10 @@
       "paralogue_conserved_count": "1/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "I",
-        "NR4A3_RAT": "L",
-        "NR4A3_BOVIN": "L",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "I"
       },
-      "ortholog_conserved_fraction": 0.25,
-      "resistance_durability": "resistance-liable (ortholog-variable)"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     },
     {
       "position": 534,
@@ -176,21 +168,25 @@
       "paralogue_conserved_count": "0/2",
       "ortholog_residues": {
         "NR4A3_MOUSE": "L",
-        "NR4A3_RAT": "L",
-        "NR4A3_BOVIN": "L",
-        "NR4A3_XENTR": "-"
+        "NR4A3_RAT": "L"
       },
-      "ortholog_conserved_fraction": 0.75,
-      "resistance_durability": "moderately durable"
+      "ortholog_conserved_fraction": 1.0,
+      "resistance_durability": "durable anchor (fully ortholog-conserved)"
     }
   ],
   "summary": {
-    "durable_anchors": [],
-    "resistance_liable": [
+    "durable_anchors": [
       406,
+      407,
       410,
+      411,
+      412,
       481,
-      531
-    ]
+      484,
+      485,
+      531,
+      534
+    ],
+    "resistance_liable": []
   }
 }
