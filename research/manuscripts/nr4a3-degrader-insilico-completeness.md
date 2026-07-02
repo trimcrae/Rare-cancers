@@ -54,14 +54,18 @@
 | E6 | E3-ligase choice (CRBN) rationale + **CRBN/E3 expression in EMC-relevant tissue** | ❌ | A degrader is only as good as ligase availability where the tumour is. | ¢ |
 | E7 | Molecular-glue **neo-substrate off-target** risk (the thalidomide/IMiD lesson) | ❌ | CRBN-recruiting warheads risk degrading unintended neo-substrates (e.g. zinc-finger degrons). Worth an in-silico flag. | ¢–$ |
 
-## F. Developability / ADMET (all cheap, all currently absent)
+## F. Developability / ADMET  →  DONE 2026-07-02 (`nr4a3_developability.py`)
+Lead **binder** denovo_401: MW 304.5, cLogP **4.63** (lipophilic-leaning — the one watch-item), TPSA 29.5,
+HBD 1 / HBA 2, rot-bonds 7, Fsp3 0.70, **QED 0.796**, **0 Lipinski violations**, **Veber pass**, SA **3.87**
+(readily synthesizable), **PAINS + BRENK clean**. Projected full-PROTAC envelope (binder + pomalidomide +
+short linker): MW ~657, cLogP ~4.2, rot-bonds ~14 → normal **beyond-Ro5** degrader space.
 | # | Stage | Status | Notes | Cost |
 |---|-------|--------|-------|------|
-| F1 | Physchem / **beyond-Rule-of-5** profile (MW, cLogP, TPSA, HBD/HBA, rot-bonds) | ❌ | Seconds of RDKit. PROTACs live in bRo5 space — quantify where the lead sits. | ¢ |
-| F2 | Structural alerts / **PAINS** | ❌ | RDKit/`FilterCatalog`. Cheap credibility check. | ¢ |
-| F3 | Synthetic accessibility (SA score) | 🟡 | May be partially captured in de-novo generation; **verify + report explicitly**. | ¢ |
-| F4 | Permeability / solubility predictors | ❌ | | ¢ |
-| F5 | hERG / CYP / reactive-metabolite liability flags | ❌ | Structure-based alerts (in-silico only). | ¢ |
+| F1 | Physchem / beyond-Ro5 profile | ✅ | Computed (above). Binder is Ro5/Veber compliant; PROTAC projection lands in expected bRo5. | done |
+| F2 | Structural alerts / PAINS | ✅ | **Clean** on both PAINS and BRENK catalogs. | done |
+| F3 | Synthetic accessibility (SA score) | ✅ | SA 3.87 (1=easy..10=hard) — synthesizable. | done |
+| F4 | Permeability / solubility predictors | 🟡 | Proxied by cLogP 4.63 / TPSA 29.5 (low TPSA → permeable but lipophilic); dedicated predictor not yet run. | ¢ |
+| F5 | hERG / CYP / reactive-metabolite liability flags | ❌ | Structure-based alerts not yet run (next dev cheap add). | ¢ |
 
 ## G. Biological rationale
 | # | Stage | Status | Notes | Cost |
