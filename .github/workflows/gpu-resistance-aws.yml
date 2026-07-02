@@ -1,0 +1,81 @@
+name: GPU — NR4A3 resistance ΔΔG scan (AWS SageMaker)
+
+# Computational alanine scan of the denovo_401–NR4A3 warhead pocket: mutate each pocket residue -> Ala and
+# re-score denovo_401 by MM-GBSA to get ΔΔG_bind (the energetic half of the resistance forecast; the
+# conservation half is nr4a3_resistance_map.py). Reuses s3://<bucket>/nr4a3-matrix (receptor + docked pose)
+# — same slim MM env as MM-GBSA. One ml.g5.xlarge GPU job; serialize behind other g5 jobs (one-concurrent-g5
+# account limit). Per-residue checkpoints stream to S3 (Continuous). REQUIRES secrets: AWS_ACCESS_KEY_ID,
+# AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (GPU required; ml.g5.xlarge default)"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the matrix outputs live"
+        default: "us-east-2"
+        required: false
+      input_prefix:
+        description: "S3 prefix holding the matrix outputs (receptor + docked pose)"
+        default: "nr4a3-matrix"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the resistance ΔΔG results"
+        default: "nr4a3-resistance-ddg"
+        required: false
+      multisnapshot:
+        description: "1 = multi-snapshot MM-GBSA per mutant (default 1); '' = single-snapshot"
+        default: "1"
+        required: false
+      frames:
+        description: "multi-snapshot frame count (default 8)"
+        default: ""
+        required: false
+      pose_name:
+        description: "which docked pose to scan (default denovo_401)"
+        default: "denovo_401"
+        required: false
+      compute_timeout:
+        description: "overall compute wall-clock seconds (11 mutants x multi-snapshot; empty = entry 6600)"
+        default: ""
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker resistance ΔΔG job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          MULTISNAPSHOT: ${{ inputs.multisnapshot }}
+          MS_FRAMES: ${{ inputs.frames }}
+          POSE_NAME: ${{ inputs.pose_name }}
+          COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          python research/modalities/nr4a3_resistance_ddg_sagemaker.py
