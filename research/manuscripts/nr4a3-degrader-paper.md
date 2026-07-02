@@ -312,6 +312,18 @@ binder can fail to degrade; the ternary result above shows the *converse risk* h
 ternary is non-selective). **No molecule is synthesized; this is design prep.** Run instructions + program state:
 [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
 
+**From ternary geometry to a degradation *window* (`nr4a3_degradation_model.py`).** A ternary pose is not yet a
+degradation prediction. We therefore add the standard **three-body cooperative-equilibrium** layer (Douglass
+2013; Gadd 2017) coupled to a steady-state synthesis/degradation balance, which converts binary affinities +
+cooperativity α into the numbers that actually decide a degrader: **DC50, Dmax, and the hook effect**. Because
+absolute affinities and α are exactly what the queued selectivity FEP will pin (MM-GBSA ΔG is not a calibrated
+Kd), the model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd**, not a
+point DC50 — in an illustrative potent regime it reproduces the expected behaviour (DC50 425 → 16 nM as α 1 →
+10, with a hook at high occupancy). Its purpose is twofold: (i) it makes the degrader's efficacy claim
+*quantitative and falsifiable* rather than "a ternary forms," and (ii) it **is the analysis layer the FEP feeds** —
+per-paralogue FEP Kd's drop straight in, and the NR4A3-vs-NR4A1/NR4A2 spread in the Kd-sensitivity map becomes
+the predicted *degradation* selectivity, closing the binder→degradation-selectivity gap flagged above.
+
 ### 2.5 De-novo design yields NR4A3-selective candidates: decoy-calibrated, then multi-snapshot-confirmed (§2.6)
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
 ran a **pocket-conditioned de-novo generative campaign** and put its output through the *same* selectivity
