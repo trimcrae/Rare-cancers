@@ -1,0 +1,35 @@
+{
+  "_title": "Extended ADMET / permeability liabilities \u2014 lead binder (ledger F4/F5, audit Tier-B #6)",
+  "_source": "RDKit (conformer ensemble IMHB/Rg; heuristic efflux + aggregation flags)",
+  "lead": "denovo_401",
+  "chameleonicity_and_3d_exposure": {
+    "tpsa_2d": 29.5,
+    "clogp": 4.63,
+    "mw": 304.5,
+    "hbd": 1,
+    "hba": 2,
+    "intramolecular_Hbonds_max": 0,
+    "intramolecular_Hbonds_mean": 0.0,
+    "radius_of_gyration_min": 3.41,
+    "radius_of_gyration_max": 4.28,
+    "rg_range_chameleonicity": 0.87,
+    "_note": "IMHB lets a molecule mask polar surface to cross membranes (relevant once it is a bRo5 PROTAC); Rg range = conformational collapse/extension amplitude (chameleonicity proxy). For the small binder TPSA is already low (29.5) so permeability is not PSA-limited."
+  },
+  "efflux_liability_heuristic": {
+    "tpsa": 29.5,
+    "hba": 2,
+    "mw": 304.5,
+    "pgp_substrate_risk_flags": 0,
+    "assessment": "low",
+    "_note": "heuristic (TPSA>90 / HBA>=8 / MW>500 raise P-gp substrate likelihood); binder is low-risk, but efflux must be re-evaluated on the assembled bRo5 PROTAC."
+  },
+  "aggregation_liability_heuristic": {
+    "clogp": 4.63,
+    "aromatic_rings": 1,
+    "fsp3": 0.7,
+    "rotatable_bonds": 7,
+    "aggregation_risk_flags": 1,
+    "assessment": "low",
+    "_note": "heuristic (high clogp / many aromatic rings / low Fsp3 raise colloidal-aggregation likelihood). denovo_401 is high-Fsp3 (0.70) with one aromatic ring \u2014 low aggregation risk despite clogp 4.63; the lipophilicity is the single watch-item, consistent with the developability report."
+  }
+}
