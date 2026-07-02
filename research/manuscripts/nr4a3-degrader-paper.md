@@ -699,19 +699,28 @@ is the target's druggability/selectivity, not EMC efficacy.**
 **Safety/tolerability rationale — stated at its true (limited) weight (verified 2026-07-02,
 [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)).** The premise that NR4A3-selective
 degradation is tolerable "because NR4A1/2 do the same jobs" is **only partially evidenced and must not be
-overstated**. What is verified: NR4A3 is **broadly non-essential** in cancer cell lines (DepMap gene effect
-0.02; caveat — no DepMap line is EMC), and NR4A1↔NR4A3 are **functionally redundant tumour suppressors *in the
-myeloid compartment*** (combined *Nr4a1;Nr4a3* loss causes AML while single nulls do not — Mullican 2007
-[PMID 17515897]; Blood 2018 [PMID 29343483]) — but that specific redundancy **is** the AML anti-target, i.e. it
-is *why* NR4A1-sparing is mandatory, **not** a general safety guarantee. The family's shared NBRE/NurRE
-DNA-binding grammar (NR4A2-DBD structures, [PMC6926456]) makes cross-compensation *mechanistically plausible*.
-What is **not** established (and therefore an assumption, not a fact): a quantified pan-tissue tolerability
-(NR4A1/NR4A2 DepMap essentiality was not obtained), individual mouse single-KO phenotypes, tissue
-co-expression, and — importantly — **CNS tolerability of selective NR4A3 loss is unresolved** (the assumption
-that Nurr1 single-loss toxicity is CNS-confined was not confirmed). Completing this is a **targeted database
-follow-up** (DepMap NR4A1/2; MGI/IMPC single-KO; GTEx/HPA co-expression), no wet lab needed. Net: the degrader's
-safety case rests on demonstrated *myeloid* redundancy + NR4A3's generic dispensability + mechanistic
-plausibility + PK restriction — a reasonable but **incompletely-quantified** basis, flagged as such.
+overstated**. What is verified (now *quantified*, 2026-07-02 direct database queries): (i) the **whole NR4A
+family is non-essential in dividing cells** — DepMap CRISPR across n=1178 lines gives NR4A3 gene effect
+**+0.023 with 0/1178 lines dependent**, NR4A1 −0.115 (0.5 %), NR4A2 −0.05 (0.3 %) — so proliferating cells,
+tumour included, tolerate single-NR4A loss (caveat — no DepMap line is EMC); (ii) NR4A1↔NR4A3 are **functionally
+redundant tumour suppressors *in the myeloid compartment*** (combined *Nr4a1;Nr4a3* loss causes AML while single
+nulls do not — Mullican 2007 [PMID 17515897]; Blood 2018 [PMID 29343483]) — but that specific redundancy **is**
+the AML anti-target, i.e. it is *why* NR4A1-sparing is mandatory, **not** a general safety guarantee; (iii)
+NR4A1 and NR4A3 are **broadly co-expressed** (Human Protein Atlas: both "low tissue specificity," detected across
+most tissues), making paralogue buffering plausible outside the CNS, whereas NR4A2 is CNS/"tissue-enhanced."
+**★ An honest brake the data now force us to state:** human germline genetics says NR4A3 loss is **constrained,
+not free** — gnomAD scores NR4A3 **LoF-intolerant** (pLI 0.9999, LOEUF 0.37; 13 observed vs 55.6 expected LoF
+variants) and NR4A2 more so (pLI 1.0), with only NR4A1 LoF-tolerant. This does **not** contradict the DepMap
+dispensability — it localizes NR4A3's essentiality to a **developmental / tissue-specific** context rather than
+proliferation — but it **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a
+safety requirement** (most-constrained *and* CNS-enriched paralogue), not merely an efficacy nicety. What
+remains **not** established (assumption, not fact): adult pan-tissue *transient-knockdown* tolerability, and
+individual **mouse single-KO phenotypes** — an IMPC query returned **no phenotyped KO** for any of the three, so
+the Nurr1-single-loss-is-CNS-confined assumption is **still unconfirmed** (MGI is the remaining follow-up).
+Net: the safety case rests on quantified proliferative-compartment dispensability + demonstrated *myeloid*
+redundancy + broad NR4A1/NR4A3 co-expression + mechanistic plausibility + PK restriction — a **materially
+stronger and more honest** basis than before, with its residual risk now **specifically located**
+(developmental / CNS, and NR4A2-sparing-dependent) rather than vaguely gestured at.
 The structure is an AF2 model
 (NR4A3 is uncrystallized) — the MD addresses exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
 made explicit rather than buried (full adversarial review:

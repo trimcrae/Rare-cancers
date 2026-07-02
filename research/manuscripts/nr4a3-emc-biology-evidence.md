@@ -42,10 +42,27 @@ peptide-squelching "functional dependency" claim was **refuted (0-3)**.
 ## Hypothesis 1 — "NR4A3-selective degradation is tolerable via NR4A1/2 redundancy" (safety). VERDICT: partially supported, must NOT be overstated.
 The broad "the paralogues do the same jobs so losing NR4A3 is fine" is **under-evidenced**. What survives:
 
-- **NR4A3 is broadly non-essential in cancer cell lines.** DepMap (repo cache): NR4A3 gene effect **0.02**
-  (non-dependent). *Caveat: no DepMap line is EMC, so this speaks to generic dispensability, not EMC.* (NR4A1
-  and NR4A2 essentiality were **not** in the cache and were **not** web-verifiable — a direct DepMap query is
-  the follow-up to complete the paralogue comparison.)
+- **The whole NR4A family is non-essential in dividing cells — now quantified for all three (2026-07-02
+  direct DepMap query, `depmap_sarcoma_dependency.py`, n=1178 CRISPR lines).** NR4A3 mean gene effect
+  **+0.023, 0/1178 lines dependent** (completely dispensable); NR4A1 **−0.115, 0.5 %** (6 lines); NR4A2
+  **−0.05, 0.3 %** (4 lines). So proliferating cancer cells — tumour included — tolerate loss of any single
+  NR4A, supporting a **proliferative-compartment therapeutic window**. *Caveat: no DepMap line is EMC; this is
+  generic dispensability in dividing cells, not EMC-specific and not post-mitotic tissue.*
+- **★ HONEST TENSION — human germline genetics says NR4A3 loss is *constrained*, not free (2026-07-02
+  gnomAD LoF-constraint query).** NR4A3 is **LoF-intolerant** (pLI **0.9999**, LOEUF **0.37**; only **13**
+  loss-of-function variants observed vs **55.6** expected), and NR4A2 is even more constrained (pLI **1.0**,
+  LOEUF **0.094**); **only NR4A1 is LoF-tolerant** (pLI 0.002, LOEUF 0.71). This does **not** contradict the
+  DepMap result — it means NR4A3's essentiality is **developmental / tissue-specific, not proliferative**. The
+  correct reading: the glib "NR4A3 is dispensable, therefore degrading it is safe" is **not supported**;
+  population constraint reflects germline/developmental fitness (many well-tolerated drug targets are
+  LoF-constrained), so it neither proves nor refutes *adult transient-knockdown* tolerability — but it **flags
+  a tissue/developmental context that needs NR4A3** as the on-target-toxicity risk to watch, and it makes
+  **NR4A2-sparing doubly important** (most-constrained paralogue *and* CNS-enhanced; see HPA below).
+- **Tissue co-expression (2026-07-02 Human Protein Atlas query).** NR4A1 ("low tissue specificity, detected
+  in all") and NR4A3 ("low tissue specificity, detected in many") are **broadly co-expressed** — paralogue
+  buffering is plausible across most tissues — whereas NR4A2 is **"tissue enhanced"** (its known CNS/
+  dopaminergic bias), i.e. the tissue where paralogue compensation is **least** available. This is the
+  structural reason the CNS is the safety watch-zone for any NR4A degrader that is not cleanly NR4A2-sparing.
 - **Demonstrated redundancy is myeloid-specific — and it IS the AML anti-target.** Mullican et al., *Nat Med*
   2007 (**PMID 17515897**): combined *Nr4a1⁻/⁻;Nr4a3⁻/⁻* mice die of AML in 3–4 weeks while **single nulls do
   not** — operational proof that single-gene NR4A3 loss is compensated by NR4A1 *in myeloid cells*. Blood 2018
@@ -56,28 +73,36 @@ The broad "the paralogues do the same jobs so losing NR4A3 is fine" is **under-e
   NurRE (dimer) elements; NR4A2-DBD crystal structures on inverted/everted repeats at 2.6–2.8 Å
   (**PMC6926456**, PDB 6L6Q/6L6L). *Caveat: NR4A3 homodimerization on NurRE is weaker than NR4A1/2.*
 
-**★ What did NOT survive verification (do NOT state as fact in the paper):**
-- No DepMap/Achilles gene-effect comparison for NR4A1 vs NR4A2 vs NR4A3 (only NR4A3=0.02 from the repo cache).
-- No verified individual **mouse single-KO phenotypes** for Nr4a1/Nr4a2/Nr4a3 — in particular the assumption
-  that **Nr4a2/Nurr1 single-KO is neonatal-lethal via dopaminergic-neuron loss was NOT confirmed** here, so
-  **CNS tolerability of selective NR4A3 loss is UNRESOLVED**, not "handled."
-- No GTEx/HPA tissue co-expression map (the "where can paralogues compensate" question).
+**★ What did NOT survive verification / still open (do NOT state as fact in the paper):**
+- **IMPC single-KO phenotypes returned NO record** for Nr4a1/Nr4a2/Nr4a3 (2026-07-02 query) — these KO lines
+  are not phenotyped in IMPC (or the marker query did not resolve). So the individual **mouse single-KO
+  viability** question is **still unresolved by a standardized source**; in particular the assumption that
+  **Nr4a2/Nurr1 single-KO is neonatal-lethal (dopaminergic-neuron loss) remains UNCONFIRMED here** — it rests
+  on primary literature not re-verified in this pass. gnomAD's strong NR4A2 constraint (pLI 1.0) is *consistent
+  with* an essential Nurr1 role but is not the mouse phenotype itself. (MGI is the remaining follow-up.)
 - No numeric DBD %-identity (only the shared-element mechanism).
 - No T-cell "all three NR4As needed" redundancy in this set.
 - **Refuted (0-3):** "dual NR4A1/3 loss is not catastrophic to HSCs" — the double-KO **does** damage HSCs
   (loss of quiescence, oxidative stress, DNA damage). So even dual loss is not innocuous.
 
-**Honest safety conclusion.** The tolerability case rests on (a) NR4A3's broad dispensability in cancer lines,
-(b) *myeloid-compartment* NR4A1↔NR4A3 compensation (which doubles as the NR4A1-sparing rationale), and (c)
-shared-grammar plausibility — **not** on a quantified pan-tissue tolerability. Broad tolerability and the
-CNS/NR4A2 exception are **assumptions**, not established facts, and must be stated as such. The rigorous
-completion is a **targeted database follow-up** (DepMap NR4A1/2 essentiality; MGI/IMPC single-KO phenotypes;
-GTEx/HPA co-expression) — web search could not verify these; they need direct DB access, not literature mining.
+**Honest safety conclusion (updated 2026-07-02).** The tolerability case now rests on a *quantified* base:
+(a) the whole NR4A family is **non-essential in dividing cells** (DepMap: NR4A3 0/1178 dependent), supporting a
+proliferative-compartment window; (b) *myeloid-compartment* NR4A1↔NR4A3 compensation (which doubles as the
+NR4A1-sparing rationale); (c) broad NR4A1/NR4A3 tissue co-expression (HPA) making paralogue buffering plausible
+outside the CNS. **But two honest brakes must be stated:** NR4A3 is **germline LoF-constrained** in humans
+(gnomAD pLI ~1) — so complete developmental loss is selected against and "dispensable ⇒ safe" is **not** a
+valid inference; and the **CNS/NR4A2 exception is real** (NR4A2 is the most-constrained, most tissue-enhanced
+paralogue), making **NR4A2-sparing selectivity a safety requirement, not just an efficacy nicety**. Pan-tissue
+adult-knockdown tolerability remains an **assumption**, and the single-KO mouse phenotypes are **still
+unverified** (IMPC empty; MGI pending). Net: the safety argument is **materially stronger and more honest** than
+the pre-2026-07-02 hand-wave, and its residual risk is now **specifically located** (developmental / CNS), not vague.
 
 ## Open follow-ups (would upgrade both hypotheses; all are database queries, no wet lab)
-1. **Direct DepMap query** for NR4A1 + NR4A2 gene-effect (complete the paralogue-essentiality comparison; the
-   repo `depmap_sarcoma_dependency.py` already pulls Chronos — extend it to NR4A1/2).
-2. **MGI/IMPC single-KO phenotypes** for Nr4a1/Nr4a2/Nr4a3 (bound CNS tolerability; resolve the Nurr1 question).
+1. ✅ **DONE (2026-07-02).** Direct DepMap query for NR4A1/2/3 gene-effect (NR4A3 +0.023 0/1178; NR4A1 −0.115;
+   NR4A2 −0.05) + gnomAD LoF constraint (NR4A3 pLI 0.9999; NR4A2 1.0; NR4A1 tolerant) + HPA co-expression.
+   `depmap_sarcoma_dependency.py` (`nr4a_paralogue_comparison`) + `nr4a_safety_genetics.py`.
+2. **MGI single-KO phenotypes** for Nr4a1/Nr4a2/Nr4a3 (**IMPC returned no phenotyped KO** for any of the three
+   on 2026-07-02 — MGI is the remaining source to bound CNS tolerability / resolve the Nurr1 question).
 3. **GTEx/HPA co-expression** of NR4A1/2/3 (map where compensation is / isn't available).
 4. The one that needs a lab: **acute NR4A3/fusion degradation (dTAG) in an EMC model** — the decisive
    efficacy experiment, and the reason the program is written to be *picked up* by a wet-lab collaborator.

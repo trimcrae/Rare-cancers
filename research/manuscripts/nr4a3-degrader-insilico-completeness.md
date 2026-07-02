@@ -71,7 +71,7 @@ short linker): MW ~657, cLogP ~4.2, rot-bonds ~14 → normal **beyond-Ro5** degr
 | # | Stage | Status | Notes | Cost |
 |---|-------|--------|-------|------|
 | G1 | **H2 efficacy** — EMC fusion-dependency prior | ✅ | 4-pillar prior; honest floor = no direct LoF in an EMC line (dTAG is the wet-lab make-or-break). `nr4a3-emc-biology-evidence.md`. | done |
-| G2 | **H1 safety** — paralogue redundancy / tolerability | 🟡→ | DepMap NR4A1/2/3 essentiality **(running)**; gnomAD LoF constraint + IMPC single-KO + HPA co-expression **(running)**. Closes the post-mitotic/tissue-tolerability hole DepMap can't. | ¢ |
+| G2 | **H1 safety** — paralogue redundancy / tolerability | ✅ (honest) | **DONE 2026-07-02.** DepMap NR4A1/2/3 (NR4A3 0/1178 dependent) + gnomAD (NR4A3 **LoF-constrained** pLI 0.9999 — the honest brake; "dispensable⇒safe" invalidated) + HPA (NR4A1/3 broadly co-expressed; NR4A2 CNS-enhanced). Residual risk now *located* (developmental/CNS, NR4A2-sparing-dependent). IMPC empty → MGI is the one open follow-up. | ¢ |
 
 ## H. Honesty / statistical controls
 | # | Stage | Status | Notes |
