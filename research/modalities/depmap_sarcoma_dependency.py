@@ -41,6 +41,11 @@ GENE_GROUPS = {
 ALL_GENES = sorted({g for v in GENE_GROUPS.values() for g in v})
 # context genes for sanity (a pan-essential and the fusion gene itself)
 CONTEXT_GENES = ["POLR2A", "NR4A3", "EWSR1", "FLI1"]
+# NR4A paralogue-essentiality comparison (the degrader SAFETY gate, H1). The tolerability case for
+# a NR4A3-selective degrader rests partly on NR4A1/NR4A2 being similarly non-essential (so the
+# family is dispensable in dividing cells and single-paralogue loss is compensated). This pulls all
+# three across the FULL DepMap panel to quantify that — a direct query the literature pass could not.
+NR4A_PARALOGUES = ["NR4A1", "NR4A2", "NR4A3"]
 DEPENDENT_THRESHOLD = -0.5
 
 # Known DepMap public-release figshare article IDs (newest first). Gene essentiality is stable
@@ -147,7 +152,7 @@ def main():
     crispr_path = _download(urls["CRISPRGeneEffect.csv"], timeout=900)
     cols = list(pd.read_csv(crispr_path, nrows=0).columns)
     idx_col = cols[0]
-    want = set(ALL_GENES) | set(CONTEXT_GENES)
+    want = set(ALL_GENES) | set(CONTEXT_GENES) | set(NR4A_PARALOGUES)
     keep = {c.split(" (")[0]: c for c in cols[1:] if c.split(" (")[0] in want}
     ge = pd.read_csv(crispr_path, usecols=[idx_col] + list(keep.values()), index_col=0)
     ge.columns = [c.split(" (")[0] for c in ge.columns]
@@ -215,6 +220,43 @@ def main():
         "EWSR1_overall": stats("EWSR1"),
     }
 
+    # --- NR4A paralogue-essentiality comparison (H1 safety gate) --------------------------------
+    # Pan-panel (ALL lineages) gene effect for NR4A1/2/3. The safety question is "is the whole NR4A
+    # family broadly non-essential in dividing cells?" — a dispensability question, not a sarcoma-
+    # selectivity one, so we report the full-panel distribution (mean/median/fraction dependent).
+    def panel_stats(gene):
+        if gene not in ge.columns:
+            return {"gene": gene, "_status": "not in release"}
+        v = ge[gene].dropna()
+        if len(v) == 0:
+            return {"gene": gene, "_status": "no data"}
+        return {
+            "gene": gene,
+            "n_lines": int(len(v)),
+            "mean_gene_effect": round(float(v.mean()), 3),
+            "median_gene_effect": round(float(v.median()), 3),
+            "min_gene_effect": round(float(v.min()), 3),      # most-dependent line
+            "frac_dependent": round(float((v < DEPENDENT_THRESHOLD).mean()), 3),
+            "n_dependent_lines": int((v < DEPENDENT_THRESHOLD).sum()),
+        }
+
+    nr4a = {g: panel_stats(g) for g in NR4A_PARALOGUES}
+    nr4a_comparison = {
+        "_note": "Pan-panel DepMap CRISPR gene effect for the three NR4A paralogues (H1 safety "
+                 "prior). More negative = more essential; frac_dependent = fraction of lines below "
+                 f"{DEPENDENT_THRESHOLD}. The tolerability argument for a NR4A3-selective degrader is "
+                 "supported if ALL THREE are broadly non-essential (mean near 0, few dependent "
+                 "lines) — i.e. the family is dispensable in dividing cells, so single-paralogue "
+                 "loss is unlikely to be broadly toxic. Caveat: DepMap lines are proliferating "
+                 "cancer lines, NOT the post-mitotic tissues (CNS/dopaminergic) where NR4A2 loss "
+                 "is feared — DepMap can rule broad essentiality IN, but cannot clear tissue-"
+                 "specific tolerability. No DepMap line is EMC.",
+        "paralogues": nr4a,
+        "all_broadly_nonessential": all(
+            isinstance(nr4a[g], dict) and nr4a[g].get("mean_gene_effect", -9) > -0.2
+            and nr4a[g].get("frac_dependent", 1) < 0.05 for g in NR4A_PARALOGUES),
+    }
+
     result = {
         "_note": "DepMap CRISPR (Chronos) selective-essentiality transfer prior for EWSR1::NR4A3 "
                  "EMC, which has no DepMap line. Gene effect: more negative = more essential; "
@@ -227,6 +269,7 @@ def main():
         "dependent_threshold": DEPENDENT_THRESHOLD,
         "genes_by_group": genes_out,
         "context_genes": context_out,
+        "nr4a_paralogue_comparison": nr4a_comparison,
         "self_validation": validation,
         "BRD9_by_fusion_sarcoma_subtype": analogues,
         "fusion_addiction_proxy": addiction_proxy,
@@ -237,6 +280,7 @@ def main():
     print(json.dumps({
         "n_sarcoma_models": len(sarcoma_ids),
         "BRD9": stats("BRD9"), "BICRA": stats("BICRA"),
+        "nr4a_paralogue_comparison": nr4a_comparison,
         "self_validation": validation,
     }, indent=2))
     render_chart(result)
