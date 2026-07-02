@@ -571,7 +571,9 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
    the analysis above identifies (E545/T563/G573/L576/E580/V588 all differ NR4A3→NR4A1), an available-but-
    untested route; NR4A2 (the
    molecularly hardest case — I531 is NR4A3=NR4A2-identical, §2.3) is topped up from **pharmacokinetics /
-   CNS-exclusion**, since its tox is CNS-localized and EMC is a peripheral sarcoma.
+   CNS-exclusion**, on the *assumption* that NR4A2/Nurr1 toxicity is CNS-localized (Nurr1's canonical role is
+   dopaminergic) and EMC is a peripheral sarcoma — **an assumption not yet verified**: a systematic check of
+   NR4A2 single-loss tolerability (MGI/IMPC single-KO phenotypes) did not confirm it (§5 safety note).
 3. **Fusion-vs-wild-type selectivity is unobtainable from the degrader at any stage** (the warhead binds a
    LBD identical in fusion and wild-type, and the ternary forms at that LBD, nowhere near the N-terminal
    fusion partner). It is the **ASO's** job (RNA-level junction targeting); the degrader's honest scope is
@@ -670,11 +672,41 @@ proof:
   assays [Filion 2009], with further EMC-over-expressed targets reported (e.g. NDRG2). This is EMC-native
   support that the fusion *does something* transcriptionally — but it shows the fusion is a functional
   driver, **not** that the cell cannot survive its loss; *functional driver ≠ addiction*.
+- **The fusion is a near-invariant, clonal driver in a quiet genome (quantified; verified evidence base:
+  [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)).** An **NR4A3 rearrangement is
+  near-pathognomonic for EMC (~90–98 % of cases)** — EWSR1::NR4A3 in ~62–79 % (58/58 NR4A3-rearranged in a
+  58-case cohort, Modern Pathology 2023 [PMID 36948401]; 24/26 in Agaram *Hum Pathol* 2014 [PMC4015728]) —
+  with NR4A3 the **invariant 3′ partner** regardless of the 5′ gene. It is the **shared founding/clonal lesion**
+  across matched primary + metastases in a **genomically quiet** tumour (matched-trio WGS, [PMC11285543]; EMC is
+  <3 % of soft-tissue sarcomas). A single invariant clonal driver in a quiet genome is the textbook
+  oncogene-addiction *profile* — a materially stronger prior than a lone analogy, though still a prior.
 
-The acute, specific degradation (dTAG) test that would convert this prior into a demonstration is the
-make-or-break experiment, delegated to the EMC-program paper
-([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); **this paper's claimed contribution is the
-target's druggability/selectivity, not EMC efficacy.** The structure is an AF2 model
+**The one decisive gap, stated plainly: there is NO direct loss-of-function experiment in any EMC cell line —
+every published EMC functional result is *gain-of-function* (transactivation, transformation of non-EMC cells);
+no RNAi/CRISPR/ASO knockdown of NR4A3 or the fusion in a human EMC model (e.g. H-EMC-SS) with a survival readout
+exists** (verified 2026-07-02, [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). So the
+multi-pillar case above is a strong *prior*, not demonstrated dependence. The acute, specific degradation (dTAG)
+test that would convert this prior into a demonstration is the make-or-break experiment, delegated to the
+EMC-program paper ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); **this paper's claimed contribution
+is the target's druggability/selectivity, not EMC efficacy.**
+
+**Safety/tolerability rationale — stated at its true (limited) weight (verified 2026-07-02,
+[`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)).** The premise that NR4A3-selective
+degradation is tolerable "because NR4A1/2 do the same jobs" is **only partially evidenced and must not be
+overstated**. What is verified: NR4A3 is **broadly non-essential** in cancer cell lines (DepMap gene effect
+0.02; caveat — no DepMap line is EMC), and NR4A1↔NR4A3 are **functionally redundant tumour suppressors *in the
+myeloid compartment*** (combined *Nr4a1;Nr4a3* loss causes AML while single nulls do not — Mullican 2007
+[PMID 17515897]; Blood 2018 [PMID 29343483]) — but that specific redundancy **is** the AML anti-target, i.e. it
+is *why* NR4A1-sparing is mandatory, **not** a general safety guarantee. The family's shared NBRE/NurRE
+DNA-binding grammar (NR4A2-DBD structures, [PMC6926456]) makes cross-compensation *mechanistically plausible*.
+What is **not** established (and therefore an assumption, not a fact): a quantified pan-tissue tolerability
+(NR4A1/NR4A2 DepMap essentiality was not obtained), individual mouse single-KO phenotypes, tissue
+co-expression, and — importantly — **CNS tolerability of selective NR4A3 loss is unresolved** (the assumption
+that Nurr1 single-loss toxicity is CNS-confined was not confirmed). Completing this is a **targeted database
+follow-up** (DepMap NR4A1/2; MGI/IMPC single-KO; GTEx/HPA co-expression), no wet lab needed. Net: the degrader's
+safety case rests on demonstrated *myeloid* redundancy + NR4A3's generic dispensability + mechanistic
+plausibility + PK restriction — a reasonable but **incompletely-quantified** basis, flagged as such.
+The structure is an AF2 model
 (NR4A3 is uncrystallized) — the MD addresses exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
 made explicit rather than buried (full adversarial review:
 [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md)):
@@ -853,6 +885,15 @@ from an above-noise one but short of a specificity-controlled lead.
 - Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of the
   Art and Current Research on Biology and Clinical Management.* **Cancers** 12(9):2703 (2020). PMC7563993;
   doi 10.3390/cancers12092703. (EMC ultra-rare, <1 per 1,000,000/year; the §3 EMC-incidence anchor.)
+- EMC biological-rationale evidence base (efficacy + safety; verified 2026-07-02, full citations +
+  honest gaps in [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). Key primary sources
+  newly cited in §5, **to run through `verify-refs.yml` before submission:** EMC fusion-partner frequency —
+  *Mod Pathol* 2023 (PMID 36948401) and Agaram et al. *Hum Pathol* 45:1084 (2014, PMC4015728); EMC
+  quiet-genome / clonal WGS — *Front Mol Med* 2023 (PMC11285543); myeloid NR4A1/NR4A3 redundancy — Freire &
+  Conneely, *Blood* 131:1081 (2018, PMID 29343483); NR4A DNA-binding grammar — NR4A2-DBD structures *J Biol
+  Chem* (2020, PMC6926456, PDB 6L6Q/6L6L); FET-fusion (EWS-FLI1) enhancer-reprogramming — *Nat Cell Biol*
+  2022 (10.1038/s41556-022-01060-1). DepMap gene-effect numbers (FLI1 −0.93/74 %; NR4A3 0.02) are from the
+  repo's cached Chronos analysis (`depmap-insilico-findings.md`).
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
   567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
   pan-NR4A second design mode, ex-vivo.)
