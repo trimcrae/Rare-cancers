@@ -1,0 +1,78 @@
+name: FEP training-job status (diagnostic)
+
+# Read-only: describe the most recent FEP training jobs (status + secondary status + failure reason) so we
+# can see whether shards are running, completed, or failed — and WHY. REQUIRES secrets: AWS_ACCESS_KEY_ID,
+# AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "TrainingJob NameContains filter"
+        default: "nr4a3-fep"
+        required: false
+      n:
+        description: "how many recent jobs to describe"
+        default: "10"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Describe recent FEP training jobs
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          TAG: ${{ inputs.tag }}
+          N: ${{ inputs.n }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, boto3
+          tag = os.environ.get("TAG", "nr4a3-fep"); n = int(os.environ.get("N", "10"))
+          sm = boto3.client("sagemaker")
+          logs = boto3.client("logs")
+          jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
+                                       SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
+          print(f"recent '{tag}' training jobs: {len(jobs)}")
+          # describe all, then dump CloudWatch stdout for the FIRST failed one (the real traceback)
+          first_failed = None
+          for j in jobs:
+              d = sm.describe_training_job(TrainingJobName=j["TrainingJobName"])
+              print("=" * 80)
+              print(f"{j['TrainingJobName']}  status={d['TrainingJobStatus']}/{d.get('SecondaryStatus')}")
+              if d.get("FailureReason"):
+                  print(f"  FAILURE: {d['FailureReason'][:300]}")
+              if d["TrainingJobStatus"] == "Failed" and first_failed is None:
+                  first_failed = j["TrainingJobName"]
+          if first_failed:
+              print("\n" + "#" * 80)
+              print(f"# CloudWatch stdout for first failed job: {first_failed}")
+              print("#" * 80)
+              try:
+                  grp = "/aws/sagemaker/TrainingJobs"
+                  streams = logs.describe_log_streams(logGroupName=grp,
+                              logStreamNamePrefix=first_failed).get("logStreams", [])
+                  if not streams:
+                      print("  (no log stream found)")
+                  for s in streams[:1]:
+                      ev = logs.get_log_events(logGroupName=grp, logStreamName=s["logStreamName"],
+                                               startFromHead=False, limit=120).get("events", [])
+                      for e in ev:
+                          print("  " + e["message"].rstrip())
+              except Exception as e:
+                  print(f"  could not fetch CloudWatch logs: {e}")
+          PY
