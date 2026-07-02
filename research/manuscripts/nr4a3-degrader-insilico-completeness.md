@@ -110,8 +110,14 @@ layer is as valuable as the KEEP layer — it caught false positives (including 
 
 ### ✅ KEEP — adversarially-verified real gaps, clustered + ranked (materiality × cheapness)
 **Tier A — do first (critical/high, cheap):**
-1. **Bound-pose physical validity + torsional strain of denovo_401** (PoseBusters + bioactive-conformation
-   strain-energy) — KEEP ×4, high. *DiffSBDD poses need an explicit physical-validity QC; free/CPU.* [¢]
+1. 🟡→ **Bound-pose validity + strain of denovo_401** (`nr4a3_pose_validity.py`, 2 tests). The audit's #1
+   finding, confirmed: MM-GBSA (`mmgbsa_energy.py`) **cancels intramolecular strain by construction**, so the
+   scoring stack is provably strain-blind. **Mode A (done now):** receptor-free conformational accessibility —
+   denovo_401 is **well-behaved** (7 rot-bonds; 5 conformers within 3 kcal/mol; no rigidity flag), so the
+   scaffold is not intrinsically strain-prone. **Mode B (wired):** exact bound-pose strain (bound vs global-min
+   + PoseBusters-lite validity) is now computed on the *identical* NR4A3 pose inside the MM-GBSA loop and
+   emitted per candidate — so the real strain-corrected ΔG **lands automatically on the next MM-GBSA run**
+   (piggybacks, no extra GPU). [¢]
 2. ✅ **DONE 2026-07-02 — Quantitative degradation model** (`nr4a3_degradation_model.py`, 4 unit tests).
    Three-body cooperative equilibrium (Douglass 2013) + steady-state synthesis/degradation → DC50, Dmax,
    hook. Delivered as a mechanistic harness + **sensitivity maps over α and binary Kd_target** (the two

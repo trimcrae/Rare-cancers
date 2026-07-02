@@ -150,6 +150,14 @@ def main():
         dg = {}
         dg_sd = {}
         errs = {}
+        # Bioactive-conformation strain of the EXACT NR4A3 pose we score (MM-GBSA is strain-blind by
+        # construction, so we pair a strain correction with ΔG here). Defensive: never voids a row.
+        strain = None
+        try:
+            import nr4a3_pose_validity as pv
+            strain = pv.strain_from_mol(poses["nr4a3"][label])
+        except Exception as e:  # noqa: BLE001
+            strain = {"_status": f"strain calc skipped: {str(e)[:120]}"}
         for tag in PARALOGUES:
             if tag not in poses or label not in poses[tag]:
                 dg[tag] = None
@@ -192,6 +200,8 @@ def main():
         if MULTISNAPSHOT:
             row["dG_sd"] = {KEY[t]: dg_sd.get(t) for t in PARALOGUES}
             row["mm_min_margin_sd"] = min_margin_sd
+        if strain is not None:
+            row["bound_pose_strain"] = strain      # bioactive-conformation strain of the scored NR4A3 pose
         if errs:
             row["_errors"] = errs
         rows.append(row)
