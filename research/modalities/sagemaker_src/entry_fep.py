@@ -61,10 +61,14 @@ def main():
         env["FEP_POSE_DIR"] = ch("poses")
         conda = shutil.which("conda") or "/opt/conda/bin/conda"
         print(f"[fep] real mode — building FEP env via {conda}", flush=True)
-        subprocess.run([conda, "create", "-y", "-n", "fep", "-c", "conda-forge",
+        # numpy>=2 REQUIRED: the MD stack (a pymbar/openmmtools dep) accesses numpy.dtypes.StringDType,
+        # which only exists in numpy >= 2.0. An unpinned solve picked numpy 1.x and the real-MD path died
+        # with "module 'numpy.dtypes' has no attribute 'StringDType'" (the smoke path skips this env, so it
+        # did not catch it). Pin >=2 so conda-forge solves a consistent, importable stack.
+        subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
                         "python=3.11", "openmm", "openmmtools", "openmmforcefields",
                         "openff-toolkit-base", "pymbar", "mdtraj", "rdkit", "pdbfixer", "ambertools",
-                        "ocl-icd-system", "numpy"], check=True)
+                        "ocl-icd-system", "numpy>=2"], check=True)
         r = subprocess.run([conda, "run", "--no-capture-output", "-n", "fep"] + runner, cwd=work, env=env)
 
     # per-unit results already live in CKPT (synced continuously). Copy a manifest to the model dir too.
