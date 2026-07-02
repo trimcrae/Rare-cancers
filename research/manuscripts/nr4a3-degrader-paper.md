@@ -433,7 +433,13 @@ both paralogues ~13–15 kcal/mol weaker. So the de-noising tier is **discrimina
 it killed a noise artifact and confirmed a genuine lead. `denovo_401`
 (`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SA 3.87, no structural alerts)
 is the program's **first multi-snapshot-confirmed NR4A3-selective candidate and the lead queued for
-selectivity FEP**. The single-snapshot foothold `denovo_111` also de-noised well **as the neutral form**
+selectivity FEP**. A formal in-silico developability profile (`nr4a3_developability.py`, RDKit) confirms the
+binder is **drug-like and clean**: 0 Lipinski violations, **Veber-compliant** (TPSA 29.5, 7 rotatable bonds),
+**clean on both the PAINS and BRENK structural-alert catalogs**, and readily synthesizable (SA 3.87). The one
+honest watch-item is **lipophilicity (cLogP 4.63)**, to be tracked as the binder is elaborated. As a *binder*,
+this is Rule-of-5-compliant; assembled into a CRBN degrader (binder + E3 ligand + linker) the molecule is
+projected into normal **beyond-Rule-of-5** PROTAC space (projected MW ~657) — expected for the modality, and
+the linker exit-vector build is tracked as an explicit next step (completeness ledger E4). The single-snapshot foothold `denovo_111` also de-noised well **as the neutral form**
 (+14.60 ± 4.10) — but a **pre-FEP species-resolution sweep (2026-07-01) subsequently demoted it**: `denovo_111`
 carries a basic pyrrolidine and is **cationic at physiological pH 7.4**, and in that protonation state its
 selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than NR4A3,

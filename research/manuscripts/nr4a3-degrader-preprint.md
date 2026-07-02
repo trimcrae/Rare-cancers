@@ -174,8 +174,10 @@ than NR4A3), so its neutral-form margin was an artifact; while **denovo_401's se
 stereochemistry-robust** — nearly all 16 diastereomers scored selective, and the DiffSBDD-generated isomer is
 near-optimal (de-noised +9.54 ± 4.26), co-best with its C13-epimer iso08 (+11.36 ± 5.25, within SD), so the FEP
 subject is that resolved epimer pair. **`denovo_401` is thus the sole robust lead** (chemically clean:
-`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`, MW 304, QED 0.80, SA 3.87, no PAINS/BRENK alerts),
-characterized across receptor frames (below).
+`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`, MW 304, QED 0.80, SA 3.87, no PAINS/BRENK alerts,
+0 Lipinski violations, Veber-compliant; one watch-item — cLogP 4.63, lipophilic-leaning),
+characterized across receptor frames (below). Assembled into a CRBN degrader the molecule is projected into
+normal beyond-Rule-of-5 space (projected MW ~657), as expected for the modality.
 
 Judged against a **same-tier multi-snapshot decoy null**, the result is **receptor-frame-dependent** (and, as
 we note below, confounded by the null not controlling the generative step); we report both directions honestly:
