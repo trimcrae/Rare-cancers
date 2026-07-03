@@ -140,6 +140,7 @@ solvents:
     ewald_error_tolerance: 1.0e-4
     positive_ion: Na+
     negative_ion: Cl-
+    solvent_model: tip3p
 systems:
   binding:
     receptor: rec

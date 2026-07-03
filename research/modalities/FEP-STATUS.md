@@ -18,7 +18,17 @@ Everything that advances the FEP empirically routes through the GitHub MCP conne
 **To resume: re-authorize the GitHub connector** (claude.ai connector settings), then dispatch the one command
 in "RESUME" below. That single dispatch restores BOTH dispatch and `get_job_logs`.
 
-## Current FEP state: single-shard shakeout, one error left — the SOLVENT-leg LEaP failure
+## ✅ SOLVENT-leg LEaP failure DIAGNOSED + FIXED (2026-07-03 06:26Z) — it was the WATER MODEL, not the ligand
+The `_dump_setup_logs` instrumentation surfaced the real `solvent.leap.log`: **3262 errors, all**
+`For atom (.R<WAT ...>.A<EPW 4>) could not find vdW parameters for type (EP)`, plus Yank's own warning
+`solvent_model tip4pew may not work for loaded leaprc.water.X files`. Root cause: **Yank defaults
+`solvent_model` to tip4pew (4-point water with an EPW extra-point of type EP), but the YAML loaded
+`leaprc.water.tip3p` (3-point, no EP params)** → every water fails. The ligand was fine all along
+(`lig.frcmod` = normal GAFF). The gaff/gaff2 + obabel-valence hypotheses were WRONG — which is exactly why
+the log-first discipline mattered. **Fix: pin `solvent_model: tip3p` in the `solvents.pme` block** so the built
+water matches the loaded leaprc.water.tip3p. Committed; re-dispatched single-shard to validate past LEaP.
+
+## (historical) Current FEP state: single-shard shakeout, one error left — the SOLVENT-leg LEaP failure
 The last real single-shard run got through imports → antechamber charges → and died in Yank's tleap at system
 setup: `RuntimeError: Solvent pme: Some things went wrong with LEaP`. The failing leg is the **solvent leg
 (ligand-only in water)**, so this is a **ligand-parametrization** problem, not the receptor. Yank's error is an
