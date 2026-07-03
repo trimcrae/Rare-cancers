@@ -1,5 +1,77 @@
 {
   "_note": "Cross-check of the surrogate surfaceome shortlist against REAL EMC TUMOUR expression (GEO GSE4303). Corroboration only \u2014 real EMC tumour, but old microarray, bulk-tumour (stromal dilution), small n, different platform from the DepMap surrogate. Not a merge.",
   "dataset": "GSE4303",
-  "status": "matrix_fetch_failed: failed: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/GSE4303/matrix/GSE4303_series_matrix.txt.gz"
+  "matrix_files_found": [
+    "GSE4303-GPL2937_series_matrix.txt.gz",
+    "GSE4303-GPL2938_series_matrix.txt.gz",
+    "GSE4303-GPL3254_series_matrix.txt.gz",
+    "GSE4303-GPL3288_series_matrix.txt.gz",
+    "GSE4303-GPL3289_series_matrix.txt.gz",
+    "GSE4303-GPL3290_series_matrix.txt.gz",
+    "GSE4303-GPL3335_series_matrix.txt.gz"
+  ],
+  "matrix_file_used": "GSE4303-GPL2937_series_matrix.txt.gz",
+  "status": "ok",
+  "platform_id": "GPL3335",
+  "n_emc_samples": 3,
+  "value_kind": "log-ratio (two-colour; RELATIVE to reference pool \u2014 NOT absolute expression)",
+  "two_colour_ratio_data": true,
+  "frac_negative_values": 0.632,
+  "n_genes_measured": 0,
+  "n_probes_mapped": 0,
+  "platform_gate": "TWO-COLOUR RATIO DATA \u2014 shortlist percentiles are ranks of the log-ratio (higher = more above the reference pool), a RELATIVE signal; read 'high_in_EMC_tumour' as 'high relative to the array's reference', NOT absolute expression.",
+  "shortlist_in_real_EMC_tumour": {
+    "CDH11": {
+      "measured": false,
+      "why_flagged": "surrogate most-selective (+3.18 vs rest)",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "FGFR1": {
+      "measured": false,
+      "why_flagged": "surrogate top (+1.99; highest in the 1 myxoid line)",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "GPC2": {
+      "measured": false,
+      "why_flagged": "surrogate selective (+1.49); CAR/ADC target",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "PTK7": {
+      "measured": false,
+      "why_flagged": "surrogate (+1.24); ADC target",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "MCAM": {
+      "measured": false,
+      "why_flagged": "surrogate (+1.09); CD146",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "EPHB4": {
+      "measured": false,
+      "why_flagged": "surrogate (+1.0)",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "CD276": {
+      "measured": false,
+      "why_flagged": "B7-H3: broad but NON-selective (+0.14) in surrogate \u2014 expect broad here too",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "NCAM1": {
+      "measured": false,
+      "why_flagged": "CD56; EMC neuroendocrine-phenotype angle",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "EGFR": {
+      "measured": false,
+      "why_flagged": "mentioned in the USZ-EMC paper text (verify)",
+      "note": "not on this old array (not measured != not expressed)"
+    },
+    "KIT": {
+      "measured": false,
+      "why_flagged": "mentioned in the USZ-EMC paper text (verify)",
+      "note": "not on this old array (not measured != not expressed)"
+    }
+  },
+  "validated_high_in_EMC": [],
+  "verdict": "0 of 0 measured surrogate-shortlist antigens rank high (>=75th pct) in real EMC tumour expression \u2014 but as RELATIVE two-colour ratios; treat as weak corroboration."
 }
