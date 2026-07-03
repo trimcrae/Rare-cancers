@@ -116,6 +116,20 @@ are the missing half".
 toxicity noted (and FAP is ns-selective here anyway); the FGFR1 "adjunct" suggestion removed absent an EMC
 FGFR-dependency rationale, and its signal noted to rest on the single EMC line.
 
+## Round 2 (on the revised paper) — findings + resolutions
+A fresh adversarial pass on the rewrite confirmed the core content is internally consistent with the committed
+data and that round-1 fixes landed, and raised: **(blocking)** the window table listed MCAM as BROAD while the
+stated rule implied RESTRICTED — resolved by stating the *"detected in all" distribution* override and the
+blood *enriched*-vs-*enhanced* threshold in §2.3 (MCAM is "group enriched" but detected in all tissues); and
+the surfaceome counts didn't sum — resolved by stating the union explicitly (2,820 ∪ 47 seed, 41 overlapping,
+= 2,826). **(medium, soft-promotion of SSTR2/GD2)** the abstract said "documented" neuroendocrine (softened to
+"reported, pending citation"); SSTR2/GD2 were framed as "forward leads" and "dosimetry is the gate" — both
+reworded to gate explicitly on *unmeasured EMC expression* so the honest "no clean target" thesis is not
+undercut; APP was double-used as ubiquitous and neural (dropped from the neural list); CD59/LAMP1 were cited as
+top-list examples but absent from Table 1 (replaced with ALCAM); the abstract's B7-H3 figure was the
+uncorrected p=0.98 (changed to BH q=1.0 for consistency). **(minor)** selectivity-table ordering; H-EMC-SS
+"real EMC" vs "[to verify]" tone reconciled (noted ECACC-catalogued). All applied.
+
 ## Net
 The two passes plus the H-EMC-SS discovery turned an over-optimistic "top surface targets for EMC" draft into
 an honest, self-critical analysis whose main results are: (1) one real EMC line's surface profile (n=1);
