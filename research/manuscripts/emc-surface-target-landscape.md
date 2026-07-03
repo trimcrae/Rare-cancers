@@ -70,10 +70,16 @@ EMC has no DepMap line). Result:
   line), GPC2 (+1.49), PTK7 (+1.24), MCAM/CD146 (+1.09), EPHB4 (+1.0)** — several with existing ADC/CAR/TCE
   programs.
 
-**Real-EMC-tumour cross-check** ([`../modalities/emc_gse4303_crosscheck.py`](../modalities/emc_gse4303_crosscheck.py)
-→ `emc-gse4303-crosscheck.json`). Ranks the shortlist in the public EMC-tumour microarray GSE4303, with a
-platform gate (relative two-colour ratios reported honestly if applicable). [Result to fold in once the run
-lands.]
+**Real-EMC-tumour cross-check — attempted, and the public path is exhausted**
+([`../modalities/emc_gse4303_crosscheck.py`](../modalities/emc_gse4303_crosscheck.py) →
+`emc-gse4303-crosscheck.json`). We tried to validate the shortlist against the only public real-EMC
+transcriptome, GSE4303. Honest outcome: **GSE4303 is unusable for a surface-antigen expression ranking.** It
+is a 7-platform, **two-colour cDNA-*clone* array** series (GPL2937/…; 3 EMC samples/platform) whose values are
+**log-ratios vs a reference pool** (63% negative — *relative*, not absolute expression) and whose probes are
+**clone/spot IDs without gene symbols** (0 of the shortlist genes were resolvable). The platform gate did its
+job — it flagged the two-colour data rather than forcing a meaningless ranking. **Upshot:** the public-data
+route to real-EMC surface expression is exhausted; the author-held **USZ/NCC line** data (immunophenotype /
+RNA-seq) is the genuine unlock, and this paper's gate.
 
 **Honest bounds (the reason this is still a scaffold):** surrogate sarcoma lines, not EMC; the myxoid subset
 is a single DepMap line; "enrichment" is vs other **cancer** lineages, **not normal tissue** (the

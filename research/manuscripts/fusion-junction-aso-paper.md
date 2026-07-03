@@ -576,16 +576,19 @@ returns a nuanced verdict:
   (a crude term-match — must be human-verified as positive *surface* IHC, not a pathway/drug-screen mention).
   So the richest real-EMC surface data (a full immunophenotype) sits **behind a paywall / on request**, not in
   a public dataset — a `[citation to verify]` to obtain from the papers directly.
-- **A public real-EMC *tumour* expression dataset does exist: `GSE4303`** ("Gene expression profile of
-  extraskeletal myxoid chondrosarcoma"), plus scattered EMC tumour samples (e.g. `GSM715472`). This is a
-  genuine upgrade path over the sarcoma surrogate — the surfaceome scan can be re-pointed at real EMC
-  transcriptomes — bounded by its own caveats: older **microarray** (not RNA-seq), **bulk tumour** (surface
-  reads are diluted/contaminated by the abundant myxoid stroma), and small n. It ranks EMC-tumour surface
-  antigens, not EMC-cell-line ones.
+- **A public real-EMC *tumour* dataset exists (`GSE4303`) but was tried and is UNUSABLE for this.** GSE4303
+  ("Gene expression profile of EMC") is a 7-platform **two-colour cDNA-*clone* array** series (3 EMC
+  samples/platform) whose values are log-ratios vs a reference pool (63% negative — *relative*, not absolute
+  expression) and whose probes are clone/spot IDs without gene symbols; the cross-check
+  ([`emc_gse4303_crosscheck.py`](../modalities/emc_gse4303_crosscheck.py) → `emc-gse4303-crosscheck.json`)
+  resolved **0** shortlist genes. The platform gate correctly flagged the data rather than forcing a
+  meaningless ranking. **So the public-data route to real-EMC surface expression is exhausted** — the
+  author-held **USZ/NCC line** data is the genuine (only) unlock.
 
-**Net:** the surrogate is upgradeable to real EMC *tumour* microarray (`GSE4303`) now, and to real EMC *line*
-expression if/when USZ/NCC deposit or share it. Either strengthens the §3c targeting-antigen shortlist from
-"surrogate" to "real EMC." This is the highest-value delivery-directed next step.
+**Net:** the sarcoma surrogate is the honest current basis; with the public tumour dataset (GSE4303) ruled
+out, the real-EMC upgrade must come from the **USZ/NCC line** immunophenotype/RNA-seq if the authors deposit
+or share it — which would move the §3c targeting-antigen shortlist from "surrogate" to "real EMC." This is the
+highest-value delivery-directed next step.
 
 > **Scope note — this surface-antigen work is being spun out.** Surface-antigen targeting is a *different
 > thesis* from this paper's fusion-exclusivity (a surface antigen is not the fusion; its selectivity is

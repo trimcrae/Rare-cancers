@@ -99,8 +99,12 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
   surface-antigen levels — verify platform first); (b) **obtain the USZ/NCC line data by contacting the authors**
   (better data, but a human/wet-lab-adjacent action, not in-silico); (c) leave the DepMap surrogate as the
   published basis and cite `GSE4303`/line-existence as the upgrade path. **Decision (trimcrae, 2026-07-03): DO
-  BOTH (a)+(b).** (a) built: `modalities/emc_gse4303_crosscheck.py` → `emc-gse4303-crosscheck.json` (ranks the
-  surrogate shortlist in real EMC-tumour expression, with a two-colour-ratio platform gate). (b) queued: the
+  BOTH (a)+(b).** (a) built + run: `modalities/emc_gse4303_crosscheck.py` → `emc-gse4303-crosscheck.json` —
+  **outcome: GSE4303 is UNUSABLE** (two-colour cDNA-clone array; log-ratios not absolute expression; probes
+  lack gene symbols → 0 shortlist genes resolved; the platform gate correctly flagged it). Public-data route
+  exhausted → author-held line data is the only real unlock. **A surface-antigen scaffold paper was spun out**
+  ([`manuscripts/emc-surface-target-landscape.md`](manuscripts/emc-surface-target-landscape.md), gated on that
+  data). (b) queued: the
   ASO paper §4 now names the **USZ (Zurich)** and **NCC (Japan)** groups as recipients, with the
   delivery-directed ask for their EMC lines' surface immunophenotype/RNA-seq (preprint-stage outreach).
   Status: **actioned.**
