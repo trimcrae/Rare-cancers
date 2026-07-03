@@ -43,6 +43,7 @@ Output: emc-surfaceome-scan.json (+ .png)
 
 import io
 import json
+import math
 import os
 import sys
 import urllib.parse
@@ -121,6 +122,57 @@ def fetch_surfaceome():
     return genes, prov
 
 
+def _norm_sf(z):
+    return 0.5 * math.erfc(z / math.sqrt(2))
+
+
+def _mwu_greater_p(a, b):
+    """One-sided Mann-Whitney U p-value that class values `a` are stochastically > rest `b`.
+    Tie-corrected normal approximation (no scipy dependency). Returns None if degenerate."""
+    n1, n2 = len(a), len(b)
+    if n1 == 0 or n2 == 0:
+        return None
+    combined = sorted([(v, 0) for v in a] + [(v, 1) for v in b])
+    N = len(combined)
+    ranks = [0.0] * N
+    i, tie_term = 0, 0.0
+    while i < N:
+        j = i
+        while j + 1 < N and combined[j + 1][0] == combined[i][0]:
+            j += 1
+        avg = (i + j) / 2.0 + 1.0                      # 1-based average rank
+        for k in range(i, j + 1):
+            ranks[k] = avg
+        t = j - i + 1
+        tie_term += t ** 3 - t
+        i = j + 1
+    r1 = sum(ranks[k] for k in range(N) if combined[k][1] == 0)
+    u1 = r1 - n1 * (n1 + 1) / 2.0
+    mu = n1 * n2 / 2.0
+    var = (n1 * n2 / 12.0) * ((N + 1) - tie_term / (N * (N - 1))) if N > 1 else 0.0
+    if var <= 0:
+        return None
+    z = (u1 - mu) / math.sqrt(var)
+    return _norm_sf(z)
+
+
+def _bh(pvals):
+    """Benjamini-Hochberg q-values for a dict {key: p}. Returns {key: q}."""
+    items = [(k, p) for k, p in pvals.items() if p is not None]
+    m = len(items)
+    if not m:
+        return {}
+    items.sort(key=lambda kp: kp[1])
+    q = {}
+    prev = 1.0
+    for rank in range(m, 0, -1):
+        k, p = items[rank - 1]
+        val = min(prev, p * m / rank)
+        q[k] = val
+        prev = val
+    return q
+
+
 def main():
     try:
         import pandas as pd
@@ -151,8 +203,18 @@ def main():
 
     class_ids = subtype_ids(TRANSLOCATION_SUBTYPES)   # EMC-surrogate translocation-sarcoma class
     myxoid_ids = subtype_ids(MYXOID_SUBTYPES)
+    # NAME the actual lines matched (red-team: the "myxoid" match is myxoid LIPOSARCOMA, not EMC).
+    def named(ids):
+        if not sub_col:
+            return []
+        sub = model.loc[[i for i in ids if i in model.index], sub_col].astype(str)
+        return sorted(f"{i} [{sub.loc[i]}]" for i in sub.index)
+    myxoid_lines_named = named(myxoid_ids)
+    class_subtypes = sorted(set(model.loc[[i for i in class_ids if i in model.index],
+                                          sub_col].astype(str))) if sub_col else []
     print(f"  {len(model)} models | {len(sarcoma_ids)} sarcoma | "
-          f"{len(class_ids)} translocation-class | {len(myxoid_ids)} myxoid", file=sys.stderr)
+          f"{len(class_ids)} translocation-class | {len(myxoid_ids)} myxoid "
+          f"{myxoid_lines_named}", file=sys.stderr)
 
     # Read only the surfaceome columns from the big expression matrix.
     expr_path = dep._download(urls[EXPR_FILE], timeout=1200)
@@ -186,12 +248,25 @@ def main():
             "rest_mean_log2tpm": round(rest_mean, 2) if rest_mean is not None else None,
             "rest_frac_expressed": (round(float((r >= EXPRESSED).mean()), 2)
                                     if r is not None and len(r) else None),
-            # selectivity vs other cancer lineages (NOT normal tissue — see caveats)
+            # selectivity vs other cancer lineages (NOT normal tissue — see caveats). Reported as an
+            # effect size (enrichment) AND a rank-based one-sided Mann-Whitney p that class > rest
+            # (BH-corrected below). This is cross-CANCER selectivity, not a tumour-vs-normal window.
             "enrichment_vs_rest": (round(class_mean - rest_mean, 2)
                                    if rest_mean is not None else None),
+            "selectivity_mwu_p": (_mwu_greater_p(list(c), list(r))
+                                  if r is not None and len(r) else None),
         }
 
     rows = [s for g in sorted(keep) if (s := stat(g))]
+    # Benjamini-Hochberg across all scanned surface genes; flag genes significantly class>rest.
+    qmap = _bh({s["gene"]: s.get("selectivity_mwu_p") for s in rows})
+    for s in rows:
+        q = qmap.get(s["gene"])
+        s["selectivity_q"] = round(q, 4) if q is not None else None
+        s["selectivity_significant"] = bool(q is not None and q < 0.05
+                                             and (s.get("enrichment_vs_rest") or 0) > 0)
+        if s.get("selectivity_mwu_p") is not None:
+            s["selectivity_mwu_p"] = round(s["selectivity_mwu_p"], 6)
     # Rank: expressed across most surrogate lines first, then selective, then high.
     def score(s):
         enr = s["enrichment_vs_rest"] if s["enrichment_vs_rest"] is not None else 0.0
@@ -200,6 +275,24 @@ def main():
 
     # actionable-antigen callout: where the known ADC/CAR/bispecific targets landed
     actionable = {s["gene"]: s for s in rows if s["gene"] in set(SEED_SURFACE)}
+
+    # The SINGLE real EMC line (ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid
+    # Chondrosarcoma') — its own top surface antigens. n=1, descriptive only, but this is REAL EMC
+    # expression, not a surrogate. (Corrects the 'EMC has no DepMap line' assumption.)
+    emc_line_top = None
+    if len(myxoid_ids) >= 1:
+        emc_vals = {g: float(myx_ex[g].dropna().mean())
+                    for g in keep if g in myx_ex and len(myx_ex[g].dropna())}
+        emc_line_top = {
+            "line": myxoid_lines_named,
+            "n": len(myxoid_ids),
+            "note": ("Single DepMap line annotated 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so "
+                     "descriptive only (no statistics). REAL EMC expression, not a surrogate. "
+                     "EWSR1::NR4A3 fusion status of this line: [to verify]."),
+            "top_surface_antigens": [{"gene": g, "log2tpm": round(v, 2)}
+                                     for g, v in sorted(emc_vals.items(), key=lambda kv: kv[1],
+                                                        reverse=True)[:30]],
+        }
 
     # self-validation
     hk_leak = [g for g in ("ACTB", "GAPDH") if g in keep]
@@ -232,11 +325,25 @@ def main():
         "class_definition": {"translocation_sarcoma_subtypes": TRANSLOCATION_SUBTYPES,
                              "myxoid_subtypes": MYXOID_SUBTYPES,
                              "n_class_lines": len(class_ids), "n_myxoid_lines": len(myxoid_ids),
-                             "n_sarcoma_lines": len(sarcoma_ids)},
+                             "n_sarcoma_lines": len(sarcoma_ids),
+                             "class_oncotree_subtypes_present": class_subtypes,
+                             "myxoid_lines_named": myxoid_lines_named,
+                             "_myxoid_caveat": ("CORRECTION: the single 'myxoid'-matched line is "
+                                                "ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid "
+                                                "Chondrosarcoma' — i.e. a REAL EMC line (n=1), NOT myxoid "
+                                                "liposarcoma. DepMap therefore contains one EMC line; its "
+                                                "expression (myxoid_mean / emc_line_top_surface) is real "
+                                                "EMC data, descriptive only at n=1. Fusion status [to verify]."),
+                             "_surrogate_caveat": ("The broader translocation class (Ewing/synovial/etc.) "
+                                                   "is a lineage-GENERIC surrogate — surface phenotype tracks "
+                                                   "lineage, and those differ from EMC's myxoid/chondroid "
+                                                   "lineage — so class-level ranks are weaker than the single "
+                                                   "real EMC line, which however lacks statistical power.")},
         "thresholds": {"detectable_log2tpm": DETECT, "expressed_log2tpm": EXPRESSED},
         "n_surface_genes_scanned": len(keep),
         "top_candidates": rows[:40],
         "actionable_antigens": actionable,
+        "emc_line_top_surface": emc_line_top,
         "self_validation": validation,
     }
     json.dump(result, open(OUT, "w"), indent=2)
