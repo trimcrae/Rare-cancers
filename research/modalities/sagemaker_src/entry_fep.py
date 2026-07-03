@@ -78,9 +78,14 @@ def main():
         #   openmmtools=0.21.2: yank needs alchemy._ALCHEMICAL_REGION_ARGS, gone in 0.25.
         #   setuptools<81   : yank imports pkg_resources, removed in setuptools>=81 (openbabel bumped it past).
         #   openbabel       : adds explicit H to the heavy-atom docked pose before antechamber.
+        #   netcdf4<1.6 / libnetcdf<4.9 : openmmtools 0.21.2's MultiStateReporter writes its .nc with the old
+        #     compression-filter API; libnetcdf 4.9.x (which the loose solve pulled, via netcdf4 1.7.2) rejects
+        #     it with "NetCDF: Filter error: bad id or parameters or duplicate filter" at _store_options —
+        #     the FIRST thing the sampler does, so it fails before any MD (masked earlier only because
+        #     auto-trailblaze never finished). Pinning to the 4.8.x/1.5.x era yank was built against fixes it.
         subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
                         "python=3.9", "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel",
-                        "setuptools<81"], check=True)
+                        "setuptools<81", "netcdf4=1.5.8", "libnetcdf=4.8.1"], check=True)
         subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
                         "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
         # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own
