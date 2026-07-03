@@ -179,6 +179,84 @@ def _parse_dg(out_dir):
     return float(m.group(1)), float(m.group(2))
 
 
+def _residues_in_order(pdb_in):
+    """[(reskey, [atom_lines])] in file order + {reskey: CA_xyz}, over ATOM (protein) records only."""
+    order, atoms, ca = [], {}, {}
+    for line in open(pdb_in):
+        if line.startswith("ATOM"):
+            key = (line[21:22], line[22:27])
+            if key not in atoms:
+                order.append(key)
+                atoms[key] = []
+            atoms[key].append(line)
+            if line[12:16].strip() == "CA":
+                try:
+                    ca[key] = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+                except ValueError:
+                    pass
+    return order, atoms, ca
+
+
+def _trim_floppy_termini(pdb_in, workdir, margin=8.0, min_thresh=25.0, max_trim_frac=0.35):
+    """Trim disordered N/C-terminal tails that flap far from the folded core, so the explicit-solvent box is not
+    ballooned by a hinge. JUSTIFIED by the fold-sanity check (`nr4a3_frame_sanity.py`): the opened frame's CORE
+    is intact — helix content retained (retention ~1.01 vs the AF2 LBD) and core CA-RMSD ~1.76 Å — so the ~99 Å
+    elongation is a floppy terminal hinge, not a melt; ABFE is properly run on the folded LBD, not a disordered
+    tail. Adaptive per receptor: a core centroid from the interior residues, then trim CONTIGUOUS terminal
+    residues whose CA lies beyond (85th-pct core radius + margin). The pocket is interior and never trimmed. A
+    guard refuses to trim >max_trim_frac of the chain (falls back to untrimmed), so this can only help."""
+    import math
+    order, atoms, ca = _residues_in_order(pdb_in)
+    cas = [ca[k] for k in order if k in ca]
+    n = len(order)
+    if len(cas) < 20:
+        return pdb_in
+    lo, hi = int(0.15 * len(cas)), int(0.85 * len(cas))
+    interior = cas[lo:hi] or cas
+    cx = sum(p[0] for p in interior) / len(interior)
+    cy = sum(p[1] for p in interior) / len(interior)
+    cz = sum(p[2] for p in interior) / len(interior)
+
+    def dist(p):
+        return math.sqrt((p[0] - cx) ** 2 + (p[1] - cy) ** 2 + (p[2] - cz) ** 2)
+
+    ds = sorted(dist(p) for p in interior)
+    core_r = ds[int(0.85 * (len(ds) - 1))]
+    thresh = max(core_r + margin, min_thresh)
+    keep_lo = 0
+    for i, k in enumerate(order):
+        if k in ca and dist(ca[k]) > thresh:
+            keep_lo = i + 1
+        else:
+            break
+    keep_hi = n - 1
+    for i in range(n - 1, -1, -1):
+        k = order[i]
+        if k in ca and dist(ca[k]) > thresh:
+            keep_hi = i - 1
+        else:
+            break
+    cap = int(max_trim_frac * n)
+    total_trim = keep_lo + (n - 1 - keep_hi)
+    if keep_hi <= keep_lo or keep_lo > cap or (n - 1 - keep_hi) > cap or total_trim > cap:
+        print(f"[fep] trim guard tripped (keep {keep_lo}..{keep_hi} of {n}, total_trim={total_trim}>{cap}); "
+              "using untrimmed receptor", flush=True)
+        return pdb_in
+    if keep_lo == 0 and keep_hi == n - 1:
+        return pdb_in                                          # nothing floppy to trim
+    kept = order[keep_lo:keep_hi + 1]
+    out = os.path.join(workdir, "rec_trim.pdb")
+    with open(out, "w") as f:
+        for k in kept:
+            for ln in atoms[k]:
+                f.write(ln)
+        f.write("TER\nEND\n")
+    print(f"[fep] trimmed floppy termini: kept residues {keep_lo + 1}..{keep_hi + 1} of {n} "
+          f"(dropped {keep_lo} N-term + {n - 1 - keep_hi} C-term; core_r={core_r:.1f} thresh={thresh:.1f} Å)",
+          flush=True)
+    return out
+
+
 def _prep_receptor(rec_pdb, workdir):
     """Clean the MD/AlphaFold-derived receptor PDB for LEaP with pdb4amber (AmberTools, present in the fep env).
     The docked ligand-only 'solvent' leg builds fine, but the 'complex' leg (which adds this receptor) dies in
@@ -188,6 +266,7 @@ def _prep_receptor(rec_pdb, workdir):
     its report (renamed/missing atoms) is printed for diagnosis. Falls back to the raw PDB if pdb4amber is
     unavailable or produces nothing, so this can only help."""
     import subprocess
+    rec_pdb = _trim_floppy_termini(rec_pdb, workdir)          # drop disordered hinge → compact box (fits g5.xlarge)
     out = os.path.join(workdir, "rec_clean.pdb")
     try:
         r = subprocess.run(["pdb4amber", "-i", rec_pdb, "-o", out, "--dry", "--nohyd"],

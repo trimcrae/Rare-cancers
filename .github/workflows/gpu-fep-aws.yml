@@ -22,6 +22,10 @@ on:
         description: "plan | smoke | run | monitor | reduce"
         default: "plan"
         required: true
+      tag:
+        description: "S3 checkpoint tag / prefix (bump to start a FRESH setup, e.g. after changing the receptor prep)"
+        default: "nr4a3-fep"
+        required: false
       n_windows:
         description: "λ-windows per (receptor, leg)"
         default: "12"
@@ -89,6 +93,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: "us-east-2"
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          FEP_TAG: ${{ inputs.tag }}
           MODE: ${{ inputs.mode }}
           N_WINDOWS: ${{ inputs.n_windows }}
           N_SHARDS: ${{ inputs.n_shards }}
