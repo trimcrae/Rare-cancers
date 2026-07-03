@@ -63,6 +63,17 @@ submitted.
 - [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) — degrader vs. BRD9 head-to-head
 - [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md) — beyond-EMC motivation for the degrader (NR4A3-fusion sarcomas; NR4A in T-cell exhaustion / immuno-oncology; the AML tumour-suppressor contraindication)
 
+## Scaffolded / gated future paper (not yet a draft)
+
+- [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md) — **SCAFFOLD, gated on real EMC
+  surface data** (trimcrae 2026-07-03). A *target-class* paper on EMC **surface antigens** for delivery +
+  immunotherapy (AOC / ADC / T-cell engager / CAR / radioligand) — a **different thesis and modality axis**
+  from the fusion-junction ASO, spun out of that paper's delivery section (§3c). Consolidates the surfaceome
+  scan (`emc_surfaceome_scan.py`) + the surface-modality memos (`car-t-strategies-emc.md`,
+  `emerging-modalities-scan-emc.md`). Becomes a real draft once the USZ/NCC EMC-line surface immunophenotype/
+  RNA-seq lands (ASO §4 outreach) and the GTEx/HPA normal-tissue window is applied. Currently surrogate-only —
+  makes **no** EMC-specific surface claim.
+
 ## Earlier treatment-track drafts — subsumed by the roadmap
 
 Real, cited drafts from before the portfolio was unified. The roadmap **sits on top of** these

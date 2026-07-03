@@ -61,6 +61,18 @@ const TOPICS = [
     trigger: "usable in-silico delivery/biodistribution/endosomal-escape predictor → score the B7-H3-targeted junction-siRNA/AOC delivery and re-grade the ASO route feasibility",
   },
   {
+    // NEW (2026-07-03): the ASO route's dominant gate is delivery, and the unblock may be an
+    // actual delivery TECHNOLOGY/CANDIDATE — not just an in-silico predictor. This topic watches
+    // for a real delivery handle we could name for an EMC/soft-tissue-sarcoma oligo: an AOC/
+    // conjugate or tumour-penetrating-peptide/nanoparticle platform that reaches non-hepatic solid
+    // tumours, OR an EMC-enriched surface antigen characterised (which would give the AOC its
+    // targeting arm). A hit here is what makes a concrete delivery CANDIDATE proposable, moving the
+    // route off "delivery-limited" even without an in-silico predictor.
+    key: "oligonucleotide tumour-delivery TECHNOLOGY / candidate (AOC, TPP, sarcoma-targeted, EMC surface antigen)",
+    query: '(TITLE:"antibody-oligonucleotide conjugate" OR TITLE:"antibody oligonucleotide conjugate" OR TITLE:AOC OR TITLE:"tumor-penetrating peptide" OR TITLE:"tumour-penetrating peptide" OR TITLE:"cell-penetrating peptide" OR TITLE:"targeted lipid nanoparticle" OR TITLE:"receptor-targeted" OR TITLE:"ligand-targeted") AND (TITLE:oligonucleotide OR TITLE:siRNA OR TITLE:antisense OR TITLE:gapmer OR TITLE:sarcoma OR TITLE:"solid tumor" OR TITLE:"solid tumour" OR TITLE:delivery)',
+    trigger: "a delivery technology/candidate for non-hepatic solid tumours (AOC, tumour-penetrating peptide, ligand-targeted LNP), or an EMC-enriched surface antigen → propose a concrete junction-oligo delivery CANDIDATE and re-grade the ASO route's dominant gate",
+  },
+  {
     // ASO next-step gate #1: a calibrated ASO off-target / RNase-H cleavage-activity predictor
     // would let us replace the conservative "gap mismatch => non-cleaving" heuristic the junction-ASO
     // specificity screen currently relies on (fusion-junction-aso-paper §3a-quater red-team finding).

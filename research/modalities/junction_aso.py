@@ -50,9 +50,11 @@ NR4A3_MRNA = "NM_006981"
 EWSR1_KEEP_AA = 264
 NR4A3_KEEP_AA_FROM = 2
 
-OLIGO_LEN = 16          # total gapmer length
-WING = 5                # with OLIGO_LEN=16 this is a 5-6-5 (5 LNA wings, 6 DNA gap that must span junction);
-                        # 5-10-5 is the common 20-mer template — change OLIGO_LEN to 20 for that layout
+# Oligo geometry is env-configurable so the SAME tiler runs the 16-mer 5-6-5 (default) OR the common
+# 20-mer 5-10-5 layout (OLIGO_LEN=20, WING=5) — the longer gap is the paper's lever to convert
+# residual-off-target junctions into clean designs.
+OLIGO_LEN = int(os.environ.get("OLIGO_LEN", "16"))   # total gapmer length
+WING = int(os.environ.get("WING", "5"))              # 5-6-5 at len 16; set OLIGO_LEN=20 for 5-10-5
 GAP = OLIGO_LEN - 2 * WING
 
 EUTILS = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
@@ -163,6 +165,15 @@ def design(left, right, fusion):
         oligo = revcomp(target)               # antisense oligo, 5'->3'
         left_bases = j - start                # mRNA bases from EWSR1 side
         right_bases = end - j                 # mRNA bases from NR4A3 side
+        # GAP-LEVEL discrimination (red-team F3): RNase-H1 cleaves only where the central DNA
+        # gap [gap_start, gap_end) is base-paired, so fusion-vs-parent discrimination is set by
+        # junction-unique bases INSIDE the gap on each side, not across the whole 16-mer. The
+        # oligo-wide specificity_margin (min(left_bases, right_bases)) OVERSTATES true discrimination
+        # (a parent can share up to WING wing bases plus part of the gap). Report the gap-level
+        # margin as the honest operative metric.
+        gap_left = j - gap_start              # junction-unique EWSR1 bases within the gap
+        gap_right = gap_end - j               # junction-unique NR4A3 bases within the gap
+        gap_margin = min(gap_left, gap_right)
         # specificity: oligo must not perfectly complement either parent transcript
         spec_ok = (target not in EWSR1_full) and (target not in NR4A3_full)
         oligos.append({
@@ -173,14 +184,21 @@ def design(left, right, fusion):
             "bases_from_EWSR1": left_bases,
             "bases_from_NR4A3": right_bases,
             "specificity_margin": min(left_bases, right_bases),
+            "gap_bases_from_EWSR1": gap_left,
+            "gap_bases_from_NR4A3": gap_right,
+            "gap_specificity_margin": gap_margin,          # operative metric (junction-unique bases in the gap)
+            "gap_centered": gap_margin >= 2,               # >=2 junction-unique gap bases each side
             "gc_percent": gc(target),
             "has_G4_motif": bool(re.search("G{4,}", target)),
             "fusion_specific": spec_ok,
         })
-    # rank: balanced junction (high specificity margin), mid GC (40-60), no G4
+    # rank: gap-centred discrimination first (the operative metric), then oligo-wide margin,
+    # then mid GC (40-60), then no G4. Prefers designs whose junction-unique bases fall inside
+    # the catalytic gap on both sides (red-team F3 gap-centred design rule).
     def score(o):
         gc_pen = abs(o["gc_percent"] - 50)
-        return (o["specificity_margin"], -gc_pen, 0 if not o["has_G4_motif"] else -1)
+        return (o["gap_specificity_margin"], o["specificity_margin"], -gc_pen,
+                0 if not o["has_G4_motif"] else -1)
     oligos.sort(key=score, reverse=True)
     return oligos
 
@@ -212,6 +230,12 @@ def main():
         "architecture": f"{WING}-{GAP}-{WING}",
         "n_candidates": len(oligos),
         "n_fusion_specific": sum(1 for o in oligos if o["fusion_specific"]),
+        "n_gap_centered": sum(1 for o in oligos if o["fusion_specific"] and o["gap_centered"]),
+        "_gap_margin_note": ("gap_specificity_margin = junction-unique bases INSIDE the 6-nt "
+                             "catalytic gap on the shorter side; it is the operative "
+                             "fusion-vs-parent discriminator (RNase-H cleaves only across the "
+                             "gap). The oligo-wide specificity_margin overstates discrimination "
+                             "(red-team F3). gap_centered = >=2 unique gap bases each side."),
         "top_designs": oligos[:12],
     }
     with open(out, "w") as fh:

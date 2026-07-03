@@ -25,7 +25,19 @@ on:
         description: "Output filename suffix, e.g. -bp200-8"
         required: false
       real_junctions:
-        description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon (e.g. '12:3 7:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval) and skips the codon-space screen."
+        description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon (e.g. '12:3 7:3'). If set, runs the real-junction pipeline (design + gap-resolved BLAST + uncapped eval + junction siRNA) and skips the codon-space screen."
+        required: false
+      sirna_only_junctions:
+        description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon for which to run ONLY the (fast, no-BLAST) siRNA design — e.g. junctions whose gapmer pipeline is already done ('7:3 12:3')."
+        required: false
+      oligo_len:
+        description: "Gapmer length (default 16 = 5-6-5; set 20 for 5-10-5)"
+        required: false
+      wing:
+        description: "Gapmer wing length (default 5)"
+        required: false
+      suffix_tag:
+        description: "Extra suffix appended to real-junction outputs, e.g. -20mer (avoids overwriting the 16-mer files)"
         required: false
 
 permissions:
@@ -38,7 +50,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -57,21 +69,40 @@ jobs:
       - name: Install ViennaRNA (for target-site accessibility)
         run: pip install ViennaRNA
 
-      - name: Real-junction pipeline (Ensembl exon junctions; design + gap-resolved BLAST + uncapped eval)
+      - name: Real-junction pipeline (Ensembl exon junctions; design + gap-resolved BLAST + uncapped eval + siRNA)
         if: ${{ inputs.real_junctions != '' }}
         working-directory: research/modalities
         env:
           FUSION_JUNCTION_MODE: real
           JUNCS: ${{ inputs.real_junctions }}
+          OLIGO_LEN: ${{ inputs.oligo_len }}
+          WING: ${{ inputs.wing }}
+          SUFFIX_TAG: ${{ inputs.suffix_tag }}
+        run: |
+          set -u
+          for jpair in $JUNCS; do
+            e="${jpair%%:*}"; n="${jpair##*:}"
+            sfx="-e${e}n${n}${SUFFIX_TAG}"
+            echo "::group::real junction EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx}; len=${OLIGO_LEN:-16})"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed e${e} n${n}"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed e${e} n${n}"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed e${e} n${n}"
+            echo "::endgroup::"
+          done
+
+      - name: siRNA-only for already-screened real junctions (fast; no BLAST/FASTA)
+        if: ${{ inputs.sirna_only_junctions != '' }}
+        working-directory: research/modalities
+        env:
+          FUSION_JUNCTION_MODE: real
+          JUNCS: ${{ inputs.sirna_only_junctions }}
         run: |
           set -u
           for jpair in $JUNCS; do
             e="${jpair%%:*}"; n="${jpair##*:}"
             sfx="-e${e}n${n}"
-            echo "::group::real junction EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx})"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed e${e} n${n}"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed e${e} n${n}"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed e${e} n${n}"
+            echo "::group::siRNA-only EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx})"
+            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_sirna.py || echo "sirna failed e${e} n${n}"
             echo "::endgroup::"
           done
 
@@ -94,6 +125,7 @@ jobs:
           cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -107,5 +139,6 @@ jobs:
           git add research/modalities/junction-aso-designs*.json 2>/dev/null || true
           git add research/modalities/junction-aso-offtarget*.json 2>/dev/null || true
           git add research/modalities/aso-insilico-evaluation*.json 2>/dev/null || true
-          git commit -m "ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval" || { echo "no changes"; exit 0; }
+          git add research/modalities/junction-sirna-designs*.json 2>/dev/null || true
+          git commit -m "ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval + siRNA" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
