@@ -1,0 +1,93 @@
+name: NR4A3 pose figure (PyMOL render of the docked warhead)
+
+# Renders the "how the degrader fits" figure: the screening-grade docked pose of denovo_401 in the AF2-derived,
+# metad-opened NR4A3 LBD model (a MODEL, not an experimental complex). Fetches the receptor + docked SDF from
+# S3, renders headless with open-source PyMOL, and pushes the PNG to the `modalities-cache` branch:
+#   git fetch origin modalities-cache && git checkout origin/modalities-cache -- research/modalities/nr4a3-pose.png
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  push:
+    branches: [claude/red-team-degrader-paper-l1hukn]
+    paths:
+      - research/modalities/nr4a3_pose_render.py
+      - .github/workflows/pose-figure-aws.yml
+  workflow_dispatch:
+    inputs:
+      receptor_key:
+        description: "S3 key of the receptor PDB"
+        default: "nr4a3-denovo-matrix-v2/nr4a3-opened.pdb"
+        required: false
+      docked_key:
+        description: "S3 key of the docked multi-molecule SDF"
+        default: "nr4a3-denovo-matrix-v2/docked_nr4a3.sdf"
+        required: false
+      ligand:
+        description: "ligand record title inside the SDF"
+        default: "denovo_401"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pose-figure
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install open-source PyMOL (micromamba conda-forge) + boto3
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/pm" -c conda-forge pymol-open-source python=3.11
+          "$RUNNER_TEMP/pm/bin/pip" install boto3
+      - name: Fetch structures from S3 + render
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          RECEPTOR_KEY: ${{ inputs.receptor_key || 'nr4a3-denovo-matrix-v2/nr4a3-opened.pdb' }}
+          DOCKED_KEY: ${{ inputs.docked_key || 'nr4a3-denovo-matrix-v2/docked_nr4a3.sdf' }}
+          LIGAND: ${{ inputs.ligand || 'denovo_401' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          "$RUNNER_TEMP/pm/bin/python" - <<'PY'
+          import os, boto3
+          region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+          bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
+          s3 = boto3.client("s3")
+          for env, dest in (("RECEPTOR_KEY", "rec.pdb"), ("DOCKED_KEY", "docked.sdf")):
+              s3.download_file(bucket, os.environ[env], dest)
+              print(f"downloaded s3://{bucket}/{os.environ[env]} -> {dest}")
+          PY
+          "$RUNNER_TEMP/pm/bin/pymol" -cq research/modalities/nr4a3_pose_render.py -- \
+            rec.pdb docked.sdf "$LIGAND" research/modalities/nr4a3-pose.png
+          ls -la research/modalities/nr4a3-pose.png
+      - name: Publish PNG to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          [ -f research/modalities/nr4a3-pose.png ] || { echo "no PNG rendered"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/modalities/nr4a3-pose.png "$RUNNER_TEMP/nr4a3-pose.png"
+          git fetch origin modalities-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache && git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP/nr4a3-pose.png" research/modalities/nr4a3-pose.png
+          git add research/modalities/nr4a3-pose.png
+          git commit -m "Pose figure: denovo_401 docked in the NR4A3 LBD model (PyMOL render)" || { echo "no change"; exit 0; }
+          git push origin modalities-cache
