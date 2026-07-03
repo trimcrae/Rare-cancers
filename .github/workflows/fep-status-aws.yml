@@ -35,6 +35,10 @@ on:
         description: "tail LIVE CloudWatch of this running job (name/prefix), filtered to yank progress (iteration/ns-day/ΔG)"
         default: ""
         required: false
+      clear_prefix:
+        description: "DELETE all S3 objects under this checkpoint prefix (e.g. nr4a3-fep-trim/ckpt/1/nr4a1/experiments to wipe a corrupt yank sampling state, preserving setup) before a clean relaunch"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -58,6 +62,7 @@ jobs:
           PDB_RESRANGE: ${{ inputs.pdb_resrange }}
           STOP_NAMES: ${{ inputs.stop_names }}
           CW_JOB: ${{ inputs.cw_job }}
+          CLEAR_PREFIX: ${{ inputs.clear_prefix }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
@@ -100,6 +105,26 @@ jobs:
                           print("  " + x)
               except Exception as _e:  # noqa: BLE001
                   print(f"# CW tail {_cw} failed: {_e}")
+          # Optional: DELETE every S3 object under CLEAR_PREFIX (wipe a corrupt yank sampling state so a relaunch
+          # rebuilds trailblaze fresh; point it at .../experiments to preserve the setup/ tree). Guard: refuse a
+          # too-short prefix so a typo can't nuke the bucket.
+          _clr = os.environ.get("CLEAR_PREFIX", "").strip().lstrip("/")
+          if _clr:
+              s3d = boto3.client("s3"); std = boto3.client("sts")
+              reg = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+              bkt = f"sagemaker-{reg}-{std.get_caller_identity()['Account']}"
+              if _clr.count("/") < 2:
+                  print(f"# REFUSE clear '{_clr}': too broad (need >=2 '/' segments)")
+              else:
+                  pg = s3d.get_paginator("list_objects_v2"); dels, n = [], 0
+                  for page in pg.paginate(Bucket=bkt, Prefix=_clr):
+                      for o in page.get("Contents", []):
+                          dels.append({"Key": o["Key"]}); n += 1
+                          if len(dels) == 1000:
+                              s3d.delete_objects(Bucket=bkt, Delete={"Objects": dels}); dels = []
+                  if dels:
+                      s3d.delete_objects(Bucket=bkt, Delete={"Objects": dels})
+                  print(f"# CLEARED {n} objects under s3://{bkt}/{_clr}")
           # Optional: pull the small setup logs (LEaP transcripts, frcmod, leap.in) straight from the
           # checkpoint S3 prefix — the definitive per-leg diagnostic (complex leg fails via check_output, whose
           # stdout yank swallows, so the CloudWatch tail can't show it; the on-disk log DID sync to S3).
