@@ -69,7 +69,16 @@ def main():
                         "python=3.11", "openmm", "openmmtools", "openmmforcefields",
                         "openff-toolkit-base", "pymbar", "mdtraj", "rdkit", "pdbfixer", "ambertools",
                         "ocl-icd-system", "numpy>=2"], check=True)
-        r = subprocess.run([conda, "run", "--no-capture-output", "-n", "fep"] + runner, cwd=work, env=env)
+        # CRITICAL isolation fix: the SageMaker PyTorch base container sets PYTHONPATH to its OWN
+        # site-packages (numpy 1.x). `conda run -n fep` inherits that PYTHONPATH, so `import numpy` inside
+        # the fep env resolved the BASE numpy 1.x (which lacks numpy.dtypes.StringDType) instead of the
+        # fep env's numpy 2.x — the real cause of the "StringDType" failure (the env itself has numpy 2,
+        # forced by scipy 1.17 / pandas 2.3). Clear PYTHONPATH so the fep env uses only its own packages;
+        # nr4a3_fep.py still imports its local modules via cwd (sys.path[0]).
+        fep_env = dict(env)
+        fep_env["PYTHONPATH"] = ""
+        r = subprocess.run([conda, "run", "--no-capture-output", "-n", "fep"] + runner,
+                           cwd=work, env=fep_env)
 
     # per-unit results already live in CKPT (synced continuously). Copy a manifest to the model dir too.
     model_dir = os.environ.get("SM_MODEL_DIR", "/opt/ml/model")
