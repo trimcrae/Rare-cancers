@@ -125,11 +125,27 @@ def main():
         print("[fep] SMOKE complete — spot + checkpoint + resume path works. Safe to run the fleet on go-ahead.")
         return
 
-    # mode == run : full fan-out, one concurrent spot job per shard
+    # mode == run : full fan-out, one concurrent spot job per shard.
+    # ONLY_RECEPTORS (comma-sep receptor names, e.g. "nr4a1") relaunches JUST those receptors — used to
+    # restart a single Failed shard (e.g. one bricked by a spot-kill-corrupted trailblaze checkpoint) WITHOUT
+    # re-launching the in-flight shards, which would collide on their checkpoint prefixes. Selecting by
+    # RECEPTOR NAME over the CANONICAL full enumeration (not the resume-filtered plan) keeps each receptor's
+    # shard INDEX — and thus its ckpt/{i}/ prefix with the preserved LEaP setup — stable regardless of which
+    # other receptors happen to be pending. Empty = launch the resume-filtered plan as usual.
+    only = os.environ.get("ONLY_RECEPTORS", "").strip()
+    only_set = {x.strip() for x in only.split(",") if x.strip()} if only else None
+    if only_set is not None:
+        canon = fs.shard_plan(n_windows=N_WINDOWS, n_shards=N_SHARDS, done_ids=set())  # stable canonical indices
+        shards_to_iter = canon["shards"]
+    else:
+        shards_to_iter = plan["shards"]
     inputs_common = {"receptor": TrainingInput(f"s3://{bucket}/{RECEPTOR_PREFIX}/"),
                      "poses": TrainingInput(f"s3://{bucket}/{POSE_PREFIX}/")}
     launched = []
-    for i, shard in enumerate(plan["shards"]):
+    for i, shard in enumerate(shards_to_iter):
+        if only_set is not None and not any(u["receptor"] in only_set for u in shard):
+            print(f"[fep] skip shard {i} ({[u['receptor'] for u in shard]} not in ONLY_RECEPTORS={sorted(only_set)})")
+            continue
         chan = _upload_shard(bucket, i, shard)
         est = make_estimator(i)
         try:
