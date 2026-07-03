@@ -35,7 +35,7 @@ HERE = os.path.dirname(__file__)
 OUT = os.path.join(HERE, "emc-gse4303-crosscheck.json")
 
 GSE = "GSE4303"
-MATRIX_URL = f"https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/{GSE}/matrix/{GSE}_series_matrix.txt.gz"
+MATRIX_DIR = f"https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/{GSE}/matrix/"
 
 # The surrogate winners to validate (from emc-surfaceome-scan.json) + the USZ-paper-mentioned markers.
 SHORTLIST = {
@@ -152,10 +152,30 @@ def main():
                         "microarray, bulk-tumour (stromal dilution), small n, different platform from "
                         "the DepMap surrogate. Not a merge."),
               "dataset": GSE}
+    # Old two-colour series name their matrix with a platform suffix
+    # (GSE4303-GPLxxxx_series_matrix.txt.gz), so list the matrix dir and take whatever exists
+    # rather than assume the bare GSE4303_series_matrix.txt.gz name.
+    matrix_files = []
     try:
-        platform, samples, probes, values = parse_series_matrix(_get(MATRIX_URL))
+        listing = _get(MATRIX_DIR, timeout=120).decode("utf-8", "replace")
+        matrix_files = sorted(set(re.findall(r"GSE4303[\w\-.]*?series_matrix\.txt\.gz", listing)))
     except Exception as e:  # noqa
-        result["status"] = f"matrix_fetch_failed: {e}"
+        result["matrix_dir_list_error"] = str(e)
+    if not matrix_files:
+        matrix_files = [f"{GSE}_series_matrix.txt.gz"]  # fallback to the canonical name
+    result["matrix_files_found"] = matrix_files
+
+    platform = samples = probes = values = None
+    fetch_errs = []
+    for mf in matrix_files:
+        try:
+            platform, samples, probes, values = parse_series_matrix(_get(MATRIX_DIR + mf))
+            result["matrix_file_used"] = mf
+            break
+        except Exception as e:  # noqa
+            fetch_errs.append(f"{mf}: {e}")
+    if values is None:
+        result["status"] = f"matrix_fetch_failed: {fetch_errs}"
         json.dump(result, open(OUT, "w"), indent=2)
         print(json.dumps(result, indent=2))
         return
