@@ -50,7 +50,8 @@ BLAST = "https://blast.ncbi.nlm.nih.gov/Blast.cgi"
 PARENT_ACCS = {"NM_005243", "NM_006981"}          # EWSR1, NR4A3 (the intended on-/parent hits)
 PARENT_GENES = ("EWSR1", "EWS RNA", "NR4A3", "NOR-1", "nuclear receptor subfamily 4 group A member 3")
 N_OLIGOS = 6                                       # screen the top N fusion-specific designs
-NEAR_MATCH_MIN_IDENT = 14                          # >=14/16 identical bases counts as a near match
+# near match = allow up to 2 mismatches over the oligo length (14/16 at len 16, 18/20 at len 20)
+NEAR_MATCH_MIN_IDENT = ja.OLIGO_LEN - 2
 POLL_MAX_S = 600                                   # cap per-query polling at 10 min
 
 

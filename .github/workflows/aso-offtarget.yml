@@ -30,6 +30,15 @@ on:
       sirna_only_junctions:
         description: "Space-separated REAL exon junctions EWSR1exon:NR4A3exon for which to run ONLY the (fast, no-BLAST) siRNA design — e.g. junctions whose gapmer pipeline is already done ('7:3 12:3')."
         required: false
+      oligo_len:
+        description: "Gapmer length (default 16 = 5-6-5; set 20 for 5-10-5)"
+        required: false
+      wing:
+        description: "Gapmer wing length (default 5)"
+        required: false
+      suffix_tag:
+        description: "Extra suffix appended to real-junction outputs, e.g. -20mer (avoids overwriting the 16-mer files)"
+        required: false
 
 permissions:
   contents: write
@@ -66,16 +75,18 @@ jobs:
         env:
           FUSION_JUNCTION_MODE: real
           JUNCS: ${{ inputs.real_junctions }}
+          OLIGO_LEN: ${{ inputs.oligo_len }}
+          WING: ${{ inputs.wing }}
+          SUFFIX_TAG: ${{ inputs.suffix_tag }}
         run: |
           set -u
           for jpair in $JUNCS; do
             e="${jpair%%:*}"; n="${jpair##*:}"
-            sfx="-e${e}n${n}"
-            echo "::group::real junction EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx})"
+            sfx="-e${e}n${n}${SUFFIX_TAG}"
+            echo "::group::real junction EWSR1 e${e} :: NR4A3 e${n} (suffix ${sfx}; len=${OLIGO_LEN:-16})"
             EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed e${e} n${n}"
             EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed e${e} n${n}"
             EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed e${e} n${n}"
-            EWSR1_EXON_END="$e" NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_sirna.py         || echo "sirna failed e${e} n${n}"
             echo "::endgroup::"
           done
 

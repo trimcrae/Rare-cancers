@@ -50,9 +50,11 @@ NR4A3_MRNA = "NM_006981"
 EWSR1_KEEP_AA = 264
 NR4A3_KEEP_AA_FROM = 2
 
-OLIGO_LEN = 16          # total gapmer length
-WING = 5                # with OLIGO_LEN=16 this is a 5-6-5 (5 LNA wings, 6 DNA gap that must span junction);
-                        # 5-10-5 is the common 20-mer template — change OLIGO_LEN to 20 for that layout
+# Oligo geometry is env-configurable so the SAME tiler runs the 16-mer 5-6-5 (default) OR the common
+# 20-mer 5-10-5 layout (OLIGO_LEN=20, WING=5) — the longer gap is the paper's lever to convert
+# residual-off-target junctions into clean designs.
+OLIGO_LEN = int(os.environ.get("OLIGO_LEN", "16"))   # total gapmer length
+WING = int(os.environ.get("WING", "5"))              # 5-6-5 at len 16; set OLIGO_LEN=20 for 5-10-5
 GAP = OLIGO_LEN - 2 * WING
 
 EUTILS = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
