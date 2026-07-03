@@ -179,6 +179,30 @@ def _parse_dg(out_dir):
     return float(m.group(1)), float(m.group(2))
 
 
+def _prep_receptor(rec_pdb, workdir):
+    """Clean the MD/AlphaFold-derived receptor PDB for LEaP with pdb4amber (AmberTools, present in the fep env).
+    The docked ligand-only 'solvent' leg builds fine, but the 'complex' leg (which adds this receptor) dies in
+    tleap with exit 31 — the classic raw-MD/AF-PDB → LEaP breakage: MD hydrogens whose names don't match the
+    ff14SB templates, plus any crystallographic waters/ions/HETATM. pdb4amber strips hydrogens (LEaP re-adds
+    ff14SB-correct ones), drops waters/ions (--dry), adds TER at chain breaks, and renames to Amber conventions;
+    its report (renamed/missing atoms) is printed for diagnosis. Falls back to the raw PDB if pdb4amber is
+    unavailable or produces nothing, so this can only help."""
+    import subprocess
+    out = os.path.join(workdir, "rec_clean.pdb")
+    try:
+        r = subprocess.run(["pdb4amber", "-i", rec_pdb, "-o", out, "--dry", "--nohyd"],
+                           capture_output=True, text=True, timeout=600)
+    except FileNotFoundError:
+        print(f"[fep] pdb4amber not on PATH; using raw receptor {rec_pdb}", flush=True)
+        return rec_pdb
+    print(f"[fep] pdb4amber prep {rec_pdb} (rc={r.returncode}):\n"
+          f"{(r.stdout or '')[-1200:]}\n{(r.stderr or '')[-2500:]}", flush=True)
+    if os.path.exists(out) and os.path.getsize(out) > 0:
+        return out
+    print("[fep] pdb4amber produced no output; falling back to raw receptor", flush=True)
+    return rec_pdb
+
+
 def _dump_setup_logs(out_dir):
     """On a `yank script` failure, Yank's own error is an opaque wrapper (e.g. 'Solvent pme: Some things went
     wrong with LEaP') — the ACTUAL diagnostic (the missing GAFF parameter, the atom-valence complaint, the
@@ -220,6 +244,7 @@ def run_real(unit, phase="prod"):
     rec_pdb = os.path.join(RECEPTOR_DIR, f"{receptor}-opened.pdb")
     if not os.path.exists(rec_pdb):
         raise FileNotFoundError(f"receptor pdb not found: {rec_pdb}")
+    rec_pdb = _prep_receptor(rec_pdb, out_dir)                 # clean MD/AF PDB for LEaP (complex-leg fix)
     yaml_path = os.path.join(out_dir, "experiment.yaml")
     open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_mol2, rec_pdb))
     print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
