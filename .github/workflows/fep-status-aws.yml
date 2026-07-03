@@ -19,6 +19,10 @@ on:
         description: "AWS region"
         default: "us-east-2"
         required: false
+      ckpt_prefix:
+        description: "if set, list+cat the setup LEaP/frcmod/*.in logs under this checkpoint S3 prefix (e.g. nr4a3-fep/ckpt/0)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -38,6 +42,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           TAG: ${{ inputs.tag }}
           N: ${{ inputs.n }}
+          CKPT_PREFIX: ${{ inputs.ckpt_prefix }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
@@ -45,6 +50,30 @@ jobs:
           tag = os.environ.get("TAG", "nr4a3-fep"); n = int(os.environ.get("N", "10"))
           sm = boto3.client("sagemaker")
           logs = boto3.client("logs")
+          # Optional: pull the small setup logs (LEaP transcripts, frcmod, leap.in) straight from the
+          # checkpoint S3 prefix — the definitive per-leg diagnostic (complex leg fails via check_output, whose
+          # stdout yank swallows, so the CloudWatch tail can't show it; the on-disk log DID sync to S3).
+          ckpt = os.environ.get("CKPT_PREFIX", "").strip()
+          if ckpt:
+              s3 = boto3.client("s3"); sts = boto3.client("sts")
+              region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+              bucket = f"sagemaker-{region}-{sts.get_caller_identity()['Account']}"
+              print(f"# S3 setup-log inspect: s3://{bucket}/{ckpt}/")
+              paginator = s3.get_paginator("list_objects_v2")
+              wanted = (".leap.log", "leap.log", "leap.in", ".frcmod", ".in")
+              keys = []
+              for pg in paginator.paginate(Bucket=bucket, Prefix=ckpt):
+                  for o in pg.get("Contents", []):
+                      k = o["Key"]
+                      if any(k.endswith(w) for w in wanted) and o["Size"] < 200000:
+                          keys.append((k, o["Size"]))
+              print(f"# found {len(keys)} setup-log files")
+              for k, sz in sorted(keys):
+                  body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+                  # for big LEaP logs print head+tail (errors cluster at the end); small files print whole
+                  show = body if len(body) < 6000 else (body[:1500] + "\n...<snip>...\n" + body[-4000:])
+                  print(f"\n===== S3 {k} ({sz} bytes) =====\n{show}")
+              print("#" * 80)
           jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
           print(f"recent '{tag}' training jobs: {len(jobs)}")
