@@ -42,6 +42,14 @@ jobs:
       - name: DepMap target-expression mining (surface/CTA/effector targets)
         run: python research/modalities/depmap_target_expression.py
 
+      - name: EMC surfaceome discovery scan (delivery/CAR/ADC targeting-antigen candidate)
+        if: always()
+        run: python research/modalities/emc_surfaceome_scan.py || echo "surfaceome-scan soft-fail (network); non-blocking"
+
+      - name: EMC surface-target prioritisation figure
+        if: always()
+        run: python research/modalities/emc_surface_figure.py || echo "surface-figure soft-fail (network); non-blocking"
+
       - name: NR4A safety genetics (gnomAD constraint + IMPC single-KO + HPA expression)
         if: always()
         run: python research/modalities/nr4a_safety_genetics.py || echo "safety-genetics soft-fail (network); non-blocking"
@@ -69,6 +77,9 @@ jobs:
           cp research/modalities/depmap-sarcoma-dependency.png "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/depmap-target-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/depmap-target-expression.png "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-surfaceome-scan.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-surfaceome-scan.png "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-surface-prioritization.png "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-safety-genetics.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-resistance-map.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-e3-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
@@ -88,6 +99,9 @@ jobs:
           git add research/modalities/depmap-sarcoma-dependency.png 2>/dev/null || true
           git add research/modalities/depmap-target-expression.json 2>/dev/null || true
           git add research/modalities/depmap-target-expression.png 2>/dev/null || true
+          git add research/modalities/emc-surfaceome-scan.json 2>/dev/null || true
+          git add research/modalities/emc-surfaceome-scan.png 2>/dev/null || true
+          git add research/modalities/emc-surface-prioritization.png 2>/dev/null || true
           git add research/modalities/nr4a-safety-genetics.json 2>/dev/null || true
           git add research/modalities/nr4a-resistance-map.json 2>/dev/null || true
           git add research/modalities/nr4a-e3-expression.json 2>/dev/null || true

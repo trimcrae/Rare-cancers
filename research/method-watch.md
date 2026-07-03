@@ -36,17 +36,27 @@ below, do the paired action and open the follow-up; otherwise no action.
 | cheaper / more reliable **free-energy (FEP or ML free-energy)** on **cryptic / induced-fit** pockets | run the **denovo_401 selectivity FEP** currently SKIP-ped as ceiling-bound + least-reliable-here, and re-grade the binder-selectivity claim against it |
 | better **induced-fit / conformational-ensemble docking or ML affinity** | re-score denovo_401 (and the de-novo pool) against the *dynamic* NR4A3 pocket instead of single/few frames — tightens the frame-dependent margin (+12.83 release vs +7.44 metad) |
 | **in-silico oligonucleotide/nanoparticle tumour-delivery** predictor (biodistribution / endosomal escape / PBPK / ML tumour-penetration) | score the **B7-H3-targeted junction-siRNA / AOC** delivery in-silico and **re-grade the ASO route feasibility** (delivery is the route's gate) |
+| **oligonucleotide tumour-delivery TECHNOLOGY / candidate** — an AOC/conjugate, tumour-penetrating-peptide, or ligand-targeted-LNP platform that reaches **non-hepatic solid tumours**, OR a **characterised EMC-enriched surface antigen** (the AOC's targeting arm) | **propose a concrete junction-oligo delivery *candidate*** (not just an in-silico test) and re-grade the ASO route's dominant gate — this is the watch for a real *way to do delivery*, distinct from the predictor row above |
 | calibrated **ASO off-target / RNase-H cleavage-activity** predictor | **retire the conservative "gap-mismatch ⇒ non-cleaving" heuristic** in the junction-ASO specificity screen (`fusion-junction-aso-paper.md` §3a-quater) and re-grade predicted specificity with a calibrated model |
 | improved **ASO/siRNA efficacy + target-site-accessibility** predictor | **re-rank the junction designs for potency** and replace the local-fold accessibility proxy (`fusion-junction-aso-paper.md` §3a-bis iii) |
 | new **patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) | **enables the decisive wet-lab experiment** — junction-ASO knockdown + parental-sparing in EMC cells (`fusion-junction-aso-paper.md` §4) — and a fusion-dependence readout |
 | improved **perturbation / DepMap-transfer** models | re-test synthetic-lethal / nominate new EMC dependencies |
 | any direct **chemical/biological matter against NR4A3** or the fusion | fold into the relevant route memo immediately |
 
-The **delivery** row is the newest watch: the ASO/siRNA route is gated by tumour delivery,
-which we cannot solve in-silico today — but the moment a usable delivery/biodistribution
-*predictor* exists, the proposed B7-H3-AOC/junction-siRNA design (see
-`manuscripts/emc-treatment-roadmap.md` → ASO "Delivery strategy") becomes computationally
-testable, which would move the route off "delivery-limited."
+The **delivery** rows are load-bearing: the ASO/siRNA route is gated by tumour delivery, which
+we cannot solve in-silico today. There are **two distinct ways this unblocks**, so there are two
+delivery rows:
+1. **An in-silico delivery *predictor*** (biodistribution / endosomal escape / PBPK / ML
+   tumour-penetration) → the proposed B7-H3-AOC/junction-siRNA design (see
+   `manuscripts/emc-treatment-roadmap.md` → ASO "Delivery strategy") becomes computationally
+   *testable*, moving the route off "delivery-limited" **in-silico**.
+2. **A delivery *technology/candidate*** — an AOC/conjugate, tumour-penetrating peptide, or
+   ligand-targeted LNP that actually reaches non-hepatic solid tumours, or a characterised
+   EMC-enriched surface antigen to serve as the targeting arm → lets us **name a concrete delivery
+   candidate**, moving the route off "delivery-limited" **in reality**. This is the more important
+   of the two: the honest bottleneck is not "we can't simulate delivery," it is "no validated way
+   to deliver an oligo to an EMC tumour exists yet." A single characterised EMC surface antigen or a
+   working soft-tissue-sarcoma AOC would change the route's standing more than any predictor.
 
 ## Watched topics (kept in sync with `scripts/method-watch.mjs`)
 - virtual-cell / perturbation prediction (scGPT / Geneformer / State / Arc Virtual Cell)
@@ -55,6 +65,9 @@ testable, which would move the route off "delivery-limited."
 - cryptic-pocket / dynamics-based druggability (PocketMiner, metadynamics)
 - **in-silico oligo/nanoparticle tumour-delivery prediction** (AOC, siRNA delivery, LNP,
   endosomal escape, tumour penetration — ML / PBPK / computational)
+- **oligo tumour-delivery TECHNOLOGY / candidate** (AOC / antibody-oligonucleotide conjugate,
+  tumour-penetrating peptide, ligand-targeted LNP for non-hepatic solid tumours; EMC-enriched
+  surface antigen for a targeting arm) — the watch for a real *way to do delivery*, not a predictor
 - **ASO/gapmer off-target & RNase-H cleavage prediction** (ASO-paper next step: retire the
   gap-mismatch heuristic — §3a-quater)
 - **ASO/siRNA design, efficacy & target-accessibility prediction** (ASO-paper next step:
@@ -74,6 +87,37 @@ model swaps in cheaply.*
 
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
+
+- **[2026-07-03] EMC-line real-data probe — new lines NOT public; GSE4303 tumour microarray IS.** A probe
+  (`modalities/emc_line_data_probe.py` → `emc-line-data-probe.json`) for real-EMC surface/expression data found:
+  (1) the two new patient-derived lines **have not deposited transcriptomes** — USZ-EMC [Bangerter 2022/2023] is
+  "available on request", NCC-EMC1-C1 [Iwata 2025] is paywalled (abstract has no accession); the USZ OA text
+  mentions **EGFR/KIT** (unverified as surface IHC). (2) A public **real-EMC *tumour* microarray, `GSE4303`**
+  ("Gene expression profile of EMC"; Subramanian-type), plus scattered EMC tumour samples, DOES exist. **Action
+  options (open):** (a) re-point/ cross-check the surfaceome scan against `GSE4303` — real EMC *tumour*, but old
+  microarray, bulk-tumour stromal dilution, small n, possibly two-colour ratio data (may not give absolute
+  surface-antigen levels — verify platform first); (b) **obtain the USZ/NCC line data by contacting the authors**
+  (better data, but a human/wet-lab-adjacent action, not in-silico); (c) leave the DepMap surrogate as the
+  published basis and cite `GSE4303`/line-existence as the upgrade path. **Decision (trimcrae, 2026-07-03): DO
+  BOTH (a)+(b).** (a) built + run: `modalities/emc_gse4303_crosscheck.py` → `emc-gse4303-crosscheck.json` —
+  **outcome: GSE4303 is UNUSABLE** (two-colour cDNA-clone array; log-ratios not absolute expression; probes
+  lack gene symbols → 0 shortlist genes resolved; the platform gate correctly flagged it). Public-data route
+  exhausted → author-held line data is the only real unlock. **A surface-antigen scaffold paper was spun out**
+  ([`manuscripts/emc-surface-target-landscape.md`](manuscripts/emc-surface-target-landscape.md), gated on that
+  data). (b) queued: the
+  ASO paper §4 now names the **USZ (Zurich)** and **NCC (Japan)** groups as recipients, with the
+  delivery-directed ask for their EMC lines' surface immunophenotype/RNA-seq (preprint-stage outreach).
+  Status: **actioned.**
+
+- **[2026-07-03] Delivery watch split into predictor + technology/candidate (trimcrae ask).** The
+  ASO route's dominant gate is tumour delivery. The watch now has **two** delivery rows/topics: (1)
+  an in-silico delivery *predictor* (makes the AOC/siRNA design computationally testable), and (2) a
+  delivery *technology/candidate* — an AOC, tumour-penetrating peptide, or ligand-targeted LNP for
+  non-hepatic solid tumours, or a **characterised EMC-enriched surface antigen** (the AOC's targeting
+  arm). Row (2) is the one most likely to actually move the route, because the real bottleneck is the
+  absence of a delivery *route*, not the absence of a *simulator*. Status: **watching** (no hits yet).
+  Companion GPU-experiment to-do (RNase-H1 cleavage-discrimination MD) is tracked in the ASO paper §9
+  and IDEAS.md — that firms up *specificity*; it does **not** touch delivery.
 
 - **[2026-06-26] ASO-paper next-step gates added to the watch.** The fusion-junction ASO paper
   now has its own watched capabilities (three new literature topics in `scripts/method-watch.mjs`

@@ -1,0 +1,84 @@
+name: Build preprint (PDF + DOCX)
+
+# Renders a manuscript from Markdown to submission-ready PDF + DOCX via pandoc, and bundles the
+# prioritisation figure. Uploads the built files as a workflow artifact and publishes them to the
+# `preprint-cache` branch. bioRxiv accepts PDF/DOCX; this is the "ready to submit" artifact.
+# Internet-only (apt + figure fetch) -> runs on a GitHub-hosted runner.
+
+on:
+  workflow_dispatch:
+    inputs:
+      paper:
+        description: "Manuscript basename under research/manuscripts/ (no .md)"
+        required: false
+        default: "emc-surface-target-landscape"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-preprint
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PAPER: ${{ inputs.paper }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc + a PDF engine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc wkhtmltopdf
+
+      - name: Assemble build dir + fetch figure
+        run: |
+          set -e
+          paper="${PAPER:-emc-surface-target-landscape}"
+          mkdir -p build
+          cp "research/manuscripts/${paper}.md" "build/${paper}.md"
+          git fetch origin modalities-cache || true
+          git show origin/modalities-cache:research/modalities/emc-surface-prioritization.png > build/emc-surface-prioritization.png 2>/dev/null || echo "figure not found (continuing without it)"
+
+      - name: Render DOCX (always) and PDF (best-effort)
+        working-directory: build
+        run: |
+          set -e
+          paper="${PAPER:-emc-surface-target-landscape}"
+          pandoc "${paper}.md" -o "${paper}.docx" --resource-path=.
+          pandoc "${paper}.md" -o "${paper}.pdf" --pdf-engine=wkhtmltopdf --resource-path=. || echo "PDF render failed (DOCX still produced)"
+          ls -la
+
+      - name: Upload built preprint + figure as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: preprint-${{ github.run_id }}
+          path: |
+            build/*.docx
+            build/*.pdf
+            build/*.png
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Publish to preprint-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/pp"
+          cp build/*.docx build/*.pdf build/*.png "$RUNNER_TEMP/pp/" 2>/dev/null || true
+          git fetch origin preprint-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/preprint-cache; then
+            git checkout -B preprint-cache origin/preprint-cache
+          else
+            git checkout --orphan preprint-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p preprints
+          cp "$RUNNER_TEMP"/pp/* preprints/ 2>/dev/null || true
+          git add preprints/ 2>/dev/null || true
+          git commit -m "Built preprint (${PAPER:-emc-surface-target-landscape})" || { echo "no changes"; exit 0; }
+          git push origin preprint-cache

@@ -36,6 +36,18 @@ jobs:
         working-directory: research/modalities
         run: python junction_sirna.py || echo "sirna design failed (continuing)"
 
+      - name: EMC cell-line data probe (Europe PMC IHC markers + GEO/SRA deposited data)
+        working-directory: research/modalities
+        run: python emc_line_data_probe.py || echo "emc-line-data-probe failed (continuing)"
+
+      - name: GSE4303 cross-check (surrogate surfaceome shortlist vs real EMC tumour expression)
+        working-directory: research/modalities
+        run: python emc_gse4303_crosscheck.py || echo "gse4303 cross-check failed (continuing)"
+
+      - name: Surface-antigen normal-tissue therapeutic-window (HPA)
+        working-directory: research/modalities
+        run: python emc_surface_normal_window.py || echo "normal-window failed (continuing)"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -45,6 +57,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/res"
           cp research/modalities/fusion-idr-features.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-sirna-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-line-data-probe.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-gse4303-crosscheck.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-surface-normal-window.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -57,5 +72,8 @@ jobs:
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
           git add research/modalities/fusion-idr-features.json 2>/dev/null || true
           git add research/modalities/junction-sirna-designs.json 2>/dev/null || true
-          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA designs" || { echo "no changes"; exit 0; }
+          git add research/modalities/emc-line-data-probe.json 2>/dev/null || true
+          git add research/modalities/emc-gse4303-crosscheck.json 2>/dev/null || true
+          git add research/modalities/emc-surface-normal-window.json 2>/dev/null || true
+          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe" || { echo "no changes"; exit 0; }
           git push origin modalities-cache

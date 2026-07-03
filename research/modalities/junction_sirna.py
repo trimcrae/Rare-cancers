@@ -80,23 +80,32 @@ def design(left, right, fusion):
 
 
 def main():
-    ews = ja.fetch_cds(ja.EWSR1_MRNA)
-    nr4 = ja.fetch_cds(ja.NR4A3_MRNA)
-    ja.EWSR1_full, ja.NR4A3_full = ews, nr4
-    left, right, fusion = ja.build_fusion_cds(ews, nr4)
+    # Breakpoint is env-selectable, mirroring junction_aso.py: FUSION_JUNCTION_MODE=real
+    # (with EWSR1_EXON_END / NR4A3_EXON_START) runs the GC-tolerant siRNA route on a REAL
+    # exon-level junction; default is the codon-space modelled reference. build_parents_and_fusion
+    # also populates ja.EWSR1_full / ja.NR4A3_full for the fusion-specificity substring check.
+    ews, nr4, left, right, fusion = ja.build_parents_and_fusion()
+    label, prov = ja.junction_label()
     cands = design(left, right, fusion)
 
     fs = [o for o in cands if o["fusion_specific"]]
     good = [o for o in fs if o["gc_in_window"] and o["asymmetry_favours_guide_loading"]
             and o["no_run_of_4"]]
+    suffix = os.environ.get("OUT_SUFFIX", "")
+    out = os.path.join(os.path.dirname(__file__), f"junction-sirna-designs{suffix}.json")
     result = {
         "_note": ("Junction-spanning siRNA designs (RISC/Ago2 mechanism) — a GC-TOLERANT "
                   "alternative to the 75-81% GC junction gapmers. DESIGN ONLY; hypotheses for "
                   "wet-lab knockdown + parental-sparing testing. Specificity is predicted "
                   "(central-cleavage-site discrimination), not validated."),
-        "_breakpoint_model": {"assumption": True, "EWSR1_mRNA": ja.EWSR1_MRNA,
-                              "NR4A3_mRNA": ja.NR4A3_MRNA,
-                              "caveat": "modelled breakpoint; re-run on a sequenced patient fusion"},
+        "_breakpoint_model": {
+            "assumption": prov["mode"] != "real_exon_junction",
+            "junction_label": label,
+            "EWSR1_mRNA": ja.EWSR1_MRNA, "NR4A3_mRNA": ja.NR4A3_MRNA,
+            "junction_context_mRNA": (left[-12:] + "|" + right[:12]),
+            "caveat": "re-run on a sequenced patient fusion for clinical design",
+            **prov,
+        },
         "guide_length": LEN, "gc_window": [GC_LO, GC_HI],
         "n_candidates": len(cands),
         "n_fusion_specific": len(fs),
@@ -104,9 +113,9 @@ def main():
         "min_gc_among_fusion_specific": min((o["gc_percent"] for o in fs), default=None),
         "top_designs": (good or fs)[:12],
     }
-    with open(OUT, "w") as fh:
+    with open(out, "w") as fh:
         json.dump(result, fh, indent=2)
-    print("wrote", OUT, file=sys.stderr)
+    print("wrote", out, file=sys.stderr)
     print(json.dumps({k: v for k, v in result.items() if k != "top_designs"}, indent=2))
 
 

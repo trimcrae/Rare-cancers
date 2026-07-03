@@ -63,6 +63,19 @@ submitted.
 - [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) — degrader vs. BRD9 head-to-head
 - [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md) — beyond-EMC motivation for the degrader (NR4A3-fusion sarcomas; NR4A in T-cell exhaustion / immuno-oncology; the AML tumour-suppressor contraindication)
 
+## Surface-antigen preprint (red-teamed; hypothesis-generating, seeks validation data)
+
+- [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md) — **full preprint** (trimcrae
+  2026-07-03): a *target-class* paper on EMC **surface antigens** for delivery + immunotherapy (ADC / TCE /
+  CAR / radioligand) — a different thesis/modality axis from the fusion-junction ASO. Deliberately
+  self-critical after two red-team passes ([`emc-surface-target-redteam.md`](./emc-surface-target-redteam.md)):
+  rigorous selectivity + a hard normal-tissue window show **B7-H3 is not selective** and the selective
+  candidates carry window liabilities, so the honest result refines priorities and nominates a neuroendocrine
+  **SSTR2/GD2** route rather than declaring winners. Uses the one real EMC line in DepMap (**H-EMC-SS /
+  ACH-001519**, n=1). Ready-to-send author outreach: [`emc-surface-target-outreach.md`](./emc-surface-target-outreach.md).
+  Makes **no** EMC-validated surface claim; the decisive protein-level validation needs the patient-derived
+  EMC lines.
+
 ## Earlier treatment-track drafts — subsumed by the roadmap
 
 Real, cited drafts from before the portfolio was unified. The roadmap **sits on top of** these
