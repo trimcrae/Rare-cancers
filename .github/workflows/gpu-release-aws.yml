@@ -33,8 +33,12 @@ on:
         default: "10"
         required: false
       max_runtime:
-        description: "SageMaker MaxRuntime seconds (scale to NS; a timeout just checkpoints and you re-dispatch to resume)"
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
         default: "18000"
+        required: false
+      spot:
+        description: "1 = managed spot (cheap, ~60-70% off; safe now that it checkpoints/resumes); 0 = on-demand"
+        default: "1"
         required: false
       instance:
         description: "SageMaker instance type"
@@ -75,6 +79,7 @@ jobs:
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           CHECKPOINT_EVERY: ${{ inputs.checkpoint_every }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
+          SPOT: ${{ inputs.spot }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then

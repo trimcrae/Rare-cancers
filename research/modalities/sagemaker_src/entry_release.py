@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""SageMaker entry: unbiased "release" MD from the metad-opened NR4A3 pocket (Gate-3 disambiguation).
+"""SageMaker managed-SPOT Training entry: unbiased MD from the metad NR4A3 pocket (Gate-3 disambiguation /
+open-from-closed test).
 
-Mounts the metad outputs (ProcessingInput at /opt/ml/processing/input: metad_system.xml,
-nr4a3-lbd-solvated.pdb, nr4a3-lbd-metad.dcd), builds the CUDA OpenMM env (+ mdtraj), runs
-nr4a3_md_release.py (no PLUMED — the base system is unbiased), and copies the Rg traces + summary to
-/opt/ml/processing/output for S3. GPU job.
+Reads the metad outputs from the `metad` channel (SM_CHANNEL_METAD: metad_system.xml, nr4a3-lbd-solvated.pdb,
+nr4a3-lbd-metad.dcd), builds the CUDA OpenMM env (+ mdtraj), and runs nr4a3_md_release.py (no PLUMED — the base
+system is unbiased). All outputs (Rg traces, per-replica state.xml checkpoints, progress, summary) go to
+/opt/ml/checkpoints, which SageMaker syncs to checkpoint_s3_uri CONTINUOUSLY and re-populates on a spot
+restart / re-dispatch — so the harness RESUMES from its own prior checkpoints there. GPU job.
 """
 import os
 import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+# The SageMaker-managed checkpoint dir: continuously synced to checkpoint_s3_uri AND pre-populated with prior
+# checkpoints on start → it is simultaneously the OUTPUT dir and the RESUME dir.
+OUT = os.environ.get("SM_CHECKPOINT_DIR", "/opt/ml/checkpoints")
 
 
 def main():
@@ -39,17 +43,16 @@ def main():
                     "python=3.11", "openmm", "mdtraj", "cuda-version=12.8"], check=True, env=create_env)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    env["INPUT_DIR"] = os.environ.get("SM_CHANNEL_METAD", "/opt/ml/input/data/metad")
     env["OUTPUT_DIR"] = OUT
     env["NS"] = args.ns
     env["N_REP"] = args.n_rep
     env["TARGET_RG"] = args.target_rg
     env["RUN_TAG"] = args.run_tag
     env["CHECKPOINT_EVERY"] = args.checkpoint_every
-    # If a prior checkpoint was mounted for RESUME, point the harness at it (continue trajectories); else the
-    # harness treats OUTPUT_DIR as the (empty) resume dir and seeds fresh.
-    resume = "/opt/ml/processing/resume"
-    env["RESUME_DIR"] = resume if os.path.isdir(resume) else OUT
+    # RESUME_DIR == the checkpoint dir: SageMaker downloaded any prior checkpoints here on start, so the harness
+    # continues its own trajectories (spot-restart-safe + re-dispatch-extendable) instead of re-seeding.
+    env["RESUME_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running unbiased release MD ({args.n_rep} x {args.ns} ns)", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "md",
