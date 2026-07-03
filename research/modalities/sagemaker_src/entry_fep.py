@@ -68,11 +68,15 @@ def main():
         # check). yank-env-check.yml confirmed 0.21.2 has the attr and solves with openmm 8.3.1 / numpy 1.26 /
         # python 3.9. ocl-icd-system + the nvidia.icd vendor file below let OpenMM's OpenCL platform register
         # the A10G (CUDA PTX is dead on this g5 image).
-        # setuptools<81: yank 0.25.2 imports the legacy `pkg_resources` (yank/utils.py), REMOVED in
-        # setuptools>=81. openbabel's deps bumped setuptools past 81 → ModuleNotFoundError: pkg_resources.
+        # PINS for the unmaintained yank 0.25.2 (2020) on a modern solve — each verified by a failed shard:
+        #   python=3.9      : yank uses legacy `collections.MutableMapping`, REMOVED in py3.10 (openbabel/
+        #                     setuptools otherwise pulled py3.10+). 3.9 is also what yank-env-check resolved.
+        #   openmmtools=0.21.2: yank needs alchemy._ALCHEMICAL_REGION_ARGS, gone in 0.25.
+        #   setuptools<81   : yank imports pkg_resources, removed in setuptools>=81 (openbabel bumped it past).
+        #   openbabel       : adds explicit H to the heavy-atom docked pose before antechamber.
         subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
-                        "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel", "setuptools<81"],
-                       check=True)
+                        "python=3.9", "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel",
+                        "setuptools<81"], check=True)
         subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
                         "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
         # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own
