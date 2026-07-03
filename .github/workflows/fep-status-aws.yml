@@ -79,6 +79,13 @@ jobs:
           jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
           print(f"recent '{tag}' training jobs: {len(jobs)}")
+          # compact summary printed at the END too (get_job_logs is tail-only, so the top describe scrolls off)
+          _summary = []
+          for _j in jobs:
+              _d = sm.describe_training_job(TrainingJobName=_j["TrainingJobName"])
+              _inst = _d.get("ResourceConfig", {}).get("InstanceType", "?")
+              _sec = _d.get("SecondaryStatus", "")
+              _summary.append(f"{_j['TrainingJobName']}  {_d['TrainingJobStatus']}/{_sec}  {_inst}")
           # describe all, then dump CloudWatch stdout for the FIRST failed one (the real traceback)
           first_failed = None
           for j in jobs:
@@ -115,4 +122,7 @@ jobs:
                           print("  " + m)
               except Exception as e:
                   print(f"  could not fetch CloudWatch logs: {e}")
+          print("\n=== JOB SUMMARY (name / status / instance) ===")
+          for _line in _summary:
+              print("  " + _line)
           PY
