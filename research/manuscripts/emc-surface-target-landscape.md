@@ -112,7 +112,8 @@ enhanced*), overrides all as **VITAL_OR_IMMUNE_LIABILITY**. Controls: DLL3/GPC3 
 and a **hard control CD3E** (an immune antigen) must NOT be RESTRICTED — all satisfied. HPA RNA is bulk normal
 tissue and a window *prior*, not a safety guarantee, and mRNA ≠ surface protein. [`emc_surface_normal_window.py`]
 
-**2.4 Real-EMC public data (attempted).** We attempted the only public EMC tumour transcriptome (GSE4303) and
+**2.4 Real-EMC public data (attempted).** We attempted the only usable dedicated public EMC tumour
+transcriptome we could identify (GSE4303) and
 report why it is unusable. [`emc_gse4303_crosscheck.py`, `emc_line_data_probe.py`]
 
 ---
@@ -171,7 +172,9 @@ With a rank-based, BH-corrected test (surrogate class vs non-sarcoma lineages; [
 Two cautions, stated up front. First, this is **cross-cancer** selectivity, which the epithelial-dominated
 DepMap panel biases toward mesenchymal antigens (CDH11's +3.18 is largely "not expressed by carcinomas", not
 "tumour-specific"). Second, mRNA magnitude to two decimals conveys false precision about surface-protein
-density; read these as **coarse tiers**. The one decision-grade result here is negative and useful: **B7-H3,
+density; read these as **coarse tiers**. (Note also that the single EMC line of §3.1 is one of the 76 class
+lines, so its ~1/76 contribution is negligible and FGFR1 appearing in both §3.1 and §3.2 is *not* independent
+corroboration.) The one decision-grade result here is negative and useful: **B7-H3,
 the field's default EMC surface target, is not significantly selective in the data** (q = 1.0). B7-H3 protein
 can be tumour-restricted despite broad mRNA — the basis of its clinical traction — so this is a
 selectivity-of-transcript caveat, not a claim about protein; but it removes the transcriptomic rationale for
@@ -231,8 +234,9 @@ These are hypotheses requiring direct EMC measurement (SSTR2 IHC/PET; GD2 immuno
 
 ### 3.5 The public real-EMC tumour dataset is unusable
 
-The only public EMC tumour transcriptome, GSE4303, is a seven-platform two-colour cDNA-clone microarray (three
-EMC samples per platform; `matrix_files_found` lists seven GPLs) whose values are reference-pool log-ratios and
+The only usable, dedicated public EMC tumour transcriptome we could identify, GSE4303, is a seven-platform
+two-colour cDNA-clone microarray (three EMC samples per platform; `matrix_files_found` lists seven GPLs) whose
+values are reference-pool log-ratios and
 whose probes lack gene symbols; zero shortlist genes resolved ([`emc-gse4303-crosscheck.json`]). It cannot rank
 surface antigens. Combined with §3.1 (a single EMC line in DepMap), this is precisely why patient-derived EMC
 model data is the essential input (§7).
