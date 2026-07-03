@@ -587,6 +587,14 @@ returns a nuanced verdict:
 expression if/when USZ/NCC deposit or share it. Either strengthens the §3c targeting-antigen shortlist from
 "surrogate" to "real EMC." This is the highest-value delivery-directed next step.
 
+> **Scope note — this surface-antigen work is being spun out.** Surface-antigen targeting is a *different
+> thesis* from this paper's fusion-exclusivity (a surface antigen is not the fusion; its selectivity is
+> tumour-vs-normal antigen distribution, not fusion sequence) and a *different, less-delivery-gated modality
+> axis* (ADC / T-cell engager / CAR / radioligand, beyond the AOC arm). It therefore graduates into its own
+> **target-class** manuscript, [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md)
+> (scaffolded, gated on the real EMC surface data above) — the way the degrader paper was split from the EMC
+> roadmap. This section keeps only the *delivery-arm* relevance to the ASO; the antigen landscape lives there.
+
 No delivery claim is made; this section exists to mark delivery as the dominant risk, to **narrow the
 targeting-arm unknown from "none named" to a data-ranked shortlist**, and to point at the EMC lines that could
 confirm it — not to assert a solution.

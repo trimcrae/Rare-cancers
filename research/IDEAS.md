@@ -45,6 +45,14 @@ proxy. See `emc-treatment-strategy.md` → "two paths" + "in-silico work program
 (only new patient-derived lines: NCC-EMC1-C1 2025; USZ-EMC). The decisive experiment of *every*
 route needs those lines — that bottleneck, not idea-generation, is the real constraint.
 
+**Surface-target routes are being consolidated into their own paper (2026-07-03).** The B7-H3 ADC/CAR-T,
+FAP-RLT, CD56 and PRAME surface/immuno routes above share one input — *which antigen is on an EMC cell* —
+and one modality logic (less delivery-gated than the ASO, but not fusion-exclusive). They now feed a
+**scaffolded, gated** target-class manuscript, [`manuscripts/emc-surface-target-landscape.md`](./manuscripts/emc-surface-target-landscape.md),
+built on the unbiased surfaceome scan (`modalities/emc_surfaceome_scan.py`: B7-H3 broad-but-non-selective;
+CDH11/FGFR1/GPC2/PTK7/MCAM more selective — surrogate). It becomes a real draft when the USZ/NCC EMC-line
+surface data lands (outreach, ASO §4) + the GTEx/HPA normal-tissue window is applied.
+
 **Speculative / forward-looking (AI-era), kept honest:** de-novo binder/TCR design (diffusion
 models) to manufacture the warhead or TCR a route lacks; AI structure (AF3) for ternary/PPI
 interfaces; combination therapy (anti-angiogenic TKI — EMC's one real clinical signal — + IO).
