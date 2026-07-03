@@ -111,6 +111,21 @@ read it before making changes.
   **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
   those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
   SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
+- **DEFAULT EVERY GPU RUN TO MANAGED SPOT — reframe on-demand jobs to spot *Training* whenever possible
+  (trimcrae standing rule, 2026-07-03).** Spot is ~60-70% cheaper AND draws on the larger spot *Training* quota
+  (8) instead of the on-demand *Processing* quota (1), so spot jobs also run more-concurrently. **Spot is safe
+  BECAUSE of the checkpoint rule above** — the two go together: a `PyTorch` Estimator with
+  `use_spot_instances=True`, `max_wait >= max_run`, and `checkpoint_s3_uri` + `checkpoint_local_path=/opt/ml/checkpoints`
+  gets SageMaker's native resume — it **downloads prior checkpoints to /opt/ml/checkpoints on start** (a spot
+  interruption OR a fresh re-dispatch with the same prefix → RESUME + extend) and **uploads continuously**. So a
+  job that checkpoints per unit loses at most one interval to a spot kill. **Exemplars to copy:**
+  `nr4a3_fep_sagemaker.py` (spot Training fleet) and `nr4a3_md_release_sagemaker.py` (unbiased MD, converted
+  from an on-demand Processing job to spot Training 2026-07-03). **When migrating a Processing job:** move
+  outputs from `/opt/ml/processing/output` → `/opt/ml/checkpoints`, mount inputs as `TrainingInput` channels
+  (`SM_CHANNEL_*`), pass params as `hyperparameters` (→ `--key value` CLI args), and set `RESUME_DIR` = the
+  checkpoint dir. **Only stay on-demand when spot genuinely can't work:** the job truly cannot checkpoint, or the
+  needed instance type has **no spot quota** (e.g. `ml.g5.4xlarge` spot quota was 0 — a bigger-RAM need may force
+  on-demand or a quota-raise). Prefer spot; justify on-demand.
 - **VALIDATE A FAN-OUT GPU FLEET ON A SINGLE SHARD FIRST, then scale (trimcrae rule, 2026-07-03).** Any job
   that fans out N parallel GPU shards (the FEP fleet; any future spot fleet) must be shaken out with
   `n_shards=1` before launching all N — a failed env/wiring test on 8 shards burns 8× the compute for the
