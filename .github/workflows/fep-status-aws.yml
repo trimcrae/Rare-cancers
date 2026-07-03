@@ -68,11 +68,20 @@ jobs:
                               logStreamNamePrefix=first_failed).get("logStreams", [])
                   if not streams:
                       print("  (no log stream found)")
+                  import re
+                  # Signal-only filter so the 657KB LEaP water-dump doesn't bury the real error. Prints the
+                  # lines that actually locate a failure (which leg, which yank stage, the exception).
+                  sig = re.compile(r"(error|complex pme|solvent pme|exiting leap|setup log|traceback|"
+                                   r"fatal|could not find|went wrong|nan|openbabel|openff|antechamber|"
+                                   r"platform|opencl|assert|\[fep\]|ΔG|dg_bind|iteration|trailblaz|"
+                                   r"minimiz|alchemical|reached|MBAR|restraint)", re.I)
                   for s in streams[:1]:
                       ev = logs.get_log_events(logGroupName=grp, logStreamName=s["logStreamName"],
-                                               startFromHead=False, limit=120).get("events", [])
-                      for e in ev:
-                          print("  " + e["message"].rstrip())
+                                               startFromHead=False, limit=2000).get("events", [])
+                      matched = [e["message"].rstrip() for e in ev if sig.search(e["message"])]
+                      print(f"  (filtered {len(matched)}/{len(ev)} CloudWatch lines to failure-signal)")
+                      for m in matched[-200:]:
+                          print("  " + m)
               except Exception as e:
                   print(f"  could not fetch CloudWatch logs: {e}")
           PY
