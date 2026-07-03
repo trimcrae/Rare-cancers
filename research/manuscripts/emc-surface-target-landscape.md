@@ -33,13 +33,14 @@ filter** (Human Protein Atlas tissue *and* blood-cell specificity, with vital-ti
 controls validated). Positive/negative/hard controls check each classifier branch.
 
 **Results.** Selectivity (versus other cancer lineages) is significant for CDH11, KIT, FGFR1, NCAM1, GPC2,
-PTK7, MCAM and EPHB4, and — importantly — **not** for B7-H3/CD276 (p = 0.98), EGFR or FAP. The normal-tissue
+PTK7, MCAM and EPHB4, and — importantly — **not** for B7-H3/CD276 (BH q = 1.0), EGFR or FAP. The normal-tissue
 filter is decisive and sobering: of the classic candidates, **none is both selective and normal-tissue-
 restricted.** They partition into selective-but-broadly-expressed (CDH11, GPC2, FGFR1, MCAM, EPHB4),
 selective-but-immune/vital-liability (NCAM1/CD56 — on NK cells; PTK7; KIT), and non-selective (B7-H3, EGFR,
-FAP); only GD2 (assayed via its synthase B4GALNT1, an imperfect proxy) shows a restricted window. EMC's
-documented neuroendocrine differentiation (INSM1, synaptophysin) motivates two hypotheses the field has not
-tested for EMC: **SSTR2** (target of the approved radioligand ¹⁷⁷Lu-DOTATATE) and **GD2**.
+FAP); only GD2 (assayed via its synthase B4GALNT1, an imperfect proxy) shows a restricted *normal-tissue*
+window (its EMC expression is unmeasured). EMC's reported neuroendocrine differentiation (IHC: INSM1,
+synaptophysin — pending citation) motivates two hypotheses the field has not tested for EMC: **SSTR2** (target
+of the approved radioligand ¹⁷⁷Lu-DOTATATE) and **GD2** — both requiring direct EMC measurement.
 
 **Conclusion.** Done rigorously, in-silico surface-target discovery for EMC does not hand over a clean target;
 its value is to de-risk over-optimistic assumptions (especially B7-H3), to expose antigen-specific liabilities,
@@ -80,10 +81,11 @@ work was done. Provenance and per-stage controls are recorded in each output JSO
 
 **2.1 Surfaceome.** UniProt-reviewed human proteins with a plasma-membrane location (SL-0039) plus a
 transmembrane (KW-0812) or GPI-anchor (KW-0336) topology, unioned with a curated seed of actionable surface
-antigens (so established targets are always evaluated). The committed run drew **2,820 genes from UniProt**
-plus **47 seed** antigens (2,826 total; 2,692 present in the DepMap expression matrix and scanned) — so the
-seed is a small minority and the set is largely, though **not strictly, unbiased**; the UniProt fetch status
-and counts are recorded in the output. [`emc_surfaceome_scan.py`]
+antigens (so established targets are always evaluated). The committed run used **2,820 genes from UniProt ∪ 47
+curated seed antigens** (41 of the seed already in the UniProt set) = **2,826 unique**, of which **2,692** are
+present in the DepMap expression matrix and were scanned — so the seed is a small, mostly-redundant minority
+and the set is largely, though **not strictly, unbiased**; the UniProt fetch status and counts are recorded in
+the output. [`emc_surfaceome_scan.py`]
 
 **2.2 Expression, selectivity, and the one EMC line.** DepMap OmicsExpression (log2(TPM+1)). We defined a
 translocation-sarcoma class by OncotreeSubtype (Ewing/synovial/alveolar/DSRCT/clear-cell + the EMC line;
@@ -100,10 +102,12 @@ minimal sanity check, not validation); CD276 recovers as broadly expressed. [`em
 **2.3 Normal-tissue therapeutic-window filter (the primary axis).** For each antigen we queried the Human
 Protein Atlas for RNA tissue specificity, tissue distribution, per-tissue nTPM, **blood-cell specificity**, and
 subcellular location, and classified a window verdict with correct HPA semantics: only *tissue enriched* /
-*group enriched* with no vital-tissue and no strong immune/circulating signal is **RESTRICTED**; *tissue
-enhanced* (detected broadly with a peak) is **ENHANCED_BROAD**, not restricted; *low tissue specificity* is
-**BROAD_LIABILITY**; and expression in a vital tissue or a confined immune/circulating compartment overrides
-all as **VITAL_OR_IMMUNE_LIABILITY**. Controls: DLL3/GPC3 (tumour-restricted) must be RESTRICTED, B2M BROAD,
+*group enriched* with a *restricted distribution* and no vital-tissue and no strong immune/circulating signal
+is **RESTRICTED**; *tissue enhanced* (detected broadly with a peak) is **ENHANCED_BROAD**, not restricted;
+*low tissue specificity* **or a "detected in all" distribution** is **BROAD_LIABILITY** (the distribution
+override demotes e.g. MCAM, which is "group enriched" but detected in all tissues); and expression in a vital
+tissue, or a *confined* blood signal (*immune-cell enriched* / *group enriched* — not weak *immune-cell
+enhanced*), overrides all as **VITAL_OR_IMMUNE_LIABILITY**. Controls: DLL3/GPC3 (tumour-restricted) must be RESTRICTED, B2M BROAD,
 and a **hard control CD3E** (an immune antigen) must NOT be RESTRICTED — all satisfied. HPA RNA is bulk normal
 tissue and a window *prior*, not a safety guarantee, and mRNA ≠ surface protein. [`emc_surface_normal_window.py`]
 
@@ -136,13 +140,14 @@ status [to verify]):
 | 8 | CD81 (8.5) | 16 | ALCAM (7.7) |
 
 Two honest readings. First, the list is **dominated by ubiquitous membrane proteins** (APP, the tetraspanins
-CD63/CD81, BSG/CD147, ITGB1, CD59, LAMP1) — raw single-line expression surfaces housekeeping surface proteins,
-which is precisely why the selectivity and normal-tissue filters below are necessary and why "highly expressed"
-is not "targetable". Second, and more interestingly, **FGFR1 ranks third** and several **neural-associated
-surface proteins (DNER, RTN4/Nogo, PMP22, APP)** appear — consistent with EMC's neuroendocrine/neural
-differentiation (§1) and supportive of the SSTR2/GD2 hypothesis (§3.4). This single line cannot carry
-statistical weight, but it anchors the analysis in real EMC and is exactly the data that, at n ≫ 1, would
-resolve the questions below.
+CD63/CD81, BSG/CD147, ITGB1, ALCAM) — raw single-line expression surfaces housekeeping surface proteins, which
+is precisely why the selectivity and normal-tissue filters below are necessary and why "highly expressed" is
+not "targetable". Second, **FGFR1 ranks third** and several **neural-associated surface proteins (DNER,
+RTN4/Nogo, PMP22)** appear — loosely consistent with EMC's neuroendocrine/neural differentiation (§1), though
+from a single line this is a suggestion, not evidence, for the SSTR2/GD2 hypothesis (§3.4). This one line
+cannot carry statistical weight; it anchors the analysis in an established EMC line (ECACC-catalogued H-EMC-SS;
+authentication/fusion status [to verify]) and is exactly the data that, at n ≫ 1, would resolve the questions
+below.
 
 ### 3.2 Selectivity across the translocation-sarcoma class — and B7-H3 is not selective
 
@@ -156,8 +161,8 @@ With a rank-based, BH-corrected test (surrogate class vs non-sarcoma lineages; [
 | NCAM1/CD56 | +1.74 | ~0 | yes |
 | GPC2 | +1.49 | ~0 | yes |
 | PTK7 | +1.24 | 2e-4 | yes |
-| EPHB4 | +1.0 | 3e-4 | yes |
 | MCAM/CD146 | +1.09 | 3e-3 | yes |
+| EPHB4 | +1.0 | 3e-4 | yes |
 | **B7-H3/CD276** | **+0.14** | **1.0** | **NO** |
 | FAP | +0.02 | 0.16 | no |
 | EGFR | −2.21 | 1.0 | no |
@@ -193,8 +198,9 @@ VITAL_OR_IMMUNE_LIABILITY; [`emc-surface-normal-window.json`]):
 | **PTK7** | Low tissue specificity | **immune enriched** | **VITAL_OR_IMMUNE_LIABILITY** |
 | **KIT** | Tissue enhanced | **group enriched (haematopoietic/mast)** | **VITAL_OR_IMMUNE_LIABILITY** |
 
-The intersection of §3.2 (selective) and §3.3 (restricted) among classic protein antigens is **empty**. The
-candidates fail the window in specific, nameable ways:
+The intersection of §3.2 (selective) and §3.3 (restricted) among classic protein antigens is **empty**
+(**Figure 1**: antigens plotted by selectivity × window tier; the selective-and-restricted quadrant is
+unpopulated — [`emc-surface-prioritization.png`]). The candidates fail the window in specific, nameable ways:
 - **NCAM1/CD56** is on NK cells (fratricide risk for CAR/NK; a circulating compartment) and neural tissue; the
   CD56 ADC **lorvotuzumab mertansine (IMGN901)** was clinically developed and discontinued (no efficacy benefit,
   added toxicity) [Socinski/Spira — citations to verify]. It is not a clean target despite its selectivity.
@@ -202,18 +208,21 @@ candidates fail the window in specific, nameable ways:
   fibrosis target); its high cross-cancer enrichment is the mesenchymal-vs-epithelial artifact above. Pairing it
   with binary-kill modalities (CAR/TCE) would attack normal mesenchyme body-wide.
 - **B7-H3, EGFR, FAP** are non-selective and/or broad; **FGFR1/MCAM/EPHB4** are window-liabilities.
-- **GD2** (via the B4GALNT1 proxy — GD2 is a glycolipid, not a gene product, so this is indirect) is the only
-  restricted-window signal, consistent with GD2's known tumour-restricted profile.
+- **GD2** (via the B4GALNT1 proxy — GD2 is a glycolipid, not a gene product, so this is indirect) has the only
+  restricted *normal-tissue* window here, consistent with GD2's known tumour-restricted profile — but **whether
+  EMC expresses GD2 is unmeasured**, so this is a favourable window, not evidence of an EMC target.
 
 ### 3.4 A neuroendocrine hypothesis the field has not tested for EMC: SSTR2 and GD2
 
 EMC's neuroendocrine differentiation (INSM1+, synaptophysin+; §1) motivates two candidate targets absent from
 prior EMC surface discussions:
-- **SSTR2 (somatostatin receptor 2)** — the target of the *approved* radioligand **¹⁷⁷Lu-DOTATATE** and its
-  ²²⁵Ac α-analogues [Strosberg; Frontiers 2022 — citations to verify]. If EMC's neuroendocrine phenotype
+- **SSTR2 (somatostatin receptor 2)** — the target of the *approved* radioligand **¹⁷⁷Lu-DOTATATE**
+  (Lutathera; approved for gastroenteropancreatic neuroendocrine tumours on the NETTER-1 trial [Strosberg et
+  al., *N Engl J Med* 2017 — verify]) and its ²²⁵Ac α-analogues. If EMC's neuroendocrine phenotype
   extends to SSTR2 surface expression, an off-the-shelf theranostic (SSTR-PET + peptide-receptor radioligand
-  therapy) becomes testable without a bespoke agent. Its window here is ENHANCED_BROAD (SSTR2 is expressed in
-  normal neuroendocrine/GI tissue), so dosimetry, not novelty, is the gate — exactly as for approved NET-RLT.
+  therapy) becomes testable without a bespoke agent. The first gate is whether EMC expresses SSTR2 at all
+  (unmeasured); *if* it does, then — its window being ENHANCED_BROAD (SSTR2 is expressed in normal
+  neuroendocrine/GI tissue) — dosimetry, not novelty, is the remaining gate, as for approved NET-RLT.
 - **GD2** — a surface glycolipid with mature CAR/antibody platforms and (via B4GALNT1) the only restricted-window
   signal in §3.3.
 
@@ -306,9 +315,10 @@ data.
 
 A deliberately hard in-silico analysis does not deliver a clean EMC surface target: rigorous selectivity
 testing plus a normal-tissue window shows the field-default B7-H3 is not selective and that the selective
-candidates carry specific window liabilities, leaving GD2 (indirectly) and a grounded SSTR2/DOTATATE
-neuroendocrine hypothesis as the forward leads. We report the one available EMC line's profile, specify the
-protein-level validation that matters, and invite the EMC-model groups to resolve it.
+candidates carry specific window liabilities, leaving a favourable-normal-tissue-window GD2 (EMC expression
+unknown) and a grounded-but-unmeasured-in-EMC SSTR2/DOTATATE neuroendocrine hypothesis as the questions most
+worth testing. We report the one available EMC line's profile, specify the protein-level validation that
+matters, and invite the EMC-model groups to resolve it.
 
 ---
 
@@ -333,16 +343,20 @@ Verified in the repository pool:
 - **Uhlén M, et al.** Human Protein Atlas. *Science* 2015.
 - **Bausch-Fluck D, et al.** The in silico human surfaceome. *PNAS* 2018.
 
-To verify (do not treat as established until sourced):
-- EMC neuroendocrine differentiation / INSM1, synaptophysin as EMC markers — **[citation to verify]** (Modern
-  Pathology 2017; comprehensive EMC review 2025).
-- H-EMC-SS (ACH-001519) authentication and EWSR1::NR4A3 status — **[citation to verify]** (Cellosaurus/DepMap).
-- CD56 ADC lorvotuzumab mertansine (IMGN901) discontinuation — **[citation to verify]**.
-- SSTR2 / ¹⁷⁷Lu-DOTATATE (approved NET radioligand) and ²²⁵Ac analogues — **[citation to verify]**.
-- α (²²⁵Ac ~50–80 µm) vs β (¹⁷⁷Lu ~2 mm) tissue ranges — **[citation to verify]**.
-- CDH11 normal fibroblast/synovial/bone expression (RA/fibrosis target) — **[citation to verify]**.
-- Clinical-stage agents per antigen (GPC2, PTK7, B7-H3, etc.) — **[citation to verify]** per antigen.
-- EMC incidence (<1% of soft-tissue sarcoma) — **[citation to verify]**.
+To verify (candidate anchors identified; confirm before treating as established):
+- EMC neuroendocrine differentiation — **INSM1** as a sensitive/relatively specific EMC marker (*Modern
+  Pathology* 2017; EMC INSM1 series PMID 36563884) and frequent synaptophysin/NSE positivity; S100 only
+  focal — **[verify]**.
+- H-EMC-SS (ACH-001519) — an ECACC-catalogued EMC line; authentication STR / EWSR1::NR4A3 status —
+  **[verify via Cellosaurus/DepMap]**.
+- CD56 ADC **lorvotuzumab mertansine (IMGN901)** — SCLC Phase 1/2 (no efficacy benefit, added toxicity;
+  PMID 28341109) and CD56⁺ solid-tumour Phase I (PMID 26961907) — **[verify]**.
+- SSTR2 / **¹⁷⁷Lu-DOTATATE** (Lutathera; NETTER-1, **Strosberg et al., *NEJM* 2017**) and ²²⁵Ac
+  somatostatin-receptor α-analogues — **[verify]**.
+- α (²²⁵Ac ~50–80 µm) vs β (¹⁷⁷Lu ~2 mm) tissue ranges — standard radiobiology — **[verify]**.
+- CDH11 normal fibroblast/synovial/bone expression (rheumatoid-arthritis/fibrosis target) — **[verify]**.
+- Clinical-stage agents per antigen (GPC2, PTK7, B7-H3 ifinatamab deruxtecan, etc.) — **[verify]** per antigen.
+- EMC incidence (<1% of soft-tissue sarcoma) — **[verify]**.
 
 ---
 *Provenance: consolidates the surfaceome scan (incl. H-EMC-SS profile + BH-corrected selectivity), the
