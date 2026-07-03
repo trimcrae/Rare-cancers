@@ -117,7 +117,7 @@ def main():
         )
 
     if MODE == "smoke":
-        units = fs.enumerate_units(receptors=("nr4a3",), legs=("solvent",), n_windows=2)   # 2 trivial units
+        units = fs.enumerate_units(receptors=("nr4a3",), n_windows=2)      # 1 trivial per-receptor unit
         chan = _upload_shard(bucket, "smoke", units)
         est = make_estimator("smoke")
         print(f"[fep] launching SMOKE spot job ({len(units)} units) → validating spot+checkpoint path…")

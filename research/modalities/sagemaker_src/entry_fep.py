@@ -60,21 +60,20 @@ def main():
         env["FEP_RECEPTOR_DIR"] = ch("receptor")
         env["FEP_POSE_DIR"] = ch("poses")
         conda = shutil.which("conda") or "/opt/conda/bin/conda"
-        print(f"[fep] real mode — building FEP env via {conda}", flush=True)
-        # numpy>=2 REQUIRED: the MD stack (a pymbar/openmmtools dep) accesses numpy.dtypes.StringDType,
-        # which only exists in numpy >= 2.0. An unpinned solve picked numpy 1.x and the real-MD path died
-        # with "module 'numpy.dtypes' has no attribute 'StringDType'" (the smoke path skips this env, so it
-        # did not catch it). Pin >=2 so conda-forge solves a consistent, importable stack.
+        print(f"[fep] real mode — building Yank FEP env via {conda}", flush=True)
+        # The physics is Yank (absolute-binding FEP: explicit solvent, Boresch restraints + standard-state
+        # correction, HREX, MBAR). Install `yank` and let conda-forge solve its OWN compatible stack (yank
+        # 0.25.2 pulls openmm 8.3 / openmmtools 0.25 / ambertools 23 / numpy 1.26 / python 3.9 — verified by
+        # yank-env-check.yml). ocl-icd-system for the OpenCL platform on the g5 (CUDA PTX is dead on this
+        # image; the nvidia.icd vendor file below lets OpenMM's OpenCL platform register the A10G).
         subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
-                        "python=3.11", "openmm", "openmmtools", "openmmforcefields",
-                        "openff-toolkit-base", "pymbar", "mdtraj", "rdkit", "pdbfixer", "ambertools",
-                        "ocl-icd-system", "numpy>=2"], check=True)
-        # CRITICAL isolation fix: the SageMaker PyTorch base container sets PYTHONPATH to its OWN
-        # site-packages (numpy 1.x). `conda run -n fep` inherits that PYTHONPATH, so `import numpy` inside
-        # the fep env resolved the BASE numpy 1.x (which lacks numpy.dtypes.StringDType) instead of the
-        # fep env's numpy 2.x — the real cause of the "StringDType" failure (the env itself has numpy 2,
-        # forced by scipy 1.17 / pandas 2.3). Clear PYTHONPATH so the fep env uses only its own packages;
-        # nr4a3_fep.py still imports its local modules via cwd (sys.path[0]).
+                        "yank", "ocl-icd-system"], check=True)
+        subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
+                        "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
+        # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own
+        # site-packages; `conda run -n fep` inherits it, so `import numpy` resolved the BASE numpy 1.x instead
+        # of the fep env's numpy — the "numpy.dtypes has no attribute StringDType" failure. Clear PYTHONPATH so
+        # the fep env uses only its own packages; nr4a3_fep.py still imports local modules via cwd (sys.path[0]).
         fep_env = dict(env)
         fep_env["PYTHONPATH"] = ""
         r = subprocess.run([conda, "run", "--no-capture-output", "-n", "fep"] + runner,
