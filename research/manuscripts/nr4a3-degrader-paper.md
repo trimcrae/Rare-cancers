@@ -193,7 +193,17 @@ is provisionally met.** The naive closed→fully-open cost is ~38 kcal/mol, but 
 correlating per-frame druggability with F(Rg) shows the pocket is already druggable (fpocket 0.80) at
 Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat (disclosed, not buried):
 both numbers are read off the *same* incompletely-converged biased F(Rg), so the 0.76 rests on the
-basin region being better sampled than the frontier (it is, but it is a single biased profile). The
+basin region being better sampled than the frontier (it is, but it is a single biased profile). **The metad
+has since been extended to 60 ns cumulative** (two 30 ns segments; `report_metad.py` on the committed
+`metad-fes-60ns.dat`), and the F(Rg) picture is **robust to the doubled sampling**: still a **single basin**
+(minimum Rg ≈ 0.755 nm) with **no separate opened minimum** (Gate 1 stays weak-form / basin-breathing), the
+**druggable release-frame region (Rg ≈ 0.73) sits only ~0.6 kcal/mol above the basin** (confirming the ~0.76),
+and the **most-open frontier (Rg ≈ 1.06) is ~35 kcal/mol** (confirming the ~38). So the provisional Gate-3
+energetics are **confirmed, not revised, at 2× sampling** — the low-cost accessibility of the druggable basin
+region does not rest on under-convergence. (Edge caveat retained: sum_hills references the sampled edges to
+~0 at the metad walls, so only the basin and the profile *shape* are interpretable, not the edge values. The
+fpocket druggability figures above are from the 30 ns trajectory; extending per-frame fpocket to the 60 ns
+frames is a cheap, still-open follow-up.) The
 **independent** test — whether the breathing-open geometry is a populated sub-state or bias-induced strain
 — is the **unbiased release run** (`nr4a3_md_release.py`), **now complete and POSITIVE** (next paragraph).
 Net: the single static structure (0.495) understated the pocket; the
