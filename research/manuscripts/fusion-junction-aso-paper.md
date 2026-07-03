@@ -423,26 +423,65 @@ Two findings, one of them important and positive:
   clean at ≤2 mismatches, and per-oligo selection is again decisive. The two screens reproduce the same
   stringency split seen at the modelled 200/8 (uncapped ≤1mm is cleaner than gap-resolved ≤2mm).
 
-**Reading.** Run on the *real* clinical seams, the route looks **more** feasible on chemistry than the
-modelled reference implied (real junctions are 37–62% GC, not 75–81%) and yields **at least one predicted-clean
-gapmer at E7::N3**, while confirming that off-target load — not GC — is now the operative per-oligo gate, and
-that the single most common junction (E12::N3) needs careful oligo selection (best 3 predicted cleavage risks
-at ≤2 mismatches). Honest bounds unchanged: predicted not validated (same gap-mismatch heuristic, §3a-quater),
-these are the *canonical-transcript* exon junctions (a real patient's design must still come from their
-sequenced breakpoint), and delivery (§3c) remains the dominant gate.
+**The full recurrent-junction panel (now run, real, committed — 2026-07-03).** The prior draft screened only
+E12::N3 and E7::N3. We have since run the full pipeline (design → gap-resolved BLAST → uncapped eval) plus the
+GC-tolerant siRNA route on the remaining recurrent junctions **EWSR1 e9/e10/e13 :: NR4A3 e3**
+(`junction-aso-offtarget-e{9,10,13}n3.json`, `junction-sirna-designs-e{7,9,10,12,13}n3.json`). The picture is
+**more sobering than the E7::N3 result alone implied, and the honest headline is route-complementarity, not a
+clean gapmer everywhere**:
+
+| Recurrent junction | Best 16-mer gapmer (GC) | Gapmer true cleavage risks (best design, ≤2-mm gap-resolved) | Fully-clean gapmer? | siRNA designs passing all filters (min GC) |
+|---|---|---|---|---|
+| **E7::N3** | `TACGGACAATCTGCTG` (50%) | **0** | **yes** | 0/5 (52.6%) |
+| **E9::N3** | `CCTGGTGTTGTCCGTA` (56%) | 1 | no | 0/5 (52.6%) |
+| **E10::N3** | `TGATCTAGTTGTCCGT` (44%) | 1 | no | **3/5 (42.1%)** |
+| **E12::N3** (most common) | `GTACGGACAACATCAA` (44%) | 3 | no | **3/5 (42.1%)** |
+| **E13::N3** | `CGTGGAGTTGTCCGTA` (56%) | 7 | no | 0/5 (57.9%) |
+| **E11::N3** | — | — (design step produced no output) | — | — |
+
+Three honest readings of the panel:
+- **A fully-clean 16-mer gapmer is the *exception*, not the rule.** Only **E7::N3** yields a gapmer with zero
+  predicted cleavage risks; E9/E10 leave a single residual ≤2-mismatch risk, E12 three, and E13 is poor
+  (seven). So the earlier "predicted-clean gapmers exist at a favorable breakpoint" stands but is **narrowed**:
+  clean 16-mer gapmers are found at 1 of the 5 screened junctions. Per-oligo selection is decisive, and the
+  specifiable next lever is **longer oligos (5-10-5 20-mers) and the gap-centred re-tiling** (now computed as a
+  `gap_specificity_margin`; §2a/§3b.1) rather than the top-5 16-mer snapshot.
+- **The siRNA route rescues the two junctions where the gapmer is weakest — including the most common one.**
+  At **E10::N3 and E12::N3**, the GC-tolerant siRNA route yields **3 of 5** guides passing all filters (min GC
+  42.1%), exactly where the gapmer needs careful selection or fails — whereas at E7/E9/E13 (siRNA min GC
+  52.6–57.9%) it is the gapmer that carries the route. **The two modalities are genuinely complementary across
+  breakpoints, and the single most common junction (E12::N3) is addressable via siRNA** even though its best
+  gapmer keeps three residual risks. This is a stronger practical statement than either modality alone: the
+  *panel*, not any one oligo, covers the recurrent junctions.
+- **E11::N3 needs verification (integrity flag).** The design step produced no output — most likely the
+  in-frame self-check (`translate(CDS).endswith(NR4A3 C-terminus)`) rejected the e11:3 exon pair at the CDS
+  boundaries used, i.e. our exon indexing for EWSR1 exon 11 → NR4A3 exon 3 may not be in-frame as joined. This
+  is **flagged, not hidden**; the discrepancy with the neoantigen companion (which lists exon 11 in the
+  recurrent set) is a to-verify, not a claim that e11:3 does not occur. [citation to verify] for the exact e11
+  boundary.
+
+**Reading.** Run across the *real* recurrent seams, the route is **more feasible on chemistry** than the
+modelled reference implied (real junctions 37–62% GC, not 75–81%) but **less uniformly clean than E7::N3 alone
+suggested**: a fully-clean 16-mer gapmer appears at 1 of 5 junctions, off-target load (not GC) is the operative
+per-oligo gate, and the decisive practical point is that **gapmer + siRNA together cover the panel** — siRNA
+carrying E10::N3 and the most-common E12::N3, gapmers carrying E7/E9. Honest bounds unchanged: predicted not
+validated (same gap-mismatch heuristic, §3a-quater; the GPU RNase-H1 experiment of §8 would firm it), these are
+the *canonical-transcript* exon junctions (a real patient's design must still come from their sequenced
+breakpoint), E11::N3 is unverified, and delivery (§3c) remains the dominant gate.
 
 ### 3b. What is specifiable now, without any GPU
 
 All of the following are CPU-only and need no new GPU/compute run; they are specified, not executed, in
 this draft:
 
-1. **Expanded tiling, with a gap-centred specificity rule.** Re-run the existing tiler over a wider window
-   and multiple oligo lengths (e.g. 14–20-mers) and both 5-6-5 and 5-10-5 architectures, to enumerate the
-   full junction-spanning design space rather than the top-5 snapshot, and to find any lower-GC register that
-   still straddles the seam. **Adopt the §2a fix:** require the junction near the **gap centre** with ≥2–3
-   junction-unique bases on each side *inside the catalytic gap* (not the current "junction anywhere in the
-   gap" rule), and report a **gap-level** discriminating margin rather than the oligo-wide
-   `specificity_margin`, which overstates true discrimination.
+1. **Expanded tiling, with a gap-centred specificity rule — gap-level margin now DONE; longer-oligo tiling
+   still specifiable.** The §2a fix is **implemented**: `junction_aso.py` now computes a
+   **`gap_specificity_margin`** (junction-unique bases *inside* the 6-nt catalytic gap on the shorter side) and
+   a `gap_centered` flag, and ranks by it — the operative discriminator, retiring the overstating oligo-wide
+   `specificity_margin` (committed in every real-junction design JSON). What remains specifiable (not yet run)
+   is the **wider-window, multi-length tiling** (14–20-mers, both 5-6-5 and 5-10-5), which the panel above
+   (§3a-quinquies) motivates directly: since clean 16-mer gapmers are the exception, a 5-10-5 20-mer sweep is
+   the most promising lever to convert the 1–3-residual-risk junctions (E9/E10/E12) into clean designs.
 2. **Genome-wide off-target complementarity screen (CPU) — DONE for the modelled breakpoint (§3a-bis i).**
    The current design-time check only confirms an oligo is not a *perfect* complement of the two parent
    CDSs; a real specificity claim requires a transcriptome-wide near-match search with gap-region weighting
@@ -491,17 +530,51 @@ Options below are **hypotheses, explicitly flagged**, not validated approaches �
   tractable first-in-human setting. (Promoted to the top because the receptor-targeted routes below all
   depend on an input that does not yet exist.)
 - **Receptor-targeted antibody–oligonucleotide conjugate (AOC).** Couple the gapmer/siRNA to an antibody
-  against a surface antigen enriched on EMC cells. The honest status of the one antigen we can even name:
-  **B7-H3 (CD276)** is broadly over-expressed across *many* sarcoma subtypes, but its expression **in EMC
-  specifically is unknown** — there is, to our knowledge, no EMC expression study, so naming it here is an
-  *extrapolation from other sarcomas*, not evidence [citation to verify]. An EMC immunohistochemistry / RNA-seq
-  survey is a prerequisite before B7-H3 (or any antigen) can be treated as an EMC delivery handle. AOC
-  platforms exist in other indications but none is established for EMC.
+  against a surface antigen enriched on EMC cells. The antigen previously named by extrapolation was
+  **B7-H3 (CD276)** — broadly over-expressed across *many* sarcoma subtypes, but with EMC-specific expression
+  **unknown**, so it was an *extrapolation from other sarcomas*, not evidence [citation to verify]. The
+  unbiased surfaceome scan below now **reprioritises** it (B7-H3 is broad but non-selective) and offers a
+  data-ranked alternative shortlist. An EMC immunohistochemistry / RNA-seq confirmation remains a prerequisite
+  before any antigen is a real EMC delivery handle; AOC platforms exist in other indications but none is
+  established for EMC.
 - **Receptor-/ligand-targeted nanoparticle (LNP or polymer).** Encapsulate the oligo and decorate with a
   ligand for an EMC-enriched receptor. The specific EMC-enriched receptor is, again, the unsolved input
   [citation to verify].
-No delivery claim is made; this section exists to mark delivery as the dominant risk, not to assert a
-solution.
+
+**In-silico groundwork toward a *named* targeting antigen — an unbiased surfaceome scan (real, committed —
+2026-07-03).** The AOC and targeted-nanoparticle routes both stall on the same missing input: *which surface
+antigen is enriched on EMC cells?* Naming B7-H3 by extrapolation is weaker than naming a candidate from data.
+So we ran an unbiased scan — [`emc_surfaceome_scan.py`](../modalities/emc_surfaceome_scan.py) →
+[`emc-surfaceome-scan.json`](../modalities/emc-surfaceome-scan.json) — of the whole human surfaceome (UniProt
+plasma-membrane + transmembrane/GPI, **2,820** genes; self-validated: housekeeping genes correctly excluded,
+CD276 recovers as broadly expressed) ranked by expression across the **EMC-surrogate translocation-sarcoma
+DepMap class** (Ewing/synovial/myxoid/…, n=76 lines), with the myxoid subset and rest-of-lineages for context.
+Two useful, honestly-bounded results:
+- **It replaces the B7-H3 guess with a data-ranked shortlist — and it *reprioritises* B7-H3.** CD276/B7-H3 is
+  broadly expressed in the class (98% of lines) **but not selective** (enrichment vs other cancer lineages only
+  **+0.14** log2TPM) — good for hitting the tumour, weak on the tumour-vs-background window. More selective
+  surface antigens surface above it: **CDH11 (+3.18), FGFR1 (+1.99, and highest in the one myxoid line, 9.3
+  log2TPM), GPC2 (+1.49), PTK7 (+1.24), MCAM/CD146 (+1.09), EPHB4 (+1.0)** — several with existing
+  ADC/CAR/bispecific programs (GPC2, PTK7, FGFR-directed, MCAM). This is a *nameable*, prioritised targeting-arm
+  shortlist for an EMC AOC, doubling as candidate antigens for the CAR-T/ADC routes.
+- **Honest bounds (stated in the JSON too).** It is a **surrogate** — DepMap *sarcoma* lines, not EMC (EMC has
+  no DepMap line); the myxoid subset closest to EMC is a **single line** (anecdotal — the n=76 translocation
+  class carries the signal); "enrichment" is vs other **cancer** lineages, **not normal tissue**, so the
+  toxicity-relevant tumour-vs-normal window (GTEx/HPA) is the flagged next filter; and cell-line surface *mRNA*
+  is a proxy for primary-tumour surface *protein*. This **names a candidate antigen; it does not confirm EMC
+  surface expression** (that needs the EMC lines' own data — see below) and **does not solve delivery
+  efficiency** (blood→tumour→cell→endosomal escape stays wet-lab).
+
+**The decisive upgrade — use the EMC lines that now exist.** EMC is no longer model-less: patient-derived
+**USZ-EMC** [Bangerter 2023] and **NCC-EMC1 / NCC-EMC1-C1** [Iwata 2025] exist and are being studied. They are
+not in DepMap (hence the surrogate above), but their establishment papers may report an immunophenotype, and
+any deposited RNA-seq (GEO/SRA) would let this same scan run on **real EMC transcriptomes** instead of a sarcoma
+surrogate — turning "candidate antigen from a proxy" into "candidate antigen from EMC cells." That is the
+highest-value delivery-directed next step, and it is a `[citation to verify]` on what those two papers report.
+
+No delivery claim is made; this section exists to mark delivery as the dominant risk, to **narrow the
+targeting-arm unknown from "none named" to a data-ranked shortlist**, and to point at the EMC lines that could
+confirm it — not to assert a solution.
 
 ---
 
@@ -718,6 +791,11 @@ To verify (do **not** treat as established until sourced):
 - B7-H3 (CD276) surface expression in EMC specifically — **[citation to verify]** (broadly expressed across
   other sarcomas, but no EMC-specific study is known to us; §3c states this).
 - EMC-enriched surface receptor(s) suitable for AOC / targeted-nanoparticle delivery — **[citation to verify]**.
+- EMC-specific surface expression of the surfaceome-scan shortlist (CDH11, FGFR1, GPC2, PTK7, MCAM/CD146) —
+  **[citation to verify]** (the scan ranks these in an EMC-*surrogate* sarcoma class, not EMC; §3c).
+- Whether the EMC-line establishment papers (**Bangerter 2023 / USZ-EMC; Iwata 2025 / NCC-EMC1-C1**) report an
+  **immunophenotype / surface-marker IHC** and/or **deposited RNA-seq (GEO/SRA)** — **[citation to verify]**;
+  either would replace the §3c surrogate with real EMC surface/expression data (the flagged decisive upgrade).
 - Rank-order of recurrent EMC exon junctions (the commonly reported **EWSR1 exon-7/12 :: NR4A3 exon-3**
   fusion) — **[citation to verify]**; the in-repo companion ([`novel-modalities.md`](./novel-modalities.md)
   §3.3) resolves EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3 from Ensembl exon structure.
@@ -750,12 +828,23 @@ refreshed by GitHub Actions on the `modalities-cache` branch):
   **uncapped** full-RefSeq off-target + accessibility + siRNA-seed evaluation re-run on the same favorable
   breakpoint (4 of 5 gapmers with zero ≤1-mismatch off-targets), from
   [`aso_insilico.py`](../modalities/aso_insilico.py) (breakpoint-parameterised via env).
-- **Real clinical junctions (§3a-quinquies):** `junction-aso-designs-{e12n3,e7n3}.json`,
-  `junction-aso-offtarget-{e12n3,e7n3}.json`, `aso-insilico-evaluation-{e12n3,e7n3}.json` — design +
-  gap-resolved BLAST + uncapped eval on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions, built
-  exon-exact from Ensembl MANE structure via `FUSION_JUNCTION_MODE=real` in
-  [`junction_aso.py`](../modalities/junction_aso.py) (reusing
+- **Real clinical junctions — full recurrent panel (§3a-quinquies):**
+  `junction-aso-designs-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`,
+  `junction-aso-offtarget-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`,
+  `aso-insilico-evaluation-{e7n3,e9n3,e10n3,e12n3,e13n3}.json` — design + gap-resolved BLAST + uncapped eval on
+  the real EWSR1 exon-7/9/10/12/13 :: NR4A3 exon-3 junctions, built exon-exact from Ensembl MANE structure via
+  `FUSION_JUNCTION_MODE=real` in [`junction_aso.py`](../modalities/junction_aso.py) (reusing
   [`fusion_breakpoints.py`](../modalities/fusion_breakpoints.py)`.gene_model`, self-checked
-  `translate(CDS)==protein`).
+  `translate(CDS)==protein`; e11:3 produced no output — in-frame check, flagged in §3a-quinquies). The designs
+  now carry the **`gap_specificity_margin`** (gap-level discriminator, §2a/§3b.1).
+- **siRNA on the real junctions:** `junction-sirna-designs-{e7n3,e9n3,e10n3,e12n3,e13n3}.json` — the
+  GC-tolerant route re-run per real junction via `FUSION_JUNCTION_MODE=real` in
+  [`junction_sirna.py`](../modalities/junction_sirna.py); 3/5 guides pass at E10::N3 and the most-common
+  E12::N3 (min GC 42.1%), 0/5 at E7/E9/E13 — the gapmer↔siRNA complementarity of §3a-quinquies.
+- **EMC surfaceome scan (§3c):** [`emc-surfaceome-scan.json`](../modalities/emc-surfaceome-scan.json) (+ `.png`)
+  from [`emc_surfaceome_scan.py`](../modalities/emc_surfaceome_scan.py) — unbiased UniProt surfaceome (2,820
+  genes) ranked by expression across the EMC-surrogate translocation-sarcoma DepMap class; names a data-ranked
+  delivery/CAR/ADC targeting-antigen shortlist (surrogate, not EMC; myxoid n=1; rest≠normal tissue).
 
-No GPU computation was performed for this draft.
+No GPU computation was performed for this draft (the RNase-H1 cleavage-discrimination MD of §8 is the one
+planned GPU experiment; all results above are CPU, via GitHub Actions → `modalities-cache`).
