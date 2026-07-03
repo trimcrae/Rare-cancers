@@ -131,11 +131,19 @@ def parse_gpl_symbols(platform_id):
                 header = [p.strip() for p in parts]
                 low = [h.lower() for h in header]
                 id_i = 0
+                # try exact gene-symbol column names first, then substring fallbacks — old custom
+                # cDNA arrays (GPL2937 etc.) label the symbol column variously.
                 for cand in ("gene symbol", "gene_symbol", "symbol", "genesymbol", "ilmn_gene",
-                             "gene", "orf"):
+                             "gene", "orf", "gene name", "gene_name", "gene title", "name",
+                             "unigene symbol", "clone name"):
                     if cand in low:
                         sym_i = low.index(cand)
                         break
+                if sym_i is None:
+                    for i, h in enumerate(low):
+                        if "symbol" in h or ("gene" in h and "id" not in h):
+                            sym_i = i
+                            break
                 continue
             if sym_i is not None and len(parts) > sym_i:
                 pid = parts[id_i].strip()
@@ -170,6 +178,11 @@ def main():
     for mf in matrix_files:
         try:
             platform, samples, probes, values = parse_series_matrix(_get(MATRIX_DIR + mf))
+            # The matrix FILENAME (GSE4303-GPLxxxx_series_matrix) is the authoritative platform for the
+            # data in THIS file; the parsed !Series_platform_id can list a different subseries platform.
+            m = re.search(r"(GPL\d+)", mf)
+            if m:
+                platform = m.group(1)
             result["matrix_file_used"] = mf
             break
         except Exception as e:  # noqa
