@@ -509,6 +509,12 @@ selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR
 −36.81 vs −21.80). Its apparent selectivity was a **neutral-form artifact**, so `denovo_111` is **withdrawn as
 an FEP candidate** and **`denovo_401` is the sole robust lead** (see the species-resolution paragraph below).
 
+**Figure 7** ([`../modalities/nr4a3-pose.png`](../modalities/nr4a3-pose.png); `nr4a3_pose_render.py`, PyMOL)
+shows the predicted fit: the lead warhead `denovo_401` (orange sticks) nestled in the metadynamics-opened
+NR4A3 LBD pocket (teal cartoon; pocket-lining side chains in grey). **This is a screening-grade *docked* pose
+in an AF2-derived, metadynamics-opened LBD *model* — an illustration of the predicted binding geometry, not an
+experimental complex or a validated pose.**
+
 **Honest weight (a fresh red-team should hold these).** `denovo_401` clears the **FEP-worthiness bar this
 program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
 a real upgrade over a single-snapshot point estimate — but it is **single-trajectory GB-implicit MD, not
