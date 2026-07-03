@@ -6,14 +6,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import fep_sharding as fs  # noqa: E402
 
 
-def test_enumerate_units_count_and_shape():
+def test_enumerate_units_one_per_receptor():
     units = fs.enumerate_units(n_windows=12)
-    assert len(units) == 3 * 2 * 12
-    ids = {u["id"] for u in units}
-    assert len(ids) == len(units)                      # ids unique
-    assert units[0]["lambda"] == 0.0
-    # endpoints present for each (receptor, leg)
-    assert any(u["window"] == 11 and u["lambda"] == 1.0 for u in units)
+    assert len(units) == 3                              # one full-ABFE Yank unit per receptor
+    assert [u["id"] for u in units] == ["nr4a3", "nr4a1", "nr4a2"]
+    assert {u["id"] for u in units} == set(u["receptor"] for u in units)
+    assert all(u["n_windows"] == 12 for u in units)     # λ-path length carried as a protocol param
 
 
 def test_enumerate_rejects_too_few_windows():
@@ -26,38 +24,36 @@ def test_enumerate_rejects_too_few_windows():
 
 
 def test_assign_shards_balanced_and_covers_all():
-    units = fs.enumerate_units(n_windows=12)          # 72 units
-    shards = fs.assign_shards(units, 8)
-    assert len(shards) == 8
+    units = fs.enumerate_units(n_windows=12)           # 3 units
+    shards = fs.assign_shards(units, 3)
+    assert len(shards) == 3
     sizes = [len(s) for s in shards]
-    assert max(sizes) - min(sizes) <= 1               # balanced
+    assert max(sizes) - min(sizes) <= 1                # balanced
     flat = [u["id"] for s in shards for u in s]
     assert sorted(flat) == sorted(u["id"] for u in units)   # no loss/dup
 
 
 def test_assign_shards_more_shards_than_units():
-    units = fs.enumerate_units(receptors=("nr4a3",), legs=("solvent",), n_windows=3)  # 3 units
+    units = fs.enumerate_units(receptors=("nr4a3",))   # 1 unit
     shards = fs.assign_shards(units, 8)
-    assert len(shards) == 3                            # capped at #units
+    assert len(shards) == 1                             # capped at #units
     assert all(len(s) == 1 for s in shards)
 
 
 def test_pending_units_resume():
     units = fs.enumerate_units(n_windows=12)
-    done = {units[0]["id"], units[5]["id"], units[71]["id"]}
+    done = {units[0]["id"]}                             # nr4a3 done
     pend = fs.pending_units(units, done)
-    assert len(pend) == len(units) - 3
+    assert len(pend) == 2
     assert all(u["id"] not in done for u in pend)
 
 
 def test_shard_plan_resume_reduces_and_reshards():
-    all_ids = [u["id"] for u in fs.enumerate_units(n_windows=12)]
-    done = set(all_ids[:70])                            # only 2 left
-    plan = fs.shard_plan(n_windows=12, n_shards=8, done_ids=done)
-    assert plan["n_units_total"] == 72
-    assert plan["n_units_pending"] == 2
-    assert plan["n_shards"] == 2                        # capped to pending
-    assert sum(plan["per_shard_sizes"]) == 2
+    plan = fs.shard_plan(n_windows=12, n_shards=8, done_ids={"nr4a3", "nr4a1"})   # only nr4a2 left
+    assert plan["n_units_total"] == 3
+    assert plan["n_units_pending"] == 1
+    assert plan["n_shards"] == 1                        # capped to pending
+    assert sum(plan["per_shard_sizes"]) == 1
 
 
 def test_binding_dg_identity():
