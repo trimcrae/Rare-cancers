@@ -316,13 +316,28 @@ def _dump_setup_logs(out_dir):
 # preserved, so only the alchemical sampling restarts (short trailblaze + iterations since the last good
 # checkpoint). We do it automatically so a spot kill self-heals inside the same job instead of bricking the
 # shard. This is the documented spot-exception handling, not a reason to abandon spot.
-_TRAILBLAZE_CORRUPT = ("trailblaze algorithm was interrupted", "unable to resume")
+def _is_trailblaze_corrupt(tail):
+    """A spot kill mid-trailblaze corrupts that checkpoint in >1 way, and yank surfaces it with DIFFERENT
+    strings depending on how far the write got — both mean 'wipe experiments/ and re-trailblaze fresh':
+      (1) the explicit RuntimeError: 'trailblaze algorithm was interrupted ... unable to resume'  (nr4a1),
+      (2) a resume that can't read the half-synced trajectory: 'Could not access file
+          .../experiments/trailblaze/.../coordinates.dcd' / 'no such file'  (nr4a3, 2026-07-03).
+    Gate on 'trailblaze' being present so a legitimate HREX-store error (past trailblaze) is NOT wiped."""
+    t = tail.lower()
+    if "trailblaze algorithm was interrupted" in t and "unable to resume" in t:
+        return True
+    if "trailblaze" in t and ("could not access" in t or "coordinates.dcd" in t or "no such file" in t):
+        return True
+    return False
 
 
-def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=1):
-    """Run `yank script`, streaming to console AND capturing to yank_run.log (S3-synced, tail-able via the
-    status tool). On a trailblaze-checkpoint corruption (spot-kill mid-write), clear only <out_dir>/experiments/
-    and retry once with a fresh trailblaze — setup is preserved. Returns the final return code."""
+def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=2):
+    """Run `yank script`, streaming to console AND capturing to yank_run.log (flushed per line so it actually
+    syncs to S3 and is tail-able live via the status tool). On a trailblaze-checkpoint corruption (spot-kill
+    mid-write, either signature), clear <out_dir>/experiments/ and re-trailblaze fresh — setup is preserved.
+    Returns the final return code. NOTE: this only fires when yank EXITS nonzero (a resume that then fails); a
+    spot kill of the whole container is handled by SageMaker's job retry, whose fresh yank hits the same
+    corrupt checkpoint and THEN self-heals here."""
     import subprocess
     log_path = os.path.join(out_dir, "yank_run.log")
     attempts = 0
@@ -334,14 +349,15 @@ def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=1):
             for line in r.stdout:                             # tee: live console + on-disk (S3-synced) capture
                 sys.stdout.write(line)
                 fh.write(line)
+                fh.flush()                                    # so the continuous S3 sync sees progress, not 0 bytes
             r.wait()
         if r.returncode == 0:
             return 0
         try:
-            tail = open(log_path, errors="replace").read()[-8000:].lower()
+            tail = open(log_path, errors="replace").read()[-8000:]
         except Exception:  # noqa: BLE001
             tail = ""
-        corrupt = all(s in tail for s in _TRAILBLAZE_CORRUPT)
+        corrupt = _is_trailblaze_corrupt(tail)
         exp = os.path.join(out_dir, "experiments")
         if corrupt and attempts <= max_restarts and os.path.isdir(exp):
             print(f"[fep] {receptor}: trailblaze checkpoint corrupted by a spot interruption — clearing "
