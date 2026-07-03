@@ -1,0 +1,56 @@
+name: Opened-frame structural sanity (fold intact vs metad-melted?)
+
+# CPU-only. Downloads the 'opened' NR4A3 LBD frame + the pre-metad AF2 model from S3 and runs
+# nr4a3_frame_sanity.py: DSSP helix retention + core CA-RMSD vs the AF2 LBD. Answers whether the elongated
+# opened frame (which blocked the FEP box) is a legitimate induced-fit opening of an intact fold or a melt —
+# the check that decides which frame FEP should run on. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      frame_key:
+        description: "S3 key of the opened frame PDB"
+        default: "nr4a3-denovo-matrix-v2/nr4a3-opened.pdb"
+        required: false
+      ref_key:
+        description: "S3 key of the AF2 model PDB (UniProt-numbered)"
+        default: "nr4a3-metad/AF-Q92570.pdb"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3 "mdtraj==1.11.1.post1" numpy
+      - name: Fetch frames + run structural sanity
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          FRAME_KEY: ${{ inputs.frame_key }}
+          REF_KEY: ${{ inputs.ref_key }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, boto3
+          region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+          bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
+          s3 = boto3.client("s3")
+          for env, dest in (("FRAME_KEY", "frame.pdb"), ("REF_KEY", "ref.pdb")):
+              key = os.environ[env]
+              s3.download_file(bucket, key, dest)
+              print(f"downloaded s3://{bucket}/{key} -> {dest}")
+          PY
+          FRAME_PDB=frame.pdb REF_PDB=ref.pdb OUT=nr4a3-frame-sanity.json \
+            python research/modalities/nr4a3_frame_sanity.py frame.pdb ref.pdb
