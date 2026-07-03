@@ -23,6 +23,10 @@ on:
         description: "if set, list+cat the setup LEaP/frcmod/*.in logs under this checkpoint S3 prefix (e.g. nr4a3-fep/ckpt/0)"
         default: ""
         required: false
+      pdb_resrange:
+        description: "optional 'first-last' residue range to restrict the PDB-geom extent (e.g. 373-626 for the NR4A3 LBD)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -53,6 +57,13 @@ jobs:
           # Optional: pull the small setup logs (LEaP transcripts, frcmod, leap.in) straight from the
           # checkpoint S3 prefix — the definitive per-leg diagnostic (complex leg fails via check_output, whose
           # stdout yank swallows, so the CloudWatch tail can't show it; the on-disk log DID sync to S3).
+          _rr = os.environ.get("PDB_RESRANGE", "").strip()
+          RES_LO, RES_HI = (None, None)
+          if "-" in _rr:
+              try:
+                  RES_LO, RES_HI = (int(x) for x in _rr.split("-", 1))
+              except ValueError:
+                  pass
           ckpt = os.environ.get("CKPT_PREFIX", "").strip()
           if ckpt:
               s3 = boto3.client("s3"); sts = boto3.client("sts")
@@ -84,6 +95,13 @@ jobs:
                   xs, ys, zs, resset, natom = [], [], [], set(), 0
                   for ln in body.splitlines():
                       if ln.startswith(("ATOM", "HETATM")):
+                          if RES_LO is not None:
+                              try:
+                                  rn = int(ln[22:26])
+                              except ValueError:
+                                  continue
+                              if rn < RES_LO or rn > RES_HI:
+                                  continue
                           try:
                               xs.append(float(ln[30:38])); ys.append(float(ln[38:46])); zs.append(float(ln[46:54]))
                           except ValueError:
