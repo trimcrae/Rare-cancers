@@ -624,7 +624,55 @@ to avoid over-claiming; each would need its own breakpoint sourcing — [citatio
 
 ---
 
-## 8. Keeping this paper current — method-watch
+## 8. Planned high-value GPU experiment (to-do) — physics-based RNase-H1 cleavage-discrimination
+
+Every "predicted-clean" call in this paper (§3a-quater, §3a-quinquies) rests on **one conservative
+heuristic**: *any mismatch inside the 6-nt DNA gap abolishes RNase-H1 cleavage.* This is stated as a
+heuristic, not a measured fact ([citation to verify] for the quantitative gap-internal-mismatch tolerance),
+and the red-team (F6) flagged it as the single load-bearing assumption behind the specificity claims. It is
+also the one place where this paper's evidence tier is **below** the companion degrader program: the ASO
+work is entirely sequence/bioinformatics-level, whereas the degrader carries a physics tier (MD /
+metadynamics / planned FEP). The following GPU experiment would close that gap and retire the heuristic.
+
+**Experiment.** Estimate, from biophysics rather than a binary rule, how much a single **gap-internal
+mismatch** actually disfavours RNase-H1 cleavage — i.e. the true fusion-vs-off-target discrimination margin.
+
+- **System.** Human RNase-H1 catalytic domain in complex with a DNA:RNA heteroduplex (experimental
+  structures exist, e.g. PDB 2QK9 and related human RNase-H1·hybrid structures), built with (a) the
+  fully-matched gapmer:fusion-mRNA duplex (on-target) and (b) the same duplex bearing a single mismatch at
+  each gap position against a representative off-target (the ≤2-mismatch hits the BLAST screen flags, e.g. at
+  E12::N3). One system per gap position × mismatch identity for the shortlisted clean/near-clean designs.
+- **Readout.** Two complementary estimates: (i) a **catalytic-geometry** metric — MD stability of the
+  scissile-phosphate / two-metal-ion active-site geometry (Mg²⁺ coordination, in-line attack distance/angle)
+  in matched vs mismatched duplexes, since a mismatch that distorts the active site is non-cleaving; and
+  (ii) a **relative free-energy** estimate of duplex/complex destabilisation from the gap mismatch
+  (alchemical/FEP or, cheaper, an MM-GBSA/ΔΔG screen first). Together these convert "gap mismatch ⇒ 0/1
+  cleavage" into a **graded, defensible discrimination margin** per design.
+- **What it changes.** Replaces the §3a-quater/§3a-quinquies binary "clean" calls with a physics-based
+  cleavage-discrimination score; either firms up the predicted-clean gapmers (E7::N3 `TACGGACAATCTGCTG`,
+  the 200/8 pair) or honestly downgrades them. Raises the ASO paper to the degrader's rigor tier on its
+  one weak axis.
+- **Cost/feasibility & sequencing (per the 2026-07-01 operating regime + trimcrae GPU rules).** Small,
+  well-bounded systems (a protein domain + short duplex); far cheaper than the degrader's ternary/FEP.
+  **Validate-on-one-shard first:** shake out the build + MD env on a *single* matched on-target system
+  (smoke → 1 real system) before fanning out the per-position mismatch panel. Checkpoint per-window with
+  `s3_upload_mode="Continuous"` (a timeout must not lose completed windows). Serialize against any other
+  on-demand `ml.g5` Processing job (single-concurrency quota); the FEP tier can use the separate spot
+  Training quota. **This is a to-do, not a gate on posting the preprint** — the paper is publishable now as
+  a design+specificity feasibility study that names this heuristic honestly; the run *upgrades* the
+  specificity claim, it is not a prerequisite for it.
+- **Watched capability that would cheapen/replace it.** A calibrated **ASO off-target / RNase-H
+  cleavage-activity predictor** (method-watch row) would retire the heuristic *without* this GPU run — so
+  this experiment and that method-watch trigger are two routes to the same end; do whichever lands first.
+
+**Note on scope.** This firms up **specificity**. It does **not** touch the route's dominant gate,
+**delivery** (§3c) — which no in-silico experiment can currently address (see §9 method-watch: the two
+delivery rows). Sequencing the GPU spend here is worthwhile *because* specificity is in-silico-tractable;
+delivery is not, so it is watched, not computed.
+
+---
+
+## 9. Keeping this paper current — method-watch
 
 This route's progress is **method-gated**: specific next steps unlock the moment an enabling technology
 becomes usable. Those gates are watched automatically by the repo's **method-watch** (monthly cron +
