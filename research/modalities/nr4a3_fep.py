@@ -89,6 +89,21 @@ def _extract_ligand_sdf(receptor, workdir):
     raise ValueError(f"ligand '{LIGAND}' not in {src} (have: {have})")
 
 
+def _sdf_to_mol2(sdf, workdir):
+    """Convert the ligand SDF → MOL2 via antechamber. Yank's SDF reader needs the commercial OpenEye toolkit
+    ('Cannot support sdf files without OpenEye OEChem'); its MOL2 path uses AmberTools only. antechamber writes
+    scratch files in cwd, so run it there. No charges here — Yank's `antechamber: {charge_method: bcc}` block
+    computes AM1-BCC charges + parmchk frcmod at setup."""
+    import subprocess
+    mol2 = os.path.join(workdir, "lig.mol2")
+    r = subprocess.run(["antechamber", "-i", sdf, "-fi", "sdf", "-o", mol2, "-fo", "mol2", "-dr", "no"],
+                       cwd=workdir, capture_output=True, text=True, timeout=600)
+    if not os.path.exists(mol2):
+        raise RuntimeError(f"antechamber sdf->mol2 failed (rc={r.returncode}):\n"
+                           f"{(r.stdout or '')[-600:]}\n{(r.stderr or '')[-600:]}")
+    return mol2
+
+
 def _yank_yaml(receptor, n_iter, out_dir, lig_sdf, rec_pdb):
     """A Yank absolute-binding-FEP YAML for one receptor. Yank owns the physics: explicit-solvent (PME) double-
     decoupling, a Boresch orientational restraint + its standard-state correction, an auto-trailblazed λ path,
@@ -172,11 +187,12 @@ def run_real(unit, phase="prod"):
     out_dir = os.path.join(CKPT_DIR, receptor)                # Yank's .nc live here → S3-synced → resumable
     os.makedirs(out_dir, exist_ok=True)
     lig_sdf = _extract_ligand_sdf(receptor, out_dir)
+    lig_mol2 = _sdf_to_mol2(lig_sdf, out_dir)                 # Yank needs MOL2 (SDF reader wants OpenEye)
     rec_pdb = os.path.join(RECEPTOR_DIR, f"{receptor}-opened.pdb")
     if not os.path.exists(rec_pdb):
         raise FileNotFoundError(f"receptor pdb not found: {rec_pdb}")
     yaml_path = os.path.join(out_dir, "experiment.yaml")
-    open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_sdf, rec_pdb))
+    open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_mol2, rec_pdb))
     print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
     r = subprocess.run(["yank", "script", "--yaml", yaml_path])
     if r.returncode != 0:
