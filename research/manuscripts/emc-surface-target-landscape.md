@@ -24,8 +24,9 @@ fusion-junction antisense oligonucleotide) confront an intracellular-delivery or
 Cell-surface antigens offer an orthogonal axis (ADC, CAR/NK, T-cell engager, radioligand therapy) whose
 gating differs — but at the cost of the fusion-level selectivity the oligonucleotide uniquely offers.
 
-**Methods.** We built a public-data pipeline: an unbiased human surfaceome (UniProt plasma-membrane +
-transmembrane/GPI, seeded with actionable antigens) ranked by expression and by a rank-based selectivity test
+**Methods.** We built a public-data pipeline: a largely-unbiased human surfaceome (UniProt plasma-membrane +
+transmembrane/GPI, unioned with a small actionable-antigen seed) ranked by expression and by a rank-based
+selectivity test
 (Mann–Whitney, Benjamini–Hochberg) across a translocation-sarcoma DepMap class (n = 76), which — contrary to
 the common assumption — **also contains one genuine EMC line (H-EMC-SS / ACH-001519)** whose surface
 transcriptome we report directly (n = 1, descriptive). We then applied a hard **normal-tissue therapeutic-window
