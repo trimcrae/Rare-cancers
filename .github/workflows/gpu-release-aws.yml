@@ -17,8 +17,24 @@ on:
         default: "3"
         required: false
       target_rg:
-        description: "seed-frame CV Rg (nm): 0.717 = low-energy DRUGGABLE state (default); <=0 = max-Rg frontier (legacy)"
+        description: "seed-frame CV Rg (nm): 0.717 = low-energy DRUGGABLE state (default); ~0.48 = CLOSED seed (open-from-closed test); <=0 = max-Rg frontier (legacy)"
         default: "0.717"
+        required: false
+      run_tag:
+        description: "output namespace / resume key (e.g. 'openfromclosed'); a re-dispatch with the same tag+prefix RESUMES + extends"
+        default: "release"
+        required: false
+      output_prefix:
+        description: "S3 output prefix (bump per experiment so runs don't collide; resume mounts this)"
+        default: "nr4a3-release"
+        required: false
+      checkpoint_every:
+        description: "blocks (×50 ps) between continuous state checkpoints"
+        default: "10"
+        required: false
+      max_runtime:
+        description: "SageMaker MaxRuntime seconds (scale to NS; a timeout just checkpoints and you re-dispatch to resume)"
+        default: "18000"
         required: false
       instance:
         description: "SageMaker instance type"
@@ -55,6 +71,10 @@ jobs:
           NS: ${{ inputs.ns }}
           N_REP: ${{ inputs.n_rep }}
           TARGET_RG: ${{ inputs.target_rg }}
+          RUN_TAG: ${{ inputs.run_tag }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          CHECKPOINT_EVERY: ${{ inputs.checkpoint_every }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
           GIT_REF: ${{ inputs.git_ref }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then

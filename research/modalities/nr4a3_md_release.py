@@ -25,15 +25,37 @@ Output: release_summary.json (per replica: seed Rg, end Rg, mean/min/max Rg, fra
 """
 import json
 import os
+import shutil
 import sys
 
 import nr4a3_metad as M     # reuse CV residues / CA-index selection / Rg helper / AF model fetch
 
 IN = os.environ.get("INPUT_DIR", M.HERE)        # mounted metad outputs (system/topology/trajectory)
 OUT = os.environ.get("OUTPUT_DIR", M.HERE)
-NS = float(os.environ.get("NS", "5"))           # ns per replica (collapse, if any, is fast; 3x5=15 ns
-                                                # total ~4 h stays under GitHub's 6 h job cap)
+NS = float(os.environ.get("NS", "5"))           # ns per replica (TARGET, cumulative — a resume extends to this)
 N_REP = int(os.environ.get("N_REP", "3"))       # independent velocity seeds
+# Namespacing + resume/checkpoint (RUN_TAG lets the SAME harness do the persistence-from-open 'release' run AND
+# the opening-from-closed run without colliding). RESUME_DIR is a mount of a prior OUTPUT_PREFIX; if it holds a
+# per-replica state.xml + progress marker, the replica CONTINUES that trajectory (extend, don't repeat) instead
+# of re-seeding. CHECKPOINT_EVERY blocks: save state.xml + progress so a timeout/spot-kill loses ≤ that, and so
+# the run can be EXTENDED later (bump NS + re-dispatch). This is the repo's standing checkpoint rule applied.
+RUN_TAG = os.environ.get("RUN_TAG", "release")
+RESUME_DIR = os.environ.get("RESUME_DIR", OUT)
+CHECKPOINT_EVERY = int(os.environ.get("CHECKPOINT_EVERY", "10"))   # blocks (×50 ps) between state checkpoints
+
+
+def _read_rg_values(path):
+    """Prior Rg(t) values (2nd column) from an existing trace, for the summary on resume; [] if absent."""
+    vals = []
+    if os.path.exists(path):
+        for ln in open(path):
+            ln = ln.strip()
+            if ln and not ln.startswith("#"):
+                try:
+                    vals.append(float(ln.split()[1]))
+                except (IndexError, ValueError):
+                    pass
+    return vals
 
 
 def main():
@@ -104,60 +126,98 @@ def main():
     except Exception as e:  # noqa: BLE001
         sys.exit(f"  ABORT: CUDA platform unavailable: {e}")
 
+    # Skip the (minutes-long) seed minimization entirely when EVERY replica resumes from a checkpoint — the
+    # loaded state is already relaxed, so re-minimizing a seed nobody uses is pure waste (don't repeat work).
+    need_fresh = any(not (os.path.exists(os.path.join(RESUME_DIR, f"{RUN_TAG}_rep{r}.state.xml"))
+                          and os.path.exists(os.path.join(RESUME_DIR, f"{RUN_TAG}_rep{r}.progress.json")))
+                     for r in range(N_REP))
     # The opened frame is a STRAINED, biased metad configuration — seeding unbiased dynamics from it
     # directly explodes on step 1 ("Particle coordinate is NaN"). Relax it with an energy minimization
     # first. A minimizer is LOCAL: it removes bad contacts / steep clashes without crossing conformational
     # barriers, so a genuine open basin stays open while an over-strained frame just sheds the strain. We
     # record the post-minimization Rg so a reader can tell "minimization collapsed it" (open_Rg -> min_Rg
     # already near the closed 0.753) from "dynamics collapsed it" (min_Rg open, but replicas drift closed).
-    _mi = mm.LangevinMiddleIntegrator(M.METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
-                                      2.0 * unit.femtosecond)
-    _ms = app.Simulation(topology, system, _mi, cuda, {"Precision": "mixed"})
-    _ms.context.setPositions(open_positions)
-    _ms.minimizeEnergy(maxIterations=5000)
-    open_positions = _ms.context.getState(getPositions=True).getPositions(asNumpy=True)
-    rg_min = _rg_one(open_positions.value_in_unit(unit.nanometer), idx0)
+    if not need_fresh:
+        print("  all replicas resume from checkpoint — skipping seed minimization", file=sys.stderr, flush=True)
+        rg_min = rg_seed
+    else:
+        _mi = mm.LangevinMiddleIntegrator(M.METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
+                                          2.0 * unit.femtosecond)
+        _ms = app.Simulation(topology, system, _mi, cuda, {"Precision": "mixed"})
+        _ms.context.setPositions(open_positions)
+        _ms.minimizeEnergy(maxIterations=5000)
+        open_positions = _ms.context.getState(getPositions=True).getPositions(asNumpy=True)
+        rg_min = _rg_one(open_positions.value_in_unit(unit.nanometer), idx0)
+        del _ms, _mi
     summary["minimized_Rg_nm"] = round(float(rg_min), 3)
     print(f"  minimized seed frame: CV Rg {rg_seed:.3f} -> {rg_min:.3f} nm "
           f"(closed ref 0.753)", file=sys.stderr, flush=True)
-    del _ms, _mi
 
+    import numpy as np
     steps = int(NS * 1e6 / 2)                       # 2 fs timestep
     report = 25000                                  # every 50 ps
+    nblocks = max(1, steps // report)               # target cumulative blocks (a resume extends TO this)
     for rep in range(N_REP):
         integ = mm.LangevinMiddleIntegrator(M.METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
                                             2.0 * unit.femtosecond)
         sim = app.Simulation(topology, system, integ, cuda, {"Precision": "mixed"})
-        sim.context.setPositions(open_positions)
-        sim.context.setVelocitiesToTemperature(M.METAD["temp"] * unit.kelvin, 1234 + rep)
-        traj_dcd = os.path.join(OUT, f"release_rep{rep}.dcd")
-        sim.reporters.append(app.DCDReporter(traj_dcd, report))
-        rg_path = os.path.join(OUT, f"release_rg_rep{rep}.dat")
-        rgf = open(rg_path, "w")
-        rgf.write("# time_ns  cv_Rg_nm\n")
-        rgs = []
-        nblocks = max(1, steps // report)
-        for b in range(nblocks):
-            sim.step(report)
-            st = sim.context.getState(getPositions=True)
-            pos = st.getPositions(asNumpy=True).value_in_unit(unit.nanometer)
-            rg = _rg_one(pos, idx0)
-            rgs.append(rg)
-            t_ns = (b + 1) * report * 2e-6
-            rgf.write(f"{t_ns:.3f}  {rg:.4f}\n")
-            # Stream Rg(t) LIVE to CloudWatch every block (~50 ps) so a collapse is visible in real time
-            # via tail-cloudwatch-aws.yml — enables killing fast on collapse / early confidence if it holds.
-            # (Collapse is fast: the max-Rg-frontier run fell within the first ~1-2 ns.) flush so it streams.
-            print(f"  [rep{rep}] t={t_ns:5.2f} ns  CV Rg {rg:.3f} nm  "
-                  f"(seed {rg_seed:.3f}, closed ref 0.753)", file=sys.stderr, flush=True)
-        rgf.close()
-        import numpy as np
-        rgs = np.array(rgs)
+        state_path = os.path.join(OUT, f"{RUN_TAG}_rep{rep}.state.xml")
+        prog_path = os.path.join(OUT, f"{RUN_TAG}_rep{rep}.progress.json")
+        rg_path = os.path.join(OUT, f"{RUN_TAG}_rg_rep{rep}.dat")
+        r_state = os.path.join(RESUME_DIR, f"{RUN_TAG}_rep{rep}.state.xml")
+        r_prog = os.path.join(RESUME_DIR, f"{RUN_TAG}_rep{rep}.progress.json")
+        r_rg = os.path.join(RESUME_DIR, f"{RUN_TAG}_rg_rep{rep}.dat")
+        # RESUME this replica from its last checkpoint (continue the trajectory) or SEED it fresh.
+        if os.path.exists(r_state) and os.path.exists(r_prog):
+            sim.loadState(r_state)                  # positions + velocities → exact continuation
+            done = int(json.load(open(r_prog)).get("blocks_done", 0))
+            if RESUME_DIR != OUT:                   # carry prior trace/state into this job's OUT to keep growing
+                for src, dst in ((r_rg, rg_path), (r_state, state_path), (r_prog, prog_path)):
+                    if os.path.exists(src):
+                        shutil.copy(src, dst)
+            rgf = open(rg_path, "a")
+            print(f"  [rep{rep}] RESUME from {done} blocks ({done * report * 2e-6:.2f} ns); target "
+                  f"{nblocks} blocks ({NS:.1f} ns)", file=sys.stderr, flush=True)
+        else:
+            sim.context.setPositions(open_positions)
+            sim.context.setVelocitiesToTemperature(M.METAD["temp"] * unit.kelvin, 1234 + rep)
+            done = 0
+            rgf = open(rg_path, "w")
+            rgf.write("# time_ns  cv_Rg_nm\n")
+        if done >= nblocks:
+            print(f"  [rep{rep}] already at target ({done} ≥ {nblocks} blocks) — skipping", file=sys.stderr)
+            rgf.close()
+        else:
+            # DCD per resume-segment (append-safe); analysis concatenates segments.
+            traj_dcd = os.path.join(OUT, f"{RUN_TAG}_rep{rep}_from{done}.dcd")
+            sim.reporters.append(app.DCDReporter(traj_dcd, report))
+            for b in range(done, nblocks):
+                sim.step(report)
+                pos = sim.context.getState(getPositions=True).getPositions(asNumpy=True).value_in_unit(
+                    unit.nanometer)
+                rg = _rg_one(pos, idx0)
+                t_ns = (b + 1) * report * 2e-6
+                rgf.write(f"{t_ns:.3f}  {rg:.4f}\n")
+                rgf.flush()
+                # CONTINUOUS CHECKPOINT: atomically save state + progress every CHECKPOINT_EVERY blocks so a
+                # timeout/spot-kill loses ≤ that and a re-dispatch resumes/extends. tmp+replace = never a torn file.
+                if (b + 1) % CHECKPOINT_EVERY == 0 or b + 1 == nblocks:
+                    sim.saveState(state_path + ".tmp")
+                    os.replace(state_path + ".tmp", state_path)
+                    json.dump({"blocks_done": b + 1, "ns_done": round((b + 1) * report * 2e-6, 4),
+                               "rg": round(rg, 4)}, open(prog_path, "w"))
+                # Stream Rg(t) LIVE to CloudWatch each block (~50 ps) so opening/collapse is visible in real time.
+                print(f"  [rep{rep}] t={t_ns:6.2f} ns  CV Rg {rg:.3f} nm  (seed {rg_seed:.3f}, closed ref 0.753)",
+                      file=sys.stderr, flush=True)
+            rgf.close()
+        rgs = np.array(_read_rg_values(rg_path))
+        if len(rgs) == 0:
+            continue
         within = float((np.abs(rgs - rg_seed) <= 0.1).mean())     # fraction of time still near the seed
         summary["replicas"].append({
             "replica": rep, "seed_Rg": round(rg_seed, 3), "end_Rg": round(float(rgs[-1]), 3),
             "mean_Rg": round(float(rgs.mean()), 3), "min_Rg": round(float(rgs.min()), 3),
-            "max_Rg": round(float(rgs.max()), 3),
+            "max_Rg": round(float(rgs.max()), 3), "ns_done": round(len(rgs) * report * 2e-6, 2),
             "frac_time_within_0.1nm_of_seed": round(within, 3)})
         print(f"  replica {rep}: end Rg {rgs[-1]:.3f} nm, mean {rgs.mean():.3f}, "
               f"frac-near-seed {within:.2f}", file=sys.stderr, flush=True)

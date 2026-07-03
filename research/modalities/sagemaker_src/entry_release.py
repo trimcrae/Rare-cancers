@@ -20,6 +20,8 @@ def main():
     ap.add_argument("--ns", default="5")
     ap.add_argument("--n-rep", default="3")
     ap.add_argument("--target-rg", default="0.717")
+    ap.add_argument("--run-tag", default="release")
+    ap.add_argument("--checkpoint-every", default="10")
     ap.add_argument("--git-ref", default="main")
     args = ap.parse_args()
     subprocess.run(["nvidia-smi"], check=False)
@@ -42,6 +44,12 @@ def main():
     env["NS"] = args.ns
     env["N_REP"] = args.n_rep
     env["TARGET_RG"] = args.target_rg
+    env["RUN_TAG"] = args.run_tag
+    env["CHECKPOINT_EVERY"] = args.checkpoint_every
+    # If a prior checkpoint was mounted for RESUME, point the harness at it (continue trajectories); else the
+    # harness treats OUTPUT_DIR as the (empty) resume dir and seeds fresh.
+    resume = "/opt/ml/processing/resume"
+    env["RESUME_DIR"] = resume if os.path.isdir(resume) else OUT
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running unbiased release MD ({args.n_rep} x {args.ns} ns)", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "md",

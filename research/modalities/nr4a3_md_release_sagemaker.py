@@ -30,10 +30,24 @@ def main():
     target_rg = os.environ.get("TARGET_RG", "0.717")   # seed-frame CV Rg; <=0 = legacy max-Rg frontier
     in_prefix = os.environ.get("INPUT_PREFIX", "nr4a3-metad")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-release")
+    run_tag = os.environ.get("RUN_TAG", "release")     # namespaces outputs; "openfromclosed" for the from-closed run
+    checkpoint_every = os.environ.get("CHECKPOINT_EVERY", "10")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
+
+    # RESUME: if the output prefix already holds a checkpoint (a prior run of THIS tag), mount it so the job
+    # continues its trajectories instead of re-seeding — "pick up where we left off, don't repeat compute".
+    # Guarded so the FIRST run (empty prefix) doesn't try to mount a nonexistent channel.
+    import boto3
+    have_prior = bool(boto3.client("s3").list_objects_v2(
+        Bucket=bucket, Prefix=f"{out_prefix}/{run_tag}_rep", MaxKeys=1).get("KeyCount", 0))
+    resume_inputs = []
+    if have_prior:
+        print(f"[release] prior checkpoint found under s3://{bucket}/{out_prefix} — mounting for RESUME", flush=True)
+        resume_inputs = [ProcessingInput(source=f"s3://{bucket}/{out_prefix}",
+                                         destination="/opt/ml/processing/resume")]
 
     proc = FrameworkProcessor(
         estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
@@ -46,11 +60,13 @@ def main():
         code="entry_release.py",
         source_dir=os.path.join(here, "sagemaker_src"),
         inputs=[ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                                destination="/opt/ml/processing/input")],
+                                destination="/opt/ml/processing/input")] + resume_inputs,
+        # Continuous upload: per-block state checkpoints reach S3 as written, so a timeout/spot-kill loses only
+        # the last checkpoint interval and the run can be extended later (default EndOfJob would lose it all).
         outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
+                                  destination=f"s3://{bucket}/{out_prefix}", s3_upload_mode="Continuous")],
         arguments=["--ns", str(ns), "--n-rep", str(n_rep), "--target-rg", str(target_rg),
-                   "--git-ref", git_ref],
+                   "--run-tag", run_tag, "--checkpoint-every", checkpoint_every, "--git-ref", git_ref],
         wait=True, logs=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
