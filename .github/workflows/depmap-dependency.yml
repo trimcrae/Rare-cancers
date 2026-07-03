@@ -9,9 +9,10 @@ name: DepMap — sarcoma dependency transfer prior
 on:
   workflow_dispatch:
   push:
-    branches: [claude/rare-cancer-info-hub-vb8uui]
+    branches: [claude/rare-cancer-info-hub-vb8uui, claude/red-team-degrader-paper-l1hukn]
     paths:
       - research/modalities/depmap_sarcoma_dependency.py
+      - research/modalities/nr4a_superfamily_selectivity.py
       - .github/workflows/depmap-dependency.yml
 
 permissions:
