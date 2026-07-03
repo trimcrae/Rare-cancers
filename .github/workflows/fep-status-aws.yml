@@ -27,6 +27,10 @@ on:
         description: "optional 'first-last' residue range to restrict the PDB-geom extent (e.g. 373-626 for the NR4A3 LBD)"
         default: ""
         required: false
+      stop_names:
+        description: "comma-sep EXACT training-job names to StopTrainingJob (free a parked spot prefix before an on-demand relaunch)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -55,6 +59,20 @@ jobs:
           tag = os.environ.get("TAG", "nr4a3-fep"); n = int(os.environ.get("N", "10"))
           sm = boto3.client("sagemaker")
           logs = boto3.client("logs")
+          # Optional: StopTrainingJob on exact job names (comma-sep). Used to free a parked spot job's
+          # checkpoint prefix before relaunching it on-demand on the SAME prefix (avoids a duplicate-writer
+          # collision if spot capacity later returns). Only acts on InProgress jobs; already-terminal are skipped.
+          _stop = [s.strip() for s in os.environ.get("STOP_NAMES", "").split(",") if s.strip()]
+          for _name in _stop:
+              try:
+                  _st = sm.describe_training_job(TrainingJobName=_name)["TrainingJobStatus"]
+                  if _st == "InProgress":
+                      sm.stop_training_job(TrainingJobName=_name)
+                      print(f"# STOP requested for {_name} (was InProgress)")
+                  else:
+                      print(f"# skip stop {_name}: status={_st} (not InProgress)")
+              except Exception as _e:  # noqa: BLE001
+                  print(f"# stop {_name} failed: {_e}")
           # Optional: pull the small setup logs (LEaP transcripts, frcmod, leap.in) straight from the
           # checkpoint S3 prefix — the definitive per-leg diagnostic (complex leg fails via check_output, whose
           # stdout yank swallows, so the CloudWatch tail can't show it; the on-disk log DID sync to S3).
