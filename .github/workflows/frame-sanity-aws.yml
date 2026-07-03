@@ -6,6 +6,11 @@ name: Opened-frame structural sanity (fold intact vs metad-melted?)
 # the check that decides which frame FEP should run on. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
 
 on:
+  push:
+    branches: [claude/red-team-degrader-paper-l1hukn]
+    paths:
+      - research/modalities/nr4a3_frame_sanity.py
+      - .github/workflows/frame-sanity-aws.yml
   workflow_dispatch:
     inputs:
       frame_key:
@@ -37,9 +42,9 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ inputs.region }}
-          FRAME_KEY: ${{ inputs.frame_key }}
-          REF_KEY: ${{ inputs.ref_key }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          FRAME_KEY: ${{ inputs.frame_key || 'nr4a3-denovo-matrix-v2/nr4a3-opened.pdb' }}
+          REF_KEY: ${{ inputs.ref_key || 'nr4a3-metad/AF-Q92570.pdb' }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
