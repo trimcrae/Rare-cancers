@@ -565,12 +565,27 @@ Two useful, honestly-bounded results:
   surface expression** (that needs the EMC lines' own data — see below) and **does not solve delivery
   efficiency** (blood→tumour→cell→endosomal escape stays wet-lab).
 
-**The decisive upgrade — use the EMC lines that now exist.** EMC is no longer model-less: patient-derived
-**USZ-EMC** [Bangerter 2023] and **NCC-EMC1 / NCC-EMC1-C1** [Iwata 2025] exist and are being studied. They are
-not in DepMap (hence the surrogate above), but their establishment papers may report an immunophenotype, and
-any deposited RNA-seq (GEO/SRA) would let this same scan run on **real EMC transcriptomes** instead of a sarcoma
-surrogate — turning "candidate antigen from a proxy" into "candidate antigen from EMC cells." That is the
-highest-value delivery-directed next step, and it is a `[citation to verify]` on what those two papers report.
+**The decisive upgrade — real EMC data (now probed, real, committed — 2026-07-03).** EMC is no longer
+model-less: patient-derived **USZ-EMC** [Bangerter 2022/2023] and **NCC-EMC1-C1** [Iwata 2025] exist and are
+being studied. A data probe ([`emc_line_data_probe.py`](../modalities/emc_line_data_probe.py) →
+[`emc-line-data-probe.json`](../modalities/emc-line-data-probe.json); Europe PMC full-text + NCBI GEO/SRA)
+returns a nuanced verdict:
+- **Neither new *cell line* has publicly deposited a transcriptome.** The USZ open-access paper states its data
+  are *"available from the corresponding author on reasonable request"* (no accession); the NCC-EMC1-C1 paper
+  is not open-access and its abstract carries no accession. The USZ full text mentions **EGFR** and **KIT**
+  (a crude term-match — must be human-verified as positive *surface* IHC, not a pathway/drug-screen mention).
+  So the richest real-EMC surface data (a full immunophenotype) sits **behind a paywall / on request**, not in
+  a public dataset — a `[citation to verify]` to obtain from the papers directly.
+- **A public real-EMC *tumour* expression dataset does exist: `GSE4303`** ("Gene expression profile of
+  extraskeletal myxoid chondrosarcoma"), plus scattered EMC tumour samples (e.g. `GSM715472`). This is a
+  genuine upgrade path over the sarcoma surrogate — the surfaceome scan can be re-pointed at real EMC
+  transcriptomes — bounded by its own caveats: older **microarray** (not RNA-seq), **bulk tumour** (surface
+  reads are diluted/contaminated by the abundant myxoid stroma), and small n. It ranks EMC-tumour surface
+  antigens, not EMC-cell-line ones.
+
+**Net:** the surrogate is upgradeable to real EMC *tumour* microarray (`GSE4303`) now, and to real EMC *line*
+expression if/when USZ/NCC deposit or share it. Either strengthens the §3c targeting-antigen shortlist from
+"surrogate" to "real EMC." This is the highest-value delivery-directed next step.
 
 No delivery claim is made; this section exists to mark delivery as the dominant risk, to **narrow the
 targeting-arm unknown from "none named" to a data-ranked shortlist**, and to point at the EMC lines that could

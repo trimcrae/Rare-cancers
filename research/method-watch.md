@@ -88,6 +88,18 @@ model swaps in cheaply.*
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
 
+- **[2026-07-03] EMC-line real-data probe — new lines NOT public; GSE4303 tumour microarray IS.** A probe
+  (`modalities/emc_line_data_probe.py` → `emc-line-data-probe.json`) for real-EMC surface/expression data found:
+  (1) the two new patient-derived lines **have not deposited transcriptomes** — USZ-EMC [Bangerter 2022/2023] is
+  "available on request", NCC-EMC1-C1 [Iwata 2025] is paywalled (abstract has no accession); the USZ OA text
+  mentions **EGFR/KIT** (unverified as surface IHC). (2) A public **real-EMC *tumour* microarray, `GSE4303`**
+  ("Gene expression profile of EMC"; Subramanian-type), plus scattered EMC tumour samples, DOES exist. **Action
+  options (open):** (a) re-point/ cross-check the surfaceome scan against `GSE4303` — real EMC *tumour*, but old
+  microarray, bulk-tumour stromal dilution, small n, possibly two-colour ratio data (may not give absolute
+  surface-antigen levels — verify platform first); (b) **obtain the USZ/NCC line data by contacting the authors**
+  (better data, but a human/wet-lab-adjacent action, not in-silico); (c) leave the DepMap surrogate as the
+  published basis and cite `GSE4303`/line-existence as the upgrade path. Status: **probed, decision pending.**
+
 - **[2026-07-03] Delivery watch split into predictor + technology/candidate (trimcrae ask).** The
   ASO route's dominant gate is tumour delivery. The watch now has **two** delivery rows/topics: (1)
   an in-silico delivery *predictor* (makes the AOC/siRNA design computationally testable), and (2) a
