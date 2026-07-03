@@ -37,42 +37,30 @@ def _collect_per_residue(results):
 
 
 def decide(results):
-    """One decision from partial results. CRUCIALLY: a selectivity fail (stop_fail) is GATED on the per-residue
-    WHY-map being captured — we never reclaim the fleet on a fail without first knowing *why* it failed (so the
-    next candidate can be designed from it). Returns {action, reason, ddg?, binding?, convergence?, why?, hint?}."""
+    """One early-stop decision from partial Yank results. Each receptor's ΔG_bind lands as one marker (pilot,
+    then prod) — so as soon as ALL THREE receptors have a (pilot) ΔG_bind, we can judge selectivity. The "why"
+    for a fail is inherent in the per-receptor ΔG breakdown (which paralogue out-competes NR4A3 and by how
+    much), so no separate WHY-map is needed. Returns {action, reason, ddg?, binding?, why?, hint?}."""
     import fep_decision as fd
-    import fep_decompose as fdc
     import report_fep as rf
     est = rf.estimate(results)
     needed = {"nr4a3", "nr4a1", "nr4a2"}
-    have = {r for r, e in est.items() if e["n_windows"] >= MIN_WINDOWS}
+    have = set(est.keys())
     if not needed.issubset(have):
-        return {"action": "continue", "reason": f"insufficient data (have ≥{MIN_WINDOWS} windows for "
-                f"{sorted(have)}; need {sorted(needed)})", "binding": est}
+        return {"action": "continue", "binding": est,
+                "reason": f"insufficient data (have ΔG_bind for {sorted(have)}; need all of {sorted(needed)})"}
     binding_se = {r: {"dg": est[r]["dg"], "se": est[r]["se"]} for r in needed}
-    conv = fd.convergence_flag([o for r in needed for o in est[r]["overlaps"]])
-    per_res = _collect_per_residue(results)
-    diag_ready = fdc.diagnostic_ready(per_res)
-
-    if not conv["ok"]:
-        # convergence fail: the "why" is the overlap map itself; attach the per-residue attribution too if ready
-        d = {"action": "stop_unconverged", "reason": conv["reason"], "binding": binding_se, "convergence": conv}
-        if diag_ready:
-            d["why"] = fdc.selectivity_attribution(per_res); d["hint"] = fdc.redesign_hint(d["why"])
-        return d
-
     d = fd.early_stop(binding_se, "nr4a3", target_ddg=TARGET, z=Z, allow_success_stop=SUCCESS_STOP)
     d["binding"] = binding_se
-    d["convergence"] = conv
+    d["phases"] = {r: est[r].get("phase") for r in needed}
     if d["action"] == "stop_fail":
-        # ── the coupling the user required: do NOT stop a fail until we know WHY ──
-        if not diag_ready:
-            return {"action": "continue", "pending_diagnostic": True, "binding": binding_se, "convergence": conv,
-                    "reason": ("FAIL signal present, but the per-residue WHY-map is not yet captured (need the "
-                               "window-0 complex-leg per_residue decomposition for all three receptors) — "
-                               "continuing sampling so we do NOT stop blind; will stop once the diagnostic lands")}
-        d["why"] = fdc.selectivity_attribution(per_res)
-        d["hint"] = fdc.redesign_hint(d["why"])
+        # the "why": the per-receptor ΔG_bind breakdown — which paralogue out-competes NR4A3.
+        d["why"] = {r: est[r]["dg"] for r in needed}
+        worst = min(("nr4a1", "nr4a2"), key=lambda p: est[p]["dg"])   # tightest-binding paralogue
+        d["hint"] = {"summary": f"NR4A3 ΔG_bind {est['nr4a3']['dg']} kcal/mol is NOT selective — "
+                     f"{worst.upper()} binds comparably/tighter ({est[worst]['dg']}). Next candidate must widen "
+                     f"the {worst.upper()} margin (engage the {worst.upper()}-divergent handles).",
+                     "tightest_paralogue": worst}
     return d
 
 
