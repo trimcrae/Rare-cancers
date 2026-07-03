@@ -276,6 +276,24 @@ def main():
     # actionable-antigen callout: where the known ADC/CAR/bispecific targets landed
     actionable = {s["gene"]: s for s in rows if s["gene"] in set(SEED_SURFACE)}
 
+    # The SINGLE real EMC line (ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid
+    # Chondrosarcoma') — its own top surface antigens. n=1, descriptive only, but this is REAL EMC
+    # expression, not a surrogate. (Corrects the 'EMC has no DepMap line' assumption.)
+    emc_line_top = None
+    if len(myxoid_ids) >= 1:
+        emc_vals = {g: float(myx_ex[g].dropna().mean())
+                    for g in keep if g in myx_ex and len(myx_ex[g].dropna())}
+        emc_line_top = {
+            "line": myxoid_lines_named,
+            "n": len(myxoid_ids),
+            "note": ("Single DepMap line annotated 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so "
+                     "descriptive only (no statistics). REAL EMC expression, not a surrogate. "
+                     "EWSR1::NR4A3 fusion status of this line: [to verify]."),
+            "top_surface_antigens": [{"gene": g, "log2tpm": round(v, 2)}
+                                     for g, v in sorted(emc_vals.items(), key=lambda kv: kv[1],
+                                                        reverse=True)[:30]],
+        }
+
     # self-validation
     hk_leak = [g for g in ("ACTB", "GAPDH") if g in keep]
     cd276 = next((s for s in rows if s["gene"] == "CD276"), None)
@@ -310,19 +328,22 @@ def main():
                              "n_sarcoma_lines": len(sarcoma_ids),
                              "class_oncotree_subtypes_present": class_subtypes,
                              "myxoid_lines_named": myxoid_lines_named,
-                             "_myxoid_caveat": ("These are the DepMap lines matched by the 'myxoid' "
-                                                "substring — they are myxoid LIPOSARCOMA / myxofibrosarcoma "
-                                                "(FUS/EWSR1::DDIT3 etc.), NOT EMC and NOT the EWSR1::NR4A3 "
-                                                "fusion family. 'Closest to EMC' is by name only; surface "
-                                                "phenotype tracks lineage, so this signal is weak."),
-                             "_surrogate_caveat": ("Surface phenotype is lineage-determined; Ewing "
-                                                   "(neuroectodermal) and synovial (epithelial/spindle) "
-                                                   "differ from EMC's myxoid/chondroid lineage. This class "
-                                                   "is translocation-sarcoma-GENERIC, not EMC-specific.")},
+                             "_myxoid_caveat": ("CORRECTION: the single 'myxoid'-matched line is "
+                                                "ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid "
+                                                "Chondrosarcoma' — i.e. a REAL EMC line (n=1), NOT myxoid "
+                                                "liposarcoma. DepMap therefore contains one EMC line; its "
+                                                "expression (myxoid_mean / emc_line_top_surface) is real "
+                                                "EMC data, descriptive only at n=1. Fusion status [to verify]."),
+                             "_surrogate_caveat": ("The broader translocation class (Ewing/synovial/etc.) "
+                                                   "is a lineage-GENERIC surrogate — surface phenotype tracks "
+                                                   "lineage, and those differ from EMC's myxoid/chondroid "
+                                                   "lineage — so class-level ranks are weaker than the single "
+                                                   "real EMC line, which however lacks statistical power.")},
         "thresholds": {"detectable_log2tpm": DETECT, "expressed_log2tpm": EXPRESSED},
         "n_surface_genes_scanned": len(keep),
         "top_candidates": rows[:40],
         "actionable_antigens": actionable,
+        "emc_line_top_surface": emc_line_top,
         "self_validation": validation,
     }
     json.dump(result, open(OUT, "w"), indent=2)
