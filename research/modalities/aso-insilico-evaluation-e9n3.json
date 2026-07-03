@@ -1,0 +1,186 @@
+{
+  "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY \u2014 hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
+  "junction_label": "EWSR1_e9__NR4A3_e3",
+  "breakpoint": {
+    "mode": "real_exon_junction",
+    "source": "Ensembl MANE/canonical exon structure (fusion_breakpoints.gene_model)",
+    "EWSR1_exon_end": 9,
+    "NR4A3_exon_start": 3,
+    "note": "Real in-frame EWSR1::NR4A3 exon junction (self-checked translate(CDS)==Ensembl protein; NR4A3 C-terminus intact). NOT the codon-space modelled reference.",
+    "junction_context_mRNA": "ATAAGCCTGGTG|TTGTCCGTACAG"
+  },
+  "n_evaluated": 5,
+  "accessibility": {
+    "status": "ok",
+    "window_mRNA_span": [
+      922,
+      1102
+    ],
+    "window_len": 180
+  },
+  "offtarget_screen": {
+    "status": "ok",
+    "transcripts_scanned": 186185,
+    "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_rna.fna.gz"
+  },
+  "n_candidates_zero_offtarget": 1,
+  "n_candidates_fusion_specific_sirna_seed": 2,
+  "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) \u2014 these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
+  "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
+  "top_designs": [
+    {
+      "antisense_5to3": "GTACGGACAACACCAG",
+      "target_mRNA_5to3": "CTGGTGTTGTCCGTAC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.409,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 0,
+      "offtarget_hits": [],
+      "sirna_guide_seed_7mer": "GTCCGTA",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 4416,
+      "cpg_count": 1,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "TACGGACAACACCAGG",
+      "target_mRNA_5to3": "CCTGGTGTTGTCCGTA",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.407,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "offtarget_hits": [
+        {
+          "acc": "NM_000678.4",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "TGTCCGT",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 13940,
+      "cpg_count": 1,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GGACAACACCAGGCTT",
+      "target_mRNA_5to3": "AAGCCTGGTGTTGTCC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.301,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 4,
+      "offtarget_hits": [
+        {
+          "acc": "XM_047447696.1",
+          "mm": 1
+        },
+        {
+          "acc": "XM_047447697.1",
+          "mm": 1
+        },
+        {
+          "acc": "XM_047447698.1",
+          "mm": 1
+        },
+        {
+          "acc": "XM_047447699.1",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "TGTTGTC",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 42575,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "CGGACAACACCAGGCT",
+      "target_mRNA_5to3": "AGCCTGGTGTTGTCCG",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 62.5,
+      "site_accessibility": 0.302,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 7,
+      "offtarget_hits": [
+        {
+          "acc": "NM_000934.4",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001165920.1",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001165921.2",
+          "mm": 1
+        },
+        {
+          "acc": "XM_005256701.5",
+          "mm": 1
+        },
+        {
+          "acc": "XM_017024765.2",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "GTTGTCC",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 28124,
+      "cpg_count": 1,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "ACGGACAACACCAGGC",
+      "target_mRNA_5to3": "GCCTGGTGTTGTCCGT",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 8,
+      "gc_percent": 62.5,
+      "site_accessibility": 0.345,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 30,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001284322.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001286581.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001286582.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001286583.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_020901.4",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "TTGTCCG",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 9845,
+      "cpg_count": 1,
+      "has_G4_motif": false,
+      "max_homopolymer": 2,
+      "fusion_specific": true
+    }
+  ]
+}

@@ -1,0 +1,626 @@
+{
+  "junction_label": "EWSR1_e10__NR4A3_e3",
+  "breakpoint": {
+    "mode": "real_exon_junction",
+    "source": "Ensembl MANE/canonical exon structure (fusion_breakpoints.gene_model)",
+    "EWSR1_exon_end": 10,
+    "NR4A3_exon_start": 3,
+    "note": "Real in-frame EWSR1::NR4A3 exon junction (self-checked translate(CDS)==Ensembl protein; NR4A3 C-terminus intact). NOT the codon-space modelled reference.",
+    "EWSR1_keep_aa": 264,
+    "NR4A3_from_aa": 2,
+    "junction_context_mRNA": "ATCTTGATCTAG|TTGTCCGTACAG"
+  },
+  "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
+  "method": {
+    "db": "refseq_rna (txid9606[ORGN])",
+    "program": "blastn (short, FILTER off)",
+    "near_match_threshold": ">= 14/16 identical",
+    "gap_region_1based": [
+      6,
+      11
+    ],
+    "breakpoint_model": "Real in-frame EWSR1::NR4A3 exon junction (self-checked translate(CDS)==Ensembl protein; NR4A3 C-terminus intact). NOT the codon-space modelled reference."
+  },
+  "n_oligos_screened": 5,
+  "n_screened_ok": 5,
+  "n_oligos_no_true_cleavage_risk": 0,
+  "oligos": [
+    {
+      "antisense_5to3": "ACGGACAACTAGATCA",
+      "target_mRNA_5to3": "TGATCTAGTTGTCCGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 8,
+      "status": "screened",
+      "blast_rid": "4E29Y6JU016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 1,
+      "n_true_cleavage_risk": 1,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "offtargets": [
+        {
+          "acc": "NM_173600",
+          "defn": "Homo sapiens mucin 19, oligomeric (gene/pseudogene) (MUC19), mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "TGATCTAGTTGTCC",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "CGGACAACTAGATCAA",
+      "target_mRNA_5to3": "TTGATCTAGTTGTCCG",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "status": "screened",
+      "blast_rid": "4E2ATA2G016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 1,
+      "n_true_cleavage_risk": 1,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "offtargets": [
+        {
+          "acc": "NM_173600",
+          "defn": "Homo sapiens mucin 19, oligomeric (gene/pseudogene) (MUC19), mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 2,
+          "q_to": 15,
+          "qseq": "TGATCTAGTTGTCC",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "TACGGACAACTAGATC",
+      "target_mRNA_5to3": "GATCTAGTTGTCCGTA",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "status": "screened",
+      "blast_rid": "4E2BMHNV016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 47,
+      "n_true_cleavage_risk": 47,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "offtargets": [
+        {
+          "acc": "NM_001438330",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 9, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001438331",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 10, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001438332",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 11, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_024790",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 1, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006716474",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X9, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006716477",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X21, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_017013849",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X10, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_017013854",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X22, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422246",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X8, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422249",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X12, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422250",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X13, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422251",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X14, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422253",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X16, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422254",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X17, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422255",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X18, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "GGACAACTAGATCAAG",
+      "target_mRNA_5to3": "CTTGATCTAGTTGTCC",
+      "gc_percent": 43.8,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "4E2CFGK0016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 46,
+      "n_true_cleavage_risk": 46,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "offtargets": [
+        {
+          "acc": "NM_001134851",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 3, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001346425",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 8, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001346450",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 9, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001366502",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 10, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_003202",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 1, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_033223",
+          "defn": "Homo sapiens gamma-aminobutyric acid type A receptor subunit gamma3 (GABRG3), transcript variant 1, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_173600",
+          "defn": "Homo sapiens mucin 19, oligomeric (gene/pseudogene) (MUC19), mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 3,
+          "q_to": 16,
+          "qseq": "TGATCTAGTTGTCC",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_201632",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 2, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_201634",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 4, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_213648",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 5, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NR_033449",
+          "defn": "Homo sapiens transcription factor 7 (TCF7), transcript variant 6, non-coding RNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006714678",
+          "defn": "PREDICTED: Homo sapiens transcription factor 7 (TCF7), transcript variant X1, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006714679",
+          "defn": "PREDICTED: Homo sapiens transcription factor 7 (TCF7), transcript variant X2, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006714682",
+          "defn": "PREDICTED: Homo sapiens transcription factor 7 (TCF7), transcript variant X8, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006714684",
+          "defn": "PREDICTED: Homo sapiens transcription factor 7 (TCF7), transcript variant X14, mRNA",
+          "identity": 14,
+          "align_len": 14,
+          "q_from": 1,
+          "q_to": 14,
+          "qseq": "CTTGATCTAGTTGT",
+          "midline": "||||||||||||||",
+          "risk": "true_cleavage_risk"
+        }
+      ]
+    },
+    {
+      "antisense_5to3": "GTACGGACAACTAGAT",
+      "target_mRNA_5to3": "ATCTAGTTGTCCGTAC",
+      "gc_percent": 43.8,
+      "specificity_margin": 6,
+      "status": "screened",
+      "blast_rid": "4E2DAD5Z016",
+      "n_parent_or_intended_hits": 0,
+      "n_offtarget_near_matches": 50,
+      "n_true_cleavage_risk": 46,
+      "n_gap_disrupted_no_cleavage": 4,
+      "n_wing_only_affinity": 0,
+      "n_coverage_only_fallback": 0,
+      "offtargets": [
+        {
+          "acc": "NM_001438330",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 9, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001438331",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 10, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NM_001445416",
+          "defn": "Homo sapiens lamin B1 (LMNB1), transcript variant 5, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "TCTAGTTGTCCGTAC",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "NM_024790",
+          "defn": "Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant 1, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "NR_177109",
+          "defn": "Homo sapiens lamin B1 (LMNB1), transcript variant 4, non-coding RNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 2,
+          "q_to": 16,
+          "qseq": "TCTAGTTGTCCGTAC",
+          "midline": "||||||||| |||||",
+          "risk": "gap_disrupted_no_cleavage"
+        },
+        {
+          "acc": "XM_006716474",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X9, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_006716477",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X21, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_017013849",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X10, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_017013854",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X22, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422246",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X8, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422249",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X12, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422250",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X13, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422251",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X14, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422253",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X16, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        },
+        {
+          "acc": "XM_047422255",
+          "defn": "PREDICTED: Homo sapiens centrosome and spindle pole associated protein 1 (CSPP1), transcript variant X18, mRNA",
+          "identity": 14,
+          "align_len": 15,
+          "q_from": 1,
+          "q_to": 15,
+          "qseq": "ATCTAGTTGTCCGTA",
+          "midline": "||||||||||| |||",
+          "risk": "true_cleavage_risk"
+        }
+      ]
+    }
+  ]
+}
