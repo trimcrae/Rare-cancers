@@ -68,7 +68,7 @@ jobs:
                   print(f"#   {sz:>10}  {k}")
               # cat the TAIL of every log/in/frcmod (LEaP errors cluster at the end); skip the successful
               # solvent leg to focus on the complex-leg failure.
-              wanted = (".log", "leap.in", ".in", ".frcmod")
+              wanted = (".log", "leap.in", ".in", ".frcmod", "fes.dat", "manifest.json")
               cat = [(k, sz) for k, sz in sorted(all_objs)
                      if any(k.endswith(w) for w in wanted) and "solvent.leap.log" not in k and sz < 5_000_000]
               for k, sz in cat:
