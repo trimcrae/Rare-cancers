@@ -60,19 +60,21 @@ jobs:
               bucket = f"sagemaker-{region}-{sts.get_caller_identity()['Account']}"
               print(f"# S3 setup-log inspect: s3://{bucket}/{ckpt}/")
               paginator = s3.get_paginator("list_objects_v2")
-              wanted = (".leap.log", "leap.log", "leap.in", ".frcmod", ".in")
-              keys = []
+              all_objs = []
               for pg in paginator.paginate(Bucket=bucket, Prefix=ckpt):
-                  for o in pg.get("Contents", []):
-                      k = o["Key"]
-                      if any(k.endswith(w) for w in wanted) and o["Size"] < 200000:
-                          keys.append((k, o["Size"]))
-              print(f"# found {len(keys)} setup-log files")
-              for k, sz in sorted(keys):
+                  all_objs.extend((o["Key"], o["Size"]) for o in pg.get("Contents", []))
+              print(f"# MANIFEST ({len(all_objs)} objects under prefix):")
+              for k, sz in sorted(all_objs):
+                  print(f"#   {sz:>10}  {k}")
+              # cat the TAIL of every log/in/frcmod (LEaP errors cluster at the end); skip the successful
+              # solvent leg to focus on the complex-leg failure.
+              wanted = (".log", "leap.in", ".in", ".frcmod")
+              cat = [(k, sz) for k, sz in sorted(all_objs)
+                     if any(k.endswith(w) for w in wanted) and "solvent.leap.log" not in k and sz < 5_000_000]
+              for k, sz in cat:
                   body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
-                  # for big LEaP logs print head+tail (errors cluster at the end); small files print whole
-                  show = body if len(body) < 6000 else (body[:1500] + "\n...<snip>...\n" + body[-4000:])
-                  print(f"\n===== S3 {k} ({sz} bytes) =====\n{show}")
+                  show = body if len(body) < 5000 else ("...<head-snip>...\n" + body[-4500:])
+                  print(f"\n===== S3 {k} ({sz} bytes, tail) =====\n{show}")
               print("#" * 80)
           jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
