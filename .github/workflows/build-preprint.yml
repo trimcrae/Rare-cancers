@@ -1,0 +1,99 @@
+name: Build preprint (PDF + DOCX)
+
+# Renders the surface-target preprint (and, optionally, the ASO preprint) from Markdown to
+# submission-ready PDF + DOCX via pandoc, embedding the prioritisation figure from the
+# modalities-cache branch. Uploads the built files as a workflow artifact and publishes them to
+# the `preprint-cache` branch. bioRxiv accepts PDF/DOCX; this is the "ready to submit" artifact.
+#
+# Internet-only (apt + figure fetch) -> runs on a GitHub-hosted runner.
+
+on:
+  workflow_dispatch:
+    inputs:
+      paper:
+        description: "Manuscript basename under research/manuscripts/ (no .md)"
+        required: false
+        default: "emc-surface-target-landscape"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-preprint
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc + a PDF engine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc wkhtmltopdf
+
+      - name: Fetch the prioritisation figure from modalities-cache
+        run: |
+          mkdir -p build
+          git fetch origin modalities-cache || true
+          git show origin/modalities-cache:research/modalities/emc-surface-prioritization.png > build/emc-surface-prioritization.png 2>/dev/null || echo "figure not found (continuing without it)"
+
+      - name: Assemble manuscript (inject figure image where referenced)
+        env:
+          PAPER: ${{ inputs.paper }}
+        run: |
+          set -e
+          PAPER="${PAPER:-emc-surface-target-landscape}"
+          src="research/manuscripts/${PAPER}.md"
+          cp "$src" build/paper.md
+          # If the figure exists, replace the first Figure 1 code-reference with an embedded image.
+          if [ -f build/emc-surface-prioritization.png ]; then
+            python3 - <<'PY'
+import re, pathlib
+p = pathlib.Path("build/paper.md"); t = p.read_text()
+img = "\n\n![**Figure 1.** Surface-antigen prioritisation (surrogate): cross-cancer selectivity vs normal-tissue window; the selective-and-restricted quadrant is empty for classic protein antigens.](emc-surface-prioritization.png)\n\n"
+# insert after the first paragraph that mentions 'Figure 1'
+m = re.search(r'\*\*Figure 1\*\*.*?\n', t)
+if m:
+    t = t[:m.end()] + img + t[m.end():]
+p.write_text(t)
+print("figure injected" if m else "no Figure 1 anchor; not injected")
+PY
+          fi
+
+      - name: Render DOCX (always) and PDF (best-effort)
+        working-directory: build
+        run: |
+          set -e
+          pandoc paper.md -o "${PAPER:-emc-surface-target-landscape}.docx" --resource-path=.
+          pandoc paper.md -o "${PAPER:-emc-surface-target-landscape}.pdf" --pdf-engine=wkhtmltopdf --resource-path=. || echo "PDF render failed (DOCX still produced)"
+          ls -la
+
+      - name: Upload built preprint as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: preprint-${{ github.run_id }}
+          path: |
+            build/*.docx
+            build/*.pdf
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Publish to preprint-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/pp"; cp build/*.docx build/*.pdf "$RUNNER_TEMP/pp/" 2>/dev/null || true
+          git fetch origin preprint-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/preprint-cache; then
+            git checkout -B preprint-cache origin/preprint-cache
+          else
+            git checkout --orphan preprint-cache; git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p preprints; cp "$RUNNER_TEMP"/pp/* preprints/ 2>/dev/null || true
+          git add preprints/ 2>/dev/null || true
+          git commit -m "Built preprint (${{ inputs.paper }})" || { echo "no changes"; exit 0; }
+          git push origin preprint-cache
