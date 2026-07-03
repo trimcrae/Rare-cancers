@@ -19,17 +19,29 @@ jobs:
           curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
           bash /tmp/mf.sh -b -p "$HOME/mf"
           echo "$HOME/mf/bin" >> "$GITHUB_PATH"
-      - name: Solve + import yank
+      - name: Find a yank-compatible openmmtools (has alchemy._ALCHEMICAL_REGION_ARGS)
         run: |
-          set -x
-          conda create -y -n yk --override-channels -c conda-forge yank || { echo "::error::yank solve FAILED"; exit 1; }
-          echo "=== resolved key versions ==="
-          conda list -n yk | grep -Ei "^(yank|openmm|openmmtools|numpy|python|ambertools|mdtraj|pymbar) " || true
-          echo "=== import check ==="
-          conda run -n yk python - <<'PY'
-          import yank
-          from yank.experiment import ExperimentBuilder
-          import openmm, numpy
-          print("YANK_OK", "yank", yank.__version__, "| openmm", openmm.version.version, "| numpy", numpy.__version__)
-          print("ExperimentBuilder:", ExperimentBuilder)
+          # yank 0.25.2 needs openmmtools.alchemy._ALCHEMICAL_REGION_ARGS (removed in newer openmmtools).
+          # conda-forge's yank pin is too loose (co-installs openmmtools 0.25 which lacks it → runtime
+          # AttributeError). Test candidate pins with a DEFINITIVE check for that exact attribute (import-only
+          # checks miss it — it bites at alchemy-setup time). Report which candidate is usable.
+          set +e
+          for V in "" "openmmtools=0.21.5" "openmmtools=0.21.2" "openmmtools=0.20.4" "openmmtools=0.20.0"; do
+            name="yk_$(echo "$V" | tr -cd 'a-zA-Z0-9')"
+            echo "======================================================================"
+            echo "### candidate: yank ${V:-<unpinned>}"
+            conda create -y -n "$name" --override-channels -c conda-forge yank $V >/tmp/solve.log 2>&1
+            if [ $? -ne 0 ]; then echo "  SOLVE FAILED"; tail -3 /tmp/solve.log; continue; fi
+            conda list -n "$name" | grep -Ei "^(yank|openmm|openmmtools|numpy|python) " | awk '{print "  "$1" "$2}'
+            conda run -n "$name" python - <<'PY'
+          try:
+              from openmmtools import alchemy
+              import yank, openmm
+              ok = hasattr(alchemy, "_ALCHEMICAL_REGION_ARGS")
+              print(f"  _ALCHEMICAL_REGION_ARGS present: {ok}  -> {'USABLE' if ok else 'BROKEN'}")
+          except Exception as e:
+              print(f"  IMPORT/CHECK ERROR: {e}")
           PY
+          done
+          echo "======================================================================"
+          echo "Pick the lowest-friction USABLE candidate for entry_fep.py."
