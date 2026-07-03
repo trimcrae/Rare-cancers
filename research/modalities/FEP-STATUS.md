@@ -33,10 +33,14 @@ Single-shard shakeout with the self-diagnosing harness peeled back, in order (ea
    **all three paralogue frames similarly stretched in one axis.** A ~254-res LBD should be ~45 Å each way and
    solvate to ~50k atoms (fits g5.xlarge easily, no OOM). The elongation → cubic (iso) box sized to ~96 Å →
    ~62k waters → 190k atoms → the OOM.
-   **Leading hypothesis: MD frames saved WITHOUT PBC-unwrapping** (a flexible terminal segment wrapped across
-   the periodic box adds ~40 Å to one axis) — systematic across all 3 frames, consistent with an imaging
-   artifact, not 3 independent unfoldings. **These same frames underpin the paper's docking/MM-GBSA**, so this
-   is not FEP-only.
+   **CONFIRMED (2026-07-03 07:48Z): it is REAL elongation, NOT a PBC-wrap artifact.** The CA-CA sequential-jump
+   test on `nr4a3-opened.pdb` is `n=253 max=4.0Å, jumps>5Å: []` — a fully **continuous** chain (every Cα-Cα
+   ≤4.0 Å), so the ~99 Å z-extent is a genuine extended conformation, not a wrapped chain. So re-imaging will
+   NOT help. **These same elongated frames underpin the paper's docking/MM-GBSA/ternary**, so this is a
+   paper-validity red-team finding, not FEP-only: did the metad (Rg CV driven against the 2.2 nm upper wall)
+   over-extend / partially unfold the LBD, and is the selected "opened" frame a reasonable induced-fit state or
+   an over-driven artifact? (Mitigating: the release run held 3/3 unbiased replicas 5 ns at the Rg-0.717 frame,
+   §2.2 — so not grossly unphysical, but 5 ns is short.)
    **DECISION NEEDED (options):** (a) **re-image/make-whole** the receptor before solvation (if it's a wrapping
    artifact → box shrinks to normal → fits g5.xlarge; needs box vectors / a compact frame — pocket results
    unaffected since the pocket wasn't wrapped); (b) **re-extract a compact opened frame** (if the elongation is
