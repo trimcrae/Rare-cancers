@@ -33,15 +33,8 @@ jobs:
             conda create -y -n "$name" --override-channels -c conda-forge yank $V >/tmp/solve.log 2>&1
             if [ $? -ne 0 ]; then echo "  SOLVE FAILED"; tail -3 /tmp/solve.log; continue; fi
             conda list -n "$name" | grep -Ei "^(yank|openmm|openmmtools|numpy|python) " | awk '{print "  "$1" "$2}'
-            conda run -n "$name" python - <<'PY'
-          try:
-              from openmmtools import alchemy
-              import yank, openmm
-              ok = hasattr(alchemy, "_ALCHEMICAL_REGION_ARGS")
-              print(f"  _ALCHEMICAL_REGION_ARGS present: {ok}  -> {'USABLE' if ok else 'BROKEN'}")
-          except Exception as e:
-              print(f"  IMPORT/CHECK ERROR: {e}")
-          PY
+            # pass code via -c (NOT stdin: conda run does not forward stdin, so `python - <<HEREDOC` runs nothing)
+            conda run -n "$name" python -c "from openmmtools import alchemy; import yank; print('  _ALCHEMICAL_REGION_ARGS present:', hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'), '->', 'USABLE' if hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS') else 'BROKEN')" 2>&1 | sed 's/^/  /'
           done
           echo "======================================================================"
           echo "Pick the lowest-friction USABLE candidate for entry_fep.py."
