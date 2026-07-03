@@ -45,8 +45,8 @@
     "myxoid_lines_named": [
       "ACH-001519 [Extraskeletal Myxoid Chondrosarcoma]"
     ],
-    "_myxoid_caveat": "These are the DepMap lines matched by the 'myxoid' substring \u2014 they are myxoid LIPOSARCOMA / myxofibrosarcoma (FUS/EWSR1::DDIT3 etc.), NOT EMC and NOT the EWSR1::NR4A3 fusion family. 'Closest to EMC' is by name only; surface phenotype tracks lineage, so this signal is weak.",
-    "_surrogate_caveat": "Surface phenotype is lineage-determined; Ewing (neuroectodermal) and synovial (epithelial/spindle) differ from EMC's myxoid/chondroid lineage. This class is translocation-sarcoma-GENERIC, not EMC-specific."
+    "_myxoid_caveat": "CORRECTION: the single 'myxoid'-matched line is ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid Chondrosarcoma' \u2014 i.e. a REAL EMC line (n=1), NOT myxoid liposarcoma. DepMap therefore contains one EMC line; its expression (myxoid_mean / emc_line_top_surface) is real EMC data, descriptive only at n=1. Fusion status [to verify].",
+    "_surrogate_caveat": "The broader translocation class (Ewing/synovial/etc.) is a lineage-GENERIC surrogate \u2014 surface phenotype tracks lineage, and those differ from EMC's myxoid/chondroid lineage \u2014 so class-level ranks are weaker than the single real EMC line, which however lacks statistical power."
   },
   "thresholds": {
     "detectable_log2tpm": 1.0,
@@ -1361,6 +1361,135 @@
       "selectivity_q": 1.0,
       "selectivity_significant": false
     }
+  },
+  "emc_line_top_surface": {
+    "line": [
+      "ACH-001519 [Extraskeletal Myxoid Chondrosarcoma]"
+    ],
+    "n": 1,
+    "note": "Single DepMap line annotated 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so descriptive only (no statistics). REAL EMC expression, not a surrogate. EWSR1::NR4A3 fusion status of this line: [to verify].",
+    "top_surface_antigens": [
+      {
+        "gene": "APP",
+        "log2tpm": 9.89
+      },
+      {
+        "gene": "CD63",
+        "log2tpm": 9.51
+      },
+      {
+        "gene": "FGFR1",
+        "log2tpm": 9.28
+      },
+      {
+        "gene": "SLC38A2",
+        "log2tpm": 8.97
+      },
+      {
+        "gene": "GPRC5B",
+        "log2tpm": 8.85
+      },
+      {
+        "gene": "PERP",
+        "log2tpm": 8.78
+      },
+      {
+        "gene": "SLC3A2",
+        "log2tpm": 8.58
+      },
+      {
+        "gene": "CD81",
+        "log2tpm": 8.52
+      },
+      {
+        "gene": "CD164",
+        "log2tpm": 8.49
+      },
+      {
+        "gene": "DNER",
+        "log2tpm": 8.48
+      },
+      {
+        "gene": "TMED10",
+        "log2tpm": 8.3
+      },
+      {
+        "gene": "CLIC1",
+        "log2tpm": 8.29
+      },
+      {
+        "gene": "BSG",
+        "log2tpm": 8.23
+      },
+      {
+        "gene": "RTN4",
+        "log2tpm": 8.18
+      },
+      {
+        "gene": "IFITM3",
+        "log2tpm": 8.12
+      },
+      {
+        "gene": "MMP14",
+        "log2tpm": 8.09
+      },
+      {
+        "gene": "SLC1A5",
+        "log2tpm": 7.94
+      },
+      {
+        "gene": "ITGB1",
+        "log2tpm": 7.89
+      },
+      {
+        "gene": "PMP22",
+        "log2tpm": 7.83
+      },
+      {
+        "gene": "VMP1",
+        "log2tpm": 7.83
+      },
+      {
+        "gene": "ALCAM",
+        "log2tpm": 7.71
+      },
+      {
+        "gene": "CD59",
+        "log2tpm": 7.62
+      },
+      {
+        "gene": "TGFBR2",
+        "log2tpm": 7.61
+      },
+      {
+        "gene": "LAMP1",
+        "log2tpm": 7.58
+      },
+      {
+        "gene": "ATP1B3",
+        "log2tpm": 7.57
+      },
+      {
+        "gene": "ITM2B",
+        "log2tpm": 7.47
+      },
+      {
+        "gene": "FZD4",
+        "log2tpm": 7.45
+      },
+      {
+        "gene": "APLP2",
+        "log2tpm": 7.43
+      },
+      {
+        "gene": "VDAC1",
+        "log2tpm": 7.42
+      },
+      {
+        "gene": "FXYD5",
+        "log2tpm": 7.29
+      }
+    ]
   },
   "self_validation": {
     "housekeeping_absent_from_surfaceome": true,
