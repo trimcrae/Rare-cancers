@@ -113,7 +113,9 @@ def main():
             checkpoint_local_path="/opt/ml/checkpoints",
             hyperparameters={"git-ref": GIT_REF, "smoke": "1" if MODE == "smoke" else "0",
                              "ligand": LIGAND, "prod-ps": os.environ.get("FEP_PROD_PS", "1000"),
-                             "equil-ps": os.environ.get("FEP_EQUIL_PS", "200")},
+                             "equil-ps": os.environ.get("FEP_EQUIL_PS", "200"),
+                             "phase": os.environ.get("FEP_PHASE", "full"),
+                             "bootstrap-iter": os.environ.get("FEP_BOOTSTRAP_ITER", "60")},
         )
 
     if MODE == "smoke":

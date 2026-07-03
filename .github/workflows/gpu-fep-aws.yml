@@ -78,6 +78,14 @@ on:
         description: "mode=run: comma-sep receptor names to relaunch ONLY (e.g. nr4a1 to restart one bricked shard); empty = full plan"
         default: ""
         required: false
+      phase:
+        description: "bootstrap (on-demand: setup+trailblaze+checkpoint) | sample (spot: resume+HREX) | full (legacy single-job)"
+        default: "full"
+        required: false
+      bootstrap_iter:
+        description: "iterations for the on-demand bootstrap phase (>= checkpoint_interval 50 so a resumable checkpoint is written)"
+        default: "60"
+        required: false
 
 permissions:
   contents: read
@@ -112,6 +120,8 @@ jobs:
           RECEPTOR_PREFIX: ${{ inputs.receptor_prefix }}
           GIT_REF: ${{ inputs.git_ref }}
           ONLY_RECEPTORS: ${{ inputs.only_receptors }}
+          FEP_PHASE: ${{ inputs.phase }}
+          FEP_BOOTSTRAP_ITER: ${{ inputs.bootstrap_iter }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."

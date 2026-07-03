@@ -32,6 +32,12 @@ LIGAND = os.environ.get("FEP_LIGAND", "denovo_401")
 RECEPTOR_DIR = os.environ.get("FEP_RECEPTOR_DIR", ".")        # holds <receptor>-opened.pdb
 POSE_DIR = os.environ.get("FEP_POSE_DIR", ".")               # holds docked_<receptor>.sdf
 # Yank protocol knobs (SHAKEOUT-CALIBRATED LATER — not trusted numbers yet). Yank iterations, not ps:
+# BOOTSTRAP: setup + trailblaze + just enough iters to write ONE resumable checkpoint (>= checkpoint_interval,
+# 50). Run this phase ON-DEMAND (uninterruptible) so trailblaze — Yank's crash-UNSAFE, non-atomic λ-schedule
+# bootstrap — completes without a spot kill corrupting it. The long HREX 'sample' phase then RESUMES this clean
+# checkpoint on cheap SPOT (that phase checkpoints per interval and resumes fine). Fragile-on-demand,
+# robust-on-spot; see the trailblaze self-heal note below + CLAUDE.md spot rule.
+BOOTSTRAP_ITER = int(os.environ.get("FEP_BOOTSTRAP_ITER", "60"))
 PILOT_ITER = int(os.environ.get("FEP_PILOT_ITER", "500"))    # short PILOT (fast early-stop ΔΔG signal)
 PROD_ITER = int(os.environ.get("FEP_PROD_ITER", "3000"))     # full production per receptor experiment
 N_WINDOWS = int(os.environ.get("FEP_N_WINDOWS", "12"))       # λ-path length inside each Yank experiment
@@ -369,14 +375,18 @@ def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=2):
         return r.returncode
 
 
+_PHASE_ITER = {"bootstrap": lambda: BOOTSTRAP_ITER, "pilot": lambda: PILOT_ITER}
+
+
 def run_real(unit, phase="prod"):
-    """One full Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. phase='pilot' runs fewer
-    iterations for a fast early-stop ΔΔG signal; 'prod' extends the SAME output dir to the full iteration
-    count (Yank resume = extend). GPU only (runs inside the fep conda env; `yank` CLI on PATH)."""
+    """One Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. Phases (each RESUMES + EXTENDS the
+    same out_dir, so they compose): 'bootstrap' = setup + trailblaze + a few iters (run ON-DEMAND, writes a
+    clean resumable checkpoint, no ΔG); 'pilot' = extend to PILOT_ITER for an early ΔΔG signal; 'prod' = extend
+    to PROD_ITER (converged). GPU only (runs inside the fep conda env; `yank` CLI on PATH)."""
     import subprocess
     t0 = time.time()
     receptor = unit["receptor"]
-    n_iter = PILOT_ITER if phase == "pilot" else PROD_ITER
+    n_iter = _PHASE_ITER.get(phase, lambda: PROD_ITER)()
     out_dir = os.path.join(CKPT_DIR, receptor)                # Yank's .nc live here → S3-synced → resumable
     os.makedirs(out_dir, exist_ok=True)
     lig_sdf = _extract_ligand_sdf(receptor, out_dir)
@@ -392,6 +402,14 @@ def run_real(unit, phase="prod"):
     if rc != 0:
         _dump_setup_logs(out_dir)                             # surface the real LEaP/antechamber diagnostic
         raise RuntimeError(f"yank script failed for {receptor} (rc={rc})")
+    if phase == "bootstrap":
+        # trailblaze is now complete + checkpointed on S3 → a spot 'sample' job resumes straight into HREX.
+        # No ΔG at this iteration count (it'd be noise); just record the marker so the sample phase resumes it.
+        _write(unit, {"mode": "yank", "phase": "bootstrap", "n_iterations": n_iter,
+                      "_t": round(time.time() - t0, 1)})
+        print(f"[fep] {receptor} bootstrap: trailblaze + {n_iter} iters checkpointed — ready for spot resume",
+              flush=True)
+        return
     dg, err = _parse_dg(out_dir)
     _write(unit, {"mode": "yank", "phase": phase, "dg_bind_kcal": round(dg, 3),
                   "ddg_err_kcal": round(err, 3), "n_iterations": n_iter, "_t": round(time.time() - t0, 1)})
@@ -404,9 +422,24 @@ def main():
     if not SHARD_FILE or not os.path.exists(SHARD_FILE):
         sys.exit(f"[fep] FEP_SHARD_FILE not found: {SHARD_FILE}")
     units = json.load(open(SHARD_FILE))
-    # PASS 1 — PILOT each receptor first (few iterations), so the central monitor gets an early ΔΔG signal
-    # across ALL receptors fast and can StopTrainingJob the fleet before full production burns the spot budget.
-    pilot_todo = [u for u in units if _phase_of(u["id"]) is None]      # neither pilot nor prod yet
+    # FEP_PHASE splits the fragile-vs-robust work across instance types (see BOOTSTRAP_ITER note):
+    #   bootstrap : ON-DEMAND — setup + trailblaze + a checkpoint, then STOP (don't sample). Uninterruptible,
+    #               so Yank's crash-unsafe trailblaze can't be corrupted by a spot kill.
+    #   sample    : SPOT — resume the bootstrapped checkpoint and run pilot→prod HREX (skips trailblaze).
+    #   full      : legacy single-job bootstrap+pilot+prod in one run (back-compat; used by smoke/off-spot).
+    phase_mode = os.environ.get("FEP_PHASE", "full").lower()
+    if phase_mode == "bootstrap":
+        todo = [u for u in units if _phase_of(u["id"]) is None]         # not yet bootstrapped
+        print(f"[fep] BOOTSTRAP (on-demand): {len(todo)}/{len(units)} receptors — trailblaze + checkpoint",
+              flush=True)
+        for u in todo:
+            run(u, phase="bootstrap")
+        print(f"[fep] bootstrap complete: {len(todo)} receptors ready for spot resume", flush=True)
+        return
+    # sample/full: PILOT then PROD, each resuming/extending the same out_dir. A bootstrapped receptor (phase
+    # 'bootstrap') resumes straight into HREX — trailblaze already done. In legacy 'full' with no prior
+    # bootstrap, the pilot's first yank call does the trailblaze itself (back-compat).
+    pilot_todo = [u for u in units if _phase_of(u["id"]) in (None, "bootstrap")]
     print(f"[fep] PASS 1 pilot: {len(pilot_todo)}/{len(units)} receptors (mode={'smoke' if smoke else 'yank'})",
           flush=True)
     for u in pilot_todo:
