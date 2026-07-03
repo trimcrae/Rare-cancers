@@ -41,11 +41,20 @@ Single-shard shakeout with the self-diagnosing harness peeled back, in order (ea
    over-extend / partially unfold the LBD, and is the selected "opened" frame a reasonable induced-fit state or
    an over-driven artifact? (Mitigating: the release run held 3/3 unbiased replicas 5 ns at the Rg-0.717 frame,
    §2.2 — so not grossly unphysical, but 5 ns is short.)
-   **DECISION NEEDED (options):** (a) **re-image/make-whole** the receptor before solvation (if it's a wrapping
-   artifact → box shrinks to normal → fits g5.xlarge; needs box vectors / a compact frame — pocket results
-   unaffected since the pocket wasn't wrapped); (b) **re-extract a compact opened frame** (if the elongation is
-   real); (c) **raise the ml.g5.4xlarge spot quota** and run the big box as-is. Recommend confirming (a) vs (b)
-   by inspecting whether the protein is spatially CONTINUOUS or has a GAP along z.
+   **REFINED (2026-07-03 10:18Z) — the elongation is largely a FLOPPY-SEGMENT / TRIM issue, and the fix is a trim:**
+   PDB geom of the *pre-metad* AF2 model restricted to the LBD trim (residues 373-626) is **50 × 56 × 72 Å** —
+   already elongated (a compact LBD core is ~45 Å each way), continuous chain. So the 373-626 trim itself
+   includes a **floppy segment** (almost certainly the N-terminal hinge ~373-399 that AF2 predicts extended),
+   and metad then stretched z 72→99 Å. (The full 626-res AF2 model is 125 Å — normal for a full-length NR with
+   disordered DBD/hinge/tails.) The opened frame is **renumbered 1-254**, so residue filters must use 1-based
+   numbering (a 400-626 filter matched nothing).
+   **CLEAN FIX (recommended, likely autonomous-safe): trim the floppy N-terminal hinge to the folded LBD core
+   before FEP solvation** (e.g. drop ~res 1-25 of the renumbered frame / UniProt ~373-399, keep the H1-H12
+   core). That compacts the box to ~normal (~50k atoms) → **fits the quota-available g5.xlarge**, no g5.4xlarge
+   needed. Pocket-local docking/MM-GBSA/ternary are unaffected (the floppy tail just hangs off the pocket).
+   Confirm the exact cut by dumping per-residue Cα-z of `nr4a3-opened.pdb` (find where the compact core ends)
+   before trimming. Alternatives if the CORE turns out elongated too: re-extract a compact druggable frame, or
+   raise the g5.4xlarge spot quota.
    Resume state: both LEaP legs are built + S3-checkpointed (`nr4a3-fep/ckpt/0`), so whatever the fix, resume
    skips setup. `fep-status-aws.yml` is now a full S3 inspector (manifest + per-leg LEaP tails + fes.dat +
    PDB geom + job summary) — reuse it. Also: **metad DONE (60 ns) and folded into §2.2** (single basin, Gate-3
