@@ -1,44 +1,74 @@
 {
-  "_note": "Normal-tissue therapeutic-window analysis (Human Protein Atlas RNA) for the EMC surface-antigen shortlist. RESTRICTED = tumour-restricted window prior (good target); BROAD_LIABILITY = broadly expressed in normal tissue (on-target/off-tumour risk). Pairs with EMC-tumour expression from emc_surfaceome_scan.py. HPA RNA is bulk normal tissue; a window PRIOR, not a safety guarantee.",
-  "source": "Human Protein Atlas (proteinatlas.org) RNA tissue + subcellular + cancer specificity",
+  "_note": "Normal-tissue therapeutic-window analysis (Human Protein Atlas RNA) for the EMC surface-antigen shortlist. Verdicts: RESTRICTED = 'tissue enriched'/'group enriched' (confined to one/few tissues, no vital/immune hit \u2014 the only clean window prior); ENHANCED_BROAD = 'tissue enhanced' (detected broadly with a peak \u2014 NOT restricted); BROAD_LIABILITY = 'low tissue specificity'/'detected in all'; VITAL_OR_IMMUNE_LIABILITY = expressed in a vital tissue or immune/circulating cell (overrides all \u2014 an on-target/off-tumour danger). HPA RNA is bulk normal tissue and a window PRIOR, not a safety guarantee, and mRNA != surface protein.",
+  "source": "Human Protein Atlas (proteinatlas.org) RNA tissue + blood-cell + subcellular specificity",
   "vital_tissues_flagged": [
     "heart",
     "cerebral cortex",
     "brain",
     "cerebellum",
+    "hippocamp",
+    "amygdala",
+    "basal ganglia",
+    "spinal cord",
+    "nerve",
     "liver",
     "lung",
     "kidney",
     "pancreas",
     "colon",
     "small intestine",
-    "bone marrow"
+    "duodenum",
+    "stomach",
+    "bone marrow",
+    "skeletal muscle",
+    "smooth muscle",
+    "cardiac"
   ],
   "self_validation": {
     "positive_controls_restricted": {
-      "DLL3": "RESTRICTED",
-      "GPC3": "RESTRICTED"
+      "DLL3": "VITAL_OR_IMMUNE_LIABILITY",
+      "GPC3": "VITAL_OR_IMMUNE_LIABILITY"
     },
     "negative_control_broad": {
       "B2M": "BROAD_LIABILITY"
     },
-    "_pass": "DLL3/GPC3 should be RESTRICTED* and B2M BROAD_LIABILITY; if so the window classification is trustworthy"
+    "hard_immune_control_must_not_be_restricted": {
+      "CD3E": "VITAL_OR_IMMUNE_LIABILITY"
+    },
+    "_pass": "DLL3/GPC3 => RESTRICTED (tissue enriched); B2M => BROAD; CD3E must be VITAL_OR_IMMUNE_LIABILITY (NOT restricted) \u2014 the hard control that 'tissue enhanced != restricted' and that immune expression is caught."
   },
   "restricted_window_candidates": [
-    "CDH11",
-    "GPC2",
-    "NCAM1",
-    "FAP",
-    "EGFR",
-    "KIT"
+    "B4GALNT1"
   ],
-  "broad_liability": [
+  "liability_antigens": [
+    "CDH11",
     "FGFR1",
+    "GPC2",
     "PTK7",
     "MCAM",
     "EPHB4",
     "CD276",
-    "ERBB2"
+    "NCAM1",
+    "FAP",
+    "ERBB2",
+    "EGFR",
+    "KIT",
+    "SSTR2"
+  ],
+  "broad_liability": [
+    "CDH11",
+    "FGFR1",
+    "GPC2",
+    "PTK7",
+    "MCAM",
+    "EPHB4",
+    "CD276",
+    "NCAM1",
+    "FAP",
+    "ERBB2",
+    "EGFR",
+    "KIT",
+    "SSTR2"
   ],
   "antigens": {
     "CDH11": {
@@ -46,18 +76,22 @@
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": null,
       "plasma_membrane_confirmed": false,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "FGFR1": {
       "ensembl": "ENSG00000077782",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Low immune cell specificity",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Microtubules",
         "Cytokinetic bridge",
@@ -68,127 +102,145 @@
         "Cytosol"
       ],
       "plasma_membrane_confirmed": false,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
       "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Low immune cell specificity"
     },
     "GPC2": {
       "ensembl": "ENSG00000213420",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in some",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": null,
       "plasma_membrane_confirmed": false,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "PTK7": {
       "ensembl": "ENSG00000112655",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enriched",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Vesicles",
         "Plasma membrane",
         "Cytosol"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enriched"
     },
     "MCAM": {
       "ensembl": "ENSG00000076706",
       "rna_tissue_specificity": "Group enriched",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Plasma membrane"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
       "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "EPHB4": {
       "ensembl": "ENSG00000196411",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": null,
       "plasma_membrane_confirmed": false,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enhanced"
     },
     "CD276": {
       "ensembl": "ENSG00000103855",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Vesicles"
       ],
       "plasma_membrane_confirmed": false,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
       "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "NCAM1": {
       "ensembl": "ENSG00000149294",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enriched",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Plasma membrane",
         "Cytosol"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enriched"
     },
     "FAP": {
       "ensembl": "ENSG00000078098",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": null,
       "plasma_membrane_confirmed": false,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "ERBB2": {
       "ensembl": "ENSG00000141736",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Nucleoplasm",
         "Plasma membrane",
         "Cytosol"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enhanced"
     },
     "EGFR": {
       "ensembl": "ENSG00000146648",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Golgi apparatus",
         "Plasma membrane",
@@ -200,71 +252,128 @@
         "End piece"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "KIT": {
       "ensembl": "ENSG00000157404",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Group enriched",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Nucleoli fibrillar center",
         "Plasma membrane"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Group enriched"
+    },
+    "SSTR2": {
+      "ensembl": "ENSG00000180616",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Low immune cell specificity",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoplasm",
+        "Cytosol"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Low immune cell specificity"
+    },
+    "B4GALNT1": {
+      "ensembl": "ENSG00000135454",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": null,
+      "plasma_membrane_confirmed": false,
       "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
     },
     "DLL3": {
       "ensembl": "ENSG00000090932",
       "rna_tissue_specificity": "Tissue enriched",
       "rna_tissue_distribution": "Detected in some",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Nucleoplasm",
         "Golgi apparatus",
         "Plasma membrane"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enhanced"
     },
     "GPC3": {
       "ensembl": "ENSG00000147257",
       "rna_tissue_specificity": "Tissue enriched",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Plasma membrane"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
-      "window": "RESTRICTED",
-      "vital_tissue_expression": []
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enhanced"
     },
     "B2M": {
       "ensembl": "ENSG00000166710",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Low immune cell specificity",
+      "rna_blood_cell_specific_nTPM": null,
       "subcellular_location": [
         "Golgi apparatus",
         "Plasma membrane",
         "Cytosol"
       ],
       "plasma_membrane_confirmed": true,
-      "rna_cancer_specificity": null,
-      "rna_cancer_specific_nTPM": null,
       "window": "BROAD_LIABILITY",
-      "vital_tissue_expression": []
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Low immune cell specificity"
+    },
+    "CD3E": {
+      "ensembl": "ENSG00000198851",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Group enriched",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Endoplasmic reticulum",
+        "Golgi apparatus",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Group enriched"
     }
   }
 }
