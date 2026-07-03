@@ -52,25 +52,24 @@ def main():
     cmd.color("teal", "rec")
     cmd.set("cartoon_transparency", 0.12, "rec")
 
-    # the warhead — thick element-coloured sticks, the visual focus
+    # the warhead — thick sticks, WARM carbons for high contrast against the teal fold (the visual focus)
     cmd.show("sticks", "lig")
-    cmd.set("stick_radius", 0.26, "lig")
-    cmd.color("marine", "lig and elem C")
+    cmd.set("stick_radius", 0.27, "lig")
+    cmd.color("orange", "lig and elem C")
     cmd.util.cnc("lig")
 
-    # pocket-lining side chains within 4.5 A of the ligand — mark the binding site without clutter
+    # pocket-lining side chains within 4.5 A of the ligand — recessive grey, mark the site without competing
     cmd.select("pocket", "byres (polymer within 4.5 of lig)")
     cmd.show("sticks", "pocket and sidechain")
     cmd.set("stick_radius", 0.12, "pocket")
-    cmd.color("wheat", "pocket and elem C")
+    cmd.color("grey80", "pocket and elem C")
     cmd.util.cnc("pocket")
 
-    # framing: medium-wide so BOTH the LBD fold and the buried warhead are visible (no surface — it
+    # framing: centre the warhead with enough fold context to read the LBD helical bundle (no surface — it
     # ray-traces to an opaque blob in outline mode; cartoon + sticks reads cleaner and shows the fit).
     cmd.orient("lig")
-    cmd.zoom("lig", 15)
-    cmd.turn("y", 20)
-    cmd.turn("x", -10)
+    cmd.zoom("lig", 11)
+    cmd.turn("y", 25)
 
     # render — smooth shaded molecular look (no cel outline; that clashed with the pocket sticks)
     cmd.bg_color("white")
