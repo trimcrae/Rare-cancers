@@ -2,9 +2,15 @@
   "_note": "Junction-spanning siRNA designs (RISC/Ago2 mechanism) \u2014 a GC-TOLERANT alternative to the 75-81% GC junction gapmers. DESIGN ONLY; hypotheses for wet-lab knockdown + parental-sparing testing. Specificity is predicted (central-cleavage-site discrimination), not validated.",
   "_breakpoint_model": {
     "assumption": true,
+    "junction_label": "reference_codon264_from2",
     "EWSR1_mRNA": "NM_005243",
     "NR4A3_mRNA": "NM_006981",
-    "caveat": "modelled breakpoint; re-run on a sequenced patient fusion"
+    "junction_context_mRNA": "TACGGGCAGCAG|CCCTGCGTCCAA",
+    "caveat": "re-run on a sequenced patient fusion for clinical design",
+    "mode": "modelled_reference_codon_space",
+    "EWSR1_coding_kept": "codons 1-264 (in-frame)",
+    "NR4A3_coding_kept": "from codon 2 (in-frame)",
+    "note": "Codon-space modelled reference breakpoint (junction_aso.py default; a label of convenience, NOT a validated clinical breakpoint)."
   },
   "guide_length": 19,
   "gc_window": [
