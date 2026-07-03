@@ -112,11 +112,27 @@ def _sdf_to_mol2(sdf, workdir):
     return mol2
 
 
+# EXPLICIT λ-schedule (replaces Yank's `alchemical_path: auto`). Auto-trailblaze was pathologically slow/hung on
+# this large opened-LBD system even ON-DEMAND (2026-07-03: ~1.5 h producing only ~3.7 KB of schedule metadata,
+# no trajectory) — the trailblaze bootstrap MD, not spot preemption, was the real bottleneck. A fixed schedule
+# skips trailblaze entirely (standard ABFE practice; MBAR handles the fixed spacing) so the run goes straight to
+# HREX, which checkpoints per interval and is spot-safe. Complex leg (Boresch restraint): (1) switch the
+# restraint ON while the ligand is fully coupled, (2) annihilate electrostatics, (3) decouple sterics
+# (soft-core). Solvent leg: elec then sterics, no restraint. Per-leg lists MUST be equal length.
+_CX_RESTRAINTS = [0.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+_CX_ELEC =       [1.0, 1.0, 1.0, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+_CX_STERICS =    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.85, 0.7, 0.55, 0.4, 0.25, 0.1, 0.0]
+_SO_ELEC =       [1.0, 1.0, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+_SO_STERICS =    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0]
+assert len(_CX_RESTRAINTS) == len(_CX_ELEC) == len(_CX_STERICS), "complex λ lists must be equal length"
+assert len(_SO_ELEC) == len(_SO_STERICS), "solvent λ lists must be equal length"
+
+
 def _yank_yaml(receptor, n_iter, out_dir, lig_sdf, rec_pdb):
     """A Yank absolute-binding-FEP YAML for one receptor. Yank owns the physics: explicit-solvent (PME) double-
-    decoupling, a Boresch orientational restraint + its standard-state correction, an auto-trailblazed λ path,
-    Hamiltonian replica exchange, and MBAR. `resume_*: yes` makes Yank resume from its own .nc checkpoints under
-    out_dir (which lives in the SageMaker checkpoint dir → S3-synced → spot-interruption-safe)."""
+    decoupling, a Boresch orientational restraint + its standard-state correction, an EXPLICIT λ path (no
+    trailblaze; see the schedule above), Hamiltonian replica exchange, and MBAR. `resume_*: yes` makes Yank
+    resume from its own .nc checkpoints under out_dir (in the SageMaker checkpoint dir → S3-synced → spot-safe)."""
     return f"""---
 options:
   minimize: yes
@@ -157,9 +173,14 @@ systems:
 protocols:
   abfe:
     complex:
-      alchemical_path: auto
+      alchemical_path:
+        lambda_restraints: {_CX_RESTRAINTS}
+        lambda_electrostatics: {_CX_ELEC}
+        lambda_sterics: {_CX_STERICS}
     solvent:
-      alchemical_path: auto
+      alchemical_path:
+        lambda_electrostatics: {_SO_ELEC}
+        lambda_sterics: {_SO_STERICS}
 experiments:
   system: binding
   protocol: abfe
