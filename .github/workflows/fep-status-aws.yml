@@ -96,6 +96,25 @@ jobs:
                             f"extent(Å) x={ext[0]} y={ext[1]} z={ext[2]} "
                             f"(bbox {round(min(xs),1)}..{round(max(xs),1)}, {round(min(ys),1)}..{round(max(ys),1)}, "
                             f"{round(min(zs),1)}..{round(max(zs),1)})")
+                      # WRAPPING TEST: sequential CA-CA distances. A PBC-wrapped chain shows ONE huge jump
+                      # (~box length); a genuinely extended fold keeps every CA-CA ~3.8 Å. Decides re-image vs
+                      # re-extract for the FEP box blow-up.
+                      cas = []
+                      for ln in body.splitlines():
+                          if ln.startswith("ATOM") and ln[12:16].strip() == "CA":
+                              try:
+                                  cas.append((float(ln[30:38]), float(ln[38:46]), float(ln[46:54])))
+                              except ValueError:
+                                  pass
+                      jumps = []
+                      for a, b in zip(cas, cas[1:]):
+                          d = sum((a[i] - b[i]) ** 2 for i in range(3)) ** 0.5
+                          jumps.append(d)
+                      if jumps:
+                          bigs = sorted(((d, i) for i, d in enumerate(jumps) if d > 5.0), reverse=True)
+                          print(f"       CA-CA: n={len(jumps)} max={round(max(jumps),1)}Å  "
+                                f"jumps>5Å: {[(round(d,1), 'after CA#'+str(i)) for d, i in bigs[:6]]}  "
+                                f"({'WRAP-LIKE: one/few huge jumps' if bigs and max(jumps) > 15 else 'continuous chain: real elongation'})")
               print("#" * 80)
           jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
