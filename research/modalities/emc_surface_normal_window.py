@@ -88,9 +88,11 @@ def classify(spec, dist, specific_tpm, blood_spec, blood_tpm):
     dist_l = (dist or "").lower()
     tpm_l = json.dumps(specific_tpm).lower() if specific_tpm else ""
     vital_hits = [t for t in VITAL_TISSUES if t in tpm_l]
-    # immune / circulating-cell expression: HPA blood-cell specificity elevated in some immune cell
+    # immune / circulating-cell expression: only a STRONG, confined blood-cell signal counts
+    # ('Immune cell enriched' / 'Group enriched'); weak 'Immune cell enhanced' is broad-low noise
+    # (it otherwise mis-flags the tumour-restricted controls DLL3/GPC3), so it is NOT a liability.
     bspec_l = (blood_spec or "").lower()
-    immune_flag = bool(blood_tpm) or ("enriched" in bspec_l) or ("enhanced" in bspec_l)
+    immune_flag = "enriched" in bspec_l
     liabilities = {"vital_tissue": vital_hits, "immune_or_circulating": immune_flag,
                    "blood_cell_specificity": blood_spec}
 
