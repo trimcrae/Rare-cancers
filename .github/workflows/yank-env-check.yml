@@ -1,0 +1,35 @@
+name: Yank env check (free — validate FEP library installs)
+
+# De-risk the Yank dependency BEFORE rewriting the FEP harness around it: build a conda env with yank and
+# confirm it imports + exposes ExperimentBuilder, and report which openmm/openmmtools/numpy it pulls (Yank
+# ~2020 may or may not solve against a modern stack). Free GitHub runner, no GPU, no AWS.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install miniforge
+        run: |
+          curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+          bash /tmp/mf.sh -b -p "$HOME/mf"
+          echo "$HOME/mf/bin" >> "$GITHUB_PATH"
+      - name: Solve + import yank
+        run: |
+          set -x
+          conda create -y -n yk --override-channels -c conda-forge yank || { echo "::error::yank solve FAILED"; exit 1; }
+          echo "=== resolved key versions ==="
+          conda list -n yk | grep -Ei "^(yank|openmm|openmmtools|numpy|python|ambertools|mdtraj|pymbar) " || true
+          echo "=== import check ==="
+          conda run -n yk python - <<'PY'
+          import yank
+          from yank.experiment import ExperimentBuilder
+          import openmm, numpy
+          print("YANK_OK", "yank", yank.__version__, "| openmm", openmm.version.version, "| numpy", numpy.__version__)
+          print("ExperimentBuilder:", ExperimentBuilder)
+          PY
