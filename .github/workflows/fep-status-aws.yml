@@ -134,6 +134,29 @@ jobs:
                           print(f"       CA-CA: n={len(jumps)} max={round(max(jumps),1)}Å  "
                                 f"jumps>5Å: {[(round(d,1), 'after CA#'+str(i)) for d, i in bigs[:6]]}  "
                                 f"({'WRAP-LIKE: one/few huge jumps' if bigs and max(jumps) > 15 else 'continuous chain: real elongation'})")
+                      # Locate the floppy segment for a clean FEP trim: centroid of all CAs, then the 1-based
+                      # sequence positions whose CA is >25 Å from centroid (the extended tail). Contiguous runs
+                      # at the sequence start/end are the trimmable hinge.
+                      if cas:
+                          cx = sum(a[0] for a in cas) / len(cas)
+                          cy = sum(a[1] for a in cas) / len(cas)
+                          cz = sum(a[2] for a in cas) / len(cas)
+                          far = [i + 1 for i, a in enumerate(cas)
+                                 if ((a[0]-cx)**2 + (a[1]-cy)**2 + (a[2]-cz)**2) ** 0.5 > 25.0]
+                          def _runs(xs):
+                              r, cur = [], []
+                              for v in xs:
+                                  if cur and v == cur[-1] + 1:
+                                      cur.append(v)
+                                  else:
+                                      if cur:
+                                          r.append((cur[0], cur[-1]))
+                                      cur = [v]
+                              if cur:
+                                  r.append((cur[0], cur[-1]))
+                              return r
+                          print(f"       FAR-FROM-CORE CA (>25Å from centroid): {len(far)} residues; "
+                                f"contiguous runs (1-based seq pos): {_runs(far)}")
               print("#" * 80)
           jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
