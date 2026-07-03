@@ -108,8 +108,19 @@ read it before making changes.
   with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
   / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
   so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
-  **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` (GPU) job — serialize all GPU jobs
-  (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap.**
+  **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
+  those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
+  SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
+- **VALIDATE A FAN-OUT GPU FLEET ON A SINGLE SHARD FIRST, then scale (trimcrae rule, 2026-07-03).** Any job
+  that fans out N parallel GPU shards (the FEP fleet; any future spot fleet) must be shaken out with
+  `n_shards=1` before launching all N — a failed env/wiring test on 8 shards burns 8× the compute for the
+  same information. Because every shard checkpoints per-unit to S3 (continuous upload), the validation shard's
+  completed windows are NOT wasted: the full fan-out **resumes** from them. Sequence: `mode=smoke` (spot +
+  checkpoint plumbing, no MD) → **`n_shards=1` real (the heavy MD env + import + first windows)** → `n_shards=8`
+  full fleet. The middle rung matters because **the smoke test skips the heavy MD conda env**, so it cannot
+  catch env/isolation bugs — e.g. the 2026-07-03 FEP failure was a `PYTHONPATH` leak importing the SageMaker
+  base container's numpy 1.x into the `fep` env (which itself had numpy 2), invisible to smoke. Full incident +
+  fix (`entry_fep.py` clears `PYTHONPATH` for the `conda run`): next-steps.md → "Infra gotchas".
 - **No dependencies, no build step.** Keep it that way.
 - **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
   keep all URLs relative.

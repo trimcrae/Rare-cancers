@@ -693,6 +693,26 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 VALIDATE A FAN-OUT GPU FLEET ON ONE SHARD BEFORE SCALING (trimcrae rule, 2026-07-03).** For any job that
+  fans out N parallel GPU shards (the FEP fleet; any future spot fleet): run `n_shards=1` first, confirm it
+  reaches the real work, THEN launch all N. A failed env/wiring test on 8 shards costs 8× for the same
+  information. The per-unit S3 checkpointing means the validation shard's completed units are NOT wasted — the
+  full fan-out `resume`s from them. **Rung ladder:** `mode=smoke` (spot + checkpoint plumbing, no MD, no heavy
+  env) → **`n_shards=1` real** (builds the heavy MD conda env, imports the MD stack, does first windows) →
+  `n_shards=8`. **The `n_shards=1` rung is essential because `mode=smoke` deliberately skips the heavy MD env**
+  (`entry_fep.py` `--smoke` path), so smoke passing tells you NOTHING about whether the MD env builds/imports.
+  - **The FEP env bug this caught (2026-07-03).** The full 8-shard fleet failed twice (~$3, all fail-fast in
+    ~13 min) with `module 'numpy.dtypes' has no attribute 'StringDType'` while importing openmm/openmmtools/
+    pymbar. Misdiagnosis #1: "numpy < 2 in the env" → pinned `numpy>=2` (didn't help). **Real cause:** the `fep`
+    conda env *did* have numpy 2 (scipy 1.17 / pandas 2.3 in the solve force it), but the SageMaker PyTorch
+    **base container's `PYTHONPATH`** pointed at its own site-packages (numpy 1.x), and `conda run -n fep`
+    inherited that `PYTHONPATH`, so `import numpy` resolved the base 1.x (no `StringDType`) instead of the fep
+    env's 2.x. **Fix:** in `entry_fep.py`, clear `PYTHONPATH` (`fep_env["PYTHONPATH"]=""`) for the `conda run`
+    subprocess — the local modules still import via `cwd` (`sys.path[0]`). **Lesson:** `conda run` does NOT
+    isolate `PYTHONPATH`; always clear it when the base container may leak packages. Diagnostics used:
+    `fep-status-aws.yml` (describe training-job status + `FailureReason` + CloudWatch stdout of the first
+    failed shard) and `fep-stop-aws.yml` (StopTrainingJob kill-switch — the generic `stop_sagemaker_jobs.py`
+    only stops *Processing* jobs, not *Training*).
 - **🛑 CHECKPOINT + DURABLE (CONTINUOUS) UPLOAD ON ANY RUN WHOSE RUNTIME YOU'RE GUESSING (trimcrae standing
   rule, 2026-06-29).** Repeated wasted-GPU-hours incidents all came from the same shape: launch a job with a
   *guessed* wall-clock timeout and no durable checkpoint, so a timeout/crash discards EVERY completed unit of
