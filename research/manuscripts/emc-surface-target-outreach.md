@@ -34,22 +34,25 @@ I'm writing about your patient-derived extraskeletal myxoid chondrosarcoma model
 Bangerter et al., *Human Cell*). They are, as far as we can find, among the only patient-derived EMC models in
 existence, and they turn out to be the missing half of a computational project I'd like to share.
 
-We have built an in-silico **surface-antigen landscape for EMC** — a systematic ranking of cell-surface
-targets (for ADC / CAR / T-cell-engager / radioligand approaches, which sidestep the intracellular-delivery
-problem that limits driver-directed oligonucleotides). Because EMC is absent from the public cell-line
-expression panels, our ranking is unavoidably built on a *surrogate* (translocation-sarcoma lines + normal-
-tissue atlases). It already produces a concrete, prioritised shortlist — for example it **de-prioritises B7-H3**
-(broad and non-selective) in favour of more tumour-restricted candidates (GPC2, CDH11, CD56) — but it needs
-real EMC data to become an EMC result rather than a prior.
+We have built an in-silico **surface-antigen analysis for EMC** — evaluating cell-surface targets (for ADC /
+CAR / T-cell-engager / radioligand approaches, which sidestep the intracellular-delivery problem that limits
+driver-directed oligonucleotides). We did this honestly and it is deliberately self-critical: with a rigorous
+selectivity test and a hard normal-tissue-window filter, most "obvious" candidates fall away — the field-default
+**B7-H3 is not selective** in the data, and CD56/CDH11/others carry specific normal-tissue liabilities. The two
+leads that survive point at EMC's **neuroendocrine differentiation**: **SSTR2** (the target of the *approved*
+radioligand ¹⁷⁷Lu-DOTATATE — an off-the-shelf theranostic if EMC expresses it) and **GD2**. We even located the
+one EMC line in public data (H-EMC-SS in DepMap), but a single line cannot settle this.
 
-Your models are exactly that data. Two things would let us validate (or refute) the whole shortlist:
-1. **Any transcriptome / RNA-seq** you generated for USZ20-EMC1 / USZ22-EMC2 during characterisation — this
-   alone lets us re-run the entire pipeline on real EMC at essentially no cost to you.
-2. Optionally, a small **flow-cytometry or IHC panel** of the top candidates (GPC2, CD56, CDH11, B7-H3).
+Your models could. The most useful things, in rough order:
+1. **Any transcriptome / RNA-seq** of USZ20-EMC1 / USZ22-EMC2 — we would run it through the pipeline and share
+   everything, validating or refuting the priors on real EMC.
+2. A small **surface panel** aimed at the specific questions our analysis raises: is **SSTR2** expressed
+   (→ DOTATATE theranostic)? is **GD2** present? and are the selective-but-broad antigens (GPC2, CDH11)
+   actually surface-restricted at the protein level in EMC?
 
-We would be glad to do all the analysis, share everything, and include you as co-authors on any resulting
-work — the computational half is ready; your models are the half that matters. The preprint is at `[LINK]`,
-and I'm happy to send the underlying code and shortlist.
+We are not asking you to do our work — we would do the analysis and defer study design and authorship to you.
+The preprint (with the full method, the honest negative results, and a red-team log) is at `[LINK]`, and I'm
+happy to send the code.
 
 Thank you for considering this, and for making these models in the first place.
 
@@ -68,19 +71,20 @@ Congratulations on NCC-EMC1-C1 (Iwata et al., *Human Cell* 2025) — establishin
 running a 221-drug screen on such a rare tumour is a real contribution, and it is directly relevant to work
 I'd like to share with you.
 
-We have assembled an in-silico **surface-antigen landscape for EMC**, prioritising cell-surface targets for
-delivery- and immunotherapy-directed modalities (ADC / CAR / T-cell engager / radioligand). Since EMC is not
-in the public expression panels, our ranking rests on a *surrogate* and is explicitly labelled as such; it
-nominates a small shortlist (GPC2, CDH11, CD56 as selective and tumour-restricted; B7-H3 de-prioritised) that
-we would very much like to test against **real EMC** rather than a proxy.
+We have assembled an in-silico **surface-antigen analysis for EMC**, evaluating cell-surface targets for
+delivery- and immunotherapy-directed modalities (ADC / CAR / T-cell engager / radioligand). It is deliberately
+self-critical: with a rigorous selectivity test and a hard normal-tissue-window filter, most candidates fall
+away — the field-default **B7-H3 is not selective**, and CD56/CDH11 carry normal-tissue liabilities. The leads
+that survive follow EMC's **neuroendocrine differentiation** (INSM1/synaptophysin): **SSTR2** (target of the
+approved radioligand ¹⁷⁷Lu-DOTATATE) and **GD2**. We would very much like to test these against **real EMC**.
 
 NCC-EMC1-C1 could do exactly that. If you have generated (or would consider sharing) its **RNA-seq /
-expression profile**, or a targeted **surface-marker panel** (GPC2 / CD56 / CDH11 / B7-H3) on the line, we
-could validate or overturn the entire shortlist — and we would handle all analysis and offer co-authorship.
-Your group's patient-derived rare-sarcoma program is uniquely placed to turn this from a hypothesis into an
-EMC-specific result.
+expression**, or a targeted **surface panel** aimed at our questions — is **SSTR2** expressed (→ DOTATATE
+theranostic)? is **GD2** present? are GPC2/CDH11 surface-restricted at the protein level in EMC? — we would do
+all the analysis and defer study design and authorship to you. Your group's patient-derived rare-sarcoma
+program is uniquely placed to resolve this.
 
-The preprint is at `[LINK]`; I would be glad to send the code, the ranked shortlist, and anything else useful.
+The preprint (full method, honest negative results, red-team log) is at `[LINK]`; I would gladly send the code.
 
 Thank you for your work on this rare disease, and for considering a collaboration.
 
@@ -92,12 +96,15 @@ With respect,
 ## What we are asking for (the concrete data), in priority order
 1. **Existing RNA-seq / expression** of the EMC lines (re-run the whole pipeline on real EMC — highest value,
    lowest effort for them).
-2. **Targeted surface-marker panel** (flow / IHC) of the top candidates on lines (± primary tumour).
-3. **Collaboration** on a short surface-target validation study.
+2. **Targeted surface panel** (flow / IHC / PET) aimed at the analysis's specific questions: **SSTR2**
+   (→ DOTATATE theranostic), **GD2**, and protein-level surface-restriction of GPC2/CDH11 in EMC.
+3. **Collaboration** on a short surface-target validation study (their study design / authorship).
 
 ## Before sending — checklist
 - [ ] `[VERIFY]` corresponding-author names + emails from both papers (do not guess).
 - [ ] Insert the live preprint `[LINK]` once posted.
-- [ ] Confirm the shortlist wording matches the final preprint (GPC2/CDH11/CD56 leads; B7-H3 de-prioritised).
+- [ ] Confirm the science matches the final preprint: **B7-H3 not selective; CD56/CDH11 window-liabilities;
+      SSTR2/GD2 the surviving leads; H-EMC-SS (n=1) in DepMap** — do NOT revert to "GPC2/CDH11/CD56 as clean
+      leads" (that was the pre-red-team framing).
 - [ ] Keep each email under ~200 words; attach nothing on first contact beyond the preprint link.
 - [ ] One follow-up after ~2–3 weeks if no reply; do not chase harder.
