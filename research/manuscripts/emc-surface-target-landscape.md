@@ -193,8 +193,9 @@ VITAL_OR_IMMUNE_LIABILITY; [`emc-surface-normal-window.json`]):
 | **PTK7** | Low tissue specificity | **immune enriched** | **VITAL_OR_IMMUNE_LIABILITY** |
 | **KIT** | Tissue enhanced | **group enriched (haematopoietic/mast)** | **VITAL_OR_IMMUNE_LIABILITY** |
 
-The intersection of §3.2 (selective) and §3.3 (restricted) among classic protein antigens is **empty**. The
-candidates fail the window in specific, nameable ways:
+The intersection of §3.2 (selective) and §3.3 (restricted) among classic protein antigens is **empty**
+(**Figure 1**: antigens plotted by selectivity × window tier; the selective-and-restricted quadrant is
+unpopulated — [`emc-surface-prioritization.png`]). The candidates fail the window in specific, nameable ways:
 - **NCAM1/CD56** is on NK cells (fratricide risk for CAR/NK; a circulating compartment) and neural tissue; the
   CD56 ADC **lorvotuzumab mertansine (IMGN901)** was clinically developed and discontinued (no efficacy benefit,
   added toxicity) [Socinski/Spira — citations to verify]. It is not a clean target despite its selectivity.
