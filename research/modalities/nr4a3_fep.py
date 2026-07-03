@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""Selectivity-FEP compute for ONE shard of (receptor, leg, λ-window) units — spot-priced, resumable.
+"""Selectivity-FEP compute for ONE shard of per-RECEPTOR units — Yank absolute binding FEP, spot-priced, resumable.
 
 Runs inside a SageMaker managed-**spot** Training job (see nr4a3_fep_sagemaker.py). The shard (a JSON list of
-units from fep_sharding) is read from $FEP_SHARD_FILE; each unit is computed independently and its per-window
-reduced-potential output is written to $FEP_OUTPUT_DIR, with a checkpoint marker in $FEP_CHECKPOINT_DIR. On
-(re)start — including after a spot interruption — any unit whose checkpoint already exists is SKIPPED, so a
-reclaimed instance resumes from the last completed window (the checkpoint standing rule, spot-native).
+per-receptor units from fep_sharding) is read from $FEP_SHARD_FILE; each unit is one complete Yank ABFE
+experiment for that receptor (Yank does the two-leg double-decoupling, Boresch restraint + standard-state
+correction, auto-trailblazed λ path, Hamiltonian replica exchange, and MBAR internally → ΔG_bind directly).
+The per-receptor result marker (dg_bind_kcal) is written to $FEP_CHECKPOINT_DIR, and Yank's own .nc live under
+$FEP_CHECKPOINT_DIR/<receptor>/ — both S3-synced (checkpoint_s3_uri), so a spot interruption resumes the Yank
+experiment mid-run (resume_simulation) and a re-dispatch skips any receptor whose marker already exists.
 
 TWO modes:
-  --smoke : trivial per-unit work (no MD) that writes a stub result + checkpoint. Validates the spot +
-            checkpoint + resume + fan-in plumbing end-to-end for cents. Used by gpu-fep-aws.yml mode=smoke.
-  (real)  : openmmtools absolute-alchemical λ-window sampling, reusing mmgbsa_energy's validated OpenFF/GAFF
-            system build. **First-pass protocol — window count / sampling time / restraint / soft-core choices
-            are defaults that need a shakeout run before the ΔΔG numbers are trusted** (like every prior
-            pipeline here). GPU only.
+  --smoke : trivial per-receptor stub (no Yank, no heavy env) writing a synthetic ΔG_bind. Validates the spot +
+            checkpoint + resume + fan-in plumbing for cents. Used by gpu-fep-aws.yml mode=smoke.
+  (real)  : one Yank ABFE experiment per receptor. **First-pass protocol — iteration counts / auto λ-path /
+            solvent box are defaults that need a shakeout before the ΔΔG numbers are trusted.** GPU only.
 
-Reduced potentials are written per unit so report_fep.py can run MBAR across windows per leg (fan-in).
+report_fep.py collects the per-receptor ΔG_bind and forms the NR4A3-vs-paralogue ΔΔG (fan-in).
 """
 import glob
 import json
@@ -29,10 +29,13 @@ SHARD_FILE = os.environ.get("FEP_SHARD_FILE", "")
 # model.tar untar), and (3) each result file's existence IS the completion marker used for resume.
 CKPT_DIR = os.environ.get("FEP_CHECKPOINT_DIR", "/opt/ml/checkpoints")
 LIGAND = os.environ.get("FEP_LIGAND", "denovo_401")
-# Real-protocol defaults (SHAKEOUT-CALIBRATED LATER — not trusted numbers yet):
-PROD_PS = float(os.environ.get("FEP_PROD_PS", "1000"))       # production per window (ps)
-EQUIL_PS = float(os.environ.get("FEP_EQUIL_PS", "200"))      # equilibration per window (ps)
-PILOT_PS = float(os.environ.get("FEP_PILOT_PS", "100"))      # short PILOT per window (ps) → early-stop signal
+RECEPTOR_DIR = os.environ.get("FEP_RECEPTOR_DIR", ".")        # holds <receptor>-opened.pdb
+POSE_DIR = os.environ.get("FEP_POSE_DIR", ".")               # holds docked_<receptor>.sdf
+# Yank protocol knobs (SHAKEOUT-CALIBRATED LATER — not trusted numbers yet). Yank iterations, not ps:
+PILOT_ITER = int(os.environ.get("FEP_PILOT_ITER", "500"))    # short PILOT (fast early-stop ΔΔG signal)
+PROD_ITER = int(os.environ.get("FEP_PROD_ITER", "3000"))     # full production per receptor experiment
+N_WINDOWS = int(os.environ.get("FEP_N_WINDOWS", "12"))       # λ-path length inside each Yank experiment
+PLATFORM = os.environ.get("FEP_PLATFORM", "OpenCL")          # g5: OpenCL (CUDA PTX dead on this image)
 
 
 def _phase_of(unit_id):
@@ -55,152 +58,133 @@ def _write(unit, payload):
     print(f"  [fep] wrote {unit['id']}", flush=True)
 
 
-def _smoke_per_residue(receptor):
-    """Synthetic per-residue ligand-interaction map for the smoke path (lets the monitor's stop-gating +
-    attribution be tested end-to-end without MD). NR4A3 stabilized more at handle 410; residue 600 favours NR4A1."""
-    base = {406: -1.0, 410: -3.0, 484: -2.0, 531: -1.5, 600: -0.5}
-    if receptor == "nr4a1":
-        base = {406: -0.9, 410: -0.6, 484: -1.8, 531: -1.4, 600: -3.0}
-    elif receptor == "nr4a2":
-        base = {406: -1.0, 410: -2.8, 484: -2.1, 531: -1.5, 600: -0.4}
-    return {str(k): v for k, v in base.items()}
-
-
 def run_smoke(unit, phase="prod"):
-    """Trivial, deterministic per-unit stub — proves orchestration/spot/checkpoint/resume without MD."""
-    lam = unit["lambda"]
-    u_self = 10.0 * lam
-    payload = {"mode": "smoke", "phase": phase, "reduced_potential_self": round(u_self, 4),
-               "u_neighbors": {"prev": round(10.0 * max(lam - 0.09, 0), 4),
-                               "next": round(10.0 * min(lam + 0.09, 1), 4)},
-               "_t": 0.0}
-    # coupled endpoint of the complex leg carries the per-residue "why" map (see run_real)
-    if unit["leg"] == "complex" and unit["window"] == 0:
-        payload["per_residue"] = _smoke_per_residue(unit["receptor"])
-    _write(unit, payload)
+    """Trivial, deterministic per-receptor stub — proves orchestration/spot/checkpoint/resume without Yank/MD.
+    Synthetic ΔG_bind: NR4A3 tighter (more negative) than the paralogues, so the monitor's ΔΔG early-stop
+    gating can be exercised end-to-end without running MD."""
+    synth = {"nr4a3": -12.0, "nr4a1": -9.0, "nr4a2": -9.5}
+    dg = synth.get(unit["receptor"], -9.0)
+    _write(unit, {"mode": "smoke", "phase": phase, "dg_bind_kcal": dg, "ddg_err_kcal": 0.3, "_t": 0.0})
+
+
+def _extract_ligand_sdf(receptor, workdir):
+    """Pull the single LIGAND record out of the multi-molecule docked_<receptor>.sdf into its own SDF (Yank
+    wants one ligand per file). SDF records end with a '$$$$' line and start with the molecule title (= the
+    RDKit _Name the pose was written with). Text-only (no rdkit dep in the yank env)."""
+    src = os.path.join(POSE_DIR, f"docked_{receptor}.sdf")
+    if not os.path.exists(src):
+        raise FileNotFoundError(f"docked pose sdf not found: {src}")
+    rec, cur = [], []
+    for line in open(src):
+        cur.append(line)
+        if line.strip() == "$$$$":
+            rec.append("".join(cur)); cur = []
+    for block in rec:
+        title = block.splitlines()[0].strip()
+        if title == LIGAND:
+            out = os.path.join(workdir, "lig.sdf")
+            open(out, "w").write(block if block.endswith("\n") else block + "\n")
+            return out
+    have = [b.splitlines()[0].strip() for b in rec][:8]
+    raise ValueError(f"ligand '{LIGAND}' not in {src} (have: {have})")
+
+
+def _yank_yaml(receptor, n_iter, out_dir, lig_sdf, rec_pdb):
+    """A Yank absolute-binding-FEP YAML for one receptor. Yank owns the physics: explicit-solvent (PME) double-
+    decoupling, a Boresch orientational restraint + its standard-state correction, an auto-trailblazed λ path,
+    Hamiltonian replica exchange, and MBAR. `resume_*: yes` makes Yank resume from its own .nc checkpoints under
+    out_dir (which lives in the SageMaker checkpoint dir → S3-synced → spot-interruption-safe)."""
+    return f"""---
+options:
+  minimize: yes
+  verbose: no
+  output_dir: {out_dir}
+  temperature: 300*kelvin
+  pressure: 1*atmosphere
+  default_number_of_iterations: {n_iter}
+  default_nsteps_per_iteration: 500
+  checkpoint_interval: 50
+  platform: {PLATFORM}
+  resume_setup: yes
+  resume_simulation: yes
+molecules:
+  lig:
+    filepath: {lig_sdf}
+    antechamber:
+      charge_method: bcc
+  rec:
+    filepath: {rec_pdb}
+solvents:
+  pme:
+    nonbonded_method: PME
+    clearance: 12*angstroms
+    nonbonded_cutoff: 9*angstroms
+    switch_distance: 8*angstroms
+    ewald_error_tolerance: 1.0e-4
+    positive_ion: Na+
+    negative_ion: Cl-
+systems:
+  binding:
+    receptor: rec
+    ligand: lig
+    solvent: pme
+    leap:
+      parameters: [leaprc.protein.ff14SB, leaprc.gaff2, leaprc.water.tip3p]
+protocols:
+  abfe:
+    complex:
+      alchemical_path: auto
+    solvent:
+      alchemical_path: auto
+experiments:
+  system: binding
+  protocol: abfe
+  restraint:
+    type: Boresch
+"""
+
+
+def _parse_dg(out_dir):
+    """ΔG_bind (kcal/mol) + stderr from a finished Yank experiment. Runs `yank analyze` and parses the binding
+    free energy line; more negative = tighter binding."""
+    import re
+    import subprocess
+    store = os.path.join(out_dir, "experiments")
+    r = subprocess.run(["yank", "analyze", "--store", store], capture_output=True, text=True, timeout=1800)
+    txt = (r.stdout or "") + "\n" + (r.stderr or "")
+    # Yank prints e.g. "Free energy of binding: -8.42 +- 0.55 kcal/mol"
+    m = re.search(r"free energy of binding[:\s]+(-?\d+\.?\d*)\s*(?:\+/-|\+-|±)\s*(\d+\.?\d*)\s*kcal", txt, re.I)
+    if not m:
+        m = re.search(r"binding[^\n]*?(-?\d+\.\d+)\s*(?:\+/-|\+-|±)\s*(\d+\.\d+)\s*kcal", txt, re.I)
+    if not m:
+        raise ValueError(f"could not parse ΔG_bind from yank analyze output:\n{txt[-1500:]}")
+    return float(m.group(1)), float(m.group(2))
 
 
 def run_real(unit, phase="prod"):
-    """openmmtools absolute-alchemical sampling for one (receptor, leg, window). FIRST-PASS PROTOCOL.
-    phase='pilot' runs a short PILOT_PS pass (fast early-stop signal); 'prod' runs the full PROD_PS."""
+    """One full Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. phase='pilot' runs fewer
+    iterations for a fast early-stop ΔΔG signal; 'prod' extends the SAME output dir to the full iteration
+    count (Yank resume = extend). GPU only (runs inside the fep conda env; `yank` CLI on PATH)."""
+    import subprocess
     t0 = time.time()
-    prod_ps = PILOT_PS if phase == "pilot" else PROD_PS
-    import numpy as np
-    import mmgbsa_energy as mm            # reuse the validated OpenFF/GAFF system build
-    try:
-        import openmm
-        from openmm import unit as ou
-        from openmmtools import alchemy, states
-    except Exception as e:  # noqa: BLE001
-        sys.exit(f"[fep] real mode needs openmm + openmmtools (+ pymbar for reduce): {e}")
-
-    receptor = unit["receptor"]; leg = unit["leg"]; lam = unit["lambda"]
-    # --- build the (solvated) system: complex leg = receptor+ligand; solvent leg = ligand only ---
-    #   Reuse mmgbsa_energy: prepare_receptor + _generator build an OpenFF/GAFF system for these exact
-    #   receptors/ligand. The ligand offmol is loaded from the docked pose SDF for the receptor.
-    offmol = mm.load_poses(os.path.join(os.environ["FEP_POSE_DIR"], f"docked_{receptor}.sdf"))[LIGAND]
-    if leg == "complex":
-        rec_top, rec_pos = mm.prepare_receptor(os.path.join(os.environ["FEP_RECEPTOR_DIR"], f"{receptor}-opened.pdb"))
-        system, topology, positions, lig_atoms = mm.build_complex_for_alchemy(rec_top, rec_pos, offmol)
-        restraint_corr = mm.boresch_restraint_and_correction(system, topology, positions, lig_atoms)
-    else:
-        system, topology, positions, lig_atoms = mm.build_ligand_in_solvent(offmol)
-        restraint_corr = 0.0
-
-    # --- alchemically soft-core the ligand; map linear window λ -> (elec, sterics) standard schedule ---
-    factory = alchemy.AbsoluteAlchemicalFactory(consistent_exceptions=False)
-    region = alchemy.AlchemicalRegion(alchemical_atoms=lig_atoms)
-    alch_system = factory.create_alchemical_system(system, region)
-    alch_state = alchemy.AlchemicalState.from_system(alch_system)
-    # electrostatics off over λ 0->0.5, then sterics off over 0.5->1 (decoupling; interactions ON at λ=0)
-    alch_state.lambda_electrostatics = max(0.0, 1.0 - 2.0 * lam)
-    alch_state.lambda_sterics = min(1.0, max(0.0, 2.0 - 2.0 * lam))
-
-    integrator = openmm.LangevinMiddleIntegrator(300 * ou.kelvin, 1.0 / ou.picosecond, 2.0 * ou.femtosecond)
-    ctx = openmm.Context(alch_system, integrator, mm._platform(openmm, ou)[0])
-    ctx.setPositions(positions)
-    openmm.LocalEnergyMinimizer.minimize(ctx, maxIterations=500)
-    ctx.setVelocitiesToTemperature(300 * ou.kelvin)
-    integrator.step(int(EQUIL_PS / 0.002))
-    # production: collect this state's reduced potential + reduced potentials at neighbour λ (for BAR/MBAR)
-    n_samples = 100
-    step_per = max(1, int(prod_ps / 0.002 / n_samples))
-    kT = (ou.MOLAR_GAS_CONSTANT_R * 300 * ou.kelvin)
-    neighbours = {"self": lam, "prev": max(lam - 1.0 / 11, 0.0), "next": min(lam + 1.0 / 11, 1.0)}
-    u = {k: [] for k in neighbours}
-    frames = []                                          # positions kept for the per-residue "why" map
-    want_decomp = (leg == "complex" and unit["window"] == 0)   # coupled endpoint = the physical bound state
-    for i in range(n_samples):
-        integrator.step(step_per)
-        for k, lv in neighbours.items():
-            alch_state.lambda_electrostatics = max(0.0, 1.0 - 2.0 * lv)
-            alch_state.lambda_sterics = min(1.0, max(0.0, 2.0 - 2.0 * lv))
-            alch_state.apply_to_context(ctx)
-            e = ctx.getState(getEnergy=True).getPotentialEnergy()
-            u[k].append(float(e / kT))
-        # restore sampling state
-        alch_state.lambda_electrostatics = max(0.0, 1.0 - 2.0 * lam)
-        alch_state.lambda_sterics = min(1.0, max(0.0, 2.0 - 2.0 * lam))
-        alch_state.apply_to_context(ctx)
-        if want_decomp and i % 20 == 0:                 # a few frames are plenty for a relative attribution
-            frames.append(ctx.getState(getPositions=True).getPositions(asNumpy=True).value_in_unit(ou.nanometer))
-    payload = {"mode": "real", "phase": phase, "restraint_corr_kJ": restraint_corr,
-               "reduced_potentials": {k: [round(x, 5) for x in v] for k, v in u.items()},
-               "neighbours": {k: round(v, 6) for k, v in neighbours.items()},
-               "_t": round(time.time() - t0, 1)}
-    if want_decomp:
-        try:                                            # best-effort; a decomp failure must not kill the window
-            payload["per_residue"] = _per_residue_ligand_interaction(system, topology, frames, lig_atoms)
-        except Exception as e:  # noqa: BLE001
-            payload["per_residue_error"] = str(e)[:200]
-    _write(unit, payload)
-
-
-def _per_residue_ligand_interaction(system, topology, frames, lig_atoms):
-    """Per-receptor-residue ligand interaction energy (kcal/mol; more negative = more stabilizing), averaged
-    over `frames` (nm coords). Direct pairwise Coulomb+LJ (Lorentz-Berthelot) using the NonbondedForce
-    parameters — a decomposition APPROXIMATION for *relative* per-residue attribution (the "why" map), not an
-    absolute energy. FIRST-PASS (shakeout-pending like the rest of the FEP compute)."""
-    import numpy as np
-    import openmm
-    nb = next(f for f in system.getForces() if isinstance(f, openmm.NonbondedForce))
-    q = np.zeros(system.getNumParticles()); sig = np.zeros_like(q); eps = np.zeros_like(q)
-    for i in range(system.getNumParticles()):
-        c, s, e = nb.getParticleParameters(i)
-        q[i] = c.value_in_unit(openmm.unit.elementary_charge)
-        sig[i] = s.value_in_unit(openmm.unit.nanometer)
-        eps[i] = e.value_in_unit(openmm.unit.kilojoule_per_mole)
-    lig = set(int(a) for a in lig_atoms)
-    # map each protein atom -> (resid) using the topology residues (skip the ligand + solvent/ions)
-    res_atoms = {}
-    aa = {"ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU",
-          "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL"}
-    for res in topology.residues():
-        if res.name not in aa:
-            continue
-        idxs = [a.index for a in res.atoms() if a.index not in lig]
-        if idxs:
-            res_atoms[int(res.id)] = idxs
-    ONE_4PI = 138.935456  # kJ*nm/(mol*e^2)
-    KJ2KCAL = 1.0 / 4.184
-    ligi = sorted(lig)
-    acc = {r: 0.0 for r in res_atoms}
-    for pos in frames:
-        pos = np.asarray(pos)
-        for r, idxs in res_atoms.items():
-            e_kj = 0.0
-            for j in idxs:
-                for i in ligi:
-                    d = pos[i] - pos[j]
-                    r_ij = float(np.sqrt(d @ d)) or 1e-6
-                    e_kj += ONE_4PI * q[i] * q[j] / r_ij
-                    s_ij = 0.5 * (sig[i] + sig[j]); e_ij = (eps[i] * eps[j]) ** 0.5
-                    if e_ij > 0 and s_ij > 0:
-                        sr6 = (s_ij / r_ij) ** 6
-                        e_kj += 4.0 * e_ij * (sr6 * sr6 - sr6)
-            acc[r] += e_kj
-    n = max(len(frames), 1)
-    return {str(r): round(v / n * KJ2KCAL, 3) for r, v in acc.items()}
+    receptor = unit["receptor"]
+    n_iter = PILOT_ITER if phase == "pilot" else PROD_ITER
+    out_dir = os.path.join(CKPT_DIR, receptor)                # Yank's .nc live here → S3-synced → resumable
+    os.makedirs(out_dir, exist_ok=True)
+    lig_sdf = _extract_ligand_sdf(receptor, out_dir)
+    rec_pdb = os.path.join(RECEPTOR_DIR, f"{receptor}-opened.pdb")
+    if not os.path.exists(rec_pdb):
+        raise FileNotFoundError(f"receptor pdb not found: {rec_pdb}")
+    yaml_path = os.path.join(out_dir, "experiment.yaml")
+    open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_sdf, rec_pdb))
+    print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
+    r = subprocess.run(["yank", "script", "--yaml", yaml_path])
+    if r.returncode != 0:
+        raise RuntimeError(f"yank script failed for {receptor} (rc={r.returncode})")
+    dg, err = _parse_dg(out_dir)
+    _write(unit, {"mode": "yank", "phase": phase, "dg_bind_kcal": round(dg, 3),
+                  "ddg_err_kcal": round(err, 3), "n_iterations": n_iter, "_t": round(time.time() - t0, 1)})
+    print(f"[fep] {receptor} {phase}: ΔG_bind = {dg:.2f} ± {err:.2f} kcal/mol", flush=True)
 
 
 def main():
@@ -209,16 +193,16 @@ def main():
     if not SHARD_FILE or not os.path.exists(SHARD_FILE):
         sys.exit(f"[fep] FEP_SHARD_FILE not found: {SHARD_FILE}")
     units = json.load(open(SHARD_FILE))
-    # PASS 1 — PILOT every window first (short), so the central monitor gets an early ΔΔG signal across ALL
-    # windows fast and can StopTrainingJob the fleet before the long production burns the spot budget.
+    # PASS 1 — PILOT each receptor first (few iterations), so the central monitor gets an early ΔΔG signal
+    # across ALL receptors fast and can StopTrainingJob the fleet before full production burns the spot budget.
     pilot_todo = [u for u in units if _phase_of(u["id"]) is None]      # neither pilot nor prod yet
-    print(f"[fep] PASS 1 pilot: {len(pilot_todo)}/{len(units)} windows (mode={'smoke' if smoke else 'real'})",
+    print(f"[fep] PASS 1 pilot: {len(pilot_todo)}/{len(units)} receptors (mode={'smoke' if smoke else 'yank'})",
           flush=True)
     for u in pilot_todo:
         run(u, phase="pilot")
-    # PASS 2 — full PRODUCTION, overwriting pilots. Resume/interruption: skip windows already at prod.
+    # PASS 2 — full PRODUCTION (Yank extends the same output dir). Resume/interruption: skip receptors at prod.
     prod_todo = [u for u in units if _phase_of(u["id"]) != "prod"]
-    print(f"[fep] PASS 2 production: {len(prod_todo)}/{len(units)} windows", flush=True)
+    print(f"[fep] PASS 2 production: {len(prod_todo)}/{len(units)} receptors", flush=True)
     for u in prod_todo:
         run(u, phase="prod")
     print(f"[fep] shard complete: pilots {len(pilot_todo)}, productions {len(prod_todo)}", flush=True)

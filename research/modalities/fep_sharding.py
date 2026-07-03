@@ -1,38 +1,36 @@
 #!/usr/bin/env python3
 """Pure orchestration logic for the spot-priced, parallel selectivity FEP (no IO / no OpenMM → unit-tested).
 
-The FEP is embarrassingly parallel over **units = (receptor, leg, window)**. This module:
-  - enumerates the units for a selectivity FEP (receptors × legs × λ-windows),
-  - balances them across K spot Training-job shards,
-  - computes the RESUME set (which units are still pending given the checkpoints already in S3),
-  - does the ΔG_bind / ΔΔG bookkeeping (leg ΔGs → per-receptor binding ΔG → paralogue ΔΔG).
+**Yank-based ABFE (2026-07-03).** The physics is Yank (absolute binding free energy: explicit solvent, Boresch
+restraints + standard-state correction, Hamiltonian replica exchange over the λ path, MBAR analysis — all
+inside one Yank experiment PER RECEPTOR). So the FEP is parallel over **units = one per receptor** (each unit
+is a complete ΔG_bind calc; Yank does the two legs / λ-windows / restraints / MBAR internally). This replaced
+the earlier hand-rolled `(receptor, leg, window)` sharding, whose alchemical core (`build_complex_for_alchemy`
+etc.) was never implemented — a single-shard validation caught that. This module:
+  - enumerates the units (one per receptor),
+  - balances them across K spot Training-job shards (≤ n_receptors useful),
+  - computes the RESUME set (which receptors are still pending given the checkpoints in S3),
+  - does the ΔΔG selectivity bookkeeping from the per-receptor ΔG_bind Yank returns.
 
-Design notes are in nr4a3-fep-plan.md. Everything here is deterministic and side-effect-free so the driver /
-submitter / reducer can be tested without AWS or a GPU.
+Design notes: nr4a3-fep-plan.md. Deterministic + side-effect-free so driver/submitter/reducer test without AWS.
 """
 
-# Default selectivity-FEP shape: absolute binding FEP per receptor, two alchemical legs.
+# Default selectivity-FEP shape: one absolute-binding-FEP unit per receptor (Yank runs both legs internally).
 RECEPTORS = ("nr4a3", "nr4a1", "nr4a2")
-LEGS = ("complex", "solvent")          # ΔG_bind = ΔG_solvent(decouple) − ΔG_complex(decouple) + restraint_corr
+LEGS = ("complex", "solvent")          # informational only — Yank owns the two-leg double-decoupling internally
 
 
-def unit_id(receptor, leg, window):
-    """Stable string id for a (receptor, leg, window) unit — used as the checkpoint/result filename stem."""
-    return f"{receptor}__{leg}__w{int(window):03d}"
+def unit_id(receptor):
+    """Stable string id for a per-receptor unit — used as the checkpoint/result filename stem."""
+    return str(receptor)
 
 
-def enumerate_units(receptors=RECEPTORS, legs=LEGS, n_windows=12):
-    """All atomic work units for the FEP, in a stable order. Each is a dict; unit_id() is its key."""
+def enumerate_units(receptors=RECEPTORS, n_windows=12):
+    """The atomic work units: ONE full-ABFE Yank experiment per receptor. `n_windows` is the λ-path length
+    Yank uses inside each experiment (a protocol param, not a shard dimension). Stable order."""
     if n_windows < 2:
         raise ValueError("n_windows must be >= 2 (need endpoints for a λ schedule)")
-    units = []
-    for r in receptors:
-        for leg in legs:
-            for w in range(n_windows):
-                lam = w / (n_windows - 1)          # linear λ 0..1 (protocol may remap; this is the schedule id)
-                units.append({"id": unit_id(r, leg, w), "receptor": r, "leg": leg,
-                              "window": w, "lambda": round(lam, 6)})
-    return units
+    return [{"id": unit_id(r), "receptor": r, "n_windows": int(n_windows)} for r in receptors]
 
 
 def assign_shards(units, n_shards):
@@ -53,10 +51,11 @@ def pending_units(units, done_ids):
     return [u for u in units if u["id"] not in done]
 
 
-def shard_plan(receptors=RECEPTORS, legs=LEGS, n_windows=12, n_shards=8, done_ids=()):
+def shard_plan(receptors=RECEPTORS, n_windows=12, n_shards=8, done_ids=()):
     """Full plan: (pending units sharded across up to n_shards, summary counts). The submitter launches one
-    spot job per non-empty shard; a resumed run re-plans over only the pending units."""
-    units = enumerate_units(receptors, legs, n_windows)
+    spot job per non-empty shard; a resumed run re-plans over only the pending (un-finished) receptors. With
+    Yank, one unit = one receptor, so a useful n_shards is ≤ len(receptors)."""
+    units = enumerate_units(receptors, n_windows)
     pend = pending_units(units, done_ids)
     shards = assign_shards(pend, n_shards) if pend else []
     return {

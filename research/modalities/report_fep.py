@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Fan-in reducer for the parallel selectivity FEP (read-only; also the estimator the monitor reuses).
+"""Fan-in reducer for the parallel Yank selectivity FEP (read-only; also the estimator the monitor reuses).
 
-Collects every shard's per-window results from s3://<bucket>/<TAG>/ckpt/**, runs BAR across adjacent λ-windows
-per (receptor, leg) to get each leg ΔG, forms ΔG_bind per receptor (fep_sharding.binding_dg) and the
-NR4A3-vs-paralogue ΔΔG (fep_sharding.selectivity_ddg), with SE propagated from the per-pair BAR errors and a
-per-pair overlap proxy for convergence. Handles both the real openmmtools output and the smoke stub.
+Each Yank experiment (one per receptor) writes a single result marker <receptor>.json with `dg_bind_kcal` +
+`ddg_err_kcal` (Yank already did the two-leg double-decoupling, Boresch correction, HREX, and MBAR internally
+— so there is no per-window BAR to run here). This reducer just collects the per-receptor ΔG_bind from
+s3://<bucket>/<TAG>/ckpt/** and forms the NR4A3-vs-paralogue ΔΔG (fep_sharding.selectivity_ddg), SE by
+quadrature. Prefers the 'prod' marker over 'pilot' if both exist. Handles the smoke stub (same dg_bind field).
 
 `estimate(results)` is importable (fep_monitor uses it on PARTIAL/pilot results for the early-stop decision).
 CLI prints the final table. Env: AWS creds, FEP_TAG (default nr4a3-fep), AWS_DEFAULT_REGION.
 """
 import glob
 import json
-import math
 import os
 import sys
 import tempfile
@@ -19,80 +19,25 @@ import tempfile
 TAG = os.environ.get("FEP_TAG", "nr4a3-fep")
 
 
-def _bar(w_f, w_r):
-    """ΔG (in kT) and stderr from forward/backward work samples. pymbar if available; else a robust
-    Bennett-free fallback (mean-work midpoint) so the monitor still runs without pymbar."""
-    try:
-        from pymbar.other_estimators import bar as _b
-        r = _b(w_f, w_r)
-        return float(r["Delta_f"]), float(r.get("dDelta_f", 0.0))
-    except Exception:  # noqa: BLE001
-        import statistics as st
-        mf = st.fmean(w_f) if w_f else 0.0
-        mr = st.fmean(w_r) if w_r else 0.0
-        dg = 0.5 * (mf - mr)                     # crude midpoint estimate
-        n = max(len(w_f), 1)
-        sd = (st.pstdev(w_f) if len(w_f) > 1 else 0.0) / math.sqrt(n)
-        return dg, sd
-
-
-def _overlap_proxy(w_f, w_r):
-    """~1 when the forward/backward work distributions overlap (converged pair), ~0 when they don't.
-    For a converged pair mean(w_f) ≈ −mean(w_r); large |mean_f+mean_r| relative to spread ⇒ poor overlap."""
-    import statistics as st
-    if not w_f or not w_r:
-        return None
-    spread = (st.pstdev(w_f) if len(w_f) > 1 else 0.0) + (st.pstdev(w_r) if len(w_r) > 1 else 0.0) + 1e-6
-    return 1.0 / (1.0 + abs(st.fmean(w_f) + st.fmean(w_r)) / spread)
-
-
-def _leg_dg(windows):
-    """windows: list of per-window result dicts for one (receptor, leg), any order. Returns (dg_kcal, se_kcal,
-    overlaps). Sums BAR over adjacent λ. kT→kcal via 0.593 kcal/mol at 300 K."""
-    KT_KCAL = 0.593
-    ws = sorted(windows, key=lambda r: r["window"])
-    # real format: reduced_potentials {self,prev,next} arrays; smoke: scalar reduced_potential_self + u_neighbors
-    dg = se2 = 0.0
-    overlaps = []
-    for i in range(len(ws) - 1):
-        a, b = ws[i], ws[i + 1]
-        if "reduced_potentials" in a and "reduced_potentials" in b:
-            u_a, u_b = a["reduced_potentials"], b["reduced_potentials"]
-            w_f = [n - s for n, s in zip(u_a.get("next", []), u_a.get("self", []))]
-            w_r = [p - s for p, s in zip(u_b.get("prev", []), u_b.get("self", []))]
-            d, e = _bar(w_f, w_r)
-            dg += d * KT_KCAL
-            se2 += (e * KT_KCAL) ** 2
-            overlaps.append(_overlap_proxy(w_f, w_r))
-        else:                                     # smoke scalar path (plumbing only)
-            dg += (a.get("u_neighbors", {}).get("next", 0.0) - a.get("reduced_potential_self", 0.0)) * KT_KCAL
-            overlaps.append(1.0)
-    return dg, math.sqrt(se2), overlaps
-
-
 def estimate(results):
-    """results: list of per-unit dicts. Returns {receptor: {"dg","se","overlaps","legs":{leg:...},"n_windows"}}
-    for whatever windows exist so far (works on partial/pilot data). ΔG_bind = solvent − complex + restraint."""
-    import fep_sharding as fs
-    by = {}
+    """results: list of per-unit dicts (each a Yank per-receptor marker with dg_bind_kcal). Returns
+    {receptor: {"dg","se","phase","n_iterations"}} using the most-complete marker per receptor (prod > pilot).
+    Works on partial data: a receptor appears as soon as its pilot marker lands."""
+    rank = {"prod": 2, "pilot": 1}
+    best = {}
     for r in results:
-        by.setdefault(r["receptor"], {}).setdefault(r["leg"], []).append(r)
+        if "dg_bind_kcal" not in r or "receptor" not in r:      # ignore yank-internal / torn files
+            continue
+        rec = r["receptor"]
+        if rec not in best or rank.get(r.get("phase"), 0) >= rank.get(best[rec].get("phase"), 0):
+            best[rec] = r
     out = {}
-    for rec, legs in by.items():
-        leg_dg, leg_se, overlaps, restr = {}, {}, [], 0.0
-        for leg, windows in legs.items():
-            d, e, ov = _leg_dg(windows)
-            leg_dg[leg] = d
-            leg_se[leg] = e
-            overlaps += [o for o in ov if o is not None]
-            if leg == "complex" and windows:
-                restr = max((w.get("restraint_corr_kJ", 0.0) or 0.0) for w in windows) / 4.184  # kJ→kcal
-        if "solvent" in leg_dg and "complex" in leg_dg:
-            dg = fs.binding_dg(leg_dg, restraint_corr=restr)
-            se = fs.combine_error(leg_se.get("solvent", 0.0), leg_se.get("complex", 0.0))
-            out[rec] = {"dg": round(dg, 4), "se": round(se, 4), "overlaps": overlaps,
-                        "legs": {k: round(v, 3) for k, v in leg_dg.items()},
-                        "n_windows": sum(len(w) for w in legs.values())}
+    for rec, r in best.items():
+        out[rec] = {"dg": round(float(r["dg_bind_kcal"]), 4),
+                    "se": round(float(r.get("ddg_err_kcal", 0.0)), 4),
+                    "phase": r.get("phase"), "n_iterations": r.get("n_iterations"),
+                    # legacy keys the monitor's convergence check reads (Yank owns real convergence):
+                    "overlaps": [], "n_windows": 1}
     return out
 
 
@@ -137,10 +82,10 @@ def main():
         sys.exit("no FEP results yet")
     import fep_sharding as fs
     est = estimate(results)
-    print("\n=== per-receptor ΔG_bind (kcal/mol) ===")
+    print("\n=== per-receptor ΔG_bind (kcal/mol; Yank ABFE) ===")
     for rec, e in sorted(est.items()):
-        ph = {}
-        print(f"  {rec.upper()}: ΔG_bind {e['dg']} ± {e['se']}  (legs {e['legs']}, {e['n_windows']} windows)")
+        print(f"  {rec.upper()}: ΔG_bind {e['dg']} ± {e['se']}  (phase {e.get('phase')}, "
+              f"{e.get('n_iterations')} iters)")
     if "nr4a3" in est:
         ddg = fs.selectivity_ddg({r: e["dg"] for r, e in est.items()}, "nr4a3")
         print("\n=== selectivity ΔΔG = ΔG_bind(NR4A3) − ΔG_bind(paralogue)  (negative = NR4A3-selective) ===")

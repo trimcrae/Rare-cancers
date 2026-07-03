@@ -1,0 +1,40 @@
+name: Yank env check (free — validate FEP library installs)
+
+# De-risk the Yank dependency BEFORE rewriting the FEP harness around it: build a conda env with yank and
+# confirm it imports + exposes ExperimentBuilder, and report which openmm/openmmtools/numpy it pulls (Yank
+# ~2020 may or may not solve against a modern stack). Free GitHub runner, no GPU, no AWS.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install miniforge
+        run: |
+          curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+          bash /tmp/mf.sh -b -p "$HOME/mf"
+          echo "$HOME/mf/bin" >> "$GITHUB_PATH"
+      - name: Find a yank-compatible openmmtools (has alchemy._ALCHEMICAL_REGION_ARGS)
+        run: |
+          # yank 0.25.2 needs openmmtools.alchemy._ALCHEMICAL_REGION_ARGS (removed in newer openmmtools).
+          # conda-forge's yank pin is too loose (co-installs openmmtools 0.25 which lacks it → runtime
+          # AttributeError). Test candidate pins with a DEFINITIVE check for that exact attribute (import-only
+          # checks miss it — it bites at alchemy-setup time). Report which candidate is usable.
+          set +e
+          for V in "" "openmmtools=0.21.5" "openmmtools=0.21.2" "openmmtools=0.20.4" "openmmtools=0.20.0"; do
+            name="yk_$(echo "$V" | tr -cd 'a-zA-Z0-9')"
+            echo "======================================================================"
+            echo "### candidate: yank ${V:-<unpinned>}"
+            conda create -y -n "$name" --override-channels -c conda-forge yank $V >/tmp/solve.log 2>&1
+            if [ $? -ne 0 ]; then echo "  SOLVE FAILED"; tail -3 /tmp/solve.log; continue; fi
+            conda list -n "$name" | grep -Ei "^(yank|openmm|openmmtools|numpy|python) " | awk '{print "  "$1" "$2}'
+            # pass code via -c (NOT stdin: conda run does not forward stdin, so `python - <<HEREDOC` runs nothing)
+            conda run -n "$name" python -c "from openmmtools import alchemy; import yank; print('  _ALCHEMICAL_REGION_ARGS present:', hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'), '->', 'USABLE' if hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS') else 'BROKEN')" 2>&1 | sed 's/^/  /'
+          done
+          echo "======================================================================"
+          echo "Pick the lowest-friction USABLE candidate for entry_fep.py."

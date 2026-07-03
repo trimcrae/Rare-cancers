@@ -65,7 +65,7 @@ short linker): MW ~657, cLogP ~4.2, rot-bonds ~14 → normal **beyond-Ro5** degr
 | F2 | Structural alerts / PAINS | ✅ | **Clean** on both PAINS and BRENK catalogs. | done |
 | F3 | Synthetic accessibility (SA score) | ✅ | SA 3.87 (1=easy..10=hard) — synthesizable. | done |
 | F4 | Permeability / chameleonicity / efflux | ✅ | **DONE 2026-07-02** (`nr4a3_admet_ext.py`): conformer-ensemble IMHB **0** (no PSA-masking needed — TPSA already low), Rg range 0.87 Å (modest flexibility), **P-gp efflux risk low** (0 flags). Full-PROTAC chameleonicity awaits the linker build (E4). | ¢ |
-| F5 | Aggregation liability (audit Tier-B #6) | ✅ | **DONE** — colloidal-aggregation **low** (1 flag = cLogP 4.63; high Fsp3 0.70 + single aromatic ring offset it). hERG/CYP structural alerts remain a small future add. | ¢ |
+| F5 | Aggregation + hERG/reactive-group liability (audit Tier-B #6) | ✅ | **DONE** — colloidal-aggregation **low** (1 flag = cLogP 4.63; high Fsp3 0.70 + one aromatic ring offset it). **hERG: low** — denovo_401 has **no nitrogen at all**, so it lacks the classic basic-amine hERG pharmacophore. **Reactive toxicophores: none** (no Michael acceptor / epoxide / aldehyde / nitro / acyl-halide / anhydride). | ¢ |
 
 ## G. Biological rationale
 | # | Stage | Status | Notes | Cost |
