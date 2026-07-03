@@ -1,0 +1,4332 @@
+{
+  "_title": "NR4A3 warhead-pocket selectivity liability screen across the human NR superfamily (A4/D4)",
+  "_method": "Global BLOSUM62 alignment of each human NR to NR4A3 (Q92570); the 10 warhead-pocket residues (Q92570 numbering) are mapped and scored for identity / coarse-chemical similarity. Ranked by pocket identity; NR4A1/NR4A2 are positive controls that must top the list.",
+  "_honest_limits": [
+    "Pocket-residue sequence resemblance is NECESSARY-not-sufficient for cross-binding: it prioritises which NRs need an energetic (docking/FEP) follow-up, it does not by itself prove or exclude cross-reactivity.",
+    "The warhead targets a CRYPTIC pocket \u2014 a sequence-similar NR may still not FORM the same pocket, so this screen can only prioritise, never conclude selectivity alone.",
+    "Overall NR-superfamily LBD identity is low (~20-35%); where overall identity < 0.3 the pocket mapping is flagged low-confidence."
+  ],
+  "reference": "NR4A3_HUMAN",
+  "pocket_residues_q92570": [
+    406,
+    407,
+    410,
+    411,
+    412,
+    481,
+    484,
+    485,
+    531,
+    534
+  ],
+  "n_receptors_screened": 47,
+  "family_query_hits": 48,
+  "controls_paralogues": [
+    {
+      "gene": "NR4A2",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.5
+    },
+    {
+      "gene": "NR4A1",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.4
+    }
+  ],
+  "control_min_pocket_identity": 0.3,
+  "flagged_liabilities": [
+    {
+      "gene": "NR3C2",
+      "accession": "P08235",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "overall_identity": 0.318
+    },
+    {
+      "gene": "AR",
+      "accession": "P10275",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "overall_identity": 0.316
+    }
+  ],
+  "ranking": [
+    {
+      "gene": "THRB",
+      "accession": "P10828",
+      "is_control_paralogue": false,
+      "overall_identity": 0.224,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.7,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "THRA",
+      "accession": "P10827",
+      "is_control_paralogue": false,
+      "overall_identity": 0.22,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.6,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR4A2",
+      "accession": "P43354",
+      "is_control_paralogue": true,
+      "overall_identity": 0.58,
+      "mapping_confidence": "ok",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.5,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "N",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "I",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RORA",
+      "accession": "P35398",
+      "is_control_paralogue": false,
+      "overall_identity": 0.222,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.5,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "C",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RORB",
+      "accession": "Q92753",
+      "is_control_paralogue": false,
+      "overall_identity": 0.195,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.5,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR3C1",
+      "accession": "P04150",
+      "is_control_paralogue": false,
+      "overall_identity": 0.284,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.4,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "W",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RXRB",
+      "accession": "P28702",
+      "is_control_paralogue": false,
+      "overall_identity": 0.275,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.5,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR4A1",
+      "accession": "P22736",
+      "is_control_paralogue": true,
+      "overall_identity": 0.508,
+      "mapping_confidence": "ok",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RARB",
+      "accession": "P10826",
+      "is_control_paralogue": false,
+      "overall_identity": 0.251,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "A",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1D1",
+      "accession": "P20393",
+      "is_control_paralogue": false,
+      "overall_identity": 0.248,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RARA",
+      "accession": "P10276",
+      "is_control_paralogue": false,
+      "overall_identity": 0.246,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "PPARG",
+      "accession": "P37231",
+      "is_control_paralogue": false,
+      "overall_identity": 0.243,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "K",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "M",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR3C2",
+      "accession": "P08235",
+      "is_control_paralogue": false,
+      "overall_identity": 0.318,
+      "mapping_confidence": "ok",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "M",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "W",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "AR",
+      "accession": "P10275",
+      "is_control_paralogue": false,
+      "overall_identity": 0.316,
+      "mapping_confidence": "ok",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "W",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "ESR1",
+      "accession": "P03372",
+      "is_control_paralogue": false,
+      "overall_identity": 0.254,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "W",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RXRG",
+      "accession": "P48443",
+      "is_control_paralogue": false,
+      "overall_identity": 0.248,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "M",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "ESRRA",
+      "accession": "P11474",
+      "is_control_paralogue": false,
+      "overall_identity": 0.246,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "ESRRG",
+      "accession": "P62508",
+      "is_control_paralogue": false,
+      "overall_identity": 0.244,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "ESR2",
+      "accession": "Q92731",
+      "is_control_paralogue": false,
+      "overall_identity": 0.235,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "W",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "ESRRB",
+      "accession": "O95718",
+      "is_control_paralogue": false,
+      "overall_identity": 0.23,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.3,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2E1",
+      "accession": "Q9Y466",
+      "is_control_paralogue": false,
+      "overall_identity": 0.169,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.6,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "H",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "A",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1H4",
+      "accession": "Q96RI1",
+      "is_control_paralogue": false,
+      "overall_identity": 0.219,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.5,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "K",
+          "identical": false,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "H",
+          "identical": false,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "HNF4G",
+      "accession": "Q14541",
+      "is_control_paralogue": false,
+      "overall_identity": 0.174,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.5,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RARG",
+      "accession": "P13631",
+      "is_control_paralogue": false,
+      "overall_identity": 0.243,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "H",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1D2",
+      "accession": "Q14995",
+      "is_control_paralogue": false,
+      "overall_identity": 0.228,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "I",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "K",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "M",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1H3",
+      "accession": "Q13133",
+      "is_control_paralogue": false,
+      "overall_identity": 0.228,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "N",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR6A1",
+      "accession": "Q15406",
+      "is_control_paralogue": false,
+      "overall_identity": 0.203,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "PPARD",
+      "accession": "Q03181",
+      "is_control_paralogue": false,
+      "overall_identity": 0.203,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "K",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "I",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1I2",
+      "accession": "O75469",
+      "is_control_paralogue": false,
+      "overall_identity": 0.198,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "M",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "M",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "K",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "VDR",
+      "accession": "P11473",
+      "is_control_paralogue": false,
+      "overall_identity": 0.188,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "N",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RORC",
+      "accession": "P51449",
+      "is_control_paralogue": false,
+      "overall_identity": 0.216,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "C",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "C",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1H2",
+      "accession": "P55055",
+      "is_control_paralogue": false,
+      "overall_identity": 0.209,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "N",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR5A1",
+      "accession": "Q13285",
+      "is_control_paralogue": false,
+      "overall_identity": 0.188,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "R",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "RXRA",
+      "accession": "P19793",
+      "is_control_paralogue": false,
+      "overall_identity": 0.252,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2F2",
+      "accession": "P24468",
+      "is_control_paralogue": false,
+      "overall_identity": 0.222,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2F1",
+      "accession": "P10589",
+      "is_control_paralogue": false,
+      "overall_identity": 0.216,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2E3",
+      "accession": "Q9Y5X4",
+      "is_control_paralogue": false,
+      "overall_identity": 0.208,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2F6",
+      "accession": "P10588",
+      "is_control_paralogue": false,
+      "overall_identity": 0.206,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR1I3",
+      "accession": "Q14994",
+      "is_control_paralogue": false,
+      "overall_identity": 0.173,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.2,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "H",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2C2",
+      "accession": "P49116",
+      "is_control_paralogue": false,
+      "overall_identity": 0.235,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "A",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "L",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "L",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR2C1",
+      "accession": "P13056",
+      "is_control_paralogue": false,
+      "overall_identity": 0.217,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "T",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "K",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "M",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "N",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR5A2",
+      "accession": "O00482",
+      "is_control_paralogue": false,
+      "overall_identity": 0.216,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.4,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "L",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "F",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR0B1",
+      "accession": "P51843",
+      "is_control_paralogue": false,
+      "overall_identity": 0.179,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "S",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "P",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "Q",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "NR0B2",
+      "accession": "Q15466",
+      "is_control_paralogue": false,
+      "overall_identity": 0.129,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.2,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "L",
+          "identical": true,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "PGR",
+      "accession": "P06401",
+      "is_control_paralogue": false,
+      "overall_identity": 0.31,
+      "mapping_confidence": "ok",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.1,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "I",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "P",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "W",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "HNF4A",
+      "accession": "P41235",
+      "is_control_paralogue": false,
+      "overall_identity": 0.204,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.1,
+      "pocket_similarity": 0.1,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "-",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "G",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "K",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "R",
+          "identical": true,
+          "similar": true,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "D",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "Y",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        }
+      ]
+    },
+    {
+      "gene": "PPARA",
+      "accession": "Q07869",
+      "is_control_paralogue": false,
+      "overall_identity": 0.211,
+      "mapping_confidence": "low (distant homology)",
+      "pocket_identity": 0.0,
+      "pocket_similarity": 0.3,
+      "pocket_residues": [
+        {
+          "position": 406,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 407,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 410,
+          "nr4a3_residue": "T",
+          "other_residue": "E",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 411,
+          "nr4a3_residue": "P",
+          "other_residue": "T",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 412,
+          "nr4a3_residue": "R",
+          "other_residue": "A",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 481,
+          "nr4a3_residue": "R",
+          "other_residue": "M",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 484,
+          "nr4a3_residue": "I",
+          "other_residue": "S",
+          "identical": false,
+          "similar": false,
+          "is_handle": true
+        },
+        {
+          "position": 485,
+          "nr4a3_residue": "R",
+          "other_residue": "V",
+          "identical": false,
+          "similar": false,
+          "is_handle": false
+        },
+        {
+          "position": 531,
+          "nr4a3_residue": "I",
+          "other_residue": "V",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        },
+        {
+          "position": 534,
+          "nr4a3_residue": "L",
+          "other_residue": "I",
+          "identical": false,
+          "similar": true,
+          "is_handle": true
+        }
+      ]
+    }
+  ]
+}
