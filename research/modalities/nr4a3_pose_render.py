@@ -42,49 +42,44 @@ def main():
     cmd.load(rec_pdb, "rec")
     cmd.load(lig_sdf, "lig")
     cmd.remove("solvent")
-    cmd.remove("hydro")                       # cleaner sticks; cartoon/surface don't need H
+    cmd.remove("hydro")                       # cleaner sticks
     cmd.dss("rec")                            # assign secondary structure for the cartoon
     cmd.hide("everything")
+    cmd.set("cartoon_side_chain_helper", 1)   # side-chain sticks don't fight the cartoon backbone
 
-    # protein cartoon (soft, recessive)
+    # protein cartoon — soft, so the FOLD reads without competing with the ligand
     cmd.show("cartoon", "rec")
-    cmd.color("grey70", "rec")
-    cmd.set("cartoon_transparency", 0.15, "rec")
+    cmd.color("teal", "rec")
+    cmd.set("cartoon_transparency", 0.12, "rec")
 
-    # ligand — element-coloured sticks, carbons a clear accent
+    # the warhead — thick element-coloured sticks, the visual focus
     cmd.show("sticks", "lig")
-    cmd.set("stick_radius", 0.22, "lig")
+    cmd.set("stick_radius", 0.26, "lig")
     cmd.color("marine", "lig and elem C")
     cmd.util.cnc("lig")
 
-    # pocket-lining side chains within 5 A of the ligand
-    cmd.select("pocket", "byres (polymer within 5 of lig)")
-    cmd.show("sticks", "pocket and (sidechain or name CA)")
-    cmd.set("stick_radius", 0.13, "pocket")
+    # pocket-lining side chains within 4.5 A of the ligand — mark the binding site without clutter
+    cmd.select("pocket", "byres (polymer within 4.5 of lig)")
+    cmd.show("sticks", "pocket and sidechain")
+    cmd.set("stick_radius", 0.12, "pocket")
     cmd.color("wheat", "pocket and elem C")
     cmd.util.cnc("pocket")
 
-    # translucent cavity surface over the pocket → ligand reads as buried
-    cmd.set("surface_quality", 1)
-    cmd.show("surface", "pocket")
-    cmd.set("transparency", 0.55, "pocket")
-    cmd.set("surface_color", "grey80", "pocket")
-
-    # framing
+    # framing: medium-wide so BOTH the LBD fold and the buried warhead are visible (no surface — it
+    # ray-traces to an opaque blob in outline mode; cartoon + sticks reads cleaner and shows the fit).
     cmd.orient("lig")
-    cmd.zoom("lig", 7)
+    cmd.zoom("lig", 15)
     cmd.turn("y", 20)
-    cmd.turn("x", -8)
+    cmd.turn("x", -10)
 
-    # render
+    # render — smooth shaded molecular look (no cel outline; that clashed with the pocket sticks)
     cmd.bg_color("white")
     cmd.set("ray_shadows", 1)
-    cmd.set("ray_shadow_decay_factor", 0.1)
-    cmd.set("ambient", 0.45)
-    cmd.set("specular", 0.25)
+    cmd.set("ray_shadow_decay_factor", 0.15)
+    cmd.set("ambient", 0.5)
+    cmd.set("specular", 0.2)
     cmd.set("antialias", 2)
-    cmd.set("ray_trace_mode", 1)              # subtle black outlines (publication look)
-    cmd.set("ray_trace_color", "grey30")
+    cmd.set("ray_trace_mode", 0)
     cmd.ray(1800, 1350)
     cmd.png(out_png, dpi=300)
     print("wrote", out_png, file=sys.stderr)
