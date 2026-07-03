@@ -18,6 +18,35 @@ Everything that advances the FEP empirically routes through the GitHub MCP conne
 **To resume: re-authorize the GitHub connector** (claude.ai connector settings), then dispatch the one command
 in "RESUME" below. That single dispatch restores BOTH dispatch and `get_job_logs`.
 
+## 2026-07-03 ~07:50Z — FEP driven through 3 fixed bugs to a 4th (receptor box / quota) that needs a decision
+Single-shard shakeout with the self-diagnosing harness peeled back, in order (each fixed + pushed):
+1. **Water model** — Yank defaults `solvent_model` to tip4pew (EPW extra-point) but YAML loaded `leaprc.water.tip3p`
+   → 3262 LEaP errors. **Fixed**: pin `solvent_model: tip3p`. Solvent leg now builds (Errors=0).
+2. **Complex-leg receptor PDB** — raw MD/AF frame → `tleap` exit 31. **Fixed**: `_prep_receptor` runs
+   `pdb4amber --dry --nohyd`. Complex leg now builds (Errors=0). BOTH legs parametrize cleanly.
+3. **Boresch-restraint OOM** — Yank's `restraints.py find_bonded_to` builds a dense (N,N) bool matrix; the
+   solvated complex is **190,759 atoms** → 33.9 GiB → OOMs the 16 GB **ml.g5.xlarge**. Tried **ml.g5.4xlarge
+   (64 GB)** but its **spot quota is 0** (`ResourceLimitExceeded`; only `ml.g5.xlarge` spot quota was raised).
+4. **★ ROOT CAUSE of the big box (the real decision) — the opened-frame receptors are ELONGATED.**
+   PDB geom (via `fep-status` ckpt_prefix=`nr4a3-denovo-matrix-v2`): `nr4a3-opened.pdb` is 254 res but
+   **extent x=42.6 y=47.0 z=96.3 Å** (z ~2× a normal globular LBD); `nr4a1` z=81.3, `nr4a2` y=84.9/z=82.7 —
+   **all three paralogue frames similarly stretched in one axis.** A ~254-res LBD should be ~45 Å each way and
+   solvate to ~50k atoms (fits g5.xlarge easily, no OOM). The elongation → cubic (iso) box sized to ~96 Å →
+   ~62k waters → 190k atoms → the OOM.
+   **Leading hypothesis: MD frames saved WITHOUT PBC-unwrapping** (a flexible terminal segment wrapped across
+   the periodic box adds ~40 Å to one axis) — systematic across all 3 frames, consistent with an imaging
+   artifact, not 3 independent unfoldings. **These same frames underpin the paper's docking/MM-GBSA**, so this
+   is not FEP-only.
+   **DECISION NEEDED (options):** (a) **re-image/make-whole** the receptor before solvation (if it's a wrapping
+   artifact → box shrinks to normal → fits g5.xlarge; needs box vectors / a compact frame — pocket results
+   unaffected since the pocket wasn't wrapped); (b) **re-extract a compact opened frame** (if the elongation is
+   real); (c) **raise the ml.g5.4xlarge spot quota** and run the big box as-is. Recommend confirming (a) vs (b)
+   by inspecting whether the protein is spatially CONTINUOUS or has a GAP along z.
+   Resume state: both LEaP legs are built + S3-checkpointed (`nr4a3-fep/ckpt/0`), so whatever the fix, resume
+   skips setup. `fep-status-aws.yml` is now a full S3 inspector (manifest + per-leg LEaP tails + fes.dat +
+   PDB geom + job summary) — reuse it. Also: **metad DONE (60 ns) and folded into §2.2** (single basin, Gate-3
+   confirmed); **A4/D4 superfamily selectivity folded into §2.7**.
+
 ## ✅ SOLVENT-leg LEaP failure DIAGNOSED + FIXED (2026-07-03 06:26Z) — it was the WATER MODEL, not the ligand
 The `_dump_setup_logs` instrumentation surfaced the real `solvent.leap.log`: **3262 errors, all**
 `For atom (.R<WAT ...>.A<EPW 4>) could not find vdW parameters for type (EP)`, plus Yank's own warning
