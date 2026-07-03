@@ -26,11 +26,23 @@ jobs:
           # the yank YAML machinery). This catches the whole import/version-decay class for free (~10 min) instead
           # of ~$0.20 + 30 min per SageMaker shard. Cannot test GPU/LEaP/HREX — that still needs a real shard.
           set -x
+          # MUST match entry_fep.py's conda create exactly (libnetcdf<4.9 + parmed fix the reporter NetCDF
+          # filter bug and the parmed-drop it caused). Validate the whole thing FREE before any g5 shard.
           conda create -y -n fep --override-channels -c conda-forge \
-            python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
+            python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" "libnetcdf<4.9" parmed || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
           echo "=== resolved versions ==="
-          conda list -n fep | grep -Ei "^(python|yank|openmm|openmmtools|ambertools|setuptools|openbabel|numpy|pymbar) " | awk '{print "  "$1" "$2}'
-          echo "=== deep import check ==="
-          conda run -n fep python -c "import yank; from yank.experiment import ExperimentBuilder; from openmmtools import alchemy; import openmm; assert hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'); print('DEEP_IMPORT_OK yank', yank.__version__, 'openmm', openmm.version.version)"
+          conda list -n fep | grep -Ei "^(python|yank|openmm|openmmtools|ambertools|setuptools|openbabel|numpy|pymbar|parmed|libnetcdf|netcdf4) " | awk '{print "  "$1" "$2}'
+          echo "=== deep import check (incl. parmed — the dep an over-tight netcdf pin dropped) ==="
+          conda run -n fep python -c "import yank; from yank.experiment import ExperimentBuilder; from openmmtools import alchemy; import openmm, parmed; assert hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'); print('DEEP_IMPORT_OK yank', yank.__version__, 'openmm', openmm.version.version, 'parmed', parmed.__version__)"
+          echo "=== NetCDF zlib-compressed write (reproduces openmmtools _store_options; the filter bug) ==="
+          conda run -n fep python -c "
+          import netCDF4, tempfile, os
+          f = os.path.join(tempfile.mkdtemp(), 't.nc')
+          ds = netCDF4.Dataset(f, 'w')
+          ds.createDimension('d', 3)
+          v = ds.createVariable('options', 'f4', ('d',), zlib=True, complevel=4)
+          v[:] = [1.0, 2.0, 3.0]
+          ds.close()
+          print('NETCDF_ZLIB_WRITE_OK netcdf4', netCDF4.__version__, 'libnetcdf', netCDF4.__netcdf4libversion__)"
           echo "=== obabel CLI present? ==="
           conda run -n fep bash -c "which obabel && obabel -V" 2>&1 | sed 's/^/  /'
