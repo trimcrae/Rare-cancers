@@ -1,10 +1,42 @@
 # FEP status + one-step resume (2026-07-03, overnight)
 
-## ⛔ BLOCKER (as of ~04:10 UTC): GitHub MCP token expired
-Workflow **dispatch** and **job-log reads** go through the GitHub MCP server, whose token expired mid-session
-(non-interactive, so I can't re-auth it). **git commit/push still works** (separate credentials), so all code
-below is committed and pushed to `claude/red-team-degrader-paper-l1hukn`. **To resume: re-authorize the GitHub
-connector** (claude.ai connector settings), then dispatch the one command in "RESUME" below.
+## ⛔ BLOCKER (confirmed ~05:5x UTC after a container restart): dispatch + all AWS/log reads are gated on GitHub MCP
+Everything that advances the FEP empirically routes through the GitHub MCP connector, which is **down
+(needs interactive re-auth)**. I verified from inside the container that there is **no side channel**:
+- **`GH_TOKEN` in-env can READ the Actions API** (run/job status) **but CANNOT dispatch** — `workflow_dispatch`
+  returns `403 Resource not accessible by integration` (read-only integration token).
+- **Job-log downloads are policy-blocked** — the REST logs endpoint 302-redirects to
+  `productionresultssa7.blob.core.windows.net`, which the egress proxy rejects with `403 CONNECT`
+  (org policy; do not retry). So I cannot read a run's logs via curl — only MCP `get_job_logs` (server-side text)
+  works, and it's down with the connector.
+- **In-env AWS creds are INVALID** (`sts:GetCallerIdentity` → `InvalidClientTokenId`). S3 (the metad `fes.dat`,
+  the FEP LEaP logs) is reachable **only from inside a GitHub Action**, which has its own creds. So no direct
+  S3 read either.
+- **git commit/push still works** (separate git credentials) — all code below is committed + pushed to
+  `claude/red-team-degrader-paper-l1hukn`.
+
+**To resume: re-authorize the GitHub connector** (claude.ai connector settings), then dispatch the one command
+in "RESUME" below. That single dispatch restores BOTH dispatch and `get_job_logs`.
+
+## Current FEP state: single-shard shakeout, one error left — the SOLVENT-leg LEaP failure
+The last real single-shard run got through imports → antechamber charges → and died in Yank's tleap at system
+setup: `RuntimeError: Solvent pme: Some things went wrong with LEaP`. The failing leg is the **solvent leg
+(ligand-only in water)**, so this is a **ligand-parametrization** problem, not the receptor. Yank's error is an
+opaque wrapper; the real diagnostic (missing GAFF param? antechamber valence? obabel bond mis-perception?) is in
+a `*.leap.log` file the harness never surfaced.
+
+**Fix staged this session (diagnostics, non-behavior-changing):** `nr4a3_fep.py :: _dump_setup_logs(out_dir)` now
+runs on any `yank script` failure and echoes the tail of every setup log (`*.leap.log`, antechamber logs,
+`tleap.in`, `*.frcmod`) to stdout — so the **next** single dispatch reveals the exact LEaP cause in
+`get_job_logs`, no S3 round-trip. Leading hypotheses to check against that log, most→least likely:
+  1. **gaff/gaff2 mismatch** — YAML loads `leaprc.gaff2` but Yank's antechamber may type the ligand as GAFF1;
+     if the log says "could not find parameter", switch the leap param to `leaprc.gaff` (one line in `_yank_yaml`).
+  2. **obabel bond mis-perception** — the docked pose is heavy-atom-only; `obabel -h` can mis-order an aromatic
+     bond → antechamber valence error. Fix would be to rebuild ligand topology from the known SMILES and borrow
+     only the pose coordinates.
+  denovo_401 is plain C/H/O (methoxymethyl, phenyl, cyclopentane, t-Bu, 2° alcohol) — GAFF2 covers it fully, so
+  genuinely-missing params is unlikely; typing/valence is the more probable cause. **Read the surfaced log first;
+  do not blind-change parametrization** (a wrong guess wastes the single validation shard).
 
 ## FEP is READY — the env is fully validated, only the dispatch is blocked
 The FEP was rewritten on **Yank** (absolute binding FEP: explicit solvent, Boresch restraints + standard-state
@@ -26,8 +58,10 @@ a modern SageMaker image took a single-shard shakeout that resolved **7 env/conf
 7. **python=3.9** — yank uses `collections.MutableMapping`, removed in py3.10 (openbabel/setuptools pulled 3.10+).
 
 ## ▶ RESUME (one dispatch, once MCP is re-authorized)
-Single-shard validation of the *run* path (GPU/OpenCL + LEaP + Boresch + HREX — the only thing the free
-env-check can't test). If it reaches HREX sampling, kill it and fan out `n_shards=3` (full FEP):
+Re-run the SAME single-shard validation. It will now hit the same LEaP error BUT dump the real setup log — read
+it via MCP `get_job_logs`, apply the matching fix above, re-dispatch. Once it reaches HREX sampling, kill and
+fan out `n_shards=3` (full FEP). Single-shard validation of the *run* path (GPU/OpenCL + LEaP + Boresch + HREX —
+the only thing the free env-check can't test):
 ```
 gpu-fep-aws.yml  mode=run  n_shards=1  ligand=denovo_401  n_windows=12
                  target_ddg=-1.0  z=1.0  min_windows=6

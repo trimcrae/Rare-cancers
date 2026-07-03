@@ -178,6 +178,32 @@ def _parse_dg(out_dir):
     return float(m.group(1)), float(m.group(2))
 
 
+def _dump_setup_logs(out_dir):
+    """On a `yank script` failure, Yank's own error is an opaque wrapper (e.g. 'Solvent pme: Some things went
+    wrong with LEaP') — the ACTUAL diagnostic (the missing GAFF parameter, the atom-valence complaint, the
+    antechamber/parmchk stderr) lives in per-leg log FILES under the setup tree, NOT in stdout. Glob every
+    LEaP/antechamber/tleap log Yank wrote and echo its tail to stdout so the real cause is visible in the job's
+    CloudWatch/`get_job_logs` output — one dispatch reveals the error instead of a round-trip to fish the file
+    out of S3. Pure diagnostics; never raises."""
+    pats = ["**/*.leap.log", "**/leap.log", "**/*leap*.log", "**/*.ac.log", "**/*antechamber*",
+            "**/tleap.in", "**/*.frcmod"]
+    seen = set()
+    for pat in pats:
+        for f in sorted(glob.glob(os.path.join(out_dir, pat), recursive=True)):
+            if f in seen or not os.path.isfile(f):
+                continue
+            seen.add(f)
+            try:
+                txt = open(f, errors="replace").read()
+            except Exception as e:  # noqa: BLE001
+                print(f"  [leap-log] (could not read {f}: {e})", flush=True)
+                continue
+            print(f"\n===== SETUP LOG {f} ({len(txt)} bytes) =====", flush=True)
+            print(txt[-4000:], flush=True)
+    if not seen:
+        print(f"  [leap-log] no setup logs found under {out_dir} (setup failed before writing any)", flush=True)
+
+
 def run_real(unit, phase="prod"):
     """One full Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. phase='pilot' runs fewer
     iterations for a fast early-stop ΔΔG signal; 'prod' extends the SAME output dir to the full iteration
@@ -198,6 +224,7 @@ def run_real(unit, phase="prod"):
     print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
     r = subprocess.run(["yank", "script", "--yaml", yaml_path])
     if r.returncode != 0:
+        _dump_setup_logs(out_dir)                             # surface the real LEaP/antechamber diagnostic
         raise RuntimeError(f"yank script failed for {receptor} (rc={r.returncode})")
     dg, err = _parse_dg(out_dir)
     _write(unit, {"mode": "yank", "phase": phase, "dg_bind_kcal": round(dg, 3),
