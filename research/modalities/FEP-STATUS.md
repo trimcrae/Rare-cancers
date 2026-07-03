@@ -48,13 +48,23 @@ Single-shard shakeout with the self-diagnosing harness peeled back, in order (ea
    and metad then stretched z 72→99 Å. (The full 626-res AF2 model is 125 Å — normal for a full-length NR with
    disordered DBD/hinge/tails.) The opened frame is **renumbered 1-254**, so residue filters must use 1-based
    numbering (a 400-626 filter matched nothing).
-   **CLEAN FIX (recommended, likely autonomous-safe): trim the floppy N-terminal hinge to the folded LBD core
-   before FEP solvation** (e.g. drop ~res 1-25 of the renumbered frame / UniProt ~373-399, keep the H1-H12
-   core). That compacts the box to ~normal (~50k atoms) → **fits the quota-available g5.xlarge**, no g5.4xlarge
-   needed. Pocket-local docking/MM-GBSA/ternary are unaffected (the floppy tail just hangs off the pocket).
-   Confirm the exact cut by dumping per-residue Cα-z of `nr4a3-opened.pdb` (find where the compact core ends)
-   before trimming. Alternatives if the CORE turns out elongated too: re-extract a compact druggable frame, or
-   raise the g5.4xlarge spot quota.
+   **FLOPPY-SEGMENT MAP (2026-07-03 10:21Z, `nr4a3-opened.pdb`, CA >25 Å from core centroid), 1-based seq pos:**
+   runs `(1-22), (48-60), (132), (202-204), (233-238), (253-254)`. So a **simple trim is NOT sufficient**: yes
+   there's a dominant N-terminal floppy hinge (1-22 = UniProt ~373-394) and a small C-term tail (253-254), but
+   there's also an **INTERNAL splayed segment (48-60)** right after the first pocket-residue cluster — that is
+   the **metad-opened pocket itself** (helices pushed apart = the "opening"). So the 99 Å extent = floppy hinge
+   **+** genuinely splayed pocket helices; trimming the termini shrinks the box only partially (est. ~99→~80 Å,
+   ~130k atoms — still borderline for a 16 GB O(N²) restraint at 16.9 GiB).
+   **REVISED FIX RANKING:** (1) **Specify the Boresch restraint atoms explicitly** in the Yank YAML
+   (`restrained_receptor_atoms` = a few pocket CAs by index/DSL, `restrained_ligand_atoms` = ligand atoms) so
+   Yank SKIPS `_pick_restrained_atoms`→`find_bonded_to` and the O(N²) dense matrix entirely — works at ANY N on
+   the quota-available **g5.xlarge**. This is the correct root fix (the 190k-atom box is not itself unreasonable
+   for a protein FEP; Yank's restraint auto-pick is the pathological part). Caveat: needs 3 receptor + 3 ligand
+   atom indices (or verify a DSL avoids find_bonded_to). (2) Trim the N-term hinge (1-22) + C-term (253-254)
+   AND drop clearance 12→10 Å to squeak under 16 GB — borderline. (3) Raise the ml.g5.4xlarge spot quota
+   (currently 0) and run the big box as-is. **Also a SCIENCE question for the user:** the opened frame is
+   genuinely non-compact (splayed pocket helices) — is it a valid ABFE receptor, or should FEP use a
+   less-extreme opened frame? (Mitigating: release run held 3/3 unbiased replicas 5 ns at Rg 0.717.)
    Resume state: both LEaP legs are built + S3-checkpointed (`nr4a3-fep/ckpt/0`), so whatever the fix, resume
    skips setup. `fep-status-aws.yml` is now a full S3 inspector (manifest + per-leg LEaP tails + fes.dat +
    PDB geom + job summary) — reuse it. Also: **metad DONE (60 ns) and folded into §2.2** (single basin, Gate-3
