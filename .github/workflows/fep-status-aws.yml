@@ -75,6 +75,27 @@ jobs:
                   body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
                   show = body if len(body) < 5000 else ("...<head-snip>...\n" + body[-4500:])
                   print(f"\n===== S3 {k} ({sz} bytes, tail) =====\n{show}")
+              # PDB geometry stats (spot a wrapped/stray atom that balloons the solvation box): for each .pdb,
+              # count ATOM records + protein residues and report the per-axis coordinate extent (Å).
+              for k, sz in sorted(all_objs):
+                  if not k.endswith(".pdb") or sz > 20_000_000:
+                      continue
+                  body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+                  xs, ys, zs, resset, natom = [], [], [], set(), 0
+                  for ln in body.splitlines():
+                      if ln.startswith(("ATOM", "HETATM")):
+                          try:
+                              xs.append(float(ln[30:38])); ys.append(float(ln[38:46])); zs.append(float(ln[46:54]))
+                          except ValueError:
+                              continue
+                          natom += 1
+                          resset.add((ln[21:22], ln[22:27]))
+                  if xs:
+                      ext = [round(max(a) - min(a), 1) for a in (xs, ys, zs)]
+                      print(f"\n----- PDB GEOM {k}: {natom} atoms, {len(resset)} residues, "
+                            f"extent(Å) x={ext[0]} y={ext[1]} z={ext[2]} "
+                            f"(bbox {round(min(xs),1)}..{round(max(xs),1)}, {round(min(ys),1)}..{round(max(ys),1)}, "
+                            f"{round(min(zs),1)}..{round(max(zs),1)})")
               print("#" * 80)
           jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
