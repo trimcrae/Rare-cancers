@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""Selectivity-FEP compute for ONE shard of (receptor, leg, λ-window) units — spot-priced, resumable.
+"""Selectivity-FEP compute for ONE shard of per-RECEPTOR units — Yank absolute binding FEP, spot-priced, resumable.
 
 Runs inside a SageMaker managed-**spot** Training job (see nr4a3_fep_sagemaker.py). The shard (a JSON list of
-units from fep_sharding) is read from $FEP_SHARD_FILE; each unit is computed independently and its per-window
-reduced-potential output is written to $FEP_OUTPUT_DIR, with a checkpoint marker in $FEP_CHECKPOINT_DIR. On
-(re)start — including after a spot interruption — any unit whose checkpoint already exists is SKIPPED, so a
-reclaimed instance resumes from the last completed window (the checkpoint standing rule, spot-native).
+per-receptor units from fep_sharding) is read from $FEP_SHARD_FILE; each unit is one complete Yank ABFE
+experiment for that receptor (Yank does the two-leg double-decoupling, Boresch restraint + standard-state
+correction, auto-trailblazed λ path, Hamiltonian replica exchange, and MBAR internally → ΔG_bind directly).
+The per-receptor result marker (dg_bind_kcal) is written to $FEP_CHECKPOINT_DIR, and Yank's own .nc live under
+$FEP_CHECKPOINT_DIR/<receptor>/ — both S3-synced (checkpoint_s3_uri), so a spot interruption resumes the Yank
+experiment mid-run (resume_simulation) and a re-dispatch skips any receptor whose marker already exists.
 
 TWO modes:
-  --smoke : trivial per-unit work (no MD) that writes a stub result + checkpoint. Validates the spot +
-            checkpoint + resume + fan-in plumbing end-to-end for cents. Used by gpu-fep-aws.yml mode=smoke.
-  (real)  : openmmtools absolute-alchemical λ-window sampling, reusing mmgbsa_energy's validated OpenFF/GAFF
-            system build. **First-pass protocol — window count / sampling time / restraint / soft-core choices
-            are defaults that need a shakeout run before the ΔΔG numbers are trusted** (like every prior
-            pipeline here). GPU only.
+  --smoke : trivial per-receptor stub (no Yank, no heavy env) writing a synthetic ΔG_bind. Validates the spot +
+            checkpoint + resume + fan-in plumbing for cents. Used by gpu-fep-aws.yml mode=smoke.
+  (real)  : one Yank ABFE experiment per receptor. **First-pass protocol — iteration counts / auto λ-path /
+            solvent box are defaults that need a shakeout before the ΔΔG numbers are trusted.** GPU only.
 
-Reduced potentials are written per unit so report_fep.py can run MBAR across windows per leg (fan-in).
+report_fep.py collects the per-receptor ΔG_bind and forms the NR4A3-vs-paralogue ΔΔG (fan-in).
 """
 import glob
 import json
