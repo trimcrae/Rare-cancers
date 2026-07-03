@@ -17,7 +17,7 @@
 | A1 | AF2/homology model of NR4A3 LBD + **model-confidence at the pocket** (pLDDT, PAE) | 🟡 | Model exists and is used throughout; the pocket-region confidence is **not stated as an explicit honesty item** in the paper. Reviewers will ask "is the cryptic pocket in a well-modeled region?" | ¢ |
 | A2 | Cryptic/induced-fit pocket ID + druggability (fpocket + MD) | 🟡 | Done and **honestly graded** (red-team 2026-06-26): Gate 0/0b/2 pass, Gate 1 basin-breathing only, Gate 3 provisional pending release run, druggability reported as fraction-of-frames. | $ (release run queued) |
 | A3 | **Warhead-pocket** residue divergence NR4A3 vs NR4A1/2 (selectivity determinants) | 🟡 | Interface divergence computed at the **NR4A–CRBN** ternary interface (F18). The **warhead-site** pocket-lining residue comparison — the structural basis for *binder* selectivity — is not separately reported. | ¢ |
-| A4 | **Broader NR-superfamily** LBD-pocket cross-reactivity (48 NRs share the LBD fold) | ❌ | A "selective" degrader checked against **only 2 paralogues** is under-powered on selectivity. The warhead binds an LBD; nearest-neighbour NRs (esp. other orphan NRs) should be screened for pocket similarity / cross-binding. | ¢–$ |
+| A4 | **Broader NR-superfamily** LBD-pocket cross-reactivity (48 NRs share the LBD fold) | 🟠 | **BUILT, staged (2026-07-03), awaiting one CI dispatch.** `nr4a_superfamily_selectivity.py` screens the whole reviewed human NR family (UniProt query, no hardcoded accessions) by mapping the 10 warhead-pocket residues onto each NR (BLOSUM62 align, same core as the resistance map) and ranking by pocket-residue identity/similarity; NR4A1/2 are built-in positive controls that must top the list, other near-neighbours are flagged liabilities. Pure scoring core unit-tested (5 tests). **Honest limits in-output:** sequence resemblance is necessary-not-sufficient (prioritises, doesn't conclude); cryptic pocket may not form in a sequence-similar NR; distant-NR mappings flagged low-confidence. Runs in `depmap-dependency.yml` → `modalities-cache`. | ¢–$ |
 
 ## B. Ligand generation & pose
 | # | Stage | Status | Notes | Cost |
@@ -41,7 +41,7 @@
 | D1 | Warhead selectivity screen (NR4A3 vs NR4A1/2) | 🟠 | Built, idle. | $ |
 | D2 | **Selectivity FEP (ΔΔG_bind, NR4A3 − NR4A1/2)** | 🟠 | The definitive selectivity number; queued with C4. Early-stop fires on a confidently non-selective ΔΔG **with a per-residue WHY-map**. | $$ |
 | D3 | Ternary-level paralogue selectivity | ✅ | F18 across NR4A1/2/3. | done |
-| D4 | Off-target beyond paralogues (NR-family / proteome) | ❌ | See A4 — same gap from the ligand side. | ¢–$ |
+| D4 | Off-target beyond paralogues (NR-family / proteome) | 🟠 | NR-family side **BUILT, staged** — see A4 (`nr4a_superfamily_selectivity.py`, one CI dispatch away). Proteome-wide off-target remains open. | ¢–$ |
 
 ## E. Degradation-specific (it is a degrader, not just a binder)
 | # | Stage | Status | Notes | Cost |
@@ -86,7 +86,7 @@ short linker): MW ~657, cLogP ~4.2, rot-bonds ~14 → normal **beyond-Ro5** degr
 Ranked by (impact on the *selective-degrader* claim) × (how cheap to close):
 
 1. **Developability/ADMET (F1–F5)** — *free, absent, reviewers always ask.* One RDKit script gives physchem/bRo5, PAINS/structural alerts, SA score for the lead. Highest value-per-cost.
-2. **Broader selectivity beyond the two paralogues (A4 / D4)** — a "selective" claim tested against only NR4A1/2 is the single most exposed part of the thesis. Screen the nearest NR-superfamily LBD pockets.
+2. **Broader selectivity beyond the two paralogues (A4 / D4)** — a "selective" claim tested against only NR4A1/2 is the single most exposed part of the thesis. **BUILT + staged 2026-07-03** (`nr4a_superfamily_selectivity.py`, tested core, in `depmap-dependency.yml`); one CI dispatch closes the NR-family side. Proteome-wide off-target still open.
 3. **Degrader-completeness (E3/E4/E6/E7)** — linker exit-vector, lysine-accessibility write-up, E3/tissue rationale, neo-substrate risk. These are what make it a *degrader* result, not a *binder* result. Mostly free.
 4. **Model-confidence honesty (A1)** — state pLDDT/PAE at the pocket explicitly. Free.
 5. **The two queued GPU campaigns (C4/D2, A2 release run)** — already scoped; the expensive, decisive ones.
