@@ -623,6 +623,18 @@ controls the experiment converts five sequences and a mechanism into evidence; w
 on-target knockdown and EMC-cell killing but cannot *prove* the wild-type transcripts are spared. It needs no
 new molecule beyond synthesising the listed oligos and the engineered/isogenic models above.
 
+**Named recipients — the outreach ask (preprint-stage action).** This is no longer an abstract "someone should
+run it": two groups now hold patient-derived EMC lines and screen drugs on them — the **USZ / University
+Hospital Zurich** group [Bangerter 2022/2023, USZ-EMC] and the **NCC / National Cancer Center Japan** group
+[Iwata 2025, NCC-EMC1-C1]. When the preprint posts, the concrete outreach is to those two labs with **two
+asks**: (1) the make-or-break **junction-knockdown + parental-sparing + phenotype** experiment above; and
+(2) — the delivery-directed one — **their EMC lines' surface immunophenotype / RNA-seq**, which is currently
+*"available on request"* (USZ) or paywalled (NCC) and would replace the §3c DepMap *surrogate* with real-EMC
+surface data, validating (or refuting) the surfaceome-scan targeting-antigen shortlist. Ask (2) costs the
+authors almost nothing (data they already hold) and directly de-risks the delivery gate — the highest
+value-per-effort outreach item. *(The in-silico partial substitute — cross-checking the shortlist against the
+public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data is the stronger version.)*
+
 ---
 
 ## 5. Selectivity and safety

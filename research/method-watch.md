@@ -98,7 +98,12 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
   microarray, bulk-tumour stromal dilution, small n, possibly two-colour ratio data (may not give absolute
   surface-antigen levels — verify platform first); (b) **obtain the USZ/NCC line data by contacting the authors**
   (better data, but a human/wet-lab-adjacent action, not in-silico); (c) leave the DepMap surrogate as the
-  published basis and cite `GSE4303`/line-existence as the upgrade path. Status: **probed, decision pending.**
+  published basis and cite `GSE4303`/line-existence as the upgrade path. **Decision (trimcrae, 2026-07-03): DO
+  BOTH (a)+(b).** (a) built: `modalities/emc_gse4303_crosscheck.py` → `emc-gse4303-crosscheck.json` (ranks the
+  surrogate shortlist in real EMC-tumour expression, with a two-colour-ratio platform gate). (b) queued: the
+  ASO paper §4 now names the **USZ (Zurich)** and **NCC (Japan)** groups as recipients, with the
+  delivery-directed ask for their EMC lines' surface immunophenotype/RNA-seq (preprint-stage outreach).
+  Status: **actioned.**
 
 - **[2026-07-03] Delivery watch split into predictor + technology/candidate (trimcrae ask).** The
   ASO route's dominant gate is tumour delivery. The watch now has **two** delivery rows/topics: (1)
