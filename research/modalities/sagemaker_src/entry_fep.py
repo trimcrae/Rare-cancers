@@ -62,12 +62,14 @@ def main():
         conda = shutil.which("conda") or "/opt/conda/bin/conda"
         print(f"[fep] real mode — building Yank FEP env via {conda}", flush=True)
         # The physics is Yank (absolute-binding FEP: explicit solvent, Boresch restraints + standard-state
-        # correction, HREX, MBAR). Install `yank` and let conda-forge solve its OWN compatible stack (yank
-        # 0.25.2 pulls openmm 8.3 / openmmtools 0.25 / ambertools 23 / numpy 1.26 / python 3.9 — verified by
-        # yank-env-check.yml). ocl-icd-system for the OpenCL platform on the g5 (CUDA PTX is dead on this
-        # image; the nvidia.icd vendor file below lets OpenMM's OpenCL platform register the A10G).
+        # correction, HREX, MBAR). PIN openmmtools=0.21.2: yank 0.25.2 calls the private
+        # openmmtools.alchemy._ALCHEMICAL_REGION_ARGS, REMOVED in openmmtools 0.25 (which conda-forge's loose
+        # yank pin otherwise co-installs → runtime AttributeError at alchemy setup, invisible to an import
+        # check). yank-env-check.yml confirmed 0.21.2 has the attr and solves with openmm 8.3.1 / numpy 1.26 /
+        # python 3.9. ocl-icd-system + the nvidia.icd vendor file below let OpenMM's OpenCL platform register
+        # the A10G (CUDA PTX is dead on this g5 image).
         subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
-                        "yank", "ocl-icd-system"], check=True)
+                        "yank", "openmmtools=0.21.2", "ocl-icd-system"], check=True)
         subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
                         "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
         # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own
