@@ -31,6 +31,10 @@ on:
         description: "comma-sep EXACT training-job names to StopTrainingJob (free a parked spot prefix before an on-demand relaunch)"
         default: ""
         required: false
+      cw_job:
+        description: "tail LIVE CloudWatch of this running job (name/prefix), filtered to yank progress (iteration/ns-day/ΔG)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -53,6 +57,7 @@ jobs:
           CKPT_PREFIX: ${{ inputs.ckpt_prefix }}
           PDB_RESRANGE: ${{ inputs.pdb_resrange }}
           STOP_NAMES: ${{ inputs.stop_names }}
+          CW_JOB: ${{ inputs.cw_job }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
@@ -74,6 +79,27 @@ jobs:
                       print(f"# skip stop {_name}: status={_st} (not InProgress)")
               except Exception as _e:  # noqa: BLE001
                   print(f"# stop {_name} failed: {_e}")
+          # Optional: tail the LIVE CloudWatch stdout of a RUNNING job (CW_JOB = exact/prefix name) filtered to
+          # yank progress lines — iteration count (→ %/ETA), ns/day rate, and any online ΔG estimate (→ converge
+          # /diverge read). The failed-job dump lower down only fires on Failed; this works on InProgress.
+          _cw = os.environ.get("CW_JOB", "").strip()
+          if _cw:
+              import re as _re
+              grp = "/aws/sagemaker/TrainingJobs"
+              try:
+                  strs = logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=_cw).get("logStreams", [])
+                  sig = _re.compile(r"(iteration|replica|online|estimate|kcal|kT|Delta|ΔG|f_k|free energy|"
+                                    r"ns/day|mixing|state|swap|MBAR|Trailblaz|Equilibrat|Minimiz|Production|"
+                                    r"reached|converg)", _re.I)
+                  for s in strs[:1]:
+                      ev = logs.get_log_events(logGroupName=grp, logStreamName=s["logStreamName"],
+                                               startFromHead=False, limit=1500).get("events", [])
+                      m = [e["message"].rstrip() for e in ev if sig.search(e["message"])]
+                      print(f"# CW LIVE tail for {_cw} ({s['logStreamName']}): {len(m)}/{len(ev)} progress lines")
+                      for x in m[-60:]:
+                          print("  " + x)
+              except Exception as _e:  # noqa: BLE001
+                  print(f"# CW tail {_cw} failed: {_e}")
           # Optional: pull the small setup logs (LEaP transcripts, frcmod, leap.in) straight from the
           # checkpoint S3 prefix — the definitive per-leg diagnostic (complex leg fails via check_output, whose
           # stdout yank swallows, so the CloudWatch tail can't show it; the on-disk log DID sync to S3).
