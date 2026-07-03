@@ -69,7 +69,7 @@ def main():
         # python 3.9. ocl-icd-system + the nvidia.icd vendor file below let OpenMM's OpenCL platform register
         # the A10G (CUDA PTX is dead on this g5 image).
         subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
-                        "yank", "openmmtools=0.21.2", "ocl-icd-system"], check=True)
+                        "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel"], check=True)
         subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
                         "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
         # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own

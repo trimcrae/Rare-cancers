@@ -90,16 +90,18 @@ def _extract_ligand_sdf(receptor, workdir):
 
 
 def _sdf_to_mol2(sdf, workdir):
-    """Convert the ligand SDF → MOL2 via antechamber. Yank's SDF reader needs the commercial OpenEye toolkit
-    ('Cannot support sdf files without OpenEye OEChem'); its MOL2 path uses AmberTools only. antechamber writes
-    scratch files in cwd, so run it there. No charges here — Yank's `antechamber: {charge_method: bcc}` block
-    computes AM1-BCC charges + parmchk frcmod at setup."""
+    """Convert the ligand SDF → MOL2 **adding explicit hydrogens** via OpenBabel. The docked pose is
+    heavy-atom-only (no H); AmberTools antechamber (which Yank runs at setup) then mistypes carbons as sp
+    (`c1`) and dies with 'Weird atomic valence ... Possible open valence'. `obabel -h` adds Hs at their
+    geometric positions while KEEPING the docked heavy-atom coordinates (so the binding pose is preserved),
+    and writes a MOL2 (Yank's SDF reader needs OpenEye; MOL2 path is AmberTools-only). Yank's
+    `antechamber: {charge_method: bcc}` block then computes AM1-BCC charges + parmchk frcmod at setup."""
     import subprocess
     mol2 = os.path.join(workdir, "lig.mol2")
-    r = subprocess.run(["antechamber", "-i", sdf, "-fi", "sdf", "-o", mol2, "-fo", "mol2", "-dr", "no"],
+    r = subprocess.run(["obabel", sdf, "-O", mol2, "-h"],
                        cwd=workdir, capture_output=True, text=True, timeout=600)
     if not os.path.exists(mol2):
-        raise RuntimeError(f"antechamber sdf->mol2 failed (rc={r.returncode}):\n"
+        raise RuntimeError(f"obabel sdf->mol2 (+H) failed (rc={r.returncode}):\n"
                            f"{(r.stdout or '')[-600:]}\n{(r.stderr or '')[-600:]}")
     return mol2
 
