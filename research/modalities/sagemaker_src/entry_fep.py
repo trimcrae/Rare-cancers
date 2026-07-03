@@ -30,6 +30,8 @@ def main():
     ap.add_argument("--ligand", default="denovo_401")
     ap.add_argument("--prod-ps", default="1000")
     ap.add_argument("--equil-ps", default="200")
+    ap.add_argument("--phase", default="full")          # bootstrap (on-demand) | sample (spot) | full (legacy)
+    ap.add_argument("--bootstrap-iter", default="60")
     a = ap.parse_args()
     smoke = a.smoke == "1"
 
@@ -45,6 +47,8 @@ def main():
     env["FEP_LIGAND"] = a.ligand
     env["FEP_PROD_PS"] = a.prod_ps
     env["FEP_EQUIL_PS"] = a.equil_ps
+    env["FEP_PHASE"] = a.phase                           # bootstrap on-demand → sample on spot (trailblaze-safe)
+    env["FEP_BOOTSTRAP_ITER"] = a.bootstrap_iter
     # the shard channel holds exactly one <shard>.json
     shard_dir = ch("shard")
     shard_files = [f for f in os.listdir(shard_dir) if f.endswith(".json")] if os.path.isdir(shard_dir) else []
