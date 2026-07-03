@@ -617,6 +617,44 @@ binder-vs-ternary comparison is not double-counting one patch. Remaining limits:
 single-linker interface — the divergent-patch set is expected to shift with linker/exit-vector choice — so the
 *specific* residues are indicative, not fixed.)
 
+**Beyond the two paralogues — a superfamily-wide pocket-liability screen (A4/D4).** A selectivity claim tested
+only against NR4A1/2 is under-powered: the human nuclear-receptor (NR) superfamily is ~48 proteins that share
+the LBD fold, so a *non-paralogue* NR could in principle present a pocket resembling NR4A3's. We therefore
+mapped the ten warhead-pocket residues (Q92570 numbering) onto **every reviewed human NR** (n = 47; UniProt
+family query, no hardcoded accessions; BLOSUM62 global alignment — the same core as the resistance map, §4) and
+scored pocket-residue identity, gating on overall LBD-alignment identity as a **mapping-confidence** axis
+(`nr4a_superfamily_selectivity.py` → `nr4a-superfamily-selectivity.json`). The two paralogues behave as
+positive controls must — they are the **only** NRs combining pocket coincidence with high-confidence alignment
+(NR4A2 4/10 pocket residues at overall identity 0.58; NR4A1 3/10 at 0.51), and NR4A2's one shared *handle* is
+I531, the NR4A3=NR4A2-identical position already flagged as the hardest case (§2.3). The result is reported at
+its true, unflattering weight:
+
+| NR (confidence-gated, overall id ≥ 0.30) | pocket id | shared residues (Q92570 #) | on selectivity handles |
+|---|---|---|---|
+| NR4A2 (control) | 4/10 | 411, 481, 485, 531 | 531 (I531) |
+| NR4A1 (control) | 3/10 | 411, 481, 485 | none (conserved core only) |
+| **NR3C2 / MR** | 3/10 | 406, 407, 485 | **406, 407** |
+| **AR** | 3/10 | 407, 410, 485 | **407, 410** |
+| PGR | 1/10 | 485 | none |
+
+Two oxosteroid receptors — the **mineralocorticoid receptor (NR3C2)** and the **androgen receptor (AR)** —
+coincide with the NR4A3 pocket at the same 3/10 level as NR4A1 and, unlike NR4A1 (which matches only the
+conserved structural core 411/481/485), each overlaps **two selectivity handles** (MR 406/407; AR 407/410).
+They **cannot be dismissed on sequence alone.** Three facts bound the concern without waving it away: they miss
+most of the pocket, including the core residues 411/481 that even the paralogues retain; their overall LBD
+identity (~0.32) sits only marginally above the confidence floor, so the handle "matches" carry genuine
+alignment uncertainty (a distant global alignment can mis-register a two-residue run); and — decisively — the
+warhead binds a **cryptic** pocket, an *induced* NR4A3 conformation that AR/MR (each with its own well-formed
+orthosteric pocket) are not shown to reproduce. This is precisely the **necessary-not-sufficient** logic the
+screen was built to expose: pocket-residue sequence resemblance **prioritises**, it does not **certify**. The
+honest output is a *shortlist, not a clearance* — **AR and MR are the NRs an energetic cross-binding check
+(docking/FEP into their LBDs plus a cryptic-pocket-formation test) must clear** before the selectivity claim
+extends past the paralogues; off-target AR activity is in any case a routine developability counter-screen. The
+other 43 NRs either fall well below the paralogues on pocket identity or coincide only at low homology where the
+mapping is unreliable. **Net:** at superfamily scale the primary selectivity liability remains the two
+paralogues we already address, with MR/AR named as the sole sequence-level non-paralogue follow-ups — a
+breadth statement the two-paralogue comparison could not make.
+
 ## 3. Indication landscape — a programmable selectivity matrix (EMC is the entry point, not the endpoint)
 Detail + references: [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md).
 The family-wide ensembles (§2.4) let a degrader be designed for a chosen NR4A *combination*. A cell of
@@ -659,7 +697,12 @@ druggable receptor for all downstream design is extracted from the release traje
 (`nr4a3_release_druggable.py`).
 Calibration: NR-LBD panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)).
 Falsification: pre-registered gates ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)).
-Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Family-wide ensembles:** the *same*
+Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Superfamily liability screen (§2.7, A4/D4):**
+`nr4a_superfamily_selectivity.py` queries UniProt for every reviewed human NR (family:"nuclear hormone
+receptor family", organism 9606; no hardcoded accessions), globally aligns each to NR4A3/Q92570 with the same
+BLOSUM62 aligner as `nr4a3_resistance_map.py`, maps the ten warhead-pocket residues, and scores pocket-residue
+identity/similarity plus overall LBD identity as a mapping-confidence axis; NR4A1/2 are built-in positive
+controls. Pure scoring core unit-tested (`test_superfamily_selectivity.py`). **Family-wide ensembles:** the *same*
 metadynamics pipeline is run on NR4A1 (P22736) and NR4A2 (P43354) — one target-agnostic script whose
 paralogue LBD trim + Pocket-5 CV residues are mapped to NR4A3 by the same BLOSUM62 alignment, with
 fail-loud guards + an audit log — to produce state-matched opened-pocket ensembles for the selectivity
