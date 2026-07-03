@@ -19,22 +19,18 @@ jobs:
           curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
           bash /tmp/mf.sh -b -p "$HOME/mf"
           echo "$HOME/mf/bin" >> "$GITHUB_PATH"
-      - name: Find a yank-compatible openmmtools (has alchemy._ALCHEMICAL_REGION_ARGS)
+      - name: Build the EXACT fep env + deep-import yank (batch-catch import/version issues for free)
         run: |
-          # yank 0.25.2 needs openmmtools.alchemy._ALCHEMICAL_REGION_ARGS (removed in newer openmmtools).
-          # conda-forge's yank pin is too loose (co-installs openmmtools 0.25 which lacks it → runtime
-          # AttributeError). Test candidate pins with a DEFINITIVE check for that exact attribute (import-only
-          # checks miss it — it bites at alchemy-setup time). Report which candidate is usable.
-          set +e
-          for V in "" "openmmtools=0.21.5" "openmmtools=0.21.2" "openmmtools=0.20.4" "openmmtools=0.20.0"; do
-            name="yk_$(echo "$V" | tr -cd 'a-zA-Z0-9')"
-            echo "======================================================================"
-            echo "### candidate: yank ${V:-<unpinned>}"
-            conda create -y -n "$name" --override-channels -c conda-forge yank $V >/tmp/solve.log 2>&1
-            if [ $? -ne 0 ]; then echo "  SOLVE FAILED"; tail -3 /tmp/solve.log; continue; fi
-            conda list -n "$name" | grep -Ei "^(yank|openmm|openmmtools|numpy|python) " | awk '{print "  "$1" "$2}'
-            # pass code via -c (NOT stdin: conda run does not forward stdin, so `python - <<HEREDOC` runs nothing)
-            conda run -n "$name" python -c "from openmmtools import alchemy; import yank; print('  _ALCHEMICAL_REGION_ARGS present:', hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'), '->', 'USABLE' if hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS') else 'BROKEN')" 2>&1 | sed 's/^/  /'
-          done
-          echo "======================================================================"
-          echo "Pick the lowest-friction USABLE candidate for entry_fep.py."
+          # Build the exact env entry_fep.py creates, then FULLY import yank (exercises collections.MutableMapping
+          # [py<3.10], pkg_resources [setuptools<81], alchemy._ALCHEMICAL_REGION_ARGS [openmmtools 0.21.2], and
+          # the yank YAML machinery). This catches the whole import/version-decay class for free (~10 min) instead
+          # of ~$0.20 + 30 min per SageMaker shard. Cannot test GPU/LEaP/HREX — that still needs a real shard.
+          set -x
+          conda create -y -n fep --override-channels -c conda-forge \
+            python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
+          echo "=== resolved versions ==="
+          conda list -n fep | grep -Ei "^(python|yank|openmm|openmmtools|ambertools|setuptools|openbabel|numpy|pymbar) " | awk '{print "  "$1" "$2}'
+          echo "=== deep import check ==="
+          conda run -n fep python -c "import yank; from yank.experiment import ExperimentBuilder; from openmmtools import alchemy; import openmm; assert hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'); print('DEEP_IMPORT_OK yank', yank.__version__, 'openmm', openmm.version.version)"
+          echo "=== obabel CLI present? ==="
+          conda run -n fep bash -c "which obabel && obabel -V" 2>&1 | sed 's/^/  /'
