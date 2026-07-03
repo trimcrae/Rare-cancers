@@ -244,6 +244,17 @@ collapse as bias-induced strain?); it has now **run and resolved POSITIVE** — 
 druggable in ~24 % of unbiased frames when seeded at the low-energy druggable frame — so the metastability
 question is **resolved**, as an induced-fit cavity (see the release-run paragraph above).)*
 
+**The opened frame is an intact fold, not a metad-melted one (structural-sanity control).** Because every
+downstream step (docking, MM-GBSA, the ternary, and the FEP below) is anchored to the opened NR4A3 frame, we
+verified that opening the pocket did not *unfold* the LBD. The opened frame is elongated (~99 Å long axis vs
+~45 Å for a compact LBD), which a reviewer could read as an over-driven metadynamics artifact — so we measured
+it directly (`nr4a3_frame_sanity.py`): against the pre-metad AF2 LBD, the opened frame **retains 100 % of the
+helical content** (DSSP helix fraction 0.602 vs 0.594; retention 1.01) and its folded **core superimposes to
+1.76 Å Cα-RMSD** (1.78 Å including the pocket mouth). So the fold is intact and the elongation is a **floppy,
+disordered N-terminal hinge** (the ~22 residues before the LBD core) swinging out — not a melt. This both
+validates the frame used throughout and licenses trimming that disordered hinge for the explicit-solvent FEP
+(§4), which is standard practice (ABFE is run on the folded domain, not a disordered tail).
+
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
 identifies, among the **10 Pocket-5 lining residues**, **7 divergent** ones — L406, T407, T410, R412,
@@ -723,7 +734,17 @@ MM-GBSA endpoint rescoring of the matrix's docked poses (OpenMM + OpenFF/GAFF-2.
 AM1-BCC charges; `nr4a3_mmgbsa.py`, OpenCL on the A10G), emitting a per-candidate verdict
 (confirmed_selective / reversed / weakened / rescued) vs the docking margins; magnitudes are inflated
 (no entropy/ensemble average) and read as direction, not affinity; selectivity FEP on the lead is the next
-(unrun) tier. **De-novo design:** a selectivity blueprint (`denovo_blueprint.py` → `nr4a3-denovo-blueprint.json`)
+tier (harness built, running — result pending). **Selectivity FEP (absolute binding free energy).** One Yank
+absolute-binding-FEP experiment per receptor (NR4A3/NR4A1/NR4A2): explicit-solvent (TIP3P, PME) double-
+decoupling of `denovo_401` with a Boresch orientational restraint + its analytical standard-state correction,
+an auto-trailblazed λ path, Hamiltonian replica exchange, and MBAR → ΔG_bind directly; the NR4A3-vs-paralogue
+**ΔΔG** is the selectivity read-out (`nr4a3_fep.py`; ff14SB + GAFF2 + AM1-BCC; OpenCL on the A10G; SageMaker
+managed-spot, per-receptor S3 checkpointing so a spot interruption resumes mid-experiment). **Receptor prep for
+FEP:** the docked opened frame is cleaned with `pdb4amber` (LEaP-compatible, drops MD hydrogens/waters) and its
+**disordered N-terminal hinge is trimmed to the folded LBD core** (`_trim_floppy_termini`, adaptive, pocket
+never trimmed) — justified by the structural-sanity control (§2.2: fold intact, core RMSD 1.76 Å) and standard
+for ABFE (run on the folded domain, not the disordered tail); this also keeps the explicit-solvent box within a
+single commodity GPU. **De-novo design:** a selectivity blueprint (`denovo_blueprint.py` → `nr4a3-denovo-blueprint.json`)
 classifies the Pocket-5 lining residues into the five engageable selective handles (four discriminating
 both paralogues — L406/T410/I484/L534 — and the NR4A1-only lever I531) vs the conserved core
 (P411/R481/R485), weighting the both-paralogue handles in the selective campaign; DiffSBDD pocket-conditioned

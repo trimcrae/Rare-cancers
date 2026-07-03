@@ -18,6 +18,19 @@ Everything that advances the FEP empirically routes through the GitHub MCP conne
 **To resume: re-authorize the GitHub connector** (claude.ai connector settings), then dispatch the one command
 in "RESUME" below. That single dispatch restores BOTH dispatch and `get_job_logs`.
 
+## ✅ 2026-07-03 ~10:45Z — RESOLVED + RUNNING. Frame validated, hinge trimmed, single-shard FEP relaunched on g5.xlarge.
+Fold-sanity check (`nr4a3_frame_sanity.py`, run 28655050752) = **FOLD INTACT**: opened frame retains 100 % of the
+AF2 LBD helix content (0.602 vs 0.594; retention 1.01) and its core superimposes to **1.76 Å Cα-RMSD** — the ~99 Å
+elongation is a floppy N-terminal hinge, not a melt. So (a) the opened frame used across the paper is validated
+(folded into §2.2), and (b) trimming the hinge for FEP is licensed. `_trim_floppy_termini` now drops the
+disordered terminal tails before solvation → compact box → **fits the quota-available g5.xlarge**. Relaunched
+under a FRESH checkpoint tag `nr4a3-fep-trim` (so resume_setup rebuilds with the trimmed receptor, not the old
+190k-atom system): job `nr4a3-fep-trim-0-2026-07-03-10-45-14`, mode=run n_shards=1 g5.xlarge spot.
+**Next:** monitor CloudWatch (tag `nr4a3-fep-trim`) → if it reaches HREX sampling, fan out `n_shards=3`
+(`gpu-fep-aws.yml mode=run tag=nr4a3-fep-trim n_shards=3`) → `mode=monitor` early-stop → `mode=reduce` for the
+NR4A3-vs-paralogue ΔΔG → fold as the headline (§2 + abstract; flip the "FEP unrun" framing). Methods already
+folded (§4). `report_fep.py`/`fep_monitor.py` read the per-receptor ΔG (pass the same tag).
+
 ## 2026-07-03 ~07:50Z — FEP driven through 3 fixed bugs to a 4th (receptor box / quota) that needs a decision
 Single-shard shakeout with the self-diagnosing harness peeled back, in order (each fixed + pushed):
 1. **Water model** — Yank defaults `solvent_model` to tip4pew (EPW extra-point) but YAML loaded `leaprc.water.tip3p`
