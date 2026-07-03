@@ -63,16 +63,18 @@ submitted.
 - [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) — degrader vs. BRD9 head-to-head
 - [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md) — beyond-EMC motivation for the degrader (NR4A3-fusion sarcomas; NR4A in T-cell exhaustion / immuno-oncology; the AML tumour-suppressor contraindication)
 
-## Scaffolded / gated future paper (not yet a draft)
+## Surface-antigen preprint (red-teamed; hypothesis-generating, seeks validation data)
 
-- [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md) — **SCAFFOLD, gated on real EMC
-  surface data** (trimcrae 2026-07-03). A *target-class* paper on EMC **surface antigens** for delivery +
-  immunotherapy (AOC / ADC / T-cell engager / CAR / radioligand) — a **different thesis and modality axis**
-  from the fusion-junction ASO, spun out of that paper's delivery section (§3c). Consolidates the surfaceome
-  scan (`emc_surfaceome_scan.py`) + the surface-modality memos (`car-t-strategies-emc.md`,
-  `emerging-modalities-scan-emc.md`). Becomes a real draft once the USZ/NCC EMC-line surface immunophenotype/
-  RNA-seq lands (ASO §4 outreach) and the GTEx/HPA normal-tissue window is applied. Currently surrogate-only —
-  makes **no** EMC-specific surface claim.
+- [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md) — **full preprint** (trimcrae
+  2026-07-03): a *target-class* paper on EMC **surface antigens** for delivery + immunotherapy (ADC / TCE /
+  CAR / radioligand) — a different thesis/modality axis from the fusion-junction ASO. Deliberately
+  self-critical after two red-team passes ([`emc-surface-target-redteam.md`](./emc-surface-target-redteam.md)):
+  rigorous selectivity + a hard normal-tissue window show **B7-H3 is not selective** and the selective
+  candidates carry window liabilities, so the honest result refines priorities and nominates a neuroendocrine
+  **SSTR2/GD2** route rather than declaring winners. Uses the one real EMC line in DepMap (**H-EMC-SS /
+  ACH-001519**, n=1). Ready-to-send author outreach: [`emc-surface-target-outreach.md`](./emc-surface-target-outreach.md).
+  Makes **no** EMC-validated surface claim; the decisive protein-level validation needs the patient-derived
+  EMC lines.
 
 ## Earlier treatment-track drafts — subsumed by the roadmap
 

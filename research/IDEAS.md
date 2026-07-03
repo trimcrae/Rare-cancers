@@ -41,17 +41,24 @@ proxy. See `emc-treatment-strategy.md` → "two paths" + "in-silico work program
 | **Fusion-junction ASO / siRNA** (`manuscripts/fusion-junction-aso-paper.md`; `novel-modalities.md` §3.2) | **PRIORITY PAPER (2026-06-26) — one of the two to publish first, with the degrader.** Fusion-EXCLUSIVE (spares wild-type NR4A3, which the degrader cannot); most-likely-to-work fusion-unique route. In-silico arc complete: design → transcriptome-wide off-target → per-breakpoint favorability scan (canonical junction GC-rich/specificity-poor, but **62% of modelled breakpoints favorable**) → gap-mismatch-resolved screen finds **predicted-clean gapmers (2/5) at a favorable breakpoint**. | ★ DONE: gapmer + siRNA design, off-target screen, breakpoint scan, gap-resolved cleavage-risk (all CPU, via GitHub Actions). ★ DONE (2026-07-03): full **real exon-3 junction panel** (EWSR1 e7/9/10/11/12/13::e3) gapmer+siRNA+off-target, **gap-level discrimination margin** (retires the overstating oligo-wide margin, red-team F3). ★ **GPU TO-DO (one high-value run):** physics-based **RNase-H1 cleavage-discrimination MD** to retire the conservative "gap-mismatch ⇒ non-cleaving" heuristic and lift the paper to the degrader's rigor tier on specificity (spec in `manuscripts/fusion-junction-aso-paper.md` §8; small/cheap; validate-one-shard-first; **not a gate on preprinting**). **Remaining dominant gate = tumour DELIVERY** (engineering, not biology; not in-silico-solvable today — now watched two ways in `method-watch.md`: a delivery *predictor* AND a delivery *technology/candidate* incl. an EMC-enriched surface antigen). Wet-lab ask: junction-knockdown + parental-sparing in EMC lines. |
 | **Vaccine / HLA-coverage paper** | **PARKED** (done, not a treatment path; self-adjacent junction in a cold tumour = weak immunogen). `hla-coverage-emc.md`. | Never built: (a) reality filters (distance-to-self/tolerance + anchor-vs-TCR position); (b) breakpoint-recurrence quant. `coverage_scan.py` §3.3 numbers + `coverage-curve.png` await a `modalities-cache` snapshot. **Reusable:** its HLA-A\*02 coverage feeds TCR-T eligibility above. |
 
-**Shared rate-limiter for every route:** EMC is nearly absent from public functional-genomics data
-(only new patient-derived lines: NCC-EMC1-C1 2025; USZ-EMC). The decisive experiment of *every*
-route needs those lines — that bottleneck, not idea-generation, is the real constraint.
+**Shared rate-limiter for every route:** EMC is nearly absent from public functional-genomics data.
+**Correction (2026-07-03): DepMap DOES contain one EMC line — ACH-001519 / H-EMC-SS (OncotreeSubtype
+"Extraskeletal Myxoid Chondrosarcoma")** — so "EMC has no DepMap line" (repeated across these memos) is
+wrong; there is one (n=1, expression only; CRISPR-dependency/authentication [to verify]). Its surface
+transcriptome is used in the surface-target preprint. Still, n=1 + the new patient-derived lines
+(NCC-EMC1-C1 2025; USZ-EMC) are the real data; that bottleneck, not idea-generation, is the constraint.
 
 **Surface-target routes are being consolidated into their own paper (2026-07-03).** The B7-H3 ADC/CAR-T,
 FAP-RLT, CD56 and PRAME surface/immuno routes above share one input — *which antigen is on an EMC cell* —
 and one modality logic (less delivery-gated than the ASO, but not fusion-exclusive). They now feed a
-**scaffolded, gated** target-class manuscript, [`manuscripts/emc-surface-target-landscape.md`](./manuscripts/emc-surface-target-landscape.md),
-built on the unbiased surfaceome scan (`modalities/emc_surfaceome_scan.py`: B7-H3 broad-but-non-selective;
-CDH11/FGFR1/GPC2/PTK7/MCAM more selective — surrogate). It becomes a real draft when the USZ/NCC EMC-line
-surface data lands (outreach, ASO §4) + the GTEx/HPA normal-tissue window is applied.
+**full, red-teamed preprint**, [`manuscripts/emc-surface-target-landscape.md`](./manuscripts/emc-surface-target-landscape.md)
+(+ [`emc-surface-target-redteam.md`](./manuscripts/emc-surface-target-redteam.md), [`emc-surface-target-outreach.md`](./manuscripts/emc-surface-target-outreach.md)).
+Honest headline after two red-team passes + the H-EMC-SS discovery: **B7-H3 is NOT selective (BH q=1.0);
+CD56/CDH11/PTK7/KIT carry normal-tissue/immune liabilities; the intersection of selective AND
+normal-tissue-restricted is empty among classic antigens.** The surviving leads follow EMC's neuroendocrine
+differentiation: **SSTR2** (approved ¹⁷⁷Lu-DOTATATE theranostic) and **GD2**. Real EMC data (USZ/NCC lines;
+H-EMC-SS is only n=1) is the gate — outreach emails drafted. Modalities: ADC/CAR/TCE/RLT — less oligo-delivery-
+gated but hit EMC's myxoid-matrix penetration barrier; and they sacrifice fusion-exclusivity.
 
 **Speculative / forward-looking (AI-era), kept honest:** de-novo binder/TCR design (diffusion
 models) to manufacture the warhead or TCR a route lacks; AI structure (AF3) for ternary/PPI
