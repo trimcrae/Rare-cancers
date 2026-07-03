@@ -126,6 +126,21 @@ read it before making changes.
   checkpoint dir. **Only stay on-demand when spot genuinely can't work:** the job truly cannot checkpoint, or the
   needed instance type has **no spot quota** (e.g. `ml.g5.4xlarge` spot quota was 0 — a bigger-RAM need may force
   on-demand or a quota-raise). Prefer spot; justify on-demand.
+  - **A TRANSIENT SPOT-CAPACITY OUTAGE IS *NOT* A REASON TO SWITCH TO ON-DEMAND — WAIT (trimcrae, 2026-07-03,
+    after I did exactly the wrong thing).** When a spot job sits in `[Starting] Insufficient capacity error from
+    EC2 while launching instances, retrying!`, that is temporary EC2 capacity, **not** the "spot can't work"
+    exception (which is *permanent*: can't-checkpoint, or spot-quota-0). The correct response is to **do nothing**:
+    the job is checkpointed, `max_wait` is ~20 h, it burns $0 while parked, and it **auto-resumes the instant
+    capacity returns** (a mass g5.xlarge outage on 2026-07-03 cleared within hours and all shards resumed on
+    their own). **Do NOT** stop the parked jobs, spin up on-demand replacements, probe on-demand quota, or build
+    stop/relaunch tooling to "rescue" the run — that whole detour was wasted effort + real $ and had to be fully
+    reverted. **This is never a race** (§ Operating regime): no single result — not even the headline FEP ΔΔG —
+    justifies paying the on-demand premium to dodge a temporary outage. Extra reasons on-demand was the wrong
+    call here: on-demand *Training* g5.xlarge quota is **1**, so it runs **serial** (≈40–110 h for the 3-receptor
+    FEP) — *slower* than parked spot that resumes and runs **parallel** (K≤8, ≈5–14 h) — while costing ~3× (real
+    FEP: ~$18–60 spot vs ~$55–150 on-demand; do NOT trust the submitter's `UNIT_GPU_H=1` cost-note stub — it
+    under-quotes ABFE by ~15–30×). If a run is truly time-critical AND spot capacity is out for many hours,
+    **ask trimcrae before going on-demand** — don't decide it solo.
 - **VALIDATE A FAN-OUT GPU FLEET ON A SINGLE SHARD FIRST, then scale (trimcrae rule, 2026-07-03).** Any job
   that fans out N parallel GPU shards (the FEP fleet; any future spot fleet) must be shaken out with
   `n_shards=1` before launching all N — a failed env/wiring test on 8 shards burns 8× the compute for the
