@@ -47,6 +47,7 @@ jobs:
           TAG: ${{ inputs.tag }}
           N: ${{ inputs.n }}
           CKPT_PREFIX: ${{ inputs.ckpt_prefix }}
+          PDB_RESRANGE: ${{ inputs.pdb_resrange }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
