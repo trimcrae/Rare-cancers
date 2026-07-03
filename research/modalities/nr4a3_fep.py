@@ -308,6 +308,51 @@ def _dump_setup_logs(out_dir):
         print(f"  [leap-log] no setup logs found under {out_dir} (setup failed before writing any)", flush=True)
 
 
+# Yank's trailblaze phase writes its λ-path checkpoint NON-atomically: a spot interruption DURING that write
+# corrupts the .nc so yank refuses to resume ("The trailblaze algorithm was interrupted while writing the
+# checkpoint file and it is now unable to resume. Please delete the files in .../<receptor>/experiments/").
+# Confirmed on the nr4a1 shard, 2026-07-03. The remediation yank itself prescribes — delete the experiments/
+# store and restart — is safe because system SETUP (molecules/, systems/) lives OUTSIDE experiments/ and is
+# preserved, so only the alchemical sampling restarts (short trailblaze + iterations since the last good
+# checkpoint). We do it automatically so a spot kill self-heals inside the same job instead of bricking the
+# shard. This is the documented spot-exception handling, not a reason to abandon spot.
+_TRAILBLAZE_CORRUPT = ("trailblaze algorithm was interrupted", "unable to resume")
+
+
+def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=1):
+    """Run `yank script`, streaming to console AND capturing to yank_run.log (S3-synced, tail-able via the
+    status tool). On a trailblaze-checkpoint corruption (spot-kill mid-write), clear only <out_dir>/experiments/
+    and retry once with a fresh trailblaze — setup is preserved. Returns the final return code."""
+    import subprocess
+    log_path = os.path.join(out_dir, "yank_run.log")
+    attempts = 0
+    while True:
+        attempts += 1
+        with open(log_path, "w") as fh:
+            r = subprocess.Popen(["yank", "script", "--yaml", yaml_path],
+                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+            for line in r.stdout:                             # tee: live console + on-disk (S3-synced) capture
+                sys.stdout.write(line)
+                fh.write(line)
+            r.wait()
+        if r.returncode == 0:
+            return 0
+        try:
+            tail = open(log_path, errors="replace").read()[-8000:].lower()
+        except Exception:  # noqa: BLE001
+            tail = ""
+        corrupt = all(s in tail for s in _TRAILBLAZE_CORRUPT)
+        exp = os.path.join(out_dir, "experiments")
+        if corrupt and attempts <= max_restarts and os.path.isdir(exp):
+            print(f"[fep] {receptor}: trailblaze checkpoint corrupted by a spot interruption — clearing "
+                  f"{exp} and restarting the alchemical phase fresh (setup preserved; attempt {attempts}).",
+                  flush=True)
+            import shutil
+            shutil.rmtree(exp, ignore_errors=True)
+            continue
+        return r.returncode
+
+
 def run_real(unit, phase="prod"):
     """One full Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. phase='pilot' runs fewer
     iterations for a fast early-stop ΔΔG signal; 'prod' extends the SAME output dir to the full iteration
@@ -327,10 +372,10 @@ def run_real(unit, phase="prod"):
     yaml_path = os.path.join(out_dir, "experiment.yaml")
     open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_mol2, rec_pdb))
     print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
-    r = subprocess.run(["yank", "script", "--yaml", yaml_path])
-    if r.returncode != 0:
+    rc = _run_yank_resilient(receptor, yaml_path, out_dir)
+    if rc != 0:
         _dump_setup_logs(out_dir)                             # surface the real LEaP/antechamber diagnostic
-        raise RuntimeError(f"yank script failed for {receptor} (rc={r.returncode})")
+        raise RuntimeError(f"yank script failed for {receptor} (rc={rc})")
     dg, err = _parse_dg(out_dir)
     _write(unit, {"mode": "yank", "phase": phase, "dg_bind_kcal": round(dg, 3),
                   "ddg_err_kcal": round(err, 3), "n_iterations": n_iter, "_t": round(time.time() - t0, 1)})
