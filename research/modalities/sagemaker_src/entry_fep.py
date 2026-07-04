@@ -86,9 +86,13 @@ def main():
         #     LOOSE cap (not an exact netcdf4 pin) so the solver keeps parmed — an exact netcdf4=1.5.8 pin
         #     silently dropped parmed (yank's dep) and yank died with ModuleNotFoundError. Request parmed
         #     explicitly too, as a belt-and-suspenders against the same drop.
+        #   pymbar<4        : openmmtools 0.21.2 (2021) calls the pymbar 3.x API
+        #     (timeseries.subsampleCorrelatedData, MBAR camelCase) on the MBAR ANALYSIS path — which powers
+        #     both the online estimate AND the final ΔG. pymbar 4.x renamed these (snake_case) → AttributeError
+        #     at the first online analysis (iter 200) and would also kill the final ΔG. Pin to 3.x.
         subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
                         "python=3.9", "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel",
-                        "setuptools<81", "libnetcdf<4.9", "parmed"], check=True)
+                        "setuptools<81", "libnetcdf<4.9", "parmed", "pymbar<4"], check=True)
         subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
                         "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
         # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own
