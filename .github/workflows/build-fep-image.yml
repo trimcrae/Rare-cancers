@@ -61,7 +61,9 @@ jobs:
           ACCT=$(python -c "import boto3;print(boto3.client('sts').get_caller_identity()['Account'])")
           REG="$AWS_DEFAULT_REGION"
           # Resolve the EXACT SageMaker PyTorch DLC base that the estimator uses (framework 2.3 / py311 / g5).
-          BASE=$(python -c "import sagemaker,os;print(sagemaker.image_uris.retrieve(framework='pytorch',region=os.environ['AWS_DEFAULT_REGION'],version='2.3',py_version='py311',instance_type='ml.g5.xlarge',image_scope='training'))")
+          # tail -n1 + logging.disable: the sagemaker SDK prints "config INFO" lines to stdout, which otherwise
+          # get captured into BASE and corrupt the docker login address (multi-line URL).
+          BASE=$(python -c "import logging; logging.disable(logging.WARNING); import sagemaker,os; print(sagemaker.image_uris.retrieve(framework='pytorch',region=os.environ['AWS_DEFAULT_REGION'],version='2.3',py_version='py311',instance_type='ml.g5.xlarge',image_scope='training'))" | tail -n1)
           echo "BASE=$BASE  ACCT=$ACCT  REG=$REG"
           DLC_ACCT=$(echo "$BASE" | cut -d. -f1)
           # Login to the DLC account (pull base) and our account (push).
