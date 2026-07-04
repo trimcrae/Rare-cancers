@@ -251,41 +251,47 @@ def select_boresch_anchors(coords_nm, ligand_atoms, receptor_atoms,
     ValueError if no non-degenerate set exists (caller should widen the receptor atom pool)."""
     import math
     ang_lo, ang_hi = math.radians(ang_lo_deg), math.radians(ang_hi_deg)
+    c = coords_nm
+
+    def _far(cands, ref):
+        return sorted(cands, key=lambda a: -_nrm(_sub(c[a], c[ref])))
+
+    def _ok(a, b, d):                                        # angle a-b-d inside the safe window
+        return ang_lo <= _ang3(c[a], c[b], c[d]) <= ang_hi
+
     lig = list(ligand_atoms)
     if len(lig) < 3:
         raise ValueError("need ≥3 ligand atoms for a Boresch restraint")
-    cen = tuple(sum(coords_nm[a][k] for a in lig) / len(lig) for k in range(3))
-    L0 = min(lig, key=lambda a: _nrm(_sub(coords_nm[a], cen)))
-    L1 = max(lig, key=lambda a: _nrm(_sub(coords_nm[a], coords_nm[L0])))
-    # L2: farthest from the infinite line through L0-L1 (largest perpendicular distance → non-collinear)
-    d01 = _sub(coords_nm[L1], coords_nm[L0])
+    cen = tuple(sum(c[a][k] for a in lig) / len(lig) for k in range(3))
+    L0 = min(lig, key=lambda a: _nrm(_sub(c[a], cen)))
+    # R0: nearest receptor atom to L0 within the distance window (avoids r0≈0; keeps the anchor pocket-local).
+    cand = [a for a in receptor_atoms if r_min_nm <= _nrm(_sub(c[a], c[L0])) <= r_max_nm]
+    if not cand:
+        raise ValueError(f"no receptor anchor within [{r_min_nm},{r_max_nm}] nm of the ligand — widen the pool")
+    R0 = min(cand, key=lambda a: _nrm(_sub(c[a], c[L0])))
+    # L1 (chosen AFTER R0): farthest ligand atom keeping thetaB = angle(R0,L0,L1) non-degenerate — thetaB
+    # enters the SSC as sin, so R0/L0/L1 must NOT be collinear (the bug the round-trip smoke caught).
+    L1 = next((a for a in _far([x for x in lig if x != L0], L0) if _ok(R0, L0, a)), None)
+    if L1 is None:
+        raise ValueError("no ligand L1 giving a non-degenerate thetaB — widen the ligand/receptor pools")
+    # R1: farthest receptor atom keeping thetaA = angle(R1,R0,L0) non-degenerate (also enters the SSC as sin).
+    R1 = next((a for a in _far([x for x in receptor_atoms if x != R0], R0) if _ok(a, R0, L0)), None)
+    if R1 is None:
+        raise ValueError("no receptor R1 giving a non-degenerate thetaA — widen the pool")
+    # L2: farthest ligand atom off the L0–L1 line (largest perpendicular distance → phiC dihedral well-defined).
+    d01 = _sub(c[L1], c[L0])
     n01 = _nrm(d01) or 1.0
     u01 = (d01[0] / n01, d01[1] / n01, d01[2] / n01)
 
     def _perp(a):
-        v = _sub(coords_nm[a], coords_nm[L0])
+        v = _sub(c[a], c[L0])
         proj = _dot(v, u01)
         return _nrm(tuple(v[i] - proj * u01[i] for i in range(3)))
     L2 = max((a for a in lig if a not in (L0, L1)), key=_perp)
-
-    cand = [a for a in receptor_atoms
-            if r_min_nm <= _nrm(_sub(coords_nm[a], coords_nm[L0])) <= r_max_nm]
-    if not cand:
-        raise ValueError(f"no receptor anchor within [{r_min_nm},{r_max_nm}] nm of the ligand — widen the pool")
-    R0 = min(cand, key=lambda a: _nrm(_sub(coords_nm[a], coords_nm[L0])))
-    # R1: farthest receptor atom giving thetaA = angle(R1,R0,L0) inside the safe window
-    R1_opts = sorted((a for a in receptor_atoms if a != R0),
-                     key=lambda a: -_nrm(_sub(coords_nm[a], coords_nm[R0])))
-    R1 = next((a for a in R1_opts if ang_lo <= _ang3(coords_nm[a], coords_nm[R0], coords_nm[L0]) <= ang_hi), None)
-    if R1 is None:
-        raise ValueError("no receptor R1 giving a non-degenerate thetaA — widen the pool")
-    # R2: farthest receptor atom giving angle(R2,R1,R0) inside the safe window (non-collinear third anchor)
-    R2_opts = sorted((a for a in receptor_atoms if a not in (R0, R1)),
-                     key=lambda a: -_nrm(_sub(coords_nm[a], coords_nm[R1])))
-    R2 = next((a for a in R2_opts if ang_lo <= _ang3(coords_nm[a], coords_nm[R1], coords_nm[R0]) <= ang_hi), None)
+    # R2: farthest receptor atom keeping angle(R2,R1,R0) non-degenerate (well-defined phiA dihedral).
+    R2 = next((a for a in _far([x for x in receptor_atoms if x not in (R0, R1)], R1) if _ok(a, R1, R0)), None)
     if R2 is None:
         raise ValueError("no receptor R2 giving a non-degenerate angle — widen the pool")
-    c = coords_nm
     return {
         "receptor_anchors": [int(R2), int(R1), int(R0)], "ligand_anchors": [int(L0), int(L1), int(L2)],
         "r0_A": _nrm(_sub(c[R0], c[L0])) * 10.0,
@@ -566,11 +572,32 @@ def _check_boresch_restraint():
     assert e1 > 0.5, f"restraint did not penalise displacement: {e1}"
     ssc = boresch_standard_state_correction(r0, thetaA, thetaB, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0)
     assert math.isfinite(ssc), ssc
-    # cross-check: the restraint built from select_boresch_anchors' own geometry is ALSO ~0 at that geometry.
-    sel = select_boresch_anchors(c, ligand_atoms=[3, 4, 5], receptor_atoms=[0, 1, 2],
-                                 r_min_nm=0.3, r_max_nm=0.9)
-    assert sel["ligand_anchors"][0] in (3, 4, 5) and sel["receptor_anchors"][-1] in (0, 1, 2)
+    _check_anchor_selection_roundtrip()
     return ssc
+
+
+def _check_anchor_selection_roundtrip():
+    """End-to-end: select_boresch_anchors on a non-degenerate point cloud → build that restraint → its energy is
+    ~0 at the SAME coordinates (the selector reports the pose's actual geometry as the reference)."""
+    import openmm
+    from openmm import unit
+    # 4 ligand atoms (cluster near origin) + 5 receptor atoms (~0.5 nm away, well spread, non-collinear).
+    coords = [(0.0, 0.0, 0.0), (0.15, 0.0, 0.0), (0.0, 0.15, 0.0), (0.05, 0.05, 0.12),   # ligand 0-3
+              (0.50, 0.00, 0.00), (0.60, 0.30, 0.00), (0.55, -0.20, 0.20),               # receptor 4-6
+              (0.70, 0.10, -0.20), (0.50, 0.25, 0.25)]                                    # receptor 7-8
+    sel = select_boresch_anchors(coords, ligand_atoms=[0, 1, 2, 3], receptor_atoms=[4, 5, 6, 7, 8])
+    assert sel["ligand_anchors"][0] == 0 and sel["receptor_anchors"][-1] in (4, 5, 6, 7, 8)
+    system = openmm.System()
+    for _ in coords:
+        system.addParticle(12.0 * unit.amu)
+    add_boresch_restraint(system, receptor_atoms=sel["receptor_anchors"], ligand_atoms=sel["ligand_anchors"],
+                          r0_A=sel["r0_A"], thetaA0_rad=sel["thetaA0_rad"], thetaB0_rad=sel["thetaB0_rad"],
+                          phiA0_rad=sel["phiA0_rad"], phiB0_rad=sel["phiB0_rad"], phiC0_rad=sel["phiC0_rad"])
+    integ = openmm.VerletIntegrator(1.0 * unit.femtosecond)
+    ctx = openmm.Context(system, integ, openmm.Platform.getPlatformByName("CPU"))
+    ctx.setPositions([openmm.Vec3(*p) for p in coords])
+    e = ctx.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilocalorie_per_mole)
+    assert abs(e) < 1e-3, f"selector→restraint round-trip energy not ~0 at the pose: {e}"
 
 
 def _cli():

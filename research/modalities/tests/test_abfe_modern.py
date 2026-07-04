@@ -144,3 +144,23 @@ def test_select_boresch_anchors_raises_when_no_receptor_in_window():
         assert False, "should have raised when no receptor anchor is within the distance window"
     except ValueError:
         pass
+
+
+def test_select_boresch_anchors_avoids_collinear_thetaB():
+    import math
+    # Ligand atom 1 is the FARTHEST from L0 but COLLINEAR with R0 & L0 on the x-axis. A naive "L1 = farthest"
+    # would give thetaB = angle(R0,L0,L1) = 0° (degenerate → the SSC's sin θB → 0 → blows up). The selector must
+    # instead pick a non-collinear L1 (atom 2). Regression for the bug the smoke round-trip caught.
+    coords = [
+        (0.00, 0.00, 0.00),   # 0 ligand L0
+        (0.20, 0.00, 0.00),   # 1 ligand — farthest from L0 but collinear with R0 & L0
+        (0.00, 0.18, 0.03),   # 2 ligand — off-axis (valid L1)
+        (0.50, 0.00, 0.00),   # 3 receptor R0 (nearest L0; on the x-axis)
+        (0.62, 0.30, 0.05),   # 4 receptor
+        (0.55, -0.22, 0.25),  # 5 receptor
+        (0.72, 0.08, -0.20),  # 6 receptor
+    ]
+    sel = abfe.select_boresch_anchors(coords, ligand_atoms=[0, 1, 2], receptor_atoms=[3, 4, 5, 6])
+    assert sel["ligand_anchors"][0] == 0
+    assert sel["ligand_anchors"][1] != 1, "L1 must not be the collinear atom 1"
+    assert math.radians(30) <= sel["thetaB0_rad"] <= math.radians(150), math.degrees(sel["thetaB0_rad"])
