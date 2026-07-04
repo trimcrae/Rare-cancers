@@ -11,6 +11,12 @@ MONITOR ~every 40min: if status resets to Starting/Downloading or iteration drop
 stop_names=nr4a3-fep-sn-0-2026-07-04-15-58-00-010`. (A crash/exit-failure does NOT auto-resume — only spot
 interruptions do.) Clean finish ~11:12pm ET 07-04 → read verdict. ALL TIMES ET (EDT=UTC-4).
 
+## ▶ MODERN STACK BUILD STARTED (trimcrae, 2026-07-04): modern independent-λ-window ABFE is now the GO-FORWARD
+engine (Yank = fallback only IF its NR4A3 run finishes clean). Design: `nr4a3_abfe_modern_design.md`.
+Scaffold: `nr4a3_abfe.py` (pure glue done+tested: λ schedule, u_kn assembly, per-iter reduced-potential log;
+physics stubbed). Every-iteration checkpoint + convergence by design (small per-window files, no monolithic .nc).
+Build order in the design doc; next = step 2 (single-window MD + checkpoint/resume, CPU smoke then 1 GPU window).
+
 ## Goal
 Converged selectivity **ΔΔG = ΔG_bind(NR4A3) − ΔG_bind(NR4A1/NR4A2)** for lead `denovo_401`.
 Negative ΔΔG = NR4A3-selective (the paper's headline). Yank ABFE, one experiment per receptor.
