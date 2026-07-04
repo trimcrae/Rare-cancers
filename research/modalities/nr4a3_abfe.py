@@ -138,6 +138,62 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
     return n_iter
 
 
+def boresch_standard_state_correction(r0_A, thetaA0_rad, thetaB0_rad,
+                                      K_r, K_thetaA, K_thetaB, K_phiA, K_phiB, K_phiC,
+                                      temperature_K=300.0):
+    """Analytical standard-state free energy of the Boresch orientational restraint (Boresch et al. 2003,
+    J Phys Chem B, eq. 32) — the correction added to the double-decoupling ΔG so the result is at the 1 M
+    standard state. PURE math (no openmm) → unit-testable. Force constants: K_r in kcal/mol/Å², all angular
+    K in kcal/mol/rad²; r0 in Å; angles in rad; radians treated as dimensionless (standard convention).
+
+        ΔG° = −RT ln [ (8π²·V°·√(K_r K_θA K_θB K_φA K_φB K_φC)) / (r0²·sinθA0·sinθB0·(2πRT)³) ]
+
+    V° = 1660.5395 Å³ (1 M). A stronger restraint (larger K, smaller r0) → more negative correction."""
+    import math
+    RT = 0.0019872041 * temperature_K                        # kcal/mol
+    V0 = 1660.5395                                            # Å³ (standard-state volume, 1 M)
+    num = 8.0 * math.pi ** 2 * V0 * math.sqrt(K_r * K_thetaA * K_thetaB * K_phiA * K_phiB * K_phiC)
+    den = (r0_A ** 2) * math.sin(thetaA0_rad) * math.sin(thetaB0_rad) * (2.0 * math.pi * RT) ** 3
+    return -RT * math.log(num / den)
+
+
+def add_boresch_restraint(system, receptor_atoms, ligand_atoms, r0_A, thetaA0_rad, thetaB0_rad,
+                          phiA0_rad, phiB0_rad, phiC0_rad,
+                          K_r=20.0, K_thetaA=20.0, K_thetaB=20.0, K_phiA=20.0, K_phiB=20.0, K_phiC=20.0):
+    """Add a Boresch 6-DOF orientational restraint (1 distance, 2 angles, 3 dihedrals) between 3 receptor
+    anchor atoms [R2,R1,R0] and 3 ligand anchor atoms [L0,L1,L2] as a CustomCompoundBondForce. Returns the
+    force. Pair with boresch_standard_state_correction() for the standard-state term. (Self-contained — does
+    not depend on Yank; the energy expression is the standard Boresch form.)"""
+    import openmm
+    from openmm import unit
+    kcal = unit.kilocalorie_per_mole
+    energy = ("0.5*K_r*(distance(p3,p4)-r0)^2"
+              "+0.5*K_thetaA*(angle(p2,p3,p4)-thetaA0)^2"
+              "+0.5*K_thetaB*(angle(p3,p4,p5)-thetaB0)^2"
+              "+0.5*K_phiA*(dphiA)^2+0.5*K_phiB*(dphiB)^2+0.5*K_phiC*(dphiC)^2;"
+              "dphiA=dA-floor(dA/(2*pi)+0.5)*2*pi; dA=dihedral(p1,p2,p3,p4)-phiA0;"
+              "dphiB=dB-floor(dB/(2*pi)+0.5)*2*pi; dB=dihedral(p2,p3,p4,p5)-phiB0;"
+              "dphiC=dC-floor(dC/(2*pi)+0.5)*2*pi; dC=dihedral(p3,p4,p5,p6)-phiC0;"
+              "pi=3.14159265358979")
+    f = openmm.CustomCompoundBondForce(6, energy)
+    for name, val, u in [("K_r", K_r, kcal / unit.angstrom ** 2),
+                         ("K_thetaA", K_thetaA, kcal / unit.radian ** 2),
+                         ("K_thetaB", K_thetaB, kcal / unit.radian ** 2),
+                         ("K_phiA", K_phiA, kcal / unit.radian ** 2),
+                         ("K_phiB", K_phiB, kcal / unit.radian ** 2),
+                         ("K_phiC", K_phiC, kcal / unit.radian ** 2),
+                         ("r0", r0_A, unit.angstrom),
+                         ("thetaA0", thetaA0_rad, unit.radian), ("thetaB0", thetaB0_rad, unit.radian),
+                         ("phiA0", phiA0_rad, unit.radian), ("phiB0", phiB0_rad, unit.radian),
+                         ("phiC0", phiC0_rad, unit.radian)]:
+        f.addGlobalParameter(name, (val * u))
+    R2, R1, R0 = receptor_atoms[-3], receptor_atoms[-2], receptor_atoms[-1]
+    L0, L1, L2 = ligand_atoms[0], ligand_atoms[1], ligand_atoms[2]
+    f.addBond([int(R2), int(R1), int(R0), int(L0), int(L1), int(L2)], [])
+    system.addForce(f)
+    return f
+
+
 def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False):
     """Read all windows' per-iteration jsonl → MBAR → leg ΔG (kcal/mol) + SE. With per_iteration=True, return
     the CONVERGENCE TRACE [(n_samples_per_window, dg, se)] by re-running MBAR on the first-n samples for
@@ -193,9 +249,72 @@ def smoke(out_dir=None, n_iter=5, steps_per_iter=20):
     # step 3: MBAR reduce → leg ΔG + per-iteration convergence trace (the every-iteration monitoring, e2e)
     dg, se = reduce_leg(out_dir)
     trace = reduce_leg(out_dir, per_iteration=True)
+    # step 4: validate the Boresch restraint builds + is physical (0 at reference geom, +ve when displaced)
+    r_dg = _check_boresch_restraint()
     print(f"SMOKE_OK all {len(sched)} windows ran; checkpoint+resume OK; MBAR leg ΔG = {dg:.3f} ± {se:.3f} "
-          f"kcal/mol; convergence trace has {len(trace)} points (per-iteration). dir {out_dir}")
+          f"kcal/mol; convergence trace has {len(trace)} points (per-iteration); Boresch restraint OK "
+          f"(standard-state ΔG° = {r_dg:.3f} kcal/mol). dir {out_dir}")
     return dg
+
+
+def _check_boresch_restraint():
+    """Build a minimal 6-particle system, add the Boresch restraint at a chosen reference geometry, and verify
+    the restraint energy is ~0 there and strictly positive when the ligand is displaced. Returns the analytic
+    standard-state correction (also asserted finite). Physics check for build-step 4 — CPU, no MD."""
+    import math
+    import openmm
+    from openmm import unit
+    # 6 particles: receptor anchors R2,R1,R0 (0,1,2) then ligand anchors L0,L1,L2 (3,4,5).
+    system = openmm.System()
+    for _ in range(6):
+        system.addParticle(12.0 * unit.amu)
+    # A geometry with r0=5 Å, both anchor angles 90°, dihedrals 0 — coordinates (nm) chosen to realise it.
+    pos = [openmm.Vec3(-0.2, 0.1, 0.0), openmm.Vec3(-0.1, 0.1, 0.0), openmm.Vec3(0.0, 0.0, 0.0),
+           openmm.Vec3(0.5, 0.0, 0.0), openmm.Vec3(0.5, 0.1, 0.0), openmm.Vec3(0.5, 0.1, 0.1)]
+    import math as _m
+    r0 = _m.sqrt((0.5) ** 2) * 10.0                          # |L0-R0| in Å = 5.0
+    thetaA = _angle(pos[1], pos[2], pos[3]); thetaB = _angle(pos[2], pos[3], pos[4])
+    phiA = _dihedral(pos[0], pos[1], pos[2], pos[3]); phiB = _dihedral(pos[1], pos[2], pos[3], pos[4])
+    phiC = _dihedral(pos[2], pos[3], pos[4], pos[5])
+    add_boresch_restraint(system, receptor_atoms=[0, 1, 2], ligand_atoms=[3, 4, 5],
+                          r0_A=r0, thetaA0_rad=thetaA, thetaB0_rad=thetaB,
+                          phiA0_rad=phiA, phiB0_rad=phiB, phiC0_rad=phiC)
+    integ = openmm.VerletIntegrator(1.0 * unit.femtosecond)
+    ctx = openmm.Context(system, integ, openmm.Platform.getPlatformByName("CPU"))
+    ctx.setPositions(pos)
+    e0 = ctx.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilocalorie_per_mole)
+    assert abs(e0) < 1e-3, f"restraint energy not ~0 at reference geometry: {e0}"
+    disp = list(pos); disp[3] = openmm.Vec3(0.8, 0.0, 0.0)   # pull ligand anchor L0 away → stretch r
+    ctx.setPositions(disp)
+    e1 = ctx.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilocalorie_per_mole)
+    assert e1 > 0.5, f"restraint did not penalise displacement: {e1}"
+    ssc = boresch_standard_state_correction(r0, thetaA, thetaB, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0)
+    assert math.isfinite(ssc), ssc
+    return ssc
+
+
+def _angle(a, b, c):
+    import math
+    v1 = (a.x - b.x, a.y - b.y, a.z - b.z); v2 = (c.x - b.x, c.y - b.y, c.z - b.z)
+    dot = sum(i * j for i, j in zip(v1, v2))
+    n1 = math.sqrt(sum(i * i for i in v1)); n2 = math.sqrt(sum(i * i for i in v2))
+    return math.acos(max(-1.0, min(1.0, dot / (n1 * n2))))
+
+
+def _dihedral(a, b, c, d):
+    import math
+    b0 = (a.x - b.x, a.y - b.y, a.z - b.z); b1 = (c.x - b.x, c.y - b.y, c.z - b.z)
+    b2 = (d.x - c.x, d.y - c.y, d.z - c.z)
+    def cross(u, v):
+        return (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+    def norm(u):
+        n = math.sqrt(sum(i * i for i in u)); return (u[0] / n, u[1] / n, u[2] / n)
+    b1n = norm(b1)
+    v = [b0[i] - sum(b0[j] * b1n[j] for j in range(3)) * b1n[i] for i in range(3)]
+    w = [b2[i] - sum(b2[j] * b1n[j] for j in range(3)) * b1n[i] for i in range(3)]
+    x = sum(v[i] * w[i] for i in range(3))
+    y = sum(cross(b1n, v)[i] * w[i] for i in range(3))
+    return math.atan2(y, x)
 
 
 if __name__ == "__main__":

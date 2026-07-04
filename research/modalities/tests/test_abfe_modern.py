@@ -53,3 +53,29 @@ def test_append_reduced_potentials_writes_jsonl():
     assert len(lines) == 2
     assert lines[0]["w"] == 3 and lines[0]["iter"] == 0 and lines[0]["u"] == [0.0, 1.0, 2.0]
     assert lines[1]["iter"] == 1
+
+
+def test_boresch_ssc_reference_value():
+    # Independently hand-computed (Boresch 2003 eq.32) reference: r0=5 Å, both anchor angles = 90°
+    # (sin=1), K_r=10 kcal/mol/Å², all five angular K=100 kcal/mol/rad², T=300 K.
+    #   RT=0.59616123; num=8π²·1660.5395·√(10·100^5); den=25·(2π·RT)^3  →  ΔG° = -10.294 kcal/mol
+    import math
+    dg = abfe.boresch_standard_state_correction(
+        r0_A=5.0, thetaA0_rad=math.pi / 2, thetaB0_rad=math.pi / 2,
+        K_r=10.0, K_thetaA=100.0, K_thetaB=100.0, K_phiA=100.0, K_phiB=100.0, K_phiC=100.0,
+        temperature_K=300.0)
+    assert abs(dg - (-10.294060536)) < 1e-4, dg
+
+
+def test_boresch_ssc_stronger_restraint_more_negative():
+    # A tighter restraint (larger force constants, smaller r0) confines the ligand more → the free-energy
+    # cost of releasing it to the standard-state volume is larger, so ΔG° must become MORE negative.
+    import math
+    base = dict(thetaA0_rad=math.pi / 2, thetaB0_rad=math.pi / 2, temperature_K=300.0)
+    loose = abfe.boresch_standard_state_correction(
+        r0_A=5.0, K_r=10.0, K_thetaA=100.0, K_thetaB=100.0,
+        K_phiA=100.0, K_phiB=100.0, K_phiC=100.0, **base)
+    tight = abfe.boresch_standard_state_correction(
+        r0_A=2.5, K_r=40.0, K_thetaA=400.0, K_thetaB=400.0,
+        K_phiA=400.0, K_phiB=400.0, K_phiC=400.0, **base)
+    assert tight < loose, (tight, loose)
