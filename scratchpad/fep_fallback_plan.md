@@ -34,6 +34,15 @@ iter-630 gate de-risked (swap-all routine no longer used). WATCH: swap acceptanc
 early; widen λ ladder if it stays ~0 — feeds convergence check, not a blocker).
 Next: pilot ΔG → confirm past 630 → launch nr4a1,nr4a2 (on pre-baked image if build pushed) → reduce ΔΔG.
 
+## NR4A3 PILOT ΔG (2026-07-04 ~18:21 UTC) — NOT a verdict yet
+`report_fep`: **NR4A3 ΔG_bind = −15.7 ± 19.7 kcal/mol (pilot, 500 iters)**. Central value negative (suggests
+binding) BUT error ±19.7 is HUGE (> the value) → NOT a binding verdict; consistent with anything. Do NOT
+over-read (same discipline that discarded the old −10.5). Cause: 500 iters is short + swap-neighbors mixes
+slower than swap-all (acceptance 0/12 @ iter105 → 42.9% @ iter502, now healthy) → looser early error than the
+old swap-all pilot's ±2.3. NR4A3 now at **iter 502/3000 PROD**, stable, ETA converged ~05:38 UTC 07-05 (~11h).
+GATE UPDATE: pilot too noisy to gate NR4A2/NR4A1 — wait for PROD error to tighten to a clear sign. WATCH: if
+error still huge by ~iter 950 (~2h), that flags a convergence/overlap problem to investigate.
+
 ## FLEET STATE + NR4A2 GATE (2026-07-04 ~16:45 UTC)
 - **nr4a3** shard 0 (STOCK image): sampling pilot, the validated control.
 - **nr4a1** shard 1 (`nr4a3-fep-sn-1-2026-07-04-16-40-50-945`, PRE-BAKED image): **FAILED — NaN at Iteration 1**,
