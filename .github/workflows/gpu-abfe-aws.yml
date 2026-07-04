@@ -20,9 +20,21 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "plan | smoke | run | reduce"
+        description: "plan | smoke | hydration | run | reduce"
         default: "plan"
         required: true
+      hydration_smiles:
+        description: "mode=hydration: molecule SMILES for the accuracy gate"
+        default: "C"
+        required: false
+      hydration_name:
+        description: "mode=hydration: molecule label"
+        default: "methane"
+        required: false
+      hydration_known_dg:
+        description: "mode=hydration: published ΔG_hyd (kcal/mol) to compare against"
+        default: "2.0"
+        required: false
       tag:
         description: "S3 checkpoint tag/prefix (bump for a FRESH run)"
         default: "nr4a3-abfe"
@@ -108,6 +120,9 @@ jobs:
           RECEPTOR_PREFIX: ${{ inputs.receptor_prefix }}
           ABFE_IMAGE_URI: ${{ inputs.image_uri }}
           GIT_REF: ${{ inputs.git_ref }}
+          HYDRATION_SMILES: ${{ inputs.hydration_smiles }}
+          HYDRATION_NAME: ${{ inputs.hydration_name }}
+          HYDRATION_KNOWN_DG: ${{ inputs.hydration_known_dg }}
         run: |
           if [ "$MODE" != "plan" ] && [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."

@@ -58,6 +58,9 @@ def main():
     ap.add_argument("--steps-per-iter", default="500")
     ap.add_argument("--platform", default="CUDA")
     ap.add_argument("--prebaked", default="0")            # 1 → skip conda create (image has env `abfe`)
+    ap.add_argument("--hydration-smiles", default="C")   # accuracy gate: molecule SMILES (default methane)
+    ap.add_argument("--hydration-name", default="methane")
+    ap.add_argument("--hydration-known-dg", default="")   # published GAFF/TIP3P or exp ΔG_hyd (kcal/mol)
     a = ap.parse_args()
 
     subprocess.run(["nvidia-smi"], check=False)
@@ -74,6 +77,18 @@ def main():
         rc = _run_in_env(base, work, a.prebaked == "1")
         _copy_manifest()
         print(f"[abfe] smoke exit={rc}", flush=True)
+        raise SystemExit(rc)
+
+    if a.mode == "hydration":
+        out_dir = os.path.join(CKPT, "hydration", a.hydration_name)
+        cmd = ["python", "nr4a3_abfe.py", "--validate-hydration", "--smiles", a.hydration_smiles,
+               "--mol-name", a.hydration_name, "--out-dir", out_dir,
+               "--n-iter", a.n_iter, "--steps-per-iter", a.steps_per_iter, "--platform", a.platform]
+        if a.hydration_known_dg:
+            cmd += ["--known-dg", a.hydration_known_dg]
+        rc = _run_in_env(cmd, work, a.prebaked == "1")
+        _copy_manifest()
+        print(f"[abfe] hydration exit={rc}", flush=True)
         raise SystemExit(rc)
 
     if a.mode == "reduce":
@@ -128,7 +143,7 @@ def _copy_manifest():
     try:
         for root, _dirs, files in os.walk(CKPT):
             for f in files:
-                if f in ("meta.json",) or f.endswith("_dg_bind.json"):
+                if f in ("meta.json", "hydration_validation.json") or f.endswith("_dg_bind.json"):
                     shutil.copy(os.path.join(root, f), os.path.join(model_dir, f))
     except Exception as e:  # noqa: BLE001
         print(f"[abfe] (manifest copy skipped: {e})", flush=True)

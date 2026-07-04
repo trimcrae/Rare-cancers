@@ -104,6 +104,19 @@ def main():
         print("[abfe] SMOKE complete — modern env solves; spot + checkpoint + resume path works.")
         return
 
+    if MODE == "hydration":
+        # ACCURACY GATE: hydration free energy of a small molecule (solvent leg only) vs a known value.
+        name = os.environ.get("HYDRATION_NAME", "methane")
+        est = make_estimator(f"hydration-{name}", {**common, "mode": "hydration",
+                             "hydration-smiles": os.environ.get("HYDRATION_SMILES", "C"),
+                             "hydration-name": name,
+                             "hydration-known-dg": os.environ.get("HYDRATION_KNOWN_DG", "")})
+        print(f"[abfe] launching HYDRATION accuracy-gate spot job ({name})…")
+        est.fit(wait=False)
+        print(f"[abfe] hydration job launched: {est.latest_training_job.name} — read "
+              f"hydration_validation.json (model dir) or s3://{bucket}/{TAG}/ckpt/hydration-{name}/.")
+        return
+
     only = {x.strip() for x in os.environ.get("ONLY_LEGS", "").split(",") if x.strip()} or None
 
     if MODE == "reduce":

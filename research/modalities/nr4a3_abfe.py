@@ -510,6 +510,43 @@ def reduce_and_report(complex_dir, solvent_dir, out_json=None, temperature_K=300
     return out
 
 
+def molecule_sdf_from_smiles(smiles, name, out_path):
+    """Write a 3D SDF (one conformer, ELF10/AM1-BCC-ready) for `smiles` labelled `name`, so prepare_leg can
+    load it. Uses OpenFF (in the modern env). Returns out_path."""
+    from openff.toolkit import Molecule
+    m = Molecule.from_smiles(smiles, allow_undefined_stereo=True)
+    m.name = name
+    m.generate_conformers(n_conformers=1)
+    m.to_file(out_path, file_format="sdf")
+    return out_path
+
+
+def run_hydration_validation(smiles, name, out_dir, known_dg_hyd=None, tol=1.5,
+                             n_iter=1000, steps_per_iter=500, temperature_K=300.0, platform_name="CUDA",
+                             padding_nm=1.2):
+    """ACCURACY GATE for the decoupling+MBAR engine (design doc validation §1). Runs the SOLVENT leg for a
+    small molecule and compares the hydration free energy to a KNOWN value. Hydration ΔG = −ΔG_dec (decoupling
+    the molecule from water is the reverse of solvation). No restraint, no receptor → isolates the alchemical
+    decoupling + MBAR from the Boresch machinery. Returns {dg_dec, se, dg_hydration, known_dg_hyd, error, pass}.
+    A pass (|error| ≤ tol vs a published GAFF/TIP3P or experimental value) means the engine reproduces standard
+    FEP; a large miss means a real bug (schedule, soft-core, reduced-potential, MBAR sign)."""
+    import tempfile
+    sdf = molecule_sdf_from_smiles(smiles, name, os.path.join(tempfile.mkdtemp(), f"{name}.sdf"))
+    run_shard("solvent", sdf, out_dir, window_start=0, window_end=N_WINDOWS, n_iter=n_iter,
+              steps_per_iter=steps_per_iter, temperature_K=temperature_K, platform_name=platform_name,
+              pose_name=name, padding_nm=padding_nm)
+    dg_dec, se = reduce_leg(out_dir, temperature_K=temperature_K)
+    dg_hyd = -dg_dec
+    out = {"molecule": name, "smiles": smiles, "dg_dec": dg_dec, "se": se, "dg_hydration": dg_hyd,
+           "known_dg_hyd": known_dg_hyd, "n_iter": n_iter}
+    if known_dg_hyd is not None:
+        out["error"] = dg_hyd - known_dg_hyd
+        out["pass"] = abs(out["error"]) <= tol
+    with open(os.path.join(out_dir, "hydration_validation.json"), "w") as f:
+        json.dump(out, f, indent=2)
+    return out
+
+
 def smoke(out_dir=None, n_iter=5, steps_per_iter=20):
     """Tiny CPU smoke of the single-window machinery on an openmmtools testsystem (alanine dipeptide in vacuum,
     the sidechain as the 'alchemical' region). Proves build→MD→reduced-potentials→checkpoint→resume→log without
@@ -606,6 +643,10 @@ def _cli():
     ap.add_argument("--smoke", action="store_true", help="CPU machinery test (no GPU/receptor)")
     ap.add_argument("--run-shard", action="store_true", help="prepare a leg + run its λ-windows")
     ap.add_argument("--reduce", action="store_true", help="combine complex+solvent legs → ΔG_bind json")
+    ap.add_argument("--validate-hydration", action="store_true", help="hydration-FE accuracy gate (solvent leg)")
+    ap.add_argument("--smiles", default=None)
+    ap.add_argument("--mol-name", default="mol")
+    ap.add_argument("--known-dg", type=float, default=None)
     ap.add_argument("--leg", choices=["complex", "solvent"])
     ap.add_argument("--ligand-sdf")
     ap.add_argument("--receptor-pdb", default=None)
@@ -623,6 +664,14 @@ def _cli():
     a = ap.parse_args()
     if a.smoke:
         smoke(); return
+    if a.validate_hydration:
+        out = run_hydration_validation(a.smiles, a.mol_name, a.out_dir, known_dg_hyd=a.known_dg,
+                                       n_iter=a.n_iter, steps_per_iter=a.steps_per_iter,
+                                       temperature_K=a.temperature_k, platform_name=a.platform)
+        verdict = ("PASS" if out.get("pass") else "CHECK") if a.known_dg is not None else "no-ref"
+        print(f"[abfe] HYDRATION {a.mol_name}: ΔG_hyd = {out['dg_hydration']:.2f} ± {out['se']:.2f} kcal/mol "
+              f"(known {a.known_dg}, error {out.get('error')}, {verdict})")
+        return
     if a.run_shard:
         meta = run_shard(a.leg, a.ligand_sdf, a.out_dir, receptor_pdb=a.receptor_pdb, pose_name=a.pose_name,
                          window_start=a.window_start, window_end=a.window_end, n_iter=a.n_iter,
