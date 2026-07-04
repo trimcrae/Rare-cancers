@@ -39,7 +39,7 @@ jobs:
           assert hasattr(timeseries, 'statisticalInefficiency'), 'pymbar too new: no statisticalInefficiency'
           import numpy as np
           u = np.zeros((2, 20)); m = MBAR(u, [10, 10]); m.getFreeEnergyDifferences()   # exercise the camelCase API
-          import pymbar; print('PYMBAR_API_OK', pymbar.__version__)"
+          import pymbar; print('PYMBAR_API_OK', getattr(pymbar,'__version__', getattr(getattr(pymbar,'version',None),'version','3.x')))"
           echo "=== deep import check (incl. parmed — the dep an over-tight netcdf pin dropped) ==="
           conda run -n fep python -c "import yank; from yank.experiment import ExperimentBuilder; from openmmtools import alchemy; import openmm, parmed; assert hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'); print('DEEP_IMPORT_OK yank', yank.__version__, 'openmm', openmm.version.version, 'parmed', parmed.__version__)"
           echo "=== NetCDF zlib-compressed write (reproduces openmmtools _store_options; the filter bug) ==="
