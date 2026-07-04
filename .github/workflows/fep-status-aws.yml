@@ -82,8 +82,11 @@ jobs:
           echo "sync from $SRC"
           mkdir -p /tmp/exp
           conda run -n fep aws s3 sync "$SRC" /tmp/exp --exclude "*_checkpoint.nc" --only-show-errors || echo "(sync partial)"
-          ls -la /tmp/exp || true
-          conda run -n fep python - <<'PY'
+          echo "=== S3 .nc freshness (mtime tells us how far the checkpoint sync has advanced) ==="
+          ls -la --time-style=full-iso /tmp/exp || true
+          # Write the analyzer to a FILE — `conda run python - <<EOF` does NOT forward the heredoc to stdin
+          # (python reads empty input, silent no-op, exits 0 = false pass). Same bug hit + fixed in yank-env-check.
+          cat > /tmp/analyze_fep.py <<'PY'
           import subprocess, re, json, glob, os
           d = "/tmp/exp"
           niter = -1
@@ -105,8 +108,9 @@ jobs:
               print("ANALYZE_POINT " + json.dumps({"iter": niter, "dg": float(m.group(1)), "se": float(m.group(2))}))
           else:
               print("ANALYZE_FAIL niter=%d (no ΔG line — too few iterations synced, or analyze error)" % niter)
-              print(txt[-1200:])
+              print(txt[-1500:])
           PY
+          conda run --no-capture-output -n fep python /tmp/analyze_fep.py
 
   status:
     if: ${{ inputs.analyze_receptor == '' }}
