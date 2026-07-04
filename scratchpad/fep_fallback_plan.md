@@ -1,5 +1,10 @@
 # FEP runbook — live state (2026-07-04)
 
+## ⛔ HARD DECISION (trimcrae, 2026-07-04): if the CURRENT NR4A3 run FAILS → DONE WITH YANK.
+Do NOT restart NR4A3 on Yank. Switch the WHOLE ΔΔG (all 3 legs) to a modern stack with a spot-friendly
+execution model — OpenFE per-unit OR independent-λ-window openmmtools (small per-unit checkpoints, no
+monolithic .nc). Ride the current run to completion; a clean finish keeps us on Yank for THIS result only.
+
 ## Goal
 Converged selectivity **ΔΔG = ΔG_bind(NR4A3) − ΔG_bind(NR4A1/NR4A2)** for lead `denovo_401`.
 Negative ΔΔG = NR4A3-selective (the paper's headline). Yank ABFE, one experiment per receptor.
