@@ -317,15 +317,54 @@ def _prep_receptor(rec_pdb, workdir):
     try:
         r = subprocess.run(["pdb4amber", "-i", rec_pdb, "-o", out, "--dry", "--nohyd"],
                            capture_output=True, text=True, timeout=600)
+        print(f"[fep] pdb4amber prep {rec_pdb} (rc={r.returncode}):\n"
+              f"{(r.stdout or '')[-1200:]}\n{(r.stderr or '')[-2500:]}", flush=True)
+        if os.path.exists(out) and os.path.getsize(out) > 0:
+            return out
+        print("[fep] pdb4amber produced no output; using pure-python clean", flush=True)
     except FileNotFoundError:
-        print(f"[fep] pdb4amber not on PATH; using raw receptor {rec_pdb}", flush=True)
-        return rec_pdb
-    print(f"[fep] pdb4amber prep {rec_pdb} (rc={r.returncode}):\n"
-          f"{(r.stdout or '')[-1200:]}\n{(r.stderr or '')[-2500:]}", flush=True)
-    if os.path.exists(out) and os.path.getsize(out) > 0:
-        return out
-    print("[fep] pdb4amber produced no output; falling back to raw receptor", flush=True)
-    return rec_pdb
+        # pdb4amber is NOT in the frozen fep env (ambertools 19 doesn't expose it on PATH here); do the same job
+        # in pure python so the raw AF/MD receptor never reaches tleap (which dies exit 31 on it). See below.
+        print("[fep] pdb4amber not on PATH; using pure-python receptor clean", flush=True)
+    return _clean_pdb_for_leap(rec_pdb, workdir)
+
+
+def _clean_pdb_for_leap(pdb_in, workdir):
+    """Prepare a raw AlphaFold/MD protein PDB for LEaP WITHOUT pdb4amber (absent from the fep env): keep only
+    protein ATOM records, DROP all hydrogens (LEaP re-adds ff14SB-correct ones — mismatched MD/AF H names are
+    the #1 cause of the complex-leg `tleap` exit-31 breakage), DROP HETATM (waters/ions/ligands/other), collapse
+    altlocs (keep blank or 'A', blank the indicator), and emit TER at chain breaks + end. Reproduces
+    `pdb4amber --dry --nohyd` well enough to clear exit 31. Pure text, deterministic, unit-tested."""
+    out = os.path.join(workdir, "rec_clean.pdb")
+
+    def _is_hydrogen(name, elem):
+        e = elem.strip()
+        if e:
+            return e == "H" or e == "D"
+        n = name.strip().lstrip("0123456789")          # names like '1HB','HB2','H' → strip leading digits
+        return n[:1] == "H" if n else False
+
+    lines, last_chain, wrote_any = [], None, False
+    for ln in open(pdb_in):
+        if not ln.startswith("ATOM"):                   # drop HETATM/ANISOU/waters/ions/etc.
+            continue
+        name, alt, elem = ln[12:16], ln[16:17], ln[76:78]
+        if alt not in (" ", "A"):                       # keep one altloc conformer only
+            continue
+        if _is_hydrogen(name, elem):                    # LEaP re-protonates per ff14SB
+            continue
+        chain = ln[21:22]
+        if wrote_any and chain != last_chain:           # TER at a chain break
+            lines.append("TER\n")
+        lines.append(ln[:16] + " " + ln[17:])           # blank the altloc indicator (col 17)
+        last_chain, wrote_any = chain, True
+    if wrote_any:
+        lines.append("TER\n")
+    open(out, "w").writelines(lines)
+    n_atoms = sum(1 for x in lines if x.startswith("ATOM"))
+    print(f"[fep] pure-python clean {pdb_in} -> {out}: {n_atoms} heavy protein atoms (H/HETATM/altloc dropped)",
+          flush=True)
+    return out if wrote_any else pdb_in
 
 
 def _dump_setup_logs(out_dir):
