@@ -2,6 +2,13 @@ import math
 import os
 import sys
 
+import pytest
+
+# nr4a3_frame_sanity.kabsch_rmsd imports numpy lazily; the zero-dependency modalities test CI installs only
+# pytest, so skip this whole module when numpy is absent rather than fail with ModuleNotFoundError. Runs fully
+# in any env that has numpy (locally, or the MD envs).
+pytest.importorskip("numpy")
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import nr4a3_frame_sanity as fs  # noqa: E402

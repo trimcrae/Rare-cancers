@@ -146,6 +146,12 @@ options:
   platform: {PLATFORM}
   resume_setup: yes
   resume_simulation: yes
+  # replica_mixing_scheme: swap-neighbors avoids openmmtools 0.21.2's numba-jitted swap-ALL routine
+  # (_mix_all_replicas_numba), which crashed at ~iter 630 with NumbaTypeError "Unsupported array type:
+  # numpy.ma.MaskedArray" (the online-analysis MBAR feeds it a masked array the 2021 numba kernel can't type).
+  # swap-neighbors uses a pure-Python Metropolis neighbor swap — no numba, so it sidesteps the crash entirely;
+  # for HREX with a well-spaced λ ladder neighbor-swap mixing is standard and loses little vs swap-all.
+  replica_mixing_scheme: swap-neighbors
 molecules:
   lig:
     filepath: {lig_sdf}
