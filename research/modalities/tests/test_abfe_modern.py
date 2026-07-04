@@ -79,3 +79,24 @@ def test_boresch_ssc_stronger_restraint_more_negative():
         r0_A=2.5, K_r=40.0, K_thetaA=400.0, K_thetaB=400.0,
         K_phiA=400.0, K_phiB=400.0, K_phiC=400.0, **base)
     assert tight < loose, (tight, loose)
+
+
+def test_combine_legs_arithmetic_and_sign():
+    # ΔG_bind = ΔG_dec_solv − ΔG_dec_cplx − SSC. Strong binder: complex much harder to decouple than solvent.
+    # SSC = -10.0 (favourable release). ΔG_bind = 30 − 60 − (−10) = -20 → negative (binds), restraint penalty
+    # (+10) makes it LESS negative than the raw 30−60=−30.
+    dg, se = abfe.combine_legs(complex_decouple_dg=60.0, complex_decouple_se=0.5,
+                               solvent_decouple_dg=30.0, solvent_decouple_se=0.4,
+                               restraint_standard_state_dg=-10.0)
+    assert abs(dg - (-20.0)) < 1e-9, dg
+    assert abs(se - (0.5 ** 2 + 0.4 ** 2) ** 0.5) < 1e-9, se
+    # restraint correction weakens binding: without it ΔG would be −30, with it −20 (less favourable)
+    raw = 30.0 - 60.0
+    assert dg > raw, (dg, raw)
+
+
+def test_selectivity_ddg_sign_and_error():
+    # NR4A3 binds tighter (−12) than NR4A1 (−8) → ΔΔG = −12 − (−8) = −4 (negative ⇒ target-selective)
+    ddg, se = abfe.selectivity_ddg(-12.0, 0.6, -8.0, 0.8)
+    assert abs(ddg - (-4.0)) < 1e-9, ddg
+    assert abs(se - (0.6 ** 2 + 0.8 ** 2) ** 0.5) < 1e-9, se

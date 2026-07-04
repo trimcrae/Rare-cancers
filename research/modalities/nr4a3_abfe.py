@@ -4,10 +4,18 @@
 Each λ-window is an INDEPENDENT OpenMM simulation → per-iteration small checkpoints (spot loses ≤1 iter),
 trivially parallel, and a per-iteration ΔG convergence trace via incremental MBAR. No monolithic HREX .nc.
 
-This file (build-step 1) implements the PURE, unit-testable glue — the λ schedule and the MBAR reduced-
-potential (u_kn) assembly — and STUBS the OpenMM/openmmtools physics (build-steps 2–4). The Boresch
-standard-state correction is intentionally NOT hand-rolled: use openmmtools' tested
-`restraints.Boresch(...).get_standard_state_correction()` in the physics layer.
+Build state (see nr4a3_abfe_modern_design.md → "Build order"):
+  1. PURE glue — λ schedule + MBAR u_kn assembly + per-window jsonl log  (unit-tested)          [done]
+  2. single independent window — build→MD→reduced-potentials-at-all-λ→per-iter checkpoint/resume [done]
+  3. MBAR reducer per leg + per-iteration convergence trace                                       [done]
+  4. Boresch 6-DOF restraint + analytic standard-state correction + ΔG_bind leg-combination       [done]
+  5. SageMaker per-window spot fan-out + pre-baked modern ECR image                               [in progress]
+  6. run NR4A3/NR4A1/NR4A2 → ΔΔG                                                                   [pending]
+
+The Boresch standard-state correction IS hand-rolled here (`boresch_standard_state_correction`, unit-tested
+against a hand-computed value + monotonicity) rather than pulled from openmmtools, so the modern env stays
+minimal (openmm + openmmtools + pymbar) and the formula is transparent; the whole chain (restraint + both legs
++ combination) is validated end-to-end on a known host–guest ΔG benchmark.
 """
 import json
 import os
@@ -155,6 +163,41 @@ def boresch_standard_state_correction(r0_A, thetaA0_rad, thetaB0_rad,
     num = 8.0 * math.pi ** 2 * V0 * math.sqrt(K_r * K_thetaA * K_thetaB * K_phiA * K_phiB * K_phiC)
     den = (r0_A ** 2) * math.sin(thetaA0_rad) * math.sin(thetaB0_rad) * (2.0 * math.pi * RT) ** 3
     return -RT * math.log(num / den)
+
+
+def combine_legs(complex_decouple_dg, complex_decouple_se,
+                 solvent_decouple_dg, solvent_decouple_se,
+                 restraint_standard_state_dg):
+    """Double-decoupling ΔG_bind (kcal/mol) at the 1 M standard state, from the two legs' decoupling ΔGs and
+    the Boresch restraint's analytic standard-state term. Returns (dG_bind, SE). Pure arithmetic → unit-tested;
+    the SIGN convention is validated end-to-end on the host–guest benchmark.
+
+    Inputs are the leg free energies as `reduce_leg` returns them: RT·Δf[0,K-1] = ΔG(coupled → decoupled),
+    positive when decoupling costs energy (favourable interactions turned off). In our independent-window
+    design the Boresch restraint is held ON and IDENTICAL across ALL complex-leg windows (NOT annihilated
+    along λ), so its confinement is removed here ANALYTICALLY.
+
+    Thermodynamic cycle (each step's ΔG; `SSC` = restraint_standard_state_dg = boresch_standard_state_correction
+    = −RT ln(...) < 0, the FAVOURABLE release of the non-interacting ligand from the restrained volume to V°):
+        solv,coupled,free  --(+ΔG_dec_solv)-->  solv,decoupled,free  ==  gas,decoupled,free @1M
+        gas,decoupled,free @1M  --(restrain: −SSC)-->  cplx,decoupled,restrained
+        cplx,decoupled,restrained  --(−ΔG_dec_cplx)-->  cplx,coupled,restrained  ≈  bound
+      ⇒  ΔG_bind = ΔG_dec_solv − ΔG_dec_cplx − SSC
+    Adding −SSC (>0) removes the artificial stabilisation the restraint lent the complex leg (it held the
+    ligand in place during decoupling), i.e. correctly makes binding WEAKER — the standard-state penalty.
+    A strong binder (ΔG_dec_cplx ≫ ΔG_dec_solv) → negative ΔG_bind.
+
+    The analytical SSC carries no sampling error, so the SE propagates from the two legs only."""
+    dg = solvent_decouple_dg - complex_decouple_dg - restraint_standard_state_dg
+    se = (complex_decouple_se ** 2 + solvent_decouple_se ** 2) ** 0.5
+    return dg, se
+
+
+def selectivity_ddg(dg_bind_target, se_target, dg_bind_offtarget, se_offtarget):
+    """Selectivity ΔΔG (kcal/mol) = ΔG_bind(target) − ΔG_bind(off-target). NEGATIVE ⇒ tighter binding to the
+    target (the degrader-selectivity headline: ΔG_bind(NR4A3) − ΔG_bind(NR4A1 or NR4A2)). SE adds in quadrature
+    (independent per-receptor ABFE runs). Returns (ddg, se)."""
+    return dg_bind_target - dg_bind_offtarget, (se_target ** 2 + se_offtarget ** 2) ** 0.5
 
 
 def add_boresch_restraint(system, receptor_atoms, ligand_atoms, r0_A, thetaA0_rad, thetaB0_rad,
