@@ -29,9 +29,17 @@ jobs:
           # MUST match entry_fep.py's conda create exactly (libnetcdf<4.9 + parmed fix the reporter NetCDF
           # filter bug and the parmed-drop it caused). Validate the whole thing FREE before any g5 shard.
           conda create -y -n fep --override-channels -c conda-forge \
-            python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" "libnetcdf<4.9" parmed || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
+            python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" "libnetcdf<4.9" parmed "pymbar<4" || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
           echo "=== resolved versions ==="
           conda list -n fep | grep -Ei "^(python|yank|openmm|openmmtools|ambertools|setuptools|openbabel|numpy|pymbar|parmed|libnetcdf|netcdf4) " | awk '{print "  "$1" "$2}'
+          echo "=== pymbar 3.x API (openmmtools MBAR path calls these; pymbar 4 renamed them) ==="
+          conda run -n fep python -c "
+          from pymbar import timeseries, MBAR
+          assert hasattr(timeseries, 'subsampleCorrelatedData'), 'pymbar too new: no subsampleCorrelatedData'
+          assert hasattr(timeseries, 'statisticalInefficiency'), 'pymbar too new: no statisticalInefficiency'
+          import numpy as np
+          u = np.zeros((2, 20)); m = MBAR(u, [10, 10]); m.getFreeEnergyDifferences()   # exercise the camelCase API
+          import pymbar; print('PYMBAR_API_OK', pymbar.__version__)"
           echo "=== deep import check (incl. parmed — the dep an over-tight netcdf pin dropped) ==="
           conda run -n fep python -c "import yank; from yank.experiment import ExperimentBuilder; from openmmtools import alchemy; import openmm, parmed; assert hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'); print('DEEP_IMPORT_OK yank', yank.__version__, 'openmm', openmm.version.version, 'parmed', parmed.__version__)"
           echo "=== NetCDF zlib-compressed write (reproduces openmmtools _store_options; the filter bug) ==="
