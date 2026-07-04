@@ -49,6 +49,13 @@ Negative ΔΔG = NR4A3-selective (the paper's headline). Yank ABFE, one experime
 - `combine_error`: quadrature sqrt(se1²+se2²), treats legs independent = CONSERVATIVE. (Shared ligand →
   identical solvent leg cancels in ΔΔG, so true error is if anything tighter. Honest/safe direction.)
 
+## ENV FROZEN + ENGINE POLICY (2026-07-04)
+- Reproducibility freeze: `sagemaker_src/environment-fep.yml` (pinned spec) + `sagemaker_src/Dockerfile.fep`
+  (buildable) + `sagemaker_src/fep.lock` (authoritative `conda list --explicit` — capture from yank-env-check
+  between `----FEP_LOCK_BEGIN/END----` and commit).
+- Policy: current denovo_401 run FINISHES on Yank; NEXT fresh FEP (Yank re-failure OR new candidate) → MODERN
+  stack (OpenFE-ABFE / openmmtools-scripted). Full rationale: next-steps.md → "ABFE ENGINE POLICY".
+
 ## Working env pins (entry_fep.py conda create — do NOT change without a yank-env-check run)
 python=3.9, yank, openmmtools=0.21.2, ocl-icd-system, openbabel, setuptools<81, libnetcdf<4.9, parmed, pymbar<4.
 Isolation: `conda run -n fep` with PYTHONPATH="" (base-container numpy 1.x leak fix).

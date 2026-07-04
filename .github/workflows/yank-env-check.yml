@@ -33,6 +33,10 @@ jobs:
             python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" "libnetcdf<4.9" parmed "pymbar<4" || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
           echo "=== resolved versions ==="
           conda list -n fep | grep -Ei "^(python|yank|openmm|openmmtools|ambertools|setuptools|openbabel|numpy|pymbar|parmed|libnetcdf|netcdf4) " | awk '{print "  "$1" "$2}'
+          echo "=== AUTHORITATIVE LOCK (conda list --explicit) — copy into sagemaker_src/fep.lock to freeze the env ==="
+          echo "----FEP_LOCK_BEGIN----"
+          conda list --explicit -n fep
+          echo "----FEP_LOCK_END----"
           echo "=== pymbar 3.x API (openmmtools MBAR path calls these; pymbar 4 renamed them) ==="
           conda run -n fep python -c "
           from pymbar import timeseries, MBAR

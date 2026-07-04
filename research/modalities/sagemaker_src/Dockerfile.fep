@@ -1,0 +1,20 @@
+# Buildable freeze of the Yank ABFE env (see environment-fep.yml). Yank 0.25.2 is END-OF-LIFE — this image
+# keeps the denovo_401 selectivity FEP reproducible independent of conda-forge drift (the loose constraints in
+# entry_fep.py may stop re-solving to the same versions as the ecosystem moves on).
+#
+#   docker build -f Dockerfile.fep -t nr4a3-fep-yank .
+#   # then, with the repo + receptor/pose inputs mounted and FEP_* env set as in entry_fep.py:
+#   docker run --gpus all -v $PWD:/repo -w /repo/research/modalities nr4a3-fep-yank \
+#       conda run --no-capture-output -n fep python nr4a3_fep.py
+#
+# The AUTHORITATIVE pin is fep.lock (`conda list --explicit`, with per-package URLs); environment-fep.yml is the
+# human-readable spec and this Dockerfile the buildable artifact. For a byte-exact rebuild, replace the env
+# create below with:  RUN conda create -n fep --file fep.lock
+FROM condaforge/miniforge3:latest
+COPY environment-fep.yml /tmp/environment-fep.yml
+RUN conda env create -n fep -f /tmp/environment-fep.yml && conda clean -afy
+# OpenCL vendor file so OpenMM's OpenCL platform registers the GPU (CUDA PTX is dead on the g5 image).
+RUN mkdir -p /etc/OpenCL/vendors && echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd
+# conda run inherits any base PYTHONPATH; clear it so the fep env uses only its own site-packages
+# (the numpy-1.x-leak bug — see next-steps.md "Infra gotchas").
+ENV PYTHONPATH=""

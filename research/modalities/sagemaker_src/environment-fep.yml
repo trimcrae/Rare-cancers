@@ -1,0 +1,26 @@
+# FROZEN Yank ABFE environment — the exact known-good solve for the selectivity FEP (denovo_401).
+#
+# Yank 0.25.2 (2020) is END-OF-LIFE. This file + Dockerfile.fep + fep.lock (the authoritative
+# `conda list --explicit`, captured by yank-env-check.yml) freeze the working stack so the FEP result stays
+# REPRODUCIBLE after conda-forge drifts and the loose constraints in entry_fep.py can no longer re-solve to it.
+#
+# These are the EXACT versions entry_fep.py's constraints resolved to (yank-env-check run, 2026-07-04).
+# entry_fep.py keeps the *constraints* (so a fresh solve still works today); this pins the *resolved* result.
+# ABFE-engine policy (why this is frozen rather than upgraded): nr4a3-degrader-next-steps.md → "ABFE ENGINE POLICY".
+name: fep
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9.19
+  - yank=0.25.2
+  - openmmtools=0.21.2
+  - openmm=8.3.1
+  - ambertools=19
+  - openbabel=3.1.1
+  - parmed=4.3.0
+  - pymbar=3.1.1
+  - libnetcdf=4.8.1
+  - netcdf4=1.6.2
+  - numpy=1.26.4
+  - setuptools=80.9.0
+  - ocl-icd-system
