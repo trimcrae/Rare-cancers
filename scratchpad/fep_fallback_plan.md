@@ -36,7 +36,13 @@ Next: pilot ΔG → confirm past 630 → launch nr4a1,nr4a2 (on pre-baked image 
 
 ## FLEET STATE + NR4A2 GATE (2026-07-04 ~16:45 UTC)
 - **nr4a3** shard 0 (STOCK image): sampling pilot, the validated control.
-- **nr4a1** shard 1 (`nr4a3-fep-sn-1-2026-07-04-16-40-50-945`, PRE-BAKED image `646605541856.dkr.ecr.us-east-2.amazonaws.com/nr4a3-fep:latest`): launched ~16:41, validating the image's first real use.
+- **nr4a1** shard 1 (`nr4a3-fep-sn-1-2026-07-04-16-40-50-945`, PRE-BAKED image): **FAILED — NaN at Iteration 1**,
+  "replica 3 at state 2" (state 2 = Boresch restraint first at full 1.0). Image WORKED (no conda build) + receptor
+  clean WORKED (past LEaP). Root cause = bad initial contact in the nr4a1 complex: likely a **clash in the nr4a1
+  docked pose** OR a **strained auto-selected Boresch restraint geometry** — an INPUT/structure issue, engine-
+  independent (not a Yank tripwire; not a sampling-param knob). **FIX DEFERRED behind the nr4a3 binding gate**
+  (only matters if nr4a3 binds). Candidate fixes when resumed: relax/re-minimize the nr4a1 docked pose before
+  Yank; and/or constrain Boresch restraint atom selection; clear ckpt/1 before relaunch.
 - **nr4a2 HELD ON PURPOSE** — early-stopping gate: launch it ONLY after the nr4a3 pilot ΔG (~17:49) confirms
   denovo_401 BINDS NR4A3 (strongly negative). If nr4a3 pilot comes back weak/non-binding → STOP nr4a1
   (`fep-status stop_names=nr4a3-fep-sn-1-...`), do NOT launch nr4a2, reassess. Launch nr4a2 via:
