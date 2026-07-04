@@ -1,0 +1,136 @@
+name: GPU — modern ABFE (spot, per-leg, independent windows; AWS SageMaker)
+
+# Modern independent-window ABFE for the lead across NR4A3/NR4A1/NR4A2 (retires the Yank fleet in
+# gpu-fep-aws.yml). 4 legs: complex(nr4a3/1/2) + one shared solvent leg; each a SageMaker managed-SPOT
+# *Training* job running its 12 λ-windows, each PER-ITERATION checkpointed to S3 (spot loses <=1 iter).
+# See research/modalities/nr4a3_abfe_modern_design.md.
+#
+# MODES:
+#   plan      - DRY RUN: print the 4-leg plan + cost note. No AWS spend. (default)
+#   smoke     - launch ONE tiny spot job (no receptor) to validate the modern env solve + spot/checkpoint path.
+#   hydration - accuracy gate: hydration free energy of a small molecule (solvent leg) vs a known value.
+#   run       - launch the leg jobs (ONLY_LEGS to subset).
+#   reduce    - CPU fan-in: MBAR-combine complex+solvent per receptor -> ΔG_bind json (then selectivity ΔΔG).
+#
+# The workflow FILE lives on main (so it is API-dispatchable); the engine/submitter code is cloned from the
+# git_ref branch at run time (same pattern as gpu-fep-aws.yml).
+#
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "plan | smoke | hydration | run | reduce"
+        default: "plan"
+        required: true
+      hydration_smiles:
+        description: "mode=hydration: molecule SMILES for the accuracy gate"
+        default: "C"
+        required: false
+      hydration_name:
+        description: "mode=hydration: molecule label"
+        default: "methane"
+        required: false
+      hydration_known_dg:
+        description: "mode=hydration: published ΔG_hyd (kcal/mol) to compare against"
+        default: "2.0"
+        required: false
+      tag:
+        description: "S3 checkpoint tag/prefix (bump for a FRESH run)"
+        default: "nr4a3-abfe"
+        required: false
+      receptors:
+        description: "comma-sep receptors for the complex legs"
+        default: "nr4a3,nr4a1,nr4a2"
+        required: false
+      only_legs:
+        description: "mode=run/reduce: comma-sep leg names/receptors to launch ONLY (e.g. solvent, or complex-nr4a3); empty = all"
+        default: ""
+        required: false
+      instance:
+        description: "SageMaker GPU instance"
+        default: "ml.g5.xlarge"
+        required: false
+      spot:
+        description: "1 = managed spot (cheap); 0 = on-demand"
+        default: "1"
+        required: false
+      n_iter:
+        description: "iterations per λ-window"
+        default: "1000"
+        required: false
+      steps_per_iter:
+        description: "MD steps per iteration (2 fs each)"
+        default: "500"
+        required: false
+      max_run_hours:
+        description: "per-leg max_run"
+        default: "12"
+        required: false
+      max_wait_hours:
+        description: "spot max_wait (>= max_run)"
+        default: "20"
+        required: false
+      ligand:
+        description: "lead label (pose _Name in docked_<receptor>.sdf)"
+        default: "denovo_401"
+        required: false
+      receptor_prefix:
+        description: "S3 prefix with <receptor>-opened.pdb + docked_<receptor>.sdf"
+        default: "nr4a3-denovo-matrix-v2"
+        required: false
+      image_uri:
+        description: "ECR URI of the PRE-BAKED modern image (empty = stock DLC builds the env at runtime)"
+        default: ""
+        required: false
+      git_ref:
+        description: "repo ref the jobs clone + run"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  abfe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: ABFE dispatch
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-2"
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          ABFE_TAG: ${{ inputs.tag }}
+          MODE: ${{ inputs.mode }}
+          ABFE_RECEPTORS: ${{ inputs.receptors }}
+          ONLY_LEGS: ${{ inputs.only_legs }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          ABFE_N_ITER: ${{ inputs.n_iter }}
+          ABFE_STEPS_PER_ITER: ${{ inputs.steps_per_iter }}
+          MAX_RUN_HOURS: ${{ inputs.max_run_hours }}
+          MAX_WAIT_HOURS: ${{ inputs.max_wait_hours }}
+          ABFE_LIGAND: ${{ inputs.ligand }}
+          RECEPTOR_PREFIX: ${{ inputs.receptor_prefix }}
+          ABFE_IMAGE_URI: ${{ inputs.image_uri }}
+          GIT_REF: ${{ inputs.git_ref }}
+          HYDRATION_SMILES: ${{ inputs.hydration_smiles }}
+          HYDRATION_NAME: ${{ inputs.hydration_name }}
+          HYDRATION_KNOWN_DG: ${{ inputs.hydration_known_dg }}
+        run: |
+          if [ "$MODE" != "plan" ] && [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          if [ "$MODE" = "run" ]; then
+            echo "::warning::mode=run launches spot ABFE leg jobs."
+          fi
+          cd research/modalities
+          python nr4a3_abfe_sagemaker.py
