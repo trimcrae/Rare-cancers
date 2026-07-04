@@ -39,12 +39,77 @@ on:
         description: "DELETE all S3 objects under this checkpoint prefix (e.g. nr4a3-fep-trim/ckpt/1/nr4a1/experiments to wipe a corrupt yank sampling state, preserving setup) before a clean relaunch"
         default: ""
         required: false
+      analyze_receptor:
+        description: "if set (e.g. nr4a3), build the fep env + run MBAR on the LIVE S3 checkpoint → emit one ANALYZE_POINT {iter,dg,se} convergence sample"
+        default: ""
+        required: false
+      analyze_shard:
+        description: "shard index for analyze_receptor (nr4a3=0, nr4a1=1, nr4a2=2)"
+        default: "0"
+        required: false
 
 permissions:
   contents: read
 
 jobs:
+  analyze:
+    if: ${{ inputs.analyze_receptor != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install miniforge
+        run: |
+          curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+          bash /tmp/mf.sh -b -p "$HOME/mf"
+          echo "$HOME/mf/bin" >> "$GITHUB_PATH"
+      - name: Build fep env from frozen lock
+        run: conda create -y -n fep --file research/modalities/sagemaker_src/fep.lock
+      - name: MBAR on live checkpoint → ANALYZE_POINT
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          TAG: ${{ inputs.tag }}
+          SHARD: ${{ inputs.analyze_shard }}
+          RCP: ${{ inputs.analyze_receptor }}
+        run: |
+          set -e
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          conda run -n fep pip install --quiet "awscli<2" boto3 || true
+          ACCT=$(conda run -n fep python -c "import boto3;print(boto3.client('sts').get_caller_identity()['Account'])" | tail -1)
+          BUCKET="sagemaker-${AWS_DEFAULT_REGION}-${ACCT}"
+          SRC="s3://${BUCKET}/${TAG}/ckpt/${SHARD}/${RCP}/experiments"
+          echo "sync from $SRC"
+          mkdir -p /tmp/exp
+          conda run -n fep aws s3 sync "$SRC" /tmp/exp --exclude "*_checkpoint.nc" --only-show-errors || echo "(sync partial)"
+          ls -la /tmp/exp || true
+          conda run -n fep python - <<'PY'
+          import subprocess, re, json, glob, os
+          d = "/tmp/exp"
+          niter = -1
+          try:
+              import netCDF4
+              for f in sorted(glob.glob(os.path.join(d, "*.nc"))):
+                  if f.endswith("_checkpoint.nc"):
+                      continue
+                  ds = netCDF4.Dataset(f, "r")
+                  if "iteration" in ds.dimensions:
+                      niter = max(niter, len(ds.dimensions["iteration"]) - 1)  # dim includes iteration 0
+                  ds.close()
+          except Exception as e:
+              print("iter-read warn:", e)
+          r = subprocess.run(["yank", "analyze", "--store", d], capture_output=True, text=True)
+          txt = (r.stdout or "") + "\n" + (r.stderr or "")
+          m = re.search(r"free energy of binding[:\s]+(-?\d+\.?\d*)\s*(?:\+/-|\+-|±)\s*(\d+\.?\d*)\s*kcal", txt, re.I)
+          if m:
+              print("ANALYZE_POINT " + json.dumps({"iter": niter, "dg": float(m.group(1)), "se": float(m.group(2))}))
+          else:
+              print("ANALYZE_FAIL niter=%d (no ΔG line — too few iterations synced, or analyze error)" % niter)
+              print(txt[-1200:])
+          PY
+
   status:
+    if: ${{ inputs.analyze_receptor == '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@v5
