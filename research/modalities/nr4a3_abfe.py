@@ -332,6 +332,101 @@ def add_boresch_restraint(system, receptor_atoms, ligand_atoms, r0_A, thetaA0_ra
     return f
 
 
+# ---- system prep (build-step 4→5 — explicit-solvent complex & solvent legs; needs openff/pdbfixer) --------
+def _sysprep_imports():
+    """Lazy import of the heavier prep stack (only in the ECR image, not the free CPU smoke). Mirrors the
+    proven mmgbsa_energy parameterisation (amber14SB + gaff-2.11 via OpenFF) but for EXPLICIT solvent."""
+    try:
+        import openmm
+        from openmm import app, unit
+        from openmmforcefields.generators import SystemGenerator
+        from openff.toolkit import Molecule
+        from pdbfixer import PDBFixer
+        return openmm, app, unit, SystemGenerator, Molecule, PDBFixer
+    except Exception as e:  # noqa: BLE001
+        raise RuntimeError("ABFE system prep needs openmm + openmmforcefields + openff-toolkit + pdbfixer "
+                           f"(the modern ECR env). Import failed: {e}") from e
+
+
+def _explicit_generator(offmol, app):
+    """SystemGenerator for EXPLICIT-solvent ABFE: amber14SB protein + TIP3P water + gaff-2.11 ligand, PME.
+    (mmgbsa uses gbn2 implicit + NoCutoff; ABFE double-decoupling needs real water + PME.)"""
+    from openmmforcefields.generators import SystemGenerator
+    ff_kwargs = {"constraints": app.HBonds, "removeCMMotion": False, "rigidWater": True}
+    periodic_kwargs = {"nonbondedMethod": app.PME, "nonbondedCutoff": 1.0 * _explicit_generator._nm,
+                       "ewaldErrorTolerance": 5e-4}
+    return SystemGenerator(
+        forcefields=["amber14/protein.ff14SB.xml", "amber14/tip3p.xml"],
+        small_molecule_forcefield="gaff-2.11", molecules=[offmol],
+        forcefield_kwargs=ff_kwargs, periodic_forcefield_kwargs=periodic_kwargs)
+
+
+def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=0.15,
+                pose_name=None, restraint_K=20.0):
+    """Build one ABFE leg's explicit-solvent OpenMM system. Returns a dict:
+        {system, positions, alchemical_atoms, n_receptor_atoms, n_ligand_atoms,
+         boresch (complex only): {anchors + geometry}, restraint_standard_state_dg (complex only)}.
+
+    leg='complex' : PDBFixer'd receptor + docked ligand, solvated + neutralised (0.15 M NaCl), with a Boresch
+                    restraint added (anchors auto-selected from the docked pose) + its analytic SSC. The ligand
+                    (last n_lig atoms) is the alchemical region.
+    leg='solvent' : ligand alone in a water box (identical across receptors → cancels in ΔΔG). No restraint.
+
+    The system is the REFERENCE (non-alchemical) system + (complex) the Boresch force; run_window turns the
+    ligand alchemical via AbsoluteAlchemicalFactory. Heavy deps are lazy-imported (ECR image only)."""
+    openmm, app, unit, _SG, Molecule, PDBFixer = _sysprep_imports()
+    _explicit_generator._nm = unit.nanometer
+    mols = Molecule.from_file(ligand_sdf, file_format="sdf", allow_undefined_stereo=True)
+    mols = mols if isinstance(mols, list) else [mols]
+    offmol = next((m for m in mols if (m.name or "").strip() == pose_name), mols[0]) if pose_name else mols[0]
+    sysgen = _explicit_generator(offmol, app)
+    lig_top = offmol.to_topology().to_openmm()
+    lig_pos = offmol.conformers[0].to_openmm()
+
+    if leg == "solvent":
+        modeller = app.Modeller(lig_top, lig_pos)
+        modeller.addSolvent(sysgen.forcefield, model="tip3p", padding=padding_nm * unit.nanometer,
+                            ionicStrength=ionic_molar * unit.molar, neutralize=True)
+        system = sysgen.create_system(modeller.topology)
+        n_lig = lig_top.getNumAtoms()
+        return {"system": system, "positions": modeller.positions,
+                "alchemical_atoms": list(range(n_lig)), "n_receptor_atoms": 0, "n_ligand_atoms": n_lig}
+
+    if leg != "complex":
+        raise ValueError(f"leg must be 'complex' or 'solvent', got {leg!r}")
+    if not receptor_pdb:
+        raise ValueError("complex leg needs receptor_pdb")
+    fixer = PDBFixer(filename=receptor_pdb)
+    fixer.findMissingResidues(); fixer.missingResidues = {}     # keep resolved pocket; don't model long loops
+    fixer.findMissingAtoms(); fixer.addMissingAtoms(); fixer.addMissingHydrogens(7.0)
+    modeller = app.Modeller(fixer.topology, fixer.positions)
+    n_rec = modeller.topology.getNumAtoms()
+    modeller.add(lig_top, lig_pos)                               # receptor first, ligand last
+    n_lig = modeller.topology.getNumAtoms() - n_rec
+    modeller.addSolvent(sysgen.forcefield, model="tip3p", padding=padding_nm * unit.nanometer,
+                        ionicStrength=ionic_molar * unit.molar, neutralize=True)
+    system = sysgen.create_system(modeller.topology)
+
+    # Boresch anchors from the docked pose: ligand atoms = [n_rec, n_rec+n_lig); receptor candidates = protein
+    # heavy atoms (skip H and solvent). Coordinates in nm.
+    pos_nm = [(v.x, v.y, v.z) for v in modeller.positions.value_in_unit(unit.nanometer)]
+    lig_atoms = list(range(n_rec, n_rec + n_lig))
+    rec_heavy = [a.index for a in modeller.topology.atoms()
+                 if a.index < n_rec and a.element is not None and a.element.symbol != "H"]
+    sel = select_boresch_anchors(pos_nm, ligand_atoms=lig_atoms, receptor_atoms=rec_heavy)
+    add_boresch_restraint(system, receptor_atoms=sel["receptor_anchors"], ligand_atoms=sel["ligand_anchors"],
+                          r0_A=sel["r0_A"], thetaA0_rad=sel["thetaA0_rad"], thetaB0_rad=sel["thetaB0_rad"],
+                          phiA0_rad=sel["phiA0_rad"], phiB0_rad=sel["phiB0_rad"], phiC0_rad=sel["phiC0_rad"],
+                          K_r=restraint_K, K_thetaA=restraint_K, K_thetaB=restraint_K,
+                          K_phiA=restraint_K, K_phiB=restraint_K, K_phiC=restraint_K)
+    ssc = boresch_standard_state_correction(sel["r0_A"], sel["thetaA0_rad"], sel["thetaB0_rad"],
+                                            restraint_K, restraint_K, restraint_K,
+                                            restraint_K, restraint_K, restraint_K)
+    return {"system": system, "positions": modeller.positions, "alchemical_atoms": lig_atoms,
+            "n_receptor_atoms": n_rec, "n_ligand_atoms": n_lig, "boresch": sel,
+            "restraint_standard_state_dg": ssc}
+
+
 def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False):
     """Read all windows' per-iteration jsonl → MBAR → leg ΔG (kcal/mol) + SE. With per_iteration=True, return
     the CONVERGENCE TRACE [(n_samples_per_window, dg, se)] by re-running MBAR on the first-n samples for
@@ -365,6 +460,48 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False)
         if r:
             trace.append((n, r[0], r[1]))
     return trace
+
+
+def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, window_end=None,
+              n_iter=1000, steps_per_iter=500, temperature_K=300.0, platform_name="CUDA",
+              pose_name=None, padding_nm=1.2, restraint_K=20.0):
+    """Prepare one leg's system once, then run its assigned λ-windows [window_start, window_end) — each an
+    independent, per-iteration-checkpointed OpenMM sim (run_window). Writes a small meta.json (atom counts +,
+    for the complex leg, the restraint standard-state ΔG) alongside the per-window logs so the reducer can
+    combine legs without re-prepping. window_end=None → all N_WINDOWS. Returns the meta dict."""
+    prep = prepare_leg(leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
+                       padding_nm=padding_nm, restraint_K=restraint_K)
+    we = window_end if window_end is not None else N_WINDOWS
+    os.makedirs(out_dir, exist_ok=True)
+    meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
+            "temperature_K": temperature_K, "n_windows": N_WINDOWS}
+    if leg == "complex":
+        meta["restraint_standard_state_dg"] = prep["restraint_standard_state_dg"]
+        meta["boresch"] = prep["boresch"]
+    with open(os.path.join(out_dir, "meta.json"), "w") as f:
+        json.dump(meta, f)
+    for w in range(window_start, we):
+        run_window(prep["system"], prep["positions"], prep["alchemical_atoms"], window_index=w, out_dir=out_dir,
+                   temperature_K=temperature_K, n_iter=n_iter, steps_per_iter=steps_per_iter,
+                   platform_name=platform_name)
+    return meta
+
+
+def reduce_and_report(complex_dir, solvent_dir, out_json=None, temperature_K=300.0):
+    """Combine the two legs into ΔG_bind: MBAR-reduce each leg → combine_legs with the complex-leg restraint
+    SSC (read from complex_dir/meta.json). Returns {dg_bind, se, complex_dg, complex_se, solvent_dg,
+    solvent_se, restraint_standard_state_dg}. Pure CPU (numpy+pymbar) → runs as a light step, no GPU."""
+    cdg, cse = reduce_leg(complex_dir, temperature_K=temperature_K)
+    sdg, sse = reduce_leg(solvent_dir, temperature_K=temperature_K)
+    meta = json.load(open(os.path.join(complex_dir, "meta.json")))
+    ssc = meta["restraint_standard_state_dg"]
+    dg_bind, se = combine_legs(cdg, cse, sdg, sse, ssc)
+    out = {"dg_bind": dg_bind, "se": se, "complex_dg": cdg, "complex_se": cse,
+           "solvent_dg": sdg, "solvent_se": sse, "restraint_standard_state_dg": ssc}
+    if out_json:
+        with open(out_json, "w") as f:
+            json.dump(out, f, indent=2)
+    return out
 
 
 def smoke(out_dir=None, n_iter=5, steps_per_iter=20):
@@ -436,9 +573,44 @@ def _check_boresch_restraint():
     return ssc
 
 
+def _cli():
+    import argparse
+    ap = argparse.ArgumentParser(description="modern independent-window ABFE")
+    ap.add_argument("--smoke", action="store_true", help="CPU machinery test (no GPU/receptor)")
+    ap.add_argument("--run-shard", action="store_true", help="prepare a leg + run its λ-windows")
+    ap.add_argument("--reduce", action="store_true", help="combine complex+solvent legs → ΔG_bind json")
+    ap.add_argument("--leg", choices=["complex", "solvent"])
+    ap.add_argument("--ligand-sdf")
+    ap.add_argument("--receptor-pdb", default=None)
+    ap.add_argument("--pose-name", default=None)
+    ap.add_argument("--out-dir", default=None)
+    ap.add_argument("--complex-dir", default=None)
+    ap.add_argument("--solvent-dir", default=None)
+    ap.add_argument("--out-json", default=None)
+    ap.add_argument("--window-start", type=int, default=0)
+    ap.add_argument("--window-end", type=int, default=None)
+    ap.add_argument("--n-iter", type=int, default=1000)
+    ap.add_argument("--steps-per-iter", type=int, default=500)
+    ap.add_argument("--temperature-k", type=float, default=300.0)
+    ap.add_argument("--platform", default="CUDA")
+    a = ap.parse_args()
+    if a.smoke:
+        smoke(); return
+    if a.run_shard:
+        meta = run_shard(a.leg, a.ligand_sdf, a.out_dir, receptor_pdb=a.receptor_pdb, pose_name=a.pose_name,
+                         window_start=a.window_start, window_end=a.window_end, n_iter=a.n_iter,
+                         steps_per_iter=a.steps_per_iter, temperature_K=a.temperature_k, platform_name=a.platform)
+        print(f"[abfe] SHARD_DONE leg={a.leg} windows [{a.window_start},{a.window_end}) meta={meta}")
+        return
+    if a.reduce:
+        out = reduce_and_report(a.complex_dir, a.solvent_dir, out_json=a.out_json, temperature_K=a.temperature_k)
+        print(f"[abfe] DG_BIND {out['dg_bind']:.3f} ± {out['se']:.3f} kcal/mol "
+              f"(complex {out['complex_dg']:.2f}±{out['complex_se']:.2f}, "
+              f"solvent {out['solvent_dg']:.2f}±{out['solvent_se']:.2f}, SSC {out['restraint_standard_state_dg']:.2f})")
+        return
+    print(f"[abfe] modern independent-window ABFE — {N_WINDOWS} windows/leg. "
+          f"Modes: --smoke | --run-shard | --reduce.")
+
+
 if __name__ == "__main__":
-    import sys
-    if "--smoke" in sys.argv:
-        smoke()
-    else:
-        print(f"[abfe] modern independent-window ABFE — {N_WINDOWS} windows/leg. `--smoke` runs the CPU machinery test.")
+    _cli()
