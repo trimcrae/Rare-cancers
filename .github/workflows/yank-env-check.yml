@@ -62,7 +62,11 @@ jobs:
           # header. Build the exact YAML and run ExperimentBuilder(script=...), which calls parse() — the SAME
           # schema-validation path that failed on g5 — for FREE. Catch YamlParseError (our schema bug → fail)
           # vs any later error (schema OK; setup needs real inputs we don't have here → expected pass).
-          conda run -n fep python - <<'PY'
+          # Write the validator to a FILE, not a stdin heredoc: `conda run ... python - <<EOF` does NOT forward
+          # the heredoc to the process stdin, so python reads empty input, runs nothing, and exits 0 — a SILENT
+          # NO-OP that falsely passes. Run a real file with --no-capture-output, then a grep guard fails the step
+          # if no PASS marker was printed (belt-and-suspenders against another silent no-op).
+          cat > /tmp/validate_yaml.py <<'PY'
           import os, sys, tempfile
           sys.path.insert(0, "research/modalities")
           import nr4a3_fep
@@ -81,3 +85,5 @@ jobs:
               print("YAML_SCHEMA_OK (parse passed; non-schema error expected w/ dummy inputs):",
                     type(e).__name__, str(e)[:200])
           PY
+          conda run --no-capture-output -n fep python /tmp/validate_yaml.py 2>&1 | tee /tmp/val.out
+          grep -q "YAML_PARSE_OK\|YAML_SCHEMA_OK" /tmp/val.out || { echo "::error::YAML validation produced no PASS marker — step ran as a no-op, NOT validated"; exit 1; }
