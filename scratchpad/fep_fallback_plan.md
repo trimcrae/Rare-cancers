@@ -5,6 +5,12 @@ Do NOT restart NR4A3 on Yank. Switch the WHOLE ΔΔG (all 3 legs) to a modern st
 execution model — OpenFE per-unit OR independent-λ-window openmmtools (small per-unit checkpoints, no
 monolithic .nc). Ride the current run to completion; a clean finish keeps us on Yank for THIS result only.
 
+## 🚫 NO-RESUME WATCH (trimcrae, 2026-07-04): if the current NR4A3 job spot-INTERRUPTS, do NOT let it auto-resume
+on Yank — StopTrainingJob it and switch to modern stack. Can't disable managed-spot resume on a live job, so
+MONITOR ~every 40min: if status resets to Starting/Downloading or iteration drops toward 500 → `fep-status
+stop_names=nr4a3-fep-sn-0-2026-07-04-15-58-00-010`. (A crash/exit-failure does NOT auto-resume — only spot
+interruptions do.) Clean finish ~11:12pm ET 07-04 → read verdict. ALL TIMES ET (EDT=UTC-4).
+
 ## Goal
 Converged selectivity **ΔΔG = ΔG_bind(NR4A3) − ΔG_bind(NR4A1/NR4A2)** for lead `denovo_401`.
 Negative ΔΔG = NR4A3-selective (the paper's headline). Yank ABFE, one experiment per receptor.
