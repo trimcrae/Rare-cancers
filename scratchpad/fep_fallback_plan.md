@@ -66,6 +66,13 @@ Next: pilot ΔG → confirm past 630 → launch nr4a1,nr4a2 (on pre-baked image 
 4. ~13 h: all three at prod. `mode=reduce` (`report_fep.py`) → per-receptor ΔG + ΔΔG.
 5. Merge branch → main; fold ΔΔG into nr4a3-degrader paper + preprint plan.
 
+## ON CONFIRMED SELECTIVE ΔΔG — rename the lead (trimcrae, 2026-07-04)
+If the FEP confirms denovo_401 binds NR4A3 AND spares NR4A1/NR4A2 (selective ΔΔG), give it a proper lead name
+(it earns the upgrade only on a confirmed result — don't name it before). KEEP `denovo_401` as the provenance
+ID (401st de-novo candidate — reproducibility/methods trail); layer a name on top with a name↔denovo_401 map.
+Naming lean: preserve the 401 lineage, e.g. `ND-401`/`NR4A3d-1` (NR4A3 Degrader). It's a clean one-time
+find-and-map pass (denovo_401 is a stable string across code/data/manuscript). Do it once, when justified.
+
 ## Downstream pipeline — AUDITED SOUND (2026-07-04)
 - Standard-state/Boresch correction: baked into each leg (`_parse_dg` reads `yank analyze` "Free energy of
   binding", which is Yank's fully-corrected ΔG). Nothing to add in reducer.
