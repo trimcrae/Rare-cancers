@@ -34,6 +34,15 @@ iter-630 gate de-risked (swap-all routine no longer used). WATCH: swap acceptanc
 early; widen λ ladder if it stays ~0 — feeds convergence check, not a blocker).
 Next: pilot ΔG → confirm past 630 → launch nr4a1,nr4a2 (on pre-baked image if build pushed) → reduce ΔΔG.
 
+## FLEET STATE + NR4A2 GATE (2026-07-04 ~16:45 UTC)
+- **nr4a3** shard 0 (STOCK image): sampling pilot, the validated control.
+- **nr4a1** shard 1 (`nr4a3-fep-sn-1-2026-07-04-16-40-50-945`, PRE-BAKED image `646605541856.dkr.ecr.us-east-2.amazonaws.com/nr4a3-fep:latest`): launched ~16:41, validating the image's first real use.
+- **nr4a2 HELD ON PURPOSE** — early-stopping gate: launch it ONLY after the nr4a3 pilot ΔG (~17:49) confirms
+  denovo_401 BINDS NR4A3 (strongly negative). If nr4a3 pilot comes back weak/non-binding → STOP nr4a1
+  (`fep-status stop_names=nr4a3-fep-sn-1-...`), do NOT launch nr4a2, reassess. Launch nr4a2 via:
+  `gpu-fep-aws mode=run tag=nr4a3-fep-sn only_receptors=nr4a2 phase=full spot=1 git_ref=branch image_uri=<the ECR image>`.
+- Pre-baked ECR image: `646605541856.dkr.ecr.us-east-2.amazonaws.com/nr4a3-fep:latest` (build-fep-image.yml; ECR IAM granted 2026-07-04).
+
 ## Monitoring
 - Self-wake = **background bash `sleep` → re-invokes agent on exit** (CLAUDE.md verified pattern). Current
   timer: `bdga0are8` (~35 min → first setup/sampling check).
