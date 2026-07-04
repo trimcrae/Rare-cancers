@@ -140,18 +140,30 @@ options:
   output_dir: {out_dir}
   temperature: 300*kelvin
   pressure: 1*atmosphere
-  default_number_of_iterations: {n_iter}
-  default_nsteps_per_iteration: 500
   checkpoint_interval: 50
   platform: {PLATFORM}
   resume_setup: yes
   resume_simulation: yes
-  # replica_mixing_scheme: swap-neighbors avoids openmmtools 0.21.2's numba-jitted swap-ALL routine
-  # (_mix_all_replicas_numba), which crashed at ~iter 630 with NumbaTypeError "Unsupported array type:
-  # numpy.ma.MaskedArray" (the online-analysis MBAR feeds it a masked array the 2021 numba kernel can't type).
-  # swap-neighbors uses a pure-Python Metropolis neighbor swap — no numba, so it sidesteps the crash entirely;
-  # for HREX with a well-spaced λ ladder neighbor-swap mixing is standard and loses little vs swap-all.
-  replica_mixing_scheme: swap-neighbors
+# Sampler configured EXPLICITLY (not via options' default_number_of_iterations/default_nsteps_per_iteration) so
+# we can set replica_mixing_scheme — a ReplicaExchangeSampler CONSTRUCTOR arg, NOT a valid options: key (Yank
+# rejects it under options: with YamlParseError "unknown parameter replica_mixing_scheme"; the samplers schema
+# has allow_unknown: yes so constructor args pass through there). swap-neighbors uses a pure-Python Metropolis
+# neighbor swap and avoids openmmtools 0.21.2's numba-jitted swap-ALL routine (_mix_all_replicas_numba), which
+# crashed at ~iter 630 with NumbaTypeError "Unsupported array type: numpy.ma.MaskedArray". online_analysis_interval:
+# null disables the online MBAR (the likely masked-array source; unneeded — the final ΔG comes from `yank analyze`
+# post-hoc). n_steps 500 + timestep 2 fs reproduces the old default_nsteps_per_iteration 500 @ Yank's default dt.
+mcmc_moves:
+  langevin:
+    type: LangevinSplittingDynamicsMove
+    timestep: 2.0*femtoseconds
+    n_steps: 500
+samplers:
+  sampler:
+    type: ReplicaExchangeSampler
+    mcmc_moves: langevin
+    number_of_iterations: {n_iter}
+    replica_mixing_scheme: swap-neighbors
+    online_analysis_interval: null
 molecules:
   lig:
     filepath: {lig_sdf}
@@ -190,6 +202,7 @@ protocols:
 experiments:
   system: binding
   protocol: abfe
+  sampler: sampler
   restraint:
     type: Boresch
 """
