@@ -1,0 +1,14 @@
+# SageMaker training image with the frozen Yank ABFE env PRE-BAKED, so every job skips the ~15-min conda build
+# (on a spot resume OR a re-dispatch). Built by .github/workflows/build-fep-image.yml → pushed to ECR → used via
+# the gpu-fep-aws.yml `image_uri` input (FEP_IMAGE_URI). FROM the official SageMaker PyTorch DLC so the
+# sagemaker-training toolkit (which drives entry_point / hyperparameters / channels / checkpoint sync) stays
+# intact; we only add the `fep` conda env, built from the BYTE-EXACT fep.lock (== the reproducibility freeze,
+# made runnable). entry_fep.py detects /opt/conda/envs/fep and skips its runtime `conda create`.
+ARG BASE
+FROM ${BASE}
+COPY environment-fep.yml /tmp/environment-fep.yml
+COPY fep.lock /tmp/fep.lock
+# Build the fep env from the frozen explicit lock (direct package URLs — no solve). conda is on PATH in the DLC.
+RUN conda create -n fep --file /tmp/fep.lock -y && conda clean -afy
+# OpenCL vendor file so OpenMM's OpenCL platform registers the A10G (CUDA PTX is dead on the g5 image).
+RUN mkdir -p /etc/OpenCL/vendors && echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd

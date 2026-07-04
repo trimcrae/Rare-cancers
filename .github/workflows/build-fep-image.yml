@@ -1,0 +1,68 @@
+name: Build FEP image (pre-baked Yank env → ECR)
+
+# Build a SageMaker training image with the frozen `fep` conda env baked in (Dockerfile.sagemaker-fep) and push
+# it to ECR, so FEP jobs skip the ~15-min conda build on every start (spot resume OR re-dispatch). One-time per
+# env change; the resulting image URI is passed to gpu-fep-aws.yml via the `image_uri` input.
+#
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (with ECR + DLC-pull perms).
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "ECR repository name to push to"
+        default: "nr4a3-fep"
+        required: false
+      tag:
+        description: "image tag"
+        default: "latest"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free disk space (DLC base + fep env is ~10 GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /opt/hostedtoolcache/CodeQL || true
+          df -h /
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Build + push pre-baked FEP image
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          ECR_REPO: ${{ inputs.repo }}
+          IMG_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets first"; exit 1; fi
+          ACCT=$(python -c "import boto3;print(boto3.client('sts').get_caller_identity()['Account'])")
+          REG="$AWS_DEFAULT_REGION"
+          # Resolve the EXACT SageMaker PyTorch DLC base that the estimator uses (framework 2.3 / py311 / g5).
+          BASE=$(python -c "import sagemaker,os;print(sagemaker.image_uris.retrieve(framework='pytorch',region=os.environ['AWS_DEFAULT_REGION'],version='2.3',py_version='py311',instance_type='ml.g5.xlarge',image_scope='training'))")
+          echo "BASE=$BASE  ACCT=$ACCT  REG=$REG"
+          DLC_ACCT=$(echo "$BASE" | cut -d. -f1)
+          # Login to the DLC account (pull base) and our account (push).
+          aws ecr get-login-password --region "$REG" | docker login --username AWS --password-stdin "${DLC_ACCT}.dkr.ecr.${REG}.amazonaws.com"
+          aws ecr describe-repositories --repository-names "$ECR_REPO" --region "$REG" >/dev/null 2>&1 \
+            || aws ecr create-repository --repository-name "$ECR_REPO" --region "$REG"
+          aws ecr get-login-password --region "$REG" | docker login --username AWS --password-stdin "${ACCT}.dkr.ecr.${REG}.amazonaws.com"
+          IMG="${ACCT}.dkr.ecr.${REG}.amazonaws.com/${ECR_REPO}:${IMG_TAG}"
+          docker build --build-arg BASE="$BASE" \
+            -f research/modalities/sagemaker_src/Dockerfile.sagemaker-fep \
+            -t "$IMG" research/modalities/sagemaker_src
+          docker push "$IMG"
+          echo "::notice::PRE-BAKED FEP IMAGE PUSHED: $IMG"
+          echo "Use it:  gpu-fep-aws.yml  image_uri = $IMG"

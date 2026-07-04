@@ -100,11 +100,16 @@ def main():
     from sagemaker.pytorch import PyTorch
     from sagemaker.inputs import TrainingInput
 
+    # FEP_IMAGE_URI (ECR) = the PRE-BAKED image (build-fep-image.yml) with the fep env already installed, so the
+    # shard skips the ~15-min conda build on every start (spot resume OR re-dispatch). Empty → the stock PyTorch
+    # DLC (framework_version/py_version), which builds the env at runtime (entry_fep.py). Either works; the image
+    # just makes starts fast + interruption-cheap.
+    image_uri = os.environ.get("FEP_IMAGE_URI", "").strip()
+
     def make_estimator(i):
-        return PyTorch(
+        kw = dict(
             entry_point="entry_fep.py", source_dir=os.path.join(here, "sagemaker_src"),
-            role=role, framework_version="2.3", py_version="py311",
-            instance_count=1, instance_type=INSTANCE, sagemaker_session=sess,
+            role=role, instance_count=1, instance_type=INSTANCE, sagemaker_session=sess,
             base_job_name=f"{TAG}-{i}",
             use_spot_instances=SPOT,
             max_run=int(MAX_RUN_H * 3600),
@@ -117,6 +122,12 @@ def main():
                              "phase": os.environ.get("FEP_PHASE", "full"),
                              "bootstrap-iter": os.environ.get("FEP_BOOTSTRAP_ITER", "60")},
         )
+        if image_uri:
+            kw["image_uri"] = image_uri                            # pre-baked env; framework_version omitted
+        else:
+            kw["framework_version"] = "2.3"
+            kw["py_version"] = "py311"
+        return PyTorch(**kw)
 
     if MODE == "smoke":
         units = fs.enumerate_units(receptors=("nr4a3",), n_windows=2)      # 1 trivial per-receptor unit
