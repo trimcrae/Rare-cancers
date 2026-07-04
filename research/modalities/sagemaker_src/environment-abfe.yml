@@ -1,0 +1,24 @@
+# Modern independent-window ABFE env (replaces the Yank env in environment-fep.yml). CLEAN — drops EVERY Yank
+# pin (py3.9 / openmmtools=0.21.2 / libnetcdf<4.9 / setuptools<81 / pymbar<4). Maintained stack only.
+#
+#   conda env create -n abfe -f environment-abfe.yml
+#
+# Used by:
+#   - entry_abfe.py runtime `conda create` (same package list) when no pre-baked image is passed;
+#   - Dockerfile.sagemaker-abfe to PRE-BAKE the env into an ECR image (skips the ~10-min solve per job).
+# The .github/workflows/abfe-modern-smoke.yml free CPU smoke builds the SAME core (openmm/openmmtools/pymbar)
+# every push, so a solve break is caught for free before any GPU spend.
+name: abfe
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openmm            # latest maintained; CUDA platform on the g5
+  - openmmtools       # AbsoluteAlchemicalFactory / AlchemicalState (alchemy)
+  - pymbar>=4         # MBAR reducer (snake_case API)
+  - openmmforcefields # SystemGenerator (amber14SB + gaff-2.11 via OpenFF) — same params as mmgbsa
+  - openff-toolkit    # ligand Molecule from SDF
+  - pdbfixer          # receptor prep (missing atoms/H)
+  - mdtraj            # trajectory/geometry utilities
+  - numpy
+  - scipy

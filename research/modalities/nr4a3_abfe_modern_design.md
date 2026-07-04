@@ -51,12 +51,32 @@ python 3.11, `openmm` (latest), `openmmtools` (latest maintained), `pymbar>=4`, 
 3. Unit-test all pure glue (schedule, reduced-potential assembly, MBAR call, standard-state formula).
 
 ## Build order (incremental; each step testable)
-1. `nr4a3_abfe.py` skeleton + pure-glue unit tests (λ schedule, u_kn assembly, standard-state formula). ← START
-2. Single-window MD + checkpoint/resume + reduced-potential log (one leg, CPU smoke, then 1 GPU window).
-3. MBAR reducer + per-iteration convergence trace → plot.
-4. Full complex+solvent legs + Boresch restraint; validate on the host–guest benchmark.
-5. SageMaker fan-out (spot, per-window, per-iteration checkpoint) + ECR image.
-6. Run NR4A3/NR4A1/NR4A2 → ΔΔG (this is the real deliverable; supersedes the Yank attempt).
+1. ✅ `nr4a3_abfe.py` skeleton + pure-glue unit tests (λ schedule, u_kn assembly, standard-state formula).
+2. ✅ Single-window MD + checkpoint/resume + reduced-potential log (CPU smoke — SMOKE_OK on CI).
+3. ✅ MBAR reducer + per-iteration convergence trace (+ `plot_fep_convergence.py`, multi-receptor overlay).
+4. ✅ Boresch 6-DOF restraint + analytic standard-state correction + ΔG_bind combination + selectivity ΔΔG +
+      explicit-solvent leg prep (`prepare_leg`) + anchor selection. **All pure/geometry pieces unit-tested;
+      restraint physics + machinery validated on the free CPU smoke.** The remaining part of step 4 is the
+      ACCURACY gate: run the host–guest benchmark on GPU and match published ΔG within ~1 kcal/mol BEFORE
+      trusting any NR4A3 number (see "Validation" above).
+5. ✅ SageMaker per-leg spot fan-out: `entry_abfe.py` (spot Training entry, smoke/run/reduce),
+      `nr4a3_abfe_sagemaker.py` (submitter, plan/smoke/run/reduce), `gpu-abfe-aws.yml` (dispatch),
+      `environment-abfe.yml` + `Dockerfile.sagemaker-abfe` (pre-baked modern ECR image). Plan mode verified.
+6. ⏳ Run NR4A3/NR4A1/NR4A2 → ΔΔG (the real deliverable; supersedes the Yank attempt). **Gated on step-4
+      host-guest validation + trimcrae go-ahead for the real fleet.**
+
+## Status & how to launch (2026-07-04)
+Engine + plumbing COMPLETE and unit/smoke-validated; NOT yet run on GPU. Sequence (VALIDATE-FIRST, CLAUDE.md):
+1. **Host-guest accuracy gate** (blocks trusting numbers): prep a known ABFE host–guest (e.g. CB7–guest) via
+   `prepare_leg` for both legs, run the full engine, and match the published ΔG within ~1 kcal/mol. This
+   surfaces the two flagged pre-trust refinements: (a) `run_window` is NVT — add a short NPT equilibration
+   first so the box density is right; (b) PME alchemical decoupling uses openmmtools' default treatment.
+2. **Plumbing smoke** (~$0.1): `gpu-abfe-aws.yml` mode=smoke → modern env solves on the DLC + spot/checkpoint
+   path works. (The free CI `abfe-modern-smoke.yml` already proves the engine core loop on every push.)
+3. **One real leg**: mode=run, only_legs=solvent → validate real prep + windows + resume on one cheap leg.
+4. **Full fleet**: mode=run (4 legs parallel on spot). Then mode=reduce → ΔG_bind per receptor →
+   `nr4a3_abfe.selectivity_ddg` for the headline ΔΔG = ΔG_bind(NR4A3) − ΔG_bind(NR4A1/2).
+Pre-bake the ECR image (Dockerfile.sagemaker-abfe) once the env is validated to skip the per-job solve.
 
 ## Notes
 - Independent-window design ALSO fixes the paralogue NaN differently: each window minimizes/equilibrates on its
