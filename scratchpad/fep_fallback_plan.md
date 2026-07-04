@@ -11,11 +11,32 @@ MONITOR ~every 40min: if status resets to Starting/Downloading or iteration drop
 stop_names=nr4a3-fep-sn-0-2026-07-04-15-58-00-010`. (A crash/exit-failure does NOT auto-resume — only spot
 interruptions do.) Clean finish ~11:12pm ET 07-04 → read verdict. ALL TIMES ET (EDT=UTC-4).
 
-## ▶ MODERN STACK BUILD STARTED (trimcrae, 2026-07-04): modern independent-λ-window ABFE is now the GO-FORWARD
-engine (Yank = fallback only IF its NR4A3 run finishes clean). Design: `nr4a3_abfe_modern_design.md`.
-Scaffold: `nr4a3_abfe.py` (pure glue done+tested: λ schedule, u_kn assembly, per-iter reduced-potential log;
-physics stubbed). Every-iteration checkpoint + convergence by design (small per-window files, no monolithic .nc).
-Build order in the design doc; next = step 2 (single-window MD + checkpoint/resume, CPU smoke then 1 GPU window).
+## ▶ MODERN STACK (trimcrae, 2026-07-04): modern independent-λ-window ABFE is now the GO-FORWARD engine
+(Yank = fallback only IF its NR4A3 run finishes clean). Design: `nr4a3_abfe_modern_design.md`. Every-iteration
+checkpoint + convergence by design (small per-window files, no monolithic .nc).
+
+## ✅ MODERN STACK BUILD COMPLETE — steps 1-5 (2026-07-04, late). Engine + full SageMaker plumbing built,
+unit-tested + free-CPU-smoke-validated (SMOKE_OK on CI), committed + pushed. NOT yet run on GPU.
+- **`nr4a3_abfe.py`** — λ schedule + MBAR u_kn assembly; `run_window` (independent window: build→MD→
+  reduced-potentials-at-all-λ→per-iter atomic checkpoint→resume→jsonl log); `reduce_leg` (MBAR + per-iteration
+  convergence trace); Boresch `add_boresch_restraint` + `boresch_standard_state_correction` (unit-tested vs
+  hand-computed −10.294 + monotonicity); `select_boresch_anchors` (+`_ang3/_dih4`, collinearity/distance
+  guards); `combine_legs` (ΔG_bind = ΔG_dec_solv − ΔG_dec_cplx − SSC, cycle in docstring) + `selectivity_ddg`;
+  `prepare_leg` (explicit-solvent complex/solvent, amber14SB+gaff-2.11+TIP3P+PME, reuses mmgbsa params);
+  `run_shard` + `reduce_and_report`; CLI `--smoke/--run-shard/--reduce`. **11 unit tests green.**
+- **`sagemaker_src/entry_abfe.py`** — spot Training entry (smoke/run/reduce), modern `abfe` env (PYTHONPATH-clear).
+- **`nr4a3_abfe_sagemaker.py`** — submitter (plan/smoke/run/reduce); 4 legs = complex(nr4a3/1/2)+shared solvent,
+  parallel on the 8-wide spot quota. plan mode verified.
+- **`gpu-abfe-aws.yml`** dispatch; **`environment-abfe.yml` + `Dockerfile.sagemaker-abfe`** pre-baked image;
+  **`abfe-modern-smoke.yml`** FREE CI engine smoke (passing every push).
+
+## ⏭ NEXT ON THE MODERN STACK (step 6, GATED): before ANY NR4A3 number is trustworthy, run the **host-guest
+accuracy gate** (design doc "Status & how to launch" §1) — match a published host–guest ΔG within ~1 kcal/mol.
+This also surfaces the 2 flagged pre-trust refinements: (a) `run_window` is NVT → add a short NPT equilibration
+(box density); (b) PME alchemical decoupling uses openmmtools' default treatment. Self-contained target:
+`openmmtools.testsystems.HostGuestExplicit` (CB7–B2 in TIP3P, no external files). THEN: gpu-abfe-aws.yml
+mode=smoke ($0.1 plumbing) → mode=run only_legs=solvent (one real leg) → full 4 → mode=reduce → selectivity_ddg.
+**Real fleet needs trimcrae go-ahead.** The g5 on-demand slot is held by Yank (spot is a separate quota).
 
 ## Goal
 Converged selectivity **ΔΔG = ΔG_bind(NR4A3) − ΔG_bind(NR4A1/NR4A2)** for lead `denovo_401`.
