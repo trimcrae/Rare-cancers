@@ -44,11 +44,23 @@ python 3.11, `openmm` (latest), `openmmtools` (latest maintained), `pymbar>=4`, 
   `plot_fep_convergence.py` (already multi-receptor). Per-iteration points, side-by-side receptors.
 
 ## Validation (before trusting any NR4A3 number)
-1. **Restraint/standard-state correctness** — reproduce a KNOWN ABFE benchmark (host–guest, e.g. a
-   SAMPL/CB7 guest, or a well-characterised protein–ligand) and match published ΔG within ~1 kcal/mol.
-2. **Cross-check vs Yank** — if Yank's NR4A3 run finishes, the two engines should agree on ΔG_bind (a strong
-   not-a-tool-artifact result). If Yank dies, rely on (1) alone.
-3. Unit-test all pure glue (schedule, reduced-potential assembly, MBAR call, standard-state formula).
+Layered — cheapest first; each isolates a different failure mode:
+0. **Pure glue** (DONE, unit-tested, runs free): λ schedule, u_kn assembly, MBAR call, Boresch SSC formula
+   (vs hand-computed −10.294 + monotonicity), anchor selection (both anchor angles guarded — incl. the thetaB
+   collinearity regression), ΔG_bind combination + selectivity ΔΔG. Free CPU smoke also proves the engine core
+   loop (build→MD→reduced-potentials→checkpoint→resume→MBAR) + a selector→restraint round-trip.
+1. **Decoupling engine, no restraint — hydration free energy** (GPU, cheap: ~1 leg). Run the SOLVENT leg via
+   `prepare_leg("solvent", <small_molecule.sdf>)` for a molecule with a known FEP hydration ΔG (FreeSolv, e.g.
+   methane/toluene) → −ΔG_dec should match within ~1 kcal/mol. Validates elec→sterics soft-core decoupling +
+   MBAR on a real explicit-solvent system, isolated from the restraint. FASTEST accuracy gate — do this first.
+2. **Full ΔG_bind incl. restraint — host–guest** (GPU). Reproduce a known host–guest ABFE (e.g. SAMPL CB7–B2;
+   `openmmtools.testsystems.HostGuestExplicit` is self-contained for the complex leg — guest-only solvent leg
+   needs the guest re-parameterised via `prepare_leg`, so params match) and match published ΔG within ~1
+   kcal/mol. This is the ONLY gate that exercises the Boresch restraint + SSC in a real binding ΔG. It also
+   surfaces the 2 flagged pre-trust refinements: (a) `run_window` NVT → add short NPT equilibration first (box
+   density); (b) PME alchemical treatment (openmmtools default vs "exact").
+3. **Cross-check vs Yank** — if Yank's NR4A3 run finishes, the two engines should agree on ΔG_bind (a strong
+   not-a-tool-artifact result). If Yank dies, rely on (1)+(2).
 
 ## Build order (incremental; each step testable)
 1. ✅ `nr4a3_abfe.py` skeleton + pure-glue unit tests (λ schedule, u_kn assembly, standard-state formula).
