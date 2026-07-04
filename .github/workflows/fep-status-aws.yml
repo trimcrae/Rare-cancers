@@ -81,7 +81,7 @@ jobs:
           SRC="s3://${BUCKET}/${TAG}/ckpt/${SHARD}/${RCP}/experiments"
           echo "sync from $SRC"
           mkdir -p /tmp/exp
-          conda run -n fep aws s3 sync "$SRC" /tmp/exp --exclude "*_checkpoint.nc" --only-show-errors || echo "(sync partial)"
+          conda run -n fep aws s3 sync "$SRC" /tmp/exp --only-show-errors || echo "(sync partial)"
           echo "=== S3 .nc freshness (mtime tells us how far the checkpoint sync has advanced) ==="
           ls -la --time-style=full-iso /tmp/exp || true
           # Write the analyzer to a FILE — `conda run python - <<EOF` does NOT forward the heredoc to stdin

@@ -457,6 +457,17 @@ def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=2):
 _PHASE_ITER = {"bootstrap": lambda: BOOTSTRAP_ITER, "pilot": lambda: PILOT_ITER}
 
 
+def _append_conv_point(receptor, n_iter, dg, err):
+    """Append a small convergence point to CKPT_DIR/<receptor>_conv.jsonl. SMALL files sync to S3 reliably;
+    the large growing analysis .nc does NOT (SageMaker checkpoint sync stalls on it mid-run), so this jsonl is
+    the live ΔG-vs-iteration convergence trace for the plot (`plot_fep_convergence.py`)."""
+    rec = {"receptor": receptor, "iter": int(n_iter), "dg": round(float(dg), 3), "se": round(float(err), 3),
+           "_t": round(time.time(), 1)}
+    with open(os.path.join(CKPT_DIR, f"{receptor}_conv.jsonl"), "a") as f:
+        f.write(json.dumps(rec) + "\n")
+    print(f"  [fep] conv point {receptor}@{n_iter}: {dg:.2f} ± {err:.2f}", flush=True)
+
+
 def run_real(unit, phase="prod"):
     """One Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. Phases (each RESUMES + EXTENDS the
     same out_dir, so they compose): 'bootstrap' = setup + trailblaze + a few iters (run ON-DEMAND, writes a
@@ -475,12 +486,35 @@ def run_real(unit, phase="prod"):
         raise FileNotFoundError(f"receptor pdb not found: {rec_pdb}")
     rec_pdb = _prep_receptor(rec_pdb, out_dir)                 # clean MD/AF PDB for LEaP (complex-leg fix)
     yaml_path = os.path.join(out_dir, "experiment.yaml")
-    open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_mol2, rec_pdb))
+
+    def _run_to(target):
+        open(yaml_path, "w").write(_yank_yaml(receptor, target, out_dir, lig_mol2, rec_pdb))
+        rc = _run_yank_resilient(receptor, yaml_path, out_dir)
+        if rc != 0:
+            _dump_setup_logs(out_dir)                          # surface the real LEaP/antechamber diagnostic
+            raise RuntimeError(f"yank script failed for {receptor} (rc={rc})")
+
+    # SEGMENTED PROD (default): run yank in FEP_CONV_INTERVAL-iter chunks, each RESUMING + extending the same
+    # .nc, and emit a convergence point per chunk → a live ΔG-vs-iteration trace (small jsonl syncs; the big .nc
+    # does not). FEP_CONV_INTERVAL=0 → single-shot prod (legacy). Adds ~1 analyze (~1-2 min) per chunk.
+    conv_int = int(os.environ.get("FEP_CONV_INTERVAL", "500"))
+    if phase == "prod" and conv_int > 0:
+        targets = list(range(PILOT_ITER + conv_int, PROD_ITER + 1, conv_int))
+        if not targets or targets[-1] != PROD_ITER:
+            targets.append(PROD_ITER)
+        dg = err = 0.0
+        for tgt in targets:
+            print(f"[fep] {receptor} prod segment → {tgt}/{PROD_ITER} iters", flush=True)
+            _run_to(tgt)
+            dg, err = _parse_dg(out_dir)
+            _append_conv_point(receptor, tgt, dg, err)
+        _write(unit, {"mode": "yank", "phase": "prod", "dg_bind_kcal": round(dg, 3),
+                      "ddg_err_kcal": round(err, 3), "n_iterations": PROD_ITER, "_t": round(time.time() - t0, 1)})
+        print(f"[fep] {receptor} prod complete: ΔG_bind = {dg:.2f} ± {err:.2f} kcal/mol", flush=True)
+        return
+
     print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
-    rc = _run_yank_resilient(receptor, yaml_path, out_dir)
-    if rc != 0:
-        _dump_setup_logs(out_dir)                             # surface the real LEaP/antechamber diagnostic
-        raise RuntimeError(f"yank script failed for {receptor} (rc={rc})")
+    _run_to(n_iter)
     if phase == "bootstrap":
         # trailblaze is now complete + checkpointed on S3 → a spot 'sample' job resumes straight into HREX.
         # No ΔG at this iteration count (it'd be noise); just record the marker so the sample phase resumes it.
@@ -490,6 +524,7 @@ def run_real(unit, phase="prod"):
               flush=True)
         return
     dg, err = _parse_dg(out_dir)
+    _append_conv_point(receptor, n_iter, dg, err)             # log the pilot point too (seeds the conv trace)
     _write(unit, {"mode": "yank", "phase": phase, "dg_bind_kcal": round(dg, 3),
                   "ddg_err_kcal": round(err, 3), "n_iterations": n_iter, "_t": round(time.time() - t0, 1)})
     print(f"[fep] {receptor} {phase}: ΔG_bind = {dg:.2f} ± {err:.2f} kcal/mol", flush=True)
