@@ -138,6 +138,41 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
     return n_iter
 
 
+def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False):
+    """Read all windows' per-iteration jsonl → MBAR → leg ΔG (kcal/mol) + SE. With per_iteration=True, return
+    the CONVERGENCE TRACE [(n_samples_per_window, dg, se)] by re-running MBAR on the first-n samples for
+    increasing n — the every-iteration ΔG curve, straight from the small synced logs (no monolithic .nc)."""
+    import numpy as np
+    from pymbar import MBAR
+    schedule = schedule or lambda_schedule()
+    K = len(schedule)
+    RT = (0.0019872041 * temperature_K)                       # kcal/mol per kT
+    we = [[] for _ in range(K)]
+    for k in range(K):
+        p = os.path.join(out_dir, f"window_{k:02d}.jsonl")
+        if not os.path.exists(p):
+            continue
+        rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
+        we[k] = [r["u"] for r in rows]
+
+    def _dg(trunc):
+        wk = [(w[:trunc] if trunc else w) for w in we]
+        if any(len(w) == 0 for w in wk):                      # MBAR needs samples from every state
+            return None
+        u_kn, N_k = assemble_ukn(wk, n_states=K)
+        res = MBAR(np.array(u_kn), np.array(N_k)).compute_free_energy_differences()
+        return RT * float(res["Delta_f"][0, K - 1]), RT * float(res["dDelta_f"][0, K - 1])
+
+    if not per_iteration:
+        return _dg(None)
+    trace, maxlen = [], max((len(w) for w in we), default=0)
+    for n in range(2, maxlen + 1):
+        r = _dg(n)
+        if r:
+            trace.append((n, r[0], r[1]))
+    return trace
+
+
 def smoke(out_dir=None, n_iter=5, steps_per_iter=20):
     """Tiny CPU smoke of the single-window machinery on an openmmtools testsystem (alanine dipeptide in vacuum,
     the sidechain as the 'alchemical' region). Proves build→MD→reduced-potentials→checkpoint→resume→log without
@@ -147,14 +182,20 @@ def smoke(out_dir=None, n_iter=5, steps_per_iter=20):
     out_dir = out_dir or tempfile.mkdtemp()
     ts = testsystems.AlanineDipeptideVacuum()
     alch = list(range(0, 5))                              # first few atoms as the alchemical region
-    run_window(ts.system, ts.positions, alch, window_index=3, out_dir=out_dir,
-               n_iter=n_iter, steps_per_iter=steps_per_iter, platform_name="CPU")
-    # exercise RESUME: call again, should continue from the checkpoint (no error, more iters logged)
+    sched = lambda_schedule()
+    for w in range(len(sched)):                           # run every window (independent) → MBAR needs all states
+        run_window(ts.system, ts.positions, alch, window_index=w, out_dir=out_dir,
+                   n_iter=n_iter, steps_per_iter=steps_per_iter, platform_name="CPU")
+    # exercise RESUME on one window: re-run → should continue from its checkpoint (more iters logged)
     run_window(ts.system, ts.positions, alch, window_index=3, out_dir=out_dir,
                n_iter=n_iter + 3, steps_per_iter=steps_per_iter, platform_name="CPU", resume=True)
-    last = _last_logged_iter(out_dir, 3)
-    print(f"SMOKE_OK window reached iter {last} (checkpoint+resume+per-iter reduced-potential log work) in {out_dir}")
-    return last
+    assert _last_logged_iter(out_dir, 3) == n_iter + 2, "resume did not extend the window"
+    # step 3: MBAR reduce → leg ΔG + per-iteration convergence trace (the every-iteration monitoring, e2e)
+    dg, se = reduce_leg(out_dir)
+    trace = reduce_leg(out_dir, per_iteration=True)
+    print(f"SMOKE_OK all {len(sched)} windows ran; checkpoint+resume OK; MBAR leg ΔG = {dg:.3f} ± {se:.3f} "
+          f"kcal/mol; convergence trace has {len(trace)} points (per-iteration). dir {out_dir}")
+    return dg
 
 
 if __name__ == "__main__":
