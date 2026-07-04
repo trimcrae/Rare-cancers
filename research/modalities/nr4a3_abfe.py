@@ -200,6 +200,101 @@ def selectivity_ddg(dg_bind_target, se_target, dg_bind_offtarget, se_offtarget):
     return dg_bind_target - dg_bind_offtarget, (se_target ** 2 + se_offtarget ** 2) ** 0.5
 
 
+def _sub(a, b):
+    return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
+
+
+def _dot(a, b):
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+
+
+def _nrm(a):
+    return _dot(a, a) ** 0.5
+
+
+def _cross(u, v):
+    return (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+
+
+def _ang3(a, b, c):
+    """Angle a-b-c (rad) from 3 coordinate tuples."""
+    import math
+    v1, v2 = _sub(a, b), _sub(c, b)
+    return math.acos(max(-1.0, min(1.0, _dot(v1, v2) / (_nrm(v1) * _nrm(v2)))))
+
+
+def _dih4(a, b, c, d):
+    """Dihedral a-b-c-d (rad) from 4 coordinate tuples."""
+    import math
+    b0, b1, b2 = _sub(a, b), _sub(c, b), _sub(d, c)
+    n = _nrm(b1)
+    b1n = (b1[0] / n, b1[1] / n, b1[2] / n)
+    v = tuple(b0[i] - _dot(b0, b1n) * b1n[i] for i in range(3))
+    w = tuple(b2[i] - _dot(b2, b1n) * b1n[i] for i in range(3))
+    return math.atan2(_dot(_cross(b1n, v), w), _dot(v, w))
+
+
+def select_boresch_anchors(coords_nm, ligand_atoms, receptor_atoms,
+                           r_min_nm=0.3, r_max_nm=0.8, ang_lo_deg=30.0, ang_hi_deg=150.0):
+    """Pick 3 ligand + 3 receptor anchor atoms and the reference geometry for a WELL-DEFINED Boresch restraint,
+    from a pose's coordinates (nm). Returns a dict:
+        {receptor_anchors:[R2,R1,R0], ligand_anchors:[L0,L1,L2],
+         r0_A, thetaA0_rad, thetaB0_rad, phiA0_rad, phiB0_rad, phiC0_rad}
+    matching add_boresch_restraint's bond order [R2,R1,R0,L0,L1,L2] (distance R0–L0; angles R1-R0-L0 &
+    R0-L0-L1; dihedrals R2-R1-R0-L0, R1-R0-L0-L1, R0-L0-L1-L2).
+
+    Selection (pragmatic, standard heuristics): ligand L0 = atom nearest the ligand centroid; L1 = ligand atom
+    farthest from L0; L2 = ligand atom maximising distance off the L0–L1 line (non-collinear). Receptor R0 =
+    atom nearest L0 within [r_min,r_max] nm (avoids a degenerate r0≈0 and keeps the anchor pocket-local); R1,R2
+    chosen greedily for separation while keeping BOTH new angles (thetaA, and R2-R1-R0) inside [ang_lo,ang_hi]°
+    so no angle sits near the 0/π sin-singularity that makes the standard-state correction blow up. Raises
+    ValueError if no non-degenerate set exists (caller should widen the receptor atom pool)."""
+    import math
+    ang_lo, ang_hi = math.radians(ang_lo_deg), math.radians(ang_hi_deg)
+    lig = list(ligand_atoms)
+    if len(lig) < 3:
+        raise ValueError("need ≥3 ligand atoms for a Boresch restraint")
+    cen = tuple(sum(coords_nm[a][k] for a in lig) / len(lig) for k in range(3))
+    L0 = min(lig, key=lambda a: _nrm(_sub(coords_nm[a], cen)))
+    L1 = max(lig, key=lambda a: _nrm(_sub(coords_nm[a], coords_nm[L0])))
+    # L2: farthest from the infinite line through L0-L1 (largest perpendicular distance → non-collinear)
+    d01 = _sub(coords_nm[L1], coords_nm[L0])
+    n01 = _nrm(d01) or 1.0
+    u01 = (d01[0] / n01, d01[1] / n01, d01[2] / n01)
+
+    def _perp(a):
+        v = _sub(coords_nm[a], coords_nm[L0])
+        proj = _dot(v, u01)
+        return _nrm(tuple(v[i] - proj * u01[i] for i in range(3)))
+    L2 = max((a for a in lig if a not in (L0, L1)), key=_perp)
+
+    cand = [a for a in receptor_atoms
+            if r_min_nm <= _nrm(_sub(coords_nm[a], coords_nm[L0])) <= r_max_nm]
+    if not cand:
+        raise ValueError(f"no receptor anchor within [{r_min_nm},{r_max_nm}] nm of the ligand — widen the pool")
+    R0 = min(cand, key=lambda a: _nrm(_sub(coords_nm[a], coords_nm[L0])))
+    # R1: farthest receptor atom giving thetaA = angle(R1,R0,L0) inside the safe window
+    R1_opts = sorted((a for a in receptor_atoms if a != R0),
+                     key=lambda a: -_nrm(_sub(coords_nm[a], coords_nm[R0])))
+    R1 = next((a for a in R1_opts if ang_lo <= _ang3(coords_nm[a], coords_nm[R0], coords_nm[L0]) <= ang_hi), None)
+    if R1 is None:
+        raise ValueError("no receptor R1 giving a non-degenerate thetaA — widen the pool")
+    # R2: farthest receptor atom giving angle(R2,R1,R0) inside the safe window (non-collinear third anchor)
+    R2_opts = sorted((a for a in receptor_atoms if a not in (R0, R1)),
+                     key=lambda a: -_nrm(_sub(coords_nm[a], coords_nm[R1])))
+    R2 = next((a for a in R2_opts if ang_lo <= _ang3(coords_nm[a], coords_nm[R1], coords_nm[R0]) <= ang_hi), None)
+    if R2 is None:
+        raise ValueError("no receptor R2 giving a non-degenerate angle — widen the pool")
+    c = coords_nm
+    return {
+        "receptor_anchors": [int(R2), int(R1), int(R0)], "ligand_anchors": [int(L0), int(L1), int(L2)],
+        "r0_A": _nrm(_sub(c[R0], c[L0])) * 10.0,
+        "thetaA0_rad": _ang3(c[R1], c[R0], c[L0]), "thetaB0_rad": _ang3(c[R0], c[L0], c[L1]),
+        "phiA0_rad": _dih4(c[R2], c[R1], c[R0], c[L0]), "phiB0_rad": _dih4(c[R1], c[R0], c[L0], c[L1]),
+        "phiC0_rad": _dih4(c[R0], c[L0], c[L1], c[L2]),
+    }
+
+
 def add_boresch_restraint(system, receptor_atoms, ligand_atoms, r0_A, thetaA0_rad, thetaB0_rad,
                           phiA0_rad, phiB0_rad, phiC0_rad,
                           K_r=20.0, K_thetaA=20.0, K_thetaB=20.0, K_phiA=20.0, K_phiB=20.0, K_phiC=20.0):
@@ -311,14 +406,15 @@ def _check_boresch_restraint():
     system = openmm.System()
     for _ in range(6):
         system.addParticle(12.0 * unit.amu)
-    # A geometry with r0=5 Å, both anchor angles 90°, dihedrals 0 — coordinates (nm) chosen to realise it.
-    pos = [openmm.Vec3(-0.2, 0.1, 0.0), openmm.Vec3(-0.1, 0.1, 0.0), openmm.Vec3(0.0, 0.0, 0.0),
-           openmm.Vec3(0.5, 0.0, 0.0), openmm.Vec3(0.5, 0.1, 0.0), openmm.Vec3(0.5, 0.1, 0.1)]
-    import math as _m
-    r0 = _m.sqrt((0.5) ** 2) * 10.0                          # |L0-R0| in Å = 5.0
-    thetaA = _angle(pos[1], pos[2], pos[3]); thetaB = _angle(pos[2], pos[3], pos[4])
-    phiA = _dihedral(pos[0], pos[1], pos[2], pos[3]); phiB = _dihedral(pos[1], pos[2], pos[3], pos[4])
-    phiC = _dihedral(pos[2], pos[3], pos[4], pos[5])
+    # A geometry with r0=5 Å — coordinates (nm) chosen to realise it. Reuse the tuple geometry helpers
+    # (_ang3/_dih4) that select_boresch_anchors uses, so the restraint reference matches the selector's.
+    c = [(-0.2, 0.1, 0.0), (-0.1, 0.1, 0.0), (0.0, 0.0, 0.0),
+         (0.5, 0.0, 0.0), (0.5, 0.1, 0.0), (0.5, 0.1, 0.1)]
+    pos = [openmm.Vec3(*p) for p in c]
+    r0 = _nrm(_sub(c[3], c[2])) * 10.0                        # |L0-R0| in Å = 5.0
+    thetaA = _ang3(c[1], c[2], c[3]); thetaB = _ang3(c[2], c[3], c[4])
+    phiA = _dih4(c[0], c[1], c[2], c[3]); phiB = _dih4(c[1], c[2], c[3], c[4])
+    phiC = _dih4(c[2], c[3], c[4], c[5])
     add_boresch_restraint(system, receptor_atoms=[0, 1, 2], ligand_atoms=[3, 4, 5],
                           r0_A=r0, thetaA0_rad=thetaA, thetaB0_rad=thetaB,
                           phiA0_rad=phiA, phiB0_rad=phiB, phiC0_rad=phiC)
@@ -333,31 +429,11 @@ def _check_boresch_restraint():
     assert e1 > 0.5, f"restraint did not penalise displacement: {e1}"
     ssc = boresch_standard_state_correction(r0, thetaA, thetaB, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0)
     assert math.isfinite(ssc), ssc
+    # cross-check: the restraint built from select_boresch_anchors' own geometry is ALSO ~0 at that geometry.
+    sel = select_boresch_anchors(c, ligand_atoms=[3, 4, 5], receptor_atoms=[0, 1, 2],
+                                 r_min_nm=0.3, r_max_nm=0.9)
+    assert sel["ligand_anchors"][0] in (3, 4, 5) and sel["receptor_anchors"][-1] in (0, 1, 2)
     return ssc
-
-
-def _angle(a, b, c):
-    import math
-    v1 = (a.x - b.x, a.y - b.y, a.z - b.z); v2 = (c.x - b.x, c.y - b.y, c.z - b.z)
-    dot = sum(i * j for i, j in zip(v1, v2))
-    n1 = math.sqrt(sum(i * i for i in v1)); n2 = math.sqrt(sum(i * i for i in v2))
-    return math.acos(max(-1.0, min(1.0, dot / (n1 * n2))))
-
-
-def _dihedral(a, b, c, d):
-    import math
-    b0 = (a.x - b.x, a.y - b.y, a.z - b.z); b1 = (c.x - b.x, c.y - b.y, c.z - b.z)
-    b2 = (d.x - c.x, d.y - c.y, d.z - c.z)
-    def cross(u, v):
-        return (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
-    def norm(u):
-        n = math.sqrt(sum(i * i for i in u)); return (u[0] / n, u[1] / n, u[2] / n)
-    b1n = norm(b1)
-    v = [b0[i] - sum(b0[j] * b1n[j] for j in range(3)) * b1n[i] for i in range(3)]
-    w = [b2[i] - sum(b2[j] * b1n[j] for j in range(3)) * b1n[i] for i in range(3)]
-    x = sum(v[i] * w[i] for i in range(3))
-    y = sum(cross(b1n, v)[i] * w[i] for i in range(3))
-    return math.atan2(y, x)
 
 
 if __name__ == "__main__":

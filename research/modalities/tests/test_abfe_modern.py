@@ -100,3 +100,47 @@ def test_selectivity_ddg_sign_and_error():
     ddg, se = abfe.selectivity_ddg(-12.0, 0.6, -8.0, 0.8)
     assert abs(ddg - (-4.0)) < 1e-9, ddg
     assert abs(se - (0.6 ** 2 + 0.8 ** 2) ** 0.5) < 1e-9, se
+
+
+def test_geometry_helpers_known_values():
+    import math
+    # right angle at origin: (1,0,0)-(0,0,0)-(0,1,0) = 90°
+    assert abs(abfe._ang3((1, 0, 0), (0, 0, 0), (0, 1, 0)) - math.pi / 2) < 1e-9
+    # classic +90° dihedral: a=(1,0,0), b=(0,0,0), c=(0,0,1), d=(0,1,1)
+    dih = abfe._dih4((1, 0, 0), (0, 0, 0), (0, 0, 1), (0, 1, 1))
+    assert abs(abs(dih) - math.pi / 2) < 1e-9, dih
+
+
+def test_select_boresch_anchors_geometry_and_guards():
+    import math
+    # Ligand atoms 0,1,2 near origin; receptor atoms 3,4,5 offset ~0.5 nm along +x (in-pocket window).
+    coords = [
+        (0.00, 0.00, 0.00),   # 0 ligand (centroid-ish → L0)
+        (0.20, 0.00, 0.00),   # 1 ligand (farthest from L0 → L1)
+        (0.00, 0.20, 0.05),   # 2 ligand (off the L0-L1 line → L2)
+        (0.50, 0.00, 0.00),   # 3 receptor (nearest L0 at 0.5 nm → R0)
+        (0.80, 0.30, 0.00),   # 4 receptor
+        (0.80, 0.00, 0.40),   # 5 receptor
+    ]
+    sel = abfe.select_boresch_anchors(coords, ligand_atoms=[0, 1, 2], receptor_atoms=[3, 4, 5])
+    assert sel["ligand_anchors"][0] == 0                    # L0 = nearest centroid
+    assert set(sel["ligand_anchors"]) == {0, 1, 2}         # all three distinct ligand anchors
+    assert sel["receptor_anchors"][-1] == 3                 # R0 = nearest receptor to L0
+    assert len(set(sel["receptor_anchors"])) == 3          # three distinct receptor anchors
+    assert abs(sel["r0_A"] - 5.0) < 1e-6                    # |R0-L0| = 0.5 nm = 5 Å
+    # all reported angles must be inside the safe non-degenerate window (30–150°)
+    for key in ("thetaA0_rad", "thetaB0_rad"):
+        assert math.radians(30) <= sel[key] <= math.radians(150), (key, sel[key])
+    # dihedrals must be finite and in (−π, π]
+    for key in ("phiA0_rad", "phiB0_rad", "phiC0_rad"):
+        assert -math.pi - 1e-9 <= sel[key] <= math.pi + 1e-9, (key, sel[key])
+
+
+def test_select_boresch_anchors_raises_when_no_receptor_in_window():
+    # all receptor atoms > r_max from the ligand → no valid R0
+    coords = [(0, 0, 0), (0.2, 0, 0), (0, 0.2, 0.05), (5.0, 0, 0), (5.3, 0.3, 0), (5.3, 0, 0.4)]
+    try:
+        abfe.select_boresch_anchors(coords, ligand_atoms=[0, 1, 2], receptor_atoms=[3, 4, 5])
+        assert False, "should have raised when no receptor anchor is within the distance window"
+    except ValueError:
+        pass
