@@ -136,7 +136,7 @@ def _yank_yaml(receptor, n_iter, out_dir, lig_sdf, rec_pdb):
     return f"""---
 options:
   minimize: yes
-  verbose: no
+  verbose: yes
   output_dir: {out_dir}
   temperature: 300*kelvin
   pressure: 1*atmosphere
