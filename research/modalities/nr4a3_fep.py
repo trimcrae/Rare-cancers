@@ -497,7 +497,7 @@ def run_real(unit, phase="prod"):
     # SEGMENTED PROD (default): run yank in FEP_CONV_INTERVAL-iter chunks, each RESUMING + extending the same
     # .nc, and emit a convergence point per chunk → a live ΔG-vs-iteration trace (small jsonl syncs; the big .nc
     # does not). FEP_CONV_INTERVAL=0 → single-shot prod (legacy). Adds ~1 analyze (~1-2 min) per chunk.
-    conv_int = int(os.environ.get("FEP_CONV_INTERVAL", "500"))
+    conv_int = int(os.environ.get("FEP_CONV_INTERVAL", "250"))   # segment size = spot-loss window + plot cadence
     if phase == "prod" and conv_int > 0:
         targets = list(range(PILOT_ITER + conv_int, PROD_ITER + 1, conv_int))
         if not targets or targets[-1] != PROD_ITER:

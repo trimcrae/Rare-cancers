@@ -61,11 +61,11 @@ error still huge by ~iter 950 (~2h), that flags a convergence/overlap problem to
 - Pre-baked ECR image: `646605541856.dkr.ecr.us-east-2.amazonaws.com/nr4a3-fep:latest` (build-fep-image.yml; ECR IAM granted 2026-07-04).
 
 
-## CONVERGENCE PLOT CADENCE (trimcrae, 2026-07-04): every 500 ITERATIONS, not hourly.
-- Paralogue jobs emit a `<receptor>_conv.jsonl` point per 500-iter prod segment (FEP_CONV_INTERVAL=500).
+## CONVERGENCE PLOT CADENCE (trimcrae, 2026-07-04): every 250 ITERATIONS (was 500 — smaller = smaller spot-loss window), not hourly.
+- Paralogue jobs emit a `<receptor>_conv.jsonl` point per 500-iter prod segment (FEP_CONV_INTERVAL=250).
 - Retrieve: `fep-status ckpt_prefix=nr4a3-fep-sn/ckpt` cats all `*_conv.jsonl` (added to `wanted`).
 - Plot: `python plot_fep_convergence.py out.png <conv.jsonl>` overlays NR4A3+paralogues; SendUserFile.
-- Poll ~every 1.8h (=500 iters @ ~13s/iter); re-plot + send when max-iter advanced by 500.
+- Poll ~every 1.8h (=250 iters @ ~13s/iter); re-plot + send when max-iter advanced by 250.
 - Starts once paralogues launch (post NR4A3 verdict). NR4A3 itself: pilot(500)+final(3000) only (single-shot).
 
 ## Monitoring
