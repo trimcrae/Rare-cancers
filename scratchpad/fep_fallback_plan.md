@@ -25,6 +25,15 @@ Negative ΔΔG = NR4A3-selective (the paper's headline). Yank ABFE, one experime
 - **Old banked number (do NOT confuse):** nr4a3-fep-trim/ckpt/0/nr4a3.json = pilot ΔG **−10.5 ± 2.3** from the
   swap-ALL run that then crashed. Proves setup+binding; does NOT prove the fix. Superseded by nr4a3-fep-sn.
 
+## ★ SAMPLING at last (2026-07-04 ~16:28 UTC) — all 4 bugs cleared
+Job `nr4a3-fep-sn-0-2026-07-04-15-58-00-010` **InProgress/Training**, live HREX at **iter 106/500** (pilot),
+~12.5 s/iter, "swap only neighboring replicas" + "No online analysis" confirmed. Bugs cleared: (1) numba →
+swap-neighbors; (2) schema → samplers header; (3) LEaP exit 31 → `_clean_pdb_for_leap` pure-python receptor
+clean (pdb4amber absent); (4) online analysis disabled. Pilot ΔG ETA ~17:49 UTC → auto-extends to prod (3000).
+iter-630 gate de-risked (swap-all routine no longer used). WATCH: swap acceptance 0/12 at iter ~105 (normal
+early; widen λ ladder if it stays ~0 — feeds convergence check, not a blocker).
+Next: pilot ΔG → confirm past 630 → launch nr4a1,nr4a2 (on pre-baked image if build pushed) → reduce ΔΔG.
+
 ## Monitoring
 - Self-wake = **background bash `sleep` → re-invokes agent on exit** (CLAUDE.md verified pattern). Current
   timer: `bdga0are8` (~35 min → first setup/sampling check).
