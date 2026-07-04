@@ -34,6 +34,8 @@ iter-630 gate de-risked (swap-all routine no longer used). WATCH: swap acceptanc
 early; widen λ ladder if it stays ~0 — feeds convergence check, not a blocker).
 Next: pilot ΔG → confirm past 630 → launch nr4a1,nr4a2 (on pre-baked image if build pushed) → reduce ΔΔG.
 
+## ★ iter-630 GATE CLEARED (2026-07-04 18:59 UTC) — NR4A3 at iter 692/3000, stable, past the old numba crash point. swap-neighbors definitively fixes it. Converged ETA ~03:12 UTC 07-05 (~8h). Job survived a container restart (AWS-side).
+
 ## NR4A3 PILOT ΔG (2026-07-04 ~18:21 UTC) — NOT a verdict yet
 `report_fep`: **NR4A3 ΔG_bind = −15.7 ± 19.7 kcal/mol (pilot, 500 iters)**. Central value negative (suggests
 binding) BUT error ±19.7 is HUGE (> the value) → NOT a binding verdict; consistent with anything. Do NOT
