@@ -282,3 +282,14 @@ VALIDATE-FIRST: launched r2 complex-nr4a3 ONLY (seed=2,pose1) as single-shard sh
 seed=2 + iters advancing + no arg errors. If OK -> launch rest of r2 (solvent+complex-nr4a1/2) + all r3.
 AGGREGATE (later): reduce each replicate -> 3 ΔG_bind/receptor -> mean ± SD across replicates = EMPIRICAL uncertainty
 (the honest number). Extend plot to overlay replicates / show mean±replicate-SD.
+
+## ★ DECISION (trimcrae, 2026-07-05 ~7:40 AM ET): OPTION A — DIAGNOSE-FIRST toward gold standard
+Spend ~$130 to learn whether INDEPENDENT-WINDOW sampling converges this system before deciding if HREX is mandatory.
+SPEC: 3 replicates (r1=nr4a3-abfe, r2=seed2/pose1, r3=seed3/pose2) @ **n_iter=2000 (2 ns/window)**, 12 windows,
+3 receptors + shared solvent. Reduce each WITH convergence_report → 3 ΔG_bind/receptor → REPLICATE SD (+ per-run
+forward/reverse + block-SD). DECISION CRITERION: replicates agree (small SD) AND each plateaus → converges →
+extend winner to 5 ns for final number (Option B-quality, cheap). Replicates disagree/keep drifting → evidence
+HREX (Option C, ~$800 + engineering) is REQUIRED — build it then, knowing it's necessary.
+COST ~$108 (3×4 legs×12 win×2 ns / 1.2 ns/GPU-h × $0.45 spot). Wall ~2-3 days.
+SEQUENCING: r1 finishes current 1000 → extend to 2000. r2/r3 launch fresh to 2000 AFTER r2 seed-shard validates
+(monitor bzs4abq8s ~11:45 UTC). NOTE: n_iter 1000→2000 (was 1000 in earlier notes).
