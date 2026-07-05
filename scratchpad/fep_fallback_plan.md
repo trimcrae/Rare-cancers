@@ -307,3 +307,12 @@ disagree/drift → HREX justified. Cost ~$108.
 OPEN (awaiting trimcrae OK, do NOT auto-launch — breadth-first codified): Boltz-2/Chai-1 BINARY co-folding
 cross-check of denovo_401-NR4A3 pose + paralogues (new-axis breadth; cryptic-pocket caveat: may predict closed
 pocket / misplace novel ligand → negative is informative, positive read skeptically).
+
+## ⚠ BOLTZ BINARY CO-FOLD RESULT (2026-07-05 ~9:25 AM ET) — does NOT corroborate FEP selectivity
+protein<->ligand pair_iptm (pocket-placement confidence): CONTROL CRBN+lena 0.778 (PASS); NR4A2 0.324 > NR4A1
+0.264 > NR4A3 0.233. ligand_iptm: control 0.990; NR4A2 0.873 > NR4A1 0.824 > NR4A3 0.771. ALL 3 NR4A low
+(cryptic-pocket/orphan-receptor/de-novo-ligand = Boltz's worst regime; protein fold confident, ligand placement
+not). NR4A3 LOWEST (opposite of FEP) but within-noise. HONEST: co-fold neither confirms nor refutes FEP — it's in
+its unreliable regime; NOT independent support. Structure/pose axis stays the load-bearing uncertainty; this
+breadth technique can't resolve it. Result -> research/modalities/nr4a3-binary-cofold-result.json. Optional: pose
+vs docked RMSD (low priority — low-confidence poses not worth comparing).

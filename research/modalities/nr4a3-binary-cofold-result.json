@@ -1,0 +1,17 @@
+{
+  "_note": "Boltz-2 BINARY co-folding (AF3-class) of denovo_401 into NR4A{3,1,2} LBD — independent pose/pocket cross-check of the docked pose used by the ABFE. Key metric = protein<->ligand pair_chains_iptm[0][1] (pocket-placement confidence) and ligand_iptm. Higher = more confident placement.",
+  "ligand": "denovo_401",
+  "ligand_smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
+  "results": {
+    "CRBN+lenalidomide_CONTROL": {"ligand_iptm": 0.990, "protein_ligand_pair_iptm": 0.778, "complex_iplddt": 0.876, "verdict": "PASS — Boltz confidently seats a known in-distribution ligand"},
+    "NR4A3": {"ligand_iptm": 0.771, "protein_ligand_pair_iptm": 0.233, "complex_iplddt": 0.634, "complex_ipde": 2.76, "protein_chain_ptm": 0.909},
+    "NR4A1": {"ligand_iptm": 0.824, "protein_ligand_pair_iptm": 0.264, "complex_iplddt": 0.589, "complex_ipde": 2.01, "protein_chain_ptm": 0.939},
+    "NR4A2": {"ligand_iptm": 0.873, "protein_ligand_pair_iptm": 0.324, "complex_iplddt": 0.731, "complex_ipde": 1.46, "protein_chain_ptm": 0.959}
+  },
+  "honest_interpretation": [
+    "Control PASSES (0.78 interface, 0.99 ligand_iptm) -> pipeline valid.",
+    "All 3 NR4A binary co-folds have LOW ligand-interface confidence (pair_iptm 0.23-0.32 vs 0.78 control). Protein FOLD is confident (chain ptm 0.91-0.96); LIGAND PLACEMENT is not. This is exactly the pre-registered cryptic-pocket + orphan-receptor + de-novo-ligand failure mode: no ligand-bound NR4A structures exist in training data.",
+    "Cross-paralogue ordering does NOT favor NR4A3 -> by both metrics NR4A2 > NR4A1 > NR4A3, i.e. NR4A3 is LOWEST-confidence (opposite of the FEP selectivity), BUT all three are close and in the low-confidence regime -> within noise, not a real anti-selectivity signal.",
+    "CONCLUSION: the independent co-folder does NOT corroborate the FEP selectivity. It is in its known-unreliable regime here, so this is NOT a refutation of the FEP (a different, physics-based method on the metad-opened pocket) — but it is NOT independent support either. Net: the structure/pose axis remains the load-bearing uncertainty, and THIS breadth technique cannot resolve it."
+  ]
+}
