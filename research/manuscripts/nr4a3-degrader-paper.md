@@ -20,7 +20,10 @@ applied, is in [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redtea
 ## Abstract
 NR4A nuclear receptors (NR4A1/2/3) are textbook "undruggable" transcription factors: the canonical
 Nurr1/NR4A2 crystal structure shows a ligand-binding pocket occluded by bulky side chains, and NR4A3 has
-no experimental structure at all. Yet NR4A3 is a compelling **selective** degradation target — it drives
+no experimental structure at all — yet NR4A3 is nonetheless experimentally *ligandable* (fragment-derived
+low-µM inverse agonists and NR4A3-selective indole-3-carbinol analogues exist; Zaienne 2022, Safe 2025),
+with only the *structural* basis of that ligandability missing. NR4A3 is also a compelling **selective**
+degradation target — it drives
 two cancers by *gain of NR4A3*: extraskeletal myxoid chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion,
 which retains a near-intact NR4A3 ligand-binding domain) and acinic cell carcinoma of the salivary glands
 (AciCC; NR4A3 over-expression via enhancer hijacking), and in both the goal is to remove NR4A3 while
