@@ -109,6 +109,27 @@ The manuscript carries a lot of *process scaffolding* that must move out of the 
       then send the day the preprint posts. Log responses in that file's tracking table.
 - [ ] Submit to the chosen journal in parallel.
 
+## Handling new in-silico science that lands *while the paper is in review*
+This is a long-lived project on a rising in-silico frontier (`method-watch.md`), and the journal clock is
+long (JCIM: ~6 wk to first decision, ~5–9 mo submission→online realistically). So new capability/results
+**will** land mid-review. That does **not** mean holding submission indefinitely — "something better lands in
+6 months" is always true, so novelty alone is never the trigger. The **preprint decouples dissemination from
+the journal clock**: ChemRxiv is *versioned* (post v2/v3 anytime), so new science reaches the outreach
+audience immediately regardless of where the journal copy is frozen. Route each new result by a **materiality
+test**, not by novelty:
+
+| New science… | Channel | Why |
+|---|---|---|
+| **changes a conclusion / fixes a load-bearing weakness** (e.g. a structure model that *corroborates the cryptic pose* Boltz couldn't; a converged cheap cryptic-pocket FEP running the SKIP'd `denovo_401` selectivity FEP; better induced-fit docking that resolves the +12.83-release-vs-+7.44-metad frame-dependence) | **Fold into the revision round** (free — reviewers expect the paper to change; add it in the response). If it lands *pre-decision* and is transformative, **withdraw → strengthen → resubmit** (resets the clock; only for standing-changing results). If it *refutes* a claim, it is **mandatory** before publishing (integrity guardrail). | These touch the claims, so they belong *in* the paper. The revision round is the zero-cost injection point. |
+| **adds another confirmatory axis** without changing a conclusion (breadth-first "new axis" work) | **Preprint v2 + a follow-up paper.** Do **not** reopen/withdraw the submission for it. | It's a second paper, not a revision. |
+| **routine / reviewer-anticipated** (e.g. the FEP replicate + convergence already queued) | Hold as **revision-ready material**; attach when a reviewer asks (they will). | Not new science — expected hardening. |
+
+**Guardrail (from `method-watch.md`):** a coming capability justifies *waiting or re-running* — it never
+licenses claiming a result before the method supports it. **Timing tactic:** don't submit the week before a
+*known-imminent, conclusion-changing* capability (the monthly digest flags warming triggers); don't hold for
+anything merely confirmatory. After **acceptance** the manuscript is frozen (proof corrections are typo-level
+only) — all further new science goes to the preprint and/or a follow-up paper.
+
 ## Explicitly NOT doing (per regime)
 - No FEP (ceiling-bound; least reliable here) beyond an optional ~$100 spot run only if a reviewer demands it.
 - No self-funded wet-lab synthesis/assay ($5–25k) — that's a funded collaborator's call, offered *via* the
