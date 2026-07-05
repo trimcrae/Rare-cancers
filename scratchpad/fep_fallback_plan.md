@@ -235,3 +235,9 @@ glitching to '0 jobs' repeatedly during this — the cw_job LIVE TAIL was the au
 Yank stop CONFIRMED ("STOP requested ... (was InProgress)"). All 3 modern complex legs InProgress/Training, NO
 interrupts: complex-nr4a3(00-53-14), complex-nr4a1(01-38-24-264), complex-nr4a2(01-38-24-988). ~30min/window →
 nr4a3 ETA ~06:58UTC/2:58am ET, nr4a1/2 ~07:46UTC/3:46am ET → reduce → ΔΔG ~4am ET. Next check ~2h.
+
+## ⚠️ GITHUB MCP TOKEN EXPIRED (2026-07-05 ~1:58 AM ET) — dispatch blocked
+Can no longer dispatch fep-status / gpu-abfe (status, reduce, cat_s3) — GitHub MCP needs re-auth (git push still
+works via GH_TOKEN; workflow dispatch 403s on that token). Fleet UNAFFECTED — runs on AWS, completes ~3:46am ET,
+data to S3. ON RE-AUTH: dispatch gpu-abfe mode=reduce receptors=nr4a3,nr4a1,nr4a2 → cat_s3 *_dg_bind.json →
+nr4a3_abfe.selectivity_ddg = ΔΔG. Retry timer set ~2.5h to re-attempt dispatch when connector may be back.
