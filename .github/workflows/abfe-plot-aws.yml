@@ -84,9 +84,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           cp research/modalities/abfe_convergence.png "$RUNNER_TEMP/abfe_convergence.png"
           cp scratchpad/abfe_traces.json "$RUNNER_TEMP/abfe_traces.json"
+          # the rendered files are UNTRACKED on the main checkout; once modalities-cache tracks these paths a
+          # branch switch would refuse to overwrite them — remove the working-tree copies first (saved in TEMP).
+          rm -f research/modalities/abfe_convergence.png research/modalities/abfe_traces.json
           git fetch origin modalities-cache || true
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
-            git checkout -B modalities-cache origin/modalities-cache
+            git checkout -f -B modalities-cache origin/modalities-cache
           else
             git checkout --orphan modalities-cache && git rm -rf . >/dev/null 2>&1 || true
           fi
