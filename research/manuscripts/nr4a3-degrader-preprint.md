@@ -1,5 +1,10 @@
 # Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a "ligand-independent" nuclear receptor
 
+> **Working title — NOT finalized.** The title is deliberately deferred to post-time and will be chosen once
+> the selectivity FEP result is in hand (a confirming result licenses a bolder title; a refuting one a more
+> retreating one; the frontrunner default is a result-led framing with "predicted-selective … warhead
+> candidate"). See the title options + rationale in `nr4a3-degrader-preprint-plan.md`.
+
 **Tristan D. McRae**
 
 *Independent researcher. Correspondence: trimcrae@gmail.com*
