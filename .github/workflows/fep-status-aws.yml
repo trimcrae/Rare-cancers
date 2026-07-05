@@ -149,7 +149,17 @@ jobs:
                       body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
                       print(f"\n=== {k} ({o['Size']} B) ===")
                       try:
-                          print(json.dumps(json.loads(body), indent=2))
+                          d = json.loads(body)
+                          tr = d.pop("trace", None)              # dump summary; emit trace compactly (chunked)
+                          print(json.dumps(d, indent=2))
+                          if tr:
+                              pts = [[p["iter"], round(p["dg_bind"], 3), round(p["se"], 3)] for p in tr]
+                              CH = 100
+                              nch = max(1, (len(pts) + CH - 1) // CH)
+                              for c in range(nch):
+                                  print("TRACE_CHUNK %s %d/%d %s" % (k, c + 1, nch,
+                                                                     json.dumps(pts[c * CH:(c + 1) * CH])))
+                              print(f"TRACE points={len(pts)} for {k}")
                       except Exception:
                           print(body[:4000])
                   elif k.endswith(".jsonl"):
