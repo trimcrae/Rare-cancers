@@ -131,6 +131,11 @@ def _run_in_env(cmd, work, prebaked):
     if not have:
         subprocess.run([conda, "create", "-y", "-n", "abfe", "--override-channels", "-c", "conda-forge",
                         *MODERN_PKGS], check=True)
+    # OpenCL vendor ICD so OpenMM's OpenCL platform registers the A10G — the conda OpenMM CUDA build is
+    # compiled against a newer CUDA than the g5 driver supports (CUDA_ERROR_UNSUPPORTED_PTX_VERSION), so
+    # _select_platform() falls back CUDA→OpenCL and OpenCL needs this vendor file (same as entry_fep.py).
+    subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
+                    "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
     env = os.environ.copy()
     env["PYTHONPATH"] = ""
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "abfe", *cmd], cwd=work, env=env)

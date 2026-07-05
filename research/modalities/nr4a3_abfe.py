@@ -95,6 +95,43 @@ def _last_logged_iter(out_dir, window_index):
     return last
 
 
+_PLATFORM_CACHE = {}
+
+
+def _select_platform(preferred="CUDA", allow_cpu_fallback=False):
+    """Return the first WORKING OpenMM platform, validated by a tiny single-particle energy eval that forces
+    kernel/module load. `getPlatformByName` only checks REGISTRATION — the conda-forge OpenMM CUDA build is
+    compiled against a newer CUDA than the g5 driver supports, so CUDA registers yet fails at module load with
+    CUDA_ERROR_UNSUPPORTED_PTX_VERSION. So try preferred → CUDA → OpenCL (GPU, runtime-compiled, no PTX issue)
+    and pick the first that actually runs (same approach as mmgbsa_energy._platform; needs the OpenCL vendor ICD
+    written by entry_abfe.py / the image). CPU only if explicitly the preferred or allow_cpu_fallback=True —
+    never a silent GPU→CPU fallback."""
+    import openmm
+    from openmm import unit
+    if preferred in _PLATFORM_CACHE:
+        return _PLATFORM_CACHE[preferred]
+    order = [preferred] + [p for p in ("CUDA", "OpenCL") if p != preferred]
+    if preferred == "CPU" or allow_cpu_fallback:
+        order.append("CPU")
+    last = None
+    for name in order:
+        try:
+            plat = openmm.Platform.getPlatformByName(name)
+            s = openmm.System(); s.addParticle(1.0)
+            integ = openmm.VerletIntegrator(1.0 * unit.femtoseconds)
+            ctx = openmm.Context(s, integ, plat)
+            ctx.setPositions([openmm.Vec3(0, 0, 0)] * unit.nanometer)
+            ctx.getState(getEnergy=True).getPotentialEnergy()          # forces kernel load → catches bad PTX
+            del ctx, integ
+            _PLATFORM_CACHE[preferred] = plat
+            print(f"[abfe] OpenMM platform: {name}", flush=True)
+            return plat
+        except Exception as e:  # noqa: BLE001 — registered but unusable; try the next
+            print(f"[abfe] platform {name} unavailable: {str(e)[:90]}", flush=True)
+            last = e
+    raise RuntimeError(f"no working OpenMM platform (tried {order}); last error: {last}")
+
+
 def run_window(reference_system, positions, alchemical_atoms, window_index, out_dir,
                schedule=None, temperature_K=300.0, n_iter=1000, steps_per_iter=500, timestep_fs=2.0,
                platform_name="CPU", resume=True):
@@ -111,7 +148,7 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
     beta = (1.0 / (unit.MOLAR_GAS_CONSTANT_R * T)).value_in_unit(unit.mole / unit.kilojoule)  # 1/(kJ/mol)
     integrator = integrators.LangevinIntegrator(temperature=T, collision_rate=1.0 / unit.picoseconds,
                                                 timestep=timestep_fs * unit.femtoseconds)
-    context = openmm.Context(alch_system, integrator, openmm.Platform.getPlatformByName(platform_name))
+    context = openmm.Context(alch_system, integrator, _select_platform(platform_name))
     elec, sterics = schedule[window_index]
 
     def _set_lambda(le, ls):
