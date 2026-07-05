@@ -221,3 +221,12 @@ ETA: nr4a3 complex (started 00:58UTC) → ~06:55UTC/2:55am ET; nr4a1/nr4a2 (star
 meta.json confirms Boresch anchors selected on real NR4A3 pocket: r0=3.48Å, thetaA=136°, thetaB=110° (both in
 30-150° guard band — the thetaB fix works on a real receptor). Convergence: check SE at reduce; extend if loose.
 Read jsonl progress: fep-status cat_s3=nr4a3-abfe/ckpt/complex-<r>/<r>/complex (window_XX.jsonl line count=iters).
+
+## ⛔ YANK NR4A3 SPOT-INTERRUPTED + RESET → STOPPED (2026-07-05 ~11:20 PM ET)
+Live CW tail @03:17UTC showed the 15-58 job at **iter 579/3000** (was 2768/3000 @02:23UTC) with a fresh 2:33
+wall clock — a spot interrupt that resumed from a STALE monolithic-.nc checkpoint (~iter 500), losing ~2200 iters,
+possibly with a changed replica count. This is the EXACT broken-Yank-checkpoint failure that motivated the modern
+stack. Per the standing NO-RESUME rule → StopTrainingJob nr4a3-fep-sn-0-2026-07-04-15-58-00-010. **DONE WITH YANK.**
+No cross-check from Yank; the modern fleet IS the NR4A3 ΔG_bind source now (validated engine, per-iteration
+checkpoints → ≤1 iter lost on interrupt, unlike Yank). Fleet ETA ~4am ET → reduce → ΔΔG. (ListTrainingJobs was
+glitching to '0 jobs' repeatedly during this — the cw_job LIVE TAIL was the authoritative signal.)
