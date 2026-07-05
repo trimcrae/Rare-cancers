@@ -41,6 +41,25 @@ read it before making changes.
   with no wet lab (cryptic-pocket druggability → selective warhead → paralogue-selectivity controls → ternary /
   degradation geometry → FEP), every result at its true weight. The preprint documents *that*, not a
   ship-when-adequate minimum.
+- **★★ WHAT "STATE OF THE ART" MEANS = BREADTH-FIRST, STANDARD-DEPTH (trimcrae, 2026-07-05 — clarifies the North
+  Star; codified to stop it drifting into "spend $1000s for a marginal CI").** "State of the art" = cover every
+  distinct *current technique* that adds a **NEW axis of evidence** (a new structure predictor, pose/complex
+  method, ternary-geometry tool, ML potential, selectivity model — the "if an AlphaFold-class tool exists, use
+  it" rule) — NOT exhaustively optimizing any ONE test past its field standard. **Decision rule (apply before
+  every GPU spend):**
+  - **Add a technique** (new axis / new failure-mode it can catch) → **default YES** — this is what buys "state
+    of the art"; watch/trigger list = [research/method-watch.md](./research/method-watch.md).
+  - **Deepen one already-run test past its field standard** (more FEP sampling, extra force fields, more
+    replicates, tighter CIs, HREX-when-independent-windows-suffice) → **default NO**; allowed only when the
+    standard-rigor result is **genuinely ambiguous AND that ambiguity is decision-relevant.** "It would be more
+    rigorous / closer to gold" is **not** a reason.
+  - **Run each test to its field standard, then STOP.** (ABFE standard = converged by forward/reverse + ~3
+    independent replicates + honest **replicate-SD, not MBAR-SE** error bars. Past that is marginal.)
+  - **Cost guardrail:** one test's validation must not balloon into $1000s for CI-tightening; a run that is
+    "more of a test we've already done to standard" needs an explicit written *"why isn't standard enough here."*
+    A breadth dollar (new technique, new axis) beats a depth dollar (one test, past standard) every time.
+  - **Anti-pattern that triggered this:** rigor added *reactively* one layer at a time (HREX→replicates→
+    conformers→2nd-FF). Scope the standard per test **up front**; don't escalate under prodding.
 - **OPERATING REGIME (2026-07-01, trimcrae; UPDATED) — solo-researcher scale; make the paper as strong as
   in-silico allows BEFORE preprinting, then hand off to wet labs.**
   See **emc-treatment-strategy.md → "Operating regime (2026-07-01)"**. In short: one independent researcher,

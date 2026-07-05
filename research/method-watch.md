@@ -17,6 +17,13 @@ re-running when the frontier moves. Nothing here is "dead"; parked = "revisit wh
 **Integrity guardrail:** a coming capability justifies waiting and re-running — it never licenses
 claiming the result before the method can support it.
 
+**This file IS the "breadth" half of "state of the art."** Per the codified principle
+(`CLAUDE.md → "WHAT 'STATE OF THE ART' MEANS = BREADTH-FIRST, STANDARD-DEPTH"`), a *new technique* that
+opens a new evidence axis (rows below) is **default-worth-adding**; but *deepening a test we've already
+run to field standard* (more FEP sampling, extra force fields, more replicates, HREX-when-independent-
+windows-suffice) is **default-NO** unless the standard result is genuinely ambiguous and decision-relevant.
+Adding a row here (breadth) beats over-optimizing an existing test (depth-past-standard).
+
 > **Read the latest auto-digest:**
 > `git fetch origin method-watch-cache`
 > `git show origin/method-watch-cache:research/method-watch-digest.md`
