@@ -55,6 +55,17 @@ const TOPICS = [
     trigger: "robust cryptic-pocket prediction → re-grade the NR4A3 LBD undruggability prior without GPU MD",
   },
   {
+    // NEW (2026-07-05): cheap generative conformational-ensemble models (BioEmu / AlphaFlow /
+    // subsampled-MSA AlphaFold / distributional structure prediction). If one validates against known
+    // cryptic pockets, the per-target "open the pocket" cost collapses from GPU-days of MD to pennies —
+    // which (a) cross-checks the NR4A3 metadynamics cheaply, and (b) flips the neglected-target
+    // cryptic-pocket druggability atlas (IDEAS.md Platform/vision #4) from focused-class-only to
+    // proteome-scale feasible.
+    key: "cheap generative conformational-ensemble models (BioEmu / AlphaFlow / subsampled-MSA AF)",
+    query: '(TITLE:BioEmu OR TITLE:AlphaFlow OR TITLE:"conformational ensemble" OR TITLE:"equilibrium ensemble" OR TITLE:"generative" OR TITLE:"Boltzmann generator" OR TITLE:"MSA subsampling" OR TITLE:"structural ensemble" OR TITLE:"protein dynamics") AND (TITLE:protein OR TITLE:structure OR TITLE:ensemble OR TITLE:conformation OR TITLE:"deep learning" OR TITLE:"machine learning")',
+    trigger: "a cheap generative conformational-ensemble model validated against known cryptic pockets → (a) re-grade the NR4A3 LBD cryptic-pocket ensemble at near-zero cost as a cross-check on the metadynamics; (b) unlock proteome-scale feasibility for the cryptic-pocket druggability atlas (IDEAS.md Platform/vision #4)",
+  },
+  {
     // NEW: an in-silico way to test/predict tumour delivery — the ASO/siRNA route's gate.
     key: "in-silico oligonucleotide / nanoparticle tumour-delivery prediction",
     query: '(TITLE:"oligonucleotide conjugate" OR TITLE:"antibody-oligonucleotide" OR TITLE:"siRNA delivery" OR TITLE:"tumor delivery" OR TITLE:"tumour delivery" OR TITLE:"endosomal escape" OR TITLE:"tumor penetration" OR TITLE:"tumour penetration") AND (predict OR prediction OR "machine learning" OR "deep learning" OR "in silico" OR computational OR model)',
@@ -121,6 +132,8 @@ const REPOS = [
   ["RosettaCommons/RFdiffusion", "de-novo binder design"],
   ["bowman-lab/PocketMiner", "cryptic-pocket prediction"],
   ["bytedance/protenix", "open AF3-class folding"],
+  ["microsoft/bioemu", "cheap generative equilibrium ensembles (cryptic-pocket atlas enabler)"],
+  ["bjing2016/alphaflow", "AlphaFlow conformational ensembles (cryptic-pocket atlas enabler)"],
 ];
 
 const SINCE_DAYS = Number(process.env.METHOD_WATCH_DAYS || 120);

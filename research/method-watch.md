@@ -40,6 +40,7 @@ below, do the paired action and open the follow-up; otherwise no action.
 | open **AF3-class ternary-complex** prediction | model **NR4A3–PROTAC–E3** degradability geometry |
 | reliable **structure-based generative + selectivity** scoring | design the **NR4A3 warhead** at the `nr4a-selectivity.json` divergent handles |
 | robust **cryptic-pocket** prediction | re-grade the NR4A3 LBD **undruggability** prior without GPU MD |
+| **cheap generative conformational-ensemble** model (BioEmu / AlphaFlow / subsampled-MSA AlphaFold) **validated against known cryptic pockets** — i.e. it recovers CryptoSite/PocketMiner benchmark sites without GPU-days of MD | **(a)** re-grade the NR4A3 LBD cryptic-pocket ensemble at near-zero cost as a cross-check on the metadynamics; **(b)** flips the **cryptic-pocket druggability atlas for neglected targets** (`IDEAS.md` Platform/vision #4) from focused-target-class-only to **proteome-scale feasible** — the per-target "open the pocket" step collapses from GPU-days to pennies. Integrity guardrail: a cheap ensemble is a hypothesis generator; a druggable-pocket claim still needs the fpocket/energetics gate, and each atlas entry stays an unvalidated, confidence-calibrated hypothesis benchmarked on held-out known cryptic sites |
 | cheaper / more reliable **free-energy (FEP or ML free-energy)** on **cryptic / induced-fit** pockets | run the **denovo_401 selectivity FEP** currently SKIP-ped as ceiling-bound + least-reliable-here, and re-grade the binder-selectivity claim against it |
 | turnkey / maintained **alchemical protein-mutation (relative selectivity) FEP** **AND** a favourable NR4A3-vs-NR4A1/2 **pocket-homology** assessment (few divergent pocket-lining residues; similar *opened* backbones) | run **alchemical-mutation FEP as a confirmatory cross-check** on the ABFE selectivity ΔΔG — a *direct* ΔΔG with built-in error cancellation would harden (or refute) the binder-selectivity claim now carried by the ABFE-difference. Precursor = the pocket-homology check itself (align NR4A3/1/2 opened Pocket-5, count differing lining residues + backbone RMSD): if pockets are highly similar, mutation-FEP becomes attractive; if they diverge conformationally, that *itself justifies* the per-receptor ABFE choice (`nr4a3-degrader-paper.md` §4 "Why absolute (ABFE), not relative/mutation, FEP") |
 | better **induced-fit / conformational-ensemble docking or ML affinity** | re-score denovo_401 (and the de-novo pool) against the *dynamic* NR4A3 pocket instead of single/few frames — tightens the frame-dependent margin (+12.83 release vs +7.44 metad) |
@@ -93,6 +94,9 @@ experiment is actually run.
 - AF3-class structure & ternary complex (AlphaFold3 / Boltz / Chai / RoseTTAFold)
 - de-novo selective small-molecule / binder design (RFdiffusion / ProteinMPNN / diffusion SBDD)
 - cryptic-pocket / dynamics-based druggability (PocketMiner, metadynamics)
+- **cheap generative conformational-ensemble models** (BioEmu, AlphaFlow, subsampled-MSA AlphaFold /
+  distributional structure prediction) — the capability that could collapse the per-target enhanced-sampling
+  cost and unlock the neglected-target cryptic-pocket druggability atlas (`IDEAS.md` Platform/vision #4)
 - **in-silico oligo/nanoparticle tumour-delivery prediction** (AOC, siRNA delivery, LNP,
   endosomal escape, tumour penetration — ML / PBPK / computational)
 - **oligo tumour-delivery TECHNOLOGY / candidate** (AOC / antibody-oligonucleotide conjugate,
@@ -121,6 +125,26 @@ model swaps in cheaply.*
 
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
+
+- **[2026-07-05] PocketMiner was watched as a *style*, never RUN as an orthogonal cross-check — closing that gap
+  (trimcrae catch).** We built our cryptic-pocket case with our OWN metadynamics + fpocket ("PocketMiner-*style*"
+  transient-pocket detection in `nr4a3_md.py`/design-spec), but never ran the actual `bowman-lab/PocketMiner`
+  GNN. As a cheap, orthogonal, published-method cross-check it is textbook breadth-first default-yes and we left
+  it on the table. **Action (task #15):** run PocketMiner on the **apo** AF2 NR4A3 LBD (AF-Q92570, 373–626 — the
+  pre-metadynamics structure; feeding it the metad-*opened* structure would be circular) → compare its top
+  cryptic-pocket residues vs our fpocket Pocket-5 lining set → if they overlap, fold an independent-corroboration
+  line into the degrader paper's druggability section and flip this row's status. PocketMiner is a small GNN
+  (CPU-runnable) so it does NOT compete with the ABFE g5 fleet. Note the honest limit: PocketMiner is a
+  *predictor* (per-residue propensity), so it corroborates the *site/existence*, not the *opened geometry or
+  druggability* — those still come from our MD. Status: **building the runner** (`pocketminer_src/`).
+- **[2026-07-05] Cheap-ensemble-generator trigger + a new Platform/vision route (cryptic-pocket druggability
+  atlas).** Prompted by the PocketMiner discussion: PocketMiner-class *predictors* don't produce opened structures
+  or druggability, so a **druggability-scored cryptic-pocket resource for neglected disease targets** is a genuine
+  gap (prior deep-MD cryptic-pocket campaigns = SARS-CoV-2 only; static-pocket DBs miss dynamics). Captured as
+  `IDEAS.md` Platform/vision #4 (post-first-two-papers; feasible now only as a *focused target class*). Added the
+  paired **cheap generative conformational-ensemble** trigger row + watched topic above: if BioEmu/AlphaFlow-class
+  models validate against known cryptic pockets, the per-target compute wall collapses and the proteome-scale atlas
+  becomes feasible. Status: **watching** (no validated hit yet) + **idea captured**.
 
 - **[2026-07-05] Remote/cloud robotic wet lab added as a watch — the one trigger that could flip the
   "no wet lab" constraint (trimcrae ask).** Added a trigger-table row, a dedicated "not-in-silico"
