@@ -339,3 +339,12 @@ the checkpoint static — catch it). FIX: confirmed 10-31 jobs gone, defensively
 (resumes from 499). Fleet now: r1(4 legs resuming) + r2(3 complex, solvent done) = 7 g5 (fits 8). r3(4 legs) IS
 genuinely quota-deferred now (3 replicates = 11-12 legs > 8) — launch when r1 or r2 frees a leg-set. 2 replicates
 (r1,r2) already answer the agreement question; r3 = robustness.
+
+## ⚠ BINDING CONSTRAINT IS EC2 SPOT CAPACITY, not quota (2026-07-05 ~12:02 PM ET)
+r1·nr4a1 (14-39-51) + r1·nr4a2: InProgress/Starting, "Insufficient capacity error from EC2" since 14:39 (~1h20m).
+ALIVE + retrying; AWS just has no g5 spot to give. So concurrent legs are capped by ACTUAL spot availability
+(~5-6 now), BELOW my quota (8). Running: r2 x3 complex + r1 nr4a3 + r1 solvent = 5. Waiting: r1 nr4a1/nr4a2, r3.
+OPTIONS: (a) WAIT — spot capacity fluctuates, stuck legs acquire when it frees (default; SageMaker max_wait guards);
+(b) switch the 2 stuck legs to ON-DEMAND g5 for guaranteed instances (~$1/h ×2 ×~8h ≈ $16; need to confirm on-demand
+TRAINING quota); (c) accept slower serialized completion. r3 stays deferred by CAPACITY. Watch: if a stuck job hits
+max_wait it FAILS — re-dispatch (resumes from checkpoint).
