@@ -203,3 +203,26 @@ drug**; the medical-integrity labeling discipline gets MORE important as this go
    differentiation from existing DBs (PROTAC-DB etc. are literature-curated KNOWN degraders; ours = COMPUTED
    candidates — a distinct niche). Furthest out; gated on 1+2; start as a simple structured output format, not
    a platform.
+4. **Cryptic-pocket *druggability* atlas for neglected targets** (trimcrae, 2026-07-05) — the **upstream**
+   layer that feeds 2+3: before you can design a selective degrader/binder you need a *druggable pocket*, and
+   for "undruggable" targets that pocket is often **cryptic** (only opens under dynamics). This is a public,
+   **structurally-explicit, druggability-scored** cryptic-pocket resource for neglected / undruggable human
+   disease targets (fusion-TFs, orphan nuclear receptors, Tdark drivers), built from **enhanced-sampling MD +
+   fpocket-over-frames** — i.e. exactly the NR4A3 pipeline, generalized. **Honest novelty (the gap is real):**
+   *predictors* (PocketMiner, CryptoSite) only say *where* a pocket might form — no opened structure, no
+   druggability, no design-ready geometry; *static-pocket* DBs (DoGSite, CavityPlus) miss cryptic pockets by
+   construction; the one deep-MD cryptic-pocket *campaign* at proteome scale (Bowman / Folding@home) was the
+   **SARS-CoV-2** proteome, not curated human disease targets, and not a druggability-scored resource. A
+   druggability-scored cryptic-pocket atlas for neglected disease targets does **not** appear to exist. **Feasibility
+   crux = the compute wall** (NR4A3 alone was days of metadynamics; a proteome is impossible solo). Two
+   resolutions: **(a) focused target class** — dozens of fusion-TF / orphan-NR rare-cancer drivers, deep
+   per-target, each entry a genuine lead (feasible NOW; a clean *Scientific Data* / NAR-Database paper with
+   NR4A3 as the worked exemplar); **(b) ride the cheap-ensemble wave** — generative equilibrium-ensemble models
+   (BioEmu, AlphaFlow, subsampled-MSA AlphaFold) could collapse the per-target "open the pocket" cost from
+   GPU-days to pennies, which is what makes the *proteome-scale* version stop being science-fiction (watched in
+   `method-watch.md`). Same medical-integrity guardrail as 1–3: every entry is an **unvalidated hypothesis with
+   calibrated confidence**, credible only if the pipeline demonstrably re-finds a held-out set of *known* cryptic
+   sites (CryptoSite / PocketMiner benchmark). **Strategic caveat:** strictly post-first-two-papers; it is the
+   classic scope-expansion that quietly eats months meant for the EMC lead program — scope now, build only once
+   the degrader + ASO preprints are posted. *(An orthogonal PocketMiner cross-check on the NR4A3 LBD itself is
+   being run now as a paper-strengthening step — task #15 — independent of this atlas idea.)*

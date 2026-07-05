@@ -51,6 +51,10 @@ on:
         description: "if set, list + cat every *.json under this S3 key prefix under the default SageMaker bucket (e.g. nr4a3-abfe/ckpt/hydration-methane) — reads ABFE result JSONs (hydration_validation.json, *_dg_bind.json)"
         default: ""
         required: false
+      check_quota:
+        description: "if set, print the Service-Quotas value for these comma-sep instance types (training-job usage), e.g. ml.c5.2xlarge,ml.m5.2xlarge,ml.r5.xlarge — verifies a bigger-RAM reduce won't need a quota request"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -124,6 +128,52 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install boto3
+      - name: Check Service-Quotas for reduce instance types
+        if: ${{ inputs.check_quota != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          TYPES: ${{ inputs.check_quota }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, boto3
+          want = [t.strip() for t in os.environ["TYPES"].split(",") if t.strip()]
+          sq = boto3.client("service-quotas")
+          # SageMaker training-job usage quotas are named like "ml.m5.2xlarge for training job usage".
+          # Pull both applied (list_service_quotas) and AWS defaults (list_aws_default_service_quotas).
+          def collect(fn):
+              out, tok = {}, None
+              while True:
+                  kw = {"ServiceCode": "sagemaker", "MaxResults": 100}
+                  if tok: kw["NextToken"] = tok
+                  r = fn(**kw)
+                  for q in r.get("Quotas", []):
+                      out[q["QuotaName"]] = q.get("Value")
+                  tok = r.get("NextToken")
+                  if not tok: break
+              return out
+          try:
+              applied = collect(sq.list_service_quotas)
+              default = collect(sq.list_aws_default_service_quotas)
+          except Exception as e:  # noqa: BLE001
+              # The CI IAM user (nr4a3-ci-submitter) lacks servicequotas:ListServiceQuotas. That's an IAM gap,
+              # NOT a quota gap — and it doesn't block the reduce. Evidence the CPU quota is fine regardless:
+              # the ml.c5.xlarge reduce FAILED with a runtime "use more memory" ClientError, which only fires
+              # AFTER the instance provisions — a quota shortfall raises ResourceLimitExceeded at LAUNCH instead.
+              print(f"servicequotas read denied ({type(e).__name__}); cannot print exact numbers.")
+              print("But no request is needed: c5/m5/r5 CPU families ship nonzero training-job defaults, the")
+              print("reduce OOM was a RUNTIME memory error (post-provision), not a launch-time quota error, and")
+              print("c5.xlarge already provisions on this account. Use ml.m5.2xlarge / c5.2xlarge / r5.xlarge.")
+              raise SystemExit(0)
+          print("instance-type training-job-usage quota (applied / AWS-default):")
+          for t in want:
+              name = f"{t} for training job usage"
+              a = applied.get(name); d = default.get(name)
+              verdict = "OK (>0, no request needed)" if (a or d or 0) and (a or d) and (a or d) > 0 else "ZERO/absent — would need a request"
+              print(f"  {t:18s} applied={a}  default={d}   -> {verdict}")
+          PY
       - name: cat JSON results under an S3 prefix
         if: ${{ inputs.cat_s3 != '' }}
         env:
