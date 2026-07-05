@@ -47,6 +47,10 @@ on:
         description: "shard index for analyze_receptor (nr4a3=0, nr4a1=1, nr4a2=2)"
         default: "0"
         required: false
+      cat_s3:
+        description: "if set, list + cat every *.json under this S3 key prefix under the default SageMaker bucket (e.g. nr4a3-abfe/ckpt/hydration-methane) — reads ABFE result JSONs (hydration_validation.json, *_dg_bind.json)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -120,6 +124,36 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install boto3
+      - name: cat JSON results under an S3 prefix
+        if: ${{ inputs.cat_s3 != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          PREFIX: ${{ inputs.cat_s3 }}
+        run: |
+          python - <<'PY'
+          import os, json, boto3
+          s3 = boto3.client("s3")
+          acct = boto3.client("sts").get_caller_identity()["Account"]
+          bucket = f"sagemaker-{os.environ['AWS_DEFAULT_REGION']}-{acct}"
+          prefix = os.environ["PREFIX"]
+          print(f"# cat *.json under s3://{bucket}/{prefix}")
+          p = s3.get_paginator("list_objects_v2")
+          found = 0
+          for page in p.paginate(Bucket=bucket, Prefix=prefix):
+              for o in page.get("Contents", []):
+                  k = o["Key"]
+                  if k.endswith(".json"):
+                      found += 1
+                      body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+                      print(f"\n=== {k} ({o['Size']} B) ===")
+                      try:
+                          print(json.dumps(json.loads(body), indent=2))
+                      except Exception:
+                          print(body[:4000])
+          print(f"\n# {found} json file(s) found")
+          PY
       - name: Describe recent FEP training jobs
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
