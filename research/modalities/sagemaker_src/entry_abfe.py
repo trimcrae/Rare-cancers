@@ -74,7 +74,10 @@ def main():
     ap.add_argument("--hydration-known-dg", default="")   # published GAFF/TIP3P or exp ΔG_hyd (kcal/mol)
     a = ap.parse_args()
 
-    subprocess.run(["nvidia-smi"], check=False)
+    try:
+        subprocess.run(["nvidia-smi"], check=False)   # absent on CPU instances (reduce runs on ml.c5) → tolerate
+    except FileNotFoundError:
+        print("[abfe] (no nvidia-smi — CPU instance)", flush=True)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"], check=False)
     subprocess.run(["git", "clone", "--depth", "1", "--branch", a.git_ref,
                     "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
