@@ -48,6 +48,17 @@ prostaglandin-A1 and a dopamine metabolite (PDB **5Y41/5YD6/6DDA**) and binds am
 crystal). So the modern consensus is softer than "undruggable": *no open classical pocket, but
 ligandable at cryptic/alternative sites.* Our route sits inside that consensus.
 
+**And NR4A3 itself is now experimentally ligandable, not just its paralogues.** Zaienne et al. (*ChemMedChem*
+2022 — titled, aptly, a *"Druggability Evaluation of NOR-1"*) fragment-screened NOR-1/NR4A3 and, despite a
+<1 % hit rate, obtained three ligand chemotypes, one elaborated to a **low-micromolar inverse NOR-1 agonist**
+that altered NOR-1-regulated gene expression in cells; and Safe's group reports **NR4A3-selective
+carboxymethyl-indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target
+gene *MYC* (reviewed in Safe 2025). These are *pharmacological* druggability results that leave the binding
+site structurally undefined — which is exactly the gap our pocket-dynamics analysis fills: we supply a
+candidate *structural* mechanism (a breathing orthosteric pocket) for a ligandability that experiment has
+already demonstrated. This flips the framing of our result from "does a pocket exist?" to "here is where the
+already-demonstrated ligandability likely lives," which is a stronger, experiment-anchored claim.
+
 ## 5b. NR4A-family precedent for dynamic / cryptic pockets (paper-ready)
 The single strongest defense of our approach is that **the cryptic/dynamic-pocket mechanism is already
 demonstrated experimentally and computationally in NR4A3's close paralogues — but has never been
@@ -68,8 +79,14 @@ conserved family) and *novel* (first for NR4A3). The parallels to cite:
   + cytosporone B (PDB 6KZ5); Nurr1 + prostaglandin-A1 / dopamine-metabolite co-crystals (PDB
   5Y41/5YD6/6DDA); Nurr1 + amodiaquine (NMR). Real NR4A ligands exist and engage non-classical sites.
 - **NR4A3 / NOR-1 itself: no experimental LBD structure and no published cryptic-pocket / MD study** —
-  the gap our work fills. NR4A LBDs are highly conserved (see `nr4a-selectivity.json`: most Pocket-5
-  lining residues are conserved across NR4A1/2/3), so the paralogue precedent transfers by homology.
+  the gap our work fills. *(Literature check, 2026-07-05: targeted searches for an NR4A3/NOR-1 experimental
+  LBD structure (2023–2025) and for any NR4A3-specific MD / metadynamics / cryptic-pocket / druggability
+  study returned none — only NR4A1/Nur77 MD [Lanig 2015] and Nurr1 [de Vera 2019]; the 2025 Safe review
+  likewise notes "for NR4A2 and NR4A3, molecular insights in ligand binding are very limited." So "first
+  pocket-dynamics analysis of NR4A3" stands as a **to-our-knowledge** claim; a formal, documented database
+  search should back it before submission.)* NR4A LBDs are highly conserved (see `nr4a-selectivity.json`:
+  most Pocket-5 lining residues are conserved across NR4A1/2/3), so the paralogue precedent transfers by
+  homology.
 
 **Framing for the paper:** "A dynamic, ligand-accessible pocket has been demonstrated in the homologous
 Nurr1 (de Vera 2019) and a cryptic druggable pocket reported in Nur77 by MD, yet NR4A3 — the EMC fusion
@@ -213,6 +230,16 @@ The bottleneck is **not** backbone-prediction accuracy:
 - Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* **PLoS ONE** 10(8):e0135246
   (2015). PMC4535767; doi 10.1371/journal.pone.0135246. (MD-revealed cryptic druggable pocket in
   Nur77/NR4A1; verified 2026-06-26.)
+- Zaienne D, et al. *Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse
+  NOR-1 Agonists.* **ChemMedChem** 17(16):e202200259 (2022). PMC9542104; doi 10.1002/cmdc.202200259.
+  (Merk group. **Experimental NR4A3/NOR-1 ligandability** — fragment screen (<1 % hit), 3 chemotypes, one →
+  low-µM inverse agonist altering NOR-1 gene expression in cells. Verified 2026-07-05; full author list to
+  collate before submission.)
+- Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
+  factors as drug targets.* **Transcription** 16:224–260 (2025). PMID 40646688; PMC12263127;
+  doi 10.1080/21541264.2025.2521766. (Safe-group review; source for NR4A3-selective carboxymethyl-indole-3-
+  carbinol analogues, cpds 1 & 19, IC₅₀ ≈ 8–47 µM, de-repressing *MYC*. Secondary source for those compounds;
+  verified 2026-07-05.)
 - Munoz-Tello P, et al. *Assessment of NR4A Ligands that Directly Bind and Modulate the Orphan Nuclear
   Receptor Nurr1.* **J Med Chem** (2020). PMC8006468; doi 10.1021/acs.jmedchem.0c00894. (Amodiaquine
   binding by NMR; PGA1/5,6-dihydroxyindole co-crystals 5Y41/5YD6/6DDA; journal/year/DOI verified
