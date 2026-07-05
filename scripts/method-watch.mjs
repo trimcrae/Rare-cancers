@@ -95,6 +95,18 @@ const TOPICS = [
     trigger: "new patient-derived EMC model (line/organoid/PDX) → enables the decisive junction-ASO knockdown + parental-sparing experiment (aso-paper §4) and a fusion-dependence readout",
   },
   {
+    // The ONE row that is not in-silico: a remote-controlled / cloud robotic wet lab a solo
+    // researcher can rent by the experiment (Emerald Cloud Lab, Strateos/Transcriptic-class, or an
+    // autonomous "self-driving lab" / lab-in-the-loop service). This is the only watched capability
+    // that could FLIP the project's founding "no wet lab" constraint — letting US run the wet-lab-
+    // gated experiments (junction-ASO knockdown + parental-sparing; degrader/delivery validation)
+    // rather than routing them through a hypothetical funded collaborator. Trigger requires solo-
+    // affordable pricing AND cell-based-assay scope; the EMC cell line/reagents remain a separate gate.
+    key: "remote-controlled / cloud robotic wet lab (solo-affordable, cell-assay scope)",
+    query: '(TITLE:"cloud lab" OR TITLE:"cloud laboratory" OR TITLE:"self-driving laboratory" OR TITLE:"self-driving lab" OR TITLE:"autonomous laboratory" OR TITLE:"autonomous lab" OR TITLE:"robotic laboratory" OR TITLE:"remote experiment" OR TITLE:"lab-in-the-loop" OR TITLE:"Emerald Cloud Lab" OR TITLE:Strateos OR TITLE:Transcriptic OR TITLE:"laboratory automation") AND (biology OR cell OR assay OR experiment OR "drug discovery" OR wet-lab OR wetlab)',
+    trigger: "a solo-affordable, cell-assay-capable remote/cloud robotic wet lab → re-grade the whole 'no wet lab' operating regime; scope+price the cheapest decisive experiment (junction-ASO knockdown + parental-sparing, aso-paper §4) and ask trimcrae before committing spend. Flips the EXECUTION gate, not the EMC-cell-line/reagent (material) gate",
+  },
+  {
     key: "NR4A3 / EWSR1::NR4A3 direct EMC advances",
     query: '(TITLE:NR4A3 OR TITLE:NOR-1 OR TITLE:"EWSR1-NR4A3" OR TITLE:"EWSR1::NR4A3" OR TITLE:"myxoid chondrosarcoma" OR ABSTRACT:"EWSR1-NR4A3" OR ABSTRACT:NR4A3)',
     trigger: "any direct chemical/biological matter against NR4A3 or the fusion → fold into the relevant route memo immediately",

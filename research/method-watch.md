@@ -49,6 +49,7 @@ below, do the paired action and open the follow-up; otherwise no action.
 | improved **ASO/siRNA efficacy + target-site-accessibility** predictor | **re-rank the junction designs for potency** and replace the local-fold accessibility proxy (`fusion-junction-aso-paper.md` §3a-bis iii) |
 | new **patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) | **enables the decisive wet-lab experiment** — junction-ASO knockdown + parental-sparing in EMC cells (`fusion-junction-aso-paper.md` §4) — and a fusion-dependence readout |
 | improved **perturbation / DepMap-transfer** models | re-test synthetic-lethal / nominate new EMC dependencies |
+| **remote-controlled / cloud robotic wet lab** a solo researcher can rent by the experiment (Emerald Cloud Lab, Strateos/Transcriptic-class, or an autonomous "self-driving"/lab-in-the-loop service) reaches solo-affordable, EMC-runnable scope | **re-grade the whole "no wet lab" operating regime** — the wet-lab-gated experiments become *runnable by us*, not just by a hypothetical collaborator. Scope + price the **cheapest decisive experiment** (junction-ASO knockdown + parental-sparing in an EMC/FET-fusion line — ASO paper §4) and the degrader/delivery validations; ask trimcrae before committing spend. **Honest caveat:** a cloud lab unlocks *robotic execution*, not the *reagents/biology* — you still need the EMC cell line or organoid (couples to the patient-derived-model row) and antibodies/oligos, so this flips the *execution* gate, not automatically the *material* gate. |
 | any direct **chemical/biological matter against NR4A3** or the fusion | fold into the relevant route memo immediately |
 
 The **delivery** rows are load-bearing: the ASO/siRNA route is gated by tumour delivery, which
@@ -66,6 +67,27 @@ delivery rows:
    to deliver an oligo to an EMC tumour exists yet." A single characterised EMC surface antigen or a
    working soft-tissue-sarcoma AOC would change the route's standing more than any predictor.
 
+### The one row that is NOT in-silico: remote robotic wet lab
+Every other row above extends what *in-silico* can do. The **remote-controlled robotic wet lab**
+row is different in kind, and load-bearing enough to call out: it is the only watched capability
+that could **flip the project's founding constraint** — *"No wet lab is available, so every next step
+must be publish-to-convince or in-silico"* (`CLAUDE.md`). The current regime routes every wet-lab-gated
+route (the decisive junction-ASO knockdown + parental-sparing readout; degrader cellular validation;
+delivery) through a hypothetical *funded collaborator/foundation*, because a solo researcher has no
+bench. A **cloud lab** — where you design an experiment in software and a remote robotic facility runs
+it, billed per run (Emerald Cloud Lab, Strateos/Transcriptic-class, or an autonomous self-driving-lab /
+"lab-in-the-loop" service) — is the scenario where *we* could run those experiments ourselves.
+
+**Why it's a watch, not an action yet (be honest):** today this is gated on (1) *cost* — solo-affordable
+per-experiment pricing that fits the operating regime, not an enterprise contract; (2) *scope* — the
+service must actually offer the cell-based assays EMC needs (transfection/knockdown, immunostaining,
+qPCR/RNA-seq readout), not just chemistry/liquid-handling; and (3) *material* — a cloud lab supplies
+robots and generic reagents, **not** the EMC/FET-fusion cell line, which stays coupled to the
+patient-derived-model row. So the trigger is "a cloud lab reaches *solo-affordable, EMC-assay-capable*
+scope," and even then the cell-line/reagent gate is separate. **Integrity guardrail (same as every
+row):** the arrival of a way to *run* the experiment never licenses reporting an outcome before the
+experiment is actually run.
+
 ## Watched topics (kept in sync with `scripts/method-watch.mjs`)
 - virtual-cell / perturbation prediction (scGPT / Geneformer / State / Arc Virtual Cell)
 - AF3-class structure & ternary complex (AlphaFold3 / Boltz / Chai / RoseTTAFold)
@@ -82,6 +104,10 @@ delivery rows:
   potency ranking + better accessibility than the local-fold proxy — §3a-bis iii)
 - **patient-derived EMC / FET-fusion-sarcoma functional models** (ASO-paper next step: unblocks
   the decisive knockdown + parental-sparing experiment — §4)
+- **remote-controlled / cloud robotic wet lab** — solo-affordable, per-experiment remote execution
+  (Emerald Cloud Lab, Strateos / Transcriptic-class, autonomous "self-driving lab" / lab-in-the-loop
+  services) with cell-based assay scope (transfection/knockdown, immunostaining, qPCR/RNA-seq) — the
+  one watch that could flip the "no wet lab" constraint and unlock the whole wet-lab-gated sector
 - NR4A3 / EWSR1::NR4A3 direct EMC advances
 
 > **ASO-paper coverage.** The last three rows above (plus the delivery row) are the
@@ -95,6 +121,20 @@ model swaps in cheaply.*
 
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
+
+- **[2026-07-05] Remote/cloud robotic wet lab added as a watch — the one trigger that could flip the
+  "no wet lab" constraint (trimcrae ask).** Added a trigger-table row, a dedicated "not-in-silico"
+  callout, a watched topic, and a matching `scripts/method-watch.mjs` TOPICS query for a
+  remote-controlled / cloud robotic wet lab that a solo researcher can rent per-experiment (Emerald
+  Cloud Lab, Strateos/Transcriptic-class, or an autonomous self-driving-lab / lab-in-the-loop service).
+  Rationale: every other row extends *in-silico*; this is the only watched capability that could let
+  **us** run the wet-lab-gated experiments (junction-ASO knockdown + parental-sparing, aso-paper §4;
+  degrader/delivery validation) instead of routing them through a hypothetical funded collaborator —
+  i.e. it could unlock the whole wet-lab-gated sector. Trigger = *solo-affordable* pricing **AND**
+  *cell-based-assay* scope; the EMC cell line/reagents stay a **separate** (material) gate coupled to
+  the patient-derived-model row, so a hit flips *execution*, not *biology*. Status: **watching** (no
+  hits yet). Same integrity guardrail as every row: a way to *run* an experiment never licenses
+  reporting its outcome before it is run.
 
 - **[2026-07-03] EMC-line real-data probe — new lines NOT public; GSE4303 tumour microarray IS.** A probe
   (`modalities/emc_line_data_probe.py` → `emc-line-data-probe.json`) for real-EMC surface/expression data found:
