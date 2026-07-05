@@ -98,11 +98,15 @@ def build_env(conda, repo):
     via PM_TF_VERSION / PM_PY_VERSION if a shakeout run shows a conflict."""
     py = os.environ.get("PM_PY_VERSION", "3.9")
     tf = os.environ.get("PM_TF_VERSION", "2.9.1")
-    # mdtraj from conda-forge (compiled), the rest via pip so we control TF/numpy pins.
+    # TF 2.9 needs numpy<1.24; newer mdtraj (>=1.10) demands numpy>=1.25 — a hard conflict. Pin BOTH
+    # mdtraj<1.10 AND numpy<1.24 (plus netCDF4, which mdtraj wants) in the SAME conda solve so nothing gets
+    # silently downgraded under mdtraj's compiled extensions (the ABI mismatch the first shakeout exposed).
+    # Install TF via pip WITHOUT a numpy pin so it accepts conda's numpy instead of re-resolving it.
     _sh([conda, "create", "-y", "-n", "pm", "-c", "conda-forge",
-         f"python={py}", "mdtraj", "pip"], check=True)
+         f"python={py}", "mdtraj<1.10", "numpy<1.24", "netcdf4", "pip"], check=True)
     _sh([conda, "run", "--no-capture-output", "-n", "pm", "pip", "install", "--quiet",
-         f"tensorflow=={tf}", "numpy<1.24", "scipy", "pandas", "tqdm", "pyyaml"], check=True)
+         "--upgrade-strategy", "only-if-needed",
+         f"tensorflow=={tf}", "scipy", "pandas", "tqdm", "pyyaml"], check=True)
 
 
 DRIVER = r'''
@@ -121,16 +125,18 @@ nn_path = os.environ.get("PM_NN", "../models/pocketminer")
 # Hyperparameters are fixed by the released checkpoint (from xtal_predict.py).
 model = MQAModel(node_features=(8, 50), edge_features=(1, 32),
                  hidden_dim=(16, 100), num_layers=4, dropout=0.1)
-X, S, mask = process_strucs([pdb])
+# process_strucs expects a list of LOADED mdtraj trajectories (it calls s.top on each), NOT path strings —
+# passing [pdb] raised "'str' object has no attribute 'top'". Load first, then reuse for residue order.
+traj = md.load(pdb)
+X, S, mask = process_strucs([traj])
 preds = np.asarray(predict_on_xtals(model, nn_path, X, S, mask)).squeeze()
 if preds.ndim > 1:
     preds = preds[0]
 np.save(os.path.join(out, "nr4a3_lbd-preds.npy"), preds)
 np.savetxt(os.path.join(out, "nr4a3_lbd-predictions.txt"), preds, fmt="%.4g", delimiter="\n")
 
-# Independent residue-order read from the SAME pdb so scores map exactly to UniProt resSeq.
-top = md.load(pdb).topology
-resseq = [r.resSeq for r in top.residues]
+# Residue-order read from the SAME loaded trajectory so scores map exactly to UniProt resSeq.
+resseq = [r.resSeq for r in traj.topology.residues]
 json.dump({"resSeq": resseq, "n_pred": int(preds.shape[0])},
           open(os.path.join(out, "residue_order.json"), "w"))
 print(f"[driver] predicted {preds.shape[0]} residues; topology residues {len(resseq)}", flush=True)
