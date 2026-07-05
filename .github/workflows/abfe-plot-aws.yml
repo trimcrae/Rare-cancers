@@ -1,0 +1,94 @@
+name: ABFE convergence plot (denovo_401 ΔG_bind / ΔΔG vs iteration)
+
+# Downloads the per-receptor ABFE reduce JSONs (which carry the full per-iteration convergence "trace") from S3,
+# renders the convergence figure with matplotlib (EVERY iteration), and publishes the PNG to modalities-cache:
+#   git fetch origin modalities-cache && git checkout origin/modalities-cache -- research/modalities/abfe_convergence.png
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "ABFE run tag (S3 prefix root)"
+        default: "nr4a3-abfe"
+        required: false
+      receptors:
+        description: "comma-separated receptors (target FIRST)"
+        default: "nr4a3,nr4a1,nr4a2"
+        required: false
+      title:
+        description: "plot title"
+        default: "denovo_401 ABFE — ΔG_bind convergence (every iteration)"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: abfe-plot
+  cancel-in-progress: true
+
+jobs:
+  plot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install matplotlib + boto3
+        run: pip install matplotlib numpy boto3
+      - name: Download reduce JSONs from S3 + build traces
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          TAG: ${{ inputs.tag || 'nr4a3-abfe' }}
+          RECEPTORS: ${{ inputs.receptors || 'nr4a3,nr4a1,nr4a2' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, json, boto3
+          region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+          bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
+          s3 = boto3.client("s3")
+          tag = os.environ["TAG"]
+          traces = {}
+          for r in [x.strip() for x in os.environ["RECEPTORS"].split(",") if x.strip()]:
+              key = f"{tag}/ckpt/reduce-{r}/{r}_dg_bind.json"
+              body = s3.get_object(Bucket=bucket, Key=key)["Body"].read()
+              d = json.loads(body)
+              tr = d.get("trace", [])
+              traces[r.upper()] = [[p["iter"], p["dg_bind"], p["se"]] for p in tr]
+              print(f"{r.upper()}: {len(tr)} iterations, final ΔG_bind {d['dg_bind']:+.2f} ± {d['se']:.2f}")
+          json.dump(traces, open("scratchpad/abfe_traces.json", "w"))
+          PY
+      - name: Render convergence plot
+        env:
+          TITLE: ${{ inputs.title || 'denovo_401 ABFE — ΔG_bind convergence (every iteration)' }}
+        run: |
+          python scratchpad/plot_abfe_convergence.py scratchpad/abfe_traces.json \
+            research/modalities/abfe_convergence.png "$TITLE"
+          ls -la research/modalities/abfe_convergence.png
+      - name: Publish PNG + traces to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          [ -f research/modalities/abfe_convergence.png ] || { echo "no PNG rendered"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/modalities/abfe_convergence.png "$RUNNER_TEMP/abfe_convergence.png"
+          cp scratchpad/abfe_traces.json "$RUNNER_TEMP/abfe_traces.json"
+          git fetch origin modalities-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache && git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP/abfe_convergence.png" research/modalities/abfe_convergence.png
+          cp "$RUNNER_TEMP/abfe_traces.json" research/modalities/abfe_traces.json
+          git add research/modalities/abfe_convergence.png research/modalities/abfe_traces.json
+          git commit -m "ABFE convergence plot: denovo_401 ΔG_bind/ΔΔG vs iteration (every iteration)" || { echo "no change"; exit 0; }
+          git push origin modalities-cache
