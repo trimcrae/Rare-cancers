@@ -452,7 +452,9 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
 
     # Boresch anchors from the docked pose: ligand atoms = [n_rec, n_rec+n_lig); receptor candidates = protein
     # heavy atoms (skip H and solvent). Coordinates in nm.
-    pos_nm = [(v.x, v.y, v.z) for v in modeller.positions.value_in_unit(unit.nanometer)]
+    # index (c[0..2]) not attributes (.x/.y/.z): value_in_unit here yields numpy arrays, not Vec3 — both
+    # support indexing, Vec3 alone supports .x. (The complex-leg shakeout on 2026-07-05 caught this.)
+    pos_nm = [(c[0], c[1], c[2]) for c in modeller.positions.value_in_unit(unit.nanometer)]
     lig_atoms = list(range(n_rec, n_rec + n_lig))
     rec_heavy = [a.index for a in modeller.topology.atoms()
                  if a.index < n_rec and a.element is not None and a.element.symbol != "H"]
