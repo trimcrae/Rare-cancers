@@ -55,8 +55,11 @@ collapsed or occluded in crystal structures (Nurr1, PDB 1OVL), the structural ba
 reputation. That reputation, however, is a statement about *static* structures: Nurr1's pocket is in fact
 dynamic and expands from its collapsed crystal conformation to bind fatty acids [de Vera 2019], an MD study
 reported a cryptic druggable pocket in Nur77/NR4A1 [Lanig 2015], and validated NR4A ligands engage
-cryptic/surface sites. NR4A3 itself has no experimental structure and no published pocket-dynamics analysis
-— the gap this work addresses.
+cryptic/surface sites. NR4A3 itself is experimentally ligandable — a fragment screen against NOR-1/NR4A3
+(<1 % hit rate) yielded a low-micromolar inverse agonist that shifts NOR-1-regulated gene expression in cells
+[Zaienne 2022], and NR4A3-selective indole-3-carbinol analogues (IC₅₀ ≈ 8–47 µM) de-repress the NR4A3 target
+gene MYC [Safe 2025] — but its binding site is structurally undefined: NR4A3 has no experimental structure and
+no published pocket-dynamics analysis, the structural gap this work addresses.
 
 NR4A3 is an attractive *selective* target because two cancers are driven by its gain: EMC, via the
 EWSR1/TAF15::NR4A3 fusion that retains a near-intact NR4A3 ligand-binding domain (LBD); and AciCC, the third
@@ -307,6 +310,8 @@ reproducible computational methods.
 - Wang Z, et al. *Nature* 423:555–560 (2003). PMID 12774125. (Nurr1; PDB 1OVL.)
 - de Vera IMS, et al. *Structure* 27(1):66–77.e5 (2019). doi 10.1016/j.str.2018.10.002. (Nurr1 breathing pocket.)
 - Lanig H, et al. *PLoS ONE* 10:e0135246 (2015). doi 10.1371/journal.pone.0135246. (MD cryptic pocket in Nur77/NR4A1.)
+- Zaienne D, et al. *ChemMedChem* 17(16):e202200259 (2022). doi 10.1002/cmdc.202200259. (Merk group; experimental druggability of NOR-1/NR4A3 — fragment-derived low-µM inverse agonist.)
+- Safe S, Oany AR, Tsui WN, et al. *Transcription* 16:224–260 (2025). doi 10.1080/21541264.2025.2521766. (Review; NR4A3-selective indole-3-carbinol analogues de-repress MYC.)
 - Haller F, et al. *Nat Commun* 10:368 (2019). doi 10.1038/s41467-018-08069-x. (AciCC = NR4A3 over-expression.)
 - Khan J, et al. *Cancers* 15(13):3373 (2023). doi 10.3390/cancers15133373. (AciCC epidemiology.)
 - Chen J, et al. *Nature* 567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (NR4A T-cell exhaustion.)

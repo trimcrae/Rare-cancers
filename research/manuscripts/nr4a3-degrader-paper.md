@@ -125,9 +125,16 @@ NR4A receptors are constitutively active orphan nuclear receptors whose canonica
 collapsed/occluded in crystal structures (Nurr1, PDB 1OVL; Wang 2003), the structural basis of their
 "undruggable" reputation. That reputation is a statement about *static* structures: Nurr1's pocket is in
 fact **dynamic and expands** from the collapsed crystal conformation to bind fatty acids (de Vera 2019),
-an MD study reported a cryptic druggable pocket in Nur77, and validated NR4A ligands engage
-cryptic/surface sites. NR4A3 itself has **no experimental structure and no published pocket-dynamics
-analysis** — the gap this paper fills. Full reconciliation of the "undruggable" reputation with our
+an MD study reported a cryptic druggable pocket in Nur77 (Lanig 2015), and validated NR4A ligands engage
+cryptic/surface sites. **NR4A3 itself is experimentally ligandable — pharmacologically, though not yet
+structurally.** A fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three ligand chemotypes, one
+elaborated to a **low-micromolar inverse agonist** that shifted NOR-1-regulated gene expression in cells
+(Zaienne 2022, a paper titled, aptly, a *"Druggability Evaluation of NOR-1"*), and NR4A3-selective
+carboxymethyl-indole-3-carbinol analogues (IC₅₀ ≈ 8–47 µM) de-repress the NR4A3 target gene *MYC* (Safe
+2025). These independent, experimental results establish that NR4A3 *can* be engaged by small molecules, but
+leave the binding site structurally undefined: NR4A3 has **no experimental structure and no published
+pocket-dynamics analysis** — the structural gap this paper fills (our in-silico druggable pocket supplies a
+candidate *mechanism* for the ligandability their pharmacology already demonstrates). Full reconciliation of the "undruggable" reputation with our
 findings, with references and the NR4A-family precedent, is in
 [`../modalities/nr4a3-druggability-reconciliation.md`](../modalities/nr4a3-druggability-reconciliation.md).
 
@@ -1056,6 +1063,18 @@ from an above-noise one but short of a specificity-controlled lead.
   **Structure** 27(1):66–77.e5 (2019). PubMed 30416039; doi 10.1016/j.str.2018.10.002.
 - Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* **PLoS ONE** 10:e0135246
   (2015). PMC4535767; doi 10.1371/journal.pone.0135246. (MD-revealed cryptic druggable pocket in Nur77/NR4A1.)
+- Zaienne D, et al. *Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse
+  NOR-1 Agonists.* **ChemMedChem** 17(16):e202200259 (2022). PMC9542104; doi 10.1002/cmdc.202200259. (Merk
+  group. **Direct experimental ligandability of NR4A3/NOR-1:** fragment screen, <1 % hit rate → 3 chemotypes,
+  one elaborated to a low-µM inverse agonist that alters NOR-1-regulated gene expression in cells — the
+  experimental druggability our in-silico pocket supplies a structural mechanism for. Binding site not
+  structurally defined by that work. Verified 2026-07-05; full author list to collate before submission.)
+- Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
+  factors as drug targets.* **Transcription** 16:224–260 (2025). PMID 40646688; PMC12263127;
+  doi 10.1080/21541264.2025.2521766. (Safe-group review; source for the **NR4A3-selective carboxymethyl-
+  indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target gene *MYC*.
+  Secondary/review source for those compounds — attach the standalone primary, if one exists, before
+  submission. Verified 2026-07-05.)
 - Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
   carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
   (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
