@@ -1007,7 +1007,22 @@ selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 meta
 the quantitative tier is now **MM-GBSA-run** rather than planned — but single-snapshot MM-GBSA has **no
 entropy and no ensemble average**, so its magnitudes are inflated and only the **verdict/direction** is
 trusted; **selectivity FEP** (the defensible affinity tier) is **not yet run**, and even FEP on a
-cryptic/induced-fit pocket is sampling-limited. Crucially, the **single-snapshot MM-GBSA "confirmed_selective"
+cryptic/induced-fit pocket is sampling-limited. **An independent structural cross-check (AF3-class
+co-folding) does not corroborate the pose/pocket, and honestly cannot here.** To test the docked binder
+pose by a physically different method than docking/MD, we co-folded `denovo_401` into each NR4A{3,1,2} LBD
+with **Boltz-2** (an open AF3-class protein–ligand structure predictor), control-validated on CRBN +
+lenalidomide (the known imide pose recovered: ligand-interface iptm 0.99, protein↔ligand pair-iptm 0.78).
+For all three NR4A paralogues the protein **fold** is confident (chain pTM 0.91–0.96) but the **ligand
+placement** is not (protein↔ligand pair-iptm 0.23–0.32; ligand_iptm 0.77–0.87), and the cross-paralogue
+ordering does **not** favour NR4A3 (if anything NR4A3 is lowest, though the three are within noise of each
+other). This is exactly the regime where co-folding is unreliable — a cryptic/induced-fit pocket in an
+**orphan** receptor with no ligand-bound training structures, plus a de-novo warhead — so the low confidence
+is neither surprising nor evidence against binding; but it means an orthogonal method **cannot independently
+corroborate** the docked pose or the ABFE selectivity. The structural-model assumption (the AF2-derived,
+metadynamics-opened pocket) therefore remains the **load-bearing uncertainty**, and this class of tool
+cannot currently discharge it — only an experimental structure can
+([`../modalities/nr4a3-binary-cofold-result.json`](../modalities/nr4a3-binary-cofold-result.json)).
+Crucially, the **single-snapshot MM-GBSA "confirmed_selective"
 verdict that originally nominated `denovo_15` failed a decoy control** (§2.5): it labels 39 % of non-NR4A
 marketed drugs "NR4A3-selective," so a raw two-tier (docking + single-snapshot MM-GBSA) survival is **not**
 selectivity evidence, and the earlier "MM-GBSA-confirmed selective" headline (and `denovo_15` as the lead) is
