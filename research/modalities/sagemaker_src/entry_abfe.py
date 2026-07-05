@@ -110,11 +110,20 @@ def main():
         # mounted channel the leg dir (window_*.jsonl + meta.json) is NESTED, not at the channel root. Locate it.
         cdir = _leg_dir(ch("complex")) or ch("complex")
         sdir = _leg_dir(ch("solvent")) or ch("solvent")
-        out_json = os.path.join(os.environ.get("SM_MODEL_DIR", "/opt/ml/model"), f"{a.receptor}_dg_bind.json")
-        cmd = ["python", "nr4a3_abfe.py", "--reduce",
+        # Write to the CHECKPOINT dir (syncs to S3 → readable via cat_s3), not only the model tarball. Include the
+        # per-iteration convergence trace so the ΔG_bind(iter) plot can be built without re-pulling every window.
+        os.makedirs(CKPT, exist_ok=True)
+        out_json = os.path.join(CKPT, f"{a.receptor}_dg_bind.json")
+        cmd = ["python", "nr4a3_abfe.py", "--reduce", "--emit-trace",
                "--complex-dir", cdir, "--solvent-dir", sdir, "--out-json", out_json]
-        print(f"[abfe] reduce: complex-dir={cdir} solvent-dir={sdir}", flush=True)
+        print(f"[abfe] reduce: complex-dir={cdir} solvent-dir={sdir} out={out_json}", flush=True)
         rc = _run_in_env(cmd, work, a.prebaked == "1")
+        # also drop a copy into the model dir for completeness
+        try:
+            shutil.copy(out_json, os.path.join(os.environ.get("SM_MODEL_DIR", "/opt/ml/model"),
+                                               f"{a.receptor}_dg_bind.json"))
+        except Exception as e:
+            print(f"[abfe] (model-dir copy skipped: {e})", flush=True)
         print(f"[abfe] reduce exit={rc}", flush=True)
         raise SystemExit(rc)
 

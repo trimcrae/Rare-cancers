@@ -532,10 +532,12 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     return meta
 
 
-def reduce_and_report(complex_dir, solvent_dir, out_json=None, temperature_K=300.0):
+def reduce_and_report(complex_dir, solvent_dir, out_json=None, temperature_K=300.0, emit_trace=False):
     """Combine the two legs into ΔG_bind: MBAR-reduce each leg → combine_legs with the complex-leg restraint
     SSC (read from complex_dir/meta.json). Returns {dg_bind, se, complex_dg, complex_se, solvent_dg,
-    solvent_se, restraint_standard_state_dg}. Pure CPU (numpy+pymbar) → runs as a light step, no GPU."""
+    solvent_se, restraint_standard_state_dg}. Pure CPU (numpy+pymbar) → runs as a light step, no GPU.
+    With emit_trace=True, also attaches "trace": a per-iteration ΔG_bind(n) convergence series (combining each
+    leg's per-iteration MBAR estimate at matching iteration counts) for the convergence plot."""
     cdg, cse = reduce_leg(complex_dir, temperature_K=temperature_K)
     sdg, sse = reduce_leg(solvent_dir, temperature_K=temperature_K)
     meta = json.load(open(os.path.join(complex_dir, "meta.json")))
@@ -543,6 +545,20 @@ def reduce_and_report(complex_dir, solvent_dir, out_json=None, temperature_K=300
     dg_bind, se = combine_legs(cdg, cse, sdg, sse, ssc)
     out = {"dg_bind": dg_bind, "se": se, "complex_dg": cdg, "complex_se": cse,
            "solvent_dg": sdg, "solvent_se": sse, "restraint_standard_state_dg": ssc}
+    if emit_trace:
+        ctrace = reduce_leg(complex_dir, temperature_K=temperature_K, per_iteration=True)  # [(n, dg, se), ...]
+        strace = reduce_leg(solvent_dir, temperature_K=temperature_K, per_iteration=True)
+        sdict = {n: (dg, se) for n, dg, se in strace}
+        smax = max(sdict) if sdict else None
+        tr = []
+        for n, cdg_n, cse_n in ctrace:
+            sn = n if n in sdict else smax                          # align solvent leg; fall back to its last
+            if sn is None:
+                continue
+            sdg_n, sse_n = sdict[sn]
+            db, dbse = combine_legs(cdg_n, cse_n, sdg_n, sse_n, ssc)
+            tr.append({"iter": n, "dg_bind": db, "se": dbse, "complex_dg": cdg_n, "solvent_dg": sdg_n})
+        out["trace"] = tr
     if out_json:
         with open(out_json, "w") as f:
             json.dump(out, f, indent=2)
@@ -694,6 +710,7 @@ def _cli():
     ap.add_argument("--complex-dir", default=None)
     ap.add_argument("--solvent-dir", default=None)
     ap.add_argument("--out-json", default=None)
+    ap.add_argument("--emit-trace", action="store_true", help="attach per-iteration ΔG_bind convergence trace")
     ap.add_argument("--window-start", type=int, default=0)
     ap.add_argument("--window-end", type=int, default=None)
     ap.add_argument("--n-iter", type=int, default=1000)
@@ -718,7 +735,10 @@ def _cli():
         print(f"[abfe] SHARD_DONE leg={a.leg} windows [{a.window_start},{a.window_end}) meta={meta}")
         return
     if a.reduce:
-        out = reduce_and_report(a.complex_dir, a.solvent_dir, out_json=a.out_json, temperature_K=a.temperature_k)
+        out = reduce_and_report(a.complex_dir, a.solvent_dir, out_json=a.out_json,
+                                temperature_K=a.temperature_k, emit_trace=a.emit_trace)
+        if a.emit_trace:
+            print(f"[abfe] TRACE points={len(out.get('trace', []))}")
         print(f"[abfe] DG_BIND {out['dg_bind']:.3f} ± {out['se']:.3f} kcal/mol "
               f"(complex {out['complex_dg']:.2f}±{out['complex_se']:.2f}, "
               f"solvent {out['solvent_dg']:.2f}±{out['solvent_se']:.2f}, SSC {out['restraint_standard_state_dg']:.2f})")
