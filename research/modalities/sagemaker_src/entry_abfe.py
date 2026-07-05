@@ -31,6 +31,17 @@ def ch(name):
     return os.environ.get(f"SM_CHANNEL_{name.upper()}", f"/opt/ml/input/data/{name}")
 
 
+def _leg_dir(root):
+    """Find the directory under `root` that holds an ABFE leg's outputs (window_00.jsonl). The checkpoint sync
+    nests it as <root>/<receptor>/<leg>/, so walk to locate it. Returns the dir path or None."""
+    if not os.path.isdir(root):
+        return None
+    for dpath, _dirs, files in os.walk(root):
+        if any(f.startswith("window_") and f.endswith(".jsonl") for f in files):
+            return dpath
+    return None
+
+
 def _first(dirpath, suffix, prefer=None):
     """First file in dirpath ending in `suffix`. If `prefer` (e.g. the receptor token) is given, a filename
     containing it wins — the matrix prefix holds all receptors' <r>-opened.pdb / docked_<r>.sdf, so we must
@@ -92,9 +103,14 @@ def main():
         raise SystemExit(rc)
 
     if a.mode == "reduce":
+        # The checkpoint sync preserves the on-instance layout /opt/ml/checkpoints/<r>/<leg>/, so under each
+        # mounted channel the leg dir (window_*.jsonl + meta.json) is NESTED, not at the channel root. Locate it.
+        cdir = _leg_dir(ch("complex")) or ch("complex")
+        sdir = _leg_dir(ch("solvent")) or ch("solvent")
         out_json = os.path.join(os.environ.get("SM_MODEL_DIR", "/opt/ml/model"), f"{a.receptor}_dg_bind.json")
         cmd = ["python", "nr4a3_abfe.py", "--reduce",
-               "--complex-dir", ch("complex"), "--solvent-dir", ch("solvent"), "--out-json", out_json]
+               "--complex-dir", cdir, "--solvent-dir", sdir, "--out-json", out_json]
+        print(f"[abfe] reduce: complex-dir={cdir} solvent-dir={sdir}", flush=True)
         rc = _run_in_env(cmd, work, a.prebaked == "1")
         print(f"[abfe] reduce exit={rc}", flush=True)
         raise SystemExit(rc)
