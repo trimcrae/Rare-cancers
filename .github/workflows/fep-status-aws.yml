@@ -387,7 +387,7 @@ jobs:
                   sig = re.compile(r"(error|complex pme|solvent pme|exiting leap|setup log|traceback|"
                                    r"fatal|could not find|went wrong|nan|openbabel|openff|antechamber|"
                                    r"platform|opencl|assert|\[fep\]|ΔG|dg_bind|iteration|trailblaz|"
-                                   r"minimiz|alchemical|reached|MBAR|restraint)", re.I)
+                                   r"minimiz|alchemical|reached|MBAR|restraint|trace_chunk|trace_json)", re.I)
                   for s in streams[:1]:
                       ev = logs.get_log_events(logGroupName=grp, logStreamName=s["logStreamName"],
                                                startFromHead=False, limit=2000).get("events", [])
