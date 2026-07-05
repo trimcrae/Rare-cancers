@@ -53,7 +53,8 @@ jobs:
           target = int(os.environ["TARGET"])
           tags = [t.strip() for t in os.environ["TAGS"].split(",") if t.strip()]
           LEG_ORDER = ["complex-nr4a3", "complex-nr4a1", "complex-nr4a2", "solvent"]
-          data = {}                                              # tag -> {leg -> min_iter}
+          NW = 12                                                # λ-windows per leg (full leg = NW × target iters)
+          data = {}                                              # tag -> {leg -> (total_iters, n_done, deepest)}
           for tag in tags:
               wins = {}                                          # leg -> [linecount per window]
               for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{tag}/ckpt/"):
@@ -63,12 +64,14 @@ jobs:
                           leg = k.split("/ckpt/")[1].split("/")[0]        # complex-nr4a3 | solvent
                           n = s3.get_object(Bucket=bucket, Key=k)["Body"].read().count(b"\n")
                           wins.setdefault(leg, []).append(n)
-              legs = {leg: (min(c) if c else 0) for leg, c in wins.items()}
+              legs = {}
+              for leg, c in wins.items():                         # missing windows contribute 0
+                  legs[leg] = (sum(c), sum(1 for x in c if x >= target), max(c) if c else 0)
               if legs:
                   data[tag] = legs
           print("progress:", data)
 
-          # render: grouped horizontal bars, one row per (replicate, leg)
+          # render: grouped horizontal bars = TRUE leg %-complete = total iters / (NW × target)
           rows = []
           for tag in tags:
               if tag not in data:
@@ -79,20 +82,23 @@ jobs:
           fig, ax = plt.subplots(figsize=(11, max(3, 0.5 * len(rows) + 1.5)))
           COL = {"nr4a3-abfe": "#0072B2", "nr4a3-abfe-r2": "#009E73", "nr4a3-abfe-r3": "#CC79A7"}
           NAME = {"nr4a3-abfe": "r1", "nr4a3-abfe-r2": "r2", "nr4a3-abfe-r3": "r3"}
+          full = NW * target
           ylabels, y = [], 0
-          for tag, leg, it in rows:
+          for tag, leg, v in rows:
               if leg is None:
                   ylabels.append(f"{NAME.get(tag,tag)}  (not started)")
                   ax.barh(y, 0, color="#ccc"); y += 1; continue
-              frac = it / target
-              ax.barh(y, it, color=COL.get(tag, "#888"), alpha=0.9)
-              ax.text(it + target * 0.01, y, f"{it}/{target}  ({100*frac:.0f}%)", va="center", fontsize=8)
+              total, ndone, deepest = v
+              pct = 100.0 * total / full
+              ax.barh(y, pct, color=COL.get(tag, "#888"), alpha=0.9)
+              ax.text(pct + 1.0, y, f"{pct:.0f}%  ({ndone}/{NW} windows done, deepest {deepest})",
+                      va="center", fontsize=8)
               ylabels.append(f"{NAME.get(tag,tag)} · {leg.replace('complex-','')}")
               y += 1
-          ax.axvline(target, color="#666", ls="--", lw=1)
+          ax.axvline(100, color="#666", ls="--", lw=1)
           ax.set_yticks(range(len(ylabels))); ax.set_yticklabels(ylabels, fontsize=9)
-          ax.set_xlim(0, target * 1.18); ax.invert_yaxis()
-          ax.set_xlabel("MBAR iteration (min across the leg's 12 λ-windows = reducible depth)")
+          ax.set_xlim(0, 118); ax.invert_yaxis()
+          ax.set_xlabel(f"leg %-complete = total iterations across all {NW} λ-windows / ({NW} × {target})")
           stamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
           ax.set_title(f"denovo_401 ABFE — replicate progress toward n_iter={target}  ·  {stamp}")
           ax.grid(axis="x", alpha=0.2)
