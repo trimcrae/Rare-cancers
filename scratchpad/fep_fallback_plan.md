@@ -241,3 +241,11 @@ Can no longer dispatch fep-status / gpu-abfe (status, reduce, cat_s3) — GitHub
 works via GH_TOKEN; workflow dispatch 403s on that token). Fleet UNAFFECTED — runs on AWS, completes ~3:46am ET,
 data to S3. ON RE-AUTH: dispatch gpu-abfe mode=reduce receptors=nr4a3,nr4a1,nr4a2 → cat_s3 *_dg_bind.json →
 nr4a3_abfe.selectivity_ddg = ΔΔG. Retry timer set ~2.5h to re-attempt dispatch when connector may be back.
+
+## 🎉 ALL LEGS COMPLETED — REDUCE RUNNING (2026-07-05 ~4:32 AM ET)
+Fleet done: complex-nr4a3/nr4a1/nr4a2 + solvent + methane all Completed. Fixed reduce path bug (entry_abfe
+_leg_dir auto-locates nested <channel>/<r>/<leg>/window_*.jsonl — ckpt sync preserves the on-instance nesting).
+Dispatched gpu-abfe mode=reduce receptors=nr4a3,nr4a1,nr4a2 on ml.c5.xlarge (CPU, MBAR). Each prints
+'[abfe] DG_BIND X ± Y' to stdout (cw_job filter catches 'dg_bind|ΔG') + writes <r>_dg_bind.json to model dir.
+READ after ~15min: fep-status cw_job=nr4a3-abfe-reduce-<r> per receptor → ΔG_bind(nr4a3/nr4a1/nr4a2) →
+selectivity_ddg: ΔΔG(nr4a3−nr4a1) & (nr4a3−nr4a2). Negative = NR4A3-selective (the headline).
