@@ -293,3 +293,17 @@ HREX (Option C, ~$800 + engineering) is REQUIRED — build it then, knowing it's
 COST ~$108 (3×4 legs×12 win×2 ns / 1.2 ns/GPU-h × $0.45 spot). Wall ~2-3 days.
 SEQUENCING: r1 finishes current 1000 → extend to 2000. r2/r3 launch fresh to 2000 AFTER r2 seed-shard validates
 (monitor bzs4abq8s ~11:45 UTC). NOTE: n_iter 1000→2000 (was 1000 in earlier notes).
+
+## ▶ OPTION A DIAGNOSTIC FLEET LAUNCHED (2026-07-05 ~8:30 AM ET / 12:30 UTC)
+Seed path VALIDATED: r2 complex-nr4a3 (seed=2,pose1) sampling normally past iter 341, args parse, meta written.
+LAUNCHED @ n_iter=2000 (2 ns/window): r2 full (tag nr4a3-abfe-r2 seed2 pose1 — resumes complex-nr4a3, adds
+nr4a1/2+solvent) + r3 full (tag nr4a3-abfe-r3 seed3 pose2). r1 = current nr4a3-abfe (extending to 1000) → MUST
+EXTEND to 2000 when it finishes 1000 (do NOT reduce at 1000): re-dispatch mode=run tag=nr4a3-abfe n_iter=2000.
+Wall ~24h/leg (12 windows sequential, ~1000 iter/h/window) → fleet ~1-1.5 days at quota 8.
+WHEN ALL 3 @ 2000 DONE → reduce each (emit-trace, convergence_report auto) → 3 ΔG_bind/receptor →
+REPLICATE SD (empirical uncertainty) + per-run forward/reverse+block-SD → aggregate plot (mean±replicate-SD).
+DECISION: replicates agree + plateau → converged (in-silico selectivity maxed, STOP sampling per breadth-first);
+disagree/drift → HREX justified. Cost ~$108.
+OPEN (awaiting trimcrae OK, do NOT auto-launch — breadth-first codified): Boltz-2/Chai-1 BINARY co-folding
+cross-check of denovo_401-NR4A3 pose + paralogues (new-axis breadth; cryptic-pocket caveat: may predict closed
+pocket / misplace novel ligand → negative is informative, positive read skeptically).
