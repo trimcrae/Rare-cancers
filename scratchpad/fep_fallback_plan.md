@@ -163,3 +163,13 @@ OpenMM avoided it). FIX (commit babfa8e): `_select_platform()` validates+falls b
 Dockerfile write the OpenCL ICD. **The gate did its job — caught a bug that would have crashed all 4 fleet legs.**
 v2 job: **`nr4a3-abfe-hydration-methane-2026-07-05-00-15-36-349`** (n_iter=500, git_ref=branch). Expect
 `[abfe] OpenMM platform: OpenCL` then window jsonl. If methane ΔG_hyd ≈ +2 (±1.5) → launch fleet + ethanol gate.
+
+## 🚀 ABFE FLEET (partial) LAUNCHED (2026-07-05 ~8:34 PM ET) — OpenCL fix confirmed on methane v2
+methane v2 (`…hydration-methane-…00-15-36`) ran PAST v1's ~11-min PTX crash point → OpenCL fallback works.
+Launched 2 of 4 legs (validate-first: 1 complex before all 3):
+- **`nr4a3-abfe-solvent-2026-07-05-00-34-23-865`** — shared solvent leg (denovo_401 in water; cancels in ΔΔG).
+- **`nr4a3-abfe-complex-nr4a3-2026-07-05-00-34-24-928`** — NR4A3 complex leg (SHAKEOUT of prepare_leg complex path:
+  PDBFixer receptor + Boresch anchors on the real pocket + PME box + restraint during decoupling).
+HELD: complex-nr4a1, complex-nr4a2 — launch after (a) methane ΔG_hyd ≈ +2 confirms shared machinery AND
+(b) nr4a3-complex proves prep runs (no NaN, windows advancing). tag=nr4a3-abfe, n_iter=500, git_ref=branch.
+When all legs done: gpu-abfe-aws.yml mode=reduce → ΔG_bind per receptor → selectivity_ddg for ΔΔG.
