@@ -134,7 +134,7 @@ def _select_platform(preferred="CUDA", allow_cpu_fallback=False):
 
 def run_window(reference_system, positions, alchemical_atoms, window_index, out_dir,
                schedule=None, temperature_K=300.0, n_iter=1000, steps_per_iter=500, timestep_fs=2.0,
-               platform_name="CPU", resume=True):
+               platform_name="CPU", resume=True, seed=0):
     """Run ONE independent λ-window. Each iteration: propagate MD at THIS window's λ, evaluate the reduced
     potential of the current sample at ALL λ-states (MBAR needs u(x;λ_j) ∀j), append to the small per-window
     jsonl, and checkpoint the OpenMM State — every iteration. Small per-window files → spot loses ≤1 iter and
@@ -149,6 +149,11 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
     integrator = integrators.LangevinIntegrator(temperature=T, collision_rate=1.0 / unit.picoseconds,
                                                 timestep=timestep_fs * unit.femtoseconds)
     context = openmm.Context(alch_system, integrator, _select_platform(platform_name))
+    if seed:                                                   # replicate independence: reproducible per (seed,window)
+        try:
+            integrator.setRandomNumberSeed(int(seed) * 1000 + window_index)   # distinct Langevin noise stream
+        except Exception:
+            pass
     elec, sterics = schedule[window_index]
 
     def _set_lambda(le, ls):
@@ -166,6 +171,8 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
         context.setPositions(positions)
         _set_lambda(elec, sterics)
         openmm.LocalEnergyMinimizer.minimize(context)
+        if seed:                                              # seed-determined initial velocities → independent replicate
+            context.setVelocitiesToTemperature(T, int(seed) * 1000 + window_index)
 
     for it in range(start, n_iter):
         _set_lambda(elec, sterics)                      # propagate at THIS window's state
@@ -405,7 +412,7 @@ def _explicit_generator(offmol, app):
 
 
 def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=0.15,
-                pose_name=None, restraint_K=20.0):
+                pose_name=None, restraint_K=20.0, pose_index=0):
     """Build one ABFE leg's explicit-solvent OpenMM system. Returns a dict:
         {system, positions, alchemical_atoms, n_receptor_atoms, n_ligand_atoms,
          boresch (complex only): {anchors + geometry}, restraint_standard_state_dg (complex only)}.
@@ -421,7 +428,13 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
     _explicit_generator._nm = unit.nanometer
     mols = Molecule.from_file(ligand_sdf, file_format="sdf", allow_undefined_stereo=True)
     mols = mols if isinstance(mols, list) else [mols]
-    offmol = next((m for m in mols if (m.name or "").strip() == pose_name), mols[0]) if pose_name else mols[0]
+    # pose_name filters to the target ligand's records; pose_index picks AMONG them (replicate config-
+    # independence when the docked SDF holds multiple poses). Single-pose SDF → all replicates share pose 0.
+    cand = [i for i, m in enumerate(mols) if (m.name or "").strip() == pose_name] if pose_name else list(range(len(mols)))
+    if not cand:
+        cand = list(range(len(mols)))
+    used_pose = cand[pose_index % len(cand)]
+    offmol = mols[used_pose]
     sysgen = _explicit_generator(offmol, app)
     lig_top = offmol.to_topology().to_openmm()
     lig_pos = offmol.conformers[0].to_openmm()
@@ -432,7 +445,7 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
                             ionicStrength=ionic_molar * unit.molar, neutralize=True)
         system = sysgen.create_system(modeller.topology)
         n_lig = lig_top.getNumAtoms()
-        return {"system": system, "positions": modeller.positions,
+        return {"system": system, "positions": modeller.positions, "pose_index": used_pose,
                 "alchemical_atoms": list(range(n_lig)), "n_receptor_atoms": 0, "n_ligand_atoms": n_lig}
 
     if leg != "complex":
@@ -468,7 +481,7 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
                                             restraint_K, restraint_K, restraint_K,
                                             restraint_K, restraint_K, restraint_K)
     return {"system": system, "positions": modeller.positions, "alchemical_atoms": lig_atoms,
-            "n_receptor_atoms": n_rec, "n_ligand_atoms": n_lig, "boresch": sel,
+            "n_receptor_atoms": n_rec, "n_ligand_atoms": n_lig, "boresch": sel, "pose_index": used_pose,
             "restraint_standard_state_dg": ssc}
 
 
@@ -573,17 +586,19 @@ def convergence_report(complex_dir, solvent_dir, temperature_K=300.0, n_blocks=5
 
 def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, window_end=None,
               n_iter=1000, steps_per_iter=500, temperature_K=300.0, platform_name="CUDA",
-              pose_name=None, padding_nm=1.2, restraint_K=20.0):
+              pose_name=None, padding_nm=1.2, restraint_K=20.0, seed=0, pose_index=0):
     """Prepare one leg's system once, then run its assigned λ-windows [window_start, window_end) — each an
     independent, per-iteration-checkpointed OpenMM sim (run_window). Writes a small meta.json (atom counts +,
     for the complex leg, the restraint standard-state ΔG) alongside the per-window logs so the reducer can
-    combine legs without re-prepping. window_end=None → all N_WINDOWS. Returns the meta dict."""
+    combine legs without re-prepping. window_end=None → all N_WINDOWS. Returns the meta dict.
+    `seed`>0 → reproducible independent-replicate initial velocities + Langevin noise (per (seed,window));
+    `pose_index` picks a starting pose from a multi-pose docked SDF (stronger config independence)."""
     prep = prepare_leg(leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
-                       padding_nm=padding_nm, restraint_K=restraint_K)
+                       padding_nm=padding_nm, restraint_K=restraint_K, pose_index=pose_index)
     we = window_end if window_end is not None else N_WINDOWS
     os.makedirs(out_dir, exist_ok=True)
     meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
-            "temperature_K": temperature_K, "n_windows": N_WINDOWS}
+            "temperature_K": temperature_K, "n_windows": N_WINDOWS, "seed": seed, "pose_index": prep["pose_index"]}
     if leg == "complex":
         meta["restraint_standard_state_dg"] = prep["restraint_standard_state_dg"]
         meta["boresch"] = prep["boresch"]
@@ -592,7 +607,7 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     for w in range(window_start, we):
         run_window(prep["system"], prep["positions"], prep["alchemical_atoms"], window_index=w, out_dir=out_dir,
                    temperature_K=temperature_K, n_iter=n_iter, steps_per_iter=steps_per_iter,
-                   platform_name=platform_name)
+                   platform_name=platform_name, seed=seed)
     return meta
 
 
@@ -785,6 +800,8 @@ def _cli():
     ap.add_argument("--window-end", type=int, default=None)
     ap.add_argument("--n-iter", type=int, default=1000)
     ap.add_argument("--steps-per-iter", type=int, default=500)
+    ap.add_argument("--seed", type=int, default=0, help="replicate seed (>0 → independent velocities+noise)")
+    ap.add_argument("--pose-index", type=int, default=0, help="starting pose from a multi-pose docked SDF")
     ap.add_argument("--temperature-k", type=float, default=300.0)
     ap.add_argument("--platform", default="CUDA")
     a = ap.parse_args()
@@ -801,7 +818,8 @@ def _cli():
     if a.run_shard:
         meta = run_shard(a.leg, a.ligand_sdf, a.out_dir, receptor_pdb=a.receptor_pdb, pose_name=a.pose_name,
                          window_start=a.window_start, window_end=a.window_end, n_iter=a.n_iter,
-                         steps_per_iter=a.steps_per_iter, temperature_K=a.temperature_k, platform_name=a.platform)
+                         steps_per_iter=a.steps_per_iter, temperature_K=a.temperature_k, platform_name=a.platform,
+                         seed=a.seed, pose_index=a.pose_index)
         print(f"[abfe] SHARD_DONE leg={a.leg} windows [{a.window_start},{a.window_end}) meta={meta}")
         return
     if a.reduce:

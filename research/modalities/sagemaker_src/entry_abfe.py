@@ -67,6 +67,8 @@ def main():
     ap.add_argument("--window-end", default="")           # "" → all N_WINDOWS
     ap.add_argument("--n-iter", default="1000")
     ap.add_argument("--steps-per-iter", default="500")
+    ap.add_argument("--seed", default="0")                 # replicate: >0 → independent velocities + Langevin noise
+    ap.add_argument("--pose-index", default="0")           # replicate: starting pose from a multi-pose docked SDF
     ap.add_argument("--platform", default="CUDA")
     ap.add_argument("--prebaked", default="0")            # 1 → skip conda create (image has env `abfe`)
     ap.add_argument("--hydration-smiles", default="C")   # accuracy gate: molecule SMILES (default methane)
@@ -135,7 +137,8 @@ def main():
     cmd = ["python", "nr4a3_abfe.py", "--run-shard", "--leg", a.leg, "--ligand-sdf", lig_sdf,
            "--pose-name", a.ligand_name, "--out-dir", out_dir,
            "--window-start", a.window_start, "--n-iter", a.n_iter,
-           "--steps-per-iter", a.steps_per_iter, "--platform", a.platform]
+           "--steps-per-iter", a.steps_per_iter, "--platform", a.platform,
+           "--seed", a.seed, "--pose-index", a.pose_index]
     if a.window_end:
         cmd += ["--window-end", a.window_end]
     if a.leg == "complex":

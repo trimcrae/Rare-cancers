@@ -31,6 +31,8 @@ GIT_REF = os.environ.get("GIT_REF", "main")
 SPOT = os.environ.get("SPOT", "1") == "1"
 N_ITER = os.environ.get("ABFE_N_ITER", "1000")
 STEPS_PER_ITER = os.environ.get("ABFE_STEPS_PER_ITER", "500")
+SEED = os.environ.get("ABFE_SEED", "0")                                         # replicate seed (>0 → independent)
+POSE_INDEX = os.environ.get("ABFE_POSE_INDEX", "0")                             # replicate starting pose
 RECEPTORS = [r.strip() for r in os.environ.get("ABFE_RECEPTORS", "nr4a3,nr4a1,nr4a2").split(",") if r.strip()]
 RECEPTOR_PREFIX = os.environ.get("RECEPTOR_PREFIX", "nr4a3-denovo-matrix-v2")   # <r>-opened.pdb + docked_<r>.sdf
 SPOT_HOURLY = float(os.environ.get("SPOT_HOURLY", "0.50"))
@@ -95,7 +97,8 @@ def main():
         return PyTorch(**kw)
 
     common = {"git-ref": GIT_REF, "ligand-name": LIGAND, "n-iter": N_ITER,
-              "steps-per-iter": STEPS_PER_ITER, "prebaked": "1" if IMAGE_URI else "0"}
+              "steps-per-iter": STEPS_PER_ITER, "seed": SEED, "pose-index": POSE_INDEX,
+              "prebaked": "1" if IMAGE_URI else "0"}
 
     if MODE == "smoke":
         est = make_estimator("smoke", {**common, "mode": "smoke"})
