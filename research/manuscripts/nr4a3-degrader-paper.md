@@ -119,7 +119,9 @@ paralogues by several kcal/mol at n_iter = 500, single replicate) that we report
 converged**, with an independent-seed replicate + convergence diagnostic running to attach drift-aware error
 bars before it is quoted as settled; an independent AF3-class (Boltz-2) co-fold **could not corroborate** the
 pose (the expected cryptic-pocket/orphan-receptor limitation), so the structural model remains the load-bearing
-uncertainty. The work is governed by a **pre-registered falsification
+uncertainty. On the druggability leg specifically, an **independent cryptic-pocket predictor (PocketMiner),
+trained on separate data, does corroborate the site** — it flags the Pocket-5 residues as cryptic-pocket-prone
+from the apo structure (1.36× enriched over background; §2.1). The work is governed by a **pre-registered falsification
 scheme** (calibrated thresholds fixed before the production results). The NR4A3-selective agent — binding
 the NR4A3 LBD shared by the EMC fusion and over-expressed wild-type NR4A3 — is the lead, addressing
 **EMC, acinic cell carcinoma, and the broader NR4A3-rearranged sarcoma spectrum**; a deliberately
@@ -166,6 +168,24 @@ nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../mo
   **0.495 is conservative**.
 Thus the static orthosteric pocket sits *just below* the validated druggable band — concordant with
 "undruggable", and the right starting point for the cryptic-pocket question.
+
+**Independent cross-check — a cryptic-pocket predictor, trained on separate data, flags this exact site.**
+Before invoking our own dynamics, we asked whether a *method that shares no code or training data with ours*
+independently expects a cryptic pocket here. PocketMiner (Meller et al., *Nat Commun* 2023) is a graph
+neural network that predicts per-residue cryptic-pocket-forming propensity from a **single static
+structure**, trained on an independent MD-derived cryptic-pocket dataset. Run on the **apo** AF2 NR4A3 LBD
+(AF-Q92570, residues 373–626 — the *pre-metadynamics* structure, so the test is not circular; MIT tool, run
+verbatim), it assigns the Pocket-5 lining residues a mean cryptic-pocket probability of **0.64 versus a
+0.47 whole-LBD background (1.36× enrichment)**, with **8/10 Pocket-5 residues ≥ 0.5** and **4/10 ≥ 0.7**
+(residues 406, 481, 484, 531 — three of which, 406/484/531, are among our seven selectivity handles); eight
+of the ten sit in the **top ~14–29 %** of the LBD by score (percentile 0.71–0.89). We report this at its
+true weight, with two honest caveats: (i) PocketMiner is a *propensity predictor* — it corroborates the
+**site/existence** of a cryptic pocket from an orthogonal method, but supplies neither the opened geometry
+nor a druggability value, which remain the job of the metadynamics + fpocket analysis below; and (ii) the
+network's single highest-scoring residues (375–398) fall at the **N-terminal truncation edge** of the
+domain fragment — a chain-terminus flexibility artifact of scoring an isolated LBD, not the functional
+cavity — so we rest on the *Pocket-5 enrichment*, not a rank-1 claim. Data:
+[`../modalities/nr4a3-pocketminer-result.json`](../modalities/nr4a3-pocketminer-result.json).
 
 **Reconciliation with recent NR4A structural and chemical-biology work (2023–2025).** Three independent
 lines of evidence bracket this borderline score and sharpen (rather than soften) our claim. *(i) The

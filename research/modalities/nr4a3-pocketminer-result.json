@@ -1,0 +1,35 @@
+{
+  "_title": "PocketMiner cryptic-pocket prediction on the apo NR4A3 LBD (independent cross-check)",
+  "_input": {
+    "source": "AFDB AF-Q92570 apo model, LBD 373-626 (pre-metadynamics)",
+    "uniprot": "Q92570", "lbd_window": [373, 626],
+    "circularity_guard": "apo pre-metadynamics AF2 structure; NOT a metad-opened frame"
+  },
+  "_method": {
+    "tool": "PocketMiner (GVP graph neural network)",
+    "citation": "Meller et al., Nat Commun 14:1177 (2023)",
+    "repo": "https://github.com/Mickdub/gvp", "branch": "pocket_pred",
+    "weights": "in-repo models/pocketminer checkpoint", "license": "MIT",
+    "output": "per-residue cryptic-pocket probability in [0,1]",
+    "sagemaker_run": "nr4a3-pocketminer-2026-07-05-22-38 (ml.c5.2xlarge, tf 2.9.1)"
+  },
+  "n_residues_scored": 254,
+  "pocket5_scores": {"406": 0.8148, "407": 0.6825, "410": 0.6937, "411": 0.3959,
+    "412": 0.3855, "481": 0.7575, "484": 0.7617, "485": 0.6209, "531": 0.7015, "534": 0.5998},
+  "pocket5_percentile_rank": {"406": 0.89, "407": 0.803, "410": 0.811, "411": 0.402,
+    "412": 0.386, "481": 0.866, "484": 0.87, "485": 0.744, "531": 0.823, "534": 0.713},
+  "pocket5_handles": [406, 407, 410, 412, 484, 531, 534],
+  "top15_residues_overall": [378, 377, 379, 391, 380, 396, 375, 381, 395, 394, 392, 376, 382, 398, 393],
+  "overlap": {
+    "pocket5_in_flagged_high_0p7": [406, 481, 484, 531],
+    "pocket5_in_flagged_moderate_0p5": [406, 407, 410, 481, 484, 485, 531, 534],
+    "frac_pocket5_high": 0.4, "frac_pocket5_moderate": 0.8,
+    "pocket5_mean_score": 0.6414, "pocket5_max_score": 0.8148,
+    "lbd_mean_score": 0.4713, "enrichment_pocket5_over_lbd": 1.36
+  },
+  "_honest_caveats": [
+    "Independent positive: Pocket-5 mean 0.64 vs LBD background 0.47 (1.36x); 8/10 pocket residues >=0.5, 4/10 >=0.7; 8/10 in the top ~14-29% of the LBD by cryptic-pocket score (percentile 0.71-0.89).",
+    "The absolute top-15 residues (375-398) sit at the N-terminal truncation edge of the 373-626 fragment — a chain-terminus/flexibility artifact of scoring a domain fragment, NOT the functional pocket; reported for transparency.",
+    "PocketMiner is a single-static-structure PREDICTOR of cryptic-pocket PROPENSITY. It corroborates the SITE/existence of a cryptic pocket at Pocket-5 from an independent method + training set; it does NOT provide opened geometry, druggability, or replace the metadynamics+fpocket evidence."
+  ]
+}

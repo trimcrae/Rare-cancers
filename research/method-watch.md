@@ -136,7 +136,12 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
   line into the degrader paper's druggability section and flip this row's status. PocketMiner is a small GNN
   (CPU-runnable) so it does NOT compete with the ABFE g5 fleet. Note the honest limit: PocketMiner is a
   *predictor* (per-residue propensity), so it corroborates the *site/existence*, not the *opened geometry or
-  druggability* — those still come from our MD. Status: **building the runner** (`pocketminer_src/`).
+  druggability* — those still come from our MD. Status: **DONE (2026-07-05)** — ran on the apo AF2 LBD
+  (`pocketminer_src/` → `gpu-pocketminer-aws.yml`, ml.c5.2xlarge). **Positive, honestly moderate:** Pocket-5
+  mean cryptic-pocket score 0.64 vs 0.47 LBD background (1.36× enrichment), 8/10 pocket residues ≥0.5, 4/10
+  ≥0.7 (incl. 3 selectivity handles); caveat — the absolute top residues are an N-terminal truncation-edge
+  artifact, so we rest on the enrichment. Folded into `nr4a3-degrader-paper.md` §2.1;
+  data `modalities/nr4a3-pocketminer-result.json`.
 - **[2026-07-05] Cheap-ensemble-generator trigger + a new Platform/vision route (cryptic-pocket druggability
   atlas).** Prompted by the PocketMiner discussion: PocketMiner-class *predictors* don't produce opened structures
   or druggability, so a **druggability-scored cryptic-pocket resource for neglected disease targets** is a genuine
