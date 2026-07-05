@@ -212,3 +212,12 @@ ours cleared). solvent + methane Completed. Complex legs are ~40k-atom PME on Op
   → nr4a3_abfe.selectivity_ddg(nr4a3, nr4a1) & (nr4a3, nr4a2) = headline ΔΔG.
 CONVERGENCE: n_iter=500 (methane solvent converged ±0.06 there; complex legs bigger+restraint may need more) —
 check per-leg SE at reduce; if loose, relaunch same only_legs with higher n_iter (checkpoint resumes from 500).
+
+## ⏱ MEASURED FLEET SPEED + GROUNDED ETA (2026-07-05 ~10:44 PM ET)
+complex-nr4a3 S3 progress @02:43UTC: window_00/01/02 = 500/500 done, window_03 = 256/500, 04-11 not started =
+3.5/12 windows in ~105min → **~30 min/window** (OpenCL, ~40k atoms, 12 per-λ energy evals/iter). Per leg ~6h.
+ETA: nr4a3 complex (started 00:58UTC) → ~06:55UTC/2:55am ET; nr4a1/nr4a2 (started ~01:46UTC, parallel) →
+~07:46UTC/3:45am ET. + reduce → **ΔΔG ~4am ET**. (Earlier '10:40pm' was a mislabeled progress check, not completion.)
+meta.json confirms Boresch anchors selected on real NR4A3 pocket: r0=3.48Å, thetaA=136°, thetaB=110° (both in
+30-150° guard band — the thetaB fix works on a real receptor). Convergence: check SE at reduce; extend if loose.
+Read jsonl progress: fep-status cat_s3=nr4a3-abfe/ckpt/complex-<r>/<r>/complex (window_XX.jsonl line count=iters).
