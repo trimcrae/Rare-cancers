@@ -316,3 +316,16 @@ not). NR4A3 LOWEST (opposite of FEP) but within-noise. HONEST: co-fold neither c
 its unreliable regime; NOT independent support. Structure/pose axis stays the load-bearing uncertainty; this
 breadth technique can't resolve it. Result -> research/modalities/nr4a3-binary-cofold-result.json. Optional: pose
 vs docked RMSD (low priority — low-confidence poses not worth comparing).
+
+## 🐛 BUG FOUND+FIXED (2026-07-05 ~10:10 AM ET): r2 nr4a3 DUPLICATE-JOB checkpoint corruption
+Launching "r2 rest" (12-27, receptors=nr4a3,nr4a1,nr4a2) spun a 2nd complex-nr4a3 job (12-27-53) while the
+validation shard (11-39) was still running that leg → BOTH wrote nr4a3-abfe-r2/ckpt/complex-nr4a3/ for ~1.3h
+(12-27→13-45) → duplicated per-iteration samples (corrupts MBAR). FIX: stopped both (11-39 + 12-27-53) → cleared
+the prefix (7 objs) → relaunched r2 nr4a3 complex CLEAN (only_legs=complex seed=2 pose1 n_iter=2000, from iter 0).
+r2's other legs (nr4a1/nr4a2/solvent) were single-job, clean, untouched. LESSON: when adding replicate legs, don't
+re-include a receptor whose leg is already running under the same tag (or stop it first).
+QUOTA REALITY: spot Training quota=8; 3 replicates × 4 legs = 12 > 8 → r1(4)+r2(4) run now, r3 DEFERRED until r1
+finishes (r3 "0 jobs" = couldn't get slots, expected). Serialize r3 after r1.
+## 📈 HOURLY PLOTS (trimcrae ask): update convergence plot + SEND every hour on the hour. Pipeline per hour:
+gpu-abfe mode=reduce tag=nr4a3-abfe (emit-trace, current r1 data) → abfe-plot-aws tag=nr4a3-abfe → pull PNG from
+modalities-cache → SendUserFile. Wake ~:45 so plot lands ~:00. When r2/r3 mature -> switch to replicate-SD plot.
