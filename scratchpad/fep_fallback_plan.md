@@ -190,3 +190,14 @@ still Training (accuracy number pending; oddly slower than the bigger solvent le
 until: (1) complex-nr4a3 confirmed ADVANCING windows w/o NaN (still-Training after ~18min in windows = past the
 Yank-nr4a1 'Iteration 1' restraint-NaN risk), AND (2) methane ΔG_hyd ≈ +2. Then launch complex-nr4a1,complex-nr4a2.
 Solvent ΔG comes from mode=reduce at the end.
+
+## ✅✅ METHANE ACCURACY GATE PASSED + FULL FLEET LAUNCHED (2026-07-05 ~9:37 PM ET)
+methane hydration_validation.json: **dg_hydration = 1.53 ± 0.06 kcal/mol** (known +2.0, error −0.47, pass=true).
+Validates the shared decoupling machinery (elec→sterics schedule, per-λ reduced potentials, MBAR, sign) on a
+real explicit-solvent system. BOTH gates green: complex-nr4a3 Training clean ~40min (NaN-clear) + methane accurate.
+LAUNCHED complex-nr4a1 + complex-nr4a2 (gpu-abfe-aws mode=run only_legs=complex-nr4a1,complex-nr4a2, n_iter=500).
+FULL FLEET now: solvent=Completed, complex-nr4a3=Training, complex-nr4a1/nr4a2=launching. WATCH nr4a1/nr4a2 for
+restraint-NaN at window 0 (Yank's nr4a1 died there; different pockets→different anchors, so re-check).
+WHEN ALL 4 legs Completed: gpu-abfe-aws mode=reduce (per receptor) → ΔG_bind → nr4a3_abfe.selectivity_ddg = ΔΔG.
+TOOLING: read result JSONs via fep-status cat_s3=<prefix> ref=main (Describe auto-skips so JSON is the tail).
+Note n_iter=500 may be short for complex-leg convergence — check SE at reduce; extend via resume if loose.
