@@ -45,11 +45,17 @@ jobs:
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
-          import os, boto3, datetime
+          import os, json, boto3, datetime
           import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+          from matplotlib.patches import Patch
           region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
           bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
           s3 = boto3.client("s3")
+          STATE_KEY = "nr4a3-abfe/progress_state.json"            # last snapshot's per-leg pct, for last-hour Δ shading
+          try:
+              prev = json.loads(s3.get_object(Bucket=bucket, Key=STATE_KEY)["Body"].read())
+          except Exception:
+              prev = {}
           target = int(os.environ["TARGET"])
           tags = [t.strip() for t in os.environ["TAGS"].split(",") if t.strip()]
           LEG_ORDER = ["complex-nr4a3", "complex-nr4a1", "complex-nr4a2", "solvent"]
@@ -84,17 +90,31 @@ jobs:
           NAME = {"nr4a3-abfe": "r1", "nr4a3-abfe-r2": "r2", "nr4a3-abfe-r3": "r3"}
           full = NW * target
           ylabels, y = [], 0
+          cur_state = {}                                          # this snapshot's per-leg pct → written back to S3
           for tag, leg, v in rows:
               if leg is None:
                   ylabels.append(f"{NAME.get(tag,tag)}  (not started)")
                   ax.barh(y, 0, color="#ccc"); y += 1; continue
               total, ndone, deepest = v
               pct = 100.0 * total / full
-              ax.barh(y, pct, color=COL.get(tag, "#888"), alpha=0.9)
-              ax.text(pct + 1.0, y, f"{pct:.0f}%  ({ndone}/{NW} windows done, deepest {deepest})",
+              pp = min(prev.get(tag, {}).get(leg, pct), pct)     # last-hour pct (default=pct → no Δ on first run)
+              col = COL.get(tag, "#888")
+              ax.barh(y, pp, color=col, alpha=0.9)               # progress before this hour (solid)
+              if pct - pp > 0.05:                                # gain in the last hour (lighter + hatched)
+                  ax.barh(y, pct - pp, left=pp, color=col, alpha=0.35, edgecolor=col, linewidth=0.8, hatch="////")
+              dtxt = f"   +{pct-pp:.0f}% ↑" if pct - pp > 0.05 else ""
+              ax.text(pct + 1.0, y, f"{pct:.0f}%  ({ndone}/{NW} done, deepest {deepest}){dtxt}",
                       va="center", fontsize=8)
               ylabels.append(f"{NAME.get(tag,tag)} · {leg.replace('complex-','')}")
+              cur_state.setdefault(tag, {})[leg] = pct
               y += 1
+          try:
+              s3.put_object(Bucket=bucket, Key=STATE_KEY, Body=json.dumps(cur_state).encode())
+          except Exception as e:
+              print("state write failed:", e)
+          ax.legend(handles=[Patch(facecolor="#888", alpha=0.9, label="before this hour"),
+                             Patch(facecolor="#888", alpha=0.35, hatch="////", label="gained in last hour")],
+                    loc="lower right", fontsize=8, frameon=True)
           ax.axvline(100, color="#666", ls="--", lw=1)
           ax.set_yticks(range(len(ylabels))); ax.set_yticklabels(ylabels, fontsize=9)
           ax.set_xlim(0, 118); ax.invert_yaxis()
