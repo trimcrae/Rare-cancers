@@ -230,3 +230,8 @@ stack. Per the standing NO-RESUME rule → StopTrainingJob nr4a3-fep-sn-0-2026-0
 No cross-check from Yank; the modern fleet IS the NR4A3 ΔG_bind source now (validated engine, per-iteration
 checkpoints → ≤1 iter lost on interrupt, unlike Yank). Fleet ETA ~4am ET → reduce → ΔΔG. (ListTrainingJobs was
 glitching to '0 jobs' repeatedly during this — the cw_job LIVE TAIL was the authoritative signal.)
+
+## ✅ FLEET HEALTHY, YANK STOPPED (2026-07-05 ~11:57 PM ET)
+Yank stop CONFIRMED ("STOP requested ... (was InProgress)"). All 3 modern complex legs InProgress/Training, NO
+interrupts: complex-nr4a3(00-53-14), complex-nr4a1(01-38-24-264), complex-nr4a2(01-38-24-988). ~30min/window →
+nr4a3 ETA ~06:58UTC/2:58am ET, nr4a1/2 ~07:46UTC/3:46am ET → reduce → ΔΔG ~4am ET. Next check ~2h.
