@@ -59,6 +59,23 @@ candidate *structural* mechanism (a breathing orthosteric pocket) for a ligandab
 already demonstrated. This flips the framing of our result from "does a pocket exist?" to "here is where the
 already-demonstrated ligandability likely lives," which is a stronger, experiment-anchored claim.
 
+**Recent (2023–2025) NR4A work brackets our druggability claim — one challenge, two supports.** *(Challenge.)*
+The vidofludimus/Nurr1 structure-guided study (Sturm/Willems, *Commun Chem* 2025) reaffirms the **canonical**
+NR4A pocket is "filled with bulky hydrophobic residues" and instead modulates the receptor through an
+**allosteric surface pocket** — the strongest recent restatement of the occluded-canonical-pocket view, and a
+reviewer objection we must meet head-on. We meet it precisely by *not* claiming the static canonical pocket is
+druggable: our claim is that it **breathes** into a transiently druggable cavity (which a static analysis
+cannot see), and their surface pocket is a distinct site we do not target. *(Support 1 — ligandability is real
+but chemotype-specific.)* Protein-NMR footprinting (Munoz-Tello 2020) confirms amodiaquine, chloroquine and
+cytosporone B **directly bind** the NR4A LBD while **celastrol, C-DIM12 and TMPA do not** — so of the
+repurposed actives in our selectivity matrix, cytosporone B has independent binding support and celastrol does
+not; a family-wide probe audit (Willems/Merk 2025) likewise validates a small vetted tool set and flags that
+many putative NR4A ligands miss the receptor. Both discipline any repurposed-chemotype selectivity claim.
+*(Support 2 — paralog-selective NR4A degradation is real.)* The NR-V04 PROTAC (Wang 2024) degrades NR4A1 while
+**sparing NR4A2/NR4A3** — direct proof that intra-family degradation selectivity is achievable (the mirror of
+our NR4A3-selective goal); its warhead is celastrol, a promiscuous covalent tool rather than a selective one,
+so it is a proof-of-concept, not a recipe.
+
 ## 5b. NR4A-family precedent for dynamic / cryptic pockets (paper-ready)
 The single strongest defense of our approach is that **the cryptic/dynamic-pocket mechanism is already
 demonstrated experimentally and computationally in NR4A3's close paralogues — but has never been
@@ -240,10 +257,28 @@ The bottleneck is **not** backbone-prediction accuracy:
   doi 10.1080/21541264.2025.2521766. (Safe-group review; source for NR4A3-selective carboxymethyl-indole-3-
   carbinol analogues, cpds 1 & 19, IC₅₀ ≈ 8–47 µM, de-repressing *MYC*. Secondary source for those compounds;
   verified 2026-07-05.)
-- Munoz-Tello P, et al. *Assessment of NR4A Ligands that Directly Bind and Modulate the Orphan Nuclear
-  Receptor Nurr1.* **J Med Chem** (2020). PMC8006468; doi 10.1021/acs.jmedchem.0c00894. (Amodiaquine
-  binding by NMR; PGA1/5,6-dihydroxyindole co-crystals 5Y41/5YD6/6DDA; journal/year/DOI verified
-  2026-06-26 — volume/pages still to add from the primary record.)
+- Munoz-Tello P, Nettles KW, Kojetin DJ, et al. *Assessment of NR4A Ligands that Directly Bind and Modulate
+  the Orphan Nuclear Receptor Nurr1.* **J Med Chem** (2020). PMID 33289551; PMC8006468;
+  doi 10.1021/acs.jmedchem.0c00894. (NMR footprinting: amodiaquine, chloroquine and **cytosporone B bind** the
+  NR4A2 LBD, while **celastrol, C-DIM12 and TMPA do not** — disciplines the repurposed-matrix chemotypes; also
+  PGA1/dopamine-metabolite co-crystals 5Y41/5YD6/6DDA. Verified 2026-06-26 / 2026-07-05; volume/pages to add.)
+- Willems S, Morozov V, Marschner JA, Merk D. *Comparative Profiling and Chemogenomics Application of Chemical
+  Tools for NR4A Nuclear Receptors.* **J Med Chem** 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459.
+  (Family-wide NR4A1/2/3 probe audit; vetted 5-agonist/3-inverse-agonist tool set; many putative NR4A ligands
+  lack on-target binding. Verified 2026-07-05.)
+- Stiller T, Merk D. *Exploring Fatty Acid Mimetics as NR4A Ligands.* **J Med Chem** 66(22):15362–15369 (2023).
+  PMC10683012; doi 10.1021/acs.jmedchem.3c01467. (Fragment → sub-µM NR4A ligands; NOR-1/NR4A3 tested in a
+  reporter assay. Verified 2026-07-05.)
+- Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a Parkinson's
+  Disease Fly Model.* **NeuroMolecular Med** (2022). PMID 35482177; PDB 5YD6. (PGA2 forms a **covalent Cys566
+  adduct** in the Nurr1 LBD — covalent-warhead precedent. Verified 2026-07-05.)
+- Sturm/Willems, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
+  vidofludimus enables structure-guided ligand design.* **Commun Chem** (2025). PMC12095788;
+  doi 10.1038/s42004-025-01553-8. (Occluded canonical pocket reaffirmed; allosteric surface pocket; closest
+  computational NR4A-selectivity precedent — the §5 challenge. Author order to confirm. Verified 2026-07-05.)
+- Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer
+  immunotherapy.* **J Exp Med** 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519. (NR-V04 —
+  NR4A1 PROTAC sparing NR4A2/NR4A3; paralog-selective degradation precedent. Verified 2026-07-05.)
 - Nur77/NR4A1 ligand co-crystals: PDB 4JGV (THPN), 6KZ5 (cytosporone B) — surface pockets. *[primary
   citations to attach before submission].*
 - PPARγ control: PDB 2PRG (Nolte RT et al., PPARγ LBD + rosiglitazone, **Nature** 395:137, 1998).
