@@ -201,3 +201,14 @@ restraint-NaN at window 0 (Yank's nr4a1 died there; different pockets→differen
 WHEN ALL 4 legs Completed: gpu-abfe-aws mode=reduce (per receptor) → ΔG_bind → nr4a3_abfe.selectivity_ddg = ΔΔG.
 TOOLING: read result JSONs via fep-status cat_s3=<prefix> ref=main (Describe auto-skips so JSON is the tail).
 Note n_iter=500 may be short for complex-leg convergence — check SE at reduce; extend via resume if loose.
+
+## ✅ FULL FLEET HEALTHY — all 3 complex legs Training (2026-07-05 ~9:56 PM ET)
+JOB SUMMARY: complex-nr4a1(`…01-38-24-264`), complex-nr4a2(`…01-38-24-988`), complex-nr4a3(`…00-53-14-112`) ALL
+InProgress/Training. nr4a1/nr4a2 ~8min into windows past the restraint-NaN (Yank's nr4a1 died at 'Iteration 1' —
+ours cleared). solvent + methane Completed. Complex legs are ~40k-atom PME on OpenCL → ~2-4h for 12 windows each
+(started ~00:58/01:46 UTC → ETA ~03:00-05:00 UTC / 11pm-1am ET). WAIT for all 3 Completed, then:
+  gpu-abfe-aws mode=reduce receptors=nr4a3,nr4a1,nr4a2  → per-receptor ΔG_bind json
+  read via fep-status cat_s3=nr4a3-abfe/ckpt/... (or the reduce job prints DG_BIND)
+  → nr4a3_abfe.selectivity_ddg(nr4a3, nr4a1) & (nr4a3, nr4a2) = headline ΔΔG.
+CONVERGENCE: n_iter=500 (methane solvent converged ±0.06 there; complex legs bigger+restraint may need more) —
+check per-leg SE at reduce; if loose, relaunch same only_legs with higher n_iter (checkpoint resumes from 500).
