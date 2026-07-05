@@ -46,22 +46,38 @@ is an **open question**. That question is the make-or-break (§4).
 ## 3. The method — a funnel (cheap-wide → expensive-narrow), and where each tool sits
 | Layer | What it does | Who does it | Cost |
 |---|---|---|---|
-| **0. Pre-screen** *(the funnel's mouth — trimcrae, 2026-07-05)* | rank the whole proteome by cryptic-pocket **propensity** so the expensive sampling only runs on proteins that plausibly *have* a cryptic pocket | **PocketMiner** (fast, single static structure, CPU) | ~free |
+| **0. Pre-screen** *(the funnel's mouth — trimcrae, 2026-07-05; two cheap filters)* | **(a) VALUE:** keep proteins whose *static* pocket is **weak** (below the druggable band) — a cryptic pocket has the most to add where nothing is statically druggable, and ~nothing to add where a good static pocket already exists. **(b) FEASIBILITY:** of those, keep the ones with **high cryptic-pocket propensity**. Sample only the intersection. | **(a) static fpocket**, **(b) PocketMiner** — both single-static-structure, CPU | ~free |
 | **1. Sampling** | many conformations per (pre-screened) protein | **AlphaFlow / BioEmu** (replaces MD) | the only real GPU cost |
 | **2. Pocket + druggability** | scan each frame → pockets, fpocket druggability, cryptic Δ | **fpocket over frames** | ~free (CPU) |
 | **3. The atlas** | run 0–2 across curated neglected targets; label, validate, aggregate, publish w/ calibrated confidence | a **dataset + pipeline** | curation effort |
 | **4. Predictor** *(optional 2nd paper)* | train a fast model on layer-3 labels → skip sampling for new targets | an **ML model** | cheap on top |
 
-**The key funnel insight (Layer 0):** PocketMiner is a cheap, wide *predictor* and AlphaFlow is an expensive,
-narrow *generator* — so **use PocketMiner as the triage filter that decides which proteins get AlphaFlow'd.**
-Run PocketMiner across the whole proteome for ~free, rank by cryptic-pocket propensity, and spend the GPU budget
-only on the top-flagged fraction. This is the "cheap-triage-before-the-expensive-step" pattern (same discipline
-as the degrader-atlas FEP funnel), and it directly shrinks the one real cost (§5). It is **not circular** —
-PocketMiner *selects*, AlphaFlow+fpocket *independently verify and score* (different methods, different signal).
-**Honest coverage caveat (the "no silent caps" rule):** the pre-screen has false negatives — a protein
-PocketMiner misses never gets sampled. Fine for a *focused* atlas; for a *complete* proteome atlas, **log the
-filtered-out fraction** and periodically spot-check below the threshold, rather than reporting the filtered set
-as "the proteome."
+**The key funnel insight (Layer 0) — filter on both *value* and *feasibility*, both ~free.** Two cheap
+single-static-structure passes decide which proteins are worth the expensive AlphaFlow sampling:
+
+- **(a) Value filter — static fpocket LOW.** A cryptic pocket only *earns its keep* on a protein that is
+  **undruggable in its static structure**; if a strong static pocket already exists, you'd just drug that, and
+  finding a cryptic one adds little. So keep proteins whose static fpocket sits **below the druggable band**
+  (calibratable off the same **D\* = 0.53** panel used for NR4A3 in the degrader paper §2.1 — NR4A3's static
+  0.495 is precisely the profile). This is a **value/prioritization** screen: it points the budget at the
+  targets where success would matter most.
+- **(b) Feasibility filter — PocketMiner HIGH.** Of the statically-undruggable set, keep those a cheap predictor
+  says plausibly *have* a cryptic pocket.
+
+**Target set = (weak static pocket) ∩ (high cryptic propensity)** — the "high cryptic upside" quadrant, which is
+exactly NR4A3's profile. The 2×2 intuition: *high static → already druggable (skip); low static + low propensity
+→ genuinely hard, cryptic won't save it (deprioritize); low static + high propensity → **the atlas's sweet
+spot**; high static + high propensity → bonus alternative site, low priority.* (This is the cheap *pre-filter*
+version of the auto-label Δdruggability = ensemble − static in §3 below — the same "upside" signal, applied
+before spending GPU rather than after.)
+
+This is the "cheap-triage-before-the-expensive-step" pattern (same discipline as the degrader-atlas FEP funnel),
+and it directly shrinks the one real cost (§5). It is **not circular** — the filters *select*, AlphaFlow+fpocket
+*independently verify and score* (different methods, different signal). **Honest coverage caveats (the "no
+silent caps" rule):** both filters have false negatives — a statically-druggable protein might still hide a
+*better/allosteric* cryptic pocket, and PocketMiner misses some sites. Fine for a *value-prioritized focused*
+atlas; for any "proteome" claim, **log what each filter dropped** and spot-check below the thresholds rather than
+reporting the filtered set as "the proteome."
 
 **AlphaFlow occupies layer 1 only.** It hands you a haystack of structures; it does *not* find or score pockets.
 The signal we want — "a *druggable cryptic pocket* is here, with confidence X" — is layers 2–4, gated by 0.
