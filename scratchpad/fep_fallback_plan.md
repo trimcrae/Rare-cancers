@@ -147,3 +147,11 @@ find-and-map pass (denovo_401 is a stable string across code/data/manuscript). D
 ## Working env pins (entry_fep.py conda create — do NOT change without a yank-env-check run)
 python=3.9, yank, openmmtools=0.21.2, ocl-icd-system, openbabel, setuptools<81, libnetcdf<4.9, parmed, pymbar<4.
 Isolation: `conda run -n fep` with PYTHONPATH="" (base-container numpy 1.x leak fix).
+
+## 🧪 ABFE HYDRATION ACCURACY GATE — LAUNCHED (2026-07-05 ~8:00 PM ET / 00:00 UTC)
+SageMaker spot job **`nr4a3-abfe-hydration-methane-2026-07-05-00-00-15-359`** (via gpu-abfe-aws.yml mode=hydration,
+git_ref=branch). Validates the decoupling+MBAR engine: methane ΔG_hyd vs known ~+2.0 kcal/mol (tol 1.5).
+Result → `hydration_validation.json` in the job model dir + `s3://sagemaker-us-east-2-646605541856/nr4a3-abfe/ckpt/hydration-methane/`.
+Monitor via fep-status-aws.yml tag=nr4a3-abfe cw_job=nr4a3-abfe-hydration-methane. **GATE:** if |ΔG_hyd−2.0|≤1.5 →
+engine validated → launch the 4-leg fleet (gpu-abfe-aws.yml mode=run git_ref=branch). If off → debug engine first.
+NOTE: gpu-abfe-aws.yml is now on MAIN (required for API dispatch); it clones git_ref for the code.
