@@ -1,0 +1,55 @@
+name: NR4A3 PocketMiner cryptic-pocket cross-check (AWS SageMaker)
+
+# Runs the PocketMiner GNN (Meller et al., Nat Commun 2023; MIT) on the APO NR4A3 LBD (AFDB AF-Q92570,
+# residues 373-626 — pre-metadynamics, NON-circular) as an INDEPENDENT test of the cryptic-druggable-pocket
+# claim, as a managed SageMaker Processing job. CPU work (ml.c5.2xlarge) — does NOT touch the GPU quota.
+# Manual-dispatch. REQUIRES the same repo secrets as the other AWS jobs:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN  (region is a workflow input).
+# Output: s3://<default-bucket>/nr4a3-pocketminer/pocketminer_nr4a3_result.json (per-residue cryptic
+# scores + overlap vs our fpocket Pocket-5 lining residues).
+#
+# NOTE: the PocketMiner env is TensorFlow-based and version-fragile — VALIDATE with one run before relying
+# on the numbers (see research/modalities/pocketminer-run-notes.md).
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker CPU instance type (ml.c5.2xlarge default; c5.xlarge also fine)"
+        default: "ml.c5.2xlarge"
+        required: false
+      tf_version:
+        description: "TensorFlow version for the PocketMiner env (author-tested: 2.1.0 / 2.6.2 / 2.9.1)"
+        default: "2.9.1"
+        required: false
+      region:
+        description: "AWS region — must match where you deployed the stack + got quota"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit PocketMiner cross-check job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          PM_TF_VERSION: ${{ inputs.tf_version }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first (region is a workflow input). See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_pocketminer_sagemaker.py
