@@ -270,3 +270,15 @@ solvent-10-31-52, complex-nr4a3-10-31-54, complex-nr4a1-10-31-55, complex-nr4a2-
 (<=61 downsampled pts) to stdout + writes <r>_dg_bind.json (w/ full trace) to checkpoint dir (cat_s3-readable).
 PREVIEW reduce dispatched on current ~500-iter data to validate plot pipeline NOW. PLOT: read 3 reduce jobs'
 TRACE_JSON → matplotlib ΔG_bind(iter) 3 receptors (+ ΔΔG) → PNG for user. FINAL plot after extension+reduce.
+
+## ▶ UNCERTAINTY WORK (2026-07-05 ~7:20 AM ET) — user asked "why tight error bars while value drifts + quantify actual uncertainty"
+PART A (DONE, free): convergence_report() in nr4a3_abfe.py — first/second-half DRIFT + contiguous BLOCK-SD (drift-
+aware uncertainty MBAR SE misses). Rides in reduce json ("convergence"). Plot now draws tight MBAR band + block-SD
+error bar (contrast). abfe-plot-aws writes rich json.
+PART B (LAUNCHING): 3 independent replicates. r1 = current nr4a3-abfe extension (seed unset). Added --seed
+(reproducible independent velocities + Langevin noise per (seed,window)) + --pose-index (multi-pose SDF config
+independence; clamps to 0 if single-pose). r2=seed2/pose1, r3=seed3/pose2, tags nr4a3-abfe-r2/-r3.
+VALIDATE-FIRST: launched r2 complex-nr4a3 ONLY (seed=2,pose1) as single-shard shakeout. CHECK ~25min: meta.json has
+seed=2 + iters advancing + no arg errors. If OK -> launch rest of r2 (solvent+complex-nr4a1/2) + all r3.
+AGGREGATE (later): reduce each replicate -> 3 ΔG_bind/receptor -> mean ± SD across replicates = EMPIRICAL uncertainty
+(the honest number). Extend plot to overlay replicates / show mean±replicate-SD.
