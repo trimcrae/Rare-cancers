@@ -1,0 +1,122 @@
+name: ABFE progress snapshot (per-replicate iteration progress)
+
+# Lightweight LIVE progress view for the running ABFE diagnostic: lists each replicate's per-window checkpoints
+# in S3, computes each leg's completion (MIN window iteration / target — the reducible depth), and renders a
+# progress bar chart. Publishes to modalities-cache (like abfe-plot-aws). NO reduce/MBAR — just iteration counts,
+# so it updates meaningfully every hour even mid-run (unlike the convergence plot, which needs all windows even).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "comma-separated replicate tags"
+        default: "nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3"
+        required: false
+      target:
+        description: "target n_iter (full bar)"
+        default: "2000"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: abfe-progress
+  cancel-in-progress: true
+
+jobs:
+  snap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install matplotlib boto3
+      - name: Gather progress + render
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          TAGS: ${{ inputs.tags || 'nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3' }}
+          TARGET: ${{ inputs.target || '2000' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, boto3, datetime
+          import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+          region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+          bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
+          s3 = boto3.client("s3")
+          target = int(os.environ["TARGET"])
+          tags = [t.strip() for t in os.environ["TAGS"].split(",") if t.strip()]
+          LEG_ORDER = ["complex-nr4a3", "complex-nr4a1", "complex-nr4a2", "solvent"]
+          data = {}                                              # tag -> {leg -> min_iter}
+          for tag in tags:
+              wins = {}                                          # leg -> [linecount per window]
+              for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{tag}/ckpt/"):
+                  for o in page.get("Contents", []):
+                      k = o["Key"]
+                      if k.endswith(".jsonl") and "/window_" in k:
+                          leg = k.split("/ckpt/")[1].split("/")[0]        # complex-nr4a3 | solvent
+                          n = s3.get_object(Bucket=bucket, Key=k)["Body"].read().count(b"\n")
+                          wins.setdefault(leg, []).append(n)
+              legs = {leg: (min(c) if c else 0) for leg, c in wins.items()}
+              if legs:
+                  data[tag] = legs
+          print("progress:", data)
+
+          # render: grouped horizontal bars, one row per (replicate, leg)
+          rows = []
+          for tag in tags:
+              if tag not in data:
+                  rows.append((tag, None, None)); continue       # not started
+              for leg in LEG_ORDER:
+                  if leg in data[tag]:
+                      rows.append((tag, leg, data[tag][leg]))
+          fig, ax = plt.subplots(figsize=(11, max(3, 0.5 * len(rows) + 1.5)))
+          COL = {"nr4a3-abfe": "#0072B2", "nr4a3-abfe-r2": "#009E73", "nr4a3-abfe-r3": "#CC79A7"}
+          NAME = {"nr4a3-abfe": "r1", "nr4a3-abfe-r2": "r2", "nr4a3-abfe-r3": "r3"}
+          ylabels, y = [], 0
+          for tag, leg, it in rows:
+              if leg is None:
+                  ylabels.append(f"{NAME.get(tag,tag)}  (not started)")
+                  ax.barh(y, 0, color="#ccc"); y += 1; continue
+              frac = it / target
+              ax.barh(y, it, color=COL.get(tag, "#888"), alpha=0.9)
+              ax.text(it + target * 0.01, y, f"{it}/{target}  ({100*frac:.0f}%)", va="center", fontsize=8)
+              ylabels.append(f"{NAME.get(tag,tag)} · {leg.replace('complex-','')}")
+              y += 1
+          ax.axvline(target, color="#666", ls="--", lw=1)
+          ax.set_yticks(range(len(ylabels))); ax.set_yticklabels(ylabels, fontsize=9)
+          ax.set_xlim(0, target * 1.18); ax.invert_yaxis()
+          ax.set_xlabel("MBAR iteration (min across the leg's 12 λ-windows = reducible depth)")
+          stamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+          ax.set_title(f"denovo_401 ABFE — replicate progress toward n_iter={target}  ·  {stamp}")
+          ax.grid(axis="x", alpha=0.2)
+          fig.tight_layout()
+          fig.savefig("research/modalities/abfe_progress.png", dpi=150, bbox_inches="tight")
+          print("wrote research/modalities/abfe_progress.png")
+          PY
+      - name: Publish PNG to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          [ -f research/modalities/abfe_progress.png ] || { echo "no PNG"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/modalities/abfe_progress.png "$RUNNER_TEMP/abfe_progress.png"
+          rm -f research/modalities/abfe_progress.png
+          git fetch origin modalities-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -f -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache && git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP/abfe_progress.png" research/modalities/abfe_progress.png
+          git add research/modalities/abfe_progress.png
+          git commit -m "ABFE progress snapshot (per-replicate iteration progress)" || { echo "no change"; exit 0; }
+          git push origin modalities-cache
