@@ -739,11 +739,11 @@ def _cli():
                                 temperature_K=a.temperature_k, emit_trace=a.emit_trace)
         if a.emit_trace:
             tr = out.get("trace", [])
-            ds = tr if len(tr) <= 60 else tr[:: max(1, len(tr) // 60)]
-            if tr and ds[-1] is not tr[-1]:
-                ds = ds + [tr[-1]]                                  # always keep the final (converged) point
-            print("[abfe] TRACE_JSON " + json.dumps([[p["iter"], round(p["dg_bind"], 3), round(p["se"], 3)]
-                                                     for p in ds]))
+            full = [[p["iter"], round(p["dg_bind"], 3), round(p["se"], 3)] for p in tr]
+            CH = 100                                                # emit EVERY iteration, chunked so no single log
+            nch = max(1, (len(full) + CH - 1) // CH)                # line hits a size cap; reassemble on read
+            for k in range(nch):
+                print("[abfe] TRACE_CHUNK %d/%d %s" % (k + 1, nch, json.dumps(full[k * CH:(k + 1) * CH])))
             print(f"[abfe] TRACE points={len(tr)}")
         print(f"[abfe] DG_BIND {out['dg_bind']:.3f} ± {out['se']:.3f} kcal/mol "
               f"(complex {out['complex_dg']:.2f}±{out['complex_se']:.2f}, "
