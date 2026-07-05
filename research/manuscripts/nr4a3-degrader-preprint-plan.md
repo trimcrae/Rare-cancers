@@ -13,6 +13,19 @@ posting, with journal submission in parallel. Regime: `emc-treatment-strategy.md
 (2026-07-01)"`. Started 2026-07-01.
 
 ## Target venue
+> **✅ FEE/POLICY CONFIRMED IN WRITING (2026-07-05).** ChemRxiv posting is **free** (CC-BY option; hosted on
+> Cambridge Open Engage; co-owned by ACS/RSC/CCS/CSJ/GDCh — no prejudice to a later ACS submission; no
+> embargo/scooping issue). **JCIM (ACS) has a confirmed $0 subscription route** — authors may opt out of open
+> access and publish paywalled at no cost (the paid ACS Open Access upgrade, ~$2.5–5k, is optional). JCIM
+> **explicitly allows ChemRxiv preprints** (note it in the cover letter; may revise the preprint until final
+> acceptance; link the preprint to the published DOI). Scope fits a no-wet-lab computational/generative-design
+> paper. **Digital Discovery is OUT as a planned free route** (fully gold OA, mandatory £2,200 APC; waivers are
+> discretionary, unsuitable for an unaffiliated solo author). **J. Med. Chem. is OUT on scope** (wants
+> synthesized compounds), not fee. → **Plan of record: ChemRxiv (CC-BY) + JCIM subscription route.** Only
+> unread live figure: exact JCIM gold-OA APC $ (irrelevant — the $0 route is the plan); eyeball the live JCIM
+> cover-letter preprint wording at submission.
+
+
 > **HARD CONSTRAINT (trimcrae, 2026-07-05): NO pay-to-publish. Author pays $0.** The preprint is free, and the
 > journal must have a **free (subscription/hybrid) route** — publish subscription-side and let the free ChemRxiv
 > preprint be the open copy. Fully open-access / APC-only journals (IJMS, PLOS, Sci. Rep., Frontiers) are OUT

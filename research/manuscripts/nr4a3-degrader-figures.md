@@ -83,9 +83,17 @@
   unsynthesized. (`denovo_15` may appear in an SI panel **only** as the retracted artifact — annotate its
   liabilities: carbamic acid, 1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SA 5.08 > the
   ≤4.5 cut — never as a lead.)
+- (f) **Receptor-frame-dependence of the decoy-null result (the load-bearing honesty panel).** denovo_401's
+  multi-snapshot margin vs a *same-tier* decoy null (n=38) in TWO receptor frames: it clears the whole null in the
+  unbiased **release** design frame (+12.83 ± 2.98 vs 95th +6.69 / max +7.10) but does **not** clear in the biased
+  **metad-opened** frame (+7.44 ± 4.18 vs 95th +17.70 / max +24.74, where random drugs like diphenhydramine +24.74
+  also score "selective"). **Asset: `nr4a3-frame-decoynull.png` ✅ (committed; generator
+  `nr4a3_frame_decoynull_figure.py`, values transcribed from §2.6).** **Caption:** the claim is a de-noised
+  *foothold in the design frame*, not a frame-invariant specificity result; the null controls the scoring step,
+  not the generative step.
 - *Message:* the de-novo funnel's raw endpoint metric is **non-specific** (decoy control), but decoy-calibration
-  plus multi-snapshot de-noising isolate a single robust candidate (`denovo_401`) — a screening-grade prediction;
-  no wet lab; FEP/ternary ahead.
+  plus multi-snapshot de-noising isolate a single robust candidate (`denovo_401`) — a screening-grade prediction,
+  and one whose margin is **honestly receptor-frame-dependent** (panel f); no wet lab; FEP/ternary ahead.
 
 **Fig 6 — Indication matrix + degrader schematic (§3) [optional/overview].**
 - Lead (NR4A3-only → EMC/AciCC) / second mode (pan → ex-vivo immuno) / anti-target (NR4A1+NR4A3 → AML,
@@ -108,6 +116,39 @@
   single-snapshot artifact). From `nr4a3-denovo.json` + `nr4a3-denovo-mmgbsa*` + `nr4a3-decoy-mmgbsa` ✅ (S3, via
   `report-denovo-aws.yml` / `report-mmgbsa-aws.yml`). Caption: single-snapshot MM-GBSA is non-specific (decoy
   control); read decoy-calibrated + multi-snapshot, not raw margin; screening-grade.
+
+## Production status — where each asset lives (2026-07-05)
+Publication-readiness pass. **Legend:** ✅ repo = PNG committed under `research/modalities/`, regenerable now
+(`python3 <script>`); 📦 S3 = already rendered, pull via the read-only `report-*-aws.yml` job (needs the SageMaker
+account, not this repo's CI creds); ✍️ author = final structure render / journal-grade redraw (PyMOL/NGL), an
+authors' production step per the note at the foot of this file.
+
+| Display item | Status | Asset / generator |
+|---|---|---|
+| Fig 1a (pocket + handles render) | ✍️ author | AF-Q92570.pdb + `nr4a-selectivity.json` (repo) → PyMOL/NGL |
+| Fig 1b (calibration bar) | 📦 S3 | `nr4a3-calibration.json` → bar; regenerable once JSON pulled |
+| Fig 2a (F(Rg) profile) | ✅ repo | `nr4a3-metad-fes.png` / `nr4a3_metad_figure.py` |
+| Fig 2b (druggability vs Rg) | 📦 S3 | `pocket_druggability.png` (S3) |
+| Fig 2c (closed vs opened surface) | ✍️ author | `nr4a3-opened.pdb` (S3) → surface render |
+| Fig 2d (release run: Rg trace + druggability dist) | 📦 S3 | `nr4a3-release/` + `nr4a3-release-pocket/` |
+| Fig 3a (handles on opened pocket) | ✍️ author | `nr4a-selectivity.json` + `nr4a3-opened.pdb` → render |
+| Fig 3b (per-handle facing fraction) | 📦 S3 | `handle_facing.png` (S3) |
+| Fig 4b (family-wide matrix heatmap) | 📦 S3 | `nr4a3-matrix.png` (S3) |
+| Fig 5b (generation quality scatter) | 📦 S3 | `nr4a3-denovo.png` (S3) |
+| Fig 5c (decoy specificity control) | 📦 S3 | `nr4a3-decoy-mmgbsa` + `nr4a3-denovo-mmgbsa-dev` via `report-mmgbsa-aws.yml` |
+| Fig 5d (multi-snapshot de-noising) | ✅ repo | `nr4a3-denoising.png` / `nr4a3_denoising_figure.py` |
+| **Fig 5f (release-vs-metad frame-dependence)** | **✅ repo (NEW)** | `nr4a3-frame-decoynull.png` / `nr4a3_frame_decoynull_figure.py` |
+| Fig 5e (lead 2D + pose) | ✍️ author | `nr4a3-denovo-v2` pose (S3) → RDKit 2D + pose render |
+| Fig 6 (indication matrix + schematic) | ✍️ author | schematic (optional) |
+| Table 1 (calibration panel) | 📦 S3 | `nr4a3-calibration.json` |
+| Table 2 (top matrix candidates) | 📦 S3 | `nr4a3-matrix.json` via `report-matrix-aws.yml` |
+| Table 3 (pre-registered gates) | ✅ repo | SI §2 (assembled from the reconciliation doc) |
+| Table 4 (de-novo candidates + decoy bar + multi-snapshot) | 📦 S3 | `nr4a3-denovo*` / `nr4a3-decoy-mmgbsa` via `report-*-aws.yml` |
+
+**Summary:** the two committed-data chart panels that read inline/committed values (Fig 2a, Fig 5d) and the new
+frame-dependence panel (Fig 5f) render now from `research/modalities/`. The remaining chart panels are already
+rendered in S3 (pull via `report-*-aws.yml`); the structure renders (Figs 1a, 2c, 3a, 5e) are the authors'
+journal-grade production step. No panel is blocked on the running FEP.
 
 ## Generation notes
 - Plots that read committed JSON (Figs 1b, 3b; Tables 1,3) can render now; Figs 2,4,5 + Tables 2,4 read S3
