@@ -138,7 +138,7 @@ jobs:
           acct = boto3.client("sts").get_caller_identity()["Account"]
           bucket = f"sagemaker-{os.environ['AWS_DEFAULT_REGION']}-{acct}"
           prefix = os.environ["PREFIX"]
-          print(f"# cat *.json under s3://{bucket}/{prefix}")
+          print(f"# under s3://{bucket}/{prefix} : cat *.json ; summarise *.jsonl (line count = iterations)")
           p = s3.get_paginator("list_objects_v2")
           found = 0
           for page in p.paginate(Bucket=bucket, Prefix=prefix):
@@ -152,7 +152,17 @@ jobs:
                           print(json.dumps(json.loads(body), indent=2))
                       except Exception:
                           print(body[:4000])
-          print(f"\n# {found} json file(s) found")
+                  elif k.endswith(".jsonl"):
+                      found += 1
+                      body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+                      lines = [l for l in body.splitlines() if l.strip()]
+                      last = lines[-1] if lines else ""
+                      try:
+                          last_iter = json.loads(last).get("iter")
+                      except Exception:
+                          last_iter = "?"
+                      print(f"  {k.split('/')[-1]}: {len(lines)} lines (last iter={last_iter}, {o['Size']} B)")
+          print(f"\n# {found} json/jsonl file(s) found")
           PY
       - name: Describe recent FEP training jobs
         if: ${{ inputs.cat_s3 == '' }}
