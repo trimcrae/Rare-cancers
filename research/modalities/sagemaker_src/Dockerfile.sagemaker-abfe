@@ -1,0 +1,17 @@
+# SageMaker training image with the modern ABFE env PRE-BAKED, so every leg job skips the ~10-min conda solve
+# (on a spot resume OR a re-dispatch). FROM the official SageMaker PyTorch DLC so the sagemaker-training toolkit
+# (entry_point / hyperparameters / channels / checkpoint sync) stays intact; we only add the `abfe` conda env.
+# entry_abfe.py detects /opt/conda/envs/abfe and skips its runtime `conda create`.
+#
+# Built analogously to Dockerfile.sagemaker-fep (via a build-*-image.yml workflow → ECR), then passed to
+# gpu-abfe-aws.yml as image_uri. Unlike the Yank image this needs NO OpenCL vendor hack — modern OpenMM's CUDA
+# platform loads on the g5 (the PTX-version issue was specific to the old openmmtools=0.21.2 / openmm 8.3 build).
+ARG BASE
+FROM ${BASE}
+COPY environment-abfe.yml /tmp/environment-abfe.yml
+# Build from the human-readable spec (conda-forge solve). For a byte-exact freeze, generate an abfe.lock
+# (`conda list --explicit`) once the env is validated and swap to: RUN conda create -n abfe --file abfe.lock -y
+RUN conda env create -n abfe -f /tmp/environment-abfe.yml && conda clean -afy
+# conda run inherits any base PYTHONPATH; clear it so the abfe env uses only its own site-packages
+# (the numpy-1.x-leak isolation bug — see next-steps.md "Infra gotchas"; entry_abfe.py also clears it at runtime).
+ENV PYTHONPATH=""

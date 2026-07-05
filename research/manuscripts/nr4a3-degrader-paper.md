@@ -777,9 +777,29 @@ AM1-BCC charges; `nr4a3_mmgbsa.py`, OpenCL on the A10G), emitting a per-candidat
 tier (harness built, running — result pending). **Selectivity FEP (absolute binding free energy).** One Yank
 absolute-binding-FEP experiment per receptor (NR4A3/NR4A1/NR4A2): explicit-solvent (TIP3P, PME) double-
 decoupling of `denovo_401` with a Boresch orientational restraint + its analytical standard-state correction,
-an auto-trailblazed λ path, Hamiltonian replica exchange, and MBAR → ΔG_bind directly; the NR4A3-vs-paralogue
+an **explicit (fixed-window) λ path** — auto-trailblaze bootstrapping was pathologically slow on this large
+opened-LBD system, so a fixed schedule (standard ABFE practice; MBAR handles the fixed spacing) is used —
+**neighbor-swap** Hamiltonian replica exchange, and MBAR → ΔG_bind directly; the NR4A3-vs-paralogue
 **ΔΔG** is the selectivity read-out (`nr4a3_fep.py`; ff14SB + GAFF2 + AM1-BCC; OpenCL on the A10G; SageMaker
-managed-spot, per-receptor S3 checkpointing so a spot interruption resumes mid-experiment). **Receptor prep for
+managed-spot, per-receptor S3 checkpointing so a spot interruption resumes mid-experiment). **Why absolute
+(ABFE), not relative/mutation, FEP.** The selectivity question is *one* ligand (`denovo_401`) against *three
+different* proteins, so there is no ligand pair to alchemically morph — standard relative binding FEP (RBFE),
+which transforms ligand A→B within one pocket, does not apply. The relative alternative that *would* fit is
+**alchemical protein-mutation FEP** (morph the divergent NR4A3→NR4A1/2 pocket residues, bound vs apo, for a
+direct ΔΔG). We deliberately use per-receptor ABFE instead, for three reasons. (i) *Conformational.* Each
+paralogue is engaged in its own **induced/opened** conformation of a cryptic LBD pocket (§2.1–2.2); alchemical
+mutation assumes the two proteins are related by point substitutions along a smooth path in a *shared*
+conformation and is fragile to backbone/induced-state differences — precisely the regime here — whereas ABFE
+models each receptor independently in its own opened frame. (ii) *Precedent.* ABFE is an established route to
+selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al.; *verify DOI
+before submission*), so this is a paved-road application, not a bespoke one. (iii) *Bonus observable.* ABFE
+additionally yields each **absolute** ΔG_bind — i.e. whether `denovo_401` engages NR4A3 at all — which the
+relative framing never produces. The one cost of ABFE (larger per-leg error than a relative calculation) is
+partly recovered here: because the ligand is identical across all three experiments, the solvent-decoupling
+leg is literally the same calculation for each receptor and cancels in the ΔΔG, along with common-mode
+ligand-charge/protonation error, so the *selectivity* ΔΔG is better-behaved than either raw absolute number.
+A confirmatory alchemical-mutation cross-check is left as future work, gated on the pocket-homology assessment
+noted in [`../method-watch.md`](../method-watch.md). **Receptor prep for
 FEP:** the docked opened frame is cleaned with `pdb4amber` (LEaP-compatible, drops MD hydrogens/waters) and its
 **disordered N-terminal hinge is trimmed to the folded LBD core** (`_trim_floppy_termini`, adaptive, pocket
 never trimmed) — justified by the structural-sanity control (§2.2: fold intact, core RMSD 1.76 Å) and standard

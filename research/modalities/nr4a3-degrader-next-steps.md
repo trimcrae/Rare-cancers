@@ -693,6 +693,33 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 ABFE ENGINE POLICY — Yank is the CURRENT engine but END-OF-LIFE; the NEXT *fresh* FEP uses a MODERN,
+  MAINTAINED stack (trimcrae decision, 2026-07-04).** The denovo_401 selectivity FEP runs on **Yank 0.25.2
+  (2020, unmaintained)** — chosen for turnkey *declarative* ABFE, but it cost ~a full day of dependency/schema
+  archaeology (numba swap-all masked-array crash → `replica_mixing_scheme: swap-neighbors`; that key is a
+  ReplicaExchangeSampler ctor arg, NOT an `options:` key → move to a `samplers:` header; `libnetcdf<4.9`;
+  `pymbar<4`; `python=3.9`; the `conda run` PYTHONPATH leak). **The working env is now FROZEN** for
+  reproducibility: `sagemaker_src/environment-fep.yml` (pinned spec) + `sagemaker_src/Dockerfile.fep` (buildable
+  image) + `sagemaker_src/fep.lock` (authoritative `conda list --explicit`, emitted by `yank-env-check.yml`
+  between `----FEP_LOCK_BEGIN/END----` — capture it once and commit). **Decision:**
+  - The **current** denovo_401 run **finishes on Yank** — do NOT whipsaw a run that is producing; the physics is
+    standard double-decoupling ABFE and the number is valid.
+  - The **next time an ABFE/FEP is STARTED FRESH** — whether **(a)** Yank hits another failure, or **(b)** we run
+    FEP on a **new degrader candidate / target** — do **NOT** extend Yank. Stand up a maintained stack:
+    **OpenFE's absolute-binding protocol**, or an **openmmtools-scripted ABFE** (compose its *tested*
+    alchemy/`ReplicaExchangeSampler`/MBAR primitives).
+  - **Rationale:** (i) the field's values shifted to explicit/composable/reproducible pipelines over black-box
+    declarative apps — better provenance for a convince-the-field paper; (ii) Yank's abandonment is a standing
+    reproducibility/provenance liability (env-freeze mitigates it for *this* result, doesn't fix it for future
+    ones); (iii) **the only thing Yank bought — turnkey = less code — is nearly free here anyway, because the
+    agent writes the more-custom modern-stack code at low cost (trimcrae, 2026-07-04).** The residual cost of
+    "more custom" is *validation-correctness* risk (a hand-rolled restraint/standard-state bug silently corrupts
+    the number), mitigated by composing openmmtools' *tested* primitives and validating against a known
+    benchmark **or** the existing Yank ΔΔG.
+  - **Cost caveat (keep honest):** agent-cheap coding removes the *engineering* cost, NOT the *compute* cost.
+    Running the modern stack as a **second engine on the SAME candidate** still ~2× the GPU — so cross-engine
+    reproduction stays a **conditional capstone** (method-watch: "if the ΔΔG is contested"). But for a **NEW
+    candidate** the modern stack costs ~nothing extra (you run FEP once regardless) — so there it is a clear win.
 - **🛑 VALIDATE A FAN-OUT GPU FLEET ON ONE SHARD BEFORE SCALING (trimcrae rule, 2026-07-03).** For any job that
   fans out N parallel GPU shards (the FEP fleet; any future spot fleet): run `n_shards=1` first, confirm it
   reaches the real work, THEN launch all N. A failed env/wiring test on 8 shards costs 8× for the same

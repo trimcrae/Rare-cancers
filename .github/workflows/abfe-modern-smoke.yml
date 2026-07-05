@@ -1,0 +1,37 @@
+name: ABFE modern smoke (free — single-window machinery on CPU)
+
+# Validate the modern independent-window ABFE machinery (build-step 2) for FREE: build the CLEAN modern env
+# (openmm/openmmtools/pymbar latest — no Yank pins) and run nr4a3_abfe.smoke() — a tiny alanine-dipeptide
+# alchemical window that exercises build → MD → reduced-potentials-at-all-λ → per-iteration checkpoint →
+# RESUME → per-window jsonl log, all on CPU. No GPU, no AWS. Proves the engine's core loop before any g5.
+
+on:
+  push:
+    branches: ["claude/red-team-degrader-paper-l1hukn"]
+    paths:
+      - "research/modalities/nr4a3_abfe.py"
+      - ".github/workflows/abfe-modern-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install miniforge
+        run: |
+          curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+          bash /tmp/mf.sh -b -p "$HOME/mf"
+          echo "$HOME/mf/bin" >> "$GITHUB_PATH"
+      - name: Build clean modern env (no Yank pins)
+        run: |
+          conda create -y -n abfe --override-channels -c conda-forge python=3.11 openmm openmmtools "pymbar>=4" || { echo "::error::modern env solve FAILED"; exit 1; }
+          echo "=== resolved ==="
+          conda list -n abfe | grep -Ei "^(python|openmm|openmmtools|pymbar|numpy|scipy) " | awk '{print "  "$1" "$2}'
+      - name: Run the single-window CPU smoke (build-step 2)
+        run: |
+          conda run --no-capture-output -n abfe python research/modalities/nr4a3_abfe.py --smoke 2>&1 | tee /tmp/abfe_smoke.out
+          grep -q "SMOKE_OK" /tmp/abfe_smoke.out || { echo "::error::ABFE smoke did not reach SMOKE_OK — machinery broken"; exit 1; }

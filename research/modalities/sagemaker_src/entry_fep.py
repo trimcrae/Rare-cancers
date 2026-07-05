@@ -64,7 +64,9 @@ def main():
         env["FEP_RECEPTOR_DIR"] = ch("receptor")
         env["FEP_POSE_DIR"] = ch("poses")
         conda = shutil.which("conda") or "/opt/conda/bin/conda"
-        print(f"[fep] real mode — building Yank FEP env via {conda}", flush=True)
+        prebaked = os.path.isdir("/opt/conda/envs/fep")
+        print(f"[fep] real mode — {'PRE-BAKED fep env found (skipping conda create)' if prebaked else f'building Yank FEP env via {conda}'}",
+              flush=True)
         # The physics is Yank (absolute-binding FEP: explicit solvent, Boresch restraints + standard-state
         # correction, HREX, MBAR). PIN openmmtools=0.21.2: yank 0.25.2 calls the private
         # openmmtools.alchemy._ALCHEMICAL_REGION_ARGS, REMOVED in openmmtools 0.25 (which conda-forge's loose
@@ -90,9 +92,10 @@ def main():
         #     (timeseries.subsampleCorrelatedData, MBAR camelCase) on the MBAR ANALYSIS path — which powers
         #     both the online estimate AND the final ΔG. pymbar 4.x renamed these (snake_case) → AttributeError
         #     at the first online analysis (iter 200) and would also kill the final ΔG. Pin to 3.x.
-        subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
-                        "python=3.9", "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel",
-                        "setuptools<81", "libnetcdf<4.9", "parmed", "pymbar<4"], check=True)
+        if not prebaked:
+            subprocess.run([conda, "create", "-y", "-n", "fep", "--override-channels", "-c", "conda-forge",
+                            "python=3.9", "yank", "openmmtools=0.21.2", "ocl-icd-system", "openbabel",
+                            "setuptools<81", "libnetcdf<4.9", "parmed", "pymbar<4"], check=True)
         subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
                         "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
         # CRITICAL isolation fix (2026-07-03): the SageMaker PyTorch base container sets PYTHONPATH to its own

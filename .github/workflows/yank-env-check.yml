@@ -14,6 +14,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Install miniforge
         run: |
           curl -L -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
@@ -32,6 +33,10 @@ jobs:
             python=3.9 yank openmmtools=0.21.2 ocl-icd-system openbabel "setuptools<81" "libnetcdf<4.9" parmed "pymbar<4" || { echo "::error::exact fep env SOLVE FAILED"; exit 1; }
           echo "=== resolved versions ==="
           conda list -n fep | grep -Ei "^(python|yank|openmm|openmmtools|ambertools|setuptools|openbabel|numpy|pymbar|parmed|libnetcdf|netcdf4) " | awk '{print "  "$1" "$2}'
+          echo "=== AUTHORITATIVE LOCK (conda list --explicit) — copy into sagemaker_src/fep.lock to freeze the env ==="
+          echo "----FEP_LOCK_BEGIN----"
+          conda list --explicit -n fep
+          echo "----FEP_LOCK_END----"
           echo "=== pymbar 3.x API (openmmtools MBAR path calls these; pymbar 4 renamed them) ==="
           conda run -n fep python -c "
           from pymbar import timeseries, MBAR
@@ -39,7 +44,7 @@ jobs:
           assert hasattr(timeseries, 'statisticalInefficiency'), 'pymbar too new: no statisticalInefficiency'
           import numpy as np
           u = np.zeros((2, 20)); m = MBAR(u, [10, 10]); m.getFreeEnergyDifferences()   # exercise the camelCase API
-          import pymbar; print('PYMBAR_API_OK', pymbar.__version__)"
+          import pymbar; print('PYMBAR_API_OK', getattr(pymbar,'__version__', getattr(getattr(pymbar,'version',None),'version','3.x')))"
           echo "=== deep import check (incl. parmed — the dep an over-tight netcdf pin dropped) ==="
           conda run -n fep python -c "import yank; from yank.experiment import ExperimentBuilder; from openmmtools import alchemy; import openmm, parmed; assert hasattr(alchemy,'_ALCHEMICAL_REGION_ARGS'); print('DEEP_IMPORT_OK yank', yank.__version__, 'openmm', openmm.version.version, 'parmed', parmed.__version__)"
           echo "=== NetCDF zlib-compressed write (reproduces openmmtools _store_options; the filter bug) ==="
@@ -54,3 +59,35 @@ jobs:
           print('NETCDF_ZLIB_WRITE_OK netcdf4', netCDF4.__version__, 'libnetcdf', netCDF4.__netcdf4libversion__)"
           echo "=== obabel CLI present? ==="
           conda run -n fep bash -c "which obabel && obabel -V" 2>&1 | sed 's/^/  /'
+      - name: Validate the ACTUAL _yank_yaml parses (samplers/replica_mixing_scheme schema — free, pre-g5)
+        run: |
+          # The real FEP YAML is built by nr4a3_fep._yank_yaml. Yank rejected replica_mixing_scheme under
+          # options: (YamlParseError). It's a ReplicaExchangeSampler ctor arg → must live under a samplers:
+          # header. Build the exact YAML and run ExperimentBuilder(script=...), which calls parse() — the SAME
+          # schema-validation path that failed on g5 — for FREE. Catch YamlParseError (our schema bug → fail)
+          # vs any later error (schema OK; setup needs real inputs we don't have here → expected pass).
+          # Write the validator to a FILE, not a stdin heredoc: `conda run ... python - <<EOF` does NOT forward
+          # the heredoc to the process stdin, so python reads empty input, runs nothing, and exits 0 — a SILENT
+          # NO-OP that falsely passes. Run a real file with --no-capture-output, then a grep guard fails the step
+          # if no PASS marker was printed (belt-and-suspenders against another silent no-op).
+          cat > /tmp/validate_yaml.py <<'PY'
+          import os, sys, tempfile
+          sys.path.insert(0, "research/modalities")
+          import nr4a3_fep
+          d = tempfile.mkdtemp()
+          lig = os.path.join(d, "lig.mol2"); rec = os.path.join(d, "rec.pdb")
+          open(lig, "w").write("dummy"); open(rec, "w").write("dummy")
+          yp = os.path.join(d, "exp.yaml")
+          open(yp, "w").write(nr4a3_fep._yank_yaml("nr4a3", 500, d, lig, rec))
+          from yank.experiment import ExperimentBuilder, YamlParseError
+          try:
+              ExperimentBuilder(script=yp)
+              print("YAML_PARSE_OK — full schema (options+mcmc_moves+samplers+experiments) validated")
+          except YamlParseError as e:
+              print("::error::YAML_SCHEMA_REJECTED:", e); sys.exit(1)
+          except Exception as e:  # noqa: BLE001 — non-schema error = parse passed, later setup needs real inputs
+              print("YAML_SCHEMA_OK (parse passed; non-schema error expected w/ dummy inputs):",
+                    type(e).__name__, str(e)[:200])
+          PY
+          conda run --no-capture-output -n fep python /tmp/validate_yaml.py 2>&1 | tee /tmp/val.out
+          grep -q "YAML_PARSE_OK\|YAML_SCHEMA_OK" /tmp/val.out || { echo "::error::YAML validation produced no PASS marker — step ran as a no-op, NOT validated"; exit 1; }

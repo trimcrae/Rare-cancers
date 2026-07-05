@@ -175,3 +175,31 @@ runnable out-of-the-box in 2026+.
   Nat Med 2024 (doi:10.1038/s41591-024-03233-x).
 - KG on Harvard Dataverse: doi:10.7910/DVN/IXA7BM.
 - Our working runner: `research/hypotheses/txgnn_predict.py` + `txgnn-run.yml`.
+
+---
+
+## Platform / vision — scale the selective-degrader pipeline (trimcrae, 2026-07-04)
+Three linked ideas that form a flywheel (publish tool → apply broadly → aggregate outputs). **All are
+DOWNSTREAM of the EMC/NR4A3 north star** — the concrete NR4A3 result is what earns the pipeline credibility
+to publish, the justification to apply, and the content to populate a DB. Sequence AFTER the preprint; they
+**serve** the EMC mission (democratize selective-degrader design for underfunded diseases), not replace it.
+Unifying guardrail: in-silico output is a **hypothesis for someone with a wet lab to test — never a validated
+drug**; the medical-integrity labeling discipline gets MORE important as this goes public, not less.
+
+1. **Publish the pipeline as a skill/repo** (open the selective-degrader-design methodology so others can run
+   it). High-value + on-ethos. Friction: it's currently bespoke/fragile (see the Yank/SageMaker debugging
+   saga) — real hardening + generalizing (de-NR4A3-hardcode) + docs, ideally on the **maintained ABFE stack**
+   (next-steps.md "ABFE ENGINE POLICY"), plus a methods paper for citability. Do it AFTER the result lands.
+2. **Run the pipeline on other underfunded degrader targets** (rare cancers / neglected diseases with a clear
+   driver but no wet-lab funding). Highest-leverage use — cheap per target, each a publishable hypothesis +
+   candidate. Needs: (a) a **target-selection rubric** (defined oncogenic driver; AF-modelable structure;
+   plausible ligandable/cryptic pocket; real selectivity need) or it's garbage-in; (b) **cheap-triage-before-
+   FEP** funnel (FEP only on winners); (c) must NOT dilute the EMC #1 priority — post-EMC-momentum track. This
+   is the direct consumer of idea 1's published tool.
+3. **Public database of computational degrader candidates across targets** ("computational degrader atlas",
+   the aggregation layer for 1+2). Highest RISK — medical-integrity: unvalidated in-silico candidates for
+   disease targets are easily misread as validated leads or misused. Requires ruthless honest labeling
+   (unvalidated-hypothesis + confidence + provenance + **negative results** to avoid pub-bias distortion) and
+   differentiation from existing DBs (PROTAC-DB etc. are literature-curated KNOWN degraders; ours = COMPUTED
+   candidates — a distinct niche). Furthest out; gated on 1+2; start as a simple structured output format, not
+   a platform.

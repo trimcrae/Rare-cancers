@@ -6,14 +6,13 @@ name: GPU — modern ABFE (spot, per-leg, independent windows; AWS SageMaker)
 # See research/modalities/nr4a3_abfe_modern_design.md.
 #
 # MODES:
-#   plan      - DRY RUN: print the 4-leg plan + cost note. No AWS spend. (default)
-#   smoke     - launch ONE tiny spot job (no receptor) to validate the modern env solve + spot/checkpoint path.
-#   hydration - accuracy gate: hydration free energy of a small molecule (solvent leg) vs a known value.
-#   run       - launch the leg jobs (ONLY_LEGS to subset).
-#   reduce    - CPU fan-in: MBAR-combine complex+solvent per receptor -> ΔG_bind json (then selectivity ΔΔG).
+#   plan   - DRY RUN: print the 4-leg plan + cost note. No AWS spend. (default)
+#   smoke  - launch ONE tiny spot job (no receptor) to validate the modern env solve + spot/checkpoint path.
+#   run    - launch the leg jobs (ONLY_LEGS to subset).  ** requires explicit go-ahead **
+#   reduce - CPU fan-in: MBAR-combine complex+solvent per receptor -> ΔG_bind json (then selectivity ΔΔG).
 #
-# The workflow FILE lives on main (so it is API-dispatchable); the engine/submitter code is cloned from the
-# git_ref branch at run time (same pattern as gpu-fep-aws.yml).
+# VALIDATE-FIRST (CLAUDE.md): smoke -> ONLY_LEGS=solvent (one real leg) -> full 4. The ACCURACY gate before
+# trusting any number is the host-guest benchmark (design doc step 4 validation) — run that first.
 #
 # REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
 
@@ -130,7 +129,7 @@ jobs:
             exit 1
           fi
           if [ "$MODE" = "run" ]; then
-            echo "::warning::mode=run launches spot ABFE leg jobs."
+            echo "::warning::mode=run launches spot ABFE leg jobs — only on explicit go-ahead, and after the host-guest accuracy validation."
           fi
           cd research/modalities
           python nr4a3_abfe_sagemaker.py

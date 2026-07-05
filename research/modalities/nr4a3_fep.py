@@ -140,12 +140,30 @@ options:
   output_dir: {out_dir}
   temperature: 300*kelvin
   pressure: 1*atmosphere
-  default_number_of_iterations: {n_iter}
-  default_nsteps_per_iteration: 500
   checkpoint_interval: 50
   platform: {PLATFORM}
   resume_setup: yes
   resume_simulation: yes
+# Sampler configured EXPLICITLY (not via options' default_number_of_iterations/default_nsteps_per_iteration) so
+# we can set replica_mixing_scheme — a ReplicaExchangeSampler CONSTRUCTOR arg, NOT a valid options: key (Yank
+# rejects it under options: with YamlParseError "unknown parameter replica_mixing_scheme"; the samplers schema
+# has allow_unknown: yes so constructor args pass through there). swap-neighbors uses a pure-Python Metropolis
+# neighbor swap and avoids openmmtools 0.21.2's numba-jitted swap-ALL routine (_mix_all_replicas_numba), which
+# crashed at ~iter 630 with NumbaTypeError "Unsupported array type: numpy.ma.MaskedArray". online_analysis_interval:
+# null disables the online MBAR (the likely masked-array source; unneeded — the final ΔG comes from `yank analyze`
+# post-hoc). n_steps 500 + timestep 2 fs reproduces the old default_nsteps_per_iteration 500 @ Yank's default dt.
+mcmc_moves:
+  langevin:
+    type: LangevinSplittingDynamicsMove
+    timestep: 2.0*femtoseconds
+    n_steps: 500
+samplers:
+  sampler:
+    type: ReplicaExchangeSampler
+    mcmc_moves: langevin
+    number_of_iterations: {n_iter}
+    replica_mixing_scheme: swap-neighbors
+    online_analysis_interval: null
 molecules:
   lig:
     filepath: {lig_sdf}
@@ -184,6 +202,7 @@ protocols:
 experiments:
   system: binding
   protocol: abfe
+  sampler: sampler
   restraint:
     type: Boresch
 """
@@ -298,15 +317,54 @@ def _prep_receptor(rec_pdb, workdir):
     try:
         r = subprocess.run(["pdb4amber", "-i", rec_pdb, "-o", out, "--dry", "--nohyd"],
                            capture_output=True, text=True, timeout=600)
+        print(f"[fep] pdb4amber prep {rec_pdb} (rc={r.returncode}):\n"
+              f"{(r.stdout or '')[-1200:]}\n{(r.stderr or '')[-2500:]}", flush=True)
+        if os.path.exists(out) and os.path.getsize(out) > 0:
+            return out
+        print("[fep] pdb4amber produced no output; using pure-python clean", flush=True)
     except FileNotFoundError:
-        print(f"[fep] pdb4amber not on PATH; using raw receptor {rec_pdb}", flush=True)
-        return rec_pdb
-    print(f"[fep] pdb4amber prep {rec_pdb} (rc={r.returncode}):\n"
-          f"{(r.stdout or '')[-1200:]}\n{(r.stderr or '')[-2500:]}", flush=True)
-    if os.path.exists(out) and os.path.getsize(out) > 0:
-        return out
-    print("[fep] pdb4amber produced no output; falling back to raw receptor", flush=True)
-    return rec_pdb
+        # pdb4amber is NOT in the frozen fep env (ambertools 19 doesn't expose it on PATH here); do the same job
+        # in pure python so the raw AF/MD receptor never reaches tleap (which dies exit 31 on it). See below.
+        print("[fep] pdb4amber not on PATH; using pure-python receptor clean", flush=True)
+    return _clean_pdb_for_leap(rec_pdb, workdir)
+
+
+def _clean_pdb_for_leap(pdb_in, workdir):
+    """Prepare a raw AlphaFold/MD protein PDB for LEaP WITHOUT pdb4amber (absent from the fep env): keep only
+    protein ATOM records, DROP all hydrogens (LEaP re-adds ff14SB-correct ones — mismatched MD/AF H names are
+    the #1 cause of the complex-leg `tleap` exit-31 breakage), DROP HETATM (waters/ions/ligands/other), collapse
+    altlocs (keep blank or 'A', blank the indicator), and emit TER at chain breaks + end. Reproduces
+    `pdb4amber --dry --nohyd` well enough to clear exit 31. Pure text, deterministic, unit-tested."""
+    out = os.path.join(workdir, "rec_clean.pdb")
+
+    def _is_hydrogen(name, elem):
+        e = elem.strip()
+        if e:
+            return e == "H" or e == "D"
+        n = name.strip().lstrip("0123456789")          # names like '1HB','HB2','H' → strip leading digits
+        return n[:1] == "H" if n else False
+
+    lines, last_chain, wrote_any = [], None, False
+    for ln in open(pdb_in):
+        if not ln.startswith("ATOM"):                   # drop HETATM/ANISOU/waters/ions/etc.
+            continue
+        name, alt, elem = ln[12:16], ln[16:17], ln[76:78]
+        if alt not in (" ", "A"):                       # keep one altloc conformer only
+            continue
+        if _is_hydrogen(name, elem):                    # LEaP re-protonates per ff14SB
+            continue
+        chain = ln[21:22]
+        if wrote_any and chain != last_chain:           # TER at a chain break
+            lines.append("TER\n")
+        lines.append(ln[:16] + " " + ln[17:])           # blank the altloc indicator (col 17)
+        last_chain, wrote_any = chain, True
+    if wrote_any:
+        lines.append("TER\n")
+    open(out, "w").writelines(lines)
+    n_atoms = sum(1 for x in lines if x.startswith("ATOM"))
+    print(f"[fep] pure-python clean {pdb_in} -> {out}: {n_atoms} heavy protein atoms (H/HETATM/altloc dropped)",
+          flush=True)
+    return out if wrote_any else pdb_in
 
 
 def _dump_setup_logs(out_dir):
@@ -399,6 +457,17 @@ def _run_yank_resilient(receptor, yaml_path, out_dir, max_restarts=2):
 _PHASE_ITER = {"bootstrap": lambda: BOOTSTRAP_ITER, "pilot": lambda: PILOT_ITER}
 
 
+def _append_conv_point(receptor, n_iter, dg, err):
+    """Append a small convergence point to CKPT_DIR/<receptor>_conv.jsonl. SMALL files sync to S3 reliably;
+    the large growing analysis .nc does NOT (SageMaker checkpoint sync stalls on it mid-run), so this jsonl is
+    the live ΔG-vs-iteration convergence trace for the plot (`plot_fep_convergence.py`)."""
+    rec = {"receptor": receptor, "iter": int(n_iter), "dg": round(float(dg), 3), "se": round(float(err), 3),
+           "_t": round(time.time(), 1)}
+    with open(os.path.join(CKPT_DIR, f"{receptor}_conv.jsonl"), "a") as f:
+        f.write(json.dumps(rec) + "\n")
+    print(f"  [fep] conv point {receptor}@{n_iter}: {dg:.2f} ± {err:.2f}", flush=True)
+
+
 def run_real(unit, phase="prod"):
     """One Yank absolute-binding-FEP experiment for ONE receptor → ΔG_bind. Phases (each RESUMES + EXTENDS the
     same out_dir, so they compose): 'bootstrap' = setup + trailblaze + a few iters (run ON-DEMAND, writes a
@@ -417,12 +486,35 @@ def run_real(unit, phase="prod"):
         raise FileNotFoundError(f"receptor pdb not found: {rec_pdb}")
     rec_pdb = _prep_receptor(rec_pdb, out_dir)                 # clean MD/AF PDB for LEaP (complex-leg fix)
     yaml_path = os.path.join(out_dir, "experiment.yaml")
-    open(yaml_path, "w").write(_yank_yaml(receptor, n_iter, out_dir, lig_mol2, rec_pdb))
+
+    def _run_to(target):
+        open(yaml_path, "w").write(_yank_yaml(receptor, target, out_dir, lig_mol2, rec_pdb))
+        rc = _run_yank_resilient(receptor, yaml_path, out_dir)
+        if rc != 0:
+            _dump_setup_logs(out_dir)                          # surface the real LEaP/antechamber diagnostic
+            raise RuntimeError(f"yank script failed for {receptor} (rc={rc})")
+
+    # SEGMENTED PROD (default): run yank in FEP_CONV_INTERVAL-iter chunks, each RESUMING + extending the same
+    # .nc, and emit a convergence point per chunk → a live ΔG-vs-iteration trace (small jsonl syncs; the big .nc
+    # does not). FEP_CONV_INTERVAL=0 → single-shot prod (legacy). Adds ~1 analyze (~1-2 min) per chunk.
+    conv_int = int(os.environ.get("FEP_CONV_INTERVAL", "250"))   # segment size = spot-loss window + plot cadence
+    if phase == "prod" and conv_int > 0:
+        targets = list(range(PILOT_ITER + conv_int, PROD_ITER + 1, conv_int))
+        if not targets or targets[-1] != PROD_ITER:
+            targets.append(PROD_ITER)
+        dg = err = 0.0
+        for tgt in targets:
+            print(f"[fep] {receptor} prod segment → {tgt}/{PROD_ITER} iters", flush=True)
+            _run_to(tgt)
+            dg, err = _parse_dg(out_dir)
+            _append_conv_point(receptor, tgt, dg, err)
+        _write(unit, {"mode": "yank", "phase": "prod", "dg_bind_kcal": round(dg, 3),
+                      "ddg_err_kcal": round(err, 3), "n_iterations": PROD_ITER, "_t": round(time.time() - t0, 1)})
+        print(f"[fep] {receptor} prod complete: ΔG_bind = {dg:.2f} ± {err:.2f} kcal/mol", flush=True)
+        return
+
     print(f"[fep] {receptor} {phase}: yank script ({n_iter} iters, platform {PLATFORM})", flush=True)
-    rc = _run_yank_resilient(receptor, yaml_path, out_dir)
-    if rc != 0:
-        _dump_setup_logs(out_dir)                             # surface the real LEaP/antechamber diagnostic
-        raise RuntimeError(f"yank script failed for {receptor} (rc={rc})")
+    _run_to(n_iter)
     if phase == "bootstrap":
         # trailblaze is now complete + checkpointed on S3 → a spot 'sample' job resumes straight into HREX.
         # No ΔG at this iteration count (it'd be noise); just record the marker so the sample phase resumes it.
@@ -432,6 +524,7 @@ def run_real(unit, phase="prod"):
               flush=True)
         return
     dg, err = _parse_dg(out_dir)
+    _append_conv_point(receptor, n_iter, dg, err)             # log the pilot point too (seeds the conv trace)
     _write(unit, {"mode": "yank", "phase": phase, "dg_bind_kcal": round(dg, 3),
                   "ddg_err_kcal": round(err, 3), "n_iterations": n_iter, "_t": round(time.time() - t0, 1)})
     print(f"[fep] {receptor} {phase}: ΔG_bind = {dg:.2f} ± {err:.2f} kcal/mol", flush=True)

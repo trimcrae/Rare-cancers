@@ -86,6 +86,10 @@ on:
         description: "iterations for the on-demand bootstrap phase (>= checkpoint_interval 50 so a resumable checkpoint is written)"
         default: "60"
         required: false
+      image_uri:
+        description: "ECR URI of the PRE-BAKED fep image (build-fep-image.yml) — skips the ~15-min conda build; empty = stock DLC builds env at runtime"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -122,6 +126,7 @@ jobs:
           ONLY_RECEPTORS: ${{ inputs.only_receptors }}
           FEP_PHASE: ${{ inputs.phase }}
           FEP_BOOTSTRAP_ITER: ${{ inputs.bootstrap_iter }}
+          FEP_IMAGE_URI: ${{ inputs.image_uri }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
