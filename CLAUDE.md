@@ -138,6 +138,16 @@ read it before making changes.
   **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
   those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
   SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
+- **ALWAYS WAIT OUT SPOT CAPACITY — never switch to on-demand because a job is stuck "Starting / Insufficient
+  capacity" (trimcrae standing rule, 2026-07-05).** A spot job that can't get an EC2 instance is *not* a
+  problem — it is exactly what spot + per-iteration checkpointing was designed for: it waits, and when capacity
+  frees it acquires an instance and resumes losing ≤1 iteration (fast reload). The binding constraint is often
+  real EC2 spot *availability* (~5-6 g5 some days), which is *below* the account quota (8) — that's fine, the
+  fleet just runs fewer legs concurrently and the rest queue. Do NOT diagnose a capacity-wait as a stall, and do
+  NOT reach for on-demand to "unblock" it. The ONLY action a capacity-wait warrants: if a job hits `max_wait`/
+  `max_run` and FAILS, **re-dispatch it** (same tag → resumes from checkpoint). Keep `max_wait` generous
+  (≥ run + expected wait; ABFE uses 20h vs 12h run). On-demand is only for jobs that genuinely can't be spot
+  (no spot quota for the type, or truly can't checkpoint) — never as a capacity workaround.
 - **DEFAULT EVERY GPU RUN TO MANAGED SPOT — reframe on-demand jobs to spot *Training* whenever possible
   (trimcrae standing rule, 2026-07-03).** Spot is ~60-70% cheaper AND draws on the larger spot *Training* quota
   (8) instead of the on-demand *Processing* quota (1), so spot jobs also run more-concurrently. **Spot is safe
