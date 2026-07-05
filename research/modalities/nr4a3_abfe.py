@@ -507,6 +507,70 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False)
     return trace
 
 
+def _read_we(out_dir, K):
+    """Read all windows' per-iteration reduced-potential rows: we[k] = [u_at_all_lambda, ...] for window k."""
+    we = [[] for _ in range(K)]
+    for k in range(K):
+        p = os.path.join(out_dir, f"window_{k:02d}.jsonl")
+        if not os.path.exists(p):
+            continue
+        rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
+        we[k] = [r["u"] for r in rows]
+    return we
+
+
+def _dg_slice(we, a, b, K, RT):
+    """MBAR ΔG (kcal/mol) using only samples [a:b] of every window. None if any window is empty on that slice."""
+    import numpy as np
+    from pymbar import MBAR
+    wk = [w[a:b] for w in we]
+    if any(len(w) == 0 for w in wk):
+        return None
+    u_kn, N_k = assemble_ukn(wk, n_states=K)
+    res = MBAR(np.array(u_kn), np.array(N_k)).compute_free_energy_differences()
+    return RT * float(res["Delta_f"][0, K - 1]), RT * float(res["dDelta_f"][0, K - 1])
+
+
+def convergence_report(complex_dir, solvent_dir, temperature_K=300.0, n_blocks=5):
+    """The ACTUAL-uncertainty estimators the MBAR asymptotic SE misses (it only measures precision of the
+    *currently-sampled* ensemble and shrinks ~1/√N regardless of whether the mean has equilibrated).
+      - first/second half of production → their difference is a DRIFT (equilibration-bias) indicator;
+      - contiguous BLOCK ΔG_bind → their SD is a block-based uncertainty that captures the drift/slow-mode
+        variance the pooled MBAR SE cannot see.
+    ΔG_bind per slice combines both legs' MBAR at matching fractional time-slices (solvent leg cancels in ΔΔG;
+    its blocks are stable so the block SD is dominated by the slow complex leg — as it should be)."""
+    schedule = lambda_schedule()
+    K = len(schedule)
+    RT = 0.0019872041 * temperature_K
+    ssc = json.load(open(os.path.join(complex_dir, "meta.json")))["restraint_standard_state_dg"]
+    cwe, swe = _read_we(complex_dir, K), _read_we(solvent_dir, K)
+    cn = min((len(w) for w in cwe), default=0)
+    sn = min((len(w) for w in swe), default=0)
+    if cn < 4 or sn < 4:
+        return None
+
+    def bind(ca, cb, sa, sb):
+        c = _dg_slice(cwe, ca, cb, K, RT)
+        s = _dg_slice(swe, sa, sb, K, RT)
+        if c is None or s is None:
+            return None
+        return combine_legs(c[0], c[1], s[0], s[1], ssc)[0]
+
+    first = bind(0, cn // 2, 0, sn // 2)
+    second = bind(cn // 2, cn, sn // 2, sn)
+    blocks = []
+    for i in range(n_blocks):
+        b = bind(int(i * cn / n_blocks), int((i + 1) * cn / n_blocks),
+                 int(i * sn / n_blocks), int((i + 1) * sn / n_blocks))
+        if b is not None:
+            blocks.append(b)
+    import statistics
+    out = {"first_half": first, "second_half": second, "n_complex_samples": cn, "n_blocks": len(blocks),
+           "drift": (abs(second - first) if (first is not None and second is not None) else None),
+           "blocks": blocks, "block_sd": (statistics.pstdev(blocks) if len(blocks) > 1 else None)}
+    return out
+
+
 def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, window_end=None,
               n_iter=1000, steps_per_iter=500, temperature_K=300.0, platform_name="CUDA",
               pose_name=None, padding_nm=1.2, restraint_K=20.0):
@@ -559,6 +623,12 @@ def reduce_and_report(complex_dir, solvent_dir, out_json=None, temperature_K=300
             db, dbse = combine_legs(cdg_n, cse_n, sdg_n, sse_n, ssc)
             tr.append({"iter": n, "dg_bind": db, "se": dbse, "complex_dg": cdg_n, "solvent_dg": sdg_n})
         out["trace"] = tr
+        try:
+            conv = convergence_report(complex_dir, solvent_dir, temperature_K=temperature_K)
+            if conv:
+                out["convergence"] = conv
+        except Exception as e:
+            out["convergence_error"] = str(e)
     if out_json:
         with open(out_json, "w") as f:
             json.dump(out, f, indent=2)

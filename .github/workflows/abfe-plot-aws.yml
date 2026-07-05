@@ -60,8 +60,12 @@ jobs:
               body = s3.get_object(Bucket=bucket, Key=key)["Body"].read()
               d = json.loads(body)
               tr = d.get("trace", [])
-              traces[r.upper()] = [[p["iter"], p["dg_bind"], p["se"]] for p in tr]
-              print(f"{r.upper()}: {len(tr)} iterations, final ΔG_bind {d['dg_bind']:+.2f} ± {d['se']:.2f}")
+              conv = d.get("convergence") or {}
+              traces[r.upper()] = {"trace": [[p["iter"], p["dg_bind"], p["se"]] for p in tr],
+                                   "convergence": conv}
+              sd = conv.get("block_sd")
+              print(f"{r.upper()}: {len(tr)} iters, final ΔG_bind {d['dg_bind']:+.2f} ± {d['se']:.2f} (MBAR SE); "
+                    f"block-SD {sd if sd is None else round(sd,2)}, drift {conv.get('drift')}")
           json.dump(traces, open("scratchpad/abfe_traces.json", "w"))
           PY
       - name: Render convergence plot
