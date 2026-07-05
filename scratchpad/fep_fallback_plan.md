@@ -173,3 +173,12 @@ Launched 2 of 4 legs (validate-first: 1 complex before all 3):
 HELD: complex-nr4a1, complex-nr4a2 — launch after (a) methane ΔG_hyd ≈ +2 confirms shared machinery AND
 (b) nr4a3-complex proves prep runs (no NaN, windows advancing). tag=nr4a3-abfe, n_iter=500, git_ref=branch.
 When all legs done: gpu-abfe-aws.yml mode=reduce → ΔG_bind per receptor → selectivity_ddg for ΔΔG.
+
+## 🔧 complex-nr4a3 shakeout v1 FAILED (prep) → FIXED → v2 (2026-07-05 ~8:52 PM ET)
+v1 (`…complex-nr4a3-…00-34-24`) got THROUGH env+platform+PDBFixer+Modeller.add+addSolvent+create_system on the
+real receptor, then failed at Boresch-anchor coord extraction: `modeller.positions.value_in_unit(nm)` yields
+numpy arrays, `.x` AttributeError. FIX (commit ea3e8dd): index `c[0..2]` not `.x/.y/.z`. **Shakeout worked —
+the complex prep path is sound up to the last step; one-line fix.** v2 re-dispatched (ONLY_LEGS=complex-nr4a3).
+Solvent leg (`…solvent-…00-34-23`) + methane v2 (`…hydration-methane-…00-15-36`) kept running (unaffected).
+Monitor complex-nr4a3 v2 by prefix. NEXT prep risks to watch on v2: alchemical factory on ~40k-atom PME system,
+NaN at window 0 (like Yank's nr4a1), OpenCL speed on the big system.
