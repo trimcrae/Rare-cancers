@@ -12,6 +12,18 @@ name: GPU — NR4A3 ternary (Boltz, AWS SageMaker)
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "ternary (NR4A+CRBN+PROTAC) | binary (NR4A-LBD + warhead co-fold, AF3-class pose cross-check)"
+        default: "ternary"
+        required: false
+      ligand_sdf_key:
+        description: "binary mode: S3 key of the docked SDF to read the warhead SMILES from"
+        default: "nr4a3-denovo-matrix-v2/docked_nr4a3.sdf"
+        required: false
+      ligand_name:
+        description: "binary mode: ligand record name in the SDF"
+        default: "denovo_401"
+        required: false
       protac_smiles:
         description: "PROTAC SMILES for the real ternary (blank = run CRBN+ligand control only)"
         default: ""
@@ -36,7 +48,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install "sagemaker>=2.200,<3" boto3   # v3 SDK dropped the FrameworkProcessor/PyTorch import paths this script uses
+      - run: pip install "sagemaker>=2.200,<3" boto3 rdkit   # v3 SDK dropped the FrameworkProcessor paths this uses; rdkit = binary-mode SMILES extraction
       - name: Submit SageMaker ternary job
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -45,6 +57,9 @@ jobs:
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           INSTANCE: ${{ inputs.instance }}
           PROTAC_SMILES: ${{ inputs.protac_smiles }}
+          TERNARY_MODE: ${{ inputs.mode }}
+          LIGAND_SDF_KEY: ${{ inputs.ligand_sdf_key }}
+          LIGAND_NAME: ${{ inputs.ligand_name }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first (region is a workflow input). See deploy/aws-sagemaker-setup.md."

@@ -60,6 +60,11 @@ read it before making changes.
     A breadth dollar (new technique, new axis) beats a depth dollar (one test, past standard) every time.
   - **Anti-pattern that triggered this:** rigor added *reactively* one layer at a time (HREX→replicates→
     conformers→2nd-FF). Scope the standard per test **up front**; don't escalate under prodding.
+- **AUTONOMY THRESHOLD (trimcrae, 2026-07-05):** proceed on **cheap** in-silico steps WITHOUT asking (rule of
+  thumb: ≲$50 / single-digit GPU-hours / a single inference or one-shard validation — e.g. a Boltz co-fold, a CPU
+  reduce, a shakeout shard). **Come back for confirmation only when something gets EXPENSIVE** (a multi-leg GPU
+  fleet, hundreds of $, or a multi-day commitment). Composes with breadth-first: adding a cheap new-axis technique
+  is default-yes-just-do-it; a big depth spend still needs a nod.
 - **OPERATING REGIME (2026-07-01, trimcrae; UPDATED) — solo-researcher scale; make the paper as strong as
   in-silico allows BEFORE preprinting, then hand off to wet labs.**
   See **emc-treatment-strategy.md → "Operating regime (2026-07-01)"**. In short: one independent researcher,

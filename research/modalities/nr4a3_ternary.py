@@ -141,6 +141,9 @@ def main():
     ap.add_argument("--e3-ligand", default="lenalidomide", help="ChEMBL name for the E3 ligand control")
     ap.add_argument("--protac-smiles", default=os.environ.get("PROTAC_SMILES", ""),
                     help="PROTAC SMILES for the real NR4A ternaries (none until a warhead exists)")
+    ap.add_argument("--binary-smiles", default=os.environ.get("BINARY_SMILES", ""),
+                    help="warhead SMILES for BINARY co-folding: NR4A{3,1,2}-LBD + warhead (AF3-class independent "
+                         "cross-check of the docked pose + cross-paralogue confidence; NOT the ternary)")
     ap.add_argument("--control", action="store_true", help="no-op; keeps the SageMaker arg list non-empty")
     args = ap.parse_args()
 
@@ -193,6 +196,23 @@ def main():
                           "NR4A warhead is designed"}
     _write_prep(out)
 
+    # (3) BINARY co-folding (AF3-class): NR4A{3,1,2}-LBD + warhead alone, per paralogue. Independent
+    # complex-prediction cross-check of the docked pose + a cross-paralogue confidence read (does Boltz seat
+    # the warhead in NR4A3 with higher confidence than NR4A1/2?). Cryptic-pocket caveat lives in the paper.
+    if args.binary_smiles:
+        for name, (acc, lo, hi) in NR4A_TARGETS.items():
+            seq = lbd_seq(acc, lo, hi)
+            b = boltz_yaml([("A", seq)], args.binary_smiles)
+            stem = f"{name.lower()}-binary.yaml"
+            open(os.path.join(OUT_DIR, stem), "w").write(b)
+            open(os.path.join(HERE, stem), "w").write(b)
+            out["targets"][name]["binary_yaml"] = stem
+        out["binary"] = {"complex": "NR4A{3,1,2}-LBD + warhead (no E3)", "binary_smiles": args.binary_smiles,
+                         "scoring": "compare ligand-pocket iptm/plddt/PAE + pose vs docked across paralogues; "
+                                    "CAVEAT: cryptic pocket + de-novo ligand is the hardest co-folding regime — "
+                                    "a low/closed-pocket prediction is informative, high confidence read skeptically"}
+        _write_prep(out)
+
     if args.run:
         # control first (cheap, validates the pipeline), then each paralogue ternary; upload incrementally.
         ctrl_yaml = os.path.join(OUT_DIR, "nr4a3-ternary-control.yaml")
@@ -204,6 +224,12 @@ def main():
                 yml = os.path.join(OUT_DIR, f"{name.lower()}-ternary-protac.yaml")
                 if os.path.exists(yml):
                     out["status"][f"{name}_run"] = run_boltz(yml, OUT_DIR)
+                    _write_prep(out)
+        if args.binary_smiles:
+            for name in NR4A_TARGETS:
+                yml = os.path.join(OUT_DIR, f"{name.lower()}-binary.yaml")
+                if os.path.exists(yml):
+                    out["status"][f"{name}_binary_run"] = run_boltz(yml, OUT_DIR)
                     _write_prep(out)
 
     print(json.dumps({k: out.get(k) for k in

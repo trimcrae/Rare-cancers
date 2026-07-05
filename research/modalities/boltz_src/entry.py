@@ -17,9 +17,13 @@ OUT = "/opt/ml/processing/output"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--protac-smiles", default="")
+    ap.add_argument("--binary-smiles", default="",
+                    help="warhead SMILES → BINARY co-fold (NR4A-LBD + warhead), the AF3-class pose cross-check")
     ap.add_argument("--control", action="store_true",
                     help="control-only (no PROTAC); no-op flag so the SageMaker arg list is non-empty")
-    protac = ap.parse_args().protac_smiles
+    _a = ap.parse_args()
+    protac = _a.protac_smiles
+    binary = _a.binary_smiles
 
     subprocess.run(["nvidia-smi"], check=False)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
@@ -35,6 +39,8 @@ def main():
     env = os.environ.copy()
     if protac:
         env["PROTAC_SMILES"] = protac
+    if binary:
+        env["BINARY_SMILES"] = binary
     # Write Boltz outputs + prep JSON DIRECTLY into the SageMaker output dir so the Continuous S3 upload
     # (set in the submitter) captures each target as it finishes — a timeout after target N still uploads
     # targets 1..N (the checkpoint/continuous-upload standing rule). nr4a3_ternary.py honours $OUTPUT_DIR.
