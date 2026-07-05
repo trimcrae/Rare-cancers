@@ -182,3 +182,11 @@ the complex prep path is sound up to the last step; one-line fix.** v2 re-dispat
 Solvent leg (`…solvent-…00-34-23`) + methane v2 (`…hydration-methane-…00-15-36`) kept running (unaffected).
 Monitor complex-nr4a3 v2 by prefix. NEXT prep risks to watch on v2: alchemical factory on ~40k-atom PME system,
 NaN at window 0 (like Yank's nr4a1), OpenCL speed on the big system.
+
+## ✅ ABFE ENGINE RUNS END-TO-END (2026-07-05 ~9:10 PM ET)
+Sweep JOB SUMMARY: **solvent leg (`…solvent-…00-34-23`) = Completed** (first real end-to-end ABFE leg — denovo_401,
+12 windows, clean). **complex-nr4a3 v2 (`…complex-nr4a3-…00-53-14`) = Training** (past the .x prep bug). methane v2
+still Training (accuracy number pending; oddly slower than the bigger solvent leg — check). HOLD nr4a1/nr4a2 complex
+until: (1) complex-nr4a3 confirmed ADVANCING windows w/o NaN (still-Training after ~18min in windows = past the
+Yank-nr4a1 'Iteration 1' restraint-NaN risk), AND (2) methane ΔG_hyd ≈ +2. Then launch complex-nr4a1,complex-nr4a2.
+Solvent ΔG comes from mode=reduce at the end.
