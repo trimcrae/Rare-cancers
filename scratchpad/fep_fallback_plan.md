@@ -249,3 +249,15 @@ Dispatched gpu-abfe mode=reduce receptors=nr4a3,nr4a1,nr4a2 on ml.c5.xlarge (CPU
 '[abfe] DG_BIND X ± Y' to stdout (cw_job filter catches 'dg_bind|ΔG') + writes <r>_dg_bind.json to model dir.
 READ after ~15min: fep-status cw_job=nr4a3-abfe-reduce-<r> per receptor → ΔG_bind(nr4a3/nr4a1/nr4a2) →
 selectivity_ddg: ΔΔG(nr4a3−nr4a1) & (nr4a3−nr4a2). Negative = NR4A3-selective (the headline).
+
+## ★★★ HEADLINE ΔΔG — MODERN ABFE (2026-07-05 ~5:10 AM ET) ★★★
+denovo_401 ABFE ΔG_bind (kcal/mol), n_iter=500, OpenCL, shared solvent leg (23.87 identical across all → cancels):
+  NR4A3: −1.18 ± 0.31  (complex decouple 33.84 — binds; ligand held ~10 kcal tighter than in water)
+  NR4A1: +8.54 ± 0.36  (complex 23.89 ≈ solvent 23.87 — does NOT bind)
+  NR4A2: +4.89 ± 0.34  (complex 27.53 — weak/no binding)
+  **ΔΔG(NR4A3−NR4A1) = −9.72 ± 0.48 ; ΔΔG(NR4A3−NR4A2) = −6.07 ± 0.46 kcal/mol → NR4A3-SELECTIVE.**
+Selectivity driven by complex-leg decoupling (cplx3 33.84 >> cplx1 23.89, cplx2 27.53); SSCs similar (~−8.6..−8.8)
+so NOT a restraint artifact. CAVEATS (for the paper, must harden): n_iter=500 SHORT (per-leg SE is MBAR-statistical,
+NOT convergence — true uncertainty larger); NVT no-NPT (box density); PME alchemical = openmmtools default; SINGLE
+replicate (no independent-seed check). NEXT: extend n_iter (resume from 500 → 1500/2000) + a 2nd-seed replicate to
+confirm ΔΔG stability BEFORE the preprint. Direction + magnitude are strong/clean.
