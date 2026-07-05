@@ -155,3 +155,11 @@ Result → `hydration_validation.json` in the job model dir + `s3://sagemaker-us
 Monitor via fep-status-aws.yml tag=nr4a3-abfe cw_job=nr4a3-abfe-hydration-methane. **GATE:** if |ΔG_hyd−2.0|≤1.5 →
 engine validated → launch the 4-leg fleet (gpu-abfe-aws.yml mode=run git_ref=branch). If off → debug engine first.
 NOTE: gpu-abfe-aws.yml is now on MAIN (required for API dispatch); it clones git_ref for the code.
+
+## 🔧 HYDRATION GATE v1 FAILED → FIXED → v2 (2026-07-05 ~8:15 PM ET)
+v1 (`…hydration-methane-…00-00-15`) FAILED at platform init: `CUDA_ERROR_UNSUPPORTED_PTX_VERSION` — conda OpenMM's
+CUDA build too new for the g5 driver (SAME PTX issue as the Yank env; my Dockerfile comment wrongly assumed modern
+OpenMM avoided it). FIX (commit babfa8e): `_select_platform()` validates+falls back CUDA→OpenCL; entry_abfe.py +
+Dockerfile write the OpenCL ICD. **The gate did its job — caught a bug that would have crashed all 4 fleet legs.**
+v2 job: **`nr4a3-abfe-hydration-methane-2026-07-05-00-15-36-349`** (n_iter=500, git_ref=branch). Expect
+`[abfe] OpenMM platform: OpenCL` then window jsonl. If methane ΔG_hyd ≈ +2 (±1.5) → launch fleet + ethanol gate.
