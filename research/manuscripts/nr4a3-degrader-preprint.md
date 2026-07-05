@@ -86,7 +86,12 @@ scores 0.864 at a *non-orthosteric* cavity — so the widely-quoted "Nurr1 ~0.8"
 site, present in both model (NR4A2 model 0.801) and crystal (0.864), i.e. not an AlphaFold artifact. Because
 our AF2 model does not over-call relative to the 1OVL crystal, NR4A3's static 0.495 is a conservative upper
 bound. The static orthosteric pocket therefore sits just below the validated druggable band — concordant
-with "undruggable," and the right starting point for the cryptic-pocket question.
+with "undruggable," and the right starting point for the cryptic-pocket question. Recent NR4A work brackets
+this: a 2025 vidofludimus/Nurr1 study reaffirms the *canonical* pocket is occluded and acts via an allosteric
+surface site [Sturm/Willems 2025] — which is exactly why we claim not that the static pocket is druggable but
+that it *breathes* open (§2.2); NMR shows the NR4A LBD is genuinely ligandable by some chemotypes (cytosporone
+B) but not others (celastrol) [Munoz-Tello 2020]; and a paralog-selective NR4A1 PROTAC that spares NR4A2/NR4A3
+[Wang 2024] establishes that intra-family degradation selectivity is achievable.
 
 ### 2.2 Metadynamics opens a druggable cryptic pocket; an unbiased run confirms it is metastable
 Well-tempered metadynamics on the radius of gyration (Rg) of the Pocket-5 lining Cα atoms drives the pocket
@@ -312,12 +317,20 @@ reproducible computational methods.
 - Lanig H, et al. *PLoS ONE* 10:e0135246 (2015). doi 10.1371/journal.pone.0135246. (MD cryptic pocket in Nur77/NR4A1.)
 - Zaienne D, et al. *ChemMedChem* 17(16):e202200259 (2022). doi 10.1002/cmdc.202200259. (Merk group; experimental druggability of NOR-1/NR4A3 — fragment-derived low-µM inverse agonist.)
 - Safe S, Oany AR, Tsui WN, et al. *Transcription* 16:224–260 (2025). doi 10.1080/21541264.2025.2521766. (Review; NR4A3-selective indole-3-carbinol analogues de-repress MYC.)
+- Willems S, Marschner JA, Merk D, et al. *J Med Chem* 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459. (NR4A1/2/3 chemical-probe audit; vetted tool set; many putative NR4A ligands don't bind.)
+- Munoz-Tello P, Kojetin DJ, et al. *J Med Chem* (2020). PMID 33289551; doi 10.1021/acs.jmedchem.0c00894. (NMR: amodiaquine/cytosporone B bind NR4A2 LBD; celastrol/C-DIM12 don't — disciplines the repurposed matrix.)
+- Stiller T, Merk D. *J Med Chem* 66(22):15362–15369 (2023). doi 10.1021/acs.jmedchem.3c01467. (Fatty-acid-mimetic NR4A ligands, sub-µM, NOR-1/NR4A3 tested.)
+- Rajan S, et al. *NeuroMolecular Med* (2022). PMID 35482177; PDB 5YD6. (PGA2 covalent Cys566 adduct in Nurr1 LBD — covalent-warhead precedent.)
+- Sturm/Willems, Marschner JA, Merk D, et al. *Commun Chem* (2025). doi 10.1038/s42004-025-01553-8. (Vidofludimus/Nurr1; allosteric surface pocket; canonical pocket occluded — the challenge §2.1 engages. Author order to confirm.)
+- Wang L, Xiao Y, et al. *J Exp Med* 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519. (NR-V04: NR4A1 PROTAC sparing NR4A2/NR4A3 — paralog-selective degradation precedent.)
 - Haller F, et al. *Nat Commun* 10:368 (2019). doi 10.1038/s41467-018-08069-x. (AciCC = NR4A3 over-expression.)
 - Khan J, et al. *Cancers* 15(13):3373 (2023). doi 10.3390/cancers15133373. (AciCC epidemiology.)
 - Chen J, et al. *Nature* 567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (NR4A T-cell exhaustion.)
 - Mullican SE, et al. *Nat Med* 13:730–735 (2007). doi 10.1038/nm1579. (Nr4a1/Nr4a3 co-loss → AML.)
 - Safe S, Karki K. *Mol Cancer Res* 19(2):180–191 (2021). doi 10.1158/1541-7786.mcr-20-0707. (NR4A paradoxical roles.)
 - Filion C, et al. *J Pathol* 217(1):83–93 (2009). PMC4429309. (EWSR1/NR4A3 transactivates PPARG in EMC.)
+- Brenca M, et al. *J Pathol* 248:239–251 (2019). PMID 31020999; doi 10.1002/path.5284. (Ectopic fusion expression recapitulates EMC phenotype; 5′ partner shapes the transcriptome.)
+- EMC variant-fusion series (NR4A3 = shared >90 % driver, ≥6 partners): Agaram *Hum Pathol* 45:1084 (2014); Wei *Genes Chromosomes Cancer* (2021, PMID 34124809, SMARCA2); Warmke *GCC* (2023, doi 10.1002/gcc.23144, TAF15 methylation); Ott *JCO PO* (2022, PMID 36103645, PGR).
 - Stacchiotti S, et al. *Cancers* 12(9):2703 (2020). doi 10.3390/cancers12092703. (EMC state of the art.)
 - Methods: AlphaFold2 (Jumper 2021); fpocket (Le Guilloux 2009); OpenMM; PLUMED (Tribello 2014); DiffSBDD;
   smina; OpenFF/GAFF-2.11. Controls: PPARγ 2PRG, ERα 1ERE; NR4A holo 4JGV/6KZ5/5Y41.

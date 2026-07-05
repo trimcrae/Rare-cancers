@@ -162,6 +162,26 @@ nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../mo
 Thus the static orthosteric pocket sits *just below* the validated druggable band — concordant with
 "undruggable", and the right starting point for the cryptic-pocket question.
 
+**Reconciliation with recent NR4A structural and chemical-biology work (2023–2025).** Three independent
+lines of evidence bracket this borderline score and sharpen (rather than soften) our claim. *(i) The
+occluded-pocket challenge.* A 2025 structure-guided Nurr1 study (vidofludimus; Sturm/Willems 2025) reaffirms
+that the *canonical* NR4A pocket is "filled with bulky hydrophobic residues" and modulates the receptor
+instead through an **allosteric surface pocket** — a direct challenge to any canonical-cavity strategy. It is
+exactly why our claim is explicitly **not** that the static canonical pocket is druggable but that it
+*breathes* into a transiently druggable cavity (§2.2); their surface pocket is also an alternative site we do
+not pursue here. *(ii) Ligandability is real but chemotype-specific.* Protein-NMR footprinting (Munoz-Tello
+2020) confirms amodiaquine, chloroquine and cytosporone B directly bind the NR4A LBD while **celastrol,
+C-DIM12 and TMPA do not** — so among the repurposed actives in our selectivity matrix (§2.4), cytosporone B
+carries independent direct-binding support whereas celastrol does not, which we now weight accordingly; and a
+family-wide chemical-probe audit (Willems/Merk 2025) validates a small vetted NR4A tool set while showing many
+putative NR4A ligands lack on-target engagement — a caution we apply to every repurposed chemotype.
+Fragment-to-lead campaigns reaching sub-µM NR4A ligands with NOR-1/NR4A3 tested (Stiller & Merk 2023; Zaienne
+2022) keep the *ligandable-not-undruggable* premise on experimental footing. *(iii) Paralog-selective NR4A
+degradation is achievable.* The NR-V04 PROTAC (Wang 2024) selectively degrades NR4A1 while **sparing
+NR4A2/NR4A3** — proof-of-concept that intra-family degradation selectivity is attainable (the exact inverse of
+our NR4A3-selective goal), though its sparing mechanism is unresolved and its celastrol warhead is a
+promiscuous covalent binder, not a selective one.
+
 ### 2.2 Metadynamics drives the orthosteric pocket to breathe into a druggable state (30 ns production)
 Well-tempered metadynamics on the radius of gyration of the Pocket-5 lining Cα atoms (method:
 [`../modalities/metad-methods-appendix.md`](../modalities/metad-methods-appendix.md)) drives the pocket
@@ -1078,6 +1098,32 @@ from an above-noise one but short of a specificity-controlled lead.
   indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target gene *MYC*.
   Secondary/review source for those compounds — attach the standalone primary, if one exists, before
   submission. Verified 2026-07-05.)
+- Willems S, Morozov V, Marschner JA, Merk D. *Comparative Profiling and Chemogenomics Application of Chemical
+  Tools for NR4A Nuclear Receptors.* **J Med Chem** 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459.
+  (Family-wide NR4A1/2/3 profiling: validates a vetted probe set — 5 agonists + 3 inverse agonists — and shows
+  several putative NR4A ligands lack on-target binding; disciplines repurposed-chemotype selectivity claims.
+  Verified 2026-07-05.)
+- Munoz-Tello P, Nettles KW, Kojetin DJ, et al. *Assessment of NR4A Ligands That Directly Bind and Modulate the
+  Orphan Nuclear Receptor Nurr1.* **J Med Chem** (2020). PMID 33289551; PMC8006468; doi 10.1021/acs.jmedchem.0c00894.
+  (NMR footprinting: amodiaquine/chloroquine/cytosporone B **bind** the NR4A2 LBD; celastrol/C-DIM12/TMPA **do
+  not** — directly disciplines the §2.4 repurposed-matrix chemotypes. Nurr1/NR4A2, not NR4A3. Verified 2026-07-05.)
+- Stiller T, Merk D. *Exploring Fatty Acid Mimetics as NR4A Ligands.* **J Med Chem** 66(22):15362–15369 (2023).
+  PMC10683012; doi 10.1021/acs.jmedchem.3c01467. (92-fragment screen → 11 scaffolds → sub-µM NR4A ligands, with
+  NOR-1/NR4A3 tested in a Gal4 reporter — reinforces NR4A3 ligandability; caveat: cellular reporter, not direct
+  NR4A3 binding. Verified 2026-07-05.)
+- Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a Parkinson's
+  Disease Fly Model.* **NeuroMolecular Med** (2022). PMID 35482177; PDB 5YD6. (PGA2 forms a **covalent Michael
+  adduct at Cys566** of the Nurr1 LBD — a covalent-warhead binding-mode precedent in the NR4A LBD. Verified 2026-07-05.)
+- Sturm/Willems, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
+  vidofludimus enables structure-guided ligand design.* **Commun Chem** (2025). PMC12095788;
+  doi 10.1038/s42004-025-01553-8. (Closest computational NR4A-selectivity precedent; MD/mutagenesis map an
+  **allosteric surface pocket** and reaffirm the canonical pocket is occluded — the occluded-pocket challenge
+  engaged in §2.1. First-author order to confirm before submission. Verified 2026-07-05.)
+- Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer immunotherapy.*
+  **J Exp Med** 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519. (**NR-V04** — the only NR4A
+  targeted-degrader precedent; selectively degrades NR4A1 while sparing NR4A2/NR4A3, so paralog-selective
+  degradation is achievable. Proof-of-concept only; sparing mechanism unresolved, celastrol warhead promiscuous.
+  Verified 2026-07-05.)
 - Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
   carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
   (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
@@ -1100,6 +1146,19 @@ from an above-noise one but short of a specificity-controlled lead.
   Chem* (2020, PMC6926456, PDB 6L6Q/6L6L); FET-fusion (EWS-FLI1) enhancer-reprogramming — *Nat Cell Biol*
   2022 (10.1038/s41556-022-01060-1). DepMap gene-effect numbers (FLI1 −0.93/74 %; NR4A3 0.02) are from the
   repo's cached Chronos analysis (`depmap-insilico-findings.md`).
+- Brenca M, et al. *NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between
+  EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.* **J Pathol** 248:239–251 (2019).
+  PMID 31020999; PMC6766969; doi 10.1002/path.5284. (Functional fusion-driver evidence: ectopic expression of
+  either fusion recapitulates the malignant phenotype — but the 5′ partner shapes the NR4A3-driven
+  transcriptome, tempering a strictly partner-agnostic story. Verified 2026-07-05.)
+- EMC variant-fusion series establishing NR4A3 as the shared **>90 % 3′ driver across ≥6 partners**: Agaram NP,
+  et al. *Hum Pathol* 45:1084 (2014, PMC4015728; EWSR1 62 %/TAF15 27 %/TCF12, variant fusions → higher-grade/
+  worse outcome); Wei S, et al. *Genes Chromosomes Cancer* (2021, PMID 34124809; novel SMARCA2-NR4A3, NR4A3
+  rearranged in >90 %); Warmke LM, et al. *Genes Chromosomes Cancer* (2023, doi 10.1002/gcc.23144; TAF15::NR4A3
+  clusters with EMC by DNA methylation); Ott G, et al. *JCO Precis Oncol* (2022, PMID 36103645,
+  doi 10.1200/PO.22.00039; novel PGR-NR4A3). Underpin the partner-agnostic NR4A3-degrader rationale; run through
+  `verify-refs.yml` before submission. (Note: Ott's patient benefit came via a *partner-specific* tamoxifen
+  mechanism — cite for partner diversity, not as support for target-centric-over-junction. Verified 2026-07-05.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
   567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
   pan-NR4A second design mode, ex-vivo.)
