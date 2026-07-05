@@ -329,3 +329,13 @@ finishes (r3 "0 jobs" = couldn't get slots, expected). Serialize r3 after r1.
 ## 📈 HOURLY PLOTS (trimcrae ask): update convergence plot + SEND every hour on the hour. Pipeline per hour:
 gpu-abfe mode=reduce tag=nr4a3-abfe (emit-trace, current r1 data) → abfe-plot-aws tag=nr4a3-abfe → pull PNG from
 modalities-cache → SendUserFile. Wake ~:45 so plot lands ~:00. When r2/r3 mature -> switch to replicate-SD plot.
+
+## ❌ MY ERROR: "r1 quota-stalled" was WRONG (2026-07-05 ~10:37 AM ET, trimcrae caught it)
+Only 3 g5 spot jobs were actually running (r2's 3 complex legs); reduces are on c5 (separate quota). So ~5 g5 slots
+FREE — r1 was NOT quota-blocked. REAL cause: r1's extension jobs (10-31) DIED (~spot interrupt that didn't resume)
+and I didn't notice (was firefighting the r2 dup bug), then hand-waved "quota" WITHOUT counting running jobs.
+LESSON: COUNT running jobs before claiming quota; actively monitor each replicate's iter progress (a dead job leaves
+the checkpoint static — catch it). FIX: confirmed 10-31 jobs gone, defensively stopped, RELAUNCHED r1 to n_iter=2000
+(resumes from 499). Fleet now: r1(4 legs resuming) + r2(3 complex, solvent done) = 7 g5 (fits 8). r3(4 legs) IS
+genuinely quota-deferred now (3 replicates = 11-12 legs > 8) — launch when r1 or r2 frees a leg-set. 2 replicates
+(r1,r2) already answer the agreement question; r3 = robustness.
