@@ -261,3 +261,12 @@ so NOT a restraint artifact. CAVEATS (for the paper, must harden): n_iter=500 SH
 NOT convergence — true uncertainty larger); NVT no-NPT (box density); PME alchemical = openmmtools default; SINGLE
 replicate (no independent-seed check). NEXT: extend n_iter (resume from 500 → 1500/2000) + a 2nd-seed replicate to
 confirm ΔΔG stability BEFORE the preprint. Direction + magnitude are strong/clean.
+
+## ▶ EXTENSION n_iter 500→1000 LAUNCHED + convergence-plot pipeline (2026-07-05 ~6:32 AM ET)
+Local tree had reverted to old commit after container restart — RESTORED via ff-merge to 7554b94 (all session work
+was safe on origin). Extension: gpu-abfe mode=run tag=nr4a3-abfe n_iter=1000 spot=1 → 4 legs resuming from iter 500:
+solvent-10-31-52, complex-nr4a3-10-31-54, complex-nr4a1-10-31-55, complex-nr4a2-10-31-56. ETA ~+6h (~16:30UTC/
+12:30pm ET; complex legs ~6h/500iter). Added --emit-trace: reduce prints compact 1-line 'TRACE_JSON [[iter,dg,se]..]'
+(<=61 downsampled pts) to stdout + writes <r>_dg_bind.json (w/ full trace) to checkpoint dir (cat_s3-readable).
+PREVIEW reduce dispatched on current ~500-iter data to validate plot pipeline NOW. PLOT: read 3 reduce jobs'
+TRACE_JSON → matplotlib ΔG_bind(iter) 3 receptors (+ ΔΔG) → PNG for user. FINAL plot after extension+reduce.
