@@ -13,12 +13,28 @@ posting, with journal submission in parallel. Regime: `emc-treatment-strategy.md
 (2026-07-01)"`. Started 2026-07-01.
 
 ## Target venue
+> **HARD CONSTRAINT (trimcrae, 2026-07-05): NO pay-to-publish. Author pays $0.** The preprint is free, and the
+> journal must have a **free (subscription/hybrid) route** — publish subscription-side and let the free ChemRxiv
+> preprint be the open copy. Fully open-access / APC-only journals (IJMS, PLOS, Sci. Rep., Frontiers) are OUT
+> unless a **full fee waiver** is secured up front. Do not submit anywhere that can bill the author.
+
 - **Preprint: ChemRxiv** (med-chem / comp-chem home; best fit for a cryptic-pocket + de-novo-design paper).
-  Post immediately once the two pending results land. bioRxiv is the alternative if we lean the framing
-  biological.
-- **Journal (parallel submission):** specialized comp-chem tier — *J. Chem. Inf. Model.*, *IJMS*,
-  *J. Med. Chem.* (comp), *PLoS Comput. Biol.*, *Front. Pharmacol.*, or *Sci. Rep.* All are preprint-friendly
-  (confirm each journal's preprint policy before submitting — nearly all in this list allow ChemRxiv).
+  **Free ($0).** Post immediately once the two pending results land. bioRxiv is the alternative if we lean the
+  framing biological (also free). The preprint does most of the outreach work regardless of the journal.
+- **Journal (parallel submission) — fee model matters as much as fit:**
+  - **✅ FREE route exists (subscription/hybrid — publish at $0, paper paywalled, preprint stays the open copy):**
+    - ***J. Chem. Inf. Model.*** (ACS) — **top pick.** Best audience/credibility fit; publish subscription-side
+      for $0 (skip the paid ACS-OA upgrade, ~$2.5–5k, which is optional).
+    - ***J. Med. Chem.*** (ACS) — same $0 subscription route, but poor *fit* (wants synthesized compounds +
+      wet-lab data; likely desk-reject for a no-wet-lab paper). Fee isn't the blocker here — scope is.
+    - ***Digital Discovery*** (RSC) — hybrid; free subscription route. Good if we lean the *method* (generative +
+      decoy-null calibration). Confirm no mandatory APC before submitting (RSC is shifting some titles to OA).
+  - **❌ APC-only (author pays, NO free route — OUT unless a full waiver is granted):** *IJMS* (~$2,900),
+    *PLOS Comput. Biol.* (~$2,300–2,900), *Sci. Rep.* (~$2,700), *Front. Pharmacol.* All are fully OA. Only
+    revisit via a documented **fee waiver** (PLOS has a formal no-funding waiver program; MDPI/Frontiers
+    sometimes discount) — and only if a $0 subscription venue has already rejected it.
+  - All are preprint-friendly (confirm each journal's preprint policy before submitting — nearly all allow
+    ChemRxiv). **Confirm the $0 route in writing at submission**, since journal fee policies change.
 - **Framing (per the honest-assessment note):** sell it as **first-in-target computational characterization of
   NR4A3 druggability/selectivity + a decoy-null-screened *designed/predicted* candidate (a foothold, not a
   fully control-validated one — the decoy null does not control the generative step; F16 red-team)** — NOT as a
