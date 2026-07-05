@@ -738,7 +738,13 @@ def _cli():
         out = reduce_and_report(a.complex_dir, a.solvent_dir, out_json=a.out_json,
                                 temperature_K=a.temperature_k, emit_trace=a.emit_trace)
         if a.emit_trace:
-            print(f"[abfe] TRACE points={len(out.get('trace', []))}")
+            tr = out.get("trace", [])
+            ds = tr if len(tr) <= 60 else tr[:: max(1, len(tr) // 60)]
+            if tr and ds[-1] is not tr[-1]:
+                ds = ds + [tr[-1]]                                  # always keep the final (converged) point
+            print("[abfe] TRACE_JSON " + json.dumps([[p["iter"], round(p["dg_bind"], 3), round(p["se"], 3)]
+                                                     for p in ds]))
+            print(f"[abfe] TRACE points={len(tr)}")
         print(f"[abfe] DG_BIND {out['dg_bind']:.3f} ± {out['se']:.3f} kcal/mol "
               f"(complex {out['complex_dg']:.2f}±{out['complex_se']:.2f}, "
               f"solvent {out['solvent_dg']:.2f}±{out['solvent_se']:.2f}, SSC {out['restraint_standard_state_dg']:.2f})")
