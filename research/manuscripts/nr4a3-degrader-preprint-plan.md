@@ -96,8 +96,10 @@ The manuscript carries a lot of *process scaffolding* that must move out of the 
       but a reviewer-proof alternative leads with the concrete result, e.g. *"Opening a cryptic pocket in the
       'undruggable' nuclear receptor NR4A3: computational druggability and a selective degrader-warhead
       candidate."* Pick one before posting.
-- [ ] **Authors / affiliations** — trimcrae + "Claude (Anthropic)" acknowledgment per preference (decide author
-      vs. acknowledgment; most venues want human authors + an AI-assistance statement in Methods).
+- [x] **Authors / affiliations** — **DONE:** sole author **Tristan D. McRae** (Independent researcher;
+      correspondence trimcrae@gmail.com), set in both the preprint and the SI. **Claude is NOT a co-author**
+      (ACS/JCIM and essentially all venues disallow AI authorship) — it stays as the AI-assistance statement in
+      Methods, which is already present.
 - [ ] **Abstract** — ready to finalize now (metad-frame decoy null folded in; ternary deferred). Trim its
       internal red-team scaffolding to a clean results paragraph.
 - [ ] **Data & Code Availability** — point to the public GitHub repo + note S3 artifacts available on request;

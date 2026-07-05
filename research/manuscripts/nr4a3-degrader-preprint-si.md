@@ -1,5 +1,7 @@
 # Supplementary Information: Computational design of a selective NR4A3 degrader — opening a cryptic pocket in a "ligand-independent" nuclear receptor
 
+**Tristan D. McRae** — *Independent researcher. Correspondence: trimcrae@gmail.com*
+
 *This Supplementary Information collects the pre-registered falsification scheme and its
 deviation log (SI §1), the outcomes of the pre-registered gates (SI §2), the full
 selectivity-architecture analysis (SI §3), and a distilled account of the adversarial

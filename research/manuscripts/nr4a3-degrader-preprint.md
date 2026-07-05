@@ -1,6 +1,8 @@
 # Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a "ligand-independent" nuclear receptor
 
-**[Author(s)]** — *[name(s), affiliation(s), corresponding email to add before posting]*
+**Tristan D. McRae**
+
+*Independent researcher. Correspondence: trimcrae@gmail.com*
 
 *Preprint. In-silico design and feasibility study — no wet-lab validation; no molecule synthesized. Every
 result is computed and reported with its evidentiary weight. Supporting analyses (pre-registration,
