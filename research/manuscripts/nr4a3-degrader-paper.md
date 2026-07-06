@@ -115,7 +115,7 @@ physics-based energy model where repurposed matter did not. We also **ran the NR
 form a productive-geometry-proxy ternary, so the ternary is a *tested-negative* selectivity lever (§2.4/F18) —
 selectivity, on current evidence, is a binder-carried budget. The affinity-grade **selectivity FEP** (modern
 independent-window ABFE) is now **run** (one full converged replicate at 2 ns/window, n_iter = 2000): a **NR4A3-selective ΔΔG of
-−6.9 (vs NR4A1) and −4.9 (vs NR4A2) kcal/mol**, and — after an engine-calibration ("zeroing") against a known
+−6.9 (vs NR4A1) and −5.5 (vs NR4A2) kcal/mol**, and — after an engine-calibration ("zeroing") against a known
 binding free energy (T4-lysozyme·benzene) that reveals a +7.1 kcal/mol under-binding offset — the offset-corrected
 absolutes have **only NR4A3 binding (≈ −4.5 kcal/mol) while both paralogues do not**. We report these **at their
 true weight**: the MBAR error is precision (~±0.2), not accuracy, so **two further independent-seed replicates**
@@ -849,11 +849,11 @@ newly, a **protein-ligand binding** gate (below) that measures the engine's syst
 any absolute is over-read. The
 NR4A3-vs-paralogue **ΔΔG** is the selectivity read-out (CUDA on the A10G; SageMaker managed-spot *Training* with
 continuous per-window S3 checkpointing). **Converged single-replicate result (2 ns/window, n_iter = 2000, one full replicate):** ΔG_bind(NR4A3) = **+2.6 ± 0.2**,
-ΔG_bind(NR4A1) = **+9.5 ± 0.2**, ΔG_bind(NR4A2) = **+7.6 ± 0.2** kcal/mol → **ΔΔG(NR4A3 − NR4A1) = −6.90 ± 0.26**
-and **ΔΔG(NR4A3 − NR4A2) = −4.95 ± 0.27** kcal/mol (both favour NR4A3) — `denovo_401` is predicted to engage the
+ΔG_bind(NR4A1) = **+9.5 ± 0.2**, ΔG_bind(NR4A2) = **+8.1 ± 0.2** kcal/mol → **ΔΔG(NR4A3 − NR4A1) = −6.90 ± 0.26**
+and **ΔΔG(NR4A3 − NR4A2) = −5.48 ± 0.27** kcal/mol (both favour NR4A3) — `denovo_401` is predicted to engage the
 opened NR4A3 pocket and not the paralogues. (These per-receptor absolutes are **raw engine values**; the binding
 calibration below sets a **+7.1 kcal/mol under-binding offset** to subtract before reading any absolute —
-**offset-corrected, only NR4A3 binds (≈ −4.5 kcal/mol) while both paralogues do not (NR4A1 ≈ +2.4, NR4A2 ≈ +0.5)**,
+**offset-corrected, only NR4A3 binds (≈ −4.5 kcal/mol) while both paralogues do not (NR4A1 ≈ +2.4, NR4A2 ≈ +1.0)**,
 a stronger statement than the ΔΔG alone — while the **ΔΔG itself needs no correction** because the offset cancels
 in the difference.) The quoted ±0.2 is the **MBAR statistical error — precision, not accuracy**: it is a lower
 bound on the true uncertainty (it does not see equilibration/slow-mode drift), and the one completed leg of a
