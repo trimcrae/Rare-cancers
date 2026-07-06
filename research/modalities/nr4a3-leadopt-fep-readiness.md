@@ -18,8 +18,14 @@ here needs GPU; the one gated action is the FEP itself.
 | selectivity margin ± SD | +13.2 / +10.9 | +16.9 / +11.0 (gen); +10.4 (iso01) | ≥ 401, run-dependent (preserved, not degraded) |
 | decoy-null clearance (release, 95th +6.7) | clears | **clears decisively** | specificity-controlled |
 
-401's problem was **weak binding**, and that is exactly what improved (robustly); selectivity is preserved. The
-ortho-acetamido/ethyl decoration engages the divergent hydrophobic/H-bond handles (L406/T410/I484/L534).
+**⚠ FRAMING UPDATE (2026-07-06, converged+calibrated 401 FEP merged from main):** the earlier "401 is a poor
+binder" was an **engine-calibration artifact**. The converged r1 ABFE (n_iter=2000) + the T4-lysozyme·benzene
+engine zero (a measured **+7.1 kcal/mol under-binding offset**, `nr4a3-abfe-calibration.json`) show 401 is
+actually a **favourable, selective NR4A3 binder (~−4.5 kcal/mol offset-corrected; ΔΔG −6.9 vs NR4A1 / −5.5 vs
+NR4A2)**, with both paralogues non-binding. So lo_m0_NCCO is not "a real binder to replace a non-binder" — it is
+a genuine **lead-optimization**: an even *tighter* NR4A3 binder that stays selective (MM-GBSA ~+5 kcal/mol
+tighter than 401). That is exactly what RBFE(401→lo_m0_NCCO) will quantify, offset-free.
+The ortho-acetamido/ethyl decoration engages the divergent hydrophobic/H-bond handles (L406/T410/I484/L534).
 
 ## Pre-FEP de-risking — DONE (all cheap-tier this session)
 1. **Species / stereochemistry** — 16 stereoisomers docked + top-6 multi-snapshot MM-GBSA
@@ -93,5 +99,8 @@ the affinity *difference* is a **relative** perturbation. RBFE (denovo_401 → l
 ΔΔ directly, is cheaper and better-converged than the single-ligand ABFE 401 needed, and rides 401's ABFE that
 is already run. **Building the RBFE map is the one FEP-side code task worth doing before the run** (the current
 `nr4a3_abfe.py` harness is ABFE; ABFE on lo_m0_NCCO_gen works today with the command above, RBFE is the upgrade).
-Honest caveat: MM-GBSA magnitudes are inflated (401 −35 MM-GBSA ↔ FEP −1.2); the lead beats 401 by the *same*
-cheap tier + the decoy null, which is the pre-FEP nomination bar — FEP is the arbiter of absolute affinity.
+Honest caveat: MM-GBSA magnitudes are not calibrated affinities (401's −35 MM-GBSA maps to a converged +
+offset-corrected ABFE of ~−4.5 kcal/mol); the lead beats 401 by the *same* cheap tier + the decoy null, which
+is the pre-FEP nomination bar — RBFE is the arbiter of *how much* tighter. Anchor note: RBFE's absolute for
+lo_m0_NCCO rides 401's **offset-corrected** converged ABFE (rbfe_edges.ANCHOR_401_ABFE, updated 2026-07-06);
+the RBFE ΔΔG and the selectivity *change* are offset-free and do not depend on the anchor at all.

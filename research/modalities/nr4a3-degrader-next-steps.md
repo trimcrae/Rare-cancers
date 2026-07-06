@@ -124,6 +124,12 @@ stronger binders (−29…−31) are non-selective. Since 401's MM-GBSA −38 al
 even worse. **denovo_401 remains the strongest MM-GBSA binder found across the entire program.**
 
 ### ★★ SCAFFOLD LEAD-OPT BEATS 401 (2026-07-06, later) — a better candidate, found. Retracts the "weak pocket" call below.
+**⚠ Reconcile with the converged 401 FEP (merged from main, same day):** the "401 is a poor binder" premise that
+motivated this search was an **engine-calibration artifact** — the converged r1 ABFE + the +7.1 kcal/mol
+under-binding engine offset (`nr4a3-abfe-calibration.json`, T4L·benzene zero) put 401 at a **favourable
+~−4.5 kcal/mol** (offset-corrected), selective (ΔΔG −6.9/−5.5). So lo_m0_NCCO is a genuine **lead-optimization**
+(tighter + still selective), not a rescue of a non-binder. The lead-opt result stands; only the framing shifts.
+RBFE anchor updated accordingly (`rbfe_edges.ANCHOR_401_ABFE`).
 The earlier conclusion was premature: it tested blind + bigger-molecule generation, but NOT the obvious med-chem
 move — **keep 401's selective core, decorate it toward the divergent handles.** `nr4a3_leadopt.py` enumerated 163
 scaffold-decorations of denovo_401 (phenyl-ring + terminal-arm R-groups; hydrophobic for L406/I484/L534, H-bonders

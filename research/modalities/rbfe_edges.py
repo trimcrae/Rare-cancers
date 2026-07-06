@@ -25,10 +25,20 @@ SMILES = {
     "lo_m0_CC":       "CCc1ccccc1[C@@H](COC)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",   # ethyl sibling (2nd edge)
 }
 
-# denovo_401 ABFE anchor (per-receptor ΔG_bind, kcal/mol) from the existing modern ABFE run — the numbers RBFE
-# rides to convert its ΔΔG into B's absolute. PRELIMINARY (n_iter=500, single replicate); update when the
-# 401 convergence-hardening lands. Selectivity ΔΔG is the better-behaved part and is the load-bearing anchor.
-ANCHOR_401_ABFE = {"nr4a3": -1.2, "nr4a1": 8.5, "nr4a2": 4.9}      # paper §4 preliminary
+# denovo_401 ABFE anchor (per-receptor ΔG_bind, kcal/mol) — the numbers RBFE rides to convert its ΔΔG into B's
+# absolute. UPDATED 2026-07-06 to the CONVERGED r1 (n_iter=2000, 2 ns/window) + the engine CALIBRATION
+# (nr4a3-abfe-calibration.json): the openmmtools ABFE engine UNDER-BINDS by a measured +7.1 kcal/mol (T4-lysozyme
+# ·benzene zero), so the raw-engine absolutes are recontextualized. Values below are OFFSET-CORRECTED
+# (raw − 7.1): NR4A3 is a FAVOURABLE binder (~−4.5), both paralogues do NOT bind (positive). Derived from the
+# converged selectivity ΔΔG (−6.9 vs NR4A1, −5.5 vs NR4A2) + NR4A3 corrected −4.5.
+#   ⚠ These absolutes are ONE-SIDED (conservative/least-binding): the +7.1 offset is from a RIGID cavity; the
+#   cryptic NR4A3 pocket under-samples reorganization MORE, so the true NR4A3 binding is likely ≥ this favourable.
+#   The SELECTIVITY ΔΔG is OFFSET-FREE and is the load-bearing anchor; never quote a raw engine absolute as
+#   "doesn't bind". See paper §4 + nr4a3-abfe-calibration.json "go_forward_rule".
+ANCHOR_401_ABFE = {"nr4a3": -4.5, "nr4a1": 2.4, "nr4a2": 1.0}      # offset-corrected converged r1
+ANCHOR_401_ABFE_RAW = {"nr4a3": 2.6, "nr4a1": 9.5, "nr4a2": 8.1}   # raw engine (add +7.1 offset)
+ANCHOR_401_SELECTIVITY_DDG = {"nr4a1": -6.9, "nr4a2": -5.5}        # offset-FREE (NR4A3 − paralogue); load-bearing
+ABFE_ENGINE_OFFSET = 7.1                                            # under-binding, from T4L·benzene calibration
 
 
 def rbfe_legs(receptors=RECEPTORS):
