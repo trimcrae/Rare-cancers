@@ -1,0 +1,18 @@
+# Conda env for the RBFE engine (OpenFE relative hybrid-topology protocol). Mirror of environment-abfe.yml but
+# swaps the hand-rolled openmmtools ABFE stack for OpenFE, which brings the atom-mapping (lomap/kartograf), the
+# perses hybrid topology, the relative-λ protocol, and MBAR turnkey. SHAKEOUT-PENDING: the exact pins here are
+# first-pass — `gpu-rbfe-aws.yml mode=smoke` validates the solve + a CUDA OpenMM on the A10G before any MD.
+name: rbfe
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openfe                 # pulls openmm, gufe, perses hybrid-topology, pymbar>=4
+  - openff-toolkit
+  - openmmforcefields      # gaff-2.11 + ff14SB, same params as the ABFE/MM-GBSA legs
+  - rdkit
+  - lomap2                 # atom-mapping
+  - kartograf              # atom-mapping (fallback / 3D)
+  - numpy
+  - scipy
+  - mdtraj

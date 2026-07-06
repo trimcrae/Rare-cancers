@@ -1,0 +1,61 @@
+name: GPU — RBFE (relative FEP, 401→lo_m0_NCCO) AWS spot fleet
+
+# Relative binding FEP (OpenFE) for the lead-opt edge denovo_401 -> lo_m0_NCCO, per receptor.
+#   plan   (default) : DRY RUN — print the edge/leg plan + cost. No spend, no GPU. Runs the submitter locally.
+#   smoke            : ONE tiny spot job — validates the openfe env solve + atom-map + hybrid-topology build.
+#   run              : launch the morph legs (solvent + complex-<r>) as spot Training jobs. GATED (FEP carve-out
+#                      — needs trimcrae go-ahead + FEP-GPU/spot quota). Shake out via smoke → ONLY_LEGS=solvent first.
+#   reduce           : CPU — ΔΔG_bind per receptor + rbfe_edges.selectivity_from_rbfe (anchored on 401's ABFE).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (Training + spot quota).
+# NOTE: a brand-new workflow is only API-dispatchable once it exists on the DEFAULT branch — merge to main first.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:        { description: "plan | smoke | run | reduce", default: "plan", required: true }
+      tag:         { description: "S3 checkpoint tag/prefix", default: "nr4a3-rbfe-401-nccogen", required: false }
+      ligand_a:    { description: "reference ligand (its ABFE is the anchor)", default: "denovo_401", required: false }
+      ligand_b:    { description: "lead ligand to morph to", default: "lo_m0_NCCO_gen", required: false }
+      receptor_prefix: { description: "S3 prefix with <r>-opened.pdb + docked_<r>.sdf", default: "nr4a3-leadopt-species", required: false }
+      n_windows:   { description: "λ-windows over the A→B morph", default: "12", required: false }
+      only_legs:   { description: "comma-sep subset (e.g. solvent) for validate-first", default: "", required: false }
+      spot:        { description: "1 = managed spot", default: "1", required: false }
+      instance:    { description: "SageMaker GPU instance", default: "ml.g5.xlarge", required: false }
+      region:      { description: "AWS region", default: "us-east-2", required: false }
+      git_ref:     { description: "repo ref the job clones + runs", default: "main", required: false }
+
+permissions:
+  contents: read
+
+jobs:
+  rbfe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install "sagemaker>=2.200,<3" boto3 rdkit
+      - name: Dispatch RBFE ${{ inputs.mode }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          MODE: ${{ inputs.mode }}
+          RBFE_TAG: ${{ inputs.tag }}
+          RBFE_LIGAND_A: ${{ inputs.ligand_a }}
+          RBFE_LIGAND_B: ${{ inputs.ligand_b }}
+          RECEPTOR_PREFIX: ${{ inputs.receptor_prefix }}
+          RBFE_N_WINDOWS: ${{ inputs.n_windows }}
+          ONLY_LEGS: ${{ inputs.only_legs }}
+          SPOT: ${{ inputs.spot }}
+          INSTANCE: ${{ inputs.instance }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ "$MODE" != "plan" ] && [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS secrets first (or use mode=plan)."; exit 1
+          fi
+          if [ "$MODE" = "run" ]; then
+            echo "::warning::mode=run launches the spot RBFE fleet — FEP carve-out: only on explicit go-ahead."
+          fi
+          python research/modalities/nr4a3_rbfe_sagemaker.py

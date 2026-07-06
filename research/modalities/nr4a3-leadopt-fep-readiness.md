@@ -69,7 +69,25 @@ gpu-fep-aws.yml  mode=run  ligand=lo_m0_NCCO_gen  receptor_prefix=nr4a3-leadopt-
 ```
 Repeat with `ligand=lo_m0_NCCO_iso01` (co-species) if resolving the stereo/selectivity tradeoff at FEP grade.
 
-## Recommended engine: RBFE, not ABFE (cheaper + more accurate here)
+## RBFE harness — BUILT (2026-07-06), ready to fire pending FEP-GPU + a smoke shakeout
+Per trimcrae's choice (RBFE relative to 401, riding 401's existing ABFE), the harness is wired, reusing ALL the
+ABFE spot/checkpoint/sharding/reduce plumbing; only the alchemical core is new and comes from OpenFE's
+`RelativeHybridTopologyProtocol` (mapping + hybrid topology + relative λ + MBAR turnkey — no hand-rolled
+soft-core, no Boresch/SSC since both ligands share the pose). Files:
+- **`rbfe_edges.py`** (pure, **7/7 unit tests pass**) — edge/leg enumeration, ΔΔG cycle (`ΔΔG_bind = ΔG_complex_morph
+  − ΔG_solvent_morph`), anchoring on 401's ABFE, selectivity + the **anchor-free** selectivity change. Atom-map
+  sanity confirms the edge: **22 common atoms, 401 a perfect subgraph (0 unique), lo_m0_NCCO adds the 4-atom
+  acetamido** → textbook single-edge morph.
+- **`nr4a3_rbfe.py`** (OpenFE engine), **`nr4a3_rbfe_sagemaker.py`** (submitter; `mode=plan` validated locally),
+  **`sagemaker_src/entry_rbfe.py`** + **`environment-rbfe.yml`** (openfe env), **`gpu-rbfe-aws.yml`** (plan/smoke/
+  run/reduce; default plan).
+- **Dispatch:** `gpu-rbfe-aws.yml mode=run ligand_a=denovo_401 ligand_b=lo_m0_NCCO_gen receptor_prefix=nr4a3-leadopt-species`.
+  **Validate-first:** `mode=smoke` (openfe env + mapping + hybrid-topology build, no MD) → `only_legs=solvent`
+  (one real morph leg) → full fleet. **SHAKEOUT-PENDING** like every engine here: the OpenFE settings + env are
+  first-pass; trust numbers only after the smoke + one-leg shakeout on a real FEP GPU. Also: the new workflow must
+  be merged to `main` before it's API-dispatchable.
+
+## Why RBFE, not ABFE (cheaper + more accurate here)
 The lead set is a **congeneric series off one scaffold** (401 = H → ethyl/acetamido at the ortho position), so
 the affinity *difference* is a **relative** perturbation. RBFE (denovo_401 → lo_m0_NCCO, per receptor) gives the
 ΔΔ directly, is cheaper and better-converged than the single-ligand ABFE 401 needed, and rides 401's ABFE that

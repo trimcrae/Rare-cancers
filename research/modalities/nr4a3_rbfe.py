@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+"""RBFE compute engine — denovo_401 → lo_m0_NCCO relative binding FEP via OpenFE (RelativeHybridTopologyProtocol).
+
+Runs ONE (receptor, leg) alchemical MORPH (A→B): the complex-morph leg (protein + ligand + solvent) or the
+shared solvent-morph leg (ligand + solvent). OpenFE supplies the four pieces the repo's ABFE engine lacks —
+LOMAP atom-mapping, the perses hybrid topology, the relative λ schedule, and MBAR — turnkey and validated, so
+we do NOT hand-roll dual-topology soft-core (the highest-risk piece; see nr4a3-degrader-next-steps.md engine
+policy). No Boresch restraint / standard-state correction: both ligands share the pose, so it cancels.
+
+Deliverable per leg: ΔG_morph(A→B) in that environment (+ uncertainty). The reducer forms
+ΔΔG_bind = ΔG_complex_morph − ΔG_solvent_morph per receptor (rbfe_edges.ddg_bind), then the selectivity.
+
+**SHAKEOUT-PENDING (standing rule): the OpenFE protocol settings + the env are first-pass; run mode=smoke on a
+GPU (maps + builds the hybrid topology, no MD) then ONLY_LEGS=solvent (one real morph leg) before trusting any
+number — exactly as every prior GPU pipeline here was shaken out.** Heavy deps (openfe/openmm) are imported
+lazily so this file loads on a CPU box.
+
+Env: MODE (smoke|run|reduce), RECEPTOR, LEG (complex|solvent), LIGAND_A, LIGAND_B, N_WINDOWS, N_ITER, SEED,
+INPUT_DIR (mounted <r>-opened.pdb + docked_<r>.sdf), OUTPUT_DIR/CKPT_DIR.
+"""
+import glob
+import json
+import os
+import sys
+
+import rbfe_edges as rb
+
+IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
+CKPT = os.environ.get("CKPT_DIR", os.environ.get("OUTPUT_DIR", "/opt/ml/checkpoints"))
+LIGAND_A = os.environ.get("LIGAND_A", rb.LIGAND_A)
+LIGAND_B = os.environ.get("LIGAND_B", rb.LIGAND_B)
+RECEPTOR = os.environ.get("RECEPTOR", "nr4a3")
+LEG = os.environ.get("LEG", "complex")
+N_WINDOWS = int(os.environ.get("N_WINDOWS", "12"))
+N_ITER = int(os.environ.get("N_ITER", "1000"))
+SEED = int(os.environ.get("SEED", "0"))
+
+
+def _sdf_mol(sdf_path, name, rdkit_chem):
+    """Pull the named record from a multi-record docked SDF as an RDKit mol (the pose to morph from)."""
+    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
+        if m is not None and (m.GetProp("_Name") == name if m.HasProp("_Name") else False):
+            return m
+    # fall back to first record if names absent
+    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
+        if m is not None:
+            return m
+    raise SystemExit(f"  ABORT: {name} not found in {sdf_path}")
+
+
+def _build_components(openfe, rdkit_chem):
+    """Build the OpenFE ligand A/B SmallMoleculeComponents (+ receptor ProteinComponent for the complex leg),
+    from the mounted docked poses. Returns (ligA, ligB, protein_or_None)."""
+    sdf = os.path.join(IN, "ligand", f"docked_{RECEPTOR}.sdf")
+    if not os.path.exists(sdf):
+        sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{RECEPTOR}.sdf"), recursive=True)), sdf)
+    molA = _sdf_mol(sdf, LIGAND_A, rdkit_chem)
+    molB = _sdf_mol(sdf, LIGAND_B, rdkit_chem)
+    ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
+    ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
+    protein = None
+    if LEG == "complex":
+        pdb = os.path.join(IN, "receptor", f"{RECEPTOR}-opened.pdb")
+        if not os.path.exists(pdb):
+            pdb = next(iter(glob.glob(os.path.join(IN, "**", f"{RECEPTOR}-opened.pdb"), recursive=True)), pdb)
+        protein = openfe.ProteinComponent.from_pdb_file(pdb)
+    return ligA, ligB, protein
+
+
+def _mapping(openfe, ligA, ligB):
+    """LOMAP atom-map A→B (the shared scaffold maps 1:1; the ortho-acetamido is the unique region)."""
+    from openfe.setup import LomapAtomMapper
+    mapper = LomapAtomMapper(time=20, threed=True, element_change=False)
+    mapping = next(mapper.suggest_mappings(ligA, ligB))
+    return mapping
+
+
+def _protocol(openfe):
+    from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol
+    s = RelativeHybridTopologyProtocol.default_settings()
+    # first-pass settings (SHAKEOUT-PENDING): match the ABFE window/iteration budget order-of-magnitude.
+    try:
+        s.protocol_repeats = 3                                   # 3 independent replicates → replicate-SD error
+        s.simulation_settings.n_replicas = N_WINDOWS
+        s.simulation_settings.equilibration_length = "1 ns"
+        s.simulation_settings.production_length = "5 ns"
+        s.engine_settings.compute_platform = "CUDA"
+    except Exception as e:  # noqa: BLE001 — settings schema varies by openfe version; smoke will surface it
+        print(f"  [rbfe] WARN could not set all settings ({e}); using defaults", flush=True)
+    return RelativeHybridTopologyProtocol(s)
+
+
+def _chemical_systems(openfe, ligA, ligB, protein):
+    solvent = openfe.SolventComponent()
+    if LEG == "complex":
+        A = openfe.ChemicalSystem({"protein": protein, "ligand": ligA, "solvent": solvent})
+        B = openfe.ChemicalSystem({"protein": protein, "ligand": ligB, "solvent": solvent})
+    else:
+        A = openfe.ChemicalSystem({"ligand": ligA, "solvent": solvent})
+        B = openfe.ChemicalSystem({"ligand": ligB, "solvent": solvent})
+    return A, B
+
+
+def run_leg():
+    os.makedirs(CKPT, exist_ok=True)
+    import openfe
+    from rdkit import Chem
+    ligA, ligB, protein = _build_components(openfe, Chem)
+    mapping = _mapping(openfe, ligA, ligB)
+    n_mapped = len(mapping.componentA_to_componentB)
+    print(f"  [rbfe] {RECEPTOR}/{LEG}: mapped {n_mapped} atoms A->B ({LIGAND_A}->{LIGAND_B})", flush=True)
+
+    if os.environ.get("MODE") == "smoke":
+        # validate env + mapping + hybrid-topology build ONLY (no MD) — the cheap shakeout.
+        proto = _protocol(openfe)
+        A, B = _chemical_systems(openfe, ligA, ligB, protein)
+        dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+        json.dump({"smoke": "ok", "receptor": RECEPTOR, "leg": LEG, "n_mapped_atoms": n_mapped,
+                   "n_protocol_units": len(getattr(dag, "protocol_units", []) or [])},
+                  open(os.path.join(CKPT, "smoke.json"), "w"), indent=2)
+        print("  [rbfe] SMOKE ok — env solves, mapping + hybrid topology build.", flush=True)
+        return
+
+    proto = _protocol(openfe)
+    A, B = _chemical_systems(openfe, ligA, ligB, protein)
+    dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+    from gufe.protocols import execute_DAG
+    shared = os.path.join(CKPT, "shared")
+    scratch = os.path.join(CKPT, "scratch")
+    os.makedirs(shared, exist_ok=True); os.makedirs(scratch, exist_ok=True)
+    dagres = execute_DAG(dag, shared_basedir=shared, scratch_basedir=scratch, keep_shared=True)
+    est = proto.gather([dagres])
+    dg = est.get_estimate()
+    unc = est.get_uncertainty()
+    out = {"receptor": RECEPTOR, "leg": LEG, "ligand_a": LIGAND_A, "ligand_b": LIGAND_B,
+           "dg_morph_kcal": float(dg.to("kilocalorie_per_mole").m),
+           "unc_kcal": float(unc.to("kilocalorie_per_mole").m), "n_mapped_atoms": n_mapped}
+    json.dump(out, open(os.path.join(CKPT, f"leg_{RECEPTOR}_{LEG}.json"), "w"), indent=2)
+    print(f"  [rbfe] LEG DONE {RECEPTOR}/{LEG}: ΔG_morph={out['dg_morph_kcal']:.2f} ± {out['unc_kcal']:.2f}",
+          flush=True)
+
+
+def reduce_receptor():
+    """ΔΔG_bind(A→B, receptor) = ΔG_complex_morph − ΔG_solvent_morph. Reads the two legs' checkpoints (mounted)."""
+    def _read(kind):
+        for base in (IN, CKPT):
+            for p in glob.glob(os.path.join(base, "**", f"leg_{RECEPTOR}_*.json"), recursive=True) + \
+                     glob.glob(os.path.join(base, "**", "leg_*_%s.json" % kind), recursive=True):
+                d = json.load(open(p))
+                if d.get("leg") == kind and (kind == "solvent" or d.get("receptor") == RECEPTOR):
+                    return d
+        return None
+    cx, sol = _read("complex"), _read("solvent")
+    if not cx or not sol:
+        sys.exit(f"  ABORT reduce: missing legs (complex={bool(cx)} solvent={bool(sol)})")
+    ddg = rb.ddg_bind(cx["dg_morph_kcal"], sol["dg_morph_kcal"])
+    out = {"receptor": RECEPTOR, "ddg_bind_kcal": round(ddg, 3),
+           "dg_complex_morph": cx["dg_morph_kcal"], "dg_solvent_morph": sol["dg_morph_kcal"],
+           "absolute_dg_B": round(rb.absolute_dg_B(ddg, RECEPTOR), 3),
+           "note": "ΔΔG_bind(401->lo_m0_NCCO); negative = lo_m0_NCCO binds tighter. absolute_dg_B anchors on "
+                   "401's preliminary ABFE (rbfe_edges.ANCHOR_401_ABFE)."}
+    os.makedirs(CKPT, exist_ok=True)
+    json.dump(out, open(os.path.join(CKPT, f"ddg_{RECEPTOR}.json"), "w"), indent=2)
+    print(f"  [rbfe] REDUCE {RECEPTOR}: ΔΔG_bind={ddg:.2f} kcal/mol → B absolute {out['absolute_dg_B']:.2f}",
+          flush=True)
+
+
+def main():
+    mode = os.environ.get("MODE", "smoke")
+    if mode == "reduce":
+        reduce_receptor()
+    else:                       # smoke or run both go through run_leg (smoke short-circuits inside)
+        run_leg()
+
+
+if __name__ == "__main__":
+    main()
