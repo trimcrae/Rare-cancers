@@ -307,10 +307,29 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
                 if ov > best_ov:
                     best_num, best_ov = num, ov
             drug = info[best_num]["druggability"] if best_num is not None else None
-            series.append({"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
-                           "orthosteric_druggability": drug, "overlap_residues": best_ov,
-                           "cv_rg_nm": (None if cv_rg_all is None
-                                        else round(float(cv_rg_all[fi]), 4))})
+            entry = {"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
+                     "orthosteric_druggability": drug, "overlap_residues": best_ov,
+                     "cv_rg_nm": (None if cv_rg_all is None
+                                  else round(float(cv_rg_all[fi]), 4))}
+            # WHOLE-SURFACE (off-site) scan: the most druggable pocket this frame that does NOT overlap
+            # the orthosteric Pocket-5 target residues — i.e. a DIFFERENT cavity. This is the question
+            # the orthosteric-only readout above cannot answer: did the MD open another druggable pocket
+            # somewhere else on the LBD surface? (Same fpocket call, no extra cost; residues are in the
+            # trajectory's own numbering, identical to overlap_residues.)
+            offsite = []
+            for num, resids in resids_by_num.items():
+                if target_resseqs.intersection(resids):
+                    continue                              # overlaps the orthosteric site -> not off-site
+                dv = info.get(num, {}).get("druggability")
+                if dv is not None:
+                    offsite.append((dv, sorted(int(r) for r in resids)))
+            if offsite:
+                offsite.sort(key=lambda t: t[0], reverse=True)
+                dv, res0 = offsite[0]
+                entry["offsite_best_druggability"] = dv
+                entry["offsite_resid_range"] = [res0[0], res0[-1]]
+                entry["offsite_lining_residues"] = res0
+            series.append(entry)
         except Exception as e:  # noqa: BLE001 — best-effort per frame
             series.append({"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
                            "error": str(e)[:200]})
@@ -333,6 +352,28 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
                               ">=0.5 threshold at any sampled frame (supports the small-molecule "
                               "orthosteric warhead) or collapse it (weakens the route -> lean on the "
                               "designed protein binder, the AF-2 surface cavity, or the junction ASO)?")}
+    # WHOLE-SURFACE (off-site) aggregation: is there a DIFFERENT druggable pocket than Pocket-5?
+    off = [s for s in series if s.get("offsite_best_druggability") is not None]
+    offdrugs = [s["offsite_best_druggability"] for s in off]
+    top_off = sorted(off, key=lambda s: s["offsite_best_druggability"], reverse=True)[:5]
+    out["offsite_scan"] = {
+        "note": ("WHOLE-SURFACE control: the best transient pocket per frame that does NOT overlap the "
+                 "orthosteric Pocket-5 target residues. Answers 'did the MD open a DIFFERENT druggable "
+                 "pocket?'. A max_offsite_druggability >= 0.5 in a consistent residue span = a candidate "
+                 "alternative site worth docking. Residue numbers are in the trajectory's own numbering."),
+        "n_frames_with_offsite": len(off),
+        "max_offsite_druggability": max(offdrugs) if offdrugs else None,
+        "mean_offsite_druggability": round(float(np.mean(offdrugs)), 3) if offdrugs else None,
+        "frac_frames_offsite_ge_0.5": round(float(np.mean([d >= 0.5 for d in offdrugs])), 3) if offdrugs else None,
+        "top5_offsite": [{"frame": s["frame"], "druggability": s["offsite_best_druggability"],
+                          "resid_range": s.get("offsite_resid_range"),
+                          "lining_residues": s.get("offsite_lining_residues")} for s in top_off],
+    }
+    o = out["offsite_scan"]
+    print(f"  OFFSITE (whole-surface) scan: max_offsite_drug={o['max_offsite_druggability']} "
+          f"mean={o['mean_offsite_druggability']} frac>=0.5={o['frac_frames_offsite_ge_0.5']}; "
+          f"top offsite (drug, resid_range): "
+          f"{[(t['druggability'], t['resid_range']) for t in o['top5_offsite']]}", flush=True)
     try:
         import matplotlib
         matplotlib.use("Agg")
