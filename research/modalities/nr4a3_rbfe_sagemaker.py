@@ -23,8 +23,14 @@ import rbfe_edges as rb
 TAG = os.environ.get("RBFE_TAG", "nr4a3-rbfe-401-nccogen")
 MODE = os.environ.get("MODE", "plan")
 INSTANCE = os.environ.get("INSTANCE", "ml.g5.xlarge")
-MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "10"))          # RBFE morph legs are cheaper than ABFE
-MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "18"))
+# A complex-morph leg runs its 12 λ-windows SERIALLY on one A10G (OpenFE execute_DAG has no intra-leg GPU
+# fan-out), ~12 windows × 6 ns ≈ 15-25 GPU-h, so MAX_RUN must exceed that (the old 10 h killed complex legs
+# mid-run). max_wait ≥ run + expected spot wait. For a SINGLE replicate the 3 complex legs run as 3 concurrent
+# spot jobs → wall ≈ one leg. Window-sharding (fan a leg across GPUs, à la fep_sharding.py) is the right upgrade
+# IF we escalate to a 3-replicate campaign; it's deferred here (single replicate, not worth the OpenFE-MBAR-
+# combine re-engineering + shakeout risk).
+MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "30"))          # fits a serial 12-window complex morph leg
+MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "40"))        # run + generous spot capacity wait
 LIGAND_A = os.environ.get("RBFE_LIGAND_A", rb.LIGAND_A)          # reference (401)
 LIGAND_B = os.environ.get("RBFE_LIGAND_B", rb.LIGAND_B)          # lead (lo_m0_NCCO_gen)
 GIT_REF = os.environ.get("GIT_REF", "main")
@@ -36,7 +42,9 @@ RECEPTORS = [r.strip() for r in os.environ.get("RBFE_RECEPTORS", "nr4a3,nr4a1,nr
 RECEPTOR_PREFIX = os.environ.get("RECEPTOR_PREFIX", "nr4a3-leadopt-species")   # <r>-opened.pdb + docked_<r>.sdf
 SPOT_HOURLY = float(os.environ.get("SPOT_HOURLY", "0.50"))
 IMAGE_URI = os.environ.get("RBFE_IMAGE_URI", "").strip()
-UNIT_GPU_H = float(os.environ.get("UNIT_GPU_H", "0.5"))          # PLANNING ONLY (RBFE window < ABFE window)
+UNIT_GPU_H = float(os.environ.get("UNIT_GPU_H", "2.0"))          # PLANNING ONLY — realistic A10G per-window
+                                                                 # (~6 ns/window at ~80 ns/day + equil); the old
+                                                                 # 0.5 under-quoted the edge ~4x. Calibrate on leg 1.
 
 
 def _legs():
