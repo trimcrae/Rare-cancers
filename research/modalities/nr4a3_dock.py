@@ -180,10 +180,13 @@ def main():
     if not smina or not kept:
         res["_status"] = "smina missing or no ligands"; json.dump(res, open(OUT, "w"), indent=2); return
     out_sdf = os.path.join(HERE, "docked.sdf")
+    # exhaustiveness: env-overridable so a large primary screen (e.g. the drug-repurposing library, thousands
+    # of ligands) can triage cheaply at lower exhaustiveness; top hits get re-docked/MM-GBSA'd carefully.
+    exhaust = os.environ.get("EXHAUSTIVENESS", "8")
     cmd = [smina, "-r", pdb_path, "-l", sdf,
            "--center_x", str(center[0]), "--center_y", str(center[1]), "--center_z", str(center[2]),
            "--size_x", "24", "--size_y", "24", "--size_z", "24",
-           "--exhaustiveness", "8", "--num_modes", "1", "-o", out_sdf]
+           "--exhaustiveness", str(exhaust), "--num_modes", "1", "-o", out_sdf]
     print("  smina:", " ".join(cmd), file=sys.stderr)
     p = subprocess.run(cmd, capture_output=True, text=True)
     print(p.stdout[-2000:], file=sys.stderr); print(p.stderr[-1000:], file=sys.stderr)

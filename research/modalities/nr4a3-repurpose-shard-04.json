@@ -1,0 +1,4982 @@
+{
+ "_note": "Drug-repurposing candidate set for the NR4A3 cryptic Pocket-5 selectivity screen. SMILES from the Broad Drug Repurposing Hub (Corsello et al., Nat Med 2017; non-commercial research use), desalted + drug-like filtered + deduped. Docking scores are HYPOTHESES, not affinities.",
+ "campaign": "repurpose-cryptic-pocket",
+ "source": "Broad Drug Repurposing Hub (repurposing_samples/drugs_20200324)",
+ "filters": {
+  "mw": [
+   150.0,
+   600.0
+  ],
+  "allowed_elements": [
+   "B",
+   "Br",
+   "C",
+   "Cl",
+   "F",
+   "H",
+   "I",
+   "N",
+   "O",
+   "P",
+   "S",
+   "Si"
+  ],
+  "max_heavy": 60,
+  "desalt": "largest organic fragment",
+  "dedupe": "InChIKey"
+ },
+ "n_candidates": 550,
+ "n_controls": 4,
+ "candidates": [
+  {
+   "name": "rep02200",
+   "smiles": "CCN(CC)c1ccc(-n2nc3cc(C)c(N)cc3n2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ezutromid",
+   "phase": "Phase 2",
+   "moa": "utrophin enhancer",
+   "target": "UTRN"
+  },
+  {
+   "name": "rep02201",
+   "smiles": "Cn1c(=O)cnn(CCCCN2CCN(c3ncccn3)CC2)c1=O",
+   "denovo_promise": 1.0,
+   "drug": "F-11440",
+   "phase": "Phase 2",
+   "moa": "serotonin receptor agonist",
+   "target": "HTR1A"
+  },
+  {
+   "name": "rep02202",
+   "smiles": "CC/C=C\\C/C=C\\C/C=C\\C/C=C\\C/C=C\\C/C=C\\CCC(=O)OCc1cccnc1",
+   "denovo_promise": 1.0,
+   "drug": "F-16915",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02203",
+   "smiles": "Cc1ccc(=O)n(-c2ccc(O)cc2)c1",
+   "denovo_promise": 1.0,
+   "drug": "F351",
+   "phase": "Phase 2",
+   "moa": "TGF beta receptor inhibitor",
+   "target": "TGFB1"
+  },
+  {
+   "name": "rep02204",
+   "smiles": "N#Cc1ccc([C@H]2CCCc3cncn32)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fadrozole",
+   "phase": "Launched",
+   "moa": "aromatase inhibitor",
+   "target": "CYP11B1|CYP19A1"
+  },
+  {
+   "name": "rep02205",
+   "smiles": "C=C1/C(=C\\C=C2/CCC[C@]3(C)[C@@H]([C@H](C)CCCC(O)(C(F)(F)F)C(F)(F)F)CC[C@@H]23)C[C@@H](O)C[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "falecalcitriol",
+   "phase": "Launched",
+   "moa": "vitamin D receptor agonist",
+   "target": "VDR"
+  },
+  {
+   "name": "rep02206",
+   "smiles": "CC(=O)OCC(CCn1cnc2cnc(N)nc21)COC(C)=O",
+   "denovo_promise": 1.0,
+   "drug": "famciclovir",
+   "phase": "Launched",
+   "moa": "DNA polymerase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02207",
+   "smiles": "N=C(N)Nc1nc(CSCC/C(N)=N\\S(N)(=O)=O)cs1",
+   "denovo_promise": 1.0,
+   "drug": "famotidine",
+   "phase": "Launched",
+   "moa": "histamine receptor antagonist",
+   "target": "HRH2"
+  },
+  {
+   "name": "rep02208",
+   "smiles": "CC(C)c1c(CN(C)[C@@H](C)Cc2ccccc2)n(C)n(-c2ccccc2)c1=O",
+   "denovo_promise": 1.0,
+   "drug": "famprofazone",
+   "phase": "Preclinical",
+   "moa": "cyclooxygenase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02209",
+   "smiles": "O=S1(=O)c2cccc3cccc(c23)N1CCCN1CCN(c2ccc(F)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "fananserin",
+   "phase": "Phase 2",
+   "moa": "dopamine receptor antagonist|serotonin receptor antagonist",
+   "target": "HTR2A"
+  },
+  {
+   "name": "rep02210",
+   "smiles": "c1ccc(CCNc2nc(-c3ccccc3)cs2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fanetizole",
+   "phase": "Phase 3",
+   "moa": "neutrophil superoxide production",
+   "target": ""
+  },
+  {
+   "name": "rep02211",
+   "smiles": "COc1ccc(CCN(C)CCCOc2ccc(S(=O)(=O)c3c(C(C)C)cn4ccccc34)cc2)cc1OC",
+   "denovo_promise": 1.0,
+   "drug": "fantofarone",
+   "phase": "Preclinical",
+   "moa": "calcium channel blocker",
+   "target": ""
+  },
+  {
+   "name": "rep02212",
+   "smiles": "O=C(c1ccc2nonc2c1)N1CCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "farampator",
+   "phase": "Preclinical",
+   "moa": "ionotropic glutamate receptor agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02213",
+   "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CSc1ccccc1C(N)=O",
+   "denovo_promise": 1.0,
+   "drug": "farnesyl-thiosalicylic-acid-amide",
+   "phase": "Phase 1",
+   "moa": "Ras GTPase inhibitor",
+   "target": "HRAS"
+  },
+  {
+   "name": "rep02214",
+   "smiles": "C[C@@H](O)[C@@H]1C(=O)N2C(C(=O)O)=C([C@H]3CCCO3)S[C@H]12",
+   "denovo_promise": 1.0,
+   "drug": "faropenem",
+   "phase": "Launched",
+   "moa": "lactamase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02215",
+   "smiles": "Cc1oc(=O)oc1COC(=O)C1=C([C@H]2CCCO2)S[C@@H]2[C@@H]([C@@H](C)O)C(=O)N12",
+   "denovo_promise": 1.0,
+   "drug": "faropenem-medoxomil",
+   "phase": "Launched",
+   "moa": "lactamase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02216",
+   "smiles": "O=C1CC[C@H](C(=O)N2CCCCC2)N1",
+   "denovo_promise": 1.0,
+   "drug": "fasoracetam",
+   "phase": "Preclinical",
+   "moa": "GABA receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02217",
+   "smiles": "O=S(=O)(c1cccc2cnccc12)N1CCCNCC1",
+   "denovo_promise": 1.0,
+   "drug": "fasudil",
+   "phase": "Launched",
+   "moa": "rho associated kinase inhibitor",
+   "target": "PKIA|PRKACA|ROCK1|ROCK2"
+  },
+  {
+   "name": "rep02218",
+   "smiles": "NC(=O)c1nc(F)c[nH]c1=O",
+   "denovo_promise": 1.0,
+   "drug": "favipiravir",
+   "phase": "Phase 3",
+   "moa": "RNA polymerase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02219",
+   "smiles": "Nc1nc(=O)n([C@H]2C[C@H](O)[C@@H](CO)O2)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "fdcyd",
+   "phase": "Phase 2",
+   "moa": "DNA methyltransferase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02220",
+   "smiles": "CCCCOC[C@@H](O)COc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "febuprol",
+   "phase": "Launched",
+   "moa": "choleretic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02221",
+   "smiles": "Cc1nc(-c2ccc(OCC(C)C)c(C#N)c2)sc1C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "febuxostat",
+   "phase": "Launched",
+   "moa": "xanthine oxidase inhibitor",
+   "target": "XDH"
+  },
+  {
+   "name": "rep02222",
+   "smiles": "Cc1cnc(Nc2ccc(OCCN3CCCC3)cc2)nc1Nc1cccc(S(=O)(=O)NC(C)(C)C)c1",
+   "denovo_promise": 1.0,
+   "drug": "fedratinib",
+   "phase": "Launched",
+   "moa": "FLT3 inhibitor|JAK inhibitor",
+   "target": "BRD4|JAK1|JAK2|JAK3|TYK2"
+  },
+  {
+   "name": "rep02223",
+   "smiles": "NC(=O)OCC(COC(N)=O)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "felbamate",
+   "phase": "Launched",
+   "moa": "glutamate receptor antagonist",
+   "target": "GRIN1|GRIN2A|GRIN2B|GRIN2C|GRIN2D|GRIN3A|GRIN3B"
+  },
+  {
+   "name": "rep02224",
+   "smiles": "O=C(O)Cc1ccc(-c2ccccc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "felbinac",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "CTSL"
+  },
+  {
+   "name": "rep02225",
+   "smiles": "CCOC(=O)Cc1ccc(-c2ccccc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "felbinac-ethyl",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02226",
+   "smiles": "CCOC(=O)C1=C(C)NC(C)=C(C(=O)OC)[C@@H]1c1cccc(Cl)c1Cl",
+   "denovo_promise": 1.0,
+   "drug": "felodipine",
+   "phase": "Launched",
+   "moa": "calcium channel blocker",
+   "target": "CFTR"
+  },
+  {
+   "name": "rep02227",
+   "smiles": "O=C(CCCl)NCCc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fenaclon",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02228",
+   "smiles": "COC(=O)Nc1nc2ccc(Sc3ccccc3)cc2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "fenbendazole",
+   "phase": "Launched",
+   "moa": "tubulin polymerization inhibitor",
+   "target": "TUBB"
+  },
+  {
+   "name": "rep02229",
+   "smiles": "O=C(O)CCC(=O)c1ccc(-c2ccccc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fenbufen",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02230",
+   "smiles": "N[C@@H](Cc1ccc(Cl)cc1)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "fenclonine-(+/-)",
+   "phase": "Preclinical",
+   "moa": "tryptophan hydroxylase inhibitor",
+   "target": "PAH|TPH1|TPH2"
+  },
+  {
+   "name": "rep02231",
+   "smiles": "C[C@@H](NCCC(c1ccccc1)c1ccccc1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fendiline",
+   "phase": "Preclinical",
+   "moa": "calcium channel blocker",
+   "target": "HTR2B"
+  },
+  {
+   "name": "rep02232",
+   "smiles": "NC[C@@H](CC(=O)O)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fenigam",
+   "phase": "Launched",
+   "moa": "benzodiazepine receptor agonist",
+   "target": "GABBR1|GABBR2"
+  },
+  {
+   "name": "rep02233",
+   "smiles": "CCCC[C@@H](O)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fenipentol",
+   "phase": "Launched",
+   "moa": "choleretic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02234",
+   "smiles": "CN1CC(=O)N=C1NC(=O)Nc1cccc(Cl)c1",
+   "denovo_promise": 1.0,
+   "drug": "fenobam",
+   "phase": "Phase 2",
+   "moa": "glutamate receptor antagonist",
+   "target": "GRM5"
+  },
+  {
+   "name": "rep02235",
+   "smiles": "CC(C)OC(=O)C(C)(C)Oc1ccc(C(=O)c2ccc(Cl)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fenofibrate",
+   "phase": "Launched",
+   "moa": "PPAR receptor agonist",
+   "target": "MMP25|PPARA"
+  },
+  {
+   "name": "rep02236",
+   "smiles": "CC(C)(Oc1ccc(C(=O)c2ccc(Cl)cc2)cc1)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "fenofibric-acid",
+   "phase": "Launched",
+   "moa": "cytochrome P450 inhibitor",
+   "target": "CLCN1|PPARA"
+  },
+  {
+   "name": "rep02237",
+   "smiles": "Oc1ccc([C@H]2CNCCc3c2cc(O)c(O)c3Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fenoldopam",
+   "phase": "Launched",
+   "moa": "dopamine receptor agonist",
+   "target": "DRD1|DRD4"
+  },
+  {
+   "name": "rep02238",
+   "smiles": "C[C@@H](C(=O)O)c1cccc(Oc2ccccc2)c1",
+   "denovo_promise": 1.0,
+   "drug": "fenoprofen",
+   "phase": "Launched",
+   "moa": "prostaglandin inhibitor",
+   "target": "PTGS1|SLC5A8"
+  },
+  {
+   "name": "rep02239",
+   "smiles": "C[C@@H](Cc1ccc(O)cc1)NC[C@@H](O)c1cc(O)cc(O)c1",
+   "denovo_promise": 1.0,
+   "drug": "fenoterol",
+   "phase": "Withdrawn",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRB2"
+  },
+  {
+   "name": "rep02240",
+   "smiles": "O=C(CN1CCN(Cc2ccc3c(c2)OCO3)CC1)N1c2ccccc2Sc2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "fenoverine",
+   "phase": "Launched",
+   "moa": "acetylcholine receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02241",
+   "smiles": "CCOC(=O)[C@@H](C)Oc1ccc(Oc2nc3ccc(Cl)cc3o2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fenoxaprop-p-ethyl",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": "NOS3"
+  },
+  {
+   "name": "rep02242",
+   "smiles": "CC1=C(/C=C/C(C)=C/C=C/C(C)=C/C(=O)Nc2ccc(O)cc2)C(C)(C)CCC1",
+   "denovo_promise": 1.0,
+   "drug": "fenretinide",
+   "phase": "Phase 3",
+   "moa": "apoptosis stimulant|retinoid receptor agonist",
+   "target": "RARA"
+  },
+  {
+   "name": "rep02243",
+   "smiles": "O=C1NCC2(CCN(CCc3ccccc3)CC2)O1",
+   "denovo_promise": 1.0,
+   "drug": "fenspiride",
+   "phase": "Launched",
+   "moa": "bronchodilator",
+   "target": ""
+  },
+  {
+   "name": "rep02244",
+   "smiles": "COP(=S)(OC)Oc1ccc(SC)c(C)c1",
+   "denovo_promise": 1.0,
+   "drug": "fenthion",
+   "phase": "Launched",
+   "moa": "cholinesterase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02245",
+   "smiles": "O=C(O)Cc1sc(-c2ccccc2)nc1-c1ccc(Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fentiazac",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02246",
+   "smiles": "Clc1ccc([C@@H](Cn2ccnc2)OCc2ccc(Sc3ccccc3)cc2)c(Cl)c1",
+   "denovo_promise": 1.0,
+   "drug": "fenticonazole",
+   "phase": "Launched",
+   "moa": "bacterial cell wall synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02247",
+   "smiles": "O/N=C/c1ccc(-c2ccc(O)c(F)c2)c(Cl)c1O",
+   "denovo_promise": 1.0,
+   "drug": "FERb-033",
+   "phase": "Preclinical",
+   "moa": "EGFR inhibitor",
+   "target": "ERBB2"
+  },
+  {
+   "name": "rep02248",
+   "smiles": "CCOC(=O)c1ccc(NC2CCCCC2)c(N)c1",
+   "denovo_promise": 1.0,
+   "drug": "ferrostatin-1",
+   "phase": "Preclinical",
+   "moa": "ferroptosis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02249",
+   "smiles": "COc1cc(/C=C/C(=O)O)ccc1O",
+   "denovo_promise": 1.0,
+   "drug": "ferulic-acid",
+   "phase": "Phase 2",
+   "moa": "antioxidant",
+   "target": "CA1|CA12|CA14|CA2|CA4|CA6|CA9"
+  },
+  {
+   "name": "rep02250",
+   "smiles": "CC(C)C(=O)Oc1ccc(CO)cc1[C@H](CCN(C(C)C)C(C)C)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fesoterodine",
+   "phase": "Launched",
+   "moa": "acetylcholine receptor antagonist",
+   "target": "CHRM1|CHRM2|CHRM3|CHRM4|CHRM5"
+  },
+  {
+   "name": "rep02251",
+   "smiles": "Cc1c(CC(=O)O)c2cccnc2n1Cc1ccc(S(C)(=O)=O)cc1C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "fevipiprant",
+   "phase": "Phase 2",
+   "moa": "prostaglandin inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02252",
+   "smiles": "COC(=O)/C=C/c1cccc(N(Cc2ccc(-c3ccc(N(C)C)cc3)cc2)C(=O)C2CCCCC2)c1",
+   "denovo_promise": 1.0,
+   "drug": "fexaramine",
+   "phase": "Preclinical",
+   "moa": "FXR agonist",
+   "target": "NR1H4"
+  },
+  {
+   "name": "rep02253",
+   "smiles": "CSc1ccc(OCc2ncc([N+](=O)[O-])n2C)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fexinidazole",
+   "phase": "Phase 3",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02254",
+   "smiles": "CC(C)(C(=O)O)c1ccc([C@@H](O)CCCN2CCC(C(O)(c3ccccc3)c3ccccc3)CC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fexofenadine",
+   "phase": "Launched",
+   "moa": "histamine receptor antagonist",
+   "target": "HRH1"
+  },
+  {
+   "name": "rep02255",
+   "smiles": "Cc1nsc(-c2nnc3n2CCN(C(=O)c2ccc(F)cc2)[C@@H]3C)n1",
+   "denovo_promise": 1.0,
+   "drug": "fezolinetant",
+   "phase": "Phase 2",
+   "moa": "neurokinin receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02256",
+   "smiles": "O=C(O)CNC(=O)c1nc(Cl)c2ccccc2c1O",
+   "denovo_promise": 1.0,
+   "drug": "FG-2216",
+   "phase": "Phase 2",
+   "moa": "hypoxia inducible factor prolyl hydroxylase inhibitor",
+   "target": "EGLN1|EGLN2|HIF1A"
+  },
+  {
+   "name": "rep02257",
+   "smiles": "Cc1nc(C(=O)NCC(=O)O)c(O)c2ccc(Oc3ccccc3)cc12",
+   "denovo_promise": 1.0,
+   "drug": "FG-4592",
+   "phase": "Phase 3",
+   "moa": "hypoxia inducible factor prolyl hydroxylase inhibitor",
+   "target": "EGLN1|EGLN2|EGLN3"
+  },
+  {
+   "name": "rep02258",
+   "smiles": "CNC(=O)c1cc2c(cn1)[nH]c1ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "FG-7142",
+   "phase": "Preclinical",
+   "moa": "GABA benzodiazepine site receptor inverse agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02259",
+   "smiles": "CCCCCCN(CCCCCC)C(=O)Cc1c(-c2ccc(F)cc2)[nH]c2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "FGIN-1-27",
+   "phase": "Preclinical",
+   "moa": "inositol monophosphatase inhibitor",
+   "target": "TSPO"
+  },
+  {
+   "name": "rep02260",
+   "smiles": "CCCCCCN(CCCCCC)C(=O)Cc1c(-c2ccc(Cl)cc2)[nH]c2ccc(Cl)cc12",
+   "denovo_promise": 1.0,
+   "drug": "FGIN-1-43",
+   "phase": "Preclinical",
+   "moa": "benzodiazepine receptor agonist",
+   "target": "TSPO"
+  },
+  {
+   "name": "rep02261",
+   "smiles": "Cc1cc([N+](=O)[O-])ccc1NS(=O)(=O)c1cc(Cl)ccc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "FH-535",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor antagonist|WNT signaling inhibitor",
+   "target": "PPARD|PPARG"
+  },
+  {
+   "name": "rep02262",
+   "smiles": "CC(=O)Nc1ccc(Cc2ccc(NC(C)=O)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "FH1",
+   "phase": "Preclinical",
+   "moa": "hepatocyte function enhancer",
+   "target": ""
+  },
+  {
+   "name": "rep02263",
+   "smiles": "Nc1nc(=O)n([C@@H]2O[C@H](CO)[C@@H](O)[C@@H]2F)cc1I",
+   "denovo_promise": 1.0,
+   "drug": "fiacitabine",
+   "phase": "Phase 2",
+   "moa": "DNA synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02264",
+   "smiles": "NC(=O)[C@H]1C[C@]2(NC(=O)NC2=O)c2cc(F)ccc2O1",
+   "denovo_promise": 1.0,
+   "drug": "fidarestat",
+   "phase": "Phase 3",
+   "moa": "aldose reductase inhibitor",
+   "target": "AKR1B1"
+  },
+  {
+   "name": "rep02265",
+   "smiles": "CON(C)C(=O)N1N=C(c2cc(F)ccc2F)S[C@@]1(CCCN)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "filanesib",
+   "phase": "Phase 3",
+   "moa": "kinesin inhibitor|kinesin-like spindle protein inhibitor",
+   "target": "KIF11"
+  },
+  {
+   "name": "rep02266",
+   "smiles": "O=C(Nc1nc2cccc(-c3ccc(CN4CCS(=O)(=O)CC4)cc3)n2n1)C1CC1",
+   "denovo_promise": 1.0,
+   "drug": "filgotinib",
+   "phase": "Phase 3",
+   "moa": "JAK inhibitor",
+   "target": "JAK1|JAK2|JAK3|TYK2"
+  },
+  {
+   "name": "rep02267",
+   "smiles": "CCCCc1nc(C)c(CC(=S)N(C)C)c(=O)n1Cc1ccc(-c2ccccc2-c2nn[nH]n2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fimasartan",
+   "phase": "Launched",
+   "moa": "angiotensin receptor antagonist",
+   "target": "AGTR1"
+  },
+  {
+   "name": "rep02268",
+   "smiles": "N#Cc1c(N2C[C@@H]3NCCO[C@H]3C2)c(F)cc2c(=O)c(C(=O)O)cn(C3CC3)c12",
+   "denovo_promise": 1.0,
+   "drug": "finafloxacin",
+   "phase": "Launched",
+   "moa": "bacterial DNA gyrase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02269",
+   "smiles": "CC(C)(C)NC(=O)[C@H]1CC[C@H]2[C@@H]3CC[C@H]4NC(=O)C=C[C@]4(C)[C@H]3CC[C@]12C",
+   "denovo_promise": 1.0,
+   "drug": "finasteride",
+   "phase": "Launched",
+   "moa": "5 alpha reductase inhibitor",
+   "target": "AKR1D1|SRD5A1|SRD5A2"
+  },
+  {
+   "name": "rep02270",
+   "smiles": "CCCCCCCCc1ccc(CCC(N)(CO)CO)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fingolimod",
+   "phase": "Launched",
+   "moa": "immunosuppressant|sphingosine 1-phosphate receptor agonist",
+   "target": "S1PR1|S1PR5"
+  },
+  {
+   "name": "rep02271",
+   "smiles": "O=C(COc1ccc(Cl)cc1)N1CCN(Cc2ccc3c(c2)OCO3)CC1",
+   "denovo_promise": 1.0,
+   "drug": "fipexide",
+   "phase": "Withdrawn",
+   "moa": "psychoactive drug",
+   "target": ""
+  },
+  {
+   "name": "rep02272",
+   "smiles": "O=C(NCCN1CCC(n2c(=O)[nH]c3ccccc32)CC1)c1cc2cc(F)ccc2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "FIPI",
+   "phase": "Preclinical",
+   "moa": "phospholipase inhibitor",
+   "target": "PLD1|PLD2"
+  },
+  {
+   "name": "rep02273",
+   "smiles": "N#Cc1nn(-c2c(Cl)cc(C(F)(F)F)cc2Cl)c(N)c1[S@@](=O)C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "fipronil",
+   "phase": "Launched",
+   "moa": "chloride channel blocker|GABA gated chloride channel blocker",
+   "target": ""
+  },
+  {
+   "name": "rep02274",
+   "smiles": "CCOCc1cc(OC)c(-c2ccc(C[C@H](NC(=O)c3c(F)cccc3F)C(=O)O)cc2)c(OC)c1",
+   "denovo_promise": 1.0,
+   "drug": "firategrast",
+   "phase": "Phase 2",
+   "moa": "integrin antagonist",
+   "target": "ITGA4"
+  },
+  {
+   "name": "rep02275",
+   "smiles": "CC1(C)OC(=O)C(OCC2CC2)=C1c1ccc(S(C)(=O)=O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "firocoxib",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS2"
+  },
+  {
+   "name": "rep02276",
+   "smiles": "COc1ccccc1[C@H](Cn1c(=O)n(C(C)(C)C(=O)O)c(=O)c2c(C)c(-c3ncco3)sc21)OC1CCOCC1",
+   "denovo_promise": 1.0,
+   "drug": "firsocostat",
+   "phase": "Phase 2",
+   "moa": "acetyl-CoA carboxylase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02277",
+   "smiles": "O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "fisetin",
+   "phase": "Preclinical",
+   "moa": "Aurora kinase inhibitor",
+   "target": "CDK6|FASN"
+  },
+  {
+   "name": "rep02278",
+   "smiles": "C=CC(=O)N[C@H]1CCOC[C@H]1Nc1ncc2cc(-c3c(Cl)c(OC)cc(OC)c3Cl)ccc2n1",
+   "denovo_promise": 1.0,
+   "drug": "fisogatinib",
+   "phase": "Phase 1",
+   "moa": "fibroblast growth factor inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02279",
+   "smiles": "CCC(=O)N(c1ccccc1)C1CCN(CCc2ccc(N=C=S)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "FIT",
+   "phase": "Preclinical",
+   "moa": "opioid receptor agonist",
+   "target": "OPRD1"
+  },
+  {
+   "name": "rep02280",
+   "smiles": "CC(=O)c1ccc(NS(C)(=O)=O)c(Oc2ccc(F)cc2F)c1",
+   "denovo_promise": 1.0,
+   "drug": "FK-3311",
+   "phase": "Phase 2",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS2"
+  },
+  {
+   "name": "rep02281",
+   "smiles": "CC/C(=C\\C(=N\\O)C(N)=O)[C@@H](C)[N+](=O)[O-]",
+   "denovo_promise": 1.0,
+   "drug": "FK-409",
+   "phase": "Phase 2",
+   "moa": "guanylyl cyclase activator",
+   "target": ""
+  },
+  {
+   "name": "rep02282",
+   "smiles": "O=C(/C=C/c1cccnc1)NCCCCC1CCN(C(=O)c2ccccc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "FK-866",
+   "phase": "Phase 2",
+   "moa": "niacinamide phosphoribosyltransferase inhibitor",
+   "target": "NAMPT"
+  },
+  {
+   "name": "rep02283",
+   "smiles": "CN(Cc1ccccc1)C(=O)[C@H](Cc1ccc2ccccc2c1)NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)c1cn(C)c2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "FK-888",
+   "phase": "Phase 2",
+   "moa": "tachykinin antagonist",
+   "target": "TACR1|TACR2"
+  },
+  {
+   "name": "rep02284",
+   "smiles": "CC(=O)N1CCC(NC(=O)c2ccc(F)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "FK-962",
+   "phase": "Phase 2",
+   "moa": "somatostatin receptor agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02285",
+   "smiles": "Cc1c(-c2ccccc2)oc2c(C(=O)OCCN3CCCCC3)cccc2c1=O",
+   "denovo_promise": 1.0,
+   "drug": "flavoxate",
+   "phase": "Launched",
+   "moa": "acetylcholine receptor antagonist",
+   "target": "CHRM1|CHRM2"
+  },
+  {
+   "name": "rep02286",
+   "smiles": "O=C(NCC1CCCCN1)c1cc(OCC(F)(F)F)ccc1OCC(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "flecainide",
+   "phase": "Launched",
+   "moa": "sodium channel blocker",
+   "target": "KCNA5|KCNA7|SCN5A"
+  },
+  {
+   "name": "rep02287",
+   "smiles": "CN1CCN(c2c(F)cc3c(=O)c(C(=O)O)cn(CCF)c3c2F)CC1",
+   "denovo_promise": 1.0,
+   "drug": "fleroxacin",
+   "phase": "Launched",
+   "moa": "topoisomerase inhibitor",
+   "target": "TOP2A"
+  },
+  {
+   "name": "rep02288",
+   "smiles": "CC1=NC2=C(C(=O)CC(C)(C)C2)[C@H](c2ccc([N+](=O)[O-])cc2)C1C(=O)OC1CCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "FLI-06",
+   "phase": "Preclinical",
+   "moa": "notch signaling inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02289",
+   "smiles": "O=c1[nH]c2ccccc2n1CCN1CCN(c2cccc(C(F)(F)F)c2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "flibanserin",
+   "phase": "Launched",
+   "moa": "serotonin receptor agonist",
+   "target": "DRD4|HTR1A|HTR2A"
+  },
+  {
+   "name": "rep02290",
+   "smiles": "COc1ccc(Cl)cc1[C@]1(F)C(=O)Nc2cc(C(F)(F)F)ccc21",
+   "denovo_promise": 1.0,
+   "drug": "flindokalner",
+   "phase": "Phase 3",
+   "moa": "potassium channel agonist",
+   "target": "KCNMA1|KCNN4|KCNQ2|KCNQ4|KCNQ5"
+  },
+  {
+   "name": "rep02291",
+   "smiles": "O=C(OC[C@H](O)CO)c1ccccc1Nc1ccnc2c(C(F)(F)F)cccc12",
+   "denovo_promise": 1.0,
+   "drug": "floctafenine",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02292",
+   "smiles": "CCC(=O)c1c(O)cc(O)cc1O",
+   "denovo_promise": 1.0,
+   "drug": "flopropione",
+   "phase": "Launched",
+   "moa": "serotonin receptor antagonist",
+   "target": "HTR1A"
+  },
+  {
+   "name": "rep02293",
+   "smiles": "CS(=O)(=O)c1ccc([C@@H](O)[C@@H](CF)NC(=O)C(Cl)Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "florfenicol",
+   "phase": "Launched",
+   "moa": "protein synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02294",
+   "smiles": "O=C(OCCN1CCCC1)c1ccccc1Nc1ccnc2cc(C(F)(F)F)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "florifenine",
+   "phase": "Preclinical",
+   "moa": "anti-inflammatory agent",
+   "target": ""
+  },
+  {
+   "name": "rep02295",
+   "smiles": "Cn1cc([S@@](C)=O)c(=O)c2ccc(F)cc21",
+   "denovo_promise": 1.0,
+   "drug": "flosequinan",
+   "phase": "Withdrawn",
+   "moa": "phosphodiesterase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02296",
+   "smiles": "O=c1[nH]c(=O)n([C@H]2C[C@H](O)[C@@H](CO)O2)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "floxuridine",
+   "phase": "Launched",
+   "moa": "DNA synthesis inhibitor",
+   "target": "TYMS"
+  },
+  {
+   "name": "rep02297",
+   "smiles": "CCCNc1nc(Nc2ccc(C#N)cc2)ncc1C#CCCCNC(=O)[C@H](C)N(C)C(=O)/C=C/CN(C)C",
+   "denovo_promise": 1.0,
+   "drug": "FLT3-IN-1",
+   "phase": "Preclinical",
+   "moa": "FLT3 inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02298",
+   "smiles": "COC(=O)Nc1nc2ccc(C(=O)c3ccc(F)cc3)cc2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "flubendazole",
+   "phase": "Launched",
+   "moa": "tubulin polymerization inhibitor",
+   "target": "TUBB"
+  },
+  {
+   "name": "rep02299",
+   "smiles": "Cc1onc(-c2c(F)cccc2Cl)c1C(=O)N[C@@H]1C(=O)N2[C@@H]1SC(C)(C)[C@@H]2C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "flucloxacillin",
+   "phase": "Launched",
+   "moa": "bacterial cell wall synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02300",
+   "smiles": "OC(Cn1cncn1)(Cn1cncn1)c1ccc(F)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "fluconazole",
+   "phase": "Launched",
+   "moa": "sterol demethylase inhibitor",
+   "target": "CYP51A1"
+  },
+  {
+   "name": "rep02301",
+   "smiles": "Nc1nc(F)nc2c1ncn2[C@@H]1O[C@H](CO)[C@@H](O)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "fludarabine",
+   "phase": "Launched",
+   "moa": "ribonucleotide reductase inhibitor",
+   "target": "ADA|DCK|POLA1|RRM1|RRM2"
+  },
+  {
+   "name": "rep02302",
+   "smiles": "Nc1nc(F)nc2c1ncn2[C@@H]1O[C@H](COP(=O)(O)O)[C@@H](O)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "fludarabine-phosphate",
+   "phase": "Launched",
+   "moa": "ribonucleotide reductase inhibitor",
+   "target": "POLA1|POLD1|POLE|RRM1|RRM2|RRM2B"
+  },
+  {
+   "name": "rep02303",
+   "smiles": "CC(=O)OCC(=O)[C@@]1(O)CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@@]3(F)[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "fludrocortisone-acetate",
+   "phase": "Launched",
+   "moa": "",
+   "target": "NR3C2"
+  },
+  {
+   "name": "rep02304",
+   "smiles": "CC1(C)O[C@@H]2C[C@H]3[C@@H]4C[C@H](F)C5=CC(=O)CC[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+   "denovo_promise": 1.0,
+   "drug": "fludroxycortide",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|SERPINA6"
+  },
+  {
+   "name": "rep02305",
+   "smiles": "O=C(O)c1ccccc1Nc1cccc(C(F)(F)F)c1",
+   "denovo_promise": 1.0,
+   "drug": "flufenamic-acid",
+   "phase": "Preclinical",
+   "moa": "chloride channel blocker",
+   "target": "AKR1C3|ANO1|AR|GJA1|GJA10|GJA3|GJA4|GJA5|GJA8|GJA9|GJB1|GJB2|GJB3|GJB4|GJB5|GJB6|GJB7|GJC1|GJC2|GJC3|GJD2|GJD3|GJD4|GJE1|PANX1|PANX2|PANX3|PKD2L1|PTGS1|PTGS2|TRPC5|TRPM2|TRPM5"
+  },
+  {
+   "name": "rep02306",
+   "smiles": "Cc1ncc(NC(=O)c2ccc(CN3CCN(C)CC3)c(C(F)(F)F)c2)cc1Nc1nccc(-c2cccnc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "flumatinib",
+   "phase": "Phase 3",
+   "moa": "Bcr-Abl kinase inhibitor",
+   "target": "ABL1|PDGFRB"
+  },
+  {
+   "name": "rep02307",
+   "smiles": "CCOC(=O)c1ncn2c1CN(C)C(=O)c1cc(F)ccc1-2",
+   "denovo_promise": 1.0,
+   "drug": "flumazenil",
+   "phase": "Launched",
+   "moa": "benzodiazepine receptor antagonist",
+   "target": "GABRA1|GABRA2|GABRA3|GABRA4|GABRA5|GABRA6|GABRB1|GABRB2|GABRB3|GABRD|GABRE|GABRG1|GABRG2|GABRG3|GABRP|GABRQ"
+  },
+  {
+   "name": "rep02308",
+   "smiles": "CC[C@@](O)(c1ccccc1)c1cccc(C(F)(F)F)c1",
+   "denovo_promise": 1.0,
+   "drug": "flumecinol",
+   "phase": "Launched",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02309",
+   "smiles": "C[C@H]1CCc2cc(F)cc3c(=O)c(C(=O)O)cn1c23",
+   "denovo_promise": 1.0,
+   "drug": "flumequine",
+   "phase": "Launched",
+   "moa": "topoisomerase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02310",
+   "smiles": "C[C@@H]1C[C@H]2[C@@H]3C[C@H](F)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+   "denovo_promise": 1.0,
+   "drug": "flumethasone",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|PLA2G1B"
+  },
+  {
+   "name": "rep02311",
+   "smiles": "C[C@@H]1C[C@H]2[C@@H]3C[C@H](F)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)COC(=O)C(C)(C)C",
+   "denovo_promise": 1.0,
+   "drug": "flumethasone-pivalate",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|SERPINA6"
+  },
+  {
+   "name": "rep02312",
+   "smiles": "FC(F)(F)c1cccc([C@H]2CNCCO2)c1",
+   "denovo_promise": 1.0,
+   "drug": "flumexadol",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02313",
+   "smiles": "Fc1ccc(C(c2ccc(F)cc2)N2CCN(C/C=C/c3ccccc3)CC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "flunarizine",
+   "phase": "Launched",
+   "moa": "calcium channel blocker",
+   "target": "CACNA1G|CACNA1H|CACNA1I|CALM1|HRH1"
+  },
+  {
+   "name": "rep02314",
+   "smiles": "CC1(C)O[C@@H]2C[C@H]3[C@@H]4C[C@H](F)C5=CC(=O)C=C[C@]5(C)[C@H]4[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+   "denovo_promise": 1.0,
+   "drug": "flunisolide",
+   "phase": "Launched",
+   "moa": "cytochrome P450 inhibitor",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02315",
+   "smiles": "Cc1c(Nc2ncccc2C(=O)O)cccc1C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "flunixin-meglumin",
+   "phase": "Launched",
+   "moa": "prostanoid receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02316",
+   "smiles": "CC1(C)O[C@@H]2C[C@H]3[C@@H]4C[C@H](F)C5=CC(=O)C=C[C@]5(C)[C@@]4(F)[C@@H](O)C[C@]3(C)[C@]2(C(=O)CO)O1",
+   "denovo_promise": 1.0,
+   "drug": "fluocinolone-acetonide",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|SERPINA6"
+  },
+  {
+   "name": "rep02317",
+   "smiles": "CC(=O)OCC(=O)[C@@]12OC(C)(C)O[C@@H]1C[C@H]1[C@@H]3C[C@H](F)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@@]12C",
+   "denovo_promise": 1.0,
+   "drug": "fluocinonide",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|SERPINA6|SMO"
+  },
+  {
+   "name": "rep02318",
+   "smiles": "O=C1OC2(c3ccc(O)cc3Oc3cc(O)ccc32)c2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "fluorescein",
+   "phase": "Launched",
+   "moa": "",
+   "target": "SLC22A6"
+  },
+  {
+   "name": "rep02319",
+   "smiles": "CC(=O)[C@@]1(O)CC[C@H]2[C@@H]3C[C@H](C)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "fluorometholone",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02320",
+   "smiles": "CC(=O)O[C@]1(C(C)=O)CC[C@H]2[C@@H]3C[C@H](C)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "fluorometholone-acetate",
+   "phase": "Launched",
+   "moa": "",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02321",
+   "smiles": "CNCCC(Oc1ccc(C(F)(F)F)cc1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fluoxetine",
+   "phase": "Launched",
+   "moa": "selective serotonin reuptake inhibitor (SSRI)",
+   "target": "ANO1|HTR2B|SLC6A4"
+  },
+  {
+   "name": "rep02322",
+   "smiles": "OCCN1CCN(CC/C=C2/c3ccccc3Sc3ccc(C(F)(F)F)cc32)CC1",
+   "denovo_promise": 1.0,
+   "drug": "flupentixol",
+   "phase": "Launched",
+   "moa": "dopamine receptor antagonist",
+   "target": "ADRA1A|CHRM1|DRD1|DRD2|DRD3|DRD5|HTR2A"
+  },
+  {
+   "name": "rep02323",
+   "smiles": "OCCN1CCN(CCCN2c3ccccc3Sc3ccc(C(F)(F)F)cc32)CC1",
+   "denovo_promise": 1.0,
+   "drug": "fluphenazine",
+   "phase": "Launched",
+   "moa": "dopamine receptor antagonist",
+   "target": "CALM1|DRD1|DRD2|DRD5|HRH1|HTR2A|HTR6|HTR7"
+  },
+  {
+   "name": "rep02324",
+   "smiles": "CCCCCCCCCC(=O)OCCN1CCN(CCCN2c3ccccc3Sc3ccc(C(F)(F)F)cc32)CC1",
+   "denovo_promise": 1.0,
+   "drug": "fluphenazine-decanoate",
+   "phase": "Launched",
+   "moa": "dopamine receptor antagonist",
+   "target": "DRD2|HTR1B|HTR4"
+  },
+  {
+   "name": "rep02325",
+   "smiles": "CCOC(=O)Nc1ccc(NCc2ccc(F)cc2)nc1N",
+   "denovo_promise": 1.0,
+   "drug": "flupirtine",
+   "phase": "Launched",
+   "moa": "glutamate receptor antagonist",
+   "target": "ADRA2A|KCNQ1|KCNQ2"
+  },
+  {
+   "name": "rep02326",
+   "smiles": "NC(=O)NCCN1CCN(c2cccc(C(F)(F)F)c2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "fluprazine",
+   "phase": "Phase 1",
+   "moa": "serotonin receptor agonist",
+   "target": "HTR1A|HTR1B"
+  },
+  {
+   "name": "rep02327",
+   "smiles": "Cc1cc(C2=NO[C@](c3cc(Cl)cc(Cl)c3)(C(F)(F)F)C2)ccc1C(=O)NCC(=O)NCC(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "fluralaner",
+   "phase": "Preclinical",
+   "moa": "GABA receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02328",
+   "smiles": "C[C@@H](C(=O)O)c1ccc(-c2ccccc2)c(F)c1",
+   "denovo_promise": 1.0,
+   "drug": "flurbiprofen-(+/-)",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02329",
+   "smiles": "C[C@H](C(=O)O)c1ccc(-c2ccccc2)c(F)c1",
+   "denovo_promise": 1.0,
+   "drug": "flurbiprofen-(S)-(+)",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02330",
+   "smiles": "CC(=O)O[C@@H](C)OC(=O)[C@H](C)c1ccc(-c2ccccc2)c(F)c1",
+   "denovo_promise": 1.0,
+   "drug": "flurbiprofen-axetil",
+   "phase": "Launched",
+   "moa": "analgesic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02331",
+   "smiles": "NP(N)(=O)NC(=O)c1ccc(F)cc1",
+   "denovo_promise": 1.0,
+   "drug": "flurofamide",
+   "phase": "Preclinical",
+   "moa": "urease inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02332",
+   "smiles": "FC(F)(F)COCC(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "flurothyl",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02333",
+   "smiles": "O=C1NCN(c2ccccc2)C12CCN(CCCC(c1ccc(F)cc1)c1ccc(F)cc1)CC2",
+   "denovo_promise": 1.0,
+   "drug": "fluspirilene",
+   "phase": "Launched",
+   "moa": "dopamine receptor antagonist",
+   "target": "CACNG1|DRD2|HRH1|HTR1A|HTR1D|HTR1E|HTR2A"
+  },
+  {
+   "name": "rep02334",
+   "smiles": "CC(C)C(=O)Nc1ccc([N+](=O)[O-])c(C(F)(F)F)c1",
+   "denovo_promise": 1.0,
+   "drug": "flutamide",
+   "phase": "Launched",
+   "moa": "androgen receptor antagonist",
+   "target": "AHR|AR"
+  },
+  {
+   "name": "rep02335",
+   "smiles": "CCC(=O)O[C@]1(C(=O)SCF)[C@H](C)C[C@H]2[C@@H]3C[C@H](F)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "fluticasone-propionate",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|NR3C2|PGR|PLA2G4A"
+  },
+  {
+   "name": "rep02336",
+   "smiles": "Fc1ccc(C(c2ccccc2)(c2ccccc2F)n2ccnc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "flutrimazole",
+   "phase": "Launched",
+   "moa": "sterol demethylase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02337",
+   "smiles": "CC(C)n1c(/C=C/[C@@H](O)C[C@@H](O)CC(=O)O)c(-c2ccc(F)cc2)c2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "fluvastatin",
+   "phase": "Launched",
+   "moa": "HMGCR inhibitor",
+   "target": "HMGCR"
+  },
+  {
+   "name": "rep02338",
+   "smiles": "COCCCC/C(=N\\OCCN)c1ccc(C(F)(F)F)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fluvoxamine",
+   "phase": "Launched",
+   "moa": "selective serotonin reuptake inhibitor (SSRI)",
+   "target": "SLC6A4"
+  },
+  {
+   "name": "rep02339",
+   "smiles": "CC(C)C[C@H](NC(=O)OCC1c2ccccc2-c2ccccc21)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "fmoc-L-leucine",
+   "phase": "Phase 2",
+   "moa": "PPAR receptor agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02340",
+   "smiles": "CN1CCN(Cc2ccc(NC(=O)c3[nH]ncc3Nc3ncnc4[nH]ccc34)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "FN-1501",
+   "phase": "Phase 1",
+   "moa": "tyrosine kinase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02341",
+   "smiles": "Nc1nc(=O)c2nc(CNc3ccc(C(=O)N[C@@H](CCC(=O)O)C(=O)O)cc3)cnc2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "folic-acid",
+   "phase": "Launched",
+   "moa": "folate receptor ligand",
+   "target": "FOLR2|FOLR3|SLC19A1|SLC46A1"
+  },
+  {
+   "name": "rep02342",
+   "smiles": "c1ccc(OCc2ccc(CCCN3CCOCC3)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fomocaine",
+   "phase": "Launched",
+   "moa": "voltage-gated sodium channel modulator",
+   "target": ""
+  },
+  {
+   "name": "rep02343",
+   "smiles": "C[C@]12CCC(=O)C(=O)[C@@H]1CC[C@@H]1[C@@H]2CC[C@]2(C)C(=O)CC[C@@H]12",
+   "denovo_promise": 1.0,
+   "drug": "formestane",
+   "phase": "Launched",
+   "moa": "aromatase inhibitor",
+   "target": "CYP19A1"
+  },
+  {
+   "name": "rep02344",
+   "smiles": "COc1ccc(-c2coc3cc(O)ccc3c2=O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "formononetin",
+   "phase": "Preclinical",
+   "moa": "alcohol dehydrogenase inhibitor",
+   "target": "ADH1C|SLC5A2"
+  },
+  {
+   "name": "rep02345",
+   "smiles": "COc1ccc(C[C@H](C)NC[C@@H](O)c2ccc(O)c(NC=O)c2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "formoterol",
+   "phase": "Launched",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRB2"
+  },
+  {
+   "name": "rep02346",
+   "smiles": "O=c1nc[nH]c2c([C@@H]3N[C@H](CO)[C@@H](O)[C@H]3O)c[nH]c12",
+   "denovo_promise": 1.0,
+   "drug": "forodesine",
+   "phase": "Launched",
+   "moa": "purinergic receptor antagonist",
+   "target": "PNP"
+  },
+  {
+   "name": "rep02347",
+   "smiles": "CC(C)c1cc(C(C)C)c(-c2csc(N(CCN(C)C)Cc3cccnc3)n2)c(C(C)C)c1",
+   "denovo_promise": 1.0,
+   "drug": "foropafant",
+   "phase": "Phase 3",
+   "moa": "platelet activating factor receptor antagonist",
+   "target": "PTAFR"
+  },
+  {
+   "name": "rep02348",
+   "smiles": "CC(C)CN(C[C@@H](OP(=O)(O)O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CCOC1)S(=O)(=O)c1ccc(N)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fosamprenavir",
+   "phase": "Launched",
+   "moa": "HIV protease inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02349",
+   "smiles": "COc1ccc(/C=C\\c2cc(OC)c(OC)c(OC)c2)cc1OP(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "fosbretabulin",
+   "phase": "Phase 3",
+   "moa": "tubulin polymerization inhibitor|VE-cadherin antagonist",
+   "target": "CDH5"
+  },
+  {
+   "name": "rep02350",
+   "smiles": "CC/C(=C(/CC)c1ccc(OP(=O)(O)O)cc1)c1ccc(OP(=O)(O)O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "fosfestrol",
+   "phase": "Launched",
+   "moa": "synthetic estrogen",
+   "target": "ESR1|ESR2"
+  },
+  {
+   "name": "rep02351",
+   "smiles": "O=P(O)(O)OC(Cn1cncn1)(Cn1cncn1)c1ccc(F)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "fosfluconazole",
+   "phase": "Preclinical",
+   "moa": "other antifungal",
+   "target": ""
+  },
+  {
+   "name": "rep02352",
+   "smiles": "O=C(O)c1ccccc1OP(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "fosfosal",
+   "phase": "Launched",
+   "moa": "phosphodiesterase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02353",
+   "smiles": "O=C(COP(=O)(O)O)[C@@H](O)[C@H](O)[C@H](O)COP(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "fosfructose",
+   "phase": "Phase 3",
+   "moa": "fructose diphosphate stimulant",
+   "target": ""
+  },
+  {
+   "name": "rep02354",
+   "smiles": "CCC(=O)O[C@@H](OP(=O)(CCCCc1ccccc1)CC(=O)N1C[C@H](C2CCCCC2)C[C@H]1C(=O)O)C(C)C",
+   "denovo_promise": 1.0,
+   "drug": "fosinopril",
+   "phase": "Launched",
+   "moa": "angiotensin converting enzyme inhibitor",
+   "target": "ACE"
+  },
+  {
+   "name": "rep02355",
+   "smiles": "O=C(O)[C@@H]1C[C@@H](C2CCCCC2)CN1C(=O)C[P@@](=O)(O)CCCCc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "fosinoprilat",
+   "phase": "Launched",
+   "moa": "angiotensin converting enzyme inhibitor",
+   "target": "ACE"
+  },
+  {
+   "name": "rep02356",
+   "smiles": "O=C1NC(c2ccccc2)(c2ccccc2)C(=O)N1COP(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "fosphenytoin",
+   "phase": "Launched",
+   "moa": "sodium channel blocker",
+   "target": "SCN5A"
+  },
+  {
+   "name": "rep02357",
+   "smiles": "COc1cc(Nc2ncc(F)c(Nc3ccc4c(n3)N(COP(=O)(O)O)C(=O)C(C)(C)O4)n2)cc(OC)c1OC",
+   "denovo_promise": 1.0,
+   "drug": "fostamatinib",
+   "phase": "Launched",
+   "moa": "SYK inhibitor",
+   "target": "SYK"
+  },
+  {
+   "name": "rep02358",
+   "smiles": "COc1cnc(-n2cnc(C)n2)c2c1c(C(=O)C(=O)N1CCN(C(=O)c3ccccc3)CC1)cn2COP(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "fostemsavir",
+   "phase": "Phase 3",
+   "moa": "antiviral",
+   "target": ""
+  },
+  {
+   "name": "rep02359",
+   "smiles": "CCOP(=O)(OCC)[C@@H](C)NC(=O)N(CCCl)[NH2+][O-]",
+   "denovo_promise": 1.0,
+   "drug": "fotemustine",
+   "phase": "Launched",
+   "moa": "thioredoxin inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02360",
+   "smiles": "NC(=S)N/N=C/c1coc2ccccc2c1=O",
+   "denovo_promise": 1.0,
+   "drug": "FPA-124",
+   "phase": "Preclinical",
+   "moa": "AKT inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02361",
+   "smiles": "Cc1ccc(Cl)cc1N(CC(=O)Nc1c(F)cccc1F)S(C)(=O)=O",
+   "denovo_promise": 1.0,
+   "drug": "FPH1-(BRD-6125)",
+   "phase": "Preclinical",
+   "moa": "hepatocyte function enhancer",
+   "target": ""
+  },
+  {
+   "name": "rep02362",
+   "smiles": "CC(N)(Cc1ccccc1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "FPL-12495",
+   "phase": "Phase 1",
+   "moa": "glutamate receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02363",
+   "smiles": "CCCc1c(OC[C@@H](O)COc2ccc3c(=O)cc(C(=O)O)oc3c2CCC)ccc(C(C)=O)c1O",
+   "denovo_promise": 1.0,
+   "drug": "FPL-55712",
+   "phase": "Phase 1",
+   "moa": "leukotriene receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02364",
+   "smiles": "COc1ccc(Nc2ccn(-c3ccccc3)n2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "FPL-62064",
+   "phase": "Phase 2",
+   "moa": "cyclooxygenase inhibitor|lipoxygenase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02365",
+   "smiles": "COC(=O)c1c(C)[nH]c(C)c1C(=O)c1ccccc1Cc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "FPL-64176",
+   "phase": "Preclinical",
+   "moa": "calcium channel activator",
+   "target": "CACNA1C|CACNA1S"
+  },
+  {
+   "name": "rep02366",
+   "smiles": "O=C(c1ccc(Cl)cc1)N(Cc1ccccc1)C1CCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "FPS-ZM1",
+   "phase": "Preclinical",
+   "moa": "RAGE receptor antagonist",
+   "target": "AGER"
+  },
+  {
+   "name": "rep02367",
+   "smiles": "COc1ccc(-c2nc(C(=O)N3CCN(C)CC3)sc2-c2ccc(OC)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "FR-122047",
+   "phase": "Preclinical",
+   "moa": "cyclooxygenase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02368",
+   "smiles": "Nc1[nH]nc2nnc(-c3c(-c4ccccc4)nn4ccccc34)cc12",
+   "denovo_promise": 1.0,
+   "drug": "FR-180204",
+   "phase": "Preclinical",
+   "moa": "MAP kinase inhibitor",
+   "target": "MAPK1|MAPK3"
+  },
+  {
+   "name": "rep02369",
+   "smiles": "CCn1c(=O)c(-c2ccc(Cl)cc2Cl)cc2cnc(Nc3ccc(N4CCNCC4)c(F)c3)nc21",
+   "denovo_promise": 1.0,
+   "drug": "FRAX486",
+   "phase": "Preclinical",
+   "moa": "serine/threonine kinase inhibitor",
+   "target": "PAK1|PAK2|PAK3|PAK4"
+  },
+  {
+   "name": "rep02370",
+   "smiles": "COc1ccc2nc(NC(=O)Nc3ccccc3)sc2c1",
+   "denovo_promise": 1.0,
+   "drug": "frentizole",
+   "phase": "Phase 1",
+   "moa": "immunosuppressant",
+   "target": ""
+  },
+  {
+   "name": "rep02371",
+   "smiles": "CC(C)[C@@H](NC(=O)Cn1c(-c2ccccc2)ncc(N)c1=O)[C@@H](O)c1nnc(C(C)(C)C)o1",
+   "denovo_promise": 1.0,
+   "drug": "freselestat",
+   "phase": "Preclinical",
+   "moa": "elastase inhibitor",
+   "target": "CELA1|ELANE"
+  },
+  {
+   "name": "rep02372",
+   "smiles": "CN[C@@H]1CCc2[nH]c3ccc(C(N)=O)cc3c2C1",
+   "denovo_promise": 1.0,
+   "drug": "frovatriptan",
+   "phase": "Launched",
+   "moa": "serotonin receptor agonist",
+   "target": "HTR1A|HTR1B|HTR1D"
+  },
+  {
+   "name": "rep02373",
+   "smiles": "CNC(=O)c1c(C)oc2cc(Oc3ncnc4cc(OC)c(OC)cc34)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "fruquintinib",
+   "phase": "Launched",
+   "moa": "VEGFR inhibitor",
+   "target": "KDR"
+  },
+  {
+   "name": "rep02374",
+   "smiles": "C#CCOc1ccc(/C=C/C(=O)Nc2ccccc2C(=O)O)cc1OC",
+   "denovo_promise": 1.0,
+   "drug": "FT011",
+   "phase": "Preclinical",
+   "moa": "TGF beta receptor inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02375",
+   "smiles": "Cc1cccc(C)c1NC(=O)c1ccccc1C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "ftaxilide",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02376",
+   "smiles": "O=c1[nH]c(=O)n([C@H]2CCCO2)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "ftorafur",
+   "phase": "Launched",
+   "moa": "thymidylate synthase inhibitor",
+   "target": "TYMS"
+  },
+  {
+   "name": "rep02377",
+   "smiles": "N[C@@H](CSCCCO)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "fudosteine",
+   "phase": "Launched",
+   "moa": "mucolytic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02378",
+   "smiles": "CO[C@H]1[C@@H]([C@@]2(C)O[C@@H]2CC=C(C)C)[C@]2(CC[C@H]1OC(=O)/C=C/C=C/C=C/C=C/C(=O)O)CO2",
+   "denovo_promise": 1.0,
+   "drug": "fumagillin",
+   "phase": "Launched",
+   "moa": "methionine aminopeptidase inhibitor",
+   "target": "METAP2"
+  },
+  {
+   "name": "rep02379",
+   "smiles": "O=C1N(Cc2ccc(C(F)(F)F)o2)c2ccccc2[C@]12COc1cc3c(cc12)OCO3",
+   "denovo_promise": 1.0,
+   "drug": "funapide",
+   "phase": "Preclinical",
+   "moa": "sodium channel blocker",
+   "target": ""
+  },
+  {
+   "name": "rep02380",
+   "smiles": "O=C1CN(/N=C/C=C/c2ccc([N+](=O)[O-])o2)C(=O)N1",
+   "denovo_promise": 1.0,
+   "drug": "furagin",
+   "phase": "Preclinical",
+   "moa": "antibacterial",
+   "target": ""
+  },
+  {
+   "name": "rep02381",
+   "smiles": "O=C1O[C@H](CN2CCOCC2)CN1/N=C/c1ccc([N+](=O)[O-])o1",
+   "denovo_promise": 1.0,
+   "drug": "furaltadone",
+   "phase": "Launched",
+   "moa": "bacterial DNA inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02382",
+   "smiles": "N=C(N)c1ccc(-c2ccc(-c3ccc(C(=N)N)cc3)o2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "furamidine",
+   "phase": "Preclinical",
+   "moa": "protein arginine N-methyltransferase inhibitor",
+   "target": "PRMT1"
+  },
+  {
+   "name": "rep02383",
+   "smiles": "O=C1OCCN1/N=C/c1ccc([N+](=O)[O-])o1",
+   "denovo_promise": 1.0,
+   "drug": "furazolidone",
+   "phase": "Launched",
+   "moa": "bacterial DNA inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02384",
+   "smiles": "O=C(O)c1cc2cc(Cc3cccnc3)ccc2o1",
+   "denovo_promise": 1.0,
+   "drug": "furegrelate",
+   "phase": "Phase 1",
+   "moa": "thromboxane synthase inhibitor",
+   "target": "TBXAS1"
+  },
+  {
+   "name": "rep02385",
+   "smiles": "NS(=O)(=O)c1cc(C(=O)O)c(NCc2ccco2)cc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "furosemide",
+   "phase": "Launched",
+   "moa": "diuretic",
+   "target": "CA2|GPR35|SLC12A1|SLC12A2"
+  },
+  {
+   "name": "rep02386",
+   "smiles": "C/C(=C(/CCO)SSC[C@H]1CCCO1)N(C=O)Cc1cnc(C)nc1N",
+   "denovo_promise": 1.0,
+   "drug": "fursultiamine",
+   "phase": "Launched",
+   "moa": "vitamin B",
+   "target": ""
+  },
+  {
+   "name": "rep02387",
+   "smiles": "O=[N+]([O-])/C(Br)=C\\c1ccc(Br)o1",
+   "denovo_promise": 1.0,
+   "drug": "furvina",
+   "phase": "Preclinical",
+   "moa": "quorum sensing signaling inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02388",
+   "smiles": "CC(=O)O[C@H]1C[C@@]2(C)[C@@H](C[C@@H](O)[C@H]3[C@@]4(C)CC[C@@H](O)[C@@H](C)[C@@H]4CC[C@@]32C)/C1=C(\\CCC=C(C)C)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "fusidic-acid",
+   "phase": "Launched",
+   "moa": "bacterial 30S ribosomal subunit inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02389",
+   "smiles": "C=CC(=O)N1CC[C@H](n2nc(C#Cc3cc(OC)cc(OC)c3)c3c(N)ncnc32)C1",
+   "denovo_promise": 1.0,
+   "drug": "futibatinib",
+   "phase": "Phase 3",
+   "moa": "FGFR inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02390",
+   "smiles": "CC(=O)c1ccc2c(c1)[C@@H]1C=CC[C@@H]1[C@H](c1cc3c(cc1Br)OCO3)N2",
+   "denovo_promise": 1.0,
+   "drug": "G-1",
+   "phase": "Preclinical",
+   "moa": "G protein-coupled receptor agonist",
+   "target": "GPER1"
+  },
+  {
+   "name": "rep02391",
+   "smiles": "Brc1cc2c(cc1[C@H]1Nc3ccccc3[C@H]3C=CC[C@H]31)OCO2",
+   "denovo_promise": 1.0,
+   "drug": "G-15",
+   "phase": "Preclinical",
+   "moa": "estrogen receptor antagonist",
+   "target": "GPER1"
+  },
+  {
+   "name": "rep02392",
+   "smiles": "CN1CCC(Nc2nc(Nc3ccc(Oc4ccccc4)cc3)c3c(O)ncc(Br)c3n2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "G-749",
+   "phase": "Preclinical",
+   "moa": "tyrosine kinase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02393",
+   "smiles": "C=C1CC/C=C(\\C)CC[C@@H]2[C@@H]1CC2(C)C",
+   "denovo_promise": 1.0,
+   "drug": "g-caryophyllene",
+   "phase": "Preclinical",
+   "moa": "acetylcholinesterase inhibitor",
+   "target": "ACHE"
+  },
+  {
+   "name": "rep02394",
+   "smiles": "CS(=O)(=O)c1ccc(-c2nnc(/C=C/c3nnc(-c4ccc(C#N)cc4)o3)n2-c2ccccc2Cl)nc1",
+   "denovo_promise": 1.0,
+   "drug": "G007-LK",
+   "phase": "Preclinical",
+   "moa": "tankyrase inhibitor",
+   "target": "TNKS|TNKS2"
+  },
+  {
+   "name": "rep02395",
+   "smiles": "CCCCC/C=C\\C/C=C\\CCCCCCCC(=O)NCCCC(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GABA-linoleamide",
+   "phase": "Phase 2",
+   "moa": "benzodiazepine receptor agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02396",
+   "smiles": "NCC1(CC(=O)O)CCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "gabapentin",
+   "phase": "Launched",
+   "moa": "calcium channel blocker",
+   "target": "ADORA1|CACNA1A|CACNA1B|CACNA1C|CACNA1D|CACNA1E|CACNA1F|CACNA1G|CACNA1H|CACNA1I|CACNA1S|CACNA2D1|CACNA2D2|CACNA2D3|CACNA2D4|CACNB1|CACNB2|CACNB3|CACNB4|CACNG1|CACNG2|CACNG3|CACNG4|CACNG5|CACNG6|CACNG7|CACNG8|GRIN1|GRIN2A|GRIN2B|GRIN2C|GRIN2D|GRIN3A|GRIN3B"
+  },
+  {
+   "name": "rep02397",
+   "smiles": "CC(C)C(=O)O[C@@H](C)OC(=O)NCC1(CC(=O)O)CCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "gabapentin-enacarbil",
+   "phase": "Launched",
+   "moa": "adrenergic receptor agonist",
+   "target": "CACNA1G"
+  },
+  {
+   "name": "rep02398",
+   "smiles": "COc1ccc(-c2ccc(=N)n(CCCC(=O)O)n2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "gabazine",
+   "phase": "Preclinical",
+   "moa": "GABA receptor antagonist",
+   "target": "GABRA1|GABRA2|GABRA3|GABRA4|GABRA5|GABRA6|GABRG2"
+  },
+  {
+   "name": "rep02399",
+   "smiles": "CCOC(=O)c1ccc(OC(=O)CCCCCNC(=N)N)cc1",
+   "denovo_promise": 1.0,
+   "drug": "gabexate",
+   "phase": "Launched",
+   "moa": "serine protease inhibitor",
+   "target": "PRSS1|TPSAB1"
+  },
+  {
+   "name": "rep02400",
+   "smiles": "O=C(O)CN1CCN(CC(=O)O)CCN(CC(=O)O)CCN(CC(=O)O)CC1",
+   "denovo_promise": 1.0,
+   "drug": "gadoterate-meglumine",
+   "phase": "Launched",
+   "moa": "radiopaque medium",
+   "target": ""
+  },
+  {
+   "name": "rep02401",
+   "smiles": "CCCNc1nc(NCCC)nc(N(C)OC)n1",
+   "denovo_promise": 1.0,
+   "drug": "GAL-021",
+   "phase": "Preclinical",
+   "moa": "calcium channel blocker",
+   "target": ""
+  },
+  {
+   "name": "rep02402",
+   "smiles": "COc1ccc2c3c1O[C@H]1C[C@@H](O)C=C[C@@]31CCN(C)C2",
+   "denovo_promise": 1.0,
+   "drug": "galantamine",
+   "phase": "Launched",
+   "moa": "acetylcholinesterase inhibitor",
+   "target": "ACHE|BCHE|CHRNA1|CHRNA10|CHRNA2|CHRNA3|CHRNA4|CHRNA5|CHRNA6|CHRNA7|CHRNA9|CHRNB1|CHRNB2|CHRNB3|CHRNB4|CHRND|CHRNE|CHRNG"
+  },
+  {
+   "name": "rep02403",
+   "smiles": "C[C@]12CC[C@H](O)CC1=CC[C@@H]1[C@@H]2CC[C@]2(C)C(n3cnc4ccccc43)=CC[C@@H]12",
+   "denovo_promise": 1.0,
+   "drug": "galeterone",
+   "phase": "Phase 3",
+   "moa": "androgen receptor modulator",
+   "target": "AR|CYP17A1"
+  },
+  {
+   "name": "rep02404",
+   "smiles": "Nc1ncnc2c([C@@H]3N[C@H](CO)[C@@H](O)[C@H]3O)c[nH]c12",
+   "denovo_promise": 1.0,
+   "drug": "galidesivir",
+   "phase": "Phase 1",
+   "moa": "antiviral",
+   "target": ""
+  },
+  {
+   "name": "rep02405",
+   "smiles": "CC[N+](CC)(CC)CCOc1cccc(OCC[N+](CC)(CC)CC)c1OCC[N+](CC)(CC)CC",
+   "denovo_promise": 1.0,
+   "drug": "gallamine-triethiodide",
+   "phase": "Launched",
+   "moa": "acetylcholine receptor antagonist",
+   "target": "CHRM2|CHRNA1"
+  },
+  {
+   "name": "rep02406",
+   "smiles": "O=C(O)c1cc(O)c(O)c(O)c1",
+   "denovo_promise": 1.0,
+   "drug": "gallic-acid",
+   "phase": "Preclinical",
+   "moa": "beta amyloid protein neurotoxicity inhibitor|PPAR receptor agonist",
+   "target": "CA1|CA12|CA14|CA2|CA4|CA6|CA9|SELP"
+  },
+  {
+   "name": "rep02407",
+   "smiles": "COc1ccc(CCN(C)CCCC(C#N)(c2cc(OC)c(OC)c(OC)c2)C(C)C)cc1OC",
+   "denovo_promise": 1.0,
+   "drug": "gallopamil",
+   "phase": "Launched",
+   "moa": "L-type calcium channel blocker",
+   "target": "ATP2A2"
+  },
+  {
+   "name": "rep02408",
+   "smiles": "CCCCC/C=C\\C/C=C\\C/C=C\\CCCCC(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "gamma-linolenic-acid",
+   "phase": "Phase 2",
+   "moa": "cyclooxygenase inhibitor|prostanoid receptor agonist",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02409",
+   "smiles": "CC(=O)[C@H]1CC[C@H]2[C@@H]3CC[C@H]4C[C@](C)(O)CC[C@]4(C)[C@H]3CC[C@]12C",
+   "denovo_promise": 1.0,
+   "drug": "ganaxolone",
+   "phase": "Phase 3",
+   "moa": "GABA receptor modulator",
+   "target": "GABRA1|GABRA2|GABRA3|GABRA4|GABRA5|GABRA6"
+  },
+  {
+   "name": "rep02410",
+   "smiles": "Nc1nc(=O)c2ncn(COC(CO)CO)c2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "ganciclovir",
+   "phase": "Launched",
+   "moa": "DNA polymerase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02411",
+   "smiles": "CC(C)c1cc(-c2n[nH]c(=O)n2-c2ccc3c(ccn3C)c2)c(O)cc1O",
+   "denovo_promise": 1.0,
+   "drug": "ganetespib",
+   "phase": "Phase 3",
+   "moa": "HSP inhibitor",
+   "target": "HSP90AA1"
+  },
+  {
+   "name": "rep02412",
+   "smiles": "C[C@H](CC(=O)C[C@@H](C)[C@H]1C[C@H](O)[C@@]2(C)C3=C(C(=O)C[C@]12C)[C@@]1(C)CCC(=O)C(C)(C)[C@@H]1C[C@@H]3O)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "ganoderic-acid-a",
+   "phase": "Preclinical",
+   "moa": "JAK inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02413",
+   "smiles": "c1cc(-c2sc(-c3ccncc3)c(-c3ccncc3)c2-c2ccncc2)ccn1",
+   "denovo_promise": 1.0,
+   "drug": "GANT-58",
+   "phase": "Preclinical",
+   "moa": "GLI antagonist",
+   "target": "GLI1"
+  },
+  {
+   "name": "rep02414",
+   "smiles": "CN(C)c1ccccc1CN1CCCN(Cc2ccccc2N(C)C)C1c1ccncc1",
+   "denovo_promise": 1.0,
+   "drug": "GANT-61",
+   "phase": "Preclinical",
+   "moa": "GLI antagonist",
+   "target": "GLI1|GLI2"
+  },
+  {
+   "name": "rep02415",
+   "smiles": "C[C@H]1NCc2cc(-c3ccc4c(=O)c(C(=O)O)cn(C5CC5)c4c3OC(F)F)ccc21",
+   "denovo_promise": 1.0,
+   "drug": "garenoxacin",
+   "phase": "Launched",
+   "moa": "topoisomerase inhibitor",
+   "target": "TOP2A"
+  },
+  {
+   "name": "rep02416",
+   "smiles": "OCc1ccc(O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "gastrodin",
+   "phase": "Phase 2",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02417",
+   "smiles": "COc1c(N2CCN[C@@H](C)C2)c(F)cc2c(=O)c(C(=O)O)cn(C3CC3)c12",
+   "denovo_promise": 1.0,
+   "drug": "gatifloxacin",
+   "phase": "Withdrawn",
+   "moa": "bacterial DNA gyrase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02418",
+   "smiles": "O=C(/C=C/c1c(C(=O)O)[nH]c2cc(Cl)cc(Cl)c12)Nc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "gavestinel",
+   "phase": "Phase 3",
+   "moa": "glutamate receptor antagonist",
+   "target": "GLRB|GRIN1|GRIN2A|GRIN2B|GRIN2C|GRIN2D|GRIN3A|GRIN3B"
+  },
+  {
+   "name": "rep02419",
+   "smiles": "C(=C\\c1ccccc1)/CN1CCN(CCOC(c2ccccc2)c2ccccc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GBR-12783",
+   "phase": "Preclinical",
+   "moa": "dopamine reuptake inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02420",
+   "smiles": "c1ccc(CCCN2CCN(CCOC(c3ccccc3)c3ccccc3)CC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GBR-12935",
+   "phase": "Preclinical",
+   "moa": "dopamine reuptake inhibitor",
+   "target": "AGTR1|SLC6A3"
+  },
+  {
+   "name": "rep02421",
+   "smiles": "Fc1ccc(C(OCCN2CCN(C/C=C/c3ccccc3)CC2)c2ccc(F)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GBR-13069",
+   "phase": "Preclinical",
+   "moa": "dopamine reuptake inhibitor",
+   "target": "SLC6A3"
+  },
+  {
+   "name": "rep02422",
+   "smiles": "CC(C)NC[C@@H](C(=O)N1CCN(c2ncnc3c2[C@H](C)C[C@H]3O)CC1)c1ccc(Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0068",
+   "phase": "Phase 3",
+   "moa": "AKT inhibitor",
+   "target": "AKT1|AKT2|AKT3|PRKG1"
+  },
+  {
+   "name": "rep02423",
+   "smiles": "C[C@H](Nc1ccc2c(c1)OCCn1cc(N3C(=O)OC[C@H]3C(F)F)nc1-2)C(N)=O",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0077",
+   "phase": "Phase 1",
+   "moa": "PI3K inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02424",
+   "smiles": "CC1(C)OCCn2c1nc1c(N3CCOCC3)nc(-c3cnc(N)nc3)nc12",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0084",
+   "phase": "Phase 2",
+   "moa": "mTOR inhibitor|PI3K inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02425",
+   "smiles": "CN[C@@H](C)C(=O)N[C@H](C(=O)N1CCC[C@H]1C(=O)Nc1snnc1-c1ccccc1)C1CCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0152",
+   "phase": "Phase 1",
+   "moa": "XIAP inhibitor",
+   "target": "BIRC2|BIRC3|BIRC7|XIAP"
+  },
+  {
+   "name": "rep02426",
+   "smiles": "CCNC(=O)Nc1ccc(-c2nc3c(c(N4CCOC[C@@H]4C)n2)CCN(C2COC2)C3)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0349",
+   "phase": "Phase 1",
+   "moa": "Pim kinase inhibitor",
+   "target": "PIK3CA"
+  },
+  {
+   "name": "rep02427",
+   "smiles": "N[C@@H]1CCCN(c2c(Br)cnc3[nH]cc(NC(=O)C4CC4)c23)C1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0575",
+   "phase": "Phase 1",
+   "moa": "CHK inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02428",
+   "smiles": "O=C(NOCCO)c1ccc2cncn2c1Nc1ccc(I)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0623",
+   "phase": "Phase 1",
+   "moa": "MEK inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02429",
+   "smiles": "CC/C(=C(/c1ccc(/C=C/C(=O)O)cc1)c1ccc2n[nH]cc2c1)c1ccc(F)cc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0810",
+   "phase": "Phase 2",
+   "moa": "selective estrogen receptor destabilizer",
+   "target": "ESR1"
+  },
+  {
+   "name": "rep02430",
+   "smiles": "Cc1c(NC(=O)c2cc3c(s2)CCCC3)cccc1-c1cn(C)c(=O)c(Nc2ccc([C@H]3C(=O)N(C)CCN3C)cc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0834",
+   "phase": "Phase 1",
+   "moa": "Bruton's tyrosine kinase (BTK) inhibitor",
+   "target": "BTK"
+  },
+  {
+   "name": "rep02431",
+   "smiles": "OCCn1cc(-c2ccc3c(c2)CC/C3=N\\O)c(-c2ccncc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0879",
+   "phase": "Preclinical",
+   "moa": "RAF inhibitor",
+   "target": "BRAF"
+  },
+  {
+   "name": "rep02432",
+   "smiles": "CC1=C(c2cccc(O)c2)[C@H](c2ccc(OCCN3CC(CF)C3)cc2)Oc2ccc(O)cc21",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0927",
+   "phase": "Phase 1",
+   "moa": "estrogen receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02433",
+   "smiles": "CS(=O)(=O)N1CCN(Cc2cc3nc(-c4cccc5n[nH]cc45)nc(N4CCOCC4)c3s2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0941",
+   "phase": "Phase 2",
+   "moa": "PI3K inhibitor",
+   "target": "PIK3CA|PIK3CB|PIK3CD|PIK3CG"
+  },
+  {
+   "name": "rep02434",
+   "smiles": "Cc1c(CN2CCN(C(=O)[C@H](C)O)CC2)sc2c(N3CCOCC3)nc(-c3cnc(N)nc3)nc12",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0980",
+   "phase": "Phase 2",
+   "moa": "mTOR inhibitor|PI3K inhibitor",
+   "target": "FGR|MAP3K9|MTOR|PIK3CA|PIK3CB|PIK3CD|PIK3CG|SYK"
+  },
+  {
+   "name": "rep02435",
+   "smiles": "Cn1nccc1Nc1nccc(-c2ccn([C@@H](CO)c3ccc(Cl)c(F)c3)c(=O)c2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GDC-0994",
+   "phase": "Phase 1",
+   "moa": "MAP kinase inhibitor",
+   "target": "MAPK1|MAPK3"
+  },
+  {
+   "name": "rep02436",
+   "smiles": "CC(=O)O[C@@H]1C[C@H]2C(C)(C)C(=O)C=C[C@]2(C)[C@H]2CC[C@@]3(C)[C@H](c4ccoc4)OC(=O)[C@H]4O[C@]43[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "gedunin",
+   "phase": "Preclinical",
+   "moa": "HSP inhibitor",
+   "target": "HSP90AA1"
+  },
+  {
+   "name": "rep02437",
+   "smiles": "COc1cc(C(C)C)c(Oc2cnc(N)nc2N)cc1S(N)(=O)=O",
+   "denovo_promise": 1.0,
+   "drug": "gefapixant",
+   "phase": "Phase 3",
+   "moa": "purinergic receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02438",
+   "smiles": "COc1cc2ncnc(Nc3ccc(F)c(Cl)c3)c2cc1OCCCN1CCOCC1",
+   "denovo_promise": 1.0,
+   "drug": "gefitinib",
+   "phase": "Launched",
+   "moa": "EGFR inhibitor",
+   "target": "EGFR"
+  },
+  {
+   "name": "rep02439",
+   "smiles": "COC1=C2C[C@@H](C)C[C@H](OC)[C@H](O)[C@@H](C)/C=C(\\C)[C@H](OC(N)=O)[C@@H](OC)/C=C/C=C(\\C)C(=O)NC(=CC1=O)C2=O",
+   "denovo_promise": 1.0,
+   "drug": "geldanamycin",
+   "phase": "Preclinical",
+   "moa": "HSP inhibitor",
+   "target": "HSP90AA1"
+  },
+  {
+   "name": "rep02440",
+   "smiles": "CC(C)(CO)CCCCCCC(C)(C)CO",
+   "denovo_promise": 1.0,
+   "drug": "gemcadiol",
+   "phase": "Phase 2",
+   "moa": "antilipemic",
+   "target": ""
+  },
+  {
+   "name": "rep02441",
+   "smiles": "Nc1ccn([C@@H]2O[C@H](CO)[C@@H](O)C2(F)F)c(=O)n1",
+   "denovo_promise": 1.0,
+   "drug": "gemcitabine",
+   "phase": "Launched",
+   "moa": "ribonucleotide reductase inhibitor",
+   "target": "CMPK1|RRM1|RRM2|TYMS"
+  },
+  {
+   "name": "rep02442",
+   "smiles": "CCCCCCCC/C=C/CCCCCCCC(=O)OC[C@H]1O[C@@H](n2ccc(N)nc2=O)C(F)(F)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "gemcitabine-elaidate",
+   "phase": "Phase 1",
+   "moa": "apoptosis inhibitor|DNA synthesis inhibitor",
+   "target": "CMPK1|RRM1|TYMS"
+  },
+  {
+   "name": "rep02443",
+   "smiles": "Cc1ccc(C)c(OCCCC(C)(C)C(=O)O)c1",
+   "denovo_promise": 1.0,
+   "drug": "gemfibrozil",
+   "phase": "Launched",
+   "moa": "lipoprotein lipase activator",
+   "target": "LPL|PPARA|SLCO1B1|SLCO1B3|SLCO2B1"
+  },
+  {
+   "name": "rep02444",
+   "smiles": "CO/N=C1\\CN(c2nc3c(cc2F)c(=O)c(C(=O)O)cn3C2CC2)C[C@@H]1CN",
+   "denovo_promise": 1.0,
+   "drug": "gemifloxacin",
+   "phase": "Launched",
+   "moa": "bacterial DNA gyrase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02445",
+   "smiles": "N[C@@H](CC(=O)N1CCc2c(nc(C(F)(F)F)nc2C(F)(F)F)C1)CN1CC(F)(F)CCC1=O",
+   "denovo_promise": 1.0,
+   "drug": "gemigliptin",
+   "phase": "Launched",
+   "moa": "dipeptidyl peptidase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02446",
+   "smiles": "COC(=O)C1=CO[C@@H](O)[C@@H]2C(CO)=CC[C@H]12",
+   "denovo_promise": 1.0,
+   "drug": "genipin",
+   "phase": "Preclinical",
+   "moa": "choleretic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02447",
+   "smiles": "COC(=O)C1=CO[C@@H](O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H]2C(CO)=CC[C@H]12",
+   "denovo_promise": 1.0,
+   "drug": "geniposide",
+   "phase": "Preclinical",
+   "moa": "GLP receptor agonist",
+   "target": "GLP1R"
+  },
+  {
+   "name": "rep02448",
+   "smiles": "O=C(O)C1=CO[C@@H](O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H]2C(CO)=CC[C@H]12",
+   "denovo_promise": 1.0,
+   "drug": "geniposidic-acid",
+   "phase": "Preclinical",
+   "moa": "cyclooxygenase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02449",
+   "smiles": "O=c1c(-c2ccc(O)cc2)coc2cc(O)cc(O)c12",
+   "denovo_promise": 1.0,
+   "drug": "genistein",
+   "phase": "Phase 2/Phase 3",
+   "moa": "tyrosine kinase inhibitor",
+   "target": "CFTR|ESR1|ESR2|ESRRA|ESRRB|ESRRG|NCOA1|NCOA2|PPARG|PTK2B|TOP2A|TRPC5"
+  },
+  {
+   "name": "rep02450",
+   "smiles": "CN[C@@H]1[C@@H](O)[C@@H](O[C@@H]2[C@@H](O)[C@H](O[C@H]3O[C@H]([C@@H](C)NC)CC[C@H]3N)[C@@H](N)C[C@H]2N)OC[C@]1(C)O",
+   "denovo_promise": 1.0,
+   "drug": "gentamycin",
+   "phase": "Launched",
+   "moa": "bacterial 50S ribosomal subunit inhibitor",
+   "target": "HSPA8"
+  },
+  {
+   "name": "rep02451",
+   "smiles": "C=C[C@@H]1C2=CCOC(=O)C2=CO[C@H]1O[C@@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "gentiopicrin",
+   "phase": "Phase 3",
+   "moa": "glutamate receptor downregulator",
+   "target": "GRIN2B"
+  },
+  {
+   "name": "rep02452",
+   "smiles": "CCCCCCCCC(=O)N[C@H](CN1CCCC1)[C@H](O)c1ccc2c(c1)OCCO2",
+   "denovo_promise": 1.0,
+   "drug": "genz-123346",
+   "phase": "Preclinical",
+   "moa": "glucosylceramidase inhibitor",
+   "target": "UGCG"
+  },
+  {
+   "name": "rep02453",
+   "smiles": "CNCCn1c(=O)c2cc(OC)c(OC)cc2c2cnc3cc4c(cc3c21)OCO4",
+   "denovo_promise": 1.0,
+   "drug": "genz-644282",
+   "phase": "Phase 1",
+   "moa": "topoisomerase inhibitor",
+   "target": "TOP1"
+  },
+  {
+   "name": "rep02454",
+   "smiles": "C[C@@H](N)Cc1cccc(O)c1",
+   "denovo_promise": 1.0,
+   "drug": "gepefrine",
+   "phase": "Launched",
+   "moa": "adrenergic receptor agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02455",
+   "smiles": "O=c1ccc2ncc(=O)n3c2n1C[C@H]3CN1CCC(NCc2cc3c(cn2)OCCC3)CC1",
+   "denovo_promise": 1.0,
+   "drug": "gepotidacin",
+   "phase": "Phase 2",
+   "moa": "topoisomerase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02456",
+   "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CCC(=O)OC/C=C(\\C)CCC=C(C)C",
+   "denovo_promise": 1.0,
+   "drug": "geranyl-farnesylacetate",
+   "phase": "Phase 2",
+   "moa": "mucin production enhancer",
+   "target": ""
+  },
+  {
+   "name": "rep02457",
+   "smiles": "C#C[C@]1(O)C=C[C@H]2[C@@H]3CCC4=CC(=O)CC[C@@H]4[C@H]3CC[C@@]21CC",
+   "denovo_promise": 1.0,
+   "drug": "gestodene",
+   "phase": "Launched",
+   "moa": "contraceptive agent",
+   "target": ""
+  },
+  {
+   "name": "rep02458",
+   "smiles": "C#C[C@]1(O)CC[C@H]2[C@@H]3CCC4=CC(=O)CCC4=C3C=C[C@@]21CC",
+   "denovo_promise": 1.0,
+   "drug": "gestrinone",
+   "phase": "Launched",
+   "moa": "progesterone receptor antagonist",
+   "target": "AR|ESR1|PGR"
+  },
+  {
+   "name": "rep02459",
+   "smiles": "CN(C)CCCn1cc(C2=C(c3c[nH]c4ccccc34)C(=O)NC2=O)c2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "GF109203X",
+   "phase": "Preclinical",
+   "moa": "PKC inhibitor",
+   "target": "PDPK1|PIM1|PRKCI|PRKCZ"
+  },
+  {
+   "name": "rep02460",
+   "smiles": "COP(=O)(CC[C@@H](N)C(=O)O)Oc1cccc(CC(=O)O)c1",
+   "denovo_promise": 1.0,
+   "drug": "GGsTop",
+   "phase": "Preclinical",
+   "moa": "gamma glutamyltransferase Inhibitor",
+   "target": "GGT1"
+  },
+  {
+   "name": "rep02461",
+   "smiles": "COC(=O)[C@H](CC(C)C)NC(=O)c1ccc(NC[C@@H](N)CS)cc1-c1cccc2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "GGTI-298",
+   "phase": "Preclinical",
+   "moa": "GGTase inhibitor",
+   "target": "CDKN1A"
+  },
+  {
+   "name": "rep02462",
+   "smiles": "CCc1nc(C(N)=O)c(Nc2ccc(N3CCC(N4CCN(C)CC4)CC3)c(OC)c2)nc1NC1CCOCC1",
+   "denovo_promise": 1.0,
+   "drug": "gilteritinib",
+   "phase": "Launched",
+   "moa": "FLT3 inhibitor",
+   "target": "FLT3"
+  },
+  {
+   "name": "rep02463",
+   "smiles": "C[C@@H]1C(=O)O[C@H]2C[C@@]34[C@H]5C[C@@H](C(C)(C)C)[C@]36[C@@H](OC(=O)[C@@H]6O)O[C@@]4(C(=O)O5)[C@]21O",
+   "denovo_promise": 1.0,
+   "drug": "ginkgolide-A",
+   "phase": "Preclinical",
+   "moa": "GABA receptor antagonist",
+   "target": "GLRA1|GLRB"
+  },
+  {
+   "name": "rep02464",
+   "smiles": "C[C@@H]1C(=O)O[C@H]2[C@H](O)[C@@]34[C@H]5C[C@@H](C(C)(C)C)[C@]36[C@@H](OC(=O)[C@@H]6O)O[C@@]4(C(=O)O5)[C@@]12O",
+   "denovo_promise": 1.0,
+   "drug": "ginkgolide-B",
+   "phase": "Phase 3",
+   "moa": "platelet activating factor receptor antagonist",
+   "target": "GLRA1|GLRA2|GLRA3|GLRB|HTR3A|HTR3B"
+  },
+  {
+   "name": "rep02465",
+   "smiles": "CCN(CC)Cc1ccc2cc(COC(=O)Nc3ccc(C(=O)NO)cc3)ccc2c1",
+   "denovo_promise": 1.0,
+   "drug": "givinostat",
+   "phase": "Phase 3",
+   "moa": "HDAC inhibitor",
+   "target": "HDAC1|HDAC2|HDAC3|HDAC4|HDAC5|HDAC6|HDAC7|HDAC8|HDAC9"
+  },
+  {
+   "name": "rep02466",
+   "smiles": "C(#Cc1nc2ncccc2nc1OCCN1CCCC1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "GK921",
+   "phase": "Preclinical",
+   "moa": "transglutaminase inhibitor",
+   "target": "TGM2"
+  },
+  {
+   "name": "rep02467",
+   "smiles": "COC[C@H](C)Oc1cc(O[C@@H](C)Cc2ccccc2)cc(C(=O)Nc2ccc(C(=O)O)cn2)c1",
+   "denovo_promise": 1.0,
+   "drug": "GKA-50",
+   "phase": "Preclinical",
+   "moa": "glucokinase activator",
+   "target": "GCK"
+  },
+  {
+   "name": "rep02468",
+   "smiles": "CN(C)c1cccc(-c2c3c(=O)n(-c4ccccc4Cl)[nH]c3cc(=O)n2C)c1",
+   "denovo_promise": 1.0,
+   "drug": "GKT137831",
+   "phase": "Phase 2",
+   "moa": "NADPH oxidase inhibitor",
+   "target": "NOX1|NOX4"
+  },
+  {
+   "name": "rep02469",
+   "smiles": "O=C(OC[C@H](O)CO)c1ccccc1Nc1ccnc2cc(Cl)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "glafenine",
+   "phase": "Withdrawn",
+   "moa": "DeltaF508-CFTR Correctors",
+   "target": "CFTR"
+  },
+  {
+   "name": "rep02470",
+   "smiles": "CN1CC[C@@H](NC(=O)Nc2ccc(C#N)cc2)C[C@@H]1c1nc2ccccc2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "glasdegib",
+   "phase": "Launched",
+   "moa": "hedgehog pathway inhibitor",
+   "target": "SMO"
+  },
+  {
+   "name": "rep02471",
+   "smiles": "Cc1ccc(S(=O)(=O)NC(=O)NN2C[C@H]3CCC[C@@H]3C2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "gliclazide",
+   "phase": "Launched",
+   "moa": "ATP channel blocker|insulin secretagogue",
+   "target": ""
+  },
+  {
+   "name": "rep02472",
+   "smiles": "CCC1=C(C)CN(C(=O)NCCc2ccc(S(=O)(=O)NC(=O)N[C@H]3CC[C@H](C)CC3)cc2)C1=O",
+   "denovo_promise": 1.0,
+   "drug": "glimepiride",
+   "phase": "Launched",
+   "moa": "insulin secretagogue",
+   "target": "ABCC8|KCNJ1|KCNJ11"
+  },
+  {
+   "name": "rep02473",
+   "smiles": "Cc1cnc(C(=O)NCCc2ccc(S(=O)(=O)NC(=O)NC3CCCCC3)cc2)cn1",
+   "denovo_promise": 1.0,
+   "drug": "glipizide",
+   "phase": "Launched",
+   "moa": "sulfonylurea",
+   "target": "ABCC8|KCNJ10|KCNJ11|PPARG"
+  },
+  {
+   "name": "rep02474",
+   "smiles": "COc1ccc2c(c1)C(=O)N(CCc1ccc(S(=O)(=O)NC(=O)NC3CCCCC3)cc1)C(=O)C2(C)C",
+   "denovo_promise": 1.0,
+   "drug": "gliquidone",
+   "phase": "Launched",
+   "moa": "sulfonylurea",
+   "target": "ABCC8|KCNJ10|KCNJ8"
+  },
+  {
+   "name": "rep02475",
+   "smiles": "COc1ccc2c3c1O[C@H]1C[C@@H](OC(=O)c4ccccc4)C=C[C@@]31CCN(C)C2",
+   "denovo_promise": 1.0,
+   "drug": "Gln-1062",
+   "phase": "Preclinical",
+   "moa": "cholinesterase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02476",
+   "smiles": "COc1ccc(S(=O)(=O)N[C@@H](CNc2nc(C)nc(N3CCC(c4ccc5c(n4)NCCC5)CC3)c2C)C(=O)O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GLPG0187",
+   "phase": "Phase 1",
+   "moa": "integrin antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02477",
+   "smiles": "CN1C(=O)N(c2ccc(C#N)c(C(F)(F)F)c2)C(=O)[C@@]1(CO)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "GLPG0492",
+   "phase": "Phase 1",
+   "moa": "androgen receptor modulator",
+   "target": "AR"
+  },
+  {
+   "name": "rep02478",
+   "smiles": "CN1C(=O)N(c2ccc(C#N)c(C(F)(F)F)c2)C(=O)[C@]1(CO)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "GLPG0492-R-enantiomer",
+   "phase": "Phase 1",
+   "moa": "androgen receptor modulator",
+   "target": "AR"
+  },
+  {
+   "name": "rep02479",
+   "smiles": "CC1(C)Cc2c(sc(NC(=O)c3cc[nH]n3)c2C(N)=O)C(C)(C)O1",
+   "denovo_promise": 1.0,
+   "drug": "GLPG1837",
+   "phase": "Phase 2",
+   "moa": "CFTR channel potentiator",
+   "target": ""
+  },
+  {
+   "name": "rep02480",
+   "smiles": "O=C(O)[C@@H](O)[C@@H](O)[C@H](O)[C@@H](O)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "glucaric-acid",
+   "phase": "Phase 1",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02481",
+   "smiles": "O=C1O[C@@H](CO)[C@H](O)[C@@H](O)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "gluconolactone",
+   "phase": "Launched",
+   "moa": "",
+   "target": "LCT"
+  },
+  {
+   "name": "rep02482",
+   "smiles": "N[C@@H]1[C@@H](O)[C@H](O)[C@@H](CO)O[C@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "glucosamine",
+   "phase": "Launched",
+   "moa": "glycosylated protein precursor",
+   "target": "IL1B"
+  },
+  {
+   "name": "rep02483",
+   "smiles": "N[C@@H](CCC(=O)N[C@@H](CS)C(=O)NCC(=O)O)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "glutathione",
+   "phase": "Phase 3",
+   "moa": "antioxidant",
+   "target": "ESD|GGT1|GLO1|GLRX|GLRX2|GPX1|GPX2|GPX3|GPX4|GPX5|GPX6|GPX7|GPX8|GSR|GSS|GSTA1|GSTA2|GSTA3|GSTA4|GSTA5|GSTK1|GSTM1|GSTM2|GSTM3|GSTM4|GSTM5|GSTO1|GSTO2|GSTP1|GSTT1|GSTZ1|HAGH|HPGDS|LTC4S|MGST1|MGST2|MGST3|TXNDC12"
+  },
+  {
+   "name": "rep02484",
+   "smiles": "CC(C)OC(=O)CNC(=O)[C@H](CS)NC(=O)CC[C@H](N)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "glutathione-monoisopropyl-ester",
+   "phase": "Phase 2",
+   "moa": "lipid peroxidase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02485",
+   "smiles": "NCC(=O)N[C@@H](CCC(N)=O)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "gly-gln",
+   "phase": "Phase 2",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02486",
+   "smiles": "COc1ccc(Cl)cc1C(=O)NCCc1ccc(S(=O)(=O)NC(=O)NC2CCCCC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "glyburide",
+   "phase": "Launched",
+   "moa": "ATP channel blocker|insulin secretagogue|sulfonylurea",
+   "target": "ABCA1|ABCB11|ABCC8|ABCC9|CFTR|CPT1A|KCNJ1|KCNJ11|KCNJ5|KCNJ8|SLCO2B1"
+  },
+  {
+   "name": "rep02487",
+   "smiles": "CCCCCCCCCCCC(=O)OC[C@@H](O)CO",
+   "denovo_promise": 1.0,
+   "drug": "glycerol-monolaurate",
+   "phase": "Launched",
+   "moa": "beta lactamase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02488",
+   "smiles": "O=C(CCCc1ccccc1)OCC(COC(=O)CCCc1ccccc1)OC(=O)CCCc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "glycerol-phenylbutyrate",
+   "phase": "Phase 1",
+   "moa": "sigma receptor ligand",
+   "target": ""
+  },
+  {
+   "name": "rep02489",
+   "smiles": "COc1cc2c(=O)c(-c3ccc(O)cc3)coc2cc1O",
+   "denovo_promise": 1.0,
+   "drug": "glycitein",
+   "phase": "Phase 3",
+   "moa": "tumor necrosis factor release inhibitor",
+   "target": "TNF"
+  },
+  {
+   "name": "rep02490",
+   "smiles": "C[N+]1(C)CC[C@H](OC(=O)[C@](O)(c2ccccc2)C2CCCC2)C1",
+   "denovo_promise": 1.0,
+   "drug": "glycopyrrolate",
+   "phase": "Launched",
+   "moa": "acetylcholine receptor antagonist",
+   "target": "CHRM1|CHRM2|CHRM3|CHRM4|CHRM5"
+  },
+  {
+   "name": "rep02491",
+   "smiles": "CCC(C)(C)C(=O)C(=O)N1CCC[C@H]1C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GM-1485",
+   "phase": "Preclinical",
+   "moa": "immunophilin ligand",
+   "target": "FKBP1A"
+  },
+  {
+   "name": "rep02492",
+   "smiles": "N#CN/C(=N\\c1ccncc1)NCCCCCCOc1ccc(Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GMX1778",
+   "phase": "Phase 1/Phase 2",
+   "moa": "NAMPT inhibitor",
+   "target": "NAMPT"
+  },
+  {
+   "name": "rep02493",
+   "smiles": "CCNc1nc(Nc2cc(F)c(C(=O)N3CCOCC3)cc2OC)ncc1C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "GNE-7915",
+   "phase": "Preclinical",
+   "moa": "leucine rich repeat kinase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02494",
+   "smiles": "NC(=O)c1cccc(-c2cc(Nc3ccc(OC(F)(F)F)cc3)ncn2)c1",
+   "denovo_promise": 1.0,
+   "drug": "GNF-2",
+   "phase": "Preclinical",
+   "moa": "Bcr-Abl kinase inhibitor",
+   "target": "ABL1|BCR"
+  },
+  {
+   "name": "rep02495",
+   "smiles": "O=C(NCCO)c1cccc(-c2cc(Nc3ccc(OC(F)(F)F)cc3)ncn2)c1",
+   "denovo_promise": 1.0,
+   "drug": "GNF-5",
+   "phase": "Preclinical",
+   "moa": "Bcr-Abl kinase inhibitor",
+   "target": "ABL1|BCR"
+  },
+  {
+   "name": "rep02496",
+   "smiles": "Cc1ccc(NC(=O)Nc2cc(C(F)(F)F)ccc2F)cc1Nc1ccc2c(c1)NC(=O)/C2=C\\c1ccc[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "GNF-5837",
+   "phase": "Preclinical",
+   "moa": "growth factor receptor inhibitor",
+   "target": "NTRK1|NTRK2|NTRK3"
+  },
+  {
+   "name": "rep02497",
+   "smiles": "Cc1ccc(Nc2ncc3c(n2)N(C)C(=O)N(c2cc(NC(=O)c4cccc(C(F)(F)F)c4)ccc2C)C3)cn1",
+   "denovo_promise": 1.0,
+   "drug": "GNF-7",
+   "phase": "Preclinical",
+   "moa": "glucokinase inhibitor|protein kinase inhibitor",
+   "target": "GCK|TNK2"
+  },
+  {
+   "name": "rep02498",
+   "smiles": "N=C(N)Nc1ccc2[nH]c3c(c2c1)C[C@@]1(O)[C@H]2Cc4ccc(O)c5c4[C@@]1(CCN2CC1CC1)[C@H]3O5",
+   "denovo_promise": 1.0,
+   "drug": "GNTI",
+   "phase": "Preclinical",
+   "moa": "opioid receptor antagonist",
+   "target": "OPRK1|OPRM1"
+  },
+  {
+   "name": "rep02499",
+   "smiles": "COc1ccc2c(c1)c(C1=C(c3c[nH]c4ccccc34)C(=O)NC1=O)cn2CCCN(C)C",
+   "denovo_promise": 1.0,
+   "drug": "go-6983",
+   "phase": "Preclinical",
+   "moa": "protein kinase inhibitor",
+   "target": "PRKCA|PRKCB|PRKCD|PRKCG|PRKCZ"
+  },
+  {
+   "name": "rep02500",
+   "smiles": "Fc1cc(F)c2c(c1)[C@H]1C=CC[C@H]1[C@@H](c1cccnc1)N2",
+   "denovo_promise": 1.0,
+   "drug": "golgicide-A",
+   "phase": "Preclinical",
+   "moa": "ARF inhibitor",
+   "target": "GBF1"
+  },
+  {
+   "name": "rep02501",
+   "smiles": "Cc1cc2c(C(C)C)c(O)c(O)c(C=O)c2c(O)c1-c1c(C)cc2c(C(C)C)c(O)c(O)c(C=O)c2c1O",
+   "denovo_promise": 1.0,
+   "drug": "gossypol",
+   "phase": "Phase 2",
+   "moa": "BCL inhibitor|MCL1 inhibitor",
+   "target": "BCL2"
+  },
+  {
+   "name": "rep02502",
+   "smiles": "Cc1ccc2c(c1)Cc1c(C(=O)NN3CCCCC3)nn(-c3ccc(Cl)cc3Cl)c1-2",
+   "denovo_promise": 1.0,
+   "drug": "GP1a",
+   "phase": "Preclinical",
+   "moa": "cannabinoid receptor agonist",
+   "target": "CNR2"
+  },
+  {
+   "name": "rep02503",
+   "smiles": "Cc1ccc2c(c1)Cc1c(C(=O)NC3CCCCC3)nn(-c3ccc(Cl)cc3Cl)c1-2",
+   "denovo_promise": 1.0,
+   "drug": "GP2a",
+   "phase": "Preclinical",
+   "moa": "cannabinoid receptor agonist",
+   "target": "CNR2"
+  },
+  {
+   "name": "rep02504",
+   "smiles": "O=C1COc2nccc(-c3ccccc3F)c2CN1Cc1cc(C(F)(F)F)cc(C(F)(F)F)c1",
+   "denovo_promise": 1.0,
+   "drug": "GPBAR-A",
+   "phase": "Preclinical",
+   "moa": "G protein-coupled receptor agonist",
+   "target": "GPBAR1"
+  },
+  {
+   "name": "rep02505",
+   "smiles": "CCC(C)(C)C(=O)C(=O)N1CCC[C@H]1C(=O)OCCCc1cccnc1",
+   "denovo_promise": 1.0,
+   "drug": "GPI-1046",
+   "phase": "Preclinical",
+   "moa": "FKBP inhibitor",
+   "target": "FKBP1A"
+  },
+  {
+   "name": "rep02506",
+   "smiles": "O=C(N[C@@H]1Cc2ccccc2N(C[C@@H](O)CO)C1=O)c1cc2cc(Cl)sc2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "GPi-688",
+   "phase": "Preclinical",
+   "moa": "glycogen phosphorylase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02507",
+   "smiles": "O=C(CCCCCCCn1cc(-c2cccnc2)nn1)Nc1ccccc1-c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "GPP-78",
+   "phase": "Preclinical",
+   "moa": "NAMPT inhibitor",
+   "target": "NAMPT"
+  },
+  {
+   "name": "rep02508",
+   "smiles": "Cc1cc(OCc2nc(-c3ccccc3Cl)cs2)ccc1OCC(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GPR120-modulator-1",
+   "phase": "Preclinical",
+   "moa": "G protein-coupled receptor modulator",
+   "target": "FFAR4"
+  },
+  {
+   "name": "rep02509",
+   "smiles": "COc1ccccc1N1CCN(CCCCNC(=O)c2ccc(-c3ccc(C(C)=O)cc3)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GR-103691",
+   "phase": "Preclinical",
+   "moa": "dopamine receptor antagonist",
+   "target": "DRD3"
+  },
+  {
+   "name": "rep02510",
+   "smiles": "Cn1cc(C(=O)OCC2CCN(CCNS(C)(=O)=O)CC2)c2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "GR-113808",
+   "phase": "Preclinical",
+   "moa": "serotonin receptor antagonist",
+   "target": "HTR4"
+  },
+  {
+   "name": "rep02511",
+   "smiles": "COc1ccc(NC(=O)c2ccc(-c3ccc(-c4noc(C)n4)cc3C)cc2)cc1N1CCN(C)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GR-127935",
+   "phase": "Preclinical",
+   "moa": "serotonin receptor antagonist",
+   "target": "HTR1A|HTR1B|HTR1D|HTR1E|HTR1F|HTR2A|HTR2B|HTR2C|HTR6"
+  },
+  {
+   "name": "rep02512",
+   "smiles": "COC(=O)Nc1ccc2[nH]cc(CCNC(C)=O)c2c1",
+   "denovo_promise": 1.0,
+   "drug": "GR-135531",
+   "phase": "Preclinical",
+   "moa": "melatonin receptor agonist",
+   "target": ""
+  },
+  {
+   "name": "rep02513",
+   "smiles": "N=C(N)c1ccc(N2CCN(C3CCN(CC(=O)O)CC3)CC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GR-144053",
+   "phase": "Preclinical",
+   "moa": "integrin antagonist",
+   "target": "ITGA2B|ITGB3"
+  },
+  {
+   "name": "rep02514",
+   "smiles": "COC1(C[S@@](=O)c2ccccc2)CCN(CCc2c[nH]c3ccc(F)cc23)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GR-159897",
+   "phase": "Preclinical",
+   "moa": "tachykinin antagonist",
+   "target": "TAC1|TACR2"
+  },
+  {
+   "name": "rep02515",
+   "smiles": "CC=C1C(=O)C[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3CC[C@]12C",
+   "denovo_promise": 1.0,
+   "drug": "GR-235",
+   "phase": "Launched",
+   "moa": "estrogen receptor agonist|FXR antagonist|progesterone receptor agonist",
+   "target": "NR1H4"
+  },
+  {
+   "name": "rep02516",
+   "smiles": "OC[C@H]1O[C@@H](n2cnc3c(N[C@H]4CCC[C@@H]4O)ncnc32)[C@H](O)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "GR-79236",
+   "phase": "Phase 1",
+   "moa": "adenosine receptor agonist",
+   "target": "ADORA1|ADORA2A"
+  },
+  {
+   "name": "rep02517",
+   "smiles": "COc1[nH]c2ccc(F)cc2c1C(=O)OCC1CCN(CCNS(C)(=O)=O)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GR125487",
+   "phase": "Preclinical",
+   "moa": "serotonin receptor antagonist",
+   "target": "HTR4"
+  },
+  {
+   "name": "rep02518",
+   "smiles": "COc1ccc(CNC(=O)/C=C/c2ccc3[nH]cc(CCN(C)C)c3c2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GR46611",
+   "phase": "Preclinical",
+   "moa": "serotonin receptor agonist",
+   "target": "HTR1D"
+  },
+  {
+   "name": "rep02519",
+   "smiles": "CN(C)Cc1c[nH]c2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "gramine",
+   "phase": "Preclinical",
+   "moa": "norepinephrine reputake inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02520",
+   "smiles": "CN1[C@@H]2CCC[C@H]1C[C@@H](NC(=O)c1nn(C)c3ccccc13)C2",
+   "denovo_promise": 1.0,
+   "drug": "granisetron",
+   "phase": "Launched",
+   "moa": "serotonin receptor antagonist",
+   "target": "HTR3A"
+  },
+  {
+   "name": "rep02521",
+   "smiles": "CCc1nc2c(C)nc(C)cc2n1-c1ccc(CCNC(=O)NS(=O)(=O)c2ccc(C)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "grapiprant",
+   "phase": "Launched",
+   "moa": "prostaglandin inhibitor",
+   "target": "PTGER4"
+  },
+  {
+   "name": "rep02522",
+   "smiles": "COC1=CC(=O)C[C@@H](C)[C@]12Oc1c(Cl)c(OC)cc(OC)c1C2=O",
+   "denovo_promise": 1.0,
+   "drug": "griseofulvin",
+   "phase": "Launched",
+   "moa": "tubulin polymerization inhibitor",
+   "target": "KRT12"
+  },
+  {
+   "name": "rep02523",
+   "smiles": "O=C(O)c1ccc(N2N=C(Cc3ccccc3)/C(=C\\c3ccc(-c4ccccc4F)o3)C2=O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GS-143",
+   "phase": "Preclinical",
+   "moa": "ubiquitin ligase inhibitor",
+   "target": "BTRC|NFKBIA"
+  },
+  {
+   "name": "rep02524",
+   "smiles": "CSc1nc(NC2CCCC2)c([N+](=O)[O-])c(NC2CCCC2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GS-39783",
+   "phase": "Preclinical",
+   "moa": "GABA receptor modulator",
+   "target": "GABBR1"
+  },
+  {
+   "name": "rep02525",
+   "smiles": "CCCn1c(=O)c2[nH]c(-c3cnn(Cc4cccc(C(F)(F)F)c4)c3)nc2n(CC)c1=O",
+   "denovo_promise": 1.0,
+   "drug": "GS-6201",
+   "phase": "Phase 1",
+   "moa": "adenosine receptor antagonist",
+   "target": "ADORA1|ADORA2A|ADORA2B|ADORA3"
+  },
+  {
+   "name": "rep02526",
+   "smiles": "CCCCOc1nc(N)c2c(n1)N(Cc1cccc(CN3CCCC3)c1)CC(=O)N2",
+   "denovo_promise": 1.0,
+   "drug": "GS-9620",
+   "phase": "Phase 2",
+   "moa": "toll-like receptor agonist",
+   "target": "TLR7"
+  },
+  {
+   "name": "rep02527",
+   "smiles": "FC(F)(F)Oc1ccc(-c2ccc3nnc(C(F)(F)F)n3c2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GS-967",
+   "phase": "Preclinical",
+   "moa": "voltage-gated sodium channel blocker",
+   "target": ""
+  },
+  {
+   "name": "rep02528",
+   "smiles": "c1cn2cc(-c3ccc4c[nH]nc4c3)nc(Nc3ccc(N4CCOCC4)cc3)c2n1",
+   "denovo_promise": 1.0,
+   "drug": "GS-9973",
+   "phase": "Phase 2",
+   "moa": "SYK inhibitor",
+   "target": "SYK"
+  },
+  {
+   "name": "rep02529",
+   "smiles": "O=C1Nc2cc(Br)ccc2/C1=C1/Nc2ccccc2/C1=N/O",
+   "denovo_promise": 1.0,
+   "drug": "GSK-3-inhibitor-IX",
+   "phase": "Preclinical",
+   "moa": "glycogen synthase kinase inhibitor|lipoxygenase inhibitor",
+   "target": "GSK3A|GSK3B"
+  },
+  {
+   "name": "rep02530",
+   "smiles": "O=C(O)CCNc1cc(N2CCc3ccccc3CC2)nc(-c2ccccn2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK-J1",
+   "phase": "Preclinical",
+   "moa": "histone demethylase inhibitor",
+   "target": "KDM6B"
+  },
+  {
+   "name": "rep02531",
+   "smiles": "O=C(O)CCNc1cc(N2CCc3ccccc3CC2)nc(-c2cccnc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK-J2",
+   "phase": "Preclinical",
+   "moa": "histone demethylase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02532",
+   "smiles": "CCOC(=O)CCNc1cc(N2CCc3ccccc3CC2)nc(-c2ccccn2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK-J4",
+   "phase": "Preclinical",
+   "moa": "histone lysine demethylase inhibitor",
+   "target": "KDM6A|KDM6B"
+  },
+  {
+   "name": "rep02533",
+   "smiles": "CCOC(=O)CCNc1cc(N2CCc3ccccc3CC2)nc(-c2cccnc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK-J5",
+   "phase": "Preclinical",
+   "moa": "histone demethylase control",
+   "target": ""
+  },
+  {
+   "name": "rep02534",
+   "smiles": "c1ccc([C@@H]2C[C@H]2NC2CCNCC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK-LSD-1",
+   "phase": "Preclinical",
+   "moa": "histone lysine demethylase inhibitor",
+   "target": "KDM1A"
+  },
+  {
+   "name": "rep02535",
+   "smiles": "COC(=O)c1sccc1S(=O)(=O)Nc1ccc(Nc2ccccc2)cc1OC",
+   "denovo_promise": 1.0,
+   "drug": "GSK0660",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor antagonist",
+   "target": "PPARD"
+  },
+  {
+   "name": "rep02536",
+   "smiles": "O=C1NC(=O)/C(=C/c2ccc3nccc(-c4ccncc4)c3c2)S1",
+   "denovo_promise": 1.0,
+   "drug": "GSK1059615",
+   "phase": "Phase 1",
+   "moa": "PI3K inhibitor",
+   "target": "PIK3CG"
+  },
+  {
+   "name": "rep02537",
+   "smiles": "CCn1cc(-c2ccnc3[nH]c(-c4cccc(CN(C)C)c4)cc23)c(-c2ccc(NC(=O)N(C)C)cc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK1070916",
+   "phase": "Phase 1",
+   "moa": "Aurora kinase inhibitor",
+   "target": "AURKA|AURKB|AURKC|CYP2D6|CYP3A4"
+  },
+  {
+   "name": "rep02538",
+   "smiles": "CC(C)c1noc(N2CCC(COc3ccc(-c4ccc(S(C)(=O)=O)cc4)nc3)CC2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK1292263",
+   "phase": "Phase 2",
+   "moa": "glucose dependent insulinotropic receptor agonist",
+   "target": "GRPR"
+  },
+  {
+   "name": "rep02539",
+   "smiles": "CN(C(=O)CN1C(=O)COc2cc(Cl)c(Cl)cc21)[C@@H](CN1CCCC1)c1ccc(-c2cccc(C(N)=O)c2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK1562590",
+   "phase": "Preclinical",
+   "moa": "urotensin receptor antagonist",
+   "target": "UTS2R"
+  },
+  {
+   "name": "rep02540",
+   "smiles": "Cc1ccc2c(N3CCN(CCc4cccc(N5CCNC5=O)c4)CC3)cccc2n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK163090",
+   "phase": "Phase 2",
+   "moa": "serotonin receptor antagonist",
+   "target": "HTR1A|HTR1B|HTR1D"
+  },
+  {
+   "name": "rep02541",
+   "smiles": "CNC(=O)c1c(F)cccc1Nc1nc(Nc2cc3c(cc2OC)CCN3C(=O)CN(C)C)nc2[nH]ccc12",
+   "denovo_promise": 1.0,
+   "drug": "GSK1838705A",
+   "phase": "Preclinical",
+   "moa": "insulin growth factor receptor inhibitor",
+   "target": "ALK|IGF1R|INSR|RPS6KA1"
+  },
+  {
+   "name": "rep02542",
+   "smiles": "CNC(=O)c1ccc(Oc2ccc3c(c2)CCN(C2CCC2)CC3)nc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK189254",
+   "phase": "Phase 2",
+   "moa": "histamine receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02543",
+   "smiles": "Cn1ncc(Cl)c1-c1cc(C(=O)N[C@H](CN)Cc2cccc(F)c2)sc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "GSK2110183",
+   "phase": "Phase 2",
+   "moa": "AKT inhibitor",
+   "target": "AKT1|AKT2|AKT3"
+  },
+  {
+   "name": "rep02544",
+   "smiles": "COc1ncc(-c2ccc3nccc(-c4ccnnc4)c3c2)cc1NS(=O)(=O)c1ccc(F)cc1F",
+   "denovo_promise": 1.0,
+   "drug": "GSK2126458",
+   "phase": "Phase 1",
+   "moa": "mTOR inhibitor|PI3K inhibitor",
+   "target": "MTOR|PIK3CA|PIK3CB|PIK3CD|PIK3CG"
+  },
+  {
+   "name": "rep02545",
+   "smiles": "O=C(C1CC1)N1CC[C@@H](Cc2n[nH]c(=O)n2-c2ccc(-c3ccc4occc4c3)cc2)C1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2194069",
+   "phase": "Preclinical",
+   "moa": "fatty acid synthase inhibitor",
+   "target": "FASN"
+  },
+  {
+   "name": "rep02546",
+   "smiles": "COc1cccc2c1c(NS(=O)(=O)c1ccc(Cl)s1)nn2Cc1cccc(CNC(=O)C(C)(C)O)c1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2239633A",
+   "phase": "Preclinical",
+   "moa": "CC chemokine receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02547",
+   "smiles": "CONC(=O)c1ccccc1Nc1cc(Nc2cc(C)nn2C(C)C)ncc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "GSK2256098",
+   "phase": "Phase 2",
+   "moa": "kinase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02548",
+   "smiles": "CNc1nc(C)nc(N[C@H]2CCC[C@@H](C(=O)NCc3ccc(C#N)cc3C(F)(F)F)C2)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2256294A",
+   "phase": "Phase 1",
+   "moa": "epoxide hydolase inhibitor",
+   "target": "EPHX2"
+  },
+  {
+   "name": "rep02549",
+   "smiles": "CCCC[C@]1(CC)CS(=O)(=O)c2cc(CNC(CC(=O)O)CC(=O)O)c(OC)cc2[C@@H](c2ccccc2)N1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2330672",
+   "phase": "Phase 2",
+   "moa": "bile acid transporter inhibitor",
+   "target": "SLC10A2"
+  },
+  {
+   "name": "rep02550",
+   "smiles": "CNc1nc(-c2ccc3c(N)[nH]nc3c2)cc(N2C[C@@H](C(=O)NC3CCCCC3)CC[C@H]2C)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2334470",
+   "phase": "Preclinical",
+   "moa": "phosphoinositide dependent kinase inhibitor",
+   "target": "AURKA|AURKB|PDPK1"
+  },
+  {
+   "name": "rep02551",
+   "smiles": "O=C1CCCN1c1ccc(Oc2ccc3c(c2)CCN(C2CCC2)CC3)nc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK239512",
+   "phase": "Preclinical",
+   "moa": "histamine receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02552",
+   "smiles": "COc1cccc(Nc2c(C(N)=O)cnc3c(C)cc(S(=O)(=O)c4cccc(C(=O)N(C)C)c4)cc23)c1",
+   "denovo_promise": 1.0,
+   "drug": "GSK256066",
+   "phase": "Phase 2",
+   "moa": "phosphodiesterase inhibitor",
+   "target": "PDE4A"
+  },
+  {
+   "name": "rep02553",
+   "smiles": "O=C(Nc1cccnc1)c1cc(-c2ccnc(F)c2)ccc1OCc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2578215A",
+   "phase": "Preclinical",
+   "moa": "leucine rich repeat kinase inhibitor",
+   "target": "LRRK2"
+  },
+  {
+   "name": "rep02554",
+   "smiles": "Cn1cc(-c2ccc3c(c2)CCN3C(=O)Cc2cccc(C(F)(F)F)c2)c2c(N)ncnc21",
+   "denovo_promise": 1.0,
+   "drug": "GSK2606414",
+   "phase": "Preclinical",
+   "moa": "protein kinase inhibitor",
+   "target": "EIF2AK3|MYLK2"
+  },
+  {
+   "name": "rep02555",
+   "smiles": "Cc1c(Cn2c(C)nc3c(C(=O)O)cc(N4CCOCC4)cc32)cccc1C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "GSK2636771",
+   "phase": "Phase 2",
+   "moa": "PI3K inhibitor",
+   "target": "PIK3CB"
+  },
+  {
+   "name": "rep02556",
+   "smiles": "Cc1cccc(CC(=O)N2CCc3c2ccc(-c2cn(C)c4ncnc(N)c24)c3F)n1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2656157",
+   "phase": "Preclinical",
+   "moa": "PERK inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02557",
+   "smiles": "CCn1c(-c2nonc2N)nc2cnc(Oc3cccc(NC(=O)c4ccc(OCCN5CCOCC5)cc4)c3)cc21",
+   "denovo_promise": 1.0,
+   "drug": "GSK269962",
+   "phase": "Preclinical",
+   "moa": "rho associated kinase inhibitor",
+   "target": "ROCK1|ROCK2"
+  },
+  {
+   "name": "rep02558",
+   "smiles": "CCCOc1ccn2c(C(C)=O)cc(-c3ccccc3S(C)(=O)=O)c2c1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2801",
+   "phase": "Preclinical",
+   "moa": "bromodomain inhibitor",
+   "target": "BAZ2A|BAZ2B"
+  },
+  {
+   "name": "rep02559",
+   "smiles": "CC[C@H](C)n1cc(C)c2c(C(=O)NCc3c(C)cc(C)[nH]c3=O)cc(-c3ccc(N4CCNCC4)nc3)cc21",
+   "denovo_promise": 1.0,
+   "drug": "GSK2816126",
+   "phase": "Phase 1",
+   "moa": "histone lysine methyltransferase inhibitor",
+   "target": "EZH2"
+  },
+  {
+   "name": "rep02560",
+   "smiles": "Cc1ncc(Cl)cc1NCc1ccc(C(=O)N[C@@H](CC2CCCC2)C(=O)NC2CC2)s1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2830371",
+   "phase": "Preclinical",
+   "moa": "protein phosphatase inhibitor",
+   "target": "PPM1D"
+  },
+  {
+   "name": "rep02561",
+   "smiles": "O=C(O)c1ccc(CN2CCC(CN[C@@H]3C[C@H]3c3ccccc3)CC2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2879552",
+   "phase": "Phase 1/Phase 2",
+   "moa": "histone lysine demethylase inhibitor",
+   "target": "KDM1A"
+  },
+  {
+   "name": "rep02562",
+   "smiles": "C[C@H](CS(C)(=O)=O)n1ccc2c(C(F)(F)F)c(C#N)ccc21",
+   "denovo_promise": 1.0,
+   "drug": "GSK2881078",
+   "phase": "Phase 2",
+   "moa": "androgen receptor modulator",
+   "target": ""
+  },
+  {
+   "name": "rep02563",
+   "smiles": "CCc1ccc(N(CC(C)C)S(=O)(=O)c2ccc(OCC3CCOCC3)c(CO)c2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK2981278",
+   "phase": "Phase 1/Phase 2",
+   "moa": "ROR modulator",
+   "target": ""
+  },
+  {
+   "name": "rep02564",
+   "smiles": "CN1C(=O)[C@@H](NC(=O)c2nc(Cc3ccccc3)n[nH]2)COc2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "GSK2982772",
+   "phase": "Phase 2",
+   "moa": "RIPK inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02565",
+   "smiles": "O=C(CCc1ccc(CN[C@H](C(=O)OC2CCCC2)C2CCCCC2)cn1)NO",
+   "denovo_promise": 1.0,
+   "drug": "GSK3117391",
+   "phase": "Phase 1/Phase 2",
+   "moa": "HDAC inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02566",
+   "smiles": "CCOc1cc(=O)[nH]cc1-c1ccc(CC(=O)Nc2cc(C(C)(C)C(F)(F)F)on2)c(F)c1",
+   "denovo_promise": 1.0,
+   "drug": "GSK3179106",
+   "phase": "Phase 1",
+   "moa": "RET tyrosine kinase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02567",
+   "smiles": "CC(=O)N1CCC(Nc2cc(C(=O)NC[C@H](O)CN3CCc4ccccc4C3)ncn2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GSK3326595",
+   "phase": "Phase 1/Phase 2",
+   "moa": "protein arginine N-methyltransferase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02568",
+   "smiles": "CCn1ncc2c(NC3CCOCC3)c(-c3nnc(Cc4sc(C)nc4C)o3)cnc21",
+   "denovo_promise": 1.0,
+   "drug": "GSK356278",
+   "phase": "Preclinical",
+   "moa": "phosphodiesterase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02569",
+   "smiles": "CC(C)(C)NCc1ccc(Nc2ccnc3cc(Cl)ccc23)cc1O",
+   "denovo_promise": 1.0,
+   "drug": "GSK369796",
+   "phase": "Phase 1",
+   "moa": "potassium channel antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02570",
+   "smiles": "COc1ccc(S(=O)(=O)Nc2c(C)cc(C)cc2C)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK37647",
+   "phase": "Preclinical",
+   "moa": "free fatty acid receptor agonist",
+   "target": "FFAR4"
+  },
+  {
+   "name": "rep02571",
+   "smiles": "O=C(NCCS(=O)(=O)c1ccc(C(F)(F)F)cn1)c1ccc(Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GSK3787",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor antagonist",
+   "target": "PPARD"
+  },
+  {
+   "name": "rep02572",
+   "smiles": "CC1=C(C(=O)Nc2cc3c[nH]nc3cc2F)[C@H](c2ccc(C(F)(F)F)cc2)CC(=O)N1",
+   "denovo_promise": 1.0,
+   "drug": "GSK429286A",
+   "phase": "Preclinical",
+   "moa": "rho associated kinase inhibitor",
+   "target": "ROCK1"
+  },
+  {
+   "name": "rep02573",
+   "smiles": "C[C@@H](Oc1cc(-n2cnc3ccc(CN4CCN(C)CC4)cc32)sc1C(N)=O)c1ccccc1C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "GSK461364",
+   "phase": "Phase 1",
+   "moa": "PLK inhibitor",
+   "target": "PLK1"
+  },
+  {
+   "name": "rep02574",
+   "smiles": "Cc1cc(C)c(CNC(=O)c2cc(-c3ccc(N4CCN(C)CC4)nc3)cc3c2c(C)cn3C(C)C)c(=O)[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "GSK503",
+   "phase": "Preclinical",
+   "moa": "histone lysine methyltransferase inhibitor",
+   "target": "EZH2"
+  },
+  {
+   "name": "rep02575",
+   "smiles": "O=C(O)c1ccc(-c2c[nH]c3ncc(-c4ccccc4)cc23)cc1C1CCCC1",
+   "denovo_promise": 1.0,
+   "drug": "GSK650394",
+   "phase": "Preclinical",
+   "moa": "serum/glucocorticoid regulated kinase inhibitor",
+   "target": "SGK1|SGK2"
+  },
+  {
+   "name": "rep02576",
+   "smiles": "NC[C@H]1OB(O)c2c(OCCO)ccc(Cl)c21",
+   "denovo_promise": 1.0,
+   "drug": "GSK656",
+   "phase": "Preclinical",
+   "moa": "leucyl-tRNA synthetase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02577",
+   "smiles": "CCn1c(-c2nonc2N)nc2c(C#CC(C)(C)O)ncc(OC[C@H]3CCCNC3)c21",
+   "denovo_promise": 1.0,
+   "drug": "GSK690693",
+   "phase": "Phase 1",
+   "moa": "AKT inhibitor",
+   "target": "AKT1|AKT2|AKT3|PAK4|PAK6|PAK7|PRKCQ|PRKG1|PRKX"
+  },
+  {
+   "name": "rep02578",
+   "smiles": "O=S(=O)(Cc1ccccc1)Nc1ccc(-c2ccc3c(cnn3-c3ccc(F)cc3)c2)c(C(F)(F)F)c1",
+   "denovo_promise": 1.0,
+   "drug": "GSK9027",
+   "phase": "Preclinical",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02579",
+   "smiles": "CC(C)Oc1ccc(C(=O)N[C@H](CNC(=O)CN(C)C)Cc2ccc(-c3cn4cccc([C@H](C)O)c4n3)cc2)cc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "GSK923295",
+   "phase": "Phase 1",
+   "moa": "centromere associated protein inhibitor",
+   "target": "CENPE"
+  },
+  {
+   "name": "rep02580",
+   "smiles": "c1ccc(-c2[nH]nc3c2oc2ccccc23)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GTP-14564",
+   "phase": "Preclinical",
+   "moa": "FLT3 inhibitor|tyrosine kinase inhibitor",
+   "target": "CSF1R|FLT3|KIT|PDGFRB"
+  },
+  {
+   "name": "rep02581",
+   "smiles": "COc1ccc(/C=C2\\CCCN=C2c2cccnc2)c(OC)c1",
+   "denovo_promise": 1.0,
+   "drug": "GTS21",
+   "phase": "Phase 1/Phase 2",
+   "moa": "cholinergic receptor agonist",
+   "target": "CHRNA7"
+  },
+  {
+   "name": "rep02582",
+   "smiles": "COc1ccccc1OC(=O)c1ccccc1OC(C)=O",
+   "denovo_promise": 1.0,
+   "drug": "guacetisal",
+   "phase": "Launched",
+   "moa": "immunosuppressant",
+   "target": ""
+  },
+  {
+   "name": "rep02583",
+   "smiles": "Nc1ncn([C@H]2C[C@H](OP(=O)(O)OC[C@H]3O[C@@H](n4cnc5c(=O)nc(N)[nH]c54)C[C@@H]3O)[C@@H](CO)O2)c(=O)n1",
+   "denovo_promise": 1.0,
+   "drug": "guadecitabine",
+   "phase": "Phase 3",
+   "moa": "DNA methyltransferase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02584",
+   "smiles": "COc1ccccc1OC[C@@H](O)CO",
+   "denovo_promise": 1.0,
+   "drug": "guaifenesin",
+   "phase": "Launched",
+   "moa": "expectorant",
+   "target": ""
+  },
+  {
+   "name": "rep02585",
+   "smiles": "N=C(N)N/N=C/c1c(Cl)cccc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "guanaben-acetate",
+   "phase": "Launched",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRA2A|ADRA2B|ADRA2C"
+  },
+  {
+   "name": "rep02586",
+   "smiles": "N=C(N)NC[C@H]1COC2(CCCCC2)O1",
+   "denovo_promise": 1.0,
+   "drug": "guanadrel",
+   "phase": "Launched",
+   "moa": "adrenergic inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02587",
+   "smiles": "CCC(C)(C)NC(=N)NC#N",
+   "denovo_promise": 1.0,
+   "drug": "guancydine",
+   "phase": "Preclinical",
+   "moa": "antihypertensive agent",
+   "target": ""
+  },
+  {
+   "name": "rep02588",
+   "smiles": "N=C(N)NCCN1CCCCCCC1",
+   "denovo_promise": 1.0,
+   "drug": "guanethidine",
+   "phase": "Launched",
+   "moa": "adrenergic inhibitor",
+   "target": "SLC6A2"
+  },
+  {
+   "name": "rep02589",
+   "smiles": "N=C(N)NC(=O)Cc1c(Cl)cccc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "guanfacine",
+   "phase": "Launched",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRA2A|ADRA2B|ADRA2C"
+  },
+  {
+   "name": "rep02590",
+   "smiles": "N=C(N)NCCSSCCNC(=N)N",
+   "denovo_promise": 1.0,
+   "drug": "guanidinoethyldisulfide-bicarbonate",
+   "phase": "Phase 2",
+   "moa": "nitric oxide synthase inhibitor",
+   "target": "NOS2"
+  },
+  {
+   "name": "rep02591",
+   "smiles": "Nc1nc(=O)c2ncn([C@@H]3O[C@H](CO)[C@@H](O)[C@H]3O)c2[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "guanosine",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": "PNP"
+  },
+  {
+   "name": "rep02592",
+   "smiles": "CSc1nc2ccc3nc(NC(=O)C(c4ccccc4)c4ccccc4)sc3c2s1",
+   "denovo_promise": 1.0,
+   "drug": "Gue-1654",
+   "phase": "Preclinical",
+   "moa": "oxoeicosanoid receptor modulator",
+   "target": "OXER1"
+  },
+  {
+   "name": "rep02593",
+   "smiles": "Cc1cc(SCc2sc(-c3ccc(C(F)(F)F)c(F)c3)nc2C)ccc1OCC(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GW-0742",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor agonist",
+   "target": "PPARD"
+  },
+  {
+   "name": "rep02594",
+   "smiles": "CCOC(=O)c1ccc(-n2cc(Cc3cnc(OCC)nc3)c(=O)nc2SCc2ccc(F)cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GW-1100",
+   "phase": "Preclinical",
+   "moa": "G protein-coupled receptor agonist",
+   "target": "FFAR1"
+  },
+  {
+   "name": "rep02595",
+   "smiles": "CN(CCOc1ccc(C[C@H](Nc2ccccc2C(=O)c2ccccc2)C(=O)O)cc1)c1ccccn1",
+   "denovo_promise": 1.0,
+   "drug": "GW-1929",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor agonist",
+   "target": "PPARG"
+  },
+  {
+   "name": "rep02596",
+   "smiles": "COc1ccc(COc2ccc(Cc3cnc(N)nc3N)cc2OC)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GW-2580",
+   "phase": "Preclinical",
+   "moa": "cFMS kinase inhibitor",
+   "target": "CSF1R"
+  },
+  {
+   "name": "rep02597",
+   "smiles": "CC(C)[C@@H]1C(=O)N(S(C)(=O)=O)[C@@H]2CCN(C(=O)/C=C/CN3CCCCC3)[C@H]21",
+   "denovo_promise": 1.0,
+   "drug": "GW-311616",
+   "phase": "Phase 1",
+   "moa": "elastase inhibitor|leukocyte elastase inhibitor",
+   "target": "ELANE"
+  },
+  {
+   "name": "rep02598",
+   "smiles": "O=C(O)Cc1cccc(OCCCN(Cc2cccc(C(F)(F)F)c2Cl)CC(c2ccccc2)c2ccccc2)c1",
+   "denovo_promise": 1.0,
+   "drug": "GW-3965",
+   "phase": "Preclinical",
+   "moa": "LXR agonist",
+   "target": "NR1H2|NR1H3"
+  },
+  {
+   "name": "rep02599",
+   "smiles": "COc1ccc2c(c1)c(CCN1CCOCC1)c(C)n2C(=O)c1cccc(Cl)c1Cl",
+   "denovo_promise": 1.0,
+   "drug": "GW-405833",
+   "phase": "Preclinical",
+   "moa": "cannabinoid receptor agonist",
+   "target": "CNR2"
+  },
+  {
+   "name": "rep02600",
+   "smiles": "CC(C)c1onc(-c2c(Cl)cccc2Cl)c1COc1ccc(/C=C/c2cccc(C(=O)O)c2)c(Cl)c1",
+   "denovo_promise": 1.0,
+   "drug": "GW-4064",
+   "phase": "Preclinical",
+   "moa": "FXR agonist",
+   "target": "NR1H4"
+  },
+  {
+   "name": "rep02601",
+   "smiles": "O=C(Nc1nc2ccccc2n1CCc1ccccc1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "GW-438014A",
+   "phase": "Preclinical",
+   "moa": "neuropeptide receptor antagonist",
+   "target": "NPY5R"
+  },
+  {
+   "name": "rep02602",
+   "smiles": "Cn1cc(/C=C2\\C(=O)Nc3cccnc32)c2ccccc21",
+   "denovo_promise": 1.0,
+   "drug": "GW-441756",
+   "phase": "Preclinical",
+   "moa": "growth factor receptor inhibitor",
+   "target": "NTRK1"
+  },
+  {
+   "name": "rep02603",
+   "smiles": "Cc1cc(SCc2sc(-c3ccc(C(F)(F)F)cc3)nc2C)ccc1OCC(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GW-501516",
+   "phase": "Phase 2",
+   "moa": "PPAR receptor agonist",
+   "target": "PPARA|PPARD"
+  },
+  {
+   "name": "rep02604",
+   "smiles": "O=C1Nc2ccc(I)cc2C1=Cc1cc(Br)c(O)c(Br)c1",
+   "denovo_promise": 1.0,
+   "drug": "GW-5074",
+   "phase": "Phase 1/Phase 2",
+   "moa": "leucine rich repeat kinase inhibitor|RAF inhibitor",
+   "target": "NTRK1|RAF1"
+  },
+  {
+   "name": "rep02605",
+   "smiles": "COc1ccccc1NC(=O)OCC1CCN(C(=O)OC(C)(C)C)CC1",
+   "denovo_promise": 1.0,
+   "drug": "GW-542573X",
+   "phase": "Preclinical",
+   "moa": "calcium channel activator",
+   "target": "KCNN1"
+  },
+  {
+   "name": "rep02606",
+   "smiles": "CS(=O)(=O)CCNCc1nc(-c2ccc3ncnc(Nc4ccc(OCc5cccc(F)c5)c(Cl)c4)c3c2)cs1",
+   "denovo_promise": 1.0,
+   "drug": "GW-583340",
+   "phase": "Preclinical",
+   "moa": "EGFR inhibitor",
+   "target": "EGFR|ERBB2"
+  },
+  {
+   "name": "rep02607",
+   "smiles": "CCOc1c2c(c(OCC)c3ccccc13)C(=O)N(c1ccc(CC(=O)NS(=O)(=O)c3ccccc3)cc1)C2",
+   "denovo_promise": 1.0,
+   "drug": "GW-627368",
+   "phase": "Preclinical",
+   "moa": "prostanoid receptor antagonist",
+   "target": "PTGER4"
+  },
+  {
+   "name": "rep02608",
+   "smiles": "CC(C)(Sc1ccc(CCN(CCCCC2CCCCC2)C(=O)NC2CCCCC2)cc1)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GW-7647",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor agonist",
+   "target": "PPARA"
+  },
+  {
+   "name": "rep02609",
+   "smiles": "O=C(NC1CCOCC1)c1ccc(-c2cc(-c3c[nH]nc3-c3ccccn3)ccn2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GW-788388",
+   "phase": "Preclinical",
+   "moa": "ALK tyrosine kinase receptor inhibitor",
+   "target": "LCK|MAPK14|TGFBR1"
+  },
+  {
+   "name": "rep02610",
+   "smiles": "COc1cc(-n2cnc3cc(-c4ccc(Cl)cc4)sc3c2=O)ccc1OCCN1CCCC1",
+   "denovo_promise": 1.0,
+   "drug": "GW-803430",
+   "phase": "Phase 1",
+   "moa": "melanin inhibitor",
+   "target": "KCNH2|MCHR1"
+  },
+  {
+   "name": "rep02611",
+   "smiles": "O=C(NCC1CCOCC1)c1cnc(Nc2ccc(Cl)cc2Cl)nc1C(F)(F)F",
+   "denovo_promise": 1.0,
+   "drug": "GW-842166",
+   "phase": "Phase 2",
+   "moa": "cannabinoid receptor agonist",
+   "target": "CNR2"
+  },
+  {
+   "name": "rep02612",
+   "smiles": "COc1cc2ncn(-c3cc(OCc4ccccc4C(F)(F)F)c(C(N)=O)s3)c2cc1OC",
+   "denovo_promise": 1.0,
+   "drug": "GW-843682X",
+   "phase": "Preclinical",
+   "moa": "PLK inhibitor",
+   "target": "PLK1|PLK3"
+  },
+  {
+   "name": "rep02613",
+   "smiles": "O=C(O)CCc1ccc(NCc2cccc(Oc3ccccc3)c2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "GW-9508",
+   "phase": "Preclinical",
+   "moa": "free fatty acid receptor agonist|G protein-coupled receptor agonist",
+   "target": "FFAR1|FFAR4"
+  },
+  {
+   "name": "rep02614",
+   "smiles": "O=C(Nc1ccccc1)c1cc([N+](=O)[O-])ccc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "GW-9662",
+   "phase": "Preclinical",
+   "moa": "PPAR receptor antagonist",
+   "target": "NCOA2|PPARG|RXRA"
+  },
+  {
+   "name": "rep02615",
+   "smiles": "CC(=N)NCCSCC[C@H](N)C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "GW274150",
+   "phase": "Phase 2",
+   "moa": "nitric oxide synthase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02616",
+   "smiles": "CC1=NN=C(c2ccc(N)cc2)c2cc3c(cc2C1)OCO3",
+   "denovo_promise": 1.0,
+   "drug": "GYKI-52466",
+   "phase": "Preclinical",
+   "moa": "glutamate receptor antagonist",
+   "target": "GRIA1|GRIA2|GRIA3|GRIA4"
+  },
+  {
+   "name": "rep02617",
+   "smiles": "Cc1ccc(C(=O)Nc2ccc(CN3CCN(C)CC3)c(C(F)(F)F)c2)cc1C#Cc1cnc2n[nH]cc2c1",
+   "denovo_promise": 1.0,
+   "drug": "GZD824",
+   "phase": "Preclinical",
+   "moa": "Bcr-Abl kinase inhibitor",
+   "target": "ABL1|BCR"
+  },
+  {
+   "name": "rep02618",
+   "smiles": "CCc1ccc(NC(=O)Nc2c[nH]c3ccccc23)cc1",
+   "denovo_promise": 1.0,
+   "drug": "H-151",
+   "phase": "Preclinical",
+   "moa": "STING antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02619",
+   "smiles": "O=S(=O)(NCCNC/C=C/c1ccc(Br)cc1)c1cccc2cnccc12",
+   "denovo_promise": 1.0,
+   "drug": "H-89",
+   "phase": "Preclinical",
+   "moa": "PKA inhibitor",
+   "target": "GSG2|PKIA|PRKACA"
+  },
+  {
+   "name": "rep02620",
+   "smiles": "O=C(O)c1ccc2c(c1)C(=O)N(c1cccc(Oc3ccc([N+](=O)[O-])cc3)c1)C2=O",
+   "denovo_promise": 1.0,
+   "drug": "H2L-5765834",
+   "phase": "Preclinical",
+   "moa": "lysophosphatidic acid receptor antagonist",
+   "target": "LPAR1|LPAR3"
+  },
+  {
+   "name": "rep02621",
+   "smiles": "N=C(N)NCCNS(=O)(=O)c1cccc2cnccc12",
+   "denovo_promise": 1.0,
+   "drug": "HA-1004",
+   "phase": "Phase 2",
+   "moa": "calcium channel blocker",
+   "target": ""
+  },
+  {
+   "name": "rep02622",
+   "smiles": "O=C1S/C(=C\\c2ccc(OCc3cccc(B(O)O)c3)cc2)C(=O)N1Cc1ccc(F)cc1",
+   "denovo_promise": 1.0,
+   "drug": "HA-130",
+   "phase": "Preclinical",
+   "moa": "autotaxin inhibitor",
+   "target": "ENPP2"
+  },
+  {
+   "name": "rep02623",
+   "smiles": "CCOC(=O)C1=C(N)Oc2ccc(Br)cc2[C@H]1[C@H](C#N)C(=O)OCC",
+   "denovo_promise": 1.0,
+   "drug": "HA14-1",
+   "phase": "Preclinical",
+   "moa": "BCL inhibitor",
+   "target": "BCL2"
+  },
+  {
+   "name": "rep02624",
+   "smiles": "O=C(O)c1ccc(S(=O)(=O)N(Cl)Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "halazone",
+   "phase": "Launched",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02625",
+   "smiles": "CC1(C)O[C@@H]2C[C@H]3[C@@H]4CCC5=CC(=O)CC[C@]5(C)[C@@]4(F)[C@@H](O)C[C@]3(C)[C@]2(C(=O)CCl)O1",
+   "denovo_promise": 1.0,
+   "drug": "halcinonide",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02626",
+   "smiles": "CCC(=O)O[C@]1(C(=O)CCl)[C@@H](C)C[C@H]2[C@@H]3C[C@H](F)C4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "halobetasol-propionate",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1|PLA2G1B"
+  },
+  {
+   "name": "rep02627",
+   "smiles": "CCCCN(CCCC)CC[C@@H](O)c1cc2c(Cl)cc(Cl)cc2c2cc(C(F)(F)F)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "halofantrine",
+   "phase": "Launched",
+   "moa": "antimalarial agent",
+   "target": "KCNN4"
+  },
+  {
+   "name": "rep02628",
+   "smiles": "O=C(C[C@H]1NCCC[C@@H]1O)Cn1cnc2cc(Br)c(Cl)cc2c1=O",
+   "denovo_promise": 1.0,
+   "drug": "halofuginone",
+   "phase": "Launched",
+   "moa": "collagenase inhibitor",
+   "target": "COL1A1|MMP2"
+  },
+  {
+   "name": "rep02629",
+   "smiles": "O=C(NCCN1CCC(n2c(=O)[nH]c3cc(Cl)ccc32)CC1)c1ccc(F)cc1",
+   "denovo_promise": 1.0,
+   "drug": "halopemide",
+   "phase": "Phase 2",
+   "moa": "phospholipase inhibitor",
+   "target": "PLD1|PLD2"
+  },
+  {
+   "name": "rep02630",
+   "smiles": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+   "denovo_promise": 1.0,
+   "drug": "haloperidol",
+   "phase": "Launched",
+   "moa": "dopamine receptor antagonist",
+   "target": "DRD1|DRD2|DRD3|DRD4|DRD5|GRIN2B|HRH1|HTR1A|HTR1D|HTR2A|HTR2B|HTR7|KCNH1"
+  },
+  {
+   "name": "rep02631",
+   "smiles": "CCCCCCCCCC(=O)OC1(c2ccc(Cl)cc2)CCN(CCCC(=O)c2ccc(F)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "haloperidol-decanoate",
+   "phase": "Launched",
+   "moa": "psychoactive drug",
+   "target": "DRD2|DRD3|DRD4|HTR2A"
+  },
+  {
+   "name": "rep02632",
+   "smiles": "Clc1cc(Cl)c(OCC#CI)cc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "haloprogin",
+   "phase": "Launched",
+   "moa": "other antifungal",
+   "target": ""
+  },
+  {
+   "name": "rep02633",
+   "smiles": "FC(F)(F)[C@@H](Cl)Br",
+   "denovo_promise": 1.0,
+   "drug": "halothane",
+   "phase": "Launched",
+   "moa": "glutamate receptor antagonist",
+   "target": "GABRA1|GABRA2|GABRA3|GABRA4|GABRA5|GABRA6|GABRB1|GABRB2|GABRB3|GABRD|GABRE|GABRG1|GABRG2|GABRG3|GABRP|GABRQ|GLRA1|GLRB|KCNK10|KCNK12|KCNK13|KCNK15|KCNK18|KCNK2|KCNK3|KCNK9"
+  },
+  {
+   "name": "rep02634",
+   "smiles": "Cc1nccc2c1[nH]c1ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "harmane",
+   "phase": "Preclinical",
+   "moa": "monoamine oxidase inhibitor",
+   "target": "MAOA|MAOB"
+  },
+  {
+   "name": "rep02635",
+   "smiles": "COC(=O)C[C@](O)(CCC(C)(C)O)C(=O)O[C@@H]1C(OC)=C[C@]23CCCN2CCc2cc4c(cc2[C@H]13)OCO4",
+   "denovo_promise": 1.0,
+   "drug": "harringtonine",
+   "phase": "Phase 3",
+   "moa": "protein synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02636",
+   "smiles": "O=C(O)CN(CCN(CC(=O)O)Cc1ccccc1O)Cc1ccccc1O",
+   "denovo_promise": 1.0,
+   "drug": "HBED",
+   "phase": "Phase 3",
+   "moa": "chelating agent",
+   "target": ""
+  },
+  {
+   "name": "rep02637",
+   "smiles": "CC(C)c1ccc(NC(=O)Cn2cnc3c2c(=O)n(C)c(=O)n3C)cc1",
+   "denovo_promise": 1.0,
+   "drug": "HC-030031",
+   "phase": "Phase 1",
+   "moa": "TRPA1 channel blocker",
+   "target": "TRPA1"
+  },
+  {
+   "name": "rep02638",
+   "smiles": "Cc1c(C(=O)Nc2cccc(C(F)(F)F)c2)cc(-c2ccccc2)n1CCCN1CCOCC1",
+   "denovo_promise": 1.0,
+   "drug": "HC-067047",
+   "phase": "Preclinical",
+   "moa": "transient receptor potential channel antagonist",
+   "target": "TRPV4"
+  },
+  {
+   "name": "rep02639",
+   "smiles": "Cn1c(=O)n(CCCO)c(=O)c2c1nc(Oc1cccc(Cl)c1)n2Cc1ccc(Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "HC-070",
+   "phase": "Preclinical",
+   "moa": "transient receptor potential channel antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02640",
+   "smiles": "CCc1ccc(/C=C/C(=O)Nc2ccc(C(C)=O)cc2)o1",
+   "denovo_promise": 1.0,
+   "drug": "heclin",
+   "phase": "Preclinical",
+   "moa": "ubiquitin ligase inhibitor",
+   "target": "NEDD4|SMURF2|WWP1"
+  },
+  {
+   "name": "rep02641",
+   "smiles": "CCCCC#Cc1nc(NC)c2ncn([C@@H]3O[C@H](CO)[C@@H](O)[C@H]3O)c2n1",
+   "denovo_promise": 1.0,
+   "drug": "HEMADO",
+   "phase": "Preclinical",
+   "moa": "adenosine receptor agonist",
+   "target": "ADORA1|ADORA2A|ADORA2B|ADORA3"
+  },
+  {
+   "name": "rep02642",
+   "smiles": "CC1=C([C@@H](C)O)c2cc3nc(cc4[nH]c(cc5[nH]c(cc1n2)c(C)c5CCC(=O)O)c(CCC(=O)O)c4C)C([C@@H](C)O)=C3C",
+   "denovo_promise": 1.0,
+   "drug": "hematoporphyrin",
+   "phase": "Launched",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02643",
+   "smiles": "Oc1cc2c(cc1O)[C@@H]1c3ccc(O)c(O)c3OC[C@]1(O)C2",
+   "denovo_promise": 1.0,
+   "drug": "hematoxylin",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02644",
+   "smiles": "CC(C)=CCC[C@](C)(O)[C@H]1CC[C@]2(C)[C@@H]1[C@H](O)C[C@@H]1[C@@]3(C)CC[C@H](O)C(C)(C)[C@@H]3[C@@H](O)C[C@]12C",
+   "denovo_promise": 1.0,
+   "drug": "hemomex-s",
+   "phase": "Launched",
+   "moa": "",
+   "target": "PPARG"
+  },
+  {
+   "name": "rep02645",
+   "smiles": "NS(=O)(=O)OCCCCCCCOS(N)(=O)=O",
+   "denovo_promise": 1.0,
+   "drug": "hepsulfam",
+   "phase": "Preclinical",
+   "moa": "DNA cross-linking",
+   "target": ""
+  },
+  {
+   "name": "rep02646",
+   "smiles": "Cc1cc(Nc2ncnc3ccc(-c4ccc(CNCCS(C)(=O)=O)o4)cc23)ccc1Oc1ccn2ncnc2c1",
+   "denovo_promise": 1.0,
+   "drug": "HER2-Inhibitor-1",
+   "phase": "Preclinical",
+   "moa": "EGFR inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02647",
+   "smiles": "CCS(=O)(=O)Nc1ccc2c(c1)/C(=C(/Nc1ccc(CN3CCCCC3)cc1)c1ccccc1)C(=O)N2",
+   "denovo_promise": 1.0,
+   "drug": "hesperadin",
+   "phase": "Preclinical",
+   "moa": "Aurora kinase inhibitor",
+   "target": "AURKB"
+  },
+  {
+   "name": "rep02648",
+   "smiles": "COc1ccc([C@@H]2CC(=O)c3c(O)cc(O)cc3O2)cc1O",
+   "denovo_promise": 1.0,
+   "drug": "hesperetin",
+   "phase": "Launched",
+   "moa": "ACAT inhibitor",
+   "target": "DGAT1|MTTP|SOAT1|SOAT2"
+  },
+  {
+   "name": "rep02649",
+   "smiles": "CC1(C)S[C@@H]2[C@H](N3C(=O)[C@@H](c4ccccc4)NC3(C)C)C(=O)N2[C@H]1C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "hetacillin",
+   "phase": "Launched",
+   "moa": "bacterial cell wall synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02650",
+   "smiles": "Oc1c(Cl)cc(Cl)c(Cl)c1Cc1c(O)c(Cl)cc(Cl)c1Cl",
+   "denovo_promise": 1.0,
+   "drug": "hexachlorophene",
+   "phase": "Launched",
+   "moa": "potassium channel activator",
+   "target": "GLUD1|SDHD"
+  },
+  {
+   "name": "rep02651",
+   "smiles": "C[N+](C)(C)CCCCCC[N+](C)(C)C",
+   "denovo_promise": 1.0,
+   "drug": "hexamethonium",
+   "phase": "Preclinical",
+   "moa": "cholinergic receptor antagonist",
+   "target": "CHRNA2|CHRNA3|CHRNA4|CHRNA6"
+  },
+  {
+   "name": "rep02652",
+   "smiles": "CC(=O)NCCCCCCNC(C)=O",
+   "denovo_promise": 1.0,
+   "drug": "hexamethylenebisacetamide",
+   "phase": "Phase 2",
+   "moa": "AKT inhibitor|differentiation inducer|NFKB pathway inhibitor",
+   "target": "AKT1"
+  },
+  {
+   "name": "rep02653",
+   "smiles": "CCCCCCOC(=O)CCC(=O)CN",
+   "denovo_promise": 1.0,
+   "drug": "hexaminolevulinate",
+   "phase": "Launched",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02654",
+   "smiles": "CC[C@H](c1ccc(O)cc1)[C@@H](CC)c1ccc(O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "hexestrol",
+   "phase": "Launched",
+   "moa": "synthetic estrogen",
+   "target": "AKR1C1|ESR1|ESR2"
+  },
+  {
+   "name": "rep02655",
+   "smiles": "CCCC[C@@H](CC)CN1CN(C[C@@H](CC)CCCC)C[C@@](C)(N)C1",
+   "denovo_promise": 1.0,
+   "drug": "hexetidine",
+   "phase": "Launched",
+   "moa": "local anesthetic",
+   "target": ""
+  },
+  {
+   "name": "rep02656",
+   "smiles": "O=C(O)[C@H](O)[C@H](O)[C@H](O)[C@H](O)CO",
+   "denovo_promise": 1.0,
+   "drug": "hexonic-acid",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02657",
+   "smiles": "Oc1ccc([C@H](O)CNCCCCCCNC[C@H](O)c2ccc(O)c(O)c2)cc1O",
+   "denovo_promise": 1.0,
+   "drug": "hexoprenaline",
+   "phase": "Launched",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRB2"
+  },
+  {
+   "name": "rep02658",
+   "smiles": "C[C@@H](CNC1CCCCC1)OC(=O)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "hexylcaine",
+   "phase": "Launched",
+   "moa": "sodium channel blocker",
+   "target": "SCN5A"
+  },
+  {
+   "name": "rep02659",
+   "smiles": "CCCCCCc1ccc(O)cc1O",
+   "denovo_promise": 1.0,
+   "drug": "hexylresorcinol",
+   "phase": "Launched",
+   "moa": "local anesthetic",
+   "target": "TYR"
+  },
+  {
+   "name": "rep02660",
+   "smiles": "Oc1ccc(C[C@H]2NCCc3cc(O)c(O)cc32)cc1",
+   "denovo_promise": 1.0,
+   "drug": "higenamine",
+   "phase": "Phase 1",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRB2"
+  },
+  {
+   "name": "rep02661",
+   "smiles": "O=C(O)CNC(=O)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "hippuric-acid",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02662",
+   "smiles": "Cc1cc(C)c(S(=O)(=O)n2cc(C)cc2C)c(C)c1",
+   "denovo_promise": 1.0,
+   "drug": "HJC-0350",
+   "phase": "Preclinical",
+   "moa": "GTPase inhibitor",
+   "target": "RAPGEF4"
+  },
+  {
+   "name": "rep02663",
+   "smiles": "CCOc1cc2ncc(C#N)c(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2cc1NC(=O)/C=C/CN(C)C",
+   "denovo_promise": 1.0,
+   "drug": "HKI-357",
+   "phase": "Phase 1",
+   "moa": "EGFR inhibitor",
+   "target": "EGFR"
+  },
+  {
+   "name": "rep02664",
+   "smiles": "CCn1c2ccccc2c2cc(CNCc3ccccc3OC)ccc21",
+   "denovo_promise": 1.0,
+   "drug": "HLCL-61",
+   "phase": "Preclinical",
+   "moa": "protein arginine N-methyltransferase inhibitor",
+   "target": "PRMT5"
+  },
+  {
+   "name": "rep02665",
+   "smiles": "COc1ccc(S(=O)(=O)N(C(C)=O)c2ccccc2/C=C/c2cc[n+]([O-])cc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "HMN-214",
+   "phase": "Phase 1",
+   "moa": "PLK inhibitor",
+   "target": "PLK1"
+  },
+  {
+   "name": "rep02666",
+   "smiles": "CC(C)(C)NC[C@H](O)c1ccc(O)cc1Cl",
+   "denovo_promise": 1.0,
+   "drug": "HOKU-81",
+   "phase": "Preclinical",
+   "moa": "bronchodilator",
+   "target": ""
+  },
+  {
+   "name": "rep02667",
+   "smiles": "CC[n+]1c(-c2ccccc2)c2cc(N)ccc2c2ccc(N)cc21",
+   "denovo_promise": 1.0,
+   "drug": "homidium",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02668",
+   "smiles": "CN1CCCN([C@@H](c2ccccc2)c2ccc(Cl)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "homochlorcyclizine",
+   "phase": "Launched",
+   "moa": "antihistamine",
+   "target": "HRH1"
+  },
+  {
+   "name": "rep02669",
+   "smiles": "COC(=O)C[C@](O)(CCCC(C)(C)O)C(=O)O[C@@H]1C(OC)=C[C@]23CCCN2CCc2cc4c(cc2[C@H]13)OCO4",
+   "denovo_promise": 1.0,
+   "drug": "homoharringtonine",
+   "phase": "Launched",
+   "moa": "protein synthesis inhibitor",
+   "target": "RPL3"
+  },
+  {
+   "name": "rep02670",
+   "smiles": "O=C(O)Cc1cccnc1C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "homoquinolinic-acid",
+   "phase": "Preclinical",
+   "moa": "glutamate receptor agonist",
+   "target": "GRIN1|GRIN2A|GRIN2B|GRIN2C|GRIN2D"
+  },
+  {
+   "name": "rep02671",
+   "smiles": "C[C@H]1C[C@H](OC(=O)c2ccccc2O)CC(C)(C)C1",
+   "denovo_promise": 1.0,
+   "drug": "homosalate",
+   "phase": "Preclinical",
+   "moa": "HSP inducer",
+   "target": ""
+  },
+  {
+   "name": "rep02672",
+   "smiles": "COc1ccc(CCN)cc1OC",
+   "denovo_promise": 1.0,
+   "drug": "homoveratrylamine",
+   "phase": "Preclinical",
+   "moa": "monoamine oxidase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02673",
+   "smiles": "C=CCc1ccc(O)c(-c2ccc(O)c(CC=C)c2)c1",
+   "denovo_promise": 1.0,
+   "drug": "honokiol",
+   "phase": "Phase 3",
+   "moa": "AKT inhibitor",
+   "target": "ALOX5|PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02674",
+   "smiles": "CN(C)CCc1ccc(O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "hordenine",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02675",
+   "smiles": "CC(C)(O)c1nc(-c2cccc(CNC(=O)c3cnc(-c4ccccn4)nc3)c2)no1",
+   "denovo_promise": 1.0,
+   "drug": "hPGDS-IN-1",
+   "phase": "Preclinical",
+   "moa": "prostaglandin inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02676",
+   "smiles": "O=C(Nc1nnn[nH]1)c1cncc(N2CCCC2)n1",
+   "denovo_promise": 1.0,
+   "drug": "HSR6071",
+   "phase": "Preclinical",
+   "moa": "antiallergic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02677",
+   "smiles": "O=C1/C(=N\\c2cccc(C(F)(F)F)c2)c2ccccc2N1c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "HT-2157",
+   "phase": "Phase 1/Phase 2",
+   "moa": "galanin receptor 3 antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02678",
+   "smiles": "Cc1nc(Nc2cnn(C3CCNCC3)c2)nc2c1N(C)C(=O)c1cc3ccccc3cc1N2C",
+   "denovo_promise": 1.0,
+   "drug": "HTH-01-015",
+   "phase": "Preclinical",
+   "moa": "protein kinase inhibitor",
+   "target": "NUAK1"
+  },
+  {
+   "name": "rep02679",
+   "smiles": "CCCCCCOc1cc(C)c(O)c(C)c1C",
+   "denovo_promise": 1.0,
+   "drug": "HTHQ",
+   "phase": "Preclinical",
+   "moa": "antioxidant",
+   "target": ""
+  },
+  {
+   "name": "rep02680",
+   "smiles": "C[C@@H](CCCCC(=O)Nc1ccc(C(F)(F)F)cc1)NCCc1cnc[nH]1",
+   "denovo_promise": 1.0,
+   "drug": "HTMT",
+   "phase": "Preclinical",
+   "moa": "histamine receptor agonist",
+   "target": "HRH4"
+  },
+  {
+   "name": "rep02681",
+   "smiles": "C/C=C1\\[C@H]2C=C(C)C[C@]1(N)c1ccc(=O)[nH]c1C2",
+   "denovo_promise": 1.0,
+   "drug": "huperzine-A",
+   "phase": "Phase 2",
+   "moa": "acetylcholinesterase inhibitor",
+   "target": "ACHE"
+  },
+  {
+   "name": "rep02682",
+   "smiles": "CC(=O)N[C@@H]1C[C@H](O)[C@@H](CO)O[C@H]1O[C@H]1[C@H](O)[C@@H](O)[C@H](O)O[C@@H]1C(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "hyaluronic-acid",
+   "phase": "Launched",
+   "moa": "",
+   "target": "C1QBP|CD44|HABP2|HAPLN1|HAPLN3|HAPLN4|HMMR|ICAM1|NCAN|VCAN"
+  },
+  {
+   "name": "rep02683",
+   "smiles": "CCN(CC)CCNc1ccc(CO)c2sc3ccccc3c(=O)c12",
+   "denovo_promise": 1.0,
+   "drug": "hycanthone",
+   "phase": "Launched",
+   "moa": "RNA synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02684",
+   "smiles": "NNc1nncc2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "hydralazine",
+   "phase": "Launched",
+   "moa": "vasodilator",
+   "target": ""
+  },
+  {
+   "name": "rep02685",
+   "smiles": "COc1ccc2c(c1OC)C(=O)O[C@@H]2[C@H]1c2cc3c(cc2CCN1C)OCO3",
+   "denovo_promise": 1.0,
+   "drug": "hydrastine-(1R,9S)",
+   "phase": "Preclinical",
+   "moa": "tyrosine hydroxylase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02686",
+   "smiles": "C[N+]1=Cc2cc3c(cc2CC1)OCO3",
+   "denovo_promise": 1.0,
+   "drug": "hydrastinine",
+   "phase": "Preclinical",
+   "moa": "hemostatic agent",
+   "target": ""
+  },
+  {
+   "name": "rep02687",
+   "smiles": "NS(=O)(=O)c1cc2c(cc1Cl)NCNS2(=O)=O",
+   "denovo_promise": 1.0,
+   "drug": "hydrochlorothiazide",
+   "phase": "Launched",
+   "moa": "thiazide diuretic",
+   "target": "CA1|CA12|CA2|CA4|CA9|KCNMA1|SLC12A3"
+  },
+  {
+   "name": "rep02688",
+   "smiles": "C[C@]12CCC(=O)C=C1CC[C@@H]1[C@@H]2[C@@H](O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)CO",
+   "denovo_promise": 1.0,
+   "drug": "hydrocortisone",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "ANXA1|NOS2|NR3C1|NR3C2"
+  },
+  {
+   "name": "rep02689",
+   "smiles": "CC(=O)OCC(=O)[C@@]1(O)CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "hydrocortisone-acetate",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02690",
+   "smiles": "CCCC(=O)O[C@]1(C(=O)CO)CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "hydrocortisone-butyrate",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02691",
+   "smiles": "C[C@]12CCC(=O)C=C1CC[C@@H]1[C@@H]2[C@@H](O)C[C@@]2(C)[C@H]1CC[C@]2(O)C(=O)COC(=O)CCC(=O)O",
+   "denovo_promise": 1.0,
+   "drug": "hydrocortisone-hemisuccinate",
+   "phase": "Phase 2/Phase 3",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02692",
+   "smiles": "C[C@@]12CCC(=O)C=C1CC[C@@H]1[C@@H]2[C@@H](O)C[C@]2(C)[C@H]1CC[C@]2(O)C(=O)COP(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "hydrocortisone-phosphate",
+   "phase": "Launched",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02693",
+   "smiles": "CCCCC(=O)O[C@]1(C(=O)CO)CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3[C@@H](O)C[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "hydrocortisone-valerate",
+   "phase": "Launched",
+   "moa": "glucocorticoid receptor agonist",
+   "target": "NR3C1"
+  },
+  {
+   "name": "rep02694",
+   "smiles": "NS(=O)(=O)c1cc2c(cc1C(F)(F)F)NCNS2(=O)=O",
+   "denovo_promise": 1.0,
+   "drug": "hydroflumethiazide",
+   "phase": "Launched",
+   "moa": "sodium/potassium/chloride transporter inhibitor",
+   "target": "ATP1A1|CA1|CA12|CA2|CA4|CA9|KCNMA1|SLC12A1|SLC12A3"
+  },
+  {
+   "name": "rep02695",
+   "smiles": "CC[C@H]1C[N@@]2CC[C@H]1C[C@@H]2[C@@H](O)c1ccnc2ccc(OC)cc12",
+   "denovo_promise": 1.0,
+   "drug": "hydroquinidine",
+   "phase": "Launched",
+   "moa": "antiarrhythmic",
+   "target": ""
+  },
+  {
+   "name": "rep02696",
+   "smiles": "C[C@@H](N)Cc1ccc(O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "hydroxyamphetamine",
+   "phase": "Launched",
+   "moa": "trace amine associated receptor agonist",
+   "target": "TAAR1"
+  },
+  {
+   "name": "rep02697",
+   "smiles": "CCN(CCO)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "hydroxychloroquine",
+   "phase": "Launched",
+   "moa": "antimalarial agent",
+   "target": "TLR7|TLR9"
+  },
+  {
+   "name": "rep02698",
+   "smiles": "O=c1[nH]ccc2c(S(=O)(=O)N3CCCNCC3)cccc12",
+   "denovo_promise": 1.0,
+   "drug": "hydroxyfasudil",
+   "phase": "Preclinical",
+   "moa": "rho associated kinase inhibitor",
+   "target": "PKIA|PRKACA|ROCK1"
+  },
+  {
+   "name": "rep02699",
+   "smiles": "CC(=O)[C@@]1(O)CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3CC[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "hydroxyprogesterone",
+   "phase": "Launched",
+   "moa": "progesterone receptor agonist",
+   "target": "PGR"
+  },
+  {
+   "name": "rep02700",
+   "smiles": "CC(=O)O[C@]1(C(C)=O)CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3CC[C@@]21C",
+   "denovo_promise": 1.0,
+   "drug": "hydroxyprogesterone-acetate",
+   "phase": "Launched",
+   "moa": "progesterone receptor agonist",
+   "target": "PGR"
+  },
+  {
+   "name": "rep02701",
+   "smiles": "N=C(N)c1ccc(/C=C/c2ccc(C(=N)N)cc2O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "hydroxystilbamidine",
+   "phase": "Launched",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02702",
+   "smiles": "Nc1c2c(nc3ccccc13)CCC[C@@H]2O",
+   "denovo_promise": 1.0,
+   "drug": "hydroxytacrine-maleate-(R,S)",
+   "phase": "Preclinical",
+   "moa": "cholinesterase inhibitor",
+   "target": "ACHE"
+  },
+  {
+   "name": "rep02703",
+   "smiles": "Cc1cccc(C(=O)O)c1O",
+   "denovo_promise": 1.0,
+   "drug": "hydroxytoluic-acid",
+   "phase": "Preclinical",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02704",
+   "smiles": "OCCOCCN1CCN([C@@H](c2ccccc2)c2ccc(Cl)cc2)CC1",
+   "denovo_promise": 1.0,
+   "drug": "hydroxyzine",
+   "phase": "Launched",
+   "moa": "antihistamine",
+   "target": "HRH1"
+  },
+  {
+   "name": "rep02705",
+   "smiles": "CN[C@H]1C[C@@H](N)[C@H](O)[C@@H](O[C@@H]2O[C@H](CO)[C@H](O)[C@@H]3O[C@@]4(O[C@H]23)O[C@H]([C@@H](N)CO)[C@H](O)[C@H](O)[C@H]4O)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "hygromycin-B",
+   "phase": "Preclinical",
+   "moa": "polypeptide synthesis inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02706",
+   "smiles": "Cc1cc(=O)oc2cc(O)ccc12",
+   "denovo_promise": 1.0,
+   "drug": "hymecromone",
+   "phase": "Phase 2",
+   "moa": "monoamine oxidase inhibitor",
+   "target": "MAOA|MAOB"
+  },
+  {
+   "name": "rep02707",
+   "smiles": "C[C@H](CCC(=O)O)[C@H]1CC[C@H]2[C@@H]3C[C@H](O)[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3CC[C@]12C",
+   "denovo_promise": 1.0,
+   "drug": "hyodeoxycholic-acid",
+   "phase": "Phase 1",
+   "moa": "atherosclerosis formation inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02708",
+   "smiles": "CN1[C@@H]2CC[C@H]1C[C@@H](OC(=O)[C@H](CO)c1ccccc1)C2",
+   "denovo_promise": 1.0,
+   "drug": "hyoscyamine",
+   "phase": "Launched",
+   "moa": "acetylcholine receptor antagonist",
+   "target": "CHRM1|CHRM2|CHRM3|CHRM4"
+  },
+  {
+   "name": "rep02709",
+   "smiles": "Cc1cc(O)c2c(=O)c3c(O)cc(O)c4c5c(O)cc(O)c6c(=O)c7c(O)cc(C)c8c1c2c(c34)c(c78)c65",
+   "denovo_promise": 1.0,
+   "drug": "hypericin",
+   "phase": "Phase 3",
+   "moa": "tyrosine kinase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02710",
+   "smiles": "O=c1c(O[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@@H]2O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12",
+   "denovo_promise": 1.0,
+   "drug": "hyperin",
+   "phase": "Preclinical",
+   "moa": "aldose reductase inhibitor",
+   "target": "ACE|AKR1B1"
+  },
+  {
+   "name": "rep02711",
+   "smiles": "C=C1C(=O)C[C@H]2C[C@@H]3O[C@@]3(C)CC[C@@H]3O[C@@]3(C)C[C@@H](OC(C)=O)[C@H]1C2(C)C",
+   "denovo_promise": 1.0,
+   "drug": "hypoestoxide",
+   "phase": "Phase 1",
+   "moa": "IKK inhibitor",
+   "target": "IKBKB|IL1B|TNF"
+  },
+  {
+   "name": "rep02712",
+   "smiles": "CCNC(=O)C[C@@H]1N=C(c2ccc(Cl)cc2)c2cc(OC)ccc2-n2c(C)nnc21",
+   "denovo_promise": 1.0,
+   "drug": "I-BET-762",
+   "phase": "Phase 2",
+   "moa": "bromodomain inhibitor",
+   "target": "BRD2|BRD3|BRD4"
+  },
+  {
+   "name": "rep02713",
+   "smiles": "COc1cc2c(cc1-c1c(C)noc1C)ncc1[nH]c(=O)n([C@H](C)c3ccccn3)c12",
+   "denovo_promise": 1.0,
+   "drug": "I-BET151",
+   "phase": "Preclinical",
+   "moa": "bromodomain inhibitor",
+   "target": "BRD2|BRD3|BRD4"
+  },
+  {
+   "name": "rep02714",
+   "smiles": "CCn1cc(-c2cccc(C(F)(F)F)c2)c2sc(C(=N)NC3CCS(=O)(=O)CC3)cc2c1=O",
+   "denovo_promise": 1.0,
+   "drug": "I-BRD9",
+   "phase": "Preclinical",
+   "moa": "bromodomain inhibitor",
+   "target": "BRD9"
+  },
+  {
+   "name": "rep02715",
+   "smiles": "CCN(CC)CCNC(=O)c1ccc(I)cc1",
+   "denovo_promise": 1.0,
+   "drug": "I-BZA",
+   "phase": "Phase 2",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02716",
+   "smiles": "CCN(CC)CCNC(=O)c1ccccc1I",
+   "denovo_promise": 1.0,
+   "drug": "I-BZA2",
+   "phase": "Phase 3",
+   "moa": "",
+   "target": ""
+  },
+  {
+   "name": "rep02717",
+   "smiles": "CCC(=O)N1CCOc2c(cc(-c3ccc(OC)c(OC)c3)cc2OC[C@H]2CCCN(C)C2)C1",
+   "denovo_promise": 1.0,
+   "drug": "I-CBP-112",
+   "phase": "Preclinical",
+   "moa": "bromodomain inhibitor",
+   "target": "CREBBP|EP300"
+  },
+  {
+   "name": "rep02718",
+   "smiles": "Cc1nc(-c2nc(-c3ccc(OC(F)(F)F)cc3)no2)nn1Cc1cccc(N2CCC(S(C)(=O)=O)CC2)c1",
+   "denovo_promise": 1.0,
+   "drug": "IACS-10759",
+   "phase": "Preclinical",
+   "moa": "mitochondrial complex I inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02719",
+   "smiles": "CNC(=O)[C@H]1O[C@@H](n2cnc3c(NCc4cccc(I)c4)ncnc32)[C@H](O)[C@@H]1O",
+   "denovo_promise": 1.0,
+   "drug": "IB-MECA",
+   "phase": "Phase 3",
+   "moa": "adenosine receptor agonist",
+   "target": "ADORA1|ADORA2A|ADORA2B|ADORA3"
+  },
+  {
+   "name": "rep02720",
+   "smiles": "CCCCCN(C)CCC(O)(P(=O)(O)O)P(=O)(O)O",
+   "denovo_promise": 1.0,
+   "drug": "ibandronate",
+   "phase": "Launched",
+   "moa": "bone resorption inhibitor",
+   "target": "FDPS"
+  },
+  {
+   "name": "rep02721",
+   "smiles": "CC(C)n1nnc2cc(C(=O)O)ccc21",
+   "denovo_promise": 1.0,
+   "drug": "IBC-293",
+   "phase": "Preclinical",
+   "moa": "hydroxycarboxylic acid receptor agonist",
+   "target": "HCAR3"
+  },
+  {
+   "name": "rep02722",
+   "smiles": "O=C1CC[C@H](N2Cc3c(OCc4ccc(CN5CCOCC5)cc4)cccc3C2=O)C(=O)N1",
+   "denovo_promise": 1.0,
+   "drug": "iberdomide",
+   "phase": "Preclinical",
+   "moa": "cereblon modulator",
+   "target": ""
+  },
+  {
+   "name": "rep02723",
+   "smiles": "CC(C)(NC(=O)O[C@@H]1CN2CCC1CC2)c1csc(-c2ccc(F)cc2)n1",
+   "denovo_promise": 1.0,
+   "drug": "ibiglustat",
+   "phase": "Preclinical",
+   "moa": "glucosylceramidase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02724",
+   "smiles": "CC(C)Cn1c(=O)n(C)c(=O)c2[nH]cnc21",
+   "denovo_promise": 1.0,
+   "drug": "IBMX",
+   "phase": "Preclinical",
+   "moa": "phosphodiesterase inhibitor",
+   "target": "ADORA1|PDE2A|PDE3B|PDE4D|PDE5A|PDE6G|PDE7A|PDE8A|PDE9A"
+  },
+  {
+   "name": "rep02725",
+   "smiles": "N[C@@H](C(=O)O)c1cc(=O)[nH]o1",
+   "denovo_promise": 1.0,
+   "drug": "ibotenic-acid",
+   "phase": "Preclinical",
+   "moa": "glutamate receptor agonist",
+   "target": "GRIN1"
+  },
+  {
+   "name": "rep02726",
+   "smiles": "CCOP(=O)(Cc1ccc(C(=O)Nc2ccc(Br)cc2C#N)cc1)OCC",
+   "denovo_promise": 1.0,
+   "drug": "ibrolipim",
+   "phase": "Phase 2",
+   "moa": "lipoprotein lipase activator",
+   "target": "LPL"
+  },
+  {
+   "name": "rep02727",
+   "smiles": "C=CC(=O)N1CCC[C@@H](n2nc(-c3ccc(Oc4ccccc4)cc3)c3c(N)ncnc32)C1",
+   "denovo_promise": 1.0,
+   "drug": "ibrutinib",
+   "phase": "Launched",
+   "moa": "Bruton's tyrosine kinase (BTK) inhibitor",
+   "target": "BLK|BMX|BTK"
+  },
+  {
+   "name": "rep02728",
+   "smiles": "CC(C)C(=O)c1c(C(C)C)nn2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "ibudilast",
+   "phase": "Launched",
+   "moa": "leukotriene receptor antagonist|phosphodiesterase inhibitor",
+   "target": "IL1B|IL6|PDE3A|PDE4A|PDE4B|PDE4C|PDE4D|PDE5A"
+  },
+  {
+   "name": "rep02729",
+   "smiles": "CC(C)Cc1ccc([C@@H](C)C(=O)O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ibuprofen",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02730",
+   "smiles": "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ibuprofen-(S)",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "ASIC1|PTGS1|PTGS2|SLC5A8"
+  },
+  {
+   "name": "rep02731",
+   "smiles": "CC(C)Cc1ccc([C@@H](C)C(=O)OCc2ccccn2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ibuprofen-piconol",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor",
+   "target": "PTGS1|PTGS2"
+  },
+  {
+   "name": "rep02732",
+   "smiles": "CC(C)Cc1ccc([C@@H](C)C(=O)NO)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ibuproxam",
+   "phase": "Launched",
+   "moa": "cyclooxygenase inhibitor|prostaglandin inhibitor",
+   "target": "ALOX5"
+  },
+  {
+   "name": "rep02733",
+   "smiles": "CC(C)(N)C(=O)N[C@H](COCc1ccccc1)C(=O)N1CCC2(CC1)CN(S(C)(=O)=O)c1ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "ibutamoren",
+   "phase": "Phase 2",
+   "moa": "growth hormone secretagogue receptor agonist",
+   "target": "GHR|GHSR"
+  },
+  {
+   "name": "rep02734",
+   "smiles": "CCCCCCCN(CC)CCC[C@@H](O)c1ccc(NS(C)(=O)=O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ibutilide",
+   "phase": "Launched",
+   "moa": "potassium channel blocker",
+   "target": "CACNA1C|KCNH2"
+  },
+  {
+   "name": "rep02735",
+   "smiles": "COc1cc(OC)c(/C=C2/C(=O)Nc3ccccc32)c(OC)c1",
+   "denovo_promise": 1.0,
+   "drug": "IC261",
+   "phase": "Preclinical",
+   "moa": "casein kinase inhibitor",
+   "target": "CSNK1A1|CSNK1D|CSNK1E|CSNK1G2"
+  },
+  {
+   "name": "rep02736",
+   "smiles": "O=C(Nc1cnc(Cl)nc1)c1ccc(F)c(F)c1",
+   "denovo_promise": 1.0,
+   "drug": "ICA-069673",
+   "phase": "Preclinical",
+   "moa": "voltage-gated potassium channel activator",
+   "target": "KCNQ2|KCNQ3"
+  },
+  {
+   "name": "rep02737",
+   "smiles": "O=C(Nc1ccc(Cl)nc1)c1ccc(Cl)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ICA-110381",
+   "phase": "Preclinical",
+   "moa": "voltage-gated potassium channel activator",
+   "target": "KCNQ2"
+  },
+  {
+   "name": "rep02738",
+   "smiles": "O=C(Nc1ccc(S(=O)(=O)Nc2nccs2)cc1)C(c1ccccc1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "ICA-121431",
+   "phase": "Preclinical",
+   "moa": "sodium channel blocker",
+   "target": "SCN1A|SCN3A"
+  },
+  {
+   "name": "rep02739",
+   "smiles": "COc1ccc(-c2oc3c(CC=C(C)C)c(O)cc(O)c3c(=O)c2O)cc1",
+   "denovo_promise": 1.0,
+   "drug": "icaritin",
+   "phase": "Phase 3",
+   "moa": "PPAR receptor antagonist",
+   "target": "PDE5A"
+  },
+  {
+   "name": "rep02740",
+   "smiles": "O=C1[C@H](Cc2ccc(O)cc2)N2C(=O)CCN(C(=O)NCc3ccccc3)[C@H]2CN1Cc1cccc2ccccc12",
+   "denovo_promise": 1.0,
+   "drug": "ICG-001",
+   "phase": "Preclinical",
+   "moa": "beta-catenin inhibitor",
+   "target": "CTNNB1"
+  },
+  {
+   "name": "rep02741",
+   "smiles": "Cc1ccc(OC[C@@H](O)[C@H](C)NC(C)C)c2c1CCC2",
+   "denovo_promise": 1.0,
+   "drug": "ICI-118,551",
+   "phase": "Phase 2",
+   "moa": "adrenergic receptor antagonist",
+   "target": "ADRB2|ADRB3"
+  },
+  {
+   "name": "rep02742",
+   "smiles": "N=C(NCC(F)(F)F)Nc1ccn(CCCCC(N)=O)n1",
+   "denovo_promise": 1.0,
+   "drug": "ICI-162846",
+   "phase": "Phase 1",
+   "moa": "histamine receptor antagonist",
+   "target": "HRH2"
+  },
+  {
+   "name": "rep02743",
+   "smiles": "CN(C)CCSc1nc2ccccc2cc1-c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "ICI-169369",
+   "phase": "Phase 2",
+   "moa": "serotonin receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02744",
+   "smiles": "O=C(O)CCC/C=C\\C[C@@H]1CO[C@H](C(F)(F)F)O[C@@H]1c1ccccc1O",
+   "denovo_promise": 1.0,
+   "drug": "ICI-185,282",
+   "phase": "Phase 1",
+   "moa": "thromboxane receptor antagonist",
+   "target": ""
+  },
+  {
+   "name": "rep02745",
+   "smiles": "O=C(O)CC/C=C\\C[C@@H]1CO[C@H](c2ccccc2Cl)O[C@@H]1c1ccccc1O",
+   "denovo_promise": 1.0,
+   "drug": "ICI-192605",
+   "phase": "Phase 2",
+   "moa": "thromboxane receptor antagonist",
+   "target": "TBXA2R"
+  },
+  {
+   "name": "rep02746",
+   "smiles": "CN(C(=O)Cc1ccc(Cl)c(Cl)c1)[C@H](CN1CCCC1)c1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "ICI-199441",
+   "phase": "Preclinical",
+   "moa": "opioid receptor agonist",
+   "target": "CYP2D6|OPRD1|OPRK1|OPRM1|UTS2R"
+  },
+  {
+   "name": "rep02747",
+   "smiles": "O=C(O)COc1ccc(OCCNC[C@H](O)COc2ccccc2)cc1",
+   "denovo_promise": 1.0,
+   "drug": "ICI-215,001",
+   "phase": "Preclinical",
+   "moa": "adrenergic receptor agonist",
+   "target": "ADRB3"
+  },
+  {
+   "name": "rep02748",
+   "smiles": "CCCn1c(=O)c(C)cn2nc(N)nc12",
+   "denovo_promise": 1.0,
+   "drug": "ICI-63197",
+   "phase": "Preclinical",
+   "moa": "phosphodiesterase inhibitor",
+   "target": ""
+  },
+  {
+   "name": "rep02749",
+   "smiles": "N#Cc1ccccc1OC[C@@H](O)CNCCNC(=O)Nc1ccccc1",
+   "denovo_promise": 1.0,
+   "drug": "ICI-89406",
+   "phase": "Phase 1",
+   "moa": "adrenergic receptor antagonist",
+   "target": "ADRB1|ADRB2"
+  }
+ ]
+}

@@ -39,6 +39,8 @@ def main():
     ap.add_argument("--species", default="0",
                     help="1 = dock the pre-FEP species set (denovo_401 stereoisomers + denovo_111 "
                          "protonation variants) to pick the correct 3D species to FEP.")
+    ap.add_argument("--exhaustiveness", default="8",
+                    help="smina exhaustiveness; lower (e.g. 4) triages a large primary screen cheaply.")
     ap.add_argument("--candidate-json", default="",
                     help="repo-relative path (under research/modalities) to a candidate JSON committed in "
                          "git_ref, used INSTEAD of the S3 denovo mount — e.g. the scaffold lead-opt set "
@@ -66,6 +68,7 @@ def main():
         env["CANDIDATE_JSON"] = os.path.join(work, args.candidate_json)
         print(f"[sagemaker] candidate override (from git_ref): {env['CANDIDATE_JSON']}", flush=True)
     env["TOP_N"] = args.top_n
+    env["EXHAUSTIVENESS"] = args.exhaustiveness
     env["DEVELOPABLE_ONLY"] = args.developable_only
     env["DECOY_MODE"] = args.decoy
     env["SPECIES_MODE"] = args.species
