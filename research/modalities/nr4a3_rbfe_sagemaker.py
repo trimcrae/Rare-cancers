@@ -144,8 +144,12 @@ def main():
 
     if MODE == "smoke":
         est = make_estimator("smoke", {**common, "mode": "smoke"})
+        # Smoke builds the COMPLEX hybrid topology (nr4a3/complex defaults), so it MUST mount the docked-pose
+        # ligand SDF + the receptor PDB — the earlier no-input smoke failed with RDKit "Bad input file" because
+        # /opt/ml/input was empty.
+        inputs = {"ligand": TrainingInput(matrix), "receptor": TrainingInput(matrix)}
         print("[rbfe] launching SMOKE spot job (openfe env solve + mapping + hybrid-topology build, no MD)…")
-        est.fit(wait=True, logs=True)
+        est.fit(inputs, wait=True, logs=True)
         print("[rbfe] SMOKE complete — openfe env solves; mapping + spot + checkpoint path works.")
         return
 

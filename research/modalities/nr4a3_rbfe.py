@@ -36,16 +36,37 @@ N_ITER = int(os.environ.get("N_ITER", "1000"))
 SEED = int(os.environ.get("SEED", "0"))
 
 
-def _sdf_mol(sdf_path, name, rdkit_chem):
-    """Pull the named record from a multi-record docked SDF as an RDKit mol (the pose to morph from)."""
-    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
-        if m is not None and (m.GetProp("_Name") == name if m.HasProp("_Name") else False):
-            return m
-    # fall back to first record if names absent
-    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
-        if m is not None:
-            return m
-    raise SystemExit(f"  ABORT: {name} not found in {sdf_path}")
+def _canon(m, rdkit_chem):
+    """Canonical (stereo-aware) SMILES of a docked-pose mol, Hs stripped — for structural record matching."""
+    try:
+        return rdkit_chem.MolToSmiles(rdkit_chem.RemoveHs(rdkit_chem.Mol(m)))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
+    """Resolve the docked pose for ligand `name` from a multi-record docked SDF, robustly and WITHOUT ever
+    silently substituting the wrong molecule (a wrong ligand A/B would invalidate the entire ΔΔG). The species
+    dock tags the canonical/generated stereoisomer with a `_gen` suffix (e.g. requesting `denovo_401` must
+    resolve to the record `denovo_401_gen`), and there are OTHER stereoisomers of the same base in the file, so
+    we match on: (1) exact _Name, (2) _Name == name+'_gen', (3) exact stereo-canonical SMILES == expected. If
+    none match, HARD-FAIL — never fall back to an arbitrary record."""
+    want = None
+    if expected_smiles:
+        em = rdkit_chem.MolFromSmiles(expected_smiles)
+        want = rdkit_chem.MolToSmiles(em) if em is not None else None
+    recs = [m for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False) if m is not None]
+    for target in (name, f"{name}_gen"):
+        for m in recs:
+            if m.HasProp("_Name") and m.GetProp("_Name") == target:
+                return m
+    if want is not None:
+        for m in recs:
+            if _canon(m, rdkit_chem) == want:
+                return m
+    have = [m.GetProp("_Name") for m in recs if m.HasProp("_Name")]
+    raise SystemExit(f"  ABORT: no record for {name} (tried name, {name}_gen, SMILES) in {sdf_path}; "
+                     f"records present: {have[:20]}")
 
 
 def _build_components(openfe, rdkit_chem):
@@ -54,8 +75,8 @@ def _build_components(openfe, rdkit_chem):
     sdf = os.path.join(IN, "ligand", f"docked_{RECEPTOR}.sdf")
     if not os.path.exists(sdf):
         sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{RECEPTOR}.sdf"), recursive=True)), sdf)
-    molA = _sdf_mol(sdf, LIGAND_A, rdkit_chem)
-    molB = _sdf_mol(sdf, LIGAND_B, rdkit_chem)
+    molA = _sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem)
+    molB = _sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
@@ -80,7 +101,11 @@ def _protocol(openfe):
     s = RelativeHybridTopologyProtocol.default_settings()
     # first-pass settings (SHAKEOUT-PENDING): match the ABFE window/iteration budget order-of-magnitude.
     try:
-        s.protocol_repeats = 3                                   # 3 independent replicates → replicate-SD error
+        # SINGLE replicate (trimcrae decision 2026-07-06): relative FEP is low-variance for a congeneric pair,
+        # so one repeat with MBAR/bootstrap error is the field standard for a single edge; escalate to 3
+        # replicates (replicate-SD) ONLY if this comes back marginal near the go/no-go line. protocol_repeats=3
+        # would silently triple GPU cost/wall and blow past MAX_RUN.
+        s.protocol_repeats = 1
         s.simulation_settings.n_replicas = N_WINDOWS
         s.simulation_settings.equilibration_length = "1 ns"
         s.simulation_settings.production_length = "5 ns"
