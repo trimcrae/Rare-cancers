@@ -1,0 +1,77 @@
+name: Build ABFE image (pre-baked modern env → ECR)
+
+# Build a SageMaker training image with the modern `abfe` conda env baked in (Dockerfile.sagemaker-abfe) and
+# push it to ECR, so every ABFE leg/reduce job skips the ~10-30 min runtime conda solve (spot resume OR
+# re-dispatch — the reduce env solve variance was the bottleneck seen on 2026-07-06). One-time per env change;
+# the resulting image URI is passed to gpu-abfe-aws.yml via the `image_uri` input, and entry_abfe.py detects
+# /opt/conda/envs/abfe and skips its runtime `conda create`.
+#
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (with ECR + DLC-pull perms).
+
+on:
+  push:
+    branches: ["claude/red-team-degrader-paper-l1hukn"]
+    paths:
+      - "research/modalities/sagemaker_src/Dockerfile.sagemaker-abfe"
+      - "research/modalities/sagemaker_src/environment-abfe.yml"
+      - ".github/workflows/build-abfe-image.yml"
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "ECR repository name to push to"
+        default: "nr4a3-abfe"
+        required: false
+      tag:
+        description: "image tag"
+        default: "latest"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free disk space (DLC base + abfe env is ~10 GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android /opt/hostedtoolcache/CodeQL || true
+          df -h /
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Build + push pre-baked ABFE image
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          ECR_REPO: ${{ inputs.repo || 'nr4a3-abfe' }}
+          IMG_TAG: ${{ inputs.tag || 'latest' }}
+        run: |
+          set -euo pipefail
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets first"; exit 1; fi
+          ACCT=$(python -c "import boto3;print(boto3.client('sts').get_caller_identity()['Account'])")
+          REG="$AWS_DEFAULT_REGION"
+          # Resolve the EXACT SageMaker PyTorch DLC base the estimator uses (framework 2.3 / py311 / g5). The
+          # reduce runs on ml.m5 (CPU) but the leg jobs use g5; one image serves both. tail -n1 + logging.disable
+          # so the SDK's "config INFO" stdout lines don't corrupt BASE (multi-line → broken docker login).
+          BASE=$(python -c "import logging; logging.disable(logging.WARNING); import sagemaker,os; print(sagemaker.image_uris.retrieve(framework='pytorch',region=os.environ['AWS_DEFAULT_REGION'],version='2.3',py_version='py311',instance_type='ml.g5.xlarge',image_scope='training'))" | tail -n1)
+          echo "BASE=$BASE  ACCT=$ACCT  REG=$REG"
+          DLC_ACCT=$(echo "$BASE" | cut -d. -f1)
+          aws ecr get-login-password --region "$REG" | docker login --username AWS --password-stdin "${DLC_ACCT}.dkr.ecr.${REG}.amazonaws.com"
+          aws ecr describe-repositories --repository-names "$ECR_REPO" --region "$REG" >/dev/null 2>&1 \
+            || aws ecr create-repository --repository-name "$ECR_REPO" --region "$REG"
+          aws ecr get-login-password --region "$REG" | docker login --username AWS --password-stdin "${ACCT}.dkr.ecr.${REG}.amazonaws.com"
+          IMG="${ACCT}.dkr.ecr.${REG}.amazonaws.com/${ECR_REPO}:${IMG_TAG}"
+          docker build --build-arg BASE="$BASE" \
+            -f research/modalities/sagemaker_src/Dockerfile.sagemaker-abfe \
+            -t "$IMG" research/modalities/sagemaker_src
+          docker push "$IMG"
+          echo "::notice::PRE-BAKED ABFE IMAGE PUSHED: $IMG"
+          echo "Use it:  gpu-abfe-aws.yml  image_uri = $IMG"
