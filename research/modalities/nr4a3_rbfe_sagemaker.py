@@ -63,12 +63,34 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE != "plan" and not role:
+    if MODE not in ("plan", "ls") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
     legs = _legs()
     print(f"[rbfe] TAG={TAG} mode={MODE} edge={LIGAND_A}->{LIGAND_B} spot={SPOT} receptors={RECEPTORS}")
     print(f"[rbfe] legs: {[n for n, _r, _l in legs]}")
     print(f"[rbfe] COST {_cost_note()}")
+
+    if MODE == "ls":
+        # Fast diagnostic (runs on the CI runner, no SageMaker): list what the RBFE input prefixes actually
+        # contain, so we can see the real S3 layout of the docked poses the engine mounts. No spend.
+        import boto3
+        import sagemaker  # default_bucket resolution matches the run path
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        print(f"[rbfe] LS bucket={bucket}")
+        for pfx in [RECEPTOR_PREFIX, "nr4a3-leadopt-species", "nr4a3-leadopt", "nr4a3-denovo-matrix-v2"]:
+            print(f"=== s3://{bucket}/{pfx}/")
+            paginator = s3.get_paginator("list_objects_v2")
+            n = 0
+            for page in paginator.paginate(Bucket=bucket, Prefix=f"{pfx}/"):
+                for o in page.get("Contents", []):
+                    k = o["Key"]
+                    if k.endswith(".sdf") or k.endswith(".pdb") or k.endswith(".json"):
+                        print(f"    {k}  ({o['Size']} B)")
+                        n += 1
+            if n == 0:
+                print("    (no .sdf/.pdb/.json objects)")
+        return
 
     if MODE == "plan":
         import json
