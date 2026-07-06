@@ -28,6 +28,8 @@ LAMBDA_STERICS = [1.0, 1.0,  1.0, 1.0,  1.0, 0.85, 0.7, 0.55, 0.4, 0.25, 0.1, 0.
 assert len(LAMBDA_ELEC) == len(LAMBDA_STERICS), "λ elec/sterics lists must be equal length"
 N_WINDOWS = len(LAMBDA_ELEC)
 
+_MAX_WINDOW_RECOVER = 6   # per-iteration NaN/instability recoveries before a λ-window fails loudly (see run_window)
+
 
 def lambda_schedule():
     """[(elec, sterics)] per window — the alchemical states, one independent simulation each."""
@@ -132,6 +134,19 @@ def _select_platform(preferred="CUDA", allow_cpu_fallback=False):
     raise RuntimeError(f"no working OpenMM platform (tried {order}); last error: {last}")
 
 
+def _minimize_and_rethermalize(context, temperature, seed_val, max_iter=200):
+    """Relax a strained configuration and draw fresh Maxwell–Boltzmann velocities. run_window calls this to
+    recover a λ-window whose checkpoint frame the fixed-dt Langevin step cannot survive (OpenMM raises
+    'Particle coordinate is NaN'). Minimizing removes the clash/over-stretch; re-thermalizing with a perturbed
+    seed sheds the pathological momenta so propagation escapes the frame instead of re-entering it. Kept
+    module-level (nothing beyond the live Context) so the recovery mechanism is unit-testable on the CPU
+    platform without provoking a real GPU blow-up. The re-equilibration is negligible against the thousands of
+    logged iterations and changes neither dt nor the λ-schedule, so the window's sampled ensemble is unchanged."""
+    import openmm
+    openmm.LocalEnergyMinimizer.minimize(context, maxIterations=max_iter)
+    context.setVelocitiesToTemperature(temperature, int(seed_val))
+
+
 def run_window(reference_system, positions, alchemical_atoms, window_index, out_dir,
                schedule=None, temperature_K=300.0, n_iter=1000, steps_per_iter=500, timestep_fs=2.0,
                platform_name="CPU", resume=True, seed=0):
@@ -139,6 +154,7 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
     potential of the current sample at ALL λ-states (MBAR needs u(x;λ_j) ∀j), append to the small per-window
     jsonl, and checkpoint the OpenMM State — every iteration. Small per-window files → spot loses ≤1 iter and
     the run resumes THIS window alone. Returns the iteration reached."""
+    import math
     import openmm
     from openmm import unit
     from openmmtools import integrators
@@ -175,13 +191,36 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
             context.setVelocitiesToTemperature(T, int(seed) * 1000 + window_index)
 
     for it in range(start, n_iter):
-        _set_lambda(elec, sterics)                      # propagate at THIS window's state
-        integrator.step(steps_per_iter)
-        ured = []                                       # reduced potential of this sample at every state
-        for le, ls in schedule:
-            _set_lambda(le, ls)
-            u = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
-            ured.append(beta * u)
+        # NaN guard: a strained frame (a specific window/replicate can wander into one — e.g. the nr4a2
+        # complex leg) makes the fixed-dt Langevin step blow up ('Particle coordinate is NaN'). Because the
+        # checkpoint is written only AFTER a successful step, the last checkpoint is always finite — so on a
+        # blow-up we roll back to it, minimize+re-thermalize (see _minimize_and_rethermalize), and retry the
+        # SAME iteration. Bounded retries → a genuinely broken system fails loudly instead of looping / silently
+        # stalling (the failure mode that froze the nr4a2 legs: every plain resume re-loaded the bad frame).
+        ured = None
+        for attempt in range(_MAX_WINDOW_RECOVER + 1):
+            try:
+                _set_lambda(elec, sterics)                  # propagate at THIS window's state
+                integrator.step(steps_per_iter)
+                vals = []                                   # reduced potential of this sample at every state
+                for le, ls in schedule:
+                    _set_lambda(le, ls)
+                    u = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
+                    vals.append(beta * u)
+                if not all(math.isfinite(v) for v in vals):   # NaN can surface as a non-finite energy, not only as an exception
+                    raise openmm.OpenMMException("non-finite reduced potential")
+                ured = vals
+                break
+            except openmm.OpenMMException as exc:
+                if attempt >= _MAX_WINDOW_RECOVER:
+                    raise RuntimeError(f"[abfe] window {window_index}: unrecoverable instability at iter {it} "
+                                       f"after {_MAX_WINDOW_RECOVER} recoveries ({str(exc)[:100]})")
+                print(f"[abfe] window {window_index} iter {it}: instability ({str(exc)[:70]}); "
+                      f"recovery {attempt + 1}/{_MAX_WINDOW_RECOVER} — rollback+minimize+re-thermalize", flush=True)
+                if os.path.exists(ckpt):                     # last checkpoint is the last FINITE state
+                    context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
+                _set_lambda(elec, sterics)
+                _minimize_and_rethermalize(context, T, int(seed) * 1000 + window_index + 7919 * (attempt + 1))
         append_reduced_potentials(out_dir, window_index, it, ured)
         st = context.getState(getPositions=True, getVelocities=True)   # tiny checkpoint, every iteration
         with open(ckpt + ".tmp", "w") as f:
