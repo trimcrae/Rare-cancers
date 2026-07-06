@@ -39,6 +39,11 @@ def main():
     ap.add_argument("--species", default="0",
                     help="1 = dock the pre-FEP species set (denovo_401 stereoisomers + denovo_111 "
                          "protonation variants) to pick the correct 3D species to FEP.")
+    ap.add_argument("--candidate-json", default="",
+                    help="repo-relative path (under research/modalities) to a candidate JSON committed in "
+                         "git_ref, used INSTEAD of the S3 denovo mount — e.g. the scaffold lead-opt set "
+                         "(nr4a3-leadopt-candidates.json). Lets a new candidate set dock without a new S3 "
+                         "prefix or workflow; the SageMaker role writes only the output.")
     args = ap.parse_args()
 
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
@@ -57,6 +62,9 @@ def main():
     env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ (and nr4a3/ in metad mode)
     env["OUTPUT_DIR"] = OUT
     env["CANDIDATE_JSON"] = os.path.join(IN, "denovo", "nr4a3-denovo.json")
+    if args.candidate_json:                                          # committed-in-git override (e.g. lead-opt)
+        env["CANDIDATE_JSON"] = os.path.join(work, args.candidate_json)
+        print(f"[sagemaker] candidate override (from git_ref): {env['CANDIDATE_JSON']}", flush=True)
     env["TOP_N"] = args.top_n
     env["DEVELOPABLE_ONLY"] = args.developable_only
     env["DECOY_MODE"] = args.decoy

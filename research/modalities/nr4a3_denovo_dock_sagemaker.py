@@ -43,6 +43,13 @@ def main():
     if receptor_mode == "metad":
         prefixes["nr4a3"] = os.environ.get("NR4A3_METAD_PREFIX", "nr4a3-metad")
         mount_tags.append("nr4a3")
+    # LEAD-OPT sentinel: candidates live in git (a committed JSON), not S3 — the job reads them from the
+    # cloned git_ref (the SageMaker role writes only the output, so no CI-user PutObject needed, no new
+    # workflow). Drop the S3 denovo mount and tell the entry which committed file to dock.
+    leadopt_json = ""
+    if prefixes["denovo"] == "leadopt":
+        leadopt_json = os.environ.get("LEADOPT_JSON", "nr4a3-leadopt-candidates.json")
+        mount_tags = [t for t in mount_tags if t != "denovo"]
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
@@ -68,7 +75,8 @@ def main():
                                   destination=f"s3://{bucket}/{out_prefix}")],
         arguments=["--git-ref", git_ref, "--top-n", str(top_n),
                    "--developable-only", developable_only, "--receptor-mode", receptor_mode,
-                   "--decoy", decoy_mode, "--species", species_mode],
+                   "--decoy", decoy_mode, "--species", species_mode]
+        + (["--candidate-json", leadopt_json] if leadopt_json else []),
         wait=True, logs=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
