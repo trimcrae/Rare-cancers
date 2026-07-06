@@ -76,12 +76,12 @@ on:
         default: "0"
         required: false
       max_run_hours:
-        description: "per-leg max_run"
-        default: "12"
+        description: "per-leg max_run (a full 12-window, 2 ns/window complex leg is ~16 h — set high so a leg finishes in ONE job, no MaxRuntimeExceeded stall; spot bills actual compute, not this ceiling)"
+        default: "36"
         required: false
       max_wait_hours:
-        description: "spot max_wait (>= max_run)"
-        default: "20"
+        description: "spot max_wait (>= max_run; extra headroom absorbs spot interruption/capacity-wait)"
+        default: "48"
         required: false
       ligand:
         description: "lead label (pose _Name in docked_<receptor>.sdf)"
