@@ -110,12 +110,33 @@ state-matched into the 0.74 release frame (`nr4a3-denovo-affinity-matrix`, 33 de
 **−8.53** (denovo_657, pan-NR4A); the only strictly NR4A3-selective cells (denovo_661 −7.13, denovo_372 −7.12) are
 weaker binders with narrow NR4A2 margins. **0 strict NR4A3-selective leads; 11 pan-NR4A** — filling the pocket
 better engages the CONSERVED core → affinity-vs-selectivity tension. Multi-snapshot MM-GBSA on the top 8
-(`nr4a3-denovo-affinity-mmgbsa-ms`, vs 401's release-frame −38.18 baseline) is [RUNNING — verdict to be appended].
+(`nr4a3-denovo-affinity-mmgbsa-ms`, run 28770115405) vs 401's release-frame **−38.18** baseline (margin +12.83):
+| candidate | mmΔG3 (NR4A3) | margin ± SD | verdict |
+|-----------|---------------|-------------|---------|
+| **denovo_401 (baseline)** | **−38.18** | **+12.83 ± 2.98** | (best-in-program) |
+| denovo_560 | −21.51 | +5.55 ± 3.08 | confirmed_selective |
+| denovo_318 | −20.29 | +1.64 ± 5.42 | confirmed_selective |
+| denovo_372 | −18.28 | +1.01 ± 4.14 | confirmed_selective |
+| denovo_657 | −30.73 | −5.69 | nonselective (strongest binder, not selective) |
+| denovo_193 | −28.61 | −4.24 | nonselective |
+**NO new candidate beats 401 on EITHER axis.** The selective ones bind much weaker (−18…−22 vs 401's −38); the
+stronger binders (−29…−31) are non-selective. Since 401's MM-GBSA −38 already maps to FEP ≈ −1.2, these would FEP
+even worse. **denovo_401 remains the strongest MM-GBSA binder found across the entire program.**
 
-### Interim reading (pre-MM-GBSA): leaning WEAK POCKET (dynamically), not an easily-beatable weak candidate.
-Frame is optimal; bigger molecules don't dock stronger and lose selectivity; the pocket is druggable only ~½ the
-time at its best-held frame. The MM-GBSA head-to-head is the remaining cheap discriminator; FEP on the best
-candidate (gated) is the definitive one. **No FEP/metad launched this session; all runs cheap-tier (<$10 each).**
+### ★ CONCLUSION (2026-07-06): WEAK POCKET (dynamically), not an easily-beatable weak candidate.
+Three independent cheap-tier results converge: **(1)** the receptor frame is optimal (0.74 is the best-held
+druggable conformation; not a collapse/wrong-frame artifact); **(2)** 401 is already the strongest binder the whole
+campaign has produced, and a fresh 800-molecule pocket-filling generation could not beat it (bigger → weaker and/or
+non-selective); **(3)** the pocket is druggable only ~½ the time even at its best frame (conformational-selection).
+So the orthosteric cryptic pocket **caps achievable selective small-molecule affinity** — 401 (FEP ≈ −1.2) is near
+the ceiling for a *selective* orthosteric binder, and more binder-optimization here has negative expected return.
+**Strategic implication (already the paper's architecture, now empirically reinforced):** stop trying to source the
+affinity/selectivity from the orthosteric binder alone; source it from the **ternary/degrader machinery**
+(cooperativity × the divergent CRBN-interface patch mapped in §2.7) and/or the **ASO** (fusion-level). The
+**AF-2/H12 surface** (Result 2) is a possible PPI/molecular-glue alternative but is conserved (selectivity-poor).
+**Recommendation: do NOT spend the selectivity FEP on a *new* orthosteric binder** — there isn't a better one; if
+FEP budget is spent, spend it confirming 401 or on the ternary geometry, not on chasing an orthosteric win the
+cheap tiers say isn't there. **No FEP/metad launched this session; all runs cheap-tier (<$10 each).**
 
 ## ✅ denovo_401 SURVIVES MULTI-SNAPSHOT (2026-06-30) — first FEP-worthy selective lead
 Ran the multi-snapshot de-noising tier on `denovo_401` (run 28469414513, report 28470289876, `nr4a3-denovo-mmgbsa-v2-ms`):
