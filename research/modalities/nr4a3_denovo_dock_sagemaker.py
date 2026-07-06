@@ -56,7 +56,10 @@ def main():
     elif prefixes["denovo"].startswith("cand:"):
         leadopt_json = prefixes["denovo"].split("cand:", 1)[1]
         mount_tags = [t for t in mount_tags if t != "denovo"]
-    exhaustiveness = os.environ.get("EXHAUSTIVENESS", "8")     # lower for a large primary screen
+    # A cand: shard is a LARGE primary screen (thousands of cmpds) -> triage cheaply at exhaustiveness 4
+    # (top hits get re-docked at 8 + MM-GBSA); a normal small candidate run keeps the default 8. Env overrides.
+    _large_screen = prefixes["denovo"].startswith("cand:")
+    exhaustiveness = os.environ.get("EXHAUSTIVENESS", "4" if _large_screen else "8")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
