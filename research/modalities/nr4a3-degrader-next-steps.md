@@ -123,7 +123,37 @@ better engages the CONSERVED core → affinity-vs-selectivity tension. Multi-sna
 stronger binders (−29…−31) are non-selective. Since 401's MM-GBSA −38 already maps to FEP ≈ −1.2, these would FEP
 even worse. **denovo_401 remains the strongest MM-GBSA binder found across the entire program.**
 
-### ★ CONCLUSION (2026-07-06): WEAK POCKET (dynamically), not an easily-beatable weak candidate.
+### ★★ SCAFFOLD LEAD-OPT BEATS 401 (2026-07-06, later) — a better candidate, found. Retracts the "weak pocket" call below.
+The earlier conclusion was premature: it tested blind + bigger-molecule generation, but NOT the obvious med-chem
+move — **keep 401's selective core, decorate it toward the divergent handles.** `nr4a3_leadopt.py` enumerated 163
+scaffold-decorations of denovo_401 (phenyl-ring + terminal-arm R-groups; hydrophobic for L406/I484/L534, H-bonders
+for T410), docked 133 developable ones **+ ref_401 as an in-run baseline** into the 0.74 release frame
+(`nr4a3-leadopt-matrix`, dock run 28785469610), then multi-snapshot MM-GBSA on the top 12 (`nr4a3-leadopt-mmgbsa-ms`,
+run 28790844819). **THREE variants beat ref_401 on BOTH absolute affinity AND selectivity margin, and held under
+de-noising** (ref_401 in-run baseline: margin **+13.22 ± 4.09**, ΔG3 **−35.44**):
+| variant | decoration (on 401's phenyl) | margin ± SD | ΔG3 | SMILES |
+|---------|------------------------------|-------------|-----|--------|
+| **lo_m0_NCCO** | ortho-acetamido (NHAc) | **+16.92 ± 4.51** | **−40.96** | `COC[C@H](c1ccccc1NC(C)=O)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` |
+| **lo_m0_CC** | ortho-ethyl | **+17.78 ± 4.47** | **−40.78** | `CCc1ccccc1[C@@H](COC)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` |
+| **lo_m0_SNOO** | ortho-sulfonamide (SO₂NH₂) | **+15.18 ± 3.84** | **−40.42** | `COC[C@H](c1ccccc1S(N)(=O)=O)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` |
+| ref_401 | (baseline) | +13.22 ± 4.09 | −35.44 | (denovo_401) |
+All three are **clean** (no structural alerts, QED 0.71–0.72, SA 3.99–4.13, MW 332–384), **confirmed_selective**,
+**margin − SD ≈ +11 to +13 > 0**, and **clear the release-frame multi-snapshot decoy null decisively** (95th +6.69,
+max +7.10 — all ≥ +15). ΔG3 ≈ −41 vs 401's −35 = **~+5.5 kcal/mol tighter MM-GBSA binding, selectivity improved too.**
+(lo_m1_CFFF — *meta*-CF3 — REVERSED, binding paralogues far tighter: position matters; ortho decoration is the win.)
+- **LEAD = `lo_m0_NCCO`** (401 + ortho-acetamido, "401-NHAc"): strongest ΔG3 (−40.96) AND developable H-bond
+  donor/acceptor. `lo_m0_CC` (ethyl; best margin) + `lo_m0_SNOO` (sulfonamide) are the sibling set.
+- **HONEST WEIGHT:** MM-GBSA magnitude is inflated (401's −35 MM-GBSA ↔ FEP −1.2), so these are NOT proven strong
+  *absolute* binders — but they beat 401 by **the same cheap tier that ranks 401, plus the decoy null**, which is
+  exactly the pre-FEP nomination bar. The improvement is *relative* and *specificity-controlled*; FEP is the arbiter.
+- **BONUS for FEP:** the winners are a **congeneric series** off one scaffold (H → ethyl/acetamido/sulfonamide at the
+  ortho position), so this is ideal for **relative FEP (RBFE)** — cheaper and more accurate than the single-ligand
+  ABFE 401 required. **New FEP subject: `lo_m0_NCCO` (+ the ethyl/sulfonamide siblings), staged for FEP (gated).**
+Reproduce: `report-matrix-aws output_prefix=nr4a3-leadopt-matrix`; `report-mmgbsa-aws output_prefix=nr4a3-leadopt-mmgbsa-ms`.
+
+### ⚠️ SUPERSEDED CONCLUSION (2026-07-06, earlier) — read as "weak pocket"; the scaffold lead-opt ABOVE refuted it.
+_Kept for honesty. The reasoning was sound for what it tested (frame optimal; blind + bigger-molecule generation
+doesn't beat 401) but it stopped one idea short of the 401-scaffold lead-opt, which then beat 401 cleanly._
 Three independent cheap-tier results converge: **(1)** the receptor frame is optimal (0.74 is the best-held
 druggable conformation; not a collapse/wrong-frame artifact); **(2)** 401 is already the strongest binder the whole
 campaign has produced, and a fresh 800-molecule pocket-filling generation could not beat it (bigger → weaker and/or
