@@ -485,10 +485,15 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
             "restraint_standard_state_dg": ssc}
 
 
-def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False):
+def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False, trace_points=120):
     """Read all windows' per-iteration jsonl → MBAR → leg ΔG (kcal/mol) + SE. With per_iteration=True, return
     the CONVERGENCE TRACE [(n_samples_per_window, dg, se)] by re-running MBAR on the first-n samples for
-    increasing n — the every-iteration ΔG curve, straight from the small synced logs (no monolithic .nc)."""
+    increasing n — the ΔG-vs-samples curve, straight from the small synced logs (no monolithic .nc).
+
+    trace_points caps how many MBAR solves the trace does (evenly spaced + the final point). A full
+    every-iteration trace is O(Niter^2) — one MBAR solve per iteration, each O(Niter) — which is what made the
+    reduce run ~8 h and OOM at Niter=2000. Subsampling to ~120 points makes it O(Niter * 120) and gives a
+    visually identical convergence curve. trace_points=None restores the (slow) every-iteration trace."""
     import numpy as np
     from pymbar import MBAR
     schedule = schedule or lambda_schedule()
@@ -512,8 +517,16 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False)
 
     if not per_iteration:
         return _dg(None)
-    trace, maxlen = [], max((len(w) for w in we), default=0)
-    for n in range(2, maxlen + 1):
+    maxlen = max((len(w) for w in we), default=0)
+    # Subsample the trace to ~trace_points evenly-spaced solves (+ the final full-data point) instead of one
+    # per iteration — the O(Niter^2) every-iteration trace is the reduce's runtime killer. None → every iter.
+    if trace_points and maxlen > trace_points:
+        step = max(1, maxlen // trace_points)
+        ns = sorted(set(range(2, maxlen + 1, step)) | {maxlen})
+    else:
+        ns = range(2, maxlen + 1)
+    trace = []
+    for n in ns:
         r = _dg(n)
         if r:
             trace.append((n, r[0], r[1]))
