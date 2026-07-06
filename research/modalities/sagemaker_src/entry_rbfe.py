@@ -13,8 +13,12 @@ CKPT = "/opt/ml/checkpoints"
 IN = "/opt/ml/input/data"
 # openfe brings openmm + perses hybrid-topology + lomap + gufe; pinned loosely so the solve resolves a CUDA
 # openmm. SHAKEOUT-PENDING: mode=smoke validates this solve before any MD spend.
-OPENFE_PKGS = ["python=3.11", "openfe", "openff-toolkit", "openmmforcefields", "rdkit", "lomap2",
-               "kartograf", "numpy", "scipy"]
+# PIN a MODERN openfe (>=1.1, pydantic-v2 native, uses openfe.protocols.openmm_rfe). Without this, libmamba
+# resolved an OLD openfe (0.x, legacy setup.methods.openmm + pydantic-v1 Settings) against pydantic 2.11 → an
+# import-time PydanticUserError. The classic solver happened to pick a modern openfe; the pin makes EITHER
+# solver deterministic. pydantic>=2 is explicit for the same reason.
+OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "openff-toolkit", "openmmforcefields", "rdkit",
+               "lomap2", "kartograf", "numpy", "scipy"]
 
 
 def _sh(cmd, **kw):
