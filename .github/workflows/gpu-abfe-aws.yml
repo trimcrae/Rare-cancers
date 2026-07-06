@@ -60,8 +60,8 @@ on:
         default: "1000"
         required: false
       emit_trace:
-        description: "mode=reduce: 1 = full per-iteration convergence trace (slow, O(Niter^2)); 0 = ΔG number only (fast)"
-        default: "1"
+        description: "mode=reduce: 0 = ΔG number only (fast, DEFAULT); 1 = convergence trace (now SUBSAMPLED to ~120 pts, not per-iteration — only needed for the final publication plot)"
+        default: "0"
         required: false
       steps_per_iter:
         description: "MD steps per iteration (2 fs each)"
