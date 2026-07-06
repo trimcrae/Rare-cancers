@@ -63,8 +63,22 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls") and not role:
+    if MODE not in ("plan", "ls", "jobs") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
+
+    if MODE == "jobs":
+        # Track the RBFE leg jobs (run mode is fire-and-forget, wait=False). Lists recent training jobs whose
+        # name contains the tag + their status. No spend (runs on the CI runner).
+        import boto3
+        sm = boto3.client("sagemaker")
+        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=30, SortBy="CreationTime",
+                                     SortOrder="Descending")
+        print(f"[rbfe] JOBS for tag={TAG}:")
+        for j in resp.get("TrainingJobSummaries", []):
+            print(f"  {j['TrainingJobName']:60s} {j['TrainingJobStatus']:12s} "
+                  f"{j.get('TrainingJobStatusReason', '') or ''}")
+        return
+
     legs = _legs()
     print(f"[rbfe] TAG={TAG} mode={MODE} edge={LIGAND_A}->{LIGAND_B} spot={SPOT} receptors={RECEPTORS}")
     print(f"[rbfe] legs: {[n for n, _r, _l in legs]}")
