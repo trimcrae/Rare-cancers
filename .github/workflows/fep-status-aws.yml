@@ -55,6 +55,10 @@ on:
         description: "if set, print the Service-Quotas value for these comma-sep instance types (training-job usage), e.g. ml.c5.2xlarge,ml.m5.2xlarge,ml.r5.xlarge — verifies a bigger-RAM reduce won't need a quota request"
         default: ""
         required: false
+      cost_days:
+        description: "if set (e.g. 3), query AWS Cost Explorer for actual SageMaker $ spend over the last N days, grouped by usage type — the AUTHORITATIVE cost (CE data lags ~24h; needs ce:GetCostAndUsage)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -128,6 +132,45 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install boto3
+      - name: Cost Explorer — actual SageMaker $ spend (authoritative)
+        if: ${{ inputs.cost_days != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DAYS: ${{ inputs.cost_days }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, boto3, datetime
+          # Cost Explorer is a GLOBAL service reachable only via the us-east-1 endpoint; it returns spend across
+          # ALL regions. Data lags ~24h, so today may be partial and yesterday is the solid figure. $0.01/request.
+          ce = boto3.client("ce", region_name="us-east-1")
+          days = int(os.environ["DAYS"])
+          end = datetime.date.today() + datetime.timedelta(days=1)   # CE End is EXCLUSIVE
+          start = end - datetime.timedelta(days=days + 1)
+          print(f"# Cost Explorer: Amazon SageMaker UnblendedCost {start} .. {end} (End exclusive), by usage type")
+          try:
+              r = ce.get_cost_and_usage(
+                  TimePeriod={"Start": start.isoformat(), "End": end.isoformat()},
+                  Granularity="DAILY", Metrics=["UnblendedCost"],
+                  Filter={"Dimensions": {"Key": "SERVICE", "Values": ["Amazon SageMaker"]}},
+                  GroupBy=[{"Type": "DIMENSION", "Key": "USAGE_TYPE"}])
+          except Exception as e:  # noqa: BLE001
+              print(f"Cost Explorer read FAILED: {type(e).__name__}: {e}")
+              print("If AccessDenied → the CI IAM user needs the ce:GetCostAndUsage permission (one policy line).")
+              print("If DataUnavailable → CE hasn't ingested that window yet (~24h lag); widen cost_days.")
+              raise SystemExit(0)
+          grand = 0.0
+          for day in r["ResultsByTime"]:
+              d = day["TimePeriod"]["Start"]; tot = 0.0
+              for g in day["Groups"]:
+                  amt = float(g["Metrics"]["UnblendedCost"]["Amount"]); tot += amt
+                  if amt > 0.005:
+                      print(f"  {d}  {g['Keys'][0]:44s} ${amt:8.4f}")
+              print(f"  {d}  {'— SageMaker day total —':44s} ${tot:8.4f}")
+              grand += tot
+          print(f"\n# GRAND TOTAL SageMaker over window: ${grand:.2f}")
+          PY
       - name: Check Service-Quotas for reduce instance types
         if: ${{ inputs.check_quota != '' }}
         env:
