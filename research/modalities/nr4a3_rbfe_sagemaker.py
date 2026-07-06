@@ -90,6 +90,21 @@ def main():
                         n += 1
             if n == 0:
                 print("    (no .sdf/.pdb/.json objects)")
+        # dump docked_<r>.sdf record names (which ligand poses are actually in the RBFE input)
+        try:
+            import tempfile
+            from rdkit import Chem
+            for r in RECEPTORS:
+                key = f"{RECEPTOR_PREFIX}/docked_{r}.sdf"
+                tmp = os.path.join(tempfile.gettempdir(), f"docked_{r}.sdf")
+                s3.download_file(bucket, key, tmp)
+                names = [m.GetProp("_Name") for m in Chem.SDMolSupplier(tmp, removeHs=False)
+                         if m is not None and m.HasProp("_Name")]
+                hit = [x for x in names if x in ("ref_401", "denovo_401", "lo_m0_NCCO", "lo_m0_NCCO_gen")]
+                print(f"=== records in {key}: n={len(names)} RBFE-relevant={hit}")
+                print(f"    first10={names[:10]}")
+        except Exception as e:  # noqa: BLE001
+            print(f"[rbfe] record-name dump skipped: {e}")
         return
 
     if MODE == "plan":
