@@ -17,8 +17,8 @@ IN = "/opt/ml/input/data"
 # resolved an OLD openfe (0.x, legacy setup.methods.openmm + pydantic-v1 Settings) against pydantic 2.11 → an
 # import-time PydanticUserError. The classic solver happened to pick a modern openfe; the pin makes EITHER
 # solver deterministic. pydantic>=2 is explicit for the same reason.
-OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "openff-toolkit", "openmmforcefields", "rdkit",
-               "lomap2", "kartograf", "numpy", "scipy"]
+OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "importlib_resources", "openff-toolkit",
+               "openmmforcefields", "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
 
 
 def _sh(cmd, **kw):
