@@ -41,8 +41,18 @@ ortho-acetamido/ethyl decoration engages the divergent hydrophobic/H-bond handle
    held (consistent ΔG, SD ~4). The FEP complex-leg equilibration does the full explicit-solvent induced-fit
    relaxation (as decided for 401). *(Optional not-yet-run: a dedicated standalone explicit-solvent holo-MD +
    fpocket-over-trajectory to quantify hold-open; low marginal value over the above + FEP.)*
-7. **Orthogonal pose** — Boltz-2 binary co-fold across NR4A3/1/2 (`gpu-ternary-aws mode=binary`, in flight) —
-   an AF3-class cross-check (read at true weight: this cryptic pocket is Boltz's low-confidence regime).
+7. **Orthogonal pose** — Boltz-2 binary co-fold across NR4A3/1/2 (`gpu-ternary-aws mode=binary`, run 28800726169,
+   DONE) — an AF3-class cross-check, read at true weight: this cryptic pocket is Boltz's low-confidence regime
+   (as for 401, where pair-iptm was 0.23–0.32 and did not corroborate), so it is a consistency footnote, not
+   decisive. **Bonus:** the reporter reconfirmed the **ternary-interface divergence** (NR4A3–CRBN interface = 33
+   res; 8 divergent vs each paralogue; **pocket handles NOT at the interface**) → lo_m0_NCCO's *binder*
+   selectivity × *ternary* selectivity is a genuine **multiplicative** budget for the degrader (linker toward
+   the divergent E545/T563/Q570/S571/L576/E580/V588 patch).
+8. **Induced-fit / hold-open holo-MD** — NOT run as a standalone (same call as 401): the multi-snapshot MM-GBSA
+   already runs ligand-bound GB-MD (pose held), the metastability screen characterized the apo hold-open (0.74
+   = best-held, druggable 48% of frames), and the FEP complex-leg does the full explicit-solvent induced-fit
+   equilibration. A dedicated explicit-solvent holo-MD + fpocket-over-trajectory (to *quantify* whether
+   lo_m0_NCCO stabilises the open pocket) is the one optional extra — low marginal value over the above.
 
 ## FEP-ready artifacts (already in S3)
 - Receptors + docked ligand pose: `s3://<bucket>/nr4a3-leadopt-species/` → `nr4a3-opened.pdb` (release frame),
