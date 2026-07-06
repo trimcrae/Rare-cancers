@@ -56,9 +56,16 @@ def main():
 
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating funnel env via {conda}", flush=True)
-    subprocess.run([conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy",
-                    "matplotlib-base"], check=True)
+    # libmamba solver: much faster than the classic conda solver (esp. across many sharded jobs).
+    subprocess.run([conda, "install", "-n", "base", "-y", "-c", "conda-forge", "conda-libmamba-solver"],
+                   check=False)
+    _create = [conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
+               "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
+    try:
+        subprocess.run(_create + ["--solver=libmamba"], check=True)
+    except subprocess.CalledProcessError:
+        print("[sagemaker] libmamba unavailable; classic solver", flush=True)
+        subprocess.run(_create, check=True)
 
     env = os.environ.copy()
     env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ (and nr4a3/ in metad mode)
