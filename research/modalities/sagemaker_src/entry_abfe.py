@@ -71,6 +71,8 @@ def main():
     ap.add_argument("--pose-index", default="0")           # replicate: starting pose from a multi-pose docked SDF
     ap.add_argument("--platform", default="CUDA")
     ap.add_argument("--prebaked", default="0")            # 1 → skip conda create (image has env `abfe`)
+    ap.add_argument("--reduce-emit-trace", default="1")   # 0 → skip the O(Niter^2) per-iteration convergence
+                                                          #     trace; returns just the ΔG_bind number, fast
     ap.add_argument("--hydration-smiles", default="C")   # accuracy gate: molecule SMILES (default methane)
     ap.add_argument("--hydration-name", default="methane")
     ap.add_argument("--hydration-known-dg", default="")   # published GAFF/TIP3P or exp ΔG_hyd (kcal/mol)
@@ -116,8 +118,12 @@ def main():
         # per-iteration convergence trace so the ΔG_bind(iter) plot can be built without re-pulling every window.
         os.makedirs(CKPT, exist_ok=True)
         out_json = os.path.join(CKPT, f"{a.receptor}_dg_bind.json")
-        cmd = ["python", "nr4a3_abfe.py", "--reduce", "--emit-trace",
+        cmd = ["python", "nr4a3_abfe.py", "--reduce",
                "--complex-dir", cdir, "--solvent-dir", sdir, "--out-json", out_json]
+        # The per-iteration trace is O(Niter^2) — the reduce's real cost. Skip it (reduce-emit-trace=0) to
+        # get the ΔG_bind NUMBER fast; run it only for the final publication convergence plot.
+        if a.reduce_emit_trace == "1":
+            cmd.insert(2, "--emit-trace")
         print(f"[abfe] reduce: complex-dir={cdir} solvent-dir={sdir} out={out_json}", flush=True)
         rc = _run_in_env(cmd, work, a.prebaked == "1")
         # also drop a copy into the model dir for completeness

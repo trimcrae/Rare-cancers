@@ -59,6 +59,10 @@ on:
         description: "iterations per λ-window"
         default: "1000"
         required: false
+      emit_trace:
+        description: "mode=reduce: 1 = full per-iteration convergence trace (slow, O(Niter^2)); 0 = ΔG number only (fast)"
+        default: "1"
+        required: false
       steps_per_iter:
         description: "MD steps per iteration (2 fs each)"
         default: "500"
@@ -121,6 +125,7 @@ jobs:
           INSTANCE: ${{ inputs.instance }}
           SPOT: ${{ inputs.spot }}
           ABFE_N_ITER: ${{ inputs.n_iter }}
+          ABFE_EMIT_TRACE: ${{ inputs.emit_trace }}
           ABFE_STEPS_PER_ITER: ${{ inputs.steps_per_iter }}
           ABFE_SEED: ${{ inputs.seed }}
           ABFE_POSE_INDEX: ${{ inputs.pose_index }}
