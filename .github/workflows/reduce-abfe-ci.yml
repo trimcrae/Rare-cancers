@@ -1,0 +1,107 @@
+name: ABFE reduce in CI (free — MBAR in the runner, no SageMaker)
+
+# The reduce is just CPU MBAR over the small per-iteration jsonl checkpoints (~13 MB for a complex+solvent
+# pair) — it needs NO GPU and NO SageMaker. This runs it directly in the GitHub Actions runner: sync the
+# window_*.jsonl + meta.json from S3, pip install pymbar+numpy, run nr4a3_abfe.py --reduce (trace OFF by
+# default → just the ΔG_bind number), and print the selectivity ΔΔG. Cost: $0.00, ~1-2 min.
+#
+# Replaces the mode=reduce SageMaker job for grabbing final numbers. (The SageMaker reduce is only worth it
+# for the one-off full every-iteration publication trace, which is heavier.)
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (S3 read on the checkpoint bucket).
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "S3 checkpoint tag (e.g. nr4a3-abfe, nr4a3-abfe-r2)"
+        default: "nr4a3-abfe"
+        required: false
+      receptors:
+        description: "comma-sep receptors to reduce"
+        default: "nr4a3,nr4a1,nr4a2"
+        required: false
+      target:
+        description: "selectivity reference receptor (ΔΔG = ΔG_bind(target) − ΔG_bind(other))"
+        default: "nr4a3"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  reduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "pymbar>=4" numpy boto3
+      - name: Sync checkpoints + MBAR reduce + ΔΔG (all in-runner, free)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          TAG: ${{ inputs.tag || 'nr4a3-abfe' }}
+          RECEPTORS: ${{ inputs.receptors || 'nr4a3,nr4a1,nr4a2' }}
+          TARGET: ${{ inputs.target || 'nr4a3' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, json, subprocess, glob, boto3
+          region = os.environ["AWS_DEFAULT_REGION"]
+          acct = boto3.client("sts").get_caller_identity()["Account"]
+          bucket = f"sagemaker-{region}-{acct}"
+          s3 = boto3.client("s3")
+          tag = os.environ["TAG"]; target = os.environ["TARGET"]
+          recs = [x.strip() for x in os.environ["RECEPTORS"].split(",") if x.strip()]
+
+          def sync(prefix, dest):
+              """Download every object under an S3 prefix, preserving the relative path under dest."""
+              os.makedirs(dest, exist_ok=True); n = 0
+              for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
+                  for o in page.get("Contents", []):
+                      k = o["Key"]; rel = k[len(prefix):]
+                      if not rel or k.endswith("/"):
+                          continue
+                      fp = os.path.join(dest, rel); os.makedirs(os.path.dirname(fp) or ".", exist_ok=True)
+                      s3.download_file(bucket, k, fp); n += 1
+              return n
+
+          def legdir(root):
+              """The dir that actually holds window_00.jsonl (the checkpoint sync may nest it)."""
+              for w in glob.glob(os.path.join(root, "**", "window_00.jsonl"), recursive=True):
+                  return os.path.dirname(w)
+              return root
+
+          ns = sync(f"{tag}/ckpt/solvent/", "/tmp/solvent"); sdir = legdir("/tmp/solvent")
+          print(f"# solvent: synced {ns} files -> {sdir}")
+          res = {}
+          for r in recs:
+              nc = sync(f"{tag}/ckpt/complex-{r}/", f"/tmp/{r}"); cdir = legdir(f"/tmp/{r}")
+              out = f"/tmp/{r}_dg.json"
+              rc = subprocess.run(["python", "research/modalities/nr4a3_abfe.py", "--reduce",
+                                   "--complex-dir", cdir, "--solvent-dir", sdir, "--out-json", out])
+              if rc.returncode != 0 or not os.path.exists(out):
+                  print(f"  {r}: reduce FAILED (synced {nc} files from complex-{r})"); continue
+              d = json.load(open(out)); res[r] = d
+              print(f"  ΔG_bind({r}) = {d['dg_bind']:+.3f} ± {d['se']:.3f} kcal/mol   "
+                    f"[complex {d['complex_dg']:+.2f}, solvent {d['solvent_dg']:+.2f}, "
+                    f"SSC {d['restraint_standard_state_dg']:+.2f}]")
+          if target in res:
+              t = res[target]
+              print(f"\n=== selectivity ΔΔG (reference = {target}) — MBAR SE only, NOT drift-aware ===")
+              for r in recs:
+                  if r == target or r not in res:
+                      continue
+                  ddg = t["dg_bind"] - res[r]["dg_bind"]
+                  se = (t["se"] ** 2 + res[r]["se"] ** 2) ** 0.5
+                  who = f"favours {target}" if ddg < 0 else f"favours {r}"
+                  print(f"  ΔΔG({target} − {r}) = {ddg:+.2f} ± {se:.2f} kcal/mol   ({who})")
+          else:
+              print(f"# target {target} not reduced — no ΔΔG")
+          PY
