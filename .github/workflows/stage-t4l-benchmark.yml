@@ -1,0 +1,222 @@
+name: Stage T4-lysozyme L99A + benzene ABFE benchmark (upload to S3)
+
+# One-shot staging for an ABFE ENGINE-CALIBRATION benchmark: T4 lysozyme L99A + benzene, a rigid, textbook
+# protein-ligand pocket whose absolute binding free energy is known (ΔG_bind ≈ −5.2 kcal/mol; Morton &
+# Matthews, Biochemistry 1995, 34:8564; crystal complex = PDB 181L). This job builds the two files the
+# EXISTING modern-ABFE pipeline consumes for a receptor — <receptor>-opened.pdb + docked_<receptor>.sdf —
+# and uploads them under a fresh receptor prefix so gpu-abfe-aws.yml can run on it UNCHANGED:
+#
+#   receptor_prefix = t4l-benchmark   receptors = t4l   ligand = benzene
+#
+# It produces:
+#   t4l-opened.pdb  — apo protein (protein ATOM records only; benzene/waters/ions stripped, one chain,
+#                     alt-locs resolved). prepare_leg() runs PDBFixer on this (adds missing atoms + H), so we
+#                     deliberately keep it a clean bare-protein parse rather than pre-protonating here.
+#   docked_t4l.sdf  — benzene at its 181L CRYSTAL pose: the 6 BNZ ring-carbon coordinates lifted straight
+#                     from the HETATM records onto an RDKit benzene (SMILES c1ccccc1), Hs added in-plane,
+#                     record _Name = "benzene" (the pose name prepare_leg selects on). Crystal coords put it
+#                     in the L99A cavity, so no docking is needed.
+#
+# Then run the benchmark via gpu-abfe-aws.yml (mode=run) and reduce via reduce-abfe-ci.yml — see the report.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (S3 write on the default SageMaker bucket).
+
+on:
+  workflow_dispatch:
+    inputs:
+      pdb_id:
+        description: "RCSB PDB id of the T4L L99A + benzene complex"
+        default: "181L"
+        required: false
+      ligand_resname:
+        description: "HETATM residue name of the bound benzene"
+        default: "BNZ"
+        required: false
+      prefix:
+        description: "S3 prefix to stage under (matches gpu-abfe receptor_prefix)"
+        default: "t4l-benchmark"
+        required: false
+      receptor:
+        description: "receptor token (file stems <receptor>-opened.pdb / docked_<receptor>.sdf)"
+        default: "t4l"
+        required: false
+      region:
+        description: "AWS region (default SageMaker bucket = sagemaker-<region>-<account>)"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "rdkit==2024.3.5" requests boto3
+      - name: Fetch 181L, build apo PDB + crystal-pose benzene SDF, upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          PDB_ID: ${{ inputs.pdb_id || '181L' }}
+          LIG_RESN: ${{ inputs.ligand_resname || 'BNZ' }}
+          PREFIX: ${{ inputs.prefix || 't4l-benchmark' }}
+          RECEPTOR: ${{ inputs.receptor || 't4l' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python - <<'PY'
+          import os, math, sys, requests, boto3
+          from rdkit import Chem
+          from rdkit.Geometry import Point3D
+
+          pdb_id  = os.environ["PDB_ID"].strip()
+          lig_rn  = os.environ["LIG_RESN"].strip().upper()
+          prefix  = os.environ["PREFIX"].strip().strip("/")
+          receptor= os.environ["RECEPTOR"].strip()
+          region  = os.environ["AWS_DEFAULT_REGION"].strip()
+
+          # ---- fetch the crystal complex ----
+          url = f"https://files.rcsb.org/download/{pdb_id}.pdb"
+          print(f"# fetching {url}")
+          r = requests.get(url, timeout=60); r.raise_for_status()
+          pdb_text = r.text
+          nat = sum(1 for l in pdb_text.splitlines() if l[:6] in ("ATOM  ", "HETATM"))
+          print(f"# {pdb_id}: {len(pdb_text.splitlines())} lines, {nat} atom records")
+
+          # ---- (1) apo protein PDB: protein ATOM records only; strip benzene/water/ions, one chain, alt-locs ----
+          STD_AA = {"ALA","ARG","ASN","ASP","CYS","GLN","GLU","GLY","HIS","ILE","LEU","LYS","MET","PHE",
+                    "PRO","SER","THR","TRP","TYR","VAL","HID","HIE","HIP","SEC","PYL"}
+          def apo_protein(text):
+              out, chain, seen = [], None, set()
+              for ln in text.splitlines():
+                  if ln[:6] != "ATOM  ":
+                      continue
+                  if ln[17:20].strip() not in STD_AA:
+                      continue
+                  cid = ln[21]
+                  if chain is None:
+                      chain = cid
+                  if cid != chain:
+                      continue
+                  if ln[16] not in (" ", "A"):          # keep altLoc blank or 'A' only
+                      continue
+                  key = (ln[12:16], ln[17:27])          # atom name + resName/chain/resSeq/iCode
+                  if key in seen:
+                      continue
+                  seen.add(key)
+                  out.append(ln[:16] + " " + ln[17:])   # blank the altLoc column
+              out += ["TER", "END"]
+              return "\n".join(out) + "\n", chain, len(seen)
+          apo_pdb, chain, n_prot_atoms = apo_protein(pdb_text)
+          resids = sorted({int(l[22:26]) for l in apo_pdb.splitlines()
+                           if l[:6] == "ATOM  " and l[22:26].strip().lstrip("-").isdigit()})
+          # sanity: L99A means residue 99 is ALA in this mutant
+          r99 = {l[17:20].strip() for l in apo_pdb.splitlines() if l[:6] == "ATOM  " and l[22:26].strip() == "99"}
+          print(f"# apo PDB: chain {chain}, {n_prot_atoms} protein atoms, "
+                f"{len(resids)} residues (range {resids[0]}..{resids[-1]}), residue 99 = {sorted(r99)}")
+          if r99 and r99 != {"ALA"}:
+              print(f"::warning::residue 99 is {sorted(r99)}, expected ALA (L99A mutant) — verify the PDB id")
+
+          # ---- (2) benzene at its crystal pose: 6 BNZ ring carbons -> RDKit benzene ----
+          def bnz_ring_carbons(text, resn):
+              rows = []
+              for ln in text.splitlines():
+                  if ln[:6] != "HETATM" or ln[17:20].strip() != resn:
+                      continue
+                  elem = ln[76:78].strip().upper() or ln[12:16].strip()[0:1].upper()
+                  if elem != "C":
+                      continue
+                  name = ln[12:16].strip()
+                  xyz = (float(ln[30:38]), float(ln[38:46]), float(ln[46:54]))
+                  rows.append((name, xyz))
+              # first BNZ copy only (in case of multiple/alt-loc); order by numeric suffix = ring-bond order
+              def keyf(nm):
+                  d = "".join(c for c in nm if c.isdigit())
+                  return int(d) if d else 0
+              rows = sorted(rows, key=lambda t: keyf(t[0]))[:6]
+              return rows
+          ring = bnz_ring_carbons(pdb_text, lig_rn)
+          if len(ring) != 6:
+              # fallback: any hetero residue that is exactly a 6-carbon ring (benzene-shaped)
+              from collections import defaultdict
+              groups = defaultdict(list)
+              for ln in pdb_text.splitlines():
+                  if ln[:6] == "HETATM" and ln[17:20].strip() not in ("HOH", "WAT"):
+                      elem = ln[76:78].strip().upper() or ln[12:16].strip()[0:1].upper()
+                      groups[ln[17:27]].append((elem, ln[12:16].strip(),
+                                               (float(ln[30:38]), float(ln[38:46]), float(ln[46:54]))))
+              for _res, atoms in groups.items():
+                  cs = [a for a in atoms if a[0] == "C"]
+                  if len(atoms) == 6 and len(cs) == 6:
+                      ring = sorted(((n, xyz) for _e, n, xyz in cs),
+                                    key=lambda t: int("".join(c for c in t[0] if c.isdigit()) or 0))
+                      print(f"::warning::no {lig_rn} found; using 6-carbon hetero group {_res.strip()!r} as benzene")
+                      break
+          if len(ring) != 6:
+              sys.exit(f"::error::could not extract 6 benzene ring carbons (resname {lig_rn})")
+          print(f"# benzene ring carbons ({lig_rn}): " + ", ".join(f"{n}{tuple(round(v,2) for v in xyz)}"
+                                                                   for n, xyz in ring))
+
+          def build_benzene_sdf(ring_coords, name, out_path):
+              mol = Chem.MolFromSmiles("c1ccccc1")      # atoms 0..5 = ring carbons in bond order
+              mol = Chem.AddHs(mol)                     # atoms 6..11 = one H per ring carbon
+              conf = Chem.Conformer(mol.GetNumAtoms())
+              for i, xyz in enumerate(ring_coords):     # ring carbons at crystal coords
+                  conf.SetAtomPosition(i, Point3D(*[float(v) for v in xyz]))
+              cen = [sum(c[k] for c in ring_coords) / 6.0 for k in range(3)]
+              for a in mol.GetAtoms():                  # each aromatic H: in-plane, radially outward, C-H=1.09 Å
+                  if a.GetAtomicNum() == 1:
+                      cIdx = a.GetNeighbors()[0].GetIdx()
+                      cp = ring_coords[cIdx]
+                      v = [cp[k] - cen[k] for k in range(3)]
+                      n = math.sqrt(sum(t * t for t in v)) or 1.0
+                      conf.SetAtomPosition(a.GetIdx(),
+                                           Point3D(*[float(cp[k] + 1.09 * v[k] / n) for k in range(3)]))
+              mol.AddConformer(conf, assignId=True)     # AFTER all positions set (AddConformer copies the conf)
+              Chem.SanitizeMol(mol)
+              mol.SetProp("_Name", name)
+              w = Chem.SDWriter(out_path); w.write(mol); w.close()
+              return mol
+          ring_xyz = [xyz for _n, xyz in ring]
+          mol = build_benzene_sdf(ring_xyz, "benzene", "docked_t4l.sdf")
+
+          # ---- verify the SDF the way prepare_leg loads it (RDKit backend perceives bond orders/aromaticity) ----
+          rb = Chem.SDMolSupplier("docked_t4l.sdf", removeHs=False, sanitize=True)[0]
+          assert rb is not None and rb.GetProp("_Name") == "benzene", "SDF _Name/parse check failed"
+          nC = sum(1 for a in rb.GetAtoms() if a.GetAtomicNum() == 6)
+          nH = sum(1 for a in rb.GetAtoms() if a.GetAtomicNum() == 1)
+          arom = sum(1 for a in rb.GetAtoms() if a.GetIsAromatic())
+          assert (nC, nH, arom) == (6, 6, 6), f"benzene readback wrong: C{nC} H{nH} arom{arom}"
+          Chem.Kekulize(Chem.Mol(rb), clearAromaticFlags=True)   # confirms an unambiguous Kekulé structure exists
+          print(f"# docked_t4l.sdf: {rb.GetNumAtoms()} atoms (C6H6), all 6 ring atoms aromatic, "
+                f"kekulizable, _Name=benzene — OpenFF/GAFF-ready")
+
+          # write the apo PDB with the receptor-token filename the pipeline expects
+          pdb_name = f"{receptor}-opened.pdb"
+          with open(pdb_name, "w") as f:
+              f.write(apo_pdb)
+          # rename SDF to the receptor-token stem
+          sdf_name = f"docked_{receptor}.sdf"
+          if sdf_name != "docked_t4l.sdf":
+              os.replace("docked_t4l.sdf", sdf_name)
+
+          # ---- upload to s3://sagemaker-<region>-<account>/<prefix>/ ----
+          acct = boto3.client("sts").get_caller_identity()["Account"]
+          bucket = f"sagemaker-{region}-{acct}"
+          s3 = boto3.client("s3")
+          for fn in (pdb_name, sdf_name):
+              key = f"{prefix}/{fn}"
+              s3.upload_file(fn, bucket, key)
+              print(f"# uploaded s3://{bucket}/{key} ({os.path.getsize(fn)} B)")
+          print("\n=== STAGED — dispatch gpu-abfe-aws.yml with: ===")
+          print(f"    receptor_prefix = {prefix}")
+          print(f"    receptors       = {receptor}")
+          print(f"    ligand          = benzene")
+          print(f"    (files: {pdb_name}, {sdf_name})")
+          PY
