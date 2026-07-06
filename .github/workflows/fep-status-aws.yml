@@ -408,12 +408,22 @@ jobs:
                                        SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
           print(f"recent '{tag}' training jobs: {len(jobs)}")
           # compact summary printed at the END too (get_job_logs is tail-only, so the top describe scrolls off)
+          # SageMaker ml.g5.xlarge on-demand (us-east-2) = $1.408/hr; managed-spot billed at the EC2 spot rate
+          # (~$0.30-0.45/hr recently). BillableTimeInSeconds already accounts for spot interruptions.
+          RATE = {"ml.g5.xlarge": {"od": 1.408, "spot": 0.40}, "ml.c5.xlarge": {"od": 0.238, "spot": 0.09},
+                  "ml.c5.2xlarge": {"od": 0.476, "spot": 0.18}, "ml.m5.2xlarge": {"od": 0.538, "spot": 0.20}}
           _summary = []
           for _j in jobs:
               _d = sm.describe_training_job(TrainingJobName=_j["TrainingJobName"])
               _inst = _d.get("ResourceConfig", {}).get("InstanceType", "?")
               _sec = _d.get("SecondaryStatus", "")
-              _summary.append(f"{_j['TrainingJobName']}  {_d['TrainingJobStatus']}/{_sec}  {_inst}")
+              _bill = _d.get("BillableTimeInSeconds"); _train = _d.get("TrainingTimeInSeconds")
+              _r = RATE.get(_inst, {}); _spot = _d.get("EnableManagedSpotTraining")
+              _cost = None
+              if _bill and _r:
+                  _cost = round(_bill / 3600.0 * (_r["spot"] if _spot else _r["od"]), 2)
+              _summary.append(f"{_j['TrainingJobName']}  {_d['TrainingJobStatus']}/{_sec}  {_inst}  "
+                              f"billable={_bill}s train={_train}s  {'spot' if _spot else 'od'} cost=${_cost}")
           # describe all, then dump CloudWatch stdout for the FIRST failed one (the real traceback)
           first_failed = None
           for j in jobs:
