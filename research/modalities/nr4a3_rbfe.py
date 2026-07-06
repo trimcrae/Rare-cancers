@@ -99,19 +99,33 @@ def _mapping(openfe, ligA, ligB):
 def _protocol(openfe):
     from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol
     s = RelativeHybridTopologyProtocol.default_settings()
-    # first-pass settings (SHAKEOUT-PENDING): match the ABFE window/iteration budget order-of-magnitude.
+    # first-pass settings (SHAKEOUT-PENDING): each knob guarded independently so a version-specific attribute
+    # can't block the rest of the build, and so smoke surfaces the exact offender.
+    # SINGLE replicate (trimcrae 2026-07-06): relative FEP is low-variance for a congeneric pair, so one repeat
+    # with MBAR/bootstrap error is the field standard for a single edge; escalate to 3 (replicate-SD) ONLY if
+    # this comes back marginal. protocol_repeats=3 would silently triple GPU cost/wall and blow past MAX_RUN.
     try:
-        # SINGLE replicate (trimcrae decision 2026-07-06): relative FEP is low-variance for a congeneric pair,
-        # so one repeat with MBAR/bootstrap error is the field standard for a single edge; escalate to 3
-        # replicates (replicate-SD) ONLY if this comes back marginal near the go/no-go line. protocol_repeats=3
-        # would silently triple GPU cost/wall and blow past MAX_RUN.
         s.protocol_repeats = 1
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN protocol_repeats ({e})", flush=True)
+    # OpenFE REQUIRES n_replicas == number of lambda windows. Set the lambda-window count FIRST, then match
+    # n_replicas; if the attribute differs by openfe version, leave BOTH at the internally-consistent default
+    # (smoke #2 failed because n_replicas=12 didn't match the default lambda_settings.lambda_windows=11).
+    try:
+        s.lambda_settings.lambda_windows = N_WINDOWS
         s.simulation_settings.n_replicas = N_WINDOWS
-        s.simulation_settings.equilibration_length = "1 ns"
-        s.simulation_settings.production_length = "5 ns"
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN could not set windows to {N_WINDOWS} ({e}); using OpenFE default", flush=True)
+    # MD lengths only matter for the real run (smoke does no MD); guarded against unit-parse quirks.
+    for attr, val in (("equilibration_length", "1 ns"), ("production_length", "5 ns")):
+        try:
+            setattr(s.simulation_settings, attr, val)
+        except Exception as e:  # noqa: BLE001
+            print(f"  [rbfe] WARN {attr}={val} ({e}); using default", flush=True)
+    try:
         s.engine_settings.compute_platform = "CUDA"
-    except Exception as e:  # noqa: BLE001 — settings schema varies by openfe version; smoke will surface it
-        print(f"  [rbfe] WARN could not set all settings ({e}); using defaults", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
     return RelativeHybridTopologyProtocol(s)
 
 
