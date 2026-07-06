@@ -71,6 +71,52 @@ selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
   recommended DEFERRED** behind (i) the unbiased release run confirming the pocket is metastable and (ii)
   MM-GBSA + de-novo *bona fide* selective candidates worth a multi-day alchemical run.
 
+## 2026-07-06 SESSION — "better binder than 401?" + receptor-FRAME metastability screen (trimcrae, overnight)
+**Prompt:** initial FEP returns make `denovo_401` look like a **poor absolute binder** (ΔG_bind(NR4A3) ≈ **−1.2
+kcal/mol** per the preliminary n_iter=500 ABFE — selective by ΔΔG but essentially non-binding); trimcrae wants a
+**much better binder queued for FEP, cheaply**, and asked (a) whether other pockets are an option and (b) whether
+the weak binding is a **weak candidate vs a weak pocket**, flagging that the receptor frame should be the one that
+**stays open (metastable), not just the highest fpocket-druggability one**.
+
+### RESULT 1 — the FEP receptor frame was NOT mis-chosen (metastability ladder). Refutes the "lower-druggability-but-held-better" worry.
+Seeded unbiased release MD (spot Training, `gpu-release-aws.yml`, 5 ns × 1 rep) at a **ladder of TARGET_RG**, then
+scored each trajectory for **held-open ORTHOSTERIC druggability** (`gpu-mdpocket-aws.yml`, new `offsite_scan` added
+to `nr4a3_mdpocket.py`). Rg-persistence: **all** frames (0.70–0.82) held on 5 ns (no collapse; drift 0.014–0.040 nm)
+— the metastable basin is broad. Druggability-persistence (the discriminating metric):
+| seed Rg | frac frames fpocket ≥0.5 | max | note |
+|---------|--------------------------|-----|------|
+| 0.70 | 0.20 | 0.905 | relaxes; orthosteric closes, AF-2/C-term opens |
+| 0.72 | 0.12 | 0.86  | worst orthosteric |
+| **0.74 (= the actual FEP frame, release primary 0.667)** | **0.48** | 0.874 | **PEAK — best-held druggable** |
+| 0.82 | 0.40 | 0.962 | higher peak but druggable less often |
+**The FEP frame (0.74) is the sweet spot** — stays orthosterically druggable ~48% of unbiased frames, MORE than
+either lower (0.70/0.72) or higher (0.82). Going lower per the hypothesis makes it WORSE. **So denovo_401's −1.2 is
+NOT a collapsing-/wrong-frame artifact; the receptor is the best-held druggable conformation available.** Even at
+best the pocket is druggable only ~½ the time (mean fpocket ~0.34) → a genuine **conformational-selection / dynamic
+pocket** (a binder pays an entropic cost to select the druggable state). Data: `nr4a3-metastab-rg0{70,72,74,82}` +
+`*-pocket` prefixes. (0.76 rung failed on shared spot quota; not re-run — trend is monotone around the 0.74 peak.)
+
+### RESULT 2 — OTHER pockets: only the AF-2/H12 surface, and it is a different modality.
+Static fpocket (33 pockets; Pocket-5 dominates 0.495 vs next 0.196) + PocketMiner (only Pocket-5 enriched) already
+said Pocket-5 is the sole cryptic site. The new **whole-surface offsite scan** on unbiased trajectories confirms one
+secondary cavity: the **H12 / AF-2 coactivator region (UniProt ~598–624, traj resid ~226–248)**, transiently
+druggable **~12–32%** of frames (peak 0.83–0.89), independent of the orthosteric pocket. It is a shallower, more
+CONSERVED PPI surface (worse for paralogue selectivity) — a real but second-tier option, best pursued as a
+molecular-glue/PPI modality, not a high-affinity orthosteric binder. In reserve, not the lead.
+
+### RESULT 3 — bigger pocket-filling molecules did NOT out-bind 401 at docking, and trended pan-NR4A.
+Generated 800 larger candidates (DiffSBDD, 28–40 heavy atoms vs 401's ~22; `nr4a3-denovo-affinity`), docked deep +
+state-matched into the 0.74 release frame (`nr4a3-denovo-affinity-matrix`, 33 developable). Best dock dG_NR4A3 =
+**−8.53** (denovo_657, pan-NR4A); the only strictly NR4A3-selective cells (denovo_661 −7.13, denovo_372 −7.12) are
+weaker binders with narrow NR4A2 margins. **0 strict NR4A3-selective leads; 11 pan-NR4A** — filling the pocket
+better engages the CONSERVED core → affinity-vs-selectivity tension. Multi-snapshot MM-GBSA on the top 8
+(`nr4a3-denovo-affinity-mmgbsa-ms`, vs 401's release-frame −38.18 baseline) is [RUNNING — verdict to be appended].
+
+### Interim reading (pre-MM-GBSA): leaning WEAK POCKET (dynamically), not an easily-beatable weak candidate.
+Frame is optimal; bigger molecules don't dock stronger and lose selectivity; the pocket is druggable only ~½ the
+time at its best-held frame. The MM-GBSA head-to-head is the remaining cheap discriminator; FEP on the best
+candidate (gated) is the definitive one. **No FEP/metad launched this session; all runs cheap-tier (<$10 each).**
+
 ## ✅ denovo_401 SURVIVES MULTI-SNAPSHOT (2026-06-30) — first FEP-worthy selective lead
 Ran the multi-snapshot de-noising tier on `denovo_401` (run 28469414513, report 28470289876, `nr4a3-denovo-mmgbsa-v2-ms`):
 | candidate | single-snapshot | **multi-snapshot mean ± SD** | NR4A3 ΔG | NR4A1 ΔG | NR4A2 ΔG | margin − SD | verdict |
