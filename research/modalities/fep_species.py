@@ -13,6 +13,10 @@ Pure logic + RDKit; the enumerated SMILES are stable so the set is reproducible.
 LEADS = {
     "denovo_401": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",   # 4 stereocentres, neutral
     "denovo_111": "CC[C@H](C)c1cc(OCCO)cc(N2CCCC2)c1F",                       # basic pyrrolidine
+    # Scaffold lead-opt WINNER (2026-07-06): denovo_401 + ortho-acetamido on the phenyl. Same 4 stereocentres
+    # as 401 (the acetamido adds none); NEUTRAL at pH 7.4 (amide, not a basic amine — protonation_variants'
+    # SMARTS excludes it, so it emits only the neutral form, which IS the pre-FEP protonation confirmation).
+    "lo_m0_NCCO": "COC[C@H](c1ccccc1NC(C)=O)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
 }
 
 
@@ -59,7 +63,14 @@ def species_candidate_json():
     # denovo_111: neutral + cation
     for label, smi in protonation_variants(LEADS["denovo_111"]).items():
         cands.append({"name": f"denovo_111_{label}", "smiles": smi, "denovo_promise": 1.0})
-    return {"_note": "pre-FEP species resolution: denovo_401 stereoisomers + denovo_111 protonation variants",
+    # lo_m0_NCCO (lead-opt winner): 16 stereoisomers, flag the generated (winning) one. protonation_variants
+    # returns ONLY neutral (no basic amine) -> the neutral form is confirmed as the sole physiological species.
+    genlo = Chem.MolToSmiles(Chem.MolFromSmiles(LEADS["lo_m0_NCCO"]))
+    assert list(protonation_variants(LEADS["lo_m0_NCCO"])) == ["neutral"], "lo_m0_NCCO unexpectedly ionizable"
+    for i, smi in enumerate(stereoisomers(LEADS["lo_m0_NCCO"])):
+        tag = "lo_m0_NCCO_gen" if smi == genlo else f"lo_m0_NCCO_iso{i:02d}"
+        cands.append({"name": tag, "smiles": smi, "denovo_promise": 1.0})
+    return {"_note": "pre-FEP species resolution: denovo_401 + lo_m0_NCCO stereoisomers + denovo_111 protonation",
             "campaign": "fep-species", "candidates": cands}
 
 
