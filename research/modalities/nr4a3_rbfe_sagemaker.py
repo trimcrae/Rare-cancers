@@ -75,8 +75,14 @@ def main():
                                      SortOrder="Descending")
         print(f"[rbfe] JOBS for tag={TAG}:")
         for j in resp.get("TrainingJobSummaries", []):
-            print(f"  {j['TrainingJobName']:60s} {j['TrainingJobStatus']:12s} "
-                  f"{j.get('TrainingJobStatusReason', '') or ''}")
+            name, status = j["TrainingJobName"], j["TrainingJobStatus"]
+            reason = ""
+            if status == "Failed":  # the summary omits it; describe_training_job carries the real traceback tail
+                try:
+                    reason = sm.describe_training_job(TrainingJobName=name).get("FailureReason", "") or ""
+                except Exception as e:  # noqa: BLE001
+                    reason = f"(describe failed: {e})"
+            print(f"  {name:60s} {status:12s} {reason}")
         return
 
     legs = _legs()
