@@ -72,9 +72,13 @@ def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
 def _build_components(openfe, rdkit_chem):
     """Build the OpenFE ligand A/B SmallMoleculeComponents (+ receptor ProteinComponent for the complex leg),
     from the mounted docked poses. Returns (ligA, ligB, protein_or_None)."""
-    sdf = os.path.join(IN, "ligand", f"docked_{RECEPTOR}.sdf")
+    # The solvent-morph leg has RECEPTOR="shared" (ligand-in-water, no protein), so its ligand structures don't
+    # depend on a receptor — pull them from any real docked SDF (nr4a3). The complex leg uses its own receptor's
+    # SDF. (Smoke used the nr4a3/complex defaults, so the "shared" path was first exercised by the solvent leg.)
+    sdf_receptor = RECEPTOR if RECEPTOR in ("nr4a3", "nr4a1", "nr4a2") else "nr4a3"
+    sdf = os.path.join(IN, "ligand", f"docked_{sdf_receptor}.sdf")
     if not os.path.exists(sdf):
-        sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{RECEPTOR}.sdf"), recursive=True)), sdf)
+        sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{sdf_receptor}.sdf"), recursive=True)), sdf)
     molA = _sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem)
     molB = _sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
