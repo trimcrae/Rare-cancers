@@ -5,9 +5,10 @@ read it before making changes.
 
 ## TL;DR for agents
 
-- **⏰ TIMES: ALWAYS US EASTERN (ET), NEVER UTC (trimcrae standing rule).** Every time you report to trimcrae —
-  ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern (EDT = UTC−4). Convert before
-  writing; do not surface UTC even if the tool/log emits it. (You keep slipping into UTC — this is why it's rule #1.)
+- **⏰ TIMES: ALWAYS US EASTERN (ET), 12-HOUR AM/PM, NEVER UTC / NEVER 24-HOUR (trimcrae standing rule).** Every
+  time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
+  (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
+  do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
 - **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
   forward an EMC treatment**. **As of 2026-06-26 (trimcrae decision), the TWO papers to publish first are:**
   **(1)** the split-out, target-centric **NR4A3-degrader result paper** —
