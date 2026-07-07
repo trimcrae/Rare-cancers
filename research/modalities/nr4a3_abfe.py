@@ -147,6 +147,16 @@ def _minimize_and_rethermalize(context, temperature, seed_val, max_iter=200):
     context.setVelocitiesToTemperature(temperature, int(seed_val))
 
 
+def _log_recovery(out_dir, window_index, iteration, event):
+    """Append one NaN-recovery event to a small per-window jsonl that syncs to S3 (continuous upload) — so the
+    recovery is observable from the checkpoint prefix even when CloudWatch stdout is filtered/unavailable."""
+    try:
+        with open(os.path.join(out_dir, f"recovery_{window_index:02d}.jsonl"), "a") as f:
+            f.write(json.dumps({"w": int(window_index), "iter": int(iteration), "event": str(event)[:160]}) + "\n")
+    except Exception:  # noqa: BLE001 — logging must never take down the run
+        pass
+
+
 def run_window(reference_system, positions, alchemical_atoms, window_index, out_dir,
                schedule=None, temperature_K=300.0, n_iter=1000, steps_per_iter=500, timestep_fs=2.0,
                platform_name="CPU", resume=True, seed=0):
@@ -177,26 +187,65 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
         alch_state.lambda_sterics = ls
         alch_state.apply_to_context(context)
 
+    def _energy_finite():
+        """True iff the context's current potential energy is finite. Detects a poisoned (NaN) frame whether
+        OpenMM signals it by returning nan or by raising 'Particle coordinate is NaN'."""
+        try:
+            e = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
+            return math.isfinite(e)
+        except Exception:  # noqa: BLE001 — a raise here IS the non-finite signal
+            return False
+
+    def _fresh_start(vseed):
+        """Re-seed the window from the FINITE input pose — the guaranteed-recoverable state. A checkpoint frame
+        can be strained past what minimization survives (minimize itself then raises NaN); the input pose (the
+        same one r1 ran cleanly from) cannot. This is the escape hatch that makes recovery total."""
+        context.setPositions(positions)
+        _set_lambda(elec, sterics)
+        openmm.LocalEnergyMinimizer.minimize(context)
+        context.setVelocitiesToTemperature(T, int(vseed))
+
+    def _recover(attempt):
+        """Escalating, NEVER-propagating recovery. Attempts 0–1: relax the last checkpoint (preserves trajectory
+        continuity) — but only if it is finite; ≥2, or if relaxing raises: fresh-start from the input pose."""
+        vseed = int(seed) * 1000 + window_index + 7919 * (attempt + 1)
+        try:
+            if attempt < 2 and os.path.exists(ckpt):
+                context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
+                _set_lambda(elec, sterics)
+                if _energy_finite():
+                    _minimize_and_rethermalize(context, T, vseed)
+                    return "relax-checkpoint"
+            _fresh_start(vseed + 104729)
+            return "fresh-start-from-pose"
+        except openmm.OpenMMException:                       # even the relax path blew up → the finite pose can't
+            _fresh_start(vseed + 224737)
+            return "fresh-start-after-relax-nan"
+
+    print(f"[abfe] nan-guard v2 active (window {window_index}, seed {seed})", flush=True)
     os.makedirs(out_dir, exist_ok=True)
     ckpt = os.path.join(out_dir, f"window_{window_index:02d}.state.xml")
     start = 0
     if resume and os.path.exists(ckpt):
-        context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
-        start = _last_logged_iter(out_dir, window_index) + 1
+        try:
+            context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
+            _set_lambda(elec, sterics)
+            start = _last_logged_iter(out_dir, window_index) + 1
+            if not _energy_finite():
+                raise openmm.OpenMMException("poisoned checkpoint (non-finite on resume)")
+        except openmm.OpenMMException as exc:
+            print(f"[abfe] window {window_index}: {str(exc)[:70]} → fresh-start from input pose "
+                  f"(keeping {max(start, 0)} logged samples)", flush=True)
+            _log_recovery(out_dir, window_index, start - 1, f"poisoned-resume:{str(exc)[:80]}")
+            _fresh_start(int(seed) * 1000 + window_index + 104729)   # dynamics restart; logged samples are valid
     else:
-        context.setPositions(positions)
-        _set_lambda(elec, sterics)
-        openmm.LocalEnergyMinimizer.minimize(context)
-        if seed:                                              # seed-determined initial velocities → independent replicate
-            context.setVelocitiesToTemperature(T, int(seed) * 1000 + window_index)
+        _fresh_start(int(seed) * 1000 + window_index)
 
     for it in range(start, n_iter):
-        # NaN guard: a strained frame (a specific window/replicate can wander into one — e.g. the nr4a2
-        # complex leg) makes the fixed-dt Langevin step blow up ('Particle coordinate is NaN'). Because the
-        # checkpoint is written only AFTER a successful step, the last checkpoint is always finite — so on a
-        # blow-up we roll back to it, minimize+re-thermalize (see _minimize_and_rethermalize), and retry the
-        # SAME iteration. Bounded retries → a genuinely broken system fails loudly instead of looping / silently
-        # stalling (the failure mode that froze the nr4a2 legs: every plain resume re-loaded the bad frame).
+        # NaN guard: a strained frame (a specific window/replicate can wander into one — the nr4a2 complex leg
+        # did) makes the fixed-dt Langevin step blow up ('Particle coordinate is NaN'). On a blow-up we recover
+        # (see _recover: relax the checkpoint, or fresh-start from the finite input pose) and retry the SAME
+        # iteration. Recovery never propagates; bounded retries → a genuinely broken system fails loudly.
         ured = None
         for attempt in range(_MAX_WINDOW_RECOVER + 1):
             try:
@@ -215,12 +264,10 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
                 if attempt >= _MAX_WINDOW_RECOVER:
                     raise RuntimeError(f"[abfe] window {window_index}: unrecoverable instability at iter {it} "
                                        f"after {_MAX_WINDOW_RECOVER} recoveries ({str(exc)[:100]})")
-                print(f"[abfe] window {window_index} iter {it}: instability ({str(exc)[:70]}); "
-                      f"recovery {attempt + 1}/{_MAX_WINDOW_RECOVER} — rollback+minimize+re-thermalize", flush=True)
-                if os.path.exists(ckpt):                     # last checkpoint is the last FINITE state
-                    context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
-                _set_lambda(elec, sterics)
-                _minimize_and_rethermalize(context, T, int(seed) * 1000 + window_index + 7919 * (attempt + 1))
+                how = _recover(attempt)
+                print(f"[abfe] window {window_index} iter {it}: instability ({str(exc)[:60]}); "
+                      f"recovery {attempt + 1}/{_MAX_WINDOW_RECOVER} — {how}", flush=True)
+                _log_recovery(out_dir, window_index, it, f"attempt{attempt + 1}:{how}:{str(exc)[:60]}")
         append_reduced_potentials(out_dir, window_index, it, ured)
         st = context.getState(getPositions=True, getVelocities=True)   # tiny checkpoint, every iteration
         with open(ckpt + ".tmp", "w") as f:
