@@ -4,10 +4,13 @@ This folder holds the treatment-track writing plus a few supporting and separate
 documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 
 > **TWO PRIORITY papers to publish first (trimcrae decision 2026-06-26):**
-> 1. **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** — **lead result paper**, target-centric:
->    *computational design of a selective NR4A3 degrader* (cryptic-pocket druggability, selectivity
->    handles, degrader design). EMC is the lead clinical application among several NR4A3/NR4A indications.
->    *NR4A3-selective but NOT fusion-selective (the LBD is shared with wild-type NR4A3).*
+> 1. **[`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)** — **lead result paper**; **reframed
+>    2026-07-08 around NR4A-*family* druggability with two design poles** (cryptic-pocket druggability +
+>    selectivity handles + degrader design, tuned from **NR4A3-selective** for NR4A3-driven cancers to
+>    **pan-NR4A** for ex-vivo CAR-T de-exhaustion). EMC is the lead clinical application of the selective
+>    pole. Journal target raised to Nature Computational Science / ACS Central Science. Framing decision:
+>    [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md).
+>    *Selective pole is NR4A3-selective but NOT fusion-selective (the LBD is shared with wild-type NR4A3).*
 > 2. **[`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)** — **fusion-exclusive result
 >    paper**: an RNase-H gapmer / siRNA against the EWSR1::NR4A3 breakpoint junction that silences the
 >    chimera while **sparing wild-type NR4A3** — the most-likely-to-work fusion-unique route, with a
@@ -59,7 +62,8 @@ submitted.
 
 - [`immunotherapy-options-emc.md`](./immunotherapy-options-emc.md) — TCR-T / ICI / ImmTAC (Phase 1)
 - [`emerging-modalities-scan-emc.md`](./emerging-modalities-scan-emc.md) — trabectedin, FAP-RLT, PPARG (Phase 2)
-- [`car-t-strategies-emc.md`](./car-t-strategies-emc.md) — CAR-T surface-target strategies (Phase 3)
+- [`car-t-strategies-emc.md`](./car-t-strategies-emc.md) — CAR-T *surface-target* strategies for treating EMC directly (Phase 3). NB: distinct from the degrader's pan-NR4A CAR-T-*enhancement* angle below.
+- [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md) — framing decision (2026-07-08): the pan-NR4A ex-vivo CAR-T-enhancement pole + the NR4A-family-druggability reframe for a higher-tier journal. Feeds the degrader paper + positioning doc.
 - [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) — degrader vs. BRD9 head-to-head
 - [`nr4a3-degrader-broader-indications.md`](./nr4a3-degrader-broader-indications.md) — beyond-EMC motivation for the degrader (NR4A3-fusion sarcomas; NR4A in T-cell exhaustion / immuno-oncology; the AML tumour-suppressor contraindication)
 

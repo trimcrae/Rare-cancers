@@ -204,6 +204,17 @@ Lead with the **family-level druggability reversal**, then descend to the two de
 
 ---
 
+### 3.5 Status of the "make pan a design objective" step (assessed 2026-07-08 — deferred, not done)
+Verified that the existing `gpu-denovo-aws.yml` `campaign=pan` input is **label-only**: `nr4a3_denovo.py`
+conditions DiffSBDD on the full pocket `resi_list` (406–534) identically for both campaigns, and `CAMPAIGN`
+only relabels output + picks the post-hoc handle set. So running `campaign=pan` as-is would regenerate the
+same distribution relabeled — **wasteful, not informative**. A genuine pan-*designed* campaign needs a small
+code change (score/condition on the conserved core 411/481/485; rank by conserved-pocket contact + pan-cell
+residence) **plus** a generate+dock+score cycle whose aggregate approaches/exceeds the ~$10 autonomous gate.
+Given the pan pole is already demonstrated at honest docking-tier weight (§1.3), this is **deferred to an
+explicit go-ahead** rather than spent on speculatively — consistent with "a breadth dollar beats a depth
+dollar" and disciplined-spend rules.
+
 ## 4. Recommended next actions
 1. **Cheap, default-yes now:** run the **pan-NR4A readout** — re-rank the existing family matrix / a small
    conserved-residue-conditioned generation for a candidate that engages the invariant pocket residues across
