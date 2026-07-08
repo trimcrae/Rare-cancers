@@ -13,6 +13,21 @@ import boto3
 
 
 def main():
+    # Optional: list an S3 prefix (e.g. to confirm cached opened-conformer PDBs exist) then return.
+    s3_prefix = os.environ.get("S3_PREFIX", "").strip()
+    if s3_prefix:
+        region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+        s3, sts = boto3.client("s3"), boto3.client("sts")
+        acct = sts.get_caller_identity()["Account"]
+        bucket = os.environ.get("BUCKET") or f"sagemaker-{region}-{acct}"
+        print(f"s3://{bucket}/{s3_prefix} :")
+        r = s3.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
+        for o in r.get("Contents", []):
+            print(f"  {o['Size']:>10}  {o['Key']}")
+        if "Contents" not in r:
+            print("  (empty / not found)")
+        return
+
     sm = boto3.client("sagemaker")
     jobs = sm.list_training_jobs(StatusEquals="InProgress", SortBy="CreationTime",
                                  SortOrder="Descending", MaxResults=50)["TrainingJobSummaries"]
