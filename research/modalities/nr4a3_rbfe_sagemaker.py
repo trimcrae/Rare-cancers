@@ -96,7 +96,7 @@ def main():
         sm = boto3.client("sagemaker")
         # Newest first, capped small so the whole listing fits the CI log tail (long FailureReasons on many
         # historical jobs otherwise push the current legs off the top; Ascending returned empty on this API).
-        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=5, SortBy="CreationTime",
+        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=12, SortBy="CreationTime",
                                      SortOrder="Descending")
         print(f"[rbfe] JOBS for tag={TAG}:")
         for j in resp.get("TrainingJobSummaries", []):
