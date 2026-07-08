@@ -63,7 +63,7 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "stop") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
 
     if MODE == "tracelog":
@@ -163,6 +163,29 @@ def main():
             print(f"[rbfe] ckpt-census error: {e}")
         return
 
+    if MODE == "stop":
+        # Kill the InProgress legs for this tag (e.g. the OpenCL-wedged complex legs) so they stop burning spot
+        # before a re-dispatch with a platform fix. ONLY_LEGS filters which (by name substring); blank = all.
+        import boto3
+        sm = boto3.client("sagemaker")
+        only = {x.strip() for x in os.environ.get("ONLY_LEGS", "").split(",") if x.strip()} or None
+        resp = sm.list_training_jobs(MaxResults=80, SortBy="CreationTime", SortOrder="Descending")
+        killed = 0
+        for j in resp.get("TrainingJobSummaries", []):
+            name, status = j["TrainingJobName"], j["TrainingJobStatus"]
+            if TAG not in name or status != "InProgress":
+                continue
+            if only and not any(o in name for o in only):
+                continue
+            try:
+                sm.stop_training_job(TrainingJobName=name)
+                print(f"[rbfe] STOP requested: {name}")
+                killed += 1
+            except Exception as e:  # noqa: BLE001
+                print(f"[rbfe] stop failed for {name}: {e}")
+        print(f"[rbfe] {killed} InProgress job(s) sent Stop.")
+        return
+
     legs = _legs()
     print(f"[rbfe] TAG={TAG} mode={MODE} edge={LIGAND_A}->{LIGAND_B} spot={SPOT} receptors={RECEPTORS}")
     print(f"[rbfe] legs: {[n for n, _r, _l in legs]}")
@@ -239,6 +262,15 @@ def main():
 
     common = {"git-ref": GIT_REF, "ligand-a": LIGAND_A, "ligand-b": LIGAND_B, "n-iter": N_ITER,
               "n-windows": N_WINDOWS, "seed": SEED, "prebaked": "1" if IMAGE_URI else "0"}
+
+    if MODE == "cudaprobe":
+        # Fast g5 diagnostic: does OpenMM's CUDA platform actually run on this image, or only OpenCL? Decides
+        # whether the RBFE can leave the pathologically-slow OpenCL hybrid-Context path. No MD, no inputs needed.
+        est = make_estimator("cudaprobe", {**common, "mode": "cudaprobe"})
+        print("[rbfe] launching CUDA-probe spot job (env solve + nvidia-smi + OpenMM platform test, no MD)…")
+        est.fit(wait=True, logs=True)
+        print("[rbfe] CUDA-probe complete — see 'SELECTED PLATFORM =' above.")
+        return
 
     if MODE == "smoke":
         est = make_estimator("smoke", {**common, "mode": "smoke"})
