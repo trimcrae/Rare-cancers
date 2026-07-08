@@ -72,6 +72,30 @@ def main():
 
     ranked = core.rank_rows([r for r in allrows if r.get("dG_NR4A3") is not None])
 
+    # Score distribution + threshold table: how many compounds fall at/below each dG cutoff. This is the
+    # data-driven way to choose the promote depth — cut where the tail of strong binders meets the "everything
+    # docks weakly" bulk (the modal dG), plus a buffer for exhaustiveness-4 triage noise. Rank cutoffs are
+    # arbitrary; a dG threshold adapts to the actual distribution.
+    dgs = sorted(r["dG_NR4A3"] for r in ranked)
+    if dgs:
+        n = len(dgs)
+        print("=== NR4A3-pocket dG distribution (all docked; lower = stronger) ===")
+        pct = [1, 2, 5, 10, 25, 50]
+        cells = [f"p{p}={dgs[max(0, min(n - 1, int(p / 100.0 * n)))]:.2f}" for p in pct]
+        print(f"n={n}  min={dgs[0]:.2f}  median={dgs[n // 2]:.2f}  max={dgs[-1]:.2f}   " + "  ".join(cells))
+        print("cumulative count at/below a dG cutoff (pick the knee, then add a triage-noise buffer):")
+        lo = int(dgs[0])            # most negative (strongest)
+        thresholds = [lo + i * 0.5 for i in range(0, int((dgs[-1] - lo) / 0.5) + 2)]
+        for t in thresholds:
+            c = sum(1 for x in dgs if x <= t)
+            if c == 0:
+                continue
+            bar = "#" * min(60, c * 60 // n)
+            print(f"  dG <= {t:6.1f} : {c:5d}  {bar}")
+            if c >= n:
+                break
+        print()
+
     # DRUG_FILTER: look up specific drugs by name substring and show their dG + percentile rank in the
     # full docked set — for asking "did drug X bind the pocket?" (e.g. the EMC-active TKIs).
     dfilter = [s.strip().lower() for s in os.environ.get("DRUG_FILTER", "").split(",") if s.strip()]
