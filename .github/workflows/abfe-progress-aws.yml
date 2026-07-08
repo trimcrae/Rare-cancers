@@ -60,7 +60,7 @@ jobs:
           tags = [t.strip() for t in os.environ["TAGS"].split(",") if t.strip()]
           LEG_ORDER = ["complex-nr4a3", "complex-nr4a1", "complex-nr4a2", "solvent"]
           NW = 12                                                # λ-windows per leg (full leg = NW × target iters)
-          data = {}                                              # tag -> {leg -> (total_iters, n_done, deepest)}
+          data = {}                                              # tag -> {leg -> (capped_total, n_done, deepest_raw)}
           for tag in tags:
               wins = {}                                          # leg -> [linecount per window]
               for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{tag}/ckpt/"):
@@ -72,7 +72,12 @@ jobs:
                           wins.setdefault(leg, []).append(n)
               legs = {}
               for leg, c in wins.items():                         # missing windows contribute 0
-                  legs[leg] = (sum(c), sum(1 for x in c if x >= target), max(c) if c else 0)
+                  # CAP each window at `target` before summing: a window's log can hold MORE than `target`
+                  # lines (duplicate iteration-records left by crash/resume/recovery cycles), which would
+                  # otherwise inflate the bar past 100% before all windows are actually complete. Capping makes
+                  # the % a TRUE completion fraction — it reaches 100% only when every window has ≥ target
+                  # samples. `deepest` keeps the raw max so the over-count is still visible for diagnostics.
+                  legs[leg] = (sum(min(x, target) for x in c), sum(1 for x in c if x >= target), max(c) if c else 0)
               if legs:
                   data[tag] = legs
           print("progress:", data)
