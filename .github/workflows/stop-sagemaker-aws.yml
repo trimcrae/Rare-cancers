@@ -1,0 +1,52 @@
+name: Stop a SageMaker job (AWS)
+
+# Cleanly stop a running SageMaker Training/Processing job — e.g. an orphan left parked after its wrapping
+# GitHub run was cancelled (cancelling the runner does NOT stop the SageMaker job). Read-only otherwise;
+# starts no instance. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_name:
+        description: "exact SageMaker job name to stop (preferred; unambiguous)"
+        default: ""
+        required: false
+      job_prefix:
+        description: "OR a NameContains filter — stops the most recent InProgress match of job_type"
+        default: ""
+        required: false
+      job_type:
+        description: "training | processing"
+        default: "training"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Stop the SageMaker job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          JOB_NAME: ${{ inputs.job_name }}
+          JOB_PREFIX: ${{ inputs.job_prefix }}
+          JOB_TYPE: ${{ inputs.job_type }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/stop_sagemaker.py
