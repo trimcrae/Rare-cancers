@@ -1,0 +1,53 @@
+name: Promote repurposing top-N → candidate JSON (AWS)
+
+# Pools the NR4A3-only repurposing dock, takes the top-N by NR4A3-pocket dG, and writes a candidate JSON to
+# s3://<bucket>/<output_prefix>/nr4a3-denovo.json so gpu-denovo-dock-aws.yml (denovo_prefix=<output_prefix>)
+# can run the 3-receptor + MM-GBSA + decoy-null selectivity tier. REQUIRES secrets: AWS_ACCESS_KEY_ID,
+# AWS_SECRET_ACCESS_KEY (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: "how many top drugs to promote"
+        default: "250"
+        required: false
+      input_prefix:
+        description: "S3 prefix the NR4A3-only dock wrote to"
+        default: "nr4a3-repurpose-nr4a3only"
+        required: false
+      output_prefix:
+        description: "S3 prefix to write the candidate JSON to (use as denovo_prefix in the 3-receptor dock)"
+        default: "nr4a3-repurpose-top"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Promote repurposing top-N
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          TOP_N: ${{ inputs.top_n }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/promote_repurpose.py
