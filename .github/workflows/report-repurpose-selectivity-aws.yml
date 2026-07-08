@@ -1,0 +1,57 @@
+name: Repurposing selectivity — plan shards / pool shortlists (AWS, read-only)
+
+# MODE=PLAN: read the promoted top-N candidate JSON and print N_SHARDS CANDIDATE_FILTER partitions (to fire
+# parallel MM-GBSA shards). MODE=REPORT: pool the per-shard MM-GBSA outputs and print the NR4A3-selective and
+# pan-NR4A shortlists. Read-only. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "PLAN (print shard filters) or REPORT (pool shortlists)"
+        default: "PLAN"
+        required: false
+      promote_prefix:
+        description: "PLAN: S3 prefix of the promoted top-N candidate JSON"
+        default: "nr4a3-repurpose-top"
+        required: false
+      n_shards:
+        description: "PLAN: number of MM-GBSA shards to split into"
+        default: "5"
+        required: false
+      shard_prefixes:
+        description: "REPORT: comma list of MM-GBSA shard output prefixes"
+        default: "nr4a3-repurpose-mmgbsa-s0,nr4a3-repurpose-mmgbsa-s1,nr4a3-repurpose-mmgbsa-s2,nr4a3-repurpose-mmgbsa-s3,nr4a3-repurpose-mmgbsa-s4"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Plan / report repurposing selectivity
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          MODE: ${{ inputs.mode }}
+          PROMOTE_PREFIX: ${{ inputs.promote_prefix }}
+          N_SHARDS: ${{ inputs.n_shards }}
+          SHARD_PREFIXES: ${{ inputs.shard_prefixes }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_repurpose_selectivity.py

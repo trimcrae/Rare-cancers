@@ -1,0 +1,111 @@
+#!/usr/bin/env python3
+"""Repurposing selectivity tier — plan the sharded MM-GBSA, then pool it into the two shortlists.
+
+Two modes (env MODE):
+  PLAN   : read the promoted top-N candidate JSON (s3://<bucket>/<PROMOTE_PREFIX>/nr4a3-denovo.json), split
+           its labels into N_SHARDS groups, and print each group as a ready-to-paste CANDIDATE_FILTER string.
+           Use these to fire N parallel spot-g5 MM-GBSA jobs (one per group) at once.
+  REPORT : pool the per-shard MM-GBSA outputs (SHARD_PREFIXES, comma list) and emit the two deliverable
+           shortlists — NR4A3-SELECTIVE (systemic EMC degrader) and PAN-NR4A (CAR-T) — with honest caveats.
+
+MM-GBSA magnitudes are inflated (single-snapshot, no entropy) — trust verdict/direction, not kcal/mol.
+Env: BUCKET (optional), AWS creds + AWS_DEFAULT_REGION.
+  PLAN: PROMOTE_PREFIX (default nr4a3-repurpose-top), N_SHARDS (default 5).
+  REPORT: SHARD_PREFIXES (comma), PAN_CUTOFF (default -6.0), PAN_MARGIN (default 3.0), TOP (default 30).
+"""
+import json
+import os
+import sys
+
+
+def _s3():
+    import boto3
+    region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+    s3, sts = boto3.client("s3"), boto3.client("sts")
+    acct = sts.get_caller_identity()["Account"]
+    bucket = os.environ.get("BUCKET") or f"sagemaker-{region}-{acct}"
+    return s3, bucket
+
+
+def _get_json(s3, bucket, key):
+    try:
+        return json.loads(s3.get_object(Bucket=bucket, Key=key)["Body"].read())
+    except Exception as e:  # noqa: BLE001
+        print(f"  (could not read s3://{bucket}/{key}: {e})")
+        return None
+
+
+def plan():
+    s3, bucket = _s3()
+    prefix = os.environ.get("PROMOTE_PREFIX", "nr4a3-repurpose-top")
+    n = int(os.environ.get("N_SHARDS", "5"))
+    d = _get_json(s3, bucket, f"{prefix}/nr4a3-denovo.json")
+    if not d:
+        sys.exit(1)
+    labels = [c["name"] for c in d.get("candidates", []) if c.get("name")]
+    print(f"promoted {len(labels)} candidates -> {n} shards\n")
+    # round-robin so each shard spans the dG range (balanced work, not front-loaded).
+    groups = [labels[i::n] for i in range(n)]
+    for i, g in enumerate(groups):
+        print(f"# shard {i} ({len(g)} drugs) — mmgbsa-aws.yml candidate_filter + output_prefix=nr4a3-repurpose-mmgbsa-s{i}")
+        print(",".join(g))
+        print()
+
+
+def _cell(dg):
+    """Coarse MM-GBSA cell from the three ΔG (favorable = engaged). Returns (engaged_set, min_margin)."""
+    return {t: v for t, v in dg.items() if v is not None}
+
+
+def report():
+    s3, bucket = _s3()
+    prefixes = [p.strip() for p in os.environ.get("SHARD_PREFIXES", "").split(",") if p.strip()]
+    pan_cutoff = float(os.environ.get("PAN_CUTOFF", "-6.0"))
+    pan_margin = float(os.environ.get("PAN_MARGIN", "3.0"))
+    top = int(os.environ.get("TOP", "30"))
+    rows = []
+    for p in prefixes:
+        d = _get_json(s3, bucket, f"{p}/nr4a3-mmgbsa.json")
+        if d:
+            rows.extend(d.get("candidates", []))
+    print(f"pooled {len(rows)} MM-GBSA-scored drugs from {len(prefixes)} shard(s)\n")
+    if not rows:
+        return
+
+    def dg(r, t):
+        return (r.get("dG_mmgbsa") or {}).get(t)
+
+    # NR4A3-selective: the driver's own verdict (mm margin > 0 AND survives vs docking), ranked by margin.
+    sel = [r for r in rows if r.get("verdict") == "confirmed_selective"]
+    sel.sort(key=lambda r: -(r.get("mm_min_margin") or -99))
+    # Pan-NR4A: engages ALL THREE LBDs (all ΔG favorable past PAN_CUTOFF) and is NOT strongly selective
+    # (|min margin| small) — the CAR-T-relevant class. Ranked by total engagement (sum of the 3 ΔG).
+    pan = [r for r in rows
+           if all(dg(r, t) is not None and dg(r, t) <= pan_cutoff for t in ("NR4A3", "NR4A1", "NR4A2"))
+           and abs(r.get("mm_min_margin") or 99) <= pan_margin]
+    pan.sort(key=lambda r: sum(dg(r, t) for t in ("NR4A3", "NR4A1", "NR4A2")))
+
+    def show(title, rs):
+        print(f"=== {title} ({len(rs)}) ===")
+        print(f"{'drug':<28} {'ΔG3':>7} {'ΔG1':>7} {'ΔG2':>7} {'min-margin':>10}  verdict")
+        for r in rs[:top]:
+            lab = (r.get("drug") or r.get("label") or "")[:28]
+            print(f"{lab:<28} {str(dg(r,'NR4A3')):>7} {str(dg(r,'NR4A1')):>7} {str(dg(r,'NR4A2')):>7} "
+                  f"{str(r.get('mm_min_margin')):>10}  {r.get('verdict')}")
+        print()
+
+    show("NR4A3-SELECTIVE  (systemic EMC degrader lead)", sel)
+    show("PAN-NR4A  (engages all three LBDs — CAR-T angle)", pan)
+    print("CAVEATS: MM-GBSA magnitudes inflated (single-snapshot, no entropy) — trust direction/verdict, not")
+    print("kcal/mol. Must still clear the decoy-null bar; kinase-inhibitor/polyphenol hits are promiscuity-prone.")
+
+
+def main():
+    if os.environ.get("MODE", "REPORT").upper() == "PLAN":
+        plan()
+    else:
+        report()
+
+
+if __name__ == "__main__":
+    main()
