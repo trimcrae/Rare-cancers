@@ -171,9 +171,13 @@ def run_leg():
     A, B = _chemical_systems(openfe, ligA, ligB, protein)
     dag = proto.create(stateA=A, stateB=B, mapping=mapping)
     from gufe.protocols import execute_DAG
-    shared = os.path.join(CKPT, "shared")
-    scratch = os.path.join(CKPT, "scratch")
-    os.makedirs(shared, exist_ok=True); os.makedirs(scratch, exist_ok=True)
+    from pathlib import Path
+    # gufe's execute_DAG does `shared_basedir / f"..."`, so these MUST be pathlib.Path, not str (a str `/` str
+    # is the "TypeError: unsupported operand type(s) for /: 'str' and 'str'" that killed the first real-MD legs).
+    shared = Path(CKPT) / "shared"
+    scratch = Path(CKPT) / "scratch"
+    shared.mkdir(parents=True, exist_ok=True)
+    scratch.mkdir(parents=True, exist_ok=True)
     dagres = execute_DAG(dag, shared_basedir=shared, scratch_basedir=scratch, keep_shared=True)
     est = proto.gather([dagres])
     dg = est.get_estimate()
