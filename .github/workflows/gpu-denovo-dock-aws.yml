@@ -35,6 +35,10 @@ on:
         description: "SageMaker instance type (CPU is plenty for smina docking)"
         default: "ml.c5.2xlarge"
         required: false
+      max_runtime:
+        description: "SageMaker job wall-clock cap (s). Raise for large candidate sets (matrix writes only at end, no checkpoint, so a timeout loses everything). Default 4h."
+        default: "14400"
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -71,6 +75,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           INSTANCE: ${{ inputs.instance }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           DENOVO_PREFIX: ${{ inputs.denovo_prefix }}
           TOP_N: ${{ inputs.top_n }}
