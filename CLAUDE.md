@@ -150,6 +150,19 @@ read it before making changes.
   **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
   those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
   SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
+- **★ UNEXPECTED SLOWNESS IS A SIGNAL — INVESTIGATE, DON'T REASSURE (trimcrae standing rule, 2026-07-08,
+  after I repeatedly reported "on track" while a job was actually stuck).** When something takes materially
+  longer than you predicted, or sits in one phase with no new output past what that phase should take, treat
+  it as evidence that **something is wrong** and go find out — do NOT keep waiting and re-asserting "it's fine"
+  and do NOT make trimcrae be the one to notice. Concretely, on any "why is this slow?" moment: (1) **pull the
+  live log** (`tail-cloudwatch-aws.yml`) and read what phase it's actually in and the timestamp of the last
+  event; (2) form a concrete hypothesis (stuck vs slow-but-progressing vs silent phase) and **verify** it
+  against the log, not against your prior estimate; (3) if it's genuinely stuck or pathologically slow, **fix
+  the root cause** (kill + re-run differently, cache the slow step, shard it, raise a cap) rather than reporting
+  status again. **Own your ETAs:** if you gave one and it's blown, that is itself the trigger to dig — the
+  first time reality diverges from your estimate, investigate, don't wait for the second data point. This
+  composes with (does not override) the spot-capacity rule below: **investigate first to DIAGNOSE**; if the
+  diagnosis is a known-benign spot capacity-wait, *then* wait it out — but you only know that by looking.
 - **ALWAYS WAIT OUT SPOT CAPACITY — never switch to on-demand because a job is stuck "Starting / Insufficient
   capacity" (trimcrae standing rule, 2026-07-05).** A spot job that can't get an EC2 instance is *not* a
   problem — it is exactly what spot + per-iteration checkpointing was designed for: it waits, and when capacity
