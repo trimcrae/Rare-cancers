@@ -118,7 +118,7 @@
   pan → **ex-vivo, washable** CAR-T de-exhaustion (chemical NR4A triple-KO analogue; Chen 2019), with the
   degrader/E3 ternary cartoon and the "transient ex-vivo removes the systemic-toxicity bound" note.
 - *Message:* a canonically "undruggable" receptor family reframed as a **programmable degradation target**
-  spanning rare oncology and immunotherapy — the general claim that carries the paper to a higher-tier venue.
+  spanning rare oncology and immunotherapy — the paper's strongest general claim (and its best pitch at JCIM).
 
 ## Tables
 

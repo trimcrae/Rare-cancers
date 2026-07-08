@@ -8,9 +8,17 @@
 > The roadmap remains the EMC-program paper (driver framing + the fusion-specific ASO / immuno / registry
 > routes); this paper is the degrader's own publish-to-convince deliverable, led by the target/family, with
 > EMC the lead clinical application of the selective pole among several NR4A3/NR4A-degradation indications.
-> **Journal target:** Nature Computational Science / ACS Central Science (methods + dual-domain impact);
-> fallback ladder JACS Au / Chem Sci → JMC / JCIM → ChemRxiv (the preprint posts regardless). The
-> deepest-validated result is still the **NR4A3-selective** design (FEP, ternary, decoy-null `denovo_401`);
+> **Journal target (recalibrated 2026-07-08 to a realistic tier):** primary = **J. Chem. Inf. Model. (JCIM)**
+> — the natural home for a rigorous, controlled *in-silico* druggability + selectivity-design workflow —
+> with **ChemRxiv preprint posted immediately** (the preprint, not the journal, is what reaches the target
+> labs/foundations per the operating regime). Peers if the angle fits better: **JCTC** (lead with the FEP/
+> methods) or **Molecular Informatics**. **Nature Computational Science / Nature Communications are a stretch
+> and are NOT the plan** — an entirely in-silico, single-family, established-methods feasibility study with no
+> wet-lab validation will most likely be desk-rejected/bounced there; worth **only** a free NCS presubmission
+> *inquiry* as a long shot, not a planned submission. The realistic ceiling-lever (still probably Chem Sci, not
+> a Nature journal) would be repositioning as a *general method* + a retrospective benchmark on known-answer
+> targets — a larger project, not required for the JCIM submission. The
+> deepest-validated result is the **NR4A3-selective** design (FEP, ternary, decoy-null `denovo_401`);
 > the family framing is the container that gives it reach — title family-first, depth-of-evidence
 > selective-first.
 >

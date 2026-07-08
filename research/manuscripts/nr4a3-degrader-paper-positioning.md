@@ -121,9 +121,16 @@ recorded here so the standalone-vs-merge question is not re-opened.
 ## Update (2026-07-08, trimcrae): promote pan-NR4A / ex-vivo CAR-T to a second pillar + reframe around family druggability
 **Decision.** Elevate the **pan-NR4A ex-vivo CAR-T** application from "Contingency only (NOT motivation)"
 (above) to a deliberate **second design pillar**, and reframe the whole paper around **NR4A-family
-druggability** to target a higher-tier journal (**Nature Computational Science / ACS Central Science**). Full
-rationale, retitle/abstract restructure, honest bounds, and next actions:
+druggability**. Full rationale, retitle/abstract restructure, honest bounds, and next actions:
 [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md).
+
+**Journal-target correction (2026-07-08, same day, trimcrae):** the reframe was initially pitched at
+*Nature Computational Science / ACS Central Science*. **That is walked back as over-optimistic.** The paper is
+entirely in-silico (no wet lab, no synthesized molecule, established methods, an unvalidated load-bearing
+structural model) — a shape those journals reject regardless of rigor. **Realistic target: JCIM** (peers JCTC /
+Molecular Informatics), **ChemRxiv preprint immediately**. NCS is worth only a *free presubmission inquiry* as a
+long shot. The reframe work still stands — it's the right framing for JCIM and improves the paper — only the
+destination changed.
 
 Why this is a promotion, not a contradiction of the "Contingency only" note: that note's caution was about
 **in-vivo** pan-NR4A blockade (AML/dopaminergic toxicity, wrong-direction Nurr1 degradation). The CAR-T use is
@@ -136,5 +143,5 @@ Two poles, one framework, opposite tuning: **NR4A3-selective** (EMC/AciCC/NR4A-s
 result — FEP, ternary, decoy-null `denovo_401`) and **pan-NR4A** (CAR-T de-exhaustion, the reach-extending mode).
 The reframe is **emphasis + one cheap readout** (a pan-NR4A candidate from the existing family matrix), not new
 claims — every result stays at its true weight. Title goes **family-first**; depth-of-evidence stays
-**selective-first**. Journal fallback ladder: JACS Au / Chem Sci → JMC / JCIM → ChemRxiv (preprint posts
-regardless).
+**selective-first**. Realistic journal target (see correction above): **JCIM primary, ChemRxiv immediately**;
+higher-tier venues are a free-inquiry long shot only.

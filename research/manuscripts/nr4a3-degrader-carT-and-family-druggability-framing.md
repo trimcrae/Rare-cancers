@@ -2,8 +2,10 @@
 > ([`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md)) and the lead manuscript
 > ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)). Proposes elevating the pan-NR4A / ex-vivo
 > CAR-T application from "contingency" to a deliberate second pillar, and re-framing the whole paper
-> around **NR4A-family druggability** to target a higher-tier journal (Nature Computational Science /
-> ACS Central Science). Not separately submitted. Written 2026-07-08.
+> around **NR4A-family druggability**. Not separately submitted. Written 2026-07-08.
+> **Journal note (corrected same day):** this memo originally aimed at Nature Computational Science / ACS
+> Central Science — **walked back as over-optimistic** (§2). Realistic target = **JCIM**, ChemRxiv immediately;
+> NCS is a free-presubmission-inquiry long shot only. The reframe still stands; only the destination changed.
 
 # Leveraging the *non-selective* degrader for ex-vivo CAR-T — and re-framing the paper around NR4A-family druggability
 
@@ -23,13 +25,14 @@
   matrix — the opposite cell from the NR4A3-selective one. A pan-NR4A candidate is a **cheap matrix/generation
   readout**, not a new GPU program. This is squarely the "add a new axis of evidence for near-zero cost"
   breadth-first move the North Star rewards.
-- **Yes — it raises the achievable journal tier, but only *with* the reframe.** The CAR-T application alone
-  doesn't lift a rare-cancer degrader paper into a top journal. What lifts it is the **general claim it
-  licenses**: *the NR4A family — canonically "undruggable" orphan nuclear receptors — harbours a dynamically
-  druggable cryptic pocket, and one computational framework tunes a degrader across the family: paralogue-
-  selective for NR4A3-driven cancers at one pole, pan-family for CAR-T de-exhaustion at the other.* That is a
-  **methods + broad-impact** story that fits **Nature Computational Science** and **ACS Central Science**;
-  "an NR4A3 degrader for a rare sarcoma" is not.
+- **It strengthens the paper, but the realistic home is still a specialist journal (JCIM), not a Nature one
+  (corrected — see §2).** The reframe's **general claim** — *the NR4A family, canonically "undruggable,"
+  harbours a dynamically druggable cryptic pocket, and one computational framework tunes a degrader across the
+  family (selective ↔ pan)* — is genuinely more compelling than "an NR4A3 degrader for a rare sarcoma," and it
+  is the right framing. But it does not overcome the paper's shape (entirely in-silico, no wet lab, established
+  methods), which caps the realistic target at **JCIM** with a **ChemRxiv preprint immediately**. Nature
+  Computational Science / ACS Central Science are a **free presubmission-inquiry long shot only**, not the
+  plan.
 
 ---
 
@@ -106,34 +109,44 @@ in cell-therapy process development, not a systemic drug.
 
 ---
 
-## 2. Does it raise the journal tier? Yes — but the *reframe* is what does the lifting
+## 2. Does it raise the journal tier? It raises the *achievable* tier, but the realistic home is JCIM — NOT a Nature journal
+> **Corrected 2026-07-08 (trimcrae).** This section originally argued a "good fit" for Nature Computational
+> Science / ACS Central Science. **That was over-optimistic and is walked back.** The reframe genuinely
+> strengthens the paper and is the right framing — but it does not change the paper's fundamental *shape*, and
+> that shape sets the ceiling.
 
-The CAR-T application is the **hook**, not the mechanism. On its own, "we also note a pan-NR4A degrader could
-help CAR-T" is a paragraph, not a tier change. The tier change comes from the **general claim the two poles
-jointly license**, which is what NR4A-family druggability lets us assert:
+The CAR-T application + family framing give the paper its most general, compelling claim:
 
 > **A textbook-"undruggable" orphan nuclear-receptor family is dynamically druggable, and one cryptic-pocket
 > framework designs degraders across its entire selectivity axis — from a paralogue-selective agent for
 > NR4A3-driven cancers to a pan-family agent for reversing CAR-T exhaustion.**
 
-That sentence is a **methods + impact** contribution with **two disease areas** (rare oncology *and*
-immuno-oncology) served by **one computational result**. That is the profile these journals select for:
+That is a real methods-+-impact story. But **why it still won't clear a Nature-family bar**, stated honestly:
+- The paper is **entirely in-silico** — no wet lab, **no synthesized molecule, no experimental validation of
+  any claim**, and the load-bearing structural model (the AF2 cryptic pocket) is itself unvalidated (Boltz-2
+  could not corroborate the pose).
+- It uses **established methods** (metad, fpocket, DiffSBDD, MM-GBSA, OpenFE, Boltz, PocketMiner) in a careful
+  pipeline — the novelty is *integration + honesty + application*, **not a new algorithm**.
+- **Nature Computational Science** wants a *generalizable new method*; **Nature Communications** wants
+  *experimental validation or a landmark-scale advance*. A rigorous-but-unvalidated single-family feasibility
+  study fits neither — most likely outcome is desk-reject or a bounce at review, regardless of how well the
+  claims are weighted.
 
-- **Nature Computational Science** — rewards a *computational method/finding* with demonstrable reach across
-  problems. Our load-bearing novelty is computational (first NR4A3 pocket-dynamics + druggability calibration;
-  the family-wide **state-matched** selectivity matrix that removes the opened-vs-static confound; the
-  decoy-calibrated selectivity null). The two application poles show the method **generalises**. Good fit.
-- **ACS Central Science** — rewards chemistry of *central* significance across sub-fields. "Making an
-  undruggable receptor family druggable, and steering selectivity by design" is a central-chemistry thesis
-  with an immunotherapy payoff. Good fit.
+**Realistic target: J. Chem. Inf. Model. (JCIM)** — the natural venue for exactly this kind of controlled
+in-silico druggability + selectivity-design workflow; well-indexed, read by the comp-chem/drug-design audience
+we want. Peers: **JCTC** (if led with the FEP/methods) or **Molecular Informatics**. **ChemRxiv preprint posts
+immediately** — the preprint, not the journal tier, is what reaches the target labs/foundations (operating
+regime). At JCIM's tier the paper's strengths (the state-matched family matrix, the decoy nulls, the calibrated
+druggability, the honest negatives) are genuine assets — they just don't clear the "no experiments" wall at a
+Nature journal.
 
-**Reality check (so we don't over-promise the tier):** these are still selective journals and our result is
-**in-silico, no molecule synthesised**. The honest positioning is *"a rigorous, calibrated computational
-druggability + design framework"* — which is publishable at this tier **as a computational paper**, provided
-we (a) keep every claim at its true weight (the paper already does this well), and (b) don't let the CAR-T
-hook drift into an unearned functional claim. The reframe **maximises the achievable tier**; it does not
-guarantee acceptance. Fallback ladder if it doesn't land: *JACS Au / Chemical Science → J. Med. Chem. /
-J. Chem. Inf. Model. → ChemRxiv preprint* (the preprint goes up regardless, per the operating regime).
+**The only lever that could raise the ceiling** (and even then probably to Chemical Science, not NCS) is
+repositioning the workflow as a *general method* and **validating it retrospectively on known-answer targets**
+(a benchmark: does the druggability caller correctly flag proteins with experimentally-validated cryptic pockets,
+and correctly reject ligand-poor ones?). That substitutes computational validation for the wet lab NCS-class
+reviewers expect — but it is a **separate, larger project**, not required for the JCIM submission. **NCS is
+worth only a free presubmission *inquiry*** (abstract + advance paragraph to the editor) as a long shot; plan
+around JCIM.
 
 ---
 
@@ -227,11 +240,12 @@ Folded into paper §3 + the abstract. No molecule synthesized; the honest-weight
 1. **Cheap, default-yes now:** run the **pan-NR4A readout** — re-rank the existing family matrix / a small
    conserved-residue-conditioned generation for a candidate that engages the invariant pocket residues across
    all three opened ensembles. Banks the artefact the reframe leans on. (Within the autonomy threshold.)
-2. **Framing:** fold §3 of this memo into [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) (retitle,
-   abstract restructure, new pan-NR4A/CAR-T subsection) and record the tier target in
-   [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md) (promote pan-NR4A from
-   "contingency" to "second design pillar"; set journal target Nat Comput Sci / ACS Cent Sci with the
-   fallback ladder).
+2. **Framing (DONE):** §3 folded into [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) (retitle,
+   abstract restructure, pan-NR4A/CAR-T subsection); pan-NR4A promoted from "contingency" to "second design
+   pillar" in [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). **Journal target
+   recalibrated to JCIM** (primary) + ChemRxiv immediately; NCS = free presubmission-inquiry long shot only
+   (§2). A drafted NCS presubmission inquiry lives in
+   [`nr4a3-degrader-ncs-presubmission-inquiry.md`](./nr4a3-degrader-ncs-presubmission-inquiry.md).
 3. **Outreach:** the CAR-T pole widens the outreach list — add **NR4A/exhaustion immunology labs** (the Rao
    group's network) and **cell-therapy process-development** contacts to
    [`nr4a3-degrader-outreach-emails.md`](./nr4a3-degrader-outreach-emails.md).
