@@ -40,3 +40,14 @@ Results live at `s3://<bucket>/nr4a3-repurpose-nr4a3only/<tag>-ckpt/`:
 ## Next
 Pool the per-shard rankings, take the top ~250 by NR4A3 dG + handle contacts, and promote them into the
 existing 3-receptor + MM-GBSA + decoy-null selectivity tier (`nr4a3_matrix.py` candidate mode → `mmgbsa-aws.yml`).
+
+## TWO valued outputs, not one (trimcrae, 2026-07-08)
+Selectivity is NOT a dealbreaker for this screen. The 3-receptor promote tier yields two first-class shortlists:
+1. **NR4A3-selective** (low NR4A3 dG, positive margin vs NR4A1/NR4A2, survives decoy-null) → the *systemic EMC
+   degrader* angle.
+2. **Pan-NR4A** (engages all three LBDs well; `selectivity_fingerprint` `pan_nr4a` cell) → the **CAR-T section**:
+   an approved, human-safety-backed drug that suppresses the whole NR4A family is an asset for the ex-vivo
+   NR4A-family-knockdown-relieves-exhaustion angle. Pan hits have a LOWER bar (no selectivity margin needed —
+   just genuine engagement of all three). Surface BOTH lists; do not discard pan-NR4A as "non-selective." (A
+   binder ≠ a degrader — the degrader/ternary framing is downstream — but a pan-NR4A binder with human safety
+   data is the starting point the CAR-T section wants.)
