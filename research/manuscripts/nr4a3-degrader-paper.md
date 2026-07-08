@@ -1,11 +1,21 @@
-# Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a "ligand-independent" nuclear receptor
+# Programmable druggability of the "undruggable" NR4A nuclear-receptor family: one cryptic pocket, from a selective NR4A3 degrader to a pan-NR4A CAR-T enhancer
 
-> **ACTIVE LEAD MANUSCRIPT (result paper).** Target-centric paper on the NR4A3 degrader, split out from
-> the EMC-program roadmap ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)) on 2026-06-25 per
-> [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). The roadmap remains
-> the EMC-program paper (driver framing + the fusion-specific ASO / immuno / registry routes); this
-> paper is the degrader's own publish-to-convince deliverable, led by the target, with EMC as the lead
-> clinical application among several NR4A3/NR4A-degradation indications.
+> **ACTIVE LEAD MANUSCRIPT (result paper).** Target-/family-centric paper on NR4A druggability + degrader
+> design, split out from the EMC-program roadmap ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md))
+> on 2026-06-25 per [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md), and
+> **reframed 2026-07-08 around NR4A-*family* druggability with two design poles** (NR4A3-selective ↔
+> pan-NR4A) per [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md).
+> The roadmap remains the EMC-program paper (driver framing + the fusion-specific ASO / immuno / registry
+> routes); this paper is the degrader's own publish-to-convince deliverable, led by the target/family, with
+> EMC the lead clinical application of the selective pole among several NR4A3/NR4A-degradation indications.
+> **Journal target:** Nature Computational Science / ACS Central Science (methods + dual-domain impact);
+> fallback ladder JACS Au / Chem Sci → JMC / JCIM → ChemRxiv (the preprint posts regardless). The
+> deepest-validated result is still the **NR4A3-selective** design (FEP, ternary, decoy-null `denovo_401`);
+> the family framing is the container that gives it reach — title family-first, depth-of-evidence
+> selective-first.
+>
+> **Alternate (target-centric) title, if a reviewer prefers the narrower frame:** *"Computational design of
+> a selective NR4A3 degrader: opening a cryptic pocket in a 'ligand-independent' nuclear receptor."*
 
 *Draft (2026-06). Authors/affiliations TBD. In-silico design + feasibility study — no wet lab; no
 molecule synthesized. Every claim is sourced or computed and labelled with its weight. The 30 ns
@@ -18,6 +28,22 @@ applied, is in [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redtea
 (figures + tables): [`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md).*
 
 ## Abstract
+**Thesis (the general claim).** The NR4A nuclear receptors (NR4A1/2/3) — orphan, constitutively active, and
+textbook *"undruggable"* — are in fact **dynamically druggable**: their occluded orthosteric pocket breathes
+open into a thermally-populated, druggable cryptic cavity that we characterise in silico across **all three
+paralogues**, corroborated by an independent cryptic-pocket predictor and calibrated against a
+nuclear-receptor panel. Because that pocket is the family's **most sequence-divergent** zone, a *single*
+cryptic-pocket design framework is **tunable across the entire NR4A selectivity axis** — producing, from one
+generative campaign, **both** poles at once: a paralogue-**selective** NR4A3 degrader for NR4A3-driven cancers
+(EMC, acinic cell carcinoma, NR4A-rearranged sarcomas) **and**, in the same campaign's non-selective
+by-catch, a **pan-NR4A** degrader — an ex-vivo, washable chemical route to the NR4A triple-knockout that
+reverses CAR-T exhaustion (Chen 2019), for which selectivity is unnecessary and transient ex-vivo dosing
+removes the systemic-toxicity constraint that mandates it in vivo. This reframes a canonically undruggable
+receptor family as a **programmable degradation target spanning rare oncology and immunotherapy.** *(In-silico
+design + feasibility; no molecule synthesized; the selective pole is the deepest-validated — FEP, ternary,
+decoy-calibrated lead — while the pan pole is a demonstrated docking-tier readout. Every claim below is
+labelled at its true weight.)*
+
 NR4A nuclear receptors (NR4A1/2/3) are textbook "undruggable" transcription factors: the canonical
 Nurr1/NR4A2 crystal structure shows a ligand-binding pocket occluded by bulky side chains, and NR4A3 has
 no experimental structure at all — yet NR4A3 is nonetheless experimentally *ligandable* (fragment-derived
@@ -805,14 +831,20 @@ cell* of the same state-matched family matrix** ([`../modalities/nr4a3-pan-reado
 **essentially equipotent across all three opened pockets** (dG NR4A3/NR4A1/NR4A2 = −8.40/−8.41/−8.80,
 |margin| ≤ 0.4 kcal/mol) — the balanced tri-paralogue engagement this mode wants; and (ii), more tellingly,
 the de-novo funnel's own **`confirmed_nonselective`** rejects — the pile discarded *for* the selective
-programme — include **two developability-gate-passing de-novo molecules in the pan-NR4A cell**
-(`denovo_106`, QED 0.78 / SA 3.8 / 5 handle contacts, the lead; and `denovo_86`, QED 0.68 / SA 3.9), each
-engaging all three state-matched opened pockets. So **one cryptic-pocket generative campaign yields both
-poles of the NR4A selectivity axis at once** — NR4A3-selective warheads for the systemic cancer lead, and,
-in its non-selective by-catch, developable pan-NR4A binders for the ex-vivo CAR-T mode. These are
-docking-tier screening priors at the same weight as the selective docking leads (not affinities, no molecule
-synthesized; a conserved-residue-conditioned generation would make pan-NR4A the design *objective* rather
-than a reject-pile readout — a cheap, optional next step).
+programme — include **two gate-developable de-novo molecules in the pan-NR4A cell** (`denovo_106`, QED 0.78 /
+SA 3.8 / 5 handle contacts, the lead; and `denovo_86`, QED 0.68 / SA 3.9), each engaging all three
+state-matched opened pockets. So **one cryptic-pocket generative campaign yields both poles of the NR4A
+selectivity axis at once** — NR4A3-selective warheads for the systemic cancer lead, and, in its non-selective
+by-catch, pan-NR4A binders for the ex-vivo CAR-T mode. We hold both poles to the *same honest weight*: these
+are docking-tier screening priors (not affinities, no molecule synthesized), and a manual RDKit triage
+(beyond the automated gate, which none of them trips for PAINS/BRENK) flags the same class of generative-model
+liabilities the selective pole's `denovo_15` carries — a reactive diene/alkylidene in `denovo_106`, an
+N,O-acetal plus high logP in `denovo_86` — so each is a pan **chemotype/pose hypothesis to redesign**, not a
+developable molecule ([`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json)). The
+durable, load-bearing claim is therefore the *framework*: one funnel produces matter that engages the
+conserved pocket across all three paralogues. Making pan-NR4A the design **objective** (a
+conserved-residue-conditioned generation, ranked by conserved-pocket contact) rather than a reject-pile
+readout is a cheap, optional next step.
 
 **Anti-target — NR4A1+NR4A3 (design *away* from):** NR4A1/NR4A3 are myeloid **tumour suppressors** —
 combined loss causes AML (Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/
