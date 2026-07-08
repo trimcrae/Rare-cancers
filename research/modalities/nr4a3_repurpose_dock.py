@@ -1,35 +1,32 @@
 #!/usr/bin/env python3
 """
-Interruption-robust, NR4A3-ONLY drug-repurposing dock (Option-1 triage tier).
+Interruption-robust, NR4A3-ONLY drug-repurposing dock (Option-1 triage tier), PARALLEL within the job.
 
 Docks a shard of the Broad Repurposing Hub library into the unbiased druggable-**release** NR4A3 Pocket-5,
-**one drug at a time**, appending a result line to a JSONL checkpoint after *each* drug. That checkpoint
-lives in the SageMaker managed-spot checkpoint dir, so it is uploaded to S3 continuously and re-downloaded
-on a spot interruption or a re-dispatch — meaning a timeout/kill loses **at most the one drug in flight**,
-never the shard. On start the driver reads the JSONL, skips every drug already recorded, and resumes.
+**many drugs at a time** (a thread pool over drugs; each smina pinned to SMINA_CPU cores), appending a result
+line to a JSONL checkpoint as *each* drug finishes. That checkpoint lives in the SageMaker managed-spot
+checkpoint dir, so it is uploaded to S3 continuously and re-downloaded on a spot interruption or re-dispatch —
+a kill loses at most the drugs in flight, and on start the driver skips every drug already recorded.
 
-WHY NR4A3-only: docking-level *selectivity* fingerprints are within docking noise (see the program history);
-the real selectivity adjudication is MM-GBSA + decoy-null on the top hits. So this tier ranks the 6k library
-by NR4A3-pocket fit alone (⅓ the compute of the 3-receptor dock), then the top ~N promote to the full
-3-receptor + MM-GBSA + decoy-null selectivity tier (nr4a3_matrix.py / mmgbsa-aws.yml).
+WHY parallel-in-the-job: the binding constraint is the account quota "instances across all spot training jobs"
+(=10), NOT vCPUs. So the way to cut wall-clock is to make each instance do more work — run N concurrent docks
+on a big-vCPU box — rather than launch more jobs. On a 16-vCPU box a 550-drug shard finishes in minutes.
 
 dG here is a **screening prior, not an affinity**.
 
 Env inputs:
-  CANDIDATE_JSON      path to a shard JSON ({candidates:[{name,smiles,drug,moa,phase,...}]})
-  NR4A3_RECEPTOR      path to the release-frame receptor PDB (nr4a3-release-druggable.pdb)
-  NR4A3_BOX_RES       optional comma resSeqs to box on (else manifest box_residues, else Pocket-5)
-  OUTPUT_DIR          where the JSONL + summary are written (= the spot checkpoint dir)
-  RESUME_DIR          where to read a prior JSONL from (defaults to OUTPUT_DIR)
-  TAG                 output namespace (e.g. 'shard-02') -> <TAG>.results.jsonl / nr4a3-repurpose-<TAG>.json
-  EXHAUSTIVENESS      smina exhaustiveness (default 4 — cheap triage; top hits re-dock at 8)
-  PER_LIGAND_TIMEOUT  seconds before a single smina dock is abandoned as a hang (default 300)
+  CANDIDATE_JSON, NR4A3_RECEPTOR, NR4A3_BOX_RES, OUTPUT_DIR, RESUME_DIR, TAG   (as before)
+  EXHAUSTIVENESS       smina exhaustiveness (default 4)
+  PER_LIGAND_TIMEOUT   seconds before a single smina dock is abandoned (default 300)
+  N_WORKERS            concurrent docks (default = os.cpu_count()); each uses SMINA_CPU cores
+  SMINA_CPU            cores per smina dock (default 1 — so N_WORKERS docks saturate the box)
 """
 import json
 import os
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import nr4a3_dock as dock
 import nr4a3_warhead as wh
@@ -44,7 +41,9 @@ NR4A3_BOX_RES = os.environ.get("NR4A3_BOX_RES", "")
 CANDIDATE_JSON = os.environ.get("CANDIDATE_JSON")
 EXHAUSTIVENESS = os.environ.get("EXHAUSTIVENESS", "4")
 PER_LIGAND_TIMEOUT = int(os.environ.get("PER_LIGAND_TIMEOUT", "300"))
-CHECKPOINT_EVERY_SUMMARY = int(os.environ.get("CHECKPOINT_EVERY_SUMMARY", "25"))
+SMINA_CPU = os.environ.get("SMINA_CPU", "1")
+N_WORKERS = int(os.environ.get("N_WORKERS", str(os.cpu_count() or 4)))
+CHECKPOINT_EVERY_SUMMARY = int(os.environ.get("CHECKPOINT_EVERY_SUMMARY", "50"))
 
 ENGAGEABLE_HANDLES = [406, 410, 484, 531, 534]   # divergent + pocket-facing (NR4A3 numbering)
 CONSERVED_CV = [411, 481, 485]
@@ -67,8 +66,7 @@ def _pdb_resseqs(pdb):
 
 
 def _box_residues(resseqs):
-    """NR4A3_BOX_RES env, else the release manifest's box_residues for this receptor, else the
-    Pocket-5 lining (406-534) mapped onto the receptor numbering."""
+    """NR4A3_BOX_RES env, else the release manifest's box_residues for this receptor, else Pocket-5."""
     if NR4A3_BOX_RES.strip():
         return [int(x) for x in NR4A3_BOX_RES.split(",") if x.strip()]
     man = os.path.join(os.path.dirname(NR4A3_RECEPTOR), "nr4a3-release-druggable.json")
@@ -98,10 +96,8 @@ def _load_candidates(path):
     return out, d
 
 
-def _dock_one(receptor_pdb, center, smi, label, pose_sdf):
-    """Embed + smina-dock ONE drug into the box. Returns (dG or None, note). Writes its pose to pose_sdf
-    (overwritten each call — only the current drug's pose is needed for contact scoring)."""
-    lig_sdf = os.path.join(OUT, "_lig.sdf")
+def _dock_one(receptor_pdb, center, smi, label, lig_sdf, pose_sdf):
+    """Embed + smina-dock ONE drug (pinned to SMINA_CPU cores). Returns (dG or None, note); writes pose_sdf."""
     kept = dock.make_sdf([(label, label, smi)], lig_sdf)
     if not kept:
         return None, "embed_failed"
@@ -110,7 +106,7 @@ def _dock_one(receptor_pdb, center, smi, label, pose_sdf):
         raise RuntimeError("smina not on PATH")
     cmd = [smina, "-r", receptor_pdb, "-l", lig_sdf,
            "--center_x", str(center[0]), "--center_y", str(center[1]), "--center_z", str(center[2]),
-           "--size_x", "24", "--size_y", "24", "--size_z", "24",
+           "--size_x", "24", "--size_y", "24", "--size_z", "24", "--cpu", SMINA_CPU,
            "--exhaustiveness", EXHAUSTIVENESS, "--num_modes", "1", "-o", pose_sdf]
     try:
         subprocess.run(cmd, capture_output=True, text=True, timeout=PER_LIGAND_TIMEOUT)
@@ -147,8 +143,8 @@ def main():
     h_res = [resseqs[i] for i in rm.resolve_positions(resseqs, ENGAGEABLE_HANDLES, LBD_FIRST_NR4A3)[0]]
     c_res = [resseqs[i] for i in rm.resolve_positions(resseqs, CONSERVED_CV, LBD_FIRST_NR4A3)[0]]
     print(f"[repurpose] receptor {os.path.basename(NR4A3_RECEPTOR)}: {len(resseqs)} res, "
-          f"box on {len(box_res)} residues, {len(h_res)} handles resolved, exhaustiveness {EXHAUSTIVENESS}",
-          flush=True)
+          f"box on {len(box_res)} residues, {len(h_res)} handles, exh {EXHAUSTIVENESS}, "
+          f"{N_WORKERS} workers x {SMINA_CPU} cpu", flush=True)
 
     # 2) candidates + resume set.
     cands, lib = _load_candidates(CANDIDATE_JSON)
@@ -158,43 +154,53 @@ def main():
     prior_lines = []
     if os.path.exists(resume_jsonl):
         prior_lines = open(resume_jsonl).read().splitlines()
-        # carry the prior JSONL forward into the (possibly new) OUTPUT_DIR so the resume set persists.
         if os.path.abspath(resume_jsonl) != os.path.abspath(jsonl):
             with open(jsonl, "w") as fh:
                 fh.write("\n".join(prior_lines) + ("\n" if prior_lines else ""))
     done = core.done_labels(prior_lines)
     todo = core.remaining(labels, done)
-    print(f"[repurpose] {TAG}: {len(labels)} drugs, {len(done)} already done, {len(todo)} to dock", flush=True)
-
-    meta = {"tag": TAG, "receptor": os.path.basename(NR4A3_RECEPTOR),
-            "source": lib.get("source"), "exhaustiveness": EXHAUSTIVENESS,
-            "box_residues": box_res, "engageable_handles": ENGAGEABLE_HANDLES}
-
-    # 3) per-drug dock loop — append + flush after EACH drug (spot-kill loses ≤1 drug).
     by_label = {c[0]: c for c in cands}
-    pose_sdf = os.path.join(OUT, "_pose.sdf")
-    t0 = time.time()
-    for i, label in enumerate(todo, 1):
+    print(f"[repurpose] {TAG}: {len(labels)} drugs, {len(done)} already done, {len(todo)} to dock "
+          f"({N_WORKERS}-way parallel)", flush=True)
+
+    meta = {"tag": TAG, "receptor": os.path.basename(NR4A3_RECEPTOR), "source": lib.get("source"),
+            "exhaustiveness": EXHAUSTIVENESS, "box_residues": box_res,
+            "engageable_handles": ENGAGEABLE_HANDLES}
+
+    # 3) parallel per-drug dock; append + flush as EACH drug finishes (thread-safe: append only in main thread).
+    def _work(label):
         _lab, smi, m = by_label[label]
+        lig = os.path.join(OUT, f"_lig_{label}.sdf")
+        pose = os.path.join(OUT, f"_pose_{label}.sdf")
         try:
-            dg, note = _dock_one(conf, center, smi, label, pose_sdf)
-            hc = wh.handle_contacts(conf, pose_sdf, h_res).get(label, 0) if dg is not None else 0
-            cc = wh.handle_contacts(conf, pose_sdf, c_res).get(label, 0) if dg is not None else 0
+            dg, note = _dock_one(conf, center, smi, label, lig, pose)
+            hc = wh.handle_contacts(conf, pose, h_res).get(label, 0) if dg is not None else 0
+            cc = wh.handle_contacts(conf, pose, c_res).get(label, 0) if dg is not None else 0
         except Exception as e:  # noqa: BLE001 — one bad drug must never kill the shard
             dg, note, hc, cc = None, f"error:{e}", 0, 0
-        rec = {"label": label, "drug": m["drug"], "moa": m["moa"], "phase": m["phase"],
-               "smiles": smi, "dG_NR4A3": dg, "handle_contacts": hc, "conserved_contacts": cc, "note": note}
-        with open(jsonl, "a") as fh:
-            fh.write(json.dumps(rec) + "\n")
-            fh.flush(); os.fsync(fh.fileno())
-        if i % 10 == 0 or i == len(todo):
-            rate = i / max(1e-6, time.time() - t0)
-            print(f"[repurpose] {TAG} {i}/{len(todo)} ({label} dG={dg} {note}) ~{rate:.2f} drug/s", flush=True)
-        if i % CHECKPOINT_EVERY_SUMMARY == 0:
-            _write_summary(jsonl, meta, status="in_progress")
+        for p in (lig, pose):                       # keep the box clean under high fan-out
+            try:
+                os.remove(p)
+            except OSError:
+                pass
+        return {"label": label, "drug": m["drug"], "moa": m["moa"], "phase": m["phase"],
+                "smiles": smi, "dG_NR4A3": dg, "handle_contacts": hc, "conserved_contacts": cc, "note": note}
+
+    t0, n = time.time(), 0
+    with ThreadPoolExecutor(max_workers=N_WORKERS) as ex, open(jsonl, "a") as fh:
+        futures = [ex.submit(_work, lab) for lab in todo]
+        for fut in as_completed(futures):
+            rec = fut.result()
+            fh.write(json.dumps(rec) + "\n"); fh.flush(); os.fsync(fh.fileno())
+            n += 1
+            if n % 25 == 0 or n == len(todo):
+                rate = n / max(1e-6, time.time() - t0)
+                print(f"[repurpose] {TAG} {n}/{len(todo)} (~{rate:.1f} drug/s)", flush=True)
+            if n % CHECKPOINT_EVERY_SUMMARY == 0:
+                _write_summary(jsonl, meta, status="in_progress")
 
     _write_summary(jsonl, meta, status="ok")
-    print(f"[repurpose] {TAG} DONE in {time.time() - t0:.0f}s", flush=True)
+    print(f"[repurpose] {TAG} DONE {len(todo)} drugs in {time.time() - t0:.0f}s", flush=True)
 
 
 def _write_summary(jsonl, meta, status):
