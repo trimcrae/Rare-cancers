@@ -106,6 +106,17 @@ def main():
             print(f"=== {leg}: {len(keys[leg])} keys")
             for k in keys[leg][:40]:
                 print(f"    {k}")
+        # cat the first real-time-analysis yaml + the completed leg json so we can parse them for progress
+        for leg in sorted(keys):
+            for k in keys[leg]:
+                if k.endswith("simulation_real_time_analysis.yaml") or k.endswith(".json") and "leg_" in k:
+                    try:
+                        body = s3.get_object(Bucket=bucket, Key=f"{TAG}/ckpt/{k}")["Body"].read().decode(
+                            "utf-8", "replace")
+                        print(f"--- CONTENT {k}:\n{body[:1500]}")
+                    except Exception as e:  # noqa: BLE001
+                        print(f"    (read {k} failed: {e})")
+                    break
         return
 
     if MODE == "jobs":
