@@ -23,7 +23,12 @@ import sys
 import threading
 import time
 
-OUT = "/opt/ml/processing/output"
+# Spot Training: /opt/ml/checkpoints is continuously synced to checkpoint_s3_uri AND re-populated with prior
+# checkpoints on a spot restart / re-dispatch — so it is simultaneously the OUTPUT dir and the RESUME dir.
+# Falls back to the Processing output path if run as a Processing job.
+OUT = os.environ.get("SM_CHECKPOINT_DIR",
+                     "/opt/ml/checkpoints" if os.path.isdir("/opt/ml/checkpoints")
+                     else "/opt/ml/processing/output")
 
 
 def _heartbeat(label, start, stop, every):
@@ -104,8 +109,10 @@ def main():
                     "ls -l /etc/OpenCL/vendors/"], check=False)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = "/opt/ml/processing/input"     # nr4a3-matrix outputs mounted here
+    # matrix outputs: the `matrix` Training channel (spot) or the Processing input mount (fallback).
+    env["INPUT_DIR"] = os.environ.get("SM_CHANNEL_MATRIX", "/opt/ml/processing/input")
     env["OUTPUT_DIR"] = OUT
+    env["RESUME_DIR"] = OUT                            # skip ligands already scored (spot-restart-safe)
     # Multi-snapshot confirmation knobs (passed as args so the container env need not be pre-set).
     if args.multisnapshot:
         env["MULTISNAPSHOT"] = args.multisnapshot

@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 """
-Submit the MM-GBSA endpoint rescoring as an AWS SageMaker Processing job.
+Submit the MM-GBSA endpoint rescoring as an AWS SageMaker managed-**spot Training** job (trimcrae standing
+rule 2026-07-03: default every GPU run to spot). Spot is ~60-70% cheaper and draws on the spot-Training
+quota (parallel) instead of the on-demand g5 Processing quota of 1.
 
-Mounts the matrix outputs (s3://<bucket>/nr4a3-matrix) as one ProcessingInput at
-/opt/ml/processing/input, runs entry_mmgbsa.py -> nr4a3_mmgbsa.py, and writes s3://<bucket>/nr4a3-mmgbsa.
-This is endpoint rescoring of existing docked poses (single-snapshot, no MD). Defaults to ml.g5.xlarge
-(A10G GPU): run 8 proved the ~4000-atom GB minimisation is ~48 min/ligand on CPU, so the compute genuinely
-needs the GPU — and there is now NO CPU fallback (mmgbsa_energy.py fails fast if no GPU platform loads).
-The earlier env hang (run 7) was the unpinned conda env, not the instance, and is fixed independently (slim
-env in entry_mmgbsa.py). Override INSTANCE=ml.c5.* only with MMGBSA_ALLOW_CPU=1. Needs AWS creds +
-SAGEMAKER_ROLE_ARN.
+Spot is safe because the driver now RESUMES: `checkpoint_s3_uri` ↔ /opt/ml/checkpoints is re-populated with
+the prior partial `nr4a3-mmgbsa.json` on a spot restart / re-dispatch, and nr4a3_mmgbsa.py skips ligands
+already scored there — so a spot interruption costs ≤1 ligand. The matrix outputs (receptors + docked_*.sdf
++ nr4a3-matrix.json) are the `matrix` Training channel. GPU job; defaults ml.g5.xlarge. Needs AWS creds +
+SAGEMAKER_ROLE_ARN. Re-dispatch with the SAME output_prefix to resume/extend.
 
-Prereq: the matrix job must have populated s3://<bucket>/nr4a3-matrix (receptors + docked_*.sdf).
+Prereq: the matrix job populated s3://<bucket>/<INPUT_PREFIX> (receptors + docked_*.sdf + nr4a3-matrix.json).
 """
 import os
 import sys
@@ -20,8 +19,8 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
         from sagemaker.pytorch import PyTorch
+        from sagemaker.inputs import TrainingInput
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -29,56 +28,51 @@ def main():
     if not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set (the SageMaker execution-role ARN)")
     instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
-    # Backstop only — entry_mmgbsa.py enforces tighter per-step timeouts (30 min env build, 30 min compute)
-    # that end a hang fast and visibly. 90 min here just caps a pathological case from running away.
-    max_runtime = int(os.environ.get("MAX_RUNTIME", str(120 * 60)))
+    max_run = int(os.environ.get("MAX_RUNTIME", str(12 * 3600)))      # generous; timeout → resume on re-dispatch
+    spot = os.environ.get("SPOT", "1") == "1"
+    max_wait = int(os.environ.get("MAX_WAIT", str(int(max_run * 1.6)))) if spot else None
     in_prefix = os.environ.get("INPUT_PREFIX", "nr4a3-matrix")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-mmgbsa")
     git_ref = os.environ.get("GIT_REF", "main")
-    compute_timeout = os.environ.get("COMPUTE_TIMEOUT", "")   # entry default 30 min; raise for big sets
-    multisnapshot = os.environ.get("MULTISNAPSHOT", "")        # "1" = multi-snapshot de-noising tier
-    candidate_filter = os.environ.get("CANDIDATE_FILTER", "")  # comma-sep label whitelist
+    compute_timeout = os.environ.get("COMPUTE_TIMEOUT", "")
+    multisnapshot = os.environ.get("MULTISNAPSHOT", "")
+    candidate_filter = os.environ.get("CANDIDATE_FILTER", "")
     ms_frames = os.environ.get("MMGBSA_FRAMES", "")
     target_timeout = os.environ.get("MMGBSA_TARGET_TIMEOUT", "")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
+    # checkpoint_s3_uri == the output prefix: /opt/ml/checkpoints ↔ s3://<bucket>/<out_prefix>, synced
+    # continuously and re-downloaded on restart (the RESUME mechanism). Results land at
+    # s3://<bucket>/<out_prefix>/nr4a3-mmgbsa.json, where report-mmgbsa-aws.yml reads them.
+    ckpt = f"s3://{bucket}/{out_prefix}"
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-mmgbsa", sagemaker_session=sess,
-    )
-    inputs = [ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                              destination="/opt/ml/processing/input", input_name="matrix")]
-    print(f"submitting mmgbsa: {instance}; input s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}",
-          flush=True)
-    # Continuous upload: the per-ligand checkpoint (nr4a3-mmgbsa.json, rewritten after every ligand) streams
-    # to S3 AS IT IS WRITTEN, so a compute-timeout or crash leaves the partial verdicts in S3 rather than
-    # losing them (EndOfJob would only upload on a clean exit — and a timeout exits non-zero).
-    arguments = ["--git-ref", git_ref]
+    hp = {"git-ref": git_ref}
     if compute_timeout:
-        arguments += ["--compute-timeout", str(compute_timeout)]
+        hp["compute-timeout"] = compute_timeout
     if multisnapshot:
-        arguments += ["--multisnapshot", str(multisnapshot)]
+        hp["multisnapshot"] = multisnapshot
     if candidate_filter:
-        arguments += ["--candidate-filter", str(candidate_filter)]
+        hp["candidate-filter"] = candidate_filter
     if ms_frames:
-        arguments += ["--frames", str(ms_frames)]
+        hp["frames"] = ms_frames
     if target_timeout:
-        arguments += ["--target-timeout", str(target_timeout)]
-    proc.run(
-        code="entry_mmgbsa.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}",
-                                  s3_upload_mode="Continuous")],
-        arguments=arguments,
-        wait=True, logs=True,
+        hp["target-timeout"] = target_timeout
+
+    est = PyTorch(
+        entry_point="entry_mmgbsa.py", source_dir=os.path.join(here, "sagemaker_src"),
+        role=role, framework_version="2.3", py_version="py311",
+        instance_count=1, instance_type=instance, sagemaker_session=sess,
+        base_job_name="nr4a3-mmgbsa",
+        use_spot_instances=spot, max_run=max_run, max_wait=max_wait,
+        checkpoint_s3_uri=ckpt, checkpoint_local_path="/opt/ml/checkpoints",
+        hyperparameters=hp,
     )
-    print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
+    print(f"submitting mmgbsa: {instance} spot={spot}; matrix s3://{bucket}/{in_prefix} "
+          f"→ checkpoints/results {ckpt}", flush=True)
+    est.fit({"matrix": TrainingInput(f"s3://{bucket}/{in_prefix}")}, wait=True, logs=True)
+    print(f"done — results in {ckpt}", flush=True)
 
 
 if __name__ == "__main__":

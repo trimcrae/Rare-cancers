@@ -29,6 +29,9 @@ KEY = {"nr4a3": "NR4A3", "nr4a1": "NR4A1", "nr4a2": "NR4A2"}
 
 IN = os.environ.get("INPUT_DIR", os.path.dirname(os.path.abspath(__file__)))
 OUT = os.environ.get("OUTPUT_DIR", IN)
+# RESUME_DIR = where a prior partial nr4a3-mmgbsa.json may be (SageMaker re-populates the spot checkpoint
+# dir on restart). Ligands already scored there are skipped, so a spot interruption costs ≤1 ligand.
+RESUME = os.environ.get("RESUME_DIR", OUT)
 MINIMIZE_ITERS = int(os.environ.get("MMGBSA_MIN_ITERS", "250"))
 # Multi-snapshot (de-noising) tier: short GB MD + ensemble-averaged ΔG with an SD (red-team confirmation of
 # denovo_393). MULTISNAPSHOT=1 switches endpoint_dG -> endpoint_dG_multisnapshot.
@@ -126,7 +129,23 @@ def main():
         print(f"[mmgbsa] CANDIDATE_FILTER -> scoring {len(labels)} of "
               f"{len(poses['nr4a3'])}: {labels}", flush=True)
     cache = os.path.join(OUT, "sysgen_cache.json")
-    rows = []
+
+    # RESUME: seed rows from a prior partial checkpoint (spot restart / re-dispatch) and skip those labels,
+    # so an interruption costs at most the ligand in flight rather than re-scoring the whole set.
+    rows, _done = [], set()
+    _prior = os.path.join(RESUME, "nr4a3-mmgbsa.json")
+    if os.path.exists(_prior):
+        try:
+            _pc = json.load(open(_prior)).get("candidates", [])
+            for r in _pc:
+                if r.get("label") and r.get("label") not in _done:
+                    rows.append(r); _done.add(r["label"])
+            if _done:
+                print(f"[mmgbsa] RESUME: {len(_done)} ligands already scored, skipping them", flush=True)
+        except Exception as e:  # noqa: BLE001 — a corrupt/partial checkpoint just means start fresh
+            print(f"[mmgbsa] resume read failed ({e}); starting fresh", flush=True)
+            rows, _done = [], set()
+    labels = [lbl for lbl in labels if lbl not in _done]
 
     # Select + print the OpenMM platform UP FRONT, and FAIL FAST if no GPU platform loads. There is no CPU
     # fallback (run 8: ~48 min/ligand on CPU), so this raises within seconds on a GPU-less/ICD-broken box —

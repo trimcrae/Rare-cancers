@@ -16,6 +16,14 @@ on:
         description: "SageMaker instance type (GPU required; ml.g5.xlarge default — no CPU fallback)"
         default: "ml.g5.xlarge"
         required: false
+      spot:
+        description: "1 = managed spot Training (~60-70% cheaper, parallel quota; safe — resumes per-ligand); 0 = on-demand"
+        default: "1"
+        required: false
+      max_runtime:
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
+        default: "43200"
+        required: false
       region:
         description: "AWS region — must match where the matrix outputs live"
         default: "us-east-2"
@@ -72,6 +80,8 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
           INPUT_PREFIX: ${{ inputs.input_prefix }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
