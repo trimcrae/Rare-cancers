@@ -90,26 +90,47 @@ def main():
         return
 
     if MODE == "jobs":
-        # Track the RBFE leg jobs (run mode is fire-and-forget, wait=False). Lists recent training jobs whose
-        # name contains the tag + their status. No spend (runs on the CI runner).
+        # Track the fire-and-forget legs. list_training_jobs(NameContains=...) paginates flakily (returned 0/1/4
+        # across identical calls), so BROAD-list then filter by tag in Python, AND print an S3 checkpoint census
+        # (per-leg object count + last-write time) — the definitive liveness/progress signal (per-window ckpts).
         import boto3
+        from collections import defaultdict
         sm = boto3.client("sagemaker")
-        # Newest first, capped small so the whole listing fits the CI log tail (long FailureReasons on many
-        # historical jobs otherwise push the current legs off the top; Ascending returned empty on this API).
-        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=12, SortBy="CreationTime",
-                                     SortOrder="Descending")
+        jobs = []
+        try:
+            resp = sm.list_training_jobs(MaxResults=80, SortBy="CreationTime", SortOrder="Descending")
+            jobs = [(j["TrainingJobName"], j["TrainingJobStatus"]) for j in resp.get("TrainingJobSummaries", [])
+                    if TAG in j["TrainingJobName"]]
+        except Exception as e:  # noqa: BLE001
+            print(f"[rbfe] job-list error: {e}")
         print(f"[rbfe] JOBS for tag={TAG}:")
-        for j in resp.get("TrainingJobSummaries", []):
-            name, status = j["TrainingJobName"], j["TrainingJobStatus"]
+        for name, status in jobs[:12]:
             reason = ""
-            if status == "Failed":  # the summary omits it; describe_training_job carries the real traceback tail
+            if status == "Failed":
                 try:
-                    # last line only, truncated — long multi-line reasons otherwise push current legs off the tail
-                    full = sm.describe_training_job(TrainingJobName=name).get("FailureReason", "") or ""
-                    reason = full.replace("\n", " ")[-200:]
-                except Exception as e:  # noqa: BLE001
-                    reason = f"(describe failed: {e})"
-            print(f"  {name:60s} {status:12s} {reason}")
+                    reason = (sm.describe_training_job(TrainingJobName=name).get("FailureReason", "")
+                              or "").replace("\n", " ")[-160:]
+                except Exception:  # noqa: BLE001
+                    pass
+            print(f"  {name:58s} {status:12s} {reason}")
+        try:
+            import sagemaker
+            s3 = boto3.client("s3")
+            bucket = sagemaker.Session().default_bucket()
+            cnt, last = defaultdict(int), {}
+            for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{TAG}/ckpt/"):
+                for o in page.get("Contents", []):
+                    leg = o["Key"].split(f"{TAG}/ckpt/", 1)[1].split("/", 1)[0]
+                    cnt[leg] += 1
+                    if leg not in last or o["LastModified"] > last[leg]:
+                        last[leg] = o["LastModified"]
+            print(f"[rbfe] CKPT census s3://{bucket}/{TAG}/ckpt/ (liveness = recent last-write):")
+            for leg in sorted(cnt):
+                print(f"  {leg:16s} {cnt[leg]:4d} objs   last-write {last[leg].strftime('%m-%d %H:%M:%SZ')}")
+            if not cnt:
+                print("  (no checkpoint objects yet)")
+        except Exception as e:  # noqa: BLE001
+            print(f"[rbfe] ckpt-census error: {e}")
         return
 
     legs = _legs()
