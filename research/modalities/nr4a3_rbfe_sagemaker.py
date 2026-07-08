@@ -63,7 +63,7 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs", "tracelog") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
 
     if MODE == "tracelog":
@@ -87,6 +87,25 @@ def main():
                                          startFromHead=False)
                 for e in ev.get("events", [])[-150:]:
                     print(e["message"].rstrip())
+        return
+
+    if MODE == "ckpt":
+        # Dump the OpenFE checkpoint key layout so we can build a per-window progress metric. No spend.
+        import boto3
+        import sagemaker
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        from collections import defaultdict
+        keys = defaultdict(list)
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{TAG}/ckpt/"):
+            for o in page.get("Contents", []):
+                rest = o["Key"].split(f"{TAG}/ckpt/", 1)[1]
+                leg = rest.split("/", 1)[0]
+                keys[leg].append(rest)
+        for leg in sorted(keys):
+            print(f"=== {leg}: {len(keys[leg])} keys")
+            for k in keys[leg][:40]:
+                print(f"    {k}")
         return
 
     if MODE == "jobs":
