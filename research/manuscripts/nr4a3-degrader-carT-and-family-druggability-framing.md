@@ -213,10 +213,14 @@ then ran the full **generate → dock → report** cycle (runs 28936737785 / 289
 ~$3–6, under the gate). **Result: the pan pole is now a *designed* result, and a stronger one.** Designing for
 the conserved core **flips the docking census to pan-NR4A-dominant (4/7 docked, 0 NR4A3-selective)** — the
 mirror image of the selective campaign — and yields a **clean** lead where the by-catch had none: **`denovo_9`**
-(dG NR4A3/NR4A1/NR4A2 = −7.69/−7.31/−7.40, within 0.4 kcal/mol; 3/3 conserved-core residues; PAINS/BRENK/NIH-
-and reactive-liability-clean; MW 335 / logP 1.74 / QED 0.64). Data:
+(docking dG NR4A3/NR4A1/NR4A2 = −7.69/−7.31/−7.40; 3/3 conserved-core residues; PAINS/BRENK/NIH-
+and reactive-liability-clean; MW 335 / logP 1.74 / QED 0.64). **Endpoint multi-snapshot MM-GBSA
+(run 28938839827, ~$0.5) then confirmed tri-paralogue engagement one tier above docking** — ΔG
+−28.3/−23.9/−20.7 kcal/mol for NR4A3/1/2, all favorable; the +4.44 NR4A3 lean is within noise (SD 5.47,
+margin − SD < 0, far below the §2.5 decoy null), so **no de-noising-robust selectivity — a confirmed pan
+binder** (not equipotent, but engages all three). Data:
 [`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json) → `pan_designed_campaign`.
-Folded into paper §3 + the abstract. Still docking-tier (no molecule synthesized); the honest-weight bounds of
+Folded into paper §3 + the abstract. No molecule synthesized; the honest-weight bounds of
 §1.2 (function not shown; ex-vivo persistence a parameter) are unchanged.
 
 ## 4. Recommended next actions
