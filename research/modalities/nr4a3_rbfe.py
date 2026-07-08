@@ -69,6 +69,30 @@ def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
                      f"records present: {have[:20]}")
 
 
+def _repair_pose(mol, expected_smiles, rdkit_chem):
+    """Repair a docked pose into a clean, closed-shell RDKit mol for OpenFF/NAGL. Docked SDFs come back with
+    perceived bond orders/valences that can leave RADICAL electrons (openff raises RadicalsNotSupportedError,
+    which killed the charge step). Re-impose bond orders from the known SMILES template and re-add explicit Hs
+    with 3D coords — the heavy-atom docked coordinates are preserved. Falls back to the raw pose if repair fails."""
+    if not expected_smiles:
+        return mol
+    try:
+        from rdkit.Chem import AllChem
+        tmpl = rdkit_chem.MolFromSmiles(expected_smiles)
+        if tmpl is None:
+            return mol
+        heavy = rdkit_chem.RemoveHs(mol)
+        fixed = AllChem.AssignBondOrdersFromTemplate(tmpl, heavy)   # correct bond orders → kills radicals
+        fixed = rdkit_chem.AddHs(fixed, addCoords=True)             # explicit Hs positioned from geometry
+        rdkit_chem.SanitizeMol(fixed)
+        if mol.HasProp("_Name"):
+            fixed.SetProp("_Name", mol.GetProp("_Name"))
+        return fixed
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN pose repair failed ({e}); using raw pose", flush=True)
+        return mol
+
+
 def _build_components(openfe, rdkit_chem):
     """Build the OpenFE ligand A/B SmallMoleculeComponents (+ receptor ProteinComponent for the complex leg),
     from the mounted docked poses. Returns (ligA, ligB, protein_or_None)."""
@@ -79,8 +103,10 @@ def _build_components(openfe, rdkit_chem):
     sdf = os.path.join(IN, "ligand", f"docked_{sdf_receptor}.sdf")
     if not os.path.exists(sdf):
         sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{sdf_receptor}.sdf"), recursive=True)), sdf)
-    molA = _sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem)
-    molB = _sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem)
+    molA = _repair_pose(_sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem),
+                        rb.SMILES.get(LIGAND_A), rdkit_chem)
+    molB = _repair_pose(_sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem),
+                        rb.SMILES.get(LIGAND_B), rdkit_chem)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
