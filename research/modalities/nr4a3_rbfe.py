@@ -119,11 +119,23 @@ def _build_components(openfe, rdkit_chem):
 
 
 def _mapping(openfe, ligA, ligB):
-    """LOMAP atom-map A→B (the shared scaffold maps 1:1; the ortho-acetamido is the unique region)."""
+    """LOMAP atom-map A→B (shared scaffold maps 1:1; the ortho-acetamido is the unique region).
+
+    threed=False (2D topology MCS), NOT threed=True, for TWO reasons:
+      1. CORRECTNESS — the RBFE cycle ΔΔG = ΔG_complex − ΔG_solvent is only valid if the A→B atom
+         correspondence is IDENTICAL in the shared solvent leg and every complex leg. threed=True makes the
+         mapping pose-dependent, so different docked poses per receptor could silently yield different maps and
+         break the cycle. The 2D MCS is pose-independent → the same map everywhere.
+      2. ROBUSTNESS — threed=True requires the two docked poses to be spatially CLOSE to map atoms; nr4a1's
+         401 and lo_m0_NCCO poses were too far apart → empty generator → StopIteration (nr4a1 failed twice).
+    For this clean congeneric append the MCS is unambiguous, so 2D gives the correct 1:1 scaffold map."""
     from openfe.setup import LomapAtomMapper
-    mapper = LomapAtomMapper(time=20, threed=True, element_change=False)
-    mapping = next(mapper.suggest_mappings(ligA, ligB))
-    return mapping
+    mapper = LomapAtomMapper(time=20, threed=False, element_change=False)
+    try:
+        return next(mapper.suggest_mappings(ligA, ligB))
+    except StopIteration:
+        raise RuntimeError(f"LOMAP found NO atom mapping for {LIGAND_A}->{LIGAND_B} "
+                           f"(receptor {RECEPTOR}) even in 2D — check the ligand records in docked_{RECEPTOR}.sdf")
 
 
 _PLATFORM_NAME = None
