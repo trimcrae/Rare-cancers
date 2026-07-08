@@ -19,6 +19,7 @@ on:
       receptor_prefix: { description: "S3 prefix with <r>-opened.pdb + docked_<r>.sdf", default: "nr4a3-leadopt-species", required: false }
       n_windows:   { description: "λ-windows over the A→B morph", default: "12", required: false }
       only_legs:   { description: "comma-sep subset (e.g. solvent) for validate-first", default: "", required: false }
+      job:         { description: "tracelog: exact SageMaker job name to trace (any status). Blank = latest Failed", default: "", required: false }
       spot:        { description: "1 = managed spot", default: "1", required: false }
       instance:    { description: "SageMaker GPU instance", default: "ml.g5.xlarge", required: false }
       region:      { description: "AWS region", default: "us-east-2", required: false }
@@ -48,6 +49,7 @@ jobs:
           RECEPTOR_PREFIX: ${{ inputs.receptor_prefix }}
           RBFE_N_WINDOWS: ${{ inputs.n_windows }}
           ONLY_LEGS: ${{ inputs.only_legs }}
+          RBFE_JOB: ${{ inputs.job }}
           SPOT: ${{ inputs.spot }}
           INSTANCE: ${{ inputs.instance }}
           GIT_REF: ${{ inputs.git_ref }}
