@@ -156,7 +156,10 @@ def _protocol(openfe):
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
     try:
-        s.engine_settings.compute_platform = "CUDA"
+        # OpenCL, NOT CUDA: the conda OpenMM CUDA build targets a newer CUDA than the g5 driver supports
+        # (CUDA_ERROR_UNSUPPORTED_PTX_VERSION). entry_rbfe.py writes the nvidia.icd so OpenCL registers the A10G.
+        # Same platform choice as the ABFE/FEP legs on this image.
+        s.engine_settings.compute_platform = "OpenCL"
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
     # Partial charges: default am1bcc needs OpenEye or a working AmberTools antechamber (antechamber exit-1'd
