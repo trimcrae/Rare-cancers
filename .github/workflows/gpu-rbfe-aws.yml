@@ -12,7 +12,7 @@ name: GPU — RBFE (relative FEP, 401→lo_m0_NCCO) AWS spot fleet
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "plan | smoke | run | reduce", default: "plan", required: true }
+      mode:        { description: "plan | smoke | cudaprobe | run | reduce | jobs | tracelog | ckpt | stop", default: "plan", required: true }
       tag:         { description: "S3 checkpoint tag/prefix", default: "nr4a3-rbfe-401-nccogen", required: false }
       ligand_a:    { description: "reference ligand (its ABFE is the anchor)", default: "denovo_401", required: false }
       ligand_b:    { description: "lead ligand to morph to", default: "lo_m0_NCCO_gen", required: false }

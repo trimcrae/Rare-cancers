@@ -126,6 +126,39 @@ def _mapping(openfe, ligA, ligB):
     return mapping
 
 
+_PLATFORM_NAME = None
+
+
+def _working_platform_name(preferred="CUDA"):
+    """First OpenMM platform that ACTUALLY runs, validated by a 1-particle energy eval that forces kernel/module
+    load (registration != usable: the conda CUDA build's PTX can be too new for the g5 driver → CUDA registers
+    but fails at module load with CUDA_ERROR_UNSUPPORTED_PTX_VERSION). Try preferred → CUDA → OpenCL; return the
+    NAME string (OpenFE's engine_settings.compute_platform wants a string). Mirrors nr4a3_abfe._select_platform.
+    Cached so the real run and the DAG build agree."""
+    global _PLATFORM_NAME
+    if _PLATFORM_NAME:
+        return _PLATFORM_NAME
+    import openmm
+    from openmm import unit as ou
+    for name in [preferred] + [p for p in ("CUDA", "OpenCL") if p != preferred]:
+        try:
+            plat = openmm.Platform.getPlatformByName(name)
+            s = openmm.System(); s.addParticle(1.0)
+            integ = openmm.VerletIntegrator(1.0 * ou.femtoseconds)
+            ctx = openmm.Context(s, integ, plat)
+            ctx.setPositions([openmm.Vec3(0, 0, 0)] * ou.nanometer)
+            ctx.getState(getEnergy=True).getPotentialEnergy()          # forces kernel load → catches bad PTX
+            del ctx, integ
+            print(f"[rbfe] OpenMM platform: {name}", flush=True)
+            _PLATFORM_NAME = name
+            return name
+        except Exception as e:  # noqa: BLE001 — registered but unusable; try the next
+            print(f"[rbfe] platform {name} unavailable: {str(e)[:140]}", flush=True)
+    print("[rbfe] WARN no GPU platform validated; using OpenCL string", flush=True)
+    _PLATFORM_NAME = "OpenCL"
+    return _PLATFORM_NAME
+
+
 def _protocol(openfe):
     from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol
     s = RelativeHybridTopologyProtocol.default_settings()
@@ -156,10 +189,12 @@ def _protocol(openfe):
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
     try:
-        # OpenCL, NOT CUDA: the conda OpenMM CUDA build targets a newer CUDA than the g5 driver supports
-        # (CUDA_ERROR_UNSUPPORTED_PTX_VERSION). entry_rbfe.py writes the nvidia.icd so OpenCL registers the A10G.
-        # Same platform choice as the ABFE/FEP legs on this image.
-        s.engine_settings.compute_platform = "OpenCL"
+        # PROBE CUDA -> OpenCL (mirror nr4a3_abfe._select_platform) instead of hard-forcing OpenCL. The hybrid
+        # (perses) complex system JIT-compiles pathologically slowly on OpenCL — the 2026-07-08 complex legs
+        # wedged for hours right after "Adding forces" (the Context build), while the small solvent leg finished.
+        # CUDA doesn't JIT giant kernels, so if it actually runs on this image (the conda build's PTX must be
+        # driver-compatible) the Context build is near-instant. Falls back to OpenCL only if CUDA can't load.
+        s.engine_settings.compute_platform = _working_platform_name("CUDA")
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
     # Partial charges: default am1bcc needs OpenEye or a working AmberTools antechamber (antechamber exit-1'd
@@ -253,6 +288,20 @@ def reduce_receptor():
 
 def main():
     mode = os.environ.get("MODE", "smoke")
+    if mode == "cudaprobe":
+        # Fast, no-MD diagnostic: report the driver's CUDA + which OpenMM GPU platform actually runs on this g5.
+        # Decides whether the RBFE can move off the pathologically-slow OpenCL hybrid-Context path onto CUDA.
+        import subprocess as _sp
+        _sp.run(["nvidia-smi"], check=False)
+        try:
+            import openmm
+            print("[rbfe] openmm", openmm.version.version, "cuda?",
+                  "CUDA" in [openmm.Platform.getPlatform(i).getName()
+                             for i in range(openmm.Platform.getNumPlatforms())], flush=True)
+        except Exception as e:  # noqa: BLE001
+            print("[rbfe] openmm import failed:", e, flush=True)
+        print(f"[rbfe] SELECTED PLATFORM = {_working_platform_name('CUDA')}", flush=True)
+        return
     if mode == "reduce":
         reduce_receptor()
     else:                       # smoke or run both go through run_leg (smoke short-circuits inside)
