@@ -60,34 +60,52 @@ def main():
         print(f"[{tag}] +{len(rows) - n0} records")
 
     docked = [r for r in rows if r.get("dG_NR4A3") is not None]
-    ranked = core.rank_rows(docked)[:top_n]
-    print(f"\npooled {len(rows)} records, {len(docked)} docked → promoting top {len(ranked)}")
+    full_ranked = core.rank_rows(docked)
+    # RANK_START/RANK_END (1-indexed, inclusive) carve a rank BAND out of the full ranking — e.g. to dock
+    # ranks 101-250 as extra parallel lanes on top of an already-running top-100 dock. Defaults = top_n.
+    rank_start = int(os.environ.get("RANK_START") or "1")
+    rank_end = int(os.environ.get("RANK_END") or str(top_n))
+    ranked = full_ranked[rank_start - 1:rank_end]
+    print(f"\npooled {len(rows)} records, {len(docked)} docked → promoting ranks {rank_start}-{rank_end} "
+          f"({len(ranked)} drugs)")
 
-    candidates = []
-    for r in ranked:
-        candidates.append({
+    def _cand(r):
+        return {
             "name": r["label"], "smiles": r["smiles"],
             "denovo_promise": -float(r["dG_NR4A3"]),          # −dG so matrix top-N reproduces this ranking
             "drug": r.get("drug"), "moa": r.get("moa"), "phase": r.get("phase"),
             "dG_NR4A3": r["dG_NR4A3"], "handle_contacts": r.get("handle_contacts"),
-        })
-    out = {"_note": "Top-N repurposing drugs by NR4A3-pocket docking dG, promoted to the 3-receptor + "
-                    "MM-GBSA + decoy-null tier. denovo_promise = −dG. Selectivity decided downstream "
-                    "(yields NR4A3-selective AND pan-NR4A shortlists).",
-           "campaign": "repurpose-promote", "n_candidates": len(candidates),
-           "candidates": candidates}
+        }
 
-    key = f"{out_prefix}/nr4a3-denovo.json"
-    blob = json.dumps(out, indent=2).encode()
-    try:
-        s3.put_object(Bucket=bucket, Key=key, Body=blob)
-        print(f"WROTE s3://{bucket}/{key} ({len(blob)} bytes) — dock with denovo_prefix={out_prefix}")
-    except Exception as e:  # noqa: BLE001 — surface a permissions problem loudly
-        print(f"ERROR: could not PutObject s3://{bucket}/{key}: {e}", file=sys.stderr)
-        print("(CI creds may lack s3:PutObject — fall back to the in-entry selection variant.)")
-        sys.exit(1)
+    def _write(prefix, rs):
+        out = {"_note": "Repurposing drugs by NR4A3-pocket docking dG, promoted to the 3-receptor + "
+                        "MM-GBSA + decoy-null tier. denovo_promise = −dG. Selectivity decided downstream "
+                        "(yields NR4A3-selective AND pan-NR4A shortlists).",
+               "campaign": "repurpose-promote", "n_candidates": len(rs),
+               "candidates": [_cand(r) for r in rs]}
+        key = f"{prefix}/nr4a3-denovo.json"
+        blob = json.dumps(out, indent=2).encode()
+        try:
+            s3.put_object(Bucket=bucket, Key=key, Body=blob)
+            print(f"WROTE s3://{bucket}/{key} ({len(blob)} bytes) — dock with denovo_prefix={prefix}")
+        except Exception as e:  # noqa: BLE001 — surface a permissions problem loudly
+            print(f"ERROR: could not PutObject s3://{bucket}/{key}: {e}", file=sys.stderr)
+            sys.exit(1)
 
-    print("\n=== promoted top (dG · handles · drug · moa) ===")
+    # BANDS>1 splits the selected range into contiguous prefixes <OUTPUT_PREFIX>-b{i}, each an independent
+    # parallel dock lane (fire one CPU dock job per band). BANDS=1 (default) writes the whole range to
+    # <OUTPUT_PREFIX>. Contiguous (not round-robin) so each band spans a compact dG sub-range.
+    bands = int(os.environ.get("BANDS", "1"))
+    if bands <= 1:
+        _write(out_prefix, ranked)
+    else:
+        size = -(-len(ranked) // bands)                       # ceil so the last band holds the remainder
+        for i in range(bands):
+            grp = ranked[i * size:(i + 1) * size]
+            if grp:
+                _write(f"{out_prefix}-b{i}", grp)
+
+    print("\n=== promoted band (dG · handles · drug · moa) ===")
     for r in ranked[:25]:
         print(f"  {r['dG_NR4A3']:>6.2f}  {r.get('handle_contacts', 0)}  "
               f"{(r.get('drug') or r['label'])[:30]:30} {(r.get('moa') or '')[:40]}")

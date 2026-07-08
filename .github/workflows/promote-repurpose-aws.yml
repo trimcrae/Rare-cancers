@@ -20,6 +20,18 @@ on:
         description: "S3 prefix to write the candidate JSON to (use as denovo_prefix in the 3-receptor dock)"
         default: "nr4a3-repurpose-top"
         required: false
+      rank_start:
+        description: "1-indexed first rank to promote (carve a band, e.g. 101 to skip an already-docked top-100)"
+        default: "1"
+        required: false
+      rank_end:
+        description: "1-indexed last rank to promote (inclusive; default = top_n)"
+        default: ""
+        required: false
+      bands:
+        description: ">1 splits the range into contiguous <output_prefix>-b{i} parallel dock lanes"
+        default: "1"
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -45,6 +57,9 @@ jobs:
           TOP_N: ${{ inputs.top_n }}
           INPUT_PREFIX: ${{ inputs.input_prefix }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          RANK_START: ${{ inputs.rank_start }}
+          RANK_END: ${{ inputs.rank_end }}
+          BANDS: ${{ inputs.bands }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
