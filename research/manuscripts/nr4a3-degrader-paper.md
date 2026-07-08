@@ -1035,6 +1035,19 @@ Net: the safety case rests on quantified proliferative-compartment dispensabilit
 redundancy + broad NR4A1/NR4A3 co-expression + mechanistic plausibility + PK restriction — a **materially
 stronger and more honest** basis than before, with its residual risk now **specifically located**
 (developmental / CNS, and NR4A2-sparing-dependent) rather than vaguely gestured at.
+
+**The pan-NR4A / CAR-T pole is bounded separately, and more tightly.** The second design pole (§3) makes two
+claims that must not be over-read. (i) **Chemical-feasibility only, not function.** We show the framework can
+*design a pan-NR4A binder* (a demonstrated docking-tier readout, both de-novo leads carrying generative-model
+liabilities); we do **not** show it reverses T-cell exhaustion — that endpoint (restored effector function,
+persistence, tumour control) is the wet-lab claim owned by the genetic triple-KO literature (Chen 2019) and
+is future work, not a result here. The pan pole rides on the same druggable-pocket evidence as the selective
+pole, but its *application* is a hypothesis. (ii) **Ex-vivo removes the systemic-toxicity bound, but adds its
+own parameter.** Transient ex-vivo dosing during manufacturing sidesteps the in-vivo AML/CNS argument that
+mandates selectivity — but degradation *persists after washout* (its virtue as a reprogramming pulse), so
+residual pan-NR4A suppression in the infused product is a real dose/exposure/washout variable to characterise,
+not a solved point. Neither is a claim the in-silico work settles; both are flagged so the CAR-T framing is a
+*reach-extending, honestly-bounded* second mode, not an overclaim.
 The structure is an AF2 model
 (NR4A3 is uncrystallized) — the MD addresses exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
 made explicit rather than buried (full adversarial review:
