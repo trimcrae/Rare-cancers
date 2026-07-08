@@ -19,6 +19,19 @@ def test_score_rewards_handle_contact():
     assert round(s5 - s0, 3) == 0.2          # +0.2 * (5/5) for full handle engagement
 
 
+def test_pan_conserved_engagement_uses_n_handles():
+    # The pan campaign (nr4a3_denovo.py CAMPAIGN=pan) scores promise by CONSERVED-core contact with
+    # n_handles=len(CONSERVED)=3, instead of divergent-handle contact with n_handles=5. Full engagement of
+    # either set must give the same +0.2 engagement bonus, so pan ranking is a faithful mirror of selective.
+    p = _prof()
+    base = df.score_molecule(p, handle_contacts=0, n_handles=3)
+    full_conserved = df.score_molecule(p, handle_contacts=3, n_handles=3)   # 3/3 conserved contacts (pan)
+    assert round(full_conserved - base, 3) == 0.2
+    # partial conserved engagement scales linearly (2/3)
+    partial = df.score_molecule(p, handle_contacts=2, n_handles=3)
+    assert round(partial - base, 3) == round(0.2 * (2 / 3), 3)
+
+
 def test_score_penalises_pains_and_sa():
     clean = df.score_molecule(_prof(pains=0, sa=2.0), handle_contacts=3)
     dirty = df.score_molecule(_prof(pains=3, sa=8.0), handle_contacts=3)
