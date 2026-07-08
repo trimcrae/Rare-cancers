@@ -42,8 +42,12 @@ def _find_training(sm, prefix):
     d = sm.describe_training_job(TrainingJobName=name)
     # spot resume info is useful context when watching a Training job.
     sec = d.get("SecondaryStatus", "")
+    # the latest SecondaryStatusTransition StatusMessage explains WHY a job is still Starting
+    # (spot capacity wait vs image pull vs preparing instances) — the key signal for a parked spot job.
+    trans = d.get("SecondaryStatusTransitions") or []
+    msg = trans[-1].get("StatusMessage", "") if trans else ""
     return {"name": name, "status": d["TrainingJobStatus"] + (f" / {sec}" if sec else ""),
-            "exit": d.get("FailureReason", ""), "created": j["CreationTime"], "group": TRAIN_GROUP}
+            "exit": d.get("FailureReason", "") or msg, "created": j["CreationTime"], "group": TRAIN_GROUP}
 
 
 def main():
