@@ -43,7 +43,11 @@ def plan():
     if not d:
         sys.exit(1)
     labels = [c["name"] for c in d.get("candidates", []) if c.get("name")]
-    print(f"promoted {len(labels)} candidates -> {n} shards\n")
+    # Only the top-N the 3-receptor dock actually docked have poses to MM-GBSA (default 100, = the dock's
+    # top_n). The promoted JSON is ranked best-first, so the docked set is labels[:limit].
+    limit = int(os.environ.get("PLAN_LIMIT", "100"))
+    labels = labels[:limit]
+    print(f"partitioning top {len(labels)} docked candidates -> {n} shards\n")
     # round-robin so each shard spans the dG range (balanced work, not front-loaded).
     groups = [labels[i::n] for i in range(n)]
     for i, g in enumerate(groups):
