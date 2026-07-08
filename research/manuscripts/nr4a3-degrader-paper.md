@@ -33,12 +33,14 @@ textbook *"undruggable"* — are in fact **dynamically druggable**: their occlud
 open into a thermally-populated, druggable cryptic cavity that we characterise in silico across **all three
 paralogues**, corroborated by an independent cryptic-pocket predictor and calibrated against a
 nuclear-receptor panel. Because that pocket is the family's **most sequence-divergent** zone, a *single*
-cryptic-pocket design framework is **tunable across the entire NR4A selectivity axis** — producing, from one
-generative campaign, **both** poles at once: a paralogue-**selective** NR4A3 degrader for NR4A3-driven cancers
-(EMC, acinic cell carcinoma, NR4A-rearranged sarcomas) **and**, in the same campaign's non-selective
-by-catch, a **pan-NR4A** degrader — an ex-vivo, washable chemical route to the NR4A triple-knockout that
-reverses CAR-T exhaustion (Chen 2019), for which selectivity is unnecessary and transient ex-vivo dosing
-removes the systemic-toxicity constraint that mandates it in vivo. This reframes a canonically undruggable
+cryptic-pocket design framework is **tunable across the entire NR4A selectivity axis** — the *same* framework
+retargeted by which pocket residues the generative campaign is ranked on: ranking on the **divergent handles**
+yields a paralogue-**selective** NR4A3 degrader for NR4A3-driven cancers (EMC, acinic cell carcinoma,
+NR4A-rearranged sarcomas), while re-ranking on the **conserved core** makes a **pan-NR4A** degrader the
+**dominant** designed outcome (4/7 docked candidates pan, 0 selective; clean lead `denovo_9`, near-equipotent
+across all three paralogues) — an ex-vivo, washable chemical route to the NR4A triple-knockout that reverses
+CAR-T exhaustion (Chen 2019), for which selectivity is unnecessary and transient ex-vivo dosing removes the
+systemic-toxicity constraint that mandates it in vivo. This reframes a canonically undruggable
 receptor family as a **programmable degradation target spanning rare oncology and immunotherapy.** *(In-silico
 design + feasibility; no molecule synthesized; the selective pole is the deepest-validated — FEP, ternary,
 decoy-calibrated lead — while the pan pole is a demonstrated docking-tier readout. Every claim below is
@@ -842,9 +844,21 @@ liabilities the selective pole's `denovo_15` carries — a reactive diene/alkyli
 N,O-acetal plus high logP in `denovo_86` — so each is a pan **chemotype/pose hypothesis to redesign**, not a
 developable molecule ([`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json)). The
 durable, load-bearing claim is therefore the *framework*: one funnel produces matter that engages the
-conserved pocket across all three paralogues. Making pan-NR4A the design **objective** (a
-conserved-residue-conditioned generation, ranked by conserved-pocket contact) rather than a reject-pile
-readout is a cheap, optional next step.
+conserved pocket across all three paralogues.
+
+**We then made pan-NR4A the explicit design *objective* (not a reject-pile readout), and it is the stronger
+result.** A second generative campaign ranked candidates by **conserved-core contact** (residues 411/481/485,
+the paralogue-invariant pocket residues) instead of the divergent handles, then docked the top developable
+generations into the three opened pockets. Designing *for* the conserved core **flips the census**: the
+pan-NR4A cell becomes the **dominant** outcome (**4 of 7 docked candidates pan-NR4A, and *zero*
+NR4A3-selective** — the mirror image of the selective campaign, where pan was the by-catch;
+[`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json)). And it yields a **clean**
+lead where the by-catch had none: **`denovo_9`** (a fluoro-anilide / salicylate-ether; dG
+NR4A3/NR4A1/NR4A2 = −7.69/−7.31/−7.40, **near-equipotent across all three within 0.4 kcal/mol**) engages
+**all three conserved-core residues (3/3)** and is **PAINS/BRENK/NIH-clean with no reactive/unstable liability
+on manual RDKit triage** (MW 335, logP 1.74, QED 0.64). So the same cryptic-pocket framework, retargeted from
+the divergent handles to the conserved core, **designs a pan-NR4A degrader on demand** — the CAR-T pole is now
+a *designed* result, not by-catch, though still a docking-tier screening prior with no molecule synthesized.
 
 **Anti-target — NR4A1+NR4A3 (design *away* from):** NR4A1/NR4A3 are myeloid **tumour suppressors** —
 combined loss causes AML (Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/
@@ -1038,8 +1052,9 @@ stronger and more honest** basis than before, with its residual risk now **speci
 
 **The pan-NR4A / CAR-T pole is bounded separately, and more tightly.** The second design pole (§3) makes two
 claims that must not be over-read. (i) **Chemical-feasibility only, not function.** We show the framework can
-*design a pan-NR4A binder* (a demonstrated docking-tier readout, both de-novo leads carrying generative-model
-liabilities); we do **not** show it reverses T-cell exhaustion — that endpoint (restored effector function,
+*design a pan-NR4A binder* (a demonstrated docking-tier readout — the conserved-core-designed campaign is
+pan-dominant with a clean lead, `denovo_9`, though the poses remain screening priors, not affinities); we do
+**not** show it reverses T-cell exhaustion — that endpoint (restored effector function,
 persistence, tumour control) is the wet-lab claim owned by the genetic triple-KO literature (Chen 2019) and
 is future work, not a result here. The pan pole rides on the same druggable-pocket evidence as the selective
 pole, but its *application* is a hypothesis. (ii) **Ex-vivo removes the systemic-toxicity bound, but adds its

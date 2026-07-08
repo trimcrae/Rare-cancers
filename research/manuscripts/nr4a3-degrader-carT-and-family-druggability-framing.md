@@ -100,8 +100,9 @@ in cell-therapy process development, not a systemic drug.
   (QED 0.78 / SA 3.8 / 5 handle contacts, the lead) and `denovo_86`. So one generative campaign yields both
   poles of the axis: NR4A3-selective warheads *and*, in its non-selective by-catch, developable pan-NR4A
   binders. Folded into paper §3. Docking-tier screening priors (same weight as the selective docking leads),
-  no molecule synthesized. **Optional cheap next step:** a conserved-residue-conditioned generation to make
-  pan-NR4A the design *objective* rather than a reject-pile readout.
+  no molecule synthesized. **Now upgraded to a *designed* result (§3.5):** a conserved-core-ranked campaign
+  makes pan the dominant docking outcome (4/7 pan, 0 selective) with a clean lead `denovo_9` — so the pan pole
+  no longer rests only on the by-catch.
 
 ---
 
@@ -204,16 +205,19 @@ Lead with the **family-level druggability reversal**, then descend to the two de
 
 ---
 
-### 3.5 Status of the "make pan a design objective" step (assessed 2026-07-08 — deferred, not done)
-Verified that the existing `gpu-denovo-aws.yml` `campaign=pan` input is **label-only**: `nr4a3_denovo.py`
-conditions DiffSBDD on the full pocket `resi_list` (406–534) identically for both campaigns, and `CAMPAIGN`
-only relabels output + picks the post-hoc handle set. So running `campaign=pan` as-is would regenerate the
-same distribution relabeled — **wasteful, not informative**. A genuine pan-*designed* campaign needs a small
-code change (score/condition on the conserved core 411/481/485; rank by conserved-pocket contact + pan-cell
-residence) **plus** a generate+dock+score cycle whose aggregate approaches/exceeds the ~$10 autonomous gate.
-Given the pan pole is already demonstrated at honest docking-tier weight (§1.3), this is **deferred to an
-explicit go-ahead** rather than spent on speculatively — consistent with "a breadth dollar beats a depth
-dollar" and disciplined-spend rules.
+### 3.5 Status of the "make pan a design objective" step — DONE 2026-07-08 (trimcrae go-ahead)
+Originally `campaign=pan` was **label-only** (`nr4a3_denovo.py` conditioned DiffSBDD on the full pocket
+identically for both campaigns). We made the code change — pan now scores `denovo_promise` by **conserved-core
+contact** (residues 411/481/485) so generation ranks conserved-core engagers to the top and into the dock —
+then ran the full **generate → dock → report** cycle (runs 28936737785 / 28937575876 / 28938420060; aggregate
+~$3–6, under the gate). **Result: the pan pole is now a *designed* result, and a stronger one.** Designing for
+the conserved core **flips the docking census to pan-NR4A-dominant (4/7 docked, 0 NR4A3-selective)** — the
+mirror image of the selective campaign — and yields a **clean** lead where the by-catch had none: **`denovo_9`**
+(dG NR4A3/NR4A1/NR4A2 = −7.69/−7.31/−7.40, within 0.4 kcal/mol; 3/3 conserved-core residues; PAINS/BRENK/NIH-
+and reactive-liability-clean; MW 335 / logP 1.74 / QED 0.64). Data:
+[`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json) → `pan_designed_campaign`.
+Folded into paper §3 + the abstract. Still docking-tier (no molecule synthesized); the honest-weight bounds of
+§1.2 (function not shown; ex-vivo persistence a parameter) are unchanged.
 
 ## 4. Recommended next actions
 1. **Cheap, default-yes now:** run the **pan-NR4A readout** — re-rank the existing family matrix / a small

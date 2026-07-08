@@ -105,12 +105,15 @@
   spare NR4A1/2) at one end to **pan-NR4A** (engage the conserved pocket residues 411/481/485; all three) at
   the other, with the AML **anti-target** (NR4A1+NR4A3) marked as a forbidden zone the matrix designs *away*
   from. One cryptic pocket, tuned by which residues the warhead engages.
-- (b) **Both poles instantiated by real candidates from the SAME campaign** (the reframe's payoff): the
-  selective pole → `denovo_401` (multi-snapshot-confirmed, decoy-null-cleared); the pan pole → `denovo_106` /
-  `denovo_86` (the funnel's own `confirmed_nonselective` by-catch, in the pan-NR4A cell) + the equipotent
-  repurposed engager (dG −8.40/−8.41/−8.80). Asset: [`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json) ✅ (repo).
-  **Caption honesty:** docking-tier priors at both poles; both de-novo poles carry generative-model liabilities
-  (chemotype/pose hypotheses, not developable molecules); no molecule synthesized.
+- (b) **Both poles instantiated by real candidates from the SAME framework, retargeted** (the reframe's
+  payoff): the selective pole → `denovo_401` (multi-snapshot-confirmed, decoy-null-cleared); the pan pole →
+  the **conserved-core-designed campaign**, where ranking on residues 411/481/485 flips the docking census to
+  pan-NR4A-dominant (**4/7 docked pan, 0 selective**) with the clean lead **`denovo_9`** (dG −7.69/−7.31/−7.40,
+  within 0.4 kcal/mol across all three; 3/3 conserved-core; RDKit-clean). Show the census-flip selective↔pan as
+  two mirrored bars. Asset: [`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json) ✅
+  (repo; `pan_designed_campaign`). **Caption honesty:** docking-tier priors at both poles; no molecule
+  synthesized. (The selective-run pan *by-catch* — `denovo_106`/`denovo_86`, liability-carrying — is the
+  weaker prior version, optionally an SI panel.)
 - (c) The two clinical destinations: selective → systemic NR4A3-driven cancers (EMC / AciCC / NR4A-sarcomas);
   pan → **ex-vivo, washable** CAR-T de-exhaustion (chemical NR4A triple-KO analogue; Chen 2019), with the
   degrader/E3 ternary cartoon and the "transient ex-vivo removes the systemic-toxicity bound" note.
