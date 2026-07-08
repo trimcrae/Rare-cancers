@@ -39,6 +39,10 @@ on:
         description: "SageMaker job wall-clock cap (s). Raise for large candidate sets (matrix writes only at end, no checkpoint, so a timeout loses everything). Default 4h."
         default: "14400"
         required: false
+      cache_prefix:
+        description: "S3 prefix with pre-extracted <tag>-opened.pdb to REUSE (skips ~70 min fpocket extraction). Default nr4a3-matrix; empty = force re-extract."
+        default: "nr4a3-matrix"
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -76,6 +80,7 @@ jobs:
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
           INSTANCE: ${{ inputs.instance }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
+          CACHE_PREFIX: ${{ inputs.cache_prefix }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           DENOVO_PREFIX: ${{ inputs.denovo_prefix }}
           TOP_N: ${{ inputs.top_n }}

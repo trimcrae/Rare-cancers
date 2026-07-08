@@ -86,6 +86,12 @@ def main():
         env["NR4A3_RECEPTOR"] = os.path.join(IN, "receptor", "nr4a3-release-druggable.pdb")
     else:
         env.pop("NR4A3_RECEPTOR", None)
+    # Reuse pre-extracted NR4A1/NR4A2 opened conformers if the `cache` channel is mounted (skips the slow
+    # ~30-40 min/paralogue fpocket-per-frame extraction — the dominant cost of this job).
+    cache_dir = os.path.join(IN, "cache")
+    if os.path.isdir(cache_dir):
+        env["OPENED_CACHE_DIR"] = cache_dir
+        print(f"[sagemaker] opened-conformer cache mounted: {sorted(os.listdir(cache_dir))}", flush=True)
     print(f"[sagemaker] receptor_mode={args.receptor_mode} developable_only={args.developable_only}",
           flush=True)
     os.makedirs(OUT, exist_ok=True)

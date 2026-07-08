@@ -48,6 +48,9 @@ CANDIDATE_JSON = os.environ.get("CANDIDATE_JSON")
 TOP_N = int(os.environ.get("TOP_N", "20"))
 NR4A3_RECEPTOR = os.environ.get("NR4A3_RECEPTOR")
 NR4A3_BOX_RES = os.environ.get("NR4A3_BOX_RES", "")
+# OPENED_CACHE_DIR: if it holds <tag>-opened.pdb, reuse those pre-extracted paralogue conformers instead of
+# re-running the slow (~30-40 min/paralogue) fpocket-per-frame extraction. Box is still recomputed (fast).
+OPENED_CACHE_DIR = os.environ.get("OPENED_CACHE_DIR")
 
 
 def read_manifest(input_dir):
@@ -203,8 +206,17 @@ def main():
             continue
         wh.IN = d                                   # warhead.extract_opened_conformer reads from wh.IN
         conf = os.path.join(OUT, f"{tag}-opened.pdb")
+        cached = os.path.join(OPENED_CACHE_DIR, f"{tag}-opened.pdb") if OPENED_CACHE_DIR else None
         try:
-            rec, frame, drug, resseqs = wh.extract_opened_conformer(conf)
+            if cached and os.path.exists(cached):
+                # REUSE the already-extracted opened conformer (skips the ~30-40 min silent fpocket-per-frame
+                # scan that dominates every run). The chosen frame is deterministic, so the cache is exact.
+                import shutil
+                shutil.copy(cached, conf)
+                rec, resseqs, frame, drug = conf, _pdb_resseqs(conf), "cached", None
+                print(f"  {KEY[tag]}: REUSED cached opened conformer (skipped fpocket extraction)", flush=True)
+            else:
+                rec, frame, drug, resseqs = wh.extract_opened_conformer(conf)
             center = box_for(rec, resseqs, man["cv_residues"], man["lbd_first"])
             scores, pose = wh.dock_into(rec, center, sdf, tag)
         except Exception as e:  # noqa: BLE001 — record + continue; a missing paralogue just leaves None
@@ -212,8 +224,10 @@ def main():
             continue
         per[tag] = {"conformer": rec, "resseqs": resseqs, "scores": scores, "pose": pose,
                     "manifest": man}
-        res["paralogues"][KEY[tag]] = {"opened_frame": frame, "fpocket_druggability": round(drug, 3),
-                                       "cv_residues": man["cv_residues"], "n_docked": len(scores)}
+        res["paralogues"][KEY[tag]] = {
+            "opened_frame": frame,
+            "fpocket_druggability": (round(drug, 3) if isinstance(drug, (int, float)) else None),
+            "cv_residues": man["cv_residues"], "n_docked": len(scores)}
 
     if "nr4a3" not in per:
         res["_status"] = "NR4A3 opened conformer/dock unavailable — cannot build the matrix"

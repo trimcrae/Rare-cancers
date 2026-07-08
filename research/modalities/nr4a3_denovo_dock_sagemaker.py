@@ -40,6 +40,13 @@ def main():
     # unbiased release frame. Mount the nr4a3-metad ensemble at input/nr4a3 so the driver extracts NR4A3's
     # opened conformer there (it does this whenever NR4A3_RECEPTOR is unset, which entry sets per receptor-mode).
     mount_tags = ["denovo", "receptor", "nr4a1", "nr4a2"]
+    # Opened-conformer cache: mount a prefix holding <tag>-opened.pdb so the driver REUSES the already-
+    # extracted NR4A1/NR4A2 opened conformers instead of re-running the ~30-40 min/paralogue fpocket scan.
+    # Default nr4a3-matrix (the original matrix run wrote them there); set CACHE_PREFIX="" to force re-extract.
+    cache_prefix = os.environ.get("CACHE_PREFIX", "nr4a3-matrix")
+    if cache_prefix:
+        prefixes["cache"] = cache_prefix
+        mount_tags.append("cache")
     if receptor_mode == "metad":
         prefixes["nr4a3"] = os.environ.get("NR4A3_METAD_PREFIX", "nr4a3-metad")
         mount_tags.append("nr4a3")
