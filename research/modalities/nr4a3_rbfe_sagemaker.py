@@ -63,8 +63,31 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
+
+    if MODE == "tracelog":
+        # Full CloudWatch traceback of a failed leg (FailureReason only carries the last line). RBFE_JOB=<name>
+        # to target a specific job; otherwise the most recent Failed leg for the tag.
+        import boto3
+        sm = boto3.client("sagemaker")
+        logs = boto3.client("logs")
+        jobname = os.environ.get("RBFE_JOB", "").strip()
+        if not jobname:
+            r = sm.list_training_jobs(NameContains=TAG, MaxResults=8, SortBy="CreationTime",
+                                      SortOrder="Descending")
+            jobname = next((j["TrainingJobName"] for j in r.get("TrainingJobSummaries", [])
+                            if j["TrainingJobStatus"] == "Failed"), "")
+        print(f"[rbfe] TRACELOG for {jobname or '(none found)'}")
+        if jobname:
+            grp = "/aws/sagemaker/TrainingJobs"
+            for st in logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=jobname,
+                                                orderBy="LogStreamName").get("logStreams", []):
+                ev = logs.get_log_events(logGroupName=grp, logStreamName=st["logStreamName"], limit=250,
+                                         startFromHead=False)
+                for e in ev.get("events", [])[-150:]:
+                    print(e["message"].rstrip())
+        return
 
     if MODE == "jobs":
         # Track the RBFE leg jobs (run mode is fire-and-forget, wait=False). Lists recent training jobs whose
