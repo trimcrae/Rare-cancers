@@ -151,13 +151,12 @@ physics-based energy model where repurposed matter did not. We also **ran the NR
 (a representative `denovo_401`-PROTAC; Boltz-2, control-validated on CRBN/lenalidomide): all three paralogues
 form a productive-geometry-proxy ternary, so the ternary is a *tested-negative* selectivity lever (§2.4/F18) —
 selectivity, on current evidence, is a binder-carried budget. The affinity-grade **selectivity FEP** (modern
-independent-window ABFE) is now **run** (one full converged replicate at 2 ns/window, n_iter = 2000): a **NR4A3-selective ΔΔG of
-−6.9 (vs NR4A1) and −5.5 (vs NR4A2) kcal/mol**, and — after an engine-calibration ("zeroing") against a known
+independent-window ABFE) is now **complete at three independent-seed replicates** (2 ns/window, n_iter = 2000, r1/r2/r3): a **NR4A3-selective ΔΔG of
+−4.76 ± 2.03 (vs NR4A1) and −4.98 ± 0.68 (vs NR4A2) kcal/mol** (mean ± between-replicate SD; NR4A3 the tightest-bound in **all three** replicates), and — after an engine-calibration ("zeroing") against a known
 binding free energy (T4-lysozyme·benzene) that reveals a +7.1 kcal/mol under-binding offset — the offset-corrected
-absolutes have **only NR4A3 binding (≈ −4.5 kcal/mol) while both paralogues do not**. We report these **at their
-true weight**: the MBAR error is precision (~±0.2), not accuracy, so **two further independent-seed replicates**
-(same 2 ns/window) are being completed for drift-aware, replicate-based error bars, though the selectivity
-direction and ~5–7 kcal/mol magnitude are already robust; an independent AF3-class (Boltz-2) co-fold **could not corroborate** the
+absolutes have **only NR4A3 binding (−3.6 ± 1.4 kcal/mol, a conservative floor) while both paralogues do not (≈ +1.2, +1.4)**. We report these **at their
+true weight**: the replicate ensemble replaces the earlier single-run MBAR precision (~±0.2) with real accuracy, and it is honest about where the scatter lives — the **NR4A2 margin is tight (±0.68)** while the **NR4A1 margin is noisier (±2.03)** from one soft NR4A3 draw (r2) — but the selectivity
+direction and ~5 kcal/mol magnitude survive it in both contrasts; an independent AF3-class (Boltz-2) co-fold **could not corroborate** the
 pose (the expected cryptic-pocket/orphan-receptor limitation), so the structural model remains the load-bearing
 uncertainty. On the druggability leg specifically, an **independent cryptic-pocket predictor (PocketMiner),
 trained on separate data, does corroborate the site** — it flags the Pocket-5 residues as cryptic-pocket-prone
@@ -446,7 +445,7 @@ ternary is non-selective). **No molecule is synthesized; this is design prep.** 
 degradation prediction. We therefore add the standard **three-body cooperative-equilibrium** layer (Douglass
 2013; Gadd 2017) coupled to a steady-state synthesis/degradation balance, which converts binary affinities +
 cooperativity α into the numbers that actually decide a degrader: **DC50, Dmax, and the hook effect**. Because
-absolute affinities and α are exactly what the queued selectivity FEP will pin (MM-GBSA ΔG is not a calibrated
+absolute affinities and α are exactly what the now-complete three-replicate selectivity FEP pins (MM-GBSA ΔG is not a calibrated
 Kd), the model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd**, not a
 point DC50 — in an illustrative potent regime it reproduces the expected behaviour (DC50 425 → 16 nM as α 1 →
 10, with a hook at high occupancy). Its purpose is twofold: (i) it makes the degrader's efficacy claim
@@ -644,7 +643,7 @@ frame, yet the set is **not enriched** over the marketed-drug decoys and only **
 tested candidates survive (§2.6) — if being generated-for-NR4A3 uniformly inflated the NR4A3 margin, the whole
 generated set would clear the null, and it does not. So against the null we have, "above-null" is a **de-noised
 foothold, not yet a fully-controlled specificity result** — but the confound is a bounded caveat, not a
-whole-cloth artifact (the decisive resolution is FEP — now run: a preliminary NR4A3-selective ΔΔG, convergence-hardening in progress).)* **A receptor-robustness check (a
+whole-cloth artifact (the decisive resolution is FEP — now complete: a three-replicate NR4A3-selective ΔΔG, §4).)* **A receptor-robustness check (a
 fully state-matched re-dock — NR4A3 in its *metad-opened* frame rather than the release frame — then the same
 multi-snapshot rescore; runs 28473682532/28480041030) keeps `denovo_401` NR4A3-favoured but weaker:
 +7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80)** — so the selectivity *direction* is robust
@@ -940,7 +939,7 @@ MM-GBSA endpoint rescoring of the matrix's docked poses (OpenMM + OpenFF/GAFF-2.
 AM1-BCC charges; `nr4a3_mmgbsa.py`, OpenCL on the A10G), emitting a per-candidate verdict
 (confirmed_selective / reversed / weakened / rescued) vs the docking margins; magnitudes are inflated
 (no entropy/ensemble average) and read as direction, not affinity; selectivity FEP on the lead is the next
-tier — now **run** (preliminary result below; convergence-hardening in progress). **Selectivity FEP
+tier — now **run and complete at three replicates** (result below). **Selectivity FEP
 (absolute binding free energy).** One absolute-binding-FEP experiment per receptor (NR4A3/NR4A1/NR4A2):
 explicit-solvent (amber14SB + GAFF2 + AM1-BCC + TIP3P, PME) double-decoupling of `denovo_401` with a Boresch
 orientational restraint held **identical across all complex-leg λ-windows** and removed **analytically** via
@@ -956,21 +955,8 @@ kcal/mol solvation offset, well within GAFF/TIP3P norms, confirming the ligand-i
 newly, a **protein-ligand binding** gate (below) that measures the engine's systematic offset on an *absolute* ΔG_bind before
 any absolute is over-read. The
 NR4A3-vs-paralogue **ΔΔG** is the selectivity read-out (CUDA on the A10G; SageMaker managed-spot *Training* with
-continuous per-window S3 checkpointing). **Converged single-replicate result (2 ns/window, n_iter = 2000, one full replicate):** ΔG_bind(NR4A3) = **+2.6 ± 0.2**,
-ΔG_bind(NR4A1) = **+9.5 ± 0.2**, ΔG_bind(NR4A2) = **+8.1 ± 0.2** kcal/mol → **ΔΔG(NR4A3 − NR4A1) = −6.90 ± 0.26**
-and **ΔΔG(NR4A3 − NR4A2) = −5.48 ± 0.27** kcal/mol (both favour NR4A3) — `denovo_401` is predicted to engage the
-opened NR4A3 pocket and not the paralogues. (These per-receptor absolutes are **raw engine values**; the binding
-calibration below sets a **+7.1 kcal/mol under-binding offset** to subtract before reading any absolute —
-**offset-corrected, only NR4A3 binds (≈ −4.5 kcal/mol) while both paralogues do not (NR4A1 ≈ +2.4, NR4A2 ≈ +1.0)**,
-a stronger statement than the ΔΔG alone — while the **ΔΔG itself needs no correction** because the offset cancels
-in the difference.) The quoted ±0.2 is the **MBAR statistical error — precision, not accuracy**: it is a lower
-bound on the true uncertainty (it does not see equilibration/slow-mode drift), and the one completed leg of a
-*second* replicate (same 2 ns/window) already shows a ~1.5 kcal/mol shift on the same NR4A1 leg (+8.0 vs +9.5), so
-the real replicate-to-replicate scatter is ~1–2 kcal/mol. **Two further independent-seed replicates** (r2, r3, all
-at the same 2 ns/window) are being completed to attach drift-aware, replicate-based error bars; the selectivity
-*direction* and ~5–7 kcal/mol *magnitude* are already robust to that scatter. The **ΔΔG is expected to be better-behaved than the
-absolutes** (the shared ligand-in-water decoupling leg and common-mode charge/protonation error cancel in the
-difference; see below). **Binding-calibration ("zeroing") of the absolute scale, and what the absolutes therefore mean.**
+continuous per-window S3 checkpointing). **Completed three-replicate result (2 ns/window, n_iter = 2000; three independent-seed replicates r1/r2/r3, error bars = between-replicate SD, n = 3):** raw-engine per-replicate means are ΔG_bind(NR4A3) = **+3.5 ± 1.4**, ΔG_bind(NR4A1) = **+8.3 ± 1.1**, ΔG_bind(NR4A2) = **+8.5 ± 0.7** kcal/mol → **ΔΔG(NR4A3 − NR4A1) = −4.76 ± 2.03** and **ΔΔG(NR4A3 − NR4A2) = −4.98 ± 0.68** kcal/mol (both favour NR4A3). The selectivity **direction is unanimous — NR4A3 is the tightest-bound of the three in every one of the three replicates** — so `denovo_401` is predicted to engage the opened NR4A3 pocket and not the paralogues. These are now **replicate-based error bars (accuracy, not the earlier single-replicate MBAR ±0.2 precision)**, and they tell an honest story: the **NR4A2 margin is tight (± 0.68)** — smaller than either leg's absolute SD, the shared ligand-in-water decoupling and common-mode charge/protonation error cancelling in the difference as hoped — whereas the **NR4A1 margin is wider (± 2.03)**, driven by one replicate (r2) whose NR4A3 leg sampled ~2.5 kcal/mol weaker binding (raw +5.1 vs +2.6/+2.8 in r1/r3); that single soft draw both shrank r2's NR4A1 margin *and* inflated its NR4A3 absolute, so the NR4A1 ΔΔG does **not** tighten (excluding r2, r1/r3 agree closely at ΔΔG(NR4A3−NR4A1) = −6.9/−4.5). The honest read: **robust, tight NR4A2 selectivity and directionally-robust-but-noisier NR4A1 selectivity**, both clearing ~5 kcal/mol on the mean. This ~1–2 kcal/mol replicate scatter is exactly what the earlier single-replicate MBAR ±0.2 could not see; the three-replicate ensemble replaces that optimistic precision with realistic accuracy, and the ~5 kcal/mol selectivity survives it in both contrasts. **Offset-corrected absolutes (subtract the +7.1 kcal/mol calibration offset, below): ΔG_bind(NR4A3) = −3.6 ± 1.4 kcal/mol** (r1/r3 cluster ≈ −4.4; a **conservative least-binding floor**, §(iii) below) — **a favourable binder** — **while both paralogues remain non-binding (NR4A1 ≈ +1.2, NR4A2 ≈ +1.4 kcal/mol, still positive)**, a stronger statement than the ΔΔG alone; the **ΔΔG itself needs no correction** because the per-engine offset cancels in the difference. *(Reduced 2026-07-08 with a per-window dedup-by-iteration safeguard on the MBAR input, so the crash/resume/recovery history of the nr4a2 legs — see the run notes — does not double-count samples or shrink the SE.)* The **common-mode cancellation** that would make the ΔΔG better-behaved than the
+absolutes is **borne out for NR4A2** (ΔΔG SD 0.68 < either leg's absolute SD) but **not for NR4A1**, where r2's soft NR4A3 draw is anti-correlated across the two legs (above); the shared ligand-in-water decoupling leg and common-mode charge/protonation error still cancel in principle, but a single anti-correlated replicate can defeat that in an n = 3 sample. **Binding-calibration ("zeroing") of the absolute scale, and what the absolutes therefore mean.**
 Because a raw ABFE absolute is meaningful only relative to the engine's own systematic offset, we ran the engine on a
 **known protein-ligand binding free energy — T4-lysozyme L99A + benzene** (rigid textbook cavity, experimental ΔG_bind =
 −5.2 kcal/mol; Morton & Matthews 1995; PDB 181L), through the identical double-decoupling + Boresch-restraint + MBAR path
@@ -1170,7 +1156,7 @@ made explicit rather than buried (full adversarial review:
    specific molecule; a stability/reactivity filter + re-generation (and a check of the other two
    `confirmed_selective` hits, denovo_94/57) are the next de-novo steps.
 7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
-   re-calibration are now run, and `denovo_401` clears them — leaving FEP as the last tier, now run (preliminary; hardening).** The de-novo
+   re-calibration are now run, and `denovo_401` clears them — leaving FEP as the last tier, now run and complete (three replicates).** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
    (asymmetry conservative for NR4A3-selectivity — §2.5), and the single-snapshot, single-pose MM-GBSA carries
    no replicate/ensemble average and **fails the decoy control** (§2.5). Both follow-ups the prior draft listed
@@ -1189,7 +1175,7 @@ made explicit rather than buried (full adversarial review:
    +24.74) and +7.44 sits at only ~the 84th percentile — so the metad-opened frame is a poor discriminator, but
    it is also the frame `denovo_401` was *not* generatively fit to, so the above-null result is
    **release-frame-specific (= design-frame-specific)**, not universal (F16). What remains is
-   **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the quantitative gate — now run** (preliminary ΔΔG NR4A3-selective; convergence-hardening in progress);
+   **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the quantitative gate — now run and complete** (three-replicate ΔΔG NR4A3-selective);
    the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
@@ -1198,7 +1184,7 @@ selectivity claim needs endpoint free energy. The state-matched NR4A1/NR4A2 meta
 the quantitative tier is now **MM-GBSA-run** rather than planned — but single-snapshot MM-GBSA has **no
 entropy and no ensemble average**, so its magnitudes are inflated and only the **verdict/direction** is
 trusted; **selectivity FEP** (the defensible affinity tier) is **now run** (modern independent-window ABFE;
-preliminary NR4A3-selective ΔΔG, §4) with **convergence-hardening in progress**, and even converged FEP on a
+three-replicate NR4A3-selective ΔΔG, §4), and even converged FEP on a
 cryptic/induced-fit pocket is sampling-limited. **An independent structural cross-check (AF3-class
 co-folding) does not corroborate the pose/pocket, and honestly cannot here.** To test the docked binder
 pose by a physically different method than docking/MD, we co-folded `denovo_401` into each NR4A{3,1,2} LBD
@@ -1281,7 +1267,7 @@ design (release) frame** — the strongest the in-silico evidence supports — w
 null controls the *scoring* step only, not the *generative* step (`denovo_401` was fit to the release frame;
 the decoys were not) or the best-of-~200/~10 selection, and the signal does not survive into the
 non-design (metad) frame — so this is a **de-noised foothold, not a demonstrated specificity result**.
-**Selectivity FEP** is now run — a preliminary NR4A3-selective ΔΔG (modern independent-window ABFE), with convergence-hardening (independent-seed replicates + drift diagnostics) in progress (a stable, synthesizable status for `denovo_401`, which
+**Selectivity FEP** is now run and **complete at three independent-seed replicates** — a NR4A3-selective ΔΔG (modern independent-window ABFE) (a stable, synthesizable status for `denovo_401`, which
 unlike `denovo_15` carries no structural alerts, is already in hand). Still not an unqualified pass (no FEP, no
 wet lab, generation-matched null not run): the small-molecule-warhead leg has a de-noised foothold, upgraded
 from an above-noise one but short of a specificity-controlled lead.

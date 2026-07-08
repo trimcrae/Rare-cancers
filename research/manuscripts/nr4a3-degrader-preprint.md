@@ -1,9 +1,9 @@
 # Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a "ligand-independent" nuclear receptor
 
-> **Working title — NOT finalized.** The title is deliberately deferred to post-time and will be chosen once
-> the selectivity FEP result is in hand (a confirming result licenses a bolder title; a refuting one a more
-> retreating one; the frontrunner default is a result-led framing with "predicted-selective … warhead
-> candidate"). See the title options + rationale in `nr4a3-degrader-preprint-plan.md`.
+> **Working title.** The selectivity FEP result is now **in hand and confirming** — a three-replicate
+> NR4A3-selective ΔΔG (−4.76 ± 2.03 vs NR4A1, −4.98 ± 0.68 vs NR4A2 kcal/mol; NR4A3 tightest-bound in all three
+> replicates; §4) — which licenses the result-led framing above ("predicted-selective … warhead candidate").
+> Title options + rationale in `nr4a3-degrader-preprint-plan.md`.
 
 **Tristan D. McRae**
 
@@ -51,7 +51,7 @@ geometrically viable but the ternary is **not a paralogue-selectivity lever for 
 rests on the binder (+ pharmacokinetics). We conclude that NR4A3's "undruggable" orthosteric pocket is
 computationally tractable as a dynamic, induced-fit site; that selectivity is a multiplicative budget which,
 on current evidence, is **carried by the binder** (the ternary being productive-but-not-selective); and that
-the affinity-grade selectivity FEP is the one remaining tier. All claims are in-silico predictions requiring
+the affinity-grade selectivity FEP — the last quantitative tier — is now complete and NR4A3-selective across three independent-seed replicates (§4). All claims are in-silico predictions requiring
 experimental validation.
 
 ---
