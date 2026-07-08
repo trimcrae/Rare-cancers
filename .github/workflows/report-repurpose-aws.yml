@@ -19,6 +19,10 @@ on:
         description: "how many top hits to print"
         default: "20"
         required: false
+      drug_filter:
+        description: "comma drug-name substrings to look up by dG + rank (e.g. sunitinib,pazopanib)"
+        default: ""
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -44,6 +48,7 @@ jobs:
           TAGS: ${{ inputs.tags }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           TOP_N: ${{ inputs.top_n }}
+          DRUG_FILTER: ${{ inputs.drug_filter }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."

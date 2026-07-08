@@ -71,6 +71,26 @@ def main():
     print(f"records: {len(allrows)}   docked: {n_docked}   failed/embed-skip: {n_fail}\n")
 
     ranked = core.rank_rows([r for r in allrows if r.get("dG_NR4A3") is not None])
+
+    # DRUG_FILTER: look up specific drugs by name substring and show their dG + percentile rank in the
+    # full docked set — for asking "did drug X bind the pocket?" (e.g. the EMC-active TKIs).
+    dfilter = [s.strip().lower() for s in os.environ.get("DRUG_FILTER", "").split(",") if s.strip()]
+    if dfilter:
+        pos = {id(r): i for i, r in enumerate(ranked)}
+        n = len(ranked)
+        print(f"=== DRUG_FILTER lookup ({n} docked drugs; rank 1 = best NR4A3-pocket dG) ===")
+        print(f"{'dG':>7}  {'hnd':>3}  {'rank':>10}  {'drug':<28} moa")
+        hits = [r for r in ranked if any(t in ((r.get('drug') or '') + ' ' + (r.get('label') or '')).lower()
+                                         for t in dfilter)]
+        for r in hits:
+            rk = pos[id(r)] + 1
+            print(f"{r['dG_NR4A3']:>7.2f}  {r.get('handle_contacts', 0):>3}  "
+                  f"{rk:>5}/{n} ({100*rk/n:>4.1f}%)  {(r.get('drug') or r.get('label'))[:28]:<28} "
+                  f"{(r.get('moa') or '')[:40]}")
+        if not hits:
+            print("  (no docked drug matches the filter yet — may be in a still-running shard)")
+        print()
+
     print(f"=== top {min(top_n, len(ranked))} by NR4A3-pocket docking dG (PRIOR, not affinity) ===")
     print(f"{'dG':>7}  {'hnd':>3} {'csv':>3}  {'drug':<32} moa")
     for r in ranked[:top_n]:
