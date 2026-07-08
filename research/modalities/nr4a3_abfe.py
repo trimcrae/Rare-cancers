@@ -591,7 +591,11 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False,
         if not os.path.exists(p):
             continue
         rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
-        we[k] = [r["u"] for r in rows]
+        by_iter = {}                                          # DEDUP by iteration index: crash/resume/recovery
+        for r in rows:                                        # cycles can leave duplicate records for the same
+            by_iter[int(r["iter"])] = r["u"]                  # iter (the source of the >2000-line windows). Keep
+        we[k] = [by_iter[i] for i in sorted(by_iter)]         # one sample per iter → MBAR sees independent draws,
+                                                              # so the leg's ΔG SE isn't artificially shrunk.
 
     def _dg(trunc):
         wk = [(w[:trunc] if trunc else w) for w in we]
