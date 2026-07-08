@@ -71,10 +71,10 @@ def main():
         # name contains the tag + their status. No spend (runs on the CI runner).
         import boto3
         sm = boto3.client("sagemaker")
-        # Ascending (oldest first) so the NEWEST legs land at the BOTTOM — the CI log tail only shows the tail,
-        # and long FailureReasons otherwise push the current legs off the top.
-        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=30, SortBy="CreationTime",
-                                     SortOrder="Ascending")
+        # Newest first, capped small so the whole listing fits the CI log tail (long FailureReasons on many
+        # historical jobs otherwise push the current legs off the top; Ascending returned empty on this API).
+        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=6, SortBy="CreationTime",
+                                     SortOrder="Descending")
         print(f"[rbfe] JOBS for tag={TAG}:")
         for j in resp.get("TrainingJobSummaries", []):
             name, status = j["TrainingJobName"], j["TrainingJobStatus"]
