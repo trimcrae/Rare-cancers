@@ -63,26 +63,104 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
 
-    if MODE == "jobs":
-        # Track the RBFE leg jobs (run mode is fire-and-forget, wait=False). Lists recent training jobs whose
-        # name contains the tag + their status. No spend (runs on the CI runner).
+    if MODE == "tracelog":
+        # Full CloudWatch traceback of a failed leg (FailureReason only carries the last line). RBFE_JOB=<name>
+        # to target a specific job; otherwise the most recent Failed leg for the tag.
         import boto3
         sm = boto3.client("sagemaker")
-        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=30, SortBy="CreationTime",
-                                     SortOrder="Descending")
+        logs = boto3.client("logs")
+        jobname = os.environ.get("RBFE_JOB", "").strip()
+        if not jobname:
+            r = sm.list_training_jobs(NameContains=TAG, MaxResults=8, SortBy="CreationTime",
+                                      SortOrder="Descending")
+            jobname = next((j["TrainingJobName"] for j in r.get("TrainingJobSummaries", [])
+                            if j["TrainingJobStatus"] == "Failed"), "")
+        print(f"[rbfe] TRACELOG for {jobname or '(none found)'}")
+        if jobname:
+            grp = "/aws/sagemaker/TrainingJobs"
+            for st in logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=jobname,
+                                                orderBy="LogStreamName").get("logStreams", []):
+                ev = logs.get_log_events(logGroupName=grp, logStreamName=st["logStreamName"], limit=250,
+                                         startFromHead=False)
+                for e in ev.get("events", [])[-150:]:
+                    print(e["message"].rstrip())
+        return
+
+    if MODE == "ckpt":
+        # Dump the OpenFE checkpoint key layout so we can build a per-window progress metric. No spend.
+        import boto3
+        import sagemaker
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        from collections import defaultdict
+        keys = defaultdict(list)
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{TAG}/ckpt/"):
+            for o in page.get("Contents", []):
+                rest = o["Key"].split(f"{TAG}/ckpt/", 1)[1]
+                leg = rest.split("/", 1)[0]
+                keys[leg].append(rest)
+        for leg in sorted(keys):
+            print(f"=== {leg}: {len(keys[leg])} keys")
+            for k in keys[leg][:40]:
+                print(f"    {k}")
+        # cat the first real-time-analysis yaml + the completed leg json so we can parse them for progress
+        for leg in sorted(keys):
+            for k in keys[leg]:
+                if k.endswith("simulation_real_time_analysis.yaml") or k.endswith(".json") and "leg_" in k:
+                    try:
+                        body = s3.get_object(Bucket=bucket, Key=f"{TAG}/ckpt/{k}")["Body"].read().decode(
+                            "utf-8", "replace")
+                        print(f"--- CONTENT {k}:\n{body[:1500]}")
+                    except Exception as e:  # noqa: BLE001
+                        print(f"    (read {k} failed: {e})")
+                    break
+        return
+
+    if MODE == "jobs":
+        # Track the fire-and-forget legs. list_training_jobs(NameContains=...) paginates flakily (returned 0/1/4
+        # across identical calls), so BROAD-list then filter by tag in Python, AND print an S3 checkpoint census
+        # (per-leg object count + last-write time) — the definitive liveness/progress signal (per-window ckpts).
+        import boto3
+        from collections import defaultdict
+        sm = boto3.client("sagemaker")
+        jobs = []
+        try:
+            resp = sm.list_training_jobs(MaxResults=80, SortBy="CreationTime", SortOrder="Descending")
+            jobs = [(j["TrainingJobName"], j["TrainingJobStatus"]) for j in resp.get("TrainingJobSummaries", [])
+                    if TAG in j["TrainingJobName"]]
+        except Exception as e:  # noqa: BLE001
+            print(f"[rbfe] job-list error: {e}")
         print(f"[rbfe] JOBS for tag={TAG}:")
-        for j in resp.get("TrainingJobSummaries", []):
-            name, status = j["TrainingJobName"], j["TrainingJobStatus"]
+        for name, status in jobs[:12]:
             reason = ""
-            if status == "Failed":  # the summary omits it; describe_training_job carries the real traceback tail
+            if status == "Failed":
                 try:
-                    reason = sm.describe_training_job(TrainingJobName=name).get("FailureReason", "") or ""
-                except Exception as e:  # noqa: BLE001
-                    reason = f"(describe failed: {e})"
-            print(f"  {name:60s} {status:12s} {reason}")
+                    reason = (sm.describe_training_job(TrainingJobName=name).get("FailureReason", "")
+                              or "").replace("\n", " ")[-160:]
+                except Exception:  # noqa: BLE001
+                    pass
+            print(f"  {name:58s} {status:12s} {reason}")
+        try:
+            import sagemaker
+            s3 = boto3.client("s3")
+            bucket = sagemaker.Session().default_bucket()
+            cnt, last = defaultdict(int), {}
+            for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=f"{TAG}/ckpt/"):
+                for o in page.get("Contents", []):
+                    leg = o["Key"].split(f"{TAG}/ckpt/", 1)[1].split("/", 1)[0]
+                    cnt[leg] += 1
+                    if leg not in last or o["LastModified"] > last[leg]:
+                        last[leg] = o["LastModified"]
+            print(f"[rbfe] CKPT census s3://{bucket}/{TAG}/ckpt/ (liveness = recent last-write):")
+            for leg in sorted(cnt):
+                print(f"  {leg:16s} {cnt[leg]:4d} objs   last-write {last[leg].strftime('%m-%d %H:%M:%SZ')}")
+            if not cnt:
+                print("  (no checkpoint objects yet)")
+        except Exception as e:  # noqa: BLE001
+            print(f"[rbfe] ckpt-census error: {e}")
         return
 
     legs = _legs()

@@ -1,0 +1,64 @@
+name: RBFE progress snapshot (401→lo_m0_NCCO live convergence)
+
+# Lightweight LIVE progress view for the running OpenFE RBFE edge (denovo_401 -> lo_m0_NCCO). Reads each leg's
+# S3 checkpoints (solvent + complex-nr4a3/1/2), harvests OpenFE's own forward_reverse_convergence.png verbatim,
+# parses simulation_real_time_analysis.yaml for a live per-leg ΔG, and renders a compact SUMMARY png (per-leg
+# status + ΔG + running ΔΔG_bind). Publishes to modalities-cache (like abfe-progress-aws). NO reduce/MBAR here —
+# just harvest + summarise, so it updates meaningfully every hour even mid-run.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "S3 checkpoint tag/prefix"
+        default: "nr4a3-rbfe-401-nccogen"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rbfe-progress
+  cancel-in-progress: true
+
+jobs:
+  snap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install matplotlib boto3 pyyaml
+      - name: Harvest + render RBFE progress
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          RBFE_TAG: ${{ inputs.tag || 'nr4a3-rbfe-401-nccogen' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python research/modalities/rbfe_progress.py
+      - name: Publish PNGs to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          [ -f research/modalities/rbfe_progress.png ] || { echo "no summary PNG"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/pngs"
+          cp research/modalities/rbfe_progress.png "$RUNNER_TEMP/pngs/"
+          for f in research/modalities/rbfe_conv_*.png; do [ -f "$f" ] && cp "$f" "$RUNNER_TEMP/pngs/"; done
+          git fetch origin modalities-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -f -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache && git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP/pngs/"*.png research/modalities/
+          git add research/modalities/rbfe_progress.png research/modalities/rbfe_conv_*.png
+          git commit -m "RBFE progress snapshot (401→lo_m0_NCCO live convergence)" || { echo "no change"; exit 0; }
+          git push origin modalities-cache

@@ -69,6 +69,30 @@ def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
                      f"records present: {have[:20]}")
 
 
+def _repair_pose(mol, expected_smiles, rdkit_chem):
+    """Repair a docked pose into a clean, closed-shell RDKit mol for OpenFF/NAGL. Docked SDFs come back with
+    perceived bond orders/valences that can leave RADICAL electrons (openff raises RadicalsNotSupportedError,
+    which killed the charge step). Re-impose bond orders from the known SMILES template and re-add explicit Hs
+    with 3D coords — the heavy-atom docked coordinates are preserved. Falls back to the raw pose if repair fails."""
+    if not expected_smiles:
+        return mol
+    try:
+        from rdkit.Chem import AllChem
+        tmpl = rdkit_chem.MolFromSmiles(expected_smiles)
+        if tmpl is None:
+            return mol
+        heavy = rdkit_chem.RemoveHs(mol)
+        fixed = AllChem.AssignBondOrdersFromTemplate(tmpl, heavy)   # correct bond orders → kills radicals
+        fixed = rdkit_chem.AddHs(fixed, addCoords=True)             # explicit Hs positioned from geometry
+        rdkit_chem.SanitizeMol(fixed)
+        if mol.HasProp("_Name"):
+            fixed.SetProp("_Name", mol.GetProp("_Name"))
+        return fixed
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN pose repair failed ({e}); using raw pose", flush=True)
+        return mol
+
+
 def _build_components(openfe, rdkit_chem):
     """Build the OpenFE ligand A/B SmallMoleculeComponents (+ receptor ProteinComponent for the complex leg),
     from the mounted docked poses. Returns (ligA, ligB, protein_or_None)."""
@@ -79,8 +103,10 @@ def _build_components(openfe, rdkit_chem):
     sdf = os.path.join(IN, "ligand", f"docked_{sdf_receptor}.sdf")
     if not os.path.exists(sdf):
         sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{sdf_receptor}.sdf"), recursive=True)), sdf)
-    molA = _sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem)
-    molB = _sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem)
+    molA = _repair_pose(_sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem),
+                        rb.SMILES.get(LIGAND_A), rdkit_chem)
+    molB = _repair_pose(_sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem),
+                        rb.SMILES.get(LIGAND_B), rdkit_chem)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
@@ -120,16 +146,29 @@ def _protocol(openfe):
         s.simulation_settings.n_replicas = N_WINDOWS
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set windows to {N_WINDOWS} ({e}); using OpenFE default", flush=True)
-    # MD lengths only matter for the real run (smoke does no MD); guarded against unit-parse quirks.
-    for attr, val in (("equilibration_length", "1 ns"), ("production_length", "5 ns")):
-        try:
-            setattr(s.simulation_settings, attr, val)
-        except Exception as e:  # noqa: BLE001
-            print(f"  [rbfe] WARN {attr}={val} ({e}); using default", flush=True)
+    # MD lengths (real run only; smoke does no MD). MUST be openff.units Quantities, NOT strings — a string
+    # "1 ns" is stored raw and blows up at RUN time when OpenFE divides length/timestep to get n_steps
+    # ("TypeError: str / str"), which the DAG-build-only smoke never triggers (caught by the solvent one-leg).
     try:
-        s.engine_settings.compute_platform = "CUDA"
+        from openff.units import unit as _ou
+        s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
+        s.simulation_settings.production_length = 5.0 * _ou.nanosecond
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
+    try:
+        # OpenCL, NOT CUDA: the conda OpenMM CUDA build targets a newer CUDA than the g5 driver supports
+        # (CUDA_ERROR_UNSUPPORTED_PTX_VERSION). entry_rbfe.py writes the nvidia.icd so OpenCL registers the A10G.
+        # Same platform choice as the ABFE/FEP legs on this image.
+        s.engine_settings.compute_platform = "OpenCL"
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
+    # Partial charges: default am1bcc needs OpenEye or a working AmberTools antechamber (antechamber exit-1'd
+    # in this env). Use openff-nagl (GNN am1bcc surrogate) — no antechamber/OpenEye. This is what killed all 4
+    # real-MD legs at ligand charging (caught by the one-leg shakeout; smoke never charges).
+    try:
+        s.partial_charge_settings.partial_charge_method = "nagl"
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN could not set partial_charge_method=nagl ({e}); using default", flush=True)
     return RelativeHybridTopologyProtocol(s)
 
 
@@ -168,9 +207,13 @@ def run_leg():
     A, B = _chemical_systems(openfe, ligA, ligB, protein)
     dag = proto.create(stateA=A, stateB=B, mapping=mapping)
     from gufe.protocols import execute_DAG
-    shared = os.path.join(CKPT, "shared")
-    scratch = os.path.join(CKPT, "scratch")
-    os.makedirs(shared, exist_ok=True); os.makedirs(scratch, exist_ok=True)
+    from pathlib import Path
+    # gufe's execute_DAG does `shared_basedir / f"..."`, so these MUST be pathlib.Path, not str (a str `/` str
+    # is the "TypeError: unsupported operand type(s) for /: 'str' and 'str'" that killed the first real-MD legs).
+    shared = Path(CKPT) / "shared"
+    scratch = Path(CKPT) / "scratch"
+    shared.mkdir(parents=True, exist_ok=True)
+    scratch.mkdir(parents=True, exist_ok=True)
     dagres = execute_DAG(dag, shared_basedir=shared, scratch_basedir=scratch, keep_shared=True)
     est = proto.gather([dagres])
     dg = est.get_estimate()

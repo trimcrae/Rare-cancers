@@ -17,8 +17,11 @@ IN = "/opt/ml/input/data"
 # resolved an OLD openfe (0.x, legacy setup.methods.openmm + pydantic-v1 Settings) against pydantic 2.11 → an
 # import-time PydanticUserError. The classic solver happened to pick a modern openfe; the pin makes EITHER
 # solver deterministic. pydantic>=2 is explicit for the same reason.
+# openff-nagl + models: a GNN AM1-BCC surrogate for partial charges. OpenFE defaults to am1bcc, which needs
+# OpenEye (unlicensed here) or a working AmberTools antechamber (fails in this env) — NAGL avoids both.
 OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "importlib_resources", "openff-toolkit",
-               "openmmforcefields", "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
+               "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "rdkit", "lomap2",
+               "kartograf", "numpy", "scipy"]
 
 
 def _sh(cmd, **kw):
@@ -50,6 +53,11 @@ def main():
     os.makedirs(CKPT, exist_ok=True)
 
     conda = shutil_which("conda") or "/opt/conda/bin/conda"
+    # OpenCL vendor ICD so OpenMM's OpenCL platform registers the A10G — the conda OpenMM CUDA build targets a
+    # newer CUDA than the g5 driver supports (CUDA_ERROR_UNSUPPORTED_PTX_VERSION), so we run on OpenCL instead
+    # (nr4a3_rbfe.py sets compute_platform=OpenCL). Same fix as entry_abfe.py / entry_fep.py.
+    subprocess.run(["bash", "-c", "mkdir -p /etc/OpenCL/vendors && "
+                    "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
     if args.prebaked == "1":
         # pre-baked image already has the 'rbfe' env; skip the solve, run in it.
         env["PYTHONPATH"] = ""
