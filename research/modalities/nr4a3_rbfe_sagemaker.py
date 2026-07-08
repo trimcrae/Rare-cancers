@@ -136,10 +136,22 @@ def main():
         print(f"[rbfe] JOBS for tag={TAG}:")
         for name, status in jobs[:12]:
             reason = ""
-            if status == "Failed":
+            # For BOTH Failed and InProgress, describe → the FailureReason (Failed) OR the SecondaryStatus +
+            # latest StatusMessage (InProgress). The secondary status is the ONLY way to tell a genuine spot-
+            # capacity wait ("Starting" + "Insufficient capacity"/"preparing instances") from a job that already
+            # has its instance and is Downloading the image or Training — don't assume "no logs" == capacity wait.
+            if status in ("Failed", "InProgress"):
                 try:
-                    reason = (sm.describe_training_job(TrainingJobName=name).get("FailureReason", "")
-                              or "").replace("\n", " ")[-160:]
+                    d = sm.describe_training_job(TrainingJobName=name)
+                    if status == "Failed":
+                        reason = (d.get("FailureReason", "") or "").replace("\n", " ")[-160:]
+                    else:
+                        sec = d.get("SecondaryStatus", "")
+                        msg = ""
+                        tr = d.get("SecondaryStatusTransitions", [])
+                        if tr:
+                            msg = (tr[-1].get("StatusMessage", "") or "").replace("\n", " ")[:120]
+                        reason = f"[{sec}] {msg}"
                 except Exception:  # noqa: BLE001
                     pass
             print(f"  {name:58s} {status:12s} {reason}")
