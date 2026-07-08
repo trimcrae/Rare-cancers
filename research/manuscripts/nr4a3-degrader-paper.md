@@ -883,6 +883,19 @@ no entropy; magnitudes read for engagement/direction, not absolute Kd; no molecu
 selectivity FEP was not warranted (the pan objective is engages-all-three, which this already supports, not a
 robust margin).
 
+**The whole docking-tier pan census survives endpoint re-scoring in the pan-relevant sense.** Rather than
+endpoint-confirm only the lead, we ran the same multi-snapshot MM-GBSA on **all four** pan-cell candidates
+(`denovo_9/79/61/125`). Two results, both pan-favourable. *(i) "Engages all three" holds 4/4:* every candidate
+binds all three paralogues favourably at the endpoint tier (ΔG spans −18 to −32 kcal/mol; weakest paralogue
+leg ≥ −18), and **none re-scores as NR4A3-selective** (census: 3 `confirmed_nonselective`, 1 `reversed`, 0
+`confirmed_selective`) — "nonselective"/"reversed" are the *wanted* labels here, meaning no NR4A3 preference.
+*(ii) The margins are demonstrably noise:* `denovo_9`'s NR4A3 margin **flips sign between the two independent
+runs** (+4.44 above → **−4.28** in the census run, each with SD ~4–5 spanning zero), the cleanest possible
+confirmation that its apparent lean is not a real preference. So the docking-tier "pan cell" calls survive
+endpoint scoring where it counts (tri-paralogue engagement), while the docking "balanced-margin" character
+loosens honestly to "non-selective within noise." This is a specificity-style check on the pan pole,
+symmetric with the decoy/de-noising controls the selective pole receives.
+
 **A pan *binder* implies a pan *degrader* — the same ternary result carries the opposite sign here.** The
 CRBN–PROTAC ternary analysis (§2.4/F18) found that a representative degrader forms **productive-geometry
 ternaries with all three paralogues at comparable confidence** — i.e. the ternary step adds *no* paralogue
