@@ -883,6 +883,17 @@ no entropy; magnitudes read for engagement/direction, not absolute Kd; no molecu
 selectivity FEP was not warranted (the pan objective is engages-all-three, which this already supports, not a
 robust margin).
 
+**A pan *binder* implies a pan *degrader* — the same ternary result carries the opposite sign here.** The
+CRBN–PROTAC ternary analysis (§2.4/F18) found that a representative degrader forms **productive-geometry
+ternaries with all three paralogues at comparable confidence** — i.e. the ternary step adds *no* paralogue
+selectivity. For the systemic selective lead that is a *liability* (degradation selectivity has to come from
+the binder, not the ternary). For the pan pole it is exactly the **wanted** property: a non-selective ternary
+means the geometry to degrade *all three* NR4As is feasible, so a pan binder (`denovo_9`) is expected to yield
+a pan **degrader**, not merely a pan binder. This is a re-reading of work already done (a single-pose CRBN
+proxy on a `denovo_401`-linker, not a `denovo_9`-specific ternary or a full degradation simulation), so it is
+an inference at that weight — but it needs no new computation, and it makes the CAR-T pole a *degradation*
+story rather than only a binding one.
+
 **Anti-target — NR4A1+NR4A3 (design *away* from):** NR4A1/NR4A3 are myeloid **tumour suppressors** —
 combined loss causes AML (Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/
 lymphoma (Safe & Karki 2021). This cell is a liability, not an indication; the matrix is explicitly used
