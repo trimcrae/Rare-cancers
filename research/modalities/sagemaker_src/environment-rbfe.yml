@@ -15,7 +15,8 @@ dependencies:
   - openmmforcefields      # gaff-2.11 + ff14SB, same params as the ABFE/MM-GBSA legs
   - openff-nagl            # GNN am1bcc surrogate for ligand partial charges (am1bcc needs OpenEye/antechamber)
   - openff-nagl-models
-  - ocl-icd-system         # OpenMM runs on OpenCL (CUDA PTX too new for the g5 driver); needs nvidia.icd vendor
+  - ocl-icd-system         # OpenCL fallback vendor ICD (nvidia.icd) — only used if CUDA still can't load
+  - cuda-version=12.6      # pin CUDA <= g5 driver (12.8) so OpenMM's CUDA PTX loads (default pulled >12.8 -> err 222)
   - rdkit
   - lomap2                 # atom-mapping
   - kartograf              # atom-mapping (fallback / 3D)

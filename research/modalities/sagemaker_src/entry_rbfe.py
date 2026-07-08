@@ -19,9 +19,14 @@ IN = "/opt/ml/input/data"
 # solver deterministic. pydantic>=2 is explicit for the same reason.
 # openff-nagl + models: a GNN AM1-BCC surrogate for partial charges. OpenFE defaults to am1bcc, which needs
 # OpenEye (unlicensed here) or a working AmberTools antechamber (fails in this env) — NAGL avoids both.
+# cuda-version=12.6: the g5 driver (570.x) supports up to CUDA 12.8, but the default solve pulled an OpenMM CUDA
+# runtime whose PTX is NEWER than 12.8 → CUDA_ERROR_UNSUPPORTED_PTX_VERSION (222) at Context load, forcing the
+# pathologically-slow OpenCL hybrid-kernel JIT that wedged the complex legs (confirmed by mode=cudaprobe on
+# 2026-07-08: driver 12.8, openmm 8.1.2, CUDA 222 → OpenCL). Pinning cuda-version ≤ driver makes NVRTC emit PTX
+# the driver accepts, so the CUDA platform loads and the hybrid Context builds fast (no giant runtime compile).
 OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "importlib_resources", "openff-toolkit",
-               "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "rdkit", "lomap2",
-               "kartograf", "numpy", "scipy"]
+               "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "cuda-version=12.6",
+               "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
 
 
 def _sh(cmd, **kw):
