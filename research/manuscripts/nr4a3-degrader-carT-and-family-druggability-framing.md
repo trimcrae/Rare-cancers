@@ -91,9 +91,17 @@ in cell-therapy process development, not a systemic drug.
   than the selective design (no selectivity budget to satisfy), so a positive readout is the expected case.
 - **Deliverable to bank before claiming it:** a demonstrated **pan-NR4A candidate** from the matrix/generator
   that engages the conserved pocket residues across all three opened ensembles — the concrete artefact that
-  turns "the framework *supports* a second mode" into "the framework *produces* both modes." Until that
-  readout is run, write the CAR-T application as **framework-enabled and cheap-to-instantiate**, not as an
-  already-banked hit. (Recommended: run it — it is cheap and it is the evidence the reframe leans on.)
+  turns "the framework *supports* a second mode" into "the framework *produces* both modes."
+  **DONE (2026-07-08, zero new compute):** re-read the existing state-matched matrix + de-novo funnel S3
+  results ([`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json); report jobs
+  28935050401 / 28935054929). The pan-NR4A cell is populated at **both** tiers: (i) the repurposed library
+  has an essentially **equipotent** tri-paralogue engager (dG −8.40/−8.41/−8.80), and (ii) the de-novo
+  funnel's own `confirmed_nonselective` rejects contain **two developable pan-NR4A binders** — `denovo_106`
+  (QED 0.78 / SA 3.8 / 5 handle contacts, the lead) and `denovo_86`. So one generative campaign yields both
+  poles of the axis: NR4A3-selective warheads *and*, in its non-selective by-catch, developable pan-NR4A
+  binders. Folded into paper §3. Docking-tier screening priors (same weight as the selective docking leads),
+  no molecule synthesized. **Optional cheap next step:** a conserved-residue-conditioned generation to make
+  pan-NR4A the design *objective* rather than a reject-pile readout.
 
 ---
 

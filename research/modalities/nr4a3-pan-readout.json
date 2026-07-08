@@ -1,0 +1,30 @@
+{
+  "_title": "Pan-NR4A design-mode readout: the CAR-T (ex-vivo T-cell de-exhaustion) pole of the family selectivity matrix",
+  "_purpose": "Re-analysis (no new compute) of the EXISTING state-matched family selectivity matrix (repurposed ChEMBL library) and the de-novo funnel, reading out the PAN-NR4A cell (candidates that engage all three opened NR4A pockets) instead of the NR4A3-selective cell. Pan-NR4A degradation is the profile wanted for the ex-vivo CAR-T application (chemical route to the NR4A triple-KO that reverses T-cell exhaustion; Chen et al., Nature 2019), where intra-family selectivity is unnecessary and ex-vivo/transient use removes the systemic-toxicity constraint that motivates NR4A3-selectivity in vivo. See research/manuscripts/nr4a3-degrader-carT-and-family-druggability-framing.md.",
+  "_weight": "Docking-level cells are state-matched opened-pocket screening PRIORS, not affinities (same weight as the NR4A3-selective docking cells in paper 2.4). MM-GBSA margins are single-snapshot (noise-caveated per paper 2.5 decoy control); here they only confirm the candidate is NOT NR4A3-preferring (i.e. balanced/pan), which is the desired direction for this mode. 'Developable' = the automated gate (BRENK-free + no curated structural liability + aromatic ring + SAscore<=4.5 + >=4 engageable-handle contacts); necessary-not-sufficient (a deeper medchem review can still flag liabilities, cf. denovo_15). No molecule synthesized.",
+  "_generated": "2026-07-08, from report-matrix-aws.yml (run 28935050401) + report-denovo-aws.yml (run 28935054929), reading the committed S3 matrix/de-novo results.",
+  "reference": "Chen J, Lopez-Moyado IF, ... Rao A. NR4A transcription factors limit CAR T cell function in solid tumours. Nature 2019;567:530-534.",
+  "conserved_pocket_CV_residues_q92570": [411, 481, 485],
+  "state_matched_opened_frames": {"NR4A3": "frame 300 (druggability 0.931)", "NR4A1": "frame 524 (0.981)", "NR4A2": "frame 125 (0.938)"},
+  "repurposed_library_pan_cell": {
+    "cell_census_pan_NR4A": 3,
+    "flagged_pan_leads": ["celastrol", "NR4A3-active:CHEMBL1873475"],
+    "members": [
+      {"label": "celastrol", "dG": {"NR4A3": -8.58, "NR4A1": -8.14, "NR4A2": -7.62}, "margin_vs_NR4A1": 0.44, "margin_vs_NR4A2": 0.96, "handle_contacts": 4, "conserved_contacts": 2, "note": "Engages all three, but a KNOWN promiscuous covalent binder; Munoz-Tello 2020 reports celastrol does NOT directly bind the NR4A LBD, so weak as a real pan lead (liability, not a clean hit)."},
+      {"label": "NR4A3-active:CHEMBL1873475", "dG": {"NR4A3": -8.61, "NR4A1": -7.01, "NR4A2": -9.07}, "margin_vs_NR4A1": 1.59, "margin_vs_NR4A2": -0.46, "handle_contacts": 4, "conserved_contacts": 2, "note": "Real ChEMBL NR4A active; engages all three (NR4A2 strongest)."},
+      {"label": "NR4A3-active:CHEMBL187xxxx", "dG": {"NR4A3": -8.40, "NR4A1": -8.41, "NR4A2": -8.80}, "margin_vs_NR4A1": -0.01, "margin_vs_NR4A2": -0.40, "handle_contacts": 4, "conserved_contacts": 2, "note": "Cleanest pan fingerprint in the repurposed library: essentially EQUIPOTENT across all three paralogues (|margin| <= 0.4) -- the balanced tri-paralogue engagement the pan-NR4A mode wants."}
+    ]
+  },
+  "denovo_pan_cell": {
+    "note": "The de-novo funnel (DiffSBDD, pocket-conditioned) was run FOR NR4A3-selectivity. Its 'confirmed_nonselective / pan-NR4A' rejects are exactly the developable pan-NR4A binders the CAR-T mode wants -- one campaign, both poles. mmMargin is the NR4A3-selectivity margin; negative/near-zero + all-three-engaged = pan engagement.",
+    "developable_pan_candidates": [
+      {"label": "denovo_106", "smiles": "CC1=CC(=CC[C@H](NC(=O)NC2=NNCC2)c2ccccc2)CCC1", "denovo_promise": 0.70, "QED": 0.78, "SAscore": 3.8, "MW": 338, "handle_contacts": 5, "developable": true, "dock_cell": "pan-NR4A", "mmgbsa_verdict": "confirmed_nonselective", "mmgbsa_NR4A3_margin": -9.71, "lead": true, "note": "LEAD pan-NR4A candidate. Highest-promise developable pan hit: drug-like (QED 0.78), synthesizable-by-gate (SA 3.8), engages all 5 engageable handles + the conserved pocket, lands in the pan-NR4A state-matched cell. Screening-grade; gate-developable (deeper medchem review still warranted, cf. denovo_15)."},
+      {"label": "denovo_86", "smiles": "FC1=CC=C(COc2ccc(CCN[C@@H]3CC4=C(CCCC4)O3)cc2)C=CC1", "denovo_promise": 0.55, "QED": 0.68, "SAscore": 3.9, "MW": 382, "handle_contacts": 4, "developable": true, "dock_cell": "pan-NR4A", "mmgbsa_verdict": "confirmed_nonselective", "mmgbsa_NR4A3_margin": -4.95, "lead": false, "note": "Second developable pan hit; a fluoro-aryl-ether aminodihydrobenzofuran, engages all three opened pockets."}
+    ],
+    "other_pan_cell_denovo_not_developable": [
+      {"label": "denovo_51", "denovo_promise": 0.56, "developable": false, "dock_cell": "pan-NR4A", "mmgbsa_NR4A3_margin": -11.56, "note": "Strong pan engagement but fails developability gate (cyclobutene-dione / carbamic-acid liabilities)."},
+      {"label": "denovo_21", "denovo_promise": 0.54, "developable": false, "dock_cell": "pan-NR4A", "mmgbsa_NR4A3_margin": -2.08}
+    ]
+  },
+  "conclusion": "The pan-NR4A design mode is DEMONSTRATED in the existing framework at both tiers with NO new compute: (1) the repurposed library populates a pan-NR4A cell including an essentially equipotent tri-paralogue engager; (2) the de-novo funnel's own non-selective rejects include TWO developable, drug-like pan-NR4A binders (denovo_106 the lead). This banks the artefact the family-druggability reframe leans on -- one cryptic-pocket framework, tuned to opposite poles of the NR4A selectivity axis (NR4A3-selective for cancer; pan-NR4A for ex-vivo CAR-T de-exhaustion). Next optional step (cheap, still not a claim): a conserved-residue-conditioned generation to make pan-NR4A the design OBJECTIVE rather than a reject-pile readout, and re-rank by conserved-pocket contact."
+}

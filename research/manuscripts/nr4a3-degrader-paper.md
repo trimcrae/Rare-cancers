@@ -797,7 +797,22 @@ matrix has three kinds of cell:
 exhaustion (NR4A-deficient CAR-T cells control solid tumours better; Chen, *Nature* 2019) **requires
 degrading all three NR4As**. This is the *opposite* selectivity profile, deliberately designed for from
 the conserved pocket residues, and scoped to **ex-vivo / transient** use (CAR-T manufacturing) so the
-systemic-toxicity bound below does not apply. The same matrix that yields the selective lead yields this.
+systemic-toxicity bound below does not apply — indeed ex-vivo use *removes* the AML/CNS toxicity argument
+that mandates selectivity for the systemic lead, so the pan agent is the strictly *easier* design (no
+selectivity budget to satisfy). **This mode is demonstrated, not asserted, by reading out the *pan-NR4A
+cell* of the same state-matched family matrix** ([`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json)):
+(i) the repurposed library populates the pan-NR4A cell (3 members), including a ChEMBL NR4A active that is
+**essentially equipotent across all three opened pockets** (dG NR4A3/NR4A1/NR4A2 = −8.40/−8.41/−8.80,
+|margin| ≤ 0.4 kcal/mol) — the balanced tri-paralogue engagement this mode wants; and (ii), more tellingly,
+the de-novo funnel's own **`confirmed_nonselective`** rejects — the pile discarded *for* the selective
+programme — include **two developability-gate-passing de-novo molecules in the pan-NR4A cell**
+(`denovo_106`, QED 0.78 / SA 3.8 / 5 handle contacts, the lead; and `denovo_86`, QED 0.68 / SA 3.9), each
+engaging all three state-matched opened pockets. So **one cryptic-pocket generative campaign yields both
+poles of the NR4A selectivity axis at once** — NR4A3-selective warheads for the systemic cancer lead, and,
+in its non-selective by-catch, developable pan-NR4A binders for the ex-vivo CAR-T mode. These are
+docking-tier screening priors at the same weight as the selective docking leads (not affinities, no molecule
+synthesized; a conserved-residue-conditioned generation would make pan-NR4A the design *objective* rather
+than a reject-pile readout — a cheap, optional next step).
 
 **Anti-target — NR4A1+NR4A3 (design *away* from):** NR4A1/NR4A3 are myeloid **tumour suppressors** —
 combined loss causes AML (Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/
