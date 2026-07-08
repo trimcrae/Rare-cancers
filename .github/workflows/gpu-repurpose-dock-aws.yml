@@ -1,0 +1,85 @@
+name: NR4A3-only drug-repurposing dock (AWS SageMaker, spot)
+
+# Option-1 triage: dock a shard of the Broad Repurposing Hub library into the unbiased druggable-release
+# NR4A3 Pocket-5 ONLY (⅓ the compute of the 3-receptor matrix), one drug at a time with a per-drug JSONL
+# checkpoint so a spot interruption/timeout loses ≤1 drug and the job RESUMES. Managed-spot CPU Training
+# (cheap; separate quota from the on-demand Processing docks). Mounts s3://<bucket>/nr4a3-release-druggable.
+# Re-dispatch with the SAME shard + output_prefix to resume/extend. REQUIRES secrets: AWS_ACCESS_KEY_ID,
+# AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      shard:
+        description: "shard JSON filename under research/modalities (e.g. nr4a3-repurpose-shard-02.json)"
+        required: true
+      tag:
+        description: "output namespace / resume key (default: derived from shard, e.g. 'shard-02')"
+        default: ""
+        required: false
+      exhaustiveness:
+        description: "smina exhaustiveness (4 = cheap triage; top hits re-dock at 8 in the promote tier)"
+        default: "4"
+        required: false
+      per_ligand_timeout:
+        description: "seconds before one drug's dock is abandoned as a hang"
+        default: "300"
+        required: false
+      output_prefix:
+        description: "S3 output prefix (checkpoints land under <prefix>/<tag>-ckpt; resume mounts this)"
+        default: "nr4a3-repurpose-nr4a3only"
+        required: false
+      spot:
+        description: "1 = managed spot (cheap, ~60-70% off; safe now that it checkpoints per drug); 0 = on-demand"
+        default: "1"
+        required: false
+      instance:
+        description: "SageMaker instance type (CPU is plenty for smina docking)"
+        default: "ml.c5.2xlarge"
+        required: false
+      max_runtime:
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
+        default: "18000"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (must contain the shard JSON + driver)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker repurpose-dock job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          SHARD: ${{ inputs.shard }}
+          TAG: ${{ inputs.tag }}
+          EXHAUSTIVENESS: ${{ inputs.exhaustiveness }}
+          PER_LIGAND_TIMEOUT: ${{ inputs.per_ligand_timeout }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          SPOT: ${{ inputs.spot }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_repurpose_dock_sagemaker.py
