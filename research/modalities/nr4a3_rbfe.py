@@ -120,12 +120,15 @@ def _protocol(openfe):
         s.simulation_settings.n_replicas = N_WINDOWS
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set windows to {N_WINDOWS} ({e}); using OpenFE default", flush=True)
-    # MD lengths only matter for the real run (smoke does no MD); guarded against unit-parse quirks.
-    for attr, val in (("equilibration_length", "1 ns"), ("production_length", "5 ns")):
-        try:
-            setattr(s.simulation_settings, attr, val)
-        except Exception as e:  # noqa: BLE001
-            print(f"  [rbfe] WARN {attr}={val} ({e}); using default", flush=True)
+    # MD lengths (real run only; smoke does no MD). MUST be openff.units Quantities, NOT strings — a string
+    # "1 ns" is stored raw and blows up at RUN time when OpenFE divides length/timestep to get n_steps
+    # ("TypeError: str / str"), which the DAG-build-only smoke never triggers (caught by the solvent one-leg).
+    try:
+        from openff.units import unit as _ou
+        s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
+        s.simulation_settings.production_length = 5.0 * _ou.nanosecond
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
     try:
         s.engine_settings.compute_platform = "CUDA"
     except Exception as e:  # noqa: BLE001
