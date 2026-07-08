@@ -96,7 +96,7 @@ def main():
         sm = boto3.client("sagemaker")
         # Newest first, capped small so the whole listing fits the CI log tail (long FailureReasons on many
         # historical jobs otherwise push the current legs off the top; Ascending returned empty on this API).
-        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=6, SortBy="CreationTime",
+        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=5, SortBy="CreationTime",
                                      SortOrder="Descending")
         print(f"[rbfe] JOBS for tag={TAG}:")
         for j in resp.get("TrainingJobSummaries", []):
@@ -104,7 +104,9 @@ def main():
             reason = ""
             if status == "Failed":  # the summary omits it; describe_training_job carries the real traceback tail
                 try:
-                    reason = sm.describe_training_job(TrainingJobName=name).get("FailureReason", "") or ""
+                    # last line only, truncated — long multi-line reasons otherwise push current legs off the tail
+                    full = sm.describe_training_job(TrainingJobName=name).get("FailureReason", "") or ""
+                    reason = full.replace("\n", " ")[-200:]
                 except Exception as e:  # noqa: BLE001
                     reason = f"(describe failed: {e})"
             print(f"  {name:60s} {status:12s} {reason}")
