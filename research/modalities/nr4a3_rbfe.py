@@ -133,6 +133,13 @@ def _protocol(openfe):
         s.engine_settings.compute_platform = "CUDA"
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
+    # Partial charges: default am1bcc needs OpenEye or a working AmberTools antechamber (antechamber exit-1'd
+    # in this env). Use openff-nagl (GNN am1bcc surrogate) — no antechamber/OpenEye. This is what killed all 4
+    # real-MD legs at ligand charging (caught by the one-leg shakeout; smoke never charges).
+    try:
+        s.partial_charge_settings.partial_charge_method = "nagl"
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN could not set partial_charge_method=nagl ({e}); using default", flush=True)
     return RelativeHybridTopologyProtocol(s)
 
 

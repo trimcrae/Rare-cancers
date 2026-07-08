@@ -13,6 +13,8 @@ dependencies:
   - importlib_resources    # openfe imports the backport explicitly; conda didn't pull it transitively
   - openff-toolkit
   - openmmforcefields      # gaff-2.11 + ff14SB, same params as the ABFE/MM-GBSA legs
+  - openff-nagl            # GNN am1bcc surrogate for ligand partial charges (am1bcc needs OpenEye/antechamber)
+  - openff-nagl-models
   - rdkit
   - lomap2                 # atom-mapping
   - kartograf              # atom-mapping (fallback / 3D)
