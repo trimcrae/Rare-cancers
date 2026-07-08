@@ -1,0 +1,52 @@
+name: Report NR4A3-only repurposing dock (AWS, read-only)
+
+# Read-only S3 dump of the NR4A3-only repurposing dock results — ranked NR4A3-pocket hits, live or final.
+# Reads the per-drug JSONL checkpoint (freshest), so it works mid-run. Starts no instance. REQUIRES
+# secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "comma list of shard tags to pool (e.g. shard-02 or shard-02,shard-03)"
+        default: "shard-02"
+        required: false
+      output_prefix:
+        description: "S3 output prefix the dock wrote to"
+        default: "nr4a3-repurpose-nr4a3only"
+        required: false
+      top_n:
+        description: "how many top hits to print"
+        default: "20"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Report repurpose results
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          TAGS: ${{ inputs.tags }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          TOP_N: ${{ inputs.top_n }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_repurpose.py

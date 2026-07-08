@@ -66,6 +66,17 @@ read it before making changes.
   reduce, a shakeout shard). **Come back for confirmation only when something gets EXPENSIVE** (a multi-leg GPU
   fleet, hundreds of $, or a multi-day commitment). Composes with breadth-first: adding a cheap new-axis technique
   is default-yes-just-do-it; a big depth spend still needs a nod.
+- **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
+  this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
+  pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
+  **nothing** and must **never** be weighed against a saving. The ONLY quantity that counts as "cost" in any
+  cost/benefit call is **actual AWS/GPU dollars** (and, secondarily, wall-clock for a genuine race — which
+  §Operating-regime says we almost never are). Practical consequences: (1) "not worth the engineering effort to
+  save \$X" is **never** a valid reason — if converting a Processing job to spot saves even a few real $ OR just
+  adds robustness, **do it**; (2) default every job to the cheapest *real-dollar* path (spot + checkpoint/resume)
+  and invest whatever code it takes to make that safe; (3) prefer more tests, more hardening, cleaner resumability
+  — they're free. This REFINES the cost guardrails above: the "$1000s CI-tightening" ceiling is about **compute**
+  dollars, not effort; a breadth-vs-depth call is about **compute** dollars, not effort.
 - **OPERATING REGIME (2026-07-01, trimcrae; UPDATED) — solo-researcher scale; make the paper as strong as
   in-silico allows BEFORE preprinting, then hand off to wet labs.**
   See **emc-treatment-strategy.md → "Operating regime (2026-07-01)"**. In short: one independent researcher,

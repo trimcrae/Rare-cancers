@@ -51,8 +51,10 @@
 - (b) Matrix heatmap: candidates (rows) × {NR4A3, NR4A1, NR4A2} opened-pocket dG (columns), annotated with
   the assigned cell (NR4A3-only / pan / NR4A1+NR4A3 anti-target). Asset: `nr4a3-matrix.json` ✅ (S3;
   matrix run complete) + `nr4a3-matrix.png` ✅. ⚙️ matplotlib heatmap.
-- (c) Cell census + the three actionable sets (selective leads / pan leads / flagged anti-targets) — the
-  **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 sparing NR4A2). Read via `report-matrix-aws.yml`.
+- (c) Cell census + the three actionable sets (selective leads / **pan leads** / flagged anti-targets) — the
+  **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 sparing NR4A2), while the **pan-NR4A cell is
+  populated (3 members, incl. an equipotent tri-paralogue engager)** — the seed of the CAR-T pole (Fig 6b).
+  Read via `report-matrix-aws.yml`; pan readout collated in `nr4a3-pan-readout.json` ✅ (repo).
 - *Message:* programmable, state-matched selectivity — the divergent-handle map as a demonstrated design axis.
 
 **Fig 5 — De-novo design, the decoy specificity control, and multi-snapshot de-noising of a selective candidate (§2.5–§2.6; the result figure).**
@@ -95,9 +97,28 @@
   plus multi-snapshot de-noising isolate a single robust candidate (`denovo_401`) — a screening-grade prediction,
   and one whose margin is **honestly receptor-frame-dependent** (panel f); no wet lab; FEP/ternary ahead.
 
-**Fig 6 — Indication matrix + degrader schematic (§3) [optional/overview].**
-- Lead (NR4A3-only → EMC/AciCC) / second mode (pan → ex-vivo immuno) / anti-target (NR4A1+NR4A3 → AML,
-  design away), with the degrader/E3 ternary cartoon. Schematic, no new data.
+**Fig 6 — The programmable NR4A selectivity axis: one cryptic pocket, two design poles (§3; the reframe's conceptual keystone).**
+> **Promoted 2026-07-08 from optional overview to a keystone figure** for the family-druggability reframe
+> ([`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md)).
+> It is now **data-backed at both poles**, not a pure schematic.
+- (a) The axis: a horizontal "selectivity axis" from **NR4A3-selective** (engage the divergent handles;
+  spare NR4A1/2) at one end to **pan-NR4A** (engage the conserved pocket residues 411/481/485; all three) at
+  the other, with the AML **anti-target** (NR4A1+NR4A3) marked as a forbidden zone the matrix designs *away*
+  from. One cryptic pocket, tuned by which residues the warhead engages.
+- (b) **Both poles instantiated by real candidates from the SAME framework, retargeted** (the reframe's
+  payoff): the selective pole → `denovo_401` (multi-snapshot-confirmed, decoy-null-cleared); the pan pole →
+  the **conserved-core-designed campaign**, where ranking on residues 411/481/485 flips the docking census to
+  pan-NR4A-dominant (**4/7 docked pan, 0 selective**) with the clean lead **`denovo_9`** (dG −7.69/−7.31/−7.40,
+  within 0.4 kcal/mol across all three; 3/3 conserved-core; RDKit-clean). Show the census-flip selective↔pan as
+  two mirrored bars. Asset: [`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json) ✅
+  (repo; `pan_designed_campaign`). **Caption honesty:** docking-tier priors at both poles; no molecule
+  synthesized. (The selective-run pan *by-catch* — `denovo_106`/`denovo_86`, liability-carrying — is the
+  weaker prior version, optionally an SI panel.)
+- (c) The two clinical destinations: selective → systemic NR4A3-driven cancers (EMC / AciCC / NR4A-sarcomas);
+  pan → **ex-vivo, washable** CAR-T de-exhaustion (chemical NR4A triple-KO analogue; Chen 2019), with the
+  degrader/E3 ternary cartoon and the "transient ex-vivo removes the systemic-toxicity bound" note.
+- *Message:* a canonically "undruggable" receptor family reframed as a **programmable degradation target**
+  spanning rare oncology and immunotherapy — the paper's strongest general claim (and its best pitch at JCIM).
 
 ## Tables
 
@@ -139,7 +160,7 @@ authors' production step per the note at the foot of this file.
 | Fig 5d (multi-snapshot de-noising) | ✅ repo | `nr4a3-denoising.png` / `nr4a3_denoising_figure.py` |
 | **Fig 5f (release-vs-metad frame-dependence)** | **✅ repo (NEW)** | `nr4a3-frame-decoynull.png` / `nr4a3_frame_decoynull_figure.py` |
 | Fig 5e (lead 2D + pose) | ✍️ author | `nr4a3-denovo-v2` pose (S3) → RDKit 2D + pose render |
-| Fig 6 (indication matrix + schematic) | ✍️ author | schematic (optional) |
+| Fig 6 (selectivity axis / two poles — keystone) | ✍️ author + ✅ repo data | `nr4a3-pan-readout.json` (repo, both poles) + `denovo_401`/`denovo_106`/`denovo_86` poses → axis schematic w/ real candidates |
 | Table 1 (calibration panel) | 📦 S3 | `nr4a3-calibration.json` |
 | Table 2 (top matrix candidates) | 📦 S3 | `nr4a3-matrix.json` via `report-matrix-aws.yml` |
 | Table 3 (pre-registered gates) | ✅ repo | SI §2 (assembled from the reconciliation doc) |

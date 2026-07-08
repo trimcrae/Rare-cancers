@@ -35,6 +35,10 @@ import denovo_funnel as funnel
 LBD_FIRST = 373
 POCKET_FIRST, POCKET_LAST = 406, 534
 ENGAGEABLE = [406, 410, 484, 531, 534]        # pocket-facing divergent handles (handle-facing run)
+CONSERVED = [411, 481, 485]                   # Pocket-5 CV residues INVARIANT across NR4A1/2/3 (matches
+#                                               nr4a3_matrix.CONSERVED_CV). CAMPAIGN=pan selects for CONTACT
+#                                               to these (bind the shared core -> engage all three paralogues)
+#                                               instead of the divergent handles (which drive NR4A3 selectivity).
 RECEPTOR_DIR = os.environ.get("RECEPTOR_DIR", "/opt/ml/processing/input/receptor")
 DIFFSBDD_DIR = os.environ.get("DIFFSBDD_DIR", "/opt/diffsbdd")
 CKPT = os.environ.get("CKPT", "/opt/ckpt/crossdocked_fullatom_cond.ckpt")
@@ -88,8 +92,11 @@ def _pdb_residues(pdb):
 
 
 def _resi_list_and_handles(pdb, box_resnums):
-    """Build DiffSBDD --resi_list (chain:resnum) for the pocket, and map the engageable handles to the
-    receptor's actual resSeqs for pose contact scoring. Uses residue_map so AF2 vs renumbered PDBs both work."""
+    """Build DiffSBDD --resi_list (chain:resnum) for the pocket, and map both the engageable divergent
+    handles AND the conserved-core residues to the receptor's actual resSeqs for pose contact scoring. Uses
+    residue_map so AF2 vs renumbered PDBs both work. Generation is pocket-conditioned identically for both
+    campaigns (you always want a pocket binder); the campaign chooses which residue SET the promise score
+    rewards contact to (divergent handles -> selective; conserved core -> pan)."""
     import residue_map as rm
     residues, resseqs = _pdb_residues(pdb)
     chain_of = {rs: ch for ch, rs in residues}
@@ -101,7 +108,9 @@ def _resi_list_and_handles(pdb, box_resnums):
     resi_list = [f"{chain_of.get(rs, 'A')}:{rs}" for rs in pocket_rs]
     hpos, _ = rm.resolve_positions(resseqs, ENGAGEABLE, LBD_FIRST)
     handle_rs = [resseqs[i] for i in hpos]
-    return resi_list, handle_rs, len(residues)
+    cpos, _ = rm.resolve_positions(resseqs, CONSERVED, LBD_FIRST)
+    conserved_rs = [resseqs[i] for i in cpos]
+    return resi_list, handle_rs, conserved_rs, len(residues)
 
 
 def _run_diffsbdd(gen, pdb, resi_list, out_sdf, n, num_nodes, deadline):
@@ -194,17 +203,23 @@ def main():
     pdb, box, src = _read_receptor_choice()
     recep_copy = os.path.join(OUT, "receptor-used.pdb")
     shutil.copy(pdb, recep_copy)
-    resi_list, handle_rs, n_res = _resi_list_and_handles(pdb, box)
-    print(f"  receptor: {src}; protein residues={n_res}; engageable handle resSeqs={handle_rs}", flush=True)
+    resi_list, handle_rs, conserved_rs, n_res = _resi_list_and_handles(pdb, box)
+    is_pan = CAMPAIGN.strip().lower() == "pan"
+    engage_label = "conserved-core" if is_pan else "divergent-handle"
+    print(f"  receptor: {src}; protein residues={n_res}; engageable handle resSeqs={handle_rs}; "
+          f"conserved-core resSeqs={conserved_rs}; CAMPAIGN={CAMPAIGN} -> promise rewards {engage_label} contact",
+          flush=True)
 
     res = {"_note": "NR4A3 de-novo warhead generation (DiffSBDD, pocket-conditioned on the Step-0 DRUGGABLE "
-                    "UNBIASED RELEASE conformation). Pilot tier: generate + cheminformatics + pose handle "
-                    "contact. Screening priors, NOT affinity / not a validated lead. Paralogue selectivity "
-                    "is enforced downstream (dock into 3 opened pockets + MM-GBSA).",
-           "campaign": CAMPAIGN, "n_samples_requested": N_SAMPLES, "num_nodes_list": NUM_NODES_LIST,
-           "receptor_source": src,
+                    "UNBIASED RELEASE conformation). Pilot tier: generate + cheminformatics + pose contact. "
+                    "Screening priors, NOT affinity / not a validated lead. Paralogue selectivity/pan-ness "
+                    "is enforced downstream (dock into 3 opened pockets + MM-GBSA). CAMPAIGN=selective ranks "
+                    "by DIVERGENT-HANDLE contact (NR4A3-selective); CAMPAIGN=pan ranks by CONSERVED-CORE "
+                    "contact (engage all three paralogues, for ex-vivo CAR-T de-exhaustion).",
+           "campaign": CAMPAIGN, "engagement_metric": engage_label, "n_samples_requested": N_SAMPLES,
+           "num_nodes_list": NUM_NODES_LIST, "receptor_source": src,
            "checkpoint": os.path.basename(CKPT), "resi_list": resi_list,
-           "engageable_handle_resseqs": handle_rs}
+           "engageable_handle_resseqs": handle_rs, "conserved_core_resseqs": conserved_rs}
 
     gen_sdf = os.path.join(OUT, "diffsbdd_raw.sdf")
     _generate(pdb, resi_list, gen_sdf)
@@ -221,13 +236,22 @@ def main():
     named_sdf = os.path.join(OUT, "nr4a3-denovo.sdf")
     rows = _profile_and_name(gen_sdf, named_sdf, rdkit)
 
-    # Handle-contact from the generated pose (reuse the warhead geometry on the named SDF).
+    # Contact from the generated pose (reuse the warhead geometry on the named SDF) for BOTH residue sets:
+    # the divergent handles (selective signal) and the conserved core (pan signal). The promise score is
+    # driven by whichever the campaign targets, so CAMPAIGN=pan genuinely ranks conserved-core engagers to
+    # the top (and hence to the downstream dock), not a relabelled selective run.
     import nr4a3_warhead as wh
-    contacts = wh.handle_contacts(recep_copy, named_sdf, handle_rs, cutoff=4.0)
+    handle_contacts = wh.handle_contacts(recep_copy, named_sdf, handle_rs, cutoff=4.0)
+    conserved_contacts = wh.handle_contacts(recep_copy, named_sdf, conserved_rs, cutoff=4.0)
+    n_engage = len(conserved_rs) if is_pan else len(handle_rs)
     for r in rows:
-        hc = contacts.get(r["name"], 0)
+        hc = handle_contacts.get(r["name"], 0)
+        cc = conserved_contacts.get(r["name"], 0)
         r["handle_contacts"] = hc
-        r["denovo_promise"] = funnel.score_molecule(r if "error" not in r else None, hc)
+        r["conserved_contacts"] = cc
+        engage = cc if is_pan else hc
+        r["denovo_promise"] = funnel.score_molecule(r if "error" not in r else None, engage,
+                                                    n_handles=n_engage or 1)
 
     rows = funnel.rank(rows)
     res["summary"] = funnel.summarize(rows)
@@ -244,7 +268,8 @@ def main():
     top = [r for r in rows if r.get("denovo_promise") is not None][:5]
     for r in top:
         print(f"    {r['name']:<11} promise={r['denovo_promise']} QED={r.get('QED')} "
-              f"SA={r.get('SAscore')} handles={r['handle_contacts']} {r.get('smiles', '')[:60]}", flush=True)
+              f"SA={r.get('SAscore')} handles={r['handle_contacts']} conserved={r.get('conserved_contacts')} "
+              f"{r.get('smiles', '')[:60]}", flush=True)
     _plot(rows)
 
 
@@ -258,9 +283,12 @@ def _plot(rows):
             return
         sa = [r.get("SAscore") for r in valid if r.get("SAscore") is not None]
         qed = [r.get("QED") for r in valid if r.get("QED") is not None]
+        is_pan = CAMPAIGN.strip().lower() == "pan"
+        ckey = "conserved_contacts" if is_pan else "handle_contacts"
+        clabel = "conserved-core contacts" if is_pan else "engageable-handle contacts"
         plt.figure(figsize=(7, 4))
-        plt.scatter(sa, qed, c=[r["handle_contacts"] for r in valid], cmap="viridis", s=22)
-        plt.colorbar(label="engageable-handle contacts")
+        plt.scatter(sa, qed, c=[r.get(ckey, 0) for r in valid], cmap="viridis", s=22)
+        plt.colorbar(label=clabel)
         plt.xlabel("SAscore (1 easy … 10 hard)")
         plt.ylabel("QED")
         plt.title(f"NR4A3 de-novo generations ({CAMPAIGN}) — synthesizability vs drug-likeness")

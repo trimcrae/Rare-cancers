@@ -7,7 +7,10 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
-  - openfe                 # pulls openmm, gufe, perses hybrid-topology, pymbar>=4
+  - openfe>=1.1            # MODERN openfe (pydantic-v2 native, openfe.protocols.openmm_rfe); an unpinned
+                           # openfe let libmamba resolve an old 0.x that crashed on import under pydantic 2.11
+  - pydantic>=2
+  - importlib_resources    # openfe imports the backport explicitly; conda didn't pull it transitively
   - openff-toolkit
   - openmmforcefields      # gaff-2.11 + ff14SB, same params as the ABFE/MM-GBSA legs
   - rdkit

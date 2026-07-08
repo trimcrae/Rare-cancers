@@ -36,26 +36,51 @@ N_ITER = int(os.environ.get("N_ITER", "1000"))
 SEED = int(os.environ.get("SEED", "0"))
 
 
-def _sdf_mol(sdf_path, name, rdkit_chem):
-    """Pull the named record from a multi-record docked SDF as an RDKit mol (the pose to morph from)."""
-    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
-        if m is not None and (m.GetProp("_Name") == name if m.HasProp("_Name") else False):
-            return m
-    # fall back to first record if names absent
-    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
-        if m is not None:
-            return m
-    raise SystemExit(f"  ABORT: {name} not found in {sdf_path}")
+def _canon(m, rdkit_chem):
+    """Canonical (stereo-aware) SMILES of a docked-pose mol, Hs stripped — for structural record matching."""
+    try:
+        return rdkit_chem.MolToSmiles(rdkit_chem.RemoveHs(rdkit_chem.Mol(m)))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
+    """Resolve the docked pose for ligand `name` from a multi-record docked SDF, robustly and WITHOUT ever
+    silently substituting the wrong molecule (a wrong ligand A/B would invalidate the entire ΔΔG). The species
+    dock tags the canonical/generated stereoisomer with a `_gen` suffix (e.g. requesting `denovo_401` must
+    resolve to the record `denovo_401_gen`), and there are OTHER stereoisomers of the same base in the file, so
+    we match on: (1) exact _Name, (2) _Name == name+'_gen', (3) exact stereo-canonical SMILES == expected. If
+    none match, HARD-FAIL — never fall back to an arbitrary record."""
+    want = None
+    if expected_smiles:
+        em = rdkit_chem.MolFromSmiles(expected_smiles)
+        want = rdkit_chem.MolToSmiles(em) if em is not None else None
+    recs = [m for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False) if m is not None]
+    for target in (name, f"{name}_gen"):
+        for m in recs:
+            if m.HasProp("_Name") and m.GetProp("_Name") == target:
+                return m
+    if want is not None:
+        for m in recs:
+            if _canon(m, rdkit_chem) == want:
+                return m
+    have = [m.GetProp("_Name") for m in recs if m.HasProp("_Name")]
+    raise SystemExit(f"  ABORT: no record for {name} (tried name, {name}_gen, SMILES) in {sdf_path}; "
+                     f"records present: {have[:20]}")
 
 
 def _build_components(openfe, rdkit_chem):
     """Build the OpenFE ligand A/B SmallMoleculeComponents (+ receptor ProteinComponent for the complex leg),
     from the mounted docked poses. Returns (ligA, ligB, protein_or_None)."""
-    sdf = os.path.join(IN, "ligand", f"docked_{RECEPTOR}.sdf")
+    # The solvent-morph leg has RECEPTOR="shared" (ligand-in-water, no protein), so its ligand structures don't
+    # depend on a receptor — pull them from any real docked SDF (nr4a3). The complex leg uses its own receptor's
+    # SDF. (Smoke used the nr4a3/complex defaults, so the "shared" path was first exercised by the solvent leg.)
+    sdf_receptor = RECEPTOR if RECEPTOR in ("nr4a3", "nr4a1", "nr4a2") else "nr4a3"
+    sdf = os.path.join(IN, "ligand", f"docked_{sdf_receptor}.sdf")
     if not os.path.exists(sdf):
-        sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{RECEPTOR}.sdf"), recursive=True)), sdf)
-    molA = _sdf_mol(sdf, LIGAND_A, rdkit_chem)
-    molB = _sdf_mol(sdf, LIGAND_B, rdkit_chem)
+        sdf = next(iter(glob.glob(os.path.join(IN, "**", f"docked_{sdf_receptor}.sdf"), recursive=True)), sdf)
+    molA = _sdf_mol(sdf, LIGAND_A, rb.SMILES.get(LIGAND_A), rdkit_chem)
+    molB = _sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
@@ -78,15 +103,33 @@ def _mapping(openfe, ligA, ligB):
 def _protocol(openfe):
     from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol
     s = RelativeHybridTopologyProtocol.default_settings()
-    # first-pass settings (SHAKEOUT-PENDING): match the ABFE window/iteration budget order-of-magnitude.
+    # first-pass settings (SHAKEOUT-PENDING): each knob guarded independently so a version-specific attribute
+    # can't block the rest of the build, and so smoke surfaces the exact offender.
+    # SINGLE replicate (trimcrae 2026-07-06): relative FEP is low-variance for a congeneric pair, so one repeat
+    # with MBAR/bootstrap error is the field standard for a single edge; escalate to 3 (replicate-SD) ONLY if
+    # this comes back marginal. protocol_repeats=3 would silently triple GPU cost/wall and blow past MAX_RUN.
     try:
-        s.protocol_repeats = 3                                   # 3 independent replicates → replicate-SD error
+        s.protocol_repeats = 1
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN protocol_repeats ({e})", flush=True)
+    # OpenFE REQUIRES n_replicas == number of lambda windows. Set the lambda-window count FIRST, then match
+    # n_replicas; if the attribute differs by openfe version, leave BOTH at the internally-consistent default
+    # (smoke #2 failed because n_replicas=12 didn't match the default lambda_settings.lambda_windows=11).
+    try:
+        s.lambda_settings.lambda_windows = N_WINDOWS
         s.simulation_settings.n_replicas = N_WINDOWS
-        s.simulation_settings.equilibration_length = "1 ns"
-        s.simulation_settings.production_length = "5 ns"
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN could not set windows to {N_WINDOWS} ({e}); using OpenFE default", flush=True)
+    # MD lengths only matter for the real run (smoke does no MD); guarded against unit-parse quirks.
+    for attr, val in (("equilibration_length", "1 ns"), ("production_length", "5 ns")):
+        try:
+            setattr(s.simulation_settings, attr, val)
+        except Exception as e:  # noqa: BLE001
+            print(f"  [rbfe] WARN {attr}={val} ({e}); using default", flush=True)
+    try:
         s.engine_settings.compute_platform = "CUDA"
-    except Exception as e:  # noqa: BLE001 — settings schema varies by openfe version; smoke will surface it
-        print(f"  [rbfe] WARN could not set all settings ({e}); using defaults", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
     return RelativeHybridTopologyProtocol(s)
 
 

@@ -39,6 +39,8 @@ def main():
     ap.add_argument("--species", default="0",
                     help="1 = dock the pre-FEP species set (denovo_401 stereoisomers + denovo_111 "
                          "protonation variants) to pick the correct 3D species to FEP.")
+    ap.add_argument("--exhaustiveness", default="8",
+                    help="smina exhaustiveness; lower (e.g. 4) triages a large primary screen cheaply.")
     ap.add_argument("--candidate-json", default="",
                     help="repo-relative path (under research/modalities) to a candidate JSON committed in "
                          "git_ref, used INSTEAD of the S3 denovo mount — e.g. the scaffold lead-opt set "
@@ -54,9 +56,16 @@ def main():
 
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating funnel env via {conda}", flush=True)
-    subprocess.run([conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy",
-                    "matplotlib-base"], check=True)
+    # libmamba solver: much faster than the classic conda solver (esp. across many sharded jobs).
+    subprocess.run([conda, "install", "-n", "base", "-y", "-c", "conda-forge", "conda-libmamba-solver"],
+                   check=False)
+    _create = [conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
+               "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
+    try:
+        subprocess.run(_create + ["--solver=libmamba"], check=True)
+    except subprocess.CalledProcessError:
+        print("[sagemaker] libmamba unavailable; classic solver", flush=True)
+        subprocess.run(_create, check=True)
 
     env = os.environ.copy()
     env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ (and nr4a3/ in metad mode)
@@ -66,6 +75,7 @@ def main():
         env["CANDIDATE_JSON"] = os.path.join(work, args.candidate_json)
         print(f"[sagemaker] candidate override (from git_ref): {env['CANDIDATE_JSON']}", flush=True)
     env["TOP_N"] = args.top_n
+    env["EXHAUSTIVENESS"] = args.exhaustiveness
     env["DEVELOPABLE_ONLY"] = args.developable_only
     env["DECOY_MODE"] = args.decoy
     env["SPECIES_MODE"] = args.species

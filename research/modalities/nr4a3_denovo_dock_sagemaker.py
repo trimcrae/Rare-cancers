@@ -46,10 +46,20 @@ def main():
     # LEAD-OPT sentinel: candidates live in git (a committed JSON), not S3 — the job reads them from the
     # cloned git_ref (the SageMaker role writes only the output, so no CI-user PutObject needed, no new
     # workflow). Drop the S3 denovo mount and tell the entry which committed file to dock.
+    #   denovo_prefix == "leadopt"        -> the fixed lead-opt candidate JSON (back-compat)
+    #   denovo_prefix == "cand:<file.json>" -> ANY committed candidate JSON (e.g. a repurposing-library shard),
+    #                                          so a large screen shards into many jobs without new workflow inputs.
     leadopt_json = ""
     if prefixes["denovo"] == "leadopt":
         leadopt_json = os.environ.get("LEADOPT_JSON", "nr4a3-leadopt-candidates.json")
         mount_tags = [t for t in mount_tags if t != "denovo"]
+    elif prefixes["denovo"].startswith("cand:"):
+        leadopt_json = prefixes["denovo"].split("cand:", 1)[1]
+        mount_tags = [t for t in mount_tags if t != "denovo"]
+    # A cand: shard is a LARGE primary screen (thousands of cmpds) -> triage cheaply at exhaustiveness 4
+    # (top hits get re-docked at 8 + MM-GBSA); a normal small candidate run keeps the default 8. Env overrides.
+    _large_screen = prefixes["denovo"].startswith("cand:")
+    exhaustiveness = os.environ.get("EXHAUSTIVENESS", "4" if _large_screen else "8")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
@@ -75,7 +85,7 @@ def main():
                                   destination=f"s3://{bucket}/{out_prefix}")],
         arguments=["--git-ref", git_ref, "--top-n", str(top_n),
                    "--developable-only", developable_only, "--receptor-mode", receptor_mode,
-                   "--decoy", decoy_mode, "--species", species_mode]
+                   "--decoy", decoy_mode, "--species", species_mode, "--exhaustiveness", exhaustiveness]
         + (["--candidate-json", leadopt_json] if leadopt_json else []),
         wait=True, logs=True,
     )

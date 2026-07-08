@@ -13,8 +13,12 @@ CKPT = "/opt/ml/checkpoints"
 IN = "/opt/ml/input/data"
 # openfe brings openmm + perses hybrid-topology + lomap + gufe; pinned loosely so the solve resolves a CUDA
 # openmm. SHAKEOUT-PENDING: mode=smoke validates this solve before any MD spend.
-OPENFE_PKGS = ["python=3.11", "openfe", "openff-toolkit", "openmmforcefields", "rdkit", "lomap2",
-               "kartograf", "numpy", "scipy"]
+# PIN a MODERN openfe (>=1.1, pydantic-v2 native, uses openfe.protocols.openmm_rfe). Without this, libmamba
+# resolved an OLD openfe (0.x, legacy setup.methods.openmm + pydantic-v1 Settings) against pydantic 2.11 → an
+# import-time PydanticUserError. The classic solver happened to pick a modern openfe; the pin makes EITHER
+# solver deterministic. pydantic>=2 is explicit for the same reason.
+OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "importlib_resources", "openff-toolkit",
+               "openmmforcefields", "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
 
 
 def _sh(cmd, **kw):
@@ -45,13 +49,24 @@ def main():
                 "N_WINDOWS": args.n_windows, "N_ITER": args.n_iter, "SEED": args.seed})
     os.makedirs(CKPT, exist_ok=True)
 
+    conda = shutil_which("conda") or "/opt/conda/bin/conda"
     if args.prebaked == "1":
-        # pre-baked image already has the openfe env active.
-        r = subprocess.run([sys.executable, "nr4a3_rbfe.py"], cwd=work, env=env)
+        # pre-baked image already has the 'rbfe' env; skip the solve, run in it.
+        env["PYTHONPATH"] = ""
+        r = subprocess.run([conda, "run", "--no-capture-output", "-n", "rbfe", "python", "nr4a3_rbfe.py"],
+                           cwd=work, env=env)
         sys.exit(r.returncode)
 
-    conda = shutil_which("conda") or "/opt/conda/bin/conda"
-    _sh([conda, "create", "-y", "-n", "rbfe", "-c", "conda-forge"] + OPENFE_PKGS)
+    # The classic conda solver takes ~50 min on the openfe dependency graph; libmamba solves the SAME packages
+    # in ~5 min. Install the solver plugin (no-op if present) and try it, falling back to classic if unavailable.
+    subprocess.run([conda, "install", "-n", "base", "-y", "-c", "conda-forge", "conda-libmamba-solver"],
+                   check=False)
+    create = [conda, "create", "-y", "-n", "rbfe", "-c", "conda-forge"] + OPENFE_PKGS
+    try:
+        _sh(create + ["--solver=libmamba"])
+    except subprocess.CalledProcessError:
+        print("[entry_rbfe] libmamba solver unavailable; falling back to classic solver", flush=True)
+        _sh(create)
     # clear PYTHONPATH so the base container's numpy doesn't shadow the env's (the abfe/fep leak lesson).
     env["PYTHONPATH"] = ""
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "rbfe", "python", "nr4a3_rbfe.py"],

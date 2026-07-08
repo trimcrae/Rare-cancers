@@ -22,6 +22,13 @@
 - **Sarcoma / EMC translational labs** — groups working on EWSR1/FET-fusion sarcomas and EWSR1::NR4A3 biology.
 - **Rare-cancer / sarcoma foundations & patient-advocacy orgs** — e.g. Sarcoma Foundation of America and
   EMC/soft-tissue-sarcoma-focused funds; they connect leads to labs and sometimes fund validation.
+- **NR4A / T-cell-exhaustion immunology labs (the CAR-T pole)** — the **Anjana Rao group (La Jolla Institute)**
+  network authored the landmark NR4A-triple-KO CAR-T de-exhaustion result (Chen et al., *Nature* 2019); other
+  labs working NR4A/TOX/NFAT exhaustion biology are natural readers for the **pan-NR4A** design mode (a chemical,
+  washable alternative to the genetic triple-KO). Template 6.
+- **Cell-therapy process-development / CAR-T manufacturing groups** — academic GMP/process-dev cores and
+  cell-therapy biotechs that condition T-cell products ex vivo (small-molecule / transient-mRNA conditioning);
+  a washable pan-NR4A degrader is a manufacturing-additive hypothesis for their pipelines. Template 6.
 > Verify every name/affiliation/email at send time — do not send to stale or guessed addresses.
 
 ---
@@ -141,6 +148,34 @@ patients.
 Preprint (plain-language summary inside): [PREPRINT_URL]
 
 With thanks for the work you do,
+[YOUR NAME / CONTACT]
+
+---
+
+## Template 6 — NR4A / T-cell-exhaustion immunology or cell-therapy lab (the pan-NR4A / CAR-T pole)
+**Subject:** A washable pan-NR4A degrader as a chemical alternative to the NR4A triple-KO for CAR-T de-exhaustion
+
+Dear Prof. [LAST NAME],
+
+Your work on [**NR4A/TOX-driven T-cell exhaustion / CAR-T function** — personalise; for the Rao group: "the NR4A
+triple-knockout that restores CAR-T function in solid tumours (Chen et al., 2019)"] motivated an angle in a
+computational preprint I've just posted.
+
+The preprint characterises a **cryptic, dynamically druggable pocket shared across the NR4A family** and shows a
+single design framework can be tuned along the whole selectivity axis. One pole is a paralogue-selective NR4A3
+degrader (for NR4A3-driven cancers); the **other pole is a deliberately *pan-NR4A* degrader** — a small-molecule,
+**washable, ex-vivo** route to the same all-three-NR4A loss your genetic triple-KO achieves, but as a dose-tunable
+manufacturing additive rather than an edit (and ex-vivo use sidesteps the systemic NR4A1/NR4A3 leukaemogenicity
+that blocks pan-NR4A blockade in vivo). Computationally the framework already produces matter that engages all
+three paralogue pockets.
+
+It's entirely in-silico — the pan candidates are predicted binders, not validated, and the functional
+exhaustion-reversal claim is precisely the wet-lab test I can't do. If a chemical NR4A de-exhaustion tool would be
+useful to your CAR-T work, I'd share all structures/candidates and collaborate on any terms.
+
+Preprint: [PREPRINT_URL] · Data & code: [REPO_URL]
+
+Thanks for your time,
 [YOUR NAME / CONTACT]
 
 ---

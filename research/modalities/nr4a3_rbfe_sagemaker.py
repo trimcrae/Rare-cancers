@@ -23,8 +23,14 @@ import rbfe_edges as rb
 TAG = os.environ.get("RBFE_TAG", "nr4a3-rbfe-401-nccogen")
 MODE = os.environ.get("MODE", "plan")
 INSTANCE = os.environ.get("INSTANCE", "ml.g5.xlarge")
-MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "10"))          # RBFE morph legs are cheaper than ABFE
-MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "18"))
+# A complex-morph leg runs its 12 λ-windows SERIALLY on one A10G (OpenFE execute_DAG has no intra-leg GPU
+# fan-out), ~12 windows × 6 ns ≈ 15-25 GPU-h, so MAX_RUN must exceed that (the old 10 h killed complex legs
+# mid-run). max_wait ≥ run + expected spot wait. For a SINGLE replicate the 3 complex legs run as 3 concurrent
+# spot jobs → wall ≈ one leg. Window-sharding (fan a leg across GPUs, à la fep_sharding.py) is the right upgrade
+# IF we escalate to a 3-replicate campaign; it's deferred here (single replicate, not worth the OpenFE-MBAR-
+# combine re-engineering + shakeout risk).
+MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "30"))          # fits a serial 12-window complex morph leg
+MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "40"))        # run + generous spot capacity wait
 LIGAND_A = os.environ.get("RBFE_LIGAND_A", rb.LIGAND_A)          # reference (401)
 LIGAND_B = os.environ.get("RBFE_LIGAND_B", rb.LIGAND_B)          # lead (lo_m0_NCCO_gen)
 GIT_REF = os.environ.get("GIT_REF", "main")
@@ -36,7 +42,9 @@ RECEPTORS = [r.strip() for r in os.environ.get("RBFE_RECEPTORS", "nr4a3,nr4a1,nr
 RECEPTOR_PREFIX = os.environ.get("RECEPTOR_PREFIX", "nr4a3-leadopt-species")   # <r>-opened.pdb + docked_<r>.sdf
 SPOT_HOURLY = float(os.environ.get("SPOT_HOURLY", "0.50"))
 IMAGE_URI = os.environ.get("RBFE_IMAGE_URI", "").strip()
-UNIT_GPU_H = float(os.environ.get("UNIT_GPU_H", "0.5"))          # PLANNING ONLY (RBFE window < ABFE window)
+UNIT_GPU_H = float(os.environ.get("UNIT_GPU_H", "2.0"))          # PLANNING ONLY — realistic A10G per-window
+                                                                 # (~6 ns/window at ~80 ns/day + equil); the old
+                                                                 # 0.5 under-quoted the edge ~4x. Calibrate on leg 1.
 
 
 def _legs():
@@ -55,12 +63,69 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE != "plan" and not role:
+    if MODE not in ("plan", "ls", "jobs") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
+
+    if MODE == "jobs":
+        # Track the RBFE leg jobs (run mode is fire-and-forget, wait=False). Lists recent training jobs whose
+        # name contains the tag + their status. No spend (runs on the CI runner).
+        import boto3
+        sm = boto3.client("sagemaker")
+        resp = sm.list_training_jobs(NameContains=TAG, MaxResults=30, SortBy="CreationTime",
+                                     SortOrder="Descending")
+        print(f"[rbfe] JOBS for tag={TAG}:")
+        for j in resp.get("TrainingJobSummaries", []):
+            name, status = j["TrainingJobName"], j["TrainingJobStatus"]
+            reason = ""
+            if status == "Failed":  # the summary omits it; describe_training_job carries the real traceback tail
+                try:
+                    reason = sm.describe_training_job(TrainingJobName=name).get("FailureReason", "") or ""
+                except Exception as e:  # noqa: BLE001
+                    reason = f"(describe failed: {e})"
+            print(f"  {name:60s} {status:12s} {reason}")
+        return
+
     legs = _legs()
     print(f"[rbfe] TAG={TAG} mode={MODE} edge={LIGAND_A}->{LIGAND_B} spot={SPOT} receptors={RECEPTORS}")
     print(f"[rbfe] legs: {[n for n, _r, _l in legs]}")
     print(f"[rbfe] COST {_cost_note()}")
+
+    if MODE == "ls":
+        # Fast diagnostic (runs on the CI runner, no SageMaker): list what the RBFE input prefixes actually
+        # contain, so we can see the real S3 layout of the docked poses the engine mounts. No spend.
+        import boto3
+        import sagemaker  # default_bucket resolution matches the run path
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        print(f"[rbfe] LS bucket={bucket}")
+        for pfx in [RECEPTOR_PREFIX, "nr4a3-leadopt-species", "nr4a3-leadopt", "nr4a3-denovo-matrix-v2"]:
+            print(f"=== s3://{bucket}/{pfx}/")
+            paginator = s3.get_paginator("list_objects_v2")
+            n = 0
+            for page in paginator.paginate(Bucket=bucket, Prefix=f"{pfx}/"):
+                for o in page.get("Contents", []):
+                    k = o["Key"]
+                    if k.endswith(".sdf") or k.endswith(".pdb") or k.endswith(".json"):
+                        print(f"    {k}  ({o['Size']} B)")
+                        n += 1
+            if n == 0:
+                print("    (no .sdf/.pdb/.json objects)")
+        # dump docked_<r>.sdf record names (which ligand poses are actually in the RBFE input)
+        try:
+            import tempfile
+            from rdkit import Chem
+            for r in RECEPTORS:
+                key = f"{RECEPTOR_PREFIX}/docked_{r}.sdf"
+                tmp = os.path.join(tempfile.gettempdir(), f"docked_{r}.sdf")
+                s3.download_file(bucket, key, tmp)
+                names = [m.GetProp("_Name") for m in Chem.SDMolSupplier(tmp, removeHs=False)
+                         if m is not None and m.HasProp("_Name")]
+                hit = [x for x in names if x in ("ref_401", "denovo_401", "lo_m0_NCCO", "lo_m0_NCCO_gen")]
+                print(f"=== records in {key}: n={len(names)} RBFE-relevant={hit}")
+                print(f"    first10={names[:10]}")
+        except Exception as e:  # noqa: BLE001
+            print(f"[rbfe] record-name dump skipped: {e}")
+        return
 
     if MODE == "plan":
         import json
@@ -99,8 +164,12 @@ def main():
 
     if MODE == "smoke":
         est = make_estimator("smoke", {**common, "mode": "smoke"})
+        # Smoke builds the COMPLEX hybrid topology (nr4a3/complex defaults), so it MUST mount the docked-pose
+        # ligand SDF + the receptor PDB — the earlier no-input smoke failed with RDKit "Bad input file" because
+        # /opt/ml/input was empty.
+        inputs = {"ligand": TrainingInput(matrix), "receptor": TrainingInput(matrix)}
         print("[rbfe] launching SMOKE spot job (openfe env solve + mapping + hybrid-topology build, no MD)…")
-        est.fit(wait=True, logs=True)
+        est.fit(inputs, wait=True, logs=True)
         print("[rbfe] SMOKE complete — openfe env solves; mapping + spot + checkpoint path works.")
         return
 
