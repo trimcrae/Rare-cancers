@@ -50,12 +50,40 @@ def _find_training(sm, prefix):
             "exit": d.get("FailureReason", "") or msg, "created": j["CreationTime"], "group": TRAIN_GROUP}
 
 
+def _list_all(sm, prefix):
+    """Diagnostic: print status/secondary/created/message for ALL recent matching jobs (both types).
+    Answers 'is this job running, parked on spot capacity, or failed?' across a whole fleet at once."""
+    print(f"=== recent SageMaker jobs matching NameContains={prefix!r} ===")
+    try:
+        tj = sm.list_training_jobs(NameContains=prefix, SortBy="CreationTime",
+                                   SortOrder="Descending", MaxResults=12)["TrainingJobSummaries"]
+    except Exception:  # noqa: BLE001
+        tj = []
+    for j in tj:
+        d = sm.describe_training_job(TrainingJobName=j["TrainingJobName"])
+        trans = d.get("SecondaryStatusTransitions") or []
+        msg = (trans[-1].get("StatusMessage", "") if trans else "") or d.get("FailureReason", "") or ""
+        print(f"[T] {j['TrainingJobName']:<44} {d['TrainingJobStatus']:>10}/{d.get('SecondaryStatus',''):<12} "
+              f"{j['CreationTime']:%m-%d %H:%M}  {msg[:70]}")
+    try:
+        pj = sm.list_processing_jobs(NameContains=prefix, SortBy="CreationTime",
+                                     SortOrder="Descending", MaxResults=8)["ProcessingJobSummaries"]
+    except Exception:  # noqa: BLE001
+        pj = []
+    for j in pj:
+        print(f"[P] {j['ProcessingJobName']:<44} {j['ProcessingJobStatus']:>10}  {j['CreationTime']:%m-%d %H:%M}")
+
+
 def main():
     prefix = os.environ.get("JOB_PREFIX", "nr4a3-mmgbsa")
     tail = int(os.environ.get("TAIL_LINES", "200"))
     job_type = os.environ.get("JOB_TYPE", "auto").lower()
     sm = boto3.client("sagemaker")
     logs = boto3.client("logs")
+
+    if os.environ.get("LIST_ALL") == "1":
+        _list_all(sm, prefix)
+        return
 
     # auto: pick whichever job-type has the more recent match (Training fleets vs Processing docks).
     finders = {"processing": _find_processing, "training": _find_training}

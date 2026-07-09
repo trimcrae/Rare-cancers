@@ -17,6 +17,10 @@ on:
         description: "How many of the most recent log events to print"
         default: "200"
         required: false
+      list_all:
+        description: "1 = list status of ALL recent matching jobs (fleet diagnostic; no log tail)"
+        default: ""
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -41,6 +45,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           JOB_PREFIX: ${{ inputs.job_prefix }}
           TAIL_LINES: ${{ inputs.tail_lines }}
+          LIST_ALL: ${{ inputs.list_all }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
