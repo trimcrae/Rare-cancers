@@ -51,12 +51,30 @@ The report (`report_repurpose_selectivity.py`, calibrated readout, commit histor
 `confirmed_selective` count (uncalibrated) and reports the **ABOVE-NULL** set: drugs whose frame-matched
 NR4A3 margin exceeds the +13.12 bar, each with an empirical p-value (fraction of decoys ≥ its margin).
 
-## 4. Result (to fill from the frame-matched REPORT)
-- Fraction of the 250 promoted marketed drugs the raw verdict calls `confirmed_selective`: _[TBD]_ (expected
-  ≈ the 39 % decoy rate → reinforces non-specificity at scale).
-- Drugs clearing the +13.12 decoy-calibrated bar (ABOVE-NULL): _[TBD list, with margins + p_decoy]_.
-- Interpretation vs `denovo_111` (+15.70, 1/38 decoys above): _[TBD]_.
-- Pan-NR4A (CAR-T angle) engagers: _[TBD]_ — same caveats (docking promiscuity, MM-GBSA magnitude inflation).
+## 4. Result (frame-matched REPORT, all 250; report-fm-push run 29013995524)
+Pooled 250/250 MM-GBSA-scored drugs (13 shards; s5's per-ligand checkpoint uploaded despite GH-run spot
+failures, so no data lost). Calibrated against the committed +13.12 null (n=38, on the hash-identical
+`nr4a3-denovo-matrix` conformers → effectively frame-matched; a fresh decoy pass through
+`nr4a3-repurpose-3recept-fm` would make it airtight).
+
+- **Raw `confirmed_selective`: 97/250 (39 %)** — matches the decoy false-positive rate almost exactly →
+  reinforces, at 250-drug scale, that the raw margin is non-specific. This is the headline blend value.
+- **ABOVE-NULL (margin > +13.12): 14/250 = 5.6 %** ≈ the ~5 % that clear a 95th-pct bar by construction →
+  the promoted set is **not enriched at the bar** (same conclusion as the de-novo campaign, now at scale).
+- **Extreme tail = the signal — 4 drugs beat the whole 38-decoy null (p_decoy = 0.000) AND `denovo_111`
+  (+15.70, 1/38 above):** flupentixol (+20.54, dopamine antagonist), AGI-5198 (+17.59, IDH1i),
+  DDR1-IN-1 (+17.26, DDR1 kinase i), ML786 (+17.11, RAF i). The next 10 (SNX-5422/SNX-2112 HSP90,
+  pizotifen, pyrantel, BMS-309403, CP-640186, oleandrin, reynoutrin, BMS-986142 BTK) sit at p_decoy ≈ 0.026
+  — inside the decoy tail, individually indistinguishable from null noise.
+- **Caveat:** the tail is dominated by promiscuity-prone chemotypes (kinase/HSP90 inhibitors, a cardiac
+  glycoside, a flavonoid, a lipophilic-amine antipsychotic) — exactly the docking artifacts the caveats flag.
+- Pan-NR4A (CAR-T angle): 66 engage all three LBDs at |margin| ≤ 3; same magnitude-inflation/promiscuity caveats.
+
+**Interpretation.** The 6k→250 repurposing screen, run through the *same funnel, receptors, and decoy null* as
+the de-novo work, (i) confirms the specificity caveat far more robustly (39 % raw FP at n=250; not enriched at
+the bar) and (ii) yields ~4 marketed-drug candidates that clear the calibrated null more decisively than the
+de-novo lead — the repurposing analogues of `denovo_111` and the natural FEP candidates. All screening-grade
+(single-snapshot MM-GBSA); **FEP is the gated next step and is NOT run here.**
 
 **Caveat carried from the null:** single-snapshot MM-GBSA magnitudes are inflated (no entropy/ensemble);
 trust the direction and the above-null flag, not kcal/mol. Any above-null hit is a screening-grade prediction
