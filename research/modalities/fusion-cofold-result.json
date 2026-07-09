@@ -1,0 +1,38 @@
+{
+  "_note": "EWSR1::NR4A3 fusion-junction apo co-fold (Boltz-2, AF3-class) — does the chimera fold together into a COMPOSITE pocket present in neither parent (a truly fusion-exclusive small-molecule target the shared-LBD degrader cannot reach)? Read-only result of gpu-cofold-aws.yml run 29057692528 (SageMaker Boltz-2, ml.g5.xlarge, ~17 min) + report_cofold.py (report run 29058443288). Verdict metrics: EWS-block vs NR4A3-block pLDDT, inter-block PAE (low => confident relative placement => folded together), ordered inter-block contacts (patch >= 8 EWS residues at pLDDT >= 70).",
+  "breakpoint": "EWSR1 res 264 :: NR4A3 res 2 (canonical EMC)",
+  "predictor": "Boltz-2 --no_kernels --use_msa_server (single chimeric apo chain)",
+  "pae_ceiling_A": 31.75,
+  "constructs": {
+    "seam": {
+      "geometry": "EWSR1[145..264] :: NR4A3[2..260] — true junction geometry (EWS-LC C-terminus fused to NR4A3's retained, disordered AF1)",
+      "n_residues": 379,
+      "ews_block_plddt": 29.7,
+      "nr4a3_block_plddt": 28.4,
+      "inter_block_pae": 28.98,
+      "n_interface_ews_residues": 103,
+      "interface_plddt": 29.1,
+      "folds_together": false,
+      "verdict": "NO CO-FOLD — the seam is disorder(EWS-LC)::disorder(NR4A3-AF1); both blocks disordered (pLDDT ~29), inter-block PAE ~29 A (near the 31.75 A ceiling = no defined relative placement). The 103 'contacts' are a floppy low-confidence blob touching itself, NOT an ordered interface (interface pLDDT 29, fails the >=70 gate)."
+    },
+    "composite": {
+      "geometry": "EWSR1[145..264] :: NR4A3[261..626] — generous upper bound: AF1 spacer deliberately removed so the EWS tail gets the best possible chance to pack onto NR4A3's folded DBD+LBD core",
+      "n_residues": 486,
+      "ews_block_plddt": 33.0,
+      "nr4a3_block_plddt": 73.2,
+      "inter_block_pae": 29.12,
+      "n_interface_ews_residues": 103,
+      "interface_plddt": 32.8,
+      "folds_together": false,
+      "verdict": "NO CO-FOLD — the NR4A3 folded core folds correctly (block pLDDT 73.2 = method works where there IS signal), the EWS side stays disordered (pLDDT 33, as expected for the prion-like LC domain), and there is NO confident interface between them (inter-block PAE ~29 A). Even with the AF1 spacer removed to give the composite hypothesis its best shot, the EWS tail does not fold onto the core."
+    }
+  },
+  "conclusion": "NO composite fusion-junction pocket predicted, at either the true seam or the generous AF1-removed upper bound. The NR4A3 core folds (positive control), the EWS side is disordered, and no ordered/confident EWSxNR4A3 interface forms. So there is no fusion-unique folded pocket to drug at the junction — consistent with the strong biophysical prior (EWS-LC is an archetypal IDR; the seam is disorder-on-disorder).",
+  "honest_caveats": [
+    "Single predictor (Boltz-2), single canonical breakpoint (EWSR1 264 :: NR4A3 2); real patients carry >=7 breakpoints.",
+    "A de-novo fusion junction has NO cross-seam coevolution, so an MSA-based predictor has little evidence for any specific inter-half packing and defaults to independent domains — absence of a predicted co-fold is EXPECTED and is a feasibility read, not proof no pocket can ever form (e.g. a condensate- or partner-induced folded interface would be invisible here).",
+    "This tests a FOLDED composite pocket only; it says nothing about the EWS-LC condensate route (a separate, disorder-based modality).",
+    "Positive controls pass: the NR4A3 DBD+LBD core folds to pLDDT 73; the method is not simply calling everything disordered."
+  ],
+  "implication": "Closes the 'juxtaposition-created composite surface' protein-level fusion-exclusive route (named but never tested in fusion-selective-approaches-overview.md) as a folded-pocket target, in silico. Fusion-exclusivity therefore has to come from the RNA junction (ASO — #1), the junction neoantigen (immune), or an avidity/AND-gate design — not from a druggable pocket at the fused seam. Does NOT touch the NR4A3-LBD degrader program (that binds the shared LBD and is NR4A3-, not fusion-, selective by design)."
+}
