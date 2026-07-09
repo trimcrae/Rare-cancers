@@ -79,6 +79,22 @@ def report():
     if not rows:
         return
 
+    # MULTI-SNAPSHOT DE-NOISING view: if rows carry mm_min_margin_sd, the margin is an MD ensemble mean±SD.
+    # Survivor = margin − SD > 0 (the selectivity margin is positive beyond its noise, as denovo_401 held at
+    # +12.83 ± 2.98 → margin−SD +9.85); collapse = margin − SD ≤ 0 (as denovo_393 fell +18.34 → −2.95).
+    ms_rows = [r for r in rows if r.get("mm_min_margin_sd") is not None and r.get("mm_min_margin") is not None]
+    if ms_rows:
+        for r in ms_rows:
+            r["_msd"] = round(r["mm_min_margin"] - r["mm_min_margin_sd"], 2)
+        ms_rows.sort(key=lambda r: -r["_msd"])
+        print(f"=== MULTI-SNAPSHOT DE-NOISING ({len(ms_rows)}) — survivor = mean−SD > 0 ===")
+        print(f"{'drug':<28} {'mean':>7} {'SD':>6} {'mean-SD':>8}  outcome")
+        for r in ms_rows:
+            lab = (r.get("drug") or r.get("label") or "")[:28]
+            out = "SURVIVES" if r["_msd"] > 0 else "collapsed"
+            print(f"{lab:<28} {r['mm_min_margin']:>7} {r['mm_min_margin_sd']:>6} {r['_msd']:>8}  {out}")
+        print("(reference: denovo_401 held mean−SD +9.85; denovo_393 collapsed to −2.95 ± 3.65)\n")
+
     def dg(r, t):
         return (r.get("dG_mmgbsa") or {}).get(t)
 
