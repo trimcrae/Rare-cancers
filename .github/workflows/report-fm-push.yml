@@ -30,7 +30,7 @@ jobs:
           MODE: REPORT
           SHARD_PREFIXES: "nr4a3-repurpose-mmgbsa-fm-s0,nr4a3-repurpose-mmgbsa-fm-s1,nr4a3-repurpose-mmgbsa-fm-s2,nr4a3-repurpose-mmgbsa-fm-s3,nr4a3-repurpose-mmgbsa-fm-s4,nr4a3-repurpose-mmgbsa-fm-s5,nr4a3-repurpose-mmgbsa-fm-s6,nr4a3-repurpose-mmgbsa-fm-s7,nr4a3-repurpose-mmgbsa-fm-s8,nr4a3-repurpose-mmgbsa-fm-s9,nr4a3-repurpose-mmgbsa-fm-s10,nr4a3-repurpose-mmgbsa-fm-s11,nr4a3-repurpose-mmgbsa-fm-s12"
           DECOY_PREFIX: ""
-          TOP: "60"
+          TOP: "250"
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
