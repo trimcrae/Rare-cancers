@@ -1,0 +1,15 @@
+{
+  "purpose": "Off-target / anti-target selectivity panel. A repurposing hit that engages the NR4A LBDs is only a real ligand (not a universal lipophilic sticker) if it does NOT bind unrelated nuclear receptors and classic anti-targets equally well. Dock the candidate set into each panel target with the IDENTICAL smina protocol used for the NR4A dock (24 Angstrom box, exhaustiveness 8), then compare each drug's NR4A delta-G to its best off-target delta-G. Small/negative gap => promiscuous; large positive gap (off-targets weaker) => NR4A-family-preferential.",
+  "box_size": 24,
+  "targets": [
+    {"name": "RXRA",  "class": "nuclear-receptor", "pdb_id": "1FBY", "ligand_resname": "9CR", "note": "RXRalpha LBD + 9-cis-retinoic acid; heterodimer partner of many NRs"},
+    {"name": "PPARG", "class": "nuclear-receptor", "pdb_id": "2PRG", "ligand_resname": "BRL", "note": "PPARgamma LBD + rosiglitazone"},
+    {"name": "ESR1",  "class": "nuclear-receptor", "pdb_id": "3ERT", "ligand_resname": "OHT", "note": "ERalpha LBD + 4-hydroxytamoxifen"},
+    {"name": "AR",    "class": "nuclear-receptor", "pdb_id": "2AM9", "ligand_resname": "TES", "note": "Androgen receptor LBD + testosterone"},
+    {"name": "GR",    "class": "nuclear-receptor", "pdb_id": "1M2Z", "ligand_resname": "DEX", "note": "Glucocorticoid receptor LBD + dexamethasone"},
+    {"name": "VDR",   "class": "nuclear-receptor", "pdb_id": "1DB1", "ligand_resname": "VDX", "note": "Vitamin D receptor LBD + calcitriol"},
+    {"name": "PXR",   "class": "xenobiotic-sensor", "pdb_id": "1NRL", "ligand_resname": "348", "note": "PXR LBD + SR12813; the promiscuity sensor NR (evolved to bind diverse xenobiotics)"},
+    {"name": "CYP3A4","class": "anti-target", "pdb_id": "2V0M", "ligand_resname": "KLN", "note": "CYP3A4 + ketoconazole; major drug-metabolizing/inhibition anti-target"},
+    {"name": "HSA",   "class": "anti-target", "pdb_id": "1H9Z", "ligand_resname": "SWF", "note": "Human serum albumin Sudlow site I + warfarin; nonspecific sticky-carrier proxy"}
+  ]
+}
