@@ -309,7 +309,10 @@ jobs:
               import re as _re
               grp = "/aws/sagemaker/TrainingJobs"
               try:
-                  strs = logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=_cw).get("logStreams", [])
+                  # order by LastEventTime desc so strs[0] is the LIVE stream — a spot resume reuses the job
+                  # name but writes to a NEW algo-1-<ts> stream; ordering by name would tail the stale one (0 events).
+                  strs = logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=_cw,
+                                                   orderBy="LastEventTime", descending=True).get("logStreams", [])
                   sig = _re.compile(r"(iteration|replica|online|estimate|kcal|kT|Delta|ΔG|f_k|free energy|"
                                     r"ns/day|mixing|state|swap|MBAR|Trailblaz|Equilibrat|Minimiz|Production|"
                                     r"reached|converg)", _re.I)
@@ -447,8 +450,21 @@ jobs:
                           print(f"       FAR-FROM-CORE CA (>25Å from centroid): {len(far)} residues; "
                                 f"contiguous runs (1-based seq pos): {_runs(far)}")
               print("#" * 80)
-          jobs = sm.list_training_jobs(NameContains=tag, SortBy="CreationTime",
-                                       SortOrder="Descending", MaxResults=n).get("TrainingJobSummaries", [])
+          # AWS list_training_jobs returns SHORT first pages with a NextToken (fewer than MaxResults even when
+          # more match) — a bare single call flip-flops between "5 jobs" and "1 job" for the same tag. Paginate
+          # until we have n matches (or run out) so a spot-parked leg can't hide behind a partial page.
+          jobs = []
+          _tok = None
+          while len(jobs) < n:
+              _kw = dict(NameContains=tag, SortBy="CreationTime", SortOrder="Descending", MaxResults=n)
+              if _tok:
+                  _kw["NextToken"] = _tok
+              _resp = sm.list_training_jobs(**_kw)
+              jobs.extend(_resp.get("TrainingJobSummaries", []))
+              _tok = _resp.get("NextToken")
+              if not _tok:
+                  break
+          jobs = jobs[:n]
           print(f"recent '{tag}' training jobs: {len(jobs)}")
           # compact summary printed at the END too (get_job_logs is tail-only, so the top describe scrolls off)
           # SageMaker ml.g5.xlarge on-demand (us-east-2) = $1.408/hr; managed-spot billed at the EC2 spot rate
