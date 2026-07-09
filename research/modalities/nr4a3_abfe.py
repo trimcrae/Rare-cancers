@@ -36,6 +36,39 @@ def lambda_schedule():
     return list(zip(LAMBDA_ELEC, LAMBDA_STERICS))
 
 
+def _solve_mbar(u_kn, N_k, tag=""):
+    """Construct MBAR robustly. pymbar 4's default self-consistent solver can fail check_w_normalized (weights
+    don't sum to 1 → 'column sum ... was 7.9') when adjacent λ-windows overlap poorly — which is what the
+    lo_m0_NCCO ABFE reduce hit (bigger/more-polar ligand than 401 on the same 12-window schedule). Try the
+    default solver, then progressively more robust configs (BAR-initialised, adaptive/L-BFGS). On TOTAL failure,
+    print a solve-free diagnostic — per-state reduced-potential ranges (a single window with pathological
+    energies stands out) and N_k — so we can tell 'needs a robust solve' from 'a window blew up' from 'genuinely
+    needs more windows', then re-raise. Returns a constructed MBAR object (already solved)."""
+    import numpy as np
+    from pymbar import MBAR
+    attempts = ({}, {"initialize": "BAR"}, {"solver_protocol": "robust"},
+                {"initialize": "BAR", "solver_protocol": "robust"})
+    last = None
+    for kw in attempts:
+        try:
+            return MBAR(u_kn, N_k, **kw)
+        except TypeError:                                     # this pymbar version rejects that kwarg — skip
+            continue
+        except Exception as e:                                # noqa: BLE001 — non-convergence; try next config
+            last = e
+    uk = np.asarray(u_kn)
+    off = 0
+    print(f"[abfe] MBAR did NOT converge for '{tag}'. N_k per window = {list(map(int, N_k))}", flush=True)
+    for k in range(len(N_k)):                                 # per-window: reduced potential AT ITS OWN state
+        n = int(N_k[k])
+        seg = uk[k, off:off + n] if n else np.array([0.0])
+        print(f"   window {k:2d}: n={n:4d}  u_self[min/mean/max]="
+              f"{seg.min():+.1f}/{seg.mean():+.1f}/{seg.max():+.1f}  "
+              f"nan={int(np.isnan(seg).sum())} inf={int(np.isinf(seg).sum())}", flush=True)
+        off += n
+    raise last if last is not None else RuntimeError("MBAR failed")
+
+
 def assemble_ukn(window_energies, n_states=None):
     """Assemble pymbar's reduced-potential matrix u_kn + sample counts N_k from per-window logs.
 
@@ -602,7 +635,8 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False,
         if any(len(w) == 0 for w in wk):                      # MBAR needs samples from every state
             return None
         u_kn, N_k = assemble_ukn(wk, n_states=K)
-        res = MBAR(np.array(u_kn), np.array(N_k)).compute_free_energy_differences()
+        mbar = _solve_mbar(np.array(u_kn), np.array(N_k), tag=os.path.basename(out_dir.rstrip("/")))
+        res = mbar.compute_free_energy_differences()
         return RT * float(res["Delta_f"][0, K - 1]), RT * float(res["dDelta_f"][0, K - 1])
 
     if not per_iteration:
@@ -638,12 +672,11 @@ def _read_we(out_dir, K):
 def _dg_slice(we, a, b, K, RT):
     """MBAR ΔG (kcal/mol) using only samples [a:b] of every window. None if any window is empty on that slice."""
     import numpy as np
-    from pymbar import MBAR
     wk = [w[a:b] for w in we]
     if any(len(w) == 0 for w in wk):
         return None
     u_kn, N_k = assemble_ukn(wk, n_states=K)
-    res = MBAR(np.array(u_kn), np.array(N_k)).compute_free_energy_differences()
+    res = _solve_mbar(np.array(u_kn), np.array(N_k), tag="slice").compute_free_energy_differences()
     return RT * float(res["Delta_f"][0, K - 1]), RT * float(res["dDelta_f"][0, K - 1])
 
 
