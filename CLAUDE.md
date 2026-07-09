@@ -183,7 +183,11 @@ read it before making changes.
   (no spot quota for the type, or truly can't checkpoint) — never as a capacity workaround.
 - **DEFAULT EVERY GPU RUN TO MANAGED SPOT — reframe on-demand jobs to spot *Training* whenever possible
   (trimcrae standing rule, 2026-07-03).** Spot is ~60-70% cheaper AND draws on the larger spot *Training* quota
-  (8) instead of the on-demand *Processing* quota (1), so spot jobs also run more-concurrently. **Spot is safe
+  (8) instead of the on-demand *Processing* quota (1), so spot jobs also run more-concurrently. **The ~60-70%
+  savings is delivered as FEWER BILLED HOURS, not a lower per-hour rate — the `SpotTraining` bill line can show a
+  rate ≥ on-demand and still be far cheaper; NEVER diagnose "no discount" from the rate. Check realized savings
+  with `list-sagemaker-aws.yml` `mode=savings` (billable vs training hours). Full mechanics + the mis-read that
+  prompted this: next-steps.md → "HOW MANAGED-SPOT BILLING ACTUALLY WORKS".** **Spot is safe
   BECAUSE of the checkpoint rule above** — the two go together: a `PyTorch` Estimator with
   `use_spot_instances=True`, `max_wait >= max_run`, and `checkpoint_s3_uri` + `checkpoint_local_path=/opt/ml/checkpoints`
   gets SageMaker's native resume — it **downloads prior checkpoints to /opt/ml/checkpoints on start** (a spot

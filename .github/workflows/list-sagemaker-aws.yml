@@ -15,6 +15,14 @@ on:
         description: "optional: list this S3 prefix (under the default bucket) and return, instead of jobs"
         default: ""
         required: false
+      mode:
+        description: "'savings' = realized managed-spot discount (billable vs training time) for recent completed jobs; blank = in-progress jobs"
+        default: ""
+        required: false
+      instance_filter:
+        description: "savings mode only: restrict to instance types containing this string, e.g. ml.g5.xlarge"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -34,6 +42,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           S3_PREFIX: ${{ inputs.s3_prefix }}
+          MODE: ${{ inputs.mode }}
+          INSTANCE_FILTER: ${{ inputs.instance_filter }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."

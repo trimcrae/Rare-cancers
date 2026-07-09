@@ -861,6 +861,49 @@ the family metad (in flight) is the fix.
      `report-*` workflow) and decide from it; only raise the cap + re-run if too few units finished. Never
      re-run blind. **Apply this pattern to every GPU pipeline (release, metad, matrix, mmgbsa, denovo, ternary,
      FEP).** The metad set already does continuous upload + resume — mirror it.
+- **💰 HOW MANAGED-SPOT BILLING ACTUALLY WORKS — THE SAVINGS IS IN THE *HOURS*, NOT THE RATE (verified against
+  AWS docs + real job data, 2026-07-09; documented because a session mis-read the bill and wrongly concluded
+  "spot cost more than on-demand").** A recurring confusion: the bill's `SpotTraining` line shows a **per-hour
+  rate** that can look **equal to or HIGHER than** the on-demand rate — e.g. 2026-07 Ohio bill:
+  `$1.4084 per hour for SpotTraining ml.g5.xlarge` vs `$1.2575 per Training ml.g5.xlarge hour` on-demand. **Do
+  NOT conclude "no discount" from that.** Managed-spot savings do **not** live in the rate — they live in the
+  **billed hours**:
+  - **AWS bills you at (≈)the on-demand rate, but ONLY for `BillableTimeInSeconds`** — and billable time
+    **excludes the compute reclaimed by spot interruptions** (AWS eats it). `BillableTimeInSeconds` is defined by
+    AWS as "the absolute wall-clock time" billed; it is *less than* `TrainingTimeInSeconds` (the gross training
+    time) whenever the job was interrupted.
+  - **AWS's own savings formula:** `savings% = (1 − BillableTimeInSeconds / TrainingTimeInSeconds) × 100`. AWS
+    explicitly calls this "the savings from using managed spot training," i.e. it IS your discount vs on-demand.
+  - **Empirical (this account, 2026-07-09):** every recent g5.xlarge spot job billed **~1/3** of its training
+    time → **realized 59–68% savings**, right in the "60–70%" range. So the "$102 SpotTraining" line is
+    **already ~65% off**: those 72.6 billed hours are the *reduced* number; on-demand would have billed the
+    full ~207 training-hours (~$260). **Spot saved ~$160 on that line — it did NOT cost more.**
+  - **The trap to avoid:** comparing the SpotTraining meter's $/hr to the on-demand $/hr. That comparison is
+    meaningless — the discount is delivered as fewer billed hours, so always compare **BillableTime vs
+    TrainingTime**, never rate vs rate.
+  - **Ironic corollary:** a worse spot-capacity crunch (more interruptions) yields a *higher* savings% (more
+    reclaimed time AWS doesn't bill) — you pay in wall-clock, not dollars. So a tight-capacity month is not a
+    reason to abandon spot; the "default everything to spot" rule stays correct.
+  - **How to CHECK realized savings (do this instead of guessing):** run the read-only
+    **`list-sagemaker-aws.yml`** workflow with input **`mode=savings`** (optional `instance_filter=ml.g5.xlarge`).
+    It calls `describe_training_job` on recent completed/stopped jobs and prints `billable_h`, `training_h`, and
+    `savings%` per job (added to `list_sagemaker.py`, 2026-07-09).
+  - **Minor real footnote (not the main story):** in us-east-2 the `SpotTraining` g5.xlarge meter references the
+    "Accelerated Computing" price book (**$1.4084**) while plain on-demand `Training` uses the cheaper "Compute
+    Optimized" book (**$1.2575**) — a ~12% higher *reference* rate on spot, but it is dwarfed by the ~65% hours
+    discount, so spot is still far cheaper net.
+  - **Other line items on the same bill worth knowing (2026-07):** **S3 Tier-1 requests ~$14** (2.75M PUT/LIST —
+    driven by the per-unit *continuous checkpoint upload*; this is the cost of the checkpoint-safety rule and is
+    intentional — do NOT reduce checkpoint frequency to save it) and **KMS ~$6** (2M requests — SSE-KMS charges
+    one KMS call per encrypted S3 object op). The KMS line is the one easy win: **enable S3 Bucket Keys** on the
+    SageMaker bucket (cuts KMS request traffic up to ~99%). **Confirmed 2026-07-09** (one-off audit): objects in
+    `sagemaker-us-east-2-<acct>` are `aws:kms`-encrypted with `bucketKey=None` (so Bucket Keys WOULD help), but
+    the **CI user `nr4a3-ci-submitter` lacks `s3:Get/PutEncryptionConfiguration`**, so CI can't apply it. Fix is
+    a **one-time bucket-owner action** (trimcrae, ~30 s): `aws s3api put-bucket-encryption --bucket
+    sagemaker-us-east-2-<acct> --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryption
+    ByDefault":{"SSEAlgorithm":"aws:kms"},"BucketKeyEnabled":true}]}'` (or Console → bucket → Properties →
+    Default encryption → Bucket Key = Enable). Not kept as tooling since CI can't execute the fix; the command
+    above is the whole remediation.
 - **🛑 GPU runs cost money — ASK FIRST (trimcrae standing rule, 2026-06-28).** Before dispatching ANY new
   GPU/SageMaker run (anything that spins up a `ml.g5.*` / GPU instance — metad, matrix, MM-GBSA, FEP,
   release, ternary, warhead, calibration), present the user a decision pop-up (`AskUserQuestion`) with a
