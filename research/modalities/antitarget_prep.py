@@ -21,6 +21,10 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 STD_AA = {"ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU", "LYS", "MET",
           "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL", "MSE", "SEC", "PYL"}
+# waters, ions, and common crystallization/cryo additives — never the biological ligand we center on.
+NON_LIGAND = {"HOH", "DOD", "WAT", "NA", "CL", "K", "MG", "ZN", "CA", "MN", "FE", "CU", "NI", "CO", "CD",
+              "SO4", "PO4", "NO3", "ACT", "EDO", "GOL", "PEG", "PGE", "PG4", "DMS", "MPD", "TRS", "EPE",
+              "FMT", "BME", "IOD", "BR", "CS", "IMD", "CIT", "MLI", "ACY", "FLC", "TLA", "1PE", "P6G"}
 
 
 def _fetch(pdb_id):
@@ -45,8 +49,25 @@ def _prep_target(t):
                     lig_chain = ch
                 if ch == lig_chain:
                     lig_atoms.append((float(ln[30:38]), float(ln[38:46]), float(ln[46:54])))
-        if not lig_atoms:
-            raise RuntimeError(f"ligand {lig} not found in {t['pdb_id']}")
+    # Fallback: named ligand absent (or none given) -> auto-pick the LARGEST drug-like HETATM group
+    # (excludes waters/ions/buffers), which is the co-crystallized ligand in an orthosteric holo structure.
+    if not lig_atoms:
+        groups = {}
+        for ln in lines:
+            if not ln.startswith("HETATM"):
+                continue
+            res = ln[17:20].strip()
+            if res in NON_LIGAND:
+                continue
+            gid = (res, ln[21], ln[22:27])
+            groups.setdefault(gid, []).append((float(ln[30:38]), float(ln[38:46]), float(ln[46:54])))
+        if groups:
+            gid = max(groups, key=lambda g: len(groups[g]))
+            lig_atoms, lig_chain = groups[gid], gid[1]
+            print(f"  [{t['name']}] auto-ligand {gid[0]} chain {gid[1]} ({len(lig_atoms)} atoms)"
+                  + (f" — named {lig} not found" if lig else ""))
+        else:
+            raise RuntimeError(f"no drug-like ligand found in {t['pdb_id']}")
     chain = lig_chain if lig_chain is not None else t.get("chain", "A")
 
     # clean receptor: standard-aa ATOM records of the chosen chain, altloc blank/A, drop hydrogens.
