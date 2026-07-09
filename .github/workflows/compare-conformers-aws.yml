@@ -1,0 +1,42 @@
+name: Compare opened conformers across S3 prefixes (AWS, read-only)
+
+# Provenance check: hashes each <prefix>/<tag>-opened.pdb and prints recorded opened_frame/druggability, to
+# prove the repurposing cache is the SAME conformer the decoy-null used (seamless blend). Read-only.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      prefixes:
+        description: "comma list of S3 prefixes to compare"
+        default: "nr4a3-matrix,nr4a3-decoy-matrix,nr4a3-denovo-matrix,nr4a3-repurpose-3recept"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Compare conformers
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          PREFIXES: ${{ inputs.prefixes }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/compare_conformers.py
