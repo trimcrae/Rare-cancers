@@ -106,9 +106,25 @@ NOT hold (flupentixol +20.54 → mean 6.80, mean−SD +2.11). Ranked by mean−S
 | SNX-5422 | HSP90 inhibitor | 6.39 ± 9.46 | −3.07 | collapsed |
 | pyrantel | nicotinic agonist | 0.47 ± 7.21 | −6.74 | collapsed |
 
-**Standout: AGI-5198** (existing IDH1-inhibitor tool compound) *strengthened* under de-noising to mean−SD
-+12.04, exceeding the de-novo lead denovo_401 — the most robust existing-molecule NR4A3-selective prediction
-this screen produced. Caveats: committed (not yet frame-matched) null; kinase/enzyme-inhibitor promiscuity
-possible; single 10-frame trajectory (replicate would firm the ±SD); screening-grade MM-GBSA, not FEP.
-Track C (de-noise ALL 250) running to catch any modest-but-robust survivor beyond these 10 — an existing
-selective drug is valuable even below denovo_401's margin.
+**Standout (single-pass): AGI-5198** appeared to *strengthen* under de-noising to mean−SD +12.04. **⚠ But a
+single 10-frame de-noising pass is NOT reproducible run-to-run** (see §5b) — that +12.04 did not replicate — so
+this table is a *within-run* snapshot, not the honest readout.
+
+## 5b. The single-pass de-noising is not reproducible — pivot to between-run replicates (2026-07-09)
+Re-running the identical 10-frame de-noising on the same drugs swung margins several kcal/mol in both
+directions (**AGI-5198 +16.36 in the §5 pass vs +6.37 in a second pass**; others similar). The cause is
+structural: the 10 frames come from **one continuous, autocorrelated GB-MD trajectory**, so the *within-run*
+SD (the ±SD in §5) reflects only intra-trajectory jitter and **understates the true run-to-run uncertainty**.
+A "mean−SD > 0" survivor call from one trajectory is therefore a lucky-draw risk, not a robust result.
+
+**Fix (the standard denovo_401 was already held to).** denovo_401 earned "lead" precisely by surviving
+**independent** replication — multi-snapshot **+12.83 ± 2.98**, reproduced in an independent-seed pass at
+**+14.75 ± 4.82** (recorded in `nr4a3-degrader-preprint.md` §2.6), "so not a single-draw artifact." We now
+hold the repurposing hits to that same bar: run **3 independent de-noising replicates** (independent MD
+velocity draws → separate output prefixes `nr4a3-repurpose-mmgbsa-rep1/2/3`) and report the **between-run
+mean ± SD**; survivor = between-run mean − SD > 0. Shortlist = the 6 single-pass survivors
+(AGI-5198, ML786, CP-640186, DDR1-IN-1, flupentixol, BMS-309403) **plus 4 collapse-controls**
+(pizotifen, SNX-5422, 20-hydroxyecdysone, pyrantel) — so the replicate test is shown to *discriminate*
+(controls should stay collapsed), not merely destroy. Report tier: `report_repurpose_selectivity.py`
+`MODE=REPLICATE`. **Status: 3 replicate jobs dispatched 2026-07-09 (in flight).** The 7 IDH-class inhibitors
+get the same 3-replicate treatment once their first-pass dock/MM-GBSA lands. FEP remains gated (not run).
