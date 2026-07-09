@@ -309,10 +309,12 @@ jobs:
               import re as _re
               grp = "/aws/sagemaker/TrainingJobs"
               try:
-                  # order by LastEventTime desc so strs[0] is the LIVE stream — a spot resume reuses the job
-                  # name but writes to a NEW algo-1-<ts> stream; ordering by name would tail the stale one (0 events).
-                  strs = logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=_cw,
-                                                   orderBy="LastEventTime", descending=True).get("logStreams", [])
+                  # A spot resume reuses the job name but writes to a NEW algo-1-<ts> stream; the default
+                  # name-ordering would tail the stale pre-resume stream (0 events). AWS forbids orderBy=
+                  # LastEventTime together with a prefix, so pull by prefix then sort newest-first in Python.
+                  strs = logs.describe_log_streams(logGroupName=grp,
+                                                   logStreamNamePrefix=_cw).get("logStreams", [])
+                  strs.sort(key=lambda s: s.get("lastEventTimestamp", 0), reverse=True)
                   sig = _re.compile(r"(iteration|replica|online|estimate|kcal|kT|Delta|ΔG|f_k|free energy|"
                                     r"ns/day|mixing|state|swap|MBAR|Trailblaz|Equilibrat|Minimiz|Production|"
                                     r"reached|converg)", _re.I)
