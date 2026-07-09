@@ -1,0 +1,50 @@
+name: GPU — EWSR1::NR4A3 fusion co-fold (Boltz, AWS SageMaker)
+
+# Runs the fusion-junction apo co-fold as a managed AWS SageMaker Processing job: AWS provisions a GPU,
+# enforces a hard MaxRuntime cap, and tears the instance down on completion. Manual-dispatch. Folds two
+# chimeric apo constructs (seam, composite) to test whether the fused EWSR1::NR4A3 halves fold together
+# into a composite junction pocket. REQUIRES repo secrets:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN  (region is a workflow input)
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker GPU instance type (account has ml.g5.xlarge quota)"
+        default: "ml.g5.xlarge"
+        required: false
+      output_prefix:
+        description: "S3 prefix to write the co-fold output to"
+        default: "fusion-cofold"
+        required: false
+      region:
+        description: "AWS region — must match where you deployed the stack + got the GPU quota"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v3 SDK dropped the FrameworkProcessor paths this uses
+      - name: Submit SageMaker fusion co-fold job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/fusion_cofold_sagemaker.py
