@@ -162,9 +162,66 @@ def report():
     print("ABOVE-NULL list is the calibrated readout. kinase-inhibitor/polyphenol hits are promiscuity-prone.")
 
 
+def replicate_report():
+    """BETWEEN-RUN replicate aggregation — the honest de-noising readout.
+
+    A single 10-frame multi-snapshot pass is NOT reproducible run-to-run: because the frames come from one
+    continuous (autocorrelated) trajectory, the within-run SD understates the true uncertainty, and re-running
+    the same drug swings the margin several kcal/mol (e.g. AGI-5198 gave +16.36 in one pass and +6.37 in
+    another). The fix is INDEPENDENT replicates: run the de-noising N times with independent MD velocity draws
+    (separate output prefixes), then report the BETWEEN-RUN mean ± SD per drug. Survivor = between-run
+    mean − SD > 0 (the same bar denovo_401 cleared: +12.83 / +14.75 across two independent passes).
+
+    Env: REP_PREFIXES = comma list of the replicate MM-GBSA output prefixes (each holds nr4a3-mmgbsa.json).
+    """
+    import statistics
+    s3, bucket = _s3()
+    prefixes = [p.strip() for p in os.environ.get("REP_PREFIXES", "").split(",") if p.strip()]
+    if not prefixes:
+        print("set REP_PREFIXES=<comma list of replicate mmgbsa output prefixes>")
+        return
+    # per-drug list of per-run margins (one number per replicate = that run's 10-frame ensemble mean)
+    runs = {}   # label -> {"name": drug, "margins": [...]}
+    for p in prefixes:
+        d = _get_json(s3, bucket, f"{p}/nr4a3-mmgbsa.json")
+        if not d:
+            continue
+        for c in d.get("candidates", []):
+            m = c.get("mm_min_margin")
+            if m is None:
+                continue
+            lab = c.get("label") or c.get("drug") or ""
+            r = runs.setdefault(lab, {"name": c.get("drug") or lab, "margins": []})
+            r["margins"].append(m)
+    print(f"replicate de-noising: {len(prefixes)} independent passes {prefixes}\n")
+    rows = []
+    for lab, r in runs.items():
+        ms = r["margins"]
+        if not ms:
+            continue
+        mean = statistics.fmean(ms)
+        sd = statistics.pstdev(ms) if len(ms) > 1 else 0.0
+        rows.append({"name": r["name"] or lab, "n": len(ms), "mean": mean, "sd": sd,
+                     "lo": mean - sd, "runs": ms})
+    rows.sort(key=lambda x: -x["lo"])
+    print(f"=== BETWEEN-RUN DE-NOISING ({len(rows)}) — survivor = between-run mean − SD > 0 ===")
+    print(f"{'drug':<24} {'n':>2} {'mean':>7} {'SD':>6} {'mean-SD':>8}  {'per-run margins':<28} outcome")
+    for x in rows:
+        out = "SURVIVES" if x["lo"] > 0 else "collapsed"
+        pr = ",".join(f"{v:+.1f}" for v in x["runs"])
+        print(f"{x['name'][:24]:<24} {x['n']:>2} {x['mean']:>+7.2f} {x['sd']:>6.2f} {x['lo']:>+8.2f}  "
+              f"{pr[:28]:<28} {out}")
+    print("\n(reference: denovo_401 held between two independent passes +12.83 / +14.75 — survives.)")
+    print("Between-run SD is the honest error bar; a single pass's within-run SD understates it. "
+          "Screening-grade MM-GBSA, not FEP.")
+
+
 def main():
-    if os.environ.get("MODE", "REPORT").upper() == "PLAN":
+    mode = os.environ.get("MODE", "REPORT").upper()
+    if mode == "PLAN":
         plan()
+    elif mode == "REPLICATE":
+        replicate_report()
     else:
         report()
 

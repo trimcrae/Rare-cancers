@@ -8,8 +8,12 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "PLAN (print shard filters) or REPORT (pool shortlists)"
+        description: "PLAN (print shard filters), REPORT (pool shortlists), or REPLICATE (between-run de-noising)"
         default: "PLAN"
+        required: false
+      rep_prefixes:
+        description: "REPLICATE: comma list of the independent-replicate MM-GBSA output prefixes"
+        default: ""
         required: false
       promote_prefix:
         description: "PLAN: S3 prefix of the promoted top-N candidate JSON"
@@ -58,6 +62,7 @@ jobs:
           N_SHARDS: ${{ inputs.n_shards }}
           PLAN_LIMIT: ${{ inputs.plan_limit }}
           SHARD_PREFIXES: ${{ inputs.shard_prefixes }}
+          REP_PREFIXES: ${{ inputs.rep_prefixes }}
           DECOY_PREFIX: ${{ inputs.decoy_prefix }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
