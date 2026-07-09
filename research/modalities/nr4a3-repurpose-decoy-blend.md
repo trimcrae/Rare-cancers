@@ -88,3 +88,27 @@ here.**
 **Caveat carried from the null:** single-snapshot MM-GBSA magnitudes are inflated (no entropy/ensemble);
 trust the direction and the above-null flag, not kcal/mol. Any above-null hit is a screening-grade prediction
 warranting FEP, not a validated selective binder.
+
+## 5. Multi-snapshot de-noising (10-frame MD ensemble; survivor = mean−SD > 0)
+De-noised the 10 single-snapshot hits that beat denovo_401. 6/10 survive; the single-snapshot ranking did
+NOT hold (flupentixol +20.54 → mean 6.80, mean−SD +2.11). Ranked by mean−SD:
+
+| drug | MoA | mean ± SD | mean−SD | outcome |
+|---|---|---|---|---|
+| **AGI-5198** | IDH1 inhibitor | 16.36 ± 4.32 | **+12.04** | SURVIVES — exceeds denovo_401 (+9.85) |
+| ML786 | RAF inhibitor | 16.75 ± 8.16 | +8.59 | survives (large SD; kinase-promiscuity) |
+| CP-640186 | ACC inhibitor | 8.05 ± 4.32 | +3.73 | survives |
+| DDR1-IN-1 | DDR1 kinase inh | 8.52 ± 5.24 | +3.28 | survives |
+| flupentixol | antipsychotic | 6.80 ± 4.69 | +2.11 | survives (weak; was +20.54 single-snap) |
+| BMS-309403 | FABP inhibitor | 5.69 ± 5.19 | +0.50 | survives (marginal) |
+| pizotifen | serotonin antag | 3.94 ± 4.41 | −0.47 | collapsed |
+| 20-hydroxyecdysone | ecdysone mod | 4.49 ± 6.24 | −1.75 | collapsed |
+| SNX-5422 | HSP90 inhibitor | 6.39 ± 9.46 | −3.07 | collapsed |
+| pyrantel | nicotinic agonist | 0.47 ± 7.21 | −6.74 | collapsed |
+
+**Standout: AGI-5198** (existing IDH1-inhibitor tool compound) *strengthened* under de-noising to mean−SD
++12.04, exceeding the de-novo lead denovo_401 — the most robust existing-molecule NR4A3-selective prediction
+this screen produced. Caveats: committed (not yet frame-matched) null; kinase/enzyme-inhibitor promiscuity
+possible; single 10-frame trajectory (replicate would firm the ±SD); screening-grade MM-GBSA, not FEP.
+Track C (de-noise ALL 250) running to catch any modest-but-robust survivor beyond these 10 — an existing
+selective drug is valuable even below denovo_401's margin.
