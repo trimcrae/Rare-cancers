@@ -68,6 +68,25 @@ def append_reduced_potentials(out_dir, window_index, iteration, reduced_potentia
         f.write(json.dumps(rec) + "\n")
 
 
+def _read_window_jsonl(path):
+    """Read a per-window jsonl → rows sorted by iter, DEDUPED by iter (last write wins). Spot resumes / S3
+    continuous-sync interleaving can append duplicate rows for the SAME iteration; feeding those to MBAR
+    inflates N_k inconsistently across windows and breaks the W_nk normalization (reduce failed 2026-07-09
+    on the lo_m0_NCCO run: pymbar 'column sum for state 0 was 7.93' — 401 never hit it because it ran
+    uninterrupted). Deduping on read fixes it with NO MD re-run — every record carries its `iter` index."""
+    by_iter = {}
+    for line in open(path):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            r = json.loads(line)
+        except Exception:  # noqa: BLE001 — torn last line from a mid-write spot kill
+            continue
+        by_iter[int(r["iter"])] = r
+    return [by_iter[i] for i in sorted(by_iter)]
+
+
 # ---- physics layer (build-step 2 — single independent window; needs openmm/openmmtools) -----------------
 def build_alchemical_system(reference_system, alchemical_atoms):
     """openmmtools AbsoluteAlchemicalFactory → (alchemical_system, AlchemicalState). Composes the tested
@@ -504,8 +523,7 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False,
         p = os.path.join(out_dir, f"window_{k:02d}.jsonl")
         if not os.path.exists(p):
             continue
-        rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
-        we[k] = [r["u"] for r in rows]
+        we[k] = [r["u"] for r in _read_window_jsonl(p)]
 
     def _dg(trunc):
         wk = [(w[:trunc] if trunc else w) for w in we]
@@ -540,8 +558,7 @@ def _read_we(out_dir, K):
         p = os.path.join(out_dir, f"window_{k:02d}.jsonl")
         if not os.path.exists(p):
             continue
-        rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
-        we[k] = [r["u"] for r in rows]
+        we[k] = [r["u"] for r in _read_window_jsonl(p)]
     return we
 
 
