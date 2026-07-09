@@ -61,20 +61,29 @@ failures, so no data lost). Calibrated against the committed +13.12 null (n=38, 
   reinforces, at 250-drug scale, that the raw margin is non-specific. This is the headline blend value.
 - **ABOVE-NULL (margin > +13.12): 14/250 = 5.6 %** ≈ the ~5 % that clear a 95th-pct bar by construction →
   the promoted set is **not enriched at the bar** (same conclusion as the de-novo campaign, now at scale).
-- **Extreme tail = the signal — 4 drugs beat the whole 38-decoy null (p_decoy = 0.000) AND `denovo_111`
-  (+15.70, 1/38 above):** flupentixol (+20.54, dopamine antagonist), AGI-5198 (+17.59, IDH1i),
-  DDR1-IN-1 (+17.26, DDR1 kinase i), ML786 (+17.11, RAF i). The next 10 (SNX-5422/SNX-2112 HSP90,
-  pizotifen, pyrantel, BMS-309403, CP-640186, oleandrin, reynoutrin, BMS-986142 BTK) sit at p_decoy ≈ 0.026
-  — inside the decoy tail, individually indistinguishable from null noise.
-- **Caveat:** the tail is dominated by promiscuity-prone chemotypes (kinase/HSP90 inhibitors, a cardiac
+- **Reference = the carried lead `denovo_401`** (single-snapshot margin **+13.92**; also survives
+  multi-snapshot de-noising +12.83 ± 2.98, stereo-robust, FEP/ternary subject). (NOT `denovo_111`, the earlier
+  single-snapshot foothold, which was **withdrawn** — its physiological cation reverses selectivity.)
+- **10 hits exceed denovo_401's single-snapshot +13.92:** flupentixol (+20.54), AGI-5198 (+17.59),
+  DDR1-IN-1 (+17.26), ML786 (+17.11), SNX-5422 (+16.27), 20-hydroxyecdysone (+15.43), pizotifen (+14.93),
+  pyrantel (+14.86), BMS-309403 (+14.64), CP-640186 (+14.59). **4 of them beat the whole 38-decoy null**
+  (p_decoy = 0.000: flupentixol, AGI-5198, DDR1-IN-1, ML786). The remaining 4 above-null (oleandrin +13.73,
+  SNX-2112 +13.63, reynoutrin +13.37, BMS-986142 +13.15) clear the bar but sit below 401.
+- **⚠ Single-snapshot is the TRIAGE tier only.** denovo_401 earned "lead" by surviving **multi-snapshot
+  de-noising**, where `denovo_393` (single-snapshot +18.34) **collapsed to −2.95 ± 3.65**. So these
+  high-margin repurposing hits are NOT yet peers of 401 — several will likely collapse the same way. The
+  discriminating non-FEP step is multi-snapshot de-noising (`mmgbsa-aws.yml multisnapshot=1`) of the top hits;
+  only survivors of that are true 401-tier candidates worth FEP.
+- **Chemotype caveat:** the tail is dominated by promiscuity-prone classes (kinase/HSP90 inhibitors, a cardiac
   glycoside, a flavonoid, a lipophilic-amine antipsychotic) — exactly the docking artifacts the caveats flag.
 - Pan-NR4A (CAR-T angle): 66 engage all three LBDs at |margin| ≤ 3; same magnitude-inflation/promiscuity caveats.
 
 **Interpretation.** The 6k→250 repurposing screen, run through the *same funnel, receptors, and decoy null* as
 the de-novo work, (i) confirms the specificity caveat far more robustly (39 % raw FP at n=250; not enriched at
-the bar) and (ii) yields ~4 marketed-drug candidates that clear the calibrated null more decisively than the
-de-novo lead — the repurposing analogues of `denovo_111` and the natural FEP candidates. All screening-grade
-(single-snapshot MM-GBSA); **FEP is the gated next step and is NOT run here.**
+the bar) and (ii) yields ~10 marketed drugs whose *single-snapshot* margin exceeds the carried lead
+denovo_401's, 4 of them beyond the entire decoy null. These are triage-grade only until multi-snapshot
+de-noising (non-FEP) tests whether they survive as 401 did or collapse as 393 did; **FEP is gated and NOT run
+here.**
 
 **Caveat carried from the null:** single-snapshot MM-GBSA magnitudes are inflated (no entropy/ensemble);
 trust the direction and the above-null flag, not kcal/mol. Any above-null hit is a screening-grade prediction
