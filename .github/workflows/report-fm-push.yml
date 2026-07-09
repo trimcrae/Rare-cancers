@@ -1,0 +1,39 @@
+name: FM repurpose report (push-triggered fallback)
+
+# Fallback for when workflow_dispatch is unavailable (MCP down): runs the frame-matched repurposing
+# selectivity REPORT on push to the sentinel file below, pooling all 13 fm MM-GBSA shards and calibrating
+# against the committed +13.12 decoy null. Read-only (no SageMaker). Bump the sentinel file to re-run.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  push:
+    paths:
+      - "research/modalities/.fm-report-trigger"
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Frame-matched above-null report
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+          MODE: REPORT
+          SHARD_PREFIXES: "nr4a3-repurpose-mmgbsa-fm-s0,nr4a3-repurpose-mmgbsa-fm-s1,nr4a3-repurpose-mmgbsa-fm-s2,nr4a3-repurpose-mmgbsa-fm-s3,nr4a3-repurpose-mmgbsa-fm-s4,nr4a3-repurpose-mmgbsa-fm-s5,nr4a3-repurpose-mmgbsa-fm-s6,nr4a3-repurpose-mmgbsa-fm-s7,nr4a3-repurpose-mmgbsa-fm-s8,nr4a3-repurpose-mmgbsa-fm-s9,nr4a3-repurpose-mmgbsa-fm-s10,nr4a3-repurpose-mmgbsa-fm-s11,nr4a3-repurpose-mmgbsa-fm-s12"
+          DECOY_PREFIX: ""
+          TOP: "60"
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_repurpose_selectivity.py
