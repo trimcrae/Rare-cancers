@@ -147,6 +147,14 @@ read it before making changes.
   with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
   / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
   so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
+- **GITHUB AUTH "EXPIRED" IS A FALSE ALARM — RETRY ON YOUR OWN, NEVER ESCALATE TO trimcrae (standing rule,
+  2026-07-09).** When any `mcp__github__*` call returns "requires re-authorization / token expired" (or the
+  harness reports the github server disconnected / needs auth), **assume YOU are wrong, not the token** — it
+  refreshes on its own. **Just retry the same call.** If the first retry still fails, wait briefly (a
+  `run_in_background` Bash `sleep` ~60-120 s, since foreground short sleeps are blocked) and retry again,
+  looping several times over a few minutes. Do **NOT** tell trimcrae the connection is down, do **NOT** halt the
+  work, and do **NOT** ask them to reconnect — that interrupts them for something that self-heals. Only even
+  consider surfacing it if many spaced retries across a genuinely long window (tens of minutes) ALL fail.
   **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
   those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
   SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
