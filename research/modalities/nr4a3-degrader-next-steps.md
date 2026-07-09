@@ -896,14 +896,15 @@ the family metad (in flight) is the fix.
     driven by the per-unit *continuous checkpoint upload*; this is the cost of the checkpoint-safety rule and is
     intentional — do NOT reduce checkpoint frequency to save it) and **KMS ~$6** (2M requests — SSE-KMS charges
     one KMS call per encrypted S3 object op). The KMS line is the one easy win: **enable S3 Bucket Keys** on the
-    SageMaker bucket (cuts KMS request traffic up to ~99%). **Confirmed 2026-07-09** (one-off audit): objects in
-    `sagemaker-us-east-2-<acct>` are `aws:kms`-encrypted with `bucketKey=None` (so Bucket Keys WOULD help), but
-    the **CI user `nr4a3-ci-submitter` lacks `s3:Get/PutEncryptionConfiguration`**, so CI can't apply it. Fix is
-    a **one-time bucket-owner action** (trimcrae, ~30 s): `aws s3api put-bucket-encryption --bucket
-    sagemaker-us-east-2-<acct> --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryption
-    ByDefault":{"SSEAlgorithm":"aws:kms"},"BucketKeyEnabled":true}]}'` (or Console → bucket → Properties →
-    Default encryption → Bucket Key = Enable). Not kept as tooling since CI can't execute the fix; the command
-    above is the whole remediation.
+    SageMaker bucket (cuts KMS request traffic up to ~99%). **DONE 2026-07-09** — trimcrae enabled S3 Bucket
+    Keys on `sagemaker-us-east-2-<acct>` via the console (Properties → Default encryption → Bucket Key = Enable).
+    Applies to NEW writes, so the KMS line should fall toward ~$0 over the next billing cycle; existing objects
+    keep their per-object keys (harmless). Background: a one-off audit found the bucket's objects were
+    `aws:kms`-encrypted with `bucketKey=None`, and the **CI user `nr4a3-ci-submitter` lacks
+    `s3:Get/PutEncryptionConfiguration`** so it couldn't be applied from CI — hence the manual console fix. If a
+    future bucket needs the same, the bucket-owner command is: `aws s3api put-bucket-encryption --region
+    us-east-2 --bucket <bucket> --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryption
+    ByDefault":{"SSEAlgorithm":"aws:kms"},"BucketKeyEnabled":true}]}'`.
 - **🛑 GPU runs cost money — ASK FIRST (trimcrae standing rule, 2026-06-28).** Before dispatching ANY new
   GPU/SageMaker run (anything that spins up a `ml.g5.*` / GPU instance — metad, matrix, MM-GBSA, FEP,
   release, ternary, warhead, calibration), present the user a decision pop-up (`AskUserQuestion`) with a
