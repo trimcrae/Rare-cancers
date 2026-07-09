@@ -28,10 +28,45 @@ LAMBDA_STERICS = [1.0, 1.0,  1.0, 1.0,  1.0, 0.85, 0.7, 0.55, 0.4, 0.25, 0.1, 0.
 assert len(LAMBDA_ELEC) == len(LAMBDA_STERICS), "λ elec/sterics lists must be equal length"
 N_WINDOWS = len(LAMBDA_ELEC)
 
+_MAX_WINDOW_RECOVER = 6   # per-iteration NaN/instability recoveries before a λ-window fails loudly (see run_window)
+
 
 def lambda_schedule():
     """[(elec, sterics)] per window — the alchemical states, one independent simulation each."""
     return list(zip(LAMBDA_ELEC, LAMBDA_STERICS))
+
+
+def _solve_mbar(u_kn, N_k, tag=""):
+    """Construct MBAR robustly. pymbar 4's default self-consistent solver can fail check_w_normalized (weights
+    don't sum to 1 → 'column sum ... was 7.9') when adjacent λ-windows overlap poorly — which is what the
+    lo_m0_NCCO ABFE reduce hit (bigger/more-polar ligand than 401 on the same 12-window schedule). Try the
+    default solver, then progressively more robust configs (BAR-initialised, adaptive/L-BFGS). On TOTAL failure,
+    print a solve-free diagnostic — per-state reduced-potential ranges (a single window with pathological
+    energies stands out) and N_k — so we can tell 'needs a robust solve' from 'a window blew up' from 'genuinely
+    needs more windows', then re-raise. Returns a constructed MBAR object (already solved)."""
+    import numpy as np
+    from pymbar import MBAR
+    attempts = ({}, {"initialize": "BAR"}, {"solver_protocol": "robust"},
+                {"initialize": "BAR", "solver_protocol": "robust"})
+    last = None
+    for kw in attempts:
+        try:
+            return MBAR(u_kn, N_k, **kw)
+        except TypeError:                                     # this pymbar version rejects that kwarg — skip
+            continue
+        except Exception as e:                                # noqa: BLE001 — non-convergence; try next config
+            last = e
+    uk = np.asarray(u_kn)
+    off = 0
+    print(f"[abfe] MBAR did NOT converge for '{tag}'. N_k per window = {list(map(int, N_k))}", flush=True)
+    for k in range(len(N_k)):                                 # per-window: reduced potential AT ITS OWN state
+        n = int(N_k[k])
+        seg = uk[k, off:off + n] if n else np.array([0.0])
+        print(f"   window {k:2d}: n={n:4d}  u_self[min/mean/max]="
+              f"{seg.min():+.1f}/{seg.mean():+.1f}/{seg.max():+.1f}  "
+              f"nan={int(np.isnan(seg).sum())} inf={int(np.isinf(seg).sum())}", flush=True)
+        off += n
+    raise last if last is not None else RuntimeError("MBAR failed")
 
 
 def assemble_ukn(window_energies, n_states=None):
@@ -66,25 +101,6 @@ def append_reduced_potentials(out_dir, window_index, iteration, reduced_potentia
     rec = {"w": int(window_index), "iter": int(iteration), "u": [float(x) for x in reduced_potentials]}
     with open(os.path.join(out_dir, f"window_{window_index:02d}.jsonl"), "a") as f:
         f.write(json.dumps(rec) + "\n")
-
-
-def _read_window_jsonl(path):
-    """Read a per-window jsonl → rows sorted by iter, DEDUPED by iter (last write wins). Spot resumes / S3
-    continuous-sync interleaving can append duplicate rows for the SAME iteration; feeding those to MBAR
-    inflates N_k inconsistently across windows and breaks the W_nk normalization (reduce failed 2026-07-09
-    on the lo_m0_NCCO run: pymbar 'column sum for state 0 was 7.93' — 401 never hit it because it ran
-    uninterrupted). Deduping on read fixes it with NO MD re-run — every record carries its `iter` index."""
-    by_iter = {}
-    for line in open(path):
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            r = json.loads(line)
-        except Exception:  # noqa: BLE001 — torn last line from a mid-write spot kill
-            continue
-        by_iter[int(r["iter"])] = r
-    return [by_iter[i] for i in sorted(by_iter)]
 
 
 # ---- physics layer (build-step 2 — single independent window; needs openmm/openmmtools) -----------------
@@ -151,6 +167,29 @@ def _select_platform(preferred="CUDA", allow_cpu_fallback=False):
     raise RuntimeError(f"no working OpenMM platform (tried {order}); last error: {last}")
 
 
+def _minimize_and_rethermalize(context, temperature, seed_val, max_iter=200):
+    """Relax a strained configuration and draw fresh Maxwell–Boltzmann velocities. run_window calls this to
+    recover a λ-window whose checkpoint frame the fixed-dt Langevin step cannot survive (OpenMM raises
+    'Particle coordinate is NaN'). Minimizing removes the clash/over-stretch; re-thermalizing with a perturbed
+    seed sheds the pathological momenta so propagation escapes the frame instead of re-entering it. Kept
+    module-level (nothing beyond the live Context) so the recovery mechanism is unit-testable on the CPU
+    platform without provoking a real GPU blow-up. The re-equilibration is negligible against the thousands of
+    logged iterations and changes neither dt nor the λ-schedule, so the window's sampled ensemble is unchanged."""
+    import openmm
+    openmm.LocalEnergyMinimizer.minimize(context, maxIterations=max_iter)
+    context.setVelocitiesToTemperature(temperature, int(seed_val))
+
+
+def _log_recovery(out_dir, window_index, iteration, event):
+    """Append one NaN-recovery event to a small per-window jsonl that syncs to S3 (continuous upload) — so the
+    recovery is observable from the checkpoint prefix even when CloudWatch stdout is filtered/unavailable."""
+    try:
+        with open(os.path.join(out_dir, f"recovery_{window_index:02d}.jsonl"), "a") as f:
+            f.write(json.dumps({"w": int(window_index), "iter": int(iteration), "event": str(event)[:160]}) + "\n")
+    except Exception:  # noqa: BLE001 — logging must never take down the run
+        pass
+
+
 def run_window(reference_system, positions, alchemical_atoms, window_index, out_dir,
                schedule=None, temperature_K=300.0, n_iter=1000, steps_per_iter=500, timestep_fs=2.0,
                platform_name="CPU", resume=True, seed=0):
@@ -158,6 +197,7 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
     potential of the current sample at ALL λ-states (MBAR needs u(x;λ_j) ∀j), append to the small per-window
     jsonl, and checkpoint the OpenMM State — every iteration. Small per-window files → spot loses ≤1 iter and
     the run resumes THIS window alone. Returns the iteration reached."""
+    import math
     import openmm
     from openmm import unit
     from openmmtools import integrators
@@ -180,27 +220,87 @@ def run_window(reference_system, positions, alchemical_atoms, window_index, out_
         alch_state.lambda_sterics = ls
         alch_state.apply_to_context(context)
 
+    def _energy_finite():
+        """True iff the context's current potential energy is finite. Detects a poisoned (NaN) frame whether
+        OpenMM signals it by returning nan or by raising 'Particle coordinate is NaN'."""
+        try:
+            e = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
+            return math.isfinite(e)
+        except Exception:  # noqa: BLE001 — a raise here IS the non-finite signal
+            return False
+
+    def _fresh_start(vseed):
+        """Re-seed the window from the FINITE input pose — the guaranteed-recoverable state. A checkpoint frame
+        can be strained past what minimization survives (minimize itself then raises NaN); the input pose (the
+        same one r1 ran cleanly from) cannot. This is the escape hatch that makes recovery total."""
+        context.setPositions(positions)
+        _set_lambda(elec, sterics)
+        openmm.LocalEnergyMinimizer.minimize(context)
+        context.setVelocitiesToTemperature(T, int(vseed))
+
+    def _recover(attempt):
+        """Escalating, NEVER-propagating recovery. Attempts 0–1: relax the last checkpoint (preserves trajectory
+        continuity) — but only if it is finite; ≥2, or if relaxing raises: fresh-start from the input pose."""
+        vseed = int(seed) * 1000 + window_index + 7919 * (attempt + 1)
+        try:
+            if attempt < 2 and os.path.exists(ckpt):
+                context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
+                _set_lambda(elec, sterics)
+                if _energy_finite():
+                    _minimize_and_rethermalize(context, T, vseed)
+                    return "relax-checkpoint"
+            _fresh_start(vseed + 104729)
+            return "fresh-start-from-pose"
+        except openmm.OpenMMException:                       # even the relax path blew up → the finite pose can't
+            _fresh_start(vseed + 224737)
+            return "fresh-start-after-relax-nan"
+
+    print(f"[abfe] nan-guard v2 active (window {window_index}, seed {seed})", flush=True)
     os.makedirs(out_dir, exist_ok=True)
     ckpt = os.path.join(out_dir, f"window_{window_index:02d}.state.xml")
     start = 0
     if resume and os.path.exists(ckpt):
-        context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
-        start = _last_logged_iter(out_dir, window_index) + 1
+        try:
+            context.setState(openmm.XmlSerializer.deserialize(open(ckpt).read()))
+            _set_lambda(elec, sterics)
+            start = _last_logged_iter(out_dir, window_index) + 1
+            if not _energy_finite():
+                raise openmm.OpenMMException("poisoned checkpoint (non-finite on resume)")
+        except openmm.OpenMMException as exc:
+            print(f"[abfe] window {window_index}: {str(exc)[:70]} → fresh-start from input pose "
+                  f"(keeping {max(start, 0)} logged samples)", flush=True)
+            _log_recovery(out_dir, window_index, start - 1, f"poisoned-resume:{str(exc)[:80]}")
+            _fresh_start(int(seed) * 1000 + window_index + 104729)   # dynamics restart; logged samples are valid
     else:
-        context.setPositions(positions)
-        _set_lambda(elec, sterics)
-        openmm.LocalEnergyMinimizer.minimize(context)
-        if seed:                                              # seed-determined initial velocities → independent replicate
-            context.setVelocitiesToTemperature(T, int(seed) * 1000 + window_index)
+        _fresh_start(int(seed) * 1000 + window_index)
 
     for it in range(start, n_iter):
-        _set_lambda(elec, sterics)                      # propagate at THIS window's state
-        integrator.step(steps_per_iter)
-        ured = []                                       # reduced potential of this sample at every state
-        for le, ls in schedule:
-            _set_lambda(le, ls)
-            u = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
-            ured.append(beta * u)
+        # NaN guard: a strained frame (a specific window/replicate can wander into one — the nr4a2 complex leg
+        # did) makes the fixed-dt Langevin step blow up ('Particle coordinate is NaN'). On a blow-up we recover
+        # (see _recover: relax the checkpoint, or fresh-start from the finite input pose) and retry the SAME
+        # iteration. Recovery never propagates; bounded retries → a genuinely broken system fails loudly.
+        ured = None
+        for attempt in range(_MAX_WINDOW_RECOVER + 1):
+            try:
+                _set_lambda(elec, sterics)                  # propagate at THIS window's state
+                integrator.step(steps_per_iter)
+                vals = []                                   # reduced potential of this sample at every state
+                for le, ls in schedule:
+                    _set_lambda(le, ls)
+                    u = context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole)
+                    vals.append(beta * u)
+                if not all(math.isfinite(v) for v in vals):   # NaN can surface as a non-finite energy, not only as an exception
+                    raise openmm.OpenMMException("non-finite reduced potential")
+                ured = vals
+                break
+            except openmm.OpenMMException as exc:
+                if attempt >= _MAX_WINDOW_RECOVER:
+                    raise RuntimeError(f"[abfe] window {window_index}: unrecoverable instability at iter {it} "
+                                       f"after {_MAX_WINDOW_RECOVER} recoveries ({str(exc)[:100]})")
+                how = _recover(attempt)
+                print(f"[abfe] window {window_index} iter {it}: instability ({str(exc)[:60]}); "
+                      f"recovery {attempt + 1}/{_MAX_WINDOW_RECOVER} — {how}", flush=True)
+                _log_recovery(out_dir, window_index, it, f"attempt{attempt + 1}:{how}:{str(exc)[:60]}")
         append_reduced_potentials(out_dir, window_index, it, ured)
         st = context.getState(getPositions=True, getVelocities=True)   # tiny checkpoint, every iteration
         with open(ckpt + ".tmp", "w") as f:
@@ -523,14 +623,20 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False,
         p = os.path.join(out_dir, f"window_{k:02d}.jsonl")
         if not os.path.exists(p):
             continue
-        we[k] = [r["u"] for r in _read_window_jsonl(p)]
+        rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
+        by_iter = {}                                          # DEDUP by iteration index: crash/resume/recovery
+        for r in rows:                                        # cycles can leave duplicate records for the same
+            by_iter[int(r["iter"])] = r["u"]                  # iter (the source of the >2000-line windows). Keep
+        we[k] = [by_iter[i] for i in sorted(by_iter)]         # one sample per iter → MBAR sees independent draws,
+                                                              # so the leg's ΔG SE isn't artificially shrunk.
 
     def _dg(trunc):
         wk = [(w[:trunc] if trunc else w) for w in we]
         if any(len(w) == 0 for w in wk):                      # MBAR needs samples from every state
             return None
         u_kn, N_k = assemble_ukn(wk, n_states=K)
-        res = MBAR(np.array(u_kn), np.array(N_k)).compute_free_energy_differences()
+        mbar = _solve_mbar(np.array(u_kn), np.array(N_k), tag=os.path.basename(out_dir.rstrip("/")))
+        res = mbar.compute_free_energy_differences()
         return RT * float(res["Delta_f"][0, K - 1]), RT * float(res["dDelta_f"][0, K - 1])
 
     if not per_iteration:
@@ -558,19 +664,19 @@ def _read_we(out_dir, K):
         p = os.path.join(out_dir, f"window_{k:02d}.jsonl")
         if not os.path.exists(p):
             continue
-        we[k] = [r["u"] for r in _read_window_jsonl(p)]
+        rows = sorted((json.loads(l) for l in open(p) if l.strip()), key=lambda r: r["iter"])
+        we[k] = [r["u"] for r in rows]
     return we
 
 
 def _dg_slice(we, a, b, K, RT):
     """MBAR ΔG (kcal/mol) using only samples [a:b] of every window. None if any window is empty on that slice."""
     import numpy as np
-    from pymbar import MBAR
     wk = [w[a:b] for w in we]
     if any(len(w) == 0 for w in wk):
         return None
     u_kn, N_k = assemble_ukn(wk, n_states=K)
-    res = MBAR(np.array(u_kn), np.array(N_k)).compute_free_energy_differences()
+    res = _solve_mbar(np.array(u_kn), np.array(N_k), tag="slice").compute_free_energy_differences()
     return RT * float(res["Delta_f"][0, K - 1]), RT * float(res["dDelta_f"][0, K - 1])
 
 
