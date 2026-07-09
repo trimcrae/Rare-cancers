@@ -1,0 +1,56 @@
+{
+  "_note": "7 IDH inhibitors from the Broad library, to run through the 3-receptor + MM-GBSA + de-noising selectivity funnel to test whether the IDH-inhibitor CLASS is NR4A3-selectivity-enriched (not just binding-enriched).",
+  "campaign": "idh-class-selectivity",
+  "n_candidates": 7,
+  "candidates": [
+    {
+      "name": "rep00307",
+      "smiles": "Cc1ccccc1[C@H](C(=O)NC1CCCCC1)N(C(=O)Cn1ccnc1C)c1cccc(F)c1",
+      "drug": "AGI-5198",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    },
+    {
+      "name": "rep02763",
+      "smiles": "Cc1cc([C@H](C)Nc2nccc(N3C(=O)OC[C@@H]3[C@H](C)F)n2)ncc1-c1ccnc(C(F)(F)F)c1",
+      "drug": "IDH-305",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    },
+    {
+      "name": "rep02906",
+      "smiles": "N#Cc1ccnc(N2C(=O)CC[C@H]2C(=O)N(c2cncc(F)c2)[C@H](C(=O)NC2CC(F)(F)C2)c2ccccc2Cl)c1",
+      "drug": "ivosidenib",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    },
+    {
+      "name": "rep05802",
+      "smiles": "C[C@@H](Nc1nc(N[C@H](C)C(F)(F)F)nc(-c2cccc(Cl)n2)n1)C(F)(F)F",
+      "drug": "vorasidenib",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    },
+    {
+      "name": "rep00755",
+      "smiles": "C[C@H]1C[C@@H](n2c(Nc3ccc(OC(F)(F)F)cc3)nc3cc(CCC(=O)O)ccc32)CC(C)(C)C1",
+      "drug": "BAY-1436032",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    },
+    {
+      "name": "rep00308",
+      "smiles": "O=C(Nc1cccc(C(F)(F)F)c1)Nc1cc(S(=O)(=O)NC2CC2)ccc1-c1ccsc1",
+      "drug": "AGI-6780",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    },
+    {
+      "name": "rep02024",
+      "smiles": "CC(C)(O)CNc1nc(Nc2ccnc(C(F)(F)F)c2)nc(-c2cccc(C(F)(F)F)n2)n1",
+      "drug": "enasidenib",
+      "moa": "isocitrate dehydrogenase inhibitor",
+      "denovo_promise": 1.0
+    }
+  ]
+}
