@@ -1,0 +1,52 @@
+name: Property-matched control for IDH-inhibitor NR4A3 enrichment (AWS, read-only)
+
+# Tests whether the 7 IDH inhibitors' high NR4A3-triage ranks beat MW/logP/aromatic-matched random library
+# drugs, or merely reflect generic lipophilicity. Read-only (reads the NR4A3-only dock JSONLs from S3).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_prefix:
+        description: "S3 prefix of the NR4A3-only dock"
+        default: "nr4a3-repurpose-nr4a3only"
+        required: false
+      mw_pad:
+        description: "MW envelope padding (Da)"
+        default: "40"
+        required: false
+      logp_pad:
+        description: "cLogP envelope padding"
+        default: "0.6"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3 rdkit
+      - name: Property-matched control
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          MW_PAD: ${{ inputs.mw_pad }}
+          LOGP_PAD: ${{ inputs.logp_pad }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/property_matched_control.py
