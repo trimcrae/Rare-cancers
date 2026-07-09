@@ -1,0 +1,51 @@
+name: Anti-target selectivity REPORT (AWS, read-only)
+
+# Pools the panel dock results and prints the NR4A-vs-panel selectivity gap per drug (family-selective vs
+# promiscuous). Read-only. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      antitarget_prefix:
+        description: "S3 prefix holding the panel dock summary (nr4a3-antitarget.json)"
+        default: "nr4a3-antitarget/panel-ckpt"
+        required: false
+      nr4a_prefix:
+        description: "S3 prefix of the 3-receptor NR4A dock summary (for the NR4A3 baseline)"
+        default: "nr4a3-repurpose-3recept-fm"
+        required: false
+      nr4a_key:
+        description: "filename of the 3-receptor dock summary under nr4a_prefix"
+        default: "nr4a3-3recept.json"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Anti-target selectivity report
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          ANTITARGET_PREFIX: ${{ inputs.antitarget_prefix }}
+          NR4A_PREFIX: ${{ inputs.nr4a_prefix }}
+          NR4A_KEY: ${{ inputs.nr4a_key }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/antitarget_report.py

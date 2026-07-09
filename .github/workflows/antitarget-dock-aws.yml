@@ -1,0 +1,79 @@
+name: Anti-target panel DOCK (AWS SageMaker, spot)
+
+# Docks the repurposing-survivor drug set into the prepared off-target panel (same smina protocol as the NR4A
+# dock) to test promiscuity. Managed-spot CPU Training; checkpoints per (drug,target) pair, so re-dispatch with
+# the SAME tag resumes. Reads the panel from s3://<bucket>/<panel_prefix> and the survivor JSON from the repo.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidates:
+        description: "survivor JSON filename under research/modalities (name+smiles)"
+        default: "nr4a3-antitarget-candidates.json"
+        required: false
+      tag:
+        description: "output namespace / resume key"
+        default: "panel"
+        required: false
+      exhaustiveness:
+        description: "smina exhaustiveness (match the NR4A dock: 8)"
+        default: "8"
+        required: false
+      instance:
+        description: "SageMaker instance type (CPU)"
+        default: "ml.c5.2xlarge"
+        required: false
+      spot:
+        description: "1 = managed spot; 0 = on-demand"
+        default: "1"
+        required: false
+      panel_prefix:
+        description: "S3 prefix of the prepared panel receptors"
+        default: "nr4a3-antitarget-panel"
+        required: false
+      output_prefix:
+        description: "S3 output prefix"
+        default: "nr4a3-antitarget"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit anti-target panel dock
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          CANDIDATES: ${{ inputs.candidates }}
+          TAG: ${{ inputs.tag }}
+          EXHAUSTIVENESS: ${{ inputs.exhaustiveness }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          PANEL_PREFIX: ${{ inputs.panel_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          python research/modalities/nr4a3_antitarget_sagemaker.py
