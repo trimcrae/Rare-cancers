@@ -180,20 +180,27 @@ def replicate_report():
     if not prefixes:
         print("set REP_PREFIXES=<comma list of replicate mmgbsa output prefixes>")
         return
-    # per-drug list of per-run margins (one number per replicate = that run's 10-frame ensemble mean)
-    runs = {}   # label -> {"name": drug, "margins": [...]}
+    pan_cutoff = float(os.environ.get("PAN_CUTOFF", "-6.0"))
+    pan_margin = float(os.environ.get("PAN_MARGIN", "3.0"))
+    # per-drug per-run collection: the margin (selective view) AND all three ΔG (pan-NR4A / CAR-T view).
+    runs = {}   # label -> {"name": drug, "margins": [...], "dg": {NR4A3:[...],NR4A1:[...],NR4A2:[...]}}
     for p in prefixes:
         d = _get_json(s3, bucket, f"{p}/nr4a3-mmgbsa.json")
         if not d:
             continue
         for c in d.get("candidates", []):
-            m = c.get("mm_min_margin")
-            if m is None:
-                continue
             lab = c.get("label") or c.get("drug") or ""
-            r = runs.setdefault(lab, {"name": c.get("drug") or lab, "margins": []})
-            r["margins"].append(m)
+            r = runs.setdefault(lab, {"name": c.get("drug") or lab, "margins": [],
+                                      "dg": {"NR4A3": [], "NR4A1": [], "NR4A2": []}})
+            if c.get("mm_min_margin") is not None:
+                r["margins"].append(c["mm_min_margin"])
+            g = c.get("dG_mmgbsa") or {}
+            for t in ("NR4A3", "NR4A1", "NR4A2"):
+                if g.get(t) is not None:
+                    r["dg"][t].append(g[t])
     print(f"replicate de-noising: {len(prefixes)} independent passes {prefixes}\n")
+
+    # ---- NR4A3-SELECTIVE between-run view (systemic EMC degrader) ----
     rows = []
     for lab, r in runs.items():
         ms = r["margins"]
@@ -204,14 +211,40 @@ def replicate_report():
         rows.append({"name": r["name"] or lab, "n": len(ms), "mean": mean, "sd": sd,
                      "lo": mean - sd, "runs": ms})
     rows.sort(key=lambda x: -x["lo"])
-    print(f"=== BETWEEN-RUN DE-NOISING ({len(rows)}) — survivor = between-run mean − SD > 0 ===")
+    print(f"=== NR4A3-SELECTIVE between-run de-noising ({len(rows)}) — survivor = mean − SD > 0 ===")
     print(f"{'drug':<24} {'n':>2} {'mean':>7} {'SD':>6} {'mean-SD':>8}  {'per-run margins':<28} outcome")
     for x in rows:
         out = "SURVIVES" if x["lo"] > 0 else "collapsed"
         pr = ",".join(f"{v:+.1f}" for v in x["runs"])
         print(f"{x['name'][:24]:<24} {x['n']:>2} {x['mean']:>+7.2f} {x['sd']:>6.2f} {x['lo']:>+8.2f}  "
               f"{pr[:28]:<28} {out}")
-    print("\n(reference: denovo_401 held between two independent passes +12.83 / +14.75 — survives.)")
+    print("(reference: denovo_401 held between two independent passes +12.83 / +14.75 — survives.)\n")
+
+    # ---- PAN-NR4A between-run view (CAR-T angle: engage ALL THREE LBDs, robustly, with a small margin) ----
+    # NR4A1/2/3 triple-loss rescues CAR-T exhaustion (Chen 2019), so a drug that engages all three is itself
+    # a deliverable. Robust pan = all three between-run mean ΔG stay favorable (≤ PAN_CUTOFF) AND the margin
+    # stays small (|mean margin| ≤ PAN_MARGIN); ranked by total engagement (sum of the 3 mean ΔG).
+    pan = []
+    for lab, r in runs.items():
+        if not all(r["dg"][t] for t in ("NR4A3", "NR4A1", "NR4A2")):
+            continue
+        mg = {t: statistics.fmean(r["dg"][t]) for t in ("NR4A3", "NR4A1", "NR4A2")}
+        sdg = {t: (statistics.pstdev(r["dg"][t]) if len(r["dg"][t]) > 1 else 0.0)
+               for t in ("NR4A3", "NR4A1", "NR4A2")}
+        mm = statistics.fmean(r["margins"]) if r["margins"] else None
+        engaged = all(mg[t] <= pan_cutoff for t in ("NR4A3", "NR4A1", "NR4A2"))
+        robust = engaged and mm is not None and abs(mm) <= pan_margin
+        pan.append({"name": r["name"] or lab, "n": min(len(r["dg"][t]) for t in mg),
+                    "mg": mg, "sdg": sdg, "mm": mm, "total": sum(mg.values()), "robust": robust})
+    pan.sort(key=lambda x: x["total"])  # deepest total engagement first
+    print(f"=== PAN-NR4A between-run de-noising ({len(pan)}) — engages all three LBDs (CAR-T) ===")
+    print(f"{'drug':<24} {'n':>2} {'ΔG3(SD)':>12} {'ΔG1(SD)':>12} {'ΔG2(SD)':>12} {'margin':>7}  pan-robust")
+    for x in pan:
+        cells = " ".join(f"{x['mg'][t]:>6.1f}({x['sdg'][t]:>3.1f})" for t in ("NR4A3", "NR4A1", "NR4A2"))
+        mm = f"{x['mm']:>+7.2f}" if x["mm"] is not None else "   n/a"
+        print(f"{x['name'][:24]:<24} {x['n']:>2} {cells} {mm}  {'YES' if x['robust'] else '—'}")
+    print(f"(pan-robust = all three mean ΔG ≤ {pan_cutoff:+.0f} AND |mean margin| ≤ {pan_margin:.0f}, "
+          f"stable across the {len(prefixes)} passes)\n")
     print("Between-run SD is the honest error bar; a single pass's within-run SD understates it. "
           "Screening-grade MM-GBSA, not FEP.")
 

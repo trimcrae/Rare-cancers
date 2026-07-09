@@ -128,3 +128,17 @@ mean ± SD**; survivor = between-run mean − SD > 0. Shortlist = the 6 single-p
 (controls should stay collapsed), not merely destroy. Report tier: `report_repurpose_selectivity.py`
 `MODE=REPLICATE`. **Status: 3 replicate jobs dispatched 2026-07-09 (in flight).** The 7 IDH-class inhibitors
 get the same 3-replicate treatment once their first-pass dock/MM-GBSA lands. FEP remains gated (not run).
+
+**Pan-NR4A (CAR-T angle) is folded into the same replicate campaign — a second deliverable.** NR4A1/2/3
+triple-loss rescues CAR-T-cell exhaustion (Chen et al. 2019, *Nature*), so a drug that engages **all three**
+NR4A LBDs non-selectively is itself valuable — the *opposite* selection to the EMC degrader, but a legitimate
+product of the same screen. Single-snapshot pan calls face the identical non-reproducibility, so the top
+all-three engagers get the same replicate treatment. The `MODE=REPLICATE` report now emits a **PAN-NR4A
+between-run view** beside the selective one (from the *same* runs — MM-GBSA scores all three receptors for
+every drug): pan-robust = all three between-run mean ΔG stay favorable (≤ −6) with a small margin (|mean
+margin| ≤ 3), stable across passes, ranked by total engagement. Pan shortlist added to the replicate filter
+(8, deepest + most-balanced all-three engagers): **siponimod, ICG-001, nilotinib, carebastine,
+tepotinib (EMD-1214063), KB-SRC-4, XL019, AT-1015** — several already-approved drugs. Same MM-GBSA-magnitude
+and promiscuity caveats apply; pan-engagement of a lipophilic pocket is *easier* to score than selectivity, so
+the pan list is the more docking-artifact-prone of the two and its hits are screening-grade leads, not validated
+degraders.
