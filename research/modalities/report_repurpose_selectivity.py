@@ -17,6 +17,9 @@ import json
 import os
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import selectivity_calibration as sc  # noqa: E402
+
 
 def _s3():
     import boto3
@@ -79,6 +82,44 @@ def report():
     def dg(r, t):
         return (r.get("dG_mmgbsa") or {}).get(t)
 
+    # ---- Decoy-calibrated readout (the ONLY honest selectivity call) ----------------------------------
+    # The raw `confirmed_selective` verdict is non-specific: ~39% of non-NR4A decoys earn it (a systematic
+    # NR4A3-frame bias), so `margin > 0` means nothing. A candidate is credibly selective only if its
+    # NR4A3 margin sits in the extreme right tail of the DECOY null. Load a frame-matched decoy null if
+    # given (DECOY_PREFIX = an MM-GBSA output prefix run through THIS funnel); else fall back to the
+    # committed 2026-06-30 null (flag: not frame-matched to this screen).
+    decoy_prefix = os.environ.get("DECOY_PREFIX", "").strip()
+    decoy_margins, decoy_src = [], ""
+    if decoy_prefix:
+        dd = _get_json(s3, bucket, f"{decoy_prefix}/nr4a3-mmgbsa.json")
+        if dd:
+            decoy_margins = [c.get("mm_min_margin") for c in dd.get("candidates", [])
+                             if c.get("mm_min_margin") is not None]
+            decoy_src = f"frame-matched ({decoy_prefix}, n={len(decoy_margins)})"
+    if not decoy_margins:
+        decoy_margins = list(sc.DECOY_2026_06_30)
+        decoy_src = (f"committed 2026-06-30 null (n={len(decoy_margins)}) — NOT frame-matched to this "
+                     f"screen; provisional")
+    q = float(os.environ.get("DECOY_Q", "95"))
+    thr = sc.decoy_threshold(decoy_margins, q)
+    cal = sc.rank_against_null(
+        [{"label": (r.get("drug") or r.get("label") or ""), "margin": r.get("mm_min_margin"),
+          "verdict": r.get("verdict"), "row": r} for r in rows if r.get("mm_min_margin") is not None],
+        decoy_margins, q)
+    above = [c for c in cal if c.get("above_null")]
+    print(f"decoy null: {decoy_src}; {q:.0f}th-pct bar = {thr:+.2f} kcal/mol (decoy max "
+          f"{max(decoy_margins):+.2f})")
+    print(f"=== ABOVE-NULL — decoy-calibrated NR4A3-selective (margin > {thr:+.2f}) ({len(above)}) ===")
+    print(f"{'drug':<28} {'margin':>7} {'p_decoy':>8}  {'ΔG3':>7} {'ΔG1':>7} {'ΔG2':>7}")
+    for c in above[:top]:
+        r = c["row"]
+        print(f"{c['label'][:28]:<28} {c['margin']:>7.2f} {c['decoy_frac_above']:>8.3f}  "
+              f"{str(dg(r,'NR4A3')):>7} {str(dg(r,'NR4A1')):>7} {str(dg(r,'NR4A2')):>7}")
+    if not above:
+        print("  (none clear the null — the screen is not enriched over decoys; raw verdicts below are noise)")
+    print(f"\np_decoy = fraction of decoys scoring >= this margin (empirical p-value vs the null).\n"
+          f"RAW verdict counts below are UNCALIBRATED (kept for reference only).\n")
+
     # NR4A3-selective: the driver's own verdict (mm margin > 0 AND survives vs docking), ranked by margin.
     sel = [r for r in rows if r.get("verdict") == "confirmed_selective"]
     sel.sort(key=lambda r: -(r.get("mm_min_margin") or -99))
@@ -98,10 +139,11 @@ def report():
                   f"{str(r.get('mm_min_margin')):>10}  {r.get('verdict')}")
         print()
 
-    show("NR4A3-SELECTIVE  (systemic EMC degrader lead)", sel)
+    show("NR4A3-SELECTIVE (RAW verdict — UNCALIBRATED, see above-null list for the real call)", sel)
     show("PAN-NR4A  (engages all three LBDs — CAR-T angle)", pan)
     print("CAVEATS: MM-GBSA magnitudes inflated (single-snapshot, no entropy) — trust direction/verdict, not")
-    print("kcal/mol. Must still clear the decoy-null bar; kinase-inhibitor/polyphenol hits are promiscuity-prone.")
+    print("kcal/mol. The RAW `confirmed_selective` count is non-specific (~39% of decoys earn it); the")
+    print("ABOVE-NULL list is the calibrated readout. kinase-inhibitor/polyphenol hits are promiscuity-prone.")
 
 
 def main():

@@ -23,6 +23,10 @@ on:
         description: "REPORT: comma list of MM-GBSA shard output prefixes"
         default: "nr4a3-repurpose-mmgbsa-s0,nr4a3-repurpose-mmgbsa-s1,nr4a3-repurpose-mmgbsa-s2,nr4a3-repurpose-mmgbsa-s3,nr4a3-repurpose-mmgbsa-s4"
         required: false
+      decoy_prefix:
+        description: "REPORT: MM-GBSA output prefix of a frame-matched decoy run (empty = committed 2026-06-30 null)"
+        default: ""
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -49,6 +53,7 @@ jobs:
           PROMOTE_PREFIX: ${{ inputs.promote_prefix }}
           N_SHARDS: ${{ inputs.n_shards }}
           SHARD_PREFIXES: ${{ inputs.shard_prefixes }}
+          DECOY_PREFIX: ${{ inputs.decoy_prefix }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."

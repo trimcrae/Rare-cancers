@@ -14,6 +14,14 @@ Result with the 2026-06-30 decoy run (n=38): mean 1.26, sd 6.25, 90th pct 9.74, 
 Only `denovo_111` (+15.70) clears the 95th-pct bar (1 decoy above it) — the program's first above-null hit.
 """
 
+# Committed single-snapshot MM-GBSA NR4A3 margins of the 38-drug non-NR4A decoy set (2026-06-30 run, the
+# de-novo funnel: release NR4A3 + metad-opened paralogues). The canonical null. NOTE: it is receptor-frame
+# dependent — for a screen run through a DIFFERENT funnel, prefer a frame-matched decoy pass and only fall
+# back to this constant when none is available.
+DECOY_2026_06_30 = [16.46, 13.21, 13.10, 9.75, 9.73, 9.50, 9.30, 5.32, 5.17, 5.15, 4.43, 4.41, 3.42, 3.08,
+                    2.76, 2.46, 1.32, 1.11, 0.69, 0.32, 0.21, 0.09, -0.75, -2.74, -2.77, -3.41, -3.44,
+                    -3.52, -3.56, -3.81, -3.95, -4.38, -5.43, -5.72, -5.79, -6.51, -8.46, -8.89]
+
 
 def percentile(sorted_vals, q):
     """Linear-interpolated percentile q in [0,100] of an ascending-sorted list (numpy-free)."""
