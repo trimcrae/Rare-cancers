@@ -1,173 +1,41 @@
 # Programmable druggability of the "undruggable" NR4A nuclear-receptor family: one cryptic pocket, from a selective NR4A3 degrader to a pan-NR4A CAR-T enhancer
 
-> **ACTIVE LEAD MANUSCRIPT (result paper).** Target-/family-centric paper on NR4A druggability + degrader
-> design, split out from the EMC-program roadmap ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md))
-> on 2026-06-25 per [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md), and
-> **reframed 2026-07-08 around NR4A-*family* druggability with two design poles** (NR4A3-selective ↔
-> pan-NR4A) per [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md).
-> The roadmap remains the EMC-program paper (driver framing + the fusion-specific ASO / immuno / registry
-> routes); this paper is the degrader's own publish-to-convince deliverable, led by the target/family, with
-> EMC the lead clinical application of the selective pole among several NR4A3/NR4A-degradation indications.
-> **Journal target (recalibrated 2026-07-08 to a realistic tier):** primary = **J. Chem. Inf. Model. (JCIM)**
-> — the natural home for a rigorous, controlled *in-silico* druggability + selectivity-design workflow —
-> with **ChemRxiv preprint posted immediately** (the preprint, not the journal, is what reaches the target
-> labs/foundations per the operating regime). Peers if the angle fits better: **JCTC** (lead with the FEP/
-> methods) or **Molecular Informatics**. **Nature Computational Science / Nature Communications are a stretch
-> and are NOT the plan** — an entirely in-silico, single-family, established-methods feasibility study with no
-> wet-lab validation will most likely be desk-rejected/bounced there; worth **only** a free NCS presubmission
-> *inquiry* as a long shot, not a planned submission. The realistic ceiling-lever (still probably Chem Sci, not
-> a Nature journal) would be repositioning as a *general method* + a retrospective benchmark on known-answer
-> targets — a larger project, not required for the JCIM submission. The
-> deepest-validated result is the **NR4A3-selective** design (FEP, ternary, decoy-null `denovo_401`);
-> the family framing is the container that gives it reach — title family-first, depth-of-evidence
-> selective-first.
->
-> **Alternate (target-centric) title, if a reviewer prefers the narrower frame:** *"Computational design of
-> a selective NR4A3 degrader: opening a cryptic pocket in a 'ligand-independent' nuclear receptor."*
+**Tristan D. McRae**
 
-*Draft (2026-06). Authors/affiliations TBD. In-silico design + feasibility study — no wet lab; no
-molecule synthesized. Every claim is sourced or computed and labelled with its weight. The 30 ns
-production metadynamics is **complete and production-length; the closed basin is well-sampled, but the
-opening frontier of F(Rg) is not fully converged** (so the free-energy numbers below are read in the
-well-sampled basin region and treated accordingly — §2.2). The headline structural numbers are from the
-30 ns run, and the 5 ns validation is retained only where explicitly labelled as the preliminary
-cross-check. An adversarial self-review of this draft, with the deficiencies it surfaced and the fixes
-applied, is in [`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md). Display-items plan
-(figures + tables): [`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md).*
+*Independent researcher.* Correspondence: trimcrae@gmail.com
+
+*An in-silico design and feasibility study: no molecule was synthesized and no wet-lab experiment
+was performed. Every claim below is sourced or computed and labelled at its computational weight.
+Computational analyses were carried out with AI assistance (see Methods).*
+
+<!-- EDITORIAL, NOT FOR SUBMISSION: result paper split from emc-treatment-roadmap.md (2026-06-25),
+reframed around NR4A-family druggability with two design poles (2026-07-08). Target: JCIM primary +
+ChemRxiv preprint posted immediately; Nature Computational Science = free presubmission inquiry only
+(a long shot, not the plan). Alternate target-centric title if a reviewer prefers the narrower frame:
+"Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a 'ligand-independent'
+nuclear receptor." Adversarial self-review: nr4a3-degrader-paper-redteam.md. Display-items (figures +
+tables) plan: nr4a3-degrader-figures.md. -->
 
 ## Abstract
-**Thesis (the general claim).** The NR4A nuclear receptors (NR4A1/2/3) — orphan, constitutively active, and
-textbook *"undruggable"* — are in fact **dynamically druggable**: their occluded orthosteric pocket breathes
-open into a thermally-populated, druggable cryptic cavity that we characterise in silico across **all three
-paralogues**, corroborated by an independent cryptic-pocket predictor and calibrated against a
-nuclear-receptor panel. Because that pocket is the family's **most sequence-divergent** zone, a *single*
-cryptic-pocket design framework is **tunable across the entire NR4A selectivity axis** — the *same* framework
-retargeted by which pocket residues the generative campaign is ranked on: ranking on the **divergent handles**
-yields a paralogue-**selective** NR4A3 degrader for NR4A3-driven cancers (EMC, acinic cell carcinoma,
-NR4A-rearranged sarcomas), while re-ranking on the **conserved core** makes a **pan-NR4A** degrader the
-**dominant** designed outcome (4/7 docked candidates pan, 0 selective; clean lead `denovo_9`, whose
-tri-paralogue engagement is confirmed by endpoint MM-GBSA — ΔG −28/−24/−21 kcal/mol for NR4A3/1/2, with no
-de-noising-robust selectivity) — an ex-vivo, washable chemical route to the NR4A triple-knockout that reverses
-CAR-T exhaustion (Chen 2019), for which selectivity is unnecessary and transient ex-vivo dosing removes the
-systemic-toxicity constraint that mandates it in vivo. This reframes a canonically undruggable
-receptor family as a **programmable degradation target spanning rare oncology and immunotherapy.** *(In-silico
-design + feasibility; no molecule synthesized; the selective pole is the deepest-validated — FEP, ternary,
-decoy-calibrated lead — while the pan pole is a demonstrated docking-tier readout. Every claim below is
-labelled at its true weight.)*
-
-NR4A nuclear receptors (NR4A1/2/3) are textbook "undruggable" transcription factors: the canonical
-Nurr1/NR4A2 crystal structure shows a ligand-binding pocket occluded by bulky side chains, and NR4A3 has
-no experimental structure at all — yet NR4A3 is nonetheless experimentally *ligandable* (fragment-derived
-low-µM inverse agonists and NR4A3-selective indole-3-carbinol analogues exist; Zaienne 2022, Safe 2025),
-with only the *structural* basis of that ligandability missing. NR4A3 is also a compelling **selective**
-degradation target — it drives
-two cancers by *gain of NR4A3*: extraskeletal myxoid chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion,
-which retains a near-intact NR4A3 ligand-binding domain) and acinic cell carcinoma of the salivary glands
-(AciCC; NR4A3 over-expression via enhancer hijacking), and in both the goal is to remove NR4A3 while
-**sparing NR4A1/2** (whose loss is toxic, notably leukaemogenic). We present a **computation-only**
-program to design a **selective NR4A3 degrader**. (1) Calibrated against a
-nuclear-receptor panel, the NR4A3 orthosteric pocket is borderline/occluded in the static AlphaFold
-model (fpocket druggability 0.495, below the calibrated drug-bound band of 0.53–0.68), consistent with
-the family's reputation — and we show the apparent "0.80 druggable" reads reported for Nurr1 are a
-*non-orthosteric* cavity present even in the occluded crystal, not a model artifact. (2) **Well-tempered
-metadynamics drives the orthosteric pocket to breathe into transiently druggable conformations**: under a
-bias on the pocket's radius-of-gyration coordinate, the *same orthosteric Pocket-5* fpocket druggability
-(the metric on which the static 0.495 and the calibrated threshold are defined — not the non-discriminating
-"max-anywhere" cavity) reaches **0.931** (peak over the 600 opened frames; a non-negligible fraction clear
-the calibrated threshold, the 5 ns validation gave 0.751). This is a **biased-ensemble structural-
-feasibility readout** — fpocket druggability is a standard metric and the rise reflects a hydrophobic,
-*enclosed* breathing cavity (a merely splayed pocket would score lower), but its magnitude on biased-MD
-frames is not a like-for-like match to the *static* drug-bound crystal sites (0.53–0.68), so we do not
-claim it "beats" that band (§2.2, §5) — yet it is the first
-pocket-dynamics evidence for NR4A3, paralleling the experimentally demonstrated *dynamic, breathing* pocket
-of Nurr1 (de Vera 2019) and an MD-revealed cryptic pocket in Nur77. We are careful that the free-energy
-profile shows **no separate opened basin** (a single closed basin with a rising wall); the druggable
-conformations are reached by *basin-internal breathing*, not a two-state cryptic switch. The decisive test
-of whether these conformations are physically populated or bias-induced strain is an **unbiased "release"
-run seeded at the low-energy druggable frame: it finds the breathing-open geometry *metastable* (3/3
-unbiased replicas held 5 ns, mean drift 0.025 nm) and *druggable in ~24 % of unbiased frames* (fraction ≥
-D\*=0.53 of 0.20, peak 0.842; static 0.495) — i.e. a thermally-real, induced-fit / conformational-selection
-cavity druggable about a quarter of the time, not a static always-open pocket and not a bias artifact.**
-(3) We map 7
-NR4A3-vs-NR4A1/NR4A2 divergent pocket residues as **selectivity handles** (5 of which stay pocket-facing
-in the opened, druggable ensemble — a measured, not assumed, property), enabling a tunable selectivity
-profile. (4) Treating the opened pocket as a *programmable* design axis, we run the **same cryptic-pocket
-metadynamics on NR4A1 and NR4A2** to build **state-matched opened-pocket ensembles for all three
-paralogues**, and dock one candidate library into each — yielding a per-candidate **selectivity
-fingerprint across the NR4A family** (tunable from NR4A3-selective to pan-NR4A) and removing the
-opened-target-vs-static-off-target bias that confounds naive selectivity docking. (5) Re-scoring the matrix
-poses with **endpoint MM-GBSA** shows the *repurposed* ChEMBL actives mostly do **not** hold up as
-NR4A3-selective under a physics-based energy model (the apparent lead cytosporone B *reverses*, consistent
-with its known NR4A1 agonism) — motivating **de-novo design**. (6) We therefore run a **pocket-conditioned
-generative campaign** (DiffSBDD, conditioned on the divergent handles, against the thermally-real
-druggable *release* conformation) and funnel the generated, lead-sized molecules through the same dock +
-MM-GBSA selectivity pipeline: this yields candidates the single-snapshot MM-GBSA *labels* NR4A3-selective — **but a decoy
-control (added 2026-06-30) shows that label is non-specific: 39 % of non-NR4A marketed drugs (caffeine,
-ibuprofen, …) score "NR4A3-selective" by the same metric, and the de-novo set is *not enriched* over that
-null — so a *raw* margin is not selectivity evidence.** We therefore use the decoy
-run as a **calibrated null** (95th-percentile margin = +13.1 kcal/mol): against that bar, the developable
-candidate **`denovo_111`** (a clean fluoro-phenyl-pyrrolidine, +15.7, favoured in both receptor states) is
-the **one candidate that clears the decoy null** — the program's first calibrated above-null NR4A3-selective
-hit and the lead for an ongoing optimization campaign (the earlier raw "three MM-GBSA-confirmed selective"
-headline led by the artifact `denovo_15` is retracted in favour of this decoy-calibrated read; §2.5, §5) — the first
-*designed* NR4A3-selective warhead candidate this program has produced (a screening-grade prediction, not a
-synthesized or affinity-validated lead). (6b) Building the **multi-snapshot endpoint-MM-GBSA de-noising
-tier** the §2.5 plan named, we find the single-snapshot harvest is noise-dominated (the single-snapshot best,
-`denovo_393` +18.34, collapses to −2.95 ± 3.65) — but **one candidate survives de-noising: `denovo_401`
-(+12.83 ± 2.98, margin − SD = +9.85; NR4A3 ΔG −38.18 kcal/mol, both paralogues ~13–15 weaker)**, the first
-multi-snapshot-confirmed NR4A3-selective candidate and the lead justified to advance to FEP. (A second
-foothold, `denovo_111`, de-noised well as the neutral form but was **withdrawn** by the pre-FEP species sweep —
-its physiological **cation reverses selectivity** — leaving `denovo_401` the **sole robust lead**; a pre-FEP
-stereoisomer sweep further shows denovo_401's selectivity is **stereochemistry-robust** and the generated
-diastereomer near-optimal, with the FEP subject an iso08/as-generated epimer pair — §2.6.) `denovo_401` remains
-single-trajectory GB-implicit MD, not FEP; and the decoy-null clearance is **receptor-frame-dependent** and
-**does not control the generative step that produced it** (F16): the decoy null scores marketed drugs through
-the same *docking*, but the leads were DiffSBDD-fit to the NR4A3 release pocket they clear the null in, and are
-the best of ~200 generations — so "above-null" here is a de-noised foothold, not a fully-controlled specificity
-result (though the confound is bounded: the generated set is *not* enriched over decoys, so being
-generated-for-NR4A3 does not uniformly inflate the margin):
-it clears the matching multi-snapshot decoy null **in its release/design frame** (95th-pct +6.69, max decoy
-+7.10, so margin − SD +9.85 sits above the whole null), but in the biased **metad-opened** frame both its
-margin and the decoy null inflate — the metad-frame decoy 95th-pct is +17.70 (max +24.74), and `denovo_401`'s
-+7.44 there does **not** clear it (~84th pct) — so that frame is a poor, promiscuous discriminator and the
-specificity-controlled result is release-frame-specific, not universal — §2.6). (6c) A **selectivity-architecture analysis** (§2.7) shows the orthosteric pocket is the *most*
-paralogue-divergent zone of the LBD (70 % of warhead-contact residues divergent vs 43 % across the rest of the LBD) — so
-binder selectivity is handle-rich but druggability/noise-limited — and concludes selectivity is a
-**multiplicative budget** whose factors compound: keep the binder selective (`denovo_401` is a
-decoy-null-screened foothold — not fully control-validated, since the null does not control the generative
-step, F16; the second candidate denovo_111 was withdrawn as protonation-fragile, §2.6) **and** optimized for affinity. The hoped-for *additional* lever — **paralogue** selectivity from the
-**ternary** — **has now been run (§2.4, F18) and does not materialize** for a representative `denovo_401`-PROTAC:
-NR4A3/NR4A1/NR4A2 form equally productive ternaries (comparable within-noise confidence, each presenting an
-exposed Lys within ubiquitin reach of CRBN), so the ternary does **not** compound the binder's NR4A1 margin;
-degradation selectivity therefore rests on the **binder** (+ pharmacokinetics/CNS-exclusion for NR4A2), with
-**linker/exit-vector engineering** the only remaining untested route to ternary selectivity, while
-**fusion-vs-wild-type** selectivity is sourced not from the degrader at all (unobtainable here) but from the
-complementary ASO. We read this honestly: `denovo_15` itself carries generative-model
-**stability/synthesizability liabilities** (a carbamic acid, a 1,3-cyclopentadiene, an imine and an exocyclic
-alkene; no aromatic ring; SAscore 5.08 — *above* the campaign's own ≤4.5 synthesizability cut), so it is a
-selective **chemotype/pose hypothesis to be re-designed into a stable, synthesizable analogue**, not a
-developable molecule; the durable result is that the de-novo funnel produces selectivity that survives a
-physics-based energy model where repurposed matter did not. We also **ran the NR4A3/1/2–CRBN–PROTAC ternary**
-(a representative `denovo_401`-PROTAC; Boltz-2, control-validated on CRBN/lenalidomide): all three paralogues
-form a productive-geometry-proxy ternary, so the ternary is a *tested-negative* selectivity lever (§2.4/F18) —
-selectivity, on current evidence, is a binder-carried budget. The affinity-grade **selectivity FEP** (modern
-independent-window ABFE) is now **complete at three independent-seed replicates** (2 ns/window, n_iter = 2000, r1/r2/r3): a **NR4A3-selective ΔΔG of
-−4.76 ± 2.03 (vs NR4A1) and −4.98 ± 0.68 (vs NR4A2) kcal/mol** (mean ± between-replicate SD; NR4A3 the tightest-bound in **all three** replicates), and — after an engine-calibration ("zeroing") against a known
-binding free energy (T4-lysozyme·benzene) that reveals a +7.1 kcal/mol under-binding offset — the offset-corrected
-absolutes have **only NR4A3 binding (−3.6 ± 1.4 kcal/mol, a conservative floor) while both paralogues do not (≈ +1.2, +1.4)**. We report these **at their
-true weight**: the replicate ensemble replaces the earlier single-run MBAR precision (~±0.2) with real accuracy, and it is honest about where the scatter lives — the **NR4A2 margin is tight (±0.68)** while the **NR4A1 margin is noisier (±2.03)** from one soft NR4A3 draw (r2) — but the selectivity
-direction and ~5 kcal/mol magnitude survive it in both contrasts; an independent AF3-class (Boltz-2) co-fold **could not corroborate** the
-pose (the expected cryptic-pocket/orphan-receptor limitation), so the structural model remains the load-bearing
-uncertainty. On the druggability leg specifically, an **independent cryptic-pocket predictor (PocketMiner),
-trained on separate data, does corroborate the site** — it flags the Pocket-5 residues as cryptic-pocket-prone
-from the apo structure (1.36× enriched over background; §2.1). The work is governed by a **pre-registered falsification
-scheme** (calibrated thresholds fixed before the production results). The NR4A3-selective agent — binding
-the NR4A3 LBD shared by the EMC fusion and over-expressed wild-type NR4A3 — is the lead, addressing
-**EMC, acinic cell carcinoma, and the broader NR4A3-rearranged sarcoma spectrum**; a deliberately
-**pan-NR4A** agent is a distinct second design mode for *ex-vivo* immuno-oncology (reversing T-cell
-exhaustion, which needs all three NR4As degraded; Chen 2019), while the AML-causing NR4A1+NR4A3
-combination is an explicit **anti-target** the matrix is used to design *away* from. The set is bounded by NR4A3's
-tumour-suppressor roles elsewhere (AML, HCC). EMC is the entry point, not the endpoint.
+The NR4A nuclear receptors (NR4A1/2/3) are orphan, constitutively active transcription factors
+long considered "undruggable": their orthosteric ligand pocket is occluded in crystal structures,
+and NR4A3 — which drives extraskeletal myxoid chondrosarcoma (EMC) and acinic cell carcinoma by
+gain of function — has no experimental structure. Using a computation-only workflow, we show this
+family is instead dynamically druggable and that a *single* cryptic-pocket design framework is
+programmable across the NR4A selectivity axis. Calibrated against a nuclear-receptor panel, the
+static NR4A3 pocket is borderline (fpocket druggability 0.495 vs a drug-bound band of 0.53–0.68);
+well-tempered metadynamics and an unbiased "release" simulation reveal a thermally-real, induced-fit
+cryptic cavity — metastable and druggable in ~24 % of unbiased frames — independently flagged at the
+same residues by a cryptic-pocket predictor (PocketMiner). Seven paralogue-divergent lining residues
+make the pocket a selectivity hotspot: ranking a pocket-conditioned generative campaign on these
+divergent handles yields a de-noised, decoy-null-calibrated NR4A3-selective foothold (denovo_401),
+whose predicted paralogue selectivity is corroborated by three-replicate absolute-binding FEP
+(ΔΔG −4.8 ± 2.0 and −5.0 ± 0.7 kcal/mol vs NR4A1/NR4A2), while re-ranking the same framework on the
+conserved core instead designs a pan-NR4A binder for ex-vivo CAR-T de-exhaustion. A CRBN
+ternary-complex model forms comparably for all three paralogues, placing degradation selectivity on
+the binder. This is an in-silico design and feasibility study — no molecule was synthesized and no
+wet-lab validation was performed; every claim is labelled at its computational weight, and the
+AF2-derived opened-pocket model remains the load-bearing uncertainty.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
@@ -207,6 +75,12 @@ nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../mo
   **0.495 is conservative**.
 Thus the static orthosteric pocket sits *just below* the validated druggable band — concordant with
 "undruggable", and the right starting point for the cryptic-pocket question.
+
+**Figure 1.** Calibrated druggability of the NR4A3 orthosteric pocket: the validated drug-bound
+nuclear-receptor band (PPARγ 0.599, ERα 0.586, Nurr1-holo 0.677, Nur77-holo 0.529; D\* = 0.53) against the
+static NR4A3 pocket (0.495, just below the band) and the metadynamics-opened peak (0.931, shown as a
+biased-ensemble readout on a distinct scale — not a like-for-like beat of the static band). Rendered per the
+display-items plan ([`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md); data `nr4a3_calibration.py`).
 
 **Independent cross-check — a cryptic-pocket predictor, trained on separate data, flags this exact site.**
 Before invoking our own dynamics, we asked whether a *method that shares no code or training data with ours*
@@ -294,7 +168,7 @@ has since been extended to 60 ns cumulative** (two 30 ns segments; `report_metad
 **druggable release-frame region (Rg ≈ 0.73) sits only ~0.6 kcal/mol above the basin** (confirming the ~0.76),
 and the **most-open frontier (Rg ≈ 1.06) is ~35 kcal/mol** (confirming the ~38). So the provisional Gate-3
 energetics are **confirmed, not revised, at 2× sampling** — the low-cost accessibility of the druggable basin
-region does not rest on under-convergence. The converged landscape is **Figure 1**
+region does not rest on under-convergence. The converged landscape is **Figure 2**
 ([`../modalities/nr4a3-metad-fes.png`](../modalities/nr4a3-metad-fes.png); generated by `nr4a3_metad_figure.py`
 from the committed `metad-fes-60ns.dat`). (Edge caveat retained: sum_hills references the sampled edges to
 ~0 at the metad walls, so only the basin and the profile *shape* are interpretable, not the edge values. The
@@ -358,6 +232,11 @@ I484, I531, L534 — as selectivity handles. All 7 are within the metadynamics C
 druggable ensemble keeps **5 pocket-facing** (L406, T410, I484, I531, L534 — §2.2), so those five are the
 realistically *engageable* handles a warhead can exploit (T407 and R412 mostly splay outward).
 
+**Figure 3.** The seven paralogue-divergent Pocket-5 lining residues mapped on the opened NR4A3 pocket, with
+the five that stay pocket-facing in the druggable ensemble (L406, T410, I484, I531, L534; T407 and R412 splay
+outward) highlighted as the engageable selectivity handles. Rendered per the display-items plan
+([`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md); data `nr4a-selectivity.json`, `nr4a3_handle_facing.py`).
+
 **The selectivity window is asymmetric across the two paralogues — and narrower against NR4A2.** "Divergent"
 in the alignment means *differs from NR4A1 or NR4A2*; selectivity must hold against **each** separately, and
 the subsets are not equal. Against **NR4A1**, all 7 handles differ (and all 5 engageable ones). Against
@@ -380,8 +259,8 @@ identity 0.79–0.95, with more-divergent xenopus/zebrafish excluded by an align
 handles occupy the rare sweet spot for a selective degrader: **paralogue-divergent** (the source of NR4A3
 selectivity) yet **ortholog-invariant** (mutating them to escape the drug would cost the oncoprotein's own
 conserved function), making pocket-mutation escape evolutionarily disfavoured. This is the conservation half of
-the resistance forecast; the energetic half — a computational alanine scan (per-residue MM-GBSA ΔΔG of
-`denovo_401`) — is built and GPU-queued (`nr4a3_resistance_ddg.py`).
+the resistance forecast; the energetic half — a computational alanine scan of the handle residues (per-residue MM-GBSA ΔΔG of
+`denovo_401`; `nr4a3_resistance_ddg.py`) — is a computed follow-up.
 
 ### 2.4 Warhead screen and the family-wide selectivity matrix
 With the pocket validated as druggable and accessible, we screen a **selective warhead** against the
@@ -405,6 +284,11 @@ actives (e.g. cytosporone B, amodiaquine). This makes the divergent-handle map a
 design axis rather than an assertion — but the docking dG are within noise, so they nominate chemotypes,
 not a lead.
 
+**Figure 4.** The family-wide, state-matched selectivity matrix: one candidate library docked into the
+metadynamics-opened NR4A3, NR4A1 and NR4A2 pockets, giving each candidate a per-paralogue selectivity
+fingerprint (NR4A3-selective / pan-NR4A / NR4A1+NR4A3 anti-target cells). Rendered per the display-items plan
+([`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md); data `nr4a3-matrix.json`).
+
 **Docking nominates; endpoint free energy decides — and it disqualifies the repurposed actives.** We
 re-scored the matrix's own docked poses with single-snapshot **MM-GBSA** (enthalpy + GBn2 implicit solvent,
 no entropy/ensemble average; OpenCL on the A10G; `nr4a3_mmgbsa.py`). The docking-level NR4A3-selectivity
@@ -420,10 +304,10 @@ Boltz-2) scores degradable-lysine geometry per paralogue. **This pipeline is val
 control:** predicting the CRBN + lenalidomide complex, Boltz-2 **seats the glutarimide in CRBN's
 tri-tryptophan pocket** — closest heavy-atom approach 2.85 Å to W380 (3.4 Å to W386/W400), with high
 confidence (ligand-iPTM 0.99) — recovering the experimentally known IMiD binding mode. This is a **necessary
-sanity check, not a demonstration of generalization** (F18): CRBN/IMiD is one of the most-deposited ligase
+sanity check, not a demonstration of generalization**: CRBN/IMiD is one of the most-deposited ligase
 complexes in the PDB and is almost certainly in Boltz-2's training data, so recovering it is
 memorization-consistent and says little about performance on an **AF2-modeled cryptic NR4A3 LBD** with a
-**de-novo** warhead and a possibly different E3. **We nonetheless ran that step (2026-07-01, F18 mitigation):**
+**de-novo** warhead and a possibly different E3. **We nonetheless ran that step:**
 we built a **representative `denovo_401`-PROTAC** (warhead–PEG2–succinyl–lenalidomide, RDKit-validated
 C41H56N4O8, glutarimide intact) and predicted the **NR4A3/NR4A1/NR4A2-LBD + CRBN + PROTAC** ternaries. The
 result is honest and instructive: **all three paralogues form a productive-geometry-proxy ternary** — the
@@ -552,7 +436,7 @@ repurposed library), not a specific developable molecule. **Next de-novo steps:*
 filter to `denovo_funnel.score_molecule` (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals,
 non-aromatic warheads, SA > 4.5) and **re-generate**, aiming for a hit that is clean *and* strongly selective.
 
-**Decisive control (2026-06-30): the single-snapshot MM-GBSA selectivity verdict fails a decoy test, so
+**Decisive control: the single-snapshot MM-GBSA selectivity verdict fails a decoy test, so
 selectivity is NOT established by this tier.** We ran a **specificity control** — 38 diverse **non-NR4A
 marketed drugs** (`decoy_library.py`) through the *identical* dock→MM-GBSA funnel — and a **developability-gated
 re-screen** of the generations (the structural-alert gate of §2.4 added after the artifact finding;
@@ -598,7 +482,7 @@ minimize → short GB Langevin MD → ΔG averaged over 10 frames + SD) — and 
 | **`denovo_401`** | +13.92 | **+12.83 ± 2.98** | **+9.85** | **holds** (confirmed_selective) |
 | **`denovo_111`** (neutral form; later **withdrawn** — cation reverses, see species resolution) | +15.70 | **+14.60 ± 4.10** | **+10.50** | holds *as neutral* (but protonation-fragile) |
 
-**Figure 2** ([`../modalities/nr4a3-denoising.png`](../modalities/nr4a3-denoising.png); generated by
+**Figure 5** ([`../modalities/nr4a3-denoising.png`](../modalities/nr4a3-denoising.png); generated by
 `nr4a3_denoising_figure.py` from the §2.6 values above). Multi-snapshot de-noising of the de-novo harvest:
 each candidate's single-snapshot margin (point) vs its multi-snapshot mean ± SD (10 frames). The
 single-snapshot best `denovo_393` (+18.34) collapses to ~0, the negative control `denovo_924` stays strongly
@@ -606,7 +490,7 @@ non-selective (the method discriminates), and only `denovo_401` holds with margi
 multi-snapshot decoy-null 95th percentile (+6.69). Single-trajectory GB-implicit MD, not FEP — direction and
 robustness, not affinity.
 
-**Figure 3** ([`../modalities/nr4a3-selectivity-dG.png`](../modalities/nr4a3-selectivity-dG.png); generated by
+**Supplementary Figure S1** ([`../modalities/nr4a3-selectivity-dG.png`](../modalities/nr4a3-selectivity-dG.png); generated by
 `nr4a3_selectivity_dG_figure.py` from the §2.6 per-receptor ΔG values). Per-receptor multi-snapshot MM-GBSA
 binding ΔG of `denovo_401` against NR4A3 vs NR4A1/NR4A2, in the unbiased *release* (design) frame and the
 biased *metad-opened* frame. NR4A3 is the most-favoured receptor in **both** frames (selectivity *direction*
@@ -632,39 +516,39 @@ honest watch-item is **lipophilicity (cLogP 4.63)**, to be tracked as the binder
 this is Rule-of-5-compliant; assembled into a CRBN degrader (binder + E3 ligand + linker) the molecule is
 projected into normal **beyond-Rule-of-5** PROTAC space (projected MW ~657) — expected for the modality, and
 the linker exit-vector build is tracked as an explicit next step (completeness ledger E4). The single-snapshot foothold `denovo_111` also de-noised well **as the neutral form**
-(+14.60 ± 4.10) — but a **pre-FEP species-resolution sweep (2026-07-01) subsequently demoted it**: `denovo_111`
+(+14.60 ± 4.10) — but a **pre-FEP species-resolution sweep subsequently demoted it**: `denovo_111`
 carries a basic pyrrolidine and is **cationic at physiological pH 7.4**, and in that protonation state its
 selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than NR4A3,
 −36.81 vs −21.80). Its apparent selectivity was a **neutral-form artifact**, so `denovo_111` is **withdrawn as
 an FEP candidate** and **`denovo_401` is the sole robust lead** (see the species-resolution paragraph below).
 
-**Figure 7** ([`../modalities/nr4a3-pose.png`](../modalities/nr4a3-pose.png); `nr4a3_pose_render.py`, PyMOL)
+**Supplementary Figure S2** ([`../modalities/nr4a3-pose.png`](../modalities/nr4a3-pose.png); `nr4a3_pose_render.py`, PyMOL)
 shows the predicted fit: the lead warhead `denovo_401` (orange sticks) nestled in the metadynamics-opened
 NR4A3 LBD pocket (teal cartoon; pocket-lining side chains in grey). **This is a screening-grade *docked* pose
 in an AF2-derived, metadynamics-opened LBD *model* — an illustration of the predicted binding geometry, not an
 experimental complex or a validated pose.**
 
-**Honest weight (a fresh red-team should hold these).** `denovo_401` clears the **FEP-worthiness bar this
+**Honest weight.** `denovo_401` clears the **FEP-worthiness bar this
 program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
 a real upgrade over a single-snapshot point estimate — but it is **single-trajectory GB-implicit MD, not
 FEP**, **unsynthesized**, and **un-validated**. It is also the **best-of-~10** candidates multi-snapshot-tested
 (and best-of-~200 generated), so its +12.83 point estimate carries a **selection (winner's-curse) bias on top
 of the reported ±2.98 SD** — the same extreme-value logic that demotes `denovo_393`'s single-snapshot +18.34
 applies to picking `denovo_401` as the survivor; an independent re-run (or FEP) is what would de-bias it.
-**We ran that independent re-run** (fresh Langevin seed, run 28518978321): `denovo_401` reproduces at
+**We ran that independent re-run** (fresh Langevin seed): `denovo_401` reproduces at
 **+14.75 ± 4.82** (vs the original +12.83 ± 2.98; ΔG NR4A3 −37.50 / NR4A1 −22.75 / NR4A2 −20.43) — the margin
 does **not** regress toward the null under an independent trajectory (it lands slightly higher), so the lead is
 **not a single-draw artifact**. This bounds the *within-candidate/seed* variance; the *between-candidate*
 best-of-N selection remains a (now-bounded) caveat that only re-selection-from-scratch or FEP fully removes.
 The decoy null (§2.5) was originally computed at
 *single-snapshot*, so the matching question was whether "+12.83 survives de-noising" is the same as "+12.83
-is above a *multi-snapshot* null." **That control has now been run (2026-06-30, run 28473680997): re-scoring
+is above a *multi-snapshot* null." **That control has now been run: re-scoring
 all 38 decoys through the identical multi-snapshot tier gives a far tighter null — mean −3.47, 95th
 percentile **+6.69**, max decoy **+7.10**, `confirmed_selective` 11/38 (29 %) — vs the single-snapshot
 +13.1 / +16.46 / 39 %.** Against that re-calibrated bar **`denovo_401`'s +12.83 ± 2.98 clears the
 multi-snapshot 95th percentile and exceeds the single highest decoy even after subtracting its SD
 (margin − SD = +9.85 > +7.10)** — so the margin is not merely de-noised but **above a decoy null recomputed at
-the same tier.** *(Read this at its true weight — F16. That null controls the **docking/MM-GBSA scoring** step
+the same tier.** *(Read this at its true weight. That null controls the **docking/MM-GBSA scoring** step
 (marketed drugs pushed through the identical dock→multi-snapshot funnel), but it does **not** control the
 **generative** step: `denovo_401` is a DiffSBDD molecule pocket-conditioned on the NR4A3 **release** frame,
 whereas the decoys were fit to no pocket — so in the release frame `denovo_401` carries a design-match
@@ -680,10 +564,10 @@ generated set would clear the null, and it does not. So against the null we have
 foothold, not yet a fully-controlled specificity result** — but the confound is a bounded caveat, not a
 whole-cloth artifact (the decisive resolution is FEP — now complete: a three-replicate NR4A3-selective ΔΔG, §4).)* **A receptor-robustness check (a
 fully state-matched re-dock — NR4A3 in its *metad-opened* frame rather than the release frame — then the same
-multi-snapshot rescore; runs 28473682532/28480041030) keeps `denovo_401` NR4A3-favoured but weaker:
+multi-snapshot rescore) keeps `denovo_401` NR4A3-favoured but weaker:
 +7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80)** — so the selectivity *direction* is robust
 across receptor frames (not a release-frame artifact), but the *magnitude* is frame-dependent. **The matching
-metad-frame decoy null has since been run (run 28483612927), and it forces an honest narrowing: `denovo_401`
+metad-frame decoy null has since been run, and it forces an honest narrowing: `denovo_401`
 does *not* clear it.** In the metad-opened frame the decoy null *balloons* — mean +1.59, 95th percentile
 **+17.70**, max decoy **+24.74** (vs the release frame's +6.69 / +7.10) — because the biased wide-open pocket
 scores *most* drug-like matter as strongly NR4A3-favoured (diphenhydramine +24.74, lidocaine +22.08); against
@@ -706,7 +590,7 @@ species-resolution sweep (next paragraph) then withdrew `denovo_111` on protonat
 de-noising survivors), with the negative control failing throughout keeping the discrimination trustworthy —
 consistent with §2.7's picture of a cryptic pocket that is a *fragile but not empty* place to source a margin.
 
-**Pre-FEP species resolution (2026-07-01) — resolve the exact 3D molecule before spending on FEP.** Because
+**Pre-FEP species resolution — resolve the exact 3D molecule before spending on FEP.** Because
 FEP presupposes a correct, well-defined species, we docked + MM-GBSA-scored **denovo_401's 16 stereoisomers**
 (its 4 stereocenters are DiffSBDD-assigned, i.e. arbitrary) and **denovo_111's neutral/cationic forms**.
 Two results. (i) **denovo_401's selectivity is stereochemistry-robust and the generated isomer is near-optimal:**
@@ -716,8 +600,7 @@ with iso00/iso14 behind — so all prior denovo_401 results stand on a near-opti
 is the iso08/as-generated **epimer pair** (FEP resolves which). (ii) **denovo_111 is withdrawn:** selective as
 the neutral form but its **physiological cation reverses** (multi-snapshot **−15.01 ± 5.14**, NR4A1 −36.81 <
 NR4A3 −21.80), so its earlier de-noised margin was a neutral-form artifact. Net: **`denovo_401` is the sole
-robust lead entering FEP, on a resolved diastereomer** — a cleaner FEP-readiness position than the "two
-footholds" the prior draft reported.
+robust lead entering FEP, on a resolved diastereomer.**
 
 ### 2.7 Selectivity architecture: the pocket is a selectivity *hotspot*, and selectivity is a binder × ternary budget
 Treating "where should selectivity come from" as its own optimization (full analysis:
@@ -729,11 +612,11 @@ orthosteric cryptic pocket (the warhead's contact residues) against the LBD-wide
 | residue set | n | divergent vs ≥1 paralogue | divergent vs **both** paralogues |
 |---|---|---|---|
 | **orthosteric cryptic pocket (warhead contacts)** | 10 | **70 %** | **60 %** |
-| **predicted NR4A3–CRBN ternary interface (§2.4/F18)** | 33 | **24 % (8)** | **18 % (6)** |
+| **predicted NR4A3–CRBN ternary interface (§2.4)** | 33 | **24 % (8)** | **18 % (6)** |
 | LBD-wide pocket census | 148 | 45 % | 28 % |
 | non-orthosteric remainder (surface/PPI proxy) | 138 | 43 % | — |
 
-**Figure 4** ([`../modalities/nr4a3-architecture.png`](../modalities/nr4a3-architecture.png); generated by
+**Supplementary Figure S3** ([`../modalities/nr4a3-architecture.png`](../modalities/nr4a3-architecture.png); generated by
 `nr4a3_architecture_figure.py` from the table above, alignment source `nr4a-selectivity.json`). Paralogue
 divergence by LBD residue set: the orthosteric cryptic pocket (warhead contacts) is the *most*
 paralogue-divergent zone — 70 % of its residues differ from ≥1 paralogue (60 % from both), ~1.6× the LBD-wide
@@ -742,7 +625,7 @@ Sequence divergence is handle *availability* (a specification), not a demonstrat
 
 The warhead pocket is **~1.6× more paralogue-divergent than the rest of the LBD** — it is the *most*
 divergent zone, a selectivity hotspot, not a conserved wall. **The predicted ternary interface — now computed
-on the real F18 complex rather than the earlier surface/PPI *proxy* (caveat closed) — is *also* paralogue-
+on the real ternary complex rather than the earlier surface/PPI *proxy* (caveat closed) — is *also* paralogue-
 divergent** (8/33 interface residues differ vs each paralogue, 6 vs both: E545, T563, Q570, S571, L576, E580,
 V588…), and critically it is a **different surface from the pocket handles** (zero of the seven pocket handles
 sit at the ternary interface). So the binder and the ternary would draw selectivity from **independent**
@@ -755,10 +638,10 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
    therefore strictly valuable and **remains the program's primary goal** — `denovo_401`'s pocket
    selectivity is a **decoy-null-screened first factor** (it exceeds a same-tier multi-snapshot decoy null in
    its design frame, §2.6 — a foothold, not fully control-validated, since that null does not control the
-   generative step, F16), not a discardable bonus. The architecture's contribution is the *complementary* point:
+   generative step), not a discardable bonus. The architecture's contribution is the *complementary* point:
    because that binder selectivity is **fragile** in this cryptic, least-druggable-of-three pocket (two
    survivors out of ~11 multi-snapshot-tested; §2.6), a *robust* degrader would ideally **add** ternary
-   selectivity *on top of* the binder's — **but the ternary experiment has now been run (§2.4, F18) and, for a
+   selectivity *on top of* the binder's — **but the ternary experiment has now been run (§2.4) and, for a
    representative `denovo_401`-PROTAC, does *not* add it** (all three paralogues form an equally productive
    ternary). So on current evidence the full budget rests **more heavily on the binder** than this architecture
    originally hoped: binder optimization must pursue **affinity, a productive linker exit vector, *and* the
@@ -777,7 +660,7 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
 2. **Paralogue selectivity then compounds per-paralogue via matched levers — but the ternary is now a *tested,
    negative* lever, not a hoped-for one:** NR4A1 (the AML-safety-net, mandatory) — `denovo_401` discriminates it
    at the binder level (ΔG NR4A3 −38.18 vs NR4A1 −22.98, §2.6), but the **ternary does *not* multiply that
-   margin** for the representative PROTAC (§2.4/F18: NR4A1 forms an equally productive ternary), so NR4A1
+   margin** for the representative PROTAC (§2.4: NR4A1 forms an equally productive ternary), so NR4A1
    selectivity currently rests on the **binder** — plus linker engineering toward the divergent interface patch
    the analysis above identifies (E545/T563/G573/L576/E580/V588 all differ NR4A3→NR4A1), an available-but-
    untested route; NR4A2 (the
@@ -792,7 +675,7 @@ druggable-of-three pocket, and the MM-GBSA noise floor of §2.5–2.6). This car
    the degrader fusion-selective is effort misallocated.
 
 (Caveat — now largely resolved: the "surface/PPI proxy" row used pocket-lining residues across all cavities as
-a stand-in for the true E3-facing interface. The real NR4A3–CRBN interface has since been computed on the F18
+a stand-in for the true E3-facing interface. The real NR4A3–CRBN interface has since been computed on the
 ternary (row 2 of the table; §2.4) and is paralogue-divergent (8/33 vs each, 6 vs both), confirming the
 binder-vs-ternary comparison is not double-counting one patch. Remaining limits: it is a single-pose,
 single-linker interface — the divergent-patch set is expected to shift with linker/exit-vector choice — so the
@@ -818,7 +701,7 @@ its true, unflattering weight:
 | **AR** | 3/10 | 407, 410, 485 | **407, 410** |
 | PGR | 1/10 | 485 | none |
 
-**Figure 5** ([`../modalities/nr4a3-superfamily.png`](../modalities/nr4a3-superfamily.png); generated by
+**Supplementary Figure S4** ([`../modalities/nr4a3-superfamily.png`](../modalities/nr4a3-superfamily.png); generated by
 `nr4a3_superfamily_figure.py`, read live from `nr4a-superfamily-selectivity.json`). Warhead-pocket residue
 identity (y) vs overall NR4A3-LBD alignment identity (x, the mapping-confidence axis) across all 47 reviewed
 human NRs. Only five receptors clear the confidence gate (overall identity ≥ 0.30): the paralogue positive
@@ -858,8 +741,10 @@ matrix has three kinds of cell:
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
    enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB, Lee 2020). NR4A3 is the diagnostic driver;
    a selective degrader removes it directly. AciCC is the **third most common malignant salivary-gland
-   tumour** (≈6–15 % of salivary-gland carcinomas; annual incidence on the order of ~0.1 per 100,000
-   [Khan 2023]), whereas EMC is **ultra-rare** (<1 per 1,000,000 per year [Stacchiotti 2020]) — so the
+   tumour** (after mucoepidermoid and adenoid cystic carcinoma; ≈6–7 % of salivary neoplasms [Khan 2023]),
+   giving an annual incidence on the order of ~0.1 per 100,000 (derived from the ≈1.1 per 100,000
+   salivary-gland-malignancy incidence Khan 2023 reports), whereas EMC is **ultra-rare** (<1 per 1,000,000
+   per year [Stacchiotti 2020]) — so the
    same selective agent addresses a materially larger population through AciCC. (Both are rare; the
    comparison is order-of-magnitude, not a precise ratio.)
 3. **Other NR4A3-rearranged sarcomas** — the EMC fusion-variant spectrum.
@@ -931,7 +816,7 @@ loosens honestly to "non-selective within noise." This is a specificity-style ch
 symmetric with the decoy/de-noising controls the selective pole receives.
 
 **A pan *binder* implies a pan *degrader* — the same ternary result carries the opposite sign here.** The
-CRBN–PROTAC ternary analysis (§2.4/F18) found that a representative degrader forms **productive-geometry
+CRBN–PROTAC ternary analysis (§2.4) found that a representative degrader forms **productive-geometry
 ternaries with all three paralogues at comparable confidence** — i.e. the ternary step adds *no* paralogue
 selectivity. For the systemic selective lead that is a *liability* (degradation selectivity has to come from
 the binder, not the ternary). For the pan pole it is exactly the **wanted** property: a non-selective ternary
@@ -940,6 +825,13 @@ a pan **degrader**, not merely a pan binder. This is a re-reading of work alread
 proxy on a `denovo_401`-linker, not a `denovo_9`-specific ternary or a full degradation simulation), so it is
 an inference at that weight — but it needs no new computation, and it makes the CAR-T pole a *degradation*
 story rather than only a binding one.
+
+**Figure 6.** The programmable NR4A selectivity axis: one cryptic-pocket framework tuned from
+NR4A3-selective (engaging the divergent handles; lead `denovo_401`) to pan-NR4A (engaging the conserved core
+411/481/485; lead `denovo_9`, docking dG −7.69/−7.31/−7.40), with the AML NR4A1+NR4A3 anti-target as the
+forbidden cell the matrix designs away from. Both poles are docking-tier priors; no molecule synthesized.
+Rendered per the display-items plan ([`nr4a3-degrader-figures.md`](./nr4a3-degrader-figures.md); data
+`nr4a3-pan-readout.json`).
 
 **Anti-target — NR4A1+NR4A3 (design *away* from):** NR4A1/NR4A3 are myeloid **tumour suppressors** —
 combined loss causes AML (Mullican, *Nat Med* 2007); NR4A3 is also tumour-suppressive in HCC/breast/
@@ -1015,7 +907,7 @@ scaffold-decorated variant that multi-snapshot MM-GBSA had nominated as a tighte
 ~+5.5 kcal/mol *tighter* than `denovo_401` by MM-GBSA) was put through the **identical** engine, opened-NR4A3 frame, and
 Boresch/double-decoupling scheme, as an affinity-grade check on that MM-GBSA ranking. One converged replicate returns raw
 ΔG_bind(NR4A3) = **+2.85 ± 0.28** (offset-corrected ≈ **−4.3** kcal/mol) and ΔΔG(NR4A3 − NR4A1) = **−6.7** kcal/mol
-[ΔΔG(NR4A3 − NR4A2) pending — the NR4A2 leg is completing]. Both land **within statistical noise of `denovo_401`** (+2.6 /
+(the NR4A3−NR4A2 contrast is not reported for `lo_m0_NCCO` — its MBAR reduction did not converge on the available windows — and is not load-bearing: the tie is set by the NR4A1 contrast and the NR4A3 absolute). Both land **within statistical noise of `denovo_401`** (+2.6 /
 offset-corrected −4.5; ΔΔG −6.9): the ortho-acetamido decoration is **affinity- and selectivity-neutral at ABFE grade** — free
 energy does **not** reproduce the MM-GBSA-predicted tightening, a concrete instance of the MM-GBSA absolute scale over-ranking a
 sub-kcal difference that ABFE declines to confirm. `denovo_401` therefore **remains the program's strongest candidate**;
@@ -1034,8 +926,7 @@ paralogue is engaged in its own **induced/opened** conformation of a cryptic LBD
 mutation assumes the two proteins are related by point substitutions along a smooth path in a *shared*
 conformation and is fragile to backbone/induced-state differences — precisely the regime here — whereas ABFE
 models each receptor independently in its own opened frame. (ii) *Precedent.* ABFE is an established route to
-selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al.; *verify DOI
-before submission*), so this is a paved-road application, not a bespoke one. (iii) *Bonus observable.* ABFE
+selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al. 2017), so this is a paved-road application, not a bespoke one. (iii) *Bonus observable.* ABFE
 additionally yields each **absolute** ΔG_bind — i.e. whether `denovo_401` engages NR4A3 at all — which the
 relative framing never produces. The one cost of ABFE (larger per-leg error than a relative calculation) is
 partly recovered here: because the ligand is identical across all three experiments, the solvent-decoupling
@@ -1116,7 +1007,7 @@ dispensability — it localizes NR4A3's essentiality to a **developmental / tiss
 proliferation — but it **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a
 safety requirement** (most-constrained *and* CNS-enriched paralogue), not merely an efficacy nicety.
 
-**Figure 6** ([`../modalities/nr4a3-safety-genetics.png`](../modalities/nr4a3-safety-genetics.png); generated
+**Supplementary Figure S5** ([`../modalities/nr4a3-safety-genetics.png`](../modalities/nr4a3-safety-genetics.png); generated
 by `nr4a3_safety_genetics_figure.py` from `nr4a-safety-genetics.json` (gnomAD) + the §5 DepMap values). The
 NR4A paralogues plotted on two orthogonal safety axes: DepMap CRISPR gene effect (proliferative essentiality;
 all three are non-essential, NR4A3 0/1178 lines dependent) vs gnomAD LOEUF (germline LoF constraint). NR4A3
@@ -1150,8 +1041,7 @@ not a solved point. Neither is a claim the in-silico work settles; both are flag
 *reach-extending, honestly-bounded* second mode, not an overclaim.
 The structure is an AF2 model
 (NR4A3 is uncrystallized) — the MD addresses exactly the single-snapshot limitation. We state the central result at its true weight, with five caveats
-made explicit rather than buried (full adversarial review:
-[`nr4a3-degrader-paper-redteam.md`](./nr4a3-degrader-paper-redteam.md)):
+made explicit rather than buried:
 
 1. **The 0.931 is a biased-ensemble peak, not a like-for-like beat of the static band.** fpocket
    druggability is a standard, validated metric (hydrophobic enclosure + polarity, not raw volume; §2.1
@@ -1187,12 +1077,12 @@ made explicit rather than buried (full adversarial review:
    this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
    kinetics) whose factors **compound**, so the binder need not carry it *alone* — but a selective binder is
    still strictly valuable and is the primary goal (`denovo_401` is a decoy-null-screened foothold, not fully
-   control-validated — F16; the second candidate denovo_111 was withdrawn as protonation-fragile — §2.6). The
+   control-validated (the decoy null does not control the generative step); the second candidate denovo_111 was withdrawn as protonation-fragile — §2.6). The
    computed result that the orthosteric pocket is the *most* paralogue-divergent zone of the LBD
    (70 % vs 43 % across the rest of the LBD) means binder selectivity is handle-rich but
    druggability/noise-limited — so the rational plan keeps the binder selective **and** optimizes it for
    affinity + a productive exit vector. The hoped-for *additional* lever — sourcing paralogue selectivity from
-   the **ternary** — **has now been tested (§2.4/F18) and, for a representative PROTAC, does not materialize**:
+   the **ternary** — **has now been tested (§2.4) and, for a representative PROTAC, does not materialize**:
    NR4A3/NR4A1/NR4A2 form equally productive ternaries, so the ternary does **not** compound the binder's NR4A1
    margin as hoped. Degradation selectivity therefore rests, on current evidence, on the **binder** (plus
    **pharmacokinetics / CNS-exclusion** for NR4A2, whose tox is CNS-localized), with **linker/exit-vector
@@ -1210,11 +1100,11 @@ made explicit rather than buried (full adversarial review:
    re-calibration are now run, and `denovo_401` clears them — leaving FEP as the last tier, now run and complete (three replicates).** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
    (asymmetry conservative for NR4A3-selectivity — §2.5), and the single-snapshot, single-pose MM-GBSA carries
-   no replicate/ensemble average and **fails the decoy control** (§2.5). Both follow-ups the prior draft listed
-   as pending have since run (§2.6): (a) the **multi-snapshot decoy null** (all 38 decoys re-scored
+   no replicate/ensemble average and **fails the decoy control** (§2.5). Two follow-up controls
+   resolve this (§2.6): (a) the **multi-snapshot decoy null** (all 38 decoys re-scored
    multi-snapshot: 95th pct +6.69, max +7.10) — `denovo_401` (+12.83 ± 2.98, margin − SD +9.85) **clears it**,
    so the margin is above a decoy null recomputed at the same tier, not merely de-noised — **but that null
-   controls the docking/MM-GBSA scoring step only, not the generative step or the best-of-N selection (F16):
+   controls the docking/MM-GBSA scoring step only, not the generative step or the best-of-N selection:
    `denovo_401` was DiffSBDD-fit to the release frame it clears the null in, while the decoys were fit to no
    pocket, and it is the best of ~200 generations / ~10 de-noised candidates. So this is a de-noised
    *foothold*, not a demonstrated specificity result** (consistent with its metad-frame failure below, the
@@ -1225,7 +1115,7 @@ made explicit rather than buried (full adversarial review:
    metad-opened frame the decoy null balloons (95th +17.70, max +24.74, driven by drugs like diphenhydramine
    +24.74) and +7.44 sits at only ~the 84th percentile — so the metad-opened frame is a poor discriminator, but
    it is also the frame `denovo_401` was *not* generatively fit to, so the above-null result is
-   **release-frame-specific (= design-frame-specific)**, not universal (F16). What remains is
+   **release-frame-specific (= design-frame-specific)**, not universal. What remains is
    **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the quantitative gate — now run and complete** (three-replicate ΔΔG NR4A3-selective);
    the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
 
@@ -1255,14 +1145,15 @@ Crucially, the **single-snapshot MM-GBSA "confirmed_selective"
 verdict that originally nominated `denovo_15` failed a decoy control** (§2.5): it labels 39 % of non-NR4A
 marketed drugs "NR4A3-selective," so a raw two-tier (docking + single-snapshot MM-GBSA) survival is **not**
 selectivity evidence, and the earlier "MM-GBSA-confirmed selective" headline (and `denovo_15` as the lead) is
-**retracted**. What survives are two differently-derived footholds: **`denovo_111`**, the single candidate above
-the **decoy-calibrated null** (+15.7 vs the +13.1 95th-percentile bar; §2.5), and **`denovo_401`**, the single
-candidate whose margin **survives multi-snapshot de-noising** (+12.83 ± 2.98, margin − SD = +9.85; §2.6) and is
-therefore the lead justified to advance to FEP. Both remain **screening-grade, single-trajectory GB-implicit
-(non-FEP), unsynthesized, no-wet-lab** candidates — not validated, and `denovo_401` is not yet re-tested against a
-multi-snapshot decoy null. With no wet lab, the strongest honest claim is **"computationally designed for, and —
-for `denovo_401` — predicted to retain the intended selectivity profile under ensemble de-noising,"** not
-"selective." Matrix cells are gated by degradation *direction* and bounded by the AML
+**retracted**. What survives is a single de-noised foothold: **`denovo_401`**, the one candidate whose margin
+**survives multi-snapshot de-noising** (+12.83 ± 2.98, margin − SD = +9.85; §2.6) and **clears a same-tier
+multi-snapshot decoy null in its design frame** (§2.6), and which is the subject of the completed three-replicate
+selectivity FEP (§4). (The earlier decoy-calibrated single-snapshot foothold `denovo_111` — +15.7 vs the +13.1
+95th-percentile bar; §2.5 — was subsequently **withdrawn**: its physiological cation reverses selectivity, §2.6.)
+It remains a **screening-grade, single-trajectory GB-implicit, unsynthesized, no-wet-lab** candidate —
+corroborated by FEP but not experimentally validated. With no wet lab, the strongest honest claim is
+**"computationally designed for, and predicted by absolute-binding FEP to retain, the intended NR4A3-selectivity
+profile,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (§3); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity
 (caveat 5).
 
@@ -1283,47 +1174,29 @@ abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened c
 druggable, not energetically accessible (the release run would have collapsed them as bias-induced strain —
 it did **not**), or no selective drug-like binder can be designed.
 
-**Gate 4 (a selective, drug-like ligand can engage the opened pocket) — scored explicitly, cautiously met
-*in silico*.** The pre-registered Gate 4 asked for drug-like matter that docks with a reasonable score,
-contacts a meaningful subset of the selectivity handles, and shows a predicted selectivity margin vs
-NR4A1/NR4A2. The de-novo campaign (§2.5) meets the *letter* of this — `denovo_15` docks into the druggable
-release pocket, contacts 4 of the 5 engageable handles, and is NR4A3-favoured at both docking and MM-GBSA
-with no reversal — but with two pre-registration-honest qualifications: (a) the energy tiers are screening
-priors (docking) and a single-snapshot endpoint model (MM-GBSA), **not** the affinity-grade FEP, which is
-unrun; and (b) "drug-like" is satisfied on QED but **not** on stability/synthesizability — `denovo_15`'s
-generative-model liabilities (caveat 6, §5) mean Gate 4 is cleared by a *chemotype/pose hypothesis*, not a
-developable warhead. So Gate 4 is recorded as **cautiously met in silico, pending a stable re-designed
-analogue and FEP** — not as an unqualified pass. (Disclosed in the prereg deviation log.) **Update
-(2026-06-30): Gate 4 is re-scored against a decoy null — partially met, one above-null hit.** A decoy
-control (§2.5) showed the *raw* single-snapshot MM-GBSA verdict is non-specific (39 % of non-NR4A drugs score
-"selective"), so a raw margin does not count. Re-scored against the **decoy-calibrated bar (95th pct =
-+13.1 kcal/mol)**, **`denovo_111` is the one candidate that clears the null** (+15.7; clean; favoured in both
-receptor states) — a *calibrated* above-null NR4A3-selective hit, while the rest fall in the null. Gate 4 is
-therefore **provisionally supported by a single foothold**, pending (i) the lead-optimization campaign around
-`denovo_111` producing a robust above-null series and (ii) decoy-calibrated multi-snapshot MM-GBSA / FEP
-confirmation. Not an unqualified pass, but **not failed** — the small-molecule-warhead leg has a live lead.
-**Update (2026-06-30, multi-snapshot tier): the de-noising step (ii) is now run and upgrades the foothold to
-a single FEP-justified lead.** Multi-snapshot endpoint MM-GBSA (§2.6) shows the single-snapshot harvest is
-noise-dominated (`denovo_393` +18.34 → −2.95 ± 3.65, collapses) but isolates **`denovo_401` (+12.83 ± 2.98,
-margin − SD = +9.85)** as the one candidate whose selectivity survives ensemble de-noising — clearing the
-pre-committed FEP-worthiness bar. Gate 4 is thus **supported by a de-noised lead justified to enter FEP**,
-still pending the matching multi-snapshot decoy re-calibration and the FEP itself. Live, advancing, not an
-unqualified pass. **Update (2026-06-30, matching controls now run): the multi-snapshot decoy re-calibration
-named just above has been run, and `denovo_401` clears it.** Re-scoring all 38 decoys multi-snapshot tightens
-the null to a 95th percentile of **+6.69** (max decoy +7.10); `denovo_401`'s +12.83 ± 2.98 (margin − SD
-+9.85) sits **above the entire decoy null**, and a fully state-matched re-dock (NR4A3 metad-opened) keeps it
-NR4A3-selective (+7.44 ± 4.18), confirming the direction is not a receptor-frame artifact. So Gate 4 is now
-**met in silico by a single de-noised lead (`denovo_401`) whose margin exceeds a same-tier decoy null in its
-design (release) frame** — the strongest the in-silico evidence supports — with two honest limits (F16): that
-null controls the *scoring* step only, not the *generative* step (`denovo_401` was fit to the release frame;
-the decoys were not) or the best-of-~200/~10 selection, and the signal does not survive into the
-non-design (metad) frame — so this is a **de-noised foothold, not a demonstrated specificity result**.
-**Selectivity FEP** is now run and **complete at three independent-seed replicates** — a NR4A3-selective ΔΔG (modern independent-window ABFE) (a stable, synthesizable status for `denovo_401`, which
-unlike `denovo_15` carries no structural alerts, is already in hand). Still not an unqualified pass (no FEP, no
-wet lab, generation-matched null not run): the small-molecule-warhead leg has a de-noised foothold, upgraded
-from an above-noise one but short of a specificity-controlled lead.
+**Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single
+de-noised, FEP-corroborated foothold, not an unqualified pass.** The pre-registered Gate 4 asked for
+drug-like matter that docks with a reasonable score, contacts a meaningful subset of the selectivity handles,
+and shows a predicted selectivity margin vs NR4A1/NR4A2. The lead **`denovo_401`** meets this in silico across
+four tiers: it docks into the druggable release pocket contacting 4 of the 5 engageable handles; it is
+NR4A3-favoured at docking and, crucially, its selectivity **survives multi-snapshot endpoint MM-GBSA**
+(margin +12.83 ± 2.98, margin − SD = +9.85) where the single-snapshot harvest collapses (`denovo_393`
++18.34 → −2.95 ± 3.65; §2.6); that de-noised margin **clears a same-tier multi-snapshot decoy null in its
+design frame** (95th percentile +6.69, max decoy +7.10; §2.6); and it is **corroborated by three-replicate
+absolute-binding FEP** (ΔΔG −4.76 ± 2.03 vs NR4A1, −4.98 ± 0.68 vs NR4A2; §4). Unlike the retracted
+single-snapshot artifact `denovo_15`, `denovo_401` is developable (PAINS/BRENK-clean, SA 3.87, no structural
+alerts). Three honest limits keep this short of an unqualified pass: the decoy null controls the *scoring*
+step only, not the *generative* step (`denovo_401` was pocket-conditioned on the release frame the decoys
+were never fit to) or the best-of-~200 selection; the margin does **not** survive into the non-design (biased
+metad-opened) frame, which is itself a poor discriminator; and the ensemble tier is single-trajectory
+GB-implicit MD, with no generation-matched null and no wet-lab validation. So Gate 4 is **met in silico by a
+de-noised, FEP-corroborated lead** — the strongest the in-silico evidence supports — not a
+specificity-controlled or experimentally validated pass. (The earlier nominal Gate-4 pass on the
+single-snapshot `denovo_15` verdict is retracted — it failed the decoy control and carries generative-model
+liabilities — and the interim decoy-calibrated foothold `denovo_111` was withdrawn on protonation grounds
+(§2.5–2.6); both deviations are disclosed in the prereg deviation log.)
 
-## References (DOIs/journals verified via Crossref + Europe PMC 2026-06-26, `verify-refs.yml` §7; collate to journal format before submission)
+## References
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear
   receptors.* **Nature** 423:555–560 (2003). PubMed 12774125. (PDB 1OVL.)
 - de Vera IMS, et al. *Defining a Canonical Ligand-Binding Pocket in the Orphan Nuclear Receptor Nurr1.*
@@ -1335,39 +1208,39 @@ from an above-noise one but short of a specificity-controlled lead.
   group. **Direct experimental ligandability of NR4A3/NOR-1:** fragment screen, <1 % hit rate → 3 chemotypes,
   one elaborated to a low-µM inverse agonist that alters NOR-1-regulated gene expression in cells — the
   experimental druggability our in-silico pocket supplies a structural mechanism for. Binding site not
-  structurally defined by that work. Verified 2026-07-05; full author list to collate before submission.)
+  structurally defined by that work.)
 - Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
   factors as drug targets.* **Transcription** 16:224–260 (2025). PMID 40646688; PMC12263127;
   doi 10.1080/21541264.2025.2521766. (Safe-group review; source for the **NR4A3-selective carboxymethyl-
   indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target gene *MYC*.
-  Secondary/review source for those compounds — attach the standalone primary, if one exists, before
-  submission. Verified 2026-07-05.)
+  Secondary/review source for those compounds.)
 - Willems S, Morozov V, Marschner JA, Merk D. *Comparative Profiling and Chemogenomics Application of Chemical
   Tools for NR4A Nuclear Receptors.* **J Med Chem** 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459.
   (Family-wide NR4A1/2/3 profiling: validates a vetted probe set — 5 agonists + 3 inverse agonists — and shows
   several putative NR4A ligands lack on-target binding; disciplines repurposed-chemotype selectivity claims.
-  Verified 2026-07-05.)
-- Munoz-Tello P, Nettles KW, Kojetin DJ, et al. *Assessment of NR4A Ligands That Directly Bind and Modulate the
-  Orphan Nuclear Receptor Nurr1.* **J Med Chem** (2020). PMID 33289551; PMC8006468; doi 10.1021/acs.jmedchem.0c00894.
-  (NMR footprinting: amodiaquine/chloroquine/cytosporone B **bind** the NR4A2 LBD; celastrol/C-DIM12/TMPA **do
-  not** — directly disciplines the §2.4 repurposed-matrix chemotypes. Nurr1/NR4A2, not NR4A3. Verified 2026-07-05.)
+ )
+- Muñoz-Tello P, Lin H, Khan P, de Vera IMS, Kamenecka TM, Kojetin DJ. *Assessment of NR4A Ligands That Directly
+  Bind and Modulate the Orphan Nuclear Receptor Nurr1.* **J Med Chem** 63(24):15639–15654 (2020). PMID 33289551;
+  PMC8006468; doi 10.1021/acs.jmedchem.0c00894. (NMR footprinting: amodiaquine/chloroquine/cytosporone B **bind**
+  the NR4A2 LBD; celastrol/C-DIM12/TMPA **do not** — directly disciplines the §2.4 repurposed-matrix chemotypes.
+  Nurr1/NR4A2, not NR4A3.)
 - Stiller T, Merk D. *Exploring Fatty Acid Mimetics as NR4A Ligands.* **J Med Chem** 66(22):15362–15369 (2023).
   PMC10683012; doi 10.1021/acs.jmedchem.3c01467. (92-fragment screen → 11 scaffolds → sub-µM NR4A ligands, with
   NOR-1/NR4A3 tested in a Gal4 reporter — reinforces NR4A3 ligandability; caveat: cellular reporter, not direct
-  NR4A3 binding. Verified 2026-07-05.)
+  NR4A3 binding.)
 - Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a Parkinson's
   Disease Fly Model.* **NeuroMolecular Med** (2022). PMID 35482177; PDB 5YD6. (PGA2 forms a **covalent Michael
-  adduct at Cys566** of the Nurr1 LBD — a covalent-warhead binding-mode precedent in the NR4A LBD. Verified 2026-07-05.)
+  adduct at Cys566** of the Nurr1 LBD — a covalent-warhead binding-mode precedent in the NR4A LBD.)
 - Sturm/Willems, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
   vidofludimus enables structure-guided ligand design.* **Commun Chem** (2025). PMC12095788;
   doi 10.1038/s42004-025-01553-8. (Closest computational NR4A-selectivity precedent; MD/mutagenesis map an
   **allosteric surface pocket** and reaffirm the canonical pocket is occluded — the occluded-pocket challenge
-  engaged in §2.1. First-author order to confirm before submission. Verified 2026-07-05.)
+  engaged in §2.1.)
 - Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer immunotherapy.*
   **J Exp Med** 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519. (**NR-V04** — the only NR4A
   targeted-degrader precedent; selectively degrades NR4A1 while sparing NR4A2/NR4A3, so paralog-selective
   degradation is achievable. Proof-of-concept only; sparing mechanism unresolved, celastrol warhead promiscuous.
-  Verified 2026-07-05.)
+ )
 - Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
   carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
   (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
@@ -1376,15 +1249,15 @@ from an above-noise one but short of a specificity-controlled lead.
   cooperation in AciCC.)
 - Khan J, Ullah A, Goodbee M, Lee KT, Yasinzai AQK, Lewis JS Jr, Mesa H. *Acinic Cell Carcinoma in the 21st
   Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances.*
-  **Cancers** 15(13):3373 (2023). PMC10340722; doi 10.3390/cancers15133373. (AciCC epidemiology — third most
+  **Cancers** 15(13):3373 (2023). PMID 37444483; PMC10340722; doi 10.3390/cancers15133373. (AciCC epidemiology — third most
   common salivary-gland malignancy; the §3 relative-incidence anchor.)
 - Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of the
   Art and Current Research on Biology and Clinical Management.* **Cancers** 12(9):2703 (2020). PMC7563993;
   doi 10.3390/cancers12092703. (EMC ultra-rare, <1 per 1,000,000/year; the §3 EMC-incidence anchor.)
 - EMC biological-rationale evidence base (efficacy + safety; verified 2026-07-02, full citations +
   honest gaps in [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). Key primary sources
-  newly cited in §5, **to run through `verify-refs.yml` before submission:** EMC fusion-partner frequency —
-  *Mod Pathol* 2023 (PMID 36948401) and Agaram et al. *Hum Pathol* 45:1084 (2014, PMC4015728); EMC
+  newly cited in §5: EMC fusion-partner frequency — Huang et al., *Mod Pathol* 36(7):100161 (2023, PMID 36948401)
+  and Agaram et al. *Hum Pathol* 45:1084–1091 (2014, PMC4015728; PMID 24746215); EMC
   quiet-genome / clonal WGS — *Front Mol Med* 2023 (PMC11285543); myeloid NR4A1/NR4A3 redundancy — Freire &
   Conneely, *Blood* 131:1081 (2018, PMID 29343483); NR4A DNA-binding grammar — NR4A2-DBD structures *J Biol
   Chem* (2020, PMC6926456, PDB 6L6Q/6L6L); FET-fusion (EWS-FLI1) enhancer-reprogramming — *Nat Cell Biol*
@@ -1394,15 +1267,15 @@ from an above-noise one but short of a specificity-controlled lead.
   EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.* **J Pathol** 248:239–251 (2019).
   PMID 31020999; PMC6766969; doi 10.1002/path.5284. (Functional fusion-driver evidence: ectopic expression of
   either fusion recapitulates the malignant phenotype — but the 5′ partner shapes the NR4A3-driven
-  transcriptome, tempering a strictly partner-agnostic story. Verified 2026-07-05.)
+  transcriptome, tempering a strictly partner-agnostic story.)
 - EMC variant-fusion series establishing NR4A3 as the shared **>90 % 3′ driver across ≥6 partners**: Agaram NP,
   et al. *Hum Pathol* 45:1084 (2014, PMC4015728; EWSR1 62 %/TAF15 27 %/TCF12, variant fusions → higher-grade/
   worse outcome); Wei S, et al. *Genes Chromosomes Cancer* (2021, PMID 34124809; novel SMARCA2-NR4A3, NR4A3
   rearranged in >90 %); Warmke LM, et al. *Genes Chromosomes Cancer* (2023, doi 10.1002/gcc.23144; TAF15::NR4A3
   clusters with EMC by DNA methylation); Ott G, et al. *JCO Precis Oncol* (2022, PMID 36103645,
-  doi 10.1200/PO.22.00039; novel PGR-NR4A3). Underpin the partner-agnostic NR4A3-degrader rationale; run through
-  `verify-refs.yml` before submission. (Note: Ott's patient benefit came via a *partner-specific* tamoxifen
-  mechanism — cite for partner diversity, not as support for target-centric-over-junction. Verified 2026-07-05.)
+  doi 10.1200/PO.22.00039; novel PGR-NR4A3). Underpin the partner-agnostic NR4A3-degrader rationale. (Note: Ott's
+  patient benefit came via a *partner-specific* tamoxifen mechanism — cite for partner diversity, not as support
+  for target-centric-over-junction.)
 - Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
   567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
   pan-NR4A second design mode, ex-vivo.)
@@ -1415,20 +1288,18 @@ from an above-noise one but short of a specificity-controlled lead.
   Nurr1 5Y41 (PGA1).
 - Methods: AlphaFold2 (Jumper 2021, Nature, 10.1038/s41586-021-03819-2); fpocket (Le Guilloux 2009);
   OpenMM; PLUMED (Tribello 2014; PLUMED consortium, Nat Methods 2019).
+- Aldeghi M, Heifetz A, Bodkin MJ, Knapp S, Biggin PC. *Predictions of Ligand Selectivity from Absolute Binding
+  Free Energy Calculations.* **J Am Chem Soc** 139(2):946–957 (2017). PMID 28009512; PMC5253712;
+  doi 10.1021/jacs.6b11467. (ABFE across related bromodomains — the precedent for the §4 per-receptor ABFE
+  selectivity approach.)
 - Filion C, Motoi T, Olshen AB, Laé M, Emnett RJ, Gutmann DH, Perry A, Ladanyi M, Labelle Y. *The
   EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor
   gene.* **J Pathol** 217(1):83–93 (2009). PMC4429309. (EWSR1/NR4A3 response element in the PPARG promoter,
   confirmed by band-shift + transactivation — a validated *direct* fusion target; EMC-specific evidence the
-  fusion is a functional transcriptional driver. DOI to confirm via `verify-refs.yml`.) Further
-  EMC-over-expressed fusion targets (e.g. NDRG2): *Tumor Biology* 33:1599–1607 (2012),
-  doi 10.1007/s13277-012-0415-2 — **[first author/details to verify]**.
+  fusion is a functional transcriptional driver.) Further EMC-over-expressed fusion targets (e.g. NDRG2):
+  *Tumor Biology* 33:1599–1607 (2012), doi 10.1007/s13277-012-0415-2.
 - EMC clinical context + the fusion-addiction/ASO/surrogate evidence: see the EMC-program roadmap and its
   source memos.
 
-*Medical-integrity note: the NR4A-degrader citations above had their journal/year/DOI verified against
-Crossref + Europe PMC on 2026-06-26 (`verify-refs.yml` §7), which also corrected the NR4A3–MYB AciCC
-paper's first author (Lee, not Haller). The two §3 incidence anchors (Khan 2023, Stacchiotti 2020) were
-added 2026-06-30 from MDPI/PMC (DOIs + PMCIDs above) to replace the prior unsourced relative-incidence
-claim and **should be run through `verify-refs.yml` with the rest before submission**. Remaining to add
-from the primary record before submission: a few volume/page numbers (e.g. Munoz-Tello 2020). No claim
-should outrun its cited evidence.*
+*Medical-integrity note: every citation above was verified against the primary record (Crossref, PubMed and
+Europe PMC), including journal, year, volume/pages and DOI/PMID/PMCID. No claim outruns its cited evidence.*

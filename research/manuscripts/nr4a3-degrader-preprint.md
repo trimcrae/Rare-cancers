@@ -1,9 +1,6 @@
 # Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a "ligand-independent" nuclear receptor
 
-> **Working title.** The selectivity FEP result is now **in hand and confirming** — a three-replicate
-> NR4A3-selective ΔΔG (−4.76 ± 2.03 vs NR4A1, −4.98 ± 0.68 vs NR4A2 kcal/mol; NR4A3 tightest-bound in all three
-> replicates; §4) — which licenses the result-led framing above ("predicted-selective … warhead candidate").
-> Title options + rationale in `nr4a3-degrader-preprint-plan.md`.
+<!-- Working title — pick the final title before posting (options + rationale in nr4a3-degrader-preprint-plan.md). -->
 
 **Tristan D. McRae**
 
@@ -17,42 +14,24 @@ Information.*
 ---
 
 ## Abstract
-NR4A nuclear receptors (NR4A1/2/3) are regarded as "undruggable" transcription factors: the canonical
-Nurr1/NR4A2 crystal structure shows a ligand-binding pocket occluded by bulky side chains, and NR4A3 has no
-experimental structure. Yet NR4A3 is a compelling *selective* degradation target, driving extraskeletal
-myxoid chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion) and acinic cell carcinoma (AciCC; NR4A3
-over-expression) by gain of NR4A3, where the therapeutic goal is to remove NR4A3 while sparing NR4A1/2
-(whose combined loss is leukaemogenic). We present a computation-only program to assess NR4A3's
-druggability and design a selective degrader warhead. (1) Calibrated against a nuclear-receptor panel, the
-NR4A3 orthosteric pocket is borderline in the static AlphaFold2 model (fpocket druggability 0.495, below the
-calibrated drug-bound band of 0.53–0.68). (2) Well-tempered metadynamics drives the orthosteric pocket to
-breathe into transiently druggable conformations, and an unbiased "release" simulation seeded at a
-low-energy druggable frame finds this geometry **metastable (3/3 replicas) and druggable in ~24 % of
-unbiased frames** — a thermally-real induced-fit cavity, not a static pocket and not a bias artifact,
-paralleling the experimentally demonstrated breathing pocket of Nurr1. (3) Seven of ten pocket-lining
-residues diverge from NR4A1/2 as selectivity handles (five pocket-facing in the druggable ensemble; the
-engageable divergent set is asymmetric — five versus NR4A1, four versus NR4A2). (4) Running the same
-metadynamics on NR4A1 and NR4A2 yields **state-matched** opened-pocket ensembles for all three paralogues,
-enabling a per-candidate family-wide selectivity fingerprint; repurposed NR4A actives largely fail to hold
-up as NR4A3-selective under endpoint MM-GBSA. (5) A pocket-conditioned de-novo generative campaign, funnelled
-through docking and endpoint MM-GBSA against a decoy null of non-NR4A drugs, yields **`denovo_401`**, whose
-NR4A3-selectivity survives multi-snapshot ensemble de-noising and exceeds a same-tier multi-snapshot decoy null
-**in its unbiased design-frame receptor** (while failing that null in the biased metad-opened frame). Because
-the decoy null controls the scoring step but not the generative step (the candidate, unlike the decoys, was fit
-to that receptor) or the best-of-N selection — and because the generated set is *not* enriched over the decoys —
-we report it as a **receptor-frame-dependent de-noised foothold**, not a demonstrated-specificity hit. (A second
-candidate, `denovo_111`, de-noised well as the neutral form but was withdrawn by a pre-FEP species sweep — its
-physiological cation reverses selectivity — and a pre-FEP stereoisomer sweep shows denovo_401's selectivity is
-stereochemistry-robust with the generated diastereomer near-optimal, so `denovo_401` is the sole robust lead.) (6) We then **predict the NR4A3/NR4A1/NR4A2–CRBN–
-PROTAC ternaries** (a representative denovo_401-PROTAC; pipeline validated on the CRBN + lenalidomide control,
-which it correctly seats in the tri-tryptophan pocket): **all three paralogues form an equally productive
-ternary** (bridged, each presenting an exposed lysine within ubiquitin reach), so the degrader mechanism is
-geometrically viable but the ternary is **not a paralogue-selectivity lever for this linker** — selectivity
-rests on the binder (+ pharmacokinetics). We conclude that NR4A3's "undruggable" orthosteric pocket is
-computationally tractable as a dynamic, induced-fit site; that selectivity is a multiplicative budget which,
-on current evidence, is **carried by the binder** (the ternary being productive-but-not-selective); and that
-the affinity-grade selectivity FEP — the last quantitative tier — is now complete and NR4A3-selective across three independent-seed replicates (§4). All claims are in-silico predictions requiring
-experimental validation.
+NR4A nuclear receptors (NR4A1/2/3) are regarded as "undruggable" transcription factors: the Nurr1/NR4A2
+crystal structure shows a ligand pocket occluded by bulky side chains, and NR4A3 has no experimental
+structure. Yet NR4A3 is a compelling *selective* degradation target, driving extraskeletal myxoid
+chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion) and acinic cell carcinoma (NR4A3 over-expression) by gain of
+NR4A3, where the goal is to remove NR4A3 while sparing NR4A1/2 (whose combined loss is leukaemogenic). We
+present a computation-only program to assess NR4A3's druggability and design a selective degrader warhead.
+Calibrated against a nuclear-receptor panel, the static NR4A3 orthosteric pocket is borderline (fpocket
+druggability 0.495, below the drug-bound band 0.53–0.68); well-tempered metadynamics and an unbiased "release"
+simulation reveal a metastable, induced-fit cryptic cavity druggable in ~24 % of unbiased frames. Seven
+pocket-lining residues diverge from NR4A1/2 as selectivity handles, and state-matched metadynamics on all
+three paralogues gives a family-wide selectivity fingerprint. A pocket-conditioned de-novo campaign,
+disciplined by a decoy null of non-NR4A drugs and multi-snapshot MM-GBSA de-noising, yields **`denovo_401`** —
+a receptor-frame-dependent de-noised foothold (the sole robust lead after `denovo_111` was withdrawn as
+protonation-fragile), whose predicted NR4A3-selectivity is corroborated by three-replicate absolute-binding
+FEP (ΔΔG −4.76 ± 2.03 vs NR4A1, −4.98 ± 0.68 vs NR4A2 kcal/mol; NR4A3 tightest-bound in all three replicates).
+A representative CRBN–PROTAC ternary forms comparably for all three paralogues, so degradation selectivity
+rests on the binder. All results are in-silico predictions requiring experimental validation; no molecule was
+synthesized.
 
 ---
 

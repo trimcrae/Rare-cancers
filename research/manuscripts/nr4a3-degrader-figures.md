@@ -72,7 +72,9 @@
 - (c) **Decoy specificity control (the load-bearing negative):** distribution of single-snapshot MM-GBSA
   NR4A3-margins for the 38 non-NR4A decoy drugs vs the de-novo set, marking the **95th-percentile decoy bar
   (+13.1 kcal/mol)** and the **39 % decoy `confirmed_selective` rate** — showing the raw verdict is non-specific
-  and the de-novo set is *not enriched*. `denovo_111` (+15.7) is the one candidate above the bar. Asset:
+  and the de-novo set is *not enriched*. (The single-snapshot foothold `denovo_111`, +15.7, once sat above the
+  bar but was later **withdrawn** — its physiological cation reverses selectivity; the carried lead is the
+  multi-snapshot-confirmed `denovo_401`, panel d.) Asset:
   `nr4a3-decoy-mmgbsa` + `nr4a3-denovo-mmgbsa-dev` ✅ (S3, via `report-mmgbsa-aws.yml`). ⚙️ bar/strip.
 - (d) **Multi-snapshot de-noising panel (§2.6):** single-snapshot vs multi-snapshot mean ± SD for the lead set
   — `denovo_393` collapses (+18.34 → −2.95 ± 3.65), negative control `denovo_924` stays non-selective, and
@@ -120,6 +122,25 @@
 - *Message:* a canonically "undruggable" receptor family reframed as a **programmable degradation target**
   spanning rare oncology and immunotherapy — the paper's strongest general claim (and its best pitch at JCIM).
 
+## Supplementary figures
+> These support §2.6–§2.7 and §5 but are demoted from the six main figures to keep the main-text figure
+> set focused on the load-bearing arc (calibration → opening → handles → matrix → de-novo lead → two poles).
+> All five PNGs are committed under `research/modalities/` and regenerable now.
+
+- **Fig S1 — per-receptor multi-snapshot MM-GBSA ΔG of `denovo_401`, release vs metad-opened frame (§2.6).**
+  NR4A3 most-favoured in both frames (direction frame-robust); NR4A3-vs-NR4A1 margin +14.75 (release) → +7.44
+  (metad) (magnitude frame-dependent). `nr4a3-selectivity-dG.png` / `nr4a3_selectivity_dG_figure.py`. ✅ repo.
+- **Fig S2 — predicted docked pose of `denovo_401` in the metadynamics-opened NR4A3 LBD (§2.6).** Screening-grade
+  docked pose in an AF2-derived model, not an experimental complex. `nr4a3-pose.png` / `nr4a3_pose_render.py`. ✅ repo.
+- **Fig S3 — selectivity-architecture divergence by LBD residue set (§2.7).** The orthosteric cryptic pocket is
+  the most paralogue-divergent zone (~1.6× the LBD-wide average). `nr4a3-architecture.png` /
+  `nr4a3_architecture_figure.py`. ✅ repo.
+- **Fig S4 — superfamily pocket-liability screen across 47 human NRs (§2.7).** Only NR4A1/2 (controls) plus MR/AR
+  clear the confidence gate. `nr4a3-superfamily.png` / `nr4a3_superfamily_figure.py`. ✅ repo.
+- **Fig S5 — NR4A safety on two axes: DepMap proliferative essentiality vs gnomAD germline LoF constraint (§5).**
+  "Dispensable ⇒ safe" is invalid; NR4A2 is a sparing requirement. `nr4a3-safety-genetics.png` /
+  `nr4a3_safety_genetics_figure.py`. ✅ repo.
+
 ## Tables
 
 - **Table 1 — Calibration panel** (structure, type, max druggability, ligand-site druggability) from
@@ -132,8 +153,9 @@
   release-confirmed as an induced-fit cavity**, no longer provisional) from `nr4a3-druggability-prereg.md` ✅.
 - **Table 4 — De-novo candidates funneled to MM-GBSA, decoy bar, and multi-snapshot**: name, SMILES, QED,
   SAscore, engageable-handle contacts, docking cell, single-snapshot MM-GBSA NR4A3-margin, **above decoy null?
-  (+13.1)**, **multi-snapshot mean ± SD**, verdict — spotlighting the decoy-calibrated foothold **`denovo_111`**
-  and the multi-snapshot-confirmed lead **`denovo_401`** (and listing `denovo_15` only as the **retracted**
+  (+13.1)**, **multi-snapshot mean ± SD**, verdict — spotlighting the multi-snapshot-confirmed lead
+  **`denovo_401`** (with the interim foothold `denovo_111` marked **withdrawn** — cation reverses selectivity —
+  and `denovo_15` only as the **retracted**
   single-snapshot artifact). From `nr4a3-denovo.json` + `nr4a3-denovo-mmgbsa*` + `nr4a3-decoy-mmgbsa` ✅ (S3, via
   `report-denovo-aws.yml` / `report-mmgbsa-aws.yml`). Caption: single-snapshot MM-GBSA is non-specific (decoy
   control); read decoy-calibrated + multi-snapshot, not raw margin; screening-grade.
