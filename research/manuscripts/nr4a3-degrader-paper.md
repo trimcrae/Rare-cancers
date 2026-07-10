@@ -725,6 +725,41 @@ the neutral form but its **physiological cation reverses** (multi-snapshot **−
 NR4A3 −21.80), so its earlier de-noised margin was a neutral-form artifact. Net: **`denovo_401` is the sole
 candidate advanced to ABFE, on a resolved diastereomer.**
 
+### 2.7 Conditional ABFE tests the NR4A3-favoured receptor contrast
+
+The endpoint MM-GBSA tiers rank and de-noise but are not affinity-grade. As the affinity-grade test of the one
+candidate that survives them, we ran **absolute binding free-energy perturbation (ABFE)** — explicit-solvent
+double-decoupling with a Boresch orientational restraint and MBAR reduction, on an independent-λ-window engine
+(`nr4a3_abfe.py`; protocol and benchmarks in §4) — for `denovo_401` (the resolved DiffSBDD-generated
+diastereomer, SMILES `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`) against each of NR4A3, NR4A1 and
+NR4A2 in its selected opened conformer.
+
+**Result (three independent-seed replicates; error = between-replicate SD, n = 3).** Raw-engine per-receptor
+ΔG_bind = **+3.5 ± 1.4 (NR4A3) / +8.3 ± 1.1 (NR4A1) / +8.5 ± 0.7 (NR4A2)** kcal/mol, giving
+**ΔΔG(NR4A3 − NR4A1) = −4.76 ± 2.03** and **ΔΔG(NR4A3 − NR4A2) = −4.98 ± 0.68** kcal/mol — both favour NR4A3,
+with the **direction unanimous across all three replicates**. Read at its correct weight this is a *relative,
+conditional* preference for the selected opened NR4A3 conformer over the selected opened paralogue conformers —
+**not** an "NR4A3 engages, paralogues do not" claim. (The NR4A1 contrast SD is wider, ± 2.03, driven by one
+replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agree at −6.9/−4.5.)
+
+**Three limits bound the reading, and two repairs are in flight.** *(i) The absolute scale is not validated.*
+The same engine on a textbook benchmark (T4-lysozyme L99A + benzene, experimental ΔG_bind = −5.2 kcal/mol)
+returns **+1.90 ± 0.09**, under-binding by **≈ +7.1 kcal/mol** — a failed/strongly-biased absolute benchmark —
+so we interpret **only the offset-invariant ΔΔG**, never calibrated absolute affinities, and do not treat +7.1
+as a subtractable constant (a single system cannot establish a target-independent offset). *(ii) The NR4A2
+contrast is provisional.* One complex-NR4A2 λ-window pair is under-overlapped (min adjacent overlap 0.003);
+because that error propagates **directly** into ΔΔG(3−2) (it is receptor-specific and does not cancel via the
+shared solvent leg), the **−4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional** until the
+λ-repair — **in progress** — lands (SI §S7). *(iii) The ΔΔG is conditional on the opened state.* It compares
+binding to *selected opened* conformers and omits the receptor-specific free-energy cost of populating that
+cryptic-opened state, which is potentially decisive and may differ across paralogues (§5). A second run in
+flight rebuilds the NR4A3 leg from an **8XTT-anchored** physical model as a **receptor-model sensitivity test**
+(interpreted as sensitivity, **not** an experimental-structure-anchored selectivity calculation, since only the
+NR4A3 leg is re-based while the paralogue references are unchanged). Per-replicate paired ΔΔG, λ-overlap
+matrices, effective sample sizes, forward/reverse convergence traces, and the per-receptor component
+decomposition are in **SI §S7**; the lead-optimization ABFE cross-check (`lo_m0_NCCO`, an FEP tie not an
+advance) is in **SI §S5**.
+
 ## 4. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,
@@ -794,19 +829,11 @@ solvation for `denovo_401`) and a **protein–ligand binding** benchmark (T4-lys
 kcal/mol**. Because one benchmark passes and the other fails, this is a **benchmark evaluation, not a successful calibration**:
 it measures the engine's systematic offset on an *absolute* ΔG_bind and shows the absolute scale is **not** validated. The
 NR4A3-vs-paralogue **ΔΔG** is the selectivity read-out (CUDA on the A10G; SageMaker managed-spot *Training* with
-continuous per-window S3 checkpointing). **Completed three-replicate result (2 ns/window, n_iter = 2000; three independent-seed replicates r1/r2/r3, error bars = between-replicate SD, n = 3):** raw-engine per-replicate means are ΔG_bind(NR4A3) = **+3.5 ± 1.4**, ΔG_bind(NR4A1) = **+8.3 ± 1.1**, ΔG_bind(NR4A2) = **+8.5 ± 0.7** kcal/mol → **ΔΔG(NR4A3 − NR4A1) = −4.76 ± 2.03** and **ΔΔG(NR4A3 − NR4A2) = −4.98 ± 0.68** kcal/mol (both favour NR4A3). The **direction is unanimous across all three replicates** — so, read at its correct weight, **the
-calculation consistently favours binding to the selected opened NR4A3 conformer over the selected opened
-NR4A1 and NR4A2 conformers** (a *relative, conditional* preference among opened conformers — the absolute
-ΔG is not quantitatively interpretable, so this is **not** an "NR4A3 engages, paralogues do not" claim).
-These are **between-replicate variability under this protocol** (not within-MBAR statistical precision, and
-not "accuracy" — the true value is unknown): the **NR4A2 contrast has a small between-replicate SD (± 0.68)**,
-though we do **not** over-read this as "tight" given the S7 overlap caveat (a small between-seed SD can
-coexist with a shared λ-discretization/overlap pathology — the 0.003 under-overlapped window pair — so this
-awaits the window repair below), whereas the **NR4A1 contrast is wider (± 2.03)**, driven by one replicate
-(r2) whose NR4A3 leg sampled ~2.5 kcal/mol weaker (raw +5.1 vs +2.6/+2.8 in r1/r3); excluding r2, r1/r3 agree
-at ΔΔG(NR4A3−NR4A1) = −6.9/−4.5. The honest read: **a directionally-unanimous ~5 kcal/mol NR4A3 preference in
-both contrasts, with realistic between-replicate scatter** the earlier single-replicate MBAR ±0.2 could not
-see. **Full FEP diagnostics are in SI §S7** (per-replicate paired ΔΔG table, λ-overlap matrices, effective sample sizes, forward/reverse convergence traces; data in `results/nr4a3-abfe/diagnostics/`): they recompute these ΔG_bind from the raw reduced potentials to within ≤0.03 kcal/mol (a reproducibility check), and show healthy MBAR overlap across most windows (adjacent ≈0.2) with one **honest exception — a locally under-overlapped window pair (min adjacent overlap 0.003) in the complex-NR4A2 leg.** Because **ΔΔG(NR4A3 − NR4A2) = −ΔG_cplx,3 + ΔG_cplx,2 − SSC_3 + SSC_2**, an error in the NR4A2 complex leg propagates **directly into the NR4A3–NR4A2 contrast**: it is receptor-specific and does **not** cancel via the shared solvent leg. **This window pair therefore directly limits confidence in the NR4A3–NR4A2 ΔΔG (not just the absolute legs), and the −4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional until the repair lands.** (What *does* cancel in the ΔΔG is the shared solvent leg and any common charge/protonation error — not system-dependent complex-leg pathologies like this one, so the ΔΔG is more robust than the absolutes *in general* but is **not** shielded from a receptor-specific complex-leg defect.) **This under-overlapped window is the one unfinished FEP item we flag for repair before final interpretation (add λ-windows at that decoupling-endpoint region and re-reduce). We do not report calibrated absolute ΔG_bind.** The engine mis-predicts a rigid textbook benchmark
+continuous per-window S3 checkpointing). **Protocol: 2 ns/window, n_iter = 2000, three independent-seed replicates** (r1/r2/r3; error bars =
+between-replicate SD, n = 3), reduced 2026-07-08 with a per-window dedup-by-iteration safeguard on the MBAR
+input so the crash/resume history of the nr4a2 legs does not double-count samples or shrink the SE. **The
+three-replicate ΔΔG result and its conditional/opened-state reading are reported in Results §2.7** (raw
+per-receptor ΔG_bind, the two ΔΔG contrasts, the unanimous direction, and the provisional-NR4A2 caveat). **Full FEP diagnostics are in SI §S7** (per-replicate paired ΔΔG table, λ-overlap matrices, effective sample sizes, forward/reverse convergence traces; data in `results/nr4a3-abfe/diagnostics/`): they recompute these ΔG_bind from the raw reduced potentials to within ≤0.03 kcal/mol (a reproducibility check), and show healthy MBAR overlap across most windows (adjacent ≈0.2) with one **honest exception — a locally under-overlapped window pair (min adjacent overlap 0.003) in the complex-NR4A2 leg.** Because **ΔΔG(NR4A3 − NR4A2) = −ΔG_cplx,3 + ΔG_cplx,2 − SSC_3 + SSC_2**, an error in the NR4A2 complex leg propagates **directly into the NR4A3–NR4A2 contrast**: it is receptor-specific and does **not** cancel via the shared solvent leg. **This window pair therefore directly limits confidence in the NR4A3–NR4A2 ΔΔG (not just the absolute legs), and the −4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional until the repair lands.** (What *does* cancel in the ΔΔG is the shared solvent leg and any common charge/protonation error — not system-dependent complex-leg pathologies like this one, so the ΔΔG is more robust than the absolutes *in general* but is **not** shielded from a receptor-specific complex-leg defect.) **This under-overlapped window is the one unfinished FEP item we flag for repair before final interpretation (add λ-windows at that decoupling-endpoint region and re-reduce). We do not report calibrated absolute ΔG_bind.** The engine mis-predicts a rigid textbook benchmark
 (T4-lysozyme L99A + benzene) by ≈ +7.1 kcal/mol (below), which we read as a *failed/strongly-biased
 absolute benchmark* — evidence the protocol is not yet validated for absolute affinity — **not** as a
 universal additive engine constant to subtract from NR4A3. The raw-engine NR4A3 absolute (+3.5) is
