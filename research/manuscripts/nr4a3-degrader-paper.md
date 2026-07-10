@@ -44,14 +44,15 @@ pocket backbone diverges from the AF2 model (~3.5 Å). Seven paralogue-divergent
 make the pocket a selectivity hotspot: ranking a pocket-conditioned generative campaign on these
 divergent handles yields a de-noised, decoy-null-calibrated NR4A3-selective foothold (denovo_401),
 whose predicted paralogue selectivity is corroborated by three-replicate absolute-binding FEP
-(ΔΔG −4.8 ± 2.0 and −5.0 ± 0.7 kcal/mol vs NR4A1/NR4A2), while re-ranking the same framework on the
-conserved core instead designs a pan-NR4A binder for ex-vivo CAR-T de-exhaustion. A CRBN
-ternary-complex model forms comparably for all three paralogues, placing degradation selectivity on
-the binder. This is an in-silico design and feasibility study — no molecule was synthesized and no
-wet-lab validation was performed; every claim is labelled at its computational weight, and the
-AF2-derived opened-pocket *geometry* — whose druggability distribution the experimental 8XTT ensemble
-independently reproduces, but whose atomic backbone diverges from it (~3.5 Å), so the design should be
-rebased on 8XTT — remains the load-bearing uncertainty.
+(ΔΔG −4.8 ± 2.0 and −5.0 ± 0.7 kcal/mol vs NR4A1/NR4A2). The same framework re-ranked on the conserved
+core instead yields a pan-NR4A binder (an ex-vivo CAR-T application; SI), and a predicted CRBN ternary is
+paralogue-non-selective, placing degradation selectivity on the binder. This is an in-silico design and
+feasibility study — no molecule was synthesized and no wet-lab validation was performed; every claim is
+labelled at its computational weight. Critically, the two functionally-decisive predictions **rebase
+successfully onto the experimental 8XTT structure** (PocketMiner enrichment and denovo_401 selectivity both
+hold on the experimental conformers), so the residual load-bearing uncertainty is the AF2 model's *atomic
+pose* (backbone diverging ~3.5 Å from 8XTT), not the existence of the druggable cryptic site or the lead's
+selectivity direction.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
