@@ -251,11 +251,11 @@ the 10→20 then 20→30 ns blocks = 29→14 (r1), 31→15 (r2), 16→18 (r3) kJ
 drifts **~14–18 kJ/mol (≈3.3–4.2 kcal/mol)**, and r3's does not decrease — so each replica shows only a
 *late-time reduction* in drift, not convergence. (The near-zero 30.0→30.2 ns increment is the trivial 0.2 ns
 extension, not a convergence metric.) **(ii) The independent replicas do not reconstruct a common F(Rg).** The
-single minimum of each replica's F(Rg) sits at Rg = 0.73 / 0.74 / **0.87** nm (r1/r2/r3) and the free energy
-each profile assigns to the **reference Rg region (Rg ≈ 0.72)** = **0.06 / 0.83 / 16.0 kcal/mol** (spread ~16
-kcal/mol; `nr4a3-metad-crossreplica.json`): r1/r2 place Rg ≈ 0.72 near their minimum (the region of the old
-~0.6 estimate), whereas **r3's minimum is substantially more expanded (0.87 nm)** and places the same reference
-Rg ≈ 16 kcal/mol uphill. Two cautions bound this comparison, both flagged for the harmonized rerun: a fixed Rg
+single minimum of each replica's F(Rg) sits at Rg = **0.87 / 0.73 / 0.74** nm (in r1/r2/r3 order) and the free
+energy each profile assigns to the **reference Rg region (Rg ≈ 0.72)** = **16.03 / 0.06 / 0.83 kcal/mol** (r1/r2/r3;
+spread ~16 kcal/mol; `nr4a3-metad-crossreplica.json`): **r2 and r3 place Rg ≈ 0.72 near their minimum** (the
+region of the old ~0.6 estimate), whereas **r1's minimum is substantially more expanded (0.87 nm)** and places
+the same reference Rg ≈ 16 kcal/mol uphill. Two cautions bound this comparison, both flagged for the harmonized rerun: a fixed Rg
 is **not** established to correspond to the same physical pocket — or to any druggable cavity — in each
 independent replica (the per-replica harmonized pocket scoring that would define an equivalent druggable region
 is pending, §4), and a single F(Rg) minimum is not, on its own, a structural classification of a "closed"
@@ -988,7 +988,7 @@ weight, with the following caveats made explicit rather than buried:
 3. **Gate 3A (persistence) supported; Gate 3B (equilibrium accessibility) unresolved.** These are distinct:
    a geometry can be equilibrium-rare yet persist once seeded. On **3B**, the single-continued-trajectory
    ~0.6–0.76 kcal/mol cost to a druggable conformation is **not reproduced across the three independent metad
-   replicas** (basin→druggable ΔF = 0.06 / 0.83 / 16.0 kcal/mol; §2.2), and those numbers are read off
+   replicas** (ΔF at the reference Rg = 16.0 / 0.06 / 0.83 kcal/mol in r1/r2/r3 order; §2.2), and those numbers are read off
    still-drifting biased F(Rg) — so 3B is unresolved. On **3A**, the open-seeded release run
    shows the seeded open-like geometry **persists across 3/3 short replicas and is fpocket-druggable in a
    fraction of frames of all three replicas** (≥ D\* in 0.20/0.16/0.28; detected-pocket denominator) — correlated,
