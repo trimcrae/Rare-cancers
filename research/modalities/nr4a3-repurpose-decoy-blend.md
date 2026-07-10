@@ -142,3 +142,26 @@ tepotinib (EMD-1214063), KB-SRC-4, XL019, AT-1015** — several already-approved
 and promiscuity caveats apply; pan-engagement of a lipophilic pocket is *easier* to score than selectivity, so
 the pan list is the more docking-artifact-prone of the two and its hits are screening-grade leads, not validated
 degraders.
+
+## 6. Replicated de-noising + anti-target panel — final verdict (2026-07-09)
+**Between-run replicates (n=3 independent MD passes; survivor = between-run mean − SD > 0; denovo_401 ref +9.85).**
+Of the 18-drug shortlist, the selective survivors were **SNX-5422** (+17.56, HSP90i — had *collapsed* in the
+single-pass screen, so replication flipped the call), **AGI-5198** (+9.41 at n=4 — its original rep1 completed post-6h-GH-cancel AND a dedicated 4th pass landed; IDH1i), then weaker: DDR1-IN-1,
+BMS-309403, CP-640186, flupentixol (and two collapse-controls survived weakly — reinforcing that single-pass
+de-noising is noise). All pan drugs collapsed on the *selective* margin. Pan-robust (balanced tri-engagement):
+KB-SRC-4, flupentixol, AT-1015, carebastine, CP-640186, pizotifen.
+
+**Anti-target panel (9 targets: RXRA/PPARG/ESR1/AR/GR/VDR/PXR/CYP3A4/HSA; identical smina protocol; gap =
+best-off-target ΔG − NR4A3 ΔG).** **All 18 survivors are PROMISCUOUS** — every one binds ≥1 off-target *tighter*
+than NR4A3 (gap −0.25 to −5.69) with 5–8 panel targets within 2 kcal, and **PXR + HSA (the promiscuity sensors)
+within 2 kcal in every case**. AGI-5198 best-off −10.77 (PXR) vs NR4A3 −8.44 (gap −2.33); SNX-5422 −10.94 (PXR)
+vs −8.54 (gap −2.40). **Contrast — denovo_401 through the same panel:** best off-target only **−9.06 (VDR)**,
+1.7–5 kcal weaker than every repurposed survivor and NOT a PXR/HSA hit → the panel discriminates (not saturating),
+and the purpose-designed lead is genuinely cleaner.
+
+**Conclusion.** The 6k→250→replicated→anti-target funnel yields **no existing drug that is both NR4A3-selective
+AND proteome-selective**: the de-noising survivors pass the NR4A3-vs-paralogue margin but fail the NR4A3-vs-proteome
+test as lipophilic stickers. A clean *negative* result (screen run to completion with an adversarial promiscuity
+control) that reinforces **denovo_401 as the sole lead**. The AGI-5198↔chondrosarcoma link resolves as coincidence:
+it engages the NR4A3 pocket but no better than half a dozen unrelated targets. Screening-grade throughout (smina
+docking + endpoint MM-GBSA, no FEP); FEP remains gated. Pipeline: antitarget_{panel.json,prep,dock,report}.py.
