@@ -155,6 +155,16 @@ read it before making changes.
   looping several times over a few minutes. Do **NOT** tell trimcrae the connection is down, do **NOT** halt the
   work, and do **NOT** ask them to reconnect — that interrupts them for something that self-heals. Only even
   consider surfacing it if many spaced retries across a genuinely long window (tens of minutes) ALL fail.
+- **COMMIT-SIGNATURE / "Unverified" STOP-HOOK WARNING IS FINE TO IGNORE (standing rule, 2026-07-10).** The
+  `stop-hook-git-check.sh` warning that commits show as **Unverified (missing signature)** is a known,
+  benign environment limitation — **do NOT act on it, and do NOT rewrite/force-push history to chase it.**
+  Root cause: this repo is set up for SSH commit signing (`gpg.format=ssh`, a `user.signingkey` `.pub` is
+  registered) but the **private signing key is not mounted in the agent session**, so git cannot produce a
+  signature and every commit lands unsigned. The committer identity itself is already correct
+  (`Claude <noreply@anthropic.com>`), so the hook's suggested `git commit --amend --reset-author` / `rebase
+  --exec` fixes change nothing (there is nothing to sign with). Force-rewriting `main` (shared with sibling
+  sessions) for a signature you cannot generate is strictly harmful. Just commit normally and move on; the
+  "Unverified" badge only clears if trimcrae makes the private signing key available to the session.
   **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
   those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
   SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
