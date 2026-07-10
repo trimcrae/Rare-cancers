@@ -1,0 +1,205 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory single-snapshot; minimize complex then slice components",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "single snapshot"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 11
+    },
+    "NR4A1": {
+      "n_poses": 11
+    },
+    "NR4A2": {
+      "n_poses": 11
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_111",
+      "chembl_id": "denovo_111",
+      "dG_mmgbsa": {
+        "NR4A3": -37.36,
+        "NR4A1": -32.08,
+        "NR4A2": -20.76
+      },
+      "mm_margin_vs_NR4A1": 5.28,
+      "mm_margin_vs_NR4A2": 16.6,
+      "mm_min_margin": 5.28,
+      "dock_min_margin": 1.09,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_67",
+      "chembl_id": "denovo_67",
+      "dG_mmgbsa": {
+        "NR4A3": -32.79,
+        "NR4A1": -28.82,
+        "NR4A2": -24.76
+      },
+      "mm_margin_vs_NR4A1": 3.97,
+      "mm_margin_vs_NR4A2": 8.03,
+      "mm_min_margin": 3.97,
+      "dock_min_margin": -0.03,
+      "dock_cell": "NR4A2-only",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_17",
+      "chembl_id": "denovo_17",
+      "dG_mmgbsa": {
+        "NR4A3": -27.8,
+        "NR4A1": -24.73,
+        "NR4A2": -21.37
+      },
+      "mm_margin_vs_NR4A1": 3.07,
+      "mm_margin_vs_NR4A2": 6.43,
+      "mm_min_margin": 3.07,
+      "dock_min_margin": -0.08,
+      "dock_cell": "NR4A1+NR4A3",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_170",
+      "chembl_id": "denovo_170",
+      "dG_mmgbsa": {
+        "NR4A3": -39.18,
+        "NR4A1": -31.93,
+        "NR4A2": -36.23
+      },
+      "mm_margin_vs_NR4A1": 7.25,
+      "mm_margin_vs_NR4A2": 2.95,
+      "mm_min_margin": 2.95,
+      "dock_min_margin": 0.66,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_0",
+      "chembl_id": "denovo_0",
+      "dG_mmgbsa": {
+        "NR4A3": -39.01,
+        "NR4A1": -31.13,
+        "NR4A2": -36.21
+      },
+      "mm_margin_vs_NR4A1": 7.88,
+      "mm_margin_vs_NR4A2": 2.8,
+      "mm_min_margin": 2.8,
+      "dock_min_margin": 0.15,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_131",
+      "chembl_id": "denovo_131",
+      "dG_mmgbsa": {
+        "NR4A3": -31.21,
+        "NR4A1": -25.31,
+        "NR4A2": -31.81
+      },
+      "mm_margin_vs_NR4A1": 5.9,
+      "mm_margin_vs_NR4A2": -0.6,
+      "mm_min_margin": -0.6,
+      "dock_min_margin": -0.19,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_86",
+      "chembl_id": "denovo_86",
+      "dG_mmgbsa": {
+        "NR4A3": -35.51,
+        "NR4A1": -36.47,
+        "NR4A2": -38.4
+      },
+      "mm_margin_vs_NR4A1": -0.96,
+      "mm_margin_vs_NR4A2": -2.89,
+      "mm_min_margin": -2.89,
+      "dock_min_margin": -0.39,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_106",
+      "chembl_id": "denovo_106",
+      "dG_mmgbsa": {
+        "NR4A3": -33.97,
+        "NR4A1": -20.64,
+        "NR4A2": -39.7
+      },
+      "mm_margin_vs_NR4A1": 13.33,
+      "mm_margin_vs_NR4A2": -5.73,
+      "mm_min_margin": -5.73,
+      "dock_min_margin": -0.34,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_83",
+      "chembl_id": "denovo_83",
+      "dG_mmgbsa": {
+        "NR4A3": -21.93,
+        "NR4A1": -27.85,
+        "NR4A2": -22.92
+      },
+      "mm_margin_vs_NR4A1": -5.92,
+      "mm_margin_vs_NR4A2": -0.99,
+      "mm_min_margin": -5.92,
+      "dock_min_margin": -0.52,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_189",
+      "chembl_id": "denovo_189",
+      "dG_mmgbsa": {
+        "NR4A3": -19.76,
+        "NR4A1": -21.9,
+        "NR4A2": -26.41
+      },
+      "mm_margin_vs_NR4A1": -2.14,
+      "mm_margin_vs_NR4A2": -6.65,
+      "mm_min_margin": -6.65,
+      "dock_min_margin": 0.05,
+      "dock_cell": "NR4A1+NR4A3",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_57",
+      "chembl_id": "denovo_57",
+      "dG_mmgbsa": {
+        "NR4A3": -16.28,
+        "NR4A1": -26.03,
+        "NR4A2": -16.55
+      },
+      "mm_margin_vs_NR4A1": -9.75,
+      "mm_margin_vs_NR4A2": -0.27,
+      "mm_min_margin": -9.75,
+      "dock_min_margin": 0.96,
+      "dock_cell": "none",
+      "verdict": "reversed"
+    }
+  ],
+  "_status": "ok",
+  "_progress": "11/11",
+  "verdict_census": {
+    "confirmed_selective": 3,
+    "rescued": 2,
+    "confirmed_nonselective": 4,
+    "reversed": 2
+  },
+  "leads_confirmed_selective": [
+    "denovo_111",
+    "denovo_170",
+    "denovo_0"
+  ],
+  "leads_reversed": [
+    "denovo_189",
+    "denovo_57"
+  ]
+}

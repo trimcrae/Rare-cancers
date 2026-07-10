@@ -1,0 +1,121 @@
+{
+  "_note": "Re-dock + MM-GBSA of denovo_401 into the DRUGGABLE experimental 8XTT conformers (models 2,8,20,6) to test whether NR4A3-vs-paralogue selectivity survives on experimental geometry. NR4A3 receptor = 8XTT conformer; NR4A1/NR4A2 baseline reuses the matrix receptors/poses. MM-GBSA single-snapshot GBn2 endpoint (enthalpy only) \u2014 TRIAGE, not affinity, exactly as the matrix/mmgbsa tier.",
+  "ligand": {
+    "label": "denovo_401",
+    "smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1"
+  },
+  "params": {
+    "minimize_iters": 250,
+    "band": 1.0,
+    "requested_models": "2,8,20,6"
+  },
+  "paralogue_baseline": {
+    "NR4A1": -27.38,
+    "NR4A2": -25.15,
+    "_provenance": {
+      "nr4a1": "no matrix pose; fresh dock into opened receptor",
+      "nr4a2": "no matrix pose; fresh dock into opened receptor"
+    }
+  },
+  "per_conformer": [
+    {
+      "model": 2,
+      "n_box_residues": 10,
+      "dG_mmgbsa": {
+        "NR4A3": -34.21,
+        "NR4A1": -27.38,
+        "NR4A2": -25.15
+      },
+      "mm_margin_vs_NR4A1": 6.83,
+      "mm_margin_vs_NR4A2": 9.06,
+      "mm_min_margin": 6.83,
+      "dock_min_margin": null,
+      "verdict": "incomplete"
+    },
+    {
+      "model": 8,
+      "n_box_residues": 10,
+      "dG_mmgbsa": {
+        "NR4A3": -41.03,
+        "NR4A1": -27.38,
+        "NR4A2": -25.15
+      },
+      "mm_margin_vs_NR4A1": 13.65,
+      "mm_margin_vs_NR4A2": 15.88,
+      "mm_min_margin": 13.65,
+      "dock_min_margin": null,
+      "verdict": "incomplete"
+    },
+    {
+      "model": 20,
+      "n_box_residues": 10,
+      "dG_mmgbsa": {
+        "NR4A3": -35.15,
+        "NR4A1": -27.38,
+        "NR4A2": -25.15
+      },
+      "mm_margin_vs_NR4A1": 7.77,
+      "mm_margin_vs_NR4A2": 10.0,
+      "mm_min_margin": 7.77,
+      "dock_min_margin": null,
+      "verdict": "incomplete"
+    },
+    {
+      "model": 6,
+      "n_box_residues": 10,
+      "dG_mmgbsa": {
+        "NR4A3": -38.44,
+        "NR4A1": -27.38,
+        "NR4A2": -25.15
+      },
+      "mm_margin_vs_NR4A1": 11.06,
+      "mm_margin_vs_NR4A2": 13.29,
+      "mm_min_margin": 11.06,
+      "dock_min_margin": null,
+      "verdict": "incomplete"
+    }
+  ],
+  "_method": {
+    "pdb": "8XTT",
+    "alignment_identity": 1.0,
+    "mapped_pocket5_8xtt": [
+      28,
+      29,
+      32,
+      33,
+      34,
+      103,
+      106,
+      107,
+      153,
+      156
+    ],
+    "n_models": 20,
+    "conformers_scored": [
+      2,
+      8,
+      20,
+      6
+    ]
+  },
+  "summary": {
+    "n_conformers_scored": 4,
+    "n_selective": 4,
+    "band": 1.0,
+    "min_margin_distribution": {
+      "n": 4,
+      "min": 6.83,
+      "median": 9.415,
+      "max": 13.65,
+      "q1": 7.535,
+      "q3": 11.7075,
+      "iqr": 4.172499999999999,
+      "mean": 9.8275,
+      "frac_ge_threshold": 1.0,
+      "threshold": 1.0
+    },
+    "verdict": "survives",
+    "rationale": "4/4 druggable 8XTT conformers keep denovo_401 NR4A3-selective (MM-GBSA min-margin > 1.0 kcal/mol; median 9.415); the lead's selectivity holds on EXPERIMENTAL geometry, not only the AF2/metad frame."
+  },
+  "_status": "ok"
+}

@@ -1,0 +1,53 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "10-frame MD average"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 11
+    },
+    "NR4A1": {
+      "n_poses": 11
+    },
+    "NR4A2": {
+      "n_poses": 11
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_111",
+      "chembl_id": "denovo_111",
+      "dG_mmgbsa": {
+        "NR4A3": -34.02,
+        "NR4A1": -18.3,
+        "NR4A2": -19.42
+      },
+      "mm_margin_vs_NR4A1": 15.72,
+      "mm_margin_vs_NR4A2": 14.6,
+      "mm_min_margin": 14.6,
+      "dock_min_margin": 0.56,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.79,
+        "NR4A1": 1.77,
+        "NR4A2": 3.0
+      },
+      "mm_min_margin_sd": 4.1
+    }
+  ],
+  "_status": "ok",
+  "_progress": "1/1",
+  "verdict_census": {
+    "confirmed_selective": 1
+  },
+  "leads_confirmed_selective": [
+    "denovo_111"
+  ],
+  "leads_reversed": []
+}

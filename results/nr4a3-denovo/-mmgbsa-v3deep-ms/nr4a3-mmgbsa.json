@@ -1,0 +1,99 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "10-frame MD average"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 58
+    },
+    "NR4A1": {
+      "n_poses": 58
+    },
+    "NR4A2": {
+      "n_poses": 58
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_780",
+      "chembl_id": "denovo_780",
+      "dG_mmgbsa": {
+        "NR4A3": -31.28,
+        "NR4A1": -29.21,
+        "NR4A2": -28.72
+      },
+      "mm_margin_vs_NR4A1": 2.07,
+      "mm_margin_vs_NR4A2": 2.56,
+      "mm_min_margin": 2.07,
+      "dock_min_margin": 0.96,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.5,
+        "NR4A1": 5.85,
+        "NR4A2": 3.34
+      },
+      "mm_min_margin_sd": 6.36
+    },
+    {
+      "label": "denovo_393",
+      "chembl_id": "denovo_393",
+      "dG_mmgbsa": {
+        "NR4A3": -20.14,
+        "NR4A1": -21.16,
+        "NR4A2": -23.09
+      },
+      "mm_margin_vs_NR4A1": -1.02,
+      "mm_margin_vs_NR4A2": -2.95,
+      "mm_min_margin": -2.95,
+      "dock_min_margin": 1.04,
+      "dock_cell": "NR4A3-only",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 2.43,
+        "NR4A1": 3.4,
+        "NR4A2": 2.73
+      },
+      "mm_min_margin_sd": 3.65
+    },
+    {
+      "label": "denovo_924",
+      "chembl_id": "denovo_924",
+      "dG_mmgbsa": {
+        "NR4A3": -16.81,
+        "NR4A1": -42.01,
+        "NR4A2": -21.3
+      },
+      "mm_margin_vs_NR4A1": -25.2,
+      "mm_margin_vs_NR4A2": -4.49,
+      "mm_min_margin": -25.2,
+      "dock_min_margin": -1.45,
+      "dock_cell": "NR4A1-only",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 3.08,
+        "NR4A1": 3.35,
+        "NR4A2": 1.8
+      },
+      "mm_min_margin_sd": 4.55
+    }
+  ],
+  "_status": "ok",
+  "_progress": "3/3",
+  "verdict_census": {
+    "confirmed_selective": 1,
+    "reversed": 1,
+    "confirmed_nonselective": 1
+  },
+  "leads_confirmed_selective": [
+    "denovo_780"
+  ],
+  "leads_reversed": [
+    "denovo_393"
+  ]
+}

@@ -1,0 +1,788 @@
+{
+  "_note": "NR4A family selectivity matrix: one library docked into the metad-OPENED pocket of NR4A3/NR4A1/NR4A2 (state-matched). Cells (selectivity_fingerprint) are triage hypotheses from docking priors, NOT affinities; quantify with MM-GBSA/FEP.",
+  "engageable_handles": [
+    406,
+    410,
+    484,
+    531,
+    534
+  ],
+  "paralogues": {
+    "NR4A3": {
+      "receptor": "nr4a3-release-druggable.pdb",
+      "source": "step0-druggable-release",
+      "n_docked": 33
+    },
+    "NR4A1": {
+      "opened_frame": 524,
+      "fpocket_druggability": 0.981,
+      "cv_residues": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "n_docked": 33
+    },
+    "NR4A2": {
+      "opened_frame": 125,
+      "fpocket_druggability": 0.938,
+      "cv_residues": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "n_docked": 33
+    }
+  },
+  "candidate_source": "de-novo top 33 DEVELOPABLE by denovo_promise (nr4a3-denovo.json; structural-alert filtered)",
+  "n_candidates": 33,
+  "candidates": [
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.32584,
+        "NR4A1": -4.89781,
+        "NR4A2": -5.63106
+      },
+      "margin_vs_NR4A1": 1.43,
+      "margin_vs_NR4A2": 0.69,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_318",
+      "chembl_id": "denovo_318",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A3"
+      ],
+      "cell": "NR4A3-only",
+      "application": "LEAD \u2014 EMC / AciCC / NR4A3-fusion sarcomas (selective, systemic)",
+      "dG": {
+        "NR4A3": -7.12926,
+        "NR4A1": -5.32285,
+        "NR4A2": -6.90973
+      },
+      "margin_vs_NR4A1": 1.81,
+      "margin_vs_NR4A2": 0.22,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_661",
+      "chembl_id": "denovo_661",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A3"
+      ],
+      "cell": "NR4A3-only",
+      "application": "LEAD \u2014 EMC / AciCC / NR4A3-fusion sarcomas (selective, systemic)",
+      "dG": {
+        "NR4A3": -7.11616,
+        "NR4A1": -5.89061,
+        "NR4A2": -6.53736
+      },
+      "margin_vs_NR4A1": 1.23,
+      "margin_vs_NR4A2": 0.58,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_372",
+      "chembl_id": "denovo_372",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "NR4A2+NR4A3",
+      "application": "uncommon \u2014 no clean degrader rationale",
+      "dG": {
+        "NR4A3": -7.42509,
+        "NR4A1": -6.57213,
+        "NR4A2": -7.07254
+      },
+      "margin_vs_NR4A1": 0.85,
+      "margin_vs_NR4A2": 0.35,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_560",
+      "chembl_id": "denovo_560",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.83713,
+        "NR4A1": -6.12469,
+        "NR4A2": -6.57336
+      },
+      "margin_vs_NR4A1": 0.71,
+      "margin_vs_NR4A2": 0.26,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_726",
+      "chembl_id": "denovo_726",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A2"
+      ],
+      "cell": "NR4A2-only",
+      "application": "weak \u2014 degrading Nurr1 is usually wrong-direction (neuroprotective)",
+      "dG": {
+        "NR4A3": -6.70073,
+        "NR4A1": -5.14714,
+        "NR4A2": -7.33012
+      },
+      "margin_vs_NR4A1": 1.55,
+      "margin_vs_NR4A2": -0.63,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_129",
+      "chembl_id": "denovo_129",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "NR4A2+NR4A3",
+      "application": "uncommon \u2014 no clean degrader rationale",
+      "dG": {
+        "NR4A3": -7.33175,
+        "NR4A1": -6.77786,
+        "NR4A2": -7.08553
+      },
+      "margin_vs_NR4A1": 0.55,
+      "margin_vs_NR4A2": 0.25,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_580",
+      "chembl_id": "denovo_580",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -5.86779,
+        "NR4A1": -5.31051,
+        "NR4A2": -5.62478
+      },
+      "margin_vs_NR4A1": 0.56,
+      "margin_vs_NR4A2": 0.24,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_735",
+      "chembl_id": "denovo_735",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A2"
+      ],
+      "cell": "NR4A2-only",
+      "application": "weak \u2014 degrading Nurr1 is usually wrong-direction (neuroprotective)",
+      "dG": {
+        "NR4A3": -6.8835,
+        "NR4A1": -6.0365,
+        "NR4A2": -7.17514
+      },
+      "margin_vs_NR4A1": 0.85,
+      "margin_vs_NR4A2": -0.29,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_493",
+      "chembl_id": "denovo_493",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.71526,
+        "NR4A1": -7.2064,
+        "NR4A2": -7.7747
+      },
+      "margin_vs_NR4A1": 0.51,
+      "margin_vs_NR4A2": -0.06,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_237",
+      "chembl_id": "denovo_237",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.99104,
+        "NR4A1": -7.15262,
+        "NR4A2": -8.49513
+      },
+      "margin_vs_NR4A1": 0.84,
+      "margin_vs_NR4A2": -0.5,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_193",
+      "chembl_id": "denovo_193",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.69999,
+        "NR4A1": -6.56149,
+        "NR4A2": -6.53622
+      },
+      "margin_vs_NR4A1": 0.14,
+      "margin_vs_NR4A2": 0.16,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_482",
+      "chembl_id": "denovo_482",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.80437,
+        "NR4A1": -6.85697,
+        "NR4A2": -6.45286
+      },
+      "margin_vs_NR4A1": -0.05,
+      "margin_vs_NR4A2": 0.35,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_85",
+      "chembl_id": "denovo_85",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.66031,
+        "NR4A1": -6.47333,
+        "NR4A2": -6.73343
+      },
+      "margin_vs_NR4A1": 0.19,
+      "margin_vs_NR4A2": -0.07,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_492",
+      "chembl_id": "denovo_492",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.45477,
+        "NR4A1": -7.70885,
+        "NR4A2": -7.18033
+      },
+      "margin_vs_NR4A1": -0.25,
+      "margin_vs_NR4A2": 0.27,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_460",
+      "chembl_id": "denovo_460",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -8.5304,
+        "NR4A1": -9.31961,
+        "NR4A2": -8.27202
+      },
+      "margin_vs_NR4A1": -0.79,
+      "margin_vs_NR4A2": 0.26,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_657",
+      "chembl_id": "denovo_657",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.28706,
+        "NR4A1": -7.35619,
+        "NR4A2": -7.9506
+      },
+      "margin_vs_NR4A1": -0.07,
+      "margin_vs_NR4A2": -0.66,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_730",
+      "chembl_id": "denovo_730",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "NR4A2+NR4A3",
+      "application": "uncommon \u2014 no clean degrader rationale",
+      "dG": {
+        "NR4A3": -7.09176,
+        "NR4A1": -6.91114,
+        "NR4A2": -8.23578
+      },
+      "margin_vs_NR4A1": 0.18,
+      "margin_vs_NR4A2": -1.14,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_21",
+      "chembl_id": "denovo_21",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.41603,
+        "NR4A1": -7.768,
+        "NR4A2": -8.08746
+      },
+      "margin_vs_NR4A1": -0.35,
+      "margin_vs_NR4A2": -0.67,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_583",
+      "chembl_id": "denovo_583",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1"
+      ],
+      "cell": "NR4A1-only",
+      "application": "weak \u2014 Nur77 context-dependent",
+      "dG": {
+        "NR4A3": -6.05435,
+        "NR4A1": -7.4418,
+        "NR4A2": -5.7348
+      },
+      "margin_vs_NR4A1": -1.39,
+      "margin_vs_NR4A2": 0.32,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_241",
+      "chembl_id": "denovo_241",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A3"
+      ],
+      "cell": "NR4A1+NR4A3",
+      "application": "ANTI-TARGET \u2014 combined loss is leukaemogenic (AML); design AWAY",
+      "dG": {
+        "NR4A3": -7.01074,
+        "NR4A1": -8.51415,
+        "NR4A2": -6.59864
+      },
+      "margin_vs_NR4A1": -1.5,
+      "margin_vs_NR4A2": 0.41,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": true,
+      "label": "denovo_248",
+      "chembl_id": "denovo_248",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -4.90613,
+        "NR4A1": -5.7537,
+        "NR4A2": -5.21467
+      },
+      "margin_vs_NR4A1": -0.85,
+      "margin_vs_NR4A2": -0.31,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_620",
+      "chembl_id": "denovo_620",
+      "handle_contacts": 4,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A2"
+      ],
+      "cell": "NR4A2-only",
+      "application": "weak \u2014 degrading Nurr1 is usually wrong-direction (neuroprotective)",
+      "dG": {
+        "NR4A3": -6.39642,
+        "NR4A1": -6.47222,
+        "NR4A2": -7.51334
+      },
+      "margin_vs_NR4A1": -0.08,
+      "margin_vs_NR4A2": -1.12,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_9",
+      "chembl_id": "denovo_9",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.1641,
+        "NR4A1": -7.46849,
+        "NR4A2": -8.2809
+      },
+      "margin_vs_NR4A1": -0.3,
+      "margin_vs_NR4A2": -1.12,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_509",
+      "chembl_id": "denovo_509",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2"
+      ],
+      "cell": "NR4A1+NR4A2",
+      "application": "uncommon \u2014 no clean degrader rationale (NR4A3 spared)",
+      "dG": {
+        "NR4A3": -6.9615,
+        "NR4A1": -7.33878,
+        "NR4A2": -8.3127
+      },
+      "margin_vs_NR4A1": -0.38,
+      "margin_vs_NR4A2": -1.35,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_498",
+      "chembl_id": "denovo_498",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.21927,
+        "NR4A1": -8.25286,
+        "NR4A2": -7.96126
+      },
+      "margin_vs_NR4A1": -1.03,
+      "margin_vs_NR4A2": -0.74,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_94",
+      "chembl_id": "denovo_94",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2"
+      ],
+      "cell": "NR4A1+NR4A2",
+      "application": "uncommon \u2014 no clean degrader rationale (NR4A3 spared)",
+      "dG": {
+        "NR4A3": -6.90462,
+        "NR4A1": -7.52105,
+        "NR4A2": -8.08632
+      },
+      "margin_vs_NR4A1": -0.62,
+      "margin_vs_NR4A2": -1.18,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_472",
+      "chembl_id": "denovo_472",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.46057,
+        "NR4A1": -8.27717,
+        "NR4A2": -8.62496
+      },
+      "margin_vs_NR4A1": -0.82,
+      "margin_vs_NR4A2": -1.16,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_62",
+      "chembl_id": "denovo_62",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A2"
+      ],
+      "cell": "NR4A2-only",
+      "application": "weak \u2014 degrading Nurr1 is usually wrong-direction (neuroprotective)",
+      "dG": {
+        "NR4A3": -6.18736,
+        "NR4A1": -6.98452,
+        "NR4A2": -7.50968
+      },
+      "margin_vs_NR4A1": -0.8,
+      "margin_vs_NR4A2": -1.32,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_584",
+      "chembl_id": "denovo_584",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.10402,
+        "NR4A1": -8.60359,
+        "NR4A2": -8.23145
+      },
+      "margin_vs_NR4A1": -1.5,
+      "margin_vs_NR4A2": -1.13,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_192",
+      "chembl_id": "denovo_192",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.22894,
+        "NR4A1": -8.01874,
+        "NR4A2": -9.27047
+      },
+      "margin_vs_NR4A1": -0.79,
+      "margin_vs_NR4A2": -2.04,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_530",
+      "chembl_id": "denovo_530",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2"
+      ],
+      "cell": "NR4A1+NR4A2",
+      "application": "uncommon \u2014 no clean degrader rationale (NR4A3 spared)",
+      "dG": {
+        "NR4A3": -6.54452,
+        "NR4A1": -7.92438,
+        "NR4A2": -8.22282
+      },
+      "margin_vs_NR4A1": -1.38,
+      "margin_vs_NR4A2": -1.68,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_181",
+      "chembl_id": "denovo_181",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.93135,
+        "NR4A1": -6.9352,
+        "NR4A2": -6.06557
+      },
+      "margin_vs_NR4A1": -0.0,
+      "margin_vs_NR4A2": 0.87,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_425",
+      "chembl_id": "denovo_425",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    }
+  ],
+  "matrix": {
+    "cell_census": {
+      "none": 8,
+      "NR4A3-only": 2,
+      "NR4A2+NR4A3": 3,
+      "NR4A2-only": 4,
+      "pan-NR4A": 11,
+      "NR4A1-only": 1,
+      "NR4A1+NR4A3": 1,
+      "NR4A1+NR4A2": 3
+    }
+  },
+  "leads": {
+    "nr4a3_selective": [],
+    "pan_nr4a": [
+      "denovo_237",
+      "denovo_193",
+      "denovo_460",
+      "denovo_657",
+      "denovo_730",
+      "denovo_583"
+    ],
+    "anti_targets": [
+      "denovo_248"
+    ]
+  },
+  "_status": "ok"
+}

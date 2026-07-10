@@ -1,0 +1,363 @@
+{
+  "_note": "NR4A family selectivity matrix: one library docked into the metad-OPENED pocket of NR4A3/NR4A1/NR4A2 (state-matched). Cells (selectivity_fingerprint) are triage hypotheses from docking priors, NOT affinities; quantify with MM-GBSA/FEP.",
+  "engageable_handles": [
+    406,
+    410,
+    484,
+    531,
+    534
+  ],
+  "paralogues": {
+    "NR4A3": {
+      "opened_frame": 300,
+      "fpocket_druggability": 0.931,
+      "cv_residues": [
+        406,
+        407,
+        410,
+        411,
+        412,
+        481,
+        484,
+        485,
+        531,
+        534
+      ],
+      "n_docked": 13
+    },
+    "NR4A1": {
+      "opened_frame": 524,
+      "fpocket_druggability": 0.981,
+      "cv_residues": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "n_docked": 13
+    },
+    "NR4A2": {
+      "opened_frame": 125,
+      "fpocket_druggability": 0.938,
+      "cv_residues": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "n_docked": 13
+    }
+  },
+  "n_candidates": 13,
+  "candidates": [
+    {
+      "engages": [
+        "NR4A3"
+      ],
+      "cell": "NR4A3-only",
+      "application": "LEAD \u2014 EMC / AciCC / NR4A3-fusion sarcomas (selective, systemic)",
+      "dG": {
+        "NR4A3": -7.07617,
+        "NR4A1": -5.65828,
+        "NR4A2": -5.91443
+      },
+      "margin_vs_NR4A1": 1.42,
+      "margin_vs_NR4A2": 1.16,
+      "nr4a3_selective": true,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "cytosporone B",
+      "chembl_id": "CHEMBL1221517",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A3"
+      ],
+      "cell": "NR4A3-only",
+      "application": "LEAD \u2014 EMC / AciCC / NR4A3-fusion sarcomas (selective, systemic)",
+      "dG": {
+        "NR4A3": -7.07617,
+        "NR4A1": -5.65828,
+        "NR4A2": -5.91443
+      },
+      "margin_vs_NR4A1": 1.42,
+      "margin_vs_NR4A2": 1.16,
+      "nr4a3_selective": true,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL1221517",
+      "chembl_id": "CHEMBL1221517",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A3"
+      ],
+      "cell": "NR4A3-only",
+      "application": "LEAD \u2014 EMC / AciCC / NR4A3-fusion sarcomas (selective, systemic)",
+      "dG": {
+        "NR4A3": -7.82232,
+        "NR4A1": -6.5133,
+        "NR4A2": -6.93661
+      },
+      "margin_vs_NR4A1": 1.31,
+      "margin_vs_NR4A2": 0.89,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "amodiaquine",
+      "chembl_id": "CHEMBL682",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A3"
+      ],
+      "cell": "NR4A3-only",
+      "application": "LEAD \u2014 EMC / AciCC / NR4A3-fusion sarcomas (selective, systemic)",
+      "dG": {
+        "NR4A3": -7.82232,
+        "NR4A1": -6.5133,
+        "NR4A2": -6.93661
+      },
+      "margin_vs_NR4A1": 1.31,
+      "margin_vs_NR4A2": 0.89,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL682",
+      "chembl_id": "CHEMBL682",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -8.57943,
+        "NR4A1": -8.13881,
+        "NR4A2": -7.61632
+      },
+      "margin_vs_NR4A1": 0.44,
+      "margin_vs_NR4A2": 0.96,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "celastrol",
+      "chembl_id": "CHEMBL301982",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.38672,
+        "NR4A1": -5.11236,
+        "NR4A2": -6.2953
+      },
+      "margin_vs_NR4A1": 1.27,
+      "margin_vs_NR4A2": 0.09,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "chloroquine",
+      "chembl_id": "CHEMBL76",
+      "handle_contacts": 4,
+      "conserved_contacts": 1
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.38672,
+        "NR4A1": -5.11236,
+        "NR4A2": -6.2953
+      },
+      "margin_vs_NR4A1": 1.27,
+      "margin_vs_NR4A2": 0.09,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL76",
+      "chembl_id": "CHEMBL76",
+      "handle_contacts": 4,
+      "conserved_contacts": 1
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -8.60658,
+        "NR4A1": -7.01419,
+        "NR4A2": -9.06805
+      },
+      "margin_vs_NR4A1": 1.59,
+      "margin_vs_NR4A2": -0.46,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL4755698",
+      "chembl_id": "CHEMBL4755698",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.90276,
+        "NR4A1": -5.99793,
+        "NR4A2": -6.74993
+      },
+      "margin_vs_NR4A1": 0.9,
+      "margin_vs_NR4A2": 0.15,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "piperlongumine",
+      "chembl_id": "CHEMBL465843",
+      "handle_contacts": 4,
+      "conserved_contacts": 1
+    },
+    {
+      "engages": [
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "NR4A2+NR4A3",
+      "application": "uncommon \u2014 no clean degrader rationale",
+      "dG": {
+        "NR4A3": -7.346,
+        "NR4A1": -6.32689,
+        "NR4A2": -7.76576
+      },
+      "margin_vs_NR4A1": 1.02,
+      "margin_vs_NR4A2": -0.42,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL1961797",
+      "chembl_id": "CHEMBL1961797",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A2"
+      ],
+      "cell": "NR4A2-only",
+      "application": "weak \u2014 degrading Nurr1 is usually wrong-direction (neuroprotective)",
+      "dG": {
+        "NR4A3": -6.63158,
+        "NR4A1": -6.17872,
+        "NR4A2": -7.25466
+      },
+      "margin_vs_NR4A1": 0.45,
+      "margin_vs_NR4A2": -0.62,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL1961796",
+      "chembl_id": "CHEMBL1961796",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -8.39969,
+        "NR4A1": -8.40999,
+        "NR4A2": -8.79876
+      },
+      "margin_vs_NR4A1": -0.01,
+      "margin_vs_NR4A2": -0.4,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "NR4A3-active:CHEMBL1873475",
+      "chembl_id": "CHEMBL1873475",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2"
+      ],
+      "cell": "NR4A1+NR4A2",
+      "application": "uncommon \u2014 no clean degrader rationale (NR4A3 spared)",
+      "dG": {
+        "NR4A3": -6.94706,
+        "NR4A1": -7.54269,
+        "NR4A2": -7.01436
+      },
+      "margin_vs_NR4A1": -0.6,
+      "margin_vs_NR4A2": -0.07,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "resveratrol",
+      "chembl_id": "CHEMBL165",
+      "handle_contacts": 4,
+      "conserved_contacts": 1
+    }
+  ],
+  "matrix": {
+    "cell_census": {
+      "NR4A3-only": 4,
+      "pan-NR4A": 3,
+      "none": 3,
+      "NR4A2+NR4A3": 1,
+      "NR4A2-only": 1,
+      "NR4A1+NR4A2": 1
+    }
+  },
+  "leads": {
+    "nr4a3_selective": [
+      "cytosporone B",
+      "NR4A3-active:CHEMBL1221517"
+    ],
+    "pan_nr4a": [
+      "celastrol",
+      "NR4A3-active:CHEMBL1873475"
+    ],
+    "anti_targets": []
+  },
+  "_status": "ok"
+}

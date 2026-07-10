@@ -1,0 +1,230 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "10-frame MD average"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 33
+    },
+    "NR4A1": {
+      "n_poses": 33
+    },
+    "NR4A2": {
+      "n_poses": 33
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_560",
+      "chembl_id": "denovo_560",
+      "dG_mmgbsa": {
+        "NR4A3": -21.51,
+        "NR4A1": -15.88,
+        "NR4A2": -15.96
+      },
+      "mm_margin_vs_NR4A1": 5.63,
+      "mm_margin_vs_NR4A2": 5.55,
+      "mm_min_margin": 5.55,
+      "dock_min_margin": 0.35,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 1.83,
+        "NR4A1": 3.41,
+        "NR4A2": 2.48
+      },
+      "mm_min_margin_sd": 3.08,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_318",
+      "chembl_id": "denovo_318",
+      "dG_mmgbsa": {
+        "NR4A3": -20.29,
+        "NR4A1": -17.71,
+        "NR4A2": -18.65
+      },
+      "mm_margin_vs_NR4A1": 2.58,
+      "mm_margin_vs_NR4A2": 1.64,
+      "mm_min_margin": 1.64,
+      "dock_min_margin": 0.69,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 3.06,
+        "NR4A1": 2.78,
+        "NR4A2": 4.47
+      },
+      "mm_min_margin_sd": 5.42,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_372",
+      "chembl_id": "denovo_372",
+      "dG_mmgbsa": {
+        "NR4A3": -18.28,
+        "NR4A1": -14.24,
+        "NR4A2": -17.27
+      },
+      "mm_margin_vs_NR4A1": 4.04,
+      "mm_margin_vs_NR4A2": 1.01,
+      "mm_min_margin": 1.01,
+      "dock_min_margin": 0.58,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 3.46,
+        "NR4A1": 3.32,
+        "NR4A2": 2.27
+      },
+      "mm_min_margin_sd": 4.14,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_193",
+      "chembl_id": "denovo_193",
+      "dG_mmgbsa": {
+        "NR4A3": -28.61,
+        "NR4A1": -32.85,
+        "NR4A2": -31.35
+      },
+      "mm_margin_vs_NR4A1": -4.24,
+      "mm_margin_vs_NR4A2": -2.74,
+      "mm_min_margin": -4.24,
+      "dock_min_margin": -0.5,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 1.6,
+        "NR4A1": 3.86,
+        "NR4A2": 3.7
+      },
+      "mm_min_margin_sd": 4.18,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_657",
+      "chembl_id": "denovo_657",
+      "dG_mmgbsa": {
+        "NR4A3": -30.73,
+        "NR4A1": -33.63,
+        "NR4A2": -36.42
+      },
+      "mm_margin_vs_NR4A1": -2.9,
+      "mm_margin_vs_NR4A2": -5.69,
+      "mm_min_margin": -5.69,
+      "dock_min_margin": -0.79,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.75,
+        "NR4A1": 3.56,
+        "NR4A2": 3.91
+      },
+      "mm_min_margin_sd": 4.78,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_661",
+      "chembl_id": "denovo_661",
+      "dG_mmgbsa": {
+        "NR4A3": -24.7,
+        "NR4A1": -31.68,
+        "NR4A2": -29.34
+      },
+      "mm_margin_vs_NR4A1": -6.98,
+      "mm_margin_vs_NR4A2": -4.64,
+      "mm_min_margin": -6.98,
+      "dock_min_margin": 0.22,
+      "dock_cell": "NR4A3-only",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 3.65,
+        "NR4A1": 4.1,
+        "NR4A2": 4.1
+      },
+      "mm_min_margin_sd": 5.49,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_237",
+      "chembl_id": "denovo_237",
+      "dG_mmgbsa": {
+        "NR4A3": -25.05,
+        "NR4A1": -28.11,
+        "NR4A2": -33.69
+      },
+      "mm_margin_vs_NR4A1": -3.06,
+      "mm_margin_vs_NR4A2": -8.64,
+      "mm_min_margin": -8.64,
+      "dock_min_margin": -0.06,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.99,
+        "NR4A1": 3.34,
+        "NR4A2": 3.98
+      },
+      "mm_min_margin_sd": 4.98,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    },
+    {
+      "label": "denovo_62",
+      "chembl_id": "denovo_62",
+      "dG_mmgbsa": {
+        "NR4A3": -26.53,
+        "NR4A1": -27.38,
+        "NR4A2": -35.46
+      },
+      "mm_margin_vs_NR4A1": -0.85,
+      "mm_margin_vs_NR4A2": -8.93,
+      "mm_min_margin": -8.93,
+      "dock_min_margin": -1.16,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 5.4,
+        "NR4A1": 3.44,
+        "NR4A2": 4.12
+      },
+      "mm_min_margin_sd": 6.79,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    }
+  ],
+  "_status": "ok",
+  "_progress": "8/8",
+  "verdict_census": {
+    "confirmed_selective": 3,
+    "confirmed_nonselective": 4,
+    "reversed": 1
+  },
+  "leads_confirmed_selective": [
+    "denovo_560",
+    "denovo_318",
+    "denovo_372"
+  ],
+  "leads_reversed": [
+    "denovo_661"
+  ]
+}

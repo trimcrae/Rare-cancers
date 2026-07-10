@@ -1,0 +1,56 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "10-frame MD average"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 7
+    },
+    "NR4A1": {
+      "n_poses": 7
+    },
+    "NR4A2": {
+      "n_poses": 7
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_9",
+      "chembl_id": "denovo_9",
+      "dG_mmgbsa": {
+        "NR4A3": -28.29,
+        "NR4A1": -23.85,
+        "NR4A2": -20.65
+      },
+      "mm_margin_vs_NR4A1": 4.44,
+      "mm_margin_vs_NR4A2": 7.64,
+      "mm_min_margin": 4.44,
+      "dock_min_margin": 0.3,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 4.29,
+        "NR4A1": 3.39,
+        "NR4A2": 4.3
+      },
+      "mm_min_margin_sd": 5.47,
+      "bound_pose_strain": {
+        "_status": "strain calc skipped: Python argument types in\n    rdkit.Chem.rdmolops.AddHs(Molecule)\ndid not match C++ signature:\n    AddHs(RDKit::ROMol mol"
+      }
+    }
+  ],
+  "_status": "ok",
+  "_progress": "1/1",
+  "verdict_census": {
+    "confirmed_selective": 1
+  },
+  "leads_confirmed_selective": [
+    "denovo_9"
+  ],
+  "leads_reversed": []
+}

@@ -1,0 +1,928 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory single-snapshot; minimize complex then slice components",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "single snapshot"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 58
+    },
+    "NR4A1": {
+      "n_poses": 58
+    },
+    "NR4A2": {
+      "n_poses": 58
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_393",
+      "chembl_id": "denovo_393",
+      "dG_mmgbsa": {
+        "NR4A3": -33.51,
+        "NR4A1": -11.23,
+        "NR4A2": -15.17
+      },
+      "mm_margin_vs_NR4A1": 22.28,
+      "mm_margin_vs_NR4A2": 18.34,
+      "mm_min_margin": 18.34,
+      "dock_min_margin": 1.04,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_780",
+      "chembl_id": "denovo_780",
+      "dG_mmgbsa": {
+        "NR4A3": -44.24,
+        "NR4A1": -29.58,
+        "NR4A2": -18.95
+      },
+      "mm_margin_vs_NR4A1": 14.66,
+      "mm_margin_vs_NR4A2": 25.29,
+      "mm_min_margin": 14.66,
+      "dock_min_margin": 0.96,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_277",
+      "chembl_id": "denovo_277",
+      "dG_mmgbsa": {
+        "NR4A3": -28.38,
+        "NR4A1": -17.37,
+        "NR4A2": -15.31
+      },
+      "mm_margin_vs_NR4A1": 11.01,
+      "mm_margin_vs_NR4A2": 13.07,
+      "mm_min_margin": 11.01,
+      "dock_min_margin": 0.37,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_804",
+      "chembl_id": "denovo_804",
+      "dG_mmgbsa": {
+        "NR4A3": -33.4,
+        "NR4A1": -19.16,
+        "NR4A2": -23.09
+      },
+      "mm_margin_vs_NR4A1": 14.24,
+      "mm_margin_vs_NR4A2": 10.31,
+      "mm_min_margin": 10.31,
+      "dock_min_margin": 0.18,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_838",
+      "chembl_id": "denovo_838",
+      "dG_mmgbsa": {
+        "NR4A3": -30.77,
+        "NR4A1": -22.39,
+        "NR4A2": -13.87
+      },
+      "mm_margin_vs_NR4A1": 8.38,
+      "mm_margin_vs_NR4A2": 16.9,
+      "mm_min_margin": 8.38,
+      "dock_min_margin": -0.49,
+      "dock_cell": "none",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_431",
+      "chembl_id": "denovo_431",
+      "dG_mmgbsa": {
+        "NR4A3": -26.34,
+        "NR4A1": -16.26,
+        "NR4A2": -18.67
+      },
+      "mm_margin_vs_NR4A1": 10.08,
+      "mm_margin_vs_NR4A2": 7.67,
+      "mm_min_margin": 7.67,
+      "dock_min_margin": 0.96,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_921",
+      "chembl_id": "denovo_921",
+      "dG_mmgbsa": {
+        "NR4A3": -23.03,
+        "NR4A1": -10.78,
+        "NR4A2": -15.52
+      },
+      "mm_margin_vs_NR4A1": 12.25,
+      "mm_margin_vs_NR4A2": 7.51,
+      "mm_min_margin": 7.51,
+      "dock_min_margin": 0.49,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_160",
+      "chembl_id": "denovo_160",
+      "dG_mmgbsa": {
+        "NR4A3": -31.11,
+        "NR4A1": -26.02,
+        "NR4A2": -26.71
+      },
+      "mm_margin_vs_NR4A1": 5.09,
+      "mm_margin_vs_NR4A2": 4.4,
+      "mm_min_margin": 4.4,
+      "dock_min_margin": -0.41,
+      "dock_cell": "NR4A2-only",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_719",
+      "chembl_id": "denovo_719",
+      "dG_mmgbsa": {
+        "NR4A3": -25.41,
+        "NR4A1": -19.85,
+        "NR4A2": -21.16
+      },
+      "mm_margin_vs_NR4A1": 5.56,
+      "mm_margin_vs_NR4A2": 4.25,
+      "mm_min_margin": 4.25,
+      "dock_min_margin": 0.31,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_198",
+      "chembl_id": "denovo_198",
+      "dG_mmgbsa": {
+        "NR4A3": -33.01,
+        "NR4A1": -28.34,
+        "NR4A2": -29.09
+      },
+      "mm_margin_vs_NR4A1": 4.67,
+      "mm_margin_vs_NR4A2": 3.92,
+      "mm_min_margin": 3.92,
+      "dock_min_margin": -0.32,
+      "dock_cell": "none",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_76",
+      "chembl_id": "denovo_76",
+      "dG_mmgbsa": {
+        "NR4A3": -35.1,
+        "NR4A1": -18.52,
+        "NR4A2": -31.48
+      },
+      "mm_margin_vs_NR4A1": 16.58,
+      "mm_margin_vs_NR4A2": 3.62,
+      "mm_min_margin": 3.62,
+      "dock_min_margin": 0.01,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_406",
+      "chembl_id": "denovo_406",
+      "dG_mmgbsa": {
+        "NR4A3": -25.9,
+        "NR4A1": -19.72,
+        "NR4A2": -22.49
+      },
+      "mm_margin_vs_NR4A1": 6.18,
+      "mm_margin_vs_NR4A2": 3.41,
+      "mm_min_margin": 3.41,
+      "dock_min_margin": 0.02,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_108",
+      "chembl_id": "denovo_108",
+      "dG_mmgbsa": {
+        "NR4A3": -40.32,
+        "NR4A1": -26.7,
+        "NR4A2": -37.05
+      },
+      "mm_margin_vs_NR4A1": 13.62,
+      "mm_margin_vs_NR4A2": 3.27,
+      "mm_min_margin": 3.27,
+      "dock_min_margin": -0.77,
+      "dock_cell": "pan-NR4A",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_118",
+      "chembl_id": "denovo_118",
+      "dG_mmgbsa": {
+        "NR4A3": -26.65,
+        "NR4A1": -16.01,
+        "NR4A2": -23.84
+      },
+      "mm_margin_vs_NR4A1": 10.64,
+      "mm_margin_vs_NR4A2": 2.81,
+      "mm_min_margin": 2.81,
+      "dock_min_margin": 0.12,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_22",
+      "chembl_id": "denovo_22",
+      "dG_mmgbsa": {
+        "NR4A3": -30.73,
+        "NR4A1": -20.7,
+        "NR4A2": -28.4
+      },
+      "mm_margin_vs_NR4A1": 10.03,
+      "mm_margin_vs_NR4A2": 2.33,
+      "mm_min_margin": 2.33,
+      "dock_min_margin": 0.39,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_918",
+      "chembl_id": "denovo_918",
+      "dG_mmgbsa": {
+        "NR4A3": -38.97,
+        "NR4A1": -25.87,
+        "NR4A2": -36.88
+      },
+      "mm_margin_vs_NR4A1": 13.1,
+      "mm_margin_vs_NR4A2": 2.09,
+      "mm_min_margin": 2.09,
+      "dock_min_margin": -1.32,
+      "dock_cell": "pan-NR4A",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_228",
+      "chembl_id": "denovo_228",
+      "dG_mmgbsa": {
+        "NR4A3": -36.31,
+        "NR4A1": -34.45,
+        "NR4A2": -27.99
+      },
+      "mm_margin_vs_NR4A1": 1.86,
+      "mm_margin_vs_NR4A2": 8.32,
+      "mm_min_margin": 1.86,
+      "dock_min_margin": 0.06,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective"
+    },
+    {
+      "label": "denovo_9",
+      "chembl_id": "denovo_9",
+      "dG_mmgbsa": {
+        "NR4A3": -25.67,
+        "NR4A1": -20.8,
+        "NR4A2": -23.83
+      },
+      "mm_margin_vs_NR4A1": 4.87,
+      "mm_margin_vs_NR4A2": 1.84,
+      "mm_min_margin": 1.84,
+      "dock_min_margin": -0.84,
+      "dock_cell": "NR4A2-only",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_450",
+      "chembl_id": "denovo_450",
+      "dG_mmgbsa": {
+        "NR4A3": -29.89,
+        "NR4A1": -28.6,
+        "NR4A2": -26.82
+      },
+      "mm_margin_vs_NR4A1": 1.29,
+      "mm_margin_vs_NR4A2": 3.07,
+      "mm_min_margin": 1.29,
+      "dock_min_margin": -1.27,
+      "dock_cell": "pan-NR4A",
+      "verdict": "rescued"
+    },
+    {
+      "label": "denovo_815",
+      "chembl_id": "denovo_815",
+      "dG_mmgbsa": {
+        "NR4A3": -28.38,
+        "NR4A1": -22.54,
+        "NR4A2": -27.42
+      },
+      "mm_margin_vs_NR4A1": 5.84,
+      "mm_margin_vs_NR4A2": 0.96,
+      "mm_min_margin": 0.96,
+      "dock_min_margin": -0.13,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_121",
+      "chembl_id": "denovo_121",
+      "dG_mmgbsa": {
+        "NR4A3": -29.69,
+        "NR4A1": -20.33,
+        "NR4A2": -28.77
+      },
+      "mm_margin_vs_NR4A1": 9.36,
+      "mm_margin_vs_NR4A2": 0.92,
+      "mm_min_margin": 0.92,
+      "dock_min_margin": 0.31,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "weakened"
+    },
+    {
+      "label": "denovo_267",
+      "chembl_id": "denovo_267",
+      "dG_mmgbsa": {
+        "NR4A3": -32.72,
+        "NR4A1": -27.12,
+        "NR4A2": -31.81
+      },
+      "mm_margin_vs_NR4A1": 5.6,
+      "mm_margin_vs_NR4A2": 0.91,
+      "mm_min_margin": 0.91,
+      "dock_min_margin": -0.54,
+      "dock_cell": "NR4A2-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_457",
+      "chembl_id": "denovo_457",
+      "dG_mmgbsa": {
+        "NR4A3": -23.72,
+        "NR4A1": -22.85,
+        "NR4A2": -22.43
+      },
+      "mm_margin_vs_NR4A1": 0.87,
+      "mm_margin_vs_NR4A2": 1.29,
+      "mm_min_margin": 0.87,
+      "dock_min_margin": -0.83,
+      "dock_cell": "NR4A2-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_309",
+      "chembl_id": "denovo_309",
+      "dG_mmgbsa": {
+        "NR4A3": -35.6,
+        "NR4A1": -27.41,
+        "NR4A2": -35.16
+      },
+      "mm_margin_vs_NR4A1": 8.19,
+      "mm_margin_vs_NR4A2": 0.44,
+      "mm_min_margin": 0.44,
+      "dock_min_margin": -0.88,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_316",
+      "chembl_id": "denovo_316",
+      "dG_mmgbsa": {
+        "NR4A3": -28.97,
+        "NR4A1": -28.69,
+        "NR4A2": -29.32
+      },
+      "mm_margin_vs_NR4A1": 0.28,
+      "mm_margin_vs_NR4A2": -0.35,
+      "mm_min_margin": -0.35,
+      "dock_min_margin": -0.41,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_934",
+      "chembl_id": "denovo_934",
+      "dG_mmgbsa": {
+        "NR4A3": -26.61,
+        "NR4A1": -13.09,
+        "NR4A2": -26.99
+      },
+      "mm_margin_vs_NR4A1": 13.52,
+      "mm_margin_vs_NR4A2": -0.38,
+      "mm_min_margin": -0.38,
+      "dock_min_margin": 0.8,
+      "dock_cell": "none",
+      "verdict": "weakened"
+    },
+    {
+      "label": "denovo_0",
+      "chembl_id": "denovo_0",
+      "dG_mmgbsa": {
+        "NR4A3": -30.85,
+        "NR4A1": -18.68,
+        "NR4A2": -31.76
+      },
+      "mm_margin_vs_NR4A1": 12.17,
+      "mm_margin_vs_NR4A2": -0.91,
+      "mm_min_margin": -0.91,
+      "dock_min_margin": -0.75,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_39",
+      "chembl_id": "denovo_39",
+      "dG_mmgbsa": {
+        "NR4A3": -30.38,
+        "NR4A1": -23.92,
+        "NR4A2": -31.41
+      },
+      "mm_margin_vs_NR4A1": 6.46,
+      "mm_margin_vs_NR4A2": -1.03,
+      "mm_min_margin": -1.03,
+      "dock_min_margin": 1.52,
+      "dock_cell": "NR4A3-only",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_237",
+      "chembl_id": "denovo_237",
+      "dG_mmgbsa": {
+        "NR4A3": -32.78,
+        "NR4A1": -33.83,
+        "NR4A2": -13.02
+      },
+      "mm_margin_vs_NR4A1": -1.05,
+      "mm_margin_vs_NR4A2": 19.76,
+      "mm_min_margin": -1.05,
+      "dock_min_margin": 0.31,
+      "dock_cell": "none",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_170",
+      "chembl_id": "denovo_170",
+      "dG_mmgbsa": {
+        "NR4A3": -30.09,
+        "NR4A1": -31.37,
+        "NR4A2": -31.21
+      },
+      "mm_margin_vs_NR4A1": -1.28,
+      "mm_margin_vs_NR4A2": -1.12,
+      "mm_min_margin": -1.28,
+      "dock_min_margin": 0.15,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_954",
+      "chembl_id": "denovo_954",
+      "dG_mmgbsa": {
+        "NR4A3": -29.36,
+        "NR4A1": -30.91,
+        "NR4A2": -20.26
+      },
+      "mm_margin_vs_NR4A1": -1.55,
+      "mm_margin_vs_NR4A2": 9.1,
+      "mm_min_margin": -1.55,
+      "dock_min_margin": 0.03,
+      "dock_cell": "NR4A1+NR4A3",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_465",
+      "chembl_id": "denovo_465",
+      "dG_mmgbsa": {
+        "NR4A3": -30.63,
+        "NR4A1": -24.37,
+        "NR4A2": -32.18
+      },
+      "mm_margin_vs_NR4A1": 6.26,
+      "mm_margin_vs_NR4A2": -1.55,
+      "mm_min_margin": -1.55,
+      "dock_min_margin": -0.34,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_469",
+      "chembl_id": "denovo_469",
+      "dG_mmgbsa": {
+        "NR4A3": -29.26,
+        "NR4A1": -30.96,
+        "NR4A2": -25.0
+      },
+      "mm_margin_vs_NR4A1": -1.7,
+      "mm_margin_vs_NR4A2": 4.26,
+      "mm_min_margin": -1.7,
+      "dock_min_margin": 0.26,
+      "dock_cell": "pan-NR4A",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_527",
+      "chembl_id": "denovo_527",
+      "dG_mmgbsa": {
+        "NR4A3": -24.14,
+        "NR4A1": -26.01,
+        "NR4A2": -24.41
+      },
+      "mm_margin_vs_NR4A1": -1.87,
+      "mm_margin_vs_NR4A2": -0.27,
+      "mm_min_margin": -1.87,
+      "dock_min_margin": -0.6,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_285",
+      "chembl_id": "denovo_285",
+      "dG_mmgbsa": {
+        "NR4A3": -24.72,
+        "NR4A1": -26.8,
+        "NR4A2": -16.53
+      },
+      "mm_margin_vs_NR4A1": -2.08,
+      "mm_margin_vs_NR4A2": 8.19,
+      "mm_min_margin": -2.08,
+      "dock_min_margin": 0.58,
+      "dock_cell": "none",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_589",
+      "chembl_id": "denovo_589",
+      "dG_mmgbsa": {
+        "NR4A3": -32.0,
+        "NR4A1": -32.78,
+        "NR4A2": -34.15
+      },
+      "mm_margin_vs_NR4A1": -0.78,
+      "mm_margin_vs_NR4A2": -2.15,
+      "mm_min_margin": -2.15,
+      "dock_min_margin": -1.14,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_212",
+      "chembl_id": "denovo_212",
+      "dG_mmgbsa": {
+        "NR4A3": -27.71,
+        "NR4A1": -16.55,
+        "NR4A2": -30.16
+      },
+      "mm_margin_vs_NR4A1": 11.16,
+      "mm_margin_vs_NR4A2": -2.45,
+      "mm_min_margin": -2.45,
+      "dock_min_margin": -0.45,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_579",
+      "chembl_id": "denovo_579",
+      "dG_mmgbsa": {
+        "NR4A3": -26.04,
+        "NR4A1": -18.41,
+        "NR4A2": -28.54
+      },
+      "mm_margin_vs_NR4A1": 7.63,
+      "mm_margin_vs_NR4A2": -2.5,
+      "mm_min_margin": -2.5,
+      "dock_min_margin": -0.2,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_961",
+      "chembl_id": "denovo_961",
+      "dG_mmgbsa": {
+        "NR4A3": -35.15,
+        "NR4A1": -27.61,
+        "NR4A2": -38.13
+      },
+      "mm_margin_vs_NR4A1": 7.54,
+      "mm_margin_vs_NR4A2": -2.98,
+      "mm_min_margin": -2.98,
+      "dock_min_margin": -0.2,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_531",
+      "chembl_id": "denovo_531",
+      "dG_mmgbsa": {
+        "NR4A3": -23.85,
+        "NR4A1": -20.69,
+        "NR4A2": -27.02
+      },
+      "mm_margin_vs_NR4A1": 3.16,
+      "mm_margin_vs_NR4A2": -3.17,
+      "mm_min_margin": -3.17,
+      "dock_min_margin": 0.38,
+      "dock_cell": "NR4A3-only",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_86",
+      "chembl_id": "denovo_86",
+      "dG_mmgbsa": {
+        "NR4A3": -33.19,
+        "NR4A1": -30.53,
+        "NR4A2": -36.48
+      },
+      "mm_margin_vs_NR4A1": 2.66,
+      "mm_margin_vs_NR4A2": -3.29,
+      "mm_min_margin": -3.29,
+      "dock_min_margin": -1.52,
+      "dock_cell": "NR4A2-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_223",
+      "chembl_id": "denovo_223",
+      "dG_mmgbsa": {
+        "NR4A3": -25.3,
+        "NR4A1": -28.96,
+        "NR4A2": -27.23
+      },
+      "mm_margin_vs_NR4A1": -3.66,
+      "mm_margin_vs_NR4A2": -1.93,
+      "mm_min_margin": -3.66,
+      "dock_min_margin": -1.76,
+      "dock_cell": "NR4A1+NR4A2",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_286",
+      "chembl_id": "denovo_286",
+      "dG_mmgbsa": {
+        "NR4A3": -18.49,
+        "NR4A1": -18.35,
+        "NR4A2": -22.49
+      },
+      "mm_margin_vs_NR4A1": 0.14,
+      "mm_margin_vs_NR4A2": -4.0,
+      "mm_min_margin": -4.0,
+      "dock_min_margin": -0.34,
+      "dock_cell": "NR4A1+NR4A3",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_179",
+      "chembl_id": "denovo_179",
+      "dG_mmgbsa": {
+        "NR4A3": -21.91,
+        "NR4A1": -18.03,
+        "NR4A2": -25.99
+      },
+      "mm_margin_vs_NR4A1": 3.88,
+      "mm_margin_vs_NR4A2": -4.08,
+      "mm_min_margin": -4.08,
+      "dock_min_margin": 0.11,
+      "dock_cell": "none",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_660",
+      "chembl_id": "denovo_660",
+      "dG_mmgbsa": {
+        "NR4A3": -23.68,
+        "NR4A1": -19.04,
+        "NR4A2": -28.26
+      },
+      "mm_margin_vs_NR4A1": 4.64,
+      "mm_margin_vs_NR4A2": -4.58,
+      "mm_min_margin": -4.58,
+      "dock_min_margin": -0.54,
+      "dock_cell": "NR4A1-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_430",
+      "chembl_id": "denovo_430",
+      "dG_mmgbsa": {
+        "NR4A3": -24.98,
+        "NR4A1": -24.98,
+        "NR4A2": -30.75
+      },
+      "mm_margin_vs_NR4A1": 0.0,
+      "mm_margin_vs_NR4A2": -5.77,
+      "mm_min_margin": -5.77,
+      "dock_min_margin": -0.22,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_197",
+      "chembl_id": "denovo_197",
+      "dG_mmgbsa": {
+        "NR4A3": -22.01,
+        "NR4A1": -20.57,
+        "NR4A2": -28.34
+      },
+      "mm_margin_vs_NR4A1": 1.44,
+      "mm_margin_vs_NR4A2": -6.33,
+      "mm_min_margin": -6.33,
+      "dock_min_margin": -1.15,
+      "dock_cell": "NR4A2-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_715",
+      "chembl_id": "denovo_715",
+      "dG_mmgbsa": {
+        "NR4A3": -33.8,
+        "NR4A1": -25.43,
+        "NR4A2": -41.02
+      },
+      "mm_margin_vs_NR4A1": 8.37,
+      "mm_margin_vs_NR4A2": -7.22,
+      "mm_min_margin": -7.22,
+      "dock_min_margin": 0.27,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_295",
+      "chembl_id": "denovo_295",
+      "dG_mmgbsa": {
+        "NR4A3": -19.36,
+        "NR4A1": -22.66,
+        "NR4A2": -27.56
+      },
+      "mm_margin_vs_NR4A1": -3.3,
+      "mm_margin_vs_NR4A2": -8.2,
+      "mm_min_margin": -8.2,
+      "dock_min_margin": -0.96,
+      "dock_cell": "NR4A1+NR4A2",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_422",
+      "chembl_id": "denovo_422",
+      "dG_mmgbsa": {
+        "NR4A3": -22.78,
+        "NR4A1": -31.72,
+        "NR4A2": -25.35
+      },
+      "mm_margin_vs_NR4A1": -8.94,
+      "mm_margin_vs_NR4A2": -2.57,
+      "mm_min_margin": -8.94,
+      "dock_min_margin": -2.38,
+      "dock_cell": "NR4A1-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_397",
+      "chembl_id": "denovo_397",
+      "dG_mmgbsa": {
+        "NR4A3": -25.73,
+        "NR4A1": -26.54,
+        "NR4A2": -34.97
+      },
+      "mm_margin_vs_NR4A1": -0.81,
+      "mm_margin_vs_NR4A2": -9.24,
+      "mm_min_margin": -9.24,
+      "dock_min_margin": -1.14,
+      "dock_cell": "NR4A1+NR4A2",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_234",
+      "chembl_id": "denovo_234",
+      "dG_mmgbsa": {
+        "NR4A3": -21.51,
+        "NR4A1": -31.2,
+        "NR4A2": -24.08
+      },
+      "mm_margin_vs_NR4A1": -9.69,
+      "mm_margin_vs_NR4A2": -2.57,
+      "mm_min_margin": -9.69,
+      "dock_min_margin": 0.05,
+      "dock_cell": "pan-NR4A",
+      "verdict": "reversed"
+    },
+    {
+      "label": "denovo_398",
+      "chembl_id": "denovo_398",
+      "dG_mmgbsa": {
+        "NR4A3": -30.73,
+        "NR4A1": -27.79,
+        "NR4A2": -40.57
+      },
+      "mm_margin_vs_NR4A1": 2.94,
+      "mm_margin_vs_NR4A2": -9.84,
+      "mm_min_margin": -9.84,
+      "dock_min_margin": -1.86,
+      "dock_cell": "NR4A1+NR4A2",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_414",
+      "chembl_id": "denovo_414",
+      "dG_mmgbsa": {
+        "NR4A3": -21.56,
+        "NR4A1": -31.66,
+        "NR4A2": -29.17
+      },
+      "mm_margin_vs_NR4A1": -10.1,
+      "mm_margin_vs_NR4A2": -7.61,
+      "mm_min_margin": -10.1,
+      "dock_min_margin": -0.91,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_611",
+      "chembl_id": "denovo_611",
+      "dG_mmgbsa": {
+        "NR4A3": -27.44,
+        "NR4A1": -37.61,
+        "NR4A2": -27.44
+      },
+      "mm_margin_vs_NR4A1": -10.17,
+      "mm_margin_vs_NR4A2": 0.0,
+      "mm_min_margin": -10.17,
+      "dock_min_margin": -0.11,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_458",
+      "chembl_id": "denovo_458",
+      "dG_mmgbsa": {
+        "NR4A3": -29.18,
+        "NR4A1": -36.63,
+        "NR4A2": -41.82
+      },
+      "mm_margin_vs_NR4A1": -7.45,
+      "mm_margin_vs_NR4A2": -12.64,
+      "mm_min_margin": -12.64,
+      "dock_min_margin": -1.28,
+      "dock_cell": "NR4A2-only",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_232",
+      "chembl_id": "denovo_232",
+      "dG_mmgbsa": {
+        "NR4A3": -8.56,
+        "NR4A1": -11.46,
+        "NR4A2": -22.69
+      },
+      "mm_margin_vs_NR4A1": -2.9,
+      "mm_margin_vs_NR4A2": -14.13,
+      "mm_min_margin": -14.13,
+      "dock_min_margin": -0.01,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective"
+    },
+    {
+      "label": "denovo_924",
+      "chembl_id": "denovo_924",
+      "dG_mmgbsa": {
+        "NR4A3": -19.54,
+        "NR4A1": -38.95,
+        "NR4A2": -28.05
+      },
+      "mm_margin_vs_NR4A1": -19.41,
+      "mm_margin_vs_NR4A2": -8.51,
+      "mm_min_margin": -19.41,
+      "dock_min_margin": -1.45,
+      "dock_cell": "NR4A1-only",
+      "verdict": "confirmed_nonselective"
+    }
+  ],
+  "_status": "ok",
+  "_progress": "58/58",
+  "verdict_census": {
+    "confirmed_selective": 12,
+    "rescued": 7,
+    "confirmed_nonselective": 27,
+    "weakened": 2,
+    "reversed": 10
+  },
+  "leads_confirmed_selective": [
+    "denovo_393",
+    "denovo_780",
+    "denovo_277",
+    "denovo_804",
+    "denovo_431",
+    "denovo_921",
+    "denovo_719",
+    "denovo_76",
+    "denovo_406",
+    "denovo_118",
+    "denovo_22",
+    "denovo_228"
+  ],
+  "leads_reversed": [
+    "denovo_39",
+    "denovo_237",
+    "denovo_170",
+    "denovo_954",
+    "denovo_469",
+    "denovo_285",
+    "denovo_531",
+    "denovo_179",
+    "denovo_715",
+    "denovo_234"
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "_note": "NR4A family selectivity matrix: one library docked into the metad-OPENED pocket of NR4A3/NR4A1/NR4A2 (state-matched). Cells (selectivity_fingerprint) are triage hypotheses from docking priors, NOT affinities; quantify with MM-GBSA/FEP.",
+  "engageable_handles": [
+    406,
+    410,
+    484,
+    531,
+    534
+  ],
+  "paralogues": {
+    "NR4A3": {
+      "receptor": "nr4a3-release-druggable.pdb",
+      "source": "step0-druggable-release",
+      "n_docked": 7
+    },
+    "NR4A1": {
+      "opened_frame": 524,
+      "fpocket_druggability": 0.981,
+      "cv_residues": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "n_docked": 7
+    },
+    "NR4A2": {
+      "opened_frame": 125,
+      "fpocket_druggability": 0.938,
+      "cv_residues": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "n_docked": 7
+    }
+  },
+  "candidate_source": "de-novo top 8 DEVELOPABLE by denovo_promise (nr4a3-denovo.json; structural-alert filtered)",
+  "n_candidates": 7,
+  "candidates": [
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.69158,
+        "NR4A1": -7.30982,
+        "NR4A2": -7.39628
+      },
+      "margin_vs_NR4A1": 0.38,
+      "margin_vs_NR4A2": 0.3,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_9",
+      "chembl_id": "denovo_9",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.47963,
+        "NR4A1": -7.11123,
+        "NR4A2": -7.78475
+      },
+      "margin_vs_NR4A1": 0.37,
+      "margin_vs_NR4A2": -0.31,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_61",
+      "chembl_id": "denovo_61",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -6.42971,
+        "NR4A1": -6.63128,
+        "NR4A2": -6.62126
+      },
+      "margin_vs_NR4A1": -0.2,
+      "margin_vs_NR4A2": -0.19,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_51",
+      "chembl_id": "denovo_51",
+      "handle_contacts": 5,
+      "conserved_contacts": 3
+    },
+    {
+      "engages": [],
+      "cell": "none",
+      "application": "no engagement",
+      "dG": {
+        "NR4A3": -5.88602,
+        "NR4A1": -5.34316,
+        "NR4A2": -6.81567
+      },
+      "margin_vs_NR4A1": 0.54,
+      "margin_vs_NR4A2": -0.93,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_169",
+      "chembl_id": "denovo_169",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.11558,
+        "NR4A1": -7.03294,
+        "NR4A2": -7.79097
+      },
+      "margin_vs_NR4A1": 0.08,
+      "margin_vs_NR4A2": -0.68,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_125",
+      "chembl_id": "denovo_125",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "cell": "pan-NR4A",
+      "application": "second mode \u2014 ex-vivo immuno (reverse T-cell exhaustion; transient)",
+      "dG": {
+        "NR4A3": -7.67614,
+        "NR4A1": -8.00298,
+        "NR4A2": -8.20026
+      },
+      "margin_vs_NR4A1": -0.33,
+      "margin_vs_NR4A2": -0.52,
+      "nr4a3_selective": false,
+      "pan_nr4a": true,
+      "anti_target": false,
+      "label": "denovo_79",
+      "chembl_id": "denovo_79",
+      "handle_contacts": 5,
+      "conserved_contacts": 2
+    },
+    {
+      "engages": [
+        "NR4A1",
+        "NR4A2"
+      ],
+      "cell": "NR4A1+NR4A2",
+      "application": "uncommon \u2014 no clean degrader rationale (NR4A3 spared)",
+      "dG": {
+        "NR4A3": -6.94899,
+        "NR4A1": -8.81099,
+        "NR4A2": -8.51914
+      },
+      "margin_vs_NR4A1": -1.86,
+      "margin_vs_NR4A2": -1.57,
+      "nr4a3_selective": false,
+      "pan_nr4a": false,
+      "anti_target": false,
+      "label": "denovo_8",
+      "chembl_id": "denovo_8",
+      "handle_contacts": 4,
+      "conserved_contacts": 2
+    }
+  ],
+  "matrix": {
+    "cell_census": {
+      "pan-NR4A": 4,
+      "none": 2,
+      "NR4A1+NR4A2": 1
+    }
+  },
+  "leads": {
+    "nr4a3_selective": [],
+    "pan_nr4a": [
+      "denovo_9",
+      "denovo_61",
+      "denovo_125",
+      "denovo_79"
+    ],
+    "anti_targets": []
+  },
+  "_status": "ok"
+}

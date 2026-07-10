@@ -1,0 +1,161 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "10-frame MD average"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 58
+    },
+    "NR4A1": {
+      "n_poses": 58
+    },
+    "NR4A2": {
+      "n_poses": 58
+    }
+  },
+  "candidates": [
+    {
+      "label": "denovo_921",
+      "chembl_id": "denovo_921",
+      "dG_mmgbsa": {
+        "NR4A3": -26.64,
+        "NR4A1": -22.42,
+        "NR4A2": -17.44
+      },
+      "mm_margin_vs_NR4A1": 4.22,
+      "mm_margin_vs_NR4A2": 9.2,
+      "mm_min_margin": 4.22,
+      "dock_min_margin": 0.49,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 4.92,
+        "NR4A1": 1.78,
+        "NR4A2": 1.84
+      },
+      "mm_min_margin_sd": 5.23
+    },
+    {
+      "label": "denovo_277",
+      "chembl_id": "denovo_277",
+      "dG_mmgbsa": {
+        "NR4A3": -23.68,
+        "NR4A1": -21.45,
+        "NR4A2": -15.67
+      },
+      "mm_margin_vs_NR4A1": 2.23,
+      "mm_margin_vs_NR4A2": 8.01,
+      "mm_min_margin": 2.23,
+      "dock_min_margin": 0.37,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.2,
+        "NR4A1": 2.75,
+        "NR4A2": 6.16
+      },
+      "mm_min_margin_sd": 3.52
+    },
+    {
+      "label": "denovo_804",
+      "chembl_id": "denovo_804",
+      "dG_mmgbsa": {
+        "NR4A3": -32.05,
+        "NR4A1": -31.29,
+        "NR4A2": -25.84
+      },
+      "mm_margin_vs_NR4A1": 0.76,
+      "mm_margin_vs_NR4A2": 6.21,
+      "mm_min_margin": 0.76,
+      "dock_min_margin": 0.18,
+      "dock_cell": "NR4A3-only",
+      "verdict": "weakened",
+      "dG_sd": {
+        "NR4A3": 3.05,
+        "NR4A1": 3.05,
+        "NR4A2": 4.39
+      },
+      "mm_min_margin_sd": 4.31
+    },
+    {
+      "label": "denovo_431",
+      "chembl_id": "denovo_431",
+      "dG_mmgbsa": {
+        "NR4A3": -26.16,
+        "NR4A1": -14.46,
+        "NR4A2": -26.25
+      },
+      "mm_margin_vs_NR4A1": 11.7,
+      "mm_margin_vs_NR4A2": -0.09,
+      "mm_min_margin": -0.09,
+      "dock_min_margin": 0.96,
+      "dock_cell": "NR4A3-only",
+      "verdict": "weakened",
+      "dG_sd": {
+        "NR4A3": 4.65,
+        "NR4A1": 2.32,
+        "NR4A2": 2.0
+      },
+      "mm_min_margin_sd": 5.06
+    },
+    {
+      "label": "denovo_838",
+      "chembl_id": "denovo_838",
+      "dG_mmgbsa": {
+        "NR4A3": -33.31,
+        "NR4A1": -33.96,
+        "NR4A2": -13.54
+      },
+      "mm_margin_vs_NR4A1": -0.65,
+      "mm_margin_vs_NR4A2": 19.77,
+      "mm_min_margin": -0.65,
+      "dock_min_margin": -0.49,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 3.04,
+        "NR4A1": 3.24,
+        "NR4A2": 3.48
+      },
+      "mm_min_margin_sd": 4.44
+    },
+    {
+      "label": "denovo_924",
+      "chembl_id": "denovo_924",
+      "dG_mmgbsa": {
+        "NR4A3": -20.63,
+        "NR4A1": -41.41,
+        "NR4A2": -21.42
+      },
+      "mm_margin_vs_NR4A1": -20.78,
+      "mm_margin_vs_NR4A2": -0.79,
+      "mm_min_margin": -20.78,
+      "dock_min_margin": -1.45,
+      "dock_cell": "NR4A1-only",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.65,
+        "NR4A1": 3.64,
+        "NR4A2": 1.93
+      },
+      "mm_min_margin_sd": 4.5
+    }
+  ],
+  "_status": "ok",
+  "_progress": "6/6",
+  "verdict_census": {
+    "confirmed_selective": 2,
+    "weakened": 2,
+    "confirmed_nonselective": 2
+  },
+  "leads_confirmed_selective": [
+    "denovo_921",
+    "denovo_277"
+  ],
+  "leads_reversed": []
+}
