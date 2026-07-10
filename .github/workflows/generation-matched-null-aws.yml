@@ -1,0 +1,126 @@
+name: NR4A3 generation-matched decoy null — prep + reduce (AWS, read/write S3, no GPU)
+
+# The winner's-curse / generative-confound control for the de-novo funnel (review-response §1; MC12/13).
+# This workflow runs the CHEAP, NON-SAGEMAKER halves of the generation-matched null on the GitHub runner:
+#   mode=prep-scramble  : read the real generations (s3://<bucket>/<denovo_prefix>/nr4a3-denovo.json),
+#                         permute the promise (null objective), upload to a control gen prefix. The dispatched
+#                         control (b) then runs gpu-denovo-dock-aws.yml with denovo_prefix = that prefix.
+#   mode=prep-manifest  : build the DiffSBDD receptor manifest that points the identical generation job at a
+#                         CONTROL pocket (a paralogue opened PDB from s3://<bucket>/nr4a3-matrix, or any
+#                         property-matched pocket), upload PDB + manifest to a control gen prefix. Control (c)
+#                         then runs gpu-denovo-aws.yml with input_prefix = that prefix.
+#   mode=reduce         : after the control MM-GBSA jobs finish, pull the real + control nr4a3-mmgbsa.json,
+#                         compute survivor reports + the real-vs-manufactured comparison, upload
+#                         nr4a3-generation-matched-null.json.
+# All CPU on ubuntu-latest (aws-cli + rdkit-free pure logic) — $0 SageMaker. REQUIRES secrets:
+# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "prep-scramble | prep-manifest | reduce"
+        default: "reduce"
+        required: true
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      # --- reduce ---
+      real_mmgbsa_prefix:
+        description: "[reduce] S3 prefix with the REAL campaign nr4a3-mmgbsa.json"
+        default: "nr4a3-mmgbsa"
+        required: false
+      control_mmgbsa:
+        description: "[reduce] comma-separated name:s3prefix of each control's mmgbsa output (e.g. scramble:nr4a3-genmatched-scramble-mmgbsa,nr4a1pocket:nr4a3-genmatched-nr4a1-mmgbsa)"
+        default: ""
+        required: false
+      decoy_mmgbsa_prefix:
+        description: "[reduce] S3 prefix of a FRAME-MATCHED decoy mmgbsa (optional; empty = committed constant null)"
+        default: ""
+        required: false
+      ngen:
+        description: "[reduce] comma-separated name:generation-pool-size (denominators), incl. real:N"
+        default: ""
+        required: false
+      real_survivors:
+        description: "[reduce] the real campaign's robust survivor count (denovo_401 => 1)"
+        default: "1"
+        required: false
+      subtract_sd:
+        description: "[reduce] 1 = the multi-snapshot bar (margin-SD > null, the bar denovo_401 was held to)"
+        default: "1"
+        required: false
+      output_prefix:
+        description: "[reduce] S3 prefix for nr4a3-generation-matched-null.json"
+        default: "nr4a3-generation-matched-null"
+        required: false
+      # --- prep-scramble ---
+      denovo_prefix:
+        description: "[prep-scramble] S3 prefix with the real nr4a3-denovo.json to scramble"
+        default: "nr4a3-denovo"
+        required: false
+      scramble_seed:
+        description: "[prep-scramble] permutation seed"
+        default: "0"
+        required: false
+      control_gen_prefix:
+        description: "[prep-scramble/prep-manifest] S3 prefix to write the control generation input to"
+        default: "nr4a3-genmatched-scramble"
+        required: false
+      # --- prep-manifest ---
+      control_pocket_prefix:
+        description: "[prep-manifest] S3 prefix holding the control receptor PDB (e.g. nr4a3-matrix)"
+        default: "nr4a3-matrix"
+        required: false
+      control_pdb:
+        description: "[prep-manifest] basename of the control receptor PDB (e.g. nr4a1-opened.pdb)"
+        default: "nr4a1-opened.pdb"
+        required: false
+      control_box_res:
+        description: "[prep-manifest] comma-separated pocket-lining resSeqs to box generation on"
+        default: ""
+        required: false
+      control_target:
+        description: "[prep-manifest] label (e.g. NR4A1)"
+        default: "NR4A1"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Run generation-matched-null ${{ inputs.mode }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          MODE: ${{ inputs.mode }}
+          REAL_MMGBSA_PREFIX: ${{ inputs.real_mmgbsa_prefix }}
+          CONTROL_MMGBSA_PREFIXES: ${{ inputs.control_mmgbsa }}
+          DECOY_MMGBSA_PREFIX: ${{ inputs.decoy_mmgbsa_prefix }}
+          NGEN: ${{ inputs.ngen }}
+          REAL_SURVIVORS: ${{ inputs.real_survivors }}
+          SUBTRACT_SD: ${{ inputs.subtract_sd }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          DENOVO_PREFIX: ${{ inputs.denovo_prefix }}
+          SCRAMBLE_SEED: ${{ inputs.scramble_seed }}
+          CONTROL_GEN_PREFIX: ${{ inputs.control_gen_prefix }}
+          CONTROL_POCKET_PREFIX: ${{ inputs.control_pocket_prefix }}
+          CONTROL_PDB: ${{ inputs.control_pdb }}
+          CONTROL_BOX_RES: ${{ inputs.control_box_res }}
+          CONTROL_TARGET: ${{ inputs.control_target }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/nr4a3_generation_matched_null_s3.py
