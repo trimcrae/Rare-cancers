@@ -1,6 +1,6 @@
 {
-  "_title": "PocketMiner Pocket-5 enrichment permutation null (review comment 8)",
-  "_method": "Empirical one-sided permutation null, 20000 random same-size residue sets (add-one p); terminal mask 373-398; contiguous-window control.",
+  "_title": "PocketMiner Pocket-5 enrichment permutation null (review comment 8 + selection-aware P1 22)",
+  "_method": "Empirical one-sided permutation null, 20000 random same-size residue sets (add-one p); terminal mask 373-398; contiguous-window control; selection-aware maximum-statistic (max-over-contiguous-windows) familywise correction.",
   "n_residues_scored": 254,
   "pocket5_residues": [
     406,
@@ -33,6 +33,18 @@
       "null_mean": 0.4115,
       "p_value": 0.03636,
       "n_windows": 219
+    },
+    "selection_aware_max": {
+      "observed_mean": 0.6414,
+      "p_value": 0.73941,
+      "n_windows": 245,
+      "_note": "familywise max-over-contiguous-windows null (selection-corrected)"
+    },
+    "selection_aware_max_terminal_masked": {
+      "observed_mean": 0.6414,
+      "p_value": 0.0144,
+      "n_windows": 219,
+      "_note": "max-statistic, terminal edge masked"
     }
   }
 }

@@ -1,0 +1,41 @@
+name: AF2↔NMR RMSD decomposition (CPU, no SageMaker)
+
+# Review P1 20: is the AF2 NR4A3-LBD model within the 8XTT NMR ensemble's own conformational spread, or an
+# outlier — overall and at the Pocket-5 cryptic site? Runs nr4a3_af2_nmr_rmsd.py on the GitHub runner: fetches
+# the AF-Q92570 model (AlphaFold DB) + the 8XTT NMR ensemble (RCSB), computes AF2↔NMR vs NMR↔NMR Cα-RMSD
+# distributions (Kabsch), and commits nr4a3-af2-nmr-rmsd.json. Pure CPU, $0, no AWS creds (public fetches).
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: af2-nmr-rmsd
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install numpy
+      - name: Compute AF2↔NMR RMSD decomposition
+        run: python research/modalities/nr4a3_af2_nmr_rmsd.py
+      - name: Commit result JSON to main
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nr4a3-af2-nmr-rmsd.json
+          git commit -m "AF2↔NMR RMSD decomposition result (review P1 20)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            echo "push race, retry $i"; sleep $((i*3))
+          done
+          echo "::error::could not push result after retries"; exit 1

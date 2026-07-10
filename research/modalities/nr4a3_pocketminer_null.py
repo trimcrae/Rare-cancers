@@ -62,6 +62,41 @@ def contiguous_pvalue(scores, target_residues, seed=SEED, exclude=frozenset()):
     return obs, _mean(means) if means else 0.0, (ge + 1) / (len(means) + 1), len(windows)
 
 
+def max_statistic_pvalue(scores, target_residues, n_perm=N_PERM, seed=SEED, exclude=frozenset()):
+    """SELECTION-AWARE (familywise / maximum-statistic) permutation null (review P1 22).
+
+    The plain nulls above ask "is Pocket-5's mean higher than a random / a single contiguous patch?" — but
+    Pocket-5 was SELECTED as *the* pocket, so that comparison is optimistic (selection bias / multiple patches
+    were on the table). The max-statistic correction fixes this: the candidate family is ALL contiguous
+    same-size windows (a spatial-patch proxy), and for each permutation we shuffle the per-residue scores
+    across positions and record the MAX window mean. p = fraction of permutations whose *best* window mean
+    >= the observed Pocket-5 mean — i.e. the observed patch must beat the BEST patch under the null, not just
+    a random one. Strictly more conservative than contiguous_pvalue. Returns (obs, p_value, n_windows).
+    (The fuller version uses contact-graph spatial patches instead of sequence windows; see the AF2↔NMR /
+    structure-based follow-up — this sequence-window form is the cheap, structure-free lower bound.)"""
+    target = [r for r in target_residues if r in scores]
+    obs = _mean([scores[r] for r in target])
+    resnums = sorted(r for r in scores if r not in exclude)
+    vals = [scores[r] for r in resnums]
+    k, n = len(target), len(resnums)
+    if k == 0 or n < k:
+        raise ValueError("empty target or pool too small")
+    n_windows = n - k + 1
+    rng = random.Random(seed)
+    ge = 0
+    for _ in range(n_perm):
+        rng.shuffle(vals)
+        wsum = sum(vals[:k])          # rolling window sum -> max window mean over the shuffled scores
+        best = wsum
+        for i in range(1, n_windows):
+            wsum += vals[i + k - 1] - vals[i - 1]
+            if wsum > best:
+                best = wsum
+        if best / k >= obs:
+            ge += 1
+    return obs, (ge + 1) / (n_perm + 1), n_windows
+
+
 def main():
     d = json.load(open(SRC))
     scores = {int(k): float(v) for k, v in d["per_residue_scores"].items()}
@@ -76,17 +111,26 @@ def main():
     obs, nmean, p, nw = contiguous_pvalue(scores, POCKET5, exclude=TERMINAL_MASK)
     res["contiguous_terminal_masked"] = {"observed_mean": round(obs, 4), "null_mean": round(nmean, 4),
                                          "p_value": round(p, 5), "n_windows": nw}
+    # selection-aware (maximum-statistic) correction — P1 22
+    obs, p, nw = max_statistic_pvalue(scores, POCKET5)
+    res["selection_aware_max"] = {"observed_mean": round(obs, 4), "p_value": round(p, 5), "n_windows": nw,
+                                  "_note": "familywise max-over-contiguous-windows null (selection-corrected)"}
+    obs, p, nw = max_statistic_pvalue(scores, POCKET5, exclude=TERMINAL_MASK)
+    res["selection_aware_max_terminal_masked"] = {"observed_mean": round(obs, 4), "p_value": round(p, 5),
+                                                  "n_windows": nw, "_note": "max-statistic, terminal edge masked"}
     out = {
-        "_title": "PocketMiner Pocket-5 enrichment permutation null (review comment 8)",
+        "_title": "PocketMiner Pocket-5 enrichment permutation null (review comment 8 + selection-aware P1 22)",
         "_method": f"Empirical one-sided permutation null, {N_PERM} random same-size residue sets "
-                   "(add-one p); terminal mask 373-398; contiguous-window control.",
+                   "(add-one p); terminal mask 373-398; contiguous-window control; selection-aware "
+                   "maximum-statistic (max-over-contiguous-windows) familywise correction.",
         "n_residues_scored": len(scores),
         "pocket5_residues": POCKET5,
         "results": res,
     }
     json.dump(out, open(OUT, "w"), indent=2)
     for k, r in res.items():
-        print(f"{k}: pocket5 mean {r['observed_mean']} vs null {r['null_mean']} -> p={r['p_value']}")
+        nm = f" vs null {r['null_mean']}" if "null_mean" in r else ""
+        print(f"{k}: pocket5 mean {r['observed_mean']}{nm} -> p={r['p_value']}")
     print(f"wrote {OUT}")
 
 

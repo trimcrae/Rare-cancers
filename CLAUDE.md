@@ -66,6 +66,16 @@ read it before making changes.
   reduce, a shakeout shard). **Come back for confirmation only when something gets EXPENSIVE** (a multi-leg GPU
   fleet, hundreds of $, or a multi-day commitment). Composes with breadth-first: adding a cheap new-axis technique
   is default-yes-just-do-it; a big depth spend still needs a nod.
+- **★★ BIAS TO ACTION ON FREE/CHEAP WARRANTED WORK — DON'T SURFACE-AND-WAIT, JUST DO IT (trimcrae, 2026-07-10,
+  after I identified two ready reviewer analyses, confirmed they were free CPU work, and then ASKED instead of
+  running them — wasting turns).** When a piece of work is (a) clearly **warranted** (on the plan / reviewer
+  list / obviously needed), (b) **cheap or free** to run (CPU/$0, or buildable via "engineering is free"), and
+  (c) **ready or ready-to-build**, then **DO it immediately** — build it and launch it — do NOT stop to ask
+  permission and do NOT merely report that it *could* be done. "It hasn't been run yet, it's needed, and it's
+  free" is a trigger to **run it**, not to flag it. If several such items exist, batch and launch them all, then
+  report what you started (not what you're about to maybe start). Asking/surfacing-first is reserved ONLY for
+  work that is **expensive** (multi-leg GPU, hundreds of $, multi-day) or **genuinely ambiguous / a real
+  judgment call**. Sitting on obvious, free, doable work is the anti-pattern this rule exists to kill.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
