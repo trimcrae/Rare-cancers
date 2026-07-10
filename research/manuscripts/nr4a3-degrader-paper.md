@@ -847,6 +847,18 @@ reported "fraction of frames/conformers druggable" has a denominator of *frames 
 pocket*, which can inflate the fraction where the site is frequently undetected. The fpocket build was
 resolved per job from conda-forge and **not pinned**; the resolved version is a reproducibility gap we flag
 (the 8XTT re-extraction and release scans may use different fpocket builds).
+**Required change (in progress as the harmonized rerun).** Because the reference site was chosen as the
+highest-*druggability* pocket in a residue window that is essentially the whole LBD, the foundational site
+identity is **partly outcome-selected**. The submission-gate fix is to define the orthosteric site **without
+using the fpocket score** — from a fixed, prespecified set of canonical NR ligand-pocket residues (mapped by
+structural alignment to homologous NR orthosteric sites) — then detect cavities, match to that region under a
+composite Jaccard + fraction-recovered + centroid gate (replacing the ≥1-residue rule), and read druggability
+only afterward, under one pinned fpocket build across the reference panel, AF2, all 20 8XTT conformers, the
+three metad replicas, and the three release replicas. **Dependency audit.** Because the generative campaign
+was conditioned on a receptor frame selected by this provisional classifier, the rerun must confirm that the
+**exact release-derived frame used to generate `denovo_401` still qualifies as the same mapped orthosteric
+site and still exceeds D\***; if it does not, the generation receptor — not merely a reported frame-fraction —
+is affected. This audit is the primary submission gate (§4).
 Calibration: NR-LBD panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)).
 Falsification: pre-registered gates ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)).
 Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Superfamily liability screen (SI §S3, A4/D4):**
