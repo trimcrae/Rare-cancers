@@ -548,12 +548,14 @@ frame vs the paralogue frames) systematically favours NR4A3, so the verdict labe
 matter "NR4A3-selective" — it has **no demonstrated specificity**, which also explains why the artifact
 `denovo_15` had scored "confirmed_selective." (ii) Of the generations, only **11/191 survive the
 developability gate**, and **none of the clean ones is robustly NR4A3-selective** once the decoy baseline is
-accounted for. **We use the decoy run as a calibrated null, and one candidate clears it.** Rather than the
-non-discriminating "margin > 0", we set the selectivity bar at the **decoy 95th percentile (+13.1 kcal/mol;
-`selectivity_calibration.py`)**. Against that bar, **`denovo_111`** (a clean fluoro-phenyl-pyrrolidine,
-QED 0.87 / SA 2.9, NR4A3-margin **+15.7**, favoured in *both* receptor states, only 1 of 38 decoys above it)
-is the **first calibrated above-null NR4A3-selective hit** — every other de-novo and decoy molecule *in that
-harvest* falls in the null. *(A later generation batch produced `denovo_401`, whose single-snapshot margin
+accounted for. **We use the decoy run as an empirical null, and one candidate clears it.** Rather than the
+non-discriminating "margin > 0", we rank against the **decoy empirical 95th percentile (+13.1 kcal/mol;
+`selectivity_calibration.py`)** — an empirical rank, not a precisely calibrated universal cutoff (with n = 38
+the upper tail is estimated from one or two order statistics, so we also report the raw rank and, in SI, the
+full ECDF and a bootstrap interval on the percentile). Against that bar, **`denovo_111`** (a clean
+fluoro-phenyl-pyrrolidine, QED 0.87 / SA 2.9, NR4A3-margin **+15.7**, favoured in *both* receptor states,
+**ranked above 37 of 38 decoys**) is the **first de-novo hit above the empirical decoy-null percentile** in
+that harvest — every other de-novo and decoy molecule *in that harvest* falls in the null. *(A later generation batch produced `denovo_401`, whose single-snapshot margin
 +13.92 also exceeds this +13.1 bar and which additionally survives multi-snapshot de-noising (§2.6); it — not
 `denovo_111` — is the carried lead. (`denovo_111`, the earlier single-snapshot foothold, de-noised well as the
 *neutral* form but was later **withdrawn** when the species-resolution sweep showed its physiological *cation*
@@ -579,15 +581,19 @@ minimize → short GB Langevin MD → ΔG averaged over 10 frames + SD) — and 
 |-----------|------------------------|------------------------------|-------------|---------|
 | `denovo_393` (was the single-snapshot best, above decoy *max*) | +18.34 | **−2.95 ± 3.65** | — | **collapses** (selectivity gone) |
 | `denovo_780` | +14.66 | +2.07 ± 6.36 | <0 | within noise of 0 |
-| `denovo_924` (negative control) | −19.41 | −25.20 ± 4.55 | — | stays non-selective ✓ (method discriminates) |
-| **`denovo_401`** | +13.92 | **+12.83 ± 2.98** | **+9.85** | **holds** (confirmed_selective) |
+| `denovo_924` (negative control) | −19.41 | −25.20 ± 4.55 | — | stays non-selective ✓ (behaved as expected) |
+| **`denovo_401`** | +13.92 | **+12.83 ± 2.98** | **+9.85** | **holds** (margin − SD > 0) |
 | **`denovo_111`** (neutral form; later **withdrawn** — cation reverses, see species resolution) | +15.70 | **+14.60 ± 4.10** | **+10.50** | holds *as neutral* (but protonation-fragile) |
 
 **Figure 5** ([`../modalities/nr4a3-fig5.png`](../modalities/nr4a3-fig5.png); rendered by `nr4a3_journal_figures.py`). The de-novo lead `denovo_401`, across four panels. **(a)** Multi-snapshot de-noising: each candidate's
 single-snapshot margin (open circle) vs its multi-snapshot mean ± SD (filled) — the single-snapshot best
-`denovo_393` (+18.34) collapses to ~0, the negative control `denovo_924` stays non-selective (the method
-discriminates), and only `denovo_401` holds (margin − SD = +9.85, clear of the multi-snapshot decoy-null 95th
-percentile +6.69). **(b)** The decoy null is receptor-frame-dependent: `denovo_401` clears the whole same-tier
+`denovo_393` (+18.34) collapses to ~0, and the negative control `denovo_924` stays non-selective (behaving as
+expected — a single negative control, not a demonstration that the method discriminates in general). Two
+candidates hold at this stage (`denovo_401` and neutral `denovo_111`, both margin − SD > 0); **after
+subsequent protonation-state resolution (§2.6) only `denovo_401` remains** (`denovo_111`'s physiological
+cation reverses). `denovo_401`'s margin − SD = +9.85 is clear of the multi-snapshot decoy-null 95th
+percentile (+6.69); here **margin − SD is a prespecified advancement heuristic using the frame-to-frame SD,
+not a confidence interval**. **(b)** The decoy null is receptor-frame-dependent: `denovo_401` clears the whole same-tier
 null in its unbiased *release/design* frame but not in the biased *metad-opened* frame (§2.6). **(c)** 2D
 structure of `denovo_401` (MW 304, QED 0.80, SA 3.87, no structural alerts). **(d)** The predicted docked pose
 of `denovo_401` (orange) in the metadynamics-opened NR4A3 LBD (teal cartoon; pocket-lining side chains grey)
