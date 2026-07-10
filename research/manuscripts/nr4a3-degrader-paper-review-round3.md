@@ -120,4 +120,15 @@ distribution (C); NR reference sites + D* line (D); AF2–8XTT pocket-local dive
 - **Infra:** list_sagemaker spot-quota display corrected 10→8 (matches live ResourceLimitExceeded).
 
 **Still to do — EDIT (non-result-gated):** denovo_15/94/57/111 archaeology→SI (c28,29/P2.20); Methods split 4.1–4.14 (c45/P2.23); pocket-tracking Methods (c46/P0.10 — mostly added, verify); Abstract→3–4 sentences (c57 — reportedly done, verify); multi-snapshot wording c32,33,37,38,39,40,41,44; limitations trim c49; data/AI disclosure (c60,61); Fig 1 & Fig 5 redesign (c11,37).
+**PREPRINT + SI SYNCED to round-3/4 (2026-07-10 PM) — they had drifted to a pre-round-3 state and were
+INTERNALLY CONTRADICTORY (abstract claimed FEP run w/ ΔΔG; body §2.6 + Limitations said FEP "un-run").
+Fixed:** honest title; metad reframe (purged metastable/induced-fit/"not a bias artifact"; Gate 3A persistence
+SUPPORTED / 3B accessibility UNRESOLVED; basin-breathing); ABFE folded into preprint body + SI gate table
+(−4.76/−4.98 ΔΔG, offset-invariant, T4L absolute miss, NR4A2 λ-repair pending); §2.1 calibrated→contextualized;
+state-matched→criterion-matched. **Cross-checking the two docs surfaced + fixed 3 PAPER citation errors**
+(vidofludimus author Willems→López-García; NR-V04 PMID 37609171[commentary]→38334978[primary]; PGR-NR4A3
+author Ott→Wilbur) — all verified against PubMed/PMC.
+**⚠ STANDING RULE (learned): every paper edit must propagate to `nr4a3-degrader-preprint.md` + `-preprint-si.md`
+in the SAME pass — they are the actual ChemRxiv deliverable and silently drifted out of sync.**
+
 **Still to do — result-gated (fold in when tonight's GPU lands):** ABFE→Results §2.7 + Fig 6 (c1/P0.4); NR4A2 λ-repair reduce (P0.1); 8XTT-first §2.1 reorder done WITH §2.7 insertion (c8,9/P2.19); matched-frame null (P0.8); release-replica fpocket table (P0.9); SI S1/S7 (c38,components); selectivity-benchmark ABFE (#2); T4L 2ns (#3); 8XTT-conformer (#4).
