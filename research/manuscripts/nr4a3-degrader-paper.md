@@ -114,17 +114,18 @@ verbatim), it assigns the Pocket-5 lining residues a mean cryptic-pocket probabi
 0.47 whole-LBD background (1.36× enrichment)**, with **8/10 Pocket-5 residues ≥ 0.5** and **4/10 ≥ 0.7**
 (residues 406, 481, 484, 531 — three of which, 406/484/531, are among our seven selectivity handles); eight
 of the ten sit in the **top ~14–29 %** of the LBD by score (percentile 0.71–0.89). We report this at its
-true weight, with two honest caveats: (i) PocketMiner is a *propensity predictor* — it corroborates the
-**site/existence** of a cryptic pocket from an orthogonal method, but supplies neither the opened geometry
-nor a druggability value, which remain the job of the metadynamics + fpocket analysis below; and (ii) the
+true weight, with two honest caveats: (i) PocketMiner is a *propensity predictor* — it supports **elevated
+cryptic-pocket-forming propensity** at the mapped region from an orthogonal method, but supplies neither the
+opened geometry nor a druggability value, which remain the job of the metadynamics + fpocket analysis below; and (ii) the
 network's single highest-scoring residues (375–398) fall at the **N-terminal truncation edge** of the
 domain fragment — a chain-terminus flexibility artifact of scoring an isolated LBD, not the functional
 cavity — so we rest on the *Pocket-5 enrichment*, not a rank-1 claim. **That enrichment is statistically
-significant, and — decisively for the truncation-edge concern — *strengthens* when the terminus is masked**
+significant and persists under a null that excludes the high-scoring truncation-edge region**
 (`nr4a3_pocketminer_null.py`, empirical permutation null over the full 254-residue score array): the
 Pocket-5 mean (0.64) beats random same-size residue sets at **p = 0.009**, and against a null pool with the
-N-terminal edge (373–398) **excluded** it rises to **p = 0.0001** (masking the artifactual high-scoring
-terminus *raises* significance, so the enrichment is not a terminus artifact), and it clears a
+N-terminal edge (373–398) **excluded** the enrichment remains (**p = 0.0001**). We read this as *persistence*
+of the enrichment when the edge is removed — not as proof the terminus is irrelevant, since excluding a
+high-scoring region can itself shift the null downward. It also clears a
 **sequence-contiguous-window** null at p = 0.036 (a true residue-contact-graph spatial-patch null and the
 all-20-conformer PocketMiner stratification are stated follow-ups, §5). Permutation mechanics: 20,000
 one-sided draws, fixed seed, add-one correction, pocket prespecified before scoring. Data:
@@ -191,11 +192,11 @@ open (CV Rg ~0.5 → ~1.05 nm). On the 30 ns run (600 frames), per-frame fpocket
 Pocket-5 cavity** (the *same* metric as the static 0.495 and D\*, not the non-discriminating "max-anywhere"
 cavity of §2.1) reaches druggability **0.931** (max over frames; `crosses_0.5 = True`); SASA of the lining
 residues rises (+6.1 nm², 86.8 % of frames more open than baseline). (A 5 ns validation gave a consistent
-0.751.) This is, to our knowledge, the **first pocket-dynamics analysis of NR4A3**, paralleling the *dynamic, breathing*
+0.751.) This pocket-dynamics analysis of NR4A3 parallels the *dynamic, breathing*
 Nurr1 pocket (de Vera 2019).
 
-**Read this number for what it is.** The fpocket druggability score is a standard, validated metric (a
-logistic model of hydrophobic enclosure and polarity — *not* raw cavity volume), and §2.1 already anchors
+**Read this number for what it is.** The fpocket druggability score is an established computational
+pocket-druggability proxy (a logistic model of hydrophobic enclosure and polarity — *not* raw cavity volume), and §2.1 already anchors
 it on a nuclear-receptor panel that includes the occluded 1OVL crystal as a de-facto negative; it is a
 geometry-based druggability *proxy* (a prediction, not a measurement). Two honest qualifications apply to
 the **0.931** specifically. First, it is the
@@ -205,10 +206,11 @@ D\*=0.53 (the pre-registered ≥5 %-of-frames test, comfortably met — the hand
 roughly one third of frames druggable), with 0.931 as the peak. Second, it is computed on **biased-MD
 conformations**, so its magnitude is not on the same footing as the *static* drug-bound crystal sites
 (0.53–0.68) and we do **not** claim "0.931 > the drug-bound band" as a like-for-like result. Note the rise
-is informative rather than an artifact of "opening": because druggability rewards hydrophobic *enclosure*,
-a pocket that merely splayed open / became solvent-exposed would score *lower*, not higher — so reaching a
-druggable score means the breathing cavity is hydrophobic and enclosed (corroborated by the lining-residue
-/ handle-facing check, §2.2 below). fpocket cannot establish whether such geometries occur with appreciable
+is more consistent with a genuine enclosed cavity than with mere solvent exposure: because the fpocket score
+weights hydrophobic *enclosure*, a pocket that merely splayed open / became solvent-exposed would tend to
+score *lower*, not higher. The score is a multi-feature composite, so we do not attribute the rise to any
+single feature; but the independent lining-residue / handle-facing check (§2.2 below) supports an enclosed,
+hydrophobic breathing cavity. fpocket cannot establish whether such geometries occur with appreciable
 **equilibrium probability**; the open-seeded **release** simulations (below) address only the narrower
 question of prompt relaxation after the bias is removed, not the equilibrium population. The honest claim:
 the pocket *geometrically admits* a druggable cavity when it breathes open, with that cavity
@@ -471,8 +473,9 @@ no entropy/ensemble average; OpenCL on the A10G; `nr4a3_mmgbsa.py`). The docking
 deduplicated candidates the pipeline verdict census is *confirmed_selective* 3
 (amodiaquine, celastrol, + a duplicate), *reversed* 3, *weakened* 2, *rescued* 3, *confirmed_nonselective*
 2. MM-GBSA magnitudes here are inflated by the single-snapshot/no-entropy approximation, so we read the
-**verdict/direction, not the kcal/mol** — but the direction is clear: **repurposed NR4A chemical matter is
-method-validation, not a selective lead**, which is exactly why a *de-novo* design is needed (§2.5).
+**verdict/direction, not the kcal/mol** — but the direction is clear: **the exploratory repurposing screen
+did not yield a candidate that advanced under the later specificity controls** (the single-snapshot tier is
+itself shown non-specific by the decoy null, §2.5), which is exactly why a *de-novo* design is needed (§2.5).
 (Selectivity FEP on a survivor is the defensible affinity tier, gated behind a bona-fide selective
 candidate.) For a representative `denovo_401`-PROTAC, the model **predicts a ternary-like CRBN complex of comparable
 confidence for all three paralogues** (`nr4a3_ternary.py`, Boltz-2; per-paralogue iptm 0.72/0.83/0.82, each
@@ -670,7 +673,8 @@ sensitivity after selection** — it does **not** de-bias the best-of-N selectio
 **+14.75 ± 4.82** (vs the original +12.83 ± 2.98; ΔG NR4A3 −37.50 / NR4A1 −22.75 / NR4A2 −20.43) — the margin
 does **not** regress toward the null under an independent trajectory (it lands slightly higher), so the lead is
 **not a single-draw artifact**. This bounds the *within-candidate/seed* variance; the *between-candidate*
-best-of-N selection remains a (now-bounded) caveat that only re-selection-from-scratch or FEP fully removes.
+best-of-N selection remains a design-stage selection caveat — higher-tier calculations (ABFE) test the
+selected molecule but do **not** erase the selection process (only re-selection from scratch would).
 The decoy null (§2.5) was originally computed at
 *single-snapshot*, so the matching question was whether "+12.83 survives de-noising" is the same as "+12.83
 is above a *multi-snapshot* null." **That control has now been run: re-scoring
@@ -802,8 +806,9 @@ checkpoints resume losing ≤1 iteration, whereas the earlier monolithic-`.nc` r
 long spot runs to all-or-nothing checkpointing — and the engine was **evaluated on two benchmark systems**, with
 **opposite outcomes** ([`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json)):
 a **hydration-free-energy** benchmark (methane ΔG_hyd = **+1.60 ± 0.04** kcal/mol vs experimental +2.0, FreeSolv — a **−0.40**
-kcal/mol offset, well within GAFF/TIP3P norms; **approximately reproduced**, indicating the ligand-in-water decoupling
-machinery is sound) and a **protein–ligand binding** benchmark (T4-lysozyme L99A + benzene; below) that **fails by ≈ +7.1
+kcal/mol offset; **approximately reproduced**, which supports the basic solvent-decoupling implementation on a
+simple neutral test system — it does *not* validate charge assignment, conformational sampling, or drug-like
+solvation for `denovo_401`) and a **protein–ligand binding** benchmark (T4-lysozyme L99A + benzene; below) that **fails by ≈ +7.1
 kcal/mol**. Because one benchmark passes and the other fails, this is a **benchmark evaluation, not a successful calibration**:
 it measures the engine's systematic offset on an *absolute* ΔG_bind and shows the absolute scale is **not** validated. The
 NR4A3-vs-paralogue **ΔΔG** is the selectivity read-out (CUDA on the A10G; SageMaker managed-spot *Training* with
@@ -872,7 +877,7 @@ paralogue is engaged in its own **opened** conformation of a cryptic LBD pocket 
 mutation assumes the two proteins are related by point substitutions along a smooth path in a *shared*
 conformation and is fragile to backbone/opened-state differences — precisely the regime here — whereas ABFE
 models each receptor independently in its own opened frame. (ii) *Precedent.* ABFE is an established route to
-selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al. 2017), so the protocol is applied within its published domain rather than adapted to a new one. (iii) *Absolute observable, in principle only.* ABFE
+selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al. 2017), which provides precedent for receptor-to-receptor selectivity estimates using ABFE across related proteins (our application additionally involves cryptic/opened conformers, a custom engine, unresolved state populations, and no validated absolute scale). (iii) *Absolute observable, in principle only.* ABFE
 would additionally provide an **absolute** ΔG_bind for each receptor; **in this study, however, the failed
 T4L benchmark prevents quantitative interpretation of that absolute observable**, so we use **only
 receptor-to-receptor contrasts** and make no claim about whether `denovo_401` engages any receptor in
