@@ -39,6 +39,8 @@ import shutil
 import subprocess
 import sys
 
+import pocket_tracking as pt   # harmonized, score-independent orthosteric-pocket tracking
+
 # --------------------------------------------------------------------------------------------------
 # Constants — the AF2 quantities under test (single source of truth: nr4a3_fpocket_enumerate.py /
 # nr4a3_pocketminer_sagemaker.py / the manuscript).
@@ -550,7 +552,8 @@ def _r(v):
 
 
 def assemble_result(n_models, identity, mapped_pocket5, mapped_handles, per_conformer,
-                    drug_values, global_rmsds, pocket_rmsds, handle_rmsds, handle_disp_by_res):
+                    drug_values, global_rmsds, pocket_rmsds, handle_rmsds, handle_disp_by_res,
+                    match_mode=pt.LEGACY, fpocket_version=None):
     """Build the full result dict (distributions + verdict) from the accumulated per-conformer data.
     Called after EACH conformer so a Continuous ProcessingOutput ships a valid partial JSON — a
     timeout/crash leaves the last checkpoint as the deliverable (CLAUDE.md checkpoint rule)."""
@@ -561,6 +564,21 @@ def assemble_result(n_models, identity, mapped_pocket5, mapped_handles, per_conf
     per_handle = {str(r): distribution_stats(v, threshold=0.0) for r, v in handle_disp_by_res.items()}
     vd = verdict(drug_dist, AF2_STATIC_DRUGGABILITY,
                  global_dist.get("median"), pocket_dist.get("median"), handle_dist.get("median"))
+    # HARMONIZED both-denominator detection reporting (reviewer P0). n_propagated = ALL conformers
+    # propagated so far (not just those with a matched pocket) so the detection fraction is honest.
+    detection = pt.detection_report(drug_values, d_star=DRUGGABLE_REF, n_propagated=len(per_conformer))
+    harmonized = {
+        "match_mode": match_mode,
+        "fpocket_version": fpocket_version,
+        "match_params": pt.match_params() if match_mode == pt.HARMONIZED else None,
+        "note": ("Orthosteric site defined by the FIXED Pocket-5 lining set (mapped to 8XTT numbering), "
+                 "NOT by fpocket druggability. Per conformer a cavity is accepted only via the composite "
+                 "Jaccard/recovery + centroid gate; detection reports BOTH denominators."
+                 if match_mode == pt.HARMONIZED else
+                 "LEGACY match (max residue-overlap, >=1 shared). Detection fractions below use the same "
+                 "legacy-matched frames; run with POCKET_MATCH=harmonized for the score-independent gate."),
+        **detection,
+    }
     return {
         "_title": f"AF2 NR4A3 LBD (AF-{UNIPROT}) benchmarked against experimental apo NMR ensemble {PDB_ID}",
         "_method": {
@@ -578,6 +596,8 @@ def assemble_result(n_models, identity, mapped_pocket5, mapped_handles, per_conf
                      "rigid superposition on the mapped LBD Ca set. Apo NMR ensembles show intrinsic "
                      "~1-3 A spread — RMSD is read against that expectation, not zero."),
         },
+        "fpocket_version": fpocket_version,
+        "harmonized_detection": harmonized,
         "af2_static_pocket5_druggability": AF2_STATIC_DRUGGABILITY,
         "pocket5_residues_uniprot": POCKET5,
         "handles_uniprot": HANDLES,
@@ -623,6 +643,11 @@ def main():
     mapped_pocket5 = sorted({inv[r] for r in POCKET5 if r in inv})
     mapped_handles = sorted({inv[r] for r in HANDLES if r in inv})
     mapped_pocket_span = sorted({inv[r] for r in range(POCKET5_FIRST, POCKET5_LAST + 1) if r in inv})
+    match_mode = pt.match_mode()
+    mparams = pt.match_params()
+    fpocket_version = pt.resolved_fpocket_version()
+    print(f"  pocket match mode: {match_mode}; fpocket {fpocket_version}; params {mparams}", flush=True)
+    mapped_span_range = (min(mapped_pocket_span), max(mapped_pocket_span)) if mapped_pocket_span else (0, 0)
 
     # 4. Per-conformer fpocket (mapped-site druggability) + superposition.
     per_conformer, drug_values = [], []
@@ -639,7 +664,17 @@ def main():
             with open(mp, "w") as fh:
                 fh.write(model_text)
             pockets = fpocket_pockets_with_residues(mp)
-            site, nov = pocket_overlapping_site(pockets, mapped_pocket5)
+            if match_mode == pt.HARMONIZED:
+                # Score-INDEPENDENT site identity: the fixed Pocket-5 lining set (mapped to 8XTT
+                # numbering), accepted via the composite Jaccard/recovery + centroid gate.
+                ref = pt.orthosteric_reference(ca_i, lining_residues=mapped_pocket5,
+                                               span=mapped_span_range)
+                site = pt.match_pocket(pockets, ref, ca_by_resnum=ca_i, **mparams)
+                nov = site["_match"]["n_overlap"] if site is not None else 0
+                if site is not None:
+                    rec["match"] = site["_match"]
+            else:
+                site, nov = pocket_overlapping_site(pockets, mapped_pocket5)
             if site is not None:
                 rec["site_druggability"] = site["druggability"]
                 rec["site_pocket"] = site["pocket"]
@@ -680,7 +715,8 @@ def main():
         per_conformer.append(rec)
         # 5. Checkpoint the full result after EACH conformer (Continuous S3 upload ships partials).
         result = assemble_result(len(models), identity, mapped_pocket5, mapped_handles, per_conformer,
-                                 drug_values, global_rmsds, pocket_rmsds, handle_rmsds, handle_disp_by_res)
+                                 drug_values, global_rmsds, pocket_rmsds, handle_rmsds, handle_disp_by_res,
+                                 match_mode=match_mode, fpocket_version=fpocket_version)
         with open(out_json, "w") as fh:
             json.dump(result, fh, indent=2)
 

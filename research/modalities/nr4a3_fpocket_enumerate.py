@@ -22,9 +22,25 @@ import subprocess
 import sys
 
 import fpocket_lib as fl
+import pocket_tracking as pt   # harmonized, score-independent orthosteric-pocket tracking
 
 LBD_FIRST, LBD_LAST = 373, 626
+POCKET5_LINING = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]  # fixed 10-residue lining set
 HANDLES = [406, 407, 410, 412, 484, 531, 534]   # 7 selectivity-divergent handles (nr4a-selectivity.json)
+
+
+def _ca_by_resnum(pdb_path):
+    """{resnum: (x,y,z)} CA coords (Angstrom, UniProt numbering) from the AF2 model PDB."""
+    ca = {}
+    with open(pdb_path) as fh:
+        for line in fh:
+            if not line.startswith("ATOM") or line[12:16].strip() != "CA":
+                continue
+            try:
+                ca[int(line[22:26])] = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+            except ValueError:
+                continue
+    return ca
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
 
@@ -101,10 +117,34 @@ def main():
         print(f"    pocket {p['pocket']:>2} | drug {p['druggability']} | n {p['n_residues']:>2} | "
               f"lbd {p['n_in_lbd']:>2} | handles {p['n_handles']} | {rr}", flush=True)
 
+    # HARMONIZED, score-INDEPENDENT orthosteric match: identify Pocket-5 by the FIXED lining set + the
+    # composite gate, NOT by druggability rank. Additive — the legacy 'selected_druggable_pocket' stays.
+    ca = _ca_by_resnum(local_pdb)
+    fpocket_version = pt.resolved_fpocket_version()
+    harmonized = {"match_mode": pt.match_mode(), "fpocket_version": fpocket_version,
+                  "match_params": pt.match_params(), "reference_lining_uniprot": POCKET5_LINING}
+    try:
+        ref = pt.orthosteric_reference(ca, lining_residues=POCKET5_LINING, span=pt.POCKET5_SPAN)
+        cands = [{"residues": p["residues"], "druggability": p["druggability"], "pocket": p["pocket"]}
+                 for p in pockets]
+        hit = pt.match_pocket(cands, ref, ca_by_resnum=ca, **pt.match_params())
+        harmonized["matched_pocket"] = None if hit is None else hit["pocket"]
+        harmonized["matched_druggability"] = None if hit is None else hit["druggability"]
+        harmonized["match_metrics"] = None if hit is None else hit["_match"]
+        matched_scores = [hit["druggability"]] if (hit and hit["druggability"] is not None) else []
+        harmonized["detection"] = pt.detection_report(matched_scores, d_star=pt.D_STAR, n_propagated=1)
+    except ValueError as e:
+        harmonized["error"] = str(e)[:200]
+    print(f"  HARMONIZED match: pocket={harmonized.get('matched_pocket')} "
+          f"drug={harmonized.get('matched_druggability')} mode={harmonized['match_mode']} "
+          f"(fpocket {fpocket_version})", flush=True)
+
     result = {
+        "fpocket_version": fpocket_version,
+        "harmonized_orthosteric_match": harmonized,
         "selected_druggable_pocket": selected["pocket"],
         "selected_druggability": selected["druggability"],
-        "selection_rule": "highest druggability among LBD pockets",
+        "selection_rule": "highest druggability among LBD pockets (LEGACY; see harmonized_orthosteric_match)",
         "cv_residues_druggable": cv_residues,
         "handle_pocket": handle_pocket["pocket"],
         "handle_pocket_druggability": handle_pocket["druggability"],

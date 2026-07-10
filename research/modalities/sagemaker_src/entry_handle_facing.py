@@ -30,7 +30,7 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating analysis env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "an", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket", "matplotlib-base", "numpy"], check=True)
+                    "python=3.11", "mdtraj", "fpocket=4.2.3", "matplotlib-base", "numpy"], check=True)
 
     env = os.environ.copy()
     env["INPUT_DIR"] = "/opt/ml/processing/input"

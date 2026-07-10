@@ -30,7 +30,7 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating warhead env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "wh", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy"],
+                    "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy"],
                    check=True)
 
     env = os.environ.copy()

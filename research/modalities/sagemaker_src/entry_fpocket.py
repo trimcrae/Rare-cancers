@@ -23,7 +23,7 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating fpocket env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "fp", "-c", "conda-forge",
-                    "python=3.11", "fpocket"], check=True)
+                    "python=3.11", "fpocket=4.2.3"], check=True)
 
     env = os.environ.copy()
     env["INPUT_DIR"] = "/opt/ml/processing/input"

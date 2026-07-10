@@ -40,9 +40,11 @@ import sys
 import tempfile
 
 import release_frame_select as rfs
+import pocket_tracking as pt   # harmonized, score-independent orthosteric-pocket tracking
 
 LBD_FIRST = 373                               # AF2 LBD start (the trim used in nr4a3_md.py)
 POCKET_FIRST, POCKET_LAST = 406, 534          # orthosteric lining span (nr4a3-degrader-design-spec.md)
+POCKET5_LINING = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]  # fixed 10-residue lining set
 D_STAR = float(os.environ.get("D_STAR", "0.53"))      # calibrated drug-bound band lower edge
 TARGET_RG = float(os.environ.get("TARGET_RG", "0.737"))  # unbiased mean Rg of the druggable state
 N_ALT = int(os.environ.get("N_ALT", "3"))             # alternates to keep (the breathing sub-ensemble)
@@ -100,27 +102,64 @@ def _scan_records(dcds, top, np, md):
             resseqs = [r.resSeq for r in prot.topology.residues]
             pos, _ = rm.resolve_positions(resseqs, range(POCKET_FIRST, POCKET_LAST + 1), LBD_FIRST)
             target_resseqs = {resseqs[i] for i in pos}
+            lpos, _ = rm.resolve_positions(resseqs, POCKET5_LINING, LBD_FIRST)
+            _scan_records.lining = {resseqs[i] for i in lpos}
         cv_rg = _cv_rg_series(prot, np)
         n = prot.n_frames
         sample = sorted({int(round(x)) for x in np.linspace(0, n - 1, min(n, N_SCAN_FRAMES))})
         print(f"  [scan] {os.path.basename(dcd)}: {n} frames, sampling {len(sample)}", flush=True)
         for fi in sample:
-            drug, _lining = _fpocket_frame(prot, fi, target_resseqs, ns)
+            drug, _lining = _fpocket_frame(prot, fi, target_resseqs, ns,
+                                           lining_resseqs=getattr(_scan_records, "lining", None))
             recs.append({"rep": rep, "frame": fi,
                          "rg": (None if cv_rg is None else round(float(cv_rg[fi]), 4)),
                          "druggability": drug})
     return recs
 
 
-def _fpocket_frame(prot, fi, target_resseqs, ns):
-    """fpocket on a single frame; return (druggability, sorted lining resSeqs) of the detected pocket that
-    overlaps the orthosteric target residues most. (None, []) on any failure (best-effort)."""
+def _ca_by_resseq_from_pdb(pdb_path):
+    """{resSeq: (x,y,z)} CA coords (Angstrom) from a saved frame PDB (fpocket's own coordinates)."""
+    ca = {}
+    with open(pdb_path) as fh:
+        for line in fh:
+            if not line.startswith("ATOM") or line[12:16].strip() != "CA":
+                continue
+            if line[16] not in (" ", "A"):
+                continue
+            try:
+                ca[int(line[22:26])] = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+            except ValueError:
+                continue
+    return ca
+
+
+def _fpocket_frame(prot, fi, target_resseqs, ns, lining_resseqs=None):
+    """fpocket on a single frame; return (druggability, sorted lining resSeqs) of the detected pocket
+    that IS the orthosteric site. (None, []) on any failure (best-effort).
+
+    POCKET_MATCH=harmonized accepts the site via the score-independent composite gate against the fixed
+    lining set (`lining_resseqs`); otherwise LEGACY max-span-overlap (>=1 shared with `target_resseqs`)."""
     d = tempfile.mkdtemp(prefix=f"rd_{fi}_", dir=OUT)
     try:
         pdb = os.path.join(d, "frame.pdb")
         prot[fi].save_pdb(pdb)
         subprocess.run(["fpocket", "-f", pdb], check=True, capture_output=True, text=True, timeout=300)
         resids_by_num, info = ns.pocket_residues_by_number(os.path.join(d, "frame_out"), "frame")
+        if pt.match_mode() == pt.HARMONIZED:
+            ca = _ca_by_resseq_from_pdb(pdb)
+            ref_lining = sorted(lining_resseqs) if lining_resseqs else sorted(target_resseqs)
+            span = (min(target_resseqs), max(target_resseqs)) if target_resseqs else (0, 0)
+            try:
+                ref = pt.orthosteric_reference(ca, lining_residues=ref_lining, span=span)
+            except ValueError:
+                return None, []
+            cands = [{"residues": sorted(int(r) for r in resids),
+                      "druggability": info[num]["druggability"]}
+                     for num, resids in resids_by_num.items()]
+            hit = pt.match_pocket(cands, ref, ca_by_resnum=ca, **pt.match_params())
+            if hit is None:
+                return None, []
+            return hit["druggability"], sorted(hit["residues"])
         best_num, best_ov = None, 0
         for num, resids in resids_by_num.items():
             ov = len(target_resseqs.intersection(resids))
@@ -136,14 +175,14 @@ def _fpocket_frame(prot, fi, target_resseqs, ns):
         shutil.rmtree(d, ignore_errors=True)
 
 
-def _extract_receptor(dcd, top, frame, out_pdb, target_resseqs, md, ns):
+def _extract_receptor(dcd, top, frame, out_pdb, target_resseqs, md, ns, lining_resseqs=None):
     """Load `dcd`, slice protein, save frame `frame` as a receptor PDB, and re-run fpocket on it to
     confirm druggability + read the orthosteric box residues. Returns a dict describing the receptor."""
     t = md.load(dcd, top=top)
     prot = t.atom_slice(t.topology.select("protein"))
     resseqs = [r.resSeq for r in prot.topology.residues]
     prot[frame].save_pdb(out_pdb)
-    drug, lining = _fpocket_frame(prot, frame, target_resseqs, ns)
+    drug, lining = _fpocket_frame(prot, frame, target_resseqs, ns, lining_resseqs=lining_resseqs)
     return {"pdb": os.path.basename(out_pdb), "rep": _rep_index(dcd), "frame": int(frame),
             "confirmed_druggability": drug, "box_residues": lining,
             "resseq_range": [int(min(resseqs)), int(max(resseqs))]}
@@ -198,7 +237,16 @@ def main():
     resseqs0 = [r.resSeq for r in prot0.topology.residues]
     pos, numbering = rm.resolve_positions(resseqs0, range(POCKET_FIRST, POCKET_LAST + 1), LBD_FIRST)
     target_resseqs = {resseqs0[i] for i in pos}
+    lpos, _ = rm.resolve_positions(resseqs0, POCKET5_LINING, LBD_FIRST)
+    lining_resseqs = {resseqs0[i] for i in lpos}
     res["residue_numbering"] = numbering
+    res["pocket_match"] = {"mode": pt.match_mode(), "fpocket_version": pt.resolved_fpocket_version(),
+                           "match_params": pt.match_params() if pt.match_mode() == pt.HARMONIZED else None}
+    # Both-denominator detection over the candidate pool (reviewer P0): detected = frames with a matched
+    # orthosteric druggability; n_propagated = all candidate frames considered.
+    pool_scores = [r["druggability"] for r in records if r.get("druggability") is not None]
+    res["harmonized_detection"] = pt.detection_report(pool_scores, d_star=D_STAR,
+                                                      n_propagated=len(records))
 
     if not shutil.which("fpocket"):
         sys.exit("  ABORT: fpocket not on PATH (needed to confirm + box the chosen receptor frames)")
@@ -213,7 +261,7 @@ def main():
         rep = int(rec["rep"])
         dcd = next((d for d in dcds if _rep_index(d) == rep), dcds[0])
         info = _extract_receptor(dcd, top, rec["frame"], os.path.join(OUT, fname),
-                                 target_resseqs, md, ns)
+                                 target_resseqs, md, ns, lining_resseqs=lining_resseqs)
         info["role"] = role
         info["selection_rg"] = rec["rg"]
         info["selection_druggability"] = rec["druggability"]

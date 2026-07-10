@@ -24,8 +24,11 @@ import shutil
 import subprocess
 import sys
 
+import pocket_tracking as pt   # harmonized, score-independent orthosteric-pocket tracking
+
 LBD_FIRST = 373                               # AF2 LBD start (the trim used in nr4a3_md.py)
 POCKET_FIRST, POCKET_LAST = 406, 534          # orthosteric lining span (nr4a3-degrader-design-spec.md)
+POCKET5_LINING = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]  # fixed 10-residue lining set
 NS_PER_FRAME = 0.05                            # DCDReporter wrote every 25000 steps * 2 fs = 50 ps
 N_FPOCKET_FRAMES = 25                         # frames sampled for the per-frame fpocket druggability
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
@@ -131,9 +134,13 @@ def main():
 
     # The feasibility readout: per-frame fpocket druggability of the orthosteric pocket.
     target_resseqs = {resseqs[i] for i in pocket_pos}
+    # Fixed 10-residue lining set mapped to the trajectory numbering (score-independent site identity
+    # for the harmonized matcher). resolve_positions handles resSeq-preserved vs renumbered-from-1.
+    lining_pos, _ = rm.resolve_positions(resseqs, POCKET5_LINING, LBD_FIRST)
+    lining_resseqs = {resseqs[i] for i in lining_pos}
     cv_rg_all = _cv_rg_series(prot, np)              # metad-CV Rg per frame (the fes.dat coordinate)
     summary["druggability_timeseries"] = druggability_timeseries(prot, target_resseqs, time_ns, np,
-                                                                  cv_rg_all)
+                                                                  cv_rg_all, lining_resseqs=lining_resseqs)
     summary["mdpocket"] = _mdpocket_best_effort(top, dcd)
     # Gate 3 energetics: the metadynamics free-energy profile F(Rg) (fes.dat, from plumed sum_hills) if
     # it was mounted alongside the trajectory. Reports the closed->open cost (the energetic accessibility
@@ -279,17 +286,42 @@ def _lowest_cost_druggable(dts, input_dir, np, thresholds=(0.5, 0.53)):
     return out
 
 
-def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
-    """Per-frame fpocket druggability of the orthosteric pocket (the pocket overlapping the target
-    residues most). Reuses the tested fpocket_lib mapping via nr4a3_structure. Best-effort: never
-    crashes the SASA result. `target_resseqs` are resSeq values in the trajectory's own numbering.
-    `cv_rg_all` (optional, per-frame metad-CV Rg in nm) is attached so druggability can be correlated
-    with the free-energy coordinate (find the lowest-Rg / lowest-cost druggable opening)."""
+def _ca_by_resseq_from_pdb(pdb_path):
+    """{resSeq: (x,y,z)} CA coords (Angstrom) from a saved frame PDB — the SAME coordinates fpocket
+    reads, so candidate/reference centroids are apples-to-apples. Keeps the first altloc."""
+    ca = {}
+    with open(pdb_path) as fh:
+        for line in fh:
+            if not line.startswith("ATOM") or line[12:16].strip() != "CA":
+                continue
+            if line[16] not in (" ", "A"):
+                continue
+            try:
+                ca[int(line[22:26])] = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+            except ValueError:
+                continue
+    return ca
+
+
+def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None, lining_resseqs=None):
+    """Per-frame fpocket druggability of the orthosteric pocket. Reuses the tested fpocket_lib mapping
+    via nr4a3_structure. Best-effort: never crashes the SASA result. `target_resseqs` are resSeq values
+    (trajectory numbering) of the lining SPAN; `lining_resseqs` are the fixed 10-residue lining set in
+    the same numbering (used by the HARMONIZED matcher). `cv_rg_all` (optional, per-frame metad-CV Rg in
+    nm) is attached so druggability can be correlated with the free-energy coordinate.
+
+    Site identity: POCKET_MATCH=harmonized uses the score-independent composite gate against the fixed
+    lining set; otherwise the LEGACY max-span-overlap (>=1 shared) selection. Both denominators are
+    reported under 'harmonized_detection'."""
     if not shutil.which("fpocket"):
         return {"ran": False, "reason": "fpocket not on PATH"}
     import tempfile
     import nr4a3_structure as ns
 
+    match_mode = pt.match_mode()
+    mparams = pt.match_params()
+    fpocket_version = pt.resolved_fpocket_version()
+    ref_lining = set(lining_resseqs) if lining_resseqs else set(target_resseqs)
     n = prot.n_frames
     sample = sorted({int(round(x)) for x in np.linspace(0, n - 1, min(n, N_FPOCKET_FRAMES))})
     series = []
@@ -301,16 +333,36 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
             subprocess.run(["fpocket", "-f", pdb], check=True, capture_output=True, text=True,
                            timeout=300)
             resids_by_num, info = ns.pocket_residues_by_number(os.path.join(d, "frame_out"), "frame")
-            best_num, best_ov = None, 0
-            for num, resids in resids_by_num.items():
-                ov = len(target_resseqs.intersection(resids))
-                if ov > best_ov:
-                    best_num, best_ov = num, ov
-            drug = info[best_num]["druggability"] if best_num is not None else None
+            match_meta = None
+            if match_mode == pt.HARMONIZED:
+                ca = _ca_by_resseq_from_pdb(pdb)
+                span_lo = min(target_resseqs) if target_resseqs else 0
+                span_hi = max(target_resseqs) if target_resseqs else 0
+                try:
+                    ref = pt.orthosteric_reference(ca, lining_residues=sorted(ref_lining),
+                                                   span=(span_lo, span_hi))
+                    cands = [{"residues": sorted(int(r) for r in resids),
+                              "druggability": info[num]["druggability"]}
+                             for num, resids in resids_by_num.items()]
+                    hit = pt.match_pocket(cands, ref, ca_by_resnum=ca, **mparams)
+                except ValueError:
+                    hit = None                                # numbering miss -> no match this frame
+                drug = hit["druggability"] if hit is not None else None
+                best_ov = hit["_match"]["n_overlap"] if hit is not None else 0
+                match_meta = hit["_match"] if hit is not None else None
+            else:
+                best_num, best_ov = None, 0
+                for num, resids in resids_by_num.items():
+                    ov = len(target_resseqs.intersection(resids))
+                    if ov > best_ov:
+                        best_num, best_ov = num, ov
+                drug = info[best_num]["druggability"] if best_num is not None else None
             entry = {"frame": fi, "time_ns": round(float(time_ns[fi]), 3),
                      "orthosteric_druggability": drug, "overlap_residues": best_ov,
                      "cv_rg_nm": (None if cv_rg_all is None
                                   else round(float(cv_rg_all[fi]), 4))}
+            if match_meta is not None:
+                entry["match"] = match_meta
             # WHOLE-SURFACE (off-site) scan: the most druggable pocket this frame that does NOT overlap
             # the orthosteric Pocket-5 target residues — i.e. a DIFFERENT cavity. This is the question
             # the orthosteric-only readout above cannot answer: did the MD open another druggable pocket
@@ -338,7 +390,14 @@ def druggability_timeseries(prot, target_resseqs, time_ns, np, cv_rg_all=None):
 
     drugs = [s["orthosteric_druggability"] for s in series
              if s.get("orthosteric_druggability") is not None]
+    # HARMONIZED both-denominator detection (reviewer P0): n_propagated = ALL sampled frames, detected =
+    # frames where a matched orthosteric cavity carried a druggability score.
+    detection = pt.detection_report(drugs, d_star=0.53, n_propagated=len(sample))
     out = {"ran": True, "n_frames_sampled": len(sample), "series": series,
+           "harmonized_detection": {"match_mode": match_mode, "fpocket_version": fpocket_version,
+                                    "match_params": mparams if match_mode == pt.HARMONIZED else None,
+                                    **detection},
+           "fpocket_version": fpocket_version,
            "max_druggability": max(drugs) if drugs else None,
            "min_druggability": min(drugs) if drugs else None,
            "mean_druggability": round(float(np.mean(drugs)), 3) if drugs else None,

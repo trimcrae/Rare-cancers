@@ -42,7 +42,7 @@ def main():
                    check=False)
     # same proven env spec as the de-novo dock funnel (avoids a fresh env shakeout).
     _create = [conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-               "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
+               "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
     try:
         subprocess.run(_create + ["--solver=libmamba"], check=True)
     except subprocess.CalledProcessError:

@@ -28,7 +28,7 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating fpocket env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "cal", "-c", "conda-forge",
-                    "python=3.11", "fpocket"], check=True)
+                    "python=3.11", "fpocket=4.2.3"], check=True)
 
     env = os.environ.copy()
     os.makedirs(OUT, exist_ok=True)

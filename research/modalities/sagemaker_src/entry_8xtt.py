@@ -29,7 +29,7 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating fpocket+biopython env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "xtt", "-c", "conda-forge",
-                    "python=3.11", "fpocket", "biopython"], check=True)
+                    "python=3.11", "fpocket=4.2.3", "biopython"], check=True)
 
     env = os.environ.copy()
     env["OUTPUT_DIR"] = OUT                     # benchmark writes checkpoints straight to the S3-synced dir

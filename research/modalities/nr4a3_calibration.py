@@ -37,7 +37,10 @@ import subprocess
 import sys
 
 import fpocket_lib as fl
+import pocket_tracking as pt   # harmonized, score-independent orthosteric-pocket tracking
 from nr4a3_structure import fetch_pdb as fetch_afdb   # AFDB API resolver (reused)
+
+POCKET5_LINING = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]  # fixed Pocket-5 lining (Q92570)
 
 OUT = os.path.join(os.path.dirname(__file__), "nr4a3-calibration.json")
 WORK = os.environ.get("RUNNER_TEMP", "/tmp")
@@ -134,6 +137,7 @@ def fpocket_pockets(pdb_path):
             "alpha_spheres": info[num]["alpha_spheres"],
             "n_lining_residues": len(res),
             "resid_span": [res[0], res[-1]] if res else None,
+            "residues": res,                       # full lining set (for the harmonized Pocket-5 match)
             "sphere_coords": coords[fidx],
         })
     pockets.sort(key=lambda p: (p["druggability"] or 0.0), reverse=True)
@@ -181,6 +185,30 @@ def assess(entry):
             "top_pocket": _brief(pockets[0]) if pockets else None,
             "all_pockets": [_brief(p) for p in pockets],
         }
+        # For OUR NR4A3 AF2 target, additionally report the score-INDEPENDENT fixed-Pocket-5 match
+        # (identity by the composite gate, not by druggability rank) so the calibration is homogeneous
+        # with the harmonized main pipeline.
+        if entry["key"] == "Q92570" and entry["src"] == "afdb":
+            ca = {}
+            with open(dest) as fh:
+                for line in fh:
+                    if line.startswith("ATOM") and line[12:16].strip() == "CA":
+                        try:
+                            ca[int(line[22:26])] = (float(line[30:38]), float(line[38:46]),
+                                                    float(line[46:54]))
+                        except ValueError:
+                            pass
+            try:
+                ref = pt.orthosteric_reference(ca, lining_residues=POCKET5_LINING, span=pt.POCKET5_SPAN)
+                hit = pt.match_pocket(pockets, ref, ca_by_resnum=ca, **pt.match_params())
+                out["harmonized_pocket5_match"] = {
+                    "match_mode": pt.match_mode(),
+                    "matched_pocket": None if hit is None else hit["pocket"],
+                    "matched_druggability": None if hit is None else hit["druggability"],
+                    "match_metrics": None if hit is None else hit["_match"],
+                }
+            except ValueError as e:
+                out["harmonized_pocket5_match"] = {"error": str(e)[:200]}
         resn, lig = ligand_atoms(dest)
         if lig:
             site, nnear = ligand_site(pockets, lig)
@@ -207,6 +235,8 @@ def main():
         return {r["id"]: r.get(field) for r in results if r.get("category") == cat and "error" not in r}
 
     summary = {
+        "fpocket_version": pt.resolved_fpocket_version(),
+        "pocket_match_mode": pt.match_mode(),
         "_note": ("fpocket calibration panel. 'ligand_site_druggability' is the fpocket score of the "
                   "pocket overlapping the experimentally bound ligand (the validated site); for the "
                   "druggable controls (PPARg 2PRG, ERa 1ERE) this is a KNOWN-druggable orthosteric NR "

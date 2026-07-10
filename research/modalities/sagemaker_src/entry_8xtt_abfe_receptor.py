@@ -40,7 +40,7 @@ def main():
     subprocess.run([conda, "install", "-n", "base", "-y", "-c", "conda-forge", "conda-libmamba-solver"],
                    check=False)
     _create = [conda, "create", "-y", "-n", "ar", "-c", "conda-forge",
-               "python=3.11", "mdtraj", "fpocket", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
+               "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
     try:
         subprocess.run(_create + ["--solver=libmamba"], check=True)
     except subprocess.CalledProcessError:
