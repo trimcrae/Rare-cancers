@@ -1,0 +1,90 @@
+name: NR4A3 8XTT MATCHED decoy null (AWS SageMaker)
+
+# MATCHED 8XTT-frame decoy null for denovo_401: runs the SAME 38 non-NR4A decoys through the SAME 4 druggable
+# 8XTT conformers (models 2,8,20,6) + SAME matrix NR4A1/NR4A2 receptors (the `matrix` channel = s3://<bucket>/
+# nr4a3-matrix) + SAME single-snapshot MM-GBSA endpoint the denovo_401 re-dock used, and ranks denovo_401's
+# per-conformer NR4A3 margin (read from the `redock` channel = s3://<bucket>/nr4a3-8xtt-redock) against that
+# frame-matched null (percentile + add-one p + 95th-pct bar). Managed spot Training (GPU; MM-GBSA has no CPU
+# fallback), checkpointed per DECOY so a spot kill/timeout costs ≤1 decoy and a re-dispatch resumes.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Prereq: the matrix job populated s3://<bucket>/<input_prefix>; the 8XTT re-dock populated
+# s3://<bucket>/<redock_prefix>/nr4a3-8xtt-redock-denovo401.json. Output:
+# s3://<bucket>/<output_prefix>/nr4a3-8xtt-decoy-null.json.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (GPU required; ml.g5.xlarge default — no CPU fallback)"
+        default: "ml.g5.xlarge"
+        required: false
+      spot:
+        description: "1 = managed spot Training (cheaper/parallel; safe — resumes per decoy); 0 = on-demand"
+        default: "1"
+        required: false
+      models:
+        description: "8XTT conformers to dock into ('2,8,20,6' default = >=0.53-druggable; or 'all')"
+        default: "2,8,20,6"
+        required: false
+      max_runtime:
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
+        default: "43200"
+        required: false
+      input_prefix:
+        description: "S3 prefix holding the matrix outputs (nr4a1-opened.pdb / nr4a2-opened.pdb)"
+        default: "nr4a3-matrix"
+        required: false
+      redock_prefix:
+        description: "S3 prefix holding the denovo_401 8XTT re-dock result (nr4a3-8xtt-redock-denovo401.json)"
+        default: "nr4a3-8xtt-redock"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the decoy-null results (also the resume/checkpoint dir)"
+        default: "nr4a3-8xtt-decoy-null"
+        required: false
+      compute_timeout:
+        description: "overall compute wall-clock seconds (empty = entry default ~11h)"
+        default: ""
+        required: false
+      region:
+        description: "AWS region — must match where the matrix/redock outputs live"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker 8XTT decoy-null job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          MODELS: ${{ inputs.models }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          REDOCK_PREFIX: ${{ inputs.redock_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_8xtt_decoy_null_sagemaker.py
