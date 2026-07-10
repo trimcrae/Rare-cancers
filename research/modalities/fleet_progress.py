@@ -38,15 +38,20 @@ def classify(secondary, last_event_ms, now_ms, stale_min, has_stream):
 
 
 def _stream(logs, name):
+    """Newest log stream for a training job. NOTE: CloudWatch forbids orderBy=LastEventTime together with
+    logStreamNamePrefix, so we filter by prefix and pick the max lastEventTimestamp ourselves (a training
+    job normally has a single algo-1-* stream). A real API error is PRINTED, not swallowed into 'no stream'
+    — silently treating an error as 'no events' would make the hang detector falsely report 'no stalls'."""
     try:
-        s = logs.describe_log_streams(logGroupName=TRAIN_GROUP, logStreamNamePrefix=name,
-                                      orderBy="LastEventTime", descending=True,
-                                      limit=1).get("logStreams", [])
+        streams = logs.describe_log_streams(logGroupName=TRAIN_GROUP, logStreamNamePrefix=name,
+                                             limit=50).get("logStreams", [])
     except logs.exceptions.ResourceNotFoundException:
+        return None                                    # stream genuinely not created yet (provisioning)
+    except Exception as e:  # noqa: BLE001
+        print(f"   (describe_log_streams error for {name[:40]}: {e})", flush=True)
         return None
-    except Exception:  # noqa: BLE001
-        return None
-    return s[0] if s else None
+    streams = [s for s in streams if s.get("lastEventTimestamp")]
+    return max(streams, key=lambda s: s["lastEventTimestamp"]) if streams else None
 
 
 def _marker(logs, stream_name, marker_re):
