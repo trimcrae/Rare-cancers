@@ -85,13 +85,19 @@ The same cryptic-pocket framework can be formulated with distinct **NR4A3-favour
 We begin from the only **experimental** NR4A3 structural data — the apo NR4A3/NOR-1 LBD solution-NMR ensemble (PDB **8XTT**, released 2025-01-15;
 248-residue construct; **20 deposited low-energy conformers**, selected from 100 calculated as the
 lowest-energy models — *not* population-weighted equilibrium samples) became available after this work's
-AF2-based analysis. It lets us test the site with an fpocket analysis of *experimentally determined*
-NR4A3 conformers, independent of AF2 and MD. Mapping our pocket-5 residues onto 8XTT (sequence identity 1.000,
-248 residues mapped) and running the *same* fpocket pipeline per conformer
+AF2-based analysis. It lets us evaluate **independent experimental conformers at the AF2-derived mapped site**
+— an experimental-structure *transfer test* of the pre-existing site hypothesis (the conformers are
+independent experimental data, but the site residue set was originally identified on the AF2 model, so this is
+not an AF2-independent site *discovery*). Mapping our pocket-5 residues onto 8XTT (sequence identity 1.000,
+248 residues mapped) and running the **corresponding fpocket analysis workflow** per conformer (build pinning
+across all structures is part of the harmonized rerun, so we do not yet claim a byte-identical pipeline)
 ([`../modalities/nr4a3-8xtt-benchmark-findings.md`](../modalities/nr4a3-8xtt-benchmark-findings.md);
 `nr4a3_8xtt_benchmark.py`) shows **substantial conformational heterogeneity at the same mapped site**: most
 conformers are strongly occluded (median druggability 0.012), while **4 of the 20 deposited conformers were
-assigned orthosteric-site fpocket scores above the empirical reference boundary D\*=0.53**. Because these are
+assigned orthosteric-site fpocket scores above the empirical reference boundary D\*=0.53**. An orthosteric-site
+score was obtained for **all 20** conformers under the original implementation (range 0.000–0.925), so this is
+**4/20 on both the detected-pocket and total-deposited denominators**; the harmonized rerun (pinned fpocket +
+score-independent matcher) will report both denominators explicitly. Because these are
 low-energy structural models rather than equilibrium samples, **4/20 is a structural-heterogeneity
 observation, not an estimate of a 20 % open-state population** (and both the experimental median and the static
 AF2 0.495 fall below D\*, though the experimental conformers are typically *substantially more occluded* than
@@ -103,7 +109,7 @@ Cα-RMSD 3.44 Å (global 7.63 Å; the AF2↔NMR-vs-NMR↔NMR decomposition that 
 apo flexibility and model error is a stated follow-up, §4). **Two post hoc robustness *transfers* to
 8XTT-derived conformers (not a full workflow rebase — the metadynamics, generation, and ABFE still run on
 AF2-derived structures) hold:** (i) **PocketMiner scored on the 8XTT conformers still enriches** the Pocket-5
-residues (median 1.40× vs 1.36× on AF2 — the orthogonal cryptic-pocket call is not an AF2 artifact); and
+residues (median 1.40× vs 1.36× on AF2 — the propensity call **transfers to the experimental conformers**, though, evaluated at the preselected AF2-defined region, it does not by itself establish an AF2-independent site *discovery*); and
 (ii) a **multi-snapshot MM-GBSA re-dock of `denovo_401` into the four cavity-bearing 8XTT conformers keeps its
 NR4A3 preference in all four** (min-margin median 9.4 kcal/mol; NR4A3 favoured over both paralogue reference
 states in every conformer). These are **binding-competent-state robustness tests, not an unbiased ensemble
@@ -882,12 +888,12 @@ continuous per-window S3 checkpointing). **Protocol: 2 ns/window, n_iter = 2000,
 between-replicate SD, n = 3), reduced 2026-07-08 with a per-window dedup-by-iteration safeguard on the MBAR
 input so the crash/resume history of the nr4a2 legs does not double-count samples or shrink the SE. **The
 three-replicate ΔΔG result and its conditional/opened-state reading are reported in Results §2.8** (raw
-per-receptor ΔG_bind, the two ΔΔG contrasts, the unanimous direction, and the provisional-NR4A2 caveat). **Full FEP diagnostics are in SI §S7** (per-replicate paired ΔΔG table, λ-overlap matrices, effective sample sizes, forward/reverse convergence traces; data in `results/nr4a3-abfe/diagnostics/`): they recompute these ΔG_bind from the raw reduced potentials to within ≤0.03 kcal/mol (a reproducibility check), and show healthy MBAR overlap across most windows (adjacent ≈0.2) with one **honest exception — a locally under-overlapped window pair (min adjacent overlap 0.003) in the complex-NR4A2 leg.** Because **ΔΔG(NR4A3 − NR4A2) = −ΔG_cplx,3 + ΔG_cplx,2 − SSC_3 + SSC_2**, an error in the NR4A2 complex leg propagates **directly into the NR4A3–NR4A2 contrast**: it is receptor-specific and does **not** cancel via the shared solvent leg. **This window pair therefore directly limits confidence in the NR4A3–NR4A2 ΔΔG (not just the absolute legs), and the −4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional until the repair lands.** (What *does* cancel in the ΔΔG is the shared solvent leg and any common charge/protonation error — not system-dependent complex-leg pathologies like this one, so the ΔΔG is more robust than the absolutes *in general* but is **not** shielded from a receptor-specific complex-leg defect.) **This under-overlapped window is the one unfinished FEP item we flag for repair before final interpretation (add λ-windows at that decoupling-endpoint region and re-reduce). We do not report calibrated absolute ΔG_bind.** The engine mis-predicts a rigid textbook benchmark
+per-receptor ΔG_bind, the two ΔΔG contrasts, the unanimous direction, and the provisional-NR4A2 caveat). **Full FEP diagnostics are in SI §S7** (per-replicate paired ΔΔG table, λ-overlap matrices, effective sample sizes, forward/reverse convergence traces; data in `results/nr4a3-abfe/diagnostics/`): they recompute these ΔG_bind from the raw reduced potentials to within ≤0.03 kcal/mol (a reproducibility check), and show healthy MBAR overlap across most windows (adjacent ≈0.2) with one **honest exception — a locally under-overlapped window pair (min adjacent overlap 0.003) in the complex-NR4A2 leg.** (The direct propagation of this defect into ΔΔG(3−2), the resulting **provisional** −4.98 ± 0.68 NR4A2 contrast, and the λ-repair are interpreted in §2.8 and detailed in SI §S7; we do not report calibrated absolute ΔG_bind.) The engine mis-predicts a rigid textbook benchmark
 (T4-lysozyme L99A + benzene) by ≈ +7.1 kcal/mol (below), which we read as a *failed/strongly-biased
 absolute benchmark* — evidence the protocol is not yet validated for absolute affinity — **not** as a
 universal additive engine constant to subtract from NR4A3. The raw-engine NR4A3 absolute (+3.5) is
 therefore not quantitatively interpretable on its own; the selectivity conclusion rests entirely on the
-**ΔΔG**, which is unaffected by any common per-engine bias. *(Reduced 2026-07-08 with a per-window dedup-by-iteration safeguard on the MBAR input, so the crash/resume/recovery history of the nr4a2 legs — see the run notes — does not double-count samples or shrink the SE.)* **The absolute benchmark, read honestly as a failed benchmark — not a calibration constant.**
+**ΔΔG**, which is unaffected by any common per-engine bias.
 To gauge whether the engine reports meaningful *absolute* affinities, we ran it on a
 **known protein-ligand binding free energy — T4-lysozyme L99A + benzene** (rigid textbook cavity, experimental ΔG_bind =
 −5.2 kcal/mol; Morton & Matthews 1995; PDB 181L), through the identical double-decoupling + Boresch-restraint + MBAR path
@@ -1293,10 +1299,7 @@ used** to create or edit any figure.
 
 ## Acknowledgments
 The author used Anthropic **Claude** large-language-model coding agents (Opus- and Sonnet-class; access period
-~2026-05 to 2026-07) for code authoring/refactoring of the analysis and simulation pipelines, orchestration of
-managed-cloud GPU/CPU jobs, literature retrieval and cross-checking, and manuscript drafting and revision, under
-human direction. All quantitative results were produced by executing the described, reproducible code on real
-inputs (never generated by the language model); every citation was verified by a human against the primary
-record; and all scientific claims, their weighting, and go/no-go decisions were human-controlled. Exact model
-identifiers and per-run access dates are recorded in the reproducibility archive. No other assistance and no
-external funding were received.
+~2026-05 to 2026-07) for code authoring/refactoring, managed-cloud job orchestration, literature
+retrieval/cross-checking, and manuscript drafting and revision, under human direction. The substantial-use
+details and human-verification evidence are in the *AI-assisted research disclosure* above. No other assistance
+and no external funding were received.
