@@ -582,7 +582,7 @@ that harvest — every other de-novo and decoy molecule *in that harvest* falls 
 +13.92 also exceeds this +13.1 bar and which additionally survives multi-snapshot de-noising (§2.6); it — not
 `denovo_111` — is the carried lead. (`denovo_111`, the earlier single-snapshot foothold, de-noised well as the
 *neutral* form but was later **withdrawn** when the species-resolution sweep showed its physiological *cation*
-reverses selectivity — §2.6; so `denovo_401` is the sole robust lead.))* So the
+reverses selectivity — §2.6; so `denovo_401` is the sole candidate advanced through the computational funnel.))* So the
 honest read is **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
 non-specific; decoy-calibration flagged one above-null candidate, `denovo_111`, which was *subsequently
 rejected* after protonation-state resolution reversed its predicted selectivity (§2.6) — a microstate
@@ -656,7 +656,7 @@ the linker exit-vector build is tracked as an explicit next step (completeness l
 carries a basic pyrrolidine and is **cationic at physiological pH 7.4**, and in that protonation state its
 selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than NR4A3,
 −36.81 vs −21.80). Its apparent selectivity was a **neutral-form artifact**, so `denovo_111` is **withdrawn as
-an FEP candidate** and **`denovo_401` is the sole robust lead** (see the species-resolution paragraph below).
+an FEP candidate** and **`denovo_401` is the sole candidate advanced through the computational funnel** (see the species-resolution paragraph below).
 
 **Honest weight.** `denovo_401` clears the **FEP-worthiness bar this
 program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
@@ -720,7 +720,7 @@ the best two, `denovo_921` (+4.22 ± 5.23) and `denovo_277` (+2.23 ± 3.52), are
 the margin − SD > 0 bar**, while the negative control stayed non-selective.** So across ~11 candidates now
 multi-snapshot-tested, two initially cleared the bar (`denovo_401` and neutral `denovo_111`) — **but the
 species-resolution sweep (next paragraph) then withdrew `denovo_111` on protonation grounds, leaving
-`denovo_401` as the sole robust lead.** A low hit-rate either way (the funnel does **not** *abundantly* yield
+`denovo_401` as the sole candidate advanced through the computational funnel.** A low hit-rate either way (the funnel does **not** *abundantly* yield
 de-noising survivors), with the negative control failing throughout keeping the discrimination trustworthy —
 consistent with the selectivity-architecture analysis (SI §S3): a cryptic pocket that is a *fragile but not empty* place to source a margin.
 
@@ -737,7 +737,7 @@ reproducibility archive), with the **iso08 C13-epimer** its one co-best MM-GBSA 
 open FEP comparison remaining on the stereochemistry axis. (ii) **denovo_111 is withdrawn:** selective as
 the neutral form but its **physiological cation reverses** (multi-snapshot **−15.01 ± 5.14**, NR4A1 −36.81 <
 NR4A3 −21.80), so its earlier de-noised margin was a neutral-form artifact. Net: **`denovo_401` is the sole
-robust lead entering FEP, on a resolved diastereomer.**
+candidate advanced to ABFE, on a resolved diastereomer.**
 
 ## 4. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
@@ -819,7 +819,7 @@ awaits the window repair below), whereas the **NR4A1 contrast is wider (± 2.03)
 (r2) whose NR4A3 leg sampled ~2.5 kcal/mol weaker (raw +5.1 vs +2.6/+2.8 in r1/r3); excluding r2, r1/r3 agree
 at ΔΔG(NR4A3−NR4A1) = −6.9/−4.5. The honest read: **a directionally-unanimous ~5 kcal/mol NR4A3 preference in
 both contrasts, with realistic between-replicate scatter** the earlier single-replicate MBAR ±0.2 could not
-see. **Full FEP diagnostics are in SI §S7** (per-replicate paired ΔΔG table, λ-overlap matrices, effective sample sizes, forward/reverse convergence traces; data in `results/nr4a3-abfe/diagnostics/`): they recompute these ΔG_bind from the raw reduced potentials to within ≤0.03 kcal/mol (a reproducibility check), and show healthy MBAR overlap across most windows (adjacent ≈0.2) with one **honest exception — a locally under-overlapped window pair (min adjacent overlap 0.003) in the complex-NR4A2 leg** that adds uncertainty to the *absolute* legs and reinforces resting the claim on the **ΔΔG** (which does not require the T4L-derived absolute correction and is expected to benefit from *partial* common-mode cancellation — the shared solvent leg and common charge/protonation error cancel, but system-dependent complex-leg errors do not). **This under-overlapped window is the one unfinished FEP item we flag for repair before submission (add λ-windows at that decoupling-endpoint region and re-reduce). We do not report calibrated absolute ΔG_bind.** The engine mis-predicts a rigid textbook benchmark
+see. **Full FEP diagnostics are in SI §S7** (per-replicate paired ΔΔG table, λ-overlap matrices, effective sample sizes, forward/reverse convergence traces; data in `results/nr4a3-abfe/diagnostics/`): they recompute these ΔG_bind from the raw reduced potentials to within ≤0.03 kcal/mol (a reproducibility check), and show healthy MBAR overlap across most windows (adjacent ≈0.2) with one **honest exception — a locally under-overlapped window pair (min adjacent overlap 0.003) in the complex-NR4A2 leg.** Because **ΔΔG(NR4A3 − NR4A2) = −ΔG_cplx,3 + ΔG_cplx,2 − SSC_3 + SSC_2**, an error in the NR4A2 complex leg propagates **directly into the NR4A3–NR4A2 contrast**: it is receptor-specific and does **not** cancel via the shared solvent leg. **This window pair therefore directly limits confidence in the NR4A3–NR4A2 ΔΔG (not just the absolute legs), and the −4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional until the repair lands.** (What *does* cancel in the ΔΔG is the shared solvent leg and any common charge/protonation error — not system-dependent complex-leg pathologies like this one, so the ΔΔG is more robust than the absolutes *in general* but is **not** shielded from a receptor-specific complex-leg defect.) **This under-overlapped window is the one unfinished FEP item we flag for repair before final interpretation (add λ-windows at that decoupling-endpoint region and re-reduce). We do not report calibrated absolute ΔG_bind.** The engine mis-predicts a rigid textbook benchmark
 (T4-lysozyme L99A + benzene) by ≈ +7.1 kcal/mol (below), which we read as a *failed/strongly-biased
 absolute benchmark* — evidence the protocol is not yet validated for absolute affinity — **not** as a
 universal additive engine constant to subtract from NR4A3. The raw-engine NR4A3 absolute (+3.5) is
@@ -962,9 +962,10 @@ weight, with the following caveats made explicit rather than buried:
    But (a) 0.931 is the **maximum over 600 frames** — report it as a distribution (fraction of frames
    ≥ D\*=0.53, met) with 0.931 as the peak; and (b) it is computed on **biased-MD** conformations, so its
    magnitude is not directly comparable to the *static* drug-bound crystal sites (0.53–0.68) — we do not
-   claim it beats that band. fpocket druggability is in any case a geometric screen, not affinity. Whether
-   the breathing-open geometry is physically populated vs bias-induced strain is settled by the release
-   run, not by an fpocket control.
+   claim it beats that band. fpocket druggability is in any case a geometric screen, not affinity. The release
+   simulations test only **short-timescale relaxation** after the bias is removed (persistence, Gate 3A);
+   they do **not** establish equilibrium population or accessibility from the closed ensemble (Gate 3B,
+   unresolved).
 2. **No separate opened free-energy basin.** F(Rg) is monotonic (one closed basin, rising wall); the
    druggable conformations are reached by *basin-internal breathing*, not a two-state cryptic opening, so
    the pre-registered Gate 1 ("minimum or shoulder, not just biased excursions") **failed as registered**
@@ -1000,8 +1001,8 @@ weight, with the following caveats made explicit rather than buried:
    druggability/noise-limited — so the rational plan keeps the binder selective **and** optimizes it for
    affinity + a productive exit vector. The hoped-for *additional* lever — sourcing paralogue selectivity from
    the **ternary** — **has now been tested (§2.4) and, for a representative PROTAC, does not materialize**:
-   NR4A3/NR4A1/NR4A2 form equally productive ternaries, so the ternary does **not** compound the binder's NR4A1
-   margin as hoped. Degradation selectivity therefore rests, on current evidence, on the **binder** (plus
+   the NR4A3/NR4A1/NR4A2 ternaries have **comparable predicted geometry with no evidence for an
+   NR4A3-selective ternary**, so the ternary does **not** compound the binder's NR4A1 margin as hoped. Degradation selectivity therefore rests, on current evidence, on the **binder** (plus
    **pharmacokinetics** for NR4A2: CNS exposure is an additional design concern given NR4A2's established
    dopaminergic biology, **but the distribution of toxicity from NR4A2 loss is not established here**
    (§5/SI §S6)), with **linker/exit-vector
@@ -1019,7 +1020,7 @@ weight, with the following caveats made explicit rather than buried:
    re-scoring are now run, and `denovo_401` clears them — leaving ABFE as the last tier: initial
    three-replicate ABFE complete, with the NR4A2 λ-overlap repair pending before final interpretation (§4).** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
-   (asymmetry conservative for NR4A3-selectivity — §2.5), and the single-snapshot, single-pose MM-GBSA carries
+   (a receptor-model asymmetry whose *direction* on selectivity is uncertain — §2.5), and the single-snapshot, single-pose MM-GBSA carries
    no replicate/ensemble average and **fails the decoy control** (§2.5). Two follow-up controls
    resolve this (§2.6): (a) the **multi-snapshot decoy null** (all 38 decoys re-scored
    multi-snapshot: 95th pct +6.69, max +7.10) — `denovo_401` (+12.83 ± 2.98, margin − SD +9.85) **clears it**,
@@ -1075,15 +1076,16 @@ multi-snapshot decoy null in its design frame** (§2.6), and which is the subjec
 selectivity FEP (§4). (The earlier decoy-calibrated single-snapshot foothold `denovo_111` — +15.7 vs the +13.1
 95th-percentile bar; §2.5 — was subsequently **withdrawn**: its physiological cation reverses selectivity, §2.6.)
 It remains a **screening-grade, single-trajectory GB-implicit, unsynthesized, no-wet-lab** candidate —
-corroborated by FEP but not experimentally validated. With no wet lab, the strongest honest claim is
-**"computationally designed for, and predicted by absolute-binding FEP to retain, the intended NR4A3-selectivity
-profile,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
+supported by **initial conditional ABFE receptor contrasts** (NR4A2 λ-repair and the NR4A3 structural-model
+sensitivity test still pending) but not experimentally validated. With no wet lab, the strongest honest claim is
+**"computationally designed for an NR4A3-favoured profile and supported by initial ABFE receptor contrasts
+conditional on selected opened conformers,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (SI §S4); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity
 (caveat 5).
 
 ## 6. Falsification (pre-registered)
 Every gate has a fixed pass/fail set *before* the production numbers
-([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)). Two
+([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)). Three
 gate outcomes deviate from the literal pre-registration and are **disclosed, not silently swapped**, in
 that file's deviation log: (i) the **Gate 0** metric (max → orthosteric/ligand-site, D\*=0.53 — a *real*
 drug-bound bar, not a laxer one); and (ii) **Gate 1**, which asked for a free-energy *minimum or shoulder*
@@ -1111,7 +1113,7 @@ abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened c
 geometrically druggable under the harmonized analysis, or no selective drug-like binder can be designed.
 
 **Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single
-de-noised, FEP-corroborated foothold, not an unqualified pass.** The pre-registered Gate 4 asked for
+de-noised, initial-ABFE-supported foothold, not an unqualified pass.** The pre-registered Gate 4 asked for
 drug-like matter that docks with a reasonable score, contacts a meaningful subset of the selectivity handles,
 and shows a predicted selectivity margin vs NR4A1/NR4A2. The lead **`denovo_401`** meets this in silico across
 four tiers: it docks into the druggable release pocket contacting 4 of the 5 engageable handles; it is
