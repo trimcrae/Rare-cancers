@@ -1,4 +1,4 @@
-# Programmable druggability of the orphan NR4A receptors: computational design of a paralogue-selective NR4A3 degrader through a cryptic pocket
+# Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective degrader
 
 **Tristan D. McRae**
 
@@ -11,11 +11,11 @@ Computational analyses were carried out with AI assistance (see Methods).*
 <!-- EDITORIAL, NOT FOR SUBMISSION: result paper split from emc-treatment-roadmap.md (2026-06-25),
 reframed around NR4A-family druggability with two design poles (2026-07-08). Target: JCIM primary +
 ChemRxiv preprint posted immediately; Nature Computational Science = free presubmission inquiry only
-(a long shot, not the plan). Alternate titles: (focused) "Computational design of a paralogue-selective NR4A3 degrader by opening a
-cryptic pocket in an orphan nuclear receptor"; (hook-first) "A cryptic pocket makes the 'undruggable' orphan
-receptor NR4A3 druggable: computational design of a paralogue-selective degrader". Prior working title (drop
-the CAR-T tail — weakest-evidence pole for a JCIM in-silico paper): "…from a selective NR4A3 degrader to a
-pan-NR4A CAR-T enhancer". Adversarial self-review: nr4a3-degrader-paper-redteam.md. Display-items (figures +
+(a long shot, not the plan). Title chosen: result-led, JCIM-safe (opens with the honest computational scope; no title-level overclaim).
+Alternates on file: (family/conceptual) "Programmable druggability of the orphan NR4A receptors: computational
+design of a paralogue-selective NR4A3 degrader through a cryptic pocket"; (focused) "Computational design of a
+paralogue-selective NR4A3 degrader by opening a cryptic pocket in an orphan nuclear receptor". The family
+framing and the pan-NR4A/CAR-T pole remain in §3 and Fig 6. Adversarial self-review: nr4a3-degrader-paper-redteam.md. Display-items (figures +
 tables) plan: nr4a3-degrader-figures.md. -->
 
 ## Abstract

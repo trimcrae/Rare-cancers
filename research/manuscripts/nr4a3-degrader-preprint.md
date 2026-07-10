@@ -1,6 +1,6 @@
-# Computational design of a selective NR4A3 degrader: opening a cryptic pocket in a "ligand-independent" nuclear receptor
+# Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective degrader
 
-<!-- Working title — pick the final title before posting (options + rationale in nr4a3-degrader-preprint-plan.md). -->
+<!-- Title aligned with the journal manuscript (nr4a3-degrader-paper.md). -->
 
 **Tristan D. McRae**
 
