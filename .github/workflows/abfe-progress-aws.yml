@@ -38,7 +38,9 @@ permissions:
   contents: write
 
 concurrency:
-  group: abfe-progress
+  # scope by output PNG so different tag-groups (8xtt vs nr4a2rep) don't cancel each other; only
+  # back-to-back renders of the SAME group serialize (they share a state_key).
+  group: abfe-progress-${{ inputs.out_name || 'abfe_progress.png' }}
   cancel-in-progress: true
 
 jobs:
