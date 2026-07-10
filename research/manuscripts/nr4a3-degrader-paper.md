@@ -1163,8 +1163,8 @@ cited without a formal article title (conference/early-access or database entrie
     profiling of Nurr1 modulation by vidofludimus enables structure-guided ligand design.* Commun Chem 8:159
     (2025). PMC12095788; doi 10.1038/s42004-025-01553-8. [Nurr1.]
 12. Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer
-    immunotherapy.* J Exp Med 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519.
-    [NR-V04; NR4A1-selective degrader precedent.]
+    immunotherapy.* J Exp Med 221(3):e20231519 (2024). PMID 38334978; PMC10857906;
+    doi 10.1084/jem.20231519. [NR-V04; NR4A1-selective degrader precedent.]
 13. Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
     carcinomas of the salivary glands.* Nat Commun 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
 14. Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell
@@ -1186,7 +1186,7 @@ cited without a formal article title (conference/early-access or database entrie
 20. Warmke LM, et al. *TAF15::NR4A3 gene fusion identifies a morphologically distinct subset of extraskeletal
     myxoid chondrosarcoma mimicking myoepithelial tumors.* Genes Chromosomes Cancer 62(10):581–588 (2023).
     doi 10.1002/gcc.23144. [Clusters with EMC by DNA-methylation profiling.]
-21. Ott G, et al. *Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and
+21. Wilbur HC, et al. *Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and
     Resultant Patient Benefit From Tamoxifen Therapy.* JCO Precis Oncol (2022). PMID 36103645; PMC9489176;
     doi 10.1200/PO.22.00039. [Patient benefit was via a partner-specific tamoxifen mechanism.]
 22. Brenca M, et al. *NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between

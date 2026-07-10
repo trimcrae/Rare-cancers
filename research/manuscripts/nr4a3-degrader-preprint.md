@@ -1,6 +1,7 @@
-# Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective degrader
+# In-silico ligand design for a cryptic, paralogue-selective NR4A3 pocket
 
-<!-- Title aligned with the journal manuscript (nr4a3-degrader-paper.md). -->
+<!-- Title aligned with the journal manuscript (nr4a3-degrader-paper.md); drops "Opening"/"degrader"
+     over-claim, consistent with the honest (not-converged) metadynamics reframe. -->
 
 **Tristan D. McRae**
 
@@ -19,16 +20,22 @@ crystal structure shows a ligand pocket occluded by bulky side chains, and NR4A3
 structure. Yet NR4A3 is a compelling *selective* degradation target, driving extraskeletal myxoid
 chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion) and acinic cell carcinoma (NR4A3 over-expression) by gain of
 NR4A3, where the goal is to remove NR4A3 while sparing NR4A1/2 (whose combined loss is leukaemogenic). We
-present a computation-only program to assess NR4A3's druggability and design a selective degrader warhead.
-Calibrated against a nuclear-receptor panel, the static NR4A3 orthosteric pocket is borderline (fpocket
-druggability 0.495, below the drug-bound band 0.53–0.68); well-tempered metadynamics and an unbiased "release"
-simulation reveal a metastable, induced-fit cryptic cavity druggable in ~24 % of unbiased frames. Seven
-pocket-lining residues diverge from NR4A1/2 as selectivity handles, and state-matched metadynamics on all
-three paralogues gives a family-wide selectivity fingerprint. A pocket-conditioned de-novo campaign,
-disciplined by a decoy null of non-NR4A drugs and multi-snapshot MM-GBSA de-noising, yields **`denovo_401`** —
-a receptor-frame-dependent de-noised foothold (the sole robust lead after `denovo_111` was withdrawn as
-protonation-fragile), whose predicted NR4A3-selectivity is corroborated by three-replicate absolute-binding
-FEP (ΔΔG −4.76 ± 2.03 vs NR4A1, −4.98 ± 0.68 vs NR4A2 kcal/mol; NR4A3 tightest-bound in all three replicates).
+present a computation-only program to assess NR4A3's druggability and design a selective warhead.
+Contextualized against a nuclear-receptor panel, the static NR4A3 orthosteric pocket is borderline (fpocket
+druggability 0.495, below the drug-bound band 0.53–0.68); well-tempered metadynamics drives a cryptic cavity
+open and an unbiased "release" simulation seeded at the low-energy druggable frame shows the opened geometry
+**persists over 5 ns and is druggable in ~24 % of unbiased frames** — evidence that the opened pocket is
+thermally sampled, though its **equilibrium accessibility remains unresolved** (the opening free-energy
+profile is monotonic/not converged, so opening is basin-internal breathing rather than a resolved two-state
+switch). Seven pocket-lining residues diverge from NR4A1/2 as selectivity handles, and criterion-matched
+metadynamics on all three paralogues gives a family-wide selectivity fingerprint. A pocket-conditioned de-novo
+campaign, disciplined by a decoy null of non-NR4A drugs and multi-snapshot MM-GBSA de-noising, yields
+**`denovo_401`** — a receptor-frame-dependent de-noised foothold (the sole robust lead after `denovo_111` was
+withdrawn as protonation-fragile), whose predicted NR4A3-selectivity is corroborated by three-replicate
+absolute-binding FEP with a **direction unanimous across all three replicates** (ΔΔG −4.76 ± 2.03 vs NR4A1,
+−4.98 ± 0.68 vs NR4A2 kcal/mol; NR4A2 λ-overlap repair pending before final interpretation, and the absolute
+scale is not validated — an engine benchmark on T4-lysozyme/benzene misses by ≈ +7 kcal/mol, so only the
+offset-invariant ΔΔG is interpreted).
 A representative CRBN–PROTAC ternary forms comparably for all three paralogues, so degradation selectivity
 rests on the binder. All results are in-silico predictions requiring experimental validation; no molecule was
 synthesized.
@@ -62,16 +69,17 @@ central limitation up front: this is an in-silico study with no wet-lab validati
 
 ## 2. Results
 
-### 2.1 The static orthosteric pocket is borderline — calibrated, not asserted
+### 2.1 The static orthosteric pocket is borderline — contextualized against a reference panel
 fpocket assigns the NR4A3 orthosteric pocket (Pocket 5, residues 406–534, carrying all seven selectivity
 handles below) a druggability of **0.495**. To interpret this we ran the same pipeline on a nuclear-receptor
-calibration panel. Experimentally drug-bound NR pockets score **0.53–0.68** (PPARγ/rosiglitazone 0.599,
-ERα/estradiol 0.586, Nurr1-holo 0.677, Nur77-holo 0.529), defining a calibrated druggable threshold
-**D\* = 0.53**. The fpocket *maximum-anywhere* score is non-discriminating — even the occluded 1OVL crystal
-scores 0.864 at a *non-orthosteric* cavity — so the widely-quoted "Nurr1 ~0.8" reflects a non-orthosteric
-site, present in both model (NR4A2 model 0.801) and crystal (0.864), i.e. not an AlphaFold artifact. Because
-our AF2 model does not over-call relative to the 1OVL crystal, NR4A3's static 0.495 is a conservative upper
-bound. The static orthosteric pocket therefore sits just below the validated druggable band — concordant
+reference panel. Experimentally drug-bound NR pockets score **0.53–0.68** (PPARγ/rosiglitazone 0.599,
+ERα/estradiol 0.586, Nurr1-holo 0.677, Nur77-holo 0.529), giving an empirical drug-bound reference band with
+lower edge **D\* = 0.53**. The fpocket *maximum-anywhere* score is non-discriminating — even the occluded 1OVL
+crystal scores 0.864 at a *non-orthosteric* cavity — so the widely-quoted "Nurr1 ~0.8" reflects a
+non-orthosteric site, present in both model (NR4A2 model 0.801) and crystal (0.864), i.e. not an AlphaFold
+artifact. Because our AF2 model does not over-call relative to the 1OVL crystal, NR4A3's static 0.495 reflects
+the modelled orthosteric-pocket geometry rather than a model-inflated one. The static orthosteric pocket
+therefore sits just below the drug-bound reference band — concordant
 with "undruggable," and the right starting point for the cryptic-pocket question. Recent NR4A work brackets
 this: a 2025 vidofludimus/Nurr1 study reaffirms the *canonical* pocket is occluded and acts via an allosteric
 surface site [López-García 2025] — which is exactly why we claim not that the static pocket is druggable but
@@ -79,7 +87,7 @@ that it *breathes* open (§2.2); NMR shows the NR4A LBD is genuinely ligandable 
 B) but not others (celastrol) [Munoz-Tello 2020]; and a paralog-selective NR4A1 PROTAC that spares NR4A2/NR4A3
 [Wang 2024] establishes that intra-family degradation selectivity is achievable.
 
-### 2.2 Metadynamics opens a druggable cryptic pocket; an unbiased run confirms it is metastable
+### 2.2 Metadynamics drives a druggable cryptic pocket open; an unbiased run shows it persists (equilibrium accessibility unresolved)
 Well-tempered metadynamics on the radius of gyration (Rg) of the Pocket-5 lining Cα atoms drives the pocket
 open (Rg ~0.5 → ~1.05 nm). Per-frame fpocket on the orthosteric Pocket-5 cavity — the same metric as the
 static 0.495 — reaches a peak druggability of **0.931**; reported as a distribution, a non-negligible
@@ -91,18 +99,22 @@ first pocket-dynamics evidence for NR4A3, paralleling the breathing Nurr1 pocket
 Two honest qualifications frame the energetics. First, the free-energy profile F(Rg) is **monotonic** — a
 single closed basin with a rising wall, no separate opened minimum — so the druggable conformations arise by
 **basin-internal breathing**, not a two-state cryptic switch (the pre-registered "distinct opened basin"
-condition is met only in this weaker sense; SI §1). Second, the decisive test of
-whether the breathing-open geometry is physically populated or bias-induced strain is an **unbiased "release"
-simulation** seeded at the low-energy druggable frame (Rg ≈ 0.717). This run is positive: the geometry is
-**metastable — 3/3 unbiased replicas held 5 ns** with mean drift 0.025 nm and no collapse — and, on the
-unbiased trajectory, the orthosteric pocket is **druggable in ~24 % of frames** (max 0.842, mean 0.262,
-fraction ≥ D\* = 0.20) at Rg ≈ 0.737. This is a thermally-real, spontaneously sampled cavity — not a static
-always-open pocket (unbiased mean 0.262 < 0.5) and not a bias artifact — i.e. an **induced-fit /
-conformational-selection** site, the expected behaviour for a nuclear-receptor cryptic pocket. All downstream
-design is anchored to a druggable unbiased-release frame (confirmed fpocket 0.667, within the drug-bound
-band), not the biased-metad frame. *(Scope: the 3/3 metastability is an Rg-persistence result across the
-triplicate; the ~24 % druggability fraction is measured on one release replica; 5 ns rules out prompt
-collapse, not tens-to-hundreds-of-ns relaxation.)*
+condition **failed as registered** and is reformulated to this weaker basin-breathing sense; SI §1). Second,
+the release run separates two questions the metadynamics alone cannot jointly settle: **Gate 3A — persistence
+after bias removal** (does the seeded geometry hold, or promptly collapse?) and **Gate 3B — equilibrium
+accessibility** (is it energetically reachable from the closed ensemble?). We test 3A with an **unbiased
+"release" simulation** seeded at the low-energy druggable frame (Rg ≈ 0.717). **Gate 3A is supported:** the
+seeded geometry **persists — 3/3 unbiased replicas held 5 ns** with mean drift 0.025 nm and no collapse, and
+on the unbiased trajectory the orthosteric pocket is **druggable in ~24 % of frames** (max 0.842, mean 0.262,
+fraction ≥ D\* = 0.20) at Rg ≈ 0.737 — a spontaneously sampled cavity, not a static always-open pocket
+(unbiased mean 0.262 < 0.5). **Gate 3B remains unresolved:** with a monotonic F(Rg) and release replicas that
+do not yet agree on a converged opening free energy, we cannot establish the equilibrium population, and we
+deliberately use the neutral term **basin-breathing** rather than "induced-fit" / "conformational-selection,"
+which would assert a mechanism a 5-ns window cannot distinguish. All downstream design is anchored to a
+druggable unbiased-release frame (confirmed fpocket 0.667, within the drug-bound band), not the biased-metad
+frame. *(Scope: the 3/3 persistence is an Rg-persistence result across the triplicate; the ~24 % druggability
+fraction is measured on one release replica; 5 ns rules out prompt collapse, not tens-to-hundreds-of-ns
+relaxation.)*
 
 A registered check confirms the selectivity handles remain engageable in the druggable frames: a mean of
 **5.0/7** handles point into the cavity, with **L406, T410, I484, I531, L534** reliably pocket-facing and
@@ -117,10 +129,10 @@ selectivity therefore rests on a narrower engageable handle set than NR4A1 selec
 NR4A2/Nurr1 carries the dopaminergic-loss liability one most wants to spare. This is a design specification
 with a quantified, paralogue-resolved window, not a demonstrated binding margin.
 
-### 2.4 A family-wide, state-matched selectivity matrix
+### 2.4 A family-wide, criterion-matched selectivity matrix
 Docking an opened NR4A3 pocket against *static* paralogue models would bias toward apparent selectivity,
 since — by the same argument [de Vera 2019; Lanig 2015] — the paralogue pockets are likely cryptic too. We
-therefore ran the **same metadynamics on NR4A1 and NR4A2** to obtain state-matched opened-pocket ensembles
+therefore ran the **same metadynamics on NR4A1 and NR4A2** to obtain criterion-matched opened-pocket ensembles
 for all three paralogues, and docked one library into each at matched opened conformers. Each candidate
 carries a selectivity fingerprint across the family, partitioning the library into NR4A3-selective, pan-NR4A,
 and the AML-associated NR4A1+NR4A3 anti-target cells. The **anti-target cell is empty** (no candidate engages
@@ -193,9 +205,18 @@ not (and the less design-confounded of the two). The defensible claim is therefo
 one candidate of the harvest whose NR4A3-selectivity survives ensemble de-noising and exceeds a same-tier decoy
 null in its unbiased design frame — a de-noised **foothold**, not a demonstrated specificity result, since the
 null does not control the generative step or the best-of-N selection*, consistent with the finding (§2.7) that
-this cryptic pocket is a fragile place to source a robust margin. The natural resolutions — a generation-matched
-decoy null, ensemble scoring over the druggable release sub-ensemble, and, as the affinity-grade tier, relative
-selectivity free-energy perturbation — are none of them run here.
+this cryptic pocket is a fragile place to source a robust margin. Of the three natural resolutions — a
+generation-matched decoy null, ensemble scoring over the druggable release sub-ensemble, and, as the
+affinity-grade tier, absolute-binding free-energy perturbation (ABFE) — **the ABFE has now been run.**
+Independent-λ-window double-decoupling ABFE (12 windows; three independent-seed replicates) gives per-receptor
+ΔG_bind whose contrasts favour NR4A3 in **all three replicates**: **ΔΔG(NR4A3 − NR4A1) = −4.76 ± 2.03** and
+**ΔΔG(NR4A3 − NR4A2) = −4.98 ± 0.68** kcal/mol (error = between-replicate SD, n = 3). The **direction is
+unanimous**, but two honest limits bound the reading: the engine **fails an absolute-scale benchmark**
+(T4-lysozyme L99A/benzene ΔG_bind off by ≈ +7 kcal/mol), so we interpret only the offset-invariant **ΔΔG**,
+never calibrated absolute affinities; and one complex-NR4A2 λ-window pair is locally under-overlapped (min
+adjacent overlap 0.003) — the one FEP item flagged for repair before final interpretation (add λ-windows at
+that decoupling endpoint and re-reduce). The generation-matched null and release-ensemble scoring remain the
+two un-run resolutions.
 
 ### 2.7 Selectivity architecture: a binder × ternary budget
 Comparing NR4A1/2/3 divergence in the orthosteric cryptic pocket (the warhead's contact residues) against
@@ -246,7 +267,7 @@ Structure: AlphaFold2 (AFDB) + fpocket. Cryptic pocket: OpenMM + PLUMED well-tem
 Pocket-5 Rg coordinate, with an unbiased release simulation (OpenMM, no bias) seeded at the low-energy
 druggable frame for the metastability/druggability test. Calibration: a nuclear-receptor LBD panel.
 Selectivity: BLOSUM62 alignment versus NR4A1 (P22736) and NR4A2 (P43354); the same metadynamics pipeline run
-on all three paralogues for state-matched ensembles. Docking: smina of a ChEMBL NR4A library into each
+on all three paralogues for criterion-matched ensembles. Docking: smina of a ChEMBL NR4A library into each
 paralogue's opened conformer. Endpoint free energy: single-snapshot and multi-snapshot one-trajectory MM-GBSA
 (OpenFF/GAFF-2.11, GBn2 implicit solvent, AM1-BCC charges), read as verdict/direction. De-novo design:
 DiffSBDD pocket-conditioned diffusion on the druggable release frame, with RDKit cheminformatics,
@@ -259,16 +280,19 @@ registered gates are in SI §1–§2. Jobs were run as managed cloud GPU/CPU tas
 This work is in-silico throughout; no molecule was synthesized and there is no wet-lab validation, so all
 candidates are predictions. The receptor is an AF2 model (NR4A3 is uncrystallized); the metadynamics
 addresses the single-snapshot limitation but the opening free-energy frontier is not fully converged, and
-the druggability case is a **feasibility** result — an induced-fit cavity druggable ~a quarter of the time,
-not an always-open pocket. The lead `denovo_401` is a **receptor-frame-dependent** predicted-selective
+the druggability case is a **feasibility** result — a basin-breathing cavity druggable ~a quarter of the time
+(persistence supported, equilibrium accessibility unresolved), not an always-open pocket. The lead `denovo_401` is a **receptor-frame-dependent** predicted-selective
 chemotype: it exceeds a same-tier decoy null in its design frame but not in the biased metad-opened frame, and
 that null controls the scoring step only — not the generative step (the candidate, unlike the decoys, was fit
 to the receptor) or the best-of-N selection — so it is a **de-noised foothold, not a controlled specificity
 result** (the generated set is not enriched over the decoys, bounding the confound). A pre-FEP species sweep
 resolved denovo_401's stereochemistry (selectivity is stereochemistry-robust; the generated diastereomer is
 near-optimal) and **withdrew the second candidate denovo_111** (its physiological cation reverses selectivity).
-denovo_401's endpoint MM-GBSA is single-trajectory and not affinity-grade, and selectivity free-energy
-perturbation remains un-run (the one remaining affinity tier). The degradation-selectivity (ternary) pipeline
+denovo_401's endpoint MM-GBSA is single-trajectory and not affinity-grade; the affinity-grade tier —
+three-replicate absolute-binding FEP — **has been run** and is NR4A3-selective in direction across all three
+replicates (ΔΔG −4.76/−4.98 kcal/mol vs NR4A1/NR4A2), but only the **offset-invariant ΔΔG** is interpreted
+(the engine fails a T4-lysozyme absolute-scale benchmark by ≈ +7 kcal/mol) and one NR4A2 λ-window pair is
+flagged for overlap repair before final interpretation. The degradation-selectivity (ternary) pipeline
 is validated on the CRBN/IMiD control (in-distribution, a sanity check not a generalization test); the actual
 NR4A3/NR4A1/NR4A2 ternaries were then predicted for a **representative** denovo_401-PROTAC and all three form an
 equally productive complex — so the ternary is a single-pose, single-linker prediction that shows the mechanism
@@ -279,7 +303,8 @@ survival — supported by a transfer prior from reliably fusion-addicted EWSR1/F
 EMC-native evidence that the fusion is a functional transcriptional driver [Filion 2009], but **not yet
 demonstrated in EMC**; the decisive acute-degradation (dTAG) experiment is delegated to wet-lab collaborators.
 The strongest honest claim is that NR4A3's orthosteric pocket is *computationally tractable as a dynamic,
-induced-fit site*, and that a selective warhead can be *designed for, and predicted to have*, the intended
+basin-breathing site whose opened geometry persists once bias is removed (equilibrium accessibility not yet
+established)*, and that a selective warhead can be *designed for, and predicted to have*, the intended
 profile — not that a selective degrader has been achieved.
 
 ## Data & Code Availability
