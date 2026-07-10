@@ -732,6 +732,57 @@ def convergence_report(complex_dir, solvent_dir, temperature_K=300.0, n_blocks=5
     return out
 
 
+def _prepare_or_load_reference(out_dir, leg, ligand_sdf, receptor_pdb=None, pose_name=None,
+                               padding_nm=1.2, restraint_K=20.0, pose_index=0):
+    """Build the leg's reference system + positions ONCE and CACHE them (reference_system.xml +
+    reference_positions.json + reference_aux.json in out_dir), so a spot RESUME RELOADS the identical system
+    instead of rebuilding it.
+
+    WHY (T4L benchmark incident, 2026-07-10): run_shard used to call prepare_leg on EVERY invocation, so each
+    spot resume rebuilt the solvated system. addSolvent does not reproduce the exact particle count across
+    rebuilds, and a per-window checkpoint (State.xml) is only valid for the system that wrote it — so on resume
+    `setState` raised "Called setPositions() ... wrong number of positions", every window fell back to a
+    fresh-start, and ALL accumulated samples were silently discarded on each interruption (the T4L leg, slowed
+    to OpenCL by a CUDA PTX mismatch, got interrupted enough to never finish). Caching the reference (same
+    pattern as nr4a3_metad.py's serialized metad_system.xml) guarantees the system matches its checkpoints
+    across every restart, for ALL legs."""
+    import openmm
+    from openmm import unit
+    sys_path = os.path.join(out_dir, "reference_system.xml")
+    pos_path = os.path.join(out_dir, "reference_positions.json")
+    aux_path = os.path.join(out_dir, "reference_aux.json")
+    if os.path.exists(sys_path) and os.path.exists(pos_path) and os.path.exists(aux_path):
+        system = openmm.XmlSerializer.deserialize(open(sys_path).read())
+        pos = [openmm.Vec3(*p) for p in json.load(open(pos_path))] * unit.nanometer
+        aux = json.load(open(aux_path))
+        print(f"[abfe] reloaded cached reference system ({system.getNumParticles()} particles) — resume-safe",
+              flush=True)
+        prep = {"system": system, "positions": pos, "alchemical_atoms": aux["alchemical_atoms"],
+                "n_receptor_atoms": aux["n_receptor_atoms"], "n_ligand_atoms": aux["n_ligand_atoms"],
+                "pose_index": aux["pose_index"]}
+        if leg == "complex":
+            prep["boresch"] = aux["boresch"]
+            prep["restraint_standard_state_dg"] = aux["restraint_standard_state_dg"]
+        return prep
+    prep = prepare_leg(leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
+                       padding_nm=padding_nm, restraint_K=restraint_K, pose_index=pose_index)
+    os.makedirs(out_dir, exist_ok=True)
+    with open(sys_path, "w") as fh:
+        fh.write(openmm.XmlSerializer.serialize(prep["system"]))
+    with open(pos_path, "w") as fh:
+        json.dump([[c[0], c[1], c[2]] for c in prep["positions"].value_in_unit(unit.nanometer)], fh)
+    aux = {"alchemical_atoms": list(prep["alchemical_atoms"]), "n_receptor_atoms": prep["n_receptor_atoms"],
+           "n_ligand_atoms": prep["n_ligand_atoms"], "pose_index": prep["pose_index"]}
+    if leg == "complex":
+        aux["boresch"] = prep["boresch"]
+        aux["restraint_standard_state_dg"] = prep["restraint_standard_state_dg"]
+    with open(aux_path, "w") as fh:
+        json.dump(aux, fh)
+    print(f"[abfe] built + cached reference system ({prep['system'].getNumParticles()} particles) — resume-safe",
+          flush=True)
+    return prep
+
+
 def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, window_end=None,
               n_iter=1000, steps_per_iter=500, temperature_K=300.0, platform_name="CUDA",
               pose_name=None, padding_nm=1.2, restraint_K=20.0, seed=0, pose_index=0):
@@ -741,8 +792,8 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     combine legs without re-prepping. window_end=None → all N_WINDOWS. Returns the meta dict.
     `seed`>0 → reproducible independent-replicate initial velocities + Langevin noise (per (seed,window));
     `pose_index` picks a starting pose from a multi-pose docked SDF (stronger config independence)."""
-    prep = prepare_leg(leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
-                       padding_nm=padding_nm, restraint_K=restraint_K, pose_index=pose_index)
+    prep = _prepare_or_load_reference(out_dir, leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
+                                      padding_nm=padding_nm, restraint_K=restraint_K, pose_index=pose_index)
     we = window_end if window_end is not None else N_WINDOWS
     os.makedirs(out_dir, exist_ok=True)
     meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
