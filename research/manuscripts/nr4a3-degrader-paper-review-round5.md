@@ -49,12 +49,18 @@ order; the round-5 reviewer misread the sorted list and P0.1's "fix" trusted the
 unambiguous: **r1** = basin 0.87 / ΔF 16.03 (expanded/uphill), r2 = 0.73/0.06, r3 = 0.74/0.83. Now stated in
 explicit r1/r2/r3 order everywhere.
 
-**Only remaining NON-gated item — deliberately deferred:** **c43 8XTT-first §2.1 reorder** — large structural
-reorg that pairs with the **gated** 8XTT harmonized rerun (Fig 1 = the all-20-8XTT detection distribution,
-§2.1's opening evidence). Doing it now then redoing it with tonight's data = churn; will do it WITH the rerun.
+**c43 8XTT-first reorder — DONE** (trimcrae: "churn costs nothing"). Results now open 8XTT-first: NEW §2.1
+(experimental 8XTT ensemble) + §2.2 (AF2 working model); metad→§2.3, handles→§2.4, matrix→§2.5, de-novo→§2.6,
+multi-snapshot→§2.7, ABFE→§2.8. ~63 paper + ~23 SI cross-refs remapped and verified (headings 2.1–2.8
+sequential, no dangling refs). **c32 self-cert sweep — DONE** (remaining "honest read"/"true weight"/etc.
+trimmed).
 
-**Gated on tonight's fleet:** c5(pocket)/8/9/10/11/13/14 harmonized pocket rerun + pinned fpocket · c15 NR4A2
-λ-repair · c16 8XTT ABFE sensitivity · c7/44 Fig 1 & 2 redesign · c43 reorder (pairs with Fig 1).
+**✅ ALL NON-GATED ROUND-5 EDITS ARE NOW COMPLETE.**
+
+**Still gated on tonight's fleet (nothing else to do until results land):** c5(pocket)/8/9/10/11/13/14
+harmonized pocket rerun + pinned fpocket · c15 NR4A2 λ-repair · c16 8XTT ABFE sensitivity · c7/c44 Fig 1
+(8XTT-centered) & Fig 2 (3-replica) redesign. When they land: fold numbers into §2.1/§2.3/§2.8, regenerate
+Figs 1–2, done.
 
 ## P0 — submission blockers
 | # | Item | Status |

@@ -246,7 +246,7 @@ release-frame region (Rg ≈ 0.73) sat ~0.6 kcal/mol above the basin and the mos
 ~35 kcal/mol — **but those are single-profile numbers that the three independent replicas below do NOT
 reproduce.** We then ran **three independent-seed well-tempered metadynamics replicas** (seeds 1/2/3, 30 ns
 each; `nr4a3_metad.py`, prefixes `nr4a3-metad-r{1,2,3}`; analysis `nr4a3_metad_analysis.py` +
-`nr4a3_metad_crossreplica.py`), read at their true weight — **not** as a convergence claim:
+`nr4a3_metad_crossreplica.py`), interpreted **not** as a convergence claim:
 **(i) The profiles are not converged.** Within-run block-to-block drift *decreases* with time (max|ΔF(Rg)| for
 the 10→20 then 20→30 ns blocks = 29→14 (r1), 31→15 (r2), 16→18 (r3) kJ/mol) but the 20→30 ns block still
 drifts **~14–18 kJ/mol (≈3.3–4.2 kcal/mol)**, and r3's does not decrease — so each replica shows only a
@@ -330,7 +330,7 @@ non-equilibrium frames**, not equilibrium populations; an autocorrelation-aware 
 caveat that the denominator is *frames with a detected overlapping pocket* (undetected frames are excluded,
 not scored zero) are given in the SI. (ii) **5 ns is a short persistence window**: it rules out fast (sub-ns) collapse of the seeded conformation,
 but a geometry can hold on 5 ns and still relax on tens–hundreds of ns, so "persists" here means "does not
-promptly collapse," not "a verified long-lived sub-state.")* The honest reading: this is **not** an
+promptly collapse," not "a verified long-lived sub-state.")* This is **not** an
 always-open pocket (mean 0.262 < 0.5) but a **dynamic cavity** whose seeded open-like geometry does not
 promptly collapse once the bias is removed and is fpocket-druggable in a fraction of frames **across all three
 release replicas** (≥ D\* in 0.20 / 0.16 / 0.28 of frames; below). **These are correlated, open-seeded,
@@ -582,7 +582,7 @@ that harvest — every other de-novo and decoy molecule *in that harvest* falls 
 `denovo_111` — is the carried lead. (`denovo_111`, the earlier single-snapshot foothold, de-noised well as the
 *neutral* form but was later **withdrawn** when the species-resolution sweep showed its physiological *cation*
 reverses selectivity — §2.7; so `denovo_401` is the sole candidate advanced through the computational funnel.))* So the
-honest read is **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
+read is therefore **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
 non-specific; decoy-calibration flagged one above-null candidate, `denovo_111`, which was *subsequently
 rejected* after protonation-state resolution reversed its predicted selectivity (§2.7) — a microstate
 artifact, not a genuine lead**." The de-novo program
@@ -686,7 +686,7 @@ percentile **+6.69**, max decoy **+7.10**, `confirmed_selective` 11/38 (29 %) �
 +13.1 / +16.46 / 39 %.** Against that re-calibrated bar **`denovo_401`'s +12.83 ± 2.98 clears the
 multi-snapshot 95th percentile and exceeds the single highest decoy even after subtracting its SD
 (margin − SD = +9.85 > +7.10)** — so the margin is not merely de-noised but **above a decoy null recomputed at
-the same tier.** *(Read this at its true weight. That null controls the **docking/MM-GBSA scoring** step
+the same tier.** *(That null controls the **docking/MM-GBSA scoring** step
 (marketed drugs pushed through the identical dock→multi-snapshot funnel), but it does **not** control the
 **generative** step: `denovo_401` is a DiffSBDD molecule pocket-conditioned on the NR4A3 **release** frame,
 whereas the decoys were fit to no pocket — so in the release frame `denovo_401` carries a design-match
@@ -1155,7 +1155,7 @@ three-replicate ABFE** (§2.6–2.7), and passes the in-silico developability fi
 it short of an unqualified pass: the decoy null controls the *scoring* step only (not the generative step or
 the best-of-~200 selection); the margin does **not** survive into the non-design metad-opened frame (itself a
 poor discriminator); and the ABFE is a *conditional receptor contrast*, not absolute engagement (the T4L
-benchmark fails, §2.8). We report the gate at its true weight: **a predicted NR4A3-favoured profile in the
+benchmark fails, §2.8). The gate verdict: **a predicted NR4A3-favoured profile in the
 computational opened-state models — met under the preregistered criteria, but not a demonstration of physical
 binding**, and not experimentally validated. (The earlier nominal pass on `denovo_15` is retracted and the
 interim foothold `denovo_111` withdrawn on protonation grounds; both disclosed in the prereg deviation log.)
