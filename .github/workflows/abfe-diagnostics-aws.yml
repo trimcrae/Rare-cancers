@@ -1,0 +1,73 @@
+name: ABFE SI diagnostics (overlap / ESS / convergence — free, in-runner, commits to git)
+
+# Produces the SI diagnostics the JCIM review (comment 17) asked for on the selectivity ABFE: per-replicate ΔG,
+# λ-window MBAR OVERLAP matrices, effective sample sizes (ESS), and forward/reverse CONVERGENCE traces —
+# recomputed from the INTACT ABFE reduced-potential jsonl in S3 (prefix nr4a3-abfe*, per-window checkpoints).
+#
+# This is CPU-only, $0, NO SageMaker/GPU: the reduced potentials for a complex+solvent pair are ~10-15 MB, so
+# it runs entirely in the GitHub runner (numpy+pymbar), like reduce-abfe-ci.yml — and COMMITS the output to git
+# (results/nr4a3-abfe/diagnostics/), satisfying the durability rule (results/README.md).
+#
+# Trigger: workflow_dispatch, OR push to the sentinel research/modalities/.abfe-diagnostics-trigger (MCP-down
+# fallback, like report-fm-push.yml). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (S3 read).
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "comma-sep replicate tags (r1,r2,r3)"
+        default: "nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3"
+        required: false
+      receptors:
+        description: "comma-sep receptors"
+        default: "nr4a3,nr4a1,nr4a2"
+        required: false
+      target:
+        description: "selectivity reference receptor"
+        default: "nr4a3"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+  push:
+    paths:
+      - "research/modalities/.abfe-diagnostics-trigger"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: abfe-diagnostics
+  cancel-in-progress: true
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "pymbar>=4" numpy matplotlib boto3
+      - name: Sync reduced potentials + MBAR diagnostics (in-runner, free)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          TAGS: ${{ inputs.tags || 'nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3' }}
+          RECEPTORS: ${{ inputs.receptors || 'nr4a3,nr4a1,nr4a2' }}
+          TARGET: ${{ inputs.target || 'nr4a3' }}
+          REGION: ${{ inputs.region || 'us-east-2' }}
+          OUT_DIR: results/nr4a3-abfe/diagnostics
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY secrets"; exit 1; fi
+          python research/modalities/nr4a3_abfe_diagnostics_run.py 2>&1 | tee research/modalities/_reports_abfe_diag.txt
+      - name: Commit diagnostics to git (durability rule)
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/nr4a3-abfe/diagnostics research/modalities/_reports_abfe_diag.txt || true
+          git commit -m "ABFE SI diagnostics: overlap / ESS / forward-reverse convergence [skip ci]" || { echo "no change"; exit 0; }
+          git push
