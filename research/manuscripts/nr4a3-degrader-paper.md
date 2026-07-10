@@ -25,35 +25,25 @@ ESS, convergence as SI). -->
 <!-- SUPERSEDED editorial: the earlier degrader-title alternates are retired (see title change above). -->
 
 ## Abstract
-The NR4A nuclear receptors (NR4A1/2/3) are orphan, constitutively active transcription factors
-long considered "undruggable": their orthosteric ligand pocket is occluded in crystal structures,
-and NR4A3 — which drives extraskeletal myxoid chondrosarcoma (EMC) and acinic cell carcinoma by
-gain of function — has an experimental LBD structure only as a recently released apo solution-NMR
-ensemble (PDB 8XTT, 2025), with no ligand-bound structure and no published pocket-dynamics analysis.
-Using a computation-only workflow, we show this
-family is instead dynamically druggable and that a *single* cryptic-pocket design framework is
-programmable across the NR4A selectivity axis. Calibrated against a nuclear-receptor panel, the
-static NR4A3 pocket is borderline (fpocket druggability 0.495 vs a drug-bound band of 0.53–0.68);
-well-tempered metadynamics drives a druggable cryptic cavity, and an unbiased "release" simulation shows
-that seeded geometry persists without bias (3/3 short replicas) and is fpocket-druggable in ~20–24 % of
-frames of one release trajectory (a short-timescale persistence + single-trajectory frame fraction, not an
-equilibrium population) — with the same residues independently flagged by a cryptic-pocket predictor
-(PocketMiner). Independently of AF2 and MD, fpocket analysis of the experimental apo NR4A3 NMR ensemble
-(PDB 8XTT) shows **substantial structural heterogeneity at the same mapped site** — most of the 20 deposited
-low-energy conformers are strongly occluded, while **4 exceed the empirical reference boundary** (these are
-low-energy structural models, *not* equilibrium population samples, so this is structural corroboration, not
-a population estimate) — while the AF2 pocket backbone diverges ~3.5 Å from that ensemble. Seven
-paralogue-divergent lining residues make the pocket a **candidate selectivity hotspot** (enriched for
-divergent residues, Fisher/permutation tests): ranking a pocket-conditioned generative campaign on these
-handles yields a de-noised, decoy-null-calibrated NR4A3-favoured candidate (denovo_401), for which
-**three-replicate ABFE calculations, conditional on selected opened conformers, favour NR4A3 over NR4A1 and
-NR4A2** (ΔΔG −4.8 ± 2.0 and −5.0 ± 0.7 kcal/mol). This is an in-silico design and feasibility study — no
-molecule was synthesized and no wet-lab validation was performed; every claim is labelled at its
-computational weight (a programmable pan-NR4A pole and a paralogue-non-selective CRBN ternary are in SI).
-Post hoc robustness analyses on 8XTT-derived conformers **preserve** the PocketMiner site enrichment and the
-MM-GBSA preference direction of denovo_401; the 8XTT analyses thereby **reduce — but do not eliminate — the
-structural uncertainty**, since the atomic binding pose and the ensemble-weighted selectivity (the ABFE
-remains AF2/opened-conformer-conditional) are still unresolved.
+The NR4A nuclear receptors are orphan transcription factors long considered "undruggable" — their orthosteric
+pocket is occluded in crystal structures — and NR4A3, a gain-of-function driver of extraskeletal myxoid
+chondrosarcoma, has an experimental ligand-binding-domain structure only as a recently released apo
+solution-NMR ensemble (PDB 8XTT, 2025). fpocket analysis of the 20 deposited low-energy conformers shows
+**substantial geometric heterogeneity at the mapped orthosteric site** — most strongly occluded, a few
+exceeding an empirical drug-bound reference boundary (these are low-energy structural models, **not**
+equilibrium-population samples) — and a three-independent-seed metadynamics workflow on an AlphaFold2 working
+model explores cavity-bearing "open-like" geometries whose druggability **persists over short bias-free
+continuations** (3/3 release replicas), although the replicas do **not** yet agree on a converged opening free
+energy. A falsification-heavy, pocket-conditioned generative campaign (chemical triage, an empirical decoy
+null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution) leaves a
+single candidate, **denovo_401**, whose NR4A3-favoured preference is probed by **initial three-replicate
+absolute-binding free-energy calculations conditional on selected opened conformers** (favouring NR4A3 over
+both paralogues; a receptor-specific λ-overlap repair and an experimental-structure-anchored NR4A3
+recalculation are in progress before final interpretation, and the engine's *absolute* scale is not
+validated). This is a **computation-only** design and feasibility study — **no molecule was synthesized and no
+wet-lab validation was performed** — whose principal unresolved limitations are the consistency of pocket
+identification across structural models, cross-replica free-energy convergence, and the atomic binding pose
+and ensemble-weighted selectivity.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
