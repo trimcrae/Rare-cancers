@@ -1,0 +1,83 @@
+name: NR4A3 8XTT re-dock + MM-GBSA of denovo_401 (AWS SageMaker)
+
+# Docks the carried lead denovo_401 into the DRUGGABLE experimental 8XTT conformers (models 2,8,20,6) and
+# MM-GBSA-rescores, reusing the matrix NR4A1/NR4A2 receptors+poses (the `matrix` channel = s3://<bucket>/
+# nr4a3-matrix) as the paralogue baseline — testing whether the NR4A3-vs-paralogue selectivity survives on
+# EXPERIMENTAL geometry rather than the AF2/metad frame. Managed spot Training (GPU; MM-GBSA has no CPU
+# fallback), checkpointed per conformer so a spot kill/timeout costs ≤1 conformer and a re-dispatch resumes.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Prereq: the matrix job populated s3://<bucket>/<input_prefix>. Output:
+# s3://<bucket>/<output_prefix>/nr4a3-8xtt-redock-denovo401.json.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (GPU required; ml.g5.xlarge default — no CPU fallback)"
+        default: "ml.g5.xlarge"
+        required: false
+      spot:
+        description: "1 = managed spot Training (cheaper/parallel; safe — resumes per conformer); 0 = on-demand"
+        default: "1"
+        required: false
+      models:
+        description: "8XTT conformers to dock into ('2,8,20,6' default = >=0.53-druggable; or 'all')"
+        default: "2,8,20,6"
+        required: false
+      max_runtime:
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
+        default: "21600"
+        required: false
+      input_prefix:
+        description: "S3 prefix holding the matrix outputs (receptors + docked_*.sdf + nr4a3-matrix.json)"
+        default: "nr4a3-matrix"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the re-dock results (also the resume/checkpoint dir)"
+        default: "nr4a3-8xtt-redock"
+        required: false
+      compute_timeout:
+        description: "overall compute wall-clock seconds (empty = entry default 3600)"
+        default: ""
+        required: false
+      region:
+        description: "AWS region — must match where the matrix outputs live"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker 8XTT re-dock job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          MODELS: ${{ inputs.models }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_8xtt_redock_sagemaker.py

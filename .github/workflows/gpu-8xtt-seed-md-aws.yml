@@ -1,0 +1,94 @@
+name: NR4A3 8XTT-seeded unbiased MD (AWS SageMaker)
+
+# Seeds unbiased "release-style" MD from a representative EXPERIMENTAL 8XTT conformer (default model 8) so
+# the breathing/druggability dynamics claim is anchored on the experimental structure, not only the AF2/
+# metad ensemble. BUILD-STATUS FLAG: this BUILDS a fresh solvated system from the bare 8XTT conformer (the
+# one new step vs the metad release run, which resumes an existing system.xml); everything downstream reuses
+# the release machinery. Managed spot Training (GPU), checkpointed per interval so a spot kill/timeout costs
+# ≤ one interval and a re-dispatch (same run_tag + output_prefix) resumes/extends. No input channel (8XTT +
+# AF-Q92570 fetched at runtime). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+# SAGEMAKER_ROLE_ARN.
+# Follow-up per-frame druggability: run gpu-mdpocket-aws.yml (DCD_NAME=8xtt_release_rep0.dcd) on the output.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ns:
+        description: "ns per replica (cumulative target; a re-dispatch resumes+extends to this)"
+        default: "5"
+        required: false
+      n_rep:
+        description: "number of unbiased replicas (different velocity seeds)"
+        default: "3"
+        required: false
+      seed_model:
+        description: "8XTT seed conformer (8 = a >=0.53-druggable model, default; 2 = peak-druggability)"
+        default: "8"
+        required: false
+      run_tag:
+        description: "output namespace / resume key; a re-dispatch with the same tag+prefix RESUMES+extends"
+        default: "8xtt_release"
+        required: false
+      output_prefix:
+        description: "S3 output prefix (resume mounts this)"
+        default: "nr4a3-8xtt-release"
+        required: false
+      checkpoint_every:
+        description: "blocks (×50 ps) between continuous state checkpoints"
+        default: "10"
+        required: false
+      max_runtime:
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
+        default: "18000"
+        required: false
+      spot:
+        description: "1 = managed spot (cheap; safe — checkpoints/resumes); 0 = on-demand"
+        default: "1"
+        required: false
+      instance:
+        description: "SageMaker instance type"
+        default: "ml.g5.xlarge"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker 8XTT-seeded MD job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          NS: ${{ inputs.ns }}
+          N_REP: ${{ inputs.n_rep }}
+          SEED_MODEL: ${{ inputs.seed_model }}
+          RUN_TAG: ${{ inputs.run_tag }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          CHECKPOINT_EVERY: ${{ inputs.checkpoint_every }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          SPOT: ${{ inputs.spot }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_8xtt_seed_md_sagemaker.py
