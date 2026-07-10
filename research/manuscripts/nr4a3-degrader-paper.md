@@ -973,7 +973,23 @@ one-sided for a cryptic pocket** — the offset is measured on a *rigid* cavity,
 1-ns/window run under-samples its opening reorganization *more* than a rigid cavity's, so the true NR4A3 offset is plausibly
 ≥ +7.1 kcal/mol and the offset-corrected absolute is a **conservative (least-binding)** estimate. We therefore quote absolute
 ΔG_bind only as offset-corrected one-sided estimates and rest the selectivity conclusion on the offset-invariant ΔΔG. Full
-calibration record: [`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json). **Why absolute
+calibration record: [`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json).
+
+**Lead-optimization cross-check (`lo_m0_NCCO` = `denovo_401` + ortho-acetamido) — an FEP tie, not an improvement.** The single
+scaffold-decorated variant that multi-snapshot MM-GBSA had nominated as a tighter, still-selective lead (`lo_m0_NCCO`, projected
+~+5.5 kcal/mol *tighter* than `denovo_401` by MM-GBSA) was put through the **identical** engine, opened-NR4A3 frame, and
+Boresch/double-decoupling scheme, as an affinity-grade check on that MM-GBSA ranking. One converged replicate returns raw
+ΔG_bind(NR4A3) = **+2.85 ± 0.28** (offset-corrected ≈ **−4.3** kcal/mol) and ΔΔG(NR4A3 − NR4A1) = **−6.7** kcal/mol
+[ΔΔG(NR4A3 − NR4A2) pending — the NR4A2 leg is completing]. Both land **within statistical noise of `denovo_401`** (+2.6 /
+offset-corrected −4.5; ΔΔG −6.9): the ortho-acetamido decoration is **affinity- and selectivity-neutral at ABFE grade** — free
+energy does **not** reproduce the MM-GBSA-predicted tightening, a concrete instance of the MM-GBSA absolute scale over-ranking a
+sub-kcal difference that ABFE declines to confirm. `denovo_401` therefore **remains the program's strongest candidate**;
+`lo_m0_NCCO` is a validated *equal*, not an advance. (Caveats favour reading this as a tie rather than a regression: the
+`lo_m0_NCCO` leg ran at the workflow-default **1 ns/window, n_iter = 1000** — half `denovo_401`'s 2 ns/window sampling — is a
+single replicate, and required the robust MBAR solver on marginal window overlap; sampling-matched, its absolute would be expected
+only to *fall toward or below* `denovo_401`'s, not rise above it, so the "no improvement over 401" reading is the conservative one.)
+
+**Why absolute
 (ABFE), not relative/mutation, FEP.** The selectivity question is *one* ligand (`denovo_401`) against *three
 different* proteins, so there is no ligand pair to alchemically morph — standard relative binding FEP (RBFE),
 which transforms ligand A→B within one pocket, does not apply. The relative alternative that *would* fit is
