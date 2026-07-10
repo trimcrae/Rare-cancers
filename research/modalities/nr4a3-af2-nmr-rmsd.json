@@ -1,0 +1,33 @@
+{
+  "_title": "AF2 vs 8XTT-NMR C\u03b1-RMSD decomposition (review P1 20)",
+  "_method": "Kabsch C\u03b1-RMSD; AF2-to-each-NMR-model vs NMR-model-to-model, over all shared C\u03b1 and Pocket-5 C\u03b1; AF2 counts as an ensemble member if its mean RMSD <= the NMR internal max.",
+  "af2_acc": "Q92570",
+  "nmr_pdb": "8XTT",
+  "n_nmr_models": 20,
+  "n_all_ca_shared": 248,
+  "pocket5_shared": [],
+  "results": {
+    "all_ca": {
+      "af2_to_nmr": {
+        "n": 20,
+        "min": 43.558,
+        "mean": 45.181,
+        "max": 46.422
+      },
+      "nmr_to_nmr": {
+        "n": 190,
+        "min": 1.821,
+        "mean": 8.341,
+        "max": 14.425
+      },
+      "af2_within_nmr_spread": false,
+      "_verdict": "AF2 mean exceeds the NMR internal spread (outlier)"
+    },
+    "pocket_ca": {
+      "af2_to_nmr": {},
+      "nmr_to_nmr": {},
+      "af2_within_nmr_spread": false,
+      "_verdict": "AF2 mean exceeds the NMR internal spread (outlier)"
+    }
+  }
+}
