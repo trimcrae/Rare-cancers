@@ -44,6 +44,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--git-ref", default="main")
     ap.add_argument("--n-release-reps", type=int, default=3)
+    ap.add_argument("--pocket-match", default="harmonized")  # harmonized | legacy (diagnostic comparison)
     args = ap.parse_args()
 
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
@@ -61,7 +62,7 @@ def main():
 
     os.makedirs(OUT, exist_ok=True)
     base = os.environ.copy()
-    base["POCKET_MATCH"] = "harmonized"                 # THE re-harmonization flag
+    base["POCKET_MATCH"] = args.pocket_match             # harmonized (default) | legacy (diagnostic)
 
     # --- af2_static: fetch AF-Q92570 then enumerate --------------------------------------------------
     af2_dir = "/tmp/af2"

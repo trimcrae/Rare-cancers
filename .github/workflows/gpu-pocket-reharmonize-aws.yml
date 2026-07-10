@@ -40,6 +40,10 @@ on:
         description: "repo ref the job clones + runs (branch/tag/sha)"
         default: "main"
         required: false
+      pocket_match:
+        description: "harmonized (default) | legacy — diagnostic: same fpocket+frames, old ≥1-residue matcher, to isolate the matcher effect"
+        default: "harmonized"
+        required: false
 
 permissions:
   contents: read
@@ -65,6 +69,7 @@ jobs:
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
           GIT_REF: ${{ inputs.git_ref }}
+          POCKET_MATCH: ${{ inputs.pocket_match }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."

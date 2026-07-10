@@ -65,7 +65,8 @@ def main():
         inputs=inputs,
         outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=dest,
                                   s3_upload_mode="Continuous")],
-        arguments=["--git-ref", git_ref],
+        arguments=["--git-ref", git_ref,
+                   "--pocket-match", os.environ.get("POCKET_MATCH", "harmonized")],
         wait=True,
         logs=True,
     )
