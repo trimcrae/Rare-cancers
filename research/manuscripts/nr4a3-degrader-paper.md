@@ -1271,13 +1271,55 @@ are in the reproducibility archive, not the literature list):
 34. *ETV6 dependency in Ewing sarcoma by antagonism of EWS-FLI1-mediated enhancer activation.* Nat Cell Biol
     25:298–308 (2023). PMID 36658219; PMC10101761; doi 10.1038/s41556-022-01060-1. [FET-fusion
     enhancer-reprogramming transfer prior.]
-35. Front Mol Med (2023). PMC11285543. [EMC quiet-genome / clonal WGS. Title to be completed at submission.]
+35. Zou T, Sethi R, Wang J, et al. *Whole genome sequencing for metastatic mutational burden in extraskeletal
+    myxoid chondrosarcoma.* Front Mol Med (2023). PMC11285543; doi 10.3389/fmmed.2023.1152550. [EMC
+    quiet-genome / clonal WGS.]
 36. Tumor Biol 33:1599–1607 (2012). doi 10.1007/s13277-012-0415-2. [Further EMC-over-expressed fusion targets,
     e.g. NDRG2. Title to be completed at submission.]
 
 **Structural controls (PDB).** PPARγ LBD + rosiglitazone (2PRG; Nolte et al., Nature 395:137, 1998);
 ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo references Nur77 4JGV
 (THPN) and 6KZ5 (cytosporone B), Nurr1 5Y41 (PGA1).
+
+**Methods, software, and benchmark references.**
+37. Meller A, Ward M, Borowsky J, et al. *Predicting locations of cryptic pockets from single protein
+    structures using the PocketMiner graph neural network.* Nat Commun 14:1177 (2023).
+    doi 10.1038/s41467-023-36699-3.
+38. Schneuing A, Harris C, Du Y, et al. *Structure-based drug design with equivariant diffusion models.*
+    Nat Comput Sci (2024). PMC11659159; doi 10.1038/s43588-024-00737-x (arXiv 2210.13695).
+39. Passaro S, Corso G, Wohlwend J, et al. *Boltz-2: Towards Accurate and Efficient Binding Affinity
+    Prediction.* bioRxiv 2025.06.14.659707 (2025). PMC12262699; doi 10.1101/2025.06.14.659707. (Structure/
+    affinity co-folding.)
+40. Koes DR, Baumgartner MP, Camacho CJ. *Lessons learned in empirical scoring with smina from the CSAR 2011
+    benchmarking exercise.* J Chem Inf Model 53(8):1893–1904 (2013). doi 10.1021/ci300604z. (Docking.)
+41. Shirts MR, Chodera JD. *Statistically optimal analysis of samples from multiple equilibrium states.*
+    J Chem Phys 129:124105 (2008). doi 10.1063/1.2978177. (MBAR.)
+42. Boresch S, Tettinger F, Leitgeb M, Karplus M. *Absolute binding free energies: a quantitative approach for
+    their calculation.* J Phys Chem B 107:9535–9551 (2003). doi 10.1021/jp0217839. (Boresch restraint + SSC.)
+43. Jakalian A, Jack DB, Bayly CI. *Fast, efficient generation of high-quality atomic charges. AM1-BCC model:
+    II. Parameterization and validation.* J Comput Chem 23(16):1623–1641 (2002). doi 10.1002/jcc.10128.
+44. Wang J, Wolf RM, Caldwell JW, Kollman PA, Case DA. *Development and testing of a general amber force
+    field.* J Comput Chem 25(9):1157–1174 (2004). doi 10.1002/jcc.20035. (GAFF/GAFF2.)
+45. Jorgensen WL, Chandrasekhar J, Madura JD, Impey RW, Klein ML. *Comparison of simple potential functions
+    for simulating liquid water.* J Chem Phys 79:926–935 (1983). doi 10.1063/1.445869. (TIP3P.)
+46. Mobley DL, Guthrie JP. *FreeSolv: a database of experimental and calculated hydration free energies, with
+    input files.* J Comput Aided Mol Des 28:711–720 (2014). doi 10.1007/s10822-014-9747-x.
+47. Morton A, Matthews BW. *Specificity of ligand binding in a buried nonpolar cavity of T4 lysozyme: linkage
+    of dynamics and structural plasticity.* Biochemistry 34(27):8576–8588 (1995). doi 10.1021/bi00027a007.
+    (T4-lysozyme L99A + benzene benchmark; PDB 181L. Converged literature ABFE on this system, ≈ −5 to −6.5
+    kcal/mol, from Deng Y, Roux B, *Calculation of standard binding free energies: aromatic molecules in the
+    T4 lysozyme L99A mutant*, J Chem Theory Comput 2(5):1255–1273 (2006), doi 10.1021/ct060037v.)
+48. Corsello SM, Bittker JA, Liu Z, et al. *The Drug Repurposing Hub: a next-generation drug library and
+    information resource.* Nat Med 23:405–408 (2017). doi 10.1038/nm.4306. (Broad Drug Repurposing Hub.)
+49. Mendez D, Gaulton A, Bento AP, et al. *ChEMBL: towards direct deposition of bioassay data.* Nucleic Acids
+    Res 47(D1):D930–D940 (2019). doi 10.1093/nar/gky1075.
+50. The UniProt Consortium. *UniProt: the universal protein knowledgebase in 2023.* Nucleic Acids Res
+    51(D1):D523–D531 (2023). doi 10.1093/nar/gkac1052.
+51. Cock PJA, Antao T, Chang JT, et al. *Biopython: freely available Python tools for computational molecular
+    biology and bioinformatics.* Bioinformatics 25(11):1422–1423 (2009). doi 10.1093/bioinformatics/btp163.
+    (BLOSUM62 alignment: Henikoff & Henikoff, PNAS 89:10915, 1992.)
+52. RDKit: Open-source cheminformatics. https://www.rdkit.org (software; version recorded in the
+    reproducibility archive).
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
