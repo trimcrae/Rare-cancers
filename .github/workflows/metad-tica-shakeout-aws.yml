@@ -1,0 +1,87 @@
+name: PHASE 2 SHAKEOUT — metad on the data-derived TICA CV (AWS SageMaker)
+
+# Metad convergence re-strengthening plan, Phase 2 single-shard shakeout
+# (research/modalities/nr4a3-metad-convergence-plan.md). Phase 1 found corr(IC1,Rg)=0.68 (Rg is an
+# incomplete reaction coordinate); this biases the DATA-DERIVED slow coordinate (a PLUMED COMBINE of
+# pocket-lining Cα distances, TICA-fit from the existing metad r1/r2/r3 trajectories) on ONE NR4A3 seed,
+# to prove the CV wires in and drives opening/recrossing BEFORE the full 3-seed x 3-paralogue fleet.
+# Managed-SPOT Training (checkpoint/resume, ~60-70% cheaper, spot quota). Output uploaded continuously.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is an input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      ns:
+        description: "nanoseconds of biased MD (shakeout default 8; the full fleet uses ~50)"
+        default: "8"
+        required: false
+      seed:
+        description: "per-replica random seed (velocities + Langevin noise); keys the CV realization"
+        default: "1"
+        required: false
+      lag_frames:
+        description: "TICA lag in frames for the CV fit (0.05 ns/frame; 10 = 0.5 ns)"
+        default: "10"
+        required: false
+      output_prefix:
+        description: "S3 output prefix (default nr4a3-metad-tica-shakeout)"
+        default: ""
+        required: false
+      instance:
+        description: "SageMaker GPU instance type"
+        default: "ml.g5.xlarge"
+        required: false
+      spot:
+        description: "1 = managed-spot Training (default, cheaper, spot quota); 0 = on-demand"
+        default: "1"
+        required: false
+      max_runtime:
+        description: "Per-ATTEMPT wall cap (seconds). 8 ns + env build + CV fit fits comfortably in 8h."
+        default: "28800"
+        required: false
+      max_wait:
+        description: "Spot only: total wait budget incl. capacity queueing (s; >= max_runtime). Empty = auto (~1.7x)."
+        default: ""
+        required: false
+      region:
+        description: "AWS region — must match where the stack + GPU quota live"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the GPU job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit PHASE 2 shakeout spot Training job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          NS: ${{ inputs.ns }}
+          SEED: ${{ inputs.seed }}
+          LAG_FRAMES: ${{ inputs.lag_frames }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          MAX_WAIT: ${{ inputs.max_wait }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          python research/modalities/nr4a3_metad_tica_sagemaker.py

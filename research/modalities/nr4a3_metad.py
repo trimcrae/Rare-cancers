@@ -62,6 +62,14 @@ NS = float(os.environ.get("NS", "30"))           # nanoseconds of biased MD to a
 SEED = int(os.environ.get("SEED", "0"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+# CV_MODE: "rg" (default) = the validated 1-D Rg-of-lining-Cα CV. "tica_combine" = the Phase-2 data-derived
+# slow coordinate — a PLUMED COMBINE over the pocket-lining pairwise Cα distances, with coefficients read
+# from a precomputed spec (PHASE2_CV_JSON, written by entry_metad_tica.py from a TICA fit of the existing
+# metad trajectories). The tica_combine mode keeps the Rg WALLS (as a physical unfolding guardrail) but
+# biases the TICA coordinate `s` instead of Rg. The default "rg" branch is unchanged (no regression).
+CV_MODE = os.environ.get("CV_MODE", "rg").lower()
+PHASE2_CV_JSON = os.environ.get("PHASE2_CV_JSON", "")   # path to the COMBINE spec (tica_combine mode)
+
 # Reproducibility artifacts == the resume inputs. A run writes these; a follow-on run that finds them in
 # OUTDIR continues from the saved state + accumulated bias. They are written to OUTDIR (= the SageMaker
 # managed-spot Training checkpoint dir, /opt/ml/checkpoints), which SageMaker (a) PRE-POPULATES from
@@ -134,14 +142,25 @@ def main():
         prior_ns = 0.0
         topology, positions, system = _build_fresh(mm, app, unit, PDBFixer)
 
-    # --- PLUMED well-tempered metadynamics on Rg of the CV-residue CA atoms -----------------------
+    # --- PLUMED well-tempered metadynamics on the pocket CV --------------------------------------
     plumed_atoms = _cv_ca_plumed_indices(topology, cv_identities)
     if len(plumed_atoms) != len(CV_RESIDUES):
         sys.exit(f"  ABORT: matched {len(plumed_atoms)}/{len(CV_RESIDUES)} CV CA atoms "
                  "(residue numbering mismatch in the solvated topology)")
-    print(f"  CV: Rg of {len(plumed_atoms)} CA atoms (PLUMED 1-based idx): {plumed_atoms}",
-          file=sys.stderr)
-    system.addForce(PlumedForce(_plumed_script(plumed_atoms, restart=resume)))
+    if CV_MODE == "tica_combine":
+        # {cv residue number -> its CA PLUMED index}. _cv_ca_plumed_indices returns CA atoms in the
+        # resolver's ascending position order, i.e. aligned with sorted(CV_RESIDUES); zip them.
+        ca_by_res = dict(zip(sorted(CV_RESIDUES), plumed_atoms))
+        spec = _load_phase2_spec(ca_by_res)
+        print(f"  CV: TICA COMBINE over {len(spec['pair_atoms'])} lining Cα distances "
+              f"(s∈[{spec['grid_min']:.3f},{spec['grid_max']:.3f}], σ_s={spec['sigma_s']:.4f}, "
+              f"corr(s,Rg)={spec.get('corr_s_rg')}); Rg kept only as an unfolding wall.", file=sys.stderr)
+        script = _plumed_script_tica(plumed_atoms, spec, restart=resume)
+    else:
+        print(f"  CV: Rg of {len(plumed_atoms)} CA atoms (PLUMED 1-based idx): {plumed_atoms}",
+              file=sys.stderr)
+        script = _plumed_script(plumed_atoms, restart=resume)
+    system.addForce(PlumedForce(script))
 
     integrator = mm.LangevinMiddleIntegrator(METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
                                              2.0 * unit.femtosecond)
@@ -292,6 +311,68 @@ def _plumed_script(plumed_atoms, restart):
     return "\n".join(lines)
 
 
+def _load_phase2_spec(ca_by_res):
+    """Read the precomputed Phase-2 COMBINE spec (PHASE2_CV_JSON) and resolve each residue-labelled
+    distance pair to its two CA PLUMED indices in THIS build's topology. Keying by residue identity (not
+    position) guarantees the biased distances match the pairs the TICA coefficients were fit on. Returns
+    the spec dict augmented with 'pair_atoms' [(idxA, idxB), ...] aligned with 'coefficients'."""
+    path = PHASE2_CV_JSON or os.path.join(OUTDIR, "phase2_cv.json")
+    if not os.path.exists(path):
+        sys.exit(f"  ABORT: CV_MODE=tica_combine but no COMBINE spec at {path} "
+                 "(entry_metad_tica.py must write phase2_cv.json before the biased run).")
+    with open(path) as fh:
+        spec = json.load(fh)
+    pairs = spec.get("pair_residues") or []
+    coeffs = spec.get("coefficients") or []
+    if len(pairs) != len(coeffs):
+        sys.exit(f"  ABORT: phase2_cv.json has {len(pairs)} pairs but {len(coeffs)} coefficients.")
+    pair_atoms = []
+    for a, b in pairs:
+        if int(a) not in ca_by_res or int(b) not in ca_by_res:
+            sys.exit(f"  ABORT: phase2_cv.json pair ({a},{b}) has no CA in the built topology "
+                     f"(known CV residues: {sorted(ca_by_res)}).")
+        pair_atoms.append((ca_by_res[int(a)], ca_by_res[int(b)]))
+    spec["pair_atoms"] = pair_atoms
+    # sane defaults if the writer omitted grid/sigma
+    spec.setdefault("sigma_s", 0.3)
+    spec.setdefault("grid_bin", 300)
+    return spec
+
+
+def _plumed_script_tica(plumed_atoms, spec, restart):
+    """PLUMED input for the Phase-2 data-derived CV: DISTANCE per lining-Cα pair -> COMBINE (the TICA IC1
+    as sum_j coeff_j (d_j - param_j)) -> well-tempered METAD on that coordinate `s`. Rg is still computed
+    and walled (LOWER/UPPER_WALLS) purely to stop unfolding, but it is NOT biased. Reuses the shared METAD
+    height/pace/biasfactor/temp; the grid + SIGMA for `s` come from the spec (set from the observed range)."""
+    m = METAD
+    coeffs = spec["coefficients"]
+    params = spec["parameters"]
+    powers = spec.get("powers") or [1] * len(coeffs)
+    lines = ["RESTART"] if restart else []
+    lines.append("UNITS LENGTH=nm ENERGY=kj/mol TIME=ps")
+    dlabels = []
+    for k, (ia, ib) in enumerate(spec["pair_atoms"]):
+        lab = f"d{k}"
+        lines.append(f"{lab}: DISTANCE ATOMS={ia},{ib}")
+        dlabels.append(lab)
+    lines.append(
+        f"s: COMBINE ARG={','.join(dlabels)} "
+        f"COEFFICIENTS={','.join(f'{c:.8g}' for c in coeffs)} "
+        f"PARAMETERS={','.join(f'{p:.8g}' for p in params)} "
+        f"POWERS={','.join(str(int(p)) for p in powers)} PERIODIC=NO")
+    # Rg for the unfolding guardrail only (walled, not biased)
+    lines.append(f"cv: GROUP ATOMS={','.join(str(i) for i in plumed_atoms)}")
+    lines.append("rg: GYRATION TYPE=RADIUS ATOMS=cv")
+    lines.append(
+        f"metad: METAD ARG=s SIGMA={spec['sigma_s']:.6g} HEIGHT={m['height']} PACE={m['pace']} "
+        f"BIASFACTOR={m['biasfactor']} TEMP={m['temp']} GRID_MIN={spec['grid_min']:.6g} "
+        f"GRID_MAX={spec['grid_max']:.6g} GRID_BIN={int(spec['grid_bin'])} FILE={HILLS}")
+    lines.append(f"lwall: LOWER_WALLS ARG=rg AT={m['lower_wall']} KAPPA={m['wall_kappa']}")
+    lines.append(f"uwall: UPPER_WALLS ARG=rg AT={m['upper_wall']} KAPPA={m['wall_kappa']}")
+    lines.append(f"PRINT ARG=s,rg,metad.bias STRIDE={m['pace']} FILE={COLVAR}")
+    return "\n".join(lines)
+
+
 def _resume_ready():
     """True iff a complete restart set is present (entry_metad.py --resume-from staged it into HERE)."""
     return (os.path.exists(SYSTEM_XML) and os.path.exists(SOLVATED_PDB) and os.path.exists(HILLS)
@@ -304,10 +385,11 @@ def _check_resume_params():
     prior = _read_manifest()
     if not prior:
         return
-    if prior.get("cv_residues") != CV_RESIDUES or prior.get("metad") != METAD:
-        sys.exit("  ABORT: resume parameters differ from the prior manifest (CV residues or metad "
-                 "settings changed). The existing HILLS is invalid for these settings — start a fresh "
-                 "run (don't pass --resume-from) instead.")
+    if prior.get("cv_residues") != CV_RESIDUES or prior.get("metad") != METAD \
+            or prior.get("cv_mode", "rg") != CV_MODE:
+        sys.exit("  ABORT: resume parameters differ from the prior manifest (CV residues, CV mode, or "
+                 "metad settings changed). The existing HILLS is invalid for these settings — start a "
+                 "fresh run (don't pass --resume-from) instead.")
     # A resume MUST be the same independent realization: mixing checkpoints/HILLS from different seeds
     # would silently merge two realizations into one non-independent trajectory. Refuse a seed mismatch.
     # (Older manifests predate the seed field; treat a missing prior seed as 0 to stay compatible.)
@@ -323,6 +405,7 @@ def _write_manifest(cumulative_ns, plumed_atoms):
         "target_acc": TARGET_ACC.get(TARGET),
         "lbd_first": LBD_FIRST, "lbd_last": LBD_LAST,
         "cv_residues": CV_RESIDUES,
+        "cv_mode": CV_MODE,
         "metad": METAD,
         "seed": SEED,
         "segment_ns": NS,
