@@ -394,7 +394,9 @@ handles (§2.3). A first screen returns NR4A3-favoured chemotypes (e.g. an NR4A3
 *static* NR4A1/2 models biases toward apparent selectivity, because — by our own argument (de Vera 2019;
 the Nur77 cryptic pocket) — the paralogue pockets are likely cryptic too. We therefore ran the **same
 metadynamics on NR4A1 and NR4A2** (one pipeline; paralogue CV/LBD mapped to NR4A3 by BLOSUM62 alignment)
-to obtain **state-matched opened-pocket ensembles** for all three, and docked one library into each
+to obtain **state-matched opened-pocket ensembles** for all three (here and throughout, "state-matched"
+means *analogously selected* high-druggability metadynamics-opened conformers — matched on the selection
+criterion, **not** on state definition or equilibrium population), and docked one library into each
 (`nr4a3_matrix.py`; state-matched opened conformers NR4A3 frame 300 (druggability 0.931) / NR4A1 frame 524
 (0.981) / NR4A2 frame 125 (0.938)). Each candidate carries a **selectivity fingerprint** across the family, partitioning
 the library into NR4A3-selective (EMC/AciCC), pan-NR4A (ex-vivo immuno), and the AML-associated NR4A1+NR4A3
