@@ -1,4 +1,4 @@
-# Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective degrader
+# Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective binder
 
 **Tristan D. McRae**
 
@@ -11,12 +11,19 @@ Computational analyses were carried out with AI assistance (see Methods).*
 <!-- EDITORIAL, NOT FOR SUBMISSION: result paper split from emc-treatment-roadmap.md (2026-06-25),
 reframed around NR4A-family druggability with two design poles (2026-07-08). Target: JCIM primary +
 ChemRxiv preprint posted immediately; Nature Computational Science = free presubmission inquiry only
-(a long shot, not the plan). Title chosen: result-led, JCIM-safe (opens with the honest computational scope; no title-level overclaim).
-Alternates on file: (family/conceptual) "Programmable druggability of the orphan NR4A receptors: computational
-design of a paralogue-selective NR4A3 degrader through a cryptic pocket"; (focused) "Computational design of a
-paralogue-selective NR4A3 degrader by opening a cryptic pocket in an orphan nuclear receptor". The family
-framing and the pan-NR4A/CAR-T pole remain in §3 and Fig 6. Adversarial self-review: nr4a3-degrader-paper-redteam.md. Display-items (figures +
-tables) plan: nr4a3-degrader-figures.md. -->
+(a long shot, not the plan). **Title (2026-07-10, trimcrae): retitled "degrader" -> "binder"** — the review
+correctly flagged "degrader" as an overclaim (we have a selective binder/warhead + an arbitrary-linker
+PROTAC + a ternary that is NOT paralogue-selective). Degradation stays as the honest future application.
+**RESTRUCTURE PENDING (trimcrae 2026-07-10 "cut hard to the spine"):** main text -> 8XTT pocket -> dynamics
+-> divergent handles -> falsification-controlled de-novo -> conditional ABFE; demote the 6k repurposing
+screen (§2.4b), superfamily screen (§2.7 back half), indication/CAR-T/pan pole (§3), safety genetics (§5),
+degradation-window model, and lo_m0_NCCO to SI or a second paper. See nr4a3-degrader-paper-review-response.md.
+Adversarial self-review: nr4a3-degrader-paper-redteam.md. Display-items plan: nr4a3-degrader-figures.md. -->
+<!-- P0 REVISION TASKS not yet done: (1) benchmark AF2 model + pocket + handles against the experimental
+8XTT NMR ensemble; (2) ABFE protocol audit given the +7.1 T4L miss (publish per-replicate ΔG, λ-overlap,
+ESS, convergence as SI). -->
+<!-- SUPERSEDED editorial: the earlier degrader-title alternates are retired (see title change above). -->
+
 
 ## Abstract
 The NR4A nuclear receptors (NR4A1/2/3) are orphan, constitutively active transcription factors
