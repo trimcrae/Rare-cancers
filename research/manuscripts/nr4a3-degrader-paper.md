@@ -614,8 +614,8 @@ small, and **margin − SD = +9.85 ≫ 0** — a substantially more favourable N
 (~13–15 kcal/mol weaker). So the de-noising tier is **discriminating, not merely destructive**:
 it killed a noise artifact and **identified a reproducible survivor for advancement**. `denovo_401`
 (`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SA 3.87, no structural alerts)
-is the program's **first multi-snapshot-confirmed NR4A3-selective candidate and the lead queued for
-selectivity FEP**. A formal in-silico developability profile (`nr4a3_developability.py`, RDKit) confirms the
+is the program's **first candidate retaining an NR4A3-favoured endpoint-score margin through the
+multi-snapshot screening tier**, subsequently taken through selectivity ABFE (§4). A formal in-silico developability profile (`nr4a3_developability.py`, RDKit) confirms the
 binder **passes the selected in-silico property and structural-alert filters**: 0 Lipinski violations,
 **Veber-compliant** (TPSA 29.5, 7 rotatable bonds), **clean on both the PAINS and BRENK structural-alert
 catalogs**, with **moderate predicted synthetic accessibility** (SA 3.87, a heuristic score). The one
@@ -963,7 +963,8 @@ weight, with the following caveats made explicit rather than buried:
    (The single-snapshot artifacts that the funnel *retracted* — denovo_15/94/57 and the protonation-fragile
    denovo_111 — are archived in SI as the falsification record, not carried here.)
 7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
-   re-calibration are now run, and `denovo_401` clears them — leaving FEP as the last tier, now run and complete (three replicates).** The de-novo
+   re-scoring are now run, and `denovo_401` clears them — leaving ABFE as the last tier: initial
+   three-replicate ABFE complete, with the NR4A2 λ-overlap repair pending before final interpretation (§4).** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
    (asymmetry conservative for NR4A3-selectivity — §2.5), and the single-snapshot, single-pose MM-GBSA carries
    no replicate/ensemble average and **fails the decoy control** (§2.5). Two follow-up controls
@@ -982,7 +983,9 @@ weight, with the following caveats made explicit rather than buried:
    +24.74) and +7.44 sits at only ~the 84th percentile — so the metad-opened frame is a poor discriminator, but
    it is also the frame `denovo_401` was *not* generatively fit to, so the above-null result is
    **release-frame-specific (= design-frame-specific)**, not universal. What remains is
-   **single-trajectory GB-implicit MD, not FEP**, so **selectivity FEP is the quantitative gate — now run and complete** (three-replicate ΔΔG NR4A3-selective);
+   **single-trajectory GB-implicit MD, not ABFE**, so **selectivity ABFE is the quantitative gate — initial
+   three-replicate ABFE complete (three-replicate ΔΔG NR4A3-selective), with the NR4A2 λ-overlap repair
+   pending before final interpretation (§4)**;
    the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
