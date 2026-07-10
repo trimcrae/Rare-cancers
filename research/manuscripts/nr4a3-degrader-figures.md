@@ -125,21 +125,18 @@
 ## Supplementary figures
 > These support §2.6–§2.7 and §5 but are demoted from the six main figures to keep the main-text figure
 > set focused on the load-bearing arc (calibration → opening → handles → matrix → de-novo lead → two poles).
-> All five PNGs are committed under `research/modalities/` and regenerable now.
+> The predicted **docked pose** of `denovo_401` in the opened NR4A3 pocket is a **main-text** panel (Fig 5d),
+> not an SI figure. The four SI chart figures are rendered by `nr4a3_journal_figures.py` (S1–S4) at 300 dpi.
 
 - **Fig S1 — per-receptor multi-snapshot MM-GBSA ΔG of `denovo_401`, release vs metad-opened frame (§2.6).**
   NR4A3 most-favoured in both frames (direction frame-robust); NR4A3-vs-NR4A1 margin +14.75 (release) → +7.44
-  (metad) (magnitude frame-dependent). `nr4a3-selectivity-dG.png` / `nr4a3_selectivity_dG_figure.py`. ✅ repo.
-- **Fig S2 — predicted docked pose of `denovo_401` in the metadynamics-opened NR4A3 LBD (§2.6).** Screening-grade
-  docked pose in an AF2-derived model, not an experimental complex. `nr4a3-pose.png` / `nr4a3_pose_render.py`. ✅ repo.
-- **Fig S3 — selectivity-architecture divergence by LBD residue set (§2.7).** The orthosteric cryptic pocket is
-  the most paralogue-divergent zone (~1.6× the LBD-wide average). `nr4a3-architecture.png` /
-  `nr4a3_architecture_figure.py`. ✅ repo.
-- **Fig S4 — superfamily pocket-liability screen across 47 human NRs (§2.7).** Only NR4A1/2 (controls) plus MR/AR
-  clear the confidence gate. `nr4a3-superfamily.png` / `nr4a3_superfamily_figure.py`. ✅ repo.
-- **Fig S5 — NR4A safety on two axes: DepMap proliferative essentiality vs gnomAD germline LoF constraint (§5).**
-  "Dispensable ⇒ safe" is invalid; NR4A2 is a sparing requirement. `nr4a3-safety-genetics.png` /
-  `nr4a3_safety_genetics_figure.py`. ✅ repo.
+  (metad) (magnitude frame-dependent). `nr4a3-figS1.png`. ✅ repo.
+- **Fig S2 — selectivity-architecture divergence by LBD residue set (§2.7).** The orthosteric cryptic pocket is
+  the most paralogue-divergent zone (~1.6× the LBD-wide average). `nr4a3-figS2.png`. ✅ repo.
+- **Fig S3 — superfamily pocket-liability screen across 47 human NRs (§2.7).** Only NR4A1/2 (controls) plus MR/AR
+  clear the confidence gate. `nr4a3-figS3.png`. ✅ repo.
+- **Fig S4 — NR4A safety on two axes: DepMap proliferative essentiality vs gnomAD germline LoF constraint (§5).**
+  "Dispensable ⇒ safe" is invalid; NR4A2 is a sparing requirement. `nr4a3-figS4.png`. ✅ repo.
 
 ## Tables
 
