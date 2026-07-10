@@ -70,8 +70,9 @@ memorization-consistent and says little about performance on an **AF2-modeled cr
 we built a **representative `denovo_401`-PROTAC** (warhead–PEG2–succinyl–lenalidomide, RDKit-validated
 C41H56N4O8, glutarimide intact) and predicted the **NR4A3/NR4A1/NR4A2-LBD + CRBN + PROTAC** ternaries. The
 result is honest and instructive: **all three paralogues form a productive-geometry-proxy ternary** — the
-PROTAC bridges the LBD and CRBN (2.5–3.1 Å each side) and each LBD presents an exposed lysine within
-ubiquitin reach of CRBN (NR4A3 K195 3.12 Å, NR4A1 K53 2.34 Å, NR4A2 K175 3.96 Å) — with **comparable,
+PROTAC bridges the LBD and CRBN (2.5–3.1 Å each side) and each LBD presents an exposed lysine near the modeled
+CRBN-facing interface (closest Lys-Nζ to the nearest CRBN heavy atom NR4A3 K195 3.12 Å, NR4A1 K53 2.34 Å,
+NR4A2 K175 3.96 Å — a **CRBN-proximity proxy, not modeled ubiquitin-transfer geometry**) — with **comparable,
 within-Boltz-noise confidence** (iptm 0.72/0.83/0.82). So for this representative linker the **ternary adds no
 NR4A3 degradation-selectivity**: it does *not* "multiply" the binder's paralogue margin the way SI §S3 hoped;
 degradation selectivity, if any, rests on the **binder** margin (denovo_401/111), with **linker/exit-vector
@@ -499,8 +500,9 @@ demonstrated specificity** — which is why the artifact `denovo_15` had scored 
 decoy 95th-percentile bar (+13.1 kcal/mol; raw rank + ECDF + bootstrap also reported), the clean
 fluoro-phenyl-pyrrolidine **`denovo_111`** (QED 0.87 / SA 2.9; margin +15.7; ranked above 37/38 decoys) was the
 one candidate above the null in that harvest — but it was **subsequently withdrawn** when the pre-FEP
-species-resolution sweep showed its physiological **cation reverses** selectivity (multi-snapshot −15.01 ±
-5.14; binds NR4A1 more tightly than NR4A3). A later generation produced **`denovo_401`**, which additionally
+species-resolution sweep showed its **cation reverses** selectivity (multi-snapshot −15.01 ±
+5.14; binds NR4A1 more tightly than NR4A3) — a protonation-state *sensitivity*, since the rule-based assignment
+does not establish which microstate dominates at pH 7.4. A later generation produced **`denovo_401`**, which additionally
 survives multi-snapshot de-noising and independent-seed replication, leaving it the sole candidate advanced to
 ABFE. **No single-snapshot nomination was accepted**; the load-bearing claim is the funnel + the falsification
 controls, not any of these molecules.

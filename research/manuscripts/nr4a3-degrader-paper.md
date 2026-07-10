@@ -509,8 +509,9 @@ itself shown non-specific by the decoy null, §2.6), which is exactly why a *de-
 (Selectivity FEP on a survivor is the defensible affinity tier, gated behind a bona-fide selective
 candidate.) For a representative `denovo_401`-PROTAC, the model **predicts a ternary-like CRBN complex of comparable
 confidence for all three paralogues** (`nr4a3_ternary.py`, Boltz-2; per-paralogue iptm 0.72/0.83/0.82, each
-LBD presenting a solvent-exposed lysine within ubiquitin reach of CRBN — NR4A3 K195 3.1 Å, NR4A1 K53 2.3 Å,
-NR4A2 K175 4.0 Å). We read this only as *geometric feasibility*, not as
+LBD presenting a solvent-exposed lysine near the modeled CRBN-facing interface (closest Lys-Nζ to the nearest
+CRBN heavy atom — NR4A3 K195 3.1 Å, NR4A1 K53 2.3 Å, NR4A2 K175 4.0 Å — a **CRBN-proximity proxy, not modeled
+ubiquitin-transfer geometry**, since no CRL4^CRBN assembly or E2~Ub is included). We read this only as *geometric feasibility*, not as
 demonstrated cooperativity, ubiquitination competence, or degradation (a single Boltz pose, no
 CRL4^CRBN–E2~Ub assembly, one arbitrary linker; the CRBN/IMiD recovery is a memorization-consistent sanity
 check, not out-of-distribution validation). At that weight, the model **did not provide evidence for
@@ -588,7 +589,7 @@ fluoro-phenyl-pyrrolidine, QED 0.87 / SA 2.9, NR4A3-margin **+15.7**, favoured i
 that harvest — every other de-novo and decoy molecule *in that harvest* falls in the null. *(A later generation batch produced `denovo_401`, whose single-snapshot margin
 +13.92 also exceeds this +13.1 bar and which additionally survives multi-snapshot de-noising (§2.7); it — not
 `denovo_111` — is the carried lead. (`denovo_111`, the earlier single-snapshot foothold, de-noised well as the
-*neutral* form but was later **withdrawn** when the species-resolution sweep showed its physiological *cation*
+*neutral* form but was later **withdrawn** when the species-resolution sweep showed its *cation*
 reverses selectivity — §2.7; so `denovo_401` is the sole candidate advanced through the computational funnel.))* So the
 read is therefore **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
 non-specific; decoy-calibration flagged one above-null candidate, `denovo_111`, which was *subsequently
@@ -661,16 +662,20 @@ this is Rule-of-5-compliant; assembled into a CRBN degrader (binder + E3 ligand 
 projected into normal **beyond-Rule-of-5** PROTAC space (projected MW ~657) — expected for the modality, and
 the linker exit-vector build is tracked as an explicit next step (completeness ledger E4). The single-snapshot foothold `denovo_111` also de-noised well **as the neutral form**
 (+14.60 ± 4.10) — but a **pre-FEP species-resolution sweep subsequently demoted it**: `denovo_111`
-carries a basic pyrrolidine assigned the **+1 cationic form at physiological pH 7.4**, and in that protonation
-state its selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than
-NR4A3, −36.81 vs −21.80). *(Protonation-state assignment method: a rule-based RDKit SMARTS assignment
-(`fep_species.protonation_variants`) — an aliphatic secondary/tertiary amine that is not an amide, imine, or
-aromatic N (`[NX3;!$(N=*);!$(N-C=[O,N,S]);!$(n)]`) is treated as protonated (+1) at pH 7.4; amides/non-basic
-groups stay neutral. This is a **rule-based physiological-state assignment, not a pKa calculation**: we do not
-compute a predicted pKa, protomer populations, or alternate tautomers. Both the neutral and cationic forms of
-`denovo_111` were scored, and because the physiologically dominant cation reverses selectivity we withdraw it;
-`denovo_401` is a neutral amide-bearing scaffold to which this SMARTS emits only the neutral form.)* Its apparent selectivity was a **neutral-form artifact**, so `denovo_111` is **withdrawn as
-an FEP candidate** and **`denovo_401` is the sole candidate advanced through the computational funnel** (see the species-resolution paragraph below).
+carries a **basic pyrrolidine**, and in its **cationic** protonation state its selectivity **reverses**
+(multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than NR4A3, −36.81 vs −21.80).
+*(Protonation-state assignment method: a rule-based RDKit SMARTS assignment (`fep_species.protonation_variants`)
+— an aliphatic secondary/tertiary amine that is not an amide, imine, or aromatic N
+(`[NX3;!$(N=*);!$(N-C=[O,N,S]);!$(n)]`) is emitted in a +1 form as well as neutral; non-basic groups stay
+neutral. This is a **rule-based state assignment, not a pKa calculation**: we do not compute a predicted pKa,
+protomer populations, or tautomers, so this result demonstrates **protonation-state *sensitivity*, not the
+dominant physiological microstate**. Both the neutral and cationic forms of `denovo_111` were scored; because
+the cationic form reverses the endpoint-score preference and the present procedure cannot establish which
+microstate dominates at pH 7.4, `denovo_111` was **conservatively not advanced**. `denovo_401` contains
+**no basic nitrogen** in the specified structure — an ether / aryl / tertiary-alcohol scaffold — so this
+SMARTS emits only its neutral form.)* Its earlier margin was therefore a **neutral-form artifact for
+`denovo_111`**, which is **withdrawn as an FEP candidate**, leaving **`denovo_401` the sole candidate advanced
+through the computational funnel** (see the species-resolution paragraph below).
 
 **Honest weight.** `denovo_401` clears the **FEP-worthiness bar this
 program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
@@ -750,7 +755,7 @@ three-replicate ABFE (§4) was run on the as-generated diastereomer** (the fully
 `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`, 4 defined stereocenters; input coordinates in the
 reproducibility archive), with the **iso08 C13-epimer** its one co-best MM-GBSA alternative and the single
 open FEP comparison remaining on the stereochemistry axis. (ii) **denovo_111 is withdrawn:** selective as
-the neutral form but its **physiological cation reverses** (multi-snapshot **−15.01 ± 5.14**, NR4A1 −36.81 <
+the neutral form but its **cationic form reverses** (multi-snapshot **−15.01 ± 5.14**, NR4A1 −36.81 <
 NR4A3 −21.80), so its earlier de-noised margin was a neutral-form artifact. Net: **`denovo_401` is the sole
 candidate advanced to ABFE, on a resolved diastereomer.**
 
@@ -1117,7 +1122,7 @@ selectivity evidence, and the earlier "MM-GBSA-confirmed selective" headline (an
 **survives multi-snapshot de-noising** (+12.83 ± 2.98, margin − SD = +9.85; §2.7) and **clears a same-tier
 multi-snapshot decoy null in its design frame** (§2.7), and which is the subject of the completed three-replicate
 selectivity FEP (§4). (The earlier decoy-calibrated single-snapshot foothold `denovo_111` — +15.7 vs the +13.1
-95th-percentile bar; §2.6 — was subsequently **withdrawn**: its physiological cation reverses selectivity, §2.7.)
+95th-percentile bar; §2.6 — was subsequently **withdrawn**: its cationic form reverses selectivity, §2.7.)
 It remains a **screening-grade, single-trajectory GB-implicit, unsynthesized, no-wet-lab** candidate —
 supported by **initial conditional ABFE receptor contrasts** (NR4A2 λ-repair and the NR4A3 structural-model
 sensitivity test still pending) but not experimentally validated. With no wet lab, the strongest honest claim is
