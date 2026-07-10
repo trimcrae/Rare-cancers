@@ -1,0 +1,91 @@
+name: NR4A3 8XTT ABFE receptor build (AWS SageMaker)
+
+# Builds the ABFE RECEPTOR PREFIX for an 8XTT-experimentally-anchored NR4A3 ABFE complex leg, as a managed
+# SageMaker Processing job. From the 8XTT-seeded unbiased release MD (s3://<bucket>/nr4a3-8xtt-release) it
+# selects the most-druggable PERSISTENT frame (fpocket >= D* near the seed Rg), writes nr4a3-opened.pdb, and
+# docks denovo_401 into its mapped Pocket-5 box (smina) -> docked_nr4a3.sdf. Pocket-5 is mapped onto the 8XTT
+# construct numbering by the nr4a3_8xtt_benchmark BLOSUM62 alignment (the plain residue_map heuristic fails).
+# CPU work (fpocket + smina + RDKit; no GPU, no MM-GBSA) — defaults ml.c5.2xlarge, does NOT touch the GPU
+# quota. Output uploaded CONTINUOUSLY so per-frame checkpoints reach S3 (a timeout keeps the last partial).
+# Output -> s3://<bucket>/nr4a3-abfe-8xtt-receptor (nr4a3-opened.pdb + docked_nr4a3.sdf + manifest).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is a workflow input).
+# Prereq: nr4a3_8xtt_seed_md.py populated s3://<bucket>/<release_prefix>. AFTER: run the ABFE NR4A3 complex leg
+# (gpu-abfe-aws.yml) with receptor_prefix=nr4a3-abfe-8xtt-receptor and receptors=nr4a3.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker CPU instance type (fpocket/smina are CPU; ml.c5.2xlarge default)"
+        default: "ml.c5.2xlarge"
+        required: false
+      d_star:
+        description: "druggable threshold (calibrated drug-bound band; relaxes to 0.5 if none clear it)"
+        default: "0.53"
+        required: false
+      rg_tol:
+        description: "nm persistence band around the seed Rg (release held frac 1.0 within 0.1 nm)"
+        default: "0.1"
+        required: false
+      seed_rg:
+        description: "override the seed Rg (empty = read from 8xtt_release_summary.json)"
+        default: ""
+        required: false
+      max_frames_per_dcd:
+        description: "0 = score every frame; >0 = evenly subsample per replica (cheaper triage)"
+        default: "0"
+        required: false
+      release_prefix:
+        description: "S3 prefix with the 8XTT-seeded release outputs (dcd + solvated pdb + summary)"
+        default: "nr4a3-8xtt-release"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the ABFE receptor prefix (nr4a3-opened.pdb + docked_nr4a3.sdf)"
+        default: "nr4a3-abfe-8xtt-receptor"
+        required: false
+      max_runtime:
+        description: "wall cap (s); a timeout keeps the last per-frame checkpoint as the deliverable"
+        default: "10800"
+        required: false
+      region:
+        description: "AWS region — must match where the release outputs live"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker 8XTT ABFE-receptor build
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          D_STAR: ${{ inputs.d_star }}
+          RG_TOL: ${{ inputs.rg_tol }}
+          SEED_RG: ${{ inputs.seed_rg }}
+          MAX_FRAMES_PER_DCD: ${{ inputs.max_frames_per_dcd }}
+          RELEASE_PREFIX: ${{ inputs.release_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_8xtt_abfe_receptor_sagemaker.py
