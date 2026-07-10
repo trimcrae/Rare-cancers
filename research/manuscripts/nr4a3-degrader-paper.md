@@ -38,7 +38,9 @@ well-tempered metadynamics drives a druggable cryptic cavity, and an unbiased "r
 that seeded geometry persists without bias (3/3 short replicas) and is fpocket-druggable in ~20–24 % of
 frames of one release trajectory (a short-timescale persistence + single-trajectory frame fraction, not an
 equilibrium population) — with the same residues independently flagged by a cryptic-pocket predictor
-(PocketMiner). Seven paralogue-divergent lining residues
+(PocketMiner) and, most tellingly, with the experimental apo NR4A3 NMR ensemble (PDB 8XTT) *independently
+reproducing the same distribution* (~20 % of its 20 conformers druggable, peak 0.925) although its atomic
+pocket backbone diverges from the AF2 model (~3.5 Å). Seven paralogue-divergent lining residues
 make the pocket a selectivity hotspot: ranking a pocket-conditioned generative campaign on these
 divergent handles yields a de-noised, decoy-null-calibrated NR4A3-selective foothold (denovo_401),
 whose predicted paralogue selectivity is corroborated by three-replicate absolute-binding FEP
@@ -47,8 +49,9 @@ conserved core instead designs a pan-NR4A binder for ex-vivo CAR-T de-exhaustion
 ternary-complex model forms comparably for all three paralogues, placing degradation selectivity on
 the binder. This is an in-silico design and feasibility study — no molecule was synthesized and no
 wet-lab validation was performed; every claim is labelled at its computational weight, and the
-AF2-derived opened-pocket model — which now must be benchmarked against the experimental 8XTT ensemble —
-remains the load-bearing uncertainty.
+AF2-derived opened-pocket *geometry* — whose druggability distribution the experimental 8XTT ensemble
+independently reproduces, but whose atomic backbone diverges from it (~3.5 Å), so the design should be
+rebased on 8XTT — remains the load-bearing uncertainty.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
@@ -117,6 +120,26 @@ network's single highest-scoring residues (375–398) fall at the **N-terminal t
 domain fragment — a chain-terminus flexibility artifact of scoring an isolated LBD, not the functional
 cavity — so we rest on the *Pocket-5 enrichment*, not a rank-1 claim. Data:
 [`../modalities/nr4a3-pocketminer-result.json`](../modalities/nr4a3-pocketminer-result.json).
+
+**Experimental cross-check — the apo NR4A3 NMR ensemble (PDB 8XTT) independently shows the same cryptic
+druggability distribution.** The 2025 apo NR4A3/NOR-1 LBD solution-NMR ensemble (PDB **8XTT**, 20 conformers)
+became available after this work's AF2-based analysis, and provides a *model-independent, experimental* test of
+the central claim. Mapping our pocket-5 residues onto 8XTT (sequence identity 1.000, 248 residues mapped) and
+running the *same* fpocket pipeline per conformer
+([`../modalities/nr4a3-8xtt-benchmark-findings.md`](../modalities/nr4a3-8xtt-benchmark-findings.md);
+`nr4a3_8xtt_benchmark.py`) reproduces the cryptic pattern **without any of our AF2/metadynamics machinery**: the
+orthosteric pocket is **occluded in most conformers** (median druggability 0.012 — consistent with the
+"undruggable" reputation and the static AF2 0.495) yet **transiently druggable in ~20 % of them** (4/20
+conformers ≥ D\*=0.53; peak 0.925), a fraction and peak strikingly close to the metadynamics/release-run
+readouts below (~20 % of frames druggable; opened peak 0.931). So the "dynamically druggable in a minority of
+states" thesis is corroborated by an **experimental** ensemble, not only by AF2 + MD. **Honest limit on what
+8XTT does *not* settle:** the AF2 model's *atomic* pocket geometry diverges from the experimental ensemble —
+pocket-local Cα-RMSD median 3.56 Å, selectivity-handle Cα-RMSD 3.44 Å (global 7.63 Å) — part of which is
+genuine apo flexibility across the NMR ensemble, not model error. So 8XTT **confirms the druggability
+*behaviour* but not the AF2 *specific opened geometry*** used downstream for docking/design; rebasing the design
+onto the druggable 8XTT conformers (re-dock `denovo_401`, re-run PocketMiner, re-seed MD on 8XTT) is the primary
+follow-up (§5). The verdict from the automated benchmark is reported honestly as **"partial"** — concordant on
+the distribution, divergent on the backbone.
 
 **Reconciliation with recent NR4A structural and chemical-biology work (2023–2025).** Three independent
 lines of evidence bracket this borderline score and sharpen (rather than soften) our claim. *(i) The
@@ -741,14 +764,16 @@ is the target's druggability/selectivity, not EMC efficacy.**
 **Safety/tolerability, and the pan-NR4A/CAR-T pole — bounded in SI §S6 and §S4.** The systemic lead's tolerability case (the NR4A family's proliferative dispensability by DepMap; the *myeloid* NR4A1↔NR4A3 redundancy that makes NR4A1-sparing mandatory; broad NR4A1/NR4A3 co-expression; PK/CNS restriction) is quantified in **SI §S6**. Two load-bearing caveats carry back into main text: human germline genetics (gnomAD) **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a safety requirement** — NR4A2 is the most LoF-constrained *and* CNS-enriched paralogue (LOEUF 0.094), NR4A3 borderline (LOEUF 0.37, pLI-intolerant) — and single-KO tolerability remains an *assumption* (no phenotyped IMPC KO for any of the three). The pan-NR4A / CAR-T pole is bounded separately and more tightly in **SI §S4** (chemical-feasibility only — the framework can *design* a pan-NR4A binder, not that it reverses T-cell exhaustion — plus an ex-vivo washout/exposure parameter).
 The structure is an AF2 model
 (NR4A3 has no ligand-bound experimental structure; its apo LBD was released as a solution-NMR ensemble,
-PDB 8XTT, only in 2025) — the MD addresses exactly the single-snapshot limitation. **A load-bearing
-revision task, not yet done here:** the AF2 pocket, its metadynamics-opened geometry, the PocketMiner
-call, and the ten pocket-lining / seven divergent-handle positions must all be benchmarked against the
-20-conformer 8XTT ensemble (global and pocket-local RMSD to each conformer; per-frame fpocket across the
-ensemble; PocketMiner re-run on 8XTT; re-seeded unbiased MD from representative 8XTT conformers). If the
-experimental ensemble supports the AF2 pocket and handles, this becomes the study's strongest validation;
-if it does not, the downstream design is rebased on 8XTT. We state the central result at its true weight,
-with five caveats made explicit rather than buried:
+PDB 8XTT, only in 2025) — the MD addresses exactly the single-snapshot limitation. **A first benchmark
+against 8XTT is now done (§2.1) and its result is two-sided:** the experimental apo NMR ensemble
+*independently reproduces the cryptic druggability distribution* (occluded median, ~20 % of conformers
+druggable, peak 0.925 — model-independent support for the central thesis), **but** the AF2 model's atomic
+pocket geometry *diverges* from the ensemble (pocket-local Cα-RMSD 3.56 Å, handle 3.44 Å). So the target
+*behaviour* is experimentally corroborated while the AF2 *specific opened geometry* used for docking/design
+is not — the still-open revision task is to **rebase the design on the druggable 8XTT conformers** (re-dock
+`denovo_401`, re-run PocketMiner on 8XTT, re-seed MD from an 8XTT conformer), and only a **ligand-bound**
+experimental structure could validate the warhead-engaged pose. We state the central result at its true
+weight, with five caveats made explicit rather than buried:
 
 1. **The 0.931 is a biased-ensemble peak, not a like-for-like beat of the static band.** fpocket
    druggability is a standard, model-derived geometric proxy (a logistic model of hydrophobic enclosure +
