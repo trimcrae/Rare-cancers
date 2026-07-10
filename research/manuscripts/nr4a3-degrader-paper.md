@@ -1,4 +1,4 @@
-# Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective binder
+# In-silico ligand design for a cryptic, paralogue-selective NR4A3 pocket
 
 **Tristan D. McRae**
 
@@ -1129,113 +1129,97 @@ liabilities — and the interim decoy-calibrated foothold `denovo_111` was withd
 (§2.5–2.6); both deviations are disclosed in the prereg deviation log.)
 
 ## References
-- **PDB 8XTT**: Nuclear receptor Nor1 (NR4A3) ligand-binding domain, apo, solution NMR (20 submitted
-  low-energy conformers of 100 calculated; 248-residue human construct). Deposited 2024-01-11, released
-  2025-01-15. RCSB Protein Data Bank; doi 10.2210/pdb8XTT/pdb. (Primary citation: to be published — cited
-  here as the experimental structural entry, not as a peer-reviewed article.)
-- Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear
-  receptors.* **Nature** 423:555–560 (2003). PubMed 12774125. (PDB 1OVL.)
-- de Vera IMS, et al. *Defining a Canonical Ligand-Binding Pocket in the Orphan Nuclear Receptor Nurr1.*
-  **Structure** 27(1):66–77.e5 (2019). PubMed 30416039; doi 10.1016/j.str.2018.10.002.
-- Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* **PLoS ONE** 10:e0135246
-  (2015). PMC4535767; doi 10.1371/journal.pone.0135246. (MD-revealed cryptic druggable pocket in Nur77/NR4A1.)
-- Zaienne D, et al. *Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse
-  NOR-1 Agonists.* **ChemMedChem** 17(16):e202200259 (2022). PMC9542104; doi 10.1002/cmdc.202200259. (Merk
-  group. **Direct experimental ligandability of NR4A3/NOR-1:** fragment screen, <1 % hit rate → 3 chemotypes,
-  one elaborated to a low-µM inverse agonist that alters NOR-1-regulated gene expression in cells — the
-  experimental druggability our in-silico pocket supplies a structural mechanism for. Binding site not
-  structurally defined by that work.)
-- Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
-  factors as drug targets.* **Transcription** 16:224–260 (2025). PMID 40646688; PMC12263127;
-  doi 10.1080/21541264.2025.2521766. (Safe-group review; source for the **NR4A3-selective carboxymethyl-
-  indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target gene *MYC*.
-  Secondary/review source for those compounds.)
-- Willems S, Morozov V, Marschner JA, Merk D. *Comparative Profiling and Chemogenomics Application of Chemical
-  Tools for NR4A Nuclear Receptors.* **J Med Chem** 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459.
-  (Family-wide NR4A1/2/3 profiling: validates a vetted probe set — 5 agonists + 3 inverse agonists — and shows
-  several putative NR4A ligands lack on-target binding; disciplines repurposed-chemotype selectivity claims.
- )
-- Muñoz-Tello P, Lin H, Khan P, de Vera IMS, Kamenecka TM, Kojetin DJ. *Assessment of NR4A Ligands That Directly
-  Bind and Modulate the Orphan Nuclear Receptor Nurr1.* **J Med Chem** 63(24):15639–15654 (2020). PMID 33289551;
-  PMC8006468; doi 10.1021/acs.jmedchem.0c00894. (NMR footprinting: amodiaquine/chloroquine/cytosporone B **bind**
-  the NR4A2 LBD; celastrol/C-DIM12/TMPA **do not** — directly disciplines the §2.4 repurposed-matrix chemotypes.
-  Nurr1/NR4A2, not NR4A3.)
-- Stiller T, Merk D. *Exploring Fatty Acid Mimetics as NR4A Ligands.* **J Med Chem** 66(22):15362–15369 (2023).
-  PMC10683012; doi 10.1021/acs.jmedchem.3c01467. (92-fragment screen → 11 scaffolds → sub-µM NR4A ligands, with
-  NOR-1/NR4A3 tested in a Gal4 reporter — reinforces NR4A3 ligandability; caveat: cellular reporter, not direct
-  NR4A3 binding.)
-- Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a Parkinson's
-  Disease Fly Model.* **NeuroMolecular Med** (2022). PMID 35482177; PDB 5YD6. (PGA2 forms a **covalent Michael
-  adduct at Cys566** of the Nurr1 LBD — a covalent-warhead binding-mode precedent in the NR4A LBD.)
-- Sturm/Willems, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
-  vidofludimus enables structure-guided ligand design.* **Commun Chem** (2025). PMC12095788;
-  doi 10.1038/s42004-025-01553-8. (Closest computational NR4A-selectivity precedent; MD/mutagenesis map an
-  **allosteric surface pocket** and reaffirm the canonical pocket is occluded — the occluded-pocket challenge
-  engaged in §2.1.)
-- Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer immunotherapy.*
-  **J Exp Med** 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519. (**NR-V04** — the only NR4A
-  targeted-degrader precedent; selectively degrades NR4A1 while sparing NR4A2/NR4A3, so paralog-selective
-  degradation is achievable. Proof-of-concept only; sparing mechanism unresolved, celastrol warhead promiscuous.
- )
-- Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
-  carcinomas of the salivary glands.* **Nat Commun** 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
-  (AciCC = NR4A3-over-expression-driven; the second NR4A3-selective indication.)
-- Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell
-  Carcinoma.* **Cancers** 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433. (NR4A3–MYB
-  cooperation in AciCC.)
-- Khan J, Ullah A, Goodbee M, Lee KT, Yasinzai AQK, Lewis JS Jr, Mesa H. *Acinic Cell Carcinoma in the 21st
-  Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances.*
-  **Cancers** 15(13):3373 (2023). PMID 37444483; PMC10340722; doi 10.3390/cancers15133373. (AciCC epidemiology — third most
-  common salivary-gland malignancy; the SI §S4 relative-incidence anchor.)
-- Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of the
-  Art and Current Research on Biology and Clinical Management.* **Cancers** 12(9):2703 (2020). PMC7563993;
-  doi 10.3390/cancers12092703. (EMC ultra-rare, <1 per 1,000,000/year; the SI §S4 EMC-incidence anchor.)
-- EMC biological-rationale evidence base (efficacy + safety; verified 2026-07-02, full citations +
-  honest gaps in [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). Key primary sources
-  newly cited in §5: EMC fusion-partner frequency — Huang et al., *Mod Pathol* 36(7):100161 (2023, PMID 36948401)
-  and Agaram et al. *Hum Pathol* 45:1084–1091 (2014, PMC4015728; PMID 24746215); EMC
-  quiet-genome / clonal WGS — *Front Mol Med* 2023 (PMC11285543); myeloid NR4A1/NR4A3 redundancy — Freire &
-  Conneely, *Blood* 131:1081 (2018, PMID 29343483); NR4A DNA-binding grammar — NR4A2-DBD structures *J Biol
-  Chem* (2020, PMC6926456, PDB 6L6Q/6L6L); FET-fusion (EWS-FLI1) enhancer-reprogramming — *Nat Cell Biol*
-  2022 (10.1038/s41556-022-01060-1). DepMap gene-effect numbers (FLI1 −0.93/74 %; NR4A3 0.02) are from the
-  repo's cached Chronos analysis (`depmap-insilico-findings.md`).
-- Brenca M, et al. *NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between
-  EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.* **J Pathol** 248:239–251 (2019).
-  PMID 31020999; PMC6766969; doi 10.1002/path.5284. (Functional fusion-driver evidence: ectopic expression of
-  either fusion recapitulates the malignant phenotype — but the 5′ partner shapes the NR4A3-driven
-  transcriptome, tempering a strictly partner-agnostic story.)
-- EMC variant-fusion series establishing NR4A3 as the shared **>90 % 3′ driver across ≥6 partners**: Agaram NP,
-  et al. *Hum Pathol* 45:1084 (2014, PMC4015728; EWSR1 62 %/TAF15 27 %/TCF12, variant fusions → higher-grade/
-  worse outcome); Wei S, et al. *Genes Chromosomes Cancer* (2021, PMID 34124809; novel SMARCA2-NR4A3, NR4A3
-  rearranged in >90 %); Warmke LM, et al. *Genes Chromosomes Cancer* (2023, doi 10.1002/gcc.23144; TAF15::NR4A3
-  clusters with EMC by DNA methylation); Ott G, et al. *JCO Precis Oncol* (2022, PMID 36103645,
-  doi 10.1200/PO.22.00039; novel PGR-NR4A3). Underpin the partner-agnostic NR4A3-degrader rationale. (Note: Ott's
-  patient benefit came via a *partner-specific* tamoxifen mechanism — cite for partner diversity, not as support
-  for target-centric-over-junction.)
-- Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* **Nature**
-  567:530–534 (2019). doi 10.1038/s41586-019-0985-x. (T-cell exhaustion — needs *triple*-NR4A; the
-  pan-NR4A second design mode, ex-vivo.)
-- Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
-  myeloid leukemia.* **Nat Med** 13:730–735 (2007). PubMed 17515897; doi 10.1038/nm1579.
-- Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* **Mol Cancer
-  Res** 19(2):180–191 (2021). PMC7864866; doi 10.1158/1541-7786.mcr-20-0707.
-- Controls: PPARγ LBD + rosiglitazone (PDB 2PRG; Nolte 1998, Nature 395:137); ERα LBD + estradiol
-  (PDB 1ERE; Brzozowski 1997, Nature 389:753). NR4A holo: Nur77 4JGV (THPN), 6KZ5 (cytosporone B);
-  Nurr1 5Y41 (PGA1).
-- Methods: AlphaFold2 (Jumper 2021, Nature, 10.1038/s41586-021-03819-2); fpocket (Le Guilloux 2009);
-  OpenMM; PLUMED (Tribello 2014; PLUMED consortium, Nat Methods 2019).
-- Aldeghi M, Heifetz A, Bodkin MJ, Knapp S, Biggin PC. *Predictions of Ligand Selectivity from Absolute Binding
-  Free Energy Calculations.* **J Am Chem Soc** 139(2):946–957 (2017). PMID 28009512; PMC5253712;
-  doi 10.1021/jacs.6b11467. (ABFE across related bromodomains — the precedent for the §4 per-receptor ABFE
-  selectivity approach.)
-- Filion C, Motoi T, Olshen AB, Laé M, Emnett RJ, Gutmann DH, Perry A, Ladanyi M, Labelle Y. *The
-  EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor
-  gene.* **J Pathol** 217(1):83–93 (2009). PMC4429309. (EWSR1/NR4A3 response element in the PPARG promoter,
-  confirmed by band-shift + transactivation — a validated *direct* fusion target; EMC-specific evidence the
-  fusion is a functional transcriptional driver.) Further EMC-over-expressed fusion targets (e.g. NDRG2):
-  *Tumor Biology* 33:1599–1607 (2012), doi 10.1007/s13277-012-0415-2.
-- EMC clinical context + the fusion-addiction/ASO/surrogate evidence: see the EMC-program roadmap and its
-  source memos.
+
+Square-bracket tags record only methodologically load-bearing scope (primary vs review/secondary source;
+the paralogue actually studied; associated PDB IDs) — not editorial commentary. Author lists, titles, and
+volume/page fields are reproduced as verified against the primary record; where a source was originally
+cited without a formal article title (conference/early-access or database entries), none is asserted here.
+
+1. RCSB Protein Data Bank. *PDB 8XTT — NR4A3 (Nor1) ligand-binding domain, apo, solution NMR (20 of 100
+   low-energy conformers deposited; 248-residue human construct).* Deposited 2024-01-11; released 2025-01-15.
+   doi 10.2210/pdb8XTT/pdb. [Experimental structural entry; primary literature citation not yet published.]
+2. Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear
+   receptors.* Nature 423:555–560 (2003). PubMed 12774125. [Nurr1/NR4A2; PDB 1OVL.]
+3. de Vera IMS, et al. *Defining a Canonical Ligand-Binding Pocket in the Orphan Nuclear Receptor Nurr1.*
+   Structure 27(1):66–77.e5 (2019). PubMed 30416039; doi 10.1016/j.str.2018.10.002. [Nurr1/NR4A2.]
+4. Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* PLoS ONE 10:e0135246 (2015).
+   PMC4535767; doi 10.1371/journal.pone.0135246. [NR4A1/Nur77.]
+5. Zaienne D, et al. *Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse
+   NOR-1 Agonists.* ChemMedChem 17(16):e202200259 (2022). PMC9542104; doi 10.1002/cmdc.202200259.
+   [Primary; experimental NR4A3/NOR-1 ligandability.]
+6. Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
+   factors as drug targets.* Transcription 16:224–260 (2025). PMID 40646688; PMC12263127;
+   doi 10.1080/21541264.2025.2521766. [Review/secondary.]
+7. Willems S, Morozov V, Marschner JA, Merk D. *Comparative Profiling and Chemogenomics Application of Chemical
+   Tools for NR4A Nuclear Receptors.* J Med Chem 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459.
+8. Muñoz-Tello P, Lin H, Khan P, de Vera IMS, Kamenecka TM, Kojetin DJ. *Assessment of NR4A Ligands That
+   Directly Bind and Modulate the Orphan Nuclear Receptor Nurr1.* J Med Chem 63(24):15639–15654 (2020).
+   PMID 33289551; PMC8006468; doi 10.1021/acs.jmedchem.0c00894. [Nurr1/NR4A2.]
+9. Stiller T, Merk D. *Exploring Fatty Acid Mimetics as NR4A Ligands.* J Med Chem 66(22):15362–15369 (2023).
+   PMC10683012; doi 10.1021/acs.jmedchem.3c01467.
+10. Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a
+    Parkinson's Disease Fly Model.* NeuroMolecular Med (2022). PMID 35482177. [Nurr1; PDB 5YD6.]
+11. Willems S, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
+    vidofludimus enables structure-guided ligand design.* Commun Chem (2025). PMC12095788;
+    doi 10.1038/s42004-025-01553-8. [Nurr1.]
+12. Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer
+    immunotherapy.* J Exp Med 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519.
+    [NR-V04; NR4A1-selective degrader precedent.]
+13. Haller F, et al. *Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
+    carcinomas of the salivary glands.* Nat Commun 10:368 (2019). PMC6341107; doi 10.1038/s41467-018-08069-x.
+14. Lee DY, et al. *Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell
+    Carcinoma.* Cancers 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433.
+15. Khan J, Ullah A, Goodbee M, Lee KT, Yasinzai AQK, Lewis JS Jr, Mesa H. *Acinic Cell Carcinoma in the 21st
+    Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances.*
+    Cancers 15(13):3373 (2023). PMID 37444483; PMC10340722; doi 10.3390/cancers15133373.
+16. Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of
+    the Art and Current Research on Biology and Clinical Management.* Cancers 12(9):2703 (2020). PMC7563993;
+    doi 10.3390/cancers12092703.
+17. Huang S-C, et al. Mod Pathol 36(7):100161 (2023). PMID 36948401. [EMC fusion-partner frequency.]
+18. Agaram NP, et al. Hum Pathol 45(5):1084–1091 (2014). PMID 24746215; PMC4015728. [EMC variant-fusion
+    series; NR4A3 as the shared 3′ driver.]
+19. Wei S, et al. Genes Chromosomes Cancer (2021). PMID 34124809. [Novel SMARCA2-NR4A3 fusion.]
+20. Warmke LM, et al. Genes Chromosomes Cancer (2023). doi 10.1002/gcc.23144. [TAF15::NR4A3 clusters with EMC
+    by DNA methylation.]
+21. Ott G, et al. JCO Precis Oncol (2022). PMID 36103645; doi 10.1200/PO.22.00039. [Novel PGR-NR4A3; patient
+    benefit was via a partner-specific tamoxifen mechanism.]
+22. Brenca M, et al. *NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between
+    EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.* J Pathol 248:239–251 (2019).
+    PMID 31020999; PMC6766969; doi 10.1002/path.5284.
+23. Filion C, Motoi T, Olshen AB, Laé M, Emnett RJ, Gutmann DH, Perry A, Ladanyi M, Labelle Y. *The
+    EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor
+    gene.* J Pathol 217(1):83–93 (2009). PMC4429309. [Validated direct fusion target.]
+24. Chen J, et al. *NR4A transcription factors limit CAR T cell function in solid tumours.* Nature
+    567:530–534 (2019). doi 10.1038/s41586-019-0985-x.
+25. Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
+    myeloid leukemia.* Nat Med 13:730–735 (2007). PubMed 17515897; doi 10.1038/nm1579.
+26. Freire PR, Conneely OM. Blood 131(10):1081 (2018). PMID 29343483. [Myeloid NR4A1/NR4A3 redundancy.]
+27. Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* Mol Cancer Res
+    19(2):180–191 (2021). PMC7864866; doi 10.1158/1541-7786.mcr-20-0707. [Review/secondary.]
+28. Aldeghi M, Heifetz A, Bodkin MJ, Knapp S, Biggin PC. *Predictions of Ligand Selectivity from Absolute
+    Binding Free Energy Calculations.* J Am Chem Soc 139(2):946–957 (2017). PMID 28009512; PMC5253712;
+    doi 10.1021/jacs.6b11467. [ABFE across related bromodomains; precedent for the §4 per-receptor approach.]
+29. Jumper J, Evans R, Pritzel A, et al. *Highly accurate protein structure prediction with AlphaFold.*
+    Nature 596:583–589 (2021). doi 10.1038/s41586-021-03819-2.
+30. Le Guilloux V, Schmidtke P, Tuffery P. *Fpocket: an open source platform for ligand pocket detection.*
+    BMC Bioinformatics 10:168 (2009). doi 10.1186/1471-2105-10-168.
+31. Eastman P, Swails J, Chodera JD, et al. *OpenMM 7: Rapid development of high-performance algorithms for
+    molecular dynamics.* PLoS Comput Biol 13(7):e1005659 (2017). doi 10.1371/journal.pcbi.1005659.
+32. Tribello GA, Bonomi M, Branduardi D, Camilloni C, Bussi G. *PLUMED 2: New feathers for an old bird.*
+    Comput Phys Commun 185:604–613 (2014). doi 10.1016/j.cpc.2013.09.018. See also The PLUMED consortium,
+    *Promoting transparency and reproducibility in enhanced molecular simulations.* Nat Methods 16:670–673
+    (2019). doi 10.1038/s41592-019-0506-8.
+
+Additional EMC-biology sources cited in §5 (identifiers only, per the note above; full provenance and any
+data-derived numbers such as the DepMap Chronos gene-effect scores are in the reproducibility archive, not
+the literature list): EMC quiet-genome / clonal WGS — Front Mol Med (2023), PMC11285543; NR4A DNA-binding
+grammar — NR4A2-DBD structures, J Biol Chem (2020), PMC6926456 (PDB 6L6Q/6L6L); FET-fusion (EWS-FLI1)
+enhancer reprogramming — Nat Cell Biol (2022), doi 10.1038/s41556-022-01060-1; further EMC-over-expressed
+fusion targets (e.g. NDRG2) — Tumor Biol 33:1599–1607 (2012), doi 10.1007/s13277-012-0415-2.
+
+**Structural controls (PDB).** PPARγ LBD + rosiglitazone (2PRG; Nolte et al., Nature 395:137, 1998);
+ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo references Nur77 4JGV
+(THPN) and 6KZ5 (cytosporone B), Nurr1 5Y41 (PGA1).
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
