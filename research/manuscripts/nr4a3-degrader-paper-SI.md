@@ -9,11 +9,11 @@ in the 2026-07-10 "cut hard to the spine" restructure (see nr4a3-degrader-paper-
 holds the material demoted from the main-text spine: the 6,000-drug repurposing screen (was §2.5b), the
 CRBN ternary + degradation-window detail (was §2.5 tail), the full selectivity-architecture + superfamily
 liability screen (was §2.8 back half), the indication landscape / pan-NR4A CAR-T pole (was §3), the
-lo_m0_NCCO lead-optimization FEP (was §4), and the deep safety-genetics essay (was §5). No scientific
+lo_m0_NCCO lead-optimization FEP (was §3), and the deep safety-genetics essay (was §4). No scientific
 claim, number, or caveat was altered in the move. Section/figure numbers are prefixed "S". All references
 are in the main-text References section of nr4a3-degrader-paper.md unless noted here. -->
 
-Section and figure numbers here are prefixed **S**. Cross-references of the form "§2.x/§4/§5/§6" point to
+Section and figure numbers here are prefixed **S**. Cross-references of the form "§2.x/§3/§4/§5" point to
 the **main text** (`nr4a3-degrader-paper.md`); "SI §Sx" points within this document. Figure/data paths
 (`../modalities/...`) are unchanged from the main text.
 
@@ -91,7 +91,7 @@ degradation prediction. We therefore add the standard **three-body cooperative-e
 2013; Gadd 2017) coupled to a steady-state synthesis/degradation balance, which converts binary affinities +
 cooperativity α into the numbers that actually decide a degrader: **DC50, Dmax, and the hook effect**. Because
 absolute affinities and α are exactly the quantities the current ABFE does **not** validate (the absolute
-scale fails the T4L benchmark, §4; the initial three-replicate ABFE gives a *conditional receptor contrast*
+scale fails the T4L benchmark, §3; the initial three-replicate ABFE gives a *conditional receptor contrast*
 only, with an NR4A2 λ-overlap repair still pending — and MM-GBSA ΔG is likewise not a calibrated Kd), the
 model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd** that would
 accept experimentally measured or validated ensemble-weighted affinities in future work, **not** a
@@ -170,7 +170,7 @@ single-linker interface — the divergent-patch set is expected to shift with li
 only against NR4A1/2 is under-powered: the human nuclear-receptor (NR) superfamily is ~48 proteins that share
 the LBD fold, so a *non-paralogue* NR could in principle present a pocket resembling NR4A3's. We therefore
 mapped the ten warhead-pocket residues (Q92570 numbering) onto **every reviewed human NR** (n = 47; UniProt
-family query, no hardcoded accessions; BLOSUM62 global alignment — the same core as the resistance map, §4) and
+family query, no hardcoded accessions; BLOSUM62 global alignment — the same core as the resistance map, §3) and
 scored pocket-residue identity, gating on overall LBD-alignment identity as a **mapping-confidence** axis
 (`nr4a_superfamily_selectivity.py` → `nr4a-superfamily-selectivity.json`). The two paralogues behave as
 positive controls must — they are the **only** NRs combining pocket coincidence with high-confidence alignment
@@ -402,7 +402,7 @@ stronger and more honest** basis than before, with its residual risk now **speci
 (developmental / CNS, and NR4A2-sparing-dependent) rather than vaguely gestured at.
 
 ## S7. ABFE diagnostics — per-replicate ΔG, λ-overlap, ESS, convergence (review comment 17/18)
-Full free-energy diagnostics for the three-replicate selectivity ABFE (§4), computed directly from the
+Full free-energy diagnostics for the three-replicate selectivity ABFE (§3), computed directly from the
 per-window reduced potentials (the engine's `window_XX.jsonl` output; ~13k files in the run bucket, deposited
 to the Zenodo archive; the derived diagnostics figures + JSON are committed in `results/nr4a3-abfe/diagnostics/`
 via `nr4a3_abfe_diagnostics.py`). Each leg is 12 λ-windows × 2000 iterations.
@@ -445,9 +445,9 @@ while SSC and ΔG_solv are effectively fixed — so the between-replicate SD is 
 variance, and the smaller NR4A2-contrast SD reflects lower observed complex-leg scatter for that pair, **not**
 demonstrated cancellation of systematic complex-leg error.
 
-**Consistency with §4 (reproducibility check).** The diagnostics recompute ΔG_bind from the raw reduced
-potentials and reproduce the §4 values to within ≤0.03 kcal/mol on every mean and SD (e.g. NR4A3 3.52 vs 3.5;
-NR4A1 8.28 vs 8.3) — i.e. the §4 reduction is faithfully reproducible from the archived data.
+**Consistency with §3 (reproducibility check).** The diagnostics recompute ΔG_bind from the raw reduced
+potentials and reproduce the §3 values to within ≤0.03 kcal/mol on every mean and SD (e.g. NR4A3 3.52 vs 3.5;
+NR4A1 8.28 vs 8.3) — i.e. the §3 reduction is faithfully reproducible from the archived data.
 
 **λ-overlap.** MBAR nearest-neighbour overlap is healthy across most windows (adjacent overlaps ≈0.20–0.26,
 a well-behaved near-tridiagonal overlap matrix), **but drops to a minimum adjacent overlap of 0.003** at one
