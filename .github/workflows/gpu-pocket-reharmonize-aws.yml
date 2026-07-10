@@ -1,0 +1,73 @@
+name: NR4A3 pocket re-harmonize (AWS SageMaker)
+
+# Re-scores EVERY load-bearing NR4A3 ensemble with the score-INDEPENDENT orthosteric-pocket matcher
+# (POCKET_MATCH=harmonized) and the PINNED fpocket build (4.2.3), then emits one consolidated
+# both-denominator detection table (pocket-reharmonize-summary.json). Ensembles: AF2 static, the NR-panel
+# calibration structures, all 20 8XTT conformers, the metad trajectory frames, and the 3 unbiased release
+# replicas. CPU work (fpocket) — defaults to ml.c5.4xlarge, does NOT touch the GPU quota. Mounts the metad
+# + release S3 prefixes (topology + trajectories); AF2/8XTT/calibration structures are fetched at runtime.
+# Output uploaded CONTINUOUSLY so per-ensemble JSONs + the consolidated table reach S3 as written.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker CPU instance type (fpocket is CPU; ml.c5.4xlarge default)"
+        default: "ml.c5.4xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack lives"
+        default: "us-east-2"
+        required: false
+      metad_prefix:
+        description: "S3 prefix (under the default bucket) with nr4a3-lbd-metad.dcd + nr4a3-lbd-solvated.pdb + fes.dat"
+        default: "nr4a3-metad"
+        required: false
+      release_prefix:
+        description: "S3 prefix with release_rep*.dcd"
+        default: "nr4a3-release"
+        required: false
+      output_prefix:
+        description: "S3 output prefix for the consolidated table + per-ensemble JSONs"
+        default: "nr4a3-pocket-reharmonize"
+        required: false
+      max_runtime:
+        description: "Hard cap (seconds); default 8h"
+        default: "28800"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker pocket re-harmonize job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          METAD_PREFIX: ${{ inputs.metad_prefix }}
+          RELEASE_PREFIX: ${{ inputs.release_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_pocket_reharmonize_sagemaker.py

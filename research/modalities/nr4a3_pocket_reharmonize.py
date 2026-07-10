@@ -23,6 +23,8 @@ def detection_from_result(kind, result):
     Returns a detection_report()-shaped dict, or None if absent. Pure (takes the parsed JSON)."""
     if result is None:
         return None
+    if kind == "prebuilt":
+        return result                              # `result` already IS a detection dict (e.g. pooled)
     if kind == "af2_static":
         return (result.get("harmonized_orthosteric_match") or {}).get("detection")
     if kind == "8xtt":
