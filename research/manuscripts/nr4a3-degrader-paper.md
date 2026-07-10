@@ -434,19 +434,19 @@ criterion, **not** on state definition or equilibrium population), and docked on
 the library into NR4A3-selective (EMC/AciCC), pan-NR4A (ex-vivo immuno), and the AML-associated NR4A1+NR4A3
 **anti-target** cells (SI §S4). The **anti-target cell is empty** (no candidate engages NR4A1+NR4A3 while
 sparing NR4A2 — nothing to design away from in this library), and the NR4A3-leaning leads are repurposed NR4A
-actives (e.g. cytosporone B, amodiaquine). This makes the divergent-handle map a *demonstrated, tunable*
-design axis rather than an assertion — but the docking dG are within noise, so they nominate chemotypes,
-not a lead.
+actives (e.g. cytosporone B, amodiaquine). This *suggests* a tunable design axis — but the docking dG are
+within noise, so they nominate chemotypes, not a lead, and the stronger programmability claim rests on the
+complete de-novo campaigns (§2.5), not this docking matrix.
 
 **Figure 4.** The family-wide, state-matched selectivity matrix: one candidate library docked into the
 metadynamics-opened NR4A3, NR4A1 and NR4A2 pockets, giving each candidate a per-paralogue selectivity
 fingerprint (NR4A3-selective / pan-NR4A / NR4A1+NR4A3 anti-target cells). Full figure: [`../modalities/nr4a3-fig4.png`](../modalities/nr4a3-fig4.png) (rendered by `nr4a3_journal_figures.py`).
 
-**Docking nominates; endpoint free energy decides — and it disqualifies the repurposed actives.** We
-re-scored the matrix's own docked poses with single-snapshot **MM-GBSA** (enthalpy + GBn2 implicit solvent,
+**Docking nominates; endpoint rescoring challenges the nominations but itself requires specificity controls.**
+We re-scored the matrix's own docked poses with single-snapshot **MM-GBSA** (enthalpy + GBn2 implicit solvent,
 no entropy/ensemble average; OpenCL on the A10G; `nr4a3_mmgbsa.py`). The docking-level NR4A3-selectivity
-**mostly does not survive**: the apparent docking lead **cytosporone B reverses** (as its known NR4A1
-agonism demands), and across the 13 deduplicated candidates the verdict census is *confirmed_selective* 3
+**mostly does not survive**: the apparent docking lead **cytosporone B reverses**, and across the 13
+deduplicated candidates the pipeline verdict census is *confirmed_selective* 3
 (amodiaquine, celastrol, + a duplicate), *reversed* 3, *weakened* 2, *rescued* 3, *confirmed_nonselective*
 2. MM-GBSA magnitudes here are inflated by the single-snapshot/no-entropy approximation, so we read the
 **verdict/direction, not the kcal/mol** — but the direction is clear: **repurposed NR4A chemical matter is
@@ -457,10 +457,15 @@ confidence for all three paralogues** (`nr4a3_ternary.py`, Boltz-2; per-paralogu
 LBD presenting a solvent-exposed lysine near CRBN). We read this only as *geometric feasibility*, not as
 demonstrated cooperativity, ubiquitination competence, or degradation (a single Boltz pose, no
 CRL4^CRBN–E2~Ub assembly, one arbitrary linker; the CRBN/IMiD recovery is a memorization-consistent sanity
-check, not out-of-distribution validation). At that weight, the prediction is **paralogue-non-selective**, so
-for this representative linker the ternary step adds no NR4A3 degradation-selectivity — degradation
-selectivity, if any, rests on the **binder** margin, with linker/exit-vector design the (untested) lever that
-might introduce it. The full ternary detail, the CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium **degradation-window** model (DC50/Dmax/hook, the analysis layer the per-paralogue FEP Kd's feed) are in **SI §S2**.
+check, not out-of-distribution validation). At that weight, the model **did not provide evidence for
+NR4A3-selective ternary geometry** (comparable confidence for all three paralogues from one linker is not
+proof of nonselectivity), so for this representative linker the ternary step adds no NR4A3
+degradation-selectivity — degradation selectivity, if any, rests on the **binder** margin, with
+linker/exit-vector design the (untested) lever that might introduce it. The full ternary detail, the
+CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium **degradation-window** model
+(DC50/Dmax/hook) are in **SI §S2**, framed as a **sensitivity-analysis framework that could accept
+experimentally measured or validated ensemble-weighted binary affinities in future work** — we do **not**
+derive Kd values from the current raw ABFE absolutes (whose scale is not validated, §4).
 
 **At marketed-library scale, no repurposing candidate retains a favourable computational margin across the counter-screen.** Running the *same* funnel over the entire ~6,000-compound Broad Drug Repurposing Hub — with a 9-target anti-target/promiscuity panel added as a selectivity axis — **no shortlisted repurposing candidate retained a favourable computational margin across the selected 9-target counter-screen panel** (every paralogue-margin survivor, e.g. SNX-5422 / AGI-5198, engages ≥1 panel off-target more tightly than NR4A3 in this docking, whereas `denovo_401` does not). This is a screen-level computational result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** (not proves the necessity of) the de-novo route (§2.5); full screen in **SI §S1**.
 
