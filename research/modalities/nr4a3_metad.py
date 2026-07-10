@@ -210,7 +210,15 @@ def main():
         sim.step(100000)
 
     steps = int(NS * 1e6 / 2)
-    sim.reporters.append(app.DCDReporter(DCD, 25000, append=resume))   # continue the same trajectory
+    # Append to the existing trajectory ONLY if we're resuming AND the DCD actually survived to this instance.
+    # A spot resume can restore the metad restart set (system/HILLS/checkpoint) without the DCD (it may not have
+    # synced before the kill), and DCDReporter(append=True) on a missing file raises FileNotFoundError and dies
+    # (the Phase-2 shakeout crashed this way at ~6.6/8 ns). Fall back to a fresh DCD; the CV data lives in COLVAR.
+    dcd_append = bool(resume) and os.path.exists(DCD)
+    if resume and not dcd_append:
+        print("  NOTE: resume but no DCD present — starting a fresh trajectory file (COLVAR/HILLS unaffected)",
+              file=sys.stderr)
+    sim.reporters.append(app.DCDReporter(DCD, 25000, append=dcd_append))
     sim.reporters.append(app.CheckpointReporter(CHECKPOINT, 50000))    # crash-safe checkpoint / 100 ps
     sim.reporters.append(app.StateDataReporter(sys.stdout, 50000, step=True,
                          temperature=True, potentialEnergy=True, speed=True))
