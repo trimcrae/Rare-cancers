@@ -1,0 +1,86 @@
+name: NR4A3 8XTT conformer-ensemble endpoint scoring (AWS SageMaker)
+
+# Score denovo_401's NR4A3-favoured ENDPOINT (MM-GBSA) score across ALL ~20 deposited 8XTT NMR conformers,
+# each with a per-conformer decoy null (reviewer P1.12). Docks denovo_401 + a decoy subset into every 8XTT
+# conformer (protein-only, boxed on the mapped Pocket-5 lining set), MM-GBSA single-snapshot GBn2
+# endpoint-scores each pose, and per conformer ranks denovo_401 against the decoy endpoint-score null; then
+# aggregates #{conformers clearing the null} and denovo_401's rank distribution. NO input channels — 8XTT
+# (RCSB) + AF-Q92570 (AFDB, reference sequence only) are fetched at runtime. Managed spot Training (GPU;
+# MM-GBSA has no CPU fallback), checkpointed per (conformer, ligand) so a spot kill/timeout costs <=1 leg
+# and a re-dispatch resumes. HONEST SCOPE: endpoint-score ROBUSTNESS across the experimental ensemble —
+# enthalpy-only TRIAGE energy, NO paralogue comparator; not a binding or selectivity proof.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+# Output: s3://<bucket>/<output_prefix>/nr4a3-8xtt-conformer-scoring.json.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker instance type (GPU required; ml.g5.xlarge default — no CPU fallback)"
+        default: "ml.g5.xlarge"
+        required: false
+      spot:
+        description: "1 = managed spot Training (cheaper/parallel; safe — resumes per (conformer,ligand)); 0 = on-demand"
+        default: "1"
+        required: false
+      models:
+        description: "8XTT conformers to score ('all' default = every deposited NMR model; or '2,8,20,6')"
+        default: "all"
+        required: false
+      decoy_count:
+        description: "decoys per conformer (default 15; drop to 12 to save GPU $, raise for a tighter percentile)"
+        default: "15"
+        required: false
+      max_runtime:
+        description: "per-attempt wall cap (s); a timeout just checkpoints and you re-dispatch to resume"
+        default: "57600"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the results (also the resume/checkpoint dir)"
+        default: "nr4a3-8xtt-conformer-scoring"
+        required: false
+      compute_timeout:
+        description: "overall compute wall-clock seconds (empty = entry default ~11h)"
+        default: ""
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit SageMaker 8XTT conformer-scoring job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
+          MODELS: ${{ inputs.models }}
+          DECOY_COUNT: ${{ inputs.decoy_count }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          COMPUTE_TIMEOUT: ${{ inputs.compute_timeout }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_8xtt_conformer_scoring_sagemaker.py
