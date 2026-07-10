@@ -1175,14 +1175,20 @@ cited without a formal article title (conference/early-access or database entrie
 16. Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of
     the Art and Current Research on Biology and Clinical Management.* Cancers 12(9):2703 (2020). PMC7563993;
     doi 10.3390/cancers12092703.
-17. Huang S-C, et al. Mod Pathol 36(7):100161 (2023). PMID 36948401. [EMC fusion-partner frequency.]
-18. Agaram NP, et al. Hum Pathol 45(5):1084–1091 (2014). PMID 24746215; PMC4015728. [EMC variant-fusion
-    series; NR4A3 as the shared 3′ driver.]
-19. Wei S, et al. Genes Chromosomes Cancer (2021). PMID 34124809. [Novel SMARCA2-NR4A3 fusion.]
-20. Warmke LM, et al. Genes Chromosomes Cancer (2023). doi 10.1002/gcc.23144. [TAF15::NR4A3 clusters with EMC
-    by DNA methylation.]
-21. Ott G, et al. JCO Precis Oncol (2022). PMID 36103645; doi 10.1200/PO.22.00039. [Novel PGR-NR4A3; patient
-    benefit was via a partner-specific tamoxifen mechanism.]
+17. Huang S-C, et al. *Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations
+    and Significance of TAF15::NR4A3 Fusion.* Mod Pathol 36(7):100161 (2023). PMID 36948401.
+18. Agaram NP, et al. *Extraskeletal Myxoid Chondrosarcoma with Non-EWSR1-NR4A3 Variant Fusions Correlate
+    with Rhabdoid Phenotype and High-Grade Morphology.* Hum Pathol 45(5):1084–1091 (2014). PMID 24746215;
+    PMC4015728. [EMC variant-fusion series; NR4A3 as the shared 3′ driver.]
+19. Wei S, et al. *SMARCA2-NR4A3 is a novel fusion gene of extraskeletal myxoid chondrosarcoma identified by
+    RNA next-generation sequencing.* Genes Chromosomes Cancer 60(10):709–712 (2021). PMID 34124809;
+    doi 10.1002/gcc.22976.
+20. Warmke LM, et al. *TAF15::NR4A3 gene fusion identifies a morphologically distinct subset of extraskeletal
+    myxoid chondrosarcoma mimicking myoepithelial tumors.* Genes Chromosomes Cancer 62(10):581–588 (2023).
+    doi 10.1002/gcc.23144. [Clusters with EMC by DNA-methylation profiling.]
+21. Ott G, et al. *Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and
+    Resultant Patient Benefit From Tamoxifen Therapy.* JCO Precis Oncol (2022). PMID 36103645; PMC9489176;
+    doi 10.1200/PO.22.00039. [Patient benefit was via a partner-specific tamoxifen mechanism.]
 22. Brenca M, et al. *NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between
     EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.* J Pathol 248:239–251 (2019).
     PMID 31020999; PMC6766969; doi 10.1002/path.5284.
@@ -1193,7 +1199,9 @@ cited without a formal article title (conference/early-access or database entrie
     567:530–534 (2019). doi 10.1038/s41586-019-0985-x.
 25. Mullican SE, et al. *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
     myeloid leukemia.* Nat Med 13:730–735 (2007). PubMed 17515897; doi 10.1038/nm1579.
-26. Freire PR, Conneely OM. Blood 131(10):1081 (2018). PMID 29343483. [Myeloid NR4A1/NR4A3 redundancy.]
+26. Freire PR, Conneely OM. *NR4A1 and NR4A3 restrict HSC proliferation via reciprocal regulation of C/EBPα
+    and inflammatory signaling.* Blood 131(10):1081–1093 (2018). PMID 29343483; PMC5863701.
+    [Myeloid NR4A1/NR4A3 redundancy.]
 27. Safe S, Karki K. *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* Mol Cancer Res
     19(2):180–191 (2021). PMC7864866; doi 10.1158/1541-7786.mcr-20-0707. [Review/secondary.]
 28. Aldeghi M, Heifetz A, Bodkin MJ, Knapp S, Biggin PC. *Predictions of Ligand Selectivity from Absolute
