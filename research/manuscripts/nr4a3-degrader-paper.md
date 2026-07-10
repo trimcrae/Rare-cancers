@@ -1014,9 +1014,10 @@ calibration record: [`../modalities/nr4a3-abfe-calibration.json`](../modalities/
 scaffold-decorated variant that multi-snapshot MM-GBSA had nominated as a tighter, still-selective lead (`lo_m0_NCCO`, projected
 ~+5.5 kcal/mol *tighter* than `denovo_401` by MM-GBSA) was put through the **identical** engine, opened-NR4A3 frame, and
 Boresch/double-decoupling scheme, as an affinity-grade check on that MM-GBSA ranking. One converged replicate returns raw
-ΔG_bind(NR4A3) = **+2.85 ± 0.28** (offset-corrected ≈ **−4.3** kcal/mol) and ΔΔG(NR4A3 − NR4A1) = **−6.7** kcal/mol
-[ΔΔG(NR4A3 − NR4A2) pending — the NR4A2 leg is completing]. Both land **within statistical noise of `denovo_401`** (+2.6 /
-offset-corrected −4.5; ΔΔG −6.9): the ortho-acetamido decoration is **affinity- and selectivity-neutral at ABFE grade** — free
+per-receptor raw ΔG_bind = **+2.85 ± 0.28** (NR4A3; offset-corrected ≈ **−4.3** kcal/mol), **+9.57 ± 0.32** (NR4A1),
+**+8.27 ± 0.50** (NR4A2) → ΔΔG(NR4A3 − NR4A1) = **−6.7** and ΔΔG(NR4A3 − NR4A2) = **−5.4** kcal/mol (both favour NR4A3). Every
+one of these lands **within statistical noise of `denovo_401`** (NR4A3 +2.6 / offset-corrected −4.5; NR4A1 +9.5; NR4A2 +8.1;
+ΔΔG −6.9 / −5.5): the ortho-acetamido decoration is **affinity- and selectivity-neutral at ABFE grade** — free
 energy does **not** reproduce the MM-GBSA-predicted tightening, a concrete instance of the MM-GBSA absolute scale over-ranking a
 sub-kcal difference that ABFE declines to confirm. `denovo_401` therefore **remains the program's strongest candidate**;
 `lo_m0_NCCO` is a validated *equal*, not an advance. (Caveats favour reading this as a tie rather than a regression: the
