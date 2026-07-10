@@ -33,7 +33,7 @@ def main():
         sys.exit("SAGEMAKER_ROLE_ARN not set (the SageMaker execution-role ARN)")
     instance = os.environ.get("INSTANCE", "ml.c5.2xlarge")     # CPU; this step never needs a GPU
     max_runtime = int(os.environ.get("MAX_RUNTIME", str(3 * 3600)))
-    release_prefix = os.environ.get("RELEASE_PREFIX", "nr4a3-8xtt-release")
+    release_prefix = os.environ.get("RELEASE_PREFIX", "nr4a3-8xtt-release/8xtt_release-ckpt")  # seed-MD (Training job) writes under the checkpoint subprefix
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-abfe-8xtt-receptor")
     git_ref = os.environ.get("GIT_REF", "main")
     d_star = os.environ.get("D_STAR", "0.53")
