@@ -1,0 +1,37 @@
+{
+  "_title": "Cross-replica WTMetaD F(Rg) comparison (round-4 comments 4/7)",
+  "_method": "Per-replica reweighted F(Rg) (final block of nr4a3_metad_analysis fes_blocks.json); basin = min F over Rg[0.60,0.95]; \u0394F relative to basin at druggable(0.72)/frontier(1.06).",
+  "per_replica": {
+    "r1": {
+      "basin_rg_nm": 0.87,
+      "dF_druggable_kcal": 16.03,
+      "dF_frontier_kcal": 23.92
+    },
+    "r2": {
+      "basin_rg_nm": 0.73,
+      "dF_druggable_kcal": 0.06,
+      "dF_frontier_kcal": 41.38
+    },
+    "r3": {
+      "basin_rg_nm": 0.74,
+      "dF_druggable_kcal": 0.83,
+      "dF_frontier_kcal": 46.37
+    }
+  },
+  "cross_replica": {
+    "basin_rg_nm": [
+      0.87,
+      0.73,
+      0.74
+    ],
+    "basin_rg_spread_nm": 0.14,
+    "dF_druggable_kcal": [
+      16.03,
+      0.06,
+      0.83
+    ],
+    "dF_druggable_spread_kcal": 15.97,
+    "agree": false
+  },
+  "_interpretation": "The replicas do NOT reconstruct a common F(Rg): basin location and the basin\u2192druggable \u0394F differ by many kcal/mol across independent seeds, consistent with the large residual block-to-block drift (~14-18 kJ/mol over 20-30 ns). The prior single-trajectory ~0.6 kcal/mol is therefore a single-profile estimate not reproduced across replicas; Gate 3B (equilibrium accessibility) is unresolved."
+}
