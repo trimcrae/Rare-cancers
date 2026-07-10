@@ -721,11 +721,13 @@ is an independent OpenMM simulation that, every iteration, evaluates the reduced
 a small per-window checkpoint; MBAR then reduces the per-window samples to each leg's ΔG with a per-iteration
 convergence trace. We adopted this specifically for **spot-interruption robustness** — small per-window
 checkpoints resume losing ≤1 iteration, whereas the earlier monolithic-`.nc` replica-exchange stack (Yank) lost
-long spot runs to all-or-nothing checkpointing — and the engine is **calibrated on two known systems** ([`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json)):
-a **hydration-free-energy** gate (methane ΔG_hyd = **+1.60 ± 0.04** kcal/mol vs experimental +2.0, FreeSolv — a **−0.40**
-kcal/mol solvation offset, well within GAFF/TIP3P norms, confirming the ligand-in-water decoupling machinery is sound) and,
-newly, a **protein-ligand binding** gate (below) that measures the engine's systematic offset on an *absolute* ΔG_bind before
-any absolute is over-read. The
+long spot runs to all-or-nothing checkpointing — and the engine was **evaluated on two benchmark systems**, with
+**opposite outcomes** ([`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json)):
+a **hydration-free-energy** benchmark (methane ΔG_hyd = **+1.60 ± 0.04** kcal/mol vs experimental +2.0, FreeSolv — a **−0.40**
+kcal/mol offset, well within GAFF/TIP3P norms; **approximately reproduced**, indicating the ligand-in-water decoupling
+machinery is sound) and a **protein–ligand binding** benchmark (T4-lysozyme L99A + benzene; below) that **fails by ≈ +7.1
+kcal/mol**. Because one benchmark passes and the other fails, this is a **benchmark evaluation, not a successful calibration**:
+it measures the engine's systematic offset on an *absolute* ΔG_bind and shows the absolute scale is **not** validated. The
 NR4A3-vs-paralogue **ΔΔG** is the selectivity read-out (CUDA on the A10G; SageMaker managed-spot *Training* with
 continuous per-window S3 checkpointing). **Completed three-replicate result (2 ns/window, n_iter = 2000; three independent-seed replicates r1/r2/r3, error bars = between-replicate SD, n = 3):** raw-engine per-replicate means are ΔG_bind(NR4A3) = **+3.5 ± 1.4**, ΔG_bind(NR4A1) = **+8.3 ± 1.1**, ΔG_bind(NR4A2) = **+8.5 ± 0.7** kcal/mol → **ΔΔG(NR4A3 − NR4A1) = −4.76 ± 2.03** and **ΔΔG(NR4A3 − NR4A2) = −4.98 ± 0.68** kcal/mol (both favour NR4A3). The **direction is unanimous across all three replicates** — so, read at its correct weight, **the
 calculation consistently favours binding to the selected opened NR4A3 conformer over the selected opened
@@ -751,18 +753,24 @@ To gauge whether the engine reports meaningful *absolute* affinities, we ran it 
 (12 windows, 1000 iterations, same baked engine). It returns **ΔG_bind = +1.90 ± 0.09 kcal/mol** — i.e. the engine
 **under-binds this benchmark by ≈ +7.1 kcal/mol** (rigorous literature ABFE on this system is −5 to −6.5 kcal/mol).
 We treat this as what it is: a **failed / strongly-biased absolute benchmark**, indicating the automated,
-single-replicate, 1-ns/window protocol is **not yet validated for absolute affinity** (it under-samples cavity
-water / ligand orientation). We explicitly **do not** treat +7.1 kcal/mol as a universal additive engine offset:
+single-replicate, 1-ns/window protocol is **not yet validated for absolute affinity**. Potential contributors
+include incomplete cavity-water and ligand-orientation sampling, restraint/standard-state handling, the λ
+schedule, and force-field limitations, **although the present benchmark does not isolate the source of the
+bias**. We explicitly **do not** treat +7.1 kcal/mol as a universal additive engine offset:
 a single system cannot establish a target-independent constant, because absolute-ΔG error (force field, water
 sampling, receptor reorganization, restraint/standard-state handling, finite sampling) is system-dependent.
 Accordingly we **make no offset-corrected absolute claim** and rest the selectivity conclusion on the **ΔΔG**.
-Two consequences follow. **(i) The ΔΔG is robust to common-mode error, argued empirically (not "cancels
-exactly").** A per-engine bias cancels in a receptor-vs-receptor difference only to the extent it is *common*
-across the three receptors; because the ligand, restraint scheme, and ligand-in-water leg are literally
-identical, much common-mode error (charge/protonation, solvent decoupling) is expected to cancel — and this is
-**borne out for NR4A2** (ΔΔG SD 0.68 < either leg's absolute SD) but **not fully for NR4A1**, where one
-anti-correlated replicate defeats the cancellation in an n = 3 sample. So we claim *substantial*, not *exact*,
-cancellation. **(ii) The ΔΔG is a *conditional* binding selectivity, not the full thermodynamic selectivity.**
+Two consequences follow. **(i) The receptor contrast may benefit from partial common-mode cancellation.**
+Because the ligand-in-water (solvent-decoupling) leg is **literally shared** and the restraint scheme is
+identical, the contrast is, algebraically, ΔΔG(3−1) = −ΔG_cplx,3 + ΔG_cplx,1 − SSC₃ + SSC₁ (the shared
+ΔG_solv drops out), so a per-engine bias cancels **only to the extent it is common across the receptors'
+complex legs and standard-state corrections** — which system-dependent complex-leg error is not guaranteed to
+be. The **smaller observed NR4A2 contrast SD (0.68 < either absolute leg's SD)** is *consistent with, but does
+not prove,* cancellation of shared errors; the NR4A1 contrast SD is wider (± 2.03), where one anti-correlated
+replicate defeats any cancellation in an n = 3 sample. We therefore claim only lower *observed* run-to-run
+variation in the NR4A2 contrast, **not** demonstrated cancellation of systematic complex-leg error. The
+explicit per-receptor component decomposition (ΔG_cplx and SSC per receptor, with the Boresch restraint
+anchors) is tabulated in **SI §S7**. **(ii) The ΔΔG is a *conditional* binding selectivity, not the full thermodynamic selectivity.**
 The calculation compares `denovo_401` binding to *selected opened* NR4A3/NR4A1/NR4A2 conformers, so it estimates
 ΔG_bind **conditional on the receptor already being in its opened state** — it **omits the receptor-specific
 free-energy cost of populating that cryptic-opened conformation**. For a paper whose premise is a cryptic pocket,
@@ -782,13 +790,15 @@ different* proteins, so there is no ligand pair to alchemically morph — standa
 which transforms ligand A→B within one pocket, does not apply. The relative alternative that *would* fit is
 **alchemical protein-mutation FEP** (morph the divergent NR4A3→NR4A1/2 pocket residues, bound vs apo, for a
 direct ΔΔG). We deliberately use per-receptor ABFE instead, for three reasons. (i) *Conformational.* Each
-paralogue is engaged in its own **induced/opened** conformation of a cryptic LBD pocket (§2.1–2.2); alchemical
+paralogue is engaged in its own **opened** conformation of a cryptic LBD pocket (§2.1–2.2); alchemical
 mutation assumes the two proteins are related by point substitutions along a smooth path in a *shared*
-conformation and is fragile to backbone/induced-state differences — precisely the regime here — whereas ABFE
+conformation and is fragile to backbone/opened-state differences — precisely the regime here — whereas ABFE
 models each receptor independently in its own opened frame. (ii) *Precedent.* ABFE is an established route to
-selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al. 2017), so this is a paved-road application, not a bespoke one. (iii) *Bonus observable.* ABFE
-additionally yields each **absolute** ΔG_bind — i.e. whether `denovo_401` engages NR4A3 at all — which the
-relative framing never produces. The one cost of ABFE (larger per-leg error than a relative calculation) is
+selectivity across related/paralogous pockets (e.g. bromodomain-selectivity ABFE — Aldeghi et al. 2017), so this is a paved-road application, not a bespoke one. (iii) *Absolute observable, in principle only.* ABFE
+would additionally provide an **absolute** ΔG_bind for each receptor; **in this study, however, the failed
+T4L benchmark prevents quantitative interpretation of that absolute observable**, so we use **only
+receptor-to-receptor contrasts** and make no claim about whether `denovo_401` engages any receptor in
+absolute terms. The one cost of ABFE (larger per-leg error than a relative calculation) is
 partly recovered here: because the ligand is identical across all three experiments, the solvent-decoupling
 leg is literally the same calculation for each receptor and cancels in the ΔΔG, along with common-mode
 ligand-charge/protonation error, so the *selectivity* ΔΔG is better-behaved than either raw absolute number.
