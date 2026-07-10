@@ -1,4 +1,4 @@
-# Supporting Information — Opening a cryptic pocket in the "undruggable" NR4A3: computational design of a paralogue-selective binder
+# Supporting Information — In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket
 
 **Tristan D. McRae**
 
@@ -451,9 +451,56 @@ NR4A1 8.28 vs 8.3) — i.e. the §4 reduction is faithfully reproducible from th
 **λ-overlap.** MBAR nearest-neighbour overlap is healthy across most windows (adjacent overlaps ≈0.20–0.26,
 a well-behaved near-tridiagonal overlap matrix), **but drops to a minimum adjacent overlap of 0.003** at one
 window pair in the complex-NR4A2 leg (and ≈0.01 in a few other complex legs) — a **locally under-overlapped
-region** where MBAR interpolates across a gap, adding uncertainty to those *absolute* legs specifically. This
-is an honest sampling caveat: it reinforces resting the selectivity claim on the **ΔΔG** (where common-mode
-error and the shared solvent leg cancel) rather than the absolute ΔG_bind, and flags the decoupling-endpoint
-λ-spacing as the place to add windows in any affinity-grade refinement. Per-leg overlap matrices, effective
+region** where MBAR interpolates across a gap in the **complex-NR4A2** leg specifically. Because
+**ΔΔG(NR4A3 − NR4A2) = −ΔG_cplx,3 + ΔG_cplx,2 − SSC_3 + SSC_2**, an error in the NR4A2 complex leg propagates
+**directly into the NR4A3–NR4A2 contrast** — it is receptor-specific and does **not** cancel via the shared
+solvent leg. This window pair therefore **directly limits confidence in the NR4A3–NR4A2 ΔΔG (not only the
+absolute legs)**; the −4.98 ± 0.68 NR4A2 contrast is an **initial estimate held provisional** until the
+λ-repair (add windows at that decoupling endpoint and re-reduce) lands. (What *does* cancel in the ΔΔG is the
+shared solvent leg and any common charge/protonation error — not system-dependent complex-leg pathologies like
+this one.) Per-leg overlap matrices, effective
 sample sizes, and forward/reverse convergence traces are in `results/nr4a3-abfe/diagnostics/`
 (`overlap_*.png`, `ess_*.png`, `convergence_*.png`).
+
+## S8. Single-snapshot de-novo archaeology — the falsification record (not carried in the main text)
+
+The main text collapses the early single-snapshot de-novo screening to one sentence (it was non-specific and
+no nomination was accepted); the per-molecule forensic detail is preserved here as the falsification record.
+
+**The three single-snapshot `confirmed_selective` hits, and why none was accepted.** The first pass docked the
+top-20 generations into the NR4A3-release / NR4A1 / NR4A2 pockets and MM-GBSA-rescored all 20; three came back
+`confirmed_selective` with none reversing (census: confirmed_selective 3 · rescued 7 · weakened 1 ·
+confirmed_nonselective 9 · reversed 0). Medicinal-chemistry triage (RDKit, 2026-06-29) then split them into
+*strong-but-artifactual* and *clean-but-weak*, with **none simultaneously chemically viable and a strong
+selective binder** — the characteristic behaviour of a pretrained pocket-conditioned diffusion model
+(DiffSBDD) with no stability/synthesizability term in its objective:
+
+- **`denovo_15`** — SMILES `C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`; QED 0.774, SAscore
+  **5.08 (above the campaign's ≤4.5 cut)**, contacts 4/5 handles; docking margin +1.0, single-snapshot MM-GBSA
+  margin +10.7 kcal/mol (magnitude inflated by the single-snapshot approximation). **Liabilities:** a carbamic
+  acid (`NC(=O)O`, hydrolytically unstable), a 1,3-cyclopentadiene (reactive diene), an imine, an exocyclic
+  alkene, and no aromatic ring — optimised to fit/score, not to be stable or makeable. Read as a chemotype/pose
+  hypothesis to be re-designed, not a developable molecule.
+- **`denovo_94`** — MM-GBSA margin +5.02, 4 handles; carries a **peroxide (1,2-dioxane)** plus N,S- and
+  O,S-acetals — non-viable.
+- **`denovo_57`** — SMILES `NC[C@@H]1CCN(Cc2ccccc2)C1` (3-(aminomethyl)-1-benzylpyrrolidine); SAscore **2.09**,
+  aromatic, basic amine, no flagged liabilities — the **one chemically clean, readily synthesizable** hit, but
+  the **weakest** signal (margin +1.07), engaging only 2/5 handles and in the docking "none" cell.
+- **`denovo_189`** — the drug-likeness top hit — instead landed in the docking anti-target cell and did not come
+  back selective (a reminder that drug-likeness ≠ selectivity).
+
+**The decoy control that retracted the "MM-GBSA-confirmed selective" headline.** 38 non-NR4A marketed drugs
+pushed through the identical dock → single-snapshot MM-GBSA funnel scored `confirmed_selective` in **39 %
+(15/38)** of cases (caffeine, ibuprofen, lidocaine, phenytoin among them), while the developability-gated
+de-novo set scored `confirmed_selective` in only **2/11 (18 %)** — i.e. **below the decoy baseline and not
+enriched**. The single-snapshot, single-pose MM-GBSA plus the asymmetric receptor (NR4A3 in its druggable
+release frame vs the paralogue metad frames) systematically favours NR4A3, so the verdict has **no
+demonstrated specificity** — which is why the artifact `denovo_15` had scored selective. Against an empirical
+decoy 95th-percentile bar (+13.1 kcal/mol; raw rank + ECDF + bootstrap also reported), the clean
+fluoro-phenyl-pyrrolidine **`denovo_111`** (QED 0.87 / SA 2.9; margin +15.7; ranked above 37/38 decoys) was the
+one candidate above the null in that harvest — but it was **subsequently withdrawn** when the pre-FEP
+species-resolution sweep showed its physiological **cation reverses** selectivity (multi-snapshot −15.01 ±
+5.14; binds NR4A1 more tightly than NR4A3). A later generation produced **`denovo_401`**, which additionally
+survives multi-snapshot de-noising and independent-seed replication, leaving it the sole candidate advanced to
+ABFE. **No single-snapshot nomination was accepted**; the load-bearing claim is the funnel + the falsification
+controls, not any of these molecules.

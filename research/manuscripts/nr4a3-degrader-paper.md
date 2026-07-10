@@ -1,4 +1,4 @@
-# In-silico ligand design for a cryptic, paralogue-selective NR4A3 pocket
+# In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket
 
 **Tristan D. McRae**
 
@@ -522,44 +522,18 @@ so we treat the direction of this asymmetry as **a limitation of uncertain direc
 demonstrated only for the lead: a fully criterion-matched re-dock (NR4A3 metad-opened) **has since been run for
 `denovo_401`** (§2.6) and it stays NR4A3-selective there too (+7.44 ± 4.18), so for that one candidate the call is not a receptor-frame
 artifact.)* The result is qualitatively different
-from the repurposed library: **3 candidates are *confirmed_selective* (`denovo_15`, `denovo_94`,
-`denovo_57`) and NONE reverse** (census: confirmed_selective 3 · rescued 7 · weakened 1 ·
-confirmed_nonselective 9 · **reversed 0**). The lead **`denovo_15`** (SMILES
-`C=C(CC1=CC=C(NC(=O)O)C1)[C@H]1C=C2C(=NC1)OC[C@H](C)[C@@H]2C`; QED 0.774, SAscore 5.08, contacts 4 of the 5
-handles) is NR4A3-selective at *both* tiers — docking selectivity margin +1.0 (the dock-tier `nr4a3_selective`
-lead; in absolute engagement NR4A2 is weakly co-engaged at the permissive −7 kcal/mol cutoff, so its matrix
-*cell* is NR4A2+NR4A3, but NR4A3 is the favoured paralogue at both tiers) and **MM-GBSA margin +10.7
-kcal/mol** (magnitude inflated by the single-snapshot approximation; the *direction* is the robust part).
-The chemistry-promise top hit (`denovo_189`) instead landed in the docking anti-target cell and did not come
-back selective, a useful reminder that drug-likeness ≠ selectivity. This is the program's **first *designed*
-NR4A3-selective warhead candidate** — a screening-grade, pose-aware prediction across two energy tiers,
-**not** a synthesized or affinity-validated molecule (selectivity FEP, then the ternary-complex /
-degradation-selectivity step, remain the gates ahead).
-
-**Read `denovo_15` as a chemotype/pose hypothesis, not a developable molecule.** A medicinal-chemistry pass
-on the SMILES (RDKit) flags several **generative-model liabilities**: a **carbamic acid** (`NC(=O)O`, the
-polar "handle" — hydrolytically unstable, decomposing to the amine + CO₂), a **1,3-cyclopentadiene** (a
-reactive diene), an **imine** and an **exocyclic alkene**, and **no aromatic ring at all** — and its
-**SAscore 5.08 sits above the campaign's own ≤4.5 synthesizability cut** (QED 0.774 is favourable but does
-not screen for stability/reactivity). These are characteristic DiffSBDD artifacts: the molecule is optimised
-to *fit and score* in the pocket, not to be stable or makeable. The honest contribution is therefore the
-**funnel and the selectivity *direction* it produces** (de-novo matter that survives MM-GBSA without
-reversing, where repurposed matter reversed), with `denovo_15` as a **selective chemotype/pose hypothesis to
-be re-designed into a stable, synthesizable analogue** — not a warhead ready for synthesis.
-
-**The other two `confirmed_selective` hits do not rescue this** (full RDKit triage, 2026-06-29): **`denovo_94`**
-(MM-GBSA margin +5.02, 4 handles) carries a **peroxide (1,2-dioxane)** plus N,S- and O,S-acetals — equally
-non-viable; **`denovo_57`** (`NC[C@@H]1CCN(Cc2ccccc2)C1`, a 3-(aminomethyl)-1-benzylpyrrolidine) is the **one
-chemically clean, readily synthesizable** hit (SAscore 2.09, aromatic, basic amine, no flagged liabilities) —
-but it is the **weakest** selectivity signal (margin +1.07), engages only **2** of the 5 handles, and falls in
-the docking "none" cell. So the three confirmed-selective hits split into *strong-but-artifactual*
-(denovo_15/94) and *clean-but-weak* (denovo_57); **none is simultaneously chemically viable and a strong
-selective binder.** This is the expected behaviour of a pretrained pocket-conditioned diffusion model with no
-stability/synthesizability term in its objective. The load-bearing, honest claim is therefore the **method**
-(the funnel produces de-novo matter whose NR4A3-selectivity survives an endpoint energy model, unlike the
-repurposed library), not a specific developable molecule. **Next de-novo steps:** add a stability/reactivity
-filter to `denovo_funnel.score_molecule` (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals,
-non-aromatic warheads, SA > 4.5) and **re-generate**, aiming for a hit that is clean *and* strongly selective.
+from the repurposed library: the funnel returns **de-novo matter that survives single-snapshot MM-GBSA without
+reversing** (census: confirmed_selective 3 · rescued 7 · weakened 1 · confirmed_nonselective 9 · **reversed 0**),
+where the repurposed matter reversed. But a medicinal-chemistry triage of the three `confirmed_selective` hits
+(`denovo_15/94/57`) shows **none is simultaneously chemically viable and a strong selective binder**: the two
+strong-margin hits carry generative-model liabilities (a carbamic acid / reactive diene; a peroxide / acetals)
+and the one clean, synthesizable hit gives the weakest signal — the expected behaviour of a pretrained
+pocket-conditioned diffusion model (DiffSBDD) with no stability term in its objective. **No single-snapshot
+nomination was accepted**, and the per-molecule forensic record (SMILES, liabilities, and the drug-likeness top
+hit `denovo_189` that came back non-selective) is archived in **SI §S8** as the falsification record, not
+carried here. The load-bearing claim is the **funnel and the selectivity direction it produces**, not any single
+molecule — and, as the next paragraph shows, **even that direction fails a decoy specificity control at the
+single-snapshot tier.**
 
 **Specificity control: the single-snapshot MM-GBSA selectivity verdict fails a decoy test, so
 selectivity is NOT established by this tier.** We ran a **specificity control** — 38 diverse **non-NR4A
