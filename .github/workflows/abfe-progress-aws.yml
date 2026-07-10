@@ -62,17 +62,34 @@ jobs:
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
-          import os, json, boto3, datetime
+          import os, sys, json, boto3, datetime
           import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
           from matplotlib.patches import Patch
+          sys.path.insert(0, "research/modalities"); import abfe_eta as ae   # pure ETA math (unit-tested)
           region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
           bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
           s3 = boto3.client("s3")
-          STATE_KEY = os.environ.get("STATE_KEY", "nr4a3-abfe/progress_state.json")  # per-leg pct, for last-hour Δ shading
+          now = datetime.datetime.utcnow()
+          STATE_KEY = os.environ.get("STATE_KEY", "nr4a3-abfe/progress_state.json")  # {_ts, tag:{leg:{pct,iters}}}
           try:
               prev = json.loads(s3.get_object(Bucket=bucket, Key=STATE_KEY)["Body"].read())
           except Exception:
               prev = {}
+          # elapsed since the prior snapshot (for the iters/hour burn rate); None if no/invalid prior timestamp
+          try:
+              dt_hours = (now - datetime.datetime.fromisoformat(prev["_ts"])).total_seconds() / 3600.0
+          except Exception:
+              dt_hours = None
+          def _prev_leg(tag, leg):
+              """(prev_pct, prev_iters) for a leg, tolerating the OLD schema (bare pct float) and the new
+              {pct,iters} dict. Missing -> (None, None)."""
+              v = prev.get(tag, {}).get(leg) if isinstance(prev.get(tag), dict) else None
+              if isinstance(v, dict):
+                  return v.get("pct"), v.get("iters")
+              if isinstance(v, (int, float)):
+                  return float(v), None
+              return None, None
+          eta_lines = []                                         # per-leg ETA strings for the workflow log
           target = int(os.environ["TARGET"])
           tags = [t.strip() for t in os.environ["TAGS"].split(",") if t.strip()]
           LEG_ORDER = ["complex-nr4a3", "complex-nr4a1", "complex-nr4a2", "solvent"]
@@ -119,21 +136,40 @@ jobs:
                   ax.barh(y, 0, color="#ccc"); y += 1; continue
               total, ndone, deepest = v
               pct = 100.0 * total / full
-              pp = min(prev.get(tag, {}).get(leg, pct), pct)     # last-hour pct (default=pct → no Δ on first run)
+              prev_pct, prev_iters = _prev_leg(tag, leg)
+              pp = min(prev_pct if prev_pct is not None else pct, pct)   # last-hour pct (no Δ on first run)
+              rate = ae.per_interval_rate(total, prev_iters, dt_hours)   # iters/hour since the last snapshot
+              eta_h = ae.hours_to_target(total, full, rate)
               col = COL.get(tag, "#888")
               ax.barh(y, pp, color=col, alpha=0.9)               # progress before this hour (solid)
               if pct - pp > 0.05:                                # gain in the last hour (lighter + hatched)
                   ax.barh(y, pct - pp, left=pp, color=col, alpha=0.35, edgecolor=col, linewidth=0.8, hatch="////")
               dtxt = f"   +{pct-pp:.0f}% ↑" if pct - pp > 0.05 else ""
-              ax.text(pct + 1.0, y, f"{pct:.0f}%  ({ndone}/{NW} done, deepest {deepest}){dtxt}",
+              etatxt = f"  ETA {ae.fmt_hours(eta_h)}" if eta_h is not None else ""
+              ax.text(pct + 1.0, y, f"{pct:.0f}%  ({ndone}/{NW} done, deepest {deepest}){dtxt}{etatxt}",
                       va="center", fontsize=8)
               ylabels.append(f"{NAME.get(tag,tag)} · {leg.replace('complex-','')}")
-              cur_state.setdefault(tag, {})[leg] = pct
+              eta_lines.append((f"{NAME.get(tag,tag)}·{leg.replace('complex-','')}", pct, total, full, rate, eta_h))
+              cur_state.setdefault(tag, {})[leg] = {"pct": round(pct, 3), "iters": int(total)}
               y += 1
+          cur_state["_ts"] = now.isoformat()
           try:
               s3.put_object(Bucket=bucket, Key=STATE_KEY, Body=json.dumps(cur_state).encode())
           except Exception as e:
               print("state write failed:", e)
+          # ETA summary for the hourly report (UTC finish; the agent converts to ET). Fleet ETA = slowest leg.
+          finite = [x for x in eta_lines if x[5] not in (None, float("inf"))]
+          print("=== ETA (iters/hour burn rate vs last snapshot) ===")
+          if dt_hours is None:
+              print("  baseline snapshot — no prior state; ETAs available next hour.")
+          for lbl, pct, tot, full_, rate, eta_h in eta_lines:
+              rtxt = f"{rate:.0f} it/h" if rate else ("restart/no-gain" if rate == 0 else "n/a")
+              fin = (now + datetime.timedelta(hours=eta_h)).strftime("%m-%d %H:%M UTC") if eta_h not in (None, float("inf")) else ""
+              print(f"  {lbl:<24} {pct:5.1f}%  {tot}/{full_} it  rate={rtxt:<16} ETA={ae.fmt_hours(eta_h)}  {fin}")
+          if finite:
+              slow = max(finite, key=lambda x: x[5])
+              fleet_fin = (now + datetime.timedelta(hours=slow[5])).strftime("%m-%d %H:%M UTC")
+              print(f"  FLEET (slowest leg {slow[0]}): ~{ae.fmt_hours(slow[5])} → {fleet_fin}")
           ax.legend(handles=[Patch(facecolor="#888", alpha=0.9, label="before this hour"),
                              Patch(facecolor="#888", alpha=0.35, hatch="////", label="gained in last hour")],
                     loc="lower right", fontsize=8, frameon=True)
