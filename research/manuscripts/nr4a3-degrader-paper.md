@@ -249,11 +249,18 @@ the 10→20 then 20→30 ns blocks = 29→14 (r1), 31→15 (r2), 16→18 (r3) kJ
 drifts **~14–18 kJ/mol (≈3.3–4.2 kcal/mol)**, and r3's does not decrease — so each replica shows only a
 *late-time reduction* in drift, not convergence. (The near-zero 30.0→30.2 ns increment is the trivial 0.2 ns
 extension, not a convergence metric.) **(ii) The independent replicas do not reconstruct a common F(Rg).** The
-basin sits at Rg = 0.73 / 0.74 / **0.87** nm and the basin→druggable ΔF(Rg≈0.72) = **0.06 / 0.83 / 16.0
-kcal/mol** (spread ~16 kcal/mol; `nr4a3-metad-crossreplica.json`): r2/r3 place the druggable geometry ~in the
-basin (consistent with the old ~0.6) while r1's basin is more open, putting the same geometry ~16 kcal/mol
-uphill. **So the ~0.6 kcal/mol opening cost is a single-profile estimate not reproduced across seeds**, and
-cross-replica free-energy agreement — hence **Gate 3B (equilibrium accessibility) — remains unresolved.**
+single minimum of each replica's F(Rg) sits at Rg = 0.73 / 0.74 / **0.87** nm (r1/r2/r3) and the free energy
+each profile assigns to the **reference Rg region (Rg ≈ 0.72)** = **0.06 / 0.83 / 16.0 kcal/mol** (spread ~16
+kcal/mol; `nr4a3-metad-crossreplica.json`): r1/r2 place Rg ≈ 0.72 near their minimum (the region of the old
+~0.6 estimate), whereas **r3's minimum is substantially more expanded (0.87 nm)** and places the same reference
+Rg ≈ 16 kcal/mol uphill. Two cautions bound this comparison, both flagged for the harmonized rerun: a fixed Rg
+is **not** established to correspond to the same physical pocket — or to any druggable cavity — in each
+independent replica (the per-replica harmonized pocket scoring that would define an equivalent druggable region
+is pending, §4), and a single F(Rg) minimum is not, on its own, a structural classification of a "closed"
+state. **So the ~0.6 kcal/mol opening cost is a single-profile estimate not reproduced across seeds; the robust
+conclusion is the narrower one — the reconstructed 1-D F(Rg) profiles differ substantially across independent
+replicas** — and cross-replica free-energy agreement — hence **Gate 3B (equilibrium accessibility) — remains
+unresolved.**
 **(iii)** A separately-defined **gate descriptor** (pocket-mouth distance) tracks the same expansion
 (corr(Rg, gate) = 0.94 / 0.96 / 0.94), confirming the Rg excursion is **coherent gate motion** rather than an
 Rg-only numerical artifact — but at ~0.95 correlation it is **nearly collinear with Rg and does not test
