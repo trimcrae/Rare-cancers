@@ -39,6 +39,7 @@ def main():
     n_rep = os.environ.get("N_REP", "3")
     seed_model = os.environ.get("SEED_MODEL", "8")
     run_tag = os.environ.get("RUN_TAG", "8xtt_release")
+    job_tag = run_tag.replace("_", "-")   # SageMaker training-job names forbid underscores
     checkpoint_every = os.environ.get("CHECKPOINT_EVERY", "10")
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-8xtt-release")
 
@@ -51,7 +52,7 @@ def main():
         entry_point="entry_8xtt_seed_md.py", source_dir=os.path.join(here, "sagemaker_src"),
         role=role, framework_version="2.3", py_version="py311",
         instance_count=1, instance_type=instance, sagemaker_session=sess,
-        base_job_name=f"nr4a3-8xtt-md-{run_tag}",
+        base_job_name=f"nr4a3-8xtt-md-{job_tag}",
         use_spot_instances=spot, max_run=max_run, max_wait=max_wait,
         checkpoint_s3_uri=ckpt, checkpoint_local_path="/opt/ml/checkpoints",
         hyperparameters={"ns": ns, "n-rep": n_rep, "seed-model": seed_model,
