@@ -130,6 +130,17 @@ under-binding engine offset (`nr4a3-abfe-calibration.json`, T4L·benzene zero) p
 ~−4.5 kcal/mol** (offset-corrected), selective (ΔΔG −6.9/−5.5). So lo_m0_NCCO is a genuine **lead-optimization**
 (tighter + still selective), not a rescue of a non-binder. The lead-opt result stands; only the framing shifts.
 RBFE anchor updated accordingly (`rbfe_edges.ANCHOR_401_ABFE`).
+
+**★ UPDATE 2026-07-09 (ABFE lead-opt cross-check — it's a TIE, not a "beat"; the header above is the MM-GBSA-era claim).**
+Ran the full ABFE on `lo_m0_NCCO` through the *same* engine/frame/Boresch scheme as 401 (single replicate, 1 ns/window,
+n_iter=1000; tag `nr4a3-abfe-lo-m0-ncco`). Raw ΔG_bind(NR4A3) = **+2.85 ± 0.28** → offset-corrected ≈ **−4.3**;
+ΔG_bind(NR4A1) = **+9.57 ± 0.32**; ΔΔG(NR4A3 − NR4A1) = **−6.7** kcal/mol. All **within noise of 401** (+2.6 / −4.5;
+ΔΔG −6.9): **FEP does NOT confirm the MM-GBSA-predicted ~+5.5 kcal tightening — `lo_m0_NCCO` is affinity- and
+selectivity-EQUAL to 401, not tighter.** 401 remains the program's strongest candidate. Caveats (favour a "tie" over a
+"regression"): `lo_m0` ran at **half** 401's per-window sampling (1 vs 2 ns/window), single replicate, robust MBAR solver
+on marginal window overlap. Folded into paper §4 as a footnote. **TODO — nr4a2 leg completing (~overnight 2026-07-09→10):
+rerun `reduce-abfe-ci.yml` (receptors=nr4a3,nr4a2, target=nr4a3) → fill ΔΔG(NR4A3 − NR4A2) [vs 401's −5.5], update paper §4.**
+
 The earlier conclusion was premature: it tested blind + bigger-molecule generation, but NOT the obvious med-chem
 move — **keep 401's selective core, decorate it toward the divergent handles.** `nr4a3_leadopt.py` enumerated 163
 scaffold-decorations of denovo_401 (phenyl-ring + terminal-arm R-groups; hydrophobic for L406/I484/L534, H-bonders
