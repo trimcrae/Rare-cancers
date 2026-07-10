@@ -1,0 +1,714 @@
+{
+  "_title": "AF2 NR4A3 LBD (AF-Q92570) benchmarked against experimental apo NMR ensemble 8XTT",
+  "_method": {
+    "pdb": "8XTT",
+    "pdb_title": "Nuclear receptor Nor1 ligand binding domain (apo, solution NMR)",
+    "af2_model": "AFDB AF-Q92570, LBD 373-626 (UniProt numbering)",
+    "n_conformers": 20,
+    "n_conformers_processed": 20,
+    "alignment": "global BLOSUM62 (Biopython PairwiseAligner), 8XTT chain vs Q92570 LBD",
+    "alignment_identity": 1.0,
+    "fpocket_site": "pocket whose lining residues most overlap the mapped Pocket-5 residue set",
+    "druggable_reference_boundary": 0.53,
+    "note": "Per-conformer fpocket druggability of the mapped Pocket-5 site is a DISTRIBUTION across the NMR ensemble; compare to the static AF2 0.495. RMSDs are Ca-only after rigid superposition on the mapped LBD Ca set. Apo NMR ensembles show intrinsic ~1-3 A spread \u2014 RMSD is read against that expectation, not zero."
+  },
+  "fpocket_version": "4.0",
+  "harmonized_detection": {
+    "match_mode": "harmonized",
+    "fpocket_version": "4.0",
+    "match_params": {
+      "jaccard_min": 0.25,
+      "frac_recovered_min": 0.3,
+      "centroid_max_ang": 8.0
+    },
+    "note": "Orthosteric site defined by the FIXED Pocket-5 lining set (mapped to 8XTT numbering), NOT by fpocket druggability. Per conformer a cavity is accepted only via the composite Jaccard/recovery + centroid gate; detection reports BOTH denominators.",
+    "d_star": 0.53,
+    "n_propagated": 20,
+    "n_detected": 19,
+    "n_ge_dstar": 3,
+    "detection_fraction": 0.95,
+    "frac_ge_among_detected": 0.15789473684210525,
+    "frac_ge_among_propagated": 0.15
+  },
+  "af2_static_pocket5_druggability": 0.495,
+  "pocket5_residues_uniprot": [
+    406,
+    407,
+    410,
+    411,
+    412,
+    481,
+    484,
+    485,
+    531,
+    534
+  ],
+  "handles_uniprot": [
+    406,
+    407,
+    410,
+    412,
+    484,
+    531,
+    534
+  ],
+  "mapped_pocket5_8xtt": [
+    28,
+    29,
+    32,
+    33,
+    34,
+    103,
+    106,
+    107,
+    153,
+    156
+  ],
+  "mapped_handles_8xtt": [
+    28,
+    29,
+    32,
+    34,
+    106,
+    153,
+    156
+  ],
+  "per_conformer_druggability_distribution": {
+    "n": 19,
+    "min": 0.0,
+    "median": 0.009,
+    "max": 0.925,
+    "q1": 0.005,
+    "q3": 0.164,
+    "iqr": 0.159,
+    "mean": 0.16457894736842105,
+    "frac_ge_threshold": 0.15789473684210525,
+    "threshold": 0.53
+  },
+  "global_ca_rmsd_distribution": {
+    "n": 20,
+    "min": 4.8144922801395635,
+    "median": 7.633329902865742,
+    "max": 10.302670707421692,
+    "q1": 6.697535918093223,
+    "q3": 8.632672230486866,
+    "iqr": 1.9351363123936434,
+    "mean": 7.612691615322625,
+    "frac_ge_threshold": 1.0,
+    "threshold": 0.0
+  },
+  "pocket_ca_rmsd_distribution": {
+    "n": 20,
+    "min": 2.2936492180251338,
+    "median": 3.559913332708936,
+    "max": 4.42795518125439,
+    "q1": 3.1751249204345493,
+    "q3": 3.746121782121244,
+    "iqr": 0.5709968616866945,
+    "mean": 3.4623503978785815,
+    "frac_ge_threshold": 1.0,
+    "threshold": 0.0
+  },
+  "handle_ca_rmsd_distribution": {
+    "n": 20,
+    "min": 2.4577254175785104,
+    "median": 3.4360356008904094,
+    "max": 4.853025706470734,
+    "q1": 3.2058594938951006,
+    "q3": 3.9193087403167377,
+    "iqr": 0.7134492464216371,
+    "mean": 3.4951262189997694,
+    "frac_ge_threshold": 1.0,
+    "threshold": 0.0
+  },
+  "per_handle_displacement_distribution_uniprot": {
+    "406": {
+      "n": 20,
+      "min": 2.2502730961206994,
+      "median": 3.6286266337423623,
+      "max": 4.943428013421827,
+      "q1": 3.3150509039517932,
+      "q3": 3.999867444871475,
+      "iqr": 0.6848165409196816,
+      "mean": 3.615787156193907,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    },
+    "407": {
+      "n": 20,
+      "min": 2.527649719433816,
+      "median": 3.881150867868733,
+      "max": 5.581950054458477,
+      "q1": 3.466406455914514,
+      "q3": 4.308902882858576,
+      "iqr": 0.8424964269440625,
+      "mean": 3.8287824685736056,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    },
+    "410": {
+      "n": 20,
+      "min": 1.8972640537043368,
+      "median": 3.2497152653620605,
+      "max": 4.471803081879908,
+      "q1": 2.9682690819365405,
+      "q3": 3.6467491695260295,
+      "iqr": 0.678480087589489,
+      "mean": 3.2710111383524705,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    },
+    "412": {
+      "n": 20,
+      "min": 1.1640860416904204,
+      "median": 3.8537572804129843,
+      "max": 6.525718099233982,
+      "q1": 3.3253366805281717,
+      "q3": 4.801124390425019,
+      "iqr": 1.4757877098968475,
+      "mean": 4.00523788873887,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    },
+    "484": {
+      "n": 20,
+      "min": 1.2094654309656014,
+      "median": 2.0437307499377058,
+      "max": 2.8856448098086958,
+      "q1": 1.788607498380503,
+      "q3": 2.357842515215036,
+      "iqr": 0.5692350168345333,
+      "mean": 2.068119363253194,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    },
+    "531": {
+      "n": 20,
+      "min": 2.1354180023958387,
+      "median": 3.8396992393029987,
+      "max": 5.255775504728309,
+      "q1": 3.3485693241214234,
+      "q3": 4.083246402353552,
+      "iqr": 0.7346770782321288,
+      "mean": 3.7985930946373805,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    },
+    "534": {
+      "n": 20,
+      "min": 1.3203718591611926,
+      "median": 3.130169415857362,
+      "max": 4.63870705933129,
+      "q1": 2.8325165354386788,
+      "q3": 3.8249699921209768,
+      "iqr": 0.992453456682298,
+      "mean": 3.236359151816253,
+      "frac_ge_threshold": 1.0,
+      "threshold": 0.0
+    }
+  },
+  "per_conformer": [
+    {
+      "model": 1,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.282
+      },
+      "site_druggability": 0.009,
+      "site_pocket": 18,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.786,
+      "global_ca_rmsd": 5.735690028459794,
+      "pocket_ca_rmsd": 3.003134809049459,
+      "handle_ca_rmsd": 3.347878432670947,
+      "handle_displacements_uniprot": {
+        "406": 3.333,
+        "407": 3.55,
+        "410": 3.522,
+        "412": 4.708,
+        "484": 1.6,
+        "531": 3.277,
+        "534": 2.623
+      }
+    },
+    {
+      "model": 2,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.3478,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.965
+      },
+      "site_druggability": 0.925,
+      "site_pocket": 1,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.925,
+      "global_ca_rmsd": 6.793287083729778,
+      "pocket_ca_rmsd": 3.632708604683754,
+      "handle_ca_rmsd": 3.8810922476996654,
+      "handle_displacements_uniprot": {
+        "406": 3.352,
+        "407": 3.709,
+        "410": 4.24,
+        "412": 5.996,
+        "484": 1.965,
+        "531": 3.772,
+        "534": 2.902
+      }
+    },
+    {
+      "model": 3,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.9,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.949
+      },
+      "site_druggability": 0.015,
+      "site_pocket": 20,
+      "site_overlap_residues": 9,
+      "max_druggability": 0.434,
+      "global_ca_rmsd": 5.970926201376084,
+      "pocket_ca_rmsd": 3.0127726496240554,
+      "handle_ca_rmsd": 3.2245700699336965,
+      "handle_displacements_uniprot": {
+        "406": 3.012,
+        "407": 3.295,
+        "410": 3.661,
+        "412": 4.165,
+        "484": 2.098,
+        "531": 3.372,
+        "534": 2.514
+      }
+    },
+    {
+      "model": 4,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.25,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 7.25
+      },
+      "site_druggability": 0.0,
+      "site_pocket": 4,
+      "site_overlap_residues": 4,
+      "max_druggability": 0.848,
+      "global_ca_rmsd": 7.453805354440035,
+      "pocket_ca_rmsd": 3.2620030358965373,
+      "handle_ca_rmsd": 3.231460424851363,
+      "handle_displacements_uniprot": {
+        "406": 3.819,
+        "407": 3.991,
+        "410": 2.611,
+        "412": 3.355,
+        "484": 1.562,
+        "531": 3.692,
+        "534": 2.904
+      }
+    },
+    {
+      "model": 5,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.409
+      },
+      "site_druggability": 0.001,
+      "site_pocket": 11,
+      "site_overlap_residues": 7,
+      "max_druggability": 0.846,
+      "global_ca_rmsd": 8.13661384476412,
+      "pocket_ca_rmsd": 3.884158481453864,
+      "handle_ca_rmsd": 4.072408937914579,
+      "handle_displacements_uniprot": {
+        "406": 4.261,
+        "407": 4.7,
+        "410": 3.228,
+        "412": 4.04,
+        "484": 2.832,
+        "531": 4.812,
+        "534": 4.233
+      }
+    },
+    {
+      "model": 6,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5385,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.029
+      },
+      "site_druggability": 0.537,
+      "site_pocket": 6,
+      "site_overlap_residues": 7,
+      "max_druggability": 0.787,
+      "global_ca_rmsd": 8.01073133348751,
+      "pocket_ca_rmsd": 3.4871180607341183,
+      "handle_ca_rmsd": 3.4016546542149033,
+      "handle_displacements_uniprot": {
+        "406": 4.135,
+        "407": 3.977,
+        "410": 3.086,
+        "412": 3.334,
+        "484": 2.031,
+        "531": 3.842,
+        "534": 2.925
+      }
+    },
+    {
+      "model": 7,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.106
+      },
+      "site_druggability": 0.006,
+      "site_pocket": 11,
+      "site_overlap_residues": 6,
+      "max_druggability": 0.916,
+      "global_ca_rmsd": 6.410282421183558,
+      "pocket_ca_rmsd": 2.842167605016111,
+      "handle_ca_rmsd": 2.4577254175785104,
+      "handle_displacements_uniprot": {
+        "406": 2.76,
+        "407": 2.832,
+        "410": 1.897,
+        "412": 1.164,
+        "484": 1.839,
+        "531": 3.033,
+        "534": 3.018
+      }
+    },
+    {
+      "model": 8,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5333,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 5.882
+      },
+      "site_druggability": 0.744,
+      "site_pocket": 4,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.744,
+      "global_ca_rmsd": 9.063487681151681,
+      "pocket_ca_rmsd": 3.671322547688407,
+      "handle_ca_rmsd": 3.5863109930513826,
+      "handle_displacements_uniprot": {
+        "406": 4.327,
+        "407": 4.486,
+        "410": 3.029,
+        "412": 3.051,
+        "484": 2.096,
+        "531": 3.837,
+        "534": 3.686
+      }
+    },
+    {
+      "model": 9,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5333,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 5.088
+      },
+      "site_druggability": 0.476,
+      "site_pocket": 7,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.476,
+      "global_ca_rmsd": 9.016403277863926,
+      "pocket_ca_rmsd": 3.6421280272441137,
+      "handle_ca_rmsd": 3.149727765779312,
+      "handle_displacements_uniprot": {
+        "406": 3.462,
+        "407": 3.543,
+        "410": 2.451,
+        "412": 2.973,
+        "484": 2.056,
+        "531": 3.871,
+        "534": 3.294
+      }
+    },
+    {
+      "model": 10,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5714,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 4.274
+      },
+      "site_druggability": 0.108,
+      "site_pocket": 18,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.44,
+      "global_ca_rmsd": 7.476743159778866,
+      "pocket_ca_rmsd": 3.40502028804353,
+      "handle_ca_rmsd": 3.2658940236538827,
+      "handle_displacements_uniprot": {
+        "406": 3.573,
+        "407": 3.524,
+        "410": 3.271,
+        "412": 3.578,
+        "484": 1.827,
+        "531": 3.505,
+        "534": 3.217
+      }
+    },
+    {
+      "model": 11,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5833,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.596
+      },
+      "site_druggability": 0.22,
+      "site_pocket": 16,
+      "site_overlap_residues": 7,
+      "max_druggability": 0.32,
+      "global_ca_rmsd": 7.817191091387757,
+      "pocket_ca_rmsd": 3.7158335429116005,
+      "handle_ca_rmsd": 3.4704165475659154,
+      "handle_displacements_uniprot": {
+        "406": 3.853,
+        "407": 3.959,
+        "410": 3.424,
+        "412": 3.298,
+        "484": 2.426,
+        "531": 3.97,
+        "534": 3.089
+      }
+    },
+    {
+      "model": 12,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 1.699
+      },
+      "site_druggability": 0.009,
+      "site_pocket": 6,
+      "site_overlap_residues": 6,
+      "max_druggability": 0.465,
+      "global_ca_rmsd": 9.927325438477851,
+      "pocket_ca_rmsd": 4.091294800424979,
+      "handle_ca_rmsd": 4.162021836747792,
+      "handle_displacements_uniprot": {
+        "406": 4.224,
+        "407": 4.439,
+        "410": 3.642,
+        "412": 5.7,
+        "484": 2.647,
+        "531": 4.027,
+        "534": 3.838
+      }
+    },
+    {
+      "model": 13,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.561
+      },
+      "site_druggability": 0.02,
+      "site_pocket": 8,
+      "site_overlap_residues": 6,
+      "max_druggability": 0.311,
+      "global_ca_rmsd": 10.302670707421692,
+      "pocket_ca_rmsd": 4.42795518125439,
+      "handle_ca_rmsd": 4.853025706470734,
+      "handle_displacements_uniprot": {
+        "406": 4.943,
+        "407": 5.582,
+        "410": 4.472,
+        "412": 5.711,
+        "484": 2.886,
+        "531": 5.178,
+        "534": 4.639
+      }
+    },
+    {
+      "model": 14,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.297
+      },
+      "site_druggability": 0.032,
+      "site_pocket": 16,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.653,
+      "global_ca_rmsd": 7.605773200270698,
+      "pocket_ca_rmsd": 3.4521450687372393,
+      "handle_ca_rmsd": 3.717558771319188,
+      "handle_displacements_uniprot": {
+        "406": 3.942,
+        "407": 4.54,
+        "410": 2.983,
+        "412": 3.694,
+        "484": 2.318,
+        "531": 4.252,
+        "534": 3.821
+      }
+    },
+    {
+      "model": 15,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 1.547
+      },
+      "site_druggability": 0.003,
+      "site_pocket": 16,
+      "site_overlap_residues": 6,
+      "max_druggability": 0.588,
+      "global_ca_rmsd": 5.512176457228906,
+      "pocket_ca_rmsd": 2.2936492180251338,
+      "handle_ca_rmsd": 2.4769918610804496,
+      "handle_displacements_uniprot": {
+        "406": 2.25,
+        "407": 2.528,
+        "410": 3.009,
+        "412": 3.773,
+        "484": 1.378,
+        "531": 2.135,
+        "534": 1.32
+      }
+    },
+    {
+      "model": 16,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4545,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 2.925
+      },
+      "site_druggability": 0.004,
+      "site_pocket": 12,
+      "site_overlap_residues": 5,
+      "max_druggability": 0.609,
+      "global_ca_rmsd": 7.192766248788276,
+      "pocket_ca_rmsd": 3.970476511394446,
+      "handle_ca_rmsd": 4.408054808546084,
+      "handle_displacements_uniprot": {
+        "406": 3.664,
+        "407": 3.974,
+        "410": 4.121,
+        "412": 6.526,
+        "484": 1.673,
+        "531": 5.045,
+        "534": 4.357
+      }
+    },
+    {
+      "model": 17,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.298
+      },
+      "site_druggability": 0.006,
+      "site_pocket": 11,
+      "site_overlap_residues": 8,
+      "max_druggability": 0.842,
+      "global_ca_rmsd": 8.763525375588676,
+      "pocket_ca_rmsd": 3.229242344038047,
+      "handle_ca_rmsd": 2.63272185395727,
+      "handle_displacements_uniprot": {
+        "406": 3.261,
+        "407": 3.113,
+        "410": 2.608,
+        "412": 1.993,
+        "484": 1.827,
+        "531": 2.687,
+        "534": 2.619
+      }
+    },
+    {
+      "model": 18,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.6,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 1.246
+      },
+      "site_druggability": 0.008,
+      "site_pocket": 11,
+      "site_overlap_residues": 6,
+      "max_druggability": 0.947,
+      "global_ca_rmsd": 8.58905451545293,
+      "pocket_ca_rmsd": 3.777051663515416,
+      "handle_ca_rmsd": 3.75658119502073,
+      "handle_displacements_uniprot": {
+        "406": 3.594,
+        "407": 3.803,
+        "410": 3.851,
+        "412": 5.081,
+        "484": 2.335,
+        "531": 3.905,
+        "534": 3.171
+      }
+    },
+    {
+      "model": 19,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4545,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 2.125
+      },
+      "site_druggability": 0.004,
+      "site_pocket": 10,
+      "site_overlap_residues": 5,
+      "max_druggability": 0.495,
+      "global_ca_rmsd": 4.8144922801395635,
+      "pocket_ca_rmsd": 2.7110136961799007,
+      "handle_ca_rmsd": 2.7724706137710236,
+      "handle_displacements_uniprot": {
+        "406": 2.596,
+        "407": 2.763,
+        "410": 3.391,
+        "412": 4.03,
+        "484": 1.209,
+        "531": 2.503,
+        "534": 1.992
+      }
+    },
+    {
+      "model": 20,
+      "site_druggability": null,
+      "max_druggability": 0.86,
+      "global_ca_rmsd": 7.660886605460786,
+      "pocket_ca_rmsd": 3.73581182165652,
+      "handle_ca_rmsd": 4.033958218167956,
+      "handle_displacements_uniprot": {
+        "406": 3.955,
+        "407": 4.265,
+        "410": 2.923,
+        "412": 3.934,
+        "484": 2.756,
+        "531": 5.256,
+        "534": 4.565
+      }
+    }
+  ],
+  "verdict": "partial",
+  "pocket_ok": true,
+  "fold_ok": false,
+  "handle_ok": false,
+  "rationale": [
+    "pocket druggability: experimental median 0.009 (range 0.000-0.925) vs AF2 0.495; brackets the AF2 value, far to it, 16% of conformers >= 0.53 -> consistent",
+    "pocket-local Ca-RMSD median 3.56 A -> divergent backbone",
+    "handle Ca-RMSD median 3.44 A -> handles displaced",
+    "global LBD Ca-RMSD median 7.63 A (context)"
+  ]
+}

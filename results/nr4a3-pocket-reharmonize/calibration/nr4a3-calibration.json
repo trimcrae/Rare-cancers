@@ -1,0 +1,4172 @@
+{
+  "fpocket_version": "4.0",
+  "pocket_match_mode": "harmonized",
+  "_note": "fpocket calibration panel. 'ligand_site_druggability' is the fpocket score of the pocket overlapping the experimentally bound ligand (the validated site); for the druggable controls (PPARg 2PRG, ERa 1ERE) this is a KNOWN-druggable orthosteric NR pocket and sets the reference for what >=0.5 means in our pipeline. Compare the NR4A2 AF2 model max vs the 1OVL crystal max to gauge model over-call. Same fpocket and file->pocket mapping (fpocket_lib) as the main pipeline.",
+  "references": {
+    "1OVL": "Wang Z et al., Nature 423:555-560 (2003) \u2014 Nurr1 LBD, no canonical pocket",
+    "5Y41/5YD6/6DDA": "Nurr1 LBD + prostaglandin-A1 / 5,6-dihydroxyindole co-crystals",
+    "de Vera 2019": "de Vera IMS et al., Structure 27(1):66-77 (2019) \u2014 Nurr1 pocket is dynamic, expands from the collapsed crystal conformation to bind fatty acids",
+    "4JGV": "Nur77/NR4A1 LBD + THPN; 6KZ5 + cytosporone-B (surface pockets)",
+    "2PRG": "Nolte RT et al., PPARgamma LBD + rosiglitazone",
+    "1ERE": "Brzozowski AM et al., Nature 389:753 (1997), ERalpha LBD + 17beta-estradiol"
+  },
+  "druggable_control_ligand_site": {
+    "PPARG_2PRG": 0.599,
+    "ERA_1ERE": 0.586
+  },
+  "nr4a_model_max": {
+    "NR4A3_AF2_Q92570": 0.495,
+    "NR4A2_AF2_P43354": 0.801,
+    "NR4A1_AF2_P22736": 0.657
+  },
+  "nr4a_crystal_apo_max": {
+    "NR4A2_1OVL": 0.864
+  },
+  "nr4a_crystal_holo_ligand_site": {
+    "NR4A2_5Y41": 0.677,
+    "NR4A1_4JGV": 0.529
+  },
+  "nr4a3_orthosteric_static_af2": 0.495,
+  "results": [
+    {
+      "id": "NR4A3_AF2_Q92570",
+      "category": "nr4a_model",
+      "source": "afdb",
+      "key": "Q92570",
+      "note": "our target NOR-1/NR4A3 LBD (AF2)",
+      "n_pockets": 33,
+      "max_druggability": 0.495,
+      "top_pocket": {
+        "pocket": 5,
+        "druggability": 0.495,
+        "alpha_spheres": 31,
+        "resid_span": [
+          406,
+          534
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 5,
+          "druggability": 0.495,
+          "alpha_spheres": 31,
+          "resid_span": [
+            406,
+            534
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.196,
+          "alpha_spheres": 43,
+          "resid_span": [
+            547,
+            625
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.065,
+          "alpha_spheres": 204,
+          "resid_span": [
+            45,
+            595
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.026,
+          "alpha_spheres": 16,
+          "resid_span": [
+            186,
+            191
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.016,
+          "alpha_spheres": 25,
+          "resid_span": [
+            483,
+            534
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.015,
+          "alpha_spheres": 22,
+          "resid_span": [
+            366,
+            375
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.013,
+          "alpha_spheres": 15,
+          "resid_span": [
+            550,
+            554
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.012,
+          "alpha_spheres": 71,
+          "resid_span": [
+            468,
+            623
+          ]
+        },
+        {
+          "pocket": 1,
+          "druggability": 0.007,
+          "alpha_spheres": 18,
+          "resid_span": [
+            423,
+            508
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.007,
+          "alpha_spheres": 39,
+          "resid_span": [
+            510,
+            603
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.007,
+          "alpha_spheres": 26,
+          "resid_span": [
+            418,
+            499
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.006,
+          "alpha_spheres": 38,
+          "resid_span": [
+            325,
+            345
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.005,
+          "alpha_spheres": 23,
+          "resid_span": [
+            463,
+            622
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.003,
+          "alpha_spheres": 18,
+          "resid_span": [
+            323,
+            350
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.003,
+          "alpha_spheres": 23,
+          "resid_span": [
+            241,
+            243
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.003,
+          "alpha_spheres": 23,
+          "resid_span": [
+            112,
+            114
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.003,
+          "alpha_spheres": 21,
+          "resid_span": [
+            398,
+            561
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.003,
+          "alpha_spheres": 28,
+          "resid_span": [
+            516,
+            596
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.002,
+          "alpha_spheres": 29,
+          "resid_span": [
+            408,
+            496
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.002,
+          "alpha_spheres": 28,
+          "resid_span": [
+            243,
+            494
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.001,
+          "alpha_spheres": 19,
+          "resid_span": [
+            433,
+            510
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            334,
+            344
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.001,
+          "alpha_spheres": 24,
+          "resid_span": [
+            332,
+            354
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.001,
+          "alpha_spheres": 26,
+          "resid_span": [
+            449,
+            471
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.001,
+          "alpha_spheres": 21,
+          "resid_span": [
+            317,
+            370
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            528,
+            582
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.0,
+          "alpha_spheres": 33,
+          "resid_span": [
+            44,
+            366
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "resid_span": [
+            363,
+            375
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            3,
+            343
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            286,
+            290
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "resid_span": [
+            397,
+            572
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.0,
+          "alpha_spheres": 27,
+          "resid_span": [
+            420,
+            505
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            110,
+            171
+          ]
+        }
+      ],
+      "harmonized_pocket5_match": {
+        "match_mode": "harmonized",
+        "matched_pocket": 5,
+        "matched_druggability": 0.495,
+        "match_metrics": {
+          "n_overlap": 10,
+          "jaccard": 1.0,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 0.0
+        }
+      },
+      "bound_ligand": null
+    },
+    {
+      "id": "NR4A2_AF2_P43354",
+      "category": "nr4a_model",
+      "source": "afdb",
+      "key": "P43354",
+      "note": "Nurr1/NR4A2 LBD (AF2) \u2014 model whose top pocket scored 0.80",
+      "n_pockets": 40,
+      "max_druggability": 0.801,
+      "top_pocket": {
+        "pocket": 39,
+        "druggability": 0.801,
+        "alpha_spheres": 74,
+        "resid_span": [
+          441,
+          598
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 39,
+          "druggability": 0.801,
+          "alpha_spheres": 74,
+          "resid_span": [
+            441,
+            598
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.016,
+          "alpha_spheres": 29,
+          "resid_span": [
+            35,
+            557
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.006,
+          "alpha_spheres": 44,
+          "resid_span": [
+            37,
+            532
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.005,
+          "alpha_spheres": 20,
+          "resid_span": [
+            376,
+            463
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.002,
+          "alpha_spheres": 19,
+          "resid_span": [
+            305,
+            315
+          ]
+        },
+        {
+          "pocket": 1,
+          "druggability": 0.002,
+          "alpha_spheres": 16,
+          "resid_span": [
+            29,
+            31
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.002,
+          "alpha_spheres": 17,
+          "resid_span": [
+            155,
+            157
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.002,
+          "alpha_spheres": 17,
+          "resid_span": [
+            178,
+            182
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.002,
+          "alpha_spheres": 18,
+          "resid_span": [
+            453,
+            499
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            365,
+            542
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.001,
+          "alpha_spheres": 18,
+          "resid_span": [
+            365,
+            501
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            43,
+            563
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.001,
+          "alpha_spheres": 31,
+          "resid_span": [
+            495,
+            554
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            294,
+            321
+          ]
+        },
+        {
+          "pocket": 40,
+          "druggability": 0.001,
+          "alpha_spheres": 109,
+          "resid_span": [
+            11,
+            598
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            391,
+            477
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            497,
+            551
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.0,
+          "alpha_spheres": 25,
+          "resid_span": [
+            65,
+            68
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            193,
+            195
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            259,
+            278
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            418,
+            439
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            374,
+            466
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.0,
+          "alpha_spheres": 68,
+          "resid_span": [
+            32,
+            553
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            3,
+            316
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            20,
+            22
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            383,
+            468
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.0,
+          "alpha_spheres": 35,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.0,
+          "alpha_spheres": 24,
+          "resid_span": [
+            337,
+            341
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            334,
+            341
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            134,
+            136
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.0,
+          "alpha_spheres": 24,
+          "resid_span": [
+            385,
+            405
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            275,
+            336
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            291,
+            335
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.0,
+          "alpha_spheres": 42,
+          "resid_span": [
+            3,
+            316
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.0,
+          "alpha_spheres": 34,
+          "resid_span": [
+            12,
+            54
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.0,
+          "alpha_spheres": 24,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            149,
+            152
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            151,
+            154
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            367,
+            423
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            9,
+            298
+          ]
+        }
+      ],
+      "bound_ligand": null
+    },
+    {
+      "id": "NR4A1_AF2_P22736",
+      "category": "nr4a_model",
+      "source": "afdb",
+      "key": "P22736",
+      "note": "Nur77/NR4A1 LBD (AF2)",
+      "n_pockets": 38,
+      "max_druggability": 0.657,
+      "top_pocket": {
+        "pocket": 1,
+        "druggability": 0.657,
+        "alpha_spheres": 48,
+        "resid_span": [
+          496,
+          555
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 1,
+          "druggability": 0.657,
+          "alpha_spheres": 48,
+          "resid_span": [
+            496,
+            555
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.422,
+          "alpha_spheres": 62,
+          "resid_span": [
+            53,
+            597
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.042,
+          "alpha_spheres": 53,
+          "resid_span": [
+            112,
+            598
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.039,
+          "alpha_spheres": 21,
+          "resid_span": [
+            101,
+            556
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.013,
+          "alpha_spheres": 83,
+          "resid_span": [
+            355,
+            537
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.005,
+          "alpha_spheres": 19,
+          "resid_span": [
+            309,
+            319
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.004,
+          "alpha_spheres": 20,
+          "resid_span": [
+            377,
+            463
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.004,
+          "alpha_spheres": 18,
+          "resid_span": [
+            519,
+            523
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.003,
+          "alpha_spheres": 18,
+          "resid_span": [
+            522,
+            533
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.003,
+          "alpha_spheres": 22,
+          "resid_span": [
+            386,
+            468
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.003,
+          "alpha_spheres": 17,
+          "resid_span": [
+            455,
+            494
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.003,
+          "alpha_spheres": 20,
+          "resid_span": [
+            374,
+            423
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.003,
+          "alpha_spheres": 44,
+          "resid_span": [
+            341,
+            351
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.002,
+          "alpha_spheres": 17,
+          "resid_span": [
+            175,
+            178
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.002,
+          "alpha_spheres": 24,
+          "resid_span": [
+            307,
+            329
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.002,
+          "alpha_spheres": 19,
+          "resid_span": [
+            298,
+            325
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            391,
+            477
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            294,
+            334
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.001,
+          "alpha_spheres": 19,
+          "resid_span": [
+            413,
+            465
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.001,
+          "alpha_spheres": 33,
+          "resid_span": [
+            169,
+            472
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.001,
+          "alpha_spheres": 28,
+          "resid_span": [
+            172,
+            176
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.001,
+          "alpha_spheres": 15,
+          "resid_span": [
+            179,
+            182
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.001,
+          "alpha_spheres": 22,
+          "resid_span": [
+            514,
+            528
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            150,
+            153
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.0,
+          "alpha_spheres": 29,
+          "resid_span": [
+            398,
+            575
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.0,
+          "alpha_spheres": 38,
+          "resid_span": [
+            301,
+            320
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.0,
+          "alpha_spheres": 24,
+          "resid_span": [
+            361,
+            541
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.0,
+          "alpha_spheres": 41,
+          "resid_span": [
+            166,
+            172
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            453,
+            498
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.0,
+          "alpha_spheres": 41,
+          "resid_span": [
+            103,
+            529
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            73,
+            76
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            367,
+            425
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.0,
+          "alpha_spheres": 28,
+          "resid_span": [
+            388,
+            477
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            165,
+            169
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            286,
+            323
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            67,
+            71
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.0,
+          "alpha_spheres": 30,
+          "resid_span": [
+            3,
+            320
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            263,
+            282
+          ]
+        }
+      ],
+      "bound_ligand": null
+    },
+    {
+      "id": "NR4A2_1OVL",
+      "category": "nr4a_crystal_apo",
+      "source": "rcsb",
+      "key": "1OVL",
+      "note": "Nurr1 LBD apo, occluded pocket (Wang 2003)",
+      "n_pockets": 110,
+      "max_druggability": 0.864,
+      "top_pocket": {
+        "pocket": 2,
+        "druggability": 0.864,
+        "alpha_spheres": 67,
+        "resid_span": [
+          334,
+          598
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 2,
+          "druggability": 0.864,
+          "alpha_spheres": 67,
+          "resid_span": [
+            334,
+            598
+          ]
+        },
+        {
+          "pocket": 57,
+          "druggability": 0.738,
+          "alpha_spheres": 36,
+          "resid_span": [
+            567,
+            598
+          ]
+        },
+        {
+          "pocket": 58,
+          "druggability": 0.352,
+          "alpha_spheres": 30,
+          "resid_span": [
+            567,
+            598
+          ]
+        },
+        {
+          "pocket": 100,
+          "druggability": 0.123,
+          "alpha_spheres": 110,
+          "resid_span": [
+            363,
+            500
+          ]
+        },
+        {
+          "pocket": 63,
+          "druggability": 0.107,
+          "alpha_spheres": 35,
+          "resid_span": [
+            414,
+            594
+          ]
+        },
+        {
+          "pocket": 106,
+          "druggability": 0.073,
+          "alpha_spheres": 226,
+          "resid_span": [
+            363,
+            541
+          ]
+        },
+        {
+          "pocket": 93,
+          "druggability": 0.072,
+          "alpha_spheres": 42,
+          "resid_span": [
+            536,
+            590
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.064,
+          "alpha_spheres": 42,
+          "resid_span": [
+            509,
+            597
+          ]
+        },
+        {
+          "pocket": 68,
+          "druggability": 0.053,
+          "alpha_spheres": 82,
+          "resid_span": [
+            334,
+            551
+          ]
+        },
+        {
+          "pocket": 40,
+          "druggability": 0.039,
+          "alpha_spheres": 40,
+          "resid_span": [
+            536,
+            552
+          ]
+        },
+        {
+          "pocket": 50,
+          "druggability": 0.025,
+          "alpha_spheres": 24,
+          "resid_span": [
+            414,
+            594
+          ]
+        },
+        {
+          "pocket": 73,
+          "druggability": 0.024,
+          "alpha_spheres": 26,
+          "resid_span": [
+            363,
+            542
+          ]
+        },
+        {
+          "pocket": 65,
+          "druggability": 0.023,
+          "alpha_spheres": 40,
+          "resid_span": [
+            496,
+            551
+          ]
+        },
+        {
+          "pocket": 110,
+          "druggability": 0.016,
+          "alpha_spheres": 168,
+          "resid_span": [
+            363,
+            538
+          ]
+        },
+        {
+          "pocket": 88,
+          "druggability": 0.015,
+          "alpha_spheres": 120,
+          "resid_span": [
+            334,
+            594
+          ]
+        },
+        {
+          "pocket": 97,
+          "druggability": 0.014,
+          "alpha_spheres": 39,
+          "resid_span": [
+            364,
+            530
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.014,
+          "alpha_spheres": 31,
+          "resid_span": [
+            365,
+            501
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.011,
+          "alpha_spheres": 53,
+          "resid_span": [
+            363,
+            542
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.01,
+          "alpha_spheres": 35,
+          "resid_span": [
+            414,
+            590
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.009,
+          "alpha_spheres": 30,
+          "resid_span": [
+            365,
+            501
+          ]
+        },
+        {
+          "pocket": 109,
+          "druggability": 0.008,
+          "alpha_spheres": 92,
+          "resid_span": [
+            345,
+            561
+          ]
+        },
+        {
+          "pocket": 56,
+          "druggability": 0.008,
+          "alpha_spheres": 20,
+          "resid_span": [
+            570,
+            596
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.007,
+          "alpha_spheres": 43,
+          "resid_span": [
+            414,
+            594
+          ]
+        },
+        {
+          "pocket": 47,
+          "druggability": 0.007,
+          "alpha_spheres": 19,
+          "resid_span": [
+            536,
+            553
+          ]
+        },
+        {
+          "pocket": 95,
+          "druggability": 0.006,
+          "alpha_spheres": 62,
+          "resid_span": [
+            437,
+            598
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.005,
+          "alpha_spheres": 30,
+          "resid_span": [
+            445,
+            563
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.005,
+          "alpha_spheres": 25,
+          "resid_span": [
+            499,
+            551
+          ]
+        },
+        {
+          "pocket": 80,
+          "druggability": 0.005,
+          "alpha_spheres": 87,
+          "resid_span": [
+            363,
+            500
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.005,
+          "alpha_spheres": 54,
+          "resid_span": [
+            341,
+            594
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.005,
+          "alpha_spheres": 20,
+          "resid_span": [
+            372,
+            454
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.005,
+          "alpha_spheres": 24,
+          "resid_span": [
+            495,
+            554
+          ]
+        },
+        {
+          "pocket": 51,
+          "druggability": 0.004,
+          "alpha_spheres": 40,
+          "resid_span": [
+            485,
+            575
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.004,
+          "alpha_spheres": 33,
+          "resid_span": [
+            441,
+            597
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.003,
+          "alpha_spheres": 28,
+          "resid_span": [
+            343,
+            551
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.003,
+          "alpha_spheres": 21,
+          "resid_span": [
+            418,
+            439
+          ]
+        },
+        {
+          "pocket": 60,
+          "druggability": 0.003,
+          "alpha_spheres": 25,
+          "resid_span": [
+            371,
+            423
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.003,
+          "alpha_spheres": 45,
+          "resid_span": [
+            514,
+            528
+          ]
+        },
+        {
+          "pocket": 61,
+          "druggability": 0.003,
+          "alpha_spheres": 17,
+          "resid_span": [
+            372,
+            500
+          ]
+        },
+        {
+          "pocket": 96,
+          "druggability": 0.003,
+          "alpha_spheres": 62,
+          "resid_span": [
+            334,
+            598
+          ]
+        },
+        {
+          "pocket": 79,
+          "druggability": 0.002,
+          "alpha_spheres": 56,
+          "resid_span": [
+            414,
+            594
+          ]
+        },
+        {
+          "pocket": 67,
+          "druggability": 0.002,
+          "alpha_spheres": 19,
+          "resid_span": [
+            363,
+            541
+          ]
+        },
+        {
+          "pocket": 53,
+          "druggability": 0.002,
+          "alpha_spheres": 32,
+          "resid_span": [
+            513,
+            528
+          ]
+        },
+        {
+          "pocket": 43,
+          "druggability": 0.002,
+          "alpha_spheres": 27,
+          "resid_span": [
+            509,
+            564
+          ]
+        },
+        {
+          "pocket": 77,
+          "druggability": 0.002,
+          "alpha_spheres": 43,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 41,
+          "druggability": 0.002,
+          "alpha_spheres": 23,
+          "resid_span": [
+            418,
+            439
+          ]
+        },
+        {
+          "pocket": 99,
+          "druggability": 0.002,
+          "alpha_spheres": 25,
+          "resid_span": [
+            371,
+            423
+          ]
+        },
+        {
+          "pocket": 91,
+          "druggability": 0.002,
+          "alpha_spheres": 41,
+          "resid_span": [
+            363,
+            530
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.002,
+          "alpha_spheres": 30,
+          "resid_span": [
+            445,
+            564
+          ]
+        },
+        {
+          "pocket": 69,
+          "druggability": 0.002,
+          "alpha_spheres": 21,
+          "resid_span": [
+            367,
+            423
+          ]
+        },
+        {
+          "pocket": 104,
+          "druggability": 0.002,
+          "alpha_spheres": 66,
+          "resid_span": [
+            488,
+            561
+          ]
+        },
+        {
+          "pocket": 48,
+          "druggability": 0.002,
+          "alpha_spheres": 15,
+          "resid_span": [
+            496,
+            558
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.002,
+          "alpha_spheres": 52,
+          "resid_span": [
+            437,
+            598
+          ]
+        },
+        {
+          "pocket": 103,
+          "druggability": 0.002,
+          "alpha_spheres": 53,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.002,
+          "alpha_spheres": 17,
+          "resid_span": [
+            550,
+            561
+          ]
+        },
+        {
+          "pocket": 74,
+          "druggability": 0.002,
+          "alpha_spheres": 26,
+          "resid_span": [
+            514,
+            528
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.002,
+          "alpha_spheres": 82,
+          "resid_span": [
+            347,
+            556
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.002,
+          "alpha_spheres": 15,
+          "resid_span": [
+            577,
+            593
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            386,
+            468
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            457,
+            491
+          ]
+        },
+        {
+          "pocket": 64,
+          "druggability": 0.001,
+          "alpha_spheres": 23,
+          "resid_span": [
+            426,
+            530
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.001,
+          "alpha_spheres": 27,
+          "resid_span": [
+            492,
+            561
+          ]
+        },
+        {
+          "pocket": 85,
+          "druggability": 0.001,
+          "alpha_spheres": 65,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.001,
+          "alpha_spheres": 20,
+          "resid_span": [
+            499,
+            551
+          ]
+        },
+        {
+          "pocket": 42,
+          "druggability": 0.001,
+          "alpha_spheres": 25,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 45,
+          "druggability": 0.001,
+          "alpha_spheres": 27,
+          "resid_span": [
+            513,
+            567
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.001,
+          "alpha_spheres": 25,
+          "resid_span": [
+            371,
+            423
+          ]
+        },
+        {
+          "pocket": 82,
+          "druggability": 0.001,
+          "alpha_spheres": 53,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.001,
+          "alpha_spheres": 52,
+          "resid_span": [
+            414,
+            594
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            455,
+            490
+          ]
+        },
+        {
+          "pocket": 1,
+          "druggability": 0.001,
+          "alpha_spheres": 297,
+          "resid_span": [
+            338,
+            598
+          ]
+        },
+        {
+          "pocket": 71,
+          "druggability": 0.001,
+          "alpha_spheres": 25,
+          "resid_span": [
+            371,
+            423
+          ]
+        },
+        {
+          "pocket": 54,
+          "druggability": 0.001,
+          "alpha_spheres": 36,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 62,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            445,
+            597
+          ]
+        },
+        {
+          "pocket": 87,
+          "druggability": 0.001,
+          "alpha_spheres": 26,
+          "resid_span": [
+            371,
+            423
+          ]
+        },
+        {
+          "pocket": 52,
+          "druggability": 0.001,
+          "alpha_spheres": 31,
+          "resid_span": [
+            445,
+            563
+          ]
+        },
+        {
+          "pocket": 44,
+          "druggability": 0.001,
+          "alpha_spheres": 22,
+          "resid_span": [
+            386,
+            466
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.001,
+          "alpha_spheres": 15,
+          "resid_span": [
+            455,
+            490
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.001,
+          "alpha_spheres": 23,
+          "resid_span": [
+            418,
+            439
+          ]
+        },
+        {
+          "pocket": 84,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            398,
+            582
+          ]
+        },
+        {
+          "pocket": 94,
+          "druggability": 0.0,
+          "alpha_spheres": 27,
+          "resid_span": [
+            388,
+            477
+          ]
+        },
+        {
+          "pocket": 72,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            514,
+            528
+          ]
+        },
+        {
+          "pocket": 83,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            380,
+            428
+          ]
+        },
+        {
+          "pocket": 86,
+          "druggability": 0.0,
+          "alpha_spheres": 37,
+          "resid_span": [
+            386,
+            474
+          ]
+        },
+        {
+          "pocket": 55,
+          "druggability": 0.0,
+          "alpha_spheres": 42,
+          "resid_span": [
+            514,
+            528
+          ]
+        },
+        {
+          "pocket": 75,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            374,
+            466
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "resid_span": [
+            386,
+            466
+          ]
+        },
+        {
+          "pocket": 76,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 108,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            388,
+            477
+          ]
+        },
+        {
+          "pocket": 90,
+          "druggability": 0.0,
+          "alpha_spheres": 48,
+          "resid_span": [
+            386,
+            474
+          ]
+        },
+        {
+          "pocket": 49,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            426,
+            530
+          ]
+        },
+        {
+          "pocket": 66,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            514,
+            521
+          ]
+        },
+        {
+          "pocket": 98,
+          "druggability": 0.0,
+          "alpha_spheres": 25,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 46,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            374,
+            465
+          ]
+        },
+        {
+          "pocket": 105,
+          "druggability": 0.0,
+          "alpha_spheres": 33,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 107,
+          "druggability": 0.0,
+          "alpha_spheres": 60,
+          "resid_span": [
+            386,
+            477
+          ]
+        },
+        {
+          "pocket": 39,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            411,
+            587
+          ]
+        },
+        {
+          "pocket": 78,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            388,
+            477
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            395,
+            579
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            492,
+            561
+          ]
+        },
+        {
+          "pocket": 70,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            426,
+            530
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            522,
+            529
+          ]
+        },
+        {
+          "pocket": 89,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            564,
+            579
+          ]
+        },
+        {
+          "pocket": 59,
+          "druggability": 0.0,
+          "alpha_spheres": 28,
+          "resid_span": [
+            479,
+            572
+          ]
+        },
+        {
+          "pocket": 102,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            386,
+            474
+          ]
+        },
+        {
+          "pocket": 101,
+          "druggability": 0.0,
+          "alpha_spheres": 27,
+          "resid_span": [
+            433,
+            598
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            411,
+            587
+          ]
+        },
+        {
+          "pocket": 81,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            437,
+            597
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            374,
+            467
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.0,
+          "alpha_spheres": 26,
+          "resid_span": [
+            371,
+            423
+          ]
+        },
+        {
+          "pocket": 92,
+          "druggability": 0.0,
+          "alpha_spheres": 28,
+          "resid_span": [
+            479,
+            575
+          ]
+        }
+      ],
+      "bound_ligand": "MSE",
+      "ligand_site_pocket": {
+        "pocket": 4,
+        "druggability": 0.005,
+        "alpha_spheres": 24,
+        "resid_span": [
+          495,
+          554
+        ]
+      },
+      "ligand_site_spheres_near": 4,
+      "ligand_site_druggability": 0.005
+    },
+    {
+      "id": "NR4A2_5Y41",
+      "category": "nr4a_crystal_holo",
+      "source": "rcsb",
+      "key": "5Y41",
+      "note": "Nurr1 LBD + prostaglandin-A1",
+      "n_pockets": 41,
+      "max_druggability": 0.812,
+      "top_pocket": {
+        "pocket": 1,
+        "druggability": 0.812,
+        "alpha_spheres": 81,
+        "resid_span": [
+          410,
+          597
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 1,
+          "druggability": 0.812,
+          "alpha_spheres": 81,
+          "resid_span": [
+            410,
+            597
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.677,
+          "alpha_spheres": 48,
+          "resid_span": [
+            410,
+            595
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.592,
+          "alpha_spheres": 39,
+          "resid_span": [
+            563,
+            598
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.481,
+          "alpha_spheres": 66,
+          "resid_span": [
+            363,
+            542
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.153,
+          "alpha_spheres": 49,
+          "resid_span": [
+            362,
+            530
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.116,
+          "alpha_spheres": 66,
+          "resid_span": [
+            370,
+            500
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.056,
+          "alpha_spheres": 32,
+          "resid_span": [
+            362,
+            530
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.048,
+          "alpha_spheres": 52,
+          "resid_span": [
+            363,
+            547
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.042,
+          "alpha_spheres": 48,
+          "resid_span": [
+            536,
+            552
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.036,
+          "alpha_spheres": 43,
+          "resid_span": [
+            536,
+            552
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.032,
+          "alpha_spheres": 50,
+          "resid_span": [
+            383,
+            468
+          ]
+        },
+        {
+          "pocket": 41,
+          "druggability": 0.011,
+          "alpha_spheres": 19,
+          "resid_span": [
+            574,
+            596
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.01,
+          "alpha_spheres": 20,
+          "resid_span": [
+            567,
+            598
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.006,
+          "alpha_spheres": 22,
+          "resid_span": [
+            402,
+            479
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.005,
+          "alpha_spheres": 48,
+          "resid_span": [
+            362,
+            542
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.005,
+          "alpha_spheres": 21,
+          "resid_span": [
+            372,
+            500
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.004,
+          "alpha_spheres": 20,
+          "resid_span": [
+            374,
+            423
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.003,
+          "alpha_spheres": 45,
+          "resid_span": [
+            362,
+            500
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.002,
+          "alpha_spheres": 27,
+          "resid_span": [
+            360,
+            561
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.002,
+          "alpha_spheres": 29,
+          "resid_span": [
+            363,
+            542
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.002,
+          "alpha_spheres": 20,
+          "resid_span": [
+            514,
+            525
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.002,
+          "alpha_spheres": 19,
+          "resid_span": [
+            519,
+            526
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.001,
+          "alpha_spheres": 15,
+          "resid_span": [
+            522,
+            529
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.001,
+          "alpha_spheres": 25,
+          "resid_span": [
+            492,
+            561
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.001,
+          "alpha_spheres": 24,
+          "resid_span": [
+            377,
+            466
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.001,
+          "alpha_spheres": 35,
+          "resid_span": [
+            360,
+            551
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.001,
+          "alpha_spheres": 21,
+          "resid_span": [
+            418,
+            439
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.001,
+          "alpha_spheres": 22,
+          "resid_span": [
+            484,
+            568
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.001,
+          "alpha_spheres": 20,
+          "resid_span": [
+            402,
+            479
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.001,
+          "alpha_spheres": 42,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.001,
+          "alpha_spheres": 21,
+          "resid_span": [
+            479,
+            575
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "resid_span": [
+            514,
+            528
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            485,
+            568
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.0,
+          "alpha_spheres": 25,
+          "resid_span": [
+            385,
+            474
+          ]
+        },
+        {
+          "pocket": 39,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            379,
+            494
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            457,
+            495
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            374,
+            463
+          ]
+        },
+        {
+          "pocket": 40,
+          "druggability": 0.0,
+          "alpha_spheres": 25,
+          "resid_span": [
+            388,
+            477
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "resid_span": [
+            497,
+            551
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "resid_span": [
+            437,
+            595
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            445,
+            563
+          ]
+        }
+      ],
+      "bound_ligand": "RPG",
+      "ligand_site_pocket": {
+        "pocket": 3,
+        "druggability": 0.677,
+        "alpha_spheres": 48,
+        "resid_span": [
+          410,
+          595
+        ]
+      },
+      "ligand_site_spheres_near": 47,
+      "ligand_site_druggability": 0.677
+    },
+    {
+      "id": "NR4A1_4JGV",
+      "category": "nr4a_crystal_holo",
+      "source": "rcsb",
+      "key": "4JGV",
+      "note": "Nur77 LBD + THPN",
+      "n_pockets": 40,
+      "max_druggability": 0.96,
+      "top_pocket": {
+        "pocket": 1,
+        "druggability": 0.96,
+        "alpha_spheres": 90,
+        "resid_span": [
+          496,
+          559
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 1,
+          "druggability": 0.96,
+          "alpha_spheres": 90,
+          "resid_span": [
+            496,
+            559
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.529,
+          "alpha_spheres": 42,
+          "resid_span": [
+            449,
+            562
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.183,
+          "alpha_spheres": 37,
+          "resid_span": [
+            574,
+            598
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.163,
+          "alpha_spheres": 57,
+          "resid_span": [
+            509,
+            560
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.031,
+          "alpha_spheres": 60,
+          "resid_span": [
+            386,
+            477
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.022,
+          "alpha_spheres": 31,
+          "resid_span": [
+            386,
+            468
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.015,
+          "alpha_spheres": 25,
+          "resid_span": [
+            365,
+            501
+          ]
+        },
+        {
+          "pocket": 40,
+          "druggability": 0.012,
+          "alpha_spheres": 37,
+          "resid_span": [
+            386,
+            468
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.01,
+          "alpha_spheres": 23,
+          "resid_span": [
+            365,
+            374
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.008,
+          "alpha_spheres": 55,
+          "resid_span": [
+            437,
+            597
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.005,
+          "alpha_spheres": 33,
+          "resid_span": [
+            496,
+            555
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.004,
+          "alpha_spheres": 27,
+          "resid_span": [
+            374,
+            465
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.003,
+          "alpha_spheres": 35,
+          "resid_span": [
+            372,
+            500
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.003,
+          "alpha_spheres": 17,
+          "resid_span": [
+            453,
+            495
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.003,
+          "alpha_spheres": 41,
+          "resid_span": [
+            414,
+            591
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.003,
+          "alpha_spheres": 25,
+          "resid_span": [
+            453,
+            499
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.002,
+          "alpha_spheres": 28,
+          "resid_span": [
+            440,
+            595
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.002,
+          "alpha_spheres": 15,
+          "resid_span": [
+            410,
+            592
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.002,
+          "alpha_spheres": 18,
+          "resid_span": [
+            577,
+            598
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.001,
+          "alpha_spheres": 65,
+          "resid_span": [
+            395,
+            575
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.001,
+          "alpha_spheres": 26,
+          "resid_span": [
+            445,
+            563
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            385,
+            474
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            453,
+            499
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.001,
+          "alpha_spheres": 26,
+          "resid_span": [
+            402,
+            479
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.001,
+          "alpha_spheres": 31,
+          "resid_span": [
+            372,
+            454
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.001,
+          "alpha_spheres": 28,
+          "resid_span": [
+            374,
+            465
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            377,
+            463
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            373,
+            381
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.0,
+          "alpha_spheres": 35,
+          "resid_span": [
+            397,
+            575
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            391,
+            477
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            433,
+            594
+          ]
+        },
+        {
+          "pocket": 39,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            426,
+            530
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.0,
+          "alpha_spheres": 24,
+          "resid_span": [
+            563,
+            579
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            553,
+            558
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            362,
+            541
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            437,
+            595
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            433,
+            594
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.0,
+          "alpha_spheres": 40,
+          "resid_span": [
+            492,
+            561
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            362,
+            541
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            485,
+            565
+          ]
+        }
+      ],
+      "bound_ligand": "T94",
+      "ligand_site_pocket": {
+        "pocket": 2,
+        "druggability": 0.529,
+        "alpha_spheres": 42,
+        "resid_span": [
+          449,
+          562
+        ]
+      },
+      "ligand_site_spheres_near": 42,
+      "ligand_site_druggability": 0.529
+    },
+    {
+      "id": "PPARG_2PRG",
+      "category": "druggable_control_holo",
+      "source": "rcsb",
+      "key": "2PRG",
+      "note": "PPARgamma LBD + rosiglitazone (known druggable orthosteric pocket)",
+      "n_pockets": 48,
+      "max_druggability": 0.957,
+      "top_pocket": {
+        "pocket": 1,
+        "druggability": 0.957,
+        "alpha_spheres": 188,
+        "resid_span": [
+          226,
+          473
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 1,
+          "druggability": 0.957,
+          "alpha_spheres": 188,
+          "resid_span": [
+            226,
+            473
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.599,
+          "alpha_spheres": 329,
+          "resid_span": [
+            226,
+            473
+          ]
+        },
+        {
+          "pocket": 47,
+          "druggability": 0.122,
+          "alpha_spheres": 57,
+          "resid_span": [
+            252,
+            356
+          ]
+        },
+        {
+          "pocket": 46,
+          "druggability": 0.018,
+          "alpha_spheres": 69,
+          "resid_span": [
+            279,
+            473
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.014,
+          "alpha_spheres": 34,
+          "resid_span": [
+            262,
+            272
+          ]
+        },
+        {
+          "pocket": 42,
+          "druggability": 0.002,
+          "alpha_spheres": 81,
+          "resid_span": [
+            373,
+            443
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.001,
+          "alpha_spheres": 18,
+          "resid_span": [
+            290,
+            636
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.001,
+          "alpha_spheres": 19,
+          "resid_span": [
+            354,
+            362
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.001,
+          "alpha_spheres": 20,
+          "resid_span": [
+            283,
+            470
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.001,
+          "alpha_spheres": 27,
+          "resid_span": [
+            236,
+            347
+          ]
+        },
+        {
+          "pocket": 48,
+          "druggability": 0.001,
+          "alpha_spheres": 58,
+          "resid_span": [
+            372,
+            438
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.001,
+          "alpha_spheres": 45,
+          "resid_span": [
+            217,
+            701
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.001,
+          "alpha_spheres": 17,
+          "resid_span": [
+            216,
+            702
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.001,
+          "alpha_spheres": 25,
+          "resid_span": [
+            207,
+            415
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.001,
+          "alpha_spheres": 15,
+          "resid_span": [
+            230,
+            381
+          ]
+        },
+        {
+          "pocket": 40,
+          "druggability": 0.001,
+          "alpha_spheres": 50,
+          "resid_span": [
+            312,
+            634
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.001,
+          "alpha_spheres": 65,
+          "resid_span": [
+            366,
+            477
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            212,
+            424
+          ]
+        },
+        {
+          "pocket": 3,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            324,
+            443
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            234,
+            376
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            362,
+            452
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            227,
+            343
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            212,
+            424
+          ]
+        },
+        {
+          "pocket": 43,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            294,
+            697
+          ]
+        },
+        {
+          "pocket": 41,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            307,
+            698
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            208,
+            430
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            227,
+            343
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.0,
+          "alpha_spheres": 41,
+          "resid_span": [
+            418,
+            432
+          ]
+        },
+        {
+          "pocket": 45,
+          "druggability": 0.0,
+          "alpha_spheres": 32,
+          "resid_span": [
+            444,
+            477
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            376,
+            434
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.0,
+          "alpha_spheres": 26,
+          "resid_span": [
+            450,
+            476
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            236,
+            347
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            467,
+            629
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            396,
+            477
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            336,
+            365
+          ]
+        },
+        {
+          "pocket": 39,
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "resid_span": [
+            275,
+            464
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            230,
+            381
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            236,
+            246
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "resid_span": [
+            275,
+            461
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            279,
+            463
+          ]
+        },
+        {
+          "pocket": 44,
+          "druggability": 0.0,
+          "alpha_spheres": 30,
+          "resid_span": [
+            366,
+            448
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            232,
+            244
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "resid_span": [
+            362,
+            452
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            230,
+            379
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            207,
+            430
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.0,
+          "alpha_spheres": 23,
+          "resid_span": [
+            311,
+            691
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            376,
+            434
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.0,
+          "alpha_spheres": 35,
+          "resid_span": [
+            418,
+            432
+          ]
+        }
+      ],
+      "bound_ligand": "BRL",
+      "ligand_site_pocket": {
+        "pocket": 2,
+        "druggability": 0.599,
+        "alpha_spheres": 329,
+        "resid_span": [
+          226,
+          473
+        ]
+      },
+      "ligand_site_spheres_near": 151,
+      "ligand_site_druggability": 0.599
+    },
+    {
+      "id": "ERA_1ERE",
+      "category": "druggable_control_holo",
+      "source": "rcsb",
+      "key": "1ERE",
+      "note": "ERalpha LBD + 17beta-estradiol (known druggable orthosteric pocket)",
+      "n_pockets": 84,
+      "max_druggability": 0.799,
+      "top_pocket": {
+        "pocket": 3,
+        "druggability": 0.799,
+        "alpha_spheres": 73,
+        "resid_span": [
+          343,
+          540
+        ]
+      },
+      "all_pockets": [
+        {
+          "pocket": 3,
+          "druggability": 0.799,
+          "alpha_spheres": 73,
+          "resid_span": [
+            343,
+            540
+          ]
+        },
+        {
+          "pocket": 1,
+          "druggability": 0.744,
+          "alpha_spheres": 70,
+          "resid_span": [
+            343,
+            540
+          ]
+        },
+        {
+          "pocket": 2,
+          "druggability": 0.73,
+          "alpha_spheres": 69,
+          "resid_span": [
+            343,
+            540
+          ]
+        },
+        {
+          "pocket": 4,
+          "druggability": 0.586,
+          "alpha_spheres": 64,
+          "resid_span": [
+            343,
+            540
+          ]
+        },
+        {
+          "pocket": 9,
+          "druggability": 0.366,
+          "alpha_spheres": 239,
+          "resid_span": [
+            305,
+            545
+          ]
+        },
+        {
+          "pocket": 27,
+          "druggability": 0.346,
+          "alpha_spheres": 54,
+          "resid_span": [
+            358,
+            379
+          ]
+        },
+        {
+          "pocket": 19,
+          "druggability": 0.195,
+          "alpha_spheres": 100,
+          "resid_span": [
+            323,
+            449
+          ]
+        },
+        {
+          "pocket": 12,
+          "druggability": 0.181,
+          "alpha_spheres": 98,
+          "resid_span": [
+            323,
+            449
+          ]
+        },
+        {
+          "pocket": 22,
+          "druggability": 0.15,
+          "alpha_spheres": 94,
+          "resid_span": [
+            323,
+            449
+          ]
+        },
+        {
+          "pocket": 39,
+          "druggability": 0.143,
+          "alpha_spheres": 41,
+          "resid_span": [
+            487,
+            501
+          ]
+        },
+        {
+          "pocket": 67,
+          "druggability": 0.131,
+          "alpha_spheres": 95,
+          "resid_span": [
+            323,
+            449
+          ]
+        },
+        {
+          "pocket": 32,
+          "druggability": 0.079,
+          "alpha_spheres": 93,
+          "resid_span": [
+            323,
+            449
+          ]
+        },
+        {
+          "pocket": 21,
+          "druggability": 0.048,
+          "alpha_spheres": 93,
+          "resid_span": [
+            323,
+            449
+          ]
+        },
+        {
+          "pocket": 8,
+          "druggability": 0.047,
+          "alpha_spheres": 39,
+          "resid_span": [
+            346,
+            428
+          ]
+        },
+        {
+          "pocket": 6,
+          "druggability": 0.027,
+          "alpha_spheres": 37,
+          "resid_span": [
+            346,
+            428
+          ]
+        },
+        {
+          "pocket": 74,
+          "druggability": 0.026,
+          "alpha_spheres": 45,
+          "resid_span": [
+            430,
+            476
+          ]
+        },
+        {
+          "pocket": 83,
+          "druggability": 0.02,
+          "alpha_spheres": 136,
+          "resid_span": [
+            305,
+            542
+          ]
+        },
+        {
+          "pocket": 68,
+          "druggability": 0.018,
+          "alpha_spheres": 45,
+          "resid_span": [
+            430,
+            476
+          ]
+        },
+        {
+          "pocket": 7,
+          "druggability": 0.014,
+          "alpha_spheres": 30,
+          "resid_span": [
+            343,
+            540
+          ]
+        },
+        {
+          "pocket": 76,
+          "druggability": 0.013,
+          "alpha_spheres": 74,
+          "resid_span": [
+            377,
+            547
+          ]
+        },
+        {
+          "pocket": 5,
+          "druggability": 0.013,
+          "alpha_spheres": 30,
+          "resid_span": [
+            343,
+            540
+          ]
+        },
+        {
+          "pocket": 16,
+          "druggability": 0.012,
+          "alpha_spheres": 70,
+          "resid_span": [
+            377,
+            547
+          ]
+        },
+        {
+          "pocket": 54,
+          "druggability": 0.011,
+          "alpha_spheres": 59,
+          "resid_span": [
+            377,
+            547
+          ]
+        },
+        {
+          "pocket": 38,
+          "druggability": 0.011,
+          "alpha_spheres": 41,
+          "resid_span": [
+            430,
+            476
+          ]
+        },
+        {
+          "pocket": 66,
+          "druggability": 0.01,
+          "alpha_spheres": 35,
+          "resid_span": [
+            430,
+            476
+          ]
+        },
+        {
+          "pocket": 58,
+          "druggability": 0.01,
+          "alpha_spheres": 40,
+          "resid_span": [
+            430,
+            476
+          ]
+        },
+        {
+          "pocket": 35,
+          "druggability": 0.008,
+          "alpha_spheres": 28,
+          "resid_span": [
+            519,
+            548
+          ]
+        },
+        {
+          "pocket": 24,
+          "druggability": 0.007,
+          "alpha_spheres": 28,
+          "resid_span": [
+            519,
+            548
+          ]
+        },
+        {
+          "pocket": 28,
+          "druggability": 0.006,
+          "alpha_spheres": 45,
+          "resid_span": [
+            438,
+            503
+          ]
+        },
+        {
+          "pocket": 47,
+          "druggability": 0.004,
+          "alpha_spheres": 42,
+          "resid_span": [
+            438,
+            503
+          ]
+        },
+        {
+          "pocket": 82,
+          "druggability": 0.004,
+          "alpha_spheres": 70,
+          "resid_span": [
+            377,
+            548
+          ]
+        },
+        {
+          "pocket": 50,
+          "druggability": 0.004,
+          "alpha_spheres": 17,
+          "resid_span": [
+            358,
+            379
+          ]
+        },
+        {
+          "pocket": 37,
+          "druggability": 0.004,
+          "alpha_spheres": 25,
+          "resid_span": [
+            519,
+            548
+          ]
+        },
+        {
+          "pocket": 34,
+          "druggability": 0.003,
+          "alpha_spheres": 18,
+          "resid_span": [
+            358,
+            379
+          ]
+        },
+        {
+          "pocket": 53,
+          "druggability": 0.003,
+          "alpha_spheres": 46,
+          "resid_span": [
+            438,
+            503
+          ]
+        },
+        {
+          "pocket": 20,
+          "druggability": 0.003,
+          "alpha_spheres": 43,
+          "resid_span": [
+            438,
+            503
+          ]
+        },
+        {
+          "pocket": 40,
+          "druggability": 0.003,
+          "alpha_spheres": 22,
+          "resid_span": [
+            433,
+            473
+          ]
+        },
+        {
+          "pocket": 72,
+          "druggability": 0.002,
+          "alpha_spheres": 75,
+          "resid_span": [
+            377,
+            548
+          ]
+        },
+        {
+          "pocket": 75,
+          "druggability": 0.002,
+          "alpha_spheres": 72,
+          "resid_span": [
+            377,
+            547
+          ]
+        },
+        {
+          "pocket": 23,
+          "druggability": 0.002,
+          "alpha_spheres": 25,
+          "resid_span": [
+            487,
+            501
+          ]
+        },
+        {
+          "pocket": 36,
+          "druggability": 0.002,
+          "alpha_spheres": 42,
+          "resid_span": [
+            438,
+            503
+          ]
+        },
+        {
+          "pocket": 60,
+          "druggability": 0.002,
+          "alpha_spheres": 24,
+          "resid_span": [
+            430,
+            476
+          ]
+        },
+        {
+          "pocket": 69,
+          "druggability": 0.002,
+          "alpha_spheres": 17,
+          "resid_span": [
+            423,
+            460
+          ]
+        },
+        {
+          "pocket": 81,
+          "druggability": 0.002,
+          "alpha_spheres": 43,
+          "resid_span": [
+            438,
+            503
+          ]
+        },
+        {
+          "pocket": 84,
+          "druggability": 0.001,
+          "alpha_spheres": 54,
+          "resid_span": [
+            305,
+            545
+          ]
+        },
+        {
+          "pocket": 10,
+          "druggability": 0.001,
+          "alpha_spheres": 33,
+          "resid_span": [
+            434,
+            509
+          ]
+        },
+        {
+          "pocket": 17,
+          "druggability": 0.001,
+          "alpha_spheres": 32,
+          "resid_span": [
+            434,
+            509
+          ]
+        },
+        {
+          "pocket": 33,
+          "druggability": 0.001,
+          "alpha_spheres": 15,
+          "resid_span": [
+            423,
+            460
+          ]
+        },
+        {
+          "pocket": 45,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            423,
+            460
+          ]
+        },
+        {
+          "pocket": 49,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            423,
+            460
+          ]
+        },
+        {
+          "pocket": 13,
+          "druggability": 0.001,
+          "alpha_spheres": 31,
+          "resid_span": [
+            434,
+            509
+          ]
+        },
+        {
+          "pocket": 18,
+          "druggability": 0.001,
+          "alpha_spheres": 22,
+          "resid_span": [
+            487,
+            501
+          ]
+        },
+        {
+          "pocket": 14,
+          "druggability": 0.001,
+          "alpha_spheres": 30,
+          "resid_span": [
+            434,
+            509
+          ]
+        },
+        {
+          "pocket": 78,
+          "druggability": 0.001,
+          "alpha_spheres": 29,
+          "resid_span": [
+            369,
+            545
+          ]
+        },
+        {
+          "pocket": 15,
+          "druggability": 0.001,
+          "alpha_spheres": 36,
+          "resid_span": [
+            434,
+            509
+          ]
+        },
+        {
+          "pocket": 62,
+          "druggability": 0.001,
+          "alpha_spheres": 16,
+          "resid_span": [
+            423,
+            460
+          ]
+        },
+        {
+          "pocket": 11,
+          "druggability": 0.001,
+          "alpha_spheres": 30,
+          "resid_span": [
+            434,
+            509
+          ]
+        },
+        {
+          "pocket": 25,
+          "druggability": 0.001,
+          "alpha_spheres": 23,
+          "resid_span": [
+            420,
+            548
+          ]
+        },
+        {
+          "pocket": 65,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            306,
+            369
+          ]
+        },
+        {
+          "pocket": 64,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            419,
+            531
+          ]
+        },
+        {
+          "pocket": 79,
+          "druggability": 0.0,
+          "alpha_spheres": 25,
+          "resid_span": [
+            369,
+            545
+          ]
+        },
+        {
+          "pocket": 63,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            420,
+            548
+          ]
+        },
+        {
+          "pocket": 80,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            495,
+            506
+          ]
+        },
+        {
+          "pocket": 55,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            371,
+            546
+          ]
+        },
+        {
+          "pocket": 51,
+          "druggability": 0.0,
+          "alpha_spheres": 18,
+          "resid_span": [
+            495,
+            506
+          ]
+        },
+        {
+          "pocket": 43,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            434,
+            506
+          ]
+        },
+        {
+          "pocket": 77,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            351,
+            542
+          ]
+        },
+        {
+          "pocket": 41,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            305,
+            369
+          ]
+        },
+        {
+          "pocket": 42,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            419,
+            531
+          ]
+        },
+        {
+          "pocket": 56,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            495,
+            506
+          ]
+        },
+        {
+          "pocket": 29,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            371,
+            546
+          ]
+        },
+        {
+          "pocket": 30,
+          "druggability": 0.0,
+          "alpha_spheres": 21,
+          "resid_span": [
+            434,
+            506
+          ]
+        },
+        {
+          "pocket": 57,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            305,
+            369
+          ]
+        },
+        {
+          "pocket": 46,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            371,
+            546
+          ]
+        },
+        {
+          "pocket": 71,
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "resid_span": [
+            495,
+            506
+          ]
+        },
+        {
+          "pocket": 73,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            305,
+            477
+          ]
+        },
+        {
+          "pocket": 48,
+          "druggability": 0.0,
+          "alpha_spheres": 16,
+          "resid_span": [
+            419,
+            531
+          ]
+        },
+        {
+          "pocket": 70,
+          "druggability": 0.0,
+          "alpha_spheres": 30,
+          "resid_span": [
+            305,
+            538
+          ]
+        },
+        {
+          "pocket": 26,
+          "druggability": 0.0,
+          "alpha_spheres": 20,
+          "resid_span": [
+            495,
+            506
+          ]
+        },
+        {
+          "pocket": 61,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            305,
+            369
+          ]
+        },
+        {
+          "pocket": 59,
+          "druggability": 0.0,
+          "alpha_spheres": 19,
+          "resid_span": [
+            434,
+            506
+          ]
+        },
+        {
+          "pocket": 52,
+          "druggability": 0.0,
+          "alpha_spheres": 22,
+          "resid_span": [
+            305,
+            477
+          ]
+        },
+        {
+          "pocket": 44,
+          "druggability": 0.0,
+          "alpha_spheres": 17,
+          "resid_span": [
+            495,
+            506
+          ]
+        },
+        {
+          "pocket": 31,
+          "druggability": 0.0,
+          "alpha_spheres": 15,
+          "resid_span": [
+            419,
+            531
+          ]
+        }
+      ],
+      "bound_ligand": "EST",
+      "ligand_site_pocket": {
+        "pocket": 4,
+        "druggability": 0.586,
+        "alpha_spheres": 64,
+        "resid_span": [
+          343,
+          540
+        ]
+      },
+      "ligand_site_spheres_near": 64,
+      "ligand_site_druggability": 0.586
+    }
+  ]
+}

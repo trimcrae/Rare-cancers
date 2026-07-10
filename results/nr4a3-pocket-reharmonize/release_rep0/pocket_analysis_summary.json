@@ -1,0 +1,868 @@
+{
+  "frames": 100,
+  "ns_per_frame": 0.05,
+  "trajectory": "release_rep0.dcd",
+  "biased_sampling": false,
+  "sampling_note": "Unbiased MD: per-frame druggability reflects spontaneous breathing.",
+  "pocket_residue_range": [
+    406,
+    534
+  ],
+  "residue_numbering": "renumbered-from-373",
+  "pocket_residues_matched": 129,
+  "pocket_sasa_nm2": {
+    "baseline_production_frame0_post_equil": 60.145912170410156,
+    "min": 57.7294807434082,
+    "max": 63.64864730834961,
+    "mean": 60.50310516357422,
+    "std": 1.1158024072647095
+  },
+  "opening_vs_baseline_nm2": {
+    "max_increase": 3.502735137939453,
+    "frac_frames_more_open": 0.62
+  },
+  "interpretation": "max_increase is relative to the equilibrated production-frame-0 (NOT the static AF2 model). A sustained/transient rise well above thermal noise (std) suggests pocket opening during MD; a rigorous 'opens beyond the collapsed static pocket' claim needs a separate static-model SASA reference (ASSUMPTIONS.md #6).",
+  "druggability_timeseries": {
+    "ran": true,
+    "n_frames_sampled": 25,
+    "series": [
+      {
+        "frame": 0,
+        "time_ns": 0.0,
+        "orthosteric_druggability": 0.007,
+        "overlap_residues": 9,
+        "cv_rg_nm": 0.7293,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.8182,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 1.43
+        },
+        "offsite_best_druggability": 0.37,
+        "offsite_resid_range": [
+          229,
+          248
+        ],
+        "offsite_lining_residues": [
+          229,
+          230,
+          233,
+          234,
+          245,
+          248
+        ]
+      },
+      {
+        "frame": 4,
+        "time_ns": 0.2,
+        "orthosteric_druggability": 0.079,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7218,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.9091,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 0.868
+        },
+        "offsite_best_druggability": 0.011,
+        "offsite_resid_range": [
+          226,
+          249
+        ],
+        "offsite_lining_residues": [
+          226,
+          229,
+          230,
+          233,
+          242,
+          244,
+          245,
+          246,
+          248,
+          249
+        ]
+      },
+      {
+        "frame": 8,
+        "time_ns": 0.4,
+        "orthosteric_druggability": 0.587,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7221,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.147
+        },
+        "offsite_best_druggability": 0.003,
+        "offsite_resid_range": [
+          7,
+          17
+        ],
+        "offsite_lining_residues": [
+          7,
+          8,
+          10,
+          11,
+          12,
+          15,
+          16,
+          17
+        ]
+      },
+      {
+        "frame": 12,
+        "time_ns": 0.6,
+        "orthosteric_druggability": 0.788,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7264,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.227
+        },
+        "offsite_best_druggability": 0.523,
+        "offsite_resid_range": [
+          226,
+          248
+        ],
+        "offsite_lining_residues": [
+          226,
+          229,
+          230,
+          233,
+          240,
+          244,
+          245,
+          248
+        ]
+      },
+      {
+        "frame": 16,
+        "time_ns": 0.8,
+        "orthosteric_druggability": 0.801,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7275,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.117
+        },
+        "offsite_best_druggability": 0.145,
+        "offsite_resid_range": [
+          229,
+          248
+        ],
+        "offsite_lining_residues": [
+          229,
+          230,
+          233,
+          234,
+          245,
+          248
+        ]
+      },
+      {
+        "frame": 21,
+        "time_ns": 1.05,
+        "orthosteric_druggability": 0.536,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7468,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 0.861
+        },
+        "offsite_best_druggability": 0.04,
+        "offsite_resid_range": [
+          212,
+          223
+        ],
+        "offsite_lining_residues": [
+          212,
+          215,
+          216,
+          219,
+          220,
+          223
+        ]
+      },
+      {
+        "frame": 25,
+        "time_ns": 1.25,
+        "orthosteric_druggability": 0.686,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7284,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.319
+        },
+        "offsite_best_druggability": 0.007,
+        "offsite_resid_range": [
+          230,
+          254
+        ],
+        "offsite_lining_residues": [
+          230,
+          248,
+          249,
+          251,
+          252,
+          253,
+          254
+        ]
+      },
+      {
+        "frame": 29,
+        "time_ns": 1.45,
+        "orthosteric_druggability": 0.598,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7363,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.747
+        },
+        "offsite_best_druggability": 0.004,
+        "offsite_resid_range": [
+          168,
+          219
+        ],
+        "offsite_lining_residues": [
+          168,
+          171,
+          172,
+          173,
+          184,
+          187,
+          188,
+          191,
+          192,
+          195,
+          212,
+          215,
+          219
+        ]
+      },
+      {
+        "frame": 33,
+        "time_ns": 1.65,
+        "orthosteric_druggability": 0.861,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7507,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.602
+        },
+        "offsite_best_druggability": 0.006,
+        "offsite_resid_range": [
+          227,
+          254
+        ],
+        "offsite_lining_residues": [
+          227,
+          230,
+          231,
+          234,
+          254
+        ]
+      },
+      {
+        "frame": 37,
+        "time_ns": 1.85,
+        "orthosteric_druggability": 0.618,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7326,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.6667,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.809
+        },
+        "offsite_best_druggability": 0.004,
+        "offsite_resid_range": [
+          22,
+          200
+        ],
+        "offsite_lining_residues": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          28,
+          189,
+          192,
+          193,
+          196,
+          197,
+          199,
+          200
+        ]
+      },
+      {
+        "frame": 41,
+        "time_ns": 2.05,
+        "orthosteric_druggability": 0.637,
+        "overlap_residues": 9,
+        "cv_rg_nm": 0.7312,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.75,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 1.799
+        },
+        "offsite_best_druggability": 0.015,
+        "offsite_resid_range": [
+          215,
+          227
+        ],
+        "offsite_lining_residues": [
+          215,
+          216,
+          219,
+          220,
+          223,
+          224,
+          227
+        ]
+      },
+      {
+        "frame": 45,
+        "time_ns": 2.25,
+        "orthosteric_druggability": 0.683,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7265,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.39
+        },
+        "offsite_best_druggability": 0.019,
+        "offsite_resid_range": [
+          229,
+          248
+        ],
+        "offsite_lining_residues": [
+          229,
+          230,
+          233,
+          234,
+          245,
+          248
+        ]
+      },
+      {
+        "frame": 50,
+        "time_ns": 2.5,
+        "orthosteric_druggability": 0.041,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7154,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.249
+        },
+        "offsite_best_druggability": 0.408,
+        "offsite_resid_range": [
+          172,
+          212
+        ],
+        "offsite_lining_residues": [
+          172,
+          173,
+          180,
+          181,
+          183,
+          184,
+          187,
+          188,
+          191,
+          212
+        ]
+      },
+      {
+        "frame": 54,
+        "time_ns": 2.7,
+        "orthosteric_druggability": 0.597,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7333,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.466
+        },
+        "offsite_best_druggability": 0.02,
+        "offsite_resid_range": [
+          23,
+          32
+        ],
+        "offsite_lining_residues": [
+          23,
+          24,
+          25,
+          28,
+          29,
+          32
+        ]
+      },
+      {
+        "frame": 58,
+        "time_ns": 2.9,
+        "orthosteric_druggability": 0.254,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7286,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.605
+        },
+        "offsite_best_druggability": 0.428,
+        "offsite_resid_range": [
+          227,
+          254
+        ],
+        "offsite_lining_residues": [
+          227,
+          230,
+          248,
+          251,
+          253,
+          254
+        ]
+      },
+      {
+        "frame": 62,
+        "time_ns": 3.1,
+        "orthosteric_druggability": 0.297,
+        "overlap_residues": 8,
+        "cv_rg_nm": 0.7394,
+        "match": {
+          "n_overlap": 8,
+          "jaccard": 0.6154,
+          "frac_recovered": 0.8,
+          "centroid_dist_ang": 2.799
+        },
+        "offsite_best_druggability": 0.184,
+        "offsite_resid_range": [
+          230,
+          249
+        ],
+        "offsite_lining_residues": [
+          230,
+          233,
+          234,
+          248,
+          249
+        ]
+      },
+      {
+        "frame": 66,
+        "time_ns": 3.3,
+        "orthosteric_druggability": 0.042,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7473,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.687
+        },
+        "offsite_best_druggability": 0.669,
+        "offsite_resid_range": [
+          168,
+          215
+        ],
+        "offsite_lining_residues": [
+          168,
+          171,
+          172,
+          184,
+          187,
+          188,
+          191,
+          195,
+          208,
+          212,
+          215
+        ]
+      },
+      {
+        "frame": 70,
+        "time_ns": 3.5,
+        "orthosteric_druggability": 0.313,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7452,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.679
+        },
+        "offsite_best_druggability": 0.081,
+        "offsite_resid_range": [
+          227,
+          254
+        ],
+        "offsite_lining_residues": [
+          227,
+          230,
+          248,
+          249,
+          251,
+          252,
+          253,
+          254
+        ]
+      },
+      {
+        "frame": 74,
+        "time_ns": 3.7,
+        "orthosteric_druggability": 0.293,
+        "overlap_residues": 8,
+        "cv_rg_nm": 0.7571,
+        "match": {
+          "n_overlap": 8,
+          "jaccard": 0.6667,
+          "frac_recovered": 0.8,
+          "centroid_dist_ang": 2.966
+        },
+        "offsite_best_druggability": 0.006,
+        "offsite_resid_range": [
+          23,
+          200
+        ],
+        "offsite_lining_residues": [
+          23,
+          24,
+          25,
+          26,
+          28,
+          189,
+          192,
+          193,
+          196,
+          197,
+          200
+        ]
+      },
+      {
+        "frame": 78,
+        "time_ns": 3.9,
+        "orthosteric_druggability": 0.642,
+        "overlap_residues": 9,
+        "cv_rg_nm": 0.7811,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 3.059
+        },
+        "offsite_best_druggability": 0.008,
+        "offsite_resid_range": [
+          25,
+          200
+        ],
+        "offsite_lining_residues": [
+          25,
+          27,
+          28,
+          193,
+          196,
+          197,
+          200
+        ]
+      },
+      {
+        "frame": 82,
+        "time_ns": 4.1,
+        "orthosteric_druggability": 0.139,
+        "overlap_residues": 9,
+        "cv_rg_nm": 0.7522,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.75,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 2.173
+        },
+        "offsite_best_druggability": 0.007,
+        "offsite_resid_range": [
+          230,
+          249
+        ],
+        "offsite_lining_residues": [
+          230,
+          233,
+          242,
+          245,
+          246,
+          248,
+          249
+        ]
+      },
+      {
+        "frame": 87,
+        "time_ns": 4.35,
+        "orthosteric_druggability": 0.497,
+        "overlap_residues": 9,
+        "cv_rg_nm": 0.7595,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6429,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 2.552
+        },
+        "offsite_best_druggability": 0.081,
+        "offsite_resid_range": [
+          229,
+          249
+        ],
+        "offsite_lining_residues": [
+          229,
+          230,
+          233,
+          234,
+          245,
+          248,
+          249
+        ]
+      },
+      {
+        "frame": 91,
+        "time_ns": 4.55,
+        "orthosteric_druggability": 0.655,
+        "overlap_residues": 10,
+        "cv_rg_nm": 0.7616,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.503
+        },
+        "offsite_best_druggability": 0.002,
+        "offsite_resid_range": [
+          1,
+          5
+        ],
+        "offsite_lining_residues": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "frame": 95,
+        "time_ns": 4.75,
+        "orthosteric_druggability": 0.259,
+        "overlap_residues": 8,
+        "cv_rg_nm": 0.7612,
+        "match": {
+          "n_overlap": 8,
+          "jaccard": 0.6154,
+          "frac_recovered": 0.8,
+          "centroid_dist_ang": 3.478
+        },
+        "offsite_best_druggability": 0.098,
+        "offsite_resid_range": [
+          229,
+          249
+        ],
+        "offsite_lining_residues": [
+          229,
+          230,
+          233,
+          234,
+          240,
+          242,
+          245,
+          246,
+          248,
+          249
+        ]
+      },
+      {
+        "frame": 99,
+        "time_ns": 4.95,
+        "orthosteric_druggability": 0.621,
+        "overlap_residues": 9,
+        "cv_rg_nm": 0.7376,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6923,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 2.147
+        },
+        "offsite_best_druggability": 0.017,
+        "offsite_resid_range": [
+          230,
+          248
+        ],
+        "offsite_lining_residues": [
+          230,
+          233,
+          234,
+          236,
+          248
+        ]
+      }
+    ],
+    "harmonized_detection": {
+      "match_mode": "harmonized",
+      "fpocket_version": "4.0",
+      "match_params": {
+        "jaccard_min": 0.25,
+        "frac_recovered_min": 0.3,
+        "centroid_max_ang": 8.0
+      },
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 14,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.56,
+      "frac_ge_among_propagated": 0.56
+    },
+    "fpocket_version": "4.0",
+    "max_druggability": 0.861,
+    "min_druggability": 0.007,
+    "mean_druggability": 0.461,
+    "frac_frames_druggable_0.5": 0.56,
+    "frac_frames_druggable_0.53": 0.56,
+    "crosses_druggable_0.5": true,
+    "interpretation": "FEASIBILITY: the orthosteric pocket is borderline in the static model (0.495, just under 0.5). Does breathing push it over the druggable >=0.5 threshold at any sampled frame (supports the small-molecule orthosteric warhead) or collapse it (weakens the route -> lean on the designed protein binder, the AF-2 surface cavity, or the junction ASO)?",
+    "offsite_scan": {
+      "note": "WHOLE-SURFACE control: the best transient pocket per frame that does NOT overlap the orthosteric Pocket-5 target residues. Answers 'did the MD open a DIFFERENT druggable pocket?'. A max_offsite_druggability >= 0.5 in a consistent residue span = a candidate alternative site worth docking. Residue numbers are in the trajectory's own numbering.",
+      "n_frames_with_offsite": 25,
+      "max_offsite_druggability": 0.669,
+      "mean_offsite_druggability": 0.126,
+      "frac_frames_offsite_ge_0.5": 0.08,
+      "top5_offsite": [
+        {
+          "frame": 66,
+          "druggability": 0.669,
+          "resid_range": [
+            168,
+            215
+          ],
+          "lining_residues": [
+            168,
+            171,
+            172,
+            184,
+            187,
+            188,
+            191,
+            195,
+            208,
+            212,
+            215
+          ]
+        },
+        {
+          "frame": 12,
+          "druggability": 0.523,
+          "resid_range": [
+            226,
+            248
+          ],
+          "lining_residues": [
+            226,
+            229,
+            230,
+            233,
+            240,
+            244,
+            245,
+            248
+          ]
+        },
+        {
+          "frame": 58,
+          "druggability": 0.428,
+          "resid_range": [
+            227,
+            254
+          ],
+          "lining_residues": [
+            227,
+            230,
+            248,
+            251,
+            253,
+            254
+          ]
+        },
+        {
+          "frame": 50,
+          "druggability": 0.408,
+          "resid_range": [
+            172,
+            212
+          ],
+          "lining_residues": [
+            172,
+            173,
+            180,
+            181,
+            183,
+            184,
+            187,
+            188,
+            191,
+            212
+          ]
+        },
+        {
+          "frame": 0,
+          "druggability": 0.37,
+          "resid_range": [
+            229,
+            248
+          ],
+          "lining_residues": [
+            229,
+            230,
+            233,
+            234,
+            245,
+            248
+          ]
+        }
+      ]
+    }
+  },
+  "mdpocket": {
+    "ran": true,
+    "returncode": -11,
+    "stdout_tail": "",
+    "stderr_tail": "Number of atoms in topology and MD trajectory do not coincide : 88907 vs 4041\n"
+  },
+  "fes": null,
+  "lowest_cost_druggable": {
+    "ran": true,
+    "thr_0.5": {
+      "lowest_druggable_rg_nm": 0.7221,
+      "druggability_there": 0.587,
+      "cost_kcal_mol": null
+    },
+    "thr_0.53": {
+      "lowest_druggable_rg_nm": 0.7221,
+      "druggability_there": 0.587,
+      "cost_kcal_mol": null
+    }
+  }
+}
