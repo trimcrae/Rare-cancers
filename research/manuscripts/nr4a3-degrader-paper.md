@@ -473,26 +473,28 @@ derive Kd values from the current raw ABFE absolutes (whose scale is not validat
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
 ran a **pocket-conditioned de-novo generative campaign** and put its output through the *same* selectivity
 funnel. (1) **Receptor.** We anchored generation and docking to a **druggable unbiased *release* frame**
-(`nr4a3_release_druggable.py`: Rg ≈ 0.737, confirmed fpocket druggability 0.667, in the calibrated drug-bound
-band) — the release-derived induced-fit conformation from §2.2, not the biased-metad frame — keeping a small
+(`nr4a3_release_druggable.py`: Rg ≈ 0.737, confirmed fpocket druggability 0.667, in the empirical drug-bound
+reference range) — the release-derived frame from §2.2, not the biased-metad frame — keeping a small
 druggable sub-ensemble since the pocket is dynamic. (2) **Generation.** DiffSBDD (pocket-conditioned
 diffusion, pretrained CrossDocked weights; `nr4a3_denovo.py`) generated molecules into that pocket,
 conditioned on the lining residues incl. the engageable divergent handles; a lead-size constraint
 (`--num_nodes_lig`) plus a molecular-weight floor in scoring removed a fragment bias seen in an
 unconstrained pilot (whose top hits were trivially small benzoic/toluic-acid-class fragments). The
-size-constrained production generation was clean: of 195 generations, **191 valid and unique, 96 %
-PAINS-free, 92 % contacting ≥4 of the 5 engageable handles** in the generated pose. (3) **Funnel.** We docked the top-20 generations into the
+size-constrained production generation showed **high validity and uniqueness**: of 195 generations, **191
+valid and unique, 96 % PAINS-free, 92 % contacting ≥4 of the 5 engageable handles** in the generated pose
+(developability filtering below reduces this to 11 advanceable molecules). (3) **Funnel.** We docked the top-20 generations into the
 NR4A3-release / NR4A1 / NR4A2 pockets for a selectivity fingerprint (`denovo_15` the
 docking-level NR4A3-selective lead **by margin** — NR4A3 favoured over both paralogues by ≥1 kcal/mol),
 then **MM-GBSA-rescored all 20**. *(Receptor-state caveat: unlike the §2.4 repurposed matrix, which was
 fully state-matched — all three paralogues at their metad-opened frames — this de-novo funnel docks NR4A3 in
-its **unbiased release** frame (fpocket 0.667) against the **biased-metad** NR4A1 frame 524
-(0.981) / NR4A2 frame 125 (0.938), because the release run (§2.2) made the unbiased frame the defensible
-NR4A3 receptor. The states are therefore **not** matched the way §2.4's are — but the asymmetry runs
-**against** NR4A3-selectivity (the paralogue pockets are scored in their more-druggable opened state, which
-tends to dock ligands more favourably), so a positive NR4A3-selectivity call here is conservative rather
-than flattered. A fully state-matched re-dock (NR4A3 metad-opened) **has since been run for the lead**
-(`denovo_401`, §2.6): it stays NR4A3-selective there too (+7.44 ± 4.18), so the call is not a receptor-frame
+its **release-derived** frame (fpocket 0.667) against the **biased-metad** NR4A1 frame 524
+(0.981) / NR4A2 frame 125 (0.938), because the release run (§2.2) made that frame the defensible
+NR4A3 receptor. The states are therefore **not** matched the way §2.4's are. We had argued this asymmetry
+plausibly runs *against* NR4A3-selectivity (the paralogue pockets are scored in their more-druggable opened
+state), but a higher fpocket score does not guarantee a more favourable docking score for *every* chemotype,
+so we treat the direction of this asymmetry as **a limitation of uncertain direction across the library**,
+demonstrated only for the lead: a fully state-matched re-dock (NR4A3 metad-opened) **has since been run for
+`denovo_401`** (§2.6) and it stays NR4A3-selective there too (+7.44 ± 4.18), so for that one candidate the call is not a receptor-frame
 artifact.)* The result is qualitatively different
 from the repurposed library: **3 candidates are *confirmed_selective* (`denovo_15`, `denovo_94`,
 `denovo_57`) and NONE reverse** (census: confirmed_selective 3 · rescued 7 · weakened 1 ·
@@ -633,7 +635,8 @@ a real upgrade over a single-snapshot point estimate — but it is **single-traj
 FEP**, **unsynthesized**, and **un-validated**. It is also the **best-of-~10** candidates multi-snapshot-tested
 (and best-of-~200 generated), so its +12.83 point estimate carries a **selection (winner's-curse) bias on top
 of the reported ±2.98 SD** — the same extreme-value logic that demotes `denovo_393`'s single-snapshot +18.34
-applies to picking `denovo_401` as the survivor; an independent re-run (or FEP) is what would de-bias it.
+applies to picking `denovo_401` as the survivor. An independent re-run **estimates the within-candidate seed
+sensitivity after selection** — it does **not** de-bias the best-of-N selection (no single rerun can).
 **We ran that independent re-run** (fresh Langevin seed): `denovo_401` reproduces at
 **+14.75 ± 4.82** (vs the original +12.83 ± 2.98; ΔG NR4A3 −37.50 / NR4A1 −22.75 / NR4A2 −20.43) — the margin
 does **not** regress toward the null under an independent trajectory (it lands slightly higher), so the lead is
@@ -655,13 +658,16 @@ advantage the decoys lack, which inflates its NR4A3 leg (hence its margin) relat
 with this, in the **metad-opened** frame — which `denovo_401` was *not* conditioned on, so neither it nor the
 decoys have a generation advantage — it does **not** clear the null (below; the paper elsewhere reads that as
 the metad frame being non-discriminating, but it is also the less-confounded specificity test). A fully clean
-specificity test would require a generation-matched decoy null. That said, the generative-step confound is
-**empirically bounded small**: all ~191 developable generations were pocket-conditioned on the *same* release
-frame, yet the set is **not enriched** over the marketed-drug decoys and only **two of ~11** multi-snapshot-
-tested candidates survive (§2.6) — if being generated-for-NR4A3 uniformly inflated the NR4A3 margin, the whole
-generated set would clear the null, and it does not. So against the null we have, "above-null" is a **de-noised
-foothold, not yet a fully-controlled specificity result** — but the confound is a bounded caveat, not a
-whole-cloth artifact (the decisive resolution is FEP — now complete: a three-replicate NR4A3-selective ΔΔG, §4).)* **A receptor-robustness check (a
+specificity test would require a generation-matched decoy null (in flight, §5). On the confound's magnitude:
+all ~191 **valid unique generated molecules** were pocket-conditioned on the *same* release frame, yet the set
+is **not enriched** over the marketed-drug decoys and only **two of ~11** multi-snapshot-tested candidates
+survive (§2.6). **The absence of broad enrichment argues against a *uniform* frame-conditioning effect, but
+does not quantify the candidate-specific design-match confound** — a generation-match advantage can be
+heterogeneous, concentrated in top-ranked candidates, and amplified by best-of-N selection, and only a subset
+reached the expensive multi-snapshot tier. So against the null we have, "above-null" is a **de-noised
+foothold, not yet a fully-controlled specificity result**; the higher-tier ABFE result (§4) provides an
+**additional, methodologically distinct energetic check** (it does not, by itself, resolve best-of-N
+selection or the generation-match confound).)* **A receptor-robustness check (a
 fully state-matched re-dock — NR4A3 in its *metad-opened* frame rather than the release frame — then the same
 multi-snapshot rescore) keeps `denovo_401` NR4A3-favoured but weaker:
 +7.44 ± 4.18 (ΔG NR4A3 −32.37 vs NR4A1 −24.93 / NR4A2 −22.80)** — so the selectivity *direction* is robust
