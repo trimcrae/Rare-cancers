@@ -1,14 +1,23 @@
 name: GPU — NR4A3 metadynamics (AWS SageMaker)
 
 # Runs NR4A3 LBD well-tempered metadynamics (cryptic-pocket opening on the Pocket-5 Rg CV) as a
-# managed SageMaker Processing job: AWS provisions a GPU, enforces a hard MaxRuntime cap, and tears
-# the instance down on completion. Manual-dispatch. REQUIRES secrets:
-#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN  (region is a workflow input).
-# Validate with a short ns first; the run length sets MaxRuntime needs (default 8 h fits ~30 ns).
+# managed SageMaker managed-SPOT Training job: AWS provisions a spot GPU, checkpoints continuously to
+# S3, auto-resumes on interruption, and tears the instance down on completion. Manual-dispatch.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is an input).
+#
+# MULTI-WALKER / INDEPENDENT REPLICAS: dispatch this workflow ONCE PER SEED (e.g. seed=1, seed=2,
+# seed=3) to get >=3 INDEPENDENT metad realizations that run CONCURRENTLY on the spot Training quota
+# (8). Each seed writes to its own S3 prefix (nr4a3-metad-r{seed}); re-dispatching the SAME seed
+# RESUMES/extends that replica from its checkpoint (a seed mismatch on resume is refused). Then run
+# metad-analysis-aws.yml per replica for the orthogonal-CV + convergence readouts.
 
 on:
   workflow_dispatch:
     inputs:
+      seed:
+        description: "per-replica random seed (initial velocities + Langevin noise). Use 1/2/3 for the three independent realizations; keys the S3 prefix nr4a3-metad-r{seed}."
+        default: "1"
+        required: false
       ns:
         description: "nanoseconds of biased MD. 5-10 = pipeline validation; 30-50 = production."
         default: "30"
@@ -18,16 +27,24 @@ on:
         default: "NR4A3"
         required: false
       output_prefix:
-        description: "S3 output prefix (default <target>-metad, e.g. nr4a1-metad)"
+        description: "S3 output prefix (default <target>-metad-r{seed}, e.g. nr4a3-metad-r1). Override only to redirect a replica."
         default: ""
         required: false
       instance:
         description: "SageMaker GPU instance type"
         default: "ml.g5.xlarge"
         required: false
+      spot:
+        description: "1 = managed-spot Training (default, ~60-70% cheaper, quota 8, concurrent replicas); 0 = on-demand Training (quota 1, serial)."
+        default: "1"
+        required: false
       max_runtime:
-        description: "SageMaker hard MaxRuntime CEILING (seconds). You pay only for ACTUAL runtime, not the cap — so set it generously. 30ns needs ~9-10h of MD at NR4A LBD speeds (~80 ns/day); default 20h gives wide headroom so the job is never killed mid-run (an 8h cap truncated NR4A2 before its outputs uploaded). The GitHub wrapper dies at its own 6h cap but the SageMaker job runs to completion and uploads independently."
-        default: "72000"
+        description: "Per-ATTEMPT wall cap (seconds). A spot interruption/timeout RESUMES from the checkpoint (no loss), so you pay only for actual runtime. 30ns needs ~9-10h of MD at NR4A LBD speeds (~80 ns/day); default 12h gives headroom."
+        default: "43200"
+        required: false
+      max_wait:
+        description: "Spot only: total wait budget incl. capacity queueing (seconds; must be >= max_runtime). Empty = auto (~1.7x max_runtime). A capacity-wait burns $0 and auto-resumes — never switch to on-demand to dodge it."
+        default: ""
         required: false
       region:
         description: "AWS region — must match where the stack + GPU quota live"
@@ -36,10 +53,6 @@ on:
       git_ref:
         description: "repo ref the GPU job clones + runs (branch/tag/sha)"
         default: "main"
-        required: false
-      resume_from:
-        description: "continue a prior run's bias: '' = fresh, 'auto' = latest output prefix, or an s3:// path"
-        default: ""
         required: false
 
 permissions:
@@ -53,20 +66,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
-      - name: Submit SageMaker metadynamics job
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped the PyTorch estimator API)
+      - name: Submit SageMaker metadynamics spot Training job
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          SEED: ${{ inputs.seed }}
           NS: ${{ inputs.ns }}
           TARGET: ${{ inputs.target }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
           INSTANCE: ${{ inputs.instance }}
+          SPOT: ${{ inputs.spot }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
+          MAX_WAIT: ${{ inputs.max_wait }}
           GIT_REF: ${{ inputs.git_ref }}
-          RESUME_FROM: ${{ inputs.resume_from }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
