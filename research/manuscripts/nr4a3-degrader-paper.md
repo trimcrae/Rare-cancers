@@ -494,7 +494,7 @@ CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium 
 experimentally measured or validated ensemble-weighted binary affinities in future work** — we do **not**
 derive Kd values from the current raw ABFE absolutes (whose scale is not validated, §4).
 
-**At marketed-library scale, no repurposing candidate retains a favourable computational margin across the counter-screen.** Running the *same* funnel over the entire ~6,000-compound Broad Drug Repurposing Hub — with a 9-target anti-target/promiscuity panel added as a selectivity axis — **no shortlisted repurposing candidate retained a favourable computational margin across the selected 9-target counter-screen panel** (every paralogue-margin survivor, e.g. SNX-5422 / AGI-5198, engages ≥1 panel off-target more tightly than NR4A3 in this docking, whereas `denovo_401` does not). This is a screen-level computational result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** (not proves the necessity of) the de-novo route (§2.5); full screen in **SI §S1**.
+**At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor engages ≥1 panel off-target more tightly than NR4A3 in this docking, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.5). **Full screen and target panel: SI §S1.**
 
 ### 2.5 De-novo design yields NR4A3-selective candidates: decoy-calibrated, then multi-snapshot-confirmed (§2.6)
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
@@ -632,9 +632,15 @@ this is Rule-of-5-compliant; assembled into a CRBN degrader (binder + E3 ligand 
 projected into normal **beyond-Rule-of-5** PROTAC space (projected MW ~657) — expected for the modality, and
 the linker exit-vector build is tracked as an explicit next step (completeness ledger E4). The single-snapshot foothold `denovo_111` also de-noised well **as the neutral form**
 (+14.60 ± 4.10) — but a **pre-FEP species-resolution sweep subsequently demoted it**: `denovo_111`
-carries a basic pyrrolidine and is **cationic at physiological pH 7.4**, and in that protonation state its
-selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than NR4A3,
-−36.81 vs −21.80). Its apparent selectivity was a **neutral-form artifact**, so `denovo_111` is **withdrawn as
+carries a basic pyrrolidine assigned the **+1 cationic form at physiological pH 7.4**, and in that protonation
+state its selectivity **reverses** (multi-snapshot margin **−15.01 ± 5.14**, binding NR4A1 *more* tightly than
+NR4A3, −36.81 vs −21.80). *(Protonation-state assignment method: a rule-based RDKit SMARTS assignment
+(`fep_species.protonation_variants`) — an aliphatic secondary/tertiary amine that is not an amide, imine, or
+aromatic N (`[NX3;!$(N=*);!$(N-C=[O,N,S]);!$(n)]`) is treated as protonated (+1) at pH 7.4; amides/non-basic
+groups stay neutral. This is a **rule-based physiological-state assignment, not a pKa calculation**: we do not
+compute a predicted pKa, protomer populations, or alternate tautomers. Both the neutral and cationic forms of
+`denovo_111` were scored, and because the physiologically dominant cation reverses selectivity we withdraw it;
+`denovo_401` is a neutral amide-bearing scaffold to which this SMARTS emits only the neutral form.)* Its apparent selectivity was a **neutral-form artifact**, so `denovo_111` is **withdrawn as
 an FEP candidate** and **`denovo_401` is the sole candidate advanced through the computational funnel** (see the species-resolution paragraph below).
 
 **Honest weight.** `denovo_401` clears the **FEP-worthiness bar this
