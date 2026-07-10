@@ -895,7 +895,8 @@ weight, with the following caveats made explicit rather than buried:
    the **ternary** — **has now been tested (§2.4) and, for a representative PROTAC, does not materialize**:
    NR4A3/NR4A1/NR4A2 form equally productive ternaries, so the ternary does **not** compound the binder's NR4A1
    margin as hoped. Degradation selectivity therefore rests, on current evidence, on the **binder** (plus
-   **pharmacokinetics / CNS-exclusion** for NR4A2, whose tox is CNS-localized), with **linker/exit-vector
+   **pharmacokinetics / CNS-exclusion** for NR4A2, whose toxicity is *assumed* CNS-localized — an assumption
+   **not yet verified**, §5/SI §S6, not a fact), with **linker/exit-vector
    engineering** the only remaining (untested) route to ternary selectivity; and **fusion-vs-wild-type**
    selectivity remains **unobtainable from the degrader** (route to the ASO). Net: running the ternary
    *narrowed* the budget rather than widening it — the binder carries more of the load than the architecture
