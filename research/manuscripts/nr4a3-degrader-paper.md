@@ -918,9 +918,10 @@ weight, with the following caveats made explicit rather than buried:
    the pre-registered Gate 1 ("minimum or shoulder, not just biased excursions") **failed as registered**
    and was **reformulated** as basin-breathing. "Opened state" is shorthand for these breathing sub-states,
    not a distinct metastable conformation.
-3. **Gate 3 accessibility — a short-timescale persistence result, not an equilibrium population.** The
-   ~0.76 kcal/mol cost to a druggable conformation and ~38 kcal/mol to the open edge are read off the *same*
-   incompletely-converged biased F(Rg), so those numbers remain provisional. The open-seeded release run
+3. **Gate 3A (persistence) supported; Gate 3B (equilibrium accessibility) unresolved.** These are distinct:
+   a geometry can be equilibrium-rare yet persist once seeded. On **3B**, the ~0.76 kcal/mol cost to a
+   druggable conformation and ~38 kcal/mol to the open edge are read off the *same* biased F(Rg) (provisional,
+   convergence-limited). On **3A**, the open-seeded release run
    shows the seeded open-like geometry **persists across 3/3 short replicas and is fpocket-druggable in
    ~20–24 % of frames of one release trajectory** — a short-timescale persistence + single-trajectory frame
    fraction (**not** an equilibrium population; the frames are temporally correlated and the fraction is from
@@ -936,20 +937,21 @@ weight, with the following caveats made explicit rather than buried:
    not a demonstrated binding margin.
 5. **Binding selectivity ≠ degradation selectivity — and that reallocates the whole selectivity problem
    (SI §S3).** The §2.4 matrix is a necessary-not-sufficient filter; degradation selectivity is set by the
-   per-paralogue ternary complex (now computed, §2.4 / SI §S2 — paralogue-non-selective for the representative linker). The selectivity-architecture analysis sharpens
+   per-paralogue ternary complex (now computed, §2.4 / SI §S2 — no evidence for NR4A3-selective ternary geometry with the representative linker). The selectivity-architecture analysis sharpens
    this from a caveat into a design: selectivity is a **multiplicative budget** (binding × ternary ×
    kinetics) whose factors **compound**, so the binder need not carry it *alone* — but a selective binder is
    still strictly valuable and is the primary goal (`denovo_401` is a decoy-null-screened foothold, not fully
    control-validated (the decoy null does not control the generative step); the second candidate denovo_111 was withdrawn as protonation-fragile — §2.6). The
-   computed result that the orthosteric pocket is the *most* paralogue-divergent zone of the LBD
+   computed result that the orthosteric pocket is **enriched for paralogue-divergent residues**
    (70 % vs 43 % across the rest of the LBD) means binder selectivity is handle-rich but
    druggability/noise-limited — so the rational plan keeps the binder selective **and** optimizes it for
    affinity + a productive exit vector. The hoped-for *additional* lever — sourcing paralogue selectivity from
    the **ternary** — **has now been tested (§2.4) and, for a representative PROTAC, does not materialize**:
    NR4A3/NR4A1/NR4A2 form equally productive ternaries, so the ternary does **not** compound the binder's NR4A1
    margin as hoped. Degradation selectivity therefore rests, on current evidence, on the **binder** (plus
-   **pharmacokinetics / CNS-exclusion** for NR4A2, whose toxicity is *assumed* CNS-localized — an assumption
-   **not yet verified**, §5/SI §S6, not a fact), with **linker/exit-vector
+   **pharmacokinetics** for NR4A2: CNS exposure is an additional design concern given NR4A2's established
+   dopaminergic biology, **but the distribution of toxicity from NR4A2 loss is not established here**
+   (§5/SI §S6)), with **linker/exit-vector
    engineering** the only remaining (untested) route to ternary selectivity; and **fusion-vs-wild-type**
    selectivity remains **unobtainable from the degrader** (route to the ASO). Net: running the ternary
    *narrowed* the budget rather than widening it — the binder carries more of the load than the architecture
@@ -1058,8 +1060,12 @@ alerts). Three honest limits keep this short of an unqualified pass: the decoy n
 step only, not the *generative* step (`denovo_401` was pocket-conditioned on the release frame the decoys
 were never fit to) or the best-of-~200 selection; the margin does **not** survive into the non-design (biased
 metad-opened) frame, which is itself a poor discriminator; and the ensemble tier is single-trajectory
-GB-implicit MD, with no generation-matched null and no wet-lab validation. So Gate 4 is **met in silico by a
-de-noised, FEP-corroborated lead** — the strongest the in-silico evidence supports — not a
+GB-implicit MD, with no generation-matched null and no wet-lab validation. The preregistered gate was phrased
+as "a selective, drug-like ligand can **engage** the opened pocket," but the present ABFE does **not**
+establish absolute binding/engagement (the T4L benchmark fails, §4). We therefore report the gate at its true
+weight: **`denovo_401` achieves a predicted NR4A3-favoured profile in the computational opened-state models**
+— docking, relative MM-GBSA, and a *conditional* receptor-contrast ABFE — **met in silico under the
+preregistered computational criteria, but not as a demonstration of physical binding**, and not a
 specificity-controlled or experimentally validated pass. (The earlier nominal Gate-4 pass on the
 single-snapshot `denovo_15` verdict is retracted — it failed the decoy control and carries generative-model
 liabilities — and the interim decoy-calibrated foothold `denovo_111` was withdrawn on protonation grounds
