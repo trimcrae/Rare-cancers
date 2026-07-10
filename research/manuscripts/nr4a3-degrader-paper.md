@@ -91,7 +91,7 @@ The same cryptic-pocket framework is programmable across the NR4A selectivity ax
 
 ## 2. Results
 
-### 2.1 The static orthosteric pocket is borderline — calibrated, not just asserted
+### 2.1 The static orthosteric pocket is borderline — contextualized against a reference panel
 fpocket assigns the NR4A3 orthosteric pocket (Pocket 5, residues 406–534, carrying all 7 selectivity
 handles) a druggability of **0.495**. To make that interpretable we ran the same pipeline on a
 nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)):
@@ -102,13 +102,15 @@ nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../mo
 - fpocket **`max` is non-discriminating** (even the occluded 1OVL crystal scores 0.864 at a
   *non-orthosteric* cavity) — so the widely-quoted "Nurr1 ~0.8" is **not** the orthosteric pocket, and is
   present in both model (0.801) and crystal (0.864), i.e. **not an AlphaFold artifact**;
-- our AF2 model does **not** over-call (NR4A2 model 0.801 ≈ 1OVL crystal 0.864), so NR4A3's static
-  **0.495 is conservative**.
-Thus the static orthosteric pocket sits *just below* the validated druggable band — concordant with
+- the AF2 static orthosteric score (0.495) lies **below the empirical drug-bound reference boundary
+  (D\* = 0.53)** but **above the median score across the deposited 8XTT conformers** (0.012; §2.1-experimental
+  below); the AF2 model may therefore already represent a **relatively open member of the experimentally
+  observed structural range**, not a conservative lower bound.
+Thus the static orthosteric pocket sits *just below* the empirical drug-bound reference range — concordant with
 "undruggable", and the right starting point for the cryptic-pocket question.
 
-**Figure 1.** Calibrated druggability of the NR4A3 orthosteric pocket: the validated drug-bound
-nuclear-receptor band (PPARγ 0.599, ERα 0.586, Nurr1-holo 0.677, Nur77-holo 0.529; D\* = 0.53) against the
+**Figure 1.** Contextualized druggability of the NR4A3 orthosteric pocket: the empirical drug-bound
+nuclear-receptor reference range (PPARγ 0.599, ERα 0.586, Nurr1-holo 0.677, Nur77-holo 0.529; D\* = 0.53) against the
 static NR4A3 pocket (0.495, just below the band) and the metadynamics-opened peak (0.931, shown as a
 biased-ensemble readout on a distinct scale — not a like-for-like beat of the static band). Full figure: [`../modalities/nr4a3-fig1.png`](../modalities/nr4a3-fig1.png) (rendered by `nr4a3_journal_figures.py`).
 
@@ -347,8 +349,9 @@ selectivity therefore rests on a *narrower* engageable set than NR4A1 selectivit
 NR4A2/Nurr1 is the paralogue carrying the dopaminergic-loss liability one most wants to spare. This is a
 specification with a quantified, paralogue-resolved window — not a demonstrated binding margin. This design
 specification lets the
-*same* opened pocket be tuned **NR4A3-selective** (engaging the divergent handles; for the fusion sarcomas,
-sparing the NR4A1/NR4A3 myeloid tumour-suppressor function) or deliberately **pan-NR4A** (engaging the
+*same* opened pocket be tuned **NR4A3-selective** (engaging the divergent handles; an NR4A3-selective agent
+removes NR4A3 but **spares NR4A1**, thereby avoiding the combined NR4A1+NR4A3 loss state associated with
+myeloid-leukaemia risk) or deliberately **pan-NR4A** (engaging the
 conserved pocket residues; for ex-vivo immuno-oncology) — SI §S4.
 
 **These same handles are ortholog-conserved — divergent across paralogues yet invariant across
@@ -363,11 +366,15 @@ these six amniote species. Ortholog conservation is *suggestive* that these posi
 constrained, but it is **not** evidence of escape resistance in human tumours: cross-species conservation
 and acquired resistance under therapeutic selection are distinct questions, and we do not show that a
 tumour cannot mutate these residues or that doing so would abolish oncogenic function. This is the
-conservation observation only; an energetic test of the functional cost of mutation — a computational
-alanine scan of the handle residues (per-residue MM-GBSA ΔΔG of `denovo_401`; `nr4a3_resistance_ddg.py`) —
-is a computed follow-up, and human-variation / deep-mutational data would be needed to speak to resistance.
+conservation observation only. A computational alanine scan of the handle residues (per-residue MM-GBSA ΔΔG
+of `denovo_401`; `nr4a3_resistance_ddg.py`) could estimate the **ligand-binding sensitivity** to mutation,
+**not** the receptor's functional constraint — it does not tell us whether mutating a residue impairs
+receptor folding, transcriptional activity, or oncogenic function; that would require separate
+stability/function calculations or experimental mutational data. Human-variation / deep-mutational data would
+be needed to speak to escape resistance.
 
-**The warhead pocket is the most paralogue-divergent zone of the LBD — a selectivity hotspot.** Comparing
+**The warhead pocket is enriched for residues divergent from both paralogues — a candidate selectivity
+hotspot.** Comparing
 NR4A1/2/3 divergence in the orthosteric cryptic pocket (the warhead's contact residues) against the LBD-wide
 pocket-residue census (same `nr4a-selectivity.json` alignment):
 
@@ -380,19 +387,27 @@ pocket-residue census (same `nr4a-selectivity.json` alignment):
 
 **Supplementary Figure S2** ([`../modalities/nr4a3-figS2.png`](../modalities/nr4a3-figS2.png); generated by
 `nr4a3_journal_figures.py` from the table above, alignment source `nr4a-selectivity.json`). Paralogue
-divergence by LBD residue set: the orthosteric cryptic pocket (warhead contacts) is the *most*
-paralogue-divergent zone — 70 % of its residues differ from ≥1 paralogue (60 % from both), ~1.6× the LBD-wide
-average — while the predicted NR4A3–CRBN ternary interface is separately divergent on a *different* surface.
-Sequence divergence is handle *availability* (a specification), not a demonstrated binding margin.
+divergence by LBD residue set: the orthosteric cryptic pocket (warhead contacts) is **enriched for
+paralogue-divergent residues** — 70 % of its residues differ from ≥1 paralogue (60 % from both), ~1.6× the
+LBD-wide average — while the predicted NR4A3–CRBN ternary interface is separately divergent on a *different*
+surface. Sequence divergence is handle *availability* (a specification), not a demonstrated binding margin.
 
-The warhead pocket is **~1.6× more paralogue-divergent than the rest of the LBD** — the *most* divergent
-zone, a candidate selectivity hotspot, not a conserved wall. **This enrichment is statistically tested, not
-just asserted** (`nr4a3_divergence_enrichment.py`, one-sided Fisher exact of Pocket-5 vs the pooled
-background of all other LBD pocket-lining residues): the **divergence vs *both* paralogues is significant**
-(6/10 = 60 % vs 25 % background, **p = 0.028**), while divergence vs ≥1 paralogue is a **non-significant
-trend** (7/10 = 70 % vs 43 %, p = 0.090). The stricter both-paralogue criterion — the one that actually
-matters for an NR4A1- *and* NR4A2-sparing warhead — is the significant one, so the "hotspot" reading is
-supported on the decision-relevant metric while honestly flagged as trend-level on the looser one. So the
+The warhead pocket is **~1.6× more paralogue-divergent than the LBD-wide average** — a candidate selectivity
+hotspot, not a conserved wall. **This enrichment is statistically tested** (`nr4a3_divergence_enrichment.py`,
+one-sided Fisher exact of Pocket-5 vs the pooled background of all other LBD pocket-lining residues): the
+**divergence vs *both* paralogues** is **6/10 = 60 % vs 25 % background, p = 0.028**, while divergence vs ≥1
+paralogue is a **non-significant trend** (7/10 = 70 % vs 43 %, p = 0.090). Three caveats keep this from being
+over-read as a firm "most-divergent-zone" claim. **(a) Multiplicity:** two related endpoints were evaluated;
+a two-test Bonferroni correction moves p = 0.028 to 0.056, i.e. borderline — and "divergent vs both" was the
+decision-relevant metric but was **not** pre-registered as the sole endpoint. **(b) Spatial correlation:** the
+ten pocket residues are contiguous in space and are not an independent random sample, which the residue-wise
+Fisher test does not model. **(c) Selection:** the pocket itself was identified before this test, so a
+maximum-statistic correction across candidate pockets would be needed to claim it is *the* most divergent
+region. A spatial-block / contact-graph permutation with selection-aware (maximum-statistic) correction is a
+revision item (§5); until then we report an **enrichment on the decision-relevant metric, borderline after
+multiplicity**, not a calibrated "most divergent zone." The comparison table above contrasts the pocket
+against the LBD-wide census, the ternary interface, and the pooled remainder — it does **not** test every
+individual LBD sub-region, so "most divergent" is not established. So the
 binder's selectivity problem was **never handle scarcity**; it is **pocket druggability + affinity-margin robustness** (the cryptic, least-druggable-of-three
 pocket, and the MM-GBSA noise floor of §2.5–2.6). The full selectivity-architecture analysis — the
 multiplicative binder × ternary × kinetics budget, the paralogue-divergent CRBN-ternary interface, and a
