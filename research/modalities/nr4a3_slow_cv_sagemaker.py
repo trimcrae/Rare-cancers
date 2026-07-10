@@ -28,7 +28,9 @@ def main():
     git_ref = os.environ.get("GIT_REF", "main")
     lag_frames = os.environ.get("LAG_FRAMES", "10")
     n_components = os.environ.get("N_COMPONENTS", "5")
-    include_release = os.environ.get("INCLUDE_RELEASE", "1") == "1"
+    # Release DCDs use a different solvated box (atom count) than the metad topology, so they cannot be loaded
+    # with the metad PDB; default OFF. The 3 metad replicas are the biased-opening data the slow-CV wants.
+    include_release = os.environ.get("INCLUDE_RELEASE", "0") == "1"
     r1p = os.environ.get("R1_PREFIX", "nr4a3-metad-r1/ckpt")
     r2p = os.environ.get("R2_PREFIX", "nr4a3-metad-r2/ckpt")
     r3p = os.environ.get("R3_PREFIX", "nr4a3-metad-r3/ckpt")

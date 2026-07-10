@@ -134,17 +134,21 @@ def dihedral_sincos_2d(chi1_2d, np):
 
 
 def run_tica(features, lag_frames, n_components=5):
-    """Fit TICA on a stacked feature matrix (deeptime). Returns dict with eigenvalues, the IC projection,
-    and the number of components. Job only (deeptime)."""
+    """Fit TICA (deeptime) on one or MORE trajectories. `features` may be a single (n_frames x n_feat) array
+    or a LIST of such arrays (one per trajectory; deeptime estimates the time-lagged covariance across the
+    list without stitching frames across trajectory boundaries). Returns dict with eigenvalues, a per-trajectory
+    projection LIST (each n_frames x n_components), and n_components. Job only (deeptime)."""
     from deeptime.decomposition import TICA
     import numpy as np
+    data = features if isinstance(features, list) else [features]
+    data = [np.asarray(f, float) for f in data]
     est = TICA(lagtime=int(lag_frames), dim=int(n_components))
-    model = est.fit_fetch(np.asarray(features, float))
-    proj = model.transform(np.asarray(features, float))
+    model = est.fit_fetch(data)                                   # list of trajectories, not stacked
+    proj = [np.asarray(model.transform(f)) for f in data]         # project each trajectory separately
     eig = getattr(model, "singular_values", None)
     if eig is None:
         eig = getattr(model, "eigenvalues", None)
-    return {"eigenvalues": [float(v) for v in (eig if eig is not None else [])],
+    return {"eigenvalues": [float(v) for v in (list(eig) if eig is not None else [])],
             "projection": proj, "n_components": int(n_components)}
 
 

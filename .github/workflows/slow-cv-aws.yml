@@ -13,7 +13,7 @@ on:
       region: { description: "AWS region", default: "us-east-2", required: false }
       lag_frames: { description: "TICA lag in frames (0.05 ns/frame; 10 = 0.5 ns)", default: "10", required: false }
       n_components: { description: "number of TICA components", default: "5", required: false }
-      include_release: { description: "also featurize the release replicas (1/0)", default: "1", required: false }
+      include_release: { description: "also featurize the release replicas (1/0; off — different topology)", default: "0", required: false }
       r1_prefix: { description: "metad r1 checkpoint prefix", default: "nr4a3-metad-r1/ckpt", required: false }
       r2_prefix: { description: "metad r2 checkpoint prefix", default: "nr4a3-metad-r2/ckpt", required: false }
       r3_prefix: { description: "metad r3 checkpoint prefix", default: "nr4a3-metad-r3/ckpt", required: false }
