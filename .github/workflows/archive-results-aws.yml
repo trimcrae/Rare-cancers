@@ -71,4 +71,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add results/ || true
           git commit -m "archive: mirror surviving SageMaker results into git [skip ci]" || { echo "no new results to commit"; exit 0; }
-          git push
+          # robust push: main is actively committed to, so rebase-and-retry on rejection
+          for i in 1 2 3 4 5; do
+            if git push; then echo "pushed"; break; fi
+            echo "push rejected (attempt $i) — rebasing on latest main"; git pull --rebase --autostash origin main || true
+            sleep 3
+          done
