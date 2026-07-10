@@ -1,4 +1,4 @@
-# Supplementary Information: Computational design of a selective NR4A3 degrader — opening a cryptic pocket in a "ligand-independent" nuclear receptor
+# Supplementary Information: In-silico ligand design for a cryptic, paralogue-selective NR4A3 pocket
 
 **Tristan D. McRae** — *Independent researcher. Correspondence: trimcrae@gmail.com*
 
@@ -142,8 +142,9 @@ recorded honestly:
   passes in its design frame but is receptor-frame-dependent** — a real but qualified pass, consistent
   with the "fragile margin in a cryptic pocket" thesis. Honest bounds: single-trajectory GB-implicit
   MD (not affinity-grade FEP), unsynthesized, no wet lab; and the decoy null controls the **scoring**
-  step but not the **generative** step or the best-of-N selection (see SI §4, F16). Selectivity FEP
-  remains the one outstanding quantitative gate.
+  step but not the **generative** step or the best-of-N selection (see SI §4, F16). The affinity-grade
+  selectivity tier (three-replicate ABFE) has since been **run** and is NR4A3-selective in direction
+  across all three replicates (offset-invariant ΔΔG only; NR4A2 λ-overlap repair pending).
 
 ---
 
@@ -162,17 +163,22 @@ model over-call**.
 | **0b** | AF2-model over-call of the cavity | Interpretation (not pass/fail) | **No over-call** | NR4A2 model max 0.801 ≈ occluded crystal 0.864 → static NR4A3 0.495 is trustworthy and conservative |
 | **1** | A genuine cryptic *opening* occurs | Converged F(Rg) shows an opened minimum/shoulder distinct from the closed basin | **Qualified — met only in the weaker basin-breathing sense** | F(Rg) monotonic (single closed basin, rising wall, no opened minimum); druggable frames reached by basin-internal breathing, not a two-state switch; consistent with de Vera 2019 |
 | **2** | The opened state is druggable | ≥ 5 % of opened frames ≥ D\*; pocket still lines 406–534; handles pocket-facing | **Pass (both clauses)** | Peak orthosteric Pocket-5 druggability 0.931 (max over frames; report as fraction ≥ D\*, met); mean 5.0/7 selectivity handles pocket-facing in druggable frames (L406, T410, I484, I531, L534 reliably inward; T407/R412 splay outward) |
-| **3** | Opening is energetically accessible | Closed → druggable-open cost ≤ ~5 kcal/mol | **Provisionally met** | A druggable frame (fpocket ~0.80) sits at Rg ≈ 0.717 nm costing ~0.76 kcal/mol on the (under-converged, biased) F(Rg); the naive closed→fully-open ~38 kcal/mol reads the under-converged frontier and is discounted. Independent confirmation: an unbiased release simulation finds the geometry **metastable (3/3 replicas held 5 ns, mean drift 0.025 nm)** and **druggable in ~24 % of unbiased frames** (max 0.842, mean 0.262) at Rg ≈ 0.737 |
-| **4** | A selective, drug-like ligand engages the pocket | Docks well, contacts handles, predicted selectivity margin vs NR4A1/2 | **Qualified pass in silico (one lead)** | denovo_401: multi-snapshot margin +12.83 ± 2.98 (margin − SD +9.85); exceeds a like-for-like multi-snapshot decoy null in its **release/design frame**, but **not** in the biased metad-opened frame (receptor-frame-dependent). Single-trajectory GB-implicit MD, not FEP; unsynthesized; decoy null controls scoring but not generation (SI §4, F16) |
+| **3A** | Opened geometry **persists** after bias removal | Seeded druggable frame does not promptly collapse in unbiased MD | **Supported** | Unbiased release MD seeded at the low-energy druggable frame: geometry **persists — 3/3 replicas held 5 ns, mean drift 0.025 nm, no collapse**, and is **druggable in ~24 % of unbiased frames** (max 0.842, mean 0.262) at Rg ≈ 0.737 — a spontaneously sampled cavity, not a static always-open pocket |
+| **3B** | Opening is **equilibrium-accessible** from the closed ensemble | Converged closed → druggable-open cost ≤ ~5 kcal/mol | **Unresolved** | F(Rg) is monotonic/under-converged and the release replicas do not agree on a converged opening free energy, so the equilibrium population is not established; the ~0.76 kcal/mol reading of the biased profile is a feasibility number, not a converged cost. 5 ns rules out prompt collapse, not tens-to-hundreds-of-ns relaxation |
+| **4** | A selective, drug-like ligand engages the pocket | Docks well, contacts handles, predicted selectivity margin vs NR4A1/2 | **Qualified pass in silico (one lead)** | denovo_401: multi-snapshot margin +12.83 ± 2.98 (margin − SD +9.85); exceeds a like-for-like multi-snapshot decoy null in its **release/design frame**, but **not** in the biased metad-opened frame (receptor-frame-dependent). Endpoint MM-GBSA + three-replicate ABFE (below); unsynthesized; decoy null controls scoring but not generation (SI §4, F16) |
 
 **Decision-rule reading.** Gate 0 passes (on the corrected, disclosed metric) and Gate 0b is
-reassuring. Gate 2 passes cleanly. Gate 1 is met only in the weaker basin-breathing sense, and
-Gate 3's energetic-accessibility number is a feasibility reading of an under-converged biased
-profile — the independent metastability confirmation comes from the unbiased release run (positive:
-metastable, ~24 % druggable frames), not from the biased F(Rg). Gate 4 is a qualified, in-silico,
-frame-dependent pass carried by a single lead. Net: the orthosteric pocket is **computationally
-tractable as a dynamic, induced-fit site** at feasibility weight; affinity-grade selectivity
-(FEP) is the one remaining tier.
+reassuring. Gate 2 passes cleanly. Gate 1 is met only in the weaker basin-breathing sense. Gate 3 is
+split: **3A (persistence after bias removal) is supported** by the unbiased release run (the seeded
+druggable geometry holds 5 ns in 3/3 replicas and is druggable in ~24 % of frames), while **3B
+(equilibrium accessibility) is unresolved** — the biased F(Rg) is monotonic/under-converged and the
+replicas do not agree on a converged opening free energy, so we do not claim the opened state's
+equilibrium population. Gate 4 is a qualified, in-silico, frame-dependent pass carried by a single
+lead. Net: the orthosteric pocket is **computationally tractable as a dynamic, basin-breathing site
+whose opened geometry persists once bias is removed** at feasibility weight; the affinity-grade
+selectivity tier (three-replicate ABFE) has since been **run** — NR4A3-selective in direction across
+all three replicates (offset-invariant ΔΔG −4.76/−4.98 kcal/mol vs NR4A1/NR4A2; NR4A2 λ-overlap repair
+pending; absolute scale not validated).
 
 ---
 
@@ -337,9 +343,10 @@ the manuscript and its supporting analyses.
 | **F20** | Low | The working-doc abstract carried an editing artifact (doubled "still") and buried the honest bottom line across three successive retracted leads | Removed the artifact; the deliverable preprint abstract is the tighter, factually current version (feasibility druggability result + one de-noised foothold, no FEP, no wet lab). **Resolved** |
 
 **Net effect of the review.** The self-review repeatedly **narrowed** claims to what the finished
-analyses support: the druggability case is a **feasibility** result (an induced-fit cavity druggable
-~a quarter of the time, not an always-open pocket); the lead is a **receptor-frame-dependent de-noised
-foothold**, not a demonstrated-specificity hit; the ternary is **productive but not paralogue-selective**
-for the representative linker; and affinity-grade **selectivity FEP** remains the one outstanding
-quantitative tier. No finding was left un-mitigated, and every mitigation moved the manuscript toward a
-more conservative reading.
+analyses support: the druggability case is a **feasibility** result (a basin-breathing cavity druggable
+~a quarter of the time — persistence supported, equilibrium accessibility unresolved — not an always-open
+pocket); the lead is a **receptor-frame-dependent de-noised foothold**, not a demonstrated-specificity
+hit; the ternary is **productive but not paralogue-selective** for the representative linker; and the
+affinity-grade **selectivity ABFE** has since been **run** (three-replicate, NR4A3-selective in direction;
+offset-invariant ΔΔG only, NR4A2 λ-overlap repair pending). No finding was left un-mitigated, and every
+mitigation moved the manuscript toward a more conservative reading.
