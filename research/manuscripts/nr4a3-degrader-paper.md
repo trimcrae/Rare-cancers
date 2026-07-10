@@ -312,10 +312,12 @@ not scored zero) are given in the SI. (ii) **5 ns is a short persistence window*
 but a geometry can hold on 5 ns and still relax on tens–hundreds of ns, so "persists" here means "does not
 promptly collapse," not "a verified long-lived sub-state.")* The honest reading: this is **not** an
 always-open pocket (mean 0.262 < 0.5) but a **dynamic cavity** whose seeded open-like geometry does not
-promptly collapse once the bias is removed and is fpocket-druggable in ~20–24 % of frames of one release
-trajectory. **This is a short-timescale persistence result plus a single-trajectory frame fraction — NOT an
-equilibrium population estimate:** the frames are temporally correlated, the fraction is from one replica,
-and 5 ns cannot establish the equilibrium probability of the conformation or a spontaneous opening rate. So
+promptly collapse once the bias is removed and is fpocket-druggable in a fraction of frames **across all three
+release replicas** (≥ D\* in 0.20 / 0.16 / 0.28 of frames; below). **These are correlated, open-seeded,
+non-equilibrium frame fractions — NOT equilibrium population estimates**, and (per the pocket-tracking Methods)
+they use a **detected-matched-pocket denominator**; the harmonized re-analysis with an all-frame denominator
+and a stricter site-match is a submission gate (§4 / §5). 5 ns cannot establish the equilibrium probability of
+the conformation or a spontaneous opening rate. So
 **Gate 3A is supported** (the seeded druggable geometry does not promptly relax once the bias is removed)
 while **Gate 3B — equilibrium energetic accessibility from the closed ensemble — remains unresolved** (the
 only estimate is the convergence-limited biased F(Rg)); a warhead would need to select-and-stabilise these
@@ -332,9 +334,10 @@ and R412 mostly splay outward** (facing in 0.0 and 0.25 of druggable frames), so
 selective-engagement set is those five, not all seven. This is also the precondition for the warhead
 screen's handle-contact scoring (§2.4). The open-seeded "release" run is the orthogonal Gate-3A test (does
 the seeded open-like geometry persist, or promptly collapse once the bias is removed?); the seeded geometry
-persists across 3/3 short replicas and is fpocket-druggable in ~20–24 % of frames of one release trajectory
-(a frame fraction, not a population), so the **short-timescale persistence question (3A) is answered** (it
-does not promptly collapse), while equilibrium accessibility (3B) is not. The calculations do **not**
+persists across 3/3 short replicas and is fpocket-druggable in a fraction of frames of **each of the three
+release replicas** (≥ D\* in 0.20/0.16/0.28; detected-pocket denominator), so the **short-timescale
+persistence question (3A) is answered** (it does not promptly collapse), while equilibrium accessibility (3B)
+is not. The calculations do **not**
 distinguish conformational selection from ligand-induced stabilization; we use the neutral term
 *short-timescale persistent open-like geometry* (see the release-run paragraph above).)*
 
@@ -970,13 +973,14 @@ weight, with the following caveats made explicit rather than buried:
    and was **reformulated** as basin-breathing. "Opened state" is shorthand for these breathing sub-states,
    not a distinct metastable conformation.
 3. **Gate 3A (persistence) supported; Gate 3B (equilibrium accessibility) unresolved.** These are distinct:
-   a geometry can be equilibrium-rare yet persist once seeded. On **3B**, the ~0.76 kcal/mol cost to a
-   druggable conformation and ~38 kcal/mol to the open edge are read off the *same* biased F(Rg) (provisional,
-   convergence-limited). On **3A**, the open-seeded release run
-   shows the seeded open-like geometry **persists across 3/3 short replicas and is fpocket-druggable in
-   ~20–24 % of frames of one release trajectory** — a short-timescale persistence + single-trajectory frame
-   fraction (**not** an equilibrium population; the frames are temporally correlated and the fraction is from
-   one replica), and explicitly **not** a static always-open pocket (mean 0.262). The calculations do not
+   a geometry can be equilibrium-rare yet persist once seeded. On **3B**, the single-continued-trajectory
+   ~0.6–0.76 kcal/mol cost to a druggable conformation is **not reproduced across the three independent metad
+   replicas** (basin→druggable ΔF = 0.06 / 0.83 / 16.0 kcal/mol; §2.2), and those numbers are read off
+   still-drifting biased F(Rg) — so 3B is unresolved. On **3A**, the open-seeded release run
+   shows the seeded open-like geometry **persists across 3/3 short replicas and is fpocket-druggable in a
+   fraction of frames of all three replicas** (≥ D\* in 0.20/0.16/0.28; detected-pocket denominator) — correlated,
+   open-seeded, non-equilibrium frame fractions (**not** an equilibrium population), and explicitly **not** a
+   static always-open pocket (mean 0.262). The calculations do not
    distinguish conformational selection from ligand-induced stabilization. The design consequence: a warhead
    would need to select-and-stabilise a transiently-druggable open-like geometry rather than occupy a
    permanent pocket — a harder ask, and one whose *equilibrium* likelihood would need reweighted enhanced
@@ -1087,17 +1091,26 @@ that file's deviation log: (i) the **Gate 0** metric (max → orthosteric/ligand
 drug-bound bar, not a laxer one); and (ii) **Gate 1**, which asked for a free-energy *minimum or shoulder*
 at an opened Rg "not just biased excursions" — F(Rg) is instead monotonic, so Gate 1 is reported as
 **failed as pre-registered** (no separate opened basin) and **reformulated** into the *basin-breathing*
-hypothesis the release run then tested. The metastability question that
-deferral left open is now **answered by the completed unbiased release run** (§2.2): the breathing-open
-seeded open-like geometry persists across 3/3 short replicas and is fpocket-druggable in ~20–24 % of frames
-of one release trajectory (short-timescale persistence, not equilibrium population) rather than promptly
-collapsing as bias-induced strain — so **Gate 3 is cautiously passed** in that narrow sense, not deferred. We
-explicitly do **not** claim "Gates 0–3 all pass" as *unqualified* passes — **Gate 1 failed as pre-registered**
-(basin-breathing is the replacement hypothesis, not a weaker pass), and Gate 3 rests on short-timescale
-persistence (not an always-open pocket and not a demonstrated equilibrium population). The route is
+hypothesis the release run then tested; and (iii) **Gate 3 is split** into two subclaims that no single run
+can jointly settle (a kinetic/thermodynamic distinction), reported separately below rather than as one
+"Gate 3 passed." The pre-registered gates and outcomes:
+
+| Gate | Pre-registered criterion | Outcome | Deviation | Current interpretation |
+|---|---|---|---|---|
+| 0 | druggability metric / bar | pass | metric → orthosteric/ligand-site, D\*=0.53 (a real drug-bound bar) | applies the stricter, ligand-site metric |
+| 1 | a free-energy minimum/shoulder at an opened Rg | **fail** | reformulated to *basin-breathing* | no separate opened basin; F(Rg) monotonic |
+| 2 | opened state geometrically druggable | pass **under the fpocket criterion** | — | **pending the harmonized pocket-tracking re-analysis** (§4/§5): current fractions use a detected-pocket denominator + a permissive site match |
+| 3A | persistence after bias removal | **supported** | *post hoc* split from Gate 3 | seeded open-like geometry holds 5 ns in 3/3 replicas |
+| 3B | equilibrium energetic accessibility from the closed ensemble | **unresolved** | *post hoc* split from Gate 3 | biased F(Rg) does not agree across the three replicas (ΔF spread ~16 kcal/mol); enhanced-sampling convergence pending |
+| 4 | a selective drug-like ligand meets the computational criteria | met **in silico**, not physical | absolute engagement not shown | provisional single candidate (below) |
+
+We explicitly do **not** claim "Gates pass" as unqualified: Gate 1 **failed** as pre-registered, Gate 2 is
+**provisional pending the tracking re-analysis**, Gate 3A is supported only in the narrow persistence sense
+while **Gate 3B is unresolved**, and Gate 4 is an in-silico criterion, not physical binding. The 3A/3B split
+and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, logged as such in the deviation
+file and **not** folded silently into the original single-Rg gate definition. The route is
 abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened conformations are not
-druggable, not energetically accessible (the release run would have collapsed them as bias-induced strain —
-it did **not**), or no selective drug-like binder can be designed.
+geometrically druggable under the harmonized analysis, or no selective drug-like binder can be designed.
 
 **Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single
 de-noised, FEP-corroborated foothold, not an unqualified pass.** The pre-registered Gate 4 asked for
