@@ -1,0 +1,55 @@
+{
+  "_note": "Generation-matched decoy null: the identical de-novo funnel run on CONTROL objectives, to measure how often the whole generate->filter->dock->MM-GBSA->best-of-N procedure manufactures a confirmed-selective, above-null survivor. Screening-null statistic.",
+  "params": {
+    "null_q": 95.0,
+    "band": 1.0,
+    "subtract_sd": true,
+    "decoy_null": "committed constant DECOY_2026_06_30 (38)",
+    "n_decoys": 38,
+    "decoy_threshold": 13.1165
+  },
+  "real_campaign": {
+    "n_generated": 191,
+    "n_rescored": 13,
+    "n_confirmed_selective": 3,
+    "n_above_null": 0,
+    "n_survivors": 0,
+    "survivors": [],
+    "best_margin": 6.14,
+    "threshold": 13.117,
+    "manufactured": false,
+    "campaign": "nr4a3-release (denovo_401)",
+    "survivors_reported": 1
+  },
+  "controls": [
+    {
+      "n_generated": 191,
+      "n_rescored": 20,
+      "n_confirmed_selective": 2,
+      "n_above_null": 0,
+      "n_survivors": 0,
+      "survivors": [],
+      "best_margin": 1.57,
+      "threshold": 13.117,
+      "manufactured": false,
+      "control": "scramble"
+    }
+  ],
+  "comparison": {
+    "real_n_generated": 191,
+    "real_n_survivors": 1,
+    "real_per_molecule_rate": 0.005236,
+    "control_fp": {
+      "n_controls": 1,
+      "n_control_campaigns_with_survivor": 0,
+      "campaign_manufacture_rate": 0.0,
+      "pooled_generated": 191,
+      "pooled_survivors": 0,
+      "per_molecule_fp_rate": 0.0
+    },
+    "p_value": 0.0,
+    "enrichment": Infinity,
+    "exceeds_chance": true,
+    "verdict": "real campaign produced a survivor the control objectives NEVER manufactured (0 control survivors) -> survival is not a generic funnel artifact"
+  }
+}
