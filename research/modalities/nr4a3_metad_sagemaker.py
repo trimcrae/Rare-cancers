@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
 """
-Submit the NR4A3 LBD metadynamics as an AWS SageMaker Processing job (managed, auto-tears-down).
+Submit the NR4A3 LBD metadynamics as an AWS SageMaker managed-**spot Training** job (one job per
+independent-seed replica).
 
-Same managed-GPU path as nr4a3_md_sagemaker.py (entry_metad.py builds the CUDA OpenMM + PLUMED env).
-Outputs (COLVAR, HILLS, trajectory, fes.dat, and the checkpoint/restart set) go to
-s3://<default-bucket>/nr4a3-metad. Default MaxRuntime is 8 h to fit a ~30 ns biased run; raise
-MAX_RUNTIME for longer NS.
+Converted from an on-demand Processing job (which serialized on the single on-demand g5 quota) to a
+managed-spot Training job (same pattern as nr4a3_md_release_sagemaker.py / nr4a3_fep_sagemaker.py):
+  * spot is ~60-70% cheaper AND draws on the larger spot Training quota (8), so >=3 seed replicas run
+    CONCURRENTLY instead of serially;
+  * checkpoint_s3_uri <-> /opt/ml/checkpoints gives native, spot-safe resume — SageMaker downloads the
+    prior restart set on start (spot interruption OR fresh re-dispatch with the same prefix) and uploads
+    continuously, so a kill loses <=1 checkpoint (~100 ps). This IS the resume mechanism; no
+    --resume-from staging is needed.
 
-RESUME_FROM env: continue a prior run's accumulated bias instead of starting fresh.
-  - unset / ""     -> fresh run.
-  - "auto"         -> resume from the default output prefix s3://<bucket>/nr4a3-metad (the latest run;
-                      a completed run overwrites that prefix with its cumulative checkpoint + HILLS).
-  - "s3://..."     -> resume from that explicit prefix.
-A resume is refused inside nr4a3_metad.py if the CV or metad parameters changed.
+Per replica: SEED picks the initial velocities + Langevin noise (independent realization) and keys the
+S3 prefix, default nr4a3-metad-r{seed}, so replicas never share a HILLS file. Dispatch one job per seed
+(gpu-metad-aws.yml with different `seed` inputs) to get the >=3 independent metad realizations the
+reviewer asked for. Re-dispatch the SAME seed to resume/extend that replica (resumes from its checkpoint).
+
+Env: SEED (default 1), NS (default 30), TARGET (NR4A3), INSTANCE (ml.g5.xlarge), SPOT (1), MAX_RUNTIME
+(per-attempt wall cap, s), MAX_WAIT (spot; >= MAX_RUNTIME), OUTPUT_PREFIX (override the per-seed default),
+GIT_REF (main). Needs AWS creds + SAGEMAKER_ROLE_ARN. Driven from gpu-metad-aws.yml.
 """
 import os
 import sys
@@ -21,7 +28,6 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
         from sagemaker.pytorch import PyTorch
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
@@ -31,66 +37,41 @@ def main():
         sys.exit("SAGEMAKER_ROLE_ARN not set (the SageMaker execution-role ARN)")
     ns = os.environ.get("NS", "30")
     target = os.environ.get("TARGET", "NR4A3").upper()
+    seed = os.environ.get("SEED", "1").strip() or "1"
     instance = os.environ.get("INSTANCE", "ml.g5.xlarge")
-    # Hard cap CEILING; AWS kills the job at this. You pay only for ACTUAL runtime, not the cap, so it's
-    # set generously: 30 ns needs ~9-10 h of MD at NR4A LBD speeds (~80 ns/day), default 20 h gives wide
-    # headroom so the job is never killed mid-run. (An 8 h cap truncated NR4A2 BEFORE the script finished
-    # + uploaded, leaving an empty S3 prefix; the GitHub 6 h wrapper cancellation is separate/harmless.)
-    max_runtime = int(os.environ.get("MAX_RUNTIME", str(20 * 3600)))
-    git_ref = os.environ.get("GIT_REF", "main")   # repo ref the job clones + runs (default main)
-    resume_from = os.environ.get("RESUME_FROM", "").strip()
+    # Per-ATTEMPT wall cap (spot interruption/timeout -> resume from checkpoint, not a loss). 30 ns needs
+    # ~9-10 h of MD at NR4A LBD speeds (~80 ns/day); default 12 h gives headroom. max_wait must be >=
+    # max_run for spot (run time + capacity wait); a capacity-wait burns $0 and auto-resumes (do NOT
+    # switch to on-demand — standing rule).
+    max_run = int(os.environ.get("MAX_RUNTIME", str(12 * 3600)))
+    spot = os.environ.get("SPOT", "1") == "1"
+    max_wait = int(os.environ.get("MAX_WAIT", str(int(max_run * 1.7)))) if spot else None
+    git_ref = os.environ.get("GIT_REF", "main")
 
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
-    # Output S3 prefix. Default keyed to the target (nr4a3-metad / nr4a1-metad / nr4a2-metad) so the
-    # family runs don't overwrite each other; OUTPUT_PREFIX overrides.
-    out_name = os.environ.get("OUTPUT_PREFIX") or f"{target.lower()}-metad"   # empty -> target default
-    out_prefix = f"s3://{bucket}/{out_name}"
+    # Per-seed S3 prefix so replicas are isolated (never share HILLS). OUTPUT_PREFIX overrides.
+    out_prefix = os.environ.get("OUTPUT_PREFIX") or f"{target.lower()}-metad-r{seed}"
+    # checkpoint_s3_uri IS the resume mechanism: SageMaker downloads its prior contents to
+    # /opt/ml/checkpoints on start (spot restart OR a re-dispatch with the same prefix), then uploads
+    # continuously. The metad restart set + HILLS/COLVAR/trajectory/fes.dat all live here.
+    ckpt = f"s3://{bucket}/{out_prefix}/ckpt"
 
-    # Resolve the resume source. "auto" -> the default output prefix (the latest cumulative run).
-    resume_s3 = ""
-    if resume_from.lower() == "auto":
-        resume_s3 = out_prefix
-    elif resume_from:
-        resume_s3 = resume_from
-
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name=out_name,
-        sagemaker_session=sess,
+    est = PyTorch(
+        entry_point="entry_metad.py", source_dir=os.path.join(here, "sagemaker_src"),
+        role=role, framework_version="2.3", py_version="py311",
+        instance_count=1, instance_type=instance, sagemaker_session=sess,
+        base_job_name=out_prefix,
+        use_spot_instances=spot, max_run=max_run, max_wait=max_wait,
+        checkpoint_s3_uri=ckpt, checkpoint_local_path="/opt/ml/checkpoints",
+        hyperparameters={"ns": ns, "target": target, "seed": seed, "git-ref": git_ref},
     )
-
-    arguments = ["--ns", str(ns), "--target", target, "--git-ref", git_ref]
-    inputs = []
-    if resume_s3:
-        inputs.append(ProcessingInput(source=resume_s3, destination="/opt/ml/processing/resume",
-                                      input_name="resume"))
-        arguments += ["--resume-from", "/opt/ml/processing/resume"]
-
-    print(f"submitting metadynamics: target={target}, {instance}, ns={ns}, ref={git_ref}, "
-          f"resume_from={resume_s3 or '(fresh)'}, max_runtime={max_runtime}s -> {out_prefix}",
+    print(f"submitting metadynamics replica: target={target}, seed={seed}, {instance} spot={spot}, "
+          f"ns={ns}, ref={git_ref}, max_run={max_run}s max_wait={max_wait}s -> checkpoints {ckpt}",
           flush=True)
-    proc.run(
-        code="entry_metad.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=inputs,
-        # CONTINUOUS upload: stream /opt/ml/processing/output (the live checkpoint/HILLS/DCD restart set)
-        # to S3 throughout the run — so an interrupted/killed run is RESUMABLE from S3 (resume_from=auto),
-        # not wasted, even if the job never reaches clean completion.
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=out_prefix,
-                                  s3_upload_mode="Continuous")],
-        arguments=arguments,
-        wait=True,
-        logs=True,
-    )
-    print(f"done — results in {out_prefix}", flush=True)
+    est.fit(wait=True, logs=True)   # wait -> quota/capacity errors surface in the log
+    print(f"done — restart set + HILLS/COLVAR/trajectory/fes.dat in {ckpt}", flush=True)
 
 
 if __name__ == "__main__":

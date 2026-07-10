@@ -1,0 +1,80 @@
+name: NR4A3 metad convergence + orthogonal-CV analysis (AWS SageMaker)
+
+# Cheap CPU follow-up to the GPU metad replicas (gpu-metad-aws.yml): computes the reviewer-requested
+# convergence + orthogonal-CV readouts on a metad replica already in S3 —
+#   (a) an ORTHOGONAL pocket-opening coordinate (pocket-mouth gate distance) per frame + its correlation
+#       with the Rg CV, and a best-effort mdpocket volume;
+#   (b) time-block convergence of F(Rg) (F at 10/20/30/... ns + block-to-block |ΔF|);
+#   (c) closed<->open recrossings and druggable-window visit counts;
+#   (d) a reweighted 2D F(Rg, gate).
+# Runs as a SageMaker Processing job on a CPU instance (no GPU quota used). Manual-dispatch.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is an input).
+# Run ONCE PER REPLICA (input_prefix = nr4a3-metad-r1/ckpt, r2, r3) after the metad runs populate S3.
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_prefix:
+        description: "S3 prefix of the metad replica to analyze (HILLS/COLVAR/solvated PDB/trajectory live here), e.g. nr4a3-metad-r1/ckpt"
+        default: "nr4a3-metad-r1/ckpt"
+        required: false
+      output_prefix:
+        description: "S3 prefix for the analysis results"
+        default: "nr4a3-metad-analysis-r1"
+        required: false
+      dcd_name:
+        description: "metad trajectory filename in the input prefix"
+        default: "nr4a3-lbd-metad.dcd"
+        required: false
+      structure_prefix:
+        description: "S3 prefix holding nr4a3-lbd-solvated.pdb if NOT in input_prefix; empty = co-located"
+        default: ""
+        required: false
+      block_ns:
+        description: "convergence block size (ns): F reconstructed at 10/20/30/... ns"
+        default: "10"
+        required: false
+      instance:
+        description: "SageMaker instance type (CPU ml.c5.* avoids GPU quota contention)"
+        default: "ml.c5.2xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack + data live"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker metad analysis job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INPUT_PREFIX: ${{ inputs.input_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          DCD_NAME: ${{ inputs.dcd_name }}
+          STRUCTURE_PREFIX: ${{ inputs.structure_prefix }}
+          BLOCK_NS: ${{ inputs.block_ns }}
+          INSTANCE: ${{ inputs.instance }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_metad_analysis_sagemaker.py

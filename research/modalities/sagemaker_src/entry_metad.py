@@ -1,29 +1,35 @@
 #!/usr/bin/env python3
-"""SageMaker entry: NR4A3 LBD well-tempered metadynamics (cryptic-pocket opening).
+"""SageMaker managed-SPOT Training entry: NR4A3 LBD well-tempered metadynamics (cryptic-pocket opening).
 
-Same CUDA OpenMM conda recipe as the plain MD (entry.py) plus openmm-plumed for the metadynamics
-bias. Runs nr4a3_metad.py and copies the CV/bias logs, trajectory, topology, free-energy profile, and
-the checkpoint/restart set to /opt/ml/processing/output (auto-uploaded to S3).
+Converted from an on-demand Processing job to a managed-spot Training job (same pattern as
+entry_release.py / nr4a3_md_release_sagemaker.py), so >=3 independent-seed replicas run CONCURRENTLY on
+the spot Training quota (8) instead of serializing on the single on-demand g5 Processing quota (1).
 
---resume-from <dir>: a directory (a prior run's outputs, mounted by SageMaker as a ProcessingInput)
-holding the restart set (metad_system.xml, nr4a3-lbd-solvated.pdb, metad_checkpoint.chk /
-metad_state.xml, HILLS, COLVAR, metad_manifest.json, and the trajectory). These are staged into the
-work dir before the run so nr4a3_metad.py continues the accumulated bias instead of starting fresh.
+Resume is automatic and spot-safe: OUTPUT_DIR == the SageMaker-managed checkpoint dir
+(SM_CHECKPOINT_DIR / /opt/ml/checkpoints), which SageMaker (a) PRE-POPULATES on start by downloading
+checkpoint_s3_uri (a spot interruption OR a fresh re-dispatch with the same prefix) and (b) UPLOADS
+CONTINUOUSLY during the run. nr4a3_metad.py writes its whole restart set (metad_system.xml,
+nr4a3-lbd-solvated.pdb, metad_checkpoint.chk / metad_state.xml, HILLS, COLVAR, trajectory, fes.dat,
+metad_manifest.json) there, so on restart it finds them and continues the accumulated bias with
+PLUMED RESTART — losing at most the work since the last checkpoint (~100 ps). No --resume-from staging
+is needed: the checkpoint dir replaces the ProcessingInput resume mount.
+
+Each replica uses a DISTINCT --seed (independent initial velocities + Langevin noise) and its own S3
+checkpoint prefix (nr4a3-metad-r{seed}), so the replicas never share a HILLS file. A seed mismatch on
+resume is refused inside nr4a3_metad.py (the manifest guard).
 """
+import glob
 import os
 import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+# SageMaker-managed checkpoint dir: continuously synced to checkpoint_s3_uri AND pre-populated with any
+# prior checkpoints on start -> it is simultaneously the OUTPUT dir and the RESUME dir.
+OUT = os.environ.get("SM_CHECKPOINT_DIR", "/opt/ml/checkpoints")
 
-# The restart / reproducibility set written by nr4a3_metad.py. Staged IN on resume, copied OUT always.
-# (The AF2 model — AF-<acc>.pdb, target-dependent — is copied out separately via a glob below.) The
-# solvated/trajectory filenames are kept target-agnostic on purpose so the downstream analysis
-# (nr4a3_mdpocket.py / nr4a3_handle_facing.py) runs unchanged on each paralogue's own S3 prefix.
-ARTIFACTS = ("nr4a3-lbd-solvated.pdb", "nr4a3-lbd-metad.dcd", "COLVAR", "HILLS",
-             "fes.dat", "metad_system.xml", "metad_checkpoint.chk", "metad_state.xml",
-             "metad_manifest.json")
+# The AF model is fetched by nr4a3_metad.py into the work dir; copy it out too for a complete audit set.
+EXTRA_OUT_GLOBS = ("AF-*.pdb",)
 
 
 def main():
@@ -32,41 +38,29 @@ def main():
     ap.add_argument("--ns", default="30")
     ap.add_argument("--target", default="NR4A3",
                     help="NR4A3 (default), NR4A1, or NR4A2 — paralogue CV/LBD mapped by alignment")
+    ap.add_argument("--seed", default="0",
+                    help="per-replica random seed (velocities + Langevin noise); 0 = legacy random")
     ap.add_argument("--git-ref", default="main",
                     help="repo ref to run (branch/tag/sha); default main")
-    ap.add_argument("--resume-from", default="",
-                    help="dir with a prior run's restart set to continue from (empty = fresh run)")
     args = ap.parse_args()
-    ns = args.ns
+
     subprocess.run(["nvidia-smi"], check=False)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
                    check=False)
     subprocess.run(["git", "clone", "--depth", "1", "--branch", args.git_ref,
                     "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
-    print(f"[sagemaker] running ref={args.git_ref}", flush=True)
+    print(f"[sagemaker] running ref={args.git_ref} seed={args.seed}", flush=True)
     work = "/tmp/repo/research/modalities"
     git_sha = subprocess.run(["git", "-C", "/tmp/repo", "rev-parse", "HEAD"],
                              capture_output=True, text=True).stdout.strip()
 
-    # Stage a prior run's restart set into OUT (= OUTPUT_DIR, where nr4a3_metad.py now reads/writes the
-    # restart set so SageMaker continuous-upload streams checkpoints to S3 live). On resume the script
-    # finds them there and continues the accumulated bias.
     os.makedirs(OUT, exist_ok=True)
-    staged = []
-    if args.resume_from and os.path.isdir(args.resume_from):
-        for f in ARTIFACTS:
-            src = os.path.join(args.resume_from, f)
-            if os.path.exists(src):
-                shutil.copy(src, os.path.join(OUT, f))
-                staged.append(f)
-        print(f"[sagemaker] resume: staged {len(staged)} artifact(s) from {args.resume_from}: "
-              f"{staged}", flush=True)
-        if "metad_system.xml" not in staged or "HILLS" not in staged:
-            print("[sagemaker] WARNING: incomplete restart set — nr4a3_metad.py will start fresh.",
-                  flush=True)
-    elif args.resume_from:
-        print(f"[sagemaker] WARNING: --resume-from {args.resume_from} is not a directory; fresh run.",
-              flush=True)
+    # Resume audit: report what SageMaker pre-populated into the checkpoint dir (a re-dispatch / spot
+    # restart lands the prior restart set here; a first run finds it empty -> fresh build).
+    staged = [f for f in ("metad_system.xml", "HILLS", "metad_checkpoint.chk", "metad_manifest.json")
+              if os.path.exists(os.path.join(OUT, f))]
+    print(f"[sagemaker] checkpoint dir {OUT} contains {len(os.listdir(OUT))} file(s); "
+          f"resume artifacts present: {staged or 'none (fresh run)'}", flush=True)
 
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating CUDA OpenMM + PLUMED env via {conda}", flush=True)
@@ -77,20 +71,23 @@ def main():
                     "cuda-version=12.8"], check=True, env=create_env)
 
     env = os.environ.copy()
-    env["NS"] = ns
+    env["NS"] = args.ns
     env["TARGET"] = args.target
+    env["SEED"] = args.seed
     env["GIT_REF"] = args.git_ref
     env["GIT_SHA"] = git_sha
-    env["OUTPUT_DIR"] = OUT       # script writes the restart set here -> continuous S3 upload (resumable)
-    os.makedirs(OUT, exist_ok=True)
-    print(f"[sagemaker] running metadynamics for {ns} ns, target={args.target} (sha {git_sha[:10]})",
-          flush=True)
+    env["OUTPUT_DIR"] = OUT       # restart set written here -> continuous S3 sync + spot-restart resume
+    # Clear any leaked PYTHONPATH so the SageMaker base container's site-packages can't shadow the conda
+    # md env (the FEP numpy-1-vs-2 incident; see TESTING/next-steps "Infra gotchas").
+    env.pop("PYTHONPATH", None)
+    print(f"[sagemaker] running metadynamics {args.ns} ns, target={args.target}, seed={args.seed} "
+          f"(sha {git_sha[:10]})", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "md",
                         "python", "nr4a3_metad.py"], cwd=work, env=env)
 
-    import glob
-    for p in list(map(lambda f: os.path.join(work, f), ARTIFACTS)) + glob.glob(os.path.join(work, "AF-*.pdb")):
-        if os.path.exists(p):
+    # nr4a3_metad.py already writes the restart set to OUT (= OUTPUT_DIR). Copy the AF model out too.
+    for pat in EXTRA_OUT_GLOBS:
+        for p in glob.glob(os.path.join(work, pat)):
             shutil.copy(p, os.path.join(OUT, os.path.basename(p)))
             print(f"[sagemaker] saved {os.path.basename(p)} ({os.path.getsize(p)} bytes)", flush=True)
     print(f"[sagemaker] metad exit={r.returncode}", flush=True)

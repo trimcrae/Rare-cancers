@@ -19,12 +19,14 @@ CHECKPOINT / RESTART (so GPU time is never lost and runs are reproducible for th
 every run writes a serialized base System (metad_system.xml), the solvated topology
 (nr4a3-lbd-solvated.pdb), an OpenMM checkpoint (metad_checkpoint.chk) + a portable state
 (metad_state.xml), the PLUMED bias (HILLS) and CV trace (COLVAR), the trajectory, fes.dat, and a
-manifest (metad_manifest.json: CV + metad params + cumulative biased ns + git sha). If a follow-on run
-finds these files (placed back here by entry_metad.py --resume-from), it rebuilds the *identical*
-system, re-attaches PLUMED with RESTART (which re-reads HILLS and keeps depositing), loads the
-checkpoint, and continues — skipping minimise/equilibrate. A resume is REFUSED if the CV or metad
-parameters differ from the prior manifest (the existing HILLS would be invalid for new settings).
-So 30 ns = 5 + 25, or extend 30 -> 60, is identical to one continuous run and costs only the extra ns.
+manifest (metad_manifest.json: CV + metad params + seed + cumulative biased ns + git sha). If a
+follow-on run finds these files in OUTDIR (the managed-spot Training checkpoint dir, which SageMaker
+pre-populates from S3 on a spot restart OR a fresh re-dispatch with the same prefix), it rebuilds the
+*identical* system, re-attaches PLUMED with RESTART (which re-reads HILLS and keeps depositing), loads
+the checkpoint, and continues — skipping minimise/equilibrate. A resume is REFUSED if the CV, metad
+parameters, or SEED differ from the prior manifest (the existing HILLS would be invalid, or would fuse
+two independent realizations). So 30 ns = 5 + 25, or extend 30 -> 60, is identical to one continuous
+run and costs only the extra ns.
 
 Output: COLVAR, HILLS, the trajectory, the solvated PDB, fes.dat (free energy vs Rg via plumed
 sum_hills), plus the checkpoint/state/system/manifest restart set. Post-process opened-state frames
@@ -52,14 +54,21 @@ LBD_FIRST, LBD_LAST = REF_LBD_FIRST, REF_LBD_LAST
 CV_RESIDUES = list(REF_CV_RESIDUES)
 AF2_PDB = os.path.join(os.path.dirname(__file__), f"AF-{TARGET_ACC.get(TARGET, REF_ACC)}.pdb")
 NS = float(os.environ.get("NS", "30"))           # nanoseconds of biased MD to add THIS segment
+# SEED selects the initial velocities AND the Langevin noise stream, so distinct seeds give INDEPENDENT
+# realizations (the multi-walker / independent-replica requirement: >=3 seeds -> >=3 independent metad
+# runs, answering "one metad realization" — review-response §3 P1). SEED=0 keeps OpenMM's legacy
+# behaviour (a fresh random seed each run, NOT reproducible); a non-zero SEED is reproducible per
+# replica. The submitter dispatches one job per seed with a per-seed S3 prefix (nr4a3-metad-r{seed}).
+SEED = int(os.environ.get("SEED", "0"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# Reproducibility artifacts == the resume inputs. A run writes these; a follow-on run that finds them
-# (placed back in OUTDIR by entry_metad.py --resume-from) continues from the saved state + accumulated bias.
-# They are written to OUTDIR (= SageMaker's /opt/ml/processing/output), which the submitter uploads in
-# CONTINUOUS mode — so the CheckpointReporter's periodic checkpoint + the growing HILLS/DCD stream to S3
-# LIVE (every ~0.1 ns). A run killed/interrupted before clean completion is therefore RESUMABLE from S3
-# (resume_from=auto), not wasted. Defaults to HERE for local runs.
+# Reproducibility artifacts == the resume inputs. A run writes these; a follow-on run that finds them in
+# OUTDIR continues from the saved state + accumulated bias. They are written to OUTDIR (= the SageMaker
+# managed-spot Training checkpoint dir, /opt/ml/checkpoints), which SageMaker (a) PRE-POPULATES from
+# checkpoint_s3_uri on start — a spot interruption OR a fresh re-dispatch with the same seed's prefix —
+# and (b) UPLOADS CONTINUOUSLY, so the CheckpointReporter's periodic checkpoint + the growing HILLS/DCD
+# stream to S3 LIVE (every ~0.1 ns). A run killed/interrupted before clean completion is therefore
+# RESUMABLE (spot-safe, losing <=1 checkpoint), not wasted. Defaults to HERE for local runs.
 OUTDIR = os.environ.get("OUTPUT_DIR", HERE)
 SYSTEM_XML   = os.path.join(OUTDIR, "metad_system.xml")        # serialized base System (NO PlumedForce)
 SOLVATED_PDB = os.path.join(OUTDIR, "nr4a3-lbd-solvated.pdb")  # solvated topology + reference coords
@@ -136,6 +145,11 @@ def main():
 
     integrator = mm.LangevinMiddleIntegrator(METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
                                              2.0 * unit.femtosecond)
+    # Per-replica Langevin noise stream: a non-zero SEED makes this realization independent+reproducible;
+    # SEED=0 -> OpenMM chooses a fresh random seed (legacy behaviour). Distinct seeds across replicas =
+    # independent metad realizations.
+    if SEED:
+        integrator.setRandomNumberSeed(SEED)
     # Force CUDA (no silent CPU fallback) — same rule as nr4a3_md.py.
     try:
         cuda = mm.Platform.getPlatformByName("CUDA")
@@ -167,8 +181,13 @@ def main():
             print(f"  WARNING: initial Rg {rg0:.3f} nm is within 5*SIGMA of a wall; basin may clip.",
                   file=sys.stderr)
 
-        sim.context.setVelocitiesToTemperature(METAD["temp"] * unit.kelvin)
-        print("  NPT equilibration (200 ps)...", file=sys.stderr)
+        # Distinct initial velocities per replica (independent realization). A non-zero SEED makes the
+        # draw reproducible; SEED=0 keeps the legacy random draw.
+        if SEED:
+            sim.context.setVelocitiesToTemperature(METAD["temp"] * unit.kelvin, SEED)
+        else:
+            sim.context.setVelocitiesToTemperature(METAD["temp"] * unit.kelvin)
+        print(f"  NPT equilibration (200 ps)... (SEED={SEED or 'random'})", file=sys.stderr)
         sim.step(100000)
 
     steps = int(NS * 1e6 / 2)
@@ -289,6 +308,13 @@ def _check_resume_params():
         sys.exit("  ABORT: resume parameters differ from the prior manifest (CV residues or metad "
                  "settings changed). The existing HILLS is invalid for these settings — start a fresh "
                  "run (don't pass --resume-from) instead.")
+    # A resume MUST be the same independent realization: mixing checkpoints/HILLS from different seeds
+    # would silently merge two realizations into one non-independent trajectory. Refuse a seed mismatch.
+    # (Older manifests predate the seed field; treat a missing prior seed as 0 to stay compatible.)
+    if int(prior.get("seed", 0)) != SEED:
+        sys.exit(f"  ABORT: resume SEED mismatch — prior run used seed {prior.get('seed', 0)} but this "
+                 f"run has SEED={SEED}. Resuming across seeds would fuse two independent realizations. "
+                 "Use the matching seed's own S3 prefix (nr4a3-metad-r{seed}), or start fresh.")
 
 
 def _write_manifest(cumulative_ns, plumed_atoms):
@@ -298,6 +324,7 @@ def _write_manifest(cumulative_ns, plumed_atoms):
         "lbd_first": LBD_FIRST, "lbd_last": LBD_LAST,
         "cv_residues": CV_RESIDUES,
         "metad": METAD,
+        "seed": SEED,
         "segment_ns": NS,
         "cumulative_ns": round(cumulative_ns, 3),
         "plumed_ca_indices": plumed_atoms,
