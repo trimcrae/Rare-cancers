@@ -343,8 +343,14 @@ average — while the predicted NR4A3–CRBN ternary interface is separately div
 Sequence divergence is handle *availability* (a specification), not a demonstrated binding margin.
 
 The warhead pocket is **~1.6× more paralogue-divergent than the rest of the LBD** — the *most* divergent
-zone, a selectivity hotspot, not a conserved wall — so the binder's selectivity problem was **never handle
-scarcity**; it is **pocket druggability + affinity-margin robustness** (the cryptic, least-druggable-of-three
+zone, a candidate selectivity hotspot, not a conserved wall. **This enrichment is statistically tested, not
+just asserted** (`nr4a3_divergence_enrichment.py`, one-sided Fisher exact of Pocket-5 vs the pooled
+background of all other LBD pocket-lining residues): the **divergence vs *both* paralogues is significant**
+(6/10 = 60 % vs 25 % background, **p = 0.028**), while divergence vs ≥1 paralogue is a **non-significant
+trend** (7/10 = 70 % vs 43 %, p = 0.090). The stricter both-paralogue criterion — the one that actually
+matters for an NR4A1- *and* NR4A2-sparing warhead — is the significant one, so the "hotspot" reading is
+supported on the decision-relevant metric while honestly flagged as trend-level on the looser one. So the
+binder's selectivity problem was **never handle scarcity**; it is **pocket druggability + affinity-margin robustness** (the cryptic, least-druggable-of-three
 pocket, and the MM-GBSA noise floor of §2.5–2.6). The full selectivity-architecture analysis — the
 multiplicative binder × ternary × kinetics budget, the paralogue-divergent CRBN-ternary interface, and a
 superfamily-wide pocket-liability screen across all 47 human NRs (with MR/AR as the sole non-paralogue
