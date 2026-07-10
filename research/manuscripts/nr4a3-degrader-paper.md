@@ -166,7 +166,7 @@ unresolved. The automated apo-benchmark verdict is reported as **"partial"**.
 
 **Reconciliation with recent NR4A structural and chemical-biology work (2023–2025).** Three independent
 lines of evidence bracket this borderline score and sharpen (rather than soften) our claim. *(i) The
-occluded-pocket challenge.* A 2025 structure-guided Nurr1 study (vidofludimus; Sturm/Willems 2025) reaffirms
+occluded-pocket challenge.* A 2025 structure-guided Nurr1 study (vidofludimus; López-García et al. 2025) reaffirms
 that the *canonical* NR4A pocket is "filled with bulky hydrophobic residues" and modulates the receptor
 instead through an **allosteric surface pocket** — a direct challenge to any canonical-cavity strategy. It is
 exactly why our claim is explicitly **not** that the static canonical pocket is druggable but that it
@@ -1159,9 +1159,9 @@ cited without a formal article title (conference/early-access or database entrie
    PMC10683012; doi 10.1021/acs.jmedchem.3c01467.
 10. Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a
     Parkinson's Disease Fly Model.* NeuroMolecular Med (2022). PMID 35482177. [Nurr1; PDB 5YD6.]
-11. Willems S, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
-    vidofludimus enables structure-guided ligand design.* Commun Chem (2025). PMC12095788;
-    doi 10.1038/s42004-025-01553-8. [Nurr1.]
+11. López-García Ú, Vietor J, Marschner JA, Heering J, Morozov V, Wein T, Merk D. *Structural and mechanistic
+    profiling of Nurr1 modulation by vidofludimus enables structure-guided ligand design.* Commun Chem 8:159
+    (2025). PMC12095788; doi 10.1038/s42004-025-01553-8. [Nurr1.]
 12. Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer
     immunotherapy.* J Exp Med 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519.
     [NR-V04; NR4A1-selective degrader precedent.]
