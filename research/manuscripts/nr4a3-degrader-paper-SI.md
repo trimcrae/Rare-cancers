@@ -240,14 +240,14 @@ the conserved pocket residues, and scoped to **ex-vivo / transient** use (CAR-T 
 systemic-toxicity bound below does not apply — indeed ex-vivo use *removes* the AML/CNS toxicity argument
 that mandates selectivity for the systemic lead, so the pan agent is the strictly *easier* design (no
 selectivity budget to satisfy). **This mode is demonstrated, not asserted, by reading out the *pan-NR4A
-cell* of the same state-matched family matrix** ([`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json)):
+cell* of the same criterion-matched family matrix** ([`../modalities/nr4a3-pan-readout.json`](../modalities/nr4a3-pan-readout.json)):
 (i) the repurposed library populates the pan-NR4A cell (3 members), including a ChEMBL NR4A active that is
 **essentially equipotent across all three opened pockets** (dG NR4A3/NR4A1/NR4A2 = −8.40/−8.41/−8.80,
 |margin| ≤ 0.4 kcal/mol) — the balanced tri-paralogue engagement this mode wants; and (ii), more tellingly,
 the de-novo funnel's own **`confirmed_nonselective`** rejects — the pile discarded *for* the selective
 programme — include **two gate-developable de-novo molecules in the pan-NR4A cell** (`denovo_106`, QED 0.78 /
 SA 3.8 / 5 handle contacts, the lead; and `denovo_86`, QED 0.68 / SA 3.9), each engaging all three
-state-matched opened pockets. So **one cryptic-pocket generative campaign yields both poles of the NR4A
+criterion-matched opened pockets. So **one cryptic-pocket generative campaign yields both poles of the NR4A
 selectivity axis at once** — NR4A3-selective warheads for the systemic cancer lead, and, in its non-selective
 by-catch, pan-NR4A binders for the ex-vivo CAR-T mode. We hold both poles to the *same honest weight*: these
 are docking-tier screening priors (not affinities, no molecule synthesized), and a manual RDKit triage
