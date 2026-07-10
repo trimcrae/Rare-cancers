@@ -43,9 +43,10 @@ def main():
     # ~9-10 h of MD at NR4A LBD speeds (~80 ns/day); default 12 h gives headroom. max_wait must be >=
     # max_run for spot (run time + capacity wait); a capacity-wait burns $0 and auto-resumes (do NOT
     # switch to on-demand — standing rule).
-    max_run = int(os.environ.get("MAX_RUNTIME", str(12 * 3600)))
+    max_run = int(os.environ.get("MAX_RUNTIME", "").strip() or str(12 * 3600))
     spot = os.environ.get("SPOT", "1") == "1"
-    max_wait = int(os.environ.get("MAX_WAIT", str(int(max_run * 1.7)))) if spot else None
+    _mw = os.environ.get("MAX_WAIT", "").strip()   # workflow passes "" when the input is left blank
+    max_wait = (int(_mw) if _mw else int(max_run * 1.7)) if spot else None
     git_ref = os.environ.get("GIT_REF", "main")
 
     sess = sagemaker.Session()
