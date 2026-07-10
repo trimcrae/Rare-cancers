@@ -531,7 +531,7 @@ derive Kd values from the current raw ABFE absolutes (whose scale is not validat
 
 **At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor engages ≥1 panel off-target more tightly than NR4A3 in this docking, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.6). **Full screen and target panel: SI §S1.**
 
-### 2.6 De-novo design yields NR4A3-selective candidates: decoy-calibrated, then multi-snapshot-confirmed (§2.7)
+### 2.6 Generative design produces apparent hits but fails a single-snapshot specificity control
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.5), we
 ran a **pocket-conditioned de-novo generative campaign** and put its output through the *same* selectivity
 funnel. (1) **Receptor.** We anchored generation and docking to a **release-derived frame from a bias-free
@@ -556,7 +556,7 @@ NR4A3 receptor. The states are therefore **not** matched the way §2.5's are. We
 plausibly runs *against* NR4A3-selectivity (the paralogue pockets are scored in their more-druggable opened
 state), but a higher fpocket score does not guarantee a more favourable docking score for *every* chemotype,
 so we treat the direction of this asymmetry as **a limitation of uncertain direction across the library**,
-demonstrated only for the lead: a fully criterion-matched re-dock (NR4A3 metad-opened) **has since been run for
+demonstrated only for the candidate: a fully criterion-matched re-dock (NR4A3 metad-opened) **has since been run for
 `denovo_401`** (§2.7) and it **retains a positive NR4A3-favoured endpoint margin** there too (+7.44 ± 4.18), so for that one candidate the sign is not a receptor-frame
 artifact.)* The result is qualitatively different
 from the repurposed library: the funnel returns **de-novo matter that survives single-snapshot MM-GBSA without
@@ -594,21 +594,21 @@ fluoro-phenyl-pyrrolidine, QED 0.87 / SA 2.9, NR4A3-margin **+15.7**, favoured i
 **ranked above 37 of 38 decoys**) is the **first de-novo hit above the empirical decoy-null percentile** in
 that harvest — every other de-novo and decoy molecule *in that harvest* falls in the null. *(A later generation batch produced `denovo_401`, whose single-snapshot margin
 +13.92 also exceeds this +13.1 bar and which additionally survives multi-snapshot de-noising (§2.7); it — not
-`denovo_111` — is the carried lead. (`denovo_111`, the earlier single-snapshot foothold, de-noised well as the
+`denovo_111` — is the carried candidate. (`denovo_111`, the earlier single-snapshot foothold, de-noised well as the
 *neutral* form but was later **withdrawn** when the species-resolution sweep showed its *cation*
 reverses selectivity — §2.7; so `denovo_401` is the sole candidate advanced through the computational funnel.))* So the
 read is therefore **not** "no selectivity"; it is "**raw single-snapshot MM-GBSA is
 non-specific; decoy-calibration flagged one above-null candidate, `denovo_111`, which was *subsequently
 rejected* after protonation-state resolution reversed its predicted selectivity (§2.7) — a microstate
 artifact, not a genuine lead**." The de-novo program
-continues as a **lead-optimization campaign around `denovo_401`** (its then-foothold `denovo_111` was later
+continues as a **candidate-optimization campaign around `denovo_401`** (its then-foothold `denovo_111` was later
 withdrawn as protonation-fragile, §2.7) — scaffold-seeded generation conditioned on
 the four paralogue-divergent handles (L406/T410/I484/L534), heavily oversampled + developability-gated, and
 ranked against the decoy null — with **decoy-calibrated multi-snapshot MM-GBSA** to confirm the survivors and
 selectivity FEP reserved for an above-null lead. The decoy control is retained as a **standing specificity
 gate** every candidate must clear.
 
-### 2.7 Multi-snapshot de-noising refutes the single-snapshot harvest but confirms one lead (`denovo_401`)
+### 2.7 Multi-frame rescoring retains one candidate for higher-tier evaluation (`denovo_401`)
 The decoy control (§2.6) showed the *raw* single-snapshot MM-GBSA margin is non-specific. We built the
 follow-up tier the §2.6 plan named — **multi-snapshot endpoint MM-GBSA** (`endpoint_dG_multisnapshot`:
 minimize → short GB Langevin MD → ΔG averaged over 10 frames + SD) — and ran it on the lead set. It
@@ -622,7 +622,7 @@ minimize → short GB Langevin MD → ΔG averaged over 10 frames + SD) — and 
 | **`denovo_401`** | +13.92 | **+12.83 ± 2.98** | **+9.85** | **holds** (margin − SD > 0) |
 | **`denovo_111`** (neutral form; later **withdrawn** — cation reverses, see species resolution) | +15.70 | **+14.60 ± 4.10** | **+10.50** | holds *as neutral* (but protonation-fragile) |
 
-**Figure 5** ([`../modalities/nr4a3-fig5.png`](../modalities/nr4a3-fig5.png); rendered by `nr4a3_journal_figures.py`). The de-novo lead `denovo_401`, across four panels. **(a)** Multi-snapshot de-noising: each candidate's
+**Figure 5** ([`../modalities/nr4a3-fig5.png`](../modalities/nr4a3-fig5.png); rendered by `nr4a3_journal_figures.py`). The de-novo candidate `denovo_401`, across four panels. **(a)** Multi-snapshot de-noising: each candidate's
 single-snapshot margin (open circle) vs its multi-snapshot mean ± SD (filled) — the single-snapshot best
 `denovo_393` (+18.34) collapses to ~0, and the negative control `denovo_924` stays non-selective (behaving as
 expected — a single negative control, not a demonstration that the method discriminates in general). Two
@@ -767,8 +767,9 @@ candidate advanced to ABFE, on a resolved diastereomer.**
 
 ### 2.8 Conditional ABFE tests the NR4A3-favoured receptor contrast
 
-The endpoint MM-GBSA tiers rank and de-noise but are not affinity-grade. As the affinity-grade test of the one
-candidate that survives them, we ran **absolute binding free-energy perturbation (ABFE)** — explicit-solvent
+The endpoint MM-GBSA tiers rank and de-noise but are not affinity-grade. As a **higher-tier explicit-solvent
+free-energy test** of the one candidate that survives them, we ran **absolute binding free-energy perturbation
+(ABFE)** — explicit-solvent
 double-decoupling with a Boresch orientational restraint and MBAR reduction, on an independent-λ-window engine
 (`nr4a3_abfe.py`; protocol and benchmarks in §3) — for `denovo_401` (the resolved DiffSBDD-generated
 diastereomer, SMILES `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`) against each of NR4A3, NR4A1 and
@@ -785,8 +786,11 @@ replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agre
 **Three limits bound the reading, and two repairs are in flight.** *(i) The absolute scale is not validated.*
 The same engine on a textbook benchmark (T4-lysozyme L99A + benzene, experimental ΔG_bind = −5.2 kcal/mol)
 returns **+1.90 ± 0.09**, under-binding by **≈ +7.1 kcal/mol** — a failed/strongly-biased absolute benchmark —
-so we interpret **only the offset-invariant ΔΔG**, never calibrated absolute affinities, and do not treat +7.1
-as a subtractable constant (a single system cannot establish a target-independent offset). *(ii) The NR4A2
+so we interpret **the receptor contrasts rather than the raw absolute values**, never calibrated absolute
+affinities, and do not treat +7.1 as a subtractable constant (a single system cannot establish a
+target-independent offset). The contrast cancels the literally shared solvent leg and any *truly common*
+additive bias, but **remains vulnerable to receptor-specific complex-leg errors** (e.g. the NR4A2 overlap
+defect below) — it is not invariant to all engine error. *(ii) The NR4A2
 contrast is provisional.* One complex-NR4A2 λ-window pair is under-overlapped (min adjacent overlap 0.003);
 because that error propagates **directly** into ΔΔG(3−2) (it is receptor-specific and does not cancel via the
 shared solvent leg), the **−4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional** until the
@@ -914,7 +918,7 @@ state-weighted ΔG_bind — is **not done here** and is a primary revision task 
 as **conditional-on-opened-conformer** selectivity. Full calibration record:
 [`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json).
 
-**Lead-optimization cross-check.** A single scaffold-decorated variant (`lo_m0_NCCO` = `denovo_401` + ortho-acetamido) was put through the identical ABFE engine as an affinity-grade check of an MM-GBSA-predicted tightening and lands **within statistical noise of `denovo_401`** — a validated *equal*, not an advance (free energy does not reproduce the MM-GBSA-predicted gain), so `denovo_401` remains the program's strongest candidate; detail in **SI §S5**.
+**Lead-optimization cross-check.** A single scaffold-decorated variant (`lo_m0_NCCO` = `denovo_401` + ortho-acetamido) was put through the identical ABFE engine as an affinity-grade check of an MM-GBSA-predicted tightening and lands **within statistical noise of `denovo_401`** — a validated *equal*, not an advance (free energy does not reproduce the MM-GBSA-predicted gain), so `denovo_401` remains the sole candidate advanced through the funnel; detail in **SI §S5**.
 
 **Why absolute
 (ABFE), not relative/mutation, FEP.** The selectivity question is *one* ligand (`denovo_401`) against *three
@@ -933,7 +937,8 @@ receptor-to-receptor contrasts** and make no claim about whether `denovo_401` en
 absolute terms. The one cost of ABFE (larger per-leg error than a relative calculation) is
 partly recovered here: because the ligand is identical across all three experiments, the solvent-decoupling
 leg is literally the same calculation for each receptor and cancels in the ΔΔG, along with common-mode
-ligand-charge/protonation error, so the *selectivity* ΔΔG is better-behaved than either raw absolute number.
+ligand-charge/protonation error, so the *selectivity* ΔΔG **eliminates the shared solvent leg and may reduce
+truly common errors** (a general numerical claim of "better-behaved" would need a relevant selectivity benchmark).
 A confirmatory alchemical-mutation cross-check is left as future work, gated on the pocket-homology assessment
 noted in [`../method-watch.md`](../method-watch.md). **Receptor prep for
 FEP:** the docked opened frame is cleaned with `pdb4amber` (LEaP-compatible, drops MD hydrogens/waters) and its
