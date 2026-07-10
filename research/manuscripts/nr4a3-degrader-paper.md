@@ -32,9 +32,9 @@ solution-NMR ensemble (PDB 8XTT, 2025). fpocket analysis of the 20 deposited low
 **substantial geometric heterogeneity at the mapped orthosteric site** — most strongly occluded, a few
 exceeding an empirical drug-bound reference boundary (these are low-energy structural models, **not**
 equilibrium-population samples) — and a three-independent-seed metadynamics workflow on an AlphaFold2 working
-model explores cavity-bearing "open-like" geometries whose druggability **persists over short bias-free
-continuations** (3/3 release replicas), although the replicas do **not** yet agree on a converged opening free
-energy. A falsification-heavy, pocket-conditioned generative campaign (chemical triage, an empirical decoy
+model explores cavity-bearing "open-like" geometries; short bias-free continuations from a selected geometry
+show **geometric persistence in 3/3 replicas** (final pocket-druggability fractions await harmonized site
+tracking), while the replicas do **not** yet agree on a **common quantitative free-energy profile**. A falsification-heavy, pocket-conditioned generative campaign (chemical triage, an empirical decoy
 null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution) leaves a
 single candidate, **denovo_401**, whose NR4A3-favoured preference is probed by **initial three-replicate
 absolute-binding free-energy calculations conditional on selected opened conformers** (favouring NR4A3 over
@@ -218,8 +218,9 @@ the pocket *geometrically admits* a druggable cavity when it breathes open, with
 hydrophobic/enclosed; its equilibrium weight is not estimated here.
 
 **Gate scoring** ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)):
-**Gate 2 (opened state druggable) PASSES** on both clauses (druggable frames + handles pocket-facing,
-below). **Gate 1 (a genuine two-state cryptic *opening*) FAILED as pre-registered.** Gate 1
+**Gate 2 (opened state druggable) initially passed under the original implementation** on both clauses
+(druggable frames + handles pocket-facing, below); **its final classification is provisional pending the
+harmonized pocket-tracking re-analysis** (the set of druggable frames itself depends on the tracker). **Gate 1 (a genuine two-state cryptic *opening*) FAILED as pre-registered.** Gate 1
 asked for an accessible *minimum or shoulder* at an opened Rg "not just biased excursions," but F(Rg) is
 **monotonic — a single resolved minimum and a rising wall, with no separate opened minimum**. By the
 pre-registered criterion this is a fail: there is no distinct opened state. **This negative result
@@ -358,7 +359,7 @@ transiently-druggable conformations rather than occupy a static pocket. Establis
 fraction would require reweighted enhanced sampling or many independent unbiased trajectories with
 equilibrium weighting (a revision task, §4). All downstream design (below) is therefore anchored to a
 **druggable release-derived frame** (Rg ≈ 0.737, fpocket ≥ 0.5; `nr4a3_release_druggable.py`), not the
-biased-metad frame. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
+biased-metad frame. *(Registered Gate-2 sub-check — computed under the original implementation; not treated as confirmed while the set of druggable frames it is computed over depends on the provisional tracker. The handle-facing analysis
 (`../modalities/nr4a3_handle_facing.py`, run 2026-06-26 on the 30 ns trajectory) shows the opened,
 druggable frames keep the selectivity handles pocket-facing: across the druggable frames (fpocket ≥
 D\*=0.53) a mean of **5.0/7** handles point into the cavity and **87.5 %** keep ≥4 facing. Five are
@@ -1165,7 +1166,7 @@ can jointly settle (a kinetic/thermodynamic distinction), reported separately be
 | 1 | a free-energy minimum/shoulder at an opened Rg | **fail** | reformulated to *basin-breathing* | no separate opened basin; F(Rg) monotonic |
 | 2 | opened state geometrically druggable | **provisional** — initial pass under the original implementation | — | **final outcome pending the harmonized pocket-tracking re-analysis** (§3/§4): current fractions use a detected-pocket denominator + a permissive site match, so the pass is not treated as settled |
 | 3A | persistence after bias removal | **supported** | *post hoc* split from Gate 3 | seeded open-like geometry holds 5 ns in 3/3 replicas |
-| 3B | equilibrium energetic accessibility from the closed ensemble | **unresolved** | *post hoc* split from Gate 3 | biased F(Rg) does not agree across the three replicas (ΔF spread ~16 kcal/mol); enhanced-sampling convergence pending |
+| 3B | equilibrium energetic accessibility from the closed ensemble | **unresolved** | *post hoc* split from Gate 3 | independent F(Rg) profiles disagree substantially; the fixed-reference-Rg comparison spans ~16 kcal/mol but is **not** an equivalent-state free energy; enhanced-sampling convergence pending |
 | 4 | a selective drug-like ligand meets the computational criteria | met **in silico**, not physical | absolute engagement not shown | provisional single candidate (below) |
 
 We explicitly do **not** claim "Gates pass" as unqualified: Gate 1 **failed** as pre-registered, Gate 2 is
@@ -1180,10 +1181,11 @@ geometrically druggable under the harmonized analysis, or no selective drug-like
 initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks into the druggable release
 pocket (4/5 handles), stays NR4A3-favoured through multi-snapshot MM-GBSA where the single-snapshot harvest
 collapses, clears a same-tier decoy null in its design frame, is **supported by initial conditional
-three-replicate ABFE** (§2.6–2.7), and passes the in-silico developability filters. Three honest limits keep
+three-replicate ABFE** (§2.8), and passes the in-silico developability filters. Three honest limits keep
 it short of an unqualified pass: the decoy null controls the *scoring* step only (not the generative step or
-the best-of-~200 selection); the margin does **not** survive into the non-design metad-opened frame (itself a
-poor discriminator); and the ABFE is a *conditional receptor contrast*, not absolute engagement (the T4L
+the best-of-~200 selection); the **positive margin persists in the metad-opened frame but the candidate does
+not clear the corresponding metad-frame decoy null** (itself a poor discriminator); and the ABFE is a
+*conditional receptor contrast*, not absolute engagement (the T4L
 benchmark fails, §2.8). The gate verdict: **a predicted NR4A3-favoured profile in the
 computational opened-state models — met under the preregistered criteria, but not a demonstration of physical
 binding**, and not experimentally validated. (The earlier nominal pass on `denovo_15` is retracted and the
