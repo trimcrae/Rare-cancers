@@ -396,8 +396,9 @@ stronger and more honest** basis than before, with its residual risk now **speci
 
 ## S7. ABFE diagnostics — per-replicate ΔG, λ-overlap, ESS, convergence (review comment 17/18)
 Full free-energy diagnostics for the three-replicate selectivity ABFE (§4), computed directly from the
-committed per-window reduced potentials (`nr4a3_abfe_diagnostics.py`; figures + JSON in
-`results/nr4a3-abfe/diagnostics/`). Each leg is 12 λ-windows × 2000 iterations.
+per-window reduced potentials (the engine's `window_XX.jsonl` output; ~13k files in the run bucket, deposited
+to the Zenodo archive; the derived diagnostics figures + JSON are committed in `results/nr4a3-abfe/diagnostics/`
+via `nr4a3_abfe_diagnostics.py`). Each leg is 12 λ-windows × 2000 iterations.
 
 **Per-replicate paired result (the review's "show every replicate").** Raw-engine ΔG_bind (kcal/mol) and the
 NR4A3-vs-paralogue ΔΔG per replicate:
