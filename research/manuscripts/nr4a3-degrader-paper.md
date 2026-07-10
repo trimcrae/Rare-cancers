@@ -901,12 +901,12 @@ weight, with the following caveats made explicit rather than buried:
    selectivity remains **unobtainable from the degrader** (route to the ASO). Net: running the ternary
    *narrowed* the budget rather than widening it — the binder carries more of the load than the architecture
    originally hoped.
-6. **The de-novo lead is a chemotype/pose hypothesis with flagged liabilities, not a developable molecule.**
-   `denovo_15` carries DiffSBDD-typical instability/synthesizability liabilities (carbamic acid,
-   1,3-cyclopentadiene, imine, exocyclic alkene; no aromatic ring; SAscore 5.08 > the campaign's ≤4.5 cut) —
-   QED does not screen these. The durable claim is the *funnel and the selectivity direction*, not the
-   specific molecule; a stability/reactivity filter + re-generation (and a check of the other two
-   `confirmed_selective` hits, denovo_94/57) are the next de-novo steps.
+6. **The carried candidate is a chemotype/pose hypothesis, not a synthesized or affinity-validated molecule.**
+   `denovo_401` passes the in-silico property/alert filters (§2.6), but remains a docking/endpoint/ABFE-tier
+   prediction on an AF2-derived pocket, unsynthesized and un-validated. The durable claim is the
+   **falsification-controlled funnel** and the surviving selectivity *direction*, not a developable molecule.
+   (The single-snapshot artifacts that the funnel *retracted* — denovo_15/94/57 and the protonation-fragile
+   denovo_111 — are archived in SI as the falsification record, not carried here.)
 7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
    re-calibration are now run, and `denovo_401` clears them — leaving FEP as the last tier, now run and complete (three replicates).** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
