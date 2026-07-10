@@ -1,8 +1,32 @@
 {
   "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
   "spot_train_quota": 8,
-  "updated": "2026-07-10 3:40 PM ET",
+  "updated": "2026-07-10 6:05 PM ET",
   "items": [
+    {
+      "id": "nr4a2rep-r2-resume",
+      "desc": "NR4A2 λ-repair ABFE replicate 2 (complex leg) — PAUSED ~18% for validate-first (prove the dense-16-window schedule restores soft-core-tail MBAR overlap on r1 BEFORE spending on the error-bar replicates)",
+      "workflow": "gpu-abfe-aws.yml (or the nr4a2rep submitter) — re-dispatch with the SAME checkpoint prefix nr4a3-abfe-nr4a2rep-r2 to resume from checkpoint",
+      "inputs": {"lambda_schedule": "dense"},
+      "slots": 1,
+      "cost_est_usd": "13-20",
+      "auto_launch": false,
+      "status": "paused_validation_gate",
+      "preconditions": ["r1 reaches the repaired tail windows (~9-15)", "adjacent MBAR overlap recovered to >~0.03", "then resume for the error bar"],
+      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved in S3 (resumes from ~18%, loses <=1 window). Do NOT auto-resume — gated on the r1 overlap check. If overlap does NOT recover, do NOT resume; the dense schedule needs redesign (more iters/window or different soft-core), not more replicates."
+    },
+    {
+      "id": "nr4a2rep-r3-resume",
+      "desc": "NR4A2 λ-repair ABFE replicate 3 (complex leg) — PAUSED ~17% for validate-first (same gate as r2)",
+      "workflow": "gpu-abfe-aws.yml (or the nr4a2rep submitter) — re-dispatch with the SAME checkpoint prefix nr4a3-abfe-nr4a2rep-r3 to resume from checkpoint",
+      "inputs": {"lambda_schedule": "dense"},
+      "slots": 1,
+      "cost_est_usd": "13-20",
+      "auto_launch": false,
+      "status": "paused_validation_gate",
+      "preconditions": ["r1 reaches the repaired tail windows (~9-15)", "adjacent MBAR overlap recovered to >~0.03", "then resume for the error bar"],
+      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved. Gated on the r1 overlap check — same as nr4a2rep-r2-resume."
+    },
     {
       "id": "phase2-shakeout",
       "desc": "Phase 2 single-shard shakeout — metad on the data-derived TICA CV, NR4A3 seed 1, 8 ns",
