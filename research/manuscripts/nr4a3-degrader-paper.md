@@ -105,8 +105,14 @@ the AF2 model — AF2 may over-open the site relative to the typical 8XTT confor
 and strong: an experimental ligand-free ensemble contains both occluded and cavity-bearing geometries at the
 mapped site, **independent of the AF2/MD machinery**. **What 8XTT does *not* settle:** the AF2 model's *atomic*
 pocket geometry diverges from the experimental ensemble — pocket-local Cα-RMSD median 3.56 Å, handle
-Cα-RMSD 3.44 Å (global 7.63 Å; the AF2↔NMR-vs-NMR↔NMR decomposition that would attribute this between genuine
-apo flexibility and model error is a stated follow-up, §4). **Two post hoc robustness *transfers* to
+Cα-RMSD 3.44 Å (global 7.63 Å). **The AF2↔NMR-vs-NMR↔NMR RMSD decomposition (`nr4a3_af2_nmr_rmsd.py`; NMR
+numbering registered onto the AF2/UniProt frame by an exact +378 amino-acid offset) now attributes most of
+this global divergence to genuine apo flexibility rather than model error: over all shared Cα, the AF2 model's
+mean RMSD to the 20 NMR conformers (7.6 Å) is *within* the ensemble's own model-to-model spread (mean 8.3 Å,
+range 1.8–14.4 Å) — i.e. AF2 is no further from the experimental conformers than they are from each other, a
+legitimate ensemble member rather than an outlier. On the pocket-lining Cα alone (locally superposed) the model
+is closer still — AF2↔NMR 0.84 Å mean (0.54–1.16) vs NMR↔NMR 0.59 Å (0.22–1.08) — so the local pocket geometry
+is conserved to sub-Ångström in both, with AF2 at the high end of but inside the ensemble's internal range.** **Two post hoc robustness *transfers* to
 8XTT-derived conformers (not a full workflow rebase — the metadynamics, generation, and ABFE still run on
 AF2-derived structures) hold:** (i) **PocketMiner scored on the 8XTT conformers still enriches** the Pocket-5
 residues (median 1.40× vs 1.36× on AF2 — the propensity call **transfers to the experimental conformers**, though, evaluated at the preselected AF2-defined region, it does not by itself establish an AF2-independent site *discovery*); and
@@ -164,8 +170,15 @@ Pocket-5 mean (0.64) beats random same-size residue sets at **p = 0.009**, and a
 N-terminal edge (373–398) **excluded** the enrichment remains (**p = 0.0001**). We read this as *persistence*
 of the enrichment when the edge is removed — not as proof the terminus is irrelevant, since excluding a
 high-scoring region can itself shift the null downward. It also clears a
-**sequence-contiguous-window** null at p = 0.036 (a true residue-contact-graph spatial-patch null and the
-all-20-conformer PocketMiner stratification are stated follow-ups, §4). Permutation mechanics: 20,000
+**sequence-contiguous-window** null at p = 0.036. A stricter **selection-aware (maximum-statistic)
+permutation** — which corrects for having *selected* the Pocket-5 patch by requiring it to beat the *best*
+same-size contiguous window under each permutation, not merely a random one — is decisive about the terminus:
+with the truncation edge included the enrichment does **not** survive the familywise correction (p = 0.74,
+because that edge itself supplies the winning patches), but with the flagged region masked it **does**
+(p = 0.014). This is consistent with the reading above — the Pocket-5 signal is robust to a conservative
+selection-aware null *provided* the known N-terminal artifact is excluded. (A true residue-contact-graph
+spatial-patch max-statistic null and the all-20-conformer PocketMiner stratification remain follow-ups, §4.)
+Permutation mechanics: 20,000
 one-sided draws, fixed seed, add-one correction, pocket prespecified before scoring. Data:
 [`../modalities/nr4a3-pocketminer-result.json`](../modalities/nr4a3-pocketminer-result.json),
 [`../modalities/nr4a3-pocketminer-null.json`](../modalities/nr4a3-pocketminer-null.json).
@@ -290,8 +303,13 @@ unresolved.**
 **(iii)** A separately-defined **gate descriptor** (pocket-mouth distance) tracks the same expansion
 (corr(Rg, gate) = 0.94 / 0.96 / 0.94), confirming the Rg excursion is **coherent gate motion** rather than an
 Rg-only numerical artifact — but at ~0.95 correlation it is **nearly collinear with Rg and does not test
-whether Rg captures all slow degrees of freedom** (a genuinely non-redundant CV — pocket volume, gate-residue
-χ-states — is a revision item). **(iv) Recrossing is heterogeneous** (a "crossing" is a **low-Rg↔high-Rg
+whether Rg captures all slow degrees of freedom**. A data-driven test now shows it does **not**: **TICA
+(time-lagged independent component analysis; `nr4a3_slow_cv.py`) on the pooled replicas — featurised by
+pocket-lining Cα distances, gate-residue χ1, lining SASA and Rg — returns a slowest independent component only
+partially aligned with Rg (corr(IC1, Rg) = 0.68; slowest implied timescale ≈ 17 ns), i.e. a slow coordinate
+that Rg does not capture exists.** Biasing 1-D Rg therefore projects a ≥2-D opening process onto one lagging
+coordinate — a parsimonious explanation for the cross-replica F(Rg) divergence — and motivates biasing the
+**data-derived coordinate directly** rather than adding sampling to the 1-D Rg profile (in progress; §4). **(iv) Recrossing is heterogeneous** (a "crossing" is a **low-Rg↔high-Rg
 threshold crossing** of the Rg CV — closed/open boundary at **Rg = 0.9 nm with a 5σ hysteresis deadband**,
 reference/"druggable" window **Rg ∈ [0.7, 1.1] nm** — *not* a structurally classified closed↔open transition;
 a distinct entry into the window counts as one "visit" (so a long residence is one visit, not many, but no
