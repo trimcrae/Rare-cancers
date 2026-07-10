@@ -122,8 +122,15 @@ true weight, with two honest caveats: (i) PocketMiner is a *propensity predictor
 nor a druggability value, which remain the job of the metadynamics + fpocket analysis below; and (ii) the
 network's single highest-scoring residues (375–398) fall at the **N-terminal truncation edge** of the
 domain fragment — a chain-terminus flexibility artifact of scoring an isolated LBD, not the functional
-cavity — so we rest on the *Pocket-5 enrichment*, not a rank-1 claim. Data:
-[`../modalities/nr4a3-pocketminer-result.json`](../modalities/nr4a3-pocketminer-result.json).
+cavity — so we rest on the *Pocket-5 enrichment*, not a rank-1 claim. **That enrichment is statistically
+significant, and — decisively for the truncation-edge concern — *strengthens* when the terminus is masked**
+(`nr4a3_pocketminer_null.py`, empirical permutation null over the full 254-residue score array): the
+Pocket-5 mean (0.64) beats random same-size residue sets at **p = 0.009**, and against a null pool with the
+N-terminal edge (373–398) **excluded** it rises to **p = 0.0001** (masking the artifactual high-scoring
+terminus *raises* significance, so the enrichment is not a terminus artifact), and it clears a
+contiguous-window (spatial-patch) null at p = 0.036. Data:
+[`../modalities/nr4a3-pocketminer-result.json`](../modalities/nr4a3-pocketminer-result.json),
+[`../modalities/nr4a3-pocketminer-null.json`](../modalities/nr4a3-pocketminer-null.json).
 
 **Experimental cross-check — the apo NR4A3 NMR ensemble (PDB 8XTT) independently shows the same cryptic
 druggability distribution.** The 2025 apo NR4A3/NOR-1 LBD solution-NMR ensemble (PDB **8XTT**, 20 conformers)
