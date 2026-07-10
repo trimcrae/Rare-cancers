@@ -339,10 +339,12 @@ not a solved point. Neither is a claim the in-silico work settles; both are flag
 **Lead-optimization cross-check (`lo_m0_NCCO` = `denovo_401` + ortho-acetamido) — an FEP tie, not an improvement.** The single
 scaffold-decorated variant that multi-snapshot MM-GBSA had nominated as a tighter, still-selective lead (`lo_m0_NCCO`, projected
 ~+5.5 kcal/mol *tighter* than `denovo_401` by MM-GBSA) was put through the **identical** engine, opened-NR4A3 frame, and
-Boresch/double-decoupling scheme, as an affinity-grade check on that MM-GBSA ranking. One converged replicate returns raw
-raw-engine ΔG_bind(NR4A3) = **+2.85 ± 0.28** and ΔΔG(NR4A3 − NR4A1) = **−6.7** kcal/mol
-(the NR4A3−NR4A2 contrast is not reported for `lo_m0_NCCO` — its MBAR reduction did not converge on the available windows — and is not load-bearing: the tie is set by the NR4A1 contrast and the NR4A3 absolute). Both land **within statistical noise of `denovo_401`** (raw-engine
-+2.6; ΔΔG −6.9): the ortho-acetamido decoration is **affinity- and selectivity-neutral at ABFE grade** — free
+Boresch/double-decoupling scheme, as an affinity-grade check on that MM-GBSA ranking. One converged replicate returns
+per-receptor raw-engine ΔG_bind = **+2.85 ± 0.28** (NR4A3), **+9.57 ± 0.32** (NR4A1), **+8.27 ± 0.50** (NR4A2) →
+ΔΔG(NR4A3 − NR4A1) = **−6.7** and ΔΔG(NR4A3 − NR4A2) = **−5.4** kcal/mol (both favour NR4A3; the NR4A2 leg's reduction
+required the robust MBAR solver on marginal window overlap). Every one of these lands **within statistical noise of
+`denovo_401`** (raw-engine NR4A3 +2.6; NR4A1 +9.5; NR4A2 +8.1; ΔΔG −6.9 / −5.5): the ortho-acetamido decoration is
+**affinity- and selectivity-neutral at ABFE grade** — free
 energy does **not** reproduce the MM-GBSA-predicted tightening, a concrete instance of the MM-GBSA absolute scale over-ranking a
 sub-kcal difference that ABFE declines to confirm. `denovo_401` therefore **remains the program's strongest candidate**;
 `lo_m0_NCCO` is a validated *equal*, not an advance. (Caveats favour reading this as a tie rather than a regression: the
