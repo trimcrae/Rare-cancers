@@ -1,0 +1,53 @@
+name: NR4A3 8XTT benchmark (AWS SageMaker)
+
+# Benchmarks the AF2 NR4A3 LBD model (AF-Q92570) against the NEW experimental apo NMR ensemble PDB 8XTT,
+# as a managed SageMaker Processing job. For each of 8XTT's ~20 NMR conformers it runs fpocket on the
+# mapped Pocket-5 site (a druggability DISTRIBUTION vs the static AF2 0.495) and superposes the AF2 LBD to
+# report global / pocket-local Ca-RMSD + per-handle displacement, then emits a plain-English verdict.
+# CPU work (fpocket) — defaults to ml.c5.2xlarge, does NOT touch the GPU quota; ~$0.2-0.5. Fetches 8XTT
+# from RCSB + AF-Q92570 from AFDB at runtime (no S3 input). Output is uploaded CONTINUOUSLY so the
+# per-conformer JSON checkpoints reach S3 as written (a timeout keeps the last partial as the deliverable).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is a workflow input).
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker CPU instance type (fpocket is CPU; ml.c5.2xlarge default, c5.xlarge also fine)"
+        default: "ml.c5.2xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack lives"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs (branch/tag/sha)"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker 8XTT benchmark job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_8xtt_benchmark_sagemaker.py
