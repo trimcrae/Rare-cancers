@@ -6,6 +6,20 @@ pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.m
 anything. Last updated 2026-06-26.
 
 ## TL;DR
+> **⚠️ NEW (2026-07-10) — NR4A3 now HAS an experimental structure; a cross-check is the next structural step.**
+> The NR4A3/NOR-1 LBD was released as a **solution-NMR ensemble (PDB 8XTT**, deposited 2024-01-11, released
+> 2025-01-15). The manuscripts' "no experimental structure" claim is corrected and 8XTT is adopted as the
+> **primary experimental structural control**. **Pending compute step (cheap, breadth-first, default-yes):**
+> fetch 8XTT and run the AF2-model-vs-8XTT cross-check — (1) backbone RMSD of the AF2 apo LBD (AF-Q92570, ~373–626)
+> to the NMR ensemble (per-model + to the medoid), (2) per-conformer fpocket on the 8XTT ensemble at the
+> Pocket-5 residues (does the *experimental* ensemble also show the resting pocket borderline/closed, consistent
+> with our AF2 static 0.495?), (3) map our 7 selectivity handles onto the experimental coordinates. Run it via
+> the **GHA→SageMaker path** (this correction was done in a container where RCSB/EBI are egress-blocked, so the
+> download must happen job-side, e.g. `nr4a3_structure.py`-style but pulling `files.rcsb.org/download/8XTT.pdb`).
+> Honest scope: 8XTT is *apo/resting* — it anchors the **starting fold**, it does **not** validate the opened
+> induced-fit cavity or the docked pose (those still need a *ligand-bound* co-structure = the wet-lab/SGC ask).
+> Fold results into `nr4a3-degrader-paper.md` §2.1/§5 and flip the method-watch row to DONE.
+
 Druggability case is a **feasibility result, stated honestly** (see the red-team:
 [`../manuscripts/nr4a3-degrader-paper-redteam.md`](../manuscripts/nr4a3-degrader-paper-redteam.md)).
 **Gate 0/0b** pass; **Gate 2** (opened-pocket druggable + handle-facing) passes; **Gate 1** is met only in

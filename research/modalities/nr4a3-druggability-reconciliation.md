@@ -54,9 +54,12 @@ ligandable at cryptic/alternative sites.* Our route sits inside that consensus.
 that altered NOR-1-regulated gene expression in cells; and Safe's group reports **NR4A3-selective
 carboxymethyl-indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target
 gene *MYC* (reviewed in Safe 2025). These are *pharmacological* druggability results that leave the binding
-site structurally undefined — which is exactly the gap our pocket-dynamics analysis fills: we supply a
+*mechanism* undefined — which is exactly the gap our pocket-dynamics analysis fills: we supply a
 candidate *structural* mechanism (a breathing orthosteric pocket) for a ligandability that experiment has
-already demonstrated. This flips the framing of our result from "does a pocket exist?" to "here is where the
+already demonstrated. (An experimental NR4A3/NOR-1 LBD structure now exists — the solution-NMR ensemble
+PDB 8XTT, released Jan 2025, adopted as our primary experimental structural control — but it is a
+resting-state ensemble of the isolated LBD, so it anchors the fold without resolving the ligand-bound,
+opened pocket; the *mechanism* gap stands.) This flips the framing of our result from "does a pocket exist?" to "here is where the
 already-demonstrated ligandability likely lives," which is a stronger, experiment-anchored claim.
 
 **Recent (2023–2025) NR4A work brackets our druggability claim — one challenge, two supports.** *(Challenge.)*

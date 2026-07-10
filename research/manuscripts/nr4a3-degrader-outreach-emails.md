@@ -38,9 +38,9 @@
 
 Dear Prof. [LAST NAME],
 
-I'm an independent researcher. I've just posted a preprint on the computational druggability of **NR4A3** — the
-NR4A paralogue with no experimental structure, and the driver of extraskeletal myxoid chondrosarcoma (EMC) and
-acinic cell carcinoma. I'm sharing it because [**your work on NR-LBD pocket dynamics / cryptic pockets is
+I'm an independent researcher. I've just posted a preprint on the computational druggability of **NR4A3** —
+the least-studied NR4A paralogue (its LBD was determined only recently, by solution NMR: PDB 8XTT, 2025) and
+the driver of extraskeletal myxoid chondrosarcoma (EMC) and acinic cell carcinoma. I'm sharing it because [**your work on NR-LBD pocket dynamics / cryptic pockets is
 directly relevant** — personalise].
 
 Briefly: well-tempered metadynamics plus an unbiased "release" run show NR4A3's occluded orthosteric pocket
@@ -89,14 +89,17 @@ With appreciation,
 
 Dear [SGC contact / target-nomination team],
 
-NR4A3 is an understudied, "undruggable"-reputation nuclear receptor with **no experimental structure**, yet it
-drives two cancers (EMC; acinic cell carcinoma) by gain of NR4A3. I've posted a preprint characterising its
-druggability computationally — a cryptic, induced-fit orthosteric pocket (metadynamics + unbiased release run)
-and a de-novo, decoy-null-validated selective candidate.
+NR4A3 is an understudied, "undruggable"-reputation nuclear receptor whose LBD has only a single recent
+experimental structure (solution NMR, PDB 8XTT) — a resting-state apo ensemble, with **no ligand-bound or
+opened-pocket structure**, yet it drives two cancers (EMC; acinic cell carcinoma) by gain of NR4A3. I've posted
+a preprint characterising its druggability computationally — a cryptic, induced-fit orthosteric pocket
+(metadynamics + unbiased release run) and a de-novo, decoy-null-validated selective candidate.
 
-This seems a natural fit for the SGC's understudied-protein, open-science model. Would NR4A3's ligand-binding
-domain be a candidate for your **structural / biophysical pipeline** (LBD production + a binding/thermal-shift
-screen against the candidate, with NR4A1/2 as selectivity counter-screens)? I'll share everything openly and
+This seems a natural fit for the SGC's understudied-protein, open-science model. The gap 8XTT leaves open is
+exactly the one that matters here: a **ligand-bound** NR4A3 LBD structure capturing the opened pocket. Would
+NR4A3's ligand-binding domain be a candidate for your **structural / biophysical pipeline** (LBD production +
+a binding/thermal-shift screen against the candidate, with NR4A1/2 as selectivity counter-screens, aiming at a
+co-structure)? I'll share everything openly and
 contribute the computational side however is useful.
 
 Preprint: [PREPRINT_URL] · Data & code: [REPO_URL]

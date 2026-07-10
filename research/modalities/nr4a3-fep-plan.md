@@ -186,6 +186,10 @@ we stop — directly feeding the next-candidate design.
   divergent zone) — the real "different site" pivot is the **ternary PPI interface** or the **ASO modality**.
 - **Meta:** several failure modes converge on "need an experimental structure," which is the project's
   wet-lab-handoff endgame anyway — so a FEP failure strengthens the outreach case, it doesn't dead-end it.
+  (Note, 2026-07-10: a *resting-state apo* NR4A3 LBD structure now exists — solution NMR, **PDB 8XTT** — and
+  is the paper's primary structural control; but the structure these failure modes call for is a **ligand-bound
+  / opened-pocket** co-structure, which 8XTT is not. The apo release lets us cross-check the AF2 *starting*
+  fold, narrowing but not closing the "need an experimental structure" gap for affinity-grade selectivity.)
 
 ## Guardrails
 - **Do NOT launch `mode=run` (production FEP) without trimcrae's explicit go-ahead** (standing FEP carve-out).

@@ -15,8 +15,10 @@ Information.*
 
 ## Abstract
 NR4A nuclear receptors (NR4A1/2/3) are regarded as "undruggable" transcription factors: the Nurr1/NR4A2
-crystal structure shows a ligand pocket occluded by bulky side chains, and NR4A3 has no experimental
-structure. Yet NR4A3 is a compelling *selective* degradation target, driving extraskeletal myxoid
+crystal structure shows a ligand pocket occluded by bulky side chains, and NR4A3 had no experimental
+structure when this work began (its LBD has since been determined by solution NMR — PDB 8XTT — which we
+adopt as the primary experimental structural control). Yet NR4A3 is a compelling *selective* degradation
+target, driving extraskeletal myxoid
 chondrosarcoma (EMC; EWSR1/TAF15::NR4A3 fusion) and acinic cell carcinoma (NR4A3 over-expression) by gain of
 NR4A3, where the goal is to remove NR4A3 while sparing NR4A1/2 (whose combined loss is leukaemogenic). We
 present a computation-only program to assess NR4A3's druggability and design a selective degrader warhead.
@@ -44,8 +46,12 @@ reported a cryptic druggable pocket in Nur77/NR4A1 [Lanig 2015], and validated N
 cryptic/surface sites. NR4A3 itself is experimentally ligandable — a fragment screen against NOR-1/NR4A3
 (<1 % hit rate) yielded a low-micromolar inverse agonist that shifts NOR-1-regulated gene expression in cells
 [Zaienne 2022], and NR4A3-selective indole-3-carbinol analogues (IC₅₀ ≈ 8–47 µM) de-repress the NR4A3 target
-gene MYC [Safe 2025] — but its binding site is structurally undefined: NR4A3 has no experimental structure and
-no published pocket-dynamics analysis, the structural gap this work addresses.
+gene MYC [Safe 2025] — but its binding *mechanism* is undefined. Until recently NR4A3 had no experimental
+structure at all; a solution-NMR ensemble of the NR4A3/NOR-1 LBD has since been released (PDB 8XTT; deposited
+11 Jan 2024, released 15 Jan 2025), which we adopt as the primary experimental structural control for the LBD
+fold. That resting-state solution ensemble of the isolated LBD anchors the model fold but is neither a
+ligand-bound complex nor a published pocket-dynamics analysis — the ligandable, induced-fit pocket and its
+dynamics remain the structural gap this work addresses.
 
 NR4A3 is an attractive *selective* target because two cancers are driven by its gain: EMC, via the
 EWSR1/TAF15::NR4A3 fusion that retains a near-intact NR4A3 ligand-binding domain (LBD); and AciCC, the third
@@ -242,7 +248,8 @@ systemic therapy. The **NR4A1+NR4A3** combination is an explicit anti-target (co
 safety-design result. EMC is the entry point, not the endpoint.
 
 ## 4. Methods (summary)
-Structure: AlphaFold2 (AFDB) + fpocket. Cryptic pocket: OpenMM + PLUMED well-tempered metadynamics on the
+Structure: AlphaFold2 (AFDB) + fpocket, with the experimental NR4A3/NOR-1 LBD solution-NMR ensemble PDB 8XTT
+as the primary experimental structural control. Cryptic pocket: OpenMM + PLUMED well-tempered metadynamics on the
 Pocket-5 Rg coordinate, with an unbiased release simulation (OpenMM, no bias) seeded at the low-energy
 druggable frame for the metastability/druggability test. Calibration: a nuclear-receptor LBD panel.
 Selectivity: BLOSUM62 alignment versus NR4A1 (P22736) and NR4A2 (P43354); the same metadynamics pipeline run
@@ -257,7 +264,12 @@ registered gates are in SI §1–§2. Jobs were run as managed cloud GPU/CPU tas
 
 ## 5. Limitations
 This work is in-silico throughout; no molecule was synthesized and there is no wet-lab validation, so all
-candidates are predictions. The receptor is an AF2 model (NR4A3 is uncrystallized); the metadynamics
+candidates are predictions. The receptor is an AF2 model; NR4A3 now has an experimental structure — a
+solution-NMR ensemble of the LBD (PDB 8XTT, released Jan 2025), adopted here as the primary experimental
+structural control, against which the AF2 starting model can and should be cross-checked (backbone RMSD;
+Pocket-5-lining agreement) — but that ensemble is a resting-state structure of the isolated LBD, not a
+ligand-bound or opened-pocket complex, so it anchors the fold without resolving the induced-fit cavity or the
+pose (for which a ligand-bound experimental structure is still required). The metadynamics
 addresses the single-snapshot limitation but the opening free-energy frontier is not fully converged, and
 the druggability case is a **feasibility** result — an induced-fit cavity druggable ~a quarter of the time,
 not an always-open pocket. The lead `denovo_401` is a **receptor-frame-dependent** predicted-selective
@@ -308,6 +320,7 @@ reproducible computational methods.
 - Munoz-Tello P, Kojetin DJ, et al. *J Med Chem* (2020). PMID 33289551; doi 10.1021/acs.jmedchem.0c00894. (NMR: amodiaquine/cytosporone B bind NR4A2 LBD; celastrol/C-DIM12 don't — disciplines the repurposed matrix.)
 - Stiller T, Merk D. *J Med Chem* 66(22):15362–15369 (2023). doi 10.1021/acs.jmedchem.3c01467. (Fatty-acid-mimetic NR4A ligands, sub-µM, NOR-1/NR4A3 tested.)
 - Rajan S, et al. *NeuroMolecular Med* (2022). PMID 35482177; PDB 5YD6. (PGA2 covalent Cys566 adduct in Nurr1 LBD — covalent-warhead precedent.)
+- RCSB PDB **8XTT** — *Nuclear receptor Nor1 (NR4A3) ligand-binding domain*, solution NMR; deposited 2024-01-11, released 2025-01-15; doi 10.2210/pdb8XTT/pdb. (First experimental NR4A3/NOR-1 LBD structure; primary experimental structural control. Resting-state solution ensemble of the isolated LBD — not a ligand-bound or opened-pocket complex.)
 - López-García Ú, Vietor J, Marschner JA, Heering J, Morozov V, Wein T, Merk D. *Commun Chem* 8:159 (2025). doi 10.1038/s42004-025-01553-8. (Vidofludimus/Nurr1; allosteric surface pocket; canonical pocket occluded — the challenge §2.1 engages.)
 - Wang L, Xiao Y, et al. *J Exp Med* 221(3):e20231519 (2024). PMID 38334978; doi 10.1084/jem.20231519. (NR-V04: NR4A1 PROTAC sparing NR4A2/NR4A3 — paralog-selective degradation precedent.)
 - Haller F, et al. *Nat Commun* 10:368 (2019). doi 10.1038/s41467-018-08069-x. (AciCC = NR4A3 over-expression.)

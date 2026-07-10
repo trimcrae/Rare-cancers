@@ -90,8 +90,9 @@ fusion-exclusivity framework (the 5-route design space, next-tier) are in `emc-t
 A novelty stress-test of the portfolio (degrader vs. ASO-solo, the ASO specificity *method*, and the
 fusion-exclusivity *framework*) reached a clear split:
 - **The degrader is the only piece currently on a path to a results-paper publication.** Its novelty is
-  *target/structure-level* — first pocket-dynamics + druggability-feasibility analysis of NR4A3 (no
-  experimental structure, "undruggable" reputation), the family-wide state-matched selectivity matrix, and
+  *target/structure-level* — first pocket-dynamics + druggability-feasibility analysis of NR4A3 (whose only
+  experimental structure is a recent resting-state solution-NMR LBD ensemble, PDB 8XTT — no ligand-bound /
+  opened-pocket structure; "undruggable" reputation), the family-wide state-matched selectivity matrix, and
   the calibration that corrects the misread "Nurr1 ~0.8 druggable" (non-orthosteric cavity). It clears the
   "what's new?" bar. **Caveat:** publishability is gated on *finishing the in-silico tests* (the unbiased
   release run that decides whether the breathing-open geometry is populated vs. bias-induced strain; the

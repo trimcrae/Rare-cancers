@@ -126,6 +126,22 @@ model swaps in cheaply.*
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
 
+- **[2026-07-10] ⚠️ TRIGGER CROSSED — an experimental NR4A3 structure now exists (PDB 8XTT).** The NR4A3/NOR-1
+  LBD has been determined by **solution NMR** (RCSB **8XTT**, "Nuclear receptor Nor1 ligand binding domain";
+  deposited 2024-01-11, released 2025-01-15). This falsifies the manuscripts' repeated "NR4A3 has no
+  experimental structure" and directly retires the paper's "only an experimental structure can discharge the
+  load-bearing uncertainty" line. **Action taken (text):** corrected the claim across `nr4a3-degrader-paper.md`,
+  `nr4a3-degrader-preprint.md`, the outreach emails, the reconciliation memo, positioning, fep-plan, and the
+  red-team record; 8XTT is now adopted as the **primary experimental structural control** for the LBD fold, with
+  a new reference entry. **Honest scope:** 8XTT is a resting-state ensemble of the *isolated apo* LBD — it
+  anchors the AF2 *starting* fold but is **not** a ligand-bound / opened-pocket complex, so the induced-fit
+  cavity and the docked pose are **not** discharged (a ligand-bound co-structure is still required — the
+  wet-lab/SGC outreach ask). **Action PENDING (compute):** the direct AF2-model-vs-8XTT cross-check — backbone
+  RMSD over the LBD and per-conformer fpocket on the ensemble vs our Pocket-5 lining — is the cheap, breadth-first
+  (new experimental axis) validation this release newly enables. It could not be run in the correcting session
+  (RCSB/EBI are egress-blocked in that container; the download must go through the GHA→SageMaker path, which has
+  open internet). **Next session: run it and fold the numbers into §2.1 / §5, then flip this row to DONE.**
+
 - **[2026-07-05] PocketMiner was watched as a *style*, never RUN as an orthogonal cross-check — closing that gap
   (trimcrae catch).** We built our cryptic-pocket case with our OWN metadynamics + fpocket ("PocketMiner-*style*"
   transient-pocket detection in `nr4a3_md.py`/design-spec), but never ran the actual `bowman-lab/PocketMiner`

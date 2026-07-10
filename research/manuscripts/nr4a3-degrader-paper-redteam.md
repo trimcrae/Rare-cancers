@@ -1,5 +1,17 @@
 # Red-team of the NR4A3-degrader paper — deficiencies + fixes applied
 
+> **⚠️ Update (2026-07-10) — an experimental NR4A3 structure now exists.** Findings below that lean on
+> "NR4A3 has no experimental structure" (notably **F18**, and the paper's own "only an experimental
+> structure can discharge the load-bearing uncertainty" line) are now **partly overtaken by events**: the
+> NR4A3/NOR-1 LBD has been determined by solution NMR (**PDB 8XTT**; deposited 2024-01-11, released
+> 2025-01-15) and is adopted across the paper as the **primary experimental structural control**. This does
+> *not* dissolve F18's generalization concern — 8XTT is a resting-state ensemble of the isolated LBD, so it
+> anchors the AF2 *starting fold* but supplies **no ligand-bound / opened-pocket** complex; the co-folding
+> generalization worry and the pose/opened-pocket uncertainty stand. The manuscript's "no experimental
+> structure" wording has been corrected throughout; the immediate structural validation newly enabled is a
+> direct AF2-model-vs-8XTT cross-check (backbone RMSD; Pocket-5-lining agreement). Next red-team should score
+> whether that cross-check was run and folded in.
+
 > **Role:** adversarial self-review of [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) (2026-06-26).
 > Scope per the directive: critique the *manuscript's claims, framing and internal consistency* — **not**
 > the experiments still in flight. "Experiment not finished" is never a finding here; "the writeup claims
