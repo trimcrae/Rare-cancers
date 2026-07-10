@@ -1,0 +1,49 @@
+name: Fleet progress + hang detector (AWS, read-only)
+
+# For every in-progress SageMaker spot Training job: status, runtime, the AGE of its last CloudWatch event,
+# and its last progress marker — then FLAG any job that is 'Training' but has gone silent > STALE_MIN minutes
+# (a stuck-at-the-same-λ-window hang shows as a Training job that stops logging, which status alone can't
+# catch). Also reports FREE spot-Training slots (quota - in-use) so the hourly check can fill freed capacity.
+# Read-only; starts no instance. REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_prefix:
+        description: "NameContains filter ('' = all in-progress Training jobs)"
+        default: ""
+        required: false
+      stale_min:
+        description: "flag a Training job silent longer than this many minutes as a possible hang"
+        default: "25"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  progress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Fleet progress + hang scan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          JOB_PREFIX: ${{ inputs.job_prefix }}
+          STALE_MIN: ${{ inputs.stale_min }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/fleet_progress.py

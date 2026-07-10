@@ -1,0 +1,31 @@
+{
+  "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
+  "spot_train_quota": 8,
+  "updated": "2026-07-10 3:40 PM ET",
+  "items": [
+    {
+      "id": "phase2-shakeout",
+      "desc": "Phase 2 single-shard shakeout — metad on the data-derived TICA CV, NR4A3 seed 1, 8 ns",
+      "workflow": "metad-tica-shakeout-aws.yml",
+      "inputs": {},
+      "slots": 1,
+      "cost_est_usd": "15-25",
+      "auto_launch": false,
+      "status": "in_flight",
+      "run_id": 29116679264,
+      "note": "Already dispatched, waiting on spot capacity. Do NOT re-dispatch (would duplicate). Its gate/recrossing result is the go/no-go for phase2-fleet."
+    },
+    {
+      "id": "phase2-fleet",
+      "desc": "Full Phase 2 opening-FE fleet — 8 runs: NR4A3 seeds 2,3 + NR4A1 r1/2/3 + NR4A2 r1/2/3, ~50 ns each, tica_combine CV, to get the paralogue-differential opening free energy",
+      "workflow": "metad-tica-shakeout-aws.yml (per run; TARGET/SEED vary — a fleet submitter can be added when approved)",
+      "inputs": {"ns": "50"},
+      "slots": 8,
+      "cost_est_usd": "100-200",
+      "auto_launch": false,
+      "status": "blocked_signoff",
+      "preconditions": ["shakeout gate passed (corr(s,Rg) < 0.90)", "shakeout CV drove recrossing", "user sign-off"],
+      "note": "Expensive multi-leg — autonomy threshold requires a user nod. Do NOT auto-launch. When the user approves, set auto_launch=true; the hourly check will then fill freed slots with these runs as the ABFE fleet completes."
+    }
+  ]
+}

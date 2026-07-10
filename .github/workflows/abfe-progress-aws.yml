@@ -17,6 +17,18 @@ on:
         description: "target n_iter (full bar)"
         default: "2000"
         required: false
+      windows:
+        description: "λ-windows per leg (12 = standard schedule, 16 = dense NR4A2 λ-repair)"
+        default: "12"
+        required: false
+      state_key:
+        description: "S3 key for the last-hour Δ-shading state (unique per tag-group so groups don't clobber)"
+        default: "nr4a3-abfe/progress_state.json"
+        required: false
+      out_name:
+        description: "PNG filename published to modalities-cache"
+        default: "abfe_progress.png"
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -42,6 +54,9 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
           TAGS: ${{ inputs.tags || 'nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3' }}
           TARGET: ${{ inputs.target || '2000' }}
+          WINDOWS: ${{ inputs.windows || '12' }}
+          STATE_KEY: ${{ inputs.state_key || 'nr4a3-abfe/progress_state.json' }}
+          OUT_NAME: ${{ inputs.out_name || 'abfe_progress.png' }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
@@ -51,7 +66,7 @@ jobs:
           region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
           bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
           s3 = boto3.client("s3")
-          STATE_KEY = "nr4a3-abfe/progress_state.json"            # last snapshot's per-leg pct, for last-hour Δ shading
+          STATE_KEY = os.environ.get("STATE_KEY", "nr4a3-abfe/progress_state.json")  # per-leg pct, for last-hour Δ shading
           try:
               prev = json.loads(s3.get_object(Bucket=bucket, Key=STATE_KEY)["Body"].read())
           except Exception:
@@ -59,7 +74,7 @@ jobs:
           target = int(os.environ["TARGET"])
           tags = [t.strip() for t in os.environ["TAGS"].split(",") if t.strip()]
           LEG_ORDER = ["complex-nr4a3", "complex-nr4a1", "complex-nr4a2", "solvent"]
-          NW = 12                                                # λ-windows per leg (full leg = NW × target iters)
+          NW = int(os.environ.get("WINDOWS", "12"))              # λ-windows per leg (12 standard / 16 dense repair)
           data = {}                                              # tag -> {leg -> (capped_total, n_done, deepest_raw)}
           for tag in tags:
               wins = {}                                          # leg -> [linecount per window]
@@ -128,18 +143,21 @@ jobs:
           ax.set_title(f"denovo_401 ABFE — replicate progress toward n_iter={target}  ·  {stamp}")
           ax.grid(axis="x", alpha=0.2)
           fig.tight_layout()
-          fig.savefig("research/modalities/abfe_progress.png", dpi=150, bbox_inches="tight")
-          print("wrote research/modalities/abfe_progress.png")
+          out_name = os.environ.get("OUT_NAME", "abfe_progress.png")
+          fig.savefig(f"research/modalities/{out_name}", dpi=150, bbox_inches="tight")
+          print(f"wrote research/modalities/{out_name}")
           PY
       - name: Publish PNG to modalities-cache branch
         if: always()
+        env:
+          OUT_NAME: ${{ inputs.out_name || 'abfe_progress.png' }}
         run: |
           set -e
-          [ -f research/modalities/abfe_progress.png ] || { echo "no PNG"; exit 1; }
+          [ -f "research/modalities/$OUT_NAME" ] || { echo "no PNG"; exit 1; }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          cp research/modalities/abfe_progress.png "$RUNNER_TEMP/abfe_progress.png"
-          rm -f research/modalities/abfe_progress.png
+          cp "research/modalities/$OUT_NAME" "$RUNNER_TEMP/$OUT_NAME"
+          rm -f "research/modalities/$OUT_NAME"
           git fetch origin modalities-cache || true
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
             git checkout -f -B modalities-cache origin/modalities-cache
@@ -147,7 +165,7 @@ jobs:
             git checkout --orphan modalities-cache && git rm -rf . >/dev/null 2>&1 || true
           fi
           mkdir -p research/modalities
-          cp "$RUNNER_TEMP/abfe_progress.png" research/modalities/abfe_progress.png
-          git add research/modalities/abfe_progress.png
-          git commit -m "ABFE progress snapshot (per-replicate iteration progress)" || { echo "no change"; exit 0; }
+          cp "$RUNNER_TEMP/$OUT_NAME" "research/modalities/$OUT_NAME"
+          git add "research/modalities/$OUT_NAME"
+          git commit -m "ABFE progress snapshot ($OUT_NAME)" || { echo "no change"; exit 0; }
           git push origin modalities-cache
