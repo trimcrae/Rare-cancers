@@ -256,12 +256,20 @@ well-tempered `sum_hills` on a **common uniform Rg grid**, **re-zeroed at its ow
 only over the **interpretable region** with sparsely-sampled edge bins excluded; we quote the pointwise
 **max**|ΔF|, and the **mean and RMSD** of |ΔF| over the same region — also computed by
 `nr4a3_metad_analysis.py` — give the same not-converged verdict, so the max is not an isolated edge-bin
-artifact.)* **(ii) The independent replicas do not reconstruct a common F(Rg).** The
-single minimum of each replica's F(Rg) sits at Rg = **0.87 / 0.73 / 0.74** nm (in r1/r2/r3 order) and the free
-energy each profile assigns to the **reference Rg region (Rg ≈ 0.72)** = **16.03 / 0.06 / 0.83 kcal/mol** (r1/r2/r3;
-spread ~16 kcal/mol; `nr4a3-metad-crossreplica.json`): **r2 and r3 place Rg ≈ 0.72 near their minimum** (the
-region of the old ~0.6 estimate), whereas **r1's minimum is substantially more expanded (0.87 nm)** and places
-the same reference Rg ≈ 16 kcal/mol uphill. Two cautions bound this comparison, both flagged for the harmonized rerun: a fixed Rg
+artifact.)* **(ii) The independent replicas do not reconstruct a common F(Rg).** Each replica's F(Rg) has a single
+minimum, but at a different Rg, and each assigns a different free energy to the **reference Rg region
+(Rg ≈ 0.72 nm)** — the geometry of the old single-profile ~0.6 kcal/mol estimate (one row per replica, so the
+pairing is unambiguous):
+
+| replica | basin Rg (nm) | ΔF at reference Rg ≈ 0.72 (kcal/mol) |
+|---|---|---|
+| r1 | 0.87 | **16.03** |
+| r2 | 0.73 | 0.06 |
+| r3 | 0.74 | 0.83 |
+
+(`nr4a3-metad-crossreplica.json`; spread ~16 kcal/mol across seeds.) So **r2 and r3 place Rg ≈ 0.72 near their
+own minimum** (a cost close to the old ~0.6 estimate), whereas **r1's minimum is substantially more expanded
+(0.87 nm)**, putting the same reference geometry ≈ 16 kcal/mol uphill. Two cautions bound this comparison, both flagged for the harmonized rerun: a fixed Rg
 is **not** established to correspond to the same physical pocket — or to any druggable cavity — in each
 independent replica (the per-replica harmonized pocket scoring that would define an equivalent druggable region
 is pending, §4), and a single F(Rg) minimum is not, on its own, a structural classification of a "closed"
