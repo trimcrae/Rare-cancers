@@ -1126,31 +1126,18 @@ file and **not** folded silently into the original single-Rg gate definition. Th
 abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened conformations are not
 geometrically druggable under the harmonized analysis, or no selective drug-like binder can be designed.
 
-**Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single
-de-noised, initial-ABFE-supported foothold, not an unqualified pass.** The pre-registered Gate 4 asked for
-drug-like matter that docks with a reasonable score, contacts a meaningful subset of the selectivity handles,
-and shows a predicted selectivity margin vs NR4A1/NR4A2. The lead **`denovo_401`** meets this in silico across
-four tiers: it docks into the druggable release pocket contacting 4 of the 5 engageable handles; it is
-NR4A3-favoured at docking and its selectivity **survives multi-snapshot endpoint MM-GBSA**
-(margin +12.83 ± 2.98, margin − SD = +9.85) where the single-snapshot harvest collapses (`denovo_393`
-+18.34 → −2.95 ± 3.65; §2.6); that de-noised margin **clears a same-tier multi-snapshot decoy null in its
-design frame** (95th percentile +6.69, max decoy +7.10; §2.6); and it is **corroborated by three-replicate
-absolute-binding FEP** (ΔΔG −4.76 ± 2.03 vs NR4A1, −4.98 ± 0.68 vs NR4A2; §4). Unlike the retracted
-single-snapshot artifact `denovo_15`, `denovo_401` passes the selected in-silico developability filters (PAINS/BRENK-clean, SA 3.87, no structural
-alerts). Three honest limits keep this short of an unqualified pass: the decoy null controls the *scoring*
-step only, not the *generative* step (`denovo_401` was pocket-conditioned on the release frame the decoys
-were never fit to) or the best-of-~200 selection; the margin does **not** survive into the non-design (biased
-metad-opened) frame, which is itself a poor discriminator; and the ensemble tier is single-trajectory
-GB-implicit MD, with no generation-matched null and no wet-lab validation. The preregistered gate was phrased
-as "a selective, drug-like ligand can **engage** the opened pocket," but the present ABFE does **not**
-establish absolute binding/engagement (the T4L benchmark fails, §4). We therefore report the gate at its true
-weight: **`denovo_401` achieves a predicted NR4A3-favoured profile in the computational opened-state models**
-— docking, relative MM-GBSA, and a *conditional* receptor-contrast ABFE — **met in silico under the
-preregistered computational criteria, but not as a demonstration of physical binding**, and not a
-specificity-controlled or experimentally validated pass. (The earlier nominal Gate-4 pass on the
-single-snapshot `denovo_15` verdict is retracted — it failed the decoy control and carries generative-model
-liabilities — and the interim decoy-calibrated foothold `denovo_111` was withdrawn on protonation grounds
-(§2.5–2.6); both deviations are disclosed in the prereg deviation log.)
+**Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single de-noised,
+initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks into the druggable release
+pocket (4/5 handles), stays NR4A3-favoured through multi-snapshot MM-GBSA where the single-snapshot harvest
+collapses, clears a same-tier decoy null in its design frame, is **supported by initial conditional
+three-replicate ABFE** (§2.5–2.7), and passes the in-silico developability filters. Three honest limits keep
+it short of an unqualified pass: the decoy null controls the *scoring* step only (not the generative step or
+the best-of-~200 selection); the margin does **not** survive into the non-design metad-opened frame (itself a
+poor discriminator); and the ABFE is a *conditional receptor contrast*, not absolute engagement (the T4L
+benchmark fails, §2.7). We report the gate at its true weight: **a predicted NR4A3-favoured profile in the
+computational opened-state models — met under the preregistered criteria, but not a demonstration of physical
+binding**, and not experimentally validated. (The earlier nominal pass on `denovo_15` is retracted and the
+interim foothold `denovo_111` withdrawn on protonation grounds; both disclosed in the prereg deviation log.)
 
 ## References
 
@@ -1242,12 +1229,17 @@ cited without a formal article title (conference/early-access or database entrie
     *Promoting transparency and reproducibility in enhanced molecular simulations.* Nat Methods 16:670–673
     (2019). doi 10.1038/s41592-019-0506-8.
 
-Additional EMC-biology sources cited in §5 (identifiers only, per the note above; full provenance and any
-data-derived numbers such as the DepMap Chronos gene-effect scores are in the reproducibility archive, not
-the literature list): EMC quiet-genome / clonal WGS — Front Mol Med (2023), PMC11285543; NR4A DNA-binding
-grammar — NR4A2-DBD structures, J Biol Chem (2020), PMC6926456 (PDB 6L6Q/6L6L); FET-fusion (EWS-FLI1)
-enhancer reprogramming — Nat Cell Biol (2022), doi 10.1038/s41556-022-01060-1; further EMC-over-expressed
-fusion targets (e.g. NDRG2) — Tumor Biol 33:1599–1607 (2012), doi 10.1007/s13277-012-0415-2.
+Additional EMC-biology sources cited in §5 (data-derived numbers such as the DepMap Chronos gene-effect scores
+are in the reproducibility archive, not the literature list):
+
+33. *Structural basis of binding of homodimers of the nuclear receptor NR4A2 to selective Nur-responsive DNA
+    elements.* J Biol Chem (2020). PMC6926456. [NR4A DNA-binding grammar; PDB 6L6Q/6L6L.]
+34. *ETV6 dependency in Ewing sarcoma by antagonism of EWS-FLI1-mediated enhancer activation.* Nat Cell Biol
+    25:298–308 (2023). PMID 36658219; PMC10101761; doi 10.1038/s41556-022-01060-1. [FET-fusion
+    enhancer-reprogramming transfer prior.]
+35. Front Mol Med (2023). PMC11285543. [EMC quiet-genome / clonal WGS. Title to be completed at submission.]
+36. Tumor Biol 33:1599–1607 (2012). doi 10.1007/s13277-012-0415-2. [Further EMC-over-expressed fusion targets,
+    e.g. NDRG2. Title to be completed at submission.]
 
 **Structural controls (PDB).** PPARγ LBD + rosiglitazone (2PRG; Nolte et al., Nature 395:137, 1998);
 ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo references Nur77 4JGV
@@ -1263,8 +1255,9 @@ archive (Zenodo DOI to be minted at submission). References were verified agains
 
 ## AI-assisted research disclosure
 This study was executed with substantial assistance from Anthropic **Claude** large-language-model coding
-agents (the specific model versions, agent/tool environment, and access dates are recorded in the
-reproducibility archive alongside each run). By task: **code authoring and refactoring** (analysis/simulation
+agents (Opus- and Sonnet-class Claude models, access period **~2026-05 to 2026-07**; the exact per-run model
+identifiers, agent/tool environment, and access dates are recorded in the reproducibility archive alongside
+each run). By task: **code authoring and refactoring** (analysis/simulation
 pipelines), **orchestration** of the managed-cloud GPU/CPU jobs, **literature retrieval and cross-checking**,
 and **manuscript drafting/revision**; the models also proposed analyses and interpretations, which were
 adopted only after human review. **Validation evidence** (concrete, per ACS's note that extensive AI use may
@@ -1275,6 +1268,19 @@ SI §S7; the statistical nulls carry known-answer tests) and model-generated cod
 execution; every citation was verified by a human against the primary record; and the scientific claims, their
 weighting, and all go/no-go decisions remained human-controlled. Unit tests establish *software behaviour
 against specified expectations*, not scientific validity; no numeric result, structure, or citation was
-accepted from a language model without independent computation or source verification. A concise
-Acknowledgments disclosure accompanies this section per ACS policy. (The exact test counts, CI status, commit
-hash, and independent-recomputation scripts for load-bearing results are in the archive.)
+accepted from a language model without independent computation or source verification. (The exact test counts,
+CI status, commit hash, and independent-recomputation scripts for load-bearing results are in the archive.)
+
+**Figures.** All scientific figures were produced **programmatically** (matplotlib via
+`nr4a3_journal_figures.py` and companion scripts) from the computed data — **no generative-AI image tools were
+used** to create or edit any figure.
+
+## Acknowledgments
+The author used Anthropic **Claude** large-language-model coding agents (Opus- and Sonnet-class; access period
+~2026-05 to 2026-07) for code authoring/refactoring of the analysis and simulation pipelines, orchestration of
+managed-cloud GPU/CPU jobs, literature retrieval and cross-checking, and manuscript drafting and revision, under
+human direction. All quantitative results were produced by executing the described, reproducible code on real
+inputs (never generated by the language model); every citation was verified by a human against the primary
+record; and all scientific claims, their weighting, and go/no-go decisions were human-controlled. Exact model
+identifiers and per-run access dates are recorded in the reproducibility archive. No other assistance and no
+external funding were received.
