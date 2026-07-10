@@ -963,45 +963,7 @@ parsing/mapping/classification/scoring logic is in pure, unit-tested modules (TE
 
 ## 4. Limitations
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
-demonstrated efficacy**. **In particular, the therapeutic rationale for degrading NR4A3 in EMC (and
-AciCC) assumes the tumour remains *dependent on NR4A3 for survival*, which is not yet demonstrated in
-EMC.** Two kinds of support raise this prior, each stated with its boundary so neither is mistaken for
-proof:
-- **A transfer prior — used to justify *testing* the target, not as EMC evidence.** Related EWSR1/FET-fusion
-  sarcomas are reliably *fusion-addicted* (Ewing/EWS-FLI1: −0.93 DepMap gene effect, 74 % of lines
-  dependent), and EMC shares the profile that makes addiction the class norm — a quiet genome with a single
-  near-clonal fusion driver. Reasoning from a represented lineage to an un-profiled one this way is standard
-  practice for prioritising a target; it raises the prior and warrants the experiment, but it **cannot
-  establish EMC dependence**. Its transferable content is also bounded: what these fusions share is the
-  **EWS low-complexity transactivation domain**, so the analogy supports "EMC is probably addicted to its
-  fusion," **not** "the NR4A3 effector specifically is the essential part" (EWS-FLI1's ETS-domain mechanism
-  at GGAA microsatellites differs from a nuclear receptor) — a caveat that matters because the degrader
-  engages the NR4A3 end.
-- **EMC-specific molecular evidence (non-transfer) that the fusion is a functional transcriptional driver.**
-  The chimera directly transactivates real targets — most concretely **PPARG**, via a bioinformatically
-  identified EWSR1/NR4A3 response element in the PPARG promoter confirmed by band-shift and transactivation
-  assays [Filion 2009], with further EMC-over-expressed targets reported (e.g. NDRG2). This is EMC-native
-  support that the fusion *does something* transcriptionally — but it shows the fusion is a functional
-  driver, **not** that the cell cannot survive its loss; *functional driver ≠ addiction*.
-- **The fusion is a near-invariant, clonal driver in a quiet genome (quantified; verified evidence base:
-  [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)).** An **NR4A3 rearrangement is
-  near-pathognomonic for EMC (~90–98 % of cases)** — EWSR1::NR4A3 in ~62–79 % (58/58 NR4A3-rearranged in a
-  58-case cohort, Modern Pathology 2023 [PMID 36948401]; 24/26 in Agaram *Hum Pathol* 2014 [PMC4015728]) —
-  with NR4A3 the **invariant 3′ partner** regardless of the 5′ gene. It is the **shared founding/clonal lesion**
-  across matched primary + metastases in a **genomically quiet** tumour (matched-trio WGS, [PMC11285543]; EMC is
-  <3 % of soft-tissue sarcomas). A single invariant clonal driver in a quiet genome is the textbook
-  oncogene-addiction *profile* — a materially stronger prior than a lone analogy, though still a prior.
-
-**The one decisive gap, stated plainly: there is NO direct loss-of-function experiment in any EMC cell line —
-every published EMC functional result is *gain-of-function* (transactivation, transformation of non-EMC cells);
-no RNAi/CRISPR/ASO knockdown of NR4A3 or the fusion in a human EMC model (e.g. H-EMC-SS) with a survival readout
-exists** (verified 2026-07-02, [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). So the
-multi-pillar case above is a strong *prior*, not demonstrated dependence. The acute, specific degradation (dTAG)
-test that would convert this prior into a demonstration is the make-or-break experiment, delegated to the
-EMC-program paper ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); **this paper's claimed contribution
-is the target's druggability/selectivity, not EMC efficacy.**
-
-**Safety/tolerability, and the pan-NR4A/CAR-T pole — bounded in SI §S6 and §S4.** The systemic lead's tolerability case (the NR4A family's proliferative dispensability by DepMap; the *myeloid* NR4A1↔NR4A3 redundancy that makes NR4A1-sparing mandatory; broad NR4A1/NR4A3 co-expression; PK/CNS restriction) is quantified in **SI §S6**. Two load-bearing caveats carry back into main text: human germline genetics (gnomAD) **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a safety requirement** — NR4A2 is the most LoF-constrained *and* CNS-enriched paralogue (LOEUF 0.094), NR4A3 borderline (LOEUF 0.37, pLI-intolerant) — and single-KO tolerability remains an *assumption* (no phenotyped IMPC KO for any of the three). The pan-NR4A / CAR-T pole is bounded separately and more tightly in **SI §S4** (chemical-feasibility only — the framework can *design* a pan-NR4A binder, not that it reverses T-cell exhaustion — plus an ex-vivo washout/exposure parameter).
+demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.
 The structure is an AF2 model
 (NR4A3 has no ligand-bound experimental structure; its apo LBD was released as a solution-NMR ensemble,
 PDB 8XTT, only in 2025) — the MD addresses exactly the single-snapshot limitation. **The 8XTT benchmark
@@ -1031,16 +993,17 @@ weight, with the following caveats made explicit rather than buried:
    simulations test only **short-timescale relaxation** after the bias is removed (persistence, Gate 3A);
    they do **not** establish equilibrium population or accessibility from the closed ensemble (Gate 3B,
    unresolved).
-2. **No separate opened free-energy basin.** F(Rg) is monotonic (a single resolved minimum, rising wall; the minimum is not structurally classified as "closed", and independent replicas place it at materially different Rg); the
+2. **No separate opened free-energy basin.** The original production profile is monotonic (a single resolved minimum, rising wall) and independent replicas likewise **do not resolve a reproducible second minimum**, but their 1-D profiles and minimum locations **differ substantially** (the minimum is not structurally classified as "closed"); the
    druggable conformations are reached by *basin-internal breathing*, not a two-state cryptic opening, so
    the pre-registered Gate 1 ("minimum or shoulder, not just biased excursions") **failed as registered**
    and was **reformulated** as basin-breathing. "Opened state" is shorthand for these breathing sub-states,
    not a distinct metastable conformation.
 3. **Gate 3A (persistence) supported; Gate 3B (equilibrium accessibility) unresolved.** These are distinct:
-   a geometry can be equilibrium-rare yet persist once seeded. On **3B**, the single-continued-trajectory
-   ~0.6–0.76 kcal/mol cost to a druggable conformation is **not reproduced across the three independent metad
-   replicas** (ΔF at the reference Rg = 16.0 / 0.06 / 0.83 kcal/mol in r1/r2/r3 order; §2.3), and those numbers are read off
-   still-drifting biased F(Rg) — so 3B is unresolved. On **3A**, the open-seeded release run
+   a geometry can be equilibrium-rare yet persist once seeded. On **3B**, the original single-profile
+   ~0.6–0.76 kcal/mol interpretation is **not supported by the independent profiles**: at the fixed reference
+   Rg the three replicas assign widely differing free energies (16.0 / 0.06 / 0.83 kcal/mol in r1/r2/r3 order;
+   §2.3), read off still-drifting biased F(Rg), and **that fixed coordinate is not yet an equivalent-state (or
+   demonstrated-druggable) comparison** across replicas — so 3B is unresolved. On **3A**, the open-seeded release run
    shows the seeded open-like geometry **persists across 3/3 short replicas and is fpocket-druggable in a
    fraction of frames of all three replicas** (≥ D\* in 0.20/0.16/0.28; detected-pocket denominator) — correlated,
    open-seeded, non-equilibrium frame fractions (**not** an equilibrium population), and explicitly **not** a
@@ -1079,8 +1042,9 @@ weight, with the following caveats made explicit rather than buried:
    `denovo_401` passes the in-silico property/alert filters (§2.7), but remains a docking/endpoint/ABFE-tier
    prediction on an AF2-derived pocket, unsynthesized and un-validated. The durable claim is the
    **falsification-controlled funnel** and the surviving selectivity *direction*, not a developable molecule.
-   (The single-snapshot artifacts that the funnel *retracted* — denovo_15/94/57 and the protonation-fragile
-   denovo_111 — are archived in SI as the falsification record, not carried here.)
+   (Detailed forensic records of the retracted single-snapshot candidates — denovo_15/94/57 and the
+   protonation-sensitive denovo_111 — are in **SI §S8**; the main text retains only the falsification sequence
+   needed to explain candidate advancement.)
 7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
    re-scoring are now run, and `denovo_401` clears them — leaving ABFE as the last tier: initial
    three-replicate ABFE complete, with the NR4A2 λ-overlap repair pending before final interpretation (§3).** The de-novo

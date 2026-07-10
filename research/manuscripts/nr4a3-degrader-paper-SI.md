@@ -506,3 +506,47 @@ does not establish which microstate dominates at pH 7.4. A later generation prod
 survives multi-snapshot de-noising and independent-seed replication, leaving it the sole candidate advanced to
 ABFE. **No single-snapshot nomination was accepted**; the load-bearing claim is the funnel + the falsification
 controls, not any of these molecules.
+
+## S9. EMC dependence (the therapeutic prior and its one decisive gap), safety, and the pan-NR4A pole
+
+*(Moved from the main-text Limitations in the 2026-07-10 round-6 restructure so the main Limitations stay focused on the computational method; no claim, number, or caveat was altered in the move.)*
+
+**In particular, the therapeutic rationale for degrading NR4A3 in EMC (and
+AciCC) assumes the tumour remains *dependent on NR4A3 for survival*, which is not yet demonstrated in
+EMC.** Two kinds of support raise this prior, each stated with its boundary so neither is mistaken for
+proof:
+- **A transfer prior — used to justify *testing* the target, not as EMC evidence.** Related EWSR1/FET-fusion
+  sarcomas are reliably *fusion-addicted* (Ewing/EWS-FLI1: −0.93 DepMap gene effect, 74 % of lines
+  dependent), and EMC shares the profile that makes addiction the class norm — a quiet genome with a single
+  near-clonal fusion driver. Reasoning from a represented lineage to an un-profiled one this way is standard
+  practice for prioritising a target; it raises the prior and warrants the experiment, but it **cannot
+  establish EMC dependence**. Its transferable content is also bounded: what these fusions share is the
+  **EWS low-complexity transactivation domain**, so the analogy supports "EMC is probably addicted to its
+  fusion," **not** "the NR4A3 effector specifically is the essential part" (EWS-FLI1's ETS-domain mechanism
+  at GGAA microsatellites differs from a nuclear receptor) — a caveat that matters because the degrader
+  engages the NR4A3 end.
+- **EMC-specific molecular evidence (non-transfer) that the fusion is a functional transcriptional driver.**
+  The chimera directly transactivates real targets — most concretely **PPARG**, via a bioinformatically
+  identified EWSR1/NR4A3 response element in the PPARG promoter confirmed by band-shift and transactivation
+  assays [Filion 2009], with further EMC-over-expressed targets reported (e.g. NDRG2). This is EMC-native
+  support that the fusion *does something* transcriptionally — but it shows the fusion is a functional
+  driver, **not** that the cell cannot survive its loss; *functional driver ≠ addiction*.
+- **The fusion is a near-invariant, clonal driver in a quiet genome (quantified; verified evidence base:
+  [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)).** An **NR4A3 rearrangement is
+  near-pathognomonic for EMC (~90–98 % of cases)** — EWSR1::NR4A3 in ~62–79 % (58/58 NR4A3-rearranged in a
+  58-case cohort, Modern Pathology 2023 [PMID 36948401]; 24/26 in Agaram *Hum Pathol* 2014 [PMC4015728]) —
+  with NR4A3 the **invariant 3′ partner** regardless of the 5′ gene. It is the **shared founding/clonal lesion**
+  across matched primary + metastases in a **genomically quiet** tumour (matched-trio WGS, [PMC11285543]; EMC is
+  <3 % of soft-tissue sarcomas). A single invariant clonal driver in a quiet genome is the textbook
+  oncogene-addiction *profile* — a materially stronger prior than a lone analogy, though still a prior.
+
+**The one decisive gap, stated plainly: there is NO direct loss-of-function experiment in any EMC cell line —
+every published EMC functional result is *gain-of-function* (transactivation, transformation of non-EMC cells);
+no RNAi/CRISPR/ASO knockdown of NR4A3 or the fusion in a human EMC model (e.g. H-EMC-SS) with a survival readout
+exists** (verified 2026-07-02, [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). So the
+multi-pillar case above is a strong *prior*, not demonstrated dependence. The acute, specific degradation (dTAG)
+test that would convert this prior into a demonstration is the make-or-break experiment, delegated to the
+EMC-program paper ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); **this paper's claimed contribution
+is the target's druggability/selectivity, not EMC efficacy.**
+
+**Safety/tolerability, and the pan-NR4A/CAR-T pole — bounded in SI §S6 and §S4.** The systemic lead's tolerability case (the NR4A family's proliferative dispensability by DepMap; the *myeloid* NR4A1↔NR4A3 redundancy that makes NR4A1-sparing mandatory; broad NR4A1/NR4A3 co-expression; PK/CNS restriction) is quantified in **SI §S6**. Two load-bearing caveats carry back into main text: human germline genetics (gnomAD) **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a safety requirement** — NR4A2 is the most LoF-constrained *and* CNS-enriched paralogue (LOEUF 0.094), NR4A3 borderline (LOEUF 0.37, pLI-intolerant) — and single-KO tolerability remains an *assumption* (no phenotyped IMPC KO for any of the three). The pan-NR4A / CAR-T pole is bounded separately and more tightly in **SI §S4** (chemical-feasibility only — the framework can *design* a pan-NR4A binder, not that it reverses T-cell exhaustion — plus an ex-vivo washout/exposure parameter).
