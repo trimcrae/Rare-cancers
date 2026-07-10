@@ -20,6 +20,27 @@ short-timescale persistence (3A), not equilibrium accessibility (3B)" · **c39**
 → "direction uncertain" · **c41/42** "corroborated/predicted by FEP" → "supported by initial conditional ABFE
 receptor contrasts (λ-repair + 8XTT sensitivity pending)".
 
+## ✅ DONE in second round-5 pass (2026-07-10 PM)
+**c14** title → reviewer's exact "In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket"
+(paper+SI) · **c24/c25** denovo_15/94/57/189/111 archaeology CUT to new **SI §S8** (falsification record);
+main text condensed + "first designed warhead" claim dropped; Limitations self-contradiction now resolved ·
+**SI S7** carried the same c17 error → fixed · **c20/21** methane benchmark reworded, unsourced "GAFF/TIP3P
+norms" deleted · **c22** ABFE precedent softened · **c23** winner's-curse "FEP removes selection bias" fixed ·
+**c26** §2.4 opener "validated as druggable/accessible" → "cavity-bearing + short-timescale persistence" ·
+**c27** repurposing "method-validation" → "did not advance under specificity controls" · **c29** frame-robust →
+"same sign in two selected frames" · **c30** Fig S1 "single-snapshot/no-entropy" → multi-frame wording ·
+**c31** "single-snapshot margins carry SD" → "multi-frame SDs" · **c32 (partial)** trimmed trustworthy×2 /
+crucially×2 / rewrote the refutation sentence (rest of self-cert language = remaining) · **c36** Gate 2 pass →
+provisional · **c45/46** PocketMiner terminus/propensity · **c47** fpocket proxy · **c48** enclosure inference
+softened · **c49** priority claim removed.
+
+**Remaining EDIT (non-gated):** c5 r2 COLVAR provenance table · c6 drift-metric protocol · c12/c19/c43
+ABFE→§2.7 + 8XTT-first reorder (pairs w/ tonight's numbers) · c28 confirm 6k screen fully in SI · c32 finish
+self-cert sweep · c34 denovo_111 pKa method (tool/version/protomer pops) · c37 shorten Gate-4 prose · c50 refs
+identifiers-only block · c52 AI disclosure model versions + Acknowledgments (model-ID vs repo-rule tension —
+submission-time). **Gated on tonight's fleet:** c5/8/9/10/11/13/14 harmonized pocket rerun + pinned fpocket ·
+c15 NR4A2 λ-repair · c16 8XTT ABFE sensitivity · c7/44 Fig 1&2 redesign.
+
 ## P0 — submission blockers
 | # | Item | Status |
 |---|------|--------|

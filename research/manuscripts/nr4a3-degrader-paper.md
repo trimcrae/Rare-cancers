@@ -613,9 +613,9 @@ a fully equilibrated receptor ensemble**, so read the ΔΔG direction, not Kd.
 
 Two things follow. (i) The subsequent multi-frame analysis revealed **frame-to-frame SDs of ~4–6 kcal/mol —
 comparable to or larger than several single-snapshot margins** — so the single-snapshot "above-null" harvest is noise-dominated; `denovo_393`'s +18.34 was an
-extreme-value artifact (de-noised, it is ~0/slightly paralogue-favouring). The negative control behaving
-correctly (staying non-selective) makes this a **trustworthy refutation, not a method failure**, and it
-corroborates the decoy finding from an orthogonal direction. (ii) **`denovo_401` is the exception that
+extreme-value artifact (de-noised, it is ~0/slightly paralogue-favouring): the apparent lead lost its
+positive margin under the multi-frame analysis while the prespecified negative control stayed non-selective,
+which corroborates the decoy finding from an orthogonal direction. (ii) **`denovo_401` is the exception that
 survives**: its multi-snapshot margin (+12.83) is barely below its single-snapshot value, the SD (2.98) is
 small, and **margin − SD = +9.85 ≫ 0** — a substantially more favourable NR4A3 endpoint *score* (mean
 −38.18 kcal/mol, an inflated non-affinity endpoint value, read for direction only) than either paralogue
@@ -701,7 +701,7 @@ the margin − SD > 0 bar**, while the negative control stayed non-selective.** 
 multi-snapshot-tested, two initially cleared the bar (`denovo_401` and neutral `denovo_111`) — **but the
 species-resolution sweep (next paragraph) then withdrew `denovo_111` on protonation grounds, leaving
 `denovo_401` as the sole candidate advanced through the computational funnel.** A low hit-rate either way (the funnel does **not** *abundantly* yield
-de-noising survivors), with the negative control failing throughout keeping the discrimination trustworthy —
+de-noising survivors), with the negative control staying non-selective throughout —
 consistent with the selectivity-architecture analysis (SI §S3): a cryptic pocket that is a *fragile but not empty* place to source a margin.
 
 **Pre-FEP species resolution — resolve the exact 3D molecule before spending on FEP.** Because
@@ -1047,7 +1047,7 @@ cannot currently discharge it. The newly released apo 8XTT ensemble can now benc
 geometry and handle map (the primary revision task, §5), but only a **ligand-bound** experimental
 structure can validate the opened, warhead-engaged pose
 ([`../modalities/nr4a3-binary-cofold-result.json`](../modalities/nr4a3-binary-cofold-result.json)).
-Crucially, the **single-snapshot MM-GBSA "confirmed_selective"
+The **single-snapshot MM-GBSA "confirmed_selective"
 verdict that originally nominated `denovo_15` failed a decoy control** (§2.5): it labels 39 % of non-NR4A
 marketed drugs "NR4A3-selective," so a raw two-tier (docking + single-snapshot MM-GBSA) survival is **not**
 selectivity evidence, and the earlier "MM-GBSA-confirmed selective" headline (and `denovo_15` as the lead) is
@@ -1098,7 +1098,7 @@ de-noised, initial-ABFE-supported foothold, not an unqualified pass.** The pre-r
 drug-like matter that docks with a reasonable score, contacts a meaningful subset of the selectivity handles,
 and shows a predicted selectivity margin vs NR4A1/NR4A2. The lead **`denovo_401`** meets this in silico across
 four tiers: it docks into the druggable release pocket contacting 4 of the 5 engageable handles; it is
-NR4A3-favoured at docking and, crucially, its selectivity **survives multi-snapshot endpoint MM-GBSA**
+NR4A3-favoured at docking and its selectivity **survives multi-snapshot endpoint MM-GBSA**
 (margin +12.83 ± 2.98, margin − SD = +9.85) where the single-snapshot harvest collapses (`denovo_393`
 +18.34 → −2.95 ± 3.65; §2.6); that de-noised margin **clears a same-tier multi-snapshot decoy null in its
 design frame** (95th percentile +6.69, max decoy +7.10; §2.6); and it is **corroborated by three-replicate
