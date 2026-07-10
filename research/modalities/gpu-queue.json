@@ -1,7 +1,7 @@
 {
   "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
   "spot_train_quota": 8,
-  "updated": "2026-07-10 6:05 PM ET",
+  "updated": "2026-07-10 7:10 PM ET",
   "items": [
     {
       "id": "nr4a2rep-r2-resume",
@@ -36,8 +36,8 @@
       "cost_est_usd": "15-25",
       "auto_launch": false,
       "status": "in_flight",
-      "run_id": 29116679264,
-      "note": "Already dispatched, waiting on spot capacity. Do NOT re-dispatch (would duplicate). Its gate/recrossing result is the go/no-go for phase2-fleet."
+      "run_id": 29129329309,
+      "note": "Re-dispatched 2026-07-10 7:02 PM ET after the DCD-append resume fix (prior run 29116679264 crashed on FileNotFoundError for the .dcd on resume; science was intact — gate passed, MD ran ~6.6/8ns). Do NOT re-dispatch (would duplicate). Its gate/recrossing result is the go/no-go for phase2-fleet."
     },
     {
       "id": "phase2-fleet",
@@ -47,9 +47,9 @@
       "slots": 8,
       "cost_est_usd": "100-200",
       "auto_launch": false,
-      "status": "blocked_signoff",
-      "preconditions": ["shakeout gate passed (corr(s,Rg) < 0.90)", "shakeout CV drove recrossing", "user sign-off"],
-      "note": "Expensive multi-leg — autonomy threshold requires a user nod. Do NOT auto-launch. When the user approves, set auto_launch=true; the hourly check will then fill freed slots with these runs as the ABFE fleet completes."
+      "status": "preapproved_contingent",
+      "preconditions": ["shakeout gate passed (corr(s,Rg) < 0.90)", "shakeout CV drove recrossing (closed<->open recrossing in the shakeout COLVAR)"],
+      "note": "USER PRE-APPROVED 2026-07-10 (~7:05 PM ET): 'let's plan on doing it assuming the first leg comes back looking how we want it.' The ~$100-200 spend is authorized CONTINGENT on the shakeout returning clean recrossing. Sequence: shakeout completes -> read its COLVAR -> if the TICA CV recrosses closed<->open, bring the recrossing evidence to the user and launch the 8-run fleet (no second sign-off needed for the spend; a heads-up with the evidence is the courtesy). If recrossing is poor, do NOT launch; report the diagnostic and redesign the CV. Still auto_launch=false because it must wait on the shakeout result, not a free slot."
     }
   ]
 }
