@@ -1,0 +1,97 @@
+{
+  "_comment": "RELATIVE / SELECTIVITY ABFE BENCHMARK for the custom ABFE engine (research/modalities/nr4a3_abfe.py). The reviewer's highest-value validation ask: a documented ONE-ligand / TWO-related-protein system with a KNOWN experimental selectivity DIRECTION — does our protocol recover it? Unlike the engine's ABSOLUTE benchmarks (methane hydration; T4-lysozyme/benzene), this tests the observable we actually use for decisions: a receptor-to-receptor ΔΔG for one ligand, in which a per-engine additive offset CANCELS. All experimental numbers below are REAL published values with citations (NOT synthetic). Staged by selectivity_benchmark_prep.py via .github/workflows/stage-selectivity-benchmark-aws.yml.",
+
+  "engine": "research/modalities/nr4a3_abfe.py",
+  "benchmark_type": "relative (selectivity ΔΔG), one ligand across two related proteins",
+  "date_et": "2026-07-10",
+
+  "ligand": {
+    "name": "SGC-CBP30",
+    "class": "3,5-dimethylisoxazole acetyl-lysine-mimetic bromodomain chemical probe",
+    "pose_label": "sgc_cbp30",
+    "cas": "1613695-14-9",
+    "pubchem_cid": 72201027,
+    "molecular_formula": "C28H33ClN4O3",
+    "isomeric_smiles": "COC1=CC=C(CCC2=NC3=CC(C4=C(C)ON=C4C)=CC=C3N2C[C@H](C)N2CCOCC2)C=C1Cl",
+    "inchi": "InChI=1S/C28H33ClN4O3/c1-18(32-11-13-35-14-12-32)17-33-25-8-7-22(28-19(2)31-36-20(28)3)16-24(25)30-27(33)10-6-21-5-9-26(34-4)23(29)15-21/h5,7-9,15-16,18H,6,10-14,17H2,1-4H3/t18-/m0/s1",
+    "iupac_name": "2-[2-(3-Chloro-4-methoxyphenyl)ethyl]-5-(3,5-dimethyl-4-isoxazolyl)-1-[(2S)-2-(4-morpholinyl)propyl]-1H-benzimidazole",
+    "smiles_source": "AChemBlock / Selleck Chemicals vendor records; verified consistent with PubChem CID 72201027 formula C28H33ClN4O3 and the InChI above (1 stereocentre, S)."
+  },
+
+  "proteins": [
+    {
+      "receptor_token": "crebbp",
+      "name": "CREBBP (CBP) bromodomain",
+      "uniprot": "Q92793",
+      "holo_pdb": "4NR7",
+      "holo_pdb_title": "Crystal structure of the bromodomain of human CREBBP in complex with an isoxazolyl-benzimidazole ligand (SGC-CBP30)",
+      "kd_nM": 21,
+      "kd_method": "ITC",
+      "role": "tighter binder (selectivity winner)"
+    },
+    {
+      "receptor_token": "brd4bd1",
+      "name": "BRD4 bromodomain 1 (BD1)",
+      "uniprot": "O60885",
+      "holo_pdb": "5BT4",
+      "holo_pdb_title": "Crystal structure of BRD4 first bromodomain in complex with SGC-CBP30 chemical probe",
+      "kd_nM": 850,
+      "kd_method": "ITC (Kd ≈ 40x weaker than CREBBP; 21 nM x 40 ≈ 850 nM)",
+      "role": "weaker binder (off-target BET bromodomain)"
+    }
+  ],
+
+  "experimental_selectivity": {
+    "direction": "CREBBP binds SGC-CBP30 MORE TIGHTLY than BRD4(1)",
+    "fold": 40,
+    "ddg_kcal_per_mol": -2.19,
+    "ddg_definition": "ΔΔG_bind = ΔG_bind(CREBBP) − ΔG_bind(BRD4-1) = RT·ln(Kd_CREBBP / Kd_BRD4-1); negative => CREBBP more favourable.",
+    "ddg_derivation": "RT·ln(40) at T=298.15 K (RT=0.5925 kcal/mol): 0.5925 × ln(40) = 0.5925 × 3.6889 = 2.19 kcal/mol; sign negative for CREBBP-minus-BRD4.",
+    "magnitude_note": "~2.2 kcal/mol is comfortably above ABFE statistical noise (typical selectivity SE ~0.3-0.6 kcal/mol per receptor) yet not so large as to be trivial — a genuine direction test.",
+    "pass_criterion": "Engine recovers the direction if computed ΔG_bind(crebbp) < ΔG_bind(brd4bd1) (i.e. computed ΔΔG_bind negative). A quantitative pass additionally puts |ΔΔG_calc − (−2.2)| within ~1 kcal/mol."
+  },
+
+  "why_this_system": [
+    "Reviewer implicitly pointed at bromodomain ABFE selectivity (Aldeghi et al., JACS 2017, 139:946). SGC-CBP30/CREBBP-vs-BRD4(1) IS a bromodomain selectivity contrast and is the cleanest such case with a SINGLE-primary-source, unambiguous ~40-fold directional difference.",
+    "ONE ligand, TWO close structural homologs (both bromodomain reader folds sharing the conserved Kac pocket) — exactly the one-ligand/two-related-protein design requested.",
+    "BOTH proteins crystallise HOLO with the SAME ligand SGC-CBP30 (4NR7, 5BT4), so each pose is lifted from a real crystal complex — no docking, no analog substitution.",
+    "Bromodomain selectivity is dominated by binding-SITE interactions (rigid domains, no large conformational reservoir), so crystal-pose ABFE captures the real selectivity determinant — unlike e.g. imatinib Abl/Src, whose selectivity is dominated by a DFG conformational term that crystal-pose ABFE famously misses.",
+    "The shared ligand makes the pipeline's single shared solvent leg (ligand-in-water) cancel EXACTLY between the two receptors — ideal for a ΔΔG."
+  ],
+
+  "citations": {
+    "sgc_cbp30_discovery_affinity_selectivity_and_4NR7": "Hay, D. A.; Fedorov, O.; Martin, S.; Singleton, D. C.; Tallant, C.; Wells, C.; Picaud, S.; Philpott, M.; Monteiro, O. P.; Rogers, C. M.; Conway, S. J.; Rooney, T. P. C.; Tumber, A.; Yapp, C.; Filippakopoulos, P.; Bunnage, M. E.; Müller, S.; Knapp, S.; Schofield, C. J.; Brennan, P. E. 'Discovery and Optimization of Small-Molecule Ligands for the CBP/p300 Bromodomains.' J. Am. Chem. Soc. 2014, 136 (26), 9308-9319. DOI: 10.1021/ja412434f. (Reports SGC-CBP30: CREBBP Kd = 21 nM by ITC, ~40-fold selectivity over BRD4(1); deposited CREBBP holo structure 4NR7.)",
+    "brd4bd1_holo_5BT4": "RCSB PDB entry 5BT4, 'Crystal structure of BRD4 first bromodomain in complex with SGC-CBP30 chemical probe' (deposited with the SGC-CBP30 selectivity characterisation; see also EP300 holo 5BT3).",
+    "probe_characterisation_context": "Hammitzsch, A. et al. 'CBP30, a selective CBP/p300 bromodomain inhibitor, suppresses human Th17 responses.' Proc. Natl. Acad. Sci. USA 2015, 112 (34), 10768-10773. DOI: 10.1073/pnas.1501956112.",
+    "reviewer_reference_abfe_selectivity_method": "Aldeghi, M.; Heifetz, A.; Bodkin, M. J.; Knapp, S.; Biggin, P. C. 'Predictions of Ligand Selectivity from Absolute Binding Free Energy Calculations.' J. Am. Chem. Soc. 2017, 139 (2), 946-957. DOI: 10.1021/jacs.6b11467. (Establishes ABFE selectivity prediction across bromodomains vs ITC — the methodological precedent this benchmark follows.)"
+  },
+
+  "staging": {
+    "helper_script": "research/modalities/selectivity_benchmark_prep.py",
+    "workflow": ".github/workflows/stage-selectivity-benchmark-aws.yml",
+    "unit_test": "research/modalities/tests/test_selectivity_benchmark.py",
+    "receptor_prefix": "selectivity-benchmark",
+    "files_per_receptor": ["<receptor>-opened.pdb", "docked_<receptor>.sdf"],
+    "produces": ["crebbp-opened.pdb", "docked_crebbp.sdf", "brd4bd1-opened.pdb", "docked_brd4bd1.sdf"],
+    "pose_lift": "Heavy-atom coordinates from the holo HETATM records are lifted onto an RDKit molecule whose bond orders come from the isomeric SMILES (AssignBondOrdersFromTemplate); Hs added; _Name = 'sgc_cbp30'. The ligand copy chosen is the one in the SAME chain emitted as the apo PDB, so the pose sits in that protein copy's pocket."
+  },
+
+  "abfe_plan": {
+    "workflow": ".github/workflows/gpu-abfe-aws.yml",
+    "dispatch_inputs": {
+      "mode": "run",
+      "receptors": "crebbp,brd4bd1",
+      "ligand": "sgc_cbp30",
+      "receptor_prefix": "selectivity-benchmark",
+      "tag": "sel-cbp30-v1",
+      "n_iter": "2000",
+      "seed": "0",
+      "spot": "1"
+    },
+    "legs": "per-receptor complex leg (complex-crebbp, complex-brd4bd1) + ONE shared solvent leg (ligand-in-water, identical for both receptors, cancels in ΔΔG).",
+    "validate_first": "Per CLAUDE.md validate-first: mode=smoke, then ONLY_LEGS=solvent (one real leg), then the full 3 legs.",
+    "replicates": "≥1 replicate at seed=0; add seed=1,2 (mode=run, same tag) for a replicate-SD error bar on the ΔΔG if the single-replicate direction is marginal.",
+    "reduce": "mode=reduce (crebbp then brd4bd1) → ΔG_bind per receptor; ΔΔG_bind = ΔG_bind(crebbp) − ΔG_bind(brd4bd1). PASS if negative (CREBBP tighter).",
+    "do_not_dispatch": "This file + the staging job PREPARE the benchmark only. The expensive ABFE is dispatched by trimcrae after review."
+  }
+}

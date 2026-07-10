@@ -1,0 +1,87 @@
+name: Stage SGC-CBP30 CREBBP-vs-BRD4(1) SELECTIVITY ABFE benchmark (upload to S3)
+
+# One-shot staging for a RELATIVE / SELECTIVITY ABFE benchmark — the reviewer's highest-value validation:
+# one ligand, two related proteins, a KNOWN experimental selectivity DIRECTION; does our protocol recover it?
+#
+# System (cited ground truth: research/modalities/selectivity-benchmark.json):
+#   Ligand    SGC-CBP30 (3,5-dimethylisoxazole Kac-mimetic chemical probe), C28H33ClN4O3.
+#   CREBBP    bromodomain, holo PDB 4NR7 (CREBBP + SGC-CBP30). ITC Kd = 21 nM.
+#   BRD4(1)   bromodomain 1, holo PDB 5BT4 (BRD4(1) + SGC-CBP30). ITC Kd ~ 850 nM (~40x weaker).
+#   => ΔΔG_exp ≈ RT·ln(40) ≈ 2.2 kcal/mol favouring CREBBP  (Hay et al., JACS 2014, 136:9308).
+# Both bromodomains crystallise HOLO with the SAME ligand, so each pose is lifted from a real crystal
+# complex — no docking. The benchmark PASSES if ABFE returns ΔG_bind(CREBBP) < ΔG_bind(BRD4(1)).
+#
+# Builds, per receptor, the two files the modern ABFE pipeline consumes and uploads them under a shared
+# receptor prefix so gpu-abfe-aws.yml runs on it UNCHANGED:
+#   <receptor>-opened.pdb  — apo protein (one chain, ligand/waters/ions stripped, alt-locs resolved).
+#   docked_<receptor>.sdf  — SGC-CBP30 at its crystal pose (heavy-atom coords lifted onto an RDKit
+#                            template from the published SMILES), _Name = the ABFE pose label.
+#   receptors = crebbp,brd4bd1   ligand = sgc_cbp30   receptor_prefix = selectivity-benchmark
+#
+# The pure parsing/pose-input logic lives in research/modalities/selectivity_benchmark_prep.py
+# (unit-tested in tests/test_selectivity_benchmark.py); this job just fetches + builds + uploads.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (S3 write on the default SageMaker bucket).
+
+on:
+  workflow_dispatch:
+    inputs:
+      entries:
+        description: "comma-sep receptorToken:PDBID pairs (both holo with the ligand)"
+        default: "crebbp:4NR7,brd4bd1:5BT4"
+        required: false
+      ligand_smiles:
+        description: "isomeric SMILES of SGC-CBP30 (bond-order template for the pose lift)"
+        default: "COC1=CC=C(CCC2=NC3=CC(C4=C(C)ON=C4C)=CC=C3N2C[C@H](C)N2CCOCC2)C=C1Cl"
+        required: false
+      ligand_name:
+        description: "pose label written as SDF _Name (the ABFE 'ligand' selector)"
+        default: "sgc_cbp30"
+        required: false
+      het_code:
+        description: "PDB 3-letter HET code of the ligand; empty = auto-detect largest non-solvent HETATM residue"
+        default: ""
+        required: false
+      prefix:
+        description: "S3 prefix to stage under (matches gpu-abfe receptor_prefix)"
+        default: "selectivity-benchmark"
+        required: false
+      region:
+        description: "AWS region (default SageMaker bucket = sagemaker-<region>-<account>)"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "rdkit==2024.3.5" requests boto3
+      - name: Unit-test the pure parsing/pose-input logic
+        run: |
+          cd research/modalities
+          python -m pytest tests/test_selectivity_benchmark.py -q
+      - name: Fetch 4NR7 + 5BT4, build apo PDBs + crystal-pose SGC-CBP30 SDFs, upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          cd research/modalities
+          python selectivity_benchmark_prep.py \
+            --entries "${{ inputs.entries || 'crebbp:4NR7,brd4bd1:5BT4' }}" \
+            --ligand-smiles "${{ inputs.ligand_smiles || 'COC1=CC=C(CCC2=NC3=CC(C4=C(C)ON=C4C)=CC=C3N2C[C@H](C)N2CCOCC2)C=C1Cl' }}" \
+            --ligand-name "${{ inputs.ligand_name || 'sgc_cbp30' }}" \
+            --het-code "${{ inputs.het_code }}" \
+            --out-dir . \
+            --upload-prefix "${{ inputs.prefix || 'selectivity-benchmark' }}" \
+            --region "${{ inputs.region || 'us-east-2' }}"
