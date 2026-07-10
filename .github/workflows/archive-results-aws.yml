@@ -1,0 +1,74 @@
+name: Archive SageMaker results into git (reproducibility)
+
+# Mirrors durable result artifacts from the ephemeral SageMaker default bucket into git under results/,
+# so nothing lives S3-only again (old outputs were lost to S3 lifecycle expiration). Also diagnoses the
+# bucket lifecycle (mode=diagnose) so the root cause is on record. Commits results/ back to the repo.
+# Two triggers: workflow_dispatch (normal), and push to the sentinel file (fallback when MCP/dispatch is
+# down — bump research/modalities/.archive-trigger to run the default load-bearing sweep).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY. Read-only against S3; only ADDS to git.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "diagnose (lifecycle + counts, no commit) | archive (download durable files + commit)"
+        default: "diagnose"
+        required: false
+      prefixes:
+        description: "comma-separated S3 prefixes (blank = the default load-bearing set)"
+        default: ""
+        required: false
+      cap_bytes:
+        description: "max file size committed to git (bytes); larger → manifested for Zenodo"
+        default: "5242880"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+  push:
+    paths:
+      - "research/modalities/.archive-trigger"
+
+permissions:
+  contents: write
+
+env:
+  # The curated load-bearing set (glob-free prefixes; the driver lists each recursively).
+  DEFAULT_PREFIXES: "nr4a3-denovo,nr4a3-denovo-v2,nr4a3-denovo-affinity,nr4a3-matrix,nr4a3-mmgbsa,nr4a3-metad-r1,nr4a3-metad-r2,nr4a3-metad-r3,nr4a3-abfe,nr4a3-fep,nr4a3-8xtt-benchmark,nr4a3-8xtt-pocketminer,nr4a3-8xtt-redock,nr4a3-8xtt-release,nr4a3-release-druggable,nr4a3-warhead,nr4a3-repurpose,nr4a3-ternary,nr4a3-calibration"
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Archive / diagnose
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          MODE: ${{ inputs.mode || 'archive' }}
+          PREFIXES: ${{ inputs.prefixes }}
+          CAP_BYTES: ${{ inputs.cap_bytes }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          # push-trigger has no inputs → default to an archive sweep of the load-bearing set
+          if [ -z "${MODE}" ]; then export MODE=archive; fi
+          if [ -z "${PREFIXES}" ]; then export PREFIXES="${DEFAULT_PREFIXES}"; fi
+          echo "mode=$MODE prefixes=$PREFIXES"
+          python research/modalities/archive_results.py 2>&1 | tee /tmp/archive.log
+      - name: Commit archived results back to repo
+        if: ${{ (inputs.mode || 'archive') != 'diagnose' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add results/ || true
+          git commit -m "archive: mirror surviving SageMaker results into git [skip ci]" || { echo "no new results to commit"; exit 0; }
+          git push
