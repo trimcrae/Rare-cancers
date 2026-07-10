@@ -557,8 +557,7 @@ plausibly runs *against* NR4A3-selectivity (the paralogue pockets are scored in 
 state), but a higher fpocket score does not guarantee a more favourable docking score for *every* chemotype,
 so we treat the direction of this asymmetry as **a limitation of uncertain direction across the library**,
 demonstrated only for the candidate: a fully criterion-matched re-dock (NR4A3 metad-opened) **has since been run for
-`denovo_401`** (§2.7) and it **retains a positive NR4A3-favoured endpoint margin** there too (+7.44 ± 4.18), so for that one candidate the sign is not a receptor-frame
-artifact.)* The result is qualitatively different
+`denovo_401`** (§2.7) and it **retains a positive NR4A3-favoured endpoint margin** there too (+7.44 ± 4.18), so the positive *sign* is not unique to the design frame — though, as §2.7 shows, the candidate does **not** clear the frame-matched decoy null in that metad frame, i.e. specificity-control success is itself frame-dependent.)* The result is qualitatively different
 from the repurposed library: the funnel returns **de-novo matter that survives single-snapshot MM-GBSA without
 reversing** (census: confirmed_selective 3 · rescued 7 · weakened 1 · confirmed_nonselective 9 · **reversed 0**),
 where the repurposed matter reversed. But a medicinal-chemistry triage of the three `confirmed_selective` hits
@@ -580,10 +579,11 @@ re-screen** of the generations (the structural-alert gate of §2.5 added after t
 decoy null is **`confirmed_selective` in 39 % of cases (15/38; ~58 % have a positive NR4A3 margin)** —
 including **caffeine, ibuprofen, lidocaine, phenytoin** — while the developable de-novo set is
 `confirmed_selective` in only **2/11 (18 %)**, i.e. **below the decoy baseline and not enriched.** The
-single-snapshot, single-pose MM-GBSA plus the asymmetric receptor (NR4A3 scored in its druggable release
-frame vs the paralogue frames) systematically favours NR4A3, so the verdict labels ~40–58 % of *any* drug-like
-matter "NR4A3-selective" — it has **no demonstrated specificity**, which also explains why the artifact
-`denovo_15` had scored "confirmed_selective." (ii) Of the generations, only **11/191 survive the
+single-snapshot, single-pose MM-GBSA pipeline **yields positive NR4A3 margins for a large fraction of
+unrelated compounds** (~40–58 %), so it has **no demonstrated specificity** — which also explains why the
+artifact `denovo_15` was pipeline-classified `confirmed_selective`. The asymmetric receptor setup (NR4A3
+scored in its release frame vs the paralogue frames) is one *plausible contributor* to this bias, not a
+demonstrated mechanism (the decoy experiment establishes the high false-positive rate, not its cause). (ii) Of the generations, only **11/191 survive the
 developability gate**, and **none of the clean ones is robustly NR4A3-selective** once the decoy baseline is
 accounted for. **We use the decoy run as an empirical null, and one candidate clears it.** Rather than the
 non-discriminating "margin > 0", we rank against the **decoy empirical 95th percentile (+13.1 kcal/mol;
@@ -655,8 +655,9 @@ which corroborates the decoy finding from an orthogonal direction. (ii) **`denov
 survives**: its multi-snapshot margin (+12.83) is barely below its single-snapshot value, the SD (2.98) is
 small, and **margin − SD = +9.85 ≫ 0** — a substantially more favourable NR4A3 endpoint *score* (mean
 −38.18 kcal/mol, an inflated non-affinity endpoint value, read for direction only) than either paralogue
-(~13–15 kcal/mol weaker). So the de-noising tier is **discriminating, not merely destructive**:
-it killed a noise artifact and **identified a reproducible survivor for advancement**. `denovo_401`
+(~13–15 kcal/mol weaker). So the de-noising tier **reduces the single-snapshot false-positive behaviour and
+retains one candidate above the selected design-frame decoy reference**: it killed a noise artifact and
+identified a reproducible survivor for advancement. `denovo_401`
 (`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SA 3.87, no structural alerts)
 is the program's **first candidate retaining an NR4A3-favoured endpoint-score margin through the
 multi-snapshot screening tier**, subsequently taken through selectivity ABFE (§3). A formal in-silico developability profile (`nr4a3_developability.py`, RDKit) confirms the
@@ -684,7 +685,7 @@ SMARTS emits only its neutral form.)* Its earlier margin was therefore a **neutr
 through the computational funnel** (see the species-resolution paragraph below).
 
 **Honest weight.** `denovo_401` clears the **FEP-worthiness bar this
-program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 binding, stable pose) — which is
+program pre-committed to** (multi-snapshot margin − SD > 0, favourable NR4A3 endpoint score, persistence of the modeled pose over the short screening trajectory) — which is
 a real upgrade over a single-snapshot point estimate — but it is **single-trajectory GB-implicit MD, not
 FEP**, **unsynthesized**, and **un-validated**. It is also the **best-of-~10** candidates multi-snapshot-tested
 (and best-of-~200 generated), so its +12.83 point estimate carries a **selection (winner's-curse) bias on top
@@ -693,8 +694,8 @@ applies to picking `denovo_401` as the survivor. An independent re-run **estimat
 sensitivity after selection** — it does **not** de-bias the best-of-N selection (no single rerun can).
 **We ran that independent re-run** (fresh Langevin seed): `denovo_401` reproduces at
 **+14.75 ± 4.82** (vs the original +12.83 ± 2.98; ΔG NR4A3 −37.50 / NR4A1 −22.75 / NR4A2 −20.43) — the margin
-does **not** regress toward the null under an independent trajectory (it lands slightly higher), so the lead is
-**not a single-draw artifact**. This bounds the *within-candidate/seed* variance; the *between-candidate*
+does **not** regress toward the null under an independent trajectory (it lands slightly higher), so the margin is
+**not specific to one Langevin seed**. This bounds the *within-candidate/seed* variance; the *between-candidate*
 best-of-N selection remains a design-stage selection caveat — higher-tier calculations (ABFE) test the
 selected molecule but do **not** erase the selection process (only re-selection from scratch would).
 The decoy null (§2.6) was originally computed at
