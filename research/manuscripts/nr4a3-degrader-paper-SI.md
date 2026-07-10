@@ -89,9 +89,12 @@ ternary is non-selective). **No molecule is synthesized; this is design prep.** 
 degradation prediction. We therefore add the standard **three-body cooperative-equilibrium** layer (Douglass
 2013; Gadd 2017) coupled to a steady-state synthesis/degradation balance, which converts binary affinities +
 cooperativity α into the numbers that actually decide a degrader: **DC50, Dmax, and the hook effect**. Because
-absolute affinities and α are exactly what the now-complete three-replicate selectivity FEP pins (MM-GBSA ΔG is not a calibrated
-Kd), the model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd**, not a
-point DC50 — in an illustrative potent regime it reproduces the expected behaviour (DC50 425 → 16 nM as α 1 →
+absolute affinities and α are exactly the quantities the current ABFE does **not** validate (the absolute
+scale fails the T4L benchmark, §4; the initial three-replicate ABFE gives a *conditional receptor contrast*
+only, with an NR4A2 λ-overlap repair still pending — and MM-GBSA ΔG is likewise not a calibrated Kd), the
+model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd** that would
+accept experimentally measured or validated ensemble-weighted affinities in future work, **not** a
+point DC50 derived from the current raw ABFE absolutes — in an illustrative potent regime it reproduces the expected behaviour (DC50 425 → 16 nM as α 1 →
 10, with a hook at high occupancy). Its purpose is twofold: (i) it makes the degrader's efficacy claim
 *quantitative and falsifiable* rather than "a ternary forms," and (ii) it **is the analysis layer the FEP feeds** —
 per-paralogue FEP Kd's drop straight in, and the NR4A3-vs-NR4A1/NR4A2 spread in the Kd-sensitivity map becomes
@@ -269,7 +272,9 @@ QED 0.64). So the same cryptic-pocket framework, retargeted from the divergent h
 **designs a pan-NR4A binder on demand** — the CAR-T pole is now a *designed* result, not by-catch.
 
 **Endpoint-energy re-scoring confirms tri-paralogue engagement (one tier above docking).** We ran the same
-multi-snapshot MM-GBSA tier used for the selective lead on `denovo_9`: **all three paralogue ΔG are strongly
+endpoint tier used for the selective lead on `denovo_9` — **short-trajectory multi-frame endpoint MM-GBSA**
+(10 frames from one short GB-implicit trajectory, no entropy, no fully-equilibrated receptor ensemble):
+**all three paralogue ΔG are strongly
 favorable — NR4A3/NR4A1/NR4A2 = −28.3 / −23.9 / −20.7 kcal/mol** (amber14/GBn2, 10-frame average), so the
 endpoint tier **confirms `denovo_9` binds all three** — the core pan requirement, now shown above docking.
 We report the selectivity read honestly: the point estimate leans NR4A3 (margin +4.44 kcal/mol, raw verdict
@@ -278,8 +283,9 @@ margin − SD = −1.03 < 0), failing the same margin − SD > 0 bar that qualif
 (+12.83 ± 2.98), and sitting far below the single-snapshot decoy null (+13.1, §2.5). So there is **no
 statistically supported paralogue preference** — consistent with balanced pan engagement, not selectivity.
 Net: `denovo_9` is a **confirmed tri-paralogue (pan) binder** at the endpoint-energy tier with no
-de-noising-robust selectivity — the pan profile, honestly bounded (single 1-trajectory run, GB-implicit,
-no entropy; magnitudes read for engagement/direction, not absolute Kd; no molecule synthesized). A pan-pole
+de-noising-robust selectivity — the pan profile, honestly bounded (short-trajectory multi-frame endpoint
+MM-GBSA — one short GB-implicit trajectory, no entropy, no equilibrated ensemble; magnitudes read for
+engagement/direction, not absolute Kd; no molecule synthesized). A pan-pole
 selectivity FEP was not warranted (the pan objective is engages-all-three, which this already supports, not a
 robust margin).
 
