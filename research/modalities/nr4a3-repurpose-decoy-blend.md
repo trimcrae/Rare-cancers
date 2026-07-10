@@ -146,7 +146,7 @@ degraders.
 ## 6. Replicated de-noising + anti-target panel — final verdict (2026-07-09)
 **Between-run replicates (n=3 independent MD passes; survivor = between-run mean − SD > 0; denovo_401 ref +9.85).**
 Of the 18-drug shortlist, the selective survivors were **SNX-5422** (+17.56, HSP90i — had *collapsed* in the
-single-pass screen, so replication flipped the call), **AGI-5198** (+8.25, IDH1i), then weaker: DDR1-IN-1,
+single-pass screen, so replication flipped the call), **AGI-5198** (+9.41 at n=4 — its original rep1 completed post-6h-GH-cancel AND a dedicated 4th pass landed; IDH1i), then weaker: DDR1-IN-1,
 BMS-309403, CP-640186, flupentixol (and two collapse-controls survived weakly — reinforcing that single-pass
 de-noising is noise). All pan drugs collapsed on the *selective* margin. Pan-robust (balanced tri-engagement):
 KB-SRC-4, flupentixol, AT-1015, carebastine, CP-640186, pizotifen.

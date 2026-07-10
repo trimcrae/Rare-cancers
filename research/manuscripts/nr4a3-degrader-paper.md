@@ -469,8 +469,7 @@ noise at 250-drug scale, and only ~5.6 % clear the +13.12 decoy-null bar (not en
 reproducible run-to-run** (AGI-5198 swung +16.4 vs +6.4 across passes; the within-run SD of one autocorrelated
 trajectory understates the true uncertainty), so — as for `denovo_401`, which we held to the same bar
 (+12.83 / +14.75 across independent passes) — we ran **three independent replicates** and took the between-run
-mean − SD. Of the shortlist, only **SNX-5422** (HSP90 inhibitor; +17.56) and **AGI-5198** (IDH1 inhibitor;
-≈ +8) survive the NR4A3-vs-paralogue margin (a striking demonstration of the need for replication: SNX-5422
+mean − SD. Of the shortlist, only **SNX-5422** (HSP90 inhibitor; +17.56) and **AGI-5198** (IDH1 inhibitor; +9.41, n=4) survive the NR4A3-vs-paralogue margin (a striking demonstration of the need for replication: SNX-5422
 had *collapsed* in the single pass). The pan-NR4A cell (balanced tri-engagement, for the §3 ex-vivo CAR-T mode)
 is populated by KB-SRC-4, flupentixol, AT-1015, CP-640186 — but see below.
 
