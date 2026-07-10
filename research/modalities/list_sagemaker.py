@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read-only: list in-progress SageMaker training jobs and how many spot INSTANCES they consume.
 
-Answers "what is actually using the account 'instances across all spot training jobs' (=10) quota right
+Answers "what is actually using the account 'instances across all spot training jobs' (=8) quota right
 now?" — so we can reason about free slots instead of guessing. Prints each job's instance type/count,
 spot flag, and SecondaryStatus (Starting/Downloading/Training), and totals the spot instances in use.
 
@@ -84,8 +84,12 @@ def main():
         if spot:
             spot_instances += ic
         print(f"  {name[:52]:52} {it:16} x{ic} spot={str(spot):5} {sec}")
-    print(f"\nspot instances in use: {spot_instances} / 10 (account 'instances across all spot training jobs')")
-    print(f"→ free spot slots (if quota=10): {max(0, 10 - spot_instances)}")
+    # Account 'ml.g5.xlarge for spot training job usage' quota = 8 (confirmed by a live ResourceLimitExceeded:
+    # "limit is 8 Instances, current utilization 8"). NOT 10 — an earlier note that said 10 was wrong.
+    SPOT_QUOTA = 8
+    print(f"\nspot instances in use: {spot_instances} / {SPOT_QUOTA} (account 'instances across all spot "
+          f"training jobs')")
+    print(f"→ free spot slots (quota={SPOT_QUOTA}): {max(0, SPOT_QUOTA - spot_instances)}")
 
 
 if __name__ == "__main__":
