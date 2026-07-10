@@ -1,0 +1,72 @@
+name: PHASE 0 — per-replica metad harmonized pocket scoring (AWS SageMaker)
+
+# Metad convergence re-strengthening plan, Phase 0 (research/modalities/nr4a3-metad-convergence-plan.md).
+# Scores the orthosteric pocket per-frame in EACH of the 3 independent WTMetaD replicas
+# (nr4a3-metad-r{1,2,3}/ckpt) with the score-independent harmonized matcher + pinned fpocket 4.2.3, and asks
+# whether a matched, >= D* cavity-bearing sub-ensemble exists independently in each replica (both denominators),
+# and at what CV Rg the druggable frames sit. CPU (fpocket) — no GPU quota. Output uploaded continuously.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker CPU instance type (fpocket is CPU; ml.c5.2xlarge default)"
+        default: "ml.c5.2xlarge"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      r1_prefix: { description: "S3 prefix for metad replica 1 checkpoint", default: "nr4a3-metad-r1/ckpt", required: false }
+      r2_prefix: { description: "S3 prefix for metad replica 2 checkpoint", default: "nr4a3-metad-r2/ckpt", required: false }
+      r3_prefix: { description: "S3 prefix for metad replica 3 checkpoint", default: "nr4a3-metad-r3/ckpt", required: false }
+      output_prefix:
+        description: "S3 output prefix for the consolidated per-replica table"
+        default: "nr4a3-metad-replica-pocket"
+        required: false
+      pocket_match:
+        description: "harmonized (default) | legacy"
+        default: "harmonized"
+        required: false
+      max_runtime:
+        description: "Hard cap (seconds); default 6h"
+        default: "21600"
+        required: false
+      git_ref:
+        description: "repo ref the job clones + runs"
+        default: "main"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit PHASE 0 metad-replica pocket-scoring job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          R1_PREFIX: ${{ inputs.r1_prefix }}
+          R2_PREFIX: ${{ inputs.r2_prefix }}
+          R3_PREFIX: ${{ inputs.r3_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          POCKET_MATCH: ${{ inputs.pocket_match }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          python research/modalities/nr4a3_metad_replica_pocket_sagemaker.py

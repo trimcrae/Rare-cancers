@@ -1,0 +1,59 @@
+name: PHASE 1 — TICA slow-CV discovery (AWS SageMaker)
+
+# Metad convergence re-strengthening plan, Phase 1 (research/modalities/nr4a3-metad-convergence-plan.md).
+# Featurizes the existing metad r{1,2,3} + release trajectories, fits TICA, and reports corr(IC1, Rg) +
+# implied timescales + a redundancy verdict — i.e. whether Rg is the true slow CV or a hidden slow coordinate
+# exists. CPU (no GPU quota). Output uploaded continuously.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance: { description: "CPU instance type", default: "ml.c5.2xlarge", required: false }
+      region: { description: "AWS region", default: "us-east-2", required: false }
+      lag_frames: { description: "TICA lag in frames (0.05 ns/frame; 10 = 0.5 ns)", default: "10", required: false }
+      n_components: { description: "number of TICA components", default: "5", required: false }
+      include_release: { description: "also featurize the release replicas (1/0)", default: "1", required: false }
+      r1_prefix: { description: "metad r1 checkpoint prefix", default: "nr4a3-metad-r1/ckpt", required: false }
+      r2_prefix: { description: "metad r2 checkpoint prefix", default: "nr4a3-metad-r2/ckpt", required: false }
+      r3_prefix: { description: "metad r3 checkpoint prefix", default: "nr4a3-metad-r3/ckpt", required: false }
+      release_prefix: { description: "release prefix (release_rep*.dcd)", default: "nr4a3-release", required: false }
+      output_prefix: { description: "S3 output prefix", default: "nr4a3-slow-cv", required: false }
+      max_runtime: { description: "Hard cap (seconds); default 6h", default: "21600", required: false }
+      git_ref: { description: "repo ref to clone + run", default: "main", required: false }
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3
+      - name: Submit PHASE 1 slow-CV job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          LAG_FRAMES: ${{ inputs.lag_frames }}
+          N_COMPONENTS: ${{ inputs.n_components }}
+          INCLUDE_RELEASE: ${{ inputs.include_release }}
+          R1_PREFIX: ${{ inputs.r1_prefix }}
+          R2_PREFIX: ${{ inputs.r2_prefix }}
+          R3_PREFIX: ${{ inputs.r3_prefix }}
+          RELEASE_PREFIX: ${{ inputs.release_prefix }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          MAX_RUNTIME: ${{ inputs.max_runtime }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first."
+            exit 1
+          fi
+          python research/modalities/nr4a3_slow_cv_sagemaker.py
