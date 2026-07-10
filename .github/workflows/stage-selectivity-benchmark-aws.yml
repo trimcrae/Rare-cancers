@@ -61,7 +61,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install "rdkit==2024.3.5" requests boto3
+      - run: pip install "rdkit==2024.3.5" requests boto3 pytest
       - name: Unit-test the pure parsing/pose-input logic
         run: |
           cd research/modalities
