@@ -1,0 +1,56 @@
+name: NR4A3 AF2-vs-8XTT experimental cross-check (AWS SageMaker)
+
+# Runs the AF2-model-vs-PDB-8XTT cross-check (nr4a3_xtt_crosscheck.py) as a managed SageMaker Processing
+# job: fetches the AF2 NR4A3 LBD model (AFDB AF-Q92570) and the 8XTT solution-NMR ensemble (RCSB), aligns
+# numbering, and reports per-model backbone RMSD, per-model fpocket at Pocket-5, and selectivity-handle
+# mapping — the experimental structural validation now enabled by 8XTT's release. CPU work
+# (ml.c5.2xlarge) — does NOT touch the GPU quota. Fetches structures at runtime (no S3 input).
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (region is an input).
+# Output: s3://<default-bucket>/nr4a3-xtt-crosscheck/nr4a3-xtt-crosscheck.json
+#
+# NOTE: the analysis code lives on the feature branch until merged, so BOTH this workflow AND git_ref
+# default to that branch; the in-job clone (entry_xtt_crosscheck.py) uses git_ref. After merge to main,
+# set git_ref=main.
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance:
+        description: "SageMaker CPU instance type (ml.c5.2xlarge default)"
+        default: "ml.c5.2xlarge"
+        required: false
+      region:
+        description: "AWS region — must match where the stack lives"
+        default: "us-east-2"
+        required: false
+      git_ref:
+        description: "repo ref the SageMaker job clones + runs (branch/tag/sha)"
+        default: "claude/nr4a3-structure-update-i0pgpx"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "sagemaker>=2.200,<3" boto3   # v2 SDK (v3 dropped FrameworkProcessor/PyTorch)
+      - name: Submit SageMaker 8XTT cross-check job
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          INSTANCE: ${{ inputs.instance }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."
+            exit 1
+          fi
+          python research/modalities/nr4a3_xtt_crosscheck_sagemaker.py

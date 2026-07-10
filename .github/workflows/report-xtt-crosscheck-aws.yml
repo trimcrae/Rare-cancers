@@ -1,0 +1,70 @@
+name: Report NR4A3 8XTT cross-check + commit JSON (AWS)
+
+# Downloads s3://<default-bucket>/nr4a3-xtt-crosscheck/nr4a3-xtt-crosscheck.json (written by
+# gpu-xtt-crosscheck-aws.yml), prints a summary, and commits the JSON to the repo at
+# research/modalities/nr4a3-xtt-crosscheck.json on the target branch (so the result is versioned like
+# the other in-silico result JSONs). REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      branch:
+        description: "branch to commit the JSON to"
+        default: "claude/nr4a3-structure-update-i0pgpx"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xtt-crosscheck-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Download + summarize + stage JSON
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, json, boto3
+          region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+          bucket = f"sagemaker-{region}-{boto3.client('sts').get_caller_identity()['Account']}"
+          key = "nr4a3-xtt-crosscheck/nr4a3-xtt-crosscheck.json"
+          print(f"reading s3://{bucket}/{key}")
+          body = boto3.client("s3").get_object(Bucket=bucket, Key=key)["Body"].read()
+          d = json.loads(body)
+          os.makedirs("research/modalities", exist_ok=True)
+          with open("research/modalities/nr4a3-xtt-crosscheck.json", "wb") as fh:
+              fh.write(body)
+          for k in ("alignment", "q1_backbone_rmsd_to_af2", "q2_fpocket_pocket5", "q3_selectivity_handles",
+                    "_ok", "_error"):
+              if k in d:
+                  print(f"\n== {k} ==\n{json.dumps(d[k], indent=2)}")
+          PY
+      - name: Commit JSON to branch
+        run: |
+          set -e
+          [ -f research/modalities/nr4a3-xtt-crosscheck.json ] || { echo "no JSON downloaded"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nr4a3-xtt-crosscheck.json
+          git commit -m "8XTT cross-check: commit result JSON (AF2 LBD vs experimental NMR ensemble)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ inputs.branch }}
