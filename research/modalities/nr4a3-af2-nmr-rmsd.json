@@ -1,18 +1,31 @@
 {
   "_title": "AF2 vs 8XTT-NMR C\u03b1-RMSD decomposition (review P1 20)",
-  "_method": "Kabsch C\u03b1-RMSD; AF2-to-each-NMR-model vs NMR-model-to-model, over all shared C\u03b1 and Pocket-5 C\u03b1; AF2 counts as an ensemble member if its mean RMSD <= the NMR internal max.",
+  "_method": "Kabsch C\u03b1-RMSD; AF2-to-each-NMR-model vs NMR-model-to-model, over all shared C\u03b1 and Pocket-5 C\u03b1; AF2 counts as an ensemble member if its mean RMSD <= the NMR internal max. NMR numbering registered onto AF2/UniProt by AA-identity offset.",
   "af2_acc": "Q92570",
   "nmr_pdb": "8XTT",
   "n_nmr_models": 20,
+  "registration_offset": 378,
+  "registration_identity": 1.0,
   "n_all_ca_shared": 248,
-  "pocket5_shared": [],
+  "pocket5_shared": [
+    406,
+    407,
+    410,
+    411,
+    412,
+    481,
+    484,
+    485,
+    531,
+    534
+  ],
   "results": {
     "all_ca": {
       "af2_to_nmr": {
         "n": 20,
-        "min": 43.558,
-        "mean": 45.181,
-        "max": 46.422
+        "min": 4.814,
+        "mean": 7.613,
+        "max": 10.303
       },
       "nmr_to_nmr": {
         "n": 190,
@@ -20,14 +33,24 @@
         "mean": 8.341,
         "max": 14.425
       },
-      "af2_within_nmr_spread": false,
-      "_verdict": "AF2 mean exceeds the NMR internal spread (outlier)"
+      "af2_within_nmr_spread": true,
+      "_verdict": "AF2 is within the NMR ensemble spread"
     },
     "pocket_ca": {
-      "af2_to_nmr": {},
-      "nmr_to_nmr": {},
-      "af2_within_nmr_spread": false,
-      "_verdict": "AF2 mean exceeds the NMR internal spread (outlier)"
+      "af2_to_nmr": {
+        "n": 20,
+        "min": 0.544,
+        "mean": 0.837,
+        "max": 1.162
+      },
+      "nmr_to_nmr": {
+        "n": 190,
+        "min": 0.219,
+        "mean": 0.593,
+        "max": 1.075
+      },
+      "af2_within_nmr_spread": true,
+      "_verdict": "AF2 is within the NMR ensemble spread"
     }
   }
 }
