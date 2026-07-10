@@ -34,12 +34,27 @@ crucially×2 / rewrote the refutation sentence (rest of self-cert language = rem
 provisional · **c45/46** PocketMiner terminus/propensity · **c47** fpocket proxy · **c48** enclosure inference
 softened · **c49** priority claim removed.
 
-**Remaining EDIT (non-gated):** c5 r2 COLVAR provenance table · c6 drift-metric protocol · c12/c19/c43
-ABFE→§2.7 + 8XTT-first reorder (pairs w/ tonight's numbers) · c28 confirm 6k screen fully in SI · c32 finish
-self-cert sweep · c34 denovo_111 pKa method (tool/version/protomer pops) · c37 shorten Gate-4 prose · c50 refs
-identifiers-only block · c52 AI disclosure model versions + Acknowledgments (model-ID vs repo-rule tension —
-submission-time). **Gated on tonight's fleet:** c5/8/9/10/11/13/14 harmonized pocket rerun + pinned fpocket ·
-c15 NR4A2 λ-repair · c16 8XTT ABFE sensitivity · c7/44 Fig 1&2 redesign.
+## ✅ DONE in third round-5 pass (2026-07-10 PM) — ALL remaining non-gated EDITs cleared
+**c19** ABFE → new Results **§2.7** (§4 de-duplicated to protocol + pointer) · **c34** denovo_111 pKa method
+documented honestly (rule-based RDKit SMARTS, NOT a pKa predictor — no tool fabricated) · **c28** 6k screen
+condensed to 1 sentence + SI pointer · **c50** references block completed (titles verified for NR4A2-DBD +
+ETV6/EWS-FLI1; 2 unverifiable marked "title TBD at submission") · **c52** AI disclosure model family + access
+period surfaced, **Figures** statement (programmatic, no gen-AI images), actual **Acknowledgments** section
+added · **c37** Gate-4 prose halved · **c5** per-replica COLVAR provenance table + r2 reclassified as
+pipeline-repair · **c6** drift-comparison protocol specified (verified vs code) · **c3** "closed basin" →
+"single F(Rg) minimum".
+
+**⚠ CORRECTNESS FIX (commit d402fb5):** the metad cross-replica values were listed **sorted**, not in r1/r2/r3
+order; the round-5 reviewer misread the sorted list and P0.1's "fix" trusted the misreading. Data file is
+unambiguous: **r1** = basin 0.87 / ΔF 16.03 (expanded/uphill), r2 = 0.73/0.06, r3 = 0.74/0.83. Now stated in
+explicit r1/r2/r3 order everywhere.
+
+**Only remaining NON-gated item — deliberately deferred:** **c43 8XTT-first §2.1 reorder** — large structural
+reorg that pairs with the **gated** 8XTT harmonized rerun (Fig 1 = the all-20-8XTT detection distribution,
+§2.1's opening evidence). Doing it now then redoing it with tonight's data = churn; will do it WITH the rerun.
+
+**Gated on tonight's fleet:** c5(pocket)/8/9/10/11/13/14 harmonized pocket rerun + pinned fpocket · c15 NR4A2
+λ-repair · c16 8XTT ABFE sensitivity · c7/44 Fig 1 & 2 redesign · c43 reorder (pairs with Fig 1).
 
 ## P0 — submission blockers
 | # | Item | Status |
