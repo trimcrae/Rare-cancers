@@ -50,13 +50,12 @@ def parse_ca_models(pdb_text):
     for Cα atoms of the first chain encountered. Pure (stdlib). A single-model file -> a 1-element list."""
     models = []
     cur = {}
-    started = False
     for line in pdb_text.splitlines():
         rec = line[:6].strip()
         if rec == "MODEL":
-            cur = {}; started = True
+            cur = {}
         elif rec == "ENDMDL":
-            models.append(cur); cur = {}; started = False
+            models.append(cur); cur = {}
         elif rec == "ATOM" and line[12:16].strip() == "CA" and line[16] in (" ", "A"):
             try:
                 rs = int(line[22:26]); x = float(line[30:38]); y = float(line[38:46]); z = float(line[46:54])
@@ -66,6 +65,51 @@ def parse_ca_models(pdb_text):
     if cur or not models:
         models.append(cur)                             # trailing single model (no MODEL/ENDMDL records)
     return [m for m in models if m]
+
+
+_THREE_TO_ONE = {"ALA": "A", "ARG": "R", "ASN": "N", "ASP": "D", "CYS": "C", "GLN": "Q", "GLU": "E",
+                 "GLY": "G", "HIS": "H", "ILE": "I", "LEU": "L", "LYS": "K", "MET": "M", "PHE": "F",
+                 "PRO": "P", "SER": "S", "THR": "T", "TRP": "W", "TYR": "Y", "VAL": "V",
+                 "HID": "H", "HIE": "H", "HIP": "H", "CYX": "C", "MSE": "M"}
+
+
+def parse_ca_sequence(pdb_text):
+    """{resSeq(int): one-letter-AA} for Cα atoms of the FIRST model/chain — used to register two structures
+    that number the same protein differently (full-length AF2 vs an LBD construct). Pure (stdlib)."""
+    seq = {}
+    for line in pdb_text.splitlines():
+        if line[:6].strip() == "ENDMDL":
+            break                                      # first model only
+        if line[:6].strip() == "ATOM" and line[12:16].strip() == "CA" and line[16] in (" ", "A"):
+            try:
+                rs = int(line[22:26])
+            except ValueError:
+                continue
+            seq.setdefault(rs, _THREE_TO_ONE.get(line[17:20].strip(), "X"))
+    return seq
+
+
+def find_registration_offset(ref_seq, qry_seq, min_identity=0.8):
+    """Find the integer offset o such that query residue r corresponds to reference residue (r + o),
+    maximizing amino-acid identity — i.e. how a renumbered LBD construct maps onto the full-length model.
+    Returns (offset, matched, coverage_fraction). Raises if the best identity is below min_identity (the two
+    are not the same protein / not a constant-offset renumbering). Pure — a constant shift, which is the
+    correct model for a contiguous construct vs the full-length sequence."""
+    if not ref_seq or not qry_seq:
+        raise ValueError("empty sequence")
+    qmin, qmax = min(qry_seq), max(qry_seq)
+    rmin, rmax = min(ref_seq), max(ref_seq)
+    best = (0, -1)
+    for o in range(rmin - qmax, rmax - qmin + 1):
+        matched = sum(1 for r, a in qry_seq.items() if ref_seq.get(r + o) == a)
+        if matched > best[1]:
+            best = (o, matched)
+    o, matched = best
+    cov = matched / len(qry_seq)
+    if cov < min_identity:
+        raise ValueError(f"registration failed: best offset {o} matches only {matched}/{len(qry_seq)} "
+                         f"({cov:.2f} < {min_identity}) — sequences don't correspond by a constant shift")
+    return o, matched, cov
 
 
 def rmsd_over_residues(model_a, model_b, resseqs):
@@ -140,6 +184,13 @@ def main():
     nmr = parse_ca_models(nmr_txt)
     if len(nmr) < 2:
         raise RuntimeError(f"{NMR_PDB} parsed {len(nmr)} model(s); need an NMR ensemble (>=2 models)")
+    # REGISTER numbering: AF2 is full-length UniProt; 8XTT is an LBD construct that may renumber. Map the NMR
+    # residues onto AF2/UniProt numbering by AA-identity offset, THEN intersect (matching by number alone
+    # aligns non-corresponding atoms and yields a nonsense ~45 Å RMSD).
+    af2_seq = parse_ca_sequence(af2_txt)
+    nmr_seq = parse_ca_sequence(nmr_txt)
+    offset, matched, cov = find_registration_offset(af2_seq, nmr_seq)
+    nmr = [{r + offset: xyz for r, xyz in m.items()} for m in nmr]   # NMR now in AF2/UniProt numbering
     # all shared residues = those present in AF2 and in EVERY NMR model (a common frame for a fair RMSD)
     common = set(af2)
     for m in nmr:
@@ -149,8 +200,10 @@ def main():
     res = decompose(af2, nmr, all_resseqs, pocket_resseqs)
     out = {"_title": "AF2 vs 8XTT-NMR Cα-RMSD decomposition (review P1 20)",
            "_method": "Kabsch Cα-RMSD; AF2-to-each-NMR-model vs NMR-model-to-model, over all shared Cα and "
-                      "Pocket-5 Cα; AF2 counts as an ensemble member if its mean RMSD <= the NMR internal max.",
+                      "Pocket-5 Cα; AF2 counts as an ensemble member if its mean RMSD <= the NMR internal max. "
+                      "NMR numbering registered onto AF2/UniProt by AA-identity offset.",
            "af2_acc": AF2_ACC, "nmr_pdb": NMR_PDB, "n_nmr_models": len(nmr),
+           "registration_offset": offset, "registration_identity": round(cov, 3),
            "n_all_ca_shared": len(all_resseqs), "pocket5_shared": pocket_resseqs, "results": res}
     json.dump(out, open(OUT, "w"), indent=2)
     for label, r in res.items():

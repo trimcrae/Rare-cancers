@@ -74,6 +74,33 @@ def test_summarize():
     assert s == {"n": 3, "min": 1.0, "mean": 2.0, "max": 3.0}
 
 
+def test_parse_ca_sequence_first_model_only():
+    pdb = ("MODEL        1\n"
+           "ATOM      1  CA  ALA A 406      1.0   2.0   3.0\n"
+           "ATOM      2  CA  TRP A 407      4.0   5.0   6.0\n"
+           "ENDMDL\n"
+           "MODEL        2\n"
+           "ATOM      1  CA  GLY A 406      1.0   2.0   3.0\n"
+           "ENDMDL\n")
+    seq = rm.parse_ca_sequence(pdb)
+    assert seq == {406: "A", 407: "W"}                 # first model only, 3->1 letter
+
+
+def test_find_registration_offset_recovers_constant_shift():
+    # reference = full-length "A R N D C Q E G H" at resSeq 1..9; query = the "D C Q" stretch renumbered 1..3
+    ref = dict(zip(range(1, 10), "ARNDCQEGH"))
+    qry = {1: "D", 2: "C", 3: "Q"}                      # corresponds to ref 4,5,6 -> offset +3
+    o, matched, cov = rm.find_registration_offset(ref, qry)
+    assert o == 3 and matched == 3 and cov == 1.0
+
+
+def test_find_registration_offset_rejects_noncorresponding():
+    ref = dict(zip(range(1, 10), "ARNDCQEGH"))
+    qry = {1: "K", 2: "K", 3: "K"}                      # no offset matches -> registration must fail
+    with pytest.raises(ValueError):
+        rm.find_registration_offset(ref, qry, min_identity=0.8)
+
+
 def test_decompose_flags_within_spread():
     # AF2 sits between two NMR models -> its mean RMSD <= the NMR internal max -> "within spread"
     res = [{r: (0.0, 0.0, 0.0) for r in range(1, 6)},
