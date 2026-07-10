@@ -291,12 +291,14 @@ unresolved.**
 (corr(Rg, gate) = 0.94 / 0.96 / 0.94), confirming the Rg excursion is **coherent gate motion** rather than an
 Rg-only numerical artifact — but at ~0.95 correlation it is **nearly collinear with Rg and does not test
 whether Rg captures all slow degrees of freedom** (a genuinely non-redundant CV — pocket volume, gate-residue
-χ-states — is a revision item). **(iv) Recrossing is heterogeneous** (here a "crossing" is a **low-Rg↔high-Rg
-threshold crossing** of the Rg CV, *not* a structurally classified closed↔open transition; the precise
-thresholds, minimum dwell, and any hysteresis filter are not yet specified — an event definition flagged for
-the harmonized re-analysis, so a residence in a region is not necessarily one independent visit): r1 shows
-3 low-Rg↔high-Rg crossings (partial recrossing); r3 revisits the **reference Rg window** extensively but does
-not fully recross within 30 ns; **r2's crossing count is not reported** (see provenance below). What the
+χ-states — is a revision item). **(iv) Recrossing is heterogeneous** (a "crossing" is a **low-Rg↔high-Rg
+threshold crossing** of the Rg CV — closed/open boundary at **Rg = 0.9 nm with a 5σ hysteresis deadband**,
+reference/"druggable" window **Rg ∈ [0.7, 1.1] nm** — *not* a structurally classified closed↔open transition;
+a distinct entry into the window counts as one "visit" (so a long residence is one visit, not many, but no
+minimum-dwell filter is applied and no structural state is defined — refinements flagged for the harmonized
+re-analysis): r1 shows **3 low-Rg↔high-Rg crossings** with 41 window-visits (partial recrossing); r3 makes
+**360 window-visits** but does not fully recross within 30 ns; **r2's crossing count is not reported** (its
+reduced COLVAR retained a single usable sample; see provenance below). What the
 replicas *do* agree on is narrower: each 1-D F(Rg) profile contains **a single resolved minimum and no
 reproducibly resolved second minimum**, while the quantitative profiles and minimum locations differ
 substantially — **not** a common opening free energy or a demonstrated common druggable geometry.
