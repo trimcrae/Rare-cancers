@@ -54,6 +54,33 @@ def _stream(logs, name):
     return max(streams, key=lambda s: s["lastEventTimestamp"]) if streams else None
 
 
+def _checkpoint_latest(s3, s3_uri, cap_pages=20):
+    """Freshest object under a training job's checkpoint S3 prefix -> (last_ms, key, n_objects).
+    This is the CORRECT per-iteration heartbeat: a healthy ABFE λ-window prints only ONE stdout line per
+    window (the nan-guard header) and then appends to window_NN.jsonl every iteration — SageMaker syncs that
+    file to S3 continuously, so the prefix's newest LastModified advances each iteration even while stdout is
+    silent. (CloudWatch stdout staleness would false-positive on every healthy window.) Returns (None,...) if
+    there is no checkpoint prefix or it is empty."""
+    if not s3_uri or not s3_uri.startswith("s3://"):
+        return None, None, 0
+    bkt, _, pref = s3_uri[5:].partition("/")
+    latest_ms, latest_key, n = None, None, 0
+    try:
+        pages = s3.get_paginator("list_objects_v2").paginate(Bucket=bkt, Prefix=pref)
+        for i, page in enumerate(pages):
+            for o in page.get("Contents", []):
+                n += 1
+                lm = o["LastModified"].timestamp() * 1000.0
+                if latest_ms is None or lm > latest_ms:
+                    latest_ms, latest_key = lm, o["Key"]
+            if i + 1 >= cap_pages:
+                break
+    except Exception as e:  # noqa: BLE001 — surface, don't swallow into a false 'no heartbeat'
+        print(f"   (s3 list error for {pref[:60]}: {e})", flush=True)
+        return None, None, 0
+    return latest_ms, latest_key, n
+
+
 def _marker(logs, stream_name, marker_re):
     try:
         evs = logs.get_log_events(logGroupName=TRAIN_GROUP, logStreamName=stream_name,
@@ -74,6 +101,7 @@ def main():
     import boto3
     sm = boto3.client("sagemaker")
     logs = boto3.client("logs")
+    s3 = boto3.client("s3")
     now = datetime.datetime.now(UTC)
     now_ms = now.timestamp() * 1000.0
 
@@ -83,7 +111,8 @@ def main():
     jobs = sm.list_training_jobs(**kw)["TrainingJobSummaries"]
 
     print(f"=== fleet progress @ {now:%Y-%m-%d %H:%M}Z  (STALE_MIN={stale_min:.0f}m, {len(jobs)} in-progress) ===")
-    print(f"{'JOB':<50} {'SECONDARY':<11} {'RUN':>5} {'LAST_EVT':>9}  STATE / MARKER")
+    print("heartbeat = freshest S3 checkpoint object (per-iteration; healthy ABFE windows are stdout-silent)")
+    print(f"{'JOB':<50} {'SECONDARY':<11} {'RUN':>5} {'CKPT_AGE':>9} {'SRC':>4}  STATE | last-marker")
     stalls = []
     for j in jobs:
         name = j["TrainingJobName"]
@@ -91,28 +120,37 @@ def main():
         sec = d.get("SecondaryStatus", "")
         start = d.get("TrainingStartTime")
         runmin = (now - start.replace(tzinfo=UTC)).total_seconds() / 60 if start else 0
-        st = _stream(logs, name)
-        last_ms = st.get("lastEventTimestamp") if st else None
-        state, age = classify(sec, last_ms, now_ms, stale_min, has_stream=bool(st))
-        marker = _marker(logs, st["logStreamName"], marker_re) if st else ""
+        # PRIMARY heartbeat: freshest S3 checkpoint object (advances every iteration via continuous sync).
+        ck_uri = (d.get("CheckpointConfig") or {}).get("S3Uri", "")
+        ck_ms, ck_key, ck_n = _checkpoint_latest(s3, ck_uri)
+        # CloudWatch stream only for the descriptive marker (what window/iter), NOT for the stall decision.
+        stm = _stream(logs, name)
+        marker = _marker(logs, stm["logStreamName"], marker_re) if stm else ""
+        if ck_ms is not None:
+            state, age = classify(sec, ck_ms, now_ms, stale_min, has_stream=True)
+            src = "s3"
+        else:                                          # no checkpoint prefix yet: fall back to CloudWatch age
+            last_ms = stm.get("lastEventTimestamp") if stm else None
+            state, age = classify(sec, last_ms, now_ms, stale_min, has_stream=bool(stm))
+            src = "cw"
         age_str = f"{age:.0f}m" if age is not None else "—"
         tag = state
         if state == "STALE":
             tag = f"⚠STALE {age:.0f}m HANG?"
-            stalls.append((name, age, marker))
-        print(f"{name[:50]:<50} {sec:<11} {runmin:5.0f} {age_str:>9}  {tag} | {marker[:70]}")
-    print("=" * 104)
+            stalls.append((name, age, marker, src))
+        print(f"{name[:50]:<50} {sec:<11} {runmin:5.0f} {age_str:>9} {src:>4}  {tag} | {marker[:60]}")
+    print("=" * 108)
     # Free spot-Training slots: the account quota (8) minus the in-progress Training jobs. A positive number
     # means capacity is free RIGHT NOW — the hourly check can launch a queued, slot-fillable job (gpu-queue.json).
     quota = int(os.environ.get("SPOT_TRAIN_QUOTA", "8"))
     free = quota - len(jobs)
     print(f"spot Training slots: {len(jobs)}/{quota} in use  →  FREE SLOTS: {max(0, free)}")
     if stalls:
-        print(f"⚠ {len(stalls)} job(s) look STUCK (Training but silent > {stale_min:.0f}m — investigate CloudWatch):")
-        for name, age, marker in stalls:
-            print(f"   {name}  idle {age:.0f}m  last: {marker[:80]}")
+        print(f"⚠ {len(stalls)} job(s) look STUCK (no fresh checkpoint > {stale_min:.0f}m — investigate):")
+        for name, age, marker, src in stalls:
+            print(f"   {name}  no-{src}-heartbeat {age:.0f}m  last-marker: {marker[:70]}")
     else:
-        print(f"✓ no stalls: every Training job logged within {stale_min:.0f}m (or is still provisioning/spot-waiting).")
+        print(f"✓ no stalls: every Training job wrote a checkpoint within {stale_min:.0f}m (or is provisioning/spot-waiting).")
 
 
 if __name__ == "__main__":
