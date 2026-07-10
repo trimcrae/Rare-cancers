@@ -136,10 +136,19 @@ states" thesis is corroborated by an **experimental** ensemble, not only by AF2 
 8XTT does *not* settle:** the AF2 model's *atomic* pocket geometry diverges from the experimental ensemble —
 pocket-local Cα-RMSD median 3.56 Å, selectivity-handle Cα-RMSD 3.44 Å (global 7.63 Å) — part of which is
 genuine apo flexibility across the NMR ensemble, not model error. So 8XTT **confirms the druggability
-*behaviour* but not the AF2 *specific opened geometry*** used downstream for docking/design; rebasing the design
-onto the druggable 8XTT conformers (re-dock `denovo_401`, re-run PocketMiner, re-seed MD on 8XTT) is the primary
-follow-up (§5). The verdict from the automated benchmark is reported honestly as **"partial"** — concordant on
-the distribution, divergent on the backbone.
+*behaviour* but not the AF2 *specific opened geometry*** used downstream for docking/design. **We therefore
+rebased the two functionally-decisive predictions onto the druggable 8XTT conformers, and both hold:**
+(i) **PocketMiner re-run on 8XTT still enriches** the Pocket-5 residues (median 1.40× over the druggable
+conformers vs 1.36× on AF2 — the orthogonal cryptic-pocket call is not an AF2 artifact); and (ii) a
+**multi-snapshot MM-GBSA re-dock of `denovo_401` into the four druggable 8XTT conformers keeps it
+NR4A3-selective in all four** (min-margin median 9.4 kcal/mol, range 6.8–13.7; NR4A3 favoured over both
+paralogues in every conformer), so the lead's selectivity survives on **experimental** geometry, not only the
+AF2/metad frame ([`../modalities/nr4a3-8xtt-benchmark-findings.md`](../modalities/nr4a3-8xtt-benchmark-findings.md)).
+The honest residual: the ~3.5 Å backbone divergence still bounds confidence in the *atomic pose* (and the
+re-dock's paralogue baseline was re-computed, the original poses having aged out of storage), and only a
+**ligand-bound** experimental structure could validate the warhead-engaged geometry. The automated apo-benchmark
+verdict is reported honestly as **"partial"** — concordant on the druggability distribution and on the two
+functional predictions, divergent on the backbone atomic detail.
 
 **Reconciliation with recent NR4A structural and chemical-biology work (2023–2025).** Three independent
 lines of evidence bracket this borderline score and sharpen (rather than soften) our claim. *(i) The

@@ -67,3 +67,32 @@ handle-engagement geometry therefore still rest on the AF2 model.
    experimental version of the metad/release druggability-distribution argument.
 
 These are cheap (CPU fpocket / a Boltz or dock inference / one short MD) and are the natural P0.1 continuation.
+
+## Rebase results (2026-07-10) — the design SURVIVES on experimental geometry
+Two of the three rebase jobs (§ follow-ups 1–2) completed and both are positive; the third (8XTT-seeded MD)
+failed on its first cloud run (scaffold; to be fixed). Results committed here (S3 JSONs mirrored to git per
+the reproducibility hardening):
+
+1. **PocketMiner re-run on 8XTT — verdict `enriches`, enrichment median 1.40×** (over the 4 druggable
+   conformers 2/8/20/6; mapped Pocket-5 → 8XTT residues [28,29,32,33,34,103,106,107,153,156]). So the
+   orthogonal cryptic-pocket predictor flags the *same* pocket-5 residues on the **experimental** structure
+   at essentially the same enrichment as on AF2 (1.40× vs 1.36×) — the PocketMiner corroboration is not an
+   AF2 artifact. Run `gpu-8xtt-pocketminer-aws.yml` (29084899592); `nr4a3-8xtt-pocketminer.json`.
+2. **denovo_401 re-dock into the druggable 8XTT conformers — verdict `survives`, 4/4 NR4A3-selective.**
+   Multi-snapshot MM-GBSA of `denovo_401` on 8XTT models 2/8/20/6 keeps NR4A3 favoured over both paralogues
+   in **every** conformer: min-margin min 6.83 / median 9.42 / max 13.65 kcal/mol (per-conformer NR4A3 ΔG
+   −34.2/−41.0/−35.2/−38.4; paralogue baseline NR4A1 −27.4, NR4A2 −25.2). So the lead's selectivity **holds
+   on experimental geometry**, not only the AF2/metad frame. Caveat: the paralogue baseline here was a fresh
+   dock into the opened receptors (the original `nr4a3-matrix` poses had aged out of S3 — see the
+   reproducibility note), so it is a re-computed, not identical-baseline, comparator. Run
+   `gpu-8xtt-redock-aws.yml` (29084903622); `nr4a3-8xtt-redock-denovo401.json`.
+
+**Net upgrade to the interpretation:** the AF2 *backbone* diverges ~3.5 Å from 8XTT, but the two
+*functionally decisive* predictions — that this pocket is a cryptic druggable site (fpocket distribution +
+PocketMiner) and that `denovo_401` engages NR4A3 selectively — **both reproduce on the experimental
+conformers.** The geometry-divergence caveat therefore bounds the *atomic pose* confidence, not the
+*existence of the druggable cryptic site* or the *lead's selectivity direction*, both of which now have
+experimental-structure support.
+
+(8XTT-seeded unbiased MD — follow-up 3 — failed on first cloud run and is queued for a fix; it is the
+optional item and not load-bearing given 1–2 already anchor the site + selectivity on 8XTT.)
