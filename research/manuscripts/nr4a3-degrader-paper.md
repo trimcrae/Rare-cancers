@@ -246,22 +246,33 @@ correlating per-frame druggability with F(Rg) shows the pocket is already drugga
 Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat:
 both numbers are read off the *same* incompletely-converged biased F(Rg), so the 0.76 rests on the
 basin region being better sampled than the frontier (it is, but it is a single biased profile). **The metad
-has since been extended to 60 ns cumulative** (two 30 ns segments; `report_metad.py` on the committed
-`metad-fes-60ns.dat`), and the F(Rg) picture is **robust to the doubled sampling**: still a **single basin**
-(minimum Rg ≈ 0.755 nm) with **no separate opened minimum** (Gate 1 stays failed-as-registered / basin-breathing), the
-**druggable release-frame region (Rg ≈ 0.73) sits only ~0.6 kcal/mol above the basin** (confirming the ~0.76),
-and the **most-open frontier (Rg ≈ 1.06) is ~35 kcal/mol** (matching the ~38). Beyond that single continued
-trajectory, we now have **three independent-seed well-tempered metadynamics replicas** (seeds 1/2/3, 30 ns
-each; `nr4a3_metad.py`, prefixes `nr4a3-metad-r{1,2,3}`; analysis `nr4a3_metad_analysis.py`), which upgrade
-"consistency on extension" toward **independent convergence + orthogonal-CV corroboration**: (i) each replica
-is **converged by block analysis** — final block-to-block max|ΔF(Rg)| = **0.26 / 1.65 / 0.28 kJ/mol**
-(≈ 0.06–0.4 kcal/mol) across 10/20/30 ns blocks; (ii) the druggable opening **reproduces on a second,
-orthogonal geometric collective variable** (a pocket-gate descriptor distinct from the Pocket-5 Rg): on the
-2D reweight, corr(Rg, gate) = **0.94 / 0.96 / 0.94** in the three replicas, so the opening is **not an
-artifact of the single Rg CV**; and (iii) **recrossing of the closed↔open boundary is demonstrated** — replica
-r1 shows **3 closed↔open crossings** and the druggable window is revisited **41 / 1 / 360** times across
-r1/r2/r3 (so recrossing is shown in ≥1 replica, though r2/r3 do not fully recross within 30 ns). The
-remaining convergence item is a direct cross-replica F(Rg) overlay (a revision figure). The 60 ns reconstructed profile is **Figure 2**
+has since been extended to 60 ns cumulative** on the original continued trajectory (two 30 ns segments;
+`report_metad.py` on `metad-fes-60ns.dat`): still a **single closed basin** with **no separate opened
+minimum** (Gate 1 stays failed-as-registered / basin-breathing). On that single profile the druggable
+release-frame region (Rg ≈ 0.73) sat ~0.6 kcal/mol above the basin and the most-open frontier (Rg ≈ 1.06)
+~35 kcal/mol — **but those are single-profile numbers that the three independent replicas below do NOT
+reproduce.** We then ran **three independent-seed well-tempered metadynamics replicas** (seeds 1/2/3, 30 ns
+each; `nr4a3_metad.py`, prefixes `nr4a3-metad-r{1,2,3}`; analysis `nr4a3_metad_analysis.py` +
+`nr4a3_metad_crossreplica.py`), read at their true weight — **not** as a convergence claim:
+**(i) The profiles are not converged.** Within-run block-to-block drift *decreases* with time (max|ΔF(Rg)| for
+the 10→20 then 20→30 ns blocks = 29→14 (r1), 31→15 (r2), 16→18 (r3) kJ/mol) but the 20→30 ns block still
+drifts **~14–18 kJ/mol (≈3.3–4.2 kcal/mol)**, and r3's does not decrease — so each replica shows only a
+*late-time reduction* in drift, not convergence. (The near-zero 30.0→30.2 ns increment is the trivial 0.2 ns
+extension, not a convergence metric.) **(ii) The independent replicas do not reconstruct a common F(Rg).** The
+basin sits at Rg = 0.73 / 0.74 / **0.87** nm and the basin→druggable ΔF(Rg≈0.72) = **0.06 / 0.83 / 16.0
+kcal/mol** (spread ~16 kcal/mol; `nr4a3-metad-crossreplica.json`): r2/r3 place the druggable geometry ~in the
+basin (consistent with the old ~0.6) while r1's basin is more open, putting the same geometry ~16 kcal/mol
+uphill. **So the ~0.6 kcal/mol opening cost is a single-profile estimate not reproduced across seeds**, and
+cross-replica free-energy agreement — hence **Gate 3B (equilibrium accessibility) — remains unresolved.**
+**(iii)** A separately-defined **gate descriptor** (pocket-mouth distance) tracks the same expansion
+(corr(Rg, gate) = 0.94 / 0.96 / 0.94), confirming the Rg excursion is **coherent gate motion** rather than an
+Rg-only numerical artifact — but at ~0.95 correlation it is **nearly collinear with Rg and does not test
+whether Rg captures all slow degrees of freedom** (a genuinely non-redundant CV — pocket volume, gate-residue
+χ-states — is a revision item). **(iv) Recrossing is heterogeneous:** r1 shows 3 closed↔open crossings
+(genuine partial recrossing); r3 revisits the druggable window extensively but does not fully recross within
+30 ns; r2's crossing count is uninformative (its reduced COLVAR retained a single usable sample). What the
+replicas *do* agree on is the **qualitative** picture — one closed basin, no separate opened minimum, a
+druggable geometry reachable by basin-internal breathing — not a quantitative opening free energy. The 60 ns single-trajectory profile is **Figure 2**
 ([`../modalities/nr4a3-fig2.png`](../modalities/nr4a3-fig2.png); generated by `nr4a3_journal_figures.py`
 from the committed `metad-fes-60ns.dat`). (Edge caveat retained: sum_hills references the sampled edges to
 ~0 at the metad walls, so only the basin and the profile *shape* are interpretable, not the edge values. The
