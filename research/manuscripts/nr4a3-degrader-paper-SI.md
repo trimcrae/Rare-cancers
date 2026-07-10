@@ -47,7 +47,7 @@ SNX-5422 −10.9 at PXR vs −8.5). As a positive control that the panel *discri
 saturates, `denovo_401` through the same panel tops out at **−9.1 (VDR)** — 1.7–5 kcal weaker than any
 repurposed survivor and not a PXR/HSA hit. **Conclusion:** the marketed-drug library contains no compound that
 is both NR4A3-selective *and* clean against this 9-target counter-screen panel; its paralogue-margin
-survivors each engage ≥1 off-target more tightly than NR4A3 in this docking panel (a screen-level
+survivors each receive a more favourable docking score at ≥1 counter-screen target than at NR4A3 (a screen-level
 observation from a 9-target panel, not a proteome-wide selectivity measurement). This
 extends §2.5 from a small-set claim to a 6k-scale, promiscuity-controlled negative result — and is precisely
 why a *de-novo* design (§2.6) is required. (The much-noted AGI-5198↔chondrosarcoma link is coincidental: it
