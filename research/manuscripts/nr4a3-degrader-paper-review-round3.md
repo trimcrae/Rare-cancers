@@ -90,3 +90,26 @@ distribution (C); NR reference sites + D* line (D); AF2–8XTT pocket-local dive
 - 44 pKa methodology (tool/version, protomers, pop at pH 7.4, tautomer policy).
 - 48 global stale-status sweep: queued/planned/next tier/remains the gate/in flight/follow-up/pending.
 - 54 Gate 4 reporting interpretation (predicted NR4A3-favoured profile in silico, not physical binding).
+
+---
+
+## Progress log (2026-07-10, session)
+
+**Manuscript stale-claim pass — DONE (committed):**
+- §2.2 Gate-3 split 3A/3B; purged metastable / induced-fit / "not a bias artifact" / population-pending / "resolves Gate 3" (c12,13,14,17,18,50,55).
+- ABFE: calibrated→evaluated/failed-benchmark (c4); T4L cause not isolated (c5); deleted absolute-engagement claim (c3); narrowed common-mode cancellation + added algebraic decomposition (c7).
+- §2.1 conservative/calibrated/validated-band → contextualized/empirical-reference (c9,c10).
+- §2.3 "most divergent zone"→enriched + multiplicity/spatial/selection caveats (c19,c20); alanine-scan reframe (c21); myeloid wording (c22).
+- §2.4 endpoint-decides→challenges-requires-controls (c25); dropped "agonism demands" (c24); demonstrated→suggests axis (c23); ternary non-selective→"no evidence for selective" + Kd-feed reframe (c26,c27).
+- §2.5/2.6 deleted "de-bias" (c43); "191 developable"→valid-unique (c34); narrowed "bounded small" confound (c35); FEP "decisive resolution"→additional check (c36); asymmetry "conservative"→uncertain-direction (c31); generation "clean"→high-validity (c30).
+- Gate 4 reinterpreted as predicted-profile-not-binding (c54); caveats CNS/ternary/divergent (c19,c27,c51); "queued for FEP"/"first multi-snapshot-confirmed"→retaining-margin (c42,c48); "FEP complete"→initial-ABFE-complete-repair-pending (c53).
+
+**Compute — results in hand:**
+- **Multi-walker metad (c5) COMPLETE (3 independent seeds, ~30 ns each).** r1: converged block-to-block max|ΔF|=0.281 kJ/mol, **3 closed↔open recrossings**, orthogonal-CV corr(Rg,gate)=0.943. r2: max|ΔF|=1.65 kJ/mol, 0 recrossings, corr=0.96. r3 analysis re-running. → fold convergence + orthogonal-CV + recrossing into §2.2 / new Methods 4.4 once r3 lands.
+- **Matched 8XTT-frame decoy null (c8/P0.8):** SageMaker job ran (run 29092770899).
+- **Generation-matched null (c15/P1.16):** control MM-GBSA 18/18 complete (2/18 scramble decoys pipeline-classed confirmed_selective); reduce dispatched → null rate pending.
+- **fpocket on release rep1/rep2 (c15,16/P0.9):** dispatched (mdpocket, structure_prefix=nr4a3-metad).
+- **8XTT seed-MD (FEP prerequisite):** in progress → 8XTT-seeded ABFE (incl. NR4A2 λ-repair, P0.1) auto-dispatches on a druggable frame.
+- **CI:** fixed (numpy in tests job).
+
+**Still to do (big structural, next turns):** ABFE→Results §2.7 + Fig 6 (c1/P0.4); 8XTT-first §2.1 reorder (c8,9/P2.19); denovo_15/94/57/111 archaeology→SI (c28,29/P2.20); Methods split 4.1–4.14 (c45/P2.23); pocket-tracking Methods (c46/P0.10); Abstract→3–4 sentences (c57); title ≤12 words (c56); Fig 1 & Fig 5 redesign (c11,37); refs conventionalize (c59); data/AI disclosure (c60,61); multi-snapshot wording c32,33,37,38,39,40,41,44; limitations trim c49; SI S1/S7 (c38,components).
