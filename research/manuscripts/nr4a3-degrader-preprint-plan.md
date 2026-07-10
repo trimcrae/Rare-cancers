@@ -1,11 +1,13 @@
 # NR4A3-degrader paper → preprint: conversion plan & checklist
 
-> **✅ CLEAN PREPRINT DRAFTED (2026-07-01): [`nr4a3-degrader-preprint.md`](./nr4a3-degrader-preprint.md).**
-> The conversion pass below is largely done — scaffolding stripped, front matter added, `denovo_401` stated
-> at its frame-dependent weight, ternary omitted (future work). **Remaining before posting:** fill in
-> author/affiliation/corresponding-email; render the figures (incl. the release-vs-metad decoy-null contrast
-> panel); confirm the target journal's preprint policy; then post to ChemRxiv + send the outreach emails.
-> The working doc [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) is kept as the internal red-teamed record.
+> **⚠ SUPERSEDED (2026-07-10) — no separate preprint is maintained any more.** Keeping a parallel condensed
+> preprint caused it to drift out of sync with, and briefly contradict, the full manuscript, so we collapsed
+> to a **single source of truth**: [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md) (+ its SI) now
+> serves as **both** the ChemRxiv preprint and the JCIM submission, and
+> [`nr4a3-degrader-preprint.md`](./nr4a3-degrader-preprint.md) is a retired redirect stub. There is no longer
+> a "conversion" step — the checklist below is retained only for the still-relevant **pre-posting** items
+> (author/affiliation/corresponding-email; render figures; confirm the target journal's preprint policy;
+> post to ChemRxiv + send the outreach emails), which now apply directly to the paper.
 
 **Goal:** turn the working manuscript ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)) — which is
 currently an *internal, red-teamed working doc* — into a clean, self-contained **preprint** for immediate

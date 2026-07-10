@@ -128,7 +128,8 @@ SUPPORTED / 3B accessibility UNRESOLVED; basin-breathing); ABFE folded into prep
 state-matched→criterion-matched. **Cross-checking the two docs surfaced + fixed 3 PAPER citation errors**
 (vidofludimus author Willems→López-García; NR-V04 PMID 37609171[commentary]→38334978[primary]; PGR-NR4A3
 author Ott→Wilbur) — all verified against PubMed/PMC.
-**⚠ STANDING RULE (learned): every paper edit must propagate to `nr4a3-degrader-preprint.md` + `-preprint-si.md`
-in the SAME pass — they are the actual ChemRxiv deliverable and silently drifted out of sync.**
+**⚠ RESOLVED STRUCTURALLY (2026-07-10, trimcrae): consolidated to a SINGLE source of truth.** The separate
+preprint was the drift's root cause, so it's retired (redirect stubs). `nr4a3-degrader-paper.md` (+SI) is now
+BOTH the ChemRxiv preprint and the JCIM submission — edit it once; no co-editing, no drift class.
 
 **Still to do — result-gated (fold in when tonight's GPU lands):** ABFE→Results §2.7 + Fig 6 (c1/P0.4); NR4A2 λ-repair reduce (P0.1); 8XTT-first §2.1 reorder done WITH §2.7 insertion (c8,9/P2.19); matched-frame null (P0.8); release-replica fpocket table (P0.9); SI S1/S7 (c38,components); selectivity-benchmark ABFE (#2); T4L 2ns (#3); 8XTT-conformer (#4).

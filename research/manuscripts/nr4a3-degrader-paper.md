@@ -476,7 +476,8 @@ method-validation, not a selective lead**, which is exactly why a *de-novo* desi
 (Selectivity FEP on a survivor is the defensible affinity tier, gated behind a bona-fide selective
 candidate.) For a representative `denovo_401`-PROTAC, the model **predicts a ternary-like CRBN complex of comparable
 confidence for all three paralogues** (`nr4a3_ternary.py`, Boltz-2; per-paralogue iptm 0.72/0.83/0.82, each
-LBD presenting a solvent-exposed lysine near CRBN). We read this only as *geometric feasibility*, not as
+LBD presenting a solvent-exposed lysine within ubiquitin reach of CRBN — NR4A3 K195 3.1 Å, NR4A1 K53 2.3 Å,
+NR4A2 K175 4.0 Å). We read this only as *geometric feasibility*, not as
 demonstrated cooperativity, ubiquitination competence, or degradation (a single Boltz pose, no
 CRL4^CRBN–E2~Ub assembly, one arbitrary linker; the CRBN/IMiD recovery is a memorization-consistent sanity
 check, not out-of-distribution validation). At that weight, the model **did not provide evidence for

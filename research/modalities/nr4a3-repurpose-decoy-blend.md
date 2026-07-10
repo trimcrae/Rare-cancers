@@ -119,7 +119,7 @@ A "mean−SD > 0" survivor call from one trajectory is therefore a lucky-draw ri
 
 **Fix (the standard denovo_401 was already held to).** denovo_401 earned "lead" precisely by surviving
 **independent** replication — multi-snapshot **+12.83 ± 2.98**, reproduced in an independent-seed pass at
-**+14.75 ± 4.82** (recorded in `nr4a3-degrader-preprint.md` §2.6), "so not a single-draw artifact." We now
+**+14.75 ± 4.82** (recorded in `../manuscripts/nr4a3-degrader-paper.md` §2.6), "so not a single-draw artifact." We now
 hold the repurposing hits to that same bar: run **3 independent de-noising replicates** (independent MD
 velocity draws → separate output prefixes `nr4a3-repurpose-mmgbsa-rep1/2/3`) and report the **between-run
 mean ± SD**; survivor = between-run mean − SD > 0. Shortlist = the 6 single-pass survivors

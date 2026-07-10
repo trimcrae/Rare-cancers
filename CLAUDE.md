@@ -90,7 +90,12 @@ read it before making changes.
   g5), not to skip a decision-relevant run. Deliverable = a rigorous, honest **preprint** (ChemRxiv degrader /
   bioRxiv ASO) + **targeted outreach** to NR4A/nuclear-receptor labs, the SGC, and EMC/sarcoma foundations
   (journal submission in parallel; don't wait on peer review — but do wait on the warranted GPU work).
-  **Preprint conversion checklist:**
+  **SINGLE SOURCE OF TRUTH (2026-07-10, trimcrae decision):** there is **no separate preprint** — the
+  journal manuscript **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
+  (+ its SI) IS both the ChemRxiv preprint and the JCIM submission. The old
+  `nr4a3-degrader-preprint.md` / `-preprint-si.md` are retired redirect stubs (a maintained parallel
+  condensed draft drifted out of sync and briefly self-contradicted — don't recreate one). Edit the paper
+  once; that's the deliverable. **Pre-posting checklist (still relevant):**
   [research/manuscripts/nr4a3-degrader-preprint-plan.md](./research/manuscripts/nr4a3-degrader-preprint-plan.md);
   **ready-to-send outreach emails** (send the day the preprint posts):
   [research/manuscripts/nr4a3-degrader-outreach-emails.md](./research/manuscripts/nr4a3-degrader-outreach-emails.md).
