@@ -71,16 +71,19 @@ leave the binding site structurally undefined: NR4A3's LBD has an experimental s
 recently released **apo solution-NMR ensemble (PDB 8XTT, 2025)** — **no ligand-bound structure and no
 published pocket-dynamics analysis** exist — the structural gap this paper addresses (our in-silico
 druggable pocket supplies a candidate *mechanism* for the ligandability their pharmacology already
-demonstrates). *This work's structural foundation is the AF2 model, which predates and does not yet
-incorporate 8XTT; benchmarking the AF2 pocket, its dynamics, and the selectivity handles against the
-experimental 8XTT ensemble is the primary revision task (§5).* Full reconciliation of the "undruggable" reputation with our
+demonstrates). *This work's structural foundation is the AF2 model, which predates 8XTT; we benchmark the AF2 pocket
+against the experimental 8XTT ensemble in §2.1 (site heterogeneity corroborated; AF2 opened geometry
+diverges ~3.5 Å), and a full 8XTT-anchored rebase of the dynamics, generation, and ABFE remains the primary
+revision task (§5).* Full reconciliation of the "undruggable" reputation with our
 findings, with references and the NR4A-family precedent, is in
 [`../modalities/nr4a3-druggability-reconciliation.md`](../modalities/nr4a3-druggability-reconciliation.md).
 
-Because the *collapsed static* pocket makes classical occupancy pharmacology (a permanently bound
-agonist/antagonist) difficult — while still admitting the transient binding a degrader needs to recruit an
-E3 (§2.2) — the apt modality is **degradation**:
-recruit the retained, ordered NR4A3 LBD to an E3 ligase and remove the protein. This is target-generic
+Targeted **degradation** is one attractive downstream application: productive target *engagement* need not
+itself encode the sustained occupancy pharmacology that a classical agonist/antagonist requires (the
+demonstrated NR4A ligandability above is real but chemotype-specific and mostly low-affinity), so a
+degrader that transiently engages the LBD to recruit an E3 and remove the protein is a rational route —
+though the same cryptic-pocket dynamics (§2.2) remain a challenge for *warhead binding* either way.
+Degradation recruits the retained, ordered NR4A3 LBD to an E3 ligase and removes the protein. This is target-generic
 (it degrades NR4A3 whether wild-type or in the EMC fusion), which is why the program is framed around
 NR4A3 rather than EMC specifically.
 
@@ -425,7 +428,7 @@ for this representative linker the ternary step adds no NR4A3 degradation-select
 selectivity, if any, rests on the **binder** margin, with linker/exit-vector design the (untested) lever that
 might introduce it. The full ternary detail, the CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium **degradation-window** model (DC50/Dmax/hook, the analysis layer the per-paralogue FEP Kd's feed) are in **SI §S2**.
 
-**At marketed-library scale the negative result holds.** Running the *same* funnel over the entire ~6,000-compound Broad Drug Repurposing Hub — with a 9-target anti-target/promiscuity panel added as a selectivity axis — finds **no** repurposed compound that is both NR4A3-selective *and* clean against the counter-screen (every paralogue-margin survivor, e.g. SNX-5422 / AGI-5198, engages ≥1 off-target more tightly than NR4A3, whereas `denovo_401` does not), a 6k-scale promiscuity-controlled negative result that is precisely why a *de-novo* design (§2.5) is required; full screen in **SI §S1**.
+**At marketed-library scale, no repurposing candidate retains a favourable computational margin across the counter-screen.** Running the *same* funnel over the entire ~6,000-compound Broad Drug Repurposing Hub — with a 9-target anti-target/promiscuity panel added as a selectivity axis — **no shortlisted repurposing candidate retained a favourable computational margin across the selected 9-target counter-screen panel** (every paralogue-margin survivor, e.g. SNX-5422 / AGI-5198, engages ≥1 panel off-target more tightly than NR4A3 in this docking, whereas `denovo_401` does not). This is a screen-level computational result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** (not proves the necessity of) the de-novo route (§2.5); full screen in **SI §S1**.
 
 ### 2.5 De-novo design yields NR4A3-selective candidates: decoy-calibrated, then multi-snapshot-confirmed (§2.6)
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
@@ -565,9 +568,10 @@ extreme-value artifact (de-noised, it is ~0/slightly paralogue-favouring). The n
 correctly (staying non-selective) makes this a **trustworthy refutation, not a method failure**, and it
 corroborates the decoy finding from an orthogonal direction. (ii) **`denovo_401` is the exception that
 survives**: its multi-snapshot margin (+12.83) is barely below its single-snapshot value, the SD (2.98) is
-small, and **margin − SD = +9.85 ≫ 0** — strong, favourable NR4A3 binding (mean ΔG −38.18 kcal/mol) with
-both paralogues ~13–15 kcal/mol weaker. So the de-noising tier is **discriminating, not merely destructive**:
-it killed a noise artifact and confirmed a genuine lead. `denovo_401`
+small, and **margin − SD = +9.85 ≫ 0** — a substantially more favourable NR4A3 endpoint *score* (mean
+−38.18 kcal/mol, an inflated non-affinity endpoint value, read for direction only) than either paralogue
+(~13–15 kcal/mol weaker). So the de-noising tier is **discriminating, not merely destructive**:
+it killed a noise artifact and **identified a reproducible survivor for advancement**. `denovo_401`
 (`COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`; MW 304, QED 0.80, SA 3.87, no structural alerts)
 is the program's **first multi-snapshot-confirmed NR4A3-selective candidate and the lead queued for
 selectivity FEP**. A formal in-silico developability profile (`nr4a3_developability.py`, RDKit) confirms the
@@ -825,15 +829,20 @@ is the target's druggability/selectivity, not EMC efficacy.**
 **Safety/tolerability, and the pan-NR4A/CAR-T pole — bounded in SI §S6 and §S4.** The systemic lead's tolerability case (the NR4A family's proliferative dispensability by DepMap; the *myeloid* NR4A1↔NR4A3 redundancy that makes NR4A1-sparing mandatory; broad NR4A1/NR4A3 co-expression; PK/CNS restriction) is quantified in **SI §S6**. Two load-bearing caveats carry back into main text: human germline genetics (gnomAD) **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a safety requirement** — NR4A2 is the most LoF-constrained *and* CNS-enriched paralogue (LOEUF 0.094), NR4A3 borderline (LOEUF 0.37, pLI-intolerant) — and single-KO tolerability remains an *assumption* (no phenotyped IMPC KO for any of the three). The pan-NR4A / CAR-T pole is bounded separately and more tightly in **SI §S4** (chemical-feasibility only — the framework can *design* a pan-NR4A binder, not that it reverses T-cell exhaustion — plus an ex-vivo washout/exposure parameter).
 The structure is an AF2 model
 (NR4A3 has no ligand-bound experimental structure; its apo LBD was released as a solution-NMR ensemble,
-PDB 8XTT, only in 2025) — the MD addresses exactly the single-snapshot limitation. **A first benchmark
-against 8XTT is now done (§2.1) and its result is two-sided:** the experimental apo NMR ensemble
-*independently reproduces the cryptic druggability distribution* (occluded median, ~20 % of conformers
-druggable, peak 0.925 — model-independent support for the central thesis), **but** the AF2 model's atomic
-pocket geometry *diverges* from the ensemble (pocket-local Cα-RMSD 3.56 Å, handle 3.44 Å). So the target
-*behaviour* is experimentally corroborated while the AF2 *specific opened geometry* used for docking/design
-is not — the still-open revision task is to **rebase the design on the druggable 8XTT conformers** (re-dock
-`denovo_401`, re-run PocketMiner on 8XTT, re-seed MD from an 8XTT conformer), and only a **ligand-bound**
-experimental structure could validate the warhead-engaged pose. We state the central result at its true
+PDB 8XTT, only in 2025) — the MD addresses exactly the single-snapshot limitation. **The 8XTT benchmark
+is done (§2.1) and is two-sided:** the experimental apo ensemble is structurally *heterogeneous* at the
+mapped site (most conformers occluded, 4/20 above D\* — structural corroboration, not a population estimate),
+**but** the AF2 atomic pocket geometry *diverges* from it (pocket-local Cα-RMSD 3.56 Å, handle 3.44 Å). Two
+prediction *directions* transfer to 8XTT conformers (PocketMiner enrichment, denovo_401 MM-GBSA preference),
+so the site's existence and those directions are corroborated while the AF2 *opened geometry* is not.
+**A full workflow rebase and the review-warranted controls remain to do** (not yet done here): (i) an
+8XTT-*started* metadynamics/MD, generation, and — most importantly — an **8XTT-anchored ABFE** (the current
+ABFE is AF2/opened-conformer-conditional); (ii) a **matched 8XTT-frame decoy null** (denovo_401 + the 38
+decoys through the same 4 conformers, since we have shown MM-GBSA margins are frame-dependent); (iii)
+PocketMiner + docking over **all 20** conformers (not only the 4 cavity-bearing ones), with an AF2↔NMR
+vs NMR↔NMR RMSD decomposition and a true residue-contact-graph spatial-patch null; (iv) **repair of the one
+under-overlapped ABFE window** (add λ-windows in the complex-NR4A2 decoupling-endpoint region and re-reduce).
+Only a **ligand-bound** experimental structure could validate the warhead-engaged pose. We state the central result at its true
 weight, with the following caveats made explicit rather than buried:
 
 1. **The 0.931 is a biased-ensemble peak, not a like-for-like beat of the static band.** fpocket
@@ -998,6 +1007,10 @@ liabilities — and the interim decoy-calibrated foothold `denovo_111` was withd
 (§2.5–2.6); both deviations are disclosed in the prereg deviation log.)
 
 ## References
+- **PDB 8XTT**: Nuclear receptor Nor1 (NR4A3) ligand-binding domain, apo, solution NMR (20 submitted
+  low-energy conformers of 100 calculated; 248-residue human construct). Deposited 2024-01-11, released
+  2025-01-15. RCSB Protein Data Bank; doi 10.2210/pdb8XTT/pdb. (Primary citation: to be published — cited
+  here as the experimental structural entry, not as a peer-reviewed article.)
 - Wang Z, et al. *Structure and function of Nurr1 identifies a class of ligand-independent nuclear
   receptors.* **Nature** 423:555–560 (2003). PubMed 12774125. (PDB 1OVL.)
 - de Vera IMS, et al. *Defining a Canonical Ligand-Binding Pocket in the Orphan Nuclear Receptor Nurr1.*
