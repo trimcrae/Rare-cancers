@@ -216,10 +216,11 @@ conformations**, so its magnitude is not on the same footing as the *static* dru
 is informative rather than an artifact of "opening": because druggability rewards hydrophobic *enclosure*,
 a pocket that merely splayed open / became solvent-exposed would score *lower*, not higher — so reaching a
 druggable score means the breathing cavity is hydrophobic and enclosed (corroborated by the lining-residue
-/ handle-facing check, §2.2 below). The one thing fpocket cannot settle — whether the breathing-open
-geometry is physically populated or bias-induced strain — is decided by the unbiased **release run**, not
-by any fpocket control. The honest claim: the pocket *geometrically admits* a druggable cavity when it
-breathes open, with that cavity hydrophobic/enclosed, and the population pending the release run.
+/ handle-facing check, §2.2 below). fpocket cannot establish whether such geometries occur with appreciable
+**equilibrium probability**; the open-seeded **release** simulations (below) address only the narrower
+question of prompt relaxation after the bias is removed, not the equilibrium population. The honest claim:
+the pocket *geometrically admits* a druggable cavity when it breathes open, with that cavity
+hydrophobic/enclosed; its equilibrium weight is not estimated here.
 
 **Gate scoring** ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)):
 **Gate 2 (opened state druggable) PASSES** on both clauses (druggable frames + handles pocket-facing,
@@ -231,8 +232,13 @@ motivated an alternative hypothesis** — that the druggable conformations are r
 breathing** rather than a two-state opening — which the release run (below) then tested. So we report
 Gate 1 as **failed, and reformulated**, not as a "weak pass": there is one basin whose thermal
 fluctuations transiently expose a druggable cavity (consistent with de Vera's breathing Nurr1 pocket), and
-"opened *state*" would overstate it. **Gate 3 (energetic accessibility)
-is provisionally met.** The naive closed→fully-open cost is ~38 kcal/mol, but that is the cost to the
+"opened *state*" would overstate it. **Gate 3 splits into two distinct subclaims that one run cannot
+jointly settle** (a kinetic/thermodynamic distinction): **3A — persistence after bias removal** (does a
+seeded open-like geometry promptly collapse?) and **3B — equilibrium energetic accessibility from the closed
+ensemble** (is that geometry reachable with appreciable probability at equilibrium?). **3B is addressed only
+provisionally, by the biased F(Rg)** (this paragraph); **3A is addressed by the release run** (next
+paragraph). Neither establishes the other: a conformation can be equilibrium-rare yet persist for a few ns
+once seeded there. On **3B**: the naive closed→fully-open cost is ~38 kcal/mol, but that is the cost to the
 *most-open* edge (Rg 1.06) at the **under-converged sampling frontier**, not a *druggable* state:
 correlating per-frame druggability with F(Rg) shows the pocket is already druggable (fpocket 0.80) at
 Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat:
@@ -251,52 +257,61 @@ CV that would establish convergence are in flight (§5). The 60 ns reconstructed
 from the committed `metad-fes-60ns.dat`). (Edge caveat retained: sum_hills references the sampled edges to
 ~0 at the metad walls, so only the basin and the profile *shape* are interpretable, not the edge values. The
 fpocket druggability figures above are from the 30 ns trajectory; extending per-frame fpocket to the 60 ns
-frames is a cheap, still-open follow-up.) The
-**independent** test — whether the breathing-open geometry is a populated sub-state or bias-induced strain
-— is the **unbiased release run** (`nr4a3_md_release.py`), **now complete and POSITIVE** (next paragraph).
+frames is a cheap, still-open follow-up.) The **release run**
+(`nr4a3_md_release.py`) addresses the separate subclaim **3A** — whether the seeded open-like geometry
+persists or promptly collapses once the bias is removed — and is described next; it does **not** estimate
+equilibrium population (3B).
 Net: the single static structure (0.495) understated the pocket; the
-biased metadynamics profile breathes to a geometrically druggable cavity at low apparent cost, and an
-open-seeded release run shows that cavity **persists on short timescales without bias** (not that it is a
+biased metadynamics profile breathes to a geometrically druggable cavity at low apparent cost on that
+(convergence-limited) profile, and a bias-free continuation seeded from a metadynamics-derived conformation
+shows that cavity **persists over the 5 ns propagated** (not that it is a
 thermally-populated equilibrium state) — a feasibility result, stated at that weight.
 
-**The unbiased release run resolves Gate 3 — cautiously POSITIVE, as an induced-fit cavity.** Seeding
-unbiased dynamics from a *strained* metad frame requires care: a first run seeded the max-Rg frontier frame
-(0.984 nm, the ~38 kcal/mol opening edge) and it collapsed (frac-near-open 0.00) — the *worst-case* frame,
-near-guaranteed to collapse, and not the realistic target. Re-seeded at the **low-energy druggable frame
-(CV Rg 0.717)**, the breathing-open geometry is **metastable: 3/3 unbiased replicas held the full 5 ns**
-(frac-near-seed 1.00, mean |drift| 0.025 nm, no collapse in any replica). Running fpocket on the *unbiased*
-release trajectory, the orthosteric Pocket-5 is **druggable in ~24 % of frames** (max 0.842, mean 0.262,
-fraction ≥ 0.5 = 0.24, fraction ≥ D\*=0.53 = 0.20; static 0.495) at CV Rg ≈ 0.737 — clearing the
-pre-registered "≥5 % of frames ≥ D\*" bar (20 % here), and crucially **on unbiased dynamics, so not a bias
-artifact**. *(Two scope notes so the two numbers are not over-read as one. (i) The **3/3 metastability** is an
-**Rg-persistence** result across the triplicate; the **~24 % druggability fraction** is measured on the
-**single** `release_rep0` trajectory — the other two replicas confirm the geometry persists, not
-independently that it is druggable a quarter of the time. (ii) **5 ns is a short persistence window**: it
-rules out fast (sub-ns) collapse of the seeded conformation, but a pocket can read as metastable on 5 ns and
-still relax on tens–hundreds of ns, so "metastable" here means "does not promptly collapse," not "a verified
-long-lived sub-state.")* The honest reading: this is **not** an always-open pocket (mean 0.262 < 0.5) but a **dynamic /
-induced-fit cavity** whose seeded open-like geometry does not promptly collapse without bias and is
-fpocket-druggable in ~20–24 % of frames of one release trajectory. **This is a short-timescale persistence
-result plus a single-trajectory frame fraction — NOT an equilibrium population estimate:** the frames are
-temporally correlated, the fraction is from one replica, and 5 ns cannot establish the equilibrium
-probability of the conformation or a spontaneous opening rate. So **Gate 3 is cautiously passed in this
-narrow sense** (the seeded druggable geometry is not bias-induced strain that instantly relaxes); a warhead
-would need to select-and-stabilise these transiently-druggable conformations rather than occupy a static
-pocket. Establishing an actual populated fraction would require reweighted enhanced sampling or many
-independent unbiased trajectories with equilibrium weighting (a revision task, §5). All downstream design (below) is therefore anchored to a **druggable unbiased
-release frame** (Rg ≈ 0.737, fpocket ≥ 0.5; `nr4a3_release_druggable.py`), not the biased-metad frame. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
+**The release run supports Gate 3A (persistence after bias removal); Gate 3B (equilibrium accessibility)
+remains unresolved.** Seeding a bias-free continuation from a *strained* metad frame requires care: a first
+run seeded the max-Rg frontier frame (0.984 nm, the ~38 kcal/mol opening edge) and it collapsed
+(frac-near-open 0.00) — the *worst-case* frame, near-guaranteed to collapse, and not the realistic target.
+Re-seeded at the **low-energy druggable frame (CV Rg 0.717)**, the breathing-open geometry **persists: 3/3
+bias-free replicas held the full 5 ns** (frac-near-seed 1.00, mean |drift| 0.025 nm, no collapse in any
+replica). Running fpocket on the bias-free release trajectory, the orthosteric Pocket-5 is **druggable in
+~24 % of frames** (max 0.842, mean 0.262, fraction ≥ 0.5 = 0.24, fraction ≥ D\*=0.53 = 0.20; static 0.495)
+at CV Rg ≈ 0.737 — clearing the pre-registered "≥5 % of frames ≥ D\*" bar (20 % here). Because the
+propagation carried no bias, **the geometry is maintained without ongoing metadynamics bias** (its *initial*
+conformation was, however, selected from biased sampling, so this is not an equilibrium-provenance statement).
+*(Two scope notes so the two numbers are not over-read as one. (i) The **3/3 persistence** is an
+**Rg-persistence** result across the triplicate; the **~24 % druggability fraction** quoted here is measured
+on the **single** `release_rep0` trajectory — the other two replicas confirm the geometry persists, not
+independently that it is druggable a quarter of the time. The per-replica frame-fraction extension over all
+three trajectories, with an autocorrelation-aware descriptive interval (integrated autocorrelation time →
+effective sample size → block bootstrap), is reported in the release-replica table [P0.9; being computed].
+(ii) **5 ns is a short persistence window**: it rules out fast (sub-ns) collapse of the seeded conformation,
+but a geometry can hold on 5 ns and still relax on tens–hundreds of ns, so "persists" here means "does not
+promptly collapse," not "a verified long-lived sub-state.")* The honest reading: this is **not** an
+always-open pocket (mean 0.262 < 0.5) but a **dynamic cavity** whose seeded open-like geometry does not
+promptly collapse once the bias is removed and is fpocket-druggable in ~20–24 % of frames of one release
+trajectory. **This is a short-timescale persistence result plus a single-trajectory frame fraction — NOT an
+equilibrium population estimate:** the frames are temporally correlated, the fraction is from one replica,
+and 5 ns cannot establish the equilibrium probability of the conformation or a spontaneous opening rate. So
+**Gate 3A is supported** (the seeded druggable geometry does not promptly relax once the bias is removed)
+while **Gate 3B — equilibrium energetic accessibility from the closed ensemble — remains unresolved** (the
+only estimate is the convergence-limited biased F(Rg)); a warhead would need to select-and-stabilise these
+transiently-druggable conformations rather than occupy a static pocket. Establishing an actual populated
+fraction would require reweighted enhanced sampling or many independent unbiased trajectories with
+equilibrium weighting (a revision task, §5). All downstream design (below) is therefore anchored to a
+**druggable release-derived frame** (Rg ≈ 0.737, fpocket ≥ 0.5; `nr4a3_release_druggable.py`), not the
+biased-metad frame. *(Registered Gate-2 sub-check — now COMPLETE and CONFIRMED. The handle-facing analysis
 (`../modalities/nr4a3_handle_facing.py`, run 2026-06-26 on the 30 ns trajectory) shows the opened,
 druggable frames keep the selectivity handles pocket-facing: across the druggable frames (fpocket ≥
 D\*=0.53) a mean of **5.0/7** handles point into the cavity and **87.5 %** keep ≥4 facing. Five are
 reliably pocket-facing — **L406, T410, I484, I531, L534** (≥0.875 of druggable frames) — while **T407
 and R412 mostly splay outward** (facing in 0.0 and 0.25 of druggable frames), so the demonstrated
 selective-engagement set is those five, not all seven. This is also the precondition for the warhead
-screen's handle-contact scoring (§2.4). The open-seeded "release" run is the orthogonal short-timescale
-persistence test (does the seeded open-like geometry persist, or promptly collapse as bias-induced
-strain?); it has now **run and is POSITIVE** — the seeded geometry persists across 3/3 short replicas and is
-fpocket-druggable in ~20–24 % of frames of one release trajectory (a frame fraction, not a population), so the
-**short-timescale persistence question is answered** (it does not promptly collapse). The calculations do
-**not** distinguish conformational selection from ligand-induced stabilization; we use the neutral term
+screen's handle-contact scoring (§2.4). The open-seeded "release" run is the orthogonal Gate-3A test (does
+the seeded open-like geometry persist, or promptly collapse once the bias is removed?); the seeded geometry
+persists across 3/3 short replicas and is fpocket-druggable in ~20–24 % of frames of one release trajectory
+(a frame fraction, not a population), so the **short-timescale persistence question (3A) is answered** (it
+does not promptly collapse), while equilibrium accessibility (3B) is not. The calculations do **not**
+distinguish conformational selection from ligand-induced stabilization; we use the neutral term
 *short-timescale persistent open-like geometry* (see the release-run paragraph above).)*
 
 **The opened frame is an intact fold, not a metad-melted one (structural-sanity control).** Because every
@@ -306,9 +321,11 @@ verified that opening the pocket did not *unfold* the LBD. The opened frame is e
 it directly (`nr4a3_frame_sanity.py`): against the pre-metad AF2 LBD, the opened frame **retains 100 % of the
 helical content** (DSSP helix fraction 0.602 vs 0.594; retention 1.01) and its folded **core superimposes to
 1.76 Å Cα-RMSD** (1.78 Å including the pocket mouth). So the fold is intact and the elongation is a **floppy,
-disordered N-terminal hinge** (the ~22 residues before the LBD core) swinging out — not a melt. This both
-validates the frame used throughout and licenses trimming that disordered hinge for the explicit-solvent FEP
-(§4), which is standard practice (ABFE is run on the folded domain, not a disordered tail).
+disordered N-terminal hinge** (the ~22 residues before the LBD core) swinging out — not a melt. This
+supports **preservation of the folded core** in the frame used throughout (it does *not* by itself validate
+the pocket-opening pathway, the elongation, the local side-chain geometry, or any binding pose) and licenses
+trimming that disordered hinge for the explicit-solvent FEP (§4), which is standard practice (ABFE is run on
+the folded domain, not a disordered tail).
 
 ### 2.3 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
