@@ -453,6 +453,42 @@ point DC50 — in an illustrative potent regime it reproduces the expected behav
 per-paralogue FEP Kd's drop straight in, and the NR4A3-vs-NR4A1/NR4A2 spread in the Kd-sensitivity map becomes
 the predicted *degradation* selectivity, closing the binder→degradation-selectivity gap flagged above.
 
+### 2.4b At scale: a 6,000-drug marketed-library screen with an anti-target panel finds no repurposed selective binder
+The §2.4 disqualification rests on a small set of known NR4A ChEMBL actives, inviting the objection that a
+broader search would find an existing selective drug. We therefore ran the **entire Broad Drug Repurposing
+Hub (~6,000 marketed/clinical compounds)** through the *same* funnel and receptors, and added an adversarial
+**anti-target panel** as a new selectivity axis. Full provenance + tables:
+[`../modalities/nr4a3-repurpose-decoy-blend.md`](../modalities/nr4a3-repurpose-decoy-blend.md).
+
+*(1) The raw margin is non-specific at scale.* Docking-triaged to the strong tail (top-250, dG ≲ −8.4),
+3-receptor-docked on the canonical frames, and single-snapshot-MM-GBSA'd, **97/250 (39 %)** score raw
+`confirmed_selective` — matching the 38-drug decoy false-positive rate almost exactly, so the raw verdict is
+noise at 250-drug scale, and only ~5.6 % clear the +13.12 decoy-null bar (not enriched over decoys).
+
+*(2) Replicated de-noising leaves two paralogue-margin survivors.* Single 10-frame de-noising is **not
+reproducible run-to-run** (AGI-5198 swung +16.4 vs +6.4 across passes; the within-run SD of one autocorrelated
+trajectory understates the true uncertainty), so — as for `denovo_401`, which we held to the same bar
+(+12.83 / +14.75 across independent passes) — we ran **three independent replicates** and took the between-run
+mean − SD. Of the shortlist, only **SNX-5422** (HSP90 inhibitor; +17.56) and **AGI-5198** (IDH1 inhibitor;
+≈ +8) survive the NR4A3-vs-paralogue margin (a striking demonstration of the need for replication: SNX-5422
+had *collapsed* in the single pass). The pan-NR4A cell (balanced tri-engagement, for the §3 ex-vivo CAR-T mode)
+is populated by KB-SRC-4, flupentixol, AT-1015, CP-640186 — but see below.
+
+*(3) The anti-target panel disqualifies all of them.* We docked the survivors into a 9-target panel — six
+unrelated nuclear receptors (RXRα, PPARγ, ERα, AR, GR, VDR) plus the promiscuity sensors **PXR** (xenobiotic
+receptor), CYP3A4, and serum albumin — with the identical smina protocol, and compared each drug's best
+off-target ΔG to its NR4A3 ΔG (`antitarget_{panel,prep,dock,report}.py`). **Every survivor is promiscuous**:
+each binds ≥1 off-target *more tightly* than NR4A3 (gap −0.3 to −5.7 kcal/mol) with 5–8 panel targets within
+2 kcal and **PXR + HSA engaged within 2 kcal in every case** (AGI-5198 best-off −10.8 at PXR vs NR4A3 −8.4;
+SNX-5422 −10.9 at PXR vs −8.5). As a positive control that the panel *discriminates* rather than merely
+saturates, `denovo_401` through the same panel tops out at **−9.1 (VDR)** — 1.7–5 kcal weaker than any
+repurposed survivor and not a PXR/HSA hit. **Conclusion:** the marketed-drug library contains no compound that
+is both NR4A3-selective *and* proteome-selective; its paralogue-margin survivors are lipophilic stickers. This
+extends §2.4 from a small-set claim to a 6k-scale, promiscuity-controlled negative result — and is precisely
+why a *de-novo* design (§2.5) is required. (The much-noted AGI-5198↔chondrosarcoma link is coincidental: it
+engages the NR4A3 pocket but no better than half a dozen unrelated targets. Screening-grade throughout —
+smina + endpoint MM-GBSA, no FEP.)
+
 ### 2.5 De-novo design yields NR4A3-selective candidates: decoy-calibrated, then multi-snapshot-confirmed (§2.6)
 Because the repurposed library produced no candidate that survives MM-GBSA as NR4A3-selective (§2.4), we
 ran a **pocket-conditioned de-novo generative campaign** and put its output through the *same* selectivity
