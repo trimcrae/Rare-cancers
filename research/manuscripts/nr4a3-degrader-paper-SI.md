@@ -420,6 +420,30 @@ The selectivity **direction is unanimous** across all three replicates for both 
 SD is driven entirely by r2, whose NR4A3 leg sampled ~2.5 kcal/mol weaker (+5.12 vs +2.6/+2.8) — visible in
 the per-replicate values, and the reason the NR4A2 contrast (SD 0.68) is tighter than NR4A1 (SD 2.03).
 
+**Component decomposition (review comment 7 — where the ΔΔG comes from).** Each ΔG_bind is
+ΔG_bind,X = ΔG_solv − ΔG_cplx,X − SSC_X, where the ligand-in-water **solvent (decoupling) leg is literally
+shared** across the three receptors within a replicate (same ligand, no receptor), and SSC_X is the analytic
+Boresch standard-state correction. The per-leg finished ΔG values (kcal/mol; MBAR at full sampling) are:
+
+| replicate | ΔG_solv (shared) | ΔG_cplx,NR4A3 | ΔG_cplx,NR4A1 | ΔG_cplx,NR4A2 |
+|---|---|---|---|---|
+| r1 | 23.13 | 29.31 | 22.19 | 23.61 |
+| r2 | 23.30 | 26.97 | 23.89 | 22.53 |
+| r3 | 22.91 | 28.86 | 24.12 | 23.37 |
+
+The **SSC is per-receptor and deterministic** (it depends only on the restraint geometry/force constants, not
+sampling): SSC_NR4A3 = **−8.79**, SSC_NR4A1 = **−8.57**, SSC_NR4A2 = **−8.56** kcal/mol — **identical to two
+decimals across all three replicates**, as an analytic correction should be (Boresch anchor atoms are defined
+per receptor in `nr4a3_abfe.py`; the small SSC differences reflect the slightly different anchor geometries
+across receptors). Two consequences are now explicit rather than asserted. **(i) The shared solvent leg
+cancels exactly:** ΔΔG(3−X) = −ΔG_cplx,3 + ΔG_cplx,X − SSC_3 + SSC_X, i.e. the ΔΔG is the **complex-leg
+difference plus a small constant SSC offset** (SSC_1−SSC_3 = +0.22; SSC_2−SSC_3 = +0.23) — ΔG_solv drops out
+identically, so it contributes **zero** to the contrast or its variance. **(ii) All run-to-run ΔΔG scatter
+lives in the complex legs:** ΔG_cplx,NR4A3 varies 29.31/26.97/28.86 across r1/r2/r3 (r2 the weak outlier),
+while SSC and ΔG_solv are effectively fixed — so the between-replicate SD is a genuine complex-leg sampling
+variance, and the smaller NR4A2-contrast SD reflects lower observed complex-leg scatter for that pair, **not**
+demonstrated cancellation of systematic complex-leg error.
+
 **Consistency with §4 (reproducibility check).** The diagnostics recompute ΔG_bind from the raw reduced
 potentials and reproduce the §4 values to within ≤0.03 kcal/mol on every mean and SD (e.g. NR4A3 3.52 vs 3.5;
 NR4A1 8.28 vs 8.3) — i.e. the §4 reduction is faithfully reproducible from the archived data.
