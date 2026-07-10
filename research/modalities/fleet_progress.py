@@ -133,7 +133,7 @@ def main():
             last_ms = stm.get("lastEventTimestamp") if stm else None
             state, age = classify(sec, last_ms, now_ms, stale_min, has_stream=bool(stm))
             src = "cw"
-        age_str = f"{age:.0f}m" if age is not None else "—"
+        age_str = f"{max(0.0, age):.0f}m" if age is not None else "—"   # clamp tiny clock-skew negatives
         tag = state
         if state == "STALE":
             tag = f"⚠STALE {age:.0f}m HANG?"
