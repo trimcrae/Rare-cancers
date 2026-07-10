@@ -240,7 +240,10 @@ seeded open-like geometry promptly collapse?) and **3B — equilibrium energetic
 ensemble** (is that geometry reachable with appreciable probability at equilibrium?). **3B is addressed only
 provisionally, by the biased F(Rg)** (this paragraph); **3A is addressed by the release run** (next
 paragraph). Neither establishes the other: a conformation can be equilibrium-rare yet persist for a few ns
-once seeded there. On **3B**: the naive closed→fully-open cost is ~38 kcal/mol, but that is the cost to the
+once seeded there. On **3B**, the bottom line first: **an initial single-profile analysis suggested a low
+apparent cost near the selected reference Rg, but three independent replicas failed to reproduce a common
+profile (below), so we withdraw that quantitative accessibility interpretation and leave 3B unresolved.** The
+superseded single-profile reasoning, for completeness: the naive closed→fully-open cost is ~38 kcal/mol, but that is the cost to the
 *most-open* edge (Rg 1.06) at the **under-converged sampling frontier**, not a *druggable* state:
 correlating per-frame druggability with F(Rg) shows the pocket is already druggable (fpocket 0.80) at
 Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat:
