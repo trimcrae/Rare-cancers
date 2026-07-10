@@ -75,8 +75,22 @@ convergence criterion fixed here in advance**:
   (c) recrossing on the improved CV (diffusive sampling).
 Run the **identical protocol on NR4A1 and NR4A2** so the **differential** ΔG_open,3 − ΔG_open,{1,2} is obtained
 on a matched footing. This is the state-of-the-art move (a new evidence axis: paralogue opening thermodynamics).
-Cost: a multi-seed × 3-receptor enhanced-sampling fleet — real GPU $, multi-day. **Serialize/spot per the
-compute rules; bring the cost estimate back before launching.**
+
+**Concrete Phase-2 design + cost (for sign-off):**
+- **CV:** the Phase-1 TICA IC1 (data-derived), exported as a PLUMED-biasable linear combination of the same
+  features (lining Cα distances + gate χ1 sin/cos + SASA), NOT Rg. Well-tempered metad (bias factor ~10–15).
+- **Fleet:** 3 seeds × 3 paralogues (NR4A1/2/3) = **9 enhanced-sampling runs**, ~50 ns each (longer than the
+  30 ns Rg runs, to buy recrossing on the better CV given the ~17 ns slow timescale).
+- **Hardware/cost:** `ml.g5.xlarge` **managed spot Training** (checkpoint/resume per the compute rules), which
+  draws on the spot-Training quota (8), so up to 8 legs run concurrently. ~50 ns of OpenMM+PLUMED on an A10G
+  for this ~88k-atom box ≈ ~1 GPU-day/run → ~9 × ~24 GPU-h ≈ **~215 GPU-h**. Spot ≈ **$100–200** total;
+  wall-clock **~2–3 days** on the K≤8 fleet. (On-demand would be ~3× and serial — do NOT.)
+- **Shard-first gate (mandatory, per the fan-out rule):** run **one seed of NR4A3 only** first (~$15–25,
+  ~1 day) to prove the TICA CV is correctly PLUMED-wired and actually drives opening/recrossing, THEN launch
+  the remaining 8. The shakeout's completed windows are not wasted (continuous checkpoint → the fleet resumes).
+
+**Serialize/spot per the compute rules; the full 9-run fleet is the expensive, multi-leg leg → bring this cost
+estimate back for sign-off before launching (the single-shard shakeout is inside the cheap-autonomy band).**
 
 ### Phase 3 — state-correct the selectivity (decisive, either way)
 Combine: **ΔΔG_full(3−2) ≈ ΔΔG_bind^open(3−2) + [ΔG_open,3 − ΔG_open,2]** (and 3−1). Outcomes are all
@@ -84,6 +98,45 @@ publishable: differential small/favourable → conditional selectivity survives 
 stronger (no converged-0.6 needed); differential large/unfavourable → selectivity is state-limited, stated
 honestly. Optional robustness: **ensemble ABFE** for `denovo_401` across several independently-justified
 cavity-bearing frames per receptor (does the sign hold, or is it a single-snapshot artifact?).
+
+## 2b. Phase 0 + Phase 1 RESULTS (2026-07-10, both complete; numbers verified from job logs)
+
+**Phase 0 — per-replica harmonized pocket scoring (WTMetaD r1/r2/r3; fpocket 4.2.3 pinned, harmonized
+matcher, D\*=0.53).** Run 29113366857 (job 86430750933), `metad-replica-pocket-summary.json`.
+
+| Replica | detfrac | druggability max / mean | frac≥0.5 / frac≥D\*(0.53) | crosses 0.5? | cheapest druggable frame (Rg, drug, F(Rg)) |
+|---|---|---|---|---|---|
+| r1 | 1.0 | 0.921 / 0.362 | 0.36 / 0.36 | yes | Rg=0.753 nm, drug=0.863, **F=11.72 kcal/mol** |
+| r2 | 1.0 | 0.961 / 0.278 | 0.28 / 0.24 | yes | Rg=0.659 nm, drug=0.913, **F≈ref (~0)** |
+| r3 | 1.0 | 0.858 / 0.399 | 0.40 / 0.40 | yes | Rg=0.699 nm, drug=0.786, **F=3.29 kcal/mol** |
+
+**Verdict — a genuine strengthener, and a clean separation of what survives from what dies:** a *matched,
+≥D\* druggable cavity exists independently in all three seeds* (detfrac 1.0; frac≥D\* 0.24–0.40; druggability
+crosses 0.5 in every replica; peak 0.86–0.96). So the **structural** claim — a druggable cryptic cavity is
+reachable by the pocket-lining residues — is **robust across independent replicas**. What is NOT robust is the
+**energetic** cost of reaching it: the free energy at each replica's cheapest druggable frame is 11.72 / ~0 /
+3.29 kcal/mol, and the gate-3 FES fully-open cost is 39.39 kcal/mol (r1) vs undefined (r2/r3, the open edge is
+never populated). This is the same energetic divergence the cross-replica ΔF already showed — now confirmed at
+the level of the *druggable state itself*, not just a fixed Rg. Caveat carried forward honestly: the
+whole-surface OFFSITE scan finds comparably-druggable cavities elsewhere in r1/r2 (max off-site drug 0.90/0.93)
+though not r3 (0.46) — druggability alone does not localise to the target pocket; the *matched* detection is
+what ties it to the orthosteric site.
+
+**Phase 1 — TICA slow-CV discovery (metad r1+r2+r3 pooled, 600 frames each, 57 features; lag 0.5 ns).**
+Run 29114498495 (job 86434471595), `slow-cv-summary.json`.
+
+- **corr(IC1, Rg) = 0.680 → verdict = `hidden_mode`.** (Bands: ≥0.9 redundant, ≤0.7 hidden_mode.)
+- Slowest implied timescales: **17.1, 11.1, 5.5, 2.9, 2.9 ns** (the slow process is ~17 ns — comparable to the
+  30 ns production, i.e. only ~2 relaxations sampled per replica, consistent with the un-converged energetics).
+
+**Verdict — this confirms the reviewer's leading hypothesis (root-cause B).** Rg captures much of the slow mode
+but **not all of it**: at |r|=0.68 there is a slow coordinate that Rg does not see. Biasing 1-D Rg harder
+(cause A alone) would not fix a projection problem. Two consequences: (i) it explains *why* three Rg-metad
+seeds disagree — they are each projecting a ≥2-D opening process onto one lagging coordinate; (ii) it tells
+Phase 2 to bias the **data-derived TICA coordinate**, not more Rg. Honest nuance: 0.68 sits just below the 0.70
+boundary — the hidden component is real but IC1 is "Rg + something," not an unrelated coordinate, so the
+expected gain from re-biasing is *material but not guaranteed dramatic*; Phase 2 must be validated on one
+shard before the full fleet.
 
 ## 3. If convergence still can't be reached
 Report the opening/differential FE as **bounded or unresolved** and rest the paper on the three claims that do
