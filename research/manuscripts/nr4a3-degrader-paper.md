@@ -181,7 +181,7 @@ open (CV Rg ~0.5 → ~1.05 nm). On the 30 ns run (600 frames), per-frame fpocket
 Pocket-5 cavity** (the *same* metric as the static 0.495 and D\*, not the non-discriminating "max-anywhere"
 cavity of §2.1) reaches druggability **0.931** (max over frames; `crosses_0.5 = True`); SASA of the lining
 residues rises (+6.1 nm², 86.8 % of frames more open than baseline). (A 5 ns validation gave a consistent
-0.751.) This is the **first pocket-dynamics evidence for NR4A3**, paralleling the *dynamic, breathing*
+0.751.) This is, to our knowledge, the **first pocket-dynamics analysis of NR4A3**, paralleling the *dynamic, breathing*
 Nurr1 pocket (de Vera 2019).
 
 **Read this number for what it is.** The fpocket druggability score is a standard, validated metric (a
@@ -217,7 +217,7 @@ fluctuations transiently expose a druggable cavity (consistent with de Vera's br
 is provisionally met.** The naive closed→fully-open cost is ~38 kcal/mol, but that is the cost to the
 *most-open* edge (Rg 1.06) at the **under-converged sampling frontier**, not a *druggable* state:
 correlating per-frame druggability with F(Rg) shows the pocket is already druggable (fpocket 0.80) at
-Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat (disclosed, not buried):
+Rg ≈ 0.72 — in the well-sampled basin region — at only ~0.76 kcal/mol. The caveat:
 both numbers are read off the *same* incompletely-converged biased F(Rg), so the 0.76 rests on the
 basin region being better sampled than the frontier (it is, but it is a single biased profile). **The metad
 has since been extended to 60 ns cumulative** (two 30 ns segments; `report_metad.py` on the committed
@@ -472,7 +472,7 @@ repurposed library), not a specific developable molecule. **Next de-novo steps:*
 filter to `denovo_funnel.score_molecule` (reject peroxides, carbamic acids, cyclopentadienes, acetals/aminals,
 non-aromatic warheads, SA > 4.5) and **re-generate**, aiming for a hit that is clean *and* strongly selective.
 
-**Decisive control: the single-snapshot MM-GBSA selectivity verdict fails a decoy test, so
+**Specificity control: the single-snapshot MM-GBSA selectivity verdict fails a decoy test, so
 selectivity is NOT established by this tier.** We ran a **specificity control** — 38 diverse **non-NR4A
 marketed drugs** (`decoy_library.py`) through the *identical* dock→MM-GBSA funnel — and a **developability-gated
 re-screen** of the generations (the structural-alert gate of §2.4 added after the artifact finding;
