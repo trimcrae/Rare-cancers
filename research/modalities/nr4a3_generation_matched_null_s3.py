@@ -43,6 +43,7 @@ def prep_scramble(s3, bucket, scratch):
     _dl(s3, bucket, f"{denovo_prefix}/nr4a3-denovo.json", local)
     out = os.path.join(scratch, "scr")
     os.environ.update({"MODE": "prep-scramble", "DENOVO_JSON": local, "OUTPUT_DIR": out})
+    drv.OUT = out   # driver bound OUT at import, before we set OUTPUT_DIR — override it
     drv.prep_scramble()
     _ul(s3, bucket, f"{control_prefix}/nr4a3-denovo.json", os.path.join(out, "nr4a3-denovo.json"))
     print(f"prep-scramble done -> s3://{bucket}/{control_prefix} (feed to gpu-denovo-dock-aws.yml "
@@ -57,6 +58,7 @@ def prep_manifest(s3, bucket, scratch):
     _dl(s3, bucket, f"{pocket_prefix}/{pdb}", local_pdb)
     out = os.path.join(scratch, "man")
     os.environ.update({"MODE": "prep-manifest", "OUTPUT_DIR": out})
+    drv.OUT = out   # override import-time OUT
     drv.prep_manifest()
     os.makedirs(out, exist_ok=True)
     # the generation job needs BOTH the manifest and the receptor PDB at the control prefix.
@@ -97,6 +99,7 @@ def reduce_(s3, bucket, scratch):
         if os.environ.get(passthru):
             env[passthru] = os.environ[passthru]
     os.environ.update(env)
+    drv.OUT = env["OUTPUT_DIR"]   # override import-time OUT
     drv.reduce_()
 
     out_prefix = os.environ.get("OUTPUT_PREFIX", "nr4a3-generation-matched-null")
