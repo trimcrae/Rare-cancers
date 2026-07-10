@@ -99,6 +99,7 @@ def main():
     common = {"git-ref": GIT_REF, "ligand-name": LIGAND, "n-iter": N_ITER,
               "steps-per-iter": STEPS_PER_ITER, "seed": SEED, "pose-index": POSE_INDEX,
               "reduce-emit-trace": os.environ.get("ABFE_EMIT_TRACE", "1"),  # 0 → fast ΔG number, skip trace
+              "lambda-schedule": os.environ.get("ABFE_LAMBDA_SCHEDULE", "standard"),  # dense = 16-win NR4A2 λ-repair (comment 2)
               "prebaked": "1" if IMAGE_URI else "0"}
 
     if MODE == "smoke":

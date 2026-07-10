@@ -71,6 +71,10 @@ on:
         description: "replicate seed (>0 → independent initial velocities + Langevin noise)"
         default: "0"
         required: false
+      lambda_schedule:
+        description: "standard (12-window) | dense (16-window, NR4A2 λ-overlap repair — comment 2; set on BOTH run and reduce of the repaired leg)"
+        default: "standard"
+        required: false
       pose_index:
         description: "replicate starting pose (index into a multi-pose docked SDF)"
         default: "0"
@@ -128,6 +132,7 @@ jobs:
           ABFE_EMIT_TRACE: ${{ inputs.emit_trace }}
           ABFE_STEPS_PER_ITER: ${{ inputs.steps_per_iter }}
           ABFE_SEED: ${{ inputs.seed }}
+          ABFE_LAMBDA_SCHEDULE: ${{ inputs.lambda_schedule }}
           ABFE_POSE_INDEX: ${{ inputs.pose_index }}
           MAX_RUN_HOURS: ${{ inputs.max_run_hours }}
           MAX_WAIT_HOURS: ${{ inputs.max_wait_hours }}

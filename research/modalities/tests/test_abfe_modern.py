@@ -18,6 +18,30 @@ def test_lambda_schedule_shape_and_endpoints():
     assert elec[first_sterics_off] == 0.0, "sterics began before elec fully off"
 
 
+def test_dense_lambda_schedule_repair(monkeypatch=None):
+    """The dense schedule (NR4A2 λ-overlap repair, comment 2): more windows, same elec-then-sterics protocol,
+    same endpoints, and a FINER sterics tail than the standard schedule (the fix for the soft-core overlap gap)."""
+    std = abfe.lambda_schedule()  # env unset → standard
+    os.environ["ABFE_LAMBDA_SCHEDULE"] = "dense"
+    try:
+        dense = abfe.lambda_schedule()
+    finally:
+        os.environ.pop("ABFE_LAMBDA_SCHEDULE", None)
+    assert len(dense) > len(std), "dense schedule must add windows"
+    assert dense[0] == (1.0, 1.0) and dense[-1] == (0.0, 0.0), "same fully-coupled/decoupled endpoints"
+    # elec still fully off before any sterics turn-off (same decoupling protocol)
+    first_sterics_off = next(i for i, (e, s) in enumerate(dense) if s < 1.0)
+    assert dense[first_sterics_off][0] == 0.0, "sterics began before elec fully off in dense schedule"
+    # both channels monotone non-increasing
+    for seq in ([e for e, s in dense], [s for e, s in dense]):
+        assert all(seq[i] >= seq[i + 1] - 1e-12 for i in range(len(seq) - 1)), "λ channel not monotone"
+    # the fix: the max adjacent sterics step in the decoupling tail is finer than the standard schedule's
+    def max_tail_step(sched):
+        st = [s for e, s in sched]
+        return max(st[i] - st[i + 1] for i in range(len(st) - 1))
+    assert max_tail_step(dense) < max_tail_step(std), "dense tail must be finer (smaller max sterics step)"
+
+
 def test_assemble_ukn_square_and_counts():
     # 3 states, samples: 2 from state0, 1 from state1, 3 from state2; each sample has 3 energies (u at each λ)
     we = [

@@ -76,7 +76,11 @@ def main():
     ap.add_argument("--hydration-smiles", default="C")   # accuracy gate: molecule SMILES (default methane)
     ap.add_argument("--hydration-name", default="methane")
     ap.add_argument("--hydration-known-dg", default="")   # published GAFF/TIP3P or exp ΔG_hyd (kcal/mol)
+    ap.add_argument("--lambda-schedule", default="standard")  # standard (12-win) | dense (16-win, NR4A2 λ-overlap repair, comment 2)
     a = ap.parse_args()
+    # Propagate the λ-schedule choice to the engine subprocess (inherits this env). MUST be identical for a
+    # leg's run AND its reduce (MBAR K = len(schedule)); the workflow sets the same value on both dispatches.
+    os.environ["ABFE_LAMBDA_SCHEDULE"] = a.lambda_schedule
 
     try:
         subprocess.run(["nvidia-smi"], check=False)   # absent on CPU instances (reduce runs on ml.c5) → tolerate

@@ -28,11 +28,23 @@ LAMBDA_STERICS = [1.0, 1.0,  1.0, 1.0,  1.0, 0.85, 0.7, 0.55, 0.4, 0.25, 0.1, 0.
 assert len(LAMBDA_ELEC) == len(LAMBDA_STERICS), "λ elec/sterics lists must be equal length"
 N_WINDOWS = len(LAMBDA_ELEC)
 
+# "dense" schedule (review comment 2 — NR4A2 λ-overlap repair). The standard 12-window schedule's min
+# adjacent MBAR overlap collapses (~0.003–0.05) in the *sterics-decoupling tail* (sterics 0.4→0.25→0.1→0),
+# the soft-core endpoint region — a poorly-bridged alchemical gap. This adds 4 windows there (16 total),
+# finer near sterics→0, so adjacent overlap recovers. Selected per-leg via env ABFE_LAMBDA_SCHEDULE=dense
+# (the run AND the reduce of a repaired leg must both set it, since MBAR K = len(schedule)); default unchanged.
+LAMBDA_ELEC_DENSE =    [1.0, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  0.0,  0.0,  0.0,  0.0]
+LAMBDA_STERICS_DENSE = [1.0, 1.0,  1.0, 1.0,  1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.30, 0.22, 0.14, 0.07, 0.0]
+assert len(LAMBDA_ELEC_DENSE) == len(LAMBDA_STERICS_DENSE), "dense λ elec/sterics lists must be equal length"
+
 _MAX_WINDOW_RECOVER = 6   # per-iteration NaN/instability recoveries before a λ-window fails loudly (see run_window)
 
 
 def lambda_schedule():
-    """[(elec, sterics)] per window — the alchemical states, one independent simulation each."""
+    """[(elec, sterics)] per window — the alchemical states, one independent simulation each.
+    ABFE_LAMBDA_SCHEDULE=dense selects the 16-window overlap-repaired schedule (comment 2); default 12-window."""
+    if os.environ.get("ABFE_LAMBDA_SCHEDULE", "standard").strip().lower() == "dense":
+        return list(zip(LAMBDA_ELEC_DENSE, LAMBDA_STERICS_DENSE))
     return list(zip(LAMBDA_ELEC, LAMBDA_STERICS))
 
 
