@@ -75,7 +75,9 @@ experimental 8XTT ensemble is the primary revision task (§5).* Full reconciliat
 findings, with references and the NR4A-family precedent, is in
 [`../modalities/nr4a3-druggability-reconciliation.md`](../modalities/nr4a3-druggability-reconciliation.md).
 
-Because occupancy pharmacology is precluded by the collapsed pocket, the apt modality is **degradation**:
+Because the *collapsed static* pocket makes classical occupancy pharmacology (a permanently bound
+agonist/antagonist) difficult — while still admitting the transient binding a degrader needs to recruit an
+E3 (§2.2) — the apt modality is **degradation**:
 recruit the retained, ordered NR4A3 LBD to an E3 ligase and remove the protein. This is target-generic
 (it degrades NR4A3 whether wild-type or in the EMC fusion), which is why the program is framed around
 NR4A3 rather than EMC specifically.
@@ -89,7 +91,9 @@ fpocket assigns the NR4A3 orthosteric pocket (Pocket 5, residues 406–534, carr
 handles) a druggability of **0.495**. To make that interpretable we ran the same pipeline on a
 nuclear-receptor calibration panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)):
 - experimentally **drug-bound** NR pockets score **0.53–0.68** (PPARγ/rosiglitazone 0.599, ERα/estradiol
-  0.586, Nurr1-holo 0.677, Nur77-holo 0.529) → calibrated druggable threshold **D\* = 0.53**;
+  0.586, Nurr1-holo 0.677, Nur77-holo 0.529) → **empirical reference boundary D\* = 0.53** (the lower edge
+  of this small, selected drug-bound panel — a descriptive reference, not a statistically calibrated
+  threshold with a negative distribution);
 - fpocket **`max` is non-discriminating** (even the occluded 1OVL crystal scores 0.864 at a
   *non-orthosteric* cavity) — so the widely-quoted "Nurr1 ~0.8" is **not** the orthosteric pocket, and is
   present in both model (0.801) and crystal (0.864), i.e. **not an AlphaFold artifact**;
@@ -392,7 +396,15 @@ agonism demands), and across the 13 deduplicated candidates the verdict census i
 **verdict/direction, not the kcal/mol** — but the direction is clear: **repurposed NR4A chemical matter is
 method-validation, not a selective lead**, which is exactly why a *de-novo* design is needed (§2.5).
 (Selectivity FEP on a survivor is the defensible affinity tier, gated behind a bona-fide selective
-candidate.) A representative `denovo_401`-PROTAC CRBN ternary-complex model (`nr4a3_ternary.py`, Boltz-2; the pipeline validated by recovering the known CRBN + lenalidomide pose) forms a **productive-geometry ternary comparably for all three paralogues** (per-paralogue iptm 0.72/0.83/0.82; each LBD presenting an exposed lysine within ubiquitin reach), so for this representative linker **the ternary adds no NR4A3 degradation-selectivity** — degradation selectivity, if any, rests on the **binder** margin, with linker/exit-vector design the (untested) lever that might introduce it. The full ternary detail, the CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium **degradation-window** model (DC50/Dmax/hook, the analysis layer the per-paralogue FEP Kd's feed) are in **SI §S2**.
+candidate.) For a representative `denovo_401`-PROTAC, the model **predicts a ternary-like CRBN complex of comparable
+confidence for all three paralogues** (`nr4a3_ternary.py`, Boltz-2; per-paralogue iptm 0.72/0.83/0.82, each
+LBD presenting a solvent-exposed lysine near CRBN). We read this only as *geometric feasibility*, not as
+demonstrated cooperativity, ubiquitination competence, or degradation (a single Boltz pose, no
+CRL4^CRBN–E2~Ub assembly, one arbitrary linker; the CRBN/IMiD recovery is a memorization-consistent sanity
+check, not out-of-distribution validation). At that weight, the prediction is **paralogue-non-selective**, so
+for this representative linker the ternary step adds no NR4A3 degradation-selectivity — degradation
+selectivity, if any, rests on the **binder** margin, with linker/exit-vector design the (untested) lever that
+might introduce it. The full ternary detail, the CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium **degradation-window** model (DC50/Dmax/hook, the analysis layer the per-paralogue FEP Kd's feed) are in **SI §S2**.
 
 **At marketed-library scale the negative result holds.** Running the *same* funnel over the entire ~6,000-compound Broad Drug Repurposing Hub — with a 9-target anti-target/promiscuity panel added as a selectivity axis — finds **no** repurposed compound that is both NR4A3-selective *and* clean against the counter-screen (every paralogue-margin survivor, e.g. SNX-5422 / AGI-5198, engages ≥1 off-target more tightly than NR4A3, whereas `denovo_401` does not), a 6k-scale promiscuity-controlled negative result that is precisely why a *de-novo* design (§2.5) is required; full screen in **SI §S1**.
 
@@ -1052,5 +1064,20 @@ liabilities — and the interim decoy-calibrated foothold `denovo_111` was withd
 - EMC clinical context + the fusion-addiction/ASO/surrogate evidence: see the EMC-program roadmap and its
   source memos.
 
-*Medical-integrity note: every citation above was verified against the primary record (Crossref, PubMed and
-Europe PMC), including journal, year, volume/pages and DOI/PMID/PMCID. No claim outruns its cited evidence.*
+## Data and software availability
+All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
+pre-registration/gate files are in the project repository under `research/modalities/` and `results/`;
+each computational result carries its generating script and, where applicable, its run identifier
+(provenance ledger: `results/PROVENANCE.md`). Large trajectory artifacts are deposited to a permanent
+archive (Zenodo DOI to be minted at submission). References were verified against the primary record
+(Crossref, PubMed, Europe PMC): journal, year, volume/pages, and DOI/PMID/PMCID.
+
+## AI-assisted research disclosure
+This study was executed with substantial assistance from large-language-model coding agents (Anthropic
+Claude), used for: authoring and refactoring the analysis/simulation code, orchestrating the managed-cloud
+GPU/CPU jobs, retrieving and cross-checking literature, and drafting/revising this manuscript. All quantitative
+results were produced by executing that code on real inputs (never generated by the language model); all code
+paths carrying scientific logic are unit-tested; every citation was verified by a human against the primary
+record; and the scientific claims, their weighting, and all go/no-go decisions remained under human control.
+No numeric result, structure, or citation in this manuscript was accepted from a language model without
+independent computation or source verification.
