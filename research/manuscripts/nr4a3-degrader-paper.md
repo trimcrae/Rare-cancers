@@ -732,10 +732,33 @@ Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (G
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,
 `fpocket_lib.py`). Cryptic pocket: OpenMM + PLUMED well-tempered metadynamics with checkpoint/restart and
 fail-loud pre-flight guards ([`../modalities/metad-methods-appendix.md`](../modalities/metad-methods-appendix.md)).
-**Metastability / Gate 3:** unbiased "release" MD (`nr4a3_md_release.py`, OpenMM, no PLUMED) seeded at the
-low-energy druggable frame (triplicate replicas), with per-frame fpocket on the release trajectory; the
+**Gate 3A (persistence after bias removal):** unbiased "release" MD (`nr4a3_md_release.py`, OpenMM, no PLUMED) seeded at the
+low-energy druggable frame (triplicate replicas), with per-frame fpocket on all three release trajectories; the
 druggable receptor for all downstream design is extracted from the release trajectory
 (`nr4a3_release_druggable.py`).
+
+**Pocket detection and pocket tracking.** All cavity detection used fpocket with default parameters
+(`fpocket -f <model.pdb>`); within a single run, info.txt pocket numbers were bijectively matched to their
+residue/vertex files by alpha-sphere fingerprint, failing loudly on ambiguity (`fpocket_lib.py`). The
+reference "orthosteric Pocket 5" was defined **once**, on the static AF2 model, as the highest-druggability
+pocket carrying ≥1 residue in the LBD window 373–626 (`nr4a3_fpocket_enumerate.py`), giving druggability 0.495
+with lining residues spanning 406–534. Because fpocket's per-run numbering is **not** a persistent physical
+identifier, the same site was re-identified in every other structure — MD/metadynamics/release frames and each
+8XTT NMR conformer — **not by pocket number but by maximal residue-set overlap** (the detected pocket sharing
+the most lining residues with the reference set; argmax of the intersection, requiring ≥1 shared residue). This
+per-frame tracking was **blind to the druggability score** (the overlap-maximizing pocket was selected first
+and its score read out afterward), although the original reference pocket was itself druggability-selected on
+the static model. **Three honest limits of this scheme, which the manuscript does not overstate:** (i) the
+match threshold is only "≥1 shared residue," with **no** minimum-overlap fraction, centroid-distance, or
+volume-overlap gate, so in a poorly-formed frame a spurious low-overlap cavity could be selected; (ii) the
+reference set differs between analyses (MD/release match the full 406–534 span; 8XTT matches the ten named
+lining residues after a BLOSUM62 alignment with a ≥0.80-identity guard), so "the same rule" is only
+approximately uniform across sections; and (iii) **split/merge is not explicitly handled** and frames with
+**no** overlapping pocket are recorded as missing (`None`) and **excluded** — not scored zero — so every
+reported "fraction of frames/conformers druggable" has a denominator of *frames with a detected overlapping
+pocket*, which can inflate the fraction where the site is frequently undetected. The fpocket build was
+resolved per job from conda-forge and **not pinned**; the resolved version is a reproducibility gap we flag
+(the 8XTT re-extraction and release scans may use different fpocket builds).
 Calibration: NR-LBD panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)).
 Falsification: pre-registered gates ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)).
 Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Superfamily liability screen (SI §S3, A4/D4):**
