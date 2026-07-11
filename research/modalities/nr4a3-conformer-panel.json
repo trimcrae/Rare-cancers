@@ -1,0 +1,57 @@
+{
+  "_title": "NR4A3 prespecified receptor-conformer panel (design / validation / stress + matched anti-targets)",
+  "_spec": "Master brief Phase 4 / §10.3 (deliverable #40) + nr4a3-ensemble-redesign-plan.md §3. FROZEN 2026-07-11.",
+  "_why": "Rank candidates on WORST-CASE robustness across a prespecified conformer panel, not best score in one frame (the denovo_401 single-frame failure modes: metad-frame decoy-null flip; 8XTT-vs-AF2 provenance moving ABFE by >the whole margin). The panel is SPLIT so generalisation is TESTED: the generator + early scoring see ONLY the design set; validation is held out.",
+  "_freeze_rule": "APPEND-ONLY for provenance. NEVER move a failed validation/stress conformer into the design set (brief §10.3 stopping rule). Selection is by DETERMINISTIC RULES over the harmonized per-frame druggability (pocket_tracking.py, fpocket 4.0, D*=0.53) so the exact frame indices resolve reproducibly at panel-build time from the S3 per-frame outputs; the RULES (not hand-picked indices) are what is frozen here.",
+  "d_star": 0.53,
+  "pocket_tracking": "harmonized (fixed Pocket-5 lining set; jaccard_min 0.25 / frac_recovered 0.3 / centroid 8.0 A; fpocket 4.0). Site detected 95-100% across every ensemble (nr4a3-pocket-reharmonize-summary.json).",
+  "sources_s3": {
+    "release_unbiased": "nr4a3-release-druggable (release_rep0/1/2; 75 frames, 44 >= D*)",
+    "8xtt_nmr": "8XTT 20-model solution-NMR ensemble (19/20 detected, 3 >= D*)",
+    "metad_opened": "nr4a3-metad / nr4a1-metad / nr4a2-metad opened ensembles",
+    "af2": "AF-Q92570 AF2-opened release frame (denovo_401 design frame; 0/1 >= D*)"
+  },
+  "panels": {
+    "nr4a3_design": {
+      "role": "design",
+      "seen_by_generator_and_early_scoring": true,
+      "selection_rule": "top-3 by druggability among the unbiased-release druggable frames (>= D*), pooled over release_rep0/1/2, EXCLUDING the AF2-opened frame (circular: it is denovo_401's design frame). = nr4a3-release-druggable primary/alt1/alt3.",
+      "n": 3,
+      "openness": "moderately open",
+      "note": "Moderately-open druggable frames from the UNBIASED release sub-ensemble (not biased metad, not the AF2 design frame)."
+    },
+    "nr4a3_validation": {
+      "role": "validation",
+      "seen_by_generator_and_early_scoring": false,
+      "selection_rule": "the 3 druggable 8XTT NMR models (>= D*; experimental, never used in generation) PLUS the next-ranked unbiased-release druggable frames NOT already in the design set (ranks 4..6).",
+      "n": "3 (8XTT) + up to 3 (release held-out)",
+      "note": "THE key test: an NR4A3 preference that survives HELD-OUT EXPERIMENTAL (8XTT) conformers is the compelling result."
+    },
+    "nr4a3_stress": {
+      "role": "stress",
+      "seen_by_generator_and_early_scoring": false,
+      "selection_rule": "the ~16 8XTT models DETECTED-but-below-D* + the 1 non-detected 8XTT model (occluded) + the AF2-opened release frame (circularity probe for 401-derived scaffolds, not pass/fail) + one metad-opened frame (68% druggable but a known PROMISCUOUS discriminator -> hardest specificity stress).",
+      "n": "~17 occluded + 1 AF2 + 1 metad",
+      "note": "Occluded / promiscuous / circular frames. A candidate is NOT rejected for failing the AF2 circularity probe; it IS suspect if it only wins there or reverses on a plausible occluded frame."
+    },
+    "nr4a1_antitarget": {
+      "role": "anti_target",
+      "target": "NR4A1",
+      "selection_rule": "matched harmonized pocket definition on: the metad-opened NR4A1 frame (frame 524, druggability 0.981) + symmetric-opening-MD frame(s) from the collapsed experimental NR4A1 LBD (1OVL/3V3E require the opening-MD step).",
+      "note": "Matched geometry rules; equal fpocket score != equivalent physical state (brief §10.2)."
+    },
+    "nr4a2_antitarget": {
+      "role": "anti_target",
+      "target": "NR4A2",
+      "selection_rule": "matched harmonized pocket definition on: the metad-opened NR4A2 frame (frame 125, druggability 0.938) + symmetric-opening-MD frame(s) from the collapsed experimental NR4A2 LBD.",
+      "note": "NR4A2 is the hardest paralogue to spare (I531 conserved NR4A3=NR4A2); this panel is the molecular anti-target."
+    }
+  },
+  "scoring": {
+    "objective": "S = min_c M_{3,c} - lambda*SD_c(M_{3,c}) - gamma*max_{p,c} B_{p,c}  (ensemble_robust_score.robust_score; extended S_ext adds counterexample C + liability L).",
+    "central_criterion": "|receptor effect| > |conformer effect| (receptor_vs_conformer): NR4A3-vs-paralogue preference must exceed frame-to-frame wobble, else the selectivity is a geometry artefact.",
+    "advancement": "a NEW candidate must BEAT denovo_401 on the MATCHED panel on BOTH worst-case S and worst-case min_margin (ensemble_robust_score.beats_benchmark), retain preference on held-out validation conformers (panel_split_report.generalises), and survive molecular-species + generation-matched-null controls (advancement_verdict)."
+  },
+  "consumes": "a panel-docking run (matrix-style, but docking each candidate + denovo_401 across ALL panel conformers, not just the 3 opened ones) -> per-(receptor,conformer) endpoint -> ensemble_robust_score. Frames resolve from the S3 per-frame druggability at run time per the selection_rules above.",
+  "status": "FROZEN spec (rules-level). Exact frame indices resolve at panel-build time; the panel-docking pipeline + run is the next step (cheap GPU/CPU; <$10)."
+}
