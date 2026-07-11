@@ -103,6 +103,21 @@ diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns 
   -> neither common junction is a strong shared class-I target (redirects to lineage antigens). Axis
   fusion_subtype_coverage 1→2. MHC-II deferred (MHCnuggets TF-pin clash; tool exists for a follow-up).
 
+## 2026-07-11 — v0.5 "do all the direction work" (E/F/G; direction-choice is self-doable, not a decision)
+
+- **F (outreach.md):** tailored target map + 3 ready-to-review email DRAFTS (USZ/NCC model owners;
+  Stacchiotti/European network; sarcoma pathology/immunopeptidomics). Prep only — SENDING needs trimcrae
+  sign-off + a named human author (the one genuinely outward-facing step).
+- **G (lineage-antigen-program.md):** the redirect target from the modest junction yield — B7-H3/PRAME
+  (DepMap surrogate) + CHRNA6/NMB (GSE24369 AUC 1.0), prioritised by tractability × specificity × safety,
+  with the RNA≠surface-protein guard, validation ladder, go/no-go. Vaccine option pairs the EWSR1 junction
+  CD4 helper epitope (C022) with a confirmed class-I target.
+- **E (panel_exposure.py, CI):** verbatim Cmax / protein-binding / half-life quotes from FDA labels
+  (DailyMed) for the 12-compound panel — fills `achievable_free_exposure` WITHOUT inventing numbers (the
+  window is pharmacology-limited per C020). [integrating result]
+- **CLAUDE.md:** PRIMARY FOCUS broadened (atlas = anchor; degrader/ASO snagged) + new rule that a
+  "which direction?" question is not a decision when all options are self-doable — do them all. Synced to main.
+
 ## Open next steps (all no-wet-lab, mostly free/cheap)
 0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text pass; panel DepMap dependency (C020); brief (A); antiangiogenic mechanism+CRF (D); TAF15 junction antigen (C, C021).
 1. ~~MHC-II help epitopes~~ **DONE (claim C022):** EWSR1 junction has a STRONG CD4 helper epitope
