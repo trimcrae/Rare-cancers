@@ -87,6 +87,15 @@ def test_et_conversion_is_eastern_12h():
     assert m._et(None) == "—"
 
 
+def test_sample_gap_recorded_when_index_stalls():
+    # Real-timestamp regime: a stalled window keeps its true last_ts, so marker_age (now - last_ts) catches it.
+    prev = {"kind": "abfe", "index": 7, "last_ts": "2026-07-11T14:26:00Z", "done": False}
+    cur = m.parse_abfe(ABFE_LOG)   # still index 7, real last_ts frozen at 14:26
+    a = m.analyse(cur, prev=prev, total_units=16, now_iso="2026-07-11T15:06:00Z", hang_min=25.0)
+    assert a["min_per_unit"] is None       # no advance
+    assert a["hang"] is True               # 40-min-old marker → hang via marker_age
+
+
 def test_boltz_eta_across_samples():
     prev = {"kind": "boltz", "index": 0, "last_ts": "2026-07-11T14:31:10Z"}
     cur = m.parse_boltz(BOLTZ_LOG)   # index 2 at 14:34:25

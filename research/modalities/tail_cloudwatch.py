@@ -13,11 +13,19 @@ default auto — spot fleets are Training jobs, docks/MM-GBSA are Processing), A
 Commits nothing; starts no instance.
 """
 import os
+from datetime import datetime, timezone
 
 import boto3
 
 PROC_GROUP = "/aws/sagemaker/ProcessingJobs"
 TRAIN_GROUP = "/aws/sagemaker/TrainingJobs"
+
+
+def _ts(ms):
+    """CloudWatch event timestamp (ms since epoch) → ISO-8601 UTC 'Z'. Prepended to each line so the REAL
+    per-event time survives (GitHub stamps every tail line with the tail-run time, which collapses all events
+    to one instant and defeats rate/ETA/hang analysis — job_progress_monitor reads THIS leading timestamp)."""
+    return datetime.fromtimestamp(ms / 1000.0, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _find_processing(sm, prefix):
@@ -120,8 +128,12 @@ def main():
         print("  (stream exists but no events yet)")
         return
     events.sort(key=lambda e: e["timestamp"])
+    # Prepend each event's REAL CloudWatch timestamp (unless TS_PREFIX=0) so progress markers keep their true
+    # event time through the GitHub-Actions log (which otherwise stamps every line with the tail-run instant).
+    stamp = os.environ.get("TS_PREFIX", "1") != "0"
     for e in events[-tail:]:
-        print(e["message"].rstrip())
+        line = e["message"].rstrip()
+        print(f"{_ts(e['timestamp'])} {line}" if stamp else line)
 
 
 if __name__ == "__main__":

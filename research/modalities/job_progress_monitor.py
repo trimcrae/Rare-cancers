@@ -133,6 +133,7 @@ def analyse(cur, prev=None, total_units=None, now_iso=None, hang_min=25.0):
         d_units = cur["index"] - prev["index"]
         t0 = datetime.strptime(prev["last_ts"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
         d_min = (last - t0).total_seconds() / 60.0
+        out["sample_gap_min"] = round(d_min, 1)
         if d_units > 0 and d_min > 0:
             per = d_min / d_units
             out["min_per_unit"] = round(per, 1)
@@ -144,7 +145,7 @@ def analyse(cur, prev=None, total_units=None, now_iso=None, hang_min=25.0):
                 if now:
                     out["eta_et"] = _et(_iso(now + timedelta(minutes=eta_min)))
         elif d_units == 0:
-            out["min_per_unit"] = None   # no advance between samples — either hung or mid-unit
+            out["min_per_unit"] = None   # no advance between samples — hang is caught by marker_age below
     return out
 
 
