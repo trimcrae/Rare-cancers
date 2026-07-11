@@ -139,16 +139,21 @@ def _bind_convergence(cconv, sconv, ssc):
 
 def compute(dirs, temperature_K=TEMPERATURE_K):
     """Full diagnostics from located leg dirs {tag: {leg_key: dir}}. Returns the results dict written to JSON."""
-    K = diag.n_windows()
+    # K is detected PER-LEG from each checkpoint (a dense-λ REPAIR run has more windows than the default
+    # schedule; a fixed global K crashed the validate gate). n_windows() is only a fallback.
     replicates = {}
     dg_bind_by_rep = {}
+    K_seen = set()
     for tag, legs in dirs.items():
         rep = tag_label(tag)
         rep_out = {"tag": tag, "legs": {}, "receptors": {}}
         # load + diagnose each leg once
-        we_cache, ssc_cache = {}, {}
+        we_cache, ssc_cache, K_cache = {}, {}, {}
         for leg_key, d in legs.items():
-            we = diag.load_leg_we(d, K=K)
+            we = diag.load_leg_we(d, K=None)          # auto-detect this leg's window count
+            K = len(we) or diag.n_windows()
+            K_cache[leg_key] = K
+            K_seen.add(K)
             we_cache[leg_key] = we
             if leg_key.startswith("complex-"):
                 ssc_cache[leg_key] = read_ssc(d)
@@ -163,6 +168,9 @@ def compute(dirs, temperature_K=TEMPERATURE_K):
             if ssc is None:
                 rep_out["receptors"][r] = {"error": "no restraint_standard_state_dg in complex meta.json"}
                 continue
+            # complex and solvent legs must share a window count for the combined ΔG_bind; use the complex
+            # leg's detected K (solvent should match).
+            K = K_cache.get(ck) or K_cache.get("solvent") or diag.n_windows()
             rb = diag.receptor_dg_bind(we_cache[ck], swe, ssc, temperature_K=temperature_K, K=K)
             if rb is None:
                 rep_out["receptors"][r] = {"error": "insufficient samples in one leg"}
@@ -178,7 +186,7 @@ def compute(dirs, temperature_K=TEMPERATURE_K):
     return {
         "provenance": {"tags": TAGS, "receptors": RECEPTORS, "target": TARGET,
                        "solvent_tag": SOLVENT_TAG or None,
-                       "temperature_K": temperature_K, "n_windows": K,
+                       "temperature_K": temperature_K, "n_windows": sorted(K_seen) or [diag.n_windows()],
                        "engine": "research/modalities/nr4a3_abfe.py",
                        "diagnostics": "research/modalities/nr4a3_abfe_diagnostics.py",
                        "note": "Recomputed from the ABFE per-window reduced potentials (dedup-by-iteration, "

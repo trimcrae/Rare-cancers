@@ -43,9 +43,41 @@ MANUSCRIPT_S4 = {
 # reduced-potential IO (dedup-by-iteration, matching reduce_leg) + ragged→dense conversion
 # --------------------------------------------------------------------------------------------------------------
 def n_windows():
-    """Number of λ-windows/leg, from the engine's schedule (single source of truth)."""
+    """Number of λ-windows/leg, from the engine's DEFAULT schedule (single source of truth for a default run).
+    NOTE: a dense-λ REPAIR run uses more windows than this — use detect_K(leg_dir) for those (per-leg, from the
+    checkpoint), because the default schedule length would be wrong."""
     from nr4a3_abfe import lambda_schedule
     return len(lambda_schedule())
+
+
+def detect_K(leg_dir):
+    """Auto-detect a leg's actual λ-window count FROM ITS CHECKPOINT — the dense-repair schedule has more
+    windows than the default engine schedule, so n_windows() mis-reads repair runs (the bug that crashed the
+    validate gate: "window 0 sample has 16 energies, expected 12"). K == the width of a reduced-potential
+    vector `u` (each sample is evaluated at all K λ-states). Falls back to the max window-file index + 1, then
+    the default n_windows(). Pure (filesystem read only)."""
+    import glob
+    files = sorted(glob.glob(os.path.join(leg_dir, "window_*.jsonl")))
+    for p in files:
+        try:
+            with open(p) as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    u = json.loads(line).get("u")
+                    if u:
+                        return len(u)
+        except Exception:  # noqa: BLE001 — torn file; try the next
+            continue
+    idxs = []
+    for p in files:
+        b = os.path.basename(p)
+        try:
+            idxs.append(int(b[len("window_"):-len(".jsonl")]))
+        except Exception:  # noqa: BLE001
+            pass
+    return (max(idxs) + 1) if idxs else n_windows()
 
 
 def load_leg_we(leg_dir, K=None):
@@ -53,8 +85,11 @@ def load_leg_we(leg_dir, K=None):
 
     A window's log can hold duplicate records for the same iteration (crash/resume/recovery cycles); we keep one
     sample per iter (the last-written), sorted by iter — identical to `nr4a3_abfe.reduce_leg`, so the diagnostics
-    see exactly the samples the §4 ΔG reduction saw. Missing window files contribute an empty list."""
-    K = K or n_windows()
+    see exactly the samples the §4 ΔG reduction saw. Missing window files contribute an empty list.
+
+    K defaults to the leg's OWN detected window count (detect_K), so a dense-λ repair run (more windows than the
+    default schedule) is read correctly instead of crashing on the width mismatch."""
+    K = K or detect_K(leg_dir)
     we = [[] for _ in range(K)]
     for k in range(K):
         p = os.path.join(leg_dir, "window_%02d.jsonl" % k)
