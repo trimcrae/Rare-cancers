@@ -586,11 +586,16 @@ We applied the co-folding workflow to an **NR-V04-inspired representative recons
 NR-V04-inspired 79-heavy-atom celastrol–PEG–VHL construct; the exact recruiter connectivity/regiochemistry,
 stereochemistry, attachment points, and linker atom count from the primary source are **not yet independently
 verified**, so this is not an exact retrospective benchmark against the reported NR-V04 phenotype). NR-V04 is
-reported to degrade NR4A1 while sparing NR4A2/NR4A3. Across three diffusion seeds, a **gross dual-contact
-classifier** (one ligand half within 4.5 Å of the NR4A target **and** the other half within 4.5 Å of VHL,
-the halves assigned by a conformation-dependent sulfur-anchor partition — *not* a chemically mapped moiety
-occupancy) was concordant with the reported paralogue phenotype: satisfied for NR4A1 in **2/3 seeds** but 0/3
-for NR4A2/NR4A3, with mean ligand-iPTM *not* reproducing the ordering (higher for spared NR4A2). **However, an
+reported to degrade NR4A1 while sparing NR4A2/NR4A3. In a **historical (now retired) analysis**, a gross
+dual-contact classifier whose ligand halves were assigned by a conformation-dependent **sulfur-anchor
+partition** was concordant with the reported phenotype across three seeds — satisfied for NR4A1 in **2/3
+seeds** but 0/3 for NR4A2/NR4A3, with mean ligand-iPTM *not* reproducing the ordering (higher for spared
+NR4A2). That sulfur-anchor assignment has since been **replaced**: the pending corrected rerun assigns the
+warhead/recruiter/linker by an **atom-mapped SMILES↔structure moiety mapping** (fail-closed when the mapping
+cannot be established), and reports **correct-half dual-surface proximity** (a half touches the *right*
+protein) **separately** from **canonical VHL hydroxyproline-pocket occupancy** (the recruiter half within the
+Ser111/His115 sub-pocket, not any VHL surface). The rerun's descriptive result on the corrected classifier is
+pending. **However, an
 expected VHL-inactive stereoisomer (the 4-hydroxyproline epimer construct) achieved the same aggregate bridge
 fraction as the active construct (0.75 vs 0.75 over the seed×pose pool), showing that this structure-only
 classifier has no demonstrated affinity sensitivity.** A structure generator can place an inactive
@@ -610,11 +615,13 @@ selectivity is *caused* by ternary geometry. Under the same gross classifier the
 discrimination**. This is a **structure-only gross architecture classifier that showed thin retrospective
 concordance and failed an affinity-sensitive stereochemical control; it is unsuitable for prospective affinity
 or degradation-selectivity ranking.** Full spec, controls, and the seed-level analysis:
-`nrv04-ternary-benchmark.json` / `report_nrv04.py`; **SI §S2**. *(Reflects two external methods reviews,
-2026-07-11: the metric is renamed "correct-half dual-surface proximity" (not "productive geometry"); required
-analyzer fixes — atom-map moiety occupancy, intended-site checks, verified Cys551 mapping, seed-level (not
-pose-pooled) statistics, exact chemical identity, separated architecture-vs-affinity controls — are tracked in
-`nrv04-ternary-benchmark.json → review_required_fixes` and must be committed before any rerun.)*
+`nrv04-ternary-benchmark.json` / `report_nrv04.py`; **SI §S2**. *(Reflects three external methods reviews,
+2026-07-11: the metric is "correct-half dual-surface proximity" (not "productive geometry"); the analyzer fixes
+— atom-mapped moiety occupancy, intended-site checks, verified/annotated Cys551 mapping, seed-level (not
+pose-pooled) statistics with strict-majority seed calls, separated architecture-vs-affinity controls, and a
+paired active-vs-epimer comparison — are **committed**; the corrected descriptive rerun is authorized as a
+seed-level architecture characterization only, pending a real-CIF forced-restart smoke, and confers **no**
+prospective affinity or degradation-selectivity ranking authority.)*
 
 **At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor receives a more favourable docking score at ≥1 counter-screen target than at NR4A3, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.6). **Full screen and target panel: SI §S1.**
 
