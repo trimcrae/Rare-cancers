@@ -32,6 +32,14 @@ on:
         description: "AWS region"
         default: "us-east-2"
         required: false
+      audit:
+        description: "1 = run the ABFE leg self-consistency AUDIT (window_count vs u_length vs meta, per-window samples) across all tags and PRINT the report, instead of reducing. AUDIT_TAGS env-overridable."
+        default: ""
+        required: false
+      audit_tags:
+        description: "audit mode: comma-sep tags to audit (blank = auto-discover every nr4a3-abfe* tag)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -45,7 +53,21 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install "pymbar>=4" numpy boto3
+      - name: ABFE leg self-consistency AUDIT (all tags)
+        if: ${{ inputs.audit == '1' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          AUDIT_TAGS: ${{ inputs.audit_tags }}
+          AUDIT_REDUCE: "0"
+          OUT: /tmp/abfe-audit-report.json
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python research/modalities/abfe_audit.py
+          echo "===== FULL AUDIT REPORT JSON ====="; cat /tmp/abfe-audit-report.json
       - name: Sync checkpoints + MBAR reduce + ΔΔG (all in-runner, free)
+        if: ${{ inputs.audit != '1' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
