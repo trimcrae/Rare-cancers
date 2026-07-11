@@ -35,6 +35,19 @@ read it before making changes.
     Reliable ternary *ranking* is a known open methodological challenge → that gap is exactly where a rigorous,
     honestly-benchmarked contribution is valuable (a benchmarked NR4A-family ternary-selectivity framework,
     THEN prospective NR4A3 designs — only after the workflow passes the NR-V04 control).
+  - **★ WARHEAD-STRATEGY SHARPENING (2026-07-11, external reviewer-AI redirection, ADOPTED; see
+    [research/manuscripts/nr4a3-degrader-strategy-ternary-first.md](./research/manuscripts/nr4a3-degrader-strategy-ternary-first.md)).**
+    The flagship deliverable is now a **synthesis-ready degrader MATRIX (~6–12 compounds)** getting selectivity
+    JOINTLY from a modest binary preference + ternary cooperativity + ubiquitination-compatible geometry — NOT a
+    single de novo "selective warhead." Concretely: (1) warheads come from a **congeneric campaign anchored on
+    Zaienne compound 19** (methyl 5-bromoindole-3-carboxylate, `zaienne_cmpd19`; functional target-engagement,
+    NOT a proven binder), not de novo generation; (2) the primary quantitative tool shifts to **RBFE within the
+    congeneric series** (ABFE demoted to secondary calibration); (3) **ternary is the CENTRAL selectivity
+    variable** (co-fold stays architecture-triage-only — the epimer control forbids affinity/cooperativity
+    ranking; use physics-based ternary calcs). **denovo_401 = benchmark, not lead.** De-prioritized: broad de
+    novo generation, generic ML degrader prediction, AF-2 molecular glue, fusion-junction small-molecule
+    degrader. This SHARPENS (does not contradict) Track B; the NR-V04 retrospective control still gates all
+    prospective ternary ranking.
   - **NR-V04 (Wang 2024) is the CENTRAL positive control.** It degraded NR4A1 but not NR4A2/NR4A3, with
     PLA/co-IP complex evidence + VHL/proteasome dependence — **strong event-level proof that family-selective
     NR4A degradation is achievable** (rebuts "the family is too homologous"). *Justified* inference: a
