@@ -27,4 +27,6 @@ _Bounds:_ Series-matrix (not raw-CEL RMA); tiny n; legacy arrays; stroma dilutio
   - known-marker reproduction: {}
   - fusion stratification: Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation).
 ## GSE24369
-- ERROR: division by zero
+- **GPL6244** (GSE24369_series_matrix.txt.gz): n=42 (EMC 6, other 36), single-channel, 0 genes.
+  - known-marker reproduction: {}
+  - fusion stratification: Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation).
