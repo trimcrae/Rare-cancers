@@ -122,9 +122,17 @@ def run_ensemble(yaml_path, out_dir, seeds, diffusion_samples=1):
     if not shutil.which("boltz") or not t3.have_gpu():
         print("  boltz/GPU unavailable — prep only (dispatch the GPU workflow)", file=sys.stderr)
         return {s: None for s in seeds}
+    import glob
     for s in seeds:
         sdir = os.path.join(out_dir, "seed_%d" % s)
         os.makedirs(sdir, exist_ok=True)
+        # RESUME (checkpoint/continuous-upload standing rule): out_dir is /opt/ml/checkpoints on spot Training,
+        # restored from S3 on a spot restart. If this seed already produced a CIF, do NOT recompute it — skip so a
+        # forced/spot restart genuinely resumes (reuses completed units) instead of redoing work already uploaded.
+        if glob.glob(os.path.join(sdir, "**", "*.cif"), recursive=True):
+            print("  seed %d: existing CIF found → resume-skip" % s, file=sys.stderr)
+            res[s] = "resumed"
+            continue
         cmd = ["boltz", "predict", yaml_path, "--use_msa_server", "--out_dir", sdir,
                "--no_kernels", "--seed", str(s)]
         if int(diffusion_samples) > 1:
