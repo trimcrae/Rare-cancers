@@ -10,6 +10,16 @@ name: Atlas data (GEO reprocess + EuropePMC full-text verify)
 
 on:
   workflow_dispatch:
+  # Also trigger on push to this feature branch (workflow_dispatch via API needs the file on the
+  # default branch; this branch-scoped push trigger does not). paths is limited to the scripts +
+  # this workflow so the CI's own commit-back (which only touches _generated/) cannot re-trigger a loop.
+  push:
+    branches:
+      - claude/emc-research-strategy-kdz9kn
+    paths:
+      - 'research/atlas/expression_reprocess.py'
+      - 'research/atlas/fulltext_verify.py'
+      - '.github/workflows/atlas-data.yml'
 
 permissions:
   contents: write
