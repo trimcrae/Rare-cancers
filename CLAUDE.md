@@ -162,6 +162,23 @@ read it before making changes.
   with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
   / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
   so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
+- **★ EGRESS-PROXY BLOCK IS NOT "INACCESSIBLE" — ROUTE THE FETCH THROUGH A CI RUNNER (trimcrae standing rule,
+  2026-07-11).** The dev sandbox's egress proxy **403s many data hosts at CONNECT** — NCBI/GEO, PMC,
+  EuropePMC, Springer, UniProt, and similar. When a `curl`/`urllib`/WebFetch to one of these fails with a
+  403/CONNECT-tunnel error, that is a **sandbox limitation, NOT a dead end** — do **NOT** report the data as
+  inaccessible, the verification as impossible, or fall back to abstract-only. **GitHub Actions runners have
+  unrestricted internet and are FREE — prefer them** (AWS jobs also work, use only if you already need AWS).
+  Pattern (verified 2026-07-11 for GEO reprocessing + EuropePMC full-text verification): (1) write a
+  **pure-stdlib** `urllib` script (no pip — matches the CPU-workflow convention); (2) add a
+  `workflow_dispatch` workflow (`permissions: contents: write`) that runs it and **commits the outputs back
+  to the triggering branch** (`git push origin HEAD:${{ github.ref_name }}`) or a cache branch; (3) dispatch
+  it (`mcp__github__actions_run_trigger`); (4) **poll the public Actions API with a `run_in_background` Bash
+  poller** (the self-wake rule above) and, on completion, `git pull` + integrate the raw outputs into the
+  interpreting artifact (add caveats, flip citation `verified` flags). **Exemplars to copy:**
+  `.github/workflows/atlas-data.yml` + `research/atlas/expression_reprocess.py` +
+  `research/atlas/fulltext_verify.py` (GEO/PMC); `.github/workflows/fusion-cpu-extras.yml` (older CPU-extras
+  pattern → `modalities-cache` branch). This is how EMC expression datasets and any PMID/PMCID full text get
+  verified to primary-source standard despite the proxy.
 - **GITHUB AUTH "EXPIRED" IS A FALSE ALARM — RETRY ON YOUR OWN, NEVER ESCALATE TO trimcrae (standing rule,
   2026-07-09).** When any `mcp__github__*` call returns "requires re-authorization / token expired" (or the
   harness reports the github server disconnected / needs auth), **assume YOU are wrong, not the token** — it
