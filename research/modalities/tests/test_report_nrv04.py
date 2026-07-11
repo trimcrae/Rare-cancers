@@ -100,12 +100,39 @@ def test_full_gate_exploratory_concordance_on_moiety_separation():
         "nr4a2": _ternary([False, False, False], [0.40, 0.42, 0.38], name="nr4a2"),
         "nr4a3": _ternary([False, False, False], [0.35, 0.37, 0.36], name="nr4a3"),
     }
-    v = r.full_verdict(systems)
+    v = r.full_verdict(systems, architecture_controls_ok=True)
     assert v["verdict"] == "exploratory-architecture-concordance"
     assert v["primary_basis"] == "correct_half_dual_surface_proximity_SEED_level"
     assert v["cutoff_robust"] is True
     assert v["leave_one_seed_out_robust"] is True
+    assert v["concordance_pass"] is True
     assert "not validation" in v["basis"].lower()
+
+
+def test_full_gate_not_concordant_when_architecture_controls_not_ok():
+    # Same clean separation, but architecture controls not ok -> must NOT collapse to a pass (fix A + B2).
+    systems = {
+        "nr4a1": _ternary([True, True, True], [0.62, 0.60, 0.64], name="nr4a1"),
+        "nr4a2": _ternary([False, False, False], [0.40, 0.42, 0.38], name="nr4a2"),
+        "nr4a3": _ternary([False, False, False], [0.35, 0.37, 0.36], name="nr4a3"),
+    }
+    v = r.full_verdict(systems, architecture_controls_ok=False)
+    assert v["verdict"] == "insufficient-robustness"
+    assert v["concordance_pass"] is False
+    assert v["default_separation"] is True
+
+
+def test_full_gate_not_concordant_when_nr4a1_wrong_end_majority():
+    # Clean separation + arch ok, but NR4A1 seeds are majority wrong-end -> frozen wrong-end gate fails.
+    systems = {
+        "nr4a1": _ternary([True, True, True], [0.62, 0.60, 0.64], wrong=[True, True, True], name="nr4a1"),
+        "nr4a2": _ternary([False, False, False], [0.40, 0.42, 0.38], name="nr4a2"),
+        "nr4a3": _ternary([False, False, False], [0.35, 0.37, 0.36], name="nr4a3"),
+    }
+    v = r.full_verdict(systems, architecture_controls_ok=True)
+    assert v["verdict"] == "insufficient-robustness"
+    assert v["nr4a1_wrong_end_fraction_seed_level"] == 1.0
+    assert v["wrong_end_ok"] is False
 
 
 def test_full_gate_concordance_holds_even_when_ligand_iptm_inverts():
@@ -115,7 +142,7 @@ def test_full_gate_concordance_holds_even_when_ligand_iptm_inverts():
         "nr4a2": _ternary([False, False, False], [0.91, 0.92, 0.90], name="nr4a2"),
         "nr4a3": _ternary([False, False, False], [0.92, 0.87, 0.84], name="nr4a3"),
     }
-    v = r.full_verdict(systems)
+    v = r.full_verdict(systems, architecture_controls_ok=True)
     assert v["verdict"] == "exploratory-architecture-concordance"
     assert v["ligand_iptm_note"] and "did not reproduce" in v["ligand_iptm_note"].lower()
 
@@ -146,9 +173,12 @@ def test_full_gate_cutoff_not_robust_flagged():
         "nr4a2": _ternary([False, False, False], [0.4, 0.4, 0.4], name="nr4a2"),
         "nr4a3": _ternary([False, False, False], [0.4, 0.4, 0.4], name="nr4a3"),
     }
-    v = r.full_verdict(systems)
-    assert v["verdict"] == "exploratory-architecture-concordance"
+    # fix B2: default separation still holds, but not robust across cutoffs -> descriptive non-pass, NOT a pass.
+    v = r.full_verdict(systems, architecture_controls_ok=True)
+    assert v["verdict"] == "insufficient-robustness"
+    assert v["default_separation"] is True
     assert v["cutoff_robust"] is False
+    assert v["concordance_pass"] is False
 
 
 # --- review-v2 honesty behaviours -----------------------------------------------------------------------
@@ -178,6 +208,88 @@ def test_seed_is_primary_unit_not_pose_pool():
     assert e["n_seeds"] == 2 and e["n_poses"] == 4
     assert e["seed_bridged_fraction"] == 0.5
     assert "seeds=2, poses=4" in e["denominator"]
+
+
+# --- FIX A: fail-closed architecture-control tri-state --------------------------------------------------
+def _arch_neg(has_recruiter, ok=True, pocket=False, bridged=None, n=3, name="neg_celastrol"):
+    """Build an architecture-negative system. bridged=None -> no moiety_bridges (free-warhead, no recruiter);
+    bridged=bool -> moiety_bridges present at all cutoffs (recruiter-bearing scenario)."""
+    samples = []
+    for i in range(1, n + 1):
+        moi = {"atom_map": {"ok": ok, "has_warhead": True, "has_recruiter": has_recruiter},
+               "recruiter_pocket_occupancy": pocket}
+        moi["moiety_bridges"] = None if bridged is None else {c: bool(bridged) for c in CUT}
+        samples.append({"seed": "seed_%d" % i, "rank": 0, "confidence": {"ligand_iptm": 0.4, "iptm": 0.4},
+                        "geometry": {"bridges": False, "closest_exposed_lys": None}, "moiety": moi})
+    return {"system": name, "kind": "ternary", "samples": samples, "ensemble": r._aggregate(samples, "ternary")}
+
+
+def test_arch_control_pass_no_recruiter():
+    st = r.architecture_control_status(_arch_neg(has_recruiter=False, pocket=False, bridged=None))
+    assert st["status"] == "pass_no_recruiter"
+
+
+def test_arch_control_not_evaluable_on_mapping_failure():
+    st = r.architecture_control_status(_arch_neg(has_recruiter=False, ok=False))
+    assert st["status"] == "not_evaluable"
+
+
+def test_arch_control_not_evaluable_on_empty_samples():
+    st = r.architecture_control_status({"system": "neg_celastrol", "samples": [], "ensemble": {}})
+    assert st["status"] == "not_evaluable"
+
+
+def test_arch_control_pass_non_spanning_when_recruiter_present_but_not_spanning():
+    st = r.architecture_control_status(_arch_neg(has_recruiter=True, bridged=False))
+    assert st["status"] == "pass_non_spanning"
+
+
+def test_arch_control_fail_spanning_and_not_ok():
+    st = r.architecture_control_status(_arch_neg(has_recruiter=True, bridged=True))
+    assert st["status"] == "fail_spanning"
+    per, ok, failed = r.evaluate_architecture_controls(
+        {"neg_celastrol": _arch_neg(has_recruiter=True, bridged=True)}, {"neg_celastrol": "architecture"})
+    assert ok is False and failed is True
+
+
+def test_evaluate_architecture_controls_ok_only_on_all_pass():
+    per, ok, failed = r.evaluate_architecture_controls(
+        {"neg_celastrol": _arch_neg(has_recruiter=False)}, {"neg_celastrol": "architecture"})
+    assert ok is True and failed is False and per["neg_celastrol"]["status"] == "pass_no_recruiter"
+    # no architecture control present -> fail-closed: not ok
+    _, ok2, _ = r.evaluate_architecture_controls({}, {})
+    assert ok2 is False
+
+
+# --- FIX C: paired active-vs-epimer affinity-blindness --------------------------------------------------
+def test_paired_active_vs_epimer_same_rate_is_affinity_blind():
+    active = _ternary([True, True, True], [0.6, 0.6, 0.6], name="nr4a1")
+    epimer = _ternary([True, True, True], [0.6, 0.6, 0.6], name="neg_inactive")
+    p = r.paired_active_vs_epimer({"nr4a1": active}, {"neg_inactive": epimer})
+    assert p["paired"] is True and p["affinity_blind"] is True and p["same_rate"] is True
+    assert p["active_seed_bridged_fraction"] == 1.0 and p["epimer_seed_bridged_fraction"] == 1.0
+    assert "epimer passed at" in p["wording"]
+
+
+def test_paired_active_vs_epimer_different_rate_not_blind():
+    active = _ternary([True, True, True], [0.6, 0.6, 0.6], name="nr4a1")
+    epimer = _ternary([False, False, False], [0.6, 0.6, 0.6], name="neg_inactive")
+    p = r.paired_active_vs_epimer({"nr4a1": active}, {"neg_inactive": epimer})
+    assert p["affinity_blind"] is False and p["same_rate"] is False
+    assert p["paired_difference"] == -1.0
+
+
+def test_paired_active_vs_epimer_unmatched_sets_not_paired():
+    active = _ternary([True, True, True], [0.6, 0.6, 0.6], name="nr4a1")     # seeds 1,2,3
+    epimer = _ternary([True, True], [0.6, 0.6], name="neg_inactive")          # seeds 1,2 only
+    p = r.paired_active_vs_epimer({"nr4a1": active}, {"neg_inactive": epimer})
+    assert p["paired"] is False and p["affinity_blind"] is False
+    assert p["unmatched_missing_in_epimer"]  # seed_3/0 missing from the epimer
+
+
+def test_paired_active_vs_epimer_absent_by_design():
+    p = r.paired_active_vs_epimer({}, {})
+    assert p["evaluable"] is False and p["affinity_blind"] is None
 
 
 # --- atom-mapped moieties (review fix #2) + intended-site occupancy (review fix #3), RDKit --------------
@@ -231,6 +343,21 @@ def test_atom_map_bond_perception_fallback_on_scrambled_order():
     ref_elems = [a.GetSymbol().upper() for a in Chem.RemoveHs(Chem.MolFromSmiles(r.FREE_CELASTROL_SMILES)).GetAtoms()]
     for ref_i, cif_i in enumerate(am["mapping"]):
         assert ca[cif_i][0].upper() == ref_elems[ref_i]
+
+
+def test_atom_map_identity_branch_requires_graph_corroboration():
+    # FIX D: a permuted, element-DEGENERATE order that still passes the element-SEQUENCE pre-filter (two carbons
+    # swapped -> identical element sequence) but is NOT the true identity mapping must NOT be accepted by the
+    # atom_order identity branch — graph corroboration must reject it (falls through to bond_perception or fails).
+    ca = _cif_atoms(r.FREE_CELASTROL_SMILES)
+    carbons = [i for i, (el, _) in enumerate(ca) if el.upper() == "C"]
+    assert len(carbons) >= 2
+    i, j = carbons[0], carbons[-1]                 # two carbons far apart in the graph
+    perm = list(ca)
+    perm[i], perm[j] = perm[j], perm[i]            # swap coords only; element sequence is unchanged (both 'C')
+    assert [e for e, _ in perm] == [e for e, _ in ca]     # element sequence identical -> pre-filter passes
+    am = r.atom_map_moieties(r.FREE_CELASTROL_SMILES, perm)
+    assert am["method"] != "atom_order"           # identity branch refused (not silently accepted)
 
 
 def test_atom_map_fail_closed_element_mismatch():
