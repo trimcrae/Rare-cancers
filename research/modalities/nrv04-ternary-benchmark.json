@@ -133,12 +133,29 @@
       "NR4A3": 0.876,
       "note": "INVERTS (spared NR4A2 highest) \u2014 ligand-iPTM scores the confidently-placed VHL-warhead half regardless of whether the ternary forms; NOT a valid ternary-selectivity metric on its own."
     },
-    "verdict": "informative",
-    "verdict_basis": "productive-ternary geometry (bridging 3/3 vs 0/3) AND exposed-Lys->VHL reach both cleanly separate the experimentally-degraded NR4A1 from the spared NR4A2/NR4A3, recovering the known NR-V04 selectivity. ligand-iPTM alone does NOT (inverts). => the workflow can rank NR4A-family ternary selectivity when read on productive-geometry, not confidence, metrics.",
+    "verdict": "exploratory-concordance",
+    "verdict_basis": "In ONE retrospective example, a pre-specified contact-based geometric readout (whole-ligand bridging) was CONCORDANT with the known NR-V04 degradation phenotype (NR4A1 bridges 3/3 seeds; NR4A2/NR4A3 0/3) whereas mean ligand-iPTM was NOT (higher for spared NR4A2). This is exploratory concordance for method development \u2014 NOT validation of ternary-selectivity prediction, and NOT evidence that geometry CAUSES the phenotype (no solved cross-paralogue ternary structures exist).",
     "caveats": [
       "retrospective n=1 (single positive control, NR-V04); encouraging but not a robust predictor",
       "NR-V04 selectivity is FOR NR4A1; designing NR4A3 selectivity is a different problem (different paralogue, warhead, interface) \u2014 this makes an NR4A3 program credible, does not transfer directly",
       "Boltz co-fold + --no_kernels; single linker (NR-V04's 4-PEG); no explicit E3-choice/linker-length scan yet; VHL modeled as VBC (VHL+EloB/C), CRL4/E2~Ub not modeled (Lys reach is a proxy)"
-    ]
+    ],
+    "verdict_prior": "informative (WITHDRAWN \u2014 over-stated; see review below)",
+    "lys_to_vhl_caveat": "MISNAMED as 'exposed Lys' \u2014 the analyzer takes every modeled Lys NZ and its min distance to VHL, WITHOUT any solvent-accessibility (SASA) calculation. The per-seed ordering is inconsistent (NR4A2 is closer than NR4A1 in 2/3 paired seeds; the NR4A1<NR4A2<NR4A3 order appears only after averaging highly variable values, NR4A1 5.5 A mean with one seed ~9.7 A). REMOVED from the concordance argument; retained only as a crude ubiquitination-ACCESSIBILITY proxy pending SASA + Cullin-RING/E2~Ub geometry.",
+    "ligand_iptm_conclusion": "Ligand-iPTM did NOT reproduce the known degradation ordering in THIS benchmark and should not be used ALONE to rank paralogue-selective ternaries. (Narrowed from the withdrawn categorical claim 'global confidence scores are not a valid ternary-selectivity metric' \u2014 that generalizes beyond one compound, one E3, three paralogues, three top-ranked predictions. The 'rewards the well-placed VHL half' mechanism is an INTERPRETATION, not established.)",
+    "metric_switch_disclosure": "Productive geometry was a PRE-SPECIFIED EXPLORATORY readout; its elevation to the primary interpretive endpoint occurred AFTER ligand-iPTM failed to recover the phenotype. Transparent exploratory analysis, not a pre-specified primary metric."
+  },
+  "review_required_fixes": {
+    "review": "external methods review, 2026-07-11 \u2014 Return for revision; hold full GPU campaign",
+    "before_any_prospective_ranking": [
+      "moiety-specific occupancy: VH032-substructure in the canonical VHL pocket; celastrol-substructure at the intended NR4A site; detect wrong-end / linker-mediated / nonspecific-surface contacts (current bridge test is whole-ligand min-distance and can pass on wrong-end contacts)",
+      "celastrol electrophile <-> NR4A1 Cys551 distance+orientation as a covalent-geometry proxy (or model covalently)",
+      "linker strain + steric clashes + protein-protein interface contacts",
+      "rename/replace 'exposed Lys': compute solvent-accessible Lys; label as crude ubiquitination-accessibility proxy only",
+      "analyze ALL generated ranks/samples, not model_0 only; >3 seeds; bridge fractions WITH uncertainty; cutoff-sensitivity 4.0/4.5/5.0 A; leave-one-seed-out robustness; avoid 'population'/'cooperativity' language",
+      "verify EXACT NR-V04 chemical graph/stereo/attachment points/linker atom count (independently checked), not a representative reconstruction",
+      "controls: inactive VHL-recruiter (cis/epimer), free celastrol/warhead, and ideally NR-V02/NR-V03 linker variants as a limited linker-sensitivity test"
+    ],
+    "capped_pilot_only_after_fixes": "2-3 chemically diverse candidate linkers x all 3 paralogues, fixed balanced compute, additional seeds, ALL poses, scoring rule + failure criteria FROZEN before opening NR4A3 results. Full-scale ranking only if the corrected NR-V04 benchmark RETAINS separation under moiety-specific geometry, controls, expanded sampling, and cutoff-sensitivity."
   }
 }
