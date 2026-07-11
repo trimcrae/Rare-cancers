@@ -36,6 +36,22 @@ on:
         description: "AWS region — must match where you deployed the stack + got the GPU quota"
         default: "us-east-2"
         required: false
+      ternary_script:
+        description: "science script to run (default nr4a3_ternary.py = CRBN; nrv04_ternary.py = NR-V04/VHL benchmark)"
+        default: ""
+        required: false
+      ternary_extra_args:
+        description: "extra args for the script, e.g. '--pilot' (NR-V04 single-leg-first: control + NR4A1 only)"
+        default: ""
+        required: false
+      seeds:
+        description: "NR-V04 benchmark: comma-sep diffusion seeds = the ternary ensemble per system"
+        default: ""
+        required: false
+      output_prefix:
+        description: "S3 output prefix override (e.g. nrv04-ternary-pilot)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -60,6 +76,10 @@ jobs:
           TERNARY_MODE: ${{ inputs.mode }}
           LIGAND_SDF_KEY: ${{ inputs.ligand_sdf_key }}
           LIGAND_NAME: ${{ inputs.ligand_name }}
+          TERNARY_SCRIPT: ${{ inputs.ternary_script }}
+          TERNARY_EXTRA_ARGS: ${{ inputs.ternary_extra_args }}
+          SEEDS: ${{ inputs.seeds }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first (region is a workflow input). See deploy/aws-sagemaker-setup.md."

@@ -55,6 +55,13 @@ def main():
         binary_smiles = Chem.MolToSmiles(Chem.RemoveHs(mol))
         print(f"[binary] {lig_name} SMILES from {sdf_key}: {binary_smiles}", flush=True)
 
+    # Forward the ternary-script config to the GPU container (SageMaker containers do NOT inherit the
+    # submitter env, so set it explicitly on the processor). Lets entry.py run the NR-V04/VHL benchmark
+    # (TERNARY_SCRIPT=nrv04_ternary.py, TERNARY_EXTRA_ARGS="--pilot", SEEDS, WITH_VBC, NRV04_SMILES).
+    job_env = {k: os.environ[k] for k in
+               ("TERNARY_SCRIPT", "TERNARY_EXTRA_ARGS", "SEEDS", "WITH_VBC", "NRV04_SMILES")
+               if os.environ.get(k)}
+
     proc = FrameworkProcessor(
         estimator_cls=PyTorch,
         framework_version="2.3",
@@ -65,6 +72,7 @@ def main():
         max_runtime_in_seconds=max_runtime,
         base_job_name="nr4a3-ternary",
         sagemaker_session=sess,
+        env=(job_env or None),
     )
     # SageMaker rejects an empty ContainerArguments list (min length 1), so in control mode (no PROTAC)
     # pass a benign --control sentinel rather than [].
@@ -74,6 +82,7 @@ def main():
     else:
         args = ["--protac-smiles", protac] if protac else ["--control"]
         dest_prefix = "nr4a3-ternary"
+    dest_prefix = os.environ.get("OUTPUT_PREFIX", dest_prefix)   # e.g. nrv04-ternary-pilot for the NR-V04 benchmark
     print(f"submitting SageMaker {mode} Boltz job: {instance}, max_runtime={max_runtime}s, "
           f"outputs -> s3://{bucket}/{dest_prefix}", flush=True)
     proc.run(

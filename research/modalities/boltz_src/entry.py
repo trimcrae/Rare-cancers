@@ -46,8 +46,14 @@ def main():
     # targets 1..N (the checkpoint/continuous-upload standing rule). nr4a3_ternary.py honours $OUTPUT_DIR.
     os.makedirs(OUT, exist_ok=True)
     env["OUTPUT_DIR"] = OUT
-    print(f"[sagemaker] running Boltz ternary (protac={'set' if protac else 'control-only'})", flush=True)
-    r = subprocess.run(["python", "nr4a3_ternary.py", "--run"], cwd=work, env=env)
+    # Configurable ternary script + extra args (default = the CRBN nr4a3_ternary.py). Set TERNARY_SCRIPT=
+    # nrv04_ternary.py + TERNARY_EXTRA_ARGS="--pilot" for the retrospective NR-V04/VHL benchmark; those and
+    # SEEDS/WITH_VBC/NRV04_SMILES pass through via the container env (set on the processor by the submitter).
+    script = os.environ.get("TERNARY_SCRIPT", "nr4a3_ternary.py")
+    extra = os.environ.get("TERNARY_EXTRA_ARGS", "").split()
+    print(f"[sagemaker] running Boltz ternary: {script} --run {' '.join(extra)} "
+          f"(protac={'set' if protac else 'control-only'})", flush=True)
+    r = subprocess.run(["python", script, "--run"] + extra, cwd=work, env=env)
 
     # belt-and-braces: also copy any YAML/prep left next to the code (back-compat)
     import glob
