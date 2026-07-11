@@ -64,7 +64,7 @@ def main():
     ap.add_argument("--leg", default="complex")           # complex | solvent
     ap.add_argument("--ligand-name", default="denovo_401")
     ap.add_argument("--window-start", default="0")
-    ap.add_argument("--window-end", default="")           # "" → all N_WINDOWS
+    ap.add_argument("--window-end", default="")           # "" → all windows of the ACTIVE schedule (n_windows(): dense=16)
     ap.add_argument("--n-iter", default="1000")
     ap.add_argument("--steps-per-iter", default="500")
     ap.add_argument("--seed", default="0")                 # replicate: >0 → independent velocities + Langevin noise

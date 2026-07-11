@@ -48,6 +48,15 @@ def lambda_schedule():
     return list(zip(LAMBDA_ELEC, LAMBDA_STERICS))
 
 
+def n_windows():
+    """Number of λ-windows for the ACTIVE schedule — 16 under ABFE_LAMBDA_SCHEDULE=dense, else 12. Use this (NOT
+    the module constant N_WINDOWS, which is frozen at import to the 12-window standard) anywhere the RUN decides
+    how many windows to execute. The 2026-07-11 bug: run_shard defaulted window_end to N_WINDOWS=12 while a dense
+    run evaluated each sample's u at 16 states → dense legs ran only 12 windows with 16-entry u (un-reducible).
+    N_WINDOWS is kept for back-compat as 'the standard count', but the run path must be schedule-aware."""
+    return len(lambda_schedule())
+
+
 def _solve_mbar(u_kn, N_k, tag=""):
     """Construct MBAR robustly. pymbar 4's default self-consistent solver can fail check_w_normalized (weights
     don't sum to 1 → 'column sum ... was 7.9') when adjacent λ-windows overlap poorly — which is what the
@@ -826,10 +835,10 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     `pose_index` picks a starting pose from a multi-pose docked SDF (stronger config independence)."""
     prep = _prepare_or_load_reference(out_dir, leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
                                       padding_nm=padding_nm, restraint_K=restraint_K, pose_index=pose_index)
-    we = window_end if window_end is not None else N_WINDOWS
+    we = window_end if window_end is not None else n_windows()   # SCHEDULE-AWARE (dense=16); NOT frozen N_WINDOWS
     os.makedirs(out_dir, exist_ok=True)
     meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
-            "temperature_K": temperature_K, "n_windows": N_WINDOWS, "seed": seed, "pose_index": prep["pose_index"]}
+            "temperature_K": temperature_K, "n_windows": n_windows(), "seed": seed, "pose_index": prep["pose_index"]}
     if leg == "complex":
         meta["restraint_standard_state_dg"] = prep["restraint_standard_state_dg"]
         meta["boresch"] = prep["boresch"]
@@ -903,7 +912,7 @@ def run_hydration_validation(smiles, name, out_dir, known_dg_hyd=None, tol=1.5,
     FEP; a large miss means a real bug (schedule, soft-core, reduced-potential, MBAR sign)."""
     import tempfile
     sdf = molecule_sdf_from_smiles(smiles, name, os.path.join(tempfile.mkdtemp(), f"{name}.sdf"))
-    run_shard("solvent", sdf, out_dir, window_start=0, window_end=N_WINDOWS, n_iter=n_iter,
+    run_shard("solvent", sdf, out_dir, window_start=0, window_end=n_windows(), n_iter=n_iter,
               steps_per_iter=steps_per_iter, temperature_K=temperature_K, platform_name=platform_name,
               pose_name=name, padding_nm=padding_nm)
     dg_dec, se = reduce_leg(out_dir, temperature_K=temperature_K)
@@ -1068,8 +1077,8 @@ def _cli():
               f"(complex {out['complex_dg']:.2f}±{out['complex_se']:.2f}, "
               f"solvent {out['solvent_dg']:.2f}±{out['solvent_se']:.2f}, SSC {out['restraint_standard_state_dg']:.2f})")
         return
-    print(f"[abfe] modern independent-window ABFE — {N_WINDOWS} windows/leg. "
-          f"Modes: --smoke | --run-shard | --reduce.")
+    print(f"[abfe] modern independent-window ABFE — {n_windows()} windows/leg "
+          f"(schedule={os.environ.get('ABFE_LAMBDA_SCHEDULE', 'standard')}). Modes: --smoke | --run-shard | --reduce.")
 
 
 if __name__ == "__main__":

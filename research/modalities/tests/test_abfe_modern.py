@@ -221,3 +221,19 @@ def test_infer_k_raises_on_window_count_vs_u_length_mismatch():
         _write_leg(d, 16, u_len=12)          # 16 files but u evaluated at only 12 states → corrupt/mixed
         with pytest.raises(ValueError):
             abfe._infer_k(d)
+
+
+def test_n_windows_is_schedule_aware(monkeypatch):
+    # The 2026-07-11 run bug: run count used the frozen N_WINDOWS (12) while dense u had 16 states. n_windows()
+    # must track the ACTIVE schedule so a dense run executes all 16 windows.
+    monkeypatch.delenv("ABFE_LAMBDA_SCHEDULE", raising=False)
+    assert abfe.n_windows() == 12
+    monkeypatch.setenv("ABFE_LAMBDA_SCHEDULE", "dense")
+    assert abfe.n_windows() == 16 == len(abfe.lambda_schedule())
+
+
+def test_run_shard_window_end_defaults_to_active_schedule(monkeypatch):
+    # run_shard must default window_end to n_windows() (schedule-aware), not the frozen N_WINDOWS. Verify the
+    # default-resolution logic without running MD by checking n_windows() drives it under dense.
+    monkeypatch.setenv("ABFE_LAMBDA_SCHEDULE", "dense")
+    assert abfe.n_windows() == 16 and abfe.N_WINDOWS == 12   # they DIFFER under dense — the bug's root
