@@ -27,7 +27,21 @@ anything. Last updated 2026-06-26.
 - **`ensemble_robust_score` S_ext extension (redesign Phase-5 engineering) — DONE.** Added the counterexample
   (C) + liability (L) + sign-reversal terms as a SEPARATE `S_ext` (energetic `S` unchanged); 29 tests pass.
 
-**★ NEXT (ready-to-run, authorized <$10): the Gate-2 published-chemistry docking benchmark (Phase 5 / §11).**
+**★ Gate-2 published-chemistry docking benchmark (Phase 5 / §11) — DONE 2026-07-11.** Result: the pocket model
+**accommodates** every published NR4A active (docking ΔG −5..−9) but **does NOT discriminate paralogues**
+(only THPN's NR4A1 preference reproduced; rest within docking noise; celastrol NR4A3-selective = reactive
+artifact). Multi-snapshot MM-GBSA does NOT rescue it — it FALSE-labels the neutral NR4A1 ligands THPN/TMPA as
+NR4A3-selective, and the charged 4-aminoquinolines show protonation-fragile electrostatic artifacts.
+**Combined: neither cheap tier reproduces known NR4A paralogue preferences → external negative control on the
+in-silico selectivity stack; selectivity must come from FEP w/ resolved microstates + ensemble controls, or be
+hedged.** Full tables: `published-warhead-registry.md` (Gate-2 sections); folded into paper §2.6 + SI §S10.
+Also fixed the conda/boost smina-vs-rdkit infra bug across all 9 docking entry scripts (was broken repo-wide).
+The frozen conformer panel (`nr4a3-conformer-panel.json`) + `panel_select` resolver are built; the ensemble
+panel-DOCKING run is DEPRIORITIZED (Gate-2 shows docking can't discriminate → 401's ensemble docking score
+would be inconclusive; the ensemble test is only informative at the MM-GBSA/FEP tier). *Original spec retained
+below for reference:*
+
+**Gate-2 benchmark spec (as-built).**
 Dock the registry's verified panel into the state-matched opened NR4A3/NR4A1/NR4A2 pockets and test whether the
 model **reproduces known paralogue preferences** (the chemical-model-credibility gate). **CRITICAL — feed
 VERIFIED SMILES, not names:** the ChEMBL name resolver `nr4a3_dock.py` uses returns the WRONG structure for
