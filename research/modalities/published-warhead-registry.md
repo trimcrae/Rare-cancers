@@ -41,9 +41,9 @@ CACTUS** — and cross-checks them by **InChIKey connectivity skeleton** (the fi
 | **unresolved** | no resolver returned a structure — recorded honestly with `smiles: null`, **never invented** |
 
 An optional **`expected_mw` disambiguator** prefers a resolver group whose molecular weight matches the
-compound's known mass, which rejects a name that resolved to a derivative/salt of the wrong mass. Two
-data-quality issues the cross-check caught on the first build are documented below — this is the verification
-layer doing its job, not a curation of convenience.
+compound's known mass, which rejects a name that resolved to a derivative/salt of the wrong mass. The four
+data-quality issues the cross-check caught are documented below — this is the verification layer doing its
+job, not a curation of convenience.
 
 ## Evidence classes
 
@@ -134,4 +134,25 @@ git fetch origin modalities-cache
 git show origin/modalities-cache:research/modalities/published-warhead-registry.json | jq '.summary'
 ```
 
-<!-- CENSUS TABLE (resolved-structure summary) is appended from the runner build below. -->
+### Resolved-structure census (from the runner build, v1.0.0)
+
+| compound | role | evidence class | conf | MW | InChIKey (skeleton) |
+|----------|------|----------------|------|----|--------------------|
+| Zaienne 2022 NOR-1 fragment->inver | warhead_source | functional_plus_fragment | unresolved | — | — |
+| Cytosporone B (Csn-B) | pan_nr4a_direct_binder | direct_binding_structural_and_nmr | medium | 322.4 | UVVWQQKSNZLUQA |
+| THPN (1-(3,4,5-trihydroxyphenyl)no | nr4a1_direct_binder | direct_binding_structural | high | 266.3 | NVFRHTFJDGAFQS |
+| TMPA (ethyl 2-[2,3,4-trimethoxy-6- | nr4a1_functional_modulator | functional_modulator | high | 380.5 | WCYMJQXRLIDSAQ |
+| C-DIM8 / DIM-C-pPhOH (1,1-bis(3'-i | nr4a1_functional_modulator | functional_modulator | medium | 246.3 | VFTRKSBEFQDZKX |
+| Amodiaquine | nr4a2_direct_binder | direct_binding_nmr | high | 355.9 | OVCDSSHSILBFBN |
+| Chloroquine | nr4a2_direct_binder | direct_binding_nmr | high | 319.9 | WHTVZRBIWZFKQO |
+| 5,6-Dihydroxyindole (DHI) | nr4a2_covalent_binder | covalent_crystal | high | 149.1 | SGNZYJXNUURYCH |
+| Prostaglandin A1 (PGA1) | nr4a2_covalent_binder | covalent_crystal | high | 336.5 | BGKHCLZFGPIKKU |
+| C-DIM12 / DIM-C-pPhtBu | nr4a2_functional_modulator | functional_nonbinder | medium | 246.3 | VFTRKSBEFQDZKX |
+| Celastrol | nrv04_warhead | reactive_covalent_functional | high | 450.6 | KQJSQWZMSAGSHN |
+| VH032 (VHL ligand) | e3_ligand_vhl | e3_ligand | medium | 472.6 | GFVIEZBZIUKYOG |
+| NR-V04 (celastrol-VHL NR4A1 PROTAC | reference_degrader | reference_degrader | unresolved | — | — |
+| Lenalidomide (CRBN ligand) | e3_ligand_crbn | e3_ligand | high | 259.3 | GOTYRUGSSMKFNF |
+
+_Confidence: high = ≥2 resolvers agree on the InChIKey skeleton; medium = 1 resolver or a flagged
+disagreement; unresolved = no resolver (recorded null, never invented). NR-V04 + the Zaienne series
+are honestly unresolved. C-DIM8/C-DIM12 carry structure caveats (name resolution conflates them)._

@@ -1,0 +1,1035 @@
+{
+  "_schema": "published_warhead_registry",
+  "version": "1.0.0",
+  "purpose": "Versioned catalog of the PUBLISHED, experimentally anchored NR4A chemistry the NR4A3-degrader program benchmarks against (brief Phase 1 / Workstream B, deliverables 30-33). Structures resolved + cross-checked from ChEMBL/PubChem/CACTUS; evidence class + source per compound; unresolved (paywalled/novel) matter recorded honestly.",
+  "resolvers": [
+    "ChEMBL",
+    "PubChem PUG-REST",
+    "NCI CACTUS"
+  ],
+  "structure_confidence_rule": "high = >=2 resolvers agree on InChIKey skeleton; medium = 1 resolver, or multiple that disagree; unresolved = none resolved",
+  "evidence_classes": [
+    "covalent_crystal",
+    "direct_binding_nmr",
+    "direct_binding_structural",
+    "direct_binding_structural_and_nmr",
+    "e3_ligand",
+    "functional_modulator",
+    "functional_nonbinder",
+    "functional_plus_fragment",
+    "reactive_covalent_functional",
+    "reference_degrader"
+  ],
+  "summary": {
+    "n_compounds": 14,
+    "by_structure_confidence": {
+      "unresolved": 2,
+      "medium": 4,
+      "high": 8
+    },
+    "by_evidence_class": {
+      "functional_plus_fragment": 1,
+      "direct_binding_structural_and_nmr": 1,
+      "direct_binding_structural": 1,
+      "functional_modulator": 2,
+      "direct_binding_nmr": 2,
+      "covalent_crystal": 2,
+      "functional_nonbinder": 1,
+      "reactive_covalent_functional": 1,
+      "e3_ligand": 2,
+      "reference_degrader": 1
+    }
+  },
+  "compounds": [
+    {
+      "id": "zaienne_nor1_series",
+      "display_name": "Zaienne 2022 NOR-1 fragment->inverse-agonist series",
+      "role": "warhead_source",
+      "targets": [
+        "NR4A3"
+      ],
+      "evidence_class": "functional_plus_fragment",
+      "evidence_notes": "Drug-fragment library screened for NOR-1/NR4A3 modulation (Gal4-NR4A3 hybrid reporter). Hit rate <1%; THREE ligand chemotypes recovered, ONE rapidly elaborated to a low-micromolar INVERSE NOR-1 agonist that shifted a NOR-1-regulated gene in cells. Direct-engagement of the modeled cryptic orthosteric pocket is NOT established by the reporter/cellular data (brief 3.2).",
+      "assay": "Gal4-NR4A3 hybrid cell reporter; cellular target-gene modulation",
+      "potency": "low micromolar (elaborated inverse agonist)",
+      "selectivity_notes": "NR4A1/NR4A2 counter-screen per the paper; verify from SI when OA text lands",
+      "source": {
+        "authors": "Zaienne D, Arifi S, Marschner JA, Heering J, et al.",
+        "title": "Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists",
+        "journal": "ChemMedChem 17(16):e202200259 (2022)",
+        "pmid": "35704774",
+        "pmc": "PMC9542104",
+        "doi": "10.1002/cmdc.202200259"
+      },
+      "structure_status": "series_placeholder",
+      "note": "Series-level record. Individual member structures are behind the ChemMedChem paywall; the OA full text (fetch-literature -> literature-cache) is needed to transcribe the elaborated compound's structure + assay values. Recorded as unresolved rather than invented.",
+      "structure": {
+        "structure_confidence": "unresolved",
+        "n_resolvers_agreeing": 0,
+        "independent_agreement": false,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": null,
+        "inchikey": null,
+        "per_resolver": []
+      },
+      "cheminformatics": null
+    },
+    {
+      "id": "cytosporone_b",
+      "display_name": "Cytosporone B (Csn-B)",
+      "role": "pan_nr4a_direct_binder",
+      "targets": [
+        "NR4A1",
+        "NR4A2",
+        "NR4A3"
+      ],
+      "evidence_class": "direct_binding_structural_and_nmr",
+      "evidence_notes": "First-described natural Nur77/NR4A1 agonist; binds the Nur77 LBD (Zhan 2008). Independently confirmed to directly bind the Nurr1/NR4A2 LBD by protein-NMR footprinting (Munoz-Tello 2021). Analog cocrystals localize to Nur77 LBD surface pockets; NMR places Csn-B in the Nurr1 orthosteric pocket. A genuine cross-NR4A direct binder -> the key positive-control ligand.",
+      "assay": "Nur77 reporter/agonism (Zhan); Nurr1 LBD protein-NMR (Munoz-Tello)",
+      "potency": "low micromolar",
+      "selectivity_notes": "pan-NR4A binder (Nur77 + Nurr1); NOT a selectivity exemplar",
+      "source": {
+        "pmid_zhan": "18690216",
+        "ref_zhan": "Zhan et al. Nat Chem Biol 2008 (nchembio.106)",
+        "pmid_munoztello": "33289551",
+        "pmc_munoztello": "PMC8006468",
+        "ref_munoztello": "Munoz-Tello et al. J Med Chem 2021"
+      },
+      "structure": {
+        "structure_confidence": "medium",
+        "n_resolvers_agreeing": 1,
+        "independent_agreement": false,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CCCCCCCC(=O)c1c(O)cc(O)cc1CC(=O)OCC",
+        "inchikey": "UVVWQQKSNZLUQA-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL1221517",
+            "query": "cytosporone B",
+            "smiles": "CCCCCCCC(=O)c1c(O)cc(O)cc1CC(=O)OCC",
+            "mw": 322.4,
+            "inchikey": "UVVWQQKSNZLUQA-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 322.4,
+        "cLogP": 3.75,
+        "HBD": 2,
+        "HBA": 5,
+        "TPSA": 83.8,
+        "RotB": 10,
+        "FractionCsp3": 0.56,
+        "aromatic_rings": 1,
+        "QED": 0.389,
+        "SAscore": 2.35,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 1,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 2,
+          "carboxylic_acid": 0,
+          "total": 2
+        }
+      }
+    },
+    {
+      "id": "thpn",
+      "display_name": "THPN (1-(3,4,5-trihydroxyphenyl)nonan-1-one)",
+      "role": "nr4a1_direct_binder",
+      "targets": [
+        "NR4A1"
+      ],
+      "evidence_class": "direct_binding_structural",
+      "evidence_notes": "Nur77 LBD agonist; cocrystal with the Nur77 LBD (PDB 4JGV). Crystallographic direct-binding anchor for NR4A1.",
+      "assay": "Nur77 LBD X-ray cocrystal (4JGV) + functional",
+      "potency": "n/a (structural)",
+      "selectivity_notes": "NR4A1-directed control ligand",
+      "source": {
+        "pdb": "4JGV",
+        "ref": "Zhan et al. (Nur77 LBD-THPN cocrystal)"
+      },
+      "expected_mw": 266.33,
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 4,
+        "independent_agreement": true,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": true,
+        "expected_mw": 266.33,
+        "smiles": "CCCCCCCCC(=O)c1cc(O)c(O)c(O)c1",
+        "inchikey": "NVFRHTFJDGAFQS-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL464853",
+            "query": "1-(3,4,5-trihydroxyphenyl)nonan-1-one",
+            "smiles": "CCCCCCCCC(=O)c1cc(O)c(O)c(O)c1",
+            "mw": 266.34,
+            "inchikey": "NVFRHTFJDGAFQS-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "1-(3,4,5-trihydroxyphenyl)nonan-1-one",
+            "smiles": "CCCCCCCCC(=O)c1cc(O)c(O)c(O)c1",
+            "mw": 266.34,
+            "inchikey": "NVFRHTFJDGAFQS-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3819036",
+            "query": "1-(3,4,5-trihydroxyphenyl)-1-nonanone",
+            "smiles": "O=C(CCCCCCCCc1ccc(O)cc1)c1c(O)cc(O)cc1O",
+            "mw": 358.43,
+            "inchikey": "XNMKFKNNXSUXRV-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL575966",
+            "query": "THPN nuclear receptor",
+            "smiles": "Cc1onc(-c2ccccc2Cl)c1C(=O)N(C)c1ccc(Cl)cc1",
+            "mw": 361.23,
+            "inchikey": "IGRCWJPBLWGNPX-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 266.3,
+        "cLogP": 3.74,
+        "HBD": 3,
+        "HBA": 4,
+        "TPSA": 77.8,
+        "RotB": 8,
+        "FractionCsp3": 0.53,
+        "aromatic_rings": 1,
+        "QED": 0.38,
+        "SAscore": 2.12,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [
+          "catechol_A(92)"
+        ],
+        "BRENK_alert_count": 2,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 3,
+          "carboxylic_acid": 0,
+          "total": 3
+        }
+      }
+    },
+    {
+      "id": "tmpa",
+      "display_name": "TMPA (ethyl 2-[2,3,4-trimethoxy-6-(1-octanoyl)phenyl]acetate)",
+      "role": "nr4a1_functional_modulator",
+      "targets": [
+        "NR4A1"
+      ],
+      "evidence_class": "functional_modulator",
+      "evidence_notes": "Binds Nur77 to modulate the Nur77-LKB1 axis (Zhan 2012). NOT a Nurr1 LBD binder in the Munoz-Tello NMR assessment -> a NR4A1-leaning functional control.",
+      "assay": "Nur77 functional (LKB1 cytoplasmic axis)",
+      "potency": "sub-micromolar (functional)",
+      "selectivity_notes": "does NOT bind Nurr1 LBD (Munoz-Tello 2021) -> NR4A1 vs NR4A2 discriminator control",
+      "source": {
+        "pmid_munoztello": "33289551",
+        "ref": "Zhan et al. Nat Chem Biol 2012; Munoz-Tello 2021 (non-binder)"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 3,
+        "independent_agreement": true,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CCCCCCCC(=O)c1cc(OC)c(OC)c(OC)c1CC(=O)OCC",
+        "inchikey": "WCYMJQXRLIDSAQ-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL5083439",
+            "query": "TMPA",
+            "smiles": "CCCCCCCC(=O)c1cc(OC)c(OC)c(OC)c1CC(=O)OCC",
+            "mw": 380.48,
+            "inchikey": "WCYMJQXRLIDSAQ-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "TMPA",
+            "smiles": "CO[P](=O)(OC)OC",
+            "mw": 140.07,
+            "inchikey": "WVLBCYQITXONBZ-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "ethyl 2-[2,3,4-trimethoxy-6-octanoylphenyl]acetate",
+            "smiles": "CCCCCCCC(=O)c1cc(OC)c(OC)c(OC)c1CC(=O)OCC",
+            "mw": 380.48,
+            "inchikey": "WCYMJQXRLIDSAQ-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 380.5,
+        "cLogP": 4.36,
+        "HBD": 0,
+        "HBA": 6,
+        "TPSA": 71.1,
+        "RotB": 13,
+        "FractionCsp3": 0.62,
+        "aromatic_rings": 1,
+        "QED": 0.288,
+        "SAscore": 2.31,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": false,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 1,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 0
+        }
+      }
+    },
+    {
+      "id": "cdim8_dimcpphoh",
+      "display_name": "C-DIM8 / DIM-C-pPhOH (1,1-bis(3'-indolyl)-1-(p-hydroxyphenyl)methane)",
+      "role": "nr4a1_functional_modulator",
+      "targets": [
+        "NR4A1"
+      ],
+      "evidence_class": "functional_modulator",
+      "evidence_notes": "para-hydroxyphenyl C-substituted DIM; Nur77/NR4A1 functional modulator (Safe lab). Cellular NR4A1-dependent activity; direct-LBD-binding not cleanly established.",
+      "assay": "NR4A1-dependent cellular assays",
+      "potency": "micromolar",
+      "selectivity_notes": "NR4A1-oriented functional control",
+      "source": {
+        "ref": "Safe et al. (C-DIM/NR4A1 series)"
+      },
+      "structure_caveat": "Name resolution is UNRELIABLE for this compound: 'DIM-C-pPhOH' resolves to CHEMBL6196044 (MW ~255), inconsistent with a bis-indolyl (4-hydroxyphenyl)methane (~338 Da) and CONFLATED with the C-DIM12 name. Do NOT feed the name-resolved structure to a docking benchmark; source its SMILES from the Safe-lab paper.",
+      "structure": {
+        "structure_confidence": "medium",
+        "n_resolvers_agreeing": 4,
+        "independent_agreement": false,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "c1ccc2c(Cc3c[nH]c4ccccc34)c[nH]c2c1",
+        "inchikey": "VFTRKSBEFQDZKX-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL446452",
+            "query": "1,1-bis(3-indolyl)-1-(4-hydroxyphenyl)methane",
+            "smiles": "c1ccc2c(Cc3c[nH]c4ccccc34)c[nH]c2c1",
+            "mw": 246.31,
+            "inchikey": "VFTRKSBEFQDZKX-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "1,1-bis(3-indolyl)-1-(4-hydroxyphenyl)methane",
+            "smiles": "Oc1ccc(cc1)C(c2c[nH]c3ccccc23)c4c[nH]c5ccccc45",
+            "mw": 338.41,
+            "inchikey": "QCPDFNWJBQMXLI-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL6196044",
+            "query": "DIM-C-pPhOH",
+            "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
+            "mw": 255.4,
+            "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3350556",
+            "query": "C-DIM8",
+            "smiles": "CO[C@H]1[C@H](O)[C@@H](O)[C@H](n2c3c(Cl)cccc3c3c4c(c5c6cccc(Cl)c6[nH]c5c32)C(=O)NC4)O[C@@H]1CO.CO[C@H]1[C@H](O)[C@@H](O)[C@H](n2c3c(Cl)cccc3c3c4c(c5c6cccc(Cl)c6[nH]c5c32)CNC4=O)O[C@@H]1CO",
+            "mw": 1112.8,
+            "inchikey": "PTBOLXNOYGZEMA-JTKXNMDASA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 246.3,
+        "cLogP": 4.24,
+        "HBD": 2,
+        "HBA": 0,
+        "TPSA": 31.6,
+        "RotB": 2,
+        "FractionCsp3": 0.06,
+        "aromatic_rings": 4,
+        "QED": 0.53,
+        "SAscore": 1.9,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 0,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 0
+        }
+      }
+    },
+    {
+      "id": "amodiaquine",
+      "display_name": "Amodiaquine",
+      "role": "nr4a2_direct_binder",
+      "targets": [
+        "NR4A2",
+        "NR4A1",
+        "NR4A3"
+      ],
+      "evidence_class": "direct_binding_nmr",
+      "evidence_notes": "4-aminoquinoline antimalarial; directly binds the Nurr1/NR4A2 LBD by protein-NMR footprinting (Munoz-Tello 2021) and modulates Nurr1 activity. A cross-NR4A binder -> a strong ANTI-TARGET control (an NR4A3-selective molecule must NOT resemble it).",
+      "assay": "Nurr1 LBD protein-NMR; Nurr1 reporter",
+      "potency": "micromolar",
+      "selectivity_notes": "binds Nurr1 (and the NR4A family) -> anti-target promiscuity control",
+      "source": {
+        "pmid": "33289551",
+        "pmc": "PMC8006468",
+        "ref": "Munoz-Tello et al. J Med Chem 2021"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 2,
+        "independent_agreement": true,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CCN(CC)Cc1cc(Nc2ccnc3cc(Cl)ccc23)ccc1O",
+        "inchikey": "OVCDSSHSILBFBN-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL682",
+            "query": "amodiaquine",
+            "smiles": "CCN(CC)Cc1cc(Nc2ccnc3cc(Cl)ccc23)ccc1O",
+            "mw": 355.87,
+            "inchikey": "OVCDSSHSILBFBN-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "amodiaquine",
+            "smiles": "CCN(CC)Cc1cc(Nc2ccnc3cc(Cl)ccc23)ccc1O",
+            "mw": 355.87,
+            "inchikey": "OVCDSSHSILBFBN-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 355.9,
+        "cLogP": 5.18,
+        "HBD": 2,
+        "HBA": 4,
+        "TPSA": 48.4,
+        "RotB": 6,
+        "FractionCsp3": 0.25,
+        "aromatic_rings": 3,
+        "QED": 0.598,
+        "SAscore": 2.25,
+        "Ro5_violations": 1,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [
+          "mannich_A(296)"
+        ],
+        "BRENK_alert_count": 1,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 1,
+          "phenol": 1,
+          "carboxylic_acid": 0,
+          "total": 2
+        }
+      }
+    },
+    {
+      "id": "chloroquine",
+      "display_name": "Chloroquine",
+      "role": "nr4a2_direct_binder",
+      "targets": [
+        "NR4A2"
+      ],
+      "evidence_class": "direct_binding_nmr",
+      "evidence_notes": "4-aminoquinoline; directly binds the Nurr1/NR4A2 LBD by protein-NMR (Munoz-Tello 2021). Chloroquinoline-amine Nurr1-activator chemotype (also de Vera 2021).",
+      "assay": "Nurr1 LBD protein-NMR; Nurr1 reporter",
+      "potency": "micromolar",
+      "selectivity_notes": "Nurr1-directed anti-target control",
+      "source": {
+        "pmid": "33289551",
+        "ref": "Munoz-Tello 2021; de Vera et al. 2021 (chloroquinoline-amines)"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 2,
+        "independent_agreement": true,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CCN(CC)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+        "inchikey": "WHTVZRBIWZFKQO-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL76",
+            "query": "chloroquine",
+            "smiles": "CCN(CC)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+            "mw": 319.88,
+            "inchikey": "WHTVZRBIWZFKQO-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "chloroquine",
+            "smiles": "CCN(CC)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+            "mw": 319.88,
+            "inchikey": "WHTVZRBIWZFKQO-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 319.9,
+        "cLogP": 4.81,
+        "HBD": 1,
+        "HBA": 3,
+        "TPSA": 28.2,
+        "RotB": 8,
+        "FractionCsp3": 0.5,
+        "aromatic_rings": 2,
+        "QED": 0.756,
+        "SAscore": 2.67,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 0,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 1,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 1
+        }
+      }
+    },
+    {
+      "id": "dhi",
+      "display_name": "5,6-Dihydroxyindole (DHI)",
+      "role": "nr4a2_covalent_binder",
+      "targets": [
+        "NR4A2"
+      ],
+      "evidence_class": "covalent_crystal",
+      "evidence_notes": "Endogenous-melanin-pathway indole; NR4A2/Nurr1 LBD cocrystal, COVALENTLY bound to Cys566 behind helix 12 (a non-orthosteric, covalent mode). Treat as covalent (not a clean reversible orthosteric control).",
+      "assay": "Nurr1 LBD X-ray cocrystal (covalent Cys566)",
+      "potency": "n/a (covalent)",
+      "selectivity_notes": "covalent NR4A2 mode; special-handling like the celastrol/NR-V04 warhead",
+      "source": {
+        "ref": "Nurr1 LBD-DHI / -PGA1 covalent cocrystals (Cys566)"
+      },
+      "expected_mw": 149.15,
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 3,
+        "independent_agreement": true,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": true,
+        "expected_mw": 149.15,
+        "smiles": "Oc1cc2[nH]ccc2cc1O",
+        "inchikey": "SGNZYJXNUURYCH-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL2089193",
+            "query": "5,6-dihydroxyindole",
+            "smiles": "CCn1c(C(=O)O)cc2cc(O)c(O)cc21",
+            "mw": 221.21,
+            "inchikey": "UEDKWJDOUGYJQX-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "5,6-dihydroxyindole",
+            "smiles": "Oc1cc2[nH]ccc2cc1O",
+            "mw": 149.15,
+            "inchikey": "SGNZYJXNUURYCH-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL92636",
+            "query": "5,6-dihydroxy-1H-indole",
+            "smiles": "Oc1cc2cc[nH]c2cc1O",
+            "mw": 149.15,
+            "inchikey": "SGNZYJXNUURYCH-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 149.1,
+        "cLogP": 1.58,
+        "HBD": 3,
+        "HBA": 2,
+        "TPSA": 56.2,
+        "RotB": 0,
+        "FractionCsp3": 0.0,
+        "aromatic_rings": 2,
+        "QED": 0.498,
+        "SAscore": 2.35,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [
+          "catechol_A(92)"
+        ],
+        "BRENK_alert_count": 1,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 2,
+          "carboxylic_acid": 0,
+          "total": 2
+        }
+      }
+    },
+    {
+      "id": "pga1",
+      "display_name": "Prostaglandin A1 (PGA1)",
+      "role": "nr4a2_covalent_binder",
+      "targets": [
+        "NR4A2"
+      ],
+      "evidence_class": "covalent_crystal",
+      "evidence_notes": "Cyclopentenone prostaglandin; NR4A2/Nurr1 LBD cocrystal, covalently bound to Cys566 behind H12 (Michael acceptor). Covalent NR4A2 control.",
+      "assay": "Nurr1 LBD X-ray cocrystal (covalent Cys566)",
+      "potency": "n/a (covalent)",
+      "selectivity_notes": "covalent NR4A2 mode",
+      "source": {
+        "ref": "Nurr1 LBD-PGA1 covalent cocrystal (Cys566)"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 3,
+        "independent_agreement": true,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CCCCC[C@H](O)/C=C/[C@H]1C=CC(=O)[C@@H]1CCCCCCC(=O)O",
+        "inchikey": "BGKHCLZFGPIKKU-LDDQNKHRSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL1084644",
+            "query": "prostaglandin A1",
+            "smiles": "CCCCC[C@H](O)/C=C/[C@H]1C=CC(=O)[C@@H]1CCCCCCC(=O)O",
+            "mw": 336.47,
+            "inchikey": "BGKHCLZFGPIKKU-LDDQNKHRSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "prostaglandin A1",
+            "smiles": "CCCCC[C@H](O)/C=C/[C@H]1C=CC(=O)C1CCCCCCC(O)=O",
+            "mw": 336.47,
+            "inchikey": "BGKHCLZFGPIKKU-BGEXMHJYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL1794959",
+            "query": "PGA1",
+            "smiles": "CC(=O)O.CC(OC(=O)c1ccc(NC(=N)N)cc1)C(=O)NC(Cc1ccccc1)C(N)=O",
+            "mw": 457.49,
+            "inchikey": "OGQUROAZYNQOKN-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 336.5,
+        "cLogP": 4.28,
+        "HBD": 2,
+        "HBA": 3,
+        "TPSA": 74.6,
+        "RotB": 13,
+        "FractionCsp3": 0.7,
+        "aromatic_rings": 0,
+        "QED": 0.389,
+        "SAscore": 3.67,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": false,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 2,
+        "structural_liabilities": [
+          "michael_acceptor"
+        ],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "id": "c_dim12",
+      "display_name": "C-DIM12 / DIM-C-pPhtBu",
+      "role": "nr4a2_functional_modulator",
+      "targets": [
+        "NR4A2"
+      ],
+      "evidence_class": "functional_nonbinder",
+      "evidence_notes": "para-t-butyl C-substituted DIM; widely used as a Nurr1 'activator' in cells but does NOT bind the Nurr1 LBD in the Munoz-Tello 2021 NMR assessment -> a functional-modulator-but-non-LBD-binder control (important negative for the docking benchmark).",
+      "assay": "cellular Nurr1-dependent readouts (NMR: non-binder)",
+      "potency": "micromolar (functional)",
+      "selectivity_notes": "non-LBD-binder control -> the model should NOT dock it as a strong LBD binder",
+      "source": {
+        "pmid": "33289551",
+        "ref": "Munoz-Tello 2021 (non-binder); Safe/De Miranda C-DIM12"
+      },
+      "structure_caveat": "Name resolution is UNRELIABLE: 'DIM-C-pPhtBu' resolves to the SAME record as C-DIM8 (CHEMBL6196044, MW ~255), inconsistent with a bis-indolyl (4-tert-butylphenyl)methane (~378 Da). Do NOT trust the name-resolved structure; source SMILES from the primary paper before any docking use.",
+      "structure": {
+        "structure_confidence": "medium",
+        "n_resolvers_agreeing": 4,
+        "independent_agreement": false,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "c1ccc2c(Cc3c[nH]c4ccccc34)c[nH]c2c1",
+        "inchikey": "VFTRKSBEFQDZKX-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL446452",
+            "query": "1,1-bis(3-indolyl)-1-(4-tert-butylphenyl)methane",
+            "smiles": "c1ccc2c(Cc3c[nH]c4ccccc34)c[nH]c2c1",
+            "mw": 246.31,
+            "inchikey": "VFTRKSBEFQDZKX-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "1,1-bis(3-indolyl)-1-(4-tert-butylphenyl)methane",
+            "smiles": "CC(C)(C)c1ccc(cc1)C(c2c[nH]c3ccccc23)c4c[nH]c5ccccc45",
+            "mw": 378.52,
+            "inchikey": "NCPVEZRBHNDCIV-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL6196044",
+            "query": "DIM-C-pPhtBu",
+            "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
+            "mw": 255.4,
+            "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL2376559",
+            "query": "C-DIM12",
+            "smiles": "Clc1ccc(C(c2c[nH]c3ccccc23)c2c[nH]c3ccccc23)cc1",
+            "mw": 356.86,
+            "inchikey": "LTLRXTDMXOFBDW-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 246.3,
+        "cLogP": 4.24,
+        "HBD": 2,
+        "HBA": 0,
+        "TPSA": 31.6,
+        "RotB": 2,
+        "FractionCsp3": 0.06,
+        "aromatic_rings": 4,
+        "QED": 0.53,
+        "SAscore": 1.9,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 0,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 0
+        }
+      }
+    },
+    {
+      "id": "celastrol",
+      "display_name": "Celastrol",
+      "role": "nrv04_warhead",
+      "targets": [
+        "NR4A1"
+      ],
+      "evidence_class": "reactive_covalent_functional",
+      "evidence_notes": "Pentacyclic triterpenoid quinone-methide; the NR-V04 warhead. Its C-28 CARBOXYLIC ACID is the PROTAC tethering vector (Wang 2024 docking). Reactive/reversible-covalent (Michael-acceptor quinone methide) -> must NOT be pushed through an ordinary noncovalent workflow (brief 21.1). Notably NOT a clean Nurr1 LBD binder in the Munoz-Tello NMR panel -> its NR4A engagement is not simple orthosteric binding.",
+      "assay": "NR4A1 functional; NR-V04 tethering-vector docking (Wang 2024)",
+      "potency": "n/a (reactive)",
+      "selectivity_notes": "reactive electrophile; anti-target/liability flags expected (PAINS/BRENK)",
+      "source": {
+        "pmid_wang": "38334978",
+        "ref_wang": "Wang et al. J Exp Med 2024;221(3):e20231519 (NR-V04)",
+        "pmc_wang": "PMC10857906",
+        "doi_wang": "10.1084/jem.20231519",
+        "pmid_munoztello": "33289551"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 3,
+        "independent_agreement": true,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)O)CC[C@]3(C)CC[C@]12C",
+        "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL301982",
+            "query": "celastrol",
+            "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)O)CC[C@]3(C)CC[C@]12C",
+            "mw": 450.62,
+            "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "celastrol",
+            "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C3[C@@]2(C)CC[C@@]4(C)[C@@H]5C[C@@](C)(CC[C@]5(C)CC[C@]34C)C(O)=O",
+            "mw": 450.62,
+            "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL189512",
+            "query": "chembl:CHEMBL189512",
+            "smiles": "Nc1nc2ccc(C(=O)c3ccccc3OC(F)(F)F)cn2c1C(=O)c1c(F)cccc1F",
+            "mw": 461.35,
+            "inchikey": "QKSPSTLAHSVWOT-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 450.6,
+        "cLogP": 6.7,
+        "HBD": 2,
+        "HBA": 3,
+        "TPSA": 74.6,
+        "RotB": 1,
+        "FractionCsp3": 0.66,
+        "aromatic_rings": 0,
+        "QED": 0.466,
+        "SAscore": 4.89,
+        "Ro5_violations": 1,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 0,
+        "structural_liabilities": [
+          "aliphatic_enol",
+          "michael_acceptor"
+        ],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "id": "vh032_vhl_ligand",
+      "display_name": "VH032 (VHL ligand)",
+      "role": "e3_ligand_vhl",
+      "targets": [
+        "VHL"
+      ],
+      "evidence_class": "e3_ligand",
+      "evidence_notes": "Hydroxyproline-based VHL recruiter (the VHL-ligand class NR-V04 uses). The trans-hydroxyproline stereochemistry is REQUIRED; the epimer is the standard inactive-recruiter control (brief 25.2 / 21). Reference E3 handle for the VHL degrader arm.",
+      "assay": "VHL binding (reference E3 ligand)",
+      "potency": "sub-micromolar (VHL)",
+      "selectivity_notes": "E3 handle; epimer = inactive-recruiter control",
+      "source": {
+        "ref": "VH032 / VHL-ligand class (Crews/Ciulli); NR-V04 VHL arm (Wang 2024)"
+      },
+      "structure": {
+        "structure_confidence": "medium",
+        "n_resolvers_agreeing": 2,
+        "independent_agreement": false,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CC(=O)N[C@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(-c2scnc2C)cc1)C(C)(C)C",
+        "inchikey": "GFVIEZBZIUKYOG-SVFBPWRDSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3344081",
+            "query": "VH032",
+            "smiles": "CC(=O)N[C@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(-c2scnc2C)cc1)C(C)(C)C",
+            "mw": 472.61,
+            "inchikey": "GFVIEZBZIUKYOG-SVFBPWRDSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL4297392",
+            "query": "VH-032",
+            "smiles": "O=C(NCc1ccc(Oc2ccccc2)cc1)c1nc(-c2cc(Br)c(O)c(Br)c2)no1",
+            "mw": 545.19,
+            "inchikey": "DSFNLJXHXBIKDS-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 472.6,
+        "cLogP": 2.25,
+        "HBD": 3,
+        "HBA": 6,
+        "TPSA": 111.6,
+        "RotB": 6,
+        "FractionCsp3": 0.5,
+        "aromatic_rings": 2,
+        "QED": 0.597,
+        "SAscore": 3.59,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 0,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 0
+        }
+      }
+    },
+    {
+      "id": "nrv04",
+      "display_name": "NR-V04 (celastrol-VHL NR4A1 PROTAC)",
+      "role": "reference_degrader",
+      "targets": [
+        "NR4A1"
+      ],
+      "evidence_class": "reference_degrader",
+      "evidence_notes": "First NR4A1-selective PROTAC: celastrol warhead + linker + VHL recruiter. Degrades NR4A1 while SPARING NR4A2 and NR4A3 in the reported systems; proteasome- and VHL-dependent (Wang 2024). Establishes that PARALOGUE-SELECTIVE NR4A degradation is experimentally real -> the ternary-modeling benchmark (brief Phase 15) and the reason to prioritize VHL alongside CRBN. Sparing mechanism is unresolved.",
+      "assay": "cellular NR4A1 degradation (DC50/Dmax); VHL/proteasome dependence; in-vivo tumor",
+      "potency": "degrades NR4A1 within hours",
+      "selectivity_notes": "NR4A1-selective (spares NR4A2/NR4A3) -> the family-selectivity benchmark",
+      "source": {
+        "pmid": "38334978",
+        "pmc": "PMC10857906",
+        "doi": "10.1084/jem.20231519",
+        "ref": "Wang et al. PROTAC-mediated NR4A1 degradation... J Exp Med 2024;221(3):e20231519",
+        "vendor": "MedChemExpress NR-V04 (structure/formula reference)"
+      },
+      "structure_status": "protac_composite",
+      "note": "Recorded as a composite of celastrol(warhead)+linker+VHL(recruiter). The full assembled PROTAC SMILES is not asserted: name-resolving 'NR-V04' returns a CRBN/glutarimide PROTAC (ChEMBL CHEMBL4779766) that conflicts with the published VHL/celastrol composition, so it is rejected rather than trusted (brief golden rule: verify or leave unresolved). Component structures (celastrol, VH032) ARE resolved in their own rows.",
+      "structure": {
+        "structure_confidence": "unresolved",
+        "n_resolvers_agreeing": 0,
+        "independent_agreement": false,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": null,
+        "inchikey": null,
+        "per_resolver": []
+      },
+      "cheminformatics": null
+    },
+    {
+      "id": "lenalidomide",
+      "display_name": "Lenalidomide (CRBN ligand)",
+      "role": "e3_ligand_crbn",
+      "targets": [
+        "CRBN"
+      ],
+      "evidence_class": "e3_ligand",
+      "evidence_notes": "Glutarimide IMiD; CRBN recruiter used as the in-distribution ternary positive control (seats in the CRBN tri-Trp pocket; reproduced by Boltz-2 in this program's \u00a72.4). The independent (CRBN) degrader architecture vs the VHL arm.",
+      "assay": "CRBN binding (tri-Trp pocket)",
+      "potency": "micromolar (CRBN)",
+      "selectivity_notes": "E3 handle (CRBN arm)",
+      "source": {
+        "ref": "CRBN/IMiD class; this program's ternary control (paper \u00a72.4)"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 2,
+        "independent_agreement": true,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "Nc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O",
+        "inchikey": "GOTYRUGSSMKFNF-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL848",
+            "query": "lenalidomide",
+            "smiles": "Nc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O",
+            "mw": 259.26,
+            "inchikey": "GOTYRUGSSMKFNF-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "lenalidomide",
+            "smiles": "Nc1cccc2C(=O)N(Cc12)C3CCC(=O)NC3=O",
+            "mw": 259.26,
+            "inchikey": "GOTYRUGSSMKFNF-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 259.3,
+        "cLogP": 0.03,
+        "HBD": 2,
+        "HBA": 4,
+        "TPSA": 92.5,
+        "RotB": 1,
+        "FractionCsp3": 0.31,
+        "aromatic_rings": 1,
+        "QED": 0.549,
+        "SAscore": 2.97,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 2,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 1,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 1
+        }
+      }
+    }
+  ]
+}
