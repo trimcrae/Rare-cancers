@@ -40,6 +40,13 @@ research/
     vaccine_construct.py            minimal junction SLP + string-of-beads candidate construct (no network)
     nr4a3-structure-assessment.json structure/druggability result (snapshot; refreshed on modalities-cache branch)
     fusion-neoantigen-predictions.json junction-neoantigen result (snapshot; refreshed on modalities-cache branch)
+  atlas/                            ★ EMC Open Target & Drug Atlas — the integrating, machine-readable evidence system
+    README.md                       what it is + integration map to existing repo assets
+    METHODS.md                      manuscript-quality methods; STATUS.md is the live build log
+    citations.json                  provenance backbone (verified flag + verification_level per source)
+    {samples,claims,drug_screens,evidence_score}.json   sources of truth (EWSR1/TAF15 always distinct)
+    build.mjs                       one-command validate + regenerate dist/*.tsv (no deps)
+    dist/*.tsv                      generated deliverables (sample manifest, claims, screens, compound-exposure, score)
   manuscripts/
     README.md                       index: the ONE active manuscript + role of every other file (read this first)
     emc-treatment-roadmap.md        ★ ACTIVE MANUSCRIPT — the prioritized, falsifiable treatment roadmap (#1 deliverable)

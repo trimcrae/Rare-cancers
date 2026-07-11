@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "note": "Shared citation map for the EMC Open Target & Drug Atlas. Every atlas claim references a key here. 'verified:true' means the PMID/PMCID/DOI/NCT was confirmed to resolve to the stated source. Keys marked verified:false are PENDING verification and MUST NOT be stated as established fact downstream. Verified model/biology/genomics keys are reused from research/hypotheses/candidates.json and research/manuscripts/nr4a3-emc-biology-evidence.md (both already adversarially verified in-repo).",
+  "citations": {
+    "remiszewski2025": {
+      "short": "Remiszewski 2025 (review)",
+      "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+      "authors": "Remiszewski P, et al.",
+      "journal": "J Cancer Res Clin Oncol",
+      "year": 2025,
+      "pmcid": "PMC12504171",
+      "doi": "10.1007/s00432-025-06316-5",
+      "verified": true
+    },
+    "emcModels2023": {
+      "short": "Bangerter 2023 (USZ-EMC models)",
+      "title": "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models",
+      "authors": "Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C",
+      "journal": "Human Cell",
+      "year": 2023,
+      "volume_pages": "36(1):446-455 (online 2022-11-01)",
+      "doi": "10.1007/s13577-022-00818-x",
+      "pmcid": "PMC9813045",
+      "pmid": "36620570",
+      "verified": true,
+      "verification_level": "Model IDs/exon breakpoints VERIFIED (search+PMC). Screen HIT IDENTITIES remain secondary-source: the EuropePMC abstract is GENERIC ('novel anti-cancer drug sensitivities including potential synergistic combinations were identified') and does NOT name carfilzomib/PU-H71/HDM201 — those come from search-snippet reads of the full text/figures (Human Cell is not OA). HDM201 stays UNCORROBORATED; carfilzomib/PU-H71 stay snippet-level pending full text.",
+      "role": "Source of USZ20-EMC1 (EWSR1 ex13::NR4A3 ex2) and USZ22-EMC2 (TAF15 ex6::NR4A3 ex2) sarcosphere models and the drug screen (17 chemo drugs + a targeted medium-throughput panel)."
+    },
+    "emcCellLine2025": {
+      "short": "Iwata 2025 (NCC-EMC1-C1)",
+      "title": "Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid chondrosarcoma",
+      "authors": "Iwata S, et al. (Kondo T group, National Cancer Center, Japan)",
+      "journal": "Human Cell",
+      "year": 2025,
+      "doi": "10.1007/s13577-025-01250-7",
+      "pmid": "40580361",
+      "verified": true,
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): 'High-throughput screening of 221 anticancer drugs using NCC-EMC1-C1 identified three candidates, brigatinib, panobinostat, and romidepsin, that demonstrated low IC50 values'; 'EMC is defined by specific gene fusions involving NR4A3, most frequently EWSR1::NR4A3'.",
+      "role": "Source of NCC-EMC1-C1 model and the 221-compound screen (brigatinib, panobinostat, romidepsin low-IC50 hits — primary-abstract confirmed). Line's specific fusion still not stated per-line in the abstract (background says EMC is most-frequently EWSR1::NR4A3); tagged tentative in samples.json."
+    },
+    "warmke2023": {
+      "short": "Huang 2023 (TAF15::NR4A3 cohort)",
+      "title": "Extraskeletal myxoid chondrosarcoma: clinicopathologic and molecular analysis with fusion-partner correlation",
+      "authors": "Huang SC, et al.",
+      "journal": "Mod Pathol",
+      "year": 2023,
+      "pmid": "36948401",
+      "verified": true,
+      "role": "58-case cohort; 58/58 NR4A3-rearranged (EWSR1 46, TAF15 9, TCF12 2, 1 unpartnered)."
+    },
+    "agaram2014": {
+      "short": "Agaram 2014 (fusion cohort)",
+      "title": "Extraskeletal myxoid chondrosarcoma with non-EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology",
+      "authors": "Agaram NP, et al.",
+      "journal": "Hum Pathol",
+      "year": 2014,
+      "pmcid": "PMC4015728",
+      "verified": true,
+      "role": "26-case cohort (EWSR1 16, TAF15 7, TCF12 1, ...); variant fusions link to rhabdoid/high-grade."
+    },
+    "emcNGS2017": {
+      "short": "Davis 2017 (metastatic NGS)",
+      "title": "Comprehensive molecular characterization of metastatic extraskeletal myxoid chondrosarcoma",
+      "authors": "Davis EJ, et al.",
+      "journal": "Oncotarget / related",
+      "year": 2017,
+      "pmcid": "PMC5400622",
+      "verified": true,
+      "role": "Metastatic EWSR1::NR4A3 NGS; no recurrent secondary driver; RET expression elevated; folate-receptor in a minority."
+    },
+    "matchedTrioWGS": {
+      "short": "Matched-trio WGS (primary+2 mets)",
+      "title": "Whole-genome sequencing of matched primary and metastatic extraskeletal myxoid chondrosarcoma",
+      "authors": "(see PMC record)",
+      "journal": "(see PMC record)",
+      "year": 2024,
+      "pmcid": "PMC11285543",
+      "verified": true,
+      "role": "EWSR1::NR4A3 shared founding lesion across primary + 2 mets; SV burden rises in late met (quiet genome, clonal fusion)."
+    },
+    "filion2009": {
+      "short": "Filion 2009 (PPARG transactivation)",
+      "title": "The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene",
+      "authors": "Filion C, et al.",
+      "journal": "J Pathol",
+      "year": 2009,
+      "pmcid": "PMC4429309",
+      "verified": true,
+      "role": "Fusion binds PPARG promoter response element and transactivates it (gain-of-function)."
+    },
+    "kim2016": {
+      "short": "Kim 2016 (TFG-NR4A3 transcription)",
+      "title": "Transcriptional activation by the NR4A3 fusion oncoprotein",
+      "authors": "Kim S, et al.",
+      "journal": "(see PMID)",
+      "year": 2016,
+      "pmid": "26310886",
+      "verified": true,
+      "role": "Fusion is a transcriptionally active oncoprotein; SGK1 linkage."
+    },
+    "urbini2018": {
+      "short": "Urbini 2018 (KIT)",
+      "title": "Recurrent KIT exon-11 mutation in a subset of EMC",
+      "authors": "Urbini M, et al.",
+      "journal": "(see PMC)",
+      "year": 2018,
+      "pmcid": "PMC6073125",
+      "verified": true,
+      "role": "KIT mutation in a rare (~5%) minority; genomically quiet otherwise."
+    },
+    "nr4aReview2019": {
+      "short": "Herring 2019 (NR4A review)",
+      "title": "NR4A nuclear receptors in health and disease",
+      "authors": "Herring JA, et al.",
+      "journal": "(see PMC)",
+      "year": 2019,
+      "pmcid": "PMC6912296",
+      "verified": true,
+      "role": "NR4A3 is an orphan nuclear receptor; no validated selective ligand; NBRE/NurRE grammar."
+    },
+    "mullican2007": {
+      "short": "Mullican 2007 (Nr4a1/3 AML)",
+      "title": "Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute myeloid leukemia",
+      "authors": "Mullican SE, et al.",
+      "journal": "Nat Med",
+      "year": 2007,
+      "pmid": "17515897",
+      "verified": true,
+      "role": "Combined Nr4a1/Nr4a3 loss -> AML; single nulls do not (myeloid-specific redundancy; basis for NR4A1-sparing)."
+    },
+    "higuchi2023": {
+      "short": "Higuchi 2023 (zaltoprofen/PPARG)",
+      "title": "Zaltoprofen inhibits EMC cell growth by inducing PPARG, p21, p27, p53",
+      "authors": "Higuchi T, et al.",
+      "journal": "Cell Cycle",
+      "year": 2023,
+      "pmid": "36636023",
+      "verified": true,
+      "role": "PPARG-agonist context; PPARG as consequence not validated drug target."
+    },
+    "GSE4303": {
+      "short": "GEO GSE4303 (EMC expression)",
+      "title": "Gene expression profiling of extraskeletal myxoid chondrosarcoma (legacy microarray)",
+      "resourceType": "GEO dataset",
+      "accession": "GSE4303",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE4303",
+      "verified": false,
+      "verification_level": "REPROCESSING ATTEMPTED in CI (2026-07-11): 7 legacy custom two-colour platforms (GPL2937/2938/3254/3288/3289/3290/3335). GPL3290 has 10 EMC vs 6 other, but NONE expose a standard probe->symbol column, so 0 genes could be annotated -> no gene-level signature recoverable without a bespoke clone-ID crosswalk. Honest limitation.",
+      "role": "Public EMC expression (distinctive NMB/PPARG profile per original study). Two-colour log-ratio; not annotatable from standard GPL columns. Superseded for the atlas signature by GSE24369."
+    },
+    "GSE24369": {
+      "short": "GEO GSE24369 (sarcoma incl. EMC)",
+      "title": "Sarcoma expression compendium including EMC comparison tumors",
+      "resourceType": "GEO dataset",
+      "accession": "GSE24369",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369",
+      "verified": true,
+      "verification_level": "REPROCESSED in CI (2026-07-11, atlas-data.yml): GPL6244 (Affymetrix Human Gene 1.0 ST), 42 samples labeled 6 EMC vs 36 other sarcoma, 23,072 genes annotated. QC passed (single-channel).",
+      "role": "Primary EMC-vs-sarcoma expression comparison. Rank-based signature reproduces known EMC biology (NMB, CHRNA6, RET, SOX9, NR4A3, PPARG all EMC-up). See atlasExpressionRepro / claim C018."
+    },
+
+    "pazopanibEMC": {
+      "short": "Stacchiotti 2019 (pazopanib phase 2)",
+      "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial",
+      "authors": "Stacchiotti S, Ferrari S, Redondo A, et al.",
+      "journal": "Lancet Oncol",
+      "year": 2019,
+      "volume_pages": "20(9):1252-1262",
+      "pmid": "31331701",
+      "doi": "10.1016/S1470-2045(19)30319-5",
+      "nct": "NCT02066285",
+      "verified": true,
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): 'four (18% [95% CI 1-36]) had a RECIST objective response'; 22 evaluable.",
+      "role": "N=26 enrolled/22 evaluable; ORR 18% (4 PR/22, 95% CI 1-36); median PFS 19 mo (95% CI 11-27), 12-mo PFS 74%, 24-mo 40%. Responders EWSR1::NR4A3. NOTE: responses CONFINED to EWSR1::NR4A3 — not a formal TAF15-vs-EWSR1 statistical test in this trial (that differential is explicit in the sunitinib paper)."
+    },
+    "sunitinibEMC": {
+      "short": "Stacchiotti 2014 (sunitinib EJC)",
+      "title": "Activity of sunitinib in extraskeletal myxoid chondrosarcoma",
+      "authors": "Stacchiotti S, Pantaleo MA, Astolfi A, et al.",
+      "journal": "Eur J Cancer",
+      "year": 2014,
+      "volume_pages": "50(9):1657-1664",
+      "pmid": "24703573",
+      "verified": true,
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): '6 PR, 2 SD, 2 PD; all responsive cases expressed the typical EWSR1-NR4A3 fusion, while refractory cases carried the alternative TAF15-NR4A3 fusion. Genotype/phenotype analyses support a correlation between response and EWSR1-NR4A3 fusion.'",
+      "role": "N=10 progressive metastatic translocated EMC (sunitinib 37.5 mg/d); 6 PR, 2 SD, 2 PD. KEY: the EWSR1-responsive / TAF15-refractory differential is EXPLICIT here (primary-abstract confirmed) — the load-bearing evidence for the fusion-subtype antiangiogenic biomarker (strategy Rank 3). Precursor N=2: Clin Sarcoma Res 2012;2:22, PMC3534218."
+    },
+    "immunosarc2": {
+      "short": "IMMUNOSARC II EMC cohort (ASCO 2025)",
+      "title": "Phase II of sunitinib plus nivolumab in extraskeletal myxoid chondrosarcoma: results from the GEIS, ISG, and UCL IMMUNOSARC II study",
+      "authors": "GEIS/ISG/UCL (IMMUNOSARC II)",
+      "journal": "J Clin Oncol",
+      "year": 2025,
+      "volume_pages": "43(16_suppl):abstr 11513",
+      "doi": "10.1200/JCO.2025.43.16_suppl.11513",
+      "nct": "NCT03277924",
+      "verified": true,
+      "verification_level": "search-snippet cross-checked; conference abstract (single-arm).",
+      "role": "N=23 evaluable; 6-mo PFS 77% (16/23); median PFS 13.2 mo (95% CI 5.7-20.7); 2 PR (9%), 18 SD (82%), 2 PD (9%); 12-mo OS 90%. Single-arm — SD/PFS can overstate effect in an indolent disease without growth-rate/external control."
+    },
+    "caboIpiNivo": {
+      "short": "Ipi/nivo +/- cabozantinib (NCT05836571)",
+      "title": "Testing Ipilimumab and Nivolumab Combination With or Without Cabozantinib in People >=18 With Advanced Soft Tissue Sarcoma",
+      "authors": "NCI/NCTN (NCI10556)",
+      "journal": "ClinicalTrials.gov",
+      "year": 2023,
+      "nct": "NCT05836571",
+      "verified": true,
+      "verification_level": "ClinicalTrials.gov title/design confirmed via search; recruitment status + EMC-cohort-vs-pooled UNVERIFIED.",
+      "role": "Randomized phase II ipi/nivo +/- cabozantinib. EMC is one of 4 pre-specified eligible histologies (UPS, EMC, liposarcoma, non-uterine LMS) — a named eligible histology, NOT a standalone EMC arm. May help separate immuno from multikinase effects."
+    },
+    "japanRegistry2025": {
+      "short": "Masunaga 2025 (Japanese registry, n=171)",
+      "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma",
+      "authors": "Masunaga T, Tsukamoto S, Nagano A, et al.",
+      "journal": "J Orthop Surg Res",
+      "year": 2025,
+      "volume_pages": "20:805",
+      "doi": "10.1186/s13018-025-06245-6",
+      "verified": true,
+      "pmcid": "PMC12398172",
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): N=171 (2002-2022); 'R1 or R2 surgical margin was a risk factor for unfavorable local recurrence (HR 4.76 [95% CI 1.72-13.15]; p=0.003)'. (PMC OA — full text retrievable for deeper extraction.)",
+      "role": "Japanese National Bone & Soft Tissue Tumor Registry 2002-2022, N=171 (29 met, 142 non-met). R1/R2 margin RF for local recurrence (HR 4.76, 95% CI 1.72-13.15). RT null for LR (HR 0.50 per earlier read). Chemo limited/no survival effect. Limited molecular annotation."
+    },
+    "anthracyclineEMC": {
+      "short": "Stacchiotti 2013 (anthracycline retrospective)",
+      "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study",
+      "authors": "Stacchiotti S, Dagrada GP, Sanfilippo R, et al.",
+      "journal": "Clin Sarcoma Res",
+      "year": 2013,
+      "volume_pages": "3:16",
+      "pmid": "24345066",
+      "pmcid": "PMC3879193",
+      "doi": "10.1186/2045-3329-3-16",
+      "verified": true,
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11, PMC OA): 11 EMC (Italian Rare Cancer Network, NR4A3-confirmed); 'best response by RECIST: PR = 4 (40%), SD = 3, PD = 3'.",
+      "role": "N=11 (10 evaluable), 4 PR (40%), 3 SD, 3 PD; median PFS ~8 mo. Chemosensitivity is non-zero but not a unique EMC vulnerability."
+    },
+
+    "depmap24Q4": {
+      "short": "DepMap 24Q4 (CRISPR + expression)",
+      "resourceType": "database",
+      "url": "https://depmap.org/portal/",
+      "verified": true,
+      "role": "In-repo cached queries (research/modalities/depmap-*.json + depmap-insilico-findings.md). NO EMC line exists in DepMap; sarcoma lines used as surrogate. Surrogate evidence, not EMC data."
+    },
+    "gnomad": {
+      "short": "gnomAD (LoF constraint)",
+      "resourceType": "database",
+      "url": "https://gnomad.broadinstitute.org/",
+      "verified": true,
+      "role": "In-repo query (nr4a_safety_genetics.py): NR4A3 pLI 0.9999 LOEUF 0.37; NR4A2 pLI 1.0; NR4A1 tolerant."
+    },
+    "hpa": {
+      "short": "Human Protein Atlas",
+      "resourceType": "database",
+      "url": "https://www.proteinatlas.org/",
+      "verified": true,
+      "role": "In-repo query: NR4A1/NR4A3 broad co-expression; NR4A2 tissue-enhanced (CNS). Surface-protein reads for surface targets."
+    },
+    "mhcflurry2": {
+      "short": "MHCflurry 2.0",
+      "resourceType": "method",
+      "url": "https://doi.org/10.1016/j.cels.2020.06.010",
+      "verified": true,
+      "role": "MHC-I binding/presentation predictor used for junction-neoantigen scoring (%rank<=0.5 strong, netMHC convention)."
+    },
+    "afnd2020": {
+      "short": "AFND 2020 (HLA allele frequencies)",
+      "title": "Allele frequency net database (AFND) 2020 update",
+      "authors": "Gonzalez-Galarza FF, et al.",
+      "journal": "Nucleic Acids Res",
+      "year": 2020,
+      "volume_pages": "48:D783-D788",
+      "verified": true,
+      "role": "Population HLA allele frequencies (Wilson CIs; class I+II) for coverage estimates. Mirror: github.com/slowkow/allelefrequencies."
+    },
+    "antigenComputationRepo": {
+      "short": "In-repo fusion-junction antigen computation",
+      "resourceType": "repo_analysis",
+      "url": "research/modalities/fusion_neoantigen.py + fusion_breakpoints.py + hla_coverage.py",
+      "verified": true,
+      "role": "Deterministic in-repo computation (strategy Project 4 core): junction-spanning MHC-I prediction, breakpoint-resolved junctions, HLA population coverage. Outputs: fusion-neoantigen-predictions.json, fusion-breakpoint-neoantigens.json, hla-coverage.json."
+    },
+    "atlasExpressionRepro": {
+      "short": "Atlas expression reprocessing (CI)",
+      "resourceType": "repo_analysis",
+      "url": "research/atlas/expression_reprocess.py + _generated/emc-expression-reprocess.json",
+      "verified": true,
+      "role": "Deterministic in-CI reprocessing of GEO series matrices (rank-based EMC-vs-rest AUC, per platform, leave-one-out). Ran on a GitHub Actions runner because the dev sandbox blocks GEO. See METHODS.md."
+    },
+    "dailymed": {
+      "short": "DailyMed (FDA structured product labels)",
+      "resourceType": "database",
+      "url": "https://dailymed.nlm.nih.gov/",
+      "verified": true,
+      "role": "Source of the verbatim clinical-pharmacology (Cmax / protein binding / half-life / AUC) quotes for the panel compounds. NLM public API."
+    },
+    "panelExposureRepo": {
+      "short": "Atlas panel exposure (FDA-label PK, CI)",
+      "resourceType": "repo_analysis",
+      "url": "research/atlas/panel_exposure.py + _generated/panel-exposure.json",
+      "verified": true,
+      "role": "Fetches VERBATIM Cmax/protein-binding/half-life sentences from FDA labels (DailyMed) per panel compound + source setid/URL. No numbers invented; keyword-based extraction (some non-PK sentences captured -- read the quoted PK sections). Investigational compounds (entinostat, navitoclax, PU-H71, onalespib, HDM201) have no FDA label."
+    },
+    "panelDependencyRepo": {
+      "short": "Atlas validation-panel DepMap dependency (CI)",
+      "resourceType": "repo_analysis",
+      "url": "research/atlas/panel_dependency.py + _generated/panel-dependency.json",
+      "verified": true,
+      "role": "DepMap 24Q4 CRISPR dependency of the 12-compound panel's target genes across 91 sarcoma lines (of 1178), classifying pan-essential vs context vs non-essential. Ran in CI (figshare/DepMap blocked in sandbox). Self-validated (NR4A3 non-essential, BRD9 synovial-selective)."
+    },
+    "biologyEvidenceRepo": {
+      "short": "In-repo EMC/NR4A3 biology evidence base",
+      "resourceType": "repo_synthesis",
+      "url": "research/manuscripts/nr4a3-emc-biology-evidence.md",
+      "verified": true,
+      "role": "Adversarially-verified (95-agent, 3-vote) synthesis; itself sourced to primary PMIDs. The decisive gap: NO direct loss-of-function experiment in any EMC line exists."
+    }
+  }
+}

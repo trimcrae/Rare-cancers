@@ -1,31 +1,32 @@
 cff-version: 1.2.0
-message: "If you use this roadmap or its in-silico analyses, please cite it using the metadata below."
-title: "A prioritized, falsifiable roadmap to a treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma — a computation-only triage"
-# TODO before the first DOI release: add the author's ORCID (and any co-authors).
-# Zenodo reads this file when it archives a release.
+message: "If you use this atlas or its analyses, please cite it using the metadata below."
+title: "The EMC Open Target & Drug Atlas — a curated, provenance-checked synthesis of public evidence for NR4A3-rearranged extraskeletal myxoid chondrosarcoma"
+# RELEASE-BLOCKER before the first DOI release: add the author's real ORCID below (register free at
+# orcid.org). Do NOT release with a placeholder. Add any co-authors who meet ICMJE/COPE criteria.
 authors:
   - family-names: "McRae"
     given-names: "Tristan D."
-    # orcid: "https://orcid.org/0000-0000-0000-0000"  # add before first DOI release
+    affiliation: "Independent Researcher"
 type: software
 repository-code: "https://github.com/trimcrae/Rare-cancers"
 url: "https://github.com/trimcrae/Rare-cancers"
 abstract: >-
-  A continuously-maintained, falsifiable roadmap toward a treatment for extraskeletal myxoid
-  chondrosarcoma (EMC), an ultra-rare sarcoma driven by the EWSR1::NR4A3 fusion. Every plausible
-  treatment route is ranked by likelihood of patient benefit x near-term feasibility, with an
-  explicit decisive experiment and kill-criterion per candidate, and with supporting evidence
-  generated from public data alone (no wet lab): AlphaFold/fpocket structure, DepMap dependency and
-  expression with sarcoma lines as an EMC surrogate, HLA coverage, fusion-junction ASO/siRNA design
-  and off-target screening, and NR4A3-degrader warhead/ternary-complex design preparation. The repo
-  is the living document; tagged releases are citable snapshots.
+  A versioned, curated synthesis of identified public evidence on NR4A3-rearranged extraskeletal
+  myxoid chondrosarcoma (EMC) as of July 2026 — NOT a systematic review. It integrates the modern
+  patient-derived models, the published drug screens, the clinical reports, public expression, and
+  public dependency databases, with a transparent author-weighted triage heuristic (not calibrated
+  probabilities) and graded source-verification tiers. No wet lab was used; nothing has been validated
+  in EMC; no EMC cell line exists in DepMap so dependency reads are non-EMC surrogates. Upstream
+  analyses run in separately documented, pinned CI workflows. Produced with substantial AI assistance
+  under the author's direction. Author is independent/unaffiliated; no funding; no conflicts declared.
 keywords:
   - extraskeletal myxoid chondrosarcoma
-  - EMC
+  - NR4A3 rearrangement
   - EWSR1-NR4A3
+  - TAF15-NR4A3
   - rare cancer
-  - drug repurposing
-  - targeted protein degradation
-  - antisense oligonucleotide
-  - in silico drug discovery
+  - curated evidence synthesis
+  - in silico oncology
 license: Apache-2.0
+# LICENSING: original code Apache-2.0; original prose/data same terms unless a file says otherwise;
+# third-party referenced/redistributed material stays under its own source license (not relicensed).

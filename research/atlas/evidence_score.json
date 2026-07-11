@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "note": "Judgment-based TRIAGE heuristic for prioritising EMC hypotheses (source of truth for dist/emc_evidence_score.tsv, the ranked reports, and the proposed panel). The component weights are hand-assigned by the author, NOT calibrated probabilities, NOT a probability of success, and NOT a treatment ranking or recommendation. Rankings are 'highest-ranked by this unvalidated heuristic', nothing more. Every component is published, not just the composite. IMPORTANT caveat the reviewer flagged: grouping proteasome + HSP90 + HDAC as one 'proteostasis-chromatin axis' is an author-imposed framing across biologically DISTINCT mechanisms and risks manufacturing post-hoc convergence; treat the axis as a convenience label, not a demonstrated shared dependency. Components reward independent evidence types and cross-model/cross-subtype replication and penalise single-model signals, RNA-expression-only claims, implausible exposure, and one-drug=one-target inference.",
+  "component_scale": "0 = none/against, 1 = weak/indirect, 2 = moderate, 3 = strong. 'NA' where not applicable. Composite = sum of numeric components (report alongside components, never alone).",
+  "components": {
+    "emc_model_support": "How many of the 3 modern EMC models (USZ20-EMC1, USZ22-EMC2, NCC-EMC1-C1) show the signal (0-3).",
+    "fusion_subtype_coverage": "Does evidence span EWSR1 AND TAF15 (3), one subtype (1-2), or n/a (NA)?",
+    "patient_tumor_expression": "Support from primary EMC tumor expression (not model).",
+    "genetic_perturbation": "CRISPR/RNAi dependency evidence (DepMap surrogate or EMC).",
+    "pharmacologic_replication": "Replicated across screens/models/class members (class-vs-compound).",
+    "achievable_exposure": "Is the active concentration compatible with achievable human free exposure in a SOLID tumor?",
+    "target_engagement_assay": "Does a practical PD/engagement assay exist?",
+    "normal_tissue_safety": "Selectivity margin / known tolerability.",
+    "clinical_signal_emc": "Existing EMC clinical evidence (0 none ... 3 prospective).",
+    "followup_assay_available": "Is there a feasible no-wet-lab-blocking next experiment?"
+  },
+  "entities": [
+    {
+      "id": "AXIS-proteostasis-chromatin",
+      "label": "Proteostasis-chromatin system (proteasome + HSP90 + HDAC)",
+      "type": "pathway_axis",
+      "supporting_claims": ["carfilzomib", "PU-H71", "panobinostat", "romidepsin", "C020", "C023"],
+      "scores": {
+        "emc_model_support": 3,
+        "fusion_subtype_coverage": 2,
+        "patient_tumor_expression": 1,
+        "genetic_perturbation": 1,
+        "pharmacologic_replication": 3,
+        "achievable_exposure": 1,
+        "target_engagement_assay": 3,
+        "normal_tissue_safety": 1,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 3
+      },
+      "composite": 18,
+      "tier": "HIGHEST_RANKED_PRECLINICAL_HEURISTIC",
+      "rationale": "Highest-ranked by this heuristic because hits appear across both modern screens: proteasome (carfilzomib, secondary-source) + HSP90 (PU-H71, secondary-source) in USZ, and two HDAC inhibitors (panobinostat + romidepsin, primary-abstract) in NCC. Two HDAC inhibitors active in one model is CONSISTENT WITH class-level HDAC activity but does NOT prove HDAC caused the effect. The 'proteostasis-chromatin' label is an author-imposed grouping of distinct mechanisms (post-hoc-convergence risk), not a demonstrated shared dependency.",
+      "honest_caveats": "Cross-model convergence is at the axis level, not any single compound (HDAC only tested in NCC/EWSR1; proteasome+HSP90 only in USZ). Proteasome & HSP90 inhibitors historically underperform in SOLID tumors (exposure=1). DepMap (C020) shows the panel targets are PAN-ESSENTIAL (proteasome/XPO1/HDAC3), NOT sarcoma-selective dependencies -> the therapeutic window is a PHARMACOLOGY/exposure question, not genetic selectivity (this is why genetic_perturbation stays 1, not higher). HSP90AA1/AB1 read non-essential singly only because paralogue redundancy masks CRISPR essentiality. Zero EMC clinical signal. FET-fusion 'high transcriptional output -> proteostasis dependence' is PLAUSIBLE but unproven in EMC.",
+      "strategy_rank": 2
+    },
+    {
+      "id": "AXIS-antiangiogenic-multikinase",
+      "label": "Antiangiogenic multikinase (pazopanib / sunitinib +/- checkpoint)",
+      "type": "pathway_axis",
+      "supporting_claims": ["pazopanibEMC", "sunitinibEMC", "immunosarc2", "C006", "C019"],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": 3,
+        "patient_tumor_expression": 2,
+        "genetic_perturbation": 0,
+        "pharmacologic_replication": 2,
+        "achievable_exposure": 3,
+        "target_engagement_assay": 2,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 3,
+        "followup_assay_available": 2
+      },
+      "composite": 19,
+      "tier": "HIGHEST_RANKED_CLINICAL_HEURISTIC",
+      "rationale": "Highest-ranked for clinical anchoring: it is the axis with prospective EMC clinical activity: pazopanib ORR 18% (95% CI 1-36) / mPFS 19 mo (Stacchiotti 2019), sunitinib 6 PR/2 SD/2 PD (2014), IMMUNOSARC II 6-mo PFS 77%. Small early reports suggest a POSSIBLE fusion-subtype association (C019: sunitinib responders were EWSR1::NR4A3, refractory cases TAF15::NR4A3) -- a hypothesis requiring prospective validation, not an established biomarker (fusion_subtype_coverage 3 reflects that BOTH subtypes are addressed by the reports, not that the association is proven).",
+      "honest_caveats": "Mechanism unknown (VEGFR/PDGFR/RET vs vascular/myeloid vs tumor-cell). In the available NON-EMC sarcoma DepMap panel (no EMC line exists), none of the TKI-target kinases shows a broad tumor-cell-autonomous dependency (C020) -- SURROGATE negative evidence that motivates direct EMC-specific testing and is consistent with (but does not prove) a non-tumor-autonomous/stromal mechanism; it does not establish that RET/KIT/ALK are 'only markers'. RET RNA elevation reproduced (GSE24369 AUC 0.86, C018). Single-arm SD/PFS overstates effect in an indolent disease without growth-rate/external control. Evidence concentrated in ONE group (Stacchiotti/European network). See antiangiogenic-mechanism.md.",
+      "strategy_rank": 3
+    },
+    {
+      "id": "AXIS-fusion-direct",
+      "label": "Direct NR4A3-fusion targeting (degrader / ASO / condensate)",
+      "type": "modality_axis",
+      "supporting_claims": ["C001", "C004", "C008", "C009", "C012"],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": 3,
+        "patient_tumor_expression": 3,
+        "genetic_perturbation": 1,
+        "pharmacologic_replication": 0,
+        "achievable_exposure": "NA",
+        "target_engagement_assay": 1,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 12,
+      "tier": "HIGHEST_SPECIFICITY_LOW_TRACTABILITY",
+      "rationale": "The fusion is tumor-defining, retained through progression, present in >90%. Highest theoretical specificity. In-repo cryptic-pocket degrader + fusion-junction ASO programs live here.",
+      "honest_caveats": "No validated selective NR4A3 ligand; low-complexity/IDR partner. NO direct loss-of-function experiment in any EMC line exists (C009) -- dependence is a strong PRIOR, not demonstrated. Make-or-break dTAG experiment needs a wet lab. Kept as the repo's high-ceiling bet; the atlas neither inflates nor abandons it.",
+      "strategy_rank": "3.1 (not first two of shortlist, but repo's active in-silico program)"
+    },
+    {
+      "id": "AXIS-anthracycline-dnadamage",
+      "label": "Anthracycline / DNA-damage (doxorubicin)",
+      "type": "pathway_axis",
+      "supporting_claims": ["doxorubicin", "anthracyclineEMC"],
+      "scores": {
+        "emc_model_support": 2,
+        "fusion_subtype_coverage": 2,
+        "patient_tumor_expression": "NA",
+        "genetic_perturbation": 0,
+        "pharmacologic_replication": 3,
+        "achievable_exposure": 3,
+        "target_engagement_assay": 3,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 2,
+        "followup_assay_available": 3
+      },
+      "composite": 20,
+      "tier": "ESTABLISHED_COMPARATOR",
+      "rationale": "Both preclinical (2nd USZ hit) AND clinical (4/10 PR, Stacchiotti 2013) signal, clinically achievable, best combination partner for carfilzomib.",
+      "honest_caveats": "NOT a unique EMC vulnerability -- doxorubicin is active across many sarcomas. Value is as a clinically-anchored COMPARATOR and combination backbone, not a novel target. High composite reflects maturity, not discovery novelty (read components, not the sum)."
+    },
+    {
+      "id": "AXIS-apoptosis-bcl2",
+      "label": "Apoptosis priming (BCL2 / venetoclax)",
+      "type": "pathway_axis",
+      "supporting_claims": ["carfilzomib", "C020"],
+      "scores": {
+        "emc_model_support": 2,
+        "fusion_subtype_coverage": 2,
+        "patient_tumor_expression": 1,
+        "genetic_perturbation": 1,
+        "pharmacologic_replication": 1,
+        "achievable_exposure": 2,
+        "target_engagement_assay": 2,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 3
+      },
+      "composite": 16,
+      "tier": "SECONDARY_COMBINATION_LEAD_RETARGET",
+      "rationale": "Surfaced by the USZ carfilzomib+venetoclax combination (additive+synergistic, both models). A proteasome->apoptosis-priming rationale worth testing.",
+      "honest_caveats": "HYPOTHESIS from the non-EMC surrogate panel (C020, no EMC line): in sarcoma lines BCL2 reads non-essential while BCL-xL (BCL2L1) and MCL1 read more essential. This is surrogate evidence that MOTIVATES comparative testing of venetoclax vs a BCL-xL/MCL1 agent in EMC models -- it does NOT establish that a BCL-xL/MCL1 mimetic is the correct EMC choice. Note the serious therapeutic-window/toxicity concerns of BCL-xL inhibition (thrombocytopenia) and MCL1 inhibition (cardiac) -- these are not benign substitutions. Only as a combination with carfilzomib; monotherapy signal unknown."
+    },
+    {
+      "id": "AXIS-surface-antigen",
+      "label": "Surface / antigen targets (B7-H3, PRAME) -- SURROGATE",
+      "type": "modality_axis",
+      "supporting_claims": ["C013", "C014"],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": "NA",
+        "patient_tumor_expression": 1,
+        "genetic_perturbation": "NA",
+        "pharmacologic_replication": 0,
+        "achievable_exposure": 2,
+        "target_engagement_assay": 1,
+        "normal_tissue_safety": 1,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 7,
+      "tier": "SURROGATE_LEAD_NEEDS_EMC_TISSUE",
+      "rationale": "B7-H3 near-universal + PRAME high-in-myxoid in the DepMap sarcoma surrogate -> candidate ADC/CAR (B7-H3) and TCR/ImmTAC (PRAME) routes.",
+      "honest_caveats": "SURROGATE only (no EMC line in DepMap); RNA != surface protein; cell lines silence cancer-testis antigens (PRAME = lower bound). Needs EMC tissue/immunopeptidomics before any program. CHRNA6 is a lineage marker of interest but RNA-ISH performance != surface protein."
+    },
+    {
+      "id": "AXIS-fusion-junction-antigen",
+      "label": "Fusion-junction antigen (EWSR1::NR4A3 junction peptides) -- strategy Project 4 core",
+      "type": "modality_axis",
+      "supporting_claims": ["C016", "C017", "C021", "C022"],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": 2,
+        "patient_tumor_expression": 2,
+        "genetic_perturbation": "NA",
+        "pharmacologic_replication": 0,
+        "achievable_exposure": "NA",
+        "target_engagement_assay": 1,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 8,
+      "tier": "COMPUTATIONAL_LEAD_MODEST_PREDICTED_YIELD",
+      "rationale": "The recurrent, tumor-specific fusion is a genuinely tumor-restricted antigen source; the junction is expressed and absent from the normal proteome. In-repo MHC-I prediction + breakpoint-resolved junctions + HLA coverage already computed (free, deterministic).",
+      "honest_caveats": "PREDICTION ONLY. BOTH subtypes now modeled (C021): EWSR1 (2 strong / 3 sub-500nM) and TAF15 (1 strong / 7 sub-500nM) junctions both give a MODEST MHC-I yield -- neither common junction is a strong shared class-I target. Per the strategy this is a useful negative that redirects toward fusion-induced LINEAGE antigens (see AXIS-surface-antigen). No natural presentation or T-cell recognition demonstrated; needs immunopeptidomics + PBMC priming. Both breakpoints modeled (breakpoint-sensitive). CLASS-II now run (C022): the EWSR1 junction contains a STRONG PREDICTED HLA-II BINDER (QYSQQSSSYGQQPCV/DRB1*07:01, predicted 16.4 nM) that REQUIRES experimental confirmation of processing, presentation, and T-cell recognition before any 'CD4 help' or 'vaccine target' claim; TAF15 is a weak predicted binder on both classes. Predicted class-I and class-II binding are kept separate from experimentally demonstrated antigens (there are none for EMC).",
+      "strategy_rank": 4
+    },
+    {
+      "id": "NODE-mdm2-mdm4",
+      "label": "MDM2/MDM4 (p53 stress) -- DID NOT SURVIVE VERIFICATION as a screen hit",
+      "type": "target",
+      "supporting_claims": [],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": "NA",
+        "patient_tumor_expression": 1,
+        "genetic_perturbation": 0,
+        "pharmacologic_replication": 0,
+        "achievable_exposure": 2,
+        "target_engagement_assay": 2,
+        "normal_tissue_safety": 1,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 8,
+      "tier": "DOWNGRADED_HYPOTHESIS_ONLY",
+      "rationale": "The strategy brief listed HDM201/siremadlin as a top USZ hit; primary verification did NOT corroborate it. Recorded here as a hypothesis, TP53-context-gated, NOT an EMC screen hit.",
+      "honest_caveats": "This is the atlas working as intended: an apparent 'convergent' node (p53/MDM2) collapsed on replication filtering. Keep only as a mechanistic candidate to test IF a compatible p53 context is confirmed."
+    },
+    {
+      "id": "NODE-alk-brigatinib",
+      "label": "ALK / brigatinib -- NEEDS TARGET DECONVOLUTION",
+      "type": "target",
+      "supporting_claims": ["brigatinib", "C020"],
+      "scores": {
+        "emc_model_support": 1,
+        "fusion_subtype_coverage": 1,
+        "patient_tumor_expression": 0,
+        "genetic_perturbation": 0,
+        "pharmacologic_replication": 0,
+        "achievable_exposure": 3,
+        "target_engagement_assay": 2,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 11,
+      "tier": "SINGLE_MODEL_DECONVOLUTION_REQUIRED",
+      "rationale": "Low-IC50 in NCC-EMC1-C1 (single model). Brigatinib is multikinase.",
+      "honest_caveats": "EMC has NO known ALK rearrangement. Activity != ALK dependency. In the non-EMC surrogate panel ALK reads non-essential (C020, gene effect -0.05), so ALK dependency is NOT SUPPORTED across the surrogate -- but with no EMC line this cannot prove brigatinib does not act via ALK in NCC-EMC1-C1. Brigatinib's active target in NCC-EMC1-C1 remains UNRESOLVED; it requires selective-inhibitor + genetic-perturbation + phosphoproteomic deconvolution in EMC. Explicit anti-pattern guard."
+    },
+    {
+      "id": "NODE-pparg",
+      "label": "PPARG -- consequence, NOT a validated target",
+      "type": "target",
+      "supporting_claims": ["C015", "C018"],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": 1,
+        "patient_tumor_expression": 3,
+        "genetic_perturbation": 0,
+        "pharmacologic_replication": 0,
+        "achievable_exposure": 2,
+        "target_engagement_assay": 2,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 12,
+      "tier": "EXPRESSION_ONLY_GUARD",
+      "rationale": "Direct transcriptional consequence of the fusion; high tumor expression.",
+      "honest_caveats": "PPARG expression is now REPRODUCED EMC-up in an independent dataset (GSE24369 AUC 0.75, C018) -- but that only strengthens 'PPARG is a fusion consequence', NOT that it is a drug target. High patient_tumor_expression (3) with genetic_perturbation 0 is EXACTLY the anti-pattern the atlas exists to flag. Expression does not tell us whether agonism/antagonism/neither helps. Belongs in a perturbational screen, NOT a treatment list."
+    }
+  ],
+  "ranked_shortlist": [
+    {"rank": 1, "entity": "AXIS-proteostasis-chromatin", "why": "Highest-ranked by this unvalidated heuristic: hits appear across both modern screens and each node has a target-engagement assay, so a wet-lab test is specifiable. NOT a claim that the mechanism is proven or that it is the best bet."},
+    {"rank": 2, "entity": "AXIS-antiangiogenic-multikinase", "why": "Highest-ranked for clinical anchoring: the axis with prospective EMC activity + a possible EWSR1-vs-TAF15 association (hypothesis, needs prospective validation)."},
+    {"rank": 3, "entity": "AXIS-fusion-direct", "why": "Highest ceiling / highest specificity but lowest tractability; the repo's active in-silico degrader/ASO programs; gated on a dTAG dependency proof."},
+    {"rank": 4, "entity": "AXIS-anthracycline-dnadamage", "why": "Mature comparator + combination backbone; not novel."},
+    {"rank": 5, "entity": "AXIS-surface-antigen", "why": "Surrogate-supported (B7-H3, PRAME); needs EMC tissue before any program."},
+    {"rank": "4 (parallel)", "entity": "AXIS-fusion-junction-antigen", "why": "Strategy Project 4 core, run computationally in parallel: tumor-specific junction antigen; already computed in-repo. Modest predicted MHC-I yield is itself an informative result (redirects to lineage antigens). Needs immunopeptidomics/T-cell validation."}
+  ],
+  "validation_panel": {
+    "note": "A PROPOSED 12-compound / 6-combination panel for a wet-lab collaborator, derived from this heuristic. Design principle is class-vs-compound (>=2 members per class so an effect can be attributed toward a target class, not one chemical). These are HYPOTHESES to test, not predicted winners and not a treatment plan. IMPORTANT: this is a proposal whose concentration ranges REQUIRE final pharmacology and primary-source review before use -- the panel is NOT 'exposure-matched' or 'ready-to-run'. panel-exposure.json holds verbatim FDA-label PK quotes (not a completed active-concentration vs unbound-exposure table); a compound-by-compound pharmacology table is still outstanding.",
+    "compounds": [
+      {"n": 1,  "compound": "carfilzomib",              "class": "proteasome",          "role": "top USZ single-agent hit"},
+      {"n": 2,  "compound": "bortezomib or ixazomib",   "class": "proteasome",          "role": "2nd proteasome inhibitor (class-vs-compound control)"},
+      {"n": 3,  "compound": "panobinostat",             "class": "HDAC_pan",            "role": "NCC hit"},
+      {"n": 4,  "compound": "romidepsin",               "class": "HDAC_classI",         "role": "NCC hit"},
+      {"n": 5,  "compound": "entinostat",               "class": "HDAC_classI_selective","role": "more-selective HDAC (does effect follow HDAC class?)"},
+      {"n": 6,  "compound": "PU-H71 (+ a 2nd HSP90 e.g. onalespib)", "class": "HSP90",  "role": "USZ hit + class control"},
+      {"n": 7,  "compound": "doxorubicin",              "class": "anthracycline",       "role": "clinically-active comparator + combo backbone"},
+      {"n": 8,  "compound": "venetoclax + a BCL-xL/MCL1 agent (navitoclax or MCL1i)", "class": "BH3-mimetic", "role": "USZ combo partner; test venetoclax AND BCL-xL/MCL1 -- DepMap says BCL-xL/MCL1, not BCL2, are the sarcoma apoptotic dependencies (C020)"},
+      {"n": 9,  "compound": "pazopanib or sunitinib",   "class": "antiangiogenic_TKI",  "role": "clinically-active EMC comparator (EWSR1-biased)"},
+      {"n": 10, "compound": "brigatinib",               "class": "multikinase",         "role": "target deconvolution (NOT an ALK claim)"},
+      {"n": 11, "compound": "HDM201/siremadlin",        "class": "MDM2/MDM4",           "role": "HYPOTHESIS test only (did NOT survive as a screen hit); TP53-context-gated"},
+      {"n": 12, "compound": "mechanistically-inactive cytotoxic control", "class": "negative_control", "role": "matched for general cytotoxicity -> proves selectivity, not just killing"}
+    ],
+    "combinations": [
+      {"n": 1, "combo": "proteasome + doxorubicin",   "status": "verified USZ combo (additive+synergistic both models)"},
+      {"n": 2, "combo": "proteasome + venetoclax",    "status": "verified USZ combo (additive+synergistic both models)"},
+      {"n": 3, "combo": "proteasome + HDAC",          "status": "hypothesis (two-node proteostasis+chromatin collapse)"},
+      {"n": 4, "combo": "HSP90 + HDAC",               "status": "hypothesis (two-node)"},
+      {"n": 5, "combo": "proteasome + XPO1 (selinexor)","status": "hypothesis (nuclear-export stress)"},
+      {"n": 6, "combo": "HDAC + antiangiogenic TKI",  "status": "hypothesis (bridges preclinical + clinical axes)"}
+    ]
+  },
+  "go_no_go_criteria": [
+    "Activity in >=2 independent EMC models (not one).",
+    "Not restricted to one fusion partner UNLESS a clear subtype biomarker exists (report EWSR1 and TAF15 separately).",
+    "Target engagement demonstrated (the named PD assay moves).",
+    "Effective concentration compatible with achievable human free exposure OR a credible tumor-delivery strategy.",
+    "Meaningful selectivity margin over non-malignant mesenchymal controls.",
+    "A combination must improve DEPTH or DURABILITY (clonogenic/washout), not merely shift a short-term viability curve.",
+    "Mechanistic readouts support the proposed dependency (fusion abundance, NR4A3 targets, UPR/ISR, histone acetylation, p53 only in compatible context)."
+  ],
+  "what_the_atlas_already_rejected_or_downgraded": [
+    "MDM2/MDM4 as a convergent node -- HDM201 did not survive verification as a USZ hit.",
+    "ALK as an EMC driver -- brigatinib is polypharmacologic, single model, no ALK rearrangement.",
+    "PPARG as a target -- expression is a fusion consequence, no dependency evidence (expression-only anti-pattern).",
+    "RET as a proven dependency -- RNA elevation is a marker, not addiction.",
+    "'Synergistic in one model / additive in the other' for carfilzomib+doxorubicin -- not supported; both effects in both models.",
+    "BCL2 as a confirmed EMC dependency -- in the non-EMC surrogate panel BCL2 reads non-essential while BCL-xL/MCL1 read more essential (C020); this is a hypothesis for comparative testing in EMC (with explicit BCL-xL/MCL1 toxicity caveats), NOT a conclusion that venetoclax is wrong for EMC.",
+    "Proteasome/XPO1/HDAC-node hits as SELECTIVE genetic dependencies -- DepMap (C020) shows they are pan-essential; the window is pharmacology/exposure, not genetic selectivity. (Does not kill the axis; reframes the argument.)",
+    "A tumor-cell-autonomous TKI-kinase addiction is NOT supported across the non-EMC surrogate panel (ALK/KIT/VEGFRs/PDGFRs/RET/FGFR1 non-essential, C020) -- surrogate negative evidence motivating direct EMC testing, not proof of a non-tumor-autonomous mechanism."
+  ]
+}

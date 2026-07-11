@@ -1,0 +1,917 @@
+{
+  "_note": "EMC atlas expression reprocessing (author-normalized series matrices; rank-based; per-platform, never merged). Run in CI (GEO reachable). See METHODS.md.",
+  "_bounds": "Series-matrix (not raw-CEL RMA); tiny n; legacy arrays; stroma dilution; AUC on two-colour data is relative-to-reference.",
+  "datasets": [
+    {
+      "gse": "GSE4303",
+      "matrix_files": [
+        "GSE4303-GPL2937_series_matrix.txt.gz",
+        "GSE4303-GPL2938_series_matrix.txt.gz",
+        "GSE4303-GPL3254_series_matrix.txt.gz",
+        "GSE4303-GPL3288_series_matrix.txt.gz",
+        "GSE4303-GPL3289_series_matrix.txt.gz",
+        "GSE4303-GPL3290_series_matrix.txt.gz",
+        "GSE4303-GPL3335_series_matrix.txt.gz"
+      ],
+      "platforms": [
+        {
+          "file": "GSE4303-GPL2937_series_matrix.txt.gz",
+          "platform": "GPL2937",
+          "n_samples": 3,
+          "n_emc": 0,
+          "n_other": 3,
+          "two_colour_relative": true,
+          "neg_fraction": 0.632,
+          "missing_fraction": 0.079,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM77763",
+              "title": "STT850-SS",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM77789",
+              "title": "STT108B-SS",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98500",
+              "title": "STT1324-I-SS",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        },
+        {
+          "file": "GSE4303-GPL2938_series_matrix.txt.gz",
+          "platform": "GPL2938",
+          "n_samples": 3,
+          "n_emc": 0,
+          "n_other": 3,
+          "two_colour_relative": true,
+          "neg_fraction": 0.691,
+          "missing_fraction": 0.062,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM77765",
+              "title": "STT638-SS",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM77781",
+              "title": "STT840B-LEIO",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98508",
+              "title": "STT854-SS",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        },
+        {
+          "file": "GSE4303-GPL3254_series_matrix.txt.gz",
+          "platform": "GPL3254",
+          "n_samples": 6,
+          "n_emc": 0,
+          "n_other": 6,
+          "two_colour_relative": true,
+          "neg_fraction": 0.51,
+          "missing_fraction": 0.009,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM98497",
+              "title": "STT417B-MFH",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98498",
+              "title": "STT742F-LEIO",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98501",
+              "title": "STT680B-MFH",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98502",
+              "title": "STT695B-MFH",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98504",
+              "title": "STT1778-LEIO",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98505",
+              "title": "STT709B-MFH",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        },
+        {
+          "file": "GSE4303-GPL3288_series_matrix.txt.gz",
+          "platform": "GPL3288",
+          "n_samples": 3,
+          "n_emc": 0,
+          "n_other": 3,
+          "two_colour_relative": true,
+          "neg_fraction": 0.457,
+          "missing_fraction": 0.165,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM89913",
+              "title": "STT154-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM89925",
+              "title": "STT491B-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98507",
+              "title": "STT607D-LEIO",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        },
+        {
+          "file": "GSE4303-GPL3289_series_matrix.txt.gz",
+          "platform": "GPL3289",
+          "n_samples": 3,
+          "n_emc": 0,
+          "n_other": 3,
+          "two_colour_relative": true,
+          "neg_fraction": 0.518,
+          "missing_fraction": 0.021,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM89892",
+              "title": "STT1975-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM89893",
+              "title": "STT1971-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM89930",
+              "title": "STT1984-DFSP",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        },
+        {
+          "file": "GSE4303-GPL3290_series_matrix.txt.gz",
+          "platform": "GPL3290",
+          "n_samples": 16,
+          "n_emc": 10,
+          "n_other": 6,
+          "two_colour_relative": true,
+          "neg_fraction": 0.619,
+          "missing_fraction": 0.23,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM89883",
+              "title": "STT3126-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM89898",
+              "title": "STT3068-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM89924",
+              "title": "STT3053-DFSP",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM91381",
+              "title": "STT2001c-GIST-Total RNA-WT",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM91397",
+              "title": "STT794b-GIST-Total RNA-PDGFRa",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM91405",
+              "title": "STT94b-GIST-Total RNA-exon9",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98495",
+              "title": "STT3699-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98496",
+              "title": "STT3698-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98499",
+              "title": "STT3697-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98503",
+              "title": "STT3782-Myxoid chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98506",
+              "title": "STT3783-Myxoid chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98509",
+              "title": "STT3714-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98510",
+              "title": "STT3780-Myxoid chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98511",
+              "title": "STT1169-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98512",
+              "title": "STT2003-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM98513",
+              "title": "STT2528(2)-Myxoid Chondrosarcoma",
+              "label": "EMC",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        },
+        {
+          "file": "GSE4303-GPL3335_series_matrix.txt.gz",
+          "platform": "GPL3335",
+          "n_samples": 2,
+          "n_emc": 0,
+          "n_other": 2,
+          "two_colour_relative": true,
+          "neg_fraction": 0.578,
+          "missing_fraction": 0.028,
+          "n_genes_annotated": 0,
+          "sample_labels": [
+            {
+              "acc": "GSM91389",
+              "title": "SX242-GIST_Total RNA-exon11",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM91393",
+              "title": "SX322-GIST_Total RNA-exon11",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_skipped": "no annotated genes (GPL probe->symbol mapping empty) -> cannot compute a gene-level EMC signature for this platform"
+        }
+      ]
+    },
+    {
+      "gse": "GSE24369",
+      "matrix_files": [
+        "GSE24369_series_matrix.txt.gz"
+      ],
+      "platforms": [
+        {
+          "file": "GSE24369_series_matrix.txt.gz",
+          "platform": "GPL6244",
+          "n_samples": 42,
+          "n_emc": 6,
+          "n_other": 36,
+          "two_colour_relative": false,
+          "neg_fraction": 0.0,
+          "missing_fraction": 0.0,
+          "n_genes_annotated": 23072,
+          "sample_labels": [
+            {
+              "acc": "GSM600928",
+              "title": "Desmoid fibromatosis 1",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600929",
+              "title": "Desmoid fibromatosis 2",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600930",
+              "title": "Desmoid fibromatosis 3",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600931",
+              "title": "Desmoid fibromatosis 4",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600932",
+              "title": "Desmoid fibromatosis 5",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600933",
+              "title": "Desmoid fibromatosis 6",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600934",
+              "title": "Extraskeletal myxoid chondrosarcoma 1",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600935",
+              "title": "Extraskeletal myxoid chondrosarcoma 2",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600936",
+              "title": "Extraskeletal myxoid chondrosarcoma 3",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600937",
+              "title": "Extraskeletal myxoid chondrosarcoma 4",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600938",
+              "title": "Extraskeletal myxoid chondrosarcoma 5",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600939",
+              "title": "Extraskeletal myxoid chondrosarcoma 6",
+              "label": "EMC",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600940",
+              "title": "Low-grade fibromyxoid sarcoma 1",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600941",
+              "title": "Low-grade fibromyxoid sarcoma 2",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600942",
+              "title": "Low-grade fibromyxoid sarcoma 3",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600943",
+              "title": "Low-grade fibromyxoid sarcoma 4",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600944",
+              "title": "Low-grade fibromyxoid sarcoma 5",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600945",
+              "title": "Low-grade fibromyxoid sarcoma 6",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600946",
+              "title": "Low-grade fibromyxoid sarcoma 7",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600947",
+              "title": "Low-grade fibromyxoid sarcoma 8",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600948",
+              "title": "Low-grade fibromyxoid sarcoma 9",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600949",
+              "title": "Low-grade fibromyxoid sarcoma 10",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600950",
+              "title": "Low-grade fibromyxoid sarcoma 11",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600951",
+              "title": "Low-grade fibromyxoid sarcoma 12",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600952",
+              "title": "Low-grade fibromyxoid sarcoma 13",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600953",
+              "title": "Low-grade fibromyxoid sarcoma 14",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600954",
+              "title": "Low-grade fibromyxoid sarcoma 15",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600955",
+              "title": "Low-grade fibromyxoid sarcoma 16",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600956",
+              "title": "Low-grade fibromyxoid sarcoma 17",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600957",
+              "title": "Myxofibrosarcoma 1",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600958",
+              "title": "Myxofibrosarcoma 2",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600959",
+              "title": "Myxofibrosarcoma 3",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600960",
+              "title": "Myxofibrosarcoma 4",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600961",
+              "title": "Myxofibrosarcoma 5",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600962",
+              "title": "Myxofibrosarcoma 6",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600963",
+              "title": "Solitary fibrous tumor 1",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600964",
+              "title": "Solitary fibrous tumor 2",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600965",
+              "title": "Solitary fibrous tumor 3",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600966",
+              "title": "Solitary fibrous tumor 4",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600967",
+              "title": "Solitary fibrous tumor 5",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600968",
+              "title": "Skeletal muscle pooled RNA 1",
+              "label": "other",
+              "fusion": null
+            },
+            {
+              "acc": "GSM600969",
+              "title": "Skeletal muscle pooled RNA 2",
+              "label": "other",
+              "fusion": null
+            }
+          ],
+          "fusion_stratification": {
+            "n_EWSR1_labeled": 0,
+            "n_TAF15_labeled": 0,
+            "feasible": false,
+            "note": "Fusion partner NOT recoverable from this dataset's public metadata -> EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation)."
+          },
+          "signature_note": "AUC = P(EMC ranks above non-EMC) on intensity ranks.",
+          "top_emc_up": [
+            {
+              "gene": "NEBL",
+              "auc": 1.0
+            },
+            {
+              "gene": "GSTP1",
+              "auc": 1.0
+            },
+            {
+              "gene": "UBASH3B",
+              "auc": 1.0
+            },
+            {
+              "gene": "PITPNM1",
+              "auc": 1.0
+            },
+            {
+              "gene": "BCAT1",
+              "auc": 1.0
+            },
+            {
+              "gene": "PHLDA1",
+              "auc": 1.0
+            },
+            {
+              "gene": "SLAIN1",
+              "auc": 1.0
+            },
+            {
+              "gene": "MTA1",
+              "auc": 1.0
+            },
+            {
+              "gene": "DTD2",
+              "auc": 1.0
+            },
+            {
+              "gene": "CSPG4",
+              "auc": 1.0
+            },
+            {
+              "gene": "NMB",
+              "auc": 1.0
+            },
+            {
+              "gene": "C16orf45",
+              "auc": 1.0
+            },
+            {
+              "gene": "HSDL1",
+              "auc": 1.0
+            },
+            {
+              "gene": "RPL31P57",
+              "auc": 1.0
+            },
+            {
+              "gene": "RPL7AP66",
+              "auc": 1.0
+            },
+            {
+              "gene": "RTN4",
+              "auc": 1.0
+            },
+            {
+              "gene": "SPHKAP",
+              "auc": 1.0
+            },
+            {
+              "gene": "BTBD3",
+              "auc": 1.0
+            },
+            {
+              "gene": "GDF5",
+              "auc": 1.0
+            },
+            {
+              "gene": "KLHL2",
+              "auc": 1.0
+            },
+            {
+              "gene": "PAM",
+              "auc": 1.0
+            },
+            {
+              "gene": "LARS",
+              "auc": 1.0
+            },
+            {
+              "gene": "RNF130",
+              "auc": 1.0
+            },
+            {
+              "gene": "PDE7B",
+              "auc": 1.0
+            },
+            {
+              "gene": "DUSP4",
+              "auc": 1.0
+            },
+            {
+              "gene": "CHRNA6",
+              "auc": 1.0
+            },
+            {
+              "gene": "SNTB1",
+              "auc": 1.0
+            },
+            {
+              "gene": "ELAVL2",
+              "auc": 1.0
+            },
+            {
+              "gene": "SYTL5",
+              "auc": 1.0
+            },
+            {
+              "gene": "DIEXF",
+              "auc": 0.995
+            }
+          ],
+          "top_emc_down": [
+            {
+              "gene": "GAS7",
+              "auc": 0.009
+            },
+            {
+              "gene": "SLC9A9",
+              "auc": 0.009
+            },
+            {
+              "gene": "RNU6ATAC10P",
+              "auc": 0.009
+            },
+            {
+              "gene": "MCTP1",
+              "auc": 0.009
+            },
+            {
+              "gene": "HLA-DMA",
+              "auc": 0.009
+            },
+            {
+              "gene": "NCOA2",
+              "auc": 0.009
+            },
+            {
+              "gene": "CLIC2",
+              "auc": 0.009
+            },
+            {
+              "gene": "KLRC2",
+              "auc": 0.005
+            },
+            {
+              "gene": "RIPK3",
+              "auc": 0.005
+            },
+            {
+              "gene": "HLA-DPA1",
+              "auc": 0.005
+            },
+            {
+              "gene": "ZNF618",
+              "auc": 0.005
+            },
+            {
+              "gene": "SFMBT2",
+              "auc": 0.0
+            },
+            {
+              "gene": "RTN1",
+              "auc": 0.0
+            },
+            {
+              "gene": "KIAA0922",
+              "auc": 0.0
+            },
+            {
+              "gene": "CLCN5",
+              "auc": 0.0
+            }
+          ],
+          "known_marker_reproduction": {
+            "NR4A3": {
+              "auc": 0.819,
+              "rank": 1566,
+              "of": 23072
+            },
+            "NMB": {
+              "auc": 1.0,
+              "rank": 11,
+              "of": 23072
+            },
+            "NMBR": {
+              "auc": 0.306,
+              "rank": 18448,
+              "of": 23072
+            },
+            "PPARG": {
+              "auc": 0.745,
+              "rank": 2867,
+              "of": 23072
+            },
+            "PPARGC1A": {
+              "auc": 0.648,
+              "rank": 5465,
+              "of": 23072
+            },
+            "CHRNA6": {
+              "auc": 1.0,
+              "rank": 26,
+              "of": 23072
+            },
+            "INSM1": {
+              "auc": 0.542,
+              "rank": 9240,
+              "of": 23072
+            },
+            "SYP": {
+              "auc": 0.356,
+              "rank": 16753,
+              "of": 23072
+            },
+            "NDRG2": {
+              "auc": 0.597,
+              "rank": 7018,
+              "of": 23072
+            },
+            "RET": {
+              "auc": 0.856,
+              "rank": 1029,
+              "of": 23072
+            },
+            "FOLR1": {
+              "auc": 0.282,
+              "rank": 19069,
+              "of": 23072
+            },
+            "S100B": {
+              "auc": 0.449,
+              "rank": 13010,
+              "of": 23072
+            },
+            "SOX9": {
+              "auc": 0.917,
+              "rank": 474,
+              "of": 23072
+            },
+            "MUC4": {
+              "auc": 0.352,
+              "rank": 16877,
+              "of": 23072
+            }
+          },
+          "leave_one_out_top50_jaccard": {
+            "mean": 0.644,
+            "min": 0.37,
+            "n": 6
+          }
+        }
+      ]
+    }
+  ]
+}
