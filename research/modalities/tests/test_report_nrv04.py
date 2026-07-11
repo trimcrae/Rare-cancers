@@ -41,13 +41,13 @@ def test_split_ligand_ends_uses_unique_sulfur():
     vhl_end, nr4a_end, note = r.split_ligand_ends(atoms)
     assert (0, 0, 0) in vhl_end and (1, 0, 0) in vhl_end          # near S
     assert (10, 0, 0) in nr4a_end and (9, 0, 0) in nr4a_end       # near far terminus
-    assert "S-anchor" in note
+    assert "sulfur-anchor" in note
 
 
 def test_split_ligand_ends_falls_back_without_one_sulfur():
     atoms = [("C", (0, 0, 0)), ("C", (1, 0, 0)), ("C", (2, 0, 0))]   # zero S
     vhl_end, nr4a_end, note = r.split_ligand_ends(atoms)
-    assert vhl_end == nr4a_end and "fallback" in note
+    assert vhl_end is None and nr4a_end is None and "FAIL-CLOSED" in note
 
 
 def test_dist_stats():
@@ -66,8 +66,8 @@ def test_aggregate_control_seated_fraction():
 def test_aggregate_moiety_bridged_and_lys_relabelled():
     t = _ternary([True, True, True], [0.6, 0.55, 0.62], lys_d=[9.0, 11.0, 10.0])
     e = t["ensemble"]
-    assert e["moiety_bridged_default"] == 1.0
-    assert e["moiety_bridged_fraction"][CUT[1]]["n_bridged"] == 3
+    assert e["seed_bridged_fraction"] == 1.0
+    assert e["pose_level_fraction"][CUT[1]]["n_bridged"] == 3
     assert e["lys_nz_to_vhl_A"]["mean"] == 10.0        # relabelled field
     assert "closest_lys_A" not in e                     # old name gone
     assert "SASA" in e["lys_caveat"]
@@ -101,8 +101,8 @@ def test_full_gate_exploratory_concordance_on_moiety_separation():
         "nr4a3": _ternary([False, False, False], [0.35, 0.37, 0.36], name="nr4a3"),
     }
     v = r.full_verdict(systems)
-    assert v["verdict"] == "exploratory-concordance"
-    assert v["primary_basis"] == "moiety_specific_ternary_geometry"
+    assert v["verdict"] == "exploratory-architecture-concordance"
+    assert v["primary_basis"] == "correct_half_dual_surface_proximity_SEED_level"
     assert v["cutoff_robust"] is True
     assert v["leave_one_seed_out_robust"] is True
     assert "not validation" in v["basis"].lower()
@@ -116,7 +116,7 @@ def test_full_gate_concordance_holds_even_when_ligand_iptm_inverts():
         "nr4a3": _ternary([False, False, False], [0.92, 0.87, 0.84], name="nr4a3"),
     }
     v = r.full_verdict(systems)
-    assert v["verdict"] == "exploratory-concordance"
+    assert v["verdict"] == "exploratory-architecture-concordance"
     assert v["ligand_iptm_note"] and "did not reproduce" in v["ligand_iptm_note"].lower()
 
 
@@ -147,5 +147,34 @@ def test_full_gate_cutoff_not_robust_flagged():
         "nr4a3": _ternary([False, False, False], [0.4, 0.4, 0.4], name="nr4a3"),
     }
     v = r.full_verdict(systems)
-    assert v["verdict"] == "exploratory-concordance"
+    assert v["verdict"] == "exploratory-architecture-concordance"
     assert v["cutoff_robust"] is False
+
+
+# --- review-v2 honesty behaviours -----------------------------------------------------------------------
+def test_pilot_not_evaluated_when_control_absent_by_design():
+    t = _ternary([True, True, True], [0.6, 0.6, 0.6])
+    v = r.pilot_verdict(None, t)                       # control absent (fan-out / --skip-control)
+    assert v["verdict"] == "not-evaluated" and v["control_ok"] is None
+
+
+def test_unmapped_sample_fails_closed_not_counted_as_bridge():
+    # A sample whose moiety mapping failed (moiety_bridges None) is counted as unmapped, never as a bridge.
+    samples = [{"seed": "seed_1", "rank": 0, "confidence": {"ligand_iptm": 0.5, "iptm": 0.5},
+                "geometry": {"bridges": False, "closest_exposed_lys": None},
+                "moiety": {"moiety_bridges": None, "unmapped": True}}]
+    e = r._aggregate(samples, "ternary")
+    assert e["n_unmapped"] == 1 and e["seed_bridged_fraction"] is None
+
+
+def test_seed_is_primary_unit_not_pose_pool():
+    # 2 seeds x 2 poses; seed_1 both bridge, seed_2 neither -> seed-level 0.5, NOT pose-pool 0.5-of-4-"independent".
+    def s(seed, br):
+        return {"seed": seed, "rank": 0, "confidence": {"ligand_iptm": 0.5, "iptm": 0.5},
+                "geometry": {"bridges": br, "closest_exposed_lys": None},
+                "moiety": {"moiety_bridges": {c: br for c in CUT}, "wrong_end": False}}
+    samples = [s("seed_1", True), s("seed_1", True), s("seed_2", False), s("seed_2", False)]
+    e = r._aggregate(samples, "ternary")
+    assert e["n_seeds"] == 2 and e["n_poses"] == 4
+    assert e["seed_bridged_fraction"] == 0.5
+    assert "seeds=2, poses=4" in e["denominator"]

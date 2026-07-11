@@ -44,6 +44,10 @@ CUTOFFS = (4.0, 4.5, 5.0)                        # Å; contact cutoffs for cutof
 DEFAULT_CUTOFF = 4.5
 WRONG_END_MARGIN = 2.0                           # Å an end must be *closer* to the wrong protein to flag wrong-end
 NR4A1_CYS = 551                                  # celastrol Michael-acceptor covalent target on NR4A1 (proxy only)
+NR4A1_LBD_UNIPROT_FIRST = 345                    # NR4A1 P22736 (598 aa), LBD = last 254 → first UniProt res 345.
+#                                                  UniProt 551 → local 207. UNVERIFIED against an output CIF —
+#                                                  the analyzer emits cys551_evaluated=False unless a CYS is found
+#                                                  at the mapped position (fail-closed; review fix #4).
 
 
 def _euclid(a, b):
@@ -55,21 +59,24 @@ def _min_d(a_pts, b_pts):
 
 
 def split_ligand_ends(lig_atoms):
-    """Partition NR-V04 ligand heavy atoms into (vhl_end, nr4a_end) WITHOUT bond perception. NR-V04 contains
-    EXACTLY ONE sulfur (the thiazole in the VH032/VHL half; celastrol + PEG have none), so the S is a clean
-    anchor for the VHL end; the ligand atom farthest from it is the celastrol (NR4A) terminus. Each atom joins
-    the end whose anchor it is closer to. Returns (vhl_end_pts, nr4a_end_pts, note). `lig_atoms` = list of
-    (element, (x,y,z)). Falls back to whole-ligand (both ends = all atoms) with a note if S count != 1."""
+    """PROVISIONAL, conformation-dependent end partition — FAILS CLOSED (2nd review, fix #2). This is NOT a
+    chemically-mapped moiety occupancy: it uses the ligand's single sulfur (thiazole, VHL half) as one spatial
+    anchor and the farthest atom as the other, then partitions by 3-D distance. It is conformation-dependent and
+    can misassign atoms in a folded PROTAC. Per the review it must be REPLACED by explicit atom-index/atom-map
+    RDKit substructures (CIF↔SMILES mapping archived, verified against intended-site occupancy) before any rerun;
+    until then it returns (None, None, reason) when it cannot cleanly anchor — it NEVER silently reverts to a
+    whole-ligand criterion. Returns (vhl_end_pts, nr4a_end_pts, note) or (None, None, fail_reason).
+    `lig_atoms` = list of (element, (x,y,z))."""
     pts = [p for _, p in lig_atoms]
     sulfurs = [p for el, p in lig_atoms if el.upper() == "S"]
     if len(sulfurs) != 1 or len(pts) < 2:
-        return pts, pts, "moiety-split unavailable (S count=%d); whole-ligand fallback" % len(sulfurs)
-    a_vhl = sulfurs[0]                                            # VH032/thiazole anchor
-    a_nr4a = max(pts, key=lambda p: _euclid(p, a_vhl))           # celastrol terminus = farthest atom from S
+        return None, None, "FAIL-CLOSED: sulfur-anchor unavailable (S count=%d); no whole-ligand fallback" % len(sulfurs)
+    a_vhl = sulfurs[0]                                            # VH032/thiazole spatial anchor (PROVISIONAL)
+    a_nr4a = max(pts, key=lambda p: _euclid(p, a_vhl))           # farthest atom (PROVISIONAL celastrol terminus)
     vhl_end, nr4a_end = [], []
     for p in pts:
         (vhl_end if _euclid(p, a_vhl) <= _euclid(p, a_nr4a) else nr4a_end).append(p)
-    return vhl_end, nr4a_end, "S-anchor split (VH032 end vs celastrol end)"
+    return vhl_end, nr4a_end, "PROVISIONAL sulfur-anchor split (conformation-dependent; not atom-mapped occupancy)"
 
 
 def moiety_geometry(model, cutoffs=CUTOFFS, is_nr4a1=False):
@@ -96,6 +103,8 @@ def moiety_geometry(model, cutoffs=CUTOFFS, is_nr4a1=False):
     if len(lig_atoms) < 2:
         return {"moiety_bridges": None, "note": "no ligand"}
     vhl_end, nr4a_end, split_note = split_ligand_ends(lig_atoms)
+    if vhl_end is None:                                          # FAIL CLOSED (review fix #2) — no whole-ligand fallback
+        return {"moiety_bridges": None, "unmapped": True, "note": split_note}
     nr4a_pts = [(p.x, p.y, p.z) for p in _atoms(nr4a)]
     vhl_pts = [(p.x, p.y, p.z) for p in _atoms(vhl)]
     d_vhlend_vhl = _min_d(vhl_end, vhl_pts)
@@ -118,11 +127,23 @@ def moiety_geometry(model, cutoffs=CUTOFFS, is_nr4a1=False):
            "vh032_end_to_VHL_A": None if d_vhlend_vhl is None else round(d_vhlend_vhl, 2),
            "vh032_end_to_NR4A_A": None if d_vhlend_nr4a is None else round(d_vhlend_nr4a, 2)}
     if is_nr4a1:
-        cys = [a["SG"] for name, num, a in nr4a if name == "CYS" and num == NR4A1_CYS and "SG" in a]
-        if cys:
-            cys_pt = [(cys[0].x, cys[0].y, cys[0].z)]
-            out["celastrol_end_to_Cys551_A"] = round(_min_d(nr4a_end, cys_pt), 2)
+        # Cys551 covalent proxy (review fix #4): the LBD chain is renumbered by the co-fold, so UniProt 551 must
+        # be MAPPED to the local index and the residue identity VERIFIED. NR4A1 (P22736, 598 aa) LBD = last 254
+        # residues → first UniProt residue = 598-254+1 = 345 → local = 551-345+1 = 207. Emit the distance ONLY
+        # if a residue is found at that mapped position AND it is a CYS; otherwise record NOT-evaluated with the
+        # reason (never a misleading proxy). Also accepts direct numbering if the CIF preserved UniProt numbers.
+        cys_hit = None
+        for name, num, a in nr4a:
+            if name == "CYS" and "SG" in a and num in (NR4A1_CYS, NR4A1_CYS - NR4A1_LBD_UNIPROT_FIRST + 1):
+                cys_hit = a["SG"]; break
+        if cys_hit is not None:
+            out["celastrol_end_to_Cys551_A"] = round(_min_d(nr4a_end, [(cys_hit.x, cys_hit.y, cys_hit.z)]), 2)
+            out["cys551_evaluated"] = True
             out["_cys551_note"] = "covalent-geometry PROXY (no covalent bond modeled); celastrol-end min dist to Cys551 SG"
+        else:
+            out["cys551_evaluated"] = False
+            out["_cys551_note"] = ("NOT evaluated: no CYS found at UniProt-551 (local %d) — residue-offset mapping "
+                                   "unverified against this CIF; covalent geometry not assessed" % (NR4A1_CYS - NR4A1_LBD_UNIPROT_FIRST + 1))
     return out
 
 
@@ -303,24 +324,34 @@ def _aggregate(samples, kind):
     # whole-ligand bridging (kept ONLY for comparison — the review flagged it can pass on wrong-end contacts)
     f, n, d = _frac([s["geometry"].get("bridges") for s in samples if s.get("geometry")])
     agg["whole_ligand_bridged_fraction"], agg["n_bridged_wholeligand"], agg["n_scored"] = f, n, d
-    # PRIMARY: moiety-specific bridging, per cutoff (review fix 4 + cutoff sensitivity fix 7)
+    # correct-half dual-surface proximity (renamed from 'moiety/productive'; NOT chemically-mapped occupancy).
+    # FAIL-CLOSED samples (unmapped: moiety_bridges is None) are counted + EXCLUDED, never treated as a bridge.
     moi = [s.get("moiety") for s in samples if s.get("moiety") and s["moiety"].get("moiety_bridges")]
-    agg["moiety_bridged_fraction"] = {}
+    agg["n_unmapped"] = sum(1 for s in samples if s.get("moiety") and s["moiety"].get("moiety_bridges") is None)
+    agg["n_poses"] = len(samples)
+    dk = "%.1f" % DEFAULT_CUTOFF
+    # POSE-level fractions (poses within a seed are NESTED/correlated — report but do NOT treat as independent n).
+    agg["pose_level_fraction"] = {}
     for c in CUTOFFS:
         key = "%.1f" % c
         f, n, d = _frac([m["moiety_bridges"].get(key) for m in moi])
-        agg["moiety_bridged_fraction"][key] = {"fraction": f, "n_bridged": n, "n": d}
-    dk = "%.1f" % DEFAULT_CUTOFF
-    agg["moiety_bridged_default"] = agg["moiety_bridged_fraction"].get(dk, {}).get("fraction")
+        agg["pose_level_fraction"][key] = {"fraction": f, "n_bridged": n, "n_poses": d}
     wf, wn, wd = _frac([m.get("wrong_end") for m in moi])
     agg["wrong_end_fraction"], agg["n_wrong_end"] = wf, wn
-    # per-SEED moiety-bridged fraction at the default cutoff (for leave-one-seed-out in full_verdict)
+    # SEED-LEVEL (the primary sampling unit; review fix #6 — no pose pseudoreplication). Per seed: within-seed
+    # pose-bridge fraction; a seed COUNTS as bridged if a MAJORITY of its poses bridge at the default cutoff.
     per_seed = {}
     for s in samples:
         m = s.get("moiety")
         if m and m.get("moiety_bridges"):
             per_seed.setdefault(s["seed"], []).append(bool(m["moiety_bridges"].get(dk)))
-    agg["per_seed_moiety_bridged"] = {k: round(sum(v) / len(v), 3) for k, v in per_seed.items()}
+    agg["per_seed_pose_fraction"] = {k: round(sum(v) / len(v), 3) for k, v in per_seed.items()}
+    seed_bridged = [1 if (sum(v) / len(v)) >= 0.5 else 0 for v in per_seed.values()]
+    agg["n_seeds_scored"] = len(seed_bridged)
+    agg["seed_bridged_fraction"] = round(sum(seed_bridged) / len(seed_bridged), 3) if seed_bridged else None
+    # primary readout is now SEED-level; keep the old key name mapped to it for downstream compatibility.
+    agg["moiety_bridged_default"] = agg["seed_bridged_fraction"]
+    agg["denominator"] = "seeds=%d, poses=%d, unmapped=%d" % (agg["n_seeds"], agg["n_poses"], agg["n_unmapped"])
     # ubiquitin-ACCESSIBILITY proxy (NOT solvent-accessibility): min Lys-NZ→VHL. Relabelled + demoted from the
     # verdict per review fix 5 (analyzer computes no SASA; per-seed ordering is inconsistent).
     lysd = [s["geometry"]["closest_exposed_lys"]["dist_A"] for s in samples
@@ -343,56 +374,70 @@ def _dist(xs):
 
 
 def pilot_verdict(control, nr4a1):
-    """Encode single_leg_first_pilot: PROCEED / ABORT for the control+NR4A1 pilot."""
+    """Encode single_leg_first_pilot: PROCEED / ABORT / NOT-EVALUATED for the control+NR4A1 pilot.
+    A control that is ABSENT BY DESIGN (e.g. a --targets fan-out / --skip-control run) must report
+    NOT-EVALUATED — not ABORT/'workflow suspect' (review fix #8): missing-by-design ≠ failure."""
     c = control["ensemble"] if control else {}
     n = nr4a1["ensemble"] if nr4a1 else {}
-    control_ok = bool(control) and (c.get("seated_fraction") or 0) >= 0.5
-    # productive + seed-persistent: MOIETY-bridges (correct ends) in a majority of samples.
-    nr4a1_ok = bool(nr4a1) and (n.get("moiety_bridged_default") or 0) >= 0.5
+    if not control or not nr4a1:
+        missing = [x for x, present in (("control", bool(control)), ("NR4A1", bool(nr4a1))) if not present]
+        return {"verdict": "not-evaluated", "reason": "not part of this run (absent by design): %s" % ", ".join(missing),
+                "control_ok": None, "nr4a1_ok": None}
+    control_ok = (c.get("seated_fraction") or 0) >= 0.5
+    nr4a1_ok = (n.get("moiety_bridged_default") or 0) >= 0.5   # correct-half dual-surface proximity, majority of samples
     if control_ok and nr4a1_ok:
-        verdict, reason = "PROCEED", ("control seats VH032 in VHL (%s/%s samples) AND NR4A1 forms a productive, "
-                                      "MOIETY-correct ternary (moiety-bridged fraction %.2f at %.1f Å) → fan out "
-                                      "NR4A2 + NR4A3." % (c.get("n_seated"), c.get("n_scored"),
-                                                          n.get("moiety_bridged_default") or 0, DEFAULT_CUTOFF))
+        verdict, reason = "PROCEED", ("control seats VH032 in VHL (%s/%s samples) AND NR4A1 meets the correct-half "
+                                      "dual-surface proximity criterion (fraction %.2f at %.1f Å). NOTE: this is an "
+                                      "architecture-feasibility gate ONLY — not a binding/affinity gate." %
+                                      (c.get("n_seated"), c.get("n_scored"),
+                                       n.get("moiety_bridged_default") or 0, DEFAULT_CUTOFF))
     else:
         bad = []
         if not control_ok:
-            bad.append("control did NOT seat VH032 in VHL (workflow suspect)")
+            bad.append("VH032 control did NOT seat in VHL")
         if not nr4a1_ok:
-            bad.append("NR4A1 (known-degraded) did NOT form a productive seed-persistent ternary")
-        verdict, reason = "ABORT", " ; ".join(bad) + " → do not spend on the full paralogue fleet; fix the workflow first."
+            bad.append("NR4A1 (known-degraded) did NOT meet the correct-half dual-surface proximity criterion")
+        verdict, reason = "ABORT", " ; ".join(bad) + " → architecture gate not met."
     return {"verdict": verdict, "reason": reason, "control_ok": control_ok, "nr4a1_ok": nr4a1_ok}
 
 
-def _sep_at(systems, cutoff_key):
-    """Concordance test at one cutoff: NR4A1 moiety-bridges in a MAJORITY of samples while BOTH spared paralogues
-    do so in a MINORITY. Returns (bool, {name: fraction})."""
-    fr = {}
-    for name in ("nr4a1", "nr4a2", "nr4a3"):
-        e = systems[name]["ensemble"]
-        fr[name] = (e.get("moiety_bridged_fraction", {}).get(cutoff_key, {}) or {}).get("fraction")
+def _seed_bridged_fraction(system, cutoff_key, drop_seed=None):
+    """SEED-level bridged fraction at a cutoff (review fix #6 — seed is the sampling unit, poses are nested):
+    per seed take the majority-of-poses bridge call, then the fraction of seeds that pass. `drop_seed` excludes
+    one seed (for leave-one-seed-out). Returns None if no seeds are scorable."""
+    per_seed = {}
+    for s in system.get("samples", []):
+        if drop_seed is not None and s["seed"] == drop_seed:
+            continue
+        m = s.get("moiety")
+        if m and m.get("moiety_bridges"):
+            per_seed.setdefault(s["seed"], []).append(bool(m["moiety_bridges"].get(cutoff_key)))
+    if not per_seed:
+        return None
+    seed_pass = [1 if (sum(v) / len(v)) >= 0.5 else 0 for v in per_seed.values()]
+    return sum(seed_pass) / len(seed_pass)
+
+
+def _sep_at(systems, cutoff_key, drop_seed=None):
+    """SEED-level concordance test at one cutoff: NR4A1 passes in a MAJORITY of seeds while BOTH spared
+    paralogues pass in a MINORITY. Returns (bool_or_None, {name: seed_fraction})."""
+    fr = {name: _seed_bridged_fraction(systems[name], cutoff_key, drop_seed) for name in ("nr4a1", "nr4a2", "nr4a3")}
     if any(v is None for v in fr.values()):
         return None, fr
     return (fr["nr4a1"] >= 0.5 and max(fr["nr4a2"], fr["nr4a3"]) < 0.5), fr
 
 
 def _loo_robust(systems):
-    """Leave-one-seed-out (review fix 7): does the default-cutoff separation survive dropping ANY single seed?
-    Recomputes moiety-bridged fraction per system excluding each seed in turn."""
+    """Leave-one-SEED-out: does the default-cutoff seed-level separation survive dropping ANY single seed?"""
     dk = "%.1f" % DEFAULT_CUTOFF
     seeds = sorted(set(s["seed"] for s in systems["nr4a1"].get("samples", [])))
     if len(seeds) < 2:
         return None
     for drop in seeds:
-        frac = {}
-        for name in ("nr4a1", "nr4a2", "nr4a3"):
-            samp = [s for s in systems[name].get("samples", []) if s["seed"] != drop]
-            flags = [bool(s["moiety"]["moiety_bridges"].get(dk)) for s in samp
-                     if s.get("moiety") and s["moiety"].get("moiety_bridges")]
-            frac[name] = (sum(flags) / len(flags)) if flags else None
-        if any(v is None for v in frac.values()):
+        ok, fr = _sep_at(systems, dk, drop_seed=drop)
+        if ok is None:
             return None
-        if not (frac["nr4a1"] >= 0.5 and max(frac["nr4a2"], frac["nr4a3"]) < 0.5):
+        if not ok:
             return False
     return True
 
@@ -423,31 +468,39 @@ def full_verdict(systems):
         li_note = ("ligand-iPTM did NOT reproduce the ordering in this benchmark (NR4A1 %.3f vs NR4A2 %.3f / "
                    "NR4A3 %.3f) and must not rank paralogue-selective ternaries alone." % (li1, li2, li3))
 
+    counts = {name: systems[name]["ensemble"].get("denominator") for name in ("nr4a1", "nr4a2", "nr4a3")}
     if sep_default is None:
-        verdict, basis = "insufficient-data", "moiety-bridging fractions unavailable for all three paralogues"
+        verdict, basis = "insufficient-data", "seed-level fractions unavailable for all three paralogues"
     elif sep_default:
-        verdict = "exploratory-concordance"
-        basis = ("in ONE retrospective example the moiety-specific contact readout was concordant with the known "
-                 "phenotype: NR4A1 moiety-bridges %.2f of samples vs NR4A2 %.2f / NR4A3 %.2f at %.1f Å%s%s. "
-                 "Exploratory, not validation." % (fr["nr4a1"], fr["nr4a2"], fr["nr4a3"], DEFAULT_CUTOFF,
-                 "; robust across 4.0/4.5/5.0 Å" if cutoff_robust else "; NOT robust across all cutoffs",
-                 "; survives leave-one-seed-out" if loo else ("; does NOT survive leave-one-seed-out" if loo is False else "")))
+        verdict = "exploratory-architecture-concordance"
+        basis = ("in ONE retrospective example the correct-half dual-surface proximity classifier (SEED-level) was "
+                 "concordant with the reported phenotype: NR4A1 %.2f of seeds vs NR4A2 %.2f / NR4A3 %.2f at %.1f Å%s%s. "
+                 "Architecture-feasibility only; NOT validation, NOT affinity/selectivity." %
+                 (fr["nr4a1"], fr["nr4a2"], fr["nr4a3"], DEFAULT_CUTOFF,
+                  "; robust across 4.0/4.5/5.0 Å" if cutoff_robust else "; NOT robust across all cutoffs",
+                  "; survives leave-one-seed-out" if loo else ("; does NOT survive leave-one-seed-out" if loo is False else "")))
     elif fr.get("nr4a1", 0) and fr["nr4a1"] >= 0.5:
         verdict = "inconclusive"
-        basis = "NR4A1 forms a moiety-correct ternary but a spared paralogue also bridges — no clean separation"
+        basis = "NR4A1 passes the correct-half proximity criterion but a spared paralogue also does — no clean separation"
     else:
         verdict = "discordant"
-        basis = "NR4A1 (known-degraded) does not moiety-bridge in a majority of samples"
+        basis = "NR4A1 (known-degraded) does not pass the correct-half proximity criterion in a majority of seeds"
 
-    return {"verdict": verdict, "primary_basis": "moiety_specific_ternary_geometry", "basis": basis,
-            "moiety_bridged_fraction_default": fr, "cutoff_sensitivity": cutoff_sep,
-            "cutoff_robust": cutoff_robust, "leave_one_seed_out_robust": loo,
+    return {"verdict": verdict, "primary_basis": "correct_half_dual_surface_proximity_SEED_level", "basis": basis,
+            "seed_bridged_fraction_default": fr, "cutoff_sensitivity_seedlevel": cutoff_sep,
+            "cutoff_robust": cutoff_robust, "leave_one_seed_out_robust": loo, "denominators": counts,
             "wrong_end_fraction": {name: systems[name]["ensemble"].get("wrong_end_fraction")
                                    for name in ("nr4a1", "nr4a2", "nr4a3")},
             "ligand_iptm_mean": {"nr4a1": li1, "nr4a2": li2, "nr4a3": li3}, "ligand_iptm_note": li_note,
-            "caveats": ["retrospective n=1 (NR-V04 only)", "NR4A1-selectivity != NR4A3-selectivity",
-                        "phenotype does not establish geometry as the cause", "no CRL4/E2~Ub; Lys reach demoted",
-                        "productive geometry elevated to primary AFTER the ligand-iPTM result (exploratory)"]}
+            "not_an_affinity_gate": ("this is a structure-only architecture-feasibility readout; an inactive "
+                                     "stereo-epimer passed it at the active rate — affinity/binding/selectivity "
+                                     "ranking requires a SEPARATE affinity method (FEP/ABFE) that first passes the "
+                                     "active-vs-epimer control"),
+            "caveats": ["retrospective n=1 (NR-V04-inspired representative reconstruction; exact graph unverified)",
+                        "NR4A1-selectivity != NR4A3-selectivity", "phenotype does not establish geometry as the cause",
+                        "no CRL4/E2~Ub; Lys reach demoted; Cys551 not evaluated",
+                        "correct-half proximity (conformation-dependent sulfur-anchor, NOT atom-mapped occupancy) "
+                        "elevated to primary AFTER the ligand-iPTM result (exploratory)"]}
 
 
 def main():
@@ -475,28 +528,46 @@ def main():
             if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
                 systems[name] = analyse_system(tmp, name, "ternary")
 
-        # negative controls (NR4A1 + VHL + inactive-epimer PROTAC / free celastrol): each MUST FAIL to bridge.
+        # Controls, separated by TYPE (review fix #5). ARCHITECTURE negative: free celastrol (no VHL handle) —
+        # the classifier IS entitled to catch this. AFFINITY negative: the VHL-inactive Hyp-epimer PROTAC — a
+        # structure-only classifier is NOT expected to catch a pure-affinity stereochemical knockout; if it
+        # "passes" the epimer that shows the classifier has no affinity sensitivity (the decisive result).
+        NEG_TYPE = {"neg_celastrol": "architecture", "neg_inactive": "affinity"}
         negatives = {}
         for name in ("neg_inactive", "neg_celastrol"):
             if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
                 negatives[name] = analyse_system(tmp, name, "ternary")
-        neg_pass = None
-        if negatives:
-            neg_pass = all((s["ensemble"].get("moiety_bridged_default") or 0) < 0.5 for s in negatives.values())
+        # architecture controls should FAIL the classifier; affinity controls are reported (they define the
+        # classifier's affinity-blindness) but do NOT make the architecture gate 'pass'.
+        arch_pass = None
+        arch = {k: v for k, v in negatives.items() if NEG_TYPE.get(k) == "architecture"}
+        if arch:
+            arch_pass = all((s["ensemble"].get("seed_bridged_fraction") or 0) < 0.5 for s in arch.values())
+        affinity_classifier_blind = None
+        aff = {k: v for k, v in negatives.items() if NEG_TYPE.get(k) == "affinity"}
+        if aff:
+            affinity_classifier_blind = any((s["ensemble"].get("seed_bridged_fraction") or 0) >= 0.5 for s in aff.values())
 
         report = {"prefix": prefix, "bucket": bucket, "mode": prep_data.get("mode"),
                   "seeds": prep_data.get("seeds"), "ground_truth": prep_data.get("ground_truth"),
                   "control": control, "systems": systems,
-                  "negative_controls": {k: v["ensemble"] for k, v in negatives.items()},
-                  "negative_controls_pass": neg_pass}
+                  # PAIRED per-seed/rank records preserved for negatives (review fix #7), not just ensembles.
+                  "negative_controls": {k: {"type": NEG_TYPE.get(k), "ensemble": v["ensemble"],
+                                            "samples": v.get("samples")} for k, v in negatives.items()},
+                  "architecture_controls_pass": arch_pass,
+                  "affinity_classifier_blind": affinity_classifier_blind}
         report["pilot_gate"] = pilot_verdict(control, systems.get("nr4a1"))
         if all(k in systems for k in ("nr4a1", "nr4a2", "nr4a3")):
             fg = full_verdict(systems)
-            # fold the negative-control result into the frozen-criteria verdict
-            fg["negative_controls_pass"] = neg_pass
-            if neg_pass is False:
-                fg["verdict"] = "failed-negative-control"
-                fg["basis"] = "a negative control bridged NR4A1 — the productive-geometry readout is not specific"
+            fg["architecture_controls_pass"] = arch_pass
+            fg["affinity_classifier_blind"] = affinity_classifier_blind
+            if arch_pass is False:
+                fg["verdict"] = "failed-architecture-control"
+                fg["basis"] = "an ARCHITECTURE negative (should not span) passed the classifier — not even architecture-specific"
+            if affinity_classifier_blind:
+                fg["affinity_note"] = ("AFFINITY control failed: the VHL-inactive stereo-epimer passed the "
+                                       "structure-only classifier at the active rate → no affinity sensitivity; "
+                                       "prohibited from affinity/selectivity/linker ranking")
             report["full_gate"] = fg
 
         json.dump(report, open(out_path, "w"), indent=2)
@@ -507,16 +578,17 @@ def main():
                   (e.get("n_seated"), e.get("n_scored"), e.get("ligand_iptm")))
         for name, s in systems.items():
             e = s["ensemble"]
-            print("%s ternary: MOIETY-bridged %s (n=%s samples) @ %.1f Å; wrong-end frac %s; whole-ligand-bridged "
-                  "%s; ligand-iPTM %s; lys-NZ→VHL %s" %
-                  (name.upper(), e.get("moiety_bridged_default"), e.get("n_samples"), DEFAULT_CUTOFF,
-                   e.get("wrong_end_fraction"), e.get("whole_ligand_bridged_fraction"),
-                   (e.get("ligand_iptm") or {}).get("mean"), (e.get("lys_nz_to_vhl_A") or {}).get("mean")))
-        for name, e in report["negative_controls"].items():
-            print("NEG %s: moiety-bridged %s (should be <0.5) @ %.1f Å; wrong-end %s" %
-                  (name, e.get("moiety_bridged_default"), DEFAULT_CUTOFF, e.get("wrong_end_fraction")))
-        if report.get("negative_controls_pass") is not None:
-            print("NEGATIVE CONTROLS PASS (both fail to bridge NR4A1): %s" % report["negative_controls_pass"])
+            print("%s: SEED-level correct-half proximity %s (%s); wrong-end %s; ligand-iPTM %s" %
+                  (name.upper(), e.get("seed_bridged_fraction"), e.get("denominator"),
+                   e.get("wrong_end_fraction"), (e.get("ligand_iptm") or {}).get("mean")))
+        for name, rec in report["negative_controls"].items():
+            e = rec["ensemble"]
+            print("NEG %s [%s]: SEED-level proximity %s (%s)" %
+                  (name, rec.get("type"), e.get("seed_bridged_fraction"), e.get("denominator")))
+        if report.get("architecture_controls_pass") is not None:
+            print("ARCHITECTURE controls pass (fail to span): %s" % report["architecture_controls_pass"])
+        if report.get("affinity_classifier_blind"):
+            print("AFFINITY control: classifier is BLIND (inactive epimer passed at the active rate)")
         print("\nPILOT GATE: %s — %s" % (report["pilot_gate"]["verdict"], report["pilot_gate"]["reason"]))
         if "full_gate" in report:
             print("FULL GATE: %s" % json.dumps(report["full_gate"]))
