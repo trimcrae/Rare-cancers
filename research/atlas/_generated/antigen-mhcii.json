@@ -15,23 +15,20 @@
       "n_novel_15mers": 14,
       "seam": "QYSQQSSSYGQQ|PCVQAQYSPSPP",
       "breakpoint_modeled": true,
-      "prediction_status": "tool_unavailable",
-      "prediction": "mhcnuggets unavailable (Unable to convert function return value to a Python type! The signature was\n\t() -> handle)",
-      "novel_peptides": [
-        "GQQPCVQAQYSPSPP",
-        "PSQYSQQSSSYGQQP",
-        "QPCVQAQYSPSPPGS",
-        "QQPCVQAQYSPSPPG",
-        "QQSSSYGQQPCVQAQ",
-        "QSSSYGQQPCVQAQY",
-        "QYSQQSSSYGQQPCV",
-        "SQQSSSYGQQPCVQA",
-        "SQYSQQSSSYGQQPC",
-        "SSSYGQQPCVQAQYS",
-        "SSYGQQPCVQAQYSP",
-        "SYGQQPCVQAQYSPS",
-        "YGQQPCVQAQYSPSP",
-        "YSQQSSSYGQQPCVQ"
+      "prediction_status": "ok",
+      "n_alleles_ok": 7,
+      "n_strong_pep_allele": 1,
+      "n_binder_pep_allele": 12,
+      "distinct_strong_peptides": [
+        "QYSQQSSSYGQQPCV"
+      ],
+      "top_strong": [
+        {
+          "peptide": "QYSQQSSSYGQQPCV",
+          "allele": "DRB1*07:01",
+          "ic50_nM": 16.4,
+          "call": "strong"
+        }
       ]
     },
     "TAF15::NR4A3": {
@@ -39,24 +36,12 @@
       "n_novel_15mers": 14,
       "seam": "GYDKDGRGPMTG|PCVQAQYSPSPP",
       "breakpoint_modeled": true,
-      "prediction_status": "tool_unavailable",
-      "prediction": "mhcnuggets unavailable (Unable to convert function return value to a Python type! The signature was\n\t() -> handle)",
-      "novel_peptides": [
-        "DGRGPMTGPCVQAQY",
-        "DKDGRGPMTGPCVQA",
-        "GGYDKDGRGPMTGPC",
-        "GPCVQAQYSPSPPGS",
-        "GPMTGPCVQAQYSPS",
-        "GRGPMTGPCVQAQYS",
-        "GYDKDGRGPMTGPCV",
-        "KDGRGPMTGPCVQAQ",
-        "MTGPCVQAQYSPSPP",
-        "PMTGPCVQAQYSPSP",
-        "RGGYDKDGRGPMTGP",
-        "RGPMTGPCVQAQYSP",
-        "TGPCVQAQYSPSPPG",
-        "YDKDGRGPMTGPCVQ"
-      ]
+      "prediction_status": "ok",
+      "n_alleles_ok": 7,
+      "n_strong_pep_allele": 0,
+      "n_binder_pep_allele": 2,
+      "distinct_strong_peptides": [],
+      "top_strong": []
     }
   }
 }
