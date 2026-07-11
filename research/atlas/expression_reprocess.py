@@ -100,12 +100,15 @@ def parse_series_matrix(url):
     """Return dict: platform, samples, titles, characteristics(list per sample joined), probes, values.
     Streams the gzipped series matrix line by line (memory-flat)."""
     platform, samples, titles = None, [], []
+    sample_platforms = []
     charac = {}  # sample_index -> list of characteristic strings
     probes, values, header = [], [], None
     in_tbl = False
     for ln in _gz_lines(url):
         if ln.startswith("!Series_platform_id") and platform is None:
             platform = ln.split("\t")[-1].strip().strip('"')
+        elif ln.startswith("!Sample_platform_id"):
+            sample_platforms = [x.strip().strip('"') for x in ln.split("\t")[1:]]
         elif ln.startswith("!Sample_geo_accession"):
             samples = [x.strip().strip('"') for x in ln.split("\t")[1:]]
         elif ln.startswith("!Sample_title"):
@@ -135,7 +138,12 @@ def parse_series_matrix(url):
             probes.append(pid)
             values.append(row)
     charac_joined = {i: " | ".join(v) for i, v in charac.items()}
-    return {"platform": platform, "samples": samples, "titles": titles,
+    # Per-file platform: these legacy multi-platform series split one GPL per matrix file, so the
+    # correct platform for THIS file is the (modal) !Sample_platform_id, not the first !Series line.
+    file_platform = None
+    if sample_platforms:
+        file_platform = max(set(sample_platforms), key=sample_platforms.count)
+    return {"platform": file_platform or platform, "samples": samples, "titles": titles,
             "characteristics": charac_joined, "probes": probes, "values": values}
 
 
@@ -147,7 +155,7 @@ def parse_gpl_symbols(platform_id):
     url = f"https://ftp.ncbi.nlm.nih.gov/geo/platforms/{grp}/{platform_id}/soft/{platform_id}_family.soft.gz"
     mapping = {}
     in_tbl = False
-    header, id_i, sym_i = None, None, None
+    header, id_i, sym_i, assignment = None, None, None, False
     try:
         lines = _gz_lines(url)
     except Exception as e:  # noqa
@@ -165,15 +173,29 @@ def parse_gpl_symbols(platform_id):
                 header = [p.strip() for p in parts]
                 low = [h.lower() for h in header]
                 id_i = 0
-                for cand in ("gene symbol", "gene_symbol", "symbol", "ilmn_gene", "genesymbol"):
+                # Prefer a plain symbol column; fall back to Affy/Illumina compound "assignment"
+                # columns (GPL6244 etc.) where the symbol is the 2nd '//'-delimited token.
+                for cand in ("gene symbol", "gene_symbol", "genesymbol", "symbol", "ilmn_gene", "gene"):
                     if cand in low:
-                        sym_i = low.index(cand)
+                        sym_i, assignment = low.index(cand), False
                         break
+                else:
+                    for cand in ("gene_assignment", "mrna_assignment"):
+                        if cand in low:
+                            sym_i, assignment = low.index(cand), True
+                            break
                 continue
             if sym_i is not None and len(parts) > sym_i:
                 pid = parts[id_i].strip()
-                sym = parts[sym_i].strip().split("///")[0].strip()
-                if pid and sym:
+                cell = parts[sym_i].strip()
+                if assignment:
+                    # e.g. "NM_001005484 // OR4F5 // olfactory receptor ... // 1p36 // 79501 /// ..."
+                    first = cell.split("///")[0]
+                    toks = [t.strip() for t in first.split("//")]
+                    sym = toks[1] if len(toks) > 1 else ""
+                else:
+                    sym = cell.split("///")[0].strip()
+                if pid and sym and sym != "---":
                     mapping[pid] = sym
     return mapping
 
