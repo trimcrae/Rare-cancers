@@ -608,6 +608,12 @@ def _print_headline(summary):
         print(f"  RECROSSINGS: closed<->open crossings={r.get('closed_open_crossings')}; "
               f"druggable-window visits={(r.get('druggable_window_visits') or {}).get('visits')}",
               flush=True)
+        if r.get("cv", "").startswith("s"):   # tica_combine diagnostics
+            print(f"  RECROSSINGS[s]: cv range [{r.get('cv_min')}, {r.get('cv_max')}] "
+                  f"boundary={r.get('boundary_s')} deadband={r.get('deadband_s')} "
+                  f"grid=[{r.get('grid_min_s')}, {r.get('grid_max_s')}] "
+                  f"frac_below={r.get('frac_below_boundary')} frac_above={r.get('frac_above_boundary')} "
+                  f"corr(s,Rg)={r.get('corr_s_rg')}", flush=True)
     if o.get("ran"):
         print(f"  ORTHOGONAL: gate {o['gate_distance_nm']}; corr(Rg,gate)={o.get('corr_rg_gate')}; "
               f"2D reweight n={o.get('reweight_2d', {}).get('n_samples')}", flush=True)
