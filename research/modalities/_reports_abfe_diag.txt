@@ -1,36 +1,22 @@
-[diag] bucket sagemaker-us-east-2-646605541856  tags ['nr4a3-abfe-8xtt-r1', 'nr4a3-abfe-8xtt-r2', 'nr4a3-abfe-8xtt-r3']  receptors ['nr4a3']
-  [sync] nr4a3-abfe/ckpt/solvent/ -> 13 files
-  [sync] nr4a3-abfe-8xtt-r1/ckpt/complex-nr4a3/ -> 13 files
-  [sync] nr4a3-abfe/ckpt/solvent/ -> 13 files
-  [sync] nr4a3-abfe-8xtt-r2/ckpt/complex-nr4a3/ -> 15 files
-  [sync] nr4a3-abfe/ckpt/solvent/ -> 13 files
-  [sync] nr4a3-abfe-8xtt-r3/ckpt/complex-nr4a3/ -> 13 files
-Warning on use of the timeseries module: If the inherent timescales of the system are long compared to those being analyzed, this statistical inefficiency may be an underestimate.  The estimate presumes the use of many statistically independent samples.  Tests should be performed to assess whether this condition is satisfied.   Be cautious in the interpretation of the data.
-
-********* JAX NOT FOUND *********
- PyMBAR can run faster with JAX  
- But will work fine without it   
-Either install with pip or conda:
-      pip install pybar[jax]     
-               OR                
-      conda install pymbar       
-*********************************
-[diag] wrote results/nr4a3-abfe/diagnostics/nr4a3-abfe-diagnostics.json
-[diag] wrote 9 PNGs: ['overlap_nr4a3-abfe-8xtt-r1.png', 'convergence_nr4a3-abfe-8xtt-r1.png', 'ess_nr4a3-abfe-8xtt-r1.png', 'overlap_nr4a3-abfe-8xtt-r2.png', 'convergence_nr4a3-abfe-8xtt-r2.png', 'ess_nr4a3-abfe-8xtt-r2.png', 'overlap_nr4a3-abfe-8xtt-r3.png', 'convergence_nr4a3-abfe-8xtt-r3.png', 'ess_nr4a3-abfe-8xtt-r3.png']
-
-=== per-receptor ΔG_bind (raw engine, kcal/mol) ===
-  nr4a3   +8.17 ± 0.98   (n=3, reps: r1=+7.95, r2=+9.24, r3=+7.32)
-
-=== selectivity ΔΔG (ref = nr4a3; negative ⇒ target-selective) ===
-
-=== consistency vs committed §4 (MISMATCH — FLAGGED) ===
-  [XX] dg_bind[nr4a3].mean    recomputed +8.171  expected +3.500  (Δ +4.671, tol 0.60)
-  [ok] dg_bind[nr4a3].sd      recomputed +0.980  expected +1.400  (Δ -0.420, tol 0.50)
-  [XX] dg_bind[nr4a1].mean    recomputed n/a  expected +8.300  (Δ n/a, tol 0.60)
-  [XX] dg_bind[nr4a1].sd      recomputed n/a  expected +1.100  (Δ n/a, tol 0.50)
-  [XX] dg_bind[nr4a2].mean    recomputed n/a  expected +8.500  (Δ n/a, tol 0.60)
-  [XX] dg_bind[nr4a2].sd      recomputed n/a  expected +0.700  (Δ n/a, tol 0.50)
-  [XX] ddg[nr4a3-nr4a1].mean  recomputed n/a  expected -4.760  (Δ n/a, tol 0.60)
-  [XX] ddg[nr4a3-nr4a1].sd    recomputed n/a  expected +2.030  (Δ n/a, tol 0.50)
-  [XX] ddg[nr4a3-nr4a2].mean  recomputed n/a  expected -4.980  (Δ n/a, tol 0.60)
-  [XX] ddg[nr4a3-nr4a2].sd    recomputed n/a  expected +0.680  (Δ n/a, tol 0.50)
+[diag] bucket sagemaker-us-east-2-646605541856  tags ['nr4a3-abfe-nr4a2rep-r1', 'nr4a3-abfe-nr4a2rep-r2', 'nr4a3-abfe-nr4a2rep-r3']  receptors ['nr4a2']
+  [sync] nr4a3-abfe-nr4a2rep-r1/ckpt/solvent/ -> 0 files
+  [sync] nr4a3-abfe-nr4a2rep-r1/ckpt/complex-nr4a2/ -> 7 files
+  [sync] nr4a3-abfe-nr4a2rep-r2/ckpt/solvent/ -> 0 files
+  [sync] nr4a3-abfe-nr4a2rep-r2/ckpt/complex-nr4a2/ -> 4 files
+  [sync] nr4a3-abfe-nr4a2rep-r3/ckpt/solvent/ -> 0 files
+  [sync] nr4a3-abfe-nr4a2rep-r3/ckpt/complex-nr4a2/ -> 5 files
+Traceback (most recent call last):
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_abfe_diagnostics_run.py", line 320, in <module>
+    main()
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_abfe_diagnostics_run.py", line 306, in main
+    results = compute(dirs)
+              ^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_abfe_diagnostics_run.py", line 155, in compute
+    rep_out["legs"][leg_key] = {"dir": d, **diag.leg_diagnostics(we, temperature_K=temperature_K, K=K)}
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_abfe_diagnostics.py", line 243, in leg_diagnostics
+    ov = mbar_overlap(*we_to_ukln(we, K))
+                       ^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_abfe_diagnostics.py", line 92, in we_to_ukln
+    raise ValueError("window %d sample has %d energies, expected %d" % (k, len(sample), K))
+ValueError: window 0 sample has 16 energies, expected 12
