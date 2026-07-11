@@ -616,6 +616,34 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
             "restraint_standard_state_dg": ssc}
 
 
+def _infer_k(out_dir):
+    """Number of λ-windows for a leg, inferred FROM THE DATA (count of window_XX.jsonl files) so a reduce works
+    regardless of the ABFE_LAMBDA_SCHEDULE default — a repaired dense-λ complex leg (16 windows) and a standard
+    solvent leg (12) reduce correctly IN THE SAME run. Cross-checks the count against the length of a sample's
+    reduced-potential vector u (which is evaluated at every λ-state) and raises loudly on a mismatch rather than
+    silently truncating. Returns None if no window files are present (caller falls back to the schedule length)."""
+    import glob
+    files = sorted(glob.glob(os.path.join(out_dir, "window_*.jsonl")))
+    if not files:
+        return None
+    # count must be a contiguous 0..K-1 run
+    k = 0
+    while os.path.exists(os.path.join(out_dir, f"window_{k:02d}.jsonl")):
+        k += 1
+    for p in files:                                            # first non-empty sample's u length must equal k
+        for line in open(p):
+            if line.strip():
+                u = json.loads(line).get("u")
+                if u is not None and len(u) != k:
+                    raise ValueError(f"leg {os.path.basename(out_dir.rstrip('/'))}: {k} window files but sample u "
+                                     f"has {len(u)} energies — inconsistent λ-window count (corrupt/mixed leg)")
+                break
+        else:
+            continue
+        break
+    return k
+
+
 def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False, trace_points=120):
     """Read all windows' per-iteration jsonl → MBAR → leg ΔG (kcal/mol) + SE. With per_iteration=True, return
     the CONVERGENCE TRACE [(n_samples_per_window, dg, se)] by re-running MBAR on the first-n samples for
@@ -627,8 +655,12 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False,
     visually identical convergence curve. trace_points=None restores the (slow) every-iteration trace."""
     import numpy as np
     from pymbar import MBAR
-    schedule = schedule or lambda_schedule()
-    K = len(schedule)
+    # K = the leg's ACTUAL window count from the data (per-leg; a dense-λ repaired complex leg has 16, a standard
+    # solvent leg 12 — both reduce correctly in one run). Fall back to the schedule length only if no data yet.
+    K = None if schedule is not None else _infer_k(out_dir)
+    if K is None:
+        schedule = schedule or lambda_schedule()
+        K = len(schedule)
     RT = (0.0019872041 * temperature_K)                       # kcal/mol per kT
     we = [[] for _ in range(K)]
     for k in range(K):
