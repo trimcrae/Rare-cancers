@@ -105,7 +105,9 @@ diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns 
 
 ## Open next steps (all no-wet-lab, mostly free/cheap)
 0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text pass; panel DepMap dependency (C020); brief (A); antiangiogenic mechanism+CRF (D); TAF15 junction antigen (C, C021).
-1. **MHC-II help epitopes** for both junctions (patient_cd4_epitopes.py / MHCnuggets, isolated venv) — the one antigen piece deferred this session.
+1. ~~MHC-II help epitopes~~ **DONE (claim C022):** EWSR1 junction has a STRONG CD4 helper epitope
+   (QYSQQSSSYGQQPCV/DRB1*07:01, 16.4 nM); TAF15 weak on both classes. Required py3.10+TF2.10+numpy1.23.5
+   (MHCnuggets breaks on modern Keras `lr` API and numpy-2 ABI — two CI env fixes).
 2. **Exposure numbers:** populate cited unbound-Cmax for the 12 panel compounds (the window is now shown to be pharmacology-limited, so this matters most for proteostasis).
 3. **GSE4303** needs a bespoke clone-ID→symbol crosswalk (custom two-colour GPLs); or drop as superseded.
 4. **Lineage-antigen screen** (B7-H3/PRAME/CHRNA6 in EMC tissue/immunopeptidomics) — the redirect target from the modest junction yield; needs collaborator tissue. (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,

@@ -154,7 +154,7 @@
       "id": "AXIS-fusion-junction-antigen",
       "label": "Fusion-junction antigen (EWSR1::NR4A3 junction peptides) -- strategy Project 4 core",
       "type": "modality_axis",
-      "supporting_claims": ["C016", "C017", "C021"],
+      "supporting_claims": ["C016", "C017", "C021", "C022"],
       "scores": {
         "emc_model_support": 0,
         "fusion_subtype_coverage": 2,
@@ -170,7 +170,7 @@
       "composite": 8,
       "tier": "COMPUTATIONAL_LEAD_MODEST_PREDICTED_YIELD",
       "rationale": "The recurrent, tumor-specific fusion is a genuinely tumor-restricted antigen source; the junction is expressed and absent from the normal proteome. In-repo MHC-I prediction + breakpoint-resolved junctions + HLA coverage already computed (free, deterministic).",
-      "honest_caveats": "PREDICTION ONLY. BOTH subtypes now modeled (C021): EWSR1 (2 strong / 3 sub-500nM) and TAF15 (1 strong / 7 sub-500nM) junctions both give a MODEST MHC-I yield -- neither common junction is a strong shared class-I target. Per the strategy this is a useful negative that redirects toward fusion-induced LINEAGE antigens (see AXIS-surface-antigen). No natural presentation or T-cell recognition demonstrated; needs immunopeptidomics + PBMC priming. Both breakpoints modeled (breakpoint-sensitive). MHC-II (class-II help) not yet run -- tool exists (patient_cd4_epitopes.py, MHCnuggets, isolated env).",
+      "honest_caveats": "PREDICTION ONLY. BOTH subtypes now modeled (C021): EWSR1 (2 strong / 3 sub-500nM) and TAF15 (1 strong / 7 sub-500nM) junctions both give a MODEST MHC-I yield -- neither common junction is a strong shared class-I target. Per the strategy this is a useful negative that redirects toward fusion-induced LINEAGE antigens (see AXIS-surface-antigen). No natural presentation or T-cell recognition demonstrated; needs immunopeptidomics + PBMC priming. Both breakpoints modeled (breakpoint-sensitive). CLASS-II now run (C022): the EWSR1 junction has a STRONG CD4 helper epitope (QYSQQSSSYGQQPCV/DRB1*07:01, 16.4 nM) -- usable vaccine help despite modest class-I -- while TAF15 is weak on both classes. Net: EWSR1 junction is a plausible vaccine target (help present, class-I the weaker link); TAF15 favours lineage antigens.",
       "strategy_rank": 4
     },
     {

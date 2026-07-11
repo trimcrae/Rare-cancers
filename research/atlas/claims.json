@@ -287,6 +287,20 @@
       "notes": "Both breakpoints MODELED (junction peptides are breakpoint-sensitive) -> feasibility comparison, not patient-specific. Neither common junction is a strong shared class-I target; per the strategy this is an informative negative that redirects toward fusion-induced LINEAGE antigens (B7-H3/PRAME axis). Class-II (MHCnuggets) + immunopeptidomics still warranted. No natural presentation demonstrated."
     },
     {
+      "claim_id": "C022",
+      "statement": "MHC class-II (CD4 help) prediction of the junctions (MHCnuggets, 7 common DRB1 alleles): the EWSR1::NR4A3 junction contains a STRONG predicted CD4 helper epitope (QYSQQSSSYGQQPCV, DRB1*07:01, IC50 16.4 nM) plus 12 binder peptide-allele pairs; the TAF15::NR4A3 junction is weaker (0 strong, 2 binders).",
+      "entity": "fusion-junction-antigen",
+      "fusion_subtype": "EWSR1_vs_TAF15",
+      "evidence_type": "in_silico_prediction",
+      "emc_specificity": "emc_specific",
+      "direction": "EWSR1_has_cd4_help",
+      "source": ["antigenComputationRepo"],
+      "locator": "_generated/antigen-mhcii.json",
+      "confidence": "prediction_only",
+      "contradicts": null,
+      "notes": "Nuances the class-I picture (C021): although both junctions are MODEST on MHC-I, the EWSR1 junction has usable CD4 help -- relevant for a fusion vaccine (class-II help drives durable CD8 responses). The class-I target is the weaker link for EWSR1; TAF15 is weak on BOTH. Prediction only, modeled breakpoint; needs immunopeptidomics + T-cell validation. Predictor ran on py3.10+TF2.10+numpy1.23.5 (modern-Keras/numpy2 both break MHCnuggets)."
+    },
+    {
       "claim_id": "C015",
       "statement": "PPARG over-expression in EMC is a direct transcriptional consequence of the fusion; it does not establish whether agonism, antagonism, or neither suppresses the tumor.",
       "entity": "PPARG",
