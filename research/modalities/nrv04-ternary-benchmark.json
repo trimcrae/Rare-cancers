@@ -1,11 +1,16 @@
 {
-  "_title": "Retrospective NR-V04 three-paralogue ternary benchmark (Track B) — spec",
+  "_title": "Retrospective NR-V04 three-paralogue ternary benchmark (Track B) \u2014 spec",
   "_goal": "The higher-value method contribution (gate-AI, 2026-07-11): can a BLINDED, ENSEMBLE-based ternary workflow recover the EXPERIMENTALLY KNOWN NR4A1-selective degradation geometry of NR-V04 and distinguish it from the NOT-degraded NR4A2/NR4A3 assemblies? NR-V04 is the FAMILY-MATCHED POSITIVE CONTROL the de-novo NR4A3 system lacks. Only if the workflow passes THIS control do we trust it to rank a prospective NR4A3 degrader.",
   "_status": "SPEC (2026-07-11). Structure validated; harness build + single-leg-first pilot = next.",
   "ground_truth": {
     "source": "Wang et al. J Exp Med 2024;221(3):e20231519 (PMID 38334978); MedChemExpress NR-V04",
-    "degraded": ["NR4A1"],
-    "spared": ["NR4A2", "NR4A3"],
+    "degraded": [
+      "NR4A1"
+    ],
+    "spared": [
+      "NR4A2",
+      "NR4A3"
+    ],
     "mechanism_evidence": "selective degradation + PLA/co-IP NR4A1-VHL complex + VHL/proteasome dependence. NOTE (justified vs unjustified inference): this proves family-selective degradation is ACHIEVABLE; it does NOT prove the selectivity is CAUSED by ternary geometry (no solved ternary structure, no matched cross-paralogue cooperativity). So a workflow RECOVERING the NR4A1 preference is supportive-but-not-proof of the geometric hypothesis.",
     "the_test": "A workflow that cannot recover NR4A1>>NR4A2/NR4A3 for the KNOWN degrader must not be trusted to discover NR4A3 selectivity de-novo."
   },
@@ -18,22 +23,49 @@
     "structure_confidence": "representative_reconstruction",
     "structure_caveat": "REPRESENTATIVE, not a verified DB structure: warhead (celastrol, InChIKey KQJSQWZMSAGSHN) + linker length (4-PEG, two amides) + VHL-ligand class are from the paper's DESCRIBED composition; the exact VH032 connectivity/regiochemistry is my reconstruction. The ChEMBL record named 'NR-V04' (CHEMBL4779766) is a DIFFERENT (CRBN/glutarimide) compound and is NOT used (see published-warhead-registry.md). Linker length is a benchmark VARIABLE (scan) per the E3/linker-sensitivity readout.",
     "components": {
-      "warhead_celastrol": {"inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N", "note": "reactive quinone-methide; C-28 COOH tether"},
-      "vhl_ligand_vh032": {"inchikey": "GFVIEZBZIUKYOG", "note": "hydroxyproline VHL recruiter; trans-OH required, epimer = inactive control"},
-      "linker": {"type": "PEG4", "note": "NR-V04 = 4-PEG; also synthesize inactive-recruiter + free-warhead controls"}
+      "warhead_celastrol": {
+        "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N",
+        "note": "reactive quinone-methide; C-28 COOH tether"
+      },
+      "vhl_ligand_vh032": {
+        "inchikey": "GFVIEZBZIUKYOG",
+        "note": "hydroxyproline VHL recruiter; trans-OH required, epimer = inactive control"
+      },
+      "linker": {
+        "type": "PEG4",
+        "note": "NR-V04 = 4-PEG; also synthesize inactive-recruiter + free-warhead controls"
+      }
     }
   },
   "systems": {
     "targets": {
-      "NR4A1": {"acc": "P22736", "lbd": "C-terminal 254 aa", "label": "DEGRADED (positive)"},
-      "NR4A2": {"acc": "P43354", "lbd": "C-terminal 254 aa", "label": "spared (negative)"},
-      "NR4A3": {"acc": "Q92570", "lbd": [373, 626], "label": "spared (negative); the prospective target"}
+      "NR4A1": {
+        "acc": "P22736",
+        "lbd": "C-terminal 254 aa",
+        "label": "DEGRADED (positive)"
+      },
+      "NR4A2": {
+        "acc": "P43354",
+        "lbd": "C-terminal 254 aa",
+        "label": "spared (negative)"
+      },
+      "NR4A3": {
+        "acc": "Q92570",
+        "lbd": [
+          373,
+          626
+        ],
+        "label": "spared (negative); the prospective target"
+      }
     },
-    "e3": {"VHL": "P40337", "context": "VHL functions in the VBC complex (ElonginB P62258 + ElonginC Q15369); include EloB/C context if the co-fold supports it, else VHL alone as a first pass"},
+    "e3": {
+      "VHL": "P40337",
+      "context": "VHL functions in the VBC complex (ElonginB P62258 + ElonginC Q15369); include EloB/C context if the co-fold supports it, else VHL alone as a first pass"
+    },
     "controls": {
-      "vhl_positive": "VHL (+EloB/C) + VH032 ALONE — does the workflow seat the hydroxyproline ligand in VHL's pocket? (the VHL analogue of the CRBN+lenalidomide control; if it fails, distrust every VHL ternary).",
-      "inactive_recruiter": "epimerized VH032 (cis-hydroxyproline) — should NOT recruit VHL; a negative control the workflow should score worse.",
-      "free_warhead": "celastrol alone — no ternary."
+      "vhl_positive": "VHL (+EloB/C) + VH032 ALONE \u2014 does the workflow seat the hydroxyproline ligand in VHL's pocket? (the VHL analogue of the CRBN+lenalidomide control; if it fails, distrust every VHL ternary).",
+      "inactive_recruiter": "epimerized VH032 (cis-hydroxyproline) \u2014 should NOT recruit VHL; a negative control the workflow should score worse.",
+      "free_warhead": "celastrol alone \u2014 no ternary."
     }
   },
   "ensemble_readouts": [
@@ -49,7 +81,7 @@
   "single_leg_first_pilot": {
     "rule": "CLAUDE.md: pilot one leg for its RESULT before fanning out an abortable multi-leg spend.",
     "pilot": "Run FIRST, cheaply: (1) the VHL+VH032 positive control, and (2) the NR4A1 ternary (the KNOWN-degraded case) across a few seeds. ",
-    "abort_if": "the control cannot seat VH032 in VHL (workflow broken), OR the NR4A1 (known-degraded) ternary cannot form a productive, seed-persistent geometry — because then the workflow cannot even recover the positive case and the full NR4A1/2/3 x seeds x linkers fleet would be wasted spend.",
+    "abort_if": "the control cannot seat VH032 in VHL (workflow broken), OR the NR4A1 (known-degraded) ternary cannot form a productive, seed-persistent geometry \u2014 because then the workflow cannot even recover the positive case and the full NR4A1/2/3 x seeds x linkers fleet would be wasted spend.",
     "proceed_if": "control validates AND NR4A1 forms a productive, reproducible ternary geometry -> THEN fan out to NR4A2 + NR4A3 (x seeds x linker variants) and compare paralogues."
   },
   "verdict_gate": {
@@ -57,5 +89,15 @@
     "inconclusive": "plausible complexes but cannot distinguish paralogues -> use for geometry generation ONLY, not selectivity ranking.",
     "failed": "favours the wrong paralogue or is initialization-dominated -> do NOT interpret predicted NR4A3 ternary selectivity (this limits the METHOD, not the NR-V04 experiment)."
   },
-  "reuse": "extends nr4a3_ternary.py / gpu-ternary-aws.yml / boltz_src (Boltz-2 --no_kernels, validated). Changes: E3 CRBN->VHL (+EloB/C); PROTAC = NR-V04 (above); N-seed ensembles; the readouts above; report_ternary.py interface mode extended for VHL + cross-paralogue ranking."
+  "reuse": "extends nr4a3_ternary.py / gpu-ternary-aws.yml / boltz_src (Boltz-2 --no_kernels, validated). Changes: E3 CRBN->VHL (+EloB/C); PROTAC = NR-V04 (above); N-seed ensembles; the readouts above; report_ternary.py interface mode extended for VHL + cross-paralogue ranking.",
+  "control_ligand": {
+    "name": "VH032",
+    "smiles": "CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1",
+    "inchikey": "JAHUHEDUDMTTTF-COWZOJLOSA-N",
+    "formula": "C25H34N4O4S",
+    "mw": 486.64,
+    "role": "VHL positive-control ligand (the VHL analogue of the CRBN+lenalidomide control)",
+    "provenance": "literature VH032 VHL ligand entered from its known structure; RDKit-validated (formula/MW match) and its (2S,4R)-4-hydroxyproline + 4-(4-methylthiazol-5-yl)phenyl VHL warhead matches the structure-verified NR-V04 representative SMILES (shared HasSubstructMatch). Used because VH032 does NOT resolve by pref_name in ChEMBL and PubChem name-lookup is unreliable from the job container, which silently skipped the control in the first two pilot runs.",
+    "verified": true
+  }
 }

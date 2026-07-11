@@ -58,6 +58,13 @@ def resolve_vh032_smiles():
     for var in ("VH032_SMILES", "NRV04_VH032_SMILES"):
         if os.environ.get(var):
             return os.environ[var], "env:%s" % var
+    # Prefer the VERIFIED spec SMILES (RDKit-validated, warhead cross-checked vs NR-V04) — deterministic and
+    # provenance-clean — over the flaky name lookups that silently skipped the control in the first two runs.
+    with open(SPEC) as f:
+        spec = json.load(f)
+    cl = (spec.get("control_ligand") or {}).get("smiles")
+    if cl:
+        return cl, "nrv04-ternary-benchmark.json:control_ligand"
     try:
         s, cid = t3.fetch_ligand_smiles(VH032_NAME)
         if s:
@@ -74,12 +81,7 @@ def resolve_vh032_smiles():
                 return props[0]["CanonicalSMILES"], "pubchem:name=%s" % nm
         except Exception:  # noqa: BLE001
             continue
-    with open(SPEC) as f:
-        spec = json.load(f)
-    cl = (spec.get("control_ligand") or {}).get("smiles")
-    if cl:
-        return cl, "nrv04-ternary-benchmark.json:control_ligand"
-    raise RuntimeError("could not resolve VH032 SMILES (env/ChEMBL/PubChem/spec all missed); set $VH032_SMILES")
+    raise RuntimeError("could not resolve VH032 SMILES (env/spec/ChEMBL/PubChem all missed); set $VH032_SMILES")
 
 
 def load_nrv04_smiles():
