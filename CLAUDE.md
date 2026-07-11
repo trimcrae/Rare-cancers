@@ -9,16 +9,51 @@ read it before making changes.
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
   do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
-- **★ PRIMARY FOCUS (UPDATED 2026-07-11, trimcrae — SUPERSEDES the 2026-06 "two papers first" plan):**
-  the repo's #1 priority remains **advancing/publishing work that drives forward an EMC treatment**, but the
-  approach is **BROADENING**. The NR4A3-degrader and fusion-junction ASO papers **both hit major snags**, so
-  they are **no longer the first-in-line deliverables** (still active routes, NOT dead). The program now runs
-  on the **full multi-route EMC strategy**, anchored by the **EMC Open Target & Drug Atlas
-  ([research/atlas/](./research/atlas/))** — the integrating, provenance-checked evidence system that scores
-  every route (proteostasis-chromatin; fusion-subtype antiangiogenic biomarker; fusion-junction + lineage
-  antigens; direct fusion targeting) and drives **collaborator outreach** (strategy Phase B). Read
-  `research/atlas/README.md` + `STATUS.md` first when resuming treatment work. **The 2026-06 detail below is
-  retained FOR REFERENCE (route status), no longer "publish these two first":**
+- **★★ PRIMARY FOCUS (UPDATED 2026-07-11 PM, trimcrae + gate-AI — SUPERSEDES the atlas-anchor reframe from
+  earlier the same day; that reframe is retained just below for reference).** The repo's #1 research program is
+  **again the NR4A3-SELECTIVE DEGRADER / computational method-development**, NOT the atlas. Rationale (gate-AI,
+  decisive): an unaffiliated no-wet-lab researcher should optimize for **"the largest novel, technically
+  defensible contribution using resources under his control"** — and the degrader/method work (structural
+  modeling, ligand/linker generation, free-energy calcs, **ternary-ensemble modeling**, paralogue
+  counter-screening, microstate analysis, benchmarking, reproducible manuscripts+software) is *entirely
+  self-executable*, whereas the atlas's highest-impact claims ultimately depend on **other groups choosing to
+  run EMC experiments** — an external dependency you cannot solve by making the atlas more comprehensive.
+  **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.** Two linked tracks:
+  - **Track A — qualify an NR4A3-engaging WARHEAD.** Finish the repaired ABFE validation (matched NR4A1/2 +
+    multiple NR4A3 conformers + explicit microstates + T4L benchmark + independent replicas + honest
+    receptor-state limits). The question is whether **denovo_401 is a credible INPUT to degrader design**, NOT
+    whether ABFE proves a drug. ($40–80 ABFE-repair spend AUTHORIZED, trimcrae 2026-07-11.)
+  - **Track B — a PARALOGUE-DISCRIMINATING TERNARY workflow (the higher-value long-term contribution).** Do
+    **NOT** get trapped chasing perfect *binary* NR4A3 selectivity before addressing ternary — the real
+    hypothesis is that selectivity emerges from the combined **warhead × linker × E3 × ternary-interface
+    geometry** even if binary selectivity is incomplete. **First benchmark is RETROSPECTIVE + blinded against
+    NR-V04**, the family-matched positive control: can an ensemble ternary workflow distinguish the
+    experimentally-selective NR4A1/VHL assembly from the (not-degraded) NR4A2 and NR4A3 assemblies? Compare
+    **ensembles, not one docked pose** — accessible ternary populations, linker strain, PPI-interface
+    stability, predicted cooperativity/relative ternary stability, persistence across starting models, Lys
+    presentation / ubiquitination-compatible geometry, paralogue counterexamples, E3-choice sensitivity.
+    Reliable ternary *ranking* is a known open methodological challenge → that gap is exactly where a rigorous,
+    honestly-benchmarked contribution is valuable (a benchmarked NR4A-family ternary-selectivity framework,
+    THEN prospective NR4A3 designs — only after the workflow passes the NR-V04 control).
+  - **NR-V04 (Wang 2024) is the CENTRAL positive control.** It degraded NR4A1 but not NR4A2/NR4A3, with
+    PLA/co-IP complex evidence + VHL/proteasome dependence — **strong event-level proof that family-selective
+    NR4A degradation is achievable** (rebuts "the family is too homologous"). *Justified* inference: a
+    computational NR4A3-selective degrader program is credible. *UNjustified* (do NOT claim): that the
+    structural mechanism of NR-V04's selectivity is known/solved and directly transferable (no solved ternary
+    structure, no matched cross-paralogue cooperativity measurements).
+  - **Atlas = SUPPORT infrastructure, not the anchor:** biological rationale for NR4A3 degradation; separate
+    fusion-vs-WT biology; anti-target liabilities; assay roadmap for future collaborators; **backup route** if
+    degrader design fails; keeps the structural program biologically tethered. It must NOT absorb most effort
+    via indefinite evidence aggregation.
+  - **Coordination note:** the parallel session (PR #3, `claude/emc-research-strategy-kdz9kn`) set atlas-primacy
+    earlier today; THIS decision overrides that ranking. The atlas WORK stays valuable (as support); only its
+    *strategic primacy* is demoted. Reconcile PRIMARY FOCUS toward degrader-primary when the branches merge.
+- **[SUPERSEDED same-day — atlas-anchor reframe, retained for reference]** the repo's #1 priority is advancing
+  an EMC treatment via the full multi-route strategy anchored by the **EMC Open Target & Drug Atlas
+  ([research/atlas/](./research/atlas/))** (proteostasis-chromatin; fusion-subtype antiangiogenic biomarker;
+  fusion-junction + lineage antigens; direct fusion targeting) + collaborator outreach. Read
+  `research/atlas/README.md` + `STATUS.md` for the atlas's own state. **The 2026-06 detail below is
+  reference (route status):**
 - **[PRIOR 2026-06 detail — reference only]** the earlier plan: the repo's #1 priority is **publishing work that drives
   forward an EMC treatment**. **As of 2026-06-26 (trimcrae decision), the TWO papers to publish first are:**
   **(1)** the split-out, target-centric **NR4A3-degrader result paper** —
