@@ -138,6 +138,30 @@ boundary — the hidden component is real but IC1 is "Rg + something," not an un
 expected gain from re-biasing is *material but not guaranteed dramatic*; Phase 2 must be validated on one
 shard before the full fleet.
 
+## 2c. Phase 2 SHAKEOUT RESULT (2026-07-10, single shard, NO-GO) — CV needs redesign before the fleet
+
+Ran the mandated single-shard shakeout (NR4A3 seed 1, 8 ns, biased on the data-derived `tica_combine` CV;
+run 29129329309). It completed cleanly (full 8 ns, gate passed) but **failed the recrossing criterion**, and
+the diagnostic (metad-analysis with the CV-aware recrossing on `s`) says why:
+
+- **0 closed↔open crossings.** The biased CV stayed **entirely in the closed basin**: `frac_below = 1.0`,
+  explored `s` range **[-2.96, 1.14]** out of the fit grid **[-8.98, 17.33]** (open = the high-`s` end it never
+  approached). Convergence `max|ΔF|` was 1.05 kcal/mol (borderline) but that is moot without recrossing.
+- **Root cause: the CV is too Rg-like.** The shakeout's *distances-only* CV fit `corr(s, Rg) = 0.816` — it
+  cleared the lenient 0.90 abort gate but sits far above the **Phase-1 full-feature TICA (0.68)** that is the CV
+  we actually want. A coordinate 0.82-correlated with Rg predictably behaves like the 1-D Rg-metad that already
+  failed to recross. Compounded by 8 ns ≪ the ~17 ns slow timescale.
+- **The shard gate did its job:** it caught a not-ready CV/protocol for ~$15-25 instead of burning the
+  ~$100-200 9-run fleet on it.
+
+**Redesign before re-shaking (do NOT launch the fleet):** (1) fit the CV on the **richer feature set**
+(gate-χ1 sin/cos + pocket SASA + lining Cα distances) to reach ~0.68 corr with Rg, and **tighten the fit gate
+to ~0.75**; (2) run a **longer shard (~20-30 ns)** past the slow timescale; (3) make the recrossing boundary
+**data-driven** (median of the explored range), not the grid midpoint (a minor analysis nit that does not change
+this verdict — `frac_below=1.0` is decisive on its own). Only re-approach the fleet after a re-shakeout recrosses.
+Paper impact: the opening-FE *differential* (Phase 3) is not imminent, so selectivity rests on the
+conditional-ABFE framing (§2.8), which does not depend on Phase 2.
+
 ## 3. If convergence still can't be reached
 Report the opening/differential FE as **bounded or unresolved** and rest the paper on the three claims that do
 NOT need it: (i) experimental structural heterogeneity (8XTT), (ii) short-timescale persistence after seeding,
