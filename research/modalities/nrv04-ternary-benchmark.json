@@ -99,5 +99,46 @@
     "role": "VHL positive-control ligand (the VHL analogue of the CRBN+lenalidomide control)",
     "provenance": "literature VH032 VHL ligand entered from its known structure; RDKit-validated (formula/MW match) and its (2S,4R)-4-hydroxyproline + 4-(4-methylthiazol-5-yl)phenyl VHL warhead matches the structure-verified NR-V04 representative SMILES (shared HasSubstructMatch). Used because VH032 does NOT resolve by pref_name in ChEMBL and PubChem name-lookup is unreliable from the job container, which silently skipped the control in the first two pilot runs.",
     "verified": true
+  },
+  "result": {
+    "date": "2026-07-11",
+    "run": "nrv04-ternary-pilot (S3)",
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "with_vbc": true,
+    "control_vh032": {
+      "seated_seeds": "3/3",
+      "closest_pocket_A": "2.57-2.62",
+      "ligand_iptm_mean": 0.989,
+      "note": "VH032 seats in VHL hydroxyproline pocket (S111/H115/W117/Y98/H110) all seeds"
+    },
+    "productive_ternary_bridging": {
+      "NR4A1_degraded": "3/3",
+      "NR4A2_spared": "0/3",
+      "NR4A3_spared": "0/3",
+      "detail": "NR4A1: NR-V04 contacts both NR4A1 (2.4-3.3 A) and VHL (2.3-2.6 A) every seed. NR4A2/NR4A3: warhead seats in VHL (2.0-2.6 A) but target LBD is 6-26 A away -> ligand bound to VHL only, no productive ternary in any seed."
+    },
+    "exposed_lys_to_vhl_A_mean": {
+      "NR4A1": 5.52,
+      "NR4A2": 7.05,
+      "NR4A3": 9.06,
+      "note": "ubiquitin-reach proxy orders correctly: degraded NR4A1 presents the closest exposed Lys to VHL"
+    },
+    "ligand_iptm_mean": {
+      "NR4A1": 0.857,
+      "NR4A2": 0.91,
+      "NR4A3": 0.876,
+      "note": "INVERTS (spared NR4A2 highest) \u2014 ligand-iPTM scores the confidently-placed VHL-warhead half regardless of whether the ternary forms; NOT a valid ternary-selectivity metric on its own."
+    },
+    "verdict": "informative",
+    "verdict_basis": "productive-ternary geometry (bridging 3/3 vs 0/3) AND exposed-Lys->VHL reach both cleanly separate the experimentally-degraded NR4A1 from the spared NR4A2/NR4A3, recovering the known NR-V04 selectivity. ligand-iPTM alone does NOT (inverts). => the workflow can rank NR4A-family ternary selectivity when read on productive-geometry, not confidence, metrics.",
+    "caveats": [
+      "retrospective n=1 (single positive control, NR-V04); encouraging but not a robust predictor",
+      "NR-V04 selectivity is FOR NR4A1; designing NR4A3 selectivity is a different problem (different paralogue, warhead, interface) \u2014 this makes an NR4A3 program credible, does not transfer directly",
+      "Boltz co-fold + --no_kernels; single linker (NR-V04's 4-PEG); no explicit E3-choice/linker-length scan yet; VHL modeled as VBC (VHL+EloB/C), CRL4/E2~Ub not modeled (Lys reach is a proxy)"
+    ]
   }
 }

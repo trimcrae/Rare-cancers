@@ -246,6 +246,15 @@
       "status": "tooling done + merged; Track B pilot NR4A1 leg favourable; control backfill in progress; NR4A2/NR4A3 fan-out gated on control seating (single-leg-first)",
       "outputs": "research/modalities/job_progress_monitor.py (+12 tests); research/modalities/report_nrv04.py (+10 tests); .github/workflows/report-nrv04-aws.yml; research/modalities/report_nrv04.json (auto, S3 nrv04-ternary-pilot); tail_cloudwatch.py real-timestamp fix; abfe_progress_nr4a2rep_r1.png (modalities-cache)",
       "by": "agent"
+    },
+    {
+      "date": "2026-07-11",
+      "phase": 1,
+      "item": "Track B RESULT: retrospective NR-V04 3-paralogue ternary benchmark (NR4A1 degraded vs NR4A2/NR4A3 spared) \u2014 the family-matched positive control for a paralogue-discriminating ternary workflow",
+      "decision": "RAN full 3-paralogue benchmark (control VH032 + NR4A1/NR4A2/NR4A3 x 3 seeds, VHL+EloB/C, NR-V04). RESULT = INFORMATIVE: the workflow recovers the known NR-V04 selectivity via PRODUCTIVE-TERNARY GEOMETRY. NR4A1 (degraded) bridges NR-V04 to both target(2.4-3.3A) and VHL(2.3-2.6A) in 3/3 seeds; NR4A2/NR4A3 (spared) seat the warhead in VHL(2.0-2.6A) but leave the target LBD 6-26A away -> 0/3 productive ternaries. Exposed-Lys->VHL reach also orders correctly (NR4A1 5.5 < NR4A2 7.1 < NR4A3 9.1 A). KEY METHOD FINDING: ligand-iPTM INVERTS (spared NR4A2 highest, 0.910 vs NR4A1 0.857) because it scores the confidently-placed VHL-warhead half regardless of ternary formation -> confidence scores are NOT a valid ternary-selectivity metric; productive-geometry readouts are. full_verdict rewritten to a transparent composite (geometry primary, ligand-iPTM reported+flagged).",
+      "status": "done \u2014 verdict INFORMATIVE on pre-specified productive-geometry + Lys readouts; retrospective n=1 (NR-V04 only), and NR4A1-selectivity != NR4A3-selectivity, so this LICENSES comparative prospective use of the ternary workflow for NR4A3 designs, it does not validate any specific NR4A3 prediction",
+      "outputs": "research/modalities/report_nrv04.json (full 3-paralogue, S3 nrv04-ternary-pilot); nrv04-ternary-benchmark.json .result; report_nrv04.py composite full_verdict (+11 tests); control_ligand VH032 (InChIKey JAHUHEDUDMTTTF-COWZOJLOSA-N)",
+      "by": "agent"
     }
   ]
 }
