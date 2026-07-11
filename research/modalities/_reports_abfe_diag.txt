@@ -1,5 +1,5 @@
 [diag] bucket sagemaker-us-east-2-646605541856  tags ['nr4a3-abfe-8xtt-r3']  receptors ['nr4a3']
-  [sync] nr4a3-abfe-8xtt-r3/ckpt/solvent/ -> 0 files
+  [sync] nr4a3-abfe/ckpt/solvent/ -> 13 files
   [sync] nr4a3-abfe-8xtt-r3/ckpt/complex-nr4a3/ -> 13 files
 Warning on use of the timeseries module: If the inherent timescales of the system are long compared to those being analyzed, this statistical inefficiency may be an underestimate.  The estimate presumes the use of many statistically independent samples.  Tests should be performed to assess whether this condition is satisfied.   Be cautious in the interpretation of the data.
 
@@ -12,5 +12,21 @@ Either install with pip or conda:
       conda install pymbar       
 *********************************
 [diag] wrote results/nr4a3-abfe/diagnostics/nr4a3-abfe-diagnostics.json
-[diag] wrote 2 PNGs: ['overlap_nr4a3-abfe-8xtt-r3.png', 'ess_nr4a3-abfe-8xtt-r3.png']
-[diag] no ΔG_bind computed (no complete complex+solvent legs found).
+[diag] wrote 3 PNGs: ['overlap_nr4a3-abfe-8xtt-r3.png', 'convergence_nr4a3-abfe-8xtt-r3.png', 'ess_nr4a3-abfe-8xtt-r3.png']
+
+=== per-receptor ΔG_bind (raw engine, kcal/mol) ===
+  nr4a3   +7.32 (n<2)   (n=1, reps: r3=+7.32)
+
+=== selectivity ΔΔG (ref = nr4a3; negative ⇒ target-selective) ===
+
+=== consistency vs committed §4 (MISMATCH — FLAGGED) ===
+  [XX] dg_bind[nr4a3].mean    recomputed +7.323  expected +3.500  (Δ +3.823, tol 0.60)
+  [XX] dg_bind[nr4a3].sd      recomputed n/a  expected +1.400  (Δ n/a, tol 0.50)
+  [XX] dg_bind[nr4a1].mean    recomputed n/a  expected +8.300  (Δ n/a, tol 0.60)
+  [XX] dg_bind[nr4a1].sd      recomputed n/a  expected +1.100  (Δ n/a, tol 0.50)
+  [XX] dg_bind[nr4a2].mean    recomputed n/a  expected +8.500  (Δ n/a, tol 0.60)
+  [XX] dg_bind[nr4a2].sd      recomputed n/a  expected +0.700  (Δ n/a, tol 0.50)
+  [XX] ddg[nr4a3-nr4a1].mean  recomputed n/a  expected -4.760  (Δ n/a, tol 0.60)
+  [XX] ddg[nr4a3-nr4a1].sd    recomputed n/a  expected +2.030  (Δ n/a, tol 0.50)
+  [XX] ddg[nr4a3-nr4a2].mean  recomputed n/a  expected -4.980  (Δ n/a, tol 0.60)
+  [XX] ddg[nr4a3-nr4a2].sd    recomputed n/a  expected +0.680  (Δ n/a, tol 0.50)
