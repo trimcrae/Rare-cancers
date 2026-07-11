@@ -13,20 +13,29 @@ sarcoma. The published evidence is fragmented across a few dozen historical expr
 profiles, three modern patient-derived models, two non-overlapping drug screens, small
 clinical treatment cohorts, and incomplete fusion-partner annotation, with no standard way
 to compare drug activity, achievable exposure, target engagement and clinical evidence.
-This atlas integrates those fragments into one reproducible resource so that every
-downstream experiment starts from the same evidence base.
+This atlas is a **versioned, curated synthesis of _identified public_ evidence (as of July 2026), NOT a
+systematic review** and not a claim to capture everything known. It integrates those fragments so that
+downstream work starts from one cited base. Scores are a **judgment-based triage heuristic**, not
+calibrated probabilities or treatment recommendations. **No EMC cell line exists in DepMap — all
+dependency reads are non-EMC surrogates.**
 
-**No wet lab is available** to this project. Every artifact here is either (1) a
-reproducible in-silico analysis or (2) a structured synthesis of primary-source evidence
-built to be handed to a wet-lab collaborator. Nothing here is a treatment recommendation.
+**No wet lab is available** to this project, and **nothing here has been validated in EMC**. Every
+artifact is either (1) an in-silico analysis reproducible via its documented workflow or (2) a cited
+synthesis built to be handed to a wet-lab collaborator. Nothing here is a treatment recommendation.
+
+**Reproducibility (precise).** `node research/atlas/build.mjs` *deterministically rebuilds the atlas
+`dist/` outputs from the committed source files and validates provenance.* The upstream analyses (GEO
+reprocessing, DepMap dependency, EuropePMC full-text, MHC prediction, FDA-label PK) run in **separate,
+pinned CI workflows** (`.github/workflows/atlas-data.yml`) with their own environments and retrieval
+dates — see `REPRODUCIBILITY.md`. The one command does *not* re-run those upstream analyses.
 
 ## Contents
 
 | File | What it is | Deliverable in the strategy |
 |---|---|---|
-| `citations.json` | Shared citation map; every claim carries a `verified` flag + PMID/PMCID/DOI/NCT | provenance backbone |
+| `citations.json` | Shared source/citation map; each SOURCE carries a `verified` flag + `verification_level` + PMID/PMCID/DOI/NCT (claims reference these sources) | provenance backbone |
 | `samples.json` | Source of truth for the EMC sample/model registry | `emc_sample_manifest.tsv` |
-| `drug_screens.json` | Reconstructed USZ (40-drug) & NCC (221-drug) screens + compound→target→exposure | compound–target–exposure table |
+| `drug_screens.json` | Reconstructed USZ (17 chemo + targeted panel) & NCC (221-compound) screens + compound→target→exposure; USZ hit identities are secondary-source/unconfirmed | compound–target table |
 | `claims.json` | Atomic evidence claims, each with a source locator + EMC-specific-vs-extrapolated flag | `emc_claims_with_provenance` |
 | `evidence_score.json` | Per-target/per-drug evidence components, ranked shortlist, validation panel | ranked reports + 12-compound/6-combination panel |
 | `METHODS.md` | Manuscript-quality methods | methods document |
@@ -74,6 +83,25 @@ The atlas gives these a single, provenance-checked home and a comparable evidenc
 7. Negative and contradictory evidence is reported alongside positive evidence.
 8. No high-capacity model is trained on the tiny EMC-specific dataset.
 
+## Verification tiers
+
+Sources/claims are graded, not lumped as "verified". Tiers: **primary_full_text**, **primary_abstract**,
+**regulatory_label** (FDA label PK), **computational_reproduction** (an in-repo CI analysis),
+**secondary_source_unconfirmed** (asserted in reviews/search but not confirmed from the primary source —
+e.g. the USZ single-agent compound identities), and **unresolved/pending**. `build.mjs` reports the
+breakdown by tier rather than a single count. A `verification_level` lives on the SOURCE record; claims
+reference sources and carry their own `confidence`.
+
+## Collaboration
+
+This is a research resource seeking a wet-lab/clinical collaborator. The experiment-level ask: run the
+proposed class-vs-compound panel in EMC models (Program 1), or discuss a growth-rate-adjusted,
+fusion-annotated response cohort (Program 2). Authorship follows substantive contribution (ICMJE/COPE).
+Contact: Tristan McRae, independent researcher. *(Operational outreach material — recipient lists,
+email drafts, tactics in `outreach.md` — is deliberately kept OUT of any citable/DOI deposit; see
+`DEPOSIT.md`.)*
+
 ## Status
 
-See `STATUS.md` for the live build log and what is verified vs pending verification.
+See `STATUS.md` for the current dated snapshot (verification-tier counts, unresolved items, release
+blockers). Historical progress notes are in `CHANGELOG.md`.

@@ -27,7 +27,7 @@
       "nominal_target": "20S proteasome (chymotrypsin-like, irreversible)",
       "polypharmacology": "highly selective proteasome inhibitor (cleaner than bortezomib)",
       "result": "strongest single-agent hit; high sensitivity in BOTH USZ models",
-      "verification": "VERIFIED_abstract",
+      "verification": "SECONDARY_SOURCE_UNCONFIRMED",
       "class": "proteostasis:proteasome",
       "approved_indication": "multiple myeloma",
       "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023). Short plasma exposure vs sustained-engagement need = the solid-tumor window question",
@@ -41,7 +41,7 @@
       "nominal_target": "TOP2A / DNA intercalation (+ oxidative stress)",
       "polypharmacology": "broad cytotoxic; not target-selective",
       "result": "second-strongest single-agent (good-to-moderate sensitivity, both models)",
-      "verification": "VERIFIED_abstract",
+      "verification": "SECONDARY_SOURCE_UNCONFIRMED",
       "class": "cytotoxic:anthracycline",
       "approved_indication": "many sarcomas (standard first-line STS)",
       "achievable_free_exposure": "clinically established",
@@ -55,7 +55,7 @@
       "nominal_target": "HSP90 (N-terminal ATPase)",
       "polypharmacology": "HSP90 paralogue-selective-ish; tumor-enriched HSP90 (epichaperome)",
       "result": "good sensitivity (targeted panel)",
-      "verification": "VERIFIED_abstract",
+      "verification": "SECONDARY_SOURCE_UNCONFIRMED",
       "class": "proteostasis:chaperone",
       "approved_indication": "investigational (not approved)",
       "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023), where an approved label exists",
@@ -103,7 +103,7 @@
       "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023), where an approved label exists",
       "solid_tumor_caveat": "class-I HDACi; same broad-toxicity caveat but a useful class-vs-compound control against panobinostat.",
       "engagement_assay": "histone acetylation; class-I-selective substrate readout",
-      "notes": "Two HDAC hits (pan + class-I) in the SAME model = effect tracks the target (HDAC), not one chemical -- the strongest single-screen convergence signal."
+      "notes": "Two HDAC inhibitors (pan + class-I) active in the SAME single model is CONSISTENT WITH class-level HDAC activity, but does NOT prove HDAC is the causal target (single model, no genetic perturbation). A class-vs-compound + target-engagement experiment is required to attribute the effect to HDAC."
     }
   ],
   "combinations": [
@@ -111,7 +111,7 @@
       "combo": "carfilzomib + doxorubicin",
       "screen_id": "USZ-2023",
       "result": "dose-dependent additive AND synergistic effects reported in BOTH USZ models",
-      "verification": "VERIFIED_abstract (combination tested); per-model synergy-vs-additive split UNVERIFIED",
+      "verification": "SECONDARY_SOURCE_UNCONFIRMED (combination tested per abstract; specific compound identities + per-model synergy-vs-additive split not confirmable from the abstract)",
       "correction_note": "The strategy brief's 'synergistic in one model / additive in the other' is NOT supported by the abstract, which attributes both effects to both models. Do not restate the split as fact.",
       "class_pair": "proteasome + anthracycline"
     },
@@ -119,7 +119,7 @@
       "combo": "carfilzomib + venetoclax",
       "screen_id": "USZ-2023",
       "result": "dose-dependent additive AND synergistic effects reported in BOTH USZ models",
-      "verification": "VERIFIED_abstract",
+      "verification": "SECONDARY_SOURCE_UNCONFIRMED",
       "correction_note": "Venetoclax (BCL2 inhibitor) was part of the USZ combination panel -- an apoptosis-priming partner not emphasized in the strategy brief; worth carrying into the validation panel.",
       "class_pair": "proteasome + BCL2"
     }

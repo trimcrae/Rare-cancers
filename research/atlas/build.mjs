@@ -106,8 +106,24 @@ writeFileSync(join(DIST, "emc_evidence_score.tsv"), tsv([
 // --- report ---
 console.log(`EMC Atlas build:`);
 console.log(`  citations: ${CIT.size}  samples: ${samples.samples.length}  claims: ${claims.claims.length}  screen-hits: ${screens.hits.length}  scored-entities: ${score.entities.length}`);
-const verified = Object.values(citations.citations).filter((c) => c.verified).length;
-console.log(`  citations verified: ${verified}/${CIT.size}  (unverified are flagged PENDING and must not be stated as fact)`);
+// Verification tiers (transparent heuristic classification of each source's verification_level;
+// unlike tiers are NOT aggregated as one "verified" count). Rules below; refine per-source as needed.
+const tierOf = (c) => {
+  if (!c.verified) return "unresolved_pending";
+  const v = (c.verification_level || "").toLowerCase();
+  const rt = (c.resourceType || "").toLowerCase();
+  if (/full[ _-]?text|full text open/.test(v)) return "primary_full_text";
+  if (/primary abstract/.test(v)) return "primary_abstract";
+  if (/dailymed|fda label|regulatory/.test(v) || rt === "database" && /dailymed/.test((c.short||"").toLowerCase())) return "regulatory_label";
+  if (/reprocessed|computational|ci,|\(ci\)|repro/.test(v) || ["repo_analysis","repo_synthesis","method","database"].includes(rt)) return "computational_or_resource";
+  if (/secondary|snippet/.test(v)) return "secondary_source_unconfirmed";
+  if (c.pmid || c.pmcid || c.doi) return "primary_reference"; // verified PMID/PMCID/DOI, tier not otherwise specified
+  return "verified_other";
+};
+const tierCounts = {};
+for (const c of Object.values(citations.citations)) { const t = tierOf(c); tierCounts[t] = (tierCounts[t]||0)+1; }
+console.log(`  verification tiers (sources): ${JSON.stringify(tierCounts)}`);
+console.log(`  (unlike tiers are NOT summed as one 'verified' count; 'unresolved_pending' must not be stated as fact)`);
 console.log(`  dist/: emc_sample_manifest.tsv, emc_claims_with_provenance.tsv, emc_drug_screens.tsv, emc_compound_target_exposure.tsv, emc_evidence_score.tsv`);
 if (warnings.length) { console.log(`\n  ${warnings.length} warning(s):`); warnings.forEach((w) => console.log(`   - ${w}`)); }
 if (errors.length) {

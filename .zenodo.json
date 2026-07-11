@@ -1,8 +1,7 @@
 {
-  "upload_type": "publication",
-  "publication_type": "preprint",
-  "title": "The EMC Open Target & Drug Atlas and a falsifiable multi-route treatment program for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma — a computation-only, provenance-checked resource",
-  "description": "<p>A reproducible, provenance-checked evidence system integrating every usable extraskeletal myxoid chondrosarcoma (EMC) dataset, patient-derived model, drug screen, and clinical cohort, with a transparent multi-component evidence score across all therapeutic routes (proteostasis-chromatin; fusion-subtype antiangiogenic biomarker; fusion-junction + lineage antigens; direct fusion targeting). Built from public data alone (no wet lab): reprocessed GEO expression, primary full-text-verified clinical evidence, DepMap dependency, FDA-label pharmacology, and fusion-junction MHC-I/II antigen prediction. Every claim carries a source locator and a verification level, and the resource records what did NOT survive verification. Includes a falsifiable, kill-criterion-per-route roadmap and a wet-lab-ready validation package. This Zenodo record is a citable snapshot of a living, one-command-reproducible repository.</p>",
+  "upload_type": "software",
+  "title": "The EMC Open Target & Drug Atlas — a curated, provenance-checked synthesis of public evidence and a triage program for NR4A3-rearranged extraskeletal myxoid chondrosarcoma",
+  "description": "<p>A versioned, curated synthesis of <em>identified public</em> evidence on NR4A3-rearranged extraskeletal myxoid chondrosarcoma (EMC) as of July 2026 — NOT a systematic review and not a claim to capture everything known. It integrates the modern patient-derived models, the published drug screens, the clinical reports, public expression, and public dependency databases, with a transparent, author-weighted triage heuristic (not calibrated probabilities). Sources carry graded verification tiers (primary full text, primary abstract, regulatory label, computational reproduction, secondary-source-unconfirmed, pending), and the resource explicitly records what did NOT survive verification. No wet lab was used and nothing has been validated in EMC; no EMC cell line exists in DepMap, so all dependency reads are non-EMC surrogates. Upstream analyses (GEO reprocessing, DepMap, EuropePMC full text, MHC prediction, FDA-label pharmacology) run in separately documented, pinned CI workflows. This record is a citable snapshot of a versioned repository; version, release date, and exact commit are recorded in the release metadata.</p><p><strong>Disclosures:</strong> Author is independent and unaffiliated. No funding. No conflicts of interest declared. This work was produced with substantial AI assistance (Claude), under the author's direction and review.</p>",
   "creators": [
     {
       "name": "McRae, Tristan D.",
@@ -10,24 +9,20 @@
     }
   ],
   "license": "Apache-2.0",
+  "notes": "LICENSING: original CODE (scripts, build tooling) is Apache-2.0 (repo LICENSE). Original PROSE/DATA authored here is offered under the same terms unless a file states otherwise. THIRD-PARTY material referenced or redistributed (e.g. figures, database excerpts, published values) remains under its own source license/terms and is NOT relicensed by this record; verbatim FDA-label quotes are public-domain US-government text. RELEASE-BLOCKERS before minting a DOI: (1) add the author's real ORCID here and in CITATION.cff (no placeholder); (2) fill version + release date + exact commit; (3) deposit a CURATED atlas subset (see research/atlas/DEPOSIT.md), not the whole repository, and exclude outreach/strategy/scratchpad/unrelated-site files; (4) obtain an independent review + a green build on the tagged commit. See deploy/release-doi.md.",
   "keywords": [
     "extraskeletal myxoid chondrosarcoma",
+    "NR4A3 rearrangement",
     "EWSR1-NR4A3",
+    "TAF15-NR4A3",
     "rare cancer",
-    "targeted protein degradation",
-    "antisense oligonucleotide",
-    "in silico drug discovery"
+    "curated evidence synthesis",
+    "in silico oncology"
   ],
-  "notes": "TODO before the first DOI release: add the creator's ORCID + affiliation. Zenodo reads this file when archiving a GitHub release; see deploy/release-doi.md.",
   "related_identifiers": [
     {
       "relation": "isSupplementTo",
       "identifier": "https://github.com/trimcrae/Rare-cancers/blob/main/research/atlas/README.md",
-      "scheme": "url"
-    },
-    {
-      "relation": "isSupplementTo",
-      "identifier": "https://github.com/trimcrae/Rare-cancers/blob/main/research/manuscripts/emc-treatment-roadmap.md",
       "scheme": "url"
     }
   ]

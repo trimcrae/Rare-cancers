@@ -1,7 +1,8 @@
 # EMC fusion-induced lineage-antigen program
 
 > The atlas's junction-antigen result (claims C016/C021/C022) is honest: both common junctions are
-> **modest on MHC-I**; only the EWSR1 junction carries a strong CD4 helper epitope. Per the strategy,
+> **modest on MHC-I**; the EWSR1 junction has a strong *predicted* HLA-II binder (requiring experimental
+> confirmation of processing, presentation, and T-cell recognition — not demonstrated CD4 help). Per the strategy,
 > that is the trigger to pursue **fusion-induced LINEAGE antigens** in parallel. This is the program
 > spec. It composes with `research/manuscripts/emc-surface-target-landscape.md` (surface-target
 > deep-dive) and the DepMap surrogate reads (`research/modalities/depmap-insilico-findings.md`).
@@ -42,7 +43,7 @@
 4. **Functional** — for PRAME: HLA-matched TCR/ImmTAC recognition + cytotoxicity on fusion-positive EMC;
    loss of recognition after HLA/antigen knockout.
 5. **Modality build** — only after 1–4: ADC (B7-H3), TCR/ImmTAC (PRAME), or a vaccine pairing the EWSR1
-   junction CD4 helper epitope (C022) with a confirmed class-I target.
+   junction strong *predicted* HLA-II binder (C022; confirm processing/presentation/recognition first) with a confirmed class-I target.
 
 ## Go/no-go
 - Advance an antigen only with **EMC-tissue protein** confirmation (not RNA, not surrogate), a

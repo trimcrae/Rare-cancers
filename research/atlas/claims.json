@@ -270,7 +270,7 @@
       "locator": "_generated/panel-dependency.json (DepMap 24Q4)",
       "confidence": "high_for_surrogate",
       "contradicts": null,
-      "notes": "SURROGATE (no EMC line). Three decision-relevant consequences: (1) proteasome/XPO1/HDAC3 hits are NOT sarcoma-selective dependencies -> the therapeutic window is a PHARMACOLOGY/exposure question, not genetic selectivity; (2) no TKI-target kinase is a tumor-cell-autonomous dependency -> the antiangiogenic mechanism is non-tumor-autonomous (co-culture required) and RET/KIT/ALK are MARKERS not addictions (ALK GE -0.05 refutes brigatinib=ALK); (3) venetoclax's BCL2 is non-essential -- BCL-xL(BCL2L1)/MCL1 are the sarcoma apoptotic nodes, so a BCL-xL/MCL1 BH3-mimetic may be the on-target choice, not venetoclax. Self-validated: NR4A3 non-essential, BRD9 synovial-selective. Caveat: single-gene CRISPR masks HSP90/paralogue essentiality; POLR2A did not resolve in this pull."
+      "notes": "SURROGATE — NO EMC cell line exists in DepMap, so NONE of the following is established for EMC; all are surrogate signals motivating direct EMC-specific testing. (1) proteasome/XPO1/HDAC3 are pan-essential in sarcoma lines -> consistent with the therapeutic window being a pharmacology/exposure question rather than genetic selectivity; (2) no TKI-target kinase shows a broad tumor-cell-autonomous dependency across the surrogate panel -> surrogate negative evidence consistent with (not proof of) a non-tumor-autonomous mechanism; ALK dependency is not supported across the panel but brigatinib's active target in NCC-EMC1-C1 remains unresolved; (3) BCL2 reads non-essential while BCL-xL/MCL1 read more essential -> a hypothesis for comparative BH3-mimetic testing in EMC, with serious BCL-xL/MCL1 toxicity caveats, NOT a conclusion. Self-validated: NR4A3 non-essential, BRD9 synovial-selective. Caveat: single-gene CRISPR masks HSP90/paralogue essentiality; POLR2A did not resolve in this pull."
     },
     {
       "claim_id": "C021",
@@ -288,17 +288,17 @@
     },
     {
       "claim_id": "C022",
-      "statement": "MHC class-II (CD4 help) prediction of the junctions (MHCnuggets, 7 common DRB1 alleles): the EWSR1::NR4A3 junction contains a STRONG predicted CD4 helper epitope (QYSQQSSSYGQQPCV, DRB1*07:01, IC50 16.4 nM) plus 12 binder peptide-allele pairs; the TAF15::NR4A3 junction is weaker (0 strong, 2 binders).",
+      "statement": "MHC class-II binding PREDICTION of the junctions (MHCnuggets, 7 common DRB1 alleles): the EWSR1::NR4A3 junction contains a strong predicted HLA-II binder (QYSQQSSSYGQQPCV, DRB1*07:01, predicted IC50 16.4 nM) plus 12 predicted binder peptide-allele pairs; the TAF15::NR4A3 junction is weaker (0 strong, 2 binders). Predicted binding only -- NOT evidence of processing, presentation, immunogenicity, or CD4 help.",
       "entity": "fusion-junction-antigen",
       "fusion_subtype": "EWSR1_vs_TAF15",
       "evidence_type": "in_silico_prediction",
       "emc_specificity": "emc_specific",
-      "direction": "EWSR1_has_cd4_help",
+      "direction": "EWSR1_strong_predicted_HLAII_binder",
       "source": ["antigenComputationRepo"],
       "locator": "_generated/antigen-mhcii.json",
       "confidence": "prediction_only",
       "contradicts": null,
-      "notes": "Nuances the class-I picture (C021): although both junctions are MODEST on MHC-I, the EWSR1 junction has usable CD4 help -- relevant for a fusion vaccine (class-II help drives durable CD8 responses). The class-I target is the weaker link for EWSR1; TAF15 is weak on BOTH. Prediction only, modeled breakpoint; needs immunopeptidomics + T-cell validation. Predictor ran on py3.10+TF2.10+numpy1.23.5 (modern-Keras/numpy2 both break MHCnuggets)."
+      "notes": "PREDICTION ONLY. A strong predicted HLA-II binding score is NOT evidence that the peptide is naturally processed, presented, immunogenic, or capable of providing CD4 help -- all of which require experimental confirmation (immunopeptidomics + T-cell assays). The EWSR1 junction yields a strong predicted HLA-II binder (QYSQQSSSYGQQPCV/DRB1*07:01); TAF15 is a weak predicted binder. Predicted class-I and class-II results are kept separate from experimentally demonstrated antigens (there are none for EMC). Modeled breakpoint (breakpoint-sensitive). Predictor ran on py3.10+TF2.10+numpy1.23.5 (modern-Keras/numpy2 both break MHCnuggets)."
     },
     {
       "claim_id": "C023",

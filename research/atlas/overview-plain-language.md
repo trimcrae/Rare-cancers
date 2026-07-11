@@ -22,9 +22,11 @@ the cleanest next experiment?* Without that map, effort and money get spent re-c
 
 ## What the EMC Atlas is
 
-It is the first **single, organized, openly published map** of everything usable that is known about
-treating EMC — every dataset, laboratory model, drug screen, and patient study — pulled together and
-scored for how strong the evidence really is. Two principles run through it:
+It is an **organized, openly published synthesis** of the public EMC evidence that the author could
+identify (as of mid-2026) — datasets, laboratory models, drug screens, and patient studies — pulled
+together and scored, by a hand-built triage method, for how strong the evidence is. It is *not* a
+complete or systematic review, and the scores are informed judgments, not guarantees. Two principles
+run through it:
 
 - **Show your work.** Every claim links to its source, and each is labeled with how well it's confirmed.
 - **Be honest about what fails.** The atlas deliberately records the ideas that *looked* promising but
@@ -37,7 +39,7 @@ free public computing — so it costs almost nothing and anyone can reproduce it
 
 1. **A "quality-control" weakness.** Cancer cells that run their machinery at full tilt may depend
    heavily on their protein-recycling and gene-packaging systems. Two independent drug screens both
-   point this way. The atlas turns this into a concrete, ready-to-run laboratory test — including an
+   point this way. The atlas turns this into a concrete, proposed laboratory test — including an
    honest check that the real question here is about *drug dosing/safety windows*, not a simple on/off switch.
 2. **A fusion-type difference in an existing drug class.** Certain "anti-blood-vessel" drugs already show
    real, if modest, activity in EMC — and the tumors with the *EWSR1* fusion appear to respond while
@@ -52,7 +54,7 @@ free public computing — so it costs almost nothing and anyone can reproduce it
 The computational work is done. What it needs is a **laboratory and clinical home**:
 
 - **Labs with EMC cell models** (or the ability to make new ones from donated tumors) to run the
-  ready-made experiments.
+  proposed experiments.
 - **Archival tumor tissue** to confirm the immune/surface targets.
 - **A clinician or scientist collaborator** willing to partner — the single thing an unaffiliated
   researcher most needs.
@@ -60,9 +62,17 @@ The computational work is done. What it needs is a **laboratory and clinical hom
 
 ## The honest bottom line
 
-This resource does not cure anything today. What it does is make EMC research **faster, cheaper, and
-harder to get wrong** — a rigorous, transparent, ready-to-use package that a lab or clinician can pick
-up and act on. For a disease this rare, that head start is the point.
+This resource does not treat or cure anything today, and none of its leads has been tested in EMC. What
+it aims to do is make EMC *research* faster, cheaper, and harder to get wrong — a transparent, documented
+starting package for a lab or clinician. For a disease this rare, that head start is the point.
+
+## Important note for patients and families
+
+Some of the drugs mentioned here **do** have published clinical activity in EMC (for example certain
+anti-blood-vessel drugs), but this atlas is a research resource and **does not determine treatment
+choice**. **Patients should not use this resource to start, stop, or select any treatment.** Treatment
+decisions in EMC require an experienced sarcoma clinical team who can weigh the individual situation.
+Nothing here is medical advice.
 
 *Full resource, with sources: `research/atlas/` in the repository. Contact: Tristan McRae, independent
 researcher.*

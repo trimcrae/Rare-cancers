@@ -96,11 +96,16 @@ maturity inflates the composite (doxorubicin scores 20 but is flagged as a compa
 discovery), and expression-only entities (PPARG: expression 3, perturbation 0) are surfaced as
 the exact anti-pattern the atlas exists to catch.
 
-## 7. Reproducibility
+## 7. Reproducibility (scoped precisely)
 
-`node research/atlas/build.mjs` validates provenance and regenerates all five `dist/*.tsv`
-files deterministically. No third-party dependencies. The JSON sources are the diffable record;
-the TSVs are the human-readable and collaborator-shareable deliverables.
+`node research/atlas/build.mjs` **deterministically rebuilds the atlas `dist/*.tsv` outputs from the
+committed JSON source files and validates provenance** — no third-party dependencies. It does **not**
+re-run the upstream analyses. Those (GEO expression reprocessing, DepMap dependency, EuropePMC full-text
+verification, MHC-I/II prediction, FDA-label PK) execute in **separate, pinned GitHub Actions workflows**
+(`.github/workflows/atlas-data.yml`) with their own Python environments, and their inputs, database
+versions, and retrieval dates are documented in `REPRODUCIBILITY.md`. A clean-environment reproduction
+test and input hashes for the release artifact are described there. The JSON sources are the diffable
+record; the TSVs are the human-readable deliverables.
 
 ## 8. What the atlas is *not*
 
