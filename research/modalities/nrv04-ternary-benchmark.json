@@ -337,7 +337,12 @@
    "4_hyp_pocket_found_occupancy_evaluable": "PASS \u2014 recruiter_pocket_occupancy=True (evaluable), recruiter_pocket_min_A present; VHL Hyp-pocket residues 98/110/111/115/117 located",
    "5_cys551_evaluated": "PASS \u2014 cys551_evaluated=True; celastrol-end\u2192Cys551 SG proxy=27.4 A (covalent-geometry proxy, no covalent bond modeled)"
   },
-  "item_6_forced_restart_resume": "IN PROGRESS \u2014 dispatched nrv04-smoke-restart (NR4A1 ternary, seeds 1,2) on the feature branch via GIT_REF passthrough; will re-dispatch with seeds 1,2,3 to force a checkpoint restore (resume-skip seeds 1,2 from /opt/ml/checkpoints, run new seed 3) then regenerate a complete report JSON",
-  "note": "Items 1-5 validate the committed atom-mapped analyzer against REAL CIFs. The exploratory-concordance verdict remains descriptive-only; prospective affinity/selectivity ranking stays prohibited (failed active-vs-epimer control)."
+  "item_6_forced_restart_resume": "PASS (2026-07-11) \u2014 nrv04-smoke-restart: initial seeds 1,2 ran + synced to /opt/ml/checkpoints; re-dispatched seeds 1,2,3 \u2192 'seed 1/2: existing CIF found \u2192 resume-skip' (checkpoint restored from S3), seed 3 ran fresh to --out_dir /opt/ml/checkpoints/nr4a1/seed_3 (confirms sm_io.out_dir fix: writes to the checkpoint mount, not /opt/ml/output), exit=0; report_nrv04_smoke_restart.json has all 3 seeds (denominator seeds=3,poses=3,unmapped=0), atom_map graph-corroborated, Hyp-pocket + Cys551 evaluable.",
+  "note": "Items 1-5 validate the committed atom-mapped analyzer against REAL CIFs. The exploratory-concordance verdict remains descriptive-only; prospective affinity/selectivity ranking stays prohibited (failed active-vs-epimer control).",
+  "ALL_SIX_ITEMS": "PASS \u2014 gate-review-3 fully cleared (5 committed fixes + passing real-CIF forced-restart smoke).",
+  "spot_conversion_regressions_fixed_by_this_smoke": [
+   "entry.py store_true --control sentinel broke on the hyperparameter round-trip (--control true) \u2192 parse_known_args + nargs='?'",
+   "sm_io.out_dir() honored $SM_OUTPUT_DIR (=/opt/ml/output on Training) \u2192 all 21 spot entries wrote to the wrong dir; fixed to always prefer /opt/ml/checkpoints"
+  ]
  }
 }
