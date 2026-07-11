@@ -30,10 +30,13 @@ def main():
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating warhead env via {conda}", flush=True)
     subprocess.run([conda, "create", "-y", "-n", "wh", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy"],
+                    "python=3.11", "mdtraj", "fpocket=4.2.3", "rdkit", "biopython", "numpy"],
                    check=True)
+    import smina_env
+    smina_env.setup_smina_env(conda)     # smina no longer co-solves with rdkit -> its own env + wrapper
 
     env = os.environ.copy()
+    env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
     env["INPUT_DIR"] = "/opt/ml/processing/input"
     env["OUTPUT_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)

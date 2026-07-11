@@ -42,7 +42,7 @@ def main():
                    check=False)
     # same proven env spec as the de-novo dock funnel (avoids a fresh env shakeout).
     _create = [conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-               "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
+               "python=3.11", "mdtraj", "fpocket=4.2.3", "rdkit", "biopython", "numpy", "matplotlib-base"]
     try:
         subprocess.run(_create + ["--solver=libmamba"], check=True)
     except subprocess.CalledProcessError:
@@ -50,7 +50,11 @@ def main():
         subprocess.run(_create, check=True)
 
     receptor_dir = os.environ.get("SM_CHANNEL_RECEPTOR", "/opt/ml/input/data/receptor")
+    import smina_env
+    smina_env.setup_smina_env(conda)     # smina no longer co-solves with rdkit -> own env + wrapper
+
     env = os.environ.copy()
+    env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
     env["OUTPUT_DIR"] = OUT
     env["RESUME_DIR"] = OUT               # SageMaker pre-populated OUT with prior checkpoints on start
     env["TAG"] = tag

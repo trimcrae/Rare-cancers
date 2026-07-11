@@ -60,14 +60,18 @@ def main():
     subprocess.run([conda, "install", "-n", "base", "-y", "-c", "conda-forge", "conda-libmamba-solver"],
                    check=False)
     _create = [conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-               "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy", "matplotlib-base"]
+               "python=3.11", "mdtraj", "fpocket=4.2.3", "rdkit", "biopython", "numpy", "matplotlib-base"]
     try:
         subprocess.run(_create + ["--solver=libmamba"], check=True)
     except subprocess.CalledProcessError:
         print("[sagemaker] libmamba unavailable; classic solver", flush=True)
         subprocess.run(_create, check=True)
 
+    import smina_env
+    smina_env.setup_smina_env(conda)     # smina no longer co-solves with rdkit -> own env + wrapper
+
     env = os.environ.copy()
+    env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
     env["INPUT_DIR"] = IN                                            # holds nr4a1/ nr4a2/ (and nr4a3/ in metad mode)
     env["OUTPUT_DIR"] = OUT
     env["CANDIDATE_JSON"] = os.path.join(IN, "denovo", "nr4a3-denovo.json")

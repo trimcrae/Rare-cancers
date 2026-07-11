@@ -66,7 +66,7 @@ def main():
           flush=True)
     run_logged([conda, "create", "-y", "-n", "rd", "--override-channels", "-c", "conda-forge",
                 "python=3.11", "openmm", "openmmforcefields", "openff-toolkit-base", "ambertools",
-                "pdbfixer", "rdkit", "smina", "biopython", "numpy", "ocl-icd-system"],
+                "pdbfixer", "rdkit", "biopython", "numpy", "ocl-icd-system"],
                "conda-create-rd", timeout=env_build_timeout)
 
     # OpenCL vendor ICD (same g5 fix as entry_mmgbsa.py) so OpenMM's OpenCL platform registers on the A10G.
@@ -74,7 +74,11 @@ def main():
                     "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd && "
                     "ls -l /etc/OpenCL/vendors/"], check=False)
 
+    import smina_env
+    smina_env.setup_smina_env(conda)     # smina no longer co-solves with rdkit -> own env + wrapper
+
     env = os.environ.copy()
+    env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
     env["OUTPUT_DIR"] = OUT                            # spot checkpoint dir == output (continuous sync)
     if args.models:
         env["MODELS"] = args.models

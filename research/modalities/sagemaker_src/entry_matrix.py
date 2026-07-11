@@ -34,16 +34,11 @@ def main():
     subprocess.run([conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
                     "python=3.11", "mdtraj", "fpocket=4.2.3", "rdkit", "biopython", "numpy",
                     "matplotlib-base"], check=True)
-    subprocess.run([conda, "create", "-y", "-n", "sm", "-c", "conda-forge", "smina"], check=True)
-    os.makedirs("/usr/local/bin", exist_ok=True)
-    wrapper = "/usr/local/bin/smina"
-    with open(wrapper, "w") as wf:
-        wf.write('#!/bin/bash\nexec %s run --no-capture-output -n sm smina "$@"\n' % conda)
-    os.chmod(wrapper, 0o755)
-    print(f"[sagemaker] smina wrapper -> {wrapper} (runs in env `sm`)", flush=True)
+    import smina_env
+    smina_env.setup_smina_env(conda)     # smina can't co-solve with rdkit anymore -> its own env + wrapper
 
     env = os.environ.copy()
-    env["PATH"] = "/usr/local/bin:" + env.get("PATH", "")   # ensure the smina wrapper is discoverable
+    env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
     env["INPUT_DIR"] = "/opt/ml/processing/input"     # holds nr4a3/ nr4a1/ nr4a2/ subdirs
     env["OUTPUT_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)
