@@ -26,8 +26,8 @@ def test_skeleton_none_on_garbage():
 
 
 # ---- reconcile_structures() -----------------------------------------------------------------------
-def _hit(source, key, smiles="C"):
-    return {"source": source, "smiles": smiles, "inchikey": key}
+def _hit(source, key, smiles="C", mw=None):
+    return {"source": source, "smiles": smiles, "inchikey": key, "mw": mw}
 
 
 def test_reconcile_high_when_two_agree():
@@ -64,6 +64,27 @@ def test_reconcile_majority_group_wins_consensus():
                                   _hit("cactus", "OUTLIEROUTLIE-Q-N", "bad")])
     assert r["structure_confidence"] == "high"
     assert r["consensus_smiles"] in ("good1", "good2")
+
+
+def test_reconcile_expected_mw_rejects_wrong_mass_group():
+    # The DHI failure mode: a name resolves to a derivative (wrong mass) in one source and the correct
+    # parent in another. expected_mw must pick the PARENT even though both groups are size 1.
+    parent = _hit("cactus", "SGNZYJXNUURYCH-UHFFFAOYSA-N", "Oc1cc2[nH]ccc2cc1O", mw=149.15)
+    deriv = _hit("chembl", "UEDKWJDOUGYJQX-UHFFFAOYSA-N", "CCn1c(C(=O)O)cc2cc(O)c(O)cc21", mw=221.2)
+    r = pwr.reconcile_structures([deriv, parent], expected_mw=149.15)
+    assert r["consensus_inchikey"].startswith("SGNZYJXNUURYCH")   # the parent, not the derivative
+    assert r["mw_disambiguated"] is True
+    assert r["skeleton_disagreement"] is True
+
+
+def test_reconcile_expected_mw_prefers_mass_match_over_larger_group():
+    # two sources agree on a WRONG mass, one source has the right mass -> expected_mw wins over count
+    wrong = "WRONGWRONGWRO-X-N"
+    r = pwr.reconcile_structures(
+        [_hit("chembl", wrong, "bad1", mw=500.0), _hit("pubchem", wrong, "bad2", mw=500.0),
+         _hit("cactus", "RIGHTRIGHTRI-Y-N", "good", mw=150.0)], expected_mw=150.0)
+    assert r["consensus_smiles"] == "good"
+    assert r["mw_disambiguated"] is True
 
 
 def test_reconcile_unresolved_when_empty():

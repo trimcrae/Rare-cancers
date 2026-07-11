@@ -179,7 +179,8 @@ REGISTRY = [
         "potency": "n/a (covalent)",
         "selectivity_notes": "covalent NR4A2 mode; special-handling like the celastrol/NR-V04 warhead",
         "source": {"ref": "Nurr1 LBD-DHI / -PGA1 covalent cocrystals (Cys566)"},
-        "resolve": ["5,6-dihydroxyindole"],
+        "expected_mw": 149.15,   # C8H7NO2; disambiguates the parent indole from carboxylic-acid derivatives
+        "resolve": ["5,6-dihydroxyindole", "5,6-dihydroxy-1H-indole"],
     },
     {
         "id": "pga1",
@@ -262,10 +263,16 @@ REGISTRY = [
                     "ref": "Wang et al. PROTAC-mediated NR4A1 degradation... J Exp Med 2024;221(3):e20231519",
                     "vendor": "MedChemExpress NR-V04 (structure/formula reference)"},
         "structure_status": "protac_composite",
-        "resolve": ["NR-V04"],
-        "note": ("Full PROTAC structure may not be name-resolvable; recorded as a composite of "
-                 "celastrol(warhead)+linker+VHL(recruiter). If a vendor/paper SMILES resolves it, the resolver "
-                 "fills it; otherwise unresolved-composite (not invented)."),
+        "resolve": [],   # NAME-COLLISION GUARD: ChEMBL's "NR-V04" (CHEMBL4779766) is a CRBN/glutarimide-PEG
+                          # PROTAC, which CONTRADICTS Wang 2024's VHL-recruiting celastrol NR-V04 (brief 3.3).
+                          # So the auto-resolved "NR-V04" record is NOT this compound -> do not resolve by name;
+                          # keep as a verified composite of celastrol (warhead, resolved high) + VH032 (VHL,
+                          # resolved) + linker. Never assert the collided structure.
+        "note": ("Recorded as a composite of celastrol(warhead)+linker+VHL(recruiter). The full assembled "
+                 "PROTAC SMILES is not asserted: name-resolving 'NR-V04' returns a CRBN/glutarimide PROTAC "
+                 "(ChEMBL CHEMBL4779766) that conflicts with the published VHL/celastrol composition, so it is "
+                 "rejected rather than trusted (brief golden rule: verify or leave unresolved). Component "
+                 "structures (celastrol, VH032) ARE resolved in their own rows."),
     },
 
     # ---- 5. CRBN E3 handle (independent architecture; used in the ternary control) -----------------
@@ -300,13 +307,26 @@ def skeleton(inchikey):
     return head if len(head) >= 10 else None
 
 
-def reconcile_structures(resolved):
-    """resolved: list of dicts {source, smiles, inchikey}. Decide a structure_confidence + consensus.
+def _group_mw(group):
+    """Median MW of a resolver-hit group (hits may carry a numeric 'mw'); None if none present."""
+    mws = sorted(h["mw"] for h in group if h.get("mw") is not None)
+    if not mws:
+        return None
+    n = len(mws)
+    return mws[n // 2] if n % 2 else 0.5 * (mws[n // 2 - 1] + mws[n // 2])
+
+
+def reconcile_structures(resolved, expected_mw=None, mw_tol=8.0):
+    """resolved: list of dicts {source, smiles, inchikey[, mw]}. Decide a structure_confidence + consensus.
     Returns {structure_confidence, n_sources, agree, consensus_smiles, consensus_inchikey, per_source}.
       - 'high'      : >=2 sources resolved AND >=2 share an InChIKey skeleton (independent agreement)
       - 'medium'    : exactly 1 source resolved, OR >=2 resolved but skeletons DISAGREE (flagged)
       - 'unresolved': 0 sources resolved
-    consensus = the SMILES from the largest agreeing skeleton group (ties -> first by source order)."""
+    Consensus = the SMILES from the largest agreeing skeleton group. If `expected_mw` is given, it is used
+    as a DISAMBIGUATOR: a skeleton group whose median MW is within `mw_tol` of expected_mw is preferred
+    over a larger group that is NOT (this rejects a name that resolved to a derivative/salt of the wrong
+    mass, e.g. an indole-2-carboxylic-acid record standing in for the parent indole). Confidence still
+    reflects independent agreement, not the MW hint."""
     got = [r for r in resolved if r.get("smiles") and r.get("inchikey")]
     n = len(got)
     if n == 0:
@@ -316,17 +336,26 @@ def reconcile_structures(resolved):
     for r in got:
         k = skeleton(r["inchikey"])
         groups.setdefault(k, []).append(r)
-    best_k = max(groups, key=lambda k: len(groups[k]))
-    best = groups[best_k]
+
+    def group_rank(item):
+        k, grp = item
+        mw = _group_mw(grp)
+        mw_ok = (expected_mw is not None and mw is not None and abs(mw - expected_mw) <= mw_tol)
+        # prefer: MW-consistent group first (when an expectation is given), then larger group
+        return (1 if mw_ok else 0, len(grp))
+
+    best_k, best = max(groups.items(), key=group_rank)
+    # `agree` = the CHOSEN group has independent (>=2 source) support
     agree = len(best) >= 2
-    if n == 1:
-        conf = "medium"
-    elif agree:
+    mw_selected = (expected_mw is not None and _group_mw(best) is not None
+                   and abs(_group_mw(best) - expected_mw) <= mw_tol)
+    if agree:
         conf = "high"
     else:
-        conf = "medium"  # multiple sources but they disagree -> flag, don't trust blindly
+        conf = "medium"  # 1 source, or multiple that disagree -> flag, don't trust blindly
     return {"structure_confidence": conf, "n_sources": n, "agree": agree,
-            "skeleton_disagreement": (n >= 2 and not agree),
+            "skeleton_disagreement": (len(groups) > 1),
+            "mw_disambiguated": bool(mw_selected and len(groups) > 1),
             "consensus_smiles": best[0]["smiles"], "consensus_inchikey": best[0]["inchikey"],
             "per_source": resolved}
 
@@ -430,13 +459,20 @@ def resolve_cactus(term, Chem):
 
 
 def resolve_all(resolve_terms, Chem):
-    """Try each term against all three resolvers; collect every distinct hit for cross-checking."""
+    """Try each term against all three resolvers; collect every distinct hit for cross-checking.
+    Attaches an RDKit MW to each hit (used by reconcile's expected_mw disambiguator)."""
+    from rdkit.Chem import Descriptors as _Desc
     hits = []
     for term in resolve_terms:
         for fn in (resolve_chembl, resolve_pubchem, resolve_cactus):
             r = fn(term, Chem)
             if r and r.get("smiles"):
                 r["query"] = term
+                try:
+                    _m = Chem.MolFromSmiles(r["smiles"])
+                    r["mw"] = round(_Desc.MolWt(_m), 2) if _m is not None else None
+                except Exception:  # noqa
+                    r["mw"] = None
                 hits.append(r)
     # de-dup by (source, skeleton) keeping first
     seen = set()
@@ -467,17 +503,20 @@ def main():
     for entry in REGISTRY:
         rec = {k: entry[k] for k in entry if k != "resolve" and k != "smiles_hint"}
         resolved = resolve_all(entry.get("resolve", []), Chem)
-        recon = reconcile_structures(resolved)
+        recon = reconcile_structures(resolved, expected_mw=entry.get("expected_mw"))
         rec["structure"] = {
             "structure_confidence": recon["structure_confidence"],
             "n_resolvers_agreeing": recon["n_sources"],
             "independent_agreement": recon["agree"],
             "skeleton_disagreement": recon.get("skeleton_disagreement", False),
+            "mw_disambiguated": recon.get("mw_disambiguated", False),
+            "expected_mw": entry.get("expected_mw"),
             "smiles": recon["consensus_smiles"],
             "inchikey": recon["consensus_inchikey"],
             "per_resolver": [{"source": r["source"], "source_id": r.get("source_id"),
                                "query": r.get("query"), "smiles": r["smiles"],
-                               "inchikey": r.get("inchikey")} for r in recon["per_source"]],
+                               "mw": r.get("mw"), "inchikey": r.get("inchikey")}
+                              for r in recon["per_source"]],
         }
         if recon["consensus_smiles"]:
             rec["cheminformatics"] = wcp.profile(recon["consensus_smiles"], rdkit_tools)
