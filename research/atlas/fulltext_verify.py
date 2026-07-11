@@ -131,8 +131,9 @@ def verify(paper):
                                    ["HDM201", "siremadlin", "venetoclax", "carfilzomib", "brigatinib",
                                     "panobinostat", "romidepsin", "EWSR1", "TAF15"]}
     else:
-        # fall back to abstract
-        raw, _ = _get(f"{EPMC}/search?query=EXT_ID:{pid}%20AND%20SRC:{src}&format=json&resultType=core")
+        # fall back to abstract (query by the right field per source: PMCID for PMC, EXT_ID+SRC for MED)
+        query = f"PMCID:{pid}" if src == "PMC" else f"EXT_ID:{pid} AND SRC:{src}"
+        raw, _ = _get(f"{EPMC}/search?query={urllib.parse.quote(query)}&format=json&resultType=core")
         abstract = ""
         try:
             js = json.loads(raw)

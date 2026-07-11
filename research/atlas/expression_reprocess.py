@@ -275,64 +275,7 @@ def process(gse):
                  "n_genes_annotated": len(gene_rows),
                  "sample_labels": [{"acc": sm["samples"][i], "title": (sm["titles"][i] if i < len(sm["titles"]) else ""),
                                     "label": labels[i], "fusion": fusion[i]} for i in range(n)]}
-        # EMC-vs-rest signature (needs both groups)
-        if emc_idx and oth_idx:
-            aucs = []
-            for sym, vals in gene_rows.items():
-                a = auc_emc_up(vals, emc_idx, oth_idx)
-                if a is not None:
-                    aucs.append((sym, a))
-            aucs.sort(key=lambda x: -x[1])
-            pinfo["signature_note"] = ("AUC = P(EMC ranks above non-EMC). Two-colour => AUC is on "
-                                       "log-ratio-vs-reference, still rank-valid." if two_colour else
-                                       "AUC = P(EMC ranks above non-EMC) on intensity ranks.")
-            pinfo["top_emc_up"] = [{"gene": s, "auc": round(a, 3)} for s, a in aucs[:30]]
-            pinfo["top_emc_down"] = [{"gene": s, "auc": round(a, 3)} for s, a in aucs[-15:]]
-            marker_rank = {}
-            rank_of = {s: k for k, (s, _) in enumerate(aucs)}
-            for m in KNOWN_MARKERS:
-                if m in rank_of:
-                    a = dict(aucs)[m]
-                    marker_rank[m] = {"auc": round(a, 3), "rank": rank_of[m] + 1, "of": len(aucs)}
-                else:
-                    marker_rank[m] = "not_measured"
-            pinfo["known_marker_reproduction"] = marker_rank
-            # leave-one-EMC-out stability of top-50
-            topN = set(s for s, _ in aucs[:50])
-            jac = []
-            for drop in emc_idx:
-                keep = [i for i in emc_idx if i != drop]
-                if not keep:
-                    continue
-                a2 = []
-                for sym, vals in gene_rows.items():
-                    v = auc_emc_up(vals, keep, oth_idx)
-                    if v is not None:
-                        a2.append((sym, v))
-                a2.sort(key=lambda x: -x[1])
-                t2 = set(s for s, _ in a2[:50])
-                inter = len(topN & t2)
-                jac.append(inter / len(topN | t2))
-            if jac:
-                pinfo["leave_one_out_top50_jaccard"] = {"mean": round(sum(jac) / len(jac), 3),
-                                                        "min": round(min(jac), 3), "n": len(jac)}
-        else:
-            # all-EMC (or no comparators): report highest-expressed genes + marker percentiles
-            means = []
-            for sym, vals in gene_rows.items():
-                vv = [v for v in vals if v is not None]
-                if vv:
-                    means.append((sym, sum(vv) / len(vv)))
-            means.sort(key=lambda x: -x[1])
-            rank_of = {s: k for k, (s, _) in enumerate(means)}
-            pinfo["signature_note"] = ("No non-EMC comparators in this platform's labeled samples -> "
-                                       "reporting highest-mean-expression genes and known-marker percentiles"
-                                       + (" (two-colour: RELATIVE to reference pool)." if two_colour else "."))
-            pinfo["top_expressed"] = [{"gene": s, "mean": round(m, 2)} for s, m in means[:30]]
-            pinfo["known_marker_reproduction"] = {
-                m: ({"mean_rank_percentile": round(100 * (1 - rank_of[m] / max(1, len(means))), 1)}
-                    if m in rank_of else "not_measured") for m in KNOWN_MARKERS}
-        # EWSR1 vs TAF15 feasibility
+        # EWSR1 vs TAF15 feasibility (independent of the signature; compute up front so it's never lost)
         ew = [i for i in emc_idx if fusion[i] == "EWSR1"]
         ta = [i for i in emc_idx if fusion[i] == "TAF15"]
         pinfo["fusion_stratification"] = {
@@ -341,9 +284,73 @@ def process(gse):
             "note": ("EWSR1-vs-TAF15 differential feasible." if (ew and ta) else
                      "Fusion partner NOT recoverable from this dataset's public metadata -> "
                      "EWSR1-vs-TAF15 stratification NOT feasible here (honest limitation).")}
+        # If annotation mapping is empty, the signature is meaningless -> record diagnostically, don't crash.
+        if not gene_rows:
+            pinfo["signature_skipped"] = ("no annotated genes (GPL probe->symbol mapping empty) -> "
+                                          "cannot compute a gene-level EMC signature for this platform")
+            platforms.append(pinfo)
+            continue
+        try:
+            _signature(pinfo, gene_rows, emc_idx, oth_idx, two_colour)
+        except Exception as e:  # noqa
+            pinfo["signature_error"] = str(e)
         platforms.append(pinfo)
     out["platforms"] = platforms
     return out
+
+
+def _signature(pinfo, gene_rows, emc_idx, oth_idx, two_colour):
+    """Fill pinfo with the EMC signature. Separated so a compute error is caught per-platform
+    without discarding the platform's QC/label diagnostics."""
+    if emc_idx and oth_idx:
+        aucs = []
+        for sym, vals in gene_rows.items():
+            a = auc_emc_up(vals, emc_idx, oth_idx)
+            if a is not None:
+                aucs.append((sym, a))
+        aucs.sort(key=lambda x: -x[1])
+        pinfo["signature_note"] = ("AUC = P(EMC ranks above non-EMC). Two-colour => AUC is on "
+                                   "log-ratio-vs-reference, still rank-valid." if two_colour else
+                                   "AUC = P(EMC ranks above non-EMC) on intensity ranks.")
+        pinfo["top_emc_up"] = [{"gene": s, "auc": round(a, 3)} for s, a in aucs[:30]]
+        pinfo["top_emc_down"] = [{"gene": s, "auc": round(a, 3)} for s, a in aucs[-15:]]
+        rank_of = {s: k for k, (s, _) in enumerate(aucs)}
+        auc_of = dict(aucs)
+        pinfo["known_marker_reproduction"] = {
+            m: ({"auc": round(auc_of[m], 3), "rank": rank_of[m] + 1, "of": len(aucs)}
+                if m in rank_of else "not_measured") for m in KNOWN_MARKERS}
+        # leave-one-EMC-out stability of the top-50 signature (tiny n -> stability is first-class)
+        topN = set(s for s, _ in aucs[:50])
+        jac = []
+        for drop in emc_idx:
+            keep = [i for i in emc_idx if i != drop]
+            if not keep:
+                continue
+            a2 = sorted(((sym, auc_emc_up(vals, keep, oth_idx)) for sym, vals in gene_rows.items()),
+                        key=lambda x: (x[1] is not None, x[1]), reverse=True)
+            t2 = set(s for s, v in a2[:50] if v is not None)
+            den = len(topN | t2)
+            if den:
+                jac.append(len(topN & t2) / den)
+        if jac:
+            pinfo["leave_one_out_top50_jaccard"] = {"mean": round(sum(jac) / len(jac), 3),
+                                                    "min": round(min(jac), 3), "n": len(jac)}
+    else:
+        # all-EMC (or no comparators): report highest-expressed genes + marker percentiles
+        means = []
+        for sym, vals in gene_rows.items():
+            vv = [v for v in vals if v is not None]
+            if vv:
+                means.append((sym, sum(vv) / len(vv)))
+        means.sort(key=lambda x: -x[1])
+        rank_of = {s: k for k, (s, _) in enumerate(means)}
+        pinfo["signature_note"] = ("No non-EMC comparators in this platform's labeled samples -> "
+                                   "reporting highest-mean-expression genes and known-marker percentiles"
+                                   + (" (two-colour: RELATIVE to reference pool)." if two_colour else "."))
+        pinfo["top_expressed"] = [{"gene": s, "mean": round(m, 2)} for s, m in means[:30]]
+        pinfo["known_marker_reproduction"] = {
+            m: ({"mean_rank_percentile": round(100 * (1 - rank_of[m] / max(1, len(means))), 1)}
+                if m in rank_of else "not_measured") for m in KNOWN_MARKERS}
 
 
 def main():
