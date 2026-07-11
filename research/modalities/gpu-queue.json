@@ -1,7 +1,8 @@
 {
   "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
   "spot_train_quota": 8,
-  "updated": "2026-07-10 9:47 PM ET",
+  "_user_hold": "2026-07-10 9:55 PM ET — USER DIRECTIVE: do NOT start any NEW GPU runs this session. In-flight runs (T4L benchmark, nr4a2rep-r1 pilot) continue. No resuming paused replicates, no lambda-repair, no paralogue ABFE, no Phase-2 re-shakeout — surface to the user instead. CPU/$0 work and read-only monitoring are unaffected. Applies to autonomous hourly-Routine firings too (they fire into this session).",
+  "updated": "2026-07-10 9:55 PM ET",
   "items": [
     {
       "id": "nr4a2rep-r2-resume",
@@ -13,7 +14,7 @@
       "auto_launch": false,
       "status": "paused_validation_gate",
       "preconditions": ["r1 reaches the repaired tail windows (~9-15)", "adjacent MBAR overlap recovered to >~0.03", "then resume for the error bar"],
-      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved in S3 (resumes from ~18%, loses <=1 window). Do NOT auto-resume — gated on the r1 overlap check. If overlap does NOT recover, do NOT resume; the dense schedule needs redesign (more iters/window or different soft-core), not more replicates."
+      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved in S3 (resumes from ~18%, loses <=1 window). ** USER HOLD 2026-07-10 9:55 PM ET: NO NEW GPU RUNS THIS SESSION — do NOT resume even if the r1 validation gate (window 9 overlap check) passes. The gate diagnostic (CPU) may still run; if it validates, SURFACE to the user and wait, do NOT re-dispatch. ** Gated on the r1 overlap check AND the user hold."
     },
     {
       "id": "nr4a2rep-r3-resume",
@@ -25,7 +26,7 @@
       "auto_launch": false,
       "status": "paused_validation_gate",
       "preconditions": ["r1 reaches the repaired tail windows (~9-15)", "adjacent MBAR overlap recovered to >~0.03", "then resume for the error bar"],
-      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved. Gated on the r1 overlap check — same as nr4a2rep-r2-resume."
+      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved. ** USER HOLD 2026-07-10 9:55 PM ET: NO NEW GPU RUNS THIS SESSION — do NOT resume even if the r1 validation gate passes; surface to the user and wait. ** Gated on the r1 overlap check AND the user hold."
     },
     {
       "id": "phase2-shakeout",
