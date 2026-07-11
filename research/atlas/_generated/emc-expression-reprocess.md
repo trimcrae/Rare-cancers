@@ -6,3 +6,5 @@ _Bounds:_ Series-matrix (not raw-CEL RMA); tiny n; legacy arrays; stroma dilutio
 
 ## GSE4303
 - ERROR: division by zero
+## GSE24369
+- ERROR: division by zero
