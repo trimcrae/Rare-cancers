@@ -20,6 +20,7 @@ on:
       - 'research/atlas/expression_reprocess.py'
       - 'research/atlas/fulltext_verify.py'
       - 'research/atlas/panel_dependency.py'
+      - 'research/atlas/antigen_expand.py'
       - '.github/workflows/atlas-data.yml'
 
 permissions:
@@ -95,6 +96,27 @@ jobs:
           git add research/atlas/_generated/ || true
           git diff --cached --quiet && { echo "no changes"; exit 0; }
           git commit -m "Atlas data (CI): validation-panel DepMap dependency"
+          for i in 1 2 3 4; do
+            git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
+          done
+
+      # --- Unit 4: fusion-junction antigen, BOTH subtypes (MHC-I via MHCflurry). ---
+      - name: Install MHCflurry + fetch class-I models
+        if: always()
+        run: |
+          pip install --quiet mhcflurry || echo "mhcflurry install failed"
+          mhcflurry-downloads fetch models_class1_presentation || echo "model fetch failed"
+      - name: Fusion-junction antigen EWSR1 vs TAF15 (MHC-I)
+        if: always()
+        run: python research/atlas/antigen_expand.py || echo "antigen expand failed (continuing)"
+      - name: Commit unit 4 (antigen EWSR1 vs TAF15)
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/atlas/_generated/ || true
+          git diff --cached --quiet && { echo "no changes"; exit 0; }
+          git commit -m "Atlas data (CI): fusion-junction antigen EWSR1 vs TAF15 (MHC-I)"
           for i in 1 2 3 4; do
             git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
           done
