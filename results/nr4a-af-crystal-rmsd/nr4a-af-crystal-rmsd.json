@@ -1,0 +1,77 @@
+{
+  "_title": "AF-model vs experimental-crystal C\u03b1 RMSD for the NR4A paralogues (matched to \u00a72.1 NR4A3 AF2\u21948XTT)",
+  "_method": "pure-numpy Kabsch; BLOSUM62 global alignment (biopython) for the NR4A3\u2194paralogue and paralogue-AF\u2194crystal residue maps; two alignments composed to carry Pocket-5 across.",
+  "_caveat": "Paralogue experimental structures are COLLAPSED apo crystals (occluded orthosteric pocket); this is an AF-vs-crystal FOLD check, NOT a pocket-state validation. A small global RMSD confirms the fold; the larger pocket RMSD reflects the collapsed\u2192open displacement and is not evidence of an open crystal state.",
+  "nr4a3_reference_af2_vs_8xtt_nmr": {
+    "note": "from \u00a72.1 (nr4a3_8xtt_benchmark / nr4a3_af2_nmr_rmsd), for context on a matched footing",
+    "global_ca_rmsd_median_A": 7.63,
+    "pocket_ca_rmsd_median_A": 3.56,
+    "af2_within_nmr_spread": true,
+    "experimental_data_type": "solution-NMR ensemble (20 models)"
+  },
+  "nr4a3_acc": "Q92570",
+  "pocket5_nr4a3": [
+    406,
+    407,
+    410,
+    411,
+    412,
+    481,
+    484,
+    485,
+    531,
+    534
+  ],
+  "paralogues": {
+    "NR4A1": {
+      "align_identity_af_vs_crystal": 1.0,
+      "align_identity_nr4a3_vs_paralogue": 0.5417,
+      "global_ca_rmsd": 1.202,
+      "global_ca_n": 234,
+      "pocket_ca_rmsd": 0.445,
+      "pocket_ca_n": 10,
+      "pocket_residues_paralogue_numbering": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "acc": "P22736",
+      "crystal_pdb": "3V3E",
+      "crystal_chain": "A",
+      "name": "Nur77",
+      "experimental_data_type": "apo crystal (collapsed pocket)"
+    },
+    "NR4A2": {
+      "align_identity_af_vs_crystal": 1.0,
+      "align_identity_nr4a3_vs_paralogue": 0.641,
+      "global_ca_rmsd": 1.397,
+      "global_ca_n": 226,
+      "pocket_ca_rmsd": 0.823,
+      "pocket_ca_n": 10,
+      "pocket_residues_paralogue_numbering": [
+        372,
+        373,
+        376,
+        377,
+        380,
+        450,
+        453,
+        454,
+        500,
+        503
+      ],
+      "acc": "P43354",
+      "crystal_pdb": "1OVL",
+      "crystal_chain": "A",
+      "name": "Nurr1",
+      "experimental_data_type": "apo crystal (collapsed pocket)"
+    }
+  }
+}
