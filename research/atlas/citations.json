@@ -255,6 +255,30 @@
       "verified": true,
       "role": "In-repo query: NR4A1/NR4A3 broad co-expression; NR4A2 tissue-enhanced (CNS). Surface-protein reads for surface targets."
     },
+    "mhcflurry2": {
+      "short": "MHCflurry 2.0",
+      "resourceType": "method",
+      "url": "https://doi.org/10.1016/j.cels.2020.06.010",
+      "verified": true,
+      "role": "MHC-I binding/presentation predictor used for junction-neoantigen scoring (%rank<=0.5 strong, netMHC convention)."
+    },
+    "afnd2020": {
+      "short": "AFND 2020 (HLA allele frequencies)",
+      "title": "Allele frequency net database (AFND) 2020 update",
+      "authors": "Gonzalez-Galarza FF, et al.",
+      "journal": "Nucleic Acids Res",
+      "year": 2020,
+      "volume_pages": "48:D783-D788",
+      "verified": true,
+      "role": "Population HLA allele frequencies (Wilson CIs; class I+II) for coverage estimates. Mirror: github.com/slowkow/allelefrequencies."
+    },
+    "antigenComputationRepo": {
+      "short": "In-repo fusion-junction antigen computation",
+      "resourceType": "repo_analysis",
+      "url": "research/modalities/fusion_neoantigen.py + fusion_breakpoints.py + hla_coverage.py",
+      "verified": true,
+      "role": "Deterministic in-repo computation (strategy Project 4 core): junction-spanning MHC-I prediction, breakpoint-resolved junctions, HLA population coverage. Outputs: fusion-neoantigen-predictions.json, fusion-breakpoint-neoantigens.json, hla-coverage.json."
+    },
     "biologyEvidenceRepo": {
       "short": "In-repo EMC/NR4A3 biology evidence base",
       "resourceType": "repo_synthesis",

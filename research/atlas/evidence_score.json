@@ -151,6 +151,29 @@
       "honest_caveats": "SURROGATE only (no EMC line in DepMap); RNA != surface protein; cell lines silence cancer-testis antigens (PRAME = lower bound). Needs EMC tissue/immunopeptidomics before any program. CHRNA6 is a lineage marker of interest but RNA-ISH performance != surface protein."
     },
     {
+      "id": "AXIS-fusion-junction-antigen",
+      "label": "Fusion-junction antigen (EWSR1::NR4A3 junction peptides) -- strategy Project 4 core",
+      "type": "modality_axis",
+      "supporting_claims": ["C016", "C017"],
+      "scores": {
+        "emc_model_support": 0,
+        "fusion_subtype_coverage": 1,
+        "patient_tumor_expression": 2,
+        "genetic_perturbation": "NA",
+        "pharmacologic_replication": 0,
+        "achievable_exposure": "NA",
+        "target_engagement_assay": 1,
+        "normal_tissue_safety": 2,
+        "clinical_signal_emc": 0,
+        "followup_assay_available": 2
+      },
+      "composite": 8,
+      "tier": "COMPUTATIONAL_LEAD_MODEST_PREDICTED_YIELD",
+      "rationale": "The recurrent, tumor-specific fusion is a genuinely tumor-restricted antigen source; the junction is expressed and absent from the normal proteome. In-repo MHC-I prediction + breakpoint-resolved junctions + HLA coverage already computed (free, deterministic).",
+      "honest_caveats": "PREDICTION ONLY. The MHC-I predicted yield is MODEST (2 strong / 3 sub-500nM of 34 junction peptides across 10 alleles) -- the common junction may be poorly presented on MHC-I. Per the strategy this is a useful negative that redirects toward fusion-induced LINEAGE antigens (see AXIS-surface-antigen). No natural presentation or T-cell recognition demonstrated; needs immunopeptidomics + PBMC priming before any program. EWSR1-focused so far; TAF15 junction not yet modeled here.",
+      "strategy_rank": 4
+    },
+    {
       "id": "NODE-mdm2-mdm4",
       "label": "MDM2/MDM4 (p53 stress) -- DID NOT SURVIVE VERIFICATION as a screen hit",
       "type": "target",
@@ -222,7 +245,8 @@
     {"rank": 2, "entity": "AXIS-antiangiogenic-multikinase", "why": "Best clinically-anchored program: only axis with prospective EMC activity + a concrete EWSR1-vs-TAF15 biomarker hypothesis."},
     {"rank": 3, "entity": "AXIS-fusion-direct", "why": "Highest ceiling / highest specificity but lowest tractability; the repo's active in-silico degrader/ASO programs; gated on a dTAG dependency proof."},
     {"rank": 4, "entity": "AXIS-anthracycline-dnadamage", "why": "Mature comparator + combination backbone; not novel."},
-    {"rank": 5, "entity": "AXIS-surface-antigen", "why": "Surrogate-supported (B7-H3, PRAME); needs EMC tissue before any program."}
+    {"rank": 5, "entity": "AXIS-surface-antigen", "why": "Surrogate-supported (B7-H3, PRAME); needs EMC tissue before any program."},
+    {"rank": "4 (parallel)", "entity": "AXIS-fusion-junction-antigen", "why": "Strategy Project 4 core, run computationally in parallel: tumor-specific junction antigen; already computed in-repo. Modest predicted MHC-I yield is itself an informative result (redirects to lineage antigens). Needs immunopeptidomics/T-cell validation."}
   ],
   "validation_panel": {
     "note": "Proposed 12-compound / 6-combination panel for a wet-lab collaborator, DERIVED from the score above. The design principle is class-vs-compound: include >=2 members of each key class so effects can be attributed to the TARGET, not one chemical. These are HYPOTHESES to test, not predicted winners. Concentrations must be chosen to overlap plausible target-engaging human free exposure (the 'achievable_exposure' component).",

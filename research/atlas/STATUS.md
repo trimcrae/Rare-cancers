@@ -43,6 +43,18 @@
   (Stacchiotti / European sarcoma network) — a real concentration limitation and the obvious
   first collaborator to approach.
 
+## 2026-07-11 — v0.2 fold in fusion-junction antigen axis (strategy Project 4 core)
+
+Registered the **existing** in-repo antigen computation (`fusion_neoantigen.py` /
+`fusion_breakpoints.py` / `hla_coverage.py`) into the atlas — free, ready, warranted:
+- Claims C016 (junction-spanning MHC-I prediction) + C017 (HLA coverage), citations mhcflurry2 /
+  afnd2020 / antigenComputationRepo.
+- New scored axis `AXIS-fusion-junction-antigen`.
+- **Honest headline:** the common EWSR1::NR4A3 junction gives a MODEST predicted MHC-I yield
+  (2 strong / 3 sub-500nM of 34 junction peptides × 10 alleles). Per the strategy, a poorly-presented
+  junction is an informative negative that redirects toward fusion-induced LINEAGE antigens
+  (B7-H3/PRAME axis). Prediction only — no natural presentation demonstrated.
+
 ## Open next steps (all no-wet-lab, mostly free/cheap)
 1. **Reprocess GSE4303 / GSE24369** (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
    leave-one-sample-out, rank-based meta-analysis). Flips the 2 unverified GEO citations to verified.

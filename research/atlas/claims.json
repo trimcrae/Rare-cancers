@@ -203,6 +203,34 @@
       "notes": "SURROGATE + cell lines silence cancer-testis antigens (CTA reads are lower bounds). Relative order PRAME >> MAGE-A4/NY-ESO-1 is the trustworthy part."
     },
     {
+      "claim_id": "C016",
+      "statement": "In-silico MHC-I prediction (MHCflurry-2.0) of EWSR1::NR4A3 junction-spanning peptides yields a MODEST predicted binder set: of 34 junction-spanning peptides (all 34 novel; lengths 8-11) across 10 common HLA-I alleles, only 2 are strong binders (%rank<=0.5) and 3 are predicted binders <500nM; best presentation percentile 0.0697. Breakpoint-resolved: 7 in-frame junctions, 26 distinct predicted binders.",
+      "entity": "fusion-junction-antigen",
+      "fusion_subtype": "EWSR1",
+      "evidence_type": "in_silico_prediction",
+      "emc_specificity": "emc_specific",
+      "direction": "modest_predicted_presentation",
+      "source": ["antigenComputationRepo", "mhcflurry2"],
+      "locator": "fusion-neoantigen-predictions.json; fusion-breakpoint-neoantigens.json",
+      "confidence": "prediction_only",
+      "contradicts": null,
+      "notes": "PREDICTION only, MHC-I only, NO natural presentation demonstrated. The LOW strong-binder yield is itself informative: per the strategy, poorly-presented common junctions would redirect effort toward fusion-induced LINEAGE antigens. Must be validated by immunopeptidomics/T-cell assays before any claim."
+    },
+    {
+      "claim_id": "C017",
+      "statement": "HLA population coverage of the junction candidates is estimable with ancestry stratification (AFND 2020, Wilson CIs, class I+II), not a single global number.",
+      "entity": "fusion-junction-antigen",
+      "fusion_subtype": "EWSR1",
+      "evidence_type": "population_genetics",
+      "emc_specificity": "n/a",
+      "direction": "coverage_context",
+      "source": ["afnd2020", "antigenComputationRepo"],
+      "locator": "hla-coverage.json",
+      "confidence": "medium",
+      "contradicts": null,
+      "notes": "Maintain ancestry-stratified estimates; a peptide useful only in a rare allele has limited reach. Coverage != immunogenicity."
+    },
+    {
       "claim_id": "C015",
       "statement": "PPARG over-expression in EMC is a direct transcriptional consequence of the fusion; it does not establish whether agonism, antagonism, or neither suppresses the tumor.",
       "entity": "PPARG",
