@@ -40,6 +40,10 @@ on:
         description: "audit mode: comma-sep tags to audit (blank = auto-discover every nr4a3-abfe* tag)"
         default: ""
         required: false
+      gate_leg:
+        description: "repair-gate mode: 'TAG/complex-RECEPTOR' to sync + run the technical-validity gate on (e.g. nr4a3-abfe-nr4a2rep-r1/complex-nr4a2). Blank = not gate mode."
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -66,8 +70,44 @@ jobs:
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python research/modalities/abfe_audit.py
           echo "===== FULL AUDIT REPORT JSON ====="; cat /tmp/abfe-audit-report.json
+      - name: ABFE repair technical-validity GATE (prereg §2)
+        if: ${{ inputs.gate_leg != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          GATE_LEG: ${{ inputs.gate_leg }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
+          python - <<'PY'
+          import os, json, glob, sys, boto3
+          sys.path.insert(0, "research/modalities")
+          import importlib
+          gate = importlib.import_module("abfe_repair_gate")
+          region = os.environ["AWS_DEFAULT_REGION"]
+          acct = boto3.client("sts").get_caller_identity()["Account"]
+          bucket = f"sagemaker-{region}-{acct}"; s3 = boto3.client("s3")
+          leg = os.environ["GATE_LEG"].strip().strip("/")          # e.g. nr4a3-abfe-nr4a2rep-r1/complex-nr4a2
+          tag, legname = leg.split("/", 1)
+          prefix = f"{tag}/ckpt/{legname}/"
+          dest = "/tmp/gateleg"; os.makedirs(dest, exist_ok=True); n = 0
+          for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
+              for o in page.get("Contents", []):
+                  k = o["Key"]; rel = k[len(prefix):]
+                  if not rel or k.endswith("/"): continue
+                  fp = os.path.join(dest, rel); os.makedirs(os.path.dirname(fp) or ".", exist_ok=True)
+                  s3.download_file(bucket, k, fp); n += 1
+          legdir = dest
+          for w in glob.glob(os.path.join(dest, "**", "window_00.jsonl"), recursive=True):
+              legdir = os.path.dirname(w); break
+          print(f"# synced {n} files from {prefix} -> {legdir}")
+          v = gate.evaluate_repair_gate(legdir, schedule="dense")
+          print("===== REPAIR GATE VERDICT =====")
+          print(json.dumps(v, indent=1, default=str))
+          print(f"\ntechnically_valid = {v.get('technically_valid')}")
+          PY
       - name: Sync checkpoints + MBAR reduce + ΔΔG (all in-runner, free)
-        if: ${{ inputs.audit != '1' }}
+        if: ${{ inputs.audit != '1' && inputs.gate_leg == '' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -79,7 +119,14 @@ jobs:
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
-          import os, json, subprocess, glob, boto3
+          import os, json, subprocess, glob, sys, boto3
+          sys.path.insert(0, "research/modalities")   # abfe_xtag_guard + abfe_independent_reduce (reviewer §8, §2.6)
+          import importlib
+          xtag = importlib.import_module("abfe_xtag_guard")
+          indep = importlib.import_module("abfe_independent_reduce")
+          def _meta(d):
+              p = os.path.join(d, "meta.json")
+              return json.load(open(p)) if os.path.exists(p) else {}
           region = os.environ["AWS_DEFAULT_REGION"]
           acct = boto3.client("sts").get_caller_identity()["Account"]
           bucket = f"sagemaker-{region}-{acct}"
@@ -131,6 +178,19 @@ jobs:
               print(f"  ΔG_bind({r}) = {d['dg_bind']:+.3f} ± {d['se']:.3f} kcal/mol   "
                     f"[complex {d['complex_dg']:+.2f}, solvent {d['solvent_dg']:+.2f}, "
                     f"SSC {d['restraint_standard_state_dg']:+.2f}]")
+              # SAFEGUARDS (reviewer §8 + §2.6/§7): for a CROSS-TAG reduce, confirm the dense complex leg and the
+              # standard solvent leg are compatible (same ligand/T/convention); and cross-check the primary MBAR
+              # against an INDEPENDENTLY-written reducer. Printed as advisories (do not silently pass a mismatch).
+              if ctag != tag:
+                  comp = xtag.check_xtag_compatibility(_meta(cdir), _meta(sdir))
+                  print(f"    xtag-compat({r}): compatible={comp['compatible']} "
+                        f"mismatches={comp.get('mismatches')} unverifiable={comp.get('unverifiable')}")
+              try:
+                  cr = indep.compare_reducers(cdir)
+                  print(f"    independent-reduce(complex-{r}): primary={cr['primary']['dg']:+.3f} "
+                        f"independent={cr['independent']['dg']:+.3f} Δ={cr['abs_diff']:.3f} agree={cr['agree']}")
+              except Exception as e:  # noqa: BLE001
+                  print(f"    independent-reduce(complex-{r}): skipped ({e})")
           if target in res:
               t = res[target]
               print(f"\n=== selectivity ΔΔG (reference = {target}) — MBAR SE only, NOT drift-aware ===")
@@ -141,6 +201,13 @@ jobs:
                   se = (t["se"] ** 2 + res[r]["se"] ** 2) ** 0.5
                   who = f"favours {target}" if ddg < 0 else f"favours {r}"
                   print(f"  ΔΔG({target} − {r}) = {ddg:+.2f} ± {se:.2f} kcal/mol   ({who})")
+                  # cross-check (reviewer §8): ΔΔG computed DIRECTLY from the complex-leg difference + non-
+                  # cancelling SSC terms must agree algebraically with subtracting the two ABFEs.
+                  chk = xtag.ddg_direct_from_complex_diff(
+                      t["complex_dg"], res[r]["complex_dg"], t["restraint_standard_state_dg"],
+                      res[r]["restraint_standard_state_dg"], t["solvent_dg"])
+                  print(f"      direct-vs-subtract cross-check: direct={chk['ddg_direct_from_complex_diff']:+.4f} "
+                        f"via_full_abfe={chk['ddg_via_full_abfe']:+.4f} agree={chk['agree']}")
           else:
               print(f"# target {target} not reduced — no ΔΔG")
           PY
