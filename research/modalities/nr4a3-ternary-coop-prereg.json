@@ -1,0 +1,160 @@
+{
+  "_title": "NR4A3 ternary-cooperativity method — FROZEN preregistration criteria (machine-readable)",
+  "_doc": "research/modalities/nr4a3-ternary-coop-prereg.md",
+  "_frozen": "2026-07-11 (before any ternary GPU spend; reviewer 'APPROVED WITH SCOPE CHANGES')",
+  "_status": "STAGE-0 FREEZE. No MD/FEP/GPU/AWS run for the ternary path. Every numeric threshold below is an a-priori design parameter, NOT a result. The gate script ternary_coop_gate.py enforces §3 against a future results dict so no criterion is re-decided post-hoc.",
+  "_scope": "Track B (ternary / induced-proximity) ONLY. Does NOT touch Track A / ABFE / the denovo_401 lambda-repair.",
+
+  "method": {
+    "id": "thermodynamic_cycle_cooperativity",
+    "reviewer_choice": "(ii) relative ternary free energy implementing (iii) cooperativity via a binary-vs-ternary cycle; (i) ternary-MD + interface MM-GBSA is subordinate (ensemble/diagnostic only)",
+    "coop_definition": "dG_coop = -RT ln(alpha)",
+    "estimator": "matched relative alchemical calcs in binary AND ternary environments; ddG_coop = ddG_alch_ternary - ddG_alch_binary",
+    "perturbation_types": ["ligand (degrader-analogue) morphs", "staged protein/interface perturbations where technically tractable (cross-paralogue coupling)"],
+    "precedent_caveat": "combined ligand+protein FEP precedent exists for molecular GLUES; transfer to bifunctional PROTACs is itself UNVALIDATED here and is what Layer-1 tests.",
+    "two_reported_quantities_never_collapsed": [
+      "binary_warhead_preference (per receptor; RBFE map)",
+      "e3_ligand_affinity_integrity (VH032/VHL binds as intended)",
+      "effective_ternary_recruitment (relative ternary affinity)",
+      "cooperative_coupling (dG_coop / relative ddG_coop)"
+    ],
+    "md_role": "APPROVED for ensemble generation, pose survival, metastable arrangements, persistent contacts/buried-surface/hydration/interface-frustration/linker-preorganization, pose- and paralogue-dependent failure detection.",
+    "mmgbsa_role": "NOT authorized as a ranking endpoint or gate. Qualitative descriptor ONLY, labeled non-predictive. Basis: 2025 VHL-SMARCA2 study found no correlation between trajectory MM-GBSA cooperativity and measured cooperativity."
+  },
+
+  "calibration": {
+    "layer1_vhl_panel": {
+      "role": "QUANTITATIVE VHL thermodynamic calibration — REQUIRED before relying on NR-V04",
+      "primary_series": "Ciulli-lab SMARCA2-VHL degrader series (structurally characterized ternary complexes; ~alpha 0.2..93; multiple linker/exit-vector arrangements; inactive cis-hydroxyproline stereo controls; long MD showing ensemble diversity)",
+      "minimum_systems": 6,
+      "composition_required": {
+        "negatively_or_weakly_cooperative": 2,
+        "strongly_cooperative": 2,
+        "inactive_vhl_stereochemical_control": 1,
+        "independent_vhl_transfer_control": "preferably MZ1 (solved cooperative VHL-BRD4 ternary) or another independent VHL system"
+      },
+      "provenance_freeze_blocker": "Exact compound identities, PDB IDs, and MEASURED alpha / dG_coop are NOT asserted here and must NOT be fabricated. Extract from primary sources via a CI-runner full-text fetch (egress proxy blocks PMC/NCBI/Springer in-sandbox). Until each system carries a verified primary reference + verified measured alpha, it is provenance:unverified and cannot enter the scored panel.",
+      "systems": []
+    },
+    "layer2_nrv04_transfer": {
+      "role": "NR-V04 family transfer test — functional-order concordance, NOT recovery of measured NR-V04 cooperativity (no paralogue-resolved NR-V04 alpha exists)",
+      "systems": ["NR-V04 + NR4A1", "NR-V04 + NR4A2", "NR-V04 + NR4A3", "inactive Hyp-epimer in each"],
+      "chemical_identity_caveat": "NR-V04 chemistry in-repo is an 'NR-V04-inspired representative reconstruction' until primary-source structure verification lands (see nrv04-ternary-benchmark.json chemical_identity.blocker)."
+    }
+  },
+
+  "retrospective_bar": {
+    "_note": "ALL of technical_convergence + vhl_panel + nrv04_affinity_control + nr4a_family_transfer must PASS before ANY prospective NR4A3 ternary ranking is trusted.",
+    "technical_convergence": {
+      "min_replicas_per_leg": 3,
+      "cycle_closure_or_hysteresis_kcal_max": 1.0,
+      "ci95_half_width_kcal_max": 1.5,
+      "min_independent_starting_poses_per_architecture": 2,
+      "no_rank_reversal_under_leave_one_pose_out": true,
+      "no_restraint_or_mapping_or_microstate_pathology": true
+    },
+    "vhl_panel": {
+      "correct_cooperativity_class_min_of_6": 5,
+      "kendall_tau_min": 0.5,
+      "no_inactive_stereo_control_classified_competent": true,
+      "survives_leave_one_compound_out": true
+    },
+    "nrv04_affinity_control": {
+      "active_vs_epimer_binary_vhl_min_kcal": 3.0,
+      "active_vs_epimer_binary_vhl_ci_excludes_zero": true,
+      "active_vs_epimer_effective_ternary_min_kcal": 2.0,
+      "no_retained_pose_reverses_active_epimer_order": true
+    },
+    "nr4a_family_transfer": {
+      "nr4a1_outranks_both_nr4a2_and_nr4a3": true,
+      "each_difference_min_kcal": 1.0,
+      "each_difference_interval_pct_excludes_zero": 90,
+      "joint_prob_nr4a1_best_min": 0.90,
+      "survives_starting_pose_and_conformer_sensitivity": true
+    },
+    "failure_semantics": "Failure of nr4a_family_transfer does NOT prove the ternary-first biological thesis false (NR-V04 selectivity could be partly downstream at ubiquitination). It DOES mean the method is NOT validated for prospective NR4A paralogue ranking and must not be manuscript authority for a selectivity claim."
+  },
+
+  "sequencing": {
+    "stage0_now_free": "Freeze method defs + calibration compounds/structures/microstates + force fields + restraints + uncertainty estimator + failure criteria + construct definitions + binary/ternary combination rule (this JSON + the .md).",
+    "stage1_parallel_pilots": {
+      "binary": "5-Br -> 5-NH2 RBFE edge (e_zaienne_cmpd19__cw_ev_5nh2) on one nr4a3_design frame",
+      "ternary": "the fixed feasibility bundle (see budget.ternary_pilot)"
+    },
+    "stage2_second_authorization": "if binary pilot passes, authorize a SELECTION-oriented RBFE tranche (NOT full 19-cpd fleet): anchor-rooted exit-vector series + defensible SAR-preserving analogues + required microstate legs + NR4A1/2/3 + only gate-surviving conformers; capped to identify ~2-3 warhead/exit-vector hypotheses. Carboxylate bioisosteres stay a SEPARATE pose-revalidation tranche.",
+    "stage3_ternary_prospective": "prospective NR4A3 ternary begins ONLY after vhl_panel + nrv04_affinity_control + nr4a_family_transfer all pass",
+    "stage4_matrix": "build the degrader matrix only when 2-3 warheads survive binary RBFE + poses credible + ternary method validated + >=2 exit-vector architectures survive co-fold+ensemble checks"
+  },
+
+  "constructs": {
+    "nr4a_lbd": "each paralogue LBD = C-terminal 254 residues; NR4A3 explicit 373-626; NR4A1/NR4A2 identical rule (matches nr4a3_ternary.py / nrv04_ternary.py)",
+    "binary_receptor_axis": "frozen nr4a3-conformer-panel.json (druggable 8XTT validation conformers + release held-out ranks 4-6 + matched NR4A1/NR4A2 open frames)",
+    "e3_flagship": "VHL + Elongin B/C; recruiter VH032 (structure-verified)",
+    "fusion_context": "EWSR1::NR4A3 breakpoint + domain context modeled SEPARATELY from the isolated LBD (declared disordered-domain uncertainty); LBD-local ternary energetics and fusion-context ubiquitination geometry reported as SEPARATE quantities"
+  },
+
+  "combination_rule": {
+    "_note": "Frozen a priori. S_d is a ranking aid AMONG gate-passing constructs, not the gate. Binary preference (#1) and E3-ligand integrity (#2) are eligibility GATES upstream of S_d, not addends. #3 and #4 enter as SEPARATE terms, never pre-collapsed.",
+    "form": "S_d = min_c [ w_t*(eff_ternary_recruit_NR4A3 - worst_paralogue)_c + w_c*(dG_coop_NR4A3 - worst_paralogue)_c ] - lambda*SD_c - gamma*max(NR4A1/NR4A2 counterexample) - eta*linker_strain - rho*ubiq_incompatibility",
+    "weights_frozen": {"w_t": 1.0, "w_c": 1.0, "lambda": 1.0, "gamma": 1.0, "eta": 0.5, "rho": 0.5},
+    "weights_rationale": "Deliberately simple, unfitted, transparent a-priori constants (NOT tuned to any result). The two ternary terms weighted equally; penalties modest. Any change is a DATED AMENDMENT to the prereg, not a silent retune.",
+    "robustness_requirement": "The qualitative top-ranked set must be STABLE under +/-50% perturbation of every weight; if the ranking is not perturbation-robust, report it as unresolved rather than as a ranked winner."
+  },
+
+  "budget": {
+    "binary_pilot": {"authorized": true, "usd_range": [5, 15], "unlocks": "only PREPARATION of a right-sized Stage-2 proposal; does NOT release the full fleet", "abort_criteria": "RBFE-map plan: hysteresis <=0.5 kcal/leg; min adjacent-lambda MBAR overlap >=0.03; cycle closure <=1.0 kcal; Pocket-5 survival >=50% of windows"},
+    "ternary_pilot": {
+      "authorized": true,
+      "hard_cap_usd_spot": 200,
+      "fixed_scope": [
+        "1 high-vs-low cooperativity VHL calibration comparison (preferably a structurally characterized SMARCA2 pair)",
+        "active NR-V04 vs inactive epimer in binary VHL",
+        "active NR-V04 vs inactive epimer in the NR4A1 ternary architecture",
+        ">=3 independent replicas + a minimally adequate lambda schedule (NOT single-trajectory endpoint scoring)"
+      ],
+      "preflight": "generate a MODE=plan dry-run GPU-hour forecast BEFORE production; if the defined pilot cannot fit under $200 without compromising replica count or convergence diagnostics -> STOP and return a revised costed scope (do NOT silently drop replicas)",
+      "rules": "spot-only; pilot-one-leg-first; wait out spot capacity; checkpoint continuously"
+    },
+    "full_fleets_authorized": false,
+    "held": ["exhaustive binary congeneric fleet", "complete NR-V04 retrospective fleet", "all prospective ternary matrix", "all CRBN calculations"],
+    "second_decision_metrics": ["observed cost per converged leg", "failure rate", "CI width", "checkpoint recovery", "actual conformer survival"],
+    "crbn_gate": "NR-V04 validates VHL recruitment ONLY. Flagship matrix is VHL-first. CRBN may be chemically enumerated but must NOT enter the flagship ranked set until a CRBN-specific positive/negative calibration + affinity control passes."
+  },
+
+  "architecture_added_layers": {
+    "1_separate_affinity_from_cooperativity": "rank never on alpha alone; track the four quantities of method.two_reported_quantities",
+    "2_ensemble_and_linker_strain": "multiple co-fold architectures; multiple binary conformers; independent ternary MD replicas; cluster populations + pose exchange; linker strain vs unbound ensemble reported as a SEPARATE penalty/diagnostic (not via endpoint interface energy); PROTAC intramolecular contacts/folded populations; protonation/tautomer/charge sensitivity",
+    "3_cullin_ring_ubiquitination": "on FINALISTS: ensemble of VHL-EloBC + neddylated CUL2-RBX1 + E2~Ub + ternary target orientation; score solvent-exposed target lysines, Lys->E2~Ub transfer geometry, fraction of frames with >=1 transfer-competent lysine, persistence across CRL confs, NR4A1/2/3 differences, multiple-lysine robustness. Cheap geometric screening on all survivors; full CRL MD only for top ~3-5. NO claim a distance cutoff quantitatively predicts degradation.",
+    "4_fusion_context": "ubiquitination stage must not rely solely on isolated NR4A3 LBD; model EWSR1::NR4A3 breakpoint/domain context; report LBD-local ternary energetics, fusion-context ubiquitination geometry, and declared disordered-domain uncertainty SEPARATELY"
+  },
+
+  "required_controls": [
+    "warhead-only binary complexes",
+    "E3-ligand-only controls",
+    "inactive E3 epimer (affinity knockout)",
+    ">=1 linker-matched non-productive architecture (designed negative)",
+    "force-field / charge-model sensitivity on finalists",
+    "blinded control labels through completion of retrospective scoring",
+    "identical analysis + stopping rules for NR4A1/2/3",
+    "ternary residence-time = optional SECONDARY evidence, never a primary gate"
+  ],
+
+  "promotion_and_claims": {
+    "permitted_ceiling": "NR4A3-selective degrader designs computationally PRIORITIZED by calibrated binary, ternary, and ubiquitination-geometry analyses (only when retrospective_bar fully passes AND the prospective matrix is built)",
+    "not_permitted": ["validated NR4A3-selective degraders", "any quantitative degradation prediction", "promoting denovo_401 or any warhead to 'lead'"],
+    "standing_honesty": ["co-fold stays architecture-triage-only", "NR4A2 is the primary anti-target gate, NR4A1 provisional/unresolved", "NR-V04 chemistry is a representative reconstruction until primary-source verified", "interface MM-GBSA is descriptive-only"]
+  },
+
+  "final_dependency_chain": [
+    "1 co-fold architecture: passed; remains triage-only",
+    "2 binary RBFE pilot: authorized",
+    "3 ternary alchemical feasibility pilot: authorized under $200 cap",
+    "4 quantitative VHL calibration panel: required before prospective use",
+    "5 NR-V04 epimer + paralogue transfer: required before prospective NR4A ranking",
+    "6 selection-oriented binary RBFE tranche: conditionally releasable after binary pilot",
+    "7 VHL-only prospective degrader matrix: after both binary and ternary gates",
+    "8 full CRL2-E2~Ub lysine-presentation analysis: required on finalists",
+    "9 CRBN branch: held pending independent CRBN validation",
+    "10 manuscript claim: 'prioritized by calibrated ... analyses', never 'validated ... degraders'"
+  ]
+}
