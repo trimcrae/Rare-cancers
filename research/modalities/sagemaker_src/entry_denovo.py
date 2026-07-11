@@ -21,7 +21,8 @@ import subprocess
 import sys
 import time
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 CKPT_DIR = "/opt/ckpt"
 DIFFSBDD_DIR = "/opt/diffsbdd"
 DEFAULT_CKPT_URL = "https://zenodo.org/record/8183747/files/crossdocked_fullatom_cond.ckpt?download=1"
@@ -115,7 +116,7 @@ def main():
     # so matplotlib's compiled ext (pulled by seaborn) can't find CXXABI_1.3.15. Prepend the env lib dir
     # so the diffsbdd env's newer libstdc++ wins (propagates to the generate_ligands subprocess too).
     env["LD_LIBRARY_PATH"] = "/opt/conda/envs/diffsbdd/lib:" + env.get("LD_LIBRARY_PATH", "")
-    env["RECEPTOR_DIR"] = "/opt/ml/processing/input/receptor"
+    env["RECEPTOR_DIR"] = sm_io.channel("receptor")
     env["DIFFSBDD_DIR"] = DIFFSBDD_DIR
     env["CKPT"] = ckpt
     env["OUTPUT_DIR"] = OUT

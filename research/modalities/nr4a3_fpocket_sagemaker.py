@@ -2,7 +2,7 @@
 """
 Submit the Pocket-5 fpocket residue-enumeration as an AWS SageMaker Processing job.
 
-Pulls the AF2 model from s3://<default-bucket>/nr4a3-md (saved by the MD job) via ProcessingInput,
+Pulls the AF2 model from s3://<default-bucket>/nr4a3-md (saved by the MD job) via the "md" input channel,
 runs fpocket (entry_fpocket.py), and writes pocket5_lining_residues.json to
 s3://<default-bucket>/nr4a3-fpocket. CPU work; defaults to ml.g5.xlarge to reuse the GPU quota.
 """
@@ -13,8 +13,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -28,30 +27,18 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-fpocket",
-        sagemaker_session=sess,
-    )
+    dest_prefix = "nr4a3-fpocket"
     print(f"submitting fpocket enumeration: {instance}, s3://{bucket}/nr4a3-md -> "
-          f"s3://{bucket}/nr4a3-fpocket", flush=True)
-    proc.run(
-        code="entry_fpocket.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=[ProcessingInput(source=f"s3://{bucket}/nr4a3-md",
-                                destination="/opt/ml/processing/input")],
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/nr4a3-fpocket")],
-        wait=True,
-        logs=True,
+          f"s3://{bucket}/{dest_prefix}", flush=True)
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME dest_prefix the
+    # readers expect; entry writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_fpocket.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-fpocket", output_prefix=dest_prefix,
+        inputs={"md": f"s3://{bucket}/nr4a3-md"},
+        instance=instance, max_run=max_runtime, sess=sess, role=role,
     )
-    print(f"done — results in s3://{bucket}/nr4a3-fpocket", flush=True)
+    print(f"done — results in s3://{bucket}/{dest_prefix}", flush=True)
 
 
 if __name__ == "__main__":

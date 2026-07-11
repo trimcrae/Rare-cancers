@@ -18,7 +18,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 LBD_FIRST = 373                       # NR4A3 LBD construct first residue (manifest); topology may renumber from 1
 CV_RESSEQS = [406, 407, 410, 411, 412, 481, 484, 485, 531, 534]   # pocket-lining set (metad CV residues)
 GATE_RESSEQS = [407, 410, 412, 484, 531]                          # rotameric gate subset for χ1
@@ -56,17 +57,17 @@ def main():
     # discover trajectory (dcd) + topology (pdb) per mounted replica
     channels = []
     for rep in ("r1", "r2", "r3"):
-        d = f"/opt/ml/processing/{rep}"
+        d = sm_io.channel(rep)
         dcd = os.path.join(d, "nr4a3-lbd-metad.dcd")
         pdb = os.path.join(d, "nr4a3-lbd-solvated.pdb")
         if os.path.exists(dcd) and os.path.exists(pdb):
             channels.append((rep, dcd, pdb))
         else:
             print(f"[phase1] SKIP {rep} — missing {dcd} or {pdb}", flush=True)
-    rel = "/opt/ml/processing/release"
+    rel = sm_io.channel("release")
     reltop = None
     for rep in ("r1", "r2", "r3"):
-        cand = os.path.join(f"/opt/ml/processing/{rep}", "nr4a3-lbd-solvated.pdb")
+        cand = os.path.join(sm_io.channel(rep), "nr4a3-lbd-solvated.pdb")
         if os.path.exists(cand):
             reltop = cand; break
     if os.path.isdir(rel) and reltop:

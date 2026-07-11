@@ -17,8 +17,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -33,27 +32,15 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-md",
-        sagemaker_session=sess,
-    )
     print(f"submitting SageMaker job: {instance}, ns={ns}, max_runtime={max_runtime}s, "
           f"outputs -> s3://{bucket}/nr4a3-md", flush=True)
-    proc.run(
-        code="entry.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/nr4a3-md")],
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME nr4a3-md prefix the readers
+    # expect; entry.py writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously.
+    sagemaker_submit.submit_spot(
+        entry_point="entry.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-md", output_prefix="nr4a3-md",
         arguments=["--ns", str(ns)],
-        wait=True,
-        logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/nr4a3-md", flush=True)
 

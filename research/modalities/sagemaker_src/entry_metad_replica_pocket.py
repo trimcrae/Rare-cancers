@@ -25,8 +25,9 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
-REPS = {"r1": "/opt/ml/processing/r1", "r2": "/opt/ml/processing/r2", "r3": "/opt/ml/processing/r3"}
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
+REPS = {"r1": sm_io.channel("r1"), "r2": sm_io.channel("r2"), "r3": sm_io.channel("r3")}
 DCD_NAME = "nr4a3-lbd-metad.dcd"
 
 

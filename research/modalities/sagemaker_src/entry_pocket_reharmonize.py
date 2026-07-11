@@ -26,9 +26,10 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
-METAD = "/opt/ml/processing/metad"
-RELEASE = "/opt/ml/processing/release"
+import sm_io
+OUT = sm_io.out_dir()        # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy
+METAD = sm_io.channel("metad")
+RELEASE = sm_io.channel("release")
 
 
 def _run(conda, envname, work, script, env, label):

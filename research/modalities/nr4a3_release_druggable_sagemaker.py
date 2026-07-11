@@ -20,8 +20,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -44,28 +43,24 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-release-druggable", sagemaker_session=sess,
-    )
-    inputs = [ProcessingInput(source=f"s3://{bucket}/{prefixes[t]}",
-                              destination=f"/opt/ml/processing/input/{t}", input_name=t)
-              for t in ("release", "struct", "pocket")]
+    # Managed-SPOT Training (was on-demand Processing): the three prefixes mount as the "release"/"struct"/
+    # "pocket" channels (entry reads sm_io.channel(t)); checkpoint_s3_uri = the SAME out_prefix, synced
+    # continuously.
+    inputs = {t: f"s3://{bucket}/{prefixes[t]}" for t in ("release", "struct", "pocket")}
     print(f"submitting receptor re-anchor: {instance}; inputs " +
           ", ".join(f"{t}=s3://{bucket}/{prefixes[t]}" for t in prefixes) +
           f" -> s3://{bucket}/{out_prefix}", flush=True)
     args = ["--git-ref", git_ref, "--target-rg", target_rg, "--n-alt", n_alt, "--d-star", d_star]
     if force_scan:
         args += ["--force-scan", force_scan]
-    proc.run(
-        code="entry_release_druggable.py",
+    sagemaker_submit.submit_spot(
+        entry_point="entry_release_druggable.py",
         source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-release-druggable",
+        output_prefix=out_prefix,
         inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
         arguments=args,
-        wait=True, logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

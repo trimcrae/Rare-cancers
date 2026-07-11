@@ -14,8 +14,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -41,28 +40,23 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     dest = f"s3://{bucket}/{out_prefix}"
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-slow-cv", sagemaker_session=sess,
-    )
-    inputs = [
-        ProcessingInput(source=f"s3://{bucket}/{r1p}", destination="/opt/ml/processing/r1"),
-        ProcessingInput(source=f"s3://{bucket}/{r2p}", destination="/opt/ml/processing/r2"),
-        ProcessingInput(source=f"s3://{bucket}/{r3p}", destination="/opt/ml/processing/r3"),
-    ]
+    inputs = {
+        "r1": f"s3://{bucket}/{r1p}",
+        "r2": f"s3://{bucket}/{r2p}",
+        "r3": f"s3://{bucket}/{r3p}",
+    }
     if include_release:
-        inputs.append(ProcessingInput(source=f"s3://{bucket}/{release_prefix}",
-                                      destination="/opt/ml/processing/release"))
+        inputs["release"] = f"s3://{bucket}/{release_prefix}"
     print(f"submitting PHASE 1 slow-CV: {instance}, lag={lag_frames} frames, release={include_release}, "
           f"ref={git_ref} -> {dest}", flush=True)
-    proc.run(
-        code="entry_slow_cv.py", source_dir=os.path.join(here, "sagemaker_src"),
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the readers
+    # expect; entry writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_slow_cv.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-slow-cv", output_prefix=out_prefix,
         inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=dest,
-                                  s3_upload_mode="Continuous")],
         arguments=["--git-ref", git_ref, "--lag-frames", str(lag_frames), "--n-components", str(n_components)],
-        wait=True, logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in {dest} (see slow-cv-summary.json)", flush=True)
 

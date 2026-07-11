@@ -14,7 +14,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -23,8 +24,8 @@ def main():
     ap.add_argument("--dcd-name", default="nr4a3-lbd-metad.dcd",
                     help="metad trajectory filename in the mounted input dir")
     ap.add_argument("--structure-dir", default="",
-                    help="dir holding nr4a3-lbd-solvated.pdb when it is NOT in the input dir; "
-                         "empty = same as INPUT_DIR")
+                    help="input CHANNEL NAME holding nr4a3-lbd-solvated.pdb when it is NOT in the input "
+                         "channel (resolved via sm_io.channel); empty = same as INPUT_DIR")
     ap.add_argument("--block-ns", default="10", help="convergence block size (ns): F at 10/20/30/...")
     ap.add_argument("--git-ref", default="main", help="repo ref to run; default main")
     args = ap.parse_args()
@@ -41,12 +42,12 @@ def main():
                     "python=3.11", "mdtraj", "fpocket=4.2.3", "matplotlib-base", "numpy"], check=True)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    env["INPUT_DIR"] = sm_io.channel("input")
     env["OUTPUT_DIR"] = OUT
     env["DCD_NAME"] = args.dcd_name
     env["BLOCK_NS"] = args.block_ns
     if args.structure_dir:
-        env["STRUCTURE_DIR"] = args.structure_dir
+        env["STRUCTURE_DIR"] = sm_io.channel(args.structure_dir)   # arg carries the input channel name
     env.pop("PYTHONPATH", None)   # don't let the base container's site-packages shadow the conda env
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running metad analysis on {args.dcd_name}, block_ns={args.block_ns} "

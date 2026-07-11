@@ -21,8 +21,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -42,35 +41,21 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-metad-analysis",
-        sagemaker_session=sess,
-    )
-    inputs = [ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                              destination="/opt/ml/processing/input")]
+    inputs = {"input": f"s3://{bucket}/{in_prefix}"}
     extra_args = []
     if struct_prefix:
-        inputs.append(ProcessingInput(source=f"s3://{bucket}/{struct_prefix}",
-                                      destination="/opt/ml/processing/structure"))
-        extra_args = ["--structure-dir", "/opt/ml/processing/structure"]
+        inputs["structure"] = f"s3://{bucket}/{struct_prefix}"
+        extra_args = ["--structure-dir", "structure"]   # channel name; entry resolves via sm_io.channel()
     print(f"submitting metad analysis: {instance}, trajectory={dcd_name} from {in_prefix}, "
           f"block_ns={block_ns} -> s3://{bucket}/{out_prefix}", flush=True)
-    proc.run(
-        code="entry_metad_analysis.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the readers
+    # expect; entry writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_metad_analysis.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-metad-analysis", output_prefix=out_prefix,
         inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
         arguments=["--dcd-name", dcd_name, "--block-ns", block_ns, "--git-ref", git_ref] + extra_args,
-        wait=True,
-        logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

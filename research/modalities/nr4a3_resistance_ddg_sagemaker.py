@@ -10,8 +10,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3 first")
 
@@ -32,13 +31,7 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-resistance", sagemaker_session=sess,
-    )
-    inputs = [ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                              destination="/opt/ml/processing/input", input_name="matrix")]
+    inputs = {"matrix": f"s3://{bucket}/{in_prefix}"}
     args = ["--git-ref", git_ref, "--multisnapshot", str(multisnapshot), "--pose-name", pose_name]
     if compute_timeout:
         args += ["--compute-timeout", str(compute_timeout)]
@@ -46,13 +39,14 @@ def main():
         args += ["--frames", str(frames)]
     print(f"submitting resistance scan: {instance}; s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}",
           flush=True)
-    proc.run(
-        code="entry_resistance.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}", s3_upload_mode="Continuous")],
-        arguments=args, wait=True, logs=True,
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the readers
+    # expect; entry mounts the matrix channel via sm_io.channel("matrix") and writes to sm_io.out_dir()
+    # (== /opt/ml/checkpoints, synced to S3 CONTINUOUSLY so per-residue checkpoints survive a timeout).
+    sagemaker_submit.submit_spot(
+        entry_point="entry_resistance.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-resistance", output_prefix=out_prefix,
+        inputs=inputs, arguments=args,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

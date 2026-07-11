@@ -16,8 +16,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -38,26 +37,21 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-denovo", sagemaker_session=sess,
-    )
     print(f"submitting de-novo generation: {instance}, campaign={campaign}, n={n_samples}, "
           f"receptor=s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}", flush=True)
     arguments = ["--git-ref", git_ref, "--n-samples", str(n_samples), "--campaign", campaign,
                  "--num-nodes-list", num_nodes_list]
     if ckpt_url:
         arguments += ["--ckpt-url", ckpt_url]
-    proc.run(
-        code="entry_denovo.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=[ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                                destination="/opt/ml/processing/input/receptor", input_name="receptor")],
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the readers
+    # expect; entry_denovo.py writes to sm_io.out_dir() == /opt/ml/checkpoints (synced continuously) and reads
+    # the receptor from sm_io.channel("receptor").
+    sagemaker_submit.submit_spot(
+        entry_point="entry_denovo.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-denovo", output_prefix=out_prefix,
+        inputs={"receptor": f"s3://{bucket}/{in_prefix}"},
         arguments=arguments,
-        wait=True, logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

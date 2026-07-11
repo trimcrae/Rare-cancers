@@ -19,8 +19,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -36,22 +35,18 @@ def main():
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
-    out_prefix = f"s3://{bucket}/nr4a3-8xtt-pocketminer"
+    dest_prefix = "nr4a3-8xtt-pocketminer"
+    out_prefix = f"s3://{bucket}/{dest_prefix}"
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-8xtt-pocketminer", sagemaker_session=sess,
-    )
     print(f"submitting 8XTT PocketMiner cross-check: {instance}, ref={git_ref} -> {out_prefix}", flush=True)
-    proc.run(
-        code="entry_8xtt_pm.py",
-        source_dir=os.path.join(here, "pocketminer_src"),
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=out_prefix,
-                                  s3_upload_mode="Continuous")],
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME dest_prefix the
+    # reader expects; entry writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_8xtt_pm.py", source_dir=os.path.join(here, "pocketminer_src"),
+        base_job_name="nr4a3-8xtt-pocketminer", output_prefix=dest_prefix,
         arguments=["--git-ref", git_ref, "--models", models] + (
             ["--tf-version", tf_version] if tf_version else []),
-        wait=True, logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role,
     )
     print(f"done — results in {out_prefix}/nr4a3-8xtt-pocketminer.json", flush=True)
     # Cost: ml.c5.2xlarge on-demand ~$0.41/hr (us-east-2); runtime dominated by the one-off TF env build
