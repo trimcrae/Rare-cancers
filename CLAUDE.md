@@ -76,6 +76,21 @@ read it before making changes.
   report what you started (not what you're about to maybe start). Asking/surfacing-first is reserved ONLY for
   work that is **expensive** (multi-leg GPU, hundreds of $, multi-day) or **genuinely ambiguous / a real
   judgment call**. Sitting on obvious, free, doable work is the anti-pattern this rule exists to kill.
+- **★★ RUN AUTONOMOUSLY TO EXHAUSTION — DO EVERYTHING POSSIBLE, STOP ONLY WHEN BLOCKED BY A trimcrae DECISION
+  (trimcrae standing rule, 2026-07-11).** When given a goal, do **everything you possibly can** toward it
+  without checking back — build it, run it, verify it, commit it, iterate — across *all* independent
+  workstreams, not just one. Do **NOT** stop to report progress, ask permission, or "surface and wait" for
+  anything you can act on yourself (this composes with BIAS-TO-ACTION and ENGINEERING-IS-FREE above: cheap/free
+  in-silico + CI work is default-just-do-it). **The ONLY thing that halts you is being *genuinely blocked by a
+  decision that is trimcrae's to make*** — a real strategic fork, a spend that crosses the expensive threshold
+  (multi-leg GPU / hundreds of $ / multi-day), or an outward-facing/irreversible action needing sign-off.
+  Everything *not* blocked by that specific decision must keep moving in the meantime. **When you DO hit such a
+  block, ask via `AskUserQuestion`** (it fires a phone notification) with a crisp, mutually-exclusive choice
+  (recommended option first, "(Recommended)" in the label), give enough context to answer without scrolling,
+  then **continue on every other unblocked thread** while waiting. Batch decisions: if several forks exist,
+  put them in one AskUserQuestion (up to 4) rather than trickling them out. Reserve the ask for true
+  decisions — never for "is this okay?" on work you can just do and show. The failure mode this kills: doing
+  one thing, then stopping to ask "what's next?" when there was a pile of obvious, free, warranted work left.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
