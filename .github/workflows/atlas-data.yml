@@ -135,7 +135,7 @@ jobs:
         run: |
           py310="$(which python3.10 || echo python)"
           "$py310" -m venv "$RUNNER_TEMP/mnv"
-          "$RUNNER_TEMP/mnv/bin/pip" install --quiet "tensorflow==2.10.*" "protobuf<3.20" mhcnuggets || echo "mhcnuggets env install failed"
+          "$RUNNER_TEMP/mnv/bin/pip" install --quiet "numpy==1.23.5" "tensorflow==2.10.*" "protobuf<3.20" mhcnuggets || echo "mhcnuggets env install failed"
           "$RUNNER_TEMP/mnv/bin/python" research/atlas/antigen_mhcii.py || echo "class-II predict failed (continuing)"
       - name: Commit unit 5 (class-II antigen)
         if: always()
