@@ -61,7 +61,13 @@ leave the binding site structurally undefined: NR4A3's LBD has an experimental s
 recently released **apo solution-NMR ensemble (PDB 8XTT, 2025)** — **no ligand-bound structure and no
 published pocket-dynamics analysis** exist — the structural gap this paper addresses (our in-silico
 druggable pocket supplies a candidate *mechanism* for the ligandability their pharmacology already
-demonstrates). *This work's structural foundation is the AF2 model, which predates 8XTT; we benchmark the AF2 pocket
+demonstrates). Crucially, 8XTT also **corroborates** that premise rather than pre-empting our work: an
+experimental, ligand-free NR4A3 ensemble already contains cavity-bearing conformers at the mapped orthosteric
+site (§2.1), so the druggable pocket we design into is supported by experiment *independent of our AF2/MD
+machinery* — the deposited structure **de-risks the feasibility premise**. It does not, however, supply the
+opened pose, the equilibrium population, or the paralogue-selectivity energetics, which are this paper's
+actual contribution; pocket *existence* is the shared premise (family-wide: Nurr1 de Vera 2019, Nur77 Lanig
+2015; and now NR4A3), not a claim we originate. *This work's structural foundation is the AF2 model, which predates 8XTT; we benchmark the AF2 pocket
 against the experimental 8XTT ensemble in §2.1 (site heterogeneity corroborated; AF2 opened geometry
 diverges ~3.5 Å), and a full 8XTT-anchored rebase of the dynamics, generation, and ABFE remains the primary
 revision task (§4).* Full reconciliation of the "undruggable" reputation with our
