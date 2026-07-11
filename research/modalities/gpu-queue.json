@@ -1,7 +1,7 @@
 {
   "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
   "spot_train_quota": 8,
-  "updated": "2026-07-10 7:10 PM ET",
+  "updated": "2026-07-10 9:47 PM ET",
   "items": [
     {
       "id": "nr4a2rep-r2-resume",
@@ -35,9 +35,9 @@
       "slots": 1,
       "cost_est_usd": "15-25",
       "auto_launch": false,
-      "status": "in_flight",
+      "status": "done_no_recrossing",
       "run_id": 29129329309,
-      "note": "Re-dispatched 2026-07-10 7:02 PM ET after the DCD-append resume fix (prior run 29116679264 crashed on FileNotFoundError for the .dcd on resume; science was intact — gate passed, MD ran ~6.6/8ns). Do NOT re-dispatch (would duplicate). Its gate/recrossing result is the go/no-go for phase2-fleet."
+      "note": "COMPLETE 2026-07-10 9:21 PM ET (full 8 ns, gate passed). RECROSSING = 0. Diagnostic (metad-analysis on s): the biased CV stayed ENTIRELY in the closed basin (frac_below=1.0; explored s range [-2.96,1.14] out of fit grid [-8.98,17.33]; open is the high-s end it never reached). Root cause: the distances-only data-derived CV correlates corr(s,Rg)=0.816 — it passed the lenient 0.90 gate but is too Rg-like, so it behaved like the Rg-metad that already failed to recross (Phase-1 full-feature TICA was 0.68 = genuinely distinct). Also 8 ns << ~17 ns slow timescale. NO-GO for the fleet as-is."
     },
     {
       "id": "phase2-fleet",
@@ -47,9 +47,9 @@
       "slots": 8,
       "cost_est_usd": "100-200",
       "auto_launch": false,
-      "status": "preapproved_contingent",
-      "preconditions": ["shakeout gate passed (corr(s,Rg) < 0.90)", "shakeout CV drove recrossing (closed<->open recrossing in the shakeout COLVAR)"],
-      "note": "USER PRE-APPROVED 2026-07-10 (~7:05 PM ET): 'let's plan on doing it assuming the first leg comes back looking how we want it.' The ~$100-200 spend is authorized CONTINGENT on the shakeout returning clean recrossing. Sequence: shakeout completes -> read its COLVAR -> if the TICA CV recrosses closed<->open, bring the recrossing evidence to the user and launch the 8-run fleet (no second sign-off needed for the spend; a heads-up with the evidence is the courtesy). If recrossing is poor, do NOT launch; report the diagnostic and redesign the CV. Still auto_launch=false because it must wait on the shakeout result, not a free slot."
+      "status": "blocked_cv_redesign",
+      "preconditions": ["a re-shakeout with an improved CV shows closed<->open recrossing"],
+      "note": "BLOCKED 2026-07-10 9:47 PM ET: the shakeout returned 0 recrossings — the distances-only CV (corr(s,Rg)=0.816) is too Rg-like and stayed in the closed basin. The user's contingent pre-approval was for a shakeout that 'comes back looking how we want it'; it did NOT, so the fleet is NOT launched. Redesign before re-shaking: (1) fit the CV with the RICHER feature set (gate chi1 sin/cos + pocket SASA + lining distances) to reach the Phase-1 corr(s,Rg)~0.68, and tighten the fit gate from 0.90 to ~0.75; (2) run a LONGER shard (~20-30 ns > the ~17 ns slow timescale) before committing the fleet. Also fix the recrossing boundary to be data-driven (median of the explored range) not the grid midpoint. Only re-approach the $100-200 fleet after a re-shakeout recrosses."
     }
   ]
 }
