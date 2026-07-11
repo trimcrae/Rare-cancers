@@ -113,7 +113,8 @@ REGISTRY = [
         "potency": "weak (uM+)",
         "selectivity_notes": "NR4A3 LBD direct ligand; reactive cyclopentenone",
         "source": {"pmc": "PMC9542104", "ref": "Zaienne 2022 (PGA2 weak direct NOR-1 LBD agonist)"},
-        "resolve": ["prostaglandin A2"],
+        "expected_mw": 334.45,   # C20H30O4; disambiguate PGA2 from hydrate/related-prostaglandin name matches
+        "resolve": ["prostaglandin A2", "PGA2"],
     },
     {
         "id": "mercaptopurine_6",

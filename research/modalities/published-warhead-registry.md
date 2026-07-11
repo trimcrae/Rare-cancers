@@ -145,11 +145,14 @@ git show origin/modalities-cache:research/modalities/published-warhead-registry.
 
 | compound | role | evidence class | conf | MW | InChIKey (skeleton) |
 |----------|------|----------------|------|----|--------------------|
-| Zaienne 2022 NOR-1 fragment->inver | warhead_source | functional_plus_fragment | unresolved | — | — |
+| Zaienne 2022 NOR-1 fragment->inverse | warhead_source | functional_plus_fragment | unresolved | — | — |
+| Zaienne compound 19 (methyl 5-bromoi | warhead_source | functional_target_engagement | medium | 254.1 | MFOKOKHNSVUKON |
+| Prostaglandin A2 (PGA2) | nr4a3_direct_binder | direct_binding_functional | medium | 352.5 | BHMBVRSPMRCCGG |
+| 6-Mercaptopurine (6-MP) | nr4a3_functional_modulator | functional_nonbinder | high | 152.2 | GLVAUDGFNGKCSF |
 | Cytosporone B (Csn-B) | pan_nr4a_direct_binder | direct_binding_structural_and_nmr | medium | 322.4 | UVVWQQKSNZLUQA |
-| THPN (1-(3,4,5-trihydroxyphenyl)no | nr4a1_direct_binder | direct_binding_structural | high | 266.3 | NVFRHTFJDGAFQS |
-| TMPA (ethyl 2-[2,3,4-trimethoxy-6- | nr4a1_functional_modulator | functional_modulator | high | 380.5 | WCYMJQXRLIDSAQ |
-| C-DIM8 / DIM-C-pPhOH (1,1-bis(3'-i | nr4a1_functional_modulator | functional_modulator | medium | 246.3 | VFTRKSBEFQDZKX |
+| THPN (1-(3,4,5-trihydroxyphenyl)nona | nr4a1_direct_binder | direct_binding_structural | high | 266.3 | NVFRHTFJDGAFQS |
+| TMPA (ethyl 2-[2,3,4-trimethoxy-6-(1 | nr4a1_functional_modulator | functional_modulator | high | 380.5 | WCYMJQXRLIDSAQ |
+| C-DIM8 / DIM-C-pPhOH (1,1-bis(3'-ind | nr4a1_functional_modulator | functional_modulator | medium | 246.3 | VFTRKSBEFQDZKX |
 | Amodiaquine | nr4a2_direct_binder | direct_binding_nmr | high | 355.9 | OVCDSSHSILBFBN |
 | Chloroquine | nr4a2_direct_binder | direct_binding_nmr | high | 319.9 | WHTVZRBIWZFKQO |
 | 5,6-Dihydroxyindole (DHI) | nr4a2_covalent_binder | covalent_crystal | high | 149.1 | SGNZYJXNUURYCH |
@@ -157,9 +160,10 @@ git show origin/modalities-cache:research/modalities/published-warhead-registry.
 | C-DIM12 / DIM-C-pPhtBu | nr4a2_functional_modulator | functional_nonbinder | medium | 246.3 | VFTRKSBEFQDZKX |
 | Celastrol | nrv04_warhead | reactive_covalent_functional | high | 450.6 | KQJSQWZMSAGSHN |
 | VH032 (VHL ligand) | e3_ligand_vhl | e3_ligand | medium | 472.6 | GFVIEZBZIUKYOG |
-| NR-V04 (celastrol-VHL NR4A1 PROTAC | reference_degrader | reference_degrader | unresolved | — | — |
+| NR-V04 (celastrol-VHL NR4A1 PROTAC) | reference_degrader | reference_degrader | unresolved | — | — |
 | Lenalidomide (CRBN ligand) | e3_ligand_crbn | e3_ligand | high | 259.3 | GOTYRUGSSMKFNF |
 
 _Confidence: high = ≥2 resolvers agree on the InChIKey skeleton; medium = 1 resolver or a flagged
-disagreement; unresolved = no resolver (recorded null, never invented). NR-V04 + the Zaienne series
-are honestly unresolved. C-DIM8/C-DIM12 carry structure caveats (name resolution conflates them)._
+disagreement; unresolved = no resolver (recorded null, never invented). The Zaienne LEAD (compound 19)
+is resolved from the OA text; the series-context row + NR-V04 stay unresolved. C-DIM8/C-DIM12 carry
+name-collision caveats; PGA2 is medium (reactive prostaglandin)._
