@@ -12,7 +12,101 @@
     "NR4A2": "spared",
     "NR4A3": "spared"
   },
-  "control": null,
+  "control": {
+    "system": "control",
+    "kind": "control",
+    "n_seeds": 3,
+    "per_seed": [
+      {
+        "seed": "seed_1",
+        "confidence": {
+          "confidence_score": 0.7799,
+          "ptm": 0.6914,
+          "iptm": 0.6292,
+          "ligand_iptm": 0.987,
+          "protein_iptm": 0.596,
+          "complex_plddt": 0.8176,
+          "complex_iplddt": 0.7692
+        },
+        "geometry": {
+          "seated": true,
+          "closest_pocket_A": 2.59,
+          "per_residue_A": {
+            "98": 2.66,
+            "110": 2.85,
+            "111": 2.66,
+            "115": 2.59,
+            "117": 3.31
+          }
+        }
+      },
+      {
+        "seed": "seed_2",
+        "confidence": {
+          "confidence_score": 0.8261,
+          "ptm": 0.8139,
+          "iptm": 0.7959,
+          "ligand_iptm": 0.9902,
+          "protein_iptm": 0.7779,
+          "complex_plddt": 0.8336,
+          "complex_iplddt": 0.7893
+        },
+        "geometry": {
+          "seated": true,
+          "closest_pocket_A": 2.62,
+          "per_residue_A": {
+            "98": 2.71,
+            "110": 2.82,
+            "111": 2.71,
+            "115": 2.62,
+            "117": 3.39
+          }
+        }
+      },
+      {
+        "seed": "seed_3",
+        "confidence": {
+          "confidence_score": 0.8121,
+          "ptm": 0.7738,
+          "iptm": 0.7236,
+          "ligand_iptm": 0.9894,
+          "protein_iptm": 0.699,
+          "complex_plddt": 0.8343,
+          "complex_iplddt": 0.7977
+        },
+        "geometry": {
+          "seated": true,
+          "closest_pocket_A": 2.57,
+          "per_residue_A": {
+            "98": 2.73,
+            "110": 2.79,
+            "111": 2.66,
+            "115": 2.57,
+            "117": 3.35
+          }
+        }
+      }
+    ],
+    "ensemble": {
+      "ligand_iptm": {
+        "n": 3,
+        "mean": 0.9889,
+        "min": 0.987,
+        "max": 0.9902,
+        "sd": 0.0014
+      },
+      "iptm": {
+        "n": 3,
+        "mean": 0.7162,
+        "min": 0.6292,
+        "max": 0.7959,
+        "sd": 0.0683
+      },
+      "seated_fraction": 1.0,
+      "n_seated": 3,
+      "n_scored": 3
+    }
+  },
   "systems": {
     "nr4a1": {
       "system": "nr4a1",
@@ -130,9 +224,9 @@
     }
   },
   "pilot_gate": {
-    "verdict": "ABORT",
-    "reason": "control did NOT seat VH032 in VHL (workflow suspect) \u2192 do not spend on the full paralogue fleet; fix the workflow first.",
-    "control_ok": false,
+    "verdict": "PROCEED",
+    "reason": "control seats VH032 in VHL (seated in 3/3 seeds) AND NR4A1 forms a productive, seed-persistent ternary (bridged in 3/3 seeds) \u2192 fan out NR4A2 + NR4A3 \u00d7 seeds \u00d7 linkers.",
+    "control_ok": true,
     "nr4a1_ok": true
   }
 }

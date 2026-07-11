@@ -143,6 +143,11 @@ def main():
                     help="single-leg-first: only the VHL+VH032 control + the NR4A1 (known-degraded) ternary")
     ap.add_argument("--control-only", action="store_true",
                     help="run ONLY the VHL+VH032 positive control ensemble (cheap re-run to backfill a skipped control)")
+    ap.add_argument("--targets", default="",
+                    help="comma-sep subset of NR4A1,NR4A2,NR4A3 to run (e.g. 'NR4A2,NR4A3' for the fan-out after "
+                         "the pilot passes; empty = pilot/full default). Skips the control unless it's also needed.")
+    ap.add_argument("--skip-control", action="store_true",
+                    help="skip the VH032 control (already validated) — for the fan-out legs")
     ap.add_argument("--seeds", default=os.environ.get("SEEDS", "1,2,3"),
                     help="comma-sep diffusion seeds = the ternary ENSEMBLE per system")
     ap.add_argument("--with-vbc", default=os.environ.get("WITH_VBC", "1"),
@@ -153,7 +158,20 @@ def main():
 
     nrv04_smiles, nrv04_src = load_nrv04_smiles()
     control_only = args.control_only
-    targets = [] if control_only else (["NR4A1"] if args.pilot else list(TARGETS))
+    explicit = [t.strip().upper() for t in args.targets.split(",") if t.strip()]
+    for t in explicit:
+        if t not in TARGETS:
+            sys.exit("unknown --targets entry %r (choose from %s)" % (t, ",".join(TARGETS)))
+    if control_only:
+        targets = []
+    elif explicit:
+        targets = explicit
+    elif args.pilot:
+        targets = ["NR4A1"]
+    else:
+        targets = list(TARGETS)
+    # control_only always runs the control; otherwise run it unless --skip-control or an explicit target subset
+    run_control = True if control_only else (not (args.skip_control or explicit))
     out = {"_note": "Retrospective NR-V04 ternary benchmark (VHL). Control = VHL(+VBC)+VH032 (known answer). "
                     "Ternaries = NR4A{1,2,3}-LBD + VHL(+VBC) + NR-V04, over a seed ENSEMBLE. Ground truth: "
                     "NR4A1 degraded, NR4A2/NR4A3 spared (Wang 2024).",
@@ -175,15 +193,18 @@ def main():
     _write(out)
 
     # (1) positive control: VHL(+VBC) + VH032 — the VHL analogue of the CRBN+lenalidomide control.
-    try:
-        vh_smiles, vh_src = resolve_vh032_smiles()
-        ctrl = t3.boltz_yaml(e3, vh_smiles)
-        open(os.path.join(OUT_DIR, "control-vhl-vh032.yaml"), "w").write(ctrl)
-        out["control"] = {"complex": "VHL%s + VH032" % ("+EloB/C" if with_vbc else ""),
-                          "ligand_smiles": vh_smiles, "ligand_source": vh_src,
-                          "expected": "hydroxyproline ligand seats in VHL's substrate pocket; if not, distrust every VHL ternary"}
-    except Exception as e:  # noqa: BLE001
-        out["status"]["control"] = "error: %s (set $VH032_SMILES to a verified control SMILES)" % e
+    if run_control:
+        try:
+            vh_smiles, vh_src = resolve_vh032_smiles()
+            ctrl = t3.boltz_yaml(e3, vh_smiles)
+            open(os.path.join(OUT_DIR, "control-vhl-vh032.yaml"), "w").write(ctrl)
+            out["control"] = {"complex": "VHL%s + VH032" % ("+EloB/C" if with_vbc else ""),
+                              "ligand_smiles": vh_smiles, "ligand_source": vh_src,
+                              "expected": "hydroxyproline ligand seats in VHL's substrate pocket; if not, distrust every VHL ternary"}
+        except Exception as e:  # noqa: BLE001
+            out["status"]["control"] = "error: %s (set $VH032_SMILES to a verified control SMILES)" % e
+    else:
+        out["status"]["control"] = "skipped (already validated; --skip-control / explicit --targets fan-out)"
     _write(out)
 
     # (2) ternaries: NR4A{targets}-LBD + VHL(+VBC) + NR-V04, one YAML per paralogue.
