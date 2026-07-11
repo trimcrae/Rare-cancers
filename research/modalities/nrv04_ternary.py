@@ -45,6 +45,43 @@ TARGETS = {
 VH032_NAME = "VH032"   # the VHL-ligand positive control (should seat in VHL's hydroxyproline pocket)
 
 
+def resolve_vh032_smiles():
+    """Resolve the VH032 positive-control ligand robustly. VH032 does NOT resolve by pref_name in ChEMBL
+    (the 2026-07-11 pilot silently skipped the control for this reason), so try, in order:
+      1. $VH032_SMILES / $NRV04_VH032_SMILES env override (authoritative if the caller sets a verified SMILES),
+      2. ChEMBL by name (t3.fetch_ligand_smiles — kept for back-compat; usually misses),
+      3. PubChem PUG-REST by name ('VH-032' then 'VH032') → canonical SMILES,
+      4. the benchmark spec's control_ligand.smiles if present.
+    Returns (smiles, source_label). Never invents a structure — raises if every route fails."""
+    import urllib.parse
+    import urllib.request
+    for var in ("VH032_SMILES", "NRV04_VH032_SMILES"):
+        if os.environ.get(var):
+            return os.environ[var], "env:%s" % var
+    try:
+        s, cid = t3.fetch_ligand_smiles(VH032_NAME)
+        if s:
+            return s, "chembl:%s" % cid
+    except Exception:  # noqa: BLE001 — ChEMBL name miss is expected; fall through to PubChem
+        pass
+    for nm in ("VH-032", "VH032"):
+        try:
+            url = ("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/%s/property/"
+                   "CanonicalSMILES/JSON" % urllib.parse.quote(nm))
+            with urllib.request.urlopen(url, timeout=60) as r:
+                props = json.load(r)["PropertyTable"]["Properties"]
+            if props and props[0].get("CanonicalSMILES"):
+                return props[0]["CanonicalSMILES"], "pubchem:name=%s" % nm
+        except Exception:  # noqa: BLE001
+            continue
+    with open(SPEC) as f:
+        spec = json.load(f)
+    cl = (spec.get("control_ligand") or {}).get("smiles")
+    if cl:
+        return cl, "nrv04-ternary-benchmark.json:control_ligand"
+    raise RuntimeError("could not resolve VH032 SMILES (env/ChEMBL/PubChem/spec all missed); set $VH032_SMILES")
+
+
 def load_nrv04_smiles():
     """The representative NR-V04 SMILES from the benchmark spec (celastrol + 4-PEG + VH032; flagged
     representative). Overridable via $NRV04_SMILES. Never silently invented — read from the committed spec."""
@@ -102,6 +139,8 @@ def main():
     ap.add_argument("--run", action="store_true", help="run Boltz inference (needs GPU); else prep YAMLs only")
     ap.add_argument("--pilot", action="store_true",
                     help="single-leg-first: only the VHL+VH032 control + the NR4A1 (known-degraded) ternary")
+    ap.add_argument("--control-only", action="store_true",
+                    help="run ONLY the VHL+VH032 positive control ensemble (cheap re-run to backfill a skipped control)")
     ap.add_argument("--seeds", default=os.environ.get("SEEDS", "1,2,3"),
                     help="comma-sep diffusion seeds = the ternary ENSEMBLE per system")
     ap.add_argument("--with-vbc", default=os.environ.get("WITH_VBC", "1"),
@@ -111,11 +150,13 @@ def main():
     with_vbc = str(args.with_vbc).strip() not in ("0", "", "false", "no")
 
     nrv04_smiles, nrv04_src = load_nrv04_smiles()
-    targets = ["NR4A1"] if args.pilot else list(TARGETS)
+    control_only = args.control_only
+    targets = [] if control_only else (["NR4A1"] if args.pilot else list(TARGETS))
     out = {"_note": "Retrospective NR-V04 ternary benchmark (VHL). Control = VHL(+VBC)+VH032 (known answer). "
                     "Ternaries = NR4A{1,2,3}-LBD + VHL(+VBC) + NR-V04, over a seed ENSEMBLE. Ground truth: "
                     "NR4A1 degraded, NR4A2/NR4A3 spared (Wang 2024).",
-           "mode": "pilot" if args.pilot else "full", "seeds": seeds, "with_vbc": with_vbc,
+           "mode": "control-only" if control_only else ("pilot" if args.pilot else "full"),
+           "seeds": seeds, "with_vbc": with_vbc,
            "nrv04_smiles_source": nrv04_src, "ground_truth": {k: v["truth"] for k, v in TARGETS.items()},
            "targets": {}, "status": {}}
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -133,14 +174,14 @@ def main():
 
     # (1) positive control: VHL(+VBC) + VH032 — the VHL analogue of the CRBN+lenalidomide control.
     try:
-        vh_smiles, vh_id = t3.fetch_ligand_smiles(VH032_NAME)
+        vh_smiles, vh_src = resolve_vh032_smiles()
         ctrl = t3.boltz_yaml(e3, vh_smiles)
         open(os.path.join(OUT_DIR, "control-vhl-vh032.yaml"), "w").write(ctrl)
         out["control"] = {"complex": "VHL%s + VH032" % ("+EloB/C" if with_vbc else ""),
-                          "ligand_chembl": vh_id,
+                          "ligand_smiles": vh_smiles, "ligand_source": vh_src,
                           "expected": "hydroxyproline ligand seats in VHL's substrate pocket; if not, distrust every VHL ternary"}
     except Exception as e:  # noqa: BLE001
-        out["status"]["control"] = "error: %s (VH032 may not resolve by name; pass a SMILES)" % e
+        out["status"]["control"] = "error: %s (set $VH032_SMILES to a verified control SMILES)" % e
     _write(out)
 
     # (2) ternaries: NR4A{targets}-LBD + VHL(+VBC) + NR-V04, one YAML per paralogue.
