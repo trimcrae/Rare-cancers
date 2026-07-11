@@ -581,6 +581,32 @@ CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium 
 experimentally measured or validated ensemble-weighted binary affinities in future work** — we do **not**
 derive Kd values from the current raw ABFE absolutes (whose scale is not validated, §3).
 
+**A family-matched positive control shows the ternary read is trustworthy on productive-*geometry* — and that
+confidence scores are not.** Before drawing any negative conclusion from the `denovo_401` ternary, we
+retrospectively benchmarked the ternary workflow against the one family-matched degrader with a known answer:
+**NR-V04** (Wang 2024), which degrades **NR4A1** but spares **NR4A2/NR4A3**. Co-folding NR-V04 with **VHL(+
+ElonginB/C)** and each paralogue LBD over a **3-seed ensemble** (`nrv04_ternary.py`, Boltz-2), the workflow
+**recovers the experimental selectivity on the productive-ternary geometry**: NR-V04 **bridges both proteins in
+3/3 seeds for NR4A1** (ligand–target 2.4–3.3 Å, ligand–VHL 2.3–2.6 Å) but in **0/3 for NR4A2 and 0/3 for
+NR4A3** — for the spared paralogues the VHL-warhead half seats correctly (VH032-pocket, 2.0–2.6 Å) while the
+target LBD is left **6–26 Å away**, i.e. a VHL-only binary, not a ternary. The exposed-Lysine→VHL reach orders
+the same way (NR4A1 5.5 Å < NR4A2 7.1 Å < NR4A3 9.1 Å), and the VH032 positive control seats in VHL in **3/3
+seeds** (ligand-iPTM 0.989). **Critically, ligand-iPTM *inverts* the truth here** — it is *highest* for the
+spared NR4A2 (0.910 vs NR4A1 0.857) because it scores the confidently-placed VHL-warhead half regardless of
+whether the ternary closes — so **global confidence scores are not a valid ternary-selectivity metric**; the
+pre-specified productive-geometry readouts (simultaneous bridging + Lys reach) are. Read through that validated
+lens, the `denovo_401`–CRBN ternary above is a genuine negative: **all three paralogues bridge** (NR4A3 K195
+3.1 Å, NR4A1 K53 2.3 Å, NR4A2 K175 4.0 Å, each within 16 Å of CRBN) — so the representative linker yields a
+*non-selective* ternary on the same metric that separates the NR-V04 control, strengthening (not merely
+restating) the §2.5 conclusion. Two honest limits bound this: the benchmark is **retrospective n = 1** (a single
+known degrader), and NR-V04's selectivity is *for* NR4A1 — designing NR4A3 selectivity is a different problem
+(different paralogue, warhead, and induced interface), so this **licenses comparative prospective use** of the
+ternary workflow for candidate NR4A3 linkers, it does not validate any specific NR4A3 prediction. The induced
+NR4A3–CRBN interface is nonetheless **paralogue-divergent** (8 residues vs NR4A1, 8 vs NR4A2), keeping
+**linker/exit-vector design toward those divergent contacts** the concrete, still-untested lever for ternary
+selectivity. Full benchmark spec, per-seed geometry, and verdict logic: `nrv04-ternary-benchmark.json` /
+`report_nrv04.py`; **SI §S2**.
+
 **At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor receives a more favourable docking score at ≥1 counter-screen target than at NR4A3, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.6). **Full screen and target panel: SI §S1.**
 
 ### 2.6 Generative design produces apparent hits but fails a single-snapshot specificity control
