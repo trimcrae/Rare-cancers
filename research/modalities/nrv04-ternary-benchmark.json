@@ -214,7 +214,7 @@
     "neg_celastrol_free_warhead": "moiety-bridged 0.0 (CORRECT \u2014 no VHL handle)",
     "neg_inactive_hyp_epimer_PROTAC": "moiety-bridged 0.75 (FAILS \u2014 bridges like active)",
     "negative_controls_pass": false,
-    "finding": "The distance-based moiety-bridging readout captures GROSS productive-geometry specificity (free celastrol, which lacks a VHL handle, correctly fails to bridge) but NOT fine BINDING-AFFINITY specificity: the VHL-inactive hydroxyproline EPIMER PROTAC \u2014 which differs from active NR-V04 by a single stereocentre that abolishes VHL binding experimentally \u2014 is placed by the co-fold in the SAME bridging geometry as the active PROTAC (0.75 vs 0.75). A co-fold predicts a STRUCTURE, not affinity, so a geometry-only readout cannot distinguish a well-placed non-binder from a real binder.",
+    "finding": "The distance-based moiety-bridging readout captures GROSS one gross architectural failure (no recruiter) detected \u2014 NOT specificity (free celastrol, which lacks a VHL handle, correctly fails to bridge) but NOT fine BINDING-AFFINITY specificity: the VHL-inactive hydroxyproline EPIMER PROTAC \u2014 which differs from active NR-V04 by a single stereocentre that abolishes VHL binding experimentally \u2014 is achieved the SAME aggregate bridge fraction as the active PROTAC (0.75 vs 0.75). A co-fold predicts a STRUCTURE, not affinity, so a geometry-only readout cannot distinguish a well-placed non-binder from a real binder.",
     "implication": "Per the frozen criteria this is a FAILED negative control -> the productive-geometry readout must NOT be used to RANK prospective linkers on affinity/binding. It can flag whether a linker geometry CAN bridge (architecture triage), but binding must be established by a SEPARATE affinity method (recruiter FEP/ABFE or docking), not the co-fold geometry. This BLOCKS a geometry-only prospective ranking campaign \u2014 the gate's concern (fix 6) was correct.",
     "caveat": "n=4 shakeout; the full expanded run (more seeds x all poses) is dispatched to confirm robustly."
   },
@@ -266,7 +266,7 @@
     "blocking_before_rerun": {
       "chem_identity": "exact NR-V04 graph/stereo/attachment/linker from primary source, or keep 'representative' label",
       "atom_map_moiety": "DONE (2026-07-11): atom_map_moieties() maps SMILES<->CIF (atom-order identity verified by exact element-sequence equality, else bond-perception fallback, else fail-closed); SMARTS-defined warhead/recruiter/linker; archived mapping; never whole-ligand fallback",
-      "intended_site_occupancy": "DONE (2026-07-11): recruiter-in-VHL-Hyp-pocket occupancy, warhead-at-NR4A (site flagged undefined), linker-only/nonspecific flag, steric clashes (<2.0A), crude linker-strain proxy \u2014 all separate fields; end-to-end gemmi CIF path validated on CI (gemmi absent in dev sandbox)",
+      "intended_site_occupancy": "DONE (2026-07-11): recruiter-in-VHL-Hyp-pocket occupancy, warhead-at-NR4A (site flagged undefined), linker-only/nonspecific flag, steric clashes (<2.0A), crude linker-strain proxy \u2014 all separate fields; end-to-end gemmi CIF path PENDING real-CIF forced-restart smoke (validated only via unit-tested numeric core so far; gemmi absent in dev sandbox)",
       "cys551": "map UniProt NR4A1 551 -> local LBD index programmatically, verify residue identity, test on an actual output CIF; until then say covalent geometry NOT evaluated",
       "controls": "separate architecture negatives (short/no linker, wrong vector, no recruiter) from affinity negatives (epimer via a separate affinity method); free-celastrol gets its own no-recruiter readout",
       "pseudoreplication": "seed = primary sampling unit; pose fraction = within-seed summary; identical seeds/settings across systems; paired seed-level contrasts; resample SEEDS not poses; report BOTH seed_n and pose_n in every denominator",
@@ -304,5 +304,25 @@
         "report REALIZED savings via list-sagemaker mode=savings (billable vs training hours), not an assumed %"
       ]
     }
+  },
+  "real_cif_smoke_acceptance": [
+    "an actual Boltz-2.2.1 CIF parsed by gemmi",
+    "expected ligand chain + heavy-atom count found",
+    "atom map archived AND chemically graph-consistent (element-sequence equality is a corruption pre-filter ONLY, not acceptance)",
+    "VHL Hyp-pocket residues found and occupancy evaluable",
+    "Cys551 identity-verified/evaluated OR explicitly not-evaluated",
+    "one complete report JSON generated after a FORCED spot restart (resume from /opt/ml/checkpoints)"
+  ],
+  "review_v3_final": {
+    "review": "3rd external review, 2026-07-11 \u2014 narrow final revision (no redesign)",
+    "items": [
+      "\u00a72.5 updated to the committed atom-mapped analyzer (not the retired sulfur-anchor)",
+      "architecture-control evaluator made explicit tri-state fail-closed (no None/0=pass)",
+      "seed call = STRICT MAJORITY (>0.5); frozen verdict requires default-sep + cutoff-robust + LOO + seed-level wrong-end + valid arch-control",
+      "wrong-end converted to seed-level for the frozen criterion",
+      "active-vs-epimer made actually PAIRED (matched seed/rank sets; paired diff; 'same rate' only under a frozen tolerance)",
+      "atom-map identity branch requires GRAPH corroboration (element-sequence = pre-filter only)"
+    ],
+    "authorization": "capped descriptive seed-level rerun APPROVED after these + a passing real-CIF forced-restart smoke; prospective ranking + affinity/selectivity inference remain prohibited"
   }
 }
