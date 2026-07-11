@@ -26,6 +26,29 @@ ABFE_LOG = """
 ABFE_DONE = ABFE_LOG + "2026-07-11T15:40:00.0Z [abfe] DG_BIND -9.312 ± 0.44 kcal/mol\n2026-07-11T15:40:01.0Z [abfe] SHARD_DONE leg=complex windows [0,16)\n"
 
 
+# Real ABFE tail AS FETCHED THROUGH the GitHub Actions log API: each line has GitHub's ingest timestamp THEN
+# the real CloudWatch event time (prepended by tail_cloudwatch.py) THEN the message.
+ABFE_DOUBLE_TS = """
+2026-07-11T14:44:30.322Z 2026-07-11T14:23:22Z [abfe] nan-guard v2 active (window 5, seed 0)
+2026-07-11T14:44:30.324Z 2026-07-11T14:23:38Z [abfe] nan-guard v2 active (window 6, seed 0)
+"""
+
+
+def test_parse_ts_uses_real_event_time_not_github_ingest():
+    # Must return the CloudWatch event time 14:23:38, NOT GitHub's ingest time 14:44:30.
+    line = "2026-07-11T14:44:30.324Z 2026-07-11T14:23:38Z [abfe] nan-guard v2 active (window 6, seed 0)"
+    assert m.parse_ts(line).strftime("%H:%M:%S") == "14:23:38"
+
+
+def test_abfe_double_ts_end_to_end():
+    cur = m.parse_abfe(ABFE_DOUBLE_TS)
+    assert cur["index"] == 6
+    assert cur["last_ts"] == "2026-07-11T14:23:38Z"   # real event time survived
+    a = m.analyse(cur, now_iso="2026-07-11T14:44:30Z", hang_min=25.0)
+    assert a["marker_age_min"] == 20.9                # 14:23:38 → 14:44:30 ≈ 20.9 min (not a hang at 25-min thr)
+    assert a["hang"] is False
+
+
 def test_detect_kind():
     assert m.detect_kind(BOLTZ_LOG) == "boltz"
     assert m.detect_kind(ABFE_LOG) == "abfe"

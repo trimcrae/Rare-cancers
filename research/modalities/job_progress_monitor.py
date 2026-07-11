@@ -34,8 +34,12 @@ from datetime import datetime, timedelta, timezone
 # Eastern is UTC-4 (EDT) for the summer months this project runs in; the repo standing rule is ET 12-hour AM/PM.
 _ET = timezone(timedelta(hours=-4))
 
-# Leading ISO-8601 timestamp CloudWatch / GH Actions stamp on every line, e.g. 2026-07-11T14:34:25.7301250Z
+# Leading ISO-8601 timestamp(s), e.g. 2026-07-11T14:34:25.7301250Z. A line may carry TWO leading timestamps:
+# when a tail is fetched back through the GitHub-Actions log API, GitHub prepends its own ingest time in FRONT
+# of the real CloudWatch event time that tail_cloudwatch.py prepended. The authoritative event time is always
+# the LAST of the run of leading timestamps (the one immediately before the message), so match that.
 _TS = re.compile(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.\d+)?Z")
+_LEADING_TS = re.compile(r"^\s*((?:\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z\s+)+)")
 # ABFE per-window start marker (the one reliable per-window stdout line).
 _ABFE_WIN = re.compile(r"nan-guard v2 active \(window\s+(\d+)")
 _ABFE_DONE = re.compile(r"\bSHARD_DONE\b|\bDG_BIND\b")
@@ -46,7 +50,14 @@ _BOLTZ_ANY = re.compile(r"boltz predict|Predicting DataLoader")
 
 
 def parse_ts(line):
-    """The leading UTC timestamp of a log line as an aware datetime, or None."""
+    """The REAL event UTC timestamp of a log line as an aware datetime, or None. Uses the LAST of the leading
+    run of timestamps (see _LEADING_TS) so a GitHub-API-fetched line's own ingest prefix doesn't mask the true
+    CloudWatch event time; falls back to the first timestamp anywhere if there is no clean leading run."""
+    lead = _LEADING_TS.match(line)
+    if lead:
+        stamps = _TS.findall(lead.group(1))
+        if stamps:
+            return datetime.strptime(stamps[-1], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
     m = _TS.search(line)
     if not m:
         return None
