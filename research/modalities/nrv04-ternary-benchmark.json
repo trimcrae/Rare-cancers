@@ -344,5 +344,15 @@
    "entry.py store_true --control sentinel broke on the hyperparameter round-trip (--control true) \u2192 parse_known_args + nargs='?'",
    "sm_io.out_dir() honored $SM_OUTPUT_DIR (=/opt/ml/output on Training) \u2192 all 21 spot entries wrote to the wrong dir; fixed to always prefer /opt/ml/checkpoints"
   ]
+ },
+ "descriptive_v3_result": {
+  "date": "2026-07-11",
+  "prefix": "nrv04-descriptive-v3",
+  "report": "report_nrv04_descriptive.json",
+  "sampling": "control + NR4A1/2/3 ternary + negatives (Hyp-epimer + free celastrol on NR4A1), 3 seeds",
+  "verdict": "exploratory-architecture-concordance",
+  "architecture_triage": "PASS \u2014 recovers the NR-V04 phenotype at the ARCHITECTURE level: NR4A1 seed-bridged 0.67 vs NR4A2 0.00 / NR4A3 0.00 at 4.5 A; robust across 4.0/4.5/5.0 A; survives leave-one-seed-out; architecture controls ok.",
+  "affinity_control": "FAILS (as expected) \u2014 the VHL-inactive Hyp-epimer PROTAC bridges at 1.00 >= active 0.67 (delta +0.33). The co-fold geometry classifier cannot detect the stereochemical affinity knockout, so it has NO authority to rank affinity/cooperativity/degradation-selectivity \u2014 architecture triage ONLY.",
+  "interpretation": "The ternary workflow is validated AS AN ARCHITECTURE-TRIAGE FILTER (recovers the known family-selective NR-V04 architecture) but the epimer control confirms it must not be used for prospective affinity/selectivity ranking \u2014 consistent with the ternary-selectivity-first strategy (co-fold = early architecture filter; affinity via a separate physics method)."
  }
 }
