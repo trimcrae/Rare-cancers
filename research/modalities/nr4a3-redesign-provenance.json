@@ -255,6 +255,15 @@
       "status": "done \u2014 verdict INFORMATIVE on pre-specified productive-geometry + Lys readouts; retrospective n=1 (NR-V04 only), and NR4A1-selectivity != NR4A3-selectivity, so this LICENSES comparative prospective use of the ternary workflow for NR4A3 designs, it does not validate any specific NR4A3 prediction",
       "outputs": "research/modalities/report_nrv04.json (full 3-paralogue, S3 nrv04-ternary-pilot); nrv04-ternary-benchmark.json .result; report_nrv04.py composite full_verdict (+11 tests); control_ligand VH032 (InChIKey JAHUHEDUDMTTTF-COWZOJLOSA-N)",
       "by": "agent"
+    },
+    {
+      "date": "2026-07-11",
+      "phase": 1,
+      "item": "Track B REVISION per external methods review \u2014 narrow NR-V04 ternary claim from 'informative/validated' to 'exploratory concordance'; HOLD full prospective GPU campaign",
+      "decision": "External gate review returned the NR-V04 result FOR REVISION (do not approve as-is). Applied mandatory claim-narrowing: (1) manuscript 2.5 paragraph replaced with the reviewer's exploratory-concordance wording (no 'trustworthy/validated lens/is a valid metric'); (2) verdict downgraded informative -> exploratory-concordance in spec; (3) ligand-iPTM claim restricted to THIS benchmark (not a categorical 'confidence scores are invalid'); (4) metric switch disclosed as post-result elevation of a pre-specified EXPLORATORY readout; (5) 'exposed Lys' claim REMOVED from the concordance argument (analyzer computes no SASA; per-seed Lys ordering inconsistent \u2014 NR4A2 closer in 2/3 seeds); (6) denovo_401 downgraded to 'no modeled paralogue discrimination under the exploratory contact classifier'. Recorded review_required_fixes in nrv04-ternary-benchmark.json: moiety-specific occupancy (VH032-in-VHL, celastrol-at-NR4A, electrophile-Cys551, wrong-end detection, linker strain/clashes), all-rank + >3-seed sampling with uncertainty + cutoff sensitivity, exact NR-V04 chemical-graph verification, and inactive-recruiter/free-warhead/NR-V02-03 controls.",
+      "status": "claim narrowed + committed; analyzer hardening (moiety-specific/all-rank/cutoff-sensitivity) + controls PENDING as a CAPPED method-hardening step; FULL prospective linker campaign ON HOLD until the corrected benchmark retains separation",
+      "outputs": "nr4a3-degrader-paper.md 2.5 (narrowed); nrv04-ternary-benchmark.json .result + .review_required_fixes",
+      "by": "agent"
     }
   ]
 }
