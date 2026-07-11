@@ -1,14 +1,15 @@
-# NR4A3 selective degrader — ensemble-robust redesign plan
+# NR4A3 selective degrader — ensemble-robust redesign: live implementation ledger
 
-*Branch `claude/nr4a3-ensemble-redesign` · single source of truth for the redesign · created 2026-07-11
-(trimcrae directive: "design a new candidate against an ensemble-defined target, not another molecule
-against one selected frame").*
+> **⭐ The canonical true-north spec is [`nr4a3-ensemble-redesign-brief.md`](./nr4a3-ensemble-redesign-brief.md)**
+> (trimcrae, 2026-07-11). THIS document is the **live implementation ledger** — repo-grounded status against
+> the brief's phases / gates / deliverables. When they disagree, the brief wins; update this ledger to match.
 
-Read alongside: the program state ([`nr4a3-degrader-next-steps.md`](./nr4a3-degrader-next-steps.md)), the
-manuscript §2.1/§2.8 ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)), the
-pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)), and the harmonized
-pocket tracker ([`pocket_tracking.py`](./pocket_tracking.py) + [`nr4a3_pocket_reharmonize.py`](./nr4a3_pocket_reharmonize.py)).
-**This plan is the source of truth for the redesign's next steps** (per trimcrae's 2026-07-11 directive).
+*Branch `claude/nr4a3-ensemble-redesign` · created 2026-07-11.* Read alongside: the program state
+([`nr4a3-degrader-next-steps.md`](./nr4a3-degrader-next-steps.md)), the manuscript §2.1/§2.8
+([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)), the pre-registration
+([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)), the harmonized pocket tracker
+([`pocket_tracking.py`](./pocket_tracking.py) + [`nr4a3_pocket_reharmonize.py`](./nr4a3_pocket_reharmonize.py)),
+and the provenance/decision ledger ([`nr4a3-redesign-provenance.json`](./nr4a3-redesign-provenance.json)).
 
 ## 1. Why redesign (the single-frame failure modes we already hit)
 

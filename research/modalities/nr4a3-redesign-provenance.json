@@ -1,0 +1,89 @@
+{
+  "_title": "NR4A3 ensemble-robust redesign — machine-readable provenance + decision ledger",
+  "_spec": "research/modalities/nr4a3-ensemble-redesign-brief.md (Phase 0; deliverables #6 provenance table, #16 decision ledger)",
+  "_rule": "Every reported redesign result gets a `generation` label and a provenance row here. Do NOT silently mix `legacy` and repaired results in one comparison. Append-only for decisions; edit result rows only to add outputs/versions.",
+  "schema_version": 1,
+  "freeze": {
+    "frozen_at_commit": "2460fabb6278c11ca64a86f2a39a3e295b73de91",
+    "frozen_at_ref": "main",
+    "frozen_on": "2026-07-11",
+    "note": "Baseline snapshot before the corrected pocket tracker / dense-lambda / new receptor panels change any comparison. denovo_401's legacy structures, poses, receptor frames and ABFE inputs are preserved in S3 and referenced below; they are NOT to be overwritten.",
+    "environment_note": "GPU/alchemical env versions live in the per-job SageMaker containers (requirements pinned in sagemaker_src/ + boltz_src/); fpocket pinned to 4.0 for the harmonized audit. Per-run software versions are recorded on each result row as they are produced."
+  },
+  "generations": {
+    "legacy": "Pre-redesign results (AF2 release-frame nomination, single-frame MM-GBSA/ABFE, pre-harmonized pocket definition). Kept as benchmark/control; never deleted.",
+    "harmonized_tracking": "Results under the score-INDEPENDENT orthosteric-pocket definition (pocket_tracking.py; fixed Pocket-5 lining set; Jaccard/recovery+centroid gate; pinned fpocket 4.0).",
+    "dense_lambda": "Results under the repaired dense-16-window ABFE schedule (soft-core-tail overlap restored). FEP-class; gated (GATE-2).",
+    "ensemble_redesign": "New candidates + scoring on the prespecified conformer panel (design/validation/stress), ranked by worst-case S."
+  },
+  "provenance_columns": [
+    "result_id", "generation", "receptor_structure", "source_pdb_or_model", "trajectory", "frame",
+    "pocket_tracking_impl", "ligand_microstate", "stereoisomer", "software_version", "random_seed",
+    "simulation_protocol", "output_location", "notes"
+  ],
+  "results": [
+    {
+      "result_id": "denovo401_abfe_af2opened",
+      "generation": "legacy",
+      "receptor_structure": "NR4A3 LBD, AF2-opened (MD-opened AlphaFold Q92570)",
+      "source_pdb_or_model": "AF-Q92570 (AlphaFold DB)",
+      "trajectory": "release / metad-opened design frame",
+      "frame": "release-derived design frame (Rg~0.667 primary; 0.74 seed) — EXACT frame id to be pinned by Gate A",
+      "pocket_tracking_impl": "pre-harmonized (outcome-selected highest-druggability LBD cavity)",
+      "ligand_microstate": "neutral",
+      "stereoisomer": "DiffSBDD-generated isomer (gen); iso08 co-best",
+      "software_version": "openmmtools alchemy ABFE (legacy schedule); MM-GBSA GBn2",
+      "random_seed": "n/a (unseeded MD; n=3 replicates)",
+      "simulation_protocol": "legacy ABFE (non-dense lambda), 3 replicates",
+      "output_location": "s3 nr4a3-abfe* (AF2-opened legs)",
+      "notes": "Headline legacy selectivity: dG_bind ~ +3.5 (NR4A3) / +8.3 (NR4A1) / +8.5 (NR4A2); margin ~5 kcal/mol. BENCHMARK — do not delete."
+    },
+    {
+      "result_id": "denovo401_abfe_8xtt",
+      "generation": "legacy",
+      "receptor_structure": "NR4A3 LBD, 8XTT-seeded (experimental NMR druggable model, MD-relaxed)",
+      "source_pdb_or_model": "PDB 8XTT (20-model solution-NMR ensemble; a druggable model)",
+      "trajectory": "8XTT-seeded relaxation",
+      "frame": "persistent druggable frame",
+      "pocket_tracking_impl": "pre-harmonized",
+      "ligand_microstate": "neutral",
+      "stereoisomer": "gen",
+      "software_version": "openmmtools alchemy ABFE (legacy schedule, low soft-core-tail overlap 0.017-0.026)",
+      "random_seed": "n/a (n=3: 7.95/9.24/7.32)",
+      "simulation_protocol": "legacy ABFE, 3 replicates",
+      "output_location": "s3 nr4a3-abfe-8xtt*",
+      "notes": "dG_bind(NR4A3) = +8.17 +/- 0.98 — ~4.7 kcal/mol weaker than AF2-opened, > the whole selectivity margin. PRELIMINARY indication of conformer sensitivity (low lambda overlap; not yet dense-lambda-repaired). Provenance-MISMATCHED vs AF2 paralogue refs — not a fair selectivity comparison."
+    },
+    {
+      "result_id": "harmonized_pocket_audit",
+      "generation": "harmonized_tracking",
+      "receptor_structure": "all load-bearing NR4A3 ensembles (AF2 static, calibration, 8XTT 20 models, metad, 3 release reps)",
+      "source_pdb_or_model": "AF-Q92570; 8XTT; NR-panel calibration structures",
+      "trajectory": "metad; release_rep0/1/2",
+      "frame": "all propagated frames (per-ensemble)",
+      "pocket_tracking_impl": "harmonized (pocket_tracking.py; fixed Pocket-5 lining set; jaccard_min 0.25 / frac_recovered 0.3 / centroid 8.0 A)",
+      "ligand_microstate": "apo (receptor-only druggability)",
+      "stereoisomer": "n/a",
+      "software_version": "fpocket 4.0 (pinned)",
+      "random_seed": "n/a",
+      "simulation_protocol": "fpocket cavity detection + composite matcher; both-denominator detection",
+      "output_location": "nr4a3-pocket-reharmonize-summary.json (committed); s3 nr4a3-pocket-reharmonize/",
+      "notes": "GATE-1 CLEARED. Canonical site detected 95-100% across all ensembles (score-independent). Druggable (>=D*=0.53): 8XTT 3/20 (0.15); metad 0.68; release pooled 0.59; AF2-static 0/1. Exact-generation-frame row (Gate A) NOT yet in this audit — pending."
+    }
+  ],
+  "controls": [
+    {"id": "denovo_401", "role": "benchmark / pipeline_positive", "microstate": "neutral", "note": "current best; must be BEATEN on the matched panel (worst-case S and margin)."},
+    {"id": "denovo_924", "role": "negative control", "note": "stays nonselective across tiers (method-discriminating check)."},
+    {"id": "denovo_111", "role": "microstate-sensitivity control", "note": "neutral form selective; cation (pH 7.4) REVERSES -> use to probe protonation fragility."}
+  ],
+  "decision_ledger": [
+    {"date": "2026-07-11", "phase": 0, "item": "provenance freeze + generation labels + this ledger", "decision": "created", "status": "done", "by": "agent"},
+    {"date": "2026-07-11", "gate": "A", "item": "harmonized pocket audit (all ensembles)", "decision": "canonical site confirmed (95-100% detection); druggability low-population experimental (3/20 8XTT). GATE-1 cleared.", "status": "done", "outputs": ["nr4a3-pocket-reharmonize-summary.json"]},
+    {"date": "2026-07-11", "gate": "A", "item": "EXACT denovo_401 generation-frame dependency audit (does the exact frame match the site, exceed D*, contain the claimed pocket-facing handles?)", "decision": "PENDING — deliverable #3; must run the harmonized matcher on the exact generation frame specifically (not just pooled release).", "status": "todo"},
+    {"date": "2026-07-11", "gate": "B", "item": "dense-lambda ABFE validation (NR4A2 repair pilot; apply to both NR4A3 variants)", "decision": "FEP-class -> HELD per 'short of a new FEP run' (GATE-2).", "status": "held"},
+    {"date": "2026-07-11", "gate": "B", "item": "T4L L99A-benzene protocol-matched benchmark (final production protocol)", "decision": "alchemical/FEP-class -> HELD.", "status": "held"},
+    {"date": "2026-07-11", "phase": 1, "item": "TICA reaction-coordinate validation (bias handling, lag-time, held-out, bootstrap)", "decision": "CPU analysis of existing biased trajectories — ELIGIBLE now (non-FEP). Note: Phase-2 shakeout already returned NO-GO (0 recrossing, CV too Rg-like) -> coordinate needs redesign; do not launch phase-2 fleet.", "status": "eligible"},
+    {"date": "2026-07-11", "phase": 3, "item": "denovo_401 conformer-sensitivity mechanism report (dock/contacts/RMSD/HB/BSA/strain across panel)", "decision": "CPU/spot, non-FEP — ELIGIBLE after the panel receptor set is built (Phase 2).", "status": "eligible"},
+    {"date": "2026-07-11", "phase": 5, "item": "extend ensemble_robust_score to S = min_c M_c - lambda*sigma - gamma*C - eta*L (add counterexample C + liability L terms, sign-reversal counts)", "decision": "pure engineering — ELIGIBLE now.", "status": "eligible"}
+  ]
+}
