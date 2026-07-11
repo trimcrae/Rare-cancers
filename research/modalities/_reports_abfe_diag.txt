@@ -1,16 +1,6 @@
-[diag] bucket sagemaker-us-east-2-646605541856  tags ['nr4a3-abfe', 'nr4a3-abfe-r2', 'nr4a3-abfe-r3']  receptors ['nr4a3', 'nr4a1', 'nr4a2']
-  [sync] nr4a3-abfe/ckpt/solvent/ -> 13 files
-  [sync] nr4a3-abfe/ckpt/complex-nr4a3/ -> 13 files
-  [sync] nr4a3-abfe/ckpt/complex-nr4a1/ -> 13 files
-  [sync] nr4a3-abfe/ckpt/complex-nr4a2/ -> 13 files
-  [sync] nr4a3-abfe-r2/ckpt/solvent/ -> 13 files
-  [sync] nr4a3-abfe-r2/ckpt/complex-nr4a3/ -> 13 files
-  [sync] nr4a3-abfe-r2/ckpt/complex-nr4a1/ -> 13 files
-  [sync] nr4a3-abfe-r2/ckpt/complex-nr4a2/ -> 14 files
-  [sync] nr4a3-abfe-r3/ckpt/solvent/ -> 13 files
-  [sync] nr4a3-abfe-r3/ckpt/complex-nr4a3/ -> 13 files
-  [sync] nr4a3-abfe-r3/ckpt/complex-nr4a1/ -> 13 files
-  [sync] nr4a3-abfe-r3/ckpt/complex-nr4a2/ -> 15 files
+[diag] bucket sagemaker-us-east-2-646605541856  tags ['nr4a3-abfe-8xtt-r3']  receptors ['nr4a3']
+  [sync] nr4a3-abfe-8xtt-r3/ckpt/solvent/ -> 0 files
+  [sync] nr4a3-abfe-8xtt-r3/ckpt/complex-nr4a3/ -> 13 files
 Warning on use of the timeseries module: If the inherent timescales of the system are long compared to those being analyzed, this statistical inefficiency may be an underestimate.  The estimate presumes the use of many statistically independent samples.  Tests should be performed to assess whether this condition is satisfied.   Be cautious in the interpretation of the data.
 
 ********* JAX NOT FOUND *********
@@ -21,27 +11,6 @@ Either install with pip or conda:
                OR                
       conda install pymbar       
 *********************************
-Failed to reach a solution to within tolerance with hybr: trying next method
 [diag] wrote results/nr4a3-abfe/diagnostics/nr4a3-abfe-diagnostics.json
-[diag] wrote 9 PNGs: ['overlap_nr4a3-abfe.png', 'convergence_nr4a3-abfe.png', 'ess_nr4a3-abfe.png', 'overlap_nr4a3-abfe-r2.png', 'convergence_nr4a3-abfe-r2.png', 'ess_nr4a3-abfe-r2.png', 'overlap_nr4a3-abfe-r3.png', 'convergence_nr4a3-abfe-r3.png', 'ess_nr4a3-abfe-r3.png']
-
-=== per-receptor ΔG_bind (raw engine, kcal/mol) ===
-  nr4a1   +8.28 ± 1.11   (n=3, reps: r1=+9.51, r2=+7.98, r3=+7.36)
-  nr4a2   +8.50 ± 0.71   (n=3, reps: r1=+8.08, r2=+9.33, r3=+8.10)
-  nr4a3   +3.52 ± 1.39   (n=3, reps: r1=+2.61, r2=+5.12, r3=+2.83)
-
-=== selectivity ΔΔG (ref = nr4a3; negative ⇒ target-selective) ===
-  ΔΔG(nr4a3 − nr4a1) = -4.76 ± 2.03   unanimous=True
-  ΔΔG(nr4a3 − nr4a2) = -4.98 ± 0.68   unanimous=True
-
-=== consistency vs committed §4 (CONSISTENT) ===
-  [ok] dg_bind[nr4a3].mean    recomputed +3.522  expected +3.500  (Δ +0.022, tol 0.60)
-  [ok] dg_bind[nr4a3].sd      recomputed +1.391  expected +1.400  (Δ -0.009, tol 0.50)
-  [ok] dg_bind[nr4a1].mean    recomputed +8.283  expected +8.300  (Δ -0.017, tol 0.60)
-  [ok] dg_bind[nr4a1].sd      recomputed +1.108  expected +1.100  (Δ +0.008, tol 0.50)
-  [ok] dg_bind[nr4a2].mean    recomputed +8.502  expected +8.500  (Δ +0.002, tol 0.60)
-  [ok] dg_bind[nr4a2].sd      recomputed +0.714  expected +0.700  (Δ +0.014, tol 0.50)
-  [ok] ddg[nr4a3-nr4a1].mean  recomputed -4.761  expected -4.760  (Δ -0.001, tol 0.60)
-  [ok] ddg[nr4a3-nr4a1].sd    recomputed +2.034  expected +2.030  (Δ +0.004, tol 0.50)
-  [ok] ddg[nr4a3-nr4a2].mean  recomputed -4.980  expected -4.980  (Δ -0.000, tol 0.60)
-  [ok] ddg[nr4a3-nr4a2].sd    recomputed +0.681  expected +0.680  (Δ +0.001, tol 0.50)
+[diag] wrote 2 PNGs: ['overlap_nr4a3-abfe-8xtt-r3.png', 'ess_nr4a3-abfe-8xtt-r3.png']
+[diag] no ΔG_bind computed (no complete complex+solvent legs found).
