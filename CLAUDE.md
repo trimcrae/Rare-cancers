@@ -9,6 +9,15 @@ read it before making changes.
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
   do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
+- **⏱️ END-OF-TURN "IN FLIGHT" BOARD — when your final message just leaves work running, close with one line + ETA
+  per job (trimcrae standing rule, 2026-07-11).** trimcrae can't keep up with many concurrent runs from prose.
+  So whenever you end a turn while WAITING on background/AWS work (SageMaker jobs, CI runs, subagents, pollers,
+  self-timers), the LAST thing in your message is a compact **"In flight:"** board — **one scannable line per
+  running item** (bullet or table, NOT prose), each stating **(a)** what it is, **(b)** its current state/progress,
+  and **(c)** an **ETA in ET 12-hour AM/PM** (or an explicit "ETA unknown — <why>", e.g. waiting on spot capacity,
+  when genuinely unknowable). Include what you'll do when each finishes if it's non-obvious, in the same line.
+  If nothing is in flight, say "Nothing in flight" in one line. This composes with rule #1 (ET 12-hour) and the
+  "nothing needs your input" sign-off; it REPLACES long status narration — keep the board terse.
 - **★★ PRIMARY FOCUS (UPDATED 2026-07-11 PM, trimcrae + gate-AI — SUPERSEDES the atlas-anchor reframe from
   earlier the same day; that reframe is retained just below for reference).** The repo's #1 research program is
   **again the NR4A3-SELECTIVE DEGRADER / computational method-development**, NOT the atlas. Rationale (gate-AI,
