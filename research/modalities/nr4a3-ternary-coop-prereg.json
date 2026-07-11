@@ -42,13 +42,12 @@
   "frozen_manifest": {
     "_note": "Expected system and leg IDs the pilot/retrospective MUST supply. The gate validates results coverage against these. expected_system_ids for Layer-1 is empty until curated+verified (hard blocker); when non-empty the gate enforces required-subset coverage.",
     "ternary_pilot_expected_leg_ids": [
-      "vhl_calib_hi_coop",
-      "vhl_calib_lo_coop",
-      "nrv04_active_binary_vhl",
-      "nrv04_epimer_binary_vhl",
-      "nrv04_active_nr4a1_ternary",
-      "nrv04_epimer_nr4a1_ternary"
+      "calib_hi_to_lo__binary_vhl",
+      "calib_hi_to_lo__ternary_vhl",
+      "nrv04_active_to_epimer__binary_vhl",
+      "nrv04_active_to_epimer__ternary_nr4a1"
     ],
+    "_leg_semantics": "each leg is a RELATIVE-alchemical MORPH in ONE environment. Cooperativity uses the binary-vs-ternary cycle: ddG_coop(A->B) = ddG_alch(ternary) - ddG_alch(binary). Calibration pair (hi->lo) needs both binary + ternary legs to recover the known Delta-alpha; NR-V04 active->epimer needs binary (affinity knockout) + ternary-NR4A1 (the coop test). This is the ternary_coop.py PILOT_LEG_MAP; a mismatch between these IDs and that table fails closed.",
     "leg_coverage_rule": "required-subset: every ternary_pilot_expected_leg_id must appear as a results['legs'][*].name (extra legs allowed)",
     "layer1_expected_system_ids_coverage_rule": "when calibration.layer1_vhl_panel.expected_system_ids is non-empty, every id must appear (required-subset) among results['vhl_panel']['systems'][*].id"
   },
@@ -176,9 +175,9 @@
       "authorized": true,
       "hard_cap_usd_spot": 200,
       "fixed_scope": [
-        "1 high-vs-low cooperativity VHL calibration comparison (preferably a structurally characterized SMARCA2 pair) -> legs vhl_calib_hi_coop / vhl_calib_lo_coop",
-        "active NR-V04 vs inactive epimer in binary VHL -> legs nrv04_active_binary_vhl / nrv04_epimer_binary_vhl",
-        "active NR-V04 vs inactive epimer in the NR4A1 ternary architecture -> legs nrv04_active_nr4a1_ternary / nrv04_epimer_nr4a1_ternary",
+        "1 high-vs-low cooperativity VHL calibration comparison (preferably a structurally characterized SMARCA2 pair) -> morph legs calib_hi_to_lo__binary_vhl + calib_hi_to_lo__ternary_vhl (both needed for the Delta-alpha cycle)",
+        "active NR-V04 vs inactive epimer in binary VHL -> morph leg nrv04_active_to_epimer__binary_vhl",
+        "active NR-V04 vs inactive epimer in the NR4A1 ternary architecture -> morph leg nrv04_active_to_epimer__ternary_nr4a1",
         ">=3 independent replicas + a minimally adequate lambda schedule (NOT single-trajectory endpoint scoring)"
       ],
       "forecast_gate": "the ternary MODE=plan forecast is authorized only AFTER the exact high/low Layer-1 pair + all pilot system identities, structures, microstates, transformations, replica count, and lambda schedule are frozen; the forecast must correspond to the ACTUAL fixed bundle, not a generic placeholder system",
