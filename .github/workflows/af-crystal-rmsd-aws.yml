@@ -1,0 +1,43 @@
+name: NR4A paralogue AF↔crystal RMSD (CPU, no SageMaker)
+
+# Closes the "AF-vs-experiment was benchmarked for NR4A3 only" asymmetry (see §2.1): computes AF-model vs
+# experimental-crystal Cα RMSD for NR4A1 (Nur77, AF-P22736 vs PDB 3V3E) and NR4A2 (Nurr1, AF-P43354 vs PDB
+# 1OVL), global + Pocket-5-local, on a footing matched to the NR4A3 AF2↔8XTT-NMR benchmark. The paralogue
+# experimental structures are COLLAPSED apo crystals, so this is an AF-vs-crystal FOLD check, not a pocket
+# validation (the script states the caveat in the JSON). Fetches AFDB + RCSB, runs nr4a_af_crystal_rmsd.py
+# on the GitHub runner (numpy + biopython), commits results/nr4a-af-crystal-rmsd/. Pure CPU, $0, no AWS creds.
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: af-crystal-rmsd
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install numpy biopython
+      - name: Compute paralogue AF↔crystal RMSD
+        run: python research/modalities/nr4a_af_crystal_rmsd.py
+      - name: Commit result JSON to main
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/nr4a-af-crystal-rmsd/nr4a-af-crystal-rmsd.json
+          git commit -m "NR4A paralogue AF↔crystal RMSD (matched to §2.1 NR4A3 AF2↔8XTT)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            echo "push race, retry $i"; sleep $((i*3))
+          done
+          echo "::error::could not push result after retries"; exit 1
