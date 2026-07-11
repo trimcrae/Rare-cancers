@@ -13,6 +13,47 @@ anything. Last updated 2026-06-26.
 > The scorer is built + unit-tested (`ensemble_robust_score.py`); cheap redesign work is **gated on the
 > harmonized pocket-tracking audit landing**, expensive new-compound ABFE on the λ-repair / T4L-v2 work.
 
+## 2026-07-11 SESSION — published-warhead registry (Workstream B) built + Gate-2 docking benchmark SPEC'd (ready-to-run)
+
+**Done this session (CPU/free; no GPU $):**
+- **`published_warhead_registry` (master-brief Phase 1 / Workstream B, deliverables 30-33) — BUILT.**
+  Machine-readable catalog of the published, experimentally anchored NR4A chemistry the program benchmarks
+  against, with per-compound evidence class + source + a 3-resolver (ChEMBL/PubChem/CACTUS) InChIKey-skeleton
+  structure cross-check. Files: `published_warhead_registry.py` (+ 15 unit tests), narrative
+  `published-warhead-registry.md`, JSON on `modalities-cache` (`published-warhead-registry.json`, v1.0.0),
+  SI §S10. Census: 8 high / 4 medium / 2 unresolved (Zaienne series + NR-V04, both HONESTLY unresolved, not
+  invented). Built via the on-main `warhead-chem-profile.yml` dispatched with `ref=<branch>` (that workflow now
+  also builds the registry) — the trick for running a runner job off a feature branch without touching main.
+- **`ensemble_robust_score` S_ext extension (redesign Phase-5 engineering) — DONE.** Added the counterexample
+  (C) + liability (L) + sign-reversal terms as a SEPARATE `S_ext` (energetic `S` unchanged); 29 tests pass.
+
+**★ NEXT (ready-to-run, authorized <$10): the Gate-2 published-chemistry docking benchmark (Phase 5 / §11).**
+Dock the registry's verified panel into the state-matched opened NR4A3/NR4A1/NR4A2 pockets and test whether the
+model **reproduces known paralogue preferences** (the chemical-model-credibility gate). **CRITICAL — feed
+VERIFIED SMILES, not names:** the ChEMBL name resolver `nr4a3_dock.py` uses returns the WRONG structure for
+THPN (CHEMBL575966, MW 361 ≠ 266) and CONFLATES C-DIM8/C-DIM12 (both → CHEMBL6196044). Panel (registry
+`structure_confidence: high` unless noted), with the KNOWN preference the benchmark should reproduce:
+| ligand | known preference | verified isomeric SMILES |
+|--------|------------------|--------------------------|
+| cytosporone B (medium) | pan-NR4A (binds Nur77 + Nurr1 LBD) | `CCCCCCCC(=O)c1c(O)cc(O)cc1CC(=O)OCC` |
+| THPN | NR4A1 (Nur77 LBD cocrystal 4JGV) | `CCCCCCCCC(=O)c1cc(O)c(O)c(O)c1` |
+| TMPA | NR4A1-leaning (not a Nurr1 binder) | `CCCCCCCC(=O)c1cc(OC)c(OC)c(OC)c1CC(=O)OCC` |
+| amodiaquine | NR4A2/pan (Nurr1 LBD by NMR) | `CCN(CC)Cc1cc(Nc2ccnc3cc(Cl)ccc23)ccc1O` |
+| chloroquine | NR4A2 (Nurr1 LBD by NMR) | `CCN(CC)CCCC(C)Nc1ccnc2cc(Cl)ccc12` |
+| celastrol (covalent flag) | NR4A1 (NR-V04 warhead; reactive) | `CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)O)CC[C@]3(C)CC[C@]12C` |
+
+*Negative control:* **C-DIM12** (functional NON-binder, Munoz-Tello 2021) should NOT dock as a strong LBD
+binder — but source its SMILES from the primary paper first (name resolution is unreliable, see registry
+caveat). **Build (engineering is free):** add an optional `EXTRA_LIGAND_SMILES` (JSON `{label: smiles}`) input
+to `nr4a3_dock.py`/`nr4a3_matrix.py` + thread it through `nr4a3_matrix_sagemaker.py` env, so the benchmark
+docks REGISTRY SMILES (not names). Then dispatch `gpu-matrix-aws.yml` with `git_ref=<branch>`,
+`output_prefix=nr4a3-chem-benchmark` (default mode = known-ligand panel, no CANDIDATE_JSON). Cost ~$2-4
+(g5.xlarge; re-extracts the 3 opened conformers, ~2 h) — to make it ~$0.5 wire the cached `*-opened.pdb`
+(prior `nr4a3-matrix/` run) as `OPENED_CACHE_DIR`. **Gate-2 verdict:** the model is *chemically supported* if
+docking distinguishes the NR4A1-anchored (THPN/TMPA) from the NR4A2-anchored (amodiaquine/chloroquine) ligands
+in the right direction, and ranks the non-binder control weakly; *inconclusive/inconsistent* otherwise (brief
+§11.3). Read with `report-matrix-aws.yml output_prefix=nr4a3-chem-benchmark`.
+
 ## TL;DR
 Druggability case is a **feasibility result, stated honestly** (see the red-team:
 [`../manuscripts/nr4a3-degrader-paper-redteam.md`](../manuscripts/nr4a3-degrader-paper-redteam.md)).
