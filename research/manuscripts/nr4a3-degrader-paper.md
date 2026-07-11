@@ -660,6 +660,22 @@ ranked against the decoy null — with **decoy-calibrated multi-snapshot MM-GBSA
 selectivity FEP reserved for an above-null lead. The decoy control is retained as a **standing specificity
 gate** every candidate must clear.
 
+**External corroboration on *known* NR4A chemistry — neither cheap tier reproduces paralogue preference.**
+The decoy null shows the cheap tiers are non-specific on *unrelated* drugs; we additionally tested them on
+*experimentally anchored* NR4A ligands, which is a stronger check — a model that cannot recover *known*
+NR4A1-vs-NR4A2 preferences cannot be trusted to *discover* NR4A3 selectivity. We assembled a versioned
+registry of published NR4A chemistry with cross-checked structures (the Zaienne NOR-1 inverse-agonist lead
+compound 19, the NR4A1/Nur77 and NR4A2/Nurr1 direct binders, NR-V04; SI §S10) and docked the reversible
+discriminators into the state-matched opened NR4A3/NR4A1/NR4A2 pockets. **The pocket model *accommodates*
+every published active (docking ΔG −5 to −9 kcal/mol) but does not *discriminate* paralogues:** only THPN's
+known NR4A1 preference is cleanly recovered, the rest fall within docking noise, and multi-snapshot MM-GBSA
+does not rescue it — it labels *both* neutral NR4A1 ligands (THPN, TMPA) as **false NR4A3-selective** (the
+opened NR4A3 frame is intrinsically more accommodating) and the charged 4-aminoquinolines show
+protonation-fragile electrostatic artifacts. This is an independent, external confirmation of the same limit
+the decoy null and the protonation-fragility of `denovo_111` establish internally: **paralogue selectivity
+cannot rest on docking or single-frame MM-GBSA; it requires FEP with resolved microstates and ensemble
+controls, or must be hedged accordingly** (SI §S10).
+
 ### 2.7 Multi-frame rescoring retains one candidate for higher-tier evaluation (`denovo_401`)
 The decoy control (§2.6) showed the *raw* single-snapshot MM-GBSA margin is non-specific. We built the
 follow-up tier the §2.6 plan named — **multi-snapshot endpoint MM-GBSA** (`endpoint_dG_multisnapshot`:
