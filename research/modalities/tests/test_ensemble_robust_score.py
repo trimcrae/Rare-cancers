@@ -265,3 +265,66 @@ def test_rank_candidates_orders_by_worst_case_S_and_puts_none_last():
     assert ranked[2]["name"] == "nodata"
     assert ranked[2]["S"] is None
     assert [r["rank"] for r in ranked] == [1, 2, 3]
+
+
+# ---------------------------------------------------------------------------
+# extended objective: counterexample (C) + liability (L) + sign-reversal terms
+# ---------------------------------------------------------------------------
+def _panel_with_reversals():
+    # NR4A3 favoured in cA/cB but a paralogue clearly beats it in cC (strong counterexample) and
+    # ties-slightly-negative in cD (a sign reversal that is NOT a strong counterexample).
+    return {
+        "3": {"cA": 9.0, "cB": 8.0, "cC": 3.0, "cD": 4.5},
+        "1": {"cA": 4.0, "cB": 3.0, "cC": 6.0, "cD": 5.0},   # cC margin 3-6=-3 (strong); cD 4.5-5=-0.5
+        "2": {"cA": 3.0, "cB": 4.0, "cC": 2.0, "cD": 2.0},
+    }
+
+
+def test_counterexample_report_counts_strong_vs_any_reversal():
+    m = ers.per_conformer_margins(_panel_with_reversals())   # {cA:5, cB:4, cC:-3, cD:-0.5}
+    r = ers.counterexample_report(m, threshold=1.0)
+    assert r["n_sign_reversals"] == 2                        # cC and cD both < 0
+    assert r["n_counterexamples"] == 1                       # only cC is <= -1.0 (strong)
+    assert r["counterexample_conformers"] == ["cC"]
+    assert r["worst_counterexample"] == -3.0
+    assert r["worst_counterexample_at"] == "cC"
+
+
+def test_robust_score_S_unchanged_but_S_ext_penalises_counterexamples():
+    sc = _panel_with_reversals()
+    rs = ers.robust_score(sc, gamma_c=1.0, eta=0.5, liabilities=None, counterexample_threshold=1.0)
+    # base S is the pure energetic core (no C/L): worst_nr4a3 - SD - worst_paralogue
+    worst3 = 3.0
+    sd = ers._population_sd([9.0, 8.0, 3.0, 4.5])
+    worst_par = 6.0                                          # NR4A1 cC
+    assert math.isclose(rs["S"], worst3 - sd - worst_par)
+    # S_ext subtracts gamma_c * 1 strong counterexample (no liabilities)
+    assert math.isclose(rs["S_ext"], rs["S"] - 1.0 * 1)
+    assert rs["n_counterexamples"] == 1 and rs["n_sign_reversals"] == 2
+
+
+def test_robust_score_liability_term_only_in_S_ext():
+    sc = _panel_scores()                                     # clean, no reversals
+    base = ers.robust_score(sc, liabilities=None)
+    withL = ers.robust_score(sc, eta=0.5, liabilities=4)     # 4 structural alerts
+    assert base["n_counterexamples"] == 0
+    assert math.isclose(base["S_ext"], base["S"])            # no C, no L -> S_ext == S
+    assert withL["S"] == base["S"]                           # S never sees the liability
+    assert math.isclose(withL["S_ext"], withL["S"] - 0.5 * 4)
+
+
+def test_robust_score_S_ext_none_when_S_none():
+    sc = {"3": {"cA": 9.0, "cB": 8.0}}                       # no paralogues -> S None
+    rs = ers.robust_score(sc, liabilities=3)
+    assert rs["S"] is None and rs["S_ext"] is None
+
+
+def test_rank_by_S_ext_demotes_a_counterexample_ridden_candidate():
+    clean = _panel_scores()                                  # no counterexamples
+    dirty = _panel_with_reversals()                          # one strong counterexample
+    ranked = ers.rank_candidates({"clean": clean, "dirty": dirty}, key="S_ext",
+                                 liabilities_by_name={"clean": 0, "dirty": 0})
+    assert ranked[0]["name"] == "clean"
+    assert ranked[0]["n_counterexamples"] == 0
+    dirty_row = next(r for r in ranked if r["name"] == "dirty")
+    assert dirty_row["n_counterexamples"] == 1

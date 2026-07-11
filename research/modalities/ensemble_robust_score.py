@@ -62,6 +62,18 @@ PARALOGUES = ("1", "2")
 LAMBDA = 1.0
 GAMMA = 1.0
 
+# EXTENDED objective (S_ext) weights. The redesign plan asks for the fuller ranking objective
+#   S_ext = min_c M_{3,c} - lambda*SD - gamma*max B - gamma_c*C - eta*L
+# adding an explicit anti-target-COUNTEREXAMPLE term C (# panel conformers where a paralogue is CLEARLY
+# favoured) and a chemical-LIABILITY term L (structural-alert count). These are kept in a SEPARATE
+# S_ext, never folded into S, so the base S stays a pure energetic quantity (design note above) while the
+# ranking can optionally penalise molecules that fail in some frames or carry developability liabilities.
+GAMMA_C = 1.0                 # per strong anti-target counterexample (favourability units)
+ETA = 0.5                     # per chemical-liability alert (favourability units)
+# A "strong" counterexample = a conformer whose selectivity margin is at least this far BELOW zero (a
+# paralogue clearly beats NR4A3 there, not just a near-tie). Distinguishes a real reversal from noise.
+COUNTEREXAMPLE_THRESHOLD = 1.0
+
 # A panel needs at least this many scored NR4A3 conformers before its SD (conformer sensitivity) is
 # meaningful. With 1 conformer SD is trivially 0 and would make a single-frame candidate look robust.
 MIN_CONFORMERS_FOR_SD = 2
@@ -124,7 +136,30 @@ def per_conformer_margins(scores, paralogues=PARALOGUES, target=TARGET):
     return out
 
 
-def robust_score(scores, lam=LAMBDA, gamma=GAMMA, paralogues=PARALOGUES, target=TARGET):
+def counterexample_report(margins, threshold=COUNTEREXAMPLE_THRESHOLD):
+    """Summarise where a candidate's per-conformer selectivity margin turns AGAINST NR4A3.
+
+    `margins`: {conformer_id -> margin} (favourability units; >0 = NR4A3-favoured), e.g. from
+    per_conformer_margins(). Returns:
+      n_sign_reversals       : # conformers with margin < 0            (any reversal, incl. near-ties),
+      n_counterexamples      : # conformers with margin <= -threshold  (STRONG paralogue counterexamples),
+      counterexample_conformers : sorted ids of the strong counterexamples,
+      worst_counterexample   : the most-negative margin (None if no margins),
+      worst_counterexample_at: the conformer achieving it.
+    Pure; threshold >= 0."""
+    items = [(c, m) for c, m in (margins or {}).items() if m is not None]
+    n_rev = sum(1 for _, m in items if m < 0)
+    cx = sorted(c for c, m in items if m <= -abs(threshold))
+    worst = min(items, key=lambda cm: cm[1]) if items else None
+    return {"n_sign_reversals": n_rev, "n_counterexamples": len(cx),
+            "counterexample_conformers": cx,
+            "worst_counterexample": (worst[1] if worst else None),
+            "worst_counterexample_at": (worst[0] if worst else None)}
+
+
+def robust_score(scores, lam=LAMBDA, gamma=GAMMA, paralogues=PARALOGUES, target=TARGET,
+                 gamma_c=GAMMA_C, eta=ETA, liabilities=None,
+                 counterexample_threshold=COUNTEREXAMPLE_THRESHOLD):
     """The ensemble-robust score S for ONE candidate over ONE conformer panel.
 
     Returns a dict:
@@ -139,9 +174,17 @@ def robust_score(scores, lam=LAMBDA, gamma=GAMMA, paralogues=PARALOGUES, target=
       mean_margin        : mean_c margin,
       n_nr4a3            : # conformers with an NR4A3 score,
       n_margin           : # conformers with a computable margin,
-      S                  : min_c M_{3,c} - lam*SD - gamma*worst_paralogue,
-      lam, gamma         : echoed weights.
-    Missing numbers propagate as None (never 0). Pure."""
+      n_sign_reversals   : # conformers where the margin turns against NR4A3 (margin < 0),
+      n_counterexamples  : # STRONG anti-target counterexamples (margin <= -counterexample_threshold),
+      counterexample_conformers : sorted ids of those strong counterexamples,
+      liabilities        : the chemical-liability count passed in (echoed; None if not supplied),
+      S                  : min_c M_{3,c} - lam*SD - gamma*worst_paralogue     (PURE ENERGETIC core, unchanged),
+      S_ext              : S - gamma_c*n_counterexamples - eta*(liabilities or 0)  (full ranking objective),
+      lam, gamma, gamma_c, eta, counterexample_threshold : echoed weights.
+    Missing numbers propagate as None (never 0). S_ext is None whenever S is None. Pure.
+
+    S stays a pure energetic quantity; the counterexample (C) and liability (L) penalties live only in
+    S_ext (redesign plan). Pass `liabilities` = structural_alerts count (int) to activate the L term."""
     tgt_vals = list((scores.get(target, {}) or {}).values())
     worst_nr4a3 = min(_clean(tgt_vals)) if _clean(tgt_vals) else None
     mean_nr4a3 = _mean(tgt_vals)
@@ -161,10 +204,13 @@ def robust_score(scores, lam=LAMBDA, gamma=GAMMA, paralogues=PARALOGUES, target=
     margins = per_conformer_margins(scores, paralogues, target)
     min_margin = min(margins.values()) if margins else None
     mean_margin = _mean(list(margins.values()))
+    cx = counterexample_report(margins, counterexample_threshold)
 
     S = None
     if worst_nr4a3 is not None and sd is not None and worst_paralogue is not None:
         S = worst_nr4a3 - lam * sd - gamma * worst_paralogue
+    liab = None if liabilities is None else int(liabilities)
+    S_ext = None if S is None else S - gamma_c * cx["n_counterexamples"] - eta * (liab or 0)
 
     return {
         "worst_nr4a3": worst_nr4a3, "mean_nr4a3": mean_nr4a3,
@@ -172,7 +218,13 @@ def robust_score(scores, lam=LAMBDA, gamma=GAMMA, paralogues=PARALOGUES, target=
         "worst_paralogue": worst_paralogue, "worst_paralogue_at": worst_at,
         "per_conformer_margin": margins, "min_margin": min_margin, "mean_margin": mean_margin,
         "n_nr4a3": n_nr4a3, "n_margin": len(margins),
-        "S": S, "lam": lam, "gamma": gamma,
+        "n_sign_reversals": cx["n_sign_reversals"], "n_counterexamples": cx["n_counterexamples"],
+        "counterexample_conformers": cx["counterexample_conformers"],
+        "worst_counterexample": cx["worst_counterexample"],
+        "liabilities": liab,
+        "S": S, "S_ext": S_ext,
+        "lam": lam, "gamma": gamma, "gamma_c": gamma_c, "eta": eta,
+        "counterexample_threshold": counterexample_threshold,
     }
 
 
@@ -382,18 +434,25 @@ def advancement_verdict(scores, roles, benchmark_scores=None,
 # ranking a field of candidates
 # ---------------------------------------------------------------------------
 def rank_candidates(candidates, lam=LAMBDA, gamma=GAMMA, paralogues=PARALOGUES, target=TARGET,
-                    key="S"):
+                    key="S", gamma_c=GAMMA_C, eta=ETA, liabilities_by_name=None,
+                    counterexample_threshold=COUNTEREXAMPLE_THRESHOLD):
     """Rank a field of candidates by worst-case robustness.
 
-    `candidates`: {name -> scores-dict}. `key`: "S" (default) or "min_margin". Candidates whose key is
-    None (incomputable on their panel) sort LAST, in stable name order. Returns a list of
-    {name, rank, S, min_margin, worst_nr4a3, sensitivity, worst_paralogue}, best first. Pure."""
+    `candidates`: {name -> scores-dict}. `key`: "S" (default), "S_ext" (adds counterexample+liability
+    penalties) or "min_margin". `liabilities_by_name`: optional {name -> structural-alert count} feeding
+    the S_ext liability term (missing -> None -> no L penalty). Candidates whose key is None (incomputable
+    on their panel) sort LAST, in stable name order. Returns a list of {name, rank, S, S_ext, min_margin,
+    worst_nr4a3, sensitivity, worst_paralogue, n_counterexamples, n_sign_reversals}, best first. Pure."""
+    liabilities_by_name = liabilities_by_name or {}
     rows = []
     for name, sc in (candidates or {}).items():
-        rs = robust_score(sc, lam, gamma, paralogues, target)
-        rows.append({"name": name, "S": rs["S"], "min_margin": rs["min_margin"],
+        rs = robust_score(sc, lam, gamma, paralogues, target, gamma_c, eta,
+                          liabilities_by_name.get(name), counterexample_threshold)
+        rows.append({"name": name, "S": rs["S"], "S_ext": rs["S_ext"], "min_margin": rs["min_margin"],
                      "worst_nr4a3": rs["worst_nr4a3"], "sensitivity": rs["sensitivity"],
-                     "worst_paralogue": rs["worst_paralogue"]})
+                     "worst_paralogue": rs["worst_paralogue"],
+                     "n_counterexamples": rs["n_counterexamples"],
+                     "n_sign_reversals": rs["n_sign_reversals"]})
     rows.sort(key=lambda r: (r[key] is None, -(r[key] if r[key] is not None else 0.0), r["name"]))
     for i, r in enumerate(rows, 1):
         r["rank"] = i
