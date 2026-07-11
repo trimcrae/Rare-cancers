@@ -1,0 +1,57 @@
+name: Report NR-V04 / VHL ternary benchmark (AWS)
+
+# Read-only pull of s3://<default-bucket>/<output_prefix>/ (the NR-V04/VHL Boltz ternary ensemble) → the
+# VHL-specific benchmark analysis (report_nrv04.py): VH032-seating control + per-seed bridging / ligand-iPTM
+# / exposed-Lys readouts, and the single_leg_first pilot gate (PROCEED/ABORT). Commits the report JSON back to
+# the triggering branch so the verdict is provenance-tracked. REQUIRES AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+      output_prefix:
+        description: "S3 prefix the NR-V04 ternary job wrote to"
+        default: "nrv04-ternary-pilot"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3 gemmi
+      - name: Read + report NR-V04 ternary output
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          OUTPUT_PREFIX: ${{ inputs.output_prefix }}
+          OUT: research/modalities/report_nrv04.json
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
+            exit 1
+          fi
+          python research/modalities/report_nrv04.py | tee /tmp/nrv04_report.txt
+      - name: Commit the report JSON back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/report_nrv04.json || true
+          if git diff --cached --quiet; then
+            echo "no change to report_nrv04.json"
+          else
+            git commit -m "NR-V04 ternary benchmark report (auto, from S3 ${{ inputs.output_prefix }})"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
