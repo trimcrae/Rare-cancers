@@ -583,16 +583,20 @@ derive Kd values from the current raw ABFE absolutes (whose scale is not validat
 
 **A family-matched retrospective benchmark provides exploratory concordance, but not validation of
 ternary-selectivity prediction.** We applied the co-folding workflow to **NR-V04**, a VHL-recruiting PROTAC
-reported to degrade NR4A1 while sparing NR4A2 and NR4A3. Across three diffusion seeds, the top-ranked
-prediction satisfied the current whole-ligand contact criterion for both target and VHL in NR4A1 (3/3 seeds),
-but not in NR4A2 or NR4A3 (0/3 each). In contrast, mean ligand-iPTM did not reproduce the degradation ordering,
-being higher for the spared NR4A2 than for NR4A1. Thus, in this single retrospective example, a pre-specified
-contact-based geometric readout was concordant with the known phenotype whereas ligand-iPTM alone was not.
-Productive geometry was elevated to the primary interpretive readout *after* inspection of the confidence-score
-result, and this analysis should therefore be regarded as **exploratory**. Additional limitations are that the
-current classifier uses whole-ligand minimum distances rather than moiety-specific pocket occupancy, only one
-top-ranked model per seed was analyzed, celastrol's covalent engagement of NR4A1 Cys551 was not modeled, and
-the Cullin–RING/E2~Ub machinery was absent. Moreover, the published degradation phenotype does not establish
+reported to degrade NR4A1 while sparing NR4A2 and NR4A3. Across three diffusion seeds, a **moiety-specific**
+contact criterion — the celastrol end within 4.5 Å of the NR4A target **and** the VH032 end within 4.5 Å of VHL,
+assigned via the ligand's single sulfur so wrong-end/linker/surface contacts do not count — was satisfied for
+NR4A1 in **2/3 seeds** but **0/3** for NR4A2 and NR4A3, and the separation was robust across 4.0/4.5/5.0 Å and to
+leave-one-seed-out. (A naïve whole-ligand minimum-distance test scored NR4A1 3/3, over-counting one seed that
+the moiety test flags as a wrong-end contact — wrong-end fraction 0.33 for NR4A1 vs 1.0 for both spared
+paralogues.) In contrast, mean ligand-iPTM did not reproduce the degradation ordering, being higher for the
+spared NR4A2 than for NR4A1. Thus, in this single retrospective example, a contact-based geometric readout was
+concordant with the known phenotype whereas ligand-iPTM alone was not. Productive geometry was elevated to the
+primary interpretive readout *after* inspection of the confidence-score result, and this analysis should
+therefore be regarded as **exploratory**. Additional limitations are that only three seeds and one top-ranked
+model per seed were analyzed (n = 3 samples, one an NR4A1 wrong-end artefact — thin), celastrol's covalent
+engagement of NR4A1 Cys551 was not modeled (a distance proxy only), and the Cullin–RING/E2~Ub machinery was
+absent. Moreover, the published degradation phenotype does not establish
 that cross-paralogue selectivity is *caused* by ternary geometry. The benchmark therefore motivates
 pre-registered comparative evaluation of linker architectures, but it does **not** validate predictive accuracy
 for NR4A3-selective degradation. Under the same exploratory classifier, the representative `denovo_401`–CRBN
