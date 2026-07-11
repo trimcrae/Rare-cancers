@@ -1,0 +1,138 @@
+{
+  "prefix": "nrv04-ternary-pilot",
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "mode": "pilot",
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "ground_truth": {
+    "NR4A1": "degraded",
+    "NR4A2": "spared",
+    "NR4A3": "spared"
+  },
+  "control": null,
+  "systems": {
+    "nr4a1": {
+      "system": "nr4a1",
+      "kind": "ternary",
+      "n_seeds": 3,
+      "per_seed": [
+        {
+          "seed": "seed_1",
+          "confidence": {
+            "confidence_score": 0.7316,
+            "ptm": 0.5696,
+            "iptm": 0.4907,
+            "ligand_iptm": 0.8193,
+            "protein_iptm": 0.4647,
+            "complex_plddt": 0.7918,
+            "complex_iplddt": 0.7004
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 2.44,
+            "lig_to_vhl_A": 2.61,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 3.59,
+              "counts": {
+                "8A": 1,
+                "12A": 1,
+                "16A": 3
+              }
+            }
+          }
+        },
+        {
+          "seed": "seed_2",
+          "confidence": {
+            "confidence_score": 0.7912,
+            "ptm": 0.8014,
+            "iptm": 0.7687,
+            "ligand_iptm": 0.9103,
+            "protein_iptm": 0.7519,
+            "complex_plddt": 0.7968,
+            "complex_iplddt": 0.6768
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 3.14,
+            "lig_to_vhl_A": 2.64,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 3.25,
+              "counts": {
+                "8A": 1,
+                "12A": 2,
+                "16A": 4
+              }
+            }
+          }
+        },
+        {
+          "seed": "seed_3",
+          "confidence": {
+            "confidence_score": 0.7314,
+            "ptm": 0.5702,
+            "iptm": 0.496,
+            "ligand_iptm": 0.8399,
+            "protein_iptm": 0.4624,
+            "complex_plddt": 0.7902,
+            "complex_iplddt": 0.6813
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 3.29,
+            "lig_to_vhl_A": 2.31,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 214,
+              "dist_A": 9.72,
+              "counts": {
+                "8A": 0,
+                "12A": 1,
+                "16A": 4
+              }
+            }
+          }
+        }
+      ],
+      "ensemble": {
+        "ligand_iptm": {
+          "n": 3,
+          "mean": 0.8565,
+          "min": 0.8193,
+          "max": 0.9103,
+          "sd": 0.039
+        },
+        "iptm": {
+          "n": 3,
+          "mean": 0.5851,
+          "min": 0.4907,
+          "max": 0.7687,
+          "sd": 0.1298
+        },
+        "bridged_fraction": 1.0,
+        "n_bridged": 3,
+        "n_scored": 3,
+        "closest_lys_A": {
+          "n": 3,
+          "mean": 5.52,
+          "min": 3.25,
+          "max": 9.72,
+          "sd": 2.9731
+        }
+      }
+    }
+  },
+  "pilot_gate": {
+    "verdict": "ABORT",
+    "reason": "control did NOT seat VH032 in VHL (workflow suspect) \u2192 do not spend on the full paralogue fleet; fix the workflow first.",
+    "control_ok": false,
+    "nr4a1_ok": true
+  }
+}
