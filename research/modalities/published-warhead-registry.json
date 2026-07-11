@@ -158,24 +158,17 @@
         "pdb": "4JGV",
         "ref": "Zhan et al. (Nur77 LBD-THPN cocrystal)"
       },
+      "expected_mw": 266.33,
       "structure": {
         "structure_confidence": "high",
         "n_resolvers_agreeing": 4,
         "independent_agreement": true,
         "skeleton_disagreement": true,
-        "mw_disambiguated": false,
-        "expected_mw": null,
+        "mw_disambiguated": true,
+        "expected_mw": 266.33,
         "smiles": "CCCCCCCCC(=O)c1cc(O)c(O)c(O)c1",
         "inchikey": "NVFRHTFJDGAFQS-UHFFFAOYSA-N",
         "per_resolver": [
-          {
-            "source": "chembl",
-            "source_id": "CHEMBL575966",
-            "query": "THPN nuclear receptor",
-            "smiles": "Cc1onc(-c2ccccc2Cl)c1C(=O)N(C)c1ccc(Cl)cc1",
-            "mw": 361.23,
-            "inchikey": "IGRCWJPBLWGNPX-UHFFFAOYSA-N"
-          },
           {
             "source": "chembl",
             "source_id": "CHEMBL464853",
@@ -199,6 +192,14 @@
             "smiles": "O=C(CCCCCCCCc1ccc(O)cc1)c1c(O)cc(O)cc1O",
             "mw": 358.43,
             "inchikey": "XNMKFKNNXSUXRV-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL575966",
+            "query": "THPN nuclear receptor",
+            "smiles": "Cc1onc(-c2ccccc2Cl)c1C(=O)N(C)c1ccc(Cl)cc1",
+            "mw": 361.23,
+            "inchikey": "IGRCWJPBLWGNPX-UHFFFAOYSA-N"
           }
         ]
       },
@@ -321,6 +322,7 @@
       "source": {
         "ref": "Safe et al. (C-DIM/NR4A1 series)"
       },
+      "structure_caveat": "Name resolution is UNRELIABLE for this compound: 'DIM-C-pPhOH' resolves to CHEMBL6196044 (MW ~255), inconsistent with a bis-indolyl (4-hydroxyphenyl)methane (~338 Da) and CONFLATED with the C-DIM12 name. Do NOT feed the name-resolved structure to a docking benchmark; source its SMILES from the Safe-lab paper.",
       "structure": {
         "structure_confidence": "medium",
         "n_resolvers_agreeing": 4,
@@ -328,17 +330,9 @@
         "skeleton_disagreement": true,
         "mw_disambiguated": false,
         "expected_mw": null,
-        "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
-        "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N",
+        "smiles": "c1ccc2c(Cc3c[nH]c4ccccc34)c[nH]c2c1",
+        "inchikey": "VFTRKSBEFQDZKX-UHFFFAOYSA-N",
         "per_resolver": [
-          {
-            "source": "chembl",
-            "source_id": "CHEMBL6196044",
-            "query": "DIM-C-pPhOH",
-            "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
-            "mw": 255.4,
-            "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N"
-          },
           {
             "source": "chembl",
             "source_id": "CHEMBL446452",
@@ -357,6 +351,14 @@
           },
           {
             "source": "chembl",
+            "source_id": "CHEMBL6196044",
+            "query": "DIM-C-pPhOH",
+            "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
+            "mw": 255.4,
+            "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N"
+          },
+          {
+            "source": "chembl",
             "source_id": "CHEMBL3350556",
             "query": "C-DIM8",
             "smiles": "CO[C@H]1[C@H](O)[C@@H](O)[C@H](n2c3c(Cl)cccc3c3c4c(c5c6cccc(Cl)c6[nH]c5c32)C(=O)NC4)O[C@@H]1CO.CO[C@H]1[C@H](O)[C@@H](O)[C@H](n2c3c(Cl)cccc3c3c4c(c5c6cccc(Cl)c6[nH]c5c32)CNC4=O)O[C@@H]1CO",
@@ -366,16 +368,16 @@
         ]
       },
       "cheminformatics": {
-        "MW": 255.4,
-        "cLogP": 3.68,
-        "HBD": 0,
-        "HBA": 1,
-        "TPSA": 3.2,
-        "RotB": 0,
-        "FractionCsp3": 0.67,
-        "aromatic_rings": 1,
-        "QED": 0.683,
-        "SAscore": 4.02,
+        "MW": 246.3,
+        "cLogP": 4.24,
+        "HBD": 2,
+        "HBA": 0,
+        "TPSA": 31.6,
+        "RotB": 2,
+        "FractionCsp3": 0.06,
+        "aromatic_rings": 4,
+        "QED": 0.53,
+        "SAscore": 1.9,
         "Ro5_violations": 0,
         "beyond_Ro5": false,
         "veber_pass": true,
@@ -706,6 +708,7 @@
         "pmid": "33289551",
         "ref": "Munoz-Tello 2021 (non-binder); Safe/De Miranda C-DIM12"
       },
+      "structure_caveat": "Name resolution is UNRELIABLE: 'DIM-C-pPhtBu' resolves to the SAME record as C-DIM8 (CHEMBL6196044, MW ~255), inconsistent with a bis-indolyl (4-tert-butylphenyl)methane (~378 Da). Do NOT trust the name-resolved structure; source SMILES from the primary paper before any docking use.",
       "structure": {
         "structure_confidence": "medium",
         "n_resolvers_agreeing": 4,
@@ -713,17 +716,9 @@
         "skeleton_disagreement": true,
         "mw_disambiguated": false,
         "expected_mw": null,
-        "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
-        "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N",
+        "smiles": "c1ccc2c(Cc3c[nH]c4ccccc34)c[nH]c2c1",
+        "inchikey": "VFTRKSBEFQDZKX-UHFFFAOYSA-N",
         "per_resolver": [
-          {
-            "source": "chembl",
-            "source_id": "CHEMBL6196044",
-            "query": "DIM-C-pPhtBu",
-            "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
-            "mw": 255.4,
-            "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N"
-          },
           {
             "source": "chembl",
             "source_id": "CHEMBL446452",
@@ -742,6 +737,14 @@
           },
           {
             "source": "chembl",
+            "source_id": "CHEMBL6196044",
+            "query": "DIM-C-pPhtBu",
+            "smiles": "Cc1ccc2c(c1)[C@@]13CCCC[C@@H]1[C@H](C2)N(C)CC3",
+            "mw": 255.4,
+            "inchikey": "KBEZZLAAKIIPFK-BPQIPLTHSA-N"
+          },
+          {
+            "source": "chembl",
             "source_id": "CHEMBL2376559",
             "query": "C-DIM12",
             "smiles": "Clc1ccc(C(c2c[nH]c3ccccc23)c2c[nH]c3ccccc23)cc1",
@@ -751,16 +754,16 @@
         ]
       },
       "cheminformatics": {
-        "MW": 255.4,
-        "cLogP": 3.68,
-        "HBD": 0,
-        "HBA": 1,
-        "TPSA": 3.2,
-        "RotB": 0,
-        "FractionCsp3": 0.67,
-        "aromatic_rings": 1,
-        "QED": 0.683,
-        "SAscore": 4.02,
+        "MW": 246.3,
+        "cLogP": 4.24,
+        "HBD": 2,
+        "HBA": 0,
+        "TPSA": 31.6,
+        "RotB": 2,
+        "FractionCsp3": 0.06,
+        "aromatic_rings": 4,
+        "QED": 0.53,
+        "SAscore": 1.9,
         "Ro5_violations": 0,
         "beyond_Ro5": false,
         "veber_pass": true,
