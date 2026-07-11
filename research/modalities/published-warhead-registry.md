@@ -97,16 +97,33 @@ CRBN. Stored as a verified **composite** (celastrol + VH032 resolved separately)
 control) and **lenalidomide** (CRBN; the in-distribution ternary positive control that seats in the CRBN
 tri-Trp pocket in this program's §2.4).
 
-## Two data-quality catches (the cross-check working)
+## Data-quality catches (the cross-check working) — and why the docking benchmark must use verified SMILES
+
+The cross-check surfaced four name-resolution problems; each is handled honestly rather than papered over.
+**The load-bearing consequence:** a docking benchmark must consume the registry's **InChIKey-verified SMILES**,
+**not** a single database's name lookup — because the ChEMBL name resolver (which the existing `nr4a3_dock.py`
+uses) returns the *wrong structure* for several of these compounds.
 
 - **NR-V04 name collision.** Name-resolving "NR-V04" returns **CHEMBL4779766, a CRBN/glutarimide-PEG PROTAC**,
   which *contradicts* Wang 2024's **VHL-recruiting celastrol** NR-V04 (brief 3.3). The auto-resolved record is
-  therefore **not** this compound and is **rejected** rather than trusted; NR-V04 is kept as a verified
-  composite of its (independently resolved) celastrol warhead + VH032 VHL ligand. (Golden rule: verify or leave
-  unresolved.)
-- **DHI derivative substitution.** ChEMBL's name search for "5,6-dihydroxyindole" returned an
-  N-ethyl-indole-2-carboxylic-acid **derivative** (wrong mass ~221 Da) while CACTUS returned the correct parent
-  indole (~149 Da). The `expected_mw = 149.15` disambiguator selects the parent.
+  **rejected**, not trusted; NR-V04 is kept as a verified composite of its (independently resolved) celastrol
+  warhead + VH032 VHL ligand. (Golden rule: verify or leave unresolved.)
+- **DHI derivative substitution.** ChEMBL's search for "5,6-dihydroxyindole" returned an
+  N-ethyl-indole-2-carboxylic-acid **derivative** (~221 Da) while CACTUS returned the correct parent indole
+  (~149 Da). The `expected_mw = 149.15` disambiguator selects the parent (high confidence after correction).
+- **THPN mis-match.** ChEMBL's "THPN" name resolves to **CHEMBL575966 (MW 361)**, not THPN
+  (1-(3,4,5-trihydroxyphenyl)nonan-1-one, C15H22O4 = 266.3). The multi-resolver consensus + `expected_mw = 266.33`
+  recover the correct structure (PubChem/CACTUS via the IUPAC synonym) — but a ChEMBL-name-only docking of "THPN"
+  would dock the **wrong molecule**.
+- **C-DIM8 / C-DIM12 conflation.** "DIM-C-pPhOH" and "DIM-C-pPhtBu" both resolve to the **same** record
+  (CHEMBL6196044, MW ~255), inconsistent with a bis-indolyl-methane (~338 / ~378 Da). Both entries carry a
+  `structure_caveat`; their name-resolved structures must not be trusted (source SMILES from the Safe-lab paper).
+
+**Implication for Phase 5 (Gate 2 docking benchmark).** Dock the **`structure_confidence: high`** panel members
+by their registry SMILES: cytosporone B (pan-NR4A), amodiaquine + chloroquine (NR4A2/pan), THPN + TMPA
+(NR4A1-leaning), with celastrol/PGA1/DHI as flagged covalent extras. C-DIM12 is the intended non-binder control
+but only once its structure is sourced from the primary paper. **Do not** extend `nr4a3_dock.LIGAND_NAMES` by
+name for THPN or the C-DIMs — feed verified SMILES.
 
 ## Reproduce / read
 

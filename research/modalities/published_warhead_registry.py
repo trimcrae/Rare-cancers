@@ -106,8 +106,9 @@ REGISTRY = [
         "potency": "n/a (structural)",
         "selectivity_notes": "NR4A1-directed control ligand",
         "source": {"pdb": "4JGV", "ref": "Zhan et al. (Nur77 LBD-THPN cocrystal)"},
-        "resolve": ["THPN nuclear receptor", "1-(3,4,5-trihydroxyphenyl)nonan-1-one",
-                     "1-(3,4,5-trihydroxyphenyl)-1-nonanone"],
+        "expected_mw": 266.33,   # C15H22O4; rejects ChEMBL's "THPN nuclear receptor" mis-match (CHEMBL575966, MW 361)
+        "resolve": ["1-(3,4,5-trihydroxyphenyl)nonan-1-one", "1-(3,4,5-trihydroxyphenyl)-1-nonanone",
+                     "THPN nuclear receptor"],
     },
     {
         "id": "tmpa",
@@ -134,7 +135,11 @@ REGISTRY = [
         "potency": "micromolar",
         "selectivity_notes": "NR4A1-oriented functional control",
         "source": {"ref": "Safe et al. (C-DIM/NR4A1 series)"},
-        "resolve": ["DIM-C-pPhOH", "1,1-bis(3-indolyl)-1-(4-hydroxyphenyl)methane", "C-DIM8"],
+        "structure_caveat": ("Name resolution is UNRELIABLE for this compound: 'DIM-C-pPhOH' resolves to "
+                             "CHEMBL6196044 (MW ~255), inconsistent with a bis-indolyl (4-hydroxyphenyl)methane "
+                             "(~338 Da) and CONFLATED with the C-DIM12 name. Do NOT feed the name-resolved "
+                             "structure to a docking benchmark; source its SMILES from the Safe-lab paper."),
+        "resolve": ["1,1-bis(3-indolyl)-1-(4-hydroxyphenyl)methane", "DIM-C-pPhOH", "C-DIM8"],
     },
 
     # ---- 3. NR4A2 / Nurr1 ligand panel (anti-target controls; NR4A2 is the hardest paralogue to spare)
@@ -208,7 +213,11 @@ REGISTRY = [
         "potency": "micromolar (functional)",
         "selectivity_notes": "non-LBD-binder control -> the model should NOT dock it as a strong LBD binder",
         "source": {"pmid": "33289551", "ref": "Munoz-Tello 2021 (non-binder); Safe/De Miranda C-DIM12"},
-        "resolve": ["DIM-C-pPhtBu", "1,1-bis(3-indolyl)-1-(4-tert-butylphenyl)methane", "C-DIM12"],
+        "structure_caveat": ("Name resolution is UNRELIABLE: 'DIM-C-pPhtBu' resolves to the SAME record as "
+                             "C-DIM8 (CHEMBL6196044, MW ~255), inconsistent with a bis-indolyl "
+                             "(4-tert-butylphenyl)methane (~378 Da). Do NOT trust the name-resolved structure; "
+                             "source SMILES from the primary paper before any docking use."),
+        "resolve": ["1,1-bis(3-indolyl)-1-(4-tert-butylphenyl)methane", "DIM-C-pPhtBu", "C-DIM12"],
     },
 
     # ---- 4. NR-V04 reference degrader + controls (Wang 2024) — stored separately (covalent warhead) --
