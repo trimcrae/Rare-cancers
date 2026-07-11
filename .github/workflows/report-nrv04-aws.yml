@@ -16,6 +16,10 @@ on:
         description: "S3 prefix the NR-V04 ternary job wrote to"
         default: "nrv04-ternary-pilot"
         required: false
+      out_name:
+        description: "report JSON filename (use a distinct name for shakeouts so the canonical report_nrv04.json is not clobbered)"
+        default: "report_nrv04.json"
+        required: false
 
 permissions:
   contents: write
@@ -37,7 +41,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           OUTPUT_PREFIX: ${{ inputs.output_prefix }}
-          OUT: research/modalities/report_nrv04.json
+          OUT: research/modalities/${{ inputs.out_name }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
@@ -48,7 +52,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/report_nrv04.json || true
+          git add research/modalities/${{ inputs.out_name }} || true
           if git diff --cached --quiet; then
             echo "no change to report_nrv04.json"
           else
