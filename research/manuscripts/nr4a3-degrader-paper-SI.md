@@ -550,3 +550,34 @@ EMC-program paper ([`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)); **
 is the target's druggability/selectivity, not EMC efficacy.**
 
 **Safety/tolerability, and the pan-NR4A/CAR-T pole — bounded in SI §S6 and §S4.** The systemic lead's tolerability case (the NR4A family's proliferative dispensability by DepMap; the *myeloid* NR4A1↔NR4A3 redundancy that makes NR4A1-sparing mandatory; broad NR4A1/NR4A3 co-expression; PK/CNS restriction) is quantified in **SI §S6**. Two load-bearing caveats carry back into main text: human germline genetics (gnomAD) **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a safety requirement** — NR4A2 is the most LoF-constrained *and* CNS-enriched paralogue (LOEUF 0.094), NR4A3 borderline (LOEUF 0.37, pLI-intolerant) — and single-KO tolerability remains an *assumption* (no phenotyped IMPC KO for any of the three). The pan-NR4A / CAR-T pole is bounded separately and more tightly in **SI §S4** (chemical-feasibility only — the framework can *design* a pan-NR4A binder, not that it reverses T-cell exhaustion — plus an ex-vivo washout/exposure parameter).
+
+## S10. The published-warhead registry — the experimentally anchored NR4A chemistry (Workstream B)
+
+The brief gives *published* NR4A chemistry the same or greater priority as internally generated molecules:
+denovo_401 must compete against real chemotypes, not be favoured for being ours. **SI data + provenance:**
+[`../modalities/published-warhead-registry.md`](../modalities/published-warhead-registry.md) (narrative +
+evidence) and the versioned machine-readable
+[`published-warhead-registry.json`](../modalities/published-warhead-registry.json) (v1.0.0), built by
+[`published_warhead_registry.py`](../modalities/published_warhead_registry.py) on a CPU runner.
+
+**What it assembles, with evidence class + source per compound:** the **Zaienne 2022** NOR-1
+fragment→low-µM-inverse-agonist series [ref 5] (the primary published NR4A3 warhead source; individual member
+structures are behind the paywall and are recorded **unresolved**, not invented); the **NR4A1/Nur77** panel
+(cytosporone B — a *pan*-NR4A direct binder [Zhan 2008; Munoz-Tello 2021]; THPN — Nur77 LBD cocrystal PDB 4JGV;
+TMPA and C-DIM8 — functional); the **NR4A2/Nurr1** panel (amodiaquine, chloroquine — direct Nurr1 LBD binders
+by NMR [Munoz-Tello 2021]; DHI and PGA1 — the only NR4A2 cocrystal ligands, both **covalent** to Cys566;
+C-DIM12 — a functional **non-binder** control); and **NR-V04** [ref 12] as a verified composite
+(celastrol warhead + VH032 VHL ligand) alongside the CRBN handle lenalidomide.
+
+**Structure integrity.** Every named compound's isomeric SMILES/InChIKey is resolved and **cross-checked
+across three independent resolvers (ChEMBL, PubChem, NCI CACTUS)** by InChIKey skeleton; confidence is high
+(≥2 agree) / medium (1, or a flagged disagreement) / unresolved (none — kept null, never fabricated). The
+cross-check caught two mis-resolutions and handled both honestly: (i) name-resolving "NR-V04" returns a
+**CRBN/glutarimide PROTAC** (CHEMBL4779766) that contradicts the published **VHL/celastrol** composition — the
+collided record is **rejected**, not asserted; (ii) "5,6-dihydroxyindole" resolved to a carboxylic-acid
+derivative of the wrong mass in one source, corrected by an `expected_mw` disambiguator to the correct parent.
+
+**Use.** These panels are the ligand set for the Gate-2 published-chemistry docking benchmark (does the pocket
+model rationalize known active/inactive SAR and the known NR4A1-vs-NR4A2 preferences?) and the standing
+anti-target-discrimination set (a candidate resembling amodiaquine/cytosporone B is a promiscuity flag, not a
+lead). Covalent/reactive warheads (celastrol, DHI, PGA1) are flagged for special handling (brief 21.1).
