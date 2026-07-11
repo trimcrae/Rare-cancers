@@ -1,8 +1,8 @@
 {
   "_title": "NR4A3 ternary-cooperativity method — FROZEN preregistration criteria (machine-readable)",
   "_doc": "research/modalities/nr4a3-ternary-coop-prereg.md",
-  "_frozen": "2026-07-11 (before any ternary GPU spend; reviewer 'APPROVED WITH SCOPE CHANGES')",
-  "_status": "STAGE-0 FREEZE. No MD/FEP/GPU/AWS run for the ternary path. Every numeric threshold below is an a-priori design parameter, NOT a result. The gate script ternary_coop_gate.py enforces §3 against a future results dict so no criterion is re-decided post-hoc.",
+  "_frozen": "2026-07-11 (before any ternary GPU spend; reviewer 'APPROVED WITH SCOPE CHANGES', hardened after 'RETURN FOR FIXES')",
+  "_status": "STAGE-0 FREEZE. No MD/FEP/GPU/AWS run for the ternary path. Every numeric threshold below is an a-priori design parameter, NOT a result. The gate script ternary_coop_gate.py enforces §3 against a future results dict so no criterion is re-decided post-hoc; it computes class-correctness / Kendall tau-b / LOO from per-system records rather than trusting supplied summary counts, rejects non-finite numbers, and fails closed on missing safety booleans.",
   "_scope": "Track B (ternary / induced-proximity) ONLY. Does NOT touch Track A / ABFE / the denovo_401 lambda-repair.",
 
   "method": {
@@ -10,6 +10,7 @@
     "reviewer_choice": "(ii) relative ternary free energy implementing (iii) cooperativity via a binary-vs-ternary cycle; (i) ternary-MD + interface MM-GBSA is subordinate (ensemble/diagnostic only)",
     "coop_definition": "dG_coop = -RT ln(alpha)",
     "estimator": "matched relative alchemical calcs in binary AND ternary environments; ddG_coop = ddG_alch_ternary - ddG_alch_binary",
+    "uncertainty_estimator": "replicate standard deviation across >=3 independent replicas (NOT MBAR standard error); small-n handled with t-statistics on the replicate SD",
     "perturbation_types": ["ligand (degrader-analogue) morphs", "staged protein/interface perturbations where technically tractable (cross-paralogue coupling)"],
     "precedent_caveat": "combined ligand+protein FEP precedent exists for molecular GLUES; transfer to bifunctional PROTACs is itself UNVALIDATED here and is what Layer-1 tests.",
     "two_reported_quantities_never_collapsed": [
@@ -26,14 +27,9 @@
     "layer1_vhl_panel": {
       "role": "QUANTITATIVE VHL thermodynamic calibration — REQUIRED before relying on NR-V04",
       "primary_series": "Ciulli-lab SMARCA2-VHL degrader series (structurally characterized ternary complexes; ~alpha 0.2..93; multiple linker/exit-vector arrangements; inactive cis-hydroxyproline stereo controls; long MD showing ensemble diversity)",
-      "minimum_systems": 6,
-      "composition_required": {
-        "negatively_or_weakly_cooperative": 2,
-        "strongly_cooperative": 2,
-        "inactive_vhl_stereochemical_control": 1,
-        "independent_vhl_transfer_control": "preferably MZ1 (solved cooperative VHL-BRD4 ternary) or another independent VHL system"
-      },
-      "provenance_freeze_blocker": "Exact compound identities, PDB IDs, and MEASURED alpha / dG_coop are NOT asserted here and must NOT be fabricated. Extract from primary sources via a CI-runner full-text fetch (egress proxy blocks PMC/NCBI/Springer in-sandbox). Until each system carries a verified primary reference + verified measured alpha, it is provenance:unverified and cannot enter the scored panel.",
+      "provenance_freeze_blocker": "Exact compound identities, PDB IDs, and MEASURED alpha / dG_coop are NOT asserted here and must NOT be fabricated. Extract from primary sources via a CI-runner full-text fetch (egress proxy blocks PMC/NCBI/Springer in-sandbox). Until each system carries a verified primary reference + verified measured alpha, it is provenance:unverified and cannot enter the scored manifest.",
+      "expected_system_ids": [],
+      "candidate_systems_workspace_note": "A non-scored candidate_systems workspace is acceptable for curation; NO candidate may enter expected_system_ids (the frozen scored manifest) until each is primary-source verified.",
       "systems": []
     },
     "layer2_nrv04_transfer": {
@@ -43,34 +39,90 @@
     }
   },
 
+  "frozen_manifest": {
+    "_note": "Expected system and leg IDs the pilot/retrospective MUST supply. The gate validates results coverage against these. expected_system_ids for Layer-1 is empty until curated+verified (hard blocker); when non-empty the gate enforces required-subset coverage.",
+    "ternary_pilot_expected_leg_ids": [
+      "vhl_calib_hi_coop",
+      "vhl_calib_lo_coop",
+      "nrv04_active_binary_vhl",
+      "nrv04_epimer_binary_vhl",
+      "nrv04_active_nr4a1_ternary",
+      "nrv04_epimer_nr4a1_ternary"
+    ],
+    "leg_coverage_rule": "required-subset: every ternary_pilot_expected_leg_id must appear as a results['legs'][*].name (extra legs allowed)",
+    "layer1_expected_system_ids_coverage_rule": "when calibration.layer1_vhl_panel.expected_system_ids is non-empty, every id must appear (required-subset) among results['vhl_panel']['systems'][*].id"
+  },
+
   "retrospective_bar": {
-    "_note": "ALL of technical_convergence + vhl_panel + nrv04_affinity_control + nr4a_family_transfer must PASS before ANY prospective NR4A3 ternary ranking is trusted.",
+    "_note": "ALL of technical_convergence + vhl_panel + nrv04_affinity_control + nr4a_family_transfer + ci_coverage must PASS before ANY prospective NR4A3 ternary ranking is trusted.",
     "technical_convergence": {
       "min_replicas_per_leg": 3,
       "cycle_closure_or_hysteresis_kcal_max": 1.0,
       "ci95_half_width_kcal_max": 1.5,
       "min_independent_starting_poses_per_architecture": 2,
       "no_rank_reversal_under_leave_one_pose_out": true,
-      "no_restraint_or_mapping_or_microstate_pathology": true
+      "no_restraint_or_mapping_or_microstate_pathology": true,
+      "required_safety_booleans": ["rank_reversal_under_loo", "pathology"],
+      "safety_boolean_missing_behavior": "FAIL closed (a present leg record that omits a required safety attestation is a failure, never silently False)"
     },
     "vhl_panel": {
-      "correct_cooperativity_class_min_of_6": 5,
+      "min_systems": 6,
+      "require_all_verified": true,
+      "class_boundaries": {
+        "alpha_favorable_min": 2.0,
+        "alpha_unfavorable_max": 0.5,
+        "_note": "alpha >= favorable_min => 'cooperative'; alpha <= unfavorable_max => 'anti_cooperative'; strictly between (symmetric ~log2 band around 1) => 'neutral'. Boundaries symmetric in log (0.5 = 1/2.0). Classification uses the POINT estimate; a system whose measured alpha sits in the neutral band has measured class 'neutral' and predicting 'neutral' is correct."
+      },
+      "competent_definition": "predicted class == 'cooperative' (predicted alpha >= alpha_favorable_min)",
+      "class_correct_rule": "required = max(5, ceil(5/6 * n_systems)); class-correct counted over ALL systems. Scoring systems: predicted class == measured class. Inactive-control systems: correct iff predicted class != 'cooperative' (i.e. predicted non-competent).",
+      "kendall_variant": "tau_b",
       "kendall_tau_min": 0.5,
+      "kendall_scope": "systems with a finite measured_alpha AND role != 'inactive_control'",
       "no_inactive_stereo_control_classified_competent": true,
-      "survives_leave_one_compound_out": true
+      "composition_required": {
+        "min_strong_cooperative": 2,
+        "min_weak_or_negative": 2,
+        "min_inactive_control": 1,
+        "min_independent_vhl": 1,
+        "mz1_preferred": true,
+        "_note": "strong_cooperative = measured class 'cooperative'; weak_or_negative = measured class 'neutral' or 'anti_cooperative'; >=1 independent VHL system is MANDATORY (MZ1 preferred and recorded via is_mz1, but any independent_vhl==true system satisfies the count)."
+      },
+      "loo_rule": "for EVERY single-system exclusion, the remaining (n-1)-panel must still satisfy: class-correct >= max(5, ceil(5/6*(n-1))) AND kendall tau_b >= kendall_tau_min AND no inactive control classified competent. Computed in-gate from per-system records (a supplied 'survives_leave_one_compound_out' boolean is NOT trusted).",
+      "dg_coop_ci_half_width_kcal_max": 1.5,
+      "per_system_ci_note": "every scoring system record must carry a finite dg_coop_ci_half_width_kcal <= max (covers the 'panel predictions' + 'cooperativity differences' decision-quantity coverage)."
     },
     "nrv04_affinity_control": {
       "active_vs_epimer_binary_vhl_min_kcal": 3.0,
       "active_vs_epimer_binary_vhl_ci_excludes_zero": true,
       "active_vs_epimer_effective_ternary_min_kcal": 2.0,
-      "no_retained_pose_reverses_active_epimer_order": true
+      "no_retained_pose_reverses_active_epimer_order": true,
+      "sign_convention": "POSITIVE margin = active favored over epimer by that many kcal/mol",
+      "interval_rule": "ci_low and ci_high finite; ci_low <= ci_high; for the favored-active side the ENTIRE interval must be above zero => ci_low > 0 (a strictly-below-zero interval is a FAILURE, not a pass)",
+      "required_safety_booleans": ["any_retained_pose_reverses"]
     },
     "nr4a_family_transfer": {
       "nr4a1_outranks_both_nr4a2_and_nr4a3": true,
       "each_difference_min_kcal": 1.0,
       "each_difference_interval_pct_excludes_zero": 90,
       "joint_prob_nr4a1_best_min": 0.90,
-      "survives_starting_pose_and_conformer_sensitivity": true
+      "joint_prob_range": [0.0, 1.0],
+      "survives_starting_pose_and_conformer_sensitivity": true,
+      "sign_convention": "POSITIVE = NR4A1 favored over the paralogue by that many kcal/mol",
+      "interval_rule": "ci_lo and ci_hi finite; ci_lo <= ci_hi; the (e.g. 90%) interval must be entirely above zero on the NR4A1-favored side => ci_lo > 0",
+      "required_safety_booleans": ["survives_pose_and_conformer_sensitivity"]
+    },
+    "ci_coverage": {
+      "_note": "The 95% CI half-width criterion applies to EVERY decision-bearing quantity, not just per-leg entries. Results must supply a decision_quantities list covering the frozen required IDs (plus, dynamically, one dg_coop entry per VHL scoring system).",
+      "ci_half_width_kcal_max": 1.5,
+      "required_interval_level": 0.95,
+      "required_decision_quantity_ids": [
+        "nrv04_active_vs_epimer_binary_vhl",
+        "nrv04_active_vs_epimer_effective_ternary",
+        "nr4a1_vs_nr4a2_effective_recruit",
+        "nr4a1_vs_nr4a3_effective_recruit"
+      ],
+      "dynamic_coverage_rule": "for each VHL scoring system s present in results['vhl_panel']['systems'] (role != 'inactive_control'), a decision_quantity with id 'vhl_dg_coop::<s.id>' must also be present",
+      "entry_rule": "each decision_quantity must have finite estimate, ci_lo <= ci_hi (both finite), half_width consistent with (ci_hi-ci_lo)/2 within 0.05 kcal/mol, half_width <= ci_half_width_kcal_max, interval_level == required_interval_level"
     },
     "failure_semantics": "Failure of nr4a_family_transfer does NOT prove the ternary-first biological thesis false (NR-V04 selectivity could be partly downstream at ubiquitination). It DOES mean the method is NOT validated for prospective NR4A paralogue ranking and must not be manuscript authority for a selectivity claim."
   },
@@ -82,7 +134,7 @@
       "ternary": "the fixed feasibility bundle (see budget.ternary_pilot)"
     },
     "stage2_second_authorization": "if binary pilot passes, authorize a SELECTION-oriented RBFE tranche (NOT full 19-cpd fleet): anchor-rooted exit-vector series + defensible SAR-preserving analogues + required microstate legs + NR4A1/2/3 + only gate-surviving conformers; capped to identify ~2-3 warhead/exit-vector hypotheses. Carboxylate bioisosteres stay a SEPARATE pose-revalidation tranche.",
-    "stage3_ternary_prospective": "prospective NR4A3 ternary begins ONLY after vhl_panel + nrv04_affinity_control + nr4a_family_transfer all pass",
+    "stage3_ternary_prospective": "prospective NR4A3 ternary begins ONLY after vhl_panel + nrv04_affinity_control + nr4a_family_transfer + ci_coverage + technical_convergence all pass",
     "stage4_matrix": "build the degrader matrix only when 2-3 warheads survive binary RBFE + poses credible + ternary method validated + >=2 exit-vector architectures survive co-fold+ensemble checks"
   },
 
@@ -94,11 +146,28 @@
   },
 
   "combination_rule": {
-    "_note": "Frozen a priori. S_d is a ranking aid AMONG gate-passing constructs, not the gate. Binary preference (#1) and E3-ligand integrity (#2) are eligibility GATES upstream of S_d, not addends. #3 and #4 enter as SEPARATE terms, never pre-collapsed.",
-    "form": "S_d = min_c [ w_t*(eff_ternary_recruit_NR4A3 - worst_paralogue)_c + w_c*(dG_coop_NR4A3 - worst_paralogue)_c ] - lambda*SD_c - gamma*max(NR4A1/NR4A2 counterexample) - eta*linker_strain - rho*ubiq_incompatibility",
+    "_note": "Frozen a priori. S_d is a ranking aid AMONG gate-passing constructs, not the gate. Binary preference (#1) and E3-ligand integrity (#2) are eligibility GATES upstream of S_d, not addends. #3 and #4 enter as SEPARATE terms, never pre-collapsed. This is the FORMAL definition (reviewer fix 7); a light meta-test asserts every field below is present.",
+    "form": "S_d = min_c [ w_t * m_t(c) + w_c * m_c(c) ] - lambda*SD(c*) - gamma*counterexample - eta*strain_norm - rho*ubiq_incompat",
+    "ranking_direction": "HIGHER S_d is better (all terms pre-converted so a positive contribution = NR4A3 favored / lower liability)",
+    "term_definitions": {
+      "c": "index over the frozen conformer/context ensemble = the role-tagged frames of nr4a3-conformer-panel.json (the same worst-conformer axis ensemble_robust_score.py uses)",
+      "min_c": "worst-context (most conservative) selection over c; c* = the arg-min context",
+      "m_t(c)": "effective-ternary-recruitment selectivity margin at context c, in kcal/mol, sign-converted so POSITIVE = NR4A3 recruited more favorably than the worst paralogue (= (recruit_NR4A3 - max_paralogue recruit) with the free-energy sign flipped so more-favorable-NR4A3 is positive)",
+      "m_c(c)": "cooperative-coupling selectivity margin at context c, in kcal/mol, POSITIVE = NR4A3 more cooperative than the worst paralogue (dG_coop sign-converted identically)",
+      "SD(c*)": "replicate standard deviation (>=3 replicas) of the bracketed [w_t*m_t + w_c*m_c] quantity evaluated at c* (uncertainty estimator = replicate SD, per method.uncertainty_estimator)",
+      "counterexample": "max over {NR4A1, NR4A2} of that paralogue's advantage margin (kcal/mol, POSITIVE when a paralogue is favored over NR4A3); the strongest single paralogue counterexample",
+      "strain_norm": "PROTAC linker strain free energy relative to its unbound conformational ensemble, in kcal/mol (a separate diagnostic, NOT an endpoint interface energy)",
+      "ubiq_incompat": "ubiquitination-incompatibility score in [0,1] (1 = no transfer-competent lysine geometry); multiplied by rho (kcal/mol per unit) to enter S_d in energy units"
+    },
+    "units": "every additive term is kcal/mol after normalization (ubiq_incompat*rho and eta*strain_norm included); weights carry kcal/mol-per-unit where needed so S_d is dimensionally kcal/mol",
+    "missing_data_behavior": "if ANY term for a construct is missing/undefined, S_d is UNDEFINED for that construct; it is EXCLUDED from the ranking and flagged, never treated as 0",
+    "tie_policy": "ties in S_d broken by (1) larger min_c bracketed margin, then (2) smaller SD(c*); residual ties reported as tied (no arbitrary order)",
     "weights_frozen": {"w_t": 1.0, "w_c": 1.0, "lambda": 1.0, "gamma": 1.0, "eta": 0.5, "rho": 0.5},
-    "weights_rationale": "Deliberately simple, unfitted, transparent a-priori constants (NOT tuned to any result). The two ternary terms weighted equally; penalties modest. Any change is a DATED AMENDMENT to the prereg, not a silent retune.",
-    "robustness_requirement": "The qualitative top-ranked set must be STABLE under +/-50% perturbation of every weight; if the ranking is not perturbation-robust, report it as unresolved rather than as a ranked winner."
+    "weights_rationale": "Deliberately simple, unfitted, transparent a-priori constants (NOT tuned to any result). The two ternary terms weighted equally; penalties modest. Any change is a DATED AMENDMENT to the prereg, not a silent retune. Do NOT fit or retune to retrospective or prospective results.",
+    "robustness_requirement": {
+      "top_k": 3,
+      "rule": "the exact top-k S_d set (as an unordered set of construct IDs) must be IDENTICAL under (a) each one-at-a-time +/-50% single-weight perturbation AND (b) the joint +/-50% perturbation over all corners of the weight hypercube; if the top-k set changes under ANY perturbation, report the ranking as UNRESOLVED rather than as a ranked winner"
+    }
   },
 
   "budget": {
@@ -107,11 +176,12 @@
       "authorized": true,
       "hard_cap_usd_spot": 200,
       "fixed_scope": [
-        "1 high-vs-low cooperativity VHL calibration comparison (preferably a structurally characterized SMARCA2 pair)",
-        "active NR-V04 vs inactive epimer in binary VHL",
-        "active NR-V04 vs inactive epimer in the NR4A1 ternary architecture",
+        "1 high-vs-low cooperativity VHL calibration comparison (preferably a structurally characterized SMARCA2 pair) -> legs vhl_calib_hi_coop / vhl_calib_lo_coop",
+        "active NR-V04 vs inactive epimer in binary VHL -> legs nrv04_active_binary_vhl / nrv04_epimer_binary_vhl",
+        "active NR-V04 vs inactive epimer in the NR4A1 ternary architecture -> legs nrv04_active_nr4a1_ternary / nrv04_epimer_nr4a1_ternary",
         ">=3 independent replicas + a minimally adequate lambda schedule (NOT single-trajectory endpoint scoring)"
       ],
+      "forecast_gate": "the ternary MODE=plan forecast is authorized only AFTER the exact high/low Layer-1 pair + all pilot system identities, structures, microstates, transformations, replica count, and lambda schedule are frozen; the forecast must correspond to the ACTUAL fixed bundle, not a generic placeholder system",
       "preflight": "generate a MODE=plan dry-run GPU-hour forecast BEFORE production; if the defined pilot cannot fit under $200 without compromising replica count or convergence diagnostics -> STOP and return a revised costed scope (do NOT silently drop replicas)",
       "rules": "spot-only; pilot-one-leg-first; wait out spot capacity; checkpoint continuously"
     },
