@@ -112,6 +112,15 @@ read it before making changes.
   hand them a **concrete, ready-to-act choice** (`AskUserQuestion`, recommended-first) — not an open "what
   next?", not a progress update, not an "is this okay?". A bare status report with nothing for them to decide
   is a violation of this rule. Batch any real decisions into one ask and keep every other thread moving.
+  **★ A "which direction / what should I prioritise next?" question is NEVER a trimcrae decision when every
+  option on the table is work you could just do yourself — choosing the order of self-doable work IS
+  self-doable. Do NOT ask which to do: pick a sensible sequence and DO THEM ALL, then report what you did.**
+  (Example that triggered this rule: after finishing the atlas I asked trimcrae "outreach prep vs deepen vs
+  pivot?" — all three were things I could just do; the correct move was to do all of them.) A
+  direction/prioritisation call only rises to a real trimcrae decision if the options are **mutually
+  exclusive AND at least one is outward-facing / irreversible / expensive, or it changes the GOAL itself** —
+  not merely "which valuable thing first." Outreach *preparation* (drafting, tailoring, building the
+  materials) is self-doable and must just be done; only the outward-facing **act of sending** needs sign-off.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
