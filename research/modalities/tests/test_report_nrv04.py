@@ -178,3 +178,139 @@ def test_seed_is_primary_unit_not_pose_pool():
     assert e["n_seeds"] == 2 and e["n_poses"] == 4
     assert e["seed_bridged_fraction"] == 0.5
     assert "seeds=2, poses=4" in e["denominator"]
+
+
+# --- atom-mapped moieties (review fix #2) + intended-site occupancy (review fix #3), RDKit --------------
+import pytest  # noqa: E402
+
+rdkit = pytest.importorskip("rdkit")
+from rdkit import Chem  # noqa: E402
+from rdkit.Chem import AllChem  # noqa: E402
+
+
+def _cif_atoms(smiles, seed=1, scramble=False):
+    """Emit (element, (x,y,z)) heavy atoms in SMILES order (mimics Boltz's order-preserving CIF ligand block)."""
+    m = Chem.RemoveHs(Chem.MolFromSmiles(smiles))
+    mh = Chem.AddHs(m)
+    assert AllChem.EmbedMolecule(mh, randomSeed=seed) == 0
+    mh = Chem.RemoveHs(mh)
+    c = mh.GetConformer()
+    atoms = [(a.GetSymbol(), (c.GetAtomPosition(a.GetIdx()).x, c.GetAtomPosition(a.GetIdx()).y,
+                              c.GetAtomPosition(a.GetIdx()).z)) for a in mh.GetAtoms()]
+    if scramble:
+        import random
+        random.seed(7); random.shuffle(atoms)
+    return atoms
+
+
+def test_atom_map_protac_atom_order_identity():
+    ca = _cif_atoms(r.NRV04_PROTAC_SMILES)
+    am = r.atom_map_moieties(r.NRV04_PROTAC_SMILES, ca)
+    assert am["ok"] and am["method"] == "atom_order"
+    assert am["mapping"] == list(range(len(ca)))         # identity map (SMILES order == CIF order)
+    assert am["has_warhead"] and am["has_recruiter"]
+    # warhead (celastrol) and recruiter (VH032) ends are disjoint and each non-trivial
+    assert set(am["warhead_cif"]).isdisjoint(am["recruiter_cif"])
+    assert len(am["warhead_cif"]) >= 25 and len(am["recruiter_cif"]) >= 10 and len(am["linker_cif"]) >= 10
+
+
+def test_atom_map_free_celastrol_flags_no_recruiter():
+    ca = _cif_atoms(r.FREE_CELASTROL_SMILES)
+    am = r.atom_map_moieties(r.FREE_CELASTROL_SMILES, ca)
+    assert am["ok"] and am["has_warhead"] and am["has_recruiter"] is False
+    assert am["recruiter_cif"] == []
+
+
+def test_atom_map_bond_perception_fallback_on_scrambled_order():
+    # If the CIF heavy-atom order does NOT match SMILES order, the atom_order identity map is refused and the
+    # bond-perception graph match is used instead (never a silent identity assumption).
+    ca = _cif_atoms(r.FREE_CELASTROL_SMILES, scramble=True)
+    am = r.atom_map_moieties(r.FREE_CELASTROL_SMILES, ca)
+    assert am["ok"] and am["method"] == "bond_perception"
+    # every mapped index points to a CIF atom of the correct element
+    ref_elems = [a.GetSymbol().upper() for a in Chem.RemoveHs(Chem.MolFromSmiles(r.FREE_CELASTROL_SMILES)).GetAtoms()]
+    for ref_i, cif_i in enumerate(am["mapping"]):
+        assert ca[cif_i][0].upper() == ref_elems[ref_i]
+
+
+def test_atom_map_fail_closed_element_mismatch():
+    am = r.atom_map_moieties(r.FREE_CELASTROL_SMILES, [("C", (0, 0, 0)), ("C", (1, 0, 0))])
+    assert am["ok"] is False and am["mapping"] is None and "element composition mismatch" in am["reason"]
+
+
+def test_atom_map_fail_closed_bad_smiles():
+    am = r.atom_map_moieties("Xnot-a-smiles", _cif_atoms(r.FREE_CELASTROL_SMILES))
+    assert am["ok"] is False and am["mapping"] is None
+
+
+def test_moiety_ref_sets_required_substructures_and_disjoint():
+    mol = Chem.RemoveHs(Chem.MolFromSmiles(r.NRV04_PROTAC_SMILES))
+    sets = r._moiety_ref_sets(mol)
+    assert sets["has_warhead"] and sets["has_recruiter"]
+    assert sets["warhead"].isdisjoint(sets["recruiter"])
+    assert sets["warhead"] and sets["recruiter"] and sets["linker"]
+
+
+# --- pure geometry core: intended-site occupancy (review fix #3) -----------------------------------------
+def test_moiety_metrics_correct_half_bridge_and_pocket_occupancy():
+    warh, rec, lnk = [(0, 0, 0)], [(10, 0, 0)], [(5, 0, 0)]
+    nr4a, vhl, pocket = [(1, 0, 0)], [(11, 0, 0)], [(10.5, 0, 0)]   # recruiter next to the Hyp pocket
+    m = r._moiety_metrics(warh, rec, lnk, warh + rec + lnk, nr4a, vhl, pocket, True, True)
+    assert m["moiety_bridges"]["4.5"] is True and m["moiety_bridges_default"] is True
+    assert m["recruiter_pocket_occupancy"] is True and m["warhead_site_occupancy"] is True
+    assert m["warhead_site_defined"] is False                        # NR4A site not defined -> LBD-contact proxy
+    assert m["linker_only_contact"] is False and m["wrong_end"] is False
+
+
+def test_moiety_metrics_linker_only_nonspecific():
+    # warhead & recruiter far from every protein atom; only the linker touches -> linker-only flag, no bridge.
+    warh, rec, lnk = [(0, 0, 0)], [(30, 0, 0)], [(15, 0, 0)]
+    nr4a, vhl, pocket = [(15, 1, 0)], [(15, 2, 0)], [(15, 5, 0)]
+    m = r._moiety_metrics(warh, rec, lnk, warh + rec + lnk, nr4a, vhl, pocket, True, True)
+    assert m["linker_only_contact"] is True
+    assert m["moiety_bridges"]["4.5"] is False
+    assert m["recruiter_pocket_occupancy"] is False
+
+
+def test_moiety_metrics_wrong_end_flag():
+    # warhead sits on VHL, recruiter sits on NR4A -> ends swapped.
+    warh, rec, lnk = [(11, 0, 0)], [(1, 0, 0)], [(6, 0, 0)]
+    nr4a, vhl, pocket = [(0, 0, 0)], [(12, 0, 0)], [(30, 0, 0)]
+    m = r._moiety_metrics(warh, rec, lnk, warh + rec + lnk, nr4a, vhl, pocket, True, True)
+    assert m["wrong_end"] is True
+
+
+def test_moiety_metrics_fail_closed_bridge_when_no_recruiter_but_occupancy_reported():
+    # free-warhead architecture negative: has_recruiter False -> moiety_bridges None (fail-closed) but the
+    # warhead-site occupancy is still computed.
+    warh, lnk = [(0, 0, 0)], [(5, 0, 0)]
+    nr4a, vhl, pocket = [(1, 0, 0)], [(20, 0, 0)], [(20, 0, 0)]
+    m = r._moiety_metrics(warh, [], lnk, warh + lnk, nr4a, vhl, pocket, True, False)
+    assert m["moiety_bridges"] is None and m["moiety_bridges_default"] is None
+    assert m["warhead_site_occupancy"] is True
+    assert m["recruiter_pocket_occupancy"] is False
+
+
+def test_moiety_metrics_counts_steric_clashes():
+    warh, rec, lnk = [(0, 0, 0)], [(10, 0, 0)], [(5, 0, 0)]
+    nr4a = [(0.5, 0, 0)]                                             # 0.5 Å from a warhead atom -> clash (<2.0)
+    vhl, pocket = [(10, 0, 0)], [(10, 0, 0)]
+    m = r._moiety_metrics(warh, rec, lnk, warh + rec + lnk, nr4a, vhl, pocket, True, True)
+    assert m["steric_clashes"] >= 1
+    assert m["linker_strain_proxy"]["n_linker_atoms"] == 1
+
+
+def test_aggregate_summarises_occupancy_fields():
+    def s(seed, pocket, site, linker_only, clashes):
+        return {"seed": seed, "rank": 0, "confidence": {"ligand_iptm": 0.5, "iptm": 0.5},
+                "geometry": {"bridges": True, "closest_exposed_lys": None},
+                "moiety": {"moiety_bridges": {c: True for c in CUT}, "wrong_end": False,
+                           "atom_map": {"ok": True, "method": "atom_order"},
+                           "recruiter_pocket_occupancy": pocket, "warhead_site_occupancy": site,
+                           "linker_only_contact": linker_only, "steric_clashes": clashes}}
+    samples = [s("seed_1", True, True, False, 0), s("seed_2", False, True, True, 3)]
+    e = r._aggregate(samples, "ternary")
+    assert e["recruiter_pocket_occupancy_fraction"]["fraction"] == 0.5
+    assert e["warhead_site_occupancy_fraction"]["fraction"] == 1.0
+    assert e["linker_only_contact_fraction"]["fraction"] == 0.5
+    assert e["steric_clashes"]["mean"] == 1.5

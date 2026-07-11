@@ -265,8 +265,8 @@
     "review": "2nd external methods review, 2026-07-11 \u2014 Return for revision; spot conversion approved separately",
     "blocking_before_rerun": {
       "chem_identity": "exact NR-V04 graph/stereo/attachment/linker from primary source, or keep 'representative' label",
-      "atom_map_moiety": "replace sulfur-anchor spatial partition with explicit atom-index/atom-map RDKit substructure moieties (CIF<->SMILES mapping archived per input); FAIL CLOSED if mapping can't be established; never fall back to whole-ligand",
-      "intended_site_occupancy": "separate checks: recruiter atoms in the canonical VHL hydroxyproline pocket; warhead atoms at the intended NR4A site; linker-only/nonspecific-surface flag; steric clashes + linker strain",
+      "atom_map_moiety": "DONE (2026-07-11): atom_map_moieties() maps SMILES<->CIF (atom-order identity verified by exact element-sequence equality, else bond-perception fallback, else fail-closed); SMARTS-defined warhead/recruiter/linker; archived mapping; never whole-ligand fallback",
+      "intended_site_occupancy": "DONE (2026-07-11): recruiter-in-VHL-Hyp-pocket occupancy, warhead-at-NR4A (site flagged undefined), linker-only/nonspecific flag, steric clashes (<2.0A), crude linker-strain proxy \u2014 all separate fields; end-to-end gemmi CIF path validated on CI (gemmi absent in dev sandbox)",
       "cys551": "map UniProt NR4A1 551 -> local LBD index programmatically, verify residue identity, test on an actual output CIF; until then say covalent geometry NOT evaluated",
       "controls": "separate architecture negatives (short/no linker, wrong vector, no recruiter) from affinity negatives (epimer via a separate affinity method); free-celastrol gets its own no-recruiter readout",
       "pseudoreplication": "seed = primary sampling unit; pose fraction = within-seed summary; identical seeds/settings across systems; paired seed-level contrasts; resample SEEDS not poses; report BOTH seed_n and pose_n in every denominator",
@@ -287,6 +287,10 @@
       "spot_conversion": "APPROVED (with the pinning/checkpoint/forced-restart fixes)",
       "expanded_rerun": "conditional \u2014 only after chem-identity, atom-map, site-occupancy, Cys551, seed-level stats are corrected; as DESCRIPTIVE characterization, NOT a rescue of the ranking gate",
       "prospective_pilot": "NOT approved; only under modified-A after a separate affinity method passes the active-vs-epimer control"
-    }
+    },
+    "still_pending": [
+      "#1 primary-source exact NR-V04 structure (else 'representative' label stands)",
+      "#9 remainder: immutable per-run S3 prefix convention, forced-restart spot-restore smoke, realized-savings reporting"
+    ]
   }
 }

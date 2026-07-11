@@ -48,6 +48,33 @@ NR4A1_LBD_UNIPROT_FIRST = 345                    # NR4A1 P22736 (598 aa), LBD = 
 #                                                  UniProt 551 → local 207. UNVERIFIED against an output CIF —
 #                                                  the analyzer emits cys551_evaluated=False unless a CYS is found
 #                                                  at the mapped position (fail-closed; review fix #4).
+CLASH_CUTOFF = 2.0                               # Å; heavy-atom–heavy-atom ligand↔protein distance flagged a clash
+POCKET_OCC_CUTOFF = SEAT_CUTOFF                  # Å; recruiter-moiety atom within this of a Hyp-pocket residue = occupancy
+
+# ---------------------------------------------------------------------------------------------------------
+# ATOM-MAPPED MOIETIES (2nd external review, fix #2). The moiety decomposition is now defined on the ligand's
+# CHEMICAL GRAPH (SMILES) via SMARTS, then mapped onto the CIF ligand atoms by an explicit, ARCHIVED atom-index
+# mapping — replacing the conformation-dependent sulfur-anchor spatial partition. The SMILES per system come from
+# the frozen benchmark spec (nrv04-ternary-benchmark.json). Overridable at runtime via prep_data['ligand_smiles'].
+NRV04_PROTAC_SMILES = ("CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCCOCCOCCC"
+                       "(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)cc4)CC[C@]3(C)CC"
+                       "[C@]12C")                                              # nrv04.representative_smiles
+NRV04_INACTIVE_PROTAC_SMILES = ("CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCC"
+                                "OCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)"
+                                "cc4)CC[C@]3(C)CC[C@]12C")                     # Hyp (2S,4R)->(2S,4S) epimer PROTAC
+FREE_CELASTROL_SMILES = ("CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)O)CC[C@]3(C)CC"
+                         "[C@]12C")                                           # control_ligand_negatives.free_celastrol
+SYSTEM_SMILES = {"nr4a1": NRV04_PROTAC_SMILES, "nr4a2": NRV04_PROTAC_SMILES, "nr4a3": NRV04_PROTAC_SMILES,
+                 "neg_inactive": NRV04_INACTIVE_PROTAC_SMILES, "neg_celastrol": FREE_CELASTROL_SMILES}
+
+# SMARTS defining the two chemical ends. Warhead = celastrol quinone-methide chromophore, then grown over the
+# fused pentacyclic ring system + its terminal (methyl / =O / -OH) substituents. Recruiter (VH032) = the
+# (2S,4R)-4-hydroxyproline ring + the 4-(4-methylthiazol-5-yl)phenyl group (stereo-agnostic SMARTS so the
+# epimer control maps identically; stereochemistry is NOT a geometry criterion here).
+_SMA_CHROM = "CC1=C(O)C(=O)C=C2C1=CC=C[C]2"      # celastrol 2-hydroxy quinone-methide chromophore
+_SMA_THZ = "c1scnc1"                              # 4-methylthiazol-5-yl (required recruiter substructure)
+_SMA_PHZ = "c1ccc(cc1)-c1scnc1C"                  # 4-(4-methylthiazol-5-yl)phenyl
+_SMA_HYP = "[C]1C[C](O)C[N]1"                     # 4-hydroxyproline ring + OH (required recruiter substructure)
 
 
 def _euclid(a, b):
@@ -59,14 +86,13 @@ def _min_d(a_pts, b_pts):
 
 
 def split_ligand_ends(lig_atoms):
-    """PROVISIONAL, conformation-dependent end partition — FAILS CLOSED (2nd review, fix #2). This is NOT a
-    chemically-mapped moiety occupancy: it uses the ligand's single sulfur (thiazole, VHL half) as one spatial
-    anchor and the farthest atom as the other, then partitions by 3-D distance. It is conformation-dependent and
-    can misassign atoms in a folded PROTAC. Per the review it must be REPLACED by explicit atom-index/atom-map
-    RDKit substructures (CIF↔SMILES mapping archived, verified against intended-site occupancy) before any rerun;
-    until then it returns (None, None, reason) when it cannot cleanly anchor — it NEVER silently reverts to a
-    whole-ligand criterion. Returns (vhl_end_pts, nr4a_end_pts, note) or (None, None, fail_reason).
-    `lig_atoms` = list of (element, (x,y,z))."""
+    """DEPRECATED / RETIRED — NO LONGER CALLED by moiety_geometry (2nd review, fix #2). The conformation-dependent
+    sulfur-anchor spatial partition has been REPLACED by atom_map_moieties() (chemically-mapped, atom-index
+    substructures). This function is retained only so its historical unit tests keep exercising the fail-closed
+    contract; do not use it for any new analysis. It uses the ligand's single sulfur (thiazole, VHL half) as one
+    spatial anchor and the farthest atom as the other, then partitions by 3-D distance — conformation-dependent
+    and able to misassign atoms in a folded PROTAC. Returns (vhl_end_pts, nr4a_end_pts, note) or
+    (None, None, fail_reason). `lig_atoms` = list of (element, (x,y,z))."""
     pts = [p for _, p in lig_atoms]
     sulfurs = [p for el, p in lig_atoms if el.upper() == "S"]
     if len(sulfurs) != 1 or len(pts) < 2:
@@ -79,53 +105,277 @@ def split_ligand_ends(lig_atoms):
     return vhl_end, nr4a_end, "PROVISIONAL sulfur-anchor split (conformation-dependent; not atom-mapped occupancy)"
 
 
-def moiety_geometry(model, cutoffs=CUTOFFS, is_nr4a1=False):
-    """Moiety-SPECIFIC ternary read (review fix 4): does the celastrol end contact the NR4A target AND the
-    VH032 end contact VHL — i.e. a productive ternary via the CORRECT ends, not a wrong-end/linker-mediated/
-    surface contact that a whole-ligand min-distance test would pass. Reports per-cutoff moiety-bridging, a
-    wrong-end flag, and (NR4A1 only) the celastrol-end→Cys551-SG distance as a covalent-geometry PROXY."""
+def _ref_mol(smiles):
+    """RDKit mol from a SMILES with only heavy atoms (implicit H). None on parse failure."""
+    try:
+        from rdkit import Chem
+    except ImportError:
+        return None
+    m = Chem.MolFromSmiles(smiles) if smiles else None
+    return None if m is None else Chem.RemoveHs(m)
+
+
+def _fused_component(mol, seed, ringset):
+    """All ring atoms in the fused ring system reachable from `seed` (staying within ring atoms)."""
+    from collections import deque
+    comp = set(a for a in seed if a in ringset)
+    dq = deque(comp)
+    while dq:
+        x = dq.popleft()
+        for nb in mol.GetAtomWithIdx(x).GetNeighbors():
+            j = nb.GetIdx()
+            if j in ringset and j not in comp:
+                comp.add(j); dq.append(j)
+    return comp
+
+
+def _moiety_ref_sets(mol):
+    """Warhead / recruiter / linker atom-index sets on the SMILES graph (review fix #2). Returns dict with the
+    three index sets (SMILES/ref indices) plus has_warhead / has_recruiter flags for the REQUIRED substructures.
+    Warhead = celastrol quinone-methide chromophore grown over its fused ring system + terminal substituents;
+    recruiter = (4-methylthiazol-5-yl)phenyl ∪ 4-hydroxyproline; linker = everything else (PEG + the two amides)."""
+    from rdkit import Chem
+    ring = set(a for r in mol.GetRingInfo().AtomRings() for a in r)
+    chrom = mol.GetSubstructMatch(Chem.MolFromSmarts(_SMA_CHROM))
+    has_warhead = bool(chrom)
+    warhead = set()
+    if chrom:
+        warhead = _fused_component(mol, chrom, ring)
+        for a in list(warhead):                                   # add terminal methyl / =O / -OH substituents
+            for nb in mol.GetAtomWithIdx(a).GetNeighbors():
+                if nb.GetIdx() in warhead:
+                    continue
+                if nb.GetSymbol() == "O" or (nb.GetSymbol() == "C" and nb.GetDegree() == 1):
+                    warhead.add(nb.GetIdx())
+    has_thz = bool(mol.GetSubstructMatch(Chem.MolFromSmarts(_SMA_THZ)))
+    has_hyp = bool(mol.GetSubstructMatch(Chem.MolFromSmarts(_SMA_HYP)))
+    has_recruiter = has_thz and has_hyp
+    recruiter = set()
+    for sm in (_SMA_PHZ, _SMA_HYP):
+        for mm in mol.GetSubstructMatches(Chem.MolFromSmarts(sm)):
+            recruiter.update(mm)
+    recruiter -= warhead                                          # keep the two ends disjoint (no overlap expected)
+    linker = set(range(mol.GetNumAtoms())) - warhead - recruiter
+    return {"warhead": warhead, "recruiter": recruiter, "linker": linker,
+            "has_warhead": has_warhead, "has_recruiter": has_recruiter}
+
+
+def _map_by_bond_perception(mol, cif_atoms):
+    """FALLBACK mapping when the CIF heavy-atom order does NOT match the SMILES order: build a mol from the CIF
+    element+coords, perceive CONNECTIVITY (rdDetermineBonds), and graph-match the SMILES graph onto it. Returns
+    mapping[ref_idx] = cif_idx or None. Best-effort: any failure → None (caller FAILS CLOSED)."""
+    try:
+        from rdkit import Chem
+        from rdkit.Geometry import Point3D
+        from rdkit.Chem import rdDetermineBonds
+        rw = Chem.RWMol()
+        for el, _ in cif_atoms:
+            rw.AddAtom(Chem.Atom(el))
+        conf = Chem.Conformer(rw.GetNumAtoms())
+        for i, (_, (x, y, z)) in enumerate(cif_atoms):
+            conf.SetAtomPosition(i, Point3D(float(x), float(y), float(z)))
+        cm = rw.GetMol()
+        cm.AddConformer(conf, assignId=True)
+        rdDetermineBonds.DetermineConnectivity(cm)                # connectivity only (bond orders unreliable here)
+        # graph query ignoring bond order / aromaticity so a connectivity-only cif mol can still match the SMILES
+        params = Chem.AdjustQueryParameters.NoAdjustments()
+        params.makeBondsGeneric = True
+        params.aromatizeIfPossible = False
+        q = Chem.AdjustQueryProperties(Chem.Mol(mol), params)
+        match = cm.GetSubstructMatch(q, useChirality=False)       # match[ref_idx] = cif_idx
+        if match and len(match) == mol.GetNumAtoms():
+            return list(match)
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
+def atom_map_moieties(smiles, cif_atoms):
+    """Establish an explicit, ARCHIVED atom-index mapping between the ligand SMILES graph and the CIF ligand atoms,
+    then project the chemically-defined warhead / recruiter / linker sets onto CIF indices (review fix #2).
+
+    `cif_atoms` = ordered list of (element, (x,y,z)) heavy atoms as read from the CIF ligand block.
+
+    Mapping strategy (FAIL CLOSED — never a spatial/whole-ligand fallback):
+      1. Parse SMILES → heavy-atom ref graph; require the element MULTISET to match the CIF ligand exactly.
+      2. PRIMARY (atom_order): Boltz-2 writes ligand heavy atoms in the RDKit/SMILES input order. We only trust
+         the identity map when the ORDERED element sequences are identical — an exact, verifiable check. If they
+         differ we do NOT assume identity.
+      3. FALLBACK (bond_perception): perceive CIF connectivity and graph-match the SMILES onto it.
+      4. If neither yields a full mapping → {"ok": False, ...} and the caller returns unmapped/fail-closed.
+    Returns a dict; on success has keys ok, method, mapping (list[ref]->cif), warhead_cif/recruiter_cif/linker_cif,
+    has_warhead, has_recruiter, n_ref, n_cif."""
+    from collections import Counter
+    mol = _ref_mol(smiles)
+    if mol is None:
+        return {"ok": False, "method": None, "mapping": None,
+                "reason": "FAIL-CLOSED: RDKit unavailable or could not parse ligand SMILES"}
+    ref_elems = [a.GetSymbol().upper() for a in mol.GetAtoms()]
+    cif_elems = [el.upper() for el, _ in cif_atoms]
+    if len(cif_elems) < 2:
+        return {"ok": False, "method": None, "mapping": None, "reason": "FAIL-CLOSED: <2 CIF ligand heavy atoms"}
+    if Counter(ref_elems) != Counter(cif_elems):
+        return {"ok": False, "method": None, "mapping": None,
+                "reason": "FAIL-CLOSED: element composition mismatch (SMILES %s vs CIF %s)"
+                          % (dict(Counter(ref_elems)), dict(Counter(cif_elems)))}
+    if ref_elems == cif_elems:
+        mapping, method = list(range(len(ref_elems))), "atom_order"
+    else:
+        mapping = _map_by_bond_perception(mol, cif_atoms)
+        method = "bond_perception" if mapping is not None else None
+    if mapping is None:
+        return {"ok": False, "method": None, "mapping": None,
+                "reason": ("FAIL-CLOSED: SMILES↔CIF atom mapping could not be established (CIF heavy-atom order "
+                           "differs from SMILES order and bond-perception graph match failed)")}
+    sets = _moiety_ref_sets(mol)
+    to_cif = lambda refset: sorted(mapping[i] for i in refset)
+    return {"ok": True, "method": method, "mapping": mapping, "n_ref": len(ref_elems), "n_cif": len(cif_elems),
+            "reason": "mapped via %s (element multiset matched)" % method,
+            "warhead_cif": to_cif(sets["warhead"]), "recruiter_cif": to_cif(sets["recruiter"]),
+            "linker_cif": to_cif(sets["linker"]), "has_warhead": sets["has_warhead"],
+            "has_recruiter": sets["has_recruiter"]}
+
+
+def _centroid(pts):
+    n = len(pts)
+    return None if not n else (sum(p[0] for p in pts) / n, sum(p[1] for p in pts) / n, sum(p[2] for p in pts) / n)
+
+
+def _moiety_metrics(warhead_pts, recruiter_pts, linker_pts, lig_pts, nr4a_pts, vhl_pts, pocket_pts,
+                    has_warhead, has_recruiter, cutoffs=CUTOFFS):
+    """Pure geometry core (no gemmi) so the occupancy logic is unit-testable. Consumes already-projected point
+    lists for each mapped moiety and each protein partner; returns the moiety-bridging + intended-site occupancy
+    fields (review fixes #2 + #3). moiety_bridges is a dict per cutoff ONLY when BOTH ends are mapped; otherwise
+    None (fail-closed for the correct-half criterion) while occupancy fields are still reported."""
+    d_w_nr = _min_d(warhead_pts, nr4a_pts)
+    d_w_vhl = _min_d(warhead_pts, vhl_pts)
+    d_r_vhl = _min_d(recruiter_pts, vhl_pts)
+    d_r_nr = _min_d(recruiter_pts, nr4a_pts)
+    prot_pts = nr4a_pts + vhl_pts
+    d_lnk_prot = _min_d(linker_pts, prot_pts)
+    d_w_prot = _min_d(warhead_pts, prot_pts)
+    d_r_prot = _min_d(recruiter_pts, prot_pts)
+    d_rec_pocket = _min_d(recruiter_pts, pocket_pts)
+    both = bool(has_warhead and has_recruiter)
+    # correct-half dual-surface proximity: celastrol end contacts NR4A AND recruiter end contacts VHL
+    bridges = None
+    if both:
+        bridges = {}
+        for c in cutoffs:
+            bridges["%.1f" % c] = bool(d_w_nr is not None and d_r_vhl is not None and d_w_nr <= c and d_r_vhl <= c)
+    # wrong-end: a mapped end sits clearly closer to the protein it should NOT engage
+    wrong_end = bool((d_w_vhl is not None and d_w_nr is not None and d_w_vhl + WRONG_END_MARGIN < d_w_nr)
+                     or (d_r_nr is not None and d_r_vhl is not None and d_r_nr + WRONG_END_MARGIN < d_r_vhl))
+    # review fix #3 — INTENDED-SITE occupancy (not any-surface proximity)
+    recruiter_pocket_occupancy = bool(has_recruiter and d_rec_pocket is not None and d_rec_pocket <= POCKET_OCC_CUTOFF)
+    warhead_site_occupancy = bool(has_warhead and d_w_nr is not None and d_w_nr <= DEFAULT_CUTOFF)
+    linker_only_contact = bool(d_lnk_prot is not None and d_lnk_prot <= DEFAULT_CUTOFF
+                               and (d_w_prot is None or d_w_prot > DEFAULT_CUTOFF)
+                               and (d_r_prot is None or d_r_prot > DEFAULT_CUTOFF))
+    clashes = sum(1 for a in lig_pts for b in prot_pts if _euclid(a, b) < CLASH_CUTOFF)
+    w_c, r_c = _centroid(warhead_pts), _centroid(recruiter_pts)
+    e2e = _euclid(w_c, r_c) if (w_c and r_c) else None
+    ext = round(len(linker_pts) * 1.3, 1) if linker_pts else None
+    strain = {"warhead_recruiter_centroid_A": None if e2e is None else round(e2e, 2),
+              "n_linker_atoms": len(linker_pts), "extended_estimate_A": ext,
+              "compaction_ratio": None if (e2e is None or not ext) else round(e2e / ext, 2),
+              "note": "crude end-to-end vs extended-length proxy; NOT a force-field strain energy; not in verdict"}
+    out = {"moiety_bridges": bridges,
+           "moiety_bridges_default": None if bridges is None else bridges["%.1f" % DEFAULT_CUTOFF],
+           "wrong_end": wrong_end,
+           "celastrol_end_to_NR4A_A": None if d_w_nr is None else round(d_w_nr, 2),
+           "celastrol_end_to_VHL_A": None if d_w_vhl is None else round(d_w_vhl, 2),
+           "vh032_end_to_VHL_A": None if d_r_vhl is None else round(d_r_vhl, 2),
+           "vh032_end_to_NR4A_A": None if d_r_nr is None else round(d_r_nr, 2),
+           # review fix #3 fields (separate booleans/distances — intended site, not any surface)
+           "recruiter_pocket_occupancy": recruiter_pocket_occupancy,
+           "recruiter_pocket_min_A": None if d_rec_pocket is None else round(d_rec_pocket, 2),
+           "warhead_site_occupancy": warhead_site_occupancy,
+           "warhead_site_defined": False,        # no NR4A pocket residues defined → LBD-contact proxy only
+           "warhead_to_NR4A_min_A": None if d_w_nr is None else round(d_w_nr, 2),
+           "linker_only_contact": linker_only_contact,
+           "linker_to_protein_min_A": None if d_lnk_prot is None else round(d_lnk_prot, 2),
+           "steric_clashes": clashes,
+           "linker_strain_proxy": strain,
+           "_warhead_site_note": ("warhead-moiety contact to the NR4A LBD (BRIDGE_CUTOFF); the SPECIFIC NR4A "
+                                  "site is NOT defined — no pocket residues provided (fail-open flag, not a claim)")}
+    return out
+
+
+def _ligand_atoms_ordered(model):
+    """Heavy-atom (element, (x,y,z)) list for the LIGAND in CIF atom order. Prefers the designated ligand chain
+    (LIG_ID='L'); falls back to all non-standard residues. Order is the CIF write order — the index space the
+    SMILES↔CIF mapping assumes."""
+    lchain = None
+    for chain in model:
+        if chain.name == LIG_ID:
+            lchain = chain; break
+    out = []
+    if lchain is not None:
+        for res in lchain:
+            for a in res:
+                if a.element.name != "H":
+                    out.append((a.element.name, (a.pos.x, a.pos.y, a.pos.z)))
+        if out:
+            return out
+    for chain in model:
+        for res in chain:
+            if res.name not in STANDARD_AA:
+                for a in res:
+                    if a.element.name != "H":
+                        out.append((a.element.name, (a.pos.x, a.pos.y, a.pos.z)))
+    return out
+
+
+def moiety_geometry(model, ligand_smiles=None, cutoffs=CUTOFFS, is_nr4a1=False):
+    """Moiety-SPECIFIC ternary read (review fixes #2 + #3): ATOM-MAPPED chemical moieties (not a spatial anchor).
+    Establishes a SMILES↔CIF atom-index mapping (atom_map_moieties, archived), then asks whether the celastrol
+    WARHEAD contacts the NR4A target AND the VH032 RECRUITER contacts VHL — via the correct chemical ends, not a
+    wrong-end/linker/surface contact. Also reports intended-SITE occupancy (recruiter in the VHL Hyp pocket;
+    warhead at the NR4A LBD), a linker-only/nonspecific flag, steric clashes, and a crude linker-strain proxy.
+    FAILS CLOSED to {"moiety_bridges": None, "unmapped": True, ...} if the mapping or a required substructure is
+    missing — NEVER a whole-ligand or spatial-only fallback. (NR4A1 only) adds the celastrol-end→Cys551-SG
+    distance as a covalent-geometry PROXY."""
     prot, _lig = _chains(model)
     nr4a = prot.get(NR4A_ID)
     vhl = prot.get(VHL_ID)
     if nr4a is None or vhl is None:
         big = sorted(prot.items(), key=lambda kv: len(kv[1]), reverse=True)[:2]
         if len(big) < 2:
-            return {"moiety_bridges": None, "note": "fewer than 2 protein chains"}
+            return {"moiety_bridges": None, "unmapped": True, "note": "fewer than 2 protein chains"}
         nr4a, vhl = big[0][1], big[1][1]
-    # ligand atoms with element (rebuild here since _chains drops element for the ligand)
-    lig_atoms = []
-    for chain in model:
-        for res in chain:
-            if res.name not in STANDARD_AA:
-                for a in res:
-                    if a.element.name != "H":
-                        lig_atoms.append((a.element.name, (a.pos.x, a.pos.y, a.pos.z)))
-    if len(lig_atoms) < 2:
-        return {"moiety_bridges": None, "note": "no ligand"}
-    vhl_end, nr4a_end, split_note = split_ligand_ends(lig_atoms)
-    if vhl_end is None:                                          # FAIL CLOSED (review fix #2) — no whole-ligand fallback
-        return {"moiety_bridges": None, "unmapped": True, "note": split_note}
+    cif_atoms = _ligand_atoms_ordered(model)
+    if len(cif_atoms) < 2:
+        return {"moiety_bridges": None, "unmapped": True, "note": "no ligand atoms"}
+    if not ligand_smiles:
+        return {"moiety_bridges": None, "unmapped": True,
+                "note": "FAIL-CLOSED: no ligand SMILES provided — cannot atom-map moieties (review fix #2)"}
+    am = atom_map_moieties(ligand_smiles, cif_atoms)
+    if not am.get("ok"):                                          # FAIL CLOSED — no whole-ligand/spatial fallback
+        return {"moiety_bridges": None, "unmapped": True, "note": am.get("reason"),
+                "atom_map": {"ok": False, "reason": am.get("reason"), "method": None}}
     nr4a_pts = [(p.x, p.y, p.z) for p in _atoms(nr4a)]
     vhl_pts = [(p.x, p.y, p.z) for p in _atoms(vhl)]
-    d_vhlend_vhl = _min_d(vhl_end, vhl_pts)
-    d_vhlend_nr4a = _min_d(vhl_end, nr4a_pts)
-    d_nr4aend_nr4a = _min_d(nr4a_end, nr4a_pts)
-    d_nr4aend_vhl = _min_d(nr4a_end, vhl_pts)
-    bridges = {}
-    for c in cutoffs:
-        bridges["%.1f" % c] = bool(d_vhlend_vhl is not None and d_nr4aend_nr4a is not None
-                                   and d_vhlend_vhl <= c and d_nr4aend_nr4a <= c)
-    # wrong-end: an end sits clearly closer to the protein it should NOT engage
-    wrong_end = bool((d_vhlend_nr4a is not None and d_vhlend_vhl is not None
-                      and d_vhlend_nr4a + WRONG_END_MARGIN < d_vhlend_vhl)
-                     or (d_nr4aend_vhl is not None and d_nr4aend_nr4a is not None
-                         and d_nr4aend_vhl + WRONG_END_MARGIN < d_nr4aend_nr4a))
-    out = {"moiety_bridges": bridges, "moiety_bridges_default": bridges["%.1f" % DEFAULT_CUTOFF],
-           "wrong_end": wrong_end, "split": split_note,
-           "celastrol_end_to_NR4A_A": None if d_nr4aend_nr4a is None else round(d_nr4aend_nr4a, 2),
-           "celastrol_end_to_VHL_A": None if d_nr4aend_vhl is None else round(d_nr4aend_vhl, 2),
-           "vh032_end_to_VHL_A": None if d_vhlend_vhl is None else round(d_vhlend_vhl, 2),
-           "vh032_end_to_NR4A_A": None if d_vhlend_nr4a is None else round(d_vhlend_nr4a, 2)}
+    pocket_pts = [(p.x, p.y, p.z) for atoms in _pocket_atoms(vhl, VHL_HYP_POCKET).values() for p in atoms]
+    warhead_pts = [cif_atoms[i][1] for i in am["warhead_cif"]]
+    recruiter_pts = [cif_atoms[i][1] for i in am["recruiter_cif"]]
+    linker_pts = [cif_atoms[i][1] for i in am["linker_cif"]]
+    lig_pts = [p for _, p in cif_atoms]
+    out = _moiety_metrics(warhead_pts, recruiter_pts, linker_pts, lig_pts, nr4a_pts, vhl_pts, pocket_pts,
+                          am["has_warhead"], am["has_recruiter"], cutoffs=cutoffs)
+    out["atom_map"] = {"ok": True, "method": am["method"], "reason": am["reason"],
+                       "n_ref": am["n_ref"], "n_cif": am["n_cif"], "mapping": am["mapping"],
+                       "n_warhead": len(am["warhead_cif"]), "n_recruiter": len(am["recruiter_cif"]),
+                       "n_linker": len(am["linker_cif"]), "has_warhead": am["has_warhead"],
+                       "has_recruiter": am["has_recruiter"]}
+    out["split"] = ("atom-mapped moiety occupancy (SMILES↔CIF %s map; warhead=%d, recruiter=%d, linker=%d atoms)"
+                    % (am["method"], len(am["warhead_cif"]), len(am["recruiter_cif"]), len(am["linker_cif"])))
+    if out["moiety_bridges"] is None:                            # a required end substructure was absent → fail closed
+        missing = [n for n, ok in (("warhead", am["has_warhead"]), ("recruiter", am["has_recruiter"])) if not ok]
+        out["unmapped"] = True
+        out["note"] = ("FAIL-CLOSED for correct-half bridging: required %s substructure not matched — this is the "
+                       "no-%s architecture (e.g. free-warhead negative); occupancy fields still reported"
+                       % (" & ".join(missing), missing[0] if missing else "moiety"))
     if is_nr4a1:
         # Cys551 covalent proxy (review fix #4): the LBD chain is renumbered by the co-fold, so UniProt 551 must
         # be MAPPED to the local index and the residue identity VERIFIED. NR4A1 (P22736, 598 aa) LBD = last 254
@@ -136,8 +386,8 @@ def moiety_geometry(model, cutoffs=CUTOFFS, is_nr4a1=False):
         for name, num, a in nr4a:
             if name == "CYS" and "SG" in a and num in (NR4A1_CYS, NR4A1_CYS - NR4A1_LBD_UNIPROT_FIRST + 1):
                 cys_hit = a["SG"]; break
-        if cys_hit is not None:
-            out["celastrol_end_to_Cys551_A"] = round(_min_d(nr4a_end, [(cys_hit.x, cys_hit.y, cys_hit.z)]), 2)
+        if cys_hit is not None and warhead_pts:
+            out["celastrol_end_to_Cys551_A"] = round(_min_d(warhead_pts, [(cys_hit.x, cys_hit.y, cys_hit.z)]), 2)
             out["cys551_evaluated"] = True
             out["_cys551_note"] = "covalent-geometry PROXY (no covalent bond modeled); celastrol-end min dist to Cys551 SG"
         else:
@@ -268,9 +518,11 @@ def _all_models(seed_dir):
     return out
 
 
-def analyse_system(root, system, kind):
+def analyse_system(root, system, kind, ligand_smiles=None):
     """Walk system/seed_*/ dirs; per seed AND per rank collect confidence + whole-ligand geometry + (ternary)
-    moiety-specific geometry; aggregate over ALL samples (seed × rank)."""
+    atom-mapped moiety geometry; aggregate over ALL samples (seed × rank). `ligand_smiles` (the ligand for THIS
+    system) is required for the ternary atom-map; if None we fall back to the frozen SYSTEM_SMILES by name and,
+    failing that, moiety_geometry fails closed (unmapped)."""
     import gemmi
     sysdir = os.path.join(root, system)
     seed_dirs = sorted(glob.glob(os.path.join(sysdir, "seed_*")))
@@ -278,6 +530,7 @@ def analyse_system(root, system, kind):
         seed_dirs = sorted(set(os.path.dirname(os.path.dirname(p))
                                for p in glob.glob(os.path.join(root, "**", system, "seed_*", "**"), recursive=True)))
     is_nr4a1 = (system.lower() == "nr4a1")
+    smiles = ligand_smiles or SYSTEM_SMILES.get(system.lower())
     samples = []
     for sd in seed_dirs:
         seed = os.path.basename(sd)
@@ -288,7 +541,7 @@ def analyse_system(root, system, kind):
                 rec["geometry"] = seat_geometry(model)
             else:
                 rec["geometry"] = bridge_geometry(model)                     # whole-ligand (kept for comparison)
-                rec["moiety"] = moiety_geometry(model, is_nr4a1=is_nr4a1)    # moiety-specific (primary)
+                rec["moiety"] = moiety_geometry(model, ligand_smiles=smiles, is_nr4a1=is_nr4a1)   # atom-mapped (primary)
             samples.append(rec)
     n_seeds = len(set(s["seed"] for s in samples))
     return {"system": system, "kind": kind, "n_seeds": n_seeds, "n_samples": len(samples),
@@ -338,6 +591,19 @@ def _aggregate(samples, kind):
         agg["pose_level_fraction"][key] = {"fraction": f, "n_bridged": n, "n_poses": d}
     wf, wn, wd = _frac([m.get("wrong_end") for m in moi])
     agg["wrong_end_fraction"], agg["n_wrong_end"] = wf, wn
+    # INTENDED-SITE occupancy summaries (review fix #3) — over ALL samples whose moiety was atom-mapped (occupancy
+    # fields exist even when moiety_bridges is None, e.g. free-warhead negative). Reported separately from bridging.
+    occ = [s.get("moiety") for s in samples if s.get("moiety") and s["moiety"].get("atom_map", {}).get("ok")]
+    def _occ_frac(key):
+        fr, nn, dd = _frac([m.get(key) for m in occ if key in m])
+        return {"fraction": fr, "n": nn, "n_scored": dd}
+    agg["recruiter_pocket_occupancy_fraction"] = _occ_frac("recruiter_pocket_occupancy")
+    agg["warhead_site_occupancy_fraction"] = _occ_frac("warhead_site_occupancy")
+    agg["linker_only_contact_fraction"] = _occ_frac("linker_only_contact")
+    agg["steric_clashes"] = _dist([m["steric_clashes"] for m in occ if isinstance(m.get("steric_clashes"), int)])
+    agg["occupancy_caveat"] = ("intended-SITE occupancy: recruiter within the canonical VHL Hyp pocket (98/110/111/"
+                               "115/117); warhead in LBD-contact of NR4A (specific NR4A site NOT defined); "
+                               "linker-only flags nonspecific-surface contacts. Separate from the bridging metric.")
     # SEED-LEVEL (the primary sampling unit; review fix #6 — no pose pseudoreplication). Per seed: within-seed
     # pose-bridge fraction; a seed COUNTS as bridged if a MAJORITY of its poses bridge at the default cutoff.
     per_seed = {}
@@ -518,6 +784,9 @@ def main():
             sys.exit(f"nothing under s3 prefix {prefix}")
         prep = glob.glob(os.path.join(tmp, "**", "nrv04-ternary-prep.json"), recursive=True)
         prep_data = json.load(open(prep[0])) if prep else {}
+        # per-system ligand SMILES: prep_data override (exact graph used for this run) wins over the frozen spec.
+        smiles_map = dict(SYSTEM_SMILES)
+        smiles_map.update({k.lower(): v for k, v in (prep_data.get("ligand_smiles") or {}).items()})
 
         systems = {}
         control = None
@@ -526,7 +795,7 @@ def main():
             control = analyse_system(tmp, "control", "control")
         for name in ("nr4a1", "nr4a2", "nr4a3"):
             if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
-                systems[name] = analyse_system(tmp, name, "ternary")
+                systems[name] = analyse_system(tmp, name, "ternary", ligand_smiles=smiles_map.get(name))
 
         # Controls, separated by TYPE (review fix #5). ARCHITECTURE negative: free celastrol (no VHL handle) —
         # the classifier IS entitled to catch this. AFFINITY negative: the VHL-inactive Hyp-epimer PROTAC — a
@@ -536,7 +805,7 @@ def main():
         negatives = {}
         for name in ("neg_inactive", "neg_celastrol"):
             if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
-                negatives[name] = analyse_system(tmp, name, "ternary")
+                negatives[name] = analyse_system(tmp, name, "ternary", ligand_smiles=smiles_map.get(name))
         # architecture controls should FAIL the classifier; affinity controls are reported (they define the
         # classifier's affinity-blindness) but do NOT make the architecture gate 'pass'.
         arch_pass = None
