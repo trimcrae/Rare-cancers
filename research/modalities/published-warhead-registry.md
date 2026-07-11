@@ -63,11 +63,18 @@ binding (brief 3.2/7.2):
 ## The panels (real, sourced chemistry)
 
 **NR4A3 / NOR-1 (warhead source).** The **Zaienne 2022** fragment-to-inverse-agonist series (ChemMedChem
-17(16):e202200259; PMC9542104): a <1 %-hit-rate drug-fragment screen against a Gal4-NR4A3 reporter returned
-three chemotypes, one elaborated to a **low-micromolar inverse NOR-1 agonist** that shifted a NOR-1-regulated
-gene in cells. The individual member structures are behind the ChemMedChem paywall and are recorded
-**unresolved** (series placeholder) rather than guessed; the OA full text (via `fetch-literature` →
-`literature-cache`) is what would let a future pass transcribe the elaborated compound.
+17(16):e202200259; PMC9542104): a <1 %-hit-rate Prestwick drug-fragment screen against a Gal4-NR4A3-LBD
+reporter returned three scaffolds (fragments 1 & 2 inverse agonists; 3 a weak agonist at a distinct site).
+The **elaborated lead is compound 19 = methyl 5-bromoindole-3-carboxylate** — an indole-3-carboxylate whose
+5-position tolerated substitution (5-Cl → 3.5×; 5-Br/5-Ph → single-digit µM), transcribed from the **OA full
+text** (fetched via `fetch-literature` → `literature-cache`, 2026-07-11) and now a **resolved** registry entry
+(`zaienne_cmpd19`, InChIKey MFOKOKHNSVUKON, MW 254.08). Compound 19 blocks the NOR-1↔SMRT (IC50 9 µM) /
+NCoR1 (IC50 12 µM) corepressor interactions and derepresses MYC in cells — **the most experimentally-anchored
+NR4A3-directed warhead structure in the registry**, and its tolerated 5-position is a candidate degrader exit
+vector. The OA text also yields two more NR4A3 ligands: **PGA2** (weak *direct* NR4A3-LBD agonist, a reactive
+cyclopentenone) and **6-mercaptopurine** (enhances NR4A3 but via the N-terminal AF-1, **not** the LBD → an
+NR4A3 functional-non-binder control). The individual fragments 1/2/3 and chloro-scan analogues remain
+unresolved (the series row is kept as context).
 
 **NR4A1 / Nur77 (anti-target + warhead source).**
 - **cytosporone B (Csn-B)** — the canonical Nur77 agonist (Zhan 2008, Nat Chem Biol) that **also** directly

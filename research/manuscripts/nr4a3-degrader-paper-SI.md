@@ -561,8 +561,10 @@ evidence) and the versioned machine-readable
 [`published_warhead_registry.py`](../modalities/published_warhead_registry.py) on a CPU runner.
 
 **What it assembles, with evidence class + source per compound:** the **Zaienne 2022** NOR-1
-fragment→low-µM-inverse-agonist series [ref 5] (the primary published NR4A3 warhead source; individual member
-structures are behind the paywall and are recorded **unresolved**, not invented); the **NR4A1/Nur77** panel
+fragment→low-µM-inverse-agonist series [ref 5] (the primary published NR4A3 warhead source; its elaborated
+lead — **compound 19, methyl 5-bromoindole-3-carboxylate**, blocking NOR-1↔SMRT/NCoR1 and derepressing MYC —
+was transcribed from the OA full text and is a **resolved** entry, alongside PGA2 and 6-mercaptopurine as
+further NR4A3 ligands); the **NR4A1/Nur77** panel
 (cytosporone B — a *pan*-NR4A direct binder [Zhan 2008; Munoz-Tello 2021]; THPN — Nur77 LBD cocrystal PDB 4JGV;
 TMPA and C-DIM8 — functional); the **NR4A2/Nurr1** panel (amodiaquine, chloroquine — direct Nurr1 LBD binders
 by NMR [Munoz-Tello 2021]; DHI and PGA1 — the only NR4A2 cocrystal ligands, both **covalent** to Cys566;

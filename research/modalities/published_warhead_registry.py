@@ -55,23 +55,80 @@ REGISTRY = [
         "targets": ["NR4A3"],
         "evidence_class": "functional_plus_fragment",
         "evidence_notes": (
-            "Drug-fragment library screened for NOR-1/NR4A3 modulation (Gal4-NR4A3 hybrid reporter). "
-            "Hit rate <1%; THREE ligand chemotypes recovered, ONE rapidly elaborated to a low-micromolar "
-            "INVERSE NOR-1 agonist that shifted a NOR-1-regulated gene in cells. Direct-engagement of the "
-            "modeled cryptic orthosteric pocket is NOT established by the reporter/cellular data (brief 3.2)."
+            "Prestwick drug-fragment library (480 fragments) screened for NOR-1/NR4A3 modulation on a "
+            "Gal4-NR4A3-LBD hybrid reporter at 100 uM. Hit rate <1%; THREE scaffolds confirmed: fragments 1 & 2 "
+            "(inverse agonists) and 3 (weak agonist; non-competitive with 1 -> a DISTINCT binding site). "
+            "SAR (transcribed from the OA text, PMC9542104): for scaffold 2 (an N-acetyl-hydroxyphenyl-"
+            "piperazine) the N-acetyl AND phenolic-OH are both critical (removing either -> loss). Scaffold 1 "
+            "is an INDOLE-3-CARBOXYLATE: chloro-scanning showed 5-position substitution favored (5-Cl 14 = "
+            "3.5x; 5-Me 17 / 5-OMe 18 better than 1; 5-Br 19 and 5-Ph 20 reach single-digit uM IC50). The "
+            "elaborated lead = compound 19 (methyl 5-bromoindole-3-carboxylate; see the zaienne_cmpd19 row). "
+            "Direct occupation of the MODELED cryptic orthosteric pocket is not proven by the reporter data "
+            "(brief 3.2), but 19's mechanism (blocks NOR-1<->SMRT/NCoR1, derepresses MYC) is LBD-corepressor."
         ),
-        "assay": "Gal4-NR4A3 hybrid cell reporter; cellular target-gene modulation",
-        "potency": "low micromolar (elaborated inverse agonist)",
-        "selectivity_notes": "NR4A1/NR4A2 counter-screen per the paper; verify from SI when OA text lands",
+        "assay": "Gal4-NR4A3-LBD hybrid cell reporter; corepressor-interaction IC50 (SMRT/NCoR1); MYC qPCR in HeLa",
+        "potency": "compound 19: SMRT IC50 9+/-2 uM, NCoR1 IC50 12+/-3 uM (single-digit-to-low uM inverse agonist)",
+        "selectivity_notes": "SAR + 5-position tolerance = the degrader EXIT VECTOR handle; paralogue counter-screen not detailed in OA main text",
         "source": {"authors": "Zaienne D, Arifi S, Marschner JA, Heering J, et al.",
                     "title": "Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists",
                     "journal": "ChemMedChem 17(16):e202200259 (2022)",
                     "pmid": "35704774", "pmc": "PMC9542104", "doi": "10.1002/cmdc.202200259"},
-        "structure_status": "series_placeholder",
-        "resolve": [],   # novel medchem; individual members are not name-resolvable -> unresolved by design
-        "note": ("Series-level record. Individual member structures are behind the ChemMedChem paywall; the "
-                 "OA full text (fetch-literature -> literature-cache) is needed to transcribe the elaborated "
-                 "compound's structure + assay values. Recorded as unresolved rather than invented."),
+        "structure_status": "series_resolved_lead",
+        "resolve": [],   # series-level context row; the resolvable LEAD is the zaienne_cmpd19 entry below
+        "note": ("RESOLVED from the OA full text (2026-07-11). The elaborated lead compound 19 is now a "
+                 "resolvable structure (zaienne_cmpd19). Fragments 1/2/3 and the chloro-scan analogues "
+                 "(11-20, 'reported previously') are not individually resolved here; 19 is the tool compound."),
+    },
+    {
+        "id": "zaienne_cmpd19",
+        "display_name": "Zaienne compound 19 (methyl 5-bromoindole-3-carboxylate)",
+        "role": "warhead_source",
+        "targets": ["NR4A3"],
+        "evidence_class": "functional_target_engagement",
+        "evidence_notes": (
+            "THE elaborated low-uM inverse NOR-1/NR4A3 agonist tool compound from the Zaienne 2022 fragment "
+            "campaign (an indole-3-carboxylate, 5-Br optimized). Blocks the NOR-1<->SMRT (IC50 9+/-2 uM) and "
+            "NOR-1<->NCoR1 (IC50 12+/-3 uM) corepressor interactions and DEREPRESSES MYC in HeLa (cellular "
+            "target engagement). The most experimentally-anchored NR4A3-DIRECTED warhead structure in the "
+            "registry. The tolerated 5-position (Br/Ph boosted potency) is a candidate degrader EXIT VECTOR."
+        ),
+        "assay": "corepressor-interaction IC50 (SMRT/NCoR1); MYC qPCR cellular target engagement",
+        "potency": "SMRT IC50 9+/-2 uM; NCoR1 IC50 12+/-3 uM",
+        "selectivity_notes": "NR4A3 tool compound; paralogue selectivity not established in the paper",
+        "source": {"pmid": "35704774", "pmc": "PMC9542104", "doi": "10.1002/cmdc.202200259",
+                    "ref": "Zaienne 2022 compound 19 (methyl 5-bromoindole-3-carboxylate)"},
+        "expected_mw": 254.08,   # C10H8BrNO2; disambiguate from other indolecarboxylate records
+        "resolve": ["methyl 5-bromo-1H-indole-3-carboxylate", "methyl 5-bromoindole-3-carboxylate"],
+    },
+    {
+        "id": "pga2",
+        "display_name": "Prostaglandin A2 (PGA2)",
+        "role": "nr4a3_direct_binder",
+        "targets": ["NR4A3"],
+        "evidence_class": "direct_binding_functional",
+        "evidence_notes": ("Cyclopentenone prostaglandin; WEAKLY activates NOR-1/NR4A3 through DIRECT interaction "
+                            "with its LBD (Zaienne 2022 intro; distinct from 6-MP which needs AF-1). A reactive "
+                            "cyclopentenone (Michael acceptor) -> likely covalent, special-handling like PGA1/celastrol."),
+        "assay": "NOR-1 LBD direct activation (weak)",
+        "potency": "weak (uM+)",
+        "selectivity_notes": "NR4A3 LBD direct ligand; reactive cyclopentenone",
+        "source": {"pmc": "PMC9542104", "ref": "Zaienne 2022 (PGA2 weak direct NOR-1 LBD agonist)"},
+        "resolve": ["prostaglandin A2"],
+    },
+    {
+        "id": "mercaptopurine_6",
+        "display_name": "6-Mercaptopurine (6-MP)",
+        "role": "nr4a3_functional_modulator",
+        "targets": ["NR4A3"],
+        "evidence_class": "functional_nonbinder",
+        "evidence_notes": ("Antineoplastic thiopurine; ENHANCES NOR-1/NR4A3 activity but REQUIRES the N-terminal "
+                            "AF-1 and does NOT bind the LBD (Zaienne 2022) -> an NR4A3 functional-but-non-LBD-binder "
+                            "control (the model should NOT dock it as a strong LBD binder). Analogous role to C-DIM12 for NR4A2."),
+        "assay": "NOR-1 cellular activity (AF-1-dependent; LBD non-binder)",
+        "potency": "n/a (functional)",
+        "selectivity_notes": "NR4A3 non-LBD-binder negative control",
+        "source": {"pmc": "PMC9542104", "ref": "Zaienne 2022 (6-MP enhances NOR-1 via AF-1, not the LBD)"},
+        "resolve": ["6-mercaptopurine", "chembl:CHEMBL1425"],
     },
 
     # ---- 2. NR4A1 / Nur77 ligand panel (anti-target controls + warhead sources) --------------------

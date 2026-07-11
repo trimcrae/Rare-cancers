@@ -133,9 +133,19 @@ def test_nrv04_and_covalent_flagged_special():
     assert by_id["pga1"]["evidence_class"] == "covalent_crystal"
 
 
-def test_zaienne_recorded_unresolved_not_invented():
-    # novel paywalled medchem: no resolve terms, no fabricated SMILES
+def test_zaienne_series_row_is_context_only():
+    # the series row itself stays a context record (no name resolution, no fabricated SMILES)...
     z = next(e for e in pwr.REGISTRY if e["id"] == "zaienne_nor1_series")
     assert z.get("resolve") == []
     assert "smiles" not in z
     assert z["source"]["pmc"] == "PMC9542104"
+
+
+def test_zaienne_lead_compound19_resolved_from_oa_text():
+    # ...but the elaborated lead (compound 19, methyl 5-bromoindole-3-carboxylate) is now a resolvable
+    # entry with an expected_mw disambiguator (transcribed from the OA full text, not invented).
+    c19 = next(e for e in pwr.REGISTRY if e["id"] == "zaienne_cmpd19")
+    assert c19["targets"] == ["NR4A3"]
+    assert c19["expected_mw"] == 254.08
+    assert any("5-bromo" in r for r in c19["resolve"])
+    assert c19["source"]["pmc"] == "PMC9542104"
