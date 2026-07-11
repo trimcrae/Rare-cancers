@@ -12,7 +12,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():

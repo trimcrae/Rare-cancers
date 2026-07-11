@@ -15,8 +15,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -72,29 +71,24 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-denovo-dock", sagemaker_session=sess,
-    )
-    inputs = [ProcessingInput(source=f"s3://{bucket}/{prefixes[t]}",
-                              destination=f"/opt/ml/processing/input/{t}", input_name=t)
-              for t in mount_tags]
+    # Each ProcessingInput becomes a TrainingInput channel keyed by its mount tag; the entry reads each via
+    # sm_io.channel(tag). Same tags/prefixes as before.
+    inputs = {t: f"s3://{bucket}/{prefixes[t]}" for t in mount_tags}
     print(f"submitting de-novo dock: {instance}, top {top_n}, developable_only={developable_only}, "
           f"receptor_mode={receptor_mode}; inputs " +
           ", ".join(f"{t}=s3://{bucket}/{prefixes[t]}" for t in mount_tags) +
           f" -> s3://{bucket}/{out_prefix}", flush=True)
-    proc.run(
-        code="entry_denovo_dock.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the MM-GBSA
+    # reader expects; entry_denovo_dock.py writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_denovo_dock.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-denovo-dock", output_prefix=out_prefix,
         inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
         arguments=["--git-ref", git_ref, "--top-n", str(top_n),
                    "--developable-only", developable_only, "--receptor-mode", receptor_mode,
                    "--decoy", decoy_mode, "--species", species_mode, "--exhaustiveness", exhaustiveness]
         + (["--candidate-json", leadopt_json] if leadopt_json else []),
-        wait=True, logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

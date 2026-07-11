@@ -10,7 +10,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -33,7 +34,7 @@ def main():
                     "python=3.11", "mdtraj", "fpocket=4.2.3", "matplotlib-base", "numpy"], check=True)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    env["INPUT_DIR"] = sm_io.channel("metad")
     env["OUTPUT_DIR"] = OUT
     env["DCD_NAME"] = args.dcd_name
     os.makedirs(OUT, exist_ok=True)

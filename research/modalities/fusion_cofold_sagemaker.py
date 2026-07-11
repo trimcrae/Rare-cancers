@@ -16,9 +16,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import ProcessingOutput
-        from sagemaker.processing import FrameworkProcessor
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -33,28 +31,17 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name="fusion-cofold",
-        sagemaker_session=sess,
-    )
     print(f"submitting SageMaker fusion co-fold job: {instance}, max_runtime={max_runtime}s, "
           f"outputs -> s3://{bucket}/{dest_prefix}", flush=True)
-    proc.run(
-        code="entry_cofold.py",
-        source_dir=os.path.join(here, "boltz_src"),
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{dest_prefix}",
-                                  s3_upload_mode="Continuous")],
-        arguments=["--control"],   # SageMaker rejects an empty ContainerArguments list
-        wait=True,
-        logs=True,
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME dest_prefix the readers
+    # expect; entry_cofold.py writes to sm_io.out_dir() == /opt/ml/checkpoints, synced continuously (each
+    # finished construct survives a later interruption). No input channels. The --control sentinel keeps the
+    # argparse happy (store_true); it is a no-op.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_cofold.py", source_dir=os.path.join(here, "boltz_src"),
+        base_job_name="fusion-cofold", output_prefix=dest_prefix,
+        arguments=["--control"],
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{dest_prefix}", flush=True)
 

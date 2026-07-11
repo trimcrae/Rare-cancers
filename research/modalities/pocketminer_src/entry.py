@@ -15,7 +15,7 @@ provably the pre-metad apo structure. (A PDB mounted at the input channel is use
 PIPELINE. (1) obtain apo AF2 LBD PDB -> (2) clone Mickdub/gvp @ pocket_pred (MIT) + its in-repo weights
 -> (3) build the TensorFlow/GVP conda env -> (4) run PocketMiner inference (per-residue cryptic scores)
 -> (5) map scores back to UniProt numbering, compute overlap vs our fpocket Pocket-5 lining residues ->
-(6) write pocketminer_nr4a3_result.json to /opt/ml/processing/output (Continuous S3 upload).
+(6) write pocketminer_nr4a3_result.json to sm_io.out_dir() (spot Training checkpoint dir, continuous S3 sync).
 
 CPU work (small GNN inference; ~seconds of compute). No GPU needed.
 """
@@ -27,8 +27,9 @@ import subprocess
 import sys
 import urllib.request
 
-OUT = "/opt/ml/processing/output"
-IN = "/opt/ml/processing/input"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
+IN = sm_io.channel("input")
 
 # NR4A3 / NOR-1, human canonical. LBD window per UniProt/InterPro (matches nr4a3_structure.py).
 UNIPROT = "Q92570"

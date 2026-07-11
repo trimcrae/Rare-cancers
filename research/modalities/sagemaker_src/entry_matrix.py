@@ -10,7 +10,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -39,7 +40,9 @@ def main():
 
     env = os.environ.copy()
     env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
-    env["INPUT_DIR"] = "/opt/ml/processing/input"     # holds nr4a3/ nr4a1/ nr4a2/ subdirs
+    # Parent dir holding the nr4a3/ nr4a1/ nr4a2/ channel subdirs (Training: /opt/ml/input/data;
+    # Processing: /opt/ml/processing/input) — derive it from any one channel so both modes work.
+    env["INPUT_DIR"] = os.path.dirname(sm_io.channel("nr4a3"))     # holds nr4a3/ nr4a1/ nr4a2/ subdirs
     env["OUTPUT_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)
     print("[sagemaker] mounted inputs:", flush=True)

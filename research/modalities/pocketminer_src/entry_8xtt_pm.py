@@ -22,9 +22,10 @@ import subprocess
 import sys
 import urllib.request
 
+import sm_io
 import entry as pm_entry     # reuse DRIVER + build_env recipe (same source_dir)
 
-OUT = "/opt/ml/processing/output"
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 REPO = "https://github.com/trimcrae/Rare-cancers"
 
 

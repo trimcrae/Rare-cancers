@@ -16,7 +16,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -52,7 +53,7 @@ def main():
 
     env = os.environ.copy()
     env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
-    env["RELEASE_DIR"] = "/opt/ml/processing/input/release"
+    env["RELEASE_DIR"] = sm_io.channel("release")
     env["OUTPUT_DIR"] = OUT
     env["D_STAR"] = args.d_star
     env["RG_TOL"] = args.rg_tol

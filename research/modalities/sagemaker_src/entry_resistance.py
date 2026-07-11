@@ -10,7 +10,8 @@ import sys
 import threading
 import time
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def _hb(label, start, stop, every):
@@ -54,7 +55,7 @@ def main():
                     "echo libnvidia-opencl.so.1 > /etc/OpenCL/vendors/nvidia.icd"], check=False)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    env["INPUT_DIR"] = sm_io.channel("matrix")   # the matrix set (was mounted at the Processing input root)
     env["OUTPUT_DIR"] = OUT
     env["MS"] = args.multisnapshot
     env["POSE_NAME"] = args.pose_name

@@ -17,8 +17,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -32,30 +31,19 @@ def main():
     sess = sagemaker.Session()
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
-    out_prefix = f"s3://{bucket}/nr4a3-8xtt-benchmark"
+    out_prefix = "nr4a3-8xtt-benchmark"
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-8xtt-benchmark",
-        sagemaker_session=sess,
-    )
-    print(f"submitting 8XTT benchmark: {instance}, ref={git_ref} -> {out_prefix}", flush=True)
-    proc.run(
-        code="entry_8xtt.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output", destination=out_prefix,
-                                  s3_upload_mode="Continuous")],
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the readers
+    # expect; entry_8xtt.py writes to sm_io.out_dir() (== /opt/ml/checkpoints, synced to S3 CONTINUOUSLY).
+    # No ProcessingInput — structures are fetched from public RCSB/AFDB at runtime.
+    print(f"submitting 8XTT benchmark: {instance}, ref={git_ref} -> s3://{bucket}/{out_prefix}", flush=True)
+    sagemaker_submit.submit_spot(
+        entry_point="entry_8xtt.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-8xtt-benchmark", output_prefix=out_prefix,
         arguments=["--git-ref", git_ref],
-        wait=True,
-        logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
-    print(f"done — results in {out_prefix}", flush=True)
+    print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 
 
 if __name__ == "__main__":

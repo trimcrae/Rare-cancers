@@ -11,7 +11,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -33,7 +34,8 @@ def main():
 
     env = os.environ.copy()
     env["OUTPUT_DIR"] = OUT                     # benchmark writes checkpoints straight to the S3-synced dir
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    # No input channel is mounted (structures are fetched from RCSB/AFDB at runtime); leave INPUT_DIR unset so
+    # nr4a3_8xtt_benchmark.py falls back to a fresh AFDB fetch under both Training and Processing.
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running 8XTT benchmark (ref {args.git_ref})", flush=True)
     r = subprocess.run([conda, "run", "--no-capture-output", "-n", "xtt",

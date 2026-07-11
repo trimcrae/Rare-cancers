@@ -16,8 +16,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -44,25 +43,18 @@ def main():
         proc_env["BENCHMARK_PANEL"] = "1"
         print("[submit] BENCHMARK_PANEL=1 -> appending the registry verified-SMILES Gate-2 panel", flush=True)
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
-        instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-matrix", sagemaker_session=sess, env=(proc_env or None),
-    )
-    inputs = [ProcessingInput(source=f"s3://{bucket}/{prefixes[t]}",
-                              destination=f"/opt/ml/processing/input/{t}", input_name=t)
-              for t in ("nr4a3", "nr4a1", "nr4a2")]
+    inputs = {t: f"s3://{bucket}/{prefixes[t]}" for t in ("nr4a3", "nr4a1", "nr4a2")}
     print(f"submitting matrix: {instance}; inputs " +
           ", ".join(f"{t}=s3://{bucket}/{prefixes[t]}" for t in prefixes) +
           f" -> s3://{bucket}/{out_prefix}", flush=True)
-    proc.run(
-        code="entry_matrix.py",
-        source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=inputs,
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
-        arguments=["--git-ref", git_ref],
-        wait=True, logs=True,
+    # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME out_prefix the readers
+    # expect; entry_matrix.py reads the three paralogue channels via sm_io.channel(name) and writes to
+    # sm_io.out_dir(). env=(proc_env or None) is passed through unchanged as `environment`.
+    sagemaker_submit.submit_spot(
+        entry_point="entry_matrix.py", source_dir=os.path.join(here, "sagemaker_src"),
+        base_job_name="nr4a3-matrix", output_prefix=out_prefix,
+        inputs=inputs, arguments=["--git-ref", git_ref], environment=(proc_env or None),
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

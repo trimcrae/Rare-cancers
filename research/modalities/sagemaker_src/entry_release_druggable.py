@@ -13,7 +13,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -38,9 +39,9 @@ def main():
                     "python=3.11", "mdtraj", "fpocket=4.2.3", "matplotlib-base", "numpy"], check=True)
 
     env = os.environ.copy()
-    env["RELEASE_DIR"] = "/opt/ml/processing/input/release"
-    env["STRUCTURE_DIR"] = "/opt/ml/processing/input/struct"
-    env["POCKET_DIR"] = "/opt/ml/processing/input/pocket"
+    env["RELEASE_DIR"] = sm_io.channel("release")
+    env["STRUCTURE_DIR"] = sm_io.channel("struct")
+    env["POCKET_DIR"] = sm_io.channel("pocket")
     env["OUTPUT_DIR"] = OUT
     env["TARGET_RG"] = args.target_rg
     env["N_ALT"] = args.n_alt

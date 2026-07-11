@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """SageMaker entry: enumerate Pocket-5 lining residues with fpocket on the AF2 model.
 
-ProcessingInput mounts the MD outputs (incl. AF-Q92570.pdb) at /opt/ml/processing/input. We
-conda-install fpocket, run nr4a3_fpocket_enumerate.py, and SageMaker uploads /opt/ml/processing/output
-to S3. CPU work.
+The "md" input channel mounts the MD outputs (incl. AF-Q92570.pdb); we read it via sm_io.channel("md").
+We conda-install fpocket, run nr4a3_fpocket_enumerate.py, and SageMaker syncs sm_io.out_dir() to S3
+(spot Training → /opt/ml/checkpoints, continuous). CPU work.
 """
 import os
 import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -26,7 +27,7 @@ def main():
                     "python=3.11", "fpocket=4.2.3"], check=True)
 
     env = os.environ.copy()
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    env["INPUT_DIR"] = sm_io.channel("md")
     env["OUTPUT_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)
     print("[sagemaker] enumerating Pocket-5 lining residues", flush=True)

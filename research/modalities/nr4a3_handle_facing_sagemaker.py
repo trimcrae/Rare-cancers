@@ -16,8 +16,7 @@ import sys
 def main():
     try:
         import sagemaker
-        from sagemaker.processing import FrameworkProcessor, ProcessingInput, ProcessingOutput
-        from sagemaker.pytorch import PyTorch
+        import sagemaker_submit
     except ImportError:
         sys.exit("pip install 'sagemaker>=2.200,<3' boto3")
 
@@ -35,29 +34,19 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
-    proc = FrameworkProcessor(
-        estimator_cls=PyTorch,
-        framework_version="2.3",
-        py_version="py311",
-        role=role,
-        instance_count=1,
-        instance_type=instance,
-        max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-handle-facing",
-        sagemaker_session=sess,
-    )
+    # Managed-SPOT Training (was on-demand Processing): the metad prefix mounts as the "metad" channel
+    # (entry reads sm_io.channel("metad")); checkpoint_s3_uri = the SAME out_prefix, synced continuously.
+    inputs = {"metad": f"s3://{bucket}/{in_prefix}"}
     print(f"submitting handle-facing analysis: {instance}, trajectory={dcd_name}, "
           f"s3://{bucket}/{in_prefix} -> s3://{bucket}/{out_prefix}", flush=True)
-    proc.run(
-        code="entry_handle_facing.py",
+    sagemaker_submit.submit_spot(
+        entry_point="entry_handle_facing.py",
         source_dir=os.path.join(here, "sagemaker_src"),
-        inputs=[ProcessingInput(source=f"s3://{bucket}/{in_prefix}",
-                                destination="/opt/ml/processing/input")],
-        outputs=[ProcessingOutput(source="/opt/ml/processing/output",
-                                  destination=f"s3://{bucket}/{out_prefix}")],
+        base_job_name="nr4a3-handle-facing",
+        output_prefix=out_prefix,
+        inputs=inputs,
         arguments=["--dcd-name", dcd_name, "--git-ref", git_ref],
-        wait=True,
-        logs=True,
+        instance=instance, max_run=max_runtime, sess=sess, role=role, wait=True,
     )
     print(f"done — results in s3://{bucket}/{out_prefix}", flush=True)
 

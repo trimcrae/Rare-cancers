@@ -12,7 +12,8 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
 
 
 def main():
@@ -37,7 +38,7 @@ def main():
 
     env = os.environ.copy()
     env["PATH"] = smina_env.path_with_wrapper(env)          # make the smina wrapper discoverable
-    env["INPUT_DIR"] = "/opt/ml/processing/input"
+    env["INPUT_DIR"] = sm_io.channel("input")
     env["OUTPUT_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running warhead screen (ref {args.git_ref})", flush=True)

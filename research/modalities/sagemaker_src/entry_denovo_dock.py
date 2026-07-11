@@ -18,8 +18,14 @@ import shutil
 import subprocess
 import sys
 
-OUT = "/opt/ml/processing/output"
-IN = "/opt/ml/processing/input"
+import sm_io
+OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 sync); Processing → legacy path
+# Common parent of all input channels. Under spot Training each channel `name` mounts at
+# SM_CHANNEL_<NAME> == /opt/ml/input/data/<name>, so their shared parent is /opt/ml/input/data; under
+# Processing it is /opt/ml/processing/input. Derive it from an always-mounted channel (nr4a1) so the
+# per-paralogue subdir joins below — os.path.join(IN, tag) and INPUT_DIR passed to nr4a3_matrix.py —
+# resolve correctly in BOTH modes (channel name == subdir tag). nr4a1/nr4a2 are always mounted.
+IN = os.path.dirname(sm_io.channel("nr4a1"))
 
 
 def main():
