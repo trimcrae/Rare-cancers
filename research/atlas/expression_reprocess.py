@@ -29,6 +29,7 @@ stroma dilutes tumor-cell reads. A gene absent from an array is "not measured", 
 Output: research/atlas/_generated/emc-expression-reprocess.json (+ .md summary).
 """
 import gzip
+import io
 import json
 import os
 import re
@@ -39,6 +40,7 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTDIR = os.path.join(HERE, "_generated")
 os.makedirs(OUTDIR, exist_ok=True)
+OUTJSON = os.path.join(OUTDIR, "emc-expression-reprocess.json")
 
 DATASETS = ["GSE4303", "GSE24369"]
 
@@ -54,9 +56,29 @@ def _get(url, timeout=240):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read()
         except Exception as e:  # noqa
-            print(f"  retry {i+1} {url[:80]}: {e}", file=sys.stderr)
+            print(f"  retry {i+1} {url[:80]}: {e}", file=sys.stderr, flush=True)
             time.sleep(2 ** i)
     raise RuntimeError(f"failed: {url}")
+
+
+def _gz_lines(url, timeout=360):
+    """STREAM decoded text lines from a gzipped HTTP response, never holding the whole
+    decompressed file in memory (GEO GPL SOFT annotations can be hundreds of MB decompressed and
+    OOM-kill a 7 GB runner). Retries the connection; streams line by line thereafter."""
+    req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers-atlas/1.0"})
+    last = None
+    for i in range(4):
+        try:
+            resp = urllib.request.urlopen(req, timeout=timeout)
+            gz = gzip.GzipFile(fileobj=resp)
+            for raw in io.BufferedReader(gz, buffer_size=1 << 20):
+                yield raw.decode("utf-8", "replace").rstrip("\n")
+            return
+        except Exception as e:  # noqa
+            last = e
+            print(f"  retry {i+1} {url[:80]}: {e}", file=sys.stderr, flush=True)
+            time.sleep(2 ** i)
+    raise RuntimeError(f"failed streaming: {url}: {last}")
 
 
 def series_group(gse):
@@ -74,14 +96,14 @@ def list_matrix_files(gse):
     return base, files
 
 
-def parse_series_matrix(raw):
-    """Return dict: platform, samples, titles, characteristics(list per sample joined), probes, values."""
-    text = gzip.decompress(raw).decode("utf-8", "replace")
+def parse_series_matrix(url):
+    """Return dict: platform, samples, titles, characteristics(list per sample joined), probes, values.
+    Streams the gzipped series matrix line by line (memory-flat)."""
     platform, samples, titles = None, [], []
     charac = {}  # sample_index -> list of characteristic strings
     probes, values, header = [], [], None
     in_tbl = False
-    for ln in text.splitlines():
+    for ln in _gz_lines(url):
         if ln.startswith("!Series_platform_id") and platform is None:
             platform = ln.split("\t")[-1].strip().strip('"')
         elif ln.startswith("!Sample_geo_accession"):
@@ -123,15 +145,15 @@ def parse_gpl_symbols(platform_id):
     n = re.sub(r"\D", "", platform_id)
     grp = f"GPL{n[:-3]}nnn" if len(n) > 3 else "GPLnnn"
     url = f"https://ftp.ncbi.nlm.nih.gov/geo/platforms/{grp}/{platform_id}/soft/{platform_id}_family.soft.gz"
-    try:
-        text = gzip.decompress(_get(url, timeout=360)).decode("utf-8", "replace")
-    except Exception as e:  # noqa
-        print(f"  GPL soft fetch failed ({e})", file=sys.stderr)
-        return {}
     mapping = {}
     in_tbl = False
     header, id_i, sym_i = None, None, None
-    for ln in text.splitlines():
+    try:
+        lines = _gz_lines(url)
+    except Exception as e:  # noqa
+        print(f"  GPL soft fetch failed ({e})", file=sys.stderr, flush=True)
+        return {}
+    for ln in lines:
         if ln.startswith("!platform_table_begin"):
             in_tbl = True
             continue
@@ -214,9 +236,9 @@ def process(gse):
     out["matrix_files"] = files
     platforms = []
     for fn in files:
+        print(f"  {gse}: parsing {fn} ...", file=sys.stderr, flush=True)
         try:
-            raw = _get(base + fn)
-            sm = parse_series_matrix(raw)
+            sm = parse_series_matrix(base + fn)
         except Exception as e:  # noqa
             platforms.append({"file": fn, "error": str(e)})
             continue
@@ -325,18 +347,32 @@ def process(gse):
 
 
 def main():
-    results = {"_note": "EMC atlas expression reprocessing (author-normalized series matrices; rank-based; "
-                        "per-platform, never merged). Run in CI (GEO reachable). See METHODS.md.",
-               "_bounds": "Series-matrix (not raw-CEL RMA); tiny n; legacy arrays; stroma dilution; "
-                          "AUC on two-colour data is relative-to-reference.",
-               "datasets": []}
-    for gse in DATASETS:
-        print(f"processing {gse} ...", file=sys.stderr)
+    # Optional dataset args -> process only those and MERGE into the existing output file, so the
+    # workflow can run each dataset as its own step + commit-push (checkpoint rule: a later runner
+    # kill cannot lose an already-pushed dataset).
+    which = [a for a in sys.argv[1:] if a.startswith("GSE")] or DATASETS
+    if os.path.exists(OUTJSON):
+        with open(OUTJSON) as f:
+            results = json.load(f)
+    else:
+        results = {"_note": "EMC atlas expression reprocessing (author-normalized series matrices; rank-based; "
+                            "per-platform, never merged). Run in CI (GEO reachable). See METHODS.md.",
+                   "_bounds": "Series-matrix (not raw-CEL RMA); tiny n; legacy arrays; stroma dilution; "
+                              "AUC on two-colour data is relative-to-reference.",
+                   "datasets": []}
+    by_gse = {d.get("gse"): i for i, d in enumerate(results["datasets"])}
+    for gse in which:
+        print(f"processing {gse} ...", file=sys.stderr, flush=True)
         try:
-            results["datasets"].append(process(gse))
+            d = process(gse)
         except Exception as e:  # noqa
-            results["datasets"].append({"gse": gse, "error": str(e)})
-    with open(os.path.join(OUTDIR, "emc-expression-reprocess.json"), "w") as f:
+            d = {"gse": gse, "error": str(e)}
+        if gse in by_gse:
+            results["datasets"][by_gse[gse]] = d
+        else:
+            results["datasets"].append(d)
+            by_gse[gse] = len(results["datasets"]) - 1
+    with open(OUTJSON, "w") as f:
         json.dump(results, f, indent=2)
     # brief markdown
     lines = ["# EMC expression reprocessing (generated in CI)", "",

@@ -26,12 +26,12 @@ permissions:
 
 concurrency:
   group: atlas-data-${{ github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,25 +40,41 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Reprocess public EMC expression (GSE4303, GSE24369)
+      # --- Unit 1: the fast, low-memory work (GSE4303 + full-text verify) — committed FIRST so a
+      #     later runner kill on the heavy dataset cannot lose it (checkpoint + push-incrementally). ---
+      - name: Reprocess GSE4303
         working-directory: research/atlas
-        run: python expression_reprocess.py || echo "expression reprocess failed (continuing)"
+        run: python expression_reprocess.py GSE4303 || echo "GSE4303 failed (continuing)"
 
       - name: Primary full-text verification (EuropePMC)
         working-directory: research/atlas
         run: python fulltext_verify.py || echo "fulltext verify failed (continuing)"
 
-      - name: Commit generated outputs to the triggering branch
+      - name: Commit unit 1 (GSE4303 + full-text verify)
         if: always()
         run: |
-          set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/atlas/_generated/ || true
-          if git diff --cached --quiet; then
-            echo "no generated changes"; exit 0
-          fi
-          git commit -m "Atlas data: GEO expression reprocess + EuropePMC full-text verification (CI)"
+          git diff --cached --quiet && { echo "no changes"; exit 0; }
+          git commit -m "Atlas data (CI): GSE4303 reprocess + EuropePMC full-text verification"
+          for i in 1 2 3 4; do
+            git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
+          done
+
+      # --- Unit 2: the heavy dataset (GSE24369) — streamed parse keeps memory flat; committed on its own. ---
+      - name: Reprocess GSE24369
+        working-directory: research/atlas
+        run: python expression_reprocess.py GSE24369 || echo "GSE24369 failed (continuing)"
+
+      - name: Commit unit 2 (GSE24369)
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/atlas/_generated/ || true
+          git diff --cached --quiet && { echo "no changes"; exit 0; }
+          git commit -m "Atlas data (CI): GSE24369 reprocess"
           for i in 1 2 3 4; do
             git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
           done
