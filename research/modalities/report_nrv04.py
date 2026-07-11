@@ -475,12 +475,29 @@ def main():
             if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
                 systems[name] = analyse_system(tmp, name, "ternary")
 
+        # negative controls (NR4A1 + VHL + inactive-epimer PROTAC / free celastrol): each MUST FAIL to bridge.
+        negatives = {}
+        for name in ("neg_inactive", "neg_celastrol"):
+            if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
+                negatives[name] = analyse_system(tmp, name, "ternary")
+        neg_pass = None
+        if negatives:
+            neg_pass = all((s["ensemble"].get("moiety_bridged_default") or 0) < 0.5 for s in negatives.values())
+
         report = {"prefix": prefix, "bucket": bucket, "mode": prep_data.get("mode"),
                   "seeds": prep_data.get("seeds"), "ground_truth": prep_data.get("ground_truth"),
-                  "control": control, "systems": systems}
+                  "control": control, "systems": systems,
+                  "negative_controls": {k: v["ensemble"] for k, v in negatives.items()},
+                  "negative_controls_pass": neg_pass}
         report["pilot_gate"] = pilot_verdict(control, systems.get("nr4a1"))
         if all(k in systems for k in ("nr4a1", "nr4a2", "nr4a3")):
-            report["full_gate"] = full_verdict(systems)
+            fg = full_verdict(systems)
+            # fold the negative-control result into the frozen-criteria verdict
+            fg["negative_controls_pass"] = neg_pass
+            if neg_pass is False:
+                fg["verdict"] = "failed-negative-control"
+                fg["basis"] = "a negative control bridged NR4A1 — the productive-geometry readout is not specific"
+            report["full_gate"] = fg
 
         json.dump(report, open(out_path, "w"), indent=2)
         print("\n=== NR-V04 / VHL ternary benchmark — %s ===" % prefix)
@@ -495,6 +512,11 @@ def main():
                   (name.upper(), e.get("moiety_bridged_default"), e.get("n_samples"), DEFAULT_CUTOFF,
                    e.get("wrong_end_fraction"), e.get("whole_ligand_bridged_fraction"),
                    (e.get("ligand_iptm") or {}).get("mean"), (e.get("lys_nz_to_vhl_A") or {}).get("mean")))
+        for name, e in report["negative_controls"].items():
+            print("NEG %s: moiety-bridged %s (should be <0.5) @ %.1f Å; wrong-end %s" %
+                  (name, e.get("moiety_bridged_default"), DEFAULT_CUTOFF, e.get("wrong_end_fraction")))
+        if report.get("negative_controls_pass") is not None:
+            print("NEGATIVE CONTROLS PASS (both fail to bridge NR4A1): %s" % report["negative_controls_pass"])
         print("\nPILOT GATE: %s — %s" % (report["pilot_gate"]["verdict"], report["pilot_gate"]["reason"]))
         if "full_gate" in report:
             print("FULL GATE: %s" % json.dumps(report["full_gate"]))
