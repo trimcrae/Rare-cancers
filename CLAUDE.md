@@ -86,14 +86,20 @@ read it before making changes.
     them end to end; never pause between actionable items, never end a turn with cheap actionable work left
     on the board.** Dispatch long jobs and keep working / self-wake-poll (background-bash poller) rather than
     idling. Progress reports are fine but are NEVER a stopping point — report *in passing*, then keep going.
-  - **(2) THE ONLY REASON TO STOP AND PING IS A REAL BLOCK.** "Blocked" = **no cheap actionable step exists
-    anywhere** — every remaining item is EXPENSIVE (multi-leg GPU / hundreds of \$ / multi-day), needs a
-    **genuine judgment call**, or needs trimcrae's input. At that — and ONLY that — moment, call
-    **`AskUserQuestion` with a concrete MULTI-CHOICE decision** (it pushes a phone notification). Give real,
-    mutually-exclusive options with a recommended default first. Do **not** go silent when blocked (that
-    leaves trimcrae waiting with no signal); do **not** ping when unblocked (that defeats "put the phone
-    down"). **The contract:** a notification means — and only means — you hit a genuine block and need a
-    decision; its ABSENCE means you are still working. Honor it in both directions.
+  - **(2) THE ONLY REAL GATE IS GPU SPEND — make every JUDGMENT CALL yourself (trimcrae, 2026-07-11,
+    clarifying).** Do **NOT** ping for judgment calls, experimental-design choices, ambiguity, or "which
+    approach" decisions — **those are YOURS to make.** Pick the best option, write down the reasoning, and
+    proceed. Getting it imperfect is fine; stalling for a decision you could make is not. The **ONLY** thing
+    that requires trimcrae is **spending real GPU/AWS dollars ABOVE the autonomy threshold** (≳$50 / a
+    multi-leg GPU fleet / hundreds of \$ / a multi-day commitment). So you are "blocked" **only** when the
+    single most valuable remaining step needs an expensive GPU spend AND there is no cheaper actionable work
+    to do first. At that — and only that — moment, call **`AskUserQuestion` with a concrete MULTI-CHOICE
+    decision** (it pushes a phone notification): real, mutually-exclusive options (typically the candidate
+    expensive runs + "wrap up / hold"), recommended default first, enough context to answer without
+    scrolling. Do **not** go silent when GPU-gated (surface the choice so trimcrae can unblock the spend);
+    do **not** ping for anything you can decide or do yourself under the threshold. **The contract:** a
+    notification means — and only means — the next worthwhile move costs real GPU money and needs a
+    spend decision; its ABSENCE means you are still working. Honor it in both directions.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
