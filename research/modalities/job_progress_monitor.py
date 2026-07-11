@@ -10,6 +10,12 @@ Two job families are recognised from their stdout markers (no external state nee
         `[abfe] nan-guard v2 active (window N, seed S)`. Windows are the progress unit; the reduce prints
         `[abfe] DG_BIND ...` / `SHARD_DONE` at the end. Per-iteration progress lives in the per-window jsonl
         (checkpointed to S3), not stdout, so window-granularity is the stdout-observable resolution.
+        CAVEAT (verified 2026-07-11): one λ-window's MD can legitimately take 30-100 min on the OpenCL
+        fallback (the g5 CUDA build hits CUDA_ERROR_UNSUPPORTED_PTX_VERSION), so a stale window-start marker
+        is NOT a reliable hang signal — the AUTHORITATIVE ABFE progress/hang signal is the per-window jsonl
+        checkpoint DEPTH via abfe-progress-aws.yml (iterations advancing = alive). Hence ABFE_HANG_MIN below is
+        deliberately large; use abfe-progress for true intra-window ETA. Boltz per-seed markers (~3.5 min each)
+        ARE reliable for marker-age hang detection.
 
   BOLTZ (nr4a3_ternary.py / nrv04_ternary.py co-fold): each ensemble member prints
         `running: boltz predict <stem>.yaml ... --seed K`, then `Predicting DataLoader 0: 100%|...| 1/1`
@@ -47,6 +53,11 @@ _ABFE_ANY = re.compile(r"\[abfe\]")
 # BOLTZ ensemble-member start: `running: boltz predict .../<stem>.yaml ... --seed K`
 _BOLTZ_RUN = re.compile(r"boltz predict\s+\S*?/?([A-Za-z0-9_\-]+)\.yaml.*?--seed\s+(\d+)")
 _BOLTZ_ANY = re.compile(r"boltz predict|Predicting DataLoader")
+
+# Kind-aware default hang thresholds (min). ABFE windows can legitimately run ~100 min on the OpenCL fallback,
+# so only flag a hang when a window-start marker is stale for far longer than any single window should take;
+# for true ABFE progress use abfe-progress (checkpoint depth). Boltz members are ~3.5 min so 25 min is safe.
+DEFAULT_HANG_MIN = {"abfe": 150.0, "boltz": 25.0}
 
 
 def parse_ts(line):
@@ -186,7 +197,9 @@ def main():
     ap.add_argument("--kind", default="auto", choices=["auto", "abfe", "boltz"])
     ap.add_argument("--total-units", type=int, default=None, help="expected total units (16 windows / N members)")
     ap.add_argument("--prev", help="prior sample JSON (from a previous --emit) → rate + ETA")
-    ap.add_argument("--hang-min", type=float, default=25.0, help="mark a hang if the newest marker is older than this (min)")
+    ap.add_argument("--hang-min", type=float, default=None,
+                    help="mark a hang if the newest marker is older than this (min); default is kind-aware "
+                         "(abfe=150, boltz=25) since ABFE windows run far longer than Boltz members")
     ap.add_argument("--now-iso", default=None, help="reference 'now' UTC iso (default = current sample's last activity)")
     ap.add_argument("--emit", help="write the current sample JSON here for the next cycle's --prev")
     args = ap.parse_args()
@@ -201,8 +214,9 @@ def main():
         print("unknown job kind (no [abfe] or boltz markers in log)", file=sys.stderr)
         sys.exit(2)
 
+    hang_min = args.hang_min if args.hang_min is not None else DEFAULT_HANG_MIN.get(kind, 25.0)
     prev = json.load(open(args.prev)) if args.prev else None
-    a = analyse(cur, prev=prev, total_units=args.total_units, now_iso=args.now_iso, hang_min=args.hang_min)
+    a = analyse(cur, prev=prev, total_units=args.total_units, now_iso=args.now_iso, hang_min=hang_min)
     print(render(a, total_units=args.total_units))
     print(json.dumps(a))
     if args.emit:
