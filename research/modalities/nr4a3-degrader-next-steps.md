@@ -5,6 +5,14 @@ manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degr
 pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)) before launching
 anything. Last updated 2026-06-26.
 
+> **ENSEMBLE-ROBUST REDESIGN (2026-07-11, branch `claude/nr4a3-ensemble-redesign`).** trimcrae directed a
+> redesign against an *ensemble-defined* target (not another molecule against one selected frame), motivated
+> by the two single-frame failure modes we hit (metad-frame decoy null flip; 8XTT provenance moving ΔG by more
+> than the margin). Plan + conformer-panel (design/validation/stress) split + the worst-case objective
+> `S = min_c M − λ·SD − γ·max B` and its gates: **[`nr4a3-ensemble-redesign-plan.md`](./nr4a3-ensemble-redesign-plan.md)**.
+> The scorer is built + unit-tested (`ensemble_robust_score.py`); cheap redesign work is **gated on the
+> harmonized pocket-tracking audit landing**, expensive new-compound ABFE on the λ-repair / T4L-v2 work.
+
 ## TL;DR
 Druggability case is a **feasibility result, stated honestly** (see the red-team:
 [`../manuscripts/nr4a3-degrader-paper-redteam.md`](../manuscripts/nr4a3-degrader-paper-redteam.md)).
