@@ -291,6 +291,18 @@
     "still_pending": [
       "#1 primary-source exact NR-V04 structure (else 'representative' label stands)",
       "#9 remainder: immutable per-run S3 prefix convention, forced-restart spot-restore smoke, realized-savings reporting"
-    ]
+    ],
+    "spot_reproducibility_status": {
+      "DONE_in_code": [
+        "pinned Boltz (boltz==2.2.1 via BOLTZ_SPEC)",
+        "pinned git ref (GIT_REF, full clone+checkout)",
+        "run_provenance.json stamp (resolved commit+boltz spec+args+prefix) written to output"
+      ],
+      "operational_pre_rerun": [
+        "use an IMMUTABLE per-run S3 OUTPUT_PREFIX (e.g. nrv04-corrected-YYYYMMDD-<tag>); never reuse a prefix across runs",
+        "forced-restart spot-restore smoke (interrupt a smoke job; confirm resume from /opt/ml/checkpoints) \u2014 negligible capped GPU",
+        "report REALIZED savings via list-sagemaker mode=savings (billable vs training hours), not an assumed %"
+      ]
+    }
   }
 }
