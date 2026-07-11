@@ -45,31 +45,59 @@ group → (3) escalate to the concrete validation/re-analysis offer only with th
 | 3 | **Dr. Silvia Stacchiotti** — Adult Mesenchymal & Rare Tumor Unit, Fondazione IRCCS Istituto Nazionale dei Tumori, Milan | Led essentially all EMC systemic-therapy evidence + the EWSR1-vs-TAF15 differential | Corresponding author, Stacchiotti 2019 (Lancet Oncol, PMID 31331701) — copy exact email from the paper | 2 — antiangiogenic biomarker + cohort |
 
 **Most-receptive first track (start here):**
-- **Rare Cancer Research Foundation / "Count Me In" patient-partnered network** (rarecancer.org / joincountmein.org — *verify current URLs*): built to connect patients, tissue/models, and researchers; unusually open to independents; can broker tissue + introductions.
-- **Sarcoma Foundation of America** (curesarcoma.org — *verify*): research grants + a sarcoma research network; a legitimate funder/introducer for an independent.
+- **Rare Cancer Research Foundation (RCRF)** — rarecancer.org (+ its External Cancer Model Resources page;
+  CancerModels.org) — **the strongest foundation lead: RCRF actually *generates* patient-derived cell-line
+  models from donated tumors**, which is exactly what EMC lacks. Natural partner to connect the atlas to
+  model generation + tissue, and to broker introductions. Contact via the site.
+- **Count Me In** — joincountmein.org (Broad/Dana-Farber) — patient-partnered data/samples with rare-cancer/
+  sarcoma projects; a route to patient-contributed EMC data and a receptive community.
+- **Sarcoma Foundation of America (SFA)** — curesarcoma.org; tel (301) 253-8687; grants via proposalCENTRAL
+  (~$75k/yr). **Eligibility note: SFA grants require an MD/DO/PhD (or intl. equivalent) as PI** — so for an
+  unaffiliated non-PhD applicant this is a **"route via a collaborator who applies,"** not a direct grant;
+  still a legitimate network/introducer.
 - **Structural Genomics Consortium (SGC)** (thesgc.org): for the long-horizon NR4A3-ligand/direct-fusion route (open chemical-biology collaboration).
 
 ---
 
 ## Emails (Tristan's name filled; only the DOI/repo link `[LINK]` remains once you cut the release)
 
-### Email A → a foundation / patient-partnered network (send FIRST — most receptive)
+### Email A1 → Rare Cancer Research Foundation (send FIRST — the model-generation lead)
 
-> **Subject:** Open, citable EMC evidence atlas from an independent researcher — seeking to connect it to models & clinicians
+> **To:** `[contact route via rarecancer.org]`
+> **Subject:** Open EMC drug atlas + the model gap — can we connect it to your model-generation program?
 >
-> Dear `[team / name]`,
+> Dear RCRF team,
 >
-> I'm Tristan McRae, an independent researcher. I've built and openly released the **EMC Open Target &
-> Drug Atlas** (`[DOI/LINK]`) — a reproducible, provenance-checked integration of every usable EMC
-> dataset, model, drug screen, and clinical cohort, with a transparent evidence score and a wet-lab-ready
-> validation package. It's built entirely from public data and is designed to be handed to a lab.
+> I'm Tristan McRae, an independent researcher. I've openly released the **EMC Open Target & Drug Atlas**
+> (`[DOI/LINK]`) — a reproducible, provenance-checked integration of every usable extraskeletal myxoid
+> chondrosarcoma (EMC) dataset, model, drug screen, and clinical cohort, with a transparent evidence
+> score and a wet-lab-ready validation package, all from public data.
 >
-> As an unaffiliated researcher, my main need is connection: to the groups holding EMC models and
-> tissue, and ideally to a clinician or scientist willing to collaborate. Would your network be open to
-> (a) pointing me toward the right people, and/or (b) considering the resource for your researcher
-> community? I'd gladly present it on a short call.
+> EMC's single biggest bottleneck is models and tissue — exactly what RCRF generates. I'd love to explore
+> two things: (a) connecting the atlas's validation package to your patient-derived-model program so any
+> EMC tumor donations become high-value functional experiments, and (b) an introduction to the EMC
+> model-owning labs and, ideally, a clinician/scientist collaborator. Could we set up a short call?
 >
-> Thank you for what you do for rare-cancer patients,
+> With gratitude for what RCRF does,
+> Tristan McRae · `[email]` · `[DOI/LINK]`
+
+### Email A2 → Sarcoma Foundation of America (network + collaborator route)
+
+> **To:** `[contact via curesarcoma.org; tel (301) 253-8687]`
+> **Subject:** Open EMC evidence atlas from an independent researcher — seeking a sarcoma-research connection
+>
+> Dear SFA team,
+>
+> I'm Tristan McRae, an independent researcher. I've openly released the **EMC Open Target & Drug Atlas**
+> (`[DOI/LINK]`), a public, citable resource that turns the scattered EMC evidence into a ranked,
+> wet-lab-ready program for this ultra-rare sarcoma.
+>
+> I understand SFA research grants require an MD/DO/PhD PI, so I'm not writing to apply directly — rather,
+> as an unaffiliated researcher, I'm looking to connect with a sarcoma investigator in your network who
+> might partner on it (and could carry a grant), and to make the resource available to your research
+> community. Might you be able to point me to the right people?
+>
+> Thank you for your work in sarcoma,
 > Tristan McRae · `[email]` · `[DOI/LINK]`
 
 ### Email B → Dr. Pauli (soft entry; USZ models)
@@ -145,9 +173,10 @@ group → (3) escalate to the concrete validation/re-analysis offer only with th
   3. Optional: render `collaborator-brief.md` to PDF to attach.
 
 **Step 1 — Parallel track: most-receptive audiences + co-author hunt (week 1).**
-  Send **Email A** to the Rare Cancer Research Foundation / Count Me In network and the Sarcoma Foundation
-  of America (verify current contact routes). Explicitly ask for introductions and for a
-  clinician/scientist co-author. This track is where an independent most realistically gains a sponsor.
+  Send **Email A1** to the Rare Cancer Research Foundation (the model-generation lead) and **Email A2** to the
+  Sarcoma Foundation of America; also look at Count Me In (joincountmein.org) for patient-contributed data.
+  Explicitly ask for introductions and for a clinician/scientist co-author. This track is where an
+  independent most realistically gains a sponsor.
 
 **Step 2 — Soft-entry academic emails (week 1–2).**
   Send **Email B (Pauli)** and **Email C (Kondo)** — model owners, low-commitment "did I represent this

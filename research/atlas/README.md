@@ -33,7 +33,8 @@ built to be handed to a wet-lab collaborator. Nothing here is a treatment recomm
 | `build.mjs` | One-command build: validates provenance, emits the `dist/` TSVs | reproducibility |
 | `dist/*.tsv` | Generated, human-readable deliverables (do not hand-edit) | machine-readable outputs |
 | `collaborator-brief.md` | 2-page evidence-backed package to recruit a wet-lab/clinical partner | strategy Phase B |
-| `outreach.md` | Tailored target map + ready-to-review email DRAFTS (send needs trimcrae sign-off) | strategy Phase B |
+| `outreach.md` | Unaffiliated-researcher outreach: strategy, real recipients, send-ready emails + runbook (send needs trimcrae sign-off) | strategy Phase B |
+| `overview-plain-language.md` | Non-technical explainer of the atlas for patients/foundations | outreach support |
 | `antiangiogenic-mechanism.md` | Kinome-level TKI comparison + response-linked CRF/common data model | strategy Project 3 |
 | `lineage-antigen-program.md` | Fusion-induced lineage-antigen program (B7-H3/PRAME/CHRNA6/NMB) | strategy Project 4 (lineage) |
 | `expression_reprocess.py`, `fulltext_verify.py`, `panel_dependency.py` | CI data-fetch scripts (GEO/EuropePMC/DepMap — run via `atlas-data.yml`) | internet-gated analyses |
