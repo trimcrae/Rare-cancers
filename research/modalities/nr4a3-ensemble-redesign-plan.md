@@ -5,9 +5,10 @@
 against one selected frame").*
 
 Read alongside: the program state ([`nr4a3-degrader-next-steps.md`](./nr4a3-degrader-next-steps.md)), the
-provenance memo ([`../manuscripts/nr4a3-8xtt-provenance-memo.md`](../manuscripts/nr4a3-8xtt-provenance-memo.md)),
-the pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)), and the harmonized
+manuscript §2.1/§2.8 ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)), the
+pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)), and the harmonized
 pocket tracker ([`pocket_tracking.py`](./pocket_tracking.py) + [`nr4a3_pocket_reharmonize.py`](./nr4a3_pocket_reharmonize.py)).
+**This plan is the source of truth for the redesign's next steps** (per trimcrae's 2026-07-11 directive).
 
 ## 1. Why redesign (the single-frame failure modes we already hit)
 
@@ -121,10 +122,10 @@ tiers; the decision logic itself is done and gated on nothing.
   (`nr4a3_pocket_reharmonize.py`, workflow `gpu-pocket-reharmonize-aws.yml`) are **built**; the **consolidated
   result is not yet committed** — running/landing it is the immediate unblocker. *Do not finalize panel
   membership before it.*
-- **GATE-2 (expensive ABFE on NEW compounds):** do not commit substantial ABFE to new compounds until (a) the
-  dense-λ schedule is validated (NR4A2 λ-repair pilot, validation gate at window 9), (b) T4L benchmark v2 is
-  understood (engine absolute-accuracy anchor), and (c) the same repaired protocol is applied to **both** the
-  AF2- and 8XTT-derived NR4A3 states. All three are **in flight** per the provenance memo §4.
+- **GATE-2 (expensive ABFE on NEW compounds):** per trimcrae's directive, do not commit substantial ABFE to
+  new compounds until (a) the dense-λ schedule is validated, (b) T4L benchmark v2 is understood (engine
+  absolute-accuracy anchor), and (c) the same repaired protocol is applied to **both** the AF2- and
+  8XTT-derived NR4A3 states.
 
 Per the standing autonomy rules: build/enumerate/triage (engineering + CPU docks) proceed once GATE-1 clears;
 each expensive GPU leg (selectivity FEP on a new candidate) still needs the explicit FEP go-ahead (§ FEP
@@ -159,7 +160,7 @@ the conformer effect."* That is the deliverable this branch is for.
 - ✅ **Scoring layer built:** `ensemble_robust_score.py` + 24 unit tests (this branch).
 - ✅ **Plan codified:** this document.
 - ⏳ **GATE-1:** land the harmonized pocket-tracking audit result → finalize the conformer panel.
-- ⏳ **GATE-2:** λ-repair validation + T4L v2 + repaired both-provenance NR4A3 ABFE (in flight).
+- ⏳ **GATE-2:** λ-repair validation + T4L v2 + repaired both-provenance NR4A3 ABFE (prereq for new-compound ABFE).
 - ▶ **Next once GATE-1 clears:** wire `ensemble_robust_score` into `nr4a3_matrix` / `nr4a3_leadopt` /
   `nr4a3_8xtt_conformer_scoring` to rank Branch-A and Branch-B candidates on the panel; run the
   generation-matched null on the redesign.
