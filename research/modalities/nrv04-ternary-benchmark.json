@@ -203,5 +203,17 @@
       "role": "NEGATIVE control PROTAC \u2014 full NR-V04 with the 4-hydroxyproline epimerised (VHL-inactive cis); must NOT recruit VHL / must NOT form a productive NR4A1 ternary",
       "provenance": "NR-V04 representative SMILES with the Hyp (2S,4R)->(2S,4S) stereocentre inverted; RDKit: same connectivity block as active NR-V04 (ADEXNWCZOWYLJV-WOMBUDSUSA-N), different stereo block"
     }
+  },
+  "negative_control_shakeout": {
+    "date": "2026-07-11",
+    "prefix": "nrv04-shakeout",
+    "sampling": "2 seeds x 2 poses (n=4) \u2014 plumbing shakeout",
+    "NR4A1_active": "moiety-bridged 0.75",
+    "neg_celastrol_free_warhead": "moiety-bridged 0.0 (CORRECT \u2014 no VHL handle)",
+    "neg_inactive_hyp_epimer_PROTAC": "moiety-bridged 0.75 (FAILS \u2014 bridges like active)",
+    "negative_controls_pass": false,
+    "finding": "The distance-based moiety-bridging readout captures GROSS productive-geometry specificity (free celastrol, which lacks a VHL handle, correctly fails to bridge) but NOT fine BINDING-AFFINITY specificity: the VHL-inactive hydroxyproline EPIMER PROTAC \u2014 which differs from active NR-V04 by a single stereocentre that abolishes VHL binding experimentally \u2014 is placed by the co-fold in the SAME bridging geometry as the active PROTAC (0.75 vs 0.75). A co-fold predicts a STRUCTURE, not affinity, so a geometry-only readout cannot distinguish a well-placed non-binder from a real binder.",
+    "implication": "Per the frozen criteria this is a FAILED negative control -> the productive-geometry readout must NOT be used to RANK prospective linkers on affinity/binding. It can flag whether a linker geometry CAN bridge (architecture triage), but binding must be established by a SEPARATE affinity method (recruiter FEP/ABFE or docking), not the co-fold geometry. This BLOCKS a geometry-only prospective ranking campaign \u2014 the gate's concern (fix 6) was correct.",
+    "caveat": "n=4 shakeout; the full expanded run (more seeds x all poses) is dispatched to confirm robustly."
   }
 }

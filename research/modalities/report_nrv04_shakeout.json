@@ -1,0 +1,531 @@
+{
+  "prefix": "nrv04-shakeout",
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "mode": "full",
+  "seeds": [
+    1,
+    2
+  ],
+  "ground_truth": {
+    "NR4A1": "degraded",
+    "NR4A2": "spared",
+    "NR4A3": "spared"
+  },
+  "control": null,
+  "systems": {
+    "nr4a1": {
+      "system": "nr4a1",
+      "kind": "ternary",
+      "n_seeds": 2,
+      "n_samples": 4,
+      "samples": [
+        {
+          "seed": "seed_1",
+          "rank": 0,
+          "confidence": {
+            "confidence_score": 0.7315,
+            "ptm": 0.5688,
+            "iptm": 0.49,
+            "ligand_iptm": 0.8191,
+            "protein_iptm": 0.464,
+            "complex_plddt": 0.7919,
+            "complex_iplddt": 0.7006
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 2.44,
+            "lig_to_vhl_A": 2.61,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 3.59,
+              "counts": {
+                "8A": 1,
+                "12A": 1,
+                "16A": 3
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": true,
+              "4.5": true,
+              "5.0": true
+            },
+            "moiety_bridges_default": true,
+            "wrong_end": false,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 2.44,
+            "celastrol_end_to_VHL_A": 3.92,
+            "vh032_end_to_VHL_A": 2.61,
+            "vh032_end_to_NR4A_A": 3.21
+          }
+        },
+        {
+          "seed": "seed_1",
+          "rank": 1,
+          "confidence": {
+            "confidence_score": 0.7286,
+            "ptm": 0.5807,
+            "iptm": 0.5016,
+            "ligand_iptm": 0.8134,
+            "protein_iptm": 0.4752,
+            "complex_plddt": 0.7853,
+            "complex_iplddt": 0.6523
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 2.29,
+            "lig_to_vhl_A": 2.62,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 12.13,
+              "counts": {
+                "8A": 0,
+                "12A": 0,
+                "16A": 3
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": true,
+              "4.5": true,
+              "5.0": true
+            },
+            "moiety_bridges_default": true,
+            "wrong_end": false,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 2.29,
+            "celastrol_end_to_VHL_A": 3.2,
+            "vh032_end_to_VHL_A": 2.62,
+            "vh032_end_to_NR4A_A": 3.9
+          }
+        },
+        {
+          "seed": "seed_2",
+          "rank": 0,
+          "confidence": {
+            "confidence_score": 0.7912,
+            "ptm": 0.8015,
+            "iptm": 0.7688,
+            "ligand_iptm": 0.9104,
+            "protein_iptm": 0.7521,
+            "complex_plddt": 0.7968,
+            "complex_iplddt": 0.6768
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 3.14,
+            "lig_to_vhl_A": 2.64,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 3.25,
+              "counts": {
+                "8A": 1,
+                "12A": 2,
+                "16A": 4
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": true,
+              "4.5": true,
+              "5.0": true
+            },
+            "moiety_bridges_default": true,
+            "wrong_end": false,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 3.14,
+            "celastrol_end_to_VHL_A": 3.17,
+            "vh032_end_to_VHL_A": 2.64,
+            "vh032_end_to_NR4A_A": 4.92
+          }
+        },
+        {
+          "seed": "seed_2",
+          "rank": 1,
+          "confidence": {
+            "confidence_score": 0.7513,
+            "ptm": 0.6346,
+            "iptm": 0.5666,
+            "ligand_iptm": 0.9193,
+            "protein_iptm": 0.5222,
+            "complex_plddt": 0.7974,
+            "complex_iplddt": 0.6848
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 16.97,
+            "lig_to_vhl_A": 2.58,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 8.12,
+              "counts": {
+                "8A": 0,
+                "12A": 1,
+                "16A": 1
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": false,
+              "4.5": false,
+              "5.0": false
+            },
+            "moiety_bridges_default": false,
+            "wrong_end": true,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 33.79,
+            "celastrol_end_to_VHL_A": 2.59,
+            "vh032_end_to_VHL_A": 2.58,
+            "vh032_end_to_NR4A_A": 16.97
+          }
+        }
+      ],
+      "per_seed": [
+        {
+          "seed": "seed_1",
+          "rank": 0,
+          "confidence": {
+            "confidence_score": 0.7315,
+            "ptm": 0.5688,
+            "iptm": 0.49,
+            "ligand_iptm": 0.8191,
+            "protein_iptm": 0.464,
+            "complex_plddt": 0.7919,
+            "complex_iplddt": 0.7006
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 2.44,
+            "lig_to_vhl_A": 2.61,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 3.59,
+              "counts": {
+                "8A": 1,
+                "12A": 1,
+                "16A": 3
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": true,
+              "4.5": true,
+              "5.0": true
+            },
+            "moiety_bridges_default": true,
+            "wrong_end": false,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 2.44,
+            "celastrol_end_to_VHL_A": 3.92,
+            "vh032_end_to_VHL_A": 2.61,
+            "vh032_end_to_NR4A_A": 3.21
+          }
+        },
+        {
+          "seed": "seed_1",
+          "rank": 1,
+          "confidence": {
+            "confidence_score": 0.7286,
+            "ptm": 0.5807,
+            "iptm": 0.5016,
+            "ligand_iptm": 0.8134,
+            "protein_iptm": 0.4752,
+            "complex_plddt": 0.7853,
+            "complex_iplddt": 0.6523
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 2.29,
+            "lig_to_vhl_A": 2.62,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 12.13,
+              "counts": {
+                "8A": 0,
+                "12A": 0,
+                "16A": 3
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": true,
+              "4.5": true,
+              "5.0": true
+            },
+            "moiety_bridges_default": true,
+            "wrong_end": false,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 2.29,
+            "celastrol_end_to_VHL_A": 3.2,
+            "vh032_end_to_VHL_A": 2.62,
+            "vh032_end_to_NR4A_A": 3.9
+          }
+        },
+        {
+          "seed": "seed_2",
+          "rank": 0,
+          "confidence": {
+            "confidence_score": 0.7912,
+            "ptm": 0.8015,
+            "iptm": 0.7688,
+            "ligand_iptm": 0.9104,
+            "protein_iptm": 0.7521,
+            "complex_plddt": 0.7968,
+            "complex_iplddt": 0.6768
+          },
+          "geometry": {
+            "bridges": true,
+            "lig_to_target_A": 3.14,
+            "lig_to_vhl_A": 2.64,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 3.25,
+              "counts": {
+                "8A": 1,
+                "12A": 2,
+                "16A": 4
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": true,
+              "4.5": true,
+              "5.0": true
+            },
+            "moiety_bridges_default": true,
+            "wrong_end": false,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 3.14,
+            "celastrol_end_to_VHL_A": 3.17,
+            "vh032_end_to_VHL_A": 2.64,
+            "vh032_end_to_NR4A_A": 4.92
+          }
+        },
+        {
+          "seed": "seed_2",
+          "rank": 1,
+          "confidence": {
+            "confidence_score": 0.7513,
+            "ptm": 0.6346,
+            "iptm": 0.5666,
+            "ligand_iptm": 0.9193,
+            "protein_iptm": 0.5222,
+            "complex_plddt": 0.7974,
+            "complex_iplddt": 0.6848
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 16.97,
+            "lig_to_vhl_A": 2.58,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 53,
+              "dist_A": 8.12,
+              "counts": {
+                "8A": 0,
+                "12A": 1,
+                "16A": 1
+              }
+            }
+          },
+          "moiety": {
+            "moiety_bridges": {
+              "4.0": false,
+              "4.5": false,
+              "5.0": false
+            },
+            "moiety_bridges_default": false,
+            "wrong_end": true,
+            "split": "S-anchor split (VH032 end vs celastrol end)",
+            "celastrol_end_to_NR4A_A": 33.79,
+            "celastrol_end_to_VHL_A": 2.59,
+            "vh032_end_to_VHL_A": 2.58,
+            "vh032_end_to_NR4A_A": 16.97
+          }
+        }
+      ],
+      "ensemble": {
+        "ligand_iptm": {
+          "n": 4,
+          "mean": 0.8656,
+          "min": 0.8134,
+          "max": 0.9193,
+          "sd": 0.0494
+        },
+        "iptm": {
+          "n": 4,
+          "mean": 0.5817,
+          "min": 0.49,
+          "max": 0.7688,
+          "sd": 0.1119
+        },
+        "n_samples": 4,
+        "n_seeds": 2,
+        "whole_ligand_bridged_fraction": 0.75,
+        "n_bridged_wholeligand": 3,
+        "n_scored": 4,
+        "moiety_bridged_fraction": {
+          "4.0": {
+            "fraction": 0.75,
+            "n_bridged": 3,
+            "n": 4
+          },
+          "4.5": {
+            "fraction": 0.75,
+            "n_bridged": 3,
+            "n": 4
+          },
+          "5.0": {
+            "fraction": 0.75,
+            "n_bridged": 3,
+            "n": 4
+          }
+        },
+        "moiety_bridged_default": 0.75,
+        "wrong_end_fraction": 0.25,
+        "n_wrong_end": 1,
+        "per_seed_moiety_bridged": {
+          "seed_1": 1.0,
+          "seed_2": 0.5
+        },
+        "lys_nz_to_vhl_A": {
+          "n": 4,
+          "mean": 6.7725,
+          "min": 3.25,
+          "max": 12.13,
+          "sd": 3.6419
+        },
+        "lys_caveat": "min Lys-NZ\u2192VHL over ALL modeled lysines (no SASA); crude accessibility proxy, NOT in verdict"
+      }
+    }
+  },
+  "negative_controls": {
+    "neg_inactive": {
+      "ligand_iptm": {
+        "n": 4,
+        "mean": 0.8593,
+        "min": 0.7999,
+        "max": 0.9162,
+        "sd": 0.0422
+      },
+      "iptm": {
+        "n": 4,
+        "mean": 0.5904,
+        "min": 0.4589,
+        "max": 0.7767,
+        "sd": 0.1191
+      },
+      "n_samples": 4,
+      "n_seeds": 2,
+      "whole_ligand_bridged_fraction": 0.75,
+      "n_bridged_wholeligand": 3,
+      "n_scored": 4,
+      "moiety_bridged_fraction": {
+        "4.0": {
+          "fraction": 0.75,
+          "n_bridged": 3,
+          "n": 4
+        },
+        "4.5": {
+          "fraction": 0.75,
+          "n_bridged": 3,
+          "n": 4
+        },
+        "5.0": {
+          "fraction": 0.75,
+          "n_bridged": 3,
+          "n": 4
+        }
+      },
+      "moiety_bridged_default": 0.75,
+      "wrong_end_fraction": 0.25,
+      "n_wrong_end": 1,
+      "per_seed_moiety_bridged": {
+        "seed_1": 1.0,
+        "seed_2": 0.5
+      },
+      "lys_nz_to_vhl_A": {
+        "n": 4,
+        "mean": 6.2375,
+        "min": 3.9,
+        "max": 8.4,
+        "sd": 2.1234
+      },
+      "lys_caveat": "min Lys-NZ\u2192VHL over ALL modeled lysines (no SASA); crude accessibility proxy, NOT in verdict"
+    },
+    "neg_celastrol": {
+      "ligand_iptm": {
+        "n": 4,
+        "mean": 0.7008,
+        "min": 0.6015,
+        "max": 0.8318,
+        "sd": 0.0832
+      },
+      "iptm": {
+        "n": 4,
+        "mean": 0.4229,
+        "min": 0.3772,
+        "max": 0.4912,
+        "sd": 0.0437
+      },
+      "n_samples": 4,
+      "n_seeds": 2,
+      "whole_ligand_bridged_fraction": 0.0,
+      "n_bridged_wholeligand": 0,
+      "n_scored": 4,
+      "moiety_bridged_fraction": {
+        "4.0": {
+          "fraction": 0.0,
+          "n_bridged": 0,
+          "n": 4
+        },
+        "4.5": {
+          "fraction": 0.0,
+          "n_bridged": 0,
+          "n": 4
+        },
+        "5.0": {
+          "fraction": 0.0,
+          "n_bridged": 0,
+          "n": 4
+        }
+      },
+      "moiety_bridged_default": 0.0,
+      "wrong_end_fraction": 1.0,
+      "n_wrong_end": 4,
+      "per_seed_moiety_bridged": {
+        "seed_1": 0.0,
+        "seed_2": 0.0
+      },
+      "lys_nz_to_vhl_A": {
+        "n": 4,
+        "mean": 10.5525,
+        "min": 8.01,
+        "max": 13.22,
+        "sd": 2.4534
+      },
+      "lys_caveat": "min Lys-NZ\u2192VHL over ALL modeled lysines (no SASA); crude accessibility proxy, NOT in verdict"
+    }
+  },
+  "negative_controls_pass": false,
+  "pilot_gate": {
+    "verdict": "ABORT",
+    "reason": "control did NOT seat VH032 in VHL (workflow suspect) \u2192 do not spend on the full paralogue fleet; fix the workflow first.",
+    "control_ok": false,
+    "nr4a1_ok": true
+  }
+}
