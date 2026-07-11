@@ -30,11 +30,29 @@ def main():
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
                    check=False)
     # boltz + its cuEquivariance accel kernel (boltz>=2 imports cuequivariance_torch in the triangular-mult
-    # kernel and HARD-CRASHES if absent — the 2026-07-01 control failure). Install the accel stack too.
-    subprocess.run(["pip", "install", "--quiet", "boltz",
+    # kernel and HARD-CRASHES if absent — the 2026-07-01 control failure). REPRODUCIBILITY (review fix #9): PIN
+    # the Boltz version (BOLTZ_SPEC, default the last-used 2.2.1) so a rerun is not silently a different model;
+    # record the resolved version + git ref into the output for provenance. Override BOLTZ_SPEC to bump.
+    boltz_spec = os.environ.get("BOLTZ_SPEC", "boltz==2.2.1")
+    subprocess.run(["pip", "install", "--quiet", boltz_spec,
                     "cuequivariance-torch", "cuequivariance-ops-torch-cu12"], check=False)
-    subprocess.run(["git", "clone", "--depth", "1",
-                    "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
+    # PIN the code to an exact commit (GIT_REF, default main) rather than always cloning live main, so the
+    # analysis code + spec used are reproducible and recorded.
+    git_ref = os.environ.get("GIT_REF", "main")
+    subprocess.run(["git", "clone", "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"], check=True)
+    subprocess.run(["git", "-C", "/tmp/repo", "checkout", git_ref], check=False)
+    resolved = subprocess.run(["git", "-C", "/tmp/repo", "rev-parse", "HEAD"],
+                              capture_output=True, text=True).stdout.strip()
+    # Provenance stamp (review fix #9): the exact code commit + Boltz spec + args land in the output prefix so a
+    # rerun is auditable and old/new predictions are never confused (use an immutable OUTPUT_PREFIX per run).
+    try:
+        import json as _json
+        _json.dump({"git_ref": git_ref, "resolved_commit": resolved, "boltz_spec": boltz_spec,
+                    "output_prefix": os.environ.get("OUTPUT_PREFIX"), "ternary_script": os.environ.get("TERNARY_SCRIPT"),
+                    "extra_args": os.environ.get("TERNARY_EXTRA_ARGS"), "seeds": os.environ.get("SEEDS")},
+                   open(os.path.join(OUT, "run_provenance.json"), "w"), indent=2)
+    except Exception as _e:  # noqa: BLE001
+        print("[sagemaker] provenance stamp skipped: %s" % _e, flush=True)
 
     work = "/tmp/repo/research/modalities"
     env = os.environ.copy()
