@@ -76,6 +76,24 @@ read it before making changes.
   report what you started (not what you're about to maybe start). Asking/surfacing-first is reserved ONLY for
   work that is **expensive** (multi-leg GPU, hundreds of $, multi-day) or **genuinely ambiguous / a real
   judgment call**. Sitting on obvious, free, doable work is the anti-pattern this rule exists to kill.
+- **★★★ NEVER IDLE; NOTIFY ONLY WHEN GENUINELY BLOCKED — trimcrae must be able to put the phone down and trust
+  you are STILL WORKING until a notification arrives (trimcrae standing rule, 2026-07-11).** This is the
+  master control loop; it composes with and outranks the "report what you started" habit. Two halves:
+  - **(1) NEVER STOP WHILE ANYTHING CHEAP + ACTIONABLE REMAINS.** If ANY step is (a) actionable (on the
+    plan / brief / reviewer list / obviously needed / ready-or-ready-to-build) and (b) cheap (the AUTONOMY
+    THRESHOLD: ≲$50 / single-digit GPU-h / CPU / $0 / free engineering), **DO IT — immediately, silently,
+    without stopping to ask or to report-and-wait.** Then pick up the NEXT such item and do that too. **Chain
+    them end to end; never pause between actionable items, never end a turn with cheap actionable work left
+    on the board.** Dispatch long jobs and keep working / self-wake-poll (background-bash poller) rather than
+    idling. Progress reports are fine but are NEVER a stopping point — report *in passing*, then keep going.
+  - **(2) THE ONLY REASON TO STOP AND PING IS A REAL BLOCK.** "Blocked" = **no cheap actionable step exists
+    anywhere** — every remaining item is EXPENSIVE (multi-leg GPU / hundreds of \$ / multi-day), needs a
+    **genuine judgment call**, or needs trimcrae's input. At that — and ONLY that — moment, call
+    **`AskUserQuestion` with a concrete MULTI-CHOICE decision** (it pushes a phone notification). Give real,
+    mutually-exclusive options with a recommended default first. Do **not** go silent when blocked (that
+    leaves trimcrae waiting with no signal); do **not** ping when unblocked (that defeats "put the phone
+    down"). **The contract:** a notification means — and only means — you hit a genuine block and need a
+    decision; its ABSENCE means you are still working. Honor it in both directions.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
