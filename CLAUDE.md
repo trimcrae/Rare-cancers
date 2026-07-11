@@ -9,7 +9,17 @@ read it before making changes.
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
   do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
-- **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
+- **★ PRIMARY FOCUS (UPDATED 2026-07-11, trimcrae — SUPERSEDES the 2026-06 "two papers first" plan):**
+  the repo's #1 priority remains **advancing/publishing work that drives forward an EMC treatment**, but the
+  approach is **BROADENING**. The NR4A3-degrader and fusion-junction ASO papers **both hit major snags**, so
+  they are **no longer the first-in-line deliverables** (still active routes, NOT dead). The program now runs
+  on the **full multi-route EMC strategy**, anchored by the **EMC Open Target & Drug Atlas
+  ([research/atlas/](./research/atlas/))** — the integrating, provenance-checked evidence system that scores
+  every route (proteostasis-chromatin; fusion-subtype antiangiogenic biomarker; fusion-junction + lineage
+  antigens; direct fusion targeting) and drives **collaborator outreach** (strategy Phase B). Read
+  `research/atlas/README.md` + `STATUS.md` first when resuming treatment work. **The 2026-06 detail below is
+  retained FOR REFERENCE (route status), no longer "publish these two first":**
+- **[PRIOR 2026-06 detail — reference only]** the earlier plan: the repo's #1 priority is **publishing work that drives
   forward an EMC treatment**. **As of 2026-06-26 (trimcrae decision), the TWO papers to publish first are:**
   **(1)** the split-out, target-centric **NR4A3-degrader result paper** —
   **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
@@ -76,30 +86,74 @@ read it before making changes.
   report what you started (not what you're about to maybe start). Asking/surfacing-first is reserved ONLY for
   work that is **expensive** (multi-leg GPU, hundreds of $, multi-day) or **genuinely ambiguous / a real
   judgment call**. Sitting on obvious, free, doable work is the anti-pattern this rule exists to kill.
-- **★★★ NEVER IDLE; NOTIFY ONLY WHEN GENUINELY BLOCKED — trimcrae must be able to put the phone down and trust
-  you are STILL WORKING until a notification arrives (trimcrae standing rule, 2026-07-11).** This is the
-  master control loop; it composes with and outranks the "report what you started" habit. Two halves:
-  - **(1) NEVER STOP WHILE ANYTHING CHEAP + ACTIONABLE REMAINS.** If ANY step is (a) actionable (on the
-    plan / brief / reviewer list / obviously needed / ready-or-ready-to-build) and (b) cheap (the AUTONOMY
-    THRESHOLD: ≲$50 / single-digit GPU-h / CPU / $0 / free engineering), **DO IT — immediately, silently,
-    without stopping to ask or to report-and-wait.** Then pick up the NEXT such item and do that too. **Chain
-    them end to end; never pause between actionable items, never end a turn with cheap actionable work left
-    on the board.** Dispatch long jobs and keep working / self-wake-poll (background-bash poller) rather than
-    idling. Progress reports are fine but are NEVER a stopping point — report *in passing*, then keep going.
-  - **(2) THE ONLY REAL GATE IS GPU SPEND — make every JUDGMENT CALL yourself (trimcrae, 2026-07-11,
-    clarifying).** Do **NOT** ping for judgment calls, experimental-design choices, ambiguity, or "which
-    approach" decisions — **those are YOURS to make.** Pick the best option, write down the reasoning, and
-    proceed. Getting it imperfect is fine; stalling for a decision you could make is not. The **ONLY** thing
-    that requires trimcrae is **spending real GPU/AWS dollars ABOVE the autonomy threshold** (≳$50 / a
-    multi-leg GPU fleet / hundreds of \$ / a multi-day commitment). So you are "blocked" **only** when the
-    single most valuable remaining step needs an expensive GPU spend AND there is no cheaper actionable work
-    to do first. At that — and only that — moment, call **`AskUserQuestion` with a concrete MULTI-CHOICE
-    decision** (it pushes a phone notification): real, mutually-exclusive options (typically the candidate
-    expensive runs + "wrap up / hold"), recommended default first, enough context to answer without
-    scrolling. Do **not** go silent when GPU-gated (surface the choice so trimcrae can unblock the spend);
-    do **not** ping for anything you can decide or do yourself under the threshold. **The contract:** a
-    notification means — and only means — the next worthwhile move costs real GPU money and needs a
-    spend decision; its ABSENCE means you are still working. Honor it in both directions.
+- **★★ RUN AUTONOMOUSLY TO EXHAUSTION — DO EVERYTHING POSSIBLE, STOP ONLY WHEN BLOCKED BY A trimcrae DECISION
+  (trimcrae standing rule, 2026-07-11).** When given a goal, do **everything you possibly can** toward it
+  without checking back — build it, run it, verify it, commit it, iterate — across *all* independent
+  workstreams, not just one. Do **NOT** stop to report progress, ask permission, or "surface and wait" for
+  anything you can act on yourself (this composes with BIAS-TO-ACTION and ENGINEERING-IS-FREE above: cheap/free
+  in-silico + CI work is default-just-do-it). **The ONLY thing that halts you is being *genuinely blocked by a
+  decision that is trimcrae's to make*** — a real strategic fork, a spend that crosses the expensive threshold
+  (multi-leg GPU / hundreds of $ / multi-day), or an outward-facing/irreversible action needing sign-off.
+  Everything *not* blocked by that specific decision must keep moving in the meantime. **When you DO hit such a
+  block, ask via `AskUserQuestion`** (it fires a phone notification) with a crisp, mutually-exclusive choice
+  (recommended option first, "(Recommended)" in the label), give enough context to answer without scrolling,
+  then **continue on every other unblocked thread** while waiting. Batch decisions: if several forks exist,
+  put them in one AskUserQuestion (up to 4) rather than trickling them out. Reserve the ask for true
+  decisions — never for "is this okay?" on work you can just do and show. The failure mode this kills: doing
+  one thing, then stopping to ask "what's next?" when there was a pile of obvious, free, warranted work left.
+- **★★ EXHAUST ALL SELF-DOABLE WORK *BEFORE* SURFACING ANYTHING — only come to trimcrae when COMPLETELY STUCK
+  and you have a concrete thing for THEM to do (trimcrae standing rule, 2026-07-11; sharpens the rule above).**
+  Before sending trimcrae *any* message, question, or status, ask: "is there anything at all I can still do
+  myself?" — build/fix/run/verify/commit/iterate/route-through-CI, chase the fix rather than reporting the
+  failure, try the next approach rather than asking which to try. **If yes, DO it first and do not surface.**
+  Only interrupt trimcrae when you are **genuinely, completely blocked** AND the thing that unblocks you is a
+  **specific action or decision that is theirs alone** (approve an outward-facing/irreversible step, resolve a
+  true strategic fork, authorize an expensive spend, provide access/data only they have). When that happens,
+  hand them a **concrete, ready-to-act choice** (`AskUserQuestion`, recommended-first) — not an open "what
+  next?", not a progress update, not an "is this okay?". A bare status report with nothing for them to decide
+  is a violation of this rule. Batch any real decisions into one ask and keep every other thread moving.
+  **★ A "which direction / what should I prioritise next?" question is NEVER a trimcrae decision when every
+  option on the table is work you could just do yourself — choosing the order of self-doable work IS
+  self-doable. Do NOT ask which to do: pick a sensible sequence and DO THEM ALL, then report what you did.**
+  (Example that triggered this rule: after finishing the atlas I asked trimcrae "outreach prep vs deepen vs
+  pivot?" — all three were things I could just do; the correct move was to do all of them.) A
+  direction/prioritisation call only rises to a real trimcrae decision if the options are **mutually
+  exclusive AND at least one is outward-facing / irreversible / expensive, or it changes the GOAL itself** —
+  not merely "which valuable thing first." Outreach *preparation* (drafting, tailoring, building the
+  materials) is self-doable and must just be done; only the outward-facing **act of sending** needs sign-off.
+- **★★ NEVER OFFER SELF-DOABLE WORK — DO IT, DON'T OFFER IT (trimcrae standing rule, 2026-07-11; the
+  "just say the word" anti-pattern this rule exists to kill).** If you catch yourself about to write any of:
+  "want me to X?", "I can also X", "should I also X?", "**say the word and I'll X**", "let me know if
+  you'd like X", "happy to X if useful", "I could X" — and X is work you could do yourself — **that phrasing
+  is the violation. Delete the offer and DO X right now, then report X as done.** The instant you think "X is
+  doable" is the trigger to *do* X, not to ask permission for it or dangle it. This applies even when X is
+  *optional / additive / nice-to-have* — additive self-doable work is still just-do-it; "it's extra" is not a
+  reason to offer instead of act. Ending a turn with a menu of things you *could* do next, when you could have
+  just done them, is the precise failure mode. The ONLY time you may surface instead of act is when X is
+  genuinely **outward-facing / irreversible / expensive**, needs **access or data only trimcrae has**, or is a
+  **real goal-changing decision** (per the autonomy rules above) — never merely because X is optional. When in
+  doubt, do it and show it; a thing built is worth infinitely more than a thing offered.
+- **★★ EVERY HAND-OFF TO trimcrae STARTS WITH A COPYABLE REVIEWER-AI REVIEW BLOCK (trimcrae standing rule,
+  2026-07-11).** trimcrae routes work through a **more powerful, more expensive reviewer AI** as the final QA
+  before anything reaches him / goes outward. So **whenever you present next steps or a hand-off** — and
+  ALWAYS before any outward-facing/irreversible action (sending emails, cutting a release/DOI, publishing,
+  submitting) — the **first thing in your reply is a self-contained, copyable review-request block** that
+  trimcrae can paste straight to that reviewer AI to get its blessing or feedback (which he relays back to
+  you; fold it in before proceeding). Produce it **every time** there are next steps, not just big ones. The
+  block goes in a fenced code box and must carry **enough standalone context for an informed evaluation** —
+  the reviewer sees only what's in the block. Include, at minimum:
+  1. **Role + what to do** — "You are the final reviewer before an unaffiliated researcher (Tristan McRae)
+     acts. Approve, or return a specific list of fixes."
+  2. **Project + goal** — one paragraph (what the repo/effort is, the objective).
+  3. **What was done** — the concrete work/artifacts produced this round (with repo/PR/file paths).
+  4. **The exact proposed next action(s)** requiring sign-off (verbatim: which emails to whom, which release,
+     etc.), including anything permanent/outward-facing and why now.
+  5. **Known risks / uncertainties / judgment calls** — over-claim vs verification level, medical-integrity,
+     ethics/tone, scope of a DOI, anything you're unsure about — stated honestly, not hidden.
+  6. **Specific questions** you want the reviewer to answer, and a request to return either approval or an
+     itemised change list.
+  Keep it tight but complete; a reviewer with no other context should be able to judge it. After trimcrae
+  returns the verdict, apply the changes (self-doable) and only then proceed to the outward-facing step.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
@@ -186,6 +240,34 @@ read it before making changes.
   with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
   / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
   so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
+- **★ EGRESS-PROXY BLOCK IS NOT "INACCESSIBLE" — ROUTE THE FETCH THROUGH A CI RUNNER (trimcrae standing rule,
+  2026-07-11).** The dev sandbox's egress proxy **403s many data hosts at CONNECT** — NCBI/GEO, PMC,
+  EuropePMC, Springer, UniProt, and similar. When a `curl`/`urllib`/WebFetch to one of these fails with a
+  403/CONNECT-tunnel error, that is a **sandbox limitation, NOT a dead end** — do **NOT** report the data as
+  inaccessible, the verification as impossible, or fall back to abstract-only. **GitHub Actions runners have
+  unrestricted internet and are FREE — prefer them** (AWS jobs also work, use only if you already need AWS).
+  Pattern (verified 2026-07-11 for GEO reprocessing + EuropePMC full-text verification): (1) write a
+  **pure-stdlib** `urllib` script (no pip — matches the CPU-workflow convention); (2) add a
+  `workflow_dispatch` workflow (`permissions: contents: write`) that runs it and **commits the outputs back
+  to the triggering branch** (`git push origin HEAD:${{ github.ref_name }}`) or a cache branch; (3) dispatch
+  it (`mcp__github__actions_run_trigger`); (4) **poll the public Actions API with a `run_in_background` Bash
+  poller** (the self-wake rule above) and, on completion, `git pull` + integrate the raw outputs into the
+  interpreting artifact (add caveats, flip citation `verified` flags). **Exemplars to copy:**
+  `.github/workflows/atlas-data.yml` + `research/atlas/expression_reprocess.py` +
+  `research/atlas/fulltext_verify.py` (GEO/PMC); `.github/workflows/fusion-cpu-extras.yml` (older CPU-extras
+  pattern → `modalities-cache` branch). This is how EMC expression datasets and any PMID/PMCID full text get
+  verified to primary-source standard despite the proxy.
+- **RUN A FEATURE BRANCH'S CI WITHOUT MERGING TO main — DISPATCH AN ON-main `workflow_dispatch` WITH
+  `ref=<your-branch>` (verified 2026-07-11).** A NEW `workflow_dispatch` workflow can only be dispatched once
+  it exists on the **default branch** (a fresh workflow file on a feature branch 404s on
+  `actions_run_trigger`). But an **already-on-main** `workflow_dispatch` workflow **CAN** be dispatched with
+  `ref=<feature-branch>`, and GitHub then runs **that branch's version of the workflow file + its code**. So to
+  run new/edited CI off a feature branch without touching main: (1) EDIT an existing on-main workflow on your
+  branch to also run your new step (or, for a SageMaker job, just pass its `git_ref=<branch>` input so the
+  container clones your branch); (2) `actions_run_trigger` with `ref=<branch>`. This session used it to run a
+  new registry builder via the on-main `warhead-chem-profile.yml` and to run the Gate-2 matrix off the branch —
+  no merge-to-main required. Composes with the egress-proxy/CI-runner rule above (both keep heavy/networked work
+  on free runners) and with "never push to main without permission."
 - **GITHUB AUTH "EXPIRED" IS A FALSE ALARM — RETRY ON YOUR OWN, NEVER ESCALATE TO trimcrae (standing rule,
   2026-07-09).** When any `mcp__github__*` call returns "requires re-authorization / token expired" (or the
   harness reports the github server disconnected / needs auth), **assume YOU are wrong, not the token** — it
