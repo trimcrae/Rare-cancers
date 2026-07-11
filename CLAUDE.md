@@ -9,7 +9,17 @@ read it before making changes.
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
   do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
-- **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
+- **★ PRIMARY FOCUS (UPDATED 2026-07-11, trimcrae — SUPERSEDES the 2026-06 "two papers first" plan):**
+  the repo's #1 priority remains **advancing/publishing work that drives forward an EMC treatment**, but the
+  approach is **BROADENING**. The NR4A3-degrader and fusion-junction ASO papers **both hit major snags**, so
+  they are **no longer the first-in-line deliverables** (still active routes, NOT dead). The program now runs
+  on the **full multi-route EMC strategy**, anchored by the **EMC Open Target & Drug Atlas
+  ([research/atlas/](./research/atlas/))** — the integrating, provenance-checked evidence system that scores
+  every route (proteostasis-chromatin; fusion-subtype antiangiogenic biomarker; fusion-junction + lineage
+  antigens; direct fusion targeting) and drives **collaborator outreach** (strategy Phase B). Read
+  `research/atlas/README.md` + `STATUS.md` first when resuming treatment work. **The 2026-06 detail below is
+  retained FOR REFERENCE (route status), no longer "publish these two first":**
+- **[PRIOR 2026-06 detail — reference only]** the earlier plan: the repo's #1 priority is **publishing work that drives
   forward an EMC treatment**. **As of 2026-06-26 (trimcrae decision), the TWO papers to publish first are:**
   **(1)** the split-out, target-centric **NR4A3-degrader result paper** —
   **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
@@ -91,6 +101,17 @@ read it before making changes.
   put them in one AskUserQuestion (up to 4) rather than trickling them out. Reserve the ask for true
   decisions — never for "is this okay?" on work you can just do and show. The failure mode this kills: doing
   one thing, then stopping to ask "what's next?" when there was a pile of obvious, free, warranted work left.
+- **★★ EXHAUST ALL SELF-DOABLE WORK *BEFORE* SURFACING ANYTHING — only come to trimcrae when COMPLETELY STUCK
+  and you have a concrete thing for THEM to do (trimcrae standing rule, 2026-07-11; sharpens the rule above).**
+  Before sending trimcrae *any* message, question, or status, ask: "is there anything at all I can still do
+  myself?" — build/fix/run/verify/commit/iterate/route-through-CI, chase the fix rather than reporting the
+  failure, try the next approach rather than asking which to try. **If yes, DO it first and do not surface.**
+  Only interrupt trimcrae when you are **genuinely, completely blocked** AND the thing that unblocks you is a
+  **specific action or decision that is theirs alone** (approve an outward-facing/irreversible step, resolve a
+  true strategic fork, authorize an expensive spend, provide access/data only they have). When that happens,
+  hand them a **concrete, ready-to-act choice** (`AskUserQuestion`, recommended-first) — not an open "what
+  next?", not a progress update, not an "is this okay?". A bare status report with nothing for them to decide
+  is a violation of this rule. Batch any real decisions into one ask and keep every other thread moving.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
