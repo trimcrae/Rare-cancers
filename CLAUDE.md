@@ -121,6 +121,18 @@ read it before making changes.
   exclusive AND at least one is outward-facing / irreversible / expensive, or it changes the GOAL itself** —
   not merely "which valuable thing first." Outreach *preparation* (drafting, tailoring, building the
   materials) is self-doable and must just be done; only the outward-facing **act of sending** needs sign-off.
+- **★★ NEVER OFFER SELF-DOABLE WORK — DO IT, DON'T OFFER IT (trimcrae standing rule, 2026-07-11; the
+  "just say the word" anti-pattern this rule exists to kill).** If you catch yourself about to write any of:
+  "want me to X?", "I can also X", "should I also X?", "**say the word and I'll X**", "let me know if
+  you'd like X", "happy to X if useful", "I could X" — and X is work you could do yourself — **that phrasing
+  is the violation. Delete the offer and DO X right now, then report X as done.** The instant you think "X is
+  doable" is the trigger to *do* X, not to ask permission for it or dangle it. This applies even when X is
+  *optional / additive / nice-to-have* — additive self-doable work is still just-do-it; "it's extra" is not a
+  reason to offer instead of act. Ending a turn with a menu of things you *could* do next, when you could have
+  just done them, is the precise failure mode. The ONLY time you may surface instead of act is when X is
+  genuinely **outward-facing / irreversible / expensive**, needs **access or data only trimcrae has**, or is a
+  **real goal-changing decision** (per the autonomy rules above) — never merely because X is optional. When in
+  doubt, do it and show it; a thing built is worth infinitely more than a thing offered.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
