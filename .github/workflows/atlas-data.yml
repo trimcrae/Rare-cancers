@@ -19,6 +19,7 @@ on:
     paths:
       - 'research/atlas/expression_reprocess.py'
       - 'research/atlas/fulltext_verify.py'
+      - 'research/atlas/panel_dependency.py'
       - '.github/workflows/atlas-data.yml'
 
 permissions:
@@ -75,6 +76,25 @@ jobs:
           git add research/atlas/_generated/ || true
           git diff --cached --quiet && { echo "no changes"; exit 0; }
           git commit -m "Atlas data (CI): GSE24369 reprocess"
+          for i in 1 2 3 4; do
+            git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
+          done
+
+      # --- Unit 3: validation-panel genetic dependency (DepMap; needs pandas + a large download). ---
+      - name: Install pandas
+        if: always()
+        run: pip install --quiet pandas
+      - name: Panel target dependency (DepMap, strategy step E)
+        if: always()
+        run: python research/atlas/panel_dependency.py || echo "panel dependency failed (continuing)"
+      - name: Commit unit 3 (panel dependency)
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/atlas/_generated/ || true
+          git diff --cached --quiet && { echo "no changes"; exit 0; }
+          git commit -m "Atlas data (CI): validation-panel DepMap dependency"
           for i in 1 2 3 4; do
             git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
           done
