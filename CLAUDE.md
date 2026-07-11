@@ -391,6 +391,21 @@ read it before making changes.
   catch env/isolation bugs — e.g. the 2026-07-03 FEP failure was a `PYTHONPATH` leak importing the SageMaker
   base container's numpy 1.x into the `fep` env (which itself had numpy 2), invisible to smoke. Full incident +
   fix (`entry_fep.py` clears `PYTHONPATH` for the `conda run`): next-steps.md → "Infra gotchas".
+- **★★ PILOT ONE LEG/REPLICATE *FOR ITS RESULT* BEFORE FANNING OUT AN ABORTABLE MULTI-LEG SPEND (trimcrae
+  standing rule, 2026-07-11).** Distinct from the env/wiring shakeout above (that validates PLUMBING): this is
+  a **scientific early-abort** gate. Whenever a multi-leg / multi-replicate / multi-paralogue GPU spend (FEP,
+  ABFE, a ternary-ensemble fleet, any fan-out where legs are semi-independent) **could be abandoned early if
+  one representative leg comes back UNFAVORABLE or uninformative**, run **ONE decision-relevant leg first**,
+  read its result, and only commit the rest of the spend if that pilot leg is favorable/promising. Pick the
+  leg with the **highest abort information** — the one most likely to kill the whole idea if it fails (e.g. the
+  known-answer POSITIVE CONTROL, or the single paralogue/replicate whose result the conclusion most hinges on).
+  This composes with the per-unit checkpoint rule (a pilot leg's completed windows are reused when you DO fan
+  out, so the pilot is not wasted) and with the "wait out spot capacity" rule (a pilot is about the RESULT, not
+  a capacity probe). Examples: the ABFE λ-repair already does this (validate r1's soft-core-tail overlap before
+  spending on r2/r3 error-bar replicates); a retrospective NR-V04 ternary benchmark should run **one paralogue
+  (or the CRBN/lenalidomide control) first** and abort if the workflow can't even recover the known geometry,
+  before paying for the full NR4A1/2/3 × seeds × linkers fleet. Don't fan out a big spend on a hypothesis a
+  single cheap leg could have falsified.
 - **No dependencies, no build step.** Keep it that way.
 - **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
   keep all URLs relative.
