@@ -122,13 +122,20 @@ jobs:
             git push origin HEAD:${{ github.ref_name }} && break || { echo "push retry $i"; git pull --rebase origin ${{ github.ref_name }} || true; sleep $((2**i)); }
           done
 
-      # --- Unit 5: class-II (CD4 help) junction epitopes, both subtypes. MHCnuggets in an ISOLATED
-      #     venv so its TensorFlow pin can't clash with MHCflurry from unit 4. Best-effort. ---
-      - name: Class-II (CD4) junction epitopes EWSR1 vs TAF15 (isolated venv)
+      # --- Unit 5: class-II (CD4 help) junction epitopes, both subtypes. MHCnuggets needs the LEGACY
+      #     Keras optimizer API (it passes Adam(lr=...), removed in modern Keras) -> run it on Python
+      #     3.10 + TensorFlow 2.10 in an ISOLATED interpreter so nothing clashes with MHCflurry. ---
+      - name: Set up Python 3.10 for MHCnuggets
+        if: always()
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Class-II (CD4) junction epitopes EWSR1 vs TAF15 (py3.10 + TF2.10)
         if: always()
         run: |
-          python -m venv "$RUNNER_TEMP/mnv"
-          "$RUNNER_TEMP/mnv/bin/pip" install --quiet mhcnuggets || echo "mhcnuggets install failed"
+          py310="$(which python3.10 || echo python)"
+          "$py310" -m venv "$RUNNER_TEMP/mnv"
+          "$RUNNER_TEMP/mnv/bin/pip" install --quiet "tensorflow==2.10.*" "protobuf<3.20" mhcnuggets || echo "mhcnuggets env install failed"
           "$RUNNER_TEMP/mnv/bin/python" research/atlas/antigen_mhcii.py || echo "class-II predict failed (continuing)"
       - name: Commit unit 5 (class-II antigen)
         if: always()

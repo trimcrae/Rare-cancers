@@ -81,12 +81,20 @@ def main():
                  "seam": left[-12:] + "|" + right[:12], "breakpoint_modeled": True}
         pred, err = predict_class2(list(novel))
         if err:
+            entry["prediction_status"] = "tool_unavailable"
             entry["prediction"] = err
+            entry["novel_peptides"] = sorted(novel)
+        elif len(pred["allele_errors"]) >= len(DRB1):
+            # EVERY allele errored -> the predictor FAILED; this is NOT a biological "0 binders".
+            entry["prediction_status"] = "prediction_failed_all_alleles"
+            entry["allele_errors"] = pred["allele_errors"]
             entry["novel_peptides"] = sorted(novel)
         else:
             rows = pred["rows"]
             strong = sorted([r for r in rows if r["call"] == "strong"], key=lambda x: x["ic50_nM"])
             binders = [r for r in rows if r["call"] in ("strong", "binder")]
+            entry["prediction_status"] = "ok"
+            entry["n_alleles_ok"] = len(DRB1) - len(pred["allele_errors"])
             entry["n_strong_pep_allele"] = len(strong)
             entry["n_binder_pep_allele"] = len(binders)
             entry["distinct_strong_peptides"] = sorted({r["peptide"] for r in strong})
@@ -99,9 +107,14 @@ def main():
     lines = ["# Fusion-junction class-II (CD4 help) epitopes: EWSR1 vs TAF15 (CI)", "", out["_note"], ""]
     for name, e in out["subtypes"].items():
         lines.append(f"## {name}")
-        lines.append(f"- novel 15mers: {e['n_novel_15mers']}; strong pep×allele: {e.get('n_strong_pep_allele','n/a')}; "
-                     f"binder pep×allele: {e.get('n_binder_pep_allele','n/a')}; "
-                     f"distinct strong peptides: {len(e.get('distinct_strong_peptides', []))}")
+        st = e.get("prediction_status")
+        if st != "ok":
+            lines.append(f"- **prediction status: {st}** (NOT a biological result — the predictor did not run; "
+                         f"do not read as '0 binders'). novel 15mers: {e['n_novel_15mers']}.")
+        else:
+            lines.append(f"- novel 15mers: {e['n_novel_15mers']}; alleles OK: {e.get('n_alleles_ok')}/{len(DRB1)}; "
+                         f"strong pep×allele: {e.get('n_strong_pep_allele')}; binder pep×allele: {e.get('n_binder_pep_allele')}; "
+                         f"distinct strong peptides: {len(e.get('distinct_strong_peptides', []))}")
         lines.append(f"- seam (modeled): ...{e['seam']}...")
     open(os.path.join(OUTDIR, "antigen-mhcii.md"), "w").write("\n".join(lines) + "\n")
     print("wrote antigen-mhcii.json/.md", file=sys.stderr)
