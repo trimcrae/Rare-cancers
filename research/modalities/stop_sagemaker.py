@@ -18,6 +18,24 @@ import os
 import boto3
 
 
+def _inprogress_matching(list_fn, summ_key, name_key, prefix):
+    """All InProgress job names whose name contains `prefix`, listed WITHOUT the NameContains server
+    filter (which paginates flakily and intermittently returns 0 — the reason this helper exists) and
+    filtered client-side. Paginates over recent InProgress jobs."""
+    out, token = [], None
+    for _ in range(20):  # up to 20 pages of 100 = 2000 InProgress jobs, ample
+        kw = {"StatusEquals": "InProgress", "SortBy": "CreationTime", "SortOrder": "Descending",
+              "MaxResults": 100}
+        if token:
+            kw["NextToken"] = token
+        resp = list_fn(**kw)
+        out += [j[name_key] for j in resp.get(summ_key, []) if prefix in j[name_key]]
+        token = resp.get("NextToken")
+        if not token:
+            break
+    return out
+
+
 def main():
     name = os.environ.get("JOB_NAME", "").strip()
     prefix = os.environ.get("JOB_PREFIX", "").strip()
@@ -28,20 +46,16 @@ def main():
         stop, describe, keyname, statuskey = (sm.stop_processing_job, sm.describe_processing_job,
                                               "ProcessingJobName", "ProcessingJobStatus")
         if not name:
-            jobs = sm.list_processing_jobs(NameContains=prefix, StatusEquals="InProgress",
-                                           SortBy="CreationTime", SortOrder="Descending",
-                                           MaxResults=10)["ProcessingJobSummaries"]
-            names = [j["ProcessingJobName"] for j in jobs]
+            names = _inprogress_matching(sm.list_processing_jobs, "ProcessingJobSummaries",
+                                         "ProcessingJobName", prefix)
         else:
             names = [name]
     else:
         stop, describe, keyname, statuskey = (sm.stop_training_job, sm.describe_training_job,
                                               "TrainingJobName", "TrainingJobStatus")
         if not name:
-            jobs = sm.list_training_jobs(NameContains=prefix, StatusEquals="InProgress",
-                                         SortBy="CreationTime", SortOrder="Descending",
-                                         MaxResults=10)["TrainingJobSummaries"]
-            names = [j["TrainingJobName"] for j in jobs]
+            names = _inprogress_matching(sm.list_training_jobs, "TrainingJobSummaries",
+                                         "TrainingJobName", prefix)
         else:
             names = [name]
 
