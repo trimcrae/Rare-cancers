@@ -42,10 +42,10 @@
       "id": "AXIS-antiangiogenic-multikinase",
       "label": "Antiangiogenic multikinase (pazopanib / sunitinib +/- checkpoint)",
       "type": "pathway_axis",
-      "supporting_claims": ["pazopanibEMC", "sunitinibEMC", "immunosarc2"],
+      "supporting_claims": ["pazopanibEMC", "sunitinibEMC", "immunosarc2", "C006", "C019"],
       "scores": {
         "emc_model_support": 0,
-        "fusion_subtype_coverage": 2,
+        "fusion_subtype_coverage": 3,
         "patient_tumor_expression": 2,
         "genetic_perturbation": 0,
         "pharmacologic_replication": 2,
@@ -55,10 +55,10 @@
         "clinical_signal_emc": 3,
         "followup_assay_available": 2
       },
-      "composite": 18,
+      "composite": 19,
       "tier": "STRONGEST_CLINICAL",
-      "rationale": "The ONLY axis with prospective EMC clinical activity: pazopanib ORR 18% / mPFS 19 mo (Stacchiotti 2019), sunitinib 6/10 PR (2014), IMMUNOSARC II 6-mo PFS 77%. Activity CONCENTRATED in EWSR1::NR4A3 (responders exclusively EWSR1 in both TKI studies) -> a real fusion-subtype biomarker hypothesis.",
-      "honest_caveats": "Mechanism unknown (VEGFR/PDGFR/RET vs vascular/myeloid vs tumor-cell). RET RNA elevation is a MARKER not proven dependency. Single-arm SD/PFS overstates effect in an indolent disease without growth-rate/external control. No EMC model shows it (angiogenesis needs co-culture, not monoculture). TAF15-null is 'responses confined to EWSR1', not a formal statistical comparison.",
+      "rationale": "The ONLY axis with prospective EMC clinical activity: pazopanib ORR 18% (95% CI 1-36) / mPFS 19 mo (Stacchiotti 2019, primary-abstract confirmed), sunitinib 6 PR/2 SD/2 PD (2014), IMMUNOSARC II 6-mo PFS 77%. The fusion-subtype differential is now PRIMARY-ABSTRACT confirmed (C019): sunitinib responders expressed EWSR1::NR4A3, refractory cases TAF15::NR4A3 -> a real, load-bearing EWSR1-vs-TAF15 biomarker hypothesis (fusion_subtype_coverage raised 2->3).",
+      "honest_caveats": "Mechanism unknown (VEGFR/PDGFR/RET vs vascular/myeloid vs tumor-cell). RET RNA elevation reproduced (GSE24369 AUC 0.86, C018) but is a MARKER, not proven dependency. Single-arm SD/PFS overstates effect in an indolent disease without growth-rate/external control. No EMC model shows it (angiogenesis needs co-culture, not monoculture). Evidence concentrated in ONE group (Stacchiotti/European network).",
       "strategy_rank": 3
     },
     {
@@ -221,7 +221,7 @@
       "id": "NODE-pparg",
       "label": "PPARG -- consequence, NOT a validated target",
       "type": "target",
-      "supporting_claims": ["C015"],
+      "supporting_claims": ["C015", "C018"],
       "scores": {
         "emc_model_support": 0,
         "fusion_subtype_coverage": 1,
@@ -237,7 +237,7 @@
       "composite": 12,
       "tier": "EXPRESSION_ONLY_GUARD",
       "rationale": "Direct transcriptional consequence of the fusion; high tumor expression.",
-      "honest_caveats": "High patient_tumor_expression (3) with genetic_perturbation 0 is EXACTLY the anti-pattern the atlas exists to flag. Expression does not tell us whether agonism/antagonism/neither helps. Belongs in a perturbational screen, NOT a treatment list. The composite is inflated by expression alone -- read the components."
+      "honest_caveats": "PPARG expression is now REPRODUCED EMC-up in an independent dataset (GSE24369 AUC 0.75, C018) -- but that only strengthens 'PPARG is a fusion consequence', NOT that it is a drug target. High patient_tumor_expression (3) with genetic_perturbation 0 is EXACTLY the anti-pattern the atlas exists to flag. Expression does not tell us whether agonism/antagonism/neither helps. Belongs in a perturbational screen, NOT a treatment list."
     }
   ],
   "ranked_shortlist": [

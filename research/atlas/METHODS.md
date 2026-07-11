@@ -36,23 +36,36 @@ screen `source`, `contradicts` link) resolves to a citation key, a claim id, a c
 whitelisted token; a dangling reference fails the build. This is the machine-checked backbone of
 "every claim is an evidence object with a precise source locator."
 
-## 3. Verification level (an explicit limitation of this build)
+## 3. Verification level, and the CI workaround for the egress proxy
 
-Primary full text (PubMed, PMC, Springer, Europe PMC) was **inaccessible from the build session**
-because the egress proxy blocks those hosts. Load-bearing facts were therefore verified at
-**abstract / search-snippet level, cross-checked across ≥2 independent queries**, and each
-citation carries a `verification_level` field recording this. Two consequences were handled
-honestly rather than papered over:
+The dev sandbox's egress proxy blocks PubMed/PMC/Springer/EuropePMC **and** NCBI/GEO. Rather than
+accept abstract-only verification, the atlas routes those fetches through a **GitHub Actions runner**
+(unrestricted internet, free) via `.github/workflows/atlas-data.yml`, which runs
+`fulltext_verify.py` (EuropePMC REST) and `expression_reprocess.py` (GEO). Every citation carries a
+`verification_level` field recording exactly how it was confirmed. After the CI pass:
 
-1. **Numeric IC50 values were not retrievable** for either drug screen and are recorded as
-   `not_reported_retrievable` — no IC50 number is invented.
-2. **Two strategy-brief claims did not survive verification** and were corrected:
-   (a) *HDM201/siremadlin (MDM2/MDM4) as a top USZ hit* was **not corroborated** — the MDM2/MDM4
-   node is demoted to a hypothesis, not a screen hit; (b) the USZ carfilzomib+doxorubicin
-   combination is reported as *"additive **and** synergistic in **both** models"* (with venetoclax
-   also in the panel), **not** the "synergistic in one / additive in the other" split asserted
-   upstream. A session with unblocked PMC access should re-confirm the abstract-level items and
-   populate IC50s and unbound-Cmax exposure numbers.
+- **Most clinical + the NCC screen are PRIMARY-ABSTRACT confirmed** (EuropePMC): pazopanib
+  (18%, 95% CI 1–36), sunitinib (6 PR/2 SD/2 PD **with the EWSR1-responsive / TAF15-refractory
+  differential stated in-text**), anthracycline (4/11 PR), Masunaga registry (margin HR 4.76,
+  95% CI 1.72–13.15), and Iwata/NCC (brigatinib/panobinostat/romidepsin named).
+- **The USZ screen hit identities remain secondary-source:** the Bangerter EuropePMC abstract is
+  generic and does not name compounds (Human Cell is not open-access), so carfilzomib/PU-H71 stay
+  snippet-level and **HDM201/MDM2–MDM4 stays uncorroborated** (demoted to a hypothesis, not a hit).
+- **Numeric IC50 values were not retrievable** and are recorded `not_reported_retrievable` — none invented.
+- **Two upstream claims were corrected:** the carfilzomib+doxorubicin combination is *"additive **and**
+  synergistic in **both** models"* (venetoclax also in the panel), not a one/other split.
+
+Still pending an unblocked-PMC pass: USZ full-text hit confirmation, IC50 numbers, unbound-Cmax exposure.
+
+## 3a. Expression reprocessing result
+
+`expression_reprocess.py` (run in CI) reprocessed the GEO series matrices per platform. **GSE24369
+(GPL6244, 6 EMC vs 36 sarcoma, 23,072 genes)** yields a rank-based AUC signature that **reproduces
+known EMC biology** — NMB (1.00), CHRNA6 (1.00), SOX9 (0.92), RET (0.86), NR4A3 (0.82), PPARG (0.75)
+all EMC-up — with leave-one-out top-50 Jaccard 0.64 (n=6). This meets the strategy's "recover known
+EMC features" success criterion and is folded in as claim C018. GSE4303's seven legacy custom
+two-colour platforms expose no standard probe→symbol column (0 genes annotatable) — an honest
+limitation, so GSE4303 remains unverified and superseded by GSE24369 for the signature.
 
 ## 4. Sample registry
 

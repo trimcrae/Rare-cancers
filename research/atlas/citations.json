@@ -23,7 +23,7 @@
       "pmcid": "PMC9813045",
       "pmid": "36620570",
       "verified": true,
-      "verification_level": "abstract_and_PMC_page (primary full text was inaccessible; egress proxy blocks PubMed/PMC/Springer/EuropePMC). PMID digits to re-confirm when access restored.",
+      "verification_level": "Model IDs/exon breakpoints VERIFIED (search+PMC). Screen HIT IDENTITIES remain secondary-source: the EuropePMC abstract is GENERIC ('novel anti-cancer drug sensitivities including potential synergistic combinations were identified') and does NOT name carfilzomib/PU-H71/HDM201 — those come from search-snippet reads of the full text/figures (Human Cell is not OA). HDM201 stays UNCORROBORATED; carfilzomib/PU-H71 stay snippet-level pending full text.",
       "role": "Source of USZ20-EMC1 (EWSR1 ex13::NR4A3 ex2) and USZ22-EMC2 (TAF15 ex6::NR4A3 ex2) sarcosphere models and the drug screen (17 chemo drugs + a targeted medium-throughput panel)."
     },
     "emcCellLine2025": {
@@ -35,8 +35,8 @@
       "doi": "10.1007/s13577-025-01250-7",
       "pmid": "40580361",
       "verified": true,
-      "verification_level": "abstract-level (primary full text inaccessible this session). Full author list/volume to complete when access restored.",
-      "role": "Source of NCC-EMC1-C1 model and the 221-compound screen (brigatinib, panobinostat, romidepsin low-IC50 hits). Line's specific EWSR1::NR4A3 fusion is TENTATIVE pending full-text confirmation."
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): 'High-throughput screening of 221 anticancer drugs using NCC-EMC1-C1 identified three candidates, brigatinib, panobinostat, and romidepsin, that demonstrated low IC50 values'; 'EMC is defined by specific gene fusions involving NR4A3, most frequently EWSR1::NR4A3'.",
+      "role": "Source of NCC-EMC1-C1 model and the 221-compound screen (brigatinib, panobinostat, romidepsin low-IC50 hits — primary-abstract confirmed). Line's specific fusion still not stated per-line in the abstract (background says EMC is most-frequently EWSR1::NR4A3); tagged tentative in samples.json."
     },
     "warmke2023": {
       "short": "Huang 2023 (TAF15::NR4A3 cohort)",
@@ -145,7 +145,8 @@
       "accession": "GSE4303",
       "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE4303",
       "verified": false,
-      "role": "Public EMC expression; distinctive profile incl. NMB / PPARG-related biology. Platform/QC to confirm on reprocessing."
+      "verification_level": "REPROCESSING ATTEMPTED in CI (2026-07-11): 7 legacy custom two-colour platforms (GPL2937/2938/3254/3288/3289/3290/3335). GPL3290 has 10 EMC vs 6 other, but NONE expose a standard probe->symbol column, so 0 genes could be annotated -> no gene-level signature recoverable without a bespoke clone-ID crosswalk. Honest limitation.",
+      "role": "Public EMC expression (distinctive NMB/PPARG profile per original study). Two-colour log-ratio; not annotatable from standard GPL columns. Superseded for the atlas signature by GSE24369."
     },
     "GSE24369": {
       "short": "GEO GSE24369 (sarcoma incl. EMC)",
@@ -153,8 +154,9 @@
       "resourceType": "GEO dataset",
       "accession": "GSE24369",
       "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE24369",
-      "verified": false,
-      "role": "Includes ~6 EMC comparison tumors. Platform/QC to confirm on reprocessing."
+      "verified": true,
+      "verification_level": "REPROCESSED in CI (2026-07-11, atlas-data.yml): GPL6244 (Affymetrix Human Gene 1.0 ST), 42 samples labeled 6 EMC vs 36 other sarcoma, 23,072 genes annotated. QC passed (single-channel).",
+      "role": "Primary EMC-vs-sarcoma expression comparison. Rank-based signature reproduces known EMC biology (NMB, CHRNA6, RET, SOX9, NR4A3, PPARG all EMC-up). See atlasExpressionRepro / claim C018."
     },
 
     "pazopanibEMC": {
@@ -168,8 +170,8 @@
       "doi": "10.1016/S1470-2045(19)30319-5",
       "nct": "NCT02066285",
       "verified": true,
-      "verification_level": "search-snippet cross-checked (>=2 queries); primary full text inaccessible (egress block).",
-      "role": "N=26 enrolled/22 evaluable; ORR 18% (4 PR/22); median PFS 19 mo (95% CI 11-27), 12-mo PFS 74%, 24-mo 40%. All 4 responders EWSR1::NR4A3 (of 19). NOTE: responses CONFINED to EWSR1::NR4A3 — not a formal TAF15-vs-EWSR1 statistical test."
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): 'four (18% [95% CI 1-36]) had a RECIST objective response'; 22 evaluable.",
+      "role": "N=26 enrolled/22 evaluable; ORR 18% (4 PR/22, 95% CI 1-36); median PFS 19 mo (95% CI 11-27), 12-mo PFS 74%, 24-mo 40%. Responders EWSR1::NR4A3. NOTE: responses CONFINED to EWSR1::NR4A3 — not a formal TAF15-vs-EWSR1 statistical test in this trial (that differential is explicit in the sunitinib paper)."
     },
     "sunitinibEMC": {
       "short": "Stacchiotti 2014 (sunitinib EJC)",
@@ -180,8 +182,8 @@
       "volume_pages": "50(9):1657-1664",
       "pmid": "24703573",
       "verified": true,
-      "verification_level": "search-snippet cross-checked; primary full text inaccessible.",
-      "role": "N=10 progressive metastatic translocated EMC (sunitinib 37.5 mg/d); 6 PR, 2 SD, 2 PD; response correlated with EWSR1::NR4A3. Precursor N=2 report: Clin Sarcoma Res 2012;2:22, PMC3534218."
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): '6 PR, 2 SD, 2 PD; all responsive cases expressed the typical EWSR1-NR4A3 fusion, while refractory cases carried the alternative TAF15-NR4A3 fusion. Genotype/phenotype analyses support a correlation between response and EWSR1-NR4A3 fusion.'",
+      "role": "N=10 progressive metastatic translocated EMC (sunitinib 37.5 mg/d); 6 PR, 2 SD, 2 PD. KEY: the EWSR1-responsive / TAF15-refractory differential is EXPLICIT here (primary-abstract confirmed) — the load-bearing evidence for the fusion-subtype antiangiogenic biomarker (strategy Rank 3). Precursor N=2: Clin Sarcoma Res 2012;2:22, PMC3534218."
     },
     "immunosarc2": {
       "short": "IMMUNOSARC II EMC cohort (ASCO 2025)",
@@ -216,8 +218,9 @@
       "volume_pages": "20:805",
       "doi": "10.1186/s13018-025-06245-6",
       "verified": true,
-      "verification_level": "search-snippet cross-checked; PMID not retrieved (DOI is definitive locator).",
-      "role": "Japanese National Bone & Soft Tissue Tumor Registry 2002-2022, N=171 (29 met, 142 non-met). R1/R2 margin independent RF for local recurrence. RT null for LR (HR 0.50, 95% CI 0.11-2.25, p=0.365). Chemo limited/no survival effect. 5-yr DSS 75.8% met vs 91.3% non-met. Limited molecular annotation."
+      "pmcid": "PMC12398172",
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11): N=171 (2002-2022); 'R1 or R2 surgical margin was a risk factor for unfavorable local recurrence (HR 4.76 [95% CI 1.72-13.15]; p=0.003)'. (PMC OA — full text retrievable for deeper extraction.)",
+      "role": "Japanese National Bone & Soft Tissue Tumor Registry 2002-2022, N=171 (29 met, 142 non-met). R1/R2 margin RF for local recurrence (HR 4.76, 95% CI 1.72-13.15). RT null for LR (HR 0.50 per earlier read). Chemo limited/no survival effect. Limited molecular annotation."
     },
     "anthracyclineEMC": {
       "short": "Stacchiotti 2013 (anthracycline retrospective)",
@@ -230,8 +233,8 @@
       "pmcid": "PMC3879193",
       "doi": "10.1186/2045-3329-3-16",
       "verified": true,
-      "verification_level": "search-snippet cross-checked; primary full text inaccessible.",
-      "role": "N=10 evaluable (NR4A3-confirmed); 4 PR (40%), 3 SD, 3 PD; median PFS 8 mo. Chemosensitivity is non-zero but not a unique EMC vulnerability."
+      "verification_level": "PRIMARY ABSTRACT confirmed via EuropePMC (CI, 2026-07-11, PMC OA): 11 EMC (Italian Rare Cancer Network, NR4A3-confirmed); 'best response by RECIST: PR = 4 (40%), SD = 3, PD = 3'.",
+      "role": "N=11 (10 evaluable), 4 PR (40%), 3 SD, 3 PD; median PFS ~8 mo. Chemosensitivity is non-zero but not a unique EMC vulnerability."
     },
 
     "depmap24Q4": {
@@ -278,6 +281,13 @@
       "url": "research/modalities/fusion_neoantigen.py + fusion_breakpoints.py + hla_coverage.py",
       "verified": true,
       "role": "Deterministic in-repo computation (strategy Project 4 core): junction-spanning MHC-I prediction, breakpoint-resolved junctions, HLA population coverage. Outputs: fusion-neoantigen-predictions.json, fusion-breakpoint-neoantigens.json, hla-coverage.json."
+    },
+    "atlasExpressionRepro": {
+      "short": "Atlas expression reprocessing (CI)",
+      "resourceType": "repo_analysis",
+      "url": "research/atlas/expression_reprocess.py + _generated/emc-expression-reprocess.json",
+      "verified": true,
+      "role": "Deterministic in-CI reprocessing of GEO series matrices (rank-based EMC-vs-rest AUC, per platform, leave-one-out). Ran on a GitHub Actions runner because the dev sandbox blocks GEO. See METHODS.md."
     },
     "biologyEvidenceRepo": {
       "short": "In-repo EMC/NR4A3 biology evidence base",

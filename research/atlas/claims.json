@@ -84,11 +84,11 @@
       "evidence_type": "expression",
       "emc_specificity": "emc_specific",
       "direction": "candidate_marker",
-      "source": ["emcNGS2017"],
-      "locator": "Davis 2017",
+      "source": ["emcNGS2017", "GSE24369"],
+      "locator": "Davis 2017; reproduced in GSE24369 reprocessing (RET AUC 0.86, C018)",
       "confidence": "medium",
       "contradicts": null,
-      "notes": "RNA elevation is a MARKER of the fusion state, NOT proof of RET dependency (must be perturbationally tested). Do not treat as RET addiction."
+      "notes": "RET elevation now reproduced in an independent dataset (GSE24369 AUC 0.86). Still: RNA elevation is a MARKER of the fusion state, NOT proof of RET dependency (must be perturbationally tested). Do not treat as RET addiction."
     },
     {
       "claim_id": "C007",
@@ -229,6 +229,34 @@
       "confidence": "medium",
       "contradicts": null,
       "notes": "Maintain ancestry-stratified estimates; a peptide useful only in a rare allele has limited reach. Coverage != immunogenicity."
+    },
+    {
+      "claim_id": "C018",
+      "statement": "Independent reprocessing of GSE24369 (GPL6244, 6 EMC vs 36 other sarcoma, 23,072 genes, rank-based AUC=P(EMC>other)) reproduces known EMC biology: NMB AUC 1.00 (rank 11), CHRNA6 1.00 (rank 26), SOX9 0.92, RET 0.86, NR4A3 0.82, PPARG 0.75 are all strongly EMC-up; leave-one-out top-50 Jaccard 0.64 (n=6).",
+      "entity": "emc-expression-signature",
+      "fusion_subtype": "not_stratifiable_here",
+      "evidence_type": "expression",
+      "emc_specificity": "emc_specific",
+      "direction": "reproduces_known_biology",
+      "source": ["GSE24369", "atlasExpressionRepro"],
+      "locator": "_generated/emc-expression-reprocess.json (GSE24369/GPL6244)",
+      "confidence": "medium",
+      "contradicts": null,
+      "notes": "A reproduction SUCCESS criterion met: NMB + CHRNA6 (the two most characteristic EMC RNAs), RET (matches Davis 2017), PPARG (matches Filion 2009), NR4A3 all recovered EMC-up from an independent dataset+pipeline. Caveats: tiny n (6 EMC), author-normalized series matrix (not raw-CEL RMA), stroma dilution, single dataset. Fusion partner not in metadata -> no EWSR1-vs-TAF15 here. RNA over-expression is a marker, NOT dependency (RET/PPARG guards C006/C015 still apply)."
+    },
+    {
+      "claim_id": "C019",
+      "statement": "The antiangiogenic fusion-subtype differential is explicit in the primary sunitinib abstract: all responsive EMC cases expressed EWSR1::NR4A3 while refractory cases carried TAF15::NR4A3; genotype/phenotype analysis supports a response<->EWSR1::NR4A3 correlation.",
+      "entity": "antiangiogenic-subtype-biomarker",
+      "fusion_subtype": "EWSR1_vs_TAF15",
+      "evidence_type": "clinical",
+      "emc_specificity": "emc_specific",
+      "direction": "EWSR1_sensitive_TAF15_resistant",
+      "source": ["sunitinibEMC"],
+      "locator": "Stacchiotti 2014 EuropePMC primary abstract",
+      "confidence": "medium",
+      "contradicts": null,
+      "notes": "Load-bearing evidence for strategy Rank 3 (fusion-specific antiangiogenic response). Corroborated in pazopanib (responders EWSR1). Still small N and single group (Stacchiotti/European network); not a growth-rate-adjusted analysis. A biomarker hypothesis, not established practice."
     },
     {
       "claim_id": "C015",

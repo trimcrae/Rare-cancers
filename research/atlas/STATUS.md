@@ -55,8 +55,38 @@ Registered the **existing** in-repo antigen computation (`fusion_neoantigen.py` 
   junction is an informative negative that redirects toward fusion-induced LINEAGE antigens
   (B7-H3/PRAME axis). Prediction only — no natural presentation demonstrated.
 
+## 2026-07-11 — v0.3 CI data pipeline: GEO reprocessed + primary full-text verified
+
+Ran the atlas-data.yml workflow (GitHub Actions — the dev sandbox proxy blocks GEO/PMC). Results
+folded in with provenance.
+
+**Expression reprocessing (`expression_reprocess.py`):**
+- **GSE24369 / GPL6244 (6 EMC vs 36 sarcoma, 23,072 genes): a real reproduction of known EMC biology.**
+  Rank-based AUC=P(EMC>other): **NMB 1.00 (rank 11)**, **CHRNA6 1.00 (rank 26)**, SOX9 0.92, **RET 0.86**,
+  NR4A3 0.82, PPARG 0.75 — all EMC-up. Leave-one-out top-50 Jaccard 0.64 (n=6). → claim C018;
+  GSE24369 citation flipped to **verified**. A strategy success criterion (recover known EMC features) met.
+- **GSE4303**: 7 legacy custom two-colour platforms (GPL3290 has 10 EMC vs 6 other) but NONE expose a
+  standard probe→symbol column → 0 genes annotatable. Honest limitation; GSE4303 stays unverified.
+
+**Primary full-text verification (`fulltext_verify.py`, EuropePMC):**
+- **Iwata 2025 (NCC)** — primary abstract NAMES brigatinib/panobinostat/romidepsin + 221 drugs + EWSR1::NR4A3
+  → NCC screen hits upgraded to VERIFIED_primary_abstract.
+- **Sunitinib (Stacchiotti 2014)** — primary abstract EXPLICITLY states responders expressed EWSR1::NR4A3,
+  refractory carried TAF15::NR4A3 → claim C019; the EWSR1-vs-TAF15 antiangiogenic biomarker is now
+  primary-confirmed (AXIS-antiangiogenic fusion_subtype_coverage 2→3, composite 18→19).
+- **Pazopanib** 18% (95% CI 1-36); **anthracycline** 4/11 PR (40%); **Masunaga registry** margin HR 4.76
+  (95% CI 1.72-13.15) — all upgraded to primary-abstract confirmed with exact numbers.
+- **Bangerter (USZ)** — the EuropePMC abstract is GENERIC (no compound names); **HDM201 stays uncorroborated**
+  and carfilzomib/PU-H71 stay snippet-level (Human Cell not OA). Recorded honestly.
+
+**Infra lessons (folded into CLAUDE.md rule):** egress-proxy 403 → route via a CI runner. Debugging cost
+three iterations: (1) OOM from decompressing GSE24369's GPL SOFT whole → stream it; a cancelled job skips
+the always() commit → per-unit checkpoint-commits; (2) divide-by-zero lost the dataset → isolate signature +
+diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns + per-file platform id.
+
 ## Open next steps (all no-wet-lab, mostly free/cheap)
-1. **Reprocess GSE4303 / GSE24369** (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
+0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text verification pass.
+1. **GSE4303** needs a bespoke clone-ID→symbol crosswalk (custom two-colour GPLs); or drop as superseded. (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
    leave-one-sample-out, rank-based meta-analysis). Flips the 2 unverified GEO citations to verified.
 2. **Full-text re-confirmation pass** when PMC access is available: IC50 numbers, HDM201 status,
    per-model synergy wording, NCC-EMC1-C1 fusion, unbound-Cmax exposure numbers.
