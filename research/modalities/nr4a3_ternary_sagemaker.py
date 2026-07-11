@@ -57,7 +57,7 @@ def main():
     # submitter env, so set it explicitly on the processor). Lets entry.py run the NR-V04/VHL benchmark
     # (TERNARY_SCRIPT=nrv04_ternary.py, TERNARY_EXTRA_ARGS="--pilot", SEEDS, WITH_VBC, NRV04_SMILES).
     job_env = {k: os.environ[k] for k in
-               ("TERNARY_SCRIPT", "TERNARY_EXTRA_ARGS", "SEEDS", "WITH_VBC", "NRV04_SMILES")
+               ("TERNARY_SCRIPT", "TERNARY_EXTRA_ARGS", "SEEDS", "WITH_VBC", "NRV04_SMILES", "GIT_REF")
                if os.environ.get(k)}
 
     # control mode has no PROTAC → pass a benign --control sentinel (argparse store_true) so args is non-empty.

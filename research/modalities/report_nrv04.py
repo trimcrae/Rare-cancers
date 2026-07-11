@@ -271,8 +271,11 @@ def atom_map_moieties(smiles, cif_atoms):
                            "differs from SMILES order and bond-perception graph match failed)")}
     sets = _moiety_ref_sets(mol)
     to_cif = lambda refset: sorted(mapping[i] for i in refset)
+    reason = ("identity map graph-corroborated (element-sequence pre-filter + CIF-connectivity graph isomorphism "
+              "onto the SMILES bond graph)" if method == "atom_order"
+              else "bond-perception graph match onto the SMILES bond graph")
     return {"ok": True, "method": method, "mapping": mapping, "n_ref": len(ref_elems), "n_cif": len(cif_elems),
-            "reason": "mapped via %s (element multiset matched)" % method,
+            "reason": reason,
             "warhead_cif": to_cif(sets["warhead"]), "recruiter_cif": to_cif(sets["recruiter"]),
             "linker_cif": to_cif(sets["linker"]), "has_warhead": sets["has_warhead"],
             "has_recruiter": sets["has_recruiter"]}
