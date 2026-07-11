@@ -26,6 +26,10 @@ on:
         description: "selectivity reference receptor"
         default: "nr4a3"
         required: false
+      solvent_tag:
+        description: "pull the shared ligand-in-water solvent leg from THIS tag (empty = per-tag). Use for 8XTT/other complex-only runs that reuse the base selectivity run's solvent leg."
+        default: ""
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -58,6 +62,7 @@ jobs:
           TAGS: ${{ inputs.tags || 'nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3' }}
           RECEPTORS: ${{ inputs.receptors || 'nr4a3,nr4a1,nr4a2' }}
           TARGET: ${{ inputs.target || 'nr4a3' }}
+          SOLVENT_TAG: ${{ inputs.solvent_tag }}
           REGION: ${{ inputs.region || 'us-east-2' }}
           OUT_DIR: results/nr4a3-abfe/diagnostics
         run: |

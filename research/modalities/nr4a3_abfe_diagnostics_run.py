@@ -30,6 +30,7 @@ import nr4a3_abfe_diagnostics as diag  # noqa: E402
 TAGS = [t.strip() for t in os.environ.get("TAGS", "nr4a3-abfe,nr4a3-abfe-r2,nr4a3-abfe-r3").split(",") if t.strip()]
 RECEPTORS = [r.strip() for r in os.environ.get("RECEPTORS", "nr4a3,nr4a1,nr4a2").split(",") if r.strip()]
 TARGET = os.environ.get("TARGET", "nr4a3")
+SOLVENT_TAG = os.environ.get("SOLVENT_TAG", "").strip()  # pull the shared solvent leg from this tag (empty = per-tag)
 REGION = os.environ.get("REGION", os.environ.get("AWS_DEFAULT_REGION", "us-east-2"))
 TEMPERATURE_K = float(os.environ.get("TEMPERATURE_K", "300"))
 OUT_DIR = os.environ.get("OUT_DIR", os.path.join("results", "nr4a3-abfe", "diagnostics"))
@@ -96,12 +97,16 @@ def gather_dirs(bucket):
     for tag in TAGS:
         legs = {}
         for leg_key, prefix_sub in [("solvent", "solvent")] + [("complex-%s" % r, "complex-%s" % r) for r in RECEPTORS]:
+            # The ligand-in-water solvent leg is receptor/conformer-independent, so a run that reuses a shared
+            # solvent leg (e.g. the 8XTT-anchored complex legs reuse the base selectivity run's solvent) has no
+            # solvent/ under its own tag. SOLVENT_TAG lets the solvent be pulled from that shared tag.
+            src_tag = SOLVENT_TAG if (leg_key == "solvent" and SOLVENT_TAG) else tag
             if LOCAL_ROOT:
-                root = os.path.join(LOCAL_ROOT, tag, "ckpt", prefix_sub)
+                root = os.path.join(LOCAL_ROOT, src_tag, "ckpt", prefix_sub)
             else:
-                root = os.path.join(base, tag, prefix_sub)
-                nsync = sync_prefix(bucket, "%s/ckpt/%s/" % (tag, prefix_sub), root)
-                print("  [sync] %s/ckpt/%s/ -> %d files" % (tag, prefix_sub, nsync), flush=True)
+                root = os.path.join(base, src_tag, prefix_sub)
+                nsync = sync_prefix(bucket, "%s/ckpt/%s/" % (src_tag, prefix_sub), root)
+                print("  [sync] %s/ckpt/%s/ -> %d files" % (src_tag, prefix_sub, nsync), flush=True)
             d = find_leg_dir(root)
             if d:
                 legs[leg_key] = d
@@ -172,6 +177,7 @@ def compute(dirs, temperature_K=TEMPERATURE_K):
     check = diag.check_against_manuscript(summary) if summary else None
     return {
         "provenance": {"tags": TAGS, "receptors": RECEPTORS, "target": TARGET,
+                       "solvent_tag": SOLVENT_TAG or None,
                        "temperature_K": temperature_K, "n_windows": K,
                        "engine": "research/modalities/nr4a3_abfe.py",
                        "diagnostics": "research/modalities/nr4a3_abfe_diagnostics.py",
