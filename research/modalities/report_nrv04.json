@@ -1,7 +1,7 @@
 {
   "prefix": "nrv04-ternary-pilot",
   "bucket": "sagemaker-us-east-2-646605541856",
-  "mode": "control-only",
+  "mode": "full",
   "seeds": [
     1,
     2,
@@ -221,6 +221,234 @@
           "sd": 2.9731
         }
       }
+    },
+    "nr4a2": {
+      "system": "nr4a2",
+      "kind": "ternary",
+      "n_seeds": 3,
+      "per_seed": [
+        {
+          "seed": "seed_1",
+          "confidence": {
+            "confidence_score": 0.7802,
+            "ptm": 0.7003,
+            "iptm": 0.6478,
+            "ligand_iptm": 0.9116,
+            "protein_iptm": 0.615,
+            "complex_plddt": 0.8133,
+            "complex_iplddt": 0.7154
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 25.58,
+            "lig_to_vhl_A": 2.54,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 233,
+              "dist_A": 12.45,
+              "counts": {
+                "8A": 0,
+                "12A": 0,
+                "16A": 1
+              }
+            }
+          }
+        },
+        {
+          "seed": "seed_2",
+          "confidence": {
+            "confidence_score": 0.7394,
+            "ptm": 0.6352,
+            "iptm": 0.5657,
+            "ligand_iptm": 0.9207,
+            "protein_iptm": 0.5302,
+            "complex_plddt": 0.7828,
+            "complex_iplddt": 0.6703
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 6.29,
+            "lig_to_vhl_A": 2.0,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 6,
+              "dist_A": 4.42,
+              "counts": {
+                "8A": 2,
+                "12A": 4,
+                "16A": 4
+              }
+            }
+          }
+        },
+        {
+          "seed": "seed_3",
+          "confidence": {
+            "confidence_score": 0.7555,
+            "ptm": 0.7034,
+            "iptm": 0.6618,
+            "ligand_iptm": 0.8979,
+            "protein_iptm": 0.6319,
+            "complex_plddt": 0.779,
+            "complex_iplddt": 0.6799
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 8.23,
+            "lig_to_vhl_A": 2.56,
+            "n_lys": 13,
+            "closest_exposed_lys": {
+              "resnum": 178,
+              "dist_A": 4.29,
+              "counts": {
+                "8A": 2,
+                "12A": 5,
+                "16A": 8
+              }
+            }
+          }
+        }
+      ],
+      "ensemble": {
+        "ligand_iptm": {
+          "n": 3,
+          "mean": 0.9101,
+          "min": 0.8979,
+          "max": 0.9207,
+          "sd": 0.0094
+        },
+        "iptm": {
+          "n": 3,
+          "mean": 0.6251,
+          "min": 0.5657,
+          "max": 0.6618,
+          "sd": 0.0424
+        },
+        "bridged_fraction": 0.0,
+        "n_bridged": 0,
+        "n_scored": 3,
+        "closest_lys_A": {
+          "n": 3,
+          "mean": 7.0533,
+          "min": 4.29,
+          "max": 12.45,
+          "sd": 3.8164
+        }
+      }
+    },
+    "nr4a3": {
+      "system": "nr4a3",
+      "kind": "ternary",
+      "n_seeds": 3,
+      "per_seed": [
+        {
+          "seed": "seed_1",
+          "confidence": {
+            "confidence_score": 0.7772,
+            "ptm": 0.7193,
+            "iptm": 0.6718,
+            "ligand_iptm": 0.9163,
+            "protein_iptm": 0.6413,
+            "complex_plddt": 0.8035,
+            "complex_iplddt": 0.7059
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 26.14,
+            "lig_to_vhl_A": 2.6,
+            "n_lys": 15,
+            "closest_exposed_lys": {
+              "resnum": 233,
+              "dist_A": 12.23,
+              "counts": {
+                "8A": 0,
+                "12A": 0,
+                "16A": 1
+              }
+            }
+          }
+        },
+        {
+          "seed": "seed_2",
+          "confidence": {
+            "confidence_score": 0.7416,
+            "ptm": 0.5832,
+            "iptm": 0.5046,
+            "ligand_iptm": 0.8715,
+            "protein_iptm": 0.471,
+            "complex_plddt": 0.8008,
+            "complex_iplddt": 0.6943
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 8.02,
+            "lig_to_vhl_A": 2.47,
+            "n_lys": 15,
+            "closest_exposed_lys": {
+              "resnum": 5,
+              "dist_A": 7.3,
+              "counts": {
+                "8A": 1,
+                "12A": 2,
+                "16A": 4
+              }
+            }
+          }
+        },
+        {
+          "seed": "seed_3",
+          "confidence": {
+            "confidence_score": 0.7488,
+            "ptm": 0.6033,
+            "iptm": 0.5401,
+            "ligand_iptm": 0.8394,
+            "protein_iptm": 0.5134,
+            "complex_plddt": 0.8009,
+            "complex_iplddt": 0.7032
+          },
+          "geometry": {
+            "bridges": false,
+            "lig_to_target_A": 24.91,
+            "lig_to_vhl_A": 2.6,
+            "n_lys": 15,
+            "closest_exposed_lys": {
+              "resnum": 5,
+              "dist_A": 7.66,
+              "counts": {
+                "8A": 1,
+                "12A": 1,
+                "16A": 3
+              }
+            }
+          }
+        }
+      ],
+      "ensemble": {
+        "ligand_iptm": {
+          "n": 3,
+          "mean": 0.8757,
+          "min": 0.8394,
+          "max": 0.9163,
+          "sd": 0.0315
+        },
+        "iptm": {
+          "n": 3,
+          "mean": 0.5722,
+          "min": 0.5046,
+          "max": 0.6718,
+          "sd": 0.0719
+        },
+        "bridged_fraction": 0.0,
+        "n_bridged": 0,
+        "n_scored": 3,
+        "closest_lys_A": {
+          "n": 3,
+          "mean": 9.0633,
+          "min": 7.3,
+          "max": 12.23,
+          "sd": 2.244
+        }
+      }
     }
   },
   "pilot_gate": {
@@ -228,5 +456,12 @@
     "reason": "control seats VH032 in VHL (seated in 3/3 seeds) AND NR4A1 forms a productive, seed-persistent ternary (bridged in 3/3 seeds) \u2192 fan out NR4A2 + NR4A3 \u00d7 seeds \u00d7 linkers.",
     "control_ok": true,
     "nr4a1_ok": true
+  },
+  "full_gate": {
+    "verdict": "failed",
+    "margin": -0.0536,
+    "nr4a1_ligand_iptm": 0.8565,
+    "nr4a2_ligand_iptm": 0.9101,
+    "nr4a3_ligand_iptm": 0.8757
   }
 }
