@@ -1,0 +1,104 @@
+{
+  "_title": "NR4A3 harmonized orthosteric-pocket detection — consolidated across all ensembles",
+  "_method": "Orthosteric Pocket-5 defined by the FIXED lining residue set (score-independent), matched per frame by the composite Jaccard/recovery + centroid gate; BOTH denominators reported. One homogeneous, pinned fpocket build.",
+  "_provenance": "Read from s3://sagemaker-us-east-2-646605541856/nr4a3-pocket-reharmonize/pocket-reharmonize-summary.json (reharmonize jobs 2026-07-10, GH runs 29101564275 + 29102999825; report run 29135824242, 2026-07-11). Committed as the durable GATE-1 record for the ensemble-robust redesign.",
+  "fpocket_version": "4.0",
+  "match_params": {
+    "jaccard_min": 0.25,
+    "frac_recovered_min": 0.3,
+    "centroid_max_ang": 8.0
+  },
+  "d_star": 0.53,
+  "columns": [
+    "ensemble",
+    "n_propagated",
+    "n_detected",
+    "detection_fraction",
+    "n_ge_dstar",
+    "frac_ge_among_detected",
+    "frac_ge_among_propagated",
+    "d_star"
+  ],
+  "rows": [
+    {
+      "ensemble": "af2_static",
+      "n_propagated": 1,
+      "n_detected": 1,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 0,
+      "frac_ge_among_detected": 0.0,
+      "frac_ge_among_propagated": 0.0,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "calibration_nr4a3",
+      "n_propagated": 1,
+      "n_detected": 1,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 0,
+      "frac_ge_among_detected": 0.0,
+      "frac_ge_among_propagated": 0.0,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "8xtt_20conformers",
+      "n_propagated": 20,
+      "n_detected": 19,
+      "detection_fraction": 0.95,
+      "n_ge_dstar": 3,
+      "frac_ge_among_detected": 0.15789473684210525,
+      "frac_ge_among_propagated": 0.15,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "metad_frames",
+      "n_propagated": 25,
+      "n_detected": 25,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 17,
+      "frac_ge_among_detected": 0.68,
+      "frac_ge_among_propagated": 0.68,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "release_rep0",
+      "n_propagated": 25,
+      "n_detected": 25,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 14,
+      "frac_ge_among_detected": 0.56,
+      "frac_ge_among_propagated": 0.56,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "release_rep1",
+      "n_propagated": 25,
+      "n_detected": 25,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 10,
+      "frac_ge_among_detected": 0.4,
+      "frac_ge_among_propagated": 0.4,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "release_rep2",
+      "n_propagated": 25,
+      "n_detected": 25,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 20,
+      "frac_ge_among_detected": 0.8,
+      "frac_ge_among_propagated": 0.8,
+      "d_star": 0.53
+    },
+    {
+      "ensemble": "release_unbiased_pooled",
+      "n_propagated": 75,
+      "n_detected": 75,
+      "detection_fraction": 1.0,
+      "n_ge_dstar": 44,
+      "frac_ge_among_detected": 0.5866666666666667,
+      "frac_ge_among_propagated": 0.5866666666666667,
+      "d_star": 0.53
+    }
+  ]
+}

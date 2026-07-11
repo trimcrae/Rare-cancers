@@ -43,18 +43,31 @@ Build the design objective around **several** receptor structures.
 ## 3. The conformer panel (design / validation / stress)
 
 The panel is split so generalisation is **tested, not assumed**. The generator and early scoring see ONLY the
-design conformers; the validation conformers are held out. Concrete mapping to structures we actually have
-(final membership is **gated on the harmonized pocket-tracking audit** — see §7):
+design conformers; the validation conformers are held out.
 
-- **NR4A3 design set (2–3, moderately open):** 2–3 of the four druggable 8XTT NMR models (20-model ensemble;
-  4/20 above the drug-bound boundary, peak 0.925) that pass the harmonized site definition, chosen at
-  *moderate* openness. **Not** the AF2-opened frame (that is `denovo_401`'s design frame → circular).
-- **NR4A3 validation set (held-out, never seen by the generator/early scoring):** the remaining audit-passing
-  8XTT druggable model(s) + cavity-bearing frames from the `nr4a3-release-druggable` sub-ensemble
-  (primary/alt1/alt3) not used in design.
-- **NR4A3 stress set:** one **minimally-open / occluded** 8XTT model + the **original AF2-opened release
-  frame** (scoring a 401-derived scaffold there is a circularity probe, not pass/fail) + optionally the
-  **metad-opened frame** (known promiscuous discriminator → hardest specificity stress).
+**✅ GATE-1 audit landed (2026-07-11 — [`nr4a3-pocket-reharmonize-summary.json`](./nr4a3-pocket-reharmonize-summary.json)).**
+The harmonized, **score-independent** pocket tracker (fixed Pocket-5 lining set; composite Jaccard/recovery +
+centroid gate; pinned fpocket 4.0; D\*=0.53) gives two facts that fix the panel:
+1. **The canonical site is real and well-defined** — detected in **95–100 %** of frames in *every* ensemble
+   (8XTT 19/20; metad 25/25; all 75 unbiased release frames; AF2-static). Site identity is decoupled from the
+   fpocket score, so the earlier circularity concern is closed.
+2. **Druggability is a low-population property of the experimental ensemble** — only **3/20 (15 %)** 8XTT NMR
+   models clear D\*, vs metad 68 %, unbiased-release-pooled **59 %** (44/75), AF2-static 0/1. The honest
+   cryptic-pocket picture: the site is nearly always geometrically present but druggably *open* ~15 % of the
+   time experimentally.
+
+Panel membership, grounded in the audit:
+
+- **NR4A3 design set (2–3, moderately open):** moderately-open **druggable frames from the unbiased release
+  sub-ensemble** (44/75 clear D\*; `nr4a3-release-druggable` primary/alt1/alt3). **Not** the AF2-opened frame
+  (that is `denovo_401`'s design frame → circular).
+- **NR4A3 validation set (held-out, never seen by the generator/early scoring):** the **3 druggable 8XTT NMR
+  models** (the audit's experimental druggable minority — the highest-value held-out *experimental* test) +
+  release-druggable frames not used in design.
+- **NR4A3 stress set:** the **occluded 8XTT models** (the ~16 detected-but-below-D\* + the 1 non-detected) +
+  the **original AF2-opened release frame** (scoring a 401-derived scaffold there is a circularity probe, not
+  pass/fail) + a **metad-opened frame** (68 % druggable but a known promiscuous discriminator → hardest
+  specificity stress).
 - **NR4A1 / NR4A2 panels:** matched — the **same** harmonized pocket definition (the fixed Pocket-5 lining set
   mapped by BLOSUM62 / `residue_map`) and the **same** geometric selection rules, over AF, crystal-seeded-opened
   (3V3E / 1OVL are collapsed → require the symmetric opening-MD step), and the metad-opened paralogue frames
@@ -116,12 +129,12 @@ tiers; the decision logic itself is done and gated on nothing.
 
 **Cheap redesign work is gated on the audit; expensive ABFE on new compounds is gated on the λ / T4L work.**
 
-- **GATE-1 (cheap work):** start ensemble construction, scaffold enumeration, multi-conformer docking,
-  generation-matched controls, and chemical triage **only after the harmonized pocket-tracking audit confirms
-  the canonical site and a defensible conformer panel.** The audit engine (`pocket_tracking.py`) and driver
-  (`nr4a3_pocket_reharmonize.py`, workflow `gpu-pocket-reharmonize-aws.yml`) are **built**; the **consolidated
-  result is not yet committed** — running/landing it is the immediate unblocker. *Do not finalize panel
-  membership before it.*
+- **✅ GATE-1 (cheap work) — CLEARED 2026-07-11.** The harmonized pocket-tracking audit landed
+  ([`nr4a3-pocket-reharmonize-summary.json`](./nr4a3-pocket-reharmonize-summary.json), §3): the canonical site
+  is confirmed (95–100 % detection across all ensembles by a score-independent definition) and the conformer
+  panel is defensibly fixed (3 druggable 8XTT NMR models = held-out experimental; release-druggable frames =
+  design; occluded/AF2/metad = stress). Ensemble construction, scaffold enumeration, multi-conformer docking,
+  generation-matched controls, and chemical triage are now **unblocked** (CPU/spot, non-FEP).
 - **GATE-2 (expensive ABFE on NEW compounds):** per trimcrae's directive, do not commit substantial ABFE to
   new compounds until (a) the dense-λ schedule is validated, (b) T4L benchmark v2 is understood (engine
   absolute-accuracy anchor), and (c) the same repaired protocol is applied to **both** the AF2- and
@@ -157,10 +170,11 @@ the conformer effect."* That is the deliverable this branch is for.
 
 ## 10. Status (2026-07-11)
 
-- ✅ **Scoring layer built:** `ensemble_robust_score.py` + 24 unit tests (this branch).
+- ✅ **Scoring layer built:** `ensemble_robust_score.py` + 24 unit tests.
 - ✅ **Plan codified:** this document.
-- ⏳ **GATE-1:** land the harmonized pocket-tracking audit result → finalize the conformer panel.
-- ⏳ **GATE-2:** λ-repair validation + T4L v2 + repaired both-provenance NR4A3 ABFE (prereq for new-compound ABFE).
-- ▶ **Next once GATE-1 clears:** wire `ensemble_robust_score` into `nr4a3_matrix` / `nr4a3_leadopt` /
-  `nr4a3_8xtt_conformer_scoring` to rank Branch-A and Branch-B candidates on the panel; run the
-  generation-matched null on the redesign.
+- ✅ **GATE-1 cleared:** harmonized pocket-tracking audit landed + committed; conformer panel fixed (§3).
+- ⏳ **GATE-2:** λ-repair validation + T4L v2 + repaired both-provenance NR4A3 ABFE (prereq for new-compound ABFE; FEP-class, held per trimcrae's "short of a new FEP run").
+- ▶ **Next (non-FEP, unblocked):** wire `ensemble_robust_score` into `nr4a3_matrix` / `nr4a3_leadopt` /
+  `nr4a3_8xtt_conformer_scoring` to rank Branch-A (`lo_m0_*`) and Branch-B candidates on the panel; build the
+  panel receptor set from the audit-selected conformers; run the generation-matched null on the redesign.
+  These are CPU/spot dock + MM-GBSA tiers (no new FEP).
