@@ -1,8 +1,8 @@
 {
   "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
   "spot_train_quota": 8,
-  "_user_hold": "2026-07-10 9:55 PM ET — USER DIRECTIVE: do NOT start any NEW GPU runs this session. In-flight runs (T4L benchmark, nr4a2rep-r1 pilot) continue. No resuming paused replicates, no lambda-repair, no paralogue ABFE, no Phase-2 re-shakeout — surface to the user instead. CPU/$0 work and read-only monitoring are unaffected. Applies to autonomous hourly-Routine firings too (they fire into this session).",
-  "updated": "2026-07-10 9:55 PM ET",
+  "_user_hold": "2026-07-11 — USER DIRECTIVE (supersedes the 2026-07-10 9:55 PM ET hold for NON-FEP work): NON-FEP GPU work on free spot shards is AUTHORIZED — 'get as far as you can short of starting a new FEP run' (8 spot shards, free ones available). STILL HELD: any new FEP-class run — lambda-repair ABFE (nr4a2rep-r2/r3 resumes), paralogue ABFE, new-compound ABFE — these remain gated on the user (GATE-2 in nr4a3-ensemble-redesign-plan.md). CPU/$0 work and monitoring always fine. Immediate authorized non-FEP work: the harmonized pocket-tracking audit (gpu-pocket-reharmonize, CPU) as the redesign's GATE-1 unblocker.",
+  "updated": "2026-07-11",
   "items": [
     {
       "id": "nr4a2rep-r2-resume",
