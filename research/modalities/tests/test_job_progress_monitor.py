@@ -126,3 +126,25 @@ def test_boltz_eta_across_samples():
     assert a["min_per_unit"] is not None and a["min_per_unit"] > 0
     assert a["units_remaining"] == 3      # 6 - 2 - 1
     assert a["eta_min"] is not None
+
+
+def test_intra_log_eta_without_prev():
+    # A LONE snapshot (no --prev) still yields an ETA from the recent intra-log per-window rate.
+    # ABFE_LOG: window 6 @ 14:20, window 7 @ 14:26 → 6 min/window; at window 7/16 → 8 remaining.
+    cur = m.parse_abfe(ABFE_LOG)
+    assert cur["intra_prev_index"] == 6 and cur["intra_prev_ts"] == "2026-07-11T14:20:00Z"
+    a = m.analyse(cur, prev=None, total_units=16, now_iso="2026-07-11T14:29:00Z")
+    assert a["recent_rate"] is True
+    assert a["min_per_unit"] == 6.0
+    assert a["units_remaining"] == 8        # 16 - 7 - 1
+    assert a["eta_min"] == 48.0             # 8 * 6
+    assert a["eta_et"] is not None
+
+
+def test_explicit_prev_takes_precedence_over_intra_log():
+    # When a real prior sample is supplied it should drive the rate (recent_rate stays False).
+    prev = {"kind": "abfe", "index": 5, "last_ts": "2026-07-11T14:14:00Z"}
+    cur = m.parse_abfe(ABFE_LOG)            # index 7 @ 14:26
+    a = m.analyse(cur, prev=prev, total_units=16, now_iso="2026-07-11T14:29:00Z")
+    assert a.get("recent_rate") is False
+    assert a["min_per_unit"] == 6.0         # (14:26-14:14)/(7-5) = 12/2 = 6
