@@ -38,12 +38,16 @@ tracking), while the replicas do **not** yet agree on a **common quantitative fr
 null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution) leaves a
 single candidate, **denovo_401**, whose NR4A3-favoured preference is probed by **initial three-replicate
 absolute-binding free-energy calculations conditional on selected opened conformers** (favouring NR4A3 over
-both paralogues; a receptor-specific λ-overlap repair and an experimental-structure-anchored NR4A3
-recalculation are in progress before final interpretation, and the engine's *absolute* scale is not
-validated). This is a **computation-only** design and feasibility study — **no molecule was synthesized and no
-wet-lab validation was performed** — whose principal unresolved limitations are the consistency of pocket
-identification across structural models, cross-replica free-energy convergence, and the atomic binding pose
-and ensemble-weighted selectivity.
+both paralogues in the AF2-opened states; error bars from a receptor-specific λ-overlap repair are still in
+progress, and the engine's *absolute* scale is not validated). A completed **experiment-anchored (8XTT)
+recalculation of the NR4A3 leg** shows the absolute ΔG_bind is **strongly conformer-dependent** (+8.17 ± 0.98
+vs +3.5 kcal/mol on the AF2-opened conformer, a ≈ 4.7 kcal/mol shift larger than the selectivity margin), so
+the selectivity is reported as **conditional on the chosen opened conformers**; a matched experiment-anchored
+paralogue comparison is the flagged decisive follow-up. This is a **computation-only** design and feasibility
+study — **no molecule was synthesized and no wet-lab validation was performed** — whose principal unresolved
+limitations are the consistency of pocket identification across structural models, the **structural-provenance
+dependence of the free-energy selectivity**, cross-replica convergence, and the atomic binding pose and
+ensemble-weighted selectivity.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
@@ -118,7 +122,19 @@ mean RMSD to the 20 NMR conformers (7.6 Å) is *within* the ensemble's own model
 range 1.8–14.4 Å) — i.e. AF2 is no further from the experimental conformers than they are from each other, a
 legitimate ensemble member rather than an outlier. On the pocket-lining Cα alone (locally superposed) the model
 is closer still — AF2↔NMR 0.84 Å mean (0.54–1.16) vs NMR↔NMR 0.59 Å (0.22–1.08) — so the local pocket geometry
-is conserved to sub-Ångström in both, with AF2 at the high end of but inside the ensemble's internal range.** **Two post hoc robustness *transfers* to
+is conserved to sub-Ångström in both, with AF2 at the high end of but inside the ensemble's internal range.**
+**AF-vs-experiment fold fidelity, matched across all three paralogues (closes the "benchmarked for NR4A3
+only" gap).** NR4A1 and NR4A2 also have experimental LBD structures, so we ran the identical AF↔experiment
+Cα-RMSD (`nr4a_af_crystal_rmsd.py`; BLOSUM62 residue maps): the AlphaFold models reproduce the experimental
+folds tightly — **NR4A1 AF vs Nur77 crystal 3V3E global 1.20 Å / Pocket-5-local 0.44 Å; NR4A2 AF vs Nurr1
+crystal 1OVL global 1.40 Å / 0.82 Å** (all-atom alignment identity 1.0 to the same-protein crystal, 0.54/0.64
+across paralogues). *This is an AF-vs-**collapsed apo crystal** fold check, not a pocket-state validation:* the
+small global RMSD confirms AF is a faithful backbone model for each paralogue (so the AF-based design and the
+paralogue selectivity references rest on a sound fold), while the sub-Ångström pocket-local number reflects
+that the crystal orthosteric site is occluded, not that AF captures an open state. Notably NR4A3 is the outlier
+— its AF↔experiment divergence (global 7.63 Å, pocket 3.56 Å vs a *flexible NMR ensemble*) is far larger than
+the paralogues' (vs *single collapsed crystals*), consistent with 8XTT sampling a genuinely dynamic,
+cavity-bearing ensemble rather than one static conformer. **Two post hoc robustness *transfers* to
 8XTT-derived conformers (not a full workflow rebase — the metadynamics, generation, and ABFE still run on
 AF2-derived structures) hold:** (i) **PocketMiner scored on the 8XTT conformers still enriches** the Pocket-5
 residues (median 1.40× vs 1.36× on AF2 — the propensity call **transfers to the experimental conformers**, though, evaluated at the preselected AF2-defined region, it does not by itself establish an AF2-independent site *discovery*); and
@@ -836,10 +852,23 @@ because that error propagates **directly** into ΔΔG(3−2) (it is receptor-spe
 shared solvent leg), the **−4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional** until the
 λ-repair — **in progress** — lands (SI §S7). *(iii) The ΔΔG is conditional on the opened state.* It compares
 binding to *selected opened* conformers and omits the receptor-specific free-energy cost of populating that
-cryptic-opened state, which is potentially decisive and may differ across paralogues (§4). A second run in
-flight rebuilds the NR4A3 leg from an **8XTT-anchored** physical model as a **receptor-model sensitivity test**
-(interpreted as sensitivity, **not** an experimental-structure-anchored selectivity calculation, since only the
-NR4A3 leg is re-based while the paralogue references are unchanged). Per-replicate paired ΔΔG, λ-overlap
+cryptic-opened state, which is potentially decisive and may differ across paralogues (§4).
+
+**8XTT-anchored recalculation (now complete, three replicates) — structural provenance dominates the absolute.**
+Rebuilding the NR4A3 leg from an **experiment-anchored** opened conformer (a druggable frame from 8XTT-seeded
+release MD, `denovo_401` docked identically, the shared solvent leg reused) gives ΔG_bind(NR4A3) =
+**+8.17 ± 0.98** kcal/mol (r1 7.95 / r2 9.24 / r3 7.32) — **≈ +4.7 kcal/mol weaker** than the AF2-opened
+conformer (+3.5). Two readings, both stated at their true weight: **(a)** the choice of opened conformer moves
+the NR4A3 absolute by **more than the entire AF2-conditioned selectivity margin**, so the ΔΔG magnitude is
+strongly conformer-dependent and must be read as conditional on the *AF2-opened* states, not as a
+structure-independent selectivity; **(b)** this remains a **receptor-model sensitivity test, not a selectivity
+calculation** — it pairs an experiment-anchored NR4A3 leg against *AF2-opened* paralogue references, a
+deliberately mismatched provenance, so the apparent collapse of the margin (8.17 vs 8.3/8.5) is **not** a
+selectivity refutation. A *matched* experiment-anchored contrast would require **crystal-seeded paralogue ABFE**
+(Nurr1 1OVL / Nur77 3V3E are collapsed apo crystals, so it additionally needs a pocket-opening MD step), flagged
+as the decisive follow-up (§4). Caveat carried forward: the 8XTT complex legs share the same low soft-core-tail
+λ-overlap (min adjacent 0.017–0.026) as the paralogue legs, so **+8.17 is itself provisional** pending the same
+dense-schedule λ-repair before it is read as a converged absolute. Per-replicate paired ΔΔG, λ-overlap
 matrices, effective sample sizes, forward/reverse convergence traces, and the per-receptor component
 decomposition are in **SI §S7**; the lead-optimization ABFE cross-check (`lo_m0_NCCO`, an FEP tie not an
 advance) is in **SI §S5**.
