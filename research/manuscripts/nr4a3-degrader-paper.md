@@ -581,31 +581,40 @@ CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium 
 experimentally measured or validated ensemble-weighted binary affinities in future work** — we do **not**
 derive Kd values from the current raw ABFE absolutes (whose scale is not validated, §3).
 
-**A family-matched retrospective benchmark provides exploratory concordance, but not validation of
-ternary-selectivity prediction.** We applied the co-folding workflow to **NR-V04**, a VHL-recruiting PROTAC
-reported to degrade NR4A1 while sparing NR4A2 and NR4A3. Across three diffusion seeds, a **moiety-specific**
-contact criterion — the celastrol end within 4.5 Å of the NR4A target **and** the VH032 end within 4.5 Å of VHL,
-assigned via the ligand's single sulfur so wrong-end/linker/surface contacts do not count — was satisfied for
-NR4A1 in **2/3 seeds** but **0/3** for NR4A2 and NR4A3, and the separation was robust across 4.0/4.5/5.0 Å and to
-leave-one-seed-out. (A naïve whole-ligand minimum-distance test scored NR4A1 3/3, over-counting one seed that
-the moiety test flags as a wrong-end contact — wrong-end fraction 0.33 for NR4A1 vs 1.0 for both spared
-paralogues.) In contrast, mean ligand-iPTM did not reproduce the degradation ordering, being higher for the
-spared NR4A2 than for NR4A1. Thus, in this single retrospective example, a contact-based geometric readout was
-concordant with the known phenotype whereas ligand-iPTM alone was not. Productive geometry was elevated to the
-primary interpretive readout *after* inspection of the confidence-score result, and this analysis should
-therefore be regarded as **exploratory**. Additional limitations are that only three seeds and one top-ranked
-model per seed were analyzed (n = 3 samples, one an NR4A1 wrong-end artefact — thin), celastrol's covalent
-engagement of NR4A1 Cys551 was not modeled (a distance proxy only), and the Cullin–RING/E2~Ub machinery was
-absent. Moreover, the published degradation phenotype does not establish
-that cross-paralogue selectivity is *caused* by ternary geometry. The benchmark therefore motivates
-pre-registered comparative evaluation of linker architectures, but it does **not** validate predictive accuracy
-for NR4A3-selective degradation. Under the same exploratory classifier, the representative `denovo_401`–CRBN
-linker contacted both proteins for all three paralogues and consequently showed **no modeled paralogue
-discrimination**. Full benchmark spec, per-seed geometry, and verdict logic: `nrv04-ternary-benchmark.json` /
-`report_nrv04.py`; **SI §S2**. *(This paragraph reflects a 2026-07-11 external methods review that narrowed the
-claim from "validated" to "exploratory concordance" and flagged analyzer fixes — moiety-specific occupancy,
-all-rank sampling, cutoff-sensitivity, corrected controls — that are required before any prospective linker
-ranking; tracked in `nrv04-ternary-benchmark.json → review_required_fixes`.)*
+**A family-matched retrospective case study gives thin concordance but fails an affinity-sensitive control.**
+We applied the co-folding workflow to an **NR-V04-inspired representative reconstruction** (an
+NR-V04-inspired 79-heavy-atom celastrol–PEG–VHL construct; the exact recruiter connectivity/regiochemistry,
+stereochemistry, attachment points, and linker atom count from the primary source are **not yet independently
+verified**, so this is not an exact retrospective benchmark against the reported NR-V04 phenotype). NR-V04 is
+reported to degrade NR4A1 while sparing NR4A2/NR4A3. Across three diffusion seeds, a **gross dual-contact
+classifier** (one ligand half within 4.5 Å of the NR4A target **and** the other half within 4.5 Å of VHL,
+the halves assigned by a conformation-dependent sulfur-anchor partition — *not* a chemically mapped moiety
+occupancy) was concordant with the reported paralogue phenotype: satisfied for NR4A1 in **2/3 seeds** but 0/3
+for NR4A2/NR4A3, with mean ligand-iPTM *not* reproducing the ordering (higher for spared NR4A2). **However, an
+expected VHL-inactive stereoisomer (the 4-hydroxyproline epimer construct) achieved the same aggregate bridge
+fraction as the active construct (0.75 vs 0.75 over the seed×pose pool), showing that this structure-only
+classifier has no demonstrated affinity sensitivity.** A structure generator can place an inactive
+stereoisomer in a plausible pocket geometry while not modelling its unfavourable binding thermodynamics; this
+structure-only invocation and contact classifier did not assess affinity (Boltz-2's optional affinity head was
+not used and is not recommended for ligands substantially larger than 56 atoms, whereas this construct has 79
+heavy atoms). The classifier **may therefore support architecture-feasibility screening, but not binding,
+ternary-stability, degradation-selectivity, or linker-ranking claims** — this failed affinity control is
+decisive for the frozen go/no-go gate (`negative_controls_pass = false`), which prohibits geometry-only
+affinity or linker ranking. Further limitations: only three seeds × one top model were analyzed here (thin;
+poses within a seed are nested, so pooled counts overstate independence); the free-celastrol control detects
+one gross architectural failure (no recruiter) but one control does not establish specificity; celastrol's
+covalent engagement of NR4A1 Cys551 was **not evaluated** (the residue-offset lookup was not confirmed against
+an output structure); the Cullin–RING/E2~Ub machinery was absent; and the phenotype does not establish that
+selectivity is *caused* by ternary geometry. Under the same gross classifier the representative
+`denovo_401`–CRBN linker contacted both proteins for all three paralogues, showing **no modelled paralogue
+discrimination**. This is a **structure-only gross architecture classifier that showed thin retrospective
+concordance and failed an affinity-sensitive stereochemical control; it is unsuitable for prospective affinity
+or degradation-selectivity ranking.** Full spec, controls, and the seed-level analysis:
+`nrv04-ternary-benchmark.json` / `report_nrv04.py`; **SI §S2**. *(Reflects two external methods reviews,
+2026-07-11: the metric is renamed "correct-half dual-surface proximity" (not "productive geometry"); required
+analyzer fixes — atom-map moiety occupancy, intended-site checks, verified Cys551 mapping, seed-level (not
+pose-pooled) statistics, exact chemical identity, separated architecture-vs-affinity controls — are tracked in
+`nrv04-ternary-benchmark.json → review_required_fixes` and must be committed before any rerun.)*
 
 **At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor receives a more favourable docking score at ≥1 counter-screen target than at NR4A3, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.6). **Full screen and target panel: SI §S1.**
 
