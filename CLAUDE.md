@@ -321,9 +321,14 @@ read it before making changes.
   --exec` fixes change nothing (there is nothing to sign with). Force-rewriting `main` (shared with sibling
   sessions) for a signature you cannot generate is strictly harmful. Just commit normally and move on; the
   "Unverified" badge only clears if trimcrae makes the private signing key available to the session.
-  **Also: the AWS account allows only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job — serialize
-  those (MM-GBSA, metad/denovo generation); CPU `ml.c5` docks can overlap. The spot *Training* quota is
-  SEPARATE (raised to 8), so the FEP spot fleet can run concurrently with an on-demand Processing job.**
+  **Also (UPDATED 2026-07-11): the repo now has NO on-demand Processing submitters — every SageMaker job was
+  converted to managed-spot Training (`sagemaker_submit.submit_spot` + the `sm_io` entry-path shim; the old
+  "only ONE concurrent `ml.g5.xlarge` on-demand *Processing* job, serialize MM-GBSA/metad/denovo" constraint is
+  therefore RETIRED — they all draw on the 8-wide spot *Training* quota now and can run concurrently). To add a
+  new GPU job, use `submit_spot` (never `FrameworkProcessor`); entries read inputs via `sm_io.channel("name")`
+  and write to `sm_io.out_dir()`. NOTE: these jobs are now Training, so monitor/stop them with
+  `job_type=training` (tail-cloudwatch/list/stop auto-detect too). Each converted job still needs a one-off spot
+  smoke before its next production run.**
 - **★ UNEXPECTED SLOWNESS IS A SIGNAL — INVESTIGATE, DON'T REASSURE (trimcrae standing rule, 2026-07-08,
   after I repeatedly reported "on track" while a job was actually stuck).** When something takes materially
   longer than you predicted, or sits in one phase with no new output past what that phase should take, treat
