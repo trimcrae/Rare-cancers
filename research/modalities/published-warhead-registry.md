@@ -163,6 +163,43 @@ dG_p − dG_NR4A3 (kcal/mol; **positive = NR4A3-favoured**; dG more negative = t
    single-pose docking. Known-chemistry benchmarking makes this concrete and independent of the de-novo set.
    The honest read is a *negative control on the docking tier's discriminating power*, preserved per brief rule 17.
 
+### Gate-2 at the MM-GBSA tier — it does NOT rescue discrimination (2026-07-11)
+
+Multi-snapshot MM-GBSA (`mmgbsa-aws.yml multisnapshot=1`, run 29152852051, ~29 min spot,
+`nr4a3-chem-benchmark-mmgbsa`; amber14/GBn2, 10-frame GB-MD average) re-scored the four clean reversible
+discriminators into the same state-matched opened pockets, to ask whether the tier that *should* discriminate
+(the brief's logic) reproduces known preferences where docking could not.
+
+| ligand (known pref) | mmΔG NR4A3 | mmΔG NR4A1 | mmΔG NR4A2 | MM-GBSA ranking | reproduced? |
+|---------------------|-----------|-----------|-----------|-----------------|-------------|
+| THPN (NR4A1) | **−26.8** | −20.0 | −22.0 | NR4A3 > NR4A2 > NR4A1 | ✗ **false NR4A3-selective** |
+| TMPA (NR4A1) | **−28.1** | −20.7 | −24.1 | NR4A3 > NR4A2 > NR4A1 | ✗ **false NR4A3-selective** |
+| amodiaquine (NR4A2) | −22.7 | **−34.4** | −30.3 | NR4A1 ≫ NR4A2 > NR4A3 | ✗ (NR4A1 top; NR4A2>NR4A3 ✓) |
+| chloroquine (NR4A2) | −24.6 | **−44.7** | −27.6 | NR4A1 ≫ NR4A2 > NR4A3 | ✗ (NR4A1 top; NR4A2>NR4A3 ✓) |
+
+**Verdict: MM-GBSA does NOT rescue paralogue discrimination — and produces FALSE NR4A3-selective calls on
+known chemistry.** Two failure modes, both already documented elsewhere in this program, now shown on
+*experimentally-anchored* ligands:
+1. **The neutral NR4A1 ligands (THPN, TMPA) score NR4A3-tightest** and are labelled `rescued` (NR4A3-selective)
+   by the pipeline — a direct **false positive**: molecules that are experimentally NR4A1-directed are called
+   NR4A3-selective. Consistent with the state-matched **opened-NR4A3 frame being intrinsically more
+   accommodating** (the opened-vs-less-opened confound), i.e. MM-GBSA into one opened frame rewards the more
+   open pocket, not true selectivity.
+2. **The charged 4-aminoquinolines (amodiaquine, chloroquine) show large protonation-sensitive electrostatic
+   artifacts** favouring NR4A1 by 10–20 kcal/mol — the same **protonation-fragility** that sank denovo_111
+   (a cationic species reversing selectivity under GB). Their absolute MM-GBSA numbers are not trustworthy
+   without resolved microstates.
+
+**Combined Gate-2 conclusion (docking + MM-GBSA): NEITHER cheap tier reproduces known NR4A paralogue
+preferences on real chemistry.** This is a strong, honest **negative control on the in-silico selectivity
+stack** (preserved per brief rule 17): the tiers the program uses to *nominate* selectivity cannot recover
+*known* selectivity, so a paralogue-selectivity claim cannot rest on docking or single-frame MM-GBSA — it
+must come from FEP (the brief's arbiter) with resolved microstates and ensemble/opened-state controls, or be
+hedged accordingly. It independently corroborates the program's existing caveats (metad-frame decoy-null flip;
+MM-GBSA decoy-null non-specificity; denovo_111 protonation reversal) on an *external, experimentally-anchored*
+benchmark rather than only on the de-novo set. Caveats: n=4; single opened frame per paralogue (not the frozen
+ensemble panel); microstates unresolved for the cations; MM-GBSA magnitudes are inflated (as always here).
+
 ## Reproduce / read
 
 ```

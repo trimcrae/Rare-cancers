@@ -582,10 +582,15 @@ derivative of the wrong mass in one source, corrected by an `expected_mw` disamb
 **Use.** These panels are the ligand set for the Gate-2 published-chemistry docking benchmark and the standing
 anti-target-discrimination set (a candidate resembling amodiaquine/cytosporone B is a promiscuity flag, not a
 lead). Covalent/reactive warheads (celastrol, DHI, PGA1) are flagged for special handling (brief 21.1).
-**Gate-2 result (2026-07-11):** docking the panel into the state-matched opened NR4A3/NR4A1/NR4A2 pockets
-shows the pocket model **accommodates** every published NR4A active (dG −5 to −9 kcal/mol) but **does not
-discriminate paralogues** — only THPN's known NR4A1 preference is cleanly reproduced; the other discriminators
-fall within docking noise (|Δ| ≤ 0.8 kcal/mol) and the one strong "NR4A3-selective" signal (celastrol) is a
-reactive-triterpenoid artifact. So the docking tier is a triage prior, not a selectivity oracle — reinforcing
-(independently of the de-novo set) that paralogue selectivity must come from the MM-GBSA/FEP/ternary tiers.
-Full table: [`../modalities/published-warhead-registry.md`](../modalities/published-warhead-registry.md) (Gate-2 section).
+**Gate-2 result (2026-07-11) — a negative control on the in-silico selectivity stack.** Docking the panel
+into the state-matched opened NR4A3/NR4A1/NR4A2 pockets shows the pocket model **accommodates** every
+published NR4A active (dG −5 to −9 kcal/mol) but **does not discriminate paralogues** (only THPN's NR4A1
+preference is cleanly reproduced; the rest fall within docking noise; the one strong "NR4A3-selective" signal,
+celastrol, is a reactive-triterpenoid artifact). **Multi-snapshot MM-GBSA does not rescue it** — worse, it
+labels *both* neutral NR4A1 ligands (THPN, TMPA) as **false NR4A3-selective** (the opened-NR4A3-frame is more
+accommodating), and the charged 4-aminoquinolines show protonation-fragile ~10–20 kcal electrostatic
+artifacts. **Combined: neither cheap tier reproduces known NR4A paralogue preferences on experimentally
+anchored chemistry** — an external corroboration (independent of the de-novo set) that a paralogue-selectivity
+claim cannot rest on docking or single-frame MM-GBSA; it must come from FEP with resolved microstates and
+ensemble/opened-state controls, or be hedged. Full tables:
+[`../modalities/published-warhead-registry.md`](../modalities/published-warhead-registry.md) (Gate-2 sections).
