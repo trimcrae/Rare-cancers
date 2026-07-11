@@ -24,6 +24,10 @@ on:
         description: "selectivity reference receptor (ΔΔG = ΔG_bind(target) − ΔG_bind(other))"
         default: "nr4a3"
         required: false
+      complex_tag_overrides:
+        description: "per-receptor complex-leg tag overrides for cross-tag reduces (e.g. λ-repair): 'nr4a2=nr4a3-abfe-nr4a2rep-r1' (comma-sep). Solvent + non-overridden complexes still come from `tag`."
+        default: ""
+        required: false
       region:
         description: "AWS region"
         default: "us-east-2"
@@ -49,6 +53,7 @@ jobs:
           TAG: ${{ inputs.tag || 'nr4a3-abfe' }}
           RECEPTORS: ${{ inputs.receptors || 'nr4a3,nr4a1,nr4a2' }}
           TARGET: ${{ inputs.target || 'nr4a3' }}
+          COMPLEX_TAG_OVERRIDES: ${{ inputs.complex_tag_overrides }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::add AWS secrets"; exit 1; fi
           python - <<'PY'
@@ -59,6 +64,15 @@ jobs:
           s3 = boto3.client("s3")
           tag = os.environ["TAG"]; target = os.environ["TARGET"]
           recs = [x.strip() for x in os.environ["RECEPTORS"].split(",") if x.strip()]
+          # per-receptor complex-leg tag overrides (cross-tag reduce, e.g. the NR4A2 dense-λ repair whose complex
+          # leg lives under a different tag than the shared solvent leg). Solvent is ALWAYS from `tag`.
+          ctag_over = {}
+          for pair in os.environ.get("COMPLEX_TAG_OVERRIDES", "").split(","):
+              pair = pair.strip()
+              if "=" in pair:
+                  k, v = pair.split("=", 1); ctag_over[k.strip()] = v.strip()
+          if ctag_over:
+              print(f"# complex-tag overrides: {ctag_over}")
 
           def sync(prefix, dest):
               """Download every object under an S3 prefix, preserving the relative path under dest."""
@@ -82,7 +96,10 @@ jobs:
           print(f"# solvent: synced {ns} files -> {sdir}")
           res = {}
           for r in recs:
-              nc = sync(f"{tag}/ckpt/complex-{r}/", f"/tmp/{r}"); cdir = legdir(f"/tmp/{r}")
+              ctag = ctag_over.get(r, tag)
+              nc = sync(f"{ctag}/ckpt/complex-{r}/", f"/tmp/{r}"); cdir = legdir(f"/tmp/{r}")
+              if ctag != tag:
+                  print(f"  complex-{r}: from override tag {ctag}")
               out = f"/tmp/{r}_dg.json"
               rc = subprocess.run(["python", "research/modalities/nr4a3_abfe.py", "--reduce",
                                    "--complex-dir", cdir, "--solvent-dir", sdir, "--out-json", out])
