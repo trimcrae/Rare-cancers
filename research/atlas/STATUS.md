@@ -112,9 +112,10 @@ diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns 
   (DepMap surrogate) + CHRNA6/NMB (GSE24369 AUC 1.0), prioritised by tractability × specificity × safety,
   with the RNA≠surface-protein guard, validation ladder, go/no-go. Vaccine option pairs the EWSR1 junction
   CD4 helper epitope (C022) with a confirmed class-I target.
-- **E (panel_exposure.py, CI):** verbatim Cmax / protein-binding / half-life quotes from FDA labels
-  (DailyMed) for the 12-compound panel — fills `achievable_free_exposure` WITHOUT inventing numbers (the
-  window is pharmacology-limited per C020). [integrating result]
+- **E (panel_exposure.py, CI):** DONE (claim C023) — verbatim Cmax / protein-binding / half-life quotes
+  from FDA labels (DailyMed) for the 11 approved panel compounds (5 investigational have no label); fills
+  `achievable_free_exposure` WITHOUT inventing numbers (window is pharmacology-limited per C020). Keyword
+  extraction caught some non-PK sentences — read the quoted PK sections; unbound conc = Cmax × fu, computed per compound.
 - **CLAUDE.md:** PRIMARY FOCUS broadened (atlas = anchor; degrader/ASO snagged) + new rule that a
   "which direction?" question is not a decision when all options are self-doable — do them all. Synced to main.
 

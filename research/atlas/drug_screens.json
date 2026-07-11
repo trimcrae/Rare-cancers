@@ -30,7 +30,7 @@
       "verification": "VERIFIED_abstract",
       "class": "proteostasis:proteasome",
       "approved_indication": "multiple myeloma",
-      "achievable_free_exposure": "to_populate (short plasma half-life; rapid distribution)",
+      "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023). Short plasma exposure vs sustained-engagement need = the solid-tumor window question",
       "solid_tumor_caveat": "Proteasome inhibitors have historically performed far better in hematologic than solid tumors (penetration + window). A potent 3D-sphere hit must be checked against achievable tumor exposure.",
       "engagement_assay": "proteasome activity (chymotrypsin-like) / ubiquitin-remnant profiling",
       "notes": "Anchor of the proteostasis-chromatin hypothesis (strategy Rank 2)."
@@ -58,7 +58,7 @@
       "verification": "VERIFIED_abstract",
       "class": "proteostasis:chaperone",
       "approved_indication": "investigational (not approved)",
-      "achievable_free_exposure": "to_populate",
+      "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023), where an approved label exists",
       "solid_tumor_caveat": "HSP90 inhibitors have a long history of narrow windows / on-target toxicity in solid tumors.",
       "engagement_assay": "HSP70 induction (pharmacodynamic marker of HSP90 inhibition)",
       "notes": "Supports the proteostasis axis alongside carfilzomib (independent node)."
@@ -86,7 +86,7 @@
       "verification": "VERIFIED_primary_abstract",
       "class": "chromatin:HDAC_pan",
       "approved_indication": "multiple myeloma (withdrawn in some regions)",
-      "achievable_free_exposure": "to_populate",
+      "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023), where an approved label exists",
       "solid_tumor_caveat": "pan-HDAC inhibitors can produce broad, non-specific transcriptional toxicity; class-vs-idiosyncrasy must be distinguished.",
       "engagement_assay": "histone acetylation (H3K9ac / H3K27ac) by western/CUT&Tag",
       "notes": "Chromatin node of the proteostasis-chromatin axis; convergent with romidepsin (same screen, same class)."
@@ -100,7 +100,7 @@
       "verification": "VERIFIED_primary_abstract",
       "class": "chromatin:HDAC_classI",
       "approved_indication": "cutaneous/peripheral T-cell lymphoma",
-      "achievable_free_exposure": "to_populate",
+      "achievable_free_exposure": "verbatim FDA-label PK in _generated/panel-exposure.json (DailyMed; C023), where an approved label exists",
       "solid_tumor_caveat": "class-I HDACi; same broad-toxicity caveat but a useful class-vs-compound control against panobinostat.",
       "engagement_assay": "histone acetylation; class-I-selective substrate readout",
       "notes": "Two HDAC hits (pan + class-I) in the SAME model = effect tracks the target (HDAC), not one chemical -- the strongest single-screen convergence signal."

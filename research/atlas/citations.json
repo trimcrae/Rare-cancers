@@ -289,6 +289,20 @@
       "verified": true,
       "role": "Deterministic in-CI reprocessing of GEO series matrices (rank-based EMC-vs-rest AUC, per platform, leave-one-out). Ran on a GitHub Actions runner because the dev sandbox blocks GEO. See METHODS.md."
     },
+    "dailymed": {
+      "short": "DailyMed (FDA structured product labels)",
+      "resourceType": "database",
+      "url": "https://dailymed.nlm.nih.gov/",
+      "verified": true,
+      "role": "Source of the verbatim clinical-pharmacology (Cmax / protein binding / half-life / AUC) quotes for the panel compounds. NLM public API."
+    },
+    "panelExposureRepo": {
+      "short": "Atlas panel exposure (FDA-label PK, CI)",
+      "resourceType": "repo_analysis",
+      "url": "research/atlas/panel_exposure.py + _generated/panel-exposure.json",
+      "verified": true,
+      "role": "Fetches VERBATIM Cmax/protein-binding/half-life sentences from FDA labels (DailyMed) per panel compound + source setid/URL. No numbers invented; keyword-based extraction (some non-PK sentences captured -- read the quoted PK sections). Investigational compounds (entinostat, navitoclax, PU-H71, onalespib, HDM201) have no FDA label."
+    },
     "panelDependencyRepo": {
       "short": "Atlas validation-panel DepMap dependency (CI)",
       "resourceType": "repo_analysis",

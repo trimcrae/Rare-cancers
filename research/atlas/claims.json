@@ -301,6 +301,21 @@
       "notes": "Nuances the class-I picture (C021): although both junctions are MODEST on MHC-I, the EWSR1 junction has usable CD4 help -- relevant for a fusion vaccine (class-II help drives durable CD8 responses). The class-I target is the weaker link for EWSR1; TAF15 is weak on BOTH. Prediction only, modeled breakpoint; needs immunopeptidomics + T-cell validation. Predictor ran on py3.10+TF2.10+numpy1.23.5 (modern-Keras/numpy2 both break MHCnuggets)."
     },
     {
+      "claim_id": "C023",
+      "statement": "Verbatim FDA-label pharmacology (Cmax / plasma protein binding / half-life / AUC) is compiled for the approved panel compounds (carfilzomib, bortezomib, ixazomib, panobinostat, romidepsin, doxorubicin, venetoclax, pazopanib, sunitinib, brigatinib, selinexor); investigational compounds (entinostat, navitoclax, PU-H71, onalespib, HDM201) have no FDA label.",
+      "entity": "panel-exposure",
+      "fusion_subtype": "n/a",
+      "evidence_type": "pharmacology",
+      "emc_specificity": "n/a",
+      "direction": "exposure_reference",
+      "source": ["dailymed", "panelExposureRepo"],
+      "locator": "_generated/panel-exposure.json (per-compound label setid/URL)",
+      "confidence": "verbatim_label_quote",
+      "confidence_note": "Quotes are verbatim from FDA labels (not invented); keyword extraction captured some non-PK sentences, so read the quoted PK sections. The achievable UNBOUND concentration must be computed per compound (Cmax x fraction-unbound) and compared to the in-vitro active concentration before selecting panel concentrations.",
+      "contradicts": null,
+      "notes": "Fills the atlas exposure gap without fabricating numbers. Most decision-relevant for the PAN-ESSENTIAL proteostasis targets (C020), where the window is exposure-limited: e.g. proteasome inhibitors' short plasma exposure vs the need for sustained tumor engagement is exactly the solid-tumor-window question."
+    },
+    {
       "claim_id": "C015",
       "statement": "PPARG over-expression in EMC is a direct transcriptional consequence of the fusion; it does not establish whether agonism, antagonism, or neither suppresses the tumor.",
       "entity": "PPARG",
