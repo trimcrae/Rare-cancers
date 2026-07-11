@@ -838,7 +838,16 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     we = window_end if window_end is not None else n_windows()   # SCHEDULE-AWARE (dense=16); NOT frozen N_WINDOWS
     os.makedirs(out_dir, exist_ok=True)
     meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
-            "temperature_K": temperature_K, "n_windows": n_windows(), "seed": seed, "pose_index": prep["pose_index"]}
+            "temperature_K": temperature_K, "n_windows": n_windows(), "seed": seed, "pose_index": prep["pose_index"],
+            # SCHEDULE + LIGAND PROVENANCE (repair-prereg §7 semantic audit + §8 cross-tag guard): record the
+            # schedule NAME and the exact per-window (λ_elec, λ_sterics) used, plus the ligand identity + restraint
+            # convention, so a later audit/gate can verify λ value+order (not merely the window count) and a
+            # cross-tag reduce can confirm the SAME ligand + convention across legs — rather than inferring them.
+            "lambda_schedule": os.environ.get("ABFE_LAMBDA_SCHEDULE", "standard"),
+            "lambda": [list(x) for x in lambda_schedule()],
+            "restraint_convention": ("boresch" if leg == "complex" else "none"),
+            "pose_name": pose_name, "ligand_sdf": (os.path.basename(ligand_sdf) if ligand_sdf else None),
+            "ligand_inchikey": prep.get("ligand_inchikey")}
     if leg == "complex":
         meta["restraint_standard_state_dg"] = prep["restraint_standard_state_dg"]
         meta["boresch"] = prep["boresch"]
