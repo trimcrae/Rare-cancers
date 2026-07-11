@@ -160,6 +160,25 @@ group → (3) escalate to the concrete validation/re-analysis offer only with th
 > With respect for your work in this disease,
 > Tristan McRae · `[email]` · `[DOI/LINK]`
 
+### Email E → Structural Genomics Consortium (secondary; long-horizon direct-fusion route)
+
+> **To:** `[collaborate route via thesgc.org]`
+> **Subject:** Orphan nuclear receptor NR4A3 as a target in EMC — an open resource + a ligandability question
+>
+> Dear SGC team,
+>
+> I'm Tristan McRae, an independent researcher. I've openly released the **EMC Open Target & Drug Atlas**
+> (`[DOI/LINK]`) for extraskeletal myxoid chondrosarcoma, a sarcoma driven by an NR4A3 fusion. The
+> highest-specificity (but least tractable) route is targeting the fusion directly — blocked today by the
+> lack of a validated small-molecule ligand for the orphan nuclear receptor NR4A3.
+>
+> Given the SGC's work on chemical probes and understudied targets, I wanted to put NR4A3 on your radar
+> with a fully worked-up disease rationale, and ask whether a chemical-probe / ligandability
+> collaboration around NR4A3 would be of interest. All computational characterization is in the atlas.
+>
+> With appreciation for the open-science model you champion,
+> Tristan McRae · `[email]` · `[DOI/LINK]`
+
 ---
 
 ## SEND RUNBOOK — exactly what you do next
