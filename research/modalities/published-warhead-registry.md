@@ -132,6 +132,37 @@ by their registry SMILES: cytosporone B (pan-NR4A), amodiaquine + chloroquine (N
 but only once its structure is sourced from the primary paper. **Do not** extend `nr4a3_dock.LIGAND_NAMES` by
 name for THPN or the C-DIMs — feed verified SMILES.
 
+## Gate-2 result — the docking model ACCOMMODATES published NR4A chemistry but does NOT discriminate paralogues (2026-07-11)
+
+Ran the benchmark (`gpu-matrix` run 29151841834, `nr4a3-chem-benchmark`, ~27 min; read via
+`report-matrix-aws.yml output_prefix=nr4a3-chem-benchmark`). The verified-SMILES panel + the ChEMBL
+NR4A actives were docked into the **state-matched opened** NR4A3/NR4A1/NR4A2 pockets. Margin mΔ_p =
+dG_p − dG_NR4A3 (kcal/mol; **positive = NR4A3-favoured**; dG more negative = tighter pose).
+
+| ligand (known preference) | dG_NR4A3 | dG_NR4A1 | dG_NR4A2 | tightest paralogue | known pref reproduced? |
+|---------------------------|----------|----------|----------|--------------------|------------------------|
+| **THPN** (NR4A1; 4JGV cocrystal) | −5.77 | **−6.50** | −6.11 | **NR4A1** | **✓ yes** |
+| amodiaquine (NR4A2/pan; NMR) | **−7.13** | −6.33 | −6.85 | NR4A3 (NR4A2 2nd) | ~partial |
+| chloroquine (NR4A2; NMR) | −6.19 | **−6.40** | −5.97 | NR4A1 | ✗ (|Δ|≤0.2 = noise) |
+| TMPA (NR4A1; not a Nurr1 binder) | −5.15 | −4.61 | **−5.43** | NR4A2 | ✗ (noise) |
+| cytosporone B (pan) | −6.39 | −6.37 | −5.77 | NR4A3≈NR4A1 | ~pan (consistent) |
+| celastrol (NR4A1; reactive) | **−9.06** | −7.81 | −7.81 | NR4A3 (+1.25) | ✗ reactive-ligand artifact |
+
+**Verdict (brief §11.3): chemically ACCOMMODATED, NOT DISCRIMINATING → "inconclusive" at the docking tier.**
+1. **The pocket fits the published active matter** — every known NR4A ligand docks with a sensible pose
+   (dG −5 to −9 kcal/mol) in the modeled orthosteric site. So the receptor model is not obviously wrong for
+   real NR4A chemistry (a Gate-2 *positive* on accommodation).
+2. **But docking-tier scoring cannot reproduce paralogue preference.** Only THPN's known NR4A1 preference is
+   cleanly recovered; the other three discriminators are within docking noise (all |mΔ| ≈ 0.02–0.8 kcal/mol,
+   below the ~1–2 kcal/mol docking-noise floor), and the single strong "NR4A3-selective" signal (celastrol,
+   +1.25) is exactly the reactive-triterpenoid artifact the registry flags (docking a covalent warhead
+   noncovalently is meaningless).
+3. **Implication (reinforces the program architecture, not a new failure):** the docking tier is a *triage
+   prior*, not a paralogue-selectivity oracle — the same conclusion the de-novo decoy-null / multi-snapshot
+   work reached. Paralogue selectivity must be sourced from the MM-GBSA/FEP tier (and the ternary), never from
+   single-pose docking. Known-chemistry benchmarking makes this concrete and independent of the de-novo set.
+   The honest read is a *negative control on the docking tier's discriminating power*, preserved per brief rule 17.
+
 ## Reproduce / read
 
 ```
