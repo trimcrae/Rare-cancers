@@ -76,31 +76,48 @@ def test_pilot_gate_abort_when_missing_system():
     assert v["verdict"] == "ABORT"
 
 
-def test_full_gate_informative_when_nr4a1_highest():
+def test_full_gate_informative_on_productive_geometry():
+    # Degraded bridges in a majority; both spared bridge in a minority -> clean geometric separation.
     systems = {
-        "nr4a1": _ternary([True, True, True], [0.62, 0.60, 0.64]),
-        "nr4a2": _ternary([True, True, True], [0.40, 0.42, 0.38]),
-        "nr4a3": _ternary([True, True, True], [0.35, 0.37, 0.36]),
+        "nr4a1": _ternary([True, True, True], [0.62, 0.60, 0.64], lys_d=[5.0, 5.5, 6.0]),
+        "nr4a2": _ternary([False, False, False], [0.40, 0.42, 0.38], lys_d=[7.0, 7.5, 8.0]),
+        "nr4a3": _ternary([False, False, False], [0.35, 0.37, 0.36], lys_d=[9.0, 9.5, 10.0]),
     }
     v = r.full_verdict(systems)
     assert v["verdict"] == "informative"
+    assert v["primary_basis"] == "productive_ternary_geometry"
+    assert v["lys_supports"] is True
 
 
-def test_full_gate_failed_when_wrong_paralogue_wins():
+def test_full_gate_informative_even_when_ligand_iptm_inverts():
+    # The REAL NR-V04 case: NR4A1 bridges 3/3, spared 0/3, but ligand-iPTM is HIGHER for a spared paralogue.
+    # Geometry must drive the verdict (informative) while ligand-iPTM verdict is reported as failed/transparent.
     systems = {
-        "nr4a1": _ternary([True], [0.35]),
-        "nr4a2": _ternary([True], [0.60]),
-        "nr4a3": _ternary([True], [0.58]),
+        "nr4a1": _ternary([True, True, True], [0.82, 0.91, 0.84], lys_d=[3.6, 3.3, 9.7]),
+        "nr4a2": _ternary([False, False, False], [0.91, 0.92, 0.90], lys_d=[12.5, 4.4, 4.3]),
+        "nr4a3": _ternary([False, False, False], [0.92, 0.87, 0.84], lys_d=[12.2, 7.3, 7.7]),
+    }
+    v = r.full_verdict(systems)
+    assert v["verdict"] == "informative"
+    assert v["ligand_iptm_verdict"] == "failed"     # naive scalar inverts...
+    assert "not the primary basis" in v["ligand_iptm_note"].lower()
+
+
+def test_full_gate_failed_when_degraded_does_not_bridge():
+    systems = {
+        "nr4a1": _ternary([False, False, False], [0.35, 0.4, 0.38]),
+        "nr4a2": _ternary([False, False, False], [0.60, 0.6, 0.62]),
+        "nr4a3": _ternary([False, False, False], [0.58, 0.5, 0.55]),
     }
     v = r.full_verdict(systems)
     assert v["verdict"] == "failed"
 
 
-def test_full_gate_inconclusive_when_tied():
+def test_full_gate_inconclusive_when_spared_also_bridges():
     systems = {
-        "nr4a1": _ternary([True], [0.50]),
-        "nr4a2": _ternary([True], [0.49]),
-        "nr4a3": _ternary([True], [0.48]),
+        "nr4a1": _ternary([True, True, True], [0.50, 0.5, 0.5]),
+        "nr4a2": _ternary([True, True, False], [0.49, 0.5, 0.4]),   # spared also bridges majority
+        "nr4a3": _ternary([False, False, False], [0.48, 0.4, 0.4]),
     }
     v = r.full_verdict(systems)
     assert v["verdict"] == "inconclusive"
