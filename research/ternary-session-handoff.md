@@ -53,23 +53,53 @@ in. Deliverables (branch `claude/nr4a3-ternary-coop-prereg-51wqw9`, commit `3b19
 - **`research/modalities/ternary_coop_gate.py`** + **`tests/test_ternary_coop_gate.py`** (27 passing) — the
   pure-stdlib gate enforcing §3 against a future results dict, so no criterion is re-decided post-hoc.
 
-### ⚠ Material finding for the NEXT builder — NEITHER authorized pilot is wired to launch yet
+### Reviewer round 2 ("RETURN FOR FIXES") — ALL 8 FIXES LANDED ✅ (commit `6b579a8`)
+The reviewer confirmed the science/sequencing were faithfully captured but the gate could PASS prose-violating
+inputs. All 8 required fixes are implemented + verified (**49 passing tests**, up from 27; CLI end-to-end pass;
+validator clean): (1) `_num()` rejects NaN/inf/bool + safety booleans fail closed; (2) frozen expected-leg +
+expected-system manifests, panel n≥6/all-verified/keyed-by-ID/composition; (3) class-correctness + LOO computed
+**in-gate** from per-system records (frozen α bands 2.0/0.5); (4) Kendall **τ-b** with tie handling; (5)
+corrected intervals (favored side ⇒ entire interval > 0, `ci_lo>0`; prob∈[0,1]); (6) 95% CI half-width over
+**every** decision quantity via a frozen `decision_quantities` manifest; (7) formal reproducible **S_d**
+definition frozen in JSON (sign/`c`/replicate-SD/counterexample/units/missing-data/tie/top-3 ±50% robustness);
+(8) test suite expanded to all required failure modes. **Reviewer post-fix authorization:** approve (a)/(b)/(c)
+below as **no-spend engineering**; binary `MODE=plan` approved after the congeneric edge + design-frame inputs
+are wired; ternary `MODE=plan` approved only after the exact high/low Layer-1 pair + all pilot identities/
+structures/microstates/transformations/replica-count/λ-schedule are frozen (must be the ACTUAL bundle, not a
+placeholder); **no production GPU authorized**; **no further scientific check-in required** for these no-spend
+steps once the fixes pass (they do).
+
+### ⚠ NEITHER authorized pilot is wired to launch yet — the 3 approved no-spend builds (turnkey detail)
 The reviewer *authorized* both pilots (binary RBFE ~$5–15; ternary feasibility capped $200), but **neither is
-runnable as-is** — do NOT dispatch a GPU spend until these are built (all free engineering):
-1. **Binary RBFE pilot edge is NOT wired.** `nr4a3_rbfe_sagemaker.py` + `rbfe_edges.py` are hardcoded for the
-   OLD lead-opt edge (`denovo_401 → lo_m0_NCCO`, 3 fixed SMILES, `nr4a3-leadopt-species` receptor prefix). The
-   authorized pilot edge is the **congeneric `zaienne_cmpd19` 5-Br → `cw_ev_5nh2` 5-NH₂** on one `nr4a3_design`
-   frame. Needs: add the two congeneric SMILES + point at a design-frame receptor prefix with docked poses for
-   both endpoints, then `MODE=plan` for the forecast, then the single-edge real run.
+runnable as-is** — all three are free engineering; **do NOT dispatch a GPU spend** until built:
+1. **Binary RBFE pilot needs a small harness ADAPTATION, not just SMILES.** Endpoint SMILES are in hand:
+   `zaienne_cmpd19` (A) = `COC(=O)c1c[nH]c2ccc(Br)cc12`; `cw_ev_5nh2` (B) = `COC(=O)c1c[nH]c2ccc(N)cc12`; edge id
+   `e_zaienne_cmpd19__cw_ev_5nh2` (both neutral, 5-Br→5-NH₂, single-site). BUT `nr4a3_rbfe_sagemaker.py` +
+   `rbfe_edges.py` are shaped for the OLD lead-opt readout (`denovo_401→lo_m0_NCCO`, 3-receptor selectivity,
+   **401-ABFE anchoring**, `nr4a3-leadopt-species` prefix). The **pilot** per the RBFE-map plan is deliberately
+   *different*: ONE `nr4a3_design` frame, the single edge, a **convergence/pocket-stability** test (NOT a
+   selectivity readout, NOT 401-anchored). So: register the two SMILES + add a single-frame/single-edge pilot
+   path (reuse the spot-Training + per-window-checkpoint plumbing), stage a design-frame receptor + docked
+   endpoint poses, then `MODE=plan` (pure-local, no spend — calls `rb.edge_plan(...)` + `_cost_note()`), then
+   the single-edge real run. Abort criteria already frozen (hysteresis ≤0.5; overlap ≥0.03; cycle closure ≤1.0;
+   Pocket-5 survival ≥50%).
 2. **The physics ternary-cooperativity harness does NOT exist.** Every `*ternary*` script (`nr4a3_ternary.py`,
-   `nrv04_ternary.py`, `nr4a3_ternary_sagemaker.py`) is **Boltz co-fold only** (architecture) — there is no
-   alchemical ternary/binary-vs-ternary FEP engine. Build one (mirror the spot-Training + per-window-checkpoint
-   plumbing of `nr4a3_fep_sagemaker.py`/`nr4a3_rbfe_sagemaker.py`), then `MODE=plan` the $200-capped feasibility
-   bundle (§5b of the prereg) for the required dry-run GPU-hour forecast BEFORE any production spend.
-3. **Layer-1 VHL calibration panel provenance is an unfilled Stage-0 blocker.** `prereg.json →
-   calibration.layer1_vhl_panel.systems: []` — the SMARCA2-VHL / MZ1 compound identities + PDB IDs + *measured*
-   α must be curated from primary sources (via a CI-runner fetch, egress rule) and each marked `verified` before
-   entering the scored panel. Do NOT fabricate α/PDB IDs.
+   `nrv04_ternary.py`, `nr4a3_ternary_sagemaker.py`) is **Boltz co-fold only** (architecture) — no alchemical
+   binary-vs-ternary FEP engine. Build one (mirror `nr4a3_fep_sagemaker.py`/`nr4a3_rbfe_sagemaker.py` spot +
+   per-window-checkpoint plumbing) implementing `ΔΔG_coop = ΔΔG_alch,ternary − ΔΔG_alch,binary`. The ternary
+   `MODE=plan` for the $200 bundle (prereg §5b; frozen legs `vhl_calib_hi_coop`/`vhl_calib_lo_coop`/
+   `nrv04_active_binary_vhl`/`nrv04_epimer_binary_vhl`/`nrv04_active_nr4a1_ternary`/`nrv04_epimer_nr4a1_ternary`)
+   is gated on freezing the exact Layer-1 pair (item 3) — so item 3 is its critical path.
+3. **Layer-1 VHL calibration panel provenance = unfilled Stage-0 blocker AND the ternary-plan critical path.**
+   `prereg.json → calibration.layer1_vhl_panel.{systems,expected_system_ids}: []`. Curate the SMARCA2-VHL series
+   (+ an independent VHL system, **MZ1/BRD4 preferred**) compound IDs + PDB IDs + **measured α** from primary
+   sources **via a CI-runner fetch** (egress proxy blocks PMC/EuropePMC/RCSB in-sandbox; use the
+   `atlas-data.yml`/`fulltext_verify.py` pattern → commit raw text to a cache branch → curate). Candidate primary
+   leads to VERIFY (do **NOT** enter unverified): Farnaby et al. 2019 *Nat Chem Biol* (SMARCA2 PROTAC ternary
+   structures + cooperativity), Gadd et al. 2017 *Nat Chem Biol* (MZ1–BRD4–VHL, cooperative ternary). Flip each
+   record's `verified` flag only from the fetched source; **do NOT fabricate α/PDB IDs.** The in-gate composition
+   check (≥2 strong-coop, ≥2 weak/neg, ≥1 inactive control, ≥1 independent VHL) enforces the panel shape once
+   filled.
 
 ## Pending the reviewer AI (fold its answer in first)
 The decision block I sent asks: **Q1** which physics method + the minimum NR-V04 bar; **Q2** sequencing (binary
