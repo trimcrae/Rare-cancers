@@ -33,7 +33,10 @@ def _to_hyperparameters(arguments):
             if i + 1 < len(args) and not str(args[i + 1]).startswith("--"):
                 hp[key] = str(args[i + 1]); i += 2
             else:
-                hp[key] = "true"; i += 1          # boolean/store_true flag
+                # bare store_true flag → hyperparameters can't hold a valueless key, so it arrives at the entry as
+                # `--key true`. Entry scripts that take such flags MUST use nargs="?"/parse_known_args (a plain
+                # store_true argparse aborts on the "true" token — the 2026-07-11 ternary smoke failure).
+                hp[key] = "true"; i += 1
         else:
             i += 1
     return hp

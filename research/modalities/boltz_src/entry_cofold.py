@@ -19,8 +19,11 @@ OUT = sm_io.out_dir()   # spot Training → /opt/ml/checkpoints (continuous S3 s
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--control", action="store_true", help="no-op; keeps the SageMaker arg list non-empty")
-    ap.parse_args()
+    ap.add_argument("--control", nargs="?", const=True, default=False,
+                    help="no-op sentinel; keeps the SageMaker arg list non-empty")
+    # parse_known_args + nargs="?": spot-Training hyperparameters turn a bare `--control` into `--control true`,
+    # which a store_true flag rejects (the 2026-07-11 ternary smoke failure). Tolerate it here too.
+    ap.parse_known_args()
 
     subprocess.run(["nvidia-smi"], check=False)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
