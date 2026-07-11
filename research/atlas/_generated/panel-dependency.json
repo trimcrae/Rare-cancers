@@ -1,0 +1,337 @@
+{
+  "_note": "DepMap CRISPR dependency for validation-panel TARGETS across sarcoma (EMC surrogate). Answers: selective dependency vs pan-essential (window = pharmacology). SURROGATE \u2014 no EMC line.",
+  "release": "24Q4",
+  "n_lines": 1178,
+  "n_sarcoma_lines": 91,
+  "dependent_threshold": -0.5,
+  "groups": {
+    "proteasome (carfilzomib/bortezomib)": [
+      {
+        "gene": "PSMB5",
+        "mean_gene_effect": -1.703,
+        "frac_dependent": 0.947,
+        "sarcoma_mean": -1.859,
+        "selectivity_sarcoma_vs_rest": 0.169,
+        "status": "pan_essential",
+        "synovial_mean": -1.59,
+        "ewing_mean": -1.985
+      },
+      {
+        "gene": "PSMB1",
+        "mean_gene_effect": -1.726,
+        "frac_dependent": 0.997,
+        "sarcoma_mean": -1.705,
+        "selectivity_sarcoma_vs_rest": -0.023,
+        "status": "pan_essential",
+        "synovial_mean": -1.873,
+        "ewing_mean": -1.673
+      },
+      {
+        "gene": "PSMB2",
+        "mean_gene_effect": -1.966,
+        "frac_dependent": 1.0,
+        "sarcoma_mean": -1.908,
+        "selectivity_sarcoma_vs_rest": -0.063,
+        "status": "pan_essential",
+        "synovial_mean": -2.119,
+        "ewing_mean": -1.753
+      }
+    ],
+    "HDAC (panobinostat/romidepsin/entinostat)": [
+      {
+        "gene": "HDAC1",
+        "mean_gene_effect": -0.155,
+        "frac_dependent": 0.04,
+        "sarcoma_mean": -0.151,
+        "selectivity_sarcoma_vs_rest": -0.005,
+        "status": "non_essential",
+        "synovial_mean": -0.137,
+        "ewing_mean": -0.13
+      },
+      {
+        "gene": "HDAC2",
+        "mean_gene_effect": -0.06,
+        "frac_dependent": 0.028,
+        "sarcoma_mean": -0.159,
+        "selectivity_sarcoma_vs_rest": 0.108,
+        "status": "non_essential",
+        "synovial_mean": -0.174,
+        "ewing_mean": -0.137
+      },
+      {
+        "gene": "HDAC3",
+        "mean_gene_effect": -0.934,
+        "frac_dependent": 0.874,
+        "sarcoma_mean": -0.915,
+        "selectivity_sarcoma_vs_rest": -0.021,
+        "status": "pan_essential",
+        "synovial_mean": -0.758,
+        "ewing_mean": -0.745
+      },
+      {
+        "gene": "HDAC6",
+        "mean_gene_effect": -0.056,
+        "frac_dependent": 0.0,
+        "sarcoma_mean": -0.082,
+        "selectivity_sarcoma_vs_rest": 0.028,
+        "status": "non_essential",
+        "synovial_mean": -0.079,
+        "ewing_mean": -0.088
+      },
+      {
+        "gene": "HDAC8",
+        "mean_gene_effect": -0.093,
+        "frac_dependent": 0.025,
+        "sarcoma_mean": -0.159,
+        "selectivity_sarcoma_vs_rest": 0.071,
+        "status": "non_essential",
+        "synovial_mean": -0.293,
+        "ewing_mean": -0.249
+      }
+    ],
+    "HSP90 (PU-H71)": [
+      {
+        "gene": "HSP90AA1",
+        "mean_gene_effect": -0.254,
+        "frac_dependent": 0.052,
+        "sarcoma_mean": -0.23,
+        "selectivity_sarcoma_vs_rest": -0.026,
+        "status": "non_essential",
+        "synovial_mean": -0.298,
+        "ewing_mean": -0.208
+      },
+      {
+        "gene": "HSP90AB1",
+        "mean_gene_effect": -0.281,
+        "frac_dependent": 0.124,
+        "sarcoma_mean": -0.348,
+        "selectivity_sarcoma_vs_rest": 0.073,
+        "status": "non_essential",
+        "synovial_mean": -0.453,
+        "ewing_mean": -0.438
+      }
+    ],
+    "MDM2/p53 (HDM201)": [
+      {
+        "gene": "MDM2",
+        "mean_gene_effect": -0.577,
+        "frac_dependent": 0.326,
+        "sarcoma_mean": -0.623,
+        "selectivity_sarcoma_vs_rest": 0.049,
+        "status": "context_dependency",
+        "synovial_mean": -0.562,
+        "ewing_mean": -0.507
+      },
+      {
+        "gene": "MDM4",
+        "mean_gene_effect": -0.183,
+        "frac_dependent": 0.121,
+        "sarcoma_mean": -0.164,
+        "selectivity_sarcoma_vs_rest": -0.021,
+        "status": "non_essential",
+        "synovial_mean": -0.221,
+        "ewing_mean": -0.161
+      },
+      {
+        "gene": "TP53",
+        "mean_gene_effect": 0.379,
+        "frac_dependent": 0.003,
+        "sarcoma_mean": 0.504,
+        "selectivity_sarcoma_vs_rest": -0.136,
+        "status": "non_essential",
+        "synovial_mean": 0.428,
+        "ewing_mean": 0.365
+      }
+    ],
+    "BCL2 (venetoclax)": [
+      {
+        "gene": "BCL2",
+        "mean_gene_effect": -0.037,
+        "frac_dependent": 0.028,
+        "sarcoma_mean": -0.056,
+        "selectivity_sarcoma_vs_rest": 0.021,
+        "status": "non_essential",
+        "synovial_mean": -0.152,
+        "ewing_mean": -0.136
+      },
+      {
+        "gene": "BCL2L1",
+        "mean_gene_effect": -1.06,
+        "frac_dependent": 0.846,
+        "sarcoma_mean": -0.876,
+        "selectivity_sarcoma_vs_rest": -0.2,
+        "status": "pan_essential",
+        "synovial_mean": -0.925,
+        "ewing_mean": -0.942
+      },
+      {
+        "gene": "MCL1",
+        "mean_gene_effect": -0.798,
+        "frac_dependent": 0.707,
+        "sarcoma_mean": -0.926,
+        "selectivity_sarcoma_vs_rest": 0.139,
+        "status": "context_dependency",
+        "synovial_mean": -0.932,
+        "ewing_mean": -0.953
+      }
+    ],
+    "XPO1 (selinexor)": [
+      {
+        "gene": "XPO1",
+        "mean_gene_effect": -1.981,
+        "frac_dependent": 1.0,
+        "sarcoma_mean": -2.016,
+        "selectivity_sarcoma_vs_rest": 0.037,
+        "status": "pan_essential",
+        "synovial_mean": -1.675,
+        "ewing_mean": -2.035
+      }
+    ],
+    "kinases (pazopanib/sunitinib/brigatinib)": [
+      {
+        "gene": "ALK",
+        "mean_gene_effect": -0.051,
+        "frac_dependent": 0.006,
+        "sarcoma_mean": -0.04,
+        "selectivity_sarcoma_vs_rest": -0.012,
+        "status": "non_essential",
+        "synovial_mean": 0.012,
+        "ewing_mean": -0.046
+      },
+      {
+        "gene": "KIT",
+        "mean_gene_effect": -0.095,
+        "frac_dependent": 0.003,
+        "sarcoma_mean": -0.087,
+        "selectivity_sarcoma_vs_rest": -0.009,
+        "status": "non_essential",
+        "synovial_mean": -0.173,
+        "ewing_mean": -0.12
+      },
+      {
+        "gene": "KDR",
+        "mean_gene_effect": -0.126,
+        "frac_dependent": 0.005,
+        "sarcoma_mean": -0.094,
+        "selectivity_sarcoma_vs_rest": -0.034,
+        "status": "non_essential",
+        "synovial_mean": -0.059,
+        "ewing_mean": -0.147
+      },
+      {
+        "gene": "FLT1",
+        "mean_gene_effect": 0.001,
+        "frac_dependent": 0.0,
+        "sarcoma_mean": -0.01,
+        "selectivity_sarcoma_vs_rest": 0.013,
+        "status": "non_essential",
+        "synovial_mean": 0.025,
+        "ewing_mean": -0.028
+      },
+      {
+        "gene": "FLT4",
+        "mean_gene_effect": 0.01,
+        "frac_dependent": 0.001,
+        "sarcoma_mean": 0.015,
+        "selectivity_sarcoma_vs_rest": -0.006,
+        "status": "non_essential",
+        "synovial_mean": 0.072,
+        "ewing_mean": 0.012
+      },
+      {
+        "gene": "PDGFRA",
+        "mean_gene_effect": -0.259,
+        "frac_dependent": 0.072,
+        "sarcoma_mean": -0.3,
+        "selectivity_sarcoma_vs_rest": 0.045,
+        "status": "non_essential",
+        "synovial_mean": -0.309,
+        "ewing_mean": -0.226
+      },
+      {
+        "gene": "PDGFRB",
+        "mean_gene_effect": -0.161,
+        "frac_dependent": 0.027,
+        "sarcoma_mean": -0.201,
+        "selectivity_sarcoma_vs_rest": 0.043,
+        "status": "non_essential",
+        "synovial_mean": -0.104,
+        "ewing_mean": -0.174
+      },
+      {
+        "gene": "RET",
+        "mean_gene_effect": -0.097,
+        "frac_dependent": 0.001,
+        "sarcoma_mean": -0.075,
+        "selectivity_sarcoma_vs_rest": -0.023,
+        "status": "non_essential",
+        "synovial_mean": -0.141,
+        "ewing_mean": -0.069
+      },
+      {
+        "gene": "FGFR1",
+        "mean_gene_effect": -0.123,
+        "frac_dependent": 0.093,
+        "sarcoma_mean": -0.236,
+        "selectivity_sarcoma_vs_rest": 0.122,
+        "status": "non_essential",
+        "synovial_mean": -0.001,
+        "ewing_mean": -0.061
+      }
+    ]
+  },
+  "sanity_controls": {
+    "POLR2A": {
+      "gene": "POLR2A",
+      "status": "not_in_depmap"
+    },
+    "BRD9": {
+      "gene": "BRD9",
+      "mean_gene_effect": 0.09,
+      "frac_dependent": 0.018,
+      "sarcoma_mean": 0.105,
+      "selectivity_sarcoma_vs_rest": -0.016,
+      "status": "non_essential",
+      "synovial_mean": -0.13,
+      "ewing_mean": 0.134
+    },
+    "SMARCB1": {
+      "gene": "SMARCB1",
+      "mean_gene_effect": -0.82,
+      "frac_dependent": 0.833,
+      "sarcoma_mean": -0.68,
+      "selectivity_sarcoma_vs_rest": -0.152,
+      "status": "pan_essential",
+      "synovial_mean": -0.342,
+      "ewing_mean": -0.862
+    },
+    "NR4A3": {
+      "gene": "NR4A3",
+      "mean_gene_effect": 0.023,
+      "frac_dependent": 0.0,
+      "sarcoma_mean": 0.021,
+      "selectivity_sarcoma_vs_rest": 0.002,
+      "status": "non_essential",
+      "synovial_mean": 0.009,
+      "ewing_mean": -0.009
+    },
+    "EWSR1": {
+      "gene": "EWSR1",
+      "mean_gene_effect": -0.864,
+      "frac_dependent": 0.919,
+      "sarcoma_mean": -1.208,
+      "selectivity_sarcoma_vs_rest": 0.373,
+      "status": "pan_essential",
+      "synovial_mean": -1.069,
+      "ewing_mean": -1.792
+    }
+  },
+  "self_validation": {
+    "POLR2A_should_be_pan_essential": "not_in_depmap",
+    "BRD9_synovial_selective": {
+      "synovial": -0.13,
+      "overall_mean": 0.09
+    },
+    "NR4A3_should_be_non_essential": "non_essential"
+  }
+}
