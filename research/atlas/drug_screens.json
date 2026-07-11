@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "note": "Reconstructed EMC patient-derived-model drug screens + compound->target->exposure annotation (source of truth for dist/emc_drug_screens.tsv and dist/emc_compound_target_exposure.tsv). CRITICAL medical-integrity corrections applied after primary verification (2026-07-11): (1) HDM201/siremadlin is NOT corroborated as a USZ hit and is recorded as a strategy-doc claim that did NOT survive verification; (2) the USZ combination result is 'dose-dependent additive AND synergistic effects in BOTH models' for carfilzomib+doxorubicin and carfilzomib+venetoclax -- NOT a clean 'synergistic in one / additive in the other' split; (3) the USZ screen is 17 chemotherapeutics + a targeted medium-throughput panel, not literally '40 drugs'. Verification is abstract/search-snippet level because the egress proxy blocked PubMed/PMC/Springer/EuropePMC full text; IC50 numbers were NOT retrievable and are marked 'not_reported_retrievable'. exposure fields are qualitative field-standard notes; specific unbound-Cmax numbers are 'to_populate' rather than invented.",
+  "verification_context": "Primary full text inaccessible this session (egress block). All screen facts are search-snippet/abstract-level, cross-checked across >=2 queries. Re-confirm IC50s and per-model synergy wording from full text before any publication.",
+  "screens": [
+    {
+      "screen_id": "USZ-2023",
+      "source": "emcModels2023",
+      "models": ["MODEL-USZ20-EMC1", "MODEL-USZ22-EMC2"],
+      "panel_size": "17 chemotherapeutics + targeted medium-throughput panel",
+      "readout": "qualitative sensitivity bands (high/good/moderate); numeric IC50s not_reported_retrievable",
+      "fusion_stratified": true
+    },
+    {
+      "screen_id": "NCC-2025",
+      "source": "emcCellLine2025",
+      "models": ["MODEL-NCC-EMC1-C1"],
+      "panel_size": "221 anticancer agents",
+      "readout": "IC50 (low-IC50 hits named; numeric values not_reported_retrievable)",
+      "fusion_stratified": false
+    }
+  ],
+  "hits": [
+    {
+      "compound": "carfilzomib",
+      "screen_id": "USZ-2023",
+      "nominal_target": "20S proteasome (chymotrypsin-like, irreversible)",
+      "polypharmacology": "highly selective proteasome inhibitor (cleaner than bortezomib)",
+      "result": "strongest single-agent hit; high sensitivity in BOTH USZ models",
+      "verification": "VERIFIED_abstract",
+      "class": "proteostasis:proteasome",
+      "approved_indication": "multiple myeloma",
+      "achievable_free_exposure": "to_populate (short plasma half-life; rapid distribution)",
+      "solid_tumor_caveat": "Proteasome inhibitors have historically performed far better in hematologic than solid tumors (penetration + window). A potent 3D-sphere hit must be checked against achievable tumor exposure.",
+      "engagement_assay": "proteasome activity (chymotrypsin-like) / ubiquitin-remnant profiling",
+      "notes": "Anchor of the proteostasis-chromatin hypothesis (strategy Rank 2)."
+    },
+    {
+      "compound": "doxorubicin",
+      "screen_id": "USZ-2023",
+      "nominal_target": "TOP2A / DNA intercalation (+ oxidative stress)",
+      "polypharmacology": "broad cytotoxic; not target-selective",
+      "result": "second-strongest single-agent (good-to-moderate sensitivity, both models)",
+      "verification": "VERIFIED_abstract",
+      "class": "cytotoxic:anthracycline",
+      "approved_indication": "many sarcomas (standard first-line STS)",
+      "achievable_free_exposure": "clinically established",
+      "solid_tumor_caveat": "Consistent with the clinical anthracycline signal in EMC (Stacchiotti 2013: 4/10 PR). Not a unique EMC vulnerability.",
+      "engagement_assay": "gamma-H2AX / DNA-damage markers",
+      "notes": "Clinically-anchored comparator; combination partner with carfilzomib."
+    },
+    {
+      "compound": "PU-H71",
+      "screen_id": "USZ-2023",
+      "nominal_target": "HSP90 (N-terminal ATPase)",
+      "polypharmacology": "HSP90 paralogue-selective-ish; tumor-enriched HSP90 (epichaperome)",
+      "result": "good sensitivity (targeted panel)",
+      "verification": "VERIFIED_abstract",
+      "class": "proteostasis:chaperone",
+      "approved_indication": "investigational (not approved)",
+      "achievable_free_exposure": "to_populate",
+      "solid_tumor_caveat": "HSP90 inhibitors have a long history of narrow windows / on-target toxicity in solid tumors.",
+      "engagement_assay": "HSP70 induction (pharmacodynamic marker of HSP90 inhibition)",
+      "notes": "Supports the proteostasis axis alongside carfilzomib (independent node)."
+    },
+    {
+      "compound": "brigatinib",
+      "screen_id": "NCC-2025",
+      "nominal_target": "ALK (also ROS1, EGFR, others)",
+      "polypharmacology": "MULTIKINASE / polypharmacologic -- activity is NOT proof of ALK dependency",
+      "result": "low-IC50 hit",
+      "verification": "VERIFIED_abstract",
+      "class": "kinase:multikinase",
+      "approved_indication": "ALK+ NSCLC",
+      "achievable_free_exposure": "clinically established (oral)",
+      "solid_tumor_caveat": "Requires target deconvolution (selective ALK inhibitor + genetic perturbation + phosphoproteomics + rescue) before any ALK claim. EMC has no known ALK rearrangement.",
+      "engagement_assay": "phosphoproteomics of candidate kinases; kinome profiling",
+      "notes": "EXPLICIT anti-pattern guard: do not read brigatinib activity as ALK addiction (single model, one screen)."
+    },
+    {
+      "compound": "panobinostat",
+      "screen_id": "NCC-2025",
+      "nominal_target": "pan-HDAC",
+      "polypharmacology": "broad HDAC class I/II inhibition",
+      "result": "low-IC50 hit",
+      "verification": "VERIFIED_abstract",
+      "class": "chromatin:HDAC_pan",
+      "approved_indication": "multiple myeloma (withdrawn in some regions)",
+      "achievable_free_exposure": "to_populate",
+      "solid_tumor_caveat": "pan-HDAC inhibitors can produce broad, non-specific transcriptional toxicity; class-vs-idiosyncrasy must be distinguished.",
+      "engagement_assay": "histone acetylation (H3K9ac / H3K27ac) by western/CUT&Tag",
+      "notes": "Chromatin node of the proteostasis-chromatin axis; convergent with romidepsin (same screen, same class)."
+    },
+    {
+      "compound": "romidepsin",
+      "screen_id": "NCC-2025",
+      "nominal_target": "class-I HDAC (HDAC1/2)",
+      "polypharmacology": "more selective (class I) than panobinostat",
+      "result": "low-IC50 hit",
+      "verification": "VERIFIED_abstract",
+      "class": "chromatin:HDAC_classI",
+      "approved_indication": "cutaneous/peripheral T-cell lymphoma",
+      "achievable_free_exposure": "to_populate",
+      "solid_tumor_caveat": "class-I HDACi; same broad-toxicity caveat but a useful class-vs-compound control against panobinostat.",
+      "engagement_assay": "histone acetylation; class-I-selective substrate readout",
+      "notes": "Two HDAC hits (pan + class-I) in the SAME model = effect tracks the target (HDAC), not one chemical -- the strongest single-screen convergence signal."
+    }
+  ],
+  "combinations": [
+    {
+      "combo": "carfilzomib + doxorubicin",
+      "screen_id": "USZ-2023",
+      "result": "dose-dependent additive AND synergistic effects reported in BOTH USZ models",
+      "verification": "VERIFIED_abstract (combination tested); per-model synergy-vs-additive split UNVERIFIED",
+      "correction_note": "The strategy brief's 'synergistic in one model / additive in the other' is NOT supported by the abstract, which attributes both effects to both models. Do not restate the split as fact.",
+      "class_pair": "proteasome + anthracycline"
+    },
+    {
+      "combo": "carfilzomib + venetoclax",
+      "screen_id": "USZ-2023",
+      "result": "dose-dependent additive AND synergistic effects reported in BOTH USZ models",
+      "verification": "VERIFIED_abstract",
+      "correction_note": "Venetoclax (BCL2 inhibitor) was part of the USZ combination panel -- an apoptosis-priming partner not emphasized in the strategy brief; worth carrying into the validation panel.",
+      "class_pair": "proteasome + BCL2"
+    }
+  ],
+  "did_not_survive_verification": [
+    {
+      "claim": "HDM201 / siremadlin (MDM2/MDM4 inhibitor) was a top USZ hit",
+      "source_of_claim": "strategy brief (Rank 2) + earlier summaries",
+      "status": "NOT_CORROBORATED",
+      "detail": "No search/abstract read of Bangerter 2023 surfaced HDM201/siremadlin as an EMC hit; one summary explicitly noted it was not in the EMC screening results. Recorded here so the MDM2/MDM4 node is treated as a hypothesis, NOT an EMC screen hit, until full-text confirms. This also removes the p53/MDM2 leg from the 'convergent' story unless independently supported.",
+      "action": "Down-weight MDM2/MDM4 in the evidence score; keep as mechanistic candidate only."
+    },
+    {
+      "claim": "The USZ screen tested '~40 drugs'",
+      "status": "IMPRECISE",
+      "detail": "Paper reports 17 chemotherapeutics + a separate targeted medium-throughput panel. Use the precise description."
+    },
+    {
+      "claim": "Numeric IC50 values for any hit",
+      "status": "NOT_RETRIEVABLE",
+      "detail": "No IC50/EC50 numbers were retrievable from accessible (abstract-level) sources for either screen. Marked not_reported_retrievable; obtain from full text/supplement."
+    }
+  ]
+}
