@@ -32,6 +32,10 @@ built to be handed to a wet-lab collaborator. Nothing here is a treatment recomm
 | `METHODS.md` | Manuscript-quality methods | methods document |
 | `build.mjs` | One-command build: validates provenance, emits the `dist/` TSVs | reproducibility |
 | `dist/*.tsv` | Generated, human-readable deliverables (do not hand-edit) | machine-readable outputs |
+| `collaborator-brief.md` | 2-page evidence-backed package to recruit a wet-lab/clinical partner | strategy Phase B |
+| `antiangiogenic-mechanism.md` | Kinome-level TKI comparison + response-linked CRF/common data model | strategy Project 3 |
+| `expression_reprocess.py`, `fulltext_verify.py`, `panel_dependency.py` | CI data-fetch scripts (GEO/EuropePMC/DepMap — run via `atlas-data.yml`) | internet-gated analyses |
+| `_generated/*` | Raw CI outputs (expression signature, full-text verification, panel dependency) | committed by CI |
 
 Run `node research/atlas/build.mjs` to validate the JSON sources and regenerate `dist/`.
 

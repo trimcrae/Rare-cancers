@@ -84,9 +84,27 @@ three iterations: (1) OOM from decompressing GSE24369's GPL SOFT whole → strea
 the always() commit → per-unit checkpoint-commits; (2) divide-by-zero lost the dataset → isolate signature +
 diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns + per-file platform id.
 
+## 2026-07-11 — v0.4 four-workstream expansion (A/B/C/D)
+
+- **A (collaborator brief):** `collaborator-brief.md` — 2-page package (proteostasis-chromatin program +
+  EWSR1-vs-TAF15 antiangiogenic biomarker + what-we-bring/ask + honest limits) for wet-lab recruitment.
+- **B (panel dependency, CI):** `panel_dependency.py` → DepMap 24Q4 dependency of the 12-compound panel's
+  target genes (91 sarcoma lines). **Key honest reframes (claim C020):** proteasome/XPO1/HDAC3 PAN-ESSENTIAL
+  (window = pharmacology, not genetic selectivity); ALL TKI kinases non-essential (antiangiogenic mechanism
+  is non-tumor-autonomous; ALK GE −0.05 kills brigatinib=ALK); **BCL2 non-essential — BCL-xL/MCL1 are the
+  real apoptotic nodes, so venetoclax may be the wrong BH3-mimetic.** Folded into 4 scored entities +
+  validation panel. Self-validated (NR4A3 non-essential, BRD9 synovial-selective).
+- **D (antiangiogenic mechanism):** `antiangiogenic-mechanism.md` — kinome-level TKI target-set comparison
+  (which inhibited-kinase set matches EWSR1-responders; brigatinib as a built-in negative control; selective
+  RET inhibitor as the clean RET test) + a response-linked common data model / CRF with growth-rate-adjusted
+  endpoints.
+- **C (antigen TAF15/MHC-II):** IN PROGRESS — see task; extends the EWSR1-only junction computation.
+
 ## Open next steps (all no-wet-lab, mostly free/cheap)
-0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text verification pass.
-1. **GSE4303** needs a bespoke clone-ID→symbol crosswalk (custom two-colour GPLs); or drop as superseded. (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
+0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text pass; panel DepMap dependency (C020); brief + antiangiogenic mechanism.
+1. **C:** TAF15::NR4A3 junction neoantigen + MHC-II prediction (CI).
+2. **Exposure numbers:** populate cited unbound-Cmax for the 12 panel compounds (the window is now shown to be pharmacology-limited, so this matters).
+3. **GSE4303** needs a bespoke clone-ID→symbol crosswalk (custom two-colour GPLs); or drop as superseded. (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
    leave-one-sample-out, rank-based meta-analysis). Flips the 2 unverified GEO citations to verified.
 2. **Full-text re-confirmation pass** when PMC access is available: IC50 numbers, HDM201 status,
    per-model synergy wording, NCC-EMC1-C1 fusion, unbound-Cmax exposure numbers.

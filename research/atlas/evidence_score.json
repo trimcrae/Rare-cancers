@@ -19,7 +19,7 @@
       "id": "AXIS-proteostasis-chromatin",
       "label": "Proteostasis-chromatin system (proteasome + HSP90 + HDAC)",
       "type": "pathway_axis",
-      "supporting_claims": ["carfilzomib", "PU-H71", "panobinostat", "romidepsin"],
+      "supporting_claims": ["carfilzomib", "PU-H71", "panobinostat", "romidepsin", "C020"],
       "scores": {
         "emc_model_support": 3,
         "fusion_subtype_coverage": 2,
@@ -35,7 +35,7 @@
       "composite": 18,
       "tier": "STRONGEST_PRECLINICAL",
       "rationale": "The only axis with INDEPENDENT nodes nominated across BOTH modern screens: proteasome (carfilzomib) + HSP90 (PU-H71) in USZ (both fusion subtypes), and two HDACs (panobinostat + romidepsin) in NCC. Two HDAC hits in the same model = effect tracks the TARGET not one chemical. Convergence is at the SYSTEM level.",
-      "honest_caveats": "Cross-model convergence is at the axis level, not any single compound (HDAC only tested in NCC/EWSR1; proteasome+HSP90 only in USZ). Proteasome & HSP90 inhibitors historically underperform in SOLID tumors (exposure=1). No genetic-perturbation proof in EMC (surrogate only). Zero EMC clinical signal. FET-fusion 'high transcriptional output -> proteostasis dependence' is PLAUSIBLE but unproven in EMC.",
+      "honest_caveats": "Cross-model convergence is at the axis level, not any single compound (HDAC only tested in NCC/EWSR1; proteasome+HSP90 only in USZ). Proteasome & HSP90 inhibitors historically underperform in SOLID tumors (exposure=1). DepMap (C020) shows the panel targets are PAN-ESSENTIAL (proteasome/XPO1/HDAC3), NOT sarcoma-selective dependencies -> the therapeutic window is a PHARMACOLOGY/exposure question, not genetic selectivity (this is why genetic_perturbation stays 1, not higher). HSP90AA1/AB1 read non-essential singly only because paralogue redundancy masks CRISPR essentiality. Zero EMC clinical signal. FET-fusion 'high transcriptional output -> proteostasis dependence' is PLAUSIBLE but unproven in EMC.",
       "strategy_rank": 2
     },
     {
@@ -58,7 +58,7 @@
       "composite": 19,
       "tier": "STRONGEST_CLINICAL",
       "rationale": "The ONLY axis with prospective EMC clinical activity: pazopanib ORR 18% (95% CI 1-36) / mPFS 19 mo (Stacchiotti 2019, primary-abstract confirmed), sunitinib 6 PR/2 SD/2 PD (2014), IMMUNOSARC II 6-mo PFS 77%. The fusion-subtype differential is now PRIMARY-ABSTRACT confirmed (C019): sunitinib responders expressed EWSR1::NR4A3, refractory cases TAF15::NR4A3 -> a real, load-bearing EWSR1-vs-TAF15 biomarker hypothesis (fusion_subtype_coverage raised 2->3).",
-      "honest_caveats": "Mechanism unknown (VEGFR/PDGFR/RET vs vascular/myeloid vs tumor-cell). RET RNA elevation reproduced (GSE24369 AUC 0.86, C018) but is a MARKER, not proven dependency. Single-arm SD/PFS overstates effect in an indolent disease without growth-rate/external control. No EMC model shows it (angiogenesis needs co-culture, not monoculture). Evidence concentrated in ONE group (Stacchiotti/European network).",
+      "honest_caveats": "Mechanism unknown (VEGFR/PDGFR/RET vs vascular/myeloid vs tumor-cell). DepMap (C020) shows NONE of the TKI-target kinases (VEGFRs/PDGFRs/KIT/RET/ALK/FGFR1) is a tumor-cell-autonomous dependency in sarcoma -> the mechanism is NON-tumor-autonomous (vascular/stromal; co-culture required, not monoculture), and RET/KIT/ALK are MARKERS not addictions. RET RNA elevation reproduced (GSE24369 AUC 0.86, C018) but confirmed non-essential (C020). Single-arm SD/PFS overstates effect in an indolent disease without growth-rate/external control. Evidence concentrated in ONE group (Stacchiotti/European network). See antiangiogenic-mechanism.md for the kinome comparison + CRF.",
       "strategy_rank": 3
     },
     {
@@ -110,12 +110,12 @@
       "id": "AXIS-apoptosis-bcl2",
       "label": "Apoptosis priming (BCL2 / venetoclax)",
       "type": "pathway_axis",
-      "supporting_claims": ["carfilzomib"],
+      "supporting_claims": ["carfilzomib", "C020"],
       "scores": {
         "emc_model_support": 2,
         "fusion_subtype_coverage": 2,
         "patient_tumor_expression": 1,
-        "genetic_perturbation": 0,
+        "genetic_perturbation": 1,
         "pharmacologic_replication": 1,
         "achievable_exposure": 2,
         "target_engagement_assay": 2,
@@ -123,10 +123,10 @@
         "clinical_signal_emc": 0,
         "followup_assay_available": 3
       },
-      "composite": 15,
-      "tier": "SECONDARY_COMBINATION_LEAD",
+      "composite": 16,
+      "tier": "SECONDARY_COMBINATION_LEAD_RETARGET",
       "rationale": "Surfaced by the USZ carfilzomib+venetoclax combination (additive+synergistic, both models). A proteasome->apoptosis-priming rationale worth testing.",
-      "honest_caveats": "Only as a combination with carfilzomib; venetoclax monotherapy signal in EMC is unknown. Not emphasized in the strategy brief but carried forward from verified data."
+      "honest_caveats": "IMPORTANT CORRECTION from DepMap (C020): venetoclax's target BCL2 is NON-essential in sarcoma lines, whereas BCL-xL (BCL2L1, pan-essential) and MCL1 (context) are the real apoptotic dependencies. So the on-target apoptosis-priming partner is likely a BCL-xL/MCL1 BH3-mimetic (e.g. navitoclax/AZD4320 or an MCL1i), NOT venetoclax. Test venetoclax AND a BCL-xL/MCL1 agent to see if the effect follows the dependency. Only as a combination with carfilzomib; monotherapy signal unknown."
     },
     {
       "id": "AXIS-surface-antigen",
@@ -199,7 +199,7 @@
       "id": "NODE-alk-brigatinib",
       "label": "ALK / brigatinib -- NEEDS TARGET DECONVOLUTION",
       "type": "target",
-      "supporting_claims": ["brigatinib"],
+      "supporting_claims": ["brigatinib", "C020"],
       "scores": {
         "emc_model_support": 1,
         "fusion_subtype_coverage": 1,
@@ -215,7 +215,7 @@
       "composite": 11,
       "tier": "SINGLE_MODEL_DECONVOLUTION_REQUIRED",
       "rationale": "Low-IC50 in NCC-EMC1-C1 (single model). Brigatinib is multikinase.",
-      "honest_caveats": "EMC has NO known ALK rearrangement. Activity != ALK dependency. Requires selective-inhibitor + genetic-perturbation + phosphoproteomic deconvolution before any ALK interpretation. Explicit anti-pattern guard."
+      "honest_caveats": "EMC has NO known ALK rearrangement. Activity != ALK dependency -- now directly supported by DepMap (C020): ALK is NON-essential in sarcoma (gene effect -0.05, 0.6% dependent), so brigatinib's single-model cytotoxicity is NOT via an ALK dependency. Requires selective-inhibitor + genetic-perturbation + phosphoproteomic deconvolution before any ALK interpretation. Explicit anti-pattern guard, now with genetic evidence."
     },
     {
       "id": "NODE-pparg",
@@ -258,7 +258,7 @@
       {"n": 5,  "compound": "entinostat",               "class": "HDAC_classI_selective","role": "more-selective HDAC (does effect follow HDAC class?)"},
       {"n": 6,  "compound": "PU-H71 (+ a 2nd HSP90 e.g. onalespib)", "class": "HSP90",  "role": "USZ hit + class control"},
       {"n": 7,  "compound": "doxorubicin",              "class": "anthracycline",       "role": "clinically-active comparator + combo backbone"},
-      {"n": 8,  "compound": "venetoclax",               "class": "BCL2",                "role": "USZ combination partner; apoptosis priming"},
+      {"n": 8,  "compound": "venetoclax + a BCL-xL/MCL1 agent (navitoclax or MCL1i)", "class": "BH3-mimetic", "role": "USZ combo partner; test venetoclax AND BCL-xL/MCL1 -- DepMap says BCL-xL/MCL1, not BCL2, are the sarcoma apoptotic dependencies (C020)"},
       {"n": 9,  "compound": "pazopanib or sunitinib",   "class": "antiangiogenic_TKI",  "role": "clinically-active EMC comparator (EWSR1-biased)"},
       {"n": 10, "compound": "brigatinib",               "class": "multikinase",         "role": "target deconvolution (NOT an ALK claim)"},
       {"n": 11, "compound": "HDM201/siremadlin",        "class": "MDM2/MDM4",           "role": "HYPOTHESIS test only (did NOT survive as a screen hit); TP53-context-gated"},
@@ -287,6 +287,9 @@
     "ALK as an EMC driver -- brigatinib is polypharmacologic, single model, no ALK rearrangement.",
     "PPARG as a target -- expression is a fusion consequence, no dependency evidence (expression-only anti-pattern).",
     "RET as a proven dependency -- RNA elevation is a marker, not addiction.",
-    "'Synergistic in one model / additive in the other' for carfilzomib+doxorubicin -- not supported; both effects in both models."
+    "'Synergistic in one model / additive in the other' for carfilzomib+doxorubicin -- not supported; both effects in both models.",
+    "BCL2 as the venetoclax dependency in sarcoma -- DepMap (C020) shows BCL2 non-essential; BCL-xL(BCL2L1)/MCL1 are the apoptotic nodes -> a BCL-xL/MCL1 BH3-mimetic is the on-target choice, not venetoclax.",
+    "Proteasome/XPO1/HDAC-node hits as SELECTIVE genetic dependencies -- DepMap (C020) shows they are pan-essential; the window is pharmacology/exposure, not genetic selectivity. (Does not kill the axis; reframes the argument.)",
+    "Any tumor-cell-autonomous TKI-kinase addiction -- ALK/KIT/VEGFRs/PDGFRs/RET/FGFR1 all non-essential (C020); the antiangiogenic mechanism is non-tumor-autonomous."
   ]
 }

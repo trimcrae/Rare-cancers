@@ -259,6 +259,20 @@
       "notes": "Load-bearing evidence for strategy Rank 3 (fusion-specific antiangiogenic response). Corroborated in pazopanib (responders EWSR1). Still small N and single group (Stacchiotti/European network); not a growth-rate-adjusted analysis. A biomarker hypothesis, not established practice."
     },
     {
+      "claim_id": "C020",
+      "statement": "DepMap CRISPR dependency of the validation-panel TARGET genes across 91 sarcoma lines (of 1178): proteasome (PSMB5/1/2) and XPO1 are PAN-ESSENTIAL (95-100% dependent); HDAC3 pan-essential but HDAC1/2/6/8 non-essential; HSP90AA1/AB1 read non-essential singly (paralogue redundancy masks essentiality); BCL2 non-essential while BCL2L1/MCL1 are the real apoptotic dependencies; MDM2 is a TP53-status-gated context dependency; and ALL TKI-target kinases (ALK, KIT, KDR, FLT1/4, PDGFRA/B, RET, FGFR1) are non-essential.",
+      "entity": "panel-target-dependency",
+      "fusion_subtype": "n/a_surrogate",
+      "evidence_type": "genetic_perturbation",
+      "emc_specificity": "extrapolated",
+      "direction": "reframes_window_and_targets",
+      "source": ["depmap24Q4", "panelDependencyRepo"],
+      "locator": "_generated/panel-dependency.json (DepMap 24Q4)",
+      "confidence": "high_for_surrogate",
+      "contradicts": null,
+      "notes": "SURROGATE (no EMC line). Three decision-relevant consequences: (1) proteasome/XPO1/HDAC3 hits are NOT sarcoma-selective dependencies -> the therapeutic window is a PHARMACOLOGY/exposure question, not genetic selectivity; (2) no TKI-target kinase is a tumor-cell-autonomous dependency -> the antiangiogenic mechanism is non-tumor-autonomous (co-culture required) and RET/KIT/ALK are MARKERS not addictions (ALK GE -0.05 refutes brigatinib=ALK); (3) venetoclax's BCL2 is non-essential -- BCL-xL(BCL2L1)/MCL1 are the sarcoma apoptotic nodes, so a BCL-xL/MCL1 BH3-mimetic may be the on-target choice, not venetoclax. Self-validated: NR4A3 non-essential, BRD9 synovial-selective. Caveat: single-gene CRISPR masks HSP90/paralogue essentiality; POLR2A did not resolve in this pull."
+    },
+    {
       "claim_id": "C015",
       "statement": "PPARG over-expression in EMC is a direct transcriptional consequence of the fusion; it does not establish whether agonism, antagonism, or neither suppresses the tumor.",
       "entity": "PPARG",

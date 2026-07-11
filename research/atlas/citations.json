@@ -289,6 +289,13 @@
       "verified": true,
       "role": "Deterministic in-CI reprocessing of GEO series matrices (rank-based EMC-vs-rest AUC, per platform, leave-one-out). Ran on a GitHub Actions runner because the dev sandbox blocks GEO. See METHODS.md."
     },
+    "panelDependencyRepo": {
+      "short": "Atlas validation-panel DepMap dependency (CI)",
+      "resourceType": "repo_analysis",
+      "url": "research/atlas/panel_dependency.py + _generated/panel-dependency.json",
+      "verified": true,
+      "role": "DepMap 24Q4 CRISPR dependency of the 12-compound panel's target genes across 91 sarcoma lines (of 1178), classifying pan-essential vs context vs non-essential. Ran in CI (figshare/DepMap blocked in sandbox). Self-validated (NR4A3 non-essential, BRD9 synovial-selective)."
+    },
     "biologyEvidenceRepo": {
       "short": "In-repo EMC/NR4A3 biology evidence base",
       "resourceType": "repo_synthesis",
