@@ -105,7 +105,7 @@ diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns 
 
 ## 2026-07-11 — v0.5 "do all the direction work" (E/F/G; direction-choice is self-doable, not a decision)
 
-- **F (outreach.md):** tailored target map + 3 ready-to-review email DRAFTS (USZ/NCC model owners;
+- **F (outreach.md):** SEND-READY — real named recipients (Pauli/USZ, Kondo/NCC, Stacchiotti/INT Milan) with contact routes, finalized emails (only sender fields to fill), and a numbered "what you do next" runbook. Sending remains trimcrae's (outward-facing).
   Stacchiotti/European network; sarcoma pathology/immunopeptidomics). Prep only — SENDING needs trimcrae
   sign-off + a named human author (the one genuinely outward-facing step).
 - **G (lineage-antigen-program.md):** the redirect target from the modest junction yield — B7-H3/PRAME
