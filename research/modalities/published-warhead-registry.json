@@ -10,6 +10,7 @@
   "structure_confidence_rule": "high = >=2 resolvers agree on InChIKey skeleton; medium = 1 resolver, or multiple that disagree; unresolved = none resolved",
   "evidence_classes": [
     "covalent_crystal",
+    "direct_binding_functional",
     "direct_binding_nmr",
     "direct_binding_structural",
     "direct_binding_structural_and_nmr",
@@ -17,24 +18,27 @@
     "functional_modulator",
     "functional_nonbinder",
     "functional_plus_fragment",
+    "functional_target_engagement",
     "reactive_covalent_functional",
     "reference_degrader"
   ],
   "summary": {
-    "n_compounds": 14,
+    "n_compounds": 17,
     "by_structure_confidence": {
       "unresolved": 2,
-      "medium": 4,
-      "high": 8
+      "medium": 6,
+      "high": 9
     },
     "by_evidence_class": {
       "functional_plus_fragment": 1,
+      "functional_target_engagement": 1,
+      "direct_binding_functional": 1,
+      "functional_nonbinder": 2,
       "direct_binding_structural_and_nmr": 1,
       "direct_binding_structural": 1,
       "functional_modulator": 2,
       "direct_binding_nmr": 2,
       "covalent_crystal": 2,
-      "functional_nonbinder": 1,
       "reactive_covalent_functional": 1,
       "e3_ligand": 2,
       "reference_degrader": 1
@@ -49,10 +53,10 @@
         "NR4A3"
       ],
       "evidence_class": "functional_plus_fragment",
-      "evidence_notes": "Drug-fragment library screened for NOR-1/NR4A3 modulation (Gal4-NR4A3 hybrid reporter). Hit rate <1%; THREE ligand chemotypes recovered, ONE rapidly elaborated to a low-micromolar INVERSE NOR-1 agonist that shifted a NOR-1-regulated gene in cells. Direct-engagement of the modeled cryptic orthosteric pocket is NOT established by the reporter/cellular data (brief 3.2).",
-      "assay": "Gal4-NR4A3 hybrid cell reporter; cellular target-gene modulation",
-      "potency": "low micromolar (elaborated inverse agonist)",
-      "selectivity_notes": "NR4A1/NR4A2 counter-screen per the paper; verify from SI when OA text lands",
+      "evidence_notes": "Prestwick drug-fragment library (480 fragments) screened for NOR-1/NR4A3 modulation on a Gal4-NR4A3-LBD hybrid reporter at 100 uM. Hit rate <1%; THREE scaffolds confirmed: fragments 1 & 2 (inverse agonists) and 3 (weak agonist; non-competitive with 1 -> a DISTINCT binding site). SAR (transcribed from the OA text, PMC9542104): for scaffold 2 (an N-acetyl-hydroxyphenyl-piperazine) the N-acetyl AND phenolic-OH are both critical (removing either -> loss). Scaffold 1 is an INDOLE-3-CARBOXYLATE: chloro-scanning showed 5-position substitution favored (5-Cl 14 = 3.5x; 5-Me 17 / 5-OMe 18 better than 1; 5-Br 19 and 5-Ph 20 reach single-digit uM IC50). The elaborated lead = compound 19 (methyl 5-bromoindole-3-carboxylate; see the zaienne_cmpd19 row). Direct occupation of the MODELED cryptic orthosteric pocket is not proven by the reporter data (brief 3.2), but 19's mechanism (blocks NOR-1<->SMRT/NCoR1, derepresses MYC) is LBD-corepressor.",
+      "assay": "Gal4-NR4A3-LBD hybrid cell reporter; corepressor-interaction IC50 (SMRT/NCoR1); MYC qPCR in HeLa",
+      "potency": "compound 19: SMRT IC50 9+/-2 uM, NCoR1 IC50 12+/-3 uM (single-digit-to-low uM inverse agonist)",
+      "selectivity_notes": "SAR + 5-position tolerance = the degrader EXIT VECTOR handle; paralogue counter-screen not detailed in OA main text",
       "source": {
         "authors": "Zaienne D, Arifi S, Marschner JA, Heering J, et al.",
         "title": "Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists",
@@ -61,8 +65,8 @@
         "pmc": "PMC9542104",
         "doi": "10.1002/cmdc.202200259"
       },
-      "structure_status": "series_placeholder",
-      "note": "Series-level record. Individual member structures are behind the ChemMedChem paywall; the OA full text (fetch-literature -> literature-cache) is needed to transcribe the elaborated compound's structure + assay values. Recorded as unresolved rather than invented.",
+      "structure_status": "series_resolved_lead",
+      "note": "RESOLVED from the OA full text (2026-07-11). The elaborated lead compound 19 is now a resolvable structure (zaienne_cmpd19). Fragments 1/2/3 and the chloro-scan analogues (11-20, 'reported previously') are not individually resolved here; 19 is the tool compound.",
       "structure": {
         "structure_confidence": "unresolved",
         "n_resolvers_agreeing": 0,
@@ -75,6 +79,224 @@
         "per_resolver": []
       },
       "cheminformatics": null
+    },
+    {
+      "id": "zaienne_cmpd19",
+      "display_name": "Zaienne compound 19 (methyl 5-bromoindole-3-carboxylate)",
+      "role": "warhead_source",
+      "targets": [
+        "NR4A3"
+      ],
+      "evidence_class": "functional_target_engagement",
+      "evidence_notes": "THE elaborated low-uM inverse NOR-1/NR4A3 agonist tool compound from the Zaienne 2022 fragment campaign (an indole-3-carboxylate, 5-Br optimized). Blocks the NOR-1<->SMRT (IC50 9+/-2 uM) and NOR-1<->NCoR1 (IC50 12+/-3 uM) corepressor interactions and DEREPRESSES MYC in HeLa (cellular target engagement). The most experimentally-anchored NR4A3-DIRECTED warhead structure in the registry. The tolerated 5-position (Br/Ph boosted potency) is a candidate degrader EXIT VECTOR.",
+      "assay": "corepressor-interaction IC50 (SMRT/NCoR1); MYC qPCR cellular target engagement",
+      "potency": "SMRT IC50 9+/-2 uM; NCoR1 IC50 12+/-3 uM",
+      "selectivity_notes": "NR4A3 tool compound; paralogue selectivity not established in the paper",
+      "source": {
+        "pmid": "35704774",
+        "pmc": "PMC9542104",
+        "doi": "10.1002/cmdc.202200259",
+        "ref": "Zaienne 2022 compound 19 (methyl 5-bromoindole-3-carboxylate)"
+      },
+      "expected_mw": 254.08,
+      "structure": {
+        "structure_confidence": "medium",
+        "n_resolvers_agreeing": 3,
+        "independent_agreement": false,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": true,
+        "expected_mw": 254.08,
+        "smiles": "COC(=O)c1c[nH]c2ccc(Br)cc12",
+        "inchikey": "MFOKOKHNSVUKON-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL585718",
+            "query": "methyl 5-bromo-1H-indole-3-carboxylate",
+            "smiles": "COC(=O)c1[nH]c2ccc(Br)cc2c1Sc1cc(O)c(OC)c(OC)c1",
+            "mw": 438.3,
+            "inchikey": "IANDDKUCVKDNIZ-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "methyl 5-bromo-1H-indole-3-carboxylate",
+            "smiles": "COC(=O)c1c[nH]c2ccc(Br)cc12",
+            "mw": 254.08,
+            "inchikey": "MFOKOKHNSVUKON-UHFFFAOYSA-N"
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL473320",
+            "query": "methyl 5-bromoindole-3-carboxylate",
+            "smiles": "COc1cc2ncnc(-c3c[nH]c4ccc(Br)cc34)c2cc1OC",
+            "mw": 384.23,
+            "inchikey": "MWBJNWJINFGNLQ-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 254.1,
+        "cLogP": 2.72,
+        "HBD": 1,
+        "HBA": 2,
+        "TPSA": 42.1,
+        "RotB": 1,
+        "FractionCsp3": 0.1,
+        "aromatic_rings": 2,
+        "QED": 0.795,
+        "SAscore": 1.96,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 0,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 0
+        }
+      }
+    },
+    {
+      "id": "pga2",
+      "display_name": "Prostaglandin A2 (PGA2)",
+      "role": "nr4a3_direct_binder",
+      "targets": [
+        "NR4A3"
+      ],
+      "evidence_class": "direct_binding_functional",
+      "evidence_notes": "Cyclopentenone prostaglandin; WEAKLY activates NOR-1/NR4A3 through DIRECT interaction with its LBD (Zaienne 2022 intro; distinct from 6-MP which needs AF-1). A reactive cyclopentenone (Michael acceptor) -> likely covalent, special-handling like PGA1/celastrol.",
+      "assay": "NOR-1 LBD direct activation (weak)",
+      "potency": "weak (uM+)",
+      "selectivity_notes": "NR4A3 LBD direct ligand; reactive cyclopentenone",
+      "source": {
+        "pmc": "PMC9542104",
+        "ref": "Zaienne 2022 (PGA2 weak direct NOR-1 LBD agonist)"
+      },
+      "structure": {
+        "structure_confidence": "medium",
+        "n_resolvers_agreeing": 2,
+        "independent_agreement": false,
+        "skeleton_disagreement": true,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "CCCCC[C@H](O)/C=C/[C@H]1C(=O)C[C@H](O)[C@@H]1C/C=C\\CCCC(=O)O",
+        "inchikey": "BHMBVRSPMRCCGG-OUTUXVNYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL1235252",
+            "query": "prostaglandin A2",
+            "smiles": "CCCCC[C@H](O)/C=C/[C@H]1C(=O)C[C@H](O)[C@@H]1C/C=C\\CCCC(=O)O",
+            "mw": 352.47,
+            "inchikey": "BHMBVRSPMRCCGG-OUTUXVNYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "prostaglandin A2",
+            "smiles": "CCCCC[C@H](O)\\C=C\\[C@H]1C=CC(=O)[C@@H]1C\\C=C/CCCC(O)=O",
+            "mw": 334.46,
+            "inchikey": "MYHXHCUNDDAEOZ-FOSBLDSVSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 352.5,
+        "cLogP": 3.25,
+        "HBD": 3,
+        "HBA": 4,
+        "TPSA": 94.8,
+        "RotB": 12,
+        "FractionCsp3": 0.7,
+        "aromatic_rings": 0,
+        "QED": 0.37,
+        "SAscore": 3.97,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": false,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 2,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "id": "mercaptopurine_6",
+      "display_name": "6-Mercaptopurine (6-MP)",
+      "role": "nr4a3_functional_modulator",
+      "targets": [
+        "NR4A3"
+      ],
+      "evidence_class": "functional_nonbinder",
+      "evidence_notes": "Antineoplastic thiopurine; ENHANCES NOR-1/NR4A3 activity but REQUIRES the N-terminal AF-1 and does NOT bind the LBD (Zaienne 2022) -> an NR4A3 functional-but-non-LBD-binder control (the model should NOT dock it as a strong LBD binder). Analogous role to C-DIM12 for NR4A2.",
+      "assay": "NOR-1 cellular activity (AF-1-dependent; LBD non-binder)",
+      "potency": "n/a (functional)",
+      "selectivity_notes": "NR4A3 non-LBD-binder negative control",
+      "source": {
+        "pmc": "PMC9542104",
+        "ref": "Zaienne 2022 (6-MP enhances NOR-1 via AF-1, not the LBD)"
+      },
+      "structure": {
+        "structure_confidence": "high",
+        "n_resolvers_agreeing": 2,
+        "independent_agreement": true,
+        "skeleton_disagreement": false,
+        "mw_disambiguated": false,
+        "expected_mw": null,
+        "smiles": "Sc1ncnc2nc[nH]c12",
+        "inchikey": "GLVAUDGFNGKCSF-UHFFFAOYSA-N",
+        "per_resolver": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL1425",
+            "query": "6-mercaptopurine",
+            "smiles": "Sc1ncnc2nc[nH]c12",
+            "mw": 152.18,
+            "inchikey": "GLVAUDGFNGKCSF-UHFFFAOYSA-N"
+          },
+          {
+            "source": "cactus",
+            "source_id": null,
+            "query": "6-mercaptopurine",
+            "smiles": "Sc1ncnc2nc[nH]c12",
+            "mw": 152.18,
+            "inchikey": "GLVAUDGFNGKCSF-UHFFFAOYSA-N"
+          }
+        ]
+      },
+      "cheminformatics": {
+        "MW": 152.2,
+        "cLogP": 0.64,
+        "HBD": 2,
+        "HBA": 4,
+        "TPSA": 54.5,
+        "RotB": 0,
+        "FractionCsp3": 0.0,
+        "aromatic_rings": 2,
+        "QED": 0.43,
+        "SAscore": 3.29,
+        "Ro5_violations": 0,
+        "beyond_Ro5": false,
+        "veber_pass": true,
+        "PAINS_alerts": [],
+        "BRENK_alert_count": 1,
+        "structural_liabilities": [],
+        "protac_handles": {
+          "amine": 0,
+          "phenol": 0,
+          "carboxylic_acid": 0,
+          "total": 0
+        }
+      }
     },
     {
       "id": "cytosporone_b",
