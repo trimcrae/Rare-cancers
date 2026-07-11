@@ -458,10 +458,27 @@
     "nr4a1_ok": true
   },
   "full_gate": {
-    "verdict": "failed",
-    "margin": -0.0536,
-    "nr4a1_ligand_iptm": 0.8565,
-    "nr4a2_ligand_iptm": 0.9101,
-    "nr4a3_ligand_iptm": 0.8757
+    "verdict": "informative",
+    "primary_basis": "productive_ternary_geometry",
+    "basis": "productive-ternary geometry separates degraded from spared: NR4A1 bridges 100% of seeds vs NR4A2 0% / NR4A3 0%",
+    "bridged_fraction": {
+      "nr4a1": 1.0,
+      "nr4a2": 0.0,
+      "nr4a3": 0.0
+    },
+    "closest_lys_A": {
+      "nr4a1": 5.52,
+      "nr4a2": 7.0533,
+      "nr4a3": 9.0633
+    },
+    "lys_supports": true,
+    "ligand_iptm": {
+      "nr4a1": 0.8565,
+      "nr4a2": 0.9101,
+      "nr4a3": 0.8757
+    },
+    "ligand_iptm_margin": -0.0536,
+    "ligand_iptm_verdict": "failed",
+    "ligand_iptm_note": "ligand-iPTM is NOT the primary basis: it scores overall ligand-placement confidence (dominated by the VHL-warhead half) and can stay high / invert even when no productive ternary forms. Reported for transparency."
   }
 }
