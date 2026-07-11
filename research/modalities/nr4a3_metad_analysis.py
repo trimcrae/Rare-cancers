@@ -380,13 +380,25 @@ def main():
                "gate_group_a": GATE_GROUP_A, "gate_group_b": GATE_GROUP_B,
                "metad_params": metad}
 
-    # ---- (b) time-block convergence of F(Rg) from HILLS -----------------------------------------
+    # A Phase-2 tica_combine run drops phase2_cv.json (the COMBINE spec) in the ckpt dir; when present, the
+    # HILLS + COLVAR are on the data-derived CV `s` (its own grid), not Rg — load it once and use its grid.
+    spec_path = os.path.join(in_dir, "phase2_cv.json")
+    tica_spec = None
+    if os.path.exists(spec_path):
+        try:
+            tica_spec = json.load(open(spec_path))
+        except Exception:  # noqa: BLE001
+            tica_spec = None
+    g_min = float(tica_spec["grid_min"]) if tica_spec else metad["grid_min"]
+    g_max = float(tica_spec["grid_max"]) if tica_spec else metad["grid_max"]
+    g_bin = int(tica_spec.get("grid_bin", metad["grid_bin"])) if tica_spec else metad["grid_bin"]
+
+    # ---- (b) time-block convergence of F(CV) from HILLS -----------------------------------------
     if os.path.exists(hills_path):
         hills = parse_hills(hills_path)
-        blocks = block_fes(hills, block_ns, metad["grid_min"], metad["grid_max"], metad["grid_bin"],
-                           biasfactor=metad["biasfactor"])
-        # interpretable region: inside the walls, excluding the sum_hills-referenced edges
-        region = (metad["lower_wall"], metad["upper_wall"])
+        blocks = block_fes(hills, block_ns, g_min, g_max, g_bin, biasfactor=metad["biasfactor"])
+        # interpretable region: inside the walls (Rg) or the full fit grid (tica)
+        region = (g_min, g_max) if tica_spec else (metad["lower_wall"], metad["upper_wall"])
         conv = block_convergence(blocks, region=region)
         summary["convergence"] = {
             "n_hills": len(hills),
@@ -404,23 +416,49 @@ def main():
     else:
         summary["convergence"] = {"ran": False, "reason": f"no HILLS at {hills_path}"}
 
-    # ---- (c) recrossings from the COLVAR Rg trace -----------------------------------------------
+    # ---- (c) recrossings from the COLVAR trace --------------------------------------------------
+    # CV-aware: a Phase-2 tica_combine run writes phase2_cv.json (the COMBINE spec) into the ckpt dir and
+    # its COLVAR columns are `time s rg metad.bias` — so the BIASED CV is `s` (col 1), and the closed<->open
+    # boundary lives in s-units (midpoint of the fit's explored grid), NOT the Rg 0.90 nm boundary. A plain
+    # Rg run has no phase2_cv.json and keeps the validated Rg boundary. The recrossing count is the Phase-2
+    # convergence signal either way (diffusive traversal of the biased CV between the two basins).
     if os.path.exists(colvar_path):
-        _times, rg_series, bias_series = parse_colvar(colvar_path)
-        # boundary midway between the closed basin (~0.48) and the open frontier; druggable window
-        boundary = float(os.environ.get("RG_BOUNDARY", "0.90"))
-        drug_lo = float(os.environ.get("DRUG_RG_LO", "0.70"))
-        drug_hi = float(os.environ.get("DRUG_RG_HI", "1.10"))
-        summary["recrossings"] = {
-            "n_colvar_samples": len(rg_series),
-            "boundary_rg_nm": boundary,
-            "closed_open_crossings": count_boundary_crossings(rg_series, boundary,
-                                                              deadband=5 * metad["sigma"]),
-            "druggable_window_rg_nm": [drug_lo, drug_hi],
-            "druggable_window_visits": count_region_visits(rg_series, drug_lo, drug_hi),
-            "note": ("closed<->open crossings use a 5σ hysteresis deadband; many crossings / repeat "
-                     "druggable-window visits = diffusive, well-explored sampling."),
-        }
+        _times, cv_series, bias_series = parse_colvar(colvar_path, cv_col=1)  # col 1 = Rg (rg run) or s (tica)
+        rg_series = cv_series
+        if tica_spec is not None:
+            gmin = float(tica_spec.get("grid_min")); gmax = float(tica_spec.get("grid_max"))
+            boundary = float(os.environ.get("CV_BOUNDARY", (gmin + gmax) / 2.0))
+            deadband = float(os.environ.get("CV_DEADBAND", 0.10 * (gmax - gmin)))
+            n = len(cv_series) or 1
+            below = sum(1 for v in cv_series if v < boundary)
+            summary["recrossings"] = {
+                "cv": "s (data-derived tica_combine COMBINE)", "cv_col": 1,
+                "n_colvar_samples": len(cv_series),
+                "cv_min": round(min(cv_series), 4) if cv_series else None,
+                "cv_max": round(max(cv_series), 4) if cv_series else None,
+                "boundary_s": round(boundary, 4), "deadband_s": round(deadband, 4),
+                "grid_min_s": gmin, "grid_max_s": gmax,
+                "corr_s_rg": tica_spec.get("corr_s_rg"),
+                "closed_open_crossings": count_boundary_crossings(cv_series, boundary, deadband=deadband),
+                "frac_below_boundary": round(below / n, 3), "frac_above_boundary": round(1 - below / n, 3),
+                "note": ("closed<->open crossings on the biased data-derived CV s, with a hysteresis "
+                         "deadband = 10% of the fit grid; many crossings AND both basins populated "
+                         "(frac_below/above both non-trivial) = diffusive, converged opening sampling."),
+            }
+        else:
+            boundary = float(os.environ.get("RG_BOUNDARY", "0.90"))
+            drug_lo = float(os.environ.get("DRUG_RG_LO", "0.70"))
+            drug_hi = float(os.environ.get("DRUG_RG_HI", "1.10"))
+            summary["recrossings"] = {
+                "cv": "rg", "n_colvar_samples": len(cv_series),
+                "boundary_rg_nm": boundary,
+                "closed_open_crossings": count_boundary_crossings(cv_series, boundary,
+                                                                  deadband=5 * metad["sigma"]),
+                "druggable_window_rg_nm": [drug_lo, drug_hi],
+                "druggable_window_visits": count_region_visits(cv_series, drug_lo, drug_hi),
+                "note": ("closed<->open crossings use a 5σ hysteresis deadband; many crossings / repeat "
+                         "druggable-window visits = diffusive, well-explored sampling."),
+            }
     else:
         summary["recrossings"] = {"ran": False, "reason": f"no COLVAR at {colvar_path}"}
         rg_series = bias_series = None
