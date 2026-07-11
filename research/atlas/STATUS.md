@@ -98,13 +98,17 @@ diagnostics; (3) 0 genes annotated → parse Affymetrix gene_assignment columns 
   (which inhibited-kinase set matches EWSR1-responders; brigatinib as a built-in negative control; selective
   RET inhibitor as the clean RET test) + a response-linked common data model / CRF with growth-rate-adjusted
   endpoints.
-- **C (antigen TAF15/MHC-II):** IN PROGRESS — see task; extends the EWSR1-only junction computation.
+- **C (antigen TAF15):** DONE — `antigen_expand.py` runs BOTH junctions through MHC-I (claim C021).
+  TAF15::NR4A3: 1 strong / 7 sub-500nM of 34 novel peptides; EWSR1: 2 strong / 3 sub-500nM. **Both modest**
+  -> neither common junction is a strong shared class-I target (redirects to lineage antigens). Axis
+  fusion_subtype_coverage 1→2. MHC-II deferred (MHCnuggets TF-pin clash; tool exists for a follow-up).
 
 ## Open next steps (all no-wet-lab, mostly free/cheap)
-0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text pass; panel DepMap dependency (C020); brief + antiangiogenic mechanism.
-1. **C:** TAF15::NR4A3 junction neoantigen + MHC-II prediction (CI).
-2. **Exposure numbers:** populate cited unbound-Cmax for the 12 panel compounds (the window is now shown to be pharmacology-limited, so this matters).
-3. **GSE4303** needs a bespoke clone-ID→symbol crosswalk (custom two-colour GPLs); or drop as superseded. (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
+0. **DONE this session:** GSE24369 reprocessed (verified); primary full-text pass; panel DepMap dependency (C020); brief (A); antiangiogenic mechanism+CRF (D); TAF15 junction antigen (C, C021).
+1. **MHC-II help epitopes** for both junctions (patient_cd4_epitopes.py / MHCnuggets, isolated venv) — the one antigen piece deferred this session.
+2. **Exposure numbers:** populate cited unbound-Cmax for the 12 panel compounds (the window is now shown to be pharmacology-limited, so this matters most for proteostasis).
+3. **GSE4303** needs a bespoke clone-ID→symbol crosswalk (custom two-colour GPLs); or drop as superseded.
+4. **Lineage-antigen screen** (B7-H3/PRAME/CHRNA6 in EMC tissue/immunopeptidomics) — the redirect target from the modest junction yield; needs collaborator tissue. (raw CEL → QC → EMC-vs-sarcoma + EWSR1-vs-TAF15 signatures,
    leave-one-sample-out, rank-based meta-analysis). Flips the 2 unverified GEO citations to verified.
 2. **Full-text re-confirmation pass** when PMC access is available: IC50 numbers, HDM201 status,
    per-model synergy wording, NCC-EMC1-C1 fusion, unbound-Cmax exposure numbers.

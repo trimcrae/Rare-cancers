@@ -273,6 +273,20 @@
       "notes": "SURROGATE (no EMC line). Three decision-relevant consequences: (1) proteasome/XPO1/HDAC3 hits are NOT sarcoma-selective dependencies -> the therapeutic window is a PHARMACOLOGY/exposure question, not genetic selectivity; (2) no TKI-target kinase is a tumor-cell-autonomous dependency -> the antiangiogenic mechanism is non-tumor-autonomous (co-culture required) and RET/KIT/ALK are MARKERS not addictions (ALK GE -0.05 refutes brigatinib=ALK); (3) venetoclax's BCL2 is non-essential -- BCL-xL(BCL2L1)/MCL1 are the sarcoma apoptotic nodes, so a BCL-xL/MCL1 BH3-mimetic may be the on-target choice, not venetoclax. Self-validated: NR4A3 non-essential, BRD9 synovial-selective. Caveat: single-gene CRISPR masks HSP90/paralogue essentiality; POLR2A did not resolve in this pull."
     },
     {
+      "claim_id": "C021",
+      "statement": "Extending the junction-antigen computation to the TAF15::NR4A3 subtype (previously EWSR1-only): the TAF15 junction gives a MODEST predicted MHC-I yield (34 novel peptides, 1 strong binder %rank<=0.5, 7 sub-500nM, best percentile 0.30) comparable to EWSR1 (2 strong, 3 sub-500nM, best 0.07). Both share the NR4A3 exon-2 right seam.",
+      "entity": "fusion-junction-antigen",
+      "fusion_subtype": "EWSR1_vs_TAF15",
+      "evidence_type": "in_silico_prediction",
+      "emc_specificity": "emc_specific",
+      "direction": "both_subtypes_modest",
+      "source": ["antigenComputationRepo", "mhcflurry2"],
+      "locator": "_generated/antigen-expanded.json",
+      "confidence": "prediction_only",
+      "contradicts": null,
+      "notes": "Both breakpoints MODELED (junction peptides are breakpoint-sensitive) -> feasibility comparison, not patient-specific. Neither common junction is a strong shared class-I target; per the strategy this is an informative negative that redirects toward fusion-induced LINEAGE antigens (B7-H3/PRAME axis). Class-II (MHCnuggets) + immunopeptidomics still warranted. No natural presentation demonstrated."
+    },
+    {
       "claim_id": "C015",
       "statement": "PPARG over-expression in EMC is a direct transcriptional consequence of the fusion; it does not establish whether agonism, antagonism, or neither suppresses the tumor.",
       "entity": "PPARG",
