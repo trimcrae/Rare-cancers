@@ -38,13 +38,38 @@ in the start prompt — fold it in before spending any GPU.)
    method**. **NOT built.** This is the highest-value, open contribution.
 4. **The matrix** {warheads × exit-vectors × VHL/CRBN × linkers}: downstream of 2+3. **NOT built.**
 
-## Your immediate next step (self-doable, free — do it before any GPU)
+## Your immediate next step (self-doable, free — do it before any GPU) — ✅ DONE 2026-07-11
 **Preregister a physics-based ternary-cooperativity method + its NR-V04 cooperativity control**, mirroring
-`nr4a3-abfe-repair-prereg.md`. Candidate methods to choose among (see the reviewer's answer): (i) ternary-complex
-MD stability + interface MM-GBSA; (ii) relative ternary binding free energy on the interface; (iii) cooperativity
-α via a binary-vs-ternary thermodynamic cycle. **Retrospective bar it must clear before ANY prospective NR4A3
-run:** recover NR-V04's *cooperativity* ordering (NR4A1 productive, NR4A2/NR4A3 not) AND **reject the inactive
-epimer** — the two things the co-fold could not do.
+`nr4a3-abfe-repair-prereg.md`. **COMPLETE** — the reviewer's "APPROVED WITH SCOPE CHANGES" decision is folded
+in. Deliverables (branch `claude/nr4a3-ternary-coop-prereg-51wqw9`, commit `3b1920b`):
+- **`research/modalities/nr4a3-ternary-coop-prereg.md`** — the prose prereg (method = thermodynamic-cycle
+  cooperativity `ΔG_coop=−RT ln α` via matched binary-vs-ternary relative alchemical calcs [option ii
+  implementing iii]; MM-GBSA demoted to descriptive-only; **two-layer calibration** [quantitative VHL panel
+  FIRST, then NR-V04 as a family-transfer test]; the full §3 retrospective bar; parallel-pilots/staged-fleet
+  sequencing; VHL-first / CRBN-held; +4 architecture layers [ensemble+linker-strain, Cullin-RING/E2~Ub
+  lysine-presentation, fusion-context]).
+- **`research/modalities/nr4a3-ternary-coop-prereg.json`** — machine-readable frozen criteria (single source
+  of truth).
+- **`research/modalities/ternary_coop_gate.py`** + **`tests/test_ternary_coop_gate.py`** (27 passing) — the
+  pure-stdlib gate enforcing §3 against a future results dict, so no criterion is re-decided post-hoc.
+
+### ⚠ Material finding for the NEXT builder — NEITHER authorized pilot is wired to launch yet
+The reviewer *authorized* both pilots (binary RBFE ~$5–15; ternary feasibility capped $200), but **neither is
+runnable as-is** — do NOT dispatch a GPU spend until these are built (all free engineering):
+1. **Binary RBFE pilot edge is NOT wired.** `nr4a3_rbfe_sagemaker.py` + `rbfe_edges.py` are hardcoded for the
+   OLD lead-opt edge (`denovo_401 → lo_m0_NCCO`, 3 fixed SMILES, `nr4a3-leadopt-species` receptor prefix). The
+   authorized pilot edge is the **congeneric `zaienne_cmpd19` 5-Br → `cw_ev_5nh2` 5-NH₂** on one `nr4a3_design`
+   frame. Needs: add the two congeneric SMILES + point at a design-frame receptor prefix with docked poses for
+   both endpoints, then `MODE=plan` for the forecast, then the single-edge real run.
+2. **The physics ternary-cooperativity harness does NOT exist.** Every `*ternary*` script (`nr4a3_ternary.py`,
+   `nrv04_ternary.py`, `nr4a3_ternary_sagemaker.py`) is **Boltz co-fold only** (architecture) — there is no
+   alchemical ternary/binary-vs-ternary FEP engine. Build one (mirror the spot-Training + per-window-checkpoint
+   plumbing of `nr4a3_fep_sagemaker.py`/`nr4a3_rbfe_sagemaker.py`), then `MODE=plan` the $200-capped feasibility
+   bundle (§5b of the prereg) for the required dry-run GPU-hour forecast BEFORE any production spend.
+3. **Layer-1 VHL calibration panel provenance is an unfilled Stage-0 blocker.** `prereg.json →
+   calibration.layer1_vhl_panel.systems: []` — the SMARCA2-VHL / MZ1 compound identities + PDB IDs + *measured*
+   α must be curated from primary sources (via a CI-runner fetch, egress rule) and each marked `verified` before
+   entering the scored panel. Do NOT fabricate α/PDB IDs.
 
 ## Pending the reviewer AI (fold its answer in first)
 The decision block I sent asks: **Q1** which physics method + the minimum NR-V04 bar; **Q2** sequencing (binary
