@@ -1,0 +1,592 @@
+822acssdACS Synthetic BiologyACS Synth BiolPMC9016769901676990167693531602810.1021/acssynbio.1c00236Sense-and-Respond Payload Delivery Using a Novel Antigen-Inducible
+Promoter Improves Suboptimal CAR-T Activation
+GuoTingxi MaDacheng LuTimothy K †Synthetic
+Biology Group, Research Laboratory of Electronics, Massachusetts Institute of Technology, Cambridge, Massachusetts 02139, United States‡Synthetic
+Biology Center, Department of Biological Engineering, Massachusetts Institute of Technology, Cambridge, Massachusetts 02139, United States§Department
+of Electrical Engineering and Computer Science, Massachusetts Institute of Technology, Cambridge, Massachusetts 02139, United States∥Senti
+Biosciences, South San Francisco, California 94080, United States*Email: timlu@mit.edu. Tel: 617-715-4808. Fax: 619-789-4808.
+223202211414401440–14532042022© 2022 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Chimeric antigen
+receptor (CAR)-T cell therapies demonstrate the
+clinical potential of lymphocytes engineered with synthetic properties.
+However, CAR-T cells are ineffective in most solid tumors, partly
+due to inadequate activation of the infused lymphocytes at the site
+of malignancy. To selectively enhance antitumor efficacy without exacerbating
+off-target toxicities, CAR-T cells can be engineered to preferentially
+deliver immunostimulatory payloads in tumors. Here, we report a novel
+antigen-inducible promoter for conditional payload expression in primary
+human T cells. In therapeutic T cell models, the novel NR4A-based
+promoter induced higher reporter gene expression than the conventional
+NFAT-based promoter under weakly immunogenic conditions, where payload
+expression is most needed. Minimal activity was detected from the
+inducible promoters in the absence of antigen and after withdrawal
+of stimulation. As a functional proof-of-concept, we used the NR4A-based
+promoter to express cytokines in an antimesothelin CAR-T model with
+suboptimal stimulation and observed improved proliferation compared
+to T cells engineered with the conventional NFAT promoter or CAR alone.
+Our system achieves CAR-directed payload expression under weakly immunogenic
+conditions and could enable the next generation of cell therapies
+with enhanced antitumor efficacy.
+Keywords: inducible promoters, NR4A, NFAT, cell
+therapy, chimeric antigen receptors, engineered
+T cells
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 May 24; Issue date 2022 Apr 15.
+
+## Introduction
+Genetically,
+programming cell functions with synthetic components
+holds promise for a variety of clinical applications. , A notable example is the adoptive transfer of T lymphocytes engineered
+with a chimeric antigen receptor (CAR) to treat cancer. − However, the consistent clinical benefit of these therapies has
+been largely limited to hematological malignancies. Most carcinomas
+remain nonresponsive to CAR-T cells because the suppressive tumor
+microenvironment and variable antigen density prevent adequate activation
+of lymphocytes. − Amplifying the suboptimal responses of therapeutic
+T cells without exacerbating immune-mediated toxicity is a major unmet
+need for the treatment of solid tumors.
+Beyond antigen receptors,
+adoptively transferred antitumor T cells
+can also be engineered to produce immunostimulatory payloads. This strategy to augment immune responses can
+enhance the therapeutic properties of the infused T cells and reinvigorate
+endogenous immune cells. In preclinical models, T cells engineered
+to secrete common γ chain cytokines IL-2, IL-7, IL-15, and IL-21; inflammatory cytokines IL-12, IL-18, and IL-23; or other protein-based therapeutics , have demonstrated superior tumor control compared to nonproducers.
+The continuous secretion of stimulatory payloads, however, may counteract
+their beneficial effects. In one case, human T cells engineered to
+constitutively produce IL-15 resulted in the transformation of transductants
+in an IL-15 receptor-dependent manner. Constitutive production of potent cytokines such as IL-2 or IL-18
+also caused toxicities in preclinical CAR-T models. , These observations highlight the need to tightly control recombinant
+payload production and, ideally, restrict it to the tumor site to
+maximize its clinical benefit and prevent unwanted side effects. 
+Synthetic promoters are capable of controlling
+and tuning transgene
+expression in response to a cellular pathway of interest. − A sensitive, antigen-inducible promoter with low background activity
+could leverage the preferential tumor reactivity of therapeutic receptors
+for localized payload delivery. The conventional approach for antigen-dependent
+transgene expression has been to use an NFAT-based promoter encoding an NFAT/AP1 response element derived
+from the human IL-2 enhancer. This NFAT
+promoter was tested in the clinic to drive inducible expression of
+IL-12 and was transduced to ex vivo expanded tumor-infiltrating
+lymphocytes. Toxicities were still observed
+after infusion, possibly because of the nonlocalized production of
+IL-12 by T cells with unknown antigen specificities. Subsequent preclinical
+developments have focused on combining the antigen-inducible NFAT
+promoter with a recombinant receptor , to better
+control the input signal for conditional payload expression. Despite
+its broad use, the standard NFAT promoter may not be the optimal choice
+for payload delivery.
+Here, we identified a novel synthetic
+promoter based on an NR4A-binding
+motif that induced greater responses than the conventional NFAT promoter
+under weakly stimulatory conditions, which is when immune-enhancing
+molecules are most needed. Incorporating this synthetic promoter with
+a CAR in a lentiviral vector achieved automated payload response via
+sensing of the cognate tumor antigen. The engineered T cells respond
+to targets in an antigen-dependent manner and conditionally express
+a transgene of choice upon antigen engagement. The inducible promoter
+and vector design described here could enable future generations of
+synthetic lymphocytes, with controllable input and output to safely
+enhance therapeutic responses.
+
+## Results and Discussion
+
+## Novel Antigen-Inducible
+Promoter Encoding an NR4A-Binding Motif
+We previously generated
+a synthetic promoter library termed Synthetic
+Promoters with Enhanced Cell-State Specificity (SPECS), based on transcription
+factor (TF) binding motifs found in public databases. SPECS vectors
+were constructed by encoding repeated TF binding sites upstream of
+a minimal promoter derived from the adenoviral major late promoter
+(MLP) and mKate as the fluorescent reporter. In the present study, to identify novel antigen receptor-inducible
+promoters from this library, we selected individual candidate promoters
+encoding binding sites for known TFs directly downstream of T cell
+receptor (TCR) signaling pathways (i.e., NFkB and MAPK targets), , − or TFs upregulated upon TCR-induced activation. − TF binding site sequences ranged from 77 to 126 base pairs (bp)
+(Table S1). Twenty promoter vectors were
+individually transduced into primary human T cells by lentivirus and
+stimulated with plate-bound CD3 agonist OKT3, or left untreated as
+a control (Figure S1a). CD4 and CD8 T cell
+subsets responded similarly to OKT3 (Figure S1b). Among the tested promoters, the one encoding an NR4A-binding motif
+induced a high percentage of reporter positive cells (Figure S1b,d) and was selected for characterization.
+An AP1-based promoter was also chosen for comparison, given that it
+also induced a high response and that the AP1 pathway is well established
+in T cell activation. As an internal
+positive control, antigen-mediated CD137 upregulation was measured in all assays to ensure similar activation
+among experiments (Figure S1c).
+Next,
+we compared SPECS-derived NR4A and AP1 promoters with the conventional
+NFAT promoter for OKT3-inducible responses. To facilitate quantitative
+comparisons, we introduced a second downstream transcription module
+into the lentiviral vector. In this module, the constitutive EFS promoter
+drives the expression of truncated CD271 (tCD271) to mark transduced
+cells. The EFS promoter was chosen for its compact size (∼200
+bp) and low enhancer-like activity. We
+also tested an additional synthetic minimal promoter (SMP) in combination with each of the three response
+elements ( a).
+The SMP and a similar variant enabled robust inducible promoter activity
+in human cells. , All of the promoter vectors transduced
+cells with comparable efficiency at ∼60–80% (Figure S2a). As a negative control vector, we
+cloned the EFS-tCD271 module alone, without inducible promoters or
+mKate. All of the tested promoters responded similarly to the CD3
+agonist among CD4 and CD8 subsets of primary human T cells after 1
+day of stimulation ( b). In certain donors or in a TF-dependent context, SMP performed
+better than MLP, although the two minimal promoters performed similarly
+well in most cases ( b,c). Thus, subsequent experiments were performed with SMP
+as the minimal promoter. No significant baseline activity in the absence
+of stimulation was observed with any of the inducible promoters ( b). Using a set of
+vectors with only a minimal promoter sequence upstream of mKate, we
+did not detect enhancer-like activity from the constitutive EFS promoter
+at the steady state or after activation, regardless of the choice
+of a minimal promoter (Figure S3).
+ To investigate whether TCR-inducible promoters could be activated
+by non-CD3-dependent mechanisms, we cultured promoter-transduced cells
+in conditioned media derived from strongly activated T cells to mimic
+an inflammatory milieu ( a). The NFAT, AP1, and NR4A promoters were significantly activated,
+albeit at similarly low levels (∼10%) when the transduced cells
+were cultured in the conditioned media compared to normal media ( b,c). Reporter activity
+induced by the conditioned media was substantially lower than CD3-induced
+responses. Thus, we have identified a novel NR4A-based promoter with
+anti-CD3 inducible activity and a single lentiviral vector system
+that permits stringent conditional gene expression alongside constitutive
+gene expression.
+ 
+
+## Inducible Promoters Demonstrate
+Reversible and Repeatable Activation
+We next investigated
+the activity of the inducible promoters after
+the withdrawal of antigen receptor stimulation. Using the vectors
+shown in a,
+we observed that it took up to 5 days after removing the source of
+stimulation for the mKate fluorescence to dissipate (Figure S2b), suggesting high stability of the fluorescent
+protein. To measure the reversibility and repeatability of inducible
+promoter activation, we changed the reporter to a destabilized enhanced
+yellow fluorescent protein (dEYFP) encoding an additional PEST motif,
+which reduces the half-life of fluorescent proteins. In this system, the reporter fluorescence is more closely
+coupled to promoter activity. After transducing dEYFP vectors in human
+T cells, we stimulated the cells for 1 day with OKT3 as above and
+then transferred the cells to a fresh well without the agonist for
+3 days of rest. This process was repeated three times ( a). The EFS-tCD271 vector served
+as a negative control for normalization, where the YFP mean fluorescence
+intensity (MFI) of cells transduced with each synthetic promoter vector
+was divided by that of the negative control vector (Figure S4a). Across three sequential stimulations, the NFAT,
+AP1, and NR4A promoter activities consistently returned to baseline
+after 3 days of rest in CD8 T cells. In fact, the fluorescence intensity
+for all reporters was reduced by at least 50% after only 1 day ( b–d).
+ Interestingly, normalized responses
+were moderately higher after
+the second stimulation ( b,c and S5a), akin to a
+recall response in adaptive lymphocytes. The lower responses observed
+after the third stimulation ( d and S5a) were likely the
+result of activation-induced cell death (Figure S4c). Reversible responses were also observed in CD4 T cells
+with at least one round of stimulation (Figure S5b). Repeated OKT3 stimulation biased the outgrowth of CD4–
+cells and decreased the overall viability of most samples (Figure S5c); thus, the promoter responses in
+the CD4 subset after multiple rounds of activation could not be reliably
+measured. Throughout the course of the experiment, the proportion
+of CD271+ cells did not change significantly (Figure S5d), indicating that repeated activation of the promoters
+was well tolerated and did not cause a growth disadvantage.
+
+## NR4A Promoter
+Induces Higher Responses than NFAT and AP1 in
+Weakly Immunogenic, Therapeutically Relevant Models
+Although
+OKT3 is a potent activator of T cells, it is not representative of
+therapeutically relevant receptor–antigen interactions. To
+characterize inducible promoter responses in more appropriate models,
+we first selected a CAR based on the humanized single-chain variable
+fragment (scFv) M5, targeting the widely expressed mesothelin tumor
+antigen. The M5 CAR, which encodes 41BB
+and CD3z signaling domains (M5-BBz), is currently being tested in
+clinical trials for treating a variety of solid tumors (NCT03054298,
+NCT03323944). Mesothelin-targeting CAR-T strategies have yet to yield
+consistent objective responses and, therefore,
+could benefit from the addition of inducible payloads. To investigate
+the inducible promoter activity in a CAR setting, the M5-BBz CAR and
+tCD271, separated by a porcine 2A (P2A) sequence, were encoded downstream
+of the EFS promoter for constitutive expression. In these constructs,
+inducible promoters that drive the expression of mKate as a reporter
+were cloned upstream of the CAR. tCD271 with the receptor alone served
+as a control vector ( a). T cells were transduced with the vectors and stimulated
+with HEK293T (no mesothelin), A549 (low mesothelin), or OVCAR8 (high
+mesothelin) target cells , ( a).
+ Among the transduced CD8 and CD4 T cells, we observed no mKate
+fluorescence when effector cells were cultured with HEK293T, again
+demonstrating minimal antigen-independent promoter activity ( b). With the strong
+OVCAR8 stimulation, similar levels of reporter expression were observed.
+Notably, the NR4A promoter induced significantly more mKate expression
+than the NFAT and AP1 promoters when cultured with weakly stimulatory
+A549 targets ( b, S6a, and S7a). OVCAR8 cells were indeed
+more immunogenic than A549 cells in the M5 model based on CD137 upregulation
+( g and S6a). A similar trend was observed when the promoters
+were tested with a CD28-based M5 CAR (M5-28z, c): the NR4A promoter responded at higher
+levels than the standard NFAT in response to A549 stimulation ( d and S6a). In the M5-28z model, AP1 demonstrated higher
+activity than NR4A in response to OVCAR8 cells ( d and S7b). Inducible
+promoter vectors for both CARs were transduced at ∼50–70%
+efficiency (Figure S6b), with comparable
+CD271 expression levels between the NR4A and NFAT promoter vectors
+(Figure S6c).
+Next, we constructed
+a similar set of vectors using the affinity-matured
+HLA-A2/NYESO1-specific 1G4 TCR as the
+model antigen receptor. 1G4 TCR has demonstrated clinical efficacy
+in treating melanoma and synovial sarcoma. , The two P2A sequences between tCD271, TCRα, and TCRβ
+genes were codon-modified to avoid repetition in the viral genome
+( e). TCR-T
+cells were stimulated with HEK293T or A375 cells. Both of these cell
+lines express HLA-A2, but only A375 expresses the cognate antigen. , In the TCR model, NR4A also responded with consistently higher reporter
+positivity than NFAT or AP1 after coculture with A375, although the
+overall responses were lower than those seen with the CAR models.
+The promoters induced higher responses in CD8 T cells than in CD4
+cells ( f and S7c), which was expected since the 1G4 TCR is
+HLA class I restricted. The lower levels of CD137 upregulation in
+the TCR model were consistent with the weaker promoter activity ( g), which may have
+been caused by the insufficient formation of the correct TCRα/β
+pairing. A stronger constitutive promoter may be needed to practically
+implement this system with recombinant TCRs, which must be expressed
+at high levels to compete with endogenous TCR hemichains in forming
+antigen-specific surface receptors. The TCR constructs were ∼400
+bp larger than the CAR vectors and were transduced less efficiently
+(Figure S6b). Nevertheless, across all
+of the receptor models tested in our study, we observed significantly
+higher responses with the NR4A-based promoter compared to the responses
+observed with the standard NFAT promoter under poorly stimulatory
+conditions—precisely the context where payload expression is
+needed.
+
+## Characterizing Mesothelin-Induced Promoter Responses in M5-BBz
+CAR-T Cells
+To evaluate the antigen-induced promoter responses
+in more detail, we further characterized the antigen-inducible promoters
+using the M5-BBz CAR with additional target cells expressing various
+levels of mesothelin. First, we overexpressed mesothelin on A549 cells
+to generate A549/MSLN cells with high levels of surface antigen ( a). When M5-BBz CAR-T
+cells encoding the NFAT, AP1, or NR4A-mKate reporter constructs ( a) were stimulated
+with A549, OVCAR8, or A549/MSLN cells, or with 293T cells as a control,
+the NR4A-based promoter induced higher and comparable reporter expression
+in response to A549 and OVCAR8, respectively, versus the NFAT and
+AP1 promoters, as observed in b. When stimulated with A549/MSLN targets with high-antigen
+expression, the NR4A promoter also induced higher responses than other
+promoters ( b and S8), suggesting that the NR4A promoter
+may be more active than NFAT in some highly stimulatory contexts as
+well. A549/MSLN stimulation indeed activated more CAR-T responders
+than A549 based on CD137 upregulation ( b).
+We then generated 293T cells expressing
+low (L) or high (H) levels of mesothelin to investigate the effect
+of antigen density on an independent target cell line. Parental 293T
+cells without mesothelin expression were transduced with the antigen
+and sorted by flow cytometry to generate 293T/MSLN-L and 293T/MSLN-H
+targets that resemble A549 and A549/MSLN, respectively ( c). The NR4A-based promoter
+induced significantly higher reporter expression when CAR-T cells
+were stimulated with 293T/MSLN-L cells compared to NFAT and AP1 promoters
+( d and S8), although the differences were less pronounced
+than those seen with A549-induced responses ( b). Stimulation with 293T/MSLN-H cells also
+elicited significantly higher responses from the NR4A promoter in
+CD8+ CAR-T cells ( e). Collectively, these data demonstrate that the NR4A-based
+promoter consistently outperforms the conventional NFAT promoter not
+only under weakly stimulatory conditions but also in certain high-antigen
+settings in a target cell-dependent manner, where target cell-specific
+factors may contribute to differential activation of the promoters.
+
+## Recombinant Cytokines Expressed under the NR4A Promoter Amplify
+Weak Antitumor Proliferative Responses
+As a proof-of-concept,
+we generated inducible constructs to conditionally express IL-2 and
+IL-21 in the clinically relevant M5-BBz model. The mKate reporter
+gene of M5-BBz CAR vectors ( a) was replaced with recombinant IL-2 and IL-21, separated
+by a P2A sequence ( a). Constitutive expression of either cytokine alone has been
+reported to enhance the proliferation of CD19 CAR-T cells. Although both of these common γ chain
+cytokines can be produced endogenously by activated human T cells,
+cytokine production is poor when the cells are suboptimally stimulated. Therefore, we reasoned that the NR4A-based synthetic
+promoter system could supplement these beneficial cytokines under
+conditions that preclude endogenous production.
+ In a proliferation assay without
+cytokine supplementation in the
+media, CAR-T cells transduced with the control M5-BBz or inducible
+IL-2/IL-21 vectors demonstrated low levels of proliferation in the
+absence of stimulation. In contrast, the majority of the cells were
+divided after coculture with the immunogenic OVCAR8 cells with high-antigen
+expression. When stimulated with weakly immunogenic A549 targets,
+more of the NR4A-IL-2/IL-21 transductants proliferated compared to
+cells engineered with other vectors. The improvement in proliferation
+was more pronounced for the CD8 than CD4 subset ( b,c), consistent with a past
+study showing that IL-2 improves the proliferation of suboptimally
+stimulated CD8 but not of CD4 murine T cells. Based on additional experiments in which the NR4A promoter induced
+the expression either of cytokines or mKate as a control ( d), we determined
+that the enhanced proliferation in response to A549 was payload-dependent
+( e,f). Transduction
+efficiencies of inducible cytokine constructs were similar (Figures S9 and S10c).
+Consistent with these
+data, more of the CAR-T cells encoding the
+NR4A-IL-2/IL-21 module produced IL-2 when stimulated with A549, compared
+to cells transduced with other inducible modules or the control vector
+(Figure S10a,b). Moreover, in A549 cocultures,
+the proliferation of NFAT-IL-2/IL-21 CAR-T cells was not increased
+compared to control CAR-T cells ( c,f), in line with the low responses observed
+with the NFAT promoter in b. Across these experiments, inducible expression of
+the cytokines did not significantly enhance proliferation compared
+to CAR alone when cells were cultured with OVCAR8 cells ( c,f). In summary,
+these data demonstrate a proof-of-concept that payloads delivered
+via the NR4A promoter system can augment suboptimal CAR-T responses.
+
+## Increasing the Number of TF Binding Sites Modestly Improves
+Activity of NR4A Based but Not NFAT-Based Promoter
+Finally,
+we investigated the effect of TF binding site multiplicity on the
+responsiveness of the novel NR4A promoter and the conventional NFAT
+promoter, using the inducible mKate reporter within the M5-BBz mesothelin
+CAR-T model. We generated additional NFAT-based promoters with six
+and eight motif copies and NR4A-based promoters with 4, 12, and 16
+motif copies. Due to the compactness of the NR4A motif, more binding
+sites could be tested compared to NFAT; the NR4Ax16 response element
+was comparable in length to the NFATx6 ( a and Table S2).
+ Increasing the number of NFAT
+binding motifs from four to eight
+copies did not augment promoter responses when CAR-T cells were cocultured
+with A549 cells ( b,c). For NR4A-based promoters, whereas additional binding sites
+did not increase the proportion of cells responding after stimulation
+( b), the mean
+intensity of reporter fluorescence was modestly higher with 16 versus
+8 copies of the NR4A-binding motif when transductants were stimulated
+with the low antigen A549 targets ( c). Conversely, reducing NR4A-binding sites
+from eight to four copies significantly diminished responses when
+CAR-T cells were stimulated with either A549 or OVCAR8 targets ( b). Encoding promoters
+with varying numbers of NFAT or NR4A-binding sites had no effect on
+CAR-T activation as measured by CD137 upregulation ( c). These data indicate that
+the NFAT promoter activity in our system cannot be improved by increasing
+the number of TF binding sites, and the parental NFAT and NR4A promoters
+encoding four and eight binding sites, respectively, are likely sufficient
+for near-maximal responses.
+
+## Conclusions
+In
+this study, we identified a novel antigen-inducible transcriptional
+response element in human T cells based on a TF binding site of the
+NR4A family. Notably, the NR4A-based promoter outperformed the conventional
+NFAT-based promoter under poorly stimulatory conditions. TCR-induced
+activation of the NR4A pathway has been characterized previously. , , This pathway has been used to
+monitor TCR signaling by knocking-in a reporter at the NR4A1 (Nur77)
+locus. − In theory, payload transgenes could also be knocked-in
+at the NR4A1 site to achieve inducible expression, and improvements
+in site-specific integration technologies for primary lymphocytes − will facilitate the practical implementation of this approach. With
+the knock-in method, however, transcriptional output will be dictated
+by endogenous elements, which lacks the flexibility afforded by a
+synthetic promoter system that can be tuned for a variety of applications.
+Our promoter platform similarly leverages the NR4A pathway; instead
+of relying on endogenous response elements to drive NR4A1 transcription,
+a short sequence encoding an NR4A-binding motif is used to drive conditional
+gene expression. The NR4A family consists of three members: NR4A1/Nur77,
+NR4A2/Nurr1, and NR4A3/Nor1, all of which bind to the same consensus
+DNA motif. Thus, all three members are
+likely to be involved in regulating our synthetic promoter. In human
+T cells, NR4A1 expression is dependent on phosphoinositide 3-kinase
+and mitogen-activated protein kinase (MAPK) pathways of antigen receptor
+signaling but is largely independent of NFAT. In murine T cells, NR4A1 is similarly regulated as in humans, whereas
+NR4A2 and NR4A3 require both NFAT and MAPK pathways for full induction. 
+Efforts to develop alternatives to NFAT-based
+antigen-inducible
+promoters have also been reported by other groups. Recently, Webster
+et al. described an antigen-inducible
+promoter encoding both AP1 and NFKB motifs with low basal activity.
+Placing a CAR and other payloads under the AP1-NFKB promoter led to
+the self-amplifying expression of the transgenes in an antigen-dependent
+manner. Wei and Jensen assembled a library
+of promoters composed of binding sites targeted by TFs upregulated
+in antigen-activated T cells (WO2018/213332). Screening the library
+in T cells identified promoters with greater inducible activity than
+the conventional NFAT in a CD19 CAR-T model. Notably, neither study
+tested the NR4A motif described here. Whether the sensitivity of these
+antigen-inducible promoters can be improved by incorporating the NR4A
+motif warrants investigation.
+Activation at a lower immunogenic
+threshold is a critical feature
+of the NR4A antigen-inducible promoter that could widen the therapeutic
+index for a variety of molecular therapeutics compared to systemic
+or constitutive delivery. Our findings could also guide the design
+of subsequent antigen-inducible promoters with even greater sensitivity
+and robustness, to enable applications such as site-specific production
+of: bispecific engagers to trigger bystander lymphocyte responses;
+chemokines to promote infiltration of immune effectors; or cell-intrinsic
+regulators to conditionally reprogram engineered cells in an autonomous
+manner. These and other applications can be explored in future preclinical
+studies. In conclusion, the outcomes of this study could potentially
+empower a wide range of synthetic biology approaches to overcome current
+challenges in adoptive cell immunotherapies.
+
+## Material and Methods
+
+## Cell Culture
+HEK293T, A375, A549, and Jurkat.E6 cell
+lines were obtained from the American Type Culture Collection (ATCC,
+Manassas, VA). OVCAR8 was a gift from Dr. Sangeeta N. Bhatia (Massachusetts
+Institute of Technology, Cambridge, MA). HEK293T, A375, A549, and
+OVCAR8 cell lines were cultured in DMEM (Thermo Fisher Scientific,
+Waltham, MA; catalog #10569010). Primary human T cells and the Jurkat.E6
+cell line were cultured in RPMI-1640 (Thermo Fisher Scientific; catalog
+#11875119). All media were supplemented with 10% fetal bovine serum
+(Corning; catalog #35-010-CV) and 1% penicillin/streptomycin (Thermo
+Fisher Scientific; catalog #15140122).
+
+## Generation of Lentiviral
+Vectors
+Truncated CD271 (tCD271)-CAR
+or TCR, EYFP destabilized with a PEST motif (dEYFP), full-length human
+mesothelin (MSLN, UniProt: Q13421-1), and IL-2/IL-21 fragments were
+synthesized as gBlocks by Integrated DNA Technologies (Coralville,
+IA). The M5 scFv sequence was derived from the patent WO2015/090230.
+Sequences of 28z and BBz signaling domains and the affinity-matured
+1G4 TCR were as previously described. , Except NFAT,
+all TF binding sites and mKate sequences were derived from SPECS plasmids
+(Addgene #127842). The NFAT response element, containing four binding
+motifs, was subcloned from the pSIRV-NFAT-eGFP plasmid (a gift from Peter Steinberger, Addgene plasmid
+#118031). Two copies of the NFAT sequence were combined with an intervening
+restriction site to generate the NFATx8 response element. NFATx6,
+NR4Ax4, NR4Ax12, and NR4Ax16 were synthesized as oligos by IDT. The
+EYFP sequence was derived from Addgene plasmid #51791, and the PEST
+sequence was derived from Addgene plasmid #69072. The EFS promoter
+was subcloned from the lentiCRISPRv2 plasmid (a gift from Feng Zhang,
+Addgene plasmid #52961). The EFS promoter and tCD271-CAR/TCR fragments
+were first assembled into a lentiviral backbone vector (derived from
+pFUGW in-house) in the reverse orientation of the long-terminal repeats.
+Inducible promoter and reporter or payload genes were then inserted
+upstream of the EFS promoter. Inserted sequences were confirmed by
+Sanger sequencing (GENEWIZ, South Plainfield, NJ). Vector component
+sequences can be found in Table S2. Each
+set of NFAT, AP1, or NR4A vectors only differed at the TF binding
+sequence.
+
+## Lentivirus Production
+Lentivirus was generated by transfecting
+HEK293T cells of less than 10 passages and grown to ∼80% confluency
+in T25 flasks, with 1.5 μg of pMD2.G (a gift from Didier Trono,
+Addgene plasmid #12259), 3.5 μg of psPAX2 (a gift from Didier
+Trono, Addgene plasmid #12260), and 5 μg of respective transfer
+plasmid using the TransIT-2020 reagent (MirusBio, Japan). Media was
+changed to fresh complete DMEM 16–24 h post transfection, and
+lentivirus was collected after another 24 h to be used immediately
+or stored at −80 °C. The virus was titered by infecting
+Jurkat.E6 at limiting dilutions.
+
+## Lentiviral Transduction
+of Primary Human T Cells
+Peripheral
+blood mononuclear cells (PBMCs) were isolated by density gradient
+centrifugation from apheresis products of healthy donors (Brigham
+and Women’s Hospital Crimson Core, Boston, MA). Primary human
+T cells were purified from PBMCs by Pan T Cell Isolation Kit (Miltenyi
+Biotec, Germany). Purified T cells were stimulated with anti-CD3/CD28
+Dynabeads (Thermo Fisher Scientific) at a T cell/bead ratio of 1:2.
+After 24 h, Dynabeads were removed and stimulated T cells were seeded
+on a Retronectin (Takara Bio, Japan)-coated nontissue culture-treated
+plate with virus and centrifuged at 1200g, 32 °C
+for 30 min. One-time infection was carried out for the smaller vectors
+shown in and at a multiplicity of infection (MOI) of 5–10.
+Larger vectors shown in and were infected at a MOI
+of 10–20, spread out over 2 days of daily infection. During
+stimulation and infection, T cells were supplemented daily with 100
+U/mL of IL-2 and 10 ng/mL of IL-15 (NCI Preclinical Repository, Frederick,
+MD). After infection, T cells were maintained by supplementing with
+100 U/mL of IL-2 and 10 ng/mL of IL-15 every 3 days. T cells were
+expanded for another 5–6 days after the last infection prior
+to use in experiments.
+
+## Flow Cytometry
+The following monoclonal
+antibodies
+(BioLegend, San Diego, CA) were used in this study: antihuman CD3
+(clone UCHT1), antihuman CD4 (clone RPA-T4), antihuman CD8 (clone
+RPA-T8), antihuman CD271 (clone ME20.4), antihuman mesothelin (clone
+MN), polyclonal goat antimouse IgG, antihuman CD69 (clone FN50), antihuman
+CD137 (clone 4B4-1), and antihuman IL-2 (clone MQ1-17H12). Surface
+staining of T cells was carried out at 4 °C for 15 min with a
+master mix of antibodies. Target cells were stained with antimesothelin
+mAb, then washed and stained with polyclonal antimouse IgG antibodies,
+or with antimouse IgG alone as a control staining. For intracellular
+staining of IL-2, cells were fixed and permeabilized after surface
+staining using the Cytofix/Cytoperm kit (BD Biosciences). Stained
+cells were analyzed with a FACSCantoII, FACSCelesta, or LSRFortessa
+flow cytometer (BD Biosciences). Data analysis was performed with
+FlowJo. All data shown were gated on singlets and live cells, determined
+by Aqua fixable dye (Thermo Fisher Scientific) for mKate-expressing
+and intracellular experiments or 7-aminoactinomycin D (BioLegend)
+for all other experiments.
+
+## T Cell Stimulation Assays
+For plate-bound
+stimulations,
+nontissue culture-treated plates were coated with 2 μg/mL anti-CD3
+clone OKT3 (NCI preclinical repository) with or without 2 μg/mL
+anti-CD28 clone CD28.2 (BioLegend) by incubating at 4 °C overnight.
+The same volume of PBS (Thermo Fisher Scientific) was used as a control
+treatment. Antibody or PBS solution was removed, and T cells were
+seeded to the treated wells and cultured for 24 h. Cells were analyzed
+post stimulation or transferred to fresh tissue-culture-treated wells
+to rest. For cell-based coculture stimulations, T cells were mixed
+with HEK293T, A375, A549, or OVCAR8 targets at an effector/target
+(ET) ratio of 3:1 and cultured for 24 h to measure reporter fluorescence.
+For intracellular IL-2 detection, CAR-T cells were cultured with targets
+at a 3:1 ET ratio for 18 h, followed by treatment with 1500×
+diluted monesin (BD Biosciences) for 6 h. To measure proliferation,
+T cells were washed with PBS and labeled with 1 μM of carboxyfluorescein
+succinimidyl ester (CFSE, Thermo Fisher Scientific) by incubating
+them at 37 °C for 5 min. Labeled cells were washed with complete
+media and cocultured with A549 or OVCAR8 target cells at an ET ratio
+of 10:1. CFSE dilution was assessed after 4 days of coculture.
+
+## Statistics
+Comparisons between more than two groups
+were performed by two-way analysis of variance (ANOVA) with Tukey’s
+multiple comparisons test. Differences were considered significant
+at an adjusted P-value of less than 0.05. All statistical
+analyses were performed using GraphPad Prism 9. Error bars denote
+one standard deviation.
+
+## Acknowledgments
+This work was supported in part by the Department
+of Defense
+(W81XWH-17-1-0159, W81XWH-16-1-0565) and National Institutes of Health
+(5-R33-AI121669-04). T.G. was supported by a Postdoctoral Fellowship
+from the Natural Sciences and Engineering Research Council of Canada.
+The authors thank the flow cytometry core facility at the Koch Institute
+for Integrative Cancer Research at Massachusetts Institute of Technology.
+The authors thank Karen Pepper for editing the manuscript.
+
+## Glossary
+
+## Abbreviations
+CARchimeric antigen receptor
+ILinterleukin
+TCRT cell receptor
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acssynbio.1c00236.
+Additional functional
+characterizations of antigen-inducible
+promoters and supporting data for main figures (Figures S1–S11);
+vector component sequences used in this study (Tables S1 and S2) (PDF)
+
+## Author Contributions
+⊥ T.G. and D.M. contributed equally. T.G., D.M., and T.K.L. designed
+the experiments, analyzed the data, and wrote the manuscript. T.G.
+and D.M. performed the experiments. T.K.L. supervised the study.
+
+The authors declare the
+following competing financial interest(s): T.K.L. is a co-founder
+of Senti Biosciences, Synlogic, Engine Biosciences, Tango Therapeutics,
+Corvium, BiomX, Eligo Biosciences, Bota.Bio, and Avendesora. T.K.L.
+also holds financial interests in nest.bio, Ampliphi, IndieBio, MedicusTek,
+Quark Biosciences, Personal Genomics, Thryve, Lexent Bio, MitoLab,
+Vulcan, Serotiny, and Avendesora. Other authors declare no competing
+interests.
+
+## Supplementary Material
+sb1c00236_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+sb1c00236_si_001.pdf

@@ -1,0 +1,351 @@
+pmcNat CommunNat Commun2873ncommsNature Communications2041-1723Nature Publishing GroupPMC11742432PMC11742432.111742432117424323982484110.1038/s41467-025-56173-6561731ArticleDecoding the m6A epitranscriptomic landscape for biotechnological applications using a direct RNA sequencing approach
+http://orcid.org/0000-0003-3473-8102LiuChuwei LiangHeng WanArabella H. XiaoMin SunLei YuYiling http://orcid.org/0000-0002-7378-0963YanShijia DengYuan LiuRuonian FangJuan WangZhiwangzh75@mail.sysu.edu.cn http://orcid.org/0000-0003-4061-7382HeWeilinghewling@mail.sysu.edu.cn http://orcid.org/0000-0001-5170-7282WanGuohuiwanguoh@mail.sysu.edu.cn 1https://ror.org/0064kty71grid.12981.330000 0001 2360 039XDepartment of Gastrointestinal Surgery, The First Affiliated Hospital, Sun Yat-Sen University, Guangzhou, 510080 China 2https://ror.org/0064kty71grid.12981.330000 0001 2360 039XNational-Local Joint Engineering Laboratory of Druggability and New Drug Evaluation, National Engineering Research Center for New Drug and Druggability (cultivation), Guangdong Province Key Laboratory of New Drug Design and Evaluation, School of Pharmaceutical Sciences, Sun Yat-Sen University, Guangzhou, 510006 China 3https://ror.org/03taz7m60grid.42505.360000 0001 2156 6853Department of Medicine, Keck School of Medicine, University of Southern California, Los Angeles, CA 90033 USA 4https://ror.org/0064kty71grid.12981.330000 0001 2360 039XSchool of Public Health, Sun Yat-Sen University, Guangzhou, 510080 China 5https://ror.org/0064kty71grid.12981.330000 0001 2360 039XHospital of Stomatology, Guanghua School of Stomatology, Guangdong Provincial Key Laboratory of Stomatology, Sun Yat-Sen University, Guangzhou, 510055 China 6https://ror.org/00mcjh785grid.12955.3a0000 0001 2264 7233Department of Gastrointestinal Surgery, Xiang’an Hospital of Xiamen University, School of Medicine, Xiamen University, XIamen, 361000 China 18120252025164782567982442024912025180120251901202529012025© The Author(s) 20252025https://creativecommons.org/licenses/by/4.0/Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.Epitranscriptomic modifications, particularly N6-methyladenosine (m6A), are crucial regulators of gene expression, influencing processes such as RNA stability, splicing, and translation. Traditional computational methods for detecting m6A from Nanopore direct RNA sequencing (DRS) data are constrained by their reliance on experimentally validated labels, often resulting in the underestimation of modification sites. Here, we introduce pum6a, an innovative attention-based framework that integrates positive and unlabeled multi-instance learning (MIL) to address the challenges of incomplete labeling and missing read-level annotations. By combining electrical signal features with base alignment data and employing a weighted Noisy-OR probability mechanism, pum6a achieves enhanced sensitivity and accuracy in m6A detection, particularly in low-coverage loci. Pum6a outperforms existing methods in identifying m6A sites across various cell lines and species, without requiring extensive parameter tuning. We further apply pum6a to study the dynamic regulation of m6A demethylases in gastric cancer under hypoxia, revealing distinct roles for FTO and ALKBH5 in modulating m6A modifications and uncovering key insights into m6A -mediated transcript stability. Our findings highlight the potential of pum6a as a powerful tool for advancing the understanding of epitranscriptomic regulation in health and disease, paving the way for biotechnological and therapeutic applications.
+
+RNA modifications like m6A are vital for gene expression but challenging to detect at single-base resolution. Here, the authors introduce pum6a, an advanced computational framework, to enable precise single-base m6A detection and uncovering regulatory mechanisms in hypoxic cancer cells.
+
+## Subject terms
+High-throughput screeningMethylation analysisDNA sequencinghttps://doi.org/10.13039/501100001809National Natural Science Foundation of China (National Science Foundation of China)82473938, 82122069, 82073869WanGuohuipmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© Springer Nature Limited 2025
+
+## Introduction
+The discovery and subsequent exploration of RNA nucleotide modifications , , particularly N6-methyladenosine (m6A), have unveiled a complex layer of gene expression regulation with profound implications for biotechnology and therapeutic development – . As the most prevalent internal modification in mammalian mRNA , , m6A is intricately regulated through the dynamic interplay of its deposition by a methyltransferase complex consisting of METTL3, METTL14, WTAP, KIAA1429, and RBM15 – , and its removal by demethylases FTO and ALKBH5 . This modification exerts a profound influence on various aspects of RNA biology, including its structure , stability , splicing , and translation , underscoring its potential as a target for biotechnological innovations.
+Over the past decade, technological advancements have significantly improved our ability to map m6A sites transcriptome-wide. Initially, antibody-based techniques like MeRIP-Seq , m6A-Seq and miCLIP offer the first glimpses into the m6A epitranscriptome but are limited by low resolution and high false-positive rates due to non-specific antibody interactions . These methods often require complementary approaches, such as chemical , , and enzymatic – assays, to increase specificity, but they still struggle with the accurate detection of m6A at single-nucleotide resolution. In response to these challenges, newer methodologies have been developed. For instance, miCLIP2 , combined with the m6Aboost machine learning algorithm, represents a significant improvement in m6A site detection. miCLIP2 refines antibody specificity and increases the library complexity, allowing for better mapping of m6A sites, even those outside the canonical DRACH motif. This innovation is particularly valuable as it uncovers previously unrecognized m6A sites that could play crucial roles in RNA metabolism and disease.
+Parallel to these experimental advances, computational tools have evolved to address the limitations of traditional m6A detection methods. Direct RNA sequencing (DRS) technologies, such as those developed by Oxford Nanopore Technologies (ONT) , have revolutionized the field by allowing the sequencing of native RNA molecules without prior conversion to cDNA, thus preserving RNA modifications like m6A. However, the interpretation of DRS data is complex, requiring sophisticated computational approaches to distinguish m6A-induced signal variations from other noise in the sequencing data . The introduction of deep learning and multi-instance learning (MIL) frameworks, such as m6Anet , marks a substantial leap forward. m6Anet leverages MIL to account for the heterogeneity in RNA samples, where not all reads at a given site are modified. By learning high-dimensional representations of individual reads before aggregating them, m6Anet significantly improves the prediction accuracy of m6A sites across diverse biological contexts. Nonetheless, while m6Anet has shown robustness in detecting m6A, it still faces challenges such as dependency on high-quality training labels and the potential underestimation of m6A sites due to variable read coverage .
+Despite these advancements, several limitations persist. Traditional m6A detection methods are often constrained by the need for negative controls, reliance on specific sequence motifs, and the inability to accurately quantify m6A at low stoichiometry sites. Moreover, current computational approaches may not fully capture the complexity of m6A modifications in heterogeneous RNA populations, leading to missed detections in low-abundance transcripts , . Additionally, most existing models are designed for specific sequence contexts, limiting their generalizability across different species or cell types. In response to the limitations of existing m6A detection methods, we develop pum6a, an innovative computational framework that employs an attention-based positive and unlabeled multi-instance learning strategy to enhance the detection of m6A sites from direct RNA-Seq data. This model is specifically designed to accurately identify m6A modifications, even without comprehensive, experimentally validated labels. It achieves high sensitivity and specificity, especially at sites with low modification frequencies, and is adaptable to a broad range of RNA sequences and biological conditions. Differing from m6Anet, which aggregates features from reads at a specific site, pum6a introduces an attention mechanism that selectively focuses on the most informative reads, significantly improving the signal-to-noise ratio. This refinement not only increases the accuracy of m6A site identification but also broadens the model’s applicability to detect other RNA modifications, making it a versatile tool for epitranscriptomic research.
+
+## Results
+
+## Enhancement of anomaly detection through the pum6a framework
+The pum6a framework introduces a significant advancement in anomaly detection by addressing the challenges inherent in positive and unlabeled multi-instance learning. As shown in Fig.  (Methods), pum6a utilizes a structured, multi-module approach, beginning with an instance-level feature extraction phase where each data instance is transformed into compact, low-dimensional embeddings. This is followed by a self-attention mechanism that offers a flexible alternative to conventional aggregation methods, such as max or mean pooling. The self-attention module incorporates a trainable weighted average, implemented via a dual-layer neural network, enabling the adaptive and interpretable aggregation of features across instances . 
+Next, these aggregated instance features are processed by a classifier module to predict the probability of a positive class within each bag. The self-attention mechanism enhances interpretability by identifying key instances that contribute most significantly to the classification outcome. To further refine multi-instance learning, Platt scaling is applied to the attention scores, converting them into instance-level probabilities. These probabilities are then integrated into a bag-level classification using a weighted Noisy-OR function , which effectively combines the contributions of individual instances.
+To mitigate potential overfitting toward positive instances, we implemented a balancing strategy by ensuring the number of selected negative bags equals the number of positive bags (|R| = |P|). This balanced sampling approach reduces bias toward positive classifications and enhances the model’s robustness and generalization across various datasets. As a result, pum6a demonstrates improved classification performance, offering a more accurate and balanced approach to anomaly detection in MIL settings.
+
+## The pum6a framework outperforms the state-of-the-art competitors
+The pum6a framework demonstrated superior performance in multi-instance anomaly detection when compared to several state-of-the-art methods, including PUMA and the Inexact Autoencoder (IAE) , as well as other baselines like Random Forest and puIF (an unsupervised Isolation Forest with logistic regression). We evaluated pum6a across a range of datasets, including a modified MNIST image dataset and 20 well-established benchmarks for anomaly detection. To ensure robustness and generalizability, the model was tested using a stratified 5-fold cross-validation procedure, with varying label frequencies (10% to 50%), and a weighted Noisy-OR method for consistent interpretation (Fig.  , Methods).
+The results highlight pum6a’s ability to accurately identify and prioritize critical instances, as demonstrated in the MNIST dataset, where images of the digit “9” consistently received the highest attention, suggesting the framework’s proficiency in capturing salient features that are critical for effective anomaly detection (Fig.  ). When benchmarked against other methods, pum6a exhibited superior adaptability and accuracy, particularly under varying label frequencies. The framework achieved consistently higher ROC AUC scores at both the bag and instance levels across all conditions (Bag level ROC AUC: 10%LF: 0.60 ± 0.15, 20%LF: 0.73 ± 0.10, 30%LF: 0.77 ± 0.10, 40%LF: 0.81 ± 0.08, 50%LF: 0.88 ± 0.06; Instance level ROC AUC: 10%LF: 0.66 ± 0.14, 20%LF: 0.76 ± 0.11, 30%LF: 0.81 ± 0.09, 40%LF: 0.86 ± 0.06, 50%LF: 0.90 ± 0.04) (Fig.  , Supplementary Data  ).
+To further evaluate pum6a’s generalizability, we applied the framework to 20 benchmark datasets spanning various domains of anomaly detection. The results consistently confirmed pum6a’s superior performance, with average ROC AUC scores exceeding 0.70 across different label frequency settings (Fig.  , Supplementary Data  ). Notably, pum6a maintained robust performance even as dataset complexity increased, particularly in high-dimensional settings. The aggregate ranking across all experiments revealed that pum6a achieved the lowest (and therefore best) average rank, affirming its competitive edge and versatility in anomaly detection tasks (Fig.  ). These findings establish pum6a as a highly effective tool for multi-instance learning in positive and unlabeled setting, demonstrating its potential to significantly improve anomaly detection performance across a wide range of datasets and applications. 
+
+## Refining the pum6a framework for precise detection of m6A sites
+Tailoring the pum6a framework for the detection of m6A modifications within direct RNA sequencing data revealed its capacity to accurately distinguish signal variations and base-calling errors generated by ONT nanopore technology (Fig. , Methods) , . This process involved a comprehensive preprocessing pipeline, including base calling, re-squiggling, and alignment using minimap, which transformed raw signal data into structured ‘site bags’ for further analysis (Methods). 
+We trained and validated pum6a using two datasets from HEK293T cell lines provided by the Singapore Nanopore Expression Project —replicate 1 for training and replicate 4 for validation. pum6a’s performance was compared against six established m6A detection methods, including EpiNano, MINES, m6Anet, ELIGOS, Nanom6A, and Tombo. To ensure a fair comparison, we applied filtering thresholds of 3, 5, and 20 reads per site, as both ELIGOS and m6Anet discard sites with fewer than 5 and 20 reads, respectively. Experimentally validated m6A sites from CIMS, CTIS, m6ACE, GLORI served as additional reference , , , addressing potential label underestimation (Fig. ).
+Our benchmark analysis, based on ROC and precision-recall (PR) curves (Fig. ), demonstrated pum6a’s superior performance across all thresholds. The ROC AUC scores increased from 0.826 with >3 reads per site to 0.842 with >20 reads per site, while PR AUC scores improved from 0.580 to 0.615. Across all filtering criteria, pum6a outperformed the other methods, consistently providing higher accuracy in identifying m6A sites (Fig. , Supplementary Data  ). Furthermore, pum6a’s precision in identifying the top 18,000 m6A sites remained stable, outperforming competing methods across various conditions, highlighting its robustness in m6A site prediction (Fig. ). These findings underscore pum6a’s effectiveness in leveraging training and validation datasets to optimize anomaly detection in m6A site identification.
+To further evaluate pum6a’s generalization capabilities, we extended our analysis to mouse embryo stem cells (mESCs), utilizing miCLIP and miCLIP2 data as the ground truth for m6A site labeling , . pum6a again demonstrated superior performance, with ROC AUC scores increasing from 0.810 with >3 reads per site to 0.827 with >20 reads, and PR AUC scores increasing from 0.325 to 0.490 (Fig. ). Notably, pum6a identified a higher number of modified sites with greater accuracy than baseline methods, further affirming its precision (Fig. , Supplementary Data  ). Interestingly, the minimal overlap in m6A site predictions between species suggests species-specific modification patterns, emphasizing pum6a’s adaptability and biological relevance. The alignment of five-mer profiles from pum6a predictions with experimental data further supports this finding (Figs. , ). Additionally, pum6a achieved exceptional results on a constructed dataset, with ROC AUC reaching 0.946 and PR AUC 0.952 at the bag-level, and ROC AUC 0.857 and PR AUC 0.893 at the read level. These results solidify pum6a’s capability for precise m6A site detection in ONT direct RNA sequencing data, demonstrating its broad applicability and superior accuracy across various cell lines and species (Fig. ). 
+We observed that both pum6a and m6aNet, two advanced deep-learning models, exhibited robust performance in predicting m6A modifications within third-generation sequencing tasks. Given that m6aNet’s implementation specifically includes a prediction threshold based on a 20 reads per site criterion, we were motivated to undertake a comparative analysis of both models across varying read thresholds to further clarify performance distinctions, particularly between pum6a and m6aNet. To this end, we adapted the original m6aNet code to conduct a detailed evaluation under 0, 3, and 5 reads per site thresholds. The comparative results showed that both models maintained strong predictive capabilities across all tested thresholds. Moreover, both pum6a and m6aNet showed improved prediction accuracy with higher read thresholds. Notably, pum6a consistently outperformed m6aNet at each threshold level, particularly achieving superior results in terms of area under the receiver operating characteristic curve (ROC AUC) and area under the precision-recall curve (PR AUC) at the 0 threshold condition (Fig. ).
+This observation prompted us to investigate the essential components contributing to the pum6a model’s performance. To elucidate these contributions, we performed targeted modifications by replacing the attention layer and the weighted-Noisy-OR layer in pum6a independently, then evaluated the impacts on performance. Experimental results indicated that removing the attention layer had minimal effect on model accuracy, whereas replacing the weighted Noisy-OR layer with a standard Noisy-OR layer led to a notable decrease in performance (Fig.  ). These findings suggest that, within third-generation sequencing applications, a fully connected layer alone is highly effective; combining it with either a Noisy-OR layer (as in m6aNet) or a weighted-Noisy-OR layer (as in pum6a) yields high predictive accuracy for base modifications. Notably, our model framework demonstrates a significant drop in accuracy when replacing pum6a’s weighted Noisy-OR with alternative components, indicating its critical role in performance.
+The pum6a model represents an enhanced iteration of the puma model , originally challenged by complex datasets. To address this limitation, we integrated an attention layer, inspired by feature aggregation methods suggested by Ilse et al. , , which provided a mechanism for better feature aggregation in pum6a. This modification led to improved performance on complex datasets, while maintaining comparable results on simpler datasets (Fig.  ). Building on previous work, our approach also incorporated essential electrical signal features and alignment data specific to individual modification sites, totaling 40 features in all. While our third-generation sequencing dataset is relatively manageable in complexity, we anticipate that pum6a holds significant promise for applications involving more complex biological data.
+
+## Dynamic m6A modification in gastric cancer mediated by m6A demethylases under hypoxia stress
+The dynamic regulation of m6A modifications by demethylases FTO and ALKBH5 under hypoxia plays a critical role in the adaptation of gastric cancer cells to oxygen-limited environments , . To explore this relationship, we employed knockdown strategies in gastric cancer cell lines under normoxic (20% O2) and hypoxic (1% O2) conditions, followed by ONT direct RNA sequencing to analyze m6A modifications and gene expression. Poly(A) RNA was isolated for high-resolution analysis (Fig. ), and knockdown efficiency was validated by Western blot and direct RNA sequencing (Fig. ). The results revealed a distinct regulatory pattern under hypoxia: ALKBH5 expression was significantly upregulated, whereas FTO expression remained unchanged (Fig. , Supplementary Data  ), suggesting a pivotal role for ALKHB5 in hypoxic response while FTO may operate independently of oxygen levels. 
+Hypoxia reduced proliferation in AGS cells (Fig. ), while MKN28 cells exhibited greater tolerance, showing a milder reduction in growth (Fig.  ), consistent with previous studies indicating tumor adaptation to hypoxic environments . Further investigation into the roles of FTO and ALKBH5 under varying oxygen conditions revealed that overexpression of FTO enhanced proliferation in AGS cells under normoxia but had no significant effect under hypoxia or in MKN28 cells (Figs. , ). Overexpression of ALKBH5 did not impact cell growth in either cell line. However, knockdown of either FTO or ALKBH5 led to a significant reduction in proliferation in both cell lines, particularly under hypoxia, as confirmed by cell counts and Edu assays (Fig. ; Fig. ). These findings underscore the essential roles of FTO and ALKBH5 in maintaining gastric cancer cell growth under oxygen-limited conditions.
+To further elucidate the molecular mechanisms involved, we employed the pum6a framework to perform site-specific analysis of m6A modifications, comparing knockdown samples to controls under both normoxic and hypoxic consitions. This “Double check” approach identified 1061 and 1686 m6A sites regulated by both demethylases under normoxia and hypoxia, respectively, indicating complementary roles for FTO and ALKBH5 in modulating m6A methylation (Fig. , Supplementary Data  ). Analysis of these sites revealed significant shifts in metabolic pathways and cell cycle regulation under both oxygen conditions, with 650 sites altered under normoxia and 1275 under hypoxia, suggesting a role for m6A in metabolic adaptation during hypoxic stress (Fig. , Supplementary Data  ). KEGG pathway enrichment analysis of normoxia-regulated sites highlighted metabolic pathways, while GO analysis emphasized the importance of these sites in cell cycle and division processes, aligning with observed effects on cell proliferation (Fig. , h-m; Supplementary Data  ).
+Moreover, knockdown of FTO or ALKBH5 led to significant reductions in ATP levels in both AGS and MKN28 cells, under both normoxic and hypoxic conditions (Fig. ; ). Similarly, NAD+ levels and the NAD+/NADH ratio were significantly decreased under hypoxia following demethylases knockdown (Fig.  ; ), suggesting that FTO and ALKBH5 are key regulators of energy homeostasis in gastric cancer cells. These findings indicate that the depletion of FTO and ALKBH5 disrupt cellular metabolic balance, particularly under hypoxic conditions, and highlight their roles in maintaining energy production and supporting cancer cell survival during oxygen deprivation.
+
+## Hypoxia-induced regulation of CXCL10 by m6A demethylases in gastric cancer cells
+The tumor-immune microenvironment in gastric cancer, influenced by m6A modifications, is intricately modulated under hypoxic conditions, with CXCL10 emerging as key mediator in tumor-immune interactions. Depletion of m6A demethylases, particularly ALKBH5, under hypoxia leads to the upregulation of CXCL10, which may impact tumor progression and immune response dynamics , . Using the pum6a framework, we identified several predicted m6A modification sites within the CXCL10 mRNA in AGS cells following ALKBH5 knockdown (Fig.  ). This knockdown significantly increased CXCL10 mRNA levels in both AGS (Fig.  ) and MKN28 cells (Fig.  ) under hypoxic conditions. Consistent with mRNA results, ELISA assays confirmed that ALKBH5 depletion elevated CXCL10 protein levels, particularly under hypoxia (Fig.  ), indicating that ALKBH5 serves as a negative regulator of CXCL10 expression. 
+In contrast, FTO knockdown displayed cell-line-specific effects on CXCL10 expression. In AGS cells, FTO knockdown increased CXCL10 mRNA and protein levels under hypoxia (Fig.  ), while in MKN28 cells, it led to a downregulation of CXCL10 under the same conditions (Fig.  ). These results suggest divergent roles for FTO in regulating CXCL10, promoting its expression in AGS cells and suppressing it in MKN28 cells, thereby highlighting the context-dependent function of FTO in different gastric cancer cell lines.
+Further mechanistic insights were obtained through Actinomycin D chase assays, which demonstrated that ALKBH5 knockdown significantly stabilized CXCL10 mRNA in both AGS and MKN28 cells under hypoxia (Fig.  ). FTO knockdown similarly reduced the decay rate of CXCL10 mRNA in AGS cells under hypoxia, enhancing mRNA stability (Fig.  ). In MKN28 cells, however, FTO knockdown increased CXCL10 mRNA stability under normoxia but had a diminished effect under hypoxia (Fig.  ). These findings indicate that both ALKBH5 and FTO regulate CXCL10 mRNA stability in a cell-line and oxygen-dependent manner.
+To further explore the differential m6A regulation between AGS and MKN28 cells, we analyzed the copy numbers of key m6A writers, erasers, and readers, revealing that MKN28 cells harbor a heterozygous deletion of the m6A reader YTHDF1 (Fig. ). YTHDF1 has been shown to promote mRNA translation and stability , while YTHDF2 primarily facilitates mRNA decay . In AGS cells, where both readers are intact, YTHDF1 plays a prominent role in stabilizing CXCL10 mRNA, as evidenced by the increased stability following ALKBH5 knockdown (Fig.  ). In contrast, MKN28 cells, with reduced YTHDF1 expression, may compensate by relying more heavily on YTHDF2 for mRNA decay regulation (Fig.  ).
+To confirm the involvement of m6A readers in CXCL10 regulation, luciferase reporter assays were performed using wild-type and mutant CXCL10 3′UTR sequences (Fig. ). In AGS cells, knockdown of YTHDF1 reduced luciferase activity following ALKBH5 knockdown under hypoxia, indicating that YTHDF1 is the primary m6A reader mediating CXCL10 regulation in this context (Fig.  , ). In MKN28 cells, however, YTHDF1 knockdown only partially reduced luciferase activity, suggesting the involvement of alternative m6A readers in modulating CXCL10 expression (Fig. ). Similarly, YTHDF1 knockdown reduced luciferase activity in AGS cells with FTO depletion, while YTHDF2 knockdown increased luciferase activity in MKN28 cells under hypoxia (Fig. ). These results underscore the crucial role of m6A readers in regulating CXCL10 mRNA stability and translation through m6A modifications, with distinct contributions from YTHDF1 and YTHDF2 depending on the cellular context.
+
+## Discussion
+The discovery of m6A modifications has transformed our understanding of RNA biology, influencing key processes such as splicing , translation , and RNA stability . Advances in DRS technologies, particularly ONT, have enabled more detailed mapping of m6A modifications. However, the complexity of RNA modifications has necessitated the development of computational tools for accurate detection , , , – . While m6Anet has made pioneering strides in m6A detection through multi-instance learning (MIL) on ONT sequencing data , its reliance on a Noisy-OR pooling layer and a 20-read threshold introduces limitations. By aggregating multiple reads at each site, m6Anet improves prediction accuracy; however, the 20-read threshold results in the exclusion of lower-coverage loci, potentially limiting the detection of m6A sites in low-abundance transcripts . This threshold, while reducing noise, may also oversimplify the complexity of RNA modifications. To address these challenges, pum6a introduces an enhanced MIL framework , that incorporates both electrical signal and base alignment features, enabling a more comprehensive capture of modification signals. Additionally, the inclusion of a weighted-Noisy-OR probability conversion and an attention-based feature aggregation mechanism offers improved detection sensitivity, particularly at low-read coverage sites. Unlike m6Anet, which uses motif-based encoding to capture m6A-related patterns, pum6a emphasizes base alignment-derived features, such as base quality, mismatches, and deletions. This approach allows pum6a to detect subtle sequence variations introduced by m6A modifications, thus enhancing its robustness across a diverse range of contexts , , , .
+A major challenge in m6A detection is the variability in read coverage across different loci. m6Anet addresses this by filtering out loci with fewer than 20 reads, resulting in reduced noise but also potentially missing important low-abundance modifications. In contrast, pum6a’s weighted-Noisy-OR mechanism allows it to estimate modification probabilities even at low-read coverage sites, broadening its applicability across transcripts with variable expression levels. This adaptability was demonstrated in additional experiments where m6Anet’s 20-read threshold was removed, allowing pum6a to outperform m6Anet across all threshold settings in terms of ROC AUC and PR AUC. An important innovation in pum6a is its attention-based feature aggregation mechanism. While m6Anet employs a traditional MIL approach, pum6a selectively focuses on the most informative reads, which improves the signal-to-noise ratio and detection specificity, particularly for m6A sites with low stoichiometry. Furthermore, pum6a’s incorporation of positive-unlabeled learning addresses the critical issue of incomplete m6A site labeling in training data , enabling it to effectively identify m6A sites even in the presence of incomplete or noisy labels. This makes pum6a particularly effective in detecting m6A modifications in low-abundance transcripts or under-represented biological conditions.
+Our application of pum6a to the study of m6A demethylases in gastric cancer cells under hypoxia highlights its potential for revealing unrecognized regulatory mechanisms. Notably, pum6a’s flexibility in handling read imbalance allowed us to investigate differential m6A modifications across cell lines with variable read coverage. In AGS and MKN28 cells, we observed differential regulation of m6A-modified transcripts, particularly in relation to CXCL10 mRNA stability, indicating cell-specific responses to hypoxia. In MKN28 cells, a heterozygous deletion of the m6A reader YTHDF1 suggests a shift in regulatory dependence towards YTHDF2, which promotes mRNA decay47. In AGS cells, where YTHDF1 is fully expressed, CXCL10 mRNA stability is maintained through YTHDF1-mediated recognition of m6A sites. This shift in m6A reader dependency between the two cell lines underscores the flexibility of m6A regulatory networks and the importance of specific m6A readers in modulating transcript stability and translation under stress conditions, such as hypoxia. Furthermore, our data suggest that ALKBH5 and FTO target distinct m6A sites within CXCL10 mRNA. ALKBH5 appears to regulate modifications outside the 3′UTR, while FTO primarily targets the 3′UTR, providing additional insights into the selective activity of m6A demethylases. This differential targeting highlights the complex roles that m6A modifications play in regulating gene expression in gastric cancer, particularly in response to hypoxic stress.
+While m6Anet provided an important foundation for m6A detection from ONT sequencing data, pum6a represents a significant advancement in the field by addressing key limitations inherent in previous methods. Through the integration of both electrical signal and base alignment features, the use of a weighted-Noisy-OR approach to handle variable read coverage, and an attention-based read selection strategy, pum6a improves detection accuracy and sensitivity. Additionally, its positive-unlabeled learning capability enables pum6a to detect m6A sites that may be overlooked by threshold-based methods like m6Anet.
+In conclusion, pum6a is not merely an extension of m6Anet but a comprehensive framework that offers more flexibility and nuanced detection for m6A detection in direct RNA sequencing data. This advancement broadens opportunities for exploring RNA modifications and their roles in a wide range of biological processes, particularly in complex and variable environments like cancer and hypoxia.
+
+## Methods
+
+## Pum6a design
+Pum6a is an attention-based positive and unlabeled multi-instance learning framework well-designed for detecting RNA modification using direct RNA-Seq data.
+
+## MIL with Neural Networks
+In the case of the MIL problem, one aims to find a model that predicts a value of a target variable, Y∈{0, 1}, for a given a bag of instances, . Where k represents the number of instances. We assume that individual labels exist for the instances within a bag, , , however they remain unknown as there is no access to those labels. So, we can re-write the assumptions of the MIL problem as below:1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$Y=\left\{\begin{array}{c}0, \, \, \,{if}\, \, {\sum }_{k}{y}_{k}=0,\hfill \\ \!\!\!\!1,\, \, \,{otherwise}.\,\end{array}\right.$$\end{document}Y=0,if∑kyk=0,1,otherwise. 
+These assumptions imply that a MIL model must be permutation-invariant. We can assume neither ordering nor dependency of instances within a bag, so the MIL problem can be considered as a specific form of the Fundamental Theorem of Symmetric Functions with monomials.
+In the classical MIL problem, features of instances do not require further processing. In complex cases like images or text, additional steps of feature extraction are necessary.
+Here, we use a neural network to transform the k-th instance into a low-dimensional embedding, where φ represents neural network parameters.2\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${h}_{k}={f}_{\varphi }\left({x}_{k}\right)$$\end{document}hk=fφxk Where represent -th instance, and represent the low-dimensional embedding for k-th instance.
+
+## MIL pooling
+Classical MIL pooling approaches such as maximum operator and mean operator , are pre-defined and non-trainable. Here, we propose to parameterize the neural networks for flexible and adaptive MIL pooling. A weighted average of instances where weights are determined by neural network was used:3\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$z={\sum }_{k=1}^{K}{a}_{k}{h}_{k}$$\end{document}z=∑k=1Kakhk Where is the K embedding of , and is the attention-based neural network function to ensure the sum of weights to 1 to be invariant to the size of a bag:4\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${a}_{k}=\frac{\exp \left\{{w}^{T}\tanh \left(V{h}_{k}^{T}\right)\right\}}{{\sum }_{j=1}^{K}\exp \left\{{w}^{T}\tanh \left(V{h}_{j}^{T}\right)\right\}}$$\end{document}ak=expwTtanhVhkT∑j=1KexpwTtanhVhjT Where and are parameters. tanh(·) is the element-wise non-linearity hyperbolic tangent to include both negative and positive values for proper gradient flow.
+
+## Loss function of the MIL learning module
+To simplify the learning problem, we train the MIL module by optimizing the negative log-likelihood function, assuming the bag label is distributed according to the Bernoulli distribution.5\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${L}_{m}=\, - {\sum }_{k=1}^{N}({y}_{k}\log {P}_{k}+\left(1-{y}_{k}\right)\log \left(1-{P}_{k}\right))$$\end{document}Lm=−∑k=1N(yklogPk+1−yklog1−Pk) Where: , z represent the weighted average of instances and the w is the parameter.
+
+## Mapping attention scores to probabilities
+Ideally, high attention weight would be assigned to instances that are likely to have label That is the key instance would obtain a larger attention score:6\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${{{atts}}_{k}=w}^{T}\tanh \left(V{h}_{k}^{T}\right)$$\end{document}attsk=wTtanhVhkT 
+So, we can further map instance attention score to instance probability using Platt scaling:7\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${P}_{k}=\frac{1}{1+\exp \left(-\alpha \left({{atts}}_{k}\right)-\beta \right)}$$\end{document}Pk=11+exp−αattsk−β 
+Note that one could apply any transformation function to map attention score to [0, 1]. We choose Platt scaling as it is widely used in the literature.
+
+## Transform instance probabilities into bag probabilities
+Taking the max instance probabilities or an unweighted average of the instance probabilities to compute the bag probabilities has a clear disadvantage. Taking the max instance probability means that the bag label is based on a single instance and ignores the information in other samples, which might be inappropriate following the embedding function mentioned above. Moreover, the mean approach would make a bag that contains a small number of anomalies seem more normal than it is. Noisy-OR is a promising alternative, which computes the bag probabilities of being positive as “one minus the probability that all the instances are negatives.”\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\left({{\rm{Nosiy}}}-{{\rm{OR}}}\right)\,{{{\rm{P}}}({\hat{{\rm{Y}}}}_{{{\rm{B}}}}=1)}=1-\,{\prod}_{{{\rm{j}}}\le {{\rm{k}}}}\left(1-{{\rm{f}}}\left({{{\rm{x}}}}_{{{\rm{j}}}}\right)\right)$$\end{document}Nosiy−ORP(Y^B=1)=1−∏j≤k1−fxj 
+The standard Noisy-OR is clearly inappropriate in the case of ONT data, as different sites may contain various numbers of reads. The standard noisy-OR approach produces bag probabilities of being positive that converge exponentially to 1 for k → +∞. In this research, weighted Noisy-OR is used, which gives higher weight to the instances with the highest and the lowest positive probabilities.8\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\left({{\rm{Weighted\; nosiy}}}-{{\rm{OR}}}\right)\,{{{\rm{P}}}\left({\hat{{\rm{Y}}}}_{{{\rm{B}}}}=1\right)}=1-\,{\prod}_{{{{\rm{x}}}}_{{{\rm{j}}}}{{\rm{\epsilon }}}{{\rm{B}}}}{\left(1-{{\rm{f}}}\left({{{\rm{x}}}}_{{{\rm{j}}}}\right)\right)}^{{{{\rm{w}}}}_{{{\rm{j}}}}}$$\end{document}Weighted nosiy−ORPY^B=1=1−∏xjϵB1−fxjwj Where wj is the weight for xj, and is calculated as follow:
+
+## First
+we rank the positive instance probabilities in ascending order using a ranking map and normalize the rankings to [0, 1] by dividing them by k-1.9\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${p}_{f}\left({x}_{j}\right)=r\epsilon \left\{0,\,\ldots,k-1\right\}\Longleftrightarrow \left\{\begin{array}{c}\left|x\epsilon \left\{{x}_{1},\ldots,{x}_{k}\right\}:f\left(x\right) \, < \, r\right|=r\,\\ \left|x\epsilon \left\{{x}_{1},\ldots,{x}_{k}\right\}:f\left(x\right) \, > \, r\right|=k-r-1\end{array}\right.$$\end{document}pfxj=rϵ0,…,k−1⇔xϵx1,…,xk:fx<r=rxϵx1,…,xk:fx>r=k−r−1 
+
+## Second
+we introduce a weight function S: [0, 1]⟶ℝ that gives high weights to both high and low rankings.10\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$S\left(\frac{{p}_{f}\left({x}_{j}\right)}{k-1}\right)={N}_{0}\left(\frac{{p}_{f}\left({x}_{j}\right)}{k-1}\right)+\,{N}_{1}\left(\frac{{p}_{f}\left({x}_{j}\right)}{k-1}\right)$$\end{document}Spfxjk−1=N0pfxjk−1+N1pfxjk−1 Where Nα is the Gaussian density function with mean α and standard deviation 0.1. Here, we define S as N0+ N1 to make such function to have two peaks. (0 for low rankings and 1 for high rankings) and be flat (almost null) in between.
+
+## Third
+we apply the function S to each instance’s ranking and normalize them within bag.11\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${w}_{j}=S\left(\frac{{p}_{f}\left({x}_{j}\right)}{k-1}\right)/{\sum }_{q < k}S\left(\frac{{p}_{f}\left({x}_{q}\right)}{k-1}\right)$$\end{document}wj=Spfxjk−1/∑q<kSpfxqk−1 
+
+## Selecting the R reliable negatives
+In the positive and unlabeled task, learning from only positive bag labels would make the model overfit towards the positive class. Here, we selected |R| reliable negatives negative bags among B with the lowest positive probability. We selected |R|=|P|, to transform the problem into a classification task with balanced classes.
+
+## Loss function of the positive and unlabeled learning module
+Similarly, as we assume that labels follow a Bernoulli distribution with parameter F(B), we build the loss function for this module as:12\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${L}_{p}=-\log \left({\prod}_{B\in P}F\left(B\right){\prod}_{B\in R}\left(1-F\left(B\right)\right)\right)+\lambda \left({\alpha }^{2}+\,{\beta }^{2}\right)$$\end{document}Lp=−log∏B∈PFB∏B∈R1−FB+λα2+β2 Where avoid overfitting, and we derive pum6a’s loss function as13\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$L={L}_{m}+\,{L}_{p}$$\end{document}L=Lm+Lp 
+
+## Pum6a for modification detection from nanopore direct RNA sequence data
+
+## Base-calling, re-squiggle, and mapping
+Training and evaluation data of the pum6a model were obtained from refs. We downloaded a single replicate of the HEK293T cell lines (replicate 1) for model training. We use another independent single replicate of the HEK293T cell lines (replicate 4) for model evaluation. We further tested the model performance in other species (mouse embryonic stem cells) and constructed data (Curlcake). Reads were locally base-called using Guppy 6.5.7. MINES [11] corrected the raw signal through Tombo re-squiggle function. After base-calling, we performed re-squiggle with Tombo (v1.5) to correct the raw base-calling sequence and assign the corrected base to the raw signal segment. We finally mapped the sequences to the genome using minimap2 with the settings -ax map-ont.
+
+## Feature extraction
+We searched for the RRACH motif and extracted the signal features and the sequence features per site. As for the signal feature, we extracted the median, standard deviation, mean, and number of Nanopore signals form each RRACH motif. As for sequence features, we use sam2tsv from jvarkit to convert BAM alignment files to tab delimited. We extract mean per-base quality, mismatch frequency, insertion frequency, and deletion frequency for each RRACH motif.
+
+## Model training and evaluation
+Modified position of HEK293T from miCLIP, m6ACE-seq, and GLORI were obtained from ref. We combined CIMS, CITS, m6ACE-seq and GLORI libraries as ground truths for model training and evaluation. We train the model with HEK293T data and further evaluate the model in a mouse embryo sample. We downloaded miCLIP1 and miCLIP2 libraries of mES from the ref and combined them as ground truth labels for model evaluation.
+
+## Comparison with other models for m6A detection
+
+## Tombo
+We ran Tombo v.1.5.1 from https://github.com/nanoporetech/tombo. After re-squiggle reads, we assign raw current signals to each base. We then use a de novo non-canonical base method with the “detect_modifications de_novo” command for modification detection.
+
+## EpiNano
+We ran EpiNano 1.2 from https://github.com/enovoa/EpiNano. We collected the mean quality, mismatch, insertion, and deletion frequency of each base of the RRACH motif. Moreover, we use the Support Vector Machine models EpiNano offers for m6A detection.
+
+## MINES
+We ran MINES from https://github.com/YeoLab/MINES. Mines trained the random forest model for m6A detection using the coverage and fraction-modified values calculated by Tombo. As MINES only use for AGACT and GGACH motifs detection. We modified the code to output the modification probability of all sites in all RRACH motifs.
+
+## Nanom6A
+We ran nanom6A from https://github.com/gaoyubang/nanom6A. Nanomo6a trained the XGBoost model for m6A detection using the median, mean, standard deviation and dwell time features from normalized raw signals.
+
+## ELIGOS
+We ran ELIGOS from https://gitlab.com/piroonj/eligos2. We used the “rna_mod” of ELIGOS for the identification of RNA modifications compared to an rBEM + 2 model.
+
+## M6anet
+We ran m6anet from https://github.com/GoekeLab/m6anet. We used Nanopolish (0.14.1) to generate the input required by m6anet.
+
+## Gene level counts of DRS data
+In long-read mode, we used featureCounts version 1.6.3 for each nanopore DRS replicate Gene level counts .
+
+## Enrichment analysis
+We used web server DAVID for functional enrichment analysis .
+
+## Cell culture and treatments
+The cells were maintained at 37 °C in a humidified incubator with 5% CO2. For the hypoxic culture, the cells were cultured in a low oxygen incubator with a gas mixture containing 1% O2, 5% CO2, and 94% N2. HEK-293T cells (ATCC, CRL-3216, USA) were cultured in DMEM (Gibco), while AGS (ATCC, CRL-1739, USA) and MKN28 (BNCC, 338339, China) cells were cultured in RPMI (Gibco). The culture media were supplemented with 10% FBS (Gibco) and 1% penicillin and streptomycin (Gibco).
+
+## Plasmid construction, lentiviral production and tumor cell infection
+Stable knockdowns of FTO, ALKBH5, YTHDF1 and YTHDF2 were generated using lentiviral-based shRNA. For each knockdown, 10 μg of PLKO.1 plasmid (PLKO.1 puro #8453, PLKO.1 hygro #24150, addgene) containing shRNA targeting the gene of interest, along with 5.6 μg of PAX2 (#12260, addgene) and 3.5 μg of pMD2.G (#12259, addgene) packaging vectors, were co-transfected into HEK-293T cells in 100 mm cell-culture dishes. The shRNA sequences used for FTO knockdown were shFTO (1, CGGTTCACAACCTCGGTTTAG; 2, TCACCAAGGAGACTGCTATTT), for ALKBH5 knockdown were shALKBH5 (1, GAAAGGCTGTTGGCATCAATA; 2, CCACCCAGCTATGCTTCAGAT; 3, CCTCAGGAAGACAAGATTAGA), for YTHDF1 knockdown were shYTHDF1 (CCCTACCTGTCCAGCTATTAC) and for YTHDF2 knockdown were shYTHDF2 (TCTGGATATAGTAGCAATTAT). After 48 and 72 h, the virus-containing supernatant was collected and filtered through a 0.22 μm PES Syringe Filter (Thermo Fisher) before infecting the target cells with 8 μg/mL Polybrene (TR-1003, Sigma). The cells were then screened with puromycin (2 μg/mL) at the corresponding concentration for 3-5 days to obtain stable knockdown cells. The FTO cDNA (NM_001080432) and ALKBH5 cDNA (NM_017758) were cloned into pCDH-puro lentiviral vector (CD510B-1, System Biosciences).
+
+## Poly(A) RNA isolation
+100 μg aliquots of total RNA were diluted in 100 μl of nuclease-free water and subjected to poly(A) selection using Magnosphere MS150/Oligo(dT) Beads (Lexogen, Poly(A) RNA Selection Kit, cat. no. 039.100). The eluted poly(A) RNA was measured using a Qubit fluorometer, and stored at -80 °C for MinION native RNA sequencing.
+
+## MinION native RNA sequencing
+For the preparation of RNA libraries, 500 ng of poly(A) RNA were used, and the Direct RNA Sequencing Kit (SQK-RNA002) was employed for nanopore direct RNA sequencing. The ligation of the RT Adapter and RNA Adapter was carried out using T4 DNA Ligase (M0202, NEB) and SuperScript III Reverse Transcriptase (18080044, Thermo Fisher Scientific). The RNA library was purified using Agencourt RNAClean XP beads. SpotON flow cells were primed and loaded according to the kit protocol for RNA sequencing on the MinION platform.
+
+## Proliferation and viability assays
+Cell viability was assessed using the Cell Counting Kit-8 (CCK-8 assay, DOJINDO) following the manufacturer’s instructions. The proliferative capacity of AGS and MKN28 cells was measured by cell counting and the BeyoClick™ EdU Cell Proliferation Kit with Alexa Fluor 555 (C0075L, Beyotime).
+
+## RNA isolation and quantitative real-time PCR
+Total RNA was extracted from tumor cells using TRIzol reagent (15596018, ThermoFisher) following the manufacturer’s instructions, and cDNA was synthesized using the PrimeScript RT reagent Kit (RR036A, Takara). RT-qPCR was performed on the 7500 apparatus (Applied Biosystems) using SYBR-Green Master mix (RR820B, Takara). The following primer sequences were used: GAPDH (Forward, GTCTCCTCTGACTTCAACAGCG; Reverse, ACCACCCTGTTGCTGTAGCCAA), CXCL10 (Forward, GTGGCATTCAAGGAGTACCTC; Reverse, TGATGGCCTTCGATTCTGGATT), YTHDF1 (Forward, CAAGCACACAACCTCCATCTTCG; Reverse, GTAAGAAACTGGTTCGCCCTCAT) and YTHDF2 (Forward, TAGCCAGCTACAAGCACACCAC; Reverse, CAACCGTTGCTGCAGTCTGTGT).
+
+## Western blotting
+Protein samples were extracted using RIPA lysis buffer containing a protease inhibitor cocktail (Roche) and the protein concentration was quantified using the BCA method. A total of 30 µg of protein was loaded and electrophoresed on 12% SDS–polyacrylamide gels, transferred onto PVDF membranes (Invitrogen), and subjected to western blot analysis. Antibodies were diluted in 5% (wt/vol) nonfat dry milk in PBS containing 0.1% Tween-20. The primary antibodies used were rabbit monoclonal anti-ALKBH5 (1:1000, A11684, ABclonal), rabbit monoclonal anti-FTO (1:1000, A3861, ABclonal), and anti-GAPDH (1:1000, 5147, Cell Signaling Technologies).
+
+## ATP and NAD + /NADH assay
+The levels of ATP and NAD + /NADH were measured using the ATP Assay Kit (S0026, Beyotime) and NAD + /NADH Assay Kit with WST-8 (S0175, Beyotime), respectively. The protein samples were quantified using the BCA protein assay kit (P0011, Beyotime) to determine the ATP or NAD + /NADH levels per microgram of protein.
+
+## RNA stability
+The cells were treated with actinomycin D (HY-17559-5 mg, MCE) at a final concentration of 5 μg/mL for the indicated time period, after which they were collected. Real-time PCR was then performed to determine the relative abundance of each mRNA.
+
+## ELISA
+Supernatants from AGS, MKN28, and their corresponding stable knockdown cells for FTO or ALKBH5 were used to measure the concentrations of CXCL10. The Human CXCL10 ELISA Kit (EHC157.96, Neobioscience) were used according to the manufacturer’s instructions to quantify the concentrations of CXCL10.
+
+## Luciferase reporter assays and mutagenesis analysis
+The 3′UTR sequence of CXCL10 was amplified by PCR from AGS cell genomic DNA and subsequently subcloned into the dual-luciferase vector pmiGLO (C838A, Promega). Predicted m6A recognition sites within the 3′UTR were identified through the pum6A analysis. Site-directed mutagenesis, altering adenine (A) to thymine (T), was performed using the QuikChange II Site-Directed Mutagenesis Kit (200523, Agilent). Luciferase activity was measured using the dual-luciferase reporter assay kit (RG028, Beyotime) in the GM2000 luminometer (Promega). All experiments were performed in triplicate, and firefly luciferase activity was normalized to Renilla luciferase activity to account for variations in transfection efficiency.
+
+## Statistics and reproducibility
+No statistical method was used to predetermine the sample size. No data were excluded from the analyses. The experiments were not randomized, and the investigators were not blinded to allocation during experiments and outcome assessment. Data are presented as the mean ± standard deviation (S.D.). Statistical analyses were performed using GraphPad Prism 10.0 software. Statistical differences between the indicated groups were assessed using a two-tailed Student’s t-test or two-way ANOVA. A p value of less than 0.05 was considered statistically significant. Statistical significance is indicated as follows: p < 0.05; *p < 0.01; **p < 0.001. Biological replicates and the number of independent experiments are stated in the figure legends. All experiments presented as representative micrographs or gels were repeated at least 3 times with similar results.
+
+## Reporting summary
+Further information on research design is available in the  linked to this article.
+
+## Supplementary information
+
+Supplementary Information
+
+Description of Additional Supplementary Files
+
+Supplementary Data 1
+
+Supplementary Data 2
+
+Supplementary Data 3
+
+Supplementary Data 4
+
+Supplementary Data 5
+
+Supplementary Data 6
+
+Supplementary Data 7
+
+Reporting Summary
+
+Transparent Peer Review file
+
+## Source data
+
+Source Data
+
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+These authors contributed equally: Chuwei Liu, Heng Liang, Arabella H. Wan, Min Xiao, Lei Sun.
+
+## Supplementary information
+The online version contains supplementary material available at 10.1038/s41467-025-56173-6.
+
+## Acknowledgements
+This study was partly supported by the National Key Research and Development Plan 2022YFC2402900 (ZW), 2022YFC3401000 (WH); National Natural Science Foundation of China 82473938 (GW), 82122069 (GW), 82073869 (GW), 82022037 (WH), U22A20315 (ZW); Guangdong Basic and Applied Basic Research Foundation 2021B1515020004 (GW), 2021B1515230009 (WH); Fundamental Research Funds for the Central Universities 23yxqntd001 (GW), 24ykzy003 (GW); Guangzhou Science and Technology Planning Program 2024A04J6479 (GW); and Shenzhen Medical Research Special Fund Project D2403006 (GW).
+
+## Author contributions
+G.W. and C.L. conceived the idea and designed the experiments. C.L., H.L., A.H.W., M.X., L.S., Y.Y., S.Y., Y.D., R.L. and J.F. performed the most experiments and analyzed data; C.L. performed the bioinformatics analysis. Z.W., W.H. and G.W. provided administration and supervision. G.W. and C.L. wrote the manuscript. All authors were involved in the final approval of the submitted and published versions.
+
+## Peer review
+
+## Peer review information
+Nature Communications thanks Abdel Kareem Azab, who co-reviewed with Obed Asare and Mina Maksmos; and the other, anonymous, reviewer(s) for their contribution to the peer review of this work. A peer review file is available.
+
+## Data availability
+The HEK293T cell lines data generated in this study have been deposited in the European Nucleotide Archive (ENA) under accession code PRJEB44348. The mouse embryo data used in this study are available in the Gene Expression Omnibus (GEO) database under accession code GSE195618. The constructed data were obtained from the GEO database under accession code GSE124309. The benchmark anomaly datasets used in this study are publicly accessible at https://github.com/Minqi824/ADBench/tree/main/adbench/datasets/Classical. The data generated in this study are provided in the Supplementary Information/Source Data file.  are provided with this paper.
+
+## Code availability
+The source code for pum6a is publicly available at https://github.com/liuchuwei/pum6a and the doi for the code is 10.5281/zenodo.14279615.
+
+## Competing interests
+The authors declare no competing interests.

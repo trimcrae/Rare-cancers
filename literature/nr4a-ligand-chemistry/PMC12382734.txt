@@ -1,0 +1,175 @@
+1650brbBrain and BehaviorBrain BehavWileyPMC1238273412382734123827344086454410.1002/brb3.70797Identification of Druggable Targets for Alzheimer's Disease by Analyzing Circulating Inflammatory Proteins With Mendelian Randomization
+AnHongliang GuJianhong LiTaiping 
+1
+Department of Pharmacy, Nanjing Meishan Hospital, Nanjing, China
+2
+Child Mental Health Research Center, Nanjing Brain Hospital Affiliated to Nanjing Medical University, Nanjing, China
+3
+Neuro‐Psychiatric Institute, Nanjing Brain Hospital Affiliated to Nanjing Medical University, Nanjing, China✉Corresponding author.
+2782025158e70797e707972882025© 2025 The Author(s). Brain and Behavior published by Wiley Periodicals LLC.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## ABSTRACT
+
+## Objective
+To identify potential druggable targets for Alzheimer's disease (AD) by analyzing circulating inflammatory proteins using Mendelian randomization (MR).
+
+## Methods
+Two‐sample MR analysis was employed to investigate the causal relationships between 91 circulating inflammatory proteins and AD. The primary MR method utilized was the inverse variance weighted (IVW) model, while the weighted median (WM) and MR‐Egger models were applied for sensitivity analysis. To assess the heterogeneity of instrumental variables (IVs), Cochran's Q‐test and I
+2 statistics were utilized. Additionally, ChEMBL and DGIdb databases with Bayesian colocalization analysis were consulted to identify potential druggable proteins.
+
+## Results
+MR analysis identified eight inflammatory proteins significantly associated with AD risk. Among these proteins, TNFB [odds ratio (OR): 1.06, 95% Confidence Interval (CI): 1.02–1.11, p = 8.77×10−
+3], TSLP (OR: 1.10, 95% CI: 1.01–1.19, p = 0.028), S100A12 (OR: 1.09, 95% CI: 1.01–1.18, p = 0.03), CD244 (OR: 1.07, 95% CI: 1.00–1.13, p = 0.036), and IL33 (OR: 1.08, 95% CI: 1.00 –1.17, p = 0.048) were identified as proteins associated with elevated AD risk. Conversely, three inflammatory proteins exhibited a protective effect against AD, including NRTN (OR: 0.91, 95% CI: 0.85–0.99; p = 0.019), CCL4 (OR: 0.95, 95% CI: 0.91–1.00, p = 0.029), and MMP1 (OR: 0.93, 95% CI: 0.87–1.00, p = 0.049). Notably, according to the gene‐drug analysis, TSLP, S100A12, CD244, CCL4, and MMP1 were identified as druggable. Additionally, MMP1 (PP4 = 0.92) and CCL4 (PP4 = 0.87) in the prefrontal cortex had the strongest colocalization evidence (PP4 > 0.85), suggesting they could potentially serve as novel therapeutic targets for AD.
+
+## Conclusions
+Integrative genetic analyses indicate that genetically determined circulating levels of TSLP, S100A12, CD244, CCL4, and MMP1 exert causal effects on AD risk. These findings nominate all five proteins as potential therapeutic targets, with MMP1 and CCL4 representing priority candidates warranting further mechanistic investigation and clinical validation.
+
+Keywords: Alzheimer's disease, circulating inflammatory proteins, druggable targets, Mendelian randomization
+
+## Short abstract
+Mendelian Randomization (MR) identifies causal links between inflammatory proteins (e.g., TSLP, S100A12) and Alzheimer's disease (AD) risk, revealing druggable targets for therapeutic development. Protective proteins (e.g., CCL4, MMP1) offer additional avenues for AD intervention.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Jul 30; Received 2025 Feb 7; Accepted 2025 Aug 2; Collection date 2025 Aug.
+
+## Abbreviations
+ADAlzheimer's disease
+AβAmyloid beta
+CCL4C‐C motif chemokine 4
+CD244Natural killer cell receptor 2B4
+CIConfidence Interval
+eQTLexpression quantitative trait loci
+GWASGenome‐Wide Association Study
+IGAPInternational Genomics of Alzheimer's Project
+IL‐1βInterleukin‐1β
+IL33Interleukin‐33
+IVsinstrumental variables
+IVWinverse variance weighted
+MCIMild cognitive impairment
+MMP1Matrix metalloproteinase‐1
+MMPsMatrix metalloproteinases
+MRMendelian Randomization
+NRTNNeurturin
+OROdds Ratio
+PPARγPeroxisome proliferator‐activated receptor γ
+pQTLsprotein quantitative trait loci
+rTMSrepetitive transcranial magnetic stimulation
+S100A12Protein S100‐A12
+SNPsSingle nucleotide polymorphisms
+TNFBTumor necrosis factor β
+TSLPThymic stromal lymphopoietin
+VCAM‐1Vascular cell adhesion molecule‐1
+WMweighted median
+1.
+
+## Introduction
+The aging of the global population is a significant factor contributing to the rising incidence of Alzheimer's disease (AD), which stands as the foremost cause of dementia worldwide (Jason and Andrew ; Zhao et al. ). This demographic shift, characterized by an increasing proportion of elderly individuals, has profound implications for public health and healthcare systems. AD confers a heavy burden on the society by causing excess morbidity and mortality (Lanctôt et al. ; Agudelo‐Botero et al. ). Key pathological hallmarks of AD include the deposition of amyloid beta (Aβ) and hyperphosphorylated tau protein, as well as neuroinflammation mediated by glial cells (Kiara et al. ). These pathological processes are intricately linked and contribute to the progressive cognitive decline and memory loss characteristic of AD. Current projections indicate that the incidence of dementia will double in Europe and triple globally by 2050. This alarming trend underscores the urgent need for effective preventive and therapeutic strategies.
+AD is closely associated with inflammation, manifesting in the form of elderly plaques and activated microglia surrounding these plaques (Cuicui et al. ; Yetirajam and Thirumala‐Devi ). This inflammatory response is a critical component of the disease pathology, contributing to the progressive neurodegeneration and cognitive decline characteristic of AD. Evidence suggests that the pathological changes in neuroinflammation and tau protein are intricately linked to cognitive dysfunction, exhibiting complex and close interactions. The sustained and escalating inflammatory response of glial cells and neurons serves as a critical cellular driver and regulator of tau pathological deterioration, which, in turn, exacerbates tau pathology by intensifying the inflammatory response (Yijun and Yang ).
+The role of inflammation in AD has been further supported by epidemiological studies, which have demonstrated that anti‐inflammatory drugs have the potential to reduce the incidence rate of AD (Sujata et al. ). This has spurred significant interest in developing anti‐inflammatory therapies as a potential treatment strategy. Promising drug therapies are currently in the late stages of clinical trials, encompassing strategies targeting amyloid beta, tau, and inflammation (Philip et al. ). For instance, peroxisome proliferator‐activated receptor γ (PPARγ) agonists like pioglitazone enhance the phagocytosis of Aβ and decrease the inflammatory cytokine IL‐1β (Interleukin‐1β). These drugs modulate the immune response and reduce the levels of pro‐inflammatory molecules, thereby potentially slowing disease progression. Additionally, several drugs, including feglastin, epigallocatechin gallate, curcumin, nicergoline, and minocycline, are under active development (Sneha et al. ). These compounds have shown promise in preclinical studies for their anti‐inflammatory and neuroprotective properties. However, the clinical trials of anti‐inflammatory drugs have not yielded uniformly successful outcomes (Tomris and Serkan ). Despite the potential benefits observed in preclinical models and epidemiological studies, translating these findings into effective treatments has proven challenging. The variability in patient responses, the complexity of the disease, and the potential for off‐target effects have all contributed to the difficulties in achieving consistent therapeutic success. Given this, it is imperative to identify more druggable targets and develop therapeutic drugs with greater promise.
+Mendelian randomization (MR) leverages genetic variation as instrumental variables to establish robust causal relationships between exposures and clinical phenotypes. Given its capacity for inferring causality, MR is increasingly employed to identify potential therapeutic targets by pinpointing genes with causal effects on disease outcomes, thereby providing a theoretical basis and direction for novel drug development (Kang‐Fu et al. ; Naiqi et al. ; Wei‐Ming et al. ). Although MR is extensively employed for genetic causal inference in Alzheimer's disease, its utility for therapeutic target identification is limited by susceptibility to weak instrument bias, unresolved horizontal pleiotropy, and failure to interrogate tissue‐specific mechanisms. Critically, while MR establishes genetic‐level associations, it neither confirms shared causal variants between exposure and outcome nor addresses key drug development dimensions. To overcome these constraints, we integrated Bayesian colocalization with druggability screening using ChEMBL (Qian et al. ; Shangyun et al. ) and DGIdb databases, thereby validating MR‐derived causal genes and prioritizing targets with mechanistic and therapeutic relevance. The methodological framework is schematically outlined in Figure  .
+ 
+2.
+
+## Methods
+2.1.
+
+## Mendelian Randomization Analysis
+The GWAS datasets were obtained for 91 plasma proteins, involving 14,824 healthy subjects of European ancestry. This comprehensive GWAS identified 180 protein quantitative trait loci (pQTLs) that significantly influenced circulating cytokine levels. For the MR analysis, corresponding GWAS data for each of the 91 proteins examined in this study were utilized, encompassing whole genome single nucleotide polymorphisms (SNPs) from 12,824 subjects. The summary results for AD included 15,617 cases and 396,564 controls from the FinnGen R10 dataset (Mitja et al. ).
+Causal effects were determined using three models from the TwoSampleMR package (version 0.5.6): the inverse variance weighted (IVW) model, the weighted median (WM) model, and the MR Egger model. These models were employed as additional measures to ensure sensitivity and robustness of the findings. The variability was assessed using the intercept of MR Egger regression. A significant deviation between the MR Egger intercept and zero indicated that certain instrumental variables (IVs) were invalid and potentially biased the results. Heterogeneity was evaluated using the Cochran Q‐test and I
+2 statistics, with thresholds set at p < 0.05 and I
+2 > 0.25, respectively.
+In our study, we utilized 91 plasma proteins as exposures and AD as the outcome. For each exposed phenotype, SNPs significantly associated with the exposure (p < 1×10−5) were selected. These SNPs were then pruned within a 10 Mb window, ensuring a clustered r
+2 value of 0.001, and subsequently used as instrumental variables (IVs). This rigorous approach aimed to minimize the risk of confounding and ensure the validity of the causal inferences drawn from the MR analysis.
+
+2.2.
+
+## Bayesian Colocalization Analysis
+Bayesian colocalization analysis was performed using Alzheimer's disease GWAS summary statistics from the International Genomics of Alzheimer's Project (IGAP; 63,926 cases and 83,934 controls) and multi‐tissue expression quantitative trait loci (eQTL) data from GTEx version 8 (prefrontal cortex, hippocampus, whole blood, and monocytes). For each target from MR analysis, we analyzed genomic regions spanning ± 500 kb from the transcription start site. Posterior probabilities for five mutually exclusive hypotheses were computed using the coloc.abf algorithm (R package coloc v5.1.0): (1) H0: No association with either trait; (2) H1: Association with AD only; (3) H2: Association with eQTL only; (4) H3: Two independent causal associations; (5) H4: Shared causal variant. Where PP4 (PP.H4) quantified evidence for colocalization.
+
+2.3.
+
+## Gene‐Drug Interaction Analysis
+In our comprehensive effort to identify proteins with causal effects on AD, we conducted meticulous searches within the drug‐gene interaction databases ChEMBL (https://www.ebi.ac.uk/chembl/) and DGIdb (https://dgidb.org/) (Matthew et al. ). Our primary objective was to pinpoint specific inflammatory cytokines that are targeted by approved drugs, thereby identifying potential therapeutic avenues for AD. By leveraging these databases, we aimed to identify drugs that are already in clinical use or in advanced stages of development, which could be repurposed or further optimized for treating AD.
+
+3.
+
+## Results
+3.1.
+
+## MR Analysis
+Our MR analysis revealed eight inflammatory proteins exhibiting statistically significant causal associations with AD. The IVs were extracted from exposure datasets as follows: 41 IVs for tumor necrosis factor‐β (TNFB), 25 IVs for Neurturin (NRTN), 24 IVs for Thymic stromal lymphopoietin (TSLP), 30 IVs for C‐C motif chemokine ligand 4 (CCL4C), 23 IVs for Calcium‐binding protein S100‐A12 (S100A12), 33 IVs for Natural killer cell receptor 2B4 (CD244), 23 IVs for IL33 (IL33), and 26 IVs for Matrix metalloproteinase‐1 (MMP1).
+More detailed results are presented in Table  , Figure  , and Figure  .
+ Table  provides a concise summary of the significant results from the MR analysis, highlighting the causal relationships between specific circulating inflammatory proteins and AD risk. The findings underscore the importance of targeting these proteins in the development of therapeutic strategies for AD, with both risk‐increasing and protective factors identified. Increased Risk: Proteins such as TSLP, S100A12, IL33, CD244, and TNFB are associated with an increased risk of AD, as indicated by their odds ratios (OR) greater than 1 and statistically significant p‐values. Protective Effect: Proteins such as CCL4, MMP‐1, and NRTN exhibit a protective effect against AD, as indicated by their OR less than 1 and statistically significant P‐values.
+The forest plot in Figure  highlights the differential effects of core inflammatory proteins on AD risk. Proteins such as TSLP, S100A12, IL33, CD244, and TNFB are associated with an elevated risk of AD, suggesting that targeting these proteins may offer potential therapeutic strategies for mitigating AD progression. Conversely, CCL4, MMP‐1, and NRTN exhibit protective effects, indicating that these proteins may play a role in reducing AD risk and could be explored further as potential therapeutic targets.
+Figure  provides a visual representation of the causal relationships between circulating inflammatory proteins and AD risk, as estimated by the IVW and WM methods. The scatter plots highlight the differential effects of various proteins, with some exhibiting a positive causal relationship (elevated AD risk) and others showing a negative causal relationship (protective effect against AD). These findings underscore the importance of targeting specific inflammatory pathways in the development of novel therapeutic strategies for AD.
+
+3.2.
+
+## Bayesian Colocalization Analyses
+Strong colocalization evidence (PP4 > 0.85) was observed for MMP1 (PP4 = 0.92) and CCL4 (PP4 = 0.87) in the prefrontal cortex. CD244 (PP4 = 0.28) and IL‐33 (PP4 = 0.31) showed moderate evidence in whole blood, while NRTN, TNFB, TSLP, and S100A12 exhibited no significant colocalization (PP4 ≤ 0.23). The lead variant rs1799750 (MMP1) had SNP.PP.H4 = 0.95. As shown in Table  .
+ 
+3.3.
+
+## Gene‐Drug Interaction Analysis
+The results of the gene‐drug interaction analysis conducted on the key proteins identified in the MR analysis are presented in Table  . The analysis was performed by searching the drug‐gene interaction databases ChEMBL and DGIdb. Among prioritized proteins, TSLP, S100A12, CD244, CCL4, and MMP1 demonstrated druggability. The findings suggest that targeting these proteins could offer promising therapeutic strategies for managing and potentially preventing AD.
+ 
+
+4.
+
+## Discussion
+Neuroinflammation has gained significant recognition as a critical driver in the onset and progression of neurodegenerative disorders, with AD being a prominent example (Wenwen et al. ). Recent advances in genomics and proteomics have provided new insights into the role of inflammation in AD pathogenesis, highlighting a genetically anchored causal nexus between levels of circulating inflammatory cytokines and the risk of neurodegenerative diseases. This study employs MR to investigate the causal relationships between 91 circulating inflammatory proteins and AD, identifying several inflammatory proteins that significantly contribute to AD risk. Specifically, TNFB, TSLP, S100A12, CD244, and IL33 were associated with an increased risk of AD, while NRTN, CCL4, and MMP1 exhibited protective effects.
+TSLP is closely linked to AD, with its interaction with vascular cell adhesion molecule‐1 (VCAM‐1) highlighting its role in AD progression (Jian et al. ; Tornike and Jonathan ). In this study, TSLP emerged as a potential therapeutic target, supported by its high interaction score. S100A12 contributes to inflammation and protein aggregation in AD, with its association with immune microenvironment changes further emphasizing its importance (Lai et al. ; Shepherd et al. ). Atomoxetine has shown promise in modulating inflammation‐related factors like CD44, potentially halting AD progression (Allan et al. ). IL‐33 has demonstrated neuroprotective effects in AD models by enhancing microglia‐mediated Aβ clearance and reducing pro‐inflammatory gene expression (Amy K Y et al. ; Taotao et al. ; Zhi et al. ). NRTN, delivered via AAV2 vectors, promotes dopamine neuron survival and resistance to toxicity, offering potential for AD treatment (Christopher et al. ; Christopher D et al. ). Meanwhile, CCL4 plays a role in amyloid processing and inflammation, with Andrographolide showing efficacy in reducing its expression (John S. K. et al. ; V. Julie et al. ; Zhang et al. ). Matrix metalloproteinases (MMPs), particularly MMP1, are linked to AD, with elevated levels in AD patients suggesting their role as biomarkers (Erik et al. ; H. Julie et al. ). MMP‐1 levels correlate with oxidative stress and cognitive decline, and Scutellaria baicalensis Georgi has shown potential in delaying AD progression by reducing MMP‐1 secretion (Li et al. ; Sylwia et al. ). Repetitive transcranial magnetic stimulation (rTMS) targeting the dorsolateral prefrontal cortex may regulate the MMPs/TIMPs system, delaying AD progression in mild cognitive impairment (MCI) patients (Giovanni et al. ). Bayesian colocalization analysis demonstrated strong genetic evidence (PP4 > 0.85) for shared causal mechanisms between MMP1 and CCL4 with AD protection in the prefrontal cortex, establishing them as priority therapeutic targets and further verifying the results of MR analysis.
+After extensively exploring the drug‐gene interaction databases ChEMBL and DGIdb, we uncovered some promising findings. Among the key proteins we investigated, TSLP, S100A12, CD244, CCL4, and MMP1 emerged as druggable proteins. This breakthrough suggests that these proteins could potentially be targeted for the treatment of AD.
+Cyclosporin ameliorates CCL4‐mediated neuroinflammation by inhibiting the calcineurin/NFAT signaling pathway (Joanna et al. ), which concurrently restores mitochondrial membrane potential dynamics and fission‐fusion balance (Wenqiang et al. ). This dual mechanism attenuates β‐amyloid neurotoxicity, protects neurons from apoptosis, and ultimately rescues AD‐related cognitive impairment, positioning cyclosporin as a promising therapeutic candidate warranting further clinical evaluation for AD.
+Leuprolide acetate, a powerful drug targeting MMP1, has demonstrated remarkable potential in inhibiting pituitary gonadotropin secretion and suppressing the production of testicular or ovarian steroids over extended periods. It has proven effective in treating a range of sex hormone‐dependent conditions, including prostate cancer, endometriosis, uterine fibroids, and precocious puberty. Additionally, it has shown promise in improving symptoms in patients with AD. Notably, clinicians have observed cognitive improvements in patients with AD and prostate cancer while using leuprolide (Tracy et al. ). These compelling findings strongly support the potential of using MMP1 as a target for AD treatment.
+These findings underscore the therapeutic potential of targeting specific inflammatory pathways in Alzheimer's disease, particularly through genetically validated mechanisms. Our integrated analysis identifies druggable targets, especially MMP1 and CCL4, that offer tractable avenues for immune‐modulating therapies. This approach advances the development of mechanistically informed treatments with significant potential to modify AD progression.
+This study has several noteworthy constraints: reliance on Eurocentric GWAS data restricts ancestral generalizability (particularly regarding East Asian populations); unresolved methodological biases in MR analysis, including residual horizontal pleiotropy and non‐negligible weak instrument bias for proteins with limited cis‐pQTLs, persist despite sensitivity testing; and conventional druggability screening (ChEMBL/DGIdb) may overlook emerging therapeutic paradigms like RNA‐targeting approaches applicable to traditionally undruggable proteins. Consequently, while our integrative approach nominates promising targets, their translational relevance requires validation through mechanistic studies across diverse populations and next‐generation therapeutic platforms.
+
+5.
+
+## Conclusion
+In our study, integrative genetic evidence suggests potential influences of circulating molecules on AD susceptibility. These proteins emerge as viable therapeutic targets, with MMP1 and CCL4 demonstrating prioritized candidacy based on strong colocalization evidence. This supports the development of immune‐focused therapeutic strategies, warranting further mechanistic exploration and clinical validation to advance targeted interventions for AD management.
+
+## Author Contributions
+
+Hongliang An: writing – original draft, writing – review and editing, visualization, and data curation. Jianhong Gu: methodology, visualization, and supervision. Taiping Li: project administration, software, resources, writing – review and editing.
+
+## Ethics Statement
+The authors have nothing to report.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Peer Review
+The peer review history for this article is available at https://publons.com/publon/10.1002/brb3.70797.
+
+## Supporting information
+
+Supporting Table: brb370797‐sup‐0001‐SuppMat.xlsx
+
+## Acknowledgments
+We sincerely thank Dr. Fuquan Zhang for his invaluable guidance and all the staff who contributed to this study.
+
+An, H.
+, Gu J., and Li T.. 2025. “Identification of Druggable Targets for Alzheimer's Disease by Analyzing Circulating Inflammatory Proteins With Mendelian Randomization.” Brain and Behavior
+15, no. 8: 15, e70797. 10.1002/brb3.70797
+
+Funding: This work was supported by the Young Talent Training Project for Traditional Chinese Medicine of Nanjing, China (ZYQ20071).
+
+## Contributor Information
+Jianhong Gu, Email: 813041498@qq.com.
+Taiping Li, Email: ltp@njmu.edu.cn.
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/ ; further inquiries can be directed to the corresponding author.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Supporting Table: brb370797‐sup‐0001‐SuppMat.xlsx
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/ ; further inquiries can be directed to the corresponding author.

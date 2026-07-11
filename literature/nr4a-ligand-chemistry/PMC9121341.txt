@@ -1,0 +1,741 @@
+822acssdACS Chemical NeuroscienceACS Chem NeurosciPMC9121341912134191213413552248010.1021/acschemneuro.1c00804Phenotypic Screening Using High-Content Imaging to
+Identify Lysosomal pH Modulators in a Neuronal Cell Model
+ChinMarcus
+Y AngKean-Hooi DaviesJulia AlquezarCarolina GardaVirginia G RooneyBrendan LengKun KampmannMartin ArkinMichelle R KaoAimee W †Memory
+and Aging Center, Department of Neurology, University of California, San
+Francisco, California, California 94158, United States‡Small
+Molecule Discovery Center, Department of Pharmaceutical Chemistry, University of California, San Francisco, California 94143, United States§Institute
+for Neurodegenerative Diseases, Department of Biochemistry and Biophysics, University of California, San Francisco, California 94158, United States∥Biomedical
+Sciences Graduate Program, University of
+California, San Francisco, California 94158, United States⊥Medical
+Scientist Training Program, University of
+California, San Francisco, California 94158, United States*Email: michelle.arkin@ucsf.edu.
+*Email: aimee.kao@ucsf.edu.
+652022131015051505–15162152022© 2022 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Lysosomes are intracellular
+organelles responsible for the degradation
+of diverse macromolecules in a cell. A highly acidic pH is required
+for the optimal functioning of lysosomal enzymes. Loss of lysosomal
+intralumenal acidity can disrupt cellular protein homeostasis and
+is linked to age-related diseases such as neurodegeneration. Using
+a new robust lysosomal pH biosensor (FIRE-pHLy), we developed a cell-based
+fluorescence assay for high-throughput screening (HTS) and applied
+it to differentiated SH-SY5Y neuroblastoma cells. The goal of this
+study was twofold: (1) to screen for small molecules that acidify
+lysosomal pH and (2) to identify molecular targets and pathways that
+regulate lysosomal pH. We conducted a screen of 1835 bioactive compounds
+with annotated target information to identify lysosomal pH modulators
+(both acidifiers and alkalinizers). Forty-five compounds passed the
+initial hit selection criteria, using a combined analysis approach
+of population-based and object-based data. Twenty-three compounds
+were retested in dose-response assays and two compounds, OSI-027 and
+PP242, were identified as top acidifying hits. Overall, data from
+this phenotypic HTS screen may be used to explore novel regulatory
+pathways of lysosomal pH regulation. Additionally, OSI-027 and PP242
+may serve as useful tool compounds to enable mechanistic studies of
+autophagy activation and lysosomal acidification as potential therapeutic
+pathways for neurodegenerative diseases.
+Keywords: lysosomes, lysosomal pH, pH biosensor, high-content analysis, neurons, phenotypic
+screening
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Dec 6; Accepted 2022 Apr 25; Collection date 2022 May 18.
+
+1.
+
+## Introduction
+Lysosomes are specialized membrane-bound organelles that participate
+in many crucial cellular functions such as macromolecular degradation,
+nutrient sensing, and secretion. − They are intimately involved in
+autophagy, which serves as a key pathway for maintaining protein homeostasis
+within the cell. Lysosomes derive their degradative functions by possessing
+a very acidic lumen (pH ∼ 4.5–4.7), , allowing
+the optimal activation of hydrolytic enzymes that are ultimately responsible
+for substrate breakdown. The lysosomal pH is tightly regulated through
+the vacuolar-type H+-ATPase (V-ATPase) proton pump and
+other counter-ion channels. 
+Defective
+lysosomes are a common feature of age-related and neurodegenerative
+disorders. Numerous mutations have been found in genes directly involved
+in the endolysosomal pathway. , Pathological accumulation
+of proteins is also seen across various neurodegenerative diseases, , implicating a role in aberrant cellular clearance. While the exact
+mechanisms causing neurodegeneration remain elusive, these observations
+suggest an overall breakdown in protein homeostasis stemming from
+lysosomal dysfunction. Indeed, lysosomal acidity has been described
+to be impaired in studies of age-related neurodegenerative diseases. − 
+With increasing evidence underscoring its critical role in
+neurodegenerative
+diseases, correcting lysosomal function and pH regulation may be therapeutically
+tractable strategies for future drug development. However, relatively
+few phenotypic screens have been conducted with a specific focus on
+lysosomes. High-throughput screening (HTS) studies have explored lysosomal
+morphology, positioning, and calcium regulation, with regard to lysosomal
+storage disorders and cancer. Importantly,
+to our knowledge, no group has conducted a phenotypic screen on lysosomal
+pH. Such is the focus in the current study.
+Novel lysosomal
+pH probes that specifically target lysosomes and
+accurately measure intralumenal pH have been described by various
+groups. − Recently, we engineered FIRE-pHLy, a genetically encoded ratiometric
+lysosomal pH biosensor with a reported pKa of ∼4.4. , FIRE-pHLy presents advantages
+in automated, HTS, including stable expression in cells, accurate
+targeting to lysosomal compartments, and resistance to fluorescence
+quenching during fixation. Here, we utilized FIRE-pHLy to develop
+a cell-based phenotypic assay to identify small molecules that affect
+lysosomal pH. Ultimately, the modulation of lysosomal acidity may
+restore protein homeostasis defects and serve as a novel therapeutic
+strategy for neurodegenerative disease-related drug discovery.
+
+2.
+
+## Results and Discussion
+2.1.
+
+## High-Content Imaging Screen
+to Identify Modulators
+of Lysosomal pH
+To identify small molecules and biological
+pathways that regulate lysosomal pH, we developed a cell-based high-content
+imaging screen that measured relative changes in intralumenal pH of
+lysosomes through fluorescence detection ( ). We utilized the previously validated genetically
+encoded pH biosensor, FIRE-pHLy or fluorescence indicator reporting
+pH of lysosomes. FIRE-pHLy is composed
+of monomeric teal fluorescent protein 1 (mTFP1), mCherry, and lysosomal
+associated membrane protein 1 (LAMP1) that targets the fusion protein
+to lysosomal membranes. The fluorescence of mTFP1 is pH-dependent,
+while mCherry serves as an expression control and internal lysosome
+marker. Ratiometric imaging of mTFP1 and mCherry reports relative
+changes (herein referred to as the FIRE-pHLy ratio or mTFP1/mCherry)
+in the lysosomal pH environment.
+ FIRE-pHLy expressing SH-SY5Y cells
+were differentiated on 96-well
+microplates for 10 days and treated with bioactive compounds [10 μM/0.2%
+dimethyl sulfoxide (DMSO)] for their potential ability to decrease
+(acidify) or increase (alkalinize) lysosomal pH, as measured by the
+change in the FIRE-pHLy ratio. Compound ratios were calculated through
+the ratiometric quantification of mTFP1 and mCherry fluorescence intensities.
+Data was analyzed in parallel through two distinct pipelines (population-based
+and object-based quantification) and compared to select hits.
+FIRE-pHLy can be stably expressed in a variety of cell models including
+human neuroblastoma SH-SY5Y cells, which
+were selected for this HTS study due to their ability to be differentiated
+into neuron-like cells. Because terminally
+differentiated SH-SY5Y cells have qualities appropriate to model aspects
+of neurodegenerative diseases, including endogenous expression of
+the aggregation-prone proteins such as tau, , they may provide enhanced therapeutic relevance over actively dividing
+cells in drug screening campaigns. Morphologically, undifferentiated
+cells are non-polarized with shortened processes, while their differentiated
+counterparts exhibit elongated and branching neurites extending from
+the cell body. Lysosomes are found both as perinuclear clusters within
+the cell body and as more individual entities along the processes
+of neurons, both of which we observed using FIRE-pHLY visualization. 
+Cells were differentiated within 96-well
+microplates and then treated
+with a 1835-member library of bioactive compounds at the UCSF small-molecule
+discovery center (SMDC) for 6 h. This time point was rationalized
+to capture small molecules that changed lysosomal pH through fast-acting
+mechanisms (e.g., ion channels and transporters that generated the
+proton gradient) while avoiding longer-term global changes such as
+cellular proliferation and survival that could have non-specifically
+impacted lysosomal activity. The final screening concentration was
+10 μM with a DMSO concentration of 0.2%, which did not artificially
+alter FIRE-pHLy ratio measurements (Figure S1A) and was non-toxic to cells (Figure S1B). Single plane images were acquired and analyzed through a custom
+segmentation protocol for mTFP1, mCherry and nuclei target sets ( ). 
+First, we designed a population-based analysis approach
+that quantified
+the FIRE-pHLy ratio averaged across the entire well. Given that there
+were no well-validated compounds that decreased lysosomal pH, we established
+variability in the screening data by the percent coefficient of variation
+(CV) of the FIRE-pHLy ratio. A CV of 5% in negative controls indicated
+that the assay was consistent across all assay plates (Figure S1C), with a mean FIRE-pHLy ratio of 0.36
+± 0.02. The CV for cell count was also acceptable (CV = 22%)
+with a mean of 1,163 ± 261 quantified cells per well (Figure S1D). Compounds that decreased the FIRE-pHLy
+ratio (i.e. decreased pH) were considered acidic hits, while any that
+increased the FIRE-pHLy ratio (i.e. increased pH) were labeled alkaline
+hits.
+As a secondary method for hit selection, we developed
+an object-based
+analysis approach in order to focus on lysosomes, optimize sensitivity,
+and account for different populations of lysosomes based on coordinate
+location − in the differentiated SH-SY5Y cells. FIRE-pHLy ratios
+from individually segmented lysosomes in the DMSO controls were binned
+according to their ratio values, normalized from 0.0 to 1.0 with an
+increment of 0.05 per bin, and plotted as a histogram. FIRE-pHLy ratios
+from compound-treated wells were then normalized to the DMSO bins
+(see the Supporting Information). The data
+were normally distributed in the negative control DMSO-treated wells;
+assay means of “bin at max” and “median bin”
+were 9.88 ± 0.42 and 9.39 ± 0.24, respectively (Figure S1E). Shifts in the distribution caused
+by modulators of lysosomal pH would result in acidic (leftward curve
+shift) or alkaline (rightward curve shift) phenotypes; skew in the
+distribution could indicate that a subset of lysosomes were affected
+by compound treatment. The CVs of “bin at max” and “median
+bin” were 4 and 3%, supporting the consistency of our assay.
+Hits were selected from both population- and object-based approaches
+in tandem and compared to generate the primary hit list.
+
+2.2.
+
+## Primary Hit Selection, Filtering, and Comparison
+of Analysis Approaches
+Thresholding for primary hits was
+performed using both parallel quantification pipelines, which will
+herein be referred to as “population-based analysis”
+( A–C)
+and “object-based analysis” ( D–H). With population-based analysis,
+controls were visualized along a two-dimensional (2D) plot of FIRE-pHLy
+ratio fold change (FC) and nuclear count (“nucleus”)
+FC to define the boundaries for determining hits ( A). Compounds that exhibited
+a nucleus FC of less than 0.48 [−3 standard deviations; (SD)]
+were considered cytotoxic and excluded. Compounds with the FIRE-pHLy
+ratio FCs within ± 3SD of control were considered inactive ( B and S2A). Primary alkaline hits were identified based
+on the FIRE-pHLy ratio FC of at least 1.12 and nucleus FC of at least
+0.48 (Figure S2B). Conversely, acidic hits
+were identified based on a FIRE-pHLy ratio FC of less than or equal
+to 0.88 and nucleus FC of at least 0.48 ( C). Importantly, we note that the FIRE-pHLy
+ratio could be artificially altered by changes in mCherry fluorescence.
+This may be caused by compound autofluorescence or off-target pH changes
+in the cytosolic environment where mCherry resides. To exclude these
+artifacts, a filter of mCherry fluorescence intensity FC was applied.
+Alkaline compounds with mCherry fluorescence FC > 0.7 and acidic
+compounds
+with FC < 1.5 were shortlisted. Overall, the population-based analysis
+approach identified 29 filtered alkaline hits (Figure S2B) and 13 filtered acidic hits ( C).
+ A similar thresholding paradigm was used for object-based
+analysis.
+Compared to controls ( D), compounds that increased or decreased median bin and bin
+at max by 3SD were considered as hits ( E). Alkaline hits were selected based on
+a bin at the max and median of at least 13 and 11.5, respectively
+(Figure S2C). Acidic hits were identified
+based on a bin at the max and median of less than or equal to 8.7
+and 8.6, respectively ( F). Subsequently, compounds that reduced nucleus FC compared
+to the control ( G,H) were eliminated. Finally, compounds that artificially altered
+mCherry fluorescence intensity were also removed ( H).
+Hits were compiled
+from population-based and object-based analyses
+to generate the finalized filtered hit list. Thirteen acidic hits
+were identified from population-based analysis ( ), while four hits were identified from object-based
+analysis ( ).
+One compound, OSI-027, was found in both analysis pipelines. For alkaline
+hits, 29 compounds were identified from population-based methods (Table S1), 7 of which overlapped with object-based
+methods (Table S2). No additional alkaline
+hits were identified by object-based analysis. Overall, the population-based
+analysis method identified more hits than object-based analysis ( I) in both acidic
+and alkaline hit types. More alkalinizing hits were identified than
+acidifying hits.
+ 
+2.3.
+
+## Hit Confirmation
+with Dose-Response Retesting
+Twenty-three compounds (i.e.
+all 16 acidic hits and the 7 alkaline
+hits identified in both population- and object-based analyses) were
+retested in a twofold dose response over a range of 80–0.156
+μM in differentiated and undifferentiated SH-SY5Y cells. Undifferentiated
+cells were evaluated to support hit confirmation in differing cellular
+states. Among the 16 primary acidic hits, five compounds lowered lysosomal
+pH in a dose-dependent manner in differentiated cells ( A–E). Among these five
+primary hits, OSI-027 and PP242 reproduced in undifferentiated cells
+( F,G). The
+estimated EC50 values for OSI-027 ( F) and PP242 ( G) in undifferentiated cells were 35 and
+2 μM, respectively. The narrow range for differentiated SH-SY5Y
+cells makes it difficult to precisely measure EC50. The remaining
+three compounds—buparlisib, teniposide, and AZ960—exhibited
+marginal dose-response with a much narrower range in FIRE-pHLy ratio
+FC in undifferentiated cells ( H–J). We observed a FC reversal at higher doses
+for these compounds, which may be due to cell death. Finally, in the
+alkaline direction, reserpine robustly increased lysosomal pH, with
+a ∼8.3-fold decrease in EC50 post-differentiation (Figure S3).
+ Ten-point dose-response curves
+(2-fold serial dilution) from 0.15
+to 80 μM. Cells were treated with compounds for 6 h before imaging.
+FIRE-pHLy ratios were taken from total mTFP1/mCherry fluorescence,
+displayed as a FC relative to control, and plotted according to dose.
+(A–E) Five primary hits tested in differentiated SH-SY5Y cells.
+(A) OSI-027. (B) PP242. (C) Buparlisib. (D) Teniposide. (E) AZ960.
+(F-J) Hits retested in undifferentiated cells. (F) OSI-027. (G) PP242.
+(H) Buparlisib. (I) Teniposide. (J) AZ960. OSI-027 and PP242, highlighted
+in red, yielded the strongest responses and were selected for further
+validation studies. Data points are presented as mean ± SD, from
+3 biological replicates; n = ∼3000–5000
+differentiated cells or ∼15,000–20,000 undifferentiated
+cells quantified per dose per time point. Dose-response curves were
+generated using a simple linear regression model from which EC50 values
+were estimated. Red asterisk: single data point not displayed within
+the Y-axis range.
+Overall, we note the consistent
+expansion of the ratio FC range
+across the ten-point dose response in undifferentiated cells compared
+to their differentiated counterparts. In differentiated cells, the
+ratio FC range for OSI-027 and PP-242 was from ∼1.00 to ∼0.90
+and ∼1.05 to ∼0.93, respectively. For the undifferentiated
+cells, the ranges for OSI-027 and PP242 were from ∼0.97 to
+∼0.81 and ∼0.97 to ∼0.75, respectively. These
+data suggest that undifferentiated SH-SY5Y cells are more sensitive
+to pH lowering effects induced by OSI-027 and PP242 than differentiated
+cells. We elected to proceed with validating the top two acidic hits,
+OSI-027 and PP242, because of their chemical similarity and potential
+mechanistic interest in reacidifying lysosomes. The overall summary
+of the primary screen is detailed in .
+ 
+2.4.
+
+## Functional Validation of
+Top Acidic Hits OSI-027
+and PP242
+To functionally validate acidification of lysosomal
+pH, we treated live undifferentiated SH-SY5Y cells (without FIRE-pHLy)
+with compounds and assessed cathepsin D activity ( A). Because cathepsin D auto-activates
+at acidic pH, its activity can be used
+as a functional readout of lysosomal pH; BODIPY FL-Pepstatin A is
+a cathepsin D antagonist that binds to the active form of the enzyme. Cells were treated with OSI-027 and PP-242 at
+10 μM for various times before BODIPY FL Pepstatin A fluorescence
+was assayed ( B). Compared to DMSO control, cathepsin D activity was significantly
+increased with OSI-027 and PP242 treatment. As a negative control,
+we tested bafilomycin A1 (BafA1), which increased pH by inhibiting
+the V-ATPase proton pump. BafA1 slightly decreased cathepsin D activity,
+but not significantly, suggesting that the alkalinization of lysosomes
+did not further lower basal activated enzyme levels. Overall, the
+correlation between the FIRE-pHLy ratio FC decrease and cathepsin
+D level increase validated OSI-027 and PP242 as robust—and
+functionally relevant—lysosomal pH acidifiers.
+ After confirming that OSI-027 and PP-242 acidified lysosomal pH
+and increased active cathepsin D levels, we sought to validate these
+compounds in another native cell model, namely, human-induced pluripotent
+stem cell (iPSC)-derived astrocytes, or iAstrocytes. Quiescent (non-reactive)
+iAstrocytes stably expressing FIRE-pHLy were subsequently treated
+for 24 h with OSI-027 and PP242 ( C). Both compounds acidified pH in iAstrocytes
+compared to control treatment (∼50% reduction in FIRE-pHLy
+ratio FC), providing further support that these compounds acidified
+lysosomes across multiple cell types.
+Reactive astrocytes secrete
+neurotoxic factors and have been implicated
+in the neuroinflammatory pathogenesis of neurodegenerative diseases. Recently, Rooney et al. described an in vitro
+system to model inflammatory reactive astrocytes. , Reactive iAstrocytes activated by cytokines exhibited an alkaline
+lysosomal pH, which was accompanied by increased levels of lysosomal
+exocytosis, a contributor to neurotoxicity. When reactive iAstrocytes were treated with 10 μM of PP242,
+elevated lysosomal pH was restored to control levels and was accompanied
+by a reduction in lysosomal exocytosis. Ultimately, these data supported the notion that aberrant lysosomal
+pH was a contributing factor to neuroinflammation-induced functional
+changes in neurodegenerative disease and may be corrected with small
+molecules such as PP242 and OSI-027. Taken together, the acidifying
+effect of OSI-027 and PP242 in lysosomes was recapitulated in disease
+models. We posit that its effects may be therapeutic in other contexts
+of lysosomal dysfunction.
+
+2.5.
+
+## OSI-027 and PP242 Inhibit
+mTOR and Induce
+Autophagy in SH-SY5Y Cells
+Both OSI-027 and PP242 are described
+as potent and selective ATP-competitive inhibitors of mammalian target
+of rapamycin (mTOR). − mTOR forms two protein complexes, mTORC1 and mTORC2;
+these signaling complexes ( A) form a major hub that regulates cellular processes
+such as metabolism, growth, and proliferation. mTOR inhibition is
+coupled with autophagy induction, which is associated with lysosomal
+activation and acidification. − 
+ To understand whether the lysosomal
+acidification promoted by OSI-027
+and PP242 was related to their role as mTOR inhibitors, we assessed
+mTOR inhibition and autophagy activation ( ). Both compounds dose dependently inhibited
+downstream targets of mTORC1 ( B,D) and mTORC2 ( B,E) in undifferentiated SH-SY5Y cells. mTORC1 activity
+was measured by the phosphorylation state of P70 S6 Kinase (P70S6K)
+at position Thr389 and mTORC2 activity was assessed by the phosphorylation
+of Akt at position Ser473.
+After confirming that OSI-027 and
+PP242 inhibited mTOR, we measured
+their ability to activate autophagy. mTORC1 negatively regulates autophagy
+through the phosphorylation of Unc-51-like autophagy activating kinase
+(ULK1) at Ser757. OSI-027 and PP242 reduced
+ULK1Ser757 levels dose dependently with near complete reduction
+at 10 μM ( C,F), suggesting that both drugs initiated mTORC1-dependent autophagy.
+We then measured the levels of microtubule-associated protein light
+chain 3B (LC3B). The conversion of LC3B-I to LC3B-II correlates with
+the number of formed autophagosomes and therefore reflects autophagy
+activation. , The ratio of LC3B-II to LC3B-I
+increased at higher OSI-027 and PP242 doses, achieving significance
+at 10 μM ( C,G). Finally, we tested for p62, which is an autophagic cargo adaptor
+that is shuttled into lysosomes during autophagy for degradation. Corroborating our data above, PP242 treatment
+lowered p62 protein levels, while OSI-027 trended to decreased p62
+levels, although this result was not statistically significant ( C,H). Together, these
+results demonstrated that OSI-027 and PP242 induced autophagy, indicating
+that their ability to acidify lysosomes may be secondary to the induction
+of autophagy rather than a direct action on the lysosome.
+
+2.6.
+
+## OSI-027 and PP242 Acidifies Lysosomes More
+Potently than Other mTOR Inhibitors
+Interestingly, our compound
+screen included other mTOR inhibitors, such as rapamycin and torin1,
+that were not identified as primary hits in our screen. To assess
+the differential effectiveness of additional mTOR inhibitors in modulating
+lysosomal pH, we retested rapamycin and torin 1 in undifferentiated
+FIRE-pHLy expressing SH-SY5Y cells over 24 h ( ). Confirming our screening results, OSI-027
+and PP242 treatment induced a dose- and time-dependent decrease in
+lysosomal pH in cells ( A,B), but treatment with rapamycin and torin1 did not acidify
+lysosomes across the tested dose range up to 24 h ( C,D). These results suggested
+that at the dosage and timing used in these experiments, OSI-027 and
+PP242 were more effective in acidifying lysosomal pH in undifferentiated
+SH-SY5Y cells than the mTOR inhibitors torin1 and rapamycin.
+ Because we proposed that
+OSI-027 and PP242 induced pH acidification
+by activating autophagy, we hypothesized that rapamycin and torin1
+did not activate autophagy in SH-SY5Y cells, at the doses and timings
+used in this study. Indeed, though we confirmed that these compounds
+inhibited mTORC (Figure S4A), rapamycin
+did not significantly reduce ULK1Ser757 levels nor increase
+the ratio of LC3B-I and LC3B-II, indicating that autophagy was not
+activated under these conditions (Figure S4A). Although torin1 treatment did reduce ULK1Ser757 levels
+starting at 100 nM compound, it did not significantly increase the
+LC3B-II/LC3B-I ratio (Figure S4B), suggesting
+that torin1 did not induce autophagy in as strongly as OSI-027 and
+PP242.
+In summary, we performed a high-content imaging-based
+phenotypic
+screen to identify small molecules that modulate lysosomal pH with
+a specific focus on acidifying compounds. We identified 16 acidic
+and twenty29 alkaline compounds using two distinct hit selection approaches.
+Population-based analysis is used in standard plate-based HTS studies,
+while object-based analysis provides a novel technique that could
+be used in future studies to dissect organelle subpopulation phenotypes.
+While the latter technique yielded an overall lower acidic hit rate,
+the validation rate was superior to population-based analysis. Out
+of the four acidic hits identified using the object-based approach,
+two were confirmed as top hits and validated in subsequent orthogonal
+assays. Indeed, we were able to visualize more nuanced changes in
+the distribution of lysosomes according to their pH, which improves
+upon existing analysis methods of image-based cellular assays.
+Ultimately, we validated 2 out of the 16 primary acidic hits. This
+hit rate may be a product of both biological factors such as lysosomal
+pH dynamics and screening limitations such as the library size and
+protein druggability of the target(s). We speculate that because basal
+lumenal pH of lysosomes is already highly acidic (∼4.5) compared
+to other cellular compartments, acidification beyond this set-point
+may be tightly regulated or even perhaps detrimental to the cell in
+certain contexts. This may explain the reduced dynamic range of FIRE-pHLy
+signal exhibited by acidifiers compared to alkalinizing compounds.
+Indeed, only a few examples highlight specific roles of lysosomal
+hyper-acidification in melanosome trafficking and phospholipid biosynthesis. 
+Alkaline compartments, on the other hand, are more common in the
+cell. In fact, lysosomes mature from the endolysosomal network, which
+maintains more alkaline pH ranges. Exogenous agents, such as drugs,
+have also been known to accumulate in acidic vesicles, such as lysosomes,
+and affect the local pH. , It is conceivable that
+perturbations in the alkaline direction are generally better tolerated
+in the cell (at least over short time periods), supporting our observation
+that alkalinizing compounds exhibited a larger signal range in the
+primary screen.
+OSI-027 and PP242 were identified as top acidic
+hits, demonstrating
+lysosomal pH lowering effects in undifferentiated and differentiated
+SH-SY5Y neuronal-like cells and in basal and activated iAstrocytes,
+possibly through activation of autophagy. Indeed, other groups have
+utilized OSI-027 and PP242 to study autophagy in the context of neurodegenerative
+disease models. For example, Silva et al. identified OSI-027 as a
+top hit in a mutant tau protein lowering screen performed in patient
+iPSC-derived neurons. Consistent with
+our data, OSI-027 lowered total mutant tauA152T and hyperphosphorylated
+tauSer396 levels at 1 and 10 μM, suggesting the correlation
+between lysosomal acidification and enhanced tau clearance. Interestingly,
+the tau lowering effect for OSI-027 was much stronger than that of
+rapamycin. Moreover, one group showed in a Parkinson’s disease
+neuroinflammation model that impaired lysosomal acidification was
+accompanied by alpha-synuclein accumulation. Treatment with 40 nM PP242 rescued lysosomal acidity as measured
+by LysoTracker dye and normalized alpha-synuclein protein levels in
+mouse PC12 cells and primary midbrain neurons. Together, these data
+support the supposition that OSI-027 and PP242 acidify lysosomes and
+thereby restore normal degradative function in neuronal cells.
+The link between lysosomal acidification defects and clinical phenotypes,
+such as changes in the lysosomal morphology, remains an unstudied
+question in the field. To begin to understand this connection, high-resolution
+imaging techniques such as electron microscopy (EM) may be used. Past
+studies have already described EM as a robust method to visualize
+defective lysosomes in the context of lysosomal storage disorders
+and autophagy. , Conceivably compounds that rescue
+lysosomal functions through acidification such as OSI-027 and PP242
+may also reverse abnormal morphologies.
+It is still not entirely
+clear why OSI-027 and PP242 are more effective
+in activating autophagy and decreasing lysosomal pH than other mTOR
+inhibitors such as torin1 and rapamycin. It is plausible that OSI-027
+and PP242 have undescribed targets independent of mTOR that may be
+contributing to autophagy and lysosomal acidity. In order to investigate
+additional targets, we measured ULK1Ser555 phosphorylation
+(Figure S5A). ULK1Ser555 is
+a mTOR-independent phosphosite controlled by AMP-activated protein
+kinase (AMPK) activity. OSI-027 (Figure S5B) and rapamycin (Figure S5D) did not lower phosphorylated ULK1Ser555/total levels, while a significant reduction was observed for PP242
+(Figure S5C) at 10 μM and torin1
+(Figure S5E) at 1 and 10 μM. Because
+these two compounds had differential effects on lysosomal acidification,
+we concluded that this particular non-mTOR phosphosite was unlikely
+to affect pH.
+Nevertheless, kinase inhibitors are likely to
+have additional targets.
+According to the KINOMEscan database, an assay platform that annotates competitive binding between inhibitors
+and a panel of known kinases, PP242 binds to multiple other kinases.
+These include phosphoinositide 3-kinase and ABL proto-oncogene 1,
+which have reported roles in regulating autophagy from cancer studies. − Thus, by evaluating the other targets of OSI-027 and PP242, one
+may identify additional, mTOR-independent, mechanisms of lysosomal
+acidification. Importantly, OSI-027 and PP242 may serve as “tool”
+compounds for the further investigation of the mechanisms driving
+autophagy-mediated lysosomal activation in the context of neurodegenerative
+diseases.
+
+3.
+
+## Methods
+3.1.
+
+## Compound Library and Repurchased Compounds
+The library
+consisted of 1835 compounds assembled from the commercially
+available SelleckChem bioactive collection (SelleckChem, Houston,
+TX). For dose-response and further validations, compounds were repurchased
+from SelleckChem, unless otherwise indicated. Repurchased compounds
+were evaluated for purity by liquid chromatography/mass spectrometry.
+
+3.2.
+
+## Cell Line Maintenance and Differentiation
+in 96-Well Microplates
+Human WT and stably expressing FIRE-pHLy
+SH-SY5Y neuroblastoma cells were maintained
+in 1:1 Eagle’s minimum essential medium (ATCC, #30-003) and
+F12 medium (Life Technologies; Carlsbad, CA, #11765062) with 10% fetal
+bovine serum (FBS) and 1% pen/strep under standard humidified conditions
+of 37 °C and 5% CO2 atmosphere. Cells were trypsinized with 0.25% trypsin/EDTA solution
+(Sigma, #T4049) and seeded into collagen type-I-coated μClear
+96-well microplates (Greiner Bio-One, #655956) at a low density of
+10,000 cells/cm2 with a total well volume of 100 μL
+using a WellMate microplate dispenser (Thermo Scientific, Waltham,
+MA) to allow for proliferation during the first phase of differentiation.
+Plates were incubated overnight at 37 °C/5% CO2 before
+the start of differentiation, as previously described. Briefly, cells were maintained in FBS(+) media
+supplemented with 10 μM retinoic acid from days 0 to 6 and FBS-free
+media supplemented with a 50 ng/mL brain-derived growth factor until
+compound pinning on day 10.
+
+3.3.
+
+## HTS Ratiometric FIRE-pHLy
+Lysosomal pH Reporter
+Assay
+The drug screen was performed at the UCSF SMDC. From
+the library plate (5 mM stock dissolved in DMSO), 200 nL of the compound
+was added in singlicate to 96-well assay plates (10 μM final
+screening concentration) using a fixed-volume pin tool (V&P Scientific,
+San Diego, CA) loaded onto the BioMek-FXP liquid handling automation
+workstation (Beckman Coulter, Brea, CA). DMSO was added to negative
+control wells on every assay plate. Assay plates were incubated for
+6 h (37 °C and 5% CO2). 50 μL of 6% PFA (diluted
+in serum-free media) was dispensed directly into each 100 μL
+assay well (2% PFA final concentration) and shaken briefly using an
+EL406 Combination Washer Dispenser (BioTek, Winooski, VT). Plates
+were fixed at room temperature (RT) for 15 min and washed once with
+100 μL 1× D-PBS (with MgCl2 and CaCl2). Cells were stained with 1:1000 (vol/well) Hoechst dye (10 mg/mL
+Hoechst 33342 solution, Thermo Fisher, #H3570) diluted in D-PBS for
+20 min at RT protected from light and washed once with 1× D-PBS
+(with MgCl2 and CaCl2). Plates were wrapped
+and stored at 4 °C protected from light.
+
+3.4.
+
+## High-Content
+Confocal Imaging, Analysis Types,
+and Data Output
+Following our previously described imaging
+methods and feature extraction protocols, assay plates were imaged (at a single Z-plane)
+on the IN Cell 6500 HS Analyzer (General Electric Life Sciences/Cytiva,
+Marlborough, MA) and quantified on the IN Cell Developer Toolbox v1.9
+(GE Life Sciences/Cytiva). Both population- and object-based analysis
+were used to quantify primary screening imaging data. Population-based
+analysis was used to validate hits in subsequent dose-response and
+validation assays. A detailed description of population- and object-based
+image analysis is available in the Supporting Information.
+
+3.5.
+
+## BODIPY FL Pepstatin A Live-Cell
+Time Course
+Assay
+Mature cathepsin D levels were assessed via BODIPY
+FL Pepstatin A staining on live cells. The staining protocol was performed
+according to the manufacturer’s protocol. Briefly, cells were seeded in 96-well plates, cultured
+overnight, and treated for 30, 60, 90, 120, 240, and 360 min with
+100 nM bafilomycin A1, 10 μM OSI-027, 10 μM PP-242, and
+DMSO as the solvent control. Prior to imaging, cells were incubated
+for 30 min with a staining solution consisting of 1 μM BODIPY
+FL Pepstatin A and 1:1000 (vol/well) Hoescht nuclear dye. Cells were
+washed once with D-PBS and imaged live on an IN cell analyzer 6500
+HS and processed according to an adapted protocol on IN Cell Developer
+Toolbox v1.9.
+
+3.6.
+
+## Immunoblotting
+Western blots were
+performed as previously described. 
+3.6.1.
+
+## Primary Antibodies
+Rabbit anti-ULK
+(1:1000, cell signaling, #8054).
+Rabbit anti-ULKSer757 (1:1000, cell signaling, #14202).
+Rabbit anti-ULKSer555 (1:1000, cell signaling, #5869).
+Rabbit anti-p70S6K (1:1000,
+cell signaling, #2708).
+Rabbit anti-P70S6KThr389 (1:1000,
+cell signaling, #9234).
+Rabbit anti-Akt (1:1000, cell signaling,
+#9272).
+Rabbit anti-AktSer437 (1:1000, cell signaling,
+#4060).
+Rabbit anti-LC3B (1:1000, Sigma, #L7543).
+Mouse
+anti-SQSTM1/p62 (1:1000, Santa Cruz, #48402).
+Mouse anti-GAPDH
+(1:5000, Abcam, #8245).
+
+3.6.2.
+
+## Secondary Antibodies
+Donkey anti-Mouse
+Green (1:10,000, LICOR, #926-32212).
+Donkey anti-Rabbit Green
+(1:10,000, LICOR, #926-32213).
+Donkey anti-Rabbit Red (1:10,000,
+LICOR, #926-68073).
+
+3.7.
+
+## iAstrocyte Experiments
+iAstrocytes
+were generated as detailed in Leng et al. Day 20 iAstrocytes were plated in ScienCell Astrocyte Media (ScienCell
+Research Laboratories cat. no. 1801) at 20,000 cells/cm2 on BioLite Cell Culture Treated 96-well plates (ThermoFisher Scientific
+cat. no. 12-556-008) coated with growth factor reduced, Phenol Red-Free,
+LDEV-Free Matrigel Basement Membrane Matrix (Corning cat. no. 356231)
+diluted 1:200 in DMEM/F12 (ThermoFisher Scientific cat. no. 11330032).
+iAstrocytes were transduced with FIRE-pHLy lentivirus at the time
+of plating. Full media changes with ScienCell Astrocyte Media were
+conducted on days 1, 3, and 5 after plating. On day 5, small-molecule
+compounds were diluted in media to 10 μM. After 24 h (i.e. on
+day 6 after plating), iAstrocytes were incubated with Accutase Cell
+Dissociation Reagent (ThermoFisher Scientific cat. no. A11105-01)
+for 10 min at 37 °C and diluted in Dulbecco’s phosphate
+buffered saline (Milipore Sigma cat. no. D8537) for flow cytometry
+analysis.
+Data from flow cytometry experiments were analyzed
+using FlowJo (version 10.7.1). FIRE-pHLy-positive populations were
+determined through live cell (SSC-A vs FSC-A), single cell (FSC-H
+vs FSC-A), and transduced (mCherry+) gating strategies.
+FIRE-pHLy signal was quantified as the Median FITC-A/mCherry-A ratio
+for each well.
+
+3.8.
+
+## Data Presentation, Statistical
+Analysis, and
+Illustrations
+Visualization of control and screening hit
+data was performed on the SMDC HiTS server and DataWarrior, an open-source
+cheminformatics tool. Pre-processing of data was organized in Microsoft
+Excel. Calculations of hit selection measurements was conducted on
+Pipeline Pilot (Biovia) (see the Supporting Information). Dose-response curves were generated using a simple linear regression
+model in GraphPad Prism 9. For validation experiments, all data were
+generated from randomly selected sample populations from at least
+three independent experiments represented unless otherwise mentioned
+in the corresponding figure legends. Statistical data were presented
+as mean ± S.D or S.E.M. Multiple comparisons between groups were
+analyzed by the one-way or two-way ANOVA test. All data plots and
+statistical analyses were performed using GraphPad Prism 9 with no
+samples excluded. Significant differences between experimental groups
+were indicated as *P < 0.05; **P < 0.01; and ***P < 0.001; only P < 0.05 was considered as statistically significant. NS = not
+significant. Immunoblot images and quantifications were acquired from
+Image Studio (LI-COR Biosciences). Cartoon schematics were created
+on Biorender.com.
+Figures were assembled on Adobe Illustrator and Adobe Photoshop.
+
+## Acknowledgments
+We thank the UCSF SMDC
+for their assistance on drug
+screening procedures, data management, and storage. We also thank
+Deanna Kroetz for insights on drug screening and validation. Additionally,
+we thank members of the Kao and Arkin labs for their thoughtful discussions.
+This work has received support from the NIH/NIA (R01 AG055342 to A.W.K.;
+R01 AG062359 to M.K.; and F30 AG066418 to K.L.). Finally, this work
+was included in the dissertation of M.Y.C for the Pharmaceutical Sciences
+and Pharmacogenomics doctoral program at UCSF (https://escholarship.org/uc/item/3xs387n6). 
+
+## Glossary
+
+## Abbreviations
+FIRE-pHLyFluorescence Indicator REporting
+pH in Lysosomes
+mTFP1monomeric teal fluorescent protein
+V-ATPasevacuolar-type ATPase
+LAMP1lysosomal-associated membrane
+protein 1
+BafA1bafilomycin A1
+iPSCinduced pluripotent stem cells
+RAretinoic acid
+BDNFbrain-derived neurotrophic factor
+HTShigh-throughput screening
+FCfold change
+CVcoefficient of variation
+EC50half maximal effective
+concentration
+DMSOdimethyl sulfoxide
+WTwildtype
+ATPadenosine triphosphate
+mTORmammalian target of rapamycin
+mTORCmTOR complex
+ULKunc-51-like autophagy activating kinase
+LC3Bmicrotubule-associated
+protein light chain 3B
+PI3Kphosphoinositide 3-kinase
+ALB1ABL proto-oncogene 1
+AMPactivated protein kinase
+AMPKAMP-activated protein kinase
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acschemneuro.1c00804.
+Assay
+performance for negative controls, hit selection
+for lysosomal alkalinizers, hit confirmation for top alkaline hit,
+mTORC1/2 immunoblots of cells treated with rapamycin and torin1, ULK1Ser555 immunoblots of cells treated with mTOR inhibitors, and
+methods describing the population- and object-based analysis pipelines
+(PDF)
+
+## Author Contributions
+M.Y.C., M.R.A.,
+and A.W.K. for conceptualization and design; M.Y.C., K.A., J.D., C.A.,
+and V.G.G. for experimental design and data acquisition; B.R., K.L,
+and M.K. for conceptualization, design, and data acquisition of iAstrocyte
+experiments; all authors analyzed and interpreted data; M.Y.C., M.R.A.,
+and A.W.K. wrote the manuscript; and all authors edited the manuscript.
+
+The authors declare no
+competing financial interest.
+
+## Notes
+The authors
+declare that all relevant data supporting
+the findings of this study are available within the paper. Any data
+or reagents can be obtained from the corresponding authors (M.R.A.
+and A.W.K.) and on reasonable request.
+
+## Supplementary Material
+cn1c00804_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+cn1c00804_si_001.pdf

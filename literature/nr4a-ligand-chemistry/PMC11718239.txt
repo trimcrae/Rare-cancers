@@ -1,0 +1,160 @@
+379blackwellopenGenes to CellsGenes CellsPMC1171823911718239117182393978980710.1111/gtc.13191Single‐Cell RNA‐Sequencing of Zebrafish Olfactory Epithelium Identifies Odor‐Responsive Candidate Olfactory Receptors
+TakaokaMisaki Hiraki‐KajiyamaTowako MiyasakaNobuhiko HinoTakahiro KondoKenji YoshiharaYoshihiro 
+1
+Laboratory for Systems Molecular Ethology, RIKEN Center for Brain Science, Saitama, Japan
+2
+Department of Otolaryngology and Head and Neck Surgery, Graduate School of Medicine, The University of Tokyo, Tokyo, Japan
+3
+Laboratory of Molecular Ethology, Graduate School of Life Science, Tohoku University, Miyagi, Japan
+4
+Support Unit for Bio‐Material Analysis, Research Resources Division, RIKEN Center for Brain Science, Saitama, Japan*
+
+Correspondence:
+ 
+Yoshihiro Yoshihara (yoshihiro.yoshihara@riken.jp)
+
+✉Corresponding author.
+912025301e13191e131911112025© 2025 The Author(s). Genes to Cells published by Molecular Biology Society of Japan and John Wiley & Sons Australia, Ltd.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## ABSTRACT
+Single‐cell RNA‐sequencing (scRNA‐seq) is a powerful method to comprehensively overlook gene expression profiles of individual cells in various tissues, providing fundamental datasets for classification of cell types and further functional analyses. Here we adopted scRNA‐seq analysis for the zebrafish olfactory sensory neurons which respond to water‐borne odorants and pheromones to elicit various behaviors crucial for survival and species preservation. Firstly, a single‐cell dissociation procedure of the zebrafish olfactory rosettes was optimized by using cold‐active protease, minimizing artifactual neuronal activation. Secondly, various cell types were classified into distinct clusters, based on the expressions of well‐defined marker genes. Notably, we validated non‐overlapping expressions of different families of olfactory receptors among the clusters of olfactory sensory neurons. Lastly, we succeeded in estimating candidate olfactory receptors responding to a particular odor stimulus by carefully scrutinizing correlated expressions of immediate early genes. Thus, scRNA‐seq is a useful measure for the analysis of olfactory sensory neurons not only in classifying functional cell types but also in identifying olfactory receptor genes for given odorants and pheromones.
+Keywords: immediate early gene, olfactory receptor, olfactory sensory neuron, scRNA‐seq, zebrafish
+
+A comprehensive scRNA‐seq analysis of the zebrafish olfactory epithelium revealed classification of olfactory sensory neurons, based on distinct receptor expressions. Furthermore, the analysis of immediate early gene expressions identified candidate olfactory receptors activated by a given odor stimulus.
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2024 Dec 19; Received 2024 Dec 1; Accepted 2024 Dec 22; Issue date 2025 Jan.
+
+1.
+
+## Introduction
+Many olfactory cues pervade aquatic environment of fish, activate the olfactory system, and evoke various behavioral and physiological responses. Olfactory sensation starts at the olfactory epithelium (OE) in the olfactory rosette of the nose, which is comprised of multiple cell types including olfactory sensory neurons (OSNs), globose basal cells, horizontal basal cells, and sustentacular cells. Zebrafish OSNs are morphologically and molecularly classified into five types. Ciliated OSNs and microvillous OSNs are the two major types present in most vertebrate species, while crypt OSNs, pear OSNs, and Kappe OSNs are the three minor types found in teleost fishes. The ciliated OSNs express odorant receptors (ORs) and trace amine‐associated receptors (TAARs), while the microvillous OSNs express vomeronasal type 1 and type 2 receptors (V1Rs and V2Rs). The crypt OSNs and pear OSNs express single olfactory receptors, V1R4 and A2c, respectively, whereas the olfactory receptor in Kappe OSNs is still unknown (Calvo‐Ochoa, Byrd‐Jacobs, and Fuss  ). Upon binding of odorants and pheromones to specific olfactory receptors in the OE, the information is transmitted to the glomeruli in the olfactory bulb and further conveyed to higher brain centers. This neural circuit diagram is highly conserved in all vertebrate species from fishes to mammals.
+Recently, single‐cell RNA‐sequencing (scRNA‐seq) has rapidly become an extremely useful, powerful, and popular technique for characterizing various cell types based on gene expression profiles. This method can classify multiple cell types by cluster analysis based on the expression of a large number of genes, enabling us to make complete lists of gene expression profiles for individual cell types, to search for marker genes specifically expressed in certain cell types, and even to predict the function of cells by scrutinizing the expressed gene repertoires. Although a number of papers have been reported on scRNA‐seq analysis of various tissues in many animal species, there is no study, to our knowledge, describing comprehensive gene expression profiles of multiple cell types in the zebrafish OE. Furthermore, there are no examples of scRNA‐seq being used for the identification of olfactory receptors for distinct odor stimuli.
+Here we have optimized a method for cell dissociation of zebrafish olfactory rosette, performed scRNA‐seq analysis, clustered various cell types based on marker gene expressions, and scrutinized olfactory receptor gene expression patterns in the OSN clusters. In addition, we have developed a method to estimate olfactory receptors that respond to a given odor stimulus, by analyzing expression levels of immediate early genes (IEGs) in OSNs.
+
+2.
+
+## Results
+2.1.
+
+## Clustering of Cell Types in the Zebrafish Olfactory Rosette
+In this study, we used zebrafish stimulated with skin extract which induces olfactory alarm reaction (Masuda et al.  ). The workflow from odorant stimulation to library construction is shown in Figure  , which harbors two key steps for efficient dissociation of healthy cells while minimizing changes in gene expression profiles. First, most of the procedures were done under cold temperatures (on ice) to reduce artifactual changes in gene expression. Most importantly, we used 
+Bacillus licheniformis
+ protease (Adam, Potter, and Potter  ; O'Flanagan et al.  ; Brown et al.  ) which possesses high proteolytic activity even at 6°C. Second, we adopted step‐wise trituration with two types of fire‐polished Pasteur pipettes with different tip diameters (first with 600–700 μm and second with 200–300 μm), and the resulting material was filtrated through a fine mesh (20 μm) cell strainer to obtain single‐cell suspension. By using this method, olfactory rosettes were dissociated into mostly single round cells with well‐defined edges, while aggregated cells were rarely observed (Figure  ). The obtained sample was subjected to single‐cell partitioning and barcoding with Chromium Controller, and then a single‐cell library was constructed and sequenced.
+The 1,467 individual cells prepared from zebrafish olfactory rosettes were classified into 15 major clusters (Figure  ). The OE mainly consists of OSNs, sustentacular cells, horizontal basal cells, and globose basal cells (Calvo‐Ochoa, Byrd‐Jacobs, and Fuss  ). We used several well‐established cell‐type marker genes to characterize individual clusters. The clusters 1, 2, and 9 were identified as different types of OSNs, based on the expressions of specific marker genes: ompb, cnga2b, adcy3b for ciliated OSNs (cluster 1), vmn2r1, trpc2b, trpc2a for microvillous OSNs (cluster 2), and gap43, stmn2b, gng8 for immature OSNs (cluster 9) (Figure  ). Similarly, each cluster was annotated using the marker genes for other cell types: krt8, sult1st6, cyp1c1, for sustentacular cells (cluster 4), tp63, six1b, krt5 for horizontal basal cells (cluster 5), neurod4, neurod1, neurog1 for globose basal cells (cluster 13), ptprc, il7r, il2rb for leukocytes (cluster 3), csf1ra, marco, lcp1 for macrophage (cluster 7), hbba1, hbba2, epor for erythrocytes (cluster 11), and kdrl, flt4, heg1 for endothelial cells (cluster 15) (Figure  ).
+ 
+2.2.
+
+## In‐Depth Clustering of Zebrafish Olfactory Sensory Neurons
+Next, we focused on the OSN clusters 1, 2, and 9 (Figure  ) and re‐clustered them (533 cells) at a higher resolution (Figure  ). On the high‐resolution OSN UMAPs, a clear segregation of ompb‐expressing ciliated OSNs (clusters 1, 2, 4, 6, 9, 10, 11, 13, and 15) and trpc2b‐expressing microvillous OSNs (clusters 3, 5, 7, 14, and 16) was observed (Figure  ). gap43‐expressing immature OSNs were located in the central part of UMAP (clusters 8 and 12) surrounded by ciliated OSNs and microvillous OSNs (Figure  ). Pear OSNs expressing A2c adenosine receptor gene (adorb1a) were observed in the cluster 9 (Figure  ). Crypt cells were not found in this analysis, possibly due to the small number of crypt cells in the OE. Kappe cells could not be identified, due to the absence of any marker genes for them (Ahuja et al.  ).
+ To further characterize the OSN clusters, the olfactory receptor genes were categorized into several clades or groups by phylogenetic analysis (Table  ) and plotted them onto UMAP (Figure  ). Four clades of OR genes (δ, ε, η, and ζ (Niimura and Nei  )) showed different distributions in the ciliated OSN clusters. Most of the η clade OR genes were specifically contained in clusters 10 and 11 (Figure  ), whereas OR genes belonging to the clades δ, ε, and ζ were found mostly in clusters 1 and 6 (Figure  ). We classified TAAR genes into two groups, based on a phylogenetic tree (Hussain, Saraiva, and Korsching  ). The two TAAR groups showed distinct distributions in the ciliated OSN clusters (Figure  ). The group I TAAR genes were present in clusters 1, 4, and 13 while the group II TAAR genes were found in clusters 2 and 4. V2R genes (OlfC genes) were classified into two groups (Alioto and Ngai  ). The group I harbors 54 V2Rs, while the group II consists of only one exceptional V2R (OlfCc1) that is ubiquitously expressed in all the microvillous OSNs (DeMaria et al.  ). Both of the V2R gene groups were present in the microvillous OSN clusters 3, 5, 7, 14, and 16, and there was no apparent difference in distributions of these two V2R groups (the sum of 54 different V2Rs in the group I and the ubiquitous OlfCc1 in the group II) (Figure  ). Although we searched for expressions of six V1R genes (V1R1–6) in the OSN clusters, only one cell expressing V1R1 could be found in the cluster 9 (data not shown). Thus, it was difficult to define and characterize minor types of OSNs, probably due to the small number of OSNs obtained in the present experiment.
+We summed up all OR genes, TAAR genes, and V2R genes respectively, and plotted them on UMAPs (Figure  ). A merged view evidently revealed that three families of olfactory receptors are distributed in distinct clusters on UMAP and that there was no overlap in expressions of OR, TAAR, and V2R genes in individual OSNs (Figure  ).
+
+2.3.
+
+## Estimation of Olfactory Receptors Activated by a Given Odor Stimulus by Analyzing the Immediate‐Early Gene Expression Profiles
+In the present scRNA‐seq experiment, we used zebrafish stimulated with skin extract which induced olfactory alarm reaction. We recently reported that two compounds in the zebrafish skin extract, daniol sulfate, and ostariopterin, synergistically act as alarm substances and that OR132‐1, ‐4, and ‐5 are the olfactory receptors for daniol sulfate (Masuda et al.  ). Therefore, we postulated that the OR132‐1/4/5‐positive ciliated OSNs activated by the skin extract should express higher levels of immediately early genes (IEGs) compared with non‐activated OSNs.
+The ciliated OSNs (clusters 1, 2, 4, 6, 9, 10, 11, and 13 in Figure  ) were further clustered at a higher resolution, resulting in the appearance of 34 clusters (Figure  ). In the first IEG analysis, we selected five well‐established IEG families, fos, jun, egr, nr4a, and npas4, that are used as neuronal activation markers in previous studies (Wu et al.  ; Simon et al.  ). We summed up the expression levels of all the zebrafish orthologs (23 genes) of those five IEG family members (IEG_score_1) and plotted them on UMAP (Figure  ). A violin plot showed that the clusters 1, 2, 21, and 31 contained ciliated OSNs with slightly higher expression levels of the IEGs (Figure  ). To search for olfactory receptor genes whose expression levels correlate with those IEGs, correlation coefficients were calculated for all genes and listed in descending order (Table  ). Among all the olfactory receptor genes, or132‐4, or102‐5, and taar19l showed markedly high correlation coefficients (> 0.1) (Figure  ). OR132‐4 is the olfactory receptor most strongly activated by daniol sulfate, a component of the skin extract (Masuda et al.  ), indicating that this method can successfully identify candidate olfactory receptor genes for given odorants.
+ Because different types of neurons show distinct profiles of IEG expressions upon neuronal excitation (Simon et al.  ), we next explored the suitable combination of IEGs to identify ciliated OSNs activated by odor stimuli. We calculated the correlation coefficients between or132‐4 and all other genes (Table  ) and found 9 IEGs, egr2a, sik1, rasd1, nr4a1, csrnp1a, ier2b, dusp2, btg2, and fosb, which exhibited high correlation coefficients (> 0.1) (Figure  ). Six out of the 9 genes were not included in the 23 IEGs used for the initial IEG analysis. Therefore, we performed the second IEG analysis by summing up the newly identified 9 IEGs expression levels (IEG_score_2) and plotted them on UMAP (Figure  ). A violin plot showed that the clusters 1, 2, and 4 harbor ciliated OSNs with high expression levels of the new combination of IEGs (Figure  ). An expression correlation analysis identified 8 olfactory receptor genes (Table  , Figure  ). Notably, or132‐1 and or132‐5 were found in this list, which are activated by daniol sulfate in the skin extract (Masuda et al.  ). Thus, these results indicate that those 9 IEGs are useful for estimating the olfactory receptor genes expressed in ciliated OSNs that respond to given odorants or pheromones. Additional experiments will be required to validate this applicability of the 9 IEGs for other known cognate ligand‐receptor pairs in ciliated OSNs, such as prostaglandin F2α—OR114‐1/2 (Yabuki et al.  ) and adenosine—A2c (Wakisaka et al.  ).
+
+3.
+
+## Discussion
+Conventional methods for single‐cell dissociation employed enzymatic digestion of tissues at 37°C, which yielded unexpected artifactual changes in gene expression patterns (Adam, Potter, and Potter  ; O'Flanagan et al.  ; Brown et al.  ), especially of IEGs. Since we focused on the expression profiles of IEGs in the present study, it was necessary to keep the cells in a quiescent state during the dissociation procedure. In this study, we therefore utilized cold‐active protease from 
+B. licheniformis
+ at 6°C and successfully obtained single live cells with high viability (Figure  ), while the post‐sacrifice artifactual activation of neurons was virtually suppressed.
+The key conclusions of this study are as follows. (1) Zebrafish OSNs expressing different olfactory receptor family genes are clearly segregated into molecularly distinct clusters. (2) The olfactory receptor genes expressed in OSNs that respond to a given odor stimulus can be estimated by analyzing the IEG expression profiles.
+scRNA‐seq analysis of the zebrafish olfactory rosettes resulted in the apparent clustering of various cell types with different functions (Figure  ). In addition, the distinct families of olfactory receptor genes (ORs, TAARs, and V2Rs) were clearly segregated on a two‐dimensional UMAP space in a non‐overlapping fashion (Figure  ). Furthermore, several clades or groups of olfactory receptor genes tended to be localized in specific clusters, indicating correlated expressions of olfactory receptors with other functional molecules in distinct OSN subpopulations (Figure  ). This finding supports a previous report describing the coordination of olfactory receptor choice and multiple axon guidance molecule expressions in zebrafish OSNs (Dang et al.  ).
+We previously identified zebrafish olfactory receptors for ethologically important odorants and pheromones, including OR114‐1 and ‐2 for prostaglandin F2α (sex pheromone) (Yabuki et al.  ), A2c for adenosine (feeding cue) (Wakisaka et al.  ) and OR132‐1, ‐4 and ‐5 for daniol sulfate (a component of alarm substances in zebrafish skin extract) (Masuda et al.  ). These studies utilized double in situ hybridization with a complete set of olfactory receptor gene probes and an IEG c‐fos probe on OE sections prepared from zebrafish stimulated with given odorants or pheromones. However, this method did not always lead to identifying the olfactory receptors, because narrowing down candidates from hundreds of receptor genes was challenging. In the present study, we therefore tested whether olfactory receptors responding to a particular odor can be estimated by analyzing IEG expressions in the scRNA‐seq data. We used the skin extract‐stimulated zebrafish, analyzed expressions of IEGs, and identified candidate olfactory receptors whose expressions were correlated with those highly expressed IEGs (Figure  ). Most importantly, all the three olfactory receptors (OR132‐1, ‐4,‐5) for daniol sulfate, a component of alarm substances, were included in this list, demonstrating the feasibility of this method to identify olfactory receptors for a certain ligand of interest. In addition to the OR132 subgroup members, seven olfactory receptor genes (or102‐5, or115‐12, or115‐14, or125‐1, or137‐2, taar19l, taar13a) exhibited highly correlated expressions with the IEGs, rendering them as potential candidate olfactory receptors for other compounds contained in the skin extract. To validate their ligand‐receptor relationship, further experiments are required such as the double in situ hybridization with IEG and olfactory receptor gene probes and the ligand‐activated reporter assay in heterologous cells expressing the candidate olfactory receptors.
+
+4.
+
+## Experimental Procedures
+4.1.
+
+## Animals
+Zebrafish (Danio rerio) were maintained at 28°C under 14‐h light and 10‐h dark cycles and fed with brine shrimp twice a day. Ten adult male SAGFF179A;UAS:GFP (Asakawa et al.  ; Koide et al.  ) transgenic zebrafish (8 months old) were used in the experiment. All experimental procedures were approved by the Animal Care and Use Committee of RIKEN.
+
+4.2.
+
+## Exposure of Zebrafish to Skin Extract
+Skin extract was prepared from 20 zebrafish (13 males and 7 females, 11 months old) as previously described (Masuda et al.  ). For acclimatization, fish were isolated and kept in a tank with 800 mL of reverse osmosis water containing 0.03% synthetic sea salts (TetraMarin Salt Pro, Tetra) for 1 day. On the sampling day, 800 μL of the skin extract was applied to the tank and fish were exposed to the odor for 30 min.
+
+4.3.
+
+## Preparation of Single Cells From Zebrafish Olfactory Rosettes for Single‐Cell RNA‐Sequencing
+By modifying the previous methods (Hashikawa et al.  ; Moffitt et al.  ), we established a cell preparation protocol. Most of the steps were conducted on ice to minimize artifactual changes in gene expression (Adam, Potter, and Potter  ; O'Flanagan et al.  ; Brown et al.  ). All buffer solutions were oxygenated by passing 100% O₂ gas for at least 2–10 min on ice before use. Fish were sacrificed and kept in ice‐cold Dulbecco's Phosphate‐Buffered Saline (DPBS) containing 500 nM tetrodotoxin citrate (Tocris #1069), 5 µM actinomycin D (Sigma‐Aldrich #A1410), and 37.7 μM anisomycin (Sigma‐Aldrich #A9789). The olfactory rosettes and nasal cavity tissues were immediately dissected out under a stereomicroscope (Leika MZ7.5) and transferred to ice‐cold Hibernate A buffer: Hibernate A medium (Thermo Fisher Scientific #A1247501) containing 2 mM GlutaMAX (Thermo Fisher Scientific #35050061), 0.2x B27 supplement (Thermo Fisher Scientific #17504044), 10 μM Y276323 dihydrochloride (Sigma‐Aldrich #Y0503), 1%(w/v) D (+) trehalose dihydrate (Sigma‐Aldrich #T9531), 1 nM tetrodotoxin citrate, 10 μM D‐AP5 (Tocris #0106), 10 μM CNQX (Tocris #0190), 5 μM actinomycin D, 37.7 μM anisomycin. The tissues were transferred to the dissociation buffer: 10 mg/mL 
+B. licheniformis
+ protease (Sigma‐Aldrich #P5380), 200 units/mL DNase I (Worthington #LK003172) in Hibernate A buffer, and digested for 21 min at 6°C. For the first 15 min of digestion, the tissues were dissociated by mechanical trituration using a fire‐polished Pasteur pipette (tip diameter 600–700 μm) every 5 min. In the following 6 min, the tissues were further dissociated by trituration using a fire‐polished Pasteur pipette (tip diameter 200–300 μm) every 2 min. The digestion was stopped by replacing the dissociation buffer with trypsin inhibitor solution (0.1 mg/mL trypsin inhibitor (Sigma‐Aldrich #T2011), 50 units/mL DNase I in Hibernate A buffer). The cells were filtered through a 20‐μm cell strainer (pluriSelect #43–50,020‐03) to remove aggregates. After centrifugation, the cells were resuspended in 100 μL of oxygenated DPBS containing 0.04% bovine serum albumin (Sigma‐Aldrich #A1595BSA) and kept on ice.
+A small fraction of cell suspension (10 μL) was mixed with an equal amount of 0.4% trypan blue to determine the proportion of live cell concentration using a hemocytometer. A high viability (84.2%) sample was adjusted to 720 cells/μL and subjected to library construction.
+
+4.4.
+
+## Single‐Cell cDNA Library Construction and Sequencing
+According to the manufacturer's instructions (10x Genomics Chromium System, Chromium Next GEM Single Cell 3' Reagent Kits v3.1), a single‐cell cDNA library was constructed. Following reverse transcription, cDNA amplification, and processing, the resultant cDNA library was sequenced on an Illumina Hiseq X. The raw sequencing reads were aligned to the zebrafish genome (GRCz11) provided by Ensemble using the Cell Ranger pipeline (v7.1).
+
+4.5.
+
+## Data Analysis
+The R package Seurat (https://github.com/satijalab/seurat/releases/tag/v4.3.0) was used for data analysis. According to the standard workflow, data preprocessing, principal component analysis (PCA), clustering, expression analysis, and data visualization were performed. For quality controls, cells with more than 10% proportions of mitochondrial genes and cells expressing less than 700 or more than 15,000 genes were excluded (564 cells). The remaining 1,467 cells were used for subsequent analysis. To construct nearest neighbor graphs in the PCA space and generate the Uniform Manifold Approximation and Projection (UMAP), the top 10, 20, and 20 PCs were used for the analysis of all cells, OSNs, and ciliated OSNs, respectively. The resolution of Louvain clustering was set to 1.0, 4.0, and 5.0 for analysis of all cells, OSNs, and ciliated OSNs, respectively.
+
+4.6.
+
+## Classification of Olfactory Receptor Genes
+Olfactory receptor genes were classified by clade following the previous literature (OR; Niimura and Nei  , TAAR; Hussain, Saraiva, and Korsching  , OlfC; Alioto and Ngai  ). The list of gene names and clades used in the analysis was summarized in Table  . The normalized expression levels of each gene were obtained by the FetchData function of the Seurat package and summed as expression scores. Expression scores of each clade were plotted by the FeaturePlot function. We summed up all the existing OR, TAAR, and OlfC genes, binarized gene expression levels, and plotted them using the AddMetaData function.
+
+4.7.
+
+## Calculation of Immediate Early Gene Scores and Correlation Coefficients
+In the initial correlation analysis, we focused on the five IEG families, fos, jun, egr, nr4a, and npas4, all of which were extensively analyzed and well‐established as neuronal activation markers (Wu et al.  ; Simon et al.  ). For all the zebrafish orthologs of those IEG family members (fosaa, fosab, fosb, fosl1a, fosl1b, fosl2, fosl2l, egr1, egr2a, egr2b, egr3, jun, jun‐201, jun‐202, junba, junbb, jund, nr4a1, nr4a2a, nr4a2b, nr4a3, and npas4a, npas4b), expression scores (IEG_score_1) were calculated using the same method as that was used for the olfactory receptor genes. To examine correlations between gene expression data and IEG_score_1, Pearson's correlation coefficients were calculated for each gene using the apply function of R. For the second analysis, the correlation coefficients between or132‐4 and all genes were calculated in the same method in ciliated OSNs. Among the genes with correlation coefficients greater than 0.1, the genes that were found on the IEG list of previous study (Wu et al.  ; egr2a, sik1, rasd1, nr4a1, csrnp1a, ier2b, dusp2, btg2, and fosb) were selected and used to calculate the IEG_score_2.
+
+## Author Contributions
+
+Misaki Takaoka: conceptualization, data curation, formal analysis, investigation, methodology, writing – original draft. Towako Hiraki‐Kajiyama: data curation, formal analysis, investigation, methodology, writing – review and editing. Nobuhiko Miyasaka: investigation, methodology, writing – review and editing. Takahiro Hino: data curation, formal analysis, writing – review and editing. Kenji Kondo: supervision, writing – review and editing. Yoshihiro Yoshihara: conceptualization, funding acquisition, supervision, writing – review and editing.
+
+## Ethics Statement
+The authors have nothing to report.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Figure S1:
+
+Table S1:
+
+Table S2:
+
+Table S3:
+
+Table S4:
+
+## Acknowledgments
+We thank the RIKEN CBS Research Resources Division for providing services and equipment; Keisuke Fukumoto for help in library construction; members of RIKEN CBS Neuroinformatics Unit for help in data deposition; members of the Yoshihara lab for critical discussions; and Satomi Yamashita and Chigaya Ito for zebrafish care.
+
+Funding: This work was supported in part by RIKEN Junior Research Associate Program to M.T. and Grant‐in‐Aid for Scientific Research (B) (20300117) from the Ministry of Education, Culture, Sports, Science, and Technology of Japan to Y.Y.
+
+Transmitting Editor: Yuichi Iino
+
+## Data Availability Statement
+The scRNA‐seq feature barcode matrix in Cell Ranger HDF5 format is available on the RIKEN CBS Data Sharing Platform (https://doi.org/10.60178/cbs.20241218‐001).
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1:
+
+Table S1:
+
+Table S2:
+
+Table S3:
+
+Table S4:
+
+## Data Availability Statement
+The scRNA‐seq feature barcode matrix in Cell Ranger HDF5 format is available on the RIKEN CBS Data Sharing Platform (https://doi.org/10.60178/cbs.20241218‐001).

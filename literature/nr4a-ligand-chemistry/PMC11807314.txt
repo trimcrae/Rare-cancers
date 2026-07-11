@@ -1,0 +1,177 @@
+pmcBMC BioinformaticsBMC Bioinformatics13bmcbioiBMC Bioinformatics1471-2105BMCPMC11807314PMC11807314.111807314118073143992302210.1186/s12859-025-06058-860581SoftwareTockyPrep: data preprocessing methods for flow cytometric fluorescent timer analysis
+OnoMasahirom.ono@imperial.ac.uk ], mCherry-derived monomeric variants such as Fast-FT, Medium-FT, and Slow-FT [ ], and mRuby variants, known as mRubyFT [ ]. These proteins have enabled detailed analyses of temporal dynamics in molecular and cellular events. Applications range from examining intracellular and membranous protein dynamics [ ] to monitoring T cell and B cell activities in vivo [ ], and assessing promoter activities [ , ]. Furthermore, tandem fluorescent protein timers, pairing two fluorescent proteins with distinct expression and maturation kinetics, are employed in both cellular and in vivo studies. The combination of Superfolder GFP (sfGFP), a GFP variant known for its rapid fluorescence maturation, with a red fluorescent protein exhibiting more delayed fluorescence kinetics, such as mCherry or TagRFP, is a popular choice for these tandem Timer systems [ , ]. The analysis of data from these studies typically involves sophisticated mathematical modeling to elucidate temporal changes in gene expression by exploiting the differing kinetics of the two fluorescent proteins [ ].
+Using the monomeric Fluorescent Timer protein Fast-FT, we have developed the Timer-of-cell-kinetics-and-activity (Tocky) system for single-cell flow cytometric analysis of cellular activities and transcription [ ]. This approach has resulted in the development of Fluorescent Timer reporter mouse strains: Foxp3-Tocky for analyzing the temporal dynamics of Foxp3 transcription and Nr4a3-Tocky for studying cellular responses over time following T cell receptor (TCR) signaling. These developments have established the proof-of-concept for the Tocky systems as valuable experimental methods [ , ]. However, the full implementation of Timer fluorescence data analysis has yet to be realized.
+Currently, the primary bottleneck in the application of Fluorescent Timer proteins lies in data analysis, particularly the flow cytometric analysis of Timer fluorescence, which presents both significant challenges and opportunities for advancement. Fast-FT, an mCherry mutant with delayed protein maturation kinetics, spontaneously and irreversibly transitions its chromophore from blue to a mCherry-type red form [ ]. Analysing the ratio of immature to mature fluorescence provides insights into time-dependent cellular dynamics. We have previously described the trigonometric transformation of Timer fluorescence into the angle component, Timer Angle, and the norm, Timer Intensity, which decomposes temporal information and signal strength [ ]. Nevertheless, the data preprocessing process requires further clarification and standardization.
+Importantly, flow cytometric measurements of fluorescence rely on signal amplification [ ], and the instrumental settings, especially the voltages used for amplification, can be significantly varied between users [ ]. This variability complicates the consistent application of trigonometric transformations, underscoring the necessity for robust and practical data preprocessing methods. Consequently, the normalization of immature and mature Timer fluorescence data becomes crucial in ensuring that the analysis of Timer blue and red is reliable and reproducible across different experimental setups.
+In this paper, we introduce a new R implementation of the Timer data analysis method. This implementation automates the data preprocessing methods, including Timer fluorescence normalization and trigonometric transformation, which are essential for analyzing Timer data from flow cytometry experiments. Additionally, tailored visualization techniques are included to ensure accurate data preprocessing. Collectively, these enhancements aim to standardize the process, enhancing both reproducibility and accuracy.
+
+## Materials and methods
+
+## Overview of timer data analysis
+Timer data preprocessing consists of three main steps: Timer fluorescence thresholding, which determines Timer fluorescence positivity
+Timer fluorescence normalization, which normalizes Timer blue and red fluorescence data.
+Trigonometric data transformation of blue and red fluorescence into Timer Angle and Timer Intensity using polar coordinates.
+The preprocessed data, specifically Timer Angle and Timer Intensity, are subsequently used for downstream analysis.
+
+## Timer thresholding
+Setting thresholds for blue and red fluorescence to gate cells:Threshold values are determined either interactively or through automatic quantile-based methods.
+Cells are selected for further analysis based on these thresholds to enable quantitative analysis of Timer dynamics using Timer Angle and Timer Intensity.
+
+## Timer fluorescence normalization using negative control data
+Timer blue and red fluorescence data are normalized using statistics derived from the gated negative control data. Gating thresholds and for red and blue fluorescence are set either interactively or automatically based on quantiles. The maximum values and Median Absolute Deviations (MADs) or standard deviations (SDs) of the log-transformed fluorescence in the gated negative control data are computed:
+Using the parameters defined below, the log-transformed fluorescence values are normalized for each cell:1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$B_{\text{norm}} = \frac {{B_{\text{log}}}- max (B_{{\text{log}},\,{\text{gated}}{\_}{\text{neg}} })}{{\text{SD}}(B_{{\text{log}},\,{\text{gated}}{\_}{\text{neg}} })}$$\end{document}Bnorm=Blog-max(Blog,gated_neg)SD(Blog,gated_neg) where is the maximum value and is the SD of the log-transformed blue fluorescence of gated negative cells.2\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$R_{\text{norm}} = \frac {{R_{\text{log}}}- max (R_{{\text{log}},\,{\text{gated}}{\_}{\text{neg}} })}{{\text{SD}}(R_{{\text{log}},\,{\text{gated}}{\_}{\text{neg}} })}$$\end{document}Rnorm=Rlog-max(Rlog,gated_neg)SD(Rlog,gated_neg) where is the maximum value and is the SD of the log-transformed red fluorescence of gated negative cells.
+
+## Timer fluorescence trigonometric transformation
+The core of our temporal analysis is the trigonometric transformation of the normalized fluorescence data into polar coordinates. This step captures the progression of the fluorescent protein’s maturation from blue to red over time. The Timer Intensity represents the overall expression level and is calculated as:3\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\begin{aligned} I = \sqrt{B_{\text {norm}}^2 + R_{\text {norm}}^2}. \end{aligned}$$\end{document}I=Bnorm2+Rnorm2. The Timer Angle , representing the temporal aspect, is computed using the arccosine function:4\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\begin{aligned} \theta = \arccos \left( \frac{B_{\text {norm}}}{I} \right) \times \left( \frac{180}{\pi } \right) . \end{aligned}$$\end{document}θ=arccosBnormI×180π. This angle effectively maps the maturation state of the fluorescent protein, with values ranging from (pure blue fluorescence) to (pure red fluorescence), reflecting the time elapsed since expression.
+
+## Nr4a3 Tocky dataset
+In this study, we assessed the effectiveness of Timer fluorescence normalization using flow cytometric data from antigen-stimulated T cells, specifically obtained from Nr4a3-Tocky::OT-II double transgenic mice. These T cells, expressing the OT-II transgenic TCR, were activated using their specific agonist peptide, Ova(323-339) at a concentration of 1  M in the presence of antigen presenting cells. This setting provides continuous TCR signals to T cells and induce Fluorescent Timer expression. Time course analysis was performed. This dataset was previously detailed in our earlier publication [ ], where we demonstrated the initial application of the Tocky system in a biological context.
+
+## Computational performance
+The function timer_transform was executed on a system equipped with Apple M2 Ultra, 128 GB memory, and MacOS Sonoma 14.7.1. Performance was measured by the ‘system.time()‘ function in R, which reported an average user time of 2.278 s, system time of 0.266 s, and elapsed time of 2.781 s.
+
+## Software
+The plots in Figs.  and were generated using the R packages ggplot2 [ ], gridExtra [ ], and dplyr [ ]. The package RColorBrewer [ ] was used to generate heat colors. All other figures were generated by functions implemented in the TockyPrep package. The interactive application for exploring Timer data preprocessing parameters was developed using the Shiny framework in R [ ].
+
+## Implementation
+
+## Fluorescent timer protein
+Fluorescent Timer proteins have two types of fluorescence, and the different kinetics of these fluorescence levels are exploited to decipher temporal dynamics of biological systems. We use an mCherry mutant Fluorescent Timer, Fast-FT [ ]. Similar to mCherry, Fast-FT emits blue fluorescence soon after translation. However, the chromophore spontaneously matures into the red form. Our previous experimental measurement of the maturation half-time was 4 h [ ]. The two different types of Timer fluorescence-Timer Blue fluorescence from the immature chromophore and Timer Red fluorescence from the mature chromophore-are excited by different lasers (402 nm laser and 561 nm laser, respectively) and analyzed and measured by different detectors (Fig.  A).
+
+## Overview of TockyPrep
+The Tocky technology is an integrated method that combines experimental tools utilizing Fluorescent Timer reporter systems with computational analysis of Timer fluorescence. Using flow cytometric analysis, Tocky is thus a quantitative analysis tool for Timer fluorescence to elucidate temporal dynamics in cellular activities [ , ] (Fig.  A).
+The TockyPrep R package offers a structured approach to preprocessing flow cytometric data of Fluorescent Timer proteins, enabling effective analysis of Timer fluorescence and thereby enhancing the Tocky approach. It is built entirely using base R functions, ensuring broad compatibility and ease of use. The package includes two principal functions: prep_tocky for data setup and timer_transform for performing the preprocessing steps (Fig.  B).
+To use TockyPrep, flow cytometric data should first be preprocessed using external software for quality control and target population identification. The package accepts expression data as CSV files, each corresponding to a flow cytometric sample. These data are then imported into R for preprocessing, which includes:Timer thresholding: Focuses analysis on Timer-positive cells only, avoiding inclusion of autofluorescent cells. A negative control sample is used to define the thresholds for Timer Blue and Red fluorescence.
+Timer fluorescence normalization: Removes bias between immature (blue) and mature (red) Timer fluorescence introduced during data acquisition.
+Trigonometric transformation: Transforms fluorescence data to calculate Timer Angle and Timer Intensity, representing temporal information and signal strength, respectively.
+ 
+
+## Workflow
+The TockyPrep package workflow involves two central functions that automate the preprocessing steps (Fig.  ): prep_tocky: Prepares the data by identifying key variables and designating control files.
+timer_transform: Executes the preprocessing steps-Timer Thresholding, Timer Fluorescence Normalization, and Trigonometric Transformation.
+ 
+
+## Data preparation with prep_tocky
+The prep_tocky function provides a convenient preparatory analysis of flow cytometry data files, ensuring a streamlined setup for Timer transformation analysis. It performs the following primary steps:File selection and directory setup: Defines the path to data files, sets an output directory, and filters for control and sample files based on user input or default settings. The user is prompted to select a negative control file (negfile).
+Common variable identification: Identifies common variables in the header of each sample file, retaining only variables shared by all files to ensure consistency across datasets.
+Output generation: Generates and exports lists of the selected sample files, control files, and identified channels to the output directory for reference during data transformation. Returns a summary list containing paths to control files, selected sample files, and the standardized variables available for analysis.
+The prep_tocky function thus provides an organized and reproducible approach to initializing flow cytometric data for Timer fluorescence analysis, ensuring consistent variable definitions and setting up essential file identities and channels for downstream data preparation.
+
+## Timer transformation with timer_transform
+The timer_transform function automates the preprocessing of Timer fluorescence data, performing the following steps:Accepts the output from the prep_tocky function, including file paths and variable names.
+Sets thresholds for blue and red fluorescence to identify Timer-positive cells, avoiding the inclusion of autofluorescent cells. Threshold values can be determined interactively or through automatic quantile-based methods (Fig.  ).
+Normalizes Timer fluorescence data using autofluorescence data to remove bias introduced during data acquisition (Fig.  ).
+Applies a trigonometric transformation to calculate Timer Angle and Timer Intensity, representing temporal dynamics and signal strength, respectively.
+Produces outputs including transformed data frames with angle and intensity values, normalization parameters, cell counts for each sample, and a sample definition file categorizing each dataset for further analysis.
+ 
+
+## Timer fluorescence normalization
+Timer fluorescence data analysis currently faces several significant challenges (Fig.  ). Firstly, there is a notable absence of a calibration standard for Timer Blue and Timer Red, which complicates accurate measurements. This means that there is no available method to robustly determine the absolute expression levels of the two types of Timer fluorescence. Secondly, the settings used during data acquisition can induce biases between Timer Blue and Red fluorescence. Thirdly, these biases often result in a skew in Timer Angle estimations, which can misrepresent true biological phenomena.
+To address these challenges, the TockyPrep package introduces a robust function specifically designed for Timer fluorescence normalization. This function leverages autofluorescence levels to accurately estimate inherent signal biases. Moreover, it applies MAD by default as the normalization factor. These adjustments correct disparities between Timer Blue and Red fluorescence signals, thereby enhancing the precision of Timer Angle calculations. 
+
+## Results
+The data preprocessing using the TockyPrep package is highly effective and can be completed promptly. For example, the timer_transform function using the Nr4a3 Tocky dataset comprising 33 flow cytometry data files totaling 30 MB was completed within 3 s.
+Since the Timer Angle is calculated based on the fluorescence intensities of Timer Blue and Red fluorescence in individual cells (Fig.  ), an imbalance of data intensities between Timer Blue and Red fluorescence can result in severely biased Timer Angle calculations. Accordingly, this section focuses on the impact of Timer fluorescence normalization.
+In this investigation, we analyzed the flow cytometric dataset that analyzed activated T cells obtained from Nr4a3-Tocky::OT-II double transgenic mice [ ]. These T cells, which express the transgenic TCR OT-II, were activated with 1  M Ova(323-339) peptide to assess the dynamic transcriptional activity of Nr4a3 following antigen stimulation in a time course analysis [ ]. This dataset offers opportunities to address how Tocky data preprocessing is applied.
+
+## Impact of Timer fluorescence normalization on Timer Angle calculation
+To assess the effect of biased data acquisition on Timer Angle calculations, we manipulated the Nr4a3 Tocky dataset by applying various multipliers to the Timer Blue fluorescence while keeping Timer Red fluorescence unchanged. This approach simulated different levels of signal intensity bias in Timer Blue fluorescence to observe its impact on calculated Timer Angles. As Fig.  demonstrates, increasing the Timer Blue fluorescence led to a decrease in the estimated Timer Angle, indicating a distortion in the angle calculation due to the artificial enhancement of blue signal intensity.
+Conversely, normalizing the Timer Blue and Red fluorescence effectively eliminated these distortions. The normalization process adjusted the calculated angles to remove the bias introduced by varying the intensity of the Timer Blue fluorescence. 
+
+## Analyzing activated T cells from Nr4a3 Tocky mice using TockyPrep
+The TockyPrep package includes a key plot function, plot_tocky, which visualizes Timer fluorescence variables to understand the effects of thresholding, normalization, and transformation. Using the option plot_mode = “Timer fluorescence”, plot_tocky shows raw Timer fluorescence, demonstrating how Timer thresholds are applied to experimental samples (Fig.  ). In Fig.  , dynamic changes of Timer profiles upon TCR stimulation are thus visualized in conventional 2D plots for Timer fluorescence: Timer Blue fluorescence is quickly induced shortly after activation, followed by an increase in Timer Red fluorescence. Importantly, the quadrant gates displayed in the output from plot_tocky represent the Timer thresholds that have been set by timer_transform, assisting the quality check of Timer data preprocessing.
+Notably, T cells at the 0-hour time point include Timer Blue−Red cells, comprised of self-reactive T cells that accumulate Timer Red fluorescence in vivo [ ]. Since this accumulation occurs during antigen recognition in vivo and not from in vitro antigen stimulation, this time point is excluded from downstream analysis. 
+Once T cells recognize an antigen, they receive TCR signaling and become activated, exhibiting increased cell size as measured by forward scatter (FSC) and elevated Timer expression. As expected, FSC significantly increases following activation (Fig.  A). Similarly, both Timer Blue and Red fluorescence intensify post-activation, as demonstrated by the analysis of mean fluorescence intensities (Fig.  B and C). 
+After applying the timer_transform function, we utilized plot_tocky with the option plot_mode = “Normalized Timer fluorescence” to visualize the effects of Timer thresholding and normalization on Timer Blue and Red fluorescence (Fig.  ). Importantly, the data displayed in this visualization reflect not only the normalization of Timer Blue and Red fluorescence but also the application of Timer thresholding, ensuring that all analyzed cells are Timer-positive. 
+In the experimental dataset, the effects of Timer fluorescence normalization were modest (Fig.  ). This is likely due to the near-optimal settings of the instrumentation. The estimation of Timer Angle using both normalized and non-normalized Timer fluorescence data exhibited only slight differences, with the non-normalized data showing marginally lower estimations (Fig.  ). 
+Finally, we examined Timer Angle and Intensity using the function plot_tocky with the option plot_mode = “Timer Angle and Intensity.”, which produces group-wise 2D plots for Timer Angle and Intensity. The Timer Angle-Intensity plots effectively show the progressive increase of Timer expression from low Timer Angle values, gradually accumulating cells with high Timer Angle and Intensity values (Fig.  ). 
+
+## Exploring timer data transformation parameters
+By using the function explore_timer_transform, the parameter space can be explored by adjusting parameters for Timer fluorescence normalization and transformation. Executing explore_timer_transform launches an interactive HTML application, enabling users to experiment with changing Timer fluorescence thresholds and selecting different normalization methods on their flow cytometric Timer data (Fig.  ). 
+
+## Discussion
+The TockyPrep package offers essential data preprocessing methods for the analysis of Timer fluorescence using flow cytometric data. To our knowledge, this represents the first effort to develop quantitative analysis tools specifically for Timer fluorescence data analysis.
+Our investigations identified the normalization of Timer fluorescence between Timer blue and red fluorescence was key for quantitative analysis of Timer maturation using the trigonometric transformation. Since the current method relies on autofluorescence data, ubiquitous adjustments through normalization using the MADs or SDs of Timer Blue and Red fluorescence may not achieve the most optimized results for cells with extremely high expression. Still, our current investigations demonstrated the importance of Timer fluorescence normalization and the utility of the current method and implementation, providing reasonable and feasible solutions. Future studies can focus on the development of experimental standards to further enhance the normalization methods.
+Our previous study utilized FSC data to correct size-dependent effects in Timer fluorescence [ ], a method not implemented in the current development. Since traditional flow cytometry often shows higher background in the blue fluorescence channel, including Timer Blue fluorescence, the principle underlying FSC correction remains valid. However, in analyzing real datasets, we identified two significant issues. First, the FSC correction method depends on Timer-negative control samples, which typically lack activated cells with larger sizes. These cells are often removed during the quality control stage, complicating the determination of optimal FSC correction parameters across the full range of FSC and Timer fluorescence. Second, modern flow cytometers, especially spectral analyzers, show greater robustness against cell size effects. Consequently, we opted not to implement the FSC correction method in the current version of the package.
+To date, various Fluorescent Timer protein reporter systems have been reported. The initial murine reporter systems utilizing Fast-FT were Nr4a3-Tocky, designed to analyze the TCR signal downstream gene Nr4a3, and Foxp3-Tocky, developed for the regulatory T cell-specific gene Foxp3 [ , ]. These systems pioneered the use of Fast-FT in analyzing transcriptional and cellular dynamics across cellular biology and immunological studies [ ]. Subsequent developments have expanded to include HIV-Tocky for the long terminal repeat (LTR) of HIV [ ], Nur77-Tempo for analyzing TCR signal downstream Nur77 (Nr4a1), another member of the Nr4a family, similar to Nr4a3-Tocky [ ], and H2B-Fast-FT  for a histone gene [ ]. In addition, other fluorescent Timer proteins like DsRed-E5 have been utilized to develop a transgenic reporter for the proglucagon gene Gcg [ ]. Notably, Nr4a3-Tocky has been the most frequently used for the broadest range of applications including tumour immunology and immunotherapy [ , ] NKT cell biology [ ], and autoimmune disease [ ].
+Despite these advances, until now, there has been no tool developed specifically to quantitatively analyze flow cytometric Timer fluorescence data. We anticipate that the TockyPrep tool will aid in the analysis of Timer fluorescence data from these and other reporter systems.
+Future work for Tocky analysis will include downstream data analysis which fully harnesses the power of the Timer system. To achieve the development of quantitative methods and visualization tools using Timer fluorescence data, the current study and the TockyPrep package provide an important basis and preparation for future development.
+
+## Conclusion
+In this study, we established data preprocessing methods dedicated to Timer fluorescence analysis. These methods can improve the quantitative analysis of Timer fluorescence data using the trigonometric transformation of Timer fluorescence data. The current study identified the importance of Timer fluorescence normalization and related data preprocessing methods. These have been implemented in the R package TockyPrep.
+
+## Availability and requirements
+
+Project name: TockyPrep
+Project home page: https://github.com/MonoTockyLab/TockyPrep
+Project documentation: https://MonoTockyLab.github.io/TockyPrep
+Operating system(s): Linux, Mac OS, Windows
+Programming language: R
+Other requirements: R 4.2.0 or higher
+License: Apache 2.0
+Any restrictions to use by non-academics: none
+
+## Abbreviations
+Tocky:Timer-of-cell-kinetics-and-activity
+FSC:Forward scatter
+TCR:T-cell receptor
+MAD:Median absolute deviation
+SD:Standard deviation
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Author contributions
+MO conceived the study, wrote the code, performed data analysis, and wrote the manuscript.
+
+## Funding
+This work was supported by a Cancer Research UK (CRUK) Programme Foundation Award (grant number DCRPGF-100007), a Medical Research Council (MRC) grant (grant number MR/S000208/1), and a Biotechnology and Biological Sciences Research Council (BBSRC) David Phillips Fellowship (grant number BB/J013951/2).
+
+## Data availability
+The TockyPrep R package is freely available through the MonoTockyLab GitHub repository (https://github.com/MonoTockyLab/TockyPrep). A comprehensive vignette and manual pages are accessible at https://monotockylab.github.io/TockyPrep/. The flow cytometric dataset presented in this study is available as a part of the TockyPrep package.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The author has filed patents for methodologies that are utilised for the computational analysis of Fluorescent Timer data. These methodologies are distinct and separate from the algorithms reported in this manuscript.

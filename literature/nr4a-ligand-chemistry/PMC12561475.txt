@@ -1,0 +1,979 @@
+2933advsciAdvanced ScienceAdv Sci (Weinh)WileyPMC1256147512561475125614754094061210.1002/advs.202510004Integrating Metabolic Modulation and Nanomedicine for Cancer Immunotherapy
+ZhouXiaosu DengRuibing LiaoZunde HuangXiaoyu HuangJunting YangHanlou LeongKam W ZhongYiling 
+1
+College of Pharmacy, State Key Laboratory of Bioactive Molecules and Druggability Assessment, Jinan University, Guangzhou, Guangdong, 511443, China
+2
+Department of Biomedical Engineering, Columbia University, New York, NY, 10027, United States*
+E‐mail: kam.leong@columbia.edu; yilingzhong@jnu.edu.cn
+
+✉Corresponding author.
+12920251240e10004e1000429102025© 2025 The Author(s). Advanced Science published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Cancer cells undergo significant metabolic reprogramming to support rapid growth, survival under stress, and resistance to therapies. As our understanding of tumor metabolism and the tumor microenvironment (TME) deepens, there is growing interest in exploiting metabolic vulnerabilities as therapeutic strategies. This review explores key alterations in metabolic pathways, including glucose, amino acid, lipid, nucleotide metabolism, and mitochondrial function, and highlights their impact on tumor progression, the TME, and immune cell function. In addition, the review discusses emerging strategies aimed at targeting these metabolic pathways with a focus on nanomaterial‐based therapies. This includes the use of nanoparticles and drug delivery systems designed to modulate immunometabolism within cancer. These innovative approaches aim to reprogram the TME, enhance immune responses, and improve the targeted delivery of therapeutic agents to tumor sites, offering new ways to overcome conventional therapeutic resistance. Finally, the review also addresses the foreseeable challenges and potential future developments in this field, outlining the opportunities and obstacles that must be addressed for the clinical translation of these strategies in cancer therapy.
+Keywords: immunometabolism, immunotherapy, metabolic reprogramming, nanomedicine, tumor microenvironment
+
+Metabolic rewiring in cancer is mapped across glucose, amino acid, lipid, nucleotide, and mitochondrial pathways, with emphasis on immune regulation. The review integrates mechanisms linking these pathways to tumor progression and therapy resistance, and profiles nanomaterial platforms that both deliver therapeutics and actively reprogram immunometabolism. Opportunities, constraints, and future directions are distilled, outlining strategies to overcome resistance and enhance immunotherapy.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Aug 25; Received 2025 May 31; Collection date 2025 Oct.
+
+1.
+
+## Introduction
+Over the past few decades, the advent of immunotherapies has transformed cancer treatment by expanding the therapeutic options available for managing malignancies.[
+ , , , , 
+] Immunotherapies, such as immune checkpoint inhibitors (ICIs), adoptive cell therapies, and cancer vaccines, have emerged as promising therapeutic strategies, offering the potential to boost the body's immune response to tumors.[
+ 
+] By enhancing the immune system's ability to recognize and eliminate cancer cells, these therapies have led to remarkable improvements in the survival rates of patients with cancers that were previously considered intractable.[
+ 
+] Despite these successes, many patients either fail to respond initially or develop resistance over time, limiting long‐term benefits.[
+ 
+] These clinical challenges have driven research into the mechanisms underlying the failure of immunotherapy, including the complex interplay between cancer metabolism and immune cell function.[
+ , 
+] As understanding of this relationship deepens, the field of immunometabolism has emerged, focusing on how metabolic alterations within immune cells influence their functionality and how these metabolic changes shape immune responses, particularly in the context of cancer.[
+ , , 
+]
+
+The concept of immunometabolism arises from the understanding that immune cells, much like tumor cells, undergo metabolic reprogramming to meet the energetic and biosynthetic demands associated with their activation, differentiation, and function.[
+ , , 
+] Immune cells, including T cells, macrophages, and dendritic cells, rely on specific metabolic pathways to respond effectively to inflammatory signals, pathogen invasion, and tumor progression.[
+ , 
+] These pathways include glucose metabolism, fatty acid oxidation (FAO), amino acid metabolism, and mitochondrial function. In the context of cancer, immune cells are exposed to the altered metabolic environment of the tumor microenvironment (TME), which profoundly impacts their ability to mount effective immune responses.[
+ , , 
+] The TME, marked by hypoxia, nutrient deprivation, and acidosis, creates conditions that impair immune cell function and promote immune evasion.[
+ , , 
+] Understanding the intersection of tumor metabolism and immune cell metabolism, or “immunometabolism”, is essential for developing strategies to overcome these challenges and improve the effectiveness of cancer immunotherapies.[
+ , 
+]
+
+Cancer metabolism plays a pivotal role not only in sustaining tumorigenesis and promoting survival but also in modulating the immune landscape.[
+ , 
+] Tumor cells often exhibit altered metabolic pathways that support rapid cell growth and resistance to therapy.[
+ , 
+] These include increased aerobic glycolysis (the Warburg effect), enhanced fatty acid synthesis and oxidation, and upregulated nucleotide biosynthesis. These metabolic changes enable tumor cells to meet the demands of rapid proliferation and to adapt to the hostile conditions within the TME. However, tumor cells also secrete a variety of metabolites that influence immune cell behavior.[
+ , , 
+] For example, lactate, prostaglandin E2 (PGE2), and arginine are key metabolites that can modulate immune cell function. Lactate, produced during glycolysis, has been shown to inhibit the function of cytotoxic T cells and natural killer (NK) cells to promote immune suppression.[
+ 
+] Similarly, PGE2, a product of the cyclooxygenase (COX) pathway, can promote the differentiation of regulatory T cells (Tregs) and suppress effector T cell activity and contribute to immune evasion.[
+ , 
+] Arginine, which is essential for T cell activation, can be depleted in the TME through the action of ectonucleotidases, such as CD73, leading to immune suppression.[
+ 
+]
+
+In addition to the direct metabolic effects on immune cells, the energetic interplay between tumor cells and immune cells creates metabolic competition within the TME.[
+ 
+] Tumor cells consume large amounts of glucose and other nutrients to limit the availability of these resources for immune cells. This nutrient competition is exacerbated by the acidic environment of the TME, which further impairs immune cell function. The presence of high lactate levels and low pH not only suppresses immune effector functions but also promotes the polarization of tumor‐associated macrophages (TAMs) toward an immunosuppressive M2 phenotype.[
+ 
+] This metabolic competition between tumor cells and immune cells is a key mechanism by which tumors evade immune surveillance and promote tumor progression.
+Given the critical role of metabolism in immune modulation, targeting cancer cell metabolism presents a novel therapeutic approach to enhance antitumor immunity.[
+ 
+] Recent studies have demonstrated that altering tumor metabolism through small molecules or metabolic inhibitors can significantly impact the immune response within the TME.[
+ , , 
+] For example, targeting key metabolic pathways such as glycolysis, glutamine metabolism, and FAO has shown promise in preclinical models. However, there are significant challenges associated with targeting cancer metabolism for immune modulation. One of the major hurdles is the complexity of metabolic pathways in both tumor cells and immune cells. Many metabolic pathways are shared between tumor cells and immune effector cells, such as CD8+ T cells, which rely on similar metabolic processes, including glycolysis and oxidative phosphorylation.[
+ 
+] This overlap means that targeting tumor metabolism can inadvertently affect immune cell function, potentially impairing the antitumor immune response. Specifically, CD8+ T cells require metabolic reprogramming to differentiate into effector cells capable of killing tumor cells.[
+ , 
+] Inhibiting key metabolic pathways in tumor cells may also simultaneously limit the metabolic resources available to immune cells, thereby reducing their efficacy.
+Another challenge is the development of metabolic modulators that selectively target cancer cells only. Many of the metabolic inhibitors currently under investigation have limited specificity for cancer cells, and their effects on immune cells can be unpredictable.[
+ 
+] Additionally, the TME is highly heterogeneous,[
+ 
+] with varying degrees of metabolic reprogramming across different regions of the tumor. This heterogeneity complicates the development of effective therapies, as the metabolic vulnerabilities of tumors may not be uniform throughout the TME.[
+ , 
+] Despite these challenges, there is increasing interest in integrating metabolic modulation with immunotherapy to overcome resistance mechanisms and improve treatment outcomes.[
+ , 
+] For instance, recent studies have evaluated the combination of ICIs with metabolic inhibitors to reprogram immune cell metabolism and strengthen antitumor immune responses.[
+ , , 
+] Such strategies can enhance the activity of effector immune cells or mitigate immunosuppressive mechanisms within the TME, offering a promising avenue to increase the clinical efficacy of immunotherapy.
+Nanotechnology‐based therapies address key challenges in cancer treatment, including drug resistance, limited bioavailability, and off‐target toxicity.[
+ , , 
+] Nanoparticle delivery systems enhance the specificity, solubility, and stability of metabolic inhibitors, improving therapeutic efficacy while minimizing systemic side effects. By enabling targeted delivery to tumor cells, nanoparticles reduce systemic exposure and improve treatment outcomes. They also allow for the co‐delivery of agents, such as metabolic inhibitors and immune modulators, offering a strategy to amplify efficacy and circumvent resistance mechanisms.[
+ , 
+] Moreover, certain nanoparticles exhibit intrinsic immunometabolic regulatory properties for enhanced immune responses.[
+ , , 
+] Advances in nanoparticle design have further optimized the delivery of metabolic therapies, offering a promising path to more precise, effective cancer treatments and improved responses to immunotherapy.[
+ , 
+]
+
+This review examines the major metabolic pathways altered in cancer—covering glucose, amino acid, lipid, nucleotide, and mitochondrial metabolism—and their influence on the TME and immune function (Figure  ). Distinct from previous reviews,[
+ , , , , , 
+] we provide a comprehensive and integrative analysis of these pathways and highlight their interconnected roles in tumor progression, immune modulation, and therapy resistance. In particular, we emphasize recent advances in nanomaterial‐based strategies, which function both as delivery platforms for small‐molecule inhibitors, gene therapies, and targeted protein degraders, and as active metabolic modulators (“nanomodulators”) capable of reprogramming the TME to enhance antitumor immunity. Finally, we examine the challenges and future directions for the clinical translation of these metabolic‐targeted therapies, offering insights into how these strategies could transform cancer treatment in the near future.
+ 
+2.
+
+## Metabolic Reprogramming in Tumors
+Metabolic reprogramming enables cancer cells to adapt to the hypoxic and nutrient‐deprived TME, supporting their proliferation, survival, and metastasis.[
+ , , 
+] Key metabolic pathways—glycolysis, oxidative phosphorylation, amino acid metabolism, and lipid biosynthesis—are commonly altered, with effects extending beyond tumor cells to stromal and immune cells. Dysregulated metabolism not only drives tumor growth but also promotes immune evasion, therapeutic resistance, and disease progression.[
+ , 
+] A deeper understanding of these alterations is essential for developing therapies that target cancer metabolism and modulate the immune response. This section explores major metabolic pathways implicated in tumor biology and therapeutic strategies.
+2.1.
+
+## Glucose Metabolism Alteration
+One of the most prominent metabolic alterations in cancer cells is the reprogramming of glucose metabolism, often referred to as the Warburg effect.[
+ 
+] Despite the presence of oxygen, many cancer cells rely predominantly on glycolysis for energy production, a phenomenon that supports rapid cell proliferation and survival in the hypoxic TME. This shift in glucose metabolism is accompanied by an increase in glucose uptake and the conversion of glucose to lactate, even in the presence of oxidative phosphorylation. The altered glucose metabolism not only provides energy for tumor cells but also generates intermediates that contribute to anabolic processes, such as nucleic acid and lipid synthesis.[
+ , 
+] Additionally, this metabolic shift can influence immune cell function, contributing to immune suppression within the TME.[
+ 
+]
+
+2.1.1.
+
+## Aerobic Glycolysis
+Unlike normal cells, cancer cells often upregulate the expression of glucose transporter proteins (GLUTs), enhancing glucose uptake and supporting growth through the energy‐inefficient process of aerobic glycolysis.[
+ , , 
+] It occurs in two main stages. First, glucose is converted into pyruvate, generating nicotinamide adenine dinucleotide (NADH) and a small amount of adenosine triphosphate (ATP). Under normal conditions, NADH is typically reoxidized in the mitochondrial electron transport chain, leading to further ATP production via oxidative phosphorylation. However, in cancer cells undergoing aerobic glycolysis, pyruvate is predominantly converted to lactate instead of being fully oxidized, despite the presence of sufficient oxygen.[
+ 
+] This shift results from the increased demand for macromolecule biosynthesis, such as lipids and proteins, rather than focusing solely on energy production. The intermediate products of glycolysis are shunted into several key biosynthetic pathways, including serine metabolism, the hexosamine biosynthetic pathway, and the pentose phosphate pathway.[
+ 
+] These metabolic pathways, often dysregulated in cancer, provide essential metabolites such as reduced nicotinamide adenine dinucleotide phosphate (NADPH), which supports reductive biosynthesis and helps mitigate oxidative stress, as well as S‐adenosyl methionine (SAM), which is critical for methylation reactions and the synthesis of nucleic acids and proteins.[
+ 
+]
+
+The shift toward aerobic glycolysis in tumor cells has profound effects on immune cell function.[
+ 
+] Activated CD8⁺ and CD4⁺ T cells rely heavily on glycolysis to fuel mechanistic target of rapamycin complex 1 (mTORC1) signaling, drive Myc‐ and hypoxia‐inducible factor‐1α (HIF‐1α)‐mediated transcriptional programs, and support the biosynthesis necessary for clonal expansion and cytokine production. However, tumor cells often overexpress glucose transporter 1 (GLUT1) and hexokinase 2 (HK2), leading to excessive glucose uptake and depletion of extracellular glucose, which limits mTORC1 activation in effector T cells and impairs their proliferation and interferon‐γ (IFN‐γ) production. Concurrently, elevated levels of tumor‐derived lactate, exported via monocarboxylate transporters (MCTs) such as MCT4, contribute to acidification of the TME. Acidic pH inhibits T cell receptor (TCR) signaling, impairs nuclear translocation of nuclear factor of activated T cells (NFAT), and suppresses perforin and granzyme expression, thereby reducing T cell cytotoxic function.[
+ , , 
+] Beyond T cells, metabolic reprogramming in the TME promotes the expansion and suppressive activity of myeloid‐derived suppressor cells (MDSCs) and Tregs.[
+ , 
+] MDSCs utilize both glycolysis and FAO to sustain the expression of arginase‐1 and inducible nitric oxide synthase (iNOS), which deplete key nutrients such as L‐arginine and inhibit T cell activity.[
+ , 
+] Similarly, tumor‐derived lactate and adenosine enhance the stability and suppressive capacity of FoxP3⁺ Tregs by promoting epigenetic remodeling and increasing reliance on oxidative phosphorylation.[
+ , , 
+] Collectively, these mechanisms demonstrate how tumor‐driven metabolic reprogramming reshapes immune cell metabolism and signaling, leading to impaired antitumor immunity and enhanced immune evasion.
+
+2.1.2.
+
+## Lactate Accumulation
+The accumulation of lactate resulting from the high glycolytic activity of tumor cells is a prominent feature of the TME. The increased lactate concentration has several profound effects on tumor progression, immune suppression, and resistance to treatment.
+
+## Acidification of the TME
+As lactate accumulates in the TME, it dissociates into lactate ions and protons (H+), leading to a reduction in pH and the acidification of the microenvironment.[
+ 
+] This acidic condition creates a more favorable environment for tumor cell survival and growth while simultaneously impairing the function of normal, non‐cancerous cells, including immune cells.[
+ 
+] Tumor cells, particularly those undergoing glycolysis, have adapted to function in a low pH environment, whereas immune cells, especially cytotoxic T lymphocytes (CTLs), are highly sensitive to such acidic conditions. The low pH inhibits the activation and proliferation of immune cells, thereby impeding effective immune responses against tumors.[
+ , 
+]
+
+## Immune Suppression and Impairment of T Cell Function
+Lactate directly inhibits T cell function, contributing to immune evasion in TME.[
+ 
+] The acidity in the TME induces an anergic state in tumor‐infiltrating lymphocytes (TILs), reducing their activation and functions. Intracellular acidification has been shown to decrease the expression of NFAT and impair T cell survival.[
+ 
+] The acidic TME diminishes the ability of CD8+ cytotoxic T cells to perform key effector functions, such as cytokine production and cytotoxicity. In contrast, Tregs, which play a crucial role in maintaining peripheral tolerance, exhibit a metabolic advantage over effector T cells in the acidic TME. This advantage allows Tregs to thrive in the hostile environment, further promoting immune suppression and hindering effective antitumor immunity.[
+ 
+] Additionally, lactate inhibits TCR signaling, leading to reduced immune activation. Lactate also promotes the expression of immune checkpoint molecules, such as PD‐L1, on tumor cells and immune cells, further suppressing T cell activity.[
+ 
+] This contributes to immune escape and allows tumors to evade immune surveillance despite the presence of active immune cells. Beyond its effects on T cells, lactate acts as a key metabolic and signaling mediator in the TME. It promotes the polarization of TAMs toward an M2‐like, immunosuppressive phenotype, partly through HIF‐1α stabilization and activation of G protein‐coupled receptor 132 (GPR132). This reprogramming leads to upregulation of arginase‐1 and vascular endothelial growth factors (VEGFs), while concurrently suppressing the production of pro‐inflammatory cytokines such as interleukin‐6 (IL‐6) and tumor necrosis factor‐alpha (TNF‐α).[
+ , , , 
+] Together, these mechanisms reinforce immune tolerance and promote tumor progression.
+
+## Promotion of Tumor Cell Invasion and Metastasis
+The acidic TME, driven by lactate accumulation, enhances tumor invasiveness.[
+ , 
+] The low pH activates genes involved in epithelial‐to‐mesenchymal transition (EMT), a process that enables tumor cells to lose their epithelial characteristics and acquire migratory and invasive properties.[
+ 
+] Lactate also stimulates the secretion of matrix metalloproteinases (MMPs), enzymes that degrade the extracellular matrix and facilitate tumor cell invasion into surrounding tissues.[
+ 
+] This process contributes to metastasis, allowing cancer cells to disseminate to distant organs.
+
+## Regulation of Cancer‐Associated Fibroblasts (CAFs) and MDSCs
+Lactate accumulation in the TME modulates stromal cells, activating CAFs to secrete growth factors and extracellular matrix components that promote tumor growth and metastasis.[
+ 
+] It also enhances the accumulation and immunosuppressive activity of MDSCs,[
+ 
+] further suppressing antitumor immune responses.
+
+## Modulation of Tumor Angiogenesis
+Lactate stimulates angiogenesis by upregulating the expression of hypoxia‐inducible factors (HIFs) and VEGFs.[
+ , 
+] In the TME, lactate‐induced angiogenesis provides tumors with essential nutrients and oxygen, thereby sustaining their rapid growth. This not only supports tumor progression but also contributes to the dynamic changes in the TME that favor cancer cell survival.
+
+## Resistance to Therapy
+The acidified TME and lactate accumulation can contribute to resistance to standard cancer treatments such as chemotherapy and radiation. The low pH can reduce the efficacy of chemotherapy by promoting the survival of cancer cells that are less sensitive to these therapies. Additionally, lactate‐induced immune suppression can compromise the effectiveness of immunotherapy, as the reduced function of immune cells in the TME hinders the ability of ICIs and other immunotherapeutic strategies to effectively target tumors.
+
+## Therapeutic Implications
+Given the significant role of lactate in promoting tumor progression and immune evasion, targeting lactate metabolism or lactate‐mediated signaling pathways offers promising therapeutic potential.[
+ , 
+] Strategies to inhibit lactate production, such as targeting lactate dehydrogenase (LDH) or lactate transporter (e.g., MCT1), could reduce tumor growth and increase the sensitivity of cancer cells to chemotherapy and immunotherapy. Neutralization of tumor acidity in vivo has been shown to enhance the efficacy of immune checkpoint blockade (ICB), emphasizing the role of the TME acidity in modulating TIL function.[
+ 
+] Additionally, buffering the acidic TME or modulating lactate's effects on immune cells could restore immune cell function and enhance the effectiveness of cancer treatments.[
+ 
+]
+
+2.2.
+
+## Amino Acid Metabolism Alteration
+Beyond the rewiring of glucose metabolism, cancer cells extensively reprogram amino acid metabolism to support growth, survival, and immune evasion.[
+ , 
+] These metabolic shifts supply essential substrates for protein, nucleotide, and lipid synthesis, while also regulating redox homeostasis, epigenetic modifications, and signaling networks.[
+ , 
+] Key amino acids—including glutamine, arginine, glycine, aspartate, serine, and leucine—are frequently rerouted to support the enhanced anabolic and survival requirements of malignant cells. Furthermore, altered amino acid metabolism within the TME impairs immune cell function, exacerbating immune suppression and tumor progression.[
+ 
+] This section explores the mechanisms behind amino acid metabolism alterations in cancers, their role in tumor biology, and their potential as therapeutic targets to improve cancer treatment outcomes.
+2.2.1.
+
+## Amino Acid Metabolism
+Amino acids are vital for tumor growth and for the remodeling of stromal and vascular components in the inflamed TME during tumor progression.[
+ 
+] Additionally, amino acids act as key fuels supporting cancer cell development. For example, glutamine, a critical amino acid in many tumors, is primarily anaplerotic, providing nitrogen and carbon to replenish intermediates in the tricarboxylic acid (TCA) cycle,[
+ 
+] thereby supporting cellular metabolism and energy production. Besides glutamine, other amino acids, such as alanine and aspartate, can serve as alternative fuel sources, supporting cellular processes in tumor cells.[
+ 
+]
+
+Amino acids also contribute to various biosynthetic pathways critical for cancer cell proliferation and survival. For instance, branched‐chain amino acids are metabolized to acetyl‐CoA, a key precursor in lipogenesis, which fuels the synthesis of cellular membranes required for the rapid growth of cancer cells.[
+ 
+] Additionally, amino acids play a significant role in nucleotide biosynthesis, which is crucial for cell division.[
+ 
+] Glycine, glutamine, and aspartate provide carbon and nitrogen for purine synthesis,[
+ 
+] while glycine, serine, and methionine contribute one‐carbon units for nucleobase formation through the methionine‐folate cycle.[
+ , 
+] These pathways enable the synthesis of the nucleotides required for DNA and RNA production in proliferating tumor cells.
+Cancer cell proliferation leads to the accumulation of reactive oxygen species (ROS), which can damage cellular macromolecules and induce cell death. To counteract oxidative stress, cancer cells rely on the synthesis of glutathione (GSH) from glutamate, glycine, and cysteine, a process that helps maintain cellular redox balance.[
+ 
+] Glutamine plays a vital role in sustaining redox homeostasis through several mechanisms. Metabolites generated during the TCA cycle provide precursors for NADPH, a key reducing agent that supports antioxidant defenses. While NADPH is commonly associated with redox balance, a significant portion is also produced by the folate cycle, driven primarily by one‐carbon units derived from serine.[
+ 
+] Furthermore, the exchange of intracellular glutamate through the transporter SLC7A11 facilitates cystine uptake, which is then reduced to cysteine, the rate‐limiting precursor for GSH biosynthesis.[
+ 
+] Both NADPH and GSH are central regulators of cellular redox status, enabling tumor cells to cope with oxidative stress and maintain their proliferative capabilities.[
+ 
+]
+
+2.2.2.
+
+## Impact of Amino Acid Metabolism Alteration in the TME
+The TME imposes significant constraints on amino acid availability, thereby modulating immune cell function through defined metabolic pathways.[
+ , , , 
+] Effector T cells depend on amino acids such as glutamine, serine, and tryptophan to sustain mTORC1 signaling, support nucleotide and lipid biosynthesis, and maintain redox homeostasis—processes essential for clonal expansion and cytokine production.[
+ , , 
+] Glutamine acts as a key anaplerotic substrate for the TCA cycle and is required for mTORC1 activation and c‐Myc‐driven transcriptional programs that support T cell growth and effector function. Serine contributes to the one‐carbon metabolism pathway, providing carbon units for purine and thymidine synthesis and supporting GSH generation to buffer ROS. Tryptophan, on the other hand, is catabolized by tumor‐ and myeloid‐expressed indoleamine 2,3‐dioxygenase 1 (IDO1), resulting in local tryptophan depletion and accumulation of kynurenine (Kyn), an immunosuppressive metabolite. Kyn activates the aryl hydrocarbon receptor (AhR) in T cells, leading to T cell anergy, impaired cytotoxicity, and the induction of Treg differentiation.[
+ 
+] Unlike effector T cells, Tregs exhibit greater metabolic adaptability and can maintain their suppressive function in nutrient‐deprived environments by relying more heavily on oxidative phosphorylation and utilizing alternative substrates such as fatty acids or tumor‐derived lactate.[
+ 
+] Moreover, AhR signaling in Tregs enhances FoxP3 stability and reinforces their immunosuppressive phenotype. Collectively, these amino acid‐driven metabolic adaptations reprogram immune cell fate and function within the TME, attenuating antitumor immunity while promoting immune tolerance and tumor progression.[
+ , 
+]
+
+Altered amino acid metabolism supports tumor cell proliferation and survival by providing critical biosynthetic precursors and maintaining redox homeostasis. For example, glutamine replenishes TCA cycle intermediates and donates nitrogen for the synthesis of nucleotides and proteins.[
+ 
+] Rapidly proliferating cancer cells exhibit increased demand for glutamine, serine, and glycine to fuel anabolic processes essential for DNA replication, protein translation, and membrane biosynthesis.[
+ 
+] This metabolic reprogramming enables sustained nucleotide, lipid, and protein biosynthesis, all of which are essential for tumor growth.[
+ , , 
+] In addition, branched‐chain amino acids, particularly leucine, activate mTORC1 signaling, which promotes protein synthesis, cell growth, and proliferation.[
+ 
+] As tumors grow, they generate excessive ROS, which can damage cellular structures and threaten viability. To maintain redox balance, tumor cells depend on amino acids such as glutamine, glycine, and cysteine to synthesize GSH, a major intracellular antioxidant. Amino acid metabolism also contributes to NADPH generation, particularly through serine‐driven one‐carbon metabolism, which helps neutralize ROS.[
+ 
+] These adaptations enable tumor cells to survive oxidative stress within the TME. However, this altered redox landscape has immunological consequences. CTLs and NK cells are highly sensitive to oxidative stress and rely on antioxidants like GSH to maintain their effector functions.[
+ , 
+] Tumor‐driven reprogramming of amino acid metabolism can deplete precursors for antioxidant synthesis, thereby impairing immune cell function and contributing to immune evasion.
+Altered amino acid metabolism contributes to tumor cell migration and invasion by modulating signaling pathways and enzymatic processes involved in EMT and extracellular matrix (ECM) remodeling.[
+ 
+] Amino acids such as glutamine, serine, and glycine influence EMT‐related signaling cascades and supply metabolic intermediates required for the synthesis of enzymes that degrade the ECM. For example, glutamine metabolism supports the expression and activity of MMPs, which break down ECM components and facilitate tumor invasion.[
+ , 
+] In addition, leucine and other branched‐chain amino acids activate mTORC1 signaling,[
+ 
+] which regulates cytoskeletal reorganization, promotes cell motility, and enhances adhesion—key processes that drive metastatic dissemination.
+Altered amino acid metabolism also impacts stromal cells in the TME, particularly CAFs.[
+ 
+] Amino acids such as glutamine and serine activate metabolic pathways in CAFs that enhance their pro‐tumorigenic functions, including the secretion of growth factors, cytokines, and ECM components. Specifically, glutamine metabolism in CAFs promotes the production of fibronectin and other ECM proteins that facilitate tumor cell migration and tissue remodeling.[
+ , 
+]
+
+Altered amino acid metabolism also contributes to tumor angiogenesis through the regulation of key signaling and biosynthetic pathways.[
+ 
+] Serine and glutamine serve as primary sources of one‐carbon units that support the folate and methionine cycles, which are essential for nucleotide biosynthesis and methylation‐dependent gene regulation. These metabolic processes promote the expression of VEGFs, which are key regulators of tumor‐associated angiogenesis and vascular remodeling. Glutamine metabolism, in particular, activates the mTORC1 pathway, which promotes HIF‐1α stabilization under hypoxic conditions, leading to upregulation of VEGF transcription. Through these mechanisms, amino acid‐driven signaling supports the formation of new blood vessels, enabling tumor growth and metastatic dissemination.[
+ 
+]
+
+Reprogramming of amino acid metabolism is a key contributor to therapeutic resistance in cancer.[
+ 
+] Tumor cells frequently depend on amino acids such as glutamine and serine to counteract the cytotoxic effects of chemotherapy and radiotherapy, which primarily induce ROS accumulation and DNA damage. Glutamine supports GSH biosynthesis and anaplerotic entry into the TCA cycle, while serine contributes to one‐carbon metabolism and NADPH production via the folate cycle, together enhancing antioxidant capacity, promoting DNA repair, and suppressing apoptosis. These metabolic adaptations enable cancer cells to withstand conventional therapies.
+In addition, amino acid metabolism activates key stress‐response pathways, including NRF2, which induces the expression of antioxidant genes,[
+ 
+] and mTORC1, which promotes cell survival, anabolic metabolism, and proliferation. Within the TME, these alterations further facilitate immune evasion and sustain a pro‐tumorigenic niche, collectively driving tumor progression and resistance to therapy.[
+ , 
+]
+
+2.3.
+
+## Other Metabolic Reprogramming
+In addition to alterations in glucose and amino acid metabolism, cancer cells undergo reprogramming of several other key metabolic pathways to sustain their rapid growth, survival, and ability to evade therapeutic interventions. These metabolic changes include shifts in lipid metabolism,[
+ , 
+] nucleotide metabolism,[
+ , 
+] and the regulation of mitochondrial function,[
+ , 
+] all of which support the anabolic and bioenergetic demands of proliferating tumor cells. Lipid metabolism, for example, provides essential components for membrane biogenesis and signaling, while nucleotide metabolism is crucial for DNA and RNA synthesis in rapidly dividing cells. Furthermore, mitochondrial reprogramming enables cancer cells to adapt to varying oxygen conditions and optimize energy production. This section explores the broader landscape of metabolic reprogramming in cancer, highlighting the diverse metabolic pathways that contribute to tumorigenesis and their potential as therapeutic targets.
+2.3.1.
+
+## Lipid Metabolism
+In rapidly proliferating tumor cells, lipid synthesis is reprogrammed to meet the increased demand for cell membrane components during cell division.[
+ 
+] Key enzymes involved in lipid metabolism, such as fatty acid synthase (FASN) and acyl‐CoA synthetase, are often upregulated in various cancers, promoting the de novo synthesis of fatty acids and phospholipids.[
+ , , , 
+] These lipids are vital not only for membrane structure but also for their role in cellular signaling pathways. Lipid‐derived second messengers, such as phosphoinositides, sphingolipids, and diacylglycerol, regulate crucial cellular processes like survival, migration, invasion, and metastasis, thereby supporting tumor progression.[
+ 
+]
+
+Lipid metabolic reprogramming in the TME not only supports tumor cell survival and growth under metabolic stress but also profoundly influences immune cell function. Tumor cells upregulate lipid biosynthesis via mTORC1‑SREBP1 signaling, while simultaneously suppressing lipid catabolism by downregulating AMPK activity. This results in the accumulation of lipids, including fatty acids and cholesterol, which act as both energy sources and signaling molecules that facilitate resistance to apoptosis and metabolic adaptation under hypoxia or nutrient deprivation.[
+ , 
+] Within the TME, tumor‐derived lipids and metabolic byproducts are taken up by infiltrating immune cells through transporters such as CD36 and fatty acid‐binding proteins (FABP4/5).[
+ 
+] In CD8⁺ T cells, excess lipid uptake impairs mitochondrial function and promotes lipid peroxidation, leading to T cell exhaustion and reduced cytotoxicity.[
+ 
+] Lipid overload also disrupts TCR signaling by altering membrane lipid rafts. In macrophages, lipid‐rich environments skew polarization toward the M2‐like (immunosuppressive) phenotype, partly via PPARγ activation, which supports tumor‐promoting inflammation and suppresses antigen presentation.[
+ 
+] Moreover, stromal cells such as cancer‐associated adipocytes and CAFs actively contribute to lipid remodeling by releasing free fatty acids and modulating extracellular matrix stiffness, respectively.[
+ 
+] These lipid‐rich signals reinforce immunosuppression and tumor progression.[
+ , 
+] Together, these metabolic alterations establish a lipid‐driven immunosuppressive niche, highlighting lipid metabolism as a promising therapeutic target to restore antitumor immunity.[
+ 
+]
+
+2.3.2.
+
+## Nucleotide Metabolism
+Nucleotide metabolism plays a central role not only in supporting tumor proliferation and DNA repair but also in modulating immune responses within the TME.[
+ , 
+] In cancer cells, de novo purine and pyrimidine biosynthesis is upregulated to meet the elevated demand for DNA and RNA precursors. Key enzymes such as thymidylate synthase (TYMS) and ribose‐5‐phosphate isomerase are frequently overexpressed, facilitating continuous nucleotide production for rapid cell division.[
+ , , , , 
+] These pathways depend on amino acids, including glutamine, glycine, aspartate, and serine, which supply carbon and nitrogen atoms for nucleotide backbone synthesis.[
+ , 
+]
+
+Beyond their roles in cancer cells, nucleotide metabolism also critically influences immune cell function. Upon activation, T cells require robust nucleotide biosynthesis to support DNA replication, RNA transcription, and cytokine production during clonal expansion. Impaired purine metabolism can limit T cell proliferation, while one‐carbon metabolism, driven by serine and methionine, is essential for epigenetic remodeling and effector gene expression.[
+ , 
+] Within the TME, extracellular ATP released by dying or stressed tumor cells is rapidly hydrolyzed to adenosine through the sequential actions of CD39 and CD73 ectonucleotidases. Accumulated adenosine activates the A2A receptor (A2AR) on T cells, suppressing TCR signaling, reducing IFN‐γ production, and promoting T cell exhaustion and Treg induction—constituting a major axis of immunosuppression.[
+ , 
+] Additionally, nucleotide pool imbalances in immune cells under nutrient stress or tumor‐induced metabolic competition can lead to DNA replication stress and ATR/Chk1 pathway activation, culminating in cell cycle arrest or apoptosis.[
+ 
+] These processes compromise effector T cell function and facilitate immune escape.[
+ 
+]
+
+In summary, dysregulated nucleotide metabolism in tumors not only supports malignant growth and therapy resistance but also contributes to immune evasion by disrupting T cell proliferation, function, and survival. Targeting nucleotide synthesis or adenosine signaling pathways, therefore, represents a promising strategy to enhance the efficacy of immunotherapy by reprogramming the immunometabolic landscape.[
+ 
+]
+
+2.3.3.
+
+## Regulation of Mitochondrial Function
+Mitochondria are central regulators of cellular metabolism, integrating energy production, redox homeostasis, and cell fate decisions in both tumor and immune cells.[
+ , , 
+] In cancer cells, mitochondrial reprogramming facilitates anabolic biosynthesis, maintains redox balance, and confers resistance to apoptosis.[
+ , , 
+] Although tumors often exhibit reduced oxidative phosphorylation in favor of aerobic glycolysis, mitochondria remain indispensable for generating TCA cycle intermediates that support macromolecule synthesis and survival under metabolic stress.[
+ 
+]
+
+In effector T cells, mitochondrial metabolism is essential for sustaining clonal expansion, cytokine production, and memory differentiation.[
+ , 
+] Upon activation, CD8⁺ T cells upregulate oxidative phosphorylation and increase mitochondrial biogenesis to meet heightened energy demands. Disruption of mitochondrial integrity caused by hypoxia, nutrient deprivation, or elevated ROS compromises mitochondrial membrane potential (ΔΨm), thereby promoting T cell exhaustion and apoptosis.[
+ 
+] Moreover, immunosuppressive metabolites in the TME, such as lactate and adenosine, inhibit mitochondrial respiration and FAO in T cells, diminishing their cytotoxic capacity. Mitochondrial dynamics—namely, the balance between fission and fusion—also play a crucial role in immune cell function.[
+ 
+] Mitochondrial fusion enhances cristae structure and oxidative phosphorylation efficiency and is required for memory T cell formation, whereas sustained mitochondrial fission is associated with T cell senescence and dysfunction. In the TME, competition for oxygen and nutrients perturbs these dynamics in TILs, further undermining immune responses. Innate immune cells, such as macrophages and dendritic cells, also depend on mitochondrial metabolism for functional polarization. In M1 macrophages, impaired electron transport chain (ETC) activity results in succinate accumulation, which stabilizes HIF‐1α and drives pro‐inflammatory IL‐1β production. Conversely, chronic mitochondrial stress or altered dynamics favor M2‐like polarization, reinforcing immune suppression within the TME.[
+ 
+]
+
+In summary, mitochondrial metabolism and dynamics not only sustain tumor cell viability but also govern immune cell activation, persistence, and effector function. Targeting mitochondrial pathways—by enhancing mitochondrial fitness in T cells or disrupting oxidative phosphorylation in tumor cells—offers a promising strategy to reprogram the TME and potentiate antitumor immunity.[
+ , 
+]
+
+2.4.
+
+## Impact of Metabolic Reprogramming on the TME
+Metabolic reprogramming in tumor cells profoundly reshapes the TME, promoting immunosuppression and therapeutic resistance.[
+ , , 
+] Oncogenic signaling pathways such as PI3K/Akt/mTOR, MYC, and KRAS drive enhanced aerobic glycolysis, glutamine uptake, de novo lipid synthesis, and mitochondrial remodeling,[
+ 
+] leading to aggressive consumption of nutrients like glucose, glutamine, serine, and arginine. This nutrient depletion impairs the metabolic fitness and effector functions of infiltrating immune cells, particularly CTLs.[
+ , 
+] Simultaneously, rapid tumor proliferation often exceeds vascular supply, resulting in hypoxia and stabilization of HIFs, which further amplify glycolysis and lactate production. The accumulation of lactate and the resulting acidosis suppress CTL and NK cell activity, facilitate the recruitment and functional stability of Tregs, and drive TAM polarization toward an immunosuppressive M2‐like phenotype.[
+ , 
+] Additional mechanisms, including glutamine catabolism,[
+ , 
+] arginine depletion by ARG1‐expressing myeloid cells,[
+ 
+] and lipid metabolic reprogramming,[
+ , 
+] further impair immune surveillance. Lipid accumulation within TAMs promotes their polarization toward an immunosuppressive M2‐like phenotype, thereby facilitating tumor progression.[
+ , 
+] Concurrently, lipid‐derived mediators, notably PGE2, impede the maturation and functional capacity of dendritic cells,[
+ 
+] leading to compromised antigen presentation and attenuated T cell activation. Moreover, immunosuppressive metabolites—such as lactate, adenosine (via CD39/CD73), and Kyn (via IDO1/TDO2)—engage receptors including GPCRs and AhR to drive T cell exhaustion and myeloid suppression.[
+ , , 
+] As illustrated in Figure  , key consequences include hypoxia, acidosis, redox imbalance, ECM remodeling, abnormal angiogenesis, and immune evasion. Targeting tumor‐specific metabolic vulnerabilities—such as GLUT1, glutaminase (GLS), FASN, or immunosuppressive metabolites—offers a promising strategy to remodel the TME and restore antitumor immunity.[
+ 
+] However, due to overlapping metabolic dependencies between tumor and immune cells,[
+ 
+] the development of selective delivery systems (e.g., nanoparticle‐based platforms) and rational combination therapies is essential.
+ 
+
+3.
+
+## Nanomaterial‐Based Therapies to Modulating Immunometabolism
+Recent advances in cancer therapy have positioned nanomaterial‐based strategies as powerful tools for modulating the tumor immune microenvironment and reprogramming immunometabolic responses.[
+ 
+] By targeting key metabolic pathways within tumor cells and immune cells, these therapies aim to restore or enhance antitumor immunity.[
+ , 
+] Nanomaterails offer distinct advantages in drug delivery due to their ability to encapsulate diverse therapeutic agents, selectively accumulate in diseased tissues, and enable controlled or stimuli‐responsive release.[
+ , 
+]
+
+Engineered nanomaterials can influence immune metabolism directly or indirectly by modulating immune checkpoints, cytokine signaling, and metabolic processes such as glycolysis and oxidative phosphorylation. Moreover, combining nanomaterial‐based strategies with chemotherapy, radiotherapy, or immunotherapy offers a promising route to overcome immune suppression and tumor‐driven metabolic reprogramming.[
+ , 
+] Representative classes of nanomaterials used for immunometabolic modulation include polymeric nanoparticles, inorganic‐based nanostructures, and liposomal nanoformulations (Figure  ). Their biological activity and therapeutic efficacy are governed by a range of physicochemical properties, such as particle size, shape, surface charge, morphology, and core composition, as well as surface functionalization, hydrophobicity/hydrophilicity, and responsiveness to environmental stimuli (e.g., pH, redox potential, ionic strength).[
+ , 
+] In addition to these inherent features, rational design strategies—such as core–shell architectures, stimuli‐responsive linkers, and ligand‐directed surface modifications—are frequently employed to enhance cell targeting and metabolic pathway specificity. These design elements can be optimized to improve biodistribution, cellular internalization, TME penetration, and selective uptake by immune subsets. Common targeting mechanisms include receptor‐mediated endocytosis (e.g., via CD44) and environmentally responsive release systems, enabling spatiotemporal control over therapeutic delivery within the TME. Comprehensive design frameworks for immunometabolism‐targeting nanomaterials have been systematically described in prior reviews.[
+ , , 
+] This section explores the expanding field of nanomaterial‐based immunometabolic modulation, with a focus on how these strategies are reshaping cancer therapy. In particular, we highlight recent advances in nanomaterials that function not only as delivery vehicles for small‐molecule inhibitors, gene therapies, and targeted protein degraders, but also as nanomodulators capable of reprogramming the TME to enhance antitumor immunity.
+ 3.1.
+
+## Regulation of Glucose and Lactate Metabolism Pathways in Tumors
+Tumor glucose metabolism is primarily governed by GLUTs, LDH, and MCTs, which together maintain metabolic homeostasis in the TME.[
+ , 
+] GLUTs facilitate glucose uptake, LDH catalyzes the conversion of pyruvate to lactate, and MCTs mediate lactate efflux and pyruvate import. This coordinated network supports tumor cell proliferation, redox balance, and adaptability under metabolic stress. However, dysregulation of this pathway, particularly the accumulation of lactate, promotes immunosuppression by impairing T cell and NK cell function and contributes to resistance to chemotherapy, radiotherapy, and immunotherapy.[
+ 
+] Recent CRISPR screens have revealed that tumor‐intrinsic aerobic glycolysis plays a pivotal role in immune evasion.[
+ , 
+] In co‐culture systems with CTLs, knockout of key glycolytic genes such as GLUT1 (Slc2a1) and GPI1 (glucose‐6‐phosphate isomerase) rendered tumor cells more vulnerable to T cell‐mediated killing. Mechanistically, this was linked to a metabolic shift toward oxidative phosphorylation and elevated mitochondrial ROS, which enhanced TNF‐α‐induced apoptosis. Notably, GLUT1 inhibition sensitized tumors to T cell attack and synergized with anti‐PD‐1 therapy in vivo through a TNF‐α‐dependent mechanism. These findings emphasize that high glucose uptake in tumors not only supports anabolic growth but also enables immune resistance by depleting nutrients and generating immunosuppressive metabolites, such as lactate. Accordingly, glucose metabolism is now recognized as a central driver of tumor immune escape. Therapeutically, targeting key regulators—GLUTs, LDH, and MCTs—represents a promising strategy to disrupt metabolic‐immune crosstalk, relieve immunosuppression, and improve treatment response.[
+ 
+] This section highlights nanomaterial‐based strategies for modulating GLUTs, LDH, and MCTs to reprogram tumor metabolism, enhance antitumor immunity, and optimize therapeutic efficacy (Table
+ , Figure  ).
+ 3.1.1.
+
+## From GLUT Inhibition to Integrated Nanotherapeutics
+GLUTs are membrane proteins that transport glucose and other monosaccharides across cell membranes, playing a central role in cellular energy homeostasis.[
+ 
+] In cancer, GLUTs—especially GLUT1 and GLUT3—are frequently overexpressed to meet the heightened glucose demands of rapidly proliferating cells.[
+ , , , 
+] Elevated GLUT expression correlates with poor prognosis and increased tumor aggressiveness.
+Given the central role of GLUT1 in tumor metabolism, inhibitors targeting this transporter have emerged as promising anticancer agents.[
+ 
+] By blocking glucose uptake, these inhibitors aim to starve tumor cells of critical energy and biosynthetic precursors, limiting proliferation and survival. Small‐molecule GLUT1 inhibitors such as WZB117, BAY‐876, and KL‐11743 have been extensively evaluated in preclinical studies.[
+ , , 
+] Monoclonal antibodies targeting GLUT1 are also under investigation; they bind to the transporter's extracellular domain, blocking glucose transport and potentially enhancing immune‐mediated tumor killing.[
+ 
+] However, GLUT1 inhibition alone may not suffice, as cancer cells can shift to alternative metabolic pathways.[
+ 
+] Consequently, combination strategies are being pursued to enhance therapeutic outcomes, with growing interest in integrating nanotechnology to improve delivery and efficacy.
+Numerous studies have explored the integration of nanomaterials, including inorganic‐based nanostructures, polymeric nanoparticles, and liposomal nanoparticles, with GLUT1 small‐molecule inhibitors to enhance the efficacy of combination cancer therapies (Table  ).[
+ , , 
+] For example, a nanomedicine (SPCP/CCP@Bay) was developed by combining a degradable sonodynamic pseudo‐conjugated polymer (SPCP) with a cystine‐containing polymer (CCP) to co‐deliver the GLUT1 inhibitor Bay‐876. Upon ultrasound activation, SPCP/CCP@Bay facilitates the controlled release of Bay‐876, disrupts intracellular redox homeostasis, and liberates cystine from CCP, collectively inducing disulfidptosis. In addition, this system triggers immunogenic cell death (ICD) and synergizes with anti‐PD‐1 therapy to enhance antitumor immunity.[
+ 
+] Another example is a dual‐template molecularly imprinted polymer (D‐MIP) designed to target both GLUT1 and HK2. The polymer's high specificity (imprinting factors of 2.1 and 2.5 for GLUT1 and HK2, respectively) allows it to inhibit glucose uptake and phosphorylation, suppressing glycolysis. In vitro and in vivo studies, including MCF‐7 cell models and tumor‐bearing mice, demonstrated D‐MIP's capacity to reduce glycolytic flux, lower downstream metabolites like glucose‐6‐phosphate (6PG) and lactate (LA), induce apoptosis, and achieve potent antitumor effects with good biocompatibility.[
+ 
+]
+
+Beyond direct inhibition, strategies targeting GLUT biosynthesis or degradation are gaining attention.[
+ , , , 
+] For example, a programmable nanosystem was developed to address both pancreatic ductal adenocarcinoma (PDAC) cells and pancreatic stellate cells (PSCs). PDAC cells overexpress GLUT1 and transferrin receptor (CD71), while PSCs support the tumor metabolically. A TME‐responsive liposome co‐delivering the NF‐κB inhibitor TPCA‐1 and CD71 aptamer‐conjugated GLUT1 siRNA reprogrammed PSCs, reduced their metabolic support, and enhanced siRNA delivery. This dual‐targeted approach shifted PDAC metabolism from glycolysis toward oxidative phosphorylation, improving therapeutic efficacy in an orthotopic xenograft model.[
+ 
+] Additionally, a glycopeptide‐based strategy used a glycosylated peptide (PG) with enhanced cancer cell permeability to induce GLUT1 degradation. PG accumulated in lysosomes, self‐assembled into aggregates, and triggered GLUT1 degradation, ultimately leading to cancer cell death. In vivo, PG significantly inhibited tumor growth with minimal toxicity to major organs.[
+ 
+] Another promising approach involves the use of metal–nucleic acid hybrid nanostructures (MNFs). For example, a HER2‐targeted DNAzyme nanodevice was developed by integrating a HER2‐specific aptamer with a Ca2⁺‐dependent, GLUT1‐cleaving DNAzyme. Through Ca2⁺‐assisted self‐mineralization, this system generated interferon regulatory factor‐1 (IRF‐1)‐loaded mineralized nanoflowers (MNFs) capable of selectively targeting HER2‐positive gastric cancer cells and silencing GLUT1 mRNA. Silencing GLUT1 effectively inhibited glucose uptake, disrupting the pentose phosphate pathway and reducing NADPH production. This metabolic disruption impaired cysteine biosynthesis and depleted GSH, thereby disturbing redox homeostasis and promoting ROS accumulation. The resulting oxidative stress, further intensified by mitochondrial calcification, led to significant DNA damage. Concurrently, the delivery of IRF‐1 via MNFs downregulated RAD51 expression, a key component of the homologous recombination (HR) DNA repair pathway. When combined with GLUT1 silencing‐induced ATP depletion, this dual strategy further compromised DNA repair capacity and sensitized tumor cells to ROS‐mediated cytotoxicity. Overall, this approach synergistically disrupted GSH/ROS balance, inhibited HR‐dependent DNA repair, and amplified oxidative DNA damage, achieving tumor inhibition rates of up to 90% in preclinical models.[
+ 
+]
+
+The strategies discussed hold strong potential to advance personalized cancer therapy by targeting tumor metabolism, thereby limiting disease progression and reducing metastasis and recurrence. However, further investigation into GLUT1 regulation through nanomaterial‐based approaches—particularly in combination with chemotherapy, radiotherapy, or immunotherapy—is essential for enhancing therapeutic efficacy, overcoming resistance, and improving patient outcomes.
+
+3.1.2.
+
+## Extending Metabolic Disruption: LDH as a Central Node
+LDH catalyzes the final glycolytic step, converting pyruvate to lactate while regenerating NAD⁺, and plays a key role in supporting tumor proliferation under aerobic glycolysis.[
+ , , 
+] In tumors, LDH is upregulated, promoting anaerobic glycolysis even in oxygen‐rich conditions and contributing to tumor progression.[
+ , 
+]
+
+LDH exists in five isoforms (LDH1 to LDH5) formed by different combinations of two subunits, LDH‐A and LDH‐B.[
+ 
+] These isoforms exhibit tissue‐specific expression patterns. Tumors often have elevated levels of LDH‐A, which is associated with glycolytic activity and lactate production.[
+ 
+] In contrast, LDH‐B is more prevalent in tissues relying on oxidative phosphorylation, such as the heart and muscle. LDH‐A inhibition has garnered more attention in cancer therapy due to its central role in aerobic glycolysis. Inhibiting LDH‐A can reduce lactate production, thereby decreasing the acidic environment in the TME and reducing cancer cell survival.[
+ 
+] LDH‐B, however, has been implicated in lactate utilization and energy production in some tissues, making selective inhibition of LDH‐A more appealing for therapeutic purposes.[
+ , , 
+] Recent developments also include PROTAC‐based degraders to further suppress LDH activity.[
+ 
+] While preclinical studies show LDH inhibition slows tumor growth and enhances therapy response, challenges remain, including selectivity, toxicity, and patient stratification. To address these, nanomaterial‐based strategies are increasingly explored to improve delivery and optimize combination treatments (Table  ).[
+ , 
+]
+
+Galloflavin (GF), a natural polyphenol and LDH inhibitor, suppresses the conversion of pyruvate to lactate, thereby reducing lactic acid production.[
+ 
+] A metal–phenolic coordination‐based nanocomplex loaded with GF was developed to impair LDH activity and attenuate lactic acid accumulation, ultimately alleviating the acidic and immunosuppressive TME. Additionally, the nanocomplex co‐delivered carnosic acid (a natural polyphenol) and PEG‐Ce6, a synthetic polyphenol‐derived photosensitizer. Upon laser irradiation, these agents induced ICD, further activating the immune system and enhancing immune cell recruitment and infiltration into tumor tissues. In a murine breast cancer model, this nanocomplex‐based combination therapy effectively remodeled the TME and elicited robust antitumor immune responses.[
+ 
+] In another study, a copper‐coordinated nanoassembly (Cu‐GM) was developed by integrating the LDH inhibitor GF and the immune checkpoint inhibitor myricetin (MY) to enhance cuproptosis‐based immunotherapy. Cu‐GM was activated by elevated intracellular GSH, triggering the release of Cu⁺, which induced the aberrant aggregation of lipoylated proteins and the degradation of iron–sulfur cluster proteins, leading to proteotoxic stress and cuproptosis. Concurrently, GF inhibited glycolysis, further amplifying cuproptosis and reducing lactate accumulation, thereby alleviating lactate‐mediated immunosuppression in the TME. The resulting tumor cell death induced ICD, promoting antitumor immune activation, which was further potentiated by MY‐mediated immune checkpoint blockade.[
+ 
+] Additionally, researchers employed vesicular cationic lipid‐assisted nanoparticles to deliver siRNA targeting the LDHA gene in tumors. LDHA silencing significantly reduced lactate production and neutralized tumor acidity, leading to an increased intratumoral CD8⁺ T cell to Treg ratio. This strategy shows promise for enhancing T cell‐mediated antitumor immunity.[
+ 
+] Inorganic‐based nanoparticles have been shown to disrupt the structural integrity and biological activity of natural enzymes through various physical interactions, including hydrophobic effects, π–π stacking, and electrostatic forces.[
+ , 
+] Based on this principle, researchers developed a pH‐responsive, nucleus‐targeting platinum nanocluster (Pt@TAT/sPEG) to simultaneously inhibit LDH activity and enhance DNA damage. Pt@TAT/sPEG physically adsorbed and suppressed LDH activity, thereby reducing lactate production and downregulating lactate‐mediated nucleotide excision repair (NER) signaling, leading to increased apoptosis in anaplastic thyroid carcinoma (ATC) cells. In addition, Pt@TAT/sPEG directly inhibited the NER pathway, further promoting tumor cell death. In an orthotopic ATC xenograft model, Pt@TAT/sPEG demonstrated improved tumor inhibition compared to Pt@sPEG and cisplatin. This nanoplatform offers a promising strategy for concurrently targeting glycolysis and DNA repair, facilitating metabolic reprogramming and enhancing chemotherapy efficacy.[
+ 
+]
+
+Together, these nanotechnology‐based LDH‐targeting approaches, whether through small‐molecule inhibitors, siRNA, or multifunctional nanoplatforms, show substantial potential in preclinical models, effectively suppressing tumor growth, enhancing immune infiltration, and sensitizing tumors to immunotherapy. However, challenges such as limited tumor selectivity, heterogeneous LDH expression, and inefficient nanoparticle delivery within the TME hinder consistent therapeutic outcomes. Moreover, adaptive resistance via metabolic compensation and immune‐mediated clearance of nanocarriers further complicates clinical translation.
+
+3.1.3.
+
+## Linking Lactate Transport Control: MCT as a Therapeutic Target
+MCTs facilitate the bidirectional transport of lactate, pyruvate, and ketone bodies across cell membranes, playing essential roles in energy metabolism and reprogramming.[
+ 
+] In tumors, MCT1 and MCT4 are critical for maintaining lactate and pyruvate balance, sustaining glycolytic flux, and supporting the Warburg effect.[
+ , 
+] MCT‐mediated lactate efflux prevents acid buildup in glycolytic tumors and regulates metabolic exchanges between tumor and stromal cells, contributing to tumor progression and immune evasion. Given their central metabolic role, MCTs have emerged as promising targets for improving cancer therapies.[
+ , 
+]
+
+Several MCT inhibitors (including MCT1/MCT2 inhibitor AR‐C155858,[
+ 
+] MCT1 inhibitor SR13800,[
+ 
+] and AZD3965[
+ 
+]) have demonstrated promising preclinical activity. AZD3965, a well‐known MCT1 inhibitor, impairs pyruvate uptake, disrupting oxidative metabolism in tumor cells, leading to cell death and sensitizing tumors to chemotherapy and radiotherapy. It has shown efficacy in solid tumors and lymphomas and is currently in clinical trials.[
+ , , 
+] Syrosingopine (Syro) is an MCT1/4 inhibitor that blocks lactate efflux, causing intracellular acidification and tumor cell death.[
+ , 
+] In addition to their direct cytotoxic effects, MCT inhibitors may modulate the tumor immune microenvironment. Specifically, MCT4 inhibition limits lactate export from tumor cells, thereby reducing extracellular lactate accumulation. High lactate levels in the TME suppress effector T cell activity and promote the polarization of TAMs toward an M2‐like immunosuppressive phenotype, facilitating immune evasion. By alleviating lactate‐induced immunosuppression, MCT4 inhibition may enhance the efficacy of immunotherapies, including immune checkpoint blockade.[
+ , 
+] Collectively, these findings highlight MCTs as attractive therapeutic targets. Inhibition of MCTs, particularly in combination with chemotherapy, radiotherapy, or immunotherapy, offers a promising strategy to disrupt tumor metabolism and overcome immune resistance.[
+ , , , 
+]
+
+To address challenges related to selectivity, tumor heterogeneity, and resistance mechanisms, nanomaterial‐based strategies have been developed to enhance the delivery and efficacy of MCT inhibitors while minimizing off‐target effects.[
+ , 
+] For example, triple‐negative breast cancer (TNBC), often resistant to ICB due to a hyperacidic, immunosuppressive TME, was targeted using a carrier‐free photodynamic bioregulator (CASN) composed of Chlorin e6 and AZD3965. CASN‐mediated photodynamic therapy (PDT) not only inhibited primary tumor growth and induced ICD but also suppressed MCT1‐dependent lactate efflux, reducing Treg generation and M2 macrophage polarization. Combined with ICB, this approach markedly enhanced CTL recruitment, improving antitumor immunity and controlling TNBC growth and metastasis.[
+ 
+] Similarly, ROS‐sensitive nanoparticles co‐loaded with Syro[
+ , , 
+] and a cisplatin(IV) prodrug were designed for osteosarcoma treatment. These nanoparticles accumulate in tumor cells, where ROS generation amplifies the delivery and effects of both agents, inducing endoplasmic reticulum (ER) stress, triggering ICD, and stimulating adaptive immunity.[
+ 
+] Beyond small‐molecule inhibitors, nanocarrier‐based delivery of MCT4‐targeting siRNA has emerged as an alternative strategy.[
+ , 
+] For example, phenylboronic acid‐ and pyridine‐modified poly(amidoamine) dendrimer/copper(II) complexes (D–Cu complexes) were developed to deliver MCT4‐targeting siRNA (siMCT4) and disrupt the tumor lactate shuttle. These D–Cu complexes exhibited a copper(II)‐mediated chemodynamic effect and demonstrated T1‐weighted magnetic resonance imaging capability (r
+1 relaxivity = 1.19 mM−1·s−1), enabling efficient intracellular siMCT4 delivery to inhibit lactate efflux in tumor cells. In combination with a CD11b immune agonist, treatment with D–Cu/siMCT4 polyplexes in a murine breast tumor model alleviated local TME immunosuppression and significantly inhibited both primary tumor growth and lung metastasis.[
+ 
+]
+
+Despite the therapeutic promise of targeting MCTs, nanomaterial‐based strategies face several challenges that must be addressed for successful clinical translation. First, achieving selective delivery of MCT inhibitors or siRNA to tumor cells, while sparing normal tissues, remains difficult due to tumor heterogeneity and the dynamic nature of the TME. Second, nanocarriers must overcome multiple physiological barriers, including abnormal tumor vasculature, elevated interstitial fluid pressure, and acidic extracellular pH, to ensure effective intratumoral accumulation and cellular internalization. Third, compensatory mechanisms such as the upregulation of alternative transporters and metabolic adaptation to lactate retention may undermine the sustained efficacy of MCT‐targeted therapies. Finally, integrating MCT inhibition with immunotherapy requires precise spatial and temporal control of drug release to reprogram the TME without compromising beneficial immune responses. Addressing these limitations through rational nanocarrier design, stimulus‐responsive release systems, and combinatorial treatment strategies will be essential to unlock the full clinical potential of MCT‐targeted nanomedicine.
+
+3.2.
+
+## Regulation of Amino Acid Metabolism Pathways in Tumors
+Key components of the amino acid metabolic network, including amino acid transporters, GLS, arginine‐metabolizing enzymes (e.g., arginase and ornithine decarboxylase), and the IDO1–Kyn–AhR axis, serve as critical regulators of tumor metabolism and immune modulation.[
+ , , , 
+] Amino acid transporters facilitate the uptake of essential amino acids into tumor cells, providing building blocks for protein synthesis, nucleic acid production, and energy metabolism. These transporters not only fuel tumor cell proliferation but also regulate the availability of amino acids necessary for immune cell function, particularly T cells.[
+ , 
+] Dysregulation of amino acid transporters in tumors often results in an altered metabolic environment, impairing T cell activation and reducing T cell‐mediated immune responses.[
+ , 
+] GLS catalyzes the conversion of glutamine to glutamate, a crucial source of energy and metabolic intermediates for rapidly proliferating tumor cells.[
+ 
+] GLS activity also impacts immune cell metabolism by modulating glutamine availability,[
+ 
+] a key fuel for T cell activation and expansion. Increased glutamine metabolism in tumors can suppress T cell proliferation and function, contributing to immune evasion within the TME.[
+ 
+] Arginine‐related metabolic enzymes, including Arginase and Ornithine Decarboxylase, regulate arginine levels, which are vital for immune cell activation. Arginase depletes extracellular arginine, limiting its availability to T cells, which depend on arginine for activation and proliferation.[
+ , 
+] Ornithine Decarboxylase, involved in polyamine synthesis, influences immune cell differentiation and modulates inflammatory responses.[
+ , 
+] Both enzymes contribute to the immunosuppressive TME, hindering effective T cell‐mediated antitumor immunity. The IDO1–Tyn–AhR Axis is a critical pathway regulating tryptophan metabolism and immune modulation.[
+ , 
+] IDO1 catabolizes tryptophan into Kyn, suppressing T cell activation and promoting T cell exhaustion. This pathway is frequently upregulated in tumors to suppress immune surveillance and maintain immune tolerance.[
+ , 
+]
+
+Overall, amino acid metabolism critically shapes T cell function within the TME, influencing tumor progression, immune escape, and treatment resistance. Targeting these metabolic pathways offers a promising strategy to enhance T cell‐based immunotherapy and improve clinical outcomes. Figure  summarizes nanomaterial‐based approaches for modulating amino acid transporters, GLS, arginine‐related enzymes, and the IDO1–Kyn–AhR axis to strengthen tumor therapies.
+ 3.2.1.
+
+## Disrupting Amino Acid Uptake through Transporter Targeting
+Tumor cells upregulate amino acid transporters—including System L (LAT1, LAT2), System X− (xCT), and System Y⁺ (SLC7A1)—to meet biosynthetic and energy demands, while indirectly suppressing immune function by depleting essential nutrients in the TME.[
+ , , 
+]
+
+For instance, LAT1/2 mediate leucine uptake for mTORC1 activation; xCT exchanges glutamate and cysteine to maintain redox balance; and SLC7A1 controls arginine uptake, critical for T cell activation.[
+ , , , 
+]
+
+Inhibiting these transporters disrupts tumor metabolism and restores immune activity. Small‐molecule inhibitors (e.g., JPH203, BCH‐101, sulfasalazine), monoclonal antibodies, and gene editing approaches have shown promise, although challenges remain regarding specificity and resistance.[
+ , , , , 
+] Nanomaterial‐based delivery systems are emerging as potent tools to improve transporter targeting and therapeutic precision.[
+ , 
+] For example, in hepatocellular carcinoma, co‐delivering the LAT1 inhibitor JPH203 with a pDNA‐CHRDL‐1‐loaded nanoplatform (FT‐BL@P) synergistically suppressed tumor growth.[
+ 
+] Another nanoplatform (LJ@Trp‐NPs) was developed to target two key amino acid transporters—SLC6A14 (ATB⁰,⁺) and SLC7A5 (LAT1)—which support amino acid metabolism in many cancers. Tryptophan was used as a targeting ligand for SLC6A14‐mediated delivery of JPH203, a selective SLC7A5 inhibitor, which also led to downregulation of SLC6A14. This strategy enhanced the efficacy of the kinase inhibitor lapatinib by disrupting mTOR signaling, inducing apoptosis, and suppressing metastasis, illustrating how amino acid starvation can potentiate anticancer therapies.[
+ 
+] In addition, siRNA‐loaded nanoplatforms targeting SLC7A11 (also known as xCT) have been developed to induce ferroptosis. For example, a cancer cell membrane–camouflaged iron–siRNA nanohybrid (CM‐Fe‐siR) suppressed cystine uptake, leading to GSH depletion and glutathione peroxidase 4 inactivation. Concurrently, iron‐mediated Fenton reactions generated ROS, and the combined effects amplified lipid peroxidation and ferroptotic cell death, resulting in potent antitumor efficacy.[
+ 
+]
+
+Although nanomaterial‐based strategies targeting amino acid transporters hold significant therapeutic promise, several transporter‐specific challenges impede clinical translation. Transporters such as LAT1, xCT, and SLC6A14 are also expressed in normal proliferative tissues, increasing the risk of off‐target toxicity. Additionally, intratumoral heterogeneity and dynamic regulation of transporter expression can compromise targeting specificity and treatment consistency. Tumor cells may further evade transporter inhibition by activating compensatory amino acid uptake pathways or metabolic rewiring. These limitations underscore the need for highly selective delivery systems and a deeper mechanistic understanding of transporter biology in both cancer and immune cells to improve therapeutic precision and durability.
+
+3.2.2.
+
+## Blocking Glutamine Addiction with GLS Inhibition
+GLS converts glutamine to glutamate, fueling the TCA cycle, supporting biosynthesis, and maintaining redox balance. Many cancers show “glutamine addiction,” making GLS a prime therapeutic target.[
+ , , , , , 
+] Tumors primarily upregulate GLS1 (kidney‐type), while GLS2 (liver‐type) often plays a tumor‐suppressive role.[
+ , 
+]
+
+GLS inhibition deprives tumor cells of a key nutrient, leading to metabolic collapse and cell death. Several inhibitors—such as CB‐839 (in clinical trials NCT03163667, NCT03428217, and NCT03831932), BPTES, and DON—have been evaluated in preclinical models, alongside RNAi and CRISPR strategies to downregulate GLS1 expression.[
+ , , , , , , , , 
+] However, toxicity, heterogeneity, and delivery limitations remain significant challenges.
+Nanotechnology offers solutions to improve GLS‐targeted therapy.[
+ , , , , 
+] For example, a biomimetic Cu‐doped polypyrrole nanoparticle system (CuP), loaded with the GLS1 inhibitor BPTES to form PCB, was developed to promote cuproptosis and modulate the tumor immune microenvironment. The PCB nanosystem consists of a BPTES/CuP core cloaked with a platelet membrane, enabling active tumor targeting following intravenous administration. PCB effectively inhibited GLS1 activity, resulting in reduced intracellular GSH levels. Western blot analysis confirmed marked depletion of Fe–S cluster proteins, including GLS, in PCB‐treated tumors. In parallel, CuP catalyzed the generation of intracellular hydrogen peroxide, exacerbating oxidative stress and triggering Cu2⁺‐mediated oligomerization of dihydrolipoyl transacetylase, thereby inducing cuproptosis. Notably, PCB not only suppressed primary tumor growth but also exhibited abscopal effects on distant tumors, with significantly reduced in situ GLS expression observed in treated tissues.[
+ 
+] Additionally, nanomaterial‐based strategies have been explored to inhibit glutamine metabolism by delivering siRNAs targeting GLS1.[
+ , 
+] In one study, researchers proposed a dual‐targeting approach to concurrently inhibit glucose and glutamine metabolism by co‐delivering siRNAs against mutant Kras and GLS1, thereby circumventing the toxicity associated with conventional chemotherapeutics. This strategy addresses the compensatory metabolic interplay between glucose and glutamine, resulting in enhanced antitumor efficacy. Mg–Al layered double hydroxide (LDH) nanosheets were used as siRNA carriers due to their superior delivery efficiency compared to Lipofectamine 2000. The LDH nanosheets adsorbed siKras and siGLS1 via electrostatic interactions and facilitated endosomal escape through a proton sponge effect, enhancing siRNA stability and gene silencing efficiency. The released siRNAs downregulated Kras, GLS1, and other glycolytic enzymes, leading to reduced ATP production and metabolic activity. This biocompatible LDH/siRNA nanoplatform effectively suppressed pancreatic tumor xenograft growth by inhibiting cancer cell proliferation, demonstrating strong potential as a dual‐targeted metabolic therapy.[
+ 
+]
+
+Despite encouraging preclinical outcomes, nanomaterial‐based strategies targeting GLS, particularly GLS1, encounter several challenges specific to this metabolic axis. Although frequently overexpressed in tumors, GLS1 is also active in normal proliferative tissues such as activated lymphocytes and intestinal epithelium, raising concerns about on‐target, off‐tumor toxicity. Moreover, metabolic redundancy enables tumor cells to circumvent GLS1 inhibition through alternative glutamine utilization pathways, including transaminase‐mediated anaplerosis and enhanced glutamate uptake, thereby sustaining TCA cycle flux and redox balance. Tumor heterogeneity further complicates therapeutic application, as variation in glutamine dependence and differential expression of GLS1 versus GLS2 across cancer types limits the generalizability of treatment responses and underscores the need for biomarker‐driven patient stratification. Finally, effective co‐targeting of compensatory pathways (e.g., glycolysis or NADPH‐generating systems) imposes additional design demands on nanocarriers, requiring precise co‐delivery and synchronized release kinetics to avoid additive toxicity. Addressing these GLS‐specific limitations is critical for advancing glutamine‐targeted nanotherapies toward clinical translation.
+
+3.2.3.
+
+## Modulating Arginine Metabolism to Reprogram the TME
+Arginine metabolism plays a critical role in tumor progression, immune regulation, and therapeutic resistance.[
+ , 
+] Within the TME, both tumor cells and immunosuppressive cells—including MDSCs and TAMs—frequently reprogram arginine metabolism to support their proliferative needs and suppress antitumor immune responses.[
+ , 
+] Two key enzymes in this pathway, arginase and ornithine decarboxylase (ODC), have emerged as important therapeutic targets in cancer, particularly when combined with immunotherapy or chemotherapy.
+Arginase, especially the ARG1 isoform, catalyzes the conversion of L‐arginine into ornithine and urea. Although essential for nitrogen disposal, its pathological upregulation depletes extracellular arginine, impairing TCR signaling, T cell proliferation, and cytokine production.[
+ 
+] High ARG1 activity correlates with immune checkpoint inhibitor resistance and poor prognosis across cancers.[
+ 
+] Arginase inhibitors such as CB‐1158 (INCB001158) are under clinical investigation for restoring T cell function and enhancing PD‐1/PD‐L1 blockade efficacy, with preclinical studies showing synergy when combined with ICIs or chemotherapy.[
+ , , , 
+] ODC is the rate‐limiting enzyme in the polyamine biosynthetic pathway, converting ornithine (a product of arginase activity) into putrescine, which is subsequently converted into spermidine and spermine. These polyamines are essential for DNA replication, cell cycle progression, and cell proliferation, making ODC a critical driver of tumor growth.[
+ 
+] Overexpression of ODC has been observed in multiple cancers, including colorectal cancer, breast cancer, and neuroblastoma, and is often associated with poor clinical outcomes. In addition to promoting tumor growth, polyamine accumulation negatively affects antitumor immunity by impairing dendritic cell maturation and T cell activation.[
+ , 
+] Difluoromethylornithine (DFMO, eflornithine), an irreversible ODC inhibitor, has demonstrated anticancer activity in both preclinical and clinical settings.[
+ 
+] DFMO has been evaluated in clinical trials for colorectal cancer chemoprevention and in combination with other therapies.[
+ 
+] Current strategies pair DFMO with polyamine transport inhibitors, chemotherapy, or ICB to overcome metabolic compensation and improve therapeutic efficacy.
+Targeting arginine‐related metabolic enzymes, particularly ARG1 and ODC, represents a compelling strategy to modulate the immunosuppressive TME, inhibit tumor proliferation, and enhance the efficacy of immunotherapy. Both preclinical and early‐phase clinical data support the potential of these approaches to restore arginine availability, limit polyamine biosynthesis, and boost T cell‐mediated immunity. With the advancement of nanotechnology, nanoparticle‐based delivery systems are being actively explored to improve the bioavailability, tumor‐specific accumulation, and safety profiles of arginase and ODC inhibitors. These delivery platforms offer the potential to minimize systemic toxicity, enhance tumor penetration, and facilitate co‐delivery with synergistic therapeutics such as ICIs (Table  ), thereby optimizing clinical outcomes.[
+ , , 
+]
+
+Nω‐hydroxy‐L‐norarginine (nor‐NOHA), a selective ARG1 inhibitor, was encapsulated in stealth liposomes to improve its pharmacokinetics and overcome limitations such as rapid clearance and low bioavailability. The liposomal formulation demonstrated sustained release, prolonged plasma half‐life, and enhanced tumor accumulation, resulting in extended ARG1 inhibition both in vitro and in vivo.[
+ 
+] Additionally, a hollow nanoplatform (HN‐HFPA) was engineered to enhance post‐photodynamic therapy antitumor immunity in TNBC by reprogramming TAM arginine metabolism. L‐arginine (L‐Arg), encapsulated within the hollow core, served as both a nitric oxide (NO) precursor and a substrate for arginine metabolism, while L‐norvaline (L‐Nor), an ARG1 inhibitor, was grafted onto a hyaluronic acid (HA) coating to enable TAM‐targeted delivery. In the TME, HA was degraded by hyaluronidase, and elevated GSH levels triggered nanoparticle disassembly, leading to GSH depletion and, under light irradiation, the generation of ROS. This process induced ICD and released L‐Arg, which was enzymatically converted to NO, contributing to both tumor cell killing and real‐time ultrasound imaging via gas formation. Concurrently, L‐Nor inhibited ARG1 in M2‐polarized TAMs, promoting their repolarization to an M1 phenotype, enhancing CD8⁺ T‐cell infiltration, and suppressing metastasis.[
+ 
+]
+
+Researchers also synthesized fluorescent carbon dots directly from DFMO, creating nanoscale, drug‐doped particles that achieved ∼60‐fold greater antitumor potency in neuroblastoma cells compared to free DFMO, due to improved uptake, nuclear accumulation, and DNA interaction.[
+ 
+] Another approach co‐loaded DFMO and the angiogenesis inhibitor regorafenib into mannose‐decorated PLGA–PEG nanoparticles, selectively targeting CD206⁺ M2‐like TAMs in osteosarcoma. Mannosylation enhanced M2 TAM uptake, increasing local drug concentrations. In an orthotopic model, free DFMO or regorafenib monotherapy reduced tumor growth by ∼23% and 39%, respectively, while free drug combination achieved ∼57% inhibition; in contrast, the dual‐loaded nanoparticle achieved ∼70% suppression, reprogrammed TAMs to a pro‐inflammatory M1 phenotype, suppressed angiogenesis, and minimized systemic toxicity.[
+ 
+]
+
+Although nanomaterial‐based strategies targeting arginine metabolism—particularly ARG1 and ODC—have demonstrated potential in reprogramming the immunosuppressive TME and augmenting immunotherapeutic responses, several target‐specific challenges persist. The physiological expression of ARG1 and ODC in nonmalignant tissues, including hepatocytes and activated immune cells, raises concerns about on‐target, off‐tumor toxicity, particularly in the absence of tumor‐restricted delivery. Moreover, tumors may develop resistance by activating compensatory pathways, such as alternative polyamine biosynthesis or upregulation of amino acid transporters, which can undermine the durability of metabolic blockade. Achieving selective delivery to M2‐like TAMs remains complex due to their phenotypic and functional similarity to reparative macrophages in healthy tissues, increasing the risk of unintended immunomodulation. Furthermore, co‐delivery of ARG1 or ODC inhibitors alongside immunotherapeutic or redox‐active agents necessitates precise spatiotemporal control of drug release to maximize synergy while minimizing adverse effects. Addressing these limitations will require the development of rationally engineered nanocarriers with tunable release kinetics, improved TAM‐targeting specificity, and enhanced compatibility with combination treatment regimens to fully leverage the therapeutic potential of arginine metabolism modulation in cancer.
+
+3.2.4.
+
+## Disrupting IDO1‐Kyn‐AhR Axis to Overcome Tumor Immune Evasion
+The IDO1–Kyn–AhR axis represents a key immunoregulatory pathway across multiple tumor types.[
+ 
+] In this pathway, IDO1—and in some cancers, tryptophan 2,3‐dioxygenase (TDO2)—catalyzes the oxidative degradation of the essential amino acid tryptophan into Kyn. Accumulated Kyn acts as a high‐affinity ligand for AhR, a transcription factor expressed in various immune cell subsets. Activation of the Kyn–AhR pathway drives the differentiation of Tregs and tolerogenic myeloid cells, while suppressing the effector functions of CD8⁺ T cells and NK cells.[
+ 
+] Clinically, overexpression of IDO1 and hyperactivation of the Kyn–AhR axis are associated with immune evasion, resistance to PD‐1/PD‐L1 checkpoint blockade, and poor prognosis in cancers such as melanoma, lung, colorectal, and glioma. To counteract this immunosuppressive cascade, multiple therapeutic strategies have been pursued, including small‐molecule inhibitors, biologics, and genetic interventions.[
+ , 
+]
+
+Several small‐molecule IDO1 inhibitors have been designed to block tryptophan catabolism and reprogram the TME.[
+ , , 
+] Notable examples include: Epacadostat, Navoximod (GDC‐0919), and BMS‐986205 (Linrodostat). These agents showed encouraging immunostimulatory activity in preclinical models and early‐phase clinical trials. However, their efficacy in large phase III trials, especially as monotherapies, has been limited—likely due to pathway redundancy (e.g., TDO2 compensation), incomplete enzymatic blockade, and lack of patient stratification.[
+ 
+] An alternative approach involves tryptophan mimetics such as indoximod (1‐methyl‐D‐tryptophan),[
+ 
+] which does not directly inhibit IDO1 activity but instead reverses tryptophan depletion‐induced immunosuppression by restoring mTOR signaling in T cells and enhancing their effector functions.
+Moreover, AhR antagonists are being developed to inhibit the downstream transcriptional effects of Kyn. Preclinical studies have demonstrated that AhR inhibition can reduce Treg differentiation, suppress M2 macrophage polarization, and delay tumor progression, especially in IDO1‐ or TDO2‐expressing tumors.[
+ 
+] Newer strategies under investigation include dual inhibitors targeting both IDO1 and TDO2 or combining AhR blockade with ICIs to achieve more durable immune activation and tumor regression.[
+ 
+] Biological interventions provide additional means of targeting the IDO1–Kyn–AhR axis:[
+ , 
+] Therapeutic vaccines directed against IDO1‐expressing cells have been shown to induce cytotoxic immune responses and yield favorable outcomes in early clinical studies. Enzyme therapies, such as kynureninase, act as metabolic sinks that deplete Kyn levels within the TME. In preclinical models, this approach enhances CD8⁺ T cell activity, reduces immunosuppressive myeloid populations, and leads to synergistic antitumor effects when combined with ICIs.[
+ 
+] Gene‐editing and silencing technologies provide strong mechanistic evidence for the therapeutic relevance of this axis: CRISPR‐Cas9‐mediated knockout of IDO1 in tumor cells or immune cells increases effector T cell infiltration and reduces Treg and myeloid‐derived suppressor cell (MDSC) populations.[
+ 
+] siRNA/shRNA‐mediated knockdown of IDO1 or AhR also enhances antitumor immunity in vivo.[
+ , 
+] While clinical translation of these approaches faces delivery and safety challenges, they offer invaluable insights and support the rationale for further drug development, such as proteolysis‐targeting chimeras (PROTACs) or metabolically resistant cell therapies.
+Despite early clinical setbacks, particularly with IDO1 enzyme inhibitors like epacadostat,[
+ , 
+] current research focuses on overcoming redundancy and heterogeneity through biomarker‐guided patient selection and rational combination therapies, especially with ICIs. Nanotechnology offers powerful tools to enhance delivery and precision, addressing challenges such as poor solubility, rapid clearance, and off‐target toxicity.[
+ 
+] Nanoparticle systems also enable co‐delivery of synergistic agents—such as IDO1 inhibitors and AhR antagonists—within a single platform, maximizing efficacy while minimizing systemic side effects.[
+ , , 
+] For example, copper–cerium peroxide nanoparticles (CGDMRR) were developed to co‐deliver 1‐methyltryptophan, glucose oxidase, and doxorubicin, while alleviating tumor hypoxia. In 4T1 tumor models, CGDMRR suppressed tumor growth, enhanced antitumor immune responses, and, when combined with anti‐PD‐L1 antibody (aPD‐L1), improved systemic tumor control at both local and metastatic sites.[
+ 
+] Additionally, recent studies have explored nanomaterial‐based strategies for targeted degradation of IDO to alleviate tumor‐induced immunosuppression.[
+ , 
+] For example, a light‐activated PROTAC nanoassembly (LPN), composed of a PROTAC, a cathepsin B‐cleavable peptide linker, and a photosensitizer, was developed without additional carrier materials. Following intravenous administration, LPNs preferentially accumulated in tumor tissues via the EPR effect. Tumor‐associated cathepsin B cleaved the peptide linker, releasing the active PROTAC, while light irradiation triggered the photosensitizer to induce ICD and activate effector T cells. Concurrent IDO degradation suppressed tryptophan metabolism‐mediated Treg immunosuppression, collectively leading to effective inhibition of tumor growth, metastasis, and recurrence.[
+ 
+] In a separate study, researchers designed supramolecular artificial Nano‐AUTACs (GM NPs) by assembling an IDO‐targeting AUTAC molecule (GN) with the nucleoside analog methotrexate (MTX) via noncovalent interactions. These nanostructures enabled tumor‐specific delivery, where the acidic intracellular environment disrupted the supramolecular complex, releasing MTX to kill tumor cells, modulate tumor‐associated macrophages, activate dendritic cells, and induce autophagy. Autophagy in turn, enhanced GN‐mediated IDO degradation, boosting effector T cell responses and suppressing tumor progression.[
+ 
+]
+
+Although nanomaterial‐based strategies targeting the IDO1–Kyn–AhR axis hold significant therapeutic potential, several pathway‐specific challenges impede their clinical translation. First, the immunosuppressive effects mediated by this axis originate from multiple enzymes—including IDO1, TDO2, and IL4I1—raising the possibility of functional redundancy and necessitating broader or combinatorial inhibition strategies.[
+ 
+] Second, the heterogeneous expression of IDO1 and AhR across tumor types and immune cell subsets complicates patient stratification and may limit the efficacy of untargeted approaches. Third, the co‐delivery of multiple agents, such as IDO1 inhibitors and AhR antagonists, within a single nanoplatform requires precise spatial and temporal control of release kinetics and intracellular trafficking to ensure effective disruption of the pathway. Additionally, the immunosuppressive TME, which is characterized by high Kyn levels, hypoxia, and limited immune infiltration, poses a barrier to nanoparticle penetration and functional delivery. Finally, advanced nanoplatforms incorporating modalities such as PROTACs, enzyme therapies, or autophagy‐inducing constructs face challenges related to in vivo stability, immunogenicity, and potential off‐target effects, particularly given the physiological relevance of tryptophan metabolism in normal tissues. Addressing these mechanistic and delivery‐specific limitations will be essential to unlock the full potential of nanotechnology‐enabled modulation of the IDO1–Kyn–AhR axis in cancer immunotherapy.
+
+3.3.
+
+## Regulation of Lipid Metabolism Pathways in Tumors
+Lipid metabolism plays a crucial role in tumor progression, survival, and therapy resistance.[
+ 
+] Tumor cells reprogram lipid pathways—upregulating lipid synthesis, altering FAO, and changing membrane composition—to support rapid proliferation and to reshape the TME.[
+ 
+] Consequently, targeting lipid metabolism has emerged as a promising therapeutic strategy in cancer treatment.[
+ 
+] A key enzyme in de novo lipid synthesis, FASN, is frequently overexpressed in cancers, including breast, prostate, and liver.[
+ 
+] Mechanistically, FASN supports membrane biosynthesis and energy storage under metabolic stress and contributes to immunosuppression. Recent in vivo CRISPR screens have identified FASN as a tumor‑intrinsic immunometabolic target.[
+ , , 
+] In a Braf/Pten‐driven melanoma model, FASN deletion impaired tumor growth in immunocompetent but not T cell‐deficient mice, indicating its specific role in immune evasion rather than proliferation. Tumors lacking FASN exhibited increased CD8⁺ T cell infiltration, enhanced IFN‐γ and TNF‐α production, and conversion from an immune‐cold to an immune‐hot phenotype. Corroboratively, bioinformatic analysis across multiple tumors revealed that high FASN expression inversely correlates with markers of cytolytic activity and immune infiltration, supporting its role in immune escape.[
+ 
+] Despite promising preclinical data, FASN inhibitors such as orlistat have yet to enter clinical trials for cancer due to limited specificity and toxicity.[
+ 
+] More potent drugs like TVB‑2640 (denifanstat) are under clinical investigation but show variable monotherapy efficacy, often limited by compensatory upregulation of FAO or exogenous lipid uptake.[
+ , , , 
+] Similarly, targeting FAO, such as with CPT1 inhibitors (e.g., etomoxir), has demonstrated preclinical tumor inhibition but faces clinical challenges due to off‐target toxicity.[
+ , , 
+] The convergence of CRISPR screening, mechanistic insight, and emerging pharmacology underscores lipid synthesis and FAO as high‐value immunometabolic axes in cancer. Disrupting these pathways, particularly when combined with immunotherapy, holds promise for reprogramming the TME and improving therapeutic efficacy.
+Lipid droplets (LDs) are dynamic organelles that store neutral lipids and regulate metabolic homeostasis within tumor cells. They play a significant role in supporting tumor cell survival under metabolic stress, such as nutrient deprivation or hypoxia—common features of the TME.[
+ 
+] Recent studies suggest that targeting LD‐associated proteins or modulating lipid droplet metabolism could sensitize tumors to chemotherapy and radiation.[
+ , , 
+] Several small‐molecule inhibitors targeting LD formation and stabilization are currently in preclinical stages, although their clinical applications are still under development.[
+ , 
+] Cholesterol, a critical component of cellular membranes, particularly in lipid rafts, is involved in regulating signaling pathways that control cell proliferation, survival, and migration.[
+ 
+] HMG‐CoA reductase inhibitors (statins), which impede cholesterol biosynthesis via the mevalonate pathway, have been explored as potential adjuvants in cancer therapy.[
+ 
+] While statins have demonstrated modest anticancer effects in preclinical studies, their clinical efficacy remains a subject of ongoing investigation.[
+ , 
+] Recent research suggests that combining statins with ICIs may enhance antitumor immunity by modulating lipid metabolism and altering immune cell function within the TME.[
+ 
+] Tumor cells often manipulate lipid metabolism to evade immune surveillance and suppress immune responses.[
+ 
+] For example, lysophosphatidic acid (LPA), a bioactive lipid, has been shown to promote immune suppression by increasing the accumulation of MDSCs and Tregs in the TME. Inhibition of LPA receptors has been explored as a strategy to enhance antitumor immunity, with promising results in preclinical models.[
+ 
+] Additionally, enzymes such as phospholipase A2 (PLA2), which regulate the release of fatty acids from phospholipids, are being targeted to modulate lipid signaling pathways in cancer immunotherapy.[
+ 
+]
+
+Despite the promising preclinical data, inhibiting lipid metabolism in cancer therapy faces several challenges, including resistance mechanisms and the development of compensatory pathways. To enhance the efficacy of lipid metabolism inhibitors, combination therapies targeting multiple metabolic pathways and biomarker‐guided patient stratification are critical. Nanoparticle‐based delivery systems have transformed the targeting of lipid metabolism in cancer.[
+ 
+] By encapsulating agents such as FASN inhibitors, CPT1 inhibitors, and statins, these nanocarriers improve drug solubility and protect therapeutic payloads from degradation.
+A growing body of preclinical research has focused on the development of nanoparticle‐based delivery systems designed to modulate aberrant lipid metabolism in tumors, aiming to enhance therapeutic efficacy and reduce systemic toxicity (Table  , Figure  ).[
+ , , , , 
+] For example, a biomimetic nanovesicle, FiFe@RBM, was developed by cloaking superparamagnetic iron oxide nanoparticles (SPIONs) and a FASN inhibitor within red blood cell membranes. Following intravenous administration, FiFe@RBM selectively accumulated in PC‐3 castration‐resistant prostate cancer xenografts and enabled T1/T2‐weighted magnetic resonance imaging guidance. Within tumor cells, SPIONs released Fe2⁺/Fe3⁺ ions, catalyzing Fenton reactions to generate ROS, disrupt mitochondrial function, and inhibit the AKT–mTOR pathway. Simultaneously, FASN inhibition reprogrammed lipid metabolism, increasing levels of polyunsaturated phosphatidylcholine and phosphatidylethanolamine, thereby amplifying lipid peroxidation and promoting ferroptosis. The combined effects of magnetic hyperthermia and ferroptotic signaling induced both apoptotic and ferroptotic tumor cell death, suppressed primary tumor growth, and prevented liver metastasis, partly through recruitment and activation of NK cells. This dual‐modal nanoplatform integrates magnetic hyperthermia with lipid metabolism–driven ferroptosis, offering a precision therapeutic strategy for treatment‐resistant cancers.[
+ 
+] In another study, researchers developed two types of anti‐HER2–conjugated immunoliposomes (DSPC/Chol and DOPE/CHEMS) loaded with FASN‐targeting siRNA for breast cancer treatment. These nanosized formulations exhibited enhanced uptake and silencing efficiency in HER2⁺ SK‐BR3 cells, significantly reducing cell viability (to 30% and 20%) and impairing migration, while also downregulating FASN expression. Comparatively lower effects were observed in HER2− MCF‐7 cells, demonstrating the selectivity and therapeutic potential of the targeted liposomes.[
+ 
+]
+
+ Researchers have also developed nanomaterial‐based strategies to modulate CPT1 activity. For instance, a nutrient‐sensing nanodrug, VFETX—composed of vitamin B1 (VB1), ferrous ions, and etomoxir (ETX), an irreversible inhibitor of CPT1, the rate‐limiting enzyme in mitochondrial fatty acid β‐oxidation—was constructed. A fasting‐mimicking diet (FMD) upregulated VB1 transporter expression in tumor cells, thereby enhancing VFETX uptake and selective intratumoral accumulation. By inhibiting CPT1, ETX suppressed FAO and impaired mitochondrial energy production. The combined VFETX and FMD treatment synergistically disrupted tumor metabolic flexibility, resulting in significant tumor growth inhibition in vivo without notable systemic toxicity.[
+ 
+] Leveraging the elevated levels of ROS and GSH in the TME and cytoplasm, researchers developed a cascade‐responsive nanocapsule delivery system for glioblastoma (GBM) therapy. This system encapsulated a disulfide‐linked conjugate of anti‐VEGFR2 monoclonal antibody (aV) and CPT1C‐targeting siRNA (siCPT1C), and was surface‐loaded with the glycolysis inhibitor 2‐deoxy‐D‐glucose (2‐DG), forming the 2‐DG/aV‐siCPT1C nanocapsule (NC). Exploiting the overexpression of GLUT1 on both the blood–brain barrier (BBB) and GBM cells, the nanocapsule achieved effective BBB penetration and tumor targeting. By co‐delivering 2‐DG and siCPT1C, the system concurrently inhibited glycolysis and FAO in GBM, while also reducing angiogenesis. Additionally, the nanocapsule improved the stability and CNS delivery efficiency of both monoclonal antibodies and siRNA.[
+ 
+]
+
+Additionally, researchers have explored strategies to inhibit 3‐hydroxy‐3‐methylglutaryl‐CoA reductase (HMGCR)—the rate‐limiting enzyme of the mevalonate pathway—using small‐molecule inhibitors or siRNA to disrupt cholesterol biosynthesis and lipid‐dependent tumor growth.[
+ , , , , 
+] For instance, biodegradable zwitterionic polymer‐coated ferric metal–organic frameworks (Fe‐MOFs) co‐loaded with atorvastatin (ATV) were developed to induce ferroptosis. ATV inhibited HMGCR, impairing mevalonate and GSH biosynthesis, while Fe2⁺ released from disassembled MOFs catalyzed Fenton reactions to generate ROS, triggering lipid peroxidation and ferroptotic cell death. This synergistic strategy demonstrated potent antitumor efficacy and favorable biocompatibility in vitro and in vivo.[
+ 
+]
+
+Researchers developed T cell‐targeting nanoparticles (aCD3/F/ANs) encapsulating fenofibrate, a lipid metabolism‐modulating agent that activates peroxisome proliferator‐activated receptor‐α (PPAR‐α) and its downstream fatty acid metabolism‐related genes. In vitro, aCD3/F/ANs demonstrated superior T cell uptake compared to non‐targeted formulations (F/ANs). Treated T cells exhibited well‐defined mitochondrial cristae, increased ΔΨm, and elevated oxygen consumption rates under glucose‐deprived conditions, mimicking the TME. Gene expression analyses confirmed greater upregulation of PPAR‐α and related metabolic genes in aCD3/F/AN‐treated T cells. This metabolic reprogramming enhanced T cell proliferation and survival under nutrient‐limited conditions. Live‐cell imaging revealed increased cytotoxic activity of treated T cells against B16F10 melanoma cells. In vivo, systemic administration of aCD3/F/ANs promoted T cell infiltration into tumors, elevated intratumoral cytokine production, and significantly inhibited tumor growth in murine models. These findings underscore the potential of nanoparticle‐enabled lipid metabolic reprogramming to boost T cell function in immunometabolic cancer therapy.[
+ 
+] Additionally, researchers demonstrated that monoacylglycerol lipase (MGLL), a key lipid‐catabolizing enzyme, and cannabinoid receptor 2 (CB2), a regulator of macrophage polarization, were overexpressed in pancreatic adenocarcinoma (PAC) cells and TAMs, respectively. To simultaneously target these components, they engineered a reduction‐responsive poly(disulfide amide) (PDSA) nanoplatform for the co‐delivery of siRNAs against MGLL (siMGLL) and CB2 (siCB2). In the reductive TME, cleavage of PDSA's disulfide bonds triggered siRNA release. MGLL silencing reduced free fatty acid (FFA) production in PAC cells, limiting lipid availability and metabolic support, while CB2 knockdown reprogrammed TAMs toward an M1‐like proinflammatory phenotype, enhancing TNF‐α and IL‐12 secretion. This dual targeting of tumor metabolism and the immune microenvironment synergistically suppressed tumor growth in both subcutaneous and orthotopic PAC mouse models.[
+ 
+]
+
+These strategies underscore the potential of integrating lipid‐targeted therapies with nanotechnology to overcome metabolic plasticity and enhance both direct tumor cell killing and immune‐mediated clearance. However, nanomaterial‐based approaches targeting lipid metabolism, including FASN, CPT1, HMGCR, and lipid signaling mediators, face several lipid‐specific challenges that hinder clinical translation. First, key lipid metabolic enzymes are not tumor‐specific and are critical for maintaining lipid homeostasis in normal tissues, raising the risk of on‐target, off‐tumor toxicity. Second, tumors exhibit considerable metabolic flexibility; upon inhibition of a single lipid pathway, they may upregulate compensatory mechanisms such as exogenous lipid uptake, enhanced FAO, or mevalonate‐independent cholesterol synthesis, which can diminish therapeutic efficacy. Third, intertumoral and intratumoral heterogeneity in lipid metabolism—both in cancer cells and immune cell subsets—complicates treatment uniformity and underscores the need for biomarker‐driven patient selection. Moreover, lipid‐rich and often hypoxic TME present physical and biochemical barriers to nanoparticle penetration and release, complicating the coordinated delivery of multiple agents, including siRNAs and small‐molecule inhibitors. Finally, immune reprogramming strategies that target lipid metabolism in TILs or tumor‐associated macrophages require highly selective delivery systems to avoid suppressing beneficial immune responses. Addressing these challenges will necessitate the rational design of multifunctional, cell‐specific nanocarriers, integration of combinatorial metabolic interventions, and deeper mechanistic understanding of lipid metabolic interactions within the tumor‐immune ecosystem.
+
+3.4.
+
+## Regulation of Nucleotide Metabolism Pathways in Tumors
+Nucleotide metabolism is essential for DNA and RNA synthesis, cell cycle progression, and epigenetic regulation. In cancer, the elevated demand for nucleotides to support rapid proliferation and preserve genomic stability drives extensive reprogramming of both de novo and salvage pathways. This metabolic adaptation not only facilitates tumor growth but also contributes to therapeutic resistance, immune evasion, and altered responses to genotoxic stress.[
+ , , 
+]
+
+Among key targets in nucleotide metabolism, dihydroorotate dehydrogenase (DHODH)—the rate‐limiting enzyme in de novo pyrimidine biosynthesis—has garnered significant attention.[
+ 
+] Inhibitors such as leflunomide and BAY2402234 have demonstrated potent antitumor activity in preclinical models.[
+ 
+] In addition, TYMS and ribonucleotide reductase (RNR), which are essential for the synthesis of deoxythymidine monophosphate (dTMP) and deoxyribonucleotide triphosphates (dNTPs), remain important therapeutic targets.[
+ , 
+] Conventional agents such as 5‐fluorouracil (5‐FU) and hydroxyurea are widely used,[
+ , 
+] and newer‐generation inhibitors with greater selectivity and reduced toxicity are under investigation. In the purine biosynthetic pathway, inhibitors like mycophenolate mofetil (MMF) and 6‐mercaptopurine continue to be evaluated in tumors with elevated purine demand.[
+ , 
+] Notably, dual targeting of purine biosynthesis and immune checkpoints has shown synergistic effects in immunologically “cold” tumors, enhancing the efficacy of ICB. Nucleotide metabolism also plays a critical role in modulating the tumor immune microenvironment. Although extracellular ATP functions as a pro‐inflammatory signal promoting immune activation, its degradation to adenosine by CD39/CD73 ectonucleotidases exerts potent immunosuppressive effects.[
+ 
+] Consequently, inhibitors of adenosine‐generating enzymes or adenosine A2A receptor antagonists are being actively investigated in clinical trials to restore antitumor immune responses and augment immunotherapy.
+To overcome challenges associated with poor pharmacokinetics and systemic toxicity of nucleotide metabolism inhibitors, nanoparticle‐based delivery systems have been developed (Table  , Figure  ).[
+ , 
+] These nanocarriers enhance the bioavailability and tumor specificity of agents such as DHODH and TYMS inhibitors, while also enabling co‐delivery with DNA‐damaging chemotherapeutics or immune modulators.[
+ , 
+] Preclinical studies have demonstrated that such platforms can improve therapeutic efficacy and reduce off‐target effects. Researchers synthesized dual‐template epitope‐imprinted polymers (D‐EMIPs) via a surface‐imprinting technique, using a HER2‐derived peptide (GSRCWGES) and an IMPDH active‐site peptide (YRGMGSLD) as templates. The resulting nanoparticles selectively bound to HER2 on cancer cell membranes, significantly enhancing their uptake into HER2⁺ cells. Once internalized, D‐EMIPs engaged and inhibited inosine‐5’‐monophosphate dehydrogenase (IMPDH), thereby suppressing guanine nucleotide synthesis, impairing DNA replication, and arresting cell proliferation. In vitro and in vivo studies showed that D‐EMIPs preferentially accumulated in HER2⁺ tumors and markedly suppressed tumor growth with minimal off‐target toxicity. This study demonstrated that dual‐epitope imprinting enabled the integration of active targeting and enzyme inhibition within a single polymeric platform, offering a precise strategy to disrupt nucleotide metabolism in cancer cells.[
+ 
+]
+
+ In another study, researchers have employed siRNA to modulate folate‐nucleotide metabolism as a strategy to disrupt purine biosynthesis. In sunitinib‐resistant clear cell renal cell carcinoma (ccRCC), CD276—an immune checkpoint overexpressed on cancer stem cells—and MTHFD2—a mitochondrial enzyme in the folate cycle—were identified as promising therapeutic targets. To exploit these vulnerabilities, a multifunctional nanotheranostic platform (EMφ‐siMTHFD2‐MnO2@Suni) was developed using CD276‐CD133 single‐chain variable fragment (ScFv)‐modified M1 macrophage‐derived nanovesicles for dual targeting and deep tumor penetration. This biomimetic system co‐delivered siRNA against MTHFD2 and MnO2‐loaded sunitinib, with TME‐responsive release. MTHFD2 knockdown disrupted folate and purine metabolism, while MnO2 modulated GABA metabolism, collectively contributing to epithelial–mesenchymal transition inhibition and reprogramming of the immunosuppressive TME. In vivo, the platform significantly inhibited tumor growth, metastasis, and recurrence, underscoring its potential for overcoming drug resistance through metabolic and immune modulation.[
+ 
+]
+
+Many studies have explored nanomaterial‐based strategies to target adenosine‐generating enzymes, the adenosine A2A receptor, or adenosine itself, aiming to reverse immunosuppression and restore antitumor immune responses.[
+ , , , , , , 
+] For instance, calcium phosphate (CaP) nanoparticles were engineered via a biomineralization strategy to co‐deliver aPD‐L1 and APCP, a small‐molecule CD73 inhibitor. These nanocarriers exhibited high dual‐drug loading and selectively released both agents under acidic conditions. In a murine melanoma model, CaP‐mediated delivery of aPD‐L1 at one‐twentieth the systemic dose of the free antibody achieved superior tumor control while avoiding the off‐target toxicities associated with high‐dose administration. Co‐delivery of APCP further reduced extracellular adenosine, enhanced CD8⁺ T cell infiltration, and induced durable immune memory that prevented tumor recurrence. Collectively, these findings demonstrated that pH‐responsive CaP nanoparticles enabled synergistic blockade of PD‐L1 and CD73, significantly enhancing the efficacy and safety of melanoma immunotherapy.[
+ 
+] In a separate study, investigators leveraged the intrinsic physicochemical properties of bare nanoparticles to downregulate CD73 expression on tumor cells, thereby alleviating adenosine‐mediated immunosuppression without the need for exogenous ectonucleotidase inhibitors. They engineered Au@Cu2−xSe nanoparticles (ACS NPs), which accumulated in GBM tumors and generated hydroxyl radicals via a Fenton‐like reaction, relieving hypoxia and downregulating CD73 (ecto‐5’‐nucleotidase) expression. This reduction in CD73 decreased extracellular adenosine levels and mitigated adenosine‐induced immunosuppression. Simultaneously, released Cu2⁺ ions chelated intracellular disulfides to form the cytotoxic bis(N,N‐diethyldithiocarbamate)–copper (CuET) complex, which synergized with radiotherapy to amplify antitumor immune responses. In treated mice, this combination significantly increased intratumoral infiltration of CD8⁺ and CD4⁺ T cells and expanded splenic memory T cells, ultimately suppressing GBM growth by 92%. This study demonstrated that nanoparticle‐mediated CD73 inhibition, combined with chemoradiotherapy, offered an effective strategy to overcome adenosine‐driven immune evasion and enhance GBM immunotherapy.[
+ 
+] Additionally, a nanomaterial‐based catalytic immunocomplex was designed to modulate the adenosine pathway through ultrasound‐triggered activation within the acidic TME. This multifunctional nanoplatform co‐delivered adenosine deaminase (ADA), aPD‐L1, and a sonosensitizer (hematoporphyrin), all linked via acid‐cleavable and singlet oxygen–responsive linkers. Upon ultrasound stimulation, the complex simultaneously induced sonodynamic therapy, immune checkpoint blockade, and enzymatic degradation of intratumoral adenosine by ADA. This reduced A2A/A2B receptor signaling, thereby relieving immunosuppression and enhancing effector T cell activation. This strategy exemplifies a programmable and TME‐responsive nanotherapeutic approach to effectively target adenosine‐mediated immune evasion in cancer.[
+ 
+]
+
+Additionally, researchers have investigated the use of small‐molecule inhibitors to block poly(ADP‐ribose) polymerase (PARP)‐dependent DNA repair pathways.[
+ 
+] A gold nanoparticle‐based, radiation‐responsive nanovesicle system (CV‐AuNVs), co‐loaded with cisplatin and the PARP inhibitor veliparib, was developed to enhance chemoradiation efficacy in a spatiotemporally controlled manner. Upon X‐ray irradiation, hydroxyl radicals (•OH) generated in situ oxidized the polyphenylene sulfide shell, transforming it from hydrophobic to hydrophilic and triggering vesicle disassembly and drug release. The combination of cisplatin‐induced DNA damage and veliparib‐mediated inhibition of DNA repair synergistically induced tumor cell apoptosis. In vivo studies using an A549 lung cancer model demonstrated that a single administration of CV‐AuNVs with one‐time irradiation markedly suppressed tumor growth.
+Although nanotechnology‐enabled strategies targeting nucleotide metabolism hold considerable promise for cancer therapy, several pathway‐specific barriers hinder their clinical translation. A major concern is the high basal activity of enzymes such as DHODH, TYMS, and IMPDH in normal proliferative tissues, including the hematopoietic and gastrointestinal compartments. This widespread expression raises the risk of on‐target toxicity, even with tumor‐directed delivery. Complicating therapeutic precision is the intratumoral and intertumoral heterogeneity in nucleotide demand and pathway activity, which varies with tumor subtype, mutational context, and treatment stage. This necessitates dynamic biomarker development and adaptable therapeutic schedules to identify patients most likely to benefit. From a delivery standpoint, synchronizing the release of nucleotide metabolism modulators—such as siRNAs, nucleoside analogs, and immune checkpoint inhibitors—within nanocarriers remains technically challenging, particularly in the presence of physical barriers like dense stroma and elevated interstitial fluid pressure. These features restrict nanoparticle penetration into immunosuppressive tumor regions enriched in adenosine and CD73. Furthermore, effective targeting of the extracellular nucleotide axis (e.g., CD39/CD73–A2AR signaling) requires delivery platforms that maintain structural and functional stability in acidic and hypoxic tumor microenvironments. Finally, emerging modalities—such as epitope‐imprinted polymers and catalytic immunocomplexes—must be rigorously optimized to prevent off‐target immune activation and ensure long‐term biocompatibility. Addressing these challenges will require context‐sensitive nanocarrier design, real‐time metabolic profiling, and combinatorial regimens tailored to the immunometabolic landscape of individual tumors.
+
+3.5.
+
+## Regulation of Mitochondrial Function and Associated Pathways in Tumors
+Mitochondria play a critical role in cellular energy production, homeostasis, and metabolic regulation, all of which are essential for tumor progression. Advances in cancer biology have revealed how mitochondrial dysfunction and metabolic reprogramming contribute to the hallmarks of cancer. Tumor cells often undergo adaptive changes in mitochondrial function to support rapid cell proliferation, survival under hypoxic conditions, and resistance to therapies.[
+ , , , , 
+]
+
+Altered mitochondrial dynamics, including changes in mitochondrial biogenesis, oxidative phosphorylation, and the mitochondrial ETC, are commonly observed in cancer cells.[
+ , , 
+] These changes contribute to enhanced ATP production and cellular biosynthesis, supporting tumor growth. Mitochondrial biogenesis in tumor cells is regulated by key factors such as PPARγ coactivator 1α (PGC‐1α) and AMP‐activated protein kinase (AMPK), which help promote mitochondrial function and cell survival under stress.[
+ 
+] Disrupted mitochondrial dynamics, such as imbalances in mitochondrial fusion and fission, are also implicated in metastasis.[
+ 
+] Proteins like mitofusins, which regulate mitochondrial fusion, and Drp1, which regulates mitochondrial fission, play critical roles in maintaining mitochondrial adaptability and bioenergetics in tumor cells.[
+ , 
+]
+
+Despite the prominence of aerobic glycolysis, mitochondria remain crucial for ATP production, particularly in more aggressive tumors or during nutrient deprivation. Key components of the ETC, particularly Complexes I and II, are often upregulated to support oxidative phosphorylation and meet the energy demands of tumor cells. Targeting oxidative phosphorylation regulators, such as ATP synthase or Complex I inhibitors, is emerging as a strategy to induce metabolic stress and sensitize tumors to conventional therapies, including chemotherapy.[
+ , 
+] Increased mitochondrial ROS production is a natural byproduct of enhanced oxidative phosphorylation in tumor cells. While low ROS levels can promote tumorigenesis by facilitating signaling and genome instability,[
+ , 
+] excessive ROS can lead to mitochondrial dysfunction and cell death. Tumors with elevated ROS levels have developed antioxidant defense mechanisms involving enzymes like superoxide dismutases (SODs) and glutathione peroxidases, which mitigate oxidative stress and promote cell survival.
+Mitochondrial‐targeted therapies are being explored to selectively inhibit mitochondrial function in cancer cells.[
+ , 
+] For example, mitochondrial kinase inhibitors such as metformin are being studied for their potential to disrupt mitochondrial metabolism. Additionally, compounds targeting the ΔΨm are under investigation, as altering ΔΨm could induce apoptosis or autophagic cell death in tumor cells. Inhibitors of mitochondrial fusion, such as those targeting mitofusins, and Drp1 inhibitors are also in preclinical development, with the aim of selectively impairing tumor cell metabolism and survival.
+Preclinical studies have shown that combining mitochondrial inhibitors with conventional therapies can overcome resistance mechanisms that arise from enhanced glycolysis or oxidative phosphorylation.[
+ 
+] Metformin and bortezomib, agents known to influence mitochondrial proteostasis, have been investigated for their potential to sensitize tumors to chemotherapy and immunotherapy. Clinical trials, such as the phase I study combining metformin, nelfinavir, and bortezomib in patients with relapsed and refractory multiple myeloma, are exploring the efficacy of these combinations (NCI‐2019‐00466).[
+ 
+] However, preclinical studies have shown that metformin may induce resistance to bortezomib by impairing the activity and assembly of the 26S proteasome complex,[
+ 
+] highlighting the complexity of their interaction and the need for further research. However, challenges remain, including off‐target toxicity, poor drug delivery efficiency, and tumor heterogeneity, which must be addressed to enable successful clinical translation of mitochondrial‐targeted therapies.
+Nanoparticles are powerful tools for targeting mitochondrial function in tumor cells. A variety of multifunctional nanoparticles have been developed to optimize mitochondrial‐targeted therapies, offering new strategies for cancer treatment (Figure  , Table  ).[
+ 
+] A hydrogen peroxide‐responsive manganese dioxide (MnO2)‐mineralized albumin nanocomposite was synthesized using a modified two‐step biomineralization method to co‐encapsulate phenformin (PM), a mitochondria‐targeting inhibitor, and indocyanine green (ICG), a near‐infrared photothermal dye. Upon activation in the TME, ICG‐mediated mild PTT and PM‐induced mitochondrial dysfunction synergistically downregulated PD‐L1 expression. This combination therapy elicited robust antitumor immune responses capable of eliminating residual tumor cells. Additionally, the treatment significantly suppressed tumor metastasis by inhibiting invasion‐associated signaling molecules, including TGF‐β and vimentin.[
+ 
+] A self‐assembled nano‐targeted drug delivery system, LND‐SS‐Pt‐TPP/HA‐CD, was constructed using β‐cyclodextrin‐grafted hyaluronic acid (HA‐CD) to encapsulate prodrug nanoparticles for targeted tumor delivery via the CD44 receptor. The system incorporated a triphenylphosphine (TPP⁺) moiety to facilitate mitochondrial localization. Disulfide bonds within the nanoparticles were selectively cleaved by mitochondrial GSH, triggering the release of lonidamine (LND) and a cisplatin prodrug (Pt(IV)). Under mitochondrial reducing conditions, Pt(IV) was further reduced to active cisplatin (Pt(II)) by GSH and ascorbic acid, inducing mitochondrial DNA damage, dysfunction, and mitophagy, thereby disrupting oxidative phosphorylation. Simultaneously, LND inhibited HK2, contributing to mitochondrial impairment and glycolysis suppression, ultimately depriving cancer cells of energy. This dual‐action delivery system effectively overcame cisplatin resistance in lung cancer cells and demonstrated promise for mitochondrial‐targeted cancer therapy.[
+ 
+]
+
+ To address metabolic plasticity in brain metastases, researchers developed mitochondria‐targeted, blood–brain barrier–penetrating nanoparticles co‐delivering a chemotherapeutic prodrug and a pyruvate dehydrogenase kinase 1 inhibitor. This dual inhibition of oxidative phosphorylation and glycolysis impaired tumor bioenergetics and improved therapeutic efficacy, with in vivo studies confirming safety and reduced chemoresistance through mitochondrial genome targeting.[
+ 
+] Some studies have disrupted mitochondrial Ca2⁺ homeostasis in cancer cells to induce mitochondrial dysfunction by triggering a self‐amplifying loop of Ca2⁺ overload and ROS accumulation.[
+ , 
+] Researchers also explored nanomaterial‐based strategies to inhibit mitophagy.[
+ 
+] For instance, they developed a hypoxia‐responsive supramolecular albumin nanoparticle modified with azocalix[4]arene to co‐deliver hydroxychloroquine and a mitochondria‐targeting photosensitizer for the treatment of hypoxic tumors. Under hypoxic conditions, the nanoparticles selectively released their payload within tumor cells. The released hydroxychloroquine inhibited mitophagy, thereby increasing oxidative stress and sensitizing tumor cells. Upon laser irradiation, the photosensitizer generated oxygen‐independent ROS, inducing mitochondrial damage and further activating mitophagy. The combination of mitophagy flux blockade and ROS‐mediated mitochondrial stress led to amplified autophagic disruption and oxidative damage, ultimately enhancing tumor cell death. This approach demonstrated the therapeutic potential of integrating mitophagy inhibition with mitochondria‐targeted PDT in hypoxic tumor environments.[
+ 
+] Additionally, researchers employed nanomaterial‐based strategies to induce mitochondrial outer membrane permeabilization (MOMP) by inhibiting the antiapoptotic protein Bcl‐2, which facilitated cytochrome c release and triggered caspase‐9 and caspase‐3 activation, ultimately leading to apoptosis of tumor cells.[
+ 
+]
+
+Despite notable progress, nanomaterial‐based strategies targeting mitochondrial function in tumors face several pathway‐specific challenges that limit clinical translation. A primary concern lies in the lack of tumor specificity for many mitochondrial targets—such as components of the ETC, ΔΨm, and regulators of mitochondrial dynamics including Drp1 and mitofusins—which are also critical for normal cells, particularly in high‐energy‐demand tissues like the heart and brain. This overlap raises the risk of on‐target, off‐tumor toxicity. The compartmentalized and dynamic nature of mitochondrial processes also presents substantial delivery obstacles. Effective targeting requires specialized nanocarriers equipped with organelle‐localizing moieties (e.g., TPP⁺) and environment‐responsive linkers. However, these systems often suffer from limited in vivo stability, inefficient intracellular trafficking, or inadequate tissue penetration. Moreover, mitochondrial plasticity allows tumor cells to adapt to single‐pathway inhibition by activating compensatory mechanisms such as glycolysis, mitochondrial biogenesis, or enhanced antioxidant defenses, thereby reducing therapeutic durability. Efforts to co‐target multiple mitochondrial pathways—such as oxidative phosphorylation, mitophagy, and calcium homeostasis—within a single nanoplatform demand precise control over drug release kinetics to avoid systemic toxicity and unintended immune suppression. The TME further complicates delivery, as hypoxia, elevated interstitial pressure, and dense stroma impede nanoparticle infiltration into mitochondria‐rich tumor regions. Additionally, mitochondrial heterogeneity among tumor subtypes and within cancer stem cell populations necessitates biomarker‐guided patient stratification to improve treatment precision and efficacy. Overcoming these limitations will require the rational design of mitochondria‐targeting nanocarriers, incorporation of feedback‐responsive delivery systems, and development of context‐specific combination therapies tailored to the mitochondrial and immunometabolic landscape of each tumor.
+
+4.
+
+## Conclusions and Outlook
+Metabolic reprogramming is a hallmark of cancer, driving tumor progression, immune evasion, and resistance to therapy.[
+ 
+] Tumor cells rewire core metabolic pathways—including glucose, amino acid, lipid, nucleotide, and mitochondrial metabolism—to support rapid proliferation, survive under stress, and resist conventional treatments.[
+ 
+] These metabolic adaptations critically shape the TME, fostering immunosuppression and therapeutic failure. Among these pathways, amino acid metabolism—particularly the tryptophan–Kyn–AhR axis (often driven by IDO1 activity) and glutamine metabolism—is increasingly recognized as a high‐priority target due to its central role in T cell dysfunction and immune suppression within the TME. Glucose metabolism, notably aerobic glycolysis and lactate accumulation, is also critically involved, contributing to CD8⁺ T cell exhaustion and reinforcing an immunosuppressive milieu. Other metabolic pathways, such as those involving lipid, nucleotide, and mitochondrial function, are emerging as additional contributors to tumor immune escape, with growing evidence supporting their relevance in preclinical models and potential therapeutic exploitation.
+Targeting key mediators such as GLUTs, LDH, and MCTs represents a promising therapeutic strategy. Similarly, disrupting amino acid metabolism—via GLS, amino acid transporters, and arginine‐metabolizing enzymes—can help restore antitumor immunity. The IDO1–kyn–AhR axis, a central mediator of immune suppression, is under active investigation for its potential to enhance immunotherapy efficacy. Lipid metabolism, including fatty acid synthesis and oxidation as well as cholesterol biosynthesis, supports tumor growth and modulates immune responses.[
+ 
+] Inhibiting these pathways, particularly in combination with ICIs, has shown promising results in preclinical models. Additionally, nucleotide metabolism and mitochondrial function are essential for DNA repair, redox homeostasis, and energy production, making them attractive therapeutic targets.
+The emerging field of immunometabolism underscores the bidirectional relationship between tumor metabolic activity and immune cell function.[
+ 
+] Metabolic alterations within tumor cells can either suppress or stimulate immune responses depending on the context. Preclinical evidence suggests that targeting tumor metabolism can enhance antitumor immunity, especially when combined with ICIs. However, clinical translation remains challenging due to issues such as metabolic redundancy, intertumoral and intratumoral heterogeneity, limited tumor specificity, and the potential for off‐target toxicity. Nanotechnology‐based delivery systems offer powerful solutions to address these limitations. By improving the solubility, pharmacokinetics, and tumor specificity of metabolic inhibitors, nanoparticles can enhance therapeutic efficacy while minimizing systemic toxicity.[
+ 
+] Advanced platforms such as stimuli‐responsive nanoparticles—including pH‐sensitive and redox‐responsive systems—facilitate site‐specific drug release within the TME. Ligand‐ and receptor‐targeted nanocarriers further enhance selective uptake by tumor or immune cells. Multifunctional nanoplatforms, such as those co‐delivering IDO1 inhibitors alongside ICIs, have demonstrated synergistic immunometabolic reprogramming in preclinical models. In addition, biomimetic delivery systems, including cell membrane‐coated nanoparticles, offer improved circulation time, tumor targeting, and immune evasion. Despite these advances, challenges remain, including suboptimal delivery efficiency, heterogeneous metabolic phenotypes across tumors and patients, and an incomplete understanding of compensatory metabolic adaptations.[
+ 
+] Continued efforts toward the rational design of nanocarriers, integration of metabolic biomarkers for patient stratification, and development of combination regimens will be essential to fully realize the therapeutic potential of targeting tumor immunometabolism.
+To advance the clinical translation of immunometabolic therapies, several priority research directions should be pursued:
+
+Development of metabolic biomarkers for patient stratification: Integrating metabolomics, advanced imaging, and circulating metabolic markers into clinical trials will enable real‐time assessment of tumor and immune cell metabolism. This approach will support adaptive treatment strategies and improve the selection of patients most likely to benefit from metabolic interventions.
+
+Design of personalized nanotherapies: Rationally engineered nanocarriers incorporating tumor‐specific ligands, metabolic biomarkers, and microenvironment‐responsive elements (e.g., pH, redox, enzymatic triggers) can enhance the precision and selectivity of metabolic inhibitor delivery, minimizing off‐target effects and improving therapeutic outcomes.
+
+Implementation of translationally relevant preclinical models: Humanized mouse models and patient‐derived organoids co‐cultured with immune cells are essential for accurately recapitulating tumor‐immune metabolic interactions and evaluating the immunomodulatory effects of metabolic nanotherapies under physiologically relevant conditions.
+
+Investigation of host metabolic influences: Systematic studies examining how host‐related factors—such as obesity, insulin resistance, or gut microbiota—affect tumor metabolism and immune responses will inform personalized therapeutic strategies and may uncover new combinatorial targets.
+
+Overcoming metabolic plasticity and compensation: Elucidating how tumors adapt to metabolic stress by reprogramming between glycolysis, oxidative phosphorylation, amino acid utilization, and lipid metabolism is crucial for designing effective multi‐targeted or sequential regimens that minimize therapeutic escape.
+
+Development of organelle‐specific delivery platforms: Mitochondria‐ or lysosome‐targeted nanocarriers offer a promising avenue to selectively disrupt metabolic pathways central to tumor survival and immune evasion, but require further optimization for stability, trafficking, and safety.
+
+Combination with next‐generation immunotherapies: Beyond checkpoint blockade, combining metabolic nanotherapeutics with emerging immunotherapies—such as CAR‐T cells, bispecific antibodies, or oncolytic viruses—may synergistically restore immune surveillance and enhance tumor eradication.
+In summary, metabolic reprogramming is a fundamental driver of immune suppression and therapy resistance in cancer. The convergence of advanced nanotechnology, metabolic precision targeting, and immunotherapy holds significant promise for developing next‐generation cancer treatments. Future progress will require interdisciplinary collaboration across bioengineering, immunology, and cancer metabolism to overcome current translational barriers and realize the full potential of immunometabolic nanomedicine.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+X.S.Z., R.B.D., and Z.D.L., contributed equally to this work. The authors acknowledge support from the Columbia University RISE Award, the National Natural Science Foundation of China (No. 32501248), and the Basic and Applied Basic Research Foundation of Guangdong Province, China (No. 2021A1515220001).
+
+## Biographies
+
+Xiaosu Zhou is an M.S. candidate at the College of Pharmacy, Jinan University. She received her B.S. in Pharmaceutical Engineering from Guangdong Pharmaceutical University in 2023. Her research focuses on nanoparticle‐based bioreactors and targeted protein degradation (TPD) strategies.
+ 
+
+Ruibing Deng is an M.S. candidate at the College of Pharmacy, Jinan University. She received her B.S. in Traditional Chinese Pharmacy from Guangdong Pharmaceutical University in 2024. Her research focuses on plant‐derived nanoparticles for cancer therapy.
+ 
+
+Zunde Liao, Master, received his Master of Medical Science in Pharmaceutics from Jinan University in 2025. His research focuses on the design, synthesis, and application of biomimetic nano‐systems for the treatment of solid tumors.
+ 
+
+Kam W. Leong is the Samuel Y. Sheng Professor of Biomedical Engineering at Columbia University, with a joint appointment in the Department of Systems Biology at Columbia University Medical Center. His research centers on nanoparticle‐mediated drug, gene, and immunotherapy, spanning from the design and synthesis of novel delivery carriers to their applications in cancer, hemophilia, infectious diseases, and cellular reprogramming.
+ 
+
+Yiling Zhong is a Professor in the College of Pharmacy, Jinan University. She received her Ph.D. from Soochow University. Her research centers on nanoparticle‐mediated drug delivery, immunotherapy, and reprogramming of the tumor microenvironment. Her group engineers multifunctional biomaterials and delivery systems to improve therapeutic efficacy and facilitate clinical translation.
+ 
+
+Zhou X., Deng R., Liao Z., et al. “Integrating Metabolic Modulation and Nanomedicine for Cancer Immunotherapy.” Adv. Sci.
+12, no. 40 (2025): e10004. 10.1002/advs.202510004
+
+## Contributor Information
+Kam W. Leong, Email: kam.leong@columbia.edu.
+Yiling Zhong, Email: yilingzhong@jnu.edu.cn.
+
+## References

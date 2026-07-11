@@ -1,0 +1,143 @@
+992aaciAllergy, Asthma, and Clinical Immunology : Official Journal of the Canadian Society of Allergy and Clinical ImmunologyAllergy Asthma Clin ImmunolBMCPMC9784293978429397842933655057710.1186/s13223-022-00744-5Identification of candidate aberrant differentially methylated/expressed genes in asthma
+WangZongling WangLizhi DaiLina WangYanan LiErhong AnShuyuan WangFengliang LiuDan PanWen 1Department of internal medicine, Qingdao Fuwai Cardiovascular Hospital, 18th Floor north, 201 Nanjing Road, 266034 Qingdao, Shandong China 2Clinical laboratory, Qingdao Fuwai Cardiovascular Hospital, Qingdao, China ✉Corresponding author.
+221220221810810824122022© The Author(s) 2022Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+
+## Background
+Asthma is an important non-communicable disease worldwide. DNA methylation is associated with the occurrence and development of asthma. We are aimed at assuring differential expressed genes (DEGs) modified by aberrantly methylated genes (DMGs) and pathways related to asthma by integrating bioinformatics analysis.
+
+## Methods
+One mRNA dataset (GSE64913) and one gene methylation dataset (GSE137716) were selected from the Gene Expression Omnibus (GEO) database. Functional enrichment analysis was performed using GeneCodies 4.0 database. All gene expression matrices were analyzed by Gene set enrichment analysis (GSEA) software. STRING was applied to construct a protein-protein interaction (PPI) network to find the hub genes. Then, electronic validation was performed to verify the hub genes, followed by the evaluation of diagnostic value. Eventually, quantitative real-time polymerase chain reaction (qRT-PCR) was utilized to detect the expression of hub genes.
+
+## Results
+In total, 14 hypomethylated/high-expression genes and 10 hypermethylated/low-expression genes were obtained in asthma. Among them, 10 hub genes were identified in the PPI network. Functional analysis demonstrated that the differentially methylated/expressed genes were primarily associated with the lung development, cytosol and protein binding. Notably, HLA-DOA was enriched in asthma. FKBP5, WNT5A, TM4SF1, PDK4, EPAS1 and GMPR had potential diagnostic value for asthma.
+
+## Conclusion
+The project explored the pathogenesis of asthma, which may provide a research basis for the prediction and the drug development of asthma.
+
+Keywords: Asthma, DNA methylation, Differentially expressed genes, Diagnosis, Bioinformatics analysis
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Aug 4; Accepted 2022 Nov 23; Collection date 2022.
+
+## Background
+Asthma is a heterogeneous disease affecting people all over the world, characterized by chronic inflammation of the airway [ , ]. It has a substantial impact on quality of life for many people [ ]. Around 300 million people suffer from asthma, and it is likely that by 2025 a further 100 million may be influenced [ ]. It is demonstrated that asthma is a complicated multifactorial disease whose etiology is attributed to interactions between genetic susceptibility, host factors and environmental exposures [ ]. The mechanisms of asthma include airway inflammation, control of airway tone and reactivity [ , ]. However, the underlying pathogenesis of asthma is poorly understood.
+Epigenetics is the heritable alteration of gene expression unrelated to changes in DNA sequence [ ]. Epigenetics is the link between environmental factors and genetic susceptibility, causing the disorder of development and function of the body’s immune system via affecting gene modification and regulating the function and characteristics of genetic genes [ , ]. DNA methylation is the earliest and most significant modification in epigenetic regulation, which is involved in the complex interaction between gene and environment, playing a vital role in the occurrence of asthma [ ]. Recent findings demonstrate that the environment and underlying genetic sequence variation could influence DNA methylation, which seems to modify the risk conferred by genetic variants for various phenotypes of asthma [ ]. Nevertheless, it is still difficult to determine the certain genes and pathways.
+High-throughput transcriptome integration analysis is able to collect the analysis results of related studies published on the same issue in order to obtain more accurate outcomes. It can produce significantly differentially expressed genes (DEGs) to avoid the inaccuracies of single research. Among all kinds of omics techniques, transcriptomics is the first developed and most widely applied. Microarray is the earliest and most widely utilized in transcriptome research and becomes a stable and reliable experimental technique. The development and application of microarray based on high-throughput sequencing may set the stage for the comprehensive study of the pathogenesis of asthma.
+In this study, one gene expression dataset (GSE34913) and one gene methylation dataset (GSE137716) were obtained from Gene Expression Omnibus (GEO) to identify differentially methylated genes (DMGs) and DEGs. Various biological information databases were used to perform functional annotation of the DEGs, mining biological information under the microarray and screening out the key genes and crucial signaling pathways that affect the occurrence and development of asthma. Our study may enhance the understanding and development in regard to the gene expression of asthma.
+
+## Methods
+
+## Microarray data
+The datasets were retrieved from GEO dataset by searching keywords “Asthma” and “Homo sapiens” [porgn: txid9606]. Datasets whose type were “Expression profiling by array” and “Methylation profiling by array” and meet the following criteria were included in this study: (1) the selected datasets must be genome-wide mRNA transcriptome data and DNA methylation data; (2) the data were obtained from airway epithelial samples of asthma and normal controls; (3) standardized or original datasets. The gene expression microarray (GSE64193) and the gene methylation microarray (GSE137716) were obtained. In total, 28 cases and 42 normal controls were included in GSE64193. The platform of the gene expression dataset was GPL570 [HG-U133_Plus_2] Affymetix human genome U133 Plus 2.0 array. For the gene methylation microarray, GSE137716 consisted of 9 cases and 7 normal controls. The gene methylation dataset used the platform GPL3534 Illumina HumanMethylation450 BeadChip (HumanMethylation450_15017482).
+
+## Data acquisition and processing
+Probes were mapped to genes, and the mean value of multiple probes corresponding to one gene was taken as the expression level of the gene. Limma package of software R-4.0.5 was utilized to perform the differential analysis for mRNA expression. P-Value < 0.05 and |log2fold change (FC)| > 0.5 were used as the cut-off standards to obtain DEGs. CHAMP was utilized to perform the differentially methylated analysis for the methylated dataset. P-Value < 0.05 and |Δβ| > 0.1 were set as screening criteria to obtain DMGs. Eventually, we intersected the DEGs and genes in the DMGs to obtain the hypermethylated/low-expression genes and hypomethylated/high-expression genes.
+
+## Functional analysis
+Functional enrichment analysis of Gene ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) was conducted on differentially methylated/expressed genes via GeneCodis4.0 database. The screening standard was false discovery rate (FDR) < 0.05. In addition, setting P-value < 0.05 as screening criterion, we performed GSEA on all genes expression matrices.
+
+## Analysis of protein-protein interaction (PPI) network
+For the purpose of investigating the protein interaction between the selected differentially methylated/expressed genes, we utilized the STRING database to construct a PPI network. Interaction score of 0.4 was considered as the cut-off criterion. Then, hub genes in the PPI network were filtered via CytoHubba plug-in. The intersection of the top 10 genes identified by MCC (Maximal Clique Centrality), MNC (Maximum Neighborhood Component), Degree, EPC (Edge Percolated Component), and closeness algorithms was selected and sorted, and 10 hub genes were finally selected.
+
+## ROC analysis and and expression validation of hub genes
+ROC curves of differentially methylated/expressed hub genes were plotted with pROC package and area under curve (AUC) of each curve was calculated to evaluate the diagnostic value. In addition, GSE85567 dataset was downloaded from GEO for conducting electronic validation of differentially methylated/expressed hub genes.
+
+## Quantitative real-time polymerase chain reaction (qRT-PCR)
+A total of 30 human blood samples (13 cases and 17 normal controls) were included in this study. some DEGs were selected as candidate genes for the detection. GAPDH and ACTB were used as reference genes. RNA samples were extracted from the collected samples. The primers of the target gene and the reference gene were utilized for amplification. The melting curve analysis was simultaneously conducted at 60–95℃. Amplification products were analyzed by 1.5% agarose RNA electrophoresis. Samples were then screened out to perform qRT-PCR assay on the basis of the results of agarose electrophoresis. Eventually, according to the raw results, relative quantitative results of target genes were calculated on the basis of the formula of 2−△△ct.
+
+## Results
+
+## Screening of differentially methylated/expressed genes in asthma
+Totally, 245 DEGs were identified after differential analysis, including 113 up-regulated and 132 down-regulated genes. The volcano plot and heat maps of 245 DEGs were shown in Fig.  . A total of 8447 differentially methylated sites and 3494 DMGs were obtained, including 1351 hypermethylated genes and 2143 hypomethylated genes. Volcanic and Manhattan maps of 3494 DMGs are elucidated in Fig.  . Then, through the intersection of 1351 hypermethylated genes and 132 down-regulated genes, 10 hypermethylated/down-regulated genes were obtained, including GRP, KCNA1, WNT5A, HLA-DOA, STEAP2, EPAS1, SLC23A1, MSMB, WIF1, and IFIT1. In addition, 14 hypomethylation/upregulated genes were obtained through the intersection of 2143 hypomethylation genes and 113 up-regulated genes, including FKBP5, CD109, CEACAM5, PDK4, PTPRH, TM4SF1, HN1, ZBTB16, POSTN, MX2, GMPR, C16orf54, CCL26, and NR4A3 (Fig.  ).
+ 
+
+## GO and KEGG enrichment analysis
+GO enrichment analysis showed that the differentially methylated/expressed genes are portrayed in Fig.   A. For biological process (BP), the genes were mainly linked to the lung development, positive regulation of ossification, positive regulation of cartilage development and negative regulation of anoikis. The cellular component (CC) enrichment analysis demonstrated that cytosol, extracellular region, extracellular space and cell surface were correlated with the genes. The molecular function (MF) analysis exhibited that the genes were mainly enriched in protein binding, receptor ligand activity and receptor tyrosine kinase-like orphan receptor binding. The KEGG pathway analysis showed that the analyzed genes were primarily linked to influenza A, pathways in cancer, transcriptional misregulation in cancer, hepatitis C, wnt signaling pathway, human papillomavirus infection, asthma, autoimmune thyroid disease and type I diabetes mellitus (Fig.  B).
+ 
+
+## GSEA analysis
+We finally obtained eight significantly up-regulated gene sets in asthma, including AMINO SUGAR AND NUCLEOTIDE SUGAR METABOLISM, FRUCTOSE AND MANNOSE METABOLISM, CARDIAC MUSCLE CONTRACTION, HYPERTROPHIC CARDIOMYOPATHY HCM, GLYCOLYSIS GLUCONEOGENESIS, GLYCOSAMINOGLYCAN DEGRADATION, LIPID METABOLISM and PARKINSONS DISEASE (Fig.  A-H). Two gene sets, NOTCH SIGNALING PATHWAY and DORSO VENTRAL AXIS FORMATION, were down-regulated in asthma (Fig.  I, J).
+ 
+
+## Construction of PPI networks
+The PPI network (including 40 interacting gene pairs) obtained was presented in Fig.  . Top 10 hub genes, consisting of POSTN, PDK4, EPAS1, FKBP5, ZBTB16, WNT5A, TM4SF1, NR4A3, GMPR and WIF1, were screened by the cytoHubba in Cytoscape software using five algorithms (Table  ). Hub genes in the PPI network are elucidated in Fig.  . Among which, the top 3 hub genes were POSTN, PDK4 and EPAS1. FKBP5 was the only one gene that belongs to the top 10 up-regulated DEGs.
+ 
+
+## ROC analysis and expression validation of hub genes
+The ROC curves of 6 differentially methylated/expressed hub genes are displayed in Fig.  . The AUC value of FKBP5 (AUC = 0.832), WNT5A (AUC = 0.813), TM4SF1 (AUC = 0.769), PDK4 (AUC = 0.753), EPAS1 (AUC = 0.748) and GMPR (AUC = 0.705) was more than 0.7, which suggesting higher diagnostic value for asthma. Additionally, GSE85567 dataset was used for electronic expression validation of FKBP5, ZBTB16, PDK4, NR4A3 and WNT5A (Fig.  ). Expression trends of these genes were in line with our study.
+ 
+
+## Detection of RT-qPCR
+As illustrated in Fig.  , PDK4 (P-value < 0.001) and ZBTB16 (P-value < 0.01) were up-regulated in asthma group, while WNT5A (P-value < 0.05), NR4A3 (P-value < 0.001) and WIF1 (P-value < 0.05) were down-regulated. The FKBP5 and GMPR did not show statistically significant.
+ 
+
+## Discussion
+Analysis of DEGs related to disease based on gene database has become a hot research modality in modern biomedicine [ ]. In the current study, we identified the DEGs and DMGs in asthma compared with normal controls on the basis of high-throughput transcriptome integration analysis. The genes that were both hypermethylated/low-expression and hypomethylated/high-expression were obtained. We filtered and verified several hub genes and candidate genes related to asthma as well.
+GO enrichment analysis of the differentially methylated/expressed genes was mainly enriched in the biological processes of lung development, positive regulation of ossification, positive regulation of cartilage development, negative regulation of anoikis and planar cell polarity pathway involved in pericardium morphogenesis. The lung development starts at 4 weeks of gestation and continues into early childhood, and bronchopulmonary dysplasia is attributed to the inadequate development of bronchial and lung [ ]. Extensive researches of lung development have been conducted, generating new insights into the derivations of the different cell lineages existing in the lung and the molecular pathways that regulate these lineages, which contribute to the novel understandings of acquired lung diseases including asthma and COPD [ ]. Hence, the outcome is consistent with our study of the GO enrichment. In addition, the CC analysis showed that these differentially methylated/expressed genes were primarily involved in cytosol, extracellular region, extracellular space, cell surface and the apical plasma membrane. Protein binding, receptor ligand activity, receptor tyrosine kinase-like orphan receptor binding, nucleobase transmenbrane transporter activity and L-ascorbic acid transmembrane transporter activity were significantly enriched molecular functions. Significantly enriched KEGG pathways included influenza A, pathways in cancer, and transcriptional misregulation in cancer. Notably, HLA-DOA, a hypermethylated/low-expression gene, was only one gene that enriched in the pathway of asthma. HLA-DO is a non-classical class II heterodimer consisting of ɑ and β chains, which are encoded by the HLA-DOA and HLA-DOB genes located in the HLA class-II region of MHC [ – ]. In the previous study, HLA-DOA genes were found a remarkable association with increased risk of diisocyanate-induced asthma [ ], which revealed the closely correlation between HLA-DOA and asthma and provided a promising direction of the pathogenesis of asthma.
+The analysis of GSEA found that the genes were mostly enriched in metabolism-related pathways. Among which, glucose metabolism, linoleic acid, arachidonic acid, nucleotide metabolism, energy metabolism and a variety of amino acids metabolism have been reported the significant differences existing between asthma patients and healthy controls [ – ].
+The construction of PPI network of differentially methylated/expressed genes offered a method of identifying their functional connection, Cytoscape plugin cytoHubba provides 11 topological analysis methods including Degree, Edge Percolated Component (EPC), Maximum Neighborhood Component (MNC), Density of Maximum Neighborhood Component (DMNC), Maximal Clique Centrality (MCC) and six centralities (Bottleneck, EcCentricity, Closeness, Radiality, Betweenness, and Stress) based on shortest paths. There are no obvious advantages and disadvantages among algorithms, and different algorithms focus on different topological features. In general, MCC has proved to be a more accurate method for predicting important targets [ ], MNC can be applied to discover some unrecognized hubs from previous dataset [ ], Degree can be used to predict key proteins, proteins with a high Degree were more likely to be key proteins[ ], EPC was used to explore protein interaction networks [ ], Closeness was a topology analysis method based on shortest path [ ]. In the previous research, MCC, MNC, Degree, EPC, and closeness algorithms were more commonly used [ , ]. In this study, the above five algorithms were used to screen out the top 10 hub genes. Among them, PDK4, FKBP5, ZBTB16, WNT5A, GMPR and WIF1 are reported to be associated with asthma in the previous researches. NR4A3 is linked to the pulmonary vascular remolding. The ROC curves illustrated that FKBP5, WNT5A, PDK4, and GMPR had potential diagnostic value for asthma.
+Pyruvate dehydrogenase kinase 4 (PDK4), one of four PDK isoenzymes expressed in a tissue-specific manner in mammals, is an important mitochondrial matrix enzyme in cellular energy regulation [ ]. PDK4 is the main isoform in tissues demanding high energy, such as heart, skeletal muscle, lactating mammary gland, liver and vascular tissue [ – ]. Lee et al. found that PDK4 was up-regulated in the calcified vessels of atherosclerosis patients [ ]. The data of researches demonstrated that PDK4 was a novel modulator of the integrity of the mitochondria-associated ER membrane (MAM) [ , – ]. New evidence confirmed that the repressive effects of the cornerstone of treatment for asthma, glucocorticoids, linked to the inflammatory pathways and genes and PDK4 can regulate glucose metabolism to explain the metabolic effects of glucocorticoids [ ].
+FK506-binding protein 5(FKBP5) is a 51-kDa protein with a C-terminal including a three-unit domain of tetratricopeptide repeat motifs that interact with a few proteins [ – ]. FKBP1 regulates the response to corticosteroids which are the most effective controllers of asthma [ ]. Sura et al. [ ] exhibited the association of FKBP5 polymorphism with asthma susceptibility in patients with asthma. Furthermore, evidence revealed that airway dysbiosis was linked to clinical characteristics in asthma and bacterial microbiota were correlated with specific airway epithelial gene expression signatures [ ]. FKBP5 gene expression is associated with Actinobacteria [ ].
+Zinc finger and BTB domain containing 16 (ZBTB16) encodes a transcription factor [ ]. Many biological processes are associated with ZBTB16 including stem cell maintenance and proliferation, spermatogenesis, hematopoiesis, metabolism, and immunity [ , ]. The correlation between ZBTB16 and asthma is embodied in the treatment of asthma using inhaled glucocorticoids or corticosteroids (ICS), which was indicated in the study [ ] that increased expression of ZBTB16 could reduce inflammatory signaling and gene expression, which could contribute to the therapeutic efficacy of ICS.
+The wingless-integrase-1 (WNT) signaling pathways, composed of a family of secreted glycoproteins [ – ], regulate various process fundamental to normal development, including cell proliferation, polarity, differentiation, adhesion and motility [ , , ]. WNT5A is a non-canonical WNT ligand that is highly evolutionary conserved [ ]. Previous studies have illustrated that WNT5A is utilized the airway remodeling on multiple levels [ ]. Extracellular matrix turnover is increased in human airway smooth muscle (ASM) by WNT5A via functional interactions with TGF-β [ ]. In addition, therapy of human ASM with recombinant WNT5A enhances formation and contractility of actin filaments [ ]. Notably, WNT5A expression in bronchial biopsies is linked to Th2-high asthma [ ]. Wnt inhibitory factor-1(WIF1) is a Wnt antagonist and tumor suppressor [ ]. Wang et al. [ ] concluded that WIF1 was associated with lung function and participating in inflammatory pathways exerts an effect on the level of lung function.
+
+## Conclusion
+Combining the gene expressed microarrays and gene methylation microarrays via integrated bioinformatics analysis tools, several hub genes and related pathways as well as candidate genes associated with asthma were screened, which may provide new insights to uncover the underlying molecular mechanisms, exploring the novel clues for drug development and develop optimal biomarkers for the precise diagnosis and treatment of asthma. Nevertheless, the specimen size is small. Further studies and experiments will be imperative to confirm these genes and pathways that are connected with asthma.
+
+## Acknowledgements
+Thanks to Guanghong Ma and He Chen, Department of Science and Education, Qingdao Fuwai Cardiovascular Hospital for their help in the publication of paper.
+
+## Abbreviations
+DMGsaberrantly methylated genes
+AUCarea under curve
+CCcellular component
+DEGsdifferentially expressed genes
+FDRfalse discovery rate
+FKBP5FK506-binding protein 5
+FCfold change
+GEOGene expression omnibus
+GOGene ontology
+GSEAGene set enrichment analysis
+ICSinhaled glucocorticoids or corticosteroids
+KEGGKyoto encyclopedia of genes and genomes
+MAMmitochondria-associated ER membrane
+MFmolecular function
+PPIprotein-protein interaction
+PDK4pyruvate dehydrogenase kinase 4
+qRT-PCRquantitative real-time polymerase chain reaction
+WNTThe wingless-integrase-1
+WIF1Wnt inhibitory factor-1
+ZBTB16Zinc finger and BTB domain containing 16.
+
+## Author contributions
+Z W and W P were major contributors in writing the manuscript. LW, LD, YW, EL, SA, FW and DL analyzed and interpreted the data. ZW and WP designed the project of the study. All authors read and approved the final manuscript.
+
+## Funding
+Not applicable.
+
+## Availability of data and materials
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+The study was approved by the ethics committee of Qingdao Fuwai Cardiovascular Hospital (2022-QF-005). All patients have signed the informed consent.
+
+## Consent for publication
+The patient agreed to publish their information in Allergy, asthma, and clinical immunology.
+
+## Competing interests
+All authors declare that they have no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request.

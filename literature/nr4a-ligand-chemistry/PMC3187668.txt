@@ -1,0 +1,418 @@
+379blackwellopenChemmedchemChemMedChemPMC3187668318766836726562136082210.1002/cmdc.201000467NIHMS315584Thiazolidinedione-Based PI3Kα Inhibitors: An Analysis of Biochemical and
+Virtual Screening Methods
+PinsonJo-Anne Schmidt-KittlerOleg ZhuJiuxiang JenningsIan G KinzlerKenneth W VogelsteinBert ChalmersDavid K ThompsonPhilip E aMedicinal Chemistry & Drug Action, Monash
+Institute of Pharmaceutical Sciences, Parkville, Victoria 3052 (Australia)bThe Ludwig Center for Cancer Genetics and Therapeutics
+and the Howard Hughes Medical Institute at the Kimmel–Hopkins Cancer Center, Baltimore, MD 21231 (USA)✉Fax: (+61) 399039582 E-mail: philip.thompson@monash.edu
+41201163514514–5225102011Copyright © 2011 WILEY-VCH Verlag GmbH & Co. KGaA,
+WeinheimRe-use of this article is permitted in accordance with the Creative Commons Deed, Attribution
+2.5, which does not permit commercial exploitation.
+
+## Abstract
+A series of synthesized and commercially available compounds were assessed against PI3Kα
+for in vitro inhibitory activity and the results compared to binding calculated in silico. Using
+published crystal structures of PI3Kγ and PI3Kδ co-crystallized with inhibitors as a
+template, docking was able to identify the majority of potent inhibitors from a decoy set of 1000
+compounds. On the other hand, PI3Kα in the apo-form, modeled by induced fit docking, or built
+as a homology model gave only poor results. A PI3Kα homology model derived from a
+ligand-bound PI3Kδ crystal structure was developed that has a good ability to identify active
+compounds. The docking results identified binding poses for active compounds that differ from those
+identified to date and can contribute to our understanding of structure–activity
+relationships for PI3K inhibitors.
+Keywords: homology modeling, inhibitors, PI3K kinases, rhodanine, thiazolidinedione
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2010 Oct 29; Revised 2010 Nov 29; Issue date 2011 Mar 7.
+
+## Introduction
+The class I phosphatidylinositol 3 kinases (PI3Ks) are a family of four iso-enzymes
+(PI3Kα, β, γ and δ) that catalyze phosphorylation of
+phosphatidylinositides (PI) to form second messenger lipids, which regulate numerous cellular
+functions including cell growth, motility, proliferation and survival. , PI3K inhibitors are currently targets for
+therapeutic application in a range of diseases including cancer, , thrombosis, and immunoinflammatory disease. , Numerous PI3K inhibitors have been described in recent years, and
+some show isoform selectivity. , The development of these inhibitors can be traced from hit compounds identified by
+screening libraries followed by medicinal chemistry campaigns. Filters for expediting the discovery
+of hits or leads can have many guises, including druggability, comparative association with known
+structural motifs (a focused library) and in silico assessment. Herein, we have examined the latter
+two filters to obtain information about inhibitors of PI3 kinase. With crystal structures of PI3K
+isoforms including co-crystallized ligands and apo-structures deposited in the Protein Data Bank
+(PDB), virtual screening is an attractive possible filter. Such methods offer the opportunity to
+minimize the wet laboratory effort.
+Molecular docking studies have been used in a number of contexts by other workers, but have
+typically been used to give post-hoc explanation of the potency of selected compounds. Earlier
+studies were restricted to PI3Kγ or homology models derived from PI3Kγ. – For example,
+Pomel et al. described the use of induced fit docking experiments in the development of
+furan-2-ylmethylene thiazolidinediones as potent inhibitors of PI3Kγ. Other studies utilized homology models of PI3Kα based on PI3Kγ and
+mTOR to optimize series of 4-imidazolopyrimidines and morpholinopyrrolopyrimidines (PDB: 3IBE). , Virtual screening
+experiments have predicted novel scaffolds for optimization in the context of both pan and isoform
+selective inhibition of PI3K. , 
+Given the recent release of the co-ordinates for PI3Kα (2RD0) and
+PI3Kδ (2WXL), attention has turned to docking studies specific to those
+biochemical targets. Use of molecular docking in PI3Kα has been targeted, in particular, at
+the study of PIK75, a potent and α-selective inhibitor. Models of binding that explain PIK75
+selectivity have been proposed by Denny and Frederick et al., and Han and Zhang using docking models
+based upon PI3Kγ. , More recently, Sabbah et al. extended the docking study of this class to 13 active
+analogues as well as other chemotypes. These more recent
+studies have also used molecular dynamics simulations as part of the docking procedures.
+As more crystallographic data becomes available, the success of these models can be more directly
+assessed. Notably, the crystal structure of ZSTK474 shows
+the ligand in a very different pose to that predicted by modeling. In other cases, the scoring functions of molecular docking have been unable to explain
+observed ligand binding affinities. 
+The sum total of these studies does not give a clear picture of the best approach to implementing
+virtual screening for PI3K inhibitors. Our aim has been to develop a robust process for virtual
+screening for PI3Kα inhibitors, which gives a good enrichment of actives out of compound
+sets, and we were particularly attracted to the study of thiazolidinedione-based compounds.
+Among these thiazolidinedione compounds, AS-604850 (1) and AS-605240
+(2) are selective inhibitors of PI3Kγ and show anti-inflammatory activity in
+animal models of chronic inflammation. , They were also successfully co-crystallized with PI3Kγ. Compound
+2 also shows potent inhibition of the PI3Kα isoform, and as such the
+thiazolidinedione class could also be considered a starting point for the design of selective
+PI3Kα inhibitors. Molecular docking studies covering
+a broad series of this structural class against PI3K have not yet been reported.
+Thiazolidinediones and their sulfur analogues, rhodanines, are also well suited to evaluation by
+in vitro screening methods as they are widely available from commercial sources or can be accessed
+by straightforward syntheses. – We therefore have had the opportunity to assess the results of virtual screening
+experiments conducted against multiple enzyme models in comparison to biochemical screening assay
+data for over 70 compounds. While we identified diverse compounds that displayed both sub-micromolar
+PI3Kα potency and isoform selectivity from the screens, the comparison of the approaches
+allowed us to find the most effective model for retrieving our active compounds from the decoy set.
+That turned out to be a PI3Kδ structure, which has been solved to good
+resolution and co-crystallized with the pan-PI3K inhibitor ZSTK474. Models of the PI3Kα
+structure, from the crystal structure, were unable to produce useful enrichment from a library of
+decoys. However, a homology model of PI3Kα derived from PI3Kδ and
+utilizing induced fit docking did give improved results. The influence of parameters such as protein
+structure homology, resolution and binding site occupancy is of significance both in the context of
+continuing PI3K inhibitor discovery and also the numerous other targets of this compound class.
+
+## Results and Discussion
+
+## Compound selection, synthesis and structure– activity relationships of
+thiazolidinedione derivatives as PI3K isoform inhibitors
+The chemical and biochemical data is presented first for clarity. Compounds were chosen based
+upon structural comparison to the compounds 1 and 2, and ready
+availability either from commercial sources for immediate assay, or by Knoevenagel condensation from
+precursor aldehydes. – (Figure  , figure S1 in the
+Supporting Information). Compounds with substituents on the thiazolidinedione or rhodanine ring were
+excluded from this study. Seventy-three derivatives were screened as inhibitors of recombinant
+PI3Kα and PI3Kγ using an in vitro recombinant PI3K assay as previously reported. , 
+ The results of the screening assays are shown in Figure  and Table  . We were able to confirm the
+reported IC50 values of AS-604850 (1) and AS-605240 (2). Nearly half of the compounds tested showed an IC50
+value of less than 10 μm, but the full series shows inhibitor potency
+spanning five orders of magnitude highlighting that the compound set should provide a useful test to
+molecular docking experiments.
+ Twelve compounds were found to have a sub-micromolar IC50 value against PI3Kα,
+and fifteen against PI3Kγ. The IC50 values of the most potent compounds against
+PI3Kα and PI3Kγ are listed in Table  .
+The majority of these compounds showed no particular preference for either of the isoforms
+(figure S2 and table S1 in the Supporting Information). Seven compounds
+(13, 14, 16, 17, 20,
+40 and 41) demonstrated selectivity for PI3Kγ (α/γ
+ratio range 7–21 fold). Some compounds (8, 9, 10,
+43 and 44) exhibited preference for the α-isoform, but they were of
+moderate potency. The remainder were neither particularly potent nor selective (table S1 in
+the Supporting Information).
+It was observed that a number of structurally similar compounds showed different potencies
+against PI3Kα or PI3Kγ. Most obviously, the difference between 1 and
+3 was the methylene replacement of the difluoromethylene group. Compound 3
+is a moderately potent and nonselective inhibitor of PI3Ks and also inhibits PI3Kβ potently
+(data not shown). The inclusion of fluorine atoms into the dioxole ring clearly plays a central part
+in developing the PI3Kγ selectivity of 1, but this largely derives from a major
+loss of potency against PI3Kα. Interestingly, we found a similar induction of PI3Kγ
+selectivity for analogues of the nonselective compound 42, which has a
+3-methoxy-4-hydroxyaryl arrangement. In compound 13 these substituents are
+interchanged, but this compound is nearly 20-fold less potent against PI3Kα. Similarly,
+compound 40, which differs from 42 only by replacement of the methoxy
+substituent with an ethoxy, shows a reduced ability to inhibit PI3Kα.
+We also investigated modification of thiazolidinedione by replacing oxygen with sulfur at the 2-
+and/or 4-positions. We tested a number of compounds derived from piperonal (3,
+4, 5, 6, 7) and found that thiazolidinedione
+3, rhodanine 4 and isorhodanine 5 compounds were comparable
+in both selectivity and potency (Table  ). On the
+other hand, rhodanine compound 19 showed very potent activity, nearly 20-fold more
+potent at PI3Kα than the thiazolidinedione counterpart 2. The thiorhodanine
+derivative 7 was 10-fold less active at both isoforms, and the hydantoin equivalent
+6 was also a poor inhibitor of both isoforms. This suggests that change in size and
+electron-density distribution of thiorhodanine or hydantoin groups , does impact on binding to the catalytic site
+of PI3Kα. The same pattern was also found to be true of PI3Kβ and
+PI3Kδ (data not shown). Finally, compounds 11 and
+12 differ only by the methyl substituent in the 5-position. This group yielded a
+threefold improvement in potency, implying an additional hydrophobic interaction within the
+catalytic site.
+In most cases, the potency of compounds was consistent with the picture of ligand binding derived
+from the reported X-ray structures. Within the binding site of PI3Kγ, the 1,3-benzodioxole
+oxygen of 1 and quinoxaline nitrogen of 2 form a hydrogen bond with the
+Val 882 amide backbone. The thiazolidinedione nitrogen interacts with Lys 833 via a salt-bridge
+interaction or hydrogen-bonding interactions with one or both of Lys 833 and Asp 964 (PI3Kγ).
+These residues are conserved in PI3Kα, and the active inhibitors in general appear capable of
+matching those requirements. Interestingly, compounds 1 and 2 were shown
+to adopt different poses in the PI3Kγ crystal, flipped through 180°
+(Figure  ), demonstrating that compounds of that
+class have at least two orientations in the binding site, but there is no evidence of significant
+ligand-induced enzyme side-chain perturbations.
+ However, some of our identified inhibitors would not be expected to fit with either of these
+binding poses. The 3-pyridyl derivatives 14 and 15 appear to be unable to
+span the binding site between the critical hinge residue, Val 882 and the salt bridge of Lys
+833–Asp 964. Similarly, compounds 16 and 17 do not appear capable
+of making comparable interactions to those observed in X-ray structures suggesting that they might
+adopt different binding site poses related to these substitutions.
+
+## Virtual screening
+The crystal structures of compounds 1 and 2 with PI3Kγ
+(Figure  ) provide a template for understanding the
+inhibitor-enzyme interactions. Analogous interactions are
+observed in most PI3K inhibitor complexes. , – It has been
+shown that PI3K isoforms cluster in their sensitivity to certain inhibitors such that compounds potent at PI3Kβ tend to inhibit
+PI3Kδ more readily than other isoforms. Similarly, compounds effective at
+PI3Kα also inhibit PI3Kγ. This is supported
+by sequence homology across the isoforms with the β and δ most
+closely related, , ,
+ , particularly
+proximal to the ATP binding site.
+In virtual screening of the compound set, we analyzed the influence of a series of parameters
+defined by protein structure. Naively, it might be thought that docking the compound set against the
+crystal structure of PI3Kα (PDB: 2RD0) would be the
+most relevant choice. However, that structure is of the apo-enzyme form and is only resolved to
+3.0 Å. On the other hand, the PI3Kγ structure (PDB: 2A5U,
+2.7 Å) might be an excellent model for this
+study as it is “pre-organized” as a co-crystal with a thiazolidinedione ligand, yet
+the structural resolution is relatively modest. One of the highest resolution PI3K structures
+available to us was PI3Kδ (PDB: 2WXL, 1.99 Å) co-crystallized
+with ZSTK474. This is also a ligand-bound structure, with
+key interactions involving conserved binding site residues, consistent with the nonselective nature
+of the inhibitor.
+The compound set was docked, in an approach similar to that described by McRobb et al., using a set of 1000 drug-like decoy compounds (available from the Schrödinger web site) into the
+available X-ray crystal structures and derived models. The use of decoy sets provides a useful
+measure of the discriminatory power of a docking process, measuring the ability of the docking
+procedure to identify active compounds early from an unbiased series. , Compounds were built and minimized in
+Sybyl, then prepared using LigPrep. Virtual screening was performed using GLIDE 5.5 or 5.6
+(Schrödinger) – extra-precision (XP) mode with rigid receptor. All rhodanine derivatives were modeled
+with both protonated and deprotonated nitrogens as the
+pKa of this group is predicted to be between 6.42 and 8.44 (average of
+7.44) using Advanced Chemistry Development Inc. software (table S2 in the Supporting
+Information). Compounds with an IC50 value for
+PI3Kα of 50 μm or less were defined as active. The decoy set, enriched
+with 52 active compounds, was docked into each model and ranked by GlideScore to obtain one pose per
+ligand (tables S3 and S4 in the Supporting Information). The abundance of active
+compounds relative to decoy compounds in these rankings was then assessed using receiver operating
+characteristic (ROC) curves. 
+ show ROC curves for the
+docking of ligands in either the deprotonated or protonated states into the PI3Kα (2RD0),
+PI3Kγ (2A5U) and PI3Kδ (2WXL) crystal structures. Immediately
+apparent is the poor performance of the virtual screen in docking ligands into PI3Kα.
+Fundamentally, there is no preferential selection of active compounds in the top 20 %, and
+this is true irrespective of the chosen protonation state of the ligand set. On the other hand, the
+docking results for the chosen PI3Kγ and PI3Kδ structures show
+prominent enrichment of the test compounds from the decoy set. Docking protonated ligands ( , Table  ), 65 % and 77 % of the active compounds were retrieved from the top 20
+% of the library, respectively. The ionization state of the library was found to have a
+marked influence on these results with the protonated series more successfully retrieved. In all
+subsequent analyses, only results from the protonated series are considered. Virtually identical
+curves were obtained when PI3Kγ IC50-based ranking was used (data not shown), not
+surprising given the strong correlation of PI3Kα and PI3Kγ inhibition. One other
+parameter that we assessed was the arbitrary definition of active compounds as IC50
+<50 μm, which might be considered a generous cutoff. Interestingly,
+changing this cutoff to a more stringent test at 10 μm or
+1 μm (Figure  ) resulted in an
+even better selection of ranked actives for PI3Kα, for both 2A5U and 2WXL. Docking into 2WXL,
+11 of the 12 sub-micromolar inhibitors were retrieved in the top 20 % of the library.
+ The results show the clear superiority of PI3Kγ and PI3Kδ crystal
+structures for docking in comparison to the PI3Kα structure. The fact that the target isoform
+PI3Kα was a poor template for screening these compounds compared to PI3Kγ and
+PI3Kδ was somewhat surprising. The major differences would appear to be the
+use of a ligand-templated crystal structure for the PI3Kγ and PI3Kδ
+study, but the improved resolution of the PI3Kγ and PI3Kδ crystal
+structures may also have played a significant part in determining the quality of the docking
+solutions, as seen elsewhere. 
+Our biochemical screen identified some subtle but significant influences brought by structural
+modification, and not explained by a simple pharmacophore model based on the existing co-crystals
+with PI3Kγ. As described above, inspection of our docking results showed that, as well as the
+two observed crystal poses for thiazolidinediones, alternate binding site poses were identified in
+compounds that proved to have high potency. In particular, this may have impacted on the observation
+of PI3Kγ selectivity. Compounds with a para-hydroxy substituent
+(11, 12, 16, 40, 41,
+42 and 45) adopted a binding site pose in PI3Kγ (2A5U) where the
+interaction with Val 882 was maintained, but the thiazolidinedione rotated away from the Lys
+833–Asp 964 pairing, making an unprecedented contact with Ser 806. This may be significant,
+as five of the six compounds are sub-micromolar inhibitors. Isomers 13 and
+42 are able to overlay their catechol monoether portion very closely, but project the
+rhodanine ring in different directions (Figure  ).
+This may explain why 13 (PI3Kγ-selective) and 42 (nonselective)
+display different isoform selectivities.
+ The pyridyl derivatives 14 and 15 also showed interesting docking
+solutions. These smaller compounds docked in the expected orientation, but the distances to both Val
+882 and Lys 833–Asp 964 were over 3.0 Å, consistent with the moderate potency.
+Finally, in some cases, compounds docked “back-to-front” such that the
+thiazolidinedione or rhodanine moiety interacted with the amide backbone of Val 882, while
+substituents on the aryl ring formed hydrogen bonding interactions with the side chain of Lys 833
+(Figure  ). While clearly these results are open to
+interpretation and can only be supported by crystallographic evidence, it has been shown that
+multiple conformations of a particular ligand within the same protein can exist. , Importantly, in
+considering structural elaboration based on any of these hits, the possibility of multiple binding
+modes within a compound class could provide the medicinal chemist with alternate pathways to
+optimized compounds.
+ In attempting to rationalize the poor results obtained using the PI3Kα crystal structure,
+we wondered if the apo state of the enzyme crystal structure was the key contributing factor and
+whether this might be overcome, either by the refinement of the crystal structure using induced fit
+docking or by the development of a homology model derived from a liganded homologue, such as
+PI3Kδ. Standard docking methods hold the receptor binding site rigid, which is not a true
+representation of the dynamic state of the protein. Methods such as molecular dynamics simulations,
+though computationally expensive, model continuous protein motion, where frames can be used in virtual screening experiments. This process can be simulated
+by induced fit docking, which allows for ligand and protein flexibility. , , To improve the recognition of active compounds in the PI3Kα model (2RD0), we used
+induced fit docking with Glide 5.6 and Prime 2.2 to construct multiple receptor
+conformations , 
+representative of the response of the binding site residues to the template ligand AS-605240. This
+generated a set of 18 models. Figure  shows
+results of the best three models (models 7, 10 and 17) obtained from the induced fit docking run of
+PI3Kα. Of the generated models, only one structure (model 7) showed a very modest
+improvement in enrichment (Table  ; table S5
+in the Supporting Information).
+A homology model of PI3Kα based upon the ZSTK474–PI3Kδ
+structure (PDB: 2WXL) was built using Prime 2.2 
+followed by manual realignment of some residues. This model was then used for rigid receptor docking
+experiments and as a starting point for successive generations of models made by induced fit docking
+with AS-605240. Figure  shows ROC curves for the
+initial homology model and derived structures. This homology model is noticeably better than the
+2RD0 crystal structure in discriminating between active compounds and decoys. The induced fit
+docking models were better again. Two induced fit models, model 3 and model 5 of the
+induced fit structures showed much improved enrichment (Table  ; table S5 in the Supporting Information). Although ultimately neither the
+homology model nor induced fit structures outperform the parent PI3Kδ
+structure, 2WXL; this induced fit modeling approach is clearly useful for the development of
+homology models with good ability to discriminate active compounds from compounds in the decoy set.
+However, it should be noted that docking lacked the discriminatory power to predict the relative
+potencies of the test thiazolidinedione or rhodanine compounds.
+A structural comparison of the induced fit models with the PI3Kδ
+structure show a close backbone alignment with most variation observed in side-chain orientation
+(Figures  and  ). Measurements show preserved interactions consistent with those observed for
+AS-605240 in the PI3Kγ X-ray structure.
+ The crystal structure of apo-PI3Kα and model 5 show Asp 933 closely overlaid, but
+marked differences are apparent around Asp 805, Leu 807 and Lys 802 (Figure  ). Overall, the variation observed in side-chain conformations of
+key residues provides an explanation for the poor performance of the apo-PI3Kα
+structure. The apparent success of the apo-PI3Kα in
+docking studies against other molecules, such as PIK75, may reflect a reduced importance of those
+residues in binding that molecule compared to the relatively small and flat arylidene
+thiazolidinediones.
+It is also important to note that subtle changes in side-chain orientation of active site
+residues yielded significant changes in the docking results, both in terms of enrichment and also in
+the observed binding poses of compounds. While model 3 predicted the majority of compounds to
+bind thiazolidinediones in an analogous pose to the X-ray structures, model 5 accommodated
+ligands in a flipped pose as shown in Figure  .
+Residues Lys 802, Tyr 836, Trp 780 and Asp 810, which are situated within 5 Å of bound
+ligand (Figure  ), contribute to this, but of most
+importance appears to be Asp 933, which in model 5 is not well placed for binding with the
+thiazolidinedione ring.
+The synthesis and assay of thiazolidinedione derivatives have been widely used in medicinal
+chemistry research. They have been described positively as “privileged scaffolds” or negatively as “frequent hitters” or pan-assay
+interference compounds (PAINS). , As well as inhibiting PI3K, thiazolidinedione derivatives are clinically used
+PPARγ agonists (pioglitazone, rosiglitazone) and aldose reductase inhibitors (epalrestat),
+and have research applications as antibacterial, antimalarial, anti-inflammatory, antiviral,
+herbicidal, insecticidal, antifungal, anticancer, anthelmintic agents, and for the treatment of
+Alzheimer’s disease, central nervous systems (CNS) disorders, diabetes, cardiovascular,
+cystic fibrosis and thrombocytopenia. , They bind to targets as diverse as G protein-coupled
+receptor 40 (GPR40), protein tyrosine
+phosphatase 3 (PRL-3), cyclooxygenase 2
+(COX-2), the peptidoglycan biosynthesis enzymes, MurB, MurC
+and MurG, B cell lymphoma-2 (Bcl-2), phosphodiesterase 4 (PDE4), fungal protein mannosyl transferase 1 (PMT1), tumor necrosis factor alpha (TNF-α), hepatitis C virus nonstructural protein 3 (HCV NS3) and NS5b polymerase
+(HCV NS5b), , 
+cytosolic phospholipase A2α (cPLA2α), 
+proto-oncogene serine/threonine protein kinase (Pim-1), 
+cyclin-dependent kinase 2 (CDK2), HIV-1
+integrase, serotonin N-acetyltransferase (AANAT), and glycogen synthase kinase-3β (GSK-3β). Several of the most potent compounds identified here have also
+been picked up in other screening campaigns, offering a cautionary note to the possibility of
+off-target effects. Frequent reporting in their identification via screening may be due to the low
+IC50 activity assigned for a hit, which is often ∼25 μm,
+representing only weak affinity for the target of interest. On the other hand, the drug-like
+properties of low-molecular weight, low log P, presence of both hydrogen-bond
+donors and acceptors, and the capacity for multiple approaches to structural elaboration recommend
+them as small molecules in a fragment-based screening approach, and the perceived limitations could
+be addressed by structural modification.
+
+## Conclusions
+In summary, having noted the report of PI3Kγ thiazolidinedione inhibitors in the
+literature, we devised a broadened library aiming to discover inhibitors targeting the PI3Kα
+isoform and 12 inhibitors with sub-micromolar IC50 values were identified. We attempted
+in silico docking experiments and showed that the active compounds could be readily identified from
+decoy compounds. Docking results were improved by using higher resolution structures and liganded
+structures of the PI3Kγ and PI3Kδ isoforms, which perform better than the apo form of
+the actual target, PI3Kα. It was interesting that, in this case, homology of the protein to
+the target was less important than the presence of a ligand in the binding site or resolution of the
+structure chosen. Improved enrichment using a PI3Kα structure was observed with the use of
+induced fit virtual screening experiments for a PI3Kα homology model, rather than the apo
+structure. The homology models derived from induced fit docking studies showed that specific
+conformers surrounding key residues markedly influence the docking result. As a validation of the
+use of virtual screening in this context, it is apparent that, with the correct selection of protein
+model, most of the potent inhibitors could be identified from the decoy set. With a reliable model
+of PI3Kα in hand, docking could be well utilized in future screening campaigns for isoform
+selective compounds.
+
+## Experimental Section
+
+## Chemistry
+All chemical reagents acquired from Sigma–Aldrich and Fluka were used without further
+purification, while compounds 40–42,
+44–47 and 49–73 (figure S1
+in the Supporting Information) were acquired from Maybridge (Thermo Fisher Scientific Inc., USA).
+Experimental data on synthesized compounds is provided in the Supporting Information.
+
+## Computational modeling
+PI3K X-ray structures (2RD0, 2A5U, 2WXL) were obtained from the PDB (http://www.rcsb.org). All solvents and small molecules were removed from structures.
+Protein preparation and refinement was performed using Maestro 9.0 or 9.1 Protein Preparation
+Wizard, and default parameters were used to optimize protein structures. Receptor grid generation
+was confined to 20 Å from the binding site ligand. Alignment of X-ray structures 2A5U
+and 2RD0 in Maestro was performed to determine the 2RD0 binding site. Ligands were constructed in
+Sybyl-X, energy minimized using the Tripos force field default settings for 1000 steps, imported
+into Maestro and prepared using LigPrep 2.3. Adjustment of protonation state was performed
+manually in Maestro. Docking calculations were performed in Glide 5.5 or 5.6 using extra
+precision (XP) mode only. Sampling was limited to 10 000 ligand poses per docking run and only one
+pose per ligand was retained. The set of 1000 drug-like decoy compounds, with an average molecular
+weight of 360, was obtained from Schrödinger (http://www.schrodinger.com). The decoy set enriched with our seventy-three compounds was
+docked into each X-ray structure and ranked by GlideScore.
+Homology models of PI3Kα were built using the PI3Kδ (2WXL) crystal structure as the template. The structure was edited to
+378 amino acids encompassing the catalytic domain only. Human PI3Kα and mus
+musculus PI3Kδ sequences were obtained from the US National Center
+for Biotechnology Information and aligned using Protein BLAST (http://www.ncbi.nlm.nih.gov/). Homology models
+were generated in Prime (version 2.2) with selected loops refined using extended sampling, then
+minimized. Induced fit docking utilizing Prime (version 2.2) and Glide (version 5.6) XP mode was
+performed using default settings unless otherwise specified. Serono compound AS-605240 was docked
+initially for identification of optimal model protein structures. Receptor-grid generation for each
+of the nine selected structures was prepared as described above. Docking calculations used XP mode
+for the nine structures using the Schrödinger decoy set enriched with our 73 compounds and
+ranked by GlideScore. ROC curves were generated using Microsoft Excel. Images were created using
+PyMOL. PI3Kα models 3 and 5 in pdb
+format with sets of 73 docked ligands for each of these models in sdf format are provided in the
+Supporting Information.
+
+## Inhibition Assay
+PI3K protein was purified from cell lysates of transfected Sf9 insect cells and diluted in assay
+buffer (10 mm HEPES, 25 mm NaCl, 0.125 μg
+mL−1 bovine serum albumin (BSA), 2 mm basal medium Eagle (BME),
+final concentrations) containing 2.5 μg each of
+L-α-phosphatidylinositol and
+1,2-diacyl-sn-glycero-3-phospho-L-serine in 96-well plates. Inhibitors
+were dissolved and diluted in DMSO. Reactions were started upon addition of
+10 μm ATP with 40 μCi mL−1
+γ-32P-ATP (Perkin–Elmer) and 2 mm MgCl2 (final
+concentrations). Reactions were incubated for 2 h at room temperature, terminated upon
+addition of 2 n HCl. Lipids were extracted in CHCl3/CH3OH (1:1).
+Extracted organic fractions containing 32P-PI(3)P were quantitated via addition of
+Microscint C using a TopCount 96-well plate scintillation counter measuring counts per minute
+(cpm). Prism 5 (GraphPad Software) was used to calculate IC50 values and
+inhibition curves (Table  ; see also the Supporting
+Information).
+
+## Acknowledgments
+We would like to thank Dr. David Manallack for his assistance in
+calculating pKa values. We would also like to thank the Victorian
+Partnership for Advanced Computing (VPAC) and the Victorian Life Sciences Computation Initiative
+(VLSCI), which are supported by the Australian Commonwealth and Victorian Governments. This work was
+funded through National Institutes of Health grants CA43460 and CA62924, the Virginia and D.K.
+Ludwig Fund for Cancer Research (USA), the Cancer Council Victoria no. 436708 and a National Health
+and Medical Research Council grant no. 545943
+(Australia).
+
+Detailed facts of importance to specialist readers are published as ”Supporting
+Information”. Such documents are peer-reviewed, but not copy-edited or typeset. They are made
+available as submitted by the authors.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials

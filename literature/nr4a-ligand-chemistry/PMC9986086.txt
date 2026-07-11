@@ -1,0 +1,252 @@
+2682casCancer ScienceCancer SciWileyPMC9986086998608699860863630828110.1111/cas.15635Targeting PYCR2 inhibits intraperitoneal metastatic tumors of mouse colorectal cancer in a proline‐independent approach
+ZhangQi LuoHai XunJing MaYuan YangLei ZhangLanqiu WangXimo YuXiangyang WangBotao 
+1
+Nankai Hospital, Tianjin Medical University, Tianjin, China
+2
+Tianjin Key Laboratory of Acute Abdomen Disease Associated Organ Injury and ITCWM Repair, Institute of Integrative Medicine for Acute Abdominal Diseases, Tianjin Nankai Hospital, Tianjin, China
+3
+Department of Gastrointestinal Surgery, Integrated Chinese and Western Medicine Hospital, Tianjin University, Tianjin, China
+4
+Department of Oncology, Chongqing Traditional Chinese Medicine Hospital, Chongqing, China*
+
+Correspondence
+, 
+Xiangyang Yu, Department of Gastrointestinal Surgery, Integrated Chinese and Western Medicine Hospital, Tianjin University, Tianjin 300100, China. 
+Email: yxynankai@126.com
+, 
+Botao Wang, Department of Oncology, Chongqing Traditional Chinese Medicine Hospital, Chongqing 400021, China. 
+Email: tmubotao@163.com
+
+✉Corresponding author.
+171120221143908908–920732023© 2022 The Authors. Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+Whether proline deficiency is a metabolic vulnerability in colorectal tumors is unknown. The aim of this study was to investigate the effects of proline metabolism‐related genes and exogenous proline on the progression of colorectal cancer (CRC). We aimed to further clarify the role of pyrroline‐5‐carboxylate reductase (PYCR) 2, a key enzyme of proline synthesis, in the regulation of colorectal intraperitoneal metastatic tumors. This study was carried out based on The Cancer Genome Atlas (TCGA) data, database analysis, single‐cell functional analysis, tissue microarray, cell experiments, and animal models. We found that, PYCR2 mRNA and protein levels were upregulated in CRC. The mRNA level of PYCR2 was closely related to the prognosis and tumor metastasis of CRC patients. The upregulated PYCR2 expression was at least partly due to low promoter methylation levels. The nomogram constructed based on PYCR2 expression and clinical characteristics of CRC showed good accuracy in predicting lymph node metastasis. Pycr2 knockdown inhibited epithelial–mesenchymal transition (EMT) of mouse CRC cells. Proline supplementation did not rescue the inhibition of mouse CRC cell proliferation and migration by Pycr2 knockdown. Proline supplementation also did not rescue the suppression of subcutaneous tumors and intraperitoneal metastatic tumors in mice by Pycr2 knockdown. PYCR2 co‐expressed genes in TCGA‐CRC were enriched in epigenetic modification‐related biological processes and molecular functions. Four small molecules with the lowest binding energy to the PYCR2 protein were identified. Collectively, Pycr2 knockdown inhibited mouse CRC progression in a proline‐independent approach. PYCR2 may be a promising tumor metastasis predictor and therapeutic target in CRC.
+Keywords: amino acid metabolism, colorectal cancer, metastasis, proline, PYCR2
+
+Pycr2 knockdown inhibited mouse CRC progression in a proline‐independent approach. PYCR2 may be a promising tumor metastasis predictor and therapeutic target in CRC.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2022 Sep 10; Received 2022 Apr 9; Accepted 2022 Oct 6; Collection date 2023 Mar.
+
+## Abbreviations
+AUCarea under the curve
+CNAcopy number alterations
+CRCcolorectal cancer
+EMTepithelial–mesenchymal transition
+GOGene Ontology
+GSVAgene set variation analysis
+HRhazard ratio
+IHCimmunohistochemistry
+nsno statistical difference
+P5Cpyrroline‐5‐carboxylate
+PYCRpyrroline‐5‐carboxylate reductase
+ROCreceiver operating characteristic curve
+TCGAThe Cancer Genome Atlas
+1.
+
+## INTRODUCTION
+Tumor metastasis causes more than 90% of cancer deaths. It is different from primary tumor and usually cannot be cured by local surgery or radiation therapy. The peritoneal cavity is the site where ovarian, colorectal, pancreatic, and gastric tumors are prone to metastasize. The overall survival of patients with CRC peritoneal metastasis was significantly lower than those with isolated liver or lung metastases. Exploring the biological mechanisms of CRC progression will facilitate the development of new therapeutic strategies to block intraperitoneal tumor progression.
+Metabolic remodeling is a core characteristic of tumors. Most studies so far have focused on alterations in glucose and glutamine metabolism, however cancer cells also utilize a variety of other nutrients including amino acids, essential fatty acids, choline, trace metals, and vitamins. Non‐essential amino acids have the ability to provide precursors for the biosynthesis of macromolecules, control the redox state, participate in post‐translational and epigenetic modifications, and therefore play various roles in tumor progression. Tumor development may depend on restrictive amino acids for protein synthesis. Interfering with amino acid metabolism in tumor cells and depleting specific amino acids can inhibit tumor progression. Exogenous serine has been found to be rapidly utilized by human cancer cells, and serine depletion is beneficial in the treatment of p53‐deficient tumors. Arginine deprivation has emerged as an available option for cancer treatment. The methionine‐deprived diet has also been found to inhibit lung metastases from triple‐negative breast cancer. 
+
+Proline is the only proteinogenic secondary amino acid and has its own metabolic pathway. Proline can be produced by P5C under the catalysis of PYCR1/2/3. The difference is that, during the synthesis process, PYCR1 and PYCR2 are located in the mitochondria and preferentially use NADH, while PYCR3 is located in the cytoplasm and preferentially use NADPH. Proline has been shown to be dependent in kidney and breast cancer. Proline metabolism can also affect processes such as invasiveness, clonogenicity, and metastatic seeding to promote tumor metastasis. Nonetheless, it is unclear whether proline is a CRC‐dependent amino acid.
+The roles of enzymes involved in proline metabolism in tumors are more of a concern. PYCR1 was found to be upregulated in gastric cancer, liver cancer and prostate cancer, and was closely related to tumor progression. , , Downregulation of PYCR2 also inhibited the survival of colon cancer and melanoma cells. , However, these studies did not show the relationship between PYCR inhibition and proline synthesis in tumor cells. In addition to the ability of metabolic enzymes to regulate the production of metabolites through classic actions, their more non‐canonical functions have also been found to be involved in tumor progression. For example, as the rate‐limiting enzyme for serine synthesis, the role of 3‐phosphoglycerate dehydrogenase in tumors cannot simply be equated with serine production. Instead, it produces a non‐canonical metabolic effect to promote tumor growth under glucose‐deficient conditions. Therefore, whether the role of PYCR in different tumors is directly dependent on proline needs to be further clarified.
+This study focused on the pathways and genes related to proline metabolism, and revealed their relationship with the prognosis of CRC. We determined that upregulated PYCR2 can promote CRC progression based on TCGA data, single‐cell analysis, tissue microarray, and in vitro and in vivo experiments. Significantly, further studies showed that exogenous proline supplementation did not rescue the suppression of CRC cells, subcutaneous tumors, and intraperitoneal tumors in mice through Pycr2 knockdown. Further bioinformatics analysis revealed that PYCR2 was involved in epigenetic modification in CRC.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## 
+TCGA cohort
+TCGA program is a large‐scale platform that has profiled and analyzed many human tumors to discover their molecular features at the DNA, RNA, protein, and epigenetic levels. TCGA‐CRC transcriptome data and clinical data were obtained from https://portal.gdc.cancer.gov/, which contains a total of 647 tumor samples and 51 normal samples. FPKM data were converted into a log2(TPM + 1) expression matrix using Sangerbox tools (http://sangerbox.com/Tool). TCGA‐CRC patients were divided into PYCR2 high and low expression groups according to the median value. A chi‐squared test was used to analyze the relationship between PYCR2 expression and clinical characteristics in 539 TCGA‐CRC patients with complete clinical information.
+
+2.2.
+
+## 
+shRNA knockdown
+The pLKO.1‐Puro plasmid was purchased from the Public Protein/Plasmid Library. The shRNA targeting Pycr2 was designed and inserted into pLKO.1 lentiviral vector (Sangon Biotech). Target sequence: GTGGAGGAAGACCTCATTGAT (mouse). pLKO.1 or the sh‐Pycr2 plasmid was transfected into 293 T cells along with pMD2.G and psPAX2 using Lipofectamine 3000 (Thermo Fisher, #L3000015). The lentiviral supernatant was collected 48 h after the cells were transfected with the plasmids. Finally, the lentivirus was used to infect CRC cells, and puromycin was used to screen MC38 and CT26 cells with stable Pycr2 knockdown.
+
+2.3.
+
+## Animal study
+Here, 6–8‐week‐old female BALB/c mice were housed in a temperature‐controlled and light‐controlled environment with ad libitum access to food and water. For the subcutaneous tumor model, mice received subcutaneous injections of 1 × 106 CT26‐pLKO.1 or CT26‐sh‐Pycr2 cells in 100 μl of PBS. On the seventh day after transplantation, mice were injected with proline (20 mg/kg, in 100 μl of normal saline) or normal saline around the tumors every other day. The length (a) and width (b) of the tumors were measured within 3 weeks. The maximum length of the tumors was avoided to exceed 20 mm. The tumor volume was calculated using the equation a × b2/2. For the mouse model of CRC intraperitoneal metastasis, the abdominal cavities of mice were injected with 5 × 105 CT26‐pLKO.1 or CT26‐sh‐Pycr2 cells in 100 μl PBS. From the next day, mice received intraperitoneal injection of proline (50 mg/kg in 100 μl of normal saline) or normal saline every other day. The mice with intraperitoneal metastases were sacrificed on the 10th day, and intraperitoneal metastases were evaluated. All animal experiments conformed to the guidelines of the Animal Ethical and Welfare Committee.
+
+2.4.
+
+## Virtual screening and protein–ligand interaction analysis
+MtiOpenScreen is a tool based on AutoDock Vina that can realize the virtual screening of small molecules for specific protein receptors, and shows good performance. The structure of human PYCR2 (6LHM) was obtained from RCSB PDB (https://www.rcsb.org/). The potential binding sites and druggability of the protein structure were then identified and evaluated through proteinsPlus. According to the optimal binding site identified, a natural product compound collection (NP‐lib) containing 1226 natural products was selected for ligand screening of PYCR2 in MtiOpenScreen. Finally, poses for ligands with binding energy less than −10 kJ/mol were derived, and the interaction with PYCR2 protein was analyzed in the protein–ligand interaction profiler (https://plip‐tool.biotec.tu‐dresden.de/plip‐web/plip/index). 
+
+2.5.
+
+## Statistical analysis
+All statistical analyses were performed by GraphPad Prism 7.0 and RStudio. Student's t‐test, Mann–Whitney test, one‐way ANOVA, two‐way ANOVA, chi‐squared test and log‐rank test were used in this study, and are indicated in the corresponding figure legends. A p‐value <0.05 was considered to be statistically significant.
+Due to the article word limit, other method details are included in Supplementary Methods in Appendix  .
+
+3.
+
+## RESULTS
+3.1.
+
+## Levels of the pathways and genes related to proline metabolism and transport in CRC tumor tissues and normal tissues
+We first estimated the activation state of proline‐related pathways in CRC. We used the GSVA method to quantify the scores of proline metabolism and transport‐related pathways in each TCGA‐CRC tumor and normal tissue (Figure  ). Compared with normal tissues, GOBP_PROLINE_BIOSYNTHETIC_PROCESS, GOBP_PROLINE_METABOLIC_PROCESS and GOBP_PROLINE_TRANSMEMBRANE_TRANSPORT were upregulated in tumors (Figure  ). GOBP_PROLINE_TRANSPORT was downregulated in tumors (Figure  ). There was no difference in GOMF_L_PROLINE_TRANSMEMBRANE_TRANSPORTER_ACTIVITY of the tumors and normal tissues (Figure  ).
+ In addition, we analyzed the mRNA levels of all genes involved in these pathways in each CRC tumor and normal tissue (Figure  ). Of these, the mRNA levels of ALDH4A1, CLTRN, PYCR1, PYCR2, PYCR3, SLC1A4, SLC6A20, and SLC7A8 were upregulated in tumors, whereas the mRNA levels of DAO, SLC6A15, SLC6A17, and SLC36A1 were downregulated (Figure  ). Among them, PYCR1, PYCR2, and PYCR3 contributed to proline biosynthesis.
+
+3.2.
+
+## A high PYCR2 mRNA level was associated with worse prognosis and tumor metastasis in CRC
+
+We explored the relationship between the above differential genes and the prognosis of CRC using univariate Cox regression analysis and survival curves. The results showed that patients with high PYCR2 mRNA levels had a higher risk of death, HR = 1.69 (Figure  ). The Kaplan–Meier analysis results showed that overall survival of patients with CRC between the high and low PYCR2 mRNA level groups was statistically significant, and higher PYCR2 mRNA levels were associated with a worse prognosis (Figure  ). Although univariate Cox regression analysis also showed that the mRNA levels of SLC6A15 and SLC6A17 were associated with prognosis, they were downregulated in tumors (Figure  , Figure  ). We further analyzed the relationship between PYCR2 mRNA levels and the clinical characteristics of TCGA‐CRC patients. The results showed that there were more lymph node metastases (N1/2/3) and distant metastases (M1) in the high PYCR2 mRNA level group (Table  ). This suggested that the expression of PYCR2 was related to CRC tumor metastasis.
+ 
+3.3.
+
+## 
+PYCR2 protein expression was upregulated in colon cancer
+We further analyzed the protein expression of PYCR2 in colon tumor tissues and normal tissues. Analysis based on Clinical Proteomic Tumor Analysis Consortium (CPTAC) proteomic data showed that the expression of PYCR2 was elevated in tumor tissues at various stages, as well as in tumors of different histological types, compared with normal tissues (Figure  ). We also performed validation using tissue microarray containing 94 colon tumor tissues and 86 normal colon tissues. Immunohistochemistry results showed that PYCR2 was rarely expressed in normal tissues, but significantly expressed in tumor tissues (Figure  ). A ROC curve was used to evaluate the ability of PYCR2 protein expression to distinguish between tumors and normal tissues of colon cancer, and the results showed a high accuracy (area under the curve, AUC = 0.89, 95%CI: 0.95–0.84; Figure  ).
+ 
+3.4.
+
+## 
+PYCR2 promoter methylation level was suppressed in CRC tumors
+Genetic and epigenetic alterations affected gene expression. We therefore analyzed CNA and mutations of PYCR2 based on cBioPortal. We found PYCR2 alterations occurred in less than 1% of CRC tumors, and that alterations did not affect the prognosis of patients (Figure  ). We also analyzed the promoter methylation level of PYCR2 in CRC based on the UALCAN database, and the results showed that the promoter methylation level of PYCR2 was decreased in CRC tumors compared with normal tissues (Figure  ). Therefore, the upregulated expression of PYCR2 in CRC tumors may be due to the low methylation level of PYCR2 promoter.
+
+3.5.
+
+## 
+PYCR2 expression correlated with proliferation and EMT status of CRC cells
+To further reveal the function of PYCR2 in tumor cells, we analyzed the correlation of PYCR2 expression with different tumor states based on single‐cell data. We found that PYCR2 expression was positively correlated with all functional states of CRC cells (Figure  ). Among them, its correlation with proliferation and EMT was statistically significant (Figure  ).
+
+3.6.
+
+## Construction of nomogram based on PYCR2 mRNA levels and clinical characteristics to predict CRC metastasis
+Nomograms are widely used for cancer prognosis, mainly because of their ability to simplify statistical prediction models into a user‐friendly graphical interface that facilitates the judgment of individual patient prognosis during clinical visits. For the construction, interpretation, and use of nomograms please refer to a previous study. Each variable was listed separately in the nomogram, and their values corresponded to different scores. The cumulative scores for all variables were then matched to the outcome scale.
+In order to better predict the metastasis of CRC, we used PYCR2 expression, age, gender, T‐stage to construct a multivariate logistic regression to predict the lymph node metastasis of TCGA‐CRC patients. The results were visualized by nomogram (Figure  ). In addition, a calibration plot was used to evaluate the model and suggested that the predicted and actual occurrences were in good agreement (Figure  ). This also illustrated the accuracy of the predictive model.
+
+3.7.
+
+## Knockdown of Pycr2 inhibited the proliferation and migration of mouse CRC cells independently of proline
+To clarify the effects of PYCR2 and proline on CRC cells, we explored the relative mRNA level of Pycr2 and intracellular proline synthesis in different mouse CRC cells. We found that there were higher mRNA levels of Pycr2 in CT26 and MC38 cells compared with CMT93 cells (Figure  ), whereas proline synthesis was more obvious only in CT26 cells (Figure  ). We also explored the effect of exogenous proline supplementation on the proliferation of CT26 and MC38 cells using CCK‐8 assay. The results showed that no statistical difference in cell proliferation was observed in CT26 and MC38 cells supplemented with different concentrations of proline after 24 h, 48 h, and 72 h (Figure  ). Conversely, supplementation with 5 mM proline led to a trend toward decreased proliferation of CT26 cells. Moreover, we found that no significant changes in intracellular proline synthesis were observed in CT26 and MC38 cells after stable knockdown of Pycr2 (Figure  ).
+We also used CCK‐8 assay to find that the proliferation of CT26‐sh‐Pycr2 and MC38‐sh‐Pycr2 cells was decreased at 72 h compared with the corresponding pLKO.1 cells. However, exogenous proline supplementation (3 mM) did not affect the proliferation of CT26‐pLKO.1, CT26‐sh‐Pycr2, MC38‐pLKO.1 and MC38‐sh‐Pycr2 cells (Figure  ). We further validated the effect of knockdown of Pycr2 on migration of CT26 and MC38 cells. We found that the healing rates of CT26‐sh‐Pycr2 and MC38‐sh‐Pycr2 cells were significantly reduced at 24 h compared with the corresponding pLKO.1 cells. Likewise, proline supplementation (3 mM) did not affect the scratch‐healing ability of CT26‐pLKO.1, CT26‐sh‐Pycr2, MC38‐pLKO.1, and MC38‐sh‐Pycr2 cells (Figure  ). The above results indicated that exogenous proline could not rescue the inhibition of CRC cells proliferation and migration by Pycr2 knockdown.
+ Epithelial–mesenchymal transition is an important link in the tumor metastasis cascade, accompanied by the downregulation of E‐cadherin and the upregulation of N‐cadherin and TCF8. We further analyzed the effect of Pycr2 knockdown on EMT‐related proteins expression in CRC cells. We found that the expression of E‐cadherin was significantly increased in CT26‐sh‐Pycr2 cells, whereas the expression of N‐cadherin and TCF8 did not change significantly compared with CT26‐pLKO.1 (Figure  ). Interestingly, N‐cadherin and TCF8 expression was suppressed in MC38‐sh‐Pycr2 cells. However, the expression of E‐cadherin was not significantly increased (Figure  ). This suggested that there was heterogeneity in different CRC cells, but that the changes in these proteins supported that Pycr2 knockdown can inhibit the EMT of CT26 and MC38 cells.
+
+3.8.
+
+## Knockdown of Pycr2 inhibited subcutaneous tumor progression in mice independently of proline
+We constructed a mouse subcutaneous tumor model using CT26‐pLKO.1 cells and CT26‐sh‐Pycr2 cells, respectively. From the 14th day, the volume of subcutaneous tumors in mice transplanted with CT26‐pLKO.1 cells was significantly higher than that in mice transplanted with CT26‐sh‐Pycr2 cells (Figure  ). Similarly, the tumor weight of mice transplanted with CT26‐pLKO.1 cells was significantly heavier than that of mice transplanted with CT26‐sh‐Pycr2 cells (Figure  ). Furthermore, we compared the synthesis of proline in the subcutaneous tumors of these two groups and found no statistical difference between them (Figure  ).
+ To illustrate the effect of proline on CRC tumors in mice, tumor‐bearing mice were injected peritumorally with proline every other day, from day 7 after CT26‐pLKO.1 and CT26‐sh‐Pycr2 cells transplantation. Consistent with cell experiments, peritumoral injection of proline did not affect tumor progression in mice transplanted with CT26‐pLKO.1 and CT26‐sh‐Pycr2 cells (Figure  ). Accordingly, peritumoral injection of proline did not rescue the suppression of tumors caused by Pycr2 knockdown.
+
+3.9.
+
+## Knockdown of Pycr2 inhibited intraperitoneal metastatic tumors of mouse CRC in a proline‐independent approach
+Both TCGA data and single‐cell data suggested that the expression of PYCR2 in tumors is closely related to CRC metastasis. The abdominal cavity is the site where CRC prefers to metastasize. Therefore, we used CT26‐pLKO.1 and CT26‐sh‐Pycr2 cells to construct mouse intraperitoneal metastasis models. At the same time these mice were either given intraperitoneal injection of proline according to the schedule (Figure  ). The results showed that compared with the mice transplanted with CT26‐pLKO.1 cells, the abdominal diameter of the mice transplanted with CT26‐sh‐Pycr2 cells was significantly decreased (Figure  ). And the ascites volume (Figure  ), the number of tumors (Figure  ), the tumor weight (Figure  ) were also decreased in the mice transplanted with CT26‐sh‐Pycr2 cells. Nevertheless, in mice transplanted with CT26‐pLKO.1 or CT26‐sh‐Pycr2 cells, intraperitoneal injection of proline did not affect the tumor weight and ascites volume in these two groups (Figure  ). There was no difference in the body weight of the mice in different groups (Figure  ). These results also suggested that Pycr2 knockdown inhibited the intraperitoneal metastasis of mouse CRC in a proline‐independent manner.
+ 
+3.10.
+
+## Enrichment analysis of PYCR2 co‐expressed genes in CRC
+
+We used Spearman's method to identify the genes most associated with PYCR2 expression in CRC. Genes with correlation coefficient ≥0.5 and a p‐value <0.05 were co‐expressed genes. In total, 81 genes met the criteria. The genes with correlation coefficient >0.6 were KRTCAP2, PFDN2, CHTOP, UBQLN4, SMG5, PSMD4, ACBD6, GPATCH4, and MSTO1. To further explore the molecular mechanism of PYCR2 in tumor progression, GO enrichment analysis of PYCR2 co‐expressed genes was performed. The results indicated that these genes were mainly involved in biological processes such as “regulation of chromosome organization,” and “covalent chromatin modification” (Figure  ), and molecular functions such as “N‐methyltransferase activity,” “histone‐lysine N‐methyltransferase activity,” and “histone methyltransferase activity” (Figure  ). These results suggested that PYCR2 may promote CRC progression by regulating epigenetic modifications.
+ 
+3.11.
+
+## Screening of potential inhibitors of PYCR2
+
+PYCR2 appeared to be an attractive therapeutic target for CRC metastasis. At present, there is no report on PYCR2 protein inhibitors, therefore we utilized several databases and virtual screening tools to predict the small molecules that bind directly to PYCR2 (Figure  ). In total, 1026 small molecules performed molecular docking with the optimal site of PYCR2 (Figure  ). Finally, we obtained four small molecules with the lowest binding energies. They were ZINC000242547689 (−10.7 kJ/mol), ZINC000003594862 (−10.5 kJ/mol), ZINC000059779788 (−10 kJ/mol), and ZINC000043552589 (−10 kJ/mol). The interactions between these small molecules and PYCR2 were mainly through hydrogen bonding and hydrophobic interactions (Figure  ).
+
+4.
+
+## DISCUSSION
+Tumors can depend on specific amino acids for survival, and insufficient production of these amino acids creates metabolic vulnerability and therapeutic opportunities. Some drugs that interrupt amino acid synthesis have also been developed and are undergoing preclinical studies for tumor treatment. Determining tumor‐preferred amino acids, as well as their metabolic pathways and enzymes dysregulation, is a prerequisite for the discovery of tumor therapeutic targets. Here, we explored the expression of proline metabolism‐related genes in CRC, with a focus on uncovering the role of PYCR2 and proline in CRC.
+In contrast with other amino acids, proline has unique metabolic characteristics and metabolic enzymes. PYCRs are the last enzymes that catalyze P5C into proline. The proline biosynthesis pathway has been shown to promote liver tumorigenesis, and PYCR1 and ALDH18A1 were identified as therapeutic targets for liver cancer. In lung cancer, highly expressed PINCH‐1 promotes proline synthesis by regulating the expression of DRP1 and PYCR1, thereby promoting tumor progression. kindlin‐2 interacts with PYCR1 and upregulates the expression of PYCR1, resulting in increased proline synthesis and tumor cell proliferation. Upregulated PYCR1 was also found in gastric cancer, prostate cancer and CRC, and its interference can inhibit the proliferation of the corresponding tumor cells. However, our study based on TCGA‐CRC found that, although PYCR1 was highly expressed in CRC tumors, it was not associated with patients prognosis. PYCR1 was also found to interact directly with STAT3. This suggests that it has a non‐canonical function beyond the synthesis of proline in cancer. Compared with PYCR1, which has been extensively studied, PYCR2 has been less studied in tumors. PYCR2 was identified as a prognostic biomarker of hepatitis B virus‐related hepatocellular carcinoma, and is involved in tumor metabolic reprogramming. Our study also identified PYCR2 as the only proline metabolism‐related gene associated with the prognosis of TCGA‐CRC patients. At the same time, the upregulated expression of PYCR2 was closely related to lymph node metastasis and distant metastasis in CRC patients.
+We also note that two recent studies reported that PYCR2 knockdown inhibited the activity of CRC cells. , Experiments based on mouse CRC cells in our study also showed that Pycr2 knockdown could inhibit CRC cell proliferation and migration. Knockdown of Pycr2 was also shown to inhibit EMT in CRC cells based on single‐cell analysis and detection of EMT‐related proteins. Furthermore, we clarified the suppressive effect on tumors of Pycr2 knockdown using mouse subcutaneous tumor model and intraperitoneal metastatic tumor model of CRC. Importantly, our study aimed to uncovering the relationship between PYCR2 expression and proline synthesis and CRC tumors. Conversely, these two studies on PYCR2 did not clarify whether the tumor‐promoting effect of PYCR2 was dependent on the synthesis of proline. , A previous study has shown that exogenous proline can promote homeostasis and clonogenicity in some types of tumor cells, and proline starvation can impair cell viability. Our study found that exogenous proline supplementation did not promote the proliferation of mouse CRC cells, nor did it rescue the inhibition of cell proliferation and migration caused by Pycr2 knockdown. Likewise, proline supplementation did not rescue the suppression of subcutaneous tumors and intraperitoneal metastatic tumors in mice by Pycr2 knockdown. These results all suggested that Pycr2 knockdown inhibited CRC tumors through a proline‐independent approach. To explore the underlying mechanism of PYCR2, we performed enrichment analysis of its co‐expressed genes in TCGA‐CRC, which were found to be mainly involved in epigenetic modifications.
+In summary, PYCR2 may be a promising tumor metastasis predictor and a therapeutic target in CRC. We also screened potential small molecules targeting it, but validation of the enzymatic activity experiments is necessary. In addition, the specific mechanism of PYCR2 in epigenetic modification requires further investigation.
+
+## AUTHOR CONTRIBUTIONS
+QZ, XY, and BW designed the research concept and strategy. QZ, HL, and BW performed data collation and analysis of bioinformatics. HL, JX, and YM performed animal experiments. BW performed cell and molecular biology experiments. QZ, XY, and BW performed pathological experiments. LY, LZ, and XW gave guidance on experimental design and operation. QZ, HL, XY, and BW completed the writing and review of the manuscript.
+
+## FUNDING INFORMATION
+This study was supported by the National Natural Science Foundation of China (No. 81971858), the Natural Science Foundation of Tianjin (No. 18JCQNJC11100), Science and Technology Talent Development Fund of Tianjin Health Commission (No. KJ20116), and Tianjin Science and Technology Program (17ZXMFSY00220).
+
+## DISCLOSURE
+The authors have no conflict of interest.
+
+## ETHICS STATEMENT
+Approval of the research protocol by an Institutional Reviewer Board. Tissue microarray (HColA180Su21) of colon cancer was purchased from Shanghai Outdo Biotech Company. The research protocol has been approved by the Ethic Committee of Shanghai Outdo Biotech Company (No. YB M‐05‐02).
+
+## ANIMAL STUDIES
+The animal experiments have been reviewed and approved by the Animal Ethical and Welfare Committee of Tianjin Nankai Hospital (No. NKYY‐DWLL‐2021‐097).
+
+## Supporting information
+
+Appendix S1
+
+Click here for additional data file.
+
+Figure S1
+
+Click here for additional data file.
+
+Figure S2
+
+Click here for additional data file.
+
+Figure S3
+
+Click here for additional data file.
+
+Figure S4
+
+Click here for additional data file.
+
+Figure S5
+
+Click here for additional data file.
+
+Figure S6
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+None.
+
+Zhang Q, Luo H, Xun J, et al. Targeting PYCR2 inhibits intraperitoneal metastatic tumors of mouse colorectal cancer in a proline‐independent approach. Cancer Sci. 2023;114:908‐920. doi: 10.1111/cas.15635
+
+Qi Zhang and Hai Luo contributed equally to this work.
+
+## Contributor Information
+Xiangyang Yu, Email: yxynankai@126.com.
+Botao Wang, Email: tmubotao@163.com.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Appendix S1
+
+Click here for additional data file.
+
+Figure S1
+
+Click here for additional data file.
+
+Figure S2
+
+Click here for additional data file.
+
+Figure S3
+
+Click here for additional data file.
+
+Figure S4
+
+Click here for additional data file.
+
+Figure S5
+
+Click here for additional data file.
+
+Figure S6
+
+Click here for additional data file.

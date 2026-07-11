@@ -1,0 +1,989 @@
+3196wopenresWellcome Open ResearchWellcome Open ResThe Wellcome TrustPMC7459852PMC7459852.2745985276675223290476310.12688/wellcomeopenres.16069.22Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities
+PadalinoGildaData Curation, Formal Analysis, Investigation, Methodology, Validation, Visualization, Writing – Original Draft Preparation, Writing – Review & Editing ChalmersIain WResources, Supervision, Writing – Review & Editing BrancaleAndreaFunding Acquisition, Resources, Supervision, Writing – Review & Editing HoffmannKarl FConceptualization, Funding Acquisition, Project Administration, Resources, Supervision, Writing – Original Draft Preparation, Writing – Review & Editing 
+1Institute of Biological, Environmental and Rural Sciences (IBERS), Aberystwyth University, Aberystwyth, Wales, SY23 3DA, UK
+2School of Pharmacy and Pharmaceutical Sciences, Cardiff University, Cardiff, Wales, CF10 3NB, UKaEmail: gip7@aber.ac.uk
+No competing interests were disclosed.
+1311202051691691772020492020PMC7459852.11772020PMC7459852.213112020Copyright: © 2020 Padalino G et al.This is an open access article distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+Background: Schistosomiasis, caused by infection with blood fluke schistosomes, is a neglected tropical disease of considerable importance in resource-poor communities throughout the developing world. In the absence of an immunoprophylactic vaccine and due to over-reliance on a single chemotherapy (praziquantel), schistosomiasis control is at risk should drug insensitive schistosomes develop. In this context, application of
+in silico virtual screening on validated schistosome targets has proven successful in the identification of novel small molecules with anti-schistosomal activity.  
+
+Methods: Focusing on the
+Schistosoma mansoni histone methylation machinery, we herein have used RNA interference (RNAi), ELISA-mediated detection of H3K4 methylation, homology modelling and
+in silico virtual screening to identify a small collection of small molecules for anti-schistosomal testing. A combination of low to high-throughput whole organism assays were subsequently used to assess these compounds’ activities on miracidia to sporocyst transformation, schistosomula phenotype/motility metrics and adult worm motility/oviposition readouts.
+
+Results: RNAi-mediated knockdown of
+smp_138030/smmll-1 (encoding a histone methyltransferase, HMT) in adult worms (~60%) reduced parasite motility and egg production. Moreover,
+in silico docking of compounds into Smp_138030/SmMLL-1’s homology model highlighted competitive substrate pocket inhibitors, some of which demonstrated significant activity on miracidia, schistosomula and adult worm lifecycle stages together with variable effects on HepG2 cells. Particularly, the effect of compounds containing a 6-(piperazin-1-yl)-1,3,5-triazine core on adult schistosomes recapitulated the results of the
+smp_138030/smmll-1 RNAi screens.
+
+Conclusions: The biological data and the structure-activity relationship presented in this study define the 6-(piperazin-1-yl)-1,3,5-triazine core as a promising starting point in ongoing efforts to develop new urgently needed schistosomicides.
+Keywords: Schistosoma mansoni, Schistosomiasis, histone methylation, SET, MLL, drug discovery
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoAccepted 2020 Oct 15; Collection date 2020.
+
+## Version Changes
+Revised.
+
+## Amendments from Version 1
+We have made minor amendments to the manuscript including all the edits and changes suggested by the reviewers.
+
+## Introduction
+Schistosomiasis is a parasitic disease caused by a blood fluke trematode belonging to the genus
+Schistosoma. The estimated Disability-Adjusted Life Years (DALYs)
+ lost for schistosomiasis is 25–28 million and it ranks second only to malaria in terms of public and economic health importance attributable to a human parasitic disease in endemic countries
+ .
+In a scenario where schistosomiasis remains a major cause of morbidity and mortality within developing countries
+ , the sustainable use of praziquantel as the only currently licensed drug to treat this neglected tropical disease (NTD) remains vulnerable
+ ,
+ . Therefore, there is an urgent need to identify novel drugs as an alternative or combinatorial treatment for this disease.
+In the search for new anti-schistosomal entities, we and others have chosen to investigate epigenetic processes due to their role in regulating critical aspects of the schistosome life cycle. For example, both cytosine methylation and histone acetylation have previously been shown to control facets of parasite motility, fecundity, developmental progression and survival
+ –
+ . With the Structural Genomics Consortium (SGC)
+ making a collection of epigenetic probes/epigenetic inhibitors available for research on NTD-causing pathogens, other histone modifying enzyme (HME) machinery components have recently been identified as new anti-schistosomal targets
+ . Amongst the SGC collection tested by our laboratory, compounds targeting histone methylation regulators (GSK484, GSK-J4, A-196, MS023, LLY-507, BAY-598, GSK343 and UNC1999) demonstrated potent activities on both schistosomula and adult schistosomes
+ .
+When considering currently known post-translational modifications of histones, methylation is the second most abundant after acetylation
+ ,
+ . This epigenetic mark is responsible for chromatin remodelling and subsequent transcription factor accessibility, because methylation alters the interactions between adjacent nucleosomes and the arrangement of the double stranded DNA wrapped around them
+ ,
+ . The HMEs involved in this process use the cofactor S-adenosyl-methionine (SAM) to transfer a methyl group to the side chains of specific amino acids on the histone tails (lysine or arginine residues according to the specificity of the histone methyltransferases - HMTs)
+ . This epigenetic mark is removed by another class of epigenetic enzyme called the histone demethylases (HDMs)
+ . Recent studies suggest that histone methylation plays a crucial role in specific human physiological conditions (including cell-cycle regulation, DNA damage and stress response, development and differentiation
+ –
+ ) and alterations of this process appear involved in numerous diseases including cancer, cognitive disorders and ageing
+ ,
+ . However, research focused around histone methylation components in schistosomes is currently still young with only a few investigations to date suggesting that histone methylation changes are required for life cycle progression
+ –
+ ; consequently, schistosome histone methylation machinery components represent emerging new drug targets
+ –
+ .
+Previous studies conducted by our research group, as well as others, have explored the druggability of
+S. mansoni lysine specific demethylase 1 (SmLSD1,
+Smp_150560), a HDM involved in parasite fecundity and motility
+ ,
+ ,
+ . In the current study, we specifically investigated the
+S. mansoni HMT mixed lineage leukemia-1 (SmMLL-1;
+Smp_138030) homologue as a potential drug target
+ . As MLL homologues are essential for
+Caenorhabditis elegans in germline stem cell maintenance and fertility
+ ,
+Drosophila melanogaster development
+ and
+Homo sapiens haematopoiesis
+ , developing a drug discovery pipeline centred around SmMLL-1 was rational and additionally well-supported by this schistosome protein’s inclusion in the TDR Drug Target Database
+ .
+Using a combination of functional genomics and structure-based virtual screening (SBVS) methodologies to guide the iterative selection of compounds for entering whole-organism assays, we present evidence that SmMLL-1 is essential to schistosomula survival, adult worm movement, adult worm egg production and miracidia to sporocyst transformation. We additionally demonstrate that the putative SmMLL-1 inhibitors, identified herein, all contain a 1,3,5-triazine core linked to a piperazine ring. As this chemical scaffold has not previously been associated with anti-schistosomal activity, its further medicinal chemistry optimisation could lead to the development of a new class of urgently-needed anthelmintic.
+
+## Methods
+
+## Ethics statement
+All procedures performed on mice adhered to the United Kingdom Home Office Animals (Scientific Procedures) Act of 1986 (project license P3B8C46FD) as well as the European Union Animals Directive 2010/63/EU and were approved by Aberystwyth University’s Animal Welfare and Ethical Review Body (AWERB). All animals in this investigation were under the care of a Named Animal Care and Welfare Officer (NACWO), a Named Veterinary Surgeon (NVS), a small animal technician, a personal license holder (PIL) and a project license holder (PPL). While the procedure performed on these mice (infection with
+S. mansoni parasites) is classified within the moderate severity band of our license, efforts to ameliorate harm (outside of that induced by natural parasitic infection) included: provision of environmental enrichment stimulators (ameliorates mental harm), daily welfare and body condition checks (increasing to twice daily at day 45 post-infection) to avoid breaching the severity band of the project license and infection with a minimal number of parasites to reduce the likelihood of developing more than moderately adverse effects.
+
+## Parasite material
+The life cycle of the NMRI (Puerto Rican) strain of
+S. mansoni was maintained by routine infections of
+Mus musculus (Tuck Ordinary - TO) female mice and
+Biomphalaria glabrata (NMRI albino and pigmented hybrid) snails. For collection of cercariae, infected snails were exposed to light in an artificially heated room (26°C) for 1 h. The cercarial suspension was subsequently mechanically transformed into schistosomula
+ for
+in vitro compound screening or immediately used to percutaneously infect
+M. musculus (180 cercariae/mouse)
+ for generation of adult schistosomes. The infected mice (six individuals per cage) were fed with rodents’ diet and water
+ad libitum and housed in a room (temperature 26°C and humidity ~70%) with 12 h light cycle (12 h on, 12 h off). Seven weeks post-infection, experimental animals (18 mice) were euthanised with an intraperitoneal administration of a non-recoverable dose (100 mg/kg) of sodium pentobarbital solution (10 mg/ml, JM Loveridge) containing heparin (100 U/ml solution in 1X PBS, containing 137 mM NaCl, 2.7 mM KCl, 10 mM Na
+2HPO
+4, and 2 mM KH
+2PO
+4). Upon loss of ocular and limb reflex responses to stimuli (4 min), parasite material was obtained by hepatic portal vein perfusion with pre-warmed (37°C) perfusion media (DMEM supplemented with 0.1% 100 U/ml heparin solution in 1X PBS). In brief, the abdominal cavity was opened and the hepatic portal vein was exposed and severed with a 23G needle. This was followed by administration of perfusion media into the left ventricle of the heart to flush worms out of the severed hepatic portal vein. Following perfusion, worms were washed by sedimentation with perfusion media first and then pre-warmed adult worm media (DMEM (Gibco, Paisley, UK) supplemented with 10% v/v FCS (Gibco, Paisley, UK), 1% v/v L-glutamine (Gibco, Paisley, UK) and an antibiotic mixture (150 Units/ml penicillin and 150 µg/ml streptomycin; Gibco, UK)). Following incubation in a humidified environment containing 5% CO
+2 at 37°C for at least 1 h, adult worms were used for either
+in vitro compound screening or RNA interference (RNAi).
+Infected livers from perfused mice were homogenised in double saline solution (1.7% w/v NaCl) using a Waring blender and the homogenates were passed through a 0.45 µm filter to retain egg material. Eggs were allowed to hatch in 1X Lepple water
+ and the resulting miracidial suspension was enumerated prior to being used for snail infections (12 miracidia/snail) or
+in vitro miracidia to sporocyst screens.
+
+## Homology modelling
+The homology model of Smp_138030 was generated within the MOE 2015.10
+ homology tool using a single template approach as previously described
+ . The program MODELLER could be a valid alternative for comparative protein structure modelling
+ . The template selected for this protein was the three-dimensional structure of the catalytic domain (SET domain) of
+Homo sapiens MLL3 (PDB ID:
+5F6K:C, 58% sequence similarity). An induced fit option was selected to take into account the presence of histone H3, residues 2–7 (the peptide substrate
+ ) and S-adenosyl homocysteine (SAH), the demethylated metabolite of the cofactor SAM. Ten different intermediate models were built and minimised using Amber94 before refining the final model from a Cartesian average of the 10 generated intermediates. The overall quality of the final model was evaluated by
+RAMPAGE Ramachandran Plot analysis
+ ,
+ProSA-web
+ and
+Verify3D
+ .
+
+## RNA interference and quantitative reverse transcription PCR (qRT-PCR)
+RNA interference (RNAi), using synthetic short interfering RNAs (siRNAs), was performed as previously described
+ ,
+ ,
+ ,
+ . Briefly, siRNA duplexes targeting
+smp_138030 and non-specific
+luciferase (
+Luc) were designed and purchased from Sigma (sequences reported in
+ ). Mixed sex adult worms electroporated with a final concentration of 50 ng/μl siRNA duplexes were next cultured at 37°C in adult worm medium (DMEM supplemented with 10% FCS, 2 mM L-glutamine, 10% v/v HEPES (Sigma-Aldrich, UK), 100 Units/ml penicillin and 100 μg/ml streptomycin) in a humidified atmosphere containing 5% CO
+2; a 70% media exchange was performed every 48 h. Adult worms were cultured under these conditions for 48 h prior to assessing
+smp_138030 abundance by quantitative reverse transcription PCR (qRT-PCR). An additional set of worms was cultured for 72 h to detect variations in levels of H3K4 methylation in schistosome nuclear extracts/histone preparations. Additionally, a third set of worms was cultured for a total of seven days to monitor adult worm motility daily as well as to analyse fecundity (e.g. egg count). All experiments were replicated three times (15 worm pairs/replicate).
+ For qRT-PCR analyses, 48 h post-siRNA electroporation, worms were homogenised using a TissueLyser LT (Qiagen, UK) in TRIzol Reagent (Invitrogen, UK) before isolation of total RNA using the Direct-zol RNA Kit (R2050, Zymo, UK). cDNA was generated using SensiFAST cDNA synthesis kit (BIO-65053, Bioline) and qRT-PCR was performed with SensiFAST SYBR Hi-ROX mix (BIO-92005, Bioline) and specific qRT-PCR primers (listed in
+ ) for amplifying
+smp_138030 and the internal standard
+alpha tubulin (
+smAT1,
+smp_090120, used as a housekeeping gene)
+ . The reactions were conducted in a StepOnePlus Real-Time thermal cycler (Applied Biosystems). The comparative threshold Cycle (Ct) mode and Fast protocol was used with the following parameters: 95°C for 20 sec followed by 35 cycles of 95°C for 3 sec followed by 60°C for 30 sec. The resulting data were analysed using the StepOne Software v2.1 (Applied Biosystems) as previously described
+ ,
+ .
+
+## Detection of global H3K4 methylation
+si
+Smp_138030 treated worms were maintained under normal laboratory conditions (5% CO
+2 at 37°C) for three days alongside the si
+Luc controls (five worm pairs per well, 15 worm pairs per condition). Male and female worms were then separately homogenized with a TissueLyser (Qiagen) and total histones extracted using the EpiQuik
+TM Total Histone Extraction kit (OP-0006, Epigentek) following the manufacturer’s instructions. The concentration of each sample was quantified by Bradford assay prior to being processed with the EpiQuik
+TM Global Histone H3K4 Methylation Assay Kit (P-3017-96, Epigentek) to measure global histone H3K4 methylation levels.
+The absorbance (OD) reading at 450 nm of each sample (15 worm pairs per condition, three biological replicates each) was obtained using a POLARstar Omega (BMG Labtech, UK) microtiter plate reader. The percentage of H3K4 methylation was calculated according to the following equation:
+
+Methylation%=OD(sample−blank)OD(untreated control−blank)x100%
+where the untreated control and the blank were the luciferase controls and the buffer only, (provided in the kit), respectively. The mean of the adjusted control values was set at 100% H3K4 methylation and the standard deviation (SD) was calculated from the normalised values.
+
+## Structure-based virtual screening (SBVS) framework
+The structure-based virtual screening (SBVS) framework applied in this study was previously described
+ ,
+ and included four main steps: (1) target and library pre-processing, (2) docking, (3) scoring and (4) post-processing of top-scoring hits. In brief, a library of commercially available compounds (the fragment-based library including 4,352 chemicals) was downloaded from
+Specs and processed by the Lig Prep tool within Maestro v10.1
+ ; AutoDock could alternatively be used for this function
+ . The target model (Smp_138030) was pre-processed using the Protein Preparation Wizard within Maestro (otherwise AutoDock) by assigning bond orders, adding hydrogens and performing a restrained energy minimisation of the added hydrogens using the OPLS_2005 force field. Docking simulations were performed on the substrate binding pocket of the target to evaluate the binding affinity of each Specs compound to a 12 Å docking grid (inner-box 10 Å and outer-box 22 Å) previously prepared using, as a centroid, the substrate peptide.
+Initially, the
+in silico molecular docking was performed using the Glide docking software within Maestro (Schrödinger Release 2017
+ ) using the standard precision function (SP; all 4,532 compounds). AutoDock could be alternatively used as docking program. The results were subsequently refined using the more accurate extra precision (XP) function. The resulting conformations (or poses) of the compounds were ranked according to the Glide XP scoring function with the top 500 distinct compounds identified and retained for a similar docking (both SP and XP) to the corresponding human homologue
+H. sapiens MLL3 (PDB ID:
+5F6K), previously prepared as described above for the schistosome protein. As a result, each compound was associated with a pair of docking scores (the SP and XP scoring function) for both the schistosome and the corresponding human homologue. The compounds with a more favourable docking score (i.e. the lower energy value represented by more negative values for both XP and SP scores) for the parasite protein compared to the human template were selected. A subset of compounds (defined here as first set of compounds) was carefully chosen to encompass maximal chemical diversity and purchased for biological screens. Refinement of the first selection criterion led to the identification of chemicals (defined here as second set of compounds) having a more favourable docking score for the parasite protein compared to the human template for at least one of the scoring function (either SP or XP score).
+In a final stage of the study, we used the central scaffold of compound 7 (6-(piperazin-1-yl)-1,3,5-triazine-2,4-diamine, simplified molecular-input line-entry) as query structure to search for any remaining structural analogues of compound 7 present in the Specs fragment-based library. This structure-based search resulted in 17 compounds, of which nine chemicals were already included in the second set of compounds. The remaining eight small molecules were purchased and screened to fully explore the chemical space around the central scaffold of compound 7. These chemicals were not previously identified because they did not have a more favourable docking score (neither SP nor XP score) for the parasite protein compared to the human template. Overall, this approach exhaustedly investigated the whole Specs database for any closely structural related analogues of compound 7.
+
+## Schistosomula screens
+Anthelmintic activity on the schistosomula stage of
+S. mansoni was evaluated using Roboworm, an integrated high-throughput, high content image analysis platform originally developed by Paveley
+et al.
+ and subsequently used by our research group as previously described
+ ,
+ ,
+ ,
+ . Alternatively, the computer application Worminator can be used to assess motion of microscopic parasites such as the schistosomula stage of
+S. mansoni
+ . Compounds (as single concentration or two-fold titrations) were prepared for screening in a 384-well plate (PerkinElmer, MA, USA), where solutions (1.6 mM, 0.5 μl) were wet stamped using the Biomek NX
+P liquid handling platform into Basch medium (20 μl)
+ . Negative (0.625% DMSO) and positive (Auranofin - AUR - at 10 µM final concentration in 0.625% DMSO) control wells were similarly prepared. Mechanically transformed schistosomula (about 120 parasites in 60 μl of Basch medium) were distributed into each treated well using a WellMate (Thermo Scientific, Loughborough, UK). Schistosomula/compound co-cultures were then incubated at 37°C for 72 h in a humidified atmosphere containing 5% CO
+2. At 72 h, parasite/compound co-cultures were resuspended and tissue culture plates were imaged under the same conditions (37°C for 72 h in a humidified atmosphere containing 5% CO
+2) using an ImageXpressXL high content imager (Molecular Devices, UK) with subsequent images processed for phenotype and motility as previously reported
+ . Plate analysis returned a phenotype and motility score for each well and any scores below -0.15 and -0.35 (defined threshold anti-schistosomula values for phenotype and motility scores, respectively) defined a condition displaying anti-schistosomula activity. Compound screens were assessed based on the Z´ values (derived from the means and standard deviations of positive and negative controls
+ ) and those equal to or above 0.3 for both phenotype and motility were considered successful.
+Phenotype and motility scores of each titration were used to generate dose response curves in GraphPad Prism 7.02 based on the corrected average score of the three replicates for each data point. These data were then used to calculate EC
+50 (the concentration of compound that caused motility or phenotype defects in 50% of the treated parasite when compared to untreated controls) values.
+
+## Adult worm screens
+For compound screening, adult worms (three worm pairs/well for compound 7 and the hit compounds of set two; one worm pair/well for the hit compounds of set three) were transferred into wells of a 48-well tissue culture plate containing 1 ml of adult worm media. Adult worms were treated with compounds previously identified as hits at 10 µM on 72 h cultured schistosomula. Worms were dosed with an appropriate volume of 10 mM stock solution of each compound (in DMSO) to have a concentration range of 50 – 6.25 µM (up to 0.5% DMSO, primary screen of compound 7). Secondary screens were performed on the structural analogues of compound 7 (only the schistosomula hits at 10 µM) at a single concentration (12.5 µM) and compared to the same concentration of the parental compound (included in the screen as reference). DMSO (0.5%) and praziquantel (10 µM in 0.5% DMSO) were also included as negative and positive control treatments (both primary and secondary screens). Treated adult worms were incubated for 72 h in a humidified environment at 5% CO
+2 at 37°C. Parasite motility after drug treatment was assessed by a digital image processing-based system (WormassayGP2, see
+Software availability
+ ) modified after Wormassay
+ ,
+ ,
+ . Egg production was assessed according to the methodology described by Edwards
+et al.
+ .
+
+## Miracidia screens
+Following hatching of
+S. mansoni eggs, miracidia were incubated on ice for 15 min and then centrifuged at 700 x
+g for 5 min at 4°C. The miracidia pellet was then re-suspended in 5 ml of Chernin's balanced salt solution (CBSS), subjected to pelleting and two subsequent washes (all at 700 x
+g for 5 min at 4°C). Afterwards, the supernatant was carefully removed with a serological pipette and the miracidia-enriched pellet was resuspended with CBSS supplemented with 1 mg/ml each of glucose and trehalose and 500 µl of Penicillin-Streptomycin (containing 10,000 units penicillin and 10 mg streptomycin/ml, P4333, Sigma-Aldrich)
+ . In preparation for the screens, CBSS (250 µl) was aliquoted to each well of a 24-well plate followed by addition of each compound in DMSO (1 mM concentration in 1% DMSO) or DMSO alone (1%, negative control). Next, approximately 20-25 miracidia (in 250 µl of CBSS) were aliquoted to each well. A preliminary dose-response titration of compound 7 (50, 25, 10, 5, 2 and 0.5 µM in 1% DMSO) was performed and secondary single-concentration (10 µM in 1% DMSO) screens of the most active (hits on schistosomula at 10 µM) structural analogues followed. Both preliminary and secondary screens were performed in duplicate on two separate occasions (two independent biological replicates). Miracidia were incubated for 48 h at 26°C before being evaluated using an Olympus inverted light microscope for morphological and behavioural changes differing from the control wells. Dead, partially transformed and fully transformed miracidia were enumerated in the DMSO control and the assay plates as previously described
+ ,
+ ,
+ . In brief, parasites were visually scored “dead” if no macroscopic movement and flame-cell activity was detected and tegument/epidermal surface showed signs of degeneration. “Transforming” parasites were no longer swimming, had a “rounded” morphology and were in the process of shedding epidermal plates. Absence of ciliated plates attached to the surface of the parasite and formation of sporocyst tegument defined the so-called “fully transformed” parasites.
+
+## Cytotoxicity assay on human surrogate cell line (HepG2 cells)
+Compound cytotoxicity on Human Caucasian Hepatocyte Carcinoma (HepG2) cells (85011430, Sigma Aldrich) was elucidated by the MTT (3-(4,5-dimethylthiazol-2-yl)-2,5-diphenyltetrazolium bromide) tetrazolium reduction assay as previously described
+ ,
+ ,
+ . Briefly, HepG2 cells were seeded at a density of 20,000 per well in 96-well black, clear bottom falcon plate in modified BME medium (50 μl; containing 1% antibiotic/mycotic (Sigma-Aldrich, Gillingham, UK), 1% 200 mM L-glutammine (Gibco, Paisley, UK), 1% MEM non-essential amino acid solution (Gibco, Paisley, UK), and 10% fetal bovine serum (Gibco, Paisley, UK)). HepG2 plates seeded for cytotoxicity screens were treated with compounds 24 h post-seeding. Each compound was tested at 200, 100, 75, 50, 20, 10 and 1 µM; each concentration was assayed in triplicate. Blank wells (no cells), as well as positive (1% v/v Triton X-100, X100, Sigma-Aldrich) and negative (1.25% v/v DMSO or media only) controls, were included in each plate. After addition of compounds, each plate was then incubated for a further 20 h before application of MTT reagent for assessment of compound cytotoxicity (4 h incubation with MTT for a total 24 h cell-drug incubation)
+ . The absorbance reading at 570 nm was measured with a POLARstar Omega (BMG Labtech, UK) microtiter plate reader. Dose response curves were generated in GraphPad Prism 7.02 based on the corrected average absorbance of the three replicates for each concentration point. These data were then used to calculate CC
+50 (the concentration of compound that reduced cell viability by 50% when compared to untreated controls) values.
+
+## Scanning electron microscopy to assess compound damage on adult worms
+Following 72 h of drug treatment, the cultured
+S. mansoni adult worms were collected, separated by sex and relaxed with tricaine anaesthetic solution (0.25% w/v of ethyl 3-aminobenzoate methane sulfonate - Tricaine, E10521, Sigma Aldrich - in DMEM). The samples were incubated by gently rocking for 15 min or until parasites relaxed and separated. The parasites were then killed by incubation in a solution of 0.6 mM magnesium chloride (MgCl
+2) for 1 min. Afterwards, adult schistosome worms were briefly washed with pre-warmed 1X PBS and then fixed using appropriate solutions for analysis by scanning electron microscopy (SEM) as previously described in literature
+ ,
+ ,
+ .
+Post fixation, adult schistosomes were stored at 4°C until washing with 0.1 M sodium cacodylate was performed (2 x 30 min each). The worms were then stained with 1% v/v osmium tetroxide water solution (stored at -20°C and pre-warmed at room temperature prior to use) for 2 h and then washed with 0.1 M sodium cacodylate for 30 min. Following staining, worms were dehydrated with an aqueous alcohol series (30, 50, 70, 95 and 100% ethanol in ultra-pure water) by agitating gently on a rocker for 30 min per solution. At the final step, the samples were left in 100% ethanol overnight before being dried with hexamethyldisilazane critical drying point agent (AGR1228, Agar Scientific, Stansted, UK) for at least 3 h.
+Following critical point drying, the organic solvent was removed with a Pasteur pipette and the samples were left to dry overnight. Samples were then placed onto self-adhesive conductive carbon tabs on aluminium specimen stubs (both Agar Scientific, Stansted, UK) and then were coated with gold using a Polaron E5000 SEM Coating Unit. Coated worms were then stored in a desiccation jar until imaging on a Hitachi S-4700 FESEM microscope using the Ultra High-Resolution mode and an accelerating voltage of 5.0 kV at a working distance of 5.0 mm.
+
+## Statistical analysis
+All statistical analyses were performed using GraphPad Prism 7.02. In detail, comparisons between two or multiple groups were performed using Mann-Whitney U-test (Student’s
+t test, two tailed, unequal variance) and Kruskal-Wallis test followed by Dunn’s test, respectively.
+
+## Results
+
+## Homology model of Smp_138030
+Schistosome genome analyses predicted a full set of SmHMTs and SmHDMs cooperatively regulating histone methylation in
+S. mansoni
+ ,
+ . Among the 20 identified protein lysine methyl transferases (PKMTs), Smp_138030 was characterised as the closest homologue of the human mixed lineage leukemia (MLL) HMT; this schistosome protein will be referred to as SmMLL-1 from this point forward (
+ ). SmMLL-1 contains a SET domain, a post SET domain and FY-rich N/C terminal (FYRN and FYRC) sequence motifs (
+ ), which are particularly common in histone H3K4 methyltransferases like MLLs
+ . SmMLL-1’s homology model was constructed using the catalytic domain (SET domain) of the human template MLL3 (
+ ). The global quality of each model was validated by Ramachandran plot analysis, ProSA-web and Verify 3D (Supplementary Figure 1,
+Extended data
+ ); all approaches surpassed agreeable standards defined in the literature
+ ,
+ . Overall, these tools suggested that Smp_000700/SmMLL-1’s homology model was of reasonable quality compared to the human MLL3 template and, thus, suitable for further experiments.
+ SmMLL-1’s SET domain (defined by SET-N, SET-I and SET-C,
+ ) contains a series of β stands, which fold into three discrete sheets around a unique knot-like structure (
+ )
+ . In this structure, the SET domain C-terminus threads through a loop region, which is formed by a hydrogen bond between two segments of the protein chain
+ . The homology model of this PKMT shows the position of the four conserved motifs within the SET domain
+ . Motifs I and II are found within the SET-N domain, whereas motifs III and IV are found within the SET-C domain. Motif I (or GxG motif where x represents any amino acid, usually bulky hydrophobic residues) defines the cofactor binding pocket and most of the conserved residues of this motif are mainly associated with cofactor binding. Motif II is involved in the catalytic activity of these SET proteins and its arginine residue forms a salt bridge with a conserved glutamic acid in the SET-C region (
+ ) contributing to the structural stability of the protein. Motif III, containing the RFINHSCxPN sequence (where x represents any amino acid), is responsible for substrate recognition as well as the formation of the pseudoknot structure
+ with Motif IV (containing the GEELxxDY consensus sequence, where x represents any amino acid) located close to the C-terminus (
+ ).
+
+## Functional genomics investigation of Smp_130830/SmMLL-1
+RNAi-mediated post-transcriptional gene silencing was employed to explore the biological role of this SET-domain containing protein in adult worm motility and fecundity (
+ ). qRT-PCR assessment of
+smp_138030 transcript abundance in si
+Smp_138030 treated worms revealed a decrease of 60% when compared to si
+Luc treated worms at 48 h post-electroporation (
+ ). Despite some signs of distress immediately after electroporation, all worms recovered and appeared robust up until seven days post-treatment (the last time point examined in this study). Examination using light microscopy showed no specific phenotypic differences between the luciferase control and the target RNAi worms; no death was observed, all parasites retained gut peristalsis (as indicated by haemozoin movement) but they partially lost adherence to the tissue culture wells. However, movement was significantly reduced in si
+Smp_138030 treated worms at this time-point when compared to si
+Luc controls (
+ ). Daily measurements of worm movement were next assessed starting at 24 h post electroporation and continuing until day seven (
+ ). By doing so, we observed a significant difference in worm movement between the control and the treated worms starting at day three and continuing up until day seven. In addition to this motility defect,
+smp_138030 knockdown also led to anti-fecundity effects. In fact, at day seven post siRNA treatment, egg production was significantly inhibited (~40% reduced) in si
+Smp_138030 treated worms (
+ ). To assess whether a 60%
+smp_130830 knockdown resulted in a histone methylation defect in adult schistosomes, an ELISA-based assay quantifying methylation on histone H3, lysine 4 (H3K4) was performed on adult worm (both male and female) histone protein extracts. These assays revealed that
+smp_138030 knockdown resulted in a 9% reduction (not statistically significant) of H3K4 methylation (
+ ).
+ 
+
+## The identification of putative SmMLL-1 inhibitors and their activity on schistosomes
+After establishing that SmMLL-1 was a druggable target by RNAi, a collection of seven compounds (Supplementary Table 1,
+Extended data
+ ) with a more favourable docking score (both SP and XP score) for SmMLL-1 compared to the human template (MLL3) were screened for anti-schistosomula activity at 50 and 10 µM (
+ ). The calculated Z´ values for both phenotype and motility of the performed screens (summarised in Supplementary Table 2,
+Extended data
+ ) were within accepted ranges as previously described
+ . Among these compounds, two (compounds 4 and 7,
+ ) showed anti-schistosomal activity (
+ ) at 50 µM with only compound 7 remaining active at 10 µM (
+ ). At 50 µM, compound 4 treated parasites presented an elongated phenotype similar to the Auranofin-treated schistosomula (
+ ). In contrast, compound 7 treated schistosomula (at both 50 and 10 µM) appeared swollen with some individuals additionally displaying posterior end compression (as shown in
+ ). A secondary anti-schistosomula titration of compound 7, across four independent screens (Z´ values listed in Supplementary Table 2,
+Extended data
+ ), was subsequently performed to quantify its potency; here, EC
+50 values of 5.65 µM for phenotype and 5.03 µM for motility were obtained (Supplementary Figure 2,
+Extended data
+ ).
+ The anti-schistosomal activities of compound 7 was next explored on adult worms (
+ ). At 50 and 25 µM, the compound had a lethal effect, however, worm recovery began at 12.50 µM and remained at 6.25 µM (
+ ). In terms of egg production, compound 7 was particularly effective in inhibiting worm fecundity up to and including 12.50 µM (
+ ).
+ Scanning electron microscopy was used to evaluate the morphological changes induced by
+in vitro treatment of the parasite with a sub-lethal concentration (12.50 µM) of compound 7 (Supplementary Figure 3A, B and C,
+Extended data
+ ) compared to the control (Supplementary Figure 3D, E and F,
+Extended data
+ ). The compound induced partial loss of tubercles and spines as well as tegument erosion (asterisks in Panel B) and ulcerations (red arrows in Panel C).
+
+## Anti-schistosomal activity of compound 7 structural analogues
+Based on these preliminary data which led to the identification of compound 7, the results of the comparative docking study of the Specs library were subsequently explored with a less stringent criterion in this second stage of the study. This led to the identification of a second set of compound 7 analogues (see Supplementary Table 3,
+Extended data
+ ) with a better predicted binding affinity to the substrate binding site of SmMLL-1 compared to its closest human homologue MLL3 (PDB ID:
+5F6K), based either on SP or XP docking score (i.e. at least one scoring function, conversely to the first selection of compounds where both conditions had to be satisfied).
+This second compound family encompassed nine structural analogues of compound 7 and these were initially tested on schistosomula at 50 and 10 µM (
+ , Z´ values summarised in Supplementary Table 4,
+Extended data
+ ). Six out of nine tested compounds were hits on the larva stage of the parasite at both 50 and 10 µM (
+ ), except for compound 14, which was only active at 50 µM. All compound 7 analogue hits at 10 µM were tested at lower concentrations to assess their anthelmintic potencies; EC
+50 values were derived from these dose response titrations (
+ ).
+ Among this second family of compound 7 analogues, only the small molecules demonstrating anti-schistosomula activity at 10 µM were subsequently screened against adult worms (
+ ). Specifically, they were only tested at 12.50 µM (the sublethal concentration for compound 7) in order to identify those with improved anthelmintic activity over compound 7. This comparative approach identified four compounds (compound 8, 12, 15 and 16) as more potent than the original hit compound. Moreover, all tested compounds demonstrated a negative effect on schistosome fecundity with compounds 8, 12 and 15 reducing egg production similarly to compound 7 (
+ ).
+
+## Anti-schistosomal activity of remaining compound 7 structural analogues
+In a final stage of the study, any other remaining compounds commercially available through Specs containing the central compound 7 scaffold (using 6-(piperazin-1-yl)-1,3,5-triazine-2,4-diamine as query structure in Specs database) were next selected (without any docking score-based selection, Supplementary Table 5
+, Extended data
+ ) and tested on
+in vitro cultured schistosomes (
+ ). This third set of compounds was initially tested on schistosomula and, while five chemicals (17,20, 22, 23 and 24) were active at the highest concentration (50 µM) (
+ ), only three of them (20, 23 and 24) remained active at 10 µM (
+ ). The calculated Z´ values for both phenotype and motility of all schistosomula screens, related to this family of compound 7 analogues, are summarised in Supplementary Table 6 (see
+Extended data
+ ). Compounds 20, 23 and 24 were subsequently tested at lower concentrations to assess their anthelmintic potencies; EC
+50 values were derived from these dose response titrations (
+ ).
+ These three compounds (20, 23 and 24) were next screened against adult worms at 12.50 µM (the sub-lethal concentration of parental compound 7) and all demonstrated greater potency than compound 7 in inhibiting motility and egg production at this concentration (
+ ). These compounds were subsequently screened at a lower concentration (6.25 µM) aiming to discriminate the most potent compound amongst this third set of small molecules (
+ ). This screen confirmed strong anthelmintic activities (motility and oviposition defects) for all compounds in comparison to the parental compound and indicated that compound 24 was the most potent.
+
+## Miracidial transformation is inhibited by compound 7 and its structural analogues
+To further assess the broader activities of these putative SmMLL-1 inhibitors on schistosome development, we next tested their ability to inhibit miracidia to sporocyst transformation (
+ ). Firstly, compound 7 demonstrated a clear dose-dependent effect on miracidia to sporocyst transformation; here, compound 7 was completely lethal to miracidia at 50 and 25 µM, whereas at 10 µM, compound 7 inhibited miracidia to sporocyst transformation by 45% (
+ ). Inhibition of miracidia transformation declined to about 20–25% when the compound was tested at lower concentrations (5, 2 and 0.5 µM,
+ ). When the most active compound 7 analogues (compounds 8, 9, 12, 13, 15, 16, 20, 23 and 24) were next tested at 10 µM, all readily killed miracidia except for compounds 15 and 16 (
+ ).
+ 
+
+## Cytotoxicity of compound 7 and its structural analogues on HepG2 cells
+Overt cytotoxicity was next explored on human HepG2 cells by prioritising those compounds that showed the most potent anti-schistosomal activities (EC
+50 on schistosomula equal or below 10 µM) starting from parent compound 7 and extending into its structural analogues. Each compound was tested in a dose response titration (200 to 0.01 µM) with the average CC
+50 of each compound reported in
+ . Compound 20 was not toxic to this cell line, except for concentrations above 100 µM. In contrast, compounds 23 and 24 showed the highest toxicity (CC
+50 below 10 µM). All other compounds showed a range of moderate (10 µM < CC
+50 < 20 µM) to low (20 µM < CC
+50 < 60 µM) cytotoxicity on the selected cell line.
+
+## Discussion
+Careful regulation of histone methylation/demethylation is essential for developmental progression of the major human pathogen
+S. mansoni
+ ,
+ ,
+ ,
+ . Therefore, exploration of the histone methylation machinery for druggable targets has been actively pursued
+ ,
+ ,
+ . Here, we contribute to these studies by demonstrating that the
+S. mansoni histone methyltransferase Mixed Lineage Leukemia homologue (SmMLL-1, Smp_138030,
+ ) is one such druggable epigenetic target.
+The first evidence of SmMLL-1’s druggability came from functional genomics investigations of the transcript in adult schistosomes (
+ ). Here, partial siRNA-mediated knockdown of
+smmll-1 (60%) resulted in adult worms physically detaching from the culture wells, moving significantly less and producing fewer eggs over a seven-day period post-treatment. While other phenotypic changes (e.g. coiled worms) did not accompany these siRNA-mediated effects, knockdown of the same target in a large-scale RNAi investigation confirmed a similar detachment phenotype for this target in adult schistosomes
+ .
+Consistent with our observations, functional genomics-led investigations have previously identified important roles for MLL homologues in other metazoans. In a variety of RNAi studies exploring
+set-16 (MLL homologue) function in
+C. elegans, diverse phenotypes were observed including larval lethality
+ , multivulva
+ , disorganized oocytes
+ , slow growth
+ and sterility
+ . Overall,
+set-16 was confirmed as an essential gene even though some reported RNAi phenotypes provide evidence that not all MLL deficiencies are lethal
+ . Furthermore, distinct developmental defects have been observed in MLL1
+-/- or MLL2
+-/- mice whereas embryonic lethality resulted from MLL3, -4, and -5 deficiencies (observed in knockout mice)
+ ,
+ . In the single cell eukaryote
+Saccharomyces cerevisiae, deletion of
+set-1 (homologue of the human MLL-like protein) revealed a slow-growth defect
+ . Collectively, these data suggest that H3K4 methylation (mediated by MLL homologues) has pleiotropic effects and the downstream phenotypic consequences of this epigenetic mark’s dis-regulation may depend on the organism in which it is studied. This explanation could justify our siRNA-mediated knockdown results highlighting that SmMLL-1 is not essential for schistosome viability, but is critical to other parasite features important for lifecycle maintenance, including motility (to retain position in the mesenteric venules of the definitive host
+ ) and fecundity. However, we cannot exclude that a more significant phenotype would be observed if a greater knockdown (above 60%) was achieved.
+Based on the structural and functional characterisation of this target suggesting that SmMLL-1 (Smp_138030) was likely to function as a protein lysine methyltransferase (PKMT) with a currently unknown catalytic specificity, an antibody-based assay was used for measuring global histone H3K4 methylation in si
+Smp_130830 treated worms. Here, only a slight decrease (9%) in global H3K4 methylation was observed in si
+Smp_130830 treated worms compared to si
+Luc controls (
+ ). As other related PKMTs are found in the
+S. mansoni genome (Smp_144180, Smp_070170 - closely related to MLL proteins - and Smp_140390 - closely related to the human SET1A/B)
+ ,
+ , functional redundancy in the histone code could compensate for the minimal decrease in H3K4 methylation observed in si
+Smmll-1 treated worms, similarly to what has been observed in
+H. sapiens
+ ,
+ . Moreover, SmMLL-1’s main enzymatic substrate could be non-histone proteins found in the cytoplasm as has been recently shown for other PKMT homologues
+ –
+ . Therefore, a more detailed investigation of siRNA-mediated changes in SmMLL-1’s epitope (e.g. lysine methylation) on both nuclear and cytoplasm fraction derived from si
+Smp_130830 treated parasites could be very informative in this regard. Nevertheless, it is clear from these functional genomics investigations that SmMLL-1 is involved in aspects of adult worm biology essential for mesenteric blood vessel positioning (attachment and coordinated movement) as well as lifecycle transmission (oviposition).
+To progress the identification of small, drug-like molecules capable of binding to and inhibiting the activity of SmMLL-1, iterative structure-based virtual screening (SBVS) was applied. In the field of neglected tropical diseases, this approach has been widely used by multiple academic and industrial groups in drug discovery and is becoming an essential tool for assisting rapid and cost-efficient lead discovery
+ . Successful applications of this approach for the discovery of novel anti-schistosomal agents include the identification of purine nucleoside phosphorylase-, tyrosine kinase-, 3-Oxoacyl-ACP reductase- and histone deacetylase- inhibitors
+ –
+ . For the work presented here on SmMLL-1, we focused on identifying compounds predicted to bind to the substrate-binding pocket over the cofactor-binding site since the former is usually less structurally conserved between functionally distinct proteins
+ .
+The putative inhibitors identified in this study were initially screened on schistosomula at 10 and 50 µM. The 10 µM concentration defines a cut-off value for the selection of hit compounds for further exploration in other lifecycle stages
+ , whereas the 50 µM screen was included to avoid the loss of chemical information for exploring SAR and/or medicinal chemical optimisation. Compound 7 and its structural analogues (second and third set) shared the same 1,3,5-triazine (also called
+s-triazine) core linked to a piperazine ring (Supplementary Figure 4,
+Extended data
+ ), which interestingly was also present in the anti-bilharzial drug Bilharcid
+ and the protein kinase (PK) inhibitor Imatinib
+ . The latter led to potent
+in vitro anti-schistosomal activity, which was lost
+in vivo likely due as a result of interaction with α-1-acid glycoprotein and serum albumin. Furthermore, a family of structural related derivatives (1,2,4-triazine) were also associated with anti-schistosomal activity
+ , although limited information is currently available related to mechanism of action.
+The different patterns of piperazine ring substitution facilitated compound groupings (18 chemical entries in total) into two subfamilies: the monosubstituted-piperazines (N-substituted, Supplementary Figure 4A,
+Extended data
+ ) and the disubstituted-piperazines ((N,N’)-disubstituted piperazine, Supplementary Figure 4B,
+Extended data
+ ). The biological (schistosomes and HepG2 cells) screening of these compounds led to the definition of some preliminary SAR. Firstly, the presence of at least an aromatic ring linked to the triazine core generally increased the potency of the compounds (17 vs 7 and 10 vs 22,
+ ). However, compounds containing a double aromatic ring substitution did not seem to be as active as compounds containing a mixed ring substitution (one aromatic ring and one aliphatic ring (8 vs 7 and 8 vs 22). Moreover, the introduction of a spacer (
+N-linker) between the triazine core and the aromatic ring negatively affected the activity of these chemicals (8 vs 12,
+ ).
+ Once the importance of an aromatic ring linked to the 1,3,5-triazine core was established, the correlation between anti-schistosomal activity and different ring substitutions in the second substitution was investigated. In summary, aliphatic rings containing heteroatoms (e.g. morpholine in 15 and piperazine in 24) were usually more active than the cyclohexyl ring (23,
+ ). The effect of alkyl substituents (a methyl group in this case, in orange
+ ) on the aromatic ring was investigated, leading to the conclusion that
+ortho-methyl substitution of the ring (14 vs 22 and 13 vs 8) reduced
+in vitro activity. However, the
+para-methyl substitution correlated with slightly improved activity (15). Moreover, compounds with a substitution of the piperazine ring (11, 21, 19 and 18,
+ ) showed activity only at high concentration (EC
+50 > 50 µM), with the exception being compound 20 (EC
+50 = 4.20 µM). Nevertheless, only a few compounds carrying a substitution on the piperazine ring were screened in this study, hence limited information is currently available to further inform and expand the preliminary SAR diagram of the compounds shown within this study (
+ ). It is noteworthy that all compounds investigated in this study have a nitrogen in positions 2 and 4 of the triazine ring either included in a ring (e.g. substitution with pyrrolidine, morpholine and piperidine) or as linker (i.e. an aryl amino substitution shown in magenta in
+ ). This observation leaves space for further exploration of this structural feature, which would provide more insight on the pharmacophore of this family of anti-schistosomal compounds.
+ Docking simulations (Supplementary Figure 5,
+Extended data
+ ) to explore the putative binding mode of the central scaffold (6-(piperazin-1-yl)-1,3,5-triazine core) of these compounds to SmMLL-1’s substrate binding pocket confirmed a good fit (Supplementary Figure 5A,
+Extended data
+ ). Here, the triazine core consistently occupied the entrance of the lysine channel (Supplementary Figure 5B,
+Extended data
+ ) and engaged in arene-arene interactions with aromatic residues of the target (generally Phe1476 of Motif II of the SET domain, Supplementary Figure 5C,
+Extended data
+ ). The piperazine ring fitted in the lysine channels pointing towards the SAH cofactor and engaged with Ile1473 (Motif II) by a hydrogen bond. The other two rings linked to the triazine core occupied two additional pockets of the substrate binding pocket and adopted different conformations according to the different substitutions found for each compound.
+The application of homology modelling and
+in silico virtual screening to this schistosome target resulted in the identification of novel anti-schistosomal compounds with a more favourable hit rate than what would be expected from a traditional high-throughput screening campaign
+ . The selection criteria based on the compound docking score (used for the identification of the first and second set of chemicals) allowed us to address preliminary parasite-host selectivity considerations. In fact, the first (1–7) and second (8–16) set of compounds (Supplementary Table 1 and 3, respectively, see
+Extended data
+ ) all showed potent anti-schistosomal activity (EC
+50 < 10 µM) and moderate to low cytotoxicity on HepG2 cells (CC
+50 > 10 µM,
+ ). Amongst the final set of compounds (17–24, Supplementary Table 5,
+Extended data
+ ), two of the four hits at 10 µM (compounds 24 and 23) showed the highest toxicity; this could be explained by a higher affinity of these chemicals to the human homologue (HsMLL3) over SmMLL-1, which was an exclusion factor used during the initial selection of compounds 1-16. However, a docking score-based approach has some limitations as we would have missed information on active compounds 20, 22, 23 and 24 with EC
+50 < 10 µM. To overcome this, we applied an integrative methodology in this study. Firstly, compounds were selected based on docking simulation scores (difference in schistosome vs host target binding) and, secondly, extended to the exploration of chemical space around the central anti-schistosomal hit scaffold. We felt this approach provided the most effective way of identifying putative SmMLL-1 inhibitors containing a 1,3,5-triazine core with a piperazine ring regardless of host cytotoxicity or docking software limitations (e.g. approximated scoring functions, which often provide computational results that do not correlate with experimental readouts)
+ ,
+ .
+With broad activity against miracidia, schistosomula and adults (aligned to
+smmll-1/
+smp_138030’s transcript abundance throughout the schistosome lifecycle
+ ), this compound class was equally effective in halting key transitions in schistosome development (
+ ,
+ ,
+ ,
+ and
+ ). A notable activity against adult worms was observed since both motility and egg production were both significantly impaired (
+ ,
+ and
+ ). These defects recapitulated the
+smmll-1 knockdown phenotypes (
+ ) and further validated SmMLL-1 as a molecular target of this compound class. However, we cannot rule out the possibility that the anti-parasitic activities of these compounds, at least in part, may have been due to inhibition of other SmHMTs or completely different targets within the parasite. As damage to the adult surface was observed during sub-lethal compound treatment (e.g. compound 7; Supplementary Figure 3,
+Extended data
+ ), but not observed during si
+smmll-1 RNAi studies, this hypothesis is currently under investigation.
+In summary, using a combination of drug-discovery approaches, we have identified a novel chemical scaffold (the 6-(piperazin-1-yl)-1,3,5-triazine) predicted to bind to SmMLL-1’s substrate binding pocket. Central features associated with this scaffold’s anti-schistosomal potency include both a triazine ring usually substituted with a combination of an aliphatic ring (or a heterocycle) and an aromatic ring (with a
+para rather than an
+ortho substitution). Further medicinal chemistry optimisation should be advanced to identify other aromatic ring/piperazine ring substitutions or different linkers connecting the triazine core to other portions of the molecule. By doing so, the progression of a chemical scaffold, not previously associated with anti-schistosomal activity, could lead to the development of a new therapeutic targeting a critical epigenetic enzyme.
+
+## Data availability
+
+## Underlying data
+Figshare: Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities – Underlying data.
+https://doi.org/10.6084/m9.figshare.12473108.v4
+ .
+This project contains the following underlying data:
+1. RNAi-mediated knockdown of smp_138030/smmll-1.xlsx
+2. Schistosomula drug screen of putative SmMLL-1 inhibitors.xlsx
+3. Adult worm drug screen of putative SmMLL-1 inhibitors.xlsx
+4. Anti-schistosomal activity of compound 7 structural analogues (set two).xlsx
+5. Anti-schistosomula activity of the remaining compound 7 analogues.xlsx
+6. Miracidia drug screen.xlsx
+7. Raw data for EC50 and CC50 calculation.xlsx
+8. Schistosomula titration of compound 7.xlsx
+9. SEM images.pptx
+10. Somula microscopy images (related to Fig 3).pptx
+11. Somula microscopy images (Supp Fig 2).pptx
+Data are available under the terms of the
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).
+
+## Extended data
+Figshare: Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities – Extended data.
+https://doi.org/10.6084/m9.figshare.12546449.v2
+ .
+This project contains the following extended data:
+Supplementary Table 1 (List of putative SmMLL-1 inhibitors (first set) identified by structure-based virtual screening)
+Supplementary Table 2 (Phenotype and motility Z´ values for both primary (single-point concentration) and secondary (titration) screens of compound set one)
+Supplementary Table 3 (List of compound 7 structural analogues (second set) identified as putative SmMLL-1 inhibitors by structure-based virtual screening)
+Supplementary Table 4 (Phenotype and motility Z´ values for both primary (single-point concentration) and secondary (titration) screens of compound set two)
+Supplementary Table 5 (List of remaining compound 7 analogues available in the Specs fragment-based library)
+Supplementary Table 6 (Phenotype and motility Z´ values for both primary (single-point concentration) and secondary (titration) screens of remaining compound 7 analogues available in the Specs fragment-based library)
+Supplementary Figure 1 (The homology model of SmMLL-1/Smp_138030 is of high quality according to three different metrics)
+Supplementary Figure 2 (Compound 7 demonstrates moderate anti-schistosomula potency)
+Supplementary Figure 3 (A sub-lethal concentration of compound 7 induces surface and tegumental alterations in adult schistosomes)
+Supplementary Figure 4 (Chemical structure and anti-schistosomal properties (EC
+50s) of the 18 compounds investigated in this study)
+Supplementary Figure 5 (Hypothetical binding mode of the compound 7 analogues to the predicted target SmMLL-1)
+Data are available under the terms of the
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).
+
+## Software availability
+Source code available from:
+https://bitbucket.org/gildagilda/git_wormassaygp2
+
+Archived source code at time of publication:
+https://doi.org/10.5281/zenodo.3929417
+ .
+License:
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).
+
+## Acknowledgments
+We thank the Welsh Government, Life Sciences Research Network Wales scheme for financially supporting this project. We thank past and current members of the Hoffmann group and Miss Julie Hirst for contributions to
+S. mansoni lifecycle maintenance. We thank Dr Giampaolo Pagliuca for the technical support provided during the implementation of WormAssayGP2. We also thank Mr Alan Cookson and Dr Susan Girdwood from IBERS Advanced Microscopy and Bioimaging Suite for the help and supervision during the sample preparation for SEM.
+
+## Funding Statement
+This work was supported by the Wellcome Trust [107475; to KFH].
+The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+[version 2; peer review: 3 approved]
+
+## References
+ 
+
+Wellcome Open ResearchWellcome Open Res10.21956/wellcomeopenres.18029.r41424Reviewer response for version 2
+RubertiGiovinaReferee 
+1National Research Council, Institute of Biochemistry and Cell Biology, Rome, Italy
+Competing interests: No competing interests were disclosed.
+23122020Copyright: © 2020 Ruberti GThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+The authors have satisfactorily responded to all my questions.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Partly
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+NA
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+Wellcome Open ResearchWellcome Open Res10.21956/wellcomeopenres.18029.r41422Reviewer response for version 2
+WilliamsDavidReferee 
+1Department of Microbial Pathogens and Immunity, Rush University Medical Center, Chicago, IL, USA
+Competing interests: No competing interests were disclosed.
+24112020Copyright: © 2020 Williams DThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+The authors addressed all of my comments on the version reviewed.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Partly
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Molecular parasitology, host-parasite interactions, drug development.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+Wellcome Open ResearchWellcome Open Res10.21956/wellcomeopenres.18029.r41423Reviewer response for version 2
+MieleAdriana EricaReferee 
+1Institute of Chemistry, Molecular and Supramolecular Biochemistry(ICBMS), UMR 5246 CNRS - UCBL, University of Lyon, Lyon, France
+2Dept. Biochemical Sciences, Sapienza University of Rome, Rome, Italy
+Competing interests: No competing interests were disclosed.
+16112020Copyright: © 2020 Miele AEThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+The authors have replied to the comments and modified the manuscript accordingly.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Molecular parasitology, host-parasite interactions, structural biochemistry.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+Wellcome Open ResearchWellcome Open Res10.21956/wellcomeopenres.17631.r39614Reviewer response for version 1
+RubertiGiovinaReferee 
+1National Research Council, Institute of Biochemistry and Cell Biology, Rome, Italy
+Competing interests: No competing interests were disclosed.
+2882020Copyright: © 2020 Ruberti GThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved with Reservations.
+
+Padalino
+et al. used a multidisciplinary approach (functional genomics, molecular modeling and efficacy studies on different developmental stages of
+S. mansoni) for the discovery of novel targets and drugs for the treatment of schistosomiasis. Schistosomiasis is a neglected tropical parasitic disease affecting more than 200 million people in the poorest regions of the world. Today, the treatment and most control initiatives for schistosomiasis rely on a single drug, praziquantel (PZQ) that has high efficacy, few and transient side effects, competitive cost. However, while very active on adult parasites, PZQ is poorly effective against juvenile worms both
+in vitro and
+in vivo. Moreover, the constant and massive use of a single drug has raised concerns about the possibility of emerging drug resistance. Therefore, the discovery of new drug targets and compounds is required. Targeting the epigenome has emerged as a new strategy for the treatment of parasitic diseases including schistosomiasis.
+ The present study identifies a novel potentially relevant drug target, a histone methyl transferase (HMT), SmMML-1 in
+Schistosoma mansoni. Moreover, new multi-stage active compounds were identified and characterized.
+ Overall the work is well written, the study is well hypothesized, designed and executed. The results support the majority of the conclusions. Unfortunately, it is not clear at this stage whether the novel compounds are acting on the MLL-1 homologue in
+S. mansoni. I think the following suggestions could help you to address this open issue.
+
+Smp_138030 was characterized as the closest homologue of the human mixed lineage leukemia (MLL) HMT. Silencing of Smp_138030 (60%) resulted in motility and egg production defects in adult worms; however, no statistically significant change of H3K4 methylation was detected in knockdown parasites. This finding suggests that the MLL-1 homologue in
+S. mansoni might target different enzymatic substrates and/or that silencing of other HMT genes is required to impair H3K4 methylation in
+S. mansoni.
+ Gene expression studies of siLuc and siSmp_138030 parasites could lead to the identification of a SmMLL-1-associated signature. In turn this signature could be compared with the one derived from compound 7 and compound 7 analogs-treated parasites in order to support the hypothesis that the novel compounds are targeting SmMLL-1;
+Viability assays and phenotyping studies could be performed in siLuc and siSmp_138030 parasites treated with sub-lethal or lethal doses of compound 7. Differences in the gene-silenced compound-treated parasites could support the hypothesis that the novel schistosomicidal compound is targeting SmMLL-1;
+H3K4 methylation should be also investigated in parasites treated with compound 7 and/or its structural analogues;
+H3K4 methylation could be investigated in mammalian cells treated with compound 7 and/or its structural analogues in order to support the HMT inhibitory activity of the novel compounds.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Partly
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Biology of Schistosoma mansoni, drugs and targets discovery.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+Wellcome Open ResearchWellcome Open ResPadalinoGilda 1Aberystwyth University, UK
+Competing interests: No competing interests were disclosed.
+15102020
+We thank the Reviewer very much for the detailed and constructive comments on our manuscript entitled: “Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities”, submitted to
+Wellcome Open Research. 
+
+Reviewer #3 Comments:
+
+Padalino et al. used a multidisciplinary approach (functional genomics, molecular modeling and efficacy studies on different developmental stages of S. mansoni) for the discovery of novel targets and drugs for the treatment of schistosomiasis. Schistosomiasis is a neglected tropical parasitic disease affecting more than 200 million people in the poorest regions of the world. Today, the treatment and most control initiatives for schistosomiasis rely on a single drug, praziquantel (PZQ) that has high efficacy, few and transient side effects, competitive cost. However, while very active on adult parasites, PZQ is poorly effective against juvenile worms both in vitro and in vivo. Moreover, the constant and massive use of a single drug has raised concerns about the possibility of emerging drug resistance. Therefore, the discovery of new drug targets and compounds is required. Targeting the epigenome has emerged as a new strategy for the treatment of parasitic diseases including schistosomiasis.
+The present study identifies a novel potentially relevant drug target, a histone methyl transferase (HMT), SmMML-1 in Schistosoma mansoni. Moreover, new multi-stage active compounds were identified and characterized.
+
+Comment: Overall the work is well written, the study is well hypothesized, designed and executed. The results support the majority of the conclusions. Unfortunately, it is not clear at this stage whether the novel compounds are acting on the MLL-1 homologue in S. mansoni. I think the following suggestions could help you to address this open issue.
+ 
+
+Smp_138030 was characterized as the closest homologue of the human mixed lineage leukemia (MLL) HMT. Silencing of Smp_138030 (60%) resulted in motility and egg production defects in adult worms; however, no statistically significant change of H3K4 methylation was detected in knockdown parasites. This finding suggests that the MLL-1 homologue in S. mansoni might target different enzymatic substrates and/or that silencing of other HMT genes is required to impair H3K4 methylation in S. mansoni.
+  
+
+Response: Please see our response to Reviewer 2’s almost identical query.
+Bioinformatic characterisation of
+S. mansoni genome identified three different genes encoding schistosome proteins containing MLL-specific domains (Smp_138030, Smp_144180 and Smp_070170) (Ref:
+doi.org/10.1016/j.ijpddr.2018.10.005).
+The human MLL family includes five protein members, which are involved in mono-, di-, and trimethylation of H3K4 (Ref: doi.org/10.17554/j.issn.2313-5611.2015.01.17). However, the catalytic specificity of each human MLL homologue is currently unclear (Ref:
+doi.org/10.7554/eLife.01503.001). Similarly, we can’t exclude a functional redundancy in the histone code since the same epitope (e.g. the methylation of a specific amino acid residue) can be introduced by several components of the histone methylation machinery in the parasite.
+Thus, it can be concluded that methylation activity in siSmp_138030 treated worms (60% knockdown) can be compensated for by other components of the schistosome methylation machinery (such as Smp_070170 and Smp_144180) leading to only a slight demethylation effect (9% decrease in global H3K4 methylation).  We have postulated this in our discussion.
+ We also can’t exclude that siRNA-mediated silencing of the other two members of the MLL family (individually or in combination with Smp_138030) would result in a stronger phenotype. An ongoing project is looking into this by assessing the phenotypes of worms treated with siRNAs directed against all three MLL homologs.  
+
+Gene expression studies of siLuc and siSmp_138030 parasites could lead to the identification of a SmMLL-1-associated signature. In turn this signature could be compared with the one derived from compound 7 and compound 7 analogs-treated parasites in order to support the hypothesis that the novel compounds are targeting SmMLL-1;
+     
+
+Viability assays and phenotyping studies could be performed in siLuc and siSmp_138030 parasites treated with sub-lethal or lethal doses of compound 7. Differences in the gene-silenced compound-treated parasites could support the hypothesis that the novel schistosomicidal compound is targeting SmMLL-1;
+     
+
+H3K4 methylation should be also investigated in parasites treated with compound 7 and/or its structural analogues;
+  
+
+Response: We understand the importance of investigating the methylation status of inhibitor-treated worms to likely confirm the mechanism of action of these compounds.
+Therefore, we are planning to perform this additional experiment with compound 7 and/or one of the most active compounds presented in this study. Once we have collected experimental data in this regard, we’ll include them in an new version of the manuscript.
+
+H3K4 methylation could be investigated in mammalian cells treated with compound 7 and/or its structural analogues in order to support the HMT inhibitory activity of the novel compounds.
+   
+We would like to thank the Reviewer and the Editorial Team very much for their detailed and very constructive comments, which have helped us to improve our manuscript. We hope that this point-by-point response could clarify the open questions and that our suggested revisions are clear and convincing. We are, of course, happy to discuss any further open issues.
+Kind regards,
+Gilda Padalino (on behalf of the authors)
+Wellcome Open ResearchWellcome Open Res10.21956/wellcomeopenres.17631.r39616Reviewer response for version 1
+WilliamsDavidReferee 
+1Department of Microbial Pathogens and Immunity, Rush University Medical Center, Chicago, IL, USA
+Competing interests: No competing interests were disclosed.
+1782020Copyright: © 2020 Williams DThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved with Reservations.
+
+This study focuses on drug discovery for schistosomiasis, a neglected tropical disease affecting 200,000,000 people. Treatment options are limited to a single drug, which has poor activity against some stages of worm development. The evolution of drug resistance is highly likely, with no alternative compounds for treatment. The topic is of great value to human health.
+ Recent efforts to identify new drugs for schistosomiasis have identified epigenetic targets. The present study identifies and characterizes a new epigenetic target, a histone methyl transferase in
+Schistosoma mansoni. Functional genomic approaches were used to validate druggability of the target. Molecular modeling was used to identify potential compounds binding to the protein. Selected compounds were purchased and tested for anti-schistosome activities. Results guided the selection of analogs for further studies. The paper is well written and the data is clearly presented. The results support the conclusions for the most part.
+ Determination of specificity of action (Table 3) is not based on an equivalent analysis of activity in schistosomes and mammalian cells; different end-points were measured and a comparison is not useful. Worms and somula were incubated for 72 hr with compound, then phenotypic analysis was done. HepG2 cells were cultured for either 24 hr or 20 hr (which one?) with compound, then viability assessed by MTT. Since different parameters are measured it is not possible to conclude that the inhibitors are worm selective.
+ Assay quantifying methylation on histone H3, lysine 4 (H3K4) was performed on adult worm histone protein extracts. These assays revealed that smp_138030 knockdown resulted in a not statistically significant change of H3K4 methylation. A 60% reduction in mRNA abundance resulted in no change in methylation. Was methylation status of inhibitor-treated worms assessed? This would show that compound anti-worm activity was through inhibition of SmMLL-1 and not off target effects. Evidence that the compounds function through inhibition of SmMLL-1 is lacking.
+ How many MLL paralogues are present in schistosomes? What is their identity? If this family of proteins is targeted, do all need to be silenced/inhibited to see a strong phenotype?
+ A discussion of known MLL-1 inhibitors with comparison to the new inhibitors identified would be useful. Why were known MLL-1 inhibitors not investigated?
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Partly
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Molecular parasitology, host-parasite interactions, drug development.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+Wellcome Open ResearchWellcome Open ResPadalinoGilda 1Aberystwyth University, UK
+Competing interests: No competing interests were disclosed.
+15102020
+We thank the Reviewer very much for the detailed and constructive comments on our manuscript entitled: “Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities”, submitted to
+Wellcome Open Research. 
+
+Reviewer #2 Comments:
+
+ This study focuses on drug discovery for schistosomiasis, a neglected tropical disease affecting 200,000,000 people. Treatment options are limited to a single drug, which has poor activity against some stages of worm development. The evolution of drug resistance is highly likely, with no alternative compounds for treatment. The topic is of great value to human health.
+ Recent efforts to identify new drugs for schistosomiasis have identified epigenetic targets. The present study identifies and characterizes a new epigenetic target, a histone methyl transferase in Schistosoma mansoni. Functional genomic approaches were used to validate druggability of the target. Molecular modeling was used to identify potential compounds binding to the protein. Selected compounds were purchased and tested for anti-schistosome activities. Results guided the selection of analogs for further studies. The paper is well written and the data is clearly presented. The results support the conclusions for the most part.
+
+Comment: Determination of specificity of action (Table 3) is not based on an equivalent analysis of activity in schistosomes and mammalian cells; different end-points were measured and a comparison is not useful. Worms and somula were incubated for 72 hr with compound, then phenotypic analysis was done. HepG2 cells were cultured for either 24 hr or 20 hr (which one?) with compound, then viability assessed by MTT. Since different parameters are measured it is not possible to conclude that the inhibitors are worm selective.
+
+Response: Cells were incubated for 20 h with the compound prior application of MTT reagent. After 4 h incubation (24 h drug-cell incubation in total), the absorbance reading at 570 nm was measured with a POLARstar Omega. The methodology has been updated accordingly.
+ Our rationale for choosing a 24 h window for HepG2 cytotoxicity estimations is based on two reasons. The first reason originates from the literature (
+Ref: doi.org/10.1371/journal.pone.0177902). Here, as part of the U.S. Tox21 screening program, HepG2 cytotoxicity of 10K chemicals was investigated at 0, 8, 16, 24, 32, and 40 h of exposure in a concentration dependent fashion. The results of these screens indicated that maximal HepG2 cytotoxicity (measuring metabolic activity, which is how we measured cytotoxicity in our study) of active compounds was found before 24 hours in 91% of the assays. This large-scale cytotoxicity screen indicated to us that an appropriate window for testing this library of compounds on a uniform monolayer of HepG2 cells was 24 (O/N) h. We have now included this reference in the Methods section to provide further justification of the 24 h interval. 
+ The second reason relates to the nature of the biological material we are comparatively testing in our
+in vitro assays. In comparison to a monolayer of HepG2 cells, schistosomes (schistosomula and adult worms) are much larger, multi-cellular, multi-tissue organisms covered by a heptalaminate membrane. We reasoned that compound-induced anthelmintic activities would take longer to develop in these metazoan organisms when compared to the HepG2 cells. This is the rationale for quantifying anti-schistosome phenotype and motility metrics at 72 h. 
+ Above all, the point raised by the reviewer is understandable, so we agreed to remove the selectivity index column from Table 3 and believe this won’t affect the major findings reported in the manuscript. We also amended the results section related to the cytotoxicity.
+
+Comment: Assay quantifying methylation on histone H3, lysine 4 (H3K4) was performed on adult worm histone protein extracts. These assays revealed that smp_138030 knockdown resulted in a not statistically significant change of H3K4 methylation. A 60% reduction in mRNA abundance resulted in no change in methylation. Was methylation status of inhibitor-treated worms assessed? This would show that compound anti-worm activity was through inhibition of SmMLL-1 and not off target effects. Evidence that the compounds function through inhibition of SmMLL-1 is lacking.
+
+Response: This comment correctly highlights how the investigation of the methylation status of inhibitor-treated worms could confirm the mechanism of action of these compounds.
+ We haven’t planned this experiment because we wanted firstly to see if a greater knockdown of Smp_138030 would result in a more significant change of H3K4 methylation and secondly assess the presence of a compensatory effect caused by other members of the MLL family (see comment below).
+ Nevertheless, we are planning to perform this additional experiment with compound 7 and/or one of the most active compounds presented in this study. The results will then be included in a new version of the manuscript.
+
+Comment: How many MLL paralogues are present in schistosomes? What is their identity? If this family of proteins is targeted, do all need to be silenced/inhibited to see a strong phenotype?
+
+Response: Bioinformatic characterisation of
+S. mansoni genome identified three different genes encoding schistosome proteins containing MLL-specific domains (Smp_138030, Smp_144180 and Smp_070170) (Ref:
+doi.org/10.1016/j.ijpddr.2018.10.005).
+ The human MLL family includes five protein members, which are involved in mono-, di-, and trimethylation of H3K4 (Ref: doi.org/10.17554/j.issn.2313-5611.2015.01.17). However, the catalytic specificity of each human MLL homologue is currently unclear (Ref:
+doi.org/10.7554/eLife.01503.001). Similarly, we can’t exclude a functional redundancy in the histone code since the same epitope (e.g. the methylation of a specific amino acid residue) can be introduced by several components of the histone methylation machinery in the parasite.
+ Thus, it can be concluded that methylation activity in siSmp_138030 treated worms (60% knockdown) can be compensated for by other components of the schistosome methylation machinery (such as Smp_070170 and Smp_144180) leading to only a slight demethylation effect (9% decrease in global H3K4 methylation).  We have postulated this in our discussion.
+ We also can’t exclude that siRNA-mediated silencing of the other two members of the MLL family (individually or in combination with Smp_138030) would result in a stronger phenotype. An ongoing project is looking into this by assessing the phenotypes of worms treated with siRNAs directed against all three MLL homologs.  
+   
+
+Comment: A discussion of known MLL-1 inhibitors with comparison to the new inhibitors identified would be useful. Why were known MLL-1 inhibitors not investigated?
+
+Response: Pharmacological targeting of HsMLL substrate or cofactor binding pockets has so far been unsuccessful (Ref:
+doi.org/10.1002/pro.3129). The main drug discovery efforts around this target have focused on small molecules disrupting chromatin complexes (Ref:
+doi.org/10.1016/j.chembiol.2016.07.014 and
+doi.org/10.1002/pro.3129). For instance, HsMLL binds via its N terminus to Menin and via its C terminus to WDR5, two molecular scaffolds coordinating the functions of multiple proteins.
+ We have investigated the activity of two commercially available chemical probes: MI-1 (SML0537, Sigma) and OICR-9429 (kindly provided by Structure Genomics Consortium -
+https://www.thesgc.org/chemical-probes/OICR-9429). The first probe targets the MLL-binding domain of Menin and effectively disrupts the Menin-MLL interaction (Ref:
+doi.org/10.1038/nchembio.773); the second targets the MLL-binding domain of WDR5, disrupting the WDR5-MLL interaction (Ref:
+doi.org/10.1038/nchembio.1859).
+ These two compounds were screened on schistosomula at 10 µM (Figure A) and only MI-1 was identified as hit. A subsequent titration of this compound (Figure B) didn’t show a strong anti-schistosomal activity (EC
+50 of 3.97 and 2.03 µM for phenotype and motility, respectively – Figure B).
+
+Figure A - Mechanically-transformed schistosomula (n = 120) were incubated with the selected compounds (10 µM of MI-1 and OICR-9429 in 0.625% DMSO; each of them in duplicate) for 72 h at 37°C in a humidified atmosphere containing 5% CO
+2. Three independent screens (each including two technical replicates) were performed for each compound. Phenotype and motility Z´ values for each screen are summarized in the following
+table. Compounds with activity on both schistosomula phenotype and motility are shown within the hit zone (delineated by the dotted red lines in the graph).
+
+Figure B - Dose-response titration (10, 5, 2.5, 1.25 and 0.625 µM) of MI-1 on mechanically-transformed schistosomula looking at both phenotype (P) and motility (M) scores. Three independent dose response titrations were performed, and each compound concentration was evaluated in duplicate. One of three replicate screens is shown here (barcode 0359). The dotted red line identifies the hit zone.
+ We haven’t included these results in the manuscript because their mechanism of action is quite different to the putative mechanism of action of molecules described in this study.  Therefore, their different anti-schistosomal results cannot be directly compared.
+ We would like to thank the Reviewer and the Editorial Team very much for their detailed and very constructive comments, which have helped us to improve our manuscript. We hope that this point-by-point response could clarify the open questions and that our suggested revisions are clear and convincing. We are, of course, happy to discuss any further open issues.
+ Kind regards,
+ Gilda Padalino (on behalf of the authors)
+Wellcome Open ResearchWellcome Open Res10.21956/wellcomeopenres.17631.r39615Reviewer response for version 1
+MieleAdriana EricaReferee 
+1Institute of Chemistry, Molecular and Supramolecular Biochemistry(ICBMS), UMR 5246 CNRS - UCBL, University of Lyon, Lyon, France
+2Dept. Biochemical Sciences, Sapienza University of Rome, Rome, Italy
+Competing interests: No competing interests were disclosed.
+2372020Copyright: © 2020 Miele AEThis is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Recommendation: Approved.
+
+The manuscript by Padalino and co-Authors presents a complete process of lead discovery, from target validation to virtual screening, from high content screening against different life stages of
+Schisotoma mansoni parasites to preliminary SAR and selectivity tests to guide in lead choice and optimization. The results on the new scaffold, based on a piperazine ring connected to a 1,3,5-triazine core, are indeed very promising. The optimised leads built from compound 7 represent good expectations in the quest for new drugs against schistosomiasis.
+ All the data are very well explained and all the methods are clearly presented, either in the manuscript or in the numerous supplementary files.
+ One curiosity on the bioinformatics tools/software used: it is true that many programmes nowadays are available to perform both homology modelling and ligand docking, but which is the point to give only one alternative in the manuscript? I refer to the sentence at p.4 paragraph 3 "Modeller could be a valid alternative"; a similar sentence at p. 5 paragraphs 3 and 4 and in Figure 1 "AutoDock could alternatively be used .."
+ If Authors have used only one programme (MOE and Glide) for each purpose and for any good reason, why give only one alternative? There are many others out there.
+ On the other hand, if the Authors have used both programmes (MOE and Modeller; Glide and AutoDock), then it could be wise to give a comparison of the results based on the two softwares.
+ The rationale of the research project is clear and the manuscript reads easily, without the need to go back and forth to the supplementary files, unless for an in depth examination and thorough understanding.
+ A few minor comments/suggestions:
+
+In the keywords Authors might add MLL, unless there is a limit given in the journal's instructions;
+p. 4 column 1 line 1: there is a typo in  "
+ad libitum";
+p. 4 column 1 lines 7 and 11: the buffer used is PBS. 1x does not mean anything, unless you give the recipe
+p. 4 column 1, paragraph 2 line 1: "double saline solution" instead of 2x saline;
+p. 4 column 1 "Homology modelling". Does 58% sequence similarity between human and schistosoma MLL refer to the SET domain alone? In that case, please use both PDB ID and chain ID (here 5F6K:C);
+p. 5 SBVS framework: why have the Authors used the OPLS_2005 force field instead of the newest OPLS3?
+Figure 1 panel C legend:
+“Same orientation as in B, but highlighting the structural motifs I to IV in black.” instead of “Schematic representation of Smp_138030’s domain architecture with indication of the different motifs (black regions on the protein represented as green ribbon)”.
+The yellow ribbon is “peptide form histone H3”, not “histone protein”.
+Figure 2 legend: a space is missing between “indicated.All siRNA”
+Figure 2
+vs Fig. 4,5,7: why the p-values of figure 2 are different from those of the other figures? Are the cut-off different? Moreover the ** value is missing in figure 2.
+Figure 4B: for clarity it would be better to present the data from 0 to 50 and then a broken y axis line and start again from 300 to 400, so that the tiny differences between PZQ and compound 7 could be highlighted.
+Figure 5 legend: were the measurements done in duplicate or in triplicate?
+Table 3: SI for compound 20 is >24, not ND
+Figure 6: the title of this figure should be the same as that of Figure 5 with the exception of Set 3. The present title is misleading → it cites schistosomula and then presents the egg counts.
+Figure 6C and 6D
+vs 4B and 5D: why are the DMSO egg counts at 150 (6C,D) instead of 300 (4B,5D)?
+Figure 7: p-values are missing in the legend.
+p. 13 column 2 “Discussion”: please use “Therefore” instead of “Because of this realisation”
+p. 14 column 2 line 4: insert a “,” between “maintenance” and “including”
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Molecular parasitology, host-parasite interactions, structural biochemistry
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+Wellcome Open ResearchWellcome Open ResPadalinoGilda 1Aberystwyth University, UK
+Competing interests: No competing interests were disclosed.
+15102020
+We thank the Reviewer very much for the detailed and constructive comments on our manuscript entitled: “Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities”, submitted to
+Wellcome Open Research. 
+
+Reviewer #1 Comments:
+
+The manuscript by Padalino and co-Authors presents a complete process of lead discovery, from target validation to virtual screening, from high content screening against different life stages of Schisotoma mansoni parasites to preliminary SAR and selectivity tests to guide in lead choice and optimization. The results on the new scaffold, based on a piperazine ring connected to a 1,3,5-triazine core, are indeed very promising. The optimised leads built from compound 7 represent good expectations in the quest for new drugs against schistosomiasis.
+All the data are very well explained and all the methods are clearly presented, either in the manuscript or in the numerous supplementary files.
+
+Comment: One curiosity on the bioinformatics tools/software used: it is true that many programmes nowadays are available to perform both homology modelling and ligand docking, but which is the point to give only one alternative in the manuscript? I refer to the sentence at p.4 paragraph 3 "Modeller could be a valid alternative"; a similar sentence at p. 5 paragraphs 3 and 4 and in Figure 1 "AutoDock could alternatively be used .."
+If Authors have used only one programme (MOE and Glide) for each purpose and for any good reason, why give only one alternative? There are many others out there.
+
+Response: During this study, MOE and Schrödinger (including Glide) were used for the homology modelling and the
+in silico virtual screen, respectively. However, these are licence managed software packages and, upon request of Wellcome Open Research’s editorial team, we were encouraged to suggest at least one freely available alternative that readers/referees could use to replicate our study.
+
+Comment: On the other hand, if the Authors have used both programmes (MOE and Modeller; Glide and AutoDock), then it could be wise to give a comparison of the results based on the two softwares.
+
+Response: As mentioned above, only one software was used for each task so we can’t provide a comparison of results as requested.
+
+Comment: The rationale of the research project is clear and the manuscript reads easily, without the need to go back and forth to the supplementary files, unless for an in depth examination and thorough understanding.
+A few minor comments/suggestions:
+
+Comment: In the keywords Authors might add MLL, unless there is a limit given in the journal's instructions;
+
+Response: The selection of the keywords was done during the submission process and we are not sure if this can be changed now. If so, we’ll update the list with ‘MLL’ as keyword.
+
+Comment: p. 4 column 1 line 1: there is a typo in  "ad libitum";
+
+Response: We have made corrections as suggested.
+
+Comment: p. 4 column 1 lines 7 and 11: the buffer used is PBS. 1x does not mean anything, unless you give the recipe
+
+Response: Detailed description of buffer composition was included in the manuscript.
+
+Comment: p. 4 column 1, paragraph 2 line 1: "double saline solution" instead of 2x saline;
+
+Response: We have made corrections as suggested.
+
+Comment: p. 4 column 1 "Homology modelling". Does 58% sequence similarity between human and schistosoma MLL refer to the SET domain alone? In that case, please use both PDB ID and chain ID (here 5F6K:C);
+
+Response: We have made corrections as suggested.
+    
+
+Comment: p. 5 SBVS framework: why have the Authors used the OPLS_2005 force field instead of the newest OPLS3?
+
+Response: The licence we have used only allowed us to apply the OPLS_2005 force field rather than the newest one.
+
+Comment: Figure 1 panel C legend: “Same orientation as in B, but highlighting the structural motifs I to IV in black.” instead of “Schematic representation of Smp_138030’s domain architecture with indication of the different motifs (black regions on the protein represented as green ribbon)”.
+
+Response: We have made corrections as suggested.
+
+Comment: The yellow ribbon is “peptide form histone H3”, not “histone protein”.
+
+Response: We replaced the expression “histone protein” with “peptide from histone H3” as a more appropriate description.
+    
+
+Comment: Figure 2 legend: a space is missing between “indicated.All siRNA”
+
+Response: This is probably a layout-related issue. A space is correctly present in the manuscript.
+    
+
+Comment: Figure 2 vs Fig. 4,5,7: why the p-values of figure 2 are different from those of the other figures? Are the cut-off different? Moreover the ** value is missing in figure 2.
+
+Response: The
+p values illustrated in Figure 2 are derived from the Student’s two tailed
+ t test, unequal variance - Mann-Whitney U-test. On the other hand, a different test was used for the data presented in Figure 4, 5 and 7.  Here, a Kruskal-Wallis ANOVA followed by Dunn’s multiple comparisons test was used; hence, the statistical significance values are differently presented.
+ ** value was included in the updated version of the manuscript.
+    
+
+Comment: Figure 4B: for clarity it would be better to present the data from 0 to 50 and then a broken y axis line and start again from 300 to 400, so that the tiny differences between PZQ and compound 7 could be highlighted.
+
+Response: This is a good suggestion, however, there was complete inhibition of egg production after treatment with compound 7 (all concentrations tested except for 6.25 uM) and no eggs were recovered from the positive control (PZQ).
+    
+
+Comment: Figure 5 legend: were the measurements done in duplicate or in triplicate?
+
+Response: As indicated in the Figure legend, Panel A and Panel B measurements were performed in duplicate.  Measurements in Panels C and D were conducted in duplicate during two independent screens (4 measurements in total).
+    
+
+Comment: Table 3: SI for compound 20 is >24, not ND
+
+Response: Based on Reviewer#2’s comments, we have decided to remove the SI column from Table 3.
+    
+
+Comment: Figure 6: the title of this figure should be the same as that of Figure 5 with the exception of Set 3. The present title is misleading → it cites schistosomula and then presents the egg counts.
+
+Response: This is a good suggestion. We have updated the title using the expression “Anti-schistosomal activity”, which should cover all the different results presented in the figure and to avoid repeating the same title of Figure 5.
+    
+
+Comment: Figure 6C and 6D vs 4B and 5D: why are the DMSO egg counts at 150 (6C,D) instead of 300 (4B,5D)?
+
+Response: The egg count data for the negative control DMSO is different because the number of worm pairs used for the experiment was different. For Figures 4 and 5, three worm pairs were used for each condition, so the egg counts in the DMSO control are in the range of 300 eggs. For Figure 6, only one pair worm was used so the DMSO control has fewer eggs (~150). Figure 4, 5 and 6 legends were updated accordingly. The methodology was updated as well.
+    
+
+Comment: Figure 7: p-values are missing in the legend.
+
+Response: To avoid repetition, we refer to Figure 4 for the statistical analysis information as the same approach was used (Kruskal-Wallis ANOVA followed by Dunn’s multiple comparisons test) and the p-values are as indicated in Figure 4’s legend. However, as suggested, the figure legend was updated to incorporate the specific
+p values accordingly.
+    
+
+Comment: p. 13 column 2 “Discussion”: please use “Therefore” instead of “Because of this realisation”
+
+Response: We have made corrections as suggested
+
+Comment: p. 14 column 2 line 4: insert a “,” between “maintenance” and “including”
+
+Response: We have made corrections as suggested 
+We would like to thank the Reviewer and the Editorial Team very much for their detailed and very constructive comments, which have helped us to improve our manuscript. We hope that this point-by-point response could clarify the open questions and that our suggested revisions are clear and convincing. We are, of course, happy to discuss any further open issues.
+Kind regards,
+Gilda Padalino (on behalf of the authors)
+Associated Data
+
+## Data Citations
+ 
+
+## Data Availability Statement
+
+## Underlying data
+Figshare: Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities – Underlying data.
+https://doi.org/10.6084/m9.figshare.12473108.v4
+ .
+This project contains the following underlying data:
+1. RNAi-mediated knockdown of smp_138030/smmll-1.xlsx
+2. Schistosomula drug screen of putative SmMLL-1 inhibitors.xlsx
+3. Adult worm drug screen of putative SmMLL-1 inhibitors.xlsx
+4. Anti-schistosomal activity of compound 7 structural analogues (set two).xlsx
+5. Anti-schistosomula activity of the remaining compound 7 analogues.xlsx
+6. Miracidia drug screen.xlsx
+7. Raw data for EC50 and CC50 calculation.xlsx
+8. Schistosomula titration of compound 7.xlsx
+9. SEM images.pptx
+10. Somula microscopy images (related to Fig 3).pptx
+11. Somula microscopy images (Supp Fig 2).pptx
+Data are available under the terms of the
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).
+
+## Extended data
+Figshare: Identification of 6-(piperazin-1-yl)-1,3,5-triazine as a chemical scaffold with broad anti-schistosomal activities – Extended data.
+https://doi.org/10.6084/m9.figshare.12546449.v2
+ .
+This project contains the following extended data:
+Supplementary Table 1 (List of putative SmMLL-1 inhibitors (first set) identified by structure-based virtual screening)
+Supplementary Table 2 (Phenotype and motility Z´ values for both primary (single-point concentration) and secondary (titration) screens of compound set one)
+Supplementary Table 3 (List of compound 7 structural analogues (second set) identified as putative SmMLL-1 inhibitors by structure-based virtual screening)
+Supplementary Table 4 (Phenotype and motility Z´ values for both primary (single-point concentration) and secondary (titration) screens of compound set two)
+Supplementary Table 5 (List of remaining compound 7 analogues available in the Specs fragment-based library)
+Supplementary Table 6 (Phenotype and motility Z´ values for both primary (single-point concentration) and secondary (titration) screens of remaining compound 7 analogues available in the Specs fragment-based library)
+Supplementary Figure 1 (The homology model of SmMLL-1/Smp_138030 is of high quality according to three different metrics)
+Supplementary Figure 2 (Compound 7 demonstrates moderate anti-schistosomula potency)
+Supplementary Figure 3 (A sub-lethal concentration of compound 7 induces surface and tegumental alterations in adult schistosomes)
+Supplementary Figure 4 (Chemical structure and anti-schistosomal properties (EC
+50s) of the 18 compounds investigated in this study)
+Supplementary Figure 5 (Hypothetical binding mode of the compound 7 analogues to the predicted target SmMLL-1)
+Data are available under the terms of the
+Creative Commons Attribution 4.0 International license (CC-BY 4.0).

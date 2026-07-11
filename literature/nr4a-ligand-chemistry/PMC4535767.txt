@@ -1,0 +1,114 @@
+PLoS OnePLoS ONE440plosoneplosPLoS ONE1932-6203PLOSPMC4535767PMC4535767.1453576745357672627048610.1371/journal.pone.0135246PONE-D-15-207581Research Article
+In Silico Adoption of an Orphan Nuclear Receptor NR4A1
+NR4A1LanigHarald ReisenFelix WhitleyDavid SchneiderGisbert BantingLee ClarkTimothy 
+1
+Computer-Chemie-Centrum der Friedrich-Alexander-Universität Erlangen-Nürnberg, Nägelsbachstraße 25, 91052, Erlangen, Germany
+
+2
+ETH Zürich, Institute of Pharmaceutical Sciences, Wolfgang-Pauli-Straße 10, 8093, Zürich, Switzerland
+
+3
+Centre for Molecular Design, School of Pharmacy and Biomolecular Sciences, University of Portsmouth, King Henry Building, Portsmouth, PO1 2DY, United Kingdom
+
+4
+School of Pharmacy and Biomolecular Sciences, University of Portsmouth, St. Michael’s Building, White Swan Road, Portsmouth, PO1 2DT, United Kingdom
+AgoulnikIrina UEditor – ] the two-state allosteric model, [ ] the pre-equilibrium model, [ ] or the “new view” of allosteric binding. [ – ] Cui and Karplus [ ] have pointed out the importance of molecular-dynamics (MD) simulations in this picture. Indeed, apart from “slow” spectroscopic techniques such as NMR-spectroscopy and technically difficult trapping experiments, [ ] MD simulations represent one of the very few tools able to provide a detailed description of protein dynamics in solution.
+This dynamic view suggests that the accessible conformations of the protein can be characterized in MD simulations of a ligand-free protein provided (a) the force field used is accurate enough and (b) the time scale of the conformational inter-conversion is short enough to be accessible to MD simulations. Modern protein force fields, such as ff99SB [ ] used here, represent years of development that have made them capable of reproducing biological conformations accurately and reliably. There is now ample indication in the literature that simulations of 100 ns and longer can reveal competing allosteric conformations. [ – ] A timely review of protein flexibility and function has recently appeared. [ ]
+Here we report an extensive MD and cheminformatics investigation of the NR4A1 receptor, an orphan receptor.
+
+## NR4A1
+The nuclear receptors (NRs) are a sizable class of transcription factors. Lipophilic ligands (steroids, fatty acids, retinoids and thyroid hormones, etc.) cause their translocation, normally from the cellular cytoplasm to the nucleus, where they initiate transcription of cognate genes. [ ] NRs play essential roles in controlling cellular metabolism, division and proliferation in many tissues [ , ] and are part of the steroid receptor superfamily. NR4A1 is often expressed in response to stress stimuli and cellular growth-factor signaling. NR4A1 and its subfamily appear to be constitutively active, modulated at the cellular level by differing ratios of their cognate NR coactivators and repressors and NR post-translational modification, including phosphorylation [ ] and acetylation [ ] but are currently classed as ‘orphan’ receptors. NR4A1 is expressed at low to moderate levels in many major physiological systems, including the central nervous system, endocrine, reproductive, immune, gastrointestinal, cardiovascular, respiratory and structural. [ , ] It is known to play a vital role in tumor-cell apoptosis from multiple tissue types and in the well-studied apoptotic signaling of thymocytes [ ] and within the hypothalmic-pituitary axis. [ ]
+The structural biology of NR4A1 is inconclusive. A crystal structure (PDB-ID [ ] 2QW4) [ ] of human NR4A1 reveals that the region of the “normal” ligand-binding domain is blocked by hydrophobic residues. [ ] NMR studies have shown the closely related Nurr1 to undergo a conformational shift between “in” and “out” states, in which a comparable sequence of hydrophobic residues perform a “self-binding” function, [ ] on the NMR time scale.
+A hydrophobic co-regulator cleft comprised of helices 3, 5 and 12 is found in many members of the family. It plays a vital role in recruiting co-activators and co-repressors during gene transcription and its access is normally modulated by helix 12 within the non-orphan NRs, which undergo a conformational change on ligand binding. [ ] However, this cleft is surprisingly hydrophilic in NR4A1, ruling out a similar role. Furthermore, partial denaturation studies suggest that NR4A1 has an unusually flexible helix 12.
+Our interest was aroused by reports [ – ] of small-molecule modulators of NR4A1 action (1 and 2, see ). These may be viewed as Y-shaped hydrophobic ligands of the same general type that bind to ‘normal’ ligand-binding domains of other nuclear receptors.
+ Structurally different small molecule modulators of NR4A1 and Nurr1 are also known, [ ] although their mode of binding and mechanism of action remain unknown. These observations suggest that NR4A1 exhibits druggable binding regions for which effective modulators can be developed analogously to those for the ERR receptors, which were originally thought not to have accessible ligand-binding domains. In this context, it is important that Katzenellenbogen et al. [ ] have discussed Nuclear Receptor Alternate-Site Modulators (NRAMs), which bind to alternative pockets than the classical ligand-binding domain.
+
+## Results and Discussion
+Our purely calculational characterization of the structural and mechanistic biology of NR4A1 draws on a wide variety of simulation, analysis and bioinformatics techniques. Briefly, the questions that we have tried to answer are:
+Can we identify a binding pocket by MD simulations on the apo-receptor?
+If so, do the known modulators 1 and 2 bind to this pocket?
+Can we identify candidates for the native ligand(s)?
+What is the conformational effect of binding ligands on the receptor?
+What is the mode of their modulation?
+
+## Conformations
+The apo-NR4A1 simulation system consisted of the 233-residue ligand binding domain of NR4A1 reported (PDB-entry 2QW4, X-ray resolution: 2.8 Å). [ ] Three amino acids (EPQ) that comprise the surface-loop region of a helix-turn-helix motif are not structurally resolved and were modeled into the structure. Details of the system and simulation setup are given in and . A single simulation of 4.1 μs was used to investigate the dynamics of the apo-protein.
+The conformations found in the resulting trajectory were identified and analyzed using both classical RMSD-based clustering and a DASH-analysis [ ] based on 4,100 snapshots of the backbone dihedral angles taken every nanosecond (see for details). The results of the two analyses are compared (see ). Transitions between conformations identified by DASH correspond well to those indicated by the cluster analysis. DASH conformation 3D lies between clustering conformations 6 and 7 and cluster conformations 13, 14 and 15, which switch frequently in the last μs of the simulation; these are interpreted by DASH as three sequential conformations (7D, 8D and 9D). The clustering analysis reveals a series of essentially irreversible (in the context of this simulation) conformation changes between 15 conformations that eventually results in equilibrium between conformations 12–14 after approximately 3.5 μs. The X-ray conformation itself, which corresponds to conformation 1 and 1D, is short-lived (although it would be considered stable by accepted MD standards as it is observed for the first 83 ns of the simulation).
+ The apparently irreversible conformational change observed during the simulation is a movement of the loop near the N-terminus (residues 175–185) from an “open” to a “closed” conformation by approaching the N-terminal end of helix 1 (see ). This motion closes a “novel” binding pocket discussed below. A second important feature of the simulation is that helix 1 unfolds and refolds repeatedly.
+
+## Pocket analysis
+A PocketPicker [ ] analysis was conducted for the 15 cluster-centers found by the classical clustering of the 4,100 MD snapshots (the default settings described in reference [ ] were used). Large (≥ 100 Å3) pockets that are apparent in multiple cluster representatives but not in the crystal structure were extracted for each structure, their pairwise overlaps calculated, and the results organized in graphs (see ). Each vertex represents one pocket. The vertex size is proportional to the volume of the pocket and the color encodes the MD-cluster number. Vertices are connected if the pockets overlap by at least 30%. Vertices without emerging edges are not shown. Highly connected clusters of large vertices indicate potential binding sites that are not present in the crystal structure if they do not contain vertices that represent pockets of the crystal.
+ Visual inspection reveals that a potential binding pocket, present in the snapshots indicated (see ), is flanked by the residues Leu6, Pro139, Cys172, Pro184; this pocket is shown in . This clear druggable pocket is found in clusters 5, 6 and 7 and in DASH conformations 2D and 3D and thus exists continuously for 500–800 nanoseconds of the simulation before the N-terminal flap closes.
+ This pocket remained stable for at least 1 μs in an independent MD simulation starting with the empty pocket found in the cluster analyses. A slight decrease in the pocket volume caused by the flexibility of the surface loop around Val180 is found, but the pocket is still present.
+A PoLiMorph [ ] pocket graph description was then used to search for pockets structurally related to this potential binding site in the scPDB. [ ] Assuming that similar binding sites bind to similar ligands, we extracted all bound ligands from the crystal structures of the most similar binding sites (PoLiMorph score ≥ 0.15 using the default settings described in reference [ ]). Four of these nine ligands (shown in ) are nucleotides; adenosine-5′-β,γ-methylene triphosphate (3), coenzyme A (4), FAD (5) and guanosine-5′-monophosphate (6). We also found a bis-aza-indole compound 7 among the top ranked molecules, which is remarkable since one of the known NR4A1 activators is bis-indole 1.
+ 
+
+## Binding Known Ligands
+Ligands 1 and 2 could both be docked well into the new pocket (for details see ) using Autodock4. [ ] The best docked poses were then used as starting points for 1 μs MD simulations to assess the stability of the ligands in the pocket and their effect on the conformation of the protein.
+RMSD plots of the protein α-carbon atoms and all ligand atoms (see ) show that the protein conformation remains stable over the 1 μs simulation, with the Cα-RMSD from the starting geometry varying between 2.5 and 3.5 Å after an initial 100 ns relaxation period. The ligand-RMSD plot also shows an essentially stable 3 Å RMSD with frequent excursions to structures with 7–8 Å RMSD from the starting structure. For ligand 1, closer examination shows that the structure with 3 Å RMSD, which corresponds to the 100 ns snapshot shown (see ), involves movement of the ligand deeper into the pocket than is the case in the docked structure (see ).
+ The second conformation found periodically in the simulation with increasing frequency after 200 ns corresponds to the 800 ns structure shown in . In this structure, helix 1, which unravels and reforms repeatedly during the last half of the simulation, is unraveled and the ligand takes up a position deep in the pocket, but shifted towards the original position of helix 1. Thus, the simulation indicates that ligand 1 indeed binds tightly to the newly found pocket.
+The RMSD plot of the α-carbon atoms for the simulation starting with docked ligand 2 also shows that the protein maintains its secondary and tertiary structure for the whole 1 μs simulation. The only exception is helix 1, which is again affected by the presence of the ligand, which causes the helix to unwind and rewind repeatedly. For this reason, the highly flexible ligand is able to move and reorient within the binding pocket, as can be shown by an overlay of representative snapshots extracted from the trajectory (see ). The flexible alkyl chains of ligand 2 explore the dynamically changing binding cleft more effectively than observed for compound 1. This is supported by the considerably higher ligand RMSD values (8–9 Å). Nevertheless, ligand 2 remains firmly in the binding pocket defined by the flexible loop 175–185.
+Starting at 780 ns, the loop forming the new binding pocket shifts towards helix 1 and closes the pocket, so that the ligand is completely trapped. This closing is only possible because the ligand adopts a position above helices 8 and 9, flanked by the C-terminus of helix 2, additionally covered by the very flexible N-terminus of the protein. The highly flexible side chains of compound 2 intercalate between the helix bundles of the protein, making binding even tighter.
+As a further check of the relevance of the newly found binding site, we docked five known [ – ] active NR4A1 bisindole ligands into this site (details of the docking runs and the results are given in ). All five give good binding poses with high scores and adopt the same binding mode as found for 1 and 2 above.
+
+## Effects of Ligand Binding
+What are the consequences of the above results in identifying a biological role and mechanism for NR4A1? Ligand binding at the newly identified site induces conformational changes both adjacent to the pocket and in the remote flexible loop area highlighted in . The more remarkable of these two effects is a conformationally transmitted stabilization of the flexible loop (25FQELVLPHFGKEDAGD40), even though it is quite remote from the binding site.
+The pocket itself is close to the ‘hinge’ region of the ligand-binding domain. As outlined above, helix 1 becomes very labile on ligand binding. shows that helix 9 is also partially unraveled (color-coded green) compared to the apo-structure (color-coded blue).
+ The newly formed loop region adjacent to the binding site (173LKEHVAAVAGEPQPAS188, red ellipse in ) is close to a to a well-recognized hinge region between the ligand- and DNA-binding domains, as indicated by a modeled alignment with the PPAR-γ receptor bound to a cognate Peroxisome Proliferator Response Element (PPRE) [ ] (see ). This comparison is equivalent to the known hetero-dimerization of NR4A1 with RXR-α. [ ] Changes in this hinge region can result in alterations in signaling because the hinge region of NRs can contain elements of the nuclear localization signal. [ ] NR4A1 has a predicted [ ] nuclear localization signal (358RRGRLPS365K) upstream of our modeled protein extremely close to the N-terminus of the predicted ligand-binding domain. Thus, changes adjacent to the newly identified binding site may switch NR4A1 localization, which in turn is intimately correlated to its apoptotic function. [ ] An identified nuclear export sequence under the control of MEK-ERK-RSK cascade also lies close to the cognate nuclear localization sequence, with phosphorylation being effected by RSK. [ ] This region also attracts the attention of an additional serine kinase MSK that operates in fibroblast cellular stress pathways. [ ] Structural changes in this vital region are highly likely to affect subcellular location of NR4A1. [ ]
+A less direct, but fascinating possibility is that the allosteric rearrangement observed for the remote loop 25FQELVLPHFGKEDAGD40 (the violet ellipse in and violet loop in ) is involved in biological regulation by modifying heterodimer stability and binding at a cognate NuRE. shows a hypothetical alignment of a response element with a heterodimer of a bis-indole complexed NR4A1 and RXR-α based on the PPRE PPAR-γ and RXR-α X-ray structure [ ] and informed by SAXS data for the VDR/RXR-α dimer at its response element. The region of NR4A1 highlighted by our simulations to change (labeled blue A) on ligand binding is close to a similar loop region in the RXR monomer (labeled red B). This suggests that protein/protein communication between heterodimer partners in this region of the complex can lead to modulation of DNA binding. It is known that rexinoid AHPN has influence on both the RXR/NR4A1 dimer’s transcription processes and on localization because the dimer is transported from the nucleus to the mitochondria. [ ]
+ 
+
+## Construction of a NR4A1 / RXR heterodimeric complex model located on a NBS at a cognate NRBE
+In an attempt to understand more fully the effect of the allosteric binding of the NR4A1 bis-indole ligand, a model of a NR4A1/RXR heterodimer at a NBS (hNurr77 binding sequence) on a recognized NBRE, the RAR β2 [ ] was constructed. The RAR β2 sequence was obtained [ ] and modelled [ ] to obtain ‘raw’ structural coordinates. The coordinates of the DBDs of RXR-α and NR4A1 were obtained (PDB: 3DZY, 1CIT respectively) and positioned with their preferred ‘polarity’ at their cognate binding sequences by a process of coordinate mapping via the MacPymol align routine working with the crystallographic base pair coordinates of the respective DBD/DNA complexes onto a modelled RARβ2 followed by editing. The monomer coordinates of the LBDs of RXR-α and NR4A1 (PDB: 3DZY, 2QW4) were mapped onto those of the PPAR/RXR-α heterodimer crystallographic coordinates (PDB: 3DZY) in the absence of the linking sequences that bridge the respective LBDs and DBDs. In doing so there is an implicit assumption that the dimer interface of the modelled complex adopts the orientation of the PPAR/RXR-α heterodimer. The modelled heterodimer was posed, using the translational tools within MacPymol, approximately 23 Å above the RARβ2 (roughly equidistant from each DBDs). The linking sequences were modelled using the loop-building functionality of Swiss-PdbViewer, followed by energy minimization of the new protein fragments. The final model was checked for sequence and backbone dihedral angle consistency.
+Following an 85.2 ns MD simulation the resultant complex showed a considerably different configuration than its starting point. It was pleasing to see that, during the course of the simulation, the complex had reoriented to adopt a configuration reminiscent of that observed (SAXS/SANS/FRET) for the solution structure of the RXR/RAR heterodimer at a DR5 response element with the RXR binding at the 5’ and the NR4A1 at the 3’ half sites respectively, [ , ] (see ).
+The bis-indole/NR4A1 modelled complex coordinates were posed against the resultant coordinates of the NR4A1 component of the heterodimer complex at the NBRE using MacPymol align. This pose highlights the close proximity of the bis-indole to a critical ‘hinge’ region of the NR4A1 complex (see ) and to the DNA binding interface, the detail of which will be the subject of further study.
+The key reviews, [ , ] covering the targeting of NR4A1 for cancer treatment, reveal a high degree of complexity in the potential modes of action of 1, and its analogues, which appear to act differently on varying tumor types and via NR4A1 partner protein complexes. It is suggested that the p-hydroxy analogue of 1 acts on the A/B domain of NR4A1 whereas 1 on the LBD within the E/F domain, fluorescence studies [ ] confirm this. X-ray crystallography of the NR4A1 homodimeric LBD show that small molecule Cytosporone B-like ligands of NR4A1 such as ethyl 2-[2,3,4-trimethoxy-6-(1-octanoyl)phenyl]acetate (TMPA) are also able to bind promiscuously. [ , – ] Taken together, this evidence suggests strongly that NR4A1 may be modulated by small molecules in a non-classical way, at multiple sites, for a member of the steroid receptor superfamily.
+What is emerging is that allosteric modulation of the NRs is evident and that these approaches have predictive potential when considering ‘transcriptional machinery’ stability [ , ] and that this aspect may be influenced by small molecules.
+Although many of the biological functions of NR4A1 are still unclear, the simulations have provided answers to the questions posed in the introduction and have revealed fascinating features that point to new research directions. The simulations reveal a pronounced pocket that binds the known ligands and is similar to known nucleotide-binding sites. Binding ligands in this pocket induces two changes; a new loop adjacent to the binding site that is well placed to switch DNA binding and a stable loop in a remote region of the protein that has the capacity to affect localization at the NBRE. These are remarkable conclusions for a protein that has resisted characterization experimentally. MD simulations combined with detailed analyses of the trajectories have proven to be a powerful tool for exploratory research of protein structure and function.
+
+## Supporting Information
+S1 Structures
+
+## pdb files of the structures discussed in the manuscript and Supporting Information.
+(ZIP)
+Click here for additional data file.
+S1 Text
+
+## Structure generation.
+(PDF)
+Click here for additional data file.
+S2 Text
+
+## MD simulations.
+(PDF)
+Click here for additional data file.
+S3 Text
+
+## Clustering and DASH analyses.
+(PDF)
+Click here for additional data file.
+S4 Text
+
+## Structures of the clusters and N-terminal loop-closing.
+(PDF)
+Click here for additional data file.
+S5 Text
+
+## Docking of known ligands into the new pocket.
+(PDF)
+Click here for additional data file.
+S6 Text
+
+## RMSD data ligand 1 complex.
+(PDF)
+Click here for additional data file.
+S7 Text
+
+## Details of ligand 2 binding simulations.
+(PDF)
+Click here for additional data file.
+S8 Text
+
+## A RXR-α / hNur77 apo-dimer at a cognate NBRE.
+(PDF)
+Click here for additional data file.

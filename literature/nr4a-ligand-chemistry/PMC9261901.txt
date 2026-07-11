@@ -1,0 +1,336 @@
+pmcJ CheminformJ Cheminform1180jcheminfoJournal of Cheminformatics1758-2946BMCPMC9261901PMC9261901.2926190192646193579922610.1186/s13321-022-00612-96122ResearchBitterMatch: recommendation systems for matching molecules with bitter taste receptors
+MargulisEitan SlavutskyYuli LangTatjana BehrensMaik BenjaminiYuval NivMasha Y.masha.niv@mail.huji.ac.il 1grid.9619.70000 0004 1937 0538The Institute of Biochemistry, Food Science and Nutrition, The Robert H Smith Faculty of Agriculture, Food and Environment, The Hebrew University of Jerusalem, Rehovot, Israel 2grid.9619.70000 0004 1937 0538Department of Statistics and Data Science, Faculty of Social Sciences, The Hebrew University of Jerusalem, Jerusalem, Israel 3grid.506467.60000 0001 1982 258XLeibniz Institute for Food Systems Biology at the Technical University of Munich, Freising, Germany 772022202214397840457320221452022070720220807202211072022926190110.1186/s13321-022-00612-9107072022926461910.1186/s13321-022-00612-9207072022© The Author(s) 2022https://creativecommons.org/licenses/by/4.0/Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.Bitterness is an aversive cue elicited by thousands of chemically diverse compounds. Bitter taste may prevent consumption of foods and jeopardize drug compliance. The G protein-coupled receptors for bitter taste, TAS2Rs, have species-dependent number of subtypes and varying expression levels in extraoral tissues. Molecular recognition by TAS2R subtypes is physiologically important, and presents a challenging case study for ligand-receptor matchmaking. Inspired by hybrid recommendation systems, we developed a new set of similarity features, and created the BitterMatch algorithm that predicts associations of ligands to receptors with ~ 80% precision at ~ 50% recall. Associations for several compounds were tested in-vitro, resulting in 80% precision and 42% recall. The encouraging performance was achieved by including receptor properties and integrating experimentally determined ligand-receptor associations with chemical ligand-to-ligand similarities.
+BitterMatch can predict off-targets for bitter drugs, identify novel ligands and guide flavor design. The novel features capture information regarding the molecules and their receptors, which could inform various chemoinformatic tasks. Inclusion of neighbor-informed similarities improves as experimental data mounts, and provides a generalizable framework for molecule-biotarget matching.
+
+## Graphical Abstract
+
+ 
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s13321-022-00612-9.
+
+## Keywords
+BitterGPCRsTasteMachine learningDrugshttp://dx.doi.org/10.13039/501100003977Israel Science Foundation1129/191129/19MargulisEitanNivMasha Y.pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2022
+
+## Introduction
+The sense of taste is a key driver in food choice and consumption [ ], and therefore has major implications for nutrition and health. The ability to taste is impacted in several diseases [ , ], including COVID-19 infection [ ]. Similarly to smell loss, taste loss or dysfunction can negatively affect the quality of life [ ] and promote changes in body weight [ ]. Sweet, umami and bitter tastes are mediated by G protein-coupled receptors (GPCRs) [ ]. Furthermore, taste GPCRs were shown to be expressed in many extraoral tissues, suggesting physiological roles beyond taste perception [ ], such as mediation of hormone secretion [ ], regulation of upper respiratory innate immunity [ ] and more.
+Bitter taste receptors (TAS2Rs or T2Rs) [ ] present a particularly interesting case, where some TAS2Rs may be activated by tens of diverse ligands, whereas others are very selective and can be activated by only a few known ligands [ , ]. In addition, the number of TAS2R subtypes varies across species, with 25 in humans and ~ 30 in rodents [ ]. Some bitter molecules activate several TAS2Rs while others are specific for individual TAS2Rs [ , ]. Bitter molecules have highly variable chemical structures, and include alkaloids, polyphenols, peptides, salts, fatty acids, and saponins [ ].
+Addressing the dire challenge of predicting TAS2R targets for bitter molecules has several important implications. First, it can assist in evaluating off-targets for bitter medicines; since TAS2Rs have additional physiological roles in extraoral tissues, unintentional activation of ectopic TAS2Rs may promote unwanted biological processes as side effects [ ]. Second, specific agonists for TAS2Rs provide tools for studying the extraoral effects of these receptors, or even as potential drug candidates targeting TAS2Rs for gastrointestinal [ ] and asthma indications [ ]. Third, since numerous drugs and food compounds are intensely bitter, antagonists are needed to reduce bitterness and improve drug compliance, hence, designing antagonists for effective masking of bitterness relies on being able to identify the activated TAS2Rs [ – ]. Identification of TAS2R targets for a given molecule currently requires extensive in-vitro assays that consume time and resources, though some computational attempts to predict TAS2R targets began to appear [ ].
+Computational methods are highly desired due to their high speed and low cost, as well as their potential of improvement as the experimental knowledge base grows. Specifically for bitter taste receptors, computational tools were developed for bitterness prediction using docking to homology models of selected receptors [ , , ] and ligand-based methods [ , ]. For the GPCR family at large, several machine-learning methods were developed to predict potential GPCR targets for small molecules, including machine learning algorithms [ , ].
+The problem of predicting associations of TAS2Rs and ligands can be viewed as a recommendation problem. Generally, recommendation systems are aimed at rating pairings of items to categories [ , ]. These correspond to ligands and receptors in our case. Content-based recommendation systems [ ] rely on attributes describing the items and the categories. However, collaborative recommendation systems rely on similarity measures from known associations or ratings [ ]. Hybrid recommendation systems [ ] combine the two approaches by incorporating both content-based and collaborative information.
+Here we develop BitterMatch, a classifier inspired by hybrid recommendation systems, to match bitter molecules to human and mice TAS2Rs. BitterMatch uses a novel set of features, which weight known associations between ligands and receptors by ligand-to-ligand and receptor-to-receptor similarities. Two BitterMatch scenarios are presented: “filling the gaps” for ligands for which some associations to TAS2Rs are known from cell-based experiments but some are missing, and "new ligands" for molecules for which bitter taste was established in human sensory tests, but no associations with individual TAS2Rs were measured.
+
+## Results
+
+## Ligand-receptor associations
+Data on associations between bitter molecules and 21 human and 20 mouse TAS2Rs was collected from the literature to create the association matrix. The matrix is sparse, since some ligands were tested only on a subset of TAS2Rs. Out of 4501 known associations for 303 ligands (36% of possible associations) 3761 are negative (ligands not activating the receptor, ~ 84%) and 740 are positive (ligands activating the receptor, ~ 16%).
+In agreement with previous observations [ ], TAS2R14 is the most broadly tuned human receptor, with 171 known agonists, followed by TAS2R39, TAS2R46 and TAS2R10 with 85, 79 and 48 ligands respectively. The most selective is TAS2R3 with only one known ligand. Mouse receptors (Tas2rs) also range from broadly tuned receptors, such as Tas2r105 (47 known agonists) to narrowly tuned Tas2rs, such as 122 and 139, each with one known ligand. In general, less screening experiments were performed for mouse Tas2s. Orphan TAS2Rs (that have no known ligands so far, four in humans and fourteen in mice) were excluded from training and inference. Tas2r113 was excluded due to having a single agonist that was not tested on human TAS2Rs.
+
+## Ligand and receptor properties
+For ligands, 2-dimensional (2D) and 3-dimensional (3D) chemical features including MW, AlogP, QPlogHERG were calculated from the chemical structures of the molecules.
+For receptors, three types of chemical features were calculated: 1. Sequence-based features for the full protein sequence of the receptors and separately for the second extracellular loop, an important region for binding ligands in GPCRs [ ]. 2. Binding site features that were calculated for the main site for ligands (the orthosteric binding site). 3. Structural features of the receptor, such as hydrophobicity and volume.
+
+## Similarity calculations for feature derivation
+For ligands, we compute chemical similarity of the molecules using Tanimoto scores of the linear fingerprints, as well as Tanimoto scores of the MOLPRINT2D fingerprints.
+For receptors, we compute sequence similarities based on the percent of identical positions in the protein sequences (percentage of sequence identity), and in the sub-sequences that consist of the orthosteric binding site residues. Additionally, since substitution between non-identical residues are well studied [ ], we calculate similarities between the sequences of the receptors and the sub-sequences of the orthosteric binding site based on BLOSUM62 substitution matrix [ ] (percentage of sequence similarity). All similarities are schematically represented in Fig.  A. 
+Collaborative similarities between pairs of ligands (or receptors) were calculated as Jaccard similarities over their known associations, and used to construct ligand-to-ligand and receptor-to-receptor collaborative similarity matrices (Fig.  B).
+
+## Extracting neighbor-informed features from similarities
+To avoid dependence of the learning algorithm on the size of the dataset, we devised new neighbor-informed features, which are based on the similarity matrices and the known associations. The features are coded separately for positive and negative associations. Specifically, from a ligand similarity matrix, we annotate each ligand ( )-receptor ( ) pair with four features: two summarize the similarities of to ligands with positive associations to the receptor , and two summarize the similarities of to ligands with negative associations to . The features differ by their granularity: the first measures the similarity to the closest ligand that activates ; this feature represents positive examples in the local neighborhood. The second measures the sum of similarity values to all ligands that activate . The two negative features measure the similarity to the nearest ligand that does not activate , and the sum of similarities of ligands that do not activate (Fig.  C). We repeat this feature extraction process for each ligand similarity matrix.
+We also extract neighbor-informed features from each receptor similarity matrix, reversing the roles of ligand and receptor: similarity to the closest receptor that is activated by l, the sum of similarities to receptors that are activated by l, similarity to the closest receptor that is not activated by l, and the sum of similarities to receptors that are not activated by l (Fig.  D).
+
+## “Filling the gaps” scenario
+The association matrix between bitter ligands ( ) and human or mouse TAS2Rs ( =21 + 20) has about 1/3 known and 2/3 unknown associations. In “filling the gaps” scenario we consider cases in which at least one association (positive or negative) is known for each ligand and for each receptor, and therefore, neighbor-informed features from the similarity matrices can be extracted for ligands and receptors.
+We model the problem as a binary classification task, in which each ligand ( )-receptor ( ) pair is considered an observation and is annotated with (a) features describing chemical properties of ( ), (b) features describing the chemical properties of ( ), (c) features derived from the similarities between and other ligands ( features types of similarities) and features derived from the similarities between r and other receptors ( features types of similarities). We train a classifier from these features using a gradient boosting algorithm with decision-tree learners (XGBoost [ ] package) optimizing a binary logistic objective for predicting whether the ligand-receptor pair associates.
+
+## Evaluation of the model
+We sample 80% of the known positive and negative associations to be used as a training set, and use the remaining 20% as a test set. We repeat this sampling process 100 times. The performance of BitterMatch is compared with a naive model that predicts for each ligand-receptor pair whether they associate according to the prior. In the prior, the prediction score is fixed per receptor for all ligands and is set to the proportion of ligands in the training set known to associate with the receptor. We further compare the full model with three sub-models that contain different subsets of the features, as illustrated in Additional file : Figure S1. Model 1 includes only chemical properties of ligands and receptors; Model 2 includes in addition also features based on collaborative similarities; Model 3 includes chemical properties as well as neighbor-informed chemical similarity features. Model 4 is the full model.
+Average precision-recall curves over the repetitions are reported in Fig.  (Additional file : Figure S2 shows prediction intervals). Model 1, which uses only chemical properties of ligands and receptors, already performs better (average precision ) than the prior ( ). Adding collaborative similarity-based features (Model 2) further improves the performance ( ). Adding features that incorporate both known associations and chemical and sequence similarities leads to an even larger improvement (Model 3, ). Model 4, in which collaborative features are added as well, performs as well as Model 3, which is therefore the chosen model. For Model 3, a threshold on the predicted probabilities for each ligand-receptor pair yields precision of 84% and recall of 51% on average over the 100 repetitions. 
+Recall and precision levels per receptor averaged over 100 repetitions, are shown in Fig.  B. The performance is generally better for receptors with more known (positive and negative) associations. Performance is higher for human receptors than for mice receptors, in accordance with a higher number of known positive associations. Nevertheless, mouse receptors 112, 126 and 105 all achieve recall above 49% and precision above 76%.
+
+## “Filling the gaps” predictions
+Using BitterMatch Model 3 we filled the gaps in the sparse association matrix, and predicted the unknown association of the 7,922 missing pairs of bitter compounds and human and mouse TAS2Rs (Fig.  ). We used a threshold of 0.65 (prioritizing high precision). The experimental data that was used for training and testing was supplemented by the new predictions to construct a full association matrix without gaps. Analysis of the complete association matrix at the chosen threshold revealed that out of 12,423 associations, 1479 are positive (12%) and 10,944 are negative (88%). The predictions are available via the BitterDB database. As expected, TAS2R14 is still the most broadly tuned receptor with 191 ligands (171 known and 20 predicted ligands). Some receptors, such as TAS2R40 and Tas2r121, had no new positive predictions, while others gained many newly-predicted positive associations (Fig.  ). 
+Since different species have varying numbers of TAS2R subtypes [ ], assigning TAS2R functional analogs is not trivial. This task is especially important for humans and mice, since many taste examinations are performed on rodents, but aiming to reflect on humans [ ]. In order to find the nearest functional receptor (“functional analogs”), we used the completed association matrix to calculate the Jaccard similarity between the receptors, based on their positive and negative, known and predicted associations. No score above 0.5 between human and mouse TAS2Rs was found (see Additional file ), suggesting relatively low overlap and no clear functional analogs.
+
+## “New ligands” scenario
+In this scenario we predict associations with human TAS2Rs for bitter molecules that do not have any known association with bitter taste receptors. Collaborative similarities, as well as features based on neighbors-informed receptor similarities, can not be calculated in this case.
+Therefore, we develop a version of BitterMatch that uses only the chemical properties of ligands and of receptors, and neighbors-informed ligand similarity features.
+For evaluation of the performance, we sample 80% of the ligands in the dataset into a training set, and consider the remaining 20% as a test set. For the ligands in the test set we remove the associations with all the receptors, marking them as unknown, and repeat this process 100 times. We compare our model to a prior model (as in the previous section), and to a “nearest-neighbor” model that predicts association between a ligand and a receptor based on the known association of with the ligand that has the highest chemical similarity with . Here chemical similarity is calculated according to linear fingerprints (using MOLPRINT2D fingerprints yielded similar results, not shown).
+The average precision-recall curves over 100 repetitions and corresponding confidence intervals are reported in Fig.  A (prediction intervals are shown in Additional file : Figure S3). BitterMatch achieves an average precision of , outperforming the prior model (average precision of ) and the nearest-neighbor model ( ). 
+An accurate predictor of positive association can reduce the number of cell-based experiments needed to identify cognate bitter taste receptors for a bitter molecule. Therefore, for each ligand we count how many receptors should be tested, according to the prediction score, until the first TAS2R is activated. Figure  B shows the number of tests required by the prior method and by BitterMatch. To quantify the differences, we fitted a linear regression that predicts the number of tests required by BitterMatch as a function of the tests required by the prior. On average, BitterMatch requires 3.5 times less cell-based experiments in order to match at least one TAS2R to a bitter-tasting molecule without any known bitter taste receptors.
+
+## Prospective predictions and their validation
+To evaluate the model in a prospective mode, we predicted the associations of 12 new bitter compounds. The validation set included 3 new compounds and 5 compounds from BitterDB [ ] for which only a few associations were known and were excluded from the original association matrix. Functional screening of the 21 human TAS2Rs expressed in HEK 293 T-Gα16gust44 cells with the 8 proposed agonistic compounds resulted in the identification of receptors for all of the substances. After the initial identification of presumed receptor-compound pairs, all compounds were tested with three concentrations on the identified receptors to assess their potencies (Additional file : Figure S5 in the Additional file ). The lowest concentrations leading to statistically significant activation of receptor-expressing cells compared to mock-transfected cells were judged as apparent threshold concentration. All 8 compounds resulted in the activation of TAS2R14. Whereas 2-acetyl benzofuran, butein, 3,2’-dihydroxychalcone and sinapic acid exclusively activated the TAS2R14, the other four compounds elicited responses of at least one additional TAS2R: apigenin activated the TAS2R43, theacrine the TAS2R43 and TAS2R46, and fisetin and quercetin activate TAS2R4, -R7, -R10, -R31, -R39, -R40, -R43, and -R46. The highest signals were observed for TAS2R14 when activated by quercetin and the lowest activating concentrations were 0.3 µM (butein, TAS2R14; fisetin, TAS2R7, -R10, -R14, -R40, -R43; quercetin, TAS2R14). The results are summarized in Additional file : Table S1. We note that for butein, 3,2′-Dihydroxychalcone and apigenin activation of TAS2R39 was not detected in our experiments but was found by Roland et al.[ ], hence we present the results with and without these three associations. BitterMatch predictions for 4 additional compounds were compared to the recently published cell-based measurements [ ].
+For the 12 compounds in total, the model correctly predicted 16 true positive pairs and 210 true negative pairs, but misclassified 4 pairs as positives and 22 pairs as negatives (Table ), hence we achieved precision of 80% and recall of 42% on the validation set. By excluding three inconsistent associations with TAS2R39 (as described above), we achieve precision of 76% and 37% recall. 
+Three out of four false positive pairs were wrongly assigned to TAS2R14, the most broadly tuned receptor. False negatives stemmed from 8 missed associations with TAS2R43, 4 with TAS2R46 and 2 with each of TAS2Rs: 4,7,10,40 and 44, details in Additional file : Table S3.
+
+## Predicting TAS2R associations of drugs from DrugBank
+As a possible application, we used BitterMatch to predict associations of drugs (DrugBank dataset version 5.1.5) [ ] with TAS2Rs. 2406 out of 10,170 compounds were predicted to be intensely bitter using the BitterIntense algorithm [ ].
+For those, BitterMatch predicted 2,207 positive pairs to TAS2Rs: 1576 for TAS2R14, 394 for TAS2R46, 127 for TAS2R10 and the others for TAS2Rs: 1,4,7,16,38 and 39 (Fig.  ). Comparing the proportion of drugs matched to TAS2R with the proportion of positives among all tested compounds for that TAS2R (hit rate) suggests that the proportion of drugs activating similar to hit rate for TAS2R14 but much lower for TAS2Rs 10, 39 and 46. The results strengthen the notion of importance of TAS2R14 as a major target of bitter pharmaceuticals [ ] (Fig.  ). 
+
+## Feature importance
+To obtain intuitive insights into the model, we examine the average gain across all XGBoost splits (Methods: “ ”). This analysis shows few features showing considerably higher importance values than others (Fig.  and Additional file : Figure S4). In both “filling the gaps” and “new ligands” scenarios, neighbor-informed features are most important: similarities of the ligand to both activating and non-activating ligands of the receptor. Receptor neighbor-informed features could not be calculated in , but found to be important for “filling the gaps”. In both scenarios, receptor chemical properties are important, top ones include hydrophobicity, charge and buried area properties. Ligand properties have low gain in both scenarios (Additional file : Figure S4). 
+
+## Discussion
+Matching ligands with their receptors is at large an open task in biorecognition and in drug discovery. For TAS2Rs, it is especially challenging due to the dramatic chemical diversity of bitter ligands, the high variance in the number of receptors that each ligand activates, and the lack of experimental structures of the receptors.
+In this work we presented BitterMatch, an algorithm designed to predict ligand-TAS2R associations. BitterMatch was modeled as a binary classification task, with a custom feature set composed of chemical descriptors as well as neighbor informed features extracted from multiple similarity matrices. We chose a tree boosting algorithm (XGBoost) as the learning algorithm due to its relative success with unbalanced classes and sparse.
+Despite the challenges, we achieved promising results with average precision of 70–76% for both “filling the gaps” and “new ligands” scenarios. Importantly, the high precision and recall were not only established in the train-test divisions of the dataset, but also confirmed in prospective predictions. Three associations predicted as positives for TAS2R39, were found positive in [ ] but negative in our experiments. This could be due to stable vs. transient expression of the TAS2R gene, which might affect the sensitivity of the cells toward activation. Excluding these 3 associations from the analysis resulted in precision of 76% and recall of 37% instead of 80% and 42%.
+The novel neighbor-informed similarity-based features, which incorporate chemical similarities and information from known positive and negative associations, dramatically improve the performance of the algorithm. In contrast, chemical features of the ligands do not provide high gain, in accordance with the high chemical diversity of bitter molecules, which makes it difficult to associate specific chemical attributes to the ability of a molecule to activate specific TAS2Rs. On the other hand, chemical features of the receptors, in particular those related to hydrophobicity and net charge, substantially contribute to the model. This is in accord with hydrophobicity of the binding site importance for enabling recognition of multiple ligands [ ]. The fact that orthosteric binding-site similarities play a dominant role in “filling the gap” scenario, suggests that this is the site most of the ligands bind to [ , ]. The importance of the overall similarities of receptors suggests that access to the binding site is likely to play a key role as well [ ].
+In addition, we show that combining the chemical features of both ligands and receptors together with neighbor-informed ligand similarity features leads to much higher performance than relying only on the known associations of the most similar ligand, or on the number of receptor’s positive associations.
+Rodents are used as a model for bitterness assessment, sharing a similar repertoire of bitter compounds [ , ]. Our results suggest that at the individual receptor subtype level, activation of a rodent receptor is not predictive of the human receptor and vice versa. This is particularly important when using animal models to elucidate the physiological roles of extra-oral TAS2Rs [ ].
+Computational matching of TAS2Rs and their agonists by BitterMatch can assist in identifying specific agonists for TAS2Rs, elucidating functional relations between TAS2Rs and evaluating the potential TAS2R targets of food and drug compounds. We used the model to predict associations of intensely bitter drugs to human TAS2Rs. The results revealed that TAS2R14 is the main receptor in pharmaceutical drugs bitterness. TAS2R14 is known to be activated by antibiotics [ ] and other diverse drugs [ ]. It was also suggested that TAS2R14 regulates resveratrol transport across the human blood-cerebrospinal fluid barrier [ ].
+While BitterMatch yields good performance overall, limitations of the method should be kept in mind. The performance of BitterMatch is worse for receptors for which less associations are known, and in particular those with less positive ones. Indeed, since the similarity-based features also depend on known associations, in “filling the gaps” task we achieved poor results for ligands with few experimentally known positive associations. We expect further improvement as more associations are gathered experimentally. Additionally, since each TAS2R was represented by a single protein sequence (according to the common allele), mutations or variations in the sequence that might alter ligand recognition or receptor activation were not taken into account. Moreover, BitterMatch was not set to identify antagonists since not a lot of antagonists are known for TAS2Rs. With additional data on antagonists, BitterMatch could be trained for identifying antagonists as well.
+Unraveling the associations of bitter compounds with TAS2Rs will advance studies of extraoral TAS2Rs, shed light on involvement of TAS2Rs in health and disease and in finding chemosensory relations across species. Incorporation of BitterMatch-like methods in drug discovery may enable computational prediction of off-targets, and save in-vitro experiments, time and resources.
+The novel neighbor-informed similarity features can be generalized to other GPCRs and other small molecule-biotarget matching.
+
+## Conclusions
+Matching molecules to their biological targets is crucial for understanding signalling and enabling efficient drug discovery. Matching bitter molecules with bitter taste receptors presents a particularly challenging case, because the ligands are highly diverse in their chemical structure and activate varying number of TAS2Rs, for which experimental structures are still lacking.
+BitterMatch algorithm matches bitter molecules to bitter taste receptors by incorporating neighbor-informed features with chemical properties of the ligands and the receptors. The algorithm achieved ~ 80% precision at ~ 50% recall across different scenarios, overcoming the data sparsity and unbalance. The novel neighbor-informed similarity features proved very useful for this matching problem and may be useful in other biotarget matching problems.
+
+## Methods
+
+## Data curation
+We curated a dataset consisting of known associations for pairs of TAS2Rs and bitter molecules from BitterDB [ ] and other publications [ , , – ]. We considered a ligand-receptor pair to be positive (positive association) if the molecule activates the receptor. If the molecule does not activate the receptor, we considered this pair as negative (negative association). Only associations that were confirmed in in-vitro assays were considered. Associations that were not confirmed in-vitro or were inconclusive between different papers were considered unknown. The constructed association matrix included only agonists as true positives and did not include inverse agonists or antagonists. In addition, we did not use human and mouse receptors that are considered orphans (have no known ligand). Mouse Tas2r113 was excluded due to the fact that it has only one agonist that was not tested on human TAS2Rs. In total, for 21 human and 20 mouse TAS2Rs and 303 ligands, we collected 4501 pairs of ligand-receptors out of which 740 are positive associations and the 3,761 negative associations.
+
+## Ligand features
+
+## Ligand preparation
+After obtaining SMILES strings of the ligands from BitterDB and associations from the papers mentioned in “ ”, the compounds were uploaded to Maestro (Schrödinger Release 2019–2: MS Jaguar, Schrödinger, LLC, New York, NY, 2019). 3D structures of the ligands were generated using Ligprep and Epik (Schrödinger Release 2019–2: LigPrep, Epik, LLC, New York, NY, 2019) in pH 7.0 ± 0.5. In case the structures had additional fragments (such as water molecules, co-crystals, or counter ions), these were removed. All compounds were desalted when possible, retaining the bigger ion and removing the smaller counter ion. Original chirality of compounds was retained when specified, otherwise additional stereoisomers per ligand were generated. For each ligand, the conformer with the lowest energy was chosen. When two stereoisomers were generated for a given compound, both structures were kept.
+
+## Ligand chemical properties calculation
+Three sets of descriptors were calculated for the prepared 3D structures using Canvas (Schrödinger Release 2019–2: Canvas, Schrödinger, LLC, New York, NY, 2019): Physicochemical descriptors, Ligfilter descriptors (moieties, atoms and functional groups) and QikProp descriptors (ADME descriptors). In total, 235 features were calculated. For the QikProp descriptors, additional PM3 properties were calculated as well (Schrödinger Release 2019–2: QikProp, Schrödinger, LLC, New York, NY, 2019). Several compounds that could not be neutralized in the ligand preparation process didn’t contain QikProp descriptors due to the limitations of calculating QikProp descriptors, however they were also included in the data set due to low amounts of true positives in the data. The full list of features can be found in the Additional file .
+
+## Receptor features
+
+## TAS2Rs structure preparation
+21 non orphan human TAS2Rs and 20 non-orphan mouse receptors were used. Pre-computed homology models were extracted for 21 human TAS2Rs and 14 mouse TAS2Rs from BitterDB. Additional 7 models were created using the I-TASSER server [ ]. All the models were prepared and energy-minimized using the protein preparation wizard in Maestro (Schrödinger Release 2019–2) at pH = 7 ± 0.5 and default configuration.
+
+## Receptor descriptors calculation
+We calculated 3 sets of descriptors for the bitter taste receptors: (1) Sequence based features. (2) Binding site features (3) Structural features. The full list of features can be found in the Additional file .
+
+## Sequence based features
+The set of sequence-based features was calculated (a) for the whole receptor and (b) for the extracellular loop number 2 (ECL2) separately, resulting in a total of 66 features per receptor. The protein sequences of the receptors were taken from BitterDB [ ] and uploaded to ProtParam [ ]. The ECL2 sequences were extracted using TOPCONS server [ ] and uploaded to ProtParam. The ProtParam server calculated 33 features for each receptor, including the counts of the amino acids, molecular weight, theoretical isoelectric point (pI), count of negatively and positively charged residues, count of atoms, Grand average of hydropathicity (GRAVY), and Instability index. The full set of features are described in the documentation of ProtParam.
+
+## Binding site features
+The binding sites of the receptors were visualized and evaluated using the SiteMap tool in Maestro (Schrödinger Release 2019–2). Briefly, potential binding sites were shown in Maestro as a set of site points at or near the surface of the receptor that are contiguous or are separated in solvent-exposed region by short gaps that could plausibly be spanned by ligand functionality [ ]. For each receptor, SiteMap suggested several pockets that could serve as binding pockets. Of the potential binding pockets sites that were oriented at the extracellular surface of the receptor, we chose the site with the highest scores, which usually correlates with the real binding sites [ ]. We extracted 16 features from the binding sites: total volume, hydrogen bond acceptor volume, hydrogen bond donor volume, hydrophilic volume, hydrophobic volume, surface volume, binding site score, size, Druggability score (Dscore), hydrophobic and hydrophilic properties, exposure, enclosure, hydrophobicity, contact, balance, donor/acceptor.
+
+## Protein 3D features
+We calculated 166 protein descriptors including volume, exposed aggregation surface area, formal charges, area buried, size of positive and negative patches and more. Calculations used the “calc_protein_descriptors.py” script from BioLuminate package (version 3.5, Schrödinger, LLC, New York, NY, 2019) in Maestro.
+
+## Additional information on the receptor
+we added the chromosome number and the organism (human/mouse) to the feature set. This data was also taken from BitterDB [ ].
+
+## Chemical similarities of ligands and receptors
+We compute multiple similarity matrices for ligands and receptors. Each ligand is compared to another ligand (and receptor to receptor) creating matrices.
+
+## Ligand similarities
+Two similarity matrices were generated for the bitter molecules in our data using two types of fingerprints. The first encodes a combination of defined linear fragments and ring closures; the second is extracted from the MOLPRINT2D fingerprint, a radial-like fingerprint that encodes atom environments using lists of atom types located at different topological distances, using Canvas (Schrödinger Release 2019–2). The calculation of fingerprints is encoded by hashing a defined set of sub-structures or chemical patterns into an N-bit address space, where only “on” bits are stored (meaning the particular sub-structure or atom appears in the molecules). The sub-structures or chemical patterns change according to the fingerprint type. After computing the fingerprints, the similarity between two molecules can be determined by comparing the on bits of the two structures. Denoting on bits in structure 1 by a, on bits in structure 2 by b and on bits in both structures by c, we take the Tanimoto similarity as defined by:1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$\text{Tanimoto similarity}=\frac{c}{a+b-c}$$\end{document}Tanimoto similarity=ca+b-c 
+
+## Receptor sequence similarities and identities
+Multiple Sequence Alignment (MSA) of human TAS2Rs was taken from BitterDB [ ]. Mouse receptors were added into the alignment using ClustalW [ ] in Jalview [ ]. The MSA was also validated by checking the alignment of conserved residues according to Di Pizio et al. [ ] Then, sequence identity (percentage of identical amino acids in aligned positions) and sequence similarity scores (calculated using BLOSUM62 substitution matrix [ ]) were calculated for each pair of receptors using SIAS webserver (http://imed.med.ucm.es/Tools/sias.html) in default configuration. The results were in agreement with Chandrashekar et al. [ ] and Adler et al. [ ]
+
+## Receptor binding site: sub-sequence similarities and identities
+To compare between the residues of the binding sites, all the residues within 4Å or 5Å from the docked flufenamic acid in the homology model of TAS2R14 were considered. The residues in the same positions for all the other receptors were extracted from the MSA. The matrices for sub-sequence similarity and identity were then calculated using SIAS as explained in “ ”, for this subset of positions. Cutoff distance of 4Å led to decreased performance, thus 5Å distance cutoff was kept. TAS2R14 and flufenamic acid were chosen since flufenamic acid is a strong agonist of TAS2R14 and the interactions are well known from mutagenesis studies [ ].
+
+## Collaborative similarities
+In addition to pre-computed similarities, we construct two collaborative similarity matrices, one for the ligands ( ) and one for the receptors ( ), based on the associations. Denote by the matrix of associations between ligands (rows) and receptors (columns). An entry equals to 1 if the ligand activates the receptor , 0 if it is known not to activate the receptor , and “na” if the association is unknown or removed for training purposes. We define the collaborative similarity in each of these two matrices as proportion of matching associations. For ligands and we define the collaborative similarity as2\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${S}_{l,l^\prime}^{Lig}=\frac{1}{N_{ll^\prime}} \left( \sum_{r}{ \mathbbm{1}}_{A_{lr}=A_{l^\prime r}}{\mathbbm{1}}_{A_{lr} \in \{0,1\}} \right)$$\end{document}Sl,l′Lig=1Nll′∑r1Alr=Al′r1Alr∈{0,1} where is the number of receptors that their association with both ligands , is known.
+Similarly, the collaborative similarity between two receptors, and is defined as3\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${S}_{r,r^\prime}^{Rec}=\frac{1}{{N}_{rr^\prime}} \left( \sum_{l}{ \mathbbm{1}}_{A_{lr}=A_{lr^\prime }}{ \mathbbm{1}}_{A_{lr} \in \{0,1\}} \right)$$\end{document}Sr,r′Rec=1Nrr′∑l1Alr=Alr′1Alr∈{0,1} where is the number of ligands that their association with both receptors is known.
+
+## BitterMatch algorithm
+
+## Feature extraction from similarities
+The ligand similarity matrices determine the neighbors (or high similarity ligands) of a given ligand. We developed neighbor-informed features that summarize the abundance of positive and negative associations in the neighborhood of a given ligand to a receptor of interest. From each ligand similarity matrix, we annotate each ligand ( )-receptor ( ) pair with four features: two summarize the similarities of the ligand to ligands with positive associations to the receptor , and two summarize the similarities of to ligands with negative associations. We measure the similarity to the nearest ligand that activates :4\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${M}_{l1} = \max_{l^\prime: A_{l^\prime r}=1} S_{ll^\prime}.$$\end{document}Ml1=maxl′:Al′r=1Sll′. and the sum of similarity values to all ligands that activate receptor 5\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${W}_{l1}= \sum_{l^\prime}{S}_{ll^\prime}\mathbbm{1}_{A_{l^\prime r}=1}$$\end{document}Wl1=∑l′Sll′1Al′r=1 Similarly, we measure the similarity to the closest ligand that does not activate receptor :6\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${M}_{l0}= \underset{l^\prime:{A}_{l^\prime r}=0} {\max} {S}_{ll^\prime}$$\end{document}Ml0=maxl′:Al′r=0Sll′ and the sum of similarity values to all ligands that do not activate receptor :7\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${W}_{l0}= \sum_{l^\prime}{S}_{ll^\prime}{\mathbbm{1}}_{A_{l^\prime r}=0 .}$$\end{document}Wl0=∑l′Sll′1Al′r=0. 
+Likewise, we extract neighbor-informed features from each receptor similarity matrix, reversing the roles of ligand and receptor. We measure the similarity to the closest receptor that is activated by the ligand :8\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${M}_{r1}= \underset{r^\prime:{A}_{lr^\prime}=1}{\max}{S}_{rr^\prime}$$\end{document}Mr1=maxr′:Alr′=1Srr′ and the sum of similarities to all receptors that are activated by the ligand :9\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${W}_{r1}= \sum_{r^\prime}{S}_{rr^\prime}{\mathbbm{1}}_{A_{lr^\prime} =1 .}$$\end{document}Wr1=∑r′Srr′1Alr′=1. Similarly, we measure the similarity to the closest receptor that is not activated by ligand :10\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${M}_{r0}= \underset{r^\prime:{A}_{lr^\prime}=0}{\max}{S}_{rr^\prime}$$\end{document}Mr0=maxr′:Alr′=0Srr′ and the sum of similarities to receptors that are not activated by the ligand :11\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${W}_{r0}= \sum_{r^\prime}{S}_{rr^\prime}{\mathbbm{1}}_{A_{lr^\prime}=0}.$$\end{document}Wr0=∑r′Srr′1Alr′=0. 
+
+## Feature matrices
+We construct a feature matrix which each row corresponds to a ligand-receptor pair, and each column corresponds to a feature. We denote by the number of features. All models include chemical descriptors of the ligand (Methods: “Ligand features”) chemical descriptors of the receptor (Methods: “Receptor features”). The models differ by the number of similarity-based features included. Models 2, 3, 4 and the "new ligands" model include four features for each type of similarity as described in Methods: “Ligand similarities”, “Receptor similarities and identities”. Correspondingly, we construct a label vectorization of the association matrix .
+We construct train and test feature and label by randomly partitioning our data into a training set and a test set. The sampling units are matched to the scenario. In the "filling the gaps” scenario, we sample individual cells (i.e. ligand-receptor pairs), in a balanced manner. That is, we sample of the positive associations and of the negative associations within each receptor into the training set, and the rest form the test-set. In the “new ligands” scenario, we sample of the ligands for the training set, meaning that the training set is composed of their known positive and negative associations with all the receptors.
+In constructing the collaborative similarity matrices, we treat the values corresponding to test pairs as missing values in the association matrix . We therefore ignore these associations when calculating similarities for the training features. We use this method to prevent leakage of the test data into the training features, a leakage that can bias the evaluation of the system.
+
+## Classification
+We model the problem of predicting the TAS2Rs that associate with a ligand as a binary classification task where each ligand-receptor pair is given a prediction.
+We train a gradient boosting classifier with decision tree learners using the XGBoost classifier on the train feature matrix and the corresponding train label vector to predict the outcome for each ligand-receptor pair. The hyper-parameters used for the XGBoost classifier were not chosen using the data, and are detailed in the Additional file : Table S2.
+
+## Evaluation
+
+## Baseline models
+The sub-models of BitterMatch were compared with a prior model that represents a naive guess. The prior model gives a fixed prediction for all ligands associating with receptor . For estimation of we use the proportion of ligands that activate the receptor in the training set. Note that does not depend on the ligand, but only on the receptor.
+In the "New ligands" scenario, BitterMatch is also compared with a nearest-neighbor model according to the linear similarity. Denote by12\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$$l^*=\underset{l^ \prime}{\arg \max} \,\left\{{S}_{ll^\prime} \ \vert \ {A}_{l^\prime r} \in \{0,1\} \right\}$$\end{document}l∗=argmaxl′Sll′|Al′r∈{0,1} 
+the nearest ligand to , whose association with is known. Then the nearest-neighbor model uses the association of the nearest ligand as its prediction for the ligand . Equivalent results were achieved when predictions are given according to MOLPRINT2D similarity (not shown).
+
+## Recall-precision
+In order to evaluate performance of BitterMatch models (described in Methods: “Filling the gaps scenario” and Methods: “New ligands scenario”), we performed 100 repetitions of the experiment. In each repetition, train and test feature matrices and label vectors were randomly sampled (as described in Methods: “ ”).
+For each model we calculated an average precision-recall curve over 100 repetitions of the experiments. Denote by the number of true positive predictions, by the number of false positive predictions, and by the number of false negative predictions. The precision levels were calculated as and recall levels were calculated as . The average precision scores were computed as , where pk and are the precision and recall at the -th threshold. The number of considered thresholds was set to the number of unique prediction scores.
+Since in each repetition we observe the precision at a different set of recall values, we use linear interpolation to a fixed set of locations. We set as fixed levels of recall, evenly spread between 0 and 1. For each repetition  , we treat the precision values as a function of the recall values and used these values to perform linear extrapolation of the function, evaluated ﻿at  . Having 100 sets of precision values, each evaluated at the same recall levels , we calculated asymptotic confidence intervals for the mean precision at each recall level where is the mean precision at the given recall level, is the sample standard deviation of the precision values at the given recall level over 100 repetitions, and the critical value of the standard normal distribution. To obtain prediction bands we set the lower and upper bounds of the prediction bands ﻿at  , as the 5-th and 95-th percentiles of . Percentiles were computed using the "percentile" function, and the interpolation was performed using the "interp" function, both from the numpy 1.16.4 Python library.
+
+## Feature importance
+Average gain across all XGBoost splits was computed as defined in [ ] using the "get_booster" function (with importance_type = 'gain') from the xgboost 1.4.2 Python library.
+
+## Validation set
+
+## Curation of molecules for validation set
+The validation set was created with new compounds that were neither used for training nor testing in the experiment. In total, 12 compounds were collected: 3 compounds that were not tested in-vitro to the best of our knowledge, 4 compounds taken from the work of Lang et al. [ ] and 5 compounds from BitterDB that were not included in the original association matrix (only one or two known associations are documented for them in BitterDB). In total, 252 pairs of ligand-receptor were predicted for this set. The evaluation was performed at a threshold of 0.52 was chosen on the test set.
+
+## In-vitro testing of BitterMatch predictions
+
+## Chemicals and materials
+The compounds for functional analyses were purchased from Alfa Aesar (Ward Hill, USA) (2-acetylbenzofuran, fisetin), Sigma-Aldrich (Steinheim, Germany) (apigenin, butein, 3,2´-dihydroxycalchone, quercetin and sinapic acid) and AdipoGen (Liestal, Switzerland) (theacrine), dissolved in dimethyl sulfoxide (DMSO) according to their solubility and stored at -20 °C until use.
+
+## Functional receptor screening
+HEK 293 T-Gα16gust44 cells [ ] were seeded into 96-well-plates and cultivated in DMEM plus supplements (10% FCS, 1% penicillin/streptomycin, 1% glutamine) at 37 °C, 5% CO2, saturated air humidity. Next, cells were transiently transfected with cDNA constructs coding for the 25 human TAS2Rs using lipofectamine 2000 (Thermo Fisher Scientific GmbH, Darmstadt, Germany) as before [ , ]. An empty vector (mock) was transfected as a negative control. After 24 h, cells were loaded with Fluo4-AM (Thermo Fisher Scientific GmbH, Darmstadt, Germany) in the presence of 2.5 mM probenecid, washed two times for 30 min. with C1 buffer (130 mM NaCl, 5 mM KCl, 2 mM CaCl2, 10 mM glucose, 10 mM HEPES; pH 7.4) and placed in a fluorometric imaging plate reader (FLIPRTetra, Molecular Devices). For screening, stock solutions of the compounds were diluted in C1 buffer. The final DMSO concentration did not exceed 1%. The final maximal concentrations of the compounds added to the receptor-transfected cells were between 1 and 1000 µM depending on their solubilities and the occurrence of receptor-independent cellular artefacts (Additional file : Table S1). Additional to the maximal compound concentration, a tenfold dilution of the maximal concentration were tested to judge the apparent potencies. As positive controls we included the known agonists aristolochic acid (1 and 10 µM, TAS2R14) [ ] and strychnine (30 and 300 µM, TAS2R10) [ ] and (3 and 30 µM, TAS2R46) [ ]. The changes in fluorescence upon addition of compounds were monitored. Vitality of cells was confirmed by the addition of somatostatin 14 (100 nM, Bachem, Bubendorf, Switzerland) as a second application. Screening experiments were performed in duplicate wells. A statistically significant difference between the fluorescence changes of receptor-transfected cells compared to mock-transfected cells was judged as potential hit and the corresponding compound-receptor pairs were selected for further experiments.
+
+## Determination of threshold values of TAS2Rs activation
+The evaluation of receptor-compound pairs judged positive after the initial screening was based on three additional independent experiments. For the calculation of ΔF/F, the fluorescence change of control (mock) cells was subtracted from that of the corresponding receptor-expressing cells. The resulting signal was normalized to background fluorescence.
+
+## Functional analogs analysis
+Prediction of functional orthologs was performed on the full binary association matrix containing both the original data and the predictions (threshold = 0.65) in cases where the associations were unknown. We calculated the Jaccard similarity between human and mice receptors, taking into account intersections in both positive and negative associations.
+
+## Prediction of DrugBank dataset
+We used BitterMatch to predict the associations of intensely bitter drugs from DrugBank (version 5.1.5) [ ]. 2406 intensely bitter predicted drugs were taken from Margulis et al. [ ] and inputted into BitterMatch. Analysis was performed at a threshold of 0.52.
+
+## Implementation
+All the code for this work was implemented in Python 3.6. For the XGBoost implementation we used the xgboost 1.4.2 Python library. Figures  , , , Additional file : Figure S1, Additional file : Figure S2, Additional file : Figure S3, Additional file : Figure S4 were generated with matplotlib 3.3.4. Figures  , were generated with matplotlib 3.2.2. Figure  B was implemented using seaborn 0.9.0. Figure  and Additional file : Figure S1 were Created with BioRender.com.
+
+## Supplementary Information
+
+Additional file 1: Figure S1. BitterMatch sub-models. A Venn diagram describing the four examined BitterMatch sub-models. Model (1) includes only chemical properties, model (2) includes chemical properties and neighbor-informed collaborative features, model (3) includes chemical properties and neighbor-informed chemical features, model (4) is the augmented one and it includes chemical properties, neighbor-informed collaborative features and neighbor-informed chemical features. Neighbor-informed collaborative features are computed directly from the known associations that were also used to calculate collaborative similarities. However, neighbor-informed chemical features are computed from the known associations and chemical and sequence similarities.
+Additional file 2: Figure S2. Prediction intervals for filling the gaps scenario. Average precision-recall curves over 100 repetitions are shown in (A) for the four BitterMatch models and for the prior model (identical to Figure 2A). Figures B1, B2, B3, B4 show Bootstrap 95% prediction intervals for each model presented in (A).
+Additional file 3: Figure S3. Prediction intervals for new ligands scenario. Precision-recall curves for the adapted BitterMatch model, a prior model and a nearest neighbor model (idenctivcal to Figure 4A). 95% Bootstrap prediction intervals are shown for each model.
+Additional file 4: Figure S4. Feature importance for new ligands Features related to ligand similarities are shown in blue, receptor properties are shown in purple. (A) Feature importance for all the features in model 3. The black horizontal dashed line corresponds to feature importance of 21.5, features above this threshold are shown in detail in Fig. 6 (B) Feature importance for all the features in the "new ligands" model. The black horizontal dashed line corresponds to feature importance of 22.7.
+Additional file 5: Figure S5. Confirmation of TAS2R screening results by functional experiments. The cDNA of the 9 TAS2Rs showing responses to the predicted bitter substances were expressed in HEK 293T-Ga16gust44 cells and challenged with 3 concentration of the corresponding newly identified agonists. The relative changes of fluorescence (ΔF/F) are provided on the y-axes of the bar graphs for each substance. Below the bars the concentrations used for the confirmatory experiments in µM are depicted together with the corresponding receptor symbols. The substance names are printed in bold. Statistically significant activations (Student’s t-test) are indicated by asterisks (see bottom right of figure for significance levels).
+Additional file 6. Table 1. Ligand features. Table 2. Receptor features. Table 3. Human-mouse Jaccard similarity. Table 4. ligand_PubChemID.
+Additional file 7: Table S1. Substances used for experimental testing of prospective predictions and their maximal employed concentrations. Table S2. XGBoost hyper-parameters. To avoid overfitting 1000 trees were used accordingly the following hyper-parameters were adjusted. The rest of the parameters were set to their default values. Table S3. Prospective prediction results per ligand. 1–represents an activation of the receptor that was confirmed experimentally and blank space means no activation was detected. *-positive activation that was detected in another publication but not in our in-vitro experiment. green–TP, red-FN, blue-FP and white-TN
+
+## Abbreviations
+TAS2RBitter taste receptor (human)
+Tas2rsBitter taste receptor (mouse)
+GPCRG protein-coupled receptor
+XGBoostExtreme gradient boosting
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Eitan Margulis and Yuli Slavutsky equally contributing authors
+
+## Acknowledgements
+We thank Lior Wolf, Ayana Dagan-Wiener and Fabrizio Fierro for insightful discussions, and Eva Boden for excellent technical assistance. EM is the recipient of CIDR, Smith, Zehavi and Nano fellowships. YS is supported by the Israeli Council For Higher Education Data Science fellowship.
+
+## Author contributions
+MYN conceived the study, EM, YS, YB and MYN designed the study and wrote the manuscript. EM designed the data set and features, YS developed the learning algorithm. EM and YS analyzed the results. TL and MB performed in-vitro experiments. All authors read and approved the manuscript.
+
+## Funding
+MYN is supported in part by ISF #1129/19 funding.
+
+## Code availability
+The code is available at: https://github.com/YuliSl/BitterMatch
+
+## Declarations
+
+## Competing interests
+The authors have no relevant financial or non-financial interests to disclose.

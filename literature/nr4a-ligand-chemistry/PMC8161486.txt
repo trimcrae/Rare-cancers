@@ -1,0 +1,1203 @@
+ACS Cent SciACS Cent Sci2967acscentsciocACS Central Science2374-79432374-7951American Chemical SocietyPMC8161486PMC8161486.1816148681614863407989810.1021/acscentsci.0c015501Research ArticleChemical Inhibition of ENL/AF9 YEATS Domains in Acute Leukemia
+Garnar-WortzelLeopold BishopTimothy R. http://orcid.org/0000-0003-2453-849XKitamuraSeiya MilosevichNatalia AsiabanJoshua N. http://orcid.org/0000-0002-0951-9664ZhangXiaoyu ZhengQinheng ChenEmily RamosAnissa R. AckermanChristopher J. HamptonEric N. ChatterjeeArnab K. YoungTravis S. HullMitchell V. SharplessK. Barry http://orcid.org/0000-0001-5330-3492CravattBenjamin F. http://orcid.org/0000-0001-9879-8353WolanDennis W. http://orcid.org/0000-0001-9993-3481ErbMichael A. †Department
+of Chemistry, The Scripps Research Institute, La Jolla, California 92037, United States‡Department
+of Molecular Medicine, The Scripps Research
+Institute, La Jolla, California 92037, United States§Department
+of Integrative Structural and Computational Biology, The Scripps Research Institute, La Jolla, California 92037, United States∥California
+Institute for Biomedical Research, The Scripps
+Research Institute, La Jolla, California 92037, United States*Email: michaelerb@scripps.edu.30042021260520217538274181583017112020300420210106202105042026© 2021 The Authors. Published
+by American
+Chemical Society2021The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+Transcriptional coregulators,
+which mediate chromatin-dependent
+transcriptional signaling, represent tractable targets to modulate
+tumorigenic gene expression programs with small molecules. Genetic
+loss-of-function studies have recently implicated the transcriptional
+coactivator, ENL, as a selective requirement for the survival of acute
+leukemia and highlighted an essential role for its chromatin reader
+YEATS domain. Motivated by these discoveries, we executed a screen
+of nearly 300,000 small molecules and identified an amido-imidazopyridine
+inhibitor of the ENL YEATS domain (IC50 = 7 μM).
+Improvements to the initial screening hit were enabled by adopting
+and expanding upon a SuFEx-based approach to high-throughput medicinal
+chemistry, ultimately demonstrating that it is compatible with cell-based
+drug discovery. Through these efforts, we discovered SR-0813, a potent
+and selective ENL/AF9 YEATS domain inhibitor (IC50 = 25
+nM). Armed with this tool and a first-in-class ENL PROTAC, SR-1114,
+we detailed the biological response of AML cells to pharmacological
+ENL disruption for the first time. Most notably, we discovered that
+ENL YEATS inhibition is sufficient to selectively suppress ENL target
+genes, including HOXA9/10, MYB, MYC, and a number of other leukemia proto-oncogenes. Cumulatively,
+our study establishes YEATS domain inhibition as a viable approach
+to disrupt the pathogenic function of ENL in acute leukemia and provides
+the first thoroughly characterized chemical probe for the ENL YEATS
+domain.
+
+An inhibitor of the ENL YEATS domain,
+an emerging leukemia
+target, was identified by high-throughput screening, validated by
+PROTAC discovery, and optimized by high-throughput SuFEx diversification.
+
+U.S. Department of Health and Human Services10.13039/100000052DP5-OD26380Ono Pharma Foundation10.13039/501100015834NALeukemia and Lymphoma Society10.13039/100005189NAU.S. Department of Health and Human Services10.13039/100000057K99GM138758pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9oc0c01550document-id-new-14oc0c01550ccc-price
+
+## Introduction
+Transcriptional dysregulation
+in cancer pathogenesis represents
+a potentially rich source of targets for therapeutic intervention.
+In acute myeloid leukemia (AML), genetic alterations disproportionately
+affect transcriptional machinery and frequently converge on similar
+nodes of pathogenic gene control, like ectopic activation of HOXA cluster genes. − Tragically, despite being the second-most-common leukemia, the 5-year
+survival rate of patients with AML remains around 25%. Therefore,
+there is significant interest in drugs and drug targets that would
+enable the suppression of the core transcriptional circuitries driving
+AML pathogenesis. Motivated to illuminate such targets, we previously
+applied genome-scale CRISPR/Cas9 loss-of-function screening to identify
+genes that are required for AML survival. Through this work, and contemporaneously with others, we identified
+the transcriptional coactivator ENL (encoded by MLLT1) as a requirement for the proliferation of AML and B-ALL (B-cell
+acute lymphoblastic leukemia) that harbor oncogenic rearrangements
+of the multiple lineage leukemia (MLL) gene. , MLL rearrangements drive expression of HOXA genes,
+leading to the formation of a particularly aggressive subset of acute
+leukemia. While these leukemia depend
+on ENL for survival, normal hematopoietic stem and progenitor cells
+(HSPCs) do not, , suggesting a putative therapeutic
+window for ENL antagonism in MLL-fusion leukemia.
+ENL is a chromatin
+reader protein possessing an amino-terminal
+YEATS domain (named for the first-discovered members of the family:
+Yaf9, ENL, AF9, Taf14, Sas5) and a disordered carboxy-terminal protein–protein
+interaction interface. Adapted to bind
+acylated lysine side chains, the YEATS domain of ENL is thought to
+mediate its localization to acetylated regions of chromatin, mainly
+gene promoters. , ENL then recruits additional
+transcriptional effectors, such as the super elongation complex (SEC),
+that regulate transcription by RNA polymerase (Pol) II. , , Presently, the ENL YEATS domain
+is known to bind with low micromolar affinity to acetyl (ac) and crotonyl
+(cr) modifications of lysine residues found within the amino-terminal
+tails of histone H3. , , While the post-translational modifications it binds are localized
+to all gene promoters, ENL is asymmetrically distributed to its genomic
+binding sites in AML cells. That is,
+a small number of genes, including a disproportionate number of leukemia
+proto-oncogenes and dependencies, are occupied with a disproportionate
+amount of ENL at their promoters. To understand the impact of this
+asymmetry on ENL-dependent transcriptional control, we previously
+used degradation tag (dTAG) technology to engineer a tagged ENL allele
+that is sensitive to pharmacologically induced degradation. , The rapid kinetics of this system allowed us to probe the direct
+effects of ENL loss at early time points and revealed that asymmetrically
+loaded ENL target genes are preferentially sensitive to the loss of
+ENL. As a result, a number of disease-relevant leukemia drivers, such
+as HOXA9/10, MEIS1, MYB, and MYC, are selectively suppressed by the acute
+loss of ENL. However, since the dTAG
+system relies on overexpression of an ENL-FKBP12(F36V) fusion protein,
+direct-acting chemical tools are needed to confirm these results.
+Additionally, given the extensive efforts required to engineer the
+dTAG system in mammalian cell lines, chemical tools would enable a
+broader study of ENL in diverse model systems.
+The YEATS domain
+represents a compelling target for chemical probe
+development as genetic experiments have suggested it is (i) required
+to mediate a stable association of ENL with chromatin and (ii) essential
+for the proliferation of ENL-dependent leukemia. , However, it remains unknown if ENL YEATS inhibition is sufficient
+to recapitulate the transcriptional suppression of ENL target genes
+observed by ENL-dTAG degradation. Unfortunately, the inhibition of
+an isolated chromatin reader domain often fails to reproduce the biological
+effects of disrupting the entire protein by genetic knockouts or knockdowns.
+This has been observed on multiple occasions for bromodomains, chromatin
+readers that also bind acetyllysine. For
+instance, SMARCA2 and SMARCA4 are compelling targets in multiple cancer
+types, − but high affinity ligands targeting their bromodomains fail to recapitulate
+the effects of genetic knockdowns. Ultimately,
+the inhibition of SMARCA2/4 function requires a different domain to
+be targeted or the proteins to be degraded entirely. − The same is true of the bromodomain protein, TRIM24. Therefore, as a final, definitive step in target
+identification, it is essential to study the biological effects of
+directly engaging the ENL YEATS domain with small-molecule ligands.
+Recent disclosures of small-molecule and synthetic peptide ligands
+have established the druggability of ENL and AF9 (encoded by MLLT3) YEATS domains. − However, the phenotypes observed in AML cells following genetic
+suppression of ENL have yet to be validated with direct-acting chemical
+tools. The most potent small-molecule ENL/AF9 YEATS inhibitor reported
+to date, SGC-iMLLT (Kd = 129 nM), has
+not been studied in AML cells beyond proximal measures of target engagement. Importantly, its effects on leukemia survival
+and ENL-dependent gene expression programs have yet to be described, underscoring the need to not only discover but
+also fully characterize potent and selective ENL chemical probes.
+Here, we have undertaken such efforts, reporting on the development
+and characterization of advanced chemical tools for the ENL YEATS
+domain.
+Through a coordinated effort in discovery chemistry
+that began
+with high-throughput chemical screening, we developed an ENL degrader,
+SR-1114, and ENL YEATS inhibitor, SR-0813. Our discovery of SR-0813
+(Kd = 30 nM) relied on a high-throughput
+medicinal chemistry approach that leverages biocompatible SuFEx transformations
+to synthesize hit analogs in highly parallel, miniaturized formats.
+As previously demonstrated, the crude products of these reactions
+can be tested directly in biochemical assays without further purification,
+expediting the process of medicinal chemistry. Here, we extend this approach by demonstrating that SuFEx-based
+high-throughput medicinal chemistry is compatible with cell-based
+measures of activity, which ultimately proved essential for the identification
+of SR-0813. By mechanistically and thoroughly studying SR-0813 in
+AML model systems with integrative transcriptional genomics, we define
+the impact of ENL inhibition on pathogenic gene control and highlight
+the remarkably selective suppression of leukemic ENL target genes.
+Together, these studies provide the first pharmacological validation
+of the ENL YEATS domain as a target in MLL-fusion leukemia and advance
+a high-quality chemical probe to study ENL/AF9 YEATS domains.
+
+## Results
+In prior research efforts, we and others used mutational approaches
+to identify a critical role for the YEATS domain in ENL-dependent
+leukemia proliferation. , Interested to validate
+these results with direct-acting pharmacological tools as well as
+to investigate the YEATS domain in ENL-dependent transcriptional control,
+we undertook efforts to discover chromatin-competitive inhibitors
+of the ENL YEATS domain. Using a homogeneous time-resolved FRET (HTRF)-based
+measure of binding between the ENL YEATS domain and a histone H3 peptide
+crotonylated at Lys27 (H3K27cr), we screened for putative ENL YEATS
+inhibitors from a collection of approximately 275,000 diverse small
+molecules ( a). Confirmed primary hits were tested in dose–response format,
+leading to the selection of 100 compounds for hit-expansion studies
+and further evaluation. In total, these 100 hits and an additional
+275 structurally similar analogs were tested in dose–response
+assays against ENL YEATS and then counter-screened against the first
+bromodomain (BD1) of BRD4 (a structurally dissimilar protein fold
+that also recognizes acetyllysine residues). To validate ENL binding by an orthogonal measure and to prioritize
+cell-permeable compounds, YEATS-selective hits were evaluated in a
+luminescence-based cellular thermal shift assay (CETSA) that measures
+intracellular engagement of an ENL(YEATS)-HiBiT fusion protein. These efforts resulted in the identification
+of compound 1, an amido-imidazopyridine inhibitor of
+the ENL YEATS domain ( b–d, ).
+ To better gauge the
+suitability of this scaffold for further optimization,
+we sought to identify preliminary evidence of a structure–activity
+relationship (SAR). Methylation of the amide (2) resulted
+in complete ablation of activity against ENL YEATS, whereas exchanging
+the isopropyl for a cyclobutyl group (3) greatly improved
+potency by both HTRF and CETSA ( b–d, ). Compounds 1 and 3 also
+inhibit the YEATS domain of AF9, the closest homologue of ENL, but do not affect the first bromodomain of BRD4
+(Figure S1a,b). Finally, limited exploration
+of the phenyl ring did not yield any notable improvements but did
+establish the meta and para positions as permissible sites for substitution.
+We speculated that these sites might tolerate linker attachments for
+the design of PROTACs to degrade ENL. PROTACs are heterobifunctional
+small molecules that recruit a target protein to an E3 ubiquitin ligase
+complex to elicit ligand-dependent protein degradation. Ultimately, we considered that the discovery
+of a selective degrader from this scaffold would substantiate ENL
+as an authentic target of the imidazopyridine series.
+Using
+a polyethylene glycol linker, we attached 3 to
+thalidomide, which binds to the E3 substrate adapter, cereblon (CRBN),
+to yield SR-1114 (4). In MV4;11 cells, SR-1114 elicits
+rapid, CRBN-dependent degradation of ENL with a half-maximal degradation
+concentration (DC50) of 150 nM ( e,f and S1c).
+At a concentration of 10 μM, maximal degradation occurs within
+4 h but is only sustained by a single dose for 24 h (Figure S1d,e). After withdrawal of SR-1114 from cells, ENL
+is rapidly resynthesized within 24 h (Figure S1f). ENL is also degraded by SR-1114 in MOLM-13 (DC50 =
+311 nM) and OCI/AML-2 (DC50 = 1.65 μM) cell lines
+(Figure S1g,h), altogether confirming that
+the imidazopyridine series can support the development of effective
+ENL PROTACs.
+We evaluated the selectivity of SR-1114-induced
+ENL degradation
+by mass spectrometry (MS)-based expression proteomics using isobaric
+tandem mass tag (TMT) labeling for quantification. After 4 and 16
+h exposures of MV4;11 cells to SR-1114 (10 μM), ENL showed the
+strongest change in abundance across the proteome ( g, Table S1). Since AF9 is not expressed in MV4;11 cells and therefore
+not detected by proteomics, this experiment did not reveal if SR-1114
+can also degrade AF9. Our attempts to unambiguously detect AF9 by
+immunoblot in other cell lines were unsuccessful, so we expressed
+AF9 with a carboxy-terminal V5 epitope tag in MOLM-13 cells. This
+enabled detection of exogenously expressed AF9 and confirmed that
+it is degraded by SR-1114 (Figure S1i).
+After 16 h, SR-1114 treatment resulted in the preferential suppression
+of multiple ENL target genes, including HOXA10, MYC, MYB, FLT3, ZEB2,
+and SATB1 ( h, Table S1), closely replicating the
+transcriptional consequences of dTAG-mediated ENL degradation. Furthermore, the 16 h SR-1114 treatment also
+increased the abundance of the myeloid differentiation marker, CD11b,
+in agreement with the proposed role for ENL in preventing the terminal
+differentiation of AML cells. These data
+elevated our confidence in ENL as a leukemia target and simultaneously
+provided an orthogonal validation of ENL as a target of the amido-imidazopyridine
+series.
+Unfortunately, proteomics studies also revealed weak
+off-target
+degradation of the IKAROS family transcription factor, IKZF1 ( g,h). Thalidomide
+is known to induce the degradation of IKZF1 by recruiting it to CRBN , and, in some instances, has been observed to retain this activity
+even when incorporated into a PROTAC. , Since IKZF1
+is a transcription factor of known importance in hematological cell
+types, its degradation might complicate the study of ENL-dependent
+transcriptional control in acute leukemia. Therefore, we decided not
+to proceed with further cell-based studies of SR-1114 and instead
+pursued enhancements in ligand affinity that would enable studies
+of ENL YEATS domain function in living systems.
+Additional improvements
+to the imidazopyridine series were discovered
+using a high-throughput hit-to-lead process that leverages sulfur(VI)
+fluoride exchange (SuFEx) “click” transformations for
+parallelized chemical diversification ( a). Capitalizing
+on the high-yielding reaction of iminosulfur oxydifluoride SuFEx hubs
+with primary and secondary amines, a
+diverse library of sulfamide- or sulfuramidimidoyl-fluoride-linked
+analogs can be rapidly assembled in miniaturized formats. Importantly, the biocompatible nature of these
+reactions permits testing of the crude products directly in biochemical
+assays without the need of further purification. Without a crystal structure to guide iterative medicinal
+chemistry efforts, we attempted to expedite empirical discovery of
+optimized ENL ligands using this approach.
+ First, since fluoride is produced as a byproduct of the SuFEx
+click
+reactions, we tested whether it would impact the performance of the
+HTRF assay for ENL YEATS. Planning to screen crude reaction products
+at concentrations no higher than 2–5 μM, we tested the
+effect of adding 10 μM KF to the assay. Neither the signal window
+of the assay nor the Z′-factor, a statistical measure of the
+ability to call hits from high-throughput screening data, was affected by the presence of KF (Figure S2a). To proceed with SuFEx-based diversification,
+we appended iminosulfur oxydifluoride groups to the meta (5) and para (6) positions on the phenyl ring of 1. Both compounds retained activity against the ENL YEATS
+domain by HTRF, despite suffering minor losses compared to 1 (Figure S2b, ). We then reacted each compound in parallel
+with a library of 288 primary and secondary amines and screened the
+crude products at a putative concentration of 2 μM ( a,b). In general,
+meta substitutions seemed to be preferred over para, and while the
+parent molecules are inactive at 2 μM (Figure S2b), several crude reaction products fully inhibited ENL YEATS
+at this presumed dose ( b, Table S2).
+Selecting 28
+crude products for dose–response examination,
+we observed striking improvements in potency compared to the parent
+molecule ( c, Table S3). The most potent hit, formed by the
+reaction of 5 with histamine, inhibited ENL YEATS with
+an IC50 of 120 nM by HTRF ( c). To confirm this result, the compound
+was resynthesized, purified, and then tested for activity against
+ENL YEATS (7, Figure S2c).
+By HTRF, the potency of the purified product matched closely with
+the results obtained for the crude (IC50 = 230 nM; Figure S2d; ). Compared to the initial screening hit (IC50 = 7 μM), this represents a 30-fold improvement in potency
+achieved in a single experiment. Nevertheless, the dramatic improvement
+in potency in the HTRF assay did not translate to similar gains in
+cell-based target engagement (EC50, 1 = 9
+μM; EC50, 7 = 1.5 μM; Figure S2e; ).
+Hoping to improve the performance of 7 in cells, we
+speculated that SuFEx-based screening might be sufficiently biocompatible
+to permit the testing of crude products directly in living cells.
+If so, we could couple parallelized SuFEx diversification with cell-based
+measures of target engagement. By this time, we had discovered the
+improvement in potency afforded by the cyclobutylamine modification
+in compound 3, so we installed the iminosulfur oxydifluoride
+group onto the meta position of 3 instead of 1, yielding compound 8 ( d). This SuFEx-compatible analog was then
+reacted in parallel with a small collection of amines sterically related
+to histamine and screened for target engagement in cells at 2 μM.
+A noticeable preference for piperidine analogs was revealed by this
+experiment, including one with the same CH2CH2 linker as the histamine in 7 ( d, Table S4).
+To compare the imidazole and piperidine analogs directly, we synthesized
+and purified compounds 9 and 10 (SR-0813)
+( e). While 9 features superior potency in the HTRF assay (IC50, 9 = 7 nM; IC50, SR-0813 = 25 nM), SR-0813
+engages the ENL YEATS domain more potently in cells and elicits a
+greater Emax ( f, ). Consistent with its 25 nM potency in the HTRF assay,
+we determined a 30 nM affinity between SR-0813 and the ENL YEATS domain
+by surface plasmon resonance (SPR) ( g and S2f). Moreover,
+the inhibition of ENL YEATS by SR-0813 was not affected by the addition
+of KF, supporting the previous observation that fluoride byproduct
+does not affect the HTRF assay (Figure S3a). These data demonstrate that SuFEx-based high-throughput medicinal
+chemistry, previously applied to an inhibitor of the bacterial cycteine
+protease, SpeB, is extensible to other
+targets. Equally important, we find that the approach is compatible
+with cell-based drug discovery.
+Encouraged by the improved activity
+of SR-0813, we tested it for
+activity against all other YEATS domain proteins in humans: AF9, YEATS2,
+and YEATS4. As expected, both HTRF (IC50 = 311 nM) and
+CETSA (EC50 = 76 nM) revealed SR-0813 as a potent inhibitor
+of the AF9 YEATS domain ( h and S3b). While the IC50 values determined by HTRF suggest a preference for ENL (25
+nM) over AF9 (311 nM), we noted previously that the AF9 assay reports
+artificially high IC50 values. Since both targets are potently engaged in cells (EC50, ENL = 205 nM; EC50, AF9 = 76 nM), SR-0813 is not selective
+for ENL over AF9. In contrast, SR-0813 is highly selective against
+the YEATS domains of YEATS2 and YEATS4. To assess the selectivity
+against YEATS2, we used modified histone peptide arrays to detect
+YEATS domain recognition of immobilized acetyllysine substrates. Whereas
+ENL recognition of acetyllysine is completely inhibited by 1 μM
+SR-0813, concentrations as high as 10 and 50 μM had minimal
+effects on YEATS2 (Figure S3c–f, Table S5). Likewise, virtually no binding to
+the YEATS4 YEATS domain was observed by SPR (Figure S3g,h).
+We also profiled SR-0813 for off-target effects
+on bromodomain
+proteins, the largest class of acetyllysine readers. SR-0813 was inactive
+in the BRD4 BD1 HTRF assay, and not a single bromodomain off target
+was identified using the BROMOscan profiling service
+from DiscoverX (bromoMAX; 32 bromodomains; Figure S4a,b; Table S6). Given the similarity of its imidazopyridine core to many bicyclic
+kinase inhibitors, we also tested SR-0813 for kinase off-targets using
+the KINOMEscan profiling service (scanMAX, 468 kinases, Figure S4c, Table S7). Of the 468 kinases tested, 4 were
+identified as potential off targets, but subsequent affinity determination
+revealed 3 of these as false-positive hits (Figure S4c,d). The remaining kinase, YSK4 (also known as MAP3K19),
+was bound by SR-0813 with over 100-fold lower affinity (Kd = 3.5 μM) than ENL YEATS and would not be expected
+to complicate studies of ENL function in cellular model systems. Altogether,
+these studies suggest SR-0813 is a highly selective and potent dual
+inhibitor of the ENL/AF9 YEATS domains.
+Enabled by the discovery
+of SR-0813, we sought to characterize
+the effects of ENL/AF9 YEATS domain inhibition in cells. Previously,
+alanine substitutions in the ENL YEATS domain helped to establish
+acyl-lysine recognition as an important contributor to ENL chromatin
+localization. , To test this model via direct
+pharmacological occupation of the ENL YEATS domain, we preformed chromatin
+immunoprecipitation (ChIP) of ENL following treatment of MV4;11 cells
+with SR-0813 for 4 h. Quantification of ChIP enrichment by qPCR demonstrated
+clear dose-dependent eviction of ENL from known ENL binding sites,
+including the HOXA10 gene body and MYB promoter ( a). Not knowing whether this effect is sufficient to suppress the
+expression of ENL target genes, so we measured the impact of SR-0813
+on known ENL targets, HOXA9, MEIS1, and MYC. Each gene
+was downregulated in response to SR-0813, beginning as early as 3
+h after drug exposure and sustained for at least 3 days ( b). We also observed
+an increased abundance of the ITGAM transcript, which
+encodes for CD11b ( b), consistent with previous RNA-seq studies that measured
+the effects of dTAG-mediated ENL degradation in MV4;11 cells. As noted above, CD11b protein abundance is also
+elevated in MV4;11 upon SR-1114 treatment ( h) and in MOLM-13 cells upon genetic depletion
+of ENL. Taken together, these data support
+the hypothesis that ENL/AF9 YEATS inhibition is sufficient to disrupt
+ENL function in living AML cells. Interestingly, 1 and 10 μM
+doses appear equally capable of suppressing ENL target genes ( b), despite the more
+effective displacement of ENL from chromatin at 10 μM ( a).
+ After confirming the most proximal biomarkers of
+ENL YEATS engagement
+by SR-0813, we next characterized its effect on acute leukemia proliferation,
+comparing it to the known pattern of sensitivity to ENL depletion
+by CRISPR/Cas9. We began by testing the viability of MV4;11 cells
+following 72 h SR-0813 treatments but observed minimal effects (Figure S5a). We considered that like DOT1L, a
+related epigenetic target in MLL-fusion leukemia, ENL disruption may
+require longer than 72 h to derive an antileukemic effect. Therefore, we tested the effect of extended
+SR-0813 treatments on AML cells over a period of ∼2 weeks,
+beginning with 3 MLL-fusion leukemia that were previously shown to
+be sensitive to the genetic loss of ENL, MV4;11 (MLL-AF4 AML), MOLM-13
+(MLL-AF9 AML), and OCI/AML-2 (MLL-AF6 AML). , SR-0813 inhibited the growth of each of these three cell lines as
+well as HB11;19 cells, which have not been tested for their reliance
+on wild-type ENL but harbor an MLL-ENL fusion ( c). In contrast, the growth patterns of JURKAT
+(T-cell ALL) and HL-60 (MLL wild-type AML) cells, both of which are
+insensitive to ENL loss, are unaffected
+by SR-0813 ( d). Additionally, neither the T-cell ALL cell line, MOLT-4, nor the
+renal cell carcinoma cell line, 786-O, were affected by SR-0813 (Figure S5b,c). Although these cell lines have
+not been tested for their reliance on ENL, these data support the
+conclusion that SR-0813 is not promiscuously toxic, even at concentrations
+as high as 10 μM. Moreover, we determined that the inhibition
+of MV4;11 growth by SR-0813 is accompanied by a decrease in the number
+of cells at the G2 stage of the cell cycle ( e), in line with previous data demonstrating
+G1 arrest upon loss of ENL. , Unfortunately, SR-0813
+is rapidly metabolized by mouse liver microsomes (t1/2 = 9.3 min, R2 = 0.9996, Figure S5d), prohibiting the extension of these
+findings in vivo. Taken together, these data are fully consistent
+with the pattern of sensitivity to genetic disruption of ENL, supporting
+the hypothesis that on-target effects are responsible for SR-0813-mediated
+inhibition of ENL-dependent leukemia growth.
+Among AML cell
+lines that are sensitive to SR-0813, we noticed
+differences in the response to 1 μM SR-0813 ( c). Initially, MV4;11 cells
+appeared to show a dose-dependent response to SR-0813 and so did MOLM-13
+cells, albeit to a lesser extent. In contrast, OCI/AML-2 and HB11;19
+cells responded to 1 μM equally as well as 10 μM. Given
+this discrepancy, we repeated the growth assays for MV4;11 cells an
+additional 4 times. In each of these repeats, 1 μM SR-0813 treatments
+inhibited the growth of MV4;11 cells to the same extent as 10 μM
+treatments (Figure S5e). We also repeated
+the experiments an additional 5 times for HL-60 cells and once more
+for JURKAT cells, confirming the muted antiproliferative activity
+of SR-0813 in ENL-insensitive leukemia cells (Figure S5f,g). Overall, these data indicate that 1 μM
+SR-0813 is sufficient to suppress ENL target gene expression and ENL-dependent
+leukemia growth, even though it does not fully displace ENL from chromatin.
+To more fully assess the impact of SR-0813 on gene regulation in
+MV4;11 cells, we integrated genomic measures of ENL chromatin localization
+with dynamic gene expression profiling. ChIP followed by next generation
+DNA sequencing (ChIP-seq) revealed bulk displacement of ENL from chromatin
+upon treatment with SR-0813 ( a). The magnitude of ENL displacement genome-wide followed
+a similar dose–response pattern as was observed by ChIP-qPCR
+and in CETSA-based target engagement assays ( f, a, and a). This is readily apparent both genome-wide and
+at specific sites that are relevant to AML pathogenesis, like the HOXA cluster, MYC promoter, and MYC enhancer ( a,b and S6a). In previous
+work, we noted an asymmetric distribution of ENL on the genome whereby
+a small percentage of sites are occupied by a disproportionately large
+amount of ENL. These genes, in addition
+to being enriched with disease-relevant leukemia proto-oncogenes,
+are preferentially sensitive to the acute loss of ENL by dTAG-mediated
+degradation. Here, we again detected this asymmetry in ENL localization
+( c, Table S8) and used 3′ mRNA sequencing
+to determine whether asymmetrically loaded ENL target genes are differentially
+sensitive to SR-0813. After a 4 h exposure in MV4;11 cells, SR-0813
+did not elicit global changes in gene expression, as expected ( d–g, Table S9). In contrast, it produced a strikingly
+selective suppression of ENL target genes with even more pronounced
+effects on those with disproportionate loads of ENL ( e,g). These genes include an
+impressive collection of transcription factors with well-established
+roles as leukemia drivers, including HOXA9/10, MEIS1, MYC, MYB, and
+ZEB2 ( d,f). , − Since AF9 is not expressed in these cells, we can confidently ascribe
+these effects as the consequence of disrupting ENL function. Therefore,
+we show for the first time that inhibition of the ENL YEATS domain
+can selectively suppress leukemogenic transcriptional control by ENL.
+ On the basis of the previous observation that 1
+μM SR-0813
+is sufficient to inhibit individual ENL target genes but not fully
+displace ENL from chromatin, we compared the impact of 1 and 10 μM
+SR-0813 across the entire transcriptome. The effects of 1 and 10 μM
+were highly correlated (r = 0.58) and inhibited ENL
+target genes to the same extent (Figure S6b–d). This demonstrates on a global scale that incomplete removal of
+ENL by 1 μM SR-0813 is sufficient to suppress ENL-dependent
+transcription. Since 1 μM is also sufficient to inhibit the
+growth of ENL-dependent leukemia, this potentially indicates that
+full target coverage would not be required to achieve a therapeutic
+effect with any clinical candidates developed in the future.
+To contextualize the selectivity of SR-0813-induced transcriptional
+effects for ENL target genes and search for potential off-target effects,
+we applied an unbiased gene set enrichment analysis (GSEA) to the
+3′ mRNA-seq data set. When typical and asymmetric ENL targets
+were profiled along with 5552 other gene sets in the molecular signatures
+database (MSigDB), ENL targets were by far the most highly enriched
+gene sets ( h, Table S10). ENL targets were enriched
+in both 1 and 10 μM data sets, but the effect was markedly more
+selective at 1 μM. At 10 μM, a number of other genes sets
+were also enriched, including one related to FLT3 internal tandem duplications (ITD) (a
+pathogenic alteration that is present in MV4;11 cells) and MYC targets
+( h and S6e,f). Most notably, multiple gene sets related
+to cholesterol biosynthesis and SREBP (sterol regulatory element binding
+proteins) targets were also enriched by 10 μM SR-0813 but not
+by 1 μM ( h and S6e–h). In contrast to ENL
+targets, which are inhibited by SR-0813, SREBP targets were elevated,
+including 3-hydroxy-3-methylglutaryl-CoA synthase 1 (HMGCS1), HMG Co-A reductase (HMGCR), and low density lipoprotein receptor (LDLR) ( d,f). We confirmed the upregulation of HMGCR and HMGCS1 by qRT-PCR, again observing that the
+effect is most prominent at 10 μM ( i). Since ENL target genes are fully suppressed
+by 1 μM SR-0813, we considered that this may reflect an off-target
+activity of the compound when used at high concentrations. To test
+this, we analyzed the effect of dTAG-based disruption of ENL on the
+same SREBP targets using a previously published RNA-seq data set (GEO
+accession GSE82117). Neither HMGCR, HMGCS1, nor LDLR was upregulated by dTAG-based ENL degradation, confirming the off-target
+nature of the effect ( j). Fortunately, the impact of SR-0813 on SREBP targets is
+most apparent at 10 μM, whereas ENL targets and ENL-dependent
+leukemia growth are fully suppressed at 1 μM. Therefore, as
+a precaution, we recommend using SR-0813 at 1 μM to study ENL
+leukemia biology. Collectively, these unbiased data show that SR-0813-dependent
+changes in gene expression are exceptionally selective for ENL target
+genes, especially at a concentration of 1 μM. We interpret this
+as strong support for SR-0813 as an exquisitely selective chemical
+probe for the ENL YEATS domain. In characterizing the transcriptional
+suppression of ENL target genes, we confirm that the pharmacologically
+tractable ENL YEATS domain is a functionally relevant drug target
+in acute leukemia.
+
+## Discussion
+In this study, we report
+on the discovery of SR-0813, a highly
+potent and selective chemical probe for ENL/AF9 YEATS domains. Our
+ligand discovery efforts were motivated by the previous identification
+of ENL as a critical dependency in acute leukemia. , Using genetic tools to characterize this dependency in vitro and in vivo, we and others formulated the hypothesis
+that chromatin-competitive inhibition of the ENL YEATS domain would
+selectively inhibit the growth of ENL-dependent acute leukemia. , While multiple reports of synthetic YEATS domain ligands have since
+followed, − none have been used to address this hypothesis by studying ENL-dependent
+transcriptional control or ENL-dependent leukemia proliferation. In
+characterizing SR-0813, we provide the first pharmacological validation
+of ENL as a leukemia target, reproducing key mechanistic insights
+made in the index target identification studies. Moreover, we provide
+the first evidence that ENL YEATS inhibition is sufficient to inhibit
+ENL-dependent transcriptional control and ENL-dependent leukemia growth,
+confirming that this druggable domain is also functionally relevant
+to ENL-associated pathogenesis.
+SR-0813 was elaborated from
+a high-throughput screening hit using
+an innovative high-throughput medicinal chemistry approach that leverages
+SuFEx reactivity to expedite chemical diversification. The conditions
+of these SuFEx transformations are highly biocompatible, enabling
+crude products to be tested directly in biochemical assays. We expand on this approach by demonstrating
+that it is extensible to other protein targets as well as cell-based
+measures of small-molecule activity, which should prove highly enabling
+for a number of cell-based drug discovery applications. It should
+prove particularly useful for the optimization of phenotypic screening
+hits before target identification studies are able to make structure-based
+drug design possible. In our case, since the most potent compound
+in biochemical assays was not the most potent in cellular assays,
+the ability to measure and optimize cell-based activity was essential.
+We were previously able to study the impact of ENL on leukemia
+gene control by using the dTAG system to elicit acute ENL degradation. These studies established ENL as a highly selective
+transcriptional coactivator that disproportionately affects the expression
+of several leukemia proto-oncogenes. The use of the dTAG system in
+advance of embarking on a drug discovery campaign provided our group
+with a unique ability to anticipate the on-target effects of direct-acting
+ENL YEATS inhibitors. That is, we used the mechanistic insights from
+dTAG-based studies to benchmark the effects of our compounds on known
+aspects of ENL target biology. The success of this approach underscores
+the value of dTAG technology for target identification studies. Now
+equipped with a well-characterized chemical probe, we and others will
+be able to disrupt ENL function in a much broader range of systems
+than is possible with the dTAG system, which requires extensive biological
+engineering and relies on the expression of a tagged construct.
+Here, we studied ENL-dependent gene control with direct-acting
+small molecules for the first time, integrating dynamic and unbiased
+measures of chromatin structure and function. In fact, this is the
+first study to demonstrate that small molecules can displace endogenous
+ENL from chromatin, as previous studies judged target engagement with
+exogenous overexpression of tagged constructs and luminescence-based
+proximity reporters that require hyperacetylation of the genome via
+pan-HDAC inhibition. Since not all acetyllysine
+reader domains mediate chromatin localization of their host proteins
+(e.g., the bromodomains of SMARCA2/4 and CBP/p300), , this provides an important insight into function of the ENL YEATS
+domain.
+Importantly, our study provides the first demonstration
+that inhibition
+of its YEATS domain is capable of disrupting ENL-dependent transcriptional
+control. Compared to over 5000 other gene sets, ENL targets are clearly
+the most severely affected class of genes to be perturbed by SR-0813.
+Moreover, the group of asymmetrically loaded ENL target genes, which
+were previously found to be hypersensitive to dTAG-mediated ENL degradation,
+was found to also be hypersensitive to SR-0813 treatment. This represents
+the first evidence that direct-acting chemical tools can reproduce
+the genetic studies that established ENL as a selective transactivator
+of leukemia gene expression.
+In replicating past genetic experiments,
+we simultaneously reinforce
+the evidence for ENL as a compelling leukemia dependency and validate
+SR-0813 as a useful chemical probe to study ENL/AF9 YEATS domain biology.
+Given that SR-0813 sensitivity stratifies with the known pattern of
+sensitivity to genetic disruption of ENL, we strongly favor the hypothesis
+that SR-0813 growth effects are on-target. Nevertheless, definitive
+confirmation of this hypothesis will ultimately require the discovery
+of mutant ENL alleles, or other pathway-based alterations, that rescue
+SR-0813 sensitivity. In the meantime,
+we anticipate that SR-0813 and SR-1114 will represent timely additions
+to the collection of tools available for studying ENL and AF9 YEATS
+domains, as many aspects of ENL biology remain poorly understood.
+For instance, ENL stands in contrast to the activity of many other
+coactivators that act as more global regulators of gene control. For
+instance, BRD4, an analogous acetyllysine reader and AML target, is
+universally required for active gene transcription. , , While the selectivity of ENL-dependent gene
+control in AML tracks with its asymmetric localization on the genome,
+it is still not understood how that asymmetry is established. Our
+molecules will help to address these and other questions, which will
+broaden our understanding of the role that druggable coregulators
+play in driving pathogenic gene control.
+
+## Methods
+
+## Protein Production
+ENL and YEATS4 YEATS domains were
+recombinantly expressed and purified exactly as previously described
+in detail. Briefly, ENL(1–148)
+was cloned into a modified pET21a (Novagen) expression vector with
+an N-terminal StrepII-SUMO or SUMO-AviTag and a C-terminal 6xHis tag
+and expressed in BL21(DE3) cells (New England Biolabs) by isopropyl-β-d-thiogalactopyranoside (IPTG) induction (0.4 mM) at 25 °C
+for 20 h. After purification by metal affinity chromatography (NiNTA
+agarose, Qiagen), buffer exchange to 100 mM Tris-HCl at pH 8.0, 150
+mM NaCl, 1 mM EDTA, and 1 mM DTT using PD10 desalting columns (GE
+Life Sciences), and cleavage from SUMO by Ulp1 digestion, ENL YEATS(1–148)
+was recovered from the flow through of a StrepTrap column (GE Life
+Science). YEATS4(13–158) was cloned into pET28a with an N-terminal
+6xHis and a C-terminal AviTag and expressed in BL21(DE3) cells by
+IPTG induction (0.25 mM) at 16 °C for 20 h. After purification
+by metal affinity chromatography (TALON Cobalt Resin, Takara) and
+buffer exchange to 50 mM sodium phosphate (pH 7.4) and 150 mM NaCl
+using Amnicon Ultracel 10K desalting columns (GE Life Sciences), YEATS4(13–158)
+was recovered by size exclusion chromatography using a HiLoad Superdex
+column (GE) on an AKTA pure (GE). To produce biotinylated protein,
+BL21(DE3) cells were cotransformed with the AviTag fusions and a biotin
+ligase expression vector, pBirAcm (Avidity). AF9 and YEATS2 YEATS
+were purchased from ActiveMotif (Cat. Nos. 81124 and 81099), and BRD4
+BD1 was purchased from Cayman (Cat. No. 11720)
+
+## Cell Lines
+MV4;11
+(RPMI 1640 supplemented with 10%
+fetal bovine serum (FBS), penicillin, and streptomycin), MOLM-13 (RPMI
+1640 supplemented with 10% FBS, penicillin, and streptomycin), OCI/AML-2
+(RPMI 1640 supplemented with 10% FBS, penicillin, and streptomycin),
+JURKAT (RPMI 1640 supplemented with 10% FBS, penicillin, and streptomycin),
+and HL-60 (RPMI 1640 supplemented with 20% FBS, penicillin, and streptomycin)
+cells were provided by the laboratory of Prof. James E. Bradner. 786-O
+(RPMI1640 + 10% FBS, penicillin) cells were provided by the laboratory
+of Prof. Luke L. Lairson. HB11;19 (RPMI 1640 supplemented with 10%
+fetal bovine serum (FBS), penicillin, and streptomycin) cells were
+provided by Prof. Akihiko Yokoyama. MV4;11 CRBN–/– and
+MOLT4 (RPMI 1640 + 10% FBS, penicillin, and streptomycin) cells were
+provided by Prof. Georg E. Winter. All
+cell lines were periodically (two to four times annually) tested for
+mycoplasma infections and never tested positive.
+
+## HTRF
+AF9 YEATS, BRD4 BD1, and ENL YEATS HTRF assays
+were performed exactly as previously described. All assays were conducted by combining recombinant AF9
+YEATS (5 nM), BRD4 BD1 (10 nM), or ENL YEATS (5 nM) with synthetic
+histone peptide (100 nM H313–32K27cr custom synthesized
+by ABclonal, 13.3 nM tetra-acetylated H4 from BioVision Cat. No. 7144–01,
+or 13.1 nM H313–32K27cr, respectively), 1 nM LanthaScreen
+Eu-anti-His Tag antibody (ThermoFisher, PV5597), and 8.9 nM SureLight
+allophycocyanin-streptavidin (PerkinElmer, CR130–100). For
+the primary screen, the assay mixture was dispensed into black 1536-well
+plates (Greiner HiBase) at 6 μL/well and compounds were added
+by acoustic transfer (Labcyte, Echo Liquid Handler). Dose–response
+assays were performed with 10 or 20 μL assay volumes in black
+384-well low-volume plates (Corning, Cat. No. 3821), and compounds
+were added by pin tool transfer (Biomek FX). Compounds were incubated
+with the assay mixture for at least 2 h before measuring the HTRF
+signal on a PHERAstar plate reader (BMG Labtech; simultaneous dual
+emission; excitation = 337 nm; emission 1 = 665 nm; emission 2 = 620
+nm). The HTRF signal was calculated as the ratio of emission 1 to
+emission 2. Each plate included samples treated with vehicle (DMSO)
+or lacking the peptide substrate, which were used to calculate the
+percent inhibition for compound treated wells.
+
+## Luminescence-Based CETSA
+ENL(YEATS)-HiBiT and AF9(YEATS)-HiBiT
+constructs were stably expressed in OCI/AML-2 cells by lentiviral
+transduction and used for luminescence-based target engagement assays
+as previously described. Briefly, cells
+were transferred to white 384-well tissue culture plates (Greiner
+Bio-One Cat. No. 781080) with 20 000 cells in 20 μL per
+well. Compounds were added by pin tool transfer (Biomek FX) and incubated
+for 2 h before the addition of 20 μL of Nano-Glo HiBiT Lytic
+Reagent (Promega, HiBiT Lytic Detection System, Cat. No. N3040) per
+well. Luminescence was measured after 30 min after the addition of
+the detection reagent using an EnVision multilabel plate reader (PerkinElmer,
+Model No. 2104).
+
+## SPR
+Surface plasmon resonance experiments
+were performed
+on a Biacore S200 (Cytiva). A series S streptavidin sensor chip was
+used for ligand immobilization (Cytiva). Biotinylated ENL and biotinylated
+YEATS4 were prepared in HBS-EP+ buffer (10 mM HEPES, 150 mM NaCl,
+3 mM EDTA, 0.05% P20, pH 7.4). Ligand immobilization was carried out
+in flow cells 2 and 4 with a series of ligand injections at a flow
+rate of 5 μL/min until the desired density was achieved (1616
+RU for ENL and 2416 RU for YEATS4). Flow cells 1 and 3 were left blank
+as a reference. HBS-EP+ buffer with 2% DMSO was used as running buffer
+and for the preparation of all analyte samples with biotinylated ENL
+and HBS-EP+ with 5% DMSO, for YEATS4. Analytes were serially diluted
+in polystyrene 96-well plates immediately prior to injection. Before
+analyte injection, 3 startup cycles were run with injections of running
+buffer over all flow cells. Binding data was collected by injecting
+the analyte at a flow rate of 30 μL/min over two flow cells
+(reference and immobilized ligand) at a temperature of 25 °C.
+The association to biotin–ENL or biotin–YEATS4 was measured
+over 60 s and the dissociation, over 180 s. The flow cell surfaces
+were regenerated with 30 s injections of running buffer over each
+flow cell. Duplicate injections were carried out for each sample,
+including the blank. Affinity curves, association and dissociation
+constants, and sensograms were determined using Biacore S200 evaluation
+software.
+
+## TMT-Based Whole Proteome Analysis
+MV4;11 cells were
+treated with 10 μM SR-1114 for 4 or 16 h and then flash frozen.
+Lysis buffer is made by dissolving 1 tablet of Roche complete in 10
+mL of PBS. Cells were resuspended in 150 μL of lysis buffer
+and sonicated (3, 10 pulses). 100 μg of protein in 100 μL
+of lysis buffer was used and incubated with 8 M urea (for denaturation)
+and 10 mM DTT (for reduction) at 65 °C for 15 min. Twenty mM
+iodoacetamide was then added for alkylation (37 °C, 30 min).
+Proteins were precipitated using the MeOH/CHCl3 method
+(600 μL of MeOH, 200 μL of CHCl3, and 500 μL
+of water). EPPS buffer (160 μL, 200 mM) was used to dissolve
+the protein pellets. Two μg of LysC was used for the first round
+of digestion (37 °C, 2 h), followed by the second round of trypsin
+digestion (5 μg, 37 °C, 16 h). 12.5 μg of peptides
+in 35 μL of EPPS buffer was used for TMT labeling. Three μL
+of TMT tags was used for each sample. The labeling was proceeded for
+30 min, followed by the addition of 3 μL of TMT tags and incubation
+for another 30 min. The reaction was stopped by adding 6 μL
+of 5% hydroxylamine and 2.5 μL of formic acid.
+Two μL
+of peptide from each group was combined for a ratio check by mass
+spectrometry. Peptides were then combined using the adjusted volumes
+based on the normalized ratios and desalted by Sep-Pak C18 cartridges.
+The combined peptide was fractionated into a 96-well plate. Every
+12th fraction was combined. The resulting 12 fractions were dried
+using SpeedVac vacuum and dissolved in 15 μL of buffer A. Peptides
+were analyzed by liquid chromatography tandem mass spectrometry (Orbitrap
+Fusion mass spectrometer) coupled to an UltiMate 3000 Series LC system.
+The peptides were separated in a capillary column (75 μm diameter
+packed with Acquity BEH C18, 1.7 μm, 25 cm) at a flow rate of
+0.25 μL/min following the previously reported method. 
+
+## Immunoblotting
+Whole cell lysates
+were prepared by
+solubilization of cell pellets in CelLytic M (Sigma cat# C2978) 1×
+HALT protease inhibitor cocktail (Thermo) and 0.1% benzonase (EMD
+Millipore) by vertexing for 20 s followed by a 15 min incubation on
+ice. Cleared lysates were prepared by centrifugation at 18 000g for 11 min at 4 °C. All samples were run with the
+same amount of total protein as determined by a BCA protein assay
+Kit (Pierce). ENL (Cell Signaling Technology, #14893S), AF9-V5 (Life
+Technologies, Cat. No. R96025), and GAPDH (Santa Cruz Biotechnology,
+sc-25778) antibodies were used at a 1:1000 ratio in 5% nonfat milk
+in 1× TBST and detected with fluorescently labeled infrared secondary
+antibodies (IRDye) on the Odyssey CLx Imager (LI-COR). Quantitation
+was performed in ImageStudio Lite (LI-COR), and the nonlinear fit
+for DC50 determination was verified by GraphPad Prism version
+8.4.3 for Windows (GraphPad Software).
+
+## DiscoverX Profiling Services
+Bromodomain and kinase
+domain off-target effects of SR-0813 (10 μM) were profiled by
+the commercially available BROMOscan (using the bromoMAX
+panel of 32 targets) and KINOMEscan (using the scanMAX
+panel of 468 targets) profiling services from DiscoverX.
+
+## Microsome Stability
+Assay
+SR-0813 (1 μM) was
+incubated with 0.5 mg/mL human or mouse liver microsomes (Corning)
+at 37 °C and quantitated by LC-MS/MS (API 6500) using imipramine
+as an internal standard.
+
+## Modified Histone Peptide Arrays
+MODified Histone Peptide
+Arrays (Active Motif) were blocked in 1× PBS + 0.1% Tween 20
++ 1% nonfat milk (peptide array blocking buffer) for 1 h at RT with
+shaking. Arrays were incubated overnight with either 500 nM purified
+ENL YEATS domain or 1 μM YEATS2 YEATS domain (Active Motif)
+and treated 1:1000 with the appropriate compound stock of DMSO or
+DMSO in blocking buffer 4 °C with shaking. Arrays were washed
+3 × 5 min in 1× PBS at 4 °C with shaking. Arrays were
+incubated for 2 h with 1:2000 anti-6xHis (CST) for ENL or 1:2000 anti-FLAG
+(M2 antibody, Sigma Cat. No. 1804) in peptide array blocking buffer
+at 4 °C with shaking. Arrays were washed 3× for 5 min in
+1× PBS at 4 °C with shaking. Arrays were incubated at a
+ratio of 1:20 000 with fluorescently labeled infrared secondary
+antibodies (IRDye) in peptide array blocking buffer for 30 min at
+4 °C and with shaking. Arrays were washed 3× for 5 min in
+1× PBS 4 °C, shaken, and imaged the Odyssey CLx Imager (LI-COR).
+Quantitation was performed by Array Analyzer Software (Active Motif https://www.activemotif.com/catalog/668/modified-histone-peptide-array).
+
+## Cell Proliferation, Viability, and Cell Cycle Assays
+Cell proliferation assays were carried out in 96-well tissue culture
+plates at 20 000 cells/well for all lines except for HL60s
+(which were started at 40 000 cells/well) in 200 μL with
+compounds added as 1:1000 dilutions of DMSO stocks in triplicate.
+Culture density was determined every 3–4 days using the Countess
+automated cell counter (Invitrogen), after which 20 000 live
+cells were reseeded in fresh media and compound. The cumulative cell
+count was achieved by back calculation. For the 72 h viability assay,
+cells were plated at 1000 cells per well in 50 μL of culture
+media into 384-well tissue culture plates. 100 nL of compounds in
+DMSO was added by pin tool transfer (Biomek FX). Plates were incubated
+for 72 h, and ATP-dependent luminescence was determined by the ATPlite
+1 Step Luminescence Assay (PerkinElmer). Data were acquired on an
+EnVision multilabel plate reader (PerkinElmer, Model No. 2104). For
+cell cycle analysis, 500k cells were cultured at 1 mL/well in a 24-well
+plate treated in a ratio of 1:1000 with compound stocks in DMSO or
+1:1000 with DMSO in triplicate. 7-AAD staining was performed using
+the FITC BrdU Flow Kit from BD Biosciences. 7-AAD signal was analyzed
+by flow cytometry with a NovoCyte 3000 from Agilent. Flow cytometry
+results were analyzed by FlowJo software (version 10.7 Becton, Dickinson
+and Company).
+
+## qRT-PCR
+RNA extracts were prepared
+with the RNeasy
+Mini plus Kit (Qiagen). cDNA was synthesized with the SuperScript
+VILO cDNA Synthesis Kit (Life Technologies cat# 11755050) at 100 ng/μL
+RNA. cDNA was analyzed in triplicate with a 7900HT Fast Real-Time
+PCR System (Applied Biosystems) in SYBR Select Master Mix (Life Technologies
+cat# 4472908) with the primer pairs detailed below. Cycle numbers
+(Ct) were determined by the default setting on Design and Analysis
+(Applied Biosystems) and converted to expression fold change by normalization
+to B2M transcript levels.
+
+## Primer Pairs for qRT-PCR
+The primer
+pairs are as follows.
+HOXA9: forward 5′-GTATAGGGGCACCGCTTTTT-3′,
+reverse 5′-AATGCTGAGAATGAGAGCGG-3′.
+MEIS1: forward 5′-CACGCTTTTTGTGACGCTT-3′
+reverse 5′-GGACAACAGCAGTGAGCAAG’3′.
+MYC: forward 5′-CACCGAGTCGTAGTCGAGGT-3′
+reverse 5′-TTTCGGGTAGTGGAAAACCA-3′.
+ITGAM: forward 5′-CAAAATACTGGAGCCTGGGA-3′
+reverse 5′-CCTGTTTCACGGAACCTCAG-3′.
+B2M: forward 5′-AATGTCGGATGGATGAAACC-3′
+reverse 5′-TAGCTGTGCTCGCGCTACT-3′.
+HMCGR1: forward-1 5′-TGATTGACCTTTCCAGAGCAAG-3′
+reverse-1 5′-CTAAAATTGCCATTCCACGAGC-3′
+forward-2 5′-CGTGGAATGGCAATTTTAGGTCC-3′
+reverse 5′-ATTTCAAGCTGACGTACCCCT-3′.
+HMGCS1: forward-1 5′-CTCTTGGGATGGACGGTATGC-3′
+reverse-1 5′-GCTCCAACTCCACCTGTAGG-3′
+forward 5′-CATTAGACCGCTGCTATTCTGTC
+−3′ reverse-2 5′-TTCAGCAACATCCGAGCTAGA-3′.
+
+## ChIP
+ChIP-seq was performed as previously described. For ENL ChIPs, 100 million cells were treated
+per condition in 100 mL. Cells were cross-linked for 10 min by rocking
+at RT with the addition of a 1/10th volume of 10× cross-linking
+solution (11% formaldehyde, 50 mM HEPES, pH 7.3, 100 mM NaCl, 1 mM
+EDTA, pH 8.0, 0.5 mM EGTA, pH 8.0). At the end of 10 min, cultures
+were quenched in 125 mM glycine, freshly made, and rocked for an additional
+10 min. Cross-linked cells were then washed 3× in cold 1×
+DPBS, pH 7.4, and pellets were flash frozen in liquid nitrogen and
+stored at −80 °C. Pellets were resuspended in cold lysis
+buffer 1 (LB1; 5 mL per 50 million cells; 50 mM HEPES, pH 7.3, 140
+mM NaCl, 1 mM EDTA, 10% glycerol, 0.5% NP-40, and 0.25% Triton X-100;
+1× HALT protease inhibitor cocktail from Thermo) and rotated
+end over end for 10 min at 4 °C. The pellet was collected at
+1350g, resuspended in cold lysis buffer 2 (LB2; 5
+mL per 50 million cells; 10 mM Tris-HCl, pH 8.0, 200 mM NaCl, 1 mM
+EDTA, pH 8.0, and 0.5 mM EGTA, pH 8.0; 1× HALT protease inhibitor
+cocktail from Thermo), and rotated end over end for 10 min at 4 °C.
+Pellets were collected at 1350g, resuspended in 3
+mL of sonication buffer (50 mM HEPES, pH 7.3, 140 mM NaCl, 1 mM EDTA,
+1 mM EGTA, 1% Triton X-100, 0.1% Na-deoxycholate, 0.5% SDS; 1×
+HALT protease inhibitor cocktail from Thermo), split into 250 μL
+volumes in 1.5 mL Bioruptor Plus TPX microtubes (Diagenode, #C30010010),
+and sheared at 4 °C using a water bath sonicator (Bioruptor Pico,
+Diagenode; 25 min; 30 s on, 30 s off). Sheared lysates were cleared
+by centrifugation at 18 000g for 11 min at
+4 °C and pooled. 50 μL of the cleared lysate was stored
+at −20 °C for isolation as the input. The remaining cleared
+lysate was diluted 1:5 in cold sonication buffer lacking SDS, such
+that the final SDS concentration was 0.1%. Magnetic protein G beads
+(Dynabeads, ThermoFisher Scientific) were washed 3 times in 1 mL of
+cold blocking buffer (1× DPBS + 5 mg/mL BSA), then resuspended
+in 1 mL of blocking buffer with 10 μg of anti-ENL (Cell Signaling
+Technology, #14893S), and rotated end over end at 4 °C overnight.
+Antibody-bead complexes were washed 3× in cold blocking buffer,
+added to the diluted cleared sonicated lysates, and rotated end over
+end overnight at 4 °C. The bead bound fraction was washed twice
+in cold sonication buffer (no SDS), once with 1 mL of cold sonication
+buffer supplemented with 500 mM NaCl, once with cold LiCl wash buffer
+(20 mM Tris, pH 8.0, 1 mM EDTA, 250 mM LiCl, 0.5% NP-40, 0.5% Na-deoxycholate),
+and once with TE supplemented with 50 mM NaCl. The remaining bound
+fraction was eluted by the addition of 210 μL of elution buffer
+(50 mM Tris-HCl, pH 8, 10 mM EDTA, and 1% SDS) and vortexed every
+5 min while otherwise incubated at 65 °C for a total of 15 min.
+Beads were then centrifuged at 18 000g for
+1 min, and the supernatant was removed; the sample was incubated overnight
+alongside the 50 μL input sample after the addition of 150 μL
+of elution buffer to bring it up to 200 μL for all samples.
+RNA was digested with 0.2 mg/mL RNase A (Roche, 10109169001) at 37
+°C for 2 h, and protein was digested with 0.2 mg/mL proteinase
+K (Life Technologies, AM2546) at 55 °C for 30 min. DNA was isolated
+with phenol chloroform extraction and ethanol precipitation. Libraries
+for Illumina sequencing were prepared using the ThruPLEX DNA-seq Kit
+(Takara cat# R400675) with 0.75 ng of DNA and amplifying according
+to the manufacturer’s instructions using the DNA Single Index
+Kit 12 Set A (Takara cat# R400695). Amplified libraries were isolated
+using AMPure beads (Agencourt AMPure XP). Library quantity and size
+distribution were determined by the Qubit 1X dsDNA HS Assay Kit (ThermoFisher
+cat# Q33231) and D1000 high sensitivity DNA tape run on a 4150 TapeStation
+System (Agilent); samples were multiplexed with equimolar DNA content
+and sequenced on an Illumina NextSeq 500 (single end 75 bp reads).
+
+## ChIP-qPCR
+ChIP-seq DNAs from the above method were
+diluted and subjected to qPCR interrogation. DNA was analyzed in triplicate
+with a 7900HT Fast Real-Time PCR System (Applied Biosystems) in a
+SYBR Select Master Mix (Life Technologies cat# 4472908) with the primer
+pairs detailed below. Cycle numbers (Ct) were determined by the default
+setting on Design and Analysis (Applied Biosystems) and converted
+to expression fold change
+
+## ChIP-qPCR Primers
+The primers are
+as follows. HOXA10:
+forward 5′-GCCGCTCTCGAGTAAGGTAC-3′,
+reverse 5′-GGCAAAGAGTGGTCGGAAGA-3′.
+HOXA_intergenic_1: forward 5′-CGCCTTCCAGAGATTTGGGT-3′,
+reverse 5′-TGTCTTTGCACCCAGGCTAG-3′.
+MEIS1_1: forward 5′-GGGAAACGCGAGCTTTTGTT-3′,
+reverse 5′-GGCTAGGAAGTCCGCAAAGT-3′.
+MYB_1: forward 5′-TGCAAAGTTCAAAGGCGAGC-3′,
+reverse 5′-CTTCTGCAGGACCTGAAGGG-3′.
+
+## Quant-seq
+For quantitative RNA-seq, cells were treated
+in triplicate with 1:1000 DMSO, 10 μM SR-0813, or 1 μM
+SR-0813 (from the dilution of 1000× stocks in DMSO) for 4 h and
+harvested. 500k cells were resuspended in lysis buffer containing
+an ERCC spike (SIRV set 3, Lexogen cat# K05103-0-0100), and samples
+were isolated with an RNeasy Plus Kit from Qiagen. 400 ng of RNA was
+used to prepare the libraries for sequencing with the QuantSeq 3′
+mRNA-Seq Library Prep Kit (FWD) for Illumina (Lexogen, cat# 015.2),
+and equimolar multiplexed libraries were sequenced on an Illumina
+NextSeq 500 (single end 75 bp reads).
+
+## ChIP-seq Analysis
+ChIP data sets were aligned to human
+genome build hg19 with Bowtie2 (Version 2.2.9). All default settings
+were used except for −N 1 (allowing 1 mismatch in seed alignments).
+SAM alignment files were converted to BAM files with the Samtools
+(Version 1.9) view. BAM files were then sorted and indexed with Samtools.
+The model-based analysis of the ChIP-seq (MACS) peak-finding algorithm
+(Version 1.4.2) was used to identify regions of the ChIP-seq signal
+that were significantly enriched over the background. The normalized
+read density for specific genomic loci of interest was determined
+using the Bamliquidator (http://github.com/BradnerLab/pipeline/wiki/bamliquidator) read density calculator. ROSE2 was used to identify regions of
+asymmetric ENL binding (https://github.com/linlabbcm/rose2). ChIP-seq data produced
+for this publication can be accessed online using GEO Publication
+Reference ID GSE162591.
+
+## Quant-seq Analysis
+For Quant-seq
+analysis, the quality
+of sequencing data was assured with Fastqc. SlamDunk (with the −q
+option to ignore SLAM-seq scoring) was used to align reads to human
+genome build hg19 and calculate counts per million (CPM) at all 3′
+UTRs. Average log2-transformed fold change values were calculated
+from the means of triplicate treatments. Transcripts with an average
+CPM < 3 were excluded from the analysis. Quant-seq data produced
+for this publication can be accessed online using GEO Publication
+Reference ID GSE162592.
+
+## Synthetic Procedures
+
+## General
+All reagents
+and solvents were purchased from
+commercial suppliers and were used without further purification. 1H, 13C, and 19F NMR spectra were collected
+using a Bruker 600, 500, or 400 MHz spectrometer with chemical shifts
+reported relative to residual deuterated solvent peaks or a tetramethylsilane
+internal standard. CFCl3 was used as an internal standard
+for 19F-NMR. Accurate masses were measured using an ESI-TOF
+(HRMS, Waters Xevo G2-XS TOF) or MSQ Plus mass spectrometer (LRMS,
+Thermo Scientific). Reactions were monitored on TLC plates (silica
+gel 60, F254 coating, EMD Millipore, 1057150001), and spots were either
+monitored under UV light (254 mm) or stained with phosphomolybdic
+acid. The purity of the compounds that were tested in the biological
+assay was >95% based on 1H NMR and reverse phase HPLC-UV
+monitoring of the absorption at 240 nm.
+
+## Representative Procedure
+for the Synthesis of Imidazopyridine
+ To a DMF
+solution of 6-aminonicotinic acid (1 g, 7.24 mmol) was
+added 2-bromo-4-nitroacetophenone (3.5 g, 14.5 mmol, 2 equiv), and
+the mixture was stirred overnight at 60 °C. The reaction mixture
+was cooled to RT, and ethyl acetate and water were added to this solution.
+The resulting precipitate was collected by filtration and then washed
+with water and ethyl acetate to give a fairly pure target molecule
+as a red powder. The compound was used in the next step without further
+purification (2-(4-nitrophenyl)imidazo[1,2-a]pyridine-6-carboxylic
+acid, 1.39 g, 4.9 mmol, 68%). LRMS (+) calcd for (M + H)+ 284.1. Found 284.2. 1H NMR (600 MHz, DMSO-d6) δ 9.27 (t, J = 1.4 Hz, 1H),
+8.76 (s, 1H), 8.36–8.32 (m, 2H), 8.23 (dd, J = 9.1, 2.4 Hz, 2H), 7.73–7.66 (m, 2H). 13C NMR
+(151 MHz, DMSO-d6) δ 165.8, 146.8,
+145.6, 143.3, 139.7, 131.3, 126.6, 125.3, 124.3, 117.1, 116.3, 112.9. 
+2-(3-Nitrophenyl)imidazo[1,2-a]pyridine-6-carboxylic
+acid, 1.43 g (5.1 mmol, 70%). LRMS (+) calcd for (M + H)+ 284.1. Found 284.2. 1H NMR (600 MHz, DMSO-d6) δ 9.23 (t, J = 1.4 Hz, 1H),
+8.76 (t, J = 2.0 Hz, 1H), 8.74 (s, 1H), 8.39 (dt, J = 7.7, 1.3 Hz, 1H), 8.20 (ddd, J = 8.2,
+2.4, 1.0 Hz, 1H), 7.79–7.76 (m, 1H), 7.70–7.68 (m, 2H). 13C NMR (151 MHz, DMSO-d6) δ
+165.8, 148.4, 145.4, 143.3, 135.0, 131.9, 131.2, 130.5, 125.1, 122.6,
+122.4, 119.9, 116.2, 111.8.
+
+## Representative Procedure
+for the Amide Coupling
+ To a DMF solution of 2-(3-nitrophenyl)imidazo[1,2-a]pyridine-6-carboxylic acid (1.5 g, 5.3 mmol) was added N,N-diisopropylethylamine (DIPEA, 2.8 mL,
+2 g, 15.5
+mmol) followed by 1-[bis(dimethylamino)methylene]-1H-1,2,3-triazolo[4,5-b]pyridinium 3-oxid hexafluorophosphate
+(2.4 g, 6.32 mmol, 1.2 equiv) and isopropylamine (470 mg, 8 mmol,
+1.5 equiv), and the mixture was stirred overnight at RT. The solvent
+was removed, and ethyl acetate was added to the residue. The solid
+was collected by filtration and washed with ethyl acetate to give
+a fairly pure target molecule N-isopropyl-2-(3-nitrophenyl)imidazo[1,2-a]pyridine-6-carboxamide as a yellow powder (860 mg, 2.65
+mmol, 50%). LRMS (+) calcd for (M + H)+ 325.1. Found 325.2. 1H NMR (600 MHz, DMSO-d6) δ
+9.11–9.04 (m, 1H), 8.78 (t, J = 2.0 Hz, 1H),
+8.72 (s, 1H), 8.45–8.36 (m, 2H), 8.19 (d, J = 8.4 Hz, 1H), 7.80–7.71 (m, 2H), 7.67 (d, J = 9.6 Hz, 1H), 4.20–4.09 (m, 1H), 1.21 (d, J = 6.6 Hz, 6H). 13C NMR (151 MHz, DMSO-d6) δ 163.0, 148.4, 145.1, 143.2, 135.3, 131.9, 130.4,
+128.2, 124.3, 122.5, 120.6, 119.8, 115.9, 111.5, 41.2, 22.3. 
+N-Isopropyl-N-methyl-2-phenylimidazo[1,2-a]pyridine-6-carboxamide (compound 2). LRMS
+(+) calcd for (M + H)+ 294.2. Found 294.1. 1H NMR (400 MHz, DMSO-d6) δ 8.70
+(s, 1H), 8.43 (s, 1H), 7.98 (d, J = 7.5 Hz, 2H),
+7.63 (d, J = 9.2 Hz, 1H), 7.46 (t, J = 7.6 Hz, 2H), 7.35 (t, J = 7.3 Hz, 1H), 7.26 (t, J = 8.9 Hz, 1H), 4.70–4.10 (broad m, 1H), 2.86 (s,
+3H), 1.18 (d, J = 8.0 Hz, 6H). 
+N-Cyclobutyl-2-phenylimidazo[1,2-a]pyridine-6-carboxamide
+(compound 3). LRMS (+) calcd
+for (M + H)+ 292.1. Found 292.1. 1H NMR (400
+MHz, DMSO-d6) δ 9.06 (s, 1H), 8.73
+(d, J = 7.4 Hz, 1H), 8.50 (s, 1H), 7.98 (d, J = 7.3 Hz, 2H), 7.69–7.60 (m, 2H), 7.46 (t, J = 7.6 Hz, 2H), 7.35 (t, J = 7.3 Hz, 1H),
+4.47–4.41 (m, 1H), 2.27–2.21 (m, 2H), 2.11–2.05
+(m, 2H), 1.73–1.65 (m, 2H). 
+N-Isopropyl-2-(4-nitrophenyl)imidazo[1,2-a]pyridine-6-carboxamide. LRMS (+) calcd for (M + H)+ 325.1. Found 325.2. 1H NMR (600 MHz, DMSO-d6) δ 9.09 (d, J = 1.7
+Hz, 1H), 8.73 (s, 1H), 8.42–8.21 (m, 5H), 7.80–7.61
+(m, 2H), 4.18–4.06 (m, 1H), 1.20 (d, J = 6.6
+Hz, 6H). 13C NMR (151 MHz, DMSO-d6) δ 163.0, 146.7, 145.3, 143.2, 140.1, 128.3, 126.5,
+124.6, 124.2, 120.7, 116.0, 112.6, 41.2, 22.3. 
+N-Cyclobutyl-2-(3-nitrophenyl)imidazo[1,2-a]pyridine-6-carboxamide (914 mg, 2.72 mmol, 51%). LRMS
+(+) calcd for (M + H)+ 337.1. Found 337.2. 1H NMR (600 MHz, DMSO-d6) δ 9.08
+(q, J = 1.4 Hz, 1H), 8.82–8.75 (m, 2H), 8.73
+(d, J = 1.3 Hz, 1H), 8.42 (dt, J = 7.8, 1.4 Hz, 1H), 8.19 (ddt, J = 8.2, 2.5, 1.2
+Hz, 1H), 7.80–7.70 (m, 2H), 7.68 (d, J = 9.4
+Hz, 1H), 4.50–4.40 (m, 1H), 2.28–2.22 (m, 2H), 2.14–2.11
+(m, 2H), 1.78–1.63 (m, 2H). 13C NMR (151 MHz, DMSO-d6) δ 162.9, 148.4, 145.1, 143.2, 135.3,
+131.8, 130.4, 128.3, 124.3, 122.5, 120.3, 119.8, 115.9, 111.5, 44.6,
+30.1, 14.8.
+
+## Representative Procedure for Reduction of
+Nitrophenyl into Aniline
+ To a DMF solution of N-cyclobutyl-2-(3-nitrophenyl)imidazo[1,2-a]pyridine-6-carboxamide
+(300 mg, 0.89 mmol) was added 5%
+Pd/C (100 mg), and the mixture was purged with H2 gas and
+stirred at RT overnight. The solvent was removed, and a solution of
+water/acetonitrile (MeCN)/trifluoroacetic acid(TFA) (90:10:0.1) was
+added to the residue; it was then filtered through 0.22 μm PTFE
+syringe filter. The filtrate was purified by HPLC to give the target
+molecule 2-(3-aminophenyl)-N-cyclobutylimidazo[1,2-a]pyridine-6-carboxamide as a white solid (135 mg, 0.44
+mmol, 50%). LRMS (+) calcd for (M + H)+ 307.2. Found 307.3. 1H NMR (600 MHz, DMSO-d6) δ
+9.21 (s, 1H), 8.91 (d, J = 7.4 Hz, 1H), 8.59 (s,
+1H), 7.97 (d, J = 9.5 Hz, 1H), 7.78 (d, J = 9.4 Hz, 1H), 7.46 (d, J = 12.0 Hz, 2H), 7.37
+(t, J = 7.8 Hz, 1H), 6.96 (d, J =
+7.9 Hz, 1H), 4.45 (h, J = 8.1 Hz, 1H), 2.34–2.20
+(m, 2H), 2.20–1.99 (m, 2H), 1.71 (ddd, J =
+15.6, 10.3, 7.4 Hz, 2H). 13C NMR (151 MHz, DMSO-d6) δ 162.3, 142.9, 140.9, 131.0, 130.2,
+129.1, 127.6, 122.2, 119.1, 117.0, 115.4, 115.1, 113.7, 111.1, 44.8,
+30.0, 14.8. 
+2-(3-Aminophenyl)-N-isopropylimidazo[1,2-a]pyridine-6-carboxamide. LRMS (+) calcd for (M + H)+ 295.2. Found 295.3. 1H NMR (500 MHz, DMSO-d6) δ 9.04 (dd, J = 1.8,
+1.0 Hz, 1H), 8.35–8.30 (m, 2H), 7.65 (dd, J = 9.4, 1.8 Hz, 1H), 7.56 (d, J = 9.4 Hz, 1H), 7.24
+(t, J = 1.9 Hz, 1H), 7.13–7.04 (m, 2H), 6.54
+(dt, J = 7.2, 2.0 Hz, 1H), 5.15 (s, 2H), 4.12 (dq, J = 13.6, 6.6 Hz, 1H), 1.19 (d, J = 6.7
+Hz, 6H). 13C NMR (151 MHz, DMSO-d6) δ 163.3, 148.9, 146.4, 144.7, 134.0, 129.1, 127.9,
+123.3, 120.0, 115.4, 113.8, 113.6, 111.2, 109.5, 41.2, 22.3. 
+2-(4-Aminophenyl)-N-isopropylimidazo[1,2-a]pyridine-6-carboxamide.
+LRMS (+) calcd for (M + H)+ 295.2. Found 295.3. 1H NMR (600 MHz, DMSO-d6) δ 8.98
+(d, J = 1.7
+Hz, 1H), 8.31 (d, J = 7.6 Hz, 1H), 8.21 (s, 1H),
+7.67–7.62 (m, 2H), 7.61 (dd, J = 9.4, 1.8
+Hz, 1H), 7.51 (d, J = 9.3 Hz, 1H), 6.64–6.58
+(m, 2H), 5.28 (s, 2H), 4.11 (dq, J = 13.5, 6.7 Hz,
+1H), 1.18 (d, J = 6.6 Hz, 6H). 13C NMR
+(151 MHz, DMSO-d6) δ 163.4, 148.9,
+147.0, 144.7, 127.5, 126.8, 122.9, 121.16, 119.6, 114.9, 113.8, 107.5,
+41.1, 22.4.
+
+## Representative Procedure for the SOF4 Reaction
+ A 25 mL round-bottom flask equipped
+with a magnetic stir bar was
+charged with aniline (30.6 mg, 0.100 mmol) and DIPEA (38.8 mg, 52
+μL, 0.300 mmol, 3.00 equiv). MeCN (1.0 mL) and DMF (1.0 mL)
+were added. Topped by a rubber septum, the flask was evacuated (solvent
+gently bubbling) and backfilled with thionyl tetrafluoride (O=SF4). The mixture was stirred vigorously at room temperature
+for 30 min. The solution was then purified by reversed phase preparative
+high-performance liquid chromatography (HPLC) using a water/MeCN elution
+containing a 0.05 vol % TFA. The target compound (3-(6-(cyclobutylcarbamoyl)imidazo[1,2-a]pyridin-2-yl)phenyl)sulfurimidoyl difluoride (compound 8) was obtained as an off-white solid (TFA salt, 10.1 mg,
+0.0200 mmol, 20%). LRMS (+) calcd for (M + H)+ 390.1, found
+390.1. 1H NMR (600 MHz, DMSO-d6) δ 9.22 (s, 1H), 8.95 (d, J = 7.4 Hz, 1H),
+8.77 (s, 1H), 8.04 (dd, J = 9.4, 1.7 Hz, 1H), 7.91
+(d, J = 9.4 Hz, 1H), 7.89–7.85 (m, 2H), 7.62
+(t, J = 7.8 Hz, 1H), 7.35 (dd, J = 7.8, 2.0 Hz, 1H), 4.45 (q, J = 7.8 Hz, 1H), 2.30–2.21
+(m, 2H), 2.10 (pd, J = 9.3, 3.0 Hz, 2H), 1.78–1.65
+(m, 2H). 13C NMR (151 MHz, DMSO-d6) δ 162.1, 142.7, 140.0, 136.1, 131.0, 129.1, 127.8,
+124.2, 122.5, 120.9, 116.5, 113.6, 112.0, 44.8, 30.0, 12.5. 19F NMR (376 MHz, DMSO-d6) δ 47.82,
+−74.61 (TFA). TLC Rf = 0.23 (10%
+MeOH in DCM). 
+(4-(6-(Isopropylcarbamoyl)imidazo[1,2-a]pyridin-2-yl)phenyl)sulfurimidoyl difluoride (compound 6) (TFA salt, off-white solid, 5.5 mg). LRMS (+) calcd for (M + H)+ 379.1. Found 379.1. 1H NMR (600 MHz, DMSO-d6) δ 9.14 (s, 1H), 8.63 (s, 1H), 8.47
+(d, J = 7.6 Hz, 1H), 8.10–8.00 (m, 2H), 7.88
+(d, J = 9.5 Hz, 1H), 7.74 (d, J =
+9.4 Hz, 1H), 7.41 (d, J = 8.5 Hz, 2H), 4.13 (h, J = 6.7 Hz, 1H), 1.20 (d, J = 6.6 Hz, 6H). 13C NMR (151 MHz, DMSO-d6) δ
+162.7, 158.2, 158.0, 135.4, 128.5, 127.5, 124.1, 116.8, 114.9, 114.5,
+110.9, 41.3, 22.3. 19F NMR (376 MHz, DMSO-d6) δ 47.85, −74.37 (TFA). 
+(3-(6-(Isopropylcarbamoyl)imidazo[1,2-a]pyridin-2-yl)phenyl)sulfurimidoyl
+difluoride (compound 5) (TFA salt, off-white solid, 21.8
+mg, 0.0449 mmol, 44% isolated yield). LRMS (+) calcd for (M + H)+ 379.1, found 379.1. 1H NMR (600 MHz, DMSO-d6) δ 9.17 (s, 1H), 8.70 (s, 1H), 8.51
+(d, J = 7.7 Hz, 1H), 7.94 (dd, J = 9.4, 1.7 Hz, 1H), 7.91 (d, J = 8.0 Hz, 1H), 7.85
+(t, J = 1.9 Hz, 1H), 7.79 (d, J =
+9.3 Hz, 1H), 7.59 (t, J = 7.9 Hz, 1H), 7.31 (dd, J = 8.0, 1.3 Hz, 1H), 4.13 (dq, J = 13.5,
+6.7 Hz, 1H), 1.20 (d, J = 6.6 Hz, 6H). 13C NMR (151 MHz, DMSO-d6) δ 162.5,
+143.4, 140.8, 136.0, 132.8, 130.9, 128.7, 127.0, 124.1, 123.8, 122.1,
+120.7, 114.3, 111.6, 41.4, 22.3. 19F NMR (376 MHz, DMSO-d6) δ 49.55, −74.35 (TFA). TLC Rf = 0.23 (10% methanol in DCM).
+
+## Representative
+Procedure for the Synthesis of Sulfamide
+ To a DMSO
+solution of (3-(6-(isopropylcarbamoyl)imidazo[1,2-a]pyridin-2-yl)phenyl)sulfurimidoyl difluoride (∼7
+mg, 18.5 μmol) was added histamine (24 mg, 132 μmol) in
+PBS, and the mixture was stirred overnight at 37 °C. To this
+solution was added histamine (12 mg, 66 μmol) in PBS (pH adjusted
+to 10 by NaOH), and the mixture was stirred overnight. The reaction
+mixture was directly purified on HPLC to give the target compound
+(compound 7, 7 mg, 14.6 μmol, 79%). LRMS (+) calcd
+for (M + H)+ 468.2. Found 468.5. 1H NMR (600
+MHz, DMSO-d6) δ 9.86 (s, 1H), 9.11
+(t, J = 1.3 Hz, 1H), 8.91 (d, J =
+1.4 Hz, 1H), 8.46 (s, 1H), 8.40 (d, J = 7.7 Hz, 1H),
+7.81–7.73 (m, 2H), 7.69 (t, J = 5.9 Hz, 1H),
+7.65 (d, J = 9.4 Hz, 1H), 7.60 (dt, J = 7.7, 1.3 Hz, 1H), 7.37 (t, J = 7.9 Hz, 1H), 7.31
+(d, J = 1.3 Hz, 1H), 7.18–7.12 (m, 1H), 4.17–4.07
+(m, J = 6.7 Hz, 1H), 3.19 (q, J =
+6.6 Hz, 2H), 2.80 (t, J = 6.8 Hz, 2H), 1.20 (d, J = 6.6 Hz, 6H). 13C NMR (151 MHz, DMSO-d6) δ 163.0, 144.4, 144.3, 139.3, 133.7,
+133.5, 130.5, 129.5, 128.4, 124.6, 120.8, 120.3, 118.2, 116.3, 115.7,
+115.2, 110.4, 41.3, 40.8, 24.4, 22.3. 
+2-(3-((N-(2-(1H-Imidazol-4-yl)ethyl)sulfamoyl)amino)phenyl)-N-cyclobutylimidazo[1,2-a]pyridine-6-carboxamide
+(TFA salt) (compound 9). HRMS (+) calcd for (M + H)+ 480.1818. Found 480.1813. 1H NMR (600 MHz, DMSO-d6) δ
+9.86 (s, 1H), 9.12 (t, J = 1.4 Hz, 1H), 8.90 (d, J = 1.4 Hz, 1H), 8.79 (d, J = 7.4 Hz, 1H),
+8.47 (s, 1H), 7.77 (p, J = 3.3 Hz, 2H), 7.74–7.65
+(m, 2H), 7.60 (dt, J = 7.7, 1.3 Hz, 1H), 7.38 (d, J = 7.9 Hz, 1H), 7.31 (d, J = 1.3 Hz, 1H),
+7.19–7.10 (m, 1H), 4.45 (h, J = 8.2 Hz, 1H),
+3.19 (q, J = 6.7 Hz, 2H), 2.80 (t, J = 6.8 Hz, 2H), 2.25 (qt, J = 7.7, 2.8 Hz, 2H),
+2.15–2.03 (m, 5H), 1.79–1.61 (m, 2H). 19F
+NMR (376 MHz, DMSO-d6) δ −74.43. 13C NMR (151 MHz, DMSO-d6) δ
+162.7, 144.2, 143.9, 139.2, 133.6, 133.1, 130.3, 129.4, 128.4, 124.7,
+120.5, 120.2, 118.2, 116.2, 115.6, 114.9, 110.4, 44.6, 40.7, 29.9,
+24.3, 14.7. 
+N-Cyclobutyl-2-(3-((N-(2-(piperidin-1-yl)ethyl)sulfamoyl)amino)phenyl)imidazo[1,2-a]pyridine-6-carboxamide (compound 10). HRMS
+(+) calcd for (M + H)+ 497.2335. Found 497.2334. 1H NMR (600 MHz, DMSO-d6) δ 9.07
+(dd, J = 1.8, 1.0 Hz, 1H), 8.73 (d, J = 7.4 Hz, 1H), 8.44 (d, J = 0.7 Hz, 1H), 8.28–8.19
+(m, 2H), 7.82 (t, J = 1.9 Hz, 1H), 7.68 (dd, J = 9.5, 1.8 Hz, 1H), 7.63–7.57 (m, 2H), 7.36 (t, J = 7.9 Hz, 1H), 7.22 (s, 1H), 7.16 (ddd, J = 8.0, 2.3, 1.0 Hz, 1H), 4.46–4.42 (m, 1H), 2.96 (t, J = 7.0 Hz, 2H), 2.28 (dd, J = 11.3, 4.5
+Hz, 2H), 2.27–2.16 (m, 6H), 2.13–2.10 (m, 2H), 1.75–1.65
+(m, 2H), 1.37–1.34 (m, 4H), 1.30–1.21 (m, 2H). 13C NMR (151 MHz, DMSO) δ 163.1, 145.5, 144.9, 139.4,
+134.3, 129.3, 128.2, 123.5, 120.1, 119.9, 118.0, 115.7, 115.6, 110.2,
+57.2, 53.9, 44.6, 40.1, 30.1, 25.4, 23.9, 14.8. 
+N-Cyclobutyl-2-(3-((N-(2-(2-(2-(2-((2-(2,6-dioxopiperidin-3-yl)-1,3-dioxoisoindolin-4-yl)oxy)acetamido)ethoxy)ethoxy)ethyl)sulfamoyl)amino)phenyl)imidazo[1,2-a]pyridine-6-carboxamide (compound 4). HRMS
+(+) calcd for (M + H)+ 831.2772. Found 831.2776. 1H NMR (600 MHz, Methanol-d4) δ
+9.11 (dd, J = 1.7, 1.0 Hz, 1H), 8.45 (d, J = 0.7 Hz, 1H), 8.07 (dd, J = 9.4, 1.7
+Hz, 1H), 7.78 (dt, J = 9.4, 0.9 Hz, 1H), 7.78–7.69
+(m, 2H), 7.53 (ddd, J = 7.7, 1.8, 1.0 Hz, 1H), 7.46–7.35
+(m, 2H), 7.32 (dd, J = 8.5, 0.6 Hz, 1H), 7.25 (ddd, J = 8.1, 2.2, 1.0 Hz, 1H), 5.09 (dd, J =
+12.8, 5.5 Hz, 1H), 4.65 (d, J = 1.6 Hz, 2H), 4.55–4.47
+(m, 1H), 3.56 (s, 1H), 3.58–3.49 (m, 8H), 3.39 (dd, J = 5.9, 4.8 Hz, 2H), 3.36–3.30 (m, 1H), 3.21–3.14
+(m, 2H), 2.86 (ddd, J = 17.4, 13.9, 5.4 Hz, 1H),
+2.77–2.61 (m, 2H), 2.42–2.34 (m, 2H), 2.21–2.07
+(m, 3H), 1.84 (s, 1H), 1.87–1.76 (m, 2H). 13C NMR
+(151 MHz, methanol-d4) δ 174.6,
+171.5, 169.9, 168.2, 167.5, 164.7, 156.0, 144.0, 141.7, 141.2, 138.2,
+134.7, 131.3, 130.7, 130.4, 130.4, 125.1, 122.0, 121.8, 121.4, 119.0,
+117.8, 117.5, 114.1, 112.8, 71.3, 71.2, 70.8, 70.2, 69.0, 56.1, 43.9,
+40.1, 31.24, 31.22, 29.5, 23.6, 16.1.
+
+## Safety Statement
+No unexpected or unusually high safety
+hazards were encountered.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acscentsci.0c01550.Characterization of SR-1114
+in cells, characterization
+of the imidazopyridine series on-target and off-target effects, additional
+SR-0813 viability and growth assays, SR-0813 metabolic stability,
+and extended analysis of transcriptomics (Figures S1–S6) (PDF)
+Expression
+proteomics (Table S1) (XLSX)
+PSuFEx screen HTRF (Table S2) (XLSX)
+SuFEx screening hits dose-response
+(Table S3) (XLSX)
+SuFEx screen CETSA (Table S4) (PDF)
+ENL and YEATS2 peptide array (Table S5)
+(XLSX)
+BROMOscan
+data (Table S6) (XLSX)
+KINOMEscan data (Table S7) (XLSX)
+ENL ChIP-seq data (Table S8) (XLSX)
+RNA-seq analysis
+(Table S9) (XLSX)
+Gene sets (Table S10) (XLSX)
+
+## Supplementary Material
+oc0c01550_si_001.pdf
+oc0c01550_si_002.xlsx
+oc0c01550_si_003.xlsx
+oc0c01550_si_004.xlsx
+oc0c01550_si_005.pdf
+oc0c01550_si_006.xlsx
+oc0c01550_si_007.xlsx
+oc0c01550_si_008.xlsx
+oc0c01550_si_009.xlsx
+oc0c01550_si_010.xlsx
+oc0c01550_si_011.xlsx
+
+## Author Contributions
+∇ L.G.-W.,
+T.R.B., and S.K. contributed equally.
+The authors declare the
+following competing financial interest(s): S.K., A.K.C., D.W.W., and
+M.A.E are inventors on patent applications related to the molecules
+disclosed in this manuscript.
+
+## Acknowledgments
+We gratefully acknowledge L. L. Lairson for critically
+reading the manuscript; G. E. Winter for helpful discussions regarding
+the work; L. L. Lairson, P. G. Schultz, and I. A. Wilson for access
+to the instrumentation. We also thank P. G. Schultz and the Schultz
+laboratory for helpful discussions and technical support. Sequencing
+was performed by the Scripps Research Next Generation Sequencing Core
+(La Jolla). This work was supported by the National Institutes of
+Health (NIH) through an NIH Director’s Early Independence Award
+(DP5-OD26380) to M.A.E., by the Leukemia and Lymphoma Society through
+a New Idea Award to M.A.E. and by the Ono Pharma Foundation to M.A.E.
+Research reported in this publication was also supported by the National
+Institute of General Medical Sciences of the National Institutes of
+Health under Award Number K99GM138758 (S.K.).

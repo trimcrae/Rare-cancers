@@ -1,0 +1,237 @@
+pmcJ Cachexia Sarcopenia MuscleJ Cachexia Sarcopenia Muscle1721cachexJCSMJournal of Cachexia, Sarcopenia and Muscle2190-59912190-6009WileyPMC11825984PMC11825984.111825984118259843994913310.1002/jcsm.13720JCSM13720JCSM-D-24-010681Original ArticleOriginal ArticleAssociation Analysis of the Circulating Proteome With Sarcopenia‐Related Traits Reveals Potential Drug Targets for Sarcopenia
+WenSiminhttps://orcid.org/0000-0001-8011-0493 XuSiqi ZongXizeng WenShifeng XiaoWende ZhengWeipeng CenHan ZhuZhaohua XieJingyu ZhangYan yan.zhang@utas.edu.auDingChanghai changhai.ding@utas.edu.auRuanGuangfeng ruan1989.ok@163.com
+
+1
+
+Department of Orthopedics, Guangzhou First People's Hospital
+Guangzhou Medical University
+Guangzhou
+China
+
+2
+
+Clinical Research Centre, the Second Affiliated Hospital, School of Medicine
+South China University of Technology
+Guangzhou
+China
+
+3
+
+Clinical Research Centre, Zhujiang Hospital
+Southern Medical University
+Guangzhou
+China
+
+4
+
+Department of Population and Public Health Sciences, Keck School of Medicine
+University of Southern California
+Los Angeles
+California
+USA
+
+5
+
+Menzies Institute for Medical Research
+University of Tasmania
+Hobart
+Australia
+
+*
+Correspondence:
+
+Yan Zhang (yan.zhang@utas.edu.au)
+Changhai Ding (changhai.ding@utas.edu.au)
+Guangfeng Ruan (ruan1989.ok@163.com)
+13220252202516147767310.1002/jcsm.v16.1e13720
+15112024
+1992024
+08122024
+130220251402202519022025© 2025 The Author(s). Journal of Cachexia, Sarcopenia and Muscle published by Wiley Periodicals LLC.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## ABSTRACT
+
+## Background
+Sarcopenia severely affects the physical health of the elderly. Currently, there is no specific drug available for sarcopenia. This study aims to identify pathogenic proteins and druggable targets for sarcopenia through Mendelian randomization (MR)–based analytical framework.
+
+## Methods
+A sequential stepwise screening method that includes two‐sample MR, Steiger filtering test and colocalization (MRSC) was applied to identify causal proteins associated with sarcopenia‐related traits. In the MR analyses, 4372 circulating proteins with valid instrumental variables (IVs) from eight proteomic genome‐wide association studies were utilized as exposures, and nine sarcopenia‐related traits were utilized as outcomes. IVs were classified into cis–protein quantitative trait loci (pQTLs) and trans‐pQTLs based on their positions. We conducted cis‐only MRSC analyses and cis + trans MRSC analyses using cis‐pQTLs and cis + trans pQTLs as IVs, respectively. Post‐MRSC analyses were conducted on the prioritized findings of MRSC, including annotation of protein‐altering variants (PAVs), assessment of overlap between pQTLs and expression quantitative trait loci (eQTLs), protein–protein interaction (PPI) analysis, pathway enrichment analysis and annotation of drug targets. Utilizing data from the UK Biobank, we performed an observational study to explore the associations between baseline circulating protein levels and the longitudinal changes in nine sarcopenia‐related traits.
+
+## Results
+A total of 181 causal associations for 65 proteins were prioritized by the cis‐only MRSC analyses and 227 associations for 91 proteins were prioritized by the cis + trans MRSC analyses. Among the prioritized proteins, the majority of them employed non‐PAVs as IVs and most of their cis‐pQTLs overlapped with corresponding eQTLs and exhibited consistent directionality, with only one trans‐pQTL overlapping with an eQTL. The PPI network of cis‐only MRSC‐prioritized proteins (p = 4.04 × 10−4) and cis + trans MRSC‐prioritized proteins (p = 8.76 × 10−5) showed significantly more interactions than expected. Reactome, KEGG and GO pathway enrichment analyses for cis‐only MRSC‐prioritized proteins identified 52, 12 and 79 enriched pathways, respectively (adjusted p < 0.05). For proteins identified by cis + trans MRSC analyses, only 15 pathways were enriched through the GO pathway enrichment analyses. In the observational study, 197 circulating proteins were identified to be associated with one or more sarcopenia‐related traits (p < 0.05/2923). Among them, the significant associations of CTSB (negative association) and ASGR1 (positive association) with sarcopenia‐related traits were observed to have consistent directional associations in both MR‐based studies and observational studies. Drug target annotations suggested that 52 MRSC‐prioritized proteins and 145 biomarkers are drug targets or druggable.
+
+## Conclusions
+This study identified 89 potential pathogenic proteins and 197 candidate biomarkers for sarcopenia, providing valuable clues for the development of therapeutic drugs for sarcopenia.
+
+circulating proteomedrug targetsMendelian randomizationsarcopeniaScience and Technology Projects in Guangzhou2024A04J4015Guangdong Basic and Applied Basic Research Foundation2023A15150117672023A1515011518National Natural Science Foundation of China
+10.13039/5011000018098247247882102317 
+2.3
+
+## MR Analyses
+We conducted two‐sample MR analyses using genetically predicted circulating proteins as exposures and sarcopenia‐related traits as outcomes. The ‘TwoSampleMR’ R package (https://github.com/MRCIEU/TwoSampleMR) was utilized to perform cis‐only MR analyses and cis + trans MR analyses with cis‐pQTLs and cis + trans pQTLs as IVs, respectively, to identify causal proteins associated with the outcomes. When a single pQTL was used as an IV, the causal effect of the exposure on the outcome was estimated using the Wald ratio method. When multiple IVs were present, the causal inference was performed using the inverse variance–weighted (IVW) method [ ]. In MR analysis, three core assumptions must be met to obtain valid results. Specifically, the genetic variant (or multiple genetic variants) used as IV for the risk factor must satisfy the following conditions: (1) reliably associate with the risk factor under investigation (relevance assumption), (2) not associate with any known or unknown confounding factors (independence assumption) and (3) influence the outcome only through the risk factor and not through any direct causal pathway (exclusion restriction assumption) [ ]. In MR analysis, Assumption (3) could be violated by the presence of horizontal pleiotropy in IV, which may affect the reliability of MR results. Our study conducted sensitivity analyses to provide additional insights into the main MR results, using MR‐Egger regression to test and correct for directional horizontal pleiotropy among the IVs [ ]. The MR‐Egger method is able to assess whether genetic variants have pleiotropic effects on the outcome that differ on average from zero (directional pleiotropy) [ ]. Furthermore, when multiple IVs are used, heterogeneity in the estimates among different IVs can also lead to unreliable MR results. In sensitivity analyses, our study applied Cochran's Q test to identify heterogeneity and used the weighted median estimator (WME) [ ] to correct for bias due to heterogeneity among the IVs (Cochran's Q p < 0.05). The WME method obtains the final causal effect estimate by weighting the effect estimates of each IV and calculating the weighted median. This approach effectively mitigates potential biases when some of the instruments are invalid, allowing WME to still provide accurate causal inferences [ ]. Bonferroni correction was applied for multiple comparisons. The p value thresholds for cis‐only MR analyses and cis + trans MR analyses were provided in Table  .
+
+2.4
+
+## Steiger Filtering Test
+The Steiger filtering test (using the ‘TwoSampleMR’ R package) was applied for the significant MR associations to determine the direction of causality and exclude reverse causality. If p
+Steiger > 0.05, it is considered that there is no causality between the exposure and the outcome. If p
+Steiger < 0.05, it is considered that there is a causal correlation between the exposure and the outcome, with ‘obverse’ representing a positive causal correlation, meaning the exposure leads to the outcome, whereas ‘reverse’ represents a reverse causal correlation.
+
+2.5
+
+## Colocalization Analyses
+To evaluate whether the circulating proteins and the sarcopenia‐related traits were affected by shared causal variants and to strengthen the evidence of causality, we utilized the ‘coloc’ R package (https://github.com/chr1swallace/coloc) to conduct original Bayesian colocalization analysis and the Sum of Single Effect (SuSiE) colocalization analysis separately on the significant associations prioritized by MR analyses and Steiger filtering tests. The SuSiE model is an improved approach that relaxes the single causal variant assumption of original Bayesian colocalization by aggregating single effects [ ]. Therefore, when the assumption that there is only a single causal variant within the genetic region of interest was not met, we solely employed the SuSiE model to conduct colocalization analysis for each causal SNP individually and reported the maximum value of the posterior probability of hypothesis 4 (PPH4) in the supplementary tables. Ultimately, we integrated the outcomes of the original Bayesian colocalization analyses and the SuSiE colocalization analyses to report the final results. A PPH4 value exceeding 80% in either analysis was considered strong evidence of colocalization.
+
+2.6
+
+## Protein‐Altering Variant (PAV) Assessment
+PAVs are genetic variants capable of modifying the structure of proteins. These variations have the potential to alter the binding affinity between the protein itself and ligands in protein quantification assays, thereby potentially amplifying or attenuating the actual quantitative levels of the protein. In this study, we utilized the Ensembl Variant Effect Predictor (https://asia.ensembl.org/Tools/VEP) to annotate PAVs on all cis‐pQTLs prioritized by MRSC, as well as SNPs in LD (r
+2 ≥ 0.8) with them. The variations labelled as PAVs include missense mutation, splice region variant, splice donor variant, splice acceptor variant, start loss, stop loss, stop gained, in‐frame insertion, in‐frame deletion and frameshift variant [ ].
+
+2.7
+
+## Overlap of pQTLs and Expression Quantitative Trait Loci (eQTLs)
+The influence of genetic variations on protein levels is achieved through the regulation of the mRNA transcription process. In order to further enhance the biological interpretability of the causal associations identified in this study, we utilized the Genotype‐Tissue Expression (GTEx) Portal (https://www.gtexportal.org) to assess the overlap between pQTLs prioritized by MRSC (along with SNPs in LD with them) and their corresponding eQTLs. Additionally, we annotated those pQTLs that had significant corresponding eQTLs with concordant allelic directions.
+
+2.8
+
+## Protein–Protein Interaction Analyses
+Utilizing the Search Tool for the Retrieval of Interacting Genes (STRING, V11.5, https://string‐db.org/) platform, we conducted protein–protein interaction (PPI) analyses on proteins prioritized by cis‐only MRSC and cis + trans MRSC, respectively. A PPI enrichment p value of < 0.05 was considered to indicate that there are more interactions between the prioritized proteins than between a randomly selected set of proteins of the same size and degree distribution from the genome.
+
+2.9
+
+## Pathway Enrichment Analyses
+The ‘ClusterProfiler’ (https://github.com/YuLab‐SMU/clusterProfiler) R package and ‘ReactomePA’ (https://bioconductor.org/packages/release/bioc/html/ReactomePA.html) R package were utilized for conducting Reactome, Kyoto Encyclopedia of Genes and Genomes (KEGG) and Gene Ontology (GO) pathway enrichment analysis. Each pathway with a corrected p value of < 0.05 was considered significant.
+
+2.10
+
+## Observational Study
+By using data from 10 948 UKB participants, we conducted longitudinal linear regression analyses, to estimate the association between the levels of 2923 circulating proteins and the longitudinal changes in the nine sarcopenia‐related traits, adjusting for sex, age, body mass index (BMI), ethnicity and baseline levels of corresponding traits of sarcopenia. The nine sarcopenia‐related traits used in the observational study were completely consistent with the nine outcomes in the MR analysis. Bonferroni correction was used to control for multiple comparisons according to the number of proteins (0.05/2923).
+
+2.11
+
+## Annotation of Drug Targets
+The Therapeutic Target Database (TTD) [ ] platform (https://db.idrblab.net/ttd/) was utilized to assess the druggability of the identified causal proteins, marking their target type, associated drugs and related diseases. Furthermore, we mapped these candidate proteins with the druggable genes reported by Finan et al. [ ]. In this study, we applied the hierarchical method (described by Finan et al. in the paper) to annotate the priority tier for the druggable gene. Then, we also observed whether the protein product of the gene was targeted or predicted to be targeted by a small molecule/biotherapeutic.
+
+3
+
+## Results
+3.1
+
+## Screening of Instrumental Variables
+Following a stepwise screening of pQTLs from eight studies, a total of 8178 pQTLs were retained as IVs for 4372 proteins (2508 unique proteins). The information for all IVs is presented in Table  . Among the 8178 pQTLs, 3741 were identified as cis‐pQTLs for 2922 proteins (1550 unique proteins), whereas 4437 were classified as trans‐pQTLs for 2344 proteins (1755 unique proteins). In summary, a total of 4372 proteins with valid IVs were included in this study, of which 2028 proteins had only cis‐pQTLs as IVs, 1450 proteins had only trans‐pQTLs as IVs, and 894 proteins had both cis and trans instruments.
+
+3.2
+
+## Evaluating the Causal Effect of Circulating Proteins on Sarcopenia‐Related Traits by MR Analyses
+Compared to trans‐pQTLs, cis‐pQTLs were generally considered to directly regulate gene expression, exhibiting higher biological interpretability. In this study, we first performed cis‐only MR analyses using cis‐pQTLs as IVs. In the cis‐only MR analyses, 822 significant associations were identified and survived the Bonferroni correction (Table  ). Associations of 211 cis‐only MR‐prioritized proteins (155 unique proteins) with sarcopenia‐related traits were summarized in Table  . According to the Bonferroni‐corrected p values in the MR analyses, the sensitivity cis‐only MR analyses (Table  ) discovered 24 new causal associations for five proteins (Table  ).
+In the MR analyses, incorporating trans‐pQTLs as IVs may strengthen the reliability of the protein–trait associations. Therefore, we further conducted cis + trans MR analyses using all (cis + trans) pQTLs as IVs. In the cis + trans MR analyses, 1004 protein–trait causal associations were discovered (Table  ). Associations of 300 cis + trans MR–prioritized proteins (247 unique proteins) with 9 sarcopenia‐related traits were summarized in Table  . As shown in Tables  and , 86 causal associations were identified by the sensitivity cis + trans MR analyses, with 85 being newly discovered.
+
+3.3
+
+## Determining the Causal Direction by Steiger Filtering Test
+To determine the direction of causality and exclude reverse causality, we performed Steiger filtering tests on significant causal associations prioritized by cis‐only MR analyses and cis + trans MR analyses, respectively (Tables  and ). As a result, only one protein–trait association prioritized by cis‐only MR analyses and two associations prioritized by cis + trans MR analyses were filtered out through the Steiger filtering tests (Steiger p value of > 0.05). All significant associations demonstrated an obverse causal direction (from proteins to sarcopenia‐related traits).
+
+3.4
+
+## Colocalization Analysis
+We conducted original Bayesian colocalization analyses (applicable when there is only one causal SNP per trait) and colocalization using the SuSiE regression model, respectively. The PPH4 value was considered strong evidence for colocalization if it exceeded 0.8 in either of the two analyses. Among the 821 causal associations prioritized by cis‐only MR analyses and Steiger filtering tests, 181 of them exhibited strong evidence of colocalization (Table  ). For 1002 associations prioritized by cis + trans MR analyses and Steiger filtering tests (Table  ), 227 associations had strong evidence of colocalization.
+In summary, a total of 181 causal associations for 65 proteins (47 unique proteins) were prioritized by the cis‐only MRSC stepwise screening analyses (Table  , Figure  ), and 227 associations for 91 proteins (79 unique proteins) were prioritized by the cis + trans MRSC analyses (Table  , Figure  ). Despite varying exposure sources and outcomes, each identified protein exhibited a consistent direction of correlation. This consistency reflects the reliability of our research method and suggests the presence of similar pathological mechanisms among the nine traits of sarcopenia.
+ 
+3.5
+
+## PAV Assessments on the cis‐pQTLs
+PAV may alter the affinity of the adapter by affecting the conformational structure of the protein it encodes, ultimately leading to measurement artefacts. Therefore, we performed PAV assessments on all cis‐IVs prioritized by MRSC, as well as SNPs in LD (r
+2 ≥ 0.8) with them. We annotated the causal proteins with PAVs as IVs in Tables  , and , respectively. Among the 60 cis‐IVs for 65 proteins, 34 (36 proteins) were non‐PAVs, and 26 (30 proteins) were either PAVs or in LD with PAVs. Notably, the IVs for APOF included one PAV and one non‐PAV.
+
+3.6
+
+## Evaluating the Overlap of pQTLs and eQTLs
+In order to enhance the biological interpretability of significant associations identified by MRSC, we evaluated the association between pQTLs and proteins as being driven by transcriptional levels, rather than other mechanisms, by analysing the overlap of pQTLs and eQTLs. We annotated those pQTLs that had significant corresponding eQTLs in at least one tissue with concordant allelic directions, as well as SNPs in LD (r
+2 ≥ 0.8) with them. Among the 67 cis‐pQTLs prioritized by cis‐only MRSC analyses (Table  ), 54 overlapped with the corresponding eQTLs that have consistent genetic effect directions in at least one tissue. For 96 pQTLs prioritized by cis + trans MRSC analyses including 48 cis‐pQTLs and 48 trans‐pQTLs (Table  ), 42 of them (41 cis‐pQTLs and one trans‐pQTL) had significant corresponding eQTLs in at least one tissue with concordant allelic directions.
+
+3.7
+
+## PPI Analyses of the MRSC Prioritized Proteins
+We respectively conducted PPI analyses for cis‐only MRSC and cis + trans MRSC prioritized proteins to analyse their interactions. In the PPI network of the proteins prioritized by cis‐only MRSC (Figure  ), by using the interaction score threshold of 0.4 with medium confidence, the STRING PPI analysis yielded a clustered network with a clustering coefficient of 0.323. The PPI network contained 47 nodes with 24 edges (11 expected edges), indicating this network has significantly more interactions than expected (enrichment P = 0.000404). Figure  presented the PPI network of the proteins prioritized by cis + trans MRSC, the STRING PPI analysis yielded a clustered network with a clustering coefficient of 0.355. The PPI network contained 79 nodes with 50 edges (28 expected edges), demonstrating that the network has significantly more interactions than expected (enrichment P = 8.76 × 10−5).
+
+3.8
+
+## Pathway Enrichment Analyses
+To investigate the enriched functions of candidate causal proteins and the potential pathogenic mechanisms of sarcopenia, we performed Reactome, KEGG and GO pathway enrichment analyses on proteins prioritized by cis‐only MRSC and cis + trans MRSC analyses. For proteins prioritized by cis‐only MRSC analyses, Reactome (Table  , Figure  ), KEGG (Table  , Figure  ) and GO (Table  , Figure  ) pathway enrichment analyses identified 52, 12 and 79 enriched pathways (adjusted P < 0.05), respectively.
+For proteins identified by cis + trans MRSC analyses, 15 significant pathways were enriched through the GO (Table  , Figure  ) pathway enrichment analyses. However, neither Reactome nor KEGG analyses identified any enriched pathways for these cis + trans prioritized proteins.
+
+3.9
+
+## Observational Study
+We conducted longitudinal linear regression analyses based on the UKB datasets to explore more potential biomarkers for sarcopenia. A total of 492 significant associations for 197 unique proteins were identified through linear regression (Table  ). The 197 proteins and their associated traits are summarized in Table  . Of the 2923 proteins from UKB, 45 of them were overlapped with proteins prioritized by MRSC. As shown in Table  , we compared the results of 28 overlapped proteins that were prioritized by cis‐only MRSC. We observed that only one protein–trait [cathepsin B (CTSB)–whole body FFM] association was found to be significant in the linear regression, with the direction being consistent with the MR result. In Table  , we summarized the comparisons of 38 overlapped proteins that were prioritized by cis + trans MRSC. Longitudinal linear regression analyses determined three significant associations consistent with the direction of MR, which corresponded to two proteins, including Asialoglycoprotein receptor 1 (ASGR1) and CTSB.
+
+3.10
+
+## Annotation of Drug Targets
+This study identified 89 causal proteins as potential pathogenic proteins for sarcopenia through MRSC analyses. In Table  , we summarized the drug target annotations for the 89 proteins based on evidence provided by Finan et al. and the TTD platform. According to the classification of druggable genes by Finan et al., out of the 89 proteins, 47 were reported as druggable targets. Evidence from the TTD indicated that among the 89 causal proteins, 32 were identified as existing or potential drug targets. Regarding the 32 proteins with database evidence supporting them as drug targets, 27 of them (84%) overlapped with the druggable gene set provided by Finan et al. For those proteins without database evidence support, less than half of the proteins (20/57) were found to overlap with the druggable gene set. Table  presented all the annotated drug target proteins among the 89 MRSC‐prioritized proteins.
+ In Table  , we further annotated the drug target information for the 197 candidate biomarkers. Among these 197 proteins, 145 were identified by Finan et al. as druggable targets or supported by evidence from the TTD platform. Of these, 74 were both identified as druggable targets and supported by evidence from the TTD platform.
+
+4
+
+## Discussion
+To the best of our knowledge, this is the most comprehensive causal analysis of the relationship between the circulating proteome and sarcopenia‐related traits, with a rich array of multi‐layered analyses employed to enhance the reliability of the study results. In this study, according to the three key indicators (muscle mass, muscle strength and physical function) for diagnosing sarcopenia, we included nine sarcopenia‐related traits and 4372 circulating proteins (2508 unique proteins) with valid IVs. Our study applied a sequential stepwise MRSC screening method to precisely identify potential pathogenic proteins for sarcopenia. Through the MR analyses, we preliminarily identified a set of candidate causal proteins. Then, we conducted Steiger filtering tests and colocalization analyses to exclude reverse causality and eliminate the effect of LD between IVs and non‐IVs. Considering the possibility that filtering associations based on colocalization might lead to an underestimation of results [ ], in order to minimize the risk of underestimation, we conducted two types of colocalization analyses and reported the final results based on the union of the two analyses. After these three steps of screening, 47 unique proteins were identified using only cis‐pQTLs and 79 unique proteins were identified using all the pQTLs.
+Subsequently, in order to obtain more information about these identified causal proteins, we further conducted extensive analytical work, including annotation of PAVs, assessment of overlap between pQTLs and eQTLs, PPI analysis, pathway enrichment analysis and annotation of drug targets. It is worth noting that the causalities for proteins with PAVs as IVs should be interpreted with caution due to the presence of measurement artefacts and warrant further validation. The assessment of the overlap between pQTLs and eQTLs provided evidence on whether the association between SNP and protein was regulated by transcriptional level. Specifically, in our study, for proteins prioritized by MRSC analyses, the majority of cis‐pQTLs overlapped with their respective eQTLs and exhibited consistent directionality, whereas only one trans‐pQTL overlapped with an eQTL. This indicated that the cis‐pQTLs had greater biological interpretability for their causalities, whereas trans‐pQTLs possessed more complex regulatory mechanisms. PPI analyses indicated that the interactions among proteins prioritized by cis‐only MRSC and those prioritized by cis + trans MRSC were significantly higher than expected, suggesting potential relationships among these candidate proteins. Subsequently, pathway enrichment analyses further elucidated the enrichment of these interconnected proteins. The observed enrichment of these candidate proteins implied that they might interact in the pathogenesis of sarcopenia, thereby emphasizing the biological interpretability of our findings and the scientific validity of our candidate protein identification method. Furthermore, the observed enrichment also highlighted potential key pathways that could contribute to sarcopenia, such as the PI3K‐Akt signalling pathway, providing clues for future investigations into the mechanisms underlying sarcopenia and identifying effective drug targets. In this study, we annotated the identified causal proteins for their druggability, aiming to provide reference for the development of therapeutic drugs for sarcopenia or repurposing existing drugs for its treatment. It is noteworthy that among the 89 prioritized proteins in this study, 39 proteins utilized non‐PAVs as IVs and have supporting evidence as drug targets (Table  ). Given the substantial potential of these proteins as candidate drug targets for sarcopenia, their role in the pathogenesis of sarcopenia warrants further investigation.
+Previously, two similar studies have been conducted to explore sarcopenia's causal proteins. Chen et al. [ ] employed MR analysis to evaluate the associations between 310 plasma proteins and three sarcopenia‐related traits: appendicular lean mass (ALM), left hand grip strength and right hand grip strength. They ultimately identified five candidate causal proteins associated with sarcopenia, including LILRB2, ASPN, CNTN2, ART4 and SOD2. However, they did not distinguish between cis and trans for IVs, did not include an outcome of usual walking pace (a critical indicator of physical function) in the analyses and lacked in‐depth validation of the reliability of causal associations, such as the colocalization analysis. Jiang et al. [ ] performed only cis‐MR analyses, including 72 circulating proteins as exposures, and ultimately identified five candidate causal proteins (HP, ATP1B2, ISLR2, TNFSF12 and HGF) associated with sarcopenia. Similarly, they did not consider the usual walking pace, did not assess reverse causality and lacked in‐depth discussion of the reliability of causal associations. In our study, we also observed evidence of HP, ART4 and TNFSF12 as candidate pathogenic proteins for sarcopenia, and the direction of the associations obtained is consistent with the results reported in the aforementioned two studies.
+The measurement of the circulating proteome by the UKB afforded an opportunity to explore disease biomarkers. In this study, 45 proteins provided by the UKB overlapped with those prioritized by MRSC analyses, and among these, only two proteins (CTSB and ASGR1) were found to be significant in the linear regression analyses. The observed discrepancy could be attributed to the influence of confounding factors on observational studies, which often hinder the identification of objective associations. Moreover, since the observational study cannot establish causality, we cannot definitively conclude that the 197 proteins identified through linear regression are causal proteins for sarcopenia. Instead, they could only be considered as putative biomarkers for sarcopenia. Nonetheless, the integration of MR analyses with the results from observational studies could provide more clues for the in‐depth exploration of candidate pathogenic proteins and drug targets for sarcopenia.
+CTSB is a myokine that has previously been shown to be upregulated in the muscle of patients with Duchenne muscular dystrophy, mainly localized to areas of macrophage infiltration [ ]. When monitoring muscle pathology in a mouse model of myopathy, Baudy et al. found that CTSB imaging showed localization in inflammatory infiltrates and regenerating muscle fibres, and its activity and mRNA levels peaked at the junction of inflammation and myoblast fusion [ ]. Our MR analysis observed that CTSB was negatively associated with the whole body FFM, suggesting that it is a potential risk factor for sarcopenia. Besides, the observational study derived from the UKB data has also enhanced the strength of evidence supporting this conclusion. As a preclinical target for hair loss and bone cancer, the potential of CTSB as a drug target for sarcopenia warrants further validation.
+It has been reported that the deficiency of ASGR1 may alleviate diet‐induced systemic insulin resistance via improved hepatic insulin sensitivity [ ]. Given the close relationship between insulin resistance and sarcopenia, it is hypothesized that this protein may affect the metabolism of muscle tissue. Our MR analysis found that ASGR1 was positively correlated with the sarcopenia‐related traits. Based on the UKB data, the observational study has provided additional evidence supporting this conclusion. Currently, a novel anti‐ASGR1 monoclonal antibody named AMG 529 has been developed for the treatment of cardiovascular diseases, but it remains in the clinical research stage. In the future, it would be meaningful to further explore the association between this protein and sarcopenia.
+For the 89 candidate pathogenic proteins prioritized by MRSC, a comprehensive literature review was conducted to examine the evidence of their associations with sarcopenia/myopathy/skeletal muscle physiology, including evidence from population‐based association analyses, MR analyses and mechanism research. We observed that 38 proteins (Table  ) had been previously reported to be associated with sarcopenia. Among these, 20 proteins exhibited clear evidence that supported the same direction of association as determined by the MR analyses, thereby suggesting a notable potential for these 20 proteins as therapeutic targets for sarcopenia. For the remaining 18 proteins, the majority lacked adequate previous evidence to support the direction of their associations, with only a few proteins having their associations still in dispute, warranting further investigation.
+The limitations of this study are summarized as follows: First, the circulating proteins analysed in this study encompass those that are purposefully secreted as well as those that have leaked. The abundance of these circulating proteins may vary from that of proteins within cells and tissues. Thus, the potential impact of cell‐ or tissue‐specific protein abundance has not been explored. Second, the proteins identified with PAVs as IVs might lead to wrong conclusions due to the existence of measurement artefacts. However, the PAV assessment conducted on cis‐pQTLs offered clues to this problem. Last, the causal associations identified in this study have not been validated through animal experiments or other mechanism explorations.
+In conclusion, our study identified 89 potential pathogenic proteins and 197 candidate biomarkers for sarcopenia, including both previously reported and newly discovered. More than half of these proteins are drug targets or druggable. Our findings contribute to a deeper understanding of the pathophysiology of sarcopenia, providing valuable clues for the development of specific therapeutic drugs for sarcopenia.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Figure S1 Protein–protein interaction (PPI) networks of proteins.
+
+Figure S2. Bar plot of the Reactome pathway enrichment analysis.
+
+Figure S3. Bar plot of the KEGG pathway enrichment analysis.
+
+Figure S4. Bar plot of the GO pathway enrichment analysis.
+
+Table S1 Information of the exposures.
+Table S2.Information of the outcomes.
+Table S3.Bonferroni P‐value threshold for each outcome.
+Table S4.Information of the instrumental variables.
+Table S5.Main analyses results of the cis‐only MR.
+Table S6. Associations of cis‐only MR‐prioritized proteins with the outcomes.
+Table S7.Sensitivity analyses results of cis‐only MR.
+Table S8.Significant results of the sensitivity analyses of cis‐only MR.
+Table S9.Main analyses results of the cis+trans MR.
+Table S10.Associations of cis+trans MR‐prioritized proteins with the outcomes.
+Table S11.Sensitivity analyses results of cis+trans MR.
+Table S12.Significant results of the sensitivity analyses of cis+trans MR.
+Table S13.Steiger filtering analysis for associations identified by main analyses of cis‐only MR.
+Table S14.Steiger filtering analysis for associations identified by main analyses of cis+trans MR.
+Table S15.Colocalization of the pQTLs prioritized by cis‐only MR and Steiger filtering analysis.
+Table S16.Colocalization of the pQTLs prioritized by cis+trans MR and Steiger filtering analysis.
+Table S17.PAV assessment for the cis‐pQTLs prioritized by cis‐only MRSC analysis.
+Table S18.Overlaping of cis‐only MR‐prioritized pQTLs with eQTLs.
+Table S19.Overlaping of cis+trans MR‐prioritized pQTLs with eQTLs.
+Table S20.Significantly enriched pathways of Reactome pathway enrichment analysis for proteins prioritized by cis‐only MRSC.
+Table S21.Significantly enriched pathways of KEGG pathway enrichment analysis for proteins prioritized by cis‐only MRSC.
+Table S22.Significantly enriched pathways of GO pathway enrichment analysis for proteins prioritized by cis‐only MRSC.
+Table S23.Significantly enriched pathways of GO pathway enrichment analysis for proteins prioritized by cis+trans MRSC.
+Table S24.Linear regression analyses examining the association between protein levels and the longitudinal change levels of sarcopenia‐related traits (Data provided by UK Biobank).
+Table S25.Candidate biomarkers of sarcopenia identified by linear regression analysis.
+Table S26.The overlap between proteins from the UK Biobank and proteins prioritized by the cis‐only MRSC.
+Table S27.The overlap between proteins from the UK Biobank and proteins prioritized by the cis+trans MRSC.
+Table S28.Drug target annotations of the proteins prioritized by MRSC.
+Table S29.Drug target annotations of the proteins as candidate biomarker for sarcopenia.
+Table S30.Proteins prioritized by MRSC using non‐PAVs as IVs and have supporting evidence for drug targets.
+Table S31.Evidence from previous studies on proteins prioritized by MRSC.
+
+## Acknowledgements
+We thank the eight proteomic GWASs mentioned in the study and the GWASs of nine sarcopenia‐related traits by Ben Elsworth et al., for providing summary data used in this study. The authors certify that they comply with the ethical guidelines for publishing in the Journal of Cachexia, Sarcopenia and Muscle.
+
+## Data Availability Statement
+Summary data involved in the MR analysis can be accessed and downloaded from original studies. Researchers registered with the UK Biobank can apply for access to its resources by visiting https://www.ukbiobank.ac.uk/enable‐your‐research/register.

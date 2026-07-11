@@ -1,0 +1,382 @@
+pmcNatureNature981npgopenNature0028-08361476-4687pmc-is-collection-domainyespmc-collection-titleNature PortfolioPMC12240829PMC12240829.112240829122408294043709410.1038/s41586-025-09053-490531ArticleCross-tissue multicellular coordination and its rewiring in cancer
+http://orcid.org/0000-0003-1851-773XShiQiangshiq@pku.edu.cn http://orcid.org/0009-0005-8009-0652ChenYihan LiYang http://orcid.org/0000-0003-0324-5073QinShishang YangYu GaoYang ZhuLinnan http://orcid.org/0000-0003-1368-028XWangDongfang http://orcid.org/0000-0003-3789-6536ZhangZeminzemin@pku.edu.cn 1https://ror.org/02v51f717grid.11135.370000 0001 2256 9319Biomedical Pioneering Innovation Center (BIOPIC), School of Life Sciences, and Academy for Advanced Interdisciplinary Studies, Peking University, Beijing, China 2https://ror.org/017z00e58grid.203458.80000 0000 8653 0555Chongqing Medical University, Chongqing, China 3https://ror.org/00sdcjz77grid.510951.90000 0004 7775 6738Institute of Cancer Research, Shenzhen Bay Laboratory, Shenzhen, China 28520252025643807149260252953811420242242025280520251107202518072025© The Author(s) 20252025https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.The multicellular coordination that underlies tissue homeostasis and disease progression is of fundamental interest – . However, how diverse cell types are organized within tissue niches for cohesive functioning remains largely unknown. Here we systematically characterized cross-tissue coordinated cellular modules in healthy tissues, uncovering their spatiotemporal dynamics and phenotypic associations, and examined their rewiring in cancer. We first compiled a comprehensive single-cell transcriptomic atlas from 35 human tissues, revealing substantial inter-tissue variability in cellular composition. By leveraging covariance in cellular abundance, we identified 12 cellular modules with distinct cellular compositions, tissue prevalences and spatial organizations, and demonstrated coordinated intercellular communication within cellular modules using in situ spatial and in vivo perturbation data. Among them, two immune cellular modules in the spleen showed contrasting chronological dynamics with ageing. Analysis of multicellular changes in the breast revealed a menopausal trajectory associated with fibroblast dynamics. Furthermore, interrogation across cancer types uncovered simultaneous rewiring of two types of multicellular ecosystem during tumour progression, including the loss of tissue-specific healthy organization and the emergence of a convergent cancerous ecosystem. These findings reveal fundamental organizing principles of multicellular ecosystems in health and cancer, laying a foundation for further investigations into tissue-level functional coordination across diverse contexts.
+
+Comprehensive single-cell transcriptomic analysis of 35 human tissues reveals 12 cross-tissue coordinated cellular modules that exhibit intramodule communication and dynamic changes with ageing, and whose organization is perturbed during cancer progression.
+
+## Subject terms
+Multicellular systemsComputational biology and bioinformaticsCancer microenvironmentpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesissue-copyright-statement© Springer Nature Limited 2025
+
+## Main
+The human organism is composed of an intricate mosaic of approximately 37 trillion diverse cells, harmoniously arranged into specialized tissues, organs and interconnected systems. Over the past decade, advances in single-cell technologies and initiatives such as the Human Cell Atlas have enabled comprehensive profiling of various human tissues, revealing a substantial number of previously uncharacterized cell types – . However, it remains largely unclear how multiple cell types precisely coordinate within their native niches to perform essential physiological functions, and which components are particularly constrained under pathological conditions. In the context of tumours, for instance, the complex network of cellular interactions that underlie pro- and anti-tumour responses is still not fully elucidated . This knowledge gap hampers our understanding of tissue organization and function, impeding the development of more effective strategies for disease diagnosis, monitoring and intervention.
+Previous studies aimed to establish connections among cell types by measuring cell–cell interactions based on known ligand–receptor pairs , . Although these efforts have provided valuable insights into intercellular communication within specific contexts, they fall short of systematically unravelling complex tissue-level signalling networks, in which multiple cell types are coordinated into higher-order functional modules. Additionally, spatially resolved technologies have been utilized to characterize cellular organization in tissues – ; however, the limited number of genes that has been profiled and the lack of bona fide single-cell resolution restrict their ability to comprehensively portray those intricate multicellular structures. Notably, functionally related organs may share similar functional modules, as exemplified by mucosal immunity in both the small intestine and colon , suggesting the cross-tissue potential of multicellular ecosystems. Therefore, a systematic investigation of multicellular coordination is essential to elucidate fundamental units across human tissues.
+
+## A single-cell atlas of the human
+To systematically elucidate the multicellular coordination, we assembled a comprehensive pan-tissue transcriptomic atlas at single-cell resolution. Following stringent quality control, we obtained a total of 2,293,951 high-quality cells from 706 healthy samples across 35 human tissues for downstream analyses (Fig. , Extended Data Fig. and Supplementary Table ). To harmonize such extensive datasets, we evaluated several widely used data integration tools using the scIB platform , with BBKNN emerging as the top performer (Extended Data Fig. ). Of note, uniform manifold approximation and projection (UMAP) embedding demonstrated distinct separation among various cell types and effective integration across different sexes, tissues and datasets (Fig. and Supplementary Fig. ). 
+We performed unsupervised cell clustering and annotation hierarchically. Initially, we established eight broad cell types using canonical markers, consistent with their annotations in the original studies (Fig. and Supplementary Fig. ). Notably, approximately 45% of the cells in our atlas were attributed to the immune compartment (Supplementary Fig. ), providing a solid foundation for studying the phenotypic diversification of immune cells . The composition of these cell types exhibited noticeable variation among diverse tissues (P < 2.2 × 10−16, Chi-squared test) (Fig. ). For example, peripheral blood and immune organs or tissues, including the bone marrow, lymph nodes, omentum, spleen and thymus, were predominantly composed of immune cells, aligning with their roles in immune cell production, maturation or storage. By contrast, the reproductive tissues, such as the uterus, vagina and testis, exhibited a higher proportion of stromal cells.
+Next, each cell type was further dissected into several distinct cell states or subsets (Fig. ). Despite sharing similar transcriptomic profiles, cell subsets within the same cell types displayed clear preferences for specific tissues (Supplementary Fig. ). For instance, endothelial cells—which are critical components of the vasculature—exhibited unique delineations based on their sources, whether from blood or lymphatic vessels. Additionally, a rare cell subset called age-associated memory B cells (ABC, B08), which constituted less than 1% of total B cells, was prominently present not only in the liver, bone marrow and spleen—as previously reported , —but also in unexpected locations such as the ureter and skeletal muscle.
+Among stromal cells, fibroblasts exhibit substantial diversity, encompassing both universal and specialized subsets . We identified 12 fibroblast subsets across various tissues, with subsets S01 to S04 being the most widely distributed (Supplementary Fig. and Supplementary Table ). These universal subsets were considerably depleted in the reproductive system, whereas reproductive-system-specific subsets appeared more specialized to specific tissues rather than the entire reproductive system (Fig. ). This suggests unique architectural adaptations related to reproductive functions. Spatially resolved transcriptomics revealed distinct spatial distribution patterns for two uterus-specific fibroblast subsets, with S11 corresponding to the endometrium and S12 to the myometrium (Fig. ). Moreover, while exhibiting the strongest specificity for particular tissues, epithelial cells within the same human body systems displayed higher similarities than those among different systems (Supplementary Fig. ). In sum, we constructed a comprehensive pan-tissue single-cell atlas (http://cm.cancer-pku.cn) and revealed substantial preferences of cell subsets across various tissues.
+
+## Identification of cross-tissue CMs
+A notable illustration of multicellular coordination is evident in gut-associated mucosal immunity, where diverse cell types such as lymphocytes, dendritic cells and epithelial cells collaborate to defend against pathogenic insults . Our study aims to determine whether such coordinated multicellular ecosystems represent a recurrent theme across the human body, thereby addressing the fundamental question of how these ecosystems contribute to cohesive functional coordination among diverse cell types at the tissue level.
+To investigate this, we translated the concept of multicellular coordination into representations of co-occurring cellular networks and developed a computational framework, CoVarNet. It reconstructs cellular module (CM) networks by leveraging covariance in cell subset frequencies across samples through two parallel modules (Fig. and ). The first module utilizes non-negative matrix factorization (NMF) to identify a set of factors, prioritizing cell subsets on the basis of their weights. The top subsets from each factor serve as co-occurring nodes in the CM network. The second module determines specifically correlated subset pairs, which act as potential edges in the network. Multiple CM networks are then constructed by connecting these co-occurring nodes through the potential edges, followed by topological and statistical evaluations. 
+Applying this framework to our pan-tissue atlas, we identified a total of 12 CMs (Fig. , Extended Data Fig. and Supplementary Fig. ). In light of our focus on cross-tissue multicellular coordination, epithelial cells, owing to their highly tissue-divergent nature, were excluded from this analysis. The vast majority (88.16%, 67 out of 76) of non-epithelial cell subsets participated in at least one CM, whereas the remaining subsets (9 out of 76) were excluded either owing to technical underrepresentation, including germinal centre B cells (B09) and neutrophils (M13 and M14), or owing to their highly specialized roles in a single tissue, as in the case of skeletal muscle cells (S18). In particular, one-quarter of these subsets (17 out of 67) were involved in multiple CMs, and none of the networks clearly exhibited the presence of a hub node. These findings are consistent with fundamental biological principles, emphasizing that all cell types are functionally distinct, with some serving unique roles in different tissues. Additionally, we utilized the coefficient matrix from NMF as a measure of CM activities for each sample (Extended Data Fig. ). As expected, the activities of all CMs exhibited positive correlations with the frequencies of their component cell subsets across tissues (Supplementary Fig. ). Given that each sample hosted a predominant CM, we categorized all samples into 12 CM types (CMTs) according to their most abundant CMs. Notably, all CMTs were composed of multiple tissues, indicating the cross-tissue nature of the identified CMs (Extended Data Fig. ).
+To validate the robustness of these results, we conducted an integrative analysis combining single-cell RNA sequencing (scRNA-seq) data with approximately 12,000 RNA-sequencing (RNA-seq) profiles from the Genotype-Tissue Expression (GTEx) project (Extended Data Fig. and ). Of note, all CMTs could be well recovered, and each bulk sample also had a predominant CM (Extended Data Fig. ). Furthermore, the expression patterns of markers for CM-related cell subsets demonstrated strong concordance between the two data types (Extended Data Fig. ), further confirming the validity of the CM landscape that we established.
+
+## CM annotations
+Most CMs exhibited notable preferences for specific human body systems (Fig. ), validated by external GTEx data (Extended Data Fig. ). Among the 12 identified CMs, CM04, CM05, CM06 and CM09 were enriched in primary immune organs (bone marrow and thymus), secondary immune organs (lymph nodes and spleen) and peripheral blood. This enrichment correlated with their cellular compositions, primarily comprising immune subsets prevalent in these tissues (Fig. ). Similarly, CM07 and CM12 demonstrated preferences for the reproductive system, aligning with the presence of those specialized fibroblasts predominantly found in the ovary, vagina, breast and prostate (Figs. and ). CM02 and CM03 were mainly distributed in the urinary system and gastrointestinal tract, whereas CM08 was enriched in barrier tissues such as the skin, oral mucosa, tongue, vagina and trachea, indicating that these CMs may represent multicellular ecosystems within mucosa-associated lymphoid tissues. Additionally, CM10 appeared to function as a vascular unit, characterized by pericytes (S13), smooth muscle cells (S14) and vascular endothelial cells (E01 and E02) (Fig. and Extended Data Fig. ), and was enriched in the vasculature, heart, skin and fat tissues. By contrast, CM11 showed enrichment in the lung, kidney, liver and fat, implying roles in metabolic processes. CM01, characterized by tissue-resident macrophages (M09), universal fibroblasts (S03 and S05) and lymphatic endothelial cells (E05) (Fig. and Extended Data Fig. ), was broadly distributed across nearly all human body systems (Fig. and Extended Data Fig. ), suggesting a universal multicellular organization. Collectively, these findings demonstrate that the identified CMs exhibit distinct preferences for multiple tissues, thus representing cross-tissue multicellular ecosystems (Fig. ).
+
+## Spatial characteristics of CMs
+To further characterize CMs in a spatial context, we mapped them onto spatial transcriptomics data (Visium) using cell2location (Supplementary Table ). We first examined CM08 and CM10, both of which were enriched in the skin. Our analysis revealed prominent spatial colocalization of cell subsets within CMs (Extended Data Fig. ). CM08, which included various immune cells such as dendritic cells and T cells, was localized to the epidermis and adjacent dermis layers, where it is likely to have a key role in immune defence. By contrast, CM10 represented components of the blood vessel that are located primarily in the dermis layer. Of note, some CM08 subsets, such as vein endothelial cells (E04), also overlapped with CM10 subsets, highlighting the interconnection of different CMs within the tissue microenvironment. These findings were consistently observed across samples from six available donors (Extended Data Fig. ), underscoring the robust existence of CMs.
+Out of the 12 identified CMs, CM02, CM03 and CM05 exhibited prominent enrichment in the small intestine (Fig. ), a tissue with distinct anatomical organization . Consistent spatial patterns of these CMs were observed in four sequential ileum sections from a single donor (Fig. and Extended Data Fig. ). Unsupervised spatial clustering using CellCharter further validated their organization that CM05 aligned with the C2 niche, whereas CM02 and CM03 aligned with the C1 niche (Fig. and Extended Data Fig. ). Notably, CM05 showed elevated spatial concentration in the Peyer’s patch region (Extended Data Fig. ), where its cell subsets, including naive B cells (B03), naive T cells (CD4T03) and follicular helper T cells (CD4T04), displayed notable colocalization (Fig. ). By contrast, CM02 and CM03 were located primarily in the intestinal mucosa, in line with their composition of IgA-producing plasma cells (B12), memory (CD4T06) and tissue-resident memory (CD8T03 and CD8T04) T cells, as well as innate immune cells (I08 and I09) (Fig. ). These results suggest that CM05 and CM02/CM03, respectively, recapitulate the inductive and effector modules of mucosal immunity, underscoring their potential functional roles within tissue ecosystems. 
+To deepen our understanding of CM02 and CM03, we utilized high-resolution Xenium data, enabling precise in situ characterization of hundreds to thousands of genes within cells and tissues. Using intestinal Xenium data, we designed a gene panel to differentiate the multiple cell subsets within CM02 and CM03, with gene transcript density representing the intensity of individual CMs (Extended Data Fig. ). Our analysis revealed a notable enrichment of CM03 in the lamina propria, whereas CM02 exhibited a more uniform distribution across the tissue (Fig. ). This subtle difference, which cannot be detected from Visium data alone, highlights not only the importance of integrating single-cell and spatial data, but also the superior sensitivity of single cell-based approaches in dissecting multicellular ecosystems with greater precision.
+
+## Multicellular communication within CMs
+The formation and maintenance of CMs within tissue niches may rely on the local microenvironment. We hypothesized that diverse cell subsets within CMs are spatially organized to respond collectively, with cellular crosstalk potentially varying across different tissue microenvironments.
+To explore this, we first investigated the spatial organization of CM components using Visium data across various tissues (Supplementary Table ). Our analysis revealed a strong association between CM spatial organization and composition. The highest spatial concordance was observed in CMs with a greater proportion of lymphocytes, followed by myeloid cells, stromal cells and endothelial cells (Fig. and Extended Data Fig. ). To further understand the implications of these patterns, we analysed ligand–receptor-mediated cell–cell communication using single-cell data with CellPhoneDB ( ). Notably, endothelial cells and stromal cells produced a wider variety of ligands compared with lymphocytes (B cells, T cells and innate lymphoid cells) (Extended Data Fig. ). This aligns with the notion that spatial proximity may enhance the specificity of intercellular communication, suggesting that lymphocyte-enriched CMs foster particular interactions within local niches. Conversely, CMs with a higher proportion of stromal and endothelial cells—often situated farther apart—generated a more diverse array of signalling molecules, facilitating broader signalling interactions over longer distances (Extended Data Fig. ). These insights highlight the relationship among spatial organization, cellular composition and intercellular communication.
+To investigate the effect of tissue microenvironments on intercellular communication within CMs, we assessed cell–cell interactions within CMs using single-cell samples from different CMTs (Extended Data Fig. and ). Only six CMs with high colocalization scores were analysed. Our analysis revealed enhanced cell–cell interactions within samples with high CM activities, except for CM08 (Fig. ), implying distinct cellular phenotypes shaped by tissue microenvironments in a CM-dependent manner. To further investigate such phenotypes, we utilized recent in vivo perturbation data from the Immune Dictionary to identify cell-type-specific cytokines that induced these cellular phenotypes ( ). We found that half of the cell subsets showed responsive associations with at least one cytokine and CMs with high colocalization scores tended to harbour more diverse cytokines (Extended Data Fig. and Supplementary Table ). Diverse cell subsets clustered together on the basis of both their cell types and CM identities (Extended Data Fig. ), suggesting that cellular phenotypes are collectively determined by intrinsic properties and local stimuli. For example, CD8+ effector memory T cells (CD8T02) exhibited distinct cytokine responses among different CMs, with TNF identified in CM02, CM08 and CM09, but absent in CM04 and CM06 (Extended Data Fig. ). Additionally, we examined spatial distribution of cytokines using the intestine data (Fig. ). Despite the transient and low-level expression characteristics of many cytokine genes, our analysis successfully validated their spatial enrichment, such as IL7 and IL18 in the CM02/CM03 (C1) niche, as well as LTA and LTB in the CM05 (C2) niche (Fig. ). These results provide a comprehensive overview of the cytokine-mediated regulatory landscape within CMs.
+Collectively, our analyses of spatial organization and intercellular communication demonstrate that CMs, as fundamental tissue configurations, effectively recapitulate the complexity of multicellular ecosystems. These findings emphasize the interplay among diverse cell types within tissue microenvironments, providing insights into the mechanisms underlying tissue homeostasis.
+
+## Coordinated ageing dynamics in the spleen
+To further investigate the significance of CMs, we assessed CM associations with phenotypic data. As CM activities were primarily influenced by the tissue (Extended Data Fig. ), we conducted a systematic interrogation of individual CMs within tissue-specific contexts (Supplementary Fig. and ). This analysis revealed comparable CM patterns between male and female individuals in nearly all non-reproductive tissues (Extended Data Fig. ), whereas the thymus exhibited notable variation across age groups (Extended Data Fig. ). Consistent with age-related thymic involution, the thymus-enriched CM09 showed reduced activity in older individuals, with components, such as naive T cells (CD8T01) and regulatory T cells (CD4T08) being more abundant in younger individuals (Extended Data Fig. ).
+Another noteworthy age-related association was observed in the spleen, where CM05 increased chronologically and CM06 decreased (Fig. and Extended Data Fig. ). As the spleen included various immune cells (Fig. ), we systematically examined all immune subsets in the spleen, identifying ten that varied across age groups (Extended Data Fig. ). Of these, 80% (8 out of 10) were components of CM05 or CM06 (Fig. ), highlighting that these cross-tissue CMs effectively captured tissue-specialized variations. Notably, the expansion of four CM05 subsets (B03, B05, CD4T03 and I06) was more pronounced with ageing than that of the previously reported ABCs (B08) , (Fig. and Extended Data Fig. ), suggesting their potential roles in the ageing process. The accumulation of NR4A1-high CD4+ T cells (CD4T03) in the spleen with ageing might be explained by the combined effects of immune tolerance and thymic involution. 
+To gain deeper insights into these coordinated dynamics, we applied SCENIC to uncover the regulators of these subsets. For each of the four CM05 subsets, we determined their specific regulons relative to other subsets within their cell types ( and Supplementary Table ). Of note, these subsets exhibited notable overlap in regulons, and the convergent regulons in CM05 showed increased activity with ageing (Fig. ), shedding light on the common regulatory mechanisms that underlie multicellular coordination. Additionally, these subsets shared a set of signature genes, including 20 transcription factor genes such as NR4A1 and NR4A2 (Extended Data Fig. ). Further analysis identified eight key transcription factor genes (ATF3, FOS, FOSB, JUN, JUNB, JUND, KLF6 and NFKB1) as both regulons and signature genes (Extended Data Fig. ). These key regulators tended to act as regulatory hubs (Extended Data Fig. ), targeting many common genes across different cell types (Extended Data Fig. ). These findings align with previous reports in mice that highlight the activation of Jun and Fos members of the AP-1 complex as a signature of immune ageing . Of note, NR4A1, a key mediator of T cell dysfunction , was regulated by multiple key regulators across cell types (Extended Data Fig. ), suggesting possible immune dysfunction associated with ageing. In summary, these results in the spleen, the largest peripheral immune organ in adults, underscore coordinated behaviour at the molecular, cellular and multicellular levels. Further investigation is warranted to identify the functional mechanisms underlying these dynamics in human ageing.
+
+## Fibroblast-engaged menopausal trajectory
+To explore the role of fibroblasts within multicellular ecosystems, we focused on breast-enriched CM12, which comprised three specialized fibroblast subsets (S06, S09 and S10) alongside other diverse cells (Fig. ). We first utilized DIALOGUE to investigate whether local microenvironments in the breast triggered CM12-related coordinated multicellular programmes (MCPs), representing combinations of gene programmes across different cell subsets. Notably, this analysis identified an MCP that was upregulated in pre-menopausal samples compared with post-menopausal samples (Fig. , Supplementary Fig. and Supplementary Table ). For instance, expression of genes such as SCGB2A2 and SCGB1D2 increased in post-menopausal samples across most subsets (Fig. ), aligning with previous reports highlighting SCGB2A2 as a promising biomarker for breast cancer detection . Additionally, many inflammatory genes, including human leukocyte antigen genes, were found to be more highly expressed in pre-menopausal samples across cell subsets (Supplementary Table ). Additional analysis confirmed a decrease in inflammatory scores after menopause (Extended Data Fig. ). Although this may seem at odds with literature suggesting a systemic increase in inflammation with ageing , we hypothesize that breast tissue, as a reproductive organ, is more strongly influenced by levels of oestrogen, leading to localized reductions in inflammation. These results indicate coordinated phenotypic shifts among diverse subsets within CM12 in response to menopause.
+Next, we systematically examined the association between all nonepithelial subsets with menopausal status in the breast. Fibroblasts showed a particularly strong association with menopause, with subsets S10 and S06 exhibiting the most notable decreases in post-menopausal samples (Fig. and Extended Data Fig. ). Notably, S10 displayed high expression of collagen genes (COL1A1, COL1A2 and COL3A1) (Extended Data Fig. ), consistent with previous reports demonstrating a reduction in such fibroblasts in women over the age of 50. Spatial analysis revealed that S10 was uniformly distributed across the connective tissue, whereas S06 was located primarily in the lobules (Fig. ). By contrast, immune subsets and S09 fibroblasts within CM12 were found to colocalize in the ductal tissues of the breast (Extended Data Fig. ), with little change in their abundance observed after menopause. These findings underscore distinct functional roles of different fibroblast subsets in the breast.
+In line with these molecular and cellular observations, post-menopausal women exhibited decreased CM12 activity compared with pre-menopausal women (Fig. ). Of note, such decrease was less pronounced in women over 50 (Extended Data Fig. ), suggesting that CM12 recapitulates menopause-associated biological changes rather than merely chronological variation. Further tailored studies are needed to fully elucidate the respective contributions of ageing and menopause, as well as their potential interactions.
+Given that these changes are often progressive, we hypothesized that alterations in CM12 could serve as indicators of menopausal progression. Using the frequencies of CM12 cell subsets, we identified a menopausal trajectory that transitions from pre-menopausal to post-menopausal states (Fig. ). Specifically, the frequency of S10 exhibited a consistent decrease along this trajectory, whereas S06 tended to decrease later in the process (Fig. ). Notably, these fibroblasts (S06, S09, and S10) exhibited decreased inflammatory scores along the trajectory, particularly after menopause (Fig. ). Of note, we replicated the menopausal trajectory and fibroblast changes using an external breast dataset (Extended Data Fig. ), underscoring the robustness of our results. Together, these multicellular analyses highlight spatiotemporal dynamics of specialized fibroblasts in the breast.
+
+## Multicellular rewiring in cancer
+To systematically understand the multicellular ecosystems in cancer, we extended our analysis to the tumour microenvironment (TME), a pathological tissue niche in which diverse immune and stromal cells interact to form a complex network . We first established a comprehensive pan-cancer single-cell transcriptomic atlas comprising 1,062 clinical samples from 29 cancer types, identifying 91 cell subsets including 15 cancer-associated subsets previously reported across various cancer types – (Fig. , Extended Data Fig. , Supplementary Fig. and Supplementary Tables – ) (http://cm.cancer-pku.cn). 
+Previous studies have shown that histologically normal tissues adjacent to tumours harbour genetic alterations and manifest a unique intermediate state between healthy and tumour tissues , . Thus, we used adjacent non-tumour samples as a surrogate for precancerous tissues. To examine multicellular dynamics during tumour progression, we focused on eight cancer types with matched healthy, tumour and adjacent non-tumour samples (Fig. ). A notable reduction in healthy CM activity was observed in tumour samples across cancer types, suggesting a widespread disruption of tissue-specific multicellular ecosystems (Fig. and Extended Data Fig. ). Notably, CM08 maintained consistent activity across healthy, adjacent non-tumour and tumour samples, suggesting that the multicellular ecosystem in healthy tissues was relatively well-preserved in cutaneous squamous cell carcinoma (Extended Data Fig. ). This finding aligns with the superior response to immunotherapy observed in skin cancers, such as melanoma and cutaneous squamous cell carcinoma, compared with other cancer types , emphasizing the significance of contextualizing healthy ecosystems within the framework of cancer research (Supplementary Figs. and  and Supplementary Table ).
+Given the extensive remodelling of multicellular ecosystems in cancer, we next examined the co-occurrence of cell subsets across individual cancer types. Our analysis revealed that cancer-associated subsets frequently co-occurred across multiple cancer types (Fig. ), indicating the emergence of a convergent multicellular ecosystem shared across cancers. To further explore this, we applied CoVarNet to the eight cancer types and identified four cancer-associated CMs (cCMs) (Extended Data Fig. ). Among these, cCM02, composed primarily of cancer-associated cell subsets, was enriched in tumour samples from most cancer types (Extended Data Fig. ), representing a cancer-associated TME ecosystem. Notably, cCM02 activity progressively increased from healthy to adjacent non-tumour, and then to tumour samples across cancer types (Fig. and Extended Data Fig. ), underscoring its role as an indicator of tumour progression. We also observed increased co-occurrence of cell subsets within cCM02 in tumour samples compared with adjacent non-tumour samples, providing discernible evidence of tumour progression (Fig. ). Together, these findings highlight simultaneous rewiring of two types of multicellular ecosystem during tumour progression—marked by the loss of tissue-specific healthy organizations and the emergence of a convergent cancerous ecosystem (Extended Data Fig. ).
+Further cytokine analysis for cCM02 revealed that key mediators of intercellular regulation included interferon, IL-18 and IL-15 (Extended Data Fig. and Supplementary Table ), aligning with a recent study highlighting CD8+ T cell-derived IFNγ as a critical modulator of the TME compared with TNF . Additionally, DIALOGUE analysis identified an MCP associated with increased cCM02 activity in tumour samples, characterized by upregulation of S100 family member genes (S100A2, S100A9 and S100A8) across most cell subsets (Extended Data Fig. and Supplementary Table ). This TME programme was validated using external datasets from The Cancer Genome Atlas (TCGA) (Fig. ). To assess its clinical significance, we examined its expression in pre-invasive lung lesions from 51 individuals with known outcomes . Remarkably, pre-invasive lesions that progressed to invasive lung cancer exhibited higher expression of this programme compared with those undergoing spontaneous regression (Fig. ), suggesting its potential for early diagnosis of cancer.
+
+## Discussion
+Understanding how diverse cell types coordinate to maintain tissue homeostasis and contribute to disease progression remains a fundamental challenge in biology. Here we present a computational framework for systematically identifying cross-tissue, co-occurring CMs and their rewiring in cancer. The pan-tissue and pan-cancer single-cell atlases that we curated represent valuable resources for the community. CoVarNet bridges the gap between well-characterized cellular diversity and the complex organization and function of tissues. By linking CMs to phenotypic data, we uncovered fundamental biological insights, highlighting CMs as a scaffold for studying multicellular organization across diverse contexts. Together, these findings illuminate core principles of multicellular ecosystems and advance our understanding of tissue-level coordination in health and disease, opening avenues for future research and potential therapeutic insights.
+Methodologically, CoVarNet offers several advantages over existing strategies for identifying cellular niches or spatial domains using spatial data. First, spatial datasets are often limited by gene coverage or resolution, impeding comprehensive profiling of multicellular ecosystems. By contrast, our approach leverages single-cell transcriptomes to define fine-grained CMs, which can then be mapped onto spatial data to capitalize on the strengths of both modalities. For instance, spatial mapping of CM02 and CM03 revealed distinct distributions that were not apparent from spatial data alone. This framework enables integrative, multimodal analysis across a wide range of biological contexts. Second, many existing methods rely on spatial proximity to infer intercellular relationships, potentially overlooking broader coordination. By contrast, our approach—based on co-occurrence patterns—captures both local and distal multicellular interactions, which may be essential for understanding complex networks such as systemic immunity and cross-tissue regulation.
+This study has several limitations. Our current framework does not explicitly incorporate epithelial cells, the extracellular matrix or microbiome components. Including these essential elements in future analyses will provide a more holistic perspective on tissue-level functional coordination. Additionally, integrating coordinated intercellular networks with intracellular regulatory circuits holds promise for a more nuanced understanding of tissue functions. Expanding the analysis to larger cohorts and a broader range of phenotypes will further advance our understanding of multicellular ecosystems and their implications for translational medicine.
+
+## Methods
+
+## Single-cell data collection and preprocessing of healthy samples
+To assemble a comprehensive pan-tissue cell atlas, we collected scRNA-seq datasets and conducted quality control procedures via the Scanpy toolkit, as detailed in subsequent sections (Extended Data Fig. and Supplementary Table ). Default parameters were used unless otherwise specified.
+
+## Data collection
+We included scRNA-seq datasets from adult samples that met the following criteria: (1) utilization of fresh, not frozen, samples; (2) inclusion of samples based on cell-type enrichment: (a) no cell-type enrichment; (b) a mixture of immune, epithelial, endothelial and stromal compartments; (c) enrichment for either immune or non-immune cell populations; and (3) generation of single-cell, not single-nucleus, data using the 10x Genomics platform. These criteria were implemented to minimize batch effects across the datasets . Ultimately, a total of 33 datasets from 26 cohorts were included, collectively representing a cell atlas across 35 human tissues.
+
+## Quality control
+To standardize datasets annotated with different versions of the human genome assembly, we limited the transcriptome to the common set of 21,812 genes found in the three most widely used 10x Genomics gene annotations, specifically GRCh38 (Ensembl 84), GRCh38 (Ensembl 93) and GRCh38 (GENCODE v32/Ensembl 98). Cells identified as low-quality or germ line in the original studies were excluded, and only cells meeting the following criteria were retained: 500–8,000 genes, 1,000–100,000 gene counts, and less than 20% mitochondrial gene counts. We applied Scrublet , integrated into Scanpy, to each cohort and removed cells with a doublet score exceeding the 90th percentile across all cohorts. We then excluded samples with fewer than 50 high-quality cells. In the end, the analysis comprised a total of more than 700 samples that passed the stringent quality control measures.
+
+## Preprocessing
+Beginning with the combined gene count matrix across all datasets, we derived the normalized gene expression matrix by normalizing total counts per cell (library size) using a scale factor of 10,000 followed by logarithmic transformation. Highly variable genes (HVGs) were then selected using the function scanpy.pp.highly_variable_genes with the following parameters: (n_top_genes=2000, flavor = “cell_ranger”, batch_key = “datasetID”). Notably, HVG selection was performed after removing specific genes, including immunoglobulin genes, T cell receptor genes, ribosome protein-coding genes, heat shock proteins-associated genes, and mitochondrial genes. Several confounding effects, including total gene counts per cell, the percentage of mitochondrial gene counts, and cell cycle were addressed, using the function scanpy.pp.regress_out. Finally, HVGs were centred and scaled among all cells.
+
+## Single-cell data integration and annotation
+To integrate these extensive datasets, we used the Scanpy toolkit with default parameters unless otherwise specified.
+
+## Benchmarking integration methods
+To determine the best integration method for our datasets, we utilized scIB to benchmark several widely used Python-based tools: BBKNN , Harmony , Scanorama and deep learning-based scVI , scANVI , and SCALEX . Among the 14 metrics in scIB, biological conservation for HVG and trajectory were not applicable, and the kBET metric was excluded owing to memory requirements exceeding 2 TB. Overall scores were calculated as a weighted mean (40/60) of batch correction and biological variance conservation. Importantly, we conducted two independent benchmarking analyses on the entire atlas and a subset atlas, respectively. In the end, BBKNN emerged as the top performer and was used for the integration of the pan-tissue datasets (Extended Data Fig. ).
+
+## Dataset integration
+Principal component analysis was performed on the centred and scaled HVG expression matrix to extract 50 principal components. BBKNN, integrated into Scanpy, was then executed with the dataset as the batch variable. The batch-corrected graph was then utilized to perform UMAP for visualizing cells on a two-dimensional layout.
+
+## Cell clustering and annotation
+We performed at least two levels of unsupervised cell clustering and annotation. The first level of clustering was performed using the function scanpy.tl.leiden with resolution = 0.1 followed by identification of differentially expressed genes (DEGs; log2-transformed fold changes >1, FDR < 0.05, Student’s t-test). The eight broad cell types were identified on the basis of canonical markers and DEGs. We also received assistance with cell annotation from CellTypist , an automated cell-type annotation tool, using the Immune_All_High and Immune_All_Low models. Subsequently, further clustering (second or more levels) was performed using context-specific resolutions to obtain several distinct cell subsets for each cell type. Epithelial cells were excluded from further clustering owing to their highly tissue-specific nature. In total, 2,293,951 high-quality cells from 706 samples across 317 donors were annotated into 76 non-epithelial subsets and 26 epithelia cell types.
+
+## Hierarchical clustering of cell subsets
+We generated pseudo-bulk profiles for 76 non-epithelial cell subsets by averaging the gene expression of all cells within the same subsets. Next, unsupervised hierarchical clustering was performed using correlation distance and the hclust function (method = “ward.D”). The results were visualized using the dendextend R package.
+
+## CoVarNet framework
+We introduced CoVarNet, a computational framework designed to systematically unravel coordination among multiple cell types. CoVarNet identifies co-occurring CM networks by analysing the covariance in cell subset frequencies across various samples.
+
+## CoVarNet overview
+CoVarNet uses input data on cell subset frequencies within each cell type and sample. It utilizes two parallel modules to jointly determine CM networks by connecting co-occurring subsets (nodes) through edges. The first module applies NMF to the cell subset frequency matrix, identifying factors that prioritize subsets based on their weights. The top subsets of each factor act as co-occurring nodes in a single CM network. The second module identifies specifically correlated subset pairs, which act as potential edges. Multiple CM networks are then constructed to interconnect co-occurring nodes via these potential edges, followed by topological and statistical evaluations.
+
+## Input frequency matrix
+To ensure comparability of cell-subset frequencies across tissues and clinical specimens, we included only samples without cell-type enrichment or those from mixtures of the four cell compartments. Samples with fewer than 50 high-quality cells were excluded. For each eligible sample, we computed the frequencies of cell subsets within their corresponding cell types. Min-max normalization was applied to correct the frequency matrix, mitigating the impact of varying numbers of cell subsets across different cell types. Thus, a corrected frequency matrix, ranging from 0 to 1, was utilized in the CoVarNet procedure. Specifically, we generated a frequency matrix consisting of 76 subsets (rows) and 510 samples (columns) for the pan-tissue atlas.
+
+## NMF
+NMF has been used in the analysis of single-cell – and spatial , expression data to extract gene expression programmes. In this study, CoVarNet applies NMF to the frequency matrix to decipher cellular co-occurring programmes, specifically using the nsNMF method with ranks from 2 to 20, as implemented in the NMF R package . To ensure robustness, we conducted 30 runs to derive a consensus output, consisting of k factors and their activities in each sample. Specifically, the top ten subsets of each factor were used as co-occurring node candidates in a single CM network for the pan-tissue analysis.
+
+## Rank selection
+To determine the optimal rank for NMF analysis, we used the cophenetic correlation coefficient (CCC) as the evaluation index, in accordance with practices from previous reports . CCC is used to quantify classification stability, with values ranging from 0 to 1 and 1 indicating maximum stability . We denoted the CCC at rank k as ρk and established a procedure tailored to this context for consistent stability based on the following criteria: (1) ρk − 2 < ρk − 1 < ρk; (2) ρk > ρk + 1. Among a set of ranks meeting these criteria, the optimal rank was then identified as the one at which CCC is maximized. The optimal rank selected for the pan-tissue atlas was 12 (Extended Data Fig. ).
+
+## Specifically correlated subset pairs
+CoVarNet utilizes Pearson correlation coefficients to assess whether any two cell subsets co-occur. For a given set of s cell subsets, pairwise correlation tests are performed based on the frequency matrix, resulting in an s × s correlation coefficient matrix (denoted R). To quantify the specificity of correlations, an indicator is defined. For each element rij (i < j) in R, its background set Sij and specificity index Spec (rij) are defined as:\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${S}_{ij}=\{{r}_{ik}| k\ne i\}\cup \{{r}_{kj}| k\ne j\}$$\end{document}Sij={rik∣k≠i}∪{rkj∣k≠j} \documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${\rm{Spec}}({r}_{ij})=\frac{| \{r\in {S}_{ij}| r\le {r}_{ij}\}| }{| {S}_{ij}| }$$\end{document}Spec(rij)=∣{r∈Sij∣r≤rij}∣∣Sij∣ 
+In other words, the specificity index is defined as the fraction of elements in the background set that do not exceed ri j. The specificity cutoff is determined by an automatic method. If n and N represent the assumed number of subsets in each CM and the total number of subsets, then the specificity cutoff Cutoff (n, N) will be determined as:\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${\rm{C}}{\rm{u}}{\rm{t}}{\rm{o}}{\rm{f}}{\rm{f}}(n,N)=1-\frac{(n-1)\times 2-1}{(N-1)\times 2-1}$$\end{document}Cutoff(n,N)=1−(n−1)×2−1(N−1)×2−1 
+This approach enables a balanced assessment of the number of subsets within CMs and their co-occurrence. Specifically correlated subset pairs are determined jointly by the correlation (coefficient and FDR) and specificity. We generated 147 pairs for the pan-tissue atlas. These pairs were visualized as a global network (Supplementary Fig. ).
+
+## Construction, evaluation and visualization of CM networks
+For each NMF factor, the top subsets are designated as potential nodes, and edges connect specifically correlated subset pairs, removing isolated nodes. In each constructed CM network, the connectivity score is calculated as the ratio of observed edges to the total possible edges among all nodes within that network. The statistical significance of this score is assessed using a permutation test (n = 10,000) on the node labels. We used the igraph R package to visualize the CM networks, with nodes colour-coded by cell type and edge colour gradients scaled to reflect specificity.
+
+## CMT classifications of samples
+The CM activities in individual samples are measured by the coefficient matrix from the NMF procedure, with the sum of activities for all CMs equalling 1 for each sample. Each sample was assigned a CMT label based on its most abundant CM. For instance, if a sample exhibited the highest activity of CM01 among all CMs, it was labelled as CMT01. All healthy single-cell samples used across tissues were stratified into 12 CMT groups (Extended Data Fig. ).
+
+## Integrative analysis of scRNA-seq and GTEx RNA-seq
+We utilized GTEx RNA-seq datasets to validate the CMs defined by single-cell data (Extended Data Fig. ).
+
+## RNA-seq data preprocessing
+We retrieved gene transcripts per million (TPM) and metadata for 17,382 bulk RNA-seq samples from the GTEx Portal (V8 release) . Samples derived from cell lines were excluded, and the ‘Cervix uteri’ category was merged into the ‘Uterus’ category for consistency. To ensure consistency, only tissues represented in the single-cell cohort were retained, narrowing down to a total of 12,240 samples spanning 23 tissues for further analysis. Gene expression data were re-normalized to a uniform library size of 10,000 and log-transformed for comparability with single-cell data.
+
+## CMT classifications of RNA-seq samples
+We began by identifying DEGs among pseudo-bulk CMT samples. The top ten DEGs, ranked by fold change, were designated as CMT signature genes. Utilizing the Seurat R package , we applied the AddModuleScore function to calculate scores for individual RNA-seq samples based on these CMT signature sets. All negative scores were adjusted to zero, and 2.3% (278 out of 12,240) of samples with the highest score less than 0.2 were excluded to ensure robust classification. Ultimately, the remaining 11,962 samples were categorized into 12 distinct CMTs, facilitating a detailed examination of CM representation across the analysed tissues.
+
+## Tissue prevalence of cell subsets and CMs
+To assess the prevalence of cell subsets across tissues, we compared observed (o) to expected (e) cell numbers for each subset-tissue combination, expressed as Ro/e = observed/expected, following established methods , , . Expected cell numbers for each subset–tissue combination were derived from the Chi-square test, with enrichment defined as Ro/e > 1 (Fig. and Supplementary Fig. ). For the assessment of each CM, we computed tissue-level CM activities by averaging its activity across all samples within each tissue. The Ro/e ratio indicated the tissue distribution of CM profiles (Fig. ). To compare CM enrichment across 23 overlapping tissues between bulk and single-cell analyses, we independently calculated Ro/e ratios for each data type and combined them for comparison (Extended Data Fig. ). Results were visualized using the ComplexHeatmap R package .
+
+## Analysis of spatial transcriptomics data
+
+## Data collection
+We gathered published spatially resolved transcriptomics datasets (Visium and Xenium) of various human tissues and cancer types. Detailed accession numbers and references for these datasets are provided (Supplementary Table ).
+
+## Cell subset identification
+For deconvoluting spatial transcriptomics data, we utilized cell2location , a Bayesian model capable of accurately resolving fine-grained cell types within spatial data. Utilizing both healthy and cancer datasets, we used the corresponding integrated scRNA-seq data as a reference to obtain cell-type signatures. Prior to this process, the scRNA-seq data was subsampled to 1,000 cells per cell subset. In cases where cell types comprised fewer than 1,000 cells, all available cells were included. Following the recommended guidelines of cell2location, we set N = 5 as the expected cell abundance per spot and αy = 20 to regularize within-experiment variation in RNA detection sensitivity. The output yielded the expected cell abundance per cell subset in each spot.
+
+## CM activities
+To quantify and visualize CMs in spatial transcriptomics, we aggregated the abundance of the component cell subsets within each CM, applying weights derived from NMF results. The resulting CM activities were then scaled to a uniform standard, with the 99th percentile value across all CMs being set to 1, allowing for a direct comparison of their relative magnitudes.
+
+## Colocalization scores
+To assess the colocalization of cell-subset components within CMs across Visium spots, we calculated the colocalization score for individual spatial sections. For each CM, we calculated Spearman correlation coefficients between subset pairs where at least one subset is within this CM, resulting in a set of correlation coefficients denoted as S. The median correlation coefficient within the CM is termed r. The colocalization score for each CM is defined as the proportion of correlations in S that are less than or equal to r, providing a measure of colocalization relative to global contexts.
+
+## Aggregation scores
+To assess the regional aggregation of cell-subset components within CMs in spatial transcriptomics, we utilized the global bivariate Moran’s I using the spdep R package. Similar to the colocalization score, the aggregation scores were calculated using global Moran’s I instead of the correlation coefficient.
+
+## Cellular niches
+To provide orthogonal validation for the identified CMs, we used CellCharter to identify cellular niches, clustering Visium spots based on both gene expression and spatial information to enable spatially informed niche categorization. This analysis was performed for each sample independently to mitigate batch effects, allowing cross-validation of results across samples from the same tissues.
+
+## Xenium analysis
+The Xenium platform enables in situ characterization of hundreds to thousands of genes in cells and tissues with ultra-precise single-cell spatial imaging. Using published intestinal Xenium data, we characterized the spatial locations of CM02 and CM03. We first designed a gene panel to distinguish multiple cell subsets within these CMs, with gene transcript density serving as a proxy for CM intensity (Extended Data Fig. ). Spatial regions of the tissue (epithelium or lamina propria) were identified on the basis of k-means clustering (k = 2) in the original dataset. To assess CM distribution across tissue sub-regions, we selected six different areas within the intestinal mucosa and measured CM intensities, providing a spatially resolved, single cell-resolution distribution of CMs.
+
+## Cell–cell communication analysis
+To disentangle complex cellular crosstalk within and across CMs, we performed ligand–receptor-mediated cell–cell communication analysis using single-cell data with the CellPhoneDB Python package , .
+
+## Global analysis agnostic to CMs
+Considering the extensive number of cells, we conducted subsampling to equalize the contribution of each cell subset. Specifically, we subsampled the number of cells to 1,000 cells for each cell subset. However, if the total cell count for certain subsets did not exceed 1,000, all cells were included in the analysis. This approach aimed to ensure that the null distribution accurately represented all cell subsets, avoiding bias towards cell subsets with larger cell numbers. Subsequently, the CellPhoneDB procedure was used for statistical inference of cell–cell interaction specificity, allowing the derivation of cell–cell interaction counts among different cell types (Extended Data Fig. ) or CMs (Extended Data Fig. ) by averaging the results of corresponding cell subsets. We also validated these results using an alternative tool, CellChat (Extended Data Fig. ).
+
+## Comparative analysis informed by CMs
+To explore the effect of tissue microenvironments (CMs) on cellular crosstalk within CMs, we conducted CellPhoneDB analysis using two groups of samples with high or low CM activities, respectively. For each CM, the ‘High’ group included all samples in which that CM showed the highest activity among all CMs, while other samples were used as the ‘Low’ group. Following the previously defined CMTs in ‘CMT classifications of samples’, taking CM01 as an example, all samples labelled as CMT01 were used as the High group, while other samples were used as the Low group. Subsequently, comparative analysis between the two groups focused on cell subsets that were components of each CM (Fig. ).
+
+## Cytokine response analysis
+The recently reported Immune Dictionary provides a comprehensive overview of cell-type-specific responses to 86 cytokines . Leveraging this foundational knowledge, we explored intercellular crosstalk within CMs through cytokine responses. CM07 and CM10 were excluded as they lack immune cell subsets, while CM12 had no significant cytokine outputs.
+
+## CM-dependent DEGs of cell subsets
+The tissue microenvironments exerted a broad influence on cell-subset phenotypes in a CM-dependent manner. Specifically, for each immune subset, we identified its DEGs (log2-transformed fold changes >log2(1.2), FDR < 0.05, Student’s t-test) in samples from corresponding CMTs when compared with those from other CMTs, utilizing the Scanpy toolkit. These identified DEGs were interpreted as responses to cytokines within the tissue microenvironments associated with CMs.
+
+## Cytokine response inference
+First, we built a database of cytokine signatures for each cell type, using supplementary table 3 from the Immune Dictionary publication . Of note, we performed one-to-one conversion of mouse and human ortholog genes based on the Mouse Genome Informatics (MGI) database (http://www.informatics.jax.org/downloads/reports/HMD_HumanPhenotype.rpt). Subsequently, we conducted cell-type-aware immune response enrichment analysis using the hypergeometric test (FDR < 0.05) through the enricher function in the clusterProfiler R package .
+
+## CM-specific cytokine networks
+To visualize cytokine-mediated multicellular regulation, we constructed cytokine networks by considering both cytokine production and response in a CM-specific manner. For cytokines to be considered in a CM, the normalized expression value of the cytokine gene needed to exceed 0.1 in at least one of non-responsive cell subsets. In the case of heteromeric cytokines or cytokine complexes with two subunits, each subunit was separately represented. The igraph R package was used to generate visual representations of the cytokine networks.
+
+## Association analysis of CM activity and phenotypic factors
+
+## Tissues
+We first examined the association between CM activities and tissues, excluding tissues with fewer than five samples. For each CM, we fitted a linear model, with adjusted R2 indicating the proportion of variance explained. The FDR of the F test was reported to ensure the robustness of the results. Given the strong tissue preferences of CMs, subsequent analyses focused on tissue-specific associations.
+
+## Sexes and age groups
+In non-reproductive tissues, CM activities were compared between samples from male and female participants, with FDR-adjusted significance. Samples lacking age information were excluded from the analysis. Age data were categorized into groups: <35, 35–39, 40–49, 50–59, 60–69 and 70–85 years. For the breast dataset (D03) with over 100 samples (Supplementary Table ), age was categorized as <50 or ≥50 years. Associations between CM activities and age groups were assessed, with adjustments for statistical significance. Specifically, we also examined associations between immune cell-subset frequencies and age groups in the spleen.
+
+## Additional phenotypes
+We performed further association analyses between CMs and specific phenotypic factors. We analysed CM09 in relation to alcohol consumption in the lymph node, CM06 and CM11 with childhood tuberculosis in the lung, CM12 with menopause in the breast, and CM07 with menstrual cycle phases in the uterus.
+
+## CM05 regulators in the spleen
+
+## Inferring regulons
+We used the pySCENIC , pipeline to infer regulons for the four subsets (B03, B05, CD4T03, and I06) within CM05, performing the analysis separately for the three cellular lineages (B cells, CD4+ T cells, and innate lymphoid cells). For each subset, regulons were ranked on the basis of their regulon specificity scores (RSS), and the top 50 regulons with the highest RSS were selected for each cell subset. Seventeen regulons were shared among the four subsets.
+
+## Activities and target genes of shared regulons
+Sample-level activities for shared regulons were determined by averaging cellular activities across all cells in each sample. The mean activity of each regulon was then compared across age-stratified sample groups. Target genes of shared regulons were compared across lineages, and a regulatory network was constructed to illustrate their interrelationships.
+
+## MCP analysis
+
+## MCP identifications
+As different cell types within the same CMs tend to be exposed to similar tissue microenvironments, we hypothesized that they might exhibit coordinated responses. To investigate this, we utilized a method called DIALOGUE to map MCPs for CMs. This procedure involved setting the parameter (k = 3) and assessing the association between the MCPs identified and other phenotypes. This analysis was applied to CM12 in the breast and CM08, and resulted MCPs were termed as CM12 programme and CM08 programme.
+
+## Comparison between CM08 programme and other signatures
+To compare CM08 programme and inflammatory and cytotoxic signatures, we calculated their overall expression in external RNA-seq data, as described previously , . Specifically, RNA-seq datasets of samples from individuals with advanced melanoma following anti-PD-1 therapies were downloaded from https://github.com/ParkerICI/MORRISON-1-public. The inflammatory signature genes of immune cells are defined as CD3D, IDO1, CIITA, CD3E, CCL5, GZMK, CD2, HLA-DRA, CXCL13, IL2RG, NKG7, HLA-E, CXCR6, LAG3, TAGAP, CXCL10, STAT1 and GZMB . The cytotoxic signature genes are defined as IFNG, GZMA, GZMB, PRF1, GZMK, ZAP70, GNLY, FASLG, TBX21, EOMES, CD8A, CD8B, CXCL9, CXCL10, CXCL11, CX3CL1, CCL3, CCL4, CX3CR1, CCL5, CXCR3, NKG7, CD160, CD244, NCR1, KLRC2, KLRK1, CD226, GZMH, ITK, CD3D, CD3E, CD3G, TRAC, TRBC1, TRBC2, CD28, CD5, KIRDL4, FGFBP2, KLRF1, SH2D1B and NCR3 (ref. ).
+
+## Inflammatory scores of CM12 subsets in the breast
+We calculated the sample-level inflammatory scores for immune and fibroblast subsets within CM12. Fibroblasts and immune subsets were scored using the corresponding inflammatory gene sets. The inflammatory signature genes of fibroblasts are defined as PLAU, CHI3L1, MMP3, IL1R1, IL13RA2, TNFSF11, MMP10, OSMR, IL11, STRA6, FAP, WNT2, TWIST1 and IL24 (ref. ). The inflammatory signature genes of immune cells are defined as above. Specifically, we first calculated the average gene expression among all cells of individual subsets for each sample. Subsequently, we used the R package AUCell to calculate the sample-level inflammatory scores.
+
+## Menopausal trajectory analysis
+
+## Discovery cohort
+We constructed a menopausal trajectory in the breast (dataset D03; Supplementary Table ) based on the frequencies of cell subsets within CM12, following the methodology described in a recent study . To mitigate the impact of frequency differences between cell subsets, we applied z-score normalization to correct the frequency matrix. Subsequently, we computed the k-neighbourhood and performed clustering for breast samples using the function scanpy.pp.neighbours and scanpy.tl.leiden with default parameters. To model trajectories along menopause, we performed PHATE with a = 40, followed by pseudotime analysis using the Palantir standard pipeline. The starting point was defined as the cluster with a high proportion of pre-menopausal samples.
+
+## Validation cohort
+The Reed dataset was used to validate the menopausal trajectory. For the epithelial-enriched (‘organoid’) samples in the dataset, cell subset annotation was performed with CellTypist , using previously annotated gene expression profiles of breast tissue as a reference. The cell subset frequency matrix was subsequently input into the trajectory analysis as described above.
+
+## Pan-cancer single-cell atlas
+To disentangle the rewiring of CMs along malignant progression, we constructed a pan-cancer transcriptomic atlas at single-cell resolution (Fig. ).
+
+## Data collection and preprocessing
+Following the criteria set for healthy datasets, we selectively included scRNA-seq datasets from fresh (not frozen) samples without cell-type enrichment, generated using 10x Genomics single-cell (not single-nucleus) platforms. One exception is the ESCC_GSE160269 cohort, where samples represent a mixture of immune, epithelial, endothelial, and stromal compartments. Quality control and other preprocessing procedures were also applied consistently with healthy datasets. In total, more than 1,000 samples from 48 datasets were incorporated, collectively forming a cell atlas across 29 human major cancer types (Extended Data Fig. and Supplementary Table ).
+
+## Data integration, cell clustering and initial annotation
+Following the methodology applied to healthy datasets, we performed dataset integration using BBKNN. Unsupervised clustering for all cells was carried out using the scanpy.tl.leiden function with a resolution of 0.1. Subsequently, we identified the eight broad cell types based on canonical markers.
+
+## Supervised cell annotation
+To accurately determine cell identities in cancerous samples, we utilized a transfer-learning-based strategy for cell subset annotation. Initially, we curated a single-cell reference dataset that encompassed 76 non-epithelial cell subsets identified in healthy data and 15 cancer-associated subsets identified in various cancer types – (Supplementary Table ). The number of cells of each subset was subsampled to 1,000, unless the total cell count did not exceed 1,000. Subsequently, a transformer-based reference model was trained on the reference dataset. Following this, non-epithelial cells from the pan-cancer atlas were annotated using the reference model. These procedures were executed using TOSICA, a multi-head self-attention model, enabling interpretable cell-type annotation . The epoch number for prediction was selected as 15 (Supplementary Fig. ). Cells with predicted probabilities <0.5 were removed (Supplementary Fig. ). In the end, a total of 3,038,535 high-quality cells from 1,062 samples of 717 donors were well annotated to be 91 non-epithelial subsets.
+
+## Rewiring of multicellular ecosystems in cancer
+
+## Samples used
+To compare multicellular dynamics during tumour progression, we included eight cancer types that had at least three samples from each condition (healthy, adjacent non-tumour and tumour).
+
+## Interrogation of healthy CMs
+To quantify healthy CMs across different conditions, we aggregated the abundance of the component cell subsets within each CM, applying weights derived from NMF results. The resulting CM activities were then rescaled to range from 0 to 1. For each cancer type, only the most dominant CM was considered.
+
+## Co-occurrence of cell subsets in individual cancer types
+For each cancer type, we derived all specifically correlated cell-subset pairs using the correlation analysis module of CoVarNet. Compared with pan-tissue or pan-cancer analysis, the following more stringent cutoffs are used: coefficients >0.5, FDR <0.05 and specificity >0.95. Only identified specifically correlated subset pairs are used to perform comparison across eight cancer types.
+
+## Identification of cCMs using CoVarNet
+Specifically, we generated a frequency matrix consisting of 91 subsets and 955 samples for the pan-cancer atlas. Specifically, the top 15 subsets of each factor were used as co-occurring node candidates in a single CM network for the pan-cancer analysis.
+
+## Interrogation of cCM02
+To quantify cCMs across different conditions, we measured cCM02 activities using the same procedure as in healthy CMs.
+
+## cCM02 analysis
+
+## Co-occurring network
+To explore the dynamics of cCM02 during tumour progression, we constructed two co-occurring networks of which nodes are the same as original nodes in cCM02, while edges were recalculated in two scenarios. One used healthy and adjacent non-tumour samples, while the other used tumour and adjacent non-tumour samples. Thus, CM networks were constructed using unaltered nodes and new edges.
+
+## Cytokine analysis
+For each cell-subset component of cCM02, we identified its DEGs (log2-transformed fold changes >log2(1.2), FDR < 0.05, Student’s t-test) in tumour samples compared with adjacent non-tumour samples. These identified DEGs were used to perform cytokine analysis as described above.
+
+## MCP analysis
+We conducted MCP identification using only tumour and adjacent non-tumour samples. Overall expression of MCP were calculated for the RNA-seq datasets from TCGA portal and microarray data of pre-invasive lung lesions . TCGA datasets were downloaded using the TCGAbiolinks R package. Only projects with more than ten tumour or adjacent non-tumour samples were included. Datasets of pre-invasive lung lesions were downloaded from https://github.com/ucl-respiratory/preinvasive.
+
+## Reporting summary
+Further information on research design is available in the  linked to this article.
+
+## Online content
+Any methods, additional references, Nature Portfolio reporting summaries, source data, extended data, supplementary information, acknowledgements, peer review information; details of author contributions and competing interests; and statements of data and code availability are available at 10.1038/s41586-025-09053-4.
+
+## Supplementary information
+
+Supplementary InformationThis file contains Supplementary Figs. 1–10, Supplementary Notes 1 and 2 and legends for Supplementary Tables 1–12.
+
+Reporting Summary
+
+Supplementary TablesThis file contains Supplementary Tables 1–12.
+
+Peer Review File
+
+## Source data
+
+Source Data Fig. 1
+
+Source Data Fig. 2
+
+Source Data Fig. 3
+
+Source Data Fig. 4
+
+Source Data Fig. 5
+
+Source Data Extended Data Fig. 1
+
+Source Data Extended Data Fig. 2
+
+Source Data Extended Data Fig. 3
+
+Source Data Extended Data Fig. 4
+
+Source Data Extended Data Fig. 5
+
+Source Data Extended Data Fig. 6
+
+Source Data Extended Data Fig. 7
+
+Source Data Extended Data Fig. 8
+
+Source Data Extended Data Fig. 9
+
+Source Data Extended Data Fig. 10
+
+Source Data Extended Data Fig. 11
+
+Source Data Extended Data Fig. 12
+
+## Extended data figures and tables
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+These authors contributed equally: Qiang Shi, Yihan Chen
+
+## Extended data
+is available for this paper at 10.1038/s41586-025-09053-4.
+
+## Supplementary information
+The online version contains supplementary material available at 10.1038/s41586-025-09053-4.
+
+## Acknowledgements
+The authors thank members of the Z.Z. laboratory for insightful discussion. This work was supported by the National Key Research and Development Program of China (2023YFF1204700), the National Natural Science Foundation of China (62203019, 92459001 and L2424217) and the Fundamental Research Funds for the Central Universities (Peking University). Q.S. was supported in part by the National Postdoctoral Fellowship Program of China (GZB20230023), the China Postdoctoral Science Foundation (2021TQ0012, 2022M720246 and 2023M740093), the Peking University Boya Postdoctoral Fellowship, the Postdoctoral Fellowship of Peking-Tsinghua Center for Life Sciences and the Boehringer-Ingelheim Postdoctoral Fellowship Program. Part of the analysis was performed on the High Performance Computing Platform of the Center for Life Sciences (Peking University).
+
+## Author contributions
+Z.Z. and Q.S. conceived and designed the project. Q.S. and Y.C. carried out data curation with the help of S.Q., Y.Y. and Y.G. Q.S., Y.C. and Y.L. conducted the computational analysis with the help of S.Q. D.W., L.Z., Y.G. and Y.Y. contributed valuable discussions. Q.S. and Z.Z. wrote the manuscript with input from all authors.
+
+## Peer review
+
+## Peer review information
+Nature thanks Sarah Teichmann, who co-reviewed with Simon Koplev; Itai Yanai; and the other, anonymous, reviewers for their contribution to the peer review of this work. are available.
+
+## Data availability
+This study conducted a comprehensive analysis based on curated datasets from previously published studies without generating new primary data. Curated pan-tissue and pan-cancer scRNA-seq datasets can be downloaded from Zenodo (https://zenodo.org/records/15169362) and can be interactively explored at http://cm.cancer-pku.cn. Spatially resolved transcriptomics datasets used are listed in Supplementary Table .  are provided with this paper.
+
+## Code availability
+The source code of CoVarNet has been uploaded to the Github repository https://github.com/QiangShiPKU/CoVarNet. Other analysis code has been uploaded to Zenodo (https://zenodo.org/records/14175262) .
+
+## Competing interests
+Z.Z. is a founder of Analytical BioSciences and is a board member for InnoCare Pharma. The other authors declare no competing interests.

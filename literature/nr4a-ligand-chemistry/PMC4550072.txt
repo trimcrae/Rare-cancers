@@ -1,0 +1,823 @@
+822acssdJournal of Chemical Information and ModelingJ Chem Inf ModelPMC4550072455007245500722622545010.1021/acs.jcim.5b00103AlphaSpace: Fragment-Centric Topographical Mapping
+To Target Protein–Protein Interaction Interfaces
+RooklinDavid WangCheng KatigbakJoseph AroraParamjit
+S ZhangYingkai †Department
+of Chemistry, New York University, New York, New York 10003, United States‡NYU-ECNU
+Center for Computational Chemistry at NYU Shanghai, Shanghai 200062, China*E-mail: yingkai.zhang@nyu.edu.
+307201555815851585–15993072016Copyright © 2015 American Chemical SocietyThis is an open access article published under an ACS AuthorChoice License, which permits copying and redistribution of the article or any adaptations for non-commercial purposes.
+
+## Abstract
+ Inhibition
+of protein–protein interactions (PPIs) is emerging
+as a promising therapeutic strategy despite the difficulty in targeting
+such interfaces with drug-like small molecules. PPIs generally feature
+large and flat binding surfaces as compared to typical drug targets.
+These features pose a challenge for structural characterization of
+the surface using geometry-based pocket-detection methods. An attractive
+mapping strategy—that builds on the principles of fragment-based
+drug discovery (FBDD)—is to detect the fragment-centric modularity
+at the protein surface and then characterize the large PPI interface
+as a set of localized, fragment-targetable interaction regions. Here,
+we introduce AlphaSpace, a computational analysis tool designed for
+fragment-centric topographical mapping (FCTM) of PPI interfaces. Our
+approach uses the alpha sphere construct, a geometric feature of a
+protein’s Voronoi diagram, to map out concave interaction space
+at the protein surface. We introduce two new features—alpha-atom
+and alpha-space—and the concept of the alpha-atom/alpha-space
+pair to rank pockets for fragment-targetability and to facilitate
+the evaluation of pocket/fragment complementarity. The resulting high-resolution
+interfacial map of targetable pocket space can be used to guide the
+rational design and optimization of small molecule or biomimetic PPI
+inhibitors.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2015 Feb 24; Issue date 2015 Aug 24.
+
+## Introduction
+Various protein–protein
+interaction inhibitors (iPPIs) are
+in development to treat cancer, − neurodegenerative disease, , autoimmune disease, , arthritis, viral infection, , bacterial infection, etc., and several have advanced into clinical
+trials and beyond. Historically, PPI interfaces
+have been considered comparatively intractable drug targets for typical
+drug-like molecules. − But over the past decade, several approaches including
+screening of natural product-like compounds, , mimicry of protein interfaces, , and fragment-based
+drug discovery (FBDD) , have offered tangible success.
+FBDD allows for the identification of small weakly binding chemical
+fragments, which can be subsequently linked or extended into unique
+multi-fragment scaffolds. , Fragment-based approaches
+have led to the discovery of several high-affinity inhibitors that are highly complementary to the distinct
+PPI interfaces they target, − and the tightest binders attain
+picomolar affinities. , 
+Alanine scanning mutagenesis , is commonly used to
+identify residues that interact most favorably in a PPI complex. These
+interactions, between individual hot spot residues and the partner
+protein, are reminiscent of a fragment-centric view of the PPI interface.
+Clusters of hot spot residues can serve as promising starting points
+for the design of small molecule iPPIs, and biomimetic iPPIs are often designed specifically to preserve
+these hot spot interactions and to optimize them. − While identification
+of the important side chains can provide a good starting point for
+PPI inhibitor design, alanine scanning does not provide structural
+information about the surface involved in a hot spot interaction or
+the degree of complementarity between the surface and the side chain
+binding fragment. Thus, from an inhibitor design perspective, whether
+using FBDD or the alanine scanning technique, it is of significant
+interest and importance to obtain fragment-centric structural mapping
+of the target interfaces.
+Mapping of PPI interfaces is closely
+related to the problem of
+ligand binding site detection. Over the years, a number of diverse
+algorithms have been developed for this purpose, which fall into four
+general categories: geometry-based, − probe-based, − grid-based, − and docking-based. − Some methods rely on the structure alone, while others incorporate
+energetic terms or sequence conservation into the pocket detection.
+Examples from all categories perform strongly when detecting classical
+ligand binding pockets, which are often large isolated cavities in
+the protein surface with well-defined concavity. , , Some of these methods have been applied
+to investigate PPI interfaces, such as Q-SiteFinder (a grid-based pocket detection method), FTMap − (a docking-based solvent-mapping method), and FindBindSite (a ligand/fragment-docking-based method), all
+of which reveal that PPI interfaces are not adequately described by
+a single cavity, but comprise multiple interaction regions. On the
+other hand, the grid- and structure-based method DoGSite , has applied the concept of subpockets to demonstrate that a higher-resolution
+characterization of classical ligand binding pockets is generally
+feasible and practical, however this approach has yet to be applied
+to PPI interfaces.
+Because PPIs often feature large and flat
+binding surfaces, without
+the deep pockets of typical drug targets, they pose a distinct challenge
+for geometry-based pocket-detection methods in providing a meaningful
+fragment-centric structural characterization. For example, the application
+of three popular geometry-based methods (CASTp, fpocket, and single linkage
+clustering similar to SiteFinder ) to
+characterize two established druggable PPI interfaces—Mdm2/p53 , and Bcl-xL/Bak , —results in inconsistent
+definitions of pocket profiles (see Figure S1). The results do not represent the fragment-centric interactions
+observable at the interfaces and suggest a limited utility of the
+methods from a FBDD perspective. We observe three specific limitations:
+incomplete interface coverage, pocket expansion into solvent-inaccessible
+regions, and overconsolidation of pocket space across multiple side
+chain interactions, which lowers the resolution of the interfacial
+characterization.
+In order to address the above limitations,
+we have developed AlphaSpace,
+a new computational analysis tool that features a fast geometry-based
+approach to provide a comprehensive fragment-centric topographical
+mapping of the PPI interface. AlphaSpace follows in the footsteps
+of fpocket and MOE’s SiteFinder by using alpha spheres, a geometric feature
+of a protein’s Voronoi diagram, to map out concave interaction
+space at the surface of a protein. Prior to these, the application
+of Voronoi tessellation to cavity detection originated in the pioneering
+work of Liang et al. and was first implemented in the CAST program. However, AlphaSpace is unique among these existing
+Voronoi-based methods in its general divergence from a cavity-centric
+paradigm toward a fragment-centric and full-surface paradigm. Central
+to our approach are two new features, alpha-atom and alpha-space,
+and the new concept of the alpha-atom/alpha-space pair, which we utilize
+to rank interaction regions for fragment-targetability and to evaluate
+pocket/fragment complementarity to guide fragment optimization. Additional
+AlphaSpace components, including Pocket matching and Pocket communities, extend the fragment-centric methodology
+to establish a flexible pocket model and to identify highly targetable
+protein surface regions.
+In the following sections, first, we
+present the methodology behind
+AlphaSpace fragment-centric topographical mapping (FCTM) and highlight
+aspects that enable AlphaSpace to reveal the fragment-centric modularity
+at PPI interfaces and to quantitatively evaluate fragment-centric
+pockets. For the initial section of the , we apply FCTM to the well-studied Mdm2/p53 PPI interface, discussing
+the utility of fragment-centric inhibitor design features. FCTM results
+are compared with the corresponding interaction regions detected using
+fpocket and FTMap. In the second section of the , we evaluate the performance of AlphaSpace on a larger data set
+of 12 PPI, 12 iPPI, and 9 apo structures from the 2P2I database. , Finally, we discuss a more general perspective on the AlphaSpace
+methodology and present conclusions.
+
+## Methods
+The central
+geometric construct employed by AlphaSpace is alpha
+sphere, a geometric feature derived from the Voronoi diagram of a
+set of points in three-dimensional space. The Voronoi diagram is a tessellation of the space containing the
+points into a set of Voronoi cells, or polyhedrons, formed from planes
+that bisect adjacent points from the set. The alpha sphere centers
+are defined at the vertices of this tessellation. Each alpha sphere
+center will be an intersection of six bisecting planes and equidistant
+to exactly four points from the set. The concept of applying Voronoi
+tessellation to protein structure was first introduced by Richards
+in 1974, along with the “weighted”
+Voronoi tessellation, a variation in the calculation to account for
+different atomic radii that was later implemented by Liang et al.
+in CAST. AlphaSpace employs the “classical”
+Voronoi tessellation, also used by fpocket, for which all atoms are treated as equivalent points. In this case,
+the alpha sphere makes contact with the centers of exactly four atoms
+but is otherwise empty of other atomic centers. Its radius is measured
+from alpha sphere center to atom center. Alpha spheres centered outside
+the protein surface mark concave surface regions and can be used to
+represent potential interaction space. A illustrates how a Voronoi diagram can be
+used to map the concave interaction space in a two-dimensional schematic
+model of shallow pockets in a surface.
+ With AlphaSpace, we introduce two additional alpha sphere-related
+geometric features: alpha-atom and alpha-space ( B,C). An alpha-atom shares a center with
+its associated alpha sphere but with a reduced radius set to 1.8 Å.
+An alpha-atom can be thought of as a theoretical ligand atom at a
+discrete interaction point, positioned to make approximate contact
+with the small region of protein surface associated with the set of
+four alpha sphere contact atoms. The alpha-space is the volume of
+the tetrahedron defined by the centers of the four alpha sphere contact
+atoms. Every alpha-atom has an associated alpha-space, the volume
+of which captures information about the relative positions of the
+four contact atoms, which is related to the structure of the surface
+region associated with these four atoms. The set of all alpha-spaces
+for a set of points is equivalent to its Delaunay triangulation, the
+dual graph of the Voronoi diagram.
+AlphaSpace fragment-centric
+topographical mapping (FCTM) is performed
+in two stages: pocket identification and pocket evaluation, as shown
+in .
+ 
+
+## Stage 1: Pocket Identification
+The
+first stage, pocket
+identification, consists of four consecutive steps:
+I.Alpha Sphere
+Detection. All alpha spheres are identified from the Voronoi
+tessellation of
+a protein structure. This step is the same as fpocket and MOE’s Site Finder. We employ the python wrapper to Qhull, available in the SciPy package, to
+calculate the Voronoi diagram.
+II.Alpha Sphere Filtration. Identified alpha spheres
+are filtered by radius to remove from the
+analysis spheres deemed too small to represent solvent-accessible
+space (3.2 Å is set as the default minimum radius cutoff, Figure S2C) or too large to accurately represent
+space within contact proximity of the protein surface (5.4 Å
+is set as the default maximum radius cutoff, Figure S2B). These filtration parameters, which deviate from the corresponding
+default parameters in fpocket (3.0 and 6.0 Å, respectively),
+have been optimized to restrict our mapping to include only solvent-accessible
+space near the surface of the protein.
+III.Alpha Sphere Clustering. Remaining
+alpha spheres are clustered into pockets, or “alpha-clusters”,
+using an average linkage algorithm to restrict individual pocket size
+to represent small, fragment-centric interaction spaces.
+IV.Alpha-Cluster Selection. Pockets at the PPI interface, or within an expanded interface, are
+then selected for subsequent quantitative evaluation.
+In comparison with fpocket and MOE’s Site Finder, the main
+deviation of AlphaSpace within this pocket identification stage is
+in the third step, alpha sphere clustering, where we employ an average
+linkage algorithm with an optimized clustering parameter to achieve
+a fragment-centric mapping. Because of the subtlety in fragment-centric
+structural modularity at PPIs, there is often not a well-defined gap
+within the flow of alpha spheres across the surface. This is why fpocket’s
+multi-step clustering algorithm (which
+includes a multiple linkage step set to 2 by default) and SiteFinder’s
+single linkage clustering algorithm are
+observed to extend individual pocket space across multiple fragment
+or side chain interactions (Figure S1).
+AlphaSpace, alternatively, clusters filtered alpha spheres into localized
+pockets, or alpha-clusters, using the average linkage routine in the
+SciPy hierarchical clustering package. The algorithm uses the pairwise alpha sphere Euclidian distance
+matrix to generate a dendrogram according to the average-linkage criterion
+(Figure S3). The clustering parameter,
+which is the maximum mean distance between elements of any single
+cluster, determines where to cut this tree and, thus, the general
+size and final number of alpha-clusters in the topographical map.
+Here, by considering amino acid side chains to be the natural binding
+fragments in PPIs, we fit this clustering parameter to yield, on average,
+one alpha-cluster for every side chain engaged in a PPI. As shown
+in Figure S4, the average number of side
+chains per pocket is near unity when the maximum average linkage distance
+is within the range 4.6 to 4.8 Å. We set the default value of
+this parameter to be 4.7 Å.
+Besides the third clustering
+step, the fourth step, alpha-cluster
+selection, also marks a conceptual break from the fpocket algorithm.
+Fpocket, as a more classical cavity-centric pocket detection method,
+aims to identify the most significant individual pockets as probable
+enzymatic active sites or ligand binding pockets. This leads to incomplete
+coverage for PPI interfaces, where many of the interactions involve
+smaller and shallower fragment-centric pockets. AlphaSpace, alternatively,
+does not screen pockets by number of alpha spheres but detects contact
+with the molecular binding partner to select for the array of alpha-clusters
+engaged in the PPI. This provides a landscape-like topographical map
+with extensive coverage of the interaction interface. Furthermore,
+in AlphaSpace, adjacent interaction regions are represented simultaneously
+as discrete alpha-clusters and as overlapping pockets, with shared
+pocket atoms along their boundaries. We leverage this pocket overlap
+to moderate the expansion of interface contact maps to reveal unoccupied
+targetable pockets near interaction interfaces.
+
+## Stage 2: Pocket
+Evaluation
+Selected pockets from the
+first stage are quantitatively characterized in Stage 2 of AlphaSpace
+FCTM. The analysis includes Pocket ranking, Pocket-fragment complementarity, Pocket matching, and Pocket communities, as illustrated in . Pocket evaluation
+is facilitated by the alpha-atom and alpha-space features and provides
+a high-resolution map of underutilized and targetable pocket space
+at a PPI interface.
+We use alpha-space as a geometric feature
+related to the size and shape of a localized region of protein surface.
+The size of an individual alpha-space reflects the surface area and
+curvature of the small surface region associated with the set of four
+alpha sphere “contact” atoms ( ). While the set of alpha spheres in an alpha-cluster
+will overlap, the corresponding set of alpha-spaces will fit face-to-face
+to form a contiguous volume. This allows for the sum over all alpha-spaces
+within a pocket to serve as a single metric that approximates the
+surface area and curvature of the complete pocket. Figure S5 illustrates the geometric relationship between the
+alpha-atom and the alpha-space in the context of an alpha-cluster
+(the Trp92 pocket from Mdm2/p53).
+The alpha-atom construct can
+be used to calculate the alpha-cluster
+contact surface area (ACSA) for each individual pocket. When alpha
+spheres are clustered to define a pocket, the corresponding alpha-atoms
+form an overlapping alpha-cluster, the outline of which represents
+the approximate shape and size of that pocket’s complementary
+pseudofragment ( ). To calculate the atomistic ACSAs for an individual pocket, we
+use Naccess to calculate the atomistic
+accessible surface areas for the protein structure alone and then
+for the same protein in complex with that pocket’s single alpha-cluster.
+Subtracting the atomistic values associated with the alpha-cluster
+complex from the corresponding atomistic values associated with the
+protein alone will yield non-zero (and positive) values only for the
+set of atoms in direct contact with the alpha-cluster. These differences
+are taken as the atomistic surface areas associated with that individual
+pocket. The sum of these atomistic values provides the total ACSA
+for that pocket.
+ 
+
+## Pocket Ranking
+Given a pocket J, we
+calculate its pocket score with the following formula:
+ where α is an alpha-space within pocket J with volume Vα, ACSAi,J is the alpha-cluster contact surface area
+for atom i calculated using alpha-cluster J (for each alpha-space we sum over the four corresponding
+alpha sphere contact atoms), and NPi,J is the binary polarity status for atom i in pocket J (1 for nonpolar atoms and 0 for polar atoms). Conceptually,
+the pocket score is equivalent to the pocket’s nonpolar-weighted
+alpha-space volume. The score was developed as a single term to correlate
+well with a combination of nonpolar surface area and pocket curvature,
+two structural/chemical features previously shown to reflect a pocket’s
+maximal binding potential. Pocket score
+development details are described in the Supporting Information, Section S4, and Figures S12–14.
+
+## Pocket-Fragment Complementarity
+If pocket J is engaged in a PPI or iPPI, we assess the structural complementarity
+between the pocket and the bound chemical fragment with the following
+formula:
+ where
+%occJ is
+the percentage of the interaction space of pocket J that is occupied by the bound ligand, α is an alpha-space
+within pocket J with volume Vα, and Oα is the binary
+occupation status of α (1 if occupied and 0 if unoccupied).
+Conceptually, we are partitioning the total alpha-space of the pocket
+into occupied space and unoccupied space by leveraging the discrete
+nature of each alpha-atom/alpha-space pair. Thus, the alpha-space
+occupation status is mediated through the position of its corresponding
+alpha-atom. Alpha-space occupation is conferred by spatial overlap
+between its alpha-atom and an atom from the bound ligand molecule,
+evaluated using a 1.6 Å cutoff distance measured between the
+centers of the alpha-atom and the ligand atoms. This cutoff is designed
+to be just longer than an average carbon–carbon bond length
+so that an unoccupied alpha-atom should represent a targetable interaction
+space, able to accommodate at least a methyl extension to the ligand,
+given the proper structure and chemistry of the evolving ligand.
+
+## Pocket Matching
+In order to match similar fragment-centric
+pockets among different structures of the same protein, we calculate
+an n × n distance matrix, where n is the total number of interface pockets among all structures
+included in the matching. Pocket matching can be
+applied to any number of structures collectively. To calculate a pairwise
+pocket distance, dJ,K, between pockets J and K, we represent
+each pocket’s ACSA as an array of length i, where i is the total number of heavy atoms found
+in the protein structure, containing the i atomistic
+ACSAs for each pocket—this vector will be non-zero only for
+the set of atoms in contact with that pocket’s alpha-cluster.
+Our distance metric is inspired by the Jaccard distance, a statistic
+used for evaluating the dissimilarity between sample sets, and is
+implemented as
+ where the sum of all nonshared ACSA
+between
+pocket J and pocket K is divided
+by the total ACSA of pocket J and pocket K. This formula approximates the portion of the total pocket
+surface area that is dissimilar between the two pockets; values will
+range from 0, the distance between two identical pockets, to 1, the
+distance between two pockets with zero shared atoms. Additionally,
+for every pair of pockets from the same structure, the pocket distance
+is artificially set to a large value of 10, which is to avoid matching
+pockets within the same structure. From the calculated pairwise pocket
+distance matrix, the average linkage hierarchical clustering approach
+is employed to decompose all pockets into clusters, for which the
+distance clustering parameter is set to 0.75 by default. All pockets
+within one cluster are considered to be matched, and the pairwise
+pocket similarity, sJ,K, is evaluated as 1 – dJ,K.
+This Pocket matching approach serves
+as the foundation for an alignment-free flexible pocket model, a concept
+previously explored by Eyrisch and Helms to track pockets across a
+molecular dynamics trajectory. A pocket
+cluster defines a flexible pocket entity, in which the mutual similarity
+describes an intrinsic degree of structural integrity, while differences
+among individual pockets within the cluster indicate structural flexibility.
+
+## Pocket Communities
+Druggable PPI interfaces are typically
+defined by multiple fragment targetable interaction regions in close
+proximity, which often include one or several particularly important
+anchor interactions. , − Inspired by
+this anchor/satellite interaction concept, we have developed a Pocket community feature to detect potentially druggable
+protein surface regions. First, all quantified pockets are classified
+as core, auxiliary, or minor pockets by employing AlphaSpace pocket
+score, for which the core and auxiliary pocket score cutoffs are set
+to 100 and 30 by default. Then core pockets serve to initiate pocket
+communities; each isolated core pocket or each set of overlapping
+core pockets is designated as a community core. Each community core
+is then expanded to include any overlapping auxiliary pockets. Each
+expanded set of core and auxiliary pockets is designated as a pocket
+community. This protocol does allow for pocket overlap between distinct
+communities; overlapping communities are not consolidated. To qualify
+as overlapping pockets—in both core pocket consolidation and
+auxiliary pocket expansion—a pair of pockets must satisfy two
+requirements: (1) share at least one pocket atom and (2) if the pockets
+point away from each other, the angle between their directional pocket
+vectors cannot be greater than 90°. The second requirement strengthens
+the prediction of pocket community cotargetability; this is included
+to avoid grouping together pockets that do share atoms but face opposite
+directions. A pocket’s directional vector, a novel AlphaSpace
+descriptor, is defined from the centroid of its pocket atoms to the
+centroid of its alpha-cluster. The community score, which is the sum
+of all pocket scores (core and auxiliary) within a community, can
+be used to help detect potentially druggable protein surface regions.
+
+## Results
+We first utilized the well-studied Mdm2/p53
+PPI as a test case
+to retrospectively demonstrate how AlphaSpace fragment-centric topographical
+mapping (FCTM) can be employed to facilitate rational PPI inhibitor
+design. The Mdm2/p53 PPI offers an attractive model because of the
+availability of high-resolution structures for the native PPI as well
+as for Mdm2 bound to a biomimetic inhibitor, bound to a small molecule
+fragment-based inhibitor, and in the apo protein state. We evaluate
+the ability of AlphaSpace to identify hot spot-associated pockets
+at the four interfaces and to detect and match important auxiliary
+interaction regions. We then evaluate the application of AlphaSpace
+to a larger data set of 12 PPI, 12 iPPI, and 9 apo structures from
+the 2P2I database; this data set was curated to represent systems
+successfully targeted by and crystallized with small molecule PPI
+inhibitors. , We confirm that high-ranking
+fragment-centric pockets are generally enriched at PPI and iPPI interfaces,
+which we leverage using Pocket communities to identify
+the iPPI interfaces from surface structures alone. We demonstrate
+that Pocket matching between sets of PPI/iPPI/apo
+protein structures allows us to identify and track similar pockets
+at a fragment-centric resolution to measure pocket flexibility and
+to characterize the structural integrity of the surface at functional
+interfaces.
+
+## Mdm2/p53: Pocket Ranking
+Mdm2/p53 is an important PPI
+and oncogene drug target, with several small molecule inhibitors currently
+in clinical trials. Its PPI interface
+is formed between a 13-residue helical section from the N-terminal
+transactivation domain of p53 and a well-defined binding groove in
+the surface of Mdm2. This interaction is known to be anchored by three
+primary hot spot residues from p53—Phe19, Trp23, Leu26—and
+a secondary hydrophobic interaction with Leu22. 
+As shown in , AlphaSpace FCTM detects a total of seven contact
+pockets in the surface of Mdm2 at the Mdm2/p53 interface. Aside from
+pocket 3, which is occupied by the side-chains of Leu26 and Pro27,
+and pocket 5, which interacts with the backbone of p53, the other
+five pockets each clearly contact a single side chain from p53. There
+is a distinct spatial overlap between the alpha-cluster centroids
+and the pocket-bound peptide fragments. This indicates an innate structural
+modularity in the protein surface that reflects the corresponding
+side chain interactions. It should be noted that such a complete and
+fragment-centric characterization of the Mdm2/p53 interface was not
+achieved using fpocket with the default parameters. As shown in Figure S1B, the corresponding fpocket analysis
+detects a single pocket in the surface of Mdm2 at the Mdm2/p53 interface,
+spanning the Trp23, Leu26, and Pro27 interactions, and does not account
+for the important Mdm2 interactions with Phe19 or Leu22 of p53.
+ For the seven AlphaSpace pockets, the calculated pocket features—pocket
+score, percent occupied, total alpha-space, and percent nonpolar—are
+presented in . The pockets are ranked and numbered by pocket score. We find that
+pocket 1 (score = 241; 72% occupied) and pocket 2 (score = 189; 94%
+occupied) engage the two essential hot spot residues Trp23 and Phe19
+of p53, respectively. The less occupied pocket 3 (score = 154; 33%
+occupied) engages the third but less dominant hot spot residue Leu26.
+These results are consistent with the experimental alanine-scanning
+data for p53, as shown in Table S2, in which mutation of either Phe19 or
+Trp23 reduces the Mdm2/p53 binding affinity below the detectable limit
+and Leu26/Ala mutagenesis results in a significant reduction of binding
+affinity by more than 50 fold. Meanwhile, the Leu22 of p53, whose
+alanine mutagenesis results in a 10-fold decrease in Mdm2/p53 binding
+affinity, interacts with the lowest ranked pocket 7 (score = 12; 100%
+occupied). The targeting of a low-scoring pocket by an important residue
+underscores that a truly complete pocket analysis depends on the surface
+mapping of both binding partners. Either surface may simultaneously
+function as both pocket and ligand, even for a helix-in-groove PPI
+such as Mdm2/p53. When we, inversely, map the surface of the p53 helix,
+we find Leu22 is involved in the formation of the most significant
+p53 pocket (score = 37, 75% occupied), which, in the complex, binds
+Val69 from Mdm2 (Figure S6). Thus, in targeting
+a small auxiliary pocket, Leu22 also completes the formation of an
+important interaction region on p53, enriching the quality of the
+total PPI interaction.
+The values for several other pocket-centric
+and ligand-centric
+descriptors are listed in Table S3, including
+atom counts, polar atom counts, presence of charged species, and the
+residue IDs of the contact fragments. Additionally, results for the
+FCTM of a second well-studied system, the Bcl-xL/Bak PPI interface,
+are presented in the Supporting Information. Table S5 reports the experimental alanine scanning data for the
+Bak helical interaction domain. Figure S16 illustrates the FCTM of the Bcl-xL surface at the PPI interface.
+Again, structural modularity can be observed in the overlap between
+the interacting side chains of Bak and the alpha-cluster centroids.
+The two highest scoring pockets correspond to the two primary Bak
+hot spots—Leu78 and Ile85—and the two moderately high
+scoring pockets correspond to two of the three secondary Bak hot spots—Val74
+and Ile81. (The final secondary hot spot—Asp83—extends
+into the solution, away from the PPI interface.) The additional pocket-centric
+and ligand-centric features for Bcl-xL/Bak are presented in Table S6.
+
+## Mdm2/p53: Pocket Matching
+The Mdm2/p53 interface has
+been effectively targeted using both fragment-based and biomimetic
+inhibitor design. The nutlins, a set of cis-imidazoline small molecules
+that mimic the four main interaction points, were the first inhibitors
+discovered to modulate Mdm2/p53. Subsequent
+FBDD efforts led to the discovery of the current ultrahigh affinity
+inhibitors that optimize these primary interactions and introduce
+additional, novel interaction points. , − 
+We have selected two iPPI structures of Mdm2 in complex with
+ultrahigh-affinity inhibitors emerging from each of these design strategies:
+a small fragment-based molecule (a piperidinone sulfone derivative)
+with IC50 0.10 nM (PDB: 4oas) and a d-peptide antagonist (DPMI-δ) with Kd 0.22 nM (PDB: 3tpx). displays the mapping of each
+of these interfaces, along with those of the native Mdm2/p53 PPI (PDB: 1ycr) and the apo state of Mdm2 (PDB: 1z1m). This Mdm2/p53 map has been expanded to include unoccupied pockets
+near the interface in addition to p53 contact pockets. The same interface
+atom list from Mdm2/p53 was used to select for pockets in the apo
+structure. For the two iPPIs, all ligand contact pockets are shown. Pocket matching is performed on the four Mdm2 structures
+collectively, and the result is presented in .
+ In the development of these picomolar
+inhibitors, mirror image
+phage display with chemical ligation , and fragment-based
+screening methods led to the identification
+of three auxiliary interaction sites in the vicinity of the Mdm2/p53
+interface but not utilized in the native Mdm2/p53 PPI. These are an
+acetate fragment binding region adjacent to the Leu22 interaction
+site (targeted by both inhibitors), a hydrophobic patch on the opposite
+side of the helix between the Trp23 and Leu26 binding pockets (targeted
+by DPMI-δ), and the “glycine shelf”,
+which is adjacent to the Phe19 binding pocket (targeted by the small
+molecule inhibitor). FCTM of these interfaces not only identifies
+each of these interaction regions as distinct pockets in the corresponding
+iPPIs, but identifies all three interaction regions as unoccupied
+pockets in the native Mdm2/p53 interface: pocket 7, pocket 10, and
+pocket 6, respectively ( A).
+The targeting of pocket 7, despite its low pocket
+score, significantly
+enhances the affinity of both inhibitors by introducing favorable
+electrostatic interactions between the acetate fragment and Lys94,
+His96, and, for DPMI-δ, His73. The affinity enhancement
+due to this fragment is roughly 20-fold for the small molecule inhibitor and, for DPMI-α, a predecessor
+to DPMI-δ, the alanine mutation of this acetate side
+chain reduces affinity by about 10-fold. For DPMI-α, the alanine mutation of the Leu10,
+which targets pocket 10, reduces affinity by 4.5-fold. Pocket 10 has
+a particularly low pocket score, but, as with Leu22 of p53 discussed
+above, the targeting of this pocket forms a reciprocal pocket in the
+surface of DPMI-δ (score = 40) that is filled by
+Leu54 from Mdm2 (Figure S7). The specific
+affinity enhancement due to the targeting of pocket 6 by the tert-butyl fragment of the small molecule inhibitor is difficult
+to assess independently since this fragment and the ethyl fragment
+occupying pocket 2 were modified in tandem, but the initial targeting of this pocket in the development of its
+predecessor, AM-8553, enhanced affinity about 20-fold. Overall, this indicates that the targeting of
+small, auxiliary pockets, detectable using AlphaSpace, can facilitate
+the productive design of competitive PPI inhibitors.
+
+## Mdm2/p53: Pocket-Fragment
+Complementarity
+The top three
+pockets from the Mdm2/p53 interface are associated with the primary
+hot spot residues from p53 and can be matched with three similar pockets
+from the iPPI interface between Mdm2 and the ultrahigh-affinity small
+molecule inhibitor ( ). Using Pocket-fragment complementarity,
+we measure improvements for all three pockets between the native PPI
+and the optimized iPPI. For pocket 1 and pocket 3, by individually
+aligning the matching pockets using the positions of shared pocket
+atoms, we can visualize the spatial relationship between the unoccupied
+subspace detected in the native PPI and the corresponding occupied
+space in the iPPI. From the alignment of pocket 1, we observe the
+phenyl ring from the 4-chlorophenyl inhibitor fragment is aligned
+with the six-member ring of Trp23. The chloro fragment on the inhibitor
+extends directly into the unoccupied space identified near Trp23,
+and the pocket-fragment complementarity improves from 72% occupied
+in the PPI to 95% occupied in the iPPI. For pocket 3, occupation is
+only 33% in the PPI; neither of the interacting residues (Leu26, Pro27)
+is optimally positioned to extend into the core of the pocket, leaving
+considerable unoccupied interaction space. Alternatively, the 3-chlorophenyl
+fragment from the inhibitor approaches the pocket from a different
+angle, and the halogen extends directly into the space unoccupied
+in the PPI, boosting pocket occupation to 98%. Regarding pocket 2,
+the conservation of high pocket-fragment complementarity between the
+PPI and the iPPI (94% and 100% respectively) is a good example of
+functional pocket flexibility. This pocket, expanded in the PPI to
+accommodate the bulky side chain of Phe19, collapses significantly
+in the iPPI in response to the smaller ethyl fragment, retaining complementarity
+with the ligand. As highlighted in , the structural mechanism for this pocket
+flexibility is driven primarily by loop dynamics.
+ 
+
+## Mdm2/p53: Comparison to FTMap
+FTMap , is a computational solvent mapping software used to identify high
+quality interaction space at the protein surface. By virtue of its
+fragment-docking algorithm, FTMap employs a naturally fragment-centric
+approach. We compare the topographical mapping results for the Mdm2
+interfaces under study with the corresponding FTMap results (Figure S8). In general, the results from the
+two methods are remarkably consistent. The interaction regions detected
+by FTMap at the interfaces of Mdm2 overlap precisely with alpha-clusters
+detected by AlphaSpace, and aside from a few instances, the overlapping
+interaction regions are described at a similar resolution (i.e., one
+AlphaSpace alpha-cluster overlaps with one FTMap probe cluster). However,
+we observe that AlphaSpace provides more comprehensive coverage of
+the interaction interfaces. Several small auxiliary pockets, detected
+by AlphaSpace and directly targeted by the inhibitors we have discussed,
+go undetected in the FTMap results. Additionally, for the apo state
+of Mdm2, FTMap identifies only two of the seven pockets detected by
+AlphaSpace. These unidentified pockets generally exhibit lower fragment-targetability,
+but their detection is critical to achieve a comprehensive and continuous
+map of the interface. Overall, the clear agreement between methods
+in identifying and localizing high-quality interaction regions is
+very encouraging given the strength of the FTMap results published
+in the literature. , 
+
+## 2P2I Data Set: Pocket Ranking
+In order to evaluate
+the performance of FCTM applied to a larger data set, we used AlphaSpace
+to map a total of 33 protein surfaces (12 PPIs, 12 iPPIs, and 9 apo
+structures) taken from the 2P2I database. These PPIs exhibit a diverse set of interfacial structures including
+various α helix, β sheet, and loop motifs. If multiple
+iPPI complexes were available for the same protein, we selected the
+complex corresponding to the highest affinity inhibitor. (See Table S1 for the complete list of PDB IDs used
+in the analysis and the Supporting Information regarding the two systems omitted due to incompatibility.)
+AlphaSpace maps provide comprehensive coverage of PPI/iPPI interfaces.
+On average, 89% and 95% of all interfacial surface area is characterized
+for PPIs and iPPIs, respectively, by the sets of fragment-centric
+contact pockets engaged in binding at the interfaces (Table S4). To confirm the enrichment of high-ranking
+pockets at the PPI/iPPI interfaces, we mapped the entire protein surface
+of each structure (for the 12 matching PPI/iPPI pairs) into fragment-centric
+interaction regions and then scored and ranked each pocket among all
+other pockets in that protein. We evaluated the rankings for the subset
+of pockets found at the PPI/iPPI interfaces. As shown in A, “high-ranking”
+pockets (90th percentile and above) are sharply enriched at the interfaces
+of the PPIs and the iPPIs, appearing 2.6 and 4.9 times their expected
+values. The higher enrichment and lower pocket count at iPPI interfaces
+indicate that PPI inhibitors do target high-scoring AlphaSpace pockets.
+ 
+
+## 2P2I Data Set: Pocket-Fragment
+Complementarity
+We also
+evaluated the complementarity between high-ranking PPI/iPPI pockets
+and the peptide or inhibitor fragments they bind. Pocket-fragment
+complementarity is expressed as the percent occupation of a pocket,
+calculated as described in the section. B illustrates that,
+generally, high-ranking PPI and iPPI interface pockets bind to their
+respective fragments with moderate to high complementarity. However,
+there is a distinct shift for high-ranking iPPI pockets toward higher
+pocket occupation; 47% of high-ranking iPPI pockets are occupied above
+90% compared to 20% of high-ranking PPI pockets. Better complementarity
+may contribute to the generally high ligand efficiency (LE) documented
+for successful iPPIs. Furthermore, from
+an inhibitor design perspective, partially unoccupied PPI pockets
+represent opportunities to optimize affinity over the native interactions.
+
+## 2P2I Data Set: Pocket Communities
+To leverage the observed
+enrichment of high-scoring pockets at iPPIs, AlphaSpace uses Pocket communities, as described in the section, to search the protein surface for overlapping
+clusters of high-scoring pockets. This method is intended to detect
+fragment-based drug-targetable surface regions from the surface structure
+alone. To validate the application, we evaluated the performance of Pocket communities to identify the known druggable surface
+regions from the 12 iPPIs in our 2P2I data set. In 8 out of 12 structures,
+the iPPI interface is identified as the #1 ranked pocket community;
+in 11 out of 12 structures, the iPPI interface is identified in the
+top 3 ranked pocket communities. In 9 out of the 11 identified iPPIs,
+the druggable interface is represented by a single pocket community;
+otherwise, two pocket communities represent the interface. shows the high precision
+in our detection of the druggable interfaces. For 10 out of 11 predicted
+iPPI interfaces, the pocket communities account for 100% of the core
+and auxiliary pockets in contact with the ligand. And for the 11 identified
+iPPI interface, there are, on average, 2.1 unoccupied pockets included
+in the corresponding pocket communities. In practice, these unoccupied
+pockets may represent viable auxiliary pockets yet to be targeted.
+(See to visualize
+the druggable pocket communities identified for two example systems:
+TNFalpha and Bcl-xL.)
+ We also test the performance of Pocket communities to detect drug-targetable communities in the corresponding apo structures
+near the known iPPI interfaces. For 5 out of 9 apo structures, the
+druggable interface can still be identified as the #1 ranked pocket
+community, and 1 more interface is identified by the #2 ranked pocket
+community. For the remaining three apo structures—Il-2, Bcl-xL,
+and ZipA—no pocket communities are identified at the known
+iPPI interfaces. To clarify, an interface will not register as a pocket
+community unless at least one core pocket can be detected. However,
+for the three apo interfaces that do not register as pocket communities,
+we do observe several fragment-centric pockets scoring very close
+to the core pocket score cutoff, indicating that the method is sensitive
+to their latent druggability. We believe that the inability to detect
+high targetability at these particular interfaces is probably an accurate
+result for the apo states, especially given a previous report that
+several apo conformations of targeted iPPI interfaces require the
+rotation of interfacial side chains to improve their targetability. 
+
+## 2P2I Data Set: Pocket Matching
+Next,
+we evaluated the
+performance of Pocket matching as a model to track
+pockets at a fragment-centric resolution between PPI, iPPI, and apo
+structures for the nine systems with available structures for all
+three states. This allows us to assess the degree of structural conservation
+or flexibility at the protein surface between the apo structure and
+the complex structures. For the apo structures, we only include pockets
+in contact with the inhibitor compound from the corresponding iPPI
+after superimposing the iPPI structure onto the apo structure. The
+motivation here is to explore the ability of AlphaSpace to identify
+and assess, specifically, pockets in each apo structure that are near
+the verified druggable interaction regions from the iPPIs. (See Figure S9 for a visual representation of the
+pocket matching results for all nine systems.) presents, as an example, the pocket matching
+results for Menin, which exhibits well-conserved pockets across all
+three surface states. Figure S10 illustrates,
+for TNFalpha, how the surface structure can change at the fragment-centric
+resolution from the apo interface to the iPPI interface.
+ The results from indicate that there
+are, on average, 4.3 fragment-centric
+pockets detected near the druggable surface region for each apo structure
+in the data set, and most of these pockets, 79%, can be matched to
+binding pockets identified in the iPPI structures. Comparing the apo
+vs iPPI pocket scores for the set of 31 pockets that match between
+iPPI and apo structures reveals that, while 58% of the fragment-centric
+pockets do exhibit reduced scores in the apo structures, which reflects
+the general expectation that pockets are attenuated in apo surfaces,
+23% of the apo pockets exhibit higher scores than the matching pockets
+at the iPPI interfaces, and 19% exhibit similar pocket scores between
+the two states.
+ There
+are, on average, 11 fragment-centric pockets identified at
+each PPI interface (this drops to 8.3 if TNFalpha is omitted which
+has the largest PPI interface with 33 fragment-centric pockets), and
+roughly half of this pocket count, 5.1 pockets on average, is identified
+at iPPI interfaces. Seventy-five percent of all iPPI pockets can be
+matched to pockets identified in the native PPIs. Interestingly, among
+these 34 pockets that match between the PPIs and iPPIs, 41% exhibit
+higher scores in the iPPI, 41% exhibit lower scores in the iPPI, and
+18% exhibit similar pocket scores. This result indicates that many
+pockets are conserved between these structures but still the interfaces
+tend to adapt differently to the different binding partners. Furthermore,
+25% of all iPPI pockets are distinct from pockets detected in the
+PPIs, which also highlights the flexibility at functional interfaces
+and the ability of AlphaSpace to detect when an inhibitor has targeted
+a novel pocket. On average, there are 2.6 pockets per system that
+match between all three protein structure states.
+
+## 2P2I Data Set:
+Ligand–Alpha-Cluster Volume/Shape Correlation
+In order
+to highlight the capacity for alpha-clusters to serve
+as mock molecular binders, we evaluate the volumetric correlation
+and shape similarity between the bound PPI inhibitors and the corresponding
+sets of contact alpha-clusters. For the correlation between the total
+contact alpha-cluster volume and the total ligand volume, we calculate r = 0.77. This demonstrates a general volumetric correlation,
+but to evaluate the mock ligand feature more precisely, we can omit
+from the calculated volumes the specific alpha-atoms representing
+unoccupied interaction space as well as parts of the inhibitor molecule
+not in direct contact with the surface (i.e., outside 4.5 Å from
+the protein surface). For this corrected correlation between the occupied
+alpha-atom volume and the surface-contact ligand volume, we calculate r = 0.92. Furthermore, as shown in , the linear fit for these corrected volumes
+is quite similar to the line y = x. This result demonstrates
+that alpha-clusters roughly approximate the actual size of corresponding
+molecular ligands. In , we show the overlapping alpha-cluster and inhibitor structures
+for three example systems—Bcl-xL, Il-2, and Xiap—in
+order to illustrate the global shape similarity between the inhibitors
+and each set of occupied alpha-atoms.
+ 
+
+## Discussion
+AlphaSpace
+represents a departure from existing geometry-based
+pocket detection in two central aspects. The first is our emphasis
+on providing a comprehensive map of interaction space across the molecular
+interface of interest. The map is not limited to hot spots but extends
+to cover all concave interaction regions engaged in binding and can
+be systematically expanded further to reveal unoccupied, targetable
+pockets near the interface. The conventional cavity-centric approach
+is to screen out what is appraised as insignificant interaction space
+and deliver only a small set of the highest-ranking pockets. However,
+as shown for the high-affinity Mdm2/p53 iPPIs, small auxiliary pockets
+can provide guidance for the extension of fragment-based inhibitors
+and can provide opportunities to enhance ligand affinity and selectivity.
+Demonstrated for the protein targets in the 2P2I database, AlphaSpace
+can effectively match and track pockets between the apo, PPI, and
+iPPI states, detecting pocket conservation as well as pocket modulation
+between conformations. Pocket matching provides a model to study the
+dynamic integrity of functional interfaces and to characterize interface
+flexibility at a fragment-centric resolution.
+The second major
+divergence of AlphaSpace is our development of
+a fragment-centric strategy compared to the long-standing cavity-centric
+approach. We have found that PPI interfaces are more accurately comprised
+of arrays of shallow pockets, which exhibit more subtle spatial separation
+than classical binding sites, but can still contribute to overall
+binding affinity and are likely to dictate the details of interaction
+selectivity. The experimental strategies used to target these surfaces
+are evolving from traditional compound screening approaches to fragment-based
+screening approaches. This shift has facilitated the successful development
+of a number of high affinity compounds with unique molecular scaffolds. The fragment-centric design of AlphaSpace is
+a direct response to this methodological shift. Our strategy is to
+subdivide broad PPI interfaces into localized fragment-centric interaction
+regions, reflecting the types of pockets targeted with FBDD. In addition,
+at this fragment-centric resolution, AlphaSpace evaluates pocket-fragment
+complementarity to pinpoint unoccupied interaction space for fragment
+optimization.
+Accounting for the complete determinants of PPI
+affinity is a complex
+challenge; however, the primary roles of the hydrophobic effect and
+of VdW interactions have been established and robustly reiterated
+within the literature. , − The AlphaSpace pocket score is
+not intended to be a definitive, nor absolute, PPI/iPPI scoring function.
+At the least, a more accurate interaction analysis will require the
+integration of more explicit electrostatic and desolvation terms.
+Rather, our pocket score was developed to be a practical metric reflecting
+two key structural features related to the hydrophobic effect—nonpolar
+surface area and pocket curvature—to discern the approximate,
+relative targetabilities of fragment-centric interaction regions.
+Importantly, the scoring function is calculated from the surface structure
+alone, allowing for the screening of any protein surface to search
+for highly targetable pocket communities as potential starting points
+for fragment-based inhibitor development.
+
+## Conclusion
+The
+therapeutic modulation of protein–protein interactions
+represents an important and rapidly expanding field of scientific
+research. AlphaSpace fragment-centric topographical mapping (FCTM)
+is a new alpha sphere-based pocket detection tool designed to provide
+a high-resolution visual and quantitative characterization of all
+interaction space at a PPI interface. We have illustrated how several
+attractive features of AlphaSpace can facilitate the rational design
+and optimization of fragment-based or biomimetic PPI inhibitors. AlphaSpace
+is implemented in Python, and a copy can be obtained free of charge
+for academic use from http://www.nyu.edu/projects/yzhang/AlphaSpace. We hope that AlphaSpace FCTM will become a useful tool for the
+community to assist in the discovery of novel and potent PPI inhibitors.
+
+## Acknowledgments
+We acknowledge
+support from NIH (R01-GM079223 to Zhang, R01GM073943
+to Arora). We thank NYU-ITS and NYUAD for providing computational
+resources. Molecular images were generated with the UCSF Chimera package. 
+
+## Supporting Information Available
+The Supporting
+Information
+is available free of charge on the ACS Publications website at DOI: 10.1021/acs.jcim.5b00103.
+Figures, tables,
+implementation and parametrization
+details, and results for the FCTM of a second system, the Bcl-xL/Bak
+PPI interface. (PDF)
+
+The authors
+declare no competing financial interest.
+
+## Supplementary Material
+ci5b00103_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ci5b00103_si_001.pdf

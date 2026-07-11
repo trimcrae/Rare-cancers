@@ -1,0 +1,190 @@
+1238stemcellresStem Cell Research & TherapyStem Cell Res TherBMCPMC6636070663607066360703131159310.1186/s13287-019-1306-xlncRNA-mRNA expression profiles and functional networks of mesenchymal stromal cells involved in monocyte regulation
+LiMing XieZhongyu CaiZhaopeng SuFang ZhengGuan LiJinteng WangShan CenShuizhong LiuWenjie TangSu’an YeGuiwen LiZhaofeng MiRujia PanYiqian WangPeng WuYanfeng ShenHuiyong 1Department of Orthopedics, The Eighth Affiliated Hospital, Sun Yat-sen University, No. 3025, Shennan Middle Road, Futian District, Shenzhen, 518033 Guangdong China 2Department of Orthopedics, Sun Yat-sen Memorial Hospital, Sun Yat-sen University, Guangzhou, 510120 People’s Republic of China 3Guangdong Provincial Key Laboratory of Malignant Tumor Epigenetics and Gene Regulation, Sun Yat-Sen Memorial Hospital, Sun Yat-Sen University, Guangzhou, 510120 People’s Republic of China 4Center for Biotherapy, Sun Yat-sen Memorial Hospital, Sun Yat-sen University, 107 Yan Jiang Road West, Guangzhou, 510120 Guangdong China 5Department of Orthopedics, Nanfang Hospital, Southern Medical University, Guangzhou, 510120 People’s Republic of China 6Zhongshan School of Medicine, Sun Yat-sen University, Guangzhou, 510120 People’s Republic of China ✉Corresponding author.
+#Contributed equally.
+1672019102072072572019© The Author(s). 2019Open AccessThis article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated.
+
+## Abstract
+
+## Background
+The goals of this study were to explore the expression profiles and functional networks of long non-coding RNAs (lncRNAs) and messenger RNAs (mRNAs) in mesenchymal stromal cells (MSCs) involved in regulating the function of monocytes and to clarify the mechanisms by which MSCs exert immunoregulatory effects on monocytes.
+
+## Methods
+MSCs and CD14+ monocytes were separately isolated. The immunoregulatory effects of MSCs on monocytes were determined by flow cytometry. lncRNAs and mRNAs that were differentially expressed (DE) between the control group (MSCs only) and co-culture group (MSCs co-cultured with monocytes) were identified through high-throughput sequencing and bioinformatic analyses and were confirmed by qRT-PCR. Bioinformatic analyses were performed to identify the critical biological functions and signalling pathways involved in MSC-mediated monocyte regulation and to identify the functional networks formed between DE mRNAs and lncRNAs.
+
+## Results
+MSCs showed a strong ability to induce monocyte migration but inhibited monocyte differentiation into M1 macrophages. A total of 145 DE lncRNAs and 768 DE mRNAs were identified between the control and co-culture groups. Significant fold changes in lncRNAs and mRNAs were confirmed by qRT-PCR. GO analysis demonstrated that DE mRNAs and lncRNAs were highly associated with terms related to binding and biological regulation. KEGG analysis revealed 122 significantly regulated pathways, including the cytokine-cytokine receptor pathway and chemokine signalling pathway. Interaction and co-expression networks were constructed for DE mRNAs and lncRNAs, and several key microRNAs were identified in the competitive endogenous RNA (ceRNA) network. Target genes of the DE lncRNAs were analysed to predict critical mRNA-lncRNA axes involved in the immunoregulatory function of MSCs.
+
+## Conclusions
+Our research describes the lncRNA and mRNA expression profiles and functional networks involved in MSC-mediated regulation of monocytes. These results provide possible molecular mechanisms for the immunoregulatory function of MSCs and may help to elucidate possible molecular therapeutic targets in MSCs for the treatment of autoimmune diseases.
+
+## Electronic supplementary material
+The online version of this article (10.1186/s13287-019-1306-x) contains supplementary material, which is available to authorized users.
+
+Keywords: Mesenchymal stromal cells, Monocytes, Long non-coding RNA, Immunoregulation
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2018 Dec 27; Revised 2019 Jun 10; Accepted 2019 Jun 18; Collection date 2019.
+
+## Background
+Mesenchymal stromal cells (MSCs) are cells with multiple forms of differentiation potential and self-renewal ability [ ]. These cells are derived from the mesoderm and play a role in regulating many types of immune cells [ ], including monocytes [ , ], dendritic cells [ ] and T lymphocytes [ ]. These powerful features contribute to their critical role in the clinical treatment of various diseases, such as systemic lupus erythaematosus (SLE) [ , ] and graft-versus-host disease (GVDH) [ , ]. In addition, according to recent studies, abnormal immunoregulation by MSCs could lead to several autoimmune diseases [ – ]. Therefore, more in-depth studies should be conducted to clarify the specific mechanisms by which MSCs exert immunoregulatory functions. A better understanding of these mechanisms may help to improve the curative effect of MSCs and illuminate the pathogenesis of autoimmune diseases.
+Monocytes, which are derived from haematopoietic stem cells, are an important type of immune cell in vivo [ ]. These cells develop in the bone marrow, migrate to inflamed tissue and then differentiate into macrophages and dendritic cells [ ]. These processes are controlled by many factors that are critical for maintaining homeostasis of the immune system in vivo [ – ]. MSCs can efficiently regulate monocyte migration and differentiation by secreting various cytokines and chemokines [ , , ]. However, the specific immunoregulatory mechanisms by which MSCs control monocytes must be addressed.
+Long non-coding RNAs (lncRNAs) are a type of non-protein coding RNA greater than 200 nt in length [ ]. lncRNAs are important epigenetic regulators and thus play crucial roles in various cell biology behaviours [ ]. Specifically, lncRNAs are widely involved in the regulation of immune system homeostasis [ , ]. However, it is still unclear whether lncRNAs control the immunoregulatory function of MSCs in immunocytes, particularly in monocytes.
+The current study presents an integrative analysis of lncRNA-mRNA expression profiles and functional networks involved in MSC-mediated regulation of monocyte functions. These results improve our understanding of the role of lncRNAs in the immunoregulatory ability of MSCs and could indicate potential targets to improve the curative effect of MSCs.
+
+## Methods
+
+## Cell isolation and culture
+MSCs were purified and isolated according to our previously reported methods [ ]. Donor information is listed in Additional file  : Table S1. Briefly, the bone marrow was extracted with a sterile bone needle, centrifuged to obtain the upper layer by density gradient, centrifuged again and then cultured in Dulbecco’s modified Eagle’s medium (DMEM; Gibco, New York, USA) containing 10% foetal bovine serum (FBS; Gibco, New York, USA). The medium was replaced once every 3 days. In all experiments, MSCs at passages 3–5 were used. Molecular markers of MSCs were detected by flow cytometry. MSC osteogenic, adipogenic and chondrogenic differentiation was confirmed by previously reported methods [ ]. Peripheral blood mononuclear cells (PBMCs) were isolated by density gradient centrifugation. CD14+ monocytes were isolated from PBMCs using CD14 MicroBeads (Miltenyi Biotec, Bergisch Gladbach, Germany) according to the manufacturer’s protocol.
+
+## Co-culture of MSCs and CD14+ monocytes
+MSCs were co-cultured with CD14+ monocytes using Polycarbonate Membrane Transwell® Inserts (Corning, New York, USA). The system includes six-well plates containing inserts with a 0.4-μm pore size. 1 × 105 MSCs were cultured in the base of the wells, and 1 × 106 CD14+ monocytes were seeded in the upper inserts. Both cell types were cultured in RPMI 1640 medium (Gibco, New York, USA) containing 10% FBS at 37 °C in a 5% CO2 atmosphere. The 5.0-μm pore Transwell system was used for the migration assay.
+
+## Flow cytometry
+For phenotypic analyses, MSCs were centrifuged and then resuspended in phosphate-buffered saline (PBS). Cells were then incubated with human CD29-phycoerythrin (PE), CD34-allophycocyanin (APC), CD44-fluorescein isothiocyanate (FITC), CD45-FITC, CD105-FITC or HLA-DR-PE antibodies for 30 min. To assess the purity of CD14+ monocytes, we incubated cells with the CD14-FITC antibody for 30 min. For macrophage polarization assays, CD14+ monocytes were cultured with or without MSCs for 5 days, incubated with an anti-HLA-DR-PE antibody and then incubated with fixation medium (Invitrogen) for 15 min (Additional file  ). After three washes, the cells were incubated with a permeabilization medium (Invitrogen) plus an anti-CD68 antibody (BD Pharmingen) for 30 min. For migration assays, CD14+ monocytes that migrated into the lower chambers after 12 h of co-culture were collected and counted by flow cytometry. All labelled cells were detected using a BD Influx cell sorter (BD Biosciences). All of the antibodies used for flow cytometry were purchased from BD Biosciences (New York, USA).
+
+## Library construction and high-throughput sequencing
+Five MSC samples cultured with CD14+ monocytes (co-culture group; samples B1–B5) and five samples cultured without CD14+ monocytes (control group; samples A1–A5) were separately treated with TRIzol (TAKARA). RNA was collected from each sample according to the manufacturer’s protocol. RNA integrity was evaluated using the Agilent 2200 TapeStation (Agilent Technologies, USA); each sample that had an RIN above 7.0. rRNA was removed using a ribosomal RNA depletion kit, and the RNA was fragmented (average fragment length was approximately 200 nt) and reverse-transcribed into single-stranded cDNA. Then, double-stranded cDNA was synthesized, purified and treated with terminal repair and ligation primers according to the instructions from the NEBNext® Ultra™ RNA Library Prep Kit for Illumina (NEB, USA). After PCR amplification and purification, libraries were paired-end sequenced (PE150, sequencing reads were 150 bp) at Guangzhou RiboBio Co., Ltd. (Guangzhou, China) using the IlluminaHiSeq 3000 platform.
+
+## Real-time quantitative reverse transcription-polymerase chain reaction (qRT-PCR)
+Total RNA was isolated from MSCs cultured with or without CD14+ monocytes using TRIzol according to the manufacturer’s protocol. Complementary DNA was transcribed using the PrimeScript RT reagent kit (TaKaRa, Dalian, China). qRT-PCR was then performed, and the results were analysed using the 2−ΔΔCt method. A detailed method can be found in our previous study [ ]. The forward and reverse primers for each gene are listed in Additional file  : Table S2.
+
+## Expression analysis
+The raw data were filtered to remove low-quality reads, evaluate sequencing quality and remove ribosomal RNA. The resulting high-quality data were normalized to the expected number of reads per kilobase of transcript sequence per million base pairs sequenced (RPKM) and analysed using the DESeq2 method based on the negative binomial generalized linear model. Genes displaying significant fold changes (log2FoldChange > 1; q value< 0.05) between sample groups were considered for additional investigation.
+
+## mRNA and lncRNA annotation and enrichment analysis
+GO term enrichment analyses were performed to acquire annotation and enrichment information. Briefly, all genes of the species were selected as background genes, and GO was performed with KOBAS3.0 software, which provides label classification of gene function and gene product attributes (http://www.geneontology.org). P values were calculated using the hypergeometric distribution method. P < 0.05 was used as the significance threshold to obtain high-frequency annotations with statistical significance relative to controls.
+KEGG pathway annotation was used to categorize DE genes by biological pathway. P values were calculated using Fisher’s exact test. P < 0.05 was used as the threshold for determining statistical significance of signal transduction and disease pathway enrichment. DE mRNAs and enriched pathways were mapped using KEGG pathway annotation with KOBAS3.0 software (http://www.genome.jp/kegg).
+
+## Signal network analysis
+Based on the KEGG pathway annotation and mRNA and lncRNA DE results, R was used to generate pathway nets representing the interactions between the pathways associated with DE genes.
+
+## Interaction analysis and co-expression network analysis
+We used the natural language processing (NLP) method to perform text mining from the PubMed summary database in order to obtain information about all genes or proteins related to the target object. Based on the above data, we obtained the overall construction of the interaction relationship and then built an mRNA-lncRNA co-expression network using the Cytoscape software. The co-expression network was constructed by calculating the Pearson correlation coefficients and P-values between multiple genes. The transcripts were filtered using a COR of > 0.85 and a P value of < 0.05.
+
+## ceRNA network analysis
+The mRNAs and lncRNAs selected for the co-expression network analysis were the same as those used to predict miRNA targets using the miRbase. The miRNAs obtained through these predictions were screened using the miRanda and TargetScan programmes. lncRNAs and mRNAs possessing microRNA recognition elements (MREs) for the targeted miRNAs were predicted using RNA22. The competitive endogenous RNA (ceRNA) network was constructed and illustrated using Cytoscape (v3.4.0).
+
+## Statistical analysis
+Statistical analyses were performed using SPSS 22.0 software (Chicago, IL, USA). All qPCR results are expressed as the mean ± standard deviation (SD). Spearman correlation was used to determine the relationship between lncRNAs and their target genes. P values < 0.05 were considered significant.
+
+## Results
+
+## MSC-mediated regulation of CD14+ monocytes
+MSCs were isolated and purified as previously described [ ]. Flow cytometric analyses demonstrated that all MSCs were positive for CD29, CD44 and CD105 and negative for CD34, CD45 and HLA-DR (Fig.  a). In addition, MSCs were capable of differentiating into osteoblasts, adipoblasts and chondroblasts (Fig.  b). The purity of isolated CD14+ monocytes was 99.0% (Fig.  c). Through polarization assays, we demonstrated that the ratio of CD14+ monocytes that differentiated into M1 macrophages was significantly lower when these cells were co-cultured with MSCs compared with those cultured without MSCs (Fig.  d). Additionally, migration assays showed that CD14+ monocyte migration was increased upon co-culture with MSCs (Fig.  e). These results indicated that MSCs potently regulate CD14+ monocytes, promoting CD14+ monocyte migration but inhibiting M1 macrophage polarization.
+ 
+
+## Identification of differentially expressed lncRNAs and mRNAs
+A total of 768 mRNAs were differentially expressed (DE) in MSCs co-cultured with CD14+ monocytes compared to MSCs cultured alone. Among these genes, 461 mRNAs were upregulated and 307 mRNAs were downregulated. The DE mRNAs are depicted using a clustergram (Fig.  a) and volcano plots (Fig.  c). The 20 mRNAs with the largest fold changes are shown in Table  . Several cytokines are contained within this list, including CCL8, CXCL6, CCL20, CXCL5, CXCL8 and CXCL3, which are secreted by MSCs and are important for regulating the function of CD14+ monocytes. A total of 145 lncRNAs, including 102 upregulated and 43 downregulated lncRNAs, were DE in MSCs co-cultured with CD14+ monocytes compared to MSCs cultured alone. The DE lncRNAs are depicted in a clustergram (Fig.  b) and volcano plots (Fig.  d). The 10 lncRNAS with the largest fold changes are shown in Table  .
+ 
+
+## Validation of DE mRNA and lncRNA expression levels
+To confirm the results of RNA sequencing, several important DE mRNAs and lncRNAs were assessed by qPCR. As shown in Fig.  a, CXCL2, CXCL3, CXCL6, CXCL8, IL-6, CCL2, MMP3, CFB, LIF, TNFAIP6 and SOCS3 were upregulated in MSCs co-cultured with CD14+ monocytes, while GREM2, DKK1, OSR1, CTGF and ROR1 were downregulated (Fig.  b). Moreover, qPCR results demonstrated that LINC00473, ENSG00000231083.1, LOC101928674, ENSG00000237927.1, ENSG00000232949.1 and PDZNR3-AS1 were upregulated, while LINC01111, ENSG00000235513.1, PLCE1-AS1, ZFHX4-AS1 and LINC01279 were downregulated in MSCs co-cultured with CD14+ monocytes (Fig.  c, d). All qPCR results were consistent with the RNA sequencing results, confirming the reliability of the sequencing data.
+ 
+
+## GO and KEGG analysis
+We performed GO analysis on the DE mRNAs and lncRNAs. The top 10 GO terms related to biological processes, cellular components and molecular function are shown in Fig.  a and Table  . In the biological process domain, the top 5 GO terms associated with DE mRNAs were single-organism process, single-organism cellular process, cellular process, biological regulation and response to stimulus. In the cellular component domain, the top 5 GO terms associated with DE mRNAs were cell, cell part, intracellular, intracellular part and cytoplasm. In the molecular function domain, the top 5 GO terms associated with DE mRNAs were binding, protein binding, receptor binding, catalytic activity and carbohydrate derivative binding. KEGG analysis of the DE mRNAs determined that 122 pathways were significantly altered in MSCs co-cultured with CD14+ monocytes. The top 30 affected pathways are shown in Fig.  b. The top 10 pathways and DE mRNAs associated with these pathways are shown in Table  . The top pathways included cytokine-cytokine receptor interactions, TNF signalling pathway, chemokine signalling pathway and NF-kappa B signalling pathway, which contribute to the immunoregulatory function of MSCs, were identified.
+ 
+
+## Interaction and co-expression network analysis
+The interactions between proteins coded by DE mRNAs are shown in Fig.  a. CCL2, IL1B, COL7A1 and ICAM1 are the key genes that interacted with many other DE mRNAs in this network. In addition, a co-expression network was constructed for DE lncRNAs and mRNAs (Fig.  b). Within these RNA networks, LOC101929122 has the maximum number of targets, including 28 DE mRNAs, and WNT5A has the maximum number of co-expressed lncRNAs. The top 10 co-expression pairs are shown in Table  . lncRNAs act as ceRNAs to exert their biological function [ ]; thus, we constructed a ceRNA network from all of the DE mRNAs and lncRNAs in order to identify possible regulatory miRNAs (Fig.  c). MiR-939-5p, miR-940 and miR-8075 were enriched in the ceRNA network, indicating that they play critical roles in the DE mRNA-lncRNA functional network and in the immunoregulatory function of MSCs.
+ 
+
+## Analysis of lncRNA target mRNAs
+Next, we analysed the possible target genes of the DE lncRNAs. A total of 1076 target genes of these DE lncRNAs were identified. Target genes with a combined score higher than 0.9 are shown in Fig.  a. Figure  a shows that HIF1A was the target gene of three DE lncRNAs, including NR_047116.1, NR_045406.1 and NR_144368.1. Moreover, IL6, an important cytokine, was the target of the DE lncRNA NR_131935.1. A Venn diagram analysis demonstrated that 56 mRNAs were found at the intersection of the 768 DE mRNAs and the 1076 DE lncRNA target genes (Fig.  b). A list of these 56 mRNAs is shown in Additional file  : Table S3. The list includes several known inflammatory-related molecules, such as IL6, SOCS3 and IDO1. We also performed KEGG pathway analysis on the DE lncRNA target genes to identify pathway clusters. The protein-protein interactions between these targets and the relationships between these pathways are shown in Fig.  c, including the TNF signalling pathway, cytokine-cytokine receptor interactions and the HIF-1 signalling pathway.
+ 
+
+## Discussion
+In our present research, we utilized high-throughput sequencing followed by bioinformatic analysis to analyse the mRNA and lncRNA expression profiles and functional networks of MSCs co-cultured with CD14+ monocytes. These findings were then confirmed by qPCR. KEGG pathway analysis indicated that some key pathways, such as cytokine-cytokine receptor interactions, the TNF signalling pathway, the chemokine signalling pathway and the NF-kappa B signalling pathway, contribute to the immunoregulatory function of MSCs in monocytes. Other bioinformatic analyses revealed interactions between mRNAs, lncRNAs and miRNAs. Additionally, we identified target genes of the DE lncRNAs as well as the intersection of these genes with DE mRNAs and performed KEGG pathway analysis on the DE genes. Our results provide a model that can be used to explore the roles of lncRNAs and mRNAs in MSC-mediated immunoregulatory mechanisms.
+The homeostasis of the immune system depends on the balance between immunocytes and their regulatory cells [ ]. MSCs are one of the most important immunoregulatory cell types [ , ]. MSCs are pluripotent stem cells that regulate the functions of many immune cells, including T lymphocytes, B lymphocytes and dendritic cells [ , , ]. Previous studies have demonstrated that MSCs can affect monocytes and macrophages in a paracrine manner in a co-culture system. For example, Ko et al. [ ] found that MSC-primed monocytes/macrophages express high levels of MHC class II, B220, CD11b and IL-10 and exhibit T cell–suppressive activities in a TNF-α–stimulated gene/protein (TSG)-6–dependent manner. Similar findings are described in Melief et al. [ ]. This group showed that MSCs can promote monocyte survival and induce differentiation towards macrophage type 2 cells, which express CD206 and CD163 and secrete high levels of IL-10 and CCL-18. This powerful immunoregulatory ability allows MSCs to play wide-ranging roles in maintaining the dynamic equilibrium of the immune system in vivo. Monocytes are critical constituents of the immune system [ ]. Monocytes are active immunocytes that migrate to specific tissues and then differentiate into macrophages and dendritic cells upon stimulation by various factors [ ]. MSCs play an essential role in accelerating monocyte migration and inhibiting M1 macrophage differentiation; these observations were confirmed in this study [ – ]. On the one hand, MSCs exhibit a considerable therapeutic effect in several diseases through the secretion of cytokines that modulate monocyte function [ , , ]. On the other hand, abnormal immunoregulation by MSCs could lead to several autoimmune diseases [ – ]. Therefore, it is important to elucidate a detailed mechanism of MSC-mediated immunoregulation of monocytes in order to improve their curative effects and to illuminate the pathogenesis of autoimmune diseases.
+mRNA expression profiles reflect the biological behaviours and functions of cells. mRNA expression profiles are altered when cells are co-cultured with other cells. These changes in mRNA expression profiles are closely related to their functions in other cells [ ]. To explore the mechanism of MSC functions in monocytes, we analysed the mRNA profile by gene sequencing and bioinformatics analysis. This analysis identified 768 DE mRNAs. Among these DE mRNAs, CCL8, CXCL6, CCL20, CXCL5, CXCL8, CXCL3 and CXCL10 were the most significantly upregulated. These cytokines play important roles in the migration and polarization of monocytes [ – ]. These results indicate that MSCs affect monocyte migration and polarization mainly through these key cytokines. In addition, GO analysis demonstrated enrichment of specific molecular functions, such as cytokine activity, indicating the critical role of these cytokines in the immunoregulatory ability of MSCs. KEGG analysis identified 122 signalling pathways associated with the DE mRNAs. Cytokine-cytokine receptor interactions, the TNF signalling pathway, the chemokine signalling pathway and the NF-kappa B signalling pathway were the pathways with the largest significant differences. In a previous study, NF-kappa B-mediated activation of MSCs led to the secretion of TNF-α and other cytokines, which was related to MSC-based therapeutic efficacy [ ]. Therefore, we suggest that the NF-kappa B signalling pathway is activated in MSCs co-cultured with monocytes. This activation leads to the secretion of cytokines, including TNF-α, CCL and CXCL, which ultimately regulate the migration and polarization of monocytes. Notably, the SLE and rheumatoid arthritis pathways were also among the pathways identified as having the largest significant difference by KEGG analysis. These results are consistent with those of a previous study and emphasize the importance of MSC-mediated immunoregulation of monocytes in the pathogenesis and clinical treatment of autoimmune diseases [ , ].
+mRNA expression profiles are under the control of a series of epigenetic regulators, of which lncRNAs are an important component [ ]. A lncRNA is a transcript longer than 200 nt that does not have protein coding ability but exerts indispensable regulatory functions [ ]. Numerous studies have confirmed that lncRNAs regulate the differentiation of MSCs [ , ]. For example, the lncRNA GAS5 negatively regulates MSC adipogenesis through the miR-18a/CTGF axis [ ]. However, the specific lncRNAs involved in the immunoregulatory capacity of MSCs remain unknown. In this study, we first detected lncRNA expression profiles involved in MSC immunoregulatory functions. We found that 145 lncRNAs were DE in MSCs upon co-culture with monocytes. These DE lncRNAs may contribute to the differential expression of mRNAs and thus may be involved in the immunoregulatory function of MSCs. One of the most critical roles of lncRNAs is their ability to act as ceRNAs for miRNAs [ ]. In this study, we constructed a ceRNA network between DE mRNAs and lncRNAs, which allowed us to identify several key miRNAs, including miR-939-5p, miR-940 and miR-8075. MiR-940 promotes the osteogenic differentiation of MSCs [ ]. Additionally, exosomal miR-940 induces M2 polarization of monocytes [ ]. Here, we suggest that a DE lncRNA-miR-940-mRNA network exists in MSCs and plays an active role in their immunoregulatory function.
+To further study the mechanism of these lncRNAs, we identified 1076 target mRNAs of the DE lncRNAs. KEGG analysis identified a total of 33 enriched pathways, including the TNF signalling pathway and cytokine-cytokine receptor interaction pathway, further emphasizing their importance in our study. However, it is more important to determine whether these targets overlap with DE mRNAs. Using a Venn diagram analysis, we identified 56 genes that were included in both the DE mRNA cluster and the target mRNA of the DE lncRNA cluster. One of these 56 genes was IL6, which is a cytokine that participates in the immunoregulatory function of MSCs [ ]. Our results indicate that DE lncRNA NR_131935.1 and its target gene, DE mRNA IL6 (shown in Fig.  a), could comprise another functional axis important for MSC-mediated immunoregulation of monocytes.
+Ankylosing spondylitis (AS) is an autoimmune disease characterized by chronic inflammation and pathological osteogenesis [ ]. Abnormal MSC immunoregulation contributes to the pathogenesis of autoimmune diseases [ , ]. Recently, we demonstrated that CCL2 is overexpressed in MSCs from AS patients, inducing the monocyte disorder and eventually leading to the chronic inflammation characteristic of AS [ ]. However, the mechanism and underlying cause of CCL2 overexpression remain unclear. CCL2, also called MCP1, is a secreted protein involved in immunoregulatory and inflammatory processes [ ]. In the present study, MSC CCL2 expression was significantly upregulated upon co-culture with monocytes, confirming that CCL2 is involved in MSC-mediated immunoregulation of monocytes, as previously reported [ ]. In addition, SOCS3, a regulator of CCL2 expression, was identified within the DE mRNA cluster and is the target gene of a DE lncRNA, LOC101928674. Therefore, we suggest that a LOC101928674-SOCS3-CCL2 axis may exist and may be involved in MSC-mediated immunoregulation of monocytes. We further suggest that abnormal LOC101928674 expression may contribute to CCL2 overexpression in MSCs from AS patients and that a LOC101928674-SOCS3-CCL2 axis may be involved in the pathogenesis of AS. However, further research should be performed to confirm this hypothesis.
+In summary, our research presents lncRNA and mRNA expression profiles and functional networks of MSCs involved in the regulation of monocytes. Several candidate mechanisms were identified, including the LOC101928674-SOCS3-CCL2 axis. Our results provide possible molecular mechanisms for the immunoregulatory function of MSCs, which may help to elucidate the pathogenesis of autoimmune diseases and improve the clinical use of MSCs. However, the specific lncRNAs that function in MSCs and their associated mechanisms are still unknown. Further studies should address these questions.
+
+## Conclusions
+Our research describes the MSC lncRNA and mRNA expression profiles and functional networks involved in the regulation of monocytes. Our results provide possible molecular mechanisms for the immunoregulatory function of MSCs. Several candidate mechanisms were discussed, including the LOC101928674-SOCS3-CCL2 axis. These proposed mechanisms may help to elucidate possible molecular therapeutic targets for MSC-based autoimmune diseases.
+
+## Additional files
+
+Additional file 1:Table S1. Donor information. (DOCX 14 kb)
+
+Additional file 2:Table S2. Primers used for qRT-PCR. (DOCX 17 kb)
+
+Additional file 3:Table S3. The intersection of DE mRNAs and DE lncRNA target genes. (DOCX 13 kb)
+
+Additional file 4:Figure S1. The proportion of M2 macrophages in 0 day and 5 days after spontaneous differentiation and the flow diagram of TNFα and IL1β by MSCs when co-culture or not with monocytes. (JPG 309 kb)
+
+## Acknowledgements
+The authors thank Yuxiao Ye and American Journal Experts for providing English language editing of the manuscript.
+
+## Abbreviations
+ASAnkylosing spondylitis
+DEDifferentially expressed
+DMEMDulbecco’s modified Eagle medium
+FBSFoetal bovine serum
+GVDHGraft-versus-host disease
+lncRNALong non-coding RNA
+MREMicroRNA recognition elements
+mRNAMessenger RNA
+MSCMesenchymal stromal cell
+NLPNatural language processing
+PBMCPeripheral blood mononuclear cells
+PBSPhosphate-buffered saline
+qRT-PCRReal-time quantitative reverse transcription-polymerase chain reaction
+SLESystemic lupus erythaematosus
+
+## Authors’ contributions
+ML, ZX and GZ designed the study and performed the experiments; ZC revised the manuscript, collected the data and answered the response letter. FS, PW, JL, SW, SC, WL and ST analysed the data; GY, ZL, RM and YP contributed the reagents/materials/analysis tools; and ML, ZX, YW and HS wrote the manuscript. All authors read and approved the final manuscript.
+
+## Funding
+This work was supported by grants from the National Natural Science Foundation of China (81702120, 81672128, 81672097) and the Science and Technology Project of Guangdong Province (2015B020228001).
+
+## Availability of data and materials
+Not applicable.
+
+## Ethics approval and consent to participate
+Sample collection was approved by the Ethics Committee of Sun Yat-sen Memorial Hospital, Sun Yat-Sen University. The bone marrow MSCs used in this study were obtained from the Center for Biotherapy, Sun Yat-sen Memorial Hospital, Sun Yat-Sen University.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Ming Li, Zhongyu Xie and Zhaopeng Cai contributed equally to this work.
+
+## Contributor Information
+Ming Li, Email: 542908648@qq.com.
+Zhongyu Xie, Email: 837802701@qq.com.
+Zhaopeng Cai, Email: Caizhp3@mail.sysu.edu.cn.
+Fang Su, Email: 82409669@qq.com.
+Guan Zheng, Email: 244700082@qq.com.
+Jinteng Li, Email: 869027295@qq.com.
+Shan Wang, Email: 243960563@qq.com.
+Shuizhong Cen, Email: 793431985@qq.com.
+Wenjie Liu, Email: 1510120964@qq.com.
+Su’an Tang, Email: 458448451@qq.com.
+Guiwen Ye, Email: 345920339@qq.com.
+Zhaofeng Li, Email: 1002818922@qq.com.
+Rujia Mi, Email: 810534920@qq.com.
+Yiqian Pan, Email: 250016594@qq.com.
+Peng Wang, Email: wangpengsmh@foxmail.com.
+Yanfeng Wu, Email: wuyf@mail.sysu.edu.cn.
+Huiyong Shen, Email: shenhuiy@mail.sysu.edu.cn.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1:Table S1. Donor information. (DOCX 14 kb)
+Additional file 2:Table S2. Primers used for qRT-PCR. (DOCX 17 kb)
+Additional file 3:Table S3. The intersection of DE mRNAs and DE lncRNA target genes. (DOCX 13 kb)
+Additional file 4:Figure S1. The proportion of M2 macrophages in 0 day and 5 days after spontaneous differentiation and the flow diagram of TNFα and IL1β by MSCs when co-culture or not with monocytes. (JPG 309 kb)
+
+## Data Availability Statement
+Not applicable.

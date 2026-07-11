@@ -1,0 +1,672 @@
+822acssdACS Chemical BiologyACS Chem BiolPMC1185143011851430118514303993209810.1021/acschembio.4c00812Workflow for E3 Ligase Ligand Validation for PROTAC
+Development
+MiletićNebojša WeckesserJanik MoslerThorsten RathoreRajeshwari HoffmannMarina E GehrtzPaul SchlesigerSarah HartungIngo V BernerNicola WilhelmStephanie MüllerJuliane AdhikariBikash NěmecVáclav SivashanmugamSaran Aswathaman ElsonLewis HolzmannHanna SchwalmMartin P HoffmannLasse Abdul AzeezKamal Rayees MüllerSusanne KusterBernhard WolfElmar ĐikićIvan KnappStefan †Institute
+of Pharmaceutical Chemistry, Goethe University, Max-von-Laue-Str. 9, 60438 Frankfurt am Main, Germany‡Structural
+Genomics Consortium (SGC), Buchmann Institute
+for Life Sciences, Max-von-Laue-Str.
+15, 60438 Frankfurt
+am Main, Germany§Institute
+of Biochemistry II, School of Medicine, Goethe University Frankfurt, Frankfurt am Main 60590, Germany∥Medicinal
+Chemistry, Global Research & Development, Merck Healthcare KGaA, 64293 Darmstadt, Germany⊥Chair
+of Proteomics and Bioanalytics, Technical
+University of Munich, Emil-Erlenmeyer-Forum 5, 85354 Freising, Germany#German Cancer
+Consortium (DKTK), partner site Munich, a partnership between DKFZ
+and University Center Technical University of Munich, Frankfurt am Main 60590, Germany∇Institute
+of Biochemistry, University of Kiel, Rudolf-Höber-Str. 1, 24118 Kiel, Germany○German
+Cancer Consortium (DKTK) site Frankfurt/Mainz, Frankfurt am Main 60590, Germany*Email: knapp@pharmchem.uni-frankfurt.de.
+1122025202507507–5212622025© 2025 The Authors. Published by American Chemical SocietyPermits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/).
+
+## Abstract
+ Proteolysis targeting
+chimeras (PROTACs) have gained considerable
+attention as a new modality in drug discovery. The development of
+PROTACs has been mainly focused on using CRBN (Cereblon) and VHL (Von
+Hippel-Lindau ligase) E3 ligase ligands. However, the considerable
+size of the human E3 ligase family, newly developed E3 ligase ligands,
+and the favorable druggability of some E3 ligase families hold the
+promise that novel degraders with unique pharmacological properties
+will be designed in the future using this large E3 ligase space. Here,
+we developed a workflow aiming to improve and streamline the evaluation
+of E3 ligase ligand efficiency for PROTAC development and the assessment
+of the corresponding “degradable” target space using
+broad-spectrum kinase inhibitors and the well-established VHL ligand
+VH032 as a validation system. Our study revealed VH032 linker attachment
+points that are highly efficient for kinase degradation as well as
+some of the pitfalls when using protein degradation as a readout.
+For instance, cytotoxicity was identified as a major mechanism leading
+to PROTAC- and VHL-independent kinase degradation. The combination
+of E3 ligase ligand negative controls, competition by kinase parent
+compounds, and neddylation and proteasome inhibitors was essential
+to distinguish between VHL-dependent and -independent kinase degradation
+events. We share here the findings and limitations of our study and
+hope that this study will provide guidance for future evaluations
+of new E3 ligase ligand systems for degrader development.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Dec 1; Accepted 2025 Feb 3; Revised 2025 Jan 20; Collection date 2025 Feb 21.
+
+## Introduction
+Proteolysis targeting chimeras (PROTACs)
+first emerged more than
+two decades ago, in 2001, as an alternative approach to classical
+inhibitors in the treatment of diseases such as cancer. Since then, they have gained considerable attention
+with several PROTACs having entered clinical trials to date. − PROTACs are heterobifunctional molecules containing a ligand that
+binds to the protein of interest (POI) and a ligand that binds to
+a ubiquitin ligase (E3), connected by a linker moiety. Simultaneous
+recruitment of both proteins by the PROTAC, bringing them into proximity,
+can induce ubiquitin transfer and subsequent proteasomal degradation
+of the POI via the endogenous ubiquitin-proteasome (UPS) machinery. As one PROTAC molecule can induce the degradation
+of many POIs, this catalytic, event-driven mode of action (MoA) offers
+significant advantages over classical occupancy-driven pharmacology
+requiring high inhibitor concentrations. − The reduced dependency
+on high and continuous drug exposure due to their catalytic MoA as
+well as the ablation of all protein functions has been considered
+a major advantage over conventional small molecule inhibitors. Furthermore,
+the ability of PROTACs to target any domain of the POI, not just the
+functionally important domain, has greatly expanded the possibilities
+of modulating protein function with small molecules. The challenges in developing PROTACs involve harnessing
+a complex, multifaceted degradation pathway requiring a bespoke assay
+panel for the evaluation of rate-limiting steps, in addition to pharmacokinetic
+challenges related to their relatively high molecular weight, often violating drug design guidelines such
+as the Lipinski “rule of five” and sometimes resulting in poor physicochemical properties. − As a consequence, designing PROTACs remains mostly empirical, − rendering the development of PROTACs tedious. 
+To date, only a few E3 ligases and their ligands
+have been established
+for PROTAC development, with the majority of ligands targeting the
+cullin-RING ligases CRBN − (Cereblon) or VHL − (Von Hippel-Lindau tumor suppressor) and to a lesser extent the
+IAP/XIAP (inhibitor of apoptosis/X-linked inhibitor of apoptosis)
+family. − For cullin-dependent ligases, compounds have been
+developed that inhibit key upstream activation events such as neddylation,
+providing important tools for mechanistic studies. However, the considerable size of the human E3 ligase family , suggests that there are numerous additional druggable domains, offering
+a large unused area for PROTAC development.
+Although VHL-based
+PROTACs will likely not lead to oral drug candidates
+due to the peptidic nature of the VHL ligands employed to date, the
+VHL system provides significant value due to several advantages over
+the CRBN system. VHL-based PROTACs are much less prone to molecular
+glue-like behavior, making it more straightforward to identify highly
+selective PROTAC degraders for target validation studies. In addition,
+the chiral prolinol pharmacophore of VHL ligands provides an opportunity
+to use the opposite stereoisomer as a matched nondegrading control.
+Finally, in contrast to CRBN-based PROTACs, the higher essentiality
+of VHL reduces the potential for fast resistance development. Therefore,
+extending the understanding of the VHL-PROTAC opportunity is highly
+desirable. 
+The potential of harnessing
+E3 ligases more broadly would be significant.
+For example, there are many E3 ligases that are expressed in specific
+or diseased tissues such as cancer cells. , Targeting these E3 ligases may pave the way for tissue-specific
+POI degradation. In addition, a larger
+E3 ligase toolbox would help to overcome
+the recently observed resistances that develop after treatment with
+PROTACs, which often manifest themselves in mutations within the recruited
+E3 ligase rendering the PROTAC inactive while retaining cell survival. − Recently, E3 ligase ligands targeting KEAP1, − GID4, TRIM24, , or members of the DCAF
+family , , have expanded
+the E3 ligase toolbox, but these ligands have not been used for PROTAC
+development or, as in the case of DCAF1 ligands, have been used only
+for the development of very few PROTACs. Covalent ligands have also
+been developed that can permanently reprogram an E3 ligase to degrade
+a POI during its cellular life cycle. , However, we
+postulate that the reactivity of the electrophiles currently used
+to form covalent bonds is likely to cause adverse toxicity in cellular
+environments.
+Despite the advances made, the validation of novel
+E3 ligases and
+in particular the evaluation of their degradation efficacy remains
+difficult. The most common approach demonstrating the utility of an
+E3 ligase ligand for PROTAC development is the use of POIs known to
+be readily degraded by the UPS, such as the target protein BRD4 (bromodomain
+containing 4). , , 
+The highly cell-penetrating BET/BRD4 ligand JQ1, which contains a well-established exit vector
+with an easy
+synthetic route for linker attachment, has become a widely used model
+system. This is a pragmatic but also a very double-edged approach,
+as BET/BRD4 inhibition causes significant changes in gene expression,
+often leading to toxicity at low and substoichiometric inhibitor concentrations. , This means that PROTAC-induced degradation is often indistinguishable
+from degradation caused by general toxicity. Furthermore, this approach
+does not provide insight into the general utility of the developed
+E3 ligase ligand for the degradation of other POIs.
+Here, we
+established a workflow that utilizes nonselective ligands
+targeting protein kinases, a major drug development target family.
+Promiscuous ligands have been previously employed for evaluating the
+“degradability” of kinases using mainly CRBN ligands. , We therefore used VHL-based PROTACs exhibiting highly promiscuous
+kinase inhibitors and analyzed their kinome-wide degradation potential
+by mass spectrometry (MS)-based quantitative proteomics. This strategy
+drastically reduced the synthetic effort by addressing a large target
+space and revealed kinase targets that can be degraded by VHL-based
+PROTACs.
+
+## Results and Discussion
+To establish a workflow for
+E3 ligase ligand validation, we used
+the well-studied E3 ligase VHL. The workflow included six evaluation
+steps ( A) starting
+with the chemical design and synthesis; followed by mapping of the
+target space of the promiscuous kinase inhibitors bearing linker attachment
+points using DSF (differential scanning fluorimetry ) and Kinobeads technology; , cell penetration
+and cellular target engagement evaluation using the NanoBRET (bioluminescence
+resonance energy transfer) assay on selected
+model kinases; assessment of compound cytotoxicity by CellTiterGlo
+and assessment of the degradation efficacy by MS-based proteomics.
+The workflow was concluded by validation assays of selected POIs using
+Western blotting and HiBiT split-luciferase-based assays, including
+control compounds of the VHL degradation pathway.
+ Two highly promiscuous kinase inhibitors 1( ) and 3( ) ( B) were
+selected to serve as POI ligands in this study. Both ligands exhibited
+a high degree of promiscuity, targeting a wide range of kinases across
+the human kinome. In addition, the cocrystal structure of 2 with STK17B (PDB ID: 3LM0, C) revealed a solvent-exposed moiety on the central pyrimidine ring,
+suggesting this ring system as a suitable linker attachment point.
+Either a piperazine (4) or a carboxylic acid group (5) was introduced at the central pyrimidine ring, allowing
+for different linker attachment chemistries. While no cocrystal structure
+of 3 in complex with a kinase was available, the use
+of this ligand in a broad spectrum NanoBRET tracer suggested the terminal piperazine as a suitable linker
+attachment point (6). PEG or alkyl linkers were used
+to couple either one of the three parent kinase ligands to VH032-NH2 or VH032-OH, yielding diverse promiscuous kinase PROTACs
+with two alternative exit vectors located on the E3 ligase side ( D).
+
+## Kinase Inhibitor Conjugates 4–6 Have Broad Activity across the Kinome
+To ensure a broad
+target coverage across the entire human kinome, the target spaces
+of the kinase parent ligands bearing the introduced linking moieties 4–6 and the linker conjugates 4-L and 5-L were evaluated ( ). Screening of the linker conjugates was
+particularly important, as the multiple hydrogen bond donors and acceptors
+may offer different binding modes to the kinase ATP binding sites
+of individual kinases. The introduced bulky moieties likely restrained
+the binding mode, thus requiring validation of the selected exit vectors
+through a comprehensive selectivity screen. The corresponding linker
+conjugate of 6, but not the final PROTACs, was found
+to be prone to decomposition under standard storage conditions and
+was therefore excluded. However, we assumed that the introduction
+of the piperazine as an exit vector protruded far from the ATP binding
+sites so that the introduction of longer linker moieties was unlikely
+to significantly change the selectivity profile of this ligand.
+ Initial selectivity screening was performed using DSF. The kinase
+parent ligands 4–6 and the linker
+conjugates 4-L and 5-L were evaluated in
+an in-house panel of 100 representative kinases. , Of the 100 kinases screened, 80 kinases showed significant melting
+point shifts (ΔTm) induced by at
+least one of the three kinase parent ligands, with ΔTm > 10 °C for some kinases, indicating
+nanomolar affinities for these targets.
+The DSF data revealed
+that ligand 6 engaged most kinases.
+Inhibitors 4 and 5 showed only minor differences
+in their selectivity profiles across the panel, indicating that the
+introduced piperazine spacer (4) and carboxylic acid
+(5) were equally well tolerated (Figure S1). Similarly, linker conjugates 4-L and 5-L showed only minor differences in the thermal stabilization
+of kinases when compared to their respective kinase parent ligands.
+Thus, the effect of linker attachment on the interaction with the
+human kinome appeared to be negligible, which validated the selected
+exit vectors.
+Next, the interacting endogenous full-length kinases
+were assessed
+using the MS-based Kinobeads assay. , Approximately
+half of the kinome was detected in the
+Kinobeads experiments using a Jurkat cell lysate. Again, all three
+kinase parent inhibitors demonstrated target engagement across various
+kinase families covering a broad target space ( B). Consistent with our DSF data, inhibitor 6 interacted with most kinases (79 kinases unique to 6 and 28 shared with 4 with a Kdapp < 1 μM). Collectively, the kinase
+parent ligands engaged with over 120 different kinases with a Kdapp < 1 μM. This represented
+approximately 50% of all kinases detected by this assay format. Only
+seven kinases were shared by all three ligands ( C). Interestingly, inhibitor 5 engaged a significantly lower number of kinases compared to 4, despite their shared core scaffold and near-identical DSF
+profiles. This suggested that the introduced carboxylic acid moiety
+was less tolerated than the piperazine spacer moiety and likely hindered
+interaction with some full-length kinases. Nevertheless, inhibitor 5 was included in the design of the promiscuous kinase PROTACs,
+as it would facilitate a broader chemical space for linker attachment.
+The 4-L and 5-L linker conjugates exhibited
+comparable numbers of target kinases to their respective kinase parents,
+consistent with the results observed in the DSF experiments ( C). The slight increase
+in target numbers observed for 5-L in comparison to that
+for 5 may originate from additional stabilizing target
+interactions enabled by the amide moiety. It is noteworthy that despite
+the nearly unchanged net number of target kinases bound by 4-L, the target space was altered as seven kinases fell below while
+six kinases rose above the threshold of 1 μM compared to ligand 4. In summary, the screening data validated the selected exit
+vectors for linker attachment and identified approximately 120 kinases
+that potently interacted with the selected kinase parent inhibitors.
+
+## PROTAC Design
+After validating the exit vectors of
+kinase parent inhibitors 4–6 and assessing the
+target kinome, we proceeded with the synthesis of the promiscuous
+kinase PROTACs. We aimed to implement a high degree of structural
+diversity in our PROTAC design by combining different structural features
+in a modular fashion. By coupling the three kinase parent inhibitors
+(4–6) to the commercially available
+VHL ligand VH032-NH2 or VH032-OH using PEG or alkyl linkers
+of various lengths, a set of 11 structurally diverse PROTACs was synthesized
+( ). The synthetic
+routes are provided in the Supporting Information. Due to the limited target space covered by inhibitor 5, inhibitors 4 and 6 were preferably employed.
+Structural flexibility on the kinase ligand coupling site and the
+resulting ability to accommodate favorable conformations in PROTAC-induced
+ternary complexes were leveraged by attaching the linkers via either
+amide bonds or tertiary amines. Tertiary amines were expected to facilitate
+the formation of ternary complexes due to their greater structural
+flexibility and adaptability. Amides, which are more structurally
+rigid, may further stabilize select ternary complexes by fixing favored
+complex geometries, thereby facilitating their efficacy. Since the
+incorporation of PEG linkers typically increases the solubility of
+the PROTAC in water, this linker type
+was prioritized and complemented with few alkyl linkers. In addition,
+we limited the study to flexible rather than constrained linkers,
+as these structural modifications are usually introduced at a later
+stage during PROTAC optimization. The resulting linker conjugates
+were coupled to VH032-NH2 exclusively via amide chemistry.
+The resulting terminal amide moiety has been reported to be important
+for the interaction with VHL. , However, we included
+PROTAC 6-c which intentionally lacked the terminal amide
+moiety to explicitly test its relevance to PROTAC degradation efficacy.
+A series of linker conjugates were also centrally coupled to VH032-OH,
+to test an alternative exit vector on VHL. VH032-OH has been previously
+used in functional PROTACs reported in the literature, − which piqued our interest in comparing the degradation efficacy
+resulting from this alternative coupling site.
+ 
+
+## Designed PROTACs Showed Good Cell Permeability and Cellular
+Target Engagement
+Next, we evaluated the cell penetration
+of all synthesized PROTACs and characterized them in cellular target
+engagement experiments using NanoBRET assays. To estimate cell penetration,
+we performed NanoBRET assays in both intact and permeabilized cells
+and used the resulting IC50, per./IC50, int. ratios as an approximation of cell permeability. We selected AAK1
+and AURKA as representative targets, as all kinase parent ligands
+(4–6) potently bound to these kinases
+in Kinobeads as well as DSF assays and NanoBRET assays showed an excellent
+signal-to-noise ratio for these targets in intact as well as permeabilized
+cells.
+Parent inhibitors 4–6, the corresponding linker conjugates 4-L and 5-L as well as the resulting PROTACs were all tested in NanoBRET
+experiments (see Figures S2–S8 for
+dose–response curves). In general, the greatest decrease in
+cellular binding affinity was caused by the attachment of the linkers
+onto the parent ligands, while the addition of the E3 ligase ligand
+resulted in a comparably smaller decrease for both AAK1 and AURKA
+( ). Part of
+this loss of cellular potency was due to weaker cell penetration as
+indicated by the IC50, per./IC50, int. ratios, in particular for the PROTACs ( B). It is noteworthy that the ratios for
+some of the compounds markedly differed between AAK1 and AURKA, highlighting
+how such ratios can only provide a qualitative but nevertheless valuable
+approximation of compound cell permeability. Nevertheless, the majority
+of PROTACs engaged AAK1 with submicromolar binding affinities in cellulo,
+with the exceptions of PROTACs 4-b and 5-a, which showed single-digit micromolar IC50 values. The
+high potency of inhibitor 6 for AURKA was also observed
+for the corresponding PROTACs which displayed submicromolar binding
+affinities, except for 6-e. The PROTACs based on inhibitor 5 showed an overall weak AURKA target engagement.
+ The majority of PROTACs showed comparable VHL binding
+to the VHL
+parent ligand VH032 with low single-digit micromolar binding affinities
+in permeabilized cells (Table S1) but significantly
+lower affinities in intact cells (not shown). Similar trends were
+observed for VHL-based PROTACs in a recent publication from our group. PROTACs 4-d, 5-b,
+and 6-e, which all shared the VH032-OH exit vector, displayed
+similar VHL engagement compared to VH032-NH2-based PROTACs
+in permeabilized cells, indicating that the phenolic VH032-OH exit
+vector was equally tolerated. Consistent with the literature, PROTAC 6-c, which deliberately lacked the terminal amide moiety at
+the linker attachment point on the VHL ligand, did not bind strongly
+to VHL. The NanoBRET study demonstrated that all PROTACs, except 4-b and 5-a, had significant binding affinity
+for both selected kinase targets as well as for the VHL E3 ligase.
+
+## Cytotoxicity Correlated with Compound Promiscuity
+Toxicity
+has a profound effect on transcription, translation, and other cellular
+functions that can lead to a decrease of POI expression levels, which
+could be misinterpreted as PROTAC-mediated degradation. Inhibition
+of multiple essential kinases can also lead to cytotoxic effects and,
+consequently, to protein degradation by the ubiquitin system. To distinguish
+between kinase degradation due to cytotoxic effects and degradation
+induced by the promiscuous PROTACs, we evaluated the cytotoxicity
+profiles of all synthesized PROTACs, the respective kinase parent
+inhibitors (4–6), and the linker conjugates 4-L and 5-L in Jurkat cells using the CellTiterGlo
+assay ( ). Cells
+were treated for 24 h to ensure a detectable and reliable cell viability
+read-out. As expected, the most promiscuous inhibitor, compound 6, showed the most pronounced effect on cell viability with
+a submicromolar IC50 value, further confirming on-target
+activity across various essential kinases as already observed in previous
+Kinobeads experiments. While being generally weaker, inhibitors 4 and 5 showed comparable effects on cell viability
+with single-digit micromolar IC50 values. The difference
+in cell viability among the parent kinase inhibitors clearly demonstrated
+a strong correlation between promiscuity and the resulting cytotoxicity
+of these compounds. The linker conjugates 4-L and 5-L and the PROTACs displayed weaker effects on cell viability
+compared to the respective kinase parent inhibitors, in line with
+their weaker cell permeability. Similar to the kinase parent inhibitors,
+PROTACs based on inhibitor 6 showed a much more pronounced
+effect on cell viability than PROTACs derived from inhibitors 4 and 5.
+ PROTAC 6-e was the
+sole exception from the inhibitor 6-based PROTAC series
+for which no cytotoxicity was observed.
+Interestingly, PROTACs 6-a and 6-d showed
+particularly pronounced effects on cell viability in comparison to
+the other PROTACs of this series. It is noteworthy that the compounds
+based on inhibitor 5 demonstrated significantly stronger
+effects on cell viability in comparison to the inhibitor 4-derived series despite exhibiting a lower degree of inhibitor promiscuity.
+
+## PROTACs 4-a and 6-b Induced Strong
+UPS-Dependent Degradation of Kinases
+To identify which kinases
+were degraded by the synthesized PROTACs, we performed quantitative
+proteomic analyses. Cells were treated with 1 μM of PROTACs
+for 6 h to minimize the impact of cytotoxicity on protein degradation.
+Initially, the kinase parent inhibitors (4–6) were profiled to investigate the effect of the inhibitory
+activity on kinase expression levels. The inhibitors were tested at
+0.25 μM to account for their more favorable physicochemical
+properties and cell penetration. Compound 5 reduced protein
+levels of PLK1 and BUB1, and 6 reduced PIK3C3 levels,
+while no significantly downregulated kinases were observed for inhibitor 4 (Figure S9, left panels). These
+data demonstrated that kinase inhibition by the kinase parent inhibitors
+did not cause significant kinase degradation/downregulation in Jurkat
+cells after 6 h of treatment. The inhibitory activity of the used
+kinase inhibitors hence had a negligible effect on the obtained degradation
+profiles at a concentration of 0.25 μM. The parent kinase inhibitors
+were additionally tested at a 10-fold higher concentration (2.5 μM)
+to investigate any effects on kinase levels caused by inhibition of
+kinase catalytic activity or cytotoxicity. Surprisingly, the proteomic
+data revealed that no additional kinases showed lower protein levels
+for inhibitors 4 and 5. However, treatment
+with inhibitor 6 revealed lower protein levels of additional
+kinases, probably due to its cytotoxicity (Figure S9, right panels). All three kinase parent inhibitors (4–6) induced significant changes in protein
+expression levels of several nonkinase proteins at 2.5 μM. To
+investigate potential cell line-dependent differences, the effects
+of 4 and 5 on kinase expression levels were
+also profiled in MCF-7 cells using the same treatment conditions (Figure S10). Both inhibitors showed comparable
+downregulation profiles in MCF-7 cells when treated at 0.25 μM,
+compared with experiments performed in Jurkat cells.
+Next, we
+evaluated the degradation efficacy of the PROTACs. At the chosen treatment
+time (6 h) and concentration (1 μM), PROTACs 4-a, 4-c, 6-a, 6-b, and 6-d showed
+significant degradation of several kinases, whereas treatment with
+PROTACs 4-b, 4-d, 5-a, 5-b, 6-c, and 6-e did not result
+in significant degradation of any kinase detected by our proteomic
+analysis in MCF-7 cells (Figures S11 and S12). It is likely that PROTACs 5-a and 5-b were inactive, as they did not bind many kinases in our Kinobeads
+selectivity study and would require extensive linker optimization
+to gain activity on any of the targets with which they interacted.
+In addition, 5-a showed poor cell permeability.
+The inactivity of 6-c was expected as the absence
+of the terminal amide at the linker attachment point prevented efficient
+binding to VHL. Inefficient cell penetration, as shown by the NanoBRET
+data, was also likely the reason for the lack of degradation activity
+of PROTAC 4-b.
+Interestingly, none of the PROTACs
+based on the VH032-OH exit vector,
+i.e., 4-d, 5-b, and 6-e, induced
+degradation of kinases, suggesting that the central position on the
+VHL032 ligand is not efficient for PROTAC design for the targeted
+kinases. PROTAC 6-e was additionally profiled at 0.25
+and 2.5 μM (Figure S13), respectively,
+to rule out an early onset of hook effects or too low PROTAC concentrations
+of this particular PROTAC, but no significantly degraded kinases were
+detected.
+PROTACs 6-a and 6-d, which
+strongly induced
+cytotoxicity at concentrations below 1 μM, were used to elucidate
+how cytotoxicity triggered downregulation of targets and can be mistakenly
+attributed to PROTAC-induced kinase degradation. Indeed, both PROTACs
+induced the degradation of a significant number of kinases, and we
+speculated that at least some of this degrader activity was caused
+by cytotoxicity. This hypothesis was further supported by the observed
+lower protein levels of numerous nonkinase proteins. Nevertheless,
+PROTACs 6-a and 6-d likely also mediated
+strong VHL-dependent kinase degradation.
+We selected PROTACs 4-a and 6-b to further
+investigate their VHL-dependent, kinome-wide degradation efficiencies
+in a dose-dependent manner by quantitative proteomics. Few kinases
+were degraded at 0.25 μM (Figure S14). Optimal activity was observed at 1 μM, whereas at a high
+concentration (2.5 μM), the number of degraded kinases was again
+lower, suggesting the onset of a hook effect. Cell line-specific effects
+were investigated by including the human T-lymphocyte-derived Jurkat
+cell line in our proteomic analysis, which is known to express a large
+number of kinases. Indeed, more kinases
+were degraded when treated with the two PROTACs compared with MCF-7
+cells (Figure S11). This was particularly
+pronounced for PROTAC 6-b ( A).
+ The observed differences
+could only be partially explained by cell
+type-specific kinase expression, but the most significantly degraded
+kinase in Jurkat cells, ITK, was indeed a T-cell-specific kinase (Table S2). The difference in VHL expression levels
+between Jurkat and MCF-7 cells (32.9 nTPM and 36.9 nTPM, respectively;
+extracted from https://www.proteinatlas.org( )) was marginal and did not provide an
+explanation for the observed cell line-specific degradation efficacies.
+In addition, efficient target engagement, as determined by Kinobeads
+assays, was not a strong predictor of degradation efficacy, suggesting
+that structural features of the linker region leading to efficient
+ternary complex formation and the degradability of the target are
+more important than on-target affinity (Table S3).
+In order to confirm the VHL dependency of the observed
+kinase degradation,
+the corresponding negative controls 4-aneg and 6-bneg were synthesized,
+carrying the inactive hydroxyproline epimer at the VHL ligand ( C). Following the
+same evaluation workflow as for the other PROTACs (Figures S17–S21; Tables S4 and S5), 4-aneg and 6-bneg were analogously profiled in
+Jurkat cells. Gratifyingly, both negative controls were found to be
+indeed inactive confirming VHL-dependent degradation of these two
+PROTACs ( B).
+After confirming that PROTACs 4-a and 6-b induced kinase degradation in a VHL-dependent manner, we tested
+both PROTACs in a subsequent series of orthogonal Western blot experiments
+to validate the data obtained from our proteomics analyses. We additionally
+evaluated the PROTACs in HiBiT assays to quantitatively determine
+target degradation by establishing stable HiBiT cell lines expressing
+tagged ITKHiBiT and AURKAHiBiT, respectively,
+by using lentiviral transduction. These studies also included additional
+control experiments to further demonstrate a UPS dependence of the
+observed degradation.
+We selected significantly depleted ITK
+and marginally depleted
+AURKA as representative kinases to confirm the degradation observed
+in our proteomic experiments in Jurkat cells and to justify the set
+cutoff levels (log2(fold change) ≥ 0.60). The recently published
+PROTACs BSJ-05–037 and JB300 were used as positive controls for ITK and AURKA,
+respectively. However, BSJ-05–037, which has not been investigated
+in Jurkat cells in the literature, demonstrated only weak degradation
+of ITK under the used treatment conditions (6 h) ( A,B).
+ Profiling in Western blot assays revealed a dose-dependent degradation
+of ITK induced by both PROTACs, 4-a and 6-b, in Jurkat cells after 6 h of treatment ( A). Consistent with the proteomic data, the
+corresponding negative controls 4-aneg and 6-bneg as well as
+the respective kinase parent inhibitors 4 and 6 did not cause any degradation of ITK. Determining the degradation
+levels in HiBiT experiments revealed that PROTACs 4-a and 6-b showed a DC50 of 937 nM and 42 nM,
+respectively, but did not degrade ITK beyond a Dmax of 71% ( C, upper panel). The ectopic and stable expression of ITKHiBiT in Jurkat cells shifted apparent DC50 and Dmax values to high potency probably due to differences
+in expression levels compared to endogenous ITK and potentially also
+inefficient membrane integration of ITKHiBiT rendering
+it more prone to degradation. In addition, a shallow dose response
+for PROTAC 4-a was revealed, not reaching Dmax at the highest concentration tested (2.5 μM).
+In agreement with our concentration-dependent proteomic experiments,
+a hook effect was observed for PROTAC 6-b at >1 μM
+but not for 4-a.
+As expected, rescue experiments
+using cotreatment with neddylation
+(MLN4924) and proteasome (MG132) inhibitors rescued the observed ITK
+degradation confirming UPS-dependent and PROTAC-mediated target degradation
+( C, lower panel).
+PROTACs 4-a and 6-b both induced degradation
+of AURKA in proteomic experiments in Jurkat cells, with degradation
+levels close to the set cutoff (log2(fold change) ≥ 0.60).
+As expected, analogous profiling in Western blot assays showed only
+a weak reduction in AURKA levels by either PROTAC ( B). In contrast, the established
+AURKA degrader JB300, used as a positive control, showed a strong
+degradation. The negative controls 4-aneg and 6-bneg as well as
+the kinase parent inhibitors 4 and 6 had
+no effect on AURKA levels. Despite the apparent low activity of PROTACs 4-a and 6-b in Western blot assays, both PROTACs
+surprisingly induced dose-dependent degradation of AURKA in HiBiT
+experiments which also revealed a hook effect for PROTAC 6-b at high concentrations ( D, upper panel). Surprisingly, the HiBiT experiments
+further showed a weak reduction of AURKA levels induced by both the
+negative controls 4-aneg and 6-bneg as well as the kinase parent
+inhibitors 4 and 6, albeit to a lesser extent.
+Rescue experiments using cotreatment with the proteasome inhibitor
+(MG132) showed complete rescue of 4-a- and 6-b-mediated AURKA degradation. However, analogous experiments using
+the neddylation inhibitor (MLN4924) yielded only partial rescue of
+AURKA levels, suggesting that a secondary, neddylation-independent
+mechanism was responsible for the observed AURKA degradation. AURKA
+levels are strongly controlled by the cell cycle, and centrosome-associated
+AURKA has been shown to be resistant to PROTAC-mediated degradation. Small discrepancies in the degradation efficacy
+between the ectopically expressed AURKAHiBiT and endogenous
+AURKA levels may therefore be the result of an altered cellular localization,
+resulting in enhanced accessibility to the PROTAC-mediated degradation
+of AURKAHiBiT. In addition, the strong cell cycle dependency
+of AURKA levels combined with its ectopic overexpression may present
+AURKAHiBiT as a sensitive reporter of early-stage cytotoxic
+effects. The degradation efficiency for a specific kinase may also
+be influenced by the promiscuous nature of the presented PROTACs as
+a result of competition of multiple kinases for degradation, potentially
+reducing the amount of available-PROTAC-to-POI.
+
+## Concluding Remarks
+VHL and CRBN are the major E3 ligases currently being targeted
+for the development of target-specific degraders. The established
+toolbox of high-affinity ligands targeting these E3 ligases as well
+as chemical tools that are used to demonstrate VHL- and CRBN-dependent
+degradation make these two systems an ideal choice for PROTAC development,
+with the VHL system being especially attractive to generate degrader
+chemical probes for target validation. Here, we established a workflow
+for the validation of E3 ligase ligands using VHL-based promiscuous
+kinase PROTACs together with MS-based proteomics in a proof-of-principle
+study. This approach has the advantage that a single promiscuous kinase
+PROTAC can simultaneously target close to 100 kinases, drastically
+reducing the overall synthetic effort and enabling a comprehensive
+evaluation of an E3 ligase across a large target space. The study
+provides insight into the most suitable exit vectors on the VHL and
+POI ligands for target degradation. However, while also providing
+invaluable insight into the required compatibility between the interrogated
+E3 ligase and respective targets, functional linker/E3 ligase combinations
+for a given kinase target evaluated by a promiscuous kinase PROTAC
+will require additional optimization when transferred to a target-selective
+PROTAC. We envision that this process can be streamlined through automation
+of synthetic efforts as well as “direct-to-cell” strategies
+where PROTACs are synthesized in parallel and tested on cellular sensors
+such as HiBiT without prior time-consuming purification. , , The predictive value of a promiscuous
+targeting approach has been demonstrated by a recent study by the
+Fischer lab that mapped the degradable kinome using mainly CRBN targeting
+ligands. Indeed, selective PROTACs have
+been developed for many of the highly degraded kinases identified
+in that study. − 
+Kinome-wide screening data showed that the promiscuous kinase
+parent
+inhibitors we selected for this study potently inhibited more than
+120 kinases, validating their linker exit vectors. Using the well-established
+E3 ligand VH032 and its derivative VH032-OH, we synthesized a set
+of structurally diverse PROTACs by combining distinct structural features
+in a modular fashion. Although target affinity did not seem to correlate
+well with PROTAC degradation, all PROTACs that showed poor cell penetration
+in our NanoBRET model were found to be inactive in proteomic analyses.
+By thoroughly evaluating cell viability effects, we identified cytotoxicity
+as the main cause of apparent PROTAC-independent POI degradation.
+Furthermore, PROTACs that were inactive under nontoxic conditions
+induced degradation at higher PROTAC concentrations. We also showed
+recently that commonly used control compounds, such as proteasome
+and neddylation inhibitors, can induce PROTAC-independent degradation,
+highlighting the importance of considering general toxicity in the
+evaluation workflow. It is interesting
+to note that many PROTACs based on new E3 ligase ligands developed
+in the literature have been used at high (>10 μM) PROTAC
+concentrations,
+frequently employing the panBET inhibitor JQ1, which causes toxicity
+in most cell lines at low concentrations. Typically, neither negative
+controls that are inactive for the targeted E3 ligase nor tool compounds
+preventing E3 ligase activation are available for these E3 ligases.
+In our study, we used the parent inhibitors as controls, in addition
+to VHL-inactive stereoisomers, demonstrating that the promiscuous
+kinase parent inhibitors had only marginal effects on kinase expression
+levels when used at low (nontoxic) concentrations and short (6 h)
+treatment times. We also demonstrated how the degradation efficacy
+can be cell line-dependent and highlighted the necessity and relevance
+of orthogonal hit validation assays.
+Employing a well-validated
+E3 ligase ligand in this study may present
+a potential limitation of our workflow, as many E3 ligases that could
+be amenable to ligand design are functionally poorly characterized.
+This lack of data may signify that the activation mechanism remains
+unknown or that the ubiquitination reactions catalyzed by the targeted
+E3 ligases do not result in protein degradation but serve a different
+function within the ubiquitin system. Thus, if using our proposed
+strategy of engaging many targets through promiscuous POI ligands
+yields only inactive PROTACs, meticulous follow-up studies on E3 ligase
+function would need to be integrated into the workflow. However, we
+hope that the data presented in this study will lead to a streamlined
+approach to assessing the potential of E3 ligase ligands for degrader
+development, which includes the proposed evaluation steps as well
+as a thorough investigation of degrader toxicity.
+
+## Acknowledgments
+This work was funded by the BMBF Cluster for the
+future program PROXIDRUGS, project NEWpro. Additional support was
+provided by grants from the German Research Foundation (DFG, WO 2108/2-1
+to E.W. and S.K., the SFB1430 Molecular Mechanisms of Cell State Transitions—project
+number 424228829 to J.W. and M.P.S., SFB1399, project number 413326622
+to S.A.S., TRR387 UbiQancer to I.D., S.K., S.W., B.K., and E.W.) and
+the German Cancer Aid (funding of TACTIC to S.K., B.K., S.W., and
+E.W.). S.K. is also grateful for support by the Structural Genomics
+Consortium (SGC), a registered charity (no: 1097737) that receives
+funds from Bayer AG, Boehringer Ingelheim, Bristol Meyer Squibb, Genentech,
+Genome Canada through Ontario Genomics Institute [OGI-196], EU/EFPIA/OICR/McGill/KTH/Diamond
+Innovative Medicines Initiative 2 Joint Undertaking [EUbOPEN grant
+875510], Janssen, Pfizer, and Takeda. S.K. was also funded by the
+German Translational Research Consortium (DKTK) and the LOEWE Center
+Frankfurt Cancer Institute (FCI) funded by the Hessian Ministry of
+Higher Education, Research and the Arts [III L 5—519/03/03.001—(0015)].
+NM was supported by the Leistungszentrum Innovative Therapeutics (TheraNova)
+funded by the Fraunhofer Society and the Hessian Ministry of Science
+and Research, Arts and Culture. We thank all members of the Quantitative
+Proteomics Unit at IBC2 (Goethe University, Frankfurt), in particular,
+Martin Adrian-Allgood and Bhavesh Parmar for sample measurements,
+Kristina Wagner for producing LC columns, and David Krause for help
+in (bio)informatics. We also thank Alicia Rücker for providing
+PROTAC BSJ-05-037, which she synthesized during her master's
+thesis
+according to literature procedures. We thank the Deutsche Forschungsgemeinschaft
+(German Research Foundation, DFG) for funding the LC–MS system
+(Easy nLC 1200, Orbitrap Fusion LUMOS) used in this study (FuGG Project-ID:
+403765277).
+
+## Data Availability Statement
+Label-free quantitative
+proteomics (only performed for kinase parent inhibitors 4–6 in Jurkat cells): the mass spectrometry proteomics
+data and complete MaxQuant search results have been deposited to the
+ProteomeXchange Consortium (http://www.proteomexchange.org/) via the MassIVE partner repository
+with the data set identifier MSV000095896. TMT-labeled quantitative
+proteomics: the mass spectrometry proteomics data have been deposited
+to the ProteomeXchange Consortium via the PRIDE partner repository
+with the data set identifier PXD057431.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acschembio.4c00812.
+Additional assay data
+including a DSF heatmap, NanoBRET
+dose–response data, volcano plots of all MS experiments, HiBiT
+data as well as additional experimental procedures, and full compound
+characterization data containing spectra (1H and 13C NMR, LCMS, and HRMS) (PDF)
+DSF shift values (XLSX)
+Kinobeads profiling (XLSX)
+MS proteomics data for
+parent inhibitors in Jurkat cells
+(XLSX)
+MS
+proteomics data (XLSX)
+
+## Author Contributions
+◆ N.M. and
+J.W. contributed equally to this study.
+
+The authors
+declare the following competing financial interest(s): B.K. is a founder
+and shareholder of OmicScouts and MSAID. He has no operational role
+in either company.
+
+## Supplementary Material
+cb4c00812_si_001.pdf
+cb4c00812_si_002.xlsx
+cb4c00812_si_003.xlsx
+cb4c00812_si_004.xlsx
+cb4c00812_si_005.xlsx
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+cb4c00812_si_001.pdf
+cb4c00812_si_002.xlsx
+cb4c00812_si_003.xlsx
+cb4c00812_si_004.xlsx
+cb4c00812_si_005.xlsx
+
+## Data Availability Statement
+Label-free quantitative
+proteomics (only performed for kinase parent inhibitors 4–6 in Jurkat cells): the mass spectrometry proteomics
+data and complete MaxQuant search results have been deposited to the
+ProteomeXchange Consortium (http://www.proteomexchange.org/) via the MassIVE partner repository
+with the data set identifier MSV000095896. TMT-labeled quantitative
+proteomics: the mass spectrometry proteomics data have been deposited
+to the ProteomeXchange Consortium via the PRIDE partner repository
+with the data set identifier PXD057431.

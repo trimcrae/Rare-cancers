@@ -1,0 +1,175 @@
+Thorac CancerThorac Cancer2735tcaTCAThoracic Cancer1759-77061759-7714WileyPMC6449245PMC6449245.1644924564492453080603210.1111/1759-7714.12989TCA129891Original ArticleOriginal ArticlesMetabolic gene NR4A1 as a potential therapeutic target for non‐smoking female non‐small cell lung cancer patients
+NR4A1 for non‐smoking female NSCLCR. Sun et al.SunRong BaoMin‐Yue LongXin YuanYuan WuMiao‐Miao LiXin BaoJin‐Kubaojinku@scu.edu.cn 
+1
+Key Laboratory of Bio‐Resource and Eco‐Environment of Ministry of Education, College of Life Sciences
+Sichuan University
+Chengdu
+China
+
+2
+State Key Laboratory of Oral Diseases, National Clinical Research Center for Oral Diseases, West China Hospital of Stomatology
+Sichuan University
+Chengdu
+China
+*Correspondence
+Jin‐Ku Bao, Key Laboratory of Bio‐Resource and Eco‐Environment of Ministry of Education, College of Life Sciences, No. 29, Wangjiang Road, Chengdu, Sichuan 610064, China.
+Tel: +86 133 0822 2306
+Fax: +86 28 8541 2279
+Email: baojinku@scu.edu.cn†These authors contributed equally to this work.
+25220194201910433213110.1111/tca.2019.10.issue-47157271310201804120190512019010420191504201914072024© 2019 The Authors. Thoracic Cancer published by China Lung Oncology Group and John Wiley & Sons Australia, Ltdhttps://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Background
+Although cigarette smoking is considered one of the key risk factors for lung cancer, 15% of male patients and 53% of female patients with lung cancer are non‐smokers. Metabolic changes are critical features of cancer. Therapeutic target identification from a metabolic perspective in non‐small cell lung cancer (NSCLC) tissue of female non‐smokers has long been ignored.
+
+## Results
+Based on microarray data retrieved from Affymetrix expression arrays E‐GEOD‐19804, we found that the downregulated genes in non‐smoking female NSCLC patients tended to participate in protein/amino acid and lipid metabolism, while upregulated genes were more involved in protein/amino acid and carbohydrate metabolism. Combining nutrient metabolic co‐expression, protein–protein interaction network construction and overall survival assessment, we identified NR4A1 and TIE1 as potential therapeutic targets for NSCLC in female non‐smokers. To accelerate the drug development for non‐smoking female NSCLC patients, we identified nilotinib as a potential agonist targeting NR4A1 encoded protein by molecular docking and molecular dynamic stimulation. We also show that nilotinib inhibited proliferation and induced senescence of cells in non‐smoking female NSCLC patients in vitro.
+
+## Conclusions
+These results not only uncover nutrient metabolic characteristics in non‐smoking female NSCLC patients, but also provide a new paradigm for identifying new targets and drugs for novel therapy for such patients.
+
+Gene co‐expression networkmicroarray datanilotinibnon‐small cell lung cancernon‐smoking femaleNational Natural Science Foundation of China81373311811730933097064331300674J1103518Youth Science Foundation of West China Hospital of Stomatology2017‐3 
+
+## Methods
+
+## Microarray data
+The following bioinformatics analysis was based on the processed microarray data of E‐GEOD‐19804, submitted by Lu et al.
+ The microarray data included 60 frozen NSCLC and 60 frozen adjacent normal lung tissues from female non‐smokers, and was downloaded from the ArrayExpress database (http://www.ebi.ac.uk/arrayexpress).
+Gene expression profiles of GSE31210, submitted by Kohno et al., , were downloaded from the Gene Expression Omnibus (GEO: https://www.ncbi.nlm.nih.gov/geo/) as second microarray data to test the expression tendencies of differentially expressed genes (DEGs) in the E‐GEOD‐19804 dataset. Although the GSE31210 dataset contained 246 samples, only 8 met our analytical criteria. The eight included samples contained four frozen NSCLC and four frozen adjacent normal lung tissues from female non‐smokers.
+
+## Identification of differentially expressed genes (DEGs) based on microarray data
+DEG analysis was carried out using Bioconductor packages , , in R software with processed data of E‐GEOD‐19804 and GSE31210. We categorized 120 samples into two groups, which included 60 NSCLC samples as the experiment and 60 adjacent normal tissues as the control. Eight samples from GSE31210 were also categorized into two groups, including four NSCLC samples as the experiment and four adjacent normal tissues as the control. We used the Moderated T statistic method to identify DEGs by Limma packages in R software (R Foundation for Statistical Computing, Vienna, Austria). We finally identified DEGs with an absolute value of logarithmic fold change (logFC) ≥ 1 and defined a cutoff of P < 0.01 as statistically significant.
+
+## DEG enrichment analysis
+Gene ontology (GO) analysis is a common and useful method for annotating gene products and identifying characteristic biological attributes of high‐throughput genome or transcriptome data. An Expression Analysis Systematic Explorer (EASE) score < 0.1 was adopted to refine the GO terms set in major clusters through Database for Annotation, Visualization and Integrated Discovery Bioinformatics Resources version 6.8 (DAVID: https://david.ncifcrf.gov/). , 
+
+## Weighted gene co‐expression analysis of DEGs related to metabolism
+Highly co‐expressed genes are connected in the network and therefore can be grouped into modules. Within the modules, weighted gene co‐expression analysis allows the identification of the central connected genes as so called “hub” genes. Co‐expression networks were built in an R environment with a measure of similarity based on a matrix of pairwise Pearson's correlation coefficients. The similarity matrix was then transformed into an adjacency matrix using a power adjacency function. The co‐expression modules were then identified by raising the soft thresholding power to 14 to produce a weighted network, which is the lowest power to guarantee that the scale‐free topology fit index curve flattens out upon reaching a high value. 
+
+## Protein–protein interaction (PPI) data of DEGs from STRING
+The protein–protein interaction (PPI) network provides a valuable framework to better understand the functional organization of the proteome. In this network, proteins interact with several other proteins, suggesting a central regulatory role, and are likely to be regulatory “hubs.” The PPI network was retrieved from STRING version 9.0 (http://STRING.embl.de/). To evaluate the interactive relationships of DEGs, we mapped the 508 metabolically related DEGs to STRING, and only human experimentally‐validated interactions with a combined score > 0.4 were selected as significant.
+
+## Intersection of co‐expression and PPI networks of DEGs related to metabolism
+To find the genes with connections with both co‐expression and PPI pairs, we intersected the data between co‐expression and PPI data of DEGs related to metabolism. We then selected candidate hub genes from DEGs with “co‐expression degree ≥ 1,” “STRING degree ≥ 1,” and “absolute value of logFC ≥ 1.”
+
+## Clinical samples
+We searched The Cancer Genome Atlas (TCGA) database of 389 lung adenocarcinoma (LUAD) patients on 8 July 2018 (https://cancergenome.nih.gov/) for overall survival (OS) assessment. All patients were white, 44.7% were male and 55.3% were female, including 70 non‐smoking female LUAD patients. Detailed patient information including gender, age at diagnosis, tumor stage, days to death, days to last follow‐up, cigarettes per day, and years smoked, is listed in Table .
+
+## Identification of DEGs based on TCGA transcriptome profiling data
+DEG analysis was carried out using Bioconductor packages , , in R software with transcriptome profiling data downloaded from TCGA. Genes with very low read counts are usually not included. Thus, log2 (average count/million) was calculated to determine whether a gene was reasonably expressed or not. 
+
+## Overall survival assessment of two independent cohorts
+The median expression value was a cutoff to define high versus low candidate DEGs. To model survival, patients were split into two groups based on the median expression value of each candidate DEG. Gene expression at or below median was considered low expressing tumors and above median was considered high expressing tumors. Kaplan–Meier plots and landmark analysis were conducted by R and Empower (R) (www.empowerstats.com, X&Y Solutions, Inc., Boston, MA, USA), respectively.
+
+## Docking experiment
+
+NR4A1 downregulation is associated with a poor clinical outcome, while TIE1 downregulation is associated with a better clinical outcome. Therefore, from the perspective of drug screening, we needed to screen for small molecular agonists to increase Nur77 activity and small molecular antagonists to decrease Tie‐1 activity. In order to improve the accuracy of molecular docking results, we needed an accurate binding site of the agonist/antagonist in the target protein. There are two ligand binding domains in the asymmetric subunit of Nur77, and one of the domains forms an agonist binding domain of Nur77. In contrast, the protein structure of Tie‐1 fibronectin type III domains (Fn3) was only purified and crystallized in 2017. The Fn3 domain in Tie‐1 contributes to the heterodimerization of Tie‐2/Tie‐1. However, no reports have examined the antagonist binding site in the structure of Tie‐1. Therefore, we finally selected NR4A1 as a drug‐screening target.
+The crystal structure of Nur77 (PDB entry: 3V3E) in complex with glycerol was derived from the Protein Data Bank (PDB: http://www.rcsb.org/pdb/home/home.do); 2748 commercially available molecules in the FDA‐approved database were obtained from a subset in the ZINC database (http://zinc.docking.org/catalogs/dbap; pH 4.5~9.5). Molecular docking between the compounds and Nur77 was carried out using Dock6 and AutoDock Vina Docking scores were calculated to represent binding affinities. For the sake of brevity, the details of the docking process are presented in the supplementary files.
+To further improve the accuracy of docking results, we selected the molecules that existed in the top 10% lowest GB/SA, descriptor, and autodock scores. The three‐dimensional diagrams of the interactions between Nur77 and ligands were presented by UCSF Chimera (Resource for Biocomputing, Visualization, and Informatics, San Francisco, CA, USA) and two‐dimensional putative docking pose of candidate ligand in the binding pocket was calculated and exhibited by LigPlot+ software (European Bioinformatics Institute, Hinxton, UK). 
+
+## Molecular dynamic (MD) simulations
+Before performing the molecular dynamic (MD) simulations, the top‐ranked ligands were selected as the initial structure for the simulations. The MD simulations were performed using the GROMACS package version 4.6.7 (University of Groningen, Groningen/Netherlands; KTH Royal Institute of Technology, Stockholm, Sweden; Uppsala University, Uppsala, Sweden) for 30 nanoseconds. For the sake of brevity, the details of the MD process are presented in the supplementary material.
+After the MD process, root mean square deviation (RMSD) analysis was carried out using the g_rmsd programs in the GROMACS package (version 4.6.7) and was performed on the entire 30 nanosecond trajectory for each receptor‐ligand system. The potential, kinetic, and total energy was calculated using the g_energy program available in GROMACS. The total energy (E
+total) is the sum of the potential energy (E
+potential) and the kinetic energy (E
+kinetic) (Eqn ( ). Additionally, to intuitively compare the energy levels between the different MD simulation systems, we normalized the three energy component values as Equation ( :(1)Etotal=Epotential+Ekinetic
+(2)Energynori=EnergyiSUMEnergytari
+
+Energy
+nor indicates the normalized energy and i indicates the specific kind of three energies. Energy
+i indicates the original value of energy. SUMEnergytari indicates the sum of the same kind of energy of Nur77‐ligand complexes.
+
+## The effect of nilotinib on proliferation
+A non‐smoking female NSCLC cell line, H1975, was purchased from KeyGEN Biotech. Co., Ltd. (KG342, Nanjing, China). NSCLC cell lines H1975, A549, and H1299 were used as the experimental groups, and human kidney epithelial cell line 293T as a normal control for testing the effect of nilotinib on cells. All cell lines were cultured in RPMI‐1640 medium containing 10% fetal bovine serum, 100 U/mL penicillin, and 100 μg/mL streptomycin at 37°C in an atmosphere containing 5% CO2. Nilotinib was purchased from TargetMol (Catalog No. T1524 CAS 641571‐10‐0, Shanghai, China), dissolved in dimethyl sulfoxide, and stored at −20°C. Cell viability was measured in a 96‐well plate using Cell Counting Kit 8 (CCK‐8 Kit, KGA317, KeyGEN Biotech. Co., Ltd.).
+
+## Senescence β‐galactosidase assay
+Cells were cultured for 24 hours in 12‐well plates at a density of approximately 45 000 cells/well and treated with nilotinib for 12 and 24 hours, and then fixed and stained using a senescence β‐galactosidase (SA‐β‐gal) staining kit (C0602, Beyotime Biotechnology, Shanghai, China).
+
+## Statistical analysis
+All experimental data and results were confirmed in at least three independent experiments. Statistical differences were determined using multiple comparisons via GraphPad Prism 6.0 (La Jolla, CA, USA). Statistical significance was defined as P < 0.05. Error bars indicate the standard error of the mean unless otherwise indicated.
+
+## Results
+
+## Identification of DEGs
+A total of 1454 DEGs were identified after analyses of E‐GEOD‐19804, including 976 downregulated and 478 upregulated genes (Table ). A total of 6087 genes were identified after analyses of GSE31210, of which 3239 were upregulated and 2848 were downregulated (Table ).
+
+## Gene Ontology enrichment analysis of DEGs
+The upregulated and downregulated genes were separately submitted to the functional annotation tool provided by DAVID. DAVID clustered 969 downregulated genes into 1951 GO terms (Table ), and 476 upregulated genes into 784 GO terms (Table ).
+We found that the associated metabolism of downregulated and upregulated genes was different. For downregulated genes, carbohydrate metabolism accounted for only 12% of the GO terms and genes (Fig a,b). Whereas for lipid and protein/amino acid metabolism, although the number of genes participating in lipid metabolism was 10% lower than the genes participating in protein/amino acid metabolism (Fig b), the GO terms of lipid metabolism were 26% higher than that of protein/amino acid metabolism (Fig a). For downregulated genes, tumor metabolic changes tended to involve protein/amino acid metabolism and lipid metabolism. Most upregulated genes and their metabolic terms were mainly focused on protein/amino acid and carbohydrate metabolism (Fig c,d).
+ To analyze the relationship between metabolically related DEGs, we extracted genes with GO entries associated with carbohydrate, lipid, and protein/amino acid metabolism as metabolically related DEGs. We then removed the repeated genes contained in 106 metabolically related GO entries (Table ) to obtain 508 metabolically related DEGs (Table ).
+
+## Weighted gene co‐expression analysis
+We constructed co‐expression networks based on the selected 508 metabolically related DEGs (Table ). Consequently, 82 DEGs with 171 co‐expression pairs were identified (Table ). Our analysis found that 12 DEGs were co‐expressed with other metabolically related DEGs among lipid and protein/amino acid metabolically related downregulated genes (Fig a). TEK showed the largest degree of co‐expression (Fig b). Ten metabolic‐related DEGs were co‐expressed with TEK. The co‐expression degree of CAV1 reached 7. FABP4, LOC102724428, NR4A1, SIK1, and TIE1 had the least co‐expression degrees with only one gene association. In contrast, no gene pairs showed co‐expression associations for carbohydrate and protein/amino acid metabolism in upregulated genes.
+ 
+
+## Construction of PPI network
+STRING furnished original reliable protein data for consequent analysis. In order to generate PPI networks, 426 out of 508 metabolically related DEGs were mapped. A PPI network was formed with 130 upregulated DEGs and 296 downregulated DEGs containing 426 nodes and 2404 edges (Table , Fig a). Based on the total PPI network, we then analyzed whether 12 DEGs (proteins) identified from the co‐expression network interacted with other metabolically related DEGs (proteins). Interestingly, the 12 DEGs identified overlapped with 10 genes (proteins) in 155 PPI pairs (Fig b,c), including AGER, CAV1, CD36, EDNRB, FABP4, KL, NR4A1, SIK1, TEK, and TIE1.
+ The 10 downregulated DEGs obtained by co‐expression and PPI network analyses presented consistent expression tendencies in gene expression profiles of GSE31210. That is, the 10 downregulated DEGs were reliable for further OS assessment.
+
+## Deregulated expression of NR4A1 and TIE1 in tissues is associated with poor clinical outcome
+We further analyzed the relationship between candidate targets and proliferation levels among LUAD and non‐smoking female LUAD patients. However, because we had no access to the clinical data of the patients who provided samples for microarray experiments, we chose other independent cohorts from TCGA to further investigate the association between the expression of candidate targets and OS. To reduce the variations resulting from different NSCLC subtypes, only patients with LUAD were examined (Table ). Kaplan–Meier plots showed no difference in OS between low and high TIE1/NR4A1 expression groups (Figs a, a) (including smoking and non‐smoking patients). However, female non‐smoking LUAD patients in the high TIE1 expression group had significantly poorer OS than the low TIE1 expression group (P < 0.05) (Fig b).
+ Although no significant difference in OS (P = 0.483) was found between female non‐smoking LUAD patients in the low and high NR4A1 expression groups, we noted that the Kaplan–Meier curves crossover and separate after 3.89 years (Fig b). Thus, 3.89 years was chosen as a “landmark” to conduct further analysis. Standard OS assessment techniques before and after 3.89 years were used (Fig c). Although no significant difference in OS (P = 0.84) was found between low and high NR4A1 expression groups during the first 3.89 years (Fig c), the low NR4A1 expression group had significantly poorer OS after 3.89 years (P < 0.05) (Fig c). The Kaplan–Meier plots of the other eight candidate targets are presented in Figure , which shows no difference in the OS of non‐smoking female LUAD patients between low and high candidate expression target groups. Accordingly, NR4A1 and TIE1 may be identified as potential therapeutic targets for NSCLC in female non‐smokers.
+
+## Screening of potential ligands targeting Nur77 by molecular docking and AutoDock Vina
+Based on an RMSD value < 2 Å, which is the standard criterion for successful molecular docking, we ranked compounds by descriptor and Hawkins GB/SA scores, respectively. The detailed screening information of compounds with the top 10% lowest score are presented in Table . After overlapping the lists of AutoDock Vina and two Dock6 scoring, we identified the top 6 scored compounds that can target the agonist binding site of Nur77. These compounds may have high potential to serve as agonists for Nur77. The detailed docking results of these six compounds and crystal ligand are listed in Table .
+ 
+
+## Structural stability of the backbone of three models during MD simulations
+We selected the top 2 scoring Nur77 candidates for further MD simulations. For comparison, we also performed 30 nanosecond Nur77‐glycerol MD simulation. The backbone RMSD values with respect to the X‐ray structure were calculated to assess the stability of the three protein‐ligand binding models during MD simulations. Figure a shows that three binding systems of Nur77 remained stable with average RMSD fluctuations of 0.179 nm (Nur77‐ZINC64622551), 0.233 nm (Nur77‐ZINC06716957), and 0.216 nm (Nur77‐glycerol) during the 30 nanosecond MD simulation process.
+ 
+
+## Binding free energy of MD simulation systems
+To intuitively compare the energy levels between different MD simulation systems, we normalized the three energy component values. The Nur77‐ZINC06716957 binding system presented the lowest value of the three types of energy (Table ). Figure b also shows that ZINC06716957 had the highest normalized value of potential and total energy, and the lowest normalized value of kinetic energy in Nur77‐ligand binding systems, indicating that ZINC06716957 might have a better affinity than other ligands.
+ 
+
+## Nilotinib inhibits cell proliferation and induces senescence in H1975 cells
+ZINC06716957 refers to the old drug nilotinib, which is a small molecular tyrosine kinase inhibitor approved for the treatment of imatinib‐resistant chronic myelogenous leukemia. To examine the effect of nilotinib on NSCLC cells, human NSCLC lines H1975, H1299, and A549 were treated with different concentrations of nilotinib for 24 hours, and the cell viability was measured by CCK‐8 assay. As shown in Figure a, nilotinib treatment markedly decreased cell viability in a dose‐dependent manner in both H1975 and H1299 cells, but had less cytotoxic effect in 293T and A549 cells. We observed a characteristic change in H1975 cell shape to an enlarged and flattened phenotype, which is reminiscent of senescence. Consistently, SA‐β‐gal assays showed that nilotinib significantly enhanced senescence in dose and time‐dependent manners, as indicated by a significant increase in the percentage of SA‐β‐gal‐positive cells (Fig b,c).
+ 
+
+## Discussion
+Network‐based biological analysis is a promising approach to uncover key genes and biological processes from a network viewpoint that cannot be recognized from individual gene‐based signatures. , Using weighted gene co‐expression analysis methodology and constructing a PPI network, we found that 10 downregulated genes in the metabolic‐related DEGs had both co‐expressive and interactive relationships with other metabolic‐related DEGs, respectively. In addition to the GSE31210 dataset, Lee et al. provided an RNA‐sequencing study of LUAD and adjacent normal tissues of six female Korean never‐smoker patients. These 10 downregulated DEGs presented consistent expression tendencies in gene expression profiles of GSE31210 and RNA‐seq study. That is, the 10 downregulated DEGs were reliable for further survival analyses.
+Although a number of agonists targeting Nur77 have been reported in the database, they have not been approved as anti‐tumor clinical drugs. There are more than 2000 US Food and Drug Administration approved drugs available in the DrugBank, with diverse structural types and well‐known pharmacological features. Re‐evaluation of these drugs might identify a new use for the treatment of female non‐smoking NSCLC patients with low NR4A1 expression. We identified nilotinib, which combines well into the agonist‐binding pocket of Nur77 (Fig c). Although nilotinib was less stable than glycerol during the 30 nanosecond MD simulation process (Fig a), the results of three different energies (Fig b) showed that nilotinib had higher affinity than glycerol. Additionally, nilotinib formed two hydrogen bonds with Thr48 outside of binding pockets (Fig d), which improved the binding affinity of nilotinib with Nur77. Therefore, nilotinib may be a promising new agonist targeting Nur77.
+Striking differences in response rates to EGFR‐tyrosine kinase inhibitors have been observed between lung cancer in never smokers and smokers. It has been reported that gefitinib, an EGFR‐TKI, responds approximately fourfold higher in non‐smoking metastatic NSCLC. , Similar differential effects of EGFR‐TKIs have also been observed in subgroup analyses from large, multicenter, randomized studies of gefitinib and erlotinib. , However, almost all patients with NSCLC acquire resistance to EGFR‐TKIs after a period of time, leading to disease progression. , , Thus, the identification of new therapeutic targets for non‐smoking with NSCLC and the development of new drugs is critical. However, bringing new drugs to the market is a lengthy and expensive process. Nilotinib significantly inhibits the proliferation of H1975 cells in a dose‐dependent manner, and significantly induces the senescence of H1975 cells in time and dose‐dependent manners. The bioinformatics analysis methods and results detailed herein could potentially provide a new paradigm for identifying new targets and drugs as novel therapy for non‐smoking female NSCLC patients. Future work should concentrate on in vivo experiments of nilotinib to determine the mechanism of antitumor effect.
+
+## Disclosure
+No authors report any conflict of interest.
+
+## Supporting information
+
+Appendix S1. Supplementary method details of docking and molecular dynamic (MD) simulation process.
+Click here for additional data file.
+
+Figure S1. Kaplan–Meier estimates of the target gene expression of eight candidates with clinical outcome in non‐smoking female lung adenocarcinoma (LUAD) patients (n = 70).
+Click here for additional data file.
+
+Table S1. Finally identified differentially expressed genes (DEGs) of E‐GEOD‐19804 dataset by R software.
+Click here for additional data file.
+
+Table S2. Finally identified differentially expressed genes (DEGs) of GSE31210 by R software.
+Click here for additional data file.
+
+Table S3. Gene functional annotation results of downregulated genes provided by Database for Annotation, Visualization and Integrated Discovery (DAVID).
+Click here for additional data file.
+
+Table S4. Gene functional annotation results of upregulated genes provided by Database for Annotation, Visualization and Integrated Discovery (DAVID).
+Click here for additional data file.
+
+Table S5. Nutrition metabolic associate Gene Ontology (GO) terms of differentially expressed genes (DEGs).
+Click here for additional data file.
+
+Table S6. The 508 selected metabolic‐related differentially expressed genes (DEGs) for gene co‐expression analysis.
+Click here for additional data file.
+
+Table S7. The results of co‐expression pairs.
+Click here for additional data file.
+
+Table S8. The results of protein‐protein interaction pairs.
+Click here for additional data file.
+
+Table S9. Clinical characteristics of lung adenocarcinoma (LUAD) patients.
+Click here for additional data file.
+
+Table S10. The information of ranked top 10% lowest score compounds.
+Click here for additional data file.
+
+## Acknowledgements
+This work was supported in part by the National Natural Science Foundation of China (No. 81373311, 81173093, 30970643, 31300674, and J1103518); and the Youth Science Foundation of West China Hospital of Stomatology (No. 2017‐3).

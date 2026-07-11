@@ -1,0 +1,409 @@
+Front PharmacolFront Pharmacol1524frontpharmacolFront. Pharmacol.Frontiers in Pharmacology1663-9812Frontiers Media SAPMC6580154PMC6580154.1658015465801543124465310.3389/fphar.2019.006051PharmacologyHypothesis and TheoryA Receptor Model With Binding Affinity, Activation Efficacy, and Signal Amplification Parameters for Complex Fractional Response Versus Occupancy Data
+BuchwaldPeter Department of Molecular and Cellular Pharmacology, Diabetes Research Institute, Miller School of Medicine, University of Miami, Miami, FL, United StatesEdited by: Luc Zimmer, Université Claude Bernard Lyon 1, France
+Reviewed by: Lloyd Bridge, University of the West of England, United Kingdom; Rudolf Gesztelyi, University of Debrecen, Hungary
+*Correspondence: Peter Buchwald, pbuchwald@med.miami.edu
+This article was submitted to Experimental Pharmacology and Drug Discovery, a section of the journal Frontiers in Pharmacology
+1162019201910328387605061220181452019110620192606201928062019Copyright © 2019 Buchwald2019Buchwaldhttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.In quantitative pharmacology, multi-parameter receptor models are needed to account for the complex nonlinear relationship between fractional occupancy and response that can occur due to the intermixing of the effects of partial receptor activation and post-receptor signal amplification. Here, a general two-state receptor model and corresponding quantitative forms are proposed that unify three distinct processes, each characterized with its own parameter: 1) receptor binding, characterized by K
+d, the equilibrium dissociation constant used for binding affinity; 2) receptor activation, characterized by an (intrinsic) efficacy parameter ε; and 3) post-activation signal transduction (amplification), characterized by a gain parameter γ. Constitutive activity is accommodated via an additional ε
+R0 parameter quantifying the activation of the ligand-free receptor. Receptors can be active or inactive in both their ligand-free and ligand-bound states (two-state receptor theory), but ligand binding alters the likelihood of activation (induced fit). Because structural data now confirm that for most receptors in their active conformation, the small-molecule ligand-binding site is buried inside, straightforward binding to the active form (direct conformational selection) is unlikely. The proposed general equation has parameters that are more intuitive and better suited for optimization by nonlinear regression than those of the operational (Black and Leff) or del Castillo–Katz model. The model provides a unified framework for fitting complex data including a) fractional responses that do not match independently measured fractional occupancies, b) responses measured after partial irreversible inactivation of the “receptor reserve” (Furchgott method), c) fractional responses that are different along distinct downstream pathways (biased agonism), and d) responses with constitutive receptor activity. Furthermore, unlike previous models, the present one can be reduced back for special cases of its parameters to consecutively nested simplified forms that can be used on their own when adequate (e.g., ε
+R0 = 0, no constitutive activity; γ = 1: E
+max model for partial agonism; ε = 1: Clark equation).
+
+affinitybiased agonismconstitutive activityefficacyfree energyG-protein–coupled receptorsligand bindingpartial agonism 
+
+## Present Model: Two-State Model With Binding, Efficacy, and Amplification Parameters
+
+## Main Concepts and Equations
+In agreement with the generally accepted picture, the present model assumes that to produce a response, a ligand must first bind to a receptor and then activate it to initiate some downstream signaling. The main assumption of the two-state receptor theory that ligand-bound (occupied) and active receptor states do not fully correspond is maintained, but a slightly different parametrization is employed to achieve more intuitive affinity (binding) and efficacy (activation) quantification. Binding of the ligand is assumed to alter the likelihood of activation; i.e., an induced fit type model is presumed. Receptors can be either active or inactive in their ligand-free or ligand-bound forms; however, the corresponding probabilities (i.e., times spent in the corresponding conformations) can be quite different. Ligand-free and ligand-bound states will be considered as an equilibrium ensemble of active and inactive conformations present. In general, a ligand-free receptor is overwhelmingly in an inactive conformation, and in cases where there is no constitutive activity, it is entirely so. Binding of an agonist, which is governed by its affinity parameter K
+d, shifts the equilibrium toward the active state. The ability of a bound ligand to do so is characterized by an (intrinsic) efficacy parameter, ε. For receptors with constitutive activity, a basal receptor efficacy, ε
+R0, is used to account for baseline activation in absence of a ligand. The signal (effect) generated by the active receptor can be amplified downstream, and this is characterized by a pathway-specific gain parameter γ. Hence, the most general form of the model uses four parameters: K
+d, the equilibrium dissociation constant characterizing binding affinity; ε, an (intrinsic) efficacy characterizing the ability of bound ligand to activate the receptor (0≤ε≤1); ε
+R0, a basal receptor efficacy characterizing constitutive activity (if present); and γ, a gain (amplification) parameter characterizing the nonlinearity of (post-activation) signal transduction (1≤γ<∞). As explicit incorporation of a signal amplification parameter is a main novelty, one can designate this model as Signal Amplification, Binding affinity, and Receptor activation Efficacy (SABRE). The overall schematic of the present model in its most general form and the corresponding quantitative equation are shown below. The same, together with all its successive nested simplifications corresponding to special cases are shown in .
+(1) (2)E/Emax=εγ[L]+εR0γKd(εγ−ε+1)[L]+(εR0γ−εR0+1)KdFor cases with no constitutive activity (ε
+R0 = 0, no active unbound receptor, R*), this reduces to the three-parameter model previously introduced corresponding to the portion highlighted in light blue above and represented by the bottom two rows of (models C–F) (Buchwald, ),
+(3) (4)E/Emax=εγ[L](εγ−ε+1)[L]+KdDetails of model parametrization and assumptions are discussed below, followed by highlights of its advantages and illustrative applications for complex response versus occupancy data. A detailed derivation of Equation 2 is included in .
+
+## Parametrization
+
+## Binding Parametrization, K
+d
+
+To produce a response, a ligand must first bind to the receptor. Binding parametrization is typically achieved via the widely used equilibrium dissociation constant (Kd), which is measured in units of concentration (usually molarity, M). In the simplest one-state model, where all occupied receptors are active and that forms the basis of the widely used one-parameter Clark equation ( ), K
+d is expressed as a function of the equilibrium concentrations of the species involved as:
+(5)Kd=[L][R][LR*]It is important to remember that K is not just an arbitrary model parameter: it is an entity measurable in equilibrium or kinetic binding assays, and it is related to the Gibbs free energy of binding (ΔG) via the well-known thermodynamic equation:
+(6)K=e−ΔG0RTHere, T is the absolute temperature and R the universal gas constant, R = k
+B
+N
+A = 8.314 J/K·mol. Accordingly, to bind with 1 nM affinity (K
+d = 10–9 M) at physiological temperature (T = 310 K), a ligand requires a free energy of binding of ΔG
+0 = –RT·lnK
+d = 53.4 kJ/mol (12.8 kcal/mol).
+The present model uses a similar definition for K
+d. It differentiates between active and inactive states (denoted by an asterisk; R vs. R* and LR vs LR*), but contrary to most two-state models that distinguish between binding affinities for the active and inactive states (e.g., K
+d and K
+d/α; ), it considers ligand-bound and ligand-free states as ensembles of conformations characterizable by the same K
+d. Hence, K
+d here represents an average binding constant for the ensemble of active and inactive receptor forms that the ligand effectively sees. With this assumption, the definition of K
+d will rely on the total concentration of occupied and unoccupied receptors, which in the case of the full two-state model ( ) becomes
+(7)Kd=[L]([R]+[R*])([LR]+[LR*]) This is a macroscopic equilibrium constant measurable in equilibrium binding assays that assess total binding to the receptor. In case of the minimal two-state model, where there is no constitutive activity ( , [R*] = 0), it reduces to the previously used form (Buchwald, ):
+(8)Kd=[L][R]([LR]+[LR*])Binding, characterized by K
+d, is not just snapping of a ligand into a rigid site (“key-in-the-lock”), which corresponds to that of the active conformation (inactive for an antagonist), but it also involves change in energy and possibly adaptation of the site to accommodate the ligand (“hand-in-the-glove”). The corresponding conformational shift (toward active states) leads to change in the downstream activation (induced fit) ( ). A key advantage of this definition is that K
+d represents ensemble averages for the bound and unbound receptor forms and becomes independent from the value of the efficacy parameter (Buchwald, ). Another one is that it avoids the loop-related thermodynamic constrains (i.e., need for a same α for both K
+d and Kε in ) as will be discussed in the section Mechanism of Receptor Binding and Activation.
+ 
+
+## Efficacy Parametrization, ε
+
+The need for efficacy parametrization, besides that for binding, arose from the recognition of partial agonism, i.e., the existence of compounds that can occupy all receptors without achieving full activation. Well-known partial agonist examples include prenalterol (versus the full agonist adrenaline at β-adrenoceptors), pilocarpine (versus acetylcholine at muscarinic receptors), and impromidine (versus histamine at H2 receptors) (see for representative chemical structures). Here, efficacy parametrization is done with an ε parameter that represents the fraction of ligand-bound receptors that are active (Buchwald, ):
+(9)ε=[LR*][LR]+[LR*]Hence, efficacy ε as defined here is a unitless parameter (but not an equilibrium constant such as Kε) and is an intrinsic efficacy in the sense that it is a characteristic of the ligand L (for a given receptor R). It ranges from 0 for an antagonist that can occupy all receptors but produces no effect to unity (1) for a full agonist that converts all occupied receptors to active ones. The activity here is the one measured immediately post-receptor; downstream signal amplification can complicate things as response from a partial agonist can be amplified to a maximum final response (see discussion later). A set of representative response curves obtained for a fixed binding affinity (K
+d) but different efficacies ε are shown in .
+ Note that the efficacy ε as defined here is different from the efficacy e as defined by Stephenson, which was introduced to measure the ability of a drug to produce a response in a tissue. In Stephenson’s definition, the stimulus was S = e[LR*]/[Rtot], and e could have values from 0 up to infinity (Stephenson, ). In fact, ε is more similar to the efficacy as defined by Furchgott (ϵ
+F = e/[Rtot]) representing “the capacity of a ligand to initiate stimulus from one receptor” (here, as measured right after the receptor before additional signaling steps). It is also similar to the intrinsic activity α
+A introduced by Ariëns ( ), which is the ratio of the maximum response produced by the partial agonist to that produced by the full agonist and is ultimately quantifying “effect per unit of pharmacon–receptor complex” (as long as there is no amplification).
+With these assumptions, the fractional response (effect) f
+resp, which under the assumptions of no amplification ( ) equals the fraction of activated receptors f
+act, can be expressed as a function of ligand concentration only as (Buchwald, ):
+(10)fresp=E/Emax=[LR*][Rtot]=ε[R][L]Kd[R](1+[L]Kd)=ε[L][L]+KdThis is essentially equivalent with a Clark equation that includes a scalable maximum (E
+max model for partial agonism; ). It is also equivalent with the model proposed by Ariëns (e.g., Equation 12 in Ruffolo, ) incorporating an intrinsic activity term (α
+A). Equation 10 links the definition of the maximum achievable effect (response) for a partial agonist, f
+resp,max = ε, to a two-state model ( ). With this definition, ε corresponds to the fraction of maximum activation a partial agonist can achieve as compared to the full agonist—as measured right after the receptor (to avoid possible confounding effects created by downstream amplification; see later). For full agonists, ε = 1 and the above equation correspond directly to the Clark equation for response (Clark, ; Clark, ) ( ), which is mathematically equivalent with the Hill–Langmuir equation for ligand binding (Hill, ) and a special case of the versatile Hill equation (Hill, ) often used in pharmacological and other applications (Goutelle et al., ; Gesztelyi et al., ).
+
+## Incorporation of Constitutive Activity
+Since the introduction of the concept in the late 1980s (Costa and Herz, ), it is now well recognized that certain G-protein–coupled receptors (GPCRs) can be active even in the absence of an agonist (have constitutive signaling activity) and that some ligands can act as inverse agonists (i.e., reduce the activity of the ligand-free receptor) (Bond and Ijzerman, ). To incorporate such constitutively active receptors into the formalism of the present model ( ), a baseline receptor efficacy (ε
+R0) is introduced along lines similar to the definition of ε (Equation 9), i.e., the fraction of unbound receptors that are active:
+(11)εR0=[R*][R]+[R*]However, contrary to ε, which is a ligand characteristic, ε
+R0 is a receptor and not a ligand characteristic. For such receptors, ligands known as inverse agonists reduce the signaling output below that of the basal state. In the present formalism, they will have efficacies that are smaller than this baseline receptor efficacy, ε
+inv.agon.<ε
+R0. Partial agonists remain those compounds that generate a response, albeit a submaximal one even at concentrations that saturate all receptor sites (ε
+R0<ε<1), and so-called neutral antagonists do not discriminate between the two conformers (ε
+R0=ε) and thus can block agonist, partial agonist, and inverse agonist activities. Some representative response curves that can be obtained with this parametrization are shown in , and further discussion is included later.
+
+## Gain (Signal Amplification) Parametrization, γ
+Some kind of signal amplification is needed to account for the existence of “spare receptors” or “receptor reserves”: cases where almost maximal response can be achieved by occupying only a (small) fraction of all receptors. The concept has been introduced in the mid-1950s (Nickerson, ; Stephenson, ) with a method for its quantification described by Furchgott about a decade later (Furchgott, ; Furchgott and Bursztyn, ). Well-known extreme cases include, for example, the response of the human calcitonin receptor type 2 to calcitonin (where 20% occupancy already produces close to 100% response) (Chen et al., ) and guinea pig ileal response to histamine (where 2% occupancy already produces close to 100% response) (Kenakin and Cook, ; Adham et al., ; Kenakin, ). Another example is the stimulation of β-adrenergic receptors in the heart by epinephrine where half-maximal increase of muscle contractility already occurs at 1% to 3% receptor occupancy in rats and at 10% to 20% occupancy in humans, and the effects saturate well before the receptors do (Brown et al., ). Detailed quantifications, including for different ligand series, have been done for several cases, typically GPCRs, such as the muscarinic acetylcholine (Furchgott and Bursztyn, ; Harden et al., ; Eglen and Whiting, ), opioid (Chavkin and Goldstein, ; Adams et al., ; Fox and Hentges, ), dopamine (Meller et al., ), 5-hydroxytryptamine (5-HT) (Meller et al., ), A1-adenosine (Dennis et al., ; Morey et al., ), and cannabinoid (Gifford et al., ) receptor systems.
+Most commonly, such cases are due to strong signal amplification via a downstream cascade of saturable functions provided by second messengers or other systems (Strickland and Loeb, ; Koshland et al., ; Ferrell, ). Activation of adenylate cyclase and production of cyclic AMP (cAMP) as second messenger followed by further downstream cascading is a well-known example. For example, the mechanism by which epinephrine (acting on a myocyte) or glucagon (acting on a hepatocyte) sets off a cascade of phosphorylation leading to the production of glucose involves downstream amplification of the initial signal by several, possibly up to eight orders of magnitude (Nelson and Cox, ). As a result, epinephrine concentrations as low as 10–10 M in the blood can stimulate liver glycogenolysis and release of physiologically adequate levels of glucose. Such a small epinephrine stimulus can generate intracellular cAMP concentrations of 10–6 M (already a ∼10,000-fold gain) followed by three more catalytic steps leading to release of glucose via another approximately 10,000-fold amplification (Lodish et al., ). In many ways, the resulting cascade mechanisms of signal amplification in biological systems resemble those used in electronic circuits (Grubelnik et al., ). Very strong amplification is not always desirable as amplification of noise-level signals has to be avoided (Bialek and Setayeshgar, ).
+In the present model, pathway-specific signal amplification is incorporated explicitly using a separate gain parameter γ. This is an important novel component that has not been explicitly included as such in previous models like the operational (Black and Leff) or the minimal two-state (del Castillo–Katz) model. Amplification is built in via use of a nonlinear hyperbolic-type response function (Buchwald, ). Hyperbolic relationships between fractional occupancy and fractional response have been found in several cases (see examples later), justifying the use of such functions. Use of hyperbolic functions also has the advantage that even if there is a cascade of such sequential saturable signal amplification functions with the output of one serving as input for the next one (as is often the case in biological systems), the overall response can be represented by a single hyperbolic-type response function (Trzeciakowski, ). The nonlinear response (amplification) function used here is a classic hyperbolic function, just as it is in the operational model. However, to be able to reach its asymptotic limit, not [LR*] is used as its input, because [LR*] cannot be higher than [Rtot] and, hence, cannot cover the asymptotic part of the response function that is beyond the [Rtot] value, but its odds-ratio type (De Muth, ) transform: Λ = p/(1–p) (see Buchwald, for further details). In other words, the input for the hyperbolic function here is not [LR*], but Λ = [LR*]/([Rtot] − [LR*]) = f
+act/(1 − f
+act), with f
+act = [LR*]/[Rtot] representing the fraction of active receptors. For full agonists, f
+act corresponds to the fraction occupied f
+occup; f
+act = f
+occup if ε = 1. This extends the range of the input from 0–1, which is the range for f
+act (i.e., [LR*]/[Rtot]), to 0–∞. Hence, the response function linking E to [LR*] will be:
+(12)E/Emax=F([LR*])=ΛΛ+Kγ[Rtot];Λ=[LR*][Rtot]−[LR*]=fact1−factAfter some transformations and introduction of γ=[Rtot]/Kγ, this leads to the final general form for the present three-parameter model ( ) (Buchwald, ):
+(13)E/Emax=εγ[L](εγ−ε+1)[L]+KdHere, the just introduced γ parameter represent a unitless amplification (gain) factor. Since it is a gain, for all practical purposes, it has a value larger than unity, γ≥1. A set of illustrative response curves for a fixed value of K
+d and different values of ε and γ are shown in . For a given ligand acting at a specific receptor, affinity (K
+d) and efficacy (ε) should be the same (as long as receptor-binding and activation are not influenced by the environment, and signaling bias, which will be discussed later, is not considered), but transduction (signal amplification) could be pathway and tissue-dependent. Hence, γ, and, in fact, both of its components, Rtot and Kγ, can be tissue-dependent.
+A slightly rearranged form of this equation provides a better understanding of the interplay between its parameters:
+(14)E/Emax=εγ(εγ−ε+1)[L][L]+Kd(εγ+1−ε)From here, it is clear that half-maximal activity (EC50) is observed at K
+obs = K
+d/(εγ+1–ε), and maximum (fractional) effect achievable by a given ligand is f
+resp,max = εγ/(εγ+1–ε). Hence, for a full agonist at the receptor (ε = 1), K
+obs = K
+d/γ and γ is a straightforward multiplication factor causing a left-shift of the sigmoid response function by γ units on a semi-log scale. Thus, for such an agonist, signal amplification causes no change in the shape of the response on semi-log scale, just a left-shift by γ increasing the apparent potency γ-fold (as illustrated by the blue lines in ). For an agonist that produces only partial activation at the receptor (ε<1), downstream amplification can increase the maximum response, and sufficiently strong amplification can transform such a partial agonist into an apparent full or close to full agonist. With a large enough γ, the maximum response, f
+resp,max = εγ/(εγ + 1 − ε), can approach unity even for small εs. However, for such partial agonists, the left shifts, (εγ + 1 − ε), are smaller than for a full agonist, (1·γ + 1 − 1 = γ), so that the change in the apparent EC50 (K
+obs) is less (red vs. blue lines in ).
+Finally, to include the effect of amplification for cases with constitutive activity (completely general case represented by model A in ), we will calculate the fraction of activated receptors f
+act, which is proportional with the effect right after the receptor, and use it as input for the amplification function. With the definitions of ε
+R0, ε, and K
+d, the receptor concentrations can be eliminated, and f
+act can be expressed as a function of [L] as:
+(15)fact=[R*]+[LR*][Rtot]=εR0KdKd+[L]+ε[L][L]+KdAs before, this will serve as input via Λ=f
+act/(1–f
+act) for the present amplification function (Equation 12), resulting in the final form of the full four-parameter SABRE model:
+(16)E/Emax=εγ[L]+εR0γKd(εγ−ε+1)[L]+(εR0γ−εR0+1)KdIt can be seen from here that basal response ([L] = 0) is ε
+R0
+γ/(ε
+R0
+γ + 1 − ε
+R0), whereas the maximum effect for a ligand L ([L]→∞) remains f
+resp,max = εγ/(εγ+1–ε) (see for an illustration of the effects of different ε
+R0 and γ on the response calculated with this equation). Rearranging this in a manner like that done for Equation 14 but also separating the basal response leads to
+(17)E/Emax=γ(ε−εR0)(εγ−ε+1)(εR0γ−εR0+1)[L][L]+(εR0γ−εR0+1)(εγ−ε+1)Kd+εR0γ(εR0γ−εR0+1)Hence, the half-point of the transition is at 
+(18)Kobs=εR0γ−εR0+1εγ−ε+1KdConsistent with the true generalized nature of the present model, if there is no constitutive activity, ε
+R0 can be set to 0, and this recovers the simplified forms of the model that have been introduced earlier (Buchwald, ) (models C–F, ). Conversely, if there is no amplification ( ), γ = 1 and the total effect becomes:
+(19)E/Emax=εR0KdKd+[L]+ε[L][L]+KdAs illustrated in for some representative parameter values, this can describe concentration-response functions for full (ε = 1), partial (ε>ε
+R0), and inverse agonists (ε<ε
+R0), as well as neutral antagonists (ε=ε
+R0).
+The combination of all these effects can result in quite complex concentration-response curves that may make fitting with well-defined parameters difficult (see below). Nevertheless, the present four-parameter model can account for cases where the mixture of signal amplification and partial agonism causes complex responses, and several specific examples will be discussed (see also Buchwald, for the case of competitive partial agonism). It can also account for the observation of different responses created by the same agonists if observed along different pathways (biased agonism; e.g., and ) or at different vantage points on the same downstream pathway involving multiple amplification steps (e.g., ).
+
+## Parametrization Considerations and Model Selection Criteria
+Before closing this section on parametrization, a few general modeling related considerations have to be highlighted. The present model can fit complex data such as those illustrated in the section Fit of Complex Fractional Response Versus Fractional Occupancy Data; however, use of its fully parameterized version (Equation 2 or even Equation 4) only makes sense if sufficient data are available, and if occupancy (binding) and response (effect) can be assessed independently and under sufficiently similar conditions. Since adequate model fitting requires the availability of 5–10 (well distributed) data points for each adjustable parameter (Knofczynski and Mundfrom, ; Austin and Steyerberg, ; Kenakin, ), reliable fitting of the full model can only be accomplished if a sufficiently large number of data points are available. Along these lines, it has to be mentioned that the present model uses one more parameter than the operational model, e.g., three (K
+d, ε, γ) vs. two (K
+d, τ) for the case of no constitutive activity or four (K
+d, ε, γ, ε
+R0) vs. three [e.g., K
+d, ε, χ (Slack and Hall, )] for cases with constitutive activity. This is relevant because obtaining well-defined parameter values could require more data points, and rigorous model selection criteria advocate the use of the simplest model that can still provide adequate fit (George, ; Myung and Pitt, ; Buchwald, ; Buchwald, ). However, the need for one extra parameter is more than compensated for by, on one hand, the intuitive nature of the present parameters (due to separation of efficacy in receptor activation from gain in signal amplification), and, on the other, the ability to use simplified forms with reduced number of parameters. Contrary to the operational models, with the present one, simplified forms can be recovered for special cases of its parameters, and these can and should be used on their own when adequate or when there is not enough data to support full parametrization. Note that Hill type extensions that involve an additional n
+H parameter to account for more or less abrupt response functions are not discussed here.
+
+## Model Assumptions and Comparisons With Other Receptor Models
+
+## Mechanism of Receptor Binding and Activation
+Currently, pharmacological receptors are classified into four main classes (from fast to slow mode of action): 1) ligand-gated ion channels (ionotropic receptors; part of the ion channel protein targets that also include voltage-gated and other ion channels), 2) G-protein-coupled receptors (GPCRs; metabotropic receptors), 3) catalytic receptors (including receptor tyrosine kinases), and 4) nuclear hormone receptors (Rang et al., ; Alexander et al., ). There are now significant biochemical, biophysical, and structural data that suggest that receptors (in particular, GPCRs) exist in a dynamic equilibrium between their inactive and active states. They can be active to some degree even in a ligand-free state (Changeux and Edelstein, ), and binding of ligands shifts this equilibrium (Hunyady et al., ). In general, ligand-free receptors are overwhelmingly in their inactive conformations; those that have no constitutive activity are entirely so. Binding of an agonist shifts the equilibrium toward the active state; binding of an inverse agonist shifts it even more toward the inactive state ( ).
+The full two-state model, which allows for constitutive activity, is traditionally envisioned along the lines illustrated in , whereby the ligand can either bind to the inactive form of the receptor and contribute to its activation (induced fit, conformational induction) or bind to the active form of the receptor and lock it preferentially in that form (conformational selection). The corresponding equilibrium constants are shown in following a commonly used notation (e.g., Fig. 1 in Trzeciakowski, , Fig. 1 in Roche et al., , or Eq. 21 in Kenakin, ) that assumes the ligand as having an α-fold different affinity for the active versus the inactive form. Due to loop-related thermodynamic considerations, there are only three independent parameters: K
+d = [L][R]/[LR] and K
+d/α = [L][LR*]/[LR*] are the equilibrium dissociation constants for the inactive and active receptor forms, respectively; and Kε = [R*]/[R] and αKε = [LR*]/[LR] are the equilibrium constants for the activation of the ligand-free and ligand-bound receptors.
+The present SABRE model is based on a similar, but somewhat different formalism as summarized in . It assumes that binding alters the propensity of the receptor for activation, but it does not consider different binding affinities for the active and inactive receptor forms. K
+d represents an ensemble average of the binding to the active and inactive conformations in each state, and it is defined by Equation 7. Efficacy ε represents the fraction of ligand-bound receptors that are active (Equation 9), and the similarly defined baseline receptor efficacy ε
+R0 characterizes the fraction of ligand-free receptor that is active (Equation 11). Finally, the signal generated at the receptor can be amplified following a transduction function characterized by the gain parameter γ (Equation 12).
+There is one other aspect of receptor binding that has to be considered. With a rapidly rising number of detailed receptor structures becoming available, including for several GPCRs, it is increasingly clear that most receptors in their active conformation have their small-molecule ligand-binding site buried deep inside. In many cases, binding sites, especially orthosteric ones, have been found to be fully buried (e.g., M2/3 muscarinic, β2 adrenergic, sphingosine-1-phosphate S1P, serotonin 5-HT, chemokine receptor CCR5, glutamate mGlu1, and others); in some, they are not and are partially solvent exposed (e.g., μ-opioid receptors and several peptide-activated class B GPCRs) (Manglik et al., ; Lee et al., ; Shonberg et al., ; Lu and Wu, ). A set of representative 3D examples is included for illustration: the agonist (adrenaline) bound active form of the β2-adrenergic receptor (a type Aα GPCR) (Ring et al., ) ( ), the agonist (2MeSADP) and antagonist (AZD1283) bound forms of the P2Y12 receptor (a type Aδ GPCR) (Zhang et al., ; Zhang et al., ) ( ), the agonist (dexamethasone) and antagonist (mifepristone) bound forms of the glucocorticoid receptor (a nuclear receptor) (Kauppi et al., ) ( ), and the agonist (glutamate) bound form of the AMPA receptor (a ligand-gated ion channel or ionotropic receptor) (Twomey et al., ) ( ). The need for fully buried binding sites is not coincidental, as they allow the bound ligand to interact with the receptor along its entire surface, so that relatively small volumes can focus multiple interactions (ionic, polar, hydrogen bond, and others) and achieve sufficiently strong binding with good enough ligand efficiency [binding energy per unit size (Hopkins et al., )]. Such binding sites had to evolve for all endogenous small-molecule ligands to allow adequate potencies. Along these lines, it is also not coincidental that traditional drug targets, such as GPCRs, ion channels, or enzymes, are exactly those that have such well-defined cavities or clefts for binding their natural ligands as they can also be exploited for druggability purposes (Bodor and Buchwald, ; Zhu et al., ; Santos et al., ). Druggability requires sufficient potency (in general, sub-micromolar potency, e.g., EC50 < 1 μM) with existing small-molecule drugs having an average potency of 20 nM (Overington et al., ). This implies a need for strong enough binding energy (ΔG
+0). The lack of well-defined binding pockets that make possible strong interactions along most of the ligand surface is a main reason why other therapeutic targets such as, for example, protein–protein interactions (PPIs) are so difficult to modulate by small molecules (Arkin and Wells, ; Scott et al., ; Bojadzic and Buchwald, ).
+ Because the ligand-binding domain (LBD) of most receptors in their active conformation is buried inside and is not accessible from the surrounding solvent, direct binding to the active form (conformational selection, selected fit) is an unlikely possibility for typical small-molecule ligands (highlighted by a red X in ). Since the LBD is not directly accessible from the outside when the receptor is in its active conformation (R*), it is unlikely that small-molecule agonists can simply “snap” in place and stabilize this conformation as required by a conformational selection mechanism ( ). For the same reason, the assumption of a separate binding constant for the active state (e.g., K
+d/α in ) and the need for a thermodynamic loop seem unrealistic for most small-molecule bindings.
+If, a tightly closed binding site is needed for efficient binding and activation, active conformations need to have a closed LBD that is not accessible directly from outside. The representative views showing fully buried agonists ( – ) were included here to highlight this. Further, this can also provide a plausible albeit simplified mechanism for the diminished ability of partial agonists to shift the equilibrium toward the active state ( ). Partial agonists or antagonists might hinder tight LBD closure (as illustrated in or ) reducing their efficacy in activating the receptor. The “Venus flytrap domain” of class C GPCR provides a possible illustration as it fluctuates between open and closed conformations with agonists generally stabilizing the closed conformation and antagonists maintaining the open conformation (Geng et al., ; Koehl et al., ). In medicinal chemistry, it is well known that partial agonists and antagonists typically maintain certain important structural elements (pharmacophores) of the full agonists while also incorporating additional building blocks quite often resulting in larger molecular structures. Some well-known cases are illustrated in . Receptor binding is to a good degree size-dependent, and neither too small nor too large ligands can achieve the strongest binding (lowest energy) (Buchwald, ). The overall picture is certainly much more complex for various receptors, and this is a simplification of limited applicability. Nevertheless, it is mentioned as a possible simplified conceptualization that can be useful in some applications [“All models are wrong, but some are useful” (Box, )]. Cases where full agonists induce LBD domain closure while partial agonists bind to a more open conformation have been shown, for example, for the AMPA receptor ( ) (Jin et al., ; Twomey and Sobolevsky, ). On the other hand, structural information from co-crystallization studies with some GPCRs seem to suggest that their activation involves the translation of relatively modest structural changes within the ligand-binding site into larger-scale conformational shifts at the intracellular side of the receptor (Shonberg et al., ; Shonberg et al., ). Ultimately, these assumptions related to the activation and binding mechanisms ( , ) do not limit the general applicability of the formalism of the present model and its corresponding quantitative forms ( ).
+
+## Advantage Versus other Quantitative Receptor Models
+The quantitative form of the present general SABRE receptor model (Equation 2 or Equation 4) has no striking beauty resulting from an elegant simplicity; nevertheless, it has several benefits compared to other complex quantitative models that are mostly based on the operational (Black and Leff) model (Black and Leff, ; Black et al., ): 
+
+(20)E/Emaxop.mod.=τ[L](τ+1)[L]+KdMost existing quantitative pharmacological models assume receptor functions along the lines of this operational model-based equation (Trzeciakowski, ; Ehlert et al., ; Slack and Hall, ; Ehlert, ; Copeland, ; Hall and Giraldo, ) with some additions needed for constitutive activity (Jenkinson, ; Kenakin, ; Kenakin, ), including extension such as those by Ehlert and co-workers (Ehlert et al., ) or Hall and co-workers (Slack and Hall, ; Hall and Giraldo, ). However, there are noticeable disadvantages that hinder the widespread use of these K
+d and τ-based equations, most of which are overcome by the present model. Although the overall forms of the present three-parameter model (Equation 4) and that of the operational model (Equation 20) are quite similar (with εγ here replacing τ of the operational model, plus an additional ε present in the denominator), the present parametrization provides several advantages over τ-based models. These will be briefly highlighted below.
+
+## Better Suited for Fitting by Nonlinear Regression
+Transforming the classic form of the operational model (Equation 20) in a manner similar to that done for the present model (Equation 14 vs. 13) leads to 
+(21)E/Emaxop.mod.=ττ+1[L][L]+Kdτ+1Hence, for the operational model, the maximum fractional response achievable by a ligand is f
+resp,max = τ/(τ+1) and half-maximal activity occurs at EC50 = K
+obs = K
+d/(1+τ). Because for full (or close to full) agonists, the maximum (fractional) response, τ/(τ+1), needs to be close to 1, τ needs to have large values, and those are difficult to obtain in a well-defined manner, as the τ/(τ + 1) fraction is no longer sensitive to changes in τ when approaching unity. Hence, fitting by nonlinear regression can result in large and ill-defined τ values, making the linked K
+d values also badly defined. Since the calculated K
+d is (τ + 1)-fold different from the observed K
+obs, the operational model (Equation 20) can end up not just with ill-defined, but also unrealistic K
+d values that are essentially meaningless from a binding perspective. Hence, this model is difficult to fit for full or close to full agonists, and results can be cumbersome to interpret (see, e.g., Table 1 and Figure A1 in Buchwald, for specific illustrations). In agreement with this, mathematical identifiability analysis and simulation for the operational model has shown that when only functional assay data are available, only the transduction coefficient (τ/K
+d) and not τ can be estimated precisely (Zhu et al., ). There are indeed applications employing the operational model either only to determine unresolved τ/K
+d ratios (Kenakin et al., ) or with experimental K
+d values to constrain the regression (Rajagopal et al., ). Because in the present model, ε is restricted to the 0 to 1 range and K
+d is independent of ε, fitting by nonlinear regression does not face these issues, and all parameters can be fitted in well-defined manner for partial and full agonists as long as there are sufficient data points. Several specific examples are included in the next chapter for illustration.
+
+## More Intuitive Parametrization
+As highlighted by Equation 21, the K
+d parameter of the operational model obtained from data fitting is different from the apparent (observed) K
+obs as its value also depends on τ: K
+obs = K
+d/(τ+1). Although this allows the concentration–response curve to shift from the concentration–binding curve, which is why such complex models are needed in the first place, it also makes K
+d an empirical parameter not directly related to binding. As discussed above, for full or close to full agonists, τ needs to be large [e.g., τ>10 is needed for E
+max = τ/(τ+1)>0.9], and K
+obs values will be shifted considerably compared to K
+d—often to unrealistically high values that are clearly far from the actual binding affinity of the ligand. Hence, it has become accepted to use K
+d as an empirical parameter not necessarily related to receptor binding, and in some implementations, such as in GraphPad Prism, full agonists are not fitted at all with this model. It has been pointed out that for the operational model, changes in binding (K
+d) and in conformation (τ) become indistinguishable for very efficacious agonists making interpretations difficult and cumbersome (Colquhoun, ).
+Contrary to this, all parameters of the present model are straightforward, intuitive, and clearly related to their corresponding processes. Affinity (binding) is characterized by K
+d, the binding constant, and values measured in equilibrium assays can be used directly in the model. This K
+d is uncoupled from the post-binding ability to activate the receptor (efficacy) as well as the strength of the post-activation amplification. Efficacy (ability to activate the receptor) is characterized by ε, a ligand-specific unitless parameter ranging from 0 (for a ligand that keeps all receptors inactive) to 1 (for an agonist that shifts all receptors into active state). Nonlinear transduction, due to post-receptor amplification (gain), is characterized by γ, a unitless parameter ranging from 1 (no amplification) to infinity.
+
+## Receptor Activation and Signal Amplification Are Separated
+The present model also overcomes an essential hypothesis-related problem of the operational (Black and Leff) and del Castillo–Katz models, namely, that although the final equations are mathematically identical (Equation 20), they arrive at it from two conceptually different approaches that are both incomplete. On one hand, the minimal two-state (del Castillo–Katz) model ( without an R* state), which is now a generally accepted approach to describe switching of the receptor between active and inactive states, does not formally incorporate signal amplification (nonlinear transduction), which, as discussed, is known to exist. On the other, the operational (Black and Leff) model allows nonlinear response, but it is a single-state model that does not formally incorporate the possible existence of active and inactive ligand-bound receptor states (i.e., the possibility that not all occupied receptors are active), which is also known to exist. It makes up for this by limiting its output function to a maximum of τ/(τ+1). Consequently, these models, in fact, merge together two different effects in their τ parameter: the “intrinsic efficacy” of the (bound) ligand to activate the receptor, which can lead to partial activation (partial agonism) even with a linear response function, and the “efficacy” of the post-activation amplification downstream from the receptor, which can create fractional response in excess of the fractional occupancy (“receptor reserve”) and can be tissue- or organ-specific. These issues are overcome by the present model, by the introduction of separate efficacy ε and gain γ parameters that are also decoupled form the binding affinity, K
+d.
+
+## Reducibility to Previous and/or Simplified Models
+Finally, another important advantage is that, contrary to previous models, the present one is a true generalized model: simplified forms can be recovered as special cases of its parameters, e.g., ε
+R0 = 0 for no constitutive activity, γ = 1 for no amplification (no receptor reserve), and ε = 1 for full agonism only ( ). When adequate and/or when there is not enough data to support full parametrization, these simplified forms can and should be used on their own. The operational model, and consequently all of its extensions, cannot be reduced back to simpler forms, such as the E
+max model for partial agonism or the Clark equation, as there are no τ values for which Equation 20 converts back to any of them (see Buchwald, for details). Therefore, one cannot transition back to simpler forms despite being in general desirable for complex models to be able to recover simpler ones for special cases of their parameters. In contrast, the present general model can be reduced back to a whole series of consecutively nested simpler forms ( ). For example, ε
+R0 = 0 indicating no constitutive activity, reduces the general four-parameter model ( ) to the three-parameter model used before ( ). Further, if there is no post-receptor amplification, γ = 1, this model ( ) collapses back to an E
+max model for partial agonists with efficiency ε ( ):
+(22) (23)E/Emax=ε⋅1⋅[L](ε⋅1−ε+1)[L]+Kd=ε[L][L]+KdFinally, if only full agonists are considered (ε = 1), all occupied receptors are active ( ), and the corresponding equation collapses back to the well-known Clark equation, which forms the basis of the entire quantitative receptor theory:
+(24) (25)E/Emax=[L][L]+KdConsequently, one can start fitting with the simplest most adequate form corresponding to constrained parameters, and these constrains can be removed sequentially as needed based on the complexity of the data being fitted and the number of data points available. For the simplest case, one can start with ε
+R0 = 0 (no constitutive activity), γ = 1 (no amplification—fractional response overlaps with fractional occupancy), and ε = 1 (full agonism only) corresponding to a Clark model, and then remove these constrains as needed. On the other hand, the general model with all of its parameters released can fit complex cases where the fractional occupancy and the fractional response data are measured separately and do not correspond. In many cases, such data cannot be fit within the formalism of the operational model (e.g., to accommodate measured K
+d values); a number of specific examples will be discussed below for illustration.
+
+## Fit of Complex Fractional Response Versus Fractional Occupancy Data
+In systems with signal amplification (receptor reserve), the response readout from compounds of different efficacies (full, partial, and possibly inverse agonist) can be quite complex due to the intermixing of the effects of partial receptor activation with those of post-receptor signal amplification. This can result in complicated connections between fractional occupancy (f
+occup) and fractional response (f
+resp) that can be fitted only by multi-parameter models. Because the present model uses different parameters for efficacy (ε) and amplification (γ), it can untangle these in a manner not possible with previous models, which intermingled these two effects within the same parameter (τ). Furthermore, with the present model, response data can be connected to independently measured occupancy data in a manner not possible with the operational model so that unified fit for multiple ligands can be obtained for complex cases including a) fractional responses that do not match independently measured fractional occupancies, b) responses measured after partial irreversible inactivation of the “receptor reserve” (Furchgott method), c) fractional responses that are different along distinct downstream pathways despite being initiated by the same receptor (biased agonism), and d) responses with constitutive receptor activity. We will first discuss several examples that do not involve constitutive activity (ε
+R0 = 0) and include a last one with ε
+R0 > 0.
+
+## Response Versus Independently Measured Occupancy for Partial Agonist Series
+This involves cases where detailed response data are measured in a given system in parallel with affinity (K
+d) estimates for a series of compounds that include partial agonists of different efficacies, and fractional responses do not match fractional occupancies. In sufficiently complex cases, the fractional response can either exceed or lag behind the fractional receptor occupancy, sometimes even for the same compound (see for an illustration). After derivation of the corresponding equation, the ability of the present model to connect complex response data to measured occupancy will be illustrated with two sets of data involving α-adrenergic and M3 muscarinic receptors ( and , respectively).
+ 
+
+## Linking Fractional Response to Fractional Occupancy
+With the present model, one can directly link the fractional response, f
+resp = E
+/
+E
+max, to the affinity-determined fractional occupancy, f
+occup, which here is
+(26)foccup=[LRoccup][LRmax]=([LR]+[LR*])[Rtot]=[L][L]+KdTo do so (for the case of no constitutive activity), [L] in the expression of f
+resp (Equation 13) is replaced with its expression as a function of f
+occup, from Equation 26 above, [L]=f
+occup
+K
+d/(1–f
+occup), leading to:
+(27)fresp=εγfoccupε(γ−1)foccup+1=εγε(γ−1)foccupfoccup+1ε(γ−1)Because of its two parameters (ε, γ), the present model allows quite flexible profiles. To avoid overparametrization-related problems, fit for a given response-system should be done using a common gain (γ) parameter across all ligands, and this should allow a good estimate of the overall amplification. At full occupancy (f
+occup = 1), the maximum fractional response is f
+resp,max = εγ/(εγ − ε +1), which can be less than unity for low-efficacy compounds. 
+
+## Illustration I: α-Adrenergic Receptor
+These data involve concentration-dependent responses in a series of imidazoline type α-adrenoceptor agonists (e.g., phenylephrine, oxymetazoline, naphazoline, clonidine, and tolazoline) (Ruffolo et al., ) and are often used as a textbook example to illustrate mismatch between fractional receptor occupancy and response (Rang et al., ). Contractions of isolated rat aorta were measured as response, and receptor binding (K
+d) was assessed separately by two different methods. Response alone can be fitted well by a standard E
+max model (Equation 10; ) or the operational model (Equation 20) giving fits of essentially identical quality (Buchwald, ). However, fit with the operational model results in K values that are different from the measured K
+ds and are quite meaningless for the full agonist phenylephrine (τ = 106.0; logK = −1.53 vs. logK
+d = −6.46) (Buchwald, ). While these models can be used for empirical fitting of the response data, they cannot connect the response to the independently determined binding data (K
+d). This can be done, however, with the present model (Equation 4) without significant loss in the quality of fit while also reducing the overall number of adjustable parameters (n = 6, 1 γ + 5 εs, versus the previous n = 10, 5 compounds, each with a K
+d and E
+max or K
+A and τ) ( ; ). Decreasing the number of parameters is important as model simplification is always an essential consideration (George, ; Myung and Pitt, ; Buchwald, ; Buchwald, ). Hence, the present model can do more than just an empirical fit of the response data and can account for complex cases where f
+resp can either exceed or lag behind f
+occup depending on the ligand ( ). Fit here predicts a reasonable 11.9-fold amplification for this system (γ = 11.88 ± 2.02) and intrinsic efficacies ranging from 1.0 for phenylephrine to 0.009 for tolazoline ( ).
+Direct fit of the f
+resp vs. f
+occup data ( ) with the newly derived Equation 27 here constrained to a single amplification γ parameter for all compounds also results in very good fit and essentially identical ε and γ parameters ( ). The value of the correlation coefficient, r
+2 = 0.995, indicates that the model accounts for 99.5% of the variability in the quite complex response vs. occupancy data. Note that for oxymetazoline the fractional response exceeds the fractional occupancy at low occupancy (f
+occup<50%), but lags behind it at higher ones.
+
+## Illustration II: M3 Muscarinic Receptor
+A second set of data used for illustration involves the M3 muscarinic receptor and a set of seven agonists including acetylcholine, carbachol, methacholine, oxotremorine, pilocarpine, and others (Sykes et al., ). This provides an even more complex test as two different responses were measured at consecutive vantage points after receptor activation: the stimulation of GTP binding to Gα subunits and the subsequent increase in intracellular calcium levels. Occupancy estimates are from pK values obtained from equilibrium competition experiments with N-methyl-[3H]scopolamine, but dynamic measurements were also performed to assess association and dissociation rate constants (k
+on, k
+off), and they resulted in somewhat shifted, but very similar pK values (r
+2 = 0.99) (Sykes et al., ). If all data are placed on the same graph, it is already apparent that the amplification for the two subsequent responses quantified here is quite different: while it has to be close to unity for GTP binding (as K
+ds and K
+obs≈EC50s roughly overlap), it has to be around four orders of magnitude for Ca increase (as the corresponding EC50s are left-shifted by about four log units) ( ). Fit of each of the two concentration-dependent responses with the present model accounts for 98% of the variability in the data ( ). However, because amplification is very strong in the Ca increase assay and all agonists achieve essentially maximum activation, well-defined efficacies cannot be determined from these data alone. Therefore, a unified fit was performed on both responses using only a single set of ε efficacies (one each for the seven compounds) plus two γ gain parameters (one for each response) as adjustable parameters ( ). This confirmed that the two amplifications are indeed very different as the γ values obtained from this overall fit were 2.1 and 10,089 for the GTP and Ca readout, respectively. The overall fit of these two response data sets with the same set of only 9 adjustable parameters was again quite good accounting for 95% of the variability in the data (r
+2 = 0.95; ) with betanachol, acetylcholine, and maybe pilocarpine fitting less well. Obtained relative overall efficacies are summarized in . In agreement with the original observation, which looked at intrinsic activities and log τ values obtained from the operational model (Sykes et al., ), efficacies (ε) obtained here also correlate very well with the pk
+off values (r
+2 = 0.86) while having no correlation with the pK
+d affinities (r
+2 = 0.01). In conclusion, the present model has the potential to connect activity data assessed at different vantage points and involving different amplification steps along the same downstream pathway to affinity and intrinsic efficacy data for complex series of partial agonists.
+
+## Response after Partial Irreversible Inactivation of the “Receptor Reserve” (Furchgott Method)
+Another approach that can result in complex data difficult to fit with single unified models is the method of irreversible receptor inactivation introduced by Furchgott for the quantitative assessment of “receptor reserve” (Furchgott, ; Furchgott and Bursztyn, ). For receptors that can be irreversibly inactivated so that concentration-response functions can be established from the same preparation before and after (partial) inactivation, this approach allows the simultaneous estimation of affinity and efficacy. In the Furchgott approach, it is assumed that application of the irreversible inhibitor reduces the number of total receptors to a q fraction of the original, [Rtot]’=q[Rtot], thereby reducing the response-creating “stimulus” generated by a given ligand concentration [L] by the same q factor. Since the observed response is created via the same transduction function from the stimulus input, the concentrations [L] and [L]’ that create the same effect pre- and post-inhibition have to create the same stimulus. Assuming that the stimulus
+S is proportional to the concentration of occupied receptors [LR] (S = ϵ
+F[LR]) and that there is a standard hyperbolic connection between ligand concentration [L] and occupied receptors, this leads to
+(28)[Rtot][L][L]+Kd=q
+[Rtot][L]′[L]′+KdAfter some rearrangements, this results in a linear relationship between the reciprocals of equiactive concentrations that forms the basis of the Furchgott method (Furchgott, ; Furchgott and Bursztyn, ; Jenkinson, ):
+(29)1[L]=1−qqKd+1q⋅1[L]′The slope and intercept of this line allow the simultaneous determination of q (fraction of receptor inactivated) and K
+d (receptor affinity). The Furchgott approach makes no assumption regarding the nature of the transduction function, just that it stays the same after partial inactivation of Rtot. Since its introduction, the method has been applied in several cases with various ligand series typically for GPCRs, such as the muscarinic acetylcholine (Furchgott and Bursztyn, ; Harden et al., ; Eglen and Whiting, ), opioid (Chavkin and Goldstein, ; Adams et al., ; Fox and Hentges, ), dopamine (Meller et al., ), 5-hydroxytryptamine (5-HT) (Meller et al., ), and A1-adenosine (Dennis et al., ; Morey et al., ) receptor systems.
+
+## Incorporation of Receptor Inactivation
+Within the framework of the present model, there is a specific connection between the stimulus input, represented by the concentration of active receptors [LR*], and response as shown by Equation 12. The loss of total receptors available for ligation due to irreversible inhibition, [Rtot]’=q[Rtot], leads to a corresponding loss in the [LR*] related stimulus. From the definition of the efficacy ε (Equation 9), the concentration of active receptors is
+(30)[LR*]=[Rtot]ε[L][L]+KdAfter inactivation leaves only a q fraction of Rtot, this becomes
+(31)[LR*]′=q[Rtot]ε[L][L]+KdAssuming that inactivation does not affect the post-receptor signal amplification function (Equation 12), which remains the same γ-dependent function, and only the input stimulus is altered, the fractional response after inactivation will be
+(32)E′/Emax=Λ′Λ′+γ−1;Λ′=[LR*]′[Rtot]−[LR*]′After some transformations, this leads to:
+(33)E′/Emax=qεγ[L](qεγ+1−qε)[L]+KdBy comparing this to the expression of response before inactivation (Equation 4), it can be seen that within the framework of the present model, a q-fold decrease in Rtot translates into an apparent q-fold reduction of efficacy, ε’=qε. Hence, the model can be used with this formalism of “fractional efficacy” ε’ to fit partial inactivation data obtained in Furchgott type experiments; two examples will be discussed below.
+A notable problem with the receptor reserve concept is that it was originally defined as the fraction of receptors not required to achieve maximal response (for a full agonists) (Neubig et al., ). However, because the transduction functions linking response to occupancy are always of asymptotic nature (i.e., they asymptotically approach a limited maximum response as ligand concentration increases), in most cases, virtually all receptors are needed for maximum response, but often, only a relatively small fraction is needed for an almost maximal response. Hence, the “reserve” or, in other words, the discrepancy between the measured f
+resp and f
+occup varies strongly depending on where (i.e., at what response level) it is assessed. As the half-maximal point is often used as a reference point, a frequently used way to express how much “reserve” or “spare” receptors are is to estimate the percent of receptors occupied that already produces half-maximal response (e.g., (Furchgott and Bursztyn, ; Kenakin and Cook, ; Meller et al., ; Adham et al., ; Chen et al., ; Morey et al., ; Kenakin, )). For the present model, this can be obtained from the reverse of Equation 27 linking f
+resp and f
+occup:
+(34)foccup=frespεγ−ε(γ−1)frespHence, in a system with a gain parameter γ, a ligand with efficacy ε will produce half-maximal effect (f
+resp = 0.5) at
+(35)foccupfresp = 50%=1ε(γ+1)For a compound that produces full activation at the receptor (ε = 1), half-maximal effect is produced at f
+occup = 1/(1 + γ). This means that in a system with 10-fold amplification (γ = 10), half-maximal response is produced at a receptor occupancy of 9.1%, while in a system with 100-fold amplification, it is produced already at 0.99% occupancy. For agonists with lower efficacies (ε < 1), these values will be different even in cases where the amplification is strong enough. For ligands with low enough efficacies, half-maximal response might not even be achieved at all, as γ + 1 > 1/ε is needed to have f
+occup<1 in Equation 34. This interplay between efficacy and amplification can explain why the discrepancy between f
+resp and f
+occup can be different for different compounds even if tissue response (amplification) remains the same—a problem that confounded these studies and the notion of receptor reserve for a long time (Kenakin, ).
+
+## Illustration III: Dopamine Receptor
+A first illustration is provided with a detailed data set where amplification could be estimated with two different approaches. Data are for a series of compounds acting at the dopamine receptor, which can be inhibited by the irreversible antagonist N-ethoxycarbonyl-2-ethoxy-1,2-dihydroquinoline (EEDQ) (Meller et al., ). In vivo dose response curves were generated in rats for the dopamine agonist reversal of γ-butyrolactone-induced striatal L-DOPA (L-3,4-dihydroxyphenylalanine) accumulation for four compounds: N-propylnorapomorphine (NPA), EMD 23,448, and (+/–)3-(3-hydroxyphenyl)-N-n-propylpiperidine [3-PPP(+) and 3-PPP(–)]. Data from one set of experiments following the Furchgott method indicates that response to NPA follows a typical hyperbolic response and is dose-dependently inhibited by EEDQ ( ). Fit with the present model (Equation 33, using a single K
+d for NPA and a single γ for the response pathway) is very good (r
+2=0.99) and suggests an about 43-fold signal amplification (γ=42.6±65.1) with EEDQ caused fractional inhibitions (q) estimated from the ε values that are in good agreement with those obtained in the original paper (Meller et al., ) using the classic Furchgott approach (Equation 29) ( ). The common K
+d of the fit (19.0 μg/kg) also agrees well with that obtained via regression from the Furchgott approach for the highest EEDQ dose (24.4 μg/kg).
+ Next, the data obtained in this assay for all four compounds, but without EEDQ-mediated inhibition can also be fitted with the present model using the f
+resp vs. f
+occup method (Equation 27) as applied previously ( and ). Fractional responses plotted as a function of f
+occup (with occupancies calculated from K
+ds values derived originally with the Furchgott method; Figure 7 in Meller et al., ) were fitted directly with the present model using Equation 27 with a single γ value. This also results in very good overall fit that accounts for as much as 95% of the overall variability in these data (r
+2=0.95) ( ). The relative efficacies as compared to NPA as a full agonist obtained here are 0.19, 0.15, and 0.04 for EMD 23,448, 3-PPP(+), and 3-PPP(–) ( ), and they match very well those obtained originally by the Furchgott approach: 0.19, 0.12, and 0.05 (Meller et al., ). Finally, the two gain parameters obtained from two different data sets for this dopamine receptor system, γ=42.6±65.1 from the partial irreversible inhibition and γ=28.0±51.5 from the comparative activity of different agonists are consistent enough to support the applicability of the model here.
+
+## Illustration IV: Muscarinic Receptor
+A second illustration is provided with an example that has been used to illustrate the capabilities of the τ-based operational model to explain unusual cases where full agonists become partial ones following receptor inactivation and even the order of apparent potencies changes (Kenakin, ; Kenakin and Christopoulos, ). Data are contraction of guinea-pig ileum following activation of muscarinic receptors with carbachol and oxotremorine in normal tissue and after the inactivation of muscarinic receptors by controlled alkylation with phenoxybenzamine (PHB) at two different strengths (10 μM for 10 min and 3 μM for 20 min) (Kenakin, ). With the present model, unified fit of all data can be achieved using a single γ for this pathway, single K
+ds for carbachol and oxotremorine, and the same q values for the PBA-induced inactivation for both compounds ( , ). This ε- and γ-based fitting can not only account for the apparent reversal of potencies, but even results in slightly better fit than that obtainable with the operational model and with more meaningful parameters (Buchwald, ). Fit indicates a strong amplification (≈21,000) that is then reduced more than a thousand-fold by alkylation and a 26-fold higher affinity (logK
+d of –6.04 vs. –4.62), but a 56-fold less efficacy (ε of 0.018 vs. 1.0) for oxotremorine as compared to carbachol ( ). These K
+d estimates are in very good agreement with those obtained for guinea pig ileum in a different work by the Furchgott method (–5.83 and –4.52 for carbachol and oxotremorine, respectively) (Eglen and Whiting, ) or measured for the M3 receptor in another work (–5.61 and –4.09) (Sykes et al., ).
+ 
+
+## Biased Agonism
+For receptors that can signal through several downstream pathways simultaneously, such as GPCRs that are now known to couple to multiple G proteins as well as β-arrestins, it is conceivable that some ligands show differences in their ability to activate these pathways, even if they initiate from the same receptor, resulting in what has been designated as biased agonism (stimulus bias, functional selectivity, or ligand directed signaling) (Kenakin, ; Rajagopal et al., ; Kenakin and Christopoulos, ; Shonberg et al., ; Stahl et al., ; Ehlert, ; Michel and Charlton, ; Smith et al., ; Wootten et al., ). It is generally assumed that this could happen because such receptors can assume multiple conformational states that differ in their ability to couple to the various intracellular effectors, and ligands can show preference in stabilizing some of these conformations leading to different outcomes. However, quantifying such signaling bias is difficult, and there are increasing doubts whether it is even worthwhile for most cases (Onaran et al., ; Kenakin, ). The most widely used quantification tools rely on ΔΔlog(τ/K) or ΔΔlog(E
+max/EC50) versus a selected reference compound (Onaran et al., ; Michel and Charlton, ). In light of the formalism of the present model, a main problem is that due to the intermix of partial agonism at the receptor followed by signal amplification, fractional responses along different pathways are nonlinearly connected even at similar efficacies, and therefore, different approaches at quantification can yield different results.
+
+## Quantifying Bias With the Present Model
+The present model might allow a better and more clearly parametrized approach. If it can fit the data, it allows the clear separation of pathway-specific differences in amplification from those in efficacies, which then can serve as cleaner indications of bias without a need for a reference agonist. If one assumes that the amplification for each signaling pathway is the same for all ligands (i.e., γk for pathway k, k = 1…l, is the same for all ligands Li, i = 1…j) then biased agonism can be suspected for ligands that show significantly different efficacies for two (or more) pathways initiating from the same receptor (i.e., ε
+im vs. ε
+in for the efficacy of ligand i, Li, for pathways m versus n). Hence, if receptor occupancy (binding affinity) data are available, one approach with the present model is to fit the data for each pathway with Equation 4 (Equation 2 if there is constitutive activity), and then compare efficacies between pathways. Bias is likely to be present for ligands with an efficacy ratio significantly different from 1. For cases where receptor occupancy data are available, the ability of the present model to connect (fractional) responses to (fractional) occupancy data (via Equation 4 or 27) provides a clear advantage, as it allows first an assessment of the adequacy of the model (i.e., whether unified gain parameters can provide adequate fit and well-defined efficacies for each response pathway) and then a detection of possible bias based on the obtained efficacy values. This is not possible with previous models, such as those based on the operational model, as they cannot incorporate experimental K
+d values in their assessments. A modification of the operational model that uses experimental K
+d values to constrain the regression has been proposed for bias detection by Rajagopal and co-workers (Rajagopal et al., ; Onaran et al., ). The bias quantification proposed here is in fact most similar to this one, since the εγ values of the present model will be very similar to the τ values obtained with this modified operational model, especially at large γ amplifications where εγ ≈ εγ − ε (cf. Equations 4 and 20). Under such conditions, comparing these τ ratios (Rajagopal et al., ; Onaran et al., ) is essentially the same as comparing ε ratios (as γ values are fixed for pathways). However, this operational model based approach cannot fit full agonists in systems with low amplification, where K
+d and K
+obs are similar (e.g., ), because full agonism can only be achieved with large τ’s so that K
+obs = K
+d/(τ + 1) will be shifted away from K
+d. This limitation is avoided with the present parametrization.
+If binding data are lacking, one can use fitted K
+d
+’s enforcing a single set of values for all pathways. However, this way well-defined parameters are difficult to obtain, and simultaneous fit cannot be done for multiple pathways and ligands in commercial software such as GraphPad Prism. An alternative is to use the present model to directly fit the data in so-called bias plots (Gregory et al., ; Kenakin and Christopoulos, ) that are, in fact, relative response plots showing one response as a function of another one produced at the same ligand concentration (see, e.g., ). To derive the function directly connecting fractional responses f
+resp1 and f
+resp2 for the present model generated at the same ligand concentrations (hence, at the same fractional occupancies), f
+occup will be expressed from f
+resp for one of the pathways, and then used in the expression of the other. From Equation 27 (for pathway 2)
+(36)fresp2=ε2γ2foccupε2(γ2−1)foccup+1and its reverse (Equation 34) for pathway 1
+(37)foccup=fresp1ε1γ1−ε1(γ1−1)fresp1one can link f
+resp2 to f
+resp1 directly by eliminating f
+occup:
+(38)fresp2=ε2γ2fresp1ε1γ1+[ε2(γ2−1)−ε1(γ1−1)]fresp1 This results in various curvilinear relative response plots such as those shown in generated with the parameters as indicated [intended to resemble of the general review (Kenakin and Christopoulos, )]. Note that for pathways that have different amplifications (γ
+1≠γ
+2), the relative response plots are still curvilinear even for ligands that do not show bias (i.e., balanced or “non-biased” agonists that have the same efficacy for both pathways, ε
+1=ε
+2):
+(39)fresp2=γ2fresp1γ1+(γ2−γ1)fresp1Because of this nonlinearity, bias quantification is difficult especially for pathways that have considerably different amplifications. If the present model can fit the data, it allows the clear separation of pathway-specific differences in amplifications from those in ligand efficacies, which can then serve as indication of bias. Most biased agonism assessments published so far include only response measurements and no binding data; an example that includes affinity assessments too is discussed below for illustration. Due to the additional binding affinity data, such sets are better suited to judge the adequacy of the present model (i.e., whether unified gain parameters can provide adequate fit for each response pathway), and then detect actual bias based on the obtained efficacy values.
+
+## Illustration V: μ-Opioid Receptor
+Biased signaling at the μ-opioid GPCR is of obvious interest for the possibility of achieving improved analgesia while reducing the unwanted side effects of opiate therapeutics, and oliceridine, a μ-opioid receptor (MOR) biased agonist, is one of the first products showing the clinical promise in developing biased agonists (Wadman, ). To illustrate the fitting of biased agonism data with the present model, we will use data from a recent detailed study with a series of ligands including morphine, endomorphin, met-enkephalin, DAMGO (L-tyrosyl-D-alanyl-glycyl-N-methyl-L-phenylalanyl-glycinol), and Pfizer standard-1 (2-(L-tyrosylamino-1-[N-acetly-L-phenylalanyl)-amino]-2-methylpropane hydrochloride) in cAMP and β-arrestin2 assays with the wild-type and two mutated μ-opioid receptors in which binding affinity estimates were also obtained using a [3H]diprenorphine competition assay (Hothersall et al., ).
+Fit with the present model ( ) indicates that while there is essentially no amplification for the β-arrestin2 response (γ
+2 ≈ 1), there is a strong amplification for the cAMP response (γ
+1 = 62.0 ± 53.7) ( ). This is in agreement with the general observation that there is usually much stronger amplification in the G-protein mediated pathway than in the β-arrestin mediated one (Ehlert, ). Overall, quite good fits can be obtained accounting for 97% and 96% of the variability in the data for the cAMP and β-arrestin2 assays, respectively, even though the K
+d-based model struggles somewhat to fit the data for DAMGO and met-enkephalin in the β-arrestin2 assay ( ). Part of the problem is more evident in the corresponding fractional response versus occupancy plot ( ), where it is clear that the f
+resp vs. f
+occup plot for these two compounds has an unusual upward curvature unsuitable to fit with the present model (Equation 27). Because of the large difference in the amplifications (>60-fold), the relative response (“bias”) plot is highly curved even for balanced (non-biased) agonists ( ). This makes the assessment of bias difficult, as even five-fold differences in the efficacies for activation of the receptor pathways (ε
+1 vs ε
+2) can be easily overshadowed by the differences in amplifications (γ
+1 vs γ
+2). Due to the amplification in cAMP, the corresponding ε values cannot be well determined and have significant uncertainties when fitting directly the relative response plot with Equation 38 ( ); hence, without binding information (K
+ds), there is not enough data to determine bias in a well-defined manner. Including the binding data, and fitting with the K
+d-based model either directly (Equation 4; ) or via the response vs occupancy data (Equation 27; ) gives better defined efficacies ( ). Bias calculated this way as the ratio of the two efficacies (ε
+cAMP/ε
+β-arrestin2) ranges from 0.281 ± 0.235 for DAMGO to 1.549 ± 0.525 for endomorphin-2. Of these, only that for DAMGO, a compound sometimes used as reference (Thompson et al., ), can be considered as indicating significant bias as it is the only one where the ratio ±2SD does not include 1, suggesting possible bias toward β-arrestin ( ). Note, however, that because of the somewhat poorer fit of the K
+d-based model of the β-arrestin response for DAMGO, this conclusion should be treated with some caution. Further, in agreement with the original publication, this bias is not significant compared to Pfizer standard-1 as reference, since that compound also has a slight bias toward β-arrestin (0.783 ± 0.662).
+ 
+
+## Constitutive Activity
+All examples discussed so far involved applications of the three-parameter model ( ) that assumes no constitutively active receptors (i.e., no ligand-free R* form). As a simple illustration of the ability of the present general model to fit responses obtained from systems with constitutive activity, a case with opioid receptors of different constitutive activity is included below.
+
+## Illustration VI: μ- and δ-Opioid Receptors
+A set of fractional receptor-G protein coupling (FRC) data assessed via a cell-free bioluminescence resonance energy transfer (BRET) assay for δ- and μ-opioid receptors (DOR, MOR) with different opioid compounds that share a peptidomimetic scaffold (Vezzi et al., ) was fitted with the present model assuming constitutive activity, but no amplification (ε
+R0>0, γ=1; , Equation 19). This is included simply to illustrate the ability of the model as is to fit such data with non-zero baseline ( ) and to reproduce fitting with classic three-parameter (top, bottom, ED50) models. In both cases, very good fits were obtained that account for more than 99% of the variability in the data (r
+2=0.991) despite the wide range of ligand efficacies ( ). Furthermore, the fitted curves indeed fully overlapped with those obtained with a standard three-parameter log agonist vs. response model (E
+max with adjustable bottom); they are both shown but are indistinguishable in . With the present model, ε
+R0 values for each of the receptors were assumed to be shared values across the ligand series (as they are receptor characteristics) resulting in values of 0.464 ± 0.007 and 0.087 ± 0.008 for the δ- and μ-opioid receptors, respectively. Note that amplification may be present, but its magnitude cannot be determined from these data alone; hence, γ=1 was used. An illustration of the effects of different amplifications (γ) on the response generated by a receptor with constitutive activity with the present model (Equation 16) for a set of ligands of various efficacies (ε
+R0, ε) is included in .
+ 
+
+## Conclusion
+In conclusion, a general two-state SABRE receptor model has been proposed here together with corresponding quantitative forms ( ). By using separate parameters for binding affinity (K
+d), activation efficacy (ε), and signal gain or amplification (γ), it can account for complex fractional response versus occupancy data while also maintaining an intuitive nature for its parameters. Contrary to the operational model, it can be reduced back to consecutively nested simpler models, such as the Clark equation or its E
+max version for partial agonists, via special cases of its parameters (e.g., γ=1 for no amplification or ε=1 for no partial agonism). This provides a straightforward bridge to such simplified cases from a full two-state receptor model as well as to their corresponding basic equations that are more suitable for fitting by nonlinear regression. The model can connect receptor response and binding data via its efficacy and gain parameters, and several complex cases where they were measured separately were included for illustration including data from partial agonist series, partial receptor inactivation (Furchgott method), biased agonism, and constitutive activity.
+
+## Author Contributions
+PB is the sole author. He developed the concept, performed the calculations and data fittings, and wrote the manuscript.
+
+## Funding
+Part of this work was supported by a grant from the National Institutes of Health National Institute of Allergy and Infectious Diseases (1R01AI101041, PI: PB).
+
+## Conflict of Interest Statement
+The author declares that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+1This overcomes a problem of the operational model, namely that the effect E cannot reach its actual asymptotic limit via the hyperbolic function used there, E/E
+max = [LR*]/([LR*] + Kτ), even when all receptors are active ([LR*] = [Rtot]). The reason is that its input, [LR*], can only increase up to [Rtot] and not to infinity so that its actual maximum is [Rtot]/([Rtot] + Kτ) = τ/(τ + 1), which for low τ (high Kτ) values can be only a relatively small fraction. For a graphical illustration of this, see Fig. A2 in .
+2Except for the typical notation used, the mathematical form of the operational model is identical with that of the minimal two-state (del Castillo-Katz) model ( ; ). In Jenkinson’s description, the τ used here was denoted as E ( ).
+3Note that the operational model not only cannot accommodate experimentally determined K
+ds into its fitting, but if f
+resp is expressed as a function of f
+occup via the same method (starting from Equation 20), a simple hyperbolic function is obtained that cannot give any insight into the response of the system as a whole (as it involves only ligand-related individual τ parameters).
+
+## Supplementary Material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fphar.2019.00605/full#supplementary-material
+
+Data Sheet S1A Detailed derivation of the main equation for the present model, , and .
+Click here for additional data file.
+Data Sheet S2A GraphPad Prism file implementation of the present model.
+Click here for additional data file.

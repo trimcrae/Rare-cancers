@@ -1,0 +1,797 @@
+ACS Pharmacol Transl SciACS Pharmacol Transl Sci3799acsptsptACS Pharmacology & Translational Science2575-9108American Chemical SocietyPMC8009102PMC8009102.2800910282043253413675710.1021/acsptsci.0c002152ArticleA Blueprint for High Affinity SARS-CoV-2 Mpro
+Inhibitors from Activity-Based Compound Library Screening Guided by
+Analysis of Protein Dynamics
+http://orcid.org/0000-0002-0730-6796GossenJonas AlbaniSimone HankeAnton JosephBenjamin P. BerghCathrine http://orcid.org/0000-0001-8771-1865KuzikovMaria CostanziElisa ManelfiCandida StoriciPaola GribbonPhilip BeccariAndrea R. TalaricoCarmine http://orcid.org/0000-0002-4016-227XSpyrakisFrancesca LindahlErik http://orcid.org/0000-0002-1740-8390ZalianiAndrea http://orcid.org/0000-0002-9010-0149CarloniPaolo http://orcid.org/0000-0001-5951-8670WadeRebecca C. http://orcid.org/0000-0003-0200-1712MusianiFrancesco http://orcid.org/0000-0002-4687-6572KokhDaria B. http://orcid.org/0000-0002-2032-4630RossettiGiulia aInstitute
+for Neuroscience and Medicine (INM-9), Forschungszentrum
+Jülich, Jülich, 52425, GermanybInstitute
+for Molecular Neuroscience and Neuroimaging (INM-11), Forschungszentrum Jülich, Jülich, 52425, GermanycInstitute
+for Advanced Simulations (IAS-5) “Computational biomedicine”, Forschungszentrum Jülich, Jülich, 52425, GermanydFaculty of
+Mathematics, Computer Science and Natural Sciences, RWTH Aachen, Aachen, 52062, GermanyeMolecular
+and Cellular Modeling Group, Heidelberg
+Institute for Theoretical Studies (HITS), Schloss-Wolfsbrunnenweg 35, Heidelberg, 69118, GermanyfInstitute
+of Pharmacy and Molecular Biotechnology (IPMB), Heidelberg University, Im Neuenheimer Feld 364, Heidelberg, 69120, GermanygScience for
+Life Laboratory & Swedish e-Science Research Center, Department
+of Applied Physics, KTH Royal Institute
+of Technology, Stockholm, 11428, SwedenhDepartment
+of Screening Port, Fraunhofer Institute
+for Translational Medicine and Pharmacology ITMP, Schnackenburgallee 114, Hamburg, 22525, GermanyiElettra-Sincrotrone
+Trieste S.C.p.A., SS 14-km 163,5 in AREA Science Park, Basovizza,
+Trieste, 34149, ItalyjDompé
+Farmaceutici SpA, Via Campo di Pile, L’Aquila, 67100, ItalykDepartment
+of Drug Science and Technology, University
+of Turin, via Giuria
+9, Turin, 10125, ItalylScience
+for Life Laboratory, Department of Biochemistry and Biophysics, Stockholm University, Solna, SE-106 91, SwedenmZentrum
+für Molekulare Biologie der University Heidelberg, DKFZ-ZMBH
+Alliance, INF 282, Heidelberg, 69120, GermanynInterdisciplinary
+Center for Scientific Computing (IWR), Heidelberg
+University, INF 368, Heidelberg, 69120, GermanyoLaboratory
+of Bioinorganic Chemistry, Department of Pharmacy and Biotechnology, University of Bologna, Bologna, 40126, ItalypJülich
+Supercomputing Center (JSC), Forschungszentrum
+Jülich, Jülich, 52425, GermanyqDepartment
+of Hematology, Oncology, Hemostaseology, and Stem Cell Transplantation, RWTH Aachen University, Aachen, 44517, Germany*Email: g.rossetti@fz-juelich.de.1603202111062021433838351079109517122020160320223003202130082023© 2021 The Authors. Published
+by American Chemical Society2021The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).10.1021/10.1021/acsptsci.0c00216 
+The SARS-CoV-2 coronavirus outbreak continues to spread at a rapid
+rate worldwide. The main protease (Mpro) is an attractive target for
+anti-COVID-19 agents. Unexpected difficulties have been encountered
+in the design of specific inhibitors. Here, by analyzing an ensemble
+of ∼30 000 SARS-CoV-2 Mpro conformations from crystallographic
+studies and molecular simulations, we show that small structural variations
+in the binding site dramatically impact ligand binding properties.
+Hence, traditional druggability indices fail to adequately discriminate
+between highly and poorly druggable conformations of the binding site.
+By performing ∼200 virtual screenings of compound libraries
+on selected protein structures, we redefine the protein’s druggability
+as the consensus chemical space arising from the multiple conformations
+of the binding site formed upon ligand binding. This procedure revealed
+a unique SARS-CoV-2 Mpro blueprint that led to a definition of a specific
+structure-based pharmacophore. The latter explains the poor transferability
+of potent SARS-CoV Mpro inhibitors to SARS-CoV-2 Mpro, despite the
+identical sequences of the active sites. Importantly, application
+of the pharmacophore predicted novel high affinity inhibitors of SARS-CoV-2
+Mpro, that were validated by in vitro assays performed
+here and by a newly solved X-ray crystal structure. These results
+provide a strong basis for effective rational drug design campaigns
+against SARS-CoV-2 Mpro and a new computational approach to screen
+protein targets with malleable binding sites.
+
+conformational spacedruggabilityMpromolecular dynamics simulationvirtual screeningprotein binding site flexibilitySARS-CoV-2â EXaSCale smArt pLatform Against paThogEns for Corona Virusâ Exscalate4CoVâ NA101003551pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9pt0c00215document-id-new-14pt0c00215ccc-priceIn December 2019, a new coronavirus
+(CoV), belonging to the clade b of the Betacoronavirus viral genus,
+caused an outbreak of pulmonary disease in the Hubei province in China. , In the first months of 2020, the new pandemic spread globally and
+it is still continuing. The virus shares more than 80% of its genome
+with that of the SARS coronavirus discovered in 2002 (SARS-CoV). , Hence it has been named severe acute respiratory syndrome-coronavirus
+2 (SARS-CoV-2) by the International Committee on Taxonomy of Viruses.
+Interfering with viral replication is a promising strategy of treatment.
+In this context, the chymotrypsin-like proteinase (often referred
+to as the main protease, Mpro hereafter) is an excellent pharmaceutical
+target. , It does not depend on host immunogenic responses,
+and it is essential for generating the 16 nonstructural proteins,
+critical to the formation of the replicase complex.
+Mpros are highly conserved enzymes across CoVs. , SARS-CoV
+Mpro was already suggested as one of the main drug targets in the
+pandemic associated with that virus, about 15 years ago. − Inhibitors of proteases (e.g. aspartyl protease) are also common
+drugs used in the clinic against other deadly viruses, e.g. HIV-1. 
+The SARS-CoV Mpro active form is a homodimer ( A), with each monomer consisting
+of N-terminal, catalytic, and C-terminal regions ( B). Mpros were shown to process polyproteins on diverse cleavage sites,
+using a cysteine/histidine catalytic dyad: the histidine (His41 in SARS-CoV-2) forms a hydrogen bond (Hbond)
+with a water molecule that, in turn, interacts with an aspartate (Asp187)
+and a histidine (His164) side chains. Asp187 is further stabilized
+through a salt-bridge with a nearby arginine (Arg40, C). In this way, His41 can
+act as a base, extracting a proton from the catalytic cysteine (Cys145)
+side chain and activating it for the nucleophilic attack that cuts
+the polypeptide.
+ SARS-CoV-2 Mpro shares 96% sequence identity with Mpro from SARS-CoV
+(Supporting Information (SI), section S1,
+Figure S1A). Twelve residues differ between both Mpros, and only one,
+namely, Ser46 in SARS-CoV-2 (Ala46 in SARS-CoV), is located at the
+mouth of the active site cavity (Figure S1B). The binding sites share 100% of sequence identity (Figure S1A). Thus, exploiting the known libraries
+of SARS-CoV Mpro inhibitors has been a strategy followed by many research
+groups. Unfortunately, most SARS-CoV Mpro inhibitors with good (nM)
+activity against SARS-CoV Mpro in vitro and in cell-based
+assays, exhibited limited (sub-μM) potency against the protein
+from SARS-CoV-2 in enzymatic assays, and low-μM IC50 values (4–5 μM) in cell-based assays. , 
+A similar scenario has emerged from the virtual screening (VS)
+of Mpro inhibitors toward SARS-CoV-2. Indeed, none of these strategies,
+(i) repurposing of SARS-CoV drugs for SARS-CoV-2, , (ii) Deep Docking trained on SARS-CoV Mpro inhibitors, (iii) libraries of the other SARS proteases, − and (iv) clinically approved drugs for other SARS Mpros or other
+similar proteases, − have led so far to clinical advances. Because only 12 residues,
+far from the binding site, differ between SARS-CoV Mpro and SARS-CoV-2
+Mpro, the mutation of distant residues can substantially contribute
+to the binding site plasticity and to the ligand binding through allosteric
+regulation. The inability to identify
+Mpro inhibitors for SARS-CoV-2 might also be due to the short amount
+of time passed since it is rise to urgency. Recently, however, it
+has been shown that the dipeptide prodrug GC376, and its parent compound
+GC373 inhibit the two proteases with IC50 values in the
+nanomolar range. This suggests that,
+despite the intrinsic and significant differences between the two
+Mpros, common binding features against some classes of high-affinity
+ligands are retained.
+Molecular dynamics (MD) simulations provided hints to address this riddle: they showed that the SARS-CoV
+Mpro active sites display major differences in both shape and size.
+In particular, while both Mpros reduce their accessible volume upon
+inhibitor binding by approximately 20%, the maximal volume of the holo SARS-CoV Mpro active site is over 50% larger than that
+of SARS-CoV-2. In addition, the accessibility of the binding hotspots
+(i.e., the key residues for substrate binding) and the flexibility
+of one of the two loops delimiting the binding pockets (ASL1 in B) differs between
+the two Mpros. The simulations indicate
+that the binding sites of the two Mpros are dynamically diverse and
+that ligand binding can impact them differently. 
+Therefore, transferable binding features across Mpros, as well
+as unique ones for SARS-CoV-2, are difficult to predict: the exceptional
+flexibility and plasticity of the binding site is here coupled with
+large adjustments of the cavity shape in response to the binding of
+an inhibitor. This clearly emerges from an analysis of the SARS-CoV-2
+Mpro binding pocket’s conformational changes (performed here)
+across the majority of the 196 X-ray crystal structures available
+in the Protein Data Bank up to September 30th 2020. , − This flexibility makes a rational drug-design approach
+extremely challenging: , the screening potential of Mpro
+conformational space is too large, too flexible, and unpredictable,
+and the actual available binding space can differ significantly from
+ligand to ligand. , , 
+It is therefore imperative to identify the relationship among SARS-CoV-2
+conformational space, flexibility, druggability, and ligand binding.
+Here, we analyzed the mentioned 196 X-ray crystal structures, along
+with about ∼31 000 conformations extracted, not only
+from the longest (100 μs) MD simulation of SARS-CoV-2 Mpro so
+far, but also from the binding site enhanced
+sampling simulations carried out here. Among these structures, we
+selected ∼30 000 conformations for which we systematically
+performed druggability analyses on the binding sites. The top 216
+druggable structures were selected for virtual screening of a sample
+library of ∼13 500 ligands. The latter includes marketed
+drugs and compounds under development, the internal chemical libraries
+from Fraunhofer Institute and the Dompè pharma company, as
+well as the so-far known inhibitors of SARS-CoV Mpro from literature.
+We redefine here the protein druggability in a new way exploiting
+the chemical space shaped by the different configurations of the binding
+site upon virtual screening. Specifically, we identified a consensus
+protein–ligand interaction fingerprint across the chemical
+space and the corresponding SARS-CoV-2 Mpro unique structure-based
+pharmacophore. The latter was able to identify known nM-binders (IC50 ≤ 400 nM) of SARS-CoV-2 Mpro, distinguish these from
+micromolar inhibitors, and to identify Myricetin and Benserazide as
+novel nM inhibitors. The prediction was validated by an enzymatic
+activity binding assay. The calculated binding mode of Myricetin is
+in excellent agreement with a recently solved X-ray crystal structure
+(Kuzikov et al., submitted). The active pharmacophore also provides
+a rationale for the variability in ligand affinity of currently known
+SARS-CoV ligands and for the general lack of transferability of SARS-CoV
+ligands to SARS-CoV-2, shedding light on the complexity, plasticity,
+and druggability of SARS-CoV-2 Mpro.
+
+## Results
+and Discussion
+To understand how Mpro’s binding site conformation affects
+the druggability and the chemical space of selected binders, we considered
+∼30 000 Mpro conformations spanning different binding
+site arrangements and flexibility obtained from different sources
+( ). These include
+the following:(i)All the X-ray crystal structures deposited
+to date of apo and holo SARS-CoV-2
+Mpro. After analyzing all of them, we selected 43 structures for follow-up
+analysis. These exhibit a RMSD lower than 1 Å with respect to
+the excluded ones. Therefore, they can be considered a good representative
+ensemble of the overall deposited SARS-CoV-2 X-ray crystal structures
+(“X-ray ensemble” hereafter, see Table S1).
+(ii)Two sets of MD ensembles: (a) The
+“MD10000” ensemble, that is 10 000 frames, taken
+every 10 ns, of a 100 μs-long MD of apo Mpro
+from D. E. Shaw Research and (b) the
+“MSM ensembles”, two collections of 30 and 40 representative
+conformations extracted from a three-state and a four-state Markov
+state model (MSM), respectively. The MSM analysis was performed on
+the same 100 μs-long MD trajectory (see section S2, Figure S2). These are included to identify conformations
+representing structural changes potentially related to binding.
+(iii)About 22 000 conformations
+obtained with two enhanced sampling methods implemented in the TRAPP
+(TRAnsient Pockets in Proteins) web server: Enhanced sampling by Langevin Rotamerically Induced Perturbation
+(LRIP) and constraint-based sampling
+by tConcoord referred to as “LRIP/tC
+ensembles” hereafter. These ensembles were derived using the
+X-ray crystal structures of the protein in complex with the inhibitor
+N3 (PDB ID 6LU7) and with another α-ketoamide inhibitor (PDB ID 6Y2G).
+
+ 
+
+## Binding
+Site Features and Druggability
+We calculated specific binding
+site parameters for the ensembles described above (see SI section S3 for the complete list). We discuss
+here the volume, and the hydrophobicity, because they turn out to
+be key descriptors of the SARS-CoV-2 Mpro active site shape and druggability
+(see below). The latter was evaluated with the “druggability”
+scores: SiteScore and Dscore, as derived from the SiteMap tool implemented in the Schrödinger suite
+2019–4 (Schrödinger, LLC, New York, NY, 2019) and the
+CNN and LR (Convolution Neural Network and Linear Regression) druggability
+models as implemented in the TRAPP package. Although TRAPP and SiteMap use different approaches
+for computing the pocket characteristics (3D grid-based versus residue-based),
+the trends in the computed parameters are similar.
+From this
+analysis, we conclude the following:(i)The binding site volumes computed
+with TRAPP for the holo X-ray crystal structures
+are distributed over a slightly larger and more variable range of
+values than that for the apo X-ray crystal structures
+( A, Figure S3). The distribution of volumes is higher
+in the MD and LRIP/tC ensembles with respect to the X-ray. Indeed,
+the loop region shows a high amount of flexibility (see Figure S4 and paragraph below). The difference
+in volume distributions in the crystal structures could be caused
+by crystal packing as we show in SI section
+S3.2 (Table S3, Figure S5).
+During the MD simulations, on the
+other hand, the large range and variability in binding site volume
+are associated with conformational changes of loops ASL1 (res. 44–53)
+and ASL2 (res. 184–194) ( B, Figure S4). It can be
+seen that ASL1 is more flexible than ASL2, from the MSM analysis (section S2) and by calculation of the residue
+occurrence in the binding site (section S3, Figure S3). Volume variability also results from the transient participation
+(with a frequency of ∼25%) of the N- and C-terminal tails of
+the adjacent subunit in the binding site ( C). During the MD, these two termini move
+in the proximity of the pocket. For the seven apo X-ray crystal structures, where the termini are resolved (Tables S1,S2), the C-terminus is far away from
+the binding sites, whereas the N-terminus is always close by (see D). In the holo crystal structures, the N- and C-terminal tails of
+the adjacent subunit can both be found close to the binding site (see D). A similar scenario
+is observed for the holo structures in the LRIP/tC
+ensemble, where both terminals are present in the binding pocket even
+more often (in about 40% of simulated structures, Figure S3).
+(ii)The binding site hydrophobicity is
+here estimated in terms of hydrophobicity distribution across the
+different conformational ensembles, calculated with TRAPP and SiteMap. Holo X-ray crystal structures include conformations with
+higher hydrophobicity of the pocket with respect to the apo ones: these are complexes in which large ligands, with a molecular
+mass of 400 Da or greater, are covalently bound to Cys145 (PDB IDs 6LU7, 7BUY, and 7C8R). The MD and LRIP/tC
+ensembles instead can span from low to high hydrophobicity values
+(see section S3.3, Figure S6A).
+
+ 
+
+## Druggability
+Here, we analyze the druggability as defined by the CNN and LR
+scores from TRAPP along with DScore/SiteScore
+from SiteMap. , All pockets in the crystallographic
+structures (except one, PDB ID 6WTK) are scored as druggable: their druggability
+indices are above the scores’ thresholds for druggability (0.8,
+0.8, 0.5, 0.5 for SiteMap, DScore, LR, and CNN models, respectively, Figure S6. These thresholds were taken from Halgren et al. and Yuan et
+al.( ), respectively). There is,
+however, no notable correlation between the druggability scores derived
+from the SiteMap and TRAPP methods. This is expected because the observed
+variations in the druggability index lie within the method prediction
+uncertainty. Despite the slightly lower druggability indices in SiteScore
+and TRAPP-LR for the apo X-ray crystal structures
+compared to the holo crystal structures, they are
+still predicted to be druggable within the uncertainty of the methods.
+In contrast, about 50% of the simulated structures (MD, LRIP, and
+tConcoord) were predicted not to be druggable (Figure S6).
+The druggability scores of the simulated,
+and, more, of the X-ray crystal structures correlate with binding
+site hydrophobicity (Figure S6, section S3.3, and Tables S4,S5). The correlation with other binding site
+features is much smaller (see Tables S4,S5). We conclude that, as expected, the more hydrophobic the pocket
+is, the better it is scored.
+
+## Virtual
+Screening
+We defined a sample library of a total of 13 534
+compounds ( , Figure S7). The library included commercialized
+drugs and compounds under development, the internal chemical library
+from Dompè pharma company, and compounds from the Fraunhofer
+Institute BROAD Repurposing Library, as well as known inhibitors of
+SARS-CoV Mpro. In particular the library included a set consisting
+of 180 compounds with pIC50 against SARS-CoV Mpro greater
+than 6 reported in the literature (active molecules, hereafter). , , − Our sample library is chemically very diverse as compared to the
+crystallographic ligands in complex with SARS-CoV-2 Mpro and the active
+molecules (see Figure S7). A more detailed
+chemoinformatic analysis is reported in section S4.1–2.
+We selected SARS-CoV-2 Mpro conformations
+with scores above the druggability thresholds. These include all the
+X-ray crystal structures except 6WTK (42 structures), 10 MSM ensemble
+conformations (MSM selection), and 8 representatives of the top 10%
+scoring conformations from the MD10000 and LRIP/tC ensembles (see , section S4.3, Table S6, Figures S8,S9).
+The ligands were screened against the conformations using OpenEye
+FRED and Schrödinger Suite Glide
+Version 85012. , We discuss here the results obtained
+with FRED. Those obtained with Glide present similar trends and are
+reported in the SI (section S4.4 and Figure
+S10). Also, we report here only the calculation results obtained with
+the MD10000/LRIP/tC and X-ray selections. The data obtained with the
+MSM selection are reported in the SI (section
+S4.5, Figure S11).
+The quality of the virtual screenings was evaluated in terms of
+(i) enrichment factor (EF) defined as EF(1%) = (no. active molecules
+in the top 1%/no. molecules in the top 1%)/(active molecules in the
+whole set); (ii) receiver operating characteristic (ROC) curves, used
+to evaluate the true positive rate and the area under the curve (AUC).
+The structures from the MD10000/LRIP/tC and MSM selections, along
+with the apo X-ray structures, exhibited a poor EF
+(below 5%), despite being identified as druggable by all the druggability
+prediction methods here implemented ( ). The poorer performance of the apo X-ray crystal structures was expected since they exhibited
+overall lower druggability scores with respect to the holo structures (Figure S6F). This was not
+the case with the selected structures from the MD10000 and LRIP/tC
+ensembles (see section S4.3), where only
+the 10% of the structures with the highest druggability scores were
+used for screening. This suggests that the druggability prediction
+methods are not sensitive enough to distinguish between high- and
+low-EF conformations for the chemical space considered (see also discussion
+below). On the other hand, for the holo X-ray crystal
+structures, both “well-performing” (EF > 15%) and
+“poorly-performing” (EF < 5%) conformations were
+identified ( ).
+ Next, we determined which of these ensembles exhibits a protein–ligand
+interaction fingerprint (PLIF) comparable to the one established by
+the ligands cocrystallized with SARS-CoV-2 Mpro. In the PLIF of the
+latter ( A),
+we observe an overall predominance of Hbond interactions over hydrophobic
+ones, with Cys145 (catalytic dyad), Gly143, Ser144, His163, and Glu166
+as the most attractive residues to form Hbond interactions (comparable
+occurrence) with the ligands. The only exception is represented by
+His41 (catalytic dyad), which is similarly involved in Hbonds and
+hydrophobic interactions.
+ The PLIF of the well-performing conformations ( B, upper panel) matches the
+one of the crystallographic complexes ( A). Namely, the same hot-spot (i.e., preferential
+residues for ligand binding) residues emerge: the ligands form Hbonds
+with Cys145 (catalytic dyad), Gly143, Ser144, Gly166, and His163,
+as well as hydrophobic interactions with His41 (catalytic dyad). The
+main difference between the two PLIFs is in the lower occurrence of
+Hbonds involving Gly143, Ser144, and Cys145 (catalytic dyad) than
+in the crystallographic complexes, and in the higher occurrence of
+hydrophobic contacts with Thr25 and His41 (the second residue in the
+catalytic dyad). This change in the surrounding of the reactive cysteine,
+Cys145 (Thr25, Gly143, Ser144) might be due to the presence of several
+covalent ligands in the crystal structures. Covalent binding might
+locally alter the PLIF, and this effect is not considered in the virtual
+screening.
+In all the other selections (i.e., poorly performing X-ray structures, B lower panel, MD10000
+and LRIP/tC selection, C, and MSM selection, Figure S11), the key Hbonds above-discussed have an occurrence that is markedly
+lower than nonspecific hydrophobic interactions. Also, the latter
+interactions substantially decrease, including those with His41 (catalytic
+dyad). Moreover, in the MSM, MD10000 and LRIP/tC selections, ligands
+interact with almost all residues of the binding site ( C and Figure S11), but with an occurrence below 25% (for each interaction
+type) and with a strong predominance of hydrophobic interactions versus
+Hbonds. This points to a rather nonspecific binding of the screened
+molecules in the MD/MSM-selected structures.
+Summarizing, we found that our evaluation of the virtual screening
+procedure correctly identifies the conformations able to provide the
+most similar PLIF to the known crystallized ligands of SARS-CoV-2
+Mpro.
+To rationalize these dramatic differences in the PLIF across the
+ensembles of structures, we compared their average binding site shapes.
+We found that the residues in the MSM, MD10000, and LRIP/tC selections
+are distributed over a larger volume than in the crystal structures
+( D–F);
+therefore, the spatial location of the hotspots (i.e., Hbond donors/acceptors,
+hydrophobic patches, charges) is significantly different. Even reselecting
+the conformations from the MD-ensembles using the similarity with
+respect to well-performing structures as criterion (i.e., root mean
+square deviation, RMSD), did not provide a satisfying performance,
+nor the optimal spatial location of the hotspots (section S5, Figure S12), indicating that key features for
+obtaining high EFs in the virtual screening, that is, the precise
+placement of interacting residues, are missing.
+Taken together, these results may explain why the druggability
+indices are unable to distinguish the binding site features linked
+to a good performance in virtual screening: very subtle variations
+of the conformations of the binding site residues induced upon binding,
+and therefore not present in the structural ensembles generated in
+the absence of a ligand, can lead to significant differences in the
+EF (see also Figure S13). These subtle
+variations are very challenging to discriminate in terms of druggability
+indices.
+
+## The Active-Pharmacophore
+and the SARS-CoV-2 Blueprint on the Chemical Space
+To identify
+the relevant ligand features that might relate to high affinity binding,
+we extract here the consensus chemical space, defined by the common
+ligands across the top 1% of the well-performing structures in the
+virtual screening. These are 32 molecules, 16 of which belong to the
+“active” molecules in our library (“consensus
+active” hereafter, Figure S14 and ). We next calculated
+the corresponding pharmacophore (i.e., an ensemble of steric and electronic
+features that is necessary to ensure the optimal supramolecular interactions
+with a specific biological target) and linearly combined it with the
+X-ray pharmacophore. This is done to consider possible additional
+features coming from covalent binding that cannot be covered by the
+virtual screening protocol. The consensus pharmacophore combined with
+the X-ray pharmacophore constitutes the “active-pharmacophore”,
+hereafter (see Methods, ).
+ Next, we tested the predictive power of our active-pharmacophore
+in discriminating the higher affinity binders across all the so-far
+known SARS-CoV-2 Mpro inhibitors: these are 46 molecules coming from
+the papers published until November 20th 2020, which were not included
+in our sample library and that display a measured affinity spanning
+from 30 nM to 125 μM. , , − Some of these molecules were excluded by the docking software due
+to their excessive size or due to the presence of metals (e.g. Candesartan
+Cilexetil, Evans blue, Phenylmercuric acetate).
+For this purpose, we calculated the Dice coefficient, which measures
+the number of features in common between the molecule and the active-pharmacophore,
+relative to the average number of features present. When scoring the 46 known SARS-CoV-2 Mpro binders according
+to the Dice coefficient, the highest scored molecules are 11a, 11b,
+11r, UAWJ246, UAWJ247, UAWJ248, Compound 23, Compound 26, Compound
+27, and CG373 (see Figure S15), which are
+also the highest affinity (IC50 ≤ 400 nM) SARS-CoV-2
+Mpro binders (nM-binders, hereafter). On the other hand, it is not
+possible to discriminate the sub-μM-binders of SARS-CoV-2 Mpro
+(400 nM < IC50 ≤ 1000 nM) from the μM ones
+(IC50 > 1000 nM) (see Figure S16). These results have to be taken with great care given the fact
+we are comparing assay-dependent IC50 values coming from
+different laboratories. Also, several of these inhibitors are predicted
+to be covalent binders, which further complicates the use of their
+respective IC50 values (see the discussion offered in the paragraph). Therefore, in the next
+section, we analyzed the chemical space shaped by the well-performing
+conformations upon ligand binding, and offer a rationale for the predictive
+power of our active-pharmacophore in identifying nM-binders of SARS-CoV-2
+Mpro.
+
+## Rationalization
+of the Active-Pharmacophore and SARS-CoV to -CoV-2 Mpro Ligands’
+Transferability
+The PLIF of the consensus chemical space
+is dominated by the “consensus active” ones (the latter
+PLIF is almost identical to the former one, Figure S17A) and it shows a predominance of Hbond interactions with
+His163, Glu166, Gln189, and Cys145 ( A), as well as hydrophobic interactions with
+Thr25, His41, Met165, Pro168, and Gln189. Accordingly, the same trend
+can be seen for the PLIF of the SARS-CoV-2 Mpro nM-binders ( B), the only differences
+being (i) the additional high occurrence of Gly143 and Ser144 Hbonds
+(as already observed in the PLIF of the X-ray structures), and (ii)
+the lower occurrence of hydrophobic interactions with Thr25.
+When the binding poses of the “consensus active” molecules
+and the nM-binders of SARS-CoV-2 Mpro (Section S6) are compared, we found indeed that the indole group (in
+11a, 11b, and 7 of the 16 molecules of the “consensus active”
+set) or the benzyl group (in GC373, 11r, and 6 of the 16 molecules
+of the “consensus active” set), or the benzimidazole
+group (in 1 of the 16 of the “consensus active” set)
+is buried in the upper subcavity defined by residues Glu166, Pro168,
+Gln182, Gln189, and Thr190 ( E,F). Notably, this cavity region which consists of
+β-sheets (residues from Tyr161 to Asp176) and the coil (residues
+from Gly183 to Ala194) was previously denoted as the “anchor
+site”. This region was shrunk
+in the poorly performing structures, further validating the importance
+of this part of the binding side and also the quality of our model
+that correctly excluded the conformations potentially incompatible
+with nM-binders. Instead, the benzothiazole moiety of the “consensus
+active” is placed in the lower part of the binding cavity defined
+by Thr24, Thr25, and Thr26. This benzothiazole moiety is absent in
+the SARS-CoV-2 Mpro nM-binders, possibly explaining the lower occurrence
+of hydrophobic interactions with Thr25.
+These findings suggest that the binding to the lower part of the
+binding site (Thr24, Thr25, Thr26) is not a relevant feature for the
+nM affinity of SARS-CoV-2 ligands. In contrast, the high occurrence
+of Gly143 and Ser144 Hbonds appears to be a signature of nM-binders
+of SARS-CoV-2 Mpro, also found in the PLIF of the known X-ray ligands
+of SARS CoV-2 complexes. Notably, the formation of these two Hbonds
+appear to be significantly hampered in the “consensus active”
+set due to the presence of the above-mentioned benzothiazole moiety,
+that seems to compromise the juxtaposition of the Hbond acceptors
+of the ligands. Accordingly, none of the SARS-CoV-2 nM-binders display
+benzothiazole or analogous bulky aromatic groups in such a position
+(Figure S14, ).
+ Analysis of all 166 holo SARS-CoV-2 Mpro crystal
+structures also showed that all their ligands except two (PDB IDs 7JKV and 6XR3) do not have a benzothiazole
+or analogous bulky aromatic groups in the Thr24, Thr25, Thr26 subpocket
+(Figure S18). Concerning the μM binders
+known so far, only very few of them are predicted to have a bulky
+group in such a position (Figure S16).
+In other words, our results suggest that the bottom part of the binding
+cavity in SARS-CoV-2 Mpro should only host small aromatic/hydrophobic
+moieties (or nothing at all) to facilitate the formation of Gly143
+and Ser144 Hbonds, the latter being a signature of the currently known
+nM-binders to SARS-CoV-2 Mpro.
+Currently, the X-ray structure of GC373 in complex with SARS-CoV-2
+Mpro was solved (PDB ID: 7BRR, recently superseded by PDB ID 7D1M (October 28th 2020).
+The ligand in the crystal structure appears in two different conformations,
+one resembling the predicted pose from us, in which the benzyl group
+of GC373 is not buried in the upper subcavity defined by residues
+Glu166, Pro168, Gln182, Gln189, and Thr190; the other in which this
+benzyl group is exposed toward the solvent. Yet, when the crystallographic
+complex undergoes 500 ns of MD simulations, the pose where the aromatic
+ring is exposed toward the solvent rearranges as in the predicted
+docking pose (see Section S7 and Figure S19). Such results further validate our active-pharmacophore. The latter
+is not only able to discriminate the nM-binders of SARS-CoV-2 Mpro
+(IC50 ≤ 400 nM) from the rest, but it also identifies
+key specific transferable and not-transferable binding features of
+nM SARS-CoV Mpro binders to SARS-CoV-2 Mpro ones.
+Taken together, these results suggest that our active-pharmacophore
+is a fair representation of the SARS-CoV-2 Mpro blueprint in the chemical
+space. Namely, it correctly represents a set of binding features compatible
+with the induced SARS-CoV-2 conformational space of the binding site.
+The latter is in part determined by the ligand upon binding and in
+part it depends on the residues differing in SARS-CoV-2 Mpro with
+respect to SARS-CoV Mpro, as also shown in Bzówka et al. 
+A cheminformatics analysis of the molecules that were active, but
+not part of our “consensus active” set is offered in
+the SI (see section S8, Figure S20).
+
+## Identification
+of nM-Binders of SARS-CoV-2 Mpro
+We considered a set of publicly
+available compounds within the E4C network, from the EU-OPENSCREEN Bioactive CompoundLibrary, coming from the PROBE MINER repository. , The set was rescored based on the Dice similarity of their docked
+pose to our active-pharmacophore (see Methods). Benserazide (EOS100736)
+and Myricetin (EOS100814) compounds (see schemes in A,B) were predicted as nM-binders
+of SARS-CoV-2 Mpro candidates. SARS-CoV-2 Mpro biochemical assays
+performed here established the accuracy of our predictions by measuring
+IC50 values as low as 140 nM and 220 nM, respectively (see section S9.1–2), Figure S21).
+ The best docking pose of Myricetin, as coming out from our virtual
+screening procedure, shows an orientation which is comparable to the
+one observed in the newly solved X-ray structure with PDB ID 7B3E (resolution 1.77
+Å, see C). In this pose, the bicyclic rings in the two structures nicely
+overlap, while the 3,4,5-trihydroxyphenyl moiety is rotated in our
+predicted pose with respect to the crystallographic one. By refining
+the docking pose (see section S9.3 and C) both the bicyclic
+ring and the 3,4,5-trihydroxyphenyl moiety assumes an orientation
+nearly identical to the one found in the X-ray pose after covalent
+binding with Cys145, with an overall RMSD of 0.46 Å between the
+refined predicted pose and the crystallographic one. Interestingly,
+Baicalin features the same isoflavone scaffold as Myricetin, yet it
+binds the protein with a different orientation, as shown by X-ray
+structure determination (PDB ID 6M2N). Our procedure predicted this orientation,
+although the best binding pose differed more significantly from the
+crystallographic one than the one obtained with Myricetin (see section S9.4, Figure S22).
+Myricetin and Benserazide contain polyhydroxy-phenolic moieties,
+which are considered promiscuous due to their redox features and also
+to the presence of a high number of close Hbond acceptor/donor sites
+that allow them to satisfy several 3D-pharmacophores. Nonetheless,
+these classes of compounds have, respectively, reached approved clinical
+usage (i.e., for Parkinson’s disease and alcohol use disorder ) and are in
+use in our diet like other polyhydroxyphenol-containing products. Also, Quercetin, structurally similar to Myricetin,
+was identified as a mild inhibitor of SARS-CoV-2 Mpro (Ki ∼ 7 μM). 
+SARS-CoV-2 Mpro is an important target for COVID-19 drug discovery
+because of its key role for viral replication and low similarity with
+human proteases. , Given its conserved nature with
+respect to the other Mpros across Coronaviruses and the presence of
+a huge number of crystallized structures (apo and holo), several drug repurposing and structure-based drug
+design campaigns have been conducted. − Unfortunately, this has so far led to only 10 SARS-CoV-2 Mpro inhibitors
+in the nM range (IC50 ≤ 400 nM). , This contrasts with SARS-CoV Mpro, for which 127 inhibitors are
+known in this range. , , , , , − , The observed difficulties in identifying potent SARS-CoV-2 Mpro
+inhibitors was suggested to arise from the large plasticity of the
+binding site, along with other factors
+(also observed for SARS-CoV Mpro), including induced-fit conformational
+changes and formation of covalent bonds upon ligand binding. , , Therefore, the available binding
+space can differ significantly from ligand to ligand.
+Accounting for receptor binding site flexibility in molecular docking
+is a significant challenge. This can
+be partially overcome with a careful choice of the most appropriate
+receptor and reference ligand(s) or by performing ensemble docking
+approaches. , While it seems logical to employ
+multiple protein structures and ligands where available, very few
+published studies have systematically evaluated the impact of using
+additional information on proteins’ and ligands’ structure. These studies arrive at the conclusion that
+an alternative structure-based design approach may be needed to define
+pharmacophores based on the binding site and use them to search large
+chemical databases. , 
+Our paper exploits the particularly large amount of structural
+information available for Mpro (∼200 X-ray structures in the apo and in the holo forms), along with
+a very long MD simulation from D. E. Shaw Research and structures generated here by enhanced sampling of the
+binding site dynamics. First, we have determined the potential druggability
+of each of the ∼30 000 Mpro conformations generated
+from these sources, as calculated using TRAPP and SiteMap druggability
+tools. , , Next, we have
+used a sample library to understand how selected potential high-druggable
+protein conformations perform when probed with a diverse chemical
+space, here defined by ∼13 000 compounds (see t-SNE
+plot in , and
+methods for details).
+ Our library included also “active” molecules, that
+is, molecules that are known to bind with nM affinity (pIC50 > 6) to SARS-CoV Mpro. Therefore, virtual screenings against
+∼200 protein conformations were performed. We found that only
+a few of these highly druggable (“well-performing”)
+conformations recognize a sufficiently high percentage of such “active”
+molecules: the ones in common among the well-performing structures,
+“consensus active” molecules, represent a small subgroup
+of the overall “active” molecules’ ensemble with
+specific features. In particular, the “consensus active”
+(16 molecules) are mostly clustered in two main areas of the t-SNE
+plot, both corresponding to peptidomimetic structures but differing
+from each other by the presence of a benzothiazole moiety and an additional
+peptide bond. The specific protein–ligand interaction fingerprint
+(PLIF) of the “consensus active” molecules strikingly
+resembles the one emerging from the SARS-CoV-2 Mpro cocrystallized
+ligands. The latter indeed cluster in the same region of the t-SNE
+plot. Notably, no consensus was found for the poorly performing structures.
+We then combined the crystallographic and the virtual screening
+PLIFs (i.e., the chemical space emerging from experimental structures
+and the chemical space selected upon virtual screening).
+Within the limitations of the procedure (see paragraph), we obtained an “active-pharmacophore”
+that we first used against a selection of SARS-CoV-2 Mpro binders
+(46 molecules): the latter are very diverse and they are spread overall
+the t-SNE plot ( ).
+The active-pharmacophore could predict known nM-binders for SARS-CoV-2
+Mpro (12 molecules out of the total of 46), which are also clustered
+in the peptides and peptidomimetics region of the t-SNE plot, and
+discriminate these from the μM ones. Moreover, it could also
+discriminate the transferable from the nontransferable binding features
+from SARS-CoV to SARS-CoV-2 Mpro.
+The former include the interaction with the catalytic dyad residues
+along with (i) His163, the mutation of which to Ala inactivates SARS-CoV
+Mpro and (ii) Glu166, which plays a role
+in the dimerization (required for enzymatic activity) in SARS-CoV. In addition, its interactions with the N-finger
+of the other subunit assist the correct orientation of residues in
+the binding pocket for both proteins. , Also (iii)
+Gln189, which correlates evolutionally with residues from the Cys44-Pro52
+loop in both proteins, which was shown to regulate ligand entrance
+to the binding site in both proteins;
+and (iv) Ser144, the mutation of which to Ala hampers the catalytic
+activity in SARS-Cov Mpro. 
+The nontransferable binding features include the ability to place
+large hydrophobic/aromatic groups in the part of the cavity defined
+by Thr25 and Thr26 that is partially lost in SARS-CoV-2 Mpro compared
+to SARS-CoV Mpro. This appears to affect Hbonds with Gly143 and Ser144.
+Accordingly, this cavity is empty or occupied by a smaller aromatic
+group such as the benzyl ring in all the known nM-binders and the
+cocrystallized ligands of SARS-CoV-2 Mpro. In contrast, several of
+the known nM-binders of SARS-CoV Mpro have benzothiazole or analogous
+bulky aromatic groups in this position.
+We finally used our active-pharmacophore against a public library
+of compounds. We predicted two ligands to be nM for SARS-CoV-2: Benserazide
+and Myricetin. While in-cell anticytopathic effects and virus yield
+reduction assays showed a modest effect of those compounds, they are
+nevertheless confirmed to be nM binders of SARS-CoV-2 Mpro in binding
+assays (Figure S21). Our predicted pose of Myricetin is in excellent agreement
+with the independently solved X-ray crystal structure of the complex
+( C). This was
+not expected since Baicalin, bearing the same isoflavone scaffold
+of Myricitin, binds in a reversed orientation (PDB ID 6M2N). Thus, the pharmacophore
+not only successfully predicts poses in the highly flexible binding
+site of SARS-CoV-2 Mpro, but it also discriminates between different
+orientations of quite similar chemical scaffolds.
+Our methodological approach also demonstrates that only a small
+fraction of the binding sites of the apo protein
+from crystal structures or simulations are similar to those of the
+well-performing holo structures. However, even the
+conformations with high structural similarity and high druggability
+scores, generated by molecular dynamics simulations, yielded low enrichment
+factors in virtual screening. Thus, druggability assessment methods
+fail to discriminate between small structural variations of the binding
+site that lead to successful performance in virtual screening. These
+small structural differences significantly impact ligand binding predictions
+as observed in our virtual screening campaigns. They could also be
+a source of disappointing results in other virtual screening campaigns
+on Mpro carried out so far by research groups worldwide. , , , , These observations indicate that there is
+space to improve the discriminatory ability of druggability scores
+by training on a wider range of structures generated by simulation
+as well as crystallography. Moreover, they highlight the need to develop
+simulation methods to generate holo-like protein
+structures for virtual screening.
+This work was carried out in part within the framework of the EXSCALATE4CORONAVIRUS
+(E4C) project. We here used 400 000
+core-hours on the JURECA supercomputer in the Jülich Supercomputing
+Centre for the virtual screenings. Our work demonstrates how an advanced
+computational procedure combined with experimental validation can
+correctly predict structure and affinity trends of effective hit molecules
+for a challenging protein target. This combined approach may provide
+a powerful drug discovery strategy, especially against pandemic viruses
+and other pathogens, for which the immediate identification of effective
+treatments is of paramount importance.
+
+## Experimental
+Procedures
+Protein Expression, enzymatic activity methodologies and primary
+screen and dose response are reported in the SI (section S9.1 and S9.2)
+
+## Site Analysis
+of SARS-CoV-2 Main Protease Structure
+The SiteMap tool, together with the TRAPP approach were used for the characterization of the proteins’
+binding sites. TRAPP provides tools for (i) the exploration of binding
+pocket flexibility and (ii) the estimation of druggability variation
+in an ensemble of protein structures. 
+
+## Druggability
+Calculation
+Two druggability indices from SiteMap tool were
+used: The SiteScore is based on a weighted sum of several properties
+accounting for the degree of pocket enclosure, size, and the balance
+between hydrophobic and hydrophilic character in the binding site.
+The Dscore uses almost the same properties as SiteScore but different
+coefficients are used and hydrophilicity is not considered.
+In the TRAPP tool, the active site pocket of SARS-CoV-2 Mpro was
+defined by assigning a distance of 3.5 Å around all atoms of
+the ligand N3 from PDB ID 6LU7. This distance was used to detect residues that potentially
+may contribute to the binding site and to define dimensions of a 3D
+grid that was then used to compute the binding pocket shape. Then
+the binding pocket for each structure was mapped on the 3D grid. The
+druggability score of this pocket was computed using linear regression
+(LR) or a convolutional neural network (CNN) and scaled between 0
+and 1. Scores were calculated for all
+conformations generated for 6LU7 and 6Y2G from LRIP and tConcoord, as well as for frames collected every 10
+ns from the 100 μs spanning classical MD trajectory generated
+by starting from the crystal structure with PDB ID6Y84by D. E. Shaw Research. For each structure, a set of the binding site
+residues that line the binding pocket was detected using the procedure
+implemented in the TRAPP package. Specifically, each residue was characterized
+by the number of atoms that contact with the binding pocket.
+
+## Structure
+Selection
+We selected all structures generated by tConcoord,
+LRIP (see SI section S10), or extracted
+from MD trajectories, within the top 10% of the LR and CNN druggability
+score. These structures were then clustered by the binding site similarity
+into eight clusters using k-means procedure (see Figure S8 and also section S4.3 for more details).
+
+## Virtual
+Screening and Library Preparation
+Virtual screening studies
+were performed on a repurposing library including all the commercialized
+and under development drugs retrieved in the Clarivate Analytics Integrity
+database, merged with the internal chemical library from Dompè
+pharma company of already proven safe-in-man compounds and the Fraunhofer
+Institute BROAD Repurposing Library, removing duplicate structures.
+Known inhibitors of SARS-CoV Mpro were retrieved from several sources
+including the literature, the Clarivate Analytics Integrity database,
+the GOSTAR database, and the data repository shared by the Global
+Health Drug Discovery Institute. Library preparation is reported in
+the SI section S10. Virtual screening was
+conducted on the 216 selected receptors by both Fred and Glide docking programs.
+The protocols are reported in the SI section
+S10.
+
+## Fingerprints
+Generation
+Results are reported in the SI (section S10).
+
+## Limitations
+As with any modeling study, our models also have limitations. Protein
+mobility is most probably increased by the presence of moving and
+displaceable water molecules. Solvation
+effects can account for up to 100-fold difference in binding affinity
+(corresponding to ∼3 kcal/mol in binding free energy ). Our docking protocols do not consider individual
+water molecules. Also, we in part rely on scoring functions to rank
+and select the best binding poses. Current docking/scoring methods , were suggested to provide reasonable predictions of ligand binding
+modes, but their performance can be disappointing. Additionally, those
+methods are often system-dependent, making it very hard to decide
+which scoring function is suitable for the chosen target protein.
+To partially overcome these issues, we carefully setup Glide and Fred
+docking procedures by reproducing a set of covalent and noncovalent
+SARS-CoV-2 Mpro-ligand crystal poses (Table S7) and by using other criteria, as ROC and EF to establish the quality
+of our docking procedure.
+Moreover, we compare assay-dependent
+IC50 data coming from different laboratories. In addition,
+several of the known Mpros inhibitors are covalently bound to the
+protein. Irreversible (covalent) enzyme inhibitors cannot be unambiguously
+ranked for biochemical potency by using IC50 values, because
+the same IC50 value could originate either from relatively
+low initial binding affinity accompanied by high chemical reactivity,
+or the other way around. In other words,
+the important quantity to be considered would be the rate of covalent
+modification, (kinact/Ki), that describes the efficiency
+of covalent bond formation resulting from the potency (Ki) of the first reversible binding event and the maximum potential
+rate (kinact) of inactivation. This
+information is unfortunately not available for most of the ligands
+here considered.
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acsptsci.0c00215.Supplemental experimental procedures, Figures S1–S22,
+Table S1–S6, and supplemental computational methods section
+S10 (PDF)
+
+## Supplementary Material
+pt0c00215_si_001.pdf
+
+## Author Contributions
+# J.G., S.A., and A.H. equally contributed. E.L., A.Z., P.C., R.C.W.,
+F.M., D.B.K., and G.R. shared senior authorship. J.G. and S.A. performed
+all the docking experiments, the PLIF and pharmacophore calculations,
+as well as editing most of the figures and tables of the manuscript.
+A.H. and D.B.K. performed the TRAPP analyses. B.P.J. collected and
+analyzed the X-ray structures. F.M. and G.R. performed the SiteMap
+analyses. C.M., C.T., and A.B. took care of the library collection.
+C.B. and E.L. performed the MSM analyses. M.K., P.G., and A.Z. performed
+the experiments. E.C. and P.S. solved the crystal structure. F.S.,
+A.Z., P.C., R.C.W., F.M., D.B.K., and G.R. wrote the manuscript and
+contributed to the design of the research and the analysis of the
+data. All authors have given approval to the final version of the
+manuscript.
+The authors
+declare no competing financial interest.
+
+## Notes
+Tables S1–S3 in .xlsx format are available
+at DOI: 10.5281/zenodo.4299967. The data sets (.csv, .xlsx) generated
+during this study are available at DOI: 10.5281/zenodo.4299967.
+
+## Acknowledgments
+This research was conducted under the project “EXaSCale
+smArt pLatform Against paThogEns for Corona Virus–Exscalate4CoV”
+founded by the EU’s H2020-SC1-PHE-CORONAVIRUS-2020 call, Grant
+No. 101003551. Additional computational resources were provided by
+the Swedish National Infrastructure for Computing (SNIC) and the Knut
+and Alice Wallenberg Foundation. D.B.K and R.C.W. acknowledge the
+support of the Klaus Tschira Foundation. G.R., P.C., D.B.K., and R.C.W.
+acknowledge the Human Brain Project funded by the European Union’s
+Horizon 2020 Framework Programme for Research and Innovation under
+the Specific Grant Agreement No. 945539 (Human Brain Project SGA3).
+G.R., A.Z., P.S., and P.C. acknowledge the E4C consortium. We would
+also like to thank Dr. Katja Herzog (EU-OPENSCREEN ERIC) for providing
+access to the EU-OPENSCREEN ERIC Bioactive Compound Library data.

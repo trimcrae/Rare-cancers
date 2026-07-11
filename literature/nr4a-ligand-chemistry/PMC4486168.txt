@@ -1,0 +1,249 @@
+440plosonePLoS ONEPLoS OnePLOSPMC4486168448616844861682612157210.1371/journal.pone.0131961ARID3B Directly Regulates Ovarian Cancer Promoting Genes
+BobbsAlexander GellermanKatrina HallasWilliam Morgan JosephStancy YangChao KurkewichJeffrey Cowden DahlKaren D ZhangJinsongEditor 1Department of Biochemistry and Molecular Biology, Indiana University School of Medicine-South Bend, South Bend, Indiana, United States of America2Harper Cancer Research Institute, South Bend, Indiana, United States of America3Department of Chemistry and Biochemistry, University of Notre Dame, Notre Dame, Indiana, United States of America4Department of Biological Sciences, University of Notre Dame, Notre Dame, Indiana, United States of America5Indiana University Melvin and Bren Simon Cancer Center, Indianapolis, Indiana, United States of America6Saint Louis University School of Medicine, UNITED STATESCompeting Interests: The authors have declared that no competing interests exist.
+Conceived and designed the experiments: AB KDCD. Performed the experiments: AB KG WMH SJ CY JK. Analyzed the data: AB KDCD. Contributed reagents/materials/analysis tools: KDCD. Wrote the paper: AB SJ KDCD.
+✉* E-mail: kcowdend@iupui.edu
+2962015106e0131961e0131961272015© 2015 Bobbs et alThis is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are properly credited.
+
+## Abstract
+The DNA-binding protein AT-Rich Interactive Domain 3B (ARID3B) is elevated in ovarian cancer and increases tumor growth in a xenograft model of ovarian cancer. However, relatively little is known about ARID3B's function. In this study we perform the first genome wide screen for ARID3B direct target genes and ARID3B regulated pathways. We identified and confirmed numerous ARID3B target genes by chromatin immunoprecipitation (ChIP) followed by microarray and quantitative RT-PCR. Using motif-finding algorithms, we characterized a binding site for ARID3B, which is similar to the previously known site for the ARID3B paralogue ARID3A. Functionality of this predicted site was demonstrated by ChIP analysis. We next demonstrated that ARID3B induces expression of its targets in ovarian cancer cell lines. We validated that ARID3B binds to an epidermal growth factor receptor (EGFR) enhancer and increases mRNA expression. ARID3B also binds to the promoter of Wnt5A and its receptor FZD5. FZD5 is highly expressed in ovarian cancer cell lines, and is upregulated by exogenous ARID3B. Both ARID3B and FZD5 expression increase adhesion to extracellular matrix (ECM) components including collagen IV, fibronectin and vitronectin. ARID3B-increased adhesion to collagens II and IV require FZD5. This study directly demonstrates that ARID3B binds target genes in a sequence-specific manner, resulting in increased gene expression. Furthermore, our data indicate that ARID3B regulation of direct target genes in the Wnt pathway promotes adhesion of ovarian cancer cells.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2015 Feb 6; Accepted 2015 Jun 8; Collection date 2015.
+
+## Introduction
+In the United States, ovarian cancer is the 5th most common cancer in women and the most lethal gynecological cancer. In 2014, it is expected that there have been 21,980 new cases of ovarian cancer, and 14,270 deaths [ ]. We demonstrated that the DNA-binding protein ARID3B is overexpressed in serous ovarian cancer; ARID3B’s expression in the nucleus correlates with disease relapse [ , ]. The goal of this study was to mechanistically identify direct target genes of ARID3B that may contribute to ovarian cancer progression.
+ARID3B belongs to a family of AT-Rich Interactive Domain (ARID) proteins that are involved in chromatin remodeling and regulation of gene expression. These proteins are characterized by the ARID DNA-binding domain, a highly conserved sequence of ~100 amino acids [ ]. ARID3B has an ARID domain that shares 89.9% amino acid identity with its paralogue ARID3A (a B-cell activator originally named "Bright") that has a binding consensus site of "AATTAA" [ – ]. Mobility shift assays have shown that ARID3B can bind Matrix Attachment Regions that are also bound by ARID3A from IgH [ ]. Recently it was reported that ARID3B binds to the Oct4 promoter and regulates its expression, however, an unbiased approach to identify direct ARID3B target genes has not been reported [ ].
+ARID proteins are involved in development and tissue-specific gene expression, and aberrant expression has been associated with tumorigenesis [ ]. Arid3b is an essential gene; null embryos die mid-gestation, exhibiting severe defects in development of the heart, neural tissue, craniofacial structures, limb buds, and formation of the apical endodermal ridge [ – ]. ARID3B is overexpressed in neuroblastoma, particularly stage IV tumors, and cooperates with MYCN to increase oncogenic potential and proliferation [ , ]. In serous ovarian cancer, ARID3B is elevated [ ]. Nuclear expression of ARID3B correlates with disease recurrence [ ]. Furthermore, overexpression of ARID3B in ovarian cancer cells accelerates tumor growth in a xenograft model of ovarian cancer [ ]. The target genes that are regulated by ARID3B and the molecular mechanisms by which ARID3B impacts tumorigenesis in ovarian cancer are not known.
+In this study we identified direct gene targets of ARID3B in ovarian cancer cells through Chromatin Immunoprecipitation (ChIP) followed by microarray (ChIP-Chip) technology. The binding regions of ARID3B were characterized by computational bioinformatic analysis and yielded a highly conserved binding site. Among the target genes of ARID3B are members of the EGFR, NOTCH, TNF, and Wnt signaling pathways. We were particularly interested in ARID3B's effect on the Wnt signaling pathway because ARID3B has binding regions in four Wnt pathway genes: WNT5A, FZD5, APC, and MYC. WNT5A and FZD5 are overexpressed in ovarian cancer and correlate with poor prognosis, and Wnt activity is known to regulate cell proliferation and death [ – ]. Upregulation of FZD5 and the ligand WNT7A increase tumor growth and cell adhesion [ ]. We found that ARID3B increases expression of FZD5, APC, and MYC. Overexpression of FZD5 or ARID3B in ovarian cancer cells increases adhesion to several ECM proteins, including fibronectin and vitronectin, while knockdown of FZD5 or editing of ARID3B causes a loss of adhesion to certain ECM components. Additionally, knockdown of FZD5 in cells where ARID3B is overexpressed leads to decreased adhesion and decreased ARID3B induced adhesion to collagen II, collagen IV, and tenascin. These results suggest that direct regulation of Wnt signaling by ARID3B may contribute to ovarian cancer progression.
+
+## Materials and Methods
+
+## Cell Culture
+Cell lines were grown at 37°C with 5% CO2. OVCA429 cells (provided by Dr. Bast, MD Anderson Cancer Center, Houston, TX and described in [ ]) were grown in Minimal Essential Medium (MEM). We obtained Skov3IP cells from Dr. Mills, MD Anderson Cancer Center, Houston, TX. The derivation of Skov3IP cells is described in Yu et al [ ]. Skov3IP cells were grown in McCoys Media 5A. Media was supplemented with 10% fetal bovine serum (FBS) (Atlas, Ft. Collins, CO), 0.1 mM L-glutamine, 1mM sodium pyruvate, 50 U/mL penicillin, and 50 μg/mL streptomycin. OVCA429 and Skov3IP cells expressing ARID3B, FZD5 (pLenti-C-mGFP, Origene, Rockville, MD), or control Red Fluorescent Protein (RFP) were created as previously described and levels of ARID3B overexpression were similar to those achieved in our previous studies ( ) [ ]. Editing of the ARID3B gene in OVCA429 cells was accomplished using transfected sgRNA/Cas9 all-in-one expression vector targeting ARID3B (p-CRISPR-CG01, Geneocopeia, Rockville, MD). As a control for CRISPR-edited cell lines, OVCA429 cells were transduced with a Cas9 nuclease expression clone (CP-LvC9NU-01, Geneocopeia, Rockville, MD) and a scrambled sgRNA control vector (p-CRISPR-LvSG02, Geneocopeia, Rockville, MD). For FZD5 transduction, Skov3 cells (ATCC, Manassas, VA, USA, #HTB-77) [ ] were used in place of Skov3IP cells since our SKOV3IP cells express GFP and the FZD5 expression vector expresses GFP (pLenti-C-mGFP). FZD5 knock-down was achieved using a transduced shRNA vector (pGFP-C-shLenti, Origene, Rockville, MD). OVCAR3 cells (ATCC, #HTB-161) [ ] were grown in RPMI media with 20% FBS and 10mg/mL insulin. CAOV3 (ATCC, #HTB-75) [ ] and 293FT (Life Technologies, Carlsbad, CA, #R700-07) [ ] cells were grown in Dubecco's Modified Eagle Medium (DMEM) with 10% FBS. IOSE398 cells (from Dr. Stack, Harper Cancer Research Institute, Notre Dame, IN described in [ ]) were grown in a 1:1 mixture of Media 199 and MCDB105, with 5% FBS and 50 μg/mL gentamicin. All cell culture reagents except for the FBS were from Invitrogen (Carlsbad, CA). Cell lines were authenticated on October 1, 2013, at ATCC by STR profiling.
+ 
+
+## Xenograft mouse models of ovarian cancer
+All studies were approved by the University of Notre Dame IACUC committee (Protocol 14–060) and were conducted in accordance with the guidelines of the US Public Health Service Policy for the Humane Care and Use of Laboratory Animals. Six-week-old female nude nu/nu mice (Charles River, Wilmington, MA) were maintained at the Freimann Life Science Center (University of Notre Dame). In the pilot study (4 mice per group), 1x106 SKOV3IP-RFP or SKOV3IP-ARID3B cells in 200 μl of phosphate buffered saline (PBS; 137 mM NaCl, 2.7 mM KCl, and 11.9 mM phosphate buffer, pH 7.4) were injected intraperitoneally (IP) into nude mice. Mice were monitored weekly for tumor growth (with a ventral and dorsal image each week). The growth of tumors and imaging is reported in Roy, L., et al[ ]. Since the IP tumor growth results in wide spread tumor dissemination, it is hard to accurately quantitate tumor volume for multiple tumors in vivo. Mice were euthanized when by in vivo imaging detected multiple large tumors or if mice showed any signs of illness including a distended abdomen.
+
+## Microarray Analysis and Bioinformatics
+Three RNA samples each from SKOV3IP-RFP and SKOV3IP-ARID3B ascites fluid/peritoneal washes were prepared [ ]. The microarray was performed at the Notre Dame Genomics Core Facility on an Affymetrix Human Genome U133 Plus 2 GeneChip (Affymetrix, Santa Clara, CA). The probe set expression levels were normalized and summarized by using the GC robust multi-array average (GCRMA) algorithm [ ]. Control probe sets and probe sets that were “not detectable” were filtered out for further analysis. “Not detectable” was defined as probe sets that are either being called “absent” by Affymetrix's Call Detection Algorithm (Manual titled “GeneChip Expression Analysis Data Analysis Fundamentals”, Affymetrix; www.affymetrix.com) in all of the six arrays, or having all its expression reported by GCRMA less than 2.5. Significance Analysis of Microarrays (SAM,[ ]) was used for detecting the differentially expressed genes between the ARID3B and RFP controls. One thousand twelve probe sets were found to be significant with a false discovery rate (FDR) less than 10%. Of these probe sets, 199 were down regulated by ARID3B. A second, more stringent analysis normalized the raw microarray data by RMA, and required a FDR of less than 5%. Pathway analysis was conducted by cross-referencing regulated genes with their associated Gene Ontology (GO) terms listed in the Ensembl database.
+
+## Chromatin immunoprecipitation followed by microarray (ChIP-Chip)
+The ChIP-Chip procedure was performed according to the protocol of Tamimi et. Al. [ ]. Briefly, Ni2+-NTA magnetic beads were used to isolate sheared chromatin complexes containing the (His)-6-ARID3B fusion protein from lysates. A positive control (100% input, no Ni2+-NTA) and negative control (H2O plus Ni2+-NTA added to sample) were also included. Microarray hybridization was performed using a NimbleGen Human 2.1M Deluxe Promoter Array following manufacturer's instructions as described below. Sample integrity for experimental ChIP and control input samples was verified with an Agilent Bioanalyzer (Agilent Technologies, Inc., Santa Clara, CA). One μg of experimental and control samples were labeled with cy3 and cy5-labeled random nonamers, respectively (Roche NimbleGen, Inc., Madison, WI). A 34 μg aliquot of each cy-dye labeled product was pooled and hybridized to a microarray at 42°C for 16–20 hours. Microarrays were washed, dried, and then scanned in a NimbleGen MS200 scanner at 2 μm resolution. Microarray images were visualized and analyzed with NimbleScan software v2.5 (Roche NimbleGen, Inc.).
+Calculation of the ARID3B binding site was accomplished using both MEME (University of Queensland, Brisbane, Australia [ , ] and ALLEGRO (Tel Aviv University, Tel Aviv, Israel) [ , ]. Sequence data of ARID3B binding regions as determined by our ChIP-Chip experiments were extracted using a custom-built perlscript. The top 50 ARID3B binding site sequences were scanned for common motifs using MEME. In a parallel analysis, all significant ARID3B binding site sequences were compared against a background genome using ALLEGRO.
+
+## Chromatin Immunoprecipitation (ChIP)
+Sheared chromatin was prepared from 90% confluent ovarian cancer cells using the Pierce Agarose ChIP Kit (Rockford, IL) and a published protocol from Cold Spring Harbor [ ]. DNA shearing was accomplished using an EpiShear Probe Sonicator (Active Motif, Carlsbad, CA), with a series of 10 20-second pulses at 25% amplitude. Fifty μg of sheared chromatin was used for each immunoprecipitation (IP). IP was performed using an anti-ARID3B antibody (Bethyl Laboratories, A302-564A, Montgomery, TX) or IgG (Pierce, Rockford, IL) and ProteinA-Agarose magnetic beads. A sample of "Input DNA" was collected before IP for normalization. ChIP samples were reverse-crosslinked by heating at 65°C for 4 hours in the presence of 20 μg Proteinase K and 250 mM NaCl, and cleaned up using a standard phenol/chloroform extraction followed by ethanol precipitation.
+ChIP DNA samples were analyzed with quantitative polymerase chain reaction (qPCR), using Sso Fast EvaGreen Supermix (Bio-Rad, Hercules, CA). Each ChIP DNA sample was compared to the appropriate Input DNA sample. Primers were purchased from Integrated DNA Technologies (Coralville, IA), and designed to flank proposed ARID3B binding sites:
+
+EGFR F: CTCAAGTGTCTCATACTACC / R: GTCATTGGGCAAACCACTG
+
+BTC F: GTCTCAGCCTCCCAAGTAGC / R: CTAACAGGTATAATGTCACAG
+
+WNT5A F: AGTGATTCTCCTGCCTCAGC / R: TGGAAGGGATGAATTTGGTC
+
+MYC F: GGAGGCCAGATGCATGAG / R: TAC CTA TGG CTG TTA GAA TC
+
+FZD5 F: GCACAATGGCTCATGCTTG / R: CGCAATCTTGGCTCACTGC
+
+APC F: CTCCTGACCTCAAGTGATCC / R: CAGTCACTGCTTATAGAATC
+
+RIPK1 F: GTCTTGAACTCCTGACCTCG /
+R: ACAGAAACTCCATGCAAACC
+
+NOTCH2 F: GTCAGGAGTTTGAGACC / R: ACTGCAATCTCTGCCTCC
+
+NUSAP1 F: TTCACATGCCTCATTAAGAG / R: TCCCGAGTAGCTGGGATTCC
+
+CASP1 F: ACTCAAGCAATTCACTCACG / R: CATTCTGAGTCCAGAGCCTG
+
+LPAR1
+F: TGAAGAGTTGCGTATTAAC / R: AGTTTCATGGGTGCTATACC
+
+CENPN F: ATCTACTGTATGTCAGACAC / R: CAGGCACCCGATACCACG
+
+CEP55: F: GCAGGAGTTCGTGATCAGAG / R: CCAGCTAATTCTGGGATCG
+
+## Gene Expression
+RNA from OVCA429 and Skov3IP cells was isolated using TRIzol (Invitrogen, Carlsbad, CA), according to the manufacturer's instructions. Complementary DNA (cDNA) was prepared from 500 ng of RNA using High Capacity cDNA Reverse Transcription Kit (Life Technologies, Waltham, MA) as directed. Reactions were run either using iTaq Universal Probes Supermix (Bio-Rad) or Sso Fast EvaGreen Supermix (Bio-Rad). All gene expression primer sets were obtained from Integrated DNA Technologies (Coralville, IA), with the exception of ARID3B (from Life Technologies, Carlsbad, CA). quantitative reverse transcribed polymerase chain reaction (qRT-PCR) reactions were run in triplicate and normalized to expression of GAPDH. Primer Assays are as follows: APC: Hs.PT.56a.3539689, ARID3B: HS01084949_g1, BTC: Hs.PT.56a.3511718, CASP1: Hs.PT.56a.39699622, CENPK: Hs.PT.56a.40187080.g, CENPN: Hs.PT.56a.22431568.g, CEP55: Hs.PT.56a.279272.g, EGFR: Hs.PT56a.20590781, FZD5: Hs.PT.56a.3585264, GAPDH: Hs.PT.39a.22214836, MYC: Hs.PT.49a.3659201.g, NOTCH2: Hs.PT.512811432, NUSAP: Hs. PT.51.21077614, WNT5A: Hs.PT.56a.22221435.
+
+## Western Blot
+Whole-cell protein lysates were obtained by lysing OVCA429 and Skov3IP ovarian cancer cells in RIPA buffer (50 mM Tris pH 7.5, 150 mM NaCl, 1% NP-40, 0.5% EDTA, 0.1% SDS, and 1X Halt Protease & Phosphatase Inhibitor Cocktail (Pierce, Rockford, IL)). Protein concentration was measured using a Bicinchoninic Acid (BCA) assay according to standard protocol (Pierce, Rockford, IL). Proteins were detected using the following antibodies: ARID3B (#A302-564A, Bethyl Laboratories, Montgomery, TX, Rabbit Polyclonal, Synthetic Peptide Antigen), FZD5 (#MC-4273, MBL, Woburn, MA, Rabbit Polyclonal, Synthetic Peptide Antigen), β-actin (#AM1829b, Abgent, San Diego, CA, Mouse Monoclonal, Recombinant Protein Antigen), GAPDH (#ab128915, Abcam, Cambridge, England, Rabbit Monoclonal, Synthetic Peptide Antigen), COXIV (#4850, Cell Signaling Technology, Rabbit polycolonal, synthetic peptide corresponding to residues surrounding Lys29 of human COXIV), and ARID3A (Rabbit polyclonal antibody, a kind gift from H. Tucker UT Austin) followed by a secondary anti-rabbit HRP-conjugated antibody (GE Health Care, Knox, IN). Imaging and quantitation were conducted using a Bio-Rad Chemidoc XRS+ System, running Imager Lab Software (Hercules, CA).
+
+## ECM Adhesion Assay
+Cellular attachment to ECM components was determined using a Colorimetric ECM Cell Adhesion Array Kit (Millipore, Billerica, MA). ECM attachment assays were performed on OVCA429 and Skov3 cells expressing ARID3B, FZD5, FZD5 shRNA, or containing CRISPR-edited ARID3B. After 1 hour of incubation, non-adhering cells were washed away, with the remaining adherent cells stained according to the manufacturer's directions. Stained cells were washed with water, and the stain was solubilized with the kit extraction buffer. Light absorption at 540 nm was measured on a Spectramax Plus (Molecular Devices, Sunnyvale, CA). To calculate differences in cellular adhesion, absorption measurements were reported as a fold change over OVCA429-RFP or Skov3-RFP adhesion for each ECM component.
+
+## TCF/Lef reporter assay
+We transfected 293FT cells grown to 80% confluency in a 12-well plate, using Lipfectamine 2000 (Invitrogen, Carlsbad, CA), with 500 ng of DNA. All cells were transfected with TOPflash or FOPflash reporter plasmids alongside a vector force-expressing ARID3B (pLenti-suCMV-Rsv, Gentarget, San Diego, CA), FZD5 (pLenti-C-mGFP, Origene, Rockville, MD) Wnt5a (pLenti-C-mGFP), or an empty pLenti-C-mGFP vector. All samples were also cotransfected with a Renilla luciferase control to normalize for cell number and transfection efficiency. Luciferase activity was measured using a Promega Dual Luciferase Assay Kit (Promega, Madison, WI) according to the manufacturer's instructions and measured on a TD 20/20 luminometer (Turner Designs, Sunnyvale, CA). A similar experiment was conducted with 3T3 "Leading Light" cells (Enzo Life Sciences, Farmingdale, NY). As these cells express a Wnt Reporter luciferase, they were only transfected with the above-mentioned ARID3B, FZD5, and Wnt5a vectors, and normalized by protein concentration. All conditions were run in triplicate and normalized to the Renilla internal control.
+
+## Statistics
+qPCR data and cell adhesion t-statistics were calculated using the Smith-Satterthwaite procedure with unequal population variances. Statistical significance was assigned to comparisons with a p-value of 0.05 or lower. Over-representation of Gene Ontology (GO) terms was calculated using a Chi-Squared Test.
+
+## Results
+
+## ARID3B binds regulatory regions of DNA
+To gain insight into how ARID3B regulates ovarian tumor growth we sought to identify ARID3B regulated genes. Our first step was to identify regulatory regions (such as promoters and enhancers) bound by ARID3B via ChIP-Chip analysis in ovarian cancer cells overexpressing ARID3B (6XHis-ARID3B). OVCA429 cells were transduced with ARID3B as previously described [ ]. Since the expression levels of ARID3B in the cells used for the ChIP-Chip were very high (about a 300-fold increase) we chose to validate genes at more moderate levels of ARID3B expression that are more likely to be encountered in vivo ( ). Sheared chromatin complexes bound to His-tagged ARID3B were isolated using Ni2+-NTA magnetic beads, then hybridized to a NimbleGen Human 2.1M Deluxe Promoter Array. Statistical analysis of the ChIP-Chip array revealed 2,367 genomic regions bound by ARID3B ( ). The genomic regions identified by ChIP-Chip ranged from 397 base pairs to 3,198 base pairs (median: 1,131 base pairs).
+Next we assessed if the ARID3B bound genes cluster into distinct pathways or biological functions. The genomic regions surrounding each ARID3B binding site were scanned for Transcription Start Sites (TSS) in proximity, thus assigning each binding site to a likely regulatory region. Approximately 11% of the ARID3B binding sites located in this manner are in the immediate promoter region of a gene (defined as 0–2Kb from the TSS), 18% are in a nearby enhancer region (2–5Kb from the TSS), 52% are in more distant enhancer regions, and 19% are in introns ( ).
+ Genes with nearby ARID3B binding were grouped by Gene Ontology (GO) terms of biological function ( ). Many of the putative ARID3B targets have GO terms associated with cell death and apoptosis (88 genes), heart development (21 genes), neuron development (47), and stem cell markers (6 genes). A smaller number of genes were found with GO terms for limb bud (2 genes) and facial-cranial formation (1 gene). We also noted that ARID3B binds to a number of genes involved in centromeres or metaphase (44 genes). These categories represent a subset of the biological functions that ARID3B may regulate and implicate ARID3B targets in many processes.
+ 
+
+## ARID3B regulates gene expression
+We next wanted to identify ARID3B regulated genes that are involved in tumor growth we isolated cells from a mouse model of ovarian cancer. Skov3IP cells expressing red fluorescent protein (RFP) or 6XHis-ARID3B and RFP were injected into nude mice. Tumors were allowed to grow. We collected ascites or peritoneal washes from Skov3IP-6XHis-ARID3B or Skov3IP-RFP xenografts ascites as described [ ]. RNA was collected from the malignant ascites form Skov3IP-ARID3B tumor bearing mice or peritoneal washes from mice with Skov3IP-RFP tumors. Microarray analysis was conducted using an Affymetrix Human Genome U133 Plus 2 GeneChip. In this experiment there were 813 genes with increased expression in response to ARID3B, and 201 genes with decreased expression ( ). A more stringent calculation of "highly modified" genes (based on RMA normalization with False Discovery Rate less than 5%) yielded 132 genes with increased expression, and 39 with decreased expression. Similar to our ChIP-Chip data, these results were filtered by GO terms. Among the genes that are ARID3B induced are 44 cell death genes, 13 heart development genes, 17 neural development genes, 37 cell division genes, and 9 stem cell genes ( ). In agreement with our ChIP-ChIP data, several genes we identified as direct ARID3B targets were induced by ARID3B expression including NOTCH2, CASP1, CENPN, and CENPK. A statistical analysis of GO term distribution found that metaphase and centromere-associated terms were significantly over-represented among genes upregulated by ARID3B, while neuron development terms were over-represented among genes down-regulated by ARID3B ( ).
+ 
+
+## Characterizing the ARID3B binding site
+The consensus binding site of ARID3B's paralogue ARID3A was previously shown to be "AATTAA" [ ]. As described above, genomic sequences bound by ARID3B were obtained by ChIP-Chip. These sequences were analyzed using two separate motif-finding algorithms (MEME [ ] and ALLEGRO [ ]) to find a common AT-rich motif. Both methods yielded a consensus binding motif of "TGGGATTACAG." ( ) To demonstrate the functionality of this computationally derived motif, we performed ChIP to detect ARID3B binding to the regulator regions of genes identified via ChIP-Chip. Binding to the regulatory regions of these genes was determined using qPCR primers designed to amplify a 200–300bp region containing one or more putative ARID3B binding sites that we identified bioinformatically. ChIP samples were prepared from Skov3IP and OVCA429 ovarian cancer cells, using both parental lines and cell lines expressing 6XHis-ARID3B ( ). Target genes were selected for validation based on the ChIP-Chip data, and the biological relevance of the gene. The selected target genes were divided into 4 categories of Gene Ontology: Wnt signaling (Wnt5A, FZD5, MYC, APC) ( ), Cell death-associated (NOTCH2, CASP1, LPAR1, and RIPK) ( ), Cell division (CENPN, CENPK, NUSAP, and CEP55) ( ), and EGFR signaling (EGFR and BTC) ( ). For each region, the qPCR results of ARID3B ChIP were normalized to an input DNA sample, and compared to a negative (IgG) control. As shown in , nearly all selected target regions showed ARID3B binding substantially above the negative control in at least one cell line. Relative binding in ARID3B ChIP versus the equivalent negative control was generally much higher in cells overexpressing ARID3B, in comparison to the parental cell lines ( ). Similar results were found when conducting ChIP on high-grade serous ovarian cancer cells (OVCAR3), with significant ARID3B binding found to Wnt5a, RIPK, BTC, and APC ( ).
+ 
+
+## ARID3B alters the expression of genes in key cellular pathways
+Next we ascertained if ARID3B expression alters expression of putative target genes. Exogenous expression of ARID3B increased genes in the Wnt and EGF signaling pathways by qRT-PCR. In OVCA429 cells, APC, FZD5, MYC, and EGFR are induced by ARID3B. In Skov3IP cells, ARID3B increases FZD5, MYC, BTC, and EGFR ( ). The consistent induction of FZD5 and MYC is especially interesting, considering that both are frequently expressed at high levels in ovarian cancer cells compared to immortalized ovarian surface epithelial cells (IOSE398) ( ). Additionally, we confirmed that ARID3B induces the expression of many predicted targets: ARID3B upregulated NOTCH2, SORBS1, and CASP1 in Skov3IP cell lines ( ). These genes were considered of interest due to their Gene Ontology terms. ARID3B also binds several metaphase and centromere-associated genes ( ). We confirmed the binding of ARID3B to regulatory regions in CEP55, CENPN, and CENPK using ChIP ( ). In OVCA429 cells, CEP55 and CENPN are significantly upregulated by ARID3B ( ).
+ Since Wnt signaling is implicated in many type of tumors including ovarian cancer we further investigated regulation of FZD5 by ARID3B. Upregulation of FZD5 was further confirmed by western blot ( ) in which protein expression of FZD5 increased 9-fold in OVCA429 cells and 2.8-fold in Skov3 cells in response to expression of 6xHis-ARID3B. This demonstrates that ARID3B regulates FZD5 in vitro.
+To further support the role of ARID3B in regulating gene expression, OVCA429 cells were transfected with vectors expressing Cas9 nuclease and CRISPR guide RNAs targeting ARID3B. Significant loss of ARID3B expression was confirmed by western blot ( ) and frameshift mutations were verified by sequencing (data not shown). Expression of ARID3B target genes was measured using qPCR as before, comparing OVCA429 cells with CRISPR-edited ARID3B against OVCA429 cells containing a control Cas9 and scrambled sgRNA vector. We found significantly decreased expression of EGFR in the CRISPR-edited cells ( ), and the same for pro-apoptotic targets TRADD and the TNF receptor TNFR2, which our lab had previously verified to be upregulated by ARID3B[ ].
+ To assess if concentration of ARID3B impacts gene regulation, we transduced a OVCA429 cells with a lentiviral ARID3B fused to green fluorescent protein (GFP) (ARID3B-GFP), cells were sorted by fluorescent activated cell sorting (FACS) for high (73-fold increase over endogenous ARID3B) or moderate (27-fold increase over endogenous ARID3B) levels of ARID3B-GFP. Moderate expression of ARID3B induced EGFR, TRADD, TNFR2, and TNF ( ). High levels of exogenous ARID3B resulted in lower expression TNF and TNFR2, but induced expression of EGFR and TRAIL. These data suggest that the concentration of ARID3B in a particular cell or cell type results in differential target gene expression.
+
+## ARID3B and Frizzled Receptor 5 increase Wnt signaling and adhesion to Extracellular Matrix components
+Since ARID3B regulates the expression of Wnt signaling pathway genes and elevated Wnt signaling is associated with ovarian cancer progression, we examined this relationship. A TOPflash assay was conducted to measure β-catenin-dependent (TCF/LEF) transcription in cells co-transfected with vectors expressing ARID3B (pLenti-suCMV-Rsv), FZD5 (pLenti-C-mGFP) or Wnt5a (pLenti-C-mGFP). Due to poor transfection efficiency in our ovarian cancer cell lines, this experiment was conducted in 293FT cells. It should be noted that in all of our experiments using ovarian cancer cell lines (OVCA429, Skov3IP, Skov3, and OVCAR3) it was necessary to use lentiviral transduction to introduce 6xHis-ARID3B, RFP, or FZD5 into the cells. We were unable to transfect the cells with the TOPflash/FOPflash plasmids. However, we found that in 293FT cells TCF/LEF activation is significantly higher in cells transfected with ARID3B or Wnt5a ( ) suggesting that ARID3B activates Wnt signaling in 293FT cells. However, a similar experiment using 3T3 "Leading Light" Cells did not show any statistically-significant difference when the cells were transfected with ARID3B or Wnt5a (data not shown). Therefore at this time we cannot conclude if induction of FZD5 by ARID3B results in activation of TCF/LEF induced transcription.
+ We previously found that ARID3B alters actin cytoskeleton and adhesion [ ]. To assess if ARID3B modulates changes in adhesion potentially through Wnt signaling, we tested the effects of ARID3B or FZD5 expression ( ) in ovarian cancer cells on adhesion to ECM components ( ). OVCA429 and Skov3 expressing ARID3B or FZD5 were plated onto a Millipore Colorimetric ECM Cell Adhesion Array Kit and compared to OVCA429 and Skov3 control cells. In addition, we compared Skov3 6x-His-ARID3B, but also transduced with an shRNA for FZD5. OVCA429 cells ( ) overexpressing FZD5 displayed increased adhesion to collagen IV (1.53 fold, p = 0.010), fibronectin (1.36 fold, p = 0.035), laminin (1.41 fold, p = 0.029), tenascin (1.50 fold, p = 0.006), and vitronectin (1.98 fold, p = 0.001). When ARID3B was edited using CRISPR technology, fibronectin (0.68 fold, p = 0.03) and vitronectin (0.69 fold, p = 0.002) adhesion was decreased compared to adhesion in 6x-His-ARID3B expressing cells. In , Skov3 cells expressing FZD5 showed similar increases in adhesion to ECM: collagen II (1.66 fold, p = 0.029), collagen IV (1.96 fold, p = 0.019), fibronectin (2.27 fold, p = 0.014), laminin (1.79 fold, p = 0.023), tenascin (1.75 fold, p = 0.024), and vitronectin (2.19 fold, p = 0.015). Cells expressing 6x-His-ARID3B displayed similarly increases in ECM adhesion ( ). When FZD5 was knocked down using shRNA, Skov3 cells over-expressing ARID3B exhibited decreased adhesion to collagen I, collagen II (p = 0.012), collagen IV (p = 0.008), and tenascin (p = 0.042). Most importantly, FZD5 shRNA prevented the increase in adhesion to collagen II, collagen IV, and tenascin that that results form expression of 6x-His-ARID3B. Collectively, this data suggests ARID3B induces increased in adhesion by regulation of its target gene FZD5.
+ 
+
+## Discussion
+Previous work identified the DNA binding protein ARID3B as a critical regulator of embryonic development and tumor growth [ , , ]. However, how ARID3B regulates these processes is poorly understood. To begin to shed light on the molecular mechanisms by which ARID3B regulates ovarian cancer progression, we identified direct targets of ARID3B. We demonstrate that ARID3B binds regulatory regions of target genes in a sequence specific fashion and alters the expression of endogenous target genes in ovarian cancer cell lines.
+We have demonstrated a novel binding site, determined computationally from a collection of hundreds of DNA sequences bound by ARID3B through ChIP-Chip analysis. Our calculated ARID3B site is both a variation as well as an expansion on the previously-known ARID3A site, which has allowed for very strong predictions using motif-matching algorithms such as POSSUM (http://zlab.bu.edu/~mfrith/possum/). There are some limitations to our methods, however, in that our ChIP-chip data is restricted to sites available on our promoter array, as opposed to a genome-wide ChIP-seq approach used recently to locate ARID3A binding sites[ ]. It is notable that in recent ChIP-seq studies, ARID3A and Oct4 bind to a consensus site of "ATGCAAAT", notably different from the previously-established site of "(G/A)ATTAA". A recent study found that ARID3B binds to a region of the Oct4 promoter containing the sequence "AATAAAAATAA"[ ]. We did not find this sequence to be over-represented among ARID3B-bound regions in our ChIP experiments, though we did find matches for our putative ARID3B binding site in the Oct4 promoter. These discrepancies may be the result of differing ARID3B binding partners, or differences between our ovarian cancer cell lines, and the stem cells used in other studies.
+It was published that exogenous ARID3B forms a heterodimer with ARID3A in COS-7 cells [ ]. However, the knockout phenotypes for ARID3A and ARID3B are distinct and not overlapping [ ]. Arid3b
+-/- embryos die earlier with neural crest defects while Arid3a
+-/- embryos exhibit hematopoietic defects. Additionally, ARID3A and ARID3B have only partially overlapping patterns of expression in adult tissues. While both paralogues are expressed at high levels in lung and spleen [ ], they exhibit opposite patterns of expression in kidney and stomach tissues. ARID3B is increased in kidney tumors compared to normal kidney while ARID3A decreases. Conversely, ARID3A is increased in stomach tumors compared to normal stomach; ARID3B decreases during stomach tumor progression [ ]. Given that their binding motifs are similar, we wanted to assess if ARID3A is co-expressed in our cell lines. In , we demonstrate that ARID3A is expressed at varying levels in our ovarian cancer cell lines suggesting that heterodimers may form. Further studies will identify the ARID3B transcriptional complex.
+ In a ChIP-Chip experiment, over 2,000 genomic regions were bound by ARID3B ( ). Microarray determined that overexpression of ARID3B upregulated 813 genes and repressed 201 genes ( ). Further work is needed to determine how ARID3B directly activates and/or represses gene expression. Gene regulation by ARID3B varied by cell type, in that some target genes were regulated in one cell line but not another. This variable regulation suggests that target gene activation likely requires other factors, which may be expressed at different levels in a cell-line dependent manner. In addition, we noticed that the endogenous expression of ARID3B targets displayed significant variation between cell lines. ARID3B induced NOTCH2 expression in Skov3IP cells, in which endogenous levels of NOTCH2 are comparatively low. ARID3B did not increase NOTCH2 expression in OVCA429 cells, in which NOTCH2 is already expressed at very high levels. This notion of context-specific gene regulation may explain the role for ARID3B in different tissues[ ].
+The specific gene targets we discovered provide insight into how ARID3B acts during development and in cancer. Arid3b null embryos have several abnormalities, including heart defects, neurological defects, and retarded limb bud and facial-cranial development [ – ]. Additionally, ARID3B induces TNF induced death [ ] and promotes neuroblastoma [ ] and ovarian tumor growth [ ]. In agreement with these studies, our data demonstrate that many direct ARID3B targets have GO terms related to cell death, neural development, and heart defects. Additionally, many pathways involved in both development and cancer are regulated by ARID3B. This includes genes in the Wnt, EGFR, TNF, and NOTCH signaling pathways. A Chi-squared test revealed GO terms that are significantly over-represented among these ARID3B-regulated genes. Several of these over-represented GO terms relate to metaphase and centromeres, and we confirmed that CENPN, CENPK, and CEP55 are direct targets of ARID3B. CEP55 overexpression increases tumorgenicity in gastric carcinoma [ ], while high expression of CENP-A correlates with poor survival in epithelial ovarian cancer [ ]. Therefore, many of the target genes that are ARID3B-regulated are implicated in cancer.
+ARID3B induction of the Wnt signaling pathway is particularly interesting. ARID3B activates four Wnt-pathway genes: WNT5A, FZD5, APC, and MYC. Wnt signaling enhances tumor cell proliferation and tumor development, and FZD5 expression correlates with poor prognosis in ovarian cancer [ – , ]. We showed that FZD5 is overexpressed in ovarian cancer cell lines compared to IOSE398 cells; this finding agrees with studies of ovarian cancer which find that FZD5 expression correlates with advanced malignancy [ ]. In light of this, it is notable that FZD5 is increased by overexpression of ARID3B. TCF/LEF induced transcriptional activity is induced by ARID3B transfected 293FT cells, but since we were unable to perform TOPFlash assays in our ovarian cancer cells we do not know if ARID3B activation of FZD5 results in TCF/LEF mediated gene expression.
+Upregulation of either ARID3B or FZD5 increased adhesion to several ECM components, particularly vitronectin, fibronectin, and collagen IV. This is consistent with data showing that Wnt signaling triggered through FZD5 with the WNT7A ligand increases adhesion[ ]. We provide further support for the role of FZD5 in adhesion with an FZD5 shRNA knockdown, which reduces binding to multiple forms of collagen ( ). Notably, this is the first demonstration that FZD5 is critical for adhesion to collagen. Since adhesion is important for ovarian peritoneal metastasis [ , ], ARID3B activation of Wnt signaling components may promote metastasis by enhancing cell matrix adhesion.
+Finally, ARID3B binds an enhancer region of EGFR and the EGFR ligand BTC increasing their expression. We previously demonstrated that ARID3B is induced by EGFR signaling [ , ]. We now demonstrate that ARID3B directly activates EGFR, demonstrating a feed-forward pathway where EGFR signaling through ARID3B leads to increased EGFR expression. EGFR is often overexpressed in ovarian cancer and correlates with poor prognosis [ – ]. We surmise that ARID3B regulation of EGFR may be a mechanism to maintain elevated EGFR expression [ ]. This conclusion is further supported by the decrease in EGFR expression observed when ARID3B is edited using CRISPR technology. The use of CRISPR to reduce functional ARID3B is key to our work going forward, as it will clarify whether ARID3B is essential for regulation of specific target genes.
+Our data demonstrate that ARID3B regulates a number of tumor promoting pathways and ARID3B overexpression leads to increased tumor growth and metastasis [ ]. However, the role of ARID3B in tumor development is complicated, due to the large number of targets, and seemingly contradictory roles of ARID3B in cellular behavior. As noted before, ARID3B increases tumor growth[ ] and activates cell death pathways[ ]. ARID3B promotes tumor growth in neuroblastoma and ovarian cancer, but ARID3B expression decreases with progression of esophageal and stomach cancer [ , ]. This suggests that ARID3B’s role in cancer may be context dependent. We demonstrate ( ) that the differential regulation of pathways is at least in part due to the expression levels of ARID3B. ARID3B gene editing decreases expression of EGFR, TRADD, and TNFR2, while moderate over-expression (27-fold) of ARID3B increases all of these targets. However, a higher level of ARID3B over-expression (73-fold) decreases the expression of TRADD and TNFR2. Future experiments will dissect the mechanism for how ARID3B concentration dictates target gene expression and how regulation of these pathways contributes to ovarian tumor growth and metastasis.
+In conclusion, we identified direct targets of ARID3B, which include members of the Wnt, EGF, NOTCH, and signaling pathways. In particular, ARID3B induction of the Wnt receptor FZD5 is important in increasing tumor cell adhesion, which may contribute to metastasis.
+
+## Supporting Information
+S1 Fig
+
+## ARID3B expression in OVCA429 and Skov3IP.
+Uncropped western blot showing detection of ARID3B in parental OVCA429 and Skov3IP cell lines compared to the cell lines transduced with 6XHis-ARID3B, as shown in . Uncropped blot for β-Actin loading controls is also included.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## FZD5 expression in OVCA429 and Skov3IP.
+Uncropped western blot showing detection of FZD5 in parental OVCA429 and Skov3IP cell lines compared to cell lines transduced with pGMP-FZD5, as shown in . Uncropped blot for GAPDH loading controls.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## ARID3B expression in parental OVCA429 and CRISPR-edited OVCA429.
+Uncropped western blot for ARID3B in OVCA429 parental cells, versus OVCA429 cells edited with a CRISPR sgRNA targeting ARID3B, as shown in . Samples loaded in other lanes were not used in subsequent experiments. Uncropped blot for β-Actin loading controls.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## ARID3B and ARID3A expression in cell lines.
+Uncropped western blot for ARID3B and ARID3A in various ovarian cancer cell lines, as shown in . Uncropped blot for COXIV loading control.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## ARID3B ChIP-on-chip summary data.
+Listing of genomic regions with significant binding to the Nimblegen Human 2.1M Deluxe Promoter Array, following collection of DNA fragments bound by ARID3B. Significant differences are determined by MAT score. Nearest genes are listed under "Annotation".
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Changes in gene expression in 6XHis-ARID3B cell lines, measured by microarray.
+Significant changes in gene expression are listed, based on data collected using an Affymetrix Human Genome U133 Plus 2 GeneChip.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Over-represented Gene Ontology terms among genes upregulated or downregulated by ARID3B.
+Each gene identified to have significantly altered expression in cells over-expressing ARID3B (determined by microarray) was sorted by associated Gene Ontology (GO) terms. The frequency of GO terms was compared against their corresponding frequencies across the entire genome, and over-represented terms were calculated using a Chi-Squared test.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Letter-probability Matrix describing the putative ARID3B binding site.
+Based on an alignment of many sequences bound by ARID3B, the following binding site was computed, with probabilities assigned to each base at each position.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## Location of ARID3B binding sites confirmed by ChIP.
+For each ARID3B binding site validated by ChIP and subsequent qPCR ( ), the distance to the transcription start site is listed, along with a description of the binding site's location.
+(XLSX)
+Click here for additional data file.
+
+## Acknowledgments
+This work was in part supported by National Institutes of Health (NIH) R00CA133190 and a Liz Tilberis Scholar award from Ovarian Cancer Research Fund (KDCD). The ChIP-Chip was funded by the Eck Institute for Global Health Pilot Grant and performed at the University of Notre Dame Genomics and Bioinformatics Core Facility by Dr. John Tan and analysis was conducted by the Center for Computation Biology and Bioinformatics.
+
+## Data Availability
+All relevant data are within the paper and its Supporting Information files.
+
+## Funding Statement
+This work was supported by National Institute of Health/National Cancer Institute R00CA133190, http://www.cancer.gov/ (KDCD), Ovarian Cancer Research Fund, Liz Tilberis Scholar Award, http://www.ocrf.org/ (KDCD), Eck Institute for Global Health, University of Notre Dame, Pilot Grant for Genomics Core, https://globalhealth.nd.edu/ (KDCD). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## ARID3B expression in OVCA429 and Skov3IP.
+Uncropped western blot showing detection of ARID3B in parental OVCA429 and Skov3IP cell lines compared to the cell lines transduced with 6XHis-ARID3B, as shown in . Uncropped blot for β-Actin loading controls is also included.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## FZD5 expression in OVCA429 and Skov3IP.
+Uncropped western blot showing detection of FZD5 in parental OVCA429 and Skov3IP cell lines compared to cell lines transduced with pGMP-FZD5, as shown in . Uncropped blot for GAPDH loading controls.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## ARID3B expression in parental OVCA429 and CRISPR-edited OVCA429.
+Uncropped western blot for ARID3B in OVCA429 parental cells, versus OVCA429 cells edited with a CRISPR sgRNA targeting ARID3B, as shown in . Samples loaded in other lanes were not used in subsequent experiments. Uncropped blot for β-Actin loading controls.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## ARID3B and ARID3A expression in cell lines.
+Uncropped western blot for ARID3B and ARID3A in various ovarian cancer cell lines, as shown in . Uncropped blot for COXIV loading control.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## ARID3B ChIP-on-chip summary data.
+Listing of genomic regions with significant binding to the Nimblegen Human 2.1M Deluxe Promoter Array, following collection of DNA fragments bound by ARID3B. Significant differences are determined by MAT score. Nearest genes are listed under "Annotation".
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Changes in gene expression in 6XHis-ARID3B cell lines, measured by microarray.
+Significant changes in gene expression are listed, based on data collected using an Affymetrix Human Genome U133 Plus 2 GeneChip.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Over-represented Gene Ontology terms among genes upregulated or downregulated by ARID3B.
+Each gene identified to have significantly altered expression in cells over-expressing ARID3B (determined by microarray) was sorted by associated Gene Ontology (GO) terms. The frequency of GO terms was compared against their corresponding frequencies across the entire genome, and over-represented terms were calculated using a Chi-Squared test.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Letter-probability Matrix describing the putative ARID3B binding site.
+Based on an alignment of many sequences bound by ARID3B, the following binding site was computed, with probabilities assigned to each base at each position.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## Location of ARID3B binding sites confirmed by ChIP.
+For each ARID3B binding site validated by ChIP and subsequent qPCR ( ), the distance to the transcription start site is listed, along with a description of the binding site's location.
+(XLSX)
+Click here for additional data file.
+
+## Data Availability Statement
+All relevant data are within the paper and its Supporting Information files.

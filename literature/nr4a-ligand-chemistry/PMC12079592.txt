@@ -1,0 +1,739 @@
+pmcACS OmegaACS Omega3686acsomegaaoACS Omega2470-1343American Chemical SocietyPMC12079592PMC12079592.112079592120795924038519310.1021/acsomega.5c018761ArticleUnraveling Common
+Patterns and Differences among Cruzipains
+through Molecular Dynamics Simulations and Structural Analyses
+https://orcid.org/0000-0002-6910-0697SantosLucianna
+Helene S. Broilo CamposAugusto César Corrêa SantosViviane FassioAlexandre Victor CostaMaurício
+G. S. https://orcid.org/0000-0003-3324-0601FerreiraRafaela Salgado †Institut
+Pasteur de Montevideo, Mataojo 2020, Montevideo 11400, Uruguay‡Departamento
+de Bioquímica e Imunologia, Universidade
+Federal de Minas Gerais, Avenida Antônio Carlos 6627, Belo Horizonte 31270-901, Minas Gerais, Brazil§Instituto
+de Física de São Carlos, Universidade
+de São Paulo, São
+Carlos, São Paulo 13563-120, Brazil∥Programa
+de Computação Científica, Vice Presidência
+de Educação Informação e Comunicação, Fundação Oswaldo Cruz, Rio de Janeiro 21040-900, Brazil*Email: rafaelasf@icb.ufmg.br.020520251305202510184886221911519128270220252404202506042025020520251605202519052025© 2025 The Authors. Published by American Chemical Society2025The Authorshttps://creativecommons.org/licenses/by/4.0/Permits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/). 
+Chagas disease (CD) is a neglected tropical disease for
+which novel
+and improved treatments are needed. The cysteine protease Cruzipain
+is one of the main targets for the development of novel drugs for
+the treatment of CD. Recent bioinformatics analyses have revealed
+four Cruzipain subtypes whose active sites differ in key positions
+for ligand recognition. These analyses suggest a possible effect on
+the substrate specificity and affinity for ligands. To better investigate
+the impact of substitutions in Cruzipain subtypes, we employed molecular
+dynamics simulations and varied structural analyses on representatives
+of each Cruzipain subtype. Our results indicated that the substitutions
+did not significantly affect the overall flexibility and conformation
+of these proteases. In contrast, we observed differences in their
+active site characteristics, including different electrostatic potentials,
+cavity volumes, and patterns of interactions with the virtual probes.
+The distinct alterations in the active site subsites, especially in
+the S2 subsite, suggest unique functional changes that could affect
+substrate binding, ligand recognition, and possibly enzymatic effectiveness
+in various biological situations.
+
+CoordenaÃ§Ã£o de AperfeiÃ§oamento de Pessoal de NÃ­vel Superior10.13039/501100002322001FOCEMNACOF 03/11FundaÃ§Ã£o de Amparo Ã  Pesquisa do Estado de Minas Gerais10.13039/501100004901RED-00096-22FundaÃ§Ã£o de Amparo Ã  Pesquisa do Estado de Minas Gerais10.13039/501100004901BPD-00076-22FundaÃ§Ã£o de Amparo Ã  Pesquisa do Estado de Minas Gerais10.13039/501100004901APQ-00789-22Conselho Nacional de Desenvolvimento CientÃ­fico e TecnolÃ³gico10.13039/501100003593310197/2021-0pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesdocument-id-old-9ao5c01876document-id-new-14ao5c01876ccc-price
+
+## Special Issue
+Published
+as part of ACS Omegaspecial issue “Chemistry in Brazil: Advancing through
+Open Science”.
+1
+
+## Introduction
+Chagas disease (CD), caused
+by the protozoan parasite Trypanosoma cruzi (T. cruzi), is endemic in 21 Latin
+American countries. Owing to increased
+population mobility, CD is currently an emerging
+health problem in nonendemic countries scattered across North America,
+Europe, Asia, and Oceania, and it has been detected in 44 countries. − It is estimated that at least 6–7 million people worldwide
+are infected with the parasite. , , The therapeutic arsenal for CD treatment is limited to the nitroheterocyclic
+drugs benznidazole and nifurtimox, which exhibit several limitations,
+such as inadequate efficacy during the chronic phase of CD, severe
+adverse toxic effects, and the presence of resistant strains of T. cruzi. , Developing new treatments
+for Chagas disease has been challenging, with a very low throughput
+of drug candidates, even when compared to other neglected tropical
+diseases. , 
+Cruzipains constitute a multigenic
+family of cathepsin L-like cysteine
+proteases from T. cruzi. Traditionally,
+the term “Cruzipain” refers to the native enzyme, , and the term cruzain is employed for the recombinant form, which
+is truncated at the C-terminal domain but preserves proteolytic function. Cruzipains are expressed in all life stages of theT. cruzi cycle
+and play an important role in metacyclogenesis, host cell invasion,
+and modulation of the host cell response. − Cruzain has been one of the main targets for the development of
+novel drugs for the treatment of CD. , − Strategies based on designing peptidomimetics, virtual screening,
+experimental screening, and traditional medicinal chemistry efforts
+have led to the development of several classes of cruzain inhibitors. − Among these inhibitors, there are compounds that are efficacious
+against T. cruzi in vitro and in animal
+models of infection, − and the vinyl sulfone K11777 has progressed to drug candidacy. 
+Despite decades of effort to develop cruzain
+inhibitors and understand
+the biological role of Cruzipains, only recently did we obtain a complete
+picture of their genomic organization. Comparison of all Cruzipain sequences from three T. cruzi strains (CL Brener, YC6, and Dm28) revealed
+two Cruzipain families and four Cruzipain subtypes (CZP1–4),
+whose active sites differed in key positions for ligand recognition.
+These analyses suggest a possible impact on the substrate specificity
+and affinity for ligands. In addition, based on transcriptomic analysis
+in CL Brener, the expression of Cruzipain subtypes varies throughout
+the T. cruzi life cycle. Similarly, previous qualitative studies with
+the Dm28c strain detected Family I Cruzipain mRNA only in epimastigotes
+but found mRNA for Family II Cruzipains in trypomastigotes and amastigotes. This stage-specific expression pattern may help
+explain the varying trypanocidal activities observed for the two cruzain-targeting
+compounds. Compound 8, a competitive cruzain (CZP1) inhibitor with
+a Ki of 4.6 μM, showed greater potency
+against epimastigotes, which express Family I more abundantly. In
+contrast, its analogue compound 22, a weaker cruzain inhibitor (Ki = 27 μM), was more effective against
+trypomastigote and amastigote forms, where Family II Cruzipains are
+more expressed. Notably, both compounds share the same isoquinoline
+scaffold yet display distinct activity profiles across parasite stages. Thus, a better understanding of this protease
+family is essential to guiding successful medicinal chemistry efforts.
+To date, the information available on these proteases is very limited.
+Among the sequences from Family II, only Cruzipain 2, described in
+1994, has been recombinantly expressed
+and biochemically characterized. Compared to cruzain, CZP2 is less
+sensitive to E-64, to the mammalian inhibitor cystatin C, and to heparan
+sulfate. , CZP2 also has different substrate specificities,
+particularly at the S2 subsite. , Together with several
+substitutions detected among the Cruzipain subtypes, these results
+indicate the relevance of additional experimental and computational
+studies to better understand this protease family.
+Here, we
+employed molecular dynamics (MD) simulations and varied
+structural analyses of representatives of each Cruzipain subtype to
+gain insight into the impact of the substitutions on the flexibility,
+conformational ensemble, and active site characteristics of these
+proteases.
+
+2
+
+## Results and Discussion
+2.1
+
+## Cruzipains Share Conformational Similarity
+and Rigidity in the Catalytic Domain
+We selected five Cruzipain
+representatives, which were compared throughout this study. These
+include one member of subtypes 1 (CZP1), 2 (CZP2), and 4 (CZP4) and
+two members of subtype 3 (CZP3.7 and CZP3.9). Although CZP3.7 and
+3.9 were similar enough to be classified within the same subtype,
+they exhibited differences in the active site, such as in positions
+61 and 159, which could significantly impact substrate and ligand
+recognition, thus justifying the inclusion of both sequences in our
+analysis. Only the catalytic domain of these sequences was considered
+since this is the region with higher variability, and it is sufficient
+for protease activity. Taking CZP1 as a reference, 64 positions were
+found to vary in at least one of the other four sequences ( A), of which 13 positions
+(at residues 61, 67, 68, 69, 70, 117, 138, 145, 158, 159, 161, 163,
+and 208) were concentrated in the active site, and the remaining positions
+were spread throughout the whole structure ( B).
+ To further comprehend the effects of these amino
+acid differences
+in the catalytic domain, we performed a structural analysis beginning
+from a cruzain structure obtained by X-ray crystallography (PDB code 1ME3) for CZP1 and from
+models previously created for the remaining sequences by comparative
+modeling. Despite the substitutions being
+spread over the entire structure, the superimposition of all structures
+revealed a relatively modest variation, with a root-mean-square deviation
+(RMSD) of approximately 0.2 Å ( A). However, the 13 substitutions in the
+active site region resulted in noticeable variations in both shape
+and charge among the subtypes ( B). Electrostatic potential calculations revealed that
+the CZP1 active site is significantly more negative than the other
+subtypes. Although the other subtypes did not exhibit a fully positive
+or negative electrostatic potential, areas that were more positive
+or neutral around the S2, S3, and S1′ subsites were detected
+( C–F).
+ Notably, the S2 subsite, known for its significance
+in ligand selectivity
+and recognition, , exhibited the most noticeable
+shape variations. The residues Leu67 and Met68, which play a crucial
+role in defining the subsite in CZP1, are replaced by two serines,
+Ser67 and Ser68, in CZP2. Therefore, the subsite in CZP2 is enlarged
+and exhibits a polarity different from that of CZP1 ( C). In contrast, the presence
+of Trp67 and Pro68 in CZP3.7 and CZP3.9 leads to a decrease in S2
+volume and partial occlusion of the S3 subsite in these subtypes ( D,E). In CZP4, the
+substitutions of Ser67, Pro68, and Gly208 lead to a substantial enlargement
+of S2 ( F).
+The Glu208Gly substitution is particularly significant for CZP4 as
+Glu208 plays a crucial role in binding various ligands. , , When the compound moieties bound
+in S2 can form a hydrogen bond or an ionic interaction, the Glu208
+side chain is oriented toward the binding site. When S2 is occupied
+by a hydrophobic moiety, Glu208 undergoes a conformational alteration
+to engage with the solvent. Thus, replacing
+a larger residue with a smaller one could significantly affect CZP4’s
+ability to bind ligands in this specific subsite. Curiously, there
+was no noticeable impact on the polarity detected in the S1 subsite
+across the different subtypes. This could be attributed to the presence
+of catalytic dyad residues inside it. Therefore, this subsite should
+be under a higher evolutionary pressure than the other subsites; otherwise,
+the catalytic function could be lost or impaired.
+Motivated
+by the observation of different structural features across
+CZP subtypes, we investigated the conformational variability in the
+experimental structures and compared it with a set of MD simulations.
+Three independent 300 ns MD simulations were performed, accounting
+for a total of 900 ns of simulation time per system. Notably, all
+subtypes exhibited stability with consistently low deviations (Figure S1), as indicated by the RMSD values ranging
+from 0.6 to 1.5 Å ( A). The RMSF profiles were similar for all subtypes, with
+higher flexibility in the protein loops and terminal regions, as observed
+in the experimental ensemble ( B). Indeed, the correlation coefficients between the
+RMSF profiles for each subtype compared to the experimental ensemble
+were above 0.7, indicating that MD simulations reproduced the CZP1
+flexibility (Table S1). The only exception
+was CZP3.9, which still exhibited high correlations (0.65), yet lower
+than other systems, probably because of the peak of fluctuations around
+residues 60–65. Furthermore, all systems exhibited similar
+secondary structure compositions ( C). Consequently, no major disruptions of
+the overall CZP structure or unfolding were identified because of
+amino acid substitutions ( D). This observation reinforces previous studies that
+demonstrate low flexibility for CZP1 , − and the minimal variability observed in the experimental ensemble
+obtained for this work ( D). Finally, we calculated the most statistically relevant
+structural variations found in the experimental ensemble using principal
+component analysis (PCA). The first two principal components (PC1
+and PC2), which describe the structural variations with the largest
+amplitude, are related to a subtle opening of the active site cavity
+and loop motions. The projections of the MD snapshots onto these components
+reveal that all subspaces spanned by the experimental structures were
+explored during the simulations ( ). CZP4 exhibited the largest range of exploration,
+which is in line with the largest number of clusters obtained for
+this subtype. Thus, despite the substitutions found in CZP subtypes,
+the overall behavior was preserved. Taken together, the results presented
+in this section reveal that MD simulations for all CZP subtypes explored
+the conformational variability experimentally found for CZP1.
+ 
+2.2
+
+## Network Analysis Indicates Similar Paths and
+Communities among Cruzipains
+As the overall structural and
+dynamic behaviors were similar for all systems, we proceeded to examine
+in detail the residue couplings in response to different substitutions
+by comparing the dynamical cross-correlation matrices (DCCMs). The
+DCCMs of each system exhibited a notable degree of similarity in terms
+of correlated motions, with greater intensities observed in the CZP3.9
+simulations (Figure S2). Furthermore, in
+all systems, two well-defined blocks of positively correlated residues
+were observed, where the first comprised residues 1 to 118 and the
+second comprised residues 120 to 200. Therefore, the active site region
+is split into two subdomains, marked by the presence of the catalytic
+dyad (Cys25 and His162) ( A). This behavior is also seen in other simulations
+of cruzain. Prior studies have classified
+these dynamic subdomains as the L-subdomain, which includes Cys25,
+and the R-subdomain, which includes His162. , 
+ Next, we performed a correlation network analysis
+to gain further
+insights into the dynamic couplings obtained in the DCCMs. This analysis
+enables partitioning of the residues into communities, which are subnetworks
+of each original network. Nodes in a community have stronger connections
+with their neighbors than with nodes in other communities. Therefore,
+this analysis is well suited for the identification of dynamic subdomains.
+The networks derived from the simulations indicated consistent partitions
+within the Cruzipains’ structure representing different subtypes,
+with only a few variations ( B). Furthermore, we observed that, in general, the
+R-subdomain contains highly similar communities, except for CZP3.7,
+while the L-subdomain shows variations in community sizes.
+When
+compared to the other sequences, the R-subdomain of CZP3.7
+was split into two additional communities, specifically residues 123–132
+(magenta) forming an α helix and residues 135–139 (green),
+which consists of a short loop near the S2 subsite. Only one substitution,
+Ala131Val, is exclusively present in CZP3.7 at this node. The green
+nodes consist of four residues from a β sheet and exhibit a
+substitution found exclusively in CZP3.7, Val136. In the other subtypes,
+Ala136 (CZP1, CZP2, and CZP3.9) or Ser136 (CZP4) were present.
+As previously mentioned, the community compositions and pattern
+of connectivity in the L-subdomains exhibited higher variability because
+of the increased structural heterogeneity observed among the subtypes.
+Within the L-subdomain, residues 98 to 105 form a loop that stands
+out. In the CZP1, CZP3.9, and CZP4 subtypes, these residues are mostly
+clustered together in a single community, represented by the yellow
+node ( B). This
+loop has an identical sequence (SPPCTTSG) and more flexibility in
+these subtypes ( B). In contrast, the CZP2 and CZP3.7 subtypes, which contain the
+sequence KLPCKDSD in this loop, exhibit rigidity in this region, resulting
+in a bigger community encompassing this loop ( B). Finally, the CZP4 network distinguishes
+itself from the others by the substantial size of the pink and orange
+nodes, which encompass a significant portion of the L-subdomain. The
+pink node contains a complete α helix, spanning from position
+68 to 78, which was subdivided differently in the other subtypes.
+Therefore, the CZP4 subdomain exhibits more extensive areas of correlated
+motion than the other subtypes in this region of the L-subdomain.
+To examine the importance of each individual residue in the network,
+the betweenness centrality was computed for each residue ( C). This metric considers
+strongly interconnected residues as crucial for the dynamics of residue
+coupling and communication within the structures. In the CZP1 subtype,
+residues Gln19, Tyr91, Glu122, His162, and Ser183 exhibited the highest
+betweenness values (Figure S3A). In the
+CZP2 subtype, in addition to His162, the highly connected residues
+identified were Thr14 and Arg47 (Figure S3B). In the CZP3.7 subtype, Val16, Lys17, Asn18, Gln19, Gly20, Leu21,
+Ile112, Thr113, Gly114, His115, Val116, Glu117, Leu118, Pro119, Gln120,
+Asp121, Glu122, Cys203, and Ser211 were highly connected residues
+(Figure S3C). In the CZP3.9 subtype, Lys17,
+Thr113, and Glu122 exhibited the highest betweenness values (Figure S3D). In the CZP4 subtype, Thr14, Ala15,
+Val16, Lys17, Asn18, Gln19, Gly20, Cys22, Cys63, Tyr115, Val116, Thr117,
+Ile118, Pro119, Arg120, Asp121, Glu122, and Cys203 were highly connected
+residues (Figure S3E).
+The presence
+of residues at the interface of the L- and R-subdomains,
+including Thr14, Asp18 (Asp18Asn), Gln19, Lys17, Ile112, Thr113, Gly114,
+His115 (His115Tyr), Val116, Glu117 (Glu117Thr), Leu118 (Leu118Ile),
+Pro119, His162, Ser183, and Ser211, emphasizes the significance of
+interdomain signal transmission. Conserved residues located at positions
+14, 15, 16, 17, 19, 20, 22, 63, 91, 112, 113, 114, 116, 119, 121,
+122, 162, 183, 203, and 211 were more frequently observed as high
+centrality residues than nonconserved residues at positions 18, 21,
+47, 115, 117, 118, and 120, demonstrating that these residue substitutions
+affect communication pathways in the subtypes. In subtypes CZP3.7
+and CZP4, as previously observed with community distribution, numerous
+residues exhibited elevated centrality values, some located in the
+subdomain interface region, suggesting the presence of multiple communication
+pathways in these subtypes encompassing a larger number of residues
+and diverse regions of the proteins.
+Although the residues exhibiting
+high-density network connections
+were distinct among the subtypes, overall, the distribution of residues
+inside the communities and the pattern of connections between them
+were highly consistent across all systems ( C). Thus, we utilized the square inner product
+(SIP) to assess the overall similarity between the betweenness centrality
+computed for CZP1 and those for other Cruzipains. According to this
+analysis, high SIP values may be associated with the preservation
+of communication between residues, even in the presence of substitutions.
+The SIP values between CZP1 and all the other subtypes were roughly
+0.80, suggesting that residue substitutions had an effect, although
+a modest one, on the overall communication across residues in the
+catalytic domain for the subtypes when compared to the CZP1 profile.
+The maximum SIP value of 0.87 occurred between CZP3.7 and CZP4, and
+the minimum SIP value, 0.75, was observed between CZP2 and CZP4 (Table S2). This aligns well with the previously
+discussed similarities and disparities in clustering and the community
+size.
+
+2.3
+
+## Active Site Analyses Reveal Different Cavity
+Volumes
+Although the MD simulations and network analysis
+showed that there was a high level of structural similarity among
+all Cruzipain subtypes, the significant heterogeneity within the active
+site prompted us to perform more detailed investigations in this region.
+As previously stated, the substitutions in the active site affect
+both the electrostatic surface and the formation of its subsite cavities,
+particularly S2 and S3 ( ). Therefore, we utilized MD trajectories to determine the
+volume and accessibility of the active site cavity in all subtypes.
+The active site pocket was characterized using the MDpocket program. MDpocket automatically chooses pockets from
+the simulation frames that occur with a frequency of 50% as the default
+setting. Based on these settings, only the region over the S2 subsite
+was consistently identified in all Cruzipain subsites, coherently
+with the generally flat shape of the active site with only the S2
+subsite having a distinct shape. Consequently, we reduced the frequency
+to 10% of the frames to capture all the active sites ( A).
+ Notably, CZP2, CZP3.7, and CZP4’s active
+sites exhibited
+the largest volumes (about 900 to 1300 Å3) and had
+similar solvent accessible surface areas (SASA) (about 500 to 700
+Å2) ( B). These values could be attributed to the enlargement of
+the pocket resulting from the activation of a “gate”
+mechanism involving the residues in the S2, leading to a pocket located
+beyond the S2 subsite. The mechanism previously described by Durrant
+et al. elucidates how the residues Leu67
+and Glu208, which are near each other, function as a gate in the CZP1
+subtype. This gate effectively closes off the region of S2, preventing
+the formation of an additional cavity. Durrant et al. utilized the
+distance between residues 67 and 208 as a metric to assess the functioning
+of this gate during the simulations and determined that the gate is
+considered open when the distance between residues exceeds 7.0 Å.
+Using this distance approach, we consistently found that CZP4 retains
+an open S2 entry throughout the whole simulation. This can be attributed
+to the replacement of Glu208 with Gly208 ( C). Notably, CZP2 and CZP3.7 have open gates
+for around half of the simulation time. For CZP2, a serine residue
+at position 67 provides a side chain smaller than that of Leu67, primarily
+leaving S2 in an open conformation. Similarly, in CZP3.7, the distances
+showed that the gate remained mostly open, even though a tryptophan
+residue with a bulky side chain is found at position 67. A possible
+reason for the opening of CZP3.7’s S2 is the presence of Phe61
+in the S3 region, leading to the constant relocation of Trp67 to interact
+with Phe61 (Figure S4). Notably, CZP1 and
+CZP3.9 have closed gates for most of the simulation time.
+
+2.4
+
+## Virtual Probes Reveal Variations in Druggability
+and Interactions at the Subsites of Cruzipain Subtypes
+The
+differences in volume, depth, and polarity observed for the subtypes
+active sites suggest a possible impact on ligand recognition and druggability.
+Thus, we used the web server FTMap to probe the protein surface and
+identify the most druggable subsites of the representative structures
+of the most populous clusters from MD for each Cruzipain. FTMap results
+were then analyzed with DrugPy, a PyMOL
+plugin, to classify the subsites according to their druggability.
+The S2, S1, and S1′ subsites were classified as hotspot areas
+by FTMap ( and Figure S5). The probes employed by FTMap were
+anchored in consensus in these regions, resulting in clusters that
+contained more than 30 sampled poses each. According to DrugPy, the
+S1 subsite was druggable in all subtypes, which is coherent with the protease’s
+active site. S1′ was also deemed to be druggable in all subtypes
+except for subtype CZP2. Subsites S1 and S1′ were alternately
+perceived as having low druggability (druggable only by peptides,
+macrocycles, or charged compounds). The S2 subsite was only druggable
+in CZP2 and CZP4 and a hotspot in CZP3.7, which is consistent with
+the presence of the S2 “gate” discussed previously.
+ Two cavities outside the active site were consistently
+identified
+in the L-subdomain. The Gln37 cavity is close to Gly215, the C-terminal
+residue, and was identified as a hotspot in all of the subtypes. In
+CZP4, this cavity was also classified as druggable by DrugPy. The
+Asn47 (or Arg47, depending on the subtype) cavity has been reported
+as a putative allosteric site in CZP1 before and was herein identified as a hotspot in all subtypes. The cavity
+comprises Lys17, Asp18, Asn47, Glu86, and Tyr91 in CZP1; Lys17, Asn18,
+Asn47, Glu86, and Tyr91 in CZP4; and Lys17, Asn18, Arg47, Glu86, and
+Tyr91 in CZP2, CZP3.7, and CZP3.9. Lys17 is notably one of the most
+interconnected residues alongside Asn18 in CZP3.7, whereas this pair
+also appears in CZP4, with Asn18 being the most prominent in this
+subtype. In addition, Lys17 is the most connected residue in CZP3.9.
+In subtypes CZP1 and CZP2, the communications with Lys17 or Asp18
+(or Asn18 in CZP2) are less perceived and altered with residues Tyr91
+and Arg47, respectively. The presence of these highly connected residues
+in this region strongly suggests the existence of an allosteric site
+for all subtypes. Nonetheless, just a singular representative structure
+of CZP2 and CZP3.7 forms this cavity, rendering it a transitory cavity
+throughout the simulations, while the SPPCTTSG loop in CZP1, CZP3.9,
+and CZP4 confers more flexibility in these subtypes as described before
+and might be the explanation for the constant presence of the Asn47/Arg47
+cavity in these structures. The Asn47/Arg47 cavity was classified
+as a hotspot by FTMap but not classified as druggable by DrugPy for
+all subtypes. Another two cavities identified by FTMap and DrugPy
+are the Thr14 (located in the interface of the L- and R-subdomains)
+and Arg106 (located in the L-subdomain) cavities.
+We also analyzed
+FTMap results with LUNA to investigate the impact
+of the residue substitutions in the interaction profile with the probes
+( and S6). The interactions predominantly consisted
+of hydrogen bonds and hydrophobic interactions across all subsites.
+The presence of the aromatic residue tryptophan at positions 67 (in
+CZP3.7 and CZP3.9) and 184 led to aromatic stacking interactions with
+the probes. Additional interactions, including amide–aromatic
+stacking, cation–pi, cation–nucleophile, anion–electrophile,
+multipolar, ionic, and repulsive forces, were also seen between the
+probes and the residues comprising the subsites, but with lower frequency.
+ Despite conserved residues like Gly66 and the catalytic
+Cys25 exhibiting
+over 30% interactions with probes across modeled structures in all
+subtypes (Figure S6), their interactions
+varied in the representative structures derived from the simulations
+( ). Gly66 primarily
+formed hydrogen bonds with FTMap probes, achieving a frequency of
+20% in CZP3.9 ( D), whereas in other subtypes, the overall frequency was at least
+30%, peaking at 40% in CZP2 ( B) and CZP3.7 ( C). Cys25 also mainly formed hydrogen bond interactions
+with the probes at a very low frequency in CZP1 ( A), CZP3.9 ( D), and CZP4 ( E) but reached over 30% in
+CZP2 ( B) and
+CZP3.7 ( C).
+This might be explained by the substitutions that impact the shape
+and polarity of the active site. The residue substitutions may have
+also affected other conserved residues, including Gln19, His162, and
+Trp184; however, their overall frequency and interaction types experienced
+fewer alterations compared to CZP1. Another noteworthy residue is
+Glu208, an important residue associated with substrate selectivity
+in cysteine proteases whose protonation state has been suggested to
+vary based on the group interacting with it. , Its presence at the S2 subsite underscores the accessibility of
+this subsite to the probes. In both the representative structures
+from the simulations ( ) and the modeled structures (Figure S6), interactions between Glu208 and the probes used by FTMap were
+minimal (under 30%) or nonexistent. Interestingly, Gly at this position
+in CZP4 exhibited interactions with the probes at a frequency of around
+20%, the second highest after CZP2.
+The substitutions at positions
+61 and 70 in the S3 subsite did
+not affect the interaction with the probes since the only interacting
+residue was Gly66, which is conserved in all subtypes ( A–E). There is only
+one exception, CZP3.7 ( C). In this case, the replacement of Phe61 resulted in a few
+infrequent interactions involving hydrogen bonds, hydrophobic interactions,
+and cation–pi interactions. Interestingly, neither Ser61 nor
+Asn70 forms any interactions with the ligands that are cocrystallized
+with cruzain. , 
+The S2 subsite, which had
+the highest number of substitutions,
+exhibited a diverse range of interactions with the probes. The residues
+at positions 138 and 163 were involved in hydrophobic and hydrogen
+bond interactions in all subtypes ( A–E), albeit with varying frequency.
+The presence of Trp67 in CZP3.7 ( C) and CZP3.9 ( D) facilitates the interaction of the probes
+by aromatic stacking and pi-stacking, as well as hydrophobic interactions
+and hydrogen bonding. The Ser67 substitution did not result in a higher
+frequency of interactions for CZP4 ( E) or CZP2 ( B), possibly due to the dynamics in the S2
+“gate” mechanism previously mentioned for these subtypes.
+In the CZP4 subtype, it is noteworthy that all S2 subsite residues
+interacted with the probes at a frequency of at least 5%, mainly through
+hydrophobic interactions and hydrogen bonds. This suggests that the
+continuous open condition of the S2 subsite over the whole simulation
+time benefited the probe’s positioning.
+The retention
+of Gln19, Cys25, His162, and Trp184 in the S1 and
+S1′ subsites led to the conservation and, in some cases, the
+enhancement of the frequency of interactions in CZP2, CZP3.7, CZP3.9,
+and CZP4, compared to CZP1 ( ). The substitution Ser64Gly did not have a significant
+influence on probe interactions. However, residues at 161, which are
+positioned at the interface between the S2/S1′ subsites, and
+residues at 145 exhibit distinct interactions among the subtypes when
+probed. Residues Asp161 and Met145 in CZP1 are known to play a crucial
+role in recognition in S1’. Therefore,
+the presence of substitution in these positions leading to differential
+interactions between probes suggests that ligands might be recognized
+differently by the subtypes. While these results should not be overinterpreted,
+especially considering the limited accuracy of probe positioning by
+FTMap, our analysis indicates an impact of the substitutions on the
+patterns of interactions between the probes and Cruzipain subtypes.
+
+3
+
+## Conclusions
+Our computational comparative
+analysis of five Cruzipain from different
+subtypes demonstrates a complex landscape of structural variation
+and its possible effects on enzyme activity. Although the general
+structural similarity remains remarkably consistent, the subtle differences
+in the active site regions during the MD simulations highlight the
+complex evolutionary adaptations of these proteases. Significant differences
+were noted in the S2 subsite, which is essential for substrate specificity,
+ligand selectivity, and recognition. Each subtype exhibited structural
+alterations distinct from those of CZP1: CZP2 has an expanded subsite
+with modified polarity, CZP3.7 and CZP3.9 reveal partial subsite occlusion,
+and CZP4 shows considerable enlargement accompanied by a potentially
+major conformational shift involving the residue at position 208.
+In contrast, the S1/S1′ subsites exhibited notable conservation,
+suggesting a significant evolutionary restriction to preserve the
+enzyme’s essential catalytic activity.
+Our findings offer
+insights into the structural diversity of Cruzipain
+subtypes and suggest opportunities for further exploration of the
+functional significance of these complex structural variations, especially
+through complementary experimental validation. Important questions
+remain, including a more comprehensive understanding of the expression
+profiles of each Cruzipain subtype and their biological roles for
+different T. cruzi strains. Still,
+the insights reported here may be essential for developing targeted
+therapies, especially in circumstances where Cruzipain is significantly
+involved, such as in parasite infections or disease mechanisms.
+
+4
+
+## Methods
+4.1
+
+## Structure Preparation
+For the catalytic
+domain structure of cruzain (CZP1), the PDB ID 1ME3( ) was used, while CZP2, CZP3.7, CZP3.9, and CZP4 catalytic
+domains were previously obtained through comparative modeling in Santos
+et al. Water molecules, ligands, and
+other cofactors were removed. Hydrogen atoms were added using the
+H++ server, considering the protonation
+state of the amino acid residues at pH 5.5 (optimal pH for cruzain
+activity, employed in biochemical assays). The catalytic dyad protonation
+state was set accordingly to catalysis: deprotonated catalytic cysteine
+with a negative charge (Cys25) and positively charged catalytic histidine
+(His162). The Glu208 on the S2 subsite of CZP1, CZP2, CZP3.7, and
+CZP3.9 was considered deprotonated with a negative charge.
+Structural
+superposition of the protein’s Cα atoms and the electrostatic
+charges of the residues were performed with UCSF ChimeraX and APBS program, respectively.
+
+4.2
+
+## Principal Component Analysis of Experimental
+Structures
+The ensemble of Cruzipain experimental conformations
+was obtained using ProDy v.2.0. First,
+we carried out a BLAST search against the PDB to retrieve structures
+sharing at least 85% sequence identity with the reference structure
+1ME3, leading to the recall of 31 cruzain PDB structures. Then, the
+Cα atoms from these structures were superposed using
+the Kabsch algorithm. The most relevant structural variations found
+in the data set were identified with a principal component analysis
+(PCA), which is based on the diagonalization of the covariance matrix, C(i,j), of atomic positions whose elements are
+represented by where Δri and
+Δrj indicate the displacement vectors
+of atoms i and j, respectively, from their average positions, and
+brackets indicate ensemble averages. Then, an eigenvalue problem was
+solved, resulting in 3N PCs that were sorted according to their fractional
+contributions to the overall variance.
+We used an in-house R
+script to calculate the free energy landscapes. The free energy difference
+(ΔGα) of a particular state
+α with respect to the most populated one (taken as reference)
+was calculated according to the probability of finding these states
+as given by where kB is the
+Boltzmann constant, T is the temperature of the simulations
+(310 K), and P(qα) is an estimate of the probability density function obtained from
+bidimensional kernel density estimates of the projections onto the
+first two principal components calculated over the concatenated standard
+MD trajectories. Pmax(q) is the probability of the most visited state.
+
+4.3
+
+## Molecular Dynamics Simulations
+The
+structure of the catalytic domain of each subtype was prepared as
+input for simulations by using the same protocol. Atomic partial charges
+were taken from the AMBER FF14SB force
+field and computed with the LEaP module of AmberTools19. The disulfide bonds observed in crystallographic
+structures of cruzain, between Cys22 and Cys63, Cys155 and Cys203,
+and Cys56 and Cys101, were set for all structures.
+The structures
+were enclosed within an octahedral box filled with TIP3P water molecules. Box dimensions were set to include 11 Å
+of the outermost protein atoms in all Cartesian directions. Additionally,
+8 Na+ ions were introduced to neutralize the system. Simulations
+were performed using the pmemd.cuda program from Amber 18. Electrostatic interactions were handled using
+the Particle-Mesh Ewald algorithm with
+a cutoff of 10 Å.
+The energy minimization and relaxation
+procedures were performed
+using the same protocol described in our previous studies. , Three independent production simulations of 300 ns each were performed
+in the NPT ensemble. Temperature and pressure control
+were kept constant at 310 K and 1 atm, respectively. The Langevin
+thermostat with a collision frequency
+of 2 ps–1 was used for temperature control, and
+pressure coupling was performed using isotropic position scaling.
+Periodic boundary conditions and the SHAKE algorithm were employed, allowing a 2 fs time step for the simulations.
+The trajectories were created by saving the frames every 20 ps of
+simulation, that is, every 10,000 steps.
+
+4.4
+
+## Structural and Trajectory Analyses
+VMD was used to calculate root-mean-square
+deviations (RMSD), root-mean-square fluctuations (RMSF), and interatomic
+distances. For RMSD, only the Cα atoms of residues 2 to 211
+were considered. The remaining residues (1 and 213–215) were
+not considered as they presented much higher flexibility, as commonly
+observed for N- and C-terminal residues. Similarly, for RMSF, the
+overlapping of the side chains between residues 2 and 211 was considered.
+For the interatomic distances, the simple arithmetic average between
+the side chain atoms of residues at positions 67 and 208 of each subtype
+was measured. These residues are known to open or close a pocket beyond
+the S2 subsite of the protease. 
+Cluster analysis was performed with the CPPTRAJ program of AmberTools19 using a cutoff of 1.0 Å, considering all α-carbon atoms
+from the last 50 ns of each replicate simulation for all subtypes.
+All three-dimensional visualizations were done using UCSF ChimeraX, and all plots were created using R and R Studio. 
+
+4.5
+
+## Calculation of Active Site Volume
+Approximately 1500 random frames from the trajectories were chosen
+to map the active site cavity using the MDpocket tool. MDpocket utilizes the pocket detection program
+Fpocket, which extensively uses Voronoi
+tessellation for cavity identification. The program offers data on
+the flexibility of pockets based on the frequency and density maps
+derived from the set of structures. To capture the full extent of
+the active site, we selected all grid points from the generated pocket
+frequency map that have a grid value of 0.1 or greater.
+
+4.6
+
+## Correlation Network Analysis
+The
+cross-correlation and network analyses were conducted using the R
+Bio3D package. The final 50 ns of each
+replicate simulation of each subtype were used to obtain the correlation
+matrix and to produce dynamic cross-correlation maps . Through the
+correlation maps, the cross-correlation coefficients were evaluated
+and allowed the determination of correlated or anticorrelated regions
+of the subtypes. Networks were constructed from the correlation data
+computed using atoms whose close contact was up to 4 Å apart
+during at least 75% of the simulation. In these networks, the residues
+are grouped by nodes that are connected by weights and edges, proportional
+to their degree of correlated movement.
+Additionally, a measure
+of centrality known as betweenness centrality was computed to assess
+the relative significance of communication between each node (protein
+residue). This measure considers a node to be relevant if it is present
+in many of the shortest communication pathways that connect nodes
+(edges) across the whole network. 
+
+4.7
+
+## Mapping of Subsites with Virtual Probes—FTMap
+Representative structures of each of the three most populous molecular
+dynamics clusters, for each Cruzipain system or subtype, were submitted
+on the FTMap server. For molecular anchoring,
+16 possible probe types, with different physicochemical properties,
+were kept. The results obtained were extracted and visually analyzed
+in PyMOL and loaded through the plugin
+DRUGpy. DRUGpy builds combinations of hotspots predicted by FTMap
+and classifies them as druggable (D), druggable small (Ds), borderline
+(B), or borderline small (Bs). Finally,
+we used LUNA’s default FTMap parser
+to recognize probe clusters from its output PDB files and default
+parameters to calculate protein–ligand interactions considering
+each probe. Interaction frequencies were then aggregated and calculated
+by type and by the probe cluster.
+
+## Data Availability Statement
+The data underlying
+this study are openly available on zenodo.org at 10.5281/zenodo.14914661.
+We have used the following software for this article: UCSF Chimera
+version 1.15; APBS 3.0.0; R version 4.3.1 on RStudio version 2023.09.1;
+AMBER 18; CPPTRAJ version 4.14.0; VMD version 1.9.3; ProDy v.2.0;
+H++ server; FTMap server, Fpocket version 4.0 (MDpocket); PyMOL version
+2.3.3; LUNA version 0.11.4; DRUGpy version 1.0; and Bio3D version
+2.4.2.
+
+## Supporting Information Available
+The Supporting Information
+is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsomega.5c01876.Additional data concerning MD simulation results, dynamical
+cross-correlation matrices, betweenness values, druggability analysis,
+and profile of intermolecular interactions with virtual probes (PDF)
+
+## Supplementary Material
+ao5c01876_si_001.pdf
+
+## Author Present Address
+⊥ Viviane
+Corrêa Santos—Department of Chemistry, Grand
+Valley State University, 1 Campus Drive, Allendale, MI 49401, USA
+
+## Author Contributions
+L.H.S.S.
+performed
+MD simulations, network analyses, active-site analyses, and analysis
+of protein–ligand interactions and wrote the manuscript; A.C.B.C.
+performed MD simulations and analysis of protein–ligand interactions;
+V.C.S. performed analysis of protein cavities and druggability and
+wrote the manuscript; A.V.F. contributed to the analysis of protein–ligand
+interactions; M.G.S.C. performed analysis of the experimental ensemble
+and free energy calculations; and R.S.F. designed the study, analyzed
+results, and wrote the manuscript. All authors reviewed and approved
+the final version of the manuscript.
+This research
+was partially supported by the Brazilian Grants Coordenação
+de Aprimoramento de Pessoal de Nível Superior (CAPES) Finance
+Code 001, Fundação de Amparo à Pesquisa do Estado
+de Minas Gerais (FAPEMIG) BPD-00076-22, APQ-00789-22, and RED-00096-22,
+and Conselho Nacional de Desenvolvimento Científico e Tecnológico
+(CNPq) 310197/2021-0. This work was partially funded by FOCEM (MERCOSUR
+Structural Convergence Fund), COF 03/11. L.H.S.S. is a member of the
+Uruguayan Scientific System (SNI-ANII) and PEDECIBA. The Article Processing
+Charge for the publication of this research was funded by the Coordenação
+de Aperfeiçoamento de Pessoal de Nivel Superior (CAPES), Brazil
+(ROR identifier: 00x0ma614).
+The Article Processing Charge
+for the publication of this research was funded by the Coordenacao
+de Aperfeicoamento de Pessoal de Nivel Superior (CAPES), Brazil (ROR
+identifier: 00x0ma614).
+The authors
+declare no competing financial interest.
+
+## Acknowledgments
+We express profound gratitude
+to the developers
+of AmberTools, UCSF Chimera, R, VMD, ProDy, DRUGpy, LUNA, Bio3D, H++
+server, FTMap server, PyMOL, and Fpocket for generously releasing
+these tools and scripts to the scientific community free of charge.
+
+## Abbreviations
+CDChagas
+disease
+DCCMsdynamic
+cross-correlation matrices
+MDmolecular dynamics
+RMSDroot-mean-square
+deviation
+RMSFroot-mean-square
+fluctuation
+SIPsquare inner product

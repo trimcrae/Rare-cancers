@@ -1,0 +1,739 @@
+822acssdJournal of Chemical Theory and ComputationJ Chem Theory ComputPMC3392909339290933929092279872910.1021/ct300117jDruggability Assessment
+of Allosteric Proteins by
+Dynamics Simulations in the Presence of Probe Molecules
+BakanAhmet NevinsNeysa LakdawalaAmi S BaharIvet †Department of Computational
+and Systems Biology and Clinical & Translational Science Institute,
+School of Medicine, University of Pittsburgh, 3064 BST3, 3501 Fifth
+Ave, Pittsburgh, Pennsylvania 15213, United States‡GlaxoSmithKline, Computational
+and Structural Chemistry, 709 Swedeland Rd, King of Prussia, Pennsylvania
+19406, United States*E-mail: bahar@pitt.edu (I.B.); ami.s.lakdawala@gsk.com (A.S.L.).
+5620128724352435–24471272012Copyright © 2012 American Chemical SocietyThis is an open-access article distributed under the ACS AuthorChoice Terms & Conditions. Any use of this article, must conform to the terms of that license which are available at http://pubs.acs.org.
+
+## Abstract
+Druggability assessment of a target protein has emerged
+in recent
+years as an important concept in hit-to-lead optimization. A reliable
+and physically relevant measure of druggability would allow informed
+decisions on the risk of investing in a particular target. Here, we
+define “druggability” as a quantitative estimate of
+binding sites and affinities for a potential drug acting on a specific
+protein target. In the present study, we describe a new methodology
+that successfully predicts the druggability and maximal binding affinity
+for a series of challenging targets, including those that function
+through allosteric mechanisms. Two distinguishing features of the
+methodology are (i) simulation of the binding dynamics of a diversity
+of probe molecules selected on the basis of an analysis of approved
+drugs and (ii) identification of druggable sites and estimation of
+corresponding binding affinities on the basis of an evaluation of
+the geometry and energetics of bound probe clusters. The use of the
+methodology for a variety of targets such as murine double mutant-2,
+protein tyrosine phosphatase 1B (PTP1B), lymphocyte function-associated
+antigen 1, vertebrate kinesin-5 (Eg5), and p38 mitogen-activated protein
+kinase provides examples for which the method correctly captures the
+location and binding affinities of known drugs. It also provides insights
+into novel druggable sites and the target’s structural changes
+that would accommodate, if not promote and stabilize, drug binding.
+Notably, the ability to identify high affinity spots even in challenging
+cases such as PTP1B or Eg5 shows promise as a rational tool for assessing
+the druggability of protein targets and identifying allosteric or
+novel sites for drug binding.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2012 Feb 8; Issue date 2012 Jul 10.
+
+## Introduction
+Recent genome-wide analyses suggest that
+10% of the human genome
+is druggable, and among druggable proteins about half correspond to
+disease-causing genes. Assessing the druggability
+of the target protein at a relatively early stage in the drug discovery
+process is now becoming common practice, with the realization that
+the nondruggability of a target is a major obstacle in advancing a
+small molecule from hit to lead. , When evaluating druggability,
+one often wants to determine the likelihood of finding an inhibitor
+for the protein of interest and make a quantitative estimate of the
+inhibitor molecular size and affinity to help assess the risk of specializing
+on those targets.
+Two experimental methods have been particularly
+useful in making
+such assessments: (i) NMR screening of libraries of small molecules
+against target proteins to identify binding
+sites and corresponding achievable affinities and (ii) multiple-solvent
+crystal structure (MSCS) determination, where a target protein structure is resolved in complex with small
+organic molecules used as a probe to infer potential druggable sites.
+Both approaches are based on the premise that probe binding sites
+and frequencies correlate with drug-binding sites and affinities.
+Hajduk and co-workers demonstrated that sites that bind a relatively
+large fraction of fragments (e.g., hit rates of 0.2% or higher for
+thousands of screened small molecules) indeed coincide with known
+high affinity (KD < 300 nM) sites.
+On the basis of these observations, they proposed a metric, the druggability index, for quantifying the druggability of
+target proteins. The druggability index is obtained by optimal assignment
+of linear and logarithmic weights to structure-based binding site
+descriptors to match the hit rates observed in NMR-based fragment
+screening. The resulting model was shown
+to distinguish the correct binding pocket as the most druggable site
+in 71% of test proteins.
+The physical basis of experimentally
+observed druggability behavior
+has been further established with the help of theoretical and computational
+studies performed in recent years. − Cheng et al. proposed
+a simpler model that involved two dominant descriptors, nonpolar surface
+area and pocket curvature, to estimate the maximal binding
+affinity achievable by a drug-like molecule, which successfully
+explained the behavior of a series of targets. Recent in silico screening of a library of fragment-like
+molecules and organic probe molecules against known binding sites
+also showed that computations successfully distinguish druggable and
+nondruggable targets. In particular, the
+FTMap approach based on fast Fourier transform correlation methods,
+combined with clustering methods and atomic force fields, was found
+to yield results in good agreement with MSCS experiments, , in support of the utility of computations for identifying druggable
+sites.
+Following significant progress in the field, attention
+has been
+drawn to the impact of protein flexibility in binding site identification
+and druggability calculations. It has become clear that experimental
+data are practically irreproducible when significant dynamics and
+conformational changes occur in binding sites. , Examination of the conformational space accessible to Bcl-xL and
+the β-adrenergic receptor by molecular dynamics (MD) simulations
+has exemplified the implications of protein dynamics. Simulations
+of Bcl-xL revealed that the protein undergoes a change from a seemingly
+nondruggable conformation to a druggable one, yielding inhibitor-binding
+affinities more consistent with experimental data. Similarly, Ivetac
+and McCammon used MD simulations to generate an ensemble of β-adrenergic
+receptor structures for FTMap calculations to identify potential allosteric
+and druggable pockets, which could not
+be identified by calculations based on the crystal structure of the
+protein alone. Many other studies point to the significance of considering
+protein dynamics, albeit at low resolution (e.g., coarse-grained normal-mode
+analysis), in computational predictions of inhibitor-binding mechanisms. − On the other hand, the need for protein conformational sampling
+remains a debated issue when the proteins exhibit changes limited
+to side-chain rearrangements in their binding site. − 
+Recently,
+methods based on MD simulations in water and organic
+molecule mixtures were introduced for binding site identification. − Guvench and MacKerell simulated the dynamics of target proteins
+in propane, benzene, and a water mixture to generate a map of protein
+binding preferences. , Results were evaluated in a qualitative
+manner by visualization of probe binding probability maps. Seco and
+co-workers, on the other hand, simulated proteins in a mixed solvent
+box of water and isopropanol. On the
+basis of previous observations that small organic molecules tend to
+bind druggable sites, , , they also developed a method to convert isopropanol binding propensities
+into achievable binding affinities of drug-like molecules. The exclusive
+use of a single probe that contains hydrophobic and polar groups (or
+other purely hydrophobic probes) limits the applicability of these
+methods. Additionally, the atomic contributions to binding free energy
+require careful evaluation to avoid redundant inclusion of interdependent
+interactions. The inclusion of all of the four heavy atoms of isopropanol
+molecules in contact with the protein as separate entities, for example,
+led to an overestimation of binding affinities, which were then rescaled
+by applying a correction factor. 
+In the present study, we propose a novel methodology using a probe
+set with diverse physicochemical properties (Table ) and a binding free energy estimation methodology with simplified
+assumptions. We developed an automated algorithm for analyzing MD
+trajectories of target molecules generated in the presence of diverse
+probe molecules to make druggability assessments. Thorough examination
+and comparative analysis of the results for five test proteins’
+(a total of six different cases) probe-binding dynamics in the presence
+of two different probe/water compositions (shortly referred to as isopropanol-only and probe-mixture, both
+in an aqueous medium; presented in Table )
+lends support to the utility of the methodology. We note in particular
+the accurate prediction of experimentally observed binding sites and
+affinities for challenging targets such as protein tyrosine phosphatase
+1B (PTP1B) and Eg5 kinesin.
+ 
+
+## Results and Discussion
+
+## Probe Molecules
+Small organic molecules were selected
+as probes on the basis of the frequency of occurrence of their functional
+fragments, or substructures, in FDA-approved and/or experimental drug
+molecules listed in DrugBank. Isobutane,
+isopropylamine (IPAM), acetic acid, and acetamide, as well as isopropanol
+groups, were found each to take part in at least 20% of drug molecules
+(Table ). Among these, we have selected acetamide
+(representative of polar molecules) as well acetic acid and IPAM (representative
+of molecules that are charged at physiological pH) as probes, to avoid
+the potential problem of aggregation observed in the simulations of
+aliphatic groups, e.g., isobutane. For
+detailed structure and energy parameters of probe molecules, see the text and .
+
+## Overview of the Method of Approach
+Explicit inclusions
+of both desolvation effects and the coupled dynamics of water/probe
+molecules and the protein are key features of MD-based druggability
+simulations. , We describe our methodology in
+detail in the section and the . We outline here the main steps, illustrated
+in Figure . We simulated the target proteins
+in probe-mixture/water at a fixed ratio of 20 water molecules per
+probe molecule (Figure A). This roughly corresponds
+to 20% probes by volume or a ∼2.3 M concentration of probes
+and is a reasonable ratio to saturate druggable sites and detect probe
+binding events. , Assuming that probe molecules
+reach Boltzmann distribution within nanoseconds, runs of 32–40
+ns provide a reference state for estimating the binding free energy.
+Using a grid-based approach and the inverse
+Boltzmann relation, the binding free energy at voxel i is
+1 Here, ni/n0 is the ratio of the observed
+density of probes (ni in Figure B) to the expected density (or
+the reference state; n0 in Figure C), also referred to as enrichment, R is the gas constant, and T is
+the absolute temperature (K). It should be noted that despite its
+broad use in docking and folding studies, the physical basis of inverse
+Boltzmann relation for relative free energy calculations is debated. Concerns usually arise in cases where interacting
+particles are not independent, such as covalently linked amino acids
+in a protein. However, situations where
+it is clearly applicable for relative free energy calculations include
+equilibrium systems of independent particles. Thus, we accounted for binding events by considering probe molecules
+as whole independent particles. The resulting relative binding free
+energy map (Figure D) is refined to identify interaction spots (Figure E), each
+representing a probe molecule. Interaction spots within close proximity
+are clustered into distinct binding sites. Maximal
+achievable binding affinity is calculated for those sites composed
+of seven or more spots, by merging seven or eight of them (28 or 32
+heavy atoms) located within 5.5 to 6.5 Å of each other in a deterministic
+way (see the section). The location
+of such interaction spots is proposed to be a potential druggable
+site provided that the corresponding maximal affinity is 10 μM
+(with a binding free energy of −6.86 kcal/mol or stronger).
+Figure F shows such a druggable site indicated
+with large, color-coded interaction spots. Maximal affinity predictions
+for all druggable sites were compared with experimentally determined
+affinity data, as summarized in Table . See
+the section and for more details.
+ 
+
+## Target Proteins
+We selected five test proteins: (i,
+ii) murine double mutant-2 (MDM2; truncated N-terminal domain and
+solution structure of N-terminal domain in which C- and N-terminal
+tails are present), (iii) PTP1B, (iv) lymphocyte function-associated
+antigen 1 (LFA-1), (v) kinesin Eg5, and (vi) p38 mitogen-activated
+protein (MAP) kinase (MAPK). These targets offer a set of binding
+sites with diverse shapes and physicochemical and dynamic properties.
+Druggability simulations were performed with two types of solvent
+mixtures: (i) isopropanol-only and (ii) an isopropanol, acetamide,
+acetate, and IPAM mixture, both in water, shortly referred to as “probe-mixture/water”,
+with varying mole fractions of probe molecules. See Table for the description of different runs for the six
+cases, summing up to a cumulative simulation time of 1.3 μs.
+In the following, we present detailed results for each case.
+MDM2 is a negative feedback regulator of the p53 tumor
+suppressor and features a protein–protein
+interaction site. Due to its small size and the availability of extensive
+experimental data, we used the 109-residue
+truncated N-terminal domain of MDM2 for method development and optimization.
+We used as input the structure resolved by Kussie et al. We performed 11 MD runs with different probe
+compositions and input parameters ( ), summing up to a total of 0.4 μs run time.
+All druggability
+simulations invariably yielded the p53 interaction
+site of MDM2 as the most druggable site, with maximal affinities being
+in the range 0.3 to 3 nM. Figure A displays
+the interaction spots (spheres) distinguished by their high binding
+energy in probe mixture simulations, color-coded by their interaction
+strengths with MDM2. Seven of them, shown as larger spheres, are clustered
+together in space, indicating a druggable site. Panel B compares the
+positions of the interaction spots with those of the p53 side chains
+at the interface of the known MDM2-p53 complex. Notably, the interaction
+spots that make the largest contribution to binding free energy (colored
+red) overlap with the side-chains of p53 residues F19, W23, and L26,
+which are mimicked by many MDM2 inhibitors. MDM2 residues that are in contact with the probes at this high affinity
+site are L54, I61, M62, Y67, V93, and H96, consistent with the hotspots
+previously identified by computational alanine scanning methodology. 
+ The maximal binding affinity predicted for MDM2
+exhibited minor
+dependence on probe composition. Isopropanol/water simulations (runs
+1–1 to 1–3 in ) yielded
+a maximal achievable affinity of 0.4–1.0 nM for this site (Figure ); simulations in a mixture of isopropanol (70%
+or 40%), acetamide (10% or 20%), acetate (10% or 20%), and IPAM (10%
+or 20%) in water (runs 1–4 to 1–6) led to 0.3–2.0
+nM. These values are in excellent agreement with experiments: the
+affinity of the best known MDM2 inhibitor is 0.6 nM. 
+We note that isopropanol molecules contributed by
+80% or more to
+the predicted maximal binding affinity in the runs performed with
+the probe mixture. The maximal affinity evaluated in earlier work with the same probe was 0.02 nM. This affinity,
+about 1 order of magnitude higher than current predictions (and experimental
+data), has been verified by independent simulations (run 1–9, ) to result from the previous assignment
+of partial charges, which led to an underestimation of the polarization
+of isopropanol. This, in turn, gave rise to more favorable interactions
+with the hydrophobic binding pocket of MDM2. We note that a second
+binding pocket was observed in earlier work, formed by the rearrangements of F86, E95, K98, and Met102 side chains.
+The corresponding maximal affinity (0.05 μM) is comparable to that (0.1 μM) obtained in our runs
+1–1 and 1–9. To further assess the effect of minor changes
+in force field parameters, we simulated MDM2 using the CHARMM general
+force field parameters for isopropanol
+(runs 1–7 and 1–8). Minor differences in atom types
+and partial charge distribution were observed ( ). However, the predicted maximal affinities remained
+practically unchanged, providing support to the robustness of our
+quantitative results with respect to variations in force field parameters
+or partial charge distributions within plausible limits.
+The MDM2 solution structure, resolved by NMR spectroscopy, features 25 and 10 residue N- and C-terminal
+tails, respectively. By visual inspection of 24 models in this structure,
+we chose the second model in which the p53 binding site is the most
+occluded by the N-terminal tail. We performed two druggability simulations
+and one probe-free simulation. In the druggability simulations (runs
+2–1 and 2–2 in ),
+the p53 site was identified as a druggable site with maximal affinity
+ranging from 0.4 to 1.0 nM (Figure A), comparable
+to those from the simulations of a truncated structure. Locations
+of p53 hotspot residues W23 and F19 were also identified by the probe
+molecules (Figure B). We also compared the
+dynamics of the solution structure from druggability simulations to
+that from a probe-free simulation (run 2–3). In the absence
+of probe molecules, the N-terminal tail remained stretched over the
+p53 binding domain occluding the binding pocket (Figure D). On the other hand, the binding pocket was accessible to
+probe molecules in the druggability simulations (Figure C), demonstrating the adaptation in the protein structure
+to the presence of ligands.
+ PTP1B is a challenging target due
+to the highly basic
+character of its catalytic active site. Known inhibitors of this target
+are negatively charged. Consequently, it is not possible to identify
+a probe interaction spot at, or in the vicinity of, the catalytic
+cavity when only isopropanols are used as a probe (PTP1B run 3–1; ). The probe-mixture/water
+simulations indeed indicate many acetate interaction spots at the
+catalytic cavity (Figure A) in addition to
+other probes, mostly isopropanols, in the vicinity. This analysis
+clearly highlights the need to adopt probes other than isopropanol
+for assessing the druggability of targets that contain polar/charged
+sites. Additionally, three more clusters that suggest additional druggable
+sites were found (enclosed in ellipses), one of which coincides with
+the allosteric site of PTP1B.
+ The interaction spots that exhibit the highest
+binding affinity
+at the PTP1B catalytic site are coordinated by positively charged
+amino acids (K120, R221), along with polar side chains (Y46, S216)
+and backbone amides (Figure B). We predicted
+maximal affinity to range from 0.3 to 0.9 nM (runs 3–2 and
+3–3), by allowing selected interaction spots to have up to
+2 absolute total charge. When no more than one integral charge was
+allowed, the affinity dropped to 10.5 nM. These predictions are comparable
+to the experimental data reported for the best known catalytic site
+inhibitor, which is 2.2 nM. Our analysis
+shows that a major contribution to affinity is made by the acetate
+probes. Notably, acetate interaction spots were observed in the second
+aryl-phosphate binding cavity (coordinated by R24 and R254, Figure B), known to also bind catalytic site inhibitors. The computed binding affinity (−1.7 kcal/mol)
+at this site was weaker than that of acetates at the catalytic cavity
+(from −3.1 to −2.9 kcal/mol).
+As to the PTP1B
+allosteric site (Figure A), the maximal affinity
+deduced from isopropanol-only simulation
+(2.8 μM; run 3–1) was comparable to earlier prediction (0.5 μM), whereas the probe-mixture/water
+simulations yielded an achievable affinity of 9.5 to 17.6 μM
+(runs 3–2 and 3–3). The best known inhibitor for this
+site has an IC50 of 8 μM. The interaction spots at this site are mostly contributed by isopropanols,
+with the highest affinity spots making contacts with L192, F196, and
+F280 side chains.
+In addition to the catalytic and allosteric
+sites, we identified
+two more druggable sites on PTP1B. The first, at the insulin receptor
+kinase (IRK) interface, yields an achievable
+affinity of 43 nM. It mainly consists of favorable isopropanol and
+IPAM interactions with E4, F7, E8, D11, L272, and E276, resulting
+in positive total charge. Seco et al. reported a druggable site with
+an affinity of 180 nM in the vicinity of V184, P187, and R268 at the
+IRK interface, which is not reproduced
+in our isopropanol-only simulations. The other site (labeled fourth
+site in Figure A) was detected in both probe-mixture
+(4 nM) and isopropanol (200 nM) runs. Isopropanols favorably interacted
+with V113, M114, L119, and A122 and acetate molecules with R112, R156,
+and H175.
+LFA-1 is a leukocyte cell surface glycoprotein
+that
+promotes intercellular adhesion and binds intercellular adhesion molecule
+1. In this case, the binding site of
+interest is an allosteric pocket. We have used the ligand-free structure
+of LFA-1 in our simulations. In this
+structure, the allosteric pocket is occluded by K287 side-chain (Figure A), and the entry to the pocket is partly obstructed
+by a salt bridge between E284 and K305 (Figure B). Rearrangement of these side chains is essential to reaching the
+allosteric site by probe molecules. Hence, LFA-1 is one of the targets
+that substantiate the utility of MD-based druggability assessment.
+ Our analysis found the allosteric site of LFA-1
+as the only druggable
+site with a maximal achievable affinity in the range 0.8 to 0.03 nM
+irrespective of the probe type (Tables and ; runs 4–1 to 4–4). Like MDM2,
+most of the interaction spots are populated by isopropanols, consistent
+with the hydrophobic character of the LFA-1 allosteric site. Residues
+interacting with high affinity spots are L132, Y166, V233, I235, I259,
+and Y257. Previous simulations predicted a maximal affinity of 27
+nM, and indeed the best inhibitor with
+known Kd reported at the time that binds
+this site has an affinity of 18.3 nM (it inhibits LFA-1/ICAM interaction
+with an IC50 of 10.3 nM). Our
+simulations suggest, however, that a higher affinity binding is achievable
+at this site. We searched the binding databases for better inhibitors of LFA-1 based on reported IC50 values. We found that a compound with an IC50 of 0.35 nM has been identified as a validated hit in a study of
+a series of meta-aniline based compounds (compound 20). Key to the stabilization
+of the ligand was the formation of a salt bridge between E301 and
+K287, allowing for amino-aromatic interaction between the K287 side
+chain and the ligand (Figure B and C).
+
+## Kinesin Eg5
+Allosteric inhibitors of Eg5 are known
+to bind a ligand-induced pocket 12 Å away from the catalytic
+cavity. The pocket is lined by helix α3 and the insertion loop
+5 (L5) of helix α2 after its displacement by 7 Å toward
+helix α3 (rectangular box in Figure A). The absence of an accessible/open
+binding pocket in the unbound form constitutes a challenge for druggability
+assessment studies that use a static structure of Eg5. However, our
+simulations consistently located the allosteric pocket as a druggable
+site, irrespective of probe type or composition. The calculated achievable
+affinities were 0.3 nM in probe-mixture and 27 nM in isopropanol-only
+simulations. An IC50 of 0.2 nM has been reported for the
+best inhibitor of Eg5, in agreement with the probe-mixture prediction. High affinity probes were observed therein to
+be stabilized by interactions with E116, I136, and P137 on helix α2
+and Y211 and L214 on helix α3. Other favorable interactions
+included those with W127, D130, and R119 on L5.
+ Figure B shows the overlay
+of predicted
+interaction spots for Eg5 with a known inhibitor. The interaction spots identified in the allosteric site
+contain both positively and negatively charged probes, with the total
+charge not exceeding one electronic unit (absolute). However, in the
+isopropanol-only simulation, while the calculated achievable affinity
+was 27 nM, only four of the seven probes are actually located in the
+allosteric pocket; on the basis of these probes, the computed affinity
+at the allosteric site would be 45 μM. The additional probes
+that contributed to the calculated high affinity bound the exposed
+surface of helix α3. Thus, the probe-mixture is required here
+in order to accurately capture the binding affinity at the allosteric
+site. Another interesting observation is that two IPAM probes were
+stabilized at a position that closely mimics that of the nitrogen
+of the piperidine moiety in the ligand bound to Eg5 (Figure B). The closest interaction spot, 2.3 Å away
+from the nitrogen of piperidine, was contributed by the amine 23%
+of the time.
+In addition, we identified two more nM sites (0.2–20
+nM
+and 47–600 nM), enclosed by ellipses in Figure A. The first, labeled as the tubulin-binding site, is located
+between helices α4 and α6. It has a rather shallow surface
+geometry typical of protein–protein interfaces. Yet, a binding
+affinity of 0.2–20 nM site is predicted resulting from tight
+interactions with two groups of residues: (i) I272, L293, and S348
+and (ii) G296, T300, Y352, and A356. A comparison of the Eg5 structure
+to tubulin-bound structures of other kinesins , revealed that the first group is part of the tubulin-binding interface.
+The second group, on the other hand, is part of the binding site for
+the ATP competitive allosteric inhibitor GSK-1. The probe molecules, however, do not penetrate deep enough
+into the pocket to interact with the GSK-1-binding residues L295,
+I299, and I332. Finally, we detect a 47 nM site in proximity to Q20,
+M70, and V85, which has not yet been observed to bind a ligand.
+p38 MAP kinase is involved in inflammatory diseases and is an extensively studied drug target. The
+best known p38 inhibitor has 50 pM affinity. The achievable affinity deduced from our isopropanol/water simulations
+is in the range 1–2 nM (Figure , Tables and ). Isopropanol
+molecules filled in only the adenine- and ribose-binding pockets in
+runs 6–1 and 6–2; they were not observed to bind the
+allosteric site, which is a hydrophobic cavity lined by L74, L75,
+M78, and F189. In probe-mixture/water
+simulations, on the other hand, probes were observed to bind the allosteric
+cavity (Figure B) with a maximal affinity
+of 10 to 120 pM (Tables and ), in agreement with experimental measurements for the best
+known inhibitor. Probes at high-affinity spots were observed to closely
+interact with A51, E71, L74, L75, L108, and M109. The adenine/ribose
+pocket was also occupied by all types of probes, but preferentially
+by acetamide, isopropanol, and IPAM molecules. The contribution of
+this pocket to affinity was −5.13 kcal/mol. The allosteric
+pocket, mainly populated with isopropanols, contributed an additional
+−4.4 kcal/mol.
+ These results again demonstrate that a mixture
+of polar probes
+better captures the druggability of the p38 allosteric site than isopropanol
+alone does. Our results diverge from previous work where isopropanol binding to the adenine/ribose pocket
+alone is estimated to contribute as much as −11.6 kcal/mol,
+leading to 2–3 orders of magnitude higher affinity than those
+found here with isopropanol-only simulations. This difference is attributed to the overestimation of atomic binding
+energies in their method, as will be discussed in the next subsection.
+In the present simulations, the binding free energy contributions
+are spread over a larger volume, and the positions of the interaction
+spot clusters show good overlap with the space experimentally observed
+to be occupied by inhibitors.
+In addition to the ATP site, our
+simulations detected two more
+druggable sites on p38 (Figure A). The first
+is on the MAPK-activated protein kinase 2 (MK2 site in Figure A) activation loop and stabilizes the loop conformation
+assumed upon MK2 binding. , The maximal affinity
+for this site is found to be 2 nM, mostly contributed by isopropanol
+interactions with T218, L222, L238, and V273 and acetate interactions
+with R220. The second site coincides with a lipid binding site formed
+by the MAP kinase insert (Figure A), which is also a binding site for some inhibitors. The maximal affinity for this site varied from
+5 to 90 nM, contributed by isopropanol interactions with I229, L232,
+Y258, and I259. For these two sites, we did not find experimental
+affinity data.
+
+## Discussion of the Simulation Protocol and Length
+The
+initial configurations of target systems contained very few probes
+interacting with the protein, and all known binding sites were free
+of probe molecules. Prior to the productive simulations, we performed
+0.4 to 0.6 ns of annealing (protein non-hydrogen atoms were constrained
+to prevent unfolding) and 0.4 to 0.6 ns of equilibration (no constraints)
+simulations (details are given in ). In the annealing step, the temperature of the system was raised
+to 600 K. This was particularly useful for targets with partially
+occluded binding sites such as the LFA-1 and MDM2 solution structure.
+Acceleration in solvent dynamics at high temperatures allowed probe
+molecules to locate drug/inhibitor binding sites before their collapse
+(LFA-1) or further occlusion (MDM2). The LFA-1 binding site (Figure D), for example, collapsed in a fraction of a nanosecond
+due to the hydrophobic nature of the binding pocket. The annealing
+step thus allowed for shorter equilibration times. As to the production
+runs, we performed 32 to 40 ns simulations. Multiple simulations have
+shown that the length was adequate for reproducing the binding site
+and maximal affinity predictions. It is also possible to combine independent
+simulations to get a consensus density map or probe interaction spot
+distribution. We have combined simulations performed using same probe
+compositions. The predicted affinities ( ) as well as the distribution of probe binding spots did
+not change in support of the adequacy of 32–40 ns simulations
+for sampling.
+
+## Intrinsic Dynamics of the Target Protein and the Effect of Probe
+Molecules
+We presented results for six test cases exhibiting
+three different levels of flexibility at the binding sites: (i) local
+motions limited to side-chain fluctuations and isomerizations (MDM2
+and PTP1B), (ii) local motions also including loop/helix rearrangements
+(LFA-1 and Eg5), and (iii) global motions involving lobe opening/closing
+(p38) or large scale terminal tail motions (MDM2 solution model).
+At level i, comparable side-chain motions were observed in both druggability
+and probe-free simulations, as typified by MDM2 and PTP1B, although
+the recognition of druggable sites may require the use of a probe-mixture
+depending on the specificity of the detected surface (e.g., the catalytic
+site of PTP1B which is predominantly basic). At level ii, probe molecules
+successfully induced structural changes in the target to gradually
+approach the known inhibitor-bound forms. For example, the probes
+were able to locate and stabilize the allosteric pocket of LFA-1 in
+a conformation similar to its inhibitor-bound form (Figure C). Conversely, in probe-free simulations, the C-terminal
+helix of LFA-1 collapsed over the pocket within the first nanosecond
+of both runs and remained collapsed until the end of the simulations,
+thus obstructing the access to the binding site (Figure D). The presence of organic probe molecules thus appears to
+be a requirement for enabling the solvent-exposure of the allosteric
+site. For Eg5, we focused in particular on the tip residue Trp127
+of loop 5 (L5) that is displaced by 10 Å between the inhibitor-bound
+and -unbound structures. , Probe molecules induced
+a reconfiguration at this region, to sample conformations departing
+by 4 to 5 Å from the
+inhibitor-bound form (Figure C). In probe-free
+simulations, however, no L5 rearrangement was observed (Figure D). These observations point to the ability of Eg5
+loop 5 to expose a druggable pocket that accommodates the bound inhibitor.
+The predisposition of the loop to undergo such conformational changes
+was higher with polar/charged probe molecules, as opposed to isopropanols
+exclusively.
+The dynamics of p38 typifies group iii. p38 can
+undergo concerted
+opening/closing of N- and C-terminal lobes enabled by hinge-like flexibility
+near the ATP-binding site, complemented by movements at the glycine-rich
+loop, the C-helix and the activation loop, and side chain isomerizations. , We compared the conformations sampled in druggability simulations
+to a set of 134 experimentally resolved structures (with a variety
+of inhibitors). We observed that residues
+at the binding pocket and glycine rich loop sampled conformations
+comparable to those assumed by the bound forms resolved by X-ray crystallography;
+e.g., probes were observed to bind to the allosteric pocket in the
+close neighborhood of the ATP-binding site. Although, the global closure
+of N-terminal and C-terminal lobes to form a compact/buried site upon
+inhibitor binding was not observed in the druggability simulations
+(6–1 to 6–4 in ),
+the RMSD (averaged over all Cα-atoms) between the
+MD conformations and experimental bound structures came close to 1.0
+Å. Two additional simulations in the absence of probe molecules
+also yielded RMSDs of 1.1 and 1.2 Å. The qualitative and quantitative agreement observed in these simulations
+with experimental data suggests that druggability runs of tens of
+nanoseconds do provide reasonable estimates of binding sites and affinities,
+despite their limitations with regard to sampling global motions.
+
+## Evaluation of Maximal Achievable Binding Affinity
+This
+methodology utilizes a physics-based atomistic simulation and is therefore
+independent of any training set. In principle, the binding free energy
+of probe molecules should be comparable to the affinities typical
+of drug-like molecules. Ligand efficiency (LE) provides a metric for comparison of binding affinities.
+LE is defined as the binding free energy per atom, LE = −ΔG/Na, where Na is the number of non-hydrogen atoms in the molecule.
+For a drug-like molecule of 500 Da (∼30 heavy atoms) with an
+affinity of 10 pM to 10 μM (or a binding free energy of −15.10
+to −6.86 kcal/mol, at T = 300K), the LE is
+0.23 to 0.5 kcal/mol. The LEs for the interaction spots that we identified
+vary between 0.25 to 0.8 kcal/mol, consistent with the LE range typical
+of drug molecules. In previous work, the
+methyl carbons and hydroxyl oxygen of a given isopropanol molecule
+were taken as independent entities; i.e., their contributions to binding
+free energy were assumed to be additive. This resulted in an overestimation
+of binding affinity, leading to LE values higher than 1.5 kcal/mol,
+which has been estimated to be the limit for the contribution made
+per atom to binding energy. To avoid
+such overestimation in achievable affinities, the calculated free
+energies were rescaled, in addition to manual pruning of merged grid
+elements. In the present study, binding
+free energies are evaluated in a fully automated way, with no need
+for user intervention or additional rescaling. See the section for a detailed description of the methodology.
+
+## Dealing with False Positive and False Negative Sites
+Simulations of target proteins at high probe molecule concentration
+yield large numbers of binding spots. By considering energy and charge
+contributions of binding spots, the number of false positive sites,
+i.e., sites with no known binders, can be minimized. We observed that
+all binding sites with high affinity (submicromolar IC50 or Ki) inhibitors were bound by at least
+6 probe interaction spots, chosen as roughly matching the volume of
+an average small molecule, with a relative binding free energy of
+−1.2 (LE 0.3) kcal/mol or better. Hence, we evaluated clusters
+of six or more probes with LEs of 0.3 kcal/mol or better. This threshold
+resulted in potential false positives for PTP1B (fourth site in Figure A) and eg5 kinesin (third site in Figure A). The selection of a subset of spots in a binding
+site for maximal affinity calculation is further described in the section. A second criterion that helped
+eliminate potential false positives was limiting the number of charged
+probes (max. 3) and the absolute total charge (max. 2e–) in each cluster. For example, we eliminated a cluster of six high
+affinity acetate binding spots for eg5 kinesin located between side
+chains of four arginine residues (R192, R305, R312, and R317, available
+as ).
+The stringent
+criterion that we applied resulted in missing some sites with binding
+information but not with known high-affinity inhibitors. These sites
+include the IRK interface and allosteric site on PTP1B and the MK2
+site and MAPK insert on p38. In line with the unavailability of high
+affinity inhibitors for these sites, the clusters that we identified
+at these sites contained four or less probes with a LE of 0.3 kcal/mol
+or better. We calculated the maximal affinity for these sites by linking
+clusters (MAPK insert and MK2 site) or augmented lower affinity spots
+(IRK interface and PTP1B allosteric site). Available binding spots
+in the PTP1B allosteric site with a LE of better than 0.25 kcal/mol
+covered only part of the site resulting in predicted maximal affinity
+of 75 μM, compared to the 8 μM IC50 of the
+best inhibitor. The incorporation of two lower affinity spots with
+energies of −0.5 and −0.33 kcal/mol (available as ) improved the predicted
+maximal affinity to 17.6 μM.
+
+## Conclusion
+Protein–ligand recognition is a complex
+phenomenon involving
+many balancing factors. It has been noted
+for some time now that one can identify hotspots in protein binding
+sites, i.e., regions where protein residue/ligand moiety interactions
+make the largest contributions to the overall binding free energy. However, a major obstacle to accurate estimation
+of binding affinities, and, in some cases, to identification of binding
+sites, has been the lack of adequate inclusion of the intrinsic dynamics
+of the target protein. The flexibility of the target usually allows
+for favorable enthalpic contributions due to the adaptability and
+optimal positioning of interacting groups, which, in many instances,
+more than offset the adverse entropic cost. Computationally inexpensive
+rigid docking methods perform poorly when benchmarking the computed
+affinities against experimental measurements. Nor do they provide an adequate description of the observed affinity
+of organic molecules on target proteins. Simulation-based methods and comprehensive sampling of the ligand
+and protein conformational space taking into account entropic effects
+are recognized to improve binding affinity predictions. − The success of the current druggability method owes to the natural
+incorporation of target, solvent, and probe entropic effects into
+the estimation of binding affinities.
+Notably, the use of a
+mixture of probes featuring diverse physicochemical
+properties is shown here to yield consistently better predictions
+of achievable affinities, in addition to a more complete identification
+of druggable sites on targets. The probe mixture simulations yielded
+more accurate ranges for the maximal achievable binding affinity for
+Eg5 and p38, and charged probes allowed us to accurately predict the
+achievable affinity for the PTP1B catalytic site. These observations
+suggest that the methodology suits a broad range of binding sites.
+This is an important improvement as marketed drug molecules more often
+than neutral are singly charged. For instance, a recent set of 2056
+orally available drugs assembled for analysis included 35% neutral
+molecules with the remaining either charged or zwitterionic. 
+The present study also highlights the
+utility of MD simulations
+with explicit probe molecules in the aqueous environment when dealing
+with flexible targets. In our test cases, high affinity interaction
+points are observed in pockets inaccessible in the unbound form, such
+as the LFA-1 induced site and p38 allosteric pocket in the ATP site.
+The approach rigorously accounts for the time-dependent molecular
+driving forces involved in ligand recognition, including entropic
+factors and desolvation. As it is physics-based and not trained on
+particular target classes, the method is virtually applicable to all
+types of protein targets within the limitations of current molecular
+mechanics force fields and solvent models. The simplified assumptions
+and refined algorithm makes intermediate results easily interpretable
+and applicable to guiding structure-based drug design. Using parallel
+platforms and software, calculations can be performed within a few
+days for most protein targets to make an assessment of druggability,
+potential for binding sites, and achievable affinities. This methodology
+appears to be especially useful for identifying allosteric binding
+sites with limited structural data on alternate protein conformations.
+
+## Methods
+
+## MD Simulations
+Simulations were performed using NAMD software and the CHARMM force field. Productive simulation times ranged from 32 to 40 ns.
+See the and for details.
+
+## Construction of Grids Based on Probe Locations
+MD snapshots
+were superposed onto the reference PDB structure of the protein using
+Cα atoms. Probe molecules having a non-hydrogen atom
+within 4.0 Å of protein atoms were considered to interact with
+the protein. For each probe type, individual occupancy (number density)
+grids were calculated using their central carbon atoms with VMD Volmap. Grid calculations for combined trajectories
+( ) were performed using Python
+packages ProDy and NumPy. In both cases,
+grid resolution was set to 0.5 Å. To reduce grid artifacts, the
+occupancy value in each voxel was averaged with its neighbors. When
+more than one type of probe was used, grids of individual probes were
+combined. In this case, each probe was assigned a fractional
+occupancy value (ranging from 0 to 1) for a given voxel. Fractional occupancy was obtained by dividing its occupancy
+by the total occupancy at the voxel.
+
+## Evaluation of Binding Free Energies of Interaction Spots
+Occupancy grids are converted to binding free energy grids (Figure D) using eq and the expected occupancy described in the . Interaction spots (Figure E) are defined as voxels satisfying three criteria:
+(i) An interaction spot does not overlap with other interaction spots.
+(ii) The binding free energy of the interaction spot is lower than
+a predefined upper limit for probe binding free energy. (iii) The
+binding free energy of an interaction spot is less than those of the
+surrounding voxels; that is, in a given volume matching the size of
+a probe molecule, the lowest energy voxel is selected as the interaction
+spot representing the probe. We set the value of the upper limit to −1
+kcal/mol (LE = 0.25 kcal/mol). Starting from the voxel with lowest
+binding free energy value (central interaction spot), other voxels within the effective radius of the central interaction spot were eliminated. This was repeated
+for the next voxel with the lowest binding free energy until no pairs
+of overlapping voxels remained. When multiple probe types were used,
+the effective radius of a voxel was defined as the sum of effective
+radii ( ) of probes weighted by
+their fractional occupancies. In the case of charged probes, the effective charge of an interaction spot is calculated as
+the fractional occupancy weighted sum of probe charges. For example,
+an interaction spot occupied in half of the simulation time by isopropanol
+molecules, and the other half by acetate molecules, was assigned an
+effective charge of 0.5 electronic units.
+
+## Maximal Achievable Affinity Calculation
+Druggable sites
+were identified by merging proximal interaction spots as follows:
+(i) The lowest energy interaction spot in a distinct binding site
+is selected as a seed. (ii) The next lowest energy interaction spot
+within 6.2 Å of the seed and satisfying the effective
+charge constraint is merged to the seed. (iii) The second
+step is repeated until a desired number of interaction spots are merged.
+The total effective charge in a druggable site was
+restricted to be less than or equal to 2e–. Maximal
+affinity of the druggable site is estimated from the sum of binding
+free energies of selected interaction spots.
+
+## Acknowledgments
+The authors thank Drs. Eric Manas, Joy Yang, Guanglei
+Cui,
+Xuan Hong, and Alan Graves at GSK for their stimulating and fruitful
+discussions during the development of the methodology. Support from
+NIH grant # 2U19AI068021-06 and PA CURE grant via Project 0864104
+is gratefully acknowledged by I.B. Simulations were performed using
+the Bahar Lab CPU cluster Liszt and Pittsburgh Supercomputing Center
+(PSC) CPU cluster Pople. The authors thank Dr. Levent S. Yilmaz for
+his help with using the PSC facilities.
+
+## Supporting Information Available
+Details of probe molecules,
+force field parameters, simulations, computing times, and an extended
+discussion of the methodology are provided. In addition, the coordinates
+of proteins and probe molecules with predicted binding free energies
+are provided in PDB format files. This material is available free
+of charge via the Internet at http://pubs.acs.org.
+
+The authors declare no
+competing financial interest.
+
+## Funding Statement
+National Institutes of Health, United States
+
+## Supplementary Material
+ct300117j_si_001.pdf
+ct300117j_si_002.zip
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ct300117j_si_001.pdf
+ct300117j_si_002.zip

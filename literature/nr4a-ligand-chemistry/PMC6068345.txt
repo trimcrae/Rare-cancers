@@ -1,0 +1,260 @@
+Mol OncolMol Oncol3199moloncolMOL2Molecular Oncology1574-78911878-0261WileyPMC6068345PMC6068345.1606834560683452979776210.1002/1878-0261.12323MOL2123231Research ArticleResearch ArticlesA combined tissue‐engineered/in silico signature tool patient stratification in lung cancer
+C. Göttlich et al.GöttlichClaudia KunzMeik ZappCornelia NietzerSarah L. WallesHeike DandekarThomasdandekar@biozentrum.uni-wuerzburg.de DandekarGudrungudrun.dandekar@uni-wuerzburg.de 
+1
+Tissue Engineering and Regenerative Medicine
+University Hospital Wuerzburg
+Germany
+
+2
+Fraunhofer Institute for Silicate Research (ISC)
+Translational Center Regenerative Therapies
+Wuerzburg
+Germany
+
+3
+Department of Bioinformatics
+Biocenter
+University of Wuerzburg
+Germany
+
+4
+Institute for Pharmaceutics and Molecular Biotechnology (IPMB)
+University of Heidelberg
+Germany
+
+5
+Structural and Computational Biology
+EMBL Heidelberg
+Germany
+*Correspondence
+T. Dandekar, Biocenter, Department of Bioinformatics, University of Wuerzburg, Am Hubland, 97074 Wuerzburg, Germany
+Fax: +49 931 31 84552
+Tel: +49 931 31 84551
+E‐mail: dandekar@biozentrum.uni-wuerzburg.de
+and
+G. Dandekar, Tissue Engineering and Regenerative Medicine, University Hospital Wuerzburg, Roentgenring 11, 97070 Wuerzburg, Germany
+Fax: +49 931 31 81068
+Tel: +49 931 31 82597
+E‐mail: gudrun.dandekar@uni-wuerzburg.deThese authors contributed equally to this work.
+22620188201812831793810.1002/mol2.2018.12.issue-812641285271201813420182042018010820180308201804082018© 2018 The Authors. Published by FEBS Press and John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.Patient‐tailored therapy based on tumor drivers is promising for lung cancer treatment. For this, we combined in vitro tissue models with in silico analyses. Using individual cell lines with specific mutations, we demonstrate a generic and rapid stratification pipeline for targeted tumor therapy. We improve in vitro models of tissue conditions by a biological matrix‐based three‐dimensional (3D) tissue culture that allows in vitro drug testing: It correctly shows a strong drug response upon gefitinib (Gef) treatment in a cell line harboring an EGFR‐activating mutation (HCC827), but no clear drug response upon treatment with the HSP90 inhibitor 17AAG in two cell lines with KRAS mutations (H441, A549). In contrast, 2D testing implies wrongly KRAS as a biomarker for HSP90 inhibitor treatment, although this fails in clinical studies. Signaling analysis by phospho‐arrays showed similar effects of EGFR inhibition by Gef in HCC827 cells, under both 2D and 3D conditions. Western blot analysis confirmed that for 3D conditions, HSP90 inhibitor treatment implies different p53 regulation and decreased MET inhibition in HCC827 and H441 cells. Using in vitro data (western, phospho‐kinase array, proliferation, and apoptosis), we generated cell line‐specific in silico topologies and condition‐specific (2D, 3D) simulations of signaling correctly mirroring in vitro treatment responses. Networks predict drug targets considering key interactions and individual cell line mutations using the Human Protein Reference Database and the COSMIC database. A signature of potential biomarkers and matching drugs improve stratification and treatment in KRAS‐mutated tumors. In silico screening and dynamic simulation of drug actions resulted in individual therapeutic suggestions, that is, targeting HIF1A in H441 and LKB1 in A549 cells. In conclusion, our in vitro tumor tissue model combined with an in silico tool improves drug effect prediction and patient stratification. Our tool is used in our comprehensive cancer center and is made now publicly available for targeted therapy decisions.
+
+3D lung tumor modelBoolean signaling networkchemoresistanceHSP90 inhibitorin silico drug screening toolKRAS mutation signatureIZKFBD‐247Bayern‐Fit programBMBFFKZ 031L0129B and 031L0129AOpen Access Publication Fund of the University of Würzburg Regarding in silico analyses, we first set up cell line‐specific in silico topologies by integrating important signaling nodes that distinguished the cell lines upon Gef and 17AAG treatment into our basic in silico topology (Table  ; Stratmann et al., ). The nodes of this basic topology are marked in all newly generated topologies with bold printed borders. After the generation of these cell line‐specific in silico topologies, we mirrored the in vitro treatment response of Gef and 17AAG, by applying semiquantitative Boolean simulations using the software squad (Stardardized Qualitative Dynamical Modelling Suite). Based on the logical connectivity of each cellular topology, this software models the dynamic evolution of the included signaling cascades using exponential functions (Di Cara et al., ). Furthermore, different activation strengths for each node of the signaling cascade are considered in the simulations that were necessary to adapt the in silico simulation results to the in vitro results for differences of 3D and 2D cultures. Input into the topology of Fig.  B is listed in Table  A and B for 3D conditions (further network analyses in Tables ) and in Box  for 2D conditions. Simulations’ output of 3D conditions is presented in Figs  D and for Gef and in Fig.  for 17AAG treatment. Simulation results in 2D conditions of KRAS‐mutated cell lines are represented in Fig.  for Gef and in Fig.  for 17AAG treatment.
+ To reveal – in a systemic approach – further relevant cell line‐specific drug targets in KRAS‐mutated conditions in the 3D system, we reconstructed two larger in silico networks for A549 and H441 cells. Therefore, we searched in Human Protein Reference Database (HPRD; Table S1) the interacting neighbors of the nine upon 17AAG treatment between A549 and H441 differentially regulated proteins (DRPs) (Table  B, Fig.  ) and identified individual promising drug targets by mapping these to cell‐specific mutations in COSMIC (Catalogue Of Somatic Mutations In Cancer) generating thereby two cell‐specific networks for A549 and H441 cells. From networks analyses, we expanded the in this study created topology from Fig.  B (marked with olive gray background in Fig.  A,C) further with gain or loss of function mutations and other important factors by adding activated or inhibited nodes. In subsequent simulations we could predict optimal drug targets in a specific mutational background of KRAS‐mutated tumors. In Table  C, input into topologies and subsequent simulations in Fig.  are given. Matching drugs were suggested by screening of our DrumPID (Drug‐minded Protein Interaction Database) (Kunz et al., ) screening tool for available target‐specific test substances.
+ 
+2.2
+
+## Tissue‐engineered lung tumor models resemble tumor specimens
+Firstly, we looked at molecular markers for tumors and tissue differentiation and their variances. We observed homogenous E‐cadherin/β‐catenin localization in fluorescence staining of 3D models as well as tumor specimens, whereas 2D models showed high variation ranging from strongly stained to completely negative tumor cells (Fig.  A,B). By comparison to 2D models, we demonstrated with Ki67‐staining the reduction in proliferation rate in 3D models to levels that correlate to lung adenocarcinoma samples (Fig.  C).
+
+2.3
+
+## Enhanced biomarker‐dependent drug response to EGFR inhibition in the 3D model
+As a test for clinically applied biomarker‐guided anti‐EGFR therapy, we compared A549 and H441 (EGFR wild‐type) with HCC827 cells (activating EGFR mutation). Responses upon 3 days of Gef treatment were biomarker‐dependent, as represented by hematoxylin and eosin staining (HE staining) in 3D models (Fig.  A), proliferation reduction (Fig.  B), and apoptosis induction (Fig.  C). Although the proliferation in 3D conditions was reduced to in vivo like rates (Stratmann et al., ), treatment with Gef decreased the proliferation further by about 80%, as also observed in 2D. However, biomarker‐related apoptosis induction upon Gef treatment in HCC827 was significantly enhanced in 3D conditions (about 3.5 to 6‐fold increase), compared to 2D conditions (about 2.5‐fold increase), which suggests better specificity for the 3D system. Signaling analyses by receptor tyrosine kinase (RTK) and phospho‐kinase (PK) array experiments are provided for the 2D and 3D systems (Fig.  , Table  A).
+Complementing these biomarker‐dependent drug responses to Gef, we set up an in silico network of key pathways for the proliferative and apoptotic response, to model the observed in vitro responses of each of the three cell lines. An in silico topology was previously developed for HCC827 and A549 (Stratmann et al., ). This was extended by those cell line‐specific proteins and pathways (Fig.  ; previous network proteins are in bold and with olive background) which showed signaling changes upon the Gef treatment in the experiments (Table  ). For the newly investigated H441 cell line, we used the A549 in silico topology as basis. Specifically, we integrated the MET signal transduction cascade for HCC827 and H441. We then applied the squad software to simulate the Gef treatment responses for all cell lines, using initial node stimulations based on the mutational background and the experimental results on protein phosphorylation (prestimulation in Table  A; method in the Supporting information). Our simulation of HCC827 with Gef treatment (Fig.  D) compared to untreated cells demonstrates, as for the in vitro results, reduced proliferation and higher apoptosis over time. Results of the simulations for A549 and H441 are represented in Fig.  .
+
+2.4
+
+## Chemoresistance against HSP90 inhibition in 3D models align to clinical observations
+2D models and animal experiments predict HSP90 inhibitor efficiency in KRAS‐mutated tumors (Acquaviva et al., ; Sos et al., ). As known from 2D in vitro screens, HCC827, A549, and H441 exhibit different sensitivities to the HSP90 inhibitor 17AAG (Ciocca and Calderwood, ; Sos et al., ).
+We observed that about 50% of the H441 cells died from 0.25 μm 17AAG, which decreased the viability of A549 to 5% and of HCC827 to 35%, as shown by the cell viability assay CellTiter‐Glo® in 2D (Fig.  A). However, the failure of HSP90 inhibitor treatment in a clinical setting of KRAS‐mutated tumors was reflected in 3D tissue cultures. From HE staining of 3D tumor models, after three days of 0.25 μm 17AAG treatment only slight effects were visible in A549 and HCC827, whereas H441 cells were completely unresponsive (Fig.  B). Proliferation analysis of the 2D systems predicts KRAS‐mutated cells to be more responsive to 17AAG than KRAS wild‐type HCC827 cells. This is contrasted by only weak changes between both cell types in 3D tissue culture (Fig.  C). A strong apoptotic response upon 17AAG is only observed in KRAS‐mutated A549 cells in 2D (4 to 6‐fold) but not in 3D models (1 to 2‐fold) (Fig.  D).
+All phosphorylation data from arrays and western blot experiments are summarized and compared in 2D and 3D models in Table  for Gef (A) and 17AAG (B) treatment. Protein nodes for in silico topology which were applied later are given in Table  .
+
+2.5
+
+## Differences in signaling between 2D and 3D conditions upon HSP90 inhibitor treatment as a basis for in silico analyses
+Signaling responses upon application of the HSP90 inhibitor 17AAG were analyzed by comparing 2D and 3D conditions. Protein activation as observed by RTK arrays was confirmed by western blot (Fig.  A) and quantified (Fig.  ). Data indicated an inhibition of the EGFR and of MET in HCC827 and in H441 in 2D as well as 3D conditions. In western blot analysis, inhibition of MET was weaker in 3D than in 2D cultures in both cell lines. Interestingly, p53 (S46) was activated in HCC827 with 17AAG treatment in 2D, but stayed constant in 3D conditions. Vice versa, in H441 p53 was activated only in 3D conditions and remained unchanged in the 2D culture. Furthermore, HSP60 was clearly upregulated only in A549 cells under 3D conditions upon 17AAG application. Regulated proteins identified in 3D conditions upon 17AAG treatment include EGFR, ErbB2, ErbB3, MET, c‐Ret, VEGFR2, FGFR3, p53, and HSP60 (Table  B, Figs  A, and ). Similar to the Gef treatment, we extended our in silico network and topology adding these experimentally measured cell‐specific proteins (Fig.  B). Particularly, we included for mirroring 17AAG treatment effects – next to the MET protein – ErbB2, ErbB3, and c‐RET cascade in HCC827 and H441, and also in all three cell line‐specific in silico topologies p53, HSP60, HIF1A, and HSP90, as part of the 17AAG treatment cascade (Table  ). For H441, we included further VEGFR2 and FGFR3, as they were downregulated in the arrays in the 3D model upon treatment with 17AAG, in contrast to the other two cell lines (Fig.  , Table  B). We show only responses for key proteins of all three cells, but we simulated the complete network responses looking at all proteins of the topology. Important aspects of the 3D tissue model upon 17AAG application (red curve at 1) are reflected by in silico simulations (Fig.  ): (a) In HCC827 (top), cell proliferation is unchanged and apoptosis is slightly induced compared to the untreated control, (b) in A549 (middle), proliferation is regarded as unchanged and apoptosis is only slightly induced in 3D conditions, and (c) in H441 (bottom), proliferation is unchanged and apoptosis is not induced. Notably, HSP60 is exclusively induced in A549, whereas p53 is upregulated only in H441. Moreover, based on the in silico topology connectivity, in our in silico simulation we found that beside p53 HIF1A is also upregulated in H441.
+For comparison, the in silico simulations can also be modified to appropriately reflect results of 2D culture. To illustrate this, we focused on the A549 and H441 cell lines and applied the same topology as for 3D, but adjusted activation levels for Gef and 17AAG treatment according to the 2D in vitro conditions (Fig.  B and ; Table ; Box  ): Essentially, we elevated the value of Raf to simulate higher basic proliferation in 2D, and furthermore, we changed FLIP for the higher apoptotic response in 2D upon 17AAG as this is reported to be important for higher apoptotic resistance when cells grow on collagen (Philippi et al., ). Whereas Gef treatment simulation resulted in both KRAS‐mutated cells in no change of proliferation and apoptosis over time (Fig.  ), HSP90 inhibition simulation of 2D conditions revealed in contrast to 3D a lower proliferation and an induced apoptosis over time in A549 (Fig.  ).
+However, the established tool allows us now to test and screen in silico in a systems perspective for tailored therapies according to the cell line‐specific mutational profile and tumor drivers, as detailed in the following section.
+
+2.6
+
+## Generation of in silico protein–protein interaction networks for cell‐specific drug target predictions in KRAS‐mutated cells
+Next, as we observed signaling differences between the KRAS‐mutated A549 and H441 cell lines, we sought to identify a KRAS complementing signature of further potential biomarkers and resultant drug targets for each cell line. For this purpose, we combined experimental data and the cell line‐specific mutational backgrounds with integrated systems biology analysis (Kunz et al., ; Naseem et al., ), considering direct interacting proteins and available drugs to modulate this extended network.
+We generated a network around KRAS by considering the DRPs of both KRAS‐mutated cell lines (A549 and H441) upon 17AAG treatment (Table  B) in the 3D system and included their direct interacting proteins according to the genomewide HPRD. The resulting KRAS interaction network includes 556 proteins (= nodes) and 680 protein–protein interactions (= edges) around the nine experimentally DRPs (EGFR, ErbB2, ErbB3, MET, FGFR3, c‐Ret, VEGFR2, p53, and HSP60; Fig.  ). Comparing all cell line‐specific mutations known from the genomewide COSMIC database (573 for H441, blue circle, and 361 for A549, yellow circle; Table S2; Fig.  A) with this KRAS interaction network, we could match 18 H441‐specific mutations and nine A549‐specific mutations, as parts of our KRAS interaction network (Table  ). The two reconstructed cell‐specific KRAS interaction networks for A549 and H441 included these specific mutations, HSP90 as a target of 17AAG, and their direct interaction partners from HPRD (Fig.  ), which were then analyzed for functional clusters. In the A549‐specific network (322 proteins and 371 protein‐protein interactions, Fig.  ; extended network with 795 nodes and 1034 interactions in Fig.  ), we found two functional protein clusters with a strong network effect (so‐called hubs) around proteins VEGFR2, MET (experimental measurements) and CBL (mutated), and p53 (experimental) and ARID3A (mutated; Fig.  ). Similarly, for the H441‐specific network (903 proteins and 1119 protein–protein interactions; Fig.  ), we found two clusters around the proteins PRKACA (mutated) and p53 (experimental and mutated) as well as HSP90AA1, ACTA, and HIF1A (mutated; Fig.  ). We compared potential targets in the two cell line‐specific KRAS networks, in terms of their distance and usefulness to modulate cell‐specific signaling cascades. This yielded a highly connected network between interesting tumor drivers (Fig.  B for A549, driver mutations in yellow; Fig.  C for H441, driver mutations in blue), and cell‐specific biomarker signatures (Table  , Box  ). Other cell‐specific mutations close to the central cascade are indicated by cyan (neighbors of neighbors), and unmutated interactors in lavender circles for A549 and H441, respectively. Regarding ranking of drug targets for potential clinical application, we considered proteins and connections and assigned the priority to direct neighbors, if they could be targeted easily by existing medical drugs, for example, AMPK for A549 and HIF1A for H441. All targets are ranked in Box  . This drug‐search strategy was made possible by applying our DrumPID (Kunz et al., ).
+ 
+2.7
+
+## AMPK and HIF1A targeting in cell‐specific in silico simulations for A549 and H441 cells
+Subsequently, we investigated in silico the potential therapeutic effect of AMPK as a relevant target for A549 and HIF1A as a target for H441. For this, we integrated the LKB1 cascade for A549 into the cell‐specific in silico topology that simulated the 17AAG therapy (Fig.  A), and further considered the connectivity of HIF1A in H441 (Fig.  C). Proteins in the network that correspond to the basic topology of Stratmann et al. ( ) are bold rimmed and proteins that match to the topology from Fig.  B have an olive background (Fig.  A,C). From our drug screening (Box  ), we identified 5‐aminoimidazole‐4‐carboxamide ribonucleotide (AICAR) in A549 as the potential activator of AMPK that is directly modulated by its interactor LKB1, which is specifically mutated in A549 (synonym: STK11; see DrumPID pathway ko04152). Similarly, we found PX‐478 as a selective HIF1A inhibitor for the H441 cell line. Based on this, we simulated their potential therapeutic effect by applying the SQUAD algorithm (Fig.  B,D; prestimulations in Table  C). For in silico simulations of AMPK activation and inhibition of HIF1A, we found induced apoptosis and reduced proliferation in each cell line over time as a desirable drug effect.
+
+3
+
+## Discussion
+3.1
+
+## Motivation
+Personalized treatment strategies have to cope with highly redundant tumor pathways resulting in resistance, whereas combination therapies often show severe toxic side effects (Tannock and Hickman, ). Therefore, it is necessary to reconsider the design of clinical studies with targeted anticancer approaches. It is critical to understand the underlying dependencies in signaling networks, and to provide tools for exploiting now frequently available sequencing data from patients.
+Moreover, in the field of oncology, the success rate of preclinical testing is at under 5%, generating enormous financial costs (Bhattacharjee, ). Even though animal models predict toxicity quite convincingly, they tend to fail in efficacy testing (Greaves et al., ; Kubinyi, ). In particular, for signaling analyses, mice are not adequate models due to inappropriate ligands to some centrally connected human receptors, such as MET (Francone et al., ). Next to ethical concerns, these aspects underline the urgent need to develop novel human tumor test systems.
+Here, we introduce a new concept of in vitro tissue tumor models and in silico analyses to design and test individual biomarker profiles and intervention strategies. This prepares the floor for patient‐tailored clinical studies, required for personalized cancer medicine (Tannock and Hickman, ). As our main aim is to develop a powerful tool that can be implemented into the clinic by analyzing the patient's sequence data, we investigate as proof of concept in this work three individual lung cancer cell lines with known genome sequence information. However, here we show only exemplary data and not a large validation series. We are aware that exact quantitative estimates require a higher number of experiments and more cell lines with similar driver mutations. Exploring its clinical implementation, currently our in silico tool advises on a case‐by‐case basis the molecular tumor board in our comprehensive cancer center. In particular it supports to identify alternative protein targets when resistance to treatment occurs.
+Our human 3D tumor model generated by tissue engineering technologies should reduce preclinical failure, as it reflects tumor characteristics better and shows higher predictive accuracy than conventional 2D cultures: it retains the tissue architecture, extracellular matrix components and structures of the basement membrane as unique features for cellular interactions. These are important modifiers of cellular responses (Linke et al., ; Philippi et al., ; Schanz et al., ). In detail, we observed (a) more homogenous staining of E‐cadherin/β‐catenin and lower proliferation rates according to tumor specimens, (b) a biomarker‐dependent apoptosis induction and proliferation reduction by the EGFR inhibitor Gef, and (c) in contrast to other preclinical findings, a reduced response upon HSP90 inhibitor treatment in KRAS‐mutated tumor cells, which matches observations from clinical studies. Thus, we believe that our in vitro model resolves interpathway dependencies more reliably than 2D or animal models.
+Individual KRAS in silico networks were established by integrating relevant proteins from in vitro experiments and their interaction partners from HPRD. Our simulations start from a general in silico network for lung cancer, which is refined here to reveal the most relevant protein clusters. By matching cell line‐specific mutations from the COSMIC database, we derived individual drug targets and by screening our custom‐made, protein–drug interaction database DrumPID appropriate drugs (Kunz et al., ).
+
+3.2
+
+## HSP90 inhibition in KRAS‐mutated tumors and correlation of our 3D tissue models and other preclinical models to clinical findings
+In a previous study of a lung cancer model, we were able to demonstrate a stronger apoptosis induction in the 3D model by Gef, compared to conventional 2D culture (Stratmann et al., ). After setting up standard operating procedures (Göttlich et al., ), we could predict the clinical failure of HSP90 inhibitor treatment in the context of KRAS mutation, in contrast to other in vitro and in vivo models (Acquaviva et al., ; Sos et al., ). Heat shock proteins have gained attention in recent years as therapeutic tools, as they are involved in tumor cell proliferation, invasion, and cell death. Their high expression was observed in several cancer entities in clinical settings (Ciocca and Calderwood, ). Specifically, HSP90 belongs to a family of chaperons important for the function of relevant oncogenic drivers in lung adenocarcinomas. From a genomewide screening of 84 cell lines, KRAS mutation was identified to confer sensitivity to HSP90 inhibition that could also be verified in murine models (Sos et al., ). In this screening, the geldanamycin derivatives 17AAG, and 17‐dimethylaminoethylamino‐17‐demethoxygeldanamycin in mice experiments were applied for HSP90 inhibition. However, geldanamycin and its derivates turned out to have safety and pharmacological limitations (Jhaveri and Modi, ). Another in vitro study showed the effectiveness of HSP90 inhibition in several KRAS‐mutated non‐small cell lung cancer (NSCLC) lines by ganetespib – a non‐geldanamycin analog with less toxic side effects (Acquaviva et al., ). However, single agent HSP90 inhibition by ganetespib failed in NSCLC patients with KRAS‐mutated tumors. Combination therapy trials with docetaxel (GALAXY 1 and 2) led to better outcomes in patients with adenocarcinomas, than docetaxel single agent therapy, but not in the subgroup of KRAS‐mutated tumors (Bhattacharya et al., ). Recently, ALK, ROS1, and RET kinase gene rearrangements have been suggested to predict efficacy by targeting HSP90 (Rothschild, ; Sang et al., ; Socinski et al., ).
+
+3.3
+
+## 
+In silico simulations of cell responses and development of a predictive KRAS signature
+In this study, in silico analyses for KRAS signature development are executed in three steps:
+
+Set up of cell‐specific in silico topology with logical Boolean connectivity (software tool celldesigner; http://www.celldesigner.org; Funahashi et al., )
+Cell‐specific dynamic in silico simulations of tumor cell responses (software tool squad)
+For systematic drug‐target identification we generate larger cell‐specific protein–protein interaction networks considering neighbors of the central cascades (using data from HPRD) and cell line‐specific mutations (using data from COSMIC). For drug suggestions we apply the database tool DrumPID.
+
+In detail, we explain here the three above mentioned distinct types of in silico analyses:
+
+With the term ‘in silico topology’, we considered a previously published knowledge‐based network which focuses mainly on kinase cascades (Stratmann et al., ) and integrated here cell‐specific differences as additional nodes (proteins) derived from experimental data to specifically mirror the effects of Gef treatment and HSP90 inhibition. For this, we measured by phospho‐arrays and western blot signaling changes as drug responses as well as differences in proliferation and apoptosis in the different cell lines in 2D and 3D conditions. Missing parts of the cascade or modulatory crosstalk are filled in according to expert knowledge and public databases. These represent only the key parts of the signaling cascades. We used the tool ‘CellDesigner’ to set up the in silico topologies and to bring them into a machine‐readable format as done before for other cell types (Schlatter et al., ).
+‘in silico simulations’ with the SQUAD tool predict the systemic response of a tumor cell upon a specific treatment which depends on the tumor cell topology and the activation/inactivation of its integrated nodes. As input the activation level of certain nodes can be set between zero as an inhibitory effect (inactivation) and one as an activating effect (activation). Furthermore, mutations can be integrated that stay independent from upstream signaling events at a certain value in case of gain or loss of function mutations. Also differences in 2D and 3D conditions can be simulated by adjusting the nodes’ values to experimentally measured levels, that is, phosphorylation determined by western blot. Some of the nodes summarize also global cellular responses, for example, ‘stress’. Importantly, also the drug responses proliferation and apoptosis are integrated in the topology as nodes. Values of the other nodes must be adjusted until the level of proliferation and apoptosis comply with the in vitro observations. Traditionally, differential equations for detailed kinetic modeling look at biological responses (Di Cara et al., ; Dwivedi et al., ; Robubi et al., ). However, this requires then detailed kinetic information on individual kinases. This is not necessary in our approach, as the squad modeling software interpolates automatically exponential functions between our protein network nodes fitting signal transmission and logical connectivity (Di Cara et al., ). We previously applied this combination to study cancer (Göttlich et al., ; Stratmann et al., ), infection biology (Audretsch et al., ; Naseem et al., ), and different tissues (Brietz et al., ; Czakai et al., ; Philippi et al., ).
+For drug targeting, we looked systematically at larger protein–protein interaction networks; in particular, we collected all neighbors of upon 17AAG treatment between DRPs of both KRAS‐mutated cell lines. To this network, we matched cell‐specific mutations from the COSMIC database. These larger networks we term here ‘in silico networks’. The cell‐specific networks were then scrutinized to identify most promising treatment targets considering their relation to highly connected proteins in the network that are called ‘hubs’. A robust drug prediction algorithm collates information from several large‐scale databanks including chemical information according to Simplified Molecular Input Line Entry Specification (SMILES) notation and basic drug pharmacokinetics ADME (absorption, distribution, metabolism, excretion) rules (DrumPID, Kunz et al., ). We used our reconstructed cell‐specific networks (Fig.  B,C) and screened which drugs according to DrumPID (Kunz et al., ) influence apoptosis and proliferation in a cell‐specific manner. Targets are ranked by the effect strength, closeness to central cascades and druggability (Box  ). Subsequently, we simulated the potential therapeutic effect on apoptosis and proliferation focusing on AICAR (AMPK activator) and PX‐478 (HIF1A inhibitor) as top candidates and integrated their specific connectivity to the central cascades in the in silico topology. However, other drug target candidates can also be simulated, but for each simulation the individual targets and side targets of the drug has to be considered. Further testing of predictions is required to confirm suggested targets regarding clinical relevance. So far, neither HCC827, nor A549, nor H441 lung cancer cell lines have been analyzed by such a comprehensive in silico approach.
+
+3.4
+
+## Experimentally measured differences between the 2D and 3D system and in silico analyses
+Besides a higher chemoresistance in the case of HSP90 inhibitor treatment, we observed in 3D lower reduction of MET upon 17AAG treatment and an inverse regulation of p53, when compared to 2D conditions. Next to semiquantitatively evaluated western blot experiments, we present data from two phospho‐array screens (RTK, PK) as a starting point for further analyses (Figs and ).
+Importantly, in our 3D experiments we observed in contrast to 2D conditions upon 17AAG treatment an upregulation of HSP60 exclusively in A549, and an activation of p53 only in H441, which we were able to achieve also in our in silico simulations. However, the literature reports HSP60 inhibition by HSP90 and p53 inactivation by HSP60 (Ghosh et al., ), which would explain our experimental observations in A549 and H441. The reason why HSP60 upregulation and a lack of p53 expression in A549 has a small effect on apoptosis in this setting, could be due to reduced HIF1A activation upon 17AAG treatment, as predicted by our in silico simulation. This reduced activation could stem from the inhibition of HSP90. HIF1A is not completely silenced in the simulation, due to its connection to LKB1 via mTOR in the in silico topology, as according to the COSMIC database, in A549 LKB1 carries a loss of function mutation. Furthermore, our in silico topology illustrates that this LKB1 mutation should lead to reduced AMPK activation and, thereby, also reflects the nonproliferative effect of 17AAG treatment via the mTOR signaling pathway. On the other hand, apoptosis induction is also blocked in H441. Induction of p53 upon inhibition of HSP90 should have no apoptotic effect due to the loss of function mutation of p53 identified in the COSMIC database. Furthermore, in our simulation we can see that HIF1A is still activated in H441 following HSP90 inhibition. This could be due to a mutation inside this gene that leads to an inhibitory effect on apoptosis and favors proliferation. Box  shows that we can use the same topology to simulate 2D results in silico, but differences in protein activation have to be taken into account to appropriately simulate the stronger apoptotic as well as proliferative responses upon 17AAG treatment observed in 2D cultures. As we could correctly simulate the observed responses upon Gef and 17AAG treatment for 2D and 3D conditions we could support that nodes in our topology are so far connected correctly.
+The in silico screen can reveal new dependencies, as high quality databases consider cancer‐subtype‐specific mutations and their interacting proteins along with all available drugs to directly attack the mutated protein or one of its neighbor.
+AICAR and PX‐478 are given as attractive examples (top ranked; see Supporting information) and their therapeutic effect on apoptosis and proliferation is simulated. However, other drugs can also be used by integrating other drug target candidates by considering its individual targets and side targets.
+Subsequently, the targets and drugs can be integrated in the in silico topology by considering its specific connectivity to the central cascades and further in silico simulated with SQUAD.
+
+3.5
+
+## Exemplified target and drug candidate prediction for A549 cells
+From the newly established KRAS network, based on proteins that exhibit changes in signaling between A549 and H441 in 3D conditions and cell‐specific mutations, the for A549 unique mutation LKB1 stands out. Our drug–protein interaction database DrumPID (Kunz et al., ) identifies drugs that modulate the query protein directly, or one of its directly interacting neighbor proteins. This database tool identifies AMPK in our analyses as a potential drug target in A549 cells which can be modulated by the drug AICAR. AMPK protein is a direct interaction partner of LKB1 (Fig.  B) (Fay et al., ; Rattan et al., ; Tang et al., ). AMPK activation using the drug AICAR, an analog of AMP, leads to tumor growth arrest in our in silico simulation for A549 cells (Fig.  A,B; nodes from first topology are olive‐shaded in A). Moreover, AICAR shows promising results in the clinical phase 1/2 for chronic lymphatic leukemia (Van Den Neste et al., ). In addition, the approved anticancer agent pemetrexed is known to indirectly activate AMPK by the accumulation of ZMP in LKB1‐null lung cancer (Rothbart et al., ).
+
+3.6
+
+## Exemplified target and drug candidate prediction for H441 cells
+Regarding H441 cells, we also screened the H441 protein interaction network around the KRAS signature for potential drugs targeting either the protein or its direct neighbor. HIF1A was the highest‐ranked target (Box  ), as it is altered in H441 cells according to COSMIC data and is involved in a signaling loop (Greijer and van der Wall, ) (Fig.  C). Inhibition of HIF1A using PX‐478 shows an antitumor effect in our in silico simulations (Fig.  C,D; nodes from first topology are olive‐shaded in 7C). Studies demonstrated that inhibition of HIF1A shows promising therapeutic effects in human xenograft models (Welsh et al., ).
+
+3.7
+
+## Application of the combined in vitro/in silico tool
+For clinical application, patient tumors have to be sequenced first, or at least tested by PCR or microarrays, to confirm that the driver mutation profile matches those in our cell lines. Notably, primary tumor cell culture is still challenging and has to be optimized for its utilization in routine personalized approaches.
+
+4
+
+## Conclusion
+Predictive gene signatures were identified in a combined, tissue‐engineered, 3D lung tumor model with improved clinical correlation and a Boolean in silico approach that integrated measured cell‐specific differences in drug responses. We established cell line‐specific networks that depend on individual mutation patterns. This enabled better understanding of the interdependencies between single signaling cascades to prevent treatment resistance. Exemplified by the KRAS‐mutated cell lines A549 and H441, we demonstrated how our analysis tool could lead to individual signature development, based on in vitro/in silico investigations on signaling, interaction partners from the HPRD, and sequence data from COSMIC. The limited number of direct interference points with the proliferative and/or apoptosis signaling cascade suggests and ranks best cell line‐specific targets, implying future therapies according to NGS data, tailored to the individual cancer mutation profile. Translated into clinical application, our lung cancer cell line‐specific examples suggest for patient stratification to determine not only the KRAS mutation status, but also to test for LKB1, p53, and HIF1A. Such cancer‐specific prescreening could distinguish among individual mutational subgroups to improve patient stratification and the design of clinical studies.
+
+5
+
+## Materials and methods
+5.1
+
+## Cell culture
+HCC827 and A549 cell lines were purchased from DSMZ (Braunschweig, Germany), H441 from ATCC (LGC Standards GmbH – Germany Office, Wesel, Germany). A549 and H441 cells were cultured in RPMI + 10% FBS, HCC827 cells in RPMI + 20% FBS. Cells were monitored for pathogen infections at regular intervals. For a 2D culture, cells were either grown on glass coverslips in well plates until they had reached a confluency of about 70% or were cultured for 5 days in 12‐well plates or 6‐cm petri dishes. For a 3D culture, 1 × 105 tumor cells were grown for 14 days on the SISmuc (see Section  ) that was fixed between two metal rings, as described in the literature (Göttlich et al., ; Moll et al., ; Stratmann et al., ). Both 2D and 3D cultures were performed under standard conditions (37 °C, 5% CO2).
+
+5.2
+
+## Treatment with Gef and 17AAG
+After 1 day in a 2D and 11 days in a 3D culture, cells were treated with either 1 μm Gef (Iressa™, AstraZeneca, Wedel, Germany; Selleckchem) or 0.01, 0.05, 0.1, 0.25, 0.5 or 1 μm 17AAG (17‐N‐allylamino‐17‐demethoxygeldanamycin, Tanespimycin; Selleckchem) for 72 h, with a medium change after the first 48 h of treatment.
+
+5.3
+
+## Porcine material
+The SISmuc consisting of porcine small intestine submucosa (SIS) and mucosa (muc) was used as a scaffold for all 3D culture experiments. It was prepared from the BioVaSc® as described in the literature (Linke et al., ; Schanz et al., ). All explantations were in compliance with the German Animal Protection Laws (§4(3), supervised by the institute's animal protection officer, all animals received proper care according to the National Institute of Health standards (NIH publication no. 85e23, revised 1996)), and as approved by the institutional animal protection board.
+
+5.4
+
+## Human material
+Human lung tumor tissue was provided by the Department of Thoracic Surgery of the University Hospital of Wuerzburg (local ethics approval: 182/10, 25.11.2015).
+
+5.5
+
+## Histology and immunofluorescence
+Cells cultured on glass slides in 2D were fixed in 4% paraformaldehyde for 10 min, cells in a 3D culture for 2 h, and the human lung tumor tissue overnight at 4 °C. The SISmuc samples, as well as the tumor tissue, were embedded in paraffin and sectioned at 3 μm thickness for hematoxylin–eosin (HE) and immunofluorescence staining. The primary antibodies E‐cadherin (#610181; BD Transduction Laboratories, Heidelberg, Germany), β‐catenin (#ab32572; Abcam, Cambridge, UK), and Ki67 (#ab16667; Abcam) were diluted 1 : 100 and incubated overnight at 4 °C. Secondary antibodies conjugated with fluorescent dyes Alexa 555 or 647 were diluted 1 : 400 and incubated for 1 h at room temperature. Nuclei were counterstained by DAPI dissolved in a Mowiol embedding solution. Pictures were taken with a digital microscope (BZ‐9000; Keyence Deutschland GmbH, Neu‐Isenburg, Germany).
+
+5.6
+
+## Cell proliferation
+To determine the proliferation rate, cells cultured in 2D and 3D were stained against Ki67. Ten nonoverlapping images of 3D sections and five nonoverlapping images of 2D cultures were taken. Quantification of the proliferation rate was performed as described in the literature (Göttlich et al., ).
+
+5.7
+
+## M30‐elisa
+Apoptosis was determined from supernatants taken from untreated and treated tumor models during the last 4 days of the culture. M30 CytoDeath™ ELISA (Peviva) was performed according to the manufacturer's instructions. All samples were measured in duplicates.
+
+5.8
+
+## Western blot and phospho‐RTK and PK arrays
+Cells were lysed in modified RIPA buffer (137 mm NaCl, 50 mm NaF, 20 mm Tris/HCl pH 8.0, 2 mm EDTA, 10% (v/v) glycerol, 1% (v/v) NP‐40, 0.5% (w/v) DCA, 0.1% (w/v) SDS, 1 mm Na3VO4, and 1× protease inhibitor cocktail (Sigma‐Aldrich, Darmstadt, Germany)), or in the provided lysis buffers of the respective array kit. For western blot analysis, protein samples (27 μg per lane) were separated electrophoretically in a 10% SDS/gel and blotted on a 0.2‐μm nitrocellulose membrane (Whatman, Fisher Scientific GmbH, Schwerte, Germany). The primary antibodies pEGFR (#ab32430; Abcam), pMet (#3077; Cell Signaling Technology, Frankfurt a. Main, Germany), phospho‐p53 (S46) (#2521; Cell Signaling Technology), HSP60 (#ab46798; Abcam), and β‐actin (#3700; Cell Signaling Technology) were incubated in NFDM or a 1% BSA overnight at 4 °C. Secondary anti‐mouse or anti‐rabbit IgG antibodies conjugated to horseradish peroxidase (#JAC‐111035144 or #JAC‐115035146; Jackson ImmunoResearch, Cambridgeshire, UK) were incubated for 1 h at room temperature. Bands were visualized using the Pierce ECL Western Blotting kit (Thermo Scientific, Breda, Netherlands). Phospho‐RTK and PK arrays were performed according to the manufacturer's instructions. Western blot and array membranes were imaged at the imaging station FluorChem Q (Biozym Scientific, Hessisch Oldendorf, Germany). Gray values were determined with the related image acquisition and analysis software alphaview (version 3.2.2.0; Proteinsimple, San Jose, CA, USA).
+
+5.9
+
+## Statistical analysis of the experimental data
+The nonparametric Kruskal–Wallis test and post hoc Wilcoxon rank‐sum test were used for statistical analysis of proliferation and apoptosis results. P < 0.05 was considered as significant. Statistical analysis was carried out with the open‐source software r (The Comprehensive R Archive Network).
+
+5.10
+
+## Bioinformatics analysis
+5.10.1
+
+## Network analysis
+Bioinformatics analyses combined cell culture array and western blot data for the Gef and 17AAG treatment in the 3D system with information from databases to build up an individual network for each cell line. We extended the original in silico topology (Stratmann et al., ) by integrating proteins listed in Table  .
+
+5.10.2
+
+## Dynamic simulation
+For the 3D in vitro system, we simulated the Gef and 17AAG treatment using the squad software (Di Cara et al., ), by taking the pathway activity differences into account (Table  ) while running the simulation (prestimulations in Table  ). For the 2D system we focused on the A549 and H441 cell lines (prestimulations in Box  ). SQUAD represents the network topology (activation, inhibition) using logical Boolean operator (AND, OR, NOT) and interpolates them by applying mathematical e‐functions. The resulting network effects are visualized in a graph as changes of state over an arbitrary time, allowing in silico simulations of different network scenarios. Simulation protocols were written using the SQUAD function ‘perturbator’ (prestimulation option in the simulation menu of the software), in which the value for the drug Gef and 17AAG were set to an initial state of 0 and 1 (reflecting either no treatment or standard treatment, respectively), and experimental nodes and mutations were adjusted (Table  and Box  ). All parameters for the proteins (‘nodes’) in the network without experimental or mutational regulation were set as an active node pulse (state = 0 and time = 0) that changes, depending on interconnectivity in the cell‐specific network.
+
+5.10.3
+
+## Software for visualization
+To set up the silico topology we used the celldesigner software tool. For visualizing the network, we used cytoscape version 2.8.3 (Shannon et al., ). The cytoscape software is an open‐source platform for visualization and analysis of biological networks using several plug‐ins (Saito et al., ; Shannon et al., ). We analyzed the reconstructed cell line‐specific networks for functional modules (‘clusters’) using the Cytoscape plug‐in MCODE (Bader and Hogue, ). Potentially available drugs were selected using our previously developed DrumPID (Kunz et al., ).
+The following methods were applied, as detailed below:
+
+An in silico signaling network is invariably a simplified view of the biological complexity. We focus here on the major cascades relevant for the output. The bioinformatics analysis combined the cell culture array and western blot data with the systems biology network analysis approaches and information from databases. The robustness of the simplified networks of central tumor cascades in cell‐specific in silico networks was also verified by considering removing and adding protein nodes at the rim of the network. This did not affect signaling responses, whereas changing central hub protein nodes strongly affected the results. Cell compartmentalization (e.g., divergent cytosolic and mitochondrial processes), multiphosphorylation processes and complex formations were not included. This limits such approaches to semiquantitative descriptions of the sequential order, strength, and respective duration of events (Brietz et al., ; Göttlich et al., ). However, the simulations allow an in silico overview of the lung tumor topology and important drug responses, such as changes in individual cell line‐specific responses.
+
+5.10.4
+
+## Cell line‐specific network reconstruction
+For establishing cell line‐specific signaling networks, we always used the same central cascades based on our previously published in silico topology (Göttlich et al., ; Stratmann et al., ) for HCC827 and A549 cell lines. In contrast, we extended the in silico network for the additionally introduced KRAS‐mutated H441 cell line.
+
+5.10.5
+
+## Simulation protocol
+For dynamic simulation, we first looked at the effects of Gef and next 17AAG treatment in the tissue in vitro system, revealed by phospho‐RTK arrays and western blots. As the model is semiquantitative, weaker or stronger biological activation has to be taken into account with values between 0 (reflects no activation) and 1 (reflects full activation) to model key input. We fitted parameters to the results obtained from experiments (data‐driven modeling) and optimized the fit in iterative cycles of new simulations and new experiments. This included prestimulations according to mutations known from their pharmacological behavior. We hence simulated the proteins as network nodes with the parameters given in Table  and Box  .
+Additional information on the details of the bioinformatics analysis is given in the Doc. and the Supporting information figures and boxes.
+
+## Author contributions
+CG performed all the experiments in the study, supported in some by SLN. MK performed all the bioinformatics work including simulations, network analysis, and large‐scale data analysis. In several places and in particular for the initial model set up, CZ worked on the bioinformatics analysis. GD and SLN supervised the experimental work. HW gave expert analysis and advice on all experimental work. HW, GD, and TD supervised CG, and TD and MK supervised CZ. TD and GD supervised the bioinformatics analysis, analyzed all data, and made suggestions for new experiments, simulations, data comparisons, and other analyses. TD and GD drafted the manuscript together, and all authors contributed to the iterations and agreed to the final version of the manuscript. TD and GD led and guided the study.
+
+## Data availability
+All data and simulation protocols for the study are made available with the publication (paper plus all Supporting information).
+
+## Supporting information
+
+Fig. S1. Signaling is unchanged in gefitinib responsive HCC827 cells in 2D and 3D.
+
+Fig. S2. In silico model and simulation for the gefitinib treatment in A549 and H441.
+
+Fig. S3. Signaling changes in 2D and 3D after treatment of different cell lines with the HSP90 inhibitor 17AAG.
+
+Fig. S4. Biological network analyses on the KRAS‐mutated cell lines for 17AAG in the 3D system.
+
+Fig. S5. Functional cluster analyses of the cell line‐specific networks.
+
+Fig. S6. Cell line‐specific in silico simulations for gefitinib treatment in A549 and H441 according to data from the 2D system.
+
+Fig. S7. In silico simulations for 17AAG treatment in A549 and H441 according to data from the 2D system.
+
+Box S1. Ranking and comparison of all cell‐specific mutations for KRAS signature development and individual target predictions.
+
+Box S2. Cell line‐specific differences modeled in 2D.
+Click here for additional data file.
+
+Doc. S1. Additional information for the bioinformatics analyses
+Click here for additional data file.
+
+Table S1. For the generation of networks we downloaded the HPRD which contains 9620 protein nodes and 39185 protein–protein interaction edges (release 9 from April 13, 2010).
+
+Table S2. For the identification of a KRAS signature of potential markers we downloaded cell line‐specific mutations from the COSMIC database (A549: Sample Name: A549, Sample ID: 905949; H441: Sample Name: NCI‐H441, Sample ID: 908460).
+
+Table S3. Mapping of the COSMIC mutations to the KRAS‐mutated network results in 18 H441‐ and 9 A549‐specific overlapping proteins (nodes).
+Click here for additional data file.
+
+## Acknowledgments
+This work has been supported until 2016 by the IZKF Grant BD‐247 (University Hospital Würzburg) and always by the Bayern‐Fit program. Since 2017, it is supported by BMBF (Grant Nos FKZ 031L0129B and 031L0129A). This publication was supported by the Open Access Publication Fund of the University of Würzburg. Linguistic proofreading by Alexis Mahyera is gratefully acknowledged.

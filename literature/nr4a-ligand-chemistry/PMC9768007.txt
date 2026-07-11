@@ -1,0 +1,150 @@
+365springeropenMedical Oncology (Northwood, London, England)Med OncolPMC9768007976800797680073653819410.1007/s12032-022-01869-8Identification of key genes of anti-programmed death ligand 1 for meningioma immunotherapy by bioinformatic analysis
+ZhangLijian WangLuxuan TanYanli LiChunhui FangChuan 1Department of Neurosurgery, Affiliated Hospital of Hebei University, Hebei University, Baoding City, China 2Postdoctoral Research Station of Neurosurgery, Affiliated Hospital of Hebei University, Hebei University, Baoding City, China 3Hebei Key Laboratory of Precise Diagnosis and Treatment of Glioma, Baoding City, China 4Department of Neurological Examination, Affiliated Hospital of Hebei University, Hebei University, Baoding City, China 5Department of Pathology, Affiliated Hospital of Hebei University, Hebei University, Baoding City, China ✉Corresponding author.
+#Contributed equally.
+20122022401545422122022© The Author(s) 2022Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Abstract
+Meningioma is one of the most common primary tumors in the central nervous system (CNS). A deeper understanding of its molecular characterization could provide potential therapeutic targets to reduce recurrence. In this study, we attempted to identify specific gene mutations in meningioma for immunotherapy. One GSE43290 dataset was obtained from the Gene Expression Omnibus (GEO) database to find differentially expressed genes (DEGs) between meningioma tissues and normal meninges. In total, 420 DEGs were identified, including 15 up-regulated and 405 down-regulated genes. Functional enrichment analysis showed that these DEGs were mainly enriched in PI3K-Akt signaling pathway, Focal adhesion, and MAPK signaling pathway. We identified 20 hub genes by protein–protein interaction (PPI) analysis. Among the hub genes, the expression of FLT1, CXCL8, JUN, THBS1, FECAM1, CD34, and FGF13 were negatively correlated with Programmed Death Ligand-1 (PD-L1). Additionally, the expression of those genes was co-regulated by miR‐155‐5p. The findings suggest that miR-155-5p play an important role in the pathogenesis of meningioma and may represent potential therapeutic targets for its anti-PD-L1 immunotherapy.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s12032-022-01869-8.
+
+Keywords: Meningioma, Bioinformatics, miR-155-5p, Immunotherapy, PD-L1
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Sep 16; Accepted 2022 Oct 10; Issue date 2023.
+
+## Introduction
+Meningioma is one of the most frequently diagnosed primary brain tumor, comprising approximately 36% of all brain tumors [ ]. The origin of meningioma tumor is known as the arachnoid cells of the meninges. Based on their histopathologic features, the World Health Organization (WHO) classified them into 3 categories: benign (grade I), atypical (grade II), and anaplastic (grade III) [ ]. In clinical settings, the standard therapies for meningiomas include surgery and/or radiation therapy. For some inoperable or incompletely operable grade II and III tumors, the optimal therapies are not well elucidated [ ]. The emerging evidence demonstrated the importance of their molecular features for screening therapeutic targets and prognostic prediction [ ]. Thus, a deeper understanding of the molecular alterations in meningioma could help improve clinical decision-making.
+Recent genetic studies have identified several mutations that strongly correlated to the subtype, location, and growth rate, suggesting molecular profile might be more suitable for tumor classification [ ]. Moreover, their molecular features could guide prediction and therapeutics and personalized and targeted therapies [ ]. Monosomy 22 sequences and neurofibromatosis type 2 (NF2) are the most well-known genetic alterations founded in meningiomas [ , ]. Recently, more genetic alterations and the signaling pathways were identified, such as mutations in TNF receptor associated factor 7 (TRAF7), AKT1, KLF4, and SMO, etc. [ – ]. Based on those above gene mutations, various targeted therapies have been trailed especially for patients with recurrent meningiomas. For example, Neurofibromatosis type 2 (NF2) is the first mutation identified in meningioma, which could be found in almost 50% of sporadic meningiomas [ ]. Thus, novel therapies targeting NF2 such as focal adhesion kinase (FAK) inhibitors were developed [ , ]. Nowadays, the translation of genomic knowledge into clinical management remains a challenge to scientists and neurosurgeons. Thus, a better understanding of their molecular landscapes could provide a tremendous opportunity to leverage and explore improved therapeutic strategies for meningiomas.
+The developments in the field of genomics, proteomics, and metabolomics provide novel and deeper insights into the pathogenesis of meningiomas, as well as discover prospects for developing suitable and targeted interventions [ , ]. By identification DEGs between meningioma tumors and normal meninges, we aimed to provide more information about the microenvironmental influence on meningioma development. Our study may contribute to screening potential therapeutic targets for meningioma.
+
+## Method and material
+
+## Microarray data
+One dataset was obtained from the National Center of Biotechnology Information (NCBI) GEO database (https://www.ncbi.nlm.nih.gov/geo/). GSE43290 dataset was used in the present study, which included 47 tumor samples from meningioma patients and 4 normal meninges from healthy individuals [ ].
+
+## Data processing
+The expression profiles of DEGs were obtained with GEO2R (http://www.ncbi.nlm.nih.gov/geo/geo2r/) [ ]. Genes with |log2FC|> 2 and P value < 0.05 were selected as DEGs.
+
+## Functional enrichment analysis of DEGs
+The Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analyses were performed with the Database for Annotation, Visualization, and Integrated Discovery (DAVID) database (https://david.ncifcrf.gov/tools.jsp). In the Gene Ontology (GO) database, gene functions are categorized into: cellular component (CC), biological processes (BP), and molecular functions (MF).
+
+## Functional protein–protein interaction (PPI) analysis and hub-gene selection
+The PPI network was performed by using the Search Tool for the Retrieval of Interacting Genes (STRING) database (http://string-db.org). The Cytoscape was used to visualize the PPI network (http://www.cytoscape.org/) (V3.7.2). Then, the Molecular Complex Detection (MCODE) in the Cytoscape software was used to obtain the modules within the PPI network.
+
+## Analyzes of immune infiltration
+The estimation of immune cell proportions was conducted by using the CIBERSORT web portal (http://CIBERSORT.stanford.edu/). CIBERSORT filters data with P value < 0.05. We obtained 22 types of immune cells. Then, we calculated the percentage of each immune cell type. Then, we analyzed the relationship between PD-L1 expression and the tumor-infiltrating immune cells. The results of immune infiltration were visualized by R packages (The R Project for Statistical Computing, version 4.1.0) [ ].
+
+## Correlation analysis between hub genes and PD-L1
+The top 20 hub genes and their correlation with PD-L1 expression was analyzed and plotted on the GEPIA website (http://gepia2021.cancer-pku.cn/correlation.html).
+
+## Transcription factor (TF)-miRNA coregulatory network
+Interactions for TF-miRNA coregulatory were collected from the RegNetwork repository which assists to detect miRNAs and regulatory TFs that regulate DEGs of interest at the post-transcriptional and transcriptional levels. TF-miRNA coregulatory network was visualized using NetworkAnalyst (https://www.networkanalyst.ca/) (v2019) [ ].
+
+## Results
+
+## DEGs identification
+In order to screen the DEGs that potentially participated in meningioma formation, DEGs analysis was performed between meningioma tumor tissue and normal meninges. In this study, we obtained 420 DEGs, including 15 up-regulating and 405 down-regulating (Supplementary Table 1). The expression profiles of those 420 DEGs were illustrated as volcano plot and a heatmap in Fig.  A, B.
+ 
+
+## Functional enrichment analysis for DEGs
+To have a better understanding of how those DEGs participated in the pathologies of meningiomas, GO and KEGG enrichment analyses were performed. Detailed results of GO enrichment analysis are shown in Table . The most noteworthy enriched CC terms were collagen-containing extracellular matrix, neuronal cell body, and the actin cytoskeleton. The most noteworthy enriched BP terms were cellular divalent inorganic cation homeostasis, muscle system process, and leukocyte migration. The most noteworthy enriched MF terms were receptor ligand activity, signaling receptor activator activity, DNA-binding transcription activator activity, and RNA polymerase II-specific (Fig.  A). Detailed results of the KEGG enrichment analysis are shown in Table . In KEGG pathway analysis, DEGs were dominant enriched in pathways in PI3K-Akt signaling pathway, Focal adhesion, and MAPK signaling pathway, etc. (Fig.  B).
+ 
+
+## Construction of PPI network and selection of the Hub gene
+To demonstrate the potential PPI correlations, the PPI network of the 420 DEGs was constructed with the STRING and visualized with Cytoscape software. There were 404 nodes and 2250 edges in the PPI network (Fig.  ). Among these, top 20 hug gene were identified with CytoHubba (Cytoscape plugin), including C–X–C motif chemokine ligand 8 (CXCL8), Jun proto-oncogene (JUN), Interleukin 6 (IL6), C–X–C Motif Chemokine Receptor 4 (CXCR4), C–X–C motif chemokine ligand 12 (CXCL12), C–C motif chemokine ligand 2 (CCL2), Platelet And Endothelial Cell Adhesion Molecule 1 (PECAM1), Fms Related Receptor Tyrosine Kinase 1 (FLT1), CD44, Cadherin 1 (CDH1), PTGS2 prostaglandin-endoperoxide synthase 2 (PTGS2), Cyclin D1 (CCND1), Intercellular Adhesion Molecule 1 (ICAM1), Thrombospondin 1 (THBS1), CD34, Caveolin 1 (CAV1), Estrogen Receptor 1 (ESR1), Selectin E (SELE), Fibroblast Growth Factor 13 (FGF13), endothelin 1 (EDN1).
+ 
+
+## Analyzes of immune infiltration in meningioma tumors
+The immune infiltration profiles in normal meninges and meningioma groups were explored with the 22 subpopulations of immune cells. The percentage of the 22 types of immune cells was visually displayed in Fig.  A. The Pearson correlations among the 22 immune cell types’ infiltrations and the immune scores in meningioma patients showed that T cell CD8 were positively correlated to monocytes and negatively correlated with Mast cells activated; B cell memory were positively correlated with T cells regulatory Tregs, and negatively correlated with Eosinophils (Fig.  B). CIBERPORT analysis showed that the infiltration levels of plasma cells (P = 0.019) and monocyte infiltration (P = 0.022) was significantly increased in the PD-L1 high meningioma group (Fig.  ).
+ 
+
+## Correlation analysis of hub-gene expression with PD-L1
+To investigate the regulatory mechanisms of PD-L1 in meningioma, we further analyzed the correlation between hub-gene expression and PD-L1. There are 8 DEGs among the 20 hub genes showed negative correlation with PD-L1, including PECAM1 (r = − 0.463, P = 0.000618), JUN (r = − 0.361, P = 0.00618), CD34 (r = − 0.376, P = 0.00653), FLT1 (r = − 0.306, P = 0.029), CXCL8 (r = − 0.287, P = 0.0413), ICAM1 (r = − 0.39, p = 0.00465), THBS1 (r = − 0.354, P = 0.0107), and FGF13 (r = − 0.277, P = 0.0494) (Fig.  ).
+ 
+
+## TF-miRNA coregulatory network analysis
+The analysis of the TF-miRNA coregulatory network delivers miRNAs and TFs interaction with the common DEGs. This interaction can be the reason for regulating the expression of the DEGs. To analyze miRNA, TF interactions, TF-miRNA coregulatory network is generated using NetworkAnalyst. The network created for TF-miRNA coregulatory network comprises 53 nodes and 204 edges. Figure  dispenses TF-miRNA coregulatory network.
+ 
+
+## Discussion
+Meningiomas are the most common primary tumor happed CNS. The clinical observation showed that meningiomas are frequently result in focal neurological deficits, seizures [ , ]. For the management of meningiomas, maximal safe surgical resection remains the standard of treatment. However, the ability to achieve complete resection may be limited by a number of factors, including tumor location; involvement of nearby dural venous sinuses, arteries, cranial nerves, and brain invasion into eloquent tissue [ , ]. Recently, meningiomas are no longer considered as benign diseases. Molecular characterization of meningioma could provide potential therapeutic targets especially for meningioma recurrence.
+Derived from the meninge, meningioma is a unique tumor with potential for mesenchymal and epithelial differentiating. And one of the major mesenchymal functions of meningioma cells is their ability to elaborate extracellular matrix proteins [ , ]. One previous immunohistochemical study showed that fibronectin, galectin-3, matrix metalloproteinase 2, matrix metalloproteinase 9, and collagen IV were highly expressed in meningioma tissues [ ]. In our study, we compared the gene expression profiles of meningioma tumor and normal meninge. The results observed in this study are partly consistent with previous studies. We found that the expression of COL2A1, and COL9A3 were significantly upregulated in meningioma tissues, and the expression of COL14A1, COL4A3, and COL4A2 was significantly down-regulated. As previous studies demonstrated that the extracellular matrix (ECM) proteins are involved in invasion, edema formation, and metastasis in various tumors [ , ]. Thus, we proposed that the differentially expressed collagens found in this study might be potential targets of future therapy. Moreover, the DEGs were mostly enriched in KEGG pathways such as PI3K-Akt signaling pathway, focal adhesion, MAPK signaling pathway, and proteoglycans in cancer. Notably, it has been reported that both MAPK and PI3K/Akt pathways are activated in benign and malignant meningiomas [ ]. Activation of PI3K/Akt signaling might be responsive to the aggressive behavior of malignant meningiomas, whereas MAPK activation contributes to their proliferation and apoptosis [ ]. And co-targeting PI3K/Akt/mTOR and MAPK pathways improved cell proliferation inhibition in comparison to the target of each pathway alone [ ]. In this study, we found that 2 hub genes, FLT1, and THBS1, participated in both the PI3K-Akt signaling pathway and MAPK signaling pathway, which deserves further investigation. Here, we also claimed that further understanding of the signaling pathways involved in meningioma tumorigenesis will lead to better treatment modalities in the future.
+Emerging evidence has shown that immunotherapy, particularly checkpoint inhibition, could improve survival in some solid tumors such as lung cancer and melanoma patients [ – ]. Recent studies have investigated the interactions between meningiomas and the immune system. And several potential immunotherapeutic targets including PD-L1, NY-ESO-1, B7-H3, and CTLA-4 showed their potential for the anti-tumor therapies in clinical settings [ , ]. The immune infiltration of meningiomas and their characterization have been well documented in the literatures. Previous study has detected PD-L1 expression in meningiomas in both tumor and immune cells and observed intra and inter tumoral heterogeneity [ ]. And overexpression of PD-L1 described as an independent prognostic marker for worse recurrence free survival in meningioma [ ]. The expression of these proteins has been associated with tumor progression, recurrence, and poor survival outcomes [ ]. In consistent with previous studies, our result showed that immune cell infiltrates of meningiomas include variable numbers of T cells, B cells, plasma cells, monocytes, and macrophages [ , ]. Moreover, our results also show that indicated that in the PD-L1 high expression group the infiltration of plasma cell and monocytes were increased. Evidence have reported that PD-L1 could expression on the tumor-infiltrating non-malignant cells such as plasma cell and monocytes [ , ]. However, the interaction between the tumors and immune cells in meningioma is not yet fully characterized which might paly crucial roles in PD-L1 Blockade Therapy.
+Further, our result showed that the expression of several hug genes was negatively correlated with PD-L1, including FLT1, CXCL8, JUN, THBS1, FECAM1, CD34, and FGF13. And TF-miRNA coregulatory network analysis showed that miR‐155‐5p with the highest network betweenness could regulate their expression. As mentioned above, those DEGs were negatively correlated with PD-L1. Here, our results suggested the potential use of miR‐155‐5p for anti-PD‐L1 therapy for meningiomas. It has been reported that miR‐155‐5p is a key oncogenic microRNA that maintains immune homeostasis and mediates cross‐talk between inflammation and tumorigenesis [ ]. Previous studies have indicated that miR‐155‐5p is highly expressed in many cancers, such as lung cancer, breast cancer, colon cancer, lymphoma, and other tumors [ , ]. Currently, several studies have investigated the relationship between miR‐155‐5p and PD‐L1 in cancer. Evidence from lung cancers demonstrated that miR‐155‐5p could suppress the expression of PD‐L1 [ ]. However, the effect of miR‐155‐5p on PD‐L1 in meningiomas remain underrepresentative. Thus, a deeper investigation of the potential interaction between miR‐155 and PD‐L1 provide new insights into the immune response of meningioma.
+There were limitations to our study, though. First, in this study we performed several bioinformatics analyses based one the published data without experimental verification. Second, we only analyzed the correlation between the top 20 hub genes with PD-L1 positive expression. It would also be important to investigate the correlations with another immune checkpoint inhibitors such as NY-ESO-1, B7-H3, and CTLA-4. Moreover, clinical studies with larger cohorts are needed to validate our results in the future work.
+
+## Conclusion
+In this study, we compared the gene expression pattern of meningioma and normal meninge tissue with a series of bioinformatics analyses. Among the hub genes, FLT1, CXCL8, JUN, THBS1, FECAM1, CD34, and FGF13 were negatively correlated with PD-L1. And the expression of those genes was co-regulated by miR‐155‐5p. Our finding suggested a potential use of miR‐155‐5p for anti-PD‐L1 therapy of meningioma, which deserves further investigation.
+
+## Supplementary Information
+Below is the link to the electronic supplementary material.
+Supplementary file1 (CSV 32 kb) The summary of 15 up-regulated and 405 down-regulated DEGs
+
+## Abbreviations
+GEOGene expression omnibus
+DEGsDifferentially expressed genes
+PPIProtein–protein interaction
+TFTranscription factor
+WHOThe World Health Organization
+NF2Neurofibromatosis type 2
+FAKFocal adhesion kinase
+GOGene ontology
+CCsCellular components
+BPsBiological processes
+MFsMolecular functions
+CXCL8C–X–C motif chemokine ligand 8
+JUNJun proto-oncogene
+IL6Interleukin 6
+CXCR4C–X–C motif chemokine receptor 4
+CXCL12C–X–C motif chemokine ligand 12
+CCL2C–C motif chemokine ligand 2
+PECAM1Platelet and endothelial cell adhesion molecule 1
+FLT1Fms related receptor tyrosine kinase 1
+CDH1Cadherin 1
+PTGS2PTGS2 prostaglandin-endoperoxide synthase 2
+CCND1Cyclin D1
+ICAM1Intercellular adhesion molecule 1
+THBS1Thrombospondin 1
+CAV1Caveolin 1
+ESR1Estrogen receptor 1
+SELESelectin E
+FGF13Fibroblast growth factor 13
+EDN1Endothelin 1
+ECMExtracellular matrix
+PD-L1Programmed death ligand-1
+PD-L2Programmed death ligand-2
+
+## Author contributions
+LZ: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Writing-original draft. LW: Data curation, Formal analysis, Investigation, Methodology, Writing-original draft. YT: Formal analysis, Investigation, Methodology, Writing-original draft. CL: Conceptualization, Supervision, Validation, Investigation, Writing-review & editing. CF: Conceptualization, Supervision, Investigation, Visualization, Project administration, Writing-review & editing.
+
+## Funding
+This work was supported by the China Postdoctoral Science Foundation (Grant No: 2022M710997), the Scientific Research Starting Foundation of Affiliated Hospital of Hebei University (Grant No: 31010413), the Hebei Natural Science Foundation Precision Medicine Joint Project (Grant No: H2020201206), and The Central Government Guided Local Science and Technology Development Fund Project of Hebei Province (Grant No: 216Z7711G). Provincial Medical Talents Project funded of Hebei Province (Grant No: 361007).
+
+## Data availability
+The datasets are available in the National Center of Biotechnology Information (NCBI) GEO (https://www.ncbi.nlm.nih.gov/geo/). one datasets GSE43290 was used in the present study.
+
+## Declarations
+
+## Conflict of interest
+The authors declare that there are no competing interests associated with the manuscript.
+
+## Footnotes
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Lijian Zhang and Luxuan Wang have contributed equally to this work.
+
+## Contributor Information
+Chunhui Li, Email: lichunhui0860312@sina.com.
+Chuan Fang, Email: chuanfang@hbu.edu.cn.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary file1 (CSV 32 kb) The summary of 15 up-regulated and 405 down-regulated DEGs
+
+## Data Availability Statement
+The datasets are available in the National Center of Biotechnology Information (NCBI) GEO (https://www.ncbi.nlm.nih.gov/geo/). one datasets GSE43290 was used in the present study.

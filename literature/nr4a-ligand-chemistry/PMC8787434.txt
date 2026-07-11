@@ -1,0 +1,281 @@
+pmcAdv Sci (Weinh)Adv Sci (Weinh)2933advsciADVSAdvanced Science2198-3844WileyPMC8787434PMC8787434.1878743487874343482550510.1002/advs.202102435ADVS32621Research ArticleResearch ArticlesDiscovery of Novel GR Ligands toward Druggable GR Antagonist Conformations Identified by MD Simulations and Markov State Model Analysis
+HuXueping PangJinping ZhangJintu ShenChao ChaiXin WangErcheng ChenHaiyi WangXuwen DuanMojie FuWeitao XuLei KangYu LiDan lidancps@zju.edu.cnXiaHongguang hongguangxia@zju.edu.cnHouTingjunhttps://orcid.org/0000-0001-7227-2580 tingjunhou@zju.edu.cn
+
+1
+
+Innovation Institute for Artificial Intelligence in Medicine of Zhejiang University
+College of Pharmaceutical Sciences
+Zhejiang University
+Hangzhou
+Zhejiang
+310058
+China
+
+2
+
+State Key Lab of CAD&CG
+Zhejiang University
+Hangzhou
+Zhejiang
+310058
+China
+
+3
+
+Key Laboratory of magnetic Resonance in Biological Systems
+State Key Laboratory of Magnetic Resonance and Atomic and Molecular Physics
+National Center for Magnetic Resonance in Wuhan
+Wuhan Institute of Physics and Mathematics
+Chinese Academy of Sciences
+Wuhan
+Hubei
+430071
+China
+
+4
+
+Institute of Bioinformatics and Medical Engineering
+School of Electrical and Information Engineering
+Jiangsu University of Technology
+Changzhou
+213001
+China
+
+5
+
+Department of Biochemistry and Research Center of Clinical Pharmacy of The First Affiliated Hospital
+Zhejiang University School of Medicine
+Hangzhou
+Zhejiang
+310058
+China
+
+*Email: lidancps@zju.edu.cn; hongguangxia@zju.edu.cn; tingjunhou@zju.edu.cn
+
+26112021120229339930910.1002/advs.v9.32102435
+30102021
+1062021
+261120213101202206042024© 2021 The Authors. Advanced Science published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Binding of different ligands to glucocorticoid receptor (GR) may induce different conformational changes and even trigger completely opposite biological functions. To understand the allosteric communication within the GR ligand binding domain, the folding pathway of helix 12 (H12) induced by the binding of the agonist dexamethasone (DEX), antagonist RU486, and modulator AZD9567 are explored by molecular dynamics simulations and Markov state model analysis. The ligands can regulate the volume of the activation function‐2 through the residues Phe737 and Gln738. Without ligand or with agonist binding, H12 swings from inward to outward to visit different folding positions. However, the binding of RU486 or AZD9567 perturbs the structural state, and the passive antagonist state appears more stable. Structure‐based virtual screening and in vitro bioassays are used to discover novel GR ligands that bias the conformation equilibria toward the passive antagonist state. HP‐19 exhibits the best anti‐inflammatory activity (IC50 = 0.041 ± 0.011 µm) in nuclear factor‐kappa B signaling pathway, which is comparable to that of DEX. HP‐19 also does not induce adverse effect‐related transactivation functions of GR. The novel ligands discovered here may serve as promising starting points for the development of GR modulators.
+
+The glucocorticoid receptor (GR) ligand binding domain structural ensemble is characterized by the molecular dynamics (MD) simulations and Markov state model analysis. Based on the GR antagonist conformations sampled by MD simulations, virtual screening and in vitro bioassays are performed. Six novel GR ligands with anti‐inflammatory activities are discovered. HP‐19 is a promising candidate for the development of GR modulators.
+ 
+
+glucocorticoidligand binding domainMarkov state modelnuclear receptorvirtual screeningNational Natural Science Foundation of China
+10.13039/501100001809215751288177363221907084Natural Science Foundation of China of Zhejiang ProvinceLZ19H300001Fundamental Research Funds for the Central Universities
+10.13039/5011000122262020QNA7003“Double Top‐Class” University Project181201*194232101 It is believed that transactivation is responsible for most adverse effects of GCs while “tethered indirect transrepression” predominantly mediates their anti‐inflammatory effects.[
+ 
+] Selective GR modulators are supposed to tend to induce certain receptor conformations that facilitate the interactions of monomeric GR with other transcription factors, such as nuclear factor‐kappa B (NF‐κB)[
+ 
+] and activator protein‐1 (AP‐1),[
+ 
+] thereby producing tethered indirect transrepression.[
+ , 
+] AZD9567 is a potent GR modulator discovered by AstraZeneca,[
+ 
+] which can effectively alleviate the disease symptoms in rheumatoid arthritis (NCT03368235). AZD9567 appears to be safe and well tolerated in healthy population.[
+ 
+] And the safety profile of AZD9567 is being further evaluated in adults with type 2 diabetes (NCT04556760). A study on AZD9567 shows that it behaves as an antagonist (56% efficacy) in the transactivation assay in antagonist mode (TAantag) and a partial agonist (36% efficacy) in the transactivation assay in agonist mode (TAag), and has 87% efficacy in the tethered indirect transrepression assay.[
+ 
+] However, the X‐ray structure of the GR LBD in complex with AZD9567 (PDB ID: 6EL9) is similar to the agonist conformation of GR (PDB ID: 1M2Z). This structure cannot clarify how the binding of AZD9567 perturbs the structural state of the receptor and also cannot explain why AZD9567 can exhibit antagonist activity and inhibit the DEX response in reporter gene assays.
+Molecular dynamics (MD) simulation has been widely used to investigate the conformational dynamics and protein‐ligand interaction of NRs.[
+ 
+] In 2020, Alves et al. employed steered MD simulations (SMD) and umbrella sampling to explore the transitions between the GR antagonist conformation and agonist conformation.[
+ 
+] They found that upon the binding of the antagonist RU486, H12 occupies the AF2 groove and the passive antagonist conformation is the lowest‐energy state, while in the agonist conformation the agonist DEX anchors H12. However, in their study, an external force was applied to drive the system along the transition from the GR passive antagonist conformation to the GR active antagonist conformation. Therefore, the conformational spaces of H12 sampled by SMD in different complexes were similar, and how the ligands affect the H12 conformational space was not well depicted.
+In this study, we carried out the all‐atom MD simulations and Markov state model (MSM) analysis to explore the conformational dynamics of the LBD and the complex of LBD bound with the agonist DEX, antagonist RU486, and modulator AZD9567. It's observed that upon the binding of the agonist DEX, H12 shifts away from its passive antagonist position, and stabilizes in the active antagonist state. Whereas binding of RU486 or AZD9567 changes the folding pathway of H12, and the passive antagonist state appears more stable. Therefore, it can be deduced that if a ligand can bias the conformation equilibria toward the passive antagonist state, it probably exhibits reduced side effects. To prove this hypothesis, we carried out the structure‐based virtual screening(SBVS) based on the passive antagonist conformation, producing a total of 88 potential ligands. Then the compounds were submitted for bioassays, and six of them that can indeed target the ligand binding pocket (LBP) of GR exhibit good bioactivities. Therein, compound HP‐19 can inhibit NF‐κB signaling (IC50 = 0.041 ± 0.011 µm) while does not influence GR transactivation. Our study provides valuable clues for the development of potent GR modulators with novel scaffolds and improved safety profiles.
+
+2
+
+## Results and Discussion
+2.1
+
+## The Binding of Different Ligands Induces Multiple Intermediate States of GR H12
+The interactions between the GR LBD and its coactivators or corepressors are quite sensitive to the conformations of the GR LBD induced by the binding of different GR ligands.[
+ 
+] There is a dynamic communication network between the LBP and AF2, and the GR H12 exhibits ligand‐ and coregulator‐dependent dynamics.[
+ 
+] Recent studies on another NR, the peroxisome proliferator‐activated receptor gamma, have demonstrated that the relative population of the H12 conformations would respond to ligand binding.[
+ 
+] However, we still have very limited knowledge about the structural ensembles of the GR H12 and how the binding of pharmacologically distinct ligands affects the conformational ensemble of the coregulator‐binding surface and H12. Therefore, in order to generate the reliable structural ensembles of the GR LBD, extensive MD simulations were carried out to the LBD without any ligand (apo‐LBD) and the complexes of LBD bound with the agonist DEX (dex‐LBD), antagonist RU486 (ru486‐LBD), and modulator AZD9567 (azd‐LBD) starting from the same unfolded H12 conformation (Figure , Supporting Information).
+According to the static structures, it can be observed that GR agonists, such as DEX, can induce the conformational shift of H12 to form a part of AF2, while in the passive antagonist conformation (3H52_C), H12 folds into the position of AF2, preventing the binding of coactivators. The rotation of H12 is a hallmark of the GR activation. Hence, we characterized the conformational changes of the AF2 of GR by measuring the distance between H12 (Ala754‐Tyr764) and Leu589 (named H12‐Leu589). The root‐mean‐square deviation (RMSD) of the C
+α
+ atoms of Ile581‐Lys777 for each system relative to the initial coordinates were used to characterize the conformational changes of the GR LBD. The 2D free energy landscapes as a function of the RMSD of Ile581‐Lys777 of the GR LBD and the distance H12‐Leu589 were calculated (Figure
+ ). Five metastable conformations were identified and denoted as S0, S1, S2, S3, and S4 (Figure , Supporting Information). In addition, the perron cluster cluster analysis (PCCA) distributions in PyEMMA were used to select the representative structures of the 5 metastable macrostates (S0–S4, Figures
+ , ).
+ The AF2 surface of apo‐LBD shows considerable conformational changes. with a wide H12‐Leu589 distance distribution (7.6 to 35 Å, Figure  ). Helix 3 (H3) and helix 4 (H4) of the GR LBD are relatively stable, and the main conformational changes take place on H12 (Figure  ). H12 possesses multiple conformational states, and it can shift inward or outward. The S0A and S1A states of apo‐LBD (Figure  ) are intermediates that are close to the passive antagonist state (3H52_C). Moreover, a structural ensemble of the H12 folding outside of H11 was observed (S2A, Figure  ). The representative structure of S3A is close to the agonist state (1M2Z). The representative structure of S4A is close to the active antagonist state (3H52_A). To detect the sampling of the experimental AF2 conformations by the MD simulations, the RMSD of the AF2 C
+α
+ atoms (including the residues 567–579, 590–597, and 754–764) was used as the criterion to compare the similarity between the conformations from the 10 µs MD simulation trajectories and the experimental structure. The probability distribution of the AF2 RMSD shows that the inactive states (including the partial agonist/antagonist state (3H52_B, 2%) and passive antagonist state (3H52_C, 2%), Table , Figure , Supporting Information) are highly populated, while the active states (including the active antagonist state (3H52_A, ≈0.0%) and agonist state (1M2Z, 0%), Table , Figure , Supporting Information) are lowly populated. In conclusion, the physiologic structural ensemble of the GR H12 is very diverse. Without ligand binding, the GR LBD can only sample to the 3H52_B and 3H52_C states.
+In contrast, although the conformational space of dex‐LBD is similar to that of apo‐LBD (Figure  ), the populations of the active antagonist state (3H52_A) and agonist state (1M2Z) are increased (Table , Figure , Supporting Information). It has been reported that the binding of DEX can trigger the recruitment of coactivators to GR, and then GR is activated for transactivation or also possibly for transrepression,[
+ 
+] which is associated with not only the therapeutic efficacy but also the adverse effects of GCs.[
+ 
+] Therefore, the active antagonist state (3H52_A) and agonist state (1M2Z) may be related to both of therapeutic and adverse effects. Compared with the dex‐LBD system (7.27 to 36.56 Å), azd‐LBD undergoes more significant conformational changes, and the distribution of H12‐Leu589 is wider (8.37 to 40.00 Å), indicating a higher flexibility of the azd‐LBD H12. In addition, the S0C and S1C states of azd‐LBD are different from dex‐LBD and apo‐LBD whose H12 fold outside of H11 (Figure  ). The representative structures of S2C and S4C in azd‐LBD are close to the passive antagonist state (3H52_C). In the S3C state of azd‐LBD, H12 folds to the inside of H11 (Figure  ), exhibiting a specific conformational state. Nevertheless, the state is different from the agonist state and close to the active antagonist state, possibly supporting the partial activity of AZD9567 in the transactivation assay.[
+ 
+]
+
+The conformational landscape of ru486‐LBD is quite special (Figure  ). As shown in Figure  , in the S0D state of ru486‐LBD, a part of H11 folds into the AF2 site, preventing the binding of coactivators. The dimethyl amino phenyl moiety of RU486 clashes with H12, and the conformation of H12 should be adjusted. However, the isopropyl group of AZD9567 is smaller, and it may not exert a substantial influence on the conformation of H12. In the S1D and S2D states, H12 locates outside of H11, which are similar to the S1C state of azd‐LBD. The representative structure of S3D in ru486‐LBD is close to the passive antagonist state (3H52_C). In addition, as shown in Table and Figure , Supporting Information, in the collectable samples of the ru486‐LBD system, the active antagonist state (3H52_A) is lowly populated (≈0.0), and the passive antagonist state is highly sampled (3h52_C, 6%), suggesting that a single conformation of H12 dominates its conformational ensemble for the ru486‐LBD complex. That is to say, upon the binding of RU486, H12 of the GR LBD is mainly induced to dock into the AF2 site, resulting in the occupation of the site, thus preventing coactivator binding. Compared with DEX and AZD9567, RU486 shows neither their anti‐inflammatory activities nor their adverse effects, so the populations of the passive antagonist state (3h52_C) are probably unrelated to anti‐inflammatory or adverse effects.
+In summary, with or without ligand binding, the GR LBDs are sampled in variant conformational spaces (Figures  , ). It has been reported that GR H12 exhibits both the ligand‐ and coregulator‐dependent kinetics.[
+ 
+] However, we found that the ligand alone can affect the conformation of H12, although only a 1–2% change. The binding of the GR agonists (DEX and AZD9567) induces more active antagonist state (3H52_A) and agonist state (1M2Z), and the antagonist binding mainly shifts the populations toward the inactive state (3H52_C).
+
+2.2
+
+## Phe737 and Gln738 are Key Residues for Sending Message from Ligands to AF2
+To discover the details about how the ligand interacts with H12 of the GR LBD in each system, principal component analysis (PCA) was performed on the conformations taken from the representative trajectory based on the coordinates of all the heavy atoms, in which H12 folded into a conformation close to the S0 states. The schematic representation of the first principal component (PC1) for each system is shown in Figure
+ . For apo‐LBD, dex‐LBD, azd‐LBD, and ru486‐LBD, PC1 dominates around 55.0%, 67.3%, 63.16%, and 47.23% of the variance, respectively. As shown in Figure  , as to the binding of the agonist, antagonist, or modulator, the conformational fluctuations of H12 are different. Without ligand binding or upon agonist binding, H12 moves outward and the volume of AF2 tends to increase (Figure  ). While the binding of the antagonist (RU486) or modulator (AZD9567) would change the swing direction of H12 from outward to inward (Figure  ). And in all systems, the fluctuations of the regions around the N‐terminal of H12 and the C‐terminal of H11 are larger than those around the C‐terminal of H12, indicating that the residues at the N‐terminus of H12 and the C‐terminus of H11 are probably the key amino acids for the communications between ligands and AF2.
+ Further analysis shows that without ligand binding, the hydrophobic LBP formed by Tyr735, Gln642, Gln755, Ile756, and Phe740 are occupied by Phe737 and Gln738 (Figure  ). Upon agonist binding, a hydrogen bond is formed between Glu642 and DEX, and then Phe737 and Gln738 rotate away from DEX, but still participate in the formation of the hydrophobic pocket. Meanwhile Asp742 rotates to the ligand to help the formation of the hydrophobic pocket, which in turn causes H12 to move out of AF2 (Figure  ). While upon the binding of AZD9567 and RU486 (Figure  ), the binding site is reorganized. The dimethyl amino phenyl moiety of RU486 and the isopropyl group of AZD9567 bind to the original position of Phe737. The space conflict between the ligands and the aromatic ring of Phe737 destabilizes the H11 C‐terminal, and as a result, Gln738, Phe740, Glu755, and Ile756 rotate away from the ligands, accounting for the inward movement of H12. In conclusion, the residues Phe737 and Gln738 play critical roles in the mediation of the interactions between the ligands and AF2. The antagonist and modulator are in steric clash with H12, causing H12 to move inward. Therefore, the volume of AF2 tends to decrease, and the possibility of the binding with coactivators also decreases. In contrast, there is no steric clash between the agonist and H12, and H12 can stay outward to form a transcriptionally active conformation.
+
+2.3
+
+## GR Modulator and Antagonist Change the Folding Pathway of H12
+To elucidate the mechanism of the conformational changes of H12, the MSM analysis was performed to build the kinetic community networks for the studied systems, which helps to identify the key conformational states of the GR LBD and quantify the state thermodynamic populations and the kinetics of state transitions. The transition matrices with different values of the lag time τ were computed. At τ = 0.2 ns, these timescales almost converged (Figure , Supporting Information). Thus, the lag time was set to τ = 0.2 ns. The Chapman–Kolmogorov test (CK test) for the eight microstates was conducted to evaluate the validity of the MSM. As shown in Figures – , a nearly perfect agreement could be achieved between the estimated transition probabilities calculated from the MD data (circles) and the predictions of the MSMs for all lag times (0.2, 0.4, 0.6, and 0.8 ns), highlighting the high Markovianity of the microstates. The fluxes and pathways were computed by the transition path theory (TPT). The total flux from the initial state A (S0) to the target state B (S4) was decomposed into pathways (Figure
+ , Table
+ ; Figure , Supporting Information).
+ Without ligand binding, the agonist state (1M2Z) was an unstable intermediate state and cannot be captured (population = 0, Table , Supporting Information). The positions of H12 mainly changed from S0A to S4A through the S1A state (occupying 58.0% of the total flux) (Figure  ; Figure , Supporting Information). Another pathway, in which H12 went through the lowly populated S3A state, was possible but less frequent (occupying 34.6% of the total flux). Upon the binding of DEX, the conformational conversion pathway of H12 was similar to that in apo‐LBD (Figure  ), and H12 rotated away from Leu589 in H4 to visit different folding positions (occupying 96.0% of the total flux). But the S3B state became more populated than that in apo‐LBD. This implies that although the steric conflict between the agonist and Phe737 leads to the state transitions of H12, the interaction between the agonist and Leu753 in H12 can stabilize the agonist state.[
+ 
+]
+
+Upon the binding of AZD9567, H12 rotates close to Leu589 from the S0C state, which is different from that in apo‐LBD and dex‐LBD. In the azd‐LBD system, the folding pathway for H12 with the largest flux is S0C‐S1C‐S3C‐S4C, which occupies 81.7% of the total flux (Table  , Figure  ). The atomistic picture of the conformational changes is shown in Figure  and Figure , Supporting Information. S4C is the most stable state, which is close to the passive antagonist state (3H52_C). The states S1C and S3C are the intermediate states, and they can easily relax to S4C (Figure  ). In this case the passive antagonist state (S2C of azd‐LBD) is more stable than that in dex‐LBD and apo‐LBD, leading to a decreased possibility for the coactivator binding, which was conducive to both anti‐inflammatory activity and adverse effects. This is consistent with the reported fact that AZD9567 can cause some mild or moderate intensity of adverse events.[
+ 
+]
+
+Upon the binding of the antagonist RU486, the positions of H12 mainly change from S0D to S4D through the S2D and S3D states (occupying 55.3% of the total flux, Figure  ). The clusters S0D and S3D are both the passive states. And the 3H52_A state is a lowly populated (≈0.0). This may be because the dimethyl amino phenyl moiety of RU486 conflicts with Phe737 and Leu753 at the same time, and the full antagonist cannot stabilize the active conformation without co‐regulatory factors. Therefore, the binding of an antagonist can enhance the probability for the passive antagonist state, resulting in a much lower probability of the downstream binding of coactivators. This may be one of the reasons why the full antagonists significantly reduce the side effects.[
+ 
+]
+
+Based on the above results, it is proposed that the GR modulator and antagonist can perturb the structural state of the GR LBD and change the folding pathway of H12. The compounds which can bias the conformational equilibria toward the passive antagonist state would be better in reducing adverse effects and balancing the therapeutic effect of GC.
+
+2.4
+
+## Discovery of Novel GR Modulators Based on Passive Antagonist Conformation
+It has become widely accepted that the transcription activation by GR contributes to the majority of side effects. Therefore, if a compound can properly induce passive antagonist conformations, it may exhibit reduced side effects and at the same time still keep anti‐inflammatory activity.
+However, due to the flexibility of H12, the complete passive antagonist structures of the GR LBD have not yet been reported. In our study, the MD/MSM simulations revealed a range of conformational substates of the GR LBD, and the passive antagonist conformations of RU486 and AZD9567 were sampled (Table , Figure , Supporting Information). Considering the aim of discovering novel GR modulators, the Chemdiv library was virtually screened based on the passive antagonist conformation induced by AZD9567. In the passive antagonist state (Figure , Supporting Information), the amide of AZD9567 rotates around 90° to reduce its conflict with H11. And the isopropyl of AZD9567 forms stable hydrophobic interaction with Phe737 and Trp600. The compounds in Chemdiv were docked into the AZD9567 binding site in the passive antagonist conformation (Figure , Supporting Information). The top‐ranked 5000 compounds were retained as a focused library of potential GR modulators. After druglike analysis, structural clustering and visual inspection of the docked poses, a total of 88 compounds were purchased for bioactivity evaluation (Table , Supporting Information). At first, the cell cytotoxicity assay was performed to rule out the inherent toxicity of the tested compounds. As shown in Figure , Supporting Information, 72 compounds do not affect Raw264.7 cell viability at 25 µm. Subsequently, these compounds were tested by the in vitro GR ligand binding assay and transrepression assay. As shown in Figure
+ , 16 compounds at 10 µm exhibit good inhibition activities (>70%) in the reporter gene assay measuring transrepression. Among the 16 compounds, six compounds exhibit specific GR binding activity (effect <60%, Figure  ).
+ As shown in Table
+ , HP‐1 and HP‐6 behave as partial antagonists with 48.9 ± 2.41% or 30.8 ± 3.27% efficacy in the TAantag assay, less than 1% efficacy in the TAag assay, and relatively lower effect in the tethered indirect transrepression assay. While compound HP‐19 exhibits very good potency in the tethered indirect transrepression assay, and it is capable of inhibiting NF‐κB signaling with IC50 = 0.041 ± 0.011 µm (IC50DEX = 0.012 ± 0.001 µm, and IC50AZD9567 = 0.37 ± 0.075 µm) and inhibiting AP‐1 signaling with IC50 = 0.79 ± 0.26 µm (IC50DEX = 0.004 ± 0.001 µm, and IC50AZD9567 = 0.14 ± 0.04 µm). Furthermore, HP‐19 shows about 50–60% as effective as DEX for the transcription inhibition of proinflammatory enzyme cyclooxygenase‐2 (COX‐2) in the cell line of macrophage Raw264.7 (Figure  ). In addition, HP‐19 binds to the GR LBP in a dose‐dependent manner (IC50 = 1.57 ± 0.71 µm), indicating that the compound can directly target the GR LBP. Besides its good anti‐inflammatory activity, the most interesting thing is that HP‐19 has little or no effect on the agonist/antagonist profile. HP‐19 not only fails to induce transactivation activity (TAag, −2.1 ± 0.63%), but also cannot inhibit the DEX‐dependent transactivation (TAantag, 1.92 ± 0.15%). As an evidence, HP‐19 does not affect the DEX‐induced transcription of the (+) GRE transactivated glucocorticoid‐induced leucine zipper (GILZ) (Figure  ). Taken together, HP‐19, which does not induce the transactivation functions of GR while still induces its tethered indirect transrepression activity, is a novel and potent GR modulator.
+ Another notable compound is HP‐24. It can effectively inhibit AP‐1 signaling with IC50 = 1.16 ± 0.35 µm. Furthermore, the mRNA level of the proinflammatory COX‐2 is substantially downregulated by HP‐24 (Figure  ). However, HP‐24 displays a partial agonist profile (43.2 ± 1.03%) in the transactivation assay and upregulates the mRNA level of GILZ (Figure  ). It is similar to DEX and cannot separate tethered indirect transrepression from transactivation.
+The conformational changes of H12 induced by HP‐19 were also investigated by the 10 µs MD simulations and MSM analysis (Figure  ; Figure , Supporting Information). In the HP19‐LBD system, the folding pathway for H12 with the largest flux was S0‐S2‐S3‐S4, which occupies 60.8% of the total flux (Figure  ). Binding of HP19 changed the folding pathway of H12. H12 swings from outward to inward, which is similar to that in azd‐LBD. Compounds HP‐26 and HP‐67 have the same benzenesulfonamide group as compound HP‐19, but their activities are weaker in the tethered indirect transrepression assay, which anyhow provides a basis for the structural optimization of HP‐19.
+
+3
+
+## Conclusion
+In this study, microsecond long MD simulations and MSM analysis were employed to explore the conformational dynamics and conformational ensemble equilibria of GRs upon the binding of different ligands. We found that the GR LBD is not in a single conformational state upon the binding of agonists or antagonists, but rather samples in different conformational ensembles. In the apo‐LBD system, 1M2Z was an intermediate state and hard to be captured. Upon the binding of an agonist, the populations of the 3H52_A and 1M2Z state were increased compared with those of apo‐LBD. The binding of an agonist also induced the inactive states of the GR LBD. While in the ru486‐LBD system, the 3H52_A state is a lowly populated intermediate state, and H12 rearranges from a passive state (S0D) to another passive state (S4D) (Figure  ). Compared with DEX and AZD9567, RU486 has no anti‐inflammatory activity, so the populations of the 3H52_A and 1M2Z states may be related to anti‐inflammatory effects. However, the increased passive antagonist state in the ru486‐LBD systems is most likely one of the reasons why the full antagonists significantly reduce the side effects. Our unbiased simulations also found a residue interaction pathway of the ligands‐Phe737‐Gln738 in GRs. To test the druggability of the passive antagonist conformation, SBVS was employed to identify potential safer GR ligands. Six compounds with specific GR binding activities and good potencies in transrepression assays were identified. Among them, HP‐19 inhibited NF‐κB signaling with IC50 = 0.041 ± 0.011 µm, which was comparable to that of DEX (IC50 = 0.012 ± 0.001 µm). Further studies on structural optimization and action mechanism of HP‐19 will benefit the development of novel GR modulators.
+
+4
+
+## Experimental Section
+
+## Preparation of Simulation Systems
+The crystal structure of the human GR LBD with the unfolded H12 in complex with RU486 (ru486‐LBD) was obtained from the RCSB Protein Data Bank (PDB ID: 1NHZ).[
+ 
+] The mutated residues in the crystal structure were mutated back (N517D, F602S, and C638D). The missing residues of the GR LBD (Gln760‐Gly767) were added in MOE 2018. The LBD without any ligand (apo‐LBD) was obtained by removing RU486. The GR agonist DEX and modulator AZD9567 were obtained from the crystal structures of the complexes (PDB IDs: 1M2Z and 6EL9). Then, the crystal structures of 1M2Z and 6EL9 were superimposed onto that of 1NHZ, and DEX and AZD9567 were extracted and merged into 1NHZ to construct the structures of the GR LBD bound with DEX and AZD9567 (dex‐LBD and azd‐LBD). Finally, four systems (i.e., apo‐LBD, ru486‐LBD, dex‐LBD, and azd‐LBD) were prepared for the MD simulations.
+The AMBER ff14SB force field[
+ 
+] and the general AMBER force field (GAFF2)[
+ 
+] were used for the proteins and ligands, respectively. The atomic charges for each small molecule were generated by fitting the electrostatic potential calculated at the Hartree‐Fock SCF/6‐31G basis set by using Gaussian[
+ 
+] through the restrained electrostatic potential algorithm[
+ 
+] implemented in the antechamber module of AMBER18.[
+ 
+] Each system was solvated in an octahedral TIP3P water box,[
+ 
+] and the solute atoms were at least 10 Å away from the boundary of the water box. The counter Na+ ions were added to neutralize the net charge of each system.
+
+## MD Simulations
+All simulations were performed with AMBER18.[
+ 
+] The Particle mesh Ewald (PME) algorithm was used to handle the long‐range electrostatic interactions,[
+ 
+] and the non‐bonded cutoff for the real‐space interactions was set to 12 Å. Each system was minimized by the following three‐step protocol. First, the water molecules and counter ions were optimized by 1000 steps of steepest descent and 2000 steps of conjugated gradient minimizations with the protein and ligand atoms restrained by 50 and 10 kcal mol−1Å−2, respectively. Then, the protein atoms were restrained by a 10 kcal mol−1Å−2 force constant and the other atoms were minimized by 1000 steps of steepest descent and 2000 steps of conjugated gradient minimizations. Finally, the entire system was minimized by 1000 steps of steepest descent and 2000 steps of conjugated gradient minimizations without any restraint. Next, each system was gradually heated from 100 to 300 K over a period of 30 ps in the NVT ensemble, and 110 ps equilibration was performed at 300 K. Finally, 200 ns MD simulations were carried out in the NPT (T = 300 K and P = 1 atm) ensemble with the PMEMD program.[
+ 
+] The SHAKE algorithm[
+ 
+] was used to constrain the covalent bonds involving hydrogen atoms and the time step was set to 2 fs. The snapshots were saved every 10 ps. For each system, a total of 50 independent MD simulations were conducted, and in total 40 µs trajectories were generated for the four systems (4 × 50 × 200 ns).
+The RMSD, distance, and secondary structures analyses were carried out by the cpptraj module in AmberTools18. The PCA for each system was carried out by the NMWiz module in VMD[
+ 
+] based on the coordinates of all the heavy atoms in the trajectories.
+
+## MSM Analysis
+MSM analysis is a powerful tool to turn a group of short trajectories into a scientifically meaningful model of dynamics.[
+ 
+] Here, the MSM were built using the PyEMMA[
+ 
+] software package (version 2.5.7) through following workflows. First, each frame in the MD trajectories was transformed into a vector composed by the RMSD of Ile581‐Lys777 and the distance between H12 (Ala754‐Tyr764) and Leu589, by which different conformations could be discriminated. Second, the conformations for each system were clustered into 1000 clusters (microstates) using the k‐means algorithm. Third, a transition count matrix was constructed by counting the number of the transitions between each pair of microstates at a proper lag time (time interval) using the sliding window approach, and then the transition probability matrix was obtained by the Bayesian MSM estimator.[
+ 
+] The timescales were examined to determine the lag time when the system becomes Markovian.[
+ 
+] As shown in Figure , Supporting Information, 0.2 ns was chosen as the lag time. The CK test[
+ 
+] was employed to evaluate the validity of the 1000‐state Bayesian Markov model (Figures – ). Seven slow processes up to the lag time of 0.8 ns could be determined. A perfect agreement was observed between the estimated transition probabilities calculated from the MD data and the predictions of the MSMs, suggesting the validity of the MSMs. After that, these 1000 microstates were further divided into macrostates using the PCCA algorithm.[
+ 
+] Finally, the TPT[
+ 
+] was used to elucidate the transitions between these macrostates and the highest‐flux pathway.
+
+## SBVS Workflow
+SBVS based on the passive antagonist conformation of azd‐LBD was expected to discover novel safer GR ligands. However, a completely folded crystal structure of GR in the passive antagonist state was never resolved. The passive antagonist conformation (PDB ID: 3H52) reported by Schoch et al.[
+ 
+] has a missing region (the end of H11 up to a few residues before H12, residues 741–753), and its N‐terminal end (helix 1 (H1) and H1‐H3 loop) is unfolded from the LBD body. To obtain a completely folded passive antagonist conformation, the RMSD of the AF2 C
+α
+ atoms were used as the criterion to compare the similarity between the conformation from the 10 µs MD simulation trajectories and the passive antagonist conformation reported by Schoch et al. The conformation with the smallest RMSD (RMSD = 1.47 Å) was selected for the SBVS.
+The protein structure was prepared by using the Protein Preparation Wizard in Schrödinger 2019. The binding site was defined as the region centered on the center‐of‐mass of AZD9567 with the size of 10 Å × 10 Å × 10 Å using the Receptor Grid Generation component of Glide. The small molecules in the ChemDiv chemical library processed by LigPrep were docked into the prepared structure by using the Glide module, and the binding energies were scored and ranked by the Glide SP scoring mode. The 5000 top‐ranked compounds were filtered by the Lipinski's rule‐of‐five and Oprea's rules, and then the remaining molecules were clustered based on the 2D similarity (Tanimoto coefficient) of the MACCS fingerprints. Finally, 88 potential compounds were purchased for subsequent bioassays. The bioactivities and structures of the 88 compounds are listed in Table , Supporting Information.
+
+## Materials for Bioassays
+Hela (CLS Cat# 300194/p772_HeLa) and RAW264.7 (CLS Cat# 400319/p462_RAW‐2647) (a murine macrophage cell line) cells were grown in high‐glucose DMEM supplemented with glutamine, penicillin, streptomycin, and 10% FBS (Gibco). pCMV‐GR11 (Addgene, #89105) was a gift from Elizabeth Wilson. pGL4.36[luc2P MMTV Hygro] and NF‐κB‐Luc were purchased from Promega and Beyotime, respectively. Five copies of the AP‐1 promoter were cloned into the BmtI and BglII sites of pNF‐κB‐luc. LPS was from Escherichia coli O55:B5 (Sigma Aldrich; L‐2637). Recombinant human tumor necrosis factor‐alpha (TNF‐α) was purchased from Sangon Biotech. Phorbol myristate acetate (PMA), AZD9567, and DEX were purchased from MedChemExpress (MCE), and all the tested compounds were bought from TargetMol.
+
+## Cytotoxicity Assay
+For cytotoxicity assay, Raw264.7 cells were used to rule out the inherent toxicity of the tested compounds. Raw264.7 cells were cultured in DMEM media at a density of 8 × 104 cells per well and then treated with the tested compounds at the concentration of 25 µm for 48 h. 10 µL of 5 mg mL−1 MTT solution was added into each well and incubated for 3 h, then 100 µL of triplex solution (10% SDS, 5% isobutyl alcohol, and 0.012 mol L−1 HCl) was added to dissolve the formazan crystals. Absorbance was measured at 540 and 630 nm with a spectrophotometer (Bioteck Eon, Winooski, VT).
+
+## Tethered Indirect Transrepression Assay
+For transrepression assay, Hela cells were cultured in 5% charcoal stripped serum (CSS) DMEM media in 96‐well plates for 24 h. Then the cells were transfected with 71 ng pCMV‐GR11, 5 ng Rencilla, and 24 ng NF‐κB‐Luc or 5 × AP‐1‐Luc by lip3000 transfection reagent for 24 h. After removing the medium and replaced with fresh medium, in case of NF‐κB‐Luc, cells were treated with 5 ng mL−1 TNF‐α and the tested compound, and incubated for 18 h. And for AP‐1 transrepression, assay was run as above except that 1 ng mL−1 PMA was used to induce. Cells were lysed by the addition of 1× Passive Lysis Buffer (Promega, Cat # E1910), and luciferase activity was assayed by the Dual‐Glo Luciferase system (Promega, Cat # E1910). Data were plotted as firefly luciferase activity normalized to Renilla luciferase activity in Relative Luciferase Units.
+
+## In Vitro GR Ligand Binding Assay
+The binding of the tested compounds was assessed with the LanthaScreen TR‐FRET GR Competitive Binding Assay (Invitrogen Life Technologies, Inc.). Curves were fit using a sigmoidal dose‐response equation (variable slope) in GraphPad Prism 6.0 software. In addition, the values plotted in Figure  were normalized and the DMSO group is defined as 100%.
+
+(1)
+Effect%=RatioSampleRatioDMSO×100
+
+## Transactivation Assay in Agonist Mode
+Hela‐MMTV‐Luc reporter cells were established by transfecting plasmid pGL4.36[luc2P MMTV Hygro] into Hela cells with lip3000 transfection reagent. For generating a cell line with stable transgene expression, transfected cells were selected by co‐culture with 0.4 mg mL−1 Hygromycin (YEASEN, Shanghai, China). The agonist activities of the tested compounds toward GR were determined in Hela cells which were stably transfected with construct (MMTV‐Luc) by measuring the upregulation of firefly luciferase activity. Briefly, the day prior to assay, cells stably expressing MMTV‐luc were diluted and plated at 1 × 104 cells per well in 96‐well white plates in DMEM medium (5% CSS). Then, cells were treated with the gradient concentrations of the tested compounds for 18 h and then luciferase activity was measured with the One‐Lumi Firefly Luciferase Assay Kit (Beyotime; #RG055M). Bioluminescence was measured with Synergy H1 (BioTek). Control wells with DMSO or DEX at 10 µm were included on each plate to define the 0% and 100% activation effects, respectively. Raw data were transformed to % effect using the following equation:
+
+(2)
+%effect=100×x−minmax−min
+
+## Transactivation Assay in Antagonist Mode
+Similar to previous reports,[
+ 
+] the assay was run as above except that cells were treated by increasing the concentrations (0–50 µm) of the tested compound with 100 nm DEX. The control wells were included on each plate to define 0% inhibition (DMSO) and 100% inhibition (1 µmol L−1, RU486) of the DEX response.
+Raw data were transformed to % inhibition using the following equation:
+
+(3)
+%inhibition=100×max−xmax−min
+
+## Quantitative Real‐Time Polymerase Chain Reaction
+Raw264.7 cells were cultured in DMEM media (5% CSS) and then cultured in 6‐well plates (1 × 106 cells per well). After overnight incubation, the media was removed and the cells were treated with 20 ng mL−1 LPS and 10 µm indicated compounds. After 18 h incubation, the total RNA was extracted using the EZ‐10 DNAaway RNA Mini‐Preps Kit according to the manufacturer's instructions (Sangon Biotech, Shanghai, China). Hifair III 1st Strand cDNA Synthesis SuperMix (YEASEN, Shanghai, China) was used to generate cDNA. Quantitative real‐time polymerase chain reactions were performed using the SYBR Green PCR Master Mix (YEASEN, Shanghai, China) kit and 0.4 µm indicated primers. Analysis of mRNA expression was performed using the Applied Biosystems QuantStudio 3. GAPDH was used as an internal control and the relative mRNA levels were analyzed by the 2−∆∆Ct method. Primers used for the Q‐RT PCR analyses are following:
+COX‐2 F: 5′‐TTCAAAAGAAGTGCTGGAAAAGGT‐3′
+COX‐2 R: 5′‐GATCATCTCTACCTGAGTGTCTTT‐3′
+GILZ F: 5′‐GCTGCACAATTTCTCCACCT‐3′
+GILZ R: 5′‐GCTCACGAATCTGCTCCTTT‐3′
+GAPDH F: 5′‐AGGCCGGTGCTGAGTATGTC‐3′
+GAPDH R: 5′‐GCAGTTGGTGGTGCAGGATG‐3′
+
+## Data and Statistical Analysis
+All the experiments were repeated at least three times independently. The data were processed and normalized as the description above in the GR ligand binding assay and report gene assays. Graphs and results were analyzed by the software GraphPad Prism 6.0 software (San Diego, CA, USA) and results were presented as individual data points with mean ± SD. In all the statistical analyses, the differences between multiple groups were analyzed using the one‐way analysis of variance (ANOVA), followed by the Dunnett's post hoc test. *p < 0.05 was defined as significant; “ns” indicated not significance (p > 0.05).
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Supporting information
+Supporting Information
+Click here for additional data file.
+
+## Acknowledgements
+X.H., J.P., and J.Z. contributed equally to this work. This work was financially supported by National Natural Science Foundation of China (21575128, 81773632, 21907084), Natural Science Foundation of China of Zhejiang Province (LZ19H300001), Fundamental Research Funds for the Central Universities (2020QNA7003), and “Double Top‐Class” University Project (181201*194232101)
+
+## Data Availability Statement
+Research data are not shared.

@@ -1,0 +1,3375 @@
+822acssdChemical ReviewsChem RevPMC1298321012983210129832104176464510.1021/acs.chemrev.5c00689Molecular Design
+with Artificial Intelligence: Progress
+and Perspectives for Small Molecules
+SumitaMasato IshidaShoichi YoshizoeKazuki TamuraRyo TerayamaKei TsudaKoji 
+†
+RIKEN
+Center for Advanced Intelligence Project, Nihonbashi 1-chome Mitsui Building, 15th floor, 1-4-1 Nihonbashi, Chuo-ku, Tokyo
+103-0027, Japan
+
+‡
+MolNavi
+LLC, #402 Wizard building
+1-4-3 Sengen-cho Nishi-ku, Yokohama, Kanagawa
+220-0072, Japan
+
+¶
+Graduate
+School of Medical Life Science, Yokohama
+City University, 1-7-29, Suehiro-cho, Tsurumi-ku, Yokohama, Kanagawa
+230-0045, Japan
+
+§
+Research
+Institute for Information Technology, Kyushu
+University, 744 Motooka, Nishi-ku, Fukuoka
+819-0395, Japan
+
+∥
+Center
+for Basic Research on Materials, National
+Institute for Materials Science, 1-1 Namiki, Tsukuba, Ibaraki
+305-0044, Japan
+
+⊥
+Graduate
+School of Frontier Sciences, The University
+of Tokyo, 5-1-5, Kashiwa-no-ha, Kashiwa, Chiba
+277-8561, Japan
+
+#
+MDX Research
+Center for Element Strategy, Institute of
+Science Tokyo, 4259,
+Nagatsuta-cho, Midori-ku, Yokohama, Kanagawa
+226-8501, Japan
+
+@
+School of
+Life Science and Technology, Institute of
+Science Tokyo, 4259,
+Nagatsuta-cho, Midori-ku, Yokohama, Kanagawa
+226-8501, Japan
+*
+E-mail: tsuda@k.u-tokyo.ac.jp.
+132026126530073007–30541432026© 2026 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+Progress in chemistry has been driven by the streamlining
+of inverse
+problem-solving methods. In the history of chemistry, several revolutionary
+technologies have led to leaps forward: the establishment of atomistic
+theory in the 19th century, structural analysis by spectroscopy in
+the 20th century, and the development of simulation by theoretical
+chemistry. Currently, chemistry is about to make a significant leap
+forward by integrating generative artificial intelligence (AI). In
+2016, deep learning techniques were introduced in this domain, leading
+to explosive development. This paper reviews the development path,
+including traditional models such as variational autoencoders and
+more up-to-date models such as large language models and diffusion
+models. We also discuss how AI can have a real impact on chemistry,
+including the possibilities and problems associated with synthesizing
+AI-generated molecules.
+
+ 
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Aug 11; Accepted 2026 Feb 13; Revised 2026 Feb 4; Collection date 2026 Mar 11.
+
+1.
+
+## Introduction
+First, we review the history
+of chemistry from the viewpoint of
+inverse problems, revisiting important technologies and concepts that
+have revolutionized chemistry. This clarifies the influence of artificial
+intelligence (AI) in chemistry. Chemistry enables us to deal with
+substances that are not as complex as biology but are complex and
+moderately idealized. This moderate affordability has enabled the
+integration of many fields and the development of chemistry. Although
+introducing all the important technologies in this field is not possible,
+we believe that we understand this major flow in the history of chemistry.
+1.1.
+
+## Inverse Problems and the Beginning of Chemistry
+Chemistry deals with matter at the invisible molecule/atomistic
+level, where inverse problems (speculating an object from an observation)
+in seizing the molecule/atomistic world are the primary themes. The
+solution to this inverse problem conventionally relies on the repetition
+of the cycle of formulation, measurement, and evaluation, as shown
+in . If recognition
+of matter using humans’ five senses is a forward problem, finding
+matter that meets human demands is an inverse problem. Hence, solving
+the inverse problem may have benefitted humanity in the areas of cosmetics,
+−
+
+ dyes,
+−
+
+ and detergents, which have been used
+since antiquity and are the research targets of modern chemistry.
+A deeper understanding of these materials has led to an invisible
+world of molecules and atoms beyond the perception of the five human
+senses, which may have started as mere human interest.
+ The fact that matter consists of particles has
+been known since
+antiquity, and the modern understanding that chemical phenomena originate
+from atoms and molecules was attributed to Dalton’s atomic
+theory in the 19th century. In this century,
+without reliable methods to observe atomistic and molecular structures,
+human imagination has progressed from 2D structures, as represented
+by Kekulé structures, to 3D structures, establishing the foundations
+of structural chemistry.
+,
+ An improved scientific
+solution to the inverse problem of identifying the molecular structure
+from observations (composition) obtained by combustion experiments was the laborious method of total synthesis ( ). The revolution in solving the inverse problem of identifying
+atomistic-level molecular structures came with the arrival of quantum
+mechanics in the 20th century.
+ 
+1.2.
+
+## Observing Quantum-Mechanical World
+In the 20th century, as theories represented by quantum mechanics were developed, analytical equipment at the
+atomistic and molecular levels advanced considerably, significantly
+expanding the knowledge about chemical structures. Spectroscopies
+that use transitions between quantized molecular energy levels, scattering of atoms and several other particles, and nuclear magnetic resonance are powerful, making molecular structure determination
+possible by interpreting the obtained spectra. This became possible
+because the spectral peak positions shown by representative molecular
+substructures are empirically known,
+−
+
+ allowing molecular structures
+to be decoded by repeating the cycle shown in (assembling substructures) in the mind of
+chemist. As a result, speculation on the molecular structures makes
+it possible to identify molecular structure without repeating the
+cycle shown in in the real world. Although total synthesis remains the ultimate
+method of molecule identification, spectroscopy
+has revolutionized the inverse problem of molecule identification.
+Deciphering a spectrum requires a specialist; spectroscopy can be
+used to characterize not only small molecules but also large and complex
+substances such as DNA and proteins.
+−
+
+ As atomistic-level molecular structures became evident, the synthesis
+of aesthetic molecules progressed,
+−
+
+ along with research
+exploring the limits of scientific molecules (e.g., challenge of synthesizing
+giant molecules). Molecular structures
+with characteristic physical and chemical properties were clarified.
+As molecule identification and isolation techniques stimulate each
+other, synthetic techniques have also been developed and chemistry textbooks have become thicker, with case-by-case
+methods for formulating chemistry (the accumulation of chemical reactions
+under specific conditions and substituent effects, etc.)
+,
+
+In addition to structural analysis instruments that revolutionized
+molecule identification, various tools such as UV–vis spectroscopy
+and luminescence, redox, and thermal analyses have been designed based
+on quantum mechanics and thermodynamics. The development of measurement instruments has made the accurate
+determination of molecular properties possible; therefore, attention
+has been paid to the control of molecular properties (functions) subject
+to molecular structure. By the mid-20th century, nanotechnology had
+gradually gained prominence and focused on the development of functional
+molecules. Attempts to design functional materials from molecular
+units grew rapidly, with examples including drug delivery systems,
+−
+
+ dye-sensitized solar cells,
+−
+
+ several sensors,
+−
+
+ organic electronics
+,
+ and so forth.
+−
+
+ Thus, the importance of solving the inverse problem has increased,
+not only in identifying molecular structures from several spectra
+but also in optimizing (designing) molecular structures for molecular
+functions (properties) with the cycle shown in . However, as atomistic-level molecular structures
+resulting in properties have become apparent, their high diversity
+has surfaced as an obstacle to blocking free molecular design. Similar
+to the aforementioned molecule-identification problem, it may be possible
+to design a molecular structure with desired molecular properties
+by iteratively repeating the cycle shown in in the mind of a researcher. Unfortunately,
+current molecular design technique has not yet reached this stage,
+and this longing has increased the volume of chemistry textbooks.
+This is predominantly due to the great diversity at the atomistic
+levels. Therefore, the high diversity forces chemists to rely on trial
+and error for the optimization of molecular properties, imposing the
+arduous task of repeating the cycle of . Naturally, experimental costs also increase.
+To avoid diversity and develop functional molecules as efficiently
+as possible, researchers have optimized (derivative development) molecules
+that already function,
+,,−
+,−
+
+ rather than exploring unknown molecules. Arguably, this becomes
+a local solution search (searching for a subspace), possibly missing
+superior molecules. To include as many candidate substances as possible,
+the optimization of the function of the molecule by repeating cycle
+of must be
+accelerated. Although search methods to solve inverse problems (from
+molecular properties to structure) have been proposed,
+−
+
+ these methods were not versatile and practical. Rather than developing
+the method for solving inverse problems, chemists’ efforts
+focus on accelerating the cycle by streamlining the measurement process,
+thereby expanding knowledge of the formulation. Hence, a forward approach,
+such as a deeper understanding and rapid processes leading to measurement,
+is dominant. Consequently, theories find new uses as simulation tools
+that can help chemists avoid costly experimental trial and error.
+
+1.3.
+
+## Expectation on Simulations
+Along
+with innovations in structural analysis technology in the 20th century,
+dramatic improvements in computer performance have had various impacts
+on society. This led to significant developments in chemistry. The
+field of quantum chemistry (QC) benefited
+most from this. Although quantum mechanics revealed the equation required
+to understand the properties of matters and molecules, it was too
+complex to solve. Thus, QC enables the application of quantum mechanics
+to chemistry by introducing various approximations. Valence bond methods,
+−
+
+ based on Heitler–London theory, which were developed focusing on chemical bonding formation, face
+limitations in application to experimentally interesting molecules
+owing to increasing bonding states. Alternatively,
+the Hartree–Fock (HF) method (molecular orbital method) sacrifices a clear description of chemical bonds.
+Owing to this sacrifice, various ab initio calculations as post-HF
+theories have been developed, including the perturbation theory for
+improved wave function and internal energy accuracy, multiconfiguration wave function theory for thermal and
+photochemical reactions,
+−
+
+ and methods using coupled cluster
+expansion,
+−
+
+ emphasizing experimental value reproducibility. However,
+developments based on molecular orbitals have shown signs of a deadlock.
+Regardless of the reproducibility, the cost is too high to be incorporated
+into the inverse problem cycle. By incorporating density functional
+theory (DFT) based on electron density,
+−
+
+ QC balances the reproducibility
+of experimental values and computational cost. Many theories have
+been developed to reproduce the observations measured by the aforementioned
+instruments
+−
+
+ to reduce computational time and accuracy.
+−
+
+ To further reduce the computational cost, several simulation methods
+have been developed as alternatives to QC, such as force fields/parametric
+potentials for classical molecular dynamics
+,
+ including recent ML-assisted force fields,
+,
+ tight-binding DFT,
+,
+ and computational estimation
+tools like quantitative structure–activity/property relationship
+models (QSAR/QSPR),
+−
+
+ and recent ML prediction models. However,
+the atomistic simulations (particularly for QC) have been extensively
+used to speculate on complementary areas where experimental observations
+cannot be obtained for deeper observation and understanding.
+−
+
+ The original purpose of the simulations should have been to accelerate
+the cycle shown in through a deeper understanding and inference of chemical
+phenomena. Owing to the prevalence of several simulation packages
+,−
+
+ and their visualization tools,
+−
+
+ simulations are commonly used in functional
+molecule development as formulation tools for selecting target molecules
+for synthesis (measurement) in modern experimental chemistry laboratories
+(in silico cycle of ). However, because the simulations
+require an input chemical structure, they are inherently applicable
+only to the forward problems shown in . Operational limitations are apparent in
+the number of candidate molecules (the diversity of molecules) that
+must be examined. Consequently, the simulations themselves do not
+have an exploratory function and are not a tool for dealing with molecular
+diversity. The high diversity of molecules (even one molecule) at
+the atomistic level hinders the control of their molecular properties.
+The number of available elements in an observable universe is limited. However, these ensembles construct numerous
+molecules and substances.
+,
+ From a mathematical
+standpoint, the set of all possible molecules and substances is referred
+to as chemical space. In recent years, chemical space has attracted
+considerable attention due to advances in data science. However, the
+scope of chemical space is too broad to be comprehensively addressed
+in this review. The definition of the axes that create a chemical
+space has been discussed, including reaction-based hypergraphs and substance similarity; however, no clear answer has been obtained. Attempts to
+understand the subspaces under constraints have led to the construction
+of molecular and material databases.
+−
+
+ One subspace is almost impossible for researchers to grasp it owing
+to its large size. Even when limited to potential organic molecules
+such as drugs, an estimated 1060 molecules exist in this
+space. However, according to PubChem, only 108 molecules have been successfully
+synthesized or isolated as realistic molecules by researchers. Although
+the number of molecules in the Earth’s environment is postulated
+to be limited, researchers clearly have access to remarkably few molecules.
+Molecules with innovative functions may undeniably exist beyond the
+range of molecules accessible to researchers, and exploring unknown
+territories is undoubtedly important. Simulations had been expected
+to become an alternative search tool to expensive experiments; however,
+this was an excessive expectation.
+
+1.4.
+
+## AI: A New Tool for the Inverse Problems
+With the recent advent of generative AI, in silico chemical space
+searching with simulation is approaching a new phase. Simulations
+are inherently measurement tools because they require an observation
+target as the input, as shown in . Hence, preparing the input molecules in
+advance is necessary for use as tools in the design process. A straightforward
+method involves preparing a database of targets, computing their properties,
+and evaluating them. This approach is called high-throughput screening
+,
+ and is shown in (a). Recently, several studies have identified functional
+molecules or polymers by screening virtual/real libraries using on-demand
+simulations, machine learning prediction models, or QSAR/QSPR.
+−
+
+ Rather than an exhaustive search in a database, such as screening,
+a molecular generative AI system based on a probabilistic model that
+proposes the molecular structure of a candidate for a desired property
+is expected to improve the search efficiency, as shown in (b). This probabilistic
+model represents an assumed distribution obtained by fitting to the
+distribution of the training data. Naturally, its performance depends
+heavily on the choice of axes (features), the assumed probabilistic
+model, and the scope of the training data; therefore, the accessible
+search space remains confined within the database. This means that
+probabilistic model-based molecular generative AI is essentially limited
+to exploring known chemical scaffolds. In other words, the search
+space is not fundamentally expanded beyond that of conventional molecular
+design. Moreover, constructing such a generative AI system first requires
+a database that is not significantly different from the one used for
+the traditional screening. Therefore, closing the loop to achieve
+an in silico design in real terms is necessary, as shown in , which can improve
+the probabilistic distribution of targets by repeating the cycle.
+To enable effective exploration in this loop, as shown in (c), various optimization
+strategies play important roles, including Bayesian optimization (BO),
+reinforcement learning (RL), and evolutionary or genetic algorithms
+as will be described later.
+ The recent emergence of generative AI has impacted
+society as a
+possible alternative to human creativity. The efficiency of the inverse
+problem-solving capability in chemistry relies on how rarely the real
+world is used. As shown in , two dominant inverse problems exist in chemistry:
+the identification of the molecular structure and molecular design.
+The former has successfully formulated the observable spectra–structure
+correlation to some degree, although identification of macromolecule
+and species dependencies is challenging.
+−
+
+ However, the latter is hindered by the diversity of chemical space,
+as mentioned previously. The chemical space is not sufficiently simple
+to be explored in the brain of the researcher; it requires an external
+brain. We can postulate that molecular generative AI can revolutionize
+these inverse problems in chemistry. Since 2016, generative AI algorithms
+for molecular design
+−
+
+ have been extensively developed and applied to explore the property
+space, which is a chemical space projected using evaluation tools
+such as simulations (oracles). Although generative AI has been leveraged
+to build molecular libraries for screening,
+−
+
+ it can generate molecules and search in the property space, as shown
+in . This technology
+has brought about innovation to the inverse problems in chemistry
+that have been challenged since antiquity. The application of generative
+AI to chemistry is an integration of wisdom of researchers that transcends
+the boundaries of various disciplines. This review disentangles molecular
+generative AI; describes the surroundings that could accelerate, help,
+or automate solving inverse problems in chemistry; introduces real
+AI-designed molecules; and discusses future directions and limitations.
+
+2.
+
+## Disentanglement of Molecular Generative AI
+2.1.
+
+## Components of Molecular Generative AI
+Over the past decade, molecular generating AI, particularly generative
+approaches based on deep neural networks, has advanced significantly.
+Using these approaches, numerous molecular generative AI systems that
+can design molecules with desired properties have been proposed. Along
+with this, high-quality review papers summarizing these methods have
+been published.
+−
+
+ However, molecular generative AI systems may still be too complex
+and confusing for researchers unfamiliar with ML, AI, and cheminformatics.
+To demystify molecular generative AI, we decompose it into its basic
+components, such as generative methods and optimization/search techniques,
+and provide a detailed explanation of these methods.
+
+ (a)–(d) show
+the four basic approaches to computational molecular design. (a) shows the simplest
+molecular design approach that builds a molecular generative model
+that learns structural patterns from a molecular data set and then
+generates molecules probabilistically. In addition, molecules can
+be constructed combinatorially after creating molecular fragments
+from a data set. Notably, this approach does not necessarily aim to
+directly optimize specific molecular properties. (b) shows a conditional generative
+model that learns the distribution p
+
+θ
+(x|c) when
+condition c (e.g., the target property) is given.
+Molecules that satisfy this condition can be generated by providing
+a specific condition (target value). This framework enables the design
+of molecules with the desired properties. Furthermore, to generate
+molecules more flexibly, a framework that trains a molecule generator
+and discriminator to evaluate the properties of the generated molecules
+simultaneously, as shown in (c), has also been proposed. Generative adversarial
+network (GAN)-based methods are included in this approach. In the
+above approaches, the training data, which may contain property data,
+are fixed; thus, the generated molecules are essentially similar to
+the training data. As shown in (d), molecular design is possible by combining a molecular
+generative model with feedback based on molecular evaluation using
+an external evaluation method, often called an oracle. Examples of
+oracles include molecular simulations, experiments, and prediction
+models based on ML, such as QSAR/QSPR models. In this approach, various
+optimization algorithms or search techniques are employed to effectively
+incorporate feedback and generate new molecules. As the molecular
+generator in (d), not only a simple generator shown in (a), but also conditional and adversarial
+models in (b)
+and (c) can be used. If all processes in (d), including molecular evaluation, optimization/exploration,
+and generation, can be performed effectively, property optimization
+is expected to be carried out alongside property evaluation, even
+for structures that differ from the training data, enabling the design
+of fundamentally novel molecules. To understand molecular generative
+AI, first determining its type, that is, (a)–(d) in , would be helpful.
+ For a clearer overview of molecular generative
+AI, it is necessary
+to separate the molecular representations used, molecule-generation
+strategies, optimization strategies, and evaluation strategies. The
+approach illustrated in (d) includes all parts, but the approaches shown in (a)–(c) may
+not include all parts. First, as introduced in , the molecules are represented
+in various forms on a computer. They are often divided into three
+categories: one, two, and three dimensions. Molecule-generation strategies
+include various methods ranging from classical combination-based methods
+to probabilistic models using neural networks. This is described in . Various optimization
+and exploration strategies that are important in the approach shown
+in (d) are
+introduced in . These include metaheuristic approaches, Bayesian optimization,
+RL, and methods that utilize quantum computing. Furthermore, , , and introduce strategies
+for estimating molecular properties, evaluating synthetic feasibility,
+and integrating the estimated (possibly multiple) molecular properties
+for optimization, respectively. To consistently evaluate the performance
+of molecular generative AI systems, various benchmarks were proposed,
+as introduced in .
+Many molecular generative AI systems have been proposed
+owing to
+the possible combinations of molecular representations, generation
+strategies, optimization/exploration strategies, and evaluation methods,
+as shown in (e). Although more complex methods that combine multiple generation
+strategies or multiple optimization strategies have been proposed
+recently, the basic concept of molecular generative AI is determined
+by this combination.
+
+2.2.
+
+## Molecular Representations for Generative Methods
+Molecular representation is a central challenge in molecular modeling
+and cheminformatics.
+ illustrates representative
+molecular representations. These representations are often classified
+into three categories: one-dimensional (1D; typically string-based),
+two-dimensional (2D; typically graph-based), and three-dimensional
+(3D) geometric representations. Molecular representations are particularly
+important for molecular generative AI because they constrain representable
+molecules and applicable machine learning techniques. In the following section, representations specifically
+related to molecular design using molecular generative AI systems
+are introduced.
+ An example of a 1D representation of molecules
+is a string representation,
+such as Simplified Molecular Input Line Entry System (SMILES) or SELF-referencing Embedded Strings (SELFIES), as shown in (a). These approaches define atoms and bonds
+as “characters” in advance and represent molecules as
+strings (a sentence) by combining characters according to a certain
+grammar, including stereochemical information such as chirality. SMILES
+is the most commonly used representation and has relatively high readability.
+However, it has the drawback of easily generating syntactically invalid
+or
+chemically invalid strings. SELFIES solves these problems and has
+recently attracted attention as a representation method in which any
+string can be mapped onto a valid molecular structure. In addition,
+various variants of SMILES, such as DeepSMILES, BigSMILES, and t-SMILES, have been proposed to address the shortcomings
+and challenges of SMILES. InChI and
+IUPAC names are also string representations
+of molecules. By treating molecules as strings (sentences), it is
+possible to learn and generate them using autoregressive models and
+transformers, including LLMs, and then use them for generation. Recently,
+LLM-based approaches that utilize semantically enriched textual descriptions
+as molecular representations have also emerged, further broadening
+the scope of string-based molecular representations.
+
+Molecular fingerprints or descriptors are occasionally
+used as
+another type of 1D representation, as shown in (a). Molecular fingerprints basically represent
+a given molecule as a list indicating the presence or number of local
+structures (i.e., a vector of numbers). Various fingerprints have
+been proposed, including atom pair fingerprints and extended connectivity fingerprints (ECFP). Molecular descriptors are lists of relatively
+easy-to-calculate molecular characteristics such as molecular weight
+and topological polar surface area, and various methods have been
+proposed, such as PaDEL-Descriptor and Mordred.
+,,
+ These fingerprints and descriptors
+are widely used as input features for machine learning-based property
+prediction, including QSARs; however, molecular design methods that
+generate these 1D vectors have also been proposed. Generally, with
+such fingerprints or descriptors, two or more different molecules
+may have the same representation, resulting in an inability to uniquely
+identify a molecule from a given representation.
+In 2D representations,
+the most common method is to represent molecules
+as graphs, as shown in (b). The atoms and bonds of a molecule are treated as vertices
+and edges of a graph, respectively. Although various methods have
+been developed for representing molecular graphs on a computer, one
+of the basic methods is to use an adjacency matrix, where each row
+and column represent the index of a node, and the elements of the
+matrix represent the bond information (typically the degree) between
+atoms. Recently, graph neural networks (GNNs), which use molecular graphs as inputs for predicting molecular
+properties, have been actively researched. Most GNNs are influenced
+by the message-passing neural network (MPNN) framework: vertices represent their own atom information
+and the characteristics of their neighbors, and by exchanging information
+with neighboring atoms in each layer of the network, the overall characteristics
+of the molecule are captured. GNN was initially employed for predicting
+molecular properties; however, approaches that generate molecules
+by directly generating molecular graphs have recently been proposed,
+as introduced in . Challenges in graph-based molecular generation include handling
+molecules of different sizes, ensuring permutation invariance with
+respect to atomic order, and accurately encoding stereochemical features
+such as chirality. To overcome these challenges, numerous graph representation
+and generation methods have been proposed, as described in .
+The most
+intuitive approach to represent molecules would be to
+express them as a list of atom positions in 3D coordinates, as shown
+in (c). Bond
+information is occasionally handled explicitly in 3D. Other representation
+methods have been proposed, such as atom distributions on 3D voxels
+or methods based on electron density distributions. 3D representation-based
+generative approaches have been developed relatively recently compared
+with 1D or 2D representations and are particularly suitable for diffusion
+models, as shown in . Symmetry considerations are crucial for the learning
+and generation 3D molecular representations. As molecular conformations
+are invariant under translation and rotation, E(3) (the Euclidean
+group in 3D) or SE(3) (the special Euclidean group in 3D) equivariant
+representations are typically used. Note
+that E(3) is also invariant under mirror transformations, which means
+that chirality cannot be considered adequately. The detailed representations
+and generative methods are introduced in .
+
+3.
+
+## Generative Strategies
+
+ presents
+an overview of the generative approaches introduced in this section.
+When a list of all candidate molecules was provided as a data set
+( (a)), a generative
+model may not be necessary. Even in this case, combinations of these
+data sets with the efficient search methods in or exhaustive methods in are useful.
+As shown in (b), combinatorial methods that virtually combine molecular fragments
+or building blocks to generate new molecules have been studied for
+a long time. Although these methods are still effective, in recent
+years, probabilistic generative models, particularly those using deep
+neural networks, have attracted attention, as shown in (c)–(i). Before introducing
+each generative approach, we describe the basic concepts of probabilistic
+generative models.
+ 
+ (c) illustrates
+the fundamental framework of the probabilistic generative model. The
+goal is to develop a model that generates molecules similar to a given
+molecular data set X = {x
+1, x
+2, . . ., x
+
+N
+}, which is often referred to as a training data set. More precisely,
+the objective of probabilistic generative modeling is to learn a parametrized
+probability distribution p
+
+θ
+(x) that approximates the underlying probability
+distribution p
+
+data
+(x) that generates a given molecular data set X. Here, each x
+
+i
+ ∈ X represents a molecule encoded in a certain format (e.g.,
+SMILES, graph, 3D coordinates). In this framework, a latent variable z is introduced as the source of probabilistic generation.
+For molecule generation, z is randomly sampled from
+its prior distribution p(z) (e.g.,
+a multivariate standard normal distribution p(z) = N(0, I)), and then
+a molecule x is generated according to the conditional
+distribution p
+
+θ
+(x|z). p
+
+θ
+(x|z) is
+typically a neural network with a parameter θ that maps the
+latent space to chemical space. This generation process allows us
+to sample diverse molecules x corresponding to various z values; the generated distribution of the molecules is
+expressed as follows:
+1x∼pθ(x)=∫pθ(x|z)p(z)dz“Training of a generative model”
+is the process of optimizing the model parameters θ so that
+the generative distribution p
+
+θ
+(x) approximates the empirical distribution p̂
+
+data
+(x) based on the observed data. Once trained, p
+
+θ
+(x) can be used to
+sample (generate) molecules that are similar to, but different from,
+the training data ( (a)).
+This framework can be extended to conditional
+generation, where
+molecular generation is guided by external conditions c such as target proteins, physical properties, and structural constraints
+( (b)). In this
+setting, the model learns the conditional distribution p
+
+θ
+(x|z, c), and sampling is performed as follows:
+2pθ(x|c)=∫pθ(x|z,c)p(z|c)dzIn this framework, the latent variable z is sampled based on condition c, and
+a molecule x is obtained using the generation distribution p
+
+θ
+(x|z, c) composed of a neural network. Although
+this generation is a type of molecular design with the desired properties,
+the trained molecules and their property data are fixed.
+Depending
+on the implementation of this generation framework with
+different molecular representations, various generative approaches
+have emerged, as described below. Some descriptions about the optimization/exploration
+techniques are included in the following description but see for details.
+3.1.
+
+## Combinatorial Generation
+Combinatorial
+generation divides molecules into fragments, called building blocks,
+and combines them according to predefined rules to construct new molecular
+libraries. This approach has been studied for many years, primarily
+for applications in drug discovery. Classical
+fragmentation methods include the Retrosynthetic Combinatorial Analysis
+Procedure (RECAP) and Breaking of Retrosynthetically
+Interesting Chemical Substructures (BRICS), which are systematic fragment-generation methods that consider synthetic
+feasibility. Classic fragment assembly methods include LUDI and SPROUT. molBLOCKS statistically analyzes decomposable fragments
+and extractable ones that are chemically and functionally meaningful.
+In recent years, extended methods of BRICS have been proposed to improve
+the diversity and utility of generated fragments, such as eMolFrag, which first fragmented molecules using BRICS
+and then refined the fragment set by removing redundancy and preserving
+bonding information, and MacFrag, which
+modified BRICS rules to extract more diverse and high-quality fragments.
+Graph-based approaches have also been proposed to represent molecules
+as graphs and construct novel molecules by employing more flexible
+graph fragmentation and recombination strategies, such as Compound
+Generator (CoG) and graph-based genetic
+algorithm (GB-GA). In particular, GB-GA
+allowed operations such as breaking and forming ring structures, which
+extends the diversity of accessible chemical space. Although these
+graph-based approaches do not necessarily account for synthetic feasibility,
+they offer the potential to generate novel structures.
+
+3.2.
+
+## Autoregressive Models
+Autoregressive
+(AR) models are a class of generative models that generate structured
+data as a sequence of decisions, where each decision depends on the
+previous ones. For molecular generation, as shown in (d), this is often framed as
+modeling the conditional probability of each molecular component,
+e.g., a character in a 1D string representation or an atom and its
+position, given the components generated so far. Formally, for a molecule
+represented as a sequence x = (x
+1, x
+2, . . ., x
+
+T
+), the probability
+distribution of the molecules is formulated as
+3pθ(x)=∏t=1Tpθ(xt|x<t)Although the latent variables z do not appear explicitly in this framework, the probabilistic
+nature of each conditional step enables stochastic generation. In
+most implementations, a special end-of-sequence token is included,
+and the generation terminates when this token is sampled.
+Recurrent
+neural networks (RNNs) are a foundational class of autoregressive
+models for processing sequential data that were initially formalized
+in the early 1990s. To address the limitations of modeling long-range
+dependencies, variants such as long short-term memory (LSTM) networks
+,
+ and gated recurrent units (GRUs) have
+been introduced and have become widely used, particularly in the context
+of natural language processing.
+,
+ Segler et
+al. first demonstrated that molecules
+represented by SMILES can be learned and generated using RNNs, leading
+to the development of various molecule-generation methods. To improve
+the diversity and robustness, the effectiveness of randomized SMILES and training that considers invalid SMILES have been reported. Grisoni et al. proposed a bidirectional RNN (BIMODAL) that
+generates molecules in both directions from a central position to
+overcome the unidirectional limitations of standard RNNs. Flam-Shepherd
+et al. demonstrated that SELFIES-based
+RNN models outperformed graph-based generative models in approximating
+molecular distributions. Conditional autoregressive models can utilize
+information linked to molecules for generation. For example, Xu et
+al. proposed a conditional RNN model
+that integrated 3D protein-binding pocket information and achieved
+target-specific generation. Drug-target interAction-based GeneratiON
+oF novel biologicallY active molecules (DRAGONFLY) extended this approach by incorporating protein–ligand
+interaction networks to further improve ligand design.
+Beyond
+1D strings, AR models have been extended to 2D graph representations,
+in which molecules are constructed by sequentially adding atoms and
+bonds. At each step, atoms or bonds are sampled based on the previously
+constructed partial graph, and the generation continues until the
+termination condition is satisfied. Li et al. introduced a graph autoregressive model that parametrized
+sequential graph construction using message-passing neural networks.
+MolRNN employed a similar conditional
+generative approach and simultaneously optimized multiple molecular
+properties in drug design–related tasks. Popova et al. developed MolecularRNN by incorporating valence
+constraints and REINFORCE-based optimization,
+thereby improving the validity and controllability.
+In a 3D
+setting, autoregressive models atomically generate molecules
+in 3D space. G-SchNet, based on the
+SchNet architecture, was a symmetry-adapted
+3D autoregressive generative model that sampled atom types and coordinates
+while respecting rotational invariance and Euclidean geometric constraints.
+Luo et al. proposed a 3D generative
+framework that formulates a probabilistic density over atom occurrences
+in 3D space and uses an autoregressive sampler to generate structures
+within protein-binding pockets. In addition, Pocket2Mol and Fragment-based LigAnd Generation framework
+(FLAG) have enabled 3D molecular generation
+by incorporating target-protein information. More recently, Quetzal has been introduced as a scalable 3D autoregressive
+generative model that builds molecules atom-by-atom in 3D by combining
+a causal transformer for atom types with a diffusion-based module
+for coordinates.
+
+3.3.
+
+## Variational Autoencoders
+Variational
+autoencoders (VAEs) are a class of generative models that learn a
+continuous latent space to enable diverse molecular generation and
+smooth optimization.
+,
+ This latent space provides a
+low-dimensional representation of abstract molecular features, in
+which structurally similar molecules are often embedded close together
+( (f)). The
+VAE is a probabilistic model that generates molecules using this latent
+space. It maps an input molecule x to a latent variable z using encoder q
+
+ϕ
+(z|x) and reconstructs the
+molecule from z using decoder p
+
+θ
+(x|z). These encoder and decoder are typically implemented using neural
+networks and are trained to reconstruct input molecules. The training
+objective is to maximize the marginal log-likelihood log p
+
+θ
+(x), as defined
+in . However, this
+quantity is generally intractable to compute directly. Therefore,
+the model is optimized by maximizing the evidence lower bound (ELBO):
+4L(x)=Eqϕ(z|x)[log⁡pθ(x|z)]−KL[qϕ(z|x)∥p(z)]Here, the first term quantifies the reconstruction
+accuracy of the molecule from the latent variable, whereas the second
+term is the Kullback–Leibler divergence, which regularizes
+the encoder distribution q
+
+ϕ
+(z|x) to remain close to
+the prior p(z), typically chosen
+as a standard Gaussian distribution. After training, novel molecules
+can be generated by sampling z ∼ p(z) and decoding with x ∼ p
+
+θ
+(x|z).
+Chemical VAE (CVAE) was one of the earliest and most representative methods for generating
+molecules, demonstrating the potential to optimize molecular properties
+in the latent space. However, as this model employed SMILES strings,
+it often generated syntactically invalid molecules. To overcome this
+limitation, GrammarVAE introduced context-free
+grammar constraints to improve syntactic validity. Syntax-directed
+variational autoencoder (SD-VAE) further
+enhanced syntactic validity by incorporating attribute grammars.
+To handle molecular structures flexibly, numerous VAE-based approaches
+that consider graph and 3D structures have been proposed. Junction
+Tree Variational Autoencoder (JT-VAE) and its extension, Variational Junction Tree Encoder-Decoder (VJTNN), represented molecules as junction trees of
+molecular fragments, facilitating the generation of larger compounds.
+GraphVAE directly modeled molecular
+graphs using the VAE framework, and Constrained Graph Variational
+Autoencoder (CGVAE) introduced structural
+constraints to improve chemical validity. NeVAE improved the representational flexibility by addressing
+issues of permutation invariance and variable graph sizes. RELATION
+(REceptor-LigAnd interacTION) incorporated
+3D pharmacophore features derived from protein–ligand complexes
+into a conditional VAE framework to capture interaction-relevant structural
+information. 3DMolNet generated 3D molecular
+conformations by leveraging the charge, distance, and bond matrices.
+LiGAN employed a conditional VAE to
+generate 3D molecules conditioned on receptor binding sites, enabling
+structure generation directly tailored to protein–ligand interactions.
+Various methods have been proposed to efficiently explore the latent
+spaces. Guo et al. introduced Property
+Controllable VAE (PCVAE), in which the latent space was structured
+to align specific dimensions with molecular properties, enabling controlled
+manipulation via latent traversal. MDVAE (Monotonic Disentangled VAE) enhanced interpretability and controllability
+by enforcing monotonic relationships between latent variables and
+target properties. Generative tensorial reinforcement learning (GENTRL) combined reinforcement learning with the VAE
+for efficient de novo molecule generation. Tripp et al. introduced a weighted resampling scheme to
+improve sampling efficiency and optimization performance in latent
+space exploration. Query-based molecule optimization (QMO) employed zeroth-order gradient estimation in
+a query-based gradient descent framework for multiobjective property
+optimization.
+
+3.4.
+
+## Generative Adversarial Networks
+Generative
+adversarial networks (GANs) are classified
+as deep generative models composed of two neural networks: a generator G that attempts to produce data samples (e.g., molecules)
+and a discriminator D that attempts to distinguish
+between real and generated samples ( (c) and (g)). Through adversarial training, in which
+the generator and discriminator are optimized in a competitive manner,
+the generator progressively learns to create outputs that resemble
+the training data. Unlike VAEs, GANs do not require an explicit likelihood
+function, making them suitable for learning sharper data distributions,
+although training stability often remains a challenging task. Formally, the objective of this training is
+expressed as
+5minG⁡maxD⁡Ex∼pdata(x)[log⁡D(x)]+Ez∼p(z)[log(1−D(G(z)))]where D(x) ∈ (0, 1) denotes the discriminator’s estimated probability
+that x comes from the training data rather than being
+generated, p
+data(x) is
+the data distribution, and p(z)
+is a prior distribution (typically Gaussian) from which latent variables
+are sampled.
+Initial attempts of GANs to molecular generation
+focused on molecular fingerprints rather than on explicit molecular
+structures. Kadurin et al. proposed
+one of the earliest adversarial autoencoder (AAE) models for molecule
+generation, in which the model generated MACCS (Molecular ACCess System)
+keys as outputs. This approach was extended in druGAN (drug GAN), which incorporated property conditioning into
+the AAE framework to generate fingerprint vectors with desirable molecular
+attributes. Moreover, Bian et al. developed
+dcGAN (deep convolutional GAN), which applied convolutional architectures
+to various fingerprints such as MACCS and ECFP, demonstrating the
+feasibility of generating chemically relevant fingerprints. However,
+translating these generated fingerprints into valid molecular structures
+remained a nontrivial challenge.
+To directly generate structured
+molecules, later studies investigated
+string- and graph-based GANs. Objective-Reinforced GAN (ORGAN) combined RNN-based sequence generation with
+adversarial training and reinforcement learning. Objective-reinforced
+generative adversarial network for inverse-design chemistry (ORGANIC), combined GAN and reinforcement learning with
+task-specific reward function, enhancing the validity and diversity
+of the generated molecules. Extensions such as RANC (Reinforced Adversarial
+Neural Computer) and ATNC (Adversarial
+Threshold Neural Computer) replaced
+the RNN generator in ORGAN-style models with a Differentiable Neural
+Computer (DNC), enhancing the model’s ability to handle longer
+SMILES sequences and improving molecular diversity. To improve the
+training stability, LatentGAN and the
+model proposed by Abbasi et al. decoupled
+the generative process by first training an autoencoder and then applying
+a GAN in the latent space to explore property-optimized molecules.
+Among the graph-based approaches, MolGAN (Molecular GAN) generated molecular graphs using a neural generator
+and applied reinforcement learning to optimize the chemical properties.
+Mol-CycleGAN adapted the CycleGAN framework to translate structurally distinct molecular
+sets, enabling lead optimization under similarity constraints. DEFactor
+(Differentiable Edge Factorization-based probabilistic graph generation) introduced a differentiable graph decoder that
+enabled the generation of variable-sized graphs with improved efficiency.
+GAN-based 3D molecular structure-generation methods have also been
+proposed. EDMNets generated distance
+matrices that were invariant to translation and rotation. LiGANN employed a GAN-based architecture to generate
+3D ligand shapes complementary to protein-binding pockets.
+
+3.5.
+
+## Normalizing Flow-Based Models
+Normalizing
+flow models construct invertible mappings between simple base distributions
+and complex data distributions, enabling exact likelihood computations
+and efficient sampling ( (i)). In molecular generation, these models offer an alternative
+to variational approaches such as VAEs, which only approximate likelihoods
+by learning bijective transformations from a latent space to the space
+of molecular representations. Because the transformations are bijective
+with tractable Jacobians, flows provide exact log-likelihoods and
+exact latent-variable inference via the change-of-variables formula,
+allowing for analytical computation and facilitating latent-space
+optimization. Foundational flow models include nonlinear independent
+component estimation (NICE), real-valued
+nonvolume preserving (Real NVP), and
+Glow, which have inspired applications
+for discrete and structured data, including molecules. Formally, a
+normalizing flow defines a bijective and differentiable transformation f
+
+θ
+ = f
+
+K
+◦···◦f
+1, where each f
+
+k
+ is an invertible transformation, and . The log-likelihood of x can then be expressed using the change-of-variables formula:
+6log⁡pθ(x)=log⁡p(z)−∑k=1Klog|det⁡∂fk∂hk−1|where h
+0 = z, h
+
+k
+ = f
+
+k
+(h
+
+k
+
+–1), and x = h
+
+K
+. The sampling proceeds by
+drawing and applying x = f
+
+θ
+(z).
+Conditional generation can be incorporated by conditioning each transformation f
+
+k
+ on the auxiliary information c, leading to a conditional distribution p
+
+θ
+(x|c).
+Recent advances in flow-based molecular generation have
+extended this framework to include various structural representations.
+GraphNVP, MoFlow, and graph residual flow (GRF) were flow-based models that learned invertible transformations over
+graph-structured data. GraphAF formalized
+generation as a sequential (autoregressive) flow and demonstrated
+reinforcement learning–based property optimization, and GraphDF likewise employed reinforcement learning to
+fine-tune a pretrained discrete-flow model for optimizing specified
+molecular properties. Hierarchical architectures such as molecular
+graph flow (MolGrow) and MolHF introduced multilevel control over structural
+features. FastFlows adopted SELFIES
+representations for efficient training of small data sets. In 3D structure
+generation, E­(n) Equivariant Normalizing Flows (E-NFs) enabled equivariant modeling of conformations
+through continuous-time flows. These advances highlight the adaptability
+of normalizing flows to various molecular representations and design
+tasks.
+
+3.6.
+
+## Energy-Based Models
+Energy-based
+models (EBMs) define an energy function E
+
+θ
+(x) over molecular structures,
+where lower energy values correspond to higher probabilities. Instead
+of directly modeling a properly normalized probability distribution p
+
+θ
+(x),
+EBMs define an unnormalized density proportional to exp­(−E
+
+θ
+(x)),
+which defines the probability distribution as , where Z
+
+θ
+ is the partition function. This framework, which is rooted
+in statistical physics and was first formalized for machine learning
+through models such as Hopfield networks and Boltzmann machines,
+,
+ has generated renewed interest in the development of scalable learning
+and sampling algorithms.
+,
+ Formally, given a
+target distribution p*­(x) representing
+desirable molecular structures or properties, EBMs aim to learn an
+energy function E
+
+θ
+(x) such that configurations with lower energies
+are more likely under the target distribution p*­(x). Sampling is typically performed using Langevin dynamics:
+7xt+1=xt−η2∇xEθ(xt)+η·ϵt,ϵt∼N(0,I)which approximates the sampling from the Boltzmann
+distribution p
+
+θ
+(x) ∝ exp­(−E
+
+θ
+(x)). Conditional
+generation can also be incorporated by extending the energy function
+to include auxiliary variables E
+
+θ
+(x, c), where c encodes conditions such as target properties or biological constraints.
+Although still relatively underexplored compared with other generative
+paradigms, EBMs have been applied to molecular graph generation. GraphEBM introduced a permutation-invariant energy function
+for molecular graphs and employed Langevin dynamics-based sampling to generate molecules corresponding to low-energy
+(i.e., high-probability) regions. Pang et al. introduced an energy-based prior over the latent space
+of a SMILES-based generator, enabling efficient sampling while preserving
+chemical validity. TagMol (Target-specific Generation of Molecules), which was developed for target-specific drug
+discovery, combined a protein encoder, ligand generator, and energy
+network to evaluate and guide ligand generation toward high binding
+affinity. Further development of molecule generation methods using
+EBMs is expected. Although EBMs and diffusion-based generative models
+( ) share
+conceptual connections, both rely on gradients of log-density (i.e.,
+scores) to guide sampling through Langevin-type dynamics,
+,
+ we describe diffusion models separately in the following section
+because they constitute a distinct and rapidly developing class of
+generative approaches in molecular design.
+
+3.7.
+
+## Transformer and Large Language Models
+The transformer architecture proposed by Vaswani et al. in 2017 revolutionized sequence modeling techniques
+for natural language processing. Unlike previous RNNs and LSTMs, which
+process sequence data sequentially and generate the next output based
+on the previous token, the transformer uses a self-attention mechanism
+to simultaneously calculate relationships between any token, enabling
+effective learning of long-range dependencies and parallelization
+of computations. By leveraging this structural advantage, transformers
+are highly suited for self-supervised learning with large-scale text
+data, giving rise to large language models (LLMs) such as generative
+pretraining transformer (GPT) series.
+,
+ These models
+first learn the statistical structure of a language using vast amounts
+of unlabeled data, and then adapt to various downstream tasks through
+fine-tuning and prompt design. Inspired by these technical achievements,
+research on the application of transformers and LLM frameworks in
+the field of chemistry has gained significant attention.
+,,
+
+Transformers have been
+widely used to predict molecular properties. For example, SMILES Transformer, Molecular Transformer, SMILES-BERT, MolBERT, and SELFIES-TED were pretrained on 1D molecular strings (e.g., SMILES) using transformer
+architectures and utilized for downstream tasks such as reaction-prediction
+or property prediction. ChemBERTa, Chemformer, and X-MOL demonstrated
+that large-scale pretraining on millions to hundreds of millions of
+molecules improved prediction performance. Polymer-specific models
+such as polyBERT and TransPolymer have also been reported. The application of
+transformers in molecular graph representations has also been actively
+explored. Graphormer and GROVER (Graph
+Representation frOm self-superVised mEssage passing tRansformer) were trained on molecular graph data sets consisting
+of several million to ten million compounds and have shown superior
+performance compared with conventional GNNs. GraphTrans (Graph Transformer) combines GNN-based preprocessing of atom positions
+and bonding structures with transformer models, thereby enabling high-accuracy
+structural representations.
+Transformers have been employed
+in an autoregressive manner for
+molecular generation, where molecules are constructed by sequentially
+generating token sequences (e.g., SMILES) one character at a time
+( (e)). MolGPT generated SMILES in an autoregressive manner
+using a transformer decoder, optionally biasing generations toward
+desired properties via conditioning signals. MolGen enabled task-agnostic and diverse molecule generation through
+large-scale pretraining on SELFIES. TransVAE introduced a Transformer-based variational autoencoder to perform
+generation in latent space. He et al.
+,
+ proposed
+transformer-based models that used matched molecular pairs or similarity-based
+rules to learn structural conversions and improve diversity. Transformer
+models that incorporate 3D information have also been explored. For
+instance, Molformer combined atom- and
+motif-level graph representations with spatial and semantic attention
+to achieve high accuracy in structure prediction and generation.
+Conditional molecular generation based on the molecular properties
+or target proteins has also been actively explored. Grechishnikova
+et al. developed a transformer-based
+translation model from target protein sequences to drug-like molecules.
+cMolGPT applied a transformer architecture
+to generate target-specific molecules by using attention-based conditioning.
+Multiconstraint molecular generation (MCMG), Regression Transformer, and conditional
+molecular generation net (CMGN) extended
+conditional generation by incorporating reinforcement learning, sequence-based
+property encoding, or fragment/property recovery tasks. Target-aware
+molecular generation (TamGen) introduced
+a GPT-based conditional generation model that leverages target-protein
+context to guide molecular generation. SPMM (Structure–Property
+Multi-Modal foundation model) and Llamol employed multimodal learning or Llama-based language modeling to enable flexible
+bidirectional or context-aware generation. Aksamit et al. integrated metaheuristic multiobjective optimization
+into a transformer-based SMILES model, as advanced integrations with
+optimization techniques. Ai et al. proposed MTMol-GPT, which mimicked expert-designed strategies for
+goal-oriented molecular generation using GAIL (generative adversarial
+imitation learning).
+
+3.8.
+
+## Diffusion Models
+Diffusion models
+are a class of generative models that have recently attracted attention
+in the field of molecular design owing to their ability to directly
+generate 3D molecular structures ( (h)). These models formulate the generation
+as a gradual denoising process that transforms a noisy 3D conformation
+into structured molecular data. Diffusion models were first formalized
+as denoising diffusion probabilistic models (DDPM). Since then, they have been widely applied in various fields.
+Examples of image generation include Stable Diffusion and Imagen. In
+biomolecular modeling, they have been used in systems such as RoseTTAFold
+All-Atom and AlphaFold 3. This framework has also been generalized through
+continuous-time formulations using stochastic differential equations
+(SDEs), such as EEGSDE (equivariant energy-guided SDE), offering a unified perspective on score-based
+generative modeling.
+
+Formally,
+we first define a forward process q(x
+
+t
+|x
+
+t
+
+–1) that incrementally perturbs the data
+through a Markov chain of Gaussian transitions for discrete timesteps t = 1, . . ., T.
+8q(xt|xt−1)=N(xt;1−βtxt−1,βtI)where denotes a normal distribution with mean
+μ and covariance Σ, β
+
+t
+ controls the variance of the added noise at each
+step, and I is the identity matrix. The reverse process p
+
+θ
+(x
+
+t
+
+–1|x
+
+t
+) is parametrized by a neural network trained
+to estimate the denoised distribution at each time step. A new sample x
+0 is generated by first drawing a noise vector , which can be interpreted as a latent variable z analogous to those in other generative models, and then
+iteratively sampling from the learned reverse transitions as follows:
+9xT→pθ(xT−1|xT)xT−1→pθ(xT−2|xT−1)···→pθ(x1|x2)x1→pθ(x0|x1)x0resulting in a structured sample x
+0, which represents the generated molecule. This formulation
+is naturally extended to conditional generation by incorporating auxiliary
+information c, such as target protein structures
+or desired properties, into the model. The resulting conditional distribution p
+
+θ
+(x|c) enables molecule generation guided by specific structural
+or property requirements.
+The initial applications of diffusion
+models to molecular generation
+focused on the direct modeling of 3D molecular structures while preserving
+symmetries, particularly E(3)/SE(3)-equivariance. The E(3) Equivariant
+Diffusion Model (EDM) demonstrated that
+molecular geometries could be generated in 3D space by treating atoms
+as equivariant point clouds, preserving rotational and translational
+symmetry. EEGSDE extended this approach
+by incorporating energy-based guidance using stochastic differential
+equations, thereby improving the physical plausibility of the generated
+structures. Geometric Latent Diffusion Models (GEOLDM) improved validity and scalability by performing
+diffusion in a latent space that encoded molecular geometry with equivariant
+representations. MDM introduced dual
+equivariant encoders to encode interatomic relations and a distributional
+controlling variable to enhance exploration, improving 3D generation
+for larger and more diverse molecules.
+Based on these advances,
+several studies have integrated structural
+or functional constraints into the diffusion process to enable target-specific
+or property-conditioned molecular generation. For example, TargetDiff introduced 3D representations of protein-binding
+pockets as conditions, guiding ligand generation toward spatial compatibility
+with the binding site. DiffBP (target-aware molecular Diffusion model
+for Protein Binding) enhanced structure-conditioned
+molecular generation by incorporating geometric constraints from protein
+targets into the diffusion process. DiffSBDD employed an SE(3)-equivariant conditional diffusion model and demonstrated
+inpainting and iterative oracle-driven improvement, facilitating scaffold
+hopping and property tuning. Huang et al. further extended this approach by integrating both generation and
+lead optimization into a dual-model framework. MOOD (Molecular Out-Of-distribution
+Diffusion), while not explicitly leveraging
+protein structures, enabled exploration beyond the training distribution
+by guiding diffusion toward molecules with the desired predicted properties.
+Diffusion models have also been adapted to specialized molecular
+design tasks, including substructure completion, guided optimization,
+and multiobjective generation. DiffLinker generated linkers that bridge predefined fragments, whereas DiffDec performed R-group decoration with the awareness
+of pocket geometry. DiffInt incorporated
+explicit hydrogen-bond (protein–ligand) interaction guidance
+to capture relevant intermolecular interactions. GaUDI (guided diffusion
+model) introduced a flexible post hoc
+guidance framework that decouples sampling and optimization, supporting
+single or multiobjective design. DiffSMol leveraged shape-conditioned diffusion to align generated molecules
+with reference ligand geometries. CMD-GEN (Coarse-grained and Multidimensional
+Data-driven molecular generation) generated
+selective inhibitors by integrating pharmacophore-guided sampling
+with structure-based filtering. These developments underscore the
+versatility of diffusion models for addressing a wide range of molecular
+design scenarios.
+
+3.9.
+
+## Overall Perspective on Generative Models
+Selecting an appropriate generative method for a specific molecular
+design task is a difficult question. At present, the suitable method
+depends on the task, the molecular representation, and also on how
+well the model works together with the optimization strategies introduced
+in . Therefore,
+there is no single generative model that is universally best. Historically,
+1D representations have been easier to handle and supported by larger
+data sets, and they have shown relatively stable performance, particularly
+for valid molecule generation. In recent years, the use of large-scale
+models based on transformers has further improved their capabilities.
+On the other hand, early 2D and 3D generative models faced several
+practical difficulties. For 2D graph-based models, enforcing chemical
+validity and learning sufficiently expressive graph features was challenging
+with the architectures available at that time. Early 3D generative
+models struggled to respect geometric constraints and to maintain
+physically reasonable structures. As described above, advances in
+graph neural networks, equivariant architectures, and various geometric
+generative models, including diffusion-based models, have greatly
+improved the quality and robustness of 2D and 3D molecular generation.
+In particular, 3D-based models have become promising for tasks such
+as generating molecules that bind to a target protein. As a way to
+compare generative methods, benchmark studies often provide a useful
+basis. Details of benchmarks are summarized in . Also, provides examples of molecular
+generation cases that were experimentally synthesized, which can also
+help readers understand the practical behavior of different generative
+models.
+
+4.
+
+## Optimization and Search Strategies
+Molecular design that combines generators and evaluators, shown
+in (d), is
+often formulated as a black-box optimization problem. Black-box optimization refers to the problem of finding
+inputs that minimize or maximize an objective function whose gradient
+is unavailable or whose evaluation is costly. In molecular design,
+the objective function maps the generated molecules to their properties.
+If the objective function is differentiable or convex, efficient gradient-based
+methods and fast algorithms can be employed. However, molecular property
+estimation is typically complex and nonlinear, and when relying on
+simulation-based evaluation, the computational cost becomes high,
+resulting in a black-box optimization problem. Therefore, efficient
+search and optimization algorithms are required to identify molecules
+with the desired properties and tune the parameters of molecule generators
+to produce more promising molecules.
+
+ presents
+an overview of the representative optimization and search strategies
+described in the following section. The simplest strategy is random
+sampling ( ), which leverages probabilistic generative models to generate molecules
+repeatedly until favorable candidates are found ( (a)). Metaheuristic algorithms
+( ), such
+as evolutionary and genetic algorithms ( (b)), as well as particle swarm optimization,
+are also widely used. Additionally, Bayesian optimization ( (c) and ), a representative
+strategy for global optimization, is effective for exploring the latent
+space and searching within combinatorially generated molecules. Furthermore,
+optimization approaches that modify the generative model itself or
+efficiently explore the chemical space using reinforcement learning
+( (e) and ) have been
+actively studied to enhance the generation of desirable molecules.
+Property optimization has also been achieved through gradient-based
+methods ( ), Bayesian approaches ( ), and exhaustive search ( (d) and ). introduces approaches that simultaneously
+perform molecular design and synthetic route planning ( (f)). Recently, the application
+of quantum computing ( ) has also been investigated to enable the search for
+an extremely large molecular space ( (g)).
+ 4.1.
+
+## Random Sampling
+Random sampling or
+random search is a strategy for generating molecules by drawing samples
+from a probabilistic generative model. In probabilistic generative
+models, random sampling is commonly used to assess the quality and
+diversity of learned molecular distributions.
+,
+ Although random sampling is conceptually simple, it serves as a
+fundamental strategy in molecular design and is frequently used as
+a baseline for evaluating advanced generation and optimization methods
+computed on samples emitted by the models.
+,
+ Promising molecules can also be discovered via a random search,
+which uniformly selects and evaluates candidates from a preconstructed
+or combinatorially generated data set, as described in . Furthermore,
+the conditional generative model p
+
+θ
+(x|c), as shown in (b), allows random
+sampling to be guided by a specific condition c,
+thereby enabling the generation of molecules with desired properties.
+
+4.2.
+
+## Metaheuristics
+Metaheuristics refer
+to a broad class of optimization strategies that iteratively improve
+candidate solutions using simple modification rules or evolutionary
+operations without relying on gradient information. These strategies
+are particularly effective in black-box optimization settings, where
+the objective function is nondifferentiable, noisy, or computationally
+expensive.
+Among various metaheuristic algorithms, evolutionary
+algorithms (EAs), particularly genetic
+algorithms (GAs), have been widely used in molecular design. In GA-based
+molecular designs, as illustrated in (b), molecules are treated as individuals
+in a population and iteratively modified via selection, crossover,
+and mutation operations to produce candidates with desired properties.
+Early applications included rule-based structural generation and graph-based crossover strategies. The GA has also been applied to the design
+of organic photovoltaic materials. The
+ACSESS (Algorithm for Chemical Space Exploration with Stochastic Search)
+framework introduced a diversity-driven
+GA-based strategy for molecular exploration, which was applied in
+various case studies. Kanal et al. also proposed an efficient goal-directed GA
+strategy.
+Independent of the development of deep generative
+models, research
+on EA-based approaches is ongoing. For example, Yoshikawa et al. proposed
+ChemGE, which applied grammatical evolution
+to optimize SMILES strings directly. Jensen introduced GB-GA (graph-based
+genetic algorithm), a graph-based evolutionary
+algorithm approach that enforced valence bond-order constraints. These
+approaches demonstrated that the EA/GA-based strategies could achieve
+levels of diversity and efficiency comparable to deep generative models, thereby encouraging various extensions. For
+example, GA-D integrated a discriminator
+network with SELFIES-based GA to promote diversity while steering
+property optimization. MolFinder introduced
+slicing- and replacement-based crossover and mutation operations directly
+to SMILES strings for molecular design. EvoMol demonstrated that EA-based algorithm could be used to optimize
+a wide range of molecular properties, including SAscore, highest occupied
+molecular orbital (HOMO) energies, and lowest unoccupied molecular
+orbital (LUMO) energies.
+Building on these foundational studies,
+more complex strategies
+for enhancing the practical performance have been proposed. ChemistGA combines a genetic algorithm with deep learning
+by redefining crossover via a neural network to bias offspring toward
+synthetically accessible molecules, improving synthesizability and
+success rates. GEGL (genetic expert-guided learning) combined a SMILES-based RNN generator with GB-GA to guide
+molecular optimization and progressively retrained the RNN using high-scoring
+molecules via imitation learning, improving generation performance.
+EAs have also been applied to multiobjective optimization (MOO) problems. GENERA achieved
+a successful MOO based on Pareto optimization, and EDM (evolutionary
+design methodologies) introduced a hybrid
+strategy that applied GA in molecular fingerprint space and translated
+optimized vectors into SMILES using an RNN. Blaschke et al. reported the practical optimization of mechanosensitive
+molecules using GA. Recently, MOLLEO (Molecular Language-Enhanced
+Evolutionary Optimization) has employed
+an LLM to implement crossover and mutation operations within a GA
+framework.
+In addition to evolutionary algorithms, other metaheuristic
+approaches
+have been explored for molecular design. JANUS applied parallel tempering to coordinate GA-based searches
+at different levels of selection pressure, in combination with STONED
+(superfast traversal, optimization, novelty, exploration and discovery)-based
+mutation, enabling broader exploration
+of the chemical space. Particle swarm optimization (PSO), which updates
+particles in a continuous vector space according to heuristics inspired
+by collective behavior, has also been
+employed in molecular design. Winter et al. applied PSO to the latent space of a VAE to optimize its molecular
+properties. ChemMORT (Chemical Molecular Optimization, Representation
+and Translation) extended PSO to multiobjective
+settings for generating candidates with favorable absorption, distribution,
+metabolism, elimination, and toxicity (ADMET) profiles.
+In summary,
+metaheuristic algorithms offer flexible and diverse
+tools for molecular designs. Additionally, other metaheuristic algorithms
+such as tabu search and ant colony optimization have the potential
+to provide unique solutions to specific molecular design problems.
+Although metaheuristics are effective in molecular design, several
+common challenges are associated with their applications. Specifically,
+these include the difficulty of tuning numerous parameters to achieve
+an optimal search performance and the lack of a theoretical guarantee
+that the algorithm will converge to a global optimum. Additionally,
+striking a balance between maintaining molecular diversity and ensuring
+convergence toward the desired properties often poses practical challenges.
+
+4.3.
+
+## Bayesian Optimization
+Bayesian optimization
+(BO) is a type of sequential model-based global optimization (SMBO)
+commonly used for black-box optimization problems ( (c)). In BO, a surrogate model, typically Gaussian process regression, is first constructed to predict the distribution
+of property values for candidate molecules. An acquisition function
+is then used to score the candidates based on the surrogate model’s
+predictions, and the candidate with the highest score is selected
+for evaluation. Examples of commonly used acquisition functions include
+the probability of improvement (PI), expected improvement (EI), upper confidence
+bound (UCB), and Thompson sampling. The selected candidate is then evaluated via
+simulations or experiments, and the surrogate model is updated using
+new data, enabling more accurate recommendations in subsequent iterations.
+Although the metaheuristic algorithms described in are generally fast and
+flexible, their convergence to the global optimum is sensitive to
+hyperparameter settings. By contrast, BO is particularly well suited
+for global optimization tasks, particularly when candidate evaluations
+are computationally or experimentally expensive. In recent years,
+BO has gained increasing attention in various fields, including chemistry,
+as an efficient strategy for experimental and molecular design.
+−
+
+In the context of molecular design, particularly following
+the development of VAE-based generative methods that enable the construction
+of latent spaces for molecules, numerous approaches applying BO to
+these latent spaces have been reported. In the first VAE applications, Gómez-Bombarelli et al. constructed
+a model that predicted chemical properties from the latent space using
+Gaussian process and reported that drug-like molecules could be efficiently
+explored based on this model. Although BO was not explicitly performed
+in the study, Griffiths et al. subsequently
+introduced BO and proposed a constrained BO method (Constrained BO-VAE)
+that added constraints to avoid the “dead region,” an
+area where VAE decoding was prone to failure. BO-based latent space–optimization
+methods have been widely used in various applications. For example,
+Truong et al. proposed a design method
+combining latent space based on JT-VAE with BO and gradient optimization
+and reported the discovery of VEGFR-2 (vascular endothelial growth
+factor receptor 2) inhibitors. Matsukiyo et al. integrated a transformer-based VAE with BO to develop a
+method for designing new inhibitor and activator candidates for specific
+target proteins.
+Applying BO to existing large-scale databases
+or generated molecular
+libraries is also an effective approach for discovering promising
+molecules. Mehta et al. applied BO to
+libraries comprising millions of molecules from the ZINC database
+and proposed a (Machine learning framework for Enhanced MolEcular
+Screening) framework, which discovered high-performance molecules
+by evaluating only a small fraction of the data set. Graff et al. combined a surrogate model with BO to efficiently
+discover top-scoring docking candidates from a virtual library of
+100 million molecules.
+Because BO performance depends on the
+choice of kernel functions
+and molecular feature representation, research on appropriate features
+and kernels for molecules has also progressed. Korovina et al. developed
+ChemBO, which incorporated graph kernels
+and an optimal-transport kernel into Gaussian processes to capture
+graph structures and enable efficient optimization. BOSS (Bayesian
+Optimization over String Spaces) applied
+BO directly to raw string representations using string kernels and
+genetic algorithms, thus avoiding the need for latent space projections
+and allowing efficient optimization under syntactic constraints.
+
+4.4.
+
+## Reinforcement Learning
+Reinforcement
+learning (RL)
+,
+ is a framework for learning
+optimal action–selection strategies, known as policies, using
+trial-and-error interactions with the environment to achieve long-term
+objectives ( (e)). A policy defines the action to be taken in a given state. In
+RL, this policy is iteratively refined based on accumulated experience.
+A key challenge in learning the policy in RL is balancing between
+exploration, attempting to discover untried options, and exploitation,
+choosing options that have been found to be good based on past experience.
+Exploration alone can be inefficient, whereas pure exploitation may
+overlook potentially better alternatives; therefore, dynamically learning
+this trade-off is essential for successful RL. Traditionally, RL has
+been based on methods such as value iteration and policy iteration
+from dynamic programming, as well as approximation methods such as
+temporal-difference (TD) learning. In
+recent years, deep reinforcement learning has emerged, which uses
+deep neural networks as function approximators. For example, Deep
+Q-Network (DQN) approximates Q-values,
+which represent the values of state-action pairs, using neural networks,
+whereas proximal policy optimization (PPO) directly learns policies using gradient-based updates. Modern RL
+has demonstrated remarkable performance in complex sequential decision-making
+tasks such as video-game playing (e.g., Atari), board games (e.g., Go),
+,
+ and robotics.
+−
+
+RL can be applied naturally to molecular design. In this context,
+the sequential construction or modification of molecular structures
+can be formulated as a decision-making process in which actions such
+as adding or replacing atoms or bonds are chosen based on the current
+molecular structure (i.e., the state). The evaluated properties of
+the generated molecules serve as rewards. In the following section,
+we introduce RL–based approaches on three types of molecular
+representations: 1D strings, 2D molecular graphs, and 3D structures.
+Methods using RL based on 1D strings, such as SMILES and SELFIES,
+have been actively developed. In these approaches, molecular generation
+models are typically implemented using RNNs or transformers, in which
+the generator outputs a probability distribution over the next token,
+which acts as a “stochastic policy.” This generative
+policy can be optimized using policy-gradient methods, particularly
+REINFORCE, to encourage the generation
+of molecules with the desired properties. In 2017, Olivecrona et al.
+proposed REINVENT, a method that fine-tunes
+a pretrained RNN generator by assigning rewards based on the properties
+of the generated molecules. Following this work, REINVENT2 and REINVENT4 further refined the RL framework, improving both the performance
+and usability as practical tools for molecular design. Also, ReLeaSE
+(Reinforcement Learning for Structural Evolution) combined an RNN-based molecular generator with the REINFORCE
+algorithm to optimize molecular properties, while the property evaluation
+is performed through a prediction model. Recently, transformer-based
+architectures have also been introduced as molecular generators in
+RL-based molecular designs.
+,
+
+As an alternative
+approach to string-based molecular generation,
+Monte Carlo tree search (MCTS), originally
+developed for game-playing AI such as Go, has also been applied. In ChemTS an
+RNN-based SMILES generator was combined with MCTS to construct molecules
+by sequentially expanding partial SMILES strings as a tree structure.
+The generated molecules were then evaluated, and the rewards served
+as feedback to guide the optimization process. MCTS-based exploration
+can be accelerated through large-scale parallelization
+,
+ and has been employed to design dyes and fluorescent molecules using
+computationally intensive evaluations, such as QC calculations.
+−
+
+ The details of MCTS and its parallelization are described in . Furthermore,
+several extensions of the MCTS-based approach have been developed,
+including applications in drug discovery using docking simulations, multiobjective optimization tasks,
+−
+
+ and an improved version, ChemTSv2.
+
+In RL using 2D graph representations, structural modifications
+in molecular graphs are regarded as “actions,” enabling
+exploration that faithfully reflects chemical structures. In the graph
+convolutional policy network (GCPN), such graph-level actions were optimized using PPO, whereas a GAN-based
+discriminator served as a reward function to evaluate and improve
+the molecular properties. Similarly, MolDQN employed DQN to learn actions such as bond addition and removal
+on molecular graphs, optimizing the structure based on reward feedback.
+Other approaches have also applied MCTS directly to graph operations.
+For instance, GB-GM-MCTS (graph-based generative model with Monte
+Carlo tree search) explored sequences
+of effective graph transformations to optimize 2D molecular structures.
+RationaleRL addressed multiobjective
+molecular optimization by first identifying rationales, which are
+substructures responsible for specific properties, using MCTS. These
+rationales were then integrated into a merged graph based on the maximum
+common substructure, and subsequent molecule generation was performed
+using VAE. VGAE-MCTS combined a graph-based
+VAE with MCTS to explore and optimize molecular structures more effectively.
+In RL methods that handle 3D molecular structures, the spatial
+configuration of atoms and bonds is treated directly as a state. MolGym represented molecules as 3D point clouds and
+learned the policy of adding both the next atom and its spatial position
+using PPO. In this framework, SchNet was employed as a state representation invariant to spatial symmetries,
+such as rotation and translation. In a subsequent study, COVARIANT explicitly incorporated structural symmetries
+to improve the stability and chemical validity of the generated structures.
+DeepLigBuilder sequentially generated
+ligand molecules that fit into protein-binding pockets by combining
+MCTS with a policy network (L-Net), using docking scores and other
+metrics as rewards to optimize 3D structures.
+More advanced
+methods that incorporate RL have also been developed.
+One of the challenges of RL is its limited exploratory efficiency.
+Several hybrid approaches have been proposed to address this issue.
+For example, some methods combined conventional RL with hill-climbing–based
+exploration techniques,
+,
+ while others incorporated
+active learning to more effectively guide exploration. Encouraging agents to discover novel molecules
+has been demonstrated to improve sample efficiency in molecular design
+tasks.
+−
+
+ Furthermore, more integrated approaches
+have emerged, such as methods that address multiobjective drug design
+by combining multiple MCTS-based exploration strategies or incorporating reinforcement learning into
+adversarial training frameworks. Moreover,
+Generative Flow Networks (GFlowNets) have been proposed as a reinforcement learning–inspired generative
+framework that learns to sample candidates proportionally to their
+rewards, thereby promoting broader exploration and preventing overconcentration
+on only a few high-scoring solutions. In molecular design tasks, GFlowNets-based
+methods have demonstrated improved diversity and sample efficiency,
+especially in multiobjective optimization settings, and are increasingly
+being developed for controllable generation based on desired molecular
+properties.
+−
+
+ In summary, RL provides a flexible framework
+that is well-suited to various requirements in molecular design and
+is expected to play an important role in the future.
+
+4.5.
+
+## Gradient-Based Optimization
+If one
+can construct a differentiable function that maps a continuous representation
+of molecules to the property space, efficient exploration using gradient-based
+methods becomes theoretically possible. Several gradient-based methods
+using latent spaces obtained by VAE have been proposed. Kondratyev
+et al. proposed a method for efficiently
+exploring molecules with desired HOMO values by first constructing
+a latent space using JT-VAE, then training a neural network to predict
+HOMO values from latent vectors, and finally applying gradient descent
+in the latent space to find the optimized molecules. LIMO (Latent
+Inverse Molecular Optimizer) also used
+VAE, but instead of directly predicting properties from the latent
+space, it first decoded the latent vector into a molecular structure
+and then applied a separate property prediction model to the decoded
+molecule. This allowed for the construction of an end-to-end differentiable
+model that connects the latent vector to the predicted property, enabling
+the efficient optimization of the latent vector using gradient-based
+methods, such as the Adam optimizer. Fu et al. proposed DST (Differentiable Scaffolding Tree), which transformed molecular structures into
+scaffold trees with locally differentiable operations and backpropagates
+gradients from the property predictor based on GNN, thereby enabling
+efficient structure optimization. Therrien et al. proposed a GNN-based generation method that constructed
+a differentiable function with structural and chemical constraints
+and directly optimized the structure based on gradient methods. Although
+gradient-based methods are efficient exploration techniques, they
+are based on local exploration, which often leads to practical challenges
+in finding global solutions or exploring diverse molecules. In scenarios
+where property data can be incrementally obtained via simulations
+or experiments, a practical challenge arises in balancing the model
+retraining with the continued application of gradient-based optimization.
+
+4.6.
+
+## Bayesian Sampling
+Bayesian sampling
+approaches to molecular generation and optimization utilize a forward
+model, a predictive model that estimates molecular properties from
+molecules, to address the inverse problem of generating structures
+that satisfy a desired set of properties. Typically, this is achieved
+by employing Markov Chain Monte Carlo (MCMC) or Sequential Monte Carlo (SMC) methods
+to sample molecular structures according to their posterior likelihood,
+given the target properties.
+Ikebata et al. proposed a method that combined ML-based property prediction
+with SMC to efficiently sample molecules with favorable properties
+in the SMILES space. Miyao et al.
+,
+ constructed
+a feature space based on monotonously changing molecular descriptors
+and employed a Gaussian mixture model and cluster-wise linear regression
+to generate molecular structures that satisfied the desired properties
+as an inverse QSPR/QSAR problem. Recently, graph-based MCMC methods
+have been proposed for structural optimization. MIMOSA (MultI-constraint
+MOlecule SAmpling) trained GNNs to score
+and prioritize candidate molecular editing operations, such as addition,
+deletion, or substitution, and performed multiobjective optimization
+using Gibbs sampling to balance property scores and structural similarity.
+MARS (MArkov moleculaR Sampling) further
+improved sampling efficiency and structural diversity by incorporating
+learned proposal distributions into the editing process. Zhang et
+al. developed a framework for concurrently
+designing molecules and their synthetic reaction networks using SMC-based
+probabilistic sampling to identify candidates that satisfied multiple
+constraints, including molecular structure, synthetic feasibility,
+and reaction yield.
+
+4.7.
+
+## Exhaustive Search
+Exhaustive search,
+or brute-force search, refers to approaches that comprehensively evaluate
+all molecules in a preconstructed candidate set, as shown in (d). Such data sets,
+which are often referred to as virtual libraries, can be generated
+using combinatorial methods or deep generative models, as described
+in . Although
+exhaustive search may not be classified as an optimization or search
+algorithm in a strict sense, it remains a practically useful and widely
+adopted strategy for inverse design. A typical example is virtual
+screening (VS), where each molecule
+in a large library is assessed using computational methods such as
+docking
+−
+
+ or QC calculations. Recent advances in high-performance computing,
+including the use of supercomputers and GPUs, have enabled large-scale
+VS studies that were previously computationally infeasible. In the
+field of drug discovery, VS using docking calculations has been performed
+on molecular libraries of hundreds of millions to billions of molecules,
+and hit compounds have been successfully identified.
+−
+
+ In materials science, many studies have reported that large-scale
+screening using QC calculations has led to the discovery of promising
+candidate materials. Although conceptually
+naive and computationally demanding, VS constitutes a valid approach,
+particularly in settings where the exhaustive evaluation of a large
+candidate library is computationally feasible.
+
+4.8.
+
+## Integration with Synthetic Route Planning
+In practical applications of molecular generative AI, the actual
+value of the designed molecules depends not only on their estimated
+properties but also on their synthetic feasibility. Without the capability
+for synthesis, even the most promising candidates identified by AI
+cannot be experimentally realized. In this section and in , we survey
+the current approaches for incorporating synthetic feasibility into
+AI-driven molecular generation ( (f)). Two typical categories of synthesizability have
+been incorporated into AI-driven molecular generation. The first approach
+integrates molecular designs with synthetic route planning, whereas
+the other employs synthetic feasibility metrics or prediction models
+as rewards during molecular optimization. Both approaches have their
+advantages and limitations. Integrating molecular design with synthetic
+route planning tends to yield more synthetically feasible molecules;
+however, these methods are often less adaptable to other molecule-generation
+frameworks because the algorithms for molecular design and synthetic
+route planning are tightly coupled. Although synthetic feasibility
+metrics or prediction models are less capable of directly promoting
+synthesizable molecules, they are highly amenable to integration with
+various molecule-generation frameworks.
+To integrate molecular
+generation with synthetic route planning, most methods first implement
+a strategy for constructing synthetic routes, either top-down or bottom-up,
+from latent spaces or molecular embeddings. The molecules are then
+designed to possess the desired properties via an optimization process
+that utilizes latent spaces and/or molecular embeddings. Bradshaw
+et al. proposed MoleculeChef, a generative
+model that first generates a set of reactants from a molecule embedding
+and then generates a product by simulating their reaction using a
+reaction prediction model called Molecular Transformer. Bradshaw et al. developed a serialization method to construct multistep synthetic
+routes based on directed acyclic graphs (DAGs) and proposed an RNN
+model that constructs a multistep synthetic route starting from building
+blocks obtained from the latent space to generate the final product.
+For molecular optimization, they referred to the RNN model with a
+fixed latent space as DoG-Gen and fine-tuned the model using a hill-climbing
+algorithm to generate DAGs with more
+desirable properties. Gao et al. proposed
+SynNet, which frames multistep retrosynthetic route generation as
+a Markov decision process conditioned on a target molecular embedding
+and explores a chemical space composed of reaction templates and building
+blocks. Because the target embedding conditions the generation, optimizing
+this embedding enables SynNet to produce molecules with improved properties,
+along with their corresponding retrosynthetic pathways. In SynNet,
+a genetic algorithm was used to perform optimization. Syn-MolOpt extends SynNet by preparing property-specific
+functional reaction templates to enhance molecular optimization tasks.
+Another method that generates molecules while constructing multistep
+synthetic routes is the cascaded variational autoencoder (casVAE). The casVAE consists of two junction tree-based
+VAEs, a product VAE and a reaction VAE, and is trained on reaction
+trees of molecules constructed by Retro*. This architecture enables the model to generate molecules while
+reproducing reaction trees similar to those constructed by Retro*.
+In addition to latent space-based methods, Bayesian methods combined
+with single-step forward synthesis prediction models, such as ChemBO and Seq-Stack-Reaction, have been proposed. Similarly, methods such as reaction-driven
+objective reinforcement (REACTOR) and
+policy gradients for forward synthesis (PGFS), which combine RL with single-step forward synthesis prediction
+models, have been introduced. Furthermore, SyntheMol was proposed
+as a method for exploring the vast combinatorial chemical space defined
+by building blocks and well-validated chemical reactions using MCTS. This section reviews the various molecular
+generative AIs that integrate molecular design and synthetic route
+planning. The synthetic feasibility metrics and prediction models
+are described in .
+
+4.9.
+
+## Integration with Quantum Computing
+Molecule generation and optimization techniques incorporating quantum
+circuits have been proposed ( (g)). Kao et al. implemented
+a molecular generation model by integrating a variational quantum
+circuit (VQC) into the conventional GAN-based MolGAN framework. Specifically,
+they replaced the noise generator, molecular generator, and molecular
+discriminator components of MolGAN with VQCs. Validation using a quantum
+simulator suggested that higher-performance models could be achieved,
+particularly in the discriminator part. Additionally, Vakili et al. employed the quantum circuit born machine to generate initial samples for molecule generation.
+Their experiments utilized IBM quantum device, and by combining it
+with a long short-term memory (LSTM) network, they successfully generated
+KRAS inhibitors.
+Since candidate molecular structures can lead
+to a combinatorial explosion, attempts have also been made to address
+molecule generation using quantum annealing or Ising machines specialized
+for combinatorial optimization problems. Tu čs et al. used a D-Wave quantum annealer to generate
+peptides. By combining a black-box optimization method based on quantum
+annealing, which is known as FMQA (Factorization Machine with Quantum
+Annealing), with a binary variational
+autoencoder, they successfully synthesized peptides with antimicrobial
+activity and nonhemolytic properties. Furthermore, Mao et al. applied a similar approach using GPU-based
+Ising machines for molecule generation. Gao et al. employed an IBM quantum device using the QAOA (Quantum
+Approximate Optimization Algorithm) framework
+to optimize molecular structures. These efforts indicate that molecule
+generation techniques leveraging quantum computing are expected to
+continue advancing in the future.
+
+4.10.
+
+## Monte Carlo Tree Search and Large-Scale Parallelization
+In this section, we survey and classify various optimization and
+search algorithms. Because some methods naturally pair with specific
+generative strategies, whereas others do not, declaring a single method
+as universally superior is challenging. Nevertheless, when we focus
+solely on the search performancedisregarding the choice of
+generative strategythe MCTS family of algorithms consistently
+demonstrates the strongest exploratory power. In particular, for large-scale
+decision-making problems involving vast and complex search spaces,
+few techniques rival the empirical performance of MCTS in large, combinatorial
+spaces.
+MCTS was originally developed for the game of Go and
+gained widespread recognition through AlphaGo, the first program to
+defeat a human world champion.
+,,
+ Although MCTS is classified as a graph-search algorithm, its theoretical
+foundations overlap significantly with RL, and it often excels when
+integrated with the evaluation systems (e.g., simulations and ML models)
+that guide the search. MCTS has a broad range of applications, with
+researchers quickly adapting it to domains far beyond games.
+,
+ Several studies have successfully applied MCTS to molecular design.
+,,,
+
+From the standpoint of molecular design, MCTS presents two
+principal
+challenges.
+Nontrivial graph representation: Defining an appropriate
+graph representation of the search space is not straightforward.
+Limited parallelism: Compared with simpler
+optimization
+techniques, MCTS is more challenging to parallelize efficiently.
+In the following subsections, we introduce solutions
+proposed in
+previous studies for each of these challenges.
+
+## Defining the Search Space for MCTS
+The ease with which
+a search space can be defined for MCTS depends strongly on its underlying
+molecular representation. In 1D representation formats such as SMILES
+or SELFIES, a tree can be generated almost mechanically by appending
+characters one at a time to a growing string. By contrast, in 2D (e.g.,
+graphs) or 3D (e.g., 3D coordinates) representations, one must first
+decide what constitutes a node or an edge, a design choice that is
+far from trivial. Existing studies have addressed the companion problem
+of evaluating internal nodes by employing stochastic rollouts: partially specified strings or graphs are completed using a sequence
+(or graph-generating) model and then assessed using an external property
+predictor.
+,
+
+## 1D Representations (SMILES, SELFIES, InChI)
+Because
+1D molecular representations are literal character strings, they allow
+direct hierarchical decomposition of the chemical space.
+,,
+
+ (a) shows a standard four-step MCTS cycle
+applied to SMILES. Each node encodes a partial SMILES string, and
+each edge adds one character (atom or bond) to the prefix. For example,
+the leftmost node at depth 4, labeled 13, represents all
+strings beginning with “OC1.”. Starting from the root
+(all valid SMILES), successive edges naturally define nested subsets
+of molecules, yielding an exhaustive yet well-organized search space
+that supports efficient exploration and exploitation.
+ 
+
+## 2D and 3D Representations
+2D and 3D molecular representations
+carry far richer structural details but require complicated tree construction.
+A child node may correspond to the addition of an atom, bond, ring
+closure, or even a full conformer, and each choice alters both the
+branching factor and search speed. Recent studies, such as RationaleRL and VGAE-MCTS, have shown that graph-based MCTS is feasible and can yield competitive
+results. However, every study introduces its own customized node/edge
+definitions. As no consensus exists on a graph-based scheme, each
+new project must revisit this design step, which complicates the application
+of MCTS in 2D/3D molecular discovery.
+
+## Evaluating Internal Nodes: Sampling-Based Rollouts
+Scoring a node that represents many molecules is
+equally challenging. String-based approaches typically sample one
+or more complete SMILES/SELFIES strings from the current prefix using
+an autoregressive model, estimate them using an evaluator, and backpropagate
+the obtained reward, mirroring the simulation phase of classical MCTS.
+,
+ This procedure updates the value estimates of the nodes and steers
+subsequent simulations toward more promising regions in the chemical
+space.
+
+## Parallelization Requirements and Parallel Graph Search
+The performance gains of modern computing stem more from increased
+core counts and accelerators (e.g., GPUs) than from individual CPU
+core speeds. To leverage these resources, the algorithms must be explicitly
+designed for parallel execution. Although many methods reviewed in
+this section are amenable to straightforward parallelization, MCTS
+remains particularly difficult to parallelize efficiently.
+
+ (a) shows a single
+MCTS iteration. Because each iteration relies on the statistics collected
+from previous iterations, naive parallel execution is infeasible.
+In practice, the effective parallelization of graph-search algorithms
+almost always requires structural modification of the underlying algorithm.
+Several techniques have been developed to enable large-scale parallel
+MCTS. The two notably effective strategies are as follows:
+
+Virtual Loss temporarily penalizes
+paths already being explored, discouraging other threads/processes
+from selecting the same node.
+
+Hash-driven parallelization assigns
+ownership of nodes by a hash function and distributes the nodes among
+the hash table of each worker (e.g., process).
+
+ (b) and
+(c) illustrate the concept of parallelizing MCTS using virtual loss
+by running four iterations in parallel. Without virtual loss, all
+four iterations explored the same paths, making parallelization ineffective.
+Virtual loss introduces a small penalty to the paths currently under
+exploration by other iterations, thereby encouraging diversification
+across threads or processes. In the two-player game settings where
+MCTS first succeeded, rewards are derived from game outcomes; therefore,
+adding virtual loss acts as an explicit penalty during selection.
+Although this method is widely credited to early Go implementations,
+the earliest published descriptions appear in a study on tree parallelization
+for MCTS.
+
+ (d) illustrates
+hash-driven parallelization. A hash function is defined over graph
+nodes and determines a node’s home worker,
+which stores its entry in a local hash table. In the example, four
+workers each maintain a hash table, distributing ownership of the
+graph nodes among them.
+This scheme introduces inter-worker
+messages when an edge crosses
+worker boundaries; however, provided the hash is sufficiently uniform,
+it yields excellent load balance, which is historically the most challenging
+part of a parallel graph search. Hash-based work distribution has
+been shown to scale A* search up to thousands of cores.
+,
+ Similarly, this technique has been successfully applied to MCTS,
+achieving massive parallelization. In
+molecular design, a recent implementation achieved near-linear speed-ups
+on approximately 1,000 workers.
+
+5.
+
+## Evaluation Strategies
+To design desirable
+molecules using optimization and search strategies,
+estimating the properties of the generated molecules and evaluating
+their overall quality are important. Here, we introduce basic strategies
+for estimating molecular properties, evaluating synthetic accessibility,
+which is essential for practical molecular design, and integrating
+methods for estimated target properties based on a multiobjective
+optimization framework. Finally, we present benchmark tasks for evaluating
+the performance of molecular generative AIs.
+5.1.
+
+## Property Estimation of Generated Molecules
+Various methods are available for estimating the properties of
+molecules designed using molecular generative AI systems. Representative
+approaches include experimental synthesis and measurement, molecular
+simulations, and ML-based predictions, such as QSAR and QSPR. However,
+owing to methodological constraints and limitations, not all methods
+are applicable to the generated molecules. Additionally, these estimation
+methods often involve trade-offs between accuracy and cost. Therefore,
+when evaluating the generated molecules, selecting the most suitable
+method by considering applicability, accuracy, and (computational)
+cost is essential.
+Experimental syntheses and measurements provide
+the most reliable estimates of molecular properties; however, they
+are generally time-consuming and costly. Although examples of molecular
+design combined with Bayesian optimization have been reported,
+,
+ common practice is to design molecules computationally, select several
+promising candidates, and then measure their properties experimentally.
+Molecular property predictions based on ML models
+,,,
+ are extremely fast. However, the prediction accuracy strongly depends
+on factors such as the amount and diversity of training data, as well
+as the architecture of the prediction model.
+−
+
+ It is important to note that ML-based predictions are generally
+accurate in regions where the training data are dense (interpolation);
+however, their accuracy often decreases significantly when applied
+to sparse or out-of-distribution regions (extrapolation). Molecular
+simulations often provide accurate estimations and enable the exploration
+of new structures, although they generally require higher computational
+costs than ML-based predictions. Various simulation methods are available,
+such as docking simulations,
+−
+
+ molecular dynamics simulations,
+−
+
+ and quantum chemical calculations.
+,,−
+
+ Although the scope, accuracy,
+and cost vary depending on the method used, simulations based on physicochemical
+backgrounds theoretically have the potential to estimate properties
+even for molecules different from known ones. Therefore, simulations
+are a key tool in discovering new molecules outside of the training
+data set. Additionally, to prevent human intervention from becoming
+a bottleneck in the discovery process, it is crucial to automate the
+integration of these simulations into the molecular design closed
+loop. Several frameworks have been developed to support this integration,
+including the atomistic simulation environment (ASE), QChASM (Quantum Chemistry Automation and Structure
+Manipulation), and QCforever.
+,
+
+5.2.
+
+## Synthetic Accessibility Evaluation
+As for methods estimating synthetic feasibility, the synthetic accessibility
+score (SAScore) has long been widely
+used owing to its simplicity and ease of computation. SAScore is a
+statistical method that estimates synthetic accessibility based on
+the frequency of molecular fragments occurring in one million molecules
+in the PubChem database, with penalties
+applied to rare fragments and complex structural features, yielding
+an ease-of-synthesis rating from 1 (easy) to 10 (hard). Following
+the same concept as the SAScore, the ChEMBL-likeness score (CLscore) and natural product (NP)-likeness score have also been proposed, where the data sets
+used to calculate fragment scores were replaced with the ChEMBL database and NP data sets,
+,
+ respectively. As an extension of the SAScore, BR-SAScore has been developed, in which fragment scoring
+is modified to incorporate reaction templates and building block information
+used by retrosynthetic AI (Retro* in
+this study), enabling the score to better reflect the feasibility
+of synthetic route planning using such AI models. More recently, various
+ML-based prediction models have been proposed to predict synthetic
+feasibility-related characteristics. The synthetic complexity score
+(SCScore) is a neural network trained
+on reactant–product pairs from 12 million single-step reactions
+in Reaxys and is designed to predict a synthetic complexity index
+that correlates with the estimated number of reaction steps required
+to synthesize a given molecule, outputting values from 1 (simple)
+to 5 (complex). Synthetic Bayesian accessibility (SYBA) is based on a Bernoulli naïve Bayes
+classifier trained to distinguish easily synthesizable molecules obtained
+from the ZINC15 database and hard-to-synthesize molecules generated
+by the Nonpher algorithm. For the same task as SYBA, graph attention-based
+assessments of synthetic accessibility (GASA) and DeepSA have been proposed
+as classifiers based on graph neural network and chemical language
+model architectures, respectively. Retrosynthetic accessibility score
+(RAscore) is an ML-based prediction
+model, including neural networks and XGBoost, trained on 200,000 molecules
+from the ChEMBL database to predict whether the synthetic route for
+a given molecule can be solved using synthetic route-planning AI (specifically
+AiZynthfinder in this study). Unlike conventional synthesizability
+scores, MolSkill employs a preference-learning
+approach to model the intuitive judgments of medicinal chemists by
+training based on pairwise comparisons of molecules. The trained model
+is expected to capture medicinal chemistry intuitions that are difficult
+to encode using traditional synthetic feasibility-related scores.
+Focused synthesizability score (FSscore) is a model based on the concepts of SCScore and MolSkill. FSscore
+is first pretrained on a reaction data set and can be further fine-tuned
+with a small amount of human-labeled data to fit specific chemical
+spaces. The choice of appropriate synthetic feasibility scores is
+highly case-dependent and varies with the molecule-generation model
+used and the scope of the target chemical space. No single metric
+can be generally considered optimal, as each metric has specific strengths
+and limitations; thus, users should choose metrics with an understanding
+of their strengths and limitations. ML-based prediction models require
+caution because their performance degrades for molecules outside the
+applicability domains. To mitigate this issue, statistical metrics,
+such as SAScore, may offer more stable performance, whereas fine-tuned
+models, such as FSscore, can be useful when the chemical space of
+interest to be explored using molecule generation models is relatively
+well anticipated. Another approach involves using the results of synthetic
+route planning AIs
+,−
+
+ directly as rewards. However, this often results in high computational
+costs. Recent methods, such as Saturn, aim to alleviate this issue by employing more sample-efficient language-based
+generative models, such as Mamba.
+
+5.3.
+
+## Single- and Multi-Objective Evaluation
+In practical molecular design, multiple target properties often need
+to be optimized. For example, in drug discovery, it is necessary to
+simultaneously consider not only the activity against a target but
+also properties such as selectivity, synthetic accessibility, and ADMET
+properties.
+,
+ Therefore, a multiobjective
+optimization (MOO) becomes critically important.
+,
+
+A representative approach for MOO is Pareto optimization. This method seeks a set of nondominated solutions,
+where no solution is inferior to all other solutions for all target
+properties. Pareto optimization is particularly useful when designing
+molecules that must balance multipleoften conflictingproperties.
+Typically, they are used when designing molecules that improve multiple
+properties through a trade-off relationship. Numerous applications
+of molecular design and exploration based on Pareto optimization have
+been reported.
+,,,−
+
+ One of its advantages is that it only requires specifying which
+properties to optimize and the desired direction of improvement without
+the need to predefine importance weights for each property.
+On the other hand, the scalarization approach is also widely used.
+,,,,,
+ In this approach, the estimated values of multiple targets are combined
+into a single score. Typically, based on the predefined weights assigned
+to each property, weighted sums,
+,,,
+ weighted averages, weighted products, or geometric means
+,,
+ are used. Although scalarization
+requires predefined weights, it offers the practical advantage of
+enabling optimization using a single scalar value. A weighted product
+or geometric mean is effective in situations where molecules are desired
+that achieve certain values across all properties, as the total score
+becomes zero if any individual property is zero.
+
+Furthermore, curiosity-driven exploration has attracted attention as a method for designing
+novel and diverse
+molecules without setting clear optimization targets. For example,
+in random goal exploration, a single point is selected in the property
+space and molecules with properties predicted to be similar to that
+point are chosen. For example, in random goal exploration, a point
+in the property space is randomly selected and molecules estimated
+to exhibit properties close to this point are selected or generated.
+,
+ This has facilitated the discovery and generation of diverse molecules. In addition, BLOX (BoundLess Objective-free
+eXploration), a method that actively
+explores molecules that deviate from trends in the property space
+without limiting the search space, has also been proposed and evaluated
+for finding exceptional photofunctional molecules.
+When estimating
+a molecular property using ML-based prediction
+models, the problem of extrapolation becomes significant and unintended
+optimization, often referred to as reward hacking,
+,
+ may occur during the molecular design cycle.
+−
+
+ As a solution, generating predictions in the extrapolation region
+can be avoided by utilizing the applicability domain,
+−
+
+ which defines reliable regions of predictions, and prediction uncertainty.
+−
+
+ Even in multiobjective optimization, a method for adjusting the
+reliability of multiple prediction models has been proposed. As described above, various strategies exist
+for integrating multiple evaluation criteria into the molecular design,
+and selecting an appropriate approach according to a specific problem
+is crucial.
+
+5.4.
+
+## Benchmark
+Several benchmarking platforms
+have been developed to evaluate molecular generative AIs, including
+GuacaMol, Molecular Sets (MOSES), Therapeutics Data Commons (TDC), practical molecular optimization (PMO), and TARTARUS. These platforms provide standardized metrics and data sets for assessing
+the performance of distribution learning tasks and goal-directed optimizations,
+facilitating fair comparisons across different AI systems. Distribution
+learning tasks evaluate how well AI reproduces the distribution of
+a given data set, whereas goal-directed optimization tasks assess
+their ability to generate molecules that satisfy predefined objectives.
+Broadly, GuacaMol and MOSES provide general-purpose evaluation tasks
+for benchmarking molecule-generation models. GuacaMol supports both
+distribution learning tasks and goal-directed optimization, whereas
+MOSES focuses on distribution learning tasks. Newer platforms such
+as TDC, PMO, and TARTARUS offer evaluation tasks that are more closely
+aligned with real-world applications of molecule-generation models.
+RediscMol was proposed as a benchmark for evaluating models in fine-tuning
+scenarios, providing data sets for both pertaining and fine-tuning. A structure-based drug design (SBDD) Benchmark
+has been developed to assess the performance
+of 3D structure-based molecular generative AIs. Although most benchmark
+tasks are primarily designed for drug design, several platforms, such
+as TARTARUS and the polymer-focused benchmark introduced by Yue et
+al., have been extended to materials
+science. By leveraging these benchmarks, we can systematically compare
+molecular generative AIs from various perspectives related to molecule-generation
+tasks. However, these benchmark results should be interpreted with
+caution. Each molecule-generation model typically involves its own
+set of hyperparameters, which should be tuned for each specific task
+to achieve optimal performance. Because the benchmarks are generally
+performed under fixed configurations, the reported results may not
+fully capture the optimal performance of each model. Further information
+on each benchmark category can be found in original publications and
+other review articles.
+,,,,,
+
+6.
+
+## Application of Generative Model for Molecule
+Identification
+In chemistry, understanding the world at the
+atomistic level is
+an inverse problem, as illustrated in . Directly observing the molecular structure
+represented by the 3D atom arrangement is impossible, as is the case
+with software that visualizes simulation results. The various quantized
+energy levels of a molecule absorb and emit specific photons as the
+molecule transitions between energy levels. The spectra obtained by
+observing these photons contains information on various molecular
+structures. Currently, this method is also important for observing
+and proving molecular dynamics.
+−
+
+ On the other hand,
+the mass spectrum obtained by ionizing an object and detecting its
+mass-to-charge ratio (m/z) provides
+not only information on the mass of the observed object but also a
+wealth of information on its structure. Although spectroscopy/spectrometry has revolutionized modern chemistry,
+these spectra impose typical inverse problems on chemists who decipher
+molecular structures based on empirical knowledge. Because chemists
+know from experience that atomic/fractional species appear at certain
+positions in the spectrum, they can construct molecules in their minds.
+This may be easy for simple molecules; however, as the size of the
+molecule increases, this becomes tedious. Total synthesis can sometimes
+reveal errors in spectral identification. Although computer-assisted structure determination has been attempted
+for many years, ML/AI has opened a new
+phase in this field. ML prediction models
+for UV–Vis,
+−
+
+ vibrational,
+−
+
+ and NMR
+−
+
+ spectra of a given molecule have been developed as an alternative
+tool for the forward problem in . These spectral prediction model tools will help build
+in silico databases that are useful for screening strategies for molecule
+identification by mass spectrometry (MS).
+,
+ However, they could not retrieve molecules from databases. By replacing
+molecular properties with molecular spectra, a generative AI system
+for molecular design becomes a molecule identifier. Generative AI
+is revolutionizing molecule identification, which is an inherent inverse
+problem in chemistry. Here, we present several research results, summarized
+in , that challenge
+the identification of molecules from spectrum/multispectra data.
+ Litsa et al. attempted
+to predict
+molecular structures using tandem MS (MS/MS) with generative AI. They
+constructed a generative AI (Spec2Mol) composed of CNN as the encoder
+and GRU as the decoder, which were trained using the NIST MS/MS spectrum
+library and 135 million molecules curated from the PubChem
+,
+/ZINC data set. Although they evaluated
+the molecules generated by their generative AI from the viewpoint
+of molecular similarity and physicochemical properties, a perfect
+match was difficult to obtain using MS/MS spectra alone. This is mainly
+because the MS spectra are highly instrument-dependent, and the fragmentation
+of molecules is also highly stochastic. Strave et al. also applied a similar strategy for the identification
+of molecules from a MS/MS spectrum. Their generative AI, MSNovelist,
+is an encoder-decoder RNN model trained with a data set curated from
+HMDB, COCONUT, and DSSTox. MSNovelist receives mass
+spectrum data via SIRIUS, which can
+transfer a mass spectrum to a molecular formula and structural fingerprint.
+Hence, MSNovelist is not a rigorous identifier from a mass spectrum
+based on the accuracy of SIRIUS, which successfully determines the
+molecular formula for small compounds with a low error rate (<10%).
+Molecule identification by MS, which induces stochastic molecular
+fragmentation and is highly instrument-dependent, will require the
+construction of a large database and integration of its search technology
+with deep learning in the future. MS has the disadvantage of destroying
+the observed objects; however, spectroscopic analysis, which does
+not destroy objects, is a major measurement method. Similarly, attempts
+have been made to automate the identification of molecules from spectra
+obtained using various spectroscopic methods with generative AI.
+The degrees of freedom of a molecule include translational, rotational,
+vibrational, and electronic states. The width between their quantized
+energy states increases in this order. The energy level of rotation
+corresponds to the energy band of microwaves. The detection of microwaves
+emitted by the rotational energy of molecules is indispensable for
+identifying interstellar molecules. The
+identification of unknown molecules using microwave spectroscopy is
+often performed by comparing the experimentally obtained spectral
+parameters with those obtained by a human’s intuitive calculation
+of the electronic structure of the molecule. MacCarthy et al. introduced generative AI to abolish the need
+for human operators. They trained multilayer perceptrons (MLPs) to
+identify functional groups, LSTM for a SMILES string with computational data of the molecules curated from PubChem
+,
+ and systematically generated by the Open Molecule Generator (OMG). Although they successfully generated the functional
+groups and chemical formulas that the molecules were thought to possess,
+they did not succeed in identifying the entire molecule in SMILES.
+
+The internal degree of a molecule corresponds
+to the molecular
+vibration quantized to the energetic region corresponding to infrared
+light (4000–400 cm–1). Infrared (IR) spectroscopy is a relatively inexpensive
+and useful technique for functional group identification, as the functional
+groups of molecules absorb near 1500 cm–1.
+,
+ In recent years, IR spectroscopy has been widely used to observe
+molecular dynamics using pulsed lasers. Fine et al. developed generative AI
+that can identify functional groups from an IR spectrum coupled with
+an MS spectrum. They constructed a generative AI consisting of MLP
+and an autoencoder to remove redundant information and noise from
+the data and trained it using 7393 compounds and the corresponding
+standardized spectra obtained from the NIST web book. Without specialized knowledge, the generative
+AI accurately identified the functional groups of the molecule from
+the IR and MS spectra. In chemistry laboratories, identifying molecules
+using multiple spectral data sets is common practice. Therefore, such
+attempts are conducive to reducing the workload of chemists. In addition,
+attempts have been made to extract potential information contained
+in the spectra.
+Vibrational spectra are typically used to identify
+only the moieties
+of a molecule. As vibrational spectra contain information about the
+internal degrees of freedom of a molecule, they inherently include
+information about the entire molecular structure. Hence, it is possible
+to obtain the molecular structure from the vibrational spectrum. Although
+vibrational spectra are cumbersome and impossible for humans to obtain
+the whole molecular structure, AI may be able to capture the properties
+of the molecular structure from the vibrational spectrum. Alberts
+et al. demonstrated the potential use
+of AI for extracting information from an IR spectrum. They constructed
+a generative AI based on an autoregressive encoder–decoder
+transformer trained using computational IR spectra and the chemical
+formulas of over 600,000 molecules curated from PubChem.
+,
+ Based on this generative AI, the AI was fine-tuned using experimental
+data obtained from the NIST database. Their AI showed a top-10% precision of 69 correct predictions for
+79% of the experimental data. These results indicate that the introduction
+of generative AI to chemistry decisively expands the usage of spectral
+data. This is also true for NMR spectroscopy, which has traditionally
+been a powerful method for molecule identification.
+NMR spectra
+were obtained by placing molecules containing magnetic
+nuclei (1H, 13C, and 19F) in an electromagnetic
+field and observing the frequency at which the resonance occurred.
+Because the nuclear magnetic moment is shielded by the electronic
+magnetic field induced by an external magnetic field, the same element
+resonates at varying frequencies. Therefore, NMR spectroscopy can
+capture the state of nuclei owing to the influence of the local electronic
+structure and is one of the most important structural characterization
+techniques in chemistry. Empirical knowledge on the chemical shift
+of a certain nucleus, which depends on the surroundings, has also
+accumulated. On the basis of this knowledge, chemists have deduced
+the structures of these molecules. Zhang et al. attempted to automate the identification of molecules using
+the 1H NMR spectrum. They developed NMR-TS based on ChemTS, in which MCTS and RNN were fused to build and
+complete the molecules represented in SMILES. NMR-TS attempts to find a suitable molecule whose NMR spectrum
+agrees with the input NMR spectrum by comparing the input spectrum
+with the DFT-simulated NMR spectra of the generated molecules within
+the Wasserstein distance
+,
+ within the composition
+constraint. They successfully identified molecules with 66% accuracy.
+NMR-TS uses QC calculations to evaluate the generated molecules. However,
+this method is computationally expensive. Furthermore, ChemTS can
+only search in the direction of growing molecules represented in SMILES,
+which is inefficient owing to the nature of ChemTS.
+Although
+the closed-loop search shown in (c) is considered excellent for searching
+unknown molecules, it is inefficient. Constructing a generative AI
+in (b) that
+can predict molecular structures with a one-shot using NMR spectra
+as the input, as described in the identification of molecules from
+the MS and IR spectra, is possible. Huang et al. constructed a generative AI based on a CNN that received 13C NMR, 1H NMR, and chemical formulas as inputs
+and predicted the probabilities of 957 substructures that might be
+included. They were trained using a CNN with computational spectral
+data of molecules curated from the GDB13. By assembling the probable substructures, their generative AI successfully
+predicted the molecular structures with a top-10 accuracy of more
+than 95% for the experimental data. Using only one NMR spectrum, the
+generative AI identified the molecules with more than 80% accuracy.
+However, using multiple spectra improves accuracy. Indeed, using multiple
+spectra for molecular identification is common practice in chemistry
+laboratories.
+NMR spectra provide information about magnetic
+nuclei, and vibrational
+spectra provide information about the bonds that link atoms. Hence,
+their combination is chemically plausible for obtaining the entire
+molecular structure. Devata et al.
+,
+ developed
+a generative AI called DeepSPInN, which identifies molecules by receiving
+IR and 13C NMR spectra as inputs. They trained a message
+passing neural network (MPNN) using computational IR and 13C NMR spectra to featurize a molecule. DeepSPInN builds molecules
+using a rule-based MCTS with MPNN and shows a high top-1 accuracy
+of 86.47%. Their model was based on the QM9-NMR data set, which included molecules with up to nine heavy
+atoms. The accuracy of molecule identification was reduced to 64.63%
+for molecules with nine heavy atoms.
+The molecule identification
+assisted by generative AI introduced
+above receives numerical data of spectra as input. The attempt of
+using images of spectra has also been conducted. Chako et al. tried to identify a molecule from images of
+IR and 13C-/1H NMR spectra. However, signals
+of NMR spectra are too spiky for the accurate detection. Instead,
+they utilized the attribution text of NMR spectra. Consequently, they
+built generative AI, Spectro, that can identify molecules from multiple-modal
+input, combining an encoder consisted of MLP for functional group
+identification from IR spectrum image (j-IR-vis) and LLM for attribution
+texts of NMR spectra, and a decoder (RNN). They trained their generative
+AI with NMR data (obtained from NMRium) and IR image (obtained from NIST)
+of 6,833 molecules. Spectro has successfully identified molecules
+with an accuracy of 93%.
+
+7.
+
+## Experimental Validation of AI-Designed Molecules
+In this section, we present reports on experimental validation
+of AI-designed molecules for their function as drugs or materials.
+To date, few molecules have been verified as molecular materials.
+Therefore, we present examples of functional molecules designed by
+generative AI with the aim of drug development.
+7.1.
+
+## Drug Discovery
+Historically, drug
+discovery has relied on empirical strategies and systematic experimental
+screening, which are often driven by human intuition and constrained
+by limited insights into molecular mechanisms. With advances in atomistic-level
+understanding, the rational design of ligand molecules targeting disease-related
+proteins has become a central paradigm. Consequently, molecular simulations
+are expected to play a crucial role in evaluating protein–ligand
+binding affinity,
+−
+
+ although they still fall short of capturing the full complexity
+of in vivo systems. Conventional theory-driven and empirical approaches
+have inherent limitations when dealing with biological systems characterized
+by numerous interdependent features and nonlinear interactions. In
+this context, AI techniques are expected to provide an alternative
+paradigm for identifying latent patterns and relationships in complex
+biological data. AI-based drug design is still in its early stages,
+and the increasing sophistication of AI models underscores the fundamental
+difficulty of accurately modeling and predicting biological systems.
+Generative AI based on probabilistic models has been successful
+in identifying molecules based on their spectra. This is because the
+correlation between molecular structures and spectra has been elucidated
+to the degree formulated in some literature; thus, the main challenge
+lies in handling the structural complexity of molecules. However,
+molecular design is not simple. In contrast to spectral data obtained
+under ideal conditions, drug development must account for multifactorial
+biological processes in vivo. Therefore, small-molecule drug discovery
+has emerged as a primary focus for leveraging generative AI to accelerate
+early stage R&D.
+−
+
+ The development of molecular generative AIs extends beyond merely
+proposing molecular structures: it involves the development of a huge
+generative AI platform that verifies the feasibility of the generated
+molecules during or after generation, including retrosynthesis analysis
+and the validation of protein–ligand binding affinity via simulation,
+as well as the assessment of drug-likeness-related properties. However,
+even with such a large and complex generative AI platform, drug development
+remains difficult. In , we present studies on AI-designed molecules that exhibit
+biological activity in experimental settings.
+ Retinoid X receptors (RXRs) are involved in retinoid
+signaling
+pathways. Abnormal RXR signaling affects
+neuronal stress and neuroinflammatory networks in several neuropathological
+conditions. Merk et al.
+,
+ designed natural product-mimicking
+modulators for RXRs using generative AI based on an RNN.
+,
+ Their approach involved fine-tuning a pretrained model using 25
+fatty acid mimetics or six natural products known to possess biological activity, which
+served as templates. They first trained RNN with 541,555 bioactive
+compounds (K
+D, K
+i, IC/EC50 values <1 μM) extracted from
+the ChEMBL22 database. Subsequently, the model was fine-tuned using
+template molecules. In a previous study, 1000 molecules were generated using the fine-tuned model, and subsequently
+five molecules were selected based on the predicted modulatory effects
+using SPiDER and synthetic feasibility
+considerations. Among these, two were identified as RXR agonists,
+and the compound shown in (a) shows EC50 =
+0.06 ± 0.02 μM for RXRγ. In a later study, the authors investigated the effect of the
+number of templates used for fine-tuning on the performance of de
+novo molecule generation. Fine-tuning with a single template yielded
+low structural diversity and a high rate of invalid outputs (75%)
+among the 1000 generated molecules. By contrast, using three or six
+templates reduced the invalid rate to 21% and increased the proportion
+of unique molecules to 49% and 74%, respectively. These findings indicate
+that a data set for fine-tuning should be carefully designed to generate
+isofunctional new chemical entities effectively.
+ Recently, the integration of generative AIs and
+robotic synthesis
+systems has been explored to accelerate drug discovery. Grisoni et
+al. developed a modular molecular design
+pipeline comprising generative AI based on LSTM, synthesizability analysis based on retrosynthesis route
+prediction, and a microfluidic platform. They trained their generative
+AI with commercially available synthetic compounds assembled from
+Asinex, ChemBridge screening compound
+collection, Enamine Advanced and HTS
+collection, and Specs screening compounds, and fine-tuned the model with the 40 agonist
+molecules for LXRα that are effective with a median effective
+concentration (EC50) < 0.5 μM. During generation,
+the molecules were sampled based on the predicted LXR activity, scaffold
+diversity, and pharmacophore similarity to the compounds used for
+fine-tuning. Through the search for the retrosynthesis route analysis
+based on 17 virtual reaction schemes, they finally succeeded in synthesizing
+25 molecules using their automatic synthesis module. In vitro bioactive
+validation of these molecules showed that two molecules among them
+had significant potency and selectivity between LXRα and LXRβ.
+One ( (b))
+shows that EC50 = 0.21 μM to LXRα and high
+selectivity to LXRβ with 6.0, and the other shows that EC50 = 0.26 μM to LXRα and high selectivity to LXRβ
+with 5.0. Although structurally similar molecules often exhibit similar
+pharmacological effects, even small
+changes in molecular scaffolds can lead to dramatic differences in
+biological activity. Yu et al. developed
+a generative scaffold hopping model (GraphGMVAE) for designing Janus
+kinase 1 (JAK1) inhibitors. GraphGMVAE consists of an encoder comprising
+dual message-passing neural networks (DMPNN), a hidden space based
+on a Gaussian mixture distribution for each cluster of scaffolds,
+and a GRU-based decoder. They trained GraphGMVAE using ZINC database
+compounds (6.8 million) and 210 K bioactive molecules (pIC50 > 5) selected from ChEMBL database. The generated molecules were
+filtered using their own prioritization pipelines based on molecular
+filters, pharmacophore alignment, and molecular simulations, resulting
+in seven molecules for the experimental assay. All seven compounds
+showed inhibitory activity against JAK1, and one molecule shown in (c) demonstrated
+significant activity (IC50 = 5.0 nM) in comparison with
+the reference compound (IC50 = 45 nM).
+A notable
+example of AI-driven drug discovery has advanced to clinical
+trials. Using a generative AI-driven approach, Ren et al. designed INS018_055, a small-molecule inhibitor
+targeting TRAF2- and NCK-interacting kinase (TNIK) for antifibrotic
+therapy. They designed TNIK inhibitors using the Chemistry42 platform with the assumption that the TNIK binding site
+is an ATP-binding site. Compounds initially selected from the designed
+inhibitors, based on their synthetic accessibility, novelty, and drug-like
+properties, were synthesized and screened. Although the early hits
+exhibited suboptimal ADME profiles, lead optimization resulted in
+INS018_055 in (d), which demonstrated efficacy in ameliorating fibrotic processes
+in vitro and in vivo across several disease models.
+Ballarotto
+et al. used a chemical
+language model (CLM) to design agonists targeting orphan nuclear receptor-related
+1 (Nurr1), which has been implicated as a therapeutic target for neurodegenerative
+diseases, such as Alzheimer’s disease and Parkinson’s
+disease. They pretrained the CLM on 365 K molecules selected from
+ChEMBL and fine-tuned it using a previously reported Nurr1 agonist
+with a demonstrated affinity (EC50 = 0.4 μM, K
+d = 0.7 μM). Using beam search sampling, they generated
+molecules and selected six for synthesis and experimental validation
+based on their high sampling frequency and structural similarity to
+the affinity Nurr1 agonist. Among these, one compound ( (e)) exhibited potent agonistic
+activity, with an EC50 of 0.07 μM and K
+d of 0.14 μM. Moret et al. developed a hybrid CLM for de novo design of ligands targeting phosphoinositide
+3-kinase gamma (PI3Kγ). To enable the CLM to learn the chemical
+features relevant to drug-like molecules, the CLM was first pretrained
+on 839,674 compounds extracted from the U.S. patent database. Subsequently,
+transfer learning was employed to tailor the CLM specifically to the
+chemical space of PI3Kγ inhibitors. For fine-tuning, 46 PI3Kγ
+inhibitors with IC50 ≤ 100 nM were selected from
+the Drug Target Commons (DTC) database. Using the fine-tuned CLM,
+molecular generation was performed to fit PI3Kγ inhibitors,
+followed by the synthesis of two candidate molecules. These molecules
+exhibited a high affinity for PI3Kγ, with measured K
+d values of 52 nM and 13 nM, respectively (see (f)), validating
+the ability of the model to generate bioactive ligands within the
+desired potency range.
+Chenthamarakshan et al. constructed
+a generative AI framework called CogMol, which is based on VAE trained
+on a large data set of chemical SMILES representations of molecules,
+protein sequences, and available protein–ligand binding affinities.
+They used CogMol to generate small-molecule inhibitors targeting the
+receptor-binding domain (RBD) of the spike (S) protein and the main
+protease (Mpro) of severe acute respiratory syndrome coronavirus
+2 (SARS-CoV-2). The generated molecules were prioritized based on
+docking simulations, physicochemical properties, and retrosynthetic
+feasibility using the IBM RXN platform.
+,
+ Four compounds were selected and synthesized for each target. Experimental
+validation demonstrated a 50% success rate for both RBD and Mpro. In particular, one of the RBD-targeting compounds shown
+in (g) exhibited
+potent neutralization activity, with an IC50 of 2.8 μM,
+whereas the compound against Mpro showed inhibitory activity,
+with an IC50 of 34.2 μM.
+Most of the aforementioned
+generative AIs focus solely on optimizing
+molecular properties, such as protein-binding affinity and drug likeness,
+without explicitly considering the three-dimensional (3D) structures
+of the generated molecules. In contrast, structure-based generative
+AIs that directly generate 3D conformations tailored to fit within
+the binding pocket of a target protein have emerged. A notable example
+is the work of Zou et al., who proposed
+coarse-grained and multidimensional data-driven molecular generation
+(CMD-GEN), which is a hierarchical framework that combines a diffusion
+model with a transformer encoder–decoder architecture. CMD-GEN
+effectively generated pocket-specific and drug-like 3D molecules by
+decomposing the molecular generation process into three stages: pharmacophore
+point sampling, molecular structure generation, and conformational
+alignment. They selected eight candidate molecules generated by CMD-GEN
+targeting PARP1/2, synthesized them, and evaluated their inhibitory
+activities in vitro. Among them, one compound shown in (h) potently inhibited PARP1,
+with an IC50 of 12.7 nM, and demonstrated remarkable selectivity
+over PARP2, with a 787.4-fold difference in potency.
+Generative
+AIs that rely on probabilistic distributions learned
+from training data tend to generate molecules close to the high-density
+regions of the training data distribution. Although some strategies, such as a VAE equipped with scaffold-hopping
+mechanisms, have been proposed to improve structural diversity, the generated molecules are inherently constrained
+by the underlying distribution of the training data set. To address
+this limitation, RL has been incorporated into generative frameworks
+to guide molecular generation toward user-defined objectives. By optimizing
+a reward function, such as binding affinity, synthesizability, or
+specific properties, RL enables the exploration of the chemical space
+beyond what is represented in the original training data distribution.
+Swanson et. al designed antibiotics
+targeting Acinetobacter baumannii (A. baumannii) using SyntheMol, a generative AI that assembles molecules from
+predefined building blocks via MCTS. The molecule-generation process
+was guided by three different property prediction models to estimate
+the antibacterial activity. To ensure synthetic feasibility and practicality,
+SyntheMol searched within the restricted subset of Enamine Readily
+AccessibLe (REAL) space, consisting of 29.6 billion molecules built
+from 138,085 building blocks using 13 well-validated chemical reactions.
+After applying filters for structural diversity, novelty, and high
+predicted activity, 58 candidate molecules were synthesized and experimentally
+validated. Among these, six molecules exhibited potent growth inhibition
+against A. baumannii as single agents, as shown in (i). Discoidin domain
+receptor 1 (DDR1), a collagen receptor with tyrosine kinase activity,
+is predominantly expressed in the epithelial cells and has been implicated
+in the regulation of tissue fibrosis. Zhavoronkov et al. reported the rapid
+discovery of DDR1 inhibitors using a generative AI called GENTRL,
+which was pretrained on the ZINC database and further fine-tuned with
+known DDR1 kinase inhibitors. GENTRL integrates the VAE, tensor decomposition,
+and REINFORCE algorithm for reinforcement
+learning, thereby enabling goal-directed molecule generation. Among
+the 30,000 molecules generated using GENTRL, six were selected for
+synthesis based on their synthetic feasibility. Two of the six compounds
+exhibited potent DDR1 inhibition in an enzymatic kinase assay, with
+IC50 values of 10 and 21 nM (one of them is shown in (j)). One of the
+two lead compounds was further evaluated in a rodent model and showed
+favorable pharmacokinetic properties. This work demonstrates that
+de novo molecular design using generative AI can lead to experimentally
+validated lead candidates within less than two months, highlighting
+its potential to dramatically accelerate early stage drug discovery.
+Yoshimori et al. employed REINVENT
+,
+ to design DDR1 inhibitors that satisfied a pharmacophore model comprising
+eight features, as defined by LigandScout 4.4. Nine compounds were selected from the generated molecules
+for synthesis, based on pharmacophore fit, predicted binding affinity,
+and synthetic feasibility. Among them, one compound, which has also
+been reported in PubChem,
+,
+ exhibited potent inhibitory
+activity against DDR1 with IC50 = 92.5, as shown in (k). Abe et al. developed a generative AI framework called
+Deep Quartet, which integrates REINVENT with pharmacophore-based scoring. Deep Quartet was trained using
+SMILES-formatted molecules from ChEMBL and was optimized to generate molecules that satisfied the spatial
+pharmacophore constraints derived from the crystal structures of the
+gastric proton pump, H+, K+-ATPase. From the
+generated molecules, they synthesized a compound (DQ-06) that exhibited
+potent inhibitory activity (IC50 = 0.7 ± 0.04 μM),
+outperforming the reference compound SCH28080 (IC50 = 1.97
+± 0.12 μM). Furthermore, high-resolution cryo-electron
+microscopy (cryo-EM) revealed the binding pose of DQ-06, which enabled
+structure-guided optimization. This led to the development of the
+chloro derivative DQ-18 with further improved potency (IC50 = 0.31 ± 0.02 μM), as shown in (l). Jiang et al. proposed an RL-based framework for de novo molecular design with
+an emphasis on synthetic feasibility, applying the model to design
+active molecules targeting the inflammation-related receptor CXC chemokine
+receptor type 4­(CXCR4). The model employs the soft actor–critic
+(SAC) algorithm, which constructs molecules
+through the iterative selection of reaction templates and building
+blocks. To simultaneously optimize binding affinity and synthetic
+feasibility, the reward function incorporates both molecular docking
+scores against CXCR4, calculated using AutoDock Vina, and synthetic accessibility estimated through
+forward synthesis planning formulated as a Markov decision process
+(MDP). To optimize the affinity to the receptor and the synthesizability
+of the generated molecules, they built a reward that evaluated the
+affinity to CXCR4 through docking simulation using AutoDock Vina and synthesis planning using the Markov decision
+process (MDP). After five independent molecular-generation campaigns,
+20 candidate molecules were selected for synthesis and biological
+evaluation. Among them, one compound exhibited a high binding affinity
+for CXCR4, with IC50 = 3.2 ± 0.2 nM, as shown in (m). Polykovskiy
+et al. proposed an entangled conditional
+adversarial autoencoder (ECAAE), which is an improved variant of the
+adversarial autoencoder (AAE), for de novo molecular generation conditioned
+on specific properties. To design selective JAK3 inhibitors, the ECAAE
+model was trained using known JAK2 and JAK3 inhibitors extracted from
+the ChEMBL database. Among the 300,000
+generated molecules, candidates were prioritized through a multistage
+filtering process, including a series of filters, molecular docking,
+prediction of side effects and chemical properties, and molecular
+dynamics simulations, which resulted in 100 molecules. One compound
+shown in (n)
+was synthesized and evaluated in vitro; it exhibited potent activity
+against JAK3 (IC50 = 6.73 μM, whereas it remained
+inactive against JAK2 (IC50 = 17.58 mM).
+Most small-molecule
+drugs interact with multiple biological targets,
+often resulting in off-target effects that can be either beneficial
+or detrimental. While such polypharmacological activity is considered
+a liability owing to potential side effects, interest in intentional
+multitarget modulation that can improve therapeutic efficacy, reduce
+adverse effects, and delay the emergence of resistance is growing.
+The rational design of single compounds capable of modulating multiple
+targets remains a challenge, mainly owing to the difficulty in achieving
+balanced potency, selectivity, and favorable pharmacokinetic properties
+across structurally and functionally diverse proteins. Munson et al. introduced POLYGON, a framework integrating
+VAE with RL, to enable the de novo design of dual-target inhibitors,
+and validated it on the MEK1 and mTOR kinase pair. POLYGON was trained
+on a large set of molecules from ChEMBL and target-specific affinity data from BindingDB and Pharos.
+−
+
+ From POLYGON-generated top-100 molecules, 32 compounds were synthesized
+and experimentally validated. One compound exhibited dual inhibitory
+activity, with IC50 values of approximately 10 μM
+for both MEK1 and mTOR, as shown in (o). Yasuda et al. developed a dual-target generative AI framework consisting of DualTransORGAN and DualFASMIFRA and validated it by designing compounds targeting both adenosine
+A2a receptor (ADRA2A) and phosphodiesterase 4D (PDE4D). DualFASMIFRA
+is a fragment-based structure generator that assembles substructures
+using a GA and provides a conservative yet pragmatic approach to molecular
+generation. By contrast, DualTransORGAN is a generative model based
+on GAN with a transformer encoder and decoder architecture that captures
+the semantic features of molecules and generates chemically plausible
+structures via RL with a stochastic policy gradient. Target-specific
+activity was predicted using QSAR models constructed with random forest
+regressors trained using the ChEMBL database. Ten compounds were selected from the AI-generated molecules
+for synthesis and in vitro experimental validation. Among these, one
+compound exhibited potent inhibitory activity against both ADRA2A
+and PDE4D, along with high target selectivity for a panel of 39 human
+proteins, as shown in (p).
+The lack of consensus on an appropriate distance
+metric between
+molecules in the chemical space makes it difficult to determine whether
+the generated molecules fall within or outside the applicability domain
+of the training data. Therefore, the RL algorithm is indispensable
+for exploring chemical space. However, when a reward function is based
+on ML models, such as QSPR/QSAR to avoid an excessive computational
+load in the simulation, exploration is still limited to the applicability
+domain covered by the training data, even if the probability distribution
+of the features in the training data is changed by an RL algorithm.
+Hence, some approaches integrate on-demand simulations, such as molecular
+docking simulations, into the scoring process to overcome the constraints
+of the training data. Korablyov et al. developed a molecular design framework called LAMBDAZERO, which
+integrates generative active learning with RL for the de novo design
+of small molecules with potential binding affinity to a target protein
+while minimizing reliance on computationally expensive simulations.
+In LAMDAZERO, molecules are constructed by sequentially assembling
+building blocks. To avoid exhaustive docking simulations, the framework
+employed an approximate Bayesian surrogate model to predict the docking
+scores of the generated molecules. Synthetic accessibility was assessed
+using RetroGNN, and drug-likeness was quantified using the QED score,
+both of which were incorporated as soft constraints in the exploration
+process. High-scoring molecules predicted by the surrogate model were
+periodically evaluated using docking simulations with AutoDock Vina, and the resulting scores were used to update
+the surrogate model. Through this iterative strategy, LAMBDAZERO significantly
+reduced the number of docking simulation calls required to reach high-affinity
+candidates. LAMBDAZERO was used to design small-molecule inhibitors
+of soluble epoxide hydrolase 2 (sEH). Thirty-five analogs based on
+LAMBDAZERO-generated molecules were synthesized and evaluated by medicinal
+chemists, of which 24 exhibited in vitro inhibitory activity. Notably,
+a scaffold containing N-(4,6-di­(pyrrolidin-1-yl)­quinazolin-2-yl)-N-methylbenzamide was reported to be novel and not found
+among previously known sEH inhibitors. An RL algorithm that works
+in tandem with on-demand simulation tools is indispensable for material
+development.
+
+7.2.
+
+## Material Discovery
+Many of the restrictions
+surrounding drug development have been eliminated by developing functional
+molecules for materials. In addition, while affinity (pharmacophore)
+for proteins is the dominant target in the development of drug molecules,
+functional molecules as materials vary widely according to their functions,
+that is, light-relevant, electronic, and other physical properties.
+Hence, in contrast to drug molecules, materials that exploit the diversity
+of molecules must be developed. While the difficulty in drug development
+is the molecular design under severe constraints, a large search space
+also makes the design of material molecules difficult.
+Generative
+AI is expected to be helpful in chemical space exploration, including
+molecular diversity. Although some proof-of-concept studies, including
+experimental validation, have been conducted for the AI-driven development
+of photofunctional molecules,
+,
+ electret, and CO2 capture, examples of real synthesis and verification of new molecules
+using generative AI are scarce in the materials field. It is easy
+to imagine that generative AI based on a probabilistic model falls
+outside the training data. RL-based generative AI is necessary. Successful
+examples of validating generative AI-designed molecules are summarized
+in .
+ Derivatives of a molecular skeleton that exhibit certain
+properties
+show relatively continuous changes with the addition or exchange of
+substituents. Therefore, the search for derivatives is efficient for
+chemists from the viewpoint of cost, and the various effects of substituents
+have been summarized in typical textbooks.
+,
+ Therefore, designing molecules with certain properties from scratch
+is an unthinkable task. Among the functional molecules, luminescent
+molecules are the most typical. The representative motifs of substances
+used as fluorescent probes or for bioimaging are almost entirely settled:
+rhodamine,
+−
+
+ GFP,
+,
+ and coumarin. If we continue searching for these basic skeletons, the
+strategy for obtaining correlations with the structure may be correct.
+However, a dramatic change in performance could also be expected when
+the basic skeletons are changed. Therefore, as demonstrated in drug
+discovery, the hopping search method was introduced to dramatically
+change the basic skeleton. By contrast,
+dramatic changes in the skeleton make establishing correlations difficult;
+therefore, using a prediction model for scoring is inappropriate.
+If the goal is to develop a new skeleton, a simulation based on a
+deductive approach is the only way to proceed. Sumita et al. used this strategy to achieve honesty. Using
+massive parallel search-enabled ChemTS, designed fluorescent molecules with on-demand QC computations at
+the B3LYP/3–21G level. They experimentally validated eight
+product molecules, including one new molecule, and showed that they
+could design fluorescent molecules from scratch in 75% of cases. The
+AI-designed fluorescent molecule with ab initio QC is shown in (a), with a fluorescence length of 550 nm and a quantum yield
+of 0.007.
+ There are good examples that show what happens
+when prediction
+models are used as a molecule evaluation system. Matsuzawa et al. designed low-viscosity molecules that can significantly
+improve the efficiency of electrochemical devices, such as batteries
+and capacitors. They selected 10,000 molecules from the GDB-17 chemical
+structure database and calculated the viscosity using molecular dynamics
+(MD) simulations. In addition, they calculated the HOMO energy of
+each molecule using DFT, using it as an indicator of molecular stability.
+Based on these data, a machine learning model was constructed. Using
+these models, molecular generation was performed via an RL approach
+(REINVENT) using SMILES strings to identify chemical structures that minimize
+the viscosity while maintaining a sufficiently low HOMO level. Among
+the generated molecules, a novel compound, 2-(1-methoxyethyl)-3-propylaziridine
+( (b)), was
+synthesized, and its viscosity was evaluated. The experimentally measured
+viscosity of this molecule was 0.61 mPa · s, which was found
+to be in close agreement with the MD-simulated viscosity of 0.58 mPa
+· s. Although the HOMO and viscosity distributions of the generated
+molecules clearly indicate a failure to extrapolate from the training
+data, their results show that interpolated searches within the training
+data can also find good candidates.
+Similarly, Tan et al. designed nonfullerene
+acceptors (NFAs) in organic photovoltaics (OPVs). They aimed to discover
+new molecules with better light-absorption properties and a lower
+cost than fullerene-based materials using generative AI with the evaluation
+of prediction model. They employed an evolutionary algorithm-based
+generative AI, eGEGL,
+,
+ trained using a database of
+NFAs to generate molecules by combining
+fragments. According to the modified Scharber model, the open-circuit
+voltage (V
+
+OC
+) can be
+predicted based on the gap between the donor’s HOMO and acceptor’s
+LUMO and V
+
+OC
+ results
+in power conversion efficiency (PCE) estimation. Therefore, they also
+created a directed message-passing neural network (D-MPNN) prediction
+model that can predict the gap from
+a SMILES string. Their D-MPNN was trained using NFA molecules curated
+from an OPV
+,
+ Seven molecules were synthesized
+from the generated candidates. All of them were experimentally confirmed
+to exhibit a high PCE, indicating strong potential for application
+in high-efficiency organic photovoltaic devices. The molecule with
+the highest PCE (11.8%) is shown in (c).
+The closed loop shown in (c) is incorporated
+into the cycle in as a formulation process for
+developing real-world materials. Ideally, the introduction of robots
+into the measurement process (including synthesis) would create a
+self-driving laboratory, as shown schematically in . Automated molecular synthesis
+technologies and self-driving laboratories for molecular design are
+also advancing. Recent advancements in self-driving laboratory technologies
+have been summarized elsewhere.
+,
+ Hence, this
+review does not address many of these issues. However, an important
+example of the ultimate form of AI-implemented self-driving laboratories
+was presented. Strieth-Kalthoff et al. developed organic laser emitters using a cycle of AI-based formulations
+and real-world synthesis and evaluation, as shown in . They assembled a formulation
+system that combined a GP prediction model using molecular descriptors,
+including physical quantities from DFT calculations, with Bayesian
+optimization. The search area is limited to chemicals that can be
+divided into core, bridge, and cap substructures that can be joined
+via the Suzuki–Miyaura reaction. Specifically, a fragment library
+capable of generating over 150,000 candidate molecules was created
+using 32 caps, 30 bridges, and 161 core building blocks. The molecules
+selected by the formulation system were synthesized using a combination
+of various automated experimental setups around the world, such as
+Chemputer, Chemspeed, and an end-to-end
+automated screening platform. Finally,
+21 novel molecules were synthesized. Owing to the purification limit,
+three of them, shown in (d), were confirmed to exhibit more than 1.5–1.9
+μJ cm–2 amplified spontaneous emission (ASE).
+Thus, automated synthesis has become an important technology for molecular
+design, and various molecules are expected to be developed with the
+advancement of automated synthesis technologies.
+ 
+
+8.
+
+## Outlook
+We provided an overview of
+the generative AI algorithms used for
+designing functional molecules and introduced several applications
+for molecular identification, which represents a major class of inverse
+problems in chemistry. While our review focused on generative AI for
+small-molecule design in , the algorithms introduced in are equally applicable to the design of
+supramolecules,
+,
+ metal complexes,
+−
+
+ polymers, proteins,
+,
+ and inorganic materials. Although
+the development of molecular generative AI based on probabilistic
+models will continue to evolve, their limitations are simultaneously
+becoming clear, and overblown expectations should be avoided.
+Vast number of molecular generative AI systems have been developed,
+depending on the type and availability of modules for molecular representation,
+generation, optimization, and evaluation. While the appropriate combination
+of these modules is crucial, molecule-generation modules based on
+probabilistic models are fundamentally designed to generate molecules
+similar to those in the training data, as discussed in . Thus, although it may be
+possible to find molecules that dramatically improve performance by
+chance, the algorithms are not designed to actively find them. This
+fact naturally limits the use of molecular generative AI.
+Spectroscopy
+is based on electromagnetic radiation with well-defined
+detection ranges, and its underlying mechanisms are largely understood.
+This makes spectral analysis well suited for generative AI. Most molecular
+generative AI models that perform identification based on molecular
+spectra require additional information such as composition/chemical
+formulas as inputs. This indicates that molecular identification is
+difficult without narrowing the search space in advance. As compositional
+analysis is mostly destructive to the target molecule, it is best
+to avoid this, if possible. Therefore, narrowing the search space
+using multiple spectra would be more ideal. In chemistry laboratories,
+molecules are not typically identified from a single spectrum but
+by combining multiple spectra. Therefore, the development of a generative
+AI that identifies molecules from multiple spectra will likely become
+mainstream. The use of molecular generative AI built from the learning
+data of spectra and molecules through simulations has become standard.
+Although there are examples of successful molecular identification
+using experimental spectra as inputs for generative AI based on simulation
+data, building training data sets from experimental data would be
+better. Therefore, developing methodological techniques that feed
+experimental data as training data is important. Applications to supramolecules such as proteins and polymers
+are also expected.
+,
+ Ultimately, molecular identification
+via generative AI is a pivotal theme in chemistry and a cornerstone
+technology for the realization of self-driving chemistry laboratories.
+Molecular generative AI embodies the long-awaited automation of
+molecular design. Since its emergence, generative AI has garnered
+significant attention in drug discovery, with several reports already
+documenting the experimental validation and clinical trials of AI-designed
+molecules. Some studies specifically highlight that generative AI
+can substantially shorten drug development timelines. However, generative AI has yet to succeed in
+developing molecules that significantly outperform conventional drugs.
+This stagnation is likely because molecular generation is constrained
+by the scope of training data, synthetic accessibility, and various
+pharmacological restrictions. Nevertheless, even when exploration
+is confined to the range of existing training data, AI can uncover
+superior molecules that researchers may have previously overlooked.
+This underscores the fact that the quality and curation of training
+data are the primary drivers of successful molecular development.
+Beyond simple probabilistic models, some methods employ reinforcement
+learning (RL) to update model distributions based on the scores of
+generated molecules. However, this approach offers limited benefit
+if the scores are provided by conventional prediction models. As reported
+by Matsuzawa et al., RL does not enable
+extrapolation beyond the inherent limits of the scoring function.
+Consequently, even when integrating RL into generative AI, the ability
+to identify novel molecules remains constrained by the training data
+used to build the underlying prediction models. It is fundamentally
+paradoxical to search for statistical outliers by relying on statistical
+prediction models.
+We also introduced approaches that employ
+simulations rather than
+prediction models to circumvent the limited applicability domain of
+model-based molecular scoring. In these cases, the search space is
+governed by the training data used for molecule generation and the
+inherent capabilities of the molecular simulation. Among various simulations,
+quantum chemistry (QC) calculations offer the best generalization
+performance for generative AI. A key reason for the success of QC
+is its ability to numerically represent chemical phenomena by calculating
+internal molecular energy relative to nuclear variations. Indeed,
+fluorescent molecules have been generated de novo by integrating the
+advantages of QC calculations with RL-based generative AI. If a simulation
+clarifies the underlying mechanisms of a phenomenon and its processes
+can be automated, then molecular generative AI can, in principle,
+design any molecule. While some studies define inverse molecular design
+as the task of correlating structures with target properties, we argue that explicitly determining structure–property
+correlations is unnecessary when screening-based methods can address
+the inverse problem directly; this task can be effectively delegated
+to computers.
+The integration of molecular generative AI and
+QC calculations
+represents a milestone in the evolution of theoretical chemistry.
+Once confined to explaining and speculating on chemical phenomena,
+theoretical calculations are now poised to lead the next revolution
+in materials development. However, simulations based on electronic
+structure theory are often computationally expensive. The hierarchical
+evaluation systems proposed by Korablyov et al., which combine prediction models and simulations, offer
+a potential solution to this cost. Nevertheless, the high computational
+demand of QC still directly increases the time required to evaluate
+each candidate, hindering extensive searches. Therefore, parallel
+exploration becomes crucial for efficiently navigating chemical space
+under demanding evaluation regimes. In , we present virtual loss- and hash-driven
+techniques that enable massive parallelization of Monte Carlo Tree
+Search (MCTS). Both techniques are expected to significantly expand
+the searchable area, even when utilizing computationally intensive
+evaluation systems like QC.
+Simulation appears to be an essential
+tool for overcoming the limitations
+of the applicability domain in molecular generative AI. Consequently,
+the automation of simulations, along with improvements in their accuracy
+and speed, has become increasingly important. However, automating
+simulations poses significant challenges. This involves more than
+just streamlining tasks that traditionally require human intervention
+and chemical intuition, such as conformational searching, managing initial structure dependency, or defining
+convergence criteria in molecular dynamics. Furthermore, current molecular
+simulations are far from perfect, and many theoretical aspects require
+fundamental refinement. To address this, data-driven improvements
+in computational efficiency and accuracy have been implemented for
+specific density functional theory (DFT) calculations.
+−
+
+ Research has also focused on developing force fields and potentials
+where QC calculations are regarded as the ground truth, further highlighting
+the necessity of ensuring QC accuracy. Ultimately, although future
+improvements in computer performance are anticipated, the development
+of simulation algorithms and the clarification of underlying phenomena
+remain vital for enriching the feature space required by molecular
+generative AI.
+Given the emergence of molecular generative AI
+for molecular identification
+and design, its integration with robotics is poised to realize self-driving
+chemistry laboratories, as schematically illustrated in . The development
+of fluorescent molecules by Strieth-Kalthoff et al. and pharmaceuticals by Grisoni et al. clearly signals this trend. However, perhaps due to constraints
+in synthetic accessibility and training databoth of which
+significantly restrict the searchable spacemolecules that
+fundamentally advance the frontiers of science have yet to be developed.
+Current chemical reaction technologies encompass only about 108 known chemicals. Even if AI
+were capable of performing molecular design utilizing every one of
+these reactions, our existing technology remains insufficient for
+truly exploring the vast expanse of chemical space. Consequently,
+for the time being, self-driving chemistry laboratories should be
+regarded as a field of technological development, distinct from pure
+scientific discovery. This “detour” into technological
+optimization is worthwhile, provided we do not lose sight of the underlying
+science. Ultimately, basic research aimed at transcending current
+synthesis paradigmswhich rely heavily on repetitive solvent-based
+reactions and fractionationis essential for the next leap
+in molecular discovery. While human leadership is essential for the
+true expansion of technology, the integration and supplementation
+of established knowledge offer a powerful catalyst for advancement,
+where probabilistic generative models can play a pivotal role.
+The previously fragmented fields of chemistry are rapidly integrating
+as informatics becomes deeply embedded in chemical research. Consequently,
+the breadth and depth of knowledge required for researchers are becoming
+increasingly diverse and vast. Furthermore, chemistry is a visually
+oriented discipline and even a single subfield can exceed the capacity
+of an individual to master. Large Language Models (LLMs) currently
+offer a promising means of managing specialized knowledge alongside
+visual information. As schematically shown in , LLMs could effectively utilize instrument
+manuals to guide experimental procedures. Furthermore, the integration
+of LLMs with emerging algorithmic approaches allows for the prediction
+of multiple features and properties of chemical substances and address
+inverse problems. Such a well-trained computational framework has
+the potential to provide a comprehensive platform, moving beyond the
+development of individual predictive or generative models for specific
+molecular properties. By enhancing their reliability through integration
+with external databases, LLMs could be incorporated into self-driving
+chemistry laboratories, contributing to diverse areas such as molecular
+design, automated synthesis, image recognition, and safety data management.
+However, it is important to remember that probabilistic models,
+including LLMs, are fundamentally dependent on their training data.
+Currently, chemical data tends to be concentrated on derivatives of
+high-performing molecules, and training on such biased data sets will
+inevitably yield biased AI responses. Therefore, researchers must
+carefully curate databases tailored to their specific objectives.
+Furthermore, as previously mentioned, one must not forget to validate
+the predictions made by these models, because these models often appear
+more authoritative than their actual capabilities warrant. Predicting
+the future solely based on the past is inherently impossible; thus,
+critical judgments that shape the future must remain the responsibility
+of human researchers. Even if today’s generative AI had existed
+when Teflon and various plastics were first introduced, it likely
+would not have predicted the unprecedented environmental impacts described
+in “Silent Spring.” To
+utilize AI safely and effectively, we must strive even harder to cultivate
+a higher degree of imagination and creativity.
+
+## Acknowledgments
+The authors are grateful to Dr. Shinsuke Ishihara,
+Dr. Naoya Suzuki, Dr. Takehiro Fujita, Dr. Yasuyuki Nakamura, and
+Dr. Masanobu Naito for the topics discussed in this review. K. Tsuda
+is supported by JST CREST JPMJCR21O2 and ERATO JPMJER1903. K. Terayama
+is supported by JST FOREST JPMJFR232U, JST BOOST JPMJBY24F0, JSPS
+KAKENHI JP24H00473, and MEXT JPMXP1020230120. K. Yoshizoe is supported
+by JSPS KAKENHI JP20H04251 and JP20H05963. R. Tamura is supported
+by JST PRESTO JPMJPR24T8.
+
+## Glossary
+
+## Abbreviations
+1DOne-Dimensional
+2DTwo-Dimensional
+3DThree-Dimensional
+AAEAdversarial Autoencoder
+ADMEAbsorption, Metabolism,
+Distribution,
+and Excretion
+ADRA2AAdrenoceptor Alpha 2A
+AIArtificial Intelligence
+ARAuto-Regressive
+ASEAmplified Spontaneous Emission
+BERTBidirectional Encoder Representations
+from Transformers
+BIMODALBidirectional Recurrent Neural
+Networks
+BOBayesian
+Optimization
+BOSSBayesian Optimization Over String
+Spaces
+BRICSBreaking
+of Retrosynthetically
+Interesting Chemical Substructures
+casVAECascaded Variational Autoencoder
+CLMChemical Language Model
+CLscoreChEMBL-Likeness
+Score
+CMGNConditional
+Molecular Generation
+Net
+CoGCompound
+Generator
+CVAEChemical
+Variational Autoencoder
+CXCR4C-X-C Chemokine Receptor Type
+4
+D-MPNNDirected
+Message Passing Neural
+Network
+DAGDirected
+Acyclic Graphs
+DDPMDenoising Diffusion Probabilistic
+Model
+DDR1Discoidin
+Domain Receptor 1
+DFTDensity Functional Theory
+DMPNNDual Message Passing Neural Networks
+DNCDifferentiable Neural Computer
+DQNDeep Q-Network
+DRAGONFLYDrug-Target
+Interactome-Based
+Generation of Novel Biologically Active Molecules
+DSTDifferentiable Scaffolding Tree
+DTCDrug Target Commons
+E­(3)Euclidean Group
+in 3D
+EAEvolutionary
+Algorithm
+EBMEnergy-Based
+Models
+EC
+50
+
+Median
+Effective Concentration
+ECFPExtended-Connectivity Fingerprint
+EDME­(3) Equivariant Diffusion Model
+EIExpected Improvement
+FLAGFragment-Based
+Ligand-Generation
+Framework
+FMQAFactorization
+Machine with Quantum
+Annealing
+FSscoreFocused Synthesizability Score
+GAGenetic Algorithm
+GAILGenerative Adversarial Imitation
+Learning
+GANGenerative
+Adversarial Network
+GASAGraph Attention-Based Assessment
+of Synthetic Accessibility
+GB-GAGraph-Based Genetic Algorithm
+GB-GM-MCTSGraph-Based Generative Model
+with Monte Carlo Tree Search
+GCPNGraph Convolutional Policy Network
+GdMCGradient-driven Molecule Construction
+GENTRLGenerative Tensorial
+Reinforcement
+Learning
+GNNGraph
+Neural Network
+GPTGenerative Pre-Training
+GraphTransGraph Transformer
+GROVERGraph Representation from Self-Supervised
+Message Passing Transformer
+GRUGated Recurrent Units
+HFHartree–Fock
+HOMOHighest Occupied Molecular Orbital
+IC
+50
+
+Median
+Inhibitory Concentration
+IRInfrared Absorption Spectrum
+JAK1Janus Kinase 1
+L-NetLigand Neural Network
+LIMOLatent Inverse Molecular Optimizer
+LLMLarge Language
+Model
+LSTMLong
+Short-Term Memory
+LUMOLowest Unoccupied Molecular Orbital
+Mpro
+Main Protease
+MCMCMarkov Chain Monte Carlo
+MCMGMulti-Constraint Molecular
+Generation
+MCTSMonte Carlo Tree Search
+MDMolecular Dynamics
+MDPMarkov Decision Process
+MLMachine Learning
+MLPMultilayer Perceptron
+MOOMulti-Objective Optimization
+MOSESMolecular Sets
+MPNNMessage Passing Neural
+Network
+MSMass
+Spectrometry
+NFANon-Fullerene Acceptors
+NPNatural Product
+Nurr1Nuclear Receptor Related 1
+OMGOpen Molecule Generator
+OPVOrganic Photovoltaics
+PARPPoly [ADP-ribose] Polymerase
+PCEPower Conversion
+Efficiency
+PDE4DPhosphodiesterase 4D
+PGFSPolicy Gradient for Forward Synthesis
+PIProbability of Improvement
+PI3KγPhosphatidylinositide
+3-Kinase
+Gamma
+pIC
+50
+
+Negative
+Log of Median Inhibitory Concentration Value
+PMOPractical Molecular Optimization
+PPOProximal Policy
+Optimization
+PSOParticle Swarm Optimization
+QAOAQuantum Approximate Optimization
+Algorithm
+QCQuantum
+Chemistry
+QEDQuantitative
+Estimate of Drug Likeness
+QSARQuantitative Structure–Activity
+Relationship
+QSPRQuantitative Structure–Property
+Relationship
+RAscoreRetrosynthetic Accessibility
+Score
+RBDReceptor-Binding
+Domain
+REACTORReaction-Driven
+Objective Reinforcement
+RECAPRetrosynthetic Combinatorial Analysis
+Procedure
+ReLeaSEReinforcement Learning for Structural
+Evolution
+RLReinforcement
+Learning
+RNNRecurrent
+Neural Networks
+RXRRetinoid X Receptor
+SACSoft Actor-Critic
+SARSCoV-2 Severe Acute Respiratory
+Syndrome Coronavirus 2
+SAScoreSynthetic Accessibility Score
+SCScoreSynthetic Complexity Score
+SDEStochastic Differential
+Equations
+SDSSafety
+Data Sheet
+SE­(3)Special Euclidean Group in 3D
+sEHSoluble Epoxide Hydrolase
+SELFIESSelf-Referencing Embedded Strings
+SMBOSequential Model-Based
+Global Optimization
+SMCSequential Monte Carlo
+SMILESSimplified Molecular Input Line
+Entry System
+SPMMStructure–Property Multimodal
+Foundation Model
+SYBASynthetic Bayesian Accessibility
+TamGenTarget-Aware Molecular Generation
+TDTemporal Difference
+TDCTherapeutics Data
+Commons
+TNIKTRAF2-
+and NCK-interacting Kinase
+UVVis Ultraviolet–Visible
+VAEVariational Autoencoder
+VQCVariational Quantum Circuit
+VSVirtual Screening
+
+## Biographies
+Masato Sumita is Research Scientist at the Center
+for Advanced
+Intelligence Project, RIKEN. He received a Doctor of Science in 2008
+from the University of Tsukuba. His research interests include quantum
+chemistry and application of machine learning for chemistry and materials
+sciences.
+
+Shoichi Ishida is Visiting Lecturer
+at the Graduate School of Medical
+Life Science, Yokohama City University. He earned his doctoral degree
+in Pharmaceutical Sciences from Kyoto University in 2021. His research
+interests include the application of cheminformatics and machine learning
+techniques to drug discovery and materials science, as well as the
+development of related tools and software.
+
+Kazuki Yoshizoe received his Ph.D. in computer science from the
+University of Tokyo, where he specialized in graph-search algorithms.
+He has served as a researcher at the Japan Science and Technology
+Agency (JST), an assistant professor at the University of Tokyo, and
+a unit leader at RIKEN. He is currently a professor at Kyushu University,
+where he heads the High-Performance Computing Division of the Research
+Institute for Information Technology. His research interests include
+graph-search algorithms, parallel computing, and machine learning,
+with applications to games, combinatorial optimization, decision-making
+problems, and molecular design.
+
+Ryo Tamura
+is Team Leader at Center for Basic Research on Materials
+(CBRM) in National Institute for Materials Science (NIMS). He obtained
+his Ph.D. in 2012 from Graduate School of Science, the University
+of Tokyo. He has worked in the field of materials science, in particular,
+his research interests focus on materials informatics and automated
+materials explorations.
+
+Kei Terayama is
+Associate Professor at the Graduate School of Medical
+Life Science, Yokohama City University. He received a Doctor of Human
+and Environmental Studies degree in 2016 from Kyoto University. His
+research interests include developing and applying machine learning
+and computer vision techniques for chemistry, materials sciences,
+biology, and underwater monitoring.
+
+Koji
+Tsuda received B.E., M.E., and Ph.D degrees from Kyoto University,
+Japan, in 1994, 1995, and 1998, respectively. Subsequently, he joined
+former Electrotechnical Laboratory (ETL), Tsukuba, Japan, as Research
+Scientist. When ETL was reorganized as AIST in 2001, he joined newly
+established Computational Biology Research Center, Tokyo, Japan. In
+2000–2001, he worked at GMD FIRST in Berlin, Germany, as Visiting
+Scientist. In 2003–2004 and 2006–2008, he worked at
+Max Planck Institute for Biological Cybernetics, Tuebingen, Germany,
+first as Research Scientist and later as Project Leader. Currently,
+he is Professor at Department of Computational Biology and Medical
+Sciences, Graduate School of Frontier Sciences, the University of
+Tokyo. He is also affiliated with National Institute of Material Science
+(NIMS) and RIKEN Center for Advanced Intelligence Project. His current
+interests involve machine learning, computational biology and computational
+materials science. His recent work includes the use of machine learning
+for automatic design of organic and inorganic materials and biopolymers
+such as peptides and proteins.
+
+The authors
+declare no competing financial interest.
+
+Published
+as part of Chemical Reviews
+special issue “Artificial Intelligence for Chemistry”.
+
+## References

@@ -1,0 +1,1013 @@
+822acssdJournal of Proteome ResearchJ Proteome ResPMC1024330610243306102433063699511410.1021/acs.jproteome.2c00790CRISPRi-Mediated
+Silencing of Burkholderia O-Linked
+Glycosylation Systems Enables the Depletion of Glycosylation
+Yet Results in Modest Proteome Impacts
+LewisJessica
+M ScottNichollas E 1Department of Microbiology and Immunology, University of Melbourne at the Peter Doherty Institute
+for Infection and Immunity, Melbourne 3000, Australia*Email: Nichollas.scott@unimelb.edu.au.
+303202322617621762–17783032024© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ The process of O-linked
+protein glycosylation is highly conserved
+across the Burkholderia genus and mediated
+by the oligosaccharyltransferase PglL. While our understanding of Burkholderia glycoproteomes has increased in recent
+years, little is known about how Burkholderia species respond to modulations in glycosylation. Utilizing CRISPR
+interference (CRISPRi), we explored the impact of silencing of O-linked
+glycosylation across four species of Burkholderia; Burkholderia cenocepacia K56-2, Burkholderia diffusa MSMB375, Burkholderia
+multivorans ATCC17616, and Burkholderia
+thailandensis E264. Proteomic and glycoproteomic analyses
+revealed that while CRISPRi enabled inducible silencing of PglL, this
+did not abolish glycosylation, nor recapitulate phenotypes such as
+proteome changes or alterations in motility that are associated with
+glycosylation null strains, despite inhibition of glycosylation by
+nearly 90%. Importantly, this work also demonstrated that CRISPRi
+induction with high levels of rhamnose leads to extensive impacts
+on the Burkholderia proteomes, which
+without appropriate controls mask the impacts specifically driven
+by CRISPRi guides. Combined, this work revealed that while CRISPRi
+allows the modulation of O-linked glycosylation with reductions up
+to 90% at a phenotypic and proteome levels, Burkholderia appears to demonstrate a robust tolerance to fluctuations in glycosylation
+capacity.
+Keywords: glycosylation, Burkholderia cenocepacia, Burkholderia, post-translational
+modifications, proteomics, CRISPRi, PglL
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Dec 4; Collection date 2023 Jun 2.
+
+## Introduction
+Glycosylation,
+the enzymatic addition of glycans to proteins, is
+an important post-translational modification observed across all domains
+of life. − While once thought to be rare within bacterial systems,
+this class of modifications is increasingly recognized as a widespread
+phenomenon demonstrated to play important
+roles in regulating protein translation, , antimicrobial
+efflux, , and protein stability. , Over
+the last two decades, significant progress has been made in the identification
+of the enzymes responsible for glycosylation, revealing a diverse
+array of enzymes that are responsible for ligating glycans to bacterial
+proteins. , Across these enzymes, protein glycosylation
+has been observed to occur via two broad approaches: (I) the direct
+transfer of monosaccharides by glycosyltransferases to acceptor proteins
+and (II) the transfer of oligosaccharides en bloc from undecaprenyl phosphate lipid carriers to acceptor proteins
+by oligosaccharyltransferases. The PglL
+enzymes represent one of the largest families of oligosaccharyltransferases and have been confirmed to mediate O-linked
+glycosylation across a range of bacteria including Acinetobacter, , Francisella, Pseudomonas, − Neisseria, − Ralstonia, and Burkholderia species. − While early studies
+sought to confirm the activity of PglL enzymes using heterogeneous
+expression systems − or proteomic approaches, , , , recent studies
+have focused on expanding our understanding of their enzymatic capacities.
+These recent studies have demonstrated that PglL oligosaccharyltransferases
+can possess unique targeting ranges − as well as diverse glycan
+tolerances, , yet little insights have been
+gained about the functional roles of these glycosylation systems within
+the bacterial species that possess them or the conserved properties
+of these enzymes across genera.
+Across the Burkholderia genus, O-linked
+glycosylation is highly conserved. , Within Burkholderia cenocepacia, the most well-characterized Burkholderia glycoproteome to date, over 100 proteins
+are targeted for glycosylation, , , making this one of the largest known bacterial glycoproteomes. Within Burkholderia species, glycosylation has been shown
+to be mediated by two non-genetically linked components, the O-linked
+glycosylation cluster (ogc) responsible for the biosynthesis
+of the trisaccharide β-Gal-(1,3)−α-GalNAc-(1,3)−β-GalNAc and the O-linked oligosaccharyltransferase PglL,
+responsible for the en bloc transfer of glycans to
+glycoproteins. , Additionally, the O-linked trisaccharide
+is also observed to be succinylated across species, − yet the mechanisms
+behind this modification are currently unknown. Loss of O-linked glycosylation
+within Burkholderia species results
+in dramatic changes in virulence-associated attributes within B. cenocepacia, , Burkholderia thailandensis, and Burkholderia
+pseudomallei. While these
+observations support the importance of O-linked glycosylation, the
+specific functional roles of the glycoproteome are unclear. Proteomic
+analysis has demonstrated that the loss of glycosylation within B. cenocepacia by the disruption of ogc or pglL results in hundreds of proteomic changes,
+yet the scale of proteomic alterations has represented a challenge
+for understanding the cause of the reduction in virulence. Furthermore, comparative glycoproteomic analysis
+has revealed that while many glycoproteins are conserved across species,
+most have no known assigned functions, further hampering our understanding of the potential role of glycosylation
+across the Burkholderia genus. One
+way to bridge this gap in our understanding of Burkholderia glycoproteomes is to elucidate shared defects and or glycoproteins
+impacted by the loss of glycosylation across this genus. However,
+there is a paucity of genetic approaches for creating mutants in many Burkholderia species, limiting the use of comparative
+proteomics to understand the impact of glycosylation across this genus.
+While a range of molecular tools have been developed for the Burkholderia genus to allow mutagenesis, , protein expression from plasmids, , and the inducible
+expression of genes using promoter replacements, these tools are not universally compatible with many Burkholderia species recalcitrant to the incorporation
+of foreign DNA. This recalcitrant nature
+to genetic manipulation hampers the study of diverse Burkholderia species and makes the analysis of conserved
+processes across this genus challenging. A potential solution to this
+issue is the use of emerging genetic tools such as CRISPR interference
+(CRISPRi) systems, which have been demonstrated to allow the assessment
+of bacterial gene functions in an orthogonal manner to mutagenesis. A key advantage of these tools is the ability
+to assess gene functions in strains/species that have been genetically
+intractable to standard mutagenesis, illustrated by the recent work
+of Rousset et al. demonstrating the ability of CRISPRi to assess gene
+essentiality across a diverse panel of pathogenic and environmental Escherichia coli strains. With the recent development of a CRISPRi system optimized for the Burkholderia genus, this
+molecular tool provides a new way to assess gene functions within Burkholderia species. Utilizing a rhamnose-inducible
+nuclease-inactivated variant of Streptococcus pyogenes Cas9 (dCas9) that is readily able to be chromosomally integrated
+via a mini-CTX system, this molecular
+tool enables the targeted-silencing of Burkholderia genes by the introduction of guide RNA (gRNA) on a broad-host plasmid,
+targeting the desired gene. By inducing
+the expression of dCas9, this system has been demonstrated to enable
+the tuneable silencing of Burkholderia genes, with phenotypic assessments supporting the potent silencing
+even with modest levels of dCas9 induction. These recent tools provide a novel system to explore conserved Burkholderia processes, such as glycosylation, in
+a titratable and scalable manner.
+Within this work, we set out
+to assess the potential of CRISPRi
+to improve our understanding of O-linked glycosylation across the Burkholderia genus. Taking advantage of the Burkholderia optimized CRISPRi system, we introduced CTX:rha-dCas9 into four Burkholderia species (B. cenocepacia K56-2, Burkholderia diffusa MSMB375, Burkholderia multivorans ATCC17616, and B. thailandensis E264) and explored the impact of
+CRISPRi silencing on pglL using proteomic and glycoproteomic
+approaches. We demonstrate that CRISPRi silencing allows robust reductions
+in PglL levels, yet find that this does not completely abolish glycosylation.
+Comparison of a glycosylation null strain (ΔpglL) to glycosylation-silenced strains of B. cenocepacia revealed that only a small proportion of alterations observed within
+this glycosylation null strain are recapitulated within the silenced
+strains. Despite reducing glycosylation by nearly 90% in the glycosylation-silenced
+strain, some phenotypes associated with the loss of glycosylation,
+such as alterations in motility, were not impacted. Across the Burkholderia genus, we observed that despite the
+robust reduction in PglL levels, glycosylation is still detectible,
+and relatively few conserved alterations within the proteomes are
+identified across Burkholderia species.
+Combined this work confirms that glycosylation levels can be altered
+using CRISPRi, yet this does not allow complete silencing of glycosylation
+and that modest levels of glycosylation appear sufficient to prevent
+the proteomic impacts previously reported in glycosylation null strains.
+
+## Methods
+
+## Strains
+and Growth Conditions
+All strains and plasmids
+used within this study are listed in Supporting Information Tables 1 and 2. Bacterial strains for proteomic
+analysis were grown overnight at 37 °C in Luria Bertani broth
+medium (OXOID) shaken at 180 rpm. For the generation of CTX:rha-dCas9
+strains and/or the selection of strains containing sgRNA, plasmid
+strains were cultured on 1% l-agar, supplemented with the
+required antibiotics at a final concentration of 50 μg/mL trimethoprim
+for E. coli, 100 μg/mL for B. cenocepacia, 20 μg/mL tetracycline for E. coli, 150 μg/mL for B. cenocepacia, and 50 μg/mL kanamycin for E. coli. Ampicillin was used at 100 μg/mL and polymyxin B at 25 μg/mL
+for triparental mating to select against donor and helper E. coli strains, as previously described. Induction of dCas9 within Burkholderia strains was undertaken by the addition of l-rhamnose (final
+concentration of either 0.1% or 1% for proteomic analysis and 0.01,
+0.025, 0.05, 0.1, and 1% for Western analysis) when required. Antibiotics
+were purchased from Thermo Fisher Scientific while all other chemicals,
+unless otherwise stated, were provided by Sigma-Aldrich.
+
+## CRISPRi sgRNA
+Plasmid Generation
+All primers used within
+this study are listed in Supporting Information Table 3. To simplify the incorporation of guide RNA sequences into
+the pSCB2-gRNA plasmid, the blue chromoprotein amilCP( ) was amplified from the
+plasmid pUS250 using the primers Nsco_0449 and Nsco_0450 and inserted
+between the gRNA promotor and gRNA scaffold of pSCB2-gRNA (amplified
+with primers 1092 and 1093) via Gibson assembly using NEBuilder HiFi DNA Assembly Master Mix (NEB) and
+then transformed into chemically competent E. coli pir2 cells, as previously described. CRISPRi sgRNA guides were designed to target the 5′ of the pglL gene across all four Burkholderia species. DNA sequences corresponding to 200 bp preceding the start
+of the target gene (corresponding to the promotor regions) and the
+first 400 bp within the target gene were searched using the “guide
+RNA design for CRISPRi in bacteria” function of CRISPRi (https://crispr-browser.pasteur.cloud/guide-rna-design) and up to four guides with the best predicted activity score and at least three mismatches to non-pglL sequences within the chromosome selected for cloning.
+These 20 bp guide sequences were incorporated into the 5′ region
+of the guide RNA (gRNA) scaffold 5′-GTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGC-3′
+allowing the introduction of guides into pSCB2-blue-sgRNA by inverse
+PCR using primer 1092, as previously described. Plasmids were amplified with Q5 DNA polymerase (NEB) and
+circularized with KLD Enzyme Mix (NEB) according to the manufacturer’s
+instruction and then introduced into chemically competent E. coli. Guide incorporation into pSCB2-gRNA was
+confirmed in non-blue colonies by PCR using the oligos Nsco_0409 and
+848 as well as Sanger Sequencing (Australian Genome Research Facility,
+Melbourne, Australia).
+
+## Conjugation and Transformation of Burkholderia Species
+The dCas9 cassette
+and CRISPRi guide plasmids were
+introduced to B. thailandensis, B. cenocepacia, and B. diffusa via triparental mating using the pRK2013
+helper plasmid. Conjugations were allowed
+to proceed for 16 h and then transconjugants selected with tetracycline
+or trimethoprim for the integration of the CTX:rha-dCas9 cassette
+and CRISPRi sgRNA guide plasmids, respectively. For B. multivorans, plasmids were introduced via electroporation
+as previously described. Briefly, mid-exponential B. multivorans cells were pelleted (4 °C, 2800g, 10 min), washed three times with ice-cold transformation
+buffer (10 mM MOPS buffer, pH 7.0, 10% glycerol), and resuspended
+in cold transformation buffer. The cells were incubated with the plasmid
+DNA on ice for 10 min, transferred to a pre-chilled 2 mm gap electroporation
+cuvette (Bio-Rad), and electroporated using the Ec2 setting of the
+MicroPulser electroporator (Bio-Rad). Following electroporation, cells
+were recovered in Super Optimal Broth (2% w/v tryptone, 0.5% w/v yeast
+extract, 10 mM NaCl, 2.5 mM KCl, and 10 mM MgCl2) for 1
+h, 37 °C, and transformants were selected on l-agar
+supplemented with tetracycline or trimethoprim as above. Bacterial
+transformants and transconjugants were screened by colony PCR using
+1× GoTaq Green Master Mix (Promega), 0.5 mM of each oligonucleotide,
+5% DMSO, and colonies added directly to the reaction mixture. The
+integration of pAH-CTX1-rha-dCas9 into Burkholderia strains was confirmed using the CTX-internal oligo (Nsco_0376) in
+combination with a strain-specific oligo flanking the attB integration site (1008 for B. cenocepacia, 1168 for B. thailandensis, Nsco_0489
+for B. diffusa, and Nsco_0496 for B. multivorans).
+
+## Western Blotting
+Cells were harvested following 16
+h growth with increasing concentrations of rhamnose (0–1%;
+stationary phase, OD600nm 1.5), resuspended in 1×
+sodium dodecyl sulfate (SDS)-PAGE sample buffer, boiled for 10 min,
+and then run on a NuPAGE 4–12% Bis-Tris gradient polyacrylamide
+gel (Invitrogen) in MES buffer (Life Technologies). Proteins were
+transferred to a nitrocellulose membrane using the iBlot 2 Western
+transfer system (Life Technologies) and blocked for 1 h in 5% skim
+milk in TBST (Tris-buffered saline with 0.1% Tween 20). The membranes
+were incubated with monoclonal mouse α-Histidine tag primary
+antibody (1:1000; AD1.1.10, Bio-Rad) overnight, 4 °C, washed
+with TBST, and then incubated with horseradish peroxidase (HRP)-conjugated
+α-mouse (1:5000; NEF82200-1EA, PerkinElmer) for 1 h, room temperature.
+Proteins were detected using the Clarity Western ECL Substrate kit
+(Bio-Rad) and images obtained using an Amersham imager 600 (GE Healthcare
+Life Sciences). Membranes were Stripped with Restore Plus Stripping
+Buffer for 10 min before being re-blocked in 5% skim milk in TBST
+and probed with α-E. coli RNA
+polymerase primary antibody (1:5000; 4RA2, Neoclone) followed by HRP-conjugated
+α-mouse and imaged as above. All antibodies were diluted in
+TBS-T with 1% bovine serum albumin (Sigma-Aldrich). Raw uncropped
+and protein marker associated Western blotting images are provided
+within Supporting Information Figure 9.
+
+## Swimming Motility Assays
+Motility assays were performed
+with 0.3% l-agar as previously described with minor modifications. Briefly, 20% sterile rhamnose
+or an equivalent volume of sterile water was added to molten 0.3% l-agar media for a final concentration of 0.1% rhamnose, 20
+mL of aliquoted into 9 mm Petri dishes, and plates dried briefly once
+set. The dried plates were inoculated with 1 μL of stationary
+phase cultures standardized to an OD600nm of 1.0 (paired
+inoculation of plates with and without rhamnose), and plates were
+incubated at 37 °C for 24 h. Following incubation, the diameter
+of turbidity was measured, and plates were imaged.
+
+## Whole-Cell
+Proteomics
+Cell pellets were prepared in
+biological triplicate or quadruplicate from stationary phase overnight
+cultures (OD600nm 1.5), from paired cultures grown in the
+presence or absence of l-rhamnose. Cell pellets were washed
+with ice-cold PBS (4 °C, 10,000g) then resuspended
+in 4% sodium deoxycholate, 100 mM Tris pH 8.5, and boiled at 95 °C
+with shaking (2000 rpm; Eppendorf ThermoMixer) for 10 min. Following
+the initial lysis, the samples were rested on ice for 10 min and then
+boiled again for an additional 10 min. Proteins were quantified using
+bicinchoninic acid (BCA) assay (Thermo Fisher Scientific) and 50 μg
+of protein reduced and alkylated with 10 mM Tris 2-carboxyethyl phosphine
+hydrochloride (TCEP; Thermo Fisher Scientific) and 40 mM 2-chloroacetamide
+(CAA; Sigma-Aldrich) for 30 min at 45 °C in the dark with shaking
+(500 rpm; Eppendorf ThermoMixer). Proteins were digested with 1:100
+(wt/wt) sequencing grade trypsin (SOLu-Trypsin, Sigma-Aldrich) for
+16 h at 37 °C with shaking (500 rpm; Eppendorf ThermoMixer).
+Following digestion, samples were mixed with 1.25 volumes of 100%
+isopropanol and then acidified with 0.115 volumes of 10% trifluoracetic
+acid (TFA) (final concentration of 50% isopropanol and 1% TFA), before
+being cleaned up with Styrene-divinylbenzene-reverse phase sulfonate
+(SBD-RPS; Empore) stage tips, as previously described. − Briefly, three frits of SDB-RPS were excised from a 47 mm2 SBD-RPS membrane using a 14 G blunt needle and loaded into a 200
+μL tip. The SBD-RPS columns were conditioned using 150 μL
+of acetonitrile, followed by 150 μL of 30% methanol, 1% TFA,
+and then equilibrated with 150 μL of 90% isopropanol, 1% TFA.
+Samples were loaded onto equilibrated columns in a tip spinner by centrifugation at 1000g for
+5 min at room temperature. The SDB-RPS columns were washed with 150
+μL of 90% isopropanol, 1% TFA, followed by 150 μL of 1%
+TFA by centrifugation at 1000g for 5 min. Peptides
+were eluted with 150 μL of 5% ammonium hydroxide, 80% acetonitrile,
+dried by vacuum centrifugation, and stored at −20 °C.
+
+## Glycoproteomic Sample Preparation
+Cell pellets were
+prepared in biological quadruplicate from stationary phase overnight
+cultures (OD600nm 1.5) from paired cultures grown in the
+presence or absence of l-rhamnose. Cell pellets were washed
+with ice-cold PBS (4 °C, 10,000g), resuspended
+in 4% SDS, 100 mM Tris pH 8.5, 10 mM dithiothreitol, and boiled at
+95 °C for 10 min with shaking (2000 rpm; Eppendorf ThermoMixer).
+Protein concentrations were quantified using BCA assay (Thermo Fisher
+Scientific) and 1 mg of protein precipitated by mixing with 4×
+volume of ice-cold acetone and incubating overnight at −20
+°C. Protein samples were then pelleted at 0 °C, 4000g, 10 min and the acetone discarded. The samples were resuspended
+in 100 μL of water and 400 μL of ice-cold acetone added
+with the sample incubated for a further 4 h at −20 °C.
+Following this final precipitation, proteins were pelleted at 0 °C
+as above, the acetone discarded, and the samples were dried briefly
+at 70 °C to remove residual acetone. Proteins were resuspended
+in 6 M urea, 2 M thiourea in 100 mM Tris (pH 8.5), followed by reduction
+with 10 mM TCEP and alkylation with 40 mM CAA. Following a 1 h incubation
+at 25 °C, the urea/thiourea was diluted 1/4 with 100 mM Tris,
+pH 8.5 containing trypsin [1:100 (wt/wt), Promega] and digested for
+16 h at 25 °C. Following digestion, peptides were acidified with
+formic acid to a final concentration of 1%, and peptides were extracted
+using 50 mg of Sep-Pak tC18 columns (Waters corporation). Columns
+were conditioned with Buffer B (0.1% formic acid and 80% acetonitrile)
+and equilibrated with Buffer A* (0.1% TFA, 2% acetonitrile), before
+samples were loaded and washed twice with Buffer A*. Peptides were
+eluted with Buffer B, and 4% (∼40 μg) of this elution
+collected as an input control for the glycopeptide enrichments. The
+peptide and input control samples were dried in a vacuum centrifuge
+and stored at −20 °C.
+Glycopeptides were enriched
+from whole cell proteome digests using zwitterionic hydrophilic interaction
+liquid chromatography (ZIC-HILIC), as previously described. , , Briefly, 500 μg of purified
+peptide was resuspended to a final concentration of 4 μg/μL
+in ZIC-HILIC loading/wash buffer (80% acetonitrile, 1% TFA) and ZIC-HILIC
+tips prepared by loading ZIC-HILIC material (10 μm ZIC-HILIC
+resin, Millipore), suspended in 50% acetonitrile, onto a C8 frit (C8;
+Empore) in a 200 μL tip. The ZIC-HILIC material was conditioned
+with 20 bed volumes (100 μL) of 0.1% TFA, followed by 95% acetonitrile,
+and then 100 μL of ZIC-HILIC loading/wash buffer twice. Peptides
+were loaded onto the ZIC-HILIC column, and non-glycosylated peptides
+were removed by washing three times with 150 μL of ZIC-HILIC
+loading/wash buffer. The glycopeptides were eluted twice with 100
+μL of 0.1% TFA and then dried in a vacuum centrifuge and stored
+at −20 °C.
+
+## Data-Independent Acquisition LC–MS
+Analysis
+Proteome samples were re-suspended in Buffer A*
+and separated using
+a Ultimate 3000 UPLC (Thermo Fisher Scientific) with a two-column
+chromatography setup composed of a PepMap100 C18 20 mm × 75 μm
+trap and a PepMap C18 500 mm × 75 μm analytical column
+(Thermo Fisher Scientific) or a Vanquish Neo (Thermo Fisher Scientific)
+using a single column chromatography set up composed of a ACQUITY
+UPLC Peptide BEH C18 Column (300 Å, 1.7 μm, 1 mm ×
+100 mm, Waters Corporation). All data-independent acquisition (DIA)
+experiments were collected on a Orbitrap Exploris 480 (Thermo Fisher
+Scientific) with the analysis of B. cenocepacia CTX:rha-dCas9 in response to 0.1% rhamnose undertaken using microflow-based
+proteomics using the Vanquish Neo at 50 μL/min. For microflow-based
+proteomics, samples were loaded directly onto the ACQUITY column for
+1 min at 50 μL/min with Buffer A (0.1% formic acid, 2% DMSO)
+coupled directly to the Orbitrap 480 and the buffer composition altered
+from 2% Buffer B (0.1% formic acid, 77.9% acetonitrile, and 2% DMSO)
+to 26% B over 90 min, then from 26% B to 99% B over 2 min, and then
+was held at 99% B for 1 min. For all other DIA experiments, samples
+were concentrated onto a trap column at 5 μL/min for 6 min with
+Buffer A, then infused into the Orbitrap 480 at 300 nL/min via the
+analytical column. 90 min analytical runs were undertaken by altering
+the buffer composition from 2% Buffer B to 28% B over 75 min, then
+from 25% B to 40% B over 4 min, and then from 40% B to 80% B over
+1 min. The composition was held at 80% B for 3 min and then dropped
+to 2% B over 1 min before being held at 2% B for another 6 min. The
+Orbitrap 480 Mass Spectrometer was operated in a data-independent
+mode automatically switching between the acquisition of a single Orbitrap
+MS scan (350–951 m/z, maximal
+injection time of 50 ms, an automated gain control (AGC) set to a
+maximum of 250% and a resolution of 120k) and the collection of 16 m/z DIA windows between 350 and 951 m/z (200–2000 m/z, NCE 28%, maximal injection time of 54 ms, a
+AGC set to 2000%, and a resolution of 30k).
+
+## Data-Dependent Acquisition
+LC–MS Analysis
+Proteome
+and glycoproteome samples were re-suspended in Buffer A* and separated
+using Ultimate 3000 UPLCs (Thermo Fisher Scientific) equipped with
+two-column chromatography setups composed of PepMap100 C18 20 mm ×
+75 μm traps and PepMap C18 500 mm × 75 μm analytical
+columns (Thermo Fisher Scientific). Samples were concentrated onto
+the trap columns at 5 μL/min for 5 min with Buffer A (0.1% formic
+acid, 2% DMSO) and then infused into either a Orbitrap Fusion Lumos
+Tribrid Mass Spectrometer (Thermo Fisher Scientific), an Orbitrap
+Fusion Eclipse Tribrid Mass Spectrometer (Thermo Fisher Scientific),
+or a Orbitrap 480 at 300 nL/min via the analytical columns using Dionex
+Ultimate 3000 UPLCs (Thermo Fisher Scientific; Specific instrumentation
+used for the acquisition of each data set provided in Supporting Information Table 4). 125 min analytical
+runs were undertaken by altering the buffer composition from 2% Buffer
+B (0.1% formic acid, 77.9% acetonitrile, 2% DMSO) to 28% B over 95
+min, then from 22% B to 45% B over 10 min, and then from 45% B to
+80% B over 2 min. The composition was held at 80% B for 3 min and
+then dropped to 2% B over 5 min before being held at 2% B for another
+10 min. Each mass spectrometer was operated in a data-dependent mode
+automatically switching between the acquisition of a single Orbitrap
+MS scan (400–1600 m/z, maximal
+injection time of 50 ms, an AGC set to a maximum of 1 × 106 ions and a resolution of 120k) every 3 s and Orbitrap MS/MS
+HCD scans of precursors (using the “Auto” mass range
+setting, a NCE of 28–32%, maximal injection time of 60–80
+ms, an AGC set to a maximum of 250% and a resolution of 30k).
+
+## Proteomic
+Data Analysis
+Data-dependent acquisition
+(DDA) experiments were searched with FragPipe version 15 or version
+18 − using the Label Free Quantification-Match-Between-Runs (LFQ-MBR)
+workflow allowing the variable modification of oxidation of methionine
+and N-terminal acetylation as well as a fixed modification of Carbamidomethylated
+cystines in addition to the following modifications: MBR ion false
+discovery rate (FDR) modified to 0.001, the inclusion of the Burkholderia glycans as variable modifications on
+serine residues (masses of 568.21156 and 668.22761 Da, respectively).
+The resulting data sets were filtered using the default FragPipe parameters
+of 1% peptide/protein level FDR, and it should be noted a glycan-level
+FDR was not utilized. DIA experiments were searched using Spectronaut
+(Biognosys, Switzerland) versions 15 and 16 using default search parameters
+including oxidation of methionine and N-terminal acetylation as well
+as a fixed modification of Carbamidomethylated cystines with the
+following modifications: protein LFQ method set to MaxLFQ, single
+hit proteins excluded, and major and minor group top N unselected.
+DDA and DIA data sets were searched against protein databases with
+DIA analysis undertaken using directDIA within Spectronaut. The B. cenocepacia K56-2 data sets were searched against
+the B. cenocepacia strain J2315 proteome
+(Uniprot accession: UP000001035) supplemented with the K56-2 Valvano
+proteome (NCBI accession: GCA_014357995.1),
+the B. diffusa MSMB375 data sets were
+searched against the B. diffusa MSMB375
+proteome (Burkholderia Genome Database, Strain number: 2966), the B.
+multivorans ATCC17616 data sets were searched against
+the B. multivorans ATCC17616 proteome
+(Uniprot accession: UP000008815), and the B. thailandensis E264 data sets were searched against the B. thailandensis E264 proteome (Uniprot accession: UP000001930). Data outputs from
+FragPipe and Spectronaut were processed using Perseus (version 1.6.0.7); for FragPipe LFQ outputs, missing values were
+imputed based on the total observed protein intensities with a range
+of 0.3 σ and a downshift of 2.3 σ. For DIA samples, imputation
+was completed through Global Imputing in Spectronaut. Statistical
+analysis was undertaken in Perseus using two-tailed unpaired T-tests. Matching of protein homologs between Burkholderia strains was undertaken using PATRIC,
+the bacterial bioinformatics database and analysis resource. 
+
+## Data Visualization
+Visualization
+of proteomic and motility
+data was undertaken using R for Windows (version 4.2.1) in RStudio
+(version 2022.02.3). The motility data were visualized using base
+R with the following packages: reshape2, tidyverse, and ggpattern. The full
+proteomic analysis scripts are included in the PRIDE submissions.
+
+## Data Availability
+Mass spectrometry data (RAW files,
+FragPipe outputs, Spectronaut experiment files, R Markdown scripts,
+and output tables) have been deposited into the PRIDE ProteomeXchange
+repository. , All PRIDE accession numbers,
+descriptions of the associated experiment, and experiment type (DIA
+or DDA) are provided within Supporting Information Table 4.
+
+## Results
+
+## CRISPRi Enables the Silencing
+of Glycosylation within B. cenocepacia
+To assess the potential of
+CRISPRi to silence glycosylation, we constructed a B. cenocepacia strain harboring CTX:Rha-dCas9, and
+four gRNA plasmids containing CRISPRi guides predicted to have optimal
+on-target activity within the promoter
+and 5′ region of the oligosaccharyltransferase pglL (BCAL0960, A). The ability of these guides to reduce the expression of pglL was assessed via DDA-based proteomics, revealing that
+CRISPRi leads to the reduction of PglL to below detectible levels
+using 1% rhamnose ( B, Supporting Information Table S1). Despite this marked reduction of PglL, glycopeptides were readily
+detected across all targeted samples, with guide A resulting in less
+inhibition of glycosylation than guides B to D ( C, Supporting Information Table S2). Due to the similarity in efficiency between guide
+B and D, guide C was selected for use in subsequent experiments, herein
+referred to as pglLBC. While the proteomic measurements support the inhibition of glycosylation
+to further assess the ability of CRISPRi to mimic the loss of glycosylation,
+two previously published phenotypes associated with B. cenocepacia ΔpglL were
+assessed, the loss of BCAL1086 in the absence of glycosylation, and reduced motility. The introduction of CTX:Rha-dCas9 and the pglLBC guide plasmid into K56-2 containing a chromosomally
+his6-tagged glycoprotein BCAL1086 revealed the loss of
+BCAL1086 in a rhamnose dose-dependent manner, consistent with our
+previous observation of the destabilization of this protein in the
+absence of glycosylation ( D). In contrast, motility assays
+revealed that the silencing of pglL (induced pglLBC sample) resulted in no
+statistical difference in motility compared to the induced nontarget
+sample, while an induced fliF (BCAL0525) guide robustly
+inhibited motility ( E), as previously reported. Taken
+together, these results demonstrate that CRISPRi silencing enables
+the reduction of PglL and subsequent glycosylation levels, yet the
+phenotypes only partially match what is observed following the complete
+loss of glycosylation.
+ 
+
+## Glycosylation Silencing Only Partially Mimics Proteome Changes
+Observed in B. cenocepacia ΔpglL
+To further understand the degree to which
+CRISPRi knockdown mirrors the proteomic impacts observed in the glycosylation
+null strain, we utilized DIA-based analysis and compared the proteomes
+of CRISPRi-silenced pglL (CTX:Rha-dCas9 containing
+the pglLBC guide plasmid),
+CRISPRi controls (CTX:Rha-dCas9 containing the non-target guide or
+guideless plasmid ), ΔpglL (containing the guideless plasmid), and wild-type (containing the
+guideless plasmid) strains with and without 0.1% rhamnose ( , Supporting Information Table S3). A total of 3630 proteins were identified
+across biological replicates, with >95% of proteins quantified
+with
+>2 precursors (Supporting Information Figure
+1). Principal component analysis revealed that pglLBC silencing resulted in only modest
+proteomic effects compared to ΔpglL under induced
+conditions ( A), despite robust pglL silencing ( B). While PglL levels are reduced
+below limits of detection, it is important to note that this does
+not mean pglL is absent from these silenced strains. To understand
+the similarities between the proteome changes observed within groups,
+defined as proteins with a fold-change ± 1-fold (log2) and a −log10(p-value) > 2.0,
+we examined the overlap in protein changes between CRISPRi-silenced pglL vs CRISPRi controls and ΔpglL vs wild-type under both induced and non-induced conditions ( C). Strikingly, comparisons
+between ΔpglL and wild-type samples in the
+presence and/or absence of rhamnose, denoted in purple (225 proteins)
+revealed hundreds of unique alterations that were absent in the CRISPRi
+comparisons. Only 17 proteins (denoted in magenta) were selectively
+altered in response to CRISPRi-silenced pglL compared
+to CRISPRi controls and were also observed within the ΔpglL samples (Supporting Information Figure 2), with several proteins in the pglLBC samples showing divergent responses to
+the ΔpglL strain. This small overlap between
+the CRISPRi-silenced pglL and ΔpglL proteome changes suggests that despite the robust reduction of PglL
+to below the levels of detection, this results in only minor alterations
+in the B. cenocepacia proteome.
+ To assess if CRISPRi silencing
+could be improved to more authentically
+mimic the proteome changes observed within the glycosylation null
+strain ΔpglL, we increased the induction of
+dCas9 to 1% rhamnose and assessed the proteomic impacts using DIA-based
+analysis ( ,
+Supporting Information Table S4). A total
+of 3717 proteins were identified across biological replicates with
+>95% of proteins quantified with >2 precursors and biological
+groups,
+demonstrating clustering based on PCA as well as Pearson correlation
+analysis (Supporting Information Figure
+3). Comparing the CRISPRi-silenced (pglLBC guide) vs the CRISPRi control (non-target guide)
+samples with a fold-change of at least ± 1-fold (log2) and a −log10(p-value) > 2.0
+revealed an increase in the proteome alterations observed in response
+to induction; from 70 proteins in the non-induced samples to 137 proteins
+in the induced samples, A. Despite this increase in the observed alterations, the
+overlap of proteins altered within ΔpglL vs
+wild-type (with or without rhamnose) compared to the pglLBC vs non-target guides with induction
+was still modest (27 proteins denoted in magenta, A). Visualization of these
+changes across biological replicates demonstrate the silencing of pglL results in protein alterations mirroring those seen
+between ΔpglL including alterations in PglL
+(BCAL0960, denoted as bold, B), BCAL1093, BCAM1423, BCAL1917, BCAL2974, BCAL0624,
+and BCAL1086 (denoted in blue) previously reported to undergo alterations, yet highlights that many alterations observed
+in the CRISPRi strains appeared as a result of induction with 1% rhamnose
+within the CTX:Rha-dCas9 and are unrelated to the silencing mediated
+by the pglLBc guide.
+Analysis of the impact of induction with 1% rhamnose supports that
+within the CTX:Rha-dCas9 and ΔpglL backgrounds,
+the addition of 1% rhamnose results in multiple changes in the proteome
+compared to wild-type ( C). Thus, increasing rhamnose induction does improve the overlap
+within the protein changes seen between ΔpglL vs wild-type compared to the pglLBC vs non-target guides, yet demonstrates that 1% rhamnose leads
+to notable proteomic changes. Thus, rhamnose-induced changes require
+the use of both the non-target CRISPRi control and the examination
+of both induced and non-induced conditions to enable the identification
+of alterations driven by silencing of glycosylation.
+ 
+
+## Reduction of PglL Levels
+Impact the Extent and Density of Glycosylation
+Events within the B. cenocepacia Glycoproteome
+While proteomic analysis supports that CRISPRi silencing reduces
+PglL levels, to further quantify the impact on glycosylation we examined
+the glycoproteome using ZIC-HILIC glycopeptide enrichment at 0.1% ( A,B, Supporting Information Tables S5 and S6) and 1% ( C,D, Supporting Information Tables S7 and S8)
+rhamnose. Enriched glycopeptides were analyzed using DDA and, consistent
+with our DIA proteomic observations, we found that induction with
+0.1% rhamnose resulted in a milder reduction in total glycosylation
+(∼60% reduction in summed ion intensity of glycopeptides, A) compared to 1%
+rhamnose induction (84% reduction in summed ion intensity of glycopeptides, C). Protein-level
+analysis of the input controls using DDA confirmed the expression
+of dCas9 and loss of PglL in a pglLBC guide-dependent manner ( B,D). These findings are consistent with our observation
+at 0.1% rhamnose ( B,C), suggesting that even with reductions of PglL below the
+limit of detection, glycosylation was not abolished. To further understand
+how the loss of glycosylation impacts the glycoproteome, we examined
+the distribution of glycosylation observed on glycopeptides with 1%
+rhamnose induction ( A). The reduction in glycosylation resulted in both a decrease
+in the total number of unique glycopeptides identified and reductions
+in the density of glycosylation events observed on peptides, resulting
+in the almost complete loss of multiply glycosylated peptides ( B–G). Consistent
+with this, we observe multiple examples where triply and doubly glycosylated
+peptides are observed in lower glycosylation states in response to
+the silencing of PglL, independent of changes in the glycoprotein
+levels (Supporting Information Figure 4).
+These observations support that glycosylation silencing reduces the
+total level of glycosylation within the B. cenocepacia glycoproteome and shifts the distribution of glycosylation events
+on proteins toward lower glycosylated states.
+ 
+
+## Silencing PglL Reduces
+but Does Not Inhibit O-Linked Glycosylation
+across Burkholderia Species
+The observation that even when PglL is undetectable in B. cenocepacia glycosylation persists supports that
+even minimal levels of PglL are sufficient to allow glycosylation.
+As glycosylation is a conserved feature of the Burkholderia genus, , we questioned if this persistence of glycosylation
+following pglL-silencing is observed across Burkholderia species. To assess this, we selected
+three species of Burkholderia; B. diffusa MSMB375, B. multivorans ATCC17616, and B. thailandensis E264
+and generated CTX:Rha-dCas9 derivatives to enable the silencing of pglL. As with B. cenocepacia, guides were designed within the promoter and 5′ region of
+the oligosaccharyltransferase pglL, and the effect
+of CRISPRi-mediated knockdown assessed using DDA-based analysis. All pglL guides examined across all strains allowed the reduction
+of PglL to below the limit of detection and reduced the detectible
+number and abundances, based on summed ion intensity of glycopeptides
+in a guide-dependent manner (Supporting Information Figure 5, Supporting Information Table S9). To quantify the reduction in glycosylation, a single guide from
+each species was selected and ZIC-HILIC enrichment undertaken comparing
+the abundance of glycosylation observed with pglL guides compared to the non-target guide, with and without induction.
+The total abundance of glycosylation was reduced in a pglL guide and rhamnose-dependent manner ( A,C,E, Supporting Information Tables 10–12) with proteome analysis confirming
+the reduction of PglL ( B,D,F, Supporting Information Tables 13–15) across each species. As with B. cenocepacia, silencing of pglL leads to a reduction in glycosylation
+density and the loss of multiply glycosylated peptides (Supporting Information Figure 6). Importantly,
+PglL levels appear predominately silenced to below the limits of detection
+within these species (Supporting Information Figure 7). These findings support that while CRISPRi allows robust
+reductions in PglL protein levels, residual protein glycosylation
+is readily observed.
+ 
+
+## Comparison of Proteomic Impacts of PglL Silencing
+across Burkholderia Species
+Finally, to better
+quantify the impact of CRISPRi silencing of glycosylation across Burkholderia species, we utilized DIA-based analysis.
+Across these Burkholderia proteomes,
+3191, 3155, and 3063 proteins were identified within B. diffusa, B. multivorans, and B. thailandensis, respectively,
+with biological groups demonstrating clustering based on PCA and Pearson
+correlation analysis (Supporting Information Figure 8, Supporting Information Tables 16–18). Across the Burkholderia species,
+we found that only a subset of observed protein changes can be attributed
+solely to the reduction of glycosylation ( A–C, denoted in magenta). These observations
+support that similar to B. cenocepacia, induction with 1% rhamnose leads to multiple protein alterations,
+requiring the use of both non-target and induction controls to identify
+impacts associated directly with the target of CRISPRi silencing.
+Despite this, across all species alterations driven by pglL CRISPRi silencing were observed, yet these impacts were modest,
+leading to only 6, 10, and 40 pglL-dependent proteome
+changes in B. diffusa, B. multivorans, and B. thailandensis, respectively ( D–F). As with DDA analysis, DIA confirmed the reduction in
+PglL levels in response to CRISPRi silencing ( D–F, denoted in bold) as well as revealed
+alterations within homologs of proteins observed to be altered in
+response to pglL silencing within B. cenocepacia ( B) such as BCAL1093, BCAL1917, and BCAL1086
+( D–F,
+denoted in blue). Combined these results support that while CRISPRi
+does allow the suppression of PglL across Burkholderia species, the overall proteome impacts of glycosylation silencing
+is modest, and only a subset of protein alterations observed in B. cenocepacia appears mirrored in other species.
+ 
+
+## Discussion
+Within
+this work, we explore the use of CRISPRi to allow the modulation
+of O-linked protein glycosylation within multiple Burkholderia species. By generating four CRISPRi-enabled Burkholderia species containing the Burkholderia-optimized dCas9 gene (CTX:Rha-dCas9), we demonstrate
+that CRISPRi readily allows the reduction of PglL levels, even reducing
+the protein to below the limits of detection using DIA-based analysis,
+yet find that this does not abolish glycosylation. Furthermore, we
+find that even with reductions in glycosylation of nearly 90%, we
+observe only a modest impact on the proteomes across these Burkholderia species at stationary phase growth conditions.
+Comparisons between B. cenocepacia ΔpglL and a pglL guide-silenced strain revealed
+that while robust reductions in PglL levels can be observed following
+silencing at even modest levels of rhamnose induction (0.1%, B, B & A), silencing at these levels
+poorly mimics the proteomic impacts observed in ΔpglL ( A,C). While
+the titratable nature of CTX:Rha-dCas9 does allow increased CRISPRi
+silencing at elevated levels of rhamnose, such as 1%, this level of
+the induction agent results in significant proteome impacts across
+the Burkholderia genus. Interestingly,
+using 1% rhamnose induction, we also noted multiple proteome alterations
+within strains possessing the non-target guide ( C). While designed to lack homology to the B. cenocepacia K56-2 genome, this observation suggest that this guide likely possesses off-target
+activities that may only become apparent at high levels of induction,
+a phenomena which was recently noted in bacterial CRISPRi guide libraries. These observations demonstrate that while growth
+may not be impacted with high rhamnose levels, as demonstrated previously, these conditions result in numerous proteomic
+impacts even with guides predicted to have no homology to the target
+genome, requiring careful consideration and appropriate controls to
+enable the dissection of desired proteomic changes from those driven
+solely by rhamnose or unexpected guide effects.
+While rhamnose
+inducible systems are considered tightly repressed
+in Burkholderia species, , this study highlights that low levels of dCas9 expression are observable
+even in the absence of induction ( and ). Most notably,
+we find this leakiness appears to result in a detectible reduction
+in PglL levels in B. multivorans and B. thailandensis even without induction (Supporting Information Figure 7). The observation
+of a partial reduction in PglL levels in the absence of induction
+supports that, in the context of CRISPRi, this rhamnose inducible
+systems should be considered leaky. Interestingly, despite the observation
+of a partial knockdown of PglL levels in B. multivorans and B. thailandensis, we find no
+detectible impact on glycosylation levels ( A,C). This highlights that the potential
+of protein levels to be reduced even without induction should be considered
+when utilizing CRISPRi within the Burkholderia genus. Within other bacterial species, it has been demonstrated
+that many genes can be sensitive to even small alterations in protein
+levels mediated by CRISPRi. For example,
+within Bacillus subtilis CRISPRi-mediated
+reductions in the levels of essential genes revealed that even modest
+changes (∼2-fold reduction in transcript levels) resulted in
+alterations in growth, cell shape, and colony size. Our observation that despite robust reductions in PglL
+levels and dramatic alterations in the glycoproteome within these
+species, little impact is observed on proteome levels, which support
+that alterations in glycosylation capacity are well tolerated across
+the Burkholderia genus.
+While
+many bacterial glycosylation studies have explored the proteomic
+impacts of abolishing glycosylation using mutagenesis, , , , , , few studies
+have used CRISPRi silencing to modulate glycosylation, and importantly, no study has explored the impact
+of silencing on glycosylation levels. Our observation that glycosylation
+persists even with silencing of PglL below the limits of detection
+supports the notion that within Burkholderia species, even low levels of oligosaccharyltransferase capacity maybe
+sufficient to prevent the defects observed in glycosylation mutants.
+Within bacterial physiology, excess enzyme capacity (also known as
+enzymatic overcapacity) is thought to convey a fitness benefit to
+changing environments and the ability
+to ensure stability against fluctuations in transcript expression. Our previous findings that glycosylation is
+required for resistance to stress is
+consistent with this concept and suggests that glycosylating proteins
+in response to rapidly changing conditions may be beneficial for Burkholderia species. Using CRISPRi, the link between
+enzymatic capacity and the perturbations of protein levels has been
+experimentally explored, supporting that the buffering capacity provided
+by enzymatic overcapacity does improve the responsiveness to changing
+conditions. , This work highlights that while
+CRISPRi is increasingly being utilized to validate phenotypes, it
+is important to note that mutagenesis and CRISPRi knockdowns are complementary,
+rather than equivalent approaches to probe protein functions. Recently,
+it was highlighted within B. cenocepacia that O-linked glycosylation appears to impact antibiotic resistance,
+with transposon mutants demonstrating altered susceptibility to several
+antibiotics, yet validation of these observations using CRISPRi knockdowns
+of pglL failed to recapitulate this phenotype. Our observations here reconcile these findings
+and provide a rationale for why CRISPRi silencing of pglL does not mirror the phenotypes of ΔpglL strains
+and reveals that Burkholderia O-linked
+glycosylation possesses a previously unrecognized level of robustness.
+In addition to CRISPRi providing a titratable way to explore gene
+functions, it is also increasingly utilized
+to assess protein druggability. It has
+been argued that proteins demonstrating highly deleterious effects
+upon CRISPRi-silencing are likely ideal targets for drug development. − With this concept in mind, our findings that pglL CRISPRi silencing does not result in the proteomic or phenotypic
+effects observed in B. cenocepacia ΔpglL support that PglL is likely a sub-optimal target for
+drug development. Our observation that glycosylation silencing leads
+to few proteomic effects, even at high levels of rhamnose induction,
+highlights that even with undetectable levels of the protein within
+a cell, a near wild-type-like proteome is observed under laboratory
+conditions. This resistance of O-linked glycosylation to perturbation
+further highlights the poor druggability characteristics of PglL as
+it suggests that even if a highly specific and potent agent was developed,
+any residual level of PglL activity may be sufficient to compensate
+for the majority loss of the protein. Therefore, based on these results,
+PglL is likely a poor target for future drug development.
+In
+summary, this work furthers our understanding of the utility
+of CRISPRi for understanding bacterial system biology and highlights
+the resistance of Burkholderia O-linked
+glycosylation to perturbations. This work contributes to a growing
+body of studies that demonstrate for enzymatic processes, such as
+glycosylation, simply reducing enzyme levels, even below the limits
+of detection, can be insufficient to result in the abolishment of
+a biological process. Our identification that O-linked glycosylation
+levels can be modulated, yet the proteome does not mirror the large
+alterations previously observed within glycosylation null strains
+suggests that reductions in glycosylation capacity are well tolerated
+in the Burkholderia species and conditions
+examined in this work. The high levels of glycosylation robustness
+following silencing of PglL to undetectable levels supports that PglL
+possesses poor druggable characteristics and may not be an ideal anti-virulence
+target. Finally, this work demonstrates how glycoproteomics, proteomics,
+and CRISPRi can be integrated to explore aspects of bacterial physiology,
+revealing an unexpected level of robustness within bacterial glycosylation.
+
+## Acknowledgments
+N.E.S. is supported by an Australian
+Research Council
+Future Fellowship (FT200100270), an ARC Discovery Project grant (DP210100362),
+and a NHMRC Ideas grant (2018980). We thank the Melbourne Mass Spectrometry
+and Proteomics Facility of The Bio21 Molecular Science and Biotechnology
+Institute for access to MS instrumentation. We thank Dr Nicholas Coleman
+for sharing the plasmid pUS250.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jproteome.2c00790.
+Strain list, plasmid
+list, primer list, PRIDE accession
+information of proteomic experiments: all proteomic data set associated
+with this work including the instrument the data set acquired on and
+Pride Reviewer login detail, DIA proteomic analysis of B. cenocepacia CTX:rha-dCas9 in response to 0.1%
+rhamnose induction, Pearson correlation analysis revealing samples
+have high correlation (>0.90) across all replicates, proteomic
+coverage
+across replicates revealing >95% of proteins identified with greater
+than two precursors, heat map of protein alterations shared between
+the CRISPRi-mediated pglL-knockdown and pglL-knockout strains at 0.1% rhamnose, 17 proteins selectively altered
+in response to CRISPRi-silenced pglL compared to
+CRISPRi controls and observed within the ΔpglL samples, DIA proteomic analysis of B. cenocepacia CTX:rha-dCas9 in response to 1% rhamnose induction, PCA of biological
+replicates, Pearson correlation analysis revealing samples have high
+correlation (>0.90) across all replicates, proteomic coverage across
+replicates revealing >95% of proteins identified with greater than
+two precursors, analysis of PglL levels across biological groups confirming
+the selective inhibition of PglL in response to CRISPRi silencing,
+glycopeptide enrichment revealing a downshift in glycosylation states
+of glycopeptides in B. cenocepacia CTX:rha-dCas9
+in response to 1% rhamnose induction, heatmap of glycopeptides from
+glycoproteins BCAM2680, BCAL1917, and BCAL0738 revealing alterations
+within glycopeptides in the CRISPRi pglL-silenced
+strain with imputed values denoted in gray, protein levels of BCAM2680,
+BCAL1917, and BCAL0738 not dramatically affected by their altered
+glycopeptide levels in the glycopeptide enrichment input controls,
+validation of CRISPRi pglL guide-mediated silencing
+of PglL across B. thailandensis, B. multivorans and B. diffusa harboring CTX:rha-dCas9, DDA analysis of CRISPRi guides confirming
+the modulation of PglL and the alteration in glycosylation levels
+based on the summed ion intensity as well as the number of glycopeptides
+identified across all guides tested, delta mass plots of B. thailandensis, B. multivorans, and B. diffusa containing CTX:rha-dCas9-identified
+glycopeptides; delta mass plots demonstrating the density of glycosylation
+observed on glycopeptides reduced in response to CRISPRi silencing
+of PglL with 1% rhamnose across all Burkholderia species based on the summed ion intensity of observed glycopeptides
+as well as the number of glycopeptides identified; DDA analysis of
+PglL levels across B. thailandensis, B. multivorans, and B. diffusa containing CTX:rha-dCas9 confirming the
+selective inhibition of PglL levels in the glycopeptide enrichment
+input controls; in response to CRISPRi silencing, reduced PglL levels
+with partial inhibition also observed without induction; DIA proteomic
+analysis of B. diffusa, B. thailandensis, and B. multivorans containing CTX:rha-dCAS9 in response to 1% rhamnose induction; PCA
+of biological groups; Pearson correlation analysis revealing samples
+with high correlation (>0.90) across all replicates; uncropped
+Western
+blotting images; and uncropped ECL and membrane images for all Western
+blotting (PDF)
+DDA protein-level analysis of B. cenocepacia CTX:rha-dCas9 containing sgRNA plasmids harboring the B. cenocepaciapglL-targeted guides
+(pglLBC) and the non-target
+guide; MSFragger search results for protein-level analysis of biological
+replicates (n = 3) and Perseus processed data; for
+each identified protein, log2 LFQ protein values, T-test information including the −log10(p-value), difference in the mean between the groups,
+and multiple hypothesis corrected p-values (permutation-based
+false discovery rate of 0.05); and categorical information associated
+with protein accessions, gene name, and GO terms in addition to both
+imputed and non-imputed LFQ values (XLSX)
+DDA peptide-level analysis of B. cenocepacia CTX:rha-dCas9 containing sgRNA plasmids
+harboring the B. cenocepaciapglL-targeted guides
+(pglLBC) and the non-target
+guide; MSFragger peptide-level search outputs of all peptides identified
+across biological replicates (n = 3); peptide sequences,
+charge states, probabilities, modification status as well as the peptide-spectrum
+matches (PSM) spectral counts and intensities for identified peptides;
+and MS-Stats outputs for the observed ion intensity of glycopeptides
+for each unique glycopeptide (XLSX)
+DIA protein-level analysis of B. cenocepacia CTX:rha-dCas9 containing sgRNA plasmids
+harboring pglLBC, non-target
+guide, or guideless sgRNA,
+compared to ΔpglL and wild-type containing
+the guideless plasmids in response to induction with 0.1% rhamnose;
+Spectronaut search results for protein-level analysis across all biological
+replicates (n = 3) and the Perseus processed data;
+for each identified protein, log2 LFQ protein values, T-test information including the −log10(p-value), difference in the mean between the groups,
+and multiple hypothesis corrected p-values (permutation-based
+false discovery rate of 0.05); and categorical information associated
+with protein accessions, gene name, and GO terms in addition to if
+proteins identified by a single PSM and the total number of PSMs assigned
+for each protein within each replicate (XLSX)
+DIA protein-level analysis of B. cenocepacia CTX:rha-dCas9 containing sgRNA plasmids
+harboring pglLBC, non-target
+guide, or guideless sgRNA,
+compared to ΔpglL and wild-type containing
+the guideless plasmids in response to induction with 1% rhamnose;
+Spectronaut search results for protein-level analysis across all biological
+replicates (n = 4) and Perseus processed data set;
+for each identified protein, log2 LFQ protein values, T-test information including the −log10(p-value), difference in the mean between the groups,
+and multiple hypothesis corrected p-values (permutation-based
+false discovery rate of 0.05); and categorical information associated
+with protein accessions, gene name, and GO terms in addition to if
+proteins were identified by a single PSM as well as the total number
+of PSMs assigned for each protein within each replicate (XLSX)
+DDA peptide-level
+analysis of ZIC-HILIC-enriched glycopeptides
+from B. cenocepacia CTX:rha-dCas9 containing
+sgRNA plasmids harboring pglLBC or the guideless sgRNA in response to 0.1% rhamnose induction;
+MSFragger peptide-level search outputs of all peptides identified
+across biological replicates (n = 4); for identified
+peptides, peptide sequences, charge states, probabilities, as well
+as the PSM spectral counts as intensities; and for each unique glycopeptide,
+MS-Stats outputs for the observed ion intensity of glycopeptides (XLSX)
+DDA protein-level
+analysis of input controls used for
+ZIC-HILIC glycopeptide enrichment from B. cenocepacia CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBC or the guideless sgRNA in response
+to 0.1% rhamnose induction; MSFragger search results for protein-level
+analysis of biological replicates (n = 4) and Perseus
+processed data set; for each identified protein, log2 LFQ
+protein values, T-test information including the
+−log10(p-value), difference in
+the mean between the groups, and multiple hypothesis corrected p-values (permutation-based false discovery rate of 0.05)
+in addition to both imputed and non-imputed LFQ values (XLSX)
+DDA peptide-level
+analysis of ZIC-HILIC-enriched glycopeptides
+from B. cenocepacia CTX:rha-dCas9 containing
+sgRNA plasmids harboring pglLBC or the non-target guide in response to 1% rhamnose induction;
+MSFragger peptide-level search outputs of all peptides identified
+across biological replicates (n = 4); for identified
+peptides, peptide sequences, charge states, probabilities, and the
+PSM spectral counts as intensities; and for each unique glycopeptide,
+MS-Stats outputs for the observed ion intensity of glycopeptides (XLSX)
+DDA protein-level
+analysis of input controls used for
+ZIC-HILIC glycopeptide enrichment from B. cenocepacia CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBC or the non-target guide in response
+to 1% rhamnose induction; MSFragger search results for protein-level
+analysis of biological replicates (n = 4) and Perseus
+processed data set; for each identified protein, log2 LFQ
+protein values, T-test information including the
+−log10(p-value), difference in
+the mean between the groups, and multiple hypothesis corrected p-values (permutation-based false discovery rate of 0.05)
+in addition to both imputed and non-imputed LFQ values (XLSX)
+DDA protein-
+and glycopeptide-level analysis of B. thailandensis, B. multivorans, and B. diffusa containing CTX:rha-dCas9
+and pglL targeting sgRNA plasmids as well as the
+non-target control plasmid; MSFragger search results for the protein-level
+analysis of biological replicates (n = 3) and Perseus
+processed data sets for each strain; for each identified protein,
+log2 LFQ protein values, T-test information including
+the −log10(p-value), difference
+in the mean between the groups, and multiple hypothesis corrected p-values (permutation-based false discovery rate of 0.05);
+protein accessions, gene names, and GO terms in addition to both imputed
+and non-imputed LFQ values; and for glycopeptide analysis, MS-Stats
+outputs with the observed ion intensity and number of glycopeptides
+identified across samples (XLSX)
+DDA peptide-level analysis of ZIC-HILIC-enriched
+glycopeptides
+from B. multivorans CTX:rha-dCas9 containing
+sgRNA plasmids harboring pglLBM or the non-target guide in response to induction with 1% rhamnose;
+MSFragger peptide-level search outputs of all peptides identified
+across biological replicates (n = 4); for identified
+peptides, peptide sequences, charge states, probabilities, as well
+as the PSM spectral counts and intensities; and for glycopeptide analysis,
+MS-Stats outputs with the observed ion intensity and number of glycopeptides
+identified across samples (XLSX)
+DDA peptide-level analysis of ZIC-HILIC-enriched
+glycopeptides
+from B. diffusa CTX:rha-dCas9 containing
+sgRNA plasmids harboring pglLBD or the non-target guide in response to induction with 1% rhamnose;
+MSFragger peptide-level search outputs of all peptides identified
+across biological replicates (n = 4); for identified
+peptides, peptide sequences, charge states, probabilities, as well
+as the PSM spectral counts and intensities; and for glycopeptide analysis,
+MS-Stats outputs with the observed ion intensity and number of glycopeptides
+identified across samples (XLSX)
+DDA peptide-level analysis of ZIC-HILIC-enriched
+glycopeptides
+from B. thailandensis CTX:rha-dCas9
+containing sgRNA plasmids harboring pglLBT or the non-target guide in response to induction
+with 1% rhamnose; MSFragger peptide-level search outputs of all peptides
+identified across biological replicates (n = 4);
+for identified peptides, peptide sequences, charge states, probabilities,
+as well as the PSM spectral counts and intensities; and for glycopeptide
+analysis, MS-Stats outputs with the observed ion intensity and number
+of glycopeptides identified across samples (XLSX)
+DDA protein-level analysis of input
+controls used for
+ZIC-HILIC glycopeptide enrichment from B. multivorans CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBM or the non-target guide in response
+to induction with 1% rhamnose; MSFragger search results for protein-level
+analysis of biological replicates (n = 4) and Perseus
+processed data set; for each identified protein, log2 LFQ
+protein values, T-test information including the
+−log10(p-value), difference in
+the mean between the groups, and multiple hypothesis corrected p-values (permutation-based false discovery rate of 0.05)
+in addition to both imputed and non-imputed LFQ values (XLSX)
+DDA protein-level
+analysis of input controls used for
+ZIC-HILIC glycopeptide enrichment from B. diffusa CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBD or the non-target guide in response
+to induction with 1% rhamnose; MSFragger search results for protein-level
+analysis of biological replicates (n = 4) and Perseus
+processed data set; for each identified protein, log2 LFQ
+protein values, T-test information including the
+−log10(p-value), difference in
+the mean between the groups, and multiple hypothesis corrected p-values (permutation-based false discovery rate of 0.05)
+in addition to both imputed and non-imputed LFQ values (XLSX)
+DDA protein-level
+analysis of input controls used for
+ZIC-HILIC glycopeptide enrichment from B. thailandensis CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBT or the non-target guide in response
+to induction with 1% rhamnose; MSFragger search results for protein-level
+analysis of biological replicates (n = 4) and Perseus
+processed data set; for each identified protein, log2 LFQ
+protein values, T-test information including the
+−log10(p-value), difference in
+the mean between the groups, and multiple hypothesis corrected p-values (permutation-based false discovery rate of 0.05)
+in addition to both imputed and non-imputed LFQ values (XLSX)
+DIA protein-level
+analysis of B. diffusa CTX:rha-dCas9
+containing sgRNA plasmids harboring pglLBD or non-target guide in response to
+1% rhamnose induction; Spectronaut search results for protein-level
+analysis and Perseus processed data set of biological replicates (n = 4) of each strain; for each identified protein, log2 LFQ protein values, T-test information including
+the −log10(p-value), difference
+in the mean between the groups, and multiple hypothesis corrected p-value (permutation-based false discovery rate of 0.05);
+and categorical information associated with protein accessions, gene
+names, and GO terms (XLSX)
+DIA protein-level analysis of B. multivorans CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBM or non-target guide in response to
+1% rhamnose induction; Perseus processed Spectronaut search results
+for protein-level analysis of biological replicates (n = 4) of each strain; for each identified protein, log2 LFQ protein values, T-test information including
+the −log10(p-value), difference
+in the mean between the groups, and multiple hypothesis corrected p-value (permutation-based false discovery rate of 0.05);
+and categorical information associated with protein accessions, gene
+names, and GO terms (XLSX)
+DIA protein-level analysis of B. thailandensis CTX:rha-dCas9 containing sgRNA plasmids harboring pglLBT or non-target guide in response to
+1% rhamnose induction; Perseus processed Spectronaut search results
+for protein-level analysis of biological replicates (n = 4) of each strain; for each identified protein, log2 LFQ protein values, T-test information including
+the −log10(p-value), difference
+in the mean between the groups, and multiple hypothesis corrected p-value (permutation-based false discovery rate of 0.05);
+and categorical information associated with protein accessions, gene
+names, and GO terms (XLSX)
+
+The
+authors declare no
+competing financial interest.
+
+## Supplementary Material
+pr2c00790_si_001.pdf
+pr2c00790_si_002.xlsx
+pr2c00790_si_003.xlsx
+pr2c00790_si_004.xlsx
+pr2c00790_si_005.xlsx
+pr2c00790_si_006.xlsx
+pr2c00790_si_007.xlsx
+pr2c00790_si_008.xlsx
+pr2c00790_si_009.xlsx
+pr2c00790_si_010.xlsx
+pr2c00790_si_011.xlsx
+pr2c00790_si_012.xlsx
+pr2c00790_si_013.xlsx
+pr2c00790_si_014.xlsx
+pr2c00790_si_015.xlsx
+pr2c00790_si_016.xlsx
+pr2c00790_si_017.xlsx
+pr2c00790_si_018.xlsx
+pr2c00790_si_019.xlsx
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+pr2c00790_si_001.pdf
+pr2c00790_si_002.xlsx
+pr2c00790_si_003.xlsx
+pr2c00790_si_004.xlsx
+pr2c00790_si_005.xlsx
+pr2c00790_si_006.xlsx
+pr2c00790_si_007.xlsx
+pr2c00790_si_008.xlsx
+pr2c00790_si_009.xlsx
+pr2c00790_si_010.xlsx
+pr2c00790_si_011.xlsx
+pr2c00790_si_012.xlsx
+pr2c00790_si_013.xlsx
+pr2c00790_si_014.xlsx
+pr2c00790_si_015.xlsx
+pr2c00790_si_016.xlsx
+pr2c00790_si_017.xlsx
+pr2c00790_si_018.xlsx
+pr2c00790_si_019.xlsx
+
+## Data Availability Statement
+Mass spectrometry data (RAW files,
+FragPipe outputs, Spectronaut experiment files, R Markdown scripts,
+and output tables) have been deposited into the PRIDE ProteomeXchange
+repository. , All PRIDE accession numbers,
+descriptions of the associated experiment, and experiment type (DIA
+or DDA) are provided within Supporting Information Table 4.

@@ -1,0 +1,151 @@
+pmcJ Eur Acad Dermatol VenereolJ Eur Acad Dermatol Venereol379blackwellopenJDVJournal of the European Academy of Dermatology and Venereology0926-99591468-3083pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12188512PMC12188512.112188512121885123928297710.1111/jdv.20335JDV20335JEADV-2023-3478.R31Original ArticleOriginal Article and Systematic ReviewSkin CancerIdentification of two molecularly and prognostically distinct subtypes in acral melanoma using network prediction method
+Molecular subtypes in acral melanomaYin et al.YinMingzhuhttps://orcid.org/0000-0002-6964-7131 yinmingzhu2008@126.comZhangYidinghttps://orcid.org/0000-0001-9833-1729zhangyiding117@163.com WangWenhuahttps://orcid.org/0009-0007-7143-2248wwh202308@126.com ZhaoShuanghttps://orcid.org/0000-0001-7081-6177 SuJuanhttps://orcid.org/0000-0001-7035-2560 LiShaohttps://orcid.org/0000-0002-8709-9167 shaoli@mail.tsinghua.edu.cnChenXianghttps://orcid.org/0000-0001-8187-636X chenxiangck@126.com
+
+1
+
+Department of Dermatology, Hunan Engineering Research Center of Skin Health and Disease, Hunan Key Laboratory of Skin Cancer and Psoriasis
+Xiangya Hospital, Central South University
+Changsha
+Hunan
+China
+
+2
+
+Clinical Research Center (CRC), Clinical Pathology Center (CPC), Cancer Early Detection and Treatment Center (CEDTC) and Translational Medicine Research Center (TMRC)
+Chongqing University Three Gorges Hospital, Chongqing University
+Wanzhou, Chongqing
+China
+
+3
+
+Chongqing Technical Innovation Center for Quality Evaluation and Identification of Authentic Medicinal Herbs
+Chongqing
+China
+
+4
+
+Institute for TCM‐X, MOE Key Laboratory of Bioinformatics / Bioinformatics Division, BNRIST, Department of Automation
+Tsinghua University
+Beijing
+China
+
+*
+Correspondence
+
+Shao Li, Institute for TCM‐X, MOE Key Laboratory of Bioinformatics / Bioinformatics Division, BNRIST, Department of Automation, Tsinghua University, Beijing 100084, China.
+Email: shaoli@mail.tsinghua.edu.cn
+
+Xiang Chen and Mingzhu Yin, Department of Dermatology, Hunan Engineering Research Center of Skin Health and Disease, Hunan Key Laboratory of Skin Cancer and Psoriasis, Xiangya Hospital, Central South University, Changsha, Hunan 410008, China.
+Email: chenxiangck@126.com and yinmingzhu2008@126.com
+
+16920247202539749132810.1111/jdv.v39.712541266
+22112023
+0862024
+250620252606202526062025© 2024 The Author(s). Journal of the European Academy of Dermatology and Venereology published by John Wiley & Sons Ltd on behalf of European Academy of Dermatology and Venereology.https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.Acral melanoma: Molecular subtyping as a gateway to precision medicine
+397205202512161217Journal of the European Academy of Dermatology and VenereologyPMC1218850540390620
+
+## Abstract
+
+## Background
+Acral melanoma, characterized by its aggressiveness and poor prognosis compared to other melanoma subtypes, poses significant challenges in clinical management. However, the molecular underpinnings driving the biological and clinical features of this disease remain poorly understood.
+
+## Objectives
+In this study, our aim was to elucidate the molecular landscape and the correlation between subtypes and clinical features of acral melanoma.
+
+## Methods
+We conducted comprehensive analyses to dissect the molecular characteristics of acral melanoma, employing a combination of multi‐omics data analysis and network‐based disease gene prediction algorithms. Single‐cell RNA‐Seq data were utilized to investigate the contribution of immunocytes to the molecular classification of acral melanoma. Additionally, we used clinical samples to validate the correlation between new subtypes and the prognosis of acral melanoma and the expression of subtype markers and verified the interaction between macrophages and acral melanoma cells at cellular level.
+
+## Results
+Our study reveals the existence of two distinct subtypes of acral melanoma exhibiting marked differences in clinical behaviour, cellular and molecular mechanisms. We identified a robust biomarker panel (EREG, VSIG4, FCGR3A and RAB20) that accurately distinguishes these two subtypes with an impressive AUC of 0.946, validated using clinical samples. Subtype I, characterized by thinner Breslow thickness, demonstrates a favourable prognosis, whereas Subtype II represents a high‐risk subtype with a propensity for dermal invasion. Notably, the signature gene EREG of Subtype I is enriched in FCN1+ macrophages, known for promoting inflammatory and immune responses. Conversely, signature genes VSIG4 and FCGR3A of Subtype II are enriched in SPP1+ macrophages, which exhibit significant crosstalk with tumour cells.
+
+## Conclusions
+Our findings significantly enhance the understanding of the molecular landscape of acral melanoma and offer novel insights into its clinical management by identifying distinct subtypes and potential therapeutic targets. The findings have to be confirmed in different cohorts in the future for full validation.
+
+A novel disease classification method is constructed using the combination of multi‐omics data analysis and network‐based disease gene prediction algorithm CIPHER‐SC. It showed that the presence of two acral melanoma subtypes which greatly differed in clinical performance, cellular and molecular mechanisms and discovered a biomarker panel that accurately distinguished these two subtypes, which has been verified by clinical samples. 
+
+National Key Research and Development Program of China
+10.13039/5011000121662022YFC3601800The National Natural Science Foundation of China
+10.13039/501100001809T2341008812250258187413882073020Hunan Natural Science Foundation for Distinguished Young Scholars2021JJ10073 
+
+## METHODS AND MATERIALS
+
+## Patient specimens
+A total of 80 AM patients provided informed written consent for the collection of tumour tissues and clinical information, with approval from local medical ethics committees (No. 202103523). Among these, 69 AM patients from multiple centres were included for bulk RNA‐Seq analysis: 44 from Xiangya Hospital, 15 from Nanjing Skin Research Institute, 6 from Hunan Provincial Tumor Hospital and 4 from the Third Affiliated Hospital of Sun Yat‐sen University. The clinical information of the patients is listed in Table  . Additionally, 11 fresh AM samples from Xiangya Hospital were subjected to single‐cell sequencing. Fresh tissues were preserved in tissue storage solution on ice for transport.
+More details of method are in .
+
+## RESULTS
+
+## Identification of two subtypes of AM using unsupervised clustering
+We gathered 69 tumour samples from AM patients across multiple centres to investigate the disease's heterogeneity. Employing Euclidean distance between sample pairs revealed heterogeneous transcriptome expression patterns, underscoring the importance of molecular characteristics in subtype identification (Figure  ). Utilizing K‐means clustering with varying K values (2–5) followed by PCA visualization and gap statistic/silhouette coefficient evaluation, we identified two distinct subtypes: Subtype I (32 patients) and Subtype II (37 patients) (Figure  ).
+ 
+
+## Distinct molecular and cellular profiles between subtypes
+At both molecular and cellular levels, we discerned significant differences between these two subtypes. Differential expression analysis unveiled 642 up‐regulated genes in Subtype I and 300 in Subtype II (FDR < 0.05, |log2FC| > 1) (Figure  ). Enriched GO functions in Subtype I encompassed processes related to skin development and epidermal cell differentiation, lipid catabolic process, establishment of skin barrier, indicative of a less invasive phenotype; while Subtype II exhibited enrichment in pathways associated with melanoma progression and metastasis such as phagocytosis, positive regulation of interleukin‐8 (IL‐8), IL‐6 and cytokine production, chemokine‐mediated signalling pathway, cell junction disassembly, macrophage activation and regulation of angiogenesis (Figure  ). , 
+
+ 
+
+## Characterization of the tumour microenvironment (TME)
+These two subtypes have significant differences in the malignancy of AM, therefore we next used the Xcell to infer the enrichment scores of different cells types to shed light on TME differences. Subtype I displayed enrichment in epithelial cells, keratinocytes, CD4+ central memory T cells and CD8+ T cells, suggesting a tumour microenvironment conducive to tumorigenesis (Figure  ). Conversely, Subtype II showed significant enrichment in immune cells, particularly M2 macrophages, indicative of an immunosuppressive TME again associated with tumour progression and metastasis.
+
+## Subtype II: A high‐risk category with poor prognosis
+To determine whether the two subtypes are informative for AM diagnosis and treatment, we then compared their clinical characteristics. Comparative analysis of clinical characteristics revealed Subtype II as a high‐risk subtype with worse prognosis. Patients in Subtype II exhibited significantly thicker Breslow thickness compared to Subtype I, indicative of advanced disease stage (p < 0.0059) (Figure  ). , Meanwhile, there was no statistically significant difference in lymph node metastasis, TNM staging and Chark level between the two subtypes, suggesting that the two subtypes were independent rather than simply at different progression stages (Table  ). Kaplan–Meier survival analysis confirmed Subtype II's poorer prognosis (p < 0.02), independent of traditional prognostic factors such as Breslow thickness, gender and Clark classification (Figure  ). Cox proportional hazards regression analysis further affirmed Subtype II's association with shorter survival time, highlighting its prognostic relevance (Table  ). These findings underscore the clinical relevance of the newly identified subtypes in guiding prognosis and treatment decisions for AM patients. Subtype II, characterized by molecular and cellular features indicative of aggressive disease, warrants closer clinical monitoring and may benefit from tailored therapeutic interventions.
+ 
+
+## Single‐cell transcriptomic atlas of AM reveals subtype‐specific molecular signatures
+To elucidate the molecular underpinnings of the identified subtypes and facilitate personalized treatments, we constructed a single‐cell atlas of AM using 11 tumour samples. After stringent quality control and data processing, we retained 110,647 cells for analysis, identifying 10 distinct cell types annotated by canonical markers: endothelial cells (PECAM1 and VWF), epithelial cells (EPCAM), fibroblasts (COL1A1 and DCN), keratinocytes (KRT1 and KRT14), lymphocytes (CD3D and CD3E), mast cells (TPSAB1), melanocytes (MITF and MLANA), monocytes (CD68, CD163 and CD14), proliferative cells (PCNA and MKI67) and smooth muscle cells (ACTA2) (Figure  ). Notably, proliferative cells exhibited significantly higher copy numbers, indicative of cancer cells (Figure  ).
+ Previous observations suggested that Subtype I, characterized by a lower propensity for invasion, predominantly comprises keratinocytes. Leveraging single‐cell data, we validated this observation by analysing the expression distribution of Subtype I upregulated genes from bulk data. Genes highly expressed in keratinocytes based on single‐cell data, including PLA2G4F, BNIPL, IL20RB, CASP14 and PPP1R13L, were significantly upregulated in Subtype I (Figure  ). , , Despite the prominence of keratinocytes, it is essential to note that their abundance merely represents a concomitant phenomenon and does not fully reflect the tumorigenic mechanisms, necessitating further investigation at the cellular level.
+ 
+
+## Subtype marker identification through integrative analysis
+To systematically delineate the relationship between diseases and genes and identify subtype‐specific markers, we integrated bulk and single‐cell data using network‐based prediction algorithms CIPHER and CIPHER‐SC . Initially, upregulated genes in each subtype were identified from RNA‐Seq data, followed by the selection of highly expressed tumour genes through differential expression analysis. Leveraging single‐cell transcriptome data, we filtered out keratinocyte markers to isolate genes truly correlated with tumorigenesis. The subsequent application of CIPHER and CIPHER‐SC yielded a panel of 12 candidate markers: CDKN2A, BRCA2, FCGR3A, BRIP1, NR4A3, GDF15, CLSPN, IL1B, RAB20, MME, EREG and VSIG4 (Figure  ).
+Further refinement via Lasso regression analysis led to the selection of three robust markers: EREG, RAB20 and FCGR3A, with EREG representing Subtype I and RAB20 and FCGR3A characterizing Subtype II (Figure  ). Given the high‐risk nature of Subtype II, we included VSIG4, highly expressed in this subtype, to enhance marker identification. The resulting four‐gene panel demonstrated exceptional discriminatory power, achieving an AUC of 0.946 in subtype classification.
+Subsequent transcriptional assays in a clinical cohort validated the subtype‐specific expression patterns of EREG, RAB20, FCGR3A and VSIG4, corroborating our network‐based predictions (Figure  ). These findings underscore the utility of integrative analysis in identifying robust subtype markers with clinical relevance.
+
+## Characterization of subtype‐specific macrophage subgroups in AM
+
+Infiltrating monocytes can differentiate into dendritic cells (CD207, LILRA4, CD1C and LAMP3) and macrophages (CD68, CD163 and CD206). Macrophages can be further subdivided into FCN1+ macrophages and SPP1+ macrophages. Expanding our analysis to the single‐cell level, we examined the expression of subtype markers within distinct cell populations. Notably, all markers were prominently expressed in monocytes (Figure  ), prompting further investigation into macrophage subgroups. Utilizing classic markers, we segregated monocytic cells into dendritic cells and macrophages, with the latter further subdivided into FCN1+ and SPP1+ macrophages. EREG, representing Subtype I, exhibited specificity for FCN1+ macrophages, while Subtype II markers FCGR3A and VSIG4 were distinctly expressed in SPP1+ macrophages (Figure  ).
+ Correlation analysis underscored the differential modularity of these macrophage subgroups, with EREG exhibiting higher correlation with FCN1+ markers, and VSIG4 and FCGR3A aligning closely with SPP1+ markers (Figure  ).
+To elucidate the functional implications of these macrophage subgroups in AM development, we performed differential expression analysis and enrichment analysis. FCN1+ macrophages displayed higher expression of inflammatory factors S100A8, S100A9 and enrichment in immune‐inflammatory response pathways akin to antitumour M1 macrophages (e.g. positive regulation of cytokine production, regulation of inflammatory response and cytokine production involved in immune response). In contrast, SPP1+ macrophages exhibited a pro‐tumour phenotype (C1QA, C1QB, C1QC, CD163 and MRC1 (CD206)), expressing TAMs markers and enriching pathways associated with cell proliferation and metabolic regulation of the TME such as positive regulation of ERK1 and ERK2 cascade, lipid transport and steroid metabolic process (Figure  ).
+To underscore the pivotal role of macrophage subgroups in AM molecular classification, we validated the correlation of subtype markers with FCN1+ or SPP1+ macrophages. Polarization of THP‐1 cells towards FCN1+ macrophages with IFN‐γ and LPS resulted in significant overexpression of Subtype I marker EREG, whereas Subtype II markers FCGR3A and VSIG4 exhibited minimal variation (Figure  ). Conversely, induction of SPP1+ macrophages with SK‐MEL‐28 conditioned medium led to robust upregulation of Subtype II markers VSIG4 and FCGR3A, with no discernible impact on Subtype I marker EREG (Figure  ).
+Additionally, M1 macrophage‐associated markers CD80, TNF and IL‐1A were significantly upregulated in FCN1+ macrophages, while TAMs‐associated markers CD206, Arg1 and CCL17 were distinctly increased in SPP1+ macrophages (Figure  ).
+In summary, subtype markers of AM are intricately linked to distinct macrophage subgroups within the TME, with FCN1+ macrophages associated with the low‐risk Subtype I and SPP1+ macrophages enriched in the high‐risk Subtype II. These findings underscore the pivotal role of macrophages in AM progression and elucidate the mechanistic differences underlying the identified subtypes.
+
+## The crosstalk between SPP1
++ macrophages and cancer cells may contribute to AM progression
+Our investigation into macrophage subgroups revealed their crucial role in AM progression, prompting a deeper examination of their interactions within the TME. Leveraging CellChat, we deciphered the intercellular communications, identifying key signalling pathways driving crosstalk between macrophages and other cell types (Figure  ). SPP1+ macrophages emerged as pivotal regulators, engaging in extensive communication with tumour cells and influencing their behaviour through various pathways, including TNF, SPP1 and CXCL signalling (Figure  ). Notably, SPP1 signalling exhibited the highest communication probability, with SPP1+ macrophages expressing ligands that bind to receptors on tumour cells, lymphocytes and other TME constituents that express the corresponding receptors (CD44; integrins, such as ITGAV and ITGB5) (Figure  , Figure  ). Focusing on the strength of these cellular interactions, SPP1+ macrophages had the greatest impact on tumour cells (Figure  ). Specifically, SPP1‐CD44 between SPP1+ macrophages and tumour cells were the highest scoring ligand–receptor interaction pair, suggesting that SPP1+ macrophages inhibited antitumour immunity and promoted progression and metastasis of AM.
+ In addition to their interactions with tumour cells, SPP1+ macrophages engaged with endothelial cells and mast cells, orchestrating processes vital for tumour growth and metastasis. Graph theory‐based centrality metrics highlighted SPP1+ macrophages as dominant senders in the crosstalk with endothelial cells, promoting angiogenesis through the CXCL signalling pathway (Figure  ). Furthermore, SPP1+ macrophages were responsive to CSF signalling, suggesting a mechanism for their polarization within the TME, supported by the elevated expression of CSF1R in SPP1+ macrophages (Figure  ).
+To experimentally validate our bioinformatic results, we next evaluated the impact of tumour cells on SPP1+ macrophages in a co‐culture model. Co‐culture of either A375 or XYME‐4 with THP‐1 cells revealed a reciprocal relationship between melanoma cells and SPP1+ macrophages, with melanoma cells promoting the proliferation of SPP1+ macrophages in a time‐dependent manner (Figure  ). Immunofluorescence analysis confirmed the increased proliferation of macrophages in co‐culture with melanoma cells (Figure  ), underscoring the bidirectional influence between tumour cells and SPP1+ macrophages.
+Finally, evaluation of SPP1 expression in AM clinical cohorts further substantiated its significance, with high SPP1 expression correlating significantly with poor patient prognosis (p < 0.02, log‐rank test) (Figure  ).
+In summary, our findings elucidate the multifaceted role of SPP1+ macrophages in AM progression, highlighting their pivotal contributions to tumour‐promoting signalling within the TME and emphasizing their potential as therapeutic targets in AM management.
+
+## DISCUSSION
+Melanoma, characterized by its aggressiveness and propensity for recurrence and metastasis, presents unique challenges in clinical management. Acral melanoma, in particular, exhibits distinct features including thicker tumour thickness, increased ulceration and poorer response to existing therapies, leading to higher mortality rates. , , , Furthermore, AM has a highly heterogeneous tumour microenvironment that affects prognosis and treatment, underscoring the importance of unravelling its molecular mechanisms to improve patient outcomes. , , , Traditional classifications based on tumour location or histopathological features have limitations in guiding targeted therapies and immunotherapies, highlighting the need for molecular subtyping to facilitate personalized treatment strategies. 
+
+In this study, we adopted an innovative approach that integrated bulk RNA‐Seq and single‐cell RNA‐Seq data, along with a network‐based gene prediction algorithm, to unveil novel subtypes of AM and identify subtype‐specific biomarkers. Through K‐means clustering of bulk RNA‐seq data, we delineated two distinct subtypes—Subtype I and Subtype II—each associated with unique clinical characteristics. Subsequent analysis of single‐cell transcriptomic profiles allowed for the identification of subtype‐specific markers, including EREG for Subtype I and VSIG4, RAB20, and FCGR3A for Subtype II. Notably, our approach overcame the limitations of bulk RNA‐Seq data, which may be confounded by cellular heterogeneity, by leveraging single‐cell data to filter out noise and identify biologically relevant biomarkers. The robustness of our classification model was further validated in independent clinical cohorts, demonstrating its potential utility in guiding clinical decision‐making and the development of personalized medicine therapeutic options for AM.
+Macrophages are highly plastic cells recruited from circulating monocytes and tissue resident macrophages to TME. In the TME, macrophages are the predominant immune cells and are preferentially polarized to an M2 phenotype to promote tumour growth, , and M2 macrophages levels are increased in thick(>1 mm), ulcerated and highly mitotically active AM. With the continuous advancement of technology, such as second‐generation sequencing, the classification of macrophages relies now on specific gene expression, such as FCN1+ and SPP1+, which align with the traditional M1 and M2 phenotypes, respectively. The identified subtype markers here reported, particularly EREG, VSIG4, RAB20 and FCGR3A, shed light on the underlying molecular mechanisms driving AM progression. EREG, implicated in inflammatory diseases and tumours, exhibited preferential expression in inflammatory macrophages (FCN1+), suggesting a role in regulating inflammation and angiogenesis. , In contrast, VSIG4 and FCGR3A, predominantly expressed in immunosuppressive macrophages (SPP1+), may contribute to tumour progression through immune evasion and suppression of antitumour immunity (Figure  ). , In particular, VSIG4 expression is significantly correlated with a high proportion of Treg/CD8+ T cells in the TME and poor prognosis, and our findings suggest that VSIG4 may be a promising target for AM treatment and prognosis testing. The distinct expression profiles of these markers in different macrophage subpopulations underscore the importance of macrophage polarization in shaping the TME and influencing tumour behaviour. FCGR3A is highly expressed in M2 macrophages, which produce abundant anti‐inflammatory cytokines IL‐10, IL‐8 and the pro‐angiogenic factor VEGF. , Furthermore, FCGR3A+ macrophages can suppress T‐cell activation and promote CD8+ T cell exhaustion. Our findings highlight the potential therapeutic implications of targeting subtype‐specific markers, particularly those associated with immunosuppressive macrophages. Modulating the expression or activity of VSIG4 and FCGR3A may represent a promising strategy to inhibit SPP1+ macrophages and alleviate immunosuppression within the TME, thereby enhancing the efficacy of immunotherapy in high‐risk AM subtypes. Additionally, the observed correlations between subtype markers and clinical outcomes underscore their prognostic significance and potential utility as biomarkers for patient stratification and prognosis assessment.
+In the TME, the phenotypic diversity of macrophages promotes interactions with diverse cell types. Here we show that SPP1+ macrophages communicated with tumour cells mediated by the SPP1‐CD44 and SPP1‐integrins signalling pathway. SPP1‐CD44 axis inhibited antitumour immunity and increased tumour burden. Besides, GRN‐SORT1 and SPP1‐integrins also contributed to the communication between SPP1+ macrophages and tumour cells. This is consistent with previous reports where SORT1 promoted tumour progression and is currently in clinical trials as a new target for tumour therapy, , and integrin, a class of cell surface adhesion molecules with signal transduction functions, exerted important functions in almost every step of tumour metastasis. 
+
+Despite the insights gained from our study, several limitations should be acknowledged. First, while we identified subtype‐specific markers, the specific mechanisms underlying their contributions to AM progression remain to be elucidated and warrant further investigation. Additionally, the relatively small sample size of the clinical cohort limits the generalizability of our findings, highlighting the need for larger scale studies to validate our classification model and explore additional subtype‐specific markers.
+In conclusion, our study introduces a novel computational framework for molecular classification of AM, resulting in the identification of two distinct subtypes with unique molecular characteristics and clinical implications. By integrating bulk and single‐cell transcriptomic data, along with network‐based gene prediction algorithms, we provide insights into the molecular heterogeneity of AM and propose potential therapeutic targets for clinical intervention. The delineation of AM subtypes enriches our understanding of this complex disease and holds promise for improving patient outcomes through personalized treatment approaches. The findings have to be confirmed in different cohorts in the future for full validation.
+
+## AUTHOR CONTRIBUTIONS
+X.C., S.L. and M.Y. conceived the project and supervised the research. M.Y., W.W. and Y.Z. drafted the manuscript. M.Y. and Y.Z. organized the data, analysed the data and integrated the figures. M.Y. and W.W. designed the experiments. W.W., S.Z. and J.S. performed the experiments. X.C., S.L., M.Y., W.W., Y.Z., S.Z. and J.S. reviewed and/or revised the manuscript.
+
+## FUNDING INFORMATION
+This work was supported by the General Program, the National Natural Science Foundation of China (Grants No. 81874138, 82073020, T2341008 and 81225025), National Key R&D Program of China (Grant No. 2022YFC3601800) and Hunan Natural Science Foundation for Distinguished Young Scholars (Grant No. 2021JJ10073).
+
+## CONFLICT OF INTEREST STATEMENT
+The authors have no competing interests to declare.
+
+## ETHICAL APPROVAL
+Ethics Committee approval was obtained from the Institutional Ethics Committee of Central south university to the commencement of the study.
+
+## Supporting information
+
+Data S1.
+
+## ACKNOWLEDGEMENTS
+We gratefully acknowledge the support of the following funding sources: the General Program from The National Natural Science Foundation of China (Grants No. 81874138, 82073020, T2341008 and 81225025), the National Key R&D Program of China (Grant No. 2022YFC3601800) and the Hunan Natural Science Foundation for Distinguished Young Scholars (Grant No. 2021JJ10073).
+
+## DATA AVAILABILITY STATEMENT
+Data are available within the article or its .

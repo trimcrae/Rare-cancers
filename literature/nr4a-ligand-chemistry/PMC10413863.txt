@@ -1,0 +1,1495 @@
+822acssdJournal of Chemical Theory and ComputationJ Chem Theory ComputPMC1041386310413863104138633747078410.1021/acs.jctc.2c01306SiteFerret: Beyond
+Simple Pocket Identification in
+Proteins
+GagliardiLuca RocchiaWalter 1CONCEPT Lab, Istituto Italiano di Tecnologia, Via Melen - 83, B Block, 16152 Genova, Italy*Email: luca.gagliardi@edu.unige.it;
+*Email: walter.rocchia@iit.it.
+2072023191552425242–52591182023© 2023 The Authors. Published by American Chemical SocietyPermits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/).
+
+## Abstract
+ We present a novel method for the automatic detection
+of pockets
+on protein molecular surfaces. The algorithm is based on an ad hoc
+hierarchical clustering of virtual probe spheres obtained from the
+geometrical primitives used by the NanoShaper software to build the
+solvent-excluded molecular surface. The final ranking of putative
+pockets is based on the Isolation Forest method, an unsupervised learning
+approach originally developed for anomaly detection. A detailed importance
+analysis of pocket features provides insight into which geometrical
+(clustering) and chemical (amino acidic composition) properties characterize
+a good binding site. The method also provides a segmentation of pockets
+into smaller subpockets. We prove that subpockets are a convenient
+representation to pinpoint the binding site with great precision.
+SiteFerret is outstanding in its versatility, accurately predicting
+a wide range of binding sites, from those binding small molecules
+to those binding peptides, including difficult shallow sites.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Dec 23; Collection date 2023 Aug 8.
+
+1.
+
+## Introduction
+The automated prediction
+of protein active sites for biological
+processes (e.g., protein–protein or protein–ligand binding
+regions) is a central problem in computational biophysics. It has
+fundamental implications for structural biology and drug design. Predicting protein–ligand binding regions
+is particularly relevant in this respect. Indeed, identifying candidate
+binding sites is an essential preparatory step for rational drug design.
+Due to its importance and difficulty, the problem of binding site
+prediction has been tackled by many methods. They fall into three
+broad categories: (a) Evolutionary and
+template-based (i.e., based on multiple sequence alignments): These mainly address the problem from a biological
+perspective. (b) Energy-based , (binding sites are assessed
+by estimating the interaction energies between protein atoms and a
+probe representing a small molecule): These address the problem from
+a physicochemical standpoint. (c) Geometry-based: These use properties
+of the molecular surface (MS) to infer the presence of potential binding
+sites.
+In this work, we mainly focus on geometric methods.
+1.1.
+
+## Pocket Generation in Geometric Methods
+Geometric methods, in turn, fall into the following subcategories:
+(1) Sphere-based: pockets and cavities are defined using spherical
+probes that fill voids on the surface. , (2) Grid-based:
+the protein volume is mapped onto a three-dimensional (3D) grid. Then,
+according to different geometric criteria, one identifies the grid
+points belonging to the pockets/cavities. − (3) Tessellation/α-shape-based: these methods
+define pockets via filtered subcomplexes of the Delaunay triangulation
+of the MS (α-shape-based approach). , (4) Surface-based: this much smaller set of methods identifies binding
+sites using local analytical geometric properties of the MS (e.g.,
+curvature). Interestingly, there is a
+resurgence of surface-based methods to address the less explored problem
+of protein–protein interaction. Several approaches use a combination of the methods above (e.g.,
+sphere and grid). 
+In geometric
+methods, a special role is played by the MS concept. A protein’s
+MS is the region accessible by the solvent (water) and is the natural
+search area when seeking binding regions. Here, using the MS definition,
+we focus on the solvent-excluded surface (SES) or Connolly surface
+of a protein, − which is defined as the separation surface between
+locations that can be accessed by a spherical probe representing water,
+and locations where the probe is hindered by the protein’s
+atoms, described as hard spheres. Geometrically, the SES can be imagined
+as the result of the spherical water probe rolling over the protein’s
+van der Waals volume. The SES comprises exposed regions that are locally
+convex and coincide with atoms and atom parts that most protrude into
+the solvent, and concave re-entrant regions. For more details on the
+SES and how it differs from the SAS (solvent-accessible surface),
+the reader is referred to ref ( ) and to the Supporting Information of ref ( ). In this framework, one
+should seek a potential binding site among the concave regions of
+the MS (e.g., pockets, clefts/grooves, and invaginations).
+
+1.2.
+
+## Ranking the Candidates
+In most site
+identification methods, the second step is to rank the identified
+candidates. Often, ranking criteria rely on physics-based scores,
+which are not trained on available data. Despite its simplicity, one
+of the most widely adopted and successful scoring systems of this
+kind is based on volume. , Alternative descriptors
+include the degree of buriedness and
+descriptors based on chemical or biological properties, such as the
+evolutionary conservation of the constituting residues. , 
+Different approaches rank pockets according to more complex
+scoring functions that are trained or fitted on available datasets. , , Such scores, obtained via standard
+techniques such as logistic regression or more modern such as Support Vector Machine, estimate the probability that a pocket is ligandable/druggable.
+Given the growing availability of crystallographic data, modern
+computational algorithms can leverage a vast amount of information,
+fostering the emergence of data-driven/machine learning (ML) methods. , − As described above, statistical learning methodologies
+are used in the scoring phase only. However, ML methods can also be
+used as a standalone tool to directly select the binding region of
+interest. ML methods may heavily rely on chemical information that
+is gathered (i.e., learned) from large protein–ligand binding
+datasets containing labeled examples. , These often
+rely on some (strong) assumptions about the nature and distribution
+of negative samples (i.e., regions not observed in contact with the
+ligand are usually labeled as nonbinding). This is an open question, since truly negative samples can hardly
+be ascertained, and may turn into positive as soon as a ligand is
+found to bind them. For a conceptualization of this problem and a
+possible solution in the field of ML and kernel methods, the reader
+is referred to ref ( ). Despite the increasing presence of standalone ML approaches, there
+is still interest in geometric methods to better rank, interpret,
+and hierarchically segment binding regions into subregions of interest
+(subpockets). , , , 
+
+1.3.
+
+## State-of-the-Art Site Predictors
+In this work, we extensively use Fpocket as a benchmark for binding
+site identification, and NanoShaper’s pocket detection function,
+which we combine with a volume-based ranking.
+Fpocket is an
+open-source tool based on Voronoi tessellation and α-shape theory,
+which is widely used and serves as standard reference for benchmark
+in the literature. , 
+NanoShaper (NS) , is an efficient software tool
+for building and triangulating complex representations of the MS according
+to several definitions, mainly the Connolly/SES. Although NS was mainly
+designed for the construction and triangulation of MSs, it also offers
+a pocket detection function. This function
+defines pockets as the volumetric difference between the space regions
+enclosed within the SESs of the protein obtained with two different
+probe radii, 3 and 1.4 Å (being the latter the water molecule’s
+average radius). The implementation is grid-based as it flags the
+grid points that are both inside the 3 Å SES and outside the
+1.4 Å SES. Once these grid points are identified, a filtering
+procedure is adopted and the pocket is represented by building the
+MS of the union of water spheres (1.4 Å) centered on the pocket
+grid points. Customarily, only pockets with a volume greater than
+that of three water molecules are returned. As originally presented
+in ref ( ), the customized
+volume-ranked pockets are referred to as NS-Volume. 
+
+1.4.
+
+## SiteFerret
+In this work, we introduce
+SiteFerret, a new geometry-based approach that identifies good candidate
+binding sites by leveraging the information gathered from spherical
+probes’ clustering events obtained from the construction of
+the SESs at different probe radii. To create a valuable benchmark,
+we started from the freely available binding MOAD dataset. For the first time to our knowledge, we use
+the Isolation Forest, a classical anomaly detector method, to rank
+our candidate pockets, overcoming the two-class discrimination paradigm.
+Below, we describe in detail the database we used, the SiteFerret
+tool, and we provide extensive comparisons against existing methods
+with similar purpose.
+Specifically, we independently tested
+Fpocket and NS-Volume on the same datasets and with the same evaluation
+metrics used to test SiteFerret. Indirect comparison with other methods
+can capitalize on the abundance of assessments done on the LIGSITE-PocketPicker
+dataset, where many tools, including Fpocket, have been challenged.
+However, it is hard to perform a direct and fair comparison. This
+is due to the sensitivity to the comparison criteria adopted. With
+this in mind, we also perform qualitative comparisons with DogSite and CAVIAR, two
+geometry-based pocket detection methods that, like SiteFerret, return
+a pocket segmentation in terms of subpockets. Interestingly, we include
+in the evaluation also a recent deep-neural-network-based method,
+DeepSurf. 
+
+2.
+
+## Material and Methods
+The algorithm
+proposed in this work is based on the SES constructed
+by the NanoShaper software. , The SES is constructed
+for different probe radii, ranging from 1.4 to 3.0 Å. NanoShaper
+was instructed to report the probe spheres located in the re-entrant
+regions, which are then clustered together in order to trace the concave
+regions of the SES. To avoid arbitrary assumptions about the distribution
+of negative samples and to consider this as a real one-class classification
+problem, our scoring strategy uses an unsupervised Isolation Forest
+anomaly detection method. The classifier
+was trained on geometric features provided by the pocket generation
+step and also on chemical information.
+Below, we start by illustrating
+the datasets, how the pockets are
+generated, and the metric used to evaluate how close a pocket is to
+an observed binding site. Datasets and metrics form the ground truth
+against which SiteFerret is trained and assessed. The third part of
+this section illustrates how the learning is performed by treating
+this as an anomaly detection problem. Finally, we discuss how the
+final ranking is obtained and presented, and how subpockets are considered,
+if present.
+2.1.
+
+## Datasets
+The main dataset is extracted
+from the binding MOAD database (BM).
+The structures are selected by considering complexes with ligand molecular
+weights greater than 200 Da, a resolution better than 2 Å, available
+binding data, and limited redundancy (sequence identity ≤ 90%).
+The Binding MOAD separates “valid”, i.e., biologically
+relevant, from “invalid” ligands (such as co-factors
+or binding due to the crystallization process). We only consider the
+former. Note that, in contrast to what is often done, we include multimeric
+structures in order to also consider the sites at the interface between
+different monomers.
+We also consider a second dataset, originally
+introduced to evaluate the LIGSITEcsc method. It contains 48 complexes (holo) taken from the
+RCSB Protein Data Bank as well as their corresponding 48 unbound (apo)
+structures. It has been used as a benchmark in several studies. , , , We refer to this dataset as the LIGSITE-PocketPicker database (LP).
+Finally, we create a further subset of the BM database by isolating
+only protein–peptide cases.
+
+2.2.
+
+## Data Preparation
+The BM database
+was processed using a homemade Python script , which: (i) Establishes which subset of the PDB file represents the
+valid ligand according to the BM website information; (ii) Removes
+the ligand and other HETATMs from the input PDB file, and creates
+a PQR file using the AMBER force field via the pdb2pqr software; (iii) Exports the valid ligands in an xyz file;
+(iv) Creates an ASCII lookup table mapping protein structure and ligand(s),
+discarding any invalid ligands and any moiety that does not match
+what is expected from the MOAD naming scheme. Furthermore, we also
+filtered out structures containing more than 10,000 lines in the PQR
+format. This initially resulted in a dataset of 1100 structures and
+1808 ligand binding sites (indeed, the same structure can have more
+than one valid co-crystallized ligand). In the presence of multiple
+co-crystallized ligands, in order to avoid excessive overlap between
+the respective sites, we performed a further filtering. First, for
+each ligand, we defined the corresponding binding region as the set
+of protein heavy atoms lying within 5 Å of any of the ligand’s
+heavy atoms. Then, we evaluated the ratios of the cardinality of the
+intersection set between every pair of binding regions and that of
+the individual regions. If one was above 50%, the corresponding region
+was removed. This allowed us to exclude small sites, which are essentially
+included in larger ones. Otherwise, we evaluated the degree of overlap
+between the observed binding regions via their Jaccard index. A Jaccard index greater than or equal to 30% led
+us to discard the region with the higher ratio among those calculated
+in the previous step.
+1 This filtering resulted in a final
+set of 1762 binding sites. Finally, the peptide binding sites were
+also discarded, leaving a total of 1647 protein–small-molecule
+binding sites.
+As per the preparation of the LP database, for
+homogeneity and
+comparability with previous studies, we removed five holo structures
+from the LP database, as previously described (PDB codes: 1CDO, 5CNA, 1IGJ, 1SWB, 1A4J). We also discarded one of the two co-crystallized ligands
+from the 4PHV structure. This is because it occupies exactly the same binding
+site as another ligand. After this pruning, the total number of remaining
+binding sites was 57.
+Concerning the apo structures, we first
+localized the reference
+“ground truth” binding sites by identifying the protein
+residues within 5 Å of any co-crystallized ligand heavy atom
+in the corresponding holo structures. Then, by sequence alignment,
+we found a matching of residues in the apo form. Of these, we kept
+only the residues with at least one solvent-exposed atom (in the apo
+structure). The solvent-exposed residues were determined by considering
+the SES surface of the apo structure with probe radius 1.4 Å (see , APO analysis).
+
+2.3.
+
+## Pocket Generation
+In our approach,
+candidate pockets are first generated and then ranked. Similarly to
+other sphere-based site detection methods,
+the main idea behind SiteFerret is that pockets, and cavities in general,
+can be well-approximated by the spherical probes used to build the
+SES in the concave/re-entrant regions. In SiteFerret, these spheres
+are obtained from successive calls to NanoShaper, where the probe
+radius is gradually increased from that of a water molecule, 1.4 Å,
+to a value of 3 Å. These probe spheres are related to analytical
+geometric primitives representing re-entrant concave patches in the
+SES surface. , In the α-shapes-based construction
+procedure, the probe instances originating the concave patches of
+the SES correspond to the so-called “regular facet cells”.
+Via NanoShaper, together with the probe instance position, we identify
+three protein atoms tangent to it and extract the corresponding trimming
+plane as well as the associated normal. During the process of SES
+generation with a different probe radius, the probes are progressively
+clustered using a tailored hierarchical clustering algorithm. According
+to this algorithm, clustering events can occur only between probes
+of equal radius or with radii differing by a single increment, corresponding
+to δ = 0.1 Å. Given a probe of radius ri, with i being the ith call to NS, we will refer hereafter to “different”
+radii only when considering radii that differ by δ (i.e., ri+1 = ri + δ). Only specific conditions, summarized
+in , allow a
+clustering event between two spheres. Two of these conditions lead
+to events that are central features for a putative binding site: a
+bottleneck and a so-called radial shift event.
+ Formally, a bottleneck forms when two probes of equal
+or different
+radii are on the opposite sides of the same plane, and the projections
+of their centers on that plane coincide and fall within the triangle
+formed by the centers of the three tangent atoms defining the plane.
+More simply, this type of event is observed in the presence of a narrowing
+of the SES, which can be approximately “sealed” on each
+side by two opposed probe spheres.
+Radial shift clustering events
+are related to the concept of pocket
+mouth.
+The automated identification of mouth openings is one
+of the open
+problems in cavity detection methods. Our approach is based on the
+observation that, when the local surface features become insensitive
+to (large) probes, increasing the probe radius causes the probes to
+be aligned in the same direction, defined by the same protein atom
+triplet. We call these events ’radial shifts’ and the
+number of aligned probes the depth index. The above observation explains
+the conventional definition of pockets in SiteFerret: a large cluster
+terminating in a series of aligned spherical probes. After several
+tests, we adopted for the radial shift a threshold value of 4 aligned
+spheres of increasing radius (which we define as significant alignment).
+In addition, to enforce a minimum size, we also introduced a threshold
+value of at least 100 clustered spheres. Slight variations in these
+two parameters (aligned “exit” spheres and minimum cluster
+size) do not, however, significantly affect the results. Thus, the
+concomitant realization of a radial shift of 4 aligned spheres (i.e.,
+a pseudo-mouth) and a cluster size equal to or larger than 100 spheres
+defines a (conventional) pocket. Pockets can have more than one pseudo-mouth.
+It can happen that these pseudo-mouths are located in an intermediate
+position within a larger pocket. Therefore, one could provide an irreducible
+representation by recording all of the minimal subclusters containing
+more than 100 spheres and presenting at least one pseudo-mouth. We
+call these subclusters subpockets. Some types of clustering event
+and the conventional definition of mouths and of subpockets are illustrated
+in . Interestingly,
+neither bottleneck nor radial shift clustering events require parametrization
+( ).
+ Finally, the probe aggregation process considers two
+other types
+of clustering events: lateral and pyramidal aggregation. The former
+is the clustering of probes with the same radius which are tangent
+to the same two out of three atoms and are on the same side of each
+of the tangent planes. The latter considers two distinct successive
+probe radii (therefore the probes are not aligned, and not tangent
+to the same three atoms, or it would fall into a radial shift event).
+These two types of events without an extra constraint could lead to
+percolation of the “pocket” over the surface by successive
+aggregation of neighboring probes. Therefore, we introduce two parameters
+that control the maximum allowed distance for clustering two probes:
+γ for lateral and β for pyramidal aggregation. As shown
+in the Supporting Information (Figures
+3 and 4), the main effect of β is to increase the total number
+of (putative) pockets (and subpockets). In turn, the effect of γ
+is to decrease the total number of generated pockets while increasing
+their size. Based on this observation, an optimal trade-off could
+be found between the size and number of pockets. However, we found
+that this choice is suboptimal with respect to the ranking performance.
+Thus, β and γ are the basic hyperparameters of our method
+and have been determined by considering the algorithm’s ranking
+performance. This is discussed more extensively in the following sections.
+More details on the types of signature characterizing a clustering
+event are given in Table 1 in the Supporting Information.
+
+2.4.
+
+## Subpockets and Clustering: A Comparison with
+Similar Approaches
+The concept of subpockets has been introduced
+by the CAVIAR and DogSite methods in different flavors. In CAVIAR, subpockets
+are the result of a post-processing step that borrows techniques and
+concepts from image processing (watershed algorithm ). In DogSite, similarly to our method, the concept of a
+subpocket is embedded in the procedure adopted to generate the putative
+pockets themselves. However, there are two main differences between
+SiteFerret and DogSite in this respect: (i) We ensure that all subpockets
+are the smallest unique clusters fulfilling our definition of pocket.
+In DogSite, subpockets are large core elements, or cavities, which
+are subsequently merged into larger pockets. (ii) Our concept of subpocket
+is independent of that of narrowing or bottleneck, but related to
+the concept of size and pocket mouth/entrance; therefore, we can have
+subpockets even in shallow sites.
+Our approach is reminiscent
+of other sphere-based methods such as SURFNET or PASS, , but it differs from them as follows: (i) SiteFerret’s probe
+spheres are always related to the SES traced out by their corresponding
+radius (SURFNET uses non-SES-like spheres which are tangent to two
+atoms, while PASS uses SES-like spheres but grows them on the van
+der Waals surface of previously placed spheres); (ii) SiteFerret uses
+a (hierarchical) clustering approach; (iii) SiteFerret’s ranking
+score is trained (see ).
+In the sense of clustering, our method is
+reminiscent of Fpocket,
+which uses an ad hoc clustering of α spheres. However, a fundamental difference with respect to Fpocket
+is that our spheres are probe instances and as such they are directly
+related to the protein’s SES. Indeed, a drawback of Fpocket
+is that it can also include protein atoms which are not solvent-exposed
+( ).
+ 
+2.5.
+
+## Evaluation of the Generated Pockets
+Several binding site prediction methods score generated pockets without
+adopting ML or statistical learning approaches. For instance, one
+simple yet successful score is based on volume. Other descriptors
+can be the degree of buriedness , , , or residue conservation. 
+Some methods use ML techniques, such as
+regressing methods, trained on given datasets. Fpocket, which is based
+on the α-shape complex of the Delaunay triangulation of protein
+atoms (see Tessellation Methods in ), returns a score based on five descriptors.
+Other examples of linear regressors include the “Simple Score”
+of DogSiteScorer, the score of SiteMap, or those derived in druggability studies, such
+as the hit rate obtained by NMR-based screening. A drawback of these types of approaches is that one must
+choose a (small) set of features on which to build the regression.
+On the one hand, this requires a good degree of a priori knowledge
+to select the most relevant parameters, which might vary considerably
+according to the system and problem considered. On the other hand,
+if one considers a large set of (probably redundant) descriptors,
+there is an increased risk of overfit and of losing generality. Another
+potential problem is to rely too much on the chosen score to be fitted.
+A slightly different approach is to directly machine learn a druggability/ligandability
+score from a dataset according to a classification
+scheme. These methods are very effective
+but, similarly to many ML approaches, they rely on the availability
+of datasets containing negative examples. This is a major issue in
+protein–ligand binding site recognition because the nature
+of the problem per se does not allow an unambiguous identification
+of a negative example. , While a few pockets have been
+labeled nondruggable sites as a result of pharmaceutical screening
+campaigns, , one must note that: (i) nothing excludes
+the possibility that a drug may eventually be discovered binding in
+these pockets; (ii) the concept of druggability, which is restricted
+to pharmaceutical applications, is not equivalent to ligandability.
+For example, to populate the negative dataset in the DogSiteScorer
+algorithm, so-called decoys have been
+used. These consist of putative pockets generated by the algorithm
+on regions of the structures where no binding has been observed. This
+choice, however, is conceptually unsatisfactory since: (i) it is method-specific
+(every method will return differently shaped putative pockets); (ii)
+false negatives cannot be ruled out. Moreover,
+the ligand binding process may structurally rearrange the binding
+region, making more questionable strong claims over the nature of
+a pocket. 
+More recently, researchers
+have proposed a new family of data-driven
+approaches that use a different strategy. Rather than using ML to
+classify/score previously generated putative pockets, they directly
+predict the probability that a point on the surface belongs to a binding
+region. They then build putative binding regions by clustering nearby
+points with a predicted probability greater than some threshold. State-of-the-art
+data-driven ML approaches based on this procedure include P2Rank, based on a Random Forest classifier, DeepSite, and DeepSurf, which
+use deep neural networks. Their performance is extremely good, despite
+the conceptual flaws described above. Indeed, these methods intrinsically need negative examples (e.g.,
+in DeepSurf, surface points that are not observed binding are labeled
+as nonbinding sites) and suffer from data imbalance problems (the
+distribution between positive and negative labels is strongly uneven).
+Since the prediction of putative binding regions does not rely on
+a previous pocket generation phase, a strong advantage of this type
+of methods is that they return a rather small set of putative pockets
+compared to other approaches.
+After considering these rich and
+diverse criteria for evaluating
+putative pockets, we opted for an unsupervised method that does not
+require explicit negatively labeled samples: the Isolation Forest
+anomaly detector. Below, we present a fairly sizeable number of features
+to describe pockets, mostly taken from the geometric clustering process,
+and we integrate them with others that are chemical in nature.
+2.5.1.
+
+## Geometric and Clustering Features
+Given a pocket, we consider the ensemble of clustering events that
+generated the final cluster during its growth (child nodes). They
+are gathered by performing a “pre-order traversal” of
+the cluster (step 10 in the algorithm table).
+2.5.1.1.
+
+## Geometric Features
+1.Number of entrances. As a post-processing
+step, pocket entrances are obtained by considering significantly aligned
+probes (above the threshold of 4 aligned spheres) and grouping terminal
+probe spheres with a radius greater than 2.4 Å. This clustering
+step is based on a standard single-linkage procedure where probes
+are clustered if their squared distance is smaller than the sum of
+their squared radii (orthogonality condition for the power distance ). Entrances are characterized by a center, an
+effective radius, and an average depth index. The effective radius
+is defined as the average distance of all centers of the clustered
+entrance spheres with the geometric center of the cluster plus the
+average radius of the cluster. The average depth index is obtained
+by averaging all depth indexes of the clustered terminal spheres.
+If there are no significant alignments with a radius above the threshold,
+the
+2.Buried Boolean flag
+is assigned, meaning
+that the putative pocket is likely in a deep hollow. Note that, by
+definition, subpockets have a single entrance associated with their
+unique pseudo-mouth. Again, if the terminal sphere is below 2.5 Å,
+the subpocket is considered buried.
+3.Average entrance (effective) radius:
+The average of all entrance radii, where each entrance radius is the
+effective radius defined above.
+4.(Average) Entrance depth score: Weighted
+average of the effective depth of entrances in the putative pocket.
+The weight is given by the number of spheres in the entrance cluster.
+This descriptor is normalized by the significant alignment (fixed
+to 4, see in the previous section) so that 1 would correspond to the
+minimum requirement of a pocket pseudo-mouth, and greater than 1 signifies
+that the entrance is deep.
+5.Number of bottlenecks. 
+6.Average bottlenecks radius
+7.Average large-aggregation
+radius: Average
+radius of the large-aggregation clustering events defined in the following
+paragraph. The average is weighted by the number of elements in the
+clusters prior to merging. A large radius indicates that child node
+clusters are merged closer to superficial parts of the SES.
+8.Volume: Given that clusters
+(putative
+pockets) are represented as an ensemble of overlapping probe spheres,
+a cluster is associated with a volume and a surface area. Volume and
+area are computed via the NanoShaper molecular surface triangulation
+of the pocket-clustered spheres (using the NS “Skin”
+surface option, which is more robust
+for a small set of strongly overlapping spheres). The advantage of this approach is that it is fast and simultaneously
+produces the triangulation of the pocket mold, which is one of the
+outputs returned to the user.
+
+2.5.1.2.
+
+## Clustering-Event-Based Features
+One of the novelties of our approach is that the clustering events
+used to build pockets are leveraged as descriptors for the following
+learning stage.
+The following descriptors are heuristic scores
+related to the number of significant clustering events. We introduce
+an aggregation list linked to the lateral and pyramidal clustering
+events. Given a cluster, the aggregation list is a container where
+each entry contains further information about a clustering event (radius
+of the probe, cardinality of the clusters before merging) except for
+bottlenecks and radial shifts. Similarly to the aggregation list,
+given a cluster, we also define a persistence list, which is a container
+where each entry is the depth index (number of aligned spheres) of
+the sets of aligned spheres whose depth index is larger than the significant
+alignment threshold. Below, some scores are normalized by the cluster
+number of elements to allow comparability of differently sized clusters.
+9.Size: Simple count of the cluster elements.
+This correlates to the volume but includes overlaps among spheres.
+10.Aggregation score: The
+normalized
+length of the aggregation list.
+11.Persistence score: The normalized
+sum of all persistence entries. This corresponds to the number of
+aligned spheres (above threshold).
+12.Clustering score: The sum of aggregation
+and persistence scores. This is a measure of the total number of nontrivial
+clustering events.
+13.Large-aggregation score: Similar to
+the aggregation score, but considering a subset of the aggregation
+list (i.e., containing only pyramidal and lateral aggregation events),
+which includes only major clustering events. These are selected by
+considering the relative size of two clusters before merging, which
+must be at least in a ratio of 1–5. That is, the smallest cluster
+before merging is at least one-fifth the size of the largest one.
+To avoid including irrelevant events related to the early stages of
+the clustering process, we consider only events involving clusters
+larger than 10 probe spheres prior to merging.
+
+2.5.1.3.
+
+## Compactness
+The idea of correlating
+compactness with druggability is not new. , We here consider more classical evaluations and some ad hoc descriptors
+inspired by our specific clustering algorithm.
+14.Volume ratio: Ratio of volume to number
+of elements (spheres) in the cluster. This number correlates to the
+cluster’s degree of compactness. A small value indicates that
+the spheres are more overlapping and vice versa. This is similar to
+the ratio between volume and area proposed in ref ( )
+15.HW index: (Hakon Wadell) Sphericity,
+a measure of how spherical an object is. This is given by the surface
+area of a sphere with an identical volume, divided by the object’s
+actual surface area2 with A and V the surface area and volume of the putative pocket, respectively.
+The closer to 1 this index is, the more spherical is the cluster.
+This descriptor was proposed in ref ( )
+The following are ad hoc heuristic compactness descriptors
+derived from the clustering process. Given the persistence list detailed
+above, we introduce the following descriptors:
+16.Ramification: The standard deviation
+of the persistence list. This is heuristically linked to the degree
+of deviation with respect to the average channeling (represented by
+the average significant depth or persistence) and represents a measure
+of the cluster’s complexity.
+17.Protrusion: The difference between
+the entrance depth and the average persistence, minus the ramification.
+The idea behind this descriptor is to obtain a measure of the cluster’s
+complexity closer to the SES surface.
+
+2.5.2.
+
+## Chemical Features
+We can easily
+assign to each surface region the list of constituting atoms because
+they are tangent to corresponding probe spheres. Thus, we can also
+generate chemical features for every pocket. To infer the chemical
+features, we consider the percentages of representation of each of
+the 20 amino acids in a pocket’s composition. A protein’s
+residue is considered represented if at least one atom of that residue
+is tangent to any of the cluster probe spheres which comprise the
+pocket itself. The count is normalized by the total number of residues
+found in the pocket. A detailed statistical analysis of amino acid
+presence in binding pockets is shown in the Supporting Information (Section 2.3 and Figure 4) and thoroughly discussed
+in ref ( ). The other
+two chemical descriptors consider the global degree of hydrophobicity
+and hydrophilicity of each putative pocket, referred to as hydrophobic
+score and hydrophilic score, respectively. Similarly to Fpocket, we
+consider the degree of hydrophobicity of the residues, , dividing them into two broad families: hydrophilic and hydrophobic
+(following the table published at https://gilles-hunault.leria-info.univ-angers.fr/Idas/proprietes.htm–accessed May 2023, and reproduced in the Supporting Information, Table 4). The hydrophilic and hydrophobic
+scores are then computed by simply counting the number of residues
+in each class, normalized by the total number of residues. We exclude
+glycine from these counts due to its neutral behavior (although it
+participates in the normalization).
+As discussed in detail in
+the Supporting Information (Section 2.2.1),
+local hydrophilic and hydrophobic scores, accounting for the spatial
+distribution of the hydrophobic and hydrophilic residues within the
+pocket, were also implemented to identify if the binding pocket contains
+local parts that are rather hydrophobic (hydrophilic). However, this
+descriptor is not currently implemented because it did not improve
+performance and was computationally demanding (since it requires the
+computation of all pair distances between protein atoms of a putative
+pocket). A schematic description of how the feature extraction and
+ranking are done is given in .
+ 
+2.5.3.
+
+## Evaluation of the Matching of the Pockets
+and Binding Sites
+To choose which pockets approximate the
+observed binding sites well enough to be fed into the ML tool and
+to compare the method’s performance against others, we need
+to define an evaluation criterion. We require our metric to be based
+on the atom composition of putative and observed sites rather than
+on concepts that depend on the specific pocket construction or representation
+(e.g., spheres, α-spheres, grid
+points − , , ). Since our method uses probe spheres that contact at least three
+atoms, we used the list of contacted atoms to assess the degree to
+which a pocket matches an observed binding site.
+Many site detection
+methods consider a pocket to be a correct match if its center of mass
+lies within 4 Å of any ligand atom. In agreement with the initial
+suggestion of the Fpocket authors (who
+define a mutual overlap criterion) and with the dogSite method, we instead adopted a score based on combining
+two figures of merit, as detailed below. This metric was extensively
+tested in ref ( ).
+2.5.3.1.
+
+## Ligand Coverage Score (LC)
+If
+we define as ’contact’ the property of being closer
+than 5 Å to an atom center, LC represents the ratio of ligand
+heavy atoms that are in contact with at least one heavy atom of the
+putative pocket, divided by those in contact with at least one heavy
+atom of the entire protein. For a given pocket, we indicate with d(i, j) the Euclidean
+distance between the centers of two atoms, with nL being the number of ligand heavy atoms within 5 Å
+of the protein that comprises the set, and with nP being the number of protein heavy atoms that belong to the pocket,
+producing the set, we have
+3 An LC value close to 1, or 100%, denotes a
+pocket in contact with most of the co-crystallized ligand.
+
+2.5.3.2.
+
+## Pocket Coverage Score (PC)
+A
+good LC score alone cannot exclude that there is a large part of the
+putative pocket that is not in contact with the ligand (for instance,
+the entire protein by definition always scores 100% on LC). To account
+for this possibility, we introduce the PC, which represents the fraction
+of protein surface atoms that belong to a pocket and that are within
+5 Å of any heavy atom of the ligand. This score is the symmetric
+version of the LC
+4 A large pocket coverage score implies that
+only a few atoms of the putative pocket are not in contact with the
+ligand. Again, this score alone would not be sufficient to correctly
+evaluate a prediction. Indeed, small pockets in contact with a large
+ligand would score very high in PC but could nevertheless miss a large
+portion of the binding region.
+In summary, we consider a putative
+pocket to be a correct match if it scores at least 50% in Ligand Coverage
+and at least 20% in Pocket Coverage. The obtained evaluation scores
+are rounded up to the first decimal in percentage. In some cases,
+we made the requirements for the PC score stricter in order to see
+whether an approach can more precisely pinpoint a binding site.
+
+2.5.4.
+
+## Nonbinding Pockets as Anomalies: The Isolation
+Forest Approach
+Due to the above-discussed issues inherent
+in defining negative examples for binding sites, we approached the
+problem of scoring putative pockets as a one-class discrimination
+problem. Namely, we assumed that we only
+have samples of the positive class (also referred to as the normal
+or inlier class). One-class learning is a task that typically arises
+in outlier (anomaly) detection or, more generally, in discrimination
+data mining problems, where it is too expensive or challenging to
+obtain examples of “the other” class. , , 
+For this purpose, we borrowed a standard
+unsupervised anomaly detector method, the Isolation Forest (IF). The advantages of IF here are:
+it requires minimal parametrization;
+it can handle high-dimensional problems with a large
+number of irrelevant or redundant attributes (descriptors), which
+is ideal, considering our 17 geometric/clustering and 22 chemical
+descriptors;
+it is highly efficient,
+which makes it ideal for large
+datasets.
+The central rationale of IF is that anomalies are more subject
+to isolation under random data partitioning with respect to normal
+points (see left panel of ). An IF comprises multiple binary decision trees (iTree)
+trained on different random subsets (subsampling) of the training
+dataset. In the training phase, each iTree is grown by dividing data
+at each node by randomly selecting an attribute (feature) and a split
+value. The process terminates when the tree reaches a height limit
+or each external node (leaf) contains a single observation.
+ Given a sample x = (x1, ···, xn) with xi the ith observation, n the subsample size,
+and an observation vector in a d-dimensional feature space, we define h(x) as the path length of an observation (pocket) measured as the number
+of edges traversed in a tree (right panel of ). Given a collection of trees, E(h(x)) is the mean of h(x). The anomaly score is defined as
+5 where c(n) is a normalization factor corresponding to the average path length
+of an unsuccessful search in the Binary Search Tree. Therefore, s → 1 corresponds to a strong anomaly, and s → 0 corresponds to a “normal” sample.
+An improved version of IF, named Extended Isolation Forest, was
+recently proposed to address some issues related to assigning an anomaly
+score to data. This method did not substantially
+improve our performance while carrying a significantly higher computational
+cost in terms of memory (about 10 times larger than for standard IF).
+
+2.5.5.
+
+## Training, Validation, and Test
+The training set for the IF comprises about 86% of the BM dataset
+and amounts to a total of 1416 binding sites. The positive samples were selected by selecting all of the “hitting”
+pockets according to the metrics detailed in . At this stage, the algorithm
+still contains 2 free hyperparameters, γ and β. We ran
+the clustering algorithm on the range γ = 0 → 0.7 β
+= 0 → 0.6. As discussed in the Supporting Information (Section 1.2), this range covers many pocket numbers
+and volumes and returns very high “hit” rates. To maximize
+the training set, we used all of the obtained positive examples for
+the considered range of hyperparameters. We also considered hitting
+subpockets as distinct positive samples. Since the Ligand Coverage
+score was on average higher than the Pocket Coverage score, we artificially
+replicated entries with a frequency proportional to the PC score, . This informs the IF about
+the best training samples by increasing the number of samples with
+a large PC score and thus biasing the scoring toward preferring smaller
+pockets. The IF was implemented using the open-source Python library
+scikit-learn. After several tests, the
+IF was trained with the following parameters: no bootstrap (i.e.,
+no random repetition of data across the different iTrees of the forest,
+since we already introduced replicas in the sample following the PC
+score), subsampling size of 256, and 10,000 iTrees. We chose to consider
+the geometric and chemical descriptors separately in two distinct
+IFs. This allowed us to gain insight into the discriminating power
+of geometry/clustering-based and chemistry-based ranking individually.
+We found that, when the training included both “master”
+pockets (which contain one or more subpockets) and small pockets (such
+as subpockets), this negatively impacted the overall performance.
+This is probably due to their very different geometric signatures
+(see Supporting Information, Section 2.4
+and Figure 7). We therefore considered two distinct populations separately:
+“large” pockets and “small” pockets, where
+large pockets are master pockets that contain more than one subpocket. We therefore trained a total of 4 IFs (1 geometric
++ 1 chemical for the positive samples of each population). In the
+validation stage, we selected the optimal clustering parameters, γ
+and β, and identifed the combination of the 4 trained IFs delivering
+the best performance. In the training phase, we were only feeding
+the IFs with the positive samples. During validation, in contrast,
+we provided the already trained IFs with all of the generated pockets,
+regardless of whether they hit an observed binding site or not. We
+then evaluated which combination of IFs, especially of hyperparameters,
+yielded the best results.
+After several trials, we decided to
+use the chemical and geometric forests trained on the “large
+pockets” population to provide the main scoring for both large
+and small pockets. However, the IFs trained on the “small pockets”
+were used to rank subpockets within their parent master pocket, when
+present. As illustrated in more detail in the Supporting Information (Section 2.1 and Table 3), we also
+found that the best ranking performance was achieved by averaging
+the score of the geometric and chemical IFs.
+Finally, we found
+that γ = 0 and β = 0.9 is the combination
+of clustering parameters that yields the best ranking. More details
+on the effect of clustering parameters are discussed in the Supporting Information (Sections 1.2 and 2.1,
+and Table 2).
+As is customary, we assessed the method in the
+deployment (test)
+phase without free parameters and on a previously unseen set of putative
+sites. The main test set corresponded to approximately a fraction
+of 14% of the entire BM dataset described in , and it was similar to the test set first
+used in the Shrec2022 Computer Graphics benchmark, with the only difference being that the 20 peptide-protein
+structures were not included. This resulted in a set of 229 protein–ligand
+pairs distributed on 150 structures (versus the 249 sites in ref ( )). We then used the LP
+database, which is divided into bound (holo) and unbound (apo) structures.
+Finally, we performed a dedicated assessment of the protein–peptide
+structures found in the BM (115 entries, see , which were not used in the training).
+2.5.5.1.
+
+## Feature Importance Analysis
+Given
+an unsupervised ML method, which is not constructed around a specifically
+designed scoring measure, it is particularly interesting to try to
+interpret the results by estimating how the different features impact
+the performance. For a simple ML model, such as linear or logistic
+regression, one can quickly evaluate the feature importance by analyzing
+the coefficients associated with each feature. However, it is more
+difficult to interpret complex methods such as random forest or artificial
+neural networks. Here, we adopted the Shapley Additive exPlanations
+(SHAP) framework, based on cooperative
+game theory, to estimate each feature’s relative contribution
+to the model outcome. The SHAP method assigns an importance value
+to each feature. This value represents the impact of the presence
+of that feature on the model prediction. In principle, to compute
+it, one would need to retrain the model with that feature withheld
+and compare it to the full model. This would imply to retrain the
+model on all feature subsets. SHAP effectively approximates this value
+and avoids the computationally daunting retraining process.
+In particular, we here used the treeSHAP algorithm, which is specifically optimized for ensemble-based decision
+tree methods and thus compatible with IF anomaly detection. 
+
+2.6.
+
+## Ranking Protocols and Comparison between Different
+Methods
+The problem of evaluating pocket detection algorithms
+in a reproducible and comparable way is far from trivial. Assessments
+of existing methods vary in both the ranking scheme adopted and the
+definition of a “correct prediction” (i.e., evaluation
+metrics). Here, similarly to what was done in refs ( , , ), we propose
+that, for a given structure with one or more known co-crystallized
+ligands and a given method returning an ordered list of putative sites,
+the final ranking position is given by the number of nonmatching pockets
+that occupy a higher position in the prediction list than the hit
+pocket. The normalization is then given by the number of observed
+binding sites (structure–ligand pairs) rather than the number
+of examined structures. In this way, we resolve the issue of structures
+having more than one crystallized ligand.
+As anticipated in
+the Introduction section, we explicitly compared SiteFerret’s
+performance with that of Fpocket and with a customized version of
+the NanoShaper pocket detection method, which we called NS-Volume and which ranks the pockets generated with NS
+by volume. These alternative tools were chosen to allow a fair comparison.
+Both Fpocket and NS-Volume could be run on the same datasets and with
+the very same evaluation metrics and ranking protocols because they
+also return the protein atoms associated with the generated pockets.
+For Fpocket, these are the atoms contacted by the α spheres.
+For NS, these are the surface atoms facing the triangulated volume
+which defines the pocket. This information is needed to compute the
+LC and PC scores in . Finally, we also compared SiteFerret to DeepSurf,
+a recent deep-neural-network-based method, on the test set of the
+BM dataset. This was because we could use the (partially unpublished)
+data from ref ( ),
+which used the same evaluation metrics as for SiteFerret.
+2.6.1.
+
+## Master Pockets and Subpockets
+The
+raw output of SiteFerret is a score for the pockets found in the structures
+that are fed as input. As discussed above, our pocket generation method
+means that a generated pocket may contain zero, one, or several subpockets.
+If it contains one or more subpockets, we call it a “master
+pocket”. As discussed in detail in the next section, for each
+returned master pocket, the user is provided with the ranking of internal
+subpockets and can inspect them. The full list of generated pockets,
+which includes the subpockets isolated from the parent master pockets,
+is passed to the IFs for the scoring phase. While the identification
+of subpockets is interesting and in agreement with findings in some
+recent studies, it also poses the problem of whether the same scoring
+system can be used for both classes. We tried to address this issue
+in the following ranking protocol.
+First, for each master pocket,
+we considered only its three top-ranking subpockets and discarded
+any further ones. Then, if a subpocket was ranked after its parent
+master pocket, it was skipped, since it was already contained in a
+pocket higher in ranking. Unless explicitly specified, we did not
+consider the segmentation into subpockets when evaluating the master
+pocket. However, we tracked the presence of successful subpockets
+(according to the same evaluation metrics used for the parent pocket),
+as indicated in the footnotes of the tables. We adopted two possible
+schemes when evaluating subpockets.
+2.6.1.1.
+
+## Single-Pocket Evaluation
+According
+to this protocol, if present, the three top-ranking subpockets replace
+their parent master pocket in the prediction chart. We empirically
+established that the master pocket’s score (given by the IF
+trained on the population of “large” pockets) leads
+to the best ranking performance. Therefore, to build a ranking of
+the new ensemble of pockets, we decided that the score of a (former)
+subpocket is given by a penalized version of its parent master pocket’s
+score, calculated proportionally to its subranking within the parent
+pocket
+6 with R ≥ 1 being the
+subpocket (integer) ranking position and s being
+the master pocket’s score (which is lower for higher ranking
+positions). Therefore, if a pocket has only one subpocket (R = 1), it is simply substituted for the latter with no
+effect on its ranking score (see ). When a pocket contains more than one
+subpocket, these are inserted into the ranking according to scores
+given by . Pockets
+with no subpockets are not affected.
+
+2.6.1.2.
+
+## Nested Evaluation
+In this protocol,
+if one of the three top-ranking subpockets of a master pocket matches
+a binding site according to the current evaluation metric (i.e., the
+combination of PC and LC scores), we label the parent master pocket
+as successful (even if the entire master pocket would not meet the
+PC requirement). When reported, LC and PC scores refer to the system
+i.e., the master pocket or, when it does not meet the coverage requirements,
+its subpocket, which match the binding site.
+The Nested Evaluation
+concept stems from evidence that binding sites are often found as
+part of more elaborated structures, as observed elsewhere. However, Nested Evaluation can also be seen
+as a way to implicitly increase the number of potential candidates,
+requiring that the final user look at more than 10 candidate pockets.
+This is why we report the results from both protocols.
+
+2.7.
+
+## Summary of SiteFerret Output
+In addition
+to the ranking of pockets and the geometric/clustering and chemical
+features needed to derive it, SiteFerret returns to the user a significant
+amount of extra information. For instance, for a given entrance (as
+defined previously), the normal (with respect to the plane described
+by the protein atoms tangent to the probes) is returned (see a) together with
+the corresponding residues. Similarly, for each bottleneck, SiteFerret
+provides the user with the bottleneck axis and with the list of associated
+residues. The user can also access the entire list of normal vectors
+and residues associated with each pseudo-mouth, represented by aligned
+probes as described in . SiteFerret also produces visual representations,
+which can be loaded in VMD. Pockets are
+represented in three ways: (i) as the actual cluster of probe spheres
+( a); (ii) in
+terms of tangent protein atoms ( a, b, orange spheres); and (iii)
+as a triangulated “mold” of the clustered spheres ( b), similarly to
+the representation of the pockets returned by NanoShaper. Representation
+(ii) is the most useful because it is explicitly related to the protein,
+and it is the one considered when applying the evaluation metrics
+described in and used to build the tables discussed in .
+ To conclude this section, we show in a summary of the SiteFerret
+software workflow
+as provided to the user.
+ 
+
+3.
+
+## Results
+As described in more detail
+in , SiteFerret
+was directly compared against
+Fpocket and NS-Volume on the BM test set, on the LP dataset (holo
+and apo separately), and on a set of peptide-protein complexes excerpted
+from the BM dataset. Moreover, it was also compared to DeepSurf on
+the BM test set.
+3.1.
+
+## Binding MOAD Dataset
+Results are
+summarized in . While SiteFerret had a lower hit rate in the Top1 and Top3 positions,
+it outperformed NS-Volume and Fpocket on Top10. In analogy with previous
+findings, DeepSurf was significantly
+better than the other methods. However, SiteFerret and DeepSurf had
+similar Top10 performance. This suggests that a successful strategy
+could involve directly learning the binding regions on the SES (as
+done by DeepSurf), rather than building the pockets first and then
+using descriptors for ranking. In this regard, as already pointed
+out in ref ( ), it
+must be noted that DeepSurf has been trained on a very large dataset,
+most likely including some of the BM structures. Moreover, unlike
+NS-Volume and Fpocket, the hyperparameters of the DeepSurf version
+used here were specifically optimized on a similar training set (the
+Shrec2022 Computer Graphic Benchmark ).
+As indicated in the table footnote, about 87% of the top-ranked 3
+subpockets by SiteFerret within successful parent pockets also matched
+a binding site. This leads to the analysis proposed in the lower part
+of the table, where the PC requirement is increased from 20 to 50%.
+This stricter threshold limits the portion of a successful pocket
+that is allowed to be not in contact with the ligand. As observed
+in the table, this stricter requirement, expectedly, worsens the performance
+of all methods. However, the Nested Evaluation in SiteFerret strongly
+reduces the gaps with NS-Volume and Fpocket on the top-ranking positions,
+with SiteFerret surpassing Fpocket in Top3, and SiteFerret being superior
+to all methods, including DeepSurf, on Top10. However, for the single-pocket
+evaluation method, where the master pockets are substituted by their
+three best ranking subpockets (if any), SiteFerret’s performance
+decreases significantly. This is because some of the largest master
+pockets are good matches for large ligands, in contrast to their subpockets.
+It is also due to the significantly increased number of pockets that
+are put into the “hit parade” when the master pockets
+are unpacked, that push some successful subpockets below the 10 position.
+Finally, NS-Volume clearly outperforms Fpocket when increasing the
+Pocket Coverage, highlighting the value of both the generation of
+smaller pockets and a simple volume-based ranking criterion.
+ 
+3.2.
+
+## LIGSITE-PocketPicker Database
+As
+anticipated in , we analyzed this database due to its large popularity in
+protein–ligand benchmarks. Importantly, in addition to the
+standard bound complexes, corresponding apo (unbound) structures are
+also present. This is important because, in any realistic application
+of a binding site predictor, only apo structures would be available,
+which could significantly differ from their holo counterparts due
+to the rearrangements induced by the binding. , 
+3.2.1.
+
+## Holo
+The 48 bound structures of
+the LIGSITE-PocketPicker (LP) database, after the filtering steps
+described in , comprise 57 binding sites. Results are shown in for SiteFerret against
+Fpocket and NS-Volume. Similarly to what we observed for the BM dataset,
+SiteFerret’s performance on the Top1 and Top3 ranked pockets
+is inferior to Fpocket and NS-Volume, and superior on the Top10. Again,
+the second half of the table shows that, when the stricter requirements
+apply, SiteFerret outperforms the competitors in the Nested Evaluation
+protocol, while it is inferior when the Single Pocket protocol is
+used.
+ 
+3.2.2.
+
+## Apo
+There is no well-defined procedure
+in the literature to assess the performance of pocket retrieval methods
+over unbound structures. Since the exact position of the ligand in
+the apo form is unavailable by definition, a specific procedure was
+devised to map binding residues in the holo structure to the apo form.
+This procedure is detailed in . The LC and PC score definitions are preserved,
+provided that one refers to residues rather than atoms. Notably, by
+slightly increasing the probe radius used to identify exposed residues
+via the SES, one can strongly impact Fpocket’s performance,
+which tends to include buried residues in its pockets. This is shown
+in detail in the Supporting Information (Section 3 and Table 5).
+In terms of residues, the cardinality
+of the clusters is much smaller. As such, a quantitative comparison
+of the LC and PC score thresholds with the previous analysis based
+on atoms is not obvious. Here, we consider the same thresholds as
+used before for LC and PC, as well as a smaller LC threshold of 20%.
+As illustrated in , the results are more sensitive to the adopted thresholds. Finally,
+we note that NS-Volume’s performance is significantly worse
+than that of Fpocket and SiteFerret for most of the evaluation criteria.
+This seems to be due to NS-Volume’s tendency to present small
+pockets, with too few exposed residues. Indeed, NS-Volume’s
+performance significantly improved when we lowered the threshold on
+the LC score to 20%.
+ 
+
+3.3.
+
+## Protein–Peptide Binding Sites
+Finally, we show the results for the set of 115 protein–peptide
+binding sites. Peptides are on average larger than ligands and tend
+to occupy large riverbed-like pockets. It is interesting to assess
+the method’s performance on protein–peptide sites since
+they are both geometrically and chemically similar to protein–protein
+interaction sites. The prediction of protein–protein interaction
+sites is distinct from and more complex than protein–ligand
+binding prediction and goes beyond the scope of the present work.
+However, there is remarkable evidence that a suitably adapted computational
+method can cover both tasks.
+As illustrated in , SiteFerret performs significantly
+better on this database than Fpocket and NS-Volume according to all
+figures of merit. Here, the number of subpocket hits decreases from
+about 90%, found previously on ligand/small-molecule binding predictions,
+to 65%. This is due to the size of the peptides, which are often significantly
+larger than subpockets.
+ 
+3.4.
+
+## Subpocket Identification and Characterization
+To our knowledge, only a few methods leverage the concept of subpockets:
+DogSite (and similarly Lsite and Dsite, discussed by the same authors) and the more recent CAVIAR method. In contrast to CAVIAR, which ranks with an ad
+hoc scoring based on size and “buriedeness”, DogSite
+uses a machine-learned druggability score (DogSiteScorer). However, a weak point of DogSite is its tendency
+to generate very large subpockets, which do not capture small and
+localized parts of cavities that potentially encompass defined functional
+groups of ligands. This ability is instead attributed to CAVIAR. These methods could not be directly included
+in the current performance analysis due to the different figures of
+merit adopted to evaluate a good hitting pocket, which is based on
+a geometric center criterion in one case (a pocket is successful if
+its geometric center lies within 4 Å of any ligand atoms, DogSite)
+and based on a weak single ligand atom overlapping criterion in the
+other case (it is sufficient that one ligand atom overlaps a pocket
+grid point for the latter to be considered a correct binding site,
+CAVIAR). However, we provide below a qualitative analysis supported
+by some examples. We start by analyzing the same examples discussed
+in the CAVIAR paper, which also provided a critical comparison with
+DogSite. In general, SiteFerret performs a subpocket segmentation
+that more closely resembles the segmentation obtained by CAVIAR rather
+than that of DogSite. In the next section, we then provide examples
+of shallow sites where SiteFerret outperforms several methods, including
+CAVIAR and Fpocket.
+3.4.1.
+
+## HSP90-α
+As a first example,
+we present the binding pocket of the chaperone protein HSP90-α,
+PDB code 2FWZ. SiteFerret ranks first as a large master pocket containing three
+subpockets. As shown in , the first-ranked subpocket (red) is occupied by the ligand’s
+adenine head group, while the second-ranked subpocket (orange) is
+occupied by the ligand’s iodo-benzodioxole group. As shown
+in ref ( ), this result
+is very similar to what was obtained by CAVIAR, while DogSite extends
+over the two subpockets.
+ 
+3.4.2.
+
+## HIV-1 Protease
+Another interesting
+example is that of HIV-1 protease (PDB code 1C70), where CAVIAR identifies
+seven subcavities, six of which correspond to the standard subsites
+of specific amino acid side chains of the peptidic substrate. In this case, DogSite outputs only a single
+pocket. Our result lies somewhat between the results of CAVIAR and
+DogSite. Indeed, our top-ranked pocket contains 3 out of 5 subpockets
+corresponding to sites occupied by the ligand. This is shown in , where the ligand
+occupies a channel and the top-ranked subpocket (red) points to one
+of the cavity entrances. The 2nd and 4th ranked subpockets (orange
+and green) describe two dips within the wide second entrance to the
+channel.
+ 
+3.4.3.
+
+## HCV NS3 Protease
+A further interesting
+example is HCV NS3 protease (PDB code 3KEE). The binding pocket, ranked second,
+is illustrated in (white). The part of the binding site corresponding to the
+deeper groove is segmented into 2 subpockets (red, ranked first, and
+orange, ranked second) describing cavities separated by a cleft (bottleneck
+located at the surface). These subpockets are similar to the one reported
+by CAVIAR. However, while CAVIAR and DogSite do not include the remaining
+relatively shallow region where the ligand binds (Figure 4c,d in ref ( )), this is part of the
+master pocket in SiteFerret (white). Similarly, as shown in b, when running Fpocket
+(second-ranked pocket shown), the pocket partially matching the ligand
+(pink) roughly corresponds to the top-ranked subpocket in SiteFerret.
+This last example also illustrates SiteFerret’s ability to
+overcome the aforementioned difficulty in describing shallow sites,
+which is commonly found in other pocket detection algorithms. Indeed,
+while its top-ranking performance is poorer than the best state-of-the-art
+techniques, our method performs outstandingly on difficult shallow
+sites. This is suggested by the results on peptide binding sites in and can be further
+illustrated with the following examples.
+ 
+
+3.5.
+
+## Difficult Targets and Shallow Sites
+3.5.1.
+
+## Targeting Protein–Protein Interaction
+Sites: B-Cell Lymphoma-Extra Large (Bcl-xL)
+We consider here
+an example of protein–protein (PP) interaction target where,
+as pointed out in ref ( ), it is difficult to spot possible binding sites for small-molecule
+drugs (in particular, the Authors show the need to resort to light
+backbone and side chain movements to “open” these pockets).
+We tested SiteFerret on three structures of Bcl-xL. The first (PDB
+code 2BWZ) is
+a co-crystallized protein–protein structure, the second is
+a co-crystallized protein–ligand structure (PDB code 2YXJ) where the ligand
+(ABC-753) binds at the PP interface, and finally the apo form corresponding
+to the latter (PDB code 1R2D). For the protein–protein and protein–ligand
+complexes, as shown in , SiteFerret finds the site of interest within the second
+(orange) and the 9th top-ranked pockets (white). We applied the same
+quantitative analysis described in and , based
+on LC and PC scores but evaluating residues rather than atoms, to
+the apo structure. We found that the second ranking pocket is actually
+a successful hit (LC ≈ 55% and PC ≈ 80%). The same analysis
+done with Fpocket, shows that it performs very well on the PP and
+holo structures (the second and the third top-ranked pockets cover
+the sites of interest). However, on the apo structure, Fpocket performs
+worse than SiteFerret, with the second top-ranked pocket matching
+the holo residues with only LC ≈ 36% and PC ≈ 62%, a
+score which would not pass our conventional thresholds.
+ 
+3.5.2.
+
+## HIV-Integrase, Hexameric Insulin, and a
+Few Systems from the LP Database
+Let us now consider HIV-integrase,
+PDB code 3LPT, a structure where both DogSite and
+Fpocket fail to identify the observed binding site. As illustrated in a, SiteFerret reports this site as the 8th ranked pocket.
+Another notably hard example is Hexameric insulin with its ligand
+methylparaben, PDB code 1MPJ, where, as reported
+in ref ( ), LIGSITEcsc, LIGSITE, PASS, CAST, and SURFNET fail. In addition to
+those methods, we tested Fpocket and found that it could not correctly
+identify the binding pocket, as well. As illustrated in b, SiteFerret correctly predicted
+the binding sits, which ranks 5th. Finally, SiteFerret was able to
+reproduce two of the binding sites in the LP dataset (PDB codes 3MTH and 5CNA), where both Fpocket
+and CAVIAR failed. These binding sites are characterized by a very
+exposed and flat surface. PDB code 3MTH corresponds to a conformation of Hexameric
+insulin with methylparaben; here, the
+binding pocket ranks 5th (not shown). PDB code 5CNA corresponds to the
+complex between methyl α-d-mannopyranoside and concanavalin
+A. Restricting our analysis to chain A, as in the LP database, SiteFerret
+correctly identifies the binding pocket and places it at the 8th position.
+This is shown in c.
+ 
+
+3.6.
+
+## SHAP Importance Analysis of Features
+The SHAP importance analysis is shown in for the clustering/geometric IF (left panel)
+and the chemical IF (right panel). The analysis is done on the training
+dataset and it highlights the most representative features of binding
+pockets observed by SiteFerret in this set. On the y-axis, the plot sorts the features by importance. On the x-axis, the plot represents the SHAP value i.e., the relative
+impact on the model outcome. Values on the left of the dashed vertical
+line (also called the “decision” line) point to an “anomaly”,
+i.e., to a putative nonbinding site, while the values on the right
+of the dashed vertical line point to a “normal” point
+(i.e., a plausible binding pocket).
+ Finally, each dot represents a realization of a
+random subset of
+the training set. As illustrated in the plot, the numerical values
+of each feature are color-coded from blue (lower values) to red (higher
+values).
+3.6.1.
+
+## Geometric and Clustering Descriptors
+The topmost position is occupied by the average radius associated
+with bottlenecks and the number of bottlenecks. Given the feature
+values, it then appears that the presence of bottlenecks counts positively,
+but that too many bottlenecks constitute a strong anomaly score (red
+dots with large negative SHAP value). This scenario likely corresponds
+to very large pockets. Similarly, many entrances and/or a large effective
+radius of the entrance point to an anomaly and highly impact the score.
+Many entrances are likely correlated to large canyon-like superficial
+pockets. Moreover, features ranked high in importance include those
+related to complexity, size of the branching, and others related to
+the clustering process. Indeed, ramification, large-aggregation score,
+entrance depth score, and large-aggregation radius all appear to be
+highly important. The tendency of druggable pockets to be more complex
+in shape was also reported in ref ( ). In contrast, a tendency to partially favor
+more compact pockets is shown by the volume ratio (high in ranking)
+together with other less relevant descriptors related to geometric
+compactness and size. The lower importance of these descriptors could
+also be due to a partial redundancy with the others.
+
+3.6.2.
+
+## Chemical Descriptors
+The SHAP analysis
+of the chemical IF shows residues such as CYS, MET, and TRP at the
+topmost positions, while some appear low in importance (e.g., PHE).
+As discussed in , this result has some interesting analogies with previously published
+broader statistical analysis of the binding MOAD dataset. 
+Concerning the hydrophilic and hydrophobic
+scores, our findings confirm that ligandable pockets mostly tend to
+be hydrophilic (as shown by , both large hydrophobic
+score values and low hydrophilic score values count against being
+a plausible binding site). However, we also show that a certain degree
+of hydrophobicity is acceptable (purplish color on the right-hand
+side of the decision line, while excessive hydrophobic values count
+as an anomaly ). The SHAP analysis also
+suggests that the hydrophobic score is a stronger indicator than the
+hydrophilic score. As shown in Figure 6 in the Supporting Information, this is justified by the distribution
+shape, which is narrower for the hydrophobic score than for the hydrophilic
+one (see also ).
+
+4.
+
+## Discussion
+The identification of potential
+binding sites in a protein structure
+is a relevant and much-studied problem. In this context, it is interesting
+to identify the features that make a pocket a plausible binding site.
+Furthermore, as pointed out by Simões et al., the current problems with site detection algorithms include
+the ability to produce a meaningful hierarchical segmentation of cavities
+(expressed here as finding meaningful subpockets), and the need to
+return both standard deep clefts and shallow sites (grooves). The
+latter task often requires dedicated procedures (e.g., in sphere-based
+methods to distinguish shallow sites from deeper invaginations, it
+could be key to correctly compare the size of the “entrance”
+to the value of the mouth radius ).
+As shown here, SiteFerret is remarkably successful in reporting,
+among the top ten positions, pockets that significantly overlap with
+the observed binding site(s), either as a whole or via one of their
+three main subpockets. The significance of the subpocket segmentation
+is reflected in the remarkable performance achieved when stricter
+requirements are adopted in terms of PC.
+Overall, evidence suggests
+that SiteFerret can correctly identify
+shallow sites, although they are rarely ranked in the highest positions.
+This is expected since these sites are less frequent and thus less
+represented in the training set.
+4.1.
+
+## Feature Importance Analysis
+In summary,
+a good binding pocket is generally determined by a combination of
+significant clustering complexity and some geometric compactness,
+especially concerning superficial features (e.g., entrances number
+and radius thereof, and protrusion). A certain degree of complexity
+in the pocket’s structure also seems desirable (i.e., the presence
+of bottlenecks, ramification, entrance depth). Interestingly, the
+analysis of chemical features mostly confirms the previous analysis
+of the BM database in ref ( ). That study compared residues in contact with ligands with
+respect to the rest of the protein surface and considered both valid
+and invalid sites (according to the binding MOAD definition). The
+study concluded that the following residues are preferred indicators
+of a pocket’s ligandability: ILE, MET, PHE, CYS, GLY, TYR,
+TRP. The SHAP analysis of the IF reached the same conclusion about
+the relative residue population of CYS, MET, TRP, and GLY, which all
+appear in the topmost positions. Conversely, ILE, TYR, and PHE are
+found in the lowest positions of the graph. This strong agreement
+is surprising, given that the IF has no information about the distribution
+of amino acids on the rest of the protein surface. As extensively
+discussed in Section 2.3 in the Supporting Information, the feature importance can then only correlate with the shape of
+the observed distribution. As shown in Figure 5 in the Supporting Information, narrow unimodal distributions
+of relative residue populations will tend to be placed on the topmost
+positions (e.g., CYS and MET), while residues characterized by a bimodal
+wide distribution are not a strong anomaly indicator (e.g., PHE).
+In the latter case, since many valid pockets have a wide variety of
+admissible values, this is not useful in comparing different putative
+sites.
+
+4.2.
+
+## IF Discrimination Ability
+In this
+work, we trained IFs on geometric/clustering and on compositional/chemical
+features, both individually and after merging the feature sets. As
+discussed in Section 2.1 and Table 3 in the Supporting Information, taken separately the trained forests already have
+similarly high discrimination abilities (with chemistry being slightly
+better in the Top3 category). However, their combination, via averaging,
+improves the ranking performance, confirming that the information
+leveraged by the two forests is, at least, partially complementary.
+This result is also slightly better (about 2%) than what would be
+obtained by considering a single IF trained on both geometric and
+chemical descriptors together. Finally, as also shown in the Supporting Information (Table 3), the IF ranking
+is superior to the simpler standard volume-based ranking. However,
+the difference is not as great as expected, confirming that a simple
+volume-based ranking remains a quick and reasonable strategy if coupled
+with a suitable pocket generation stage, when more sophisticated approaches
+are not available. In principle, the
+method can be tailored to a given dataset of interest. In this work,
+we chose the BM dataset as our reference for training and parameter
+optimization since it is fairly large and representative. In conclusion,
+the IF’s discrimination power was effective since we decided
+not to prune the set of pockets generated in the first stage, which
+leads to large numbers for a given structure (around 100 on average
+for the chosen clustering parameters, as also illustrated in the Supporting Information, Figure 2).
+
+4.3.
+
+## Comparison with Other Site Predictors
+As described above, our main benchmark was Fpocket. Direct comparisons
+with other methods were prevented by: proprietary software; unclear
+normalization and ranking procedure in the reference papers; impossibility
+of applying the LC- and PC-based scoring system. Moreover, in many
+cases, other tools have already been compared against Fpocket, which
+is certainly one of the most competitive open-source pocket detection
+software tools available today. The possibility of using the same
+metric prompted us to include in the comparison NanoShaper with a
+volume-based ranking criterion. Using standard assessment criteria,
+both methods outperformed SiteFerret on Top1 and Top3, while the latter
+had a better Top10 score. However, when stricter requirements in terms
+of pocket coverage were adopted, SiteFerret generally outperformed
+the competitors. Interestingly, as highlighted in ref ( ), pockets generated by
+NS with a simple volume-based ranking remain very competitive (see and ) against our and other more complex scoring approaches. Overall,
+DeepSurf, a tool based on deep neural networks, despite some caveats
+that have been discussed, performs outstandingly in terms of providing
+a few putative binding sites. Its Top1 and Top3 were significantly
+higher than the other methods.
+A comment is needed on the ability
+to identify and characterize subpockets. When considering the quality
+of the generated subpockets in several examples (see ), SiteFerret compares similarly
+to the recent CAVIAR method, which turns out to be superior to DogSite,
+at least as far as the subpocket segmentation is concerned. , To our knowledge, these are the only other tools using the concept
+of subpockets, although they adopt a different approach from ours,
+as discussed above.
+Interestingly, when considering the performance
+on protein–peptide
+binding sites, SiteFerret definitely outperformed Fpocket and NS-Volume
+in all of the considered metrics. Moreover, the results suggest that
+SiteFerret also performs well on shallow sites, while retaining a
+good performance on the most commonly found deep groove/invagination-shaped
+binding sites (typical of small binding molecules).
+
+5.
+
+## Conclusions
+In this work, we present
+SiteFerret, a method for identifying ligandable
+sites on protein structures. SiteFerret combines a pocket generation
+stage based on an ad hoc clustering method of SES probe spheres at
+different radii, with a ranking stage based on the IF anomaly detector.
+Overall, SiteFerret was excellent in reporting observed binding sites
+among its Top10 results, while other approaches were superior in the
+Top1 or Top3 categories. SiteFerret had an unprecedented flexibility
+in identifying relevant binding regions in a wide variety of systems,
+while requiring minimal parametrization. It also reliably segmented
+putative binding pockets into smaller subpockets. Moreover, it effectively
+recognized protein–peptide binding regions and, more importantly,
+binding sites in unbound (apo) structures, as shown on the LigSite/PocketPicker
+database. This aspect is of particular importance since it actually
+reproduces the most realistic case of searching for a potential binding
+site in a new protein target, for which only the apo structure is
+available. Finally, SiteFerret provides a remarkable amount of descriptive
+information about the pockets. When considering protein–peptide
+sites, SiteFerret is superior in all figures of merit to the other
+geometry-based approaches considered (Fpocket and NS-Volume). When
+stricter requirements are enforced in terms of Pocket Coverage score,
+which assesses a found site’s capacity to more precisely pinpoint
+the binding region, SiteFerret is more robust than other methods,
+including state-of-the-art deep-neural-network-based approaches such
+as DeepSurf. This is thanks to the generated subpockets, which can
+more precisely fit the actual binding region. In this work, we both
+qualitatively and quantitatively demonstrate the effectiveness of
+subpocket segmentation. Our method achieved a hit rate within successful
+(master) pockets of around 90% in most of the databases considered,
+even though the analysis was limited to only the first three subpockets
+of each master one. Finally, we also demonstrate SiteFerret’s
+outstanding ability to detect difficult shallow binding sites.
+On the technical side, this work also shows that one can use a
+standard anomaly detector, such as the IF, as a one-class classifier,
+and that it can be used to combine the effects of geometric/clustering
+and chemical descriptors. Furthermore, we confirm that the commonly
+used volume-based ranking remains a competitive strategy.
+Given
+these results and its flexibility, SiteFerret is a promising
+tool for an exhaustive exploration of potential sites on the protein
+surface, and for bridging the gap between the task of recognizing
+small-molecule binding sites and that of recognizing protein–peptide
+binding regions. This suggests the prediction of protein–protein
+interaction interfaces as a natural extension of this work.
+
+## Acknowledgments
+The authors thank Pedro Reis for performing
+the sequence alignment
+of apo residues and useful discussion. They also thank the IMATI-CNR
+group, and especially Andrea Raffo, Ulderico Fugacci, and Silvia Biasotti,
+for providing useful insights in the early stage of the project. The
+authors acknowledge the “PNRR MUR project PE0000013-FAIR”.
+They also acknowledge the CINECA award under the ISCRA initiative,
+for the availability of high-performance computing resources and support.
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acs.jctc.2c01306.
+Technical details of the clustering algorithm, a detailed
+analysis of the effects of the clustering hyperparameters, the descriptors
+used for ranking, the Isolation Forest, and overall feature importance
+(PDF)
+
+## Accession Codes
+The code is freely
+available at https://github.com/concept-lab/SiteFerret. We also provide
+in the same repository scripts and tools used to generate the data
+shown in .
+
+## Author Present Address
+# MalGa, Department
+of Civil, Chemical and Environmental Engineering,
+University of Genoa, via Montallegro 1 - 16145 Genoa, Italy
+
+The
+authors declare no
+competing financial interest.
+
+## Footnotes
+aGiven two sets , , the Jaccard index is
+bNote that Fpocket uses different nonhierarchical
+clustering steps: (0) All α spheres are generated at once, (1)
+single-linkage distance criterion, (2) center of mass linkage, (3)
+linkage based on a majority vote.
+cThe same probe can also describe multiple
+bottleneck events when it is clustered to another probe of the same
+radius and with one or more larger radius probes (with different tangent
+atoms/planes). This situation describes, for instance, a superficial
+narrowing (canyon) that can be accessed from multiple directions.
+dAn alternative analytical method , was implemented (in ref ( ) a standalone Python interface), but it is significantly
+slower due to the high number of overlapping spheres in a cluster.
+eNote that, for discrimination
+tasks/anomaly
+detection, the usual distinction between training and test set is
+blurry. Indeed, the training considers exclusively positive examples,
+while, in the test phase, all generated pockets are fed into the IF
+to be scored.
+fThe second group
+(small pockets) greatly
+outnumbers the first: 174,224 against 32,688 (considering the pockets
+generated with all 56 combinations of clustering parameters, β
+and γ).
+
+## Supplementary Material
+ct2c01306_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ct2c01306_si_001.pdf

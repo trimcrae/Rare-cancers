@@ -1,0 +1,1946 @@
+J Med ChemJ. Med. Chem822acssdjmJournal of Medicinal Chemistry0022-26231520-4804pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC5483895PMC5483895.1548389554838952816574110.1021/acs.jmedchem.6b013091PerspectiveStructural Analysis
+of Chemokine Receptor–Ligand Interactions
+ArimontMarta SunShan-Liang LeursRobSmitMartinede EschIwan J. P.de GraafChris Division of Medicinal Chemistry, Faculty
+of Sciences, Amsterdam Institute of Molecules, Medicines and Systems
+(AIMMS), Vrije Universiteit Amsterdam, De Boelelaan 1108, 1081 HZ Amsterdam, The Netherlands*Phone: +31-20598-7553. E-mail: c.de.graaf@vu.nl.060220172206201760122943914735477931082016260620172706201704082023Copyright © 2017 American Chemical Society2017American Chemical SocietyThis is an open access article published under a Creative Commons Non-Commercial No Derivative Works (CC-BY-NC-ND) Attribution License, which permits copying and redistribution of the article, and creation of adaptations, all for non-commercial purposes. 
+This
+review focuses on the construction and application of structural chemokine
+receptor models for the elucidation of molecular determinants of chemokine
+receptor modulation and the structure-based discovery and design of
+chemokine receptor ligands. A comparative analysis of ligand binding
+pockets in chemokine receptors is presented, including a detailed
+description of the CXCR4, CCR2, CCR5, CCR9, and US28 X-ray structures,
+and their implication for modeling molecular interactions of chemokine
+receptors with small-molecule ligands, peptide ligands, and large
+antibodies and chemokines. These studies demonstrate how the integration
+of new structural information on chemokine receptors with extensive
+structure–activity relationship and site-directed mutagenesis
+data facilitates the prediction of the structure of chemokine receptor–ligand
+complexes that have not been crystallized. Finally, a review of structure-based
+ligand discovery and design studies based on chemokine receptor crystal
+structures and homology models illustrates the possibilities and challenges
+to find novel ligands for chemokine receptors.
+
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesdocument-id-old-9jm6b01309document-id-new-14jm-2016-01309pccc-price1
+
+## Introduction
+Chemokines and chemokine
+receptors play an important role in the immune defense system by controlling
+the migration, activation, differentiation, and survival of leukocytes. , The 50 human chemokines are divided into C, CC, CXC, and CX3C classes
+based on the number and spacing of conserved cysteine residues in
+their N-terminus region. Chemokine receptors belong to the family
+A of G-protein coupled receptors (GPCRs), characterized by a seven
+transmembrane (7TM) helical domain ( ). There are 18 human
+chemokine receptors that are primarily activated by different subfamilies
+of chemokines: C (XCR1), CC (CCR1, CCR2, CCR3, CCR4, CCR5, CCR6, CCR7,
+CCR8, CCR9, CCR10), CXC (CXCR1, CXCR2, CXCR3, CXCR4, CXCR5, CXCR6),
+or CX3C (CX3CR1), and four atypical decoy chemokine
+receptors (ACKRs: ACKR1, ACKR2, ACKR3/CXCR7, and ACKR4). Chemokine receptors are considered to interact
+with their chemokine ligands via a two-step binding mechanism in which:
+(i) the structured C-terminal region of the chemokine first binds
+the N-terminus region and extracellular loops (ECLs) of the receptor
+(chemokine recognition site 1, CRS1), allowing (ii) the unstructured
+N-terminus of the chemokine to target the 7TM helical bundle (chemokine
+recognition site 2, CRS2) and stabilize the receptor in an active
+conformation that facilitates intracellular signal transduction by,
+e.g., G-proteins or arrestins. , Because of their crucial
+role in cell migration chemokine receptors are important therapeutic
+targets for inflammatory diseases and cancer. , Herpesviruses
+contain DNA that encodes for receptors that are similar to human chemokine
+receptors, including ORF74, BILF1, and US28, to hijack chemokine receptor-mediated
+cellular signaling networks of the host. Hence, these viral chemokine receptors can therefore be considered
+as promising antiviral drug targets as well. A variety of proteins, peptides, and small-molecule ligands have
+been identified that can modulate the activity of chemokine receptors by targeting the minor or major pockets in the
+7TM helical bundle or intracellular binding pocket ( – ). Examples of small
+nonpeptide ligands are the clinically approved drugs 16 (Maraviroc, CCR5 antagonist, and ) and 1 (plerixafor/AMD3100,
+CXCR4 antagonist, ), used for the treatment of
+HIV and stem cell mobilization, respectively. Molecular pharmacological,
+medicinal chemistry, and molecular modeling studies have provided
+insights into molecular determinants of chemokine receptor modulation , , and in the past few years the
+first high-resolution crystal structures of chemokine receptors have
+been solved that give more detailed structural information on the
+interaction of chemokine receptors and their ligands. − The current review describes how the combination of these three-dimensional
+structural templates with extensive pharmacological data provide new
+possibilities to investigate the determinants of chemokine receptors
+modulation and ligand binding in more detail and to exploit this knowledge
+for computer-aided discovery of new chemokine receptor ligands.
+ NMR and X-ray crystallography structures of CX3CL1, CCL11,
+CXCL8, CXCL12, and vMIP-II chemokines have provided insights into
+the secondary structure of the different chemokine families and the
+structural interactions of chemokines with the N-terminal regions
+of US28, CCR3, CXCR1, and CXCR4 chemokine receptors. − The first crystal structures of the 7TM domains of chemokine receptors
+(CXCR4, CCR2, CCR5, CCR9, and US28) have been solved only in the past
+six years. − These small-molecule, , , peptide, and chemokine , bound structures have provided a structural basis to validate and
+improve chemokine receptor homology modeling studies, to rationalize SAR data , and to perform
+structure-based virtual screening and ligand design studies. − Chemokine homology models and de novo receptor models have already
+been successfully used to identify new ligands for CCR3, CCR4, , CCR5, , CXCR3, CXCR4, , − , , and CXCR7, and the recently released
+crystal structures have increased the possibilities to study and predict
+structural chemokine receptor–ligand interactions. This review
+will present a comparative analysis of ligand binding pockets in chemokine
+receptors, including a review of the CXCR4, CCR2, CCR5, CCR9, and
+US28 X-ray structures ( ), and their implication for modeling interactions between
+chemokine receptors and small-molecules and larger peptide-like and
+chemokine ligands ( – ). We will demonstrate how
+the combination of these chemokine receptor structures with extensive
+structure–activity relationship and site-directed mutagenesis
+data can be used to rationalize and predict structural determinants
+of chemokine receptor modulation ( and ) and can facilitate
+the construction of structural models of chemokine receptor–ligand
+complexes that have not been crystallized yet ( ). Finally, a review of virtual screening
+studies based on chemokine receptor crystal structures and homology
+models will be provided as a basis to discuss the possibilities and
+challenges of structure-based chemokine receptor ligand discovery
+( ).
+
+2
+
+## Analysis of Chemokine Receptor Crystal Structures
+To
+allow systematic comparison of the residues at different positions
+in the TM helices of different GPCRs, receptor residue numbers are
+annotated throughout this review by their Uniprot numbers (for specific
+receptors) as well as their Ballesteros–Weinstein residue number
+and secondary structure motif (as superscript). , According to the Ballesteros–Weinstein rhodopsin family (class
+A) GPCR residue numbering schemes, the
+single most conserved residue in each TM helix is designated X.50. For the ECL2 and ECL3, similar residue numbering
+schemes have been applied. ECL2 residues are labeled 45.X, and the
+reference residue C45.50 is a conserved cysteine forming
+a disulfide bridge with C3.25 in TM3. ECL3 residues are labeled 67.X, and the reference residue
+C67.50 is a conserved cysteine forming a disulfide bridge
+with a conserved cysteine residue in the N-terminus of most chemokine
+receptors (with the exception of CXCR6). To distinguish receptor residues
+from chemokine/peptide ligand residues, receptor residues are annotated
+as single-letter amino acid codes, while peptide and chemokine ligand
+residues are annotated as three-letter amino acid codes with residue
+number as superscripts (e.g., Arg1, arginine at position
+1 in the 16-residue cyclic peptide ligand CVX15, His6 in
+the chemokine ligand vMIP-II).
+2.1
+
+## CXCR4, CCR2, CCR5, CCR9,
+and US28 Chemokine Receptor Crystal Structures
+The endogenous
+chemokine ligand of the CXCR4 chemokine receptor is CXC chemokine
+ligand 12 (CXCL12), also known as stromal derived factor-1 (SDF-1).
+CXCR4:CXCL12 signaling axis plays a role in several inflammatory diseases
+and cancers. CXCR4 was the first chemokine
+receptor reported to be a coreceptor for HIV-1. The marketed drug 1( ) targets CXCR4 to mobilize hematopoietic stem cells in the treatment
+of patients with non-Hodgkin lymphoma (NHL) and multiple myeloma (MM).
+Three crystal structures have been reported for CXCR4 fused to the
+T4 lysozyme (T4L) with different cocrystallized ligands ( a): , the small ligand 31 (IT1t) (PDBs 3ODU, 3OE6, 3OE8, and 3OE9, a, a), the 16-residue cyclic peptide ligand CVX15 (PDB 3OE0, a, a), and the viral CC chemokine vMIP-II (PDB 4RWS, b, a,c)). CCR2 binds CCL2,
+CCL7, CCL9, CCL11, CCL12, CCL13, CCL24, and CCL26 CC chemokines and is implicated in inflammatory and neurodegenerative
+diseases. Recently a crystal structure
+of T4 lysozyme fused CCR2 has been reported in a ternary complex with
+an orthosteric antagonist 58 (BMS-681) and an allosteric antagonist 29 (CCR2-RA-[R]) bound to an intracellular
+pocket (PDB 5T1A, f, ). CCR5 binds CCL2, CCL3, CCL4, CCL5, CCL8, CCL11, CCL13,
+and CCL14 CC chemokines and is the major HIV-1 coreceptor. The FDA approved CCR5 antagonist 16( ) is used for the treatment of patients
+with HIV (R5-tropic HIV-1), and a crystal structure of rubredoxin
+fused CCR5 bound to 16 (PDB 4MBS, d, b) has been reported. CCR9 activation by CCL25 plays a key role in
+leukocyte recruitment to the gut and is a therapeutic target in inflammatory
+bowel disease. A CCR9 crystal structure
+has recently been solved, including seven thermostabilizing mutations,
+in complex with the selective allosteric CCR9 antagonist 30 (Vercirnon) bound to the same intracellular pocket as 29 in the CCR2 crystal structure (PDB 5LWE, e, ). US28 is a chemokine-like receptor encoded by the human cytomegalovirus
+that binds different chemokines such as CX3CL1, CCL5, CCL2, and CCL3,
+among others, in part as a strategy to evade the host immune system. Two crystal structures have been reported for
+US28 bound to the human CX3CL1 chemokine, one with the nanobody 7 (Nb7) (PDB 4XT1, c) bound to the intracellular surface of the receptor,
+and the other one without the nanobody (PDB 4XT3). US28 shares lower
+sequence similarity with CXCR4 (30%) and CCR5 (27%) than with the
+human CX3CR1 chemokine receptor (38%). The US28 crystal structure
+nevertheless shares a similar fold with CXCR4, CCR2, CCR5, and CCR9
+structures, which allows comparison of the ligand binding modes and
+receptor conformations ( – ). shows a structure-based sequence alignment
+of chemokine receptors.
+ 
+2.2
+
+## Comparison of Ligand Binding Modes in Chemokine
+Receptor Crystal Structures
+The 7TM ligand binding pockets
+of CXCR4, CCR5, US28, CCR2, and CCR9 chemokine receptor crystal structures
+are less buried and more solvent accessible than in the crystal structures
+of other crystallized class A GPCRs. , The more open
+pocket of chemokine receptors is covered to a lesser extent by the
+extracellular loop 2 (ECL2) than in most other GPCR crystal structures
+(not solved in CCR9 crystal structure ), which can be related to the fact that chemokine receptors bind
+chemokines that are larger than the natural ligands of other receptors.
+In addition, the binding pockets of chemokine receptors contain several
+negatively charged residues that are involved in ligand binding, as
+observed in crystal structures ( – ) and indicated
+by mutation studies ( – , – ).
+Small-molecule antagonists 31 and 58 exclusively bind the minor pockets
+(TMS1) of CXCR4 ( a, , a) and
+CCR2 ( f, , a), respectively, located
+in the core of the TM domain, comprised by TM helices 1–3 and
+7, whereas the small-molecule antagonist 16 binds both
+the minor and the major pocket (TMS2, including residues of TM 3–7)
+of CCR5 ( d, , b). The N-termini of vMIP-II
+and CX3CL1 chemokines also bind both minor and major pockets of CXCR4
+and US28, respectively ( , , ). The peptidomimetic ligand CVX15 primarily targets the major pocket,
+( a, , a). The globular cores
+of the chemokines interact with the extracellular surface of the receptors,
+including the top of the TM helices, the EC loops, and the receptor
+N-terminus ( , c, ). Small-molecule
+allosteric antagonists 29( ) and 30 and the G-protein mimic Nb7 bind intracellular
+binding pockets ( ) of CCR2, CCR9, and US28, respectively.
+2.2.1
+
+## Minor
+Pocket (TMS1)
+In the minor pocket, one of the positively
+charged nitrogens of the isothiourea group of 31 and
+the N-terminus amino group of vMIP-II form a salt bridge with CXCR4
+D972.63 ( – ). The other crystallized
+chemokine receptor ligands that bind in the minor pocket, 16, 58, and CX3CL1, do not interact with the residue at
+position 2.63 (a serine in CCR2, and a tyrosine in CCR5 and in US28).
+The conserved W2.60 residue is involved in interactions
+with all the ligands binding the minor pocket, including an edge-to-face
+aromatic interaction with one of the phenyl rings in the isothiourea
+group of 31 and an hydrophobic interaction with Leu1 of vMIP-II for CXCR4, a face-to-face aromatic interaction
+with the triazole ring of antagonist 16 in CCR5, an hydrophobic
+packing with the trisubstituted cyclohexane of compound 58 ( ), and an
+edge-to-face aromatic interaction with His1 of CX3CL1 in
+US28 ( – ). Another conserved residue in the minor pocket,
+E7.39 ( ), is involved in ionic and/or hydrogen-bond (H-bond) interactions
+with four of the five cocrystallized ligands that target TMS1, forming:
+(i) a salt bridge with the protonated nitrogen of the imidazothiazole
+feature of 31, (ii) an H-bond with Ala3 backbone
+of vMIP-II in CXCR4, (iii) a salt bridge with the protonated nitrogen
+of the tropane group of 16 in CCR5, and (iv) a hydrogen
+bond with His2 of CX3CL1 ( – ) for US28.
+In contrast, compound 58 does not form a direct interaction
+with E2917.39 in CCR2. Residues W2.60, V/L3.28 in the minor pocket, and the Y/F3.32 of the
+interface between TMS1 and TMS2 form a hydrophobic pocket that accommodates 31 in the CXCR4 crystal structure, 16 in the
+CCR5 crystal structure, and CX3CL1 in US28 ( , ) but is not involved
+in binding of antagonist 58 to CCR2 ( ). The 6-trifluoromethyl quinazoline
+moiety of 58 protrudes from the minor pocket of CCR2
+toward the membrane bilayer, interacting with the membrane-oriented
+residues L441.34 and V2897.37 ( ).
+
+2.2.2
+
+## Major
+Pocket (TMS2)
+In the major pocket (TMS2), the negatively
+charged D4.60 forms a salt bridge with Arg2 of
+CVX15 in the CVX15 bound CXCR4 crystal structure ( a). The residue at position 4.60 is however not conserved among chemokine
+receptors (it corresponds to a glycine in CCR5 and to a histidine
+in US28, )
+and it does not interact with other cocrystallized ligands. – show that several other residues in TMS2 interact
+with cocrystallized ligands in CXCR4 (H1133.29, Y1163.32, H2035.42, Y2556.51, D2626.58, and E2887.39 with CVX15, and H1133.29, D2626.58, and E2887.39 with chemokine ligand vMIP-II),
+CCR5 (T1053.29, Y1083.32, F1123.36, T1955.39, I1985.42, 2486.48, Y2516.51, T2596.59, and E2837.39 with small-molecule
+antagonist 16), and US28 (Y1113.32, Y1123.33, I2747.36, and E2777.39 with chemokine
+ligand CX3CL1). T1955.39 in CCR5 forms hydrogen bonds with
+one of the fluorine atoms of 16 ( c), while Q2005.39 in CXCR4 and
+N1895.39 in US28 are not involved in interactions with
+CVX15, vMIP-II, or CX3CL1. Residues H2035.42 in CXCR4 and
+I1985.42 in CCR5 establish hydrophobic contacts with the
+naphthalene ring of Nal3 in CVX15 ( a) and the benzene moiety of 16 ( c), respectively,
+but are not interacting with the cocrystallized chemokines in CXCR4
+or US28. The negatively charged D6.58 that is conserved
+within CXC chemokine receptors ( ) forms a salt bridge with CVX15 (Arg14, a) and forms two
+hydrogen bonds with vMIP-II (His6 and Arg7, a) in CXCR4 but is
+not involved in CX3CL1 chemokine binding to US28. An additional feature
+in the major pocket includes a hydrophobic subpocket located deep
+in the TM domain (defined by Y1083.32, F1093.33, F1123.36, W2486.48, and Y2516.51) that is targeted by the phenyl group of 16 in CCR5
+but not by other cocrystallized chemokine receptor ligands.
+
+2.2.3
+
+## Extracellular Region
+Crystal structure and site-directed
+mutagenesis studies suggest that the extracellular surface of chemokine
+receptors is an important interaction site for chemokine and peptide
+ligands, including the cocrystallized chemokines vMIP-II (CXCR4) and CX3CL1 (US28) and the peptidomimetic CXCR4 ligand CVX15 ( – ). Small ligands like the cocrystallized 31 (in CXCR4), 58 (in CCR2), and 16 (in CCR5)
+primarily interact with the minor and/or major pocket in the TM domain
+and make few interactions with, in particular, the extracellular loop
+2 ( – , ). , , The positively charged Arg1 residue
+of the peptidomimetic ligand CVX15 forms a salt bridge with the negatively
+charged D18745.51 residue in ECL2 of CXCR4, while Arg2 forms H-bond interactions with the backbone of R18845.52 and Y19045.54 ( g). The solved residues of the N-terminus of CXCR4
+(S23N-ter–E31N-ter) interact with the
+N-loop (Leu13–Leu20) and third beta strand
+(Gln49–Cys51) of the chemokine via H-bonds
+(including Gln16:K25N-ter and Asp9:R30N-ter) and hydrophobic contacts (including Gln16:M24N-ter, Val50:K25N-ter, and F29N-ter/R30N-ter:Arg7). D18145.45 and D18245.46 of the ECL2 of the receptor
+are involved in nonpolar contacts with Asp9, Lys10, and Ser32 of the chemokine. D18745.51 has
+been mutated to a cysteine residue in the vMIP-II bound CXCR4 crystal
+structure and forms a disulfide bridge with Cys5 of the
+chemokine. The N-terminus of US28 (D15N-ter–F25N-ter) interacts with the N-loop
+(Thr11–Lys18) and the third beta strand
+(Leu48–Ala51) of CX3CL1, making H-bond
+interactions between D15N-ter and Lys18 and
+between E18N-ter and Met15. There are also interactions
+between a mini-helix (Gln31-Gly35) and a loop
+fragment (Lys36-Ile39) of CX3CL1 and the ECL2
+(K16945.46–D17845.55) of US28, including
+hydrogen bonds between Q17245.49 of US28 and Gln31 and Ser33 of CX3CL1 and between D17845.55 (US28)
+and Arg37 (CX3CL1).
+
+2.2.4
+
+## Intracellular
+Region
+The intracellular binding sites of 29( , ) and 30( ) are
+located between TM helices 1–3 and 6–7 and H8 of CCR2
+and CCR9, respectively ( , ). The small allosteric antagonist 29 targets a hydrophobic pocket in CCR2 including V631.53, L671.57, L812.43, L1343.46, A2416.33, V2446.36, I2456.37,
+Y3057.53, and F3128.50 and forms hydrogen bonds
+with the backbone amides of E3108.48, K3118.49, and F3128.50 via its hydroxyl and pyrrolone carbonyl
+groups. The allosteric antagonist 30 targets hydrophobic
+binding sites in CCR9 with its butylphenyl group (V691.53, V721.56, Y731.57, L872.43, Y3177.53, and F3248.50) and its chlorophenyl moiety
+(L872.43, I1403.46, A2556.36, and
+V2596.40) and forms an extensive hydrogen bond network
+with CCR9 via its sulfone group (backbone amino groups of E3228.48, R3238.49, and F3248.50), pyridine-N-oxide (T812.37 and R3238.49), and
+ketone moieties (T2566.37). The intracellular pocket of
+US28 is occupied by the nanobody Nb7 ( b), which is stabilizing
+the active-like conformation of the receptor ( ). The 116 residues of Nb7 occupy a large
+volume in the intracellular part of the receptor, interacting with
+the intracellular half of all TMs, intracellular loops (ICLs), and
+with the C-terminus. The binding mode of Nb7 is similar to other reported
+nanobody-bound GPCR structures. , The conserved R1293.50 of the DRY motif in US28 ( ) interacts with Nb7 via van der Waals interactions
+and water-mediated H-bond interactions with the side chain and backbone
+of Ile, respectively ( b). Similarly, R1313.50 of the β2-adrenoceptor (ADRB2) interacts with Tyr391 of the alpha subunit of the Gs-protein (PDB 3SN6) as well as R1023.50 of the A2A adenosine receptor does with Tyr391 of the engineered mini G-protein
+in a recently published structure (PDB 5G53); R1353.50 of rhodopsin also interacts with Gly2076 and
+Leu2077 of a visual arrestin (PDB 4ZWJ). Additionally, S220ICL3 and H222ICL3/T2968.48 of US28 form H-bond interactions with Nb7 Glu99 and Glu104, respectively. These polar interactions
+are not conserved in the binding of Gs-protein and arrestin.
+ 
+
+2.3
+
+## Comparison of Chemokine Receptor Conformations
+2.3.1
+
+## Extracellular Region
+The N-terminus of the receptor
+adopts slightly different conformations in every crystal structure,
+but in general these conformations are similar for the crystals binding
+nonchemokine ligands: the N-terminus is oriented toward the center
+of the TM domain, partially covering the access to the binding site.
+The N-terminal of CCR9 adopts an α helix conformation (F33N-ter:C38N-ter) that orients toward ECL2. The N-terminal
+of CCR2 has not been solved. For the crystal structures binding chemokines,
+the N-terminus is almost perpendicular to the membrane due to the
+size of the chemokine, which is occupying the extracellular vestibule
+(ECL1, 2, 3, and N-terminus). ECL1 has the same conformation in CCR2,
+CCR5 and CXCR4, stabilized by a tryptophan residue (W23.50) that is highly conserved among the chemokine receptor subfamily and which is present in most class A GPCRs.
+The ECL1 of US28 does not contain this stabilizing W23.50 residue and has not been solved in the US28 crystal structure, possibly
+reflecting a relatively higher flexibility of ECL1 in this receptor.
+ECL1 and ECL2 have not been solved in the CCR9 crystal structure.
+ECL2 contains a double beta strand, and it adopts a more open conformation
+in all the crystal structures than in nonpeptide binding GPCRs (e.g.,
+rhodopsin ). In ECL2, a disulfide bridge
+is highly conserved between the most conserved residue, C45.50, and C3.25 in the top of TM3 ( ). A structural alignment between CCR2, CCR5,
+and CXCR4 crystal structures reveals that the loop connecting the
+beta hairpin of ECL2 of CXCR4 and CCR2 (A18045.44–R18345.47, and E18445.44 −V18745.47, respectively) is bent inward compared to the more extended beta
+hairpin loop of CCR5 (E17245.44–H17545.47), reflected by a 3–6 Å shift of the position of the
+Cα atoms of D18145.45 (CXCR4) and D18545.45 (CCR2) compared to G17345.45 (CCR5). The bent
+conformation of this ECL2 loop region is stabilized by a salt bridge
+between R18345.47 and D972.63 in CXCR4. Structural
+alignment of all the CXCR4 structures shows that in the vMIP-II bound
+CXCR4 crystal structure, the Cα atoms of D18145.45 and D18245.46 are shifted 3–5 Å
+compared to the 31 and CVX15 bound CXCR4 structures,
+allowing these negatively charged residues to form a salt bridge with
+Lys10 in vMIP-II. A structural alignment of all chemokine
+receptors crystal structures reveals that the ECL2 of US28 adopts
+the most different conformation between the crystallized structures:
+the beta strands (V16645.43–K16945.46 and Q17245.49–T17545.52) and the loop
+connecting them (D17045.47–N17145.48)
+are smaller and bent more outward compared to the other structures.
+This conformation permits US28 to accommodate the mini-helix (Gln31–Gly35) of CX3CL1 (reflected by a 12 Å
+shift of the position of the Cα atoms of K16645.45 in US28 and D18145.45 in the 31 bound CXCR4 structure). Superimposed with the vMIP-II bound CXCR4
+structure, CX3CL1 would clash with the ECL2 of CXCR4. The N-terminus
+region of TM7 of the chemokine receptor crystal structures is 1–2
+helical turns longer than in most other class A GPCR crystal structures
+and is stabilized by a conserved disulfide bridge between C67.50 at the top of TM7 and a cysteine in the N-terminus of the receptor.
+Comparison of the released chemokine receptor crystal structures ( ) shows that ECL3
+has a similar conformation in all structures. Within the TM domain
+of chemokine receptors, TM1 top is one turn longer in the vMIP-II
+bound CXCR4 structure and CX3CL1 bound US28 structure and it is laterally
+shifted outward (e.g., ∼6 Å between the Cα atoms
+of E32N-ter in the 31 and vMIP-II bound CXCR4
+structures). There is a unique helical kink in TM2, induced by the
+motif S/T2.56XP2.58, that places the residues
+2.60 and 2.63 toward the ligand-binding site instead of to the membrane
+interface as in other GPCRs. The top
+of TM3 in the CCR9 crystal structure is tilted inward the TM domain
+compared with the other structures (e.g., ∼7 Å between
+the Cα atoms of C1193.25 in CCR9 and C1093.25 in the 31 bound CXCR4 structure). In CCR5 and US28,
+the top of TM4 is more bent inward than in CXCR4 (reflected by a 3–4
+Å shift of the Cα atoms of N1634.60 and H1624.60 compared to D1714.60, respectively),
+resulting in a more closed binding pocket between TM3, TM4, and TM5
+in CCR5 and US28 compared to CXCR4. In CCR9, the extracellular part
+of TM5 is bended outward the TM domain compared to the other structures
+(e.g., ∼8.5 Å between the Cα atoms of K2095.33 in CCR9 and L2105.33 in the 31 bound CXCR4
+structure). The extracellular half of TM6 and TM7 adopt a slightly
+different conformation for all the crystal structures, but there are
+not significant differences due to the conserved disulfide bridge
+between TM7 and the N-terminus, with the exception of the top of TM6
+in CCR9, laterally tilted and subtly bended inward the TM bundle (e.g.,
+∼5 Å between the Cα atoms of A2816.62 in CCR9 and L2666.62 in the 31 bound CXCR4
+structure).
+
+2.3.2
+
+## Intracellular Region
+The conformation of the intracellular half of the receptors varies
+between the CXCR4, CCR2, CCR5, and CCR9 structures representing inactive
+receptor states and the nanobody bound US28 structure representing
+an active-like receptor state. The nanobody Nb7 stabilizes US28 in
+a conformation in which:(i)TM5 is laterally tilted toward TM6 in the active-like
+conformation ( a), as reflected by a 4 Å shift between the Cα atoms of
+residues S2125.62 of US28 and I2235.62 in the 31 bound CXCR4 structure. This shift is stabilized by interactions
+between P2005.50 and F2376.44 in the signal
+transmission switch region of US28 and
+a water-mediated H-bond interaction network of Y2085.58 with R1293.50 and I1223.43. In the inactive
+CXCR4, CCR2, CCR5, and CCR9 structures, V/I3.40 obstructs
+the interaction between the homologous P5.50 and F/Y6.44 residues.
+(ii)TM6 is shifted outward from the TM bundle ( a), resulting in a shift of 5 Å between
+the Cα atoms of G2246.31 in US28 and R2356.31 in the 31 bound CXCR4 structure, facilitating
+interactions with Nb7 or helix 8 (H8) in US28 structures. This shift
+is considerably bigger in crystallized full-active GPCRs, including
+beta-2 adrenergic receptor, A2A adenosine
+receptor, and rhodopsin (resulting in a distance of 8, 6.3, and 3.2
+Å in between the respective Cα of residue 6.31)
+as illustrated in . R3.50 of the conserved DRY motif ( ) stabilizes the inactive conformation
+of most class A GPCRs via an “ionic lock” with an acidic residue at position 6.30 that
+is present in most class A GPCRs but not in chemokine receptors or
+US28 (K2236.30). Nevertheless R1293.50 is oriented
+inward toward the center on the TM domain in US28 ( a and a) in a similar way as
+in the active beta-2 adrenergic receptor structure ( b and b), A2A adenosine receptor
+( c and c), and rhodopsin ( d and d), completing the hydrogen-bond
+network between TM helices 3 (R3.50, X3.43),
+5 (Y5.58), and 7 (Y7.53), observed in other
+active-state GPCR structures. 
+(iii)TM7 is bent inward toward
+the axis of the TM bundle ( a), as revealed by a 7 Å shift between the Cα
+atoms of the NPXXY residue Y7.53 (Y2917.53 in
+US28 and Y3027.53 in the 31 bound CXCR4 structure)
+( a). This shift
+of TM7 enables Y2917.53 to form a water-mediated H-bond
+network with Y2085.58 and I1223.43 that is not
+possible in the inactive conformations of CXCR4 and CCR5.
+
+ In addition to these conformational
+differences associated with the receptor activation state, there are
+several structural differences in the intracellular loops and H8 of
+CCR2, CCR5, CCR9, CXCR4, and US28 crystal structures that can be related
+to differences in protein constructs and/or crystallization. ICL1
+has not been solved in CVX15 and vMIP-II bound CXCR4 structures, but
+a structural alignment of the other structures shows that the end
+of TM2 in CXCR4 is bent inward, reflected by a relative shift of 5 Å
+of the Cα atoms of CXCR4 S71ICL1 and US28
+C66ICL1. ICL2 adopts an alpha helical conformation in CCR2,
+CCR5, and CCR9 that runs parallel to the membrane (A145ICL2–R152ICL2 in CCR2, A133ICL2–R140ICL2 in CCR5, and A151ICL2–E159ICL2 in CCR9) and is not observed in CXCR4 (A141ICL2–S144ICL2) and US28 (V134ICL2–P140ICL2) structures. ICL3 has been replaced by lysozyme and rubredoxin fusion
+proteins in CXCR4 and CCR2 and CCR5, respectively, and has been solved
+for CCR9 and US28. In CCR2, CCR5, CCR9, and US28 structures, H8 has
+an α helix conformation that runs in parallel to the membrane
+as observed in most class A GPCRs crystal structures. In the nanobody-free
+US28 structure, H8 is oriented toward the intracellular binding site,
+stabilized by crystal packing. In CVX15 and vMIP-II bound CXCR4 structures,
+H8 has not been solved, but in the 31 bound CXCR4 structure,
+the unstructured C-terminus of H8 interacts with the TM pocket of
+the neighboring CXCR4 protein in the crystal lattice.
+
+3
+
+## Crystal Structure-Based Analysis of the Effects of Site-Directed
+Mutation on CXCR4, CCR5, and US28 Ligand Binding
+A large
+amount of site-directed mutagenesis studies, covering almost all chemokine
+receptors (CCR1, , CCR2, , , , , CCR3, CCR5, − , , − CCR8, CCR9, CXCR1, − CXCR2, , CXCR3, − , CXCR4, , , − , , − CXCR7, and US28 ) have resulted in 2709 mutation data points, covering 343
+different mutants ( – , – ). About half of the mutation data
+(1389 data points, covering 238 different mutants) have resulted from
+studies with 63 unique small-molecule ligands (molecular weight ≤650),
+of which 46 are shown in – , – . , , − , , , − , , , A total number of 236 mutants
+have been investigated to study a total of 24 different chemokine
+ligands resulting in 645 data points, , , − , − , − , , , , , , − , , , − , while 606 mutation data points
+have been used to study the epitopes of nine different antibodies. , , , , , , and will provide crystal structure-based
+analyses of CXCR4, CCR2, CCR5, CCR9, and US28 mutation data, while will discuss how
+receptor mutation data can be used to model interactions between small-molecule
+ligands and chemokine receptors for which no crystal structure has
+been reported.
+3.1
+
+## Structural Determinants of Chemokine Binding
+Chemokines are soluble proteins of low molecular mass (7–12
+kDa) and about 70–90 residues , that share
+a conserved structural fold observed in the different chemokine crystal
+structures − ( a). The conformation of chemokines is stabilized by
+two disulfide bonds: a N-terminus coil of variable length, followed
+by the cysteine motif (C, CC, CXC, or CX3C), linked through
+an N-loop to the globular core of the chemokine, consisting on a 310 helix turn, three antiparallel beta strands, and followed
+by an α helix on the C-terminus. The disulfide bonds connect
+the N-terminus of the chemokine to (1) the loop between the first
+and the second beta strand and (2) to the third beta strand (e.g.,
+Cys11–Cys35 and Cys12–Cys51 in vMIP-II, Cys8–Cys34 and
+Cys12–Cys50 in CX3CL1). The vMIP-II bound
+CXCR4 and CX3CL1 bound US28 crystal structures show that the N-terminus
+region of the chemokine (e.g., Leu1–Cys12 in vMIP, pGlu1–Cys12 in CX3CL1) interacts
+with the TM pocket, while the core of the chemokine interacts with
+the extracellular part of the receptor. This topology is also supported
+by a large amount of experimental data, including disulfide trapping
+experiments, dimer dilution experiments, bioluminescence resonance
+energy transfer (BRET), and coimmunoprecipitation, mutation studies,
+among others, , , and is consistent with NMR structure of CXCL8 bound to the N-terminus
+(residues 9–29) of CXCR1 ( b). The experimentally
+supported topology does not seem to be compatible with the geometry
+of NMR models of CXCL12 bound to the N-terminus of CXCR4. In these NMR structures the N-terminus peptide
+of CXCR4 (residues 1–38) is interacting with the chemokine
+in a way that is not compatible with the crystal structure topology.
+As shown in b, the N-terminus peptide, including the C-terminal residue K381.32, is oriented in parallel to the membrane, instead of pointing
+into the membrane (where TM1 is) as P17N-ter of the CXCR1
+model. The geometry of these models assumes that CXCR4 adopts a bent
+conformation, facilitating extensive interactions with the TM domain. The accumulated pharmacological, biophysical,
+and structural biology data indicate that chemokines bind their receptors
+via a two-step process involving two different sites, , chemokine recognition sites 1 and 2 (CRS1, CRS2). This two-step
+binding model is consistent with the recently solved chemokine bound
+CXCR4 and US28 crystal structures, as described in and .
+3.1.1
+
+## Chemokine Recognition Site 1 (CRS1)
+First the globular core of the chemokine (including the N-loop) binds
+to the N-terminus, the extracellular loops, and some residues on the
+top of the TM domain of the receptor (step 1), which is called chemokine
+recognition site 1 (CRS1). Mutations in CRS1 are shown to reduce the
+affinity of the chemokine ( , , – ): D11N-ter, T18N-ter, C30N-ter, W103ECL1, G106ECL1, C18745.50, and E275ECL3 for CXCR1; , I3047.43 and L3147.51 for CXCR2; V16N-ter, Y27N-ter, Y29N-ter, R19745.44,
+F20745.54, and E2937.28 for CXCR3; , Y21N-ter, C28N-ter, D18745.51,
+E2757.26, and E2777.28 for CXCR4; , , K1183.26, D1794.60, K206ECL2, and D2756.58 for ACKR3; E17545.42, E17645.43,
+and D2807.32 for CCR3. Mutations
+of the chemokine core also reduce the affinity of the chemokines for
+their receptors ( d): for CXCL8, those positions that, when
+mutated, significantly reduce the affinity for the receptor, are also
+the positions that interact with the receptor N-terminus according
+to the NMR model, including Phe17, Phe21, Leu43, and Leu49, , The same
+occurs with the CX3CL1 bound CX3CR1, , where mutations
+of Lys14, Lys18, and Phe49, for example,
+reduce the affinity of the chemokine for the receptor more than 10-fold.
+This first interaction site has been reported to be the mainly responsible
+for receptor affinity, while it is less involved in receptor activation
+and function. 
+ Sulfation of Y21N-ter in the N-terminal region
+of CXCR4 increases the binding affinity for CXCL12, and homologous sulfated tyrosine residues are suggested
+to play a similar important role in the recognition of chemokine ligands
+by other chemokine receptors. Sulfation
+of tyrosine residues in the CXCR4 N-terminal has been shown to be
+relevant in CXCR4-mediated metastasis. A sulfate ion observed in CXCL12 crystal structures (PDBs 1A15, 1QG7, 4UAI) has been proposed
+to mimick the sulfated sY21N-ter residue. , This sulfate ion forms an H-bond network with Arg20,
+Ala21, and Asn22, therefore targeting some common
+residues of the binding site of heparin disaccharide (PDB 2NWG) and a small-molecule ligand (PDB 4UAI) in other CXCL12 crystal structures. It should be noted
+that the binding pocket of the small ligand (PDB 4UAI), a derivative of
+ZINC 310454, is comprised between three monomers of different crystal
+lattices: Arg8 belongs to one crystal neighbor, Phe14 and Ser16 belong to another crystal neighbor,
+and Glu15, Val18, Ala19, Asn22, Asn45, Arg47, and Val49 to a third crystal neighbor. The small ligand is not observed in
+(unpublished) crystal structures of CXCL12 in which binding site residues
+Arg8 and/or His17 have been mutated to alanine,
+further validating the ligand binding mode in WT CXCL12. A predicted interaction interface between the
+CXCR4 N-terminus and CXCL12 has been used to identify low affinity
+binders of CXCL12 in virtual screening studies. 
+
+3.1.2
+
+## Chemokine Recognition
+Site 2 (CRS2)
+According to the two step binding model, chemokine
+receptor activation is linked to the second binding step in which
+the N-terminal coil of the chemokine interacts with the core of the
+TM domain (minor pocket TMS1 and partially the major pocket TMS2)
+and ECL2. In the CXCR4:vMIP-II crystal
+structure, the main interactions within the 7TM binding pocket and
+the chemokine include hydrogen bonds with residues D972.63, D2626.58, and E2887.39, and apolar interactions
+with several residues, including W942.60, H2817.32, and I2847.35 ( – ). Mutation studies
+confirm the importance of D972.63, D2626.58, and E2887.39 for CXCL12 binding
+affinity and/or potency for CXCR4 ( ). , , , , , − Mutation studies furthermore suggest that
+also the anionic D1714.60 (which does not interact with
+vMIP-II in the CXCR4 crystal structure) and D18745.51 (mutated
+to a cysteine residue for a covalent attachment with Cys5 in vMIP-II) residues are also important anionic residues for CXCL12
+affinity and/or potency for CXCR4 , , , , , ( ). Consistent with the vMIP-III bound CXCR4
+crystal structure, mutation studies show that W942.60 plays
+an important role in binding CXCL12 in the minor pocket of CXCR4, , whereas mutation of Y1163.32 at the interface between
+the minor and major pockets does not affect CXCL12 affinity ( c). The main interactions in the TM domain of the
+CX3CL1 bound US28 structure are hydrogen bonds with Y401.39, Y1123.33, T17545.52, and E2777.39 and apolar contacts with W892.60, L932.64,
+F1113.32, L2737.35, and I2747.36.
+ Many of the residue positions involved in chemokine binding
+in CXCR4:vMIP-II and/or US28:CX3CL1 complexes also play a role in
+chemokine binding to other receptors. Mutation of W2.60 also affects binding affinity of CCL2 for CCR2 , and CCL5 affinity for CCR5, , whereas mutation of
+D18745.51 affects the affinity of CXCL8 for CXCR1, and residue D6.58 plays an important
+role in binding CXCL8 to CXCR1, CXCL10
+to CXCR3, CXCL11 to CXCR3, CXCL11 to ACKR3, and CXCL12 to ACKR3. Comparative analysis
+of chemokine receptor mutation data show however that the role of
+residue positions 1.39, 2.63, 3.32, 6.48, 6.51, 6.55, 7.39, and 7.43
+are highly chemokine–receptor complex dependent ( ). Mutation of Y1.39 in the minor pocket does not affect the affinity of CXCR4 for CXCL12 ( c) or the affinity of CXCR3 for CXCL11 ( f) but does affect CCR2 binding affinity for CCL2 nor CCR5 affinity for CCL3. Mutation of Y892.63 in the minor pocket of CCR5 decreases
+the potency of CCL4 and CCL8 but does not affect the potency of CCL3
+and CCL5, , , whereas mutation
+of D1122.63 affects binding of CXCL11 to CXCR3 , and mutation of S1032.63 decreases the binding affinity
+of CXCL11 and CXCL12 for ACKR3. Mutation
+of the residue at position 3.32 at the interface between the minor
+and major pockets affects binding affinity of CCL2 for CCR2, , , CCL5 for CCR5, and potency of CCL1 for CCR8. Substitution of residue 3.32 however does not affect the binding
+affinity of CXCL8 for CXCR1 or CXCL11
+affinity for CXCR3. , Mutation of the residue at position
+7.39 negatively affects binding affinity and/or potency of CXCL11
+for CXCR3 (S3047.39), CXCL11
+for ACKR3 (Q3017.39), CCL2
+for CCR2, , CCL3 for CCR5, and CCL5 for CCR5, whereas mutation
+of E7.39 does not affect binding affinity/potency of CXCL8
+for CXCR1, , CXCL8 for CXCR2, , CXCL12 for ACKR3, or CCL1 for CCR8. The effects of single point mutations in the
+major binding pocket on chemokine ligand binding are receptor dependent
+( ), including
+W6.48, F/Y6.51, and residues at positions 6.55
+and 7.43. For example, W2486.48A and Y2516.51A/I mutations affect CCL3 binding to CCR5 by 10-fold and 7-fold respectively and Y2716.51A decreases the binding
+of CXCL11 to CXCR3 more than 10-fold. However, W2526.48A and Y2556.51A do not significantly
+affect CXCL12 binding to CXCR4. , , , , The I6.55A mutant affects CXCL12 binding to CXCR4, but mutation of the homologous hydrophobic residue
+in CCR5, CCR2, CXCR2, and CXCR3 does not affect chemokine binding. It should be noted however
+that mutations of W6.48, Y6.51, and I/L6.55, which only have small effects on chemokine ligand binding
+affinity, can have a large effect on chemokine ligand potency and/or
+efficacy. The I2596.55A mutant of CXCR4 for example does
+not affect CXCL12 binding, but affects CXCL12 potency by 8-fold, whereas W2686.48A of CXCR3 decreases
+the potency of CXCL11 more than 10-fold. Finally mutation studies indicate that I3047.43 is important
+for the binding of CXCL8 but not for the binding of CXCL1 to CXCR2. 
+Mutation studies indicate that residues
+in the N-terminus of chemokines are important for both binding affinity
+and receptor activation ( d) and that most residues in the CRS2 of chemokine
+receptors play a more important role in chemokine mediated receptor
+activation than in chemokine binding. The binding of small ligands occurs also in CRS2 (minor and major
+pocket of the 7TM helical domain) and will be described in more detail
+in the next sections. Recently, a human single-domain antibody-like
+scaffold (i-body) with antagonistic activity for CXCR4 (to nanomolar)
+has been reported that is proposed to
+target a similar binding site as chemokines (PDB 5AEA, c). Epitope mapping revealed
+that i-bodies bind the transmembrane binding pocket of CXCR4 (including
+residues V1123.28, F18945.53, D2626.58), whereas CXCR4 antibodies and nanobodies have been reported to target the extracellular
+loops (E17945.43, D18145.45) and the N-terminus
+(C28N-ter) of the receptor. The best hits of engineered
+i-bodies all possess conserved positively charged Arg residues, complementary
+to the negatively charged binding pocket of CXCR4.
+
+3.2
+
+## Structural Determinants of Small Ligand Binding to CCR2, CCR5,
+CCR9, CXCR4, and US28
+CXCR4, CCR5, US28, CCR2, and CCR9 crystal
+structures ( ) and chemokine receptor mutagenesis studies ( – and – ) indicate that
+small-molecule ligands can bind chemokine receptors in the extracellular
+part of the TM domain, the minor pocket between TM1, TM2, TM3, and
+TM7, the major pocket between TM3, TM4, TM5, TM6, and TM7, and in
+the intracellular part of the receptor.
+3.2.1
+
+## Minor
+Pocket in TM Domain (TMS1)
+Within the minor pocket (TMS1),
+the most important features are(i)Ionic interactions between D2.63 and the cationic isothiourea group of the small ligand 31 at the top of the minor binding pocket are observed in
+the CXCR4 crystal structures ( a). Mutation studies indicate that D2.63 is important for the binding of ligands 15 (KRH-1636) and 13( ) to CXCR4 ( ) , and also play a role
+in small-molecule ligand binding to CXCR3 ( ). It should
+be noted however that D2.63 is not conserved within the
+chemokine receptor subfamily.
+(ii)A polar interaction between T2927.40 and the γ-lactam secondary exocyclic amine of the small ligand 58 at the interface of the minor pocket and the membrane bilayer.
+The role of T2927.40 in CCR2 ligand binding is supported
+by T2927.40A/V mutation studies, resulting in a significant
+decrease in the affinity of 19 (TAK-779), 19-1 (TAK-779 base), 25, 26 (RS-504393),
+and 27 (Teijin) for CCR2 ( ). , , 
+(iii)A hydrophobic
+subpocket in the lower region of the minor pockets of CXCR4,
+CCR5, and CCR2 contains conserved hydrophobic and aromatic residues,
+including Y1.39, W2.60, and F/M7.43 ( a, a). Mutation of Y1.39, W2.60, and F7.43 affects ligand binding to CXCR4 ( ), CCR5 ( ), − CCR1 ( ), , and CCR8 ( ). The 31 bound CXCR4, 16 bound CCR5, and 58 bound CCR2 crystal structures suggest that the highly conserved
+W2.60 ( ) plays an important role in ligand binding by forming hydrophobic/aromatic
+interactions ( , a), and this role is supported by mutation
+studies on CXCR4 binding to 1, 2, and 13( ) ( ) and CCR5 binding to 16, , , 17 (Vicriviroc), , 19, and 21( , ) ( ), whereas no mutation studies of this residue position
+have been reported for CCR2. The conserved Y1.39 residue
+( ) does not
+interact with any of the cocrystallized CXCR4 ligands, but according
+to mutation data it is relevant for the binding of some CXCR4 small
+ligands, such as 1, 2, and 13( ) ( ). Y1.39 is relevant for the binding of other CCR5
+small ligands (19, 21, 22 (AK317), and 23 (AK530), ) according to mutant studies, validating the observed interaction
+with antagonist 16 in the CCR5 crystal structure. Y491.39 in CCR2 is involved in a hydrogen bond with the carbonyl
+oxygen of the γ-lactam of 58, and it has been confirmed
+to decrease the affinity of 19 in site-directed mutagenesis
+studies. F/M2877.43 is located
+deep in the hydrophobic pocket and does not interact with any of the
+cocrystallized CXCR4 ligands. However, the mutant M2877.43E has been reported to decrease the binding of some CCR5 small ligands,
+including 21, , 22, and 23( ) ( ). M2957.43 makes a hydrophobic contact with 58 in the
+CCR2 crystal structure, but no mutant data have been reported providing
+additional information on the role of this residue in CCR2 binding.
+
+ 
+3.2.2
+
+## Interface of Minor and Major Pockets in
+the TM Domain
+The definition of a minor and a major binding
+pocket implies that some residues overlap between both pockets on
+what we called the “interface”. The interface area comprises
+residues in TM3, TM7, and ECL2 and includes the following features:(i)Hydrophobic
+interactions with residue 3.32, which lines both the minor
+and major binding site and interacts with 31 and CVX15
+in CXCR4, with 16 in CCR5, and with 58 in
+the CCR2 crystal structure ( , a). Mutation studies demonstrated
+that Y1163.32 indeed is an important determinant of CXCR4
+binding for ligands 1, 2, and 13( ) ( ), whereas F1113.32 plays an important role
+in binding small-molecule ligands 16, , , 17, , 21, , , 22, and 23( ) to CCR5 ( ). Similarly, mutation Y1203.32A in CCR2 significantly decreases the affinity of 25, 19-1, 19, and 27( ) ( ).
+(ii)Polar interactions with residue E7.39, which
+is present in most chemokine receptors ( ). Mutation studies show that this residue
+is important for small-molecule ligand binding to CXCR4 ( ), , CCR5 ( ), − CCR2 ( ), and US28 ( ), consistent with the 31 bound CXCR4
+and 16 bound CCR5 structures in which respectively E2887.39 and E2837.39 are involved in a H-bond and ionic
+interactions with the cocrystallized ligands. , However, no direct interaction is observed between E2917.39 and
+the cocrystallized CCR2 ligand 58. D45.51 is also located at the interface between
+the minor and major binding sites (one position downstream from the
+conserved C45.50 in ECL2) and interacts with the peptide
+ligand CVX15 in the CXCR4 crystal structure ( a). Mutation of D45.51 affects
+ligand binding to CXCR4 ligands, including ligands 1, 2, and 15( ) ( ), suggesting that this residue
+plays a role in binding small-molecule ligands as well. The residue
+at position 45.51 is however not conserved among chemokine receptors
+( ) and mutation
+of this residue seems to be receptor and ligand dependent. , , , , 
+
+ 
+3.2.3
+
+## Major
+Pocket in TM Domain (TMS2)
+Important chemokine receptor–ligand
+interactions features within the major binding pocket are polar interactions
+with the top of the major binding site and apolar interactions in
+a hydrophobic supocket at the bottom of major pocket.(i)Polar interactions
+with D4.60and D6.58. Mutation of D1714.60 in CXCR4 leads to a decrease in
+affinity for almost all the small ligands with which it has been tested
+( ): 1, 1(Zn)2 (AMD3100(Zn)2), 1(ZN)1 (AMD3100(Zn)1), 2, 3 (AMD8721), 4 (AMD8899), 5 (AMD3529), 6 (AMD3389), 7 (AMD3106), 8 (AMD3108), 9 (AMD2936), 10 (AMD2763), 11 (AMD2849), 12 (cyclam), 12(ZN)1 (cyclam(Zn)1), 13, and 15. , − In the CVX15 bound CXCR4 crystal structure, D1714.60 forms
+a salt bridge with CVX15 Arg2, confirming the importance
+of this residue. However, this position is not highly conserved ( ), neither in physicochemical
+properties, meaning that this position cannot be involved in polar
+interactions in all the receptors. Thus, for CCR5 (glycine), most
+of the tested small ligands are not affected by 4.60 mutation to alanine
+(G1634.60A) ( ); only in the case in which this residue has been
+mutated to arginine (G1634.60R) it decreases the affinity
+of 21–23 ( ). Additionally,
+D/G4.60 is not interacting with any of the two chemokines
+in vMIP-II bound CXCR4 and CX3CL1 bound US28 crystal structures. CXCL12
+affinity and potency are decreased by the D1714.60N mutant
+in CXCR4, while the homologous D1864.60N mutation in CXCR3
+does not affect affinity for CXCL11. , D6.58 is conserved among CXCRs, while position 6.58 corresponds to a less
+conserved residue in CCRs ( ). Mutation studies show that this residue plays an
+important role in binding small-molecule ligands to CXCR4 ( ). , − 
+(ii)A hydrophobic
+subpocket located in the major pocket of CXCR4 (Y1163.32, W2526.48, Y2556.51, I2596.55), CCR5 (Y1083.32, W2486.48, Y2516.51, L2556.55, c), and US28 (F1113.32, W2416.48, Y2446.51, L2486.55) plays a role in the binding of the
+naphthalene ring of CVX15 in CXCR4, the phenyl ring of 16 in CCR5 ( b). Mutation studies indicate that W2486.48 is an important
+residue for CCR5 binding of small-molecule ligands 19, 21, − 22, and 23( ) ( ), while Y2556.51 and I2596.55 are involved
+in binding of small-molecule ligands 1–5 to CXCR4 ( ). , , Mutation of
+I1985.42, which interacts with the cyclohexyl group of 16 in the CCR5 in the same hydrophobic binding site ( b), results in a
+3–125-fold decrease in affinity and/or potency of all small
+ligands evaluated in CCR5 studies (16, , 17, 18, 19, 21, − 22, 23, and 24 (YM-370749), whereas mutation of the homologous H2035.42 only has a moderate 3–5-fold effect on affinity/potency
+of 4 of the 11 small ligands evaluated in CXCR4 studies (2, 3, 5, 13). , 
+
+3.2.4
+
+## Intracellular Region
+The recent CCR2 and CCR9 crystal structures, as well as chimera
+studies, cysteine accessibility scanning, site-directed mutagenesis,
+and radioligand displacement studies have indicated that several small-molecule
+ligands bind an intracellular pocket of chemokine receptors, including
+CXCR2 (ligands 61–64, ), , CCR2 (ligand 29, b, ), , , CCR4, , CCR5, CCR9 (ligand 30, c, ), and CX3CR1 ( and ). This allosteric small-molecule
+ligand binding pocket overlaps with the nanobody Nb7 binding site
+in the US28 crystal structure ( d), as well as the
+G-protein interaction site in ADRB2 and
+A2A crystal structures:(i)A hydrophobic
+subpocket comprised of TM3, TM5, TM6, and H8. This subpocket
+includes in US28 the residues I1333.54, V2155.65, I2266.33, V2296.36, L2306.37,
+and F2988.50 that mainly interact with the beta hairpin
+Ala24–Ile31 and the beta hairpin Glu99–Thr112 of Nb7 ( a,e). Several of these residue positions
+comprise the Gs binding site in beta-2 adrenergic receptor (I1353.54, T2746.36), the miniGs binding site in adenosine
+A2A receptor (I1063.54), and the beta-arrestin
+binding site of bovine rhodopsin (V1393.54, M2536.36) crystal structures ( ). Few residues in this hydrophobic subpocket form hydrophobic
+contacts with 29 in CCR2 (A2526.33, V2556.36) or 30 in CCR9 (I952.51, T2566.37, V2596.40) ( ). , The mutation I2266.33A significantly decreases the binding of 62 (pteridone-1) and 63 (Sch527123), while it does not
+affect the binding of 61 (SB-265610) in CXCR2, implying that different compounds may be able
+to adopt different binding modes in the intracellular pocket.
+(ii)An additional hydrophobic
+subpocket comprised between TM1, TM2, TM3, TM7, and H8. Both crystallized
+intracellular ligands mostly bind in this subpocket, which includes
+residues I/V1.53, I/V1.56, L2.43,
+L/I3.46, Y7.53, and F8.50. As described
+in , 29 and 30 bind the intracellular pocket.
+This was predicted before for 29 by mutagenesis data
+that confirmed the relevance of residues 7.53 and 8.50 for binding
+affinity of this compound to CCR2, and
+it has been validated for 30 also through site-directed
+mutagenesis assays. 
+(iii)Polar interaction with ICLs and H8. S220ICL3 of US28 forms an H-bond interaction
+with Glu in Nb7. The polar Glu side chain of Nb7 is located between the end
+of TM6-ICL3 and the end of TM7-H8 and makes a polar interaction with
+H222ICL3 and T2968.48 ( a,e). These residues also make polar interactions
+with the Gs and miniGs in beta 2AR and A2A, respectively ( e). Regarding the
+small molecules 29 and 30, important polar
+interactions involve the backbones of K3118.49 and F3128.50 for CCR2, , the side chains of T812.37, and T2566.37, and backbones of E3228.48,
+R3238.49, and F3248.50 for CCR9. Mutant studies
+have confirmed the relevance of T812.37 for compound 30 binding to CCR9. 
+
+4
+
+## Crystal Structure-Based Analysis
+CXCR4, CCR2, CCR5, CCR9, and US28 Ligand Structure–Activity
+Relationships
+The chemokine receptor crystal structures with
+different cocrystallized ligands constitute a valuable source for
+retrospective ligand search through structure–activity relationship
+studies, and they provide an important clue to the binding mode prediction
+for derivatives and other ligand chemotypes. The current section is dedicated to the compilation and analysis
+of the different strategies and results regarding binding mode prediction
+and its mutual contribution to drug design.
+4.1
+
+## CXCR4–Ligand
+Structure–Activity Relationships
+For CXCR4, 949 mutation
+data points have been determined covering 96 different residues positions,
+20 chemokines/antibodies, and 18 different small ligands (including 1–15, ). D1714.60N, D2626.58N, and E2887.39Q mutations resulted in a significant decrease
+of binding of 1–13 − and 15, supporting a binding mode in which these negatively ionizable residues
+are involved in ionic interactions with the positively charged basic
+nitrogen atoms of ligands 1–13 and 15 ( ). SAR studies have indeed indicated that the cationic basic moieties
+of 15, , 13, 31, 32 (WZ811), 33, and 34( , ) are essential for
+CXCR4 binding ( ). In addition, Y451.39A, W902.60A, and Y1163.32A mutations affected the affinity of 1, 2, and 13, while
+Q2005.39A and H2817.32A mutation affected potency
+of 2, 3, and 4. All together, the mutation data suggest that
+ligands 3–11 and 14 primarily
+target the major pocket, while ligands 1, 2, 13, and 15 target the minor and the major
+pocket simultaneously ( ). CXCR4 binding affinity of 14 (KRH-3955)
+is not affected by mutation of D1714.60, D2626.58, and E2887.39 but may be dependent on interactions with
+other negatively charged residues in CXCR4, such as D972.63 and D18145.45, as proposed in CXCR4 modeling studies. SAR studies provide insights into the determinants
+of binding affinity of 31 analogues to CXCR4 that are consistent with the 31 bound CXCR4 crystal structure ( e), showing
+that (i) the two protonated nitrogen moieties interacting with D972.63 and E2887.39 are essential for ligand binding
+affinity, (ii) two aliphatic six-, seven-, or eight-membered rings
+are essential for optimal binding of the hydrophobic subpocket between
+W902.60, H1133.29, and Y1163.32 ( ). The 3D-QSAR
+model presented in b, derived from FLAP based on an alignment of analogues of 31 to the crystallized conformation of 31, shows that a tight fit of apolar moieties in
+the hydrophobic subpocket between W942.60 and Y1163.32 is required for high affinity binding, consistent with
+other druggability assessments of the minor CXCR4 binding site. Combined SAR, , mutagenesis,
+and modeling studies suggest a binding
+mode in which the guanidine and the amine group of antagonist 15 interact with D1714.60 and D2626.58 residues, respectively ( ), consistent with SAR studies showing that the guanidine
+moiety, the position of the nitrogen atom in the pyridine, and the S-stereo configuration of 15 are important
+for CXCR4 binding. The cyclam and pyridine moieties of 1 and its derivatives 2, 5, and 6 ( a) play
+important roles in CXCR4 binding affinity and are proposed to interact
+with Y451.39, W942.60, H1133.29,
+Y1163.32, and D1714.60 based on SAR and mutation
+data. SAR studies indicated that the
+basicity of the benzoimidazole, the length of the aliphatic amine
+group, and the S stereoconfiguration are important
+requirements for 13 binding affinity. Different putative
+binding modes of 13 in relation to SAR and mutagenesis
+data will be discussed in more detail in ( ). , The replacement of any of the
+two basic amines with amides and the modification of the pyridine
+rings into phenyl, methyl, or guanidine groups significantly reduce
+the potency of antagonist 32, indicating that these cationic
+and/or aromatic groups are important for 32 binding and/or
+CXCR4 activation. The central phenyl
+ring and linker length between the aromatic ring and the terminal
+hexenamine moiety are important determinants of the binding affinity
+of compounds 33 and 34 for CXCR4. , On the basis of this SAR data, binding modes have been proposed
+for 33 and 34 in which the cationic piperazine/piperidine
+interact E2887.39 and D19345.57, respectively.
+The combination of CXCR4 mutation data and SAR studies suggest that
+the essential aromatic quinazoline of 33, purine of 34, , naphthalene of 35, and indolyl of 36( ) enable these ligands to interact with aromatic
+residues in the CXCR4 binding site, including Y451.39,
+W902.60, Y1163.32, and/or H2817.32.
+
+4.2
+
+## CCR5–Ligand Structure–Activity
+Relationships
+For CCR5, 1021 mutation data points have been
+determined, including 101 different residue positions, 13 chemokines/antibodies
+ligands, and nine different small ligands (including 16–24, ). E2837.39A mutation resulted in a significant
+decrease of binding of ligands 16–23, suggesting a binding mode in which the negatively ionizable E2837.39 residue is involved in an ionic interaction with the positively
+charged basic nitrogen atoms of these ligands ( a). Y371.39A, P842.58H, I1985.42A, W2486.48A, and Y2516.51A mutations affected the potency of 21, 22, and 23, while W862.60A, Y1083.32A, and I1985.42A mutations
+affected the affinity of 16, 17, and 19, indicating that these ligands
+are in a similar way targeting the minor and major pocket simultaneously
+( d). On the
+basis of this structure-based alignment a pharmacophore model for
+CCR5 ligands can be defined consisting of: (i) one basic feature (the
+basic amine of 16 that interacts with E2837.39), (ii) one aromatic moiety (the triazole of 16 that
+interacts with W862.60), (iii) hydrophobic feature 1 (the
+phenyl ring of 16 interacts with Y1083.32),
+and (iv) hydrophobic feature 2 (the difluorocyclohexane of 16 interacts with T1955.39 and I1985.42), presented
+in . 16 shares a similar spatial distribution of cationic, aromatic,
+and hydrophobic features as several other CCR5 ligands, including 17–23, 38 (PZ232798), 39 (AZD5672), 40, 41, 42, 43, and 44, although this
+does not necessarily mean that all these ligands adopt a similar binding
+mode. Moreover, the symmetric distribution of hydrophobic/aromatic
+features compared to the central cationic feature offer a challenge
+to predicting CCR5–ligand binding modes in a similar way as
+CXCR4, as discussed in . Despite these caveats, the structure-based CCR5 pharmacophore
+model facilitates a structure-based analysis of CCR5 mutagenesis ( ) and SAR ( ) data. Modification
+of the aromatic pyridine ring of 17, 18, , 21, , and 42( ) by electron withdrawing
+substituents decrease the affinity of these ligands, consistent with
+mutation and modeling studies, suggesting that this ring may form
+π–π interactions with W862.60 , ( d). The
+seven-membered ring of 19( , ) is preferred
+over the six-membered ring, while the optimal linker between the phenyl
+and quaternary ammonium groups is one carbon atom, suggesting that
+the relative distance and directionality of the cationic and aromatic/hydrophobic
+groups are essential for CCR5 binding. The hydrophobic substituents
+of the benzene ring of 20( ) are favorable for CCR5 affinity, emphasizing the importance of this
+hydrophobic feature in the CCR5 ligand pharmacophore ( ). The modification of the
+carbon linker between piperidine and benzene of 20 into
+a nitrogen atom results in a decreased affinity, which may suggest that the conformational flexibility of
+the aromatic benzene ring to target the minor pocket is an important
+determinant of CCR5 affinity. The six-membered aliphatic ring and
+triazole groups of 16 can be replaced by aromatic and benzimidazole , moieties, respectively, without affecting CCR5 binding affinity.
+Modification of the tetrahydro pyridinoimidazole of 38( ) into a phenyl moiety results in a
+290-fold decrease in CCR5 affinity, which may be caused by the fact
+that the bulky moiety affects the aromatic interactions between the
+tetrahydro pyridinoimidazole and W862.60.
+
+4.3
+
+## CCR2–Ligand Structure–Activity Relationships
+More than 40 mutation data points have been determined for CCR2,
+covering 15 different residues positions (Y1203.32, H1213.33, E2917.39, and T2927.40, among others)
+and seven different small ligands (19, 19–1, 25, 26, 27, 28 (INCB3344), and 29 ( ). , The E2917.39Q mutation diminishes binding of 19 and its derivative 19-1, supporting a binding mode in which the negatively ionizable
+E2917.39 is involved in ionic interactions with the positively
+charged quaternary amine of these ligands. SAR analysis of 19 and derivatives 53( ) and 54( ) demonstrate that CCR2 binding
+affinity is sensitive to small variations in the distance between
+the cationic and hydrophobic features and small structural changes
+close to the essential cationic feature ( ). Y1203.32A, H1213.33, and T2927.40A mutations resulted in significant decrease
+of binding of ligands 19, 19–1, 25, 26, and 27, indicating that (at least parts of) these ligands
+occupy the minor pocket. SAR studies show the importance of hydrophobic
+interactions (increased affinity for more apolar substituents in chemical
+series around 54, 55, and 57/58 ) and steric and conformational
+compatibility (decreased affinity for 2-chlorine substituted analogues
+of 53( ) and 54( )) with the minor and/or major hydrophobic
+binding pocket of CCR2. SAR studies indicate that the stereochemistry
+of trisubstituted cyclohexane of 57 is important for
+CCR2 affinity, in line with the tight
+packing of the corresponding cyclohexane ring of 58 against
+W982.60 in the CCR2 crystal structure ( ). The binding mode of 29 in the intracellular binding pocket observed in the CCR2
+crystal structure is consistent with
+earlier mutation studies showing the negative effects of V2446.36A, Y3057.53A, K3118.49A, and F3128.50A on CCR2 binding affinity. SAR studies furthermore show the favorable role of the hydrophobic
+halogen substituents of 29( ) and several other small-molecule ligands (56 and 59( )) that are proposed to target the same hydrophobic intracellular
+binding pocket of CCR2 formed by V631.53, L671.57, T772.39, L812.43, and L1343.46.
+
+4.4
+
+## CCR9–Ligand Structure–Activity
+Relationships
+SAR studies demonstrate that the chlorine and
+nitroxy substituents of the CCR9 antagonist 60 are important
+for potency, consistent with the recently
+solved CCR9 crystal structure showing that the chlorine of the chemically
+similar allosteric antagonist 30 targets the hydrophobic
+subpocket composed by L872.43, I1403.46, and
+V2596.40, whereas the nitroxy group of 30 forms
+H-bond interactions with T812.37 and R3238.49. 
+
+4.5
+
+## US28–Ligand
+Structure–Activity Relationships
+For US28, 25 mutation
+data have been determined, covering seven different residues positions
+(T11N-terA, T12N-terA, E13N-terA,
+F14N-terA, D15N-terA, and Y16N-terA in the N-terminus region and E2777.39A in TM7) for four
+chemokines (CCL3, CCL4, CCL5, and CX3CL1) and one small ligand (45 (VUF2274)) ( ). The F14N-terA mutant significantly decreased
+binding affinity of CCL3, CCL4, and CCL5 but not CX3CL1. Y16N-terF mutation also has a moderate
+effect on CCL4 binding potency. E2777.39A mutation regarding
+the small ligand 45 indicates that E2777.39 is a crucial interaction partner for 45, and it was
+proposed that the carboxylate group of E2777.39 forms an
+ionic interaction with the piperidine amine of the ligand. 45 derivatives are the first reported
+nonpeptidergic inverse agonists of US28, and SAR studies indicate
+that the hydroxyl, chloro, and chlorobenzene features are essential
+for affinity, while the cyano group and the two phenyls are not necessary
+to maintain the affinity ( ). Other small US28 ligands, 46 (methiothepin), 47 (octoclothepin) ( ), and series of dihydroisoquinolinone, 48 (tetrahydroisoquinoline) and 49 (flavonoid) containing US28
+agonists have similar low potency, hampering
+SAR analysis. There are furthermore several US28 small ligand reported
+in patents, including 50 (arylamine), 51 (S(−)-IBZM), and 52 (VUF6045), but clear, quantitative SAR data is missing
+for these series.
+
+5
+
+## Experimentally Informed Modeling
+of Chemokine Receptor–Ligand Structure
+The community-wide
+GPCR DOCK 2010 assessment to predict
+the three-dimensional coordinates of the 31 and CVX15
+bound CXCR4 structures before release of the crystal structures, highlighted
+some of the challenges of predicting ligand binding modes in chemokine
+receptors. None of the GPCR DOCK 2010 participants were able to predict
+the binding pose of the large peptide CVX15 in the major pocket of
+CXCR4, demonstrating that the prediction of GPCR–peptide interactions
+is particularly difficult, especially in the absence of experimental
+modeling constraints. The key interactions of the small-molecule ligand 31 with D972.63 and E2887.39 in the
+minor pocket of CXCR4 could only be
+correctly predicted by the explicit incorporation of CXCR4 mutation
+studies , and ligand structure–activity relationship
+(SAR) to guide the modeling of CXCR4
+structure and CXCR4–ligand interactions. The GPCR DOCK 2010
+challenge and other modeling studies have demonstrated that compared
+to other GPCRs families, chemokine receptor structures have a couple
+of peculiarities that require careful considerations. These include
+the positioning of the helix bundle, the extracellular domain, and
+the ligand binding sites, which pose different challenges for model
+construction. Furthermore, it should be noted that small-molecules
+ligand of different chemokine receptors are chemically diverse ( , , , and – ) and that the effects of mutation
+studies are highly ligand dependent, limiting the possibilities to
+translate binding mode hypotheses between chemokine receptors and/or
+ligand chemotypes. While and provide a retrospective
+analysis of protein mutation and ligand SAR data of crystallized CXCR4,
+CCR5, and US28 receptors, the following and provide an
+overview of the implications of the new crystal structures on the
+construction of chemokine receptor models for the elucidation of the
+structural determinants of chemokine–ligand interactions (described
+in ) and the
+structure-based discovery and design of new chemokine receptor modulators
+( ). In the
+current section, the use of experimental anchors to steer the modeling
+procedure and address challenges associated with different steps along
+the modeling workflow ( ) will be discussed, including
+(step 1) amino acid sequence alignment, (step 2) template selection,
+(step 3) TM bundle and loop modeling, (step 4) ligand binding pocket
+prediction, and (step 5) ligand binding mode prediction. Although
+the workflow is sequential, the sequence alignment, template selection,
+and model building steps are interconnected and will be therefore
+described together in . Different sequence alignment approaches will be described,
+based on GPCRdb structure-based sequence alignments, manually curated based on the analyses of structural alignments.
+After building the initial model, more detailed information can be
+used to refine the binding pocket and the ligand binding mode, which
+will be discussed in . We will provide an overview how protein site-directed
+mutagenesis studies ( ) and ligand structure–activity relationships ( ) have been used
+to map ligand binding sites, resulting in proposed binding mode models
+for numerous ligands in different chemokine receptors (CXCR2, ; CXCR3, ; CCR1, ; CCR2, ; and CCR8, ). It should
+be noted that the modeling requirements and challenges dependent on
+the purpose of the chemokine receptor model. Some models have been
+constructed with the purpose to closely capture receptor–ligand
+interactions or are optimized for structure-based virtual screening
+but nevertheless contain inaccuracies in specific regions in the TM
+domain. Other models provide an accurate structural architecture of
+the receptor–chemokine complex but do not offer insights into
+interactions on residue or atomic level. A schematic overview of the applicability domain of different chemokine receptor
+models is provided in .
+ 5.1
+
+## Sequence Alignment and Template Selection
+for Chemokine Receptor Modeling
+The prediction and modeling
+of the 31 and CVX15 bound CXCR4 crystal structures in
+the GPCR Dock 2010 was especially challenging
+because its similarity in both sequence and function compared to the
+GPCRs structures available at that time was distant (ADRβ1, 26% identity). A multiple sequence alignment of the target
+sequence with potential homologues is an important step toward the
+prediction of the structure of the target (step 1, ). Sequence motifs containing
+glycines, prolines, serines, and threonines are of particular interest
+because they are known to be involved in helix kinks/bulges. An important challenge in the GPCR DOCK 2010
+modeling assessment was the prediction of alternative conformation
+of the top of TM2, stabilized by the T2.56xP2.58 motif that is conserved in chemokine receptors ( , and ) , and introduces a one-residue
+gap resulting in a 100° rotation of the top of TM2 compared to
+the closest crystal structure template at that time ADRβ1. The T2.56xP2.58 induced helical bulge was correctly predicted by a molecular
+dynamics (MD) simulation based conformational analysis of TM2 and
+the consideration of mutation studies indicating that residues 2.60
+and 2.63 (W942.60 and D972.63 in CXCR4) play
+a role in ligand binding to CXCR4 and other chemokine receptors and
+should therefore be oriented inside of the TM bundle ( ). , , , A structure-based
+alignment of the CXCR4, CCR2, CCR5, CCR9, and US28 crystal structures
+now facilitates the sequence alignment of the TM helices, as well
+as ECL1, ECL3, and large parts of ECL2. Alignment of the N-terminus,
+ECL2 (in particular upstream of the conserved C45.50),
+ICL3, and C-terminal still remains challenging because of the variation
+of loop length and limited availability of structural templates for
+these regions (steps 1 and 2, ).
+The overall conserved structural fold of the
+TM helical bundle of chemokine receptor crystal structures implies
+that the CCR5, CXCR4, CCR2, CCR9, and US28 structures represent useful
+templates for modeling the 7TM domains of other chemokine receptors.
+CCR5 shares sufficiently high sequence identity (≥40%) and
+similarity (≥60%) to model the
+TM helices of CCR1, CCR3, CCR4, CCR8, ACKR2, and CCRL2, whereas CXCR4
+shares sufficiently high sequence identity and similarity with CXCR1,
+CXCR2, and CXCR3, CCR2 shares sufficiently high sequence identity
+and similarity with CCR1, CCR3, CCR4, CCR7, CCR8, CCRL2, and ACKR2,
+CCR9 shares sufficiently high sequence identity and similarity with
+CCR1, CCR4, CCR6, CCR7, CXCR1, CXCR2, CXCR6, and ACKR4, while US28
+provides a template for modeling the homologous CX3CR1 ( c). Homology models or new crystal structures of CCR4, CXCR1,
+or CXCR2, and CXCR3 would provide homologous templates for chemokine
+receptors with lower sequence identity (<40%) or similarity (<60%)
+to the currently crystallized chemokine receptors. A crystal structure
+of CCR4 would be a homologous template to model XCR1, while CXCR1
+or CXCR2 structures would provide a homologous template to construct
+models of CCR6 and CCR7, and an experimentally determined structure
+of CXCR3 would facilitate CXCR5 modeling. CCR10, CXCR6, ACKR1, and
+ACKR3/CXCR7 do not have high TM sequence identity/similarity with
+the three crystallized receptors or the 13 receptors for which high
+resolution homology models can be directly derived from chemokine
+receptor crystal structures. Binding site similarities show more distinct
+chemokine receptor clusters ( ), and several receptors share significantly higher
+binding site similarity than TM helix similarity. For example, CCR5
+provides a good template to accurately model the bindings site of
+CX3CR1 (62% identity), while it shares relatively high sequence similarity
+with ACKR3/CXCR7 (65% similarity) and US28 provides a good template
+to model the binding site of CCR8 (62% similarity). Variability of
+the length and sequence identity of the extracellular and intracellular
+regions, which conformations have been discussed in and , may also influence template selection The implications of
+this variability for extracellular regions on prediction of interactions
+with chemokines will be described in , and for interactions with intracellular
+effectors such as nanobodies, G-proteins, or beta-arrestin will be
+described in .
+ In addition to sequence similarity in the TM helices and
+putative binding pockets, several other criteria can be considered
+to select the appropriate (or combination of) homology modeling templates
+(step 2–3), including: (i) sequence motifs that determine the
+helical conformation, (ii) local sequence similarity in specific ligand
+binding sites, (iii) chemical similarity between the crystallized
+and modeled ligand, (iv) conformational state (active/inactive), and
+(v) crystallographic artifacts. In addition to the conserved T2.56XP2.58 motif that determines the fold of TM2,
+there are other sequence motifs that determine the conformation of
+helices in chemokine receptors, including the P1.36P1.37 motif present in CCR5 and conserved also in CCR1, CCR2,
+CCR3, CCR4, and CCR9. This motif induces a different kink in TM1 than
+the alternative P1.36X1.37 motif that CXCR4
+shares with CCR6, CCR7, and CCR10. CXCR4 may therefore be a better
+template to model the conformation of TM1 of the latter three CC chemokine
+receptors. CXCR2 has a lower overall sequence identity with CCR5 (37%)
+than with CXCR4 (40%) but share residues F3.36, N6.52, and L6.55 that are reported to be important for binding
+compounds 61 and 64 based on mutagenesis
+studies. CCR5 may therefore be a better
+template to model 61 and 64 bound CXCR2.
+A chemical similarity analysis of known chemokine receptor ligands
+and cocrystallized class A GPCR ligands allows the identification
+of the most relevant template for ligand-bound chemokine receptor
+models. For example, the predicted binding orientation of 19 in the CCR5 crystal structure can be used to model the binding mode
+of 19 in the homologous CCR2 (70% binding site similarity, ), whereas a refined
+binding pose of 19 in the CXCR4 crystal structure would
+be a more suitable template to predict the ligand binding mode in
+the more homologous CXCR3. Derivatives of 19 have also
+been proven to bind CCR5 and CCR2. CCR5 would provide an accurate
+template to construct a 19 bound CCR2 homology model. As pointed out before by others, the 31 bound CXCR4 crystal structure
+(PDB 3ODU) contains
+two protruding lipids in the major pocket between TM5 and TM6, which
+constitute a crystallization artifact that conditions the orientation
+of these two helices. For ligand-bound models in which important interactions
+are characterized in the major pocket, the CVX15-bound structure may
+constitute a better template. The location of the receptor C-terminal
+into the TM bundle of the symmetry neighbor receptor in the crystal
+lattice may explain the presence of the lipids and the opened conformation
+of this structure ( ).
+
+5.2
+
+## Modeling Structural Interactions
+between Chemokine Receptor and Chemokine Ligands
+Comparison
+of the vMIP-II bound CXCR4 and CX3CL1 bound US28 crystal structures
+( ), the
+CXCL8, CXCL12, CX3CL1, and vMIP-II chemokine crystal structures and
+NMR models ( ), chemokine/chemokine receptor mutation data ( ), and chemokine/chemokine receptor sequences
+( d and d), indicate that the chemokine bound CXCR4 and
+US28 structures provide useful templates but also highlight potential
+challenges in the modeling of structural chemokine–receptor
+interactions. These challenges include first of all modeling of interactions
+between the chemokine C-terminal core region with the first 23 and
+15 residues of each receptor N-terminus (missing in the CXCR4 and
+US28 structures, respectively) and the extracellular loops (in particular
+ECL2 that is differently positioned in the CXCR4 and US28 structures).
+To address this fact, the overall geometry of the chemokine bound
+chemokine receptor structure has to be defined a priori. The chemokine
+bound CXCR4 and US28 crystal structures provide evidence that supports
+the two-sites binding model in which the N-terminus of the chemokine
+interacts with the minor and major pockets in the 7TM helical bundle,
+while the chemokine core interacts with the receptor N-terminus and
+ECLs. NMR models supporting alternative
+binding modes have been reported ( b), suggesting that chemokines may adopt
+different binding orientations in complex with chemokine receptors. The different binding modes of the N-terminus
+regions of the vMIP-II and CX3CL1 with the TM domain of CXCR4 and
+US28 indicate that both the structure and receptor interactions of
+the chemokine N-terminus will differ between chemokine bound receptor
+complexes. The N-terminus of chemokine receptors is highly variable
+in length and composition, and it has not been fully solved (step
+3, ). For
+instance, CCR2 N-terminus is 12 residues longer than CCR5 N-terminus,
+while the CXCR2 N-terminus is 10 residues longer than the N-terminus
+of CXCR4. Modeling of a large part of the receptor N-terminus has
+to be done de novo, which is complicated because of the lack of knowledge
+of interactions between the chemokine and the N-terminus of the receptor
+and requires structural refinement by, e.g., MD simulations (step
+4, ). For
+the modeling de novo of the N-terminus, there is a potential restraint
+to be used: the sulfotyrosine in position 21 in CXCR4 which has been
+predicted to bind in the disaccharide binding site, as explained in . Mutation studies
+indicate that in particular ECL2 is important for chemokine binding
+( ). The length and structure of the ECL2 of chemokine
+receptors is relatively more conserved than for other GPCR subfamilies
+(e.g., aminergic GPCRs receptors ), which
+allows the combination of modeling the TM helices and loops as an
+integrated part of the model construction step 3. There are nevertheless
+differences in the sequences of the ECL2 of chemokine receptors in
+length, sequence, and structure. The length of the downstream region
+from the conserved C45.50 ECL2 to the start of TM5 is one
+residue longer in CCR5 than in CXCR4, and it is predicted to be even
+eight residues longer in ACKR3/CXCR7 compared to CXCR4. Significant
+differences in the sequence and therefore in the overall structural
+properties and molecular interaction features of ELC2 can have important
+effects on ligand binding as has been demonstrated for CCR3, which has an acidic motif (173-ETEELFEET-181)
+that may explain why ligand binding to this receptor is highly pH
+dependent. Finally, structural differences
+in ECL2 between CXCR4 and US28 crystal structures indicate ligand-induced
+conformational flexibility of this region in chemokine receptors,
+which has to be properly considered in homology modeling of other
+chemokine receptor–ligand complexes. As an example of the ligand-induced
+conformational flexibility of ECL2, a structural superimposition of
+vMIP-II bound CXCR4 and CX3CL1 bound US28 reveals a clash between
+the mini-helix of CX3CL1 and CXCR4 ECL2.
+
+5.3
+
+## Modeling
+Structural Interactions between Chemokine Receptors and Intracellular
+Effectors
+The potential bias of the T4L (CXCR4) and rubredoxin
+(CCR5) fusion proteins and the influence of Nb7 nanobody (US28) should
+be considered for modeling of the intracellular pocket of chemokine
+receptors. ICL3 has only been solved in the US28 structure, but the
+conformation of ICL3 in the US28 structure may be only relevant for
+the modeling of an active conformation. Of special interest is the
+modeling of the intracellular pocket for intracellular binding ligands
+(which will be further described in upcoming sections), as well as
+for intracellular effectors, including nanobodies, G-proteins, and
+beta-arrestin, whose main interactions have been described in . Therefore,
+for the selection of the most relevant structural template for the
+modeling of the intracelular pocket, those structures in which this
+pocket is biased for the presence of stabilizing elements or crystal
+artifacts should be avoided. There are a few templates to model intracellular effector-bound structures, including complexes between the adrenergic beta-2 receptor and Gs protein (PDB 3SN6), the A2A adenosine receptor and an engineered mini Gs protein comprising a truncated GTPase domain of the Gαs subunit (PDB 5G53), bovine rhodopsin and visual arrestin (PDB 4ZWJ), and the C-tail of the vasopressin V2 receptor and beta-arrestin1 (PDB 4JQI). However, the templates are still limited to specific GPCRs and incomplete (the
+beta-arrestin1 bound V2 structure only contains the C-tail of the
+receptor) or do not have a high resolution (the beta-arrestin bound
+opsin structure has a 7.7 Å resolution). Therefore, modeling
+of intracellular effectors binding is still challenging and needs
+more and better templates. However, some models have been already
+described of chemokine receptors interacting with intracellular effectors. Moreover, important intracellular effectors
+with no reported GPCR-bound structure are G protein-coupled receptor
+kinases (GRKs), which are difficult to crystallize due to their flexibility
+and fast kinetics, being also difficult to model due to their sequence
+variability. Finally, the available
+chemokine receptor templates have some characteristics to consider
+to model intracelular binders: for example, modeling of active conformations
+may be addressed using US28 structure as template, but it is important
+to consider also other templates in a fully activated state, especially
+for modeling a G-protein bound conformation, in which case the ADRB2 structure may represent a better template. Also the best
+resolution crystal structure of CXCR4 (PDB 3ODU) lacks H8 and has a nonstructured C-terminal
+that may affect the modeling of intracellular effector interactions.
+
+5.4
+
+## Modeling Structural Interactions between Chemokine
+Receptors and Small-Molecule Ligands
+Predicting the residues
+that conform the binding pocket is one of the most important steps
+of the chemokine receptor modeling workflow (step 4, ), especially for those receptors
+for which no crystal structure has been reported. The availability
+of experimental data, including site-directed mutagenesis studies,
+NMRs, or fluorescent measurements, is therefore, important to support
+the prediction of structural chemokine receptor–ligand interactions.
+In the GPCR DOCK 2010 challenge, site-directed mutagenesis data , were valuable, indicating that residues such as D2.63, D4.60, D6.58, and E7.39 play a
+key role in CXCR4 antagonist binding. Although the CXCR4, CCR2, CCR5,
+CCR9, and US28 X-ray structures provide useful templates for chemokine
+receptor modeling, binding pocket prediction is still challenging
+due to the prevalence of multiple potential binding sites in these
+receptors. For small ligands, it is known that some bind exclusively
+the minor (CXCR4 antagonist 31) or the major pocket (CXCR4
+antagonist CVX15), while others may target both simultaneously (CCR5
+antagonist 16). A wide amount of chemokine receptor ligands
+share a cationic feature (or even two like the CXCR4 antagonist 31), and both the minor and the major pocket have anionic
+groups with which ligands can interact (residue positions 2.63 and/or
+7.39 in the minor pocket, 4.60 and/or 6.58 in the major pocket) as
+discussed in . The recently solved 29 bound CCR2 and 30 bound CCR9 crystal structures confirm that small-molecule ligands
+can also target the intracellular binding sites of chemokine receptors,
+consistent with earlier radioligand binding and mutation studies. , , , , − The diversity of different possible binding sites pose a challenges
+to the prediction of structural chemokine receptor–ligand interactions.
+Intracellular ligands, including allosteric antagonists of CXCR2 (61–64, ), , CCR2 (29, , ), , , CCR4, , CCR5, CCR9
+(30, , ), and CX3CR1 combine electronegative
+H-bond acceptor moieties (to interact with the amide backbone of residue
+positions 8.48, 8.49, and 8.50) positioned between at least two medium
+sized aromatic/hydrophobic ring systems (that target different hydrophobic
+subpockets), and can therefore be distinguished from cationic ligands
+that target the orthosteric binding site of chemokine receptors. Putative
+binding regions of novel small-molecule ligands can furthermore be
+predicted based on integrated SAR and site directed mutagenesis data
+that is available for similar ligands and/or similar receptors. It
+should be noted however that the additional, previously unexplored
+ligand binding sites in chemokine receptors may be accessible, including
+for example the extracellular vestibule (like the allosteric modulator
+binding site in the muscarinic M2 receptor crystal ) or the interface with the membrane outlier (e.g., as observed
+in P2Y1 receptor and GCGR crystal structures).
+The prediction of
+the putative ligand binding site(s) is followed by the prediction
+of ligand binding poses (step 4, ). Molecular docking and pharmacophore tools
+can generate binding poses for ligands, especially small ligands. , The docking of large peptide and protein ligands, including chemokines,
+increases challenges in sampling of protein–ligand conformations.
+Poses obtained from docking programs are ranked based on scoring functions.
+The main challenge in scoring and ranking binding poses is related
+to the conformation of the side chains in the binding pockets due
+to rotamer variants. Priority filters can be used as postprocessing
+method to prioritize interactions, and MD simulations can be useful to determine the most stable conformations
+of the residues, as well as of the ligands, to improve the confidence
+on the protein–ligand interactions. 
+Despite the availability of multiple chemokine receptor crystal
+structures, symmetry in both the ligand (prevalence of two basic moieties)
+and the binding site (prevalence of multiple acidic residues) constitute
+a challenge for the chemokine receptor–ligand binding mode
+prediction ( ). The evaluation of different putative
+binding modes of compound 13 in CXCR4 presented in illustrates the caveats of the extrapolation of binding mode
+information on cocrystallized ligands to other small-molecule ligands
+and emphasize that structural modeling should be guided and evaluated
+using experimental data, in line with the GPCR Dock 2010 challenge. a shows a docking pose of compound 13 in the
+minor binding site of CXCR4 with a similar structural interaction
+fingerprint (IFP) pattern as the cocrystallized ligand 31 ( a), whereas b presents a docking
+pose of 13 in the major binding site of CXCR4 that is
+targeted by CVX15 ( a). IFP representation of compound 13 ( f) illustrates
+common interactions (W942.60, E2887.39) as well
+as specific interactions derived from the pocket selection of the
+reference ligand (D972.63 for 31, D1714.60 for CVX15). SAR studies ( d) reveal a significantly decrease in affinity
+if one of the basic amino groups (predicted to interact with D1714.60) is changed to a cyano group, confirming an ionic interaction
+between the amino group and a negatively charged acidic residue in
+the binding site. Changing the benzimidazole to a 2-pyridine or 1-tetrahydroisoquinoline
+is tolerated, consistent with a binding mode in which the basic amine
+in the benzimidazole group is interacting with an acidic residue (predicted
+to be E2887.39). The relevance of these acidic residues
+(D972.63, D1714.60, D2626.58, and
+E2887.39) in binding 13 is reflected by mutation
+studies ( b and b). Moreover,
+the length and flexibility of the aliphatic side chain and the stereochemistry
+of the chiral carbon also affect the potency of compound 13. Both predicted docking poses partially fit the described interactions,
+but none of them fit all the experimental data, suggesting that these
+poses may represent different populations of CXCR4–13 conformations or that the docking results should be optimized ( e). Optimization
+includes postprocessing filters, applying restraints on those interactions
+known to be important for ligand binding and molecular dynamics simulations. Molecular dynamics simulations can be used
+for the extended sampling of receptor–ligand conformations,
+the assessment of the relative distribution of different binding mode
+populations, and the possible role of residues in molecular dissociation
+and/or association. Despite the challenges that chemokine receptors
+constitute for molecular modellers, three-dimensional chemokine receptor
+models have been successfully applied for the identification and design
+of new chemokine receptor ligands, binding pocket, and ligand binding
+prediction for CCR5 and CXCR4, , and other chemokine
+receptors, including CXCR2, CXCR3, CCR1, CCR3, CCR4, and CCR8. 
+ Challenges in modeling the binding
+mode of large chemokine ligands in chemokine receptors subfamily include
+the consideration of protein flexibility in protein–protein
+docking and the consideration of alternative binding mode hypotheses
+to guide the docking process and/or evaluate the docking poses. The
+vMIP-II bound CXCR4 and CX3CL1 bound US28 crystal structures and reported
+mutation data indicate that chemokine receptors can accommodate a
+large variety of chemokine ligand binding modes in different TM subpockets, , , and the integrated analysis
+of NMR structures, in silico models, and mutation data indicate multiple
+binding modes may be possible for the same receptor:chemokine complex. , , Model evaluation therefore may
+require complementary in silico approaches and experimental data,
+such as extensive molecular dynamics simulations and the consideration
+of combined mutation data of both the receptor and the chemokine ligand. 
+
+5.5
+
+## Structural CXCR2–Ligand
+Interaction Models
+For CXCR2, more than 90 mutant data points
+have been determined, covering about 26 different residue positions
+(including, among others, D1433.49 of the DRY motif and
+Y3147.53 from the NPXXY motif), and four different small
+ligands (61, 63, and 64) ( ). − Mutations in the intracellular region of CXCR2 significantly
+decreased binding affinity of 61, 62, and 63, whereas the E3007.39Q mutant in the extracellular
+side did not affect binding affinity, supporting an intracellular
+binding of all three ligands ( c,d). T832.39A, D1433.49R, Y3147.53A, and K3208.49A mutations resulted in a significant
+decrease of binding of 61, whereas D842.40N, A2496.33L, and K3208.49A mutations significantly reduced 62 binding,
+and T832.39A, D842.40N, D1433.49R,
+A2496.33L, Y3147.53A, and K3208.49A significantly decreased the binding of 63 ( ). The CXCR2 mutation
+data indicate that 61, 62, and 63 target a similar binding site as 29 in the CCR2 crystal
+structure and 30 in the
+CCR9 crystal structure. The negative
+effect of the K3208.49A mutant, for example, supports a
+binding mode in which the acidic groups of 61, 62, and 63 ( b) are involved
+in polar interactions with the positively ionizable K3208.49 residue and simultaneously form H-bond interactions with the backbone
+amide nitrogen of residues R/K8.49 and F8.50, like 29( ) and 30 in the CCR2 and CCR9 crystal structures
+( b–d).
+Compound 64 does not displace the radiolabeled intracellular
+binder 61, and F1303.36A, F2205.47L, and N2686.52H mutants
+decrease CXCR2 affinity of compound 64 ( a,g), indicating that this ligand targets the extracellular binding site
+in CXCR2 and supporting a binding mode in which the imidazole nitrogen
+of 64 accepts an H-bond from N2686.52, while
+the pyrimidine and imidazole moieties of the ligand may be involved
+π–π stacking interactions with F1303.36 and F2205.47 ( b,c,f). CXCR2 therefore represents an experimentally
+supported example of a chemokine receptor that is targeted by small-molecule
+modulators that target both extracellular and intracellular binding
+sites.
+ 
+5.6
+
+## Structural
+CXCR3–Ligand Interaction Models
+For CXCR3, there are
+about 50 mutant points to assess the small ligand binding mode predictions
+of 65 (VUF11211), 66 (NBI-74330), 67 (VUF10661), 68 (VUF10085), and 19 ( a), including residues W1092.60, D1122.63, and S3047.39. The predicted binding modes
+of 65 and 66 ( d) share common interactions with W1092.60, F1313.32, Y2716.51, S3047.39, and Y3087.43 ( d, and f) but also include
+distinct interaction features supported by ligand-dependent mutation
+effects. The D1122.63N mutation
+data suggest that the anionic carboxylic acid moiety of D1122.63 plays a role in binding of 66 but is less important
+for binding 65 ( b). The decreased affinity of 65 for the
+D1864.60N mutant supports a binding mode in which the positively
+ionizable amine group of 65 forms a salt bridge with
+the negatively charged D1864.60 residue. In contrast, the
+affinity of 66 is not significantly affected by the same
+D1864.60N mutation, suggesting that this residue does not
+play an important role in binding compound 66 ( c). The differential effect of the F1313.32A mutant on CXCR3 binding affinity of the chemically similar 68( ) and 66( ) ( f) may be explained by subtle differences in substitution
+pattern of the 4-(trifluoromethoxy)phenyl group of 68 versus the 4-fluoro-3-(trifluoromethyl)phenyl group of 66 that is indeed proposed to target the deep hydrophobic binding site
+formed by F1313.32 ( d). CXCR3 mutation studies suggest that
+D1122.63 and D1864.60 are also involved in ionic/H-bond
+interactions with compound 67 and that also the apolar
+F1353.36 residue plays an important role in binding 67. None of the three mutants
+tested in combination with 19 (Y601.39A, F1313.32A, I2796.59A) affected CXCR3 binding. The comparative analysis of effects of CCR5
+( ) and CCR2 ( ) mutations
+on 19 binding affinity may be useful to guide the design
+of complementary future CXCR3 mutation studies to elucidate the structural
+determinants of CXCR3 binding by this promiscuous chemokine receptor
+ligand.
+ 
+5.7
+
+## Structural
+CCR1–Ligand Interaction Models
+For CCR1 about 20 mutation
+data points have been determined, covering 13 different residue positions
+(including, among others, Y411.39 and Y1133.32) and two different ligands: 69 (BX-471) and 70 (UCB-35625) ( ). , Mutation studies indicated
+that Y411.39, Y1133.32, Y1143.33,
+I2596.55, E2877.39, and Y2917.43 play
+an important role in 69 binding and suggest that the
+ligand occupies both the minor and major binding pockets. The significant negative effect of the E2877.39Q mutant furthermore suggests that this residue is involved
+in an ionic interaction with the basic piperazine nitrogen atom in
+the ligand. The binding affinity of 70 is only significantly
+affected by Y411.39A and Y1133.32A mutations
+in the minor pocket but not by mutations in the major pocket (including
+Y1143.33A, I2596.55A, and E2877.39Q), suggesting that this ligand primarily
+targets the minor pocket of CCR1.
+ 
+5.8
+
+## Structural CCR8–Ligand Interaction
+Models
+The effect of a set of 100 mutations on CCR8 potency
+has been tested for the high-affinity nonpeptide ligand 71 (LMD-009) and its analogues 72 (LMD-584), 73 (LMD-902), 74 (LMD-268), and 75 (LMD-174),
+including residues Y421.39, Y1133.32, and E2867.39, among others. These analogues
+share a common scaffold including a positively charged amino within
+a piperidine-ring linked to a biphenyl ether on one side and to a
+variable group to the other site. The Y421.39A, Y1133.32A, or E2867.39A mutation data suggest that all
+four ligands share interactions with the minor pocket of CCR8 ( b). The negative effect of the E2867.39A mutation supports a ligand binding mode in which the charged amine
+of the piperidine-ring of 71–75 forms
+an H-bond and ionic interaction with the carboxylate side chain of
+E2867.39. The differential effects of F2546.51A and L2576.55A mutants on the potency of 71, 72, 73, 74, and 75 suggest that the variable left-hand side of these ligands ( b) is targeting
+the major pocket.
+
+6
+
+## In Silico Chemokine Receptor
+Ligand Discovery and Design
+As described in , many challenges have to
+be overcome in the chemokine receptor modeling process. Despite the
+inevitable structural inaccuracies of refined chemokine receptor models,
+they have successfully been used to guide site-directed mutagenesis
+studies ( , , , – ) and design novel
+chemokine receptor ligands through structure-based in silico methods , − ( and ). Retrospective virtual screening experiments , , have been used to validate and select optimal conformations of chemokine
+receptor homology models by assessing the ability of the model (and
+in silico screening method) to discriminate known receptor ligands
+from inactive molecules and/or decoy molecules (randomly selected
+molecules that have not been experimentally tested on a specific protein
+target) with similar physicochemical properties. Ligand-based virtual
+screening (LBVS) has also significantly contributed in identifying
+new chemokine ligands, as well as other ligand-based approaches including
+three dimension quantitative structure–activity relationships, ligand-based pharmacophore modeling, similarity search (including shape matching or topological fingerprints), and Bayesian
+models. However, the current section
+will focus on prospective structure-based virtual
+screening (SBVS) studies to find novel chemokine
+receptor ligands, as well as discuss the challenges and possibilities
+of SBVS along the different steps of the SBVS workflow ( ).
+ 6.1
+
+## Challenges in Structure-Based
+Virtual Screening to Identify Chemokine Receptor Ligands
+Before the release of CXCR4, CCR5, and US28 crystal structures, refined
+and customized chemokine homology models − , based on rhodopsin, ADRB2, and A2A crystal structures, as well as de novo receptor models, , have been successfully used to identify new ligands for CCR3, CCR4, , CCR5, , and CXCR4. , − , For the past five years, the first structure-based
+virtual screening studies against CXCR4 crystal structures, , − CXCR3, and ACKR3/CXCR7 homology models (based on CXCR4 crystal structures) have
+been reported. Virtual screening hit rates (the percentage of experimentally
+confirmed ligands among all tested in silico hits) based on chemokine
+receptor homology models (4%) and the
+CXCR4 crystal structures (18%) , are somewhat lower
+than the hit rates reported for other GPCRs, , including ADRB2 (24–60%), , DRD3 (20–40%), A2A (10–41%), , and H1R
+(73%). Moreover, one SBVS study performed against de novo 3D models of five
+different GPCRs (5-HT1A, 5-HT4, DRD2, NK1R, and CCR3) yielded hit rates of 12–21% (at
+a 5 μM cutoff) and several novel nanomolar affinity ligands
+for 5-HT1A, 5-HT4, DRD2, and NK1R, but only one low affinity hit (IC50 = 12 μM)
+for CCR3.
+Despite the noticeable challenges of in silico discovery
+of chemokine receptor ligands, therapeutically interesting molecules
+that modulate chemokine receptors have recently been discovered in
+structure-based virtual screening campaigns. The binding mode prediction
+case study of 13 in CXCR4 discussed in ( ) reflects the challenges of binding pocket
+residues selection, as well as pose selection in docking approaches.
+Because of ligand fit, residues often show different conformations
+between structures, even within the same receptor. For example, Y1163.32, H2035.42, W942.60, D972.63, D1714.60, and E2887.39 in the 31 bound CXCR4 structure adopt different conformations in the CVX15
+bound CXCR4 structure. These conformational variations of binding
+site residues poses constitute both a challenge and an opportunity
+for structure-based virtual screening to identify CXCR4 ligands.
+
+6.2
+
+## Hierarchical Workflow for Chemokine Receptor Structure-Based
+Ligand Discovery
+A five-step structure-based virtual screening
+workflow can be defined customized to identify new ligands for chemokine
+receptors ( ). The database preparation step 1 includes prefiltering
+of the initial compound library (e.g., commercially available compounds
+in ZINC (http://zinc.docking.org/) ) based on physical–chemical
+properties (including molecular weight, number of rotatable bonds,
+rings, hydrogen bond donor/acceptors, positively/negatively ionizable
+atoms) in order to select molecules that are, e.g., drug-like, fragment-like, , and/or reflect
+physical–chemical properties of known ligands of a the chemokine
+receptor target(s). Chemokine receptor ligands are relatively large
+compared to, e.g,. aminergic receptor ligands and some known chemokine receptor ligands do not pass drug-likeness
+filters such as Lipinski’s rule of five (molecular weight <500
+Da, <5 H-bond donors, <10 H-bond acceptors, log P < 5). An example is the CXCR4 antagonist 1 ( ) with a molecular
+weight of 502 Da and 6 H-bond donors. The definition of physical chemical
+property filters based on known chemokine receptor ligands with high
+ligand efficiency can be a strategy
+to focus the virtual screening campaign on the identification of useful
+chemical starting points for further ligand optimization. An additional
+chemokine receptor specific filter would be to only consider molecules
+that contain a positively ionizable group, as this feature is present
+in most chemokine receptor ligands ( , , , and – ) and proposed to target negatively ionizable residues in the binding
+pocket of chemokine receptors ( – ). An alternative could
+be to consider only neutral or negatively ionizable molecules that
+are proposed to interact with the intracellular binding site of chemokine
+receptors ( and ). , Challenges
+in the preparation of three-dimensional molecular structures of chemokine
+receptor focused databases using the physical chemical property and/or
+pharmacophore filters described above include (i) the definition of
+correct chemical topology and generation of relevant tautomers and
+protonation states of molecules containing multiple positively ionizable
+groups, and (ii) the generation of relevant three-dimensional ring
+conformations of basic nitrogen containing aliphatic ring systems.
+Both issues are important for the accurate sampling of ligand conformational
+space, scoring of receptor–ligand interactions, and definition
+of protein–ligand interaction fingerprints for docking pose
+postprocessing. In several virtual screening
+studies targeting chemokine receptors, additional ligand-based similarity
+filters have been used for database preprocessing based on substructures,
+2D chemical similarity descriptors, 3D-shape similarity, or pharmacophore
+model features ( ). Shape-based and/or pharmacophore filters can for example be derived
+from crystal structure bound conformations of compounds 31 (in CXCR4) or 16 (in CCR5) ( ), from receptor–ligand docking studies
+( ), and/or
+from ligand-based alignments ( ). , Pharmacophore models compatible
+with the interaction features of residues that play an important role
+in ligand binding based on chemokine receptor crystal structures and
+mutation studies ( , , , – ) are predicted
+to contain 1–2 cationic feature(s) and 1–2 aromatic/hydrophobic
+feature(s) ( d).
+In step 2, the database of three-dimensional
+structures of small molecules is automatically docked into receptor
+structures/models, generating and ranking multiple conformations in a predefined binding site. Preparation of
+the protein for docking simulations includes careful definition of:
+(i) the binding site that will be targeted in the docking simulation,
+(ii) the assessment of tautomers and ionization states of receptor
+residues (i.e., H2817.32 in CXCR4) considering the interplay
+with ligand ionization states (e.g., the charged/neutral isothiourea
+moiety of CXCR ligand 31 interacting with E2887.39 in CXCR4), (iii) the position of polar hydrogen atoms (e.g., Y371.39 in CCR5), (iv) atom typing of cofactors and/or unnatural
+amino acids (e.g., sY12N-ter in CXCR4), and (v) the consideration
+of relevant water molecules that can be targeted and/or displaced
+(e.g., water molecules 1629, 1646, and 1720 in the 31 bound CXCR4 crystal structure). A possible strategy could be to
+target only the minor pocket (e.g., defined based on the binding pocket
+of 31 in the CXCR4 crystal structure), the major pocket
+(e.g., based on the CVX15 bound CXCR4 structure), the minor and major
+pocket simultaneously (e.g., based on the 16 bound CCR5
+structure), or other putative binding sites (e.g., extracellular vestibule,
+intracellular region, membrane interface) depending on ligand similarity,
+mutation data, SAR information, and/or radioligand displacement data.
+In step 3, the docking poses are postprocessed and
+ranked. Most structure-based virtual screening studies targeting chemokine
+receptors have primarily employed docking scoring functions to rank
+docking poses ( ), but more and more structure-based in silico screening protocols
+now include additional filters to postprocess docking results that
+combine consensus scoring strategies, − topological filters, receptor–ligand IFP scoring methods, , , − and receptor–ligand interaction post-processing
+filters. , − , , , Site-directed mutagenesis studies ( – , – ) and ligand structure–activity
+relationships ( ) have provided information to define knowledge-based chemokine receptor–ligand
+interaction filters to postprocess docking poses ( ). For example, ionic and/or
+H-bond interactions involving D972.63 and E2887.39 ( ) have
+been used as a filter for postprocessing docking poses in structure-based
+virtual screening studies against CXCR4. , − , , Crystal structures and mutation studies have identified several
+key residues that are essential for binding affinity and interactions
+with these residues, which can be used to define postprocess/filter
+docking poses: Y451.39, W942.60, D972.63, Y1163.32, H1133.29, D1714.60,
+D2626.58, and E2887.39 in CXCR4 ( a, a, – ); Y371.39, P842.58, W862.60, C1013.25, Y1083.32, I1985.42, Y2516.51,
+and E2837.39 in CCR5 ( c, ); S1072.63, D1433.49, R2125.39, Q2165.43,
+S2175.44, C2636.47, and N2686.52 for
+CXCR2 ( );
+W1092.60, D1122.63, G12883.29, F1313.32, R2125.35, W2686.48, S3047.39, and Y3087.43 for CXCR3 ( ); Y411.39, Y1133.32, Y1143.33, I2596.55, E2877.39,
+and Y2927.43 for CCR1 ( ); Y1203.32, H1213.33, E2917.39, and Y2927.40 for CCR2 ( ); and Y421.39, F461.43, F882.57, Q912.60, S1103.29, Y1133.32, Y1143.33,
+and E2867.39 for CCR8 ( ). It should be noticed however that the
+binding mode and role of specific residues can be ligand dependent.
+It is therefore necessary to perform retrospective virtual screening
+studies to evaluate the effect of docking pocket definition and postprocessing
+filter on the possibility to discriminate known ligands from inactive
+or decoy molecules.
+In step 4, the final hits can be selected
+based on clustering, chemical novelty, visual inspection of the protein–ligand
+binding mode, and other properties associated with the feasibility
+to optimize the ligand in subsequent medicinal chemistry projects
+(including drug-likeness (see also step 1 and synthetic tractability).
+The novelty of the discovered hits can be assessed by a 2D or 3D similarity
+search against known chemokine receptor ligands. For example, the
+highest Tanimoto coefficients (Tc) of hits identified in a virtual
+screening study against CXCR4 was 0.36
+to the most chemically similar known CXCR4 ligand (at the time of
+the screen) based on the ECFP-4 chemical fingerprint. Clustering virtual screening hits by chemical
+diversity before visual selection is an efficient way of analysis
+when a lot of ligands are retrieved. Furthermore, pan-assay interference
+compounds (PAINS) or those that have poor oral bioavailability can be excluded. The CXCR7 virtual screening
+hit 96( ) for example contains
+a rhodanine PAINS scaffold (137:ene_five_het_B) which is enriched
+in high-throughput screening hit sets and has been shown to undergo light-induced reactions that irreversibly
+modify proteins. Another criteria for
+the final selection of hits is the visual inspection of docking poses
+for the detailed analysis of protein–ligand interactions that
+are challenging to automate and/or score, including for example the
+analysis of strained ligand conformations, unfavorable protein–ligand interactions such as buried polar
+groups in hydrophobic pockets, , or scoring of specific
+interactions that are not yet incorporated in most scoring functions,
+such as halogen bonds. For this purpose,
+3D-QSAR models may be used to assist the prioritization of docking
+poses in a more systematic way. For example, the 3D-QSAR model presented
+in b shows
+favorable hydrophobic interaction field that can facilitate the prioritization
+of docking poses of other compounds in the minor pocket of CXCR4.
+In addition to optimization of protein–ligand interactions,
+other criteria like protein selectivity (e.g., emphasizing receptor
+specific interactions and/or incompatibility with off-targets) or
+synthetic tractability (e.g., consideration of accessible reaction
+routes, avoiding potential complexity of multiple stereoisomer) can
+be considered in the final hit prioritization. In most published chemokine
+receptor structure-based virtual screening studies, a small subset
+of the compounds is purchased and experimentally validated (step 5, see 76–96 in ). Typically, on the order of
+10–100 hits , , , − are evaluated (though smaller , , or larger sets have been reported),
+yielding 1–20 experimentally validated ligands. Structure-based
+virtual screening hits have been optimized by structure-based design
+for several GPCRs (e.g., A2A receptor antagonist, , 5-HT receptor antagonist, and 5-HT1A
+agonist ), but so far only few studies have described the structure-based optimization
+of virtual screening hits for chemokine receptors.
+ 
+6.3
+
+## Prospective
+VS Targeting Chemokine Receptors
+ summarizes 12 successfully SBVS studies
+against CCR3, CCR4, , CCR5, , CXCR3, CXCR4, , − , , and ACKR3/CXCR7. Becker et al. identified 43 compounds through virtual screening
+of 120000 compounds against a de novo constructed structural model
+of CCR3, yielding five experimentally validated hits (Ki< 20 μM). Bayry et al. docked 13000 molecules
+(selected from a pharmacophore filtered database of 45000 compounds)
+in a CCR4 homology model based on the bovine rhodopsin (bRho) crystal
+structure. This resulted in 116 hits, of which 16 were experimentally
+confirmed as potent CCR4 antagonist, including 93. , Kellenberger et al. identified new CCR5 agonists, including 90 and 91, by virtual
+screening against an antagonist-customized receptor homology model
+combining bRho-based homology modeling and refinement of the T2.56XP2.58 induced kink of TM2 and validated by
+retrospective virtual screening using two different docking programs.
+A focused library of 44524 drug-like compounds selected based on a
+2D pharmacophore filter was docked into the receptor model by two
+different docking programs. A total of 59 molecules representing scaffold
+classes enriched in the top 5% of the docking scoring lists were selected
+by visual inspection of the docking poses and tested; 10 compounds
+exhibited a detectable binding affinity for CCR5, of which four molecules
+had an IC50 in the high micromolar range. Surprisingly,
+three molecules were characterized as agonists, illustrating that agonists can also be found by structure-based virtual screening
+in inactive GPCR models. Another CCR5 virtual screening study conducted by Liu et al. through docking screening (92)
+and followed by fragment assembly (from the known CCR5 antagonist 16), design, and synthesis resulted in a series of novel small
+CCR5 antagonists (IC50: 0.2–10 μM). Kim et
+al. performed docking-based virtual screening
+of 350000 compounds against a de novo CXCR4 model and selected molecules
+that were docked in close proximity to the acidic residues D1714.60, D2626.58, and E2887.39. One of
+the 32 experimentally validated virtual screening hits (compound 37, which is chemically similar to the antimalarial drugs
+chloroquine and hydroxychloroquine) was confirmed as an antagonist
+of CXCR4-mediated signaling and cell proliferation in pancreatic cancer
+cells. Perez-Nueno et al. , used an optimized
+and retrospectively validated combination of ligand-based and protein
+structure-based approaches to design five compounds that were synthesized
+and experimentally confirmed as CXCR4 ligands (including 87) with anti-HIV activities of 0.022–4.4 μg/mL. Mysinger
+et al. used the CXCR4 crystal structure
+and CXCR4 homology models (constructed for the GPCR Dock 2010 Assessment ) in a comparative virtual screening study. In
+a retrospective validation of their procedure to discriminate 60 actives
+from 2000 decoys, the crystal structure (28) shows higher
+enrichment factor (1% of decoys) than the models (the best is 22). Then libraries of >3 million of lead-like compounds
+were docked against the models and crystal structures. Experimental
+validation yielded one and four hit compounds (a hit rate of 4% and
+17%) from homology models and the crystal structure, respectively
+(with affinities ranging from 0.31 μM (78) to 225
+μM (76)). Das et al. identified a high affinity CXCR4 ligand (81) by combining
+Tanimoto shape similarity search, docking, and filtering docking poses
+that made interactions with at least two critical residues (D972.63/Y1163.32/F1744.63/A1754.64/D18245.46/D18745.51/R18845.52/Y19045.54/D2626.58/E2887.39). Finally, three
+of the 16 hits were confirmed experimentally (IC50: 92–161
+nM). Recently, Mishra et al. identified one CXCR4 agonist (83) and two antagonists with micromolar potency by CXCR4 crystal structure-based
+virtual screening of a GPCR focused library of 13000 compounds. Other structure-based virtual screening targeting
+CXCR4 which focus on natural product databases also resulted in discovering
+novel CXCR4 ligands such as 82 (PHIA) and 86 (silibinin). Yoshikawa et al. combined a 3D pharmacophore filter and docking
+simulations to identify 21 novel ACKR3/CXCR7 ligands (94–96) (IC50: 1–11 μM). Docking poses that formed polar interaction
+with D1794.60, D2756.58, and a hydrophobic interaction
+with W1002.60 were prioritized in the virtual screening
+protocol. Schmidt et al. demonstrated that structure-based virtual
+screening can be successfully used in the discovery of multitarget
+chemokine ligands. Docking simulations
+against a CXCR3 homology model and CXCR4 crystal structure resulted
+in the identification of six CXCR3 selective ligands, three CXCR4
+selective ligands, and two CXCR3/CXCR4 dual binders (including 84). Overlay of the CXCR3 homology model and CXCR4 crystal
+structure showed similarities and differences in binding site residues,
+including: (i) CXCR4 residue E2887.39 is a conserved (glutamate)
+in most chemokine receptors but a serine (S3047.39) in
+CXCR3, (ii) aromatic residues F1313.32 and Y3087.43 in CXCR3 align with aromatic residues Y1163.32 and F2927.43 in CXCR4, (iii) H1133.29 of CXCR4 interacts
+with CVX15, whereas the homologous G1283.29 CXCR3 offers
+more space for ligands and has been proposed as a potential selectivity
+site, and (iv) the cationic R2165.39 in CXCR3 versus the
+neutral Q2005.39 in CXCR4 represent an additional potential
+determinant of CXCR3/CXCR4 selectivity.
+
+7
+
+## Conclusions
+and Outlook
+The CXCR4, CCR2, CCR5, CCR9, and US28 X-ray crystal
+structures offer useful structural templates for the comparative analysis
+and prediction of the interactions between chemokine receptors and
+small molecules and large peptide and protein ligands. The integrated
+analysis of the new structural information on chemokine receptors
+with extensive structure–activity relationship and site-directed
+mutagenesis data has facilitated the construction of structural models
+of chemokine receptor–ligand complexes that have not been crystallized.
+This experimentally enhanced chemokine receptor modeling strategy
+helps to overcome the challenges in predicting structural chemokine
+receptor–ligand interactions. Chemical tools such as small-molecule
+radioligands are required to complement integrated structural modeling
+and mutation studies to accurately characterize the many distinct
+extracellular and intracellular small-molecule allosteric binding
+sites in chemokine receptors and identify other alternative binding
+sites such as for example the interface of the TM domain and the membrane
+bilayer, observed in recent GPCR crystal structures. , 
+Chemokine bound crystal structures of CXCR4 and US28 share
+similar binding modes of the chemokine core but lack structural information
+regarding chemokine interactions with the N-terminal region of the
+receptor and show different binding modes of the N-terminus of the
+chemokine in the TM bundle. These differential binding modes are in
+line with reported chemokine selectivity profiles, ligand dependent
+mutation effects, and the different conformations of the flexible
+chemokine N-terminus in X-ray and NMR structures. Specific challenges
+in modeling chemokine bound structures therefore include: (i) the
+prediction of interactions with the receptor N-terminus of chemokines,
+(ii) modeling chemokine binding induced conformational changes of
+in particular the extracellular loop region, and (iii) describing
+the dynamics of the flexible binding mode of the N-terminal region
+of the chemokine in the minor and/or major 7TM binding site(s).
+The currently available crystal structures of CXCR4, CCR2, CCR5,
+CCR9, and US28 provide useful templates to accurately model the TM
+helical fold, including the chemokine receptor specific T2.56XP2.58 stabilized bulge in TM2, and offer structural model
+templates with sufficiently high sequence identity to model the TM
+helices and/or binding sites of other chemokine receptors. More crystal
+structures of chemokine bound receptor structures will provide new
+insights into receptor-bound chemokine structural alignment, ELs conformation
+in a chemokine-bound state, and the bound conformation of N-terminus
+of the chemokine in the 7TM helical bundle of the receptor. Moreover,
+it is known that various chemokines can bind more than one chemokine
+receptor, as well as a receptor can bind more than one different chemokine. More chemokine-bound crystal structures will
+provide insights into chemokine selectivity/redundancy because the
+key interactions that promote chemokine selectivity remain still unknown.
+However, specific regions have lower similarity to their subfamily
+reference crystallized chemokine receptors and therefore using as
+a template the structure of the alternative subfamily should be considered.
+Although the length of extracellular loops are similar among chemokine
+receptors, the CXCR4, CCR2, CCR5, CCR9, and US28 crystal structures
+show that their conformation is influenced by ligand binding, especially
+by binding of large molecules such as chemokines.
+Structure-based
+ligand discovery and design studies based on chemokine receptor crystal
+structures and homology models illustrate not only the possibilities
+but also the challenges to find novel ligands for chemokine receptors.
+Important pitfalls that have to be addressed in structure-based virtual
+screening against chemokine receptors are (i) defining an effective
+scoring method for hit selection and prioritization, (ii) availability
+of structural data of the receptor, including X-ray, NMR, SAR, and
+site-directed mutagenesis data, (iii) existence of multiple and/or
+allosteric binding pockets in the same receptor, (iv) making enough
+conformational sampling considering ligands flexibility, and (v) properly
+preparation of ligands and receptor, especially regarding their protonation
+state. Structure-based virtual approaches have been successfully applied
+for chemokine receptors but still require optimization to efficiently
+address the challenges associated with the symmetric distribution
+of pharmacophore features in chemokine receptors ligands and the large,
+open binding sites of chemokine receptors, compared to for example
+the more druggable, occluded binding sites in aminergic GPCRs. The
+structural alignment comparison of active US28 vs inactive CXCR4 and
+CCR5 structures provide clues into the structural features that are
+significantly representative of active and inactive states. More detailed
+insights into the structural determinants of functional efficacy of
+chemokine and small-molecule ligands would, for example, facilitate
+the rational discovery and design of biased agonists or antagonists by stimulating
+or inhibiting specific signaling pathways mediated by chemokine receptors.
+Crystal structures bound to ligands with different functional activities
+therefore will give new insights that may be used to rationalize interesting
+structure–function relationships of chemokines and small-molecule ligands, and may be used to develop customized structure-based virtual
+screening methods to rationally identify ligands with a specific functional
+effect, as demonstrated for, e.g., aminergic GPCRs. Whereas the currently available (mini) G-protein and beta-arrestin
+bound GPCR crystal structures − provide templates for low resolution
+modeling of chemokine receptor–transducer interactions, crystal structures of intracellular effector
+bound chemokine receptors will be required for high resolution investigation
+of the structural determinants of chemokine receptor mediated signal
+transduction. Although the CXCR4 crystal structure may represent a
+possible conformation of a chemokine receptor homodimer, several other GPCR oligomerization models have
+been proposed, and more information
+is needed to identify and validate chemokine receptors oligomerization
+models that are pharmacologically relevant. The recently solved allosteric antagonist bound CCR9 crystal structure
+and CCR2 chemokine receptor crystal structure simultaneously targeted
+by orthosteric and allosteric antagonists provide high resolution
+structural templates to investigate structural interactions with distinct
+ligand binding pockets in chemokine receptors and will increase our
+understanding of the interplay between orthosteric and allosteric
+ligand binding. The accumulated information on the extracellular and
+intracellular binding sites of chemokine receptors, as well as so
+far unexploited extrahelical binding sites identified in other GPCRs , can open up new possibilities for the computer-aided discovery and
+design of novel chemokine receptor ligands with complementary modes
+of action. These future developments can include parallel or sequential structure-based virtual screening against multiple
+binding sites, the design of bitopic ligands that simultaneously target
+different binding pockets by, e.g., fragment linking approaches, or the structure-based design of bivalent ligands
+that target different chemokine receptor monomers simultaneously. Moreover, complementing the available structural
+information with MD simulations may help to reveal ligand association
+and dissociation pathways and provide insights into the structural
+determinants of chemokine receptor–ligand binding kinetics. , It is expected that experimentally enhanced structural modeling
+of structural chemokine receptor–ligand interactions will provide
+new insights into complex GPCR structure–function relationships
+by the computer-aided integration of structural, pharmacological,
+and chemical information.
+
+## Supporting Information Available
+The Supporting Information is available free of
+charge on the ACS Publications
+website at DOI: 10.1021/acs.jmedchem.6b01309. The chemokine receptor mutation data has furthermore been uploaded
+to Zenodo (https://zenodo.org/record/268416) and the GPCRdb (http://gpcrdb.org) to allow searching and comparing the data with other GPCR mutation
+data (including links to the original publications and review). The rendered structural
+alignments (PDB and Pymol files), interaction fingerprint (IFP) analyses,
+and chemokine receptor mutation data used for the analyses (ZIP)
+
+## Supplementary Material
+jm6b01309_si_001.zip
+
+## Author Contributions
+† Marta Arimont and Shan-Liang Sun contributed equally to this work.
+The
+authors declare no competing financial interest.
+Marta Arimont obtained her B.Sc. degree in Biomedical Sciences and her M.Sc. degree
+in Bioinformatics at Universitat Autonoma de Barcelona. Since 2015,
+she has been carrying out her Ph.D. under the supervision of Dr. Chris
+de Graaf, Prof. Dr. Rob Leurs, and Prof. Dr. Iwan de Esch in the Division
+of Medicinal Chemistry at Vrije Universiteit Amsterdam. Her research
+focuses on in silico guided identification of molecular determinants
+for modulation of CXCR4 and CXCR7, developing three-dimensional molecular
+models to predict interaction of ligands of several natures, identifying
+molecular determinants and unraveling mechanisms of orthosteric and
+allosteric modulation of CXCR4 and CXCR7 function, and working on
+computer-aided discovery and design of novel modulators, including
+docking, virtual screening, SAR design, and homology modeling.
+Shan-Liang Sun obtained
+his B.Sc. degree in Information Management and Information System
+and his M.Sc. degree in Medicinal Chemistry at China Pharmaceutical
+University. During his Master’s, he worked on the modeling,
+design, and synthesis of Polo-like kinase 1 inhibitors in the supervision
+of Prof. Dr. Tao Lu. Since 2014, he has been carrying out his Ph.D.
+under the supervision of Dr. Chris de Graaf, Prof. Dr. Iwan de Esch,
+and Prof. Dr. Rob Leurs in the Division of Medicinal Chemistry at
+Vrije Universiteit Amsterdam. In his Ph.D. project, computational
+techniques are combined with medicinal chemistry approaches to develop
+new small-molecule ligands for the chemokine receptors CXCR4 and CXCR7.
+Rob Leurs performed
+his Ph.D. research on G-protein coupled receptors at Vrije Universiteit
+Amsterdam. After a postdoctoral fellowship at INSERM, he was awarded
+with a Royal Netherlands Academy of Arts and Sciences fellowship.
+He was awarded the Galenus Research Prize (1997), the Organon Award
+for Pharmacology (2000), a Pfizer Academic Award (2001), a STW/NOW
+Pionieer grant (2001), and was appointed academy member of the Royal
+Netherlands Academy of Arts and Sciences (KNAW) (2016). Rob Leurs
+is full professor and head of the Division of Medicinal Chemistry
+at Vrije Universiteit Amsterdam and cofounder of Griffin Discoveries,
+a company that valorizes the GPCR expertise. Prof. Dr. Leurs is project
+leader of the EU FP7-funded project PDE4NPD, phosphodiesterase inhibitors
+for the treatment of neglected parasitic diseases (www.PDE4NPD.eu).
+Martine Smit obtained her Ph.D.
+in Molecular Pharmacology at the VU University Amsterdam, After a
+postdoctoral fellowship at Mount Sinai School of Medicine, she established
+a new research line on (viral) chemokine receptors (fellowship Royal
+Netherlands Academy of Arts and Sciences), funded by the Dutch Science
+Foundation (NWO-VIDI-VICI) at Vrij Universiteit Amsterdam. She was
+awarded the Galenus Research Prize (2002) and the Organon Award for
+Pharmacology (2007). She was appointed professor in “Target
+and Systems Biochemistry” in 2005. Her research focuses at
+novel concepts of GPCRs (e.g., constitutive/ligand-biased signaling)
+and understanding/targeting of (oncogenic) signaling networks activated
+by (virally encoded) chemokine receptors. Prof. Dr. Smit is project
+leader of the European Union’s Horizon2020 MSCA Programme ITN
+project Oncogenic GPCR Network of Excellence and Training (www.oncornet.eu).
+Iwan J. P. de Esch performed
+his Ph.D. research at Vrije Universiteit Amsterdam. He became a research
+associate in the drug design group at the University of Cambridge
+in 1998 and cofounded De Novo Pharmaceuticals in 2000. In 2003, Iwan
+de Esch returned to academia and is now full professor Biocomputational
+Chemistry for Drug Innovation at Vrije Universiteit Amsterdam. Prof.
+Dr. De Esch is cofounder of IOTA Pharmaceuticals and cofounder of
+Griffin Pharmaceuticals, contributing to the valorization of the fragment-based
+drug discovery and the GPCR research lines of the academic group.
+In 2011, De Esch was awarded the Galenus Research Prize for his work
+on fragment-based drug discovery, and since 2016 he is project leader
+of the European Union’s Horizon2020 MSCA Programme ITN project
+FragNet (www.fragnet.eu).
+Chris de Graaf performed
+his Ph.D. research at Vrije Universiteit Amsterdam on computational
+ligand binding mode and affinity predictions in cytochrome P450 enzymes
+(2002–2006). As postdoctoral fellow in the Structural Chemogenomics
+group (Dr. Rognan) at Universitéde Strasbourg, he worked in
+collaboration with AstraZeneca Pharmaceuticals on the development
+and application of novel G protein-coupled receptor modeling techniques
+(2006–2008). In 2009, Chris de Graaf obtained an NWO Veni grant
+to develop a research line in the computational prediction of structural
+protein–ligand interactions and was appointed assistant professor
+in the Division Medicinal Chemistry at Vrije Universiteit Amsterdam.
+In this interdisciplinary research environment, Dr. De Graaf is developing
+chemo/bioinformatics methods to complement synthetic medicinal chemistry
+and molecular pharmacology programs, including e-science technologies
+for structure-based polypharmacology prediction (http://3d-e-chem.github.io).
+
+## Acknowledgments
+This work was supported by a European
+Union’s Horizon2020 MSCA Programme under grant agreement 641833
+(ONCORNET to M.J.S. and R.L.), The Netherlands eScience Center (NLeSC)/NWO
+(Enabling Technologies project: 3D-e-Chem, grant 027.014.201 to C.d.G.),
+NWO CW TOP-PUNT grant 718.014.002, 7 ways to 7TMR modulation (7-to-7),
+to R.L. and M.J.S.) and China Scholarship Council (CSC grant to S.S.).
+M.A., S.S., M.J.S., R.L., I.J.P.d.E., and C.d.G. participate in the
+European Cooperation in Science and Technology Action CM1207 [GPCR–Ligand
+Interactions, Structures, and Transmembrane Signaling: A European
+Research Network (GLISTEN)] and the GPCR Consortium (gpcrconsortium.org).
+
+## Abbreviations Used
+A2Aadenosine receptor A2A
+ACKRatypical decoy chemokine receptor
+ADRBadrenoceptor B
+BRETbioluminescence resonance
+energy transfer
+Cαα carbon
+CDRcomplementarity determining-like binding regions
+CRSchemokine recognition
+site
+C-terc terminal
+ECLextracellular loop
+GPCRG-protein coupled
+receptor
+GRKG-protein
+coupled receptor kinase
+H8helix 8
+H-bondhydrogen bond
+ICLintracellular loop
+IFPinteractions fingerprint
+LBVSligand-based virtual screening
+MDmolecular dynamics
+MMmultiple myeloma
+Nb7nanobody 7
+NCAMneural cell adhesion molecule
+NHLnon-Hodgkins lymphoma
+N-terN-terminal
+PAINSpan assay interface
+QSARquantitative structure–activity
+relationships
+SBVSstructure-based virtual screening
+SDF-1stromal derived factor-1
+T4LT4 lysozyme
+TcTanimoto coefficient
+TMtransmembrane
+TMStransmembrane site

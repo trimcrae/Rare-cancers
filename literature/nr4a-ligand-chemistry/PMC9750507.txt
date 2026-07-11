@@ -1,0 +1,134 @@
+3815pheelsevierPhysics and Chemistry of the Earth (2002)Phys Chem Earth (2002)PMC9750507975050797505073653669710.1016/j.pce.2022.103350In silico evaluation of potential intervention against SARS-CoV-2 RNA-dependent RNA polymerase
+KapoorShreya SinghAnurag GuptaVandana aDepartment of Microbiology, Ram Lal Anand College, University of Delhi, Benito Juarez Road, New Delhi, 110021, IndiabDelhi Technological University, New Delhi, IndiacICMR-National Institute of Virology, Pune, Maharashtra, 411021, India∗Corresponding author.
+1Both, Shreya Kapoor and Anurag Singh contributed equally to the manuscript.
+1512202212910335010335015122022© 2022 Elsevier Ltd. All rights reserved.Since January 2020 Elsevier has created a COVID-19 resource centre with free information in English and Mandarin on the novel coronavirus COVID-19. The COVID-19 resource centre is hosted on Elsevier Connect, the company's public news and information website. Elsevier hereby grants permission to make all its COVID-19-related research that is available on the COVID-19 resource centre - including this research content - immediately available in PubMed Central and other publicly funded repositories, such as the WHO COVID database with rights for unrestricted research re-use and analyses in any form or by any means with acknowledgement of the original source. These permissions are granted for free by Elsevier for as long as the COVID-19 resource centre remains active.
+
+## Abstract
+
+## Background
+With few available effective interventions, emergence of novel mutants responding poorly to existing vaccines and ever swelling newer waves of infection, SARS-CoV-2 is posing difficult challenges to mankind. This mandates development of newer and effective therapeutics to prevent loss of life and contain the spread of this deadly virus. Nsp12 or RNA-dependent RNA polymerase (RdRp) is a suitable druggable target as it plays a central role in viral replication.
+
+## Methodology
+Catalytically important conserved amino acid residues of RdRp were delineated through a comprehensive literature search and multiple sequence alignments. PDB ID 7BV2 was used to create binding pockets using SeeSAR and to generate docked poses of the FDA approved drugs on the receptor and estimating their binding affinity and other properties.
+
+## Result
+In silico approach used in this study assisted in prediction of several potential RdRp inhibitors; and re-validation of the already reported ones. Five molecules namely Inosine, Ribavirin, 2-Deoxy-2-Fluoro-D-glucose, Guaifenesin, and Lamivudine were shortlisted which exhibited reasonable binding affinities, with neither torsional nor intermolecular or intramolecular clashes.
+
+## Conclusion
+This study aimed to widen the prospect of interventions against the SARS-CoV-2 RdRp. Our results also re-validate already reported molecules like 2-Deoxy-D-glucose as a similar molecule 2-deoxy-2-fluoro-D-glucose is picked up in this study. Additionally, ribavirin and lamivudine, already known antivirals with polymerase inhibition activity are also picked up as the top leads. Selected potent inhibitors of RdRp hold promise to cater for any future coronavirus-outbreak subject to in vitro and in vivo validations.
+
+Keywords: CADD, COVID-19, Docking, Drug repurposing, RdRp, SARS-CoV-2
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Oct 26; Revised 2022 Sep 17; Accepted 2022 Dec 10; Issue date 2023 Feb.
+
+1.
+
+## Introduction
+The COVID-19 pandemic has been the most destructive public health crisis of recent time which had a detrimental impact on the global community with a ripple effect on the socioeconomic systems worldwide. It is a respiratory illness caused by SARS-CoV-2 (the seventh known human coronavirus), a betacoronavirus belonging to the order Nidovirales, family Coronaviridae. The virus shares significant homology with SARS-CoV (79.5% identity) and Bat-CoV RaTG13 (96.2% identity) ( ; ; ). It is spherical or pleomorphic in shape (diameter: 125 nm) and is characterized by the presence of a long, positive-sense single-stranded RNA (29903 nucleotides) that codes for structural and non-structural proteins essential for viral replication and pathogenesis ( ; ).
+Ever since the outbreak was reported, scientists have been working round the clock to identify effective therapeutics to tackle the virus. A multitude of investigations have been undertaken across the globe to uncover the potency of antivirals and other compounds against SARS-CoV-2. A number of drugs were tried in clinical trials on patients when the pandemic began. Some of the prominent compounds tested included Hydroxychloroquine, Remdesivir, Favipiravir, Ivermectin, Azithromycin, Doxycycline, Darunavir, Cobicistat, Lopinavir and Ritonavir either as monotherapies or in various combinations. In most of the cases different groups conducting clinical trials reported different and sometimes contradictory results. However, clinicians kept on using the compounds reported to have even minimal efficacy in a desperate attempt to save lives. Out of these, Remdesivir and Favipiravir and known RNA-dependent RNA polymerase (RdRp) inhibitors ( ). Alternate methods such as inhibition of SARS-CoV-2 RdRp in the in vitro assays ( ) are more accurate and would simulate better in the in vivo assays but these assays also require shortlisting of compounds through in-silico methods to reduce the cost, time and labor. Furthermore, despite the successful development of effective vaccine programs, the management of COVID-19 encounters substantial challenges in vaccine supply, incoherent duration of immunity, public awareness and compliance, decline in vaccine-induced immunity over time and lower potency against newly emerging variants. This necessitates identification of strategies for the rapid development of effective therapeutics.
+In silico drug repurposing because of its unmatched potential has gained immense popularity as a tangible strategy for studying unrecognized molecular structures; for better insights into target viral proteins’ structural properties and protein-ligand interactions; for developing novel preventive and therapeutic agents. It exploits the off-targeting property of a drug and provides a scope to hasten drug development in a limited timeframe and at lower costs, thus providing an edge over conventional routes, which is a major concern at times of a pandemic. A large body of scientific evidences demonstrate the potential of the structure-based in silico approach in unveiling propitious drug candidates against the well-known target proteins of SARS-CoV-2 viz., PLpro, Mpro, RdRp, Helicase, 3CLpro and spike glycoprotein ( ). Molecular docking studies have demonstrated anti-RdRp activity of Rifabutin, Rifapentine, Fidaxomicin, Ivermectin ( ), Sofosbuvir, Ribavirin, Galidesivir, Cefuroxime, Tenofovir and Hydroxychloroquine ( ). Besides, Target based virtual screening revealed the inhibitory action of Galidesivir and the related compounds against RdRp ( ).
+RNA-dependent RNA polymerase (RdRp) is a multidomain protein that catalyses the synthesis of viral RNA and is essential for viral propagation. It consists of three domains: N- terminal domain, C-terminal domain, which are linked by an interface domain ( ). The C-terminal domain further contains three subdomains: finger, palm and a thumb subdomain. The RdRp of SARS-CoV-2 shares 96.4% sequence identity and sequence similarity of 99.4% with SARS-CoV. It exists as a complex bound to a Nsp7-Nsp8 heterodimer and a Nsp8 monomer, that act as cofactors and stimulate the polymerase activity of RdRp by reducing its dissociation rate from RNA ( ). The Nsp7- Nsp8 heterodimer is bound to the thumb subdomain ( ) and serves as primase ( ). Nsp8 acts as an allosteric activator and molecular connector responsible for holding the replication machinery together ( ). RdRp is an appropriate drug target owing to its conserved nature across coronavirus' family with respect to several catalytic site residues. Furthermore, drugs targeting RdRp are associated with fewer or no off-target effects due to the absence of its counterpart in mammalian cells. Hits identified against this protein may possibly help us prepare for any future outbreak of different coronaviruses.
+1.1.
+
+## Structure of RdRp
+Of the three domains of RdRp, the N-terminal domain occupies the residues from the first 249 amino acids and is also referred to as the NiRAN (nidovirus RdRp-associated nucleo-tidyltransferase) domain due to the presence of nucleo-tidyltransferase activity ( ). It exhibits kinase-like folds ( ) and is attached to the rear side of the right-hand shaped polymerase domain. In addition to the replication of RNA, it also plays an important role in protein primed RNA synthesis, mRNA capping and nucleic acid ligation ( ). The sequence of the NiRAN domain in SARS-CoV-2 is homologous to that of SARS-CoV with 93.2% identity. N-terminal also consists of a β-hairpin motif (residues 29–50) embedded in a groove formed by the NiRAN domain and palm subdomain of the polymerase domain [
+ 
+].
+The NiRAN domain is connected to the finger subdomain of the C terminal polymerase domain by the interface domain consisting of residues 250–365.
+C-terminal/polymerase domain extends from amino acids 367–920. This domain has a structure similar to that of a cupped human right hand and consist of a finger subdomain (366–581 and 621–679 amino acids), a palm subdomain (582–620 and 680–815 amino acids), and a thumb subdomain (816–920 amino acids) [
+ 
+]. These subdomains perform various functions viz. polymerization, template binding, facilitate entry of nucleoside triphosphates (NTP) etc. ( ; ). The polymerase domain consists of an active site that is highly conserved because of the presence of seven conserved motifs (A-G) which are responsible for the catalytic role of Nsp12 ( ). 5 motifs A-E are found in the palm subdomain while the remaining two F and G occur in the finger subdomain ( ) [
+ 
+]. RdRp encompasses a closed ring structure formed due to the intersection of the thumb subdomain with the extended finger subdomain ( ). The polymerase also possesses various channels namely: template entry, nucleotide entry, RNA exit channel. The entry and exit channels have positively-charged residues and enable passage of RNA strands ( ).
+ RdRp Inhibitors: Based on their mechanism of action, RdRp inhibitors are broadly categorised as Nucleoside Analogue Inhibitors (NIs) and Non-Nucleoside Analogue Inhibitors (NNIs). Nucleoside Analogue Inhibitors impede viral proliferation by promoting chain termination. Because of their structural resemblance with the native RdRp substrates, these compounds compete for incorporation into the nascent RNA chain to prevent the insertion of subsequent nucleotides, thereby halting replication ( ). Remedesivir (RDV) which is an adenosine triphosphate analogue is the only antiviral drug currently approved for treatment of SARS-CoV-2 by USFDA ( ). It is a prodrug, triphosphate form (RDV-TP) of which is an ATP analogue which acts as a chain terminator ( ). RDV is highly selective for the RNA polymerases because of the presence of 1′ cyano group ( ; ). Recent phase 2 clinical trial data on Molnupiravir (a drug originally intended to target influenza) on COVID patients has demonstrated reduction in the propagation of SARS-CoV-2. It has an acceptable safety profile, making it a promising candidate as an oral anti-COVID-19 intervention ( ; ). Galidesivir (adenosine analogue) has shown efficacy in preclinical tests (EC50 value ∼ 3–68 μM) and phase 1 clinical tests against SARS-CoV-2 with favourable safety profiles and is currently under phase 2 clinical studies ( ). Favipiravir is a prodrug acting in a way similar to RDV. Its efficacy and low toxicity has been demonstrated in several clinical investigations. In addition, it has been shown to lessen viral clearance time and provide cough relief in patients with mild infections ( ). Non-nucleoside inhibitors interact with the allosteric region of the polymerase, altering its spatial conformation and thereby suppressing its function. The allosteric site can be found in either the thumb or the palm subdomains. HCV-NS5B polymerase inhibitors targeting deep hydrophobic pockets in the palm subdomain can be repurposed to target SARS-CoV-2 Nsp12 ( ). For example: Tegobuvir occupies the interface between Nsp7 and 12 hindering the process of RNA synthesis by the replication complex. Results of in vitro experiments published recently by Dejmek and coworkers (2021) revealed the potency of another NNI: HeE1-2 Tyr and related compounds (originally proposed as inhibitors of flaviviruses’ RdRp) against SARS-CoV-2 RdRp. These compounds can be enhanced for physicochemical parameters and potency before being employed to combat SARS-CoV-2 ( ). Among phytochemicals, Swertiapuniside and Amarogentin both obtained from Swertia chirayita; Cordifolide A derived from Tinospora cordifolia and Sitoindoside IX from Withania somnifera exhibited interaction with Nsp12 ( ). Additionally, theaflavin is considered to be effective against RdRp because of its ability to obstruct the active site ( ). The antiviral properties of tea polyphenols were demonstrated in a docking study showing interaction of theaflavin with SER607 and EGCG with GLU106 with better binding affinities than remdesivir and favipiravir ( ).
+Considering urgent need of anti COVID-19 interventions and the druggability of SARS-CoV-2 RdRp, this in silico study was undertaken to delineate SARS-CoV-2 RdRp inhibitors from a library of FDA approved drugs.
+
+2.
+
+## Methodology
+The amino acids important for RdRp functioning and those participating in the replication-transcription complex were discerned through an extensive literature search. Following this, multiple sequence alignments were performed using Clustal Omega to identify conserved residues. Forty seven crucial residues in Nsp12 were demarcated through literature search and alignment studies ( ; ) [
+ 
+].
+2.1.
+
+## Retrieval of protein structure
+The crystal structures for RdRp available on the RCSB Protein Data Bank were comprehensively analyzed for their resolution, structural completeness, and co-crystal ligand. Molecular docking was carried out using PDB ID: 7BV2 consisting of Nsp12-Nsp7-Nsp8 complex in association with primer-template RNA and Remdesivir triphosphate ( ). 7BV2 is a 2.50 Å resolved structure determined by electron microscopy.
+
+2.2.
+
+## Binding pocket generation
+Subsequently, the protein structure was downloaded in PDB format and was imported to and visualized with SeeSAR software suite ( ). SeeSAR platform utilizes multiple algorithms to enable virtual screening for hit identification, ligand optimization, and easy visualization. A suitable auto-detected active site pocket was selected and was further modified by including some crucial residues identified through literature studies and excluding the superfluous and non-conserved residues to prevent non-specific interactions. This ultimately generated a deep-seated binding pocket of 28 residues GLN541, ASN543, LYS545, ARG553, ARG555, THR556, VAL557, ALA558, GLY559, VAL560, ASP618, TYR619, LYS621, CYS622, ASP623, ARG624, THR680, SER682, GLY683, ASP684, ALA685, THR687, ALA688, TYR689, ASN691, ASP760, ASP761, SER814 (the crucial residues are highlighted in a bold face).
+
+2.3.
+
+## Retrieval of ligand library & Molecular docking
+Ligand library of 1615 FDA-approved drugs was retrieved from https://zinc15.docking.org/ in mol2 file format and was imported to SeeSAR. Ten docked poses for each molecule were generated on the receptor and their affinity and other properties were estimated. The docked poses were ranked using the HYDE scoring function of SeeSAR. The HYDE assessment method fosters reliable discernment and stratification of the most promising poses by evaluating affinity contributions of each ligand atom to binding on the basis of certain physicochemical properties viz., hydrogen bonds, desolvation energy and hydrophobic interactions ( ). The molecules with favourable estimated binding affinity, optimum ligand-lipophilicity efficiency, minimum torsion and intramolecular/intermolecular clashes were then shortlisted. Current therapeutic use of the shortlisted molecules, their side effects and route of administration were taken into consideration before the final selection of the lead molecules which were then redocked to generate 100 poses.
+The 2D plots to visualize the ligand interactions with the binding site were obtained using PoseView at the ProteinPlus web portal (Proteins Plus, 2021).
+
+3.
+
+## Result
+A deep-seated docking pocket of 28 residues [
+ 
+] was created using the auto pocket detection tool of SeeSAR and modified based on extensive literature survey and multiple sequence alignment. A library of 1615 FDA approved drugs were docked in the pocket using SeeSAR. A number of compounds were found to dock on this pocket with reasonable binding affinities. Twentythree leads with binding affinity <250 nM, without torsional and inter-molecule clashes, suitable current therapeutic use, less side effects and route of administration were analyzed and selected. They were redocked to generate 100 iterations. Five potential RdRp inhibitors based on their interaction with key residues were shortlisted [
+ 
+,
+ 
+]. The selected molecules were predicted to bind in nanomolar range which is suggestive of a productive interaction with RdRp. Inosine (ZINC8855117) showed the best binding affinity of 2–159 nM followed by Ribavirin (ZINC1035331), 2-Deoxy-2-Fluoro-D-glucose (ZINC1846431), Guaifenesin (ZINC394284), and Lamivudine (ZINC12346).
+ A. Inosine (ZINC8855117), B. Ribavirin (ZINC1035331), C. 2-Deoxy-2-Fluoro-D-glucose (ZINC1846431), D. Guaifenesin (ZINC394284), and E. Lamivudine (ZINC12346).
+
+4.
+
+## Discussion
+The SARS-CoV-2 outbreak, first recognized in December 2019 took a heavy toll on the naive human population and continues to wreak havoc with newer waves of infection across several countries. In the absence of effective therapeutic intervention, the virus keeps challenging the effectiveness of available vaccines as it continues to mutate posing critical challenges to overcome this pandemic. New variants with varying immune escape potential, transmissibility and virulence continue to translate into newer waves of infection. This mandates the rapid development of an arsenal of anti-COVID-19 interventions. In silico screening and repurposing of approved drugs provides scope to accelerate drug development. This approach uses the extensive knowledge of a drugs’ dosing, pharmacology, potential adverse events, toxicity, etc from past clinical studies. Further, the rationale of choosing RNA-dependent RNA polymerase as a target protein was its integral role in virus replication, among others. This 932 amino acid multidomain protein is largely conserved, and hence makes one of the chief targets for anti-SARS-CoV-2 drug development.
+We delineated 5 active molecules which can be further explored as potential intervention against SARS-CoV-2 subject to further validation. Inosine and ribavirin showed a predicted binding affinity of 2–159 and 3–251 nM, respectively and showed strong interaction with key residues TYR619 and ASP760. Inosine has been indicated as a nutritional supplement and may have some neurorestorative, anti-inflammatory, immunomodulatory and cardio-protective effects. While ribavirin is approved for HCV infection treatment. Our current study predicted 2-deoxy-2-fluoro-D-glucose to have a good binding affinity (4–438 nM and it interacts with TYR619 and ASP760) for RdRp. A similar molecule 2-Deoxy-D-glucose (2DG) was approved for use in India for treating SARS-CoV-2. This study also corroborates other reported polymerase inhibitors like ribavirin and lamivudine for use against SARS-CoV-2 (Singh et al., 2021; ; ). Lamivudine is predicted to interact strongly with ASP761 and SER814. Further, guaifenesin which is used as an over-the-counter product for symptomatic relief from cough and congested chests also showed good binding affinity for RdRp. Such drugs can be of additional advantage in symptomatic management of clinical presentations in moderate to severe COVID-19 patients. All compounds are also predicted to interact with magnesium ions present in the catalytic active site ( ). Magnesium ions have been reported as essential components of the active site because of their significant role in polymerization. These ions coordinate the catalytic aspartate ions and enable the correct positioning of the NTP's triphosphate group thereby assisting in the formation of a phosphodiester bond between the incoming NTP and the sugar moiety of the nascent strand ( ).
+Considering the binding affinities observed for the lead compounds and their known safety profiles, with further in-vitro and in-vivo validation studies these compounds might prove to be effective anti-COVID interventions. In line with the significance of RNA-dependent RNA polymerase for viral replication, a multitude of studies have been conducted to identify potential antagonists targeting this essential component of the viral replication machinery. Molecular docking studies have demonstrated the anti-RdRp activity of a plethora of compounds viz., Chlorhexidine ( ), Ergotamine ( ), flavonoids (e.g., Quercetin, luteolin, usararotenoid A) ( ), Andrographolactone (obtained from Andrographis paniculata), Benzylamine and Malic acid ( ). Furthermore, In silico investigation utilizing molecular docking studies in conjunction with MM-GBSA (Molecular mechanics with generalized Born and surface area solvation) and molecular dynamics simulation analysis assisted in identifying potential antagonists (nadide, cangrelor, and denufosol) targeting RdRp and as well as Mpro ( ). A similar approach utilizing MM-PBSA (Molecular Mechanics Poisson-Boltzmann Surface Area) analyses unveiled the anti-RdRp potential of Streptolydigin, an antibacterial compound produced by Streptomyces griseoflavus ( ). To attain efficient screening of compounds, high throughput virtual screening (HTVS) strategies and databases (based on QSAR, molecular docking, and pharmacophore-based screening) are being devised. These outperform the conventional screening strategies by enriching the hit rate and providing structurally diverse lead compounds ( ). Combinig this approach with free energy calculations ( ), identified RdRp targeting thioether-Amide or Guanidine-Linker containing small molecules. The binding free energies calculations along with high throughput virtual screening enhanced the respective phase-space sampling thereby allowing improved evaluation of RdRp inhibitors.
+
+To the best of our knowledge, the molecules reported in the present study have not been suggested for their inhibitory potential against RdRp in any previous work. Besides, we acknowledge the constraints of virtual screening and the requirement of further laboratory and clinical studies to validate the anti-RdRp potential of these candidates.
+
+5.
+
+## Conclusions
+In this research we could delineate five potential RdRp inhibitors namely Inosine (estimated binding affinity of 2–159 nM) followed by Ribavirin, 2-Deoxy-2-Fluoro-D-glucose, Guaifenesin, and Lamivudine from the library of FDA approved drug molecules. It is also suggested to recore the molecules with biocompatible groups to further optimize the lead and to undertake Molecular dynamics (MD) simulations to analyze the stability of ligand binding using numerical methods. This study widens the scope of drug development against the said virus and aims to further enhance the identified leads to augment its efficacy with in-vitro wet lab analysis. Studying the effect of mutations on the drug target also makes up another aspect of future studies. Nevertheless, this study paves the way for development of safe and effective inhibitors against RdRp and may prove useful in developing therapeutic regimen against SARS-CoV-2 after necessary validation of biological activities in in vitro and in vivo studies.
+
+## Funding information
+This study is funded in part by star college scheme sanction letter no. BT/HRD/11/3/2020 provided by Department of Biotechnology, India.
+
+## CRediT authorship contribution statement
+Shreya Kapoor: Investigation, Data curation, Writing – original draft, Visualization.
+Anurag Singh: Investigation, Data curation, Writing – original draft, Visualization.
+Vandana Gupta: Conceptualization, Methodology, Resources, Writing – review & editing, Supervision, Project administration.
+All authors have read and approved the final version of the manuscript.
+
+## Declaration of competing interest
+The authors declare that they have no known competing interests, financial or others, that could have appeared to influence the work reported in this paper.
+
+## Acknowledgement
+We would also like to acknowledge support from the Department of Biotechnology, India under the star college scheme.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.pce.2022.103350.
+
+Appendix A.
+
+## Supplementary data
+The following is the Supplementary data to this article.
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data availability
+No data was used for the research described in the article.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+No data was used for the research described in the article.

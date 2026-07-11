@@ -1,0 +1,139 @@
+2013febsopenbioFEBS Open BioFEBS Open BioWileyPMC6823288682328868232883141907810.1002/2211-5463.12719Identification of differentially expressed genes and signaling pathways in chronic obstructive pulmonary disease via bioinformatic analysis
+HuangXinwei LiYunwei GuoXiaoran ZhuZongxin KongXiangyang YuFubing WangQiang 1Faculty of Environmental Science and Engineering, Kunming University of Science and Technology, China2Medical School, Kunming University of Science and Technology, China3Department of Pharmacy, Kunming Children's Hospital, China4Department of Gastroenterology, Fourth Affiliated Hospital of Kunming Medical University, China5Physical Examination Center, Second People's Hospital of Yunnan Province, Kunming, China*Correspondence, 
+Q. Wang, Physical Examination Center, Second People's Hospital of Yunnan Province, 176 Qingnian Road, Kunming, Yunnan 650500, China, 
+Tel: +86 13668777585, 
+E‐mail: tjzxwangqiang@163.com, 
+F. Yu, Department of Gastroenterology, Fourth Affiliated Hospital of Kunming Medical University, Yunnan Province, 176 Qingnian Road, Kunming, Yunnan 650500, China, 
+Tel: +86 15808875292, 
+E‐mail: yufb0402@163.com, 
+X. Kong, Medical School, Kunming University of Science and Technology, 727 Jingming South Road, Kunming, Yunnan 650500, China, 
+Tel: +86 18468257083, 
+E‐mail: 3517826707@qq.com
+✉Corresponding author.
+299201991118801880–18996112019© 2019 The Authors. Published by FEBS Press and John Wiley & Sons Ltd.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Chronic obstructive pulmonary disease (COPD) is a multifactorial and heterogeneous disease that creates public health challenges worldwide. The underlying molecular mechanisms of COPD are not entirely clear. In this study, we aimed to identify the critical genes and potential molecular mechanisms of COPD by bioinformatic analysis. The gene expression profiles of lung tissues of COPD cases and healthy control subjects were obtained from the Gene Expression Omnibus. Differentially expressed genes were analyzed by integration with annotations from Gene Ontology and Kyoto Encyclopedia of Genes and Genomes, followed by construction of a protein‐protein interaction network and weighted gene coexpression analysis. We identified 139 differentially expressed genes associated with the progression of COPD, among which 14 Hub genes were identified and found to be enriched in certain categories, including immune and inflammatory response, response to lipopolysaccharide and receptor for advanced glycation end products binding; in addition, these Hub genes are involved in multiple signaling pathways, particularly hematopoietic cell lineage and cytokine‐cytokine receptor interaction. The 14 Hub genes were positively or negatively associated with COPD by wgcna analysis. The genes CX3CR1,PTGS2,FPR1,FPR2, S100A12,EGR1,CD163, S100A8 and S100A9 were identified to mediate inflammation and injury of the lung, and play critical roles in the pathogenesis of COPD. These findings improve our understanding of the underlying molecular mechanisms of COPD.
+Keywords: bioinformatic analysis, chronic obstructive pulmonary disease, differentially expressed gene, epidemiology, GEO data
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2019 Jun 5; Revised 2019 Aug 7; Accepted 2019 Aug 13; Collection date 2019 Nov.
+
+## Abbreviations
+ARG1arginase 1
+BPbiological process
+CCcellular component
+COPDchronic obstructive pulmonary disease
+CScigarette smoke
+CX3CR1C‐X3‐C motif chemokine receptor 1
+DALYdisability‐adjusted life year
+DEGdifferentially expressed gene
+EGR1early growth response 1
+FCfold change
+FGGfibrinogen gamma chain
+FPR1formyl peptide receptor 1
+FPR2formyl peptide receptor 2
+GOGene Ontology
+GSgene significance
+KEGGKyoto Encyclopedia of Genes and Genomes
+MFmolecular function
+MMmodule membership
+ORM1orosomucoid 1
+PPBPproplatelet basic protein
+PPIprotein‐protein interaction
+PTGS2prostaglandin‐endoperoxide synthase 2
+S100A12S100 calcium binding protein A12
+S100A8S100 calcium binding protein A8
+S100A9S100 calcium binding protein A9
+VCAM1vascular cell adhesion molecule 1
+wgcnaweighted gene coexpression network analysis
+YLLsyears of life lost
+Chronic obstructive pulmonary disease (COPD), characterized by long‐term poorly reversible airway limitation and persistent respiratory symptoms, is a common and preventable disease . COPD is projected to become the third leading cause of all death by 2030 in the world . Globally, COPD affected 299.4 million people in 2017, with a 71.2% increase in the prevalence rate compared with 2015, ranking it as the fifth leading cause of disability‐adjusted life years (DALYs) and the seventh leading noncommunicable disease cause of years of life lost (YLLs) , , , . As shown in Fig.  A, we observed a 12.3% increase in global all‐age deaths caused by COPD from 2.85 million in 1990 to 3.20 million in 2017 , , , and a predicted increase of 60% by 2020 compared with 1990. Figure  B indicated that the all‐age standardized death rate of COPD in males, females, and both sexes separately decreased from 1990 to 2015 , , which could be because of population growth and aging. Although the COPD death rate varies with different countries, more than 90% of COPD deaths occurred in low‐ and middle‐income countries . The global all‐age YLLs with COPD showed a small increase of 7.5% and 3.6% for both sexes and males, respectively, as well as a 21% decrease for females from 1990 to 2015 (Fig.  C) , . In addition, as shown in Fig.  D , , , , , , , , global all‐age DALYs caused by COPD had a small increase of 4.2% during 1990–2015 and was projected to decline to 57.6 million by 2020. The age‐standardized DALY rate caused by COPD in females was about twice as high as that of males, and that in low‐ and middle‐income countries was 6.7 times higher than in some high‐income countries . We observed that the global all‐age years lived with disability caused by COPD has grown 52.2% from 1990 to 2017. Taken together, COPD has presented a global public health challenge with high prevalence, mortality and disability rates, whereas the diagnosis of COPD is usually made based on spirometry values and clinical symptoms with a frequent underdiagnosis . Thus, it is important to explore the underlying molecular mechanisms and identify more effective early diagnostic methods and reliable biomarkers for this disease.
+ As a large‐scale and efficient technique for acquiring genomic data, microarray‐based gene expression profiles have been widely used to seek new insights for biomarkers in many human diseases . Currently, many studies have been conducted on COPD gene expression profiles, and these studies have screened thousands of differentially expressed genes (DEGs) implicated in the development and progression of this disease , . However, the results for the identification of DEGs are discrepant among these studies due to sample heterogeneity and differences in technological detection platforms. In this study, we performed an integrated analysis on some of the gene expression profiling data based on lung tissues of COPD cases and control subjects using an unbiased approach aiming to identify the potential molecular mechanisms and biomarkers for COPD.
+We selected two Gene Expression Omnibus microarray datasets on COPD ( GSE27597 and GSE106986). DEGs were identified by r software (Auckland, New Zealand) and subsequently analyzed using bioinformatic methods including Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichments and construction of protein‐protein interaction (PPI) and weighted gene coexpression analysis (wgcna) networks. We screened the DEGs for potential association with the development and progression of COPD. Our work may further the understanding of the potential molecular mechanisms of COPD.
+
+## Materials and methods
+
+## Gene data
+Two gene expression datasets, GSE27597 and GSE106986, were downloaded from the National Center for Biotechnology Information Gene Expression Omnibus database (https://www.ncbi.nlm.nih.gov/geo/). GSE27597 comprises the expression profile from 64 lung tissue samples from COPD cases and 16 samples from healthy donors . GSE106986 includes molecular profiling of 19 lung tissue samples, containing 14 samples from COPD cases and 5 from smokers . The experiments of GSE27597 and GSE106986 were conducted on the Affymetrix Human Exon 1.0 ST GeneChip (Affymetrix, Inc., Santa Clara, CA, USA; GPL5175 platform) and Agilent‐026652 Whole Human Genome Microarray 4x44K v2 (Agilent Technologies, Inc., Palo Alto, CA, USA; GPL13497 platform), respectively.#AuthorQuery Rep
+
+## Data preprocessing and screening for DEGs
+The probe set IDs of two datasets were converted into gene symbols using the r software and annotation packages. The two datasets were merged into one array dataset and then batch normalized using r packages (sva and limma 3.40.6). The DEGs between COPD cases and control subjects were identified using the limma package in r 3.60. A P‐value <0.05 after being adjusted by false discovery rate and |log2FC > 1, where FC represents fold change, were applied together as the cutoff for DEGs screening.
+
+## GO and KEGG pathway enrichment analysis of DEGs
+GO enrichment of the DEGs on the biological process (BP), molecular function (MF) and cellular component (CC) categories was performed using a david online tool (https://david.ncifcrf.gov/) , . KEGG pathway enrichment analysis was performed by using the KOBAS 3.0 online analysis database (http://kobas.cbi.pku.edu.cn/) .
+
+## Construction of the PPI network
+STRING database (https://string-db.org/) is frequently used for identifying the protein interactions , . STRING database contains huge amounts of experimental and text mining data . cytoscape is an open source bioinformatic software platform used for integrating gene expression profiles and visualizing molecular interaction networks. cytoscape plugin cytoHubba provides multiple topological analysis methods on Hub genes, regulatory networks and drug targets for experimental biologists . In this study, we used STRING database to identify the interactions between the identified DEGs. A confidence score >0.4 was used as the cutoff criterion. In addition, Hub DEGs were identified with cytoscape version 3.6.1 (1999 Free Software Foundation, Inc., Boston, MA, USA) with cytoHubba plugin according to the rank of connection degree (number) for each gene, which is represented by the different degrees of color (from red to yellow): the role of the gene is greater in the PPI network with the darker color of the gene .
+
+## 
+wgcna on COPD
+
+wgcna may be used for screening modules (clusters) of highly correlated genes and for calculating module membership (MM) measures, in which the module eigengene or an intramodular Hub gene is used to summarize such modules, and eigengene network methodology is used for relating modules to one another and to external sample traits . In this study, the wgcna package was used to identify coexpression modules for the merged and standardized array datasets (GSE27597 and GSE106986). In brief, first, a weighted adjacency matrix containing pairwise connection strengths was constructed based on the selected soft threshold power (β = 11) on the matrix of pairwise correlation coefficients. Then, the connectivity measure per gene was calculated by summing the connection strengths with other genes; modules were defined as branches of a hierarchical clustering tree by using a dissimilarity measure, and each module was assigned a color. Subsequently, module preservation r function was used to assess the module structure preservation. Finally, the module eigengene was used for summarizing the gene expression profiles of each module, and each module eigengene was regressed on case trait (COPD) and smoking status by using the linear model in the limma r package.
+
+## Results
+
+## Identification of DEGs in COPD
+After batch normalization on the integrated dataset from GSE27597 and GSE106986 by the sva and limma packages, 139 DEGs were identified using the limma package (corrected P < 0.05; |log2FC| > 1) (Tables  and ). The cluster heatmap of the top 139 DEGs is shown in Fig.  . Among them, 62 genes were up‐regulated and 77 genes were down‐regulated, which is shown in Fig.  .
+ 
+
+## GO enrichment analysis of DEGs
+GO analysis was done on the DEGs against BP, MF and CC terms. Biological annotation of the DEGs with COPD was identified using the david online analysis tool. As shown in Fig.  , GO functional enrichments of the DEGs with a P‐value <0.05 were obtained. Significant results of the GO enrichment analysis of the DEGs associated with COPD were shown in Table  . In the BP category, the DEGs were mainly involved in inflammatory response, immune response and response to lipopolysaccharide. In the MF category, the DEGs were mainly enriched in receptor activity and receptor for advanced glycation end products (RAGE) receptor binding. In the CC category, the DEGs were mainly involved in the extracellular region and space, the integral component of the plasma membrane, the plasma membrane and the external side of the plasma membrane (Fig.  ).
+ 
+
+## KEGG pathway analysis of DEGs
+We analyzed the DEGs using the KOBAS 3.0 online analysis database. As shown in Table  , the DEGs were enriched in 48 pathways, especially hematopoietic cell lineage and cytokine‐cytokine receptor interaction. The genes and pathway nodes are represented by cytoscape version 3.6.1 software that was used to calculate the topological characteristics of the network and determine each node (Fig.  ).
+ 
+
+## PPI network analysis of DEGs
+The 139 DEGs were applied for construction of PPI networks using STRING. After removing the discrete and partially connected nodes, the PPI network data of DEGs were imported into the cytoHubba of cytoscape version 3.6.1, and a complex network of the DEGs was constructed. As shown in Figs  and , 14 Hub DEGs were obtained, including C‐X3‐C motif chemokine receptor 1 (CX3CR1), proplatelet basic protein (PPBP), prostaglandin‐endoperoxide synthase 2 (PTGS2), formyl peptide receptor 1 (FPR1), formyl peptide receptor 2 (FPR2), vascular cell adhesion molecule 1 (VCAM1), S100 calcium binding protein A12 (S100A12), arginase 1 (ARG1), early growth response 1 (EGR1), CD163, fibrinogen gamma chain (FGG), orosomucoid 1 (ORM1), S100 calcium binding protein A8 (S100A8) and S100 calcium binding protein A9 (S100A9).
+ 
+
+## 
+wgcna network construction in lung tissues
+A wgcna network was first constructed using lung tissue expression data from cohorts GSE27597 and GSE106986, independent of COPD status and smoking status (ever/current smoking versus nonsmoking). A total of 2942 DEGs were selected (a corrected P < 0.05) and subsequently used to identify modules of coexpressed genes using a hierarchical clustering procedure. The corresponding branches of the resulting dynamic clustering tree and module are shown as colored bands underneath the cluster tree. We then merged the highly similar dynamic clustering modules into the merged dynamic modules (cut height = 0.25) (Fig.  ). We identified nine modules ranging in size from 113 genes in the Purple module to 1081 in the Grey module. A module eigengene, a weighted average of the module gene expression profiles, was used to summarize the expression profiles of transcripts in a given module through their first principal component.
+ 
+
+## Coexpression modules associated with COPD
+To pinpoint modules associated with COPD and smoking status, we analyzed the association of each of the nine module eigengenes with the two traits. As shown in Fig.  and Table  , all nine modules were significantly correlated with COPD and smoking status. Four modules were negatively associated with COPD and smoking status, marked Tan, Brown, Blue and Cyan, indicating that genes in these modules were predominantly down‐regulated in COPD cases and those who had a history of smoking. However, five modules, in Green yellow, Purple, Black, Red and Grey, were positively associated with COPD cases and smoking status, showing that genes in these modules are predominantly up‐regulated with the traits.
+ Four of these nine gene modules, in Cyan, Purple, Red and Grey, attracted our attention in that 14 Hub genes were identified as DEGs from the PPI analysis, including CX3CR1, PPBP, PTGS2, FPR1, FPR2, S100A12, ARG1, EGR1, CD163, VCAM1, FGG, ORM1, S100A8 and S100A9. We calculated gene significance (GS) versus each MM. We found that the 14 Hub genes were also either positively or negatively associated with COPD (Table  ). CX3CR1, PPBP, PTGS2, VCAM1, S100A12, ARG1, EGR1, CD163, S100A8 and S100A9 were significantly associated with each MM, whereas FPR1, FPR2 and ORM1 were correlated with each MM except Red MM, and FGG was correlated to each MM except the Purple MM. In addition, we found that the Purple (CX3CR1), Red (EGR1, VCAM1 and PTGS2) and Grey (ARG1, FGG, and PPBP) genes most significantly correlated with GS for COPD were also the important MM elements (Fig.  ).
+ 
+
+## Discussion
+In this study, we performed an integrated analysis on the gene expression profiles from lung tissues with or without COPD, aiming to identify the DEGs and related key signaling pathways for the disease. We identified 139 DEGs, including 62 up‐regulated genes and 77 down‐regulated genes. In addition, GO analysis showed that the 139 DEGs associated with COPD were involved in 60 BPs, 16 MFs and 12 CCs. Among these categories, the most important BPs included inflammatory response, immune response and response to lipopolysaccharide; the most important MFs included receptor activity and RAGE receptor binding; and the most important CCs included extracellular region and space, integral component of plasma membrane, plasma membrane and external side of plasma membrane. This finding accords with the knowledge that COPD is characterized by chronic inflammation in the lung and airways , ; immune response mediates the development of COPD caused by the harmful stimuli , , ; lipopolysaccharide may lead to increased airway and systemic inflammation, and contribute to the progressive deterioration of lung function , ; and RAGE is a ‘driving force’ for cigarette smoke (CS)‐induced airway inflammation in COPD .
+KEGG pathway analysis indicated that 48 pathways corresponded to these DEGs associated with COPD. Two pathways including hematopoietic cell lineage and cytokine‐cytokine receptor interaction were most important. This finding is in line with the results from previous studies , .
+The PPI network of proteins encoded by DEGs identified 14 Hub DEGs associated with COPD, including CX3CR1, PPBP, PTGS2, FPR1, FPR2, VCAM1, S100A12, ARG1, EGR1, CD163, FGG, ORM1, S100A8 and S100A9. All of these Hub genes were involved in the most important two BPs, two MFs or five CCs revealed by GO analysis, and were mainly implicated in multiple pathways identified by KEGG analysis in this study. Those results indicate that these Hub DEGs are involved in the development and progression of COPD by playing important biological roles in multiple signaling pathways.
+Using wgcna on the merged expression profile from two cohorts of lung tissues with COPD and healthy controls, we identified a set of gene signatures based on the 14 Hub genes. The increased expression of CX3CR1, FGG, EGR1, VCAM1 and PTGS2 is positively associated with COPD, and the underexpression of PPBP, FPR1, FPR2, S100A12, ARG1, CD163, ORM1, S100A8 and S100A9 is negatively associated with COPD.
+
+CX3CR1 plays an important role in the development of chronic inflammatory lung diseases, such as COPD and emphysema, by contributing to structural destruction and remodeling. Chemoattractant inflammatory cells releasing CX3CR1, such as CD8−/CD4, dendritic cells, γδ T lymphocytes, natural killer cells and monocytes/macrophages, may lead to mononuclear cell accumulation in the parenchyma and lung vessel walls, release mediators to induce injury, stimulate proliferation and chemoattractant inflammatory cells . In addition, CX3CR1
++ mononuclear phagocytes may induce an innate immune response to CS via producing interleukin‐6 and tumor necrosis factor‐α, and contribute to emphysema .
+
+PTGS2 (COX‐2), an important mediator of inflammation, was shown to be involved in inflammation response and associated with COPD pathogenesis , , , . The decreased activity of PTGS2 may protect smokers against the development of COPD . Furthermore, FPR1 and FPR2 were reported to be involved in recruitment and activation of inflammatory cells induced by CS, and play important roles in lung inflammation, injury and the pathogenesis of COPD , , , .
+
+S100A8, S100A9, and S100A12 might induce neutrophil and monocyte chemotaxis, adhesion to fibrinogen and diapedesis, and neutrophil migration to inflammatory sites , , and have been identified as key biomarkers in inflammatory diseases including COPD and neutrophil‐dominated infections , , . The mRNA levels of S100A8, S100A9 and S100A12 may be regulated by RAGE, which was shown to contribute to CS‐induced airway inflammation in COPD . This is consistent with our result in this study that the RAGE pathway including S100A8, S100A9 and S100A12 is important in the development of COPD.
+
+EGR1 is an autophagy regulator gene that plays important roles in cellular homeostasis, airway remodeling and control of inflammatory immune response; it is also a significant risk factor for susceptibility to COPD , , . EGR1 may be induced by CS and involved in proinflammatory mechanisms that are likely associated with the development of COPD , whereas Egr‐1−/− mice were observed to resist CS‐induced autophagy, apoptosis and emphysema . These findings exhibit a critical role for EGR1 in CS‐induced inflammatory immune response and COPD, and effective inhibition of EGR1 may attenuate airway remodeling and inflammation associated with the pathology of COPD.
+
+CD163, a carefully regulated component of the innate immune response to infection and a macrophage receptor for bacteria, was shown to play important roles in functional pulmonary defense elements and the inflammatory immune response of the respiratory system , . Overexpression of CD163 on lung alveolar macrophages may be implicated in the pathogenesis of COPD and poor lung function .
+
+ARG1 was shown to contribute to asthma pathogenesis by inhibiting nitric oxide production, modulating fibrosis, regulating arginine metabolism and inhibiting T cell proliferation, and it involves the initiation of adaptive T helper 2 cell‐mediated allergic lung inflammation by regulating group 2 innate lymphoid cells , , , , whereas ARG1 ablation in the lung may enhance peripheral lung function but have little effect on airway inflammation . The role of ARG1 in COPD needs to be studied in the future.
+
+ORM1 appears to function in regulating the activity of the immune system during the acute‐phase reaction and has been identified as an acute exacerbation of COPD‐specific immunomodulatory mediator . PPBP serves as a potent neutrophil chemoattractant and activator, and its elevated expression in the bronchial mucosa might be involved in the pathogenesis of COPD , . In addition, VCAM1 was shown to express in endothelial cells of atopic asthma cases, but not COPD cases , and present an association with lung function . FGG was found to be involved in blast lung injury resistance via promoting tissue‐protective adenosine signaling . In the lung tissues of COPD cases, its mRNA expression was reported to correlate with the burden of particulate matter in total lung and lung parenchyma .
+In conclusion, we have identified 139 candidate DEGs associated with the progression of COPD. The results from bioinformatic analysis are in agreement with those from previous cell and animal models and human studies. Our results showed that nine Hub genes, CX3CR1, PTGS2, FPR1, FPR2, S100A12, EGR1, CD163, S100A8 and S100A9, potentially mediated inflammation and injury of the lung, and play critical roles in the pathogenesis of COPD. The roles of five Hub genes, including PPBP, ARG1, FGG, VCAM1 and ORM1, identified to be associated with COPD in this study need to be confirmed in the future. These findings could improve our understanding of the underlying molecular mechanisms of COPD and provide us with insights for drug target discovery for the disease.
+
+## Conflict of interest
+The authors declare no conflict of interest.
+
+## Author contributions
+XK, FY and QW conceived and designed the project. XH and YL acquired the data. XG and ZZ analyzed and interpreted the data. XH and YL wrote the paper.
+
+## Acknowledgements
+This work was funded by the National Natural Science Foundation of China (81460007), Natural Science Foundation of Yunnan Province, China (2009CD130), and two funds of the Department of Education Scientific Research of Yunnan Province, China (09C0294 and 2015Z085).
+
+Xinwei Huang and Yunwei Li contributed equally to this work
+
+## Contributor Information
+Xiangyang Kong, Email: 3517826707@qq.com.
+Fubing Yu, Email: yufb0402@163.com.
+Qiang Wang, Email: tjzxwangqiang@163.com.
+
+## References

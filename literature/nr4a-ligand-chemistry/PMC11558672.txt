@@ -1,0 +1,1018 @@
+822acssdJournal of Chemical Information and ModelingJ Chem Inf ModelPMC1155867211558672115586723941950010.1021/acs.jcim.4c01435Exploration of
+Cryptic Pockets Using Enhanced Sampling
+Along Normal Modes: A Case Study of KRAS G12D
+VithaniNeha ZhangShe ThompsonJeffrey P PatelLara A DemidovAlex XiaJunchao BalaeffAlexander MentesAhmet ArnautovaYelena A KohlmannAnna LawsonJ David NichollsAnthony SkillmanA Geoffrey LeBardDavid N †OpenEye,
+Cadence Molecular Sciences, Santa Fe, New Mexico 87508, United States‡Black
+Diamond Therapeutics, Cambridge, Massachusetts 02142, United States§Mirati
+Therapeutics, Inc., San Diego, California 92121, United States*E-mail: david.lebard@eyesopen.com.
+17102024642182588258–827314112024© 2024 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Identification of
+cryptic pockets has the potential to
+open new
+therapeutic opportunities by discovering ligand binding sites that
+remain hidden in static apo structures of a target protein. Moreover,
+allosteric cryptic pockets can become valuable for designing target-selective
+ligands when the natural ligand binding sites are conserved in variants
+of a protein. For example, before an allosteric cryptic pocket was
+discovered, KRAS was considered undruggable due to its smooth surface
+and conservation of the GDP/GTP binding pocket across the wild type
+and oncogenic isoforms. Recent identification of the Switch-II cryptic
+pocket in the KRASG12C mutant and FDA approval of anticancer
+drugs targeting this site underscores the importance of cryptic pockets
+in solving pharmaceutical challenges. Here, we present a newly developed
+approach for the exploration of cryptic pockets using weighted ensemble
+molecular dynamics simulations with inherent normal modes as progress
+coordinates applied to the wild type KRAS and the G12D mutant. We
+performed extensive all-atomic simulations (>400 μs) with
+and
+without several cosolvents (xenon, ethanol, benzene), and analyzed
+trajectories using three distinct methods to search for potential
+binding pockets. These methods have been applied as a proof-of-concept
+to KRAS and have shown they can predict known cryptic binding sites.
+Furthermore, we performed ligand-binding simulations of a known inhibitor
+(MRTX1133) to shed light on the nature of cryptic pockets in KRASG12D and the role of conformational selection vs induced-fit
+mechanism in the formation of these cryptic pockets.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Aug 9; Accepted 2024 Oct 3; Revised 2024 Oct 3; Collection date 2024 Nov 11.
+
+## Introduction
+Knowledge of potential ligand binding
+sites is a prerequisite for
+structure-based drug discovery. Conformational sampling of a protein
+may reveal transiently open yet still druggable binding sites, which
+otherwise remain hidden in a static experimental structure of an apo
+protein. Such binding sites, aptly termed cryptic pockets, not only open drug discovery opportunities in proteins long considered
+undruggable but can also reveal new allosteric sites in targets with
+known orthosteric ligands. Thus, cryptic pocket identification can
+expand the repertoire of druggable sites as well as targetable proteins
+for therapeutic development. Furthermore, orthosteric sites can be
+difficult to target due to their high affinity for the natural substrates,
+and, if targeted, have an increased risk of off-target effects due
+to the conservation of the pocket sequence among functionally similar
+proteins. Identification of allosteric cryptic pockets has proven
+critical in the design of selective inhibitors against challenging
+cancer targets, − including several oncogenic mutants of the Kirsten Rat Sarcoma virus
+oncogene protein (KRAS). 
+KRAS belongs
+to a family of related GTPases that are involved in
+the RAS-MAPK signaling pathway, which is essential for cell proliferation,
+differentiation, and survival. Because of this deep embedding within
+the cell cycle, gain-of-function mutations in KRAS account for ∼14%
+of all human cancers. Of those mutations, 80% are single base substitutions
+at codon 12 that encodes for glycine in the WT KRAS gene. , KRAS has picomolar affinity for its canonical ligands GTP/GDP, so
+developing a competitive inhibitor targeting the orthosteric site
+has not been a viable strategy for drug discovery. , The
+small size and flat surface of KRAS poses additional hurdles for allosteric
+inhibitor design. As a result, KRAS remained an elusive target for
+anticancer therapeutics since its discovery in the late 1960s. 
+A breakthrough occurred from a covalent
+fragment screening study
+conducted by the Shokat lab in 2013, which suggested the presence
+of an allosteric cryptic pocket in KRASG12C near the Switch-II
+region. Building on Shokat’s original
+discovery, selective anticancer therapies targeting the Switch-II
+cryptic pocket in oncogenic mutants (KRASG12C and KRASG12D) have been developed ( B). These include FDA-approved covalent drugs
+for KRASG12C from Amgen (Sotorasib) and Mirati Therapeutics (Adagrasib), a noncovalent inhibitor for KRASG12D from Mirati
+Therapeutics in Phase I clinical trials (MRTX1133), as well as a recently developed high affinity pan-KRAS
+noncovalent inhibitor (BI-2865) developed in collaboration between
+Boehringer Ingelheim and the Lito lab (see Table S1 for a detailed list of
+known inhibitors). An additional cryptic pocket that forms between
+the Switch-I and Switch-II regions ( C) has also been discovered by two independent
+fragment screening studies. , Inhibitors targeting
+this Switch-I/II pocket have been designed to inhibit SOS-mediated
+activation of KRAS and HRAS (see Table S2 for a detailed list). − Another pocket, A59, was also recently reported in
+the vicinity of Switch-I/II regions for which a crystal structure
+of the inhibitor-bound complex is not available. The aforementioned acceleration of anticancer drug discovery
+targeting KRAS is a testimony to the significance of allosteric (cryptic)
+pocket detection in structure-based drug design.
+ Advancements in KRAS inhibitor design illustrate
+how cryptic pocket
+identification can be a crucial step in the drug discovery process.
+However, finding cryptic pockets remains largely serendipitous, since
+such sites can only be detected experimentally by solving a protein
+structure in the presence of a bound ligand or fragment(s). Without a priori knowledge of a potential set of ligands to screen,
+cryptic pocket detection requires the exploration of a vast amount
+of protein conformational space to reveal potential binding sites.
+Molecular dynamics (MD) simulations have been shown to be a powerful
+computational tool for such conformational exploration. However, the
+formation of cryptic pockets can occur over microseconds or longer
+time scales that are largely inaccessible to unbiased all-atom MD
+simulations. While long time scale MD simulations have been used for
+cryptic pocket detection, , enhanced sampling methods
+such as replica-exchange and unbiased
+goal-oriented adaptive simulations can
+be more efficient for accelerating conformational searches. Weighted
+Ensemble , (WE) MD simulations are another methodology
+that can be used to efficiently enhance conformational sampling along
+a (progress) coordinate that abstractly defines the mechanism of cryptic
+pocket opening. In fact, a WE MD algorithm (SubPEx) has already been
+developed to generate unique, equilibrium-like conformations of subpockets
+of known cryptic sites. In SubPEx, WE
+progress coordinates are defined using the preexisting knowledge of
+the location and composition of the pocket of interest. Such information
+is not available for the prospective study of cryptic pockets in previously
+unexplored proteins.
+Since the location and structural dynamics
+associated with cryptic
+pocket opening is typically unknown from a static (X-ray/CryoEM/Alphafold)
+structure, it is challenging to choose a general-purpose progress
+coordinate that could enhance such motion. All proteins have access
+to a well-defined spectrum of collective motions called intrinsic
+dynamics. Such protein motions often involve domain movements and/or
+allosteric changes in conformations. These dynamics can be estimated
+using normal mode analysis (NMA), therefore one could imagine using
+a NMA approach , to analytically estimate the
+motion associated with pocket opening. While a conformational ensemble
+generated by projecting protein structures along selected normal modes
+has been previously used for cryptic pocket searching, this strategy may not succeed in sampling cryptic
+pocket formation that occurs on time scales of microseconds or longer.
+In fact, methods already exist like MDeNM that use normal modes to
+accelerate sampling of such rare events by biasing simulations along
+the slowest protein modes through injections of kinetic energy into
+these coordinates. Alternatively, one
+might prefer to use normal modes to accelerate sampling without perturbing
+the underlying thermodynamics or kinetics. By sampling the global
+dynamics instead of localized motion at a specific cryptic site, our
+work demonstrates how to use normal modes as a generalized progress
+coordinate for WE simulations in an unbiased way to facilitate large-scale
+conformational changes that may reveal cryptic pockets or other potentially
+interesting conformational states.
+Mixed-solvent MD simulations
+can also be performed to enable the
+identification of potential ligand binding sites. While structural fluctuations from neat solvent simulations
+may reveal open (sub)pockets, mixed-solvent simulations provide two
+additional insights: (1) occupancy and residence times of a cosolvent
+may be interpreted as a measure of potential druggability of a given
+site, and (2) cosolvent binding at a subpocket can possibly induce
+protein conformational changes that expedite cryptic pocket formation
+through an induced-fit mechanism. Commonly used cosolvents include
+benzene, ethanol, acetone, acetonitrile, and other small organic molecules. − 
+The drug-likeness of such probe molecules make them suitable
+cosolvents,
+however, their favored binding modes and binding site specificity
+determined by their size and chemical features (i.e., shape, electrostatics)
+can bias the outcome of cryptic pocket identification. To circumvent
+this problem, we decided to use xenon as cosolvent due to its small
+size, fast diffusion in water, and tendency to occupy hydrophobic
+sites in a nonspecific manner. − While this may appear to be an unconventional choice for cryptic
+pocket detection, xenon has been used in structural studies to locate
+buried hydrophobic cavities. − And though xenon is a chemically
+inert gas, evidence suggests that its binding to both cytosolic and
+membrane proteins is responsible for its pharmacological action as
+a general anesthetic, − , and neuroprotective agent. , Xenon also inhibits both NDMA and AMPA receptors, it appears to
+act on several ion channels such as the neuronal nicotinic acetylcholine
+(nACh) , and 5-hydroxytryptamine type 3 (5-HT3) receptors, and has also been
+shown to activate potassium channels including the two-pore domain
+potassium channel (TREK-1) and the plasmalemmal
+ATP-sensitive channel (KATP). In fact, in a crystallographic study, xenon was shown to occupy
+diverse ligand-binding sites including a solvent-accessible substrate
+binding site. Although the exact mechanistic
+details are somewhat mysterious for all receptors, it is well-known
+that xenon acts on a diverse set of pharmacologically relevant targets
+by binding to the proteins directly and shifting their conformational
+distribution. Considering the clinical
+significance, high diffusion rate in solution, and ability to alter
+the conformational landscape of large proteins, we believe xenon might
+make a reasonable generic probe of cryptic sites within any protein
+complex, including KRAS.
+In addition to the challenge of conformational
+sampling, the detection
+of cryptic pockets from the massive simulation data generated requires
+yet another sophisticated computational approach. The exposon
+analysis method developed by the Bowman lab performs this
+task by finding groups of residues that undergo collective changes
+in their solvent exposure leading to closing and opening of cryptic
+pockets. Another popular method for cryptic
+pocket detection using mixed-solvent MD simulations, termed probe map analysis, − , involves the assessment of cosolvent
+occupancy and binding free energy on a protein surface. In this work,
+we combine both exposon and probe map analysis methods and propose
+a new algorithm for cosolvent binding detection inspired by the exposon
+methodology called dynamic probe binding analysis. This new analysis method predicts cryptic pockets by observing
+the collective binding behavior of cosolvent/probe molecules.
+Here, we use exposon, dynamic probe binding, and probe map analysis
+methods together to analyze over 400 μs of WE trajectory data
+generated in neat water, two cosolvents, and in the presence of a
+highly potent drug-like molecule to identify cryptic pockets in KRASG12D. The simulation and analysis protocols proposed here uncovered
+two known ligand binding sites including the only pocket targeted
+by the two mutant-selective FDA approved drugs. To gain deeper insight
+into the nature of cryptic pocket formation in KRASG12D, we also performed direct WE-based simulations of MRTX1133 binding
+to tease out the nature of how the Switch-II pocket is formed. These
+simulations allow us to describe the mechanism of Switch-II pocket
+formation (conformational sampling vs induced fit) in KRASG12D using a shape and electrostatics-based comparison of the active
+site residues. Although pocket conformations sampled in our simulations
+may not perfectly match the reported crystal structure of a KRASG12D-inhibitor complex, the results presented here suggest
+that an induced-fit mechanism likely plays a dominant role in Switch-II
+pocket formation.
+The cryptic pocket detection pipelines discussed
+in this work provide
+a framework for the automated identification of potential ligand binding
+sites using a combination of WE MD and physics-based analysis methods.
+Further, our MRTX1133-binding simulations of KRASG12D shed
+light on the challenges of predicting the mechanisms of cryptic pocket
+formation, which may entail an induced-fit mechanism in the presence
+of a specific compound to adopt precise ligand-pocket conformations.
+
+## Methods
+
+## System
+Preparation and MD Propagation
+All protein systems
+were initially prepared by the OpenEye Spruce Toolkit, which takes as input a static X-ray structure
+and symmetry expands the biological unit from the asymmetric unit,
+adds hydrogens and other missing pieces of a protein, and generates
+a set of favorable protomeric/tautomeric states based on an optimization
+of the global hydrogen bond network. The MDOrion floes in the Orion
+cloud computing platform were then used
+to take the Spruce-prepared protein structure and ready it for downstream
+simulation in the following automated fashion. First, the protein
+was solvated in a cubic box of TIP3P water that extended 10 Å from the protein in every dimension. Then,
+enough Na+ or Cl– ions were added to
+neutralize the system, and an additional 150 mM NaCl was added to
+match physiological salt concentrations. Inside the MDOrion floes,
+PACKMOL was used to create initial positional
+configurations of the multicomponent systems. For the mixed solvent
+simulations (xenon, ethanol, benzene), an additional 150 mM of cosolvent/probe
+molecules were added randomly to the solution phase and equilibrated
+using an otherwise standard protocol.
+Systems were parametrized
+using the AMBER14SB force field for the
+protein, while molecular ligands were treated with OpenFF 2.0.0. Parameters for xenon, which only consist of
+Lennard-Jones force-field term (σ = 0.4063 nm, ε = 2.35
+kJ/mol), were taken from available computational studies. , 
+To perform ligand binding simulations, conformations of MRTX1133
+were first generated using the Omega Toolkit. Then, the top conformer was taken, randomly oriented, and randomly
+placed within a 10 Å radius of the center of mass of the protein.
+The MDOrion floes were then used to solvate the system in a similar
+manner as the other systems.
+To equilibrate the systems, the
+following protocol was followed.
+First, the system energy was minimized using the L-BFGS algorithm
+with a convergence criterion of 2.4 kcal/mol. The position of KRAS,
+GDP, and any cosolvent/probe molecules were harmonically restrained
+to their initial positions with a 2.0 kcal/(mol Å2) force constant in the NVT ensemble to warm up the system for 10
+ps. The restraints were gradually released over the course of 50 ps
+in the NPT ensemble. Following this equilibration, the systems were
+further simulated for 5 ns in the NPT ensemble to generate the required
+basis states for downstream WE simulations. All NPT MD simulations
+were propagated using the OpenMM 7.7 engine with constant pressure and temperature using a stochastic (Langevin)
+integrator with the friction coefficient set to 1.0 ps–1. The simulations were weakly coupled to a heat bath at 310 K, while
+constant pressure was maintained at 1 atm by weakly coupling to a
+Monte Carlo barostat every 0.5 ps. Short-ranged nonbonded interactions
+were cut off at a 10 Å radius, and the smooth Particle Mesh Ewald
+method was used for treating long ranged
+electrostatics. A 2 fs time step was enabled by using the Constant
+Constraint Matrix Approximation (CCMA) and SETTLE algorithms to constrain
+bond lengths between heavy atoms and hydrogens.
+Trajectory analysis
+was handled by a combination of OpenEye’s
+OEChem and Spruce, and MDTraj. DeepTime was used for building of Markov states models.
+
+## The WE Path Sampling Strategy
+MD simulation time scales
+are limited by the system size, force field representation, integration
+algorithm, MD software implementation, and hardware used for the simulations.
+Time scales for MD simulations run on conventional hardware using
+highly optimized software reach into the microsecond time scale for
+all-atom force fields, which is orders of magnitude faster than biological
+rare events like the Switch-II pocket opening in KRAS. , The WE method is an unbiased rare event sampling technique that
+can overcome large energetic barriers and sample extremely long molecular
+time scales in a short amount of physical time. It acts as a “statistical
+ratchet” on a user-defined “progress coordinate”
+that tracks advancement along any physical observable. 
+To enhance the sampling of KRAS conformational
+states, a set of replicated MD simulations (or “walkers”)
+are run for a short time in parallel, where each individual walker
+is associated with a probability (or “weight”) that
+is tracked. After each round of MD propagation, a resampling procedure
+is carried out in which trajectories in underoccupied regions of progress
+coordinate space (“bins”) are up-sampled by splitting, while those in overoccupied bins are down-sampled
+by merging. Splitting involves replicating a trajectory
+and distributing its weight evenly among the replicas, while merging
+involves eliminating a trajectory and adding its weight to a surviving
+trajectory. After many iterations of both the dynamics propagation
+and resampling through splitting and merging, a large ensemble of
+weighted trajectories is generated. In this study, dynamics were propagated
+for 100 ps for every walker in each iteration.
+WE resampling
+was performed for 500 iterations for each simulation
+setup outlined in . Since the WE algorithm tracks both the walkers and weights transitioning
+between bins as the system evolves over time, one may accurately estimate
+kinetics and weighted populations (thermodynamics) along any conceivable
+reaction variable. A major advantage of WE MD is that it can be run
+on conventional hardware. With a reasonable choice of progress coordinate,
+walker allocation, and binning procedure, can significantly reduce
+simulation cost of sampling rare events relative to brute force MD.
+The WE strategy has already been proven as powerful technique for
+understanding mechanistic aspects in other areas of drug discovery
+research including protein–ligand unbinding, protein folding and unfolding, protein–protein binding, passive permeability of drug-like molecules, SARS-CoV-2 spike protein activation, and PROTAC ternary complex prediction. Here, we apply the WE path sampling to understand
+several aspects of cryptic pocket opening in KRASG12D.
+ 
+
+## Normal Mode Analysis of KRAS
+In
+this work, we use an anisotropic network model (ANM) , to calculate the normal modes for the KRAS protein. First, a static
+reference protein is prepared using the procedure described above.
+We chose the KRASWT structure from PDB ID: 4OBE( ) as the reference. After preparation, the ANM is constructed
+from all Cα atoms (representing the positions of the residues)
+using ProDy, from which a set of normal
+modes can be derived from the Hessian matrix (3N ×
+3N, given N residues) of a simple
+harmonic approximation to the inter-Cα potential. The eigenvalues
+(λ) of the Hessian matrix are the square of the vibrational
+frequencies of the normal modes. Typically, there are six zero eigenvalues
+corresponding to modes for rigid body translation and rotation. For
+the remaining 3N – 6 intramolecular modes,
+the relationship between the mode frequency (ω), amplitude (A), and associated energy (E) is expressed
+as
+ Therefore, given a unit of input energy,
+the displacement along a slow mode tends to have a greater amplitude
+than a faster mode. Or equivalently, given the same amplitude, the
+displacement along a slow mode requires less energy than that of a
+fast mode. Because of this, the inverse eigenvalue (λ–1), which is referred to as the mode variance, is
+often used to represent the energy cost of deformations along the
+given mode. Fractional variance (ρ) measures
+the fraction of the total variance explained by a given mode, which
+is defined as (for the i-th mode):
+ Note that the denominator is the trace
+of the (pseudo)inverse Hessian,
+which is effectively the summation of all mode variances. We sort
+the modes by their corresponding eigenvalue and preserve the top 20
+(slowest modes) for inspection. Each eigenvector of the Hessian is
+the mode shape that takes the form of (Δx1,Δy1,Δz1,···,ΔxN,ΔyN,ΔzN), where
+Δxi,Δyi,Δzi are the displacement of the i-th Cα atoms in the three dimensions along the given
+mode. Since the eigenvectors are normalized, the magnitude of the
+displacement of Cα atoms is relative.
+Although the low
+frequency modes describe large-amplitude motion,
+such motion could still be unproductive for searching pockets across
+an entire protein landscape. For instance, the slowest modes of a
+protein could be confined to loop motion and would not necessarily be the most efficient motions for a global
+search of cryptic pockets across an entire protein surface. Therefore,
+a metric is needed that can encode the amount of the protein involved
+in each mode, and here we use the mode collectivity( ) as that metric. Mode collectivity is
+defined as
+ Where ui,n is the
+norm of the displacement vector, (Δxn,Δyn,Δzn), of
+the n-th Cα atom from the i-th eigenvector. κ is bounded between N–1 and 1, where in the most extreme cases, κ = N–1 when only a single atom is moving,
+and k = 1 when all atoms are moving with the exact
+same amplitude along the given mode. Intuitively, the collectivity
+indicates the effective portion of the atoms participating in the
+movement along a given mode. From the top 20 slowest modes, we typically
+chose the most collective mode(s) for guiding protein sampling (see
+below).
+
+## Progress Coordinate Definitions Used in WE Simulations of KRAS
+
+## Normal
+Mode Analysis Progress Coordinate
+To realistically
+enhance the sampling of protein motion within a WE simulation, a progress
+coordinate can be constructed to measure evolution along a set of
+one or more normal mode vectors of a protein. Thus, for each WE iteration,
+dynamics are propagated using MD, then the deformation vector, δ,
+of the current conformation is calculated with respect to the reference
+structure. Finally, a projection of the deformation vector (δ)
+is made onto the reference modes (V), which is effectively
+a dot product of the two:
+ where V is a matrix of eigenvectors
+as columns. The normal mode progress coordinates, v, are the projection of the current simulation state onto the selected
+normal modes.
+
+## Ligand RMSD Progress Coordinate
+An RMSD-based progress
+coordinate was defined to track the relative position and orientation
+of MRTX1133 binding to KRASG12D, which uses the X-ray crystal structure
+with PDB ID: 7RPZ( ) as a reference. To perform the RMSD
+calculation, first the reference and simulation proteins were overlaid
+by superposing the Cα atoms using Spruce. The same translation vector and rotation matrix were applied
+to MRTX1133 from the simulation to bring it into the same frame of
+reference as the protein. Finally, an in-place RMSD was measured between
+the heavy atoms in the reference and simulation MRTX1133 structures
+using OEChem. This in-place RMSD of MRTX1133
+after protein alignment is what is referred to as Ligand RMSD in this
+work.
+
+## Log of Ligand RMSD Progress Coordinate
+This coordinate
+is a simple log-transformation of the previously discussed Ligand
+RMSD progress coordinate, which was used to improve sampling of bound
+MRTX1133 poses at low-Ligand RMSD values.
+
+## Ligand Distance Progress
+Coordinate
+Another progress
+coordinate which tracks the relative distance between the KRAS-bound
+and unbound MRTX1133 conformers was calculated in a similar manner
+as the Ligand RMSD progress coordinate described above. First, the
+reference protein (PDB ID: 7RPZ) was used for alignment to the simulation protein
+using Spruce, and the same transformation
+was applied to the simulation copy of MRTX1133. After alignment, the
+in-place center of mass (COM) position was calculated for both the
+reference and simulation structures using OEChem. The COM distance between the reference and simulation MRTX1133
+structures is what we refer to in this work as the Ligand
+Distance progress coordinate.
+
+## SiteHopper Similarity Progress
+Coordinate
+A SiteHopper-based
+progress coordinate has been defined to monitor the combination of
+the shape and color (pseudoelectrostatic) similarity of the Switch-II
+pocket from a simulation frame relative to the pocket formed in the
+X-ray structure of MRTX1133-bound KRASG12D. To calculate
+the similarity, first a reference SiteHopper patch is defined from the KRASG12D binding site of
+MRTX1133 within the Switch-II pocket (PDB ID: 7RPZ). Then, a separate
+SiteHopper patch was defined for each frame in the WE simulations
+using the residues lining the MRTX1133 binding pocket. Finally, a
+SiteHopper overlay was performed for each frame in the simulations
+using the OpenEye Spruce Toolkit to maximize
+the shape and color features of two patches of the simulation frame
+and reference protein structure. The resulting similarity of the active
+site of 7RPZ is referred to as SiteHopper similarity in this work and represents the 3D shape and pseudoelectrostatic
+similarity of the simulation Switch-II pocket relative to the reference.
+
+## WE Simulations of KRAS
+All WE simulations were carried
+out under equilibrium conditions using the Python API of the WESTPA
+2.0 toolkit, which has been built into
+a series of publicly available workflows in the Small Molecule Discovery
+Suite of the Orion platform. Single-
+or multidimensional progress coordinates were sampled using the minimal
+adaptive binning scheme (MAB) in the
+bulk region of coordinate space, with single fixed bins near the edges
+to prevent wasteful sampling outside the areas of interest. Each simulation
+progressed for 500 iterations of WE resampling, corresponding to a
+maximum continuous (nonequilibrium) trajectory of 50 ns for a given
+replica, which required on average ∼5 days to complete using
+∼100 GPUs in Orion. The aggregate amount of trajectory data
+generated from all KRAS simulations totaled 414 μs, which varied
+individually for a given simulation depending on the number and physical
+nature of the progress coordinates that were employed. A detailed
+description of all WE simulations, including the solvent conditions,
+the progress coordinates that were used, as well as the aggregate
+simulation time is listed in .
+
+## Markov State Model Construction from KRAS
+Trajectory Data
+For the mutual information analysis needed
+for both the exposon and dynamic probe binding
+analysis methods, we constructed a Markov State Model (MSM)
+from the WE trajectories
+for each protein simulation to generate a network representation of
+its free energy landscape. First, clustering was performed on the
+conformations sampled by the simulation based on the similarity in
+the per-residue solvent accessible surface area (SASA) or residue-co-solvent distance vectors. The per-residue SASA was computed
+using the Gaussian OEArea method available in the ZAP toolkit. , The protein residue-co-solvent distances were computed
+using MDTraj. After clustering the conformations, transitional probabilities
+scaled by the statistical weight (i.e., WE simulation weight) of each
+conformation was computed between each pair of clusters. A MSM was
+built from the transition probability matrix using Maximum likelihood
+estimator implemented in Deeptime. The
+stationary distribution of cluster populations was calculated as the
+eigenvector of the transition probability matrix with an eigenvalue
+of one. The MSM-derived cluster populations were used while computing
+weighted mutual information describing correlated changes in solvent
+exposure or cosolvent binding for every pair of residues.
+
+## Exposon Analysis
+To find pockets in KRAS, we used the
+exposon analysis pipeline developed by the Bowman lab. This analysis begins with measuring the mutual
+information (MI(X,Y)) of solvent
+exposure for every pair of residues using the following equation:
+ Here, X and Y correspond
+to a pair of residues, and x and y are their solvent exposure states, i.e.,
+buried or exposed, where the value of x and y is 0 for buried and 1 for solvent exposed. p(x) and p(y) are
+the probabilities of residues X and Y being in either a buried or exposed state. These probabilities are
+taken from the MSM-derived population of each Markov state. A matrix
+of residue–residue mutual information is built by computing
+pairwise mutual information on solvent exposure. From this matrix,
+groups of residues with strong correlation in solvent exposure changes
+(high mutual information) among themselves, as well as weaker correlations
+with the remaining residues, are identified using an affinity propagation
+clustering algorithm. Each group of residues
+with highly cooperative changes in solvent exposure is termed an exposon. 
+
+## Dynamic Probe
+Binding Analysis
+To find pockets in KRAS
+based on a cooperative change in cosolvent binding behavior, which
+we hypothesize should mimic characteristics of induced-fit pocket
+opening, we used the mutual information on xenon binding to every
+residue in a protein. This idea was inspired by the exposon analysis
+method discussed above and is termed dynamic probe binding. In this method, instead of measuring solvent exposure state of
+a given residue, the probability of xenon (cosolvent) binding a given
+residue was used to compute mutual information. A residue is either
+bound or unbound to xenon, and this classification is used to compute
+the mutation information on binding, MI(X,Y), for every pair of residues X and Y. Probabilities p(x) and p(y) of residues X and Y being in bound/unbound states were computed from the MSM-derived
+population of each cluster as described above for exposon analysis.
+Using an affinity propagation clustering algorithm, residues that show cooperative changes in xenon binding
+behavior were grouped together to find potential ligand binding pockets.
+
+## Probe Map Analysis
+To identify potentially high affinity
+cryptic pockets and provide an estimate of the free energy, probe map analysis was performed. In this analysis method,
+the population of xenon atoms is calculated on a protein surface relative
+to those in bulk water, which is a surrogate for a pocket free energy.
+A 3D grid was generated over entire protein–solvent box for
+each WE simulation frame. Occupancies of xenon atoms within 1 Å3 grid cells were calculated from the clusters that were obtained
+by clustering trajectory data based on similarity of residue-co-solvent distances. The grid occupancies were weighted
+by an MSM-derived population of each cluster, and smoothing was applied
+by averaging each grid-cell occupancy with the occupancy of all its
+face-, vertex-, and edge-centered neighboring cells (26 neighbors
+in total). The smoothed grid occupancies (Ni) were converted into free energies using the following
+relation:
+ Here, N0 is the
+expected grid occupancy of xenon in the bulk solvent, which
+is set to a uniform distribution of 150 mM to mimic the simulation
+setup. To identify high-affinity binding sites, grid cells with free
+energies greater than −2.5 kcal/mol were filtered out. The
+remaining high-affinity grid cells were clustered using the DBSCAN
+clustering method as implemented in the
+scikit-learn python package. The maximum
+distance between two grid-cells to be considered neighbors for the
+DBSCAN clustering was set to 3 Å.
+
+## Results and Discussion
+
+## Exploration
+of Cryptic Pocket Opening Using WE MD Driven by
+Normal Modes as Progress Coordinates
+To explore structural
+dynamics of KRASG12D that could reveal pocket formation,
+we performed WE MD simulations using progress coordinates that encode
+information about the conformational landscape of the protein. Since
+an unbiased, comprehensive search of cryptic pockets requires an exploration
+of global dynamics in the protein of interest, we first performed
+NMA to determine orthogonal modes that describe directions along which
+the largest structural fluctuations would occur at equilibrium. According
+to the equipartition theorem, movements along modes with the lowest
+frequency (slowest modes) possess the largest amplitude on average.
+Therefore, such modes tend to describe large-scale fluctuations of
+the protein. In addition, the energy
+landscape is the least steep along these slowest modes, so using them
+as progress coordinates to guide simulations would allow the system
+to move out of the local energy minimum more easily to explore a larger,
+yet still equilibrium-like conformational space, and therefore help
+enhance the sampling along relevant protein motions.
+Normal
+modes can be readily estimated by elastic network models (ENMs) based
+on a 3D protein structure and contain a coarse representation of the
+intrinsic molecular motion. , ENMs use a network
+of harmonic oscillators to represent the protein’s complex
+intramolecular interactions. The ENM representation can be scaled
+to any coarseness, and here we adopt a classical setup where each
+node (oscillator) in the network represents a protein residue, and
+each edge (spring) represents the interaction between two residues.
+Such an approximation significantly reduces the number of parameters
+that describe modes of protein motion typically inaccessible from
+more detailed models that require atomistic force fields, and yet
+ENM models still yield results in reasonable agreement with various
+experimental data. However, there is
+one caveat with simply using the slowest ENM modes as the progress
+coordinate to guide the sampling. While the slowest ENM modes, i.e.,
+those with high fractional variance ( D), often exhibit collective protein behavior,
+they could be dominated by the motions of free loops, protein termini,
+or even disordered regions, which is a known artifact of the simple
+harmonic approximation adopted by the network model. So, to identify
+slow yet meaningful modes that describe collective protein motion,
+we also calculate a measure called collectivity for each mode to provide a quantitative assessment of how
+much of the protein structure is significantly influenced by a particular
+mode ( E). In
+this work, we employed a commonly used ENM called ANM (see section) to calculate the normal modes for
+the KRAS structure.
+ To guide the protein motion in
+a collective and
+meaningful way,
+we used a projection of either the top one or two most collective
+of the slowest normal modes as a progress coordinate in our WE simulations
+(see and ; see Figure S3 for the progress of the simulations
+along each progress coordinate). We find that this kind of enhanced
+protein simulation procedure is a convenient way to lower the exponentially
+large computational cost of simulating the motion directly using brute
+force MD without adding any bias to the Hamiltonian. For this study,
+we selected modes 14 and 15 for a global search of cryptic pockets
+in KRAS. While these modes only describe a very small portion (<2%)
+of the overall dynamics of the protein ( D), they are effective in guiding rare event
+sampling for a cryptic pocket search (see results below). Nevertheless,
+one could imagine picking slower modes with larger variances at the
+cost of mode collectivity.
+The selection of normal modes for
+guiding WE simulations could
+potentially impact the efficiency of sampling certain protein conformations,
+which in turn could influence the ability of given cryptic pocket
+to open during simulations. As an example, if large conformational
+changes localized to a specific region of a protein are essential
+for cryptic pocket formation, then picking the most collective mode
+with relatively low variance in the region of interest could limit
+the degree to which cryptic pocket formation would be observed in
+WE simulations. In such cases, a normal mode with a high variance
+for the residues of interest (as indicated by large mode vector amplitudes
+on a given region; see ) might be more effective at sampling dynamics associated
+with a specific cryptic pocket involving those residues. Therefore,
+to assess the effect of normal mode selection, we also performed binding
+simulations of MRTX1133 using either a (Log-) Ligand RMSD or Ligand
+distance coordinate, along with normal modes that more directly sample
+the slow dynamics of Switch-I and Switch-II regions that surround
+known cryptic pockets in KRAS (see Figure S3 for the progress of simulations along each of these progress coordinates).
+While mode 12 is neither the most collective nor shows the highest
+overall structural variance, it has the largest mode vector amplitudes
+on Switch-I/II residues that could be important for cryptic pocket
+formation in that region. The collectivity of slow modes may also
+be improved all together by ignoring less ordered regions of the protein. However, the automatic determination of which
+subdomain of the protein structure should be highlighted or masked-off
+for ENM construction to sample local pocket (de)formation is beyond
+the scope of this study.
+Another limitation of normal modes
+derived from ENMs is that they
+are only accurate in the vicinity of energy minima because of the
+underlying harmonic assumption. As a result, other hybrid MD simulation
+methods that use normal modes as biasing forces require constant relaxation
+of the conformations and recalculation of the normal modes during
+simulation (see ref. ( ) for a review of such methods). In contrast, no external forces are
+applied to the protein molecules in our WE simulations, and the normal
+modes only serve as coordinates to measure how much the protein conformations
+are deformed from a reference point along the directions specified
+by the mode vectors. Nonetheless, as a future direction, we could
+improve the efficiency of the normal modes we use as progress coordinate
+for conformations in distant regions of the energy landscape in a
+few ways. For instance, we could either: 1) trace and update the normal
+modes at nonstationary positions using a technique called normal mode
+following, or 2) run a second simulation
+with normal modes resolved using essential dynamics analysis techniques,
+such as principal component analysis (PCA) or time-lagged independent
+component analysis (tICA), based on conformations generated by the
+first ENM mode simulation.
+To facilitate the identification
+of potential cryptic pockets that
+require an induced-fit mechanism to open, we also performed WE simulations
+with the normal mode coordinates discussed above in the presence of
+xenon at a low concentration (150 mM) as a probe ligand.
+
+## Automated Search
+of Potential Binding Sites from Weighted Ensemble
+Trajectories
+To detect potential sites where a pocket could
+open due to conformational fluctuations, we employed three different
+approaches: (1) exposon analysis, (2) dynamic probe-binding analysis,
+and (3) probe map analysis, where the latter two analysis methods
+require simulations with a (xenon) cosolvent.
+The exposon analysis
+method identifies a potential cryptic pocket as a group of residues
+that undergo cooperative changes in their solvent exposure due to
+fluctuations in the protein conformation. Through these collective changes in their solvent exposure, the
+exposon residues are anticipated to uncover a potential binding site.
+Here, we applied the exposon method to analyze WE simulations of a
+KRASG12D:GDP complex to see which, if any, cryptic pockets
+would be predicted (see for details).
+Exposon analysis of KRASG12D revealed several sites that
+could be druggable. One of the sites identified by the exposon methodology
+is lined with residues that form the Switch-II cryptic pocket where
+MRTX1133 and other inhibitors of KRAS bind (see A). Since an exposon predicts cryptic pocket
+opening entirely based on the change in solvent exposure, pocket-forming
+residues that do not undergo correlated changes are not detected.
+For this reason, a few pocket lining residues that do not experience
+collective solvent exposure changes, since they are either continuously
+buried or solvent exposed, are not included in the exposon that predicts
+the (cryptic) Switch-II site.
+ In general, exposon analysis is well-suited for
+finding potentially
+druggable cryptic pockets that exist through conformational selection
+of a subset of metastable conformations of an apo protein. However,
+if an induced-fit mechanism plays a central role in pocket formation,
+this approach would likely be unsuccessful, especially if simulations
+are performed in the absence of drug-like fragments or probe molecules.
+Another limitation of exposon analysis is that it does not provide
+insight into the possible binding affinity of the detected sites since
+changes in solvent exposure have no strong correlation with the potential
+affinity of a pocket. In this work, which is inspired by the exposon
+methodology, we suggest an alternative approach to overcome such limitations
+by simulating a biomolecule in the presence of a cosolvent. Our method
+for finding cryptic sites, termed dynamic probe-binding, defines a potential binding pocket as a group of residues that
+show cooperative changes in cosolvent binding behavior (see section for the theoretical background).
+In this study, we performed mixed solvent simulations with 150 mM
+xenon as a probe/cosolvent to identify cryptic pockets. Dynamic probe-binding
+analysis detects multiple potential cryptic pockets that open from
+either a conformationally selected or an induced-fit mechanism. Indeed,
+the exposon and dynamic probe-binding analysis methods predict complementary
+residues present near the known MRTX-1133 binding site within the
+Switch-II pocket ( C). Intriguingly, we find that Tyr71 appears to adopt either
+an inward- or outward-facing conformation depending on the closed
+or open state of the pocket, respectively, from both the exposon and
+dynamic probe binding methods ( B).
+The exposon and dynamic probe-binding analysis
+methods are conceptually
+similar since they both aim to identify cryptic pockets by measuring
+cooperative changes in the protein environment, either through their
+solvent exposure or cosolvent binding behavior. Thus, these methods
+can be useful for finding pockets that transiently open during MD
+simulations. However, a pocket that quickly opens during a simulation
+and remains open by stably binding a probe molecule could go undetected.
+To identify pocket forming residues of this kind, which possibly include
+high affinity binding sites, we used the probe map analysis method to classify cryptic pockets by their computed probe-binding
+free energy on a 3D grid. Here, the 3D grid is used to find patches
+of protein surfaces that stably bind probe molecules by comparing
+the grid occupancy to that of the bulk solvent. This method has been
+employed with an organic cosolvent used as a probe to find potential
+drug-binding pockets in several proteins. , , , Here, we analyzed
+several water-xenon mixed solvent simulations performed with the WE
+path sampling strategy to find high occupancy xenon-binding sites.
+To compute xenon occupancy on the protein surface, we first clustered
+protein conformations based on the similarities in their residue-xenon
+distance vectors and built a MSM from these clusters to derive equilibrium
+populations of each cluster. Next, we calculated a xenon-binding free
+energy from MSM-weighted occupancy of xenon atoms within 1 Å3 cell of a grid placed over the simulation box. To find high
+occupancy/affinity xenon-binding sites, all grid points with binding
+free energy greater than −2.5 kcal/mol were filtered out. This
+resulted in 8 high affinity xenon-binding clusters that could include
+potential druggable sites. Among these, 4 clusters overlapped with
+known KRAS-inhibitor binding pockets. Xenon-binding cluster-1 overlaps
+with C7-naphthyl group of MRTX1133 and Adagrasib, both of which occupy
+a deep hydrophobic subpocket in the Switch-II binding site ( B). Notably, the
+functional group at the C7 position of lead compound of MRTX1133 was
+targeted to improve potency during the optimization campaign. Xenon-binding cluster-2 in the vicinity of cluster-1
+was found to overlap with the Switch-I/II pocket which has been identified
+to bind small hydrophobic molecules in a series of crystal structures. , In fact, one of the analogs of MRTX1133 (Compound 15) was also found
+to occupy this pocket in a crystal structure (PDB ID: 7RT1) ( B). Additionally, in the cocrystal
+structure of MRTX1133 analog Compound 15 (PDB ID: 7RT1, B), two copies of the inhibitor
+are bound with the first in the expected Switch-II site, and the second
+in the secondary Switch-I/II site. This site in KRAS is also a part
+of the binding interface with SOS1 protein which activates KRAS through
+nucleotide exchange. Thus, one might
+wonder if it is possible probe map analysis could also predict likely
+protein–protein interaction interfaces. Interestingly, both
+xenon-binding cluster-1 and −2 are also surrounded by the exposon
+residues discussed above suggesting that the changes in the solvent
+exposure of those residues could be associated with the formation
+of two adjacent pockets ( C). Another set of xenon-binding clusters in the vicinity
+of cluster-1 were found to overlap with a peptide inhibitor-binding
+site observed in a crystal structure of KRASG12D-peptide
+inhibitor complex (PDB ID: 5XCO). Overall, with the use
+of xenon as a probe, we were able to locate three known inhibitor
+binding sites in KRAS mutants. Given that each of these sites have
+distinct residue composition and bind a diverse set of molecules,
+xenon appears to be a reasonable general probe for finding cryptic
+(allosteric) sites in a short period of simulation time. While other
+xenon-binding clusters do not coincide with any known inhibitor biding
+sites, it is likely that those sites could represent potential druggable
+pockets that remain to be explored.
+ 
+
+## Role of Induced-Fit vs Conformational Selection
+Mechanism in
+the Formation of Cryptic Pockets in KRASG12D
+Following
+the detection of the Switch-II site in KRAS using both the exposon
+and probe binding analysis methods, we sought to gain a deeper insight
+into the formation of the pocket that remained hidden for so many
+decades. It should be noted that the ability to sample Switch-II pocket
+conformations depends entirely on the mechanism of its formation.
+If the Switch-II pocket forms via a conformational selection mechanism,
+only a small subset of protein conformations that could accommodate
+a ligand due to the exact shape and electrostatic complementarity
+will be present in the full protein ensemble. , In this case, one would expect the sampling of the open conformation
+to be the rate limiting step. On the contrary, if the Switch-II pocket
+forms through an induced-fit mechanism, then the productivity of a
+protein–ligand collision is not dependent on the protein being
+in an open protein conformation, which is not sampled in the absence
+of the ligand. , Because the right ligand will
+always induce binding to any protein in solution, the induced conformational
+change of the protein would instead limit the kon. Thus, one could potentially resolve the mechanistic details
+through a carefully designed set of experiments investigating the
+kinetics of protein–ligand binding. While a population shift
+of holo-like structure in the presence of the probe and the ligand
+molecules can suggest the mechanism of ligand binding, kinetic studies
+monitoring the flux of ligand binding and conformational changes are
+required to conclude the contribution of induced-fit mechanism and
+conformational selection in different conditions. − In this work, we analyzed the population shift of holo-like conformations
+in the presence and absence of the probe or the ligand molecules.
+To obtain a computational perspective on the formation mechanism
+of the Switch-II pocket, i.e., conformational selection vs induced-fit,
+we performed SiteHopper analysis of all WE simulations of the WT and
+G12D isoforms of KRAS, both in neat water and in the presence of several
+cosolvents. This analysis compares the shape and electrostatics of
+the Switch-II pocket conformations formed in simulation against a
+previously solved crystal structure of KRASG12D bound to
+a high affinity small molecule inhibitor (MRTX1133). If Switch-II
+pocket opening is due to conformational selection of the protein ensemble,
+one would expect a high SiteHopper similarity in neat water with little
+dependence on the chemistry of any probe molecules. However, if the
+induced-fit mechanism dominates Switch-II pocket opening, one would
+expect a low similarity in neat water, with a progressively increasing
+similarity as the probe molecule tends toward MRTX1133.
+WE simulations
+were performed on the WT and G12D isoforms of KRAS
+in the presence of xenon, ethanol, benzene, and MRTX1133 as probe
+molecules. The SiteHopper similarity analysis shows that KRAS in the
+presence of cosolvents adopts Switch-II pocket conformations that
+are more like the MRTX-1133-bound structure than simulations performed
+without any molecular probe (see A). Notably, the SiteHopper similarity score
+distribution in xenon-water mixed solvent simulations shows a higher
+pocket similarity, and a higher probability (lower “free energy”)
+of similarity, compared to the simulations performed in the presence
+of either ethanol or benzene as probe molecules. However, MRTX1133-binding
+simulations had the highest probability (lowest “free energy”)
+of obtaining a high SiteHopper similarity score, and reached the highest
+similarity value overall, which means the Switch-II pocket more closely
+resembles the crystal structure when MRTX1133 is present compared
+to other chemical probes used in this study. Taken as a whole, the
+SiteHopper similarity analysis suggests the induced-fit mechanism
+strongly contributes to Switch-II pocket formation, and it also supports
+the idea of using xenon as a probe for finding potential allosteric
+sites as well as uncovering druggable pockets that require an induced-fit
+mechanism to open.
+ Additionally, the MRTX1133-binding simulations
+performed using
+two different sets of normal modes to guide the simulations suggest
+that sampling of druggable conformations is not dramatically affected
+by the choice of normal mode as the WE progress coordinate. As discussed
+in the previous section, sampling along ANM mode 12 would capture
+slow dynamics of the Switch-II region that lines the binding pocket
+( ). One might
+anticipate an enhancement of the pocket formation with the use of
+ANM mode 12 compared to ANM mode 14 as a progress coordinate in the
+MRTX1133-binding simulation. Mode 12 captures Switch-II pocket motion
+more directly whereas mode 14 is more global/collective. However,
+our SiteHopper analysis of those simulations does not show any significant
+difference in the distribution of druggable conformations with the
+choice of normal modes as progress coordinates. This implies that
+normal modes that embody global dynamics of a protein could be sufficient
+for sampling the local dynamics associated with cryptic pocket formation.
+To further understand the extent of backbone and side chain sampling
+associated with pocket formation (Figure S1), we also performed RMSD analysis of the pocket forming residues
+using the MRTX1133-bound structure as the reference. The comparison
+of the RMSD distributions of WE simulations show that binding-site
+residues adopt backbone conformations that resemble the inhibitor-bound
+crystal structure (i.e., low RMSD) in all simulations including those
+in neat water (Figure S1a). On the contrary,
+all-atom RMSD of the binding-site residues computed with respect to
+the inhibitor-bound crystal structure indicate that sampling of druggable
+side-chain orientations of the binding-site residues only improves
+in the presence of probe molecules, where maximum improvement of side
+chain orientations is seen when MRTX1133 was present in the simulation
+setup (Figure S1b). Interestingly, we do
+not notice a strong correlation between the binding site similarity
+of the MRTX1133-bound structures and the distance between the MRTX1133
+and the binding site. If the opening of Switch-II pocket binding only
+involves an induced-fit mechanism, one would expect the binding site
+residues to adopt more druggable conformations when MRTX1133 approaches
+the binding residues. However, our correlated analysis of binding
+site residue RMSD and the COM distance of MRTX1133 to its binding
+pocket location does not show such correlations (Figure S2). In the ligand-bound conformations sampled in our
+MRTX1133-binding simulations with various progress coordinates, we
+find that that these conformations deviate by more than 3.7 Å
+compared to the crystal structure ( B–D). It is not clear if our MRTX1133-binding
+simulations fail to fully capture the complete binding process, or
+if the conformational selection mechanism plays a larger role in active
+site reorientation and the exact conformations simply were not sampled.
+Interestingly, the normal mode chosen to directly enhance sampling
+in the Switch-I/II region (ANM 12) was less effective at finding the
+correct MRTX1133 binding pose and active site backbone conformation
+compared to the more collective mode (ANM 14) ( B,C). This result suggests that global protein
+motion may be at least partially involved in Switch-II pocket formation,
+and perhaps always in other cryptic pocket formations as well, which
+emphasizes the potential utility of using the most collective normal
+mode as a of general-purpose progress coordinate for protein sampling.
+Additionally, using a log-transformation of the Ligand RMSD was also
+useful at finding a reasonably close MRTX1133 binding pose (<4
+Å) (see E). Considering the issues finding the correct protein backbone and
+ligand pose, longer simulations may be required to obtain quantitative
+pathway (kinetic) and population (thermodynamic) information on binding
+MRTX1133 to Switch-II.
+
+## Conclusions
+With over 400 μs
+of atomistic WE
+simulations of KRAS, we
+were able to show that the projection along normal modes can be a
+practical progress coordinate for quickly exploring protein conformational
+landscapes in the absence of knowing the precise motion connecting
+the ensemble of states. We also present a method for detecting induced-fit
+cryptic pocket opening by using xenon as a generic chemical probe.
+In addition, we demonstrate the use of three physics-based methods
+for the automated detection of potential cryptic pockets from the
+enormous conformational ensemble generated by normal mode-driven WE
+simulations. All three analysis methods retrospectively predict cryptic
+pockets in KRAS that have been reported by experimental studies. One
+of the predicted cryptic sites, the Switch-II pocket, binds the only
+two FDA approved drugs for KRAS, Adagrasib and Sotorasib. The sampling
+approach presented in this study for cryptic pocket searching could
+be extended to investigate other biologically and pharmacologically
+relevant rare events. With fine-tuning, the analysis methods presented
+here could also be used to detect cryptic sites in other complexes,
+including at protein–protein or protein-nucleic acid interfaces
+that have become targets for modern therapeutics like degraders and
+molecular glues. In this way, normal modes might prove to be a useful
+progress coordinates for path sampling of generic biomolecular dynamics,
+especially when the desired (druggable) conformation of the target
+is unknown. Overall, this work introduces a new framework that uses
+xenon as probes for cryptic pocket search and ENM-derived normal modes
+as effective progress coordinates when the location and the nature
+of dynamics associated with a cryptic pocket formation which is almost
+always the case. Our future work will be directed toward validating
+this framework for prediction of cryptic pockets in diverse proteins
+including those formed at protein–protein interfaces.
+
+## Acknowledgments
+The authors would like to thank Eric Manas (Treeline
+Biosciences) for recommending probe map analysis, Ivet Bahar (Stonybrook
+University) for the inspiration to combine NMA with WE simulations,
+Greg Bowman for inspiration to use exposon analysis for cryptic pocket
+detection, Lillian Chong (University of Pittsburgh) for her helpful
+feedback on WE simulations, John Russo (Oregon Health and Science
+University) for his contribution to Markov State Modeling of WE simulations.
+We also thank Qing Cao, Suhani Nagpal, Agnes Huang, David Stevens,
+and Allison Maresh from OpenEye, Cadence Molecular Sciences for testing
+the NMA-based WE simulation and cryptic pocket detection software.
+
+## Glossary
+
+## Abbreviations
+ANMAnisotropic
+network model
+ENMElastic network model
+KRASKristen Rat Sarcoma Virus oncogene
+protein
+RASRat
+Sarcoma Virus
+MSMMarkov state model
+WEWeighted Ensemble
+
+## Data Availability Statement
+Supplementary
+data has been provided to reproduce this study that include the initial
+structures of the GDP-bound WT and mutant KRAS proteins (in PDB format)
+and all structures of chemical probes (as SMILES strings). Weighted
+Ensemble simulations were performed using the WESTPA toolkit (https://github.com/westpa/westpa.) with the OpenMM MD engine (https://openmm.org/) as the dynamics propagator; both toolkits are openly available.
+Small molecule conformer generation for chemical probes was performed
+with the commercially available OpenEye Omega Toolkit. Initial protein
+structure preparation including the G12D mutation was performed with
+the commercially available OpenEye Spruce Toolkit, while initial MD
+system construction was made with the freely available PACKMOL (https://m3g.github.io/packmol). Protein force-field parameters were taken from the openly available
+Amber14SB force field (https://ambermd.org). Force-field parameters for small organic molecules were taken
+from the openly available OpenFF-2.0.0 (Sage) (https://github.com/openforcefield/openff-forcefields/releases/tag/2.0.0). Force-field parameters for xenon were taken from a study published
+by Warr et al. Analysis of molecular
+dynamics simulation trajectories were performed using the commercially
+available OpenEye OEChem and Zap Toolkits. Academic licenses are also
+freely available for all OpenEye Toolkits including Spruce, Omega,
+OEChem and Zap Toolkits used in this study. (https://www.eyesopen.com/academic-licensing, https://www.eyesopen.com/customer-software-download). All simulation
+and analysis data from this study are stored on Orion and will be
+shared upon request due to the enormous file sizes of the aggregate
+trajectories. OpenEye Cryptic Pocket Detection Floes, which automates
+both the simulation and analysis presented in this study, are available
+on the academic stack of Orion that is also available upon request.
+
+## Supporting Information Available
+The Supporting Information
+is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jcim.4c01435.
+List of PDB structures
+of KRAS in complex with inhibitors
+targeting the cryptic pockets. Free energy surfaces for ligand binding
+simulations. Trajectory evolution of weighted ensemble molecular dynamics
+simulations (PDF)
+
+## Author Contributions
+# N.V. and S.Z. are cofirst authors.
+
+The authors
+declare the following competing financial interest(s): N.V., S.Z.,
+J.P.T, L.A.P, A.D., J.X., A.N., A.G.S., and D.N.L. are current or
+former employees of OpenEye, Cadence Molecular Sciences. A.M., Y.A.A,
+and A.K. are former employees of Black Diamond Therapeutics. J.D.L.
+is a former employee of Mirati Therapeutics, Inc.
+
+## Supplementary Material
+ci4c01435_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ci4c01435_si_001.pdf
+
+## Data Availability Statement
+Supplementary
+data has been provided to reproduce this study that include the initial
+structures of the GDP-bound WT and mutant KRAS proteins (in PDB format)
+and all structures of chemical probes (as SMILES strings). Weighted
+Ensemble simulations were performed using the WESTPA toolkit (https://github.com/westpa/westpa.) with the OpenMM MD engine (https://openmm.org/) as the dynamics propagator; both toolkits are openly available.
+Small molecule conformer generation for chemical probes was performed
+with the commercially available OpenEye Omega Toolkit. Initial protein
+structure preparation including the G12D mutation was performed with
+the commercially available OpenEye Spruce Toolkit, while initial MD
+system construction was made with the freely available PACKMOL (https://m3g.github.io/packmol). Protein force-field parameters were taken from the openly available
+Amber14SB force field (https://ambermd.org). Force-field parameters for small organic molecules were taken
+from the openly available OpenFF-2.0.0 (Sage) (https://github.com/openforcefield/openff-forcefields/releases/tag/2.0.0). Force-field parameters for xenon were taken from a study published
+by Warr et al. Analysis of molecular
+dynamics simulation trajectories were performed using the commercially
+available OpenEye OEChem and Zap Toolkits. Academic licenses are also
+freely available for all OpenEye Toolkits including Spruce, Omega,
+OEChem and Zap Toolkits used in this study. (https://www.eyesopen.com/academic-licensing, https://www.eyesopen.com/customer-software-download). All simulation
+and analysis data from this study are stored on Orion and will be
+shared upon request due to the enormous file sizes of the aggregate
+trajectories. OpenEye Cryptic Pocket Detection Floes, which automates
+both the simulation and analysis presented in this study, are available
+on the academic stack of Orion that is also available upon request.

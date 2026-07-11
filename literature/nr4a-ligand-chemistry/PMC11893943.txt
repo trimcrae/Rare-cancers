@@ -1,0 +1,170 @@
+4139disconDiscover OncologyDiscov OncolSpringerPMC1189394311893943118939434006331310.1007/s12672-025-02019-yUnveiling novel susceptibility genes and drug targets for basal cell carcinoma by a cross-tissue transcriptome-wide association study
+SunHong LiLing XinXiu YanJingchao HuangTaomin 1Department of Pharmacy, Eye & ENT Hospital, Fudan University, Shanghai, China ✉Corresponding author.
+1032025162882881132025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Objective
+To identify novel susceptibility genes and drug targets for basal cell carcinoma (BCC).
+
+## Methods
+We performed a transcriptome-wide association study (TWAS) to identified the susceptibility genes and potential drug targets for BCC. The cross-tissue TWAS was conducted to discover the candidate genes for BCC. Functional Summary-based Imputation (FUSION) analysis was used to validate these genes in the single tissues. Multimarker Analysis of Genomic Annotation (MAGMA) was employed to further screen candidate genes. Summary data-based Mendelian randomization (SMR) and colocalization analyses were applied to infer causal relationships between candidate genes and BCC. The expression pattern of the identified genes in single-cell types was also investigated. Function, pathway enrichment and disease connection analyses were performed to understand the biological implication of identified genes. Additionally, druggability of the identified genes was evaluated to discover potential candidate drugs for BCC.
+
+## Results
+Ninety-five genes were identified by cross-tissue TWAS analysis. Among them, 24 genes were confirmed by FUSION and MAGMA methods. Ten genes were further confirmed by SMR and colocalization analyses. Three genes were replicated by using another GWAS data. The potential interacting gene networks constructed with these identified genes were mainly involved in viral life cycle-HIV-1, GABAergic synapse, nicotine addiction, ether lipid metabolism, and mineral absorption pathways. AN-9 and amooranin might be candidate drugs for BCC.
+
+## Conclusions
+We have identified 10 susceptibility genes associated with BCC risk, which might deepen our comprehension of BCC pathogenesis and illuminating new avenues for therapeutic and preventive drug development.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s12672-025-02019-y.
+
+Keywords: Basal cell carcinoma, Cross-tissue TWAS, Susceptibility genes, Drug targets
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Sep 30; Accepted 2025 Mar 3; Collection date 2025 Dec.
+
+## Introduction
+Basal cell carcinoma (BCC) is one of the most prevalent type of cancer globally, with an increasing incidence [ , ]. Majority of BCC cases manifest on the head or neck and it could also affect the trunk and extremities. Although its mortality rate is relatively low, it still has a significant impact on patients' health and quality of life due to its destructive impact on the local tissues since the local tissue damage caused by BCC might cause significant morbidity and functional loss [ ]. For instance, nasal and ocular periorbital tumors have the potential to result in vision loss [ ]. At present, the treatment approaches for BCC mainly include surgical resection, radiotherapy and drug treatment [ ]. However, due to the limited understanding of the pathogenesis of BCC, these treatments might not always be effective. The recurrence and resistance to treatment observed in some patients emphasize an urgent need for a deeper molecular understanding of BCC to provide information for the development of novel and targeted therapies [ , ].
+The cross-tissue association study has been widely applied to discover the candidate susceptibility genes for diseases recently [ – ]. Therefore, this study aims to identify susceptible genes and potential drug targets related to BCC by a cross-tissue transcriptome association study. Firstly, we performed a cross-tissue transcriptome association study to identify the candidate genes of BCC. Secondly, the results of candidate genes in a single tissue were verified by functional summary-based imputation (FUSION) method, and candidate genes were further screened based on multi-marker Analysis of GenoMic Annotation (MAGMA) analysis. In addition, summary data-based Mendelian randomization (SMR) and colocalization analyses were further conducted to infer the causal relationship between candidate genes and BCC. GeneMANIA analysis was used to understand the functional significance of the identified candidate genes, and the druggability of the identified genes were evaluated in order to find and discover the potential candidate drugs for BCC. We hope to reveal the molecular mechanism of BCC and provide scientific basis for developing new prevention, diagnosis and treatment strategies for BCC.
+
+## Materials and methods
+
+## Study design
+The study design is displayed in Fig.  .
+ 
+
+## Data sources
+FinnGen represents the most extensive medical research initiative in Finland, with its primary objective being to enhance our comprehension of the genetic background of various diseases. Data from the GWAS on BCC were derived from the FinnGen R11 dataset (https://www.finngen.fi/en), encompassing a total of 23,424 European ancestry cases and 345,118 European ancestry controls [ ]. Another GWAS data of BCC from GWAS Catalog were used to replicated our discoveries (17,416 European ancestry cases, 375,455 European ancestry controls) [ ]. The GTEx_V8 eQTL dataset (https://ftp.ebi.ac.uk/pub/databases/spot/eQTL/imported/GTEx_V8) includes a substantial collection of gene expression data obtained from a range of 49 distinct fresh frozen tissues.
+
+## Cross-tissue and single-tissue TWAS analyses
+The unified test for molecular signatures (UTMOST) analysis was conducted across various tissues to furnish a comprehensive assessment of the overall associations between gene expression and traits at the organismal scale [ ]. This approach facilitates the detection of a greater number of genes that exhibit heightened trait heritability across tissues, thereby enhancing the precision of the estimation. The FUSION analysis was executed utilizing GWAS data of BCC along with the GTEx_V8 eQTL data of 49 different tissues, aiming to evaluate the relationships between these genes and BCC [ ]. The P-values were adjusted by the Benjamini–Hochberg approach to manage the false discovery rate (FDR), with a significance level set at α = 0.05. A P-value for FDR-adjustment (PFDR) < 0.05 was considered to be statistically significant.
+
+## Conditional and joint analysis
+The conditional and joint (COJO) analysis was conducted to identify the independent genetic signals, as the FUSION analysis could potentially reveal several correlated characteristics within a single genomic location [ ]. Upon completion of the testing, genes that exhibited independent associations were designated as jointly significant, whereas those that no longer demonstrated significance were classified as marginally significant.
+
+## MAGMA analysis
+We conducted the MAGMA analysis to amalgamate the association statistics of SNP level into the gene score, a process which quantifies the extent of association between each gene and the phenotype [ ]. After applying the FDR adjustment, PFDR < 0.05 was deemed to indicate statistical significance.
+
+## SMR analysis
+Summary data-based Mendelian randomization (SMR) and colocalization analyses were performed to further investigate the causal relationships of identified genes with BCC. The top associated cis-expression quantitative trait loci (cis-eQTL) was selected by focusing on a window surrounding the corresponding gene (± 1000 kb) and applying a stringent P-value threshold of 5.0 × 10–8 [ ]. The impact of SMR was assessed using the Wald ratio method, with a threshold for significance set at P < 0.05. The heterogeneity in the dependent instrument (HEIDI) test was utilized to differentiate between pleiotropic effects and those due to linkage, where the PHEIDI < 0.01 were excluded from the analysis, as these were suspected to be potentially influenced by pleiotropy.
+
+## Colocalization analysis
+In the colocalization analysis, a posterior probability of H4 (PP.H4) exceeding 0.70 was deemed supportive of colocalization, indicating a shared causal variant between the eQTL and GWAS. Specifically, a PP.H4 value above 0.90 was considered to provide strong evidence for colocalization.
+
+## Single cell-type expression analysis in BCC tissues
+We used the single-cell RNA sequencing data from 4 BCC samples from the Gene Expression Omnibus (GEO) database (Registration number: GSE141526). The Seurat R package (v.5.1.0) was employed to analyze the data. To achieve high-quality single-cell RNA expression data, the following filtering criteria were established: 1. exclusion of cells that have a measured gene count below 300 or exceeding 7000; 2. exclusion of cells where mitochondrial contamination exceeds 10%. In total, 37,004 high-quality cells were retained for subsequent analysis. Post-quality control data would be normalized utilizing the "NormalizeData" function. The cell type annotation and clustering analysis were also performed by the Seurat R package (v.5.1.0).
+
+## Function and pathway enrichment analysis
+The GeneMANIA platform (https://genemania.org/) was employed to elucidate the biological roles of each identified gene. STRING database (https://cn.string-db.org/) was used to predict the top 50 proteins interacting with these identified targets and construct the Protein–Protein Interaction (PPI) network. Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) analyses were performed by g: Profiler (https://biit.cs.ut.ee/gprofiler).
+
+## Disease connection of identified genes in mouse
+For these identified genes, we employed the Mouse Genome Informatics (MGI) website (http://www.informatics.jax.org) to investigate their biological function and disease connection in the mouse models.
+
+## Druggability of the identified genes
+The drug databases of DrugBank (https://go.drugbank.com/), and Therapeutic Target Database (https://db.idrblab.net/ttd/) were searched to evaluate the druggability of candidate genes of BCC. Molecular docking was conducted to evaluate the affinity of candidate drugs on their targeted proteins.
+
+## Results
+
+## Cross-tissue and single-tissue TWAS results
+There were 448 genes were significantly associated with BCC (P value < 0.05) in cross-tissue TWAS analysis. Among them, 95 genes were still significant after the FDR adjustment (Table S1). In the replicated stage, 46 significant genes were identified (Table S2). For the single-tissue TWAS analysis, a total of 1460 genes were identified with a PFDR value < 0.05 for at least one tissue (Table S3), while 934 significantly genes were found in the replicated stage (Table S4). Thirty-eight significant genes were identified by both cross-tissue and single-tissue TWAS analyses. These candidate genes were AFF1, ANKRD36BP2, ANTXR1, ATL2, C22orf31, C2CD6, CASP10, CASP8, CDK15, CFLAR-AS1, CLK1, CYBRD1, FLACC1, FZD7, HSCB, HSD17B11, HSD17B13, HYCC2, IGKC, IGKJ2, IGKV6-21, KCTD18, KIAA2012-AS1, KLHL8, MAFF, NDUFB3, NEMP2, PLA2G6, SCYL2P1, SLC16A8, STRADB, THOC1, THOC5, TMEM184B, TMEM237, TRAK2, UBE2CP2, and XBP1.
+
+## COJO results
+The 38 identified genes are primarily on chromosomes 2, 4, 18 and 22. The COJO analysis was conducted in related tissues to dispel false positive outcomes caused by LD. The TWAS signal of CASP8 was significantly decreased under predicted FLACC1 expression conditions in multiple tissues. The condition of predicted expression of MAFF and PLA2G6 resulted in a significant reduction in TWAS signal of TMEM184B in multiple tissues. In Breast_Mammary_Tissue, under conditions of predicted IGKJ2 expression, TWAS signals were significantly reduced in IGKC and ANKRD36BP2 (Fig.  ). Since IGKC was only significant in the TWAS results for a single tissue and LD had a potential impact on this result, this gene was not considered in further analyses.
+ 
+
+## MAGMA results
+A total of 912 significant genes were identified to be associated with the risk of BCC after the FDR adjustment in the MAGMA analysis (PFDR < 0.05) (Table S5), and 506 significantly genes were found in the replicated stage (Table S6). After integrating with the findings of cross-tissue (UTMOST) and single-tissue (FUSION) TWAS analyses, there were still 24 genes significantly associated with BCC. These genes were AFF1, ANTXR1, C2CD6, CASP10, CASP8, CDK15, CLK1, CYBRD1, FLACC1, FZD7, HSCB, HSD17B13, HYCC2, KCTD18, KLHL8, MAFF, NDUFB3, PLA2G6, STRADB, THOC5, TMEM184B, TMEM237, TRAK2, and XBP1.
+
+## SMR results
+The results of SMR analysis were presented in Table S7. The SMR analysis indicated that there were causal associations between 18 identified genes (AFF1, C2CD6, CASP10, CASP8, CDK15, CYBRD1, FLACC1, FZD7, HSCB, HSD17B13, KLHL8, MAFF, PLA2G6, STRADB, TMEM184B, TMEM237, TRAK2, and XBP1) and BCC (P value < 0.05). C2CD6, CASP10, CASP8, FLACC1, STRADB, TMEM237, and TRAK2 genes were confirmed in the replicated stage (Table S8). Among them, CASP8, CYBRD1, FLACC1, FZD7, HSD17B13, PLA2G6, STRADB, and TMEM184B were associated with BCC in multiple tissues. In addition, CYBRD1, FLACC1, HSD17B13 and PLA2G6 were associated with BCC in Skin_Not_Sun_Exposed_Suprapubic and Skin_Sun_Exposed_Lower_leg tissues (Fig.  ). Among them, the association between FLACC1 and BCC in Skin_Not_Sun_Exposed_Suprapubic and Skin_Sun_Exposed_Lower_leg tissues was replicated by using another GWAS data.
+ 
+
+## Colocalization results
+The colocalization analysis suggested that there was evidence of colocalization supported by the AFF1, ANTXR1, CASP8, CYBRD1, FLACC1, HSCB, HSD17B13, MAFF, PLA2G6, TMEM184B, TRAK2 genes and BCC (PP.H4 > 0.70; Table S9). The evidence of colocalization supported by the CASP8, FLACC1, TRAK2 genes and BCC were confirmed in the replicated stage (PP.H4 > 0.70; Table S10). In addition, CASP8, FLACC1, HSD17B13, MAFF, and PLA2G6 genes were supported by high colocalization evidence with BCC in several tissues (PP.H4 > 0.90). In particular, FLACC1 and TMEM184B genes were supported by colocalization evidence with BCC in Skin_Not_Sun_Exposed_Suprapubic tissue, where the colocalization evidence between FLACC1 and BCC was validated in the replicated stage (Fig.  ).
+ Ten genes (AFF1, CASP8, CYBRD1, FLACC1, HSCB, HSD17B13, MAFF, PLA2G6, TMEM184B, TRAK2) were both identified by UTMOST, FUSION, MAGMA, SMR and colocalization analyses in the discovery stage (Fig.  A), while 3 genes (CASP8, FLACC1, TRAK2) were validated in the replicated stage (Fig.  B).
+ 
+
+## Results of single-cell analysis in BCC tissues
+As shown in Fig.  , after cell types annotation, all cells were divided into 12 clusters incorporating B cells, cycling epithelial cells, endothelial cells, epidermis cells, keratinocytes, melanocyte, neutrophil, pericyte, reticular fibroblast, secretory cells, smooth muscle cells and T cells. The cell type gene expressions of identified genes were shown in Fig.  B and C. Among these identified genes, MAFF was enriched in endothelial cells, reticular fibroblast, pericyte, and B cells.
+ 
+
+## Results of GeneMANIA analysis, PPI and enrichment analyses
+The potential interacting gene networks constructed with these identified genes as the core were presented in Fig.  . Among these identified genes, CASP8-related gene network had the largest number of signaling pathways, of which the most important functional pathways are the regulation of extrinsic apoptotic signaling pathway via death domain receptors, extrinsic apoptotic signaling pathway via death domain receptors, and regulation of cysteine-type endopeptidase activity involved in apoptotic process. The information for important functional pathways of other gene networks were displayed in Table S11.
+ A total of 100 proteins were identified interacting with these 10 targets. The results of PPI network, GO and KEGG analyses were displayed in Fig.  . The mainly molecular function (MF) items were RNA polymerase binding, RNA polymerase II complex binding, death effector domain binding, RNA polymerase core enzyme binding, and basal transcription machinery binding. The major biological process (BP) were transcription elongation by RNA polymerase II, DNA-templated transcription elongation, regulation of DNA-templated transcription elongation, regulation of transcription elongation by RNA polymerase IIG, and positive regulation of DNA-templated transcription, elongation. The primary cellular component (CC) items were transcription elongation factor complex, nucleoplasm, nuclear lumen, nuclear protein-containing complex and super elongation complex. KEGG analysis suggested that the mainly pathways were viral life cycle-HIV-1, GABAergic synapse, nicotine addiction, ether lipid metabolism, and mineral absorption.
+ 
+
+## Disease connection analysis
+The results of disease connection analysis were shown in Table S12. For the 10 identified target genes, AFF1, CASP8, CYBRD1, FLACC1, HSD17B13, PLA2G6, TMEM184B and TRAK2 were reported to be associated with abnormal mouse phenotypes in multiple systems including cellular, integument, thomeostasis/metabolism, immune system, and muscle systems.
+
+## Druggability of identified genes
+The druggability information for these identified genes was listed in Table S13. There were 6 investigational drugs targeting for CASP8. Among them, AN-9 was investigated for use/treatment in liver cancer, lung cancer, melanoma, and leukemia (lymphoid). Amooranin was also investigated for treatment in solid tumour/cancer. Two drugs targeting for CYBRD1 were approved mainly for the prevention and treatment of iron deficiency anemia. GSK4532990 was designed to target HSD17B13 for the treatment of non-alcoholic steatohepatitis. There was no information about AFF1, FLACC1, HSCB, MAFF, PLA2G6, TMEM184B, and TRAK2.
+Among these investigational or approved drugs, AN-9 and amooranin seemed to have effects on BCC. We further performed molecular docking to evaluate the affinity of these drugs on their targeted proteins. The result was shown in Fig.  . The lowest binding energies for interactions between AN-9 and CASP8 protein, and between amoracin and CASP8 protein were − 6.0 kcal/mol and − 7.2 kcal/mol, respectively, indicated stable bindings, which highlighted their potential as drug candidates.
+ 
+
+## Discussion
+In the present study, we have systematically evaluated the association between gene expression and BCC risk though multiple methods including cross-tissue TWAS, single-tissue TWAS, MAGMA, SMR and colocalization analyses. A total of 10 candidate genes (AFF1, CASP8, CYBRD1, FLACC1, HSCB, HSD17B13, MAFF, PLA2G6, TMEM184B, TRAK2) were revealed to be significantly associated with BCC risk. Among them, CASP8, FLACC1, and TRAK2 were confirmed in the replicated stage. GeneMANIA analysis indicated that the potential interacting gene networks constructed with these identified genes as the core were involved in multiple signaling pathways. KEGG analysis indicated that these identified genes were mainly involved in viral life cycle-HIV-1, GABAergic synapse, nicotine addiction, ether lipid metabolism, and mineral absorption pathways. Druggability analysis indicated that there were only 3 targets (CASP8, CYBRD1 and HSD17B13) with investigational or approved drugs. Among these drugs, AN-9 and amooranin might be candidate drugs for BCC since they marked stable bindings with CASP8 protein.
+CASP8 (caspase 8) is a gene encoding a member of the cysteine-aspartic acid protease (caspase) family, which acts as a pivotal regulatory enzyme for several forms of programmed cell death, including apoptosis, necroptosis, and pyroptosis [ ]. CASP8 was reported to be associated with various types of cancer such as ovarian cancer, breast cancer and renal cell carcinoma [ – ]. FLACC1 (flagellum associated containing coiled-coil domains 1) was reported to be predisposing factors for development of cardiac autonomic neuropathy [ ]. The mitochondrial adaptor TRAK2 (trafficking kinesin protein 2) serves as a crucial activator that establishes a functional connection between the opposing forces of kinesin and dynein motor proteins [ ]. These 3 genes were discovered and validated to be significantly associated with the risk of BCC in our analyses and might be promising therapeutic targets for BCC.
+AFF1 (ALF transcription elongation factor 1), recognized as a pivotal structural component of the super elongation complex (SEC), exerts control over the process of gene transcription. AFF1 was reported to inhibit adipogenic differentiation through modulating TGM2 transcription [ ]. CYBRD1 (cytochrome b reductase 1) belonging to the cytochrome b (561) family, is a gene that encodes for an iron-regulated protein. CYBRD1 was also reported to be related with several types of cancer including hepatocellular carcinoma, ovarian cancer, colorectal cancer, etc. [ – ]. HSCB (HscB mitochondrial iron-sulfur cluster cochaperone) gene is responsible for encoding a DnaJ-like co-chaperone protein, which is a constituent of the heat shock cognate B (HscB) protein family. The encoded protein could potentially enhance the ATPase activity of the mitochondrial stress-70 protein. A loss-of-function variant in HSD17B13 (hydroxysteroid 17-beta dehydrogenase 13) was correlated with a decreased likelihood of developing chronic liver disease and a slowed progression from fatty liver (steatosis) to a more severe inflammation condition (steatohepatitis) [ ]. MAFF (MAF bZIP transcription factor F) gene encodes for a basic leucine zipper (bZIP) transcription factor, characterized by the absence of a transactivation domain. MAFF plays a role in increasing the susceptibility of lung adenocarcinoma to cisplatin-based chemotherapy and ionizing radiation by influencing the processes of ferroptosis and the advancement of the cell cycle [ ]. The protein encoded by PLA2G6 (phospholipase A2 group VI) is an A2 phospholipase enzyme, which facilitates the detachment of fatty acids from phospholipids. PLA2G6 was mainly associated with neurodegenerative diseases [ ]. TMEM184B (transmembrane protein 184B) plays a pivotal role in fostering the proliferation, migration, and invasiveness of hypopharyngeal squamous cell carcinoma cells, concurrently acting to suppress the process of apoptosis [ ]. These 7 genes were discovered to be significantly associated with the risk of BCC in our analyses. Although they were not confirmed in the replicated stage, the GWAS data used in the discovery stage had a larger sample size, and hence the findings from the discovery stage were more credible.
+The advantage of the present study is that multiple methods (UTMOST, FUSION, MAGMA, SMR and colocalization analyses) were employed to discover and validate BCC susceptibility genes, which contributed to the credibility and stability of our results. There are also several limitations in this study. On the one hand, this study was conducted on a European population and there is a requirement for additional confirmation whether the identified targets are applicable to other populations. On the other hand, although the cross-tissue gene expression method is novel, the strategy used relies on the imputation of expression results and it probably could not capture the expression weights of all BCC-related genes. In addition, detailed clinical information on BCC cases is not available in the GWAS data, and it is not known whether other diseases (e.g., Gorlin syndrome) are included in the population. Furthermore, due to the lack of data, we are unable to perform subgroup analyses based on sex, age at diagnosis, and major BCC subtypes (infiltrative, superficial, or nodular), nor can we conduct polygenic risk score (PRS) analysis based on the lead independent genome-wide significant SNPs for BCC count, to explore whether this trait is associated with differences in BCC across sex, age, and phenotypic subtypes. Future studies that focus on factors like sex, age, phenotypic subtypes and BCC count are essential to uncover genetic variants associated with these specific subgroups.
+
+## Conclusion
+In conclusion, these findings not only help us better understand the molecular pathology of BCC, but also provide potential molecular markers and therapeutic targets for future personalized medicine. Through further research on the function and mechanism of these genes, we hope to develop more effective and targeted treatment methods to improve the prognosis and quality of life in BCC patients. This study is expected to provide a new perspective for BCC's precision medicine and lay a foundation for future clinical research and drug development.
+
+## Supplementary Information
+
+Additional file 1.
+
+## Acknowledgements
+We appreciate the publicly available GWAS datasets for BCC as well as gene expression and eQTL data.
+
+## Abbreviations
+BCCBasal cell carcinoma
+TWASTranscriptome-wide association study
+FUSIONFunctional summary-based imputation
+MAGMAMultimarker analysis of genomic annotation
+SMRSummary data-based Mendelian randomization
+UTMOSTUnified test for molecular signatures
+FDRFalse discovery rate
+COJOConditional and joint
+cis-eQTLCis-expression quantitative trait loci
+HEIDIHeterogeneity in the dependent instrument
+PP.H4Posterior probability of H4
+
+## Author contributions
+HS has made contributions to the design of the work, the acquisition, analysis and interpretation of data, the drafting and revising of the article. LL and XX have made contributions to the acquisition and analysis of data. JY has made contributions to the design, the administration of the project and revising of the article. TH has made contributions to the design of the work, the administration of the project, revising of the article and the acquisition of funding. All authors contributed to the article and approved the submitted version.
+
+## Funding
+This study was supported by grants from the Shanghai Municipal Health Commission (No. 202140069), and Science and Technology Commission of Shanghai Municipality (No. 23ZR1409100).
+
+## Data availability
+The data of FinnGen can be accessed at https://www.finngen.fi/en. The data of GWAS Catalog can be accessed at https://www.ebi.ac.uk/gwas. The GTEx_V8 eQTL dataset can be accessed at https://ftp.ebi.ac.uk/pub/databases/spot/eQTL/imported/GTEx_V8. The single-cell RNA sequencing data of BCC tissue can be accessed at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE141526.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Ethical approval was waived because this study used the data from publicly available databases.
+
+## Consent for publications
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Contributor Information
+Jingchao Yan, Email: jingchao.yan@fdeent.org.
+Taomin Huang, Email: taominhuang@126.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1.
+
+## Data Availability Statement
+The data of FinnGen can be accessed at https://www.finngen.fi/en. The data of GWAS Catalog can be accessed at https://www.ebi.ac.uk/gwas. The GTEx_V8 eQTL dataset can be accessed at https://ftp.ebi.ac.uk/pub/databases/spot/eQTL/imported/GTEx_V8. The single-cell RNA sequencing data of BCC tissue can be accessed at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE141526.

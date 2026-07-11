@@ -1,0 +1,164 @@
+Mol MetabMol Metab2172molmetMolecular Metabolism2212-8778ElsevierPMC6034040PMC6034040.1603404060340402986644010.1016/j.molmet.2018.05.013S2212-8778(18)30439-31Original ArticlePPARγ is dispensable for clear cell renal cell carcinoma progression
+SanchezDanielle J. StegerDavid J. SkuliNicolas BansalAnkita SimonM. Celesteceleste2@pennmedicine.upenn.edu 1Abramson Family Cancer Research Institute, USA2Department of Cancer Biology, USA3Institute for Diabetes, Obesity and Metabolism, USA4Department of Cell and Developmental Biology, USA∗Corresponding author. Perelman School of Medicine at the University of Pennsylvania, 456 BRB II/III, 421 Curie Boulevard, Philadelphia, PA, 19104-6160, USA. celeste2@pennmedicine.upenn.edu8201821520181431647113914915201811520181752018210520180907201818022026© 2018 The Authors2018https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Objective
+Clear cell renal cell carcinoma (ccRCC) is a subtype of kidney cancer defined by robust lipid accumulation, which prior studies have indicated plays an important role in tumor progression. We hypothesized that the peroxisome proliferator-activated receptor gamma (PPARγ), detected in both ccRCC tumors and cell lines, promotes lipid storage in ccRCC and contributes to tumorigenesis in this setting. PPARγ transcriptionally regulates a number of genes involved in lipid and glucose metabolism in adipocytes, yet its role in ccRCC has not been described. The objective of this study was to elucidate endogenous PPARγ function in ccRCC cells.
+
+## Methods and results
+Using chromatin immunoprecipitation followed by deep sequencing (ChIP-seq), we found that PPARγ and its heterodimer RXR occupy the canonical DR1 PPAR binding motif at approximately 1000 locations throughout the genome that can be subdivided into adipose-shared and ccRCC-specific sites. CRISPR-Cas9 mediated, loss-of-function studies determined that PPARγ is dispensable for viability, proliferation, and migration of ccRCC cells in vitro and in vivo. Also, surprisingly, PPARγ deletion had little effect on the robust lipid accumulation that typifies the “clear cell” phenotype of kidney cancer.
+
+## Conclusion
+Our results suggest that PPARγ plays neither a tumor suppressive nor oncogenic role in advanced ccRCC, and thus single-agent therapeutics targeting PPARγ are unlikely to be effective for the treatment of this disease. The unique cistrome of PPARγ in ccRCC cells demonstrates the importance of cell type in determining the functions of PPARγ.
+
+## Highlights
+•PPARγ expression is elevated in ccRCC patient samples and cell lines relative to renal epithelium.
+•The PPARγ-RXR cistrome is distinct between ccRCC and adipocytes.
+•PPARγ is dispensable for viability, proliferation, and migration of ccRCC cells in vitro and in vivo.
+•Lipid storage and triglyceride synthesis occur independently of PPARγ in ccRCC.
+
+## Keywords
+Nuclear receptorsPPARγKidney cancerCancer metabolismLipid metabolismpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND1
+
+## Introduction
+Kidney cancer is the 8th most prevalent form of cancer diagnosed each year in the United States, with approximately 64,000 new diagnoses and 14,400 deaths annually . While localized disease can be treated by surgical resection, 30% of patients initially present in the clinic with metastatic disease, which carries a poor prognosis due to limited efficacy of current standard-of-care therapies . As such, a significant clinical need remains for therapeutics targeting unique genetic and metabolic vulnerabilities within this tumor type.
+Clear cell renal cell carcinoma (ccRCC), the most common subtype of kidney cancer, is defined by constitutive hypoxia-inducible factor signaling as well as widespread changes in cellular metabolism of glucose, amino acids, and lipids . Phenotypically, ccRCC is characterized by robust intracellular lipid and glycogen accumulation, resulting in “cleared” cytoplasm when prepared for common histologic analyses. Rather than simply reflecting a byproduct of increased anabolic metabolism, recent studies suggest that maintaining the integrity of neutral lipid droplets as well as abundant lipid uptake is critical to maintain ccRCC cell viability , particularly when oxygen is limiting in the tumor microenvironment . However, factors imparting a lipogenic quality to ccRCC tumors remain to be fully elucidated.
+The peroxisome proliferator-activated receptor gamma (PPARγ) along with its heterodimeric DNA-binding partner retinoid X receptor (RXR) promote the transcription of genes broadly important for lipid, glucose, and hormone metabolism, most notably in the context of adipose tissue . PPARγ, the master regulator of adipogenesis, is both necessary and sufficient for this process in vitro and in vivo
+ 
+ . Additionally, in non-adipose contexts including ischemic, diseased cardiomyocytes and macrophages , PPARγ contributes to the regulation of genes involved in lipid metabolism. In a mouse model of high fat diet (HFD)-induced hepatosteatosis, PPARγ protein expression is elevated in the livers of mice fed HFD relative to controls , although the absolute level remains far below those observed in adipose tissues. Interestingly, conditional deletion of Pparg within hepatocytes abrogated liver steatosis, suggesting a link between PPARγ and lipid uptake, synthesis, and/or storage in this model.
+Previous reports indicate that PPARγ is functionally expressed in ccRCC and that increased PPARγ abundance correlates with reduced patient survival , suggesting a possible oncogenic function. In vitro studies investigating the role of PPARγ in ccRCC and other cancers have largely employed natural and synthetic activating ligands including the insulin-sensitizing thiazolidinediones, yet many used super-physiologic concentrations, which can cause off-target effects and confound interpretation of results , . In this study, our goal was to investigate endogenous PPARγ function through ChIP-seq and a number of in vitro and in vivo assays of tumor progression using loss-of-function models in established ccRCC cell lines.
+
+2
+
+## Materials and methods
+2.1
+
+## Primary patient samples and gene expression data
+Matched tumor/normal samples were obtained from the Cooperative Human Tissue Network (CHTN). Tumors were homogenized in TRIzol (see quantitative real-time PCR) or whole cell elution buffer (see western blot) and analyzed for PPARG mRNA and protein expression. Gumz et al. microarray dataset was downloaded from Oncomine. RNA-seq data for 480 ccRCC and 69 normal kidney samples were downloaded from TCGA on April 2, 2013. Differential gene expression analysis of tumor and normal samples was performed using DeSeq (Bioconductor Version 2.12). TCGA mutation and copy number data for 418 sequenced patients/cases were downloaded from cBioPortal for Cancer Genomics .
+
+2.2
+
+## Cell culture, plasmids, lentiviral production, and viral transduction
+Human ccRCC cell lines (RCC10, UMRC2, Caki2, 786-O, A498, 769-P) were obtained from the American Type Culture Collection (ATCC) and were cultured in DMEM (ThermoFisher Scientific, cat. 11965092) supplemented with 10% FBS (Gemini Bio-Products, cat. 900-108). Immortalized renal epithelial cells (HK2) obtained from ATCC and cultured in Keratinocyte Serum Free Media with appropriate supplements (ThermoFisher Scientific, cat. 17005042). Human single-guide RNAs (sgRNA) targeting PPARG #1 (ctccgtggatctctccgtaa) and #3 (cattacgaagacattccatt) along with control gRNA targeting mouse Rosa26 locus (aagatgggcgggagtcttct) were cloned into LentiCRISPRv2 plasmid . Mature antisense human PPARG shRNA #3 sequence (clone ID: TRCN0000001673) along with scrambled (SCR) control were cloned into a doxycycline-inducible pLKO lentiviral plasmid (AddGene, cat. 21915, ). Lentivirus was prepared by co-transfection of 293T cells with shRNA or CRISPR plasmid of interest along with packaging plasmids pVSVg (AddGene, cat. 8454), psPAX2 (AddGene, cat. 12260) and Fugene6 transfection reagent (Promega). Lentivirus-containing media was collected from plates at 24 and 48 h post-transfection, filtered using a 0.45 μm filter, and stored at −80 °C. For viral transduction, cells were incubated with lentivirus-containing medium and 8 μg/mL polybrene for 24 h. Cells were allowed to recover for another 24 h before selection with puromycin. All experiments were performed with cells that survived puromycin selection and displayed knockdown/knockout of PPARG as assayed by western blot.
+
+2.3
+
+## Quantitative real-time PCR (qRT-PCR)
+Total RNA was isolated using TRIzol reagent (ThermoFisher Scientific, cat. 15596026) and RNeasy mini kit (Qiagen, cat. 74104). Reverse transcription was performed using High-Capacity RNA-to-cDNA (Applied Biosystems, cat. 4387406). qRT-PCR was performed using ViiA7 Real-Time PCR system (Applied Biosystems) with TaqMan master mix (Life Technologies). TaqMan probes were used to quantitate expression of PPARG (cat. Hs01115513_m1), FABP4 (cat. Hs01086177_m1), CD36 (cat. Hs01567185_m1) SLC38A4 (Hs00394339_m1) and normalized to housekeeping genes HPRT1 (cat. Hs02800695_m1) and TBP (Hs00427620_m1).
+
+2.4
+
+## Western blot
+Cells were washed with PBS prior to lysis in whole cell elution buffer (150 mM NaCl, 10 mM Tris pH 7.6, 0.1% SDS, and 5 mM EDTA) containing Roche ULTRA protease inhibitor cocktail (cat. 05892791001). Proteins were resolved by SDS-PAGE, transferred to nitrocellulose membranes, and immunoblotting was performed by incubating with primary antibodies overnight at 4 °C. The next day, membranes were incubated with secondary antibody and Western Lightning Plus-ECL, Enhanced Chemiluminescence Substrate (PerkinElmer, cat. NEL103E001EA) was used to visualize proteins. All primary antibodies were diluted of 1:1000 in 5% w/v nonfat milk (except GAPDH, 1:10,000), and secondary antibodies were diluted 1:2000 in 5% w/v nonfat milk. PPARγ (cat. 2435), FASN (cat. 3180), GAPDH (cat. 2118), anti-Rabbit IgG, HRP-linked (cat. 7074), anti-Mouse IgG, HRP-linked (cat. 7076) were purchased from Cell Signaling Technology. SREBP1 (cat. 13551) was purchased from Santa Cruz Biotechnology. SCD (cat. 19862) was purchased from Abcam.
+
+2.5
+
+## Chromatin immunoprecipitation (ChIP) and ChIP-seq
+ChIP was performed with whole cell extracts isolated from UMRC2 PPARγ WT and PPARγ KD cell lines using 10 μg PPARγ (Santa Cruz, cat. sc-7196) or 10 μg RXRα/β/γ (Santa Cruz, cat. sc-774) antibodies for immunoprecipitation (IP). Briefly, confluent 10 cm dishes of cells were prepared by crosslinking with 1% formaldehyde for 15 min at room temperature and quenched with 125 mM glycine for 5 min at room temperature. Cells were harvested by scraping and pellets were resuspended in 200 μl SDS lysis buffer (50 mM HEPES/NaOH pH 7.5, 1% SDS, 10 mM EDTA, 1 mM PMSF, and Roche ULTRA protease inhibitor cocktail (cat. 05892791001)) on ice for 10 min. Sonication was performed using Bioruptor Pico (Diagenode, cat. B01060010) on high setting for 30 s, followed by centrifugation of lysates to remove cellular debris. 100 μl of sheared chromatin from each tube was then diluted 10X, with 5% saved as Input DNA and the rest prepared for either PPARγ or RXR IP.
+PPARγ WT, PPARγ KD, RXR, and Input libraries were prepared in duplicate from two independent biological replicates. For ChIP-seq, sequencing data was mapped to the human genome (GRCh38) using STAR with parameters appropriate for ungapped alignments. Peaks were called for each sample with input samples as background by HOMER . HOMER was also used for differential peak calling (PPARγ WT vs. KD and RXR WT vs. KD) and to annotate peaks to proximal genes as described in Ensembl v85 (http://www.ensembl.org/index.html). For bioinformatics analyses displayed in C, F, 1031 “high-confidence sites” were defined by the following criteria: peak score ≥10 (≥1 read per million), fold change (PPARγ WT vs. KD) ≥ 2, RXR peak called with strict overlap. Motif enrichment analysis was performed on this filtered peak list (1031 peaks) using HOMER against the standard list of known motifs; de novo motif discovery included consideration of lengths 8, 10, 12, 15,18 bp. 
+
+2.6
+
+## Annexin V-PI apoptosis assay
+30,000 cells of each cell line were plated in triplicate on 6-well plates. Four days later, cells were prepared using the FITC–Annexin V, PI Kit (BD Biosciences, cat. 556547) according to the manufacturer's instructions. Flow cytometry was performed using the BD Accuri C6 instrument, with viable cells represented as the double-negative population.
+
+2.7
+
+## 2D and 3D proliferation assays
+For 2D proliferation assays, 30,000 cells of each cell line were plated in triplicate on 6-well plates. The following day (represented as Day 0), cells were trypsinized and counted using the Countess Automated Cell Counter (Invitrogen, cat. C10281), as per the manufacturer's instructions with Trypan blue. Cells were then counted again at the indicated timepoints. For 3D proliferation assays, 3,000 cells of each cell line were plated in 24 wells of a Corning Costar 96-well Ultra-low attachment round bottom plate (Sigma–Aldrich, cat. CLS7007) . Cells were mixed with Matrigel (BD Biosciences, cat. 356234) at a final concentration of 2.5%, and plates were centrifuged at 1800 rpm for 10 min to form spheroids. The following day (represented as Day 0), spheroids were imaged using the Invitrogen EVOS FL Auto Cell Imaging System and were imaged again, at the indicated timepoints, over the course of two weeks. Spheroid volume was calculated using a previously published ImageJ macro .
+
+2.8
+
+## Subcutaneous xenograft
+Experiments were approved by the Animal Care and Use Committee at the University of Pennsylvania. Six female NIH-III nude mice (Charles River Laboratories, 4–6 weeks old) were injected in each flank with 5 × 106 UMRC2 control or PPARG KO cells. Cells were resuspended in ice-cold PBS and were mixed 1:1 with Matrigel (BD Biosciences, cat. 356234) in a final volume of 200 μL per injection. Tumor volumes were recorded at the indicated timepoints using caliper measurements, calculated by the formula V = (π/6) (L) (W2), where L was the longer measurement and W was the shorter measurement. At Day 75 post-injection, mice were sacrificed by CO2 inhalation, and tumors were dissected for further analyses.
+
+2.9
+
+## Immunohistochemistry
+Xenograft tumors were dehydrated, embedded in paraffin, and sectioned for staining. Immunohistochemistry was performed as previously described using 1:200 PPARγ (Cell Signaling Technology, cat. 2435), 1:100 Ki67 (Abcam, cat. Ab15580), and 1:400 Cleaved Caspase-3 (Cell Signaling Technology, cat. 9661).
+
+2.10
+
+## Oil Red O staining
+Oil Red O powder (350 mg) was dissolved in 100 mL 100% isopropanol as a stock solution. Working solutions were prepared by mixing 60% stock with 40% H2O, vortexing, and resting for 30 min at room temperature before filtering through a 0.2 μm filter. Cells were washed twice in PBS, fixed in 4% paraformaldehyde for 15 min, and then incubated with the Oil Red O working solution for 30 min at room temperature. Three more PBS washes were performed before cells were counterstained with hematoxylin and coverslipped for imaging.
+
+2.11
+
+## BODIPY (493/503) staining
+50,000 cells of each cell line were plated in triplicate on 6-well plates. Three days later, live cells were washed twice in PBS and incubated in 2 μg/mL BODIPY 493/503 (Life Technologies, cat. D3922) in PBS for 15 min at 37 °C. After staining and trypsinization, cells were washed twice in PBS and fixed in 2% paraformaldehyde for 15 min in the dark. Fixed cells were washed and resuspended in PBS, passed through a cell strainer, and flow cytometry was performed on a BD Accuri C6 instrument under FL-1.
+
+2.12
+
+## Triglyceride measurement
+Xenograft tumors were homogenized in complete lysis buffer (50 mM Tris pH 7.4, 140 mM NaCl, 0.1% Triton X-100, 1 mM PMSF) containing Roche ULTRA protease inhibitor cocktail (cat. 05892791001) using a Tissue-Tearor (BioSpec Products, cat. 985370). Triglyceride content was measured using the LiquiColor Triglycerides kit (Stanbio Laboratory, cat. 2100) according to the manufacturer's instructions, and data were normalized to weight of each sample.
+
+2.13
+
+## Statistics
+Statistical analyses were performed using GraphPad Prism version 7 software, using unpaired t-test with Welch's correction. Data are presented as mean ± SEM of at least three independent experiments. Statistical significance was defined as *** (p < 0.001), ** (p < 0.01), * (p < 0.05), n.s. = not significant.
+
+3
+
+## Results
+3.1
+
+## PPARγ expression in ccRCC patient samples and cell lines
+A 43 megabase region of chromosome 3p harbors bona fide and putative tumor suppressor genes in ccRCC including von Hippel-Lindau (VHL), the most commonly mutated gene in ccRCC and initiating tumorigenic event . Unlike tumor suppressor genes located in this region, such as VHL, SETD2, PBRM1, and BAP1, PPARG is free from mutations which could render the protein non-functional or functional as a dominant-negative factor and retains wildtype sequence in 96% of ccRCC tumors ( A). PPARG mRNA expression is elevated in early-stage ccRCC relative to matched healthy kidney tissue ( B) , . The Cancer Genome Atlas (TCGA) RNA-seq data stratified according to tumor stage confirmed a significant increase in PPARG transcripts in stage I and II patients, with non-significant changes in stages III and IV relative to normal kidney tissue ( C). To verify PPARG mRNA and protein expression in ccRCC, we examined matched tumor/normal pairs by RT-qPCR and Western blot. PPARG mRNA ( D) and protein ( E) abundances were variable between tumor/normal samples, yet a subset of samples displayed elevated PPARγ expression relative to adjacent healthy kidney tissue. PPARγ expression in the kidney is highest in medullary collecting ducts , and is not expressed significantly in renal proximal tubule epithelial cells (RPTEC), a proposed cell-of-origin for ccRCC , . This may explain the heterogeneity observed across the kidney lysates sampled. We further examined PPARγ expression in a panel of ccRCC cell lines relative to immortalized (HK2) and purified primary (RPTEC) cells ( F, G) and found elevated mRNA and protein abundance in ccRCC relative to control in 4 out of 6 lines tested.
+
+3.2
+
+## Genome-wide analysis of PPARγ-RXR binding in ccRCC
+To understand the functional role of PPARγ in kidney cancer, we sought to characterize the PPARγ-RXR cistrome in the context of ccRCC and determine the relatedness of genomic occupancy to that found in adipocytes. ChIP-qPCR interrogating a number of adipocyte sites in the UMRC2 cell line revealed coordinated occupancy for PPARγ and its heterodimeric binding partner RXR at PDK4 and PLIN1 ( A). To examine occupancy across the entire genome, we performed chromatin immunoprecipitation followed by deep sequencing (ChIP-seq) for PPARγ and RXR. We identified 1031 binding sites based on the following criteria: peak score greater than or equal to 10, wildtype vs. knockdown fold change greater than or equal to 2 (validation of PPARγ protein knockdown in ), and RXR peak called with strict overlap ( B, ). We validated PPARγ binding at eight of the top sites called in our data set based on peak score using control and PPARG KO cells ( ). Additionally, we addressed the functionality of PPARγ binding in ccRCC cells through an shRNA-resistant cDNA rescue experiment. Ectopic expression of PPARγ increased the expression of SLC38A4, a gene with two PPARγ-RXR binding sites within 10 kb of the transcriptional start site ( ). When cells were treated with shRNA targeting PPARG, SLC38A4 expression was diminished, but not when cells also contained the resistant cDNA ( ). These data suggest that SLC38A4 is a direct transcriptional target of PPARγ in ccRCC and provide evidence that endogenous PPARγ activity regulates gene expression in our cell culture models.
+Through de novo motif analysis, we found that the canonical nuclear receptor direct repeat 1 (DR1) motif is most highly enriched under PPARγ-RXR bound DNA in ccRCC, present at 60.3% of sites ( C). Other transcription factor motifs represented include RAR-related orphan receptor alpha (RORA) at 17.3% of sites and the hepatocyte nuclear factors alpha (HNF1A, 16.3% of sites) and gamma (HNF4G, 5.7% of sites). Interestingly, the C/EBP motif, which is found at 91% of PPARγ-binding regions in adipocytes , is only found at 4.6% of PPARγ-RXR-bound regions in ccRCC. Consistent with previously published ChIP-seq data sets in tissues including adipocytes and macrophages , , PPARγ-RXR is bound most frequently at intergenic (37.2%) and intronic (47.1%) regions of the genome in ccRCC, rather than at promoter-transcriptional start sites (10.4%) ( D). We then annotated peaks to the nearest gene and performed gene ontology analysis to determine putative PPARγ-regulated pathways in ccRCC. Annotation of “adipose-shared” genes include “metabolism of lipids and lipoproteins”, “organic acid metabolic process”, and “lipid localization” ( E), whereas “ccRCC-specific” genes belonged to cellular processes broadly important in cancer cell biology, including signal transduction and regulation of cell shape and size ( F).
+
+3.3
+
+## PPARγ is dispensable for ccRCC viability and proliferation in vitro
+As PPARγ was shown to bind near genes associated with regulation of protein serine/threonine kinase activity and G2/M transition of mitotic cell cycle in ccRCC ( F), we hypothesized that its loss would affect cell growth over time. Upon confirming effective knockout of PPARγ using CRISPR-Cas9 ( A, ), we subjected UMRC2 and A498 ccRCC cell lines to a variety of in vitro assays to determine the functional consequence of PPARγ loss. PPARG KO did not affect the viability ( B, C) or proliferation rate ( D, E) of either cell line when cells were grown in replete conditions (21% O2, 25 mM glucose and 10% FBS). Since oxygen and nutrient limitation can profoundly influence cancer cell growth, we embedded control and PPARG KO cells in Matrigel and allowed tumor spheroids to proliferate over the course of two weeks. PPARG KO did not affect spheroid volume during the assay ( F–H). 
+Additional “ccRCC-specific” PPARγ bound genes included those involved in “regulation of cell shape” and “regulation of locomotion”, which we hypothesized could affect migratory capacity. We plated UMRC2 and A498 cells to confluency and performed an in vitro scratch assay to measure migration over the course of 16 h, a timepoint chosen based on the nearly complete recovery of the wound prior to the doubling time. We found no significant difference in the percentage of wound healing that occurred between control and PPARG KO cells ( ). We also found that PPARγ depletion only modestly affected anchorage-independent growth of UMRC2 and A498 ccRCC cells ( ).
+
+3.4
+
+## PPARγ is dispensable for ccRCC xenograft tumor growth in vivo
+To assess the function of PPARγ in ccRCC tumor growth in vivo, we implanted UMRC2 control and PPARG KO cells subcutaneously into opposing flanks of NIH-III nude mice. Analysis of tumor volume ( A) over the course of the experiment and tumor weights at day 75 post-injection ( B) revealed no significant difference in the growth of PPARG KO tumors relative to control. Additionally, control and PPARG KO tumors were sectioned and immunohistochemistry was performed for markers of proliferation (Ki67) and apoptosis (cleaved caspase-3), as well as to confirm PPARγ loss over the duration of the assay ( C). Quantitation of these markers revealed no significant difference between control and PPARG KO tumors, suggesting that PPARγ is dispensable for ccRCC cell growth in vivo ( D, E). 
+
+3.5
+
+## Lipid storage and triglyceride synthesis occur independently of PPARγ in ccRCC
+As PPARγ is responsible for promoting lipid uptake and storage in adipocytes and is bound near lipid metabolism related genes in our model ( E), we hypothesized that its loss in ccRCC would reduce neutral lipid content. Surprisingly, we found that loss of PPARγ did not affect lipid accumulation in either ccRCC cell line tested in vitro by Oil Red O ( A) or BODIPY 493/503 ( B) staining. In agreement with this, expression of a number of proteins involved in de novo lipogenesis that are reduced following hepatocyte-specific deletion of PPARγ , including sterol regulatory element-binding protein 1 (SREBP1), fatty acid synthase (FASN), and stearoyl-CoA desaturase 1 (SCD), did not change substantially following PPARγ loss in our models ( C). Additionally, we measured triglyceride levels in control and PPARG KO xenograft tumors to determine whether exposure to oxygen and nutrient depletion in vivo would affect the ability of the cells to store triglyceride. Consistent with our in vitro results, we found no significant difference in triglyceride content between control and PPARG KO tumors ( D). These data indicate that PPARγ is dispensable for the “clear cell” phenotype of renal cancer with regard to triglyceride synthesis and storage. 
+
+4
+
+## Discussion
+“Druggability” of nuclear receptors via small molecule agonists or antagonists make them appealing therapeutic targets to treat diseases like diabetes and cancer. Across various tumor types, studies have revealed both oncogenic and tumor suppressive roles for PPARγ . Heterozygous deletion of PPARγ in mice has demonstrated that it primarily acts as a tumor suppressor in chemically-induced models of colon , breast, ovarian and skin cancers , whereas newly uncovered oncogenic functions for PPARγ have been reported in bladder cancer using in vitro cell culture models , . We hypothesized that PPARγ would promote ccRCC tumorigenesis due to the fact that its lipid-laden phenotype is tightly linked to cell viability and proliferation. Our lab previously reported that suppression of the lipid droplet coat protein perilipin 2 in ccRCC reduces neutral lipid accumulation, engaging the endoplasmic reticulum stress response and causing tumor regression . Additionally, cells defined by constitutive mTORC1 signaling such as ccRCC , require import of exogenous unsaturated fatty acids during hypoxia to maintain membrane homeostasis and prevent cell death , . However, our current understanding of the molecular mediators of lipid uptake and storage in ccRCC is limited.
+In this study, we performed loss-of-function experiments to elucidate PPARγ′s role in ccRCC in established cell lines both in vitro and in vivo. PPARγ deletion in two ccRCC cell lines affected neither viability, proliferation, migratory capacity in vitro, nor tumor growth in a subcutaneous xenograft model. Surprisingly, we also show that PPARγ is dispensable for lipid storage and maintenance of total triglyceride levels in ccRCC cells grown both in vitro and in vivo. While our data collectively suggest that PPARγ is not required for ccRCC progression, we cannot exclude a potential role for this nuclear receptor in tumor initiation. The stage-specific upregulation of PPARG transcripts in stage I and II kidney tumors ( B–C) is consistent with PPARγ protein expression patterns in human prostate cancer . Functionally, this may reflect a role for PPARγ in epithelial-to-mesenchymal transition of renal epithelium to ccRCC, although this remains to be explored. PPARG expression may also be inversely related to the differentiation status of tumors, as previously reported in liposarcoma , .
+One factor that may influence PPARγ′s function in regulating ccRCC gene expression is cooperative transcription factor binding. For example, CCAAT-enhancer-binding proteins (C/EBPs) have been shown to be required for robust PPARγ target gene expression in adipocytes , yet the C/EBP motif only appeared under ∼5% of the binding sites called in ccRCC ( C). Lack of PPARγ/C/EBP cooperativity may underlie the lack of “classic” PPARγ target gene expression including CD36, FABP4, and other genes broadly important in lipid and glucose metabolism ( ) and demonstrate distinct PPARγ action in ccRCC vs. adipose tissue. Additionally, de novo motif analysis revealed that the retinoic acid receptor-related orphan receptor alpha (RORα) motif is the second most commonly enriched motif under PPARγ-RXR-bound DNA in ccRCC ( C). A recent report demonstrated that RORα reduces PPARγ transcriptional activity via the recruitment of histone deacetylase 3 to PPARγ target gene promoters in the livers of mice fed HFD . PPARγ-RORα co-localization in ccRCC and negative regulation of lipid metabolism-related genes would be consistent with the phenotypes observed in our experiments, as PPARγ depletion did not reduce triglyceride content or significantly alter expression of de novo lipogenesis enzymes ( ).
+We considered that compensatory up-regulation of other PPAR family members may underlie the lack of phenotypes observed in our experiments; however, we determined that PPARG KO cells do not increase expression of PPARA or PPARD ( ). Indeed, expression of PPARA, PPARGC1A, and additional genes involved in beta-oxidation of lipids are highly suppressed in ccRCC relative to healthy renal tubule epithelium . Ectopic expression of such factors in ccRCC reduces tumor growth , further illustrating the importance of reprogramming lipid metabolism from an oxidative to anabolic state in this tumor type. In conclusion, our investigation of PPARγ in ccRCC led to a novel PPARγ-RXR cistrome, which shares both similarities and differences with published cistromes in tissues such as adipocytes and macrophages. Of note, our dataset will be beneficial to researchers studying cell type-specific functions of PPARγ in cancer as well as the role of other subfamily 1 nuclear receptors that heterodimerize with RXR in ccRCC. Finally, while PPARγ is expressed in ccRCC tumors, it does not appear to be necessary for tumor maintenance based on our assays.
+
+## Authors' contributions
+D.J.S.1,4 and M.C.S. designed the study, D.J.S.3 provided technical support for ChIP and ChIP-seq experiments. D.J.S.1,4, N.S., and A.B. performed experiments and analyzed data. D.J.S.1,4 and M.C.S. wrote the manuscript.
+
+ 
+
+## Conflicts of interest
+None declared.
+
+Appendix A
+
+## Supplementary data
+The following are the supplementary data related to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## Multimedia component 3
+Multimedia component 3
+
+## Multimedia component 4
+Multimedia component 4
+
+## Acknowledgments
+We thank John Tobias for bioinformatics assistance, Raymond Soccio for guidance with ChIP experiments, and Jeff Ishibashi for technical assistance. We also thank Karin Eisinger and Mitch Lazar for their critical comments on the manuscript. This work was supported by grants T32 HD083185 and F31 CA206381 (to D.J.S.1,4), R01 DK098542 (to D.J.S.3), and P01 CA104838 to M.C.S.
+Appendix ASupplementary data related to this article can be found at https://doi.org/10.1016/j.molmet.2018.05.013.

@@ -1,0 +1,113 @@
+1180jcheminfoJournal of CheminformaticsJ CheminformBMCPMC9414105941410594141053600882910.1186/s13321-022-00637-0FPocketWeb: protein pocket hunting in a web browser
+KochnevYuri DurrantJacob D 1Department of Biological Sciences, University of Pittsburgh, 15260 Pittsburgh, PA USA ✉Corresponding author.
+26820221458582782022© The Author(s) 2022Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+Detecting macromolecular (e.g., protein) cavities where small molecules bind is an early step in computer-aided drug discovery. Multiple pocket-detection algorithms have been developed over the past several decades. Among them, fpocket, created by Schmidtke and Le Guilloux, is particularly popular. Like many programs used in computational-biology research, fpocket requires users to download and install an executable file. That file must also be run via a command-line interface, further complicating use. An existing fpocket server application effectively addresses these challenges, but it requires users to upload their possibly proprietary structures to a third-party server. The FPocketWeb web app builds on this prior work. It runs the fpocket3 executable entirely in a web browser without requiring installation. The pocket-finding calculations occur on the user’s computer rather than on a remote server. A working version of the open-source FPocketWeb app can be accessed free of charge from http://durrantlab.com/fpocketweb.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s13321-022-00637-0.
+
+Keywords: Computer-aided drug discovery, Ligand-binding pocket, Fpocket, Browser app, Online resource, WebAssembly
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Jun 10; Accepted 2022 Aug 4; Collection date 2022.
+
+## Introduction
+Proteins perform various cellular functions, ranging from mediating cell-signaling pathways to catalyzing vital chemical reactions. Many of these functions depend on interactions between protein receptors and endogenous small-molecule ligands that bind in cavities (pockets) typically located on protein surfaces. Carefully designed exogenous molecules can also bind in protein pockets, competing directly or indirectly with endogenous ligands and thus altering protein activity. Such molecules can serve as useful scientific tools (chemical probes) for revealing the basic biology of proper protein function. When properly optimized, they can also become pharmaceuticals that modulate the activity of disease-implicated proteins.
+Structure-based computer-aided drug discovery (CADD) leverages known protein structures to identify and design novel exogenous ligands. Central to these efforts is identifying the protein pocket where the ligand will bind. In many cases, the location of the ligand-binding pocket is well-characterized. For example, crystallographic or NMR structures may include a pocket-bound ligand, and biochemical experiments can identify pocket-lining catalytic residues that interact with endogenous small-molecule substrates. But often, the location of the ligand-binding pocket is uncharacterized.
+In such cases, cavity detection programs can serve as valuable tools for pocket identification. These programs include (a) “geometric” approaches that search for cavities based on the positions of protein-receptor atoms, and (b) “energy-based” approaches that further consider the physicochemical properties of protein residues to identify sites that might energetically favor ligand binding [ ]. Among the few programs that fall into the energy-based category, the open-source tool fpocket is particularly popular. fpocket is written in C, is relatively easy to use, and is notably fast.
+As with many CADD programs, the original fpocket implementation requires users to (1) download an executable program, (2) choose proper configuration parameters, (3) run the program from a Unix- or DOS-like command-line interface, and (4) separately analyze and visualize the program output. The fpocket authors have taken several measures to address these challenges. To facilitate output analysis and visualization, fpocket saves output files in formats compatible with VMD [ ] and PyMOL [ ], two popular visualization programs. And to enable use without the command line, the authors created a helpful web server so users can run pocket-hunting calculations in the cloud [ ].
+These efforts have substantially improved usability, but some challenges remain. VMD- and PyMOL-formatted output files enable more accessible analysis than text-based output. Still, users must separately download and install these third-party visualization programs, and each has a substantial learning curve. Similarly, the fpocket server app eliminates command-line use, but it requires users to upload their (possibly proprietary) structures to a third-party system. Furthermore, in principle, hosting such an app requires an extensive and difficult-to-maintain backend computing infrastructure. Long wait queues may be necessary if a remote resource becomes saturated with requests.
+To build on these prior efforts to enhance fpocket usability, we created FPocketWeb, a WebAssembly (Wasm) enabled web app that runs fpocket entirely in users’ browsers, without the need for other plugins or programs. Wasm-complied code runs locally on the user’s computer, so it does not depend on remote infrastructure to run complex calculations. Instead, a simple web server–or even a “thin server”–is sufficiently powerful to send the Wasm-compiled binaries to the user’s browser.
+We release FPocketWeb under the terms of the permissive open-source Apache License, Version 2.0, which is compatible with fpocket3’s MIT license. The FPocketWeb source code [ ] and browser app [ ] are publicly available online without requiring registration.
+
+## Implementation
+
+## Wasm compilation
+We downloaded the fpocket3 codebase, written in the C programming language, in 2022 [ ]. We then used Emscripten 3.1.4 to compile it to a Wasm module. The fpocket source code required only minor adjustments to be Wasm-compilable. To create the output directories and subdirectories, the original fpocket uses a system call to execute the mkdir command. This command is readily available on operating systems such as Linux, but it is not available in the browser environment. We therefore commented out the offending line before Wasm compilation. We separately create the required directories on the virtual file system using JavaScript instead.
+
+We also did not implement the full functionality of the VMD molfile plugin [ ]. Specifically, our compilation excludes references to the netCDF library, which allows command-line fpocket3 to load netCDF files. FPocketWeb therefore supports only PDB files.
+
+## FPocketWeb browser app
+The FPocketWeb graphical user interface (GUI) allows users to quickly load protein structures into the browser’s memory, specify FPocketWeb parameters, run calculations using the Wasm-compiled fpocket module, and visualize/download the results. To create the interface, we followed the same approach we have used previously [ – ]. The FPocketWeb interface is written in the Microsoft TypeScript programming language, which compiles to JavaScript. The open-source Vue.js framework [ ] provides consistently styled components (e.g., buttons, text fields, etc.). Many of these components are derived from BootstrapVue [ ], an open-source library that implements the Bootstrap4 framework [ ]. We also adapted our existing molecular-visualization Vue.js component [ , , ], which leverages the 3Dmol.js library [ ]. Finally, we used Webpack [ ] and Google Closure Compiler [ ] to compile, assemble, and optimize the code for size and speed.
+
+## Results and discussion
+
+## FPocketWeb use
+
+## Input parameters tab
+To run FPocketWeb, users need only visit the FPocketWeb website [ ]. The “Input Parameters” tab then appears, which includes the “Input File” and “Advanced Parameters” subsections (Fig.  A, B). In the “Input File” subsection (Fig.  A), users can specify the protein file (PDB format) for pocket hunting. This file is opened locally, but it is never uploaded to any third-party server. Users can also click the “Use Example File” button to load H. sapiens heat shock protein 90 (Hsp90, PDB 5J2V [ ]) for testing. Loaded files are displayed in the “PDB Preview” subsection (not shown) using the 3Dmol.js molecular viewer [ ].
+ The “Advanced Parameters” subsection (Fig.  B) allows users to specify the same parameters available through the fpocket command-line executable so they can fine-tune the underlying pocket-finding method. Those interested in further details should consult the original fpocket manuscripts [ , ]. FPocketWeb initially hides these parameters because most users will prefer to use the default values. Once ready, users can click the “Start FPocketWeb” button (Fig.  C) to initiate the FPocketWeb run.
+
+## Output tab
+FPocketWeb displays the “Output” tab once the calculations finish (Fig.  ). This tab includes the “Visualization” and “Detected Pockets” subsections. The “Visualization” subsection shows the protein and detected cavities (Fig.  C). Initially, only the pocket with the highest fpocket score is shown. When running FPocketWeb on a device with a sufficiently wide screen, a list of the detected pockets appears on the right (not shown), allowing the user to easily toggle individual pocket visualizations on and off. The “Detected Pockets” subsection (Fig.  D) contains a table with the detailed output for each detected pocket, one pocket per row. Initially, only the score, the druggability score, the number of alpha spheres, and the volume are displayed, but the “Show Details” toggle allows users to display all other fpocket metrics for each detected pocket. Users can also change the color used to visualize each pocket.
+The “Output Files” subsection (not shown) allows users to view the FPocketWeb output PDB file, which includes the original protein structure and all the detected pockets. Users can press the “Download” button to save the file. Finally, the “Run Fpocket from the Command Line” subsection (also not shown) provides a code snippet so users can run fpocket from the command line with the same FPocketWeb parameters used in the browser.
+
+## Benchmarks and compatibility
+We performed benchmark calculations on a Linux laptop (HP Pavilion 15.6”) running Fedora 34 (1.3 GHz Intel Core i7 processor and 16 GB 2400 MHz DDR4 memory) to compare FPocketWeb and command-line fpocket (Table  ). The two programs had comparable execution times and produced identical scores, druggability scores, numbers of alpha spheres, and volumes. After these initial benchmarks, we further tested FPocketWeb on the browser/operating-system combinations shown in Table  . The app is compatible with desktop and mobile operating systems, as well as all major browsers (e.g., Chrome, Edge, Safari, and Firefox).
+ 
+
+## Example of use: TEM-1 β-lactamase
+As a demonstration of use, we first considered TEM-1, a bacterial β-lactamase. TEM-1 contributes to penicillin and cephalosporin resistance in Gram-negative bacteria [ ] by hydrolyzing the four-carbon ring common to all β-lactam antibiotics. Aside from the orthosteric pocket where the ring is hydrolyzed, a recently discovered allosteric cryptic pocket [ – ] is collapsed and hidden (PDB ID: 1FQG [ ]) unless co-crystallized with a bound ligand (PDB ID: 1PZP [ ]). TEM-1 is often used to benchmark computational tools for cryptic-pocket identification [ , , ].
+We applied FPocketWeb to TEM-1 crystal structures with (Z)-3-[(4-phenylazanylphenyl)amino]-2-(2 H-1,2,3,4-tetrazol-5-yl)prop-2-enenitrile (FTA, PDB ID: 1PZP [ ]) and penicillin G (open form; PDB ID: 1FQG [ ]) bound in the allosteric and orthosteric pockets, respectively. We first used FPocketWeb to remove all non-protein atoms before detecting pockets on the protein surfaces.
+This analysis shows the dramatic impact that the allosteric inhibitor FTA has on the TEM-1 structure. The top-ranked pocket detected when we applied FPocketWeb to the FTA-bound structure (PDB ID: 1PZP [ ]) encompassed the allosteric and orthosteric sites (Fig.  A), with a total volume of 2161 Å3. In contrast, the allosteric pocket was not detected when we applied FPocketWeb to the penicillin-bound structure (PDB ID: 1FQG [ ]) because the allosteric pocket was unoccupied and collapsed. Even the orthosteric pocket ranked only fifth (Fig.  B, 350 Å3).
+ 
+
+## Example of use: influenza neuraminidase
+As a second demonstration of use, we consider the enzymatic pocket of influenza neuraminidase (N1). N1 is an exosialidase that prevents the aggregation of newly formed viral particles on infected-cell surfaces [ ]. The primary N1 enzymatic pocket [ , ] is persistent even in the absence of a bound ligand. But a flexible pocket-adjacent “150 loop” [ – ] enables a pocket extension (the 150-cavity) that is collapsed in many crystal structures. Others have designed N1 inhibitors that exploit this cavity [ ].
+We applied FPocketWeb to N1 crystal structures in open (PDB ID: 2HTY [ ]) and closed (PDB ID: 2HU4 [ ]) 150-cavity conformations. We again removed any non-protein atoms before detecting pockets on the protein surfaces. The top-ranked pocket detected when we applied FPocketWeb to the open-150-cavity structure included the 150-cavity (Fig.  A, marked with a dagger and shown as a white surface, 911 Å3). The fifth-ranked pocket corresponded to the known sialic-acid binding site (Fig.  A, marked with a double dagger and shown as a red surface, 491 Å3). In contrast, when we applied FPocketWeb to the closed-150-cavity structure, the 150-cavity was not detected. The top-ranked pocket did include the known sialic-acid binding site (Fig.  B, marked with a double dagger, 1142 Å3).
+ 
+
+## Limitations
+In compiling fpocket to Wasm, we also compiled the related programs specified in the same makefile, including mdpocket (a tool for analyzing pocket conformations sampled by molecular dynamics simulations), dpocket (a tool for extracting physicochemical pocket descriptors), and tpocket (a tool for evaluating cavity scoring functions). However, we subsequently focused our web-based implementation and testing on fpocket alone. Implementing mdpocket as a browser app is also appealing, but it would require loading an entire MD trajectory into the browser’s memory, which is not presently practical. For those interested in using an online version of mdpocket, we recommend the original fpocket creators’ useful server application, which allows users to upload their trajectory files and run mdpocket in the cloud [ ].
+Another limitation is that FPocketWeb only accepts files in the PDB format. The original fpocket3 executable uses the molfile plugin [ ] to load structure and trajectory files in many formats. In some cases (e.g., the netCDF format), the molfile plugin leverages other libraries with many dependencies. Given that PDB is the de facto standard for static protein structures and that FPocketWeb is not meant to work with trajectory files (i.e., it does not implement mdpocket), we opted to focus on the PDB format alone. Users with files in other formats can easily convert them to the PDB format using programs such as VMD [ ] and Open Babel [ ].
+
+## Conclusion
+FPocketWeb is an easy-to-use pocket-finding tool that allows users to run the fpocket executable entirely in a web browser, without the need for explicit download and installation. The pocket-finding calculations occur on the user’s computer rather than on a remote server, so FPocketWeb does not require substantial remote infrastructure, nor does it require users to upload their possibly proprietary structures. And yet it retains the usability of a web-based interface, and the identified pockets are visualized in the browser itself, without requiring third-party software such as VMD. In our tests of five proteins, FPocketWeb and the original fpocket had comparable run times and produced identical pocket scores.
+We are hopeful that FPocketWeb’s utility and usability will make it a broadly useful open-source tool for those interested in computational structural biology and computer-aided drug discovery. We release it under the Apache License, Version 2.0. The source code [ ] and browser app [ ] are available free of charge online, without requiring registration.
+
+## Availability and requirements
+Project name: FPocketWeb.
+
+Project home page: http://durrantlab.com/fpocketweb-download.
+Operating system(s): Windows, macOS, Linux, Android, iOS.
+Programming language: TypeScript, JavaScript, HTML, CSS, WebAssembly.
+Other requirements: Any modern web browser.
+License: Apache License, Version 2.0.
+Any restrictions to use by non-academics: None.
+
+## Supplementary information
+
+Additional file 1. The FPocketWeb source code, version 1.0.1. See http://durrantlab.com/fpocketweb-download for the latest version.
+
+## Acknowledgements
+We acknowledge the University of Pittsburgh’s Center for Research Computing for providing valuable computer resources.
+
+## Author contributions
+YK: Compiled the fpocket3 codebase to WebAssembly, performed benchmark tests, helped create the FPocketWeb GUI, and contributed to the writing of the manuscript. JDD: Helped create the GUI, provided two examples of use, contributed to the writing of the manuscript, and provided research supervision. Both the authors read and approved the final manuscript.
+
+## Funding
+This work was supported by the National Institute of General Medical Sciences of the National Institutes of Health [R01GM132353 to JDD]. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
+
+## Availability of data and materials
+The FPocketWeb source code is available free of charge from http://durrantlab.com/fpocketweb-download, and the web app can be accessed at http://durrantlab.com/fpocketweb. Both URLs are publicly available, without requiring registration. A copy of the source code is also provided as Additional file .
+
+## Declarations
+
+## Competing interests
+Not applicable.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1. The FPocketWeb source code, version 1.0.1. See http://durrantlab.com/fpocketweb-download for the latest version.
+
+## Data Availability Statement
+The FPocketWeb source code is available free of charge from http://durrantlab.com/fpocketweb-download, and the web app can be accessed at http://durrantlab.com/fpocketweb. Both URLs are publicly available, without requiring registration. A copy of the source code is also provided as Additional file .

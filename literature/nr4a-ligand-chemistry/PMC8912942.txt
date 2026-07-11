@@ -1,0 +1,163 @@
+1681frontgeneFrontiers in GeneticsFront GenetFrontiers Media SAPMC8912942891294289129423528182210.3389/fgene.2022.823075Clinical Roles of Risk Model Based on Differentially Expressed Genes in Mesenchymal Stem Cells in Prognosis and Immunity of Non-small Cell Lung Cancer
+GuoQiang XiaoXiao-Yue WuChuang-Yan LiDan ChenJiu-Ling DingXiang-Chao ChengChao ChenChong-Rui TongSong WangSi-Hua 
+1
+Department of Thoracic Surgery, Union Hospital, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, China
+
+2
+Department of Cardiovascular Surgery, Union Hospital, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, China
+
+3
+Department of Oncology, Huanggang Central Hospital, Huanggang, China
+
+4
+Department of Thoracic Surgery, Renmin Hospital of Wuhan University, Wuhan, China
+
+5
+Department of Thoracic Surgery, West China Hospital, Sichuan University, Chengdu, China
+
+Edited by:
+Xinwei Han, Zhengzhou University, China
+
+Reviewed by:
+Yan Nie, Sun Yat-sen University, China
+
+Guangxu Tu, Central South University, China
+✉*Correspondence: Si-Hua Wang, sihua_wang@126.com; Song Tong, Tongsong110@126.com
+
+†
+These authors have contributed equally to this work
+This article was submitted to Computational Genomics, a section of the journal Frontiers in Genetics
+2422022138230758230751132022Copyright © 2022 Guo, Xiao, Wu, Li, Chen, Ding, Cheng, Chen, Tong and Wang.This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Abstract
+The tumor microenvironment (TME) plays an important regulatory role in the progression of non-small cell lung cancer (NSCLC). Mesenchymal stem cells (MSCs) in the TME might contribute to the occurrence and development of cancer. This study evaluates the role of differentially expressed genes (DEGs) of MSCs and the development of NSCLC and develops a prognostic risk model to assess the therapeutic responses. The DEGs in MSCs from lung tissues and from normal tissues were analyzed using GEO2R. The functions and mechanisms of the DEGs were analyzed using the Gene ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG). Additionally, the Cancer Genome Atlas (TCGA) database was used to determine the expression levels of the DEGs of MSCs in the NSCLC tissues. The prognostic factors of NSCLC related to MSCs were screened by survival analysis, meta-analysis, Cox regression analysis, and a prognostic risk model and nomogram was developed. The signaling mechanisms and immune roles that risk model participate in NSCLC development were determined via Gene Set Enrichment Analysis and CIBERSORT analysis. Compared to the normal tissues, 161 DEGs were identified in the MSCs of the lung tissues. These DEGs were associated with mechanisms, such as DNA replication, nuclear division, and homologous recombination. The overexpression of DDIT4, IL6, ITGA11, MME, MSX2, POSTN, and TRPA1 were associated with dismal prognosis of NSCLC patients. A high-risk score based on the prognostic risk model indicated the dismal prognosis of NSCLC patients. The nomogram showed that the age, clinical stage, and risk score affected the prognosis of NSCLC patients. Further, the high-risk model was associated with signaling mechanisms, such as the ECM-receptor interaction pathways, cytokine-cytokine receptor interaction, and MAPK pathways, involved in the progression of NSCLC and was also related to the components of the immune system, such as macrophages M0, T follicular helper cells, regulatory T cells. Therefore, the risk model and nomogram that was constructed on the basis of MSC-related factors such as POSTN, TRPA1, and DDIT4 could facilitate the discovery of target molecules that participate in the progression of NSCLC, which might also serve as new candidate markers for evaluating the prognosis of NSCLC patients.
+Keywords: NSCLC, MSCs, postn, TRPA1, DDIT4, nomogram, risk model
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Nov 26; Accepted 2022 Jan 27; Collection date 2022.
+
+## Introduction
+The tumor microenvironment (TME) is composed of mesenchymal stem cells (MSCs), immune cells, blood vessels, fibroblasts, smooth muscle cells, epithelial cells, and the extracellular matrix. It plays an important regulatory role in the progression of non-small-cell lung cancer (NSCLC) ( ; ; ). For example, the CD133+ cell subtype CD2 cells of lung adenocarcinoma (LUAD) and NSCLC patients are related to malignancy and have stem cell-like characteristics. CD2+ cells promote tumor growth in nude mice. CD133 cells regulate the conversion of CD133+ subgroup cells into CD2+ Th17-like cells to promote the growth of lung cancer ( ). Low levels of IFNγ in the TME increase the risk of tumor metastasis during immunotherapy, indicating that IFNγ induces cancer progression ( ).
+In recent years, risk models, nomograms, and immunological assays have become tools for evaluating the prognosis of cancer patients and for discovering new mechanisms that could delay cancer progression ( ; ; ; ; ). Melatonin reduces the viability and induces apoptosis of mutant-KRAS NSCLC cells. Programmed death ligand 1 (PD-L1) is overexpressed in mutant-KRAS NSCLC cells. Melatonin treatment downregulates the expression of PD-L1 and effectively inhibits the expression of YAP and TAZ. Further, melatonin downregulates the expression of genes downstream of YAP/TAZ. PD-L1 expression is positively correlated with YAP and TAZ in NSCLC patients. The overexpression of PD-L1 indicates poor-survival outcomes in cancer patients. Thus, the downregulated expression of PD-L1 in KRAS-mutant NSCLC due to melatonin regulates tumor immunity ( ).
+In the TME, MSCs participate in material transportation and intercellular information transmission by secreting exosomes, and regulate tumor cell viability ( ; ; ; ; ). Co-culturing MSCs with pancreatic cancer cells shows enhanced expression of metastatic cytokines CCL2 and IL6, which are produced by the stem cells. The Fas/FasL signaling pathway in MSCs is related to the progression and metastasis of pancreatic cancer ( ). Long non-coding RNA (lncRNA) DNM3OS is upregulated in hepatocellular carcinoma (HCC). The overexpression of DNM3OS is associated with the TNM stage, vascular invasion, and dismal prognosis in HCC patients. DNM3OS enhances HCC cell proliferation, invasion, and metastasis, as well as tumor occurrence and metastasis, in vivo. Tumor MSCs can promote HCC proliferation, invasion, and metastasis through the DNM3OS/KDM6B/TIAM1 signaling axis. In addition, MSCs induce an increase in the expression of DNM3OS in HCC cells ( ). The expression of miR-204 is decreased in NSCLC tissues. Exosomes of MSCs promote the migration and invasion of NSCLC A549 cells, and enhance the expression of epithelial-mesenchymal transition (EMT) proteins, such as E-cadherin, N-cadherin, Vimentin, KLF7, p-AKT/AKT, and HIF-1α. Overexpression of miR-204 in the exosomes of MSCs inhibits KLF7 expression and AKT/HIF-1α pathway activity, leading to cell migration and invasion ( ).
+MSCs play an important role in the progression of NSCLC ( ). However, the mechanisms by which MSCs contribute to the progression of NSCLC have not yet been fully elucidated. Therefore, we analyzed differentially expressed genes (DEGs) in the MSCs of lung tissues to elucidate the biological functions and signaling pathways involved in the progression of NSCLC. We obtained data regarding the DEGs in the MSCs of lung tissues from the GSE104636 dataset of Gene Expression Omnibus (GEO) database using the R package, GEO2R ( ). A nomogram, risk model, and network of the hub DEGs of MSCs were constructed by identifying and screening NSCLC data provided in The Cancer Genome Atlas (TCGA) and Lung Cancer Explorer (LCE) databases to provide new candidate molecules and targets for NSCLC treatment.
+
+## Materials and Methods
+
+## DEGs in MSCs of Lung Cancer Tissues
+The GSE104636 dataset was obtained from the GEO database. The GSE104636 dataset comprises a microarray analysis of gene expression data of MSCs of cancer tissues and adjacent normal tissues in nine lung patients ( ). The information of the GSE104636 dataset is provided under the platform ID GPL6244 [HuGene-1_0-st] Affymetrix Human Gene 1.0 ST Array (transcript [gene] version). In the present study, GEO2R analysis was used to investigate the DEGs in the MSCs of normal tissues and of lung tissues. As described in a previous study, the absolute value of logFold change (FC) > 0.585 and p < 0.05 were defined as the criteria for significant difference ( ).
+
+## Biological Functions and Signaling Mechanisms of DEGs
+Gene ontology (GO) annotation and Kyoto Encyclopedia of Genes and Genomes (KEGG) analysis were used to analyze the biological functions and signaling mechanisms associated with the DEGs ( ). An adjusted-P value <0.05 was considered statistically significant.
+
+## Protein-Protein Interaction Network of DEGs
+A PPI network was used to show the potential interactions between different proteins. MSC-related DEGs were entered into the Search Tool for the Retrieval of Interacting Genes (STRING) database to obtain the PPI network and explore their roles using the MCODE plug-in of the Cytoscape (version 3.8.2) software.
+
+## Identification of Hub DEGs
+Gene expression data and clinical data of NSCLC, available on the official website of TCGA as of August 2021, were downloaded. The data for DEGs of MSCs in NSCLC tissues were extracted from the downloaded data, and the limma R/Bioconductor software package was used to identify whether the genes of MSCs were abnormally expressed in NSCLC tissues, and the absolute value of logFC is greater than 1 and p < 0.05 as the research screening criteria. The potential effects of DEGs of MSCs on the overall survival (OS) of the NSCLC patients were determined by Kaplan-Meier (K-M) survival analysis with p < 0.05 as the filter condition.
+
+## Prognostic Nomogram of Factors Associated With DEGs
+The lung Cancer Explorer (LCE) database is a bioinformatics reanalysis database mainly based on the data from the TCGA and GEO databases. The LCE database features an analysis of gene expression levels for the prognosis of lung cancer, LUAD, and LUSC patients. In this study, the values of prognostic DEGs of MSCs related to the prognosis of lung cancer were identified via meta-analysis, with p < 0.05 considered statistically significant, and a prognostic nomogram of the DEGs of MSCs was constructed.
+
+## Risk Model Based on Factors Associated With DEGs
+Univariate Cox regression analysis was used to investigate the relationship between the expression levels of DEGs of MSCs and the prognosis of NSCLC patients, and p < 0.05 was used as the filter criterion. Multivariate Cox regression analysis and the Akaike information criterion (AIC) were used to evaluate the relationship between the levels of DEGs and the prognosis of NSCLC patients, and risk score for the NSCLC patients in our study was assigned accordingly. The relationship between the risk model constructed on the basis of the factors associated with the prognostic DEGs and the survival time and clinicopathological characteristics of NSCLC patients are showed using the heatmap and K-M survival analysis. The effect of risk score on the prognosis of NSCLC patients is shown using univariate Cox regression analysis and a nomogram that was verified by receiver operating characteristic (ROC) analysis. Visualization of the relationship between DDIT4, POSTN and TRPA1 and risk models using correlation analysis.
+
+## Consensus Clustering
+The NSCLC data from the TCGA database was divided into two groups according to the POSTN, TRPA1 and DDIT4 gene expression levels using the R Consensus ClusterPlus package, followed by principal component analysis (PCA). Survival rates of the two cluster groups of NSCLC patients were clustered by using K-M survival analysis.
+
+## Gene Set Enrichment Analysis
+GSEA was used to explore the possible functions and mechanisms associated with each gene. The risk scores of NSCLC patients were ranked, and the gene expression data of NSCLC patients obtained from TCGA were grouped according to the median risk value to explore the signaling pathways enriched in the high-risk and low-risk groups ( ). Signaling pathways with nominal (NOM) p < 0.05 was regarded as significantly enriched in the two risk groups.
+
+## Analysis of Immune Cells
+The expression levels of 22 immune cells in each of the 1,037 samples of NSCLC (data obtained from TCGA) were analyzed using the CIBERSORT method. The expression levels of immune cells and cell markers and risk scores were combined and sorted, which divided into two groups based on median value of risk score. The expression levels of immune cells and immune cell markers in the two groups were investigated using the t-test.
+
+## Statistical Analysis
+Data obtained from the TCGA and GEO databases were processed and visualized using programs created in Perl and R. The prognosis-related DEGs of MSCs in NSCLC patients were assessed using survival analysis, Cox regression analysis, and the nomogram. Univariate Cox regression, multivariate Cox regression, meta-analysis, and AIC were used to construct a risk model for NSCLC patients. p < 0.05 was considered statistically significant.
+
+## Results
+
+## DEGs in MSCs of Lung Cancer Tissues
+The GSE104636 dataset had good quality samples of lung cancer and normal tissues ( ). GEO2R analysis showed 161 DEGs in the MSCs of lung cancer samples, and the differential expression was statistically significant ( ). The top 10 overexpressed genes in MSCs of lung cancer tissues were as follows: SLITRK6, MYOCD, GRPR, LCE2C, CADPS, TFPI2, LAMP5, NPTX1, LCE2A, and FLRT3 ( ). The top 10 under-expressed genes were as follows: CHI3L1, FIGF, ITGA11, ASPN, FOS, FOSB, CPXM2, C7orf69, MFAP5, and IL6 ( ).
+ 
+
+## Functional Mechanisms and Network of DEGs of MSCs
+GO annotation results showed that the DEGs were significantly enriched in DNA replication, chromosome segregation, nuclear division, sister chromatid segregation, regulation of mitotic cell cycle phase transition, G2/M transition of mitotic cell cycle, DNA conformation change, regulation of DNA metabolic process, and other functions ( ). KEGG pathway analysis showed that the DEGs were significantly enriched in cell cycle, RNA transport, P53 signaling pathway, DNA replication, spliceosome, homologous recombination, cellular senescence, and other signaling mechanisms ( ), and the results are presented as a bubble diagram ( ). In addition, shows the constructed PPI network of DEGs of MSCs.
+ 
+
+## Screening of MSC-Associated Factors Related to the Prognosis of NSCLC Patients
+85 DEGs were present in NSCLC tissues of TCGA database using our screening criteria ( and ). K-M survival analysis revealed that the expression levels of HIST1H2BH, IL6, MME, ST6GALNAC5, DDIT4, FLRT3, ITGA11, MSX2, POSTN, and TRPA1 were associated with the dismal prognosis of NSCLC patients ( ). Among them, the overexpression of IL6, MME, ST6GALNAC5, DDIT4, FLRT3, ITGA11, MSX2, POSTN, and TRPA1 and low expression of HIST1H2BH were associated with the dismal prognosis of NSCLC patients.
+ 
+
+## Construction of the Prognostic Nomogram of DEGs of MSCs
+The relationship between the expression levels of HIST1H2BH, IL6, MME, ST6GALNAC5, DDIT4, FLRT3, ITGA11, MSX2, POSTN, and TRPA1 and the prognosis of NSCLC patients were examined by meta-analysis of data obtained from the LCE database. The results showed that the overexpression of DDIT4, IL6, ITGA11, MME, MSX2, POSTN, and TRPA1 were strongly associated with the dismal prognosis of NSCLC patients, and were statistically significant ( ). Therefore, a prognostic nomogram of these prognosis related DEGs was constructed by grouping the median values of the expression levels of DDIT4, IL6, ITGA11, MME, MSX2, POSTN, and TRPA1 ( ). In the nomogram of MSCs-related genes, MSX2 had the greatest impact on the prognosis of NSCLC patients, followed by DDIT4, while TRPA1 had the least impact on the prognosis of NSCLC patients.
+ 
+
+## Construction of the Risk Model and Nomogram
+Univariate Cox regression analysis revealed that the overexpression of ITGA11, POSTN, DDIT4, MSX2, and TRPA1 were risk factors for the OS of NSCLC patients ( ). Overexpression of POSTN, TRPA1 and DDIT4 independently influenced the dismal prognosis of NSCLC patients, according to the results of the multivariate Cox regression analysis and AIC ( ). show the relationship between the risk score and the prognosis of NSCLC patients according to the risk model constructed in this study, and have appraised value using ROC analysis ( ).
+ The prognostic genes POSTN, TRPA1, and DDIT4 showed high correlation with the risk model using correlation analysis and represented as a heatmap ( ). Risk scores correlating with the gender, clinical stage, lymph node metastasis, T stage, M stage, and survival time are represented via heatmap ( ). Risk score, clinical stage, lymph node metastasis, age, and T stage were associated with dismal prognosis of NSCLC patients according to the univariate Cox regression analysis ( ). Risk score, clinical stage, and age were associated with dismal prognosis of NSCLC patients according to the multivariate Cox regression analysis ( ). The nomogram of the risk score, clinical stage, age, and dismal prognosis of NSCLC patients was constructed which suggests that the risk score affected the prognosis of NSCLC patients more than the clinical stage ( ).
+ 
+
+## Consensus Clustering of Risk Model Genes Identifies Distinct Clinical Outcomes in NSCLC Patients
+Consensus clustering analysis of the TCGA NSCLC data for risk model genes POSTN, TRPA1 and DDIT4 showed that k = 2 was the best grouping ( ). Consensus clustering analysis was performed with k = 2 and grouped into Cluster1 and Cluster2 groups with significant differences. PCA analysis showed that there was a significant difference between the Cluster1 and Cluster2 groups based on the data of NSCLC patients in the TCGA database ( ). K-M survival analysis showed that the survival time of NSCLC patients in the Cluster1 group was significantly higher than that of the NSCLC patients in the Cluster2 group ( ).
+ 
+
+## Determination of Signaling Mechanisms Associated With the Risk Model
+GSEA analysis revealed that the high-risk model was associated with the pathways in cancer, ECM receptor interaction, P53 signaling pathway, NOD like receptor signaling pathway, cytokine-cytokine receptor interaction, MAPK signaling pathway, leukocyte transendothelial migration, Toll like receptor signaling pathway, natural killer cell mediated cytotoxicity and other signaling pathways involved in the progress of NSCLC ( and ).
+ 
+
+## Associations of the Risk Model With the NSCLC TME
+In the high-risk group, the expression of macrophages M0, mast cells activated, NK cells resting, neutrophils, and B cells memory were significantly increased, and the expression of mast cells resting, NK cells activated, T cells regulatory (Tregs), T cells follicular helper, T cells CD4 memory activated, monocytes, B cells naïve, and dendritic cells resting were extremely decreased, as compared to the expression levels in the low-risk group ( and ).
+ Compared to the low-risk group, the expression of CD276, TNFSF4, CD44, PDCD1LG2, CD80, CD86, VSIR, CD40, TNFRSF9, HAVCR2, CD274, ICOS, CTLA4, CD28, TNFRSF4, CD27, TIGIT, TMIGD2, CD200, CD70, TNFSF9, PDCD1, LAIR1, and TNFRSF14 were significantly increased, and the expression of TNFSF15 and CD40LG were extremely decreased in the high-risk group ( and ).
+ 
+
+## Discussion
+Several studies have confirmed the importance of the biological functions of MSCs in the progression of NSCLC ( ; ; ; ; ). MSCs are known to cause transcriptional changes in lung cancer cells, leading to increased expression of MMP9. High expression of MMP9 is related to reduced OS of LUAD patients. The involvement of MSCs in the progression of NSCLC is associated with ABL tyrosine kinase. MSCs can activate ABL tyrosine kinase in lung cancer cells. Functional ABL tyrosine kinase is a hub enzyme for MSCs that induces MMP9 expression ( ). miR-144 showed significantly low expression in NSCLC tissues and cells, and high expression levels of CCNE1 and CCNE2 were observed. Overexpression of miR-144 can inhibit cell proliferation, colony formation, and S-phase arrest by downregulating CCNE1 and CCNE2 expression. Moreover, the proliferation and colony formation of NSCLC cells can be inhibited by miR-144 from the MSC-derived exosomes ( ).
+At present, the roles of MSCs in the progression of NSCLC have not been fully revealed. In this study, we found that HIST1H2BH, IL6, MME, ST6GALNAC5, DDIT4, FLRT3, ITGA11, MSX2, POSTN, and TRPA1 were abnormally expressed in NSCLC tissues. The overexpression of IL6, MME, ST6GALNAC5, DDIT4, FLRT3, ITGA11, MSX2, POSTN, and TRPA1, and low expression of HIST1H2BH was significantly related to the poor prognosis of NSCLC patients. Our risk model identified POSTN, TRPA1 and DDIT4 to be important factors affecting the prognosis of NSCLC patients. The expression of POSTN in pan-cancer and NSCLC tissues are significantly increased. POSTN is significantly expressed in renal cell carcinoma (RCC). Interference with the expression of POSTN can inhibit the proliferation, migration, and invasion of RCC cells, and inhibit EMT through the ILK/AKT/mTOR signaling pathway ( ). The overexpression of POSTN is related to the clinical stage, degree of malignancy, lymph node metastasis, and OS in NSCLC patients, and it is also an independent risk factor for OS in NSCLC patients. POSTN can induce the expression of vimentin and N-cadherin, and downregulate the expression of E-cadherin, and promote the proliferation and migration of A549 cells ( ; ). POSTN derived from cancer-associated fibroblasts (CAFs) is highly enriched in high-grade serous ovarian cancer (HGSC) stromal cells. POSTN overexpression is associated with reduced OS in patients with HGSC. POSTN derived from CAFs is a ligand for integrin αvβ3, which promotes the migration and invasion of ovarian cancer cells by activating the PI3K/AKT pathway and inducing EMT. TGF-β1 induces cancer metastasis and fibroblast activation, which is related to the expression of POSTN ( ). Knockdown of TRPA1 promoted LLC-2 cell proliferation and invasiveness of lung cancer. TRPA1 induced autophagy under adverse conditions, and the combination of TRPM8 and TRPA1 directly contributed to the aggressive phenotype of lung cancer ( ). Methyl syringate inhibited hypoxia-induced COX-2 expression and promoter activity, reduced hypoxia-induced lung cancer cell migration and invasion, and inhibited vascular endothelial growth factor secretion ( ). TRPA1 antagonist antagonism could reverse cell migration and invasion. The expression level of DDIT4 in LUAD tissues was significantly higher than that in adjacent lung tissues. High DDIT4 expression level was associated with the shorter OS and was an independent predictor of OS of LUAD patients ( ). Blocking SIRT1/2 expression induced autophagy in NSCLC cells, increased the expression levels of ATF4 and DDIT4, and downregulated the levels of mTORC1 downstream molecules p-RPS6KB1 and p-EIF4EBP1. SIRT1/2 inhibition lead to acetylation of HSPA5, inducing the ER stress, and upregulation of ATF4 and DDIT4, triggering autophagy ( ). This study gives a preliminarily demonstration that the screened MSC-related factors-POSTN, TRPA1, and DDIT4-have an important role in the progression of NSCLC.
+P53 signaling pathway, DNA replication, ECM-receptor interaction, TGF-beta signaling pathway, chemokine signaling pathway, MAPK signaling pathway, cell cycle, and other signaling pathway are known to be involved in cancer ( ; ; ; ; ; ; ). GINS2 is closely related to DNA replication and DNA damage, participates in cell cycle regulation, and is a hub protein in cell proliferation and apoptosis. GINS2 expression is significantly increased in NSCLC tissues and cells. Knockout of GINS2 can inhibit cell proliferation and cause cell cycle arrest in G2/M phase. Knockdown of GINS2 expression can increase apoptosis and the expression of the apoptosis-related protein BAX, decrease the expression of the protein BCL-2, and induce the overexpression of P53 and GADD45A. Interference with GINS2 expression can downregulate cell proliferation through the P53/GADD45A signaling mechanism, induce cell cycle arrest in G2/M phase, and increase cell apoptosis ( ). Interfering with RHOJ expression can promote TGF-β expression in A549 and PC-9 cells. RHOJ knockdown can enhance the invasion ability of A549 cells, and increase SMAD3 phosphorylation and SNAIL expression to regulate the EMT process ( ). In future studies, the roles and regulatory mechanisms of POSTN, TRPA1, and DDIT4, which are hub proteins of MSCs, in the progression of NSCLC should be confirmed, and new inhibitors should be developed to delay the progression of NSCLC and improve the prognosis of NSCLC patients.
+TME dynamics are inseparable from the progression of NSCLC. MSCs are an important component of the TME ( ; ; ). MSC-conditioned medium can promote EMT, invasion, and migration of lung cancer cells, and can inhibit cell proliferation and apoptosis. The EMT-promoting effect of MSCs is mediated by exosomes secreted by the MSCs and is eliminated by inhibiting the release of exosomes. Silencing the expression of TGF-β1 in MSCs by using MSCs exosomes can reverse the promotion of EMT and can enhance the anti-proliferation and pro-apoptosis effects of MSCs on lung cancer cells ( ). In our study, we elucidated that the risk model was related to the NSCLC microenvironment. Thus, in this study, the risk model constructed for MSCs in TME showed correlations involved in the progression of NSCLC.
+Overall, the roles and mechanisms of the hub proteins of MSCs, POSTN, TRPA1, and DDIT4, were investigated via bioinformatic screening and analysis for their involvement in the progression of NSCLC in this study. The large sample size of the data involved in our research affirms the robustness of our analysis. Although, the TCGA and GEO databases contain sequencing data from many research centers, the risk model and nomogram from our study need to be confirmed using gene expression analysis in clinical samples. Along with this, the roles of MSC factors, POSTN, TRPA1, and DDIT4 in mechanisms involved in the upstream and downstream processes which might influence NSCLC progression need to be confirmed by our team through basic research experiments such as immunoblotting, cell transfection, and transwell assay. Overexpression of MSC factors DDIT4, IL6, ITGA11, MME, MSX2, POSTN, and TRPA1 were associated with dismal prognosis of NSCLC patients. Moreover, overexpression of POSTN, TRPA1, and DDIT4 were independent factors influencing the dismal prognosis of NSCLC patients. A high-risk score based on our risk model is related to the dismal prognosis of NSCLC patients. The nomogram showed that the risk score, clinical stage, and age contributed to the dismal prognosis of NSCLC patients. The risk model was associated with ECM-receptor interaction, cytokine-cytokine receptor interaction, MAPK, and other signaling pathways involved in the progression of NSCLC, and identified relationships with macrophages M0, Tfh, Tregs, etc. The nomogram and the risk model constructed on the basis of MSC-related factors POSTN, TRPA1 and DDIT4 could facilitate the search for target molecules involved in the progression of NSCLC, and the risk model could help in the evaluation of the prognosis of NSCLC patients.
+
+## Footnotes
+1
+http://www.ncbi.nlm.nih.gov/geo/
+
+2
+https://www.string-db.org
+
+3
+https://tcga-data.nci.nih.gov/tcga/
+
+4
+http://lce.biohpc.swmed.edu/
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/ , further inquiries can be directed to the corresponding authors.
+
+## Author Contributions
+QG, X-YX, C-YW, and DL analyzed the data and wrote the manuscript. DL, X-YX, and J-LC edited the images and language in the manuscript. X-CD, CC, and C-RC supervised the implementation of the study and data management. S-HW and ST conceptualized the ideas for the article and revised the manuscript. These authors have contributed to the article and have approved the submitted version.
+
+## Funding
+Funding for this study was provided by Natural Science Foundation of Hubei (No. 2020CFB392), National Natural Science Foundation of China (No. 82100115), National Natural Science Foundation of China (No. 82070431), National Natural Science Foundation of China (No.82100116), National Natural Science Foundation of China (No.81802273), and Wuhan Science and Technology Planning Project (No. 2016060101010064).
+
+## Conflict of Interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Publisher’s Note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary Material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fgene.2022.823075/full#supplementary-material
+
+Click here for additional data file.
+Click here for additional data file.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Click here for additional data file.
+Click here for additional data file.
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/ , further inquiries can be directed to the corresponding authors.

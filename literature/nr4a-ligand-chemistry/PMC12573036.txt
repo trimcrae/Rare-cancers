@@ -1,0 +1,840 @@
+3686acsomegaACS OmegaACS OmegaAmerican Chemical SocietyPMC1257303612573036125730364117916810.1021/acsomega.5c06570Computational Discovery
+of Aggregation-Mediated Dipeptide
+Inhibitors Targeting PHLDA1 for Cardiovascular Therapy
+LiuShujia ZhouHaojin BianWeihua HuanKanghui ZhaoMeng WangJiaqi 
+†
+Wisdom
+Lake Academy of Pharmacy, Xi’an Jiaotong-Liverpool
+University, Suzhou, Jiangsu
+215123, P. R. China
+
+‡
+Jiangsu
+Province Higher Education Key Laboratory of Cell Therapy Nanoformulation
+(Construction), Xi’an Jiaotong-Liverpool
+University, Suzhou, Jiangsu
+215123, P. R. China
+
+§
+Suzhou
+Industrial Park Center of Excellence for Single-Molecule and Single-Cell
+Imaging and Analysis, Xi’an Jiaotong-Liverpool
+University, Suzhou
+215123, P. R. China
+
+∥
+Department
+of Pharmacy, Binzhou Medical University, Yantai, Shandong
+264003, P. R. China
+
+⊥
+Frontier
+Innovation Center, Department of Physiology and Pathophysiology, School
+of Basic Medical Sciences, Fudan University, Shanghai
+200032, P. R. China
+
+#
+Department
+of Chemistry, State Key Laboratory of Synthetic Chemistry, The University of Hong Kong, Pokfulam Road, Pokfulam, Hong Kong SAR
+999077, P. R. China
+*
+Email: zhaomeng@fudan.edu.cn.
+*
+Email: benwang@hku.hk.
+1710202510425008850088–5010231102025© 2025 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+Cardiovascular disease remains a leading cause of global
+mortality,
+underscoring the urgent need for novel therapeutic strategies. This
+study focuses on the pleckstrin homology-like domain family A member
+1-encoded protein (PEP), a regulator of cardiomyocyte apoptosis and
+a promising yet underexplored therapeutic target. Leveraging an integrated
+computational approach, we combined AlphaFold3-based structure prediction
+with extensive molecular dynamics simulations to characterize PEP’s
+dynamic architecture and identify high-affinity dipeptide inhibitors.
+Our results reveal that PEP possesses significant intrinsic disorder,
+with molecular dynamics simulations refining its conformation and
+highlighting force field-dependent behaviors, particularly the superior
+performance of CHARMM-class force fields in preserving functional
+secondary structures. High-throughput screening of phenylalanine-based
+dipeptides identified FF as the strongest binder, exhibiting a unique
+aggregation-mediated binding mechanism that engages both primary and
+secondary sites on PEP through multivalent interactions. Concentration-dependent
+simulations further confirmed the robustness of FF binding and revealed
+residue-specific interaction hotspots. Notably, we demonstrate that
+low-confidence regions in AF3 predictions (pLDDT <50) frequently
+participate in functional binding, challenging the conventional lock-and-key
+paradigm. These findings not only establish PEP as a tractable drug
+target but also provide a novel framework for designing aggregation-prone
+peptide therapeutics against cardiovascular diseases.
+
+ 
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jul 7; Accepted 2025 Sep 25; Revised 2025 Sep 18; Collection date 2025 Oct 28.
+
+1.
+
+## Introduction
+Cardiovascular disease
+(CVD) remains the leading cause of death
+worldwide, accounting for approximately 17.9 million deaths annually. Myocardial ischemia, myocardial infarction, hypertrophy, and heart failure are major contributors to CVD-related mortality, highlighting
+the critical need for timely therapeutic interventions to preserve
+cardiac function. Cardiomyocytes are the basic functional units of
+the heart, responsible for contraction and pumping functions, which
+are essential for maintaining systemic circulation. Cardiomyocytes are also capable of generating and transmitting
+electrical impulses, which are the triggering signals for heart contraction
+and relaxation. They are tightly interconnected
+by intercalated discs, which contain desmosomes, adherens junctions,
+and gap junctions, ensuring the heart contracts as a functional syncytium
+to pump blood effectively. Damage or dysfunction
+of cardiomyocytes impairs the heart’s pumping capacity, often
+leading to heart failure and life-threatening complications. Consequently, research targeting cardiomyocyte-specific
+proteins with pharmacological potential is crucial for the development
+of novel therapeutic strategies.
+Peptides are one such promising
+therapeutic targeting cardiomyocyte-specific
+proteins. Composed of 2–50 amino acid residues linked by peptide
+bonds (−CO–NH−), they are particularly effective
+in treating complex diseases due to their potential for high specificity,
+which minimizes off-target effects. Compared
+to conventional small-molecule drugs, peptide therapeutics exhibit
+superior selectivity, rapid systemic clearance, and a reduced risk
+of toxicity or accumulation. Their advantages
+also include low immunogenicity (unlike larger biologics), lower required
+dosages, and higher potency per unit mass. These properties make them a compelling alternative to current mainstays
+of cardiovascular pharmacotherapy, such as beta-blockers, ACE inhibitors,
+statins, and antiplatelet agents, which are limited by systemic off-target
+effects.
+,,
+ Peptide-based
+therapeutics offer the potential to overcome these shortcomings by
+enabling high-affinity, cell-specific targeting of previously undruggable
+targets, allowing for precise inhibition of key apoptotic drivers
+in cardiac injury.
+,
+
+The pleckstrin homology-like
+domain family A member 1 encoded-protein
+(PHLDA1-encoded protein, abbreviated as PEP) is a regulatory protein
+involved in cell growth, survival, and apoptosis and has been associated
+with various diseases such as obesity, diabetes, cancer, and so forth. In cardiomyocytes, the expression and functional
+roles of PEP have received significant research interest. Studies
+have demonstrated that PEP overexpression in H9c2 cardiomyocytes leads
+to decreased cell viability. Mechanistically,
+PEP modulates the stability of Bax, a key mediator of the mitochondrial
+apoptosis pathway, through protease-dependent regulation, and PHLDA1 knockout has been shown to attenuate
+Bax upregulation during myocardial ischemia-reperfusion injury. Other than that, one of the most well-documented
+interaction partners of PHLDA1 is Akt, which it inhibits by competitively
+binding phosphatidylinositol (3,4,5)-trisphosphate (PIP3) via its
+pleckstrin homology (PH) domain, thereby suppressing the pro-survival
+PI3K/Akt pathway. In the nucleus, PHLDA1
+functions as a transcriptional coactivator for CREB through a direct
+interaction mediated by its C-terminal domain, enhancing the expression
+of target genes.
+,
+ Targeted screening of short peptide
+ligands (e.g., dipeptides) capable of binding to PEP may yield novel
+therapeutic candidates inhibiting the
+aforementioned protein–protein interactions, offering a viable
+strategy to mitigate myocardial ischemia and related cardiovascular
+conditions, as well as other diseases such as obesity and cancer.
+Notably, while PEP has been implicated in cardiomyocyte apoptosis, due to its intrinsically disordered protein
+(IDP) nature, no experimental structures
+are currently available. Consequently, no prior studies have systematically
+explored its potential as a drug target. In this work, we adopted
+an in silico approach, which combines AlphaFold3 (AF3) structure prediction
+and molecular dynamics (MD) simulations with biophysical analyses
+for efficient ligand discovery. This work represents the first comprehensive
+effort to (1) obtain an accurate three-dimensional structure of PEP,
+(2) map PEP’s druggable binding sites, and (3) identify optimal
+dipeptide ligands. MD simulation is a powerful computational methodology
+rooted in Newtonian mechanics and is
+widely employed in chemistry, physics, biology, materials science,
+and pharmaceutical research. Its capacity
+to efficiently explore molecular trajectories, interactions, and structural
+dynamics offers a time- and cost-effective alternative to experimental
+approaches (i.e., cryo-EM), while providing atomic-level insights
+that complement empirical studies. Our
+strategy combines computational efficiency with mechanistic precision,
+offering a foundation for developing novel peptide-based therapies
+against PEP-driven cardiovascular pathologies.
+
+2.
+
+## Results and Discussion
+2.1.
+
+## Structure of PEP: AF3 vs MD
+The determination
+of an accurate and dynamic protein structure is the foundation for
+a rational drug design. In this study, we retrieved the complete amino
+acid sequence of PEP from the UniProt database (https://www.uniprot.org/uniprotkb/A2BDE7/entry). Residues 62–195 of this sequence correspond to residues
+1–134 in the construct characterized by Yousof et al. This full-length sequence served as input for
+AF3, which generated a three-dimensional structural prediction of
+PEP ( a). To
+assess the reliability of the predicted structure, three confidence
+metrics were used: per-residue pLDDT
+(predicted local distance difference test) scores, ipTM (interface
+predicted temperate modeling) score, and PAE (predicted aligned error).
+PHLDA1 contains three main functional regions: two pleckstrin homology-like domains (PHLD: residues 70–110;
+and another PHLD region: residues 123–203) and one proline–histidine
+(PH)-rich region (residues 272–309). The full predicted structure
+is displayed in the first panel in a, the truncated structure encompassing the
+two PHLD regions is shown in the middle panel, and the per-residue
+pLDDT distribution is presented in the final panel. A detailed breakdown
+of residues within each pLDDT confidence regime is provided in Table S1.
+ Regions with pLDDT scores above 90 (23.18%), colored
+dark blue,
+indicate high-confidence predictions with near-atomic accuracy. Scores
+between 70 and 90 (16.56%), shown in light blue, correspond to moderately
+confident regions that likely represent true structural elements but
+may exhibit local flexibility. Segments scoring 50–70 (18.88%),
+colored green, suggest low-confidence regions requiring cautious interpretation.
+Regions with pLDDT <50 (41.38%), depicted in orange to red, represent
+very low-confidence predictions typically associated with intrinsic
+disorder or unreliable structural features. Only a small fraction
+of the sequence (39.74% = 16.56% + 23.18%, pLDDT >70), primarily
+exhibiting
+the α-helical conformation (dark and light blue), demonstrates
+high prediction confidence. These high-confidence regions correspond
+to the core PHLD functional domains of PEP, supporting their suitability
+for subsequent dipeptide interaction studies. In contrast, the PH-rich
+region displays predominantly low prediction confidence (pLDDT <50),
+as indicated in the distribution figure (last panel of a). The low overall model confidence
+is further evidenced by an ipTM score of 0.48 and substantial PAE
+errors, with many residue pairs exhibiting distance errors exceeding
+25 Å. These metrics suggest that the initial AF3-predicted structure
+requires further refinement, particularly as the low-confidence regions
+(i.e., PH region) are likely highly dynamic and prone to conformational
+changes during MD simulations.
+The structural comparison between
+the AF3-predicted PEP conformation
+and the MD-simulated structures reveals critical insights into the
+protein’s dynamic behavior. Through PyMOL-based structural
+alignment, we observed significant conformational
+changes following MD simulation, particularly in regions that initially
+exhibited low prediction confidence (pLDDT <70). These flexible
+regions, primarily corresponding to the (PH)-rich domain, demonstrated
+substantial structural plasticity during simulation. In contrast,
+the high-confidence core domains (pLDDT >70), which encompass the
+PHLD regions, maintained greater structural stability (except Amber99
+force field). Quantitative RMSD analysis revealed pronounced force
+field-dependent behavior of PEP, indicated
+by the comparison between MD structure and predicted structure ( b–e), as well
+as between various force fields ( f–h). All four force fields indicated
+structural reoptimization of the flexible PH loop region during MD
+simulations. However, CHARMM27 and CHARMM36m better preserved the
+α-helical secondary structure elements, while Amber03 and Amber99
+exhibited partial loss of these structural features. This differential
+performance is reflected in the RMSD values, with CHARMM27 and CHARMM36m
+producing the most stable simulations (RMSD ≈3.0 nm), suggesting
+their parameters are better suited for modeling PEP’s structural
+dynamics, while the Amber-series force fields indicate these force
+fields may introduce excessive conformational sampling or insufficient
+restraints for this specific protein system.
+The superior preservation
+of α-helices by the CHARMM force
+fields, particularly in the core PHLD domains, can be attributed to
+their parametrization strategy. CHARMM force fields are known for
+their stronger torsional potentials and optimized backbone parameters
+(e.g., ϕ/ψ dihedral terms) that explicitly stabilize canonical
+secondary structures like α-helices.
+,
+ In contrast, the Amber03 and Amber99SB-ILDN force fields, while
+excellent for general protein dynamics, may have slightly under-restrained
+backbone dihedrals or a different balance between hydrogen bonding
+and torsional terms, which can permit excessive sampling of nonhelical
+conformations in inherently flexible or marginally stable regions.
+,
+ This effect is particularly pronounced for IDPs like PEP, which
+contain large intrinsically disordered regions (e.g., the PH-rich
+domain) that can exert a dynamic pull on the structured domains. The
+stronger restraints in the CHARMM force field appear to provide sufficient
+resilience against this dynamic propagation, thereby maintaining the
+integrity of the functional PHLD domains. This finding is critical
+because the preservation of these helical bundles is essential for
+the PHLD domain’s function in lipid binding and molecular recognition.
+The excessive conformational sampling induced by the Amber force fields,
+while useful for exploring conformational space, may introduce artifactual
+unfolding that could mislead the interpretation of PEP’s true
+functional dynamics and binding mechanisms.
+These results collectively
+demonstrate that while AF3 provides
+a valuable starting point for PEP structural studies, subsequent MD
+refinement is essential, particularly for accurate modeling of flexible
+regions. The CHARMM-series force field emerges as the most appropriate
+choice for such simulations, balancing structural maintenance with
+necessary conformational sampling. This work establishes a structural
+foundation for future investigations of PEP’s interactions
+with potential therapeutic compounds, while also highlighting the
+need for continued development of force field parameters optimized
+for proteins with significant intrinsically disordered regions or
+dynamic domains.
+
+2.2.
+
+## Structural Stability Evaluations in MD
+To comprehensively evaluate the structural evolution of the AF3-predicted
+PEP conformation during MD simulations, we calculated the RMSD, radius
+of gyration (R
+g), root-mean-square fluctuation (RMSF), and potential energy (E
+p).
+As
+shown in a,
+the RMSD values suggest distinct stabilization kinetics. CHARMM27
+and Amber99 reach equilibrium rapidly (within 100 ns), suggesting
+efficient relaxation during the initial NVT phase,
+while Amber03 and CHARMM36m exhibit delayed stabilization: RMSD surges
+followed by rapid decreases, indicating substantial conformational
+reorganization. These patterns correlate with the radius of gyration
+profiles ( b):
+Amber03 and CHARMM36m show pronounced R
+g fluctuations during the first 200 ns, while CHARMM27 and Amber99
+reach equilibrium more quickly. Structural comparison (structures
+① - ④) between NVT end points (i.e., NPT starting point) and final NPT configurations
+(t = 400 ns) reveals significant force field-dependent
+rearrangements during NPT equilibration, with PyMOL-calculated
+RMSD values of 2.02 nm (Amber03), 2.14 nm (CHARMM27), 1.26 nm (Amber99),
+and 2.91 nm (CHARMM36m). These values show excellent agreement with
+the continuous MD-derived RMSD evolutions in a, validating the consistency between various
+analytical approaches and underscoring the substantial structural
+reorganization that occurs during production simulations.
+ To assess residue-specific structural variability
+across the four
+force fields, we analyzed the RMSF values for each residue ( c). The results reveal
+distinct dynamic profiles: CHARMM36m exhibits the most substantial
+atomic fluctuations overall, with pronounced mobility in seven key
+regions (residues 1–25, 70–90, 115–130, 150–170,
+220–230, 265–275, and 295–300). Amber03 (from
+residues 1 to 250) and CHARMM27 show similar fluctuation patterns
+to CHARMM36m, though with reduced amplitude. The Amber03 exhibits
+different structural changes from residues 250–300, while Amber99
+produces markedly different results due to partial loss of core helical
+structure during simulations. Although the absence of experimental
+structural data precludes definitive assessment of force field accuracy,
+comparison with the AF3-predicted structure suggests that CHARMM-class
+force fields provide more reliable representations, as they better
+preserve regions with high prediction confidence while permitting
+appropriate flexibility in low-confidence regions.
+Finally,
+we examined the evolution of E
+p across
+all four force fields ( d). CHARMM-36m exhibits consistently positive E
+p values throughout the simulations, while Amber99
+demonstrates the lowest E
+p. Amber03 and
+CHARMM27 show intermediate and similar energy profiles, despite producing
+distinct structural conformations, highlighting the complex relationship
+between energy landscapes and final configurations in MD simulations.
+These energetic differences reflect fundamental variations in force
+field parametrization. The significantly lower E
+p in Amber99 suggests stronger nonbonded interactions or different
+van der Waals parameters that favor more compact structures. CHARMM36m′s
+consistently positive E
+p may indicate
+either less favorable electrostatic interactions or different torsion
+potentials that maintain structural integrity at higher energy states.
+While absolute E
+p values are not directly
+comparable between force fields due to their different functional
+forms and parameter sets, the relative reduction in E
+p from initial to minimized structures demonstrates successful
+energy minimization and system relaxation. The preservation of the
+secondary structure in CHARMM-class force fields, despite higher E
+p values, suggests that their parameters better
+balance energy minimization with biological relevance for this specific
+system.
+
+2.3.
+
+## Identifying Interacting Dipeptides with PEP
+Subsequently, we employed 400 ns MD simulations to systematically
+screen dipeptides capable of binding to PEP, using the final protein
+structure obtained from CHARMM27 force field simulations. Our screening
+library comprised 20 distinct FX dipeptides (where X represents all
+natural amino acids), each featuring an N-terminal phenylalanine residue
+maintained in the zwitterionic form without terminal capping. The
+dipeptide scaffold was selected for its favorable physicochemical
+properties, including synthetic accessibility, ease of purification,
+and potential for high bioavailability, making it particularly suitable
+for therapeutic development. The strategic incorporation of phenylalanine
+at the N-terminus was based on its aromatic side chain, which facilitates
+critical noncovalent interactions with target proteins, possibly through
+π–π stacking and hydrophobic forces.
+,
+ The design of placing the phenylalanine residue at the N-terminus
+was initially aimed to minimize aggregation propensity, although we observed that certain phenylalanine-containing
+dipeptides, particularly FF, exhibited aggregation-mediated binding
+behavior, which unexpectedly enhanced their target engagement through
+multivalent interactions.
+For each dipeptide variant, we constructed
+a simulation system comprising one PEP molecule and 30 identical dipeptide
+copies, followed by 400 ns production runs in the NPT ensemble. The peptide concentration of approximately ∼0.05
+mol/L (30 peptides in a 10 × 10 × 10 nm3 simulation
+box) was intentionally designed to exceed typical dipeptide solubility
+limits (<0.002 mol/L) to enhance sampling efficiency within the
+limited simulation time frame. Representative binding behavior is
+illustrated in a, which contrasts stable binding (FX8) with nonbinding (FX24) interactions:
+the binding dipeptide maintains consistent positioning with minimal
+conformational drift, whereas the nonbinder exhibits unrestricted
+diffusion throughout the simulation box over the entire 400 ns trajectory.
+ To establish quantitative binding criteria, we
+calculated RMSD
+values from 200 to 400 ns for all 600 dipeptide trajectories (20 types
+× 30 replicates) relative to the protein structure (Figures S1–S20). It should be noted that
+the RMSD calculated here does not represent the structural stability
+of peptides. Binding peptides were rigorously identified based on
+a single rigorous criterion for binding: peptides with STD <0.15
+nm were classified as binders, reflecting their stable positional
+maintenance. This approach reliably distinguishes true binders, such
+as FX8, which shows stable RMSD trajectories with minimal fluctuations
+(STD <0.15 nm, b), from nonbinders like FX24 that display large RMSD variations
+(STD >0.15 nm, b). The complete STD analysis for all 600 dipeptide trajectories
+(20 types × 30 replicates) is presented in c, with upper panel showing the STD for all
+peptides while lower panel exhibiting the peptides with STD <0.15
+nm. d summarizes
+the binder number for each dipeptide type out of 30 dipeptides of
+the same type. The true binder number of 20 dipeptide types revealed
+distinct interaction patterns with the target protein. Among all tested
+sequences, FF exhibited the strongest binding propensity, with 11
+out of 30 replicates (36.7%) meeting the binding criterion (STD <0.15
+nm). This was followed by FH (23.3%), FP and FY (20.0% each), and
+FC, FS, and FV (16.7% each). In contrast, FA, FL, and FN showed no
+detectable binding under the current threshold. These results demonstrate
+clear sequence-dependent binding preferences, with aromatic residues
+(F, Y, H) generally showing higher affinity compared to aliphatic
+or polar residues, possibly due to π–π stacking
+and hydrophobic interactions. While STD <0.15 nm was chosen as
+a relatively strict criterion for this study, it is important to recognize
+that alternative thresholds would yield different results (although
+they may not be significant). A more permissive cutoff (e.g., STD
+<0.20 nm) would classify more transient interactions as binders,
+while a stricter threshold (e.g., STD <0.10 nm) would identify
+only the most stable complexes.
+The methodology employed in
+this work for identifying true binders
+presents several key advantages for investigating peptide–protein
+interactions. The high-throughput screening approach enables concurrent
+evaluation of multiple binding candidates, while the quantitative
+RMSD standard deviation criterion provides an objective alternative,
+yielding valuable thermodynamic information regarding binding stability
+while simultaneously offering kinetic insights into interaction persistence
+through the analysis of temporal RMSD fluctuations. Compared to static
+docking methods, our MD-based strategy captures the dynamic aspects
+of peptide binding, including potential aggregation behavior and competitive
+binding effects in a multipeptide environment. Furthermore, while
+maintaining a more cost-effective framework than that of rigorous
+free energy calculations, our method still provides meaningful quantitative
+metrics for binding characterization. These features collectively
+establish our protocol as a versatile and reliable approach for studying
+peptide–protein interactions with potential applications across
+diverse biological systems and binding scenarios.
+
+2.4.
+
+## Hotspots Mapping of PEP
+To identify
+the hotspots of PEP, we systematically identified PEP residues within
+3.5 Å of bound dipeptides ( ). Interaction frequencies are denoted in parentheses,
+with residues occurring ≥9 times in bold and those appearing
+6–8 times in italics. Spatial mapping ( a,b) visualizes these binding sites using
+surface representation: high-frequency residues (≥9 occurrences)
+are colored green, while moderate-frequency residues (6–8 occurrences)
+appear in blue. This analysis revealed 7 high-activity residues, i.e.,
+L55, C60, T87, E89, L92, E142, and P299 ( c) and 15 moderately active residues, i.e.,
+M54, S58, I85, E88, I94, L99, Q102, Q106, V138, K139, L140, D180,
+A185, R197, and R306 ( d) among PEP’s 312 residues. Collectively, these residues
+form a continuous binding groove ( a,b), with high-frequency residues clustering
+at the interaction hotspot. Direct evidence for the stabilizing role
+of identified residues is provided by the FF-PEP interaction ( e,f). Residues E88
+and K139 participate in forming three distinct hydrogen bonds with
+separate FF molecules, demonstrating a multivalent binding capacity.
+These specific interactions exemplify how the high-frequency residues
+characterized in and a–d
+mechanistically contribute to peptide stabilization.
+ 
+2.5.
+
+## Aggregation-Mediated Binding between FF and
+PEP
+The FF dipeptide, extensively characterized as an aggregation
+core in amyloid-Aβ pathologies associated with neurodegenerative
+diseases, emerges as the highest-affinity binder for PEP in this study.
+Of the 30 simulated FF peptides, 11 met the binding criterion (STD
+<0.15 nm during 200–400 ns), exhibiting stable RMSD trajectories
+indicative of persistent target engagement ( a). Structural analysis reveals that these
+bound FF peptides simultaneously undergo aggregation primarily into
+two hydrogen-bonded clusters (white dashes, b), demonstrating that peptide aggregation
+and target binding occur cooperatively rather than sequentially.
+ Two major FF clusters occupy spatially distinct
+regions on PEP’s
+surface: cluster 1 localizes precisely within the previously identified
+high-activity binding groove ( c,d), while cluster 2 engages a secondary site (i.e.,
+nonactive binding site). The groove-localized cluster 1 shows particularly
+stable interactions, with intermolecular hydrogen bond persistence
+exceeding 85% occupancy during the production phase, suggesting that
+this region serves as the primary affinity hotspot.
+The simultaneous
+aggregation of FF peptides during target engagement
+reveals new mechanistic principles distinct from those of conventional
+docking paradigms. Namely, aggregation actively constructs complementary
+binding surfaces through collective hydrogen bonding (yellow dashes, b), enhancing FF-PEP
+binding affinity via multivalent avidity, a capability unattainable
+by isolated dipeptides. In detail, PEP’s spatially dispersed
+active residues (e.g., K139 and E142 separated by >1.8 nm) cannot
+be effectively engaged by individual FF molecules, but peptide aggregates
+bridge these discontinuous epitopes through hydrogen bonding, essentially
+“stapling” distant sites into a cohesive binding interface.
+This aggregation-mediated binding mechanism fundamentally diverges
+from mainstream docking approaches, which typically assume monomeric
+ligands binding preformed pockets, by demonstrating how dynamic oligomerization
+generates novel interfacial geometries that overcome topological mismatches.
+This is also corroborated by the fact that additional binding surfaces
+beyond primary active sites can be generated by peptide aggregation
+(i.e., cluster 2). Therapeutically, this suggests that PEP (and possibly
+other protein targets as well) inhibition might adopt three strategies:
+one is targeting the primary active groove, and the second is employing
+aggregating/self-assembling peptides for targeting the nonactive surface,
+or cooperatively targeting the primary site and the nonactive sites
+induced by aggregation.
+
+2.6.
+
+## Concentration Effect on the Binding of FF
+to PEP
+To quantitatively evaluate the influence of ligand
+concentration and force field parametrization on the binding of FF
+dipeptides to the target protein PEP, we conducted seven additional
+all-atom MD simulations using the CHARMM36m force field at varied
+concentrations ( ). In our earlier simulations employing the CHARMM27 force field,
+a concentration of ∼0.05 mol/L was set, which exceeds the solubility
+limit of the dipeptide (normally <0.002 mol/L) and also the critical
+aggregation concentration (CAC, <0.03 mol/L). As both aggregation and binding are inherently concentration-dependent,
+a systematic assessment of concentration effects is essential to provide
+a rigorous basis for interpreting peptide–protein interactions.
+ Simulations 1–3 in , performed with the CHARMM36m force field, demonstrated that the number of stably bound
+FF peptides increased with an increasing concentration. A consistent
+finding across all concentrations was the interaction of FF with residue
+Glu142 on PEP ( and a–c).
+At higher concentrations, additional binding epitopes were engaged,
+including residues Leu1, Gln109, and Arg156 ( b), as well as Glu122 (not shown) and Glu89
+( c). This coincides
+with our results of the CHARMM27 force field; i.e., Glu89 and Glu142
+were identified as the most prominent binding hotspots, each observed
+in 9 independent binding events (bolded in ). Residues Gln109 and Arg156 were also significant,
+appearing in 3 and 4 instances in previous simulations, respectively.
+Notably, at the highest concentration (simulation 3, 0.0498 mol/L),
+we observed the spontaneous aggregation of FF peptides into a large
+aggregate comprising approximately 15 monomers stabilized by a network
+of intermolecular hydrogen bonds ( c). This supramolecular complex formed stable,
+multipoint attachments to the PEP surface, as in the CHARMM27 force
+field. In summary, the MD simulations performed with the CHARMM36m
+force field corroborate our previous results obtained by the CHARMM27
+force field.
+ To definitively identify the primary binding residue
+on PEP and
+decouple binding events from potential concentration-dependent aggregation
+effects, we conducted four additional MD simulations (simulations
+4–7, ) within a larger simulation volume (18 × 18 × 18 nm3), maintaining FF concentrations below 0.01 mol/L (below the
+CAC). At the ultralow concentration of 0.0003 mol/L (a single FF peptide
+in the 18 × 18 × 18 nm3 box), we performed four
+independent replicates with randomized initial velocities to ensure
+statistical significance. Binding to PEP was observed in only one
+of the four simulations, with the remaining three exhibiting purely
+diffusive peptide behavior, consistent with the expected rarity of
+spontaneous binding events at this concentration. In the binding replicate,
+the peptide’s RMSD stabilized after ∼400 ns ( d). The STD of the
+RMSD (0.20 nm) was marginally higher than our initial stringent threshold
+(0.15 nm), which can be attributed to the increased flexibility of
+the isolated peptide in the large box. Crucially, the binding free
+energy (ΔG) calculation using the gmx_mmpbsa
+method yielded a value of ΔG
+4,101–201 = −17.69 ± 3.35
+kcal/mol for frames between 400 and 800 ns (from 101 to 201), indicating
+strong, specific binding. Here, 4 in the subscript indicates the fourth
+binding replicate. In contrast, including the initial diffusive phase
+(0–400 ns) resulted in a less favorable and more uncertain
+energy (ΔG
+4,1–201 = −10.35
+± 8.83 kcal/mol), underscoring the importance of defining the
+bound state for accurate quantification. This interaction was stabilized
+by the formation of 2 (mostly) to 4 persistent hydrogen bonds ( e) between the FF
+ligand and PEP, and was unequivocally anchored by residue Glu142 ( f). At intermediate
+concentrations of 0.0028 mol/L (10 peptides in the 18 × 18 ×
+18 nm3 box) and 0.0057 mol/L (20 peptides in the 18 ×
+18 × 18 nm3 box), a single binding event was observed
+per simulation, primarily involving E142 alongside secondary interactions
+with E122, Q125, and S127. All metrics, including binding free energy,
+RMSD stability, hydrogen bond count, and direct interaction analysis
+( g–l)
+confirmed these as high-affinity binding events. Interestingly, at
+the highest concentration in this low-range series (0.0085 mol/L,
+30 peptides), neither binding nor aggregation was observed. This suggests
+that while specific, high-affinity binding to residues like E142 can
+occur at picomolar-to-nanomolar concentrations, the probability of
+such an event within a practical simulation time frame (e.g., 400
+ns) remains low. The absence of binding at 0.0085 mol/L, in contrast
+to the pronounced effects seen at higher concentrations (∼0.05
+mol/L) in smaller boxes, highlights a concentration-dependent threshold
+for observable binding and aggregation. This aligns with the concept
+that molecular recognition can operate through both monomeric binding
+and collective aggregation-mediated mechanisms, with the dominant
+pathway dictated by ligand availability.
+At elevated concentrations,
+the propensity for FF dipeptides to
+self-assemble increases, a well-documented phenomenon driven by hydrophobic
+effects and intermolecular van der Waals forces.
+,
+ To isolate monomeric binding behavior, we deliberately employed
+concentrations above the theoretical CAC. Crucially, however, our
+data reveal that peptide aggregation is not necessarily deleterious
+to target engagement (as also in another work). On the contrary, the self-assembled aggregate observed in our
+simulations forms a stable, multivalent complex with PEP, suggesting
+a mechanism of aggregation-mediated binding. This phenomenon aligns
+with an emerging paradigm in drug discovery where controlled supramolecular
+assembly enhances pharmacological function.
+−
+
+ An aggregate-based drug delivery
+strategy can offer significant advantages, notably prolonged systemic
+circulation and increased residency time at the target site due to
+altered pharmacokinetics. This approach
+is being actively investigated for applications such as targeting
+the unique microenvironment of tumors, where factors like pH or enzyme
+activity can be leveraged to trigger precise, localized aggregation
+from systemically administered precursors.
+,
+ Therefore, the FF aggregation observed here may not be an artifact
+to be mitigated but a feature to be harnessed, potentially transforming
+a simple dipeptide into a novel supramolecular therapeutic agent with
+enhanced efficacy and tunable release properties.
+
+2.7.
+
+## Correlation between pLDDT and Binding Sites
+AF3 is a prevalent protein structure prediction model, with pLDDT
+serving as a key metric for evaluating the per-residue prediction
+confidence. This study investigates the spatial correlation between
+pLDDT values and ligand-binding sites to assess whether pLDDT can
+reliably indicate the functional regions involved in molecular interactions. a illustrates the
+pLDDT distribution of PEP residues interacting with dipeptides, revealing
+that active residues span the entire pLDDT spectrum, though a significant
+proportion exhibit high confidence (pLDDT >90). Notably, residues
+binding dipeptides FF, FH, FT, and FY frequently display low confidence
+(pLDDT <50). b quantifies this trend, showing residues with pLDDT <50 outnumber
+those in the 50–70 range, suggesting disordered regions (e.g.,
+PH regions of PEP) frequently participate in ligand binding. c further highlights
+pLDDT values of high- and moderate-activity residues (shown in c,d), reinforcing
+that both high-confidence (pLDDT >90) and low-confidence (pLDDT
+<50)
+regions can constitute functional binding sites.
+ The prevalence of binding activity in low-pLDDT
+regions (pLDDT
+<50) challenges the rigid “lock-and-key” paradigm,
+,
+ indicating these likely represent intrinsically disordered regions
+(IDRs) or flexible loops that adopt structure upon ligand binding
+via induced fit or conformational selection. This aligns with dynamic
+binding mechanisms, where conformational plasticity enables interactions
+with diverse ligands. Our data suggest that pLDDT may underestimate
+the functional relevance of such flexible regions due to its emphasis
+on static structures. Conversely, the concentration of binding residues
+in high-pLDDT regions (pLDDT >90) underscores the role of well-defined
+pockets in molecular recognition, reinforcing pLDDT’s utility
+for identifying structured sites while highlighting that high confidence
+alone cannot define functionality, as many such residues are noninteracting.
+Collectively, pLDDT operates as a context-dependent indicator:
+High values (>70) strongly signal structurally ordered regions
+where
+binding typically follows conventional pocket-based mechanisms, while
+low values (<50) suggest structural disorder yet do not preclude
+function, i.e., these regions may mediate transient, dynamic, or allosteric
+interactions critical for signaling or promiscuous binding. The bimodal
+distribution in b implies that pLDDT reliably identifies ordered binding pockets
+but may overlook functional IDRs. Consequently, relying solely on
+pLDDT for binding site prediction risks missing flexible interfaces;
+integrating it with metrics of evolutionary conservation, physicochemical
+pocket properties, or dynamics-focused algorithms (e.g., MD simulations)
+could improve functional annotation. The prominence of low-pLDDT binding
+in FF/FH/FT/FY interactions warrants investigation into whether aromatic
+dipeptides preferentially target disordered regions through an aggregation-induced
+hydrophobicity mechanism (AIHB).
+
+3.
+
+## Conclusions
+In this study, we present
+a comprehensive computational strategy
+to explore the structure and druggability of PEP, a key apoptotic
+regulator in cardiomyocytes. By integrating AF3 predictions with multiforce-field
+MD simulations, we resolved PEP’s dynamic architecture and
+identified its force field-sensitive regions, establishing CHARMM-class
+force fields as the most suitable for simulating this intrinsically
+disordered protein. We further demonstrated that dipeptides, particularly
+FF, can bind PEP with high affinity and specificity and uncovered
+an unconventional aggregation-mediated binding mechanism that leverages
+multivalency to engage discontinuous epitopes. This mechanism not
+only enhances binding affinity but also opens new avenues for targeting
+proteins with complex surface topologies. The concentration-dependent
+binding behavior of FF dipeptides and their robust interaction with
+residues such as Glu142 support their potential as lead candidates
+for inhibiting PEP-mediated apoptosis. These findings provide a foundational
+framework for future experimental validation and rational design of
+peptide-based therapeutics targeting PEP in cardiovascular diseases
+and beyond. The methodologies and insights described here may also
+be extended to other challenging targets with significant intrinsically
+disordered regions, offering a generalizable strategy for discovering
+and optimizing peptide inhibitors where conventional small molecules
+have struggled.
+
+4.
+
+## Experimental Section
+4.1.
+
+## Structure Prediction by AF3
+The amino
+acid sequence of the human PHLDA1 protein was retrieved from the UniProt
+database (web site: https://www.uniprot.org/uniprotkb/A2BDE7/entry). The complete protein sequence contains 312 amino acids. This sequence
+was subsequently submitted to AF3 to generate a predicted three-dimensional
+protein structure including the atomic coordinates of all constituent
+residues.
+
+4.2.
+
+## Structure Optimization by MD
+To assess
+the structural stability and accuracy of the predicted PHLDA1 model,
+we conducted all-atom MD simulations using a GROMACS 2023.2. Simulations
+were performed in parallel using distinct force fields: AMBER03; the CHARMM27 all-atom force field; and AMBER99SB-ILDN; and CHARMM36m. For each system, the
+protein structure was solvated within a cubic periodic boundary box
+(18 × 18 × 18 nm3) filled with explicit TIP3P
+water molecules. Before energy minimization, the systems were charge-neutralized
+by adding a proper amount of Cl– or Na+ counterions. Production simulations comprised sequential equilibration:
+20 ns under NVT ensemble conditions (constant number
+of particles, volume, and temperature = 300 K) followed by 400 ns
+under NPT ensemble conditions (constant number of
+particles, temperature = 300 K, pressure = 1 bar). A periodic boundary
+condition (PBC) was applied in three dimensions. Trajectory after
+production was processed by applying GROMACS utilities to enforce
+consistent handling: the protein was centered in the box (-pbc center),
+translational jumps across PBCs were corrected (-pbc nojump), and
+overall system rotation/translation was removed via least-squares
+fitting to the initial structure (-fit rot + trans). Finally, “-pbc
+mol” was applied to maintain molecular continuity and ensure
+the protein remained unconstrained by box boundaries throughout the
+analyzed trajectory frames.
+
+4.3.
+
+## Structure Stability Assessment in MD
+Given that an accurate structural model is fundamental for structure-based
+drug design, we assessed the optimized PEP stability by evaluating
+key kinetic and thermodynamic metrics: RMSD, R
+g, E
+p, and RMSF, which were calculated
+directly from the postprocessed trajectories using GROMACS’
+built-in commands. Specifically, the command “gmx rms -s ref.gro
+-f traj.xtc -o rmsd.xvg” computed the RMSD relative to the
+initial structure. RMSF per residue was generated via “gmx
+rmsf -s ref.gro -f traj.xtc -o rmsf.xvg”, while R
+g was calculated using “gmx gyrate -s topol.tpr
+-f traj.xtc -o R
+g
+.xvg”. To isolate
+the protein’s potential energy contribution from the solvated
+system, a multistep extraction was performed: First, a protein-only
+trajectory (prolig.xtc) was created with “gmx trjconv -f full.xtc
+-s full.tpr -o prolig.xtc”. The corresponding protein topology
+file (prolig.tpr) was then generated using “gmx convert-tpr
+-s full.tpr -n prolig.ndx -o prolig.tpr”. This enabled energy
+recalculation specifically for the protein conformation along the
+trajectory using “gmx mdrun -s prolig.tpr -rerun prolig.xtc
+-e prolig.edr”. Finally, the time series of protein potential
+energy was extracted via “gmx energy -f prolig.edr -o prolig-energy.xvg”.
+All quantitative plots were generated using OriginPro, while molecular
+structure figures were rendered in PyMOL.
+
+4.4.
+
+## MD Simulations of Peptide–Protein Interaction
+To investigate dipeptide-PEP binding interactions, MD simulations
+were performed with the CHARMM27 force field using the CHARMM27 force
+field-optimized PEP structure. The protein was solvated in a cubic
+periodic boundary box (10 × 10 × 10 nm) with 30 identical
+dipeptides (FA, FC, FD, FE, FF, FG, FH, FI, FK, FL, FM, FN, FP, FQ,
+FR, FS, FT, FV, FW, and FY), which were added per simulation system.
+To investigate the concentration and force field effect, additional
+simulations with 1, 10, 20, 30 identical dipeptides were simulated
+in a 18 nm × 18 nm × 18 nm box with CHARMM36m force field,
+and also 10, 20, 30 identical dipeptides were simulated in a 10 nm
+× 10 nm × 10 nm box with CHARMM36m force field (see for details). Each
+system underwent the established protocol: energy minimization followed
+by 20 ns of NVT equilibration and 400 ns (or 800
+ns) of NPT production simulation at 300 K and 1 bar.
+Trajectories were postprocessed using identical periodic boundary
+condition corrections as applied during structural assessment. The
+ligand binding event was quantified by calculating RMSD values of
+dipeptides relative to the protein structure. This involved: (1) generating
+peptide-specific index groups (gmx make_ndx -f sys.gro -o peptides.ndx);
+(2) extracting the t = 0 ns reference structure of
+protein-peptide (gmx trjconv -f sys.xtc -s sys.tpr -o ref.gro -b 0
+-e 0); (3) iteratively computing RMSD for each peptide group relative
+to the protein target using gmx rms -s ref.gro -f sys.xtc -n peptides.ndx
+-o rmsd-pepX.xvg. The standard deviation of RMSD values during the
+200–400 ns trajectory segment was calculated for each dipeptide.
+Peptides exhibiting a standard deviation (STD) of RMSD below 0.15
+nm were identified as stable binders for subsequent analysis.
+
+4.5.
+
+## Binding Free Energy Calculation Using gmx_MMPBSA
+For the binding free energy calculations presented in d,g,j, we employed
+the gmx_MMPBSA tool using the following
+parameter set: startframe = 1, endframe = 201, interval = 1, igb =
+2, saltcon = 0.15. In d, the trajectory was extracted from 0 to 800 ns with an output
+interval of 4 ns, resulting in a total of 201 frames. To evaluate
+the influence of nonequilibrium conformations on the calculated binding
+energy, we performed calculations using two distinct time windows:
+frames 1–201 (0–800 ns), which include the initial equilibration
+phase, and frames 101–201 (400–800 ns), which represent
+the fully converged equilibrium segment of the simulation. For g,j, the binding
+free energies were derived exclusively from the equilibrated region
+of the trajectory. Specifically, 101 frames between 200 and 400 ns
+were used, ensuring that the energy values reflect stable, equilibrium
+binding interactions.
+
+## Supplementary Material
+
+## Acknowledgments
+J.W. acknowledges the funding support of the National
+Natural Science Foundation of China (Grant No. 52101023) and Basic
+Research Program of JiangsuGeneral Program of Jiangsu Provincial
+Department of Science and Technology (Grant No. BK20241816). M.Z.
+acknowledges the funding support of the National Natural Science Foundation
+of China (Grant No. 82170238). W.B. acknowledges the funding support
+of the Natural Science Foundation of Shandong Province (Grant No.
+ZR2024MH336) and National Natural Science Foundation of China (Grant
+No. 82270305). The authors also acknowledge the high-performance computing
+platform at Xi’an Jiaotong-Liverpool University and Beijing
+Paratera Tech Corp., LTD.
+
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsomega.5c06570.
+Table summarizing the residues within each pLDDT confidence
+regime and figures showing the RMSD values for all 600 dipeptides
+(PDF)
+
+¶.Shujia Liu
+and Dr. Haojin Zhou are co-first authors.
+
+The authors
+declare no competing financial interest.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials

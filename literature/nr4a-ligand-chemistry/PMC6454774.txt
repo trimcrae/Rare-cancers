@@ -1,0 +1,133 @@
+Lipids Health DisLipids Health Dis116liphdisLipids in Health and Disease1476-511XBMCPMC6454774PMC6454774.1645477464547743096161310.1186/s12944-019-1032-510321ResearchIntegrated analysis of gene expression changes associated with coronary artery disease
+http://orcid.org/0000-0001-6642-7005MiaoLiudr.miaoliu@qq.com http://orcid.org/0000-0001-7883-4310YinRui-Xingyinruixing@163.com HuangFenghuangfeng3000@126.com YangShuoyangshuo1112@outlook.com ChenWu-Xiannncwx@163.com WuJin-Zhenwujianzhengx@sohu.com 10000 0004 1798 2653grid.256607.0Department of Cardiology, Institute of Cardiovascular Diseases, The First Affiliated Hospital, Guangxi Medical University, Nanning, 530021 Guangxi People’s Republic of China 2Guangxi Key Laboratory Base of Precision Medicine in Cardio-cerebrovascular Disease Control and Prevention, 6 Shuangyong Road, Nanning, 530021 Guangxi People’s Republic of China 3Guangxi Clinical Research Center for Cardio-cerebrovascular Diseases, 6 Shuangyong Road, Nanning, 530021 Guangxi People’s Republic of China 94201920191832693592231120182632019090420191904201902032026© The Author(s). 2019https://creativecommons.org/licenses/by/4.0/Open AccessThis article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated.
+
+## Background
+This study investigated the pathways and genes involved in coronary artery disease (CAD) and the associated mechanisms.
+
+## Methods
+Two array data sets of GSE19339 and GSE56885 were downloaded. The limma package was used to analyze the differentially expressed genes (DEGs) in normal and CAD specimens. Examination of DEGs through Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment and Gene Ontology annotation was achieved by Database for Annotation, Visualization and Integrated Discovery (DAVID). The Cytoscape software facilitated the establishment of the protein-protein interaction (PPI) network and Molecular Complex Detection (MCODE) was performed for the significant modules.
+
+## Results
+We identified 413 DEGs (291 up-regulated and 122 down-regulated). Approximately 256 biological processes, only 1 cellular component, and 21 molecular functions were identified by GO analysis and 10 pathways were enriched by KEGG. Moreover, 264 protein pairs and 64 nodes were visualized by the PPI network. After the MCODE analysis, the top 4 high degree genes, including interleukin 1 beta (IL1B, degree = 29), intercellular adhesion molecule 1 (ICAM1, degree = 25), Jun proto-oncogene (JUN, degree = 23) and C-C motif chemokine ligand 2 (CCL2, degree = 20) had been identified to validate in RT-PCR and Cox proportional hazards regression between CAD and normals.
+
+## Conclusions
+The relative expression of IL1B, ICAM1 and CCL2 was higher in CAD than in normal controls (P < 0.05–0.001), but only IL1B and CCL2 genes were confirmed after testing the gene expression in blood and/or analyzing in Cox proportional hazards regression (P < 0.05–0.001), and the proper mechanism may involve in the AGE-RAGE signaling pathway, fluid shear stress, the tumor necrosis factor (TNF) and cytokine-cytokine receptor interaction.
+
+## Electronic supplementary material
+The online version of this article (10.1186/s12944-019-1032-5) contains supplementary material, which is available to authorized users.
+
+## Keywords
+Array dataGene ontology annotationKyoto encyclopedia of genes and genomes (KEGG) pathwayDatabase for annotationVisualization and integrated discoveryProtein-protein interaction (PPI) networkGene expression and cox proportional hazards regressionhttp://dx.doi.org/10.13039/501100001809National Natural Science Foundation of China81460169YinRui-Xingpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2019
+
+## Background
+As the number one cause of mortality, coronary artery disease (CAD) contributes to approximately 17 million deaths every year across the world [ ], and almost 700,000 deaths due to CAD are recorded annually in China [ ]. Being a complicated and multifactorial condition, CAD results from a variety of environmental exposures and genetic variation, including gender, age, diabetes, hypertension, dyslipidemia, cigarette smoking, and family history [ – ]. To some extent reaching an agreement about the early prevention of CAD would be effective.
+As a practical way to identify gene expression changes, a microarray analysis may be a useful method to help in the early diagnosis of CAD [ ]. However, numerous previous studies reveal that microarray results are not reproducible or sensitive to the changes in information [ , ]. Even worse, when over 50 thousand probes in a microarray were used to analyze hundreds of samples, only the inaccuracy of potential predictors was found.
+With these situations, an integrated analysis may be used to increase the integrality and reliability of the conclusions. In this way, we wanted to achieve a more precise method of detecting differentially expressed genes, and aimed to find their potential biological functions. The Gene Expression Omnibus (GEO, http://www.ncbi.nlm.nih.gov/geo/) [ ] is a global free-access repository of next-generation sequence functional genomic data sets and high-throughput microarray deposited by researchers worldwide. The information in these databases can be freely downloaded in many formats. In the current study, we analyzed two public microarray datasets from the GEO repository to determine the genes that had differential expression in individuals suffering from CAD compared to controls using combined P values and we attempted to provide advice on the bio-labelling for on time safeguarding and therapy according to the features of these genes.
+
+## Materials and methods
+
+## Affymetrix microarray data
+There were two gene expression profile data sets. GSE19339 was retrieved from GPL570 Affymetrix Human Genome U133 Plus 2.0 array. GSE56885 was derived from the GPL15207 Affymetrix Human Genome array. The present study included 14 samples, which comprised 8 CAD samples and 6 normal/healthy samples. However, the specific results of each sample were not supported. In the current research, all of these samples were selected. The CEL files were transformed into the expression value matrix using the Affy package in R with RMA methods to normalize the expression value matrix [ ]. Afterwards, the Bioconductor in R was used to convert the probe data to gene [ ]. Any gene that corresponded to multiple probes, the mean expression value of such a gene should be chosen.
+
+## Differentially expressed genes (DEGs) analysis
+The limma package [ ] in R enabled identification of DEGs based on the comparison between the control and the CAD samples. The threshold values were |log2fold-change| > 2 and adjusted P < 0.05.
+
+## GO and pathway enrichment analyses
+Studies on large-scale transcription data or genomic data were usually performed based on Gene Ontology (GO) analyses [ ]. The Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway database harbors information relating to the networks among genes or molecules, which was used for genetic studies [ ]. The Database for Annotation, Visualization and Integrated Discovery (DAVID) contained analytical tools and integrated biological information which was used to interpret the functions of large protein or gene pools [ ]. Here, DAVID (version 6.8) was used to enrich the GO functions and pathways of specific DEGs in the KEGG (http://www.genome.ad.jp/kegg/) and GO (http://www.geneontology.org) databases and the R package Goplot [ ] with an adjusted P-value (q-value) of < 0.05.
+
+## Construction of PPI interaction network
+The Search Tool for the Retrieval of Interacting Genes (STRING V10.5) [ ] database (https://string-db.org/) is a useful platform to study the interactions between experimental and predicted proteins. The predictive capacity of STRING is based on text mining, databases, co-expression experiments, co-occurrence, gene fusion and neighborhood which are achieved using the Cytoscape (version 3.60) [ ]. Then, a combined score was assigned to the interactions among protein pairs in the database. To examine the key genes in the network and potential PPI correlations, the DEGs were mapped on the data and the cut-off value was set as a combined score of > 0.9 [ ]. The significance of protein nodes in the network was described using a degree. All of the three protocols were handled by R software package igraph version 1.0.1 [ ].
+
+## Module analysis
+Protein networks such as the network module contain useful information regarding the biological functions of biological molecules. The outstanding clustering module was determined using the Cytoscape software package Molecular Complex Detection (MCODE) [ ] . Subsequently, the DAVID online tool was used to analyze the KEGG pathway enriched by the DEGs among the modules. Count ≥2 and EASE ≤0.05 were chosen as the cut-off values and MCODE score > 6 as the threshold for the subsequent analysis.
+
+## Study population and follow-up
+A total of 206 outpatient were recruited for a complaint of chest pain at the First Affiliated Hospital, Guangxi Medical University from Jan. 1, 2015 to Dec. 31, 2016. A monthly follow-up was performed for patients through a telephone interview and the interviewer was blinded to the genetic status of the patient. The endpoint of the follow-up was a diagnosis of acute coronary symptoms, and cardiac deaths such as deaths due to sudden cardiac death or pump failure. Coronary angiography was performed for patients with suspected CAD or other unrelated conditions where angiographic examination was required. Two experienced interventional cardiologists examined the data from the coronary angiograms. CAD was confirmed by presence of coronary stenosis (≥ 50%) in one or more of the three main coronary arteries or their major branches (branch diameter ≥ 2 mm). To analyze the influence of hub gene on the prognosis of CAD, after coronary angiography, we divided the individuals into two groups, including CAD patients and controls. Patients with a previous CAD attack, type I diabetes mellitus and congenital heart disease were excluded [ ]. The absence of CAD in healthy individuals was confirmed through clinical examination, medical history and questionnaires. The medical history and general information of all subjects were obtained by a standard questionnaire. All protocols followed the guidelines of the revised (in 2008) Declaration of Helsinki of 1975 (http://www.wma.net/en/30publications/10policies/b3/). Informed consent was obtained from all subjects involved in the genetic analysis and epidemiologic investigation. Our study was approved by the Ethics Committee of the First Affiliated Hospital, Guangxi Medical University (No: Lunshen-2011-KY-Guoji-001; Mar. 7, 2011) [ ]. During the initial examination, clinical information was obtained from the medical records.
+
+## Serum hub gene determination
+RT-qPCR was used to validate the four significantly dysregulated mRNAs obtained from the microarray results out of the 206 researchers. The PBMCs extracted from blood samples were used to isolate total RNAs were using TRIzol reagent (Invitrogen). The TransScript R Frist-Strand cDNA Synthesis SuperMix (Transgen, China) was used to synthesize cDNA as per the manufacturer’s protocols. Additional file Table S1 shows the sequences of primers used to probe the specific genes which were designed by Sangon Biotech (Shanghai, China) together with the reaction conditions. All samples were put into a 96-well plates and run in triplicate using the LightCycler R 96 and FastStart Essential DNA Green Master (Roche Diagnostics GmbH, Germany). The fit point method was used to calculate the Quantification cycles (Cq) by the LightCycler R 96 Software, (Version 1.1 provided by Roche). The mRNA levels of the genes were normalized to the expression of GAPDH as a reference. All methods (qPCR normalization, primer design, collection, preparation and storage of sample) were carried out in line with the MIQE guidelines. 
+
+## Statistical analyses
+SPSS 21.0 package (SPSS Inc. Chicago, IL, USA) was used for statistical analysis. Differences in the rates between groups were compared using a chi-square. Continuous data are presented as the means ± SD. Nominal significance was considered for a raw P value of < 0.05. Multivariate Cox proportional-hazards regression and univariate analyses were used to determine the correlation between the clinical variables and genes with the end point of cardiac adverse events. The univariate and multivariate tests were carried out using two-sided Cox univariate analyses.
+
+## Results
+
+## Preprocessing
+After analysis of GSE19339 and GSE56885, from each gene expression and profile, we obtained a total of 54,560 expression probes. The preprocessed data are shown in Additional file Figure S1. When all of the median values were in the same horizontal line, the data were comfortable normalized. 
+
+## Identified differentially expressed genes (DEGs)
+Heat map of differentially expressed genes is presented in Fig. . As shown in Fig.  , with |log 2 (fold change) | ≥ 2, and an adjusted-P value < 0.05. A sum of 402 DEGs were obtained, of which 140 were down-regulated while 262 were up-regulated in GSE19339. At the same time, 71 DEGs in GSE56885 were found: 10 genes were down-regulated and 61 were up-regulated. Some probes were too high or too low to be expressed. We have determined such probes as outliers and need to be removed without further analysis. In cases where many probes corresponded to one gene, we used the average expression value to screen for differential genes. After quality control and removing numerous incorrect expression values, we took all of the 413 DEGs (122 down-regulated and 291 up-regulated) into consideration. 
+
+## Analysis of gene ontology functions and KEGG pathways enrichment of DEGs
+In the analysis of GO functions, 256 biological processes, only 1 cellular component, and 21 molecular functions were identified. All of these data are presented in Table . As shown in Fig.  , if the statistics threshold was adjusted to 3, only 34 biological processes and 6 molecular functions were retained for analysis. From these data, we found that several functions were related to angiogenesis. The DAVID tool (version 6.8) was also used for the KEGG pathway analysis of the screened DEGs. Approximately 10 pathways were enriched (Fig.  ). To identify disease-related genes, analysis of KEGG pathways and GO functions was performed. A total of 24 genes (Fig.  b) were enriched in 9 biological processes (Fig. a) and 7 KEGG pathways, including biological processes (angiogenesis, blood vessel morphogenesis, smooth muscle cell proliferation, positive regulation of angiogenesis, vasculature development, MAPK cascade, regulation of MAP kinase activity, blood circulation and rhythmic process) and KEGG pathway (atherosclerosis, rheumatoid arthritis, fluid shear stress, AGE-RAGE signaling pathway in diabetic complications, tumor necrosis factor (TNF), cytokine-cytokine receptor interaction, interleukin (IL)-17 and NF-kappa B signaling pathway). 
+
+## Protein-protein interaction (PPI) network construction
+Data analysis was performed on the STRING database out of which 264 protein pairs and 64 nodes were revealed with a combined score > 0.9. The top 7 high degree genes, including interleukin 8 (IL8, degree = 34), interleukin 1 beta (IL1B, degree = 29), C-X-C motif chemokine receptor 4 (CXCR4, degree = 27), intercellular adhesion molecule 1 (ICAM1, degree = 25), Jun proto-oncogene (JUN, degree = 23), C-X-C motif chemokine ligand 12 (CXCL12, degree = 21) and C-C motif chemokine ligand 2 (CCL2, degree = 20), are shown in Fig.  a. 
+
+## Module analysis
+For the detection by MCODE with Cytoscape app, only one module with a score > 6 was found. As shown in Fig. b, the degrees of hub nodes of the ICAM, IL1B, JUN and CCL2 were the highest in this module.
+
+## Association of serum hub gene levels with CAD
+Figure  a shows the relationship among CAD, genes and environmental exposures and scale represents the specific correlation coefficient. Validation of the hypothesized data was done by RT-qPCR. The mRNA levels of IL1B, JUN, ICAM1 and CCL2 were determined to verify the major conclusions derived from the microarray results of the peripheral blood specimen. In general, results of the microarray analysis were consistent with those of RT-qPCR analysis. But, RT-qPCR results showed that the expression of IL1B, ICAM1 and CCL2 was higher in CAD patients than in normal controls (Fig.  b). 
+
+## Demographic and cox regression analysis in patients with CAD
+The demographic and biochemical characteristics of the participants in the two groups are presented in Table  . Compared to CAD patients, there were more patients with hypertension and those who smoked cigarettes in the controls. But age, dyslipidemia, diabetes mellitus, alcohol drinking, height, weight, body mass index (BMI), waist circumference (WC), the level of systolic blood pressure (SBP), diastolic blood pressure (DBP), pulse pressure (PP), serum glucose, total cholesterol (TC), triglyceride (TG), low-density lipoprotein cholesterol (LDL-C) and high-density lipoprotein cholesterol (HDL-C) did not differ between controls and CAD patients. The predictors of CAD were further analyzed by univariate and multivariate Cox proportional hazards regression (Table  ). Following adjustment for variety clinical pathological factors and social economic factors, we confirmed that cigarette smoking [95% confidence interval (CI), 0.831–2.727, hazard ratio (HR): 1.506; P = 0.020], diabetes mellitus (95% CI, 1.634–8.283, P = 0.002 for HR: 3.679), and the overexpression of serum IL1B (95% CI, 1.435–2.845, P = 0.017 for HR: 1.896) and CCL2 (95% CI, 0.563–2.440, P = 0.032 for HR: 1.172) genes were still considered independent predictors for CAD. 
+
+## Discussion
+With the remarkable improvement in microarray expression data, identifying abnormally expressed genes may help us to find and treat diseases. However, microarray data are not always reproducible or are too sensitive to errors [ ]. With these situations, it may be a smart choice to remove the false positives by utilizing various datasets of parallel experimental designs. In the current study, we combined two different datasets of CAD to analyze their GO enrichments, KEGG pathways and PPI networks and modules to identify four significant and reproducible genes (IL1B, ICAM1, JUN and CCL2), which showed differential expression between the patients and controls. However, when these genes were replicated in our CAD samples, we found that serum JUN expression levels were not significantly changed and only two genes (IL1B and CCL2) were verified through the Cox proportional hazards regression.
+CAD is a condition that is associated with several risk factors. The main pathophysiological mechanism of CAD is atherosclerosis [ ]. Studies have confirmed that atherosclerosis is a chronic inflammatory disorder [ ]. The IL-1 family, including cytokines, modulates many immunoinflammatory processes. It regulates many biological processes, including the lipoprotein metabolism, leukocyte adherence, thrombogenic response of endothelial cells, endothelial and smooth muscle cell monogenesis, vascular permeability and extracellular matrix production [ , ]. It is also involved in the process of plaque formation and rupture via different pathways. The pathways’ function is summarized as follows: (1) the suppression of endothelial cell proliferation [ ]; (2) the modification of the endothelium which later favors thrombosis [ ]; (3) the stimulation of vascular smooth muscle cells via transforming growth factor-β (TGF-β) [ ]; and (4) the expression of adhesion molecules by endothelial cells [ ]. In the meantime, as a member of the IL-1 family of cytokines, ST2 (also known as T1, IL1RL1, or Fit1) measurements in blood samples could be a clinical prognostic biomarker useful in risk stratification of patients suffering from myocardial infarction, heart failure and dyspnea [ , ]. In our current study, we demonstrated that IL1B participated in four of the main biological processes (Fig. b), including angiogenesis, smooth muscle cell proliferation, positive regulation of angiogenesis and cytokine metabolic process. All of these biological processes give rise to chronic immunoinflammatory pathological changes and finally result in atherosclerosis.
+C-C motif chemokine ligand 2 (CCL2) participates in the genesis and progress of atherosclerosis [ – ]. The current study demonstrated that CCL2 participated in two of the main biological processes (Fig. b), including angiogenesis and the positive regulation of angiogenesis. These two biological processes also contribute to atherosclerosis. Moreover, CCL2 is considered as a risk factor for the promotion of atherosclerosis and for patients with CAD. Numerous studies reveal that high CCL2 levels in patients with CAD are associated with enhanced incidence of adverse cardiac outcomes and increased risk of long-term mortality [ , ]. Recently, a study showed when CCL2 levels increased, plasma HDL2 levels decreased and CCL2 was negatively correlated with HDL2 [ ]. This may be another mechanism of how CCL2 results in CAD.
+There were seven pathways containing IL1B and CCL2, according to the KEGG analysis, including rheumatoid arthritis, cytokine-cytokine receptor interaction, TNF signaling pathway, the IL-17 signaling pathway, the AGE-RAGE signaling pathway in diabetic complications and malaria, atherosclerosis and fluid shear stress. Shanmugam et al. reported that TNF-α signaling exerted adverse effects to the cardiovascular tissues although it ameliorated chronic inflammatory disease [ ]. In atherosclerosis, Tuenter et al. found that presence of intraplaque haemorrhage and calcifications was associated with elevated maximum shear stress [ ]. Moreover, RAGE expression in many types of cell, including smooth muscle cells, endothelial cells and macrophages may result in the pathogenesis of atherosclerosis, and give rise to the pathogenesis of myocardial dysfunction [ ]. These findings demonstrate that IL1B and CCL2 cause atherosclerosis and finally result in CAD. Furthermore, when we repeated the validation in our experimental samples, using a blood gene expression and/or Cox proportional hazards regression, we obtained the same results, which might increase the credibility of the conclusions.
+
+## Conclusions
+Two CAD microarray datasets from the GEO series were systematically analyzed in this study. Based on the expression level, GO enrichment, enriched pathway and protein-protein interaction analyses, four genes (IL1B, ICAM1, JUN and CCL2) were found to be significant meaning, but only two genes (IL1B and CCL2) were replicated in our samples by testing the gene expression in blood and/or analyzing with a Cox proportional hazards regression. The mechanism may be involved in the cytokine-cytokine receptor interaction, the TNF signaling pathway, fluid shear stress and the AGE-RAGE signaling pathway. But, additional experiments are warranted to validate these findings.
+
+## Additional files
+
+Additional file 1:Table S1. PCR primers for quantitative real-time PCR. (PDF 70 kb)
+
+Additional file 2:Figure S1. Box figure of gene expression data of normalization. (PDF 703 kb)
+
+## Abbreviations
+ApoApolipoprotein
+BMIBody mass index
+COL1A1Collagen type I alpha 1 chain
+DBPDiastolic blood pressure
+GEOGene Expression Omnibus
+GOGene Ontology annotation
+HDL-CHigh-density lipoprotein cholesterol
+HTGHypertriglyceridemia
+KEGGKyoto Encyclopedia of Genes and Genomes pathway enrichment analyses
+LDL-CLow-density lipoprotein cholesterol
+MCODEMolecular Complex Detection
+MetSMetabolic syndrome
+NCBINational Center For Biotechnology Information
+PPPulse pressure
+PPIProtein-protein interaction
+SBPSystolic blood pressure
+SNPSingle nucleotide polymorphism
+T2DType 2 diabetes mellitus
+TGTriglyceride
+WCWaist circumference
+We are grateful to all the participants of this study and the staff from the Guangxi Key Laboratory Base of Precision Medicine in Cardio-cerebrovascular Disease Control and Prevention.
+
+## Funding
+The authors acknowledge the essential role of the funding of the National Natural Science Foundation of China (No: 81460169) and the Innovation Project of Guangxi Graduate Education in this motif.
+
+## Availability of data and materials
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request.
+
+## Authors' contributions
+L.M. conceived the study, participated in the design, undertook genotyping, performed the statistical analyses, and drafted the manuscript. R.-X.Y. conceived the study, participated in the design, carried out the epidemiological survey, collected the samples, and helped to draft the manuscript. F.H. and S.Y. collaborated to the genotyping. F.H., S.Y., W.-X.C. and J.-Z.W. carried out the epidemiological survey and collected the samples. All authors read and approved the final manuscript.
+
+## Ethics approval and consent to participate
+The research design was approved by the Ethics Committee. The First Affiliated Hospital of Guangxi Medical University (No: Lunshen-2011-KY-Guoji-001; March 7, 2011). All procedures are conducted in conformity to ethical standards.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.

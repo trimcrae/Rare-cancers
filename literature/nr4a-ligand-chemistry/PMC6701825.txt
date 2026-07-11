@@ -1,0 +1,822 @@
+822acssdJournal of Medicinal ChemistryJ Med ChemPMC6701825670182567018253064047310.1021/acs.jmedchem.8b01402Antiproliferative and Antimigratory Effects of a Novel
+YAP–TEAD Interaction Inhibitor Identified Using in Silico Molecular
+Docking
+SmithSarah
+A SessionsRichard B ShoemarkDeborah K WilliamsChristopher EbrahimighaeiReza McNeillMadeleine C CrumpMatthew P McKayTristan R HarrisGemma NewbyAndrew C BondMark †School
+of Translational Health Sciences, Faculty of Health Sciences, University of Bristol, Research Floor Level 7, Bristol Royal Infirmary, Bristol BS2 8HW, U.K.‡School
+of Biochemistry, Faculty of Biomedical Sciences, University of Bristol, Biomedical Sciences Building, University Walk, Bristol BS8 1TD, U.K.§School
+of Chemistry, Faculty of Science, University
+of Bristol, Cantock’s
+Close, Bristol BS8 1TS, U.K.∥Centre
+for Bioscience, Manchester Metropolitan
+University, John Dalton
+Building, Manchester M1
+5GD, U.K.⊥Research
+Complex at Harwell, Rutherford Appleton
+Laboratory, Harwell Campus, Didcot, Oxfordshire OX11 0FA, U.K.*E-mail: mark.bond@bristol.ac.uk. Tel: +44 (0)117 3423586.
+141201962312911291–13052182019Copyright © 2019 American Chemical
+SocietyThis is an open access article published under a Creative Commons Attribution (CC-BY) License, which permits unrestricted use, distribution and reproduction in any medium, provided the author and source are cited.
+
+## Abstract
+ The Hippo pathway is an important
+regulator of cell growth, proliferation,
+and migration. TEAD transcription factors, which lie at the core of
+the Hippo pathway, are essential for regulation of organ growth and
+wound repair. Dysregulation of TEAD and its regulatory cofactor Yes-associated
+protein (YAP) have been implicated in numerous human cancers and hyperproliferative
+pathological processes. Hence, the YAP–TEAD complex is a promising
+therapeutic target. Here, we use in silico molecular docking using
+Bristol University Docking Engine to screen a library of more than
+8 million druglike molecules for novel disrupters of the YAP–TEAD
+interaction. We report the identification of a novel compound (CPD3.1)
+with the ability to disrupt YAP–TEAD protein–protein
+interaction and inhibit TEAD activity, cell proliferation, and cell
+migration. The YAP–TEAD complex is a viable drug target, and
+CPD3.1 is a lead compound for the development of more potent TEAD
+inhibitors for treating cancer and other hyperproliferative pathologies.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2018 Sep 10; Issue date 2019 Feb 14.
+
+## Introduction
+The oncogenic Hippo
+signaling pathway has emerged as an important
+regulator of cell growth, proliferation, and migration. TEAD
+transcription factors (TEAD1–4), at the core of the Hippo pathway,
+are essential for regulation of normal organ size, cardiogenesis, formation of the trophectoderm in embryos, and wound repair in adults. Dysregulation of TEAD proteins has been implicated in numerous
+human cancers, including breast cancers, fallopian tube carcinoma, germ cell
+tumors, renal cell carcinoma, medulloblastoma, and gastric cancer. Increased TEAD
+activity can induce oncogenic transformation. − Moreover, increased
+TEAD protein expression in gastric, colorectal, breast, and prostate
+cancers is associated with reduced patient
+survival. Dysregulated TEAD activity has also been associated with
+other hyperproliferative pathological processes, including angioplasty
+restenosis. 
+Transcriptional activation
+by TEAD is dependent on interaction
+with transcriptional cofactors. The best characterized TEAD cofactors
+are Yes-associated protein (YAP) and transcriptional coactivator with
+PDZ-binding motif (TAZ). However, other
+proteins have also been reported to have TEAD cofactor activity, including
+members of the Vgll family − and p160 family of nuclear receptor
+cofactors. The activity of YAP and TAZ
+is negatively regulated by the Hippo pathway kinase LATS1, − which can occur in response to actin cytoskeleton disruption. Phosphorylation
+of YAP and TAZ triggers their nuclear export and proteasomal degradation.
+Although YAP and TAZ appear to be dispensable for normal homeostasis
+of many adult organs, they play essential
+roles promoting tissue repair following injury. , As with the TEAD proteins, YAP and TAZ activation has been identified
+in many human tumors and is essential for tumor initiation, progression,
+and metastasis. Furthermore, elevated
+expression of YAP is associated with reduced survival in patients
+with breast, ovarian, colon, liver, and pancreatic cancers. Consistent
+with this, the activation or overexpression of YAP or TAZ enhances
+TEAD-dependent gene expression (e.g., CCN1, CTGF, ITGB2, and Birc5/Survivin) and promotes
+cell proliferation and migration in many cell types. Conversely, signals or interventions that block the formation
+of YAP/TAZ–TEAD complexes prevent the expression of many mitogenic
+TEAD target genes and dramatically reduce cell proliferation and oncogenic
+transforming activity. − 
+Multiple and diverse signals induce nuclear translocation
+of YAP
+and TAZ, including cellular density GPCR ligands, mitogens, Wnts, and extracellular matrix stiffness. Conversely, multiple antimitogenic signals induce
+nuclear exclusion of YAP and TAZ and inhibition of TEAD-dependent
+gene expression. , This suggests that the YAP/TAZ–TEAD
+complex acts as a central point of convergence for multiple biochemical
+and mechanical signaling pathways that control cell proliferation
+and migration. Hence, there is considerable interest in targeting
+these proteins therapeutically, for example, for the treatment of
+cancer, cardiovascular disease, and liver fibrosis. Targeting the Hippo pathway would be distinct from conventional
+cytotoxic chemotherapy or medications that lower low-density lipoprotein
+cholesterol, the current mainstays of cancer and cardiovascular disease
+treatment that, nevertheless, do not fully normalize risk. These multifactorial
+pathologies are characterized by dysregulation of multiple diverse
+signaling pathways that converge at a relatively small number of transcription
+factors, suggesting that targeting transcription factors may represent
+a highly promising, widely applicable therapeutic strategy. However,
+pharmacological targeting of transcription factors is challenging.
+Unlike enzymes, they often lack deep binding pockets for small molecules
+and instead rely on complex protein–protein interactions based
+on large surface areas, which are traditionally believed to be more
+difficult to target. 
+Small molecules
+with YAP–TEAD inhibitory properties have
+been reported. For example, the TEAD inhibitory activity of the porphyrin
+molecule, verteporfin, was identified by screening a library of 3300
+Food and Drug Administration-approved drugs. , Verteporfin inhibits YAP, at least in part, by stimulating levels
+of 14-3-3ε, which sequesters YAP in the cytoplasm. Moreover, verteporfin is pleiotropic, having
+antiproliferative and cytotoxic effects independent of its effect
+on YAP. , Oku et al. identified
+dasatinib, fluvastatin, and pazopanib as inhibitors of YAP/TAZ nuclear
+localization using image-based screening of 400 small molecules. Their
+mechanisms of action are unclear but may be mediated via inhibition
+of RhoA and disruption of actin polymerization. 
+The recent elucidation of the crystal structure of
+the YAP–TEAD1
+complex (PDB accession code 3KYS) opens the possibility
+of rationally designed direct YAP–TEAD interaction inhibitors.
+Crystallography indicates that YAP protein wraps around the YAP-binding
+domain of TEAD1, forming extensive interactions over three distinct
+interaction interfaces. Structural and mutational studies identified
+a small number of highly conserved amino acids, namely, Ser94, Phe95, and Phe96, located in the Ω-loop
+of YAP, part of interaction interface three, which are essential for
+YAP interaction with TEAD. The side chains
+of these residues fit into a deep hydrophobic pocket on TEAD that
+has an excellent druggability score, , suggesting
+that the YAP–TEAD interaction may be a feasible drug target.
+Consistent with this, two groups have reported the design of peptides
+based on the YAP interaction interface with the ability to disrupt
+YAP–TEAD interaction, albeit in
+a cell-free system. Use of peptide-based interaction inhibitors is
+limited by their poor cell permeability, with inhibition of TEAD activity
+only achieved via plasmid-based expression of FLAG-tagged peptide
+fusion proteins. Thermal-shift-assay-based screening of a small molecule
+fragment library has identified cell permeable small molecules that
+bind the TEAD hydrophobic pocket occupied by YAP Phe95,
+but these molecules exhibited low potency, modestly inhibiting TEAD
+activity at millimolar concentrations. 
+Here, we use in silico molecular docking using Bristol University
+Docking Engine (BUDE) , to screen more than 8 million
+clean (compounds with only benign functional groups ) and druglike molecules from the Zinc Is Not Commercial
+(ZINC) available compounds database for novel disrupters of the YAP–TEAD
+interaction. In contrast to most other docking algorithms, BUDE utilizes
+an empirical free-energy force field and is unique in using an atom–atom
+force field, which takes into account Wolfenden solvation energies.
+This allows BUDE to more accurately estimate the entropic cost/enthalpic
+gain encountered by a ligand, leaving a fully solvated state to bind
+to a protein. This is particularly important for interrogating the
+more challenging, flatter protein–protein or protein–ligand
+interactions because these often rely more heavily on hydrophobic
+interactions. Here, we describe a BUDE screening strategy that identified
+a shortlist of putative TEAD1-binding compounds, from which we characterize
+a novel compound that disrupts TEAD-dependent transcription, cell
+proliferation, and cell migration.
+
+## Results
+
+## Identification
+of TEAD Inhibitors Using BUDE Molecular Docking
+The enrichment
+process from the first BUDE docking reduced the
+number of conformers from 160 million to 100 000. The second
+BUDE run docked the 100 000 compounds into five structures
+extracted from the molecular dynamics (MD) simulation of TEAD1 (to
+represent the “breathing” motion of the unbound protein
+in solution and allowed for both side-chain and backbone flexibilities),
+which allowed the selection of 1000 compounds showing binding to at
+least four TEAD1 protein conformations (Supplement Figures 1 and 2). The selection process from 1000 (see Supplement Data File S1) to the final list of
+16 compounds (Supplement Tables 1 and 3) for testing in vitro used the following set of criteria: (i) visual
+inspection to identify compounds that interacted with YAP binding
+pocket that accommodates the epsilon two carbon atom of the YAP Phe95 residue (Supplement Figure 1);
+(ii) maximizing the chemical diversity of the initial test set; (iii)
+favorable calculated (c Log P) or experimental (log P) solubility;
+and (iv) actual compound availability for purchase at a reasonable
+(<£200) cost per screening sample.
+The shortlisted sets
+of 16 compounds were first assayed for their ability to inhibit TEAD-dependent
+transcriptional activity in HeLa cells that had been transduced with
+a recombinant lentiviral vector expressing secreted bioluminescent
+nanoluciferase (NLUC) reporter gene enzyme, which is expressed under
+the control of a promoter region containing eight TEAD DNA-binding
+elements (TEAD-NLUC). The reporter cell line was validated by showing
+that the expression of secreted nanoluciferase (NLUC) enzyme activity
+was significantly inhibited by siRNA-mediated silencing of the TEAD
+cofactor YAP ( A). Furthermore, the expression of secreted nanoluciferase (NLUC)
+enzyme activity was significantly stimulated by YAP overexpression
+( A). These
+data demonstrate that this cell line faithfully reports YAP-dependent
+TEAD activity. Four of the compounds shortlisted (CPD1, 3, 6, and
+8) significantly (>60%) inhibited TEAD-NLUC activity ( B,C), without significantly
+affecting cell viability (Supplement Figure 3), indicating that these compounds inhibited TEAD-dependent transcriptional
+activity.
+ We next tested the ability of
+these four compounds to inhibit the
+binding of endogenous YAP protein present in HEK293 whole cell lysate
+to recombinant glutathione S-transferase (GST)–TEAD1 protein
+immobilized on glutathione resin beads. Western blotting of proteins
+binding the beads demonstrated that only CPD3 was able to inhibit
+the binding of YAP protein to GST–TEAD1 ( D). Inhibition of YAP binding to TEAD1 in
+the presence of CPD3 was further confirmed using co-immunoprecipitation
+assays using mammalian cell lysates prepared from HeLa expressing
+myc-TEAD1 and GFP–YAP. CPD3 inhibited binding of myc-TEAD1
+to affinity-purified GFP–YAP ( E). Likewise, CPD3 also inhibited binding
+of GFP–YAP to immunoprecipitated myc-TEAD1 ( F). We next set up a 96-well
+plate-based YAP–TEAD interaction assay to determine the IC50 of the inhibition of the YAP–TEAD complex by CPD3.
+Myc-tagged-TEAD1 protein was immobilized on protein-G-coated plates
+using an anti-myc antibody and the interaction of a YAP–nanoluciferase
+fusion protein quantified in the presence of increasing concentrations
+of CPD3 ( G).
+Incubation with CPD3 resulted in a dose-dependent inhibition of YAP–nanoluciferase
+activity bound to the myc-TEAD1 protein-coated wells, indicating that
+CPD3 inhibited YAP interaction with TEAD1. The IC50 of
+the inhibition was calculated at 48 μM ( H).
+The BUDE docking pose of CPD3 ( A,B; see PDB Data File) predicts that the planar indole-based
+aromatic ring structure of
+CPD3 occupies the hydrophobic TEAD1 pocket bordered by residues Leu272, Glu368, Glu393, and Try406 (residue numbering according to Li et al. ) in a vertical orientation. The docking pose predicts that CPD3
+binds in a position close to the YAP Met86, Ile91, and Phe95 side chains (numbering according to sequence NP_068780). These
+hydrophobic side chains of YAP form multiple van der Waals contacts
+with I247, V242, L272, V391, and Y406 of TEAD1 (numbering according to Li et al. ) and are known to be essential for YAP binding. The furyl moiety at the opposite end of the
+molecule occupies a cleft formed by TEAD1 Tyr376 and Asn411.
+ 
+
+## Compound 3 Inhibits TEAD-Dependent
+Target Gene Expression, Cell
+Proliferation, and Migration
+Activation of TEAD transcription
+factors in response to YAP binding induces the expression of many
+genes that encode proteins known to be involved in promoting cell
+proliferation and migration (see Supplement Figure 14). The best characterized TEAD target genes associated with
+the promotion of cell proliferation and migration are CCN1 and CTGF. , , For example, we have recently demonstrated such a role for YAP–TEAD-dependent
+regulation of CCN1 in the regulation of vascular
+smooth muscle cell (VSMC) proliferation and migration. We therefore tested whether CPD3 inhibited the
+promoter activity of known TEAD target genes, CCN1 and CTGF, in the HeLa transformed cell line and
+primary rat VSMCs (RaVSMCs). Cells were transfected with plasmids
+expressing bioluminescent firefly luciferase reporter genes under
+the control of either the CCN1 or CTGF promoter regions. Incubation with CPD3 for 6 h resulted in a strong
+and significant dose-dependent inhibition of CCN1- and CTGF-luciferase reporter gene activities in
+both HeLa cells ( A) and RaVSMCs ( B). As both CCN1 and CTGF are classical
+TEAD target genes, this is consistent with the inhibition of TEAD
+activity by CPD3. Importantly, activity of the TEAD-independent minimal TNT1 gene promoter, which lacks TEAD-binding elements, was
+not inhibited by any concentration of CPD3 tested, indicating that
+CPD3 selectively inhibits TEAD-dependent transcription and does not
+nonspecifically reduce the transcription of TEAD-independent genes.
+Furthermore, steady-state mRNA levels of endogenous CCN1 and CTGF genes, which are known to be involved
+in the promotion of cell proliferation and migration, but not the
+TEAD-independent housekeeping gene 36B4, were also
+significantly inhibited by CPD3 (Supplement Figure 4). CPD3 also dose-dependently inhibited cell proliferation
+(detected by the incorporation of EdU into newly synthesized DNA ( C,D)) and migration
+(detected by real-time scratch wound assay), in both HeLa ( E) and RaVSMCs ( F and Supplement Figure 5).
+ 
+
+## Functional Analysis of Compound 3 Fragments
+We tested
+three small molecular fragments of CPD3 for TEAD inhibitory activity.
+CPD3.1 represents the planar aromatic ring structure of CPD3, CPD3.2
+is a piperazinyl propanediol representing the mid-region of CPD3,
+and CPD3.3 represents the terminal furyl group ( A). Dose–response analysis demonstrated
+that CPD3 significantly inhibited TEAD-dependent NLUC secretion in
+HeLa at 60 μM with IC50 > 110 μM ( B) but did not affect
+cell viability (Supplement Figure 6) or
+have any direct inhibitory effect on NLUC enzymatic activity at any
+concentration tested (Supplement Figure 7A). CPD3.1 also significantly inhibited TEAD-dependent NLUC secretion
+at 20 μM with IC50 = 70 μM ( C), without affecting cell
+viability (Supplement Figure 6) and without
+having any direct inhibitory effect on NLUC activity (Supplement Figure 7B). Although not strictly
+applicable to this type of indirect reporter gene assay, the Hill
+slopes for both CPD3 and CPD3.1 ( B,C) were close to 1 (0.77 and 0.73, respectively).
+Although CPD3.1 appeared to be a more potent inhibitor of TEAD activity
+in these cell-based assays, this may simply reflect increased cell
+permeability compared to CPD3. Neither CPD3.2 nor CPD3.3 had any effect
+on TEAD-NLUC activity ( D,E) or cell viability (Supplement Figure 6). This suggests that the planar indole-based aromatic ring
+structure of CPD3.1 represents the functional YAP–TEAD inhibitory
+group. BUDE docking of CPD3.1 (see PDB Data File) predicts that this compound occupies the TEAD pocket in a similar
+pose to CPD3 (root-mean-square deviation (RMSD) between corresponding
+atoms is 2.42 Å) ( A,B). Binding of CPD3.1 to purified recombinant TEAD protein
+was confirmed by saturation transfer difference (STD) NMR ( ) and isothermal
+titration calorimetry (Supplement Figure 8), which estimated the binding affinity to TEAD1 in the low micromolar
+range (∼12 μM).
+ TEAD proteins (TEAD1–4)
+display a high degree of sequence
+conservation in residues that create the hydrophobic pocket that is
+essential for YAP binding. YAP proteins
+also display a high degree of conservation in residues that interact
+with this pocket. We therefore tested
+whether CPD3.1 was able to inhibit YAP-induced activity of TEAD1,
+TEAD2, TEAD3, and TEAD4. To quantify the effect of CPD3.1 on the activity
+of each individual TEAD paralog, while excluding interference from
+endogenously expressed TEAD1–4 proteins, we expressed each
+TEAD paralog (TEAD1–4) fused to the yeast GAL4 DNA-binding
+domain. Cells were transfected with the GAL4–TEAD expression
+vector together with a secreted nanoluciferase reporter gene vector
+under control of a promoter containing five GAL4 DNA-binding elements.
+This system allows us to study the effect of CPD3.1 on the activity
+of each individual TEAD protein in isolation, without interference
+from endogenously expressed transcription factors. In addition, the
+cells were co-transfected with a YAP expression vector to activate
+the GAL4–TEAD fusion-dependent transcription (see Supplement Figure 9). Basal activities of TEAD1,
+TEAD2, TEAD3, and TEAD4 were inhibited by CPD3.1 ( A–D). This likely reflects
+the inhibition of TEAD activity driven by endogenous expression of
+YAP. Activity of all four TEAD paralogs was stimulated by YAP overexpression
+and this was significantly inhibited by CPD3.1 ( A−D). This suggests that the conservation
+of residues forming the YAP binding TEAD pocket allows CPD3.1 to inhibit
+YAP activation of all TEAD paralogs. Dose–response analysis
+demonstrated that CPD3.1 inhibited YAP-induced TEAD1 activity with
+IC50 = 40 μM ( E), TEAD2 activity with IC50 = 33 μM
+( F), TEAD3
+activity with IC50 = 44 μM ( G), and TEAD4 activity with IC50 = 36 μM ( H). Importantly, CPD3.1 did not inhibit the basal activity of a TEAD-independent
+GAL4 reporter vector (Supplement Figure 10A). As a negative control to test for any off-target effects of CPD3.1,
+we used a reporter gene vector for a different transcription factor.
+For this, we used a serum response factor (SRF) reporter gene containing
+five serum response factor-binding elements instead of TEAD-binding
+elements. The cells were co-transfected with the SRF reporter gene
+together with a plasmid expressing serum response factor (SRF) protein
+fused to the VP16 transcriptional activation domain of herpes simplex
+virus type I (SRF–VP16). Expression of the SRF–VP16
+fusion protein strongly activates the SRF-dependent reporter gene,
+allowing us to detect any inhibition of SRF activity. The SRF-dependent
+reporter gene activity was not inhibited by CPD3.1, thus providing
+more evidence of its selectivity for TEAD (Supplement Figure 10B).
+ 
+
+## CPD3.1 Inhibits TEAD Target Gene Expression, Cell Proliferation,
+and Cell Migration
+Since the smaller CPD3.1 fragment retains
+TEAD inhibitory activity, we next tested whether CPD3.1 was able to
+inhibit TEAD target gene expression, cell proliferation, and cell
+migration in HeLa and RaVSMCs. Incubation of HeLa cells with CPD3.1
+resulted in a dose-dependent inhibition of CCN1-
+and CTGF-luciferase reporter gene activities without
+affecting expression from the TEAD-independent minimal TNT1 promoter ( A), consistent with specific inhibition of TEAD activity. CCN1 and CTGF genes have previously been
+implicated in the regulation of cell proliferation and migration. Consistent with this, CPD3.1 also dose-dependently
+inhibited HeLa cell proliferation ( B), with EdU incorporation significantly
+inhibited at doses above 40 μM. CPD3.1 also significantly inhibited
+HeLa cell migration at 40, 60, and 80 μM ( C).
+ In RaVSMCs, CPD3.1 dose-dependently inhibited TEAD-NLUC activity
+( A; IC50 = 24 μM) and CCN1-LUC ( B; EC50 = 48 μM)
+and CTGF-LUC ( C; EC50 = 58 μM) luciferase reporter
+gene activities. Moreover, the expression of steady-state mRNA levels
+for known TEAD target genes (CCN1, CTGF, PAI1, THBS, MAYDM, and MYOC) was also significantly inhibited by
+CPD3.1 ( D).
+Dose–response experiments demonstrated the inhibition of THBS at 10 μM, CCN1 at 20 μM,
+and CTGF at 40 μM (Supplement Figure 11). However, steady-state mRNA levels of the TEAD-independent
+housekeeping genes PGK1, TBP, GAPDH, and 36B4 were unaffected ( E), indicating that
+CPD3.1 selectively inhibits TEAD-dependent target gene expression
+and not simply by globally inhibiting transcription. Western blotting
+of total cell lysates also demonstrated that CPD3.1 inhibited the
+expression of CCN1 protein levels ( F), confirming that these inhibitory
+effects translate into a reduction in protein levels. Incubation of
+RaVSMC ( G)
+or human VSMC ( H) with CPD3.1 for 18 h resulted in a dose-dependent inhibition of
+cell proliferation, detected by EdU incorporation. The EC50 for the inhibition of proliferation was 10 μM in RaVSMC and
+1.5 μM in HuVSMC. RaVSMC and HuVSMC migration was similarly
+inhibited in a dose-dependent manner by 2, 10, and 20 μM CPD3.1
+in RaVSMC ( I) and 0.25, 0.5, 2, and 10 μM in HuVSMC ( J). Importantly, CPD3.1 did
+not inhibit the proliferation of MCF7 cells (Supplement Figure 12), which have previously been reported to exhibit
+YAP–TEAD-independent growth. 
+ 
+
+## Discussion and Conclusions
+Here, we report the discovery
+of a novel low-molecular-weight YAP–TEAD
+protein–protein interaction inhibitor using an in silico molecular
+docking screen of over 8 million druglike compounds. We report that
+CPD3 blocks YAP interaction with TEAD1 and inhibits TEAD activity,
+TEAD target gene expression, cell proliferation, and cell migration.
+Analysis of smaller fragment of CPD3 identified CPD3.1, which retains
+TEAD inhibitory activity. This compound displays more potent TEAD
+inhibitory activity in live cell assays, although this may be due,
+at least in part, to improved cell permeability. This study demonstrates
+that in silico molecular docking using the BUDE algorithm is a fast
+and cost-effective method for screening very large numbers of druglike
+small molecules to identify novel protein–protein interaction
+inhibitors. More importantly, it demonstrates that the TEAD pocket,
+which is responsible for YAP binding, is a viable drug target. The
+molecules we describe are likely to represent valuable lead compounds
+for the future development of potent TEAD inhibitors.
+Until
+recently, the computational cost, in terms of hardware, time,
+and electricity consumption, of performing in silico molecular docking
+to screen libraries of millions of compounds was prohibitive. However,
+recent advances in modern computer processing power mean that this
+approach is now viable for augmenting or even replacing traditional
+screening methods. Utilizing multiple graphics processing units in
+the University of Bristol’s BlueCrystal supercomputer, we completed
+the initial screen of 8 million compounds within a few weeks. Subsequent
+validation of the short-listed compounds identified four compounds
+with TEAD inhibitory activity, demonstrating the efficacy of the BUDE
+algorithm. We focused our attention on CPD3 because this compound
+inhibited TEAD activity and disrupted YAP interaction. However, other
+compounds identified by our screen were able to inhibit TEAD activity
+without detectable effects on YAP interaction, suggesting that the
+occupation of the TEAD pocket by small molecules may be able to disrupt
+TEAD function, even when YAP remains bound. A similar disruption of
+TEAD function has been proposed to explain the TEAD inhibitory activity
+of flufenamates. It is possible that
+these compounds induce subtle conformational changes in the YAP–TEAD
+complex or block important posttranslational modifications that are
+important for TEAD function, such as palmitoylation. , The docking pose for CPD3 predicts that the large planar aromatic
+ring structure, present at one end of the molecule, occupies the TEAD
+pocket and occludes the hydrophobic side chains of YAP Met86, Ile91, and Phe95 previously demonstrated
+to be essential for YAP interaction. Consistent
+with this, a fragment of CPD3, termed CPD3.1 that is based only on
+this aromatic ring structure, is predicted to bind the pocket in a
+similar position and retains TEAD inhibitory activity. In TEAD-dependent
+reporter gene assays, CPD3.1 was more potent than the parental compound
+CPD3 with IC50 = 70 μM compared to IC50 = 110 μM for CPD3. This may reflect increased cell permeability,
+increased compound stability, or increased affinity for TEAD. Furthermore,
+using a GAL4 reporter system and GAL4 fusions of TEAD1, TEAD2, TEAD3,
+and TEAD4, we demonstrated that CPD3.1 inhibited YAP-induced activity
+of all four TEAD isoforms with a similar potency (IC50 of
+40, 33, 48, and 35 μM for TEAD1–4, respectively), demonstrating
+its pan-TEAD inhibitory activity. This likely reflects the high degree
+of sequence conservation in amino acids that form this pocket in all
+four TEAD isoforms. Importantly, CPD3.1 did not inhibit the activity
+of two TEAD-independent promoters or the endogenous mRNA expression
+of several TEAD-independent housekeeping genes, indicating specific
+inhibition of TEAD-dependent transcription.
+The current lack
+of detailed knowledge of the cellular functions
+of each TEAD paralog means that it is unclear whether therapeutically
+useful TEAD inhibitors will be needed to target specific individual
+TEAD isoforms. Whether there is sufficient chemical and structural
+diversity in the YAP binding pocket to allow for paralog-selective
+inhibitors remains to be determined. YAP residues, essential for TEAD
+binding, that interact with this pocket are also conserved in TAZ,
+and the TAZ–TEAD4 crystal structure indicates that TAZ can bind in a similar manner to YAP. It is also
+important to consider the wide-ranging biological functions of TEAD
+transcription factors, which have been shown to regulate diverse cellular
+functions, including osteoclastogenesis, myoblast differentiation, and cell
+fate decisions. This may suggest that
+future pan-TEAD inhibiting therapies may be limited by undesirable
+side effects. However, this highlights the need for more research
+to dissect the specific function of individual TEAD proteins and the
+developments of TEAD isoform-specific inhibitors.
+In summary,
+we report the identification of a novel YAP–TEAD
+protein–protein interaction inhibitor that inhibits TEAD activity,
+TEAD target gene expression, cell proliferation, and cell migration.
+We also describe the active fragment of this compound that retains
+all of these inhibitory properties. We suggest that this compound
+may aid the development of future lead compounds representing potent
+and selective TEAD inhibitors. Such compounds should be useful for
+the development of new therapies for the treatment of hyperproliferative
+cardiovascular diseases and patients who harbor cancers with amplified
+or overexpressed YAP, TAZ, or TEAD genes.
+
+## Experimental
+Section
+
+## BUDE in Silico Molecular Docking
+In silico molecular
+docking was performed using the Bristol University Docking Engine
+(BUDE) , to dock conformers generated from the ZINC
+database into the YAP binding site of TEAD (3KYS.pdb). Briefly, the
+BUDE search area was defined as a 15 × 15 × 15 Å3 grid centered on the epsilon 2 carbon atom of the YAP phenylalanine
+95 residues (see Supplement Figure 1).
+Only TEAD1 atoms within 20 Å of this carbon atom were included
+in the docking analysis. A library of >8 million compounds, obtained
+from the clean, druglike subset of the ZINC8 database, was used for
+docking studies. Multiple conformers (approximately 20 per compound)
+of these compounds were generated using Confort (Certara Inc.), resulting
+in a library of approximately 160 million distinct structures that
+was docked into the TEAD1 pocket that forms the YAP–TEAD interaction
+interface 3. Each conformer was docked
+using 20 000 randomly generated “poses” within
+the search space and the free energy of binding between the conformer
+and TEAD calculated. The 1000 poses with the lowest energies were
+selected and randomly “mutated” with X, Y, and Z axis translations and
+rotations to generate a new generation of 20 000 poses. Ten
+generations of this docking algorithm were performed, resulting in
+an optimized docking pose for each conformer and a list of all 160
+million conformers ranked by predicted free energy of binding. The
+top 100 000 ranked compound conformers with the lowest binding
+energies were selected and docked with five conformers of TEAD1. The
+top 1000 compound conformers with the lowest binding energies for
+each TEAD conformer were selected, and compound conformers that appeared
+in at least four of the list were identified (Supplement Data File S1). This resulted in 3.85% of compound
+conformers (representing 91 distinct compounds) being shortlisted
+(Supplement Figure 1). Of these 91 compounds,
+only 38 (41.75%) were commercially available (Supplement Figure 2). These 38 compounds were manually curated
+for chemical diversity and 16 selected for testing. Shortlisted hits
+were screened for pan assay interference compounds (PAINS) using the
+online PAINS filters at http://zinc15.docking.org/patterns/home/ and http://www.cbligand.org/PAINS/. Hit compounds passed both filters.
+
+## Modeling Methods
+The TEAD/YAP complex crystal structure
+(3KYS.pdb) was used as the basis for the 100 ns dynamics simulations
+of the apo TEAD protein. The GROMACS 5.1.2. software suite with the Amber99-SB-ILDN force field was used to generate multiple TEAD conformers. Five
+frames were chosen, representing the greatest RMSD across the trajectory.
+Molecular graphics manipulations and visualizations were performed
+using VMD-1.9.1 and Chimera-1.10.2. Pdb2gmx
+was used to prepare the assembly. Hydrogen atoms were added consistent
+with pH 7. The system was surrounded by a box extending 2 nm from
+the peptide (in each axis) and filled with TIP3P water. The random
+water molecules were replaced by sodium and chloride ions to give
+a neutral (uncharged overall) box and an ionic strength of 0.15 M.
+The system was energy-minimized for 5000 steps prior to position-restrained
+and subsequent unrestrained, molecular dynamics simulations.
+
+## Simulation
+Details
+All simulations were performed as
+NPT (standard state) ensembles at 310 K using periodic boundary conditions.
+Short-range electrostatic and van der Waals interactions were truncated
+at 1.4 nm, while long-range electrostatics were treated with the particle
+mesh Ewald’s method and a long-range dispersion correction
+applied. Pressure was controlled by the Parrinello–Rahman barostat
+and temperature by the Nosé–Hoover thermostat. The simulations
+were integrated with a leap-frog algorithm over a 2 fs time step,
+constraining bond vibrations with the P-LINCS method. Structures were
+saved every 0.1 ns for analysis and run over 100 ns. Simulation data
+were accumulated on BlueCrystal, the University of Bristol’s
+high-performance computing machine.
+
+## Compound Selection for
+Testing in Vitro
+The output
+from the initial BUDE docking process provided poses and predicted
+binding energies for all conformers. These were analyzed and sorted
+according to binding energy. The top 100 000 most favored binders
+were redocked into multiple conformers of the TEAD protein. These
+were again analyzed and ranked, and the compounds that had the best
+predicted binding energies and that performed consistently across
+all docks were selected for purchase (Supplement Table 1).
+
+## Compounds
+Unless otherwise stated,
+all screening compounds
+were purchased from Molport (Latvia). Compound 3.1 was purchased from
+Fluorochem (U.K.). Compounds 3.2 and 3.3 were purchased from Sigma-Aldrich
+(U.K.). All compounds were dissolved in dimethyl sulfoxide at a concentration
+of either 10 or 20 mM. Respective order numbers and ZINC IDs for all
+compounds are described in Supplement Table 2. Commercially obtained test compounds had >95% purity and were
+not
+purified further. Compound purity was confirmed by 1H NMR
+spectroscopy (Supplement Figure 9).
+
+## Cell Culture
+HeLa cells were purchased from the American
+Tissue Culture Collection (ATCC) and cultured in Dulbecco’s
+modified Eagle’s medium (DMEM) supplemented with 10% fetal
+bovine serum, 100 U/mL penicillin, 100 U/mL streptomycin, and 2 mM l-glutamine. Vascular smooth muscle cells (VSMCs) were isolated
+from the thoracic aortas of male Sprague-Dawley rats killed by cervical
+dislocation in accordance with the Directive 2010/63/EU of the European
+Parliament. Approval was granted by the University of Bristol ethical
+review board. Cultures of rat aortic VSMCs (RaVSMCs) were performed
+in 10% fetal calf serum/DMEM unless otherwise stated.
+
+## In Vitro GST–TEAD–YAP
+Interaction Assays
+The DNA fragment encoding human TEAD1
+(corresponding to residues
+194–411) was amplified by polymerase chain reaction (PCR) and
+cloned into the BamH1 and EcoR1 sites of vector pGEX-6P1, in frame
+with the terminal GST tag. GST–TEAD1 fusion protein expression
+was induced in SoluBL21s Escherichia coli by culture at 25 °C in the presence of 0.2 mM IPTG for 18 h.
+GST–TEAD1 protein was bound to glutathione resin (GE Healthcare),
+and 25 μL of beads (containing approximately 5 μg of GST–TEAD1)
+was used to affinity-isolate endogenous human YAP protein from HEK293
+cell lysate by incubation at 4 °C for 18 h in binding buffer
+(10 mM Tris pH 8.0, 150 mM NaCl, 10 mM MgCl2, 5% glycerol,
+0.5% Triton-X-100) in the presence of 200 μM of the indicated
+compound. Bound proteins were eluted by boiling in Laemmli sample
+buffer and YAP and GST–TEAD levels quantified by Western blotting
+with an anti-YAP antibody (Cell Signaling; #4912) and an anti-GST
+antibody (Cell Signaling; #5475S).
+
+## Co-immunoprecipitation
+and YAP–TEAD Interaction Assays
+HeLa cells were transiently
+transfected with either pRK5-myc-TEAD1
+(Addgene #33109) or pEGFP-C3-YAP1 (Addgene #17843). These plasmids
+express human TEAD1 protein fused to the myc-epitope-tag amino acid
+sequence (amino acids: EQKLISEEDL) or YAP1 fused to enhanced green
+fluorescent protein, respectively. Cytosolic extracts were prepared
+in 10 mM Tris pH 7.6, 10 mM KCl, 0.5 mM ethylenediaminetetraacetic
+acid (EDTA), and 0.2% NP-40. Nuclei were pelleted and extracted in
+half volume of 10 mM Tris pH 7.6, 10 mM KCl, 450 mM NaCl, 0.5 mM dithiothreitol,
+and 0.5 mM EDTA and pooled with the cytosolic extracts. Myc-TEAD-containing
+extracts were incubated on ice for 30 min with 200 μM CPD3.
+An equal volume of GFP–YAP-containing lysate was added and
+incubated for a further 30 min on ice. GFP–YAP or myc-TEAD1
+was immunoprecipitated, as indicated, using GFP-Trap or Myc-Trap beads
+(Chromotek), respectively. Following washing, immunoprecipitated proteins
+were eluted by boiling in sodium dodecyl sulfate (SDS) buffer (50
+mM Tris pH 6.8, 20% glycerol, 2% SDS) and analyzed by Western blotting.
+YAP–TEAD interaction assays were performed in 96-well protein-G-coated
+plates (Pierce) by capturing myc-TEAD1 from cell lysates of HeLa cells
+transiently transfected with pRK5-myc-TEAD1 plasmid with an anti-myc
+tag antibody (Thermo Fisher Scientific; clone 9E10). Plates with immobilized
+myc-TEAD were pretreated with indicated concentrations of compound
+in phosphate-buffered saline (PBS) for 1 h at 4 °C before co-incubation
+with lysate from HeLa cells transiently transfected with a plasmid
+expressing YAP–nanoluciferase fusion protein (YAP–NL).
+Following four washes in PBS, bound YAP–NL was detected and
+quantified by incubation with NanoGlo assay buffer ( G).
+
+## Reporter Gene Activity
+Assays
+Compounds were initially
+screened for ability to inhibit TEAD-dependent transcriptional activity
+in HeLa cells transduced with a lentiviral vector expressing secreted
+nanoluciferase under the control of multimerized TEAD consensus elements
+(5′-CACATTCCA-3′). 8xTEAD NanoLuc was generated by cloning
+the 8xTEAD promoter from the 8xTEAD-Luc plasmid (Addgene #34615) into
+the pENTR gateway entry vector (Promega). This was then recombined
+into pLNT-sec-Nluc-2A-eGFP destination vector (supplied by Tristan
+McKay; University of Manchester). Lentiviruses were generated by Viafect-mediated
+co-transfection of pLNT8x-TEAD-sec-Nluc-2A-eGFP, Δ8.9, and VSV-G
+vectors into HEK293T cells (ATCC), and lentiviral-containing culture
+supernatants were used to infect HeLa cells in the presence of 6 μg/mL
+polybrene. For compound screening, 8xTEAD NanoLuc-transduced HeLa
+cells were seeded at 2 × 104 cells/well in 96-well
+plates. After 48 h, the cells were washed in PBS and incubated with
+test compounds at the indicated concentrations for 2 h. The cells
+were washed again in PBS and incubated with the compound for a further
+4 h. Conditioned culture medium (50 μL) was assayed for secreted
+nanoluciferase activity using NanoGlo activity assays kit (Promega)
+and a Glomax Discover luminometer.
+TNT1-minP
+reporter containing the Troponin-T minimal promoter was generated
+by digesting 8xGTIIC-luciferase plasmid (Addgene #34615) with Kpn1 and BglII to remove
+the TEAD elements, followed by blunt end re-ligation. A 2.177 kb fragment
+of the human CCN1 promoter containing two proximal
+TEAD elements (Hg19;chr1:86044316–chr1:86046493) was described
+previously and cloned into pGL4-luciferase
+(Promega). The proximal promoter regions of the CTGF (Hg19;chr6:132272455–132272687) promoter, containing a consensus
+TEAD-binding element, was amplified by PCR from human genomic DNA
+and cloned into the Kpn1 and Nhe1 sites of pGL4-luciferase. The cells
+were transfected with firefly luciferase reporter plasmids using a
+Nuceofector 1.5 (Lonza). Cell lysates were assayed for luciferase
+activity using the luciferase assay system (Promega). GAL4-Nano-luciferase
+plasmid (GLA4-NLUC) was created by subcloning the 5xGAL4 binding elements
+from plasmid pG5E1b-LUC (a gift from Ugo Moens, University of Tromsø,
+Norway) into the Nhe1 and Xho1 sites of pNL3.3[sec-Nluc/minP] (Promega). Plasmids expressing GAL4 fusions of TEAD1 (#33108),
+TEAD2 (#33107), TEAD3 (#33106), and TEAD4 (#33105) and FLAG-YAP (#18881)
+were obtained from Addgene.
+
+## Cell Viability Assay
+Cell viability
+was quantified
+using the live/dead viability/cytotoxicity assay standard protocol
+(Invitrogen). Maximum cell death was quantified by incubating cells
+for 10 min with 0.1% Triton-X, followed by incubation with 0.4 μM
+ethidium homodimer-1 for an additional 10 min. Fluorescence was measured
+using a GloMax Discover multiplate reader (Promega).
+
+## Proliferation
+and Real-Time Scratch Wound Migration Assays
+Cell proliferation
+was measured using the Click-iT EdU 488 assay
+(Sigma-Aldrich). Briefly, the cells were treated with indicated concentrations
+of compounds for 24 h with the last 4 h being in the presence of 10
+μM EdU. The cells were fixed in 4% formaldehyde and stained
+for EdU incorporation, following the kit’s standard protocol.
+The cells were counterstained with Hoechst 33342 nucleic acid for
+20 min. Fluorescent images of at least three fields of view per well
+were counted using ImageJ software. Real-time analysis of cell migration
+was performed using an IncuCyte ZOOM live cell imaging system (Essen
+BioScience) according to the manufacturer’s instructions. Briefly,
+the cells were seeded (1.2 × 104 cells/well for HeLa
+cells, 1.5 × 104 cells/well for RaVSMCs, and 1 ×
+104 cells/well) into ImageLock 96-well plates. After 36
+h, the cells were pretreated overnight with indicated concentrations
+of compounds. The wells were scratched using a WoundMaker tool, and
+the media were replaced containing test compounds. Phase contrast
+images of cell migration into the wounded area were acquired hourly
+for 24 h. Relative wound confluence was calculated using the Cell
+Migration Image analysis module of the IncuCyte ZOOM software.
+Quantitative reverse transcription (RT)-PCR: quantification of mRNA
+was performed by RT-qPCR, as described previously. Total RNA was extracted using Ambion PureLink kits (Thermo
+Fisher) and reverse-transcribed using QuantiTect RT kit (Qiagen) and
+random primers. Quantitative PCR was performed using Roche SYBR Green
+using a Qiagen Roto-GeneRotor-Gene Q PCR machine (20 seconds@95 °C;
+20 seconds @62 °C; 20 seconds@72 °C). Data were normalized
+to nonstimulated controls. Primer sequences are described in Supplement Table 2.
+
+## Western Blotting
+Extracted samples were separated by
+4–12% SDS-polyacrylamide gel electrophoresis (Bio-Rad) and
+transferred to poly(vinylidene difluoride) membranes (GE Healthcare).
+Membranes were blocked in 5% low-fat milk in 10 mM Tris pH 7.6, 150
+mM NaCl, 0.2% Tween. Antibodies YAP (1:1000, Cell Signaling; 4912S),
+CCN1 (1:1000, R&D Systems; AF6009), GAPDH (1:10 000, Millipore;
+MAB374), and GST (1:1000, Cell Signaling; 5475S), for GST-tagged TEAD
+detection, were incubated overnight in 5% bovine serum albumin in
+10 mM Tris pH 7.6, 150 mM NaCl, 0.2% Tween, followed by probing with
+a relevant secondary antibody and developed using ChemiDoc-MP imaging
+system (Bio-Rad).
+
+## Saturation Transfer Diffusion Nuclear Magnetic
+Resonance (STD
+NMR) Analysis
+Binding of compounds to human TEAD was performed
+using STD NMR analysis. Briefly, TEAD1 protein (residues 194–411)
+was prepared by solution cleavage of the GST tag from recombinant
+GST–TEAD1 (194–411). GST–TEAD1 protein was eluted
+from glutathione beads by 40 mM reduced glutathione. GST tag was removed
+by incubation with PreScission protease (Sigma-Aldrich) at 4 °C
+for 18 h. Glutathione was removed by dialysis against 1000 volumes
+of 1× PBS at 4 °C for 4 h. Free GST protein was removed
+by incubation with glutathione resin. All NMR spectroscopy experiments
+were performed on a Bruker Avance III HD 700 MHz spectrometer equipped
+with a 1.7 mm inverse triple-resonance microcryocoil probe. NMR samples
+were prepared in 40 μL with PBS pH 7.4 in 60% D2O
+(uncorrected for D2O). TEAD (20 mM) was used with a final
+concentration of 2 mM compound. For the STD experiments, the standard
+Bruker stddiffesgp.3 pulse sequence was used with a saturation time
+of 7 s and a spectral width of 15.9 ppm with eight scans. The on-resonance
+frequency was set to 0.85 ppm, while the off-resonance frequency was
+set to −28 ppm. Appropriate blank experiments, in the absence
+of protein or ligand, were performed to test the lack of direct saturation
+to the ligand protons.
+
+## Statistical Analysis
+Unless otherwise
+stated, data
+are presented as mean ± standard error and analyzed by one-way
+analysis of variance with Dunnett’s multiple comparison test
+for multiple comparisons. * indicates p < 0.05,
+** indicates p < 0.01, and *** indicates p < 0.001.
+
+## Acknowledgments
+This work was supported
+by the British Heart Foundation project
+grant PG/15/100/31877. The authors acknowledge BrisSynBio, a BBSRC/EPSRC
+Synthetic Biology Research Center for access to the BBSRC/EPSRC-funded
+700 MHz NMR spectrometer {BB/LO1386X/1}. T.R.M. received funding from
+the European Union Horizon2020 grant BATCure Ref: 666918. The authors
+acknowledge funding support from the NIHR Biomedical Research Centre
+at University Hospitals Bristol NHS Foundation Trust and University
+of Bristol. The views expressed in this publication are those of the
+authors and not necessarily those of the NHS, the National Institute
+for Health Research, or the Department of Health and Social Care.
+
+## Glossary
+
+## Abbreviations
+BUDEBristol University Docking Engine
+GSTglutathione S transferase
+NLUCnanoluciferase
+NMRnuclear magnetic
+resonance
+PBSphosphate-buffered
+saline
+RMSDroot-mean-square
+deviation
+RNAribonucleic
+acid
+SRFserum response
+factor
+STDsaturation
+transfer diffusion
+TAZtranscriptional coactivator with PDZ-binding motif
+TEADTEA domain transcription
+factor 1
+YAPYes-associated
+protein
+VSMCvascular
+smooth muscle cell
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge on the ACS Publications website at DOI: 10.1021/acs.jmedchem.8b01402.
+ZINC ID lists;
+primers designed for use in qRT-PCR assays;
+properties of compounds (Supplement Tables 1–3); overview of
+BUDE in silico molecular docking; Venn diagrams; effect of shortlisted
+compounds on cell viability; effect of CPD3 on TEAD-target gene mRNA
+levels in RaVSMCs; effect of low micromolar doses of CPD3 on rat VSMC
+migration; effect of CPD3, CPD3.1, CPD3.2 and CPD3.3 on cell viability;
+CPD3 and CPD3.1 do not nonspecifically inhibit nanoluciferase activity;
+isothermal titration calorimetric estimation; schematic representation
+of GAL4–TEAD fusion protein reporter assay; effect of compound
+3.1 on TNNT-minimal promoter-LUC activity; dose repose
+analysis; effect of CPD3.1 on the proliferation of the TEAD-independent
+MCF7 cell line; 1H NMR spectra; schematic illustration
+of YAP-TEAD-dependent regulation of pro-mitogenic and pro-migratory
+genes (Supplement Figures 1–14) (PDF)
+Molecular formula strings (CSV)
+Ranked list
+of BUDE screen hits (CSV)
+BUDE docking data (Supplement Data File S1) (XLSX)
+TEAD1 PDB
+file used for BUDE docking (PDB)
+Compound 3 (CPD3) PDB file (PDB)
+Compound 3.1
+(CPD3.1) PDB file (PDB)
+
+## Author Contributions
+S.A.S. performed
+BUDE docking studies, the majority of experimental work, and co-wrote
+the manuscript; R.B.S. and D.K.S. performed BUDE docking studies;
+C.W. performed NMR studies; M.C.M. performed proliferation assays;
+M.P.C. helped with NMR studies; T.R.M. provided lentiviral reporter
+vectors; R.E. performed reporter experiments; G.H. performed ITC analysis;
+A.C.N. helped obtain funding and manuscript preparation; and M.B.
+conceived the study, obtained funding, performed some experiments,
+and wrote the manuscript.
+
+The authors declare
+no
+competing financial interest.
+
+## Supplementary Material
+jm8b01402_si_001.pdf
+jm8b01402_si_002.csv
+jm8b01402_si_003.csv
+jm8b01402_si_004.xlsx
+jm8b01402_si_005.pdb
+jm8b01402_si_006.pdb
+jm8b01402_si_007.pdb
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+jm8b01402_si_001.pdf
+jm8b01402_si_002.csv
+jm8b01402_si_003.csv
+jm8b01402_si_004.xlsx
+jm8b01402_si_005.pdb
+jm8b01402_si_006.pdb
+jm8b01402_si_007.pdb

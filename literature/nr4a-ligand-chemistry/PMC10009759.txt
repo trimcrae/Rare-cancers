@@ -1,0 +1,1172 @@
+822acssdJournal of Medicinal ChemistryJ Med ChemPMC1000975910009759100097593682182210.1021/acs.jmedchem.2c01882E3 Ligases
+Meet Their Match: Fragment-Based Approaches
+to Discover New E3 Ligands and to Unravel E3 Biology
+MichaelidesIacovos N CollieGavin W 1Discovery Sciences, BioPharmaceuticals
+R&D, AstraZeneca, Cambridge, CB4 0WG, United
+Kingdom*Email: michaelides@astrazeneca.com.
+*Email: gavin.collie@astrazeneca.com.
+232202366531733173–31941432023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).This article has been corrected. See J Med Chem. 2023 Nov 4;66(22):15564.
+
+## Abstract
+ Ubiquitination is a key post-translational modification
+of proteins,
+affecting the regulation of multiple cellular processes. Cells are
+equipped with over 600 ubiquitin orchestrators, called E3 ubiquitin
+ligases, responsible for directing the covalent attachment of ubiquitin
+to substrate proteins. Due to their regulatory role in cells, significant
+efforts have been made to discover ligands for E3 ligases. The recent
+emergence of the proteolysis targeting chimera (PROTAC) and molecular
+glue degrader (MGD) modalities has further increased interest in E3
+ligases as drug targets. This perspective focuses on how fragment
+based lead discovery (FBLD) methods have been used to discover new
+ligands for this important target class. In some cases these efforts
+have led to clinical candidates; in others, they have provided tools
+for deepening our understanding of E3 ligase biology. Recently, FBLD-derived
+ligands have inspired the design of PROTACs that are able to artificially
+modulate protein levels in cells.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Nov 17; Collection date 2023 Mar 9.
+
+## Introduction
+Ubiquitination, also known as ubiquitinylation,
+refers to the post-translational
+modification of proteins with ubiquitin, and is responsible for the
+regulation of numerous biological processes in the cells of eukaryotes. , Ubiquitin, discovered in 1975, is a
+76-amino-acid protein (8.6 kDa) that is abundant in cells (20–85
+μM ) and highly conserved across
+eukaryotes. It is appended to proteins via a sequence of enzymatic
+reactions whereby a ubiquitin activating enzyme (E1) uses ATP to form
+a high energy thioester bond to ubiquitin via a cysteine residue ( ). The charged E1
+then delivers the ubiquitin to a ubiquitin conjugating enzyme (E2).
+Finally, the ubiquitin is delivered to the substrate protein either
+via a third transient thioester bond formation to an E3 ubiquitin
+ligase (E3) that harbors the substrate protein (pathway b →
+c, ) or by
+a direct delivery to the E3-associated protein (pathway a, ), thus bypassing
+the E3 thioester bond formation. The enzymatic sequence for each ubiquitin
+terminates once a peptide bond is formed between the C-terminus of
+ubiquitin and the lysine or terminal amino group of the substrate
+protein. Sequential additions of ubiquitin to a protein, via one of
+ubiquitin’s lysines (K6, K11, K27, K29, K33, K48, K63) or via
+the amino group of its N-terminal methionine (M1), give rise to distinct
+architectures of polyubiquitin chains. These lead to profound consequences for the protein itself and/or
+its interacting partners, e.g., protein localization (monoubiquitination),
+proteasomal degradation (typically K48- or K11-linked chains), lysosomal
+degradation (monoubiquitination or K63-linked chains), regulation
+of protein interactions (e.g., monoubiquitination’s involvement
+in the DNA damage response and K63-linked chains’ role in kinase
+activity in the NF-κB signaling pathway). , , 
+ Considering the importance of ubiquitination in
+cellular processes,
+scientists have long investigated modulators of E1 and E2 enzymes
+as well as E3 ligases for therapeutic effect. , The
+>600 E3 ligases represent the largest and most diverse family of
+proteins
+involved in ubiquitination, followed by ∼40 E2s and only 2
+E1s. The plethora, diversity, and substrate specificity of E3 ligases
+may represent an opportunity for the discovery of selective modulators
+of ubiquitination with a potentially wider safety margin than modulators
+of E1 or E2 enzymes. However, unlike, for example, the similarly populous
+kinase family of proteins, E3 ligases do not have a conserved ligand
+binding site for small molecules like ATP. In fact, just like E1s
+and E2s, E3s rely on protein–protein interactions (PPIs) to
+associate to E2s and their substrates, which is likely the reason
+E3s have proven challenging to drug over the years.
+E3 ligases
+are divided into 3 main classes, namely: RING (really
+interesting new gene), HECT (homologous to E6AP C-terminus) and RBR
+(RING between RING). RING E3s coordinate the direct delivery of ubiquitin
+from the E2 to the endogenous protein substrate (pathway a, ), whereas HECT and
+RBR E3s mediate the delivery by forming one last transient thioester
+bond to ubiquitin before it is delivered to the substrate (pathway
+b → c, ). RING E3s represent the most abundant and largest class of E3s
+(∼600) in humans followed by HECTs (28) and RBRs (14). RING
+E3s are further divided into subclasses that define their active form:
+monomeric-, homodimeric-, heterodimeric-, and multisubunit-RING E3s.
+HECTs are also comprised of subclasses including NEDD4 (neural precursor
+cell expressed developmentally down-regulated protein 4) and HERC
+(HECT and RCC1-like domain). Although not the focus of this perspective,
+further details on the structure, classification, and function of
+E3 ligases have been comprehensively covered in various excellent
+reviews. , 
+Despite the challenges of targeting
+PPI sites, a number of E3 ligase
+small molecule ligands have been discovered that have helped the scientific
+community to deepen our understanding of E3 ligase biology and to
+advance our ability to target PPI sites. Moreover, scientists have taken the modulation of ubiquitination
+a step further and harnessed E3 ligases to ubiquitinate nonsubstrate
+proteins, also known as “proteins of interest” (POIs),
+for proteasomal degradation using proteolysis targeting chimeras (PROTACs) − and molecular glue degraders (MGDs). , The PROTAC
+modality relies on the linking of an E3 ligase ligand to a POI ligand
+(POI-L) that anchors the E3 ligase close to the POI in order to ubiquitinate
+it. MGDs function by forming a complementary surface between the E3
+ligase and a protein, often termed neosubstrate, that once again facilitates
+the proximity induced delivery of ubiquitin.
+The manipulation
+of the ubiquitin proteasome system (UPS) via PROTACs
+and MGDs has reinvigorated the quest for E3 ligase ligand discovery.
+As such, over the past 10–15 years, many groups have focused
+their efforts either on repurposing known E3 ligase ligands or on
+initiating hit discovery campaigns to enrich the chemical space of
+E3 ligase binders.
+Various approaches including virtual screening
+(VS), , high throughput screening (HTS), − and DNA-encoded library
+(DEL) screening have been used over the
+years for the discovery of ligands for PPI sites, including those
+of E3 ligases. , This perspective however focuses
+specifically on the implementation of fragment-based lead discovery
+(FBLD) , for the discovery of ligands for E3 ligases. , Despite the accepted challenges of fragment screening for PPI sites, , ligands have been successfully discovered and developed into leads
+and clinical candidates. Furthermore, ligand discovery has also resulted
+in chemical tools that have assisted in deciphering the intricate
+biology of E3 ligases.
+Screening libraries used in FBLD are
+composed of small molecules
+called fragments that are broadly compliant with what is now widely
+recognized as the rule-of-three (Ro3). , The Ro3 represents
+a guideline for fragment molecules to satisfy the following parameters:
+MW < 300 Da, clogP ≤ 3, hydrogen bond donors (HBD) ≤
+3, hydrogen bond acceptors (HBA) ≤ 3, number of rotatable bonds
+≤3, and polar surface area (PSA) ≤ 60 Å2. The small size and simplicity of fragments enables a minimalist
+approach to drug discovery, whereby a vast chemical space can be efficiently
+covered using libraries of only a few hundred molecules. This makes
+fragment screening appealing to industry and academic investigators
+alike and represents a very accessible, cost-effective, and sustainable
+approach to hit discovery. Furthermore, unlike conventional libraries
+used for HTS, fragment libraries are not biased toward previously
+explored targets. This makes FBLD an indispensable method for assessing
+the ligandability of novel proteins’ binding sites, including
+PPI sites.
+The small size of fragments, however, results in
+them having weak
+binding affinities to proteins. For this reason, fragments tend to
+be screened at high concentrations using biophysical techniques such
+as nuclear magnetic resonance (NMR), surface plasmon resonance (SPR),
+differential scanning fluorimetry (DSF) – also known as thermal
+shift assay (TSA) – and X-ray crystallography. Weak binders
+can be skillfully optimized into bespoke potent ligands for proteins
+via fragment growing, merging, and hybridizing methodologies. , , However, the successful pursuit
+of such approaches is often contingent on the determination of the
+binding mode of the fragment hits to the target protein. This is typically
+determined using X-ray crystallographic methods and/or 15N 2D-NMR experiments. Recently, scientists at Astex expanded the
+FBLD structural biology toolbox by reporting a proof-of-concept fragment
+screen using cryogenic electron microscopy (cryo-EM), a technology that may facilitate future FBLD for challenging
+structural systems such as multiprotein complexes and membrane proteins.
+The focus of this perspective is on the effective use of fragment
+screening and FBLD for the assessment of the ligandability, druggability,
+and biology of E3 ligases. The perspective is divided into the different
+approaches whereby researchers have been successful toward this aim,
+namely: (a) noncovalent fragment screens, (b) covalent fragment screens,
+(c) fragment based deconstruction-reconstruction (FBDR) approaches,
+and (d) fragment scouts for discovering E3s for PROTAC drug discovery.
+The majority of the ligands described herein are seen to bind to the
+substrate binding sites of the E3s. Case-studies involving binding
+to other interfaces of the E3s (such as regulatory sites) or other
+components of the multiprotein ubiquitin ligase complexes (such as
+adaptor proteins) are indicated where known.
+
+## Noncovalent Fragment Screens
+As described above, the
+screening of noncovalent fragment libraries
+relies on sensitive biophysical and/or structural biology techniques
+for the identification of hits. The curation and quality (with respect
+to, e.g., chemotype, purity, and solubility of members) of the fragment
+libraries can have a significant impact on the discovery and quality
+of these hits. Researchers have thus taken an ever evolving range
+of strategies for designing these libraries. These include the development
+of “technology-appropriate subsets”, technology-wide biophysics “ligandability
+sets”, as well as targeted
+sets for families of targets , and specific pharmacophores. , 
+A range of strategies have been used to identify fragment
+hits
+for E3 ligases. What is clear from the available literature for E3
+ligases, much like other targets, is that having a robust structural
+system in place significantly facilitates the hit to lead optimization
+in an FBLD campaign.
+
+## VHL
+The von Hippel-Lindau (VHL) protein is a multisubunit
+RING E3 ligase that has been studied extensively as a tumor suppressor
+protein. Under normoxic conditions, VHL
+recognizes the prolyl hydroxylated HIF1α (hypoxia-inducible
+factor 1α) protein and targets it for ubiquitination via its
+E3 ligase activity. This E3 ligase activity is dependent upon VHL
+binding to the adaptor proteins elongin B and elongin C, along with
+Cullin 2 and RING box protein 1 (Rbx1), thereby linking the substrate
+recognition module of VHL to an E2 ubiquitin conjugating enzyme, which
+then attaches ubiquitin to HIF1α, marking it for degradation
+by the proteasome. In addition to receiving
+attention for its role in various cancers (including in von Hippel-Lindau
+disease), VHL is one of the few E3 ligases for which validated small-molecule
+ligands have been reported. , Despite the interest
+in such VHL ligands, which has focused largely on their use as PROTACs, , the limited chemical structural diversity and a desire to improve
+drug-like properties results in continued interest in finding new
+small molecule binders of VHL. Toward this end, Lucas et al. of the
+Ciulli lab have reported an extensive fragment-based screening campaign
+against VHL, providing an excellent example
+of the strength of combining multiple biophysical fragment hit-finding
+techniques with X-ray crystallography to discover novel binders of
+an important drug target. Lucas et al. performed three primary fragment
+screens – two by DSF and one by NMR. Over 1200 fragments were
+screened by DSF against either a complex formed of VHL, elongin C
+and elongin B (VCB), or against the VCB complex preincubated with
+a peptide fragment of HIF1α. A smaller library of 144 fragments
+was also screened against the VCB complex by 1D 1H NMR,
+followed by addition of HIF1α peptide to assess binding to the
+HIF1α site. The DSF screens yielded 65 primary hits, with the
+NMR screen yielding 17 hits. These 82 primary hits were then subject
+to a secondary validation screen by NMR (waterLOGSY, STD, and CPMG),
+which validated 18 hits in total. These 18 fragments were then soaked
+at high concentration (20 mM) into crystals of either the apo VCB complex or crystals of VCB bound by HIF1α,
+yielding three ligand-bound crystal structures ( ). Of particular note was the discovery of
+all three fragments to bind to sites not previously known to bind
+small molecules, with MB235 and MB1200 binding
+to a PPI interface on elongin C (the site to which Cullin 2 naturally
+binds), and MB756 binding to a previously undiscovered
+cryptic pocket on VHL ( B). With Kds determined by isothermal
+titration calorimetry (ITC) to be in the millimolar range for MB1200 and MB756 (6.7 and 5.0 mM, respectively),
+this study highlights the advantages of combining high-throughput
+biophysical methods (such as DSF) with high sensitivity biophysical
+techniques (such as NMR) along with X-ray crystallography to discover
+novel chemical start points for a protein complex of significant interest
+to modern day drug discovery.
+ 
+
+## UHRF1
+Ubiquitin-like-containing PHD and RING finger
+domains 1 (UHRF1) is a multidomain E3 ligase from the RING family
+of E3 ligases. UHRF1 plays a key role in both epigenetic regulation
+and in the maintenance of genome integrity, and as such, the dysregulation of UHRF1 activity is associated with
+a number of cancers. , Due to its role as an oncogene,
+with the aim of discovering inhibitors of UHRF1, Chang et al. used
+an FBLD hit finding approach targeting the UHRF1 tandem Tudor domain
+(TTD). TTDs, including that of UHRF1,
+are epigenetic reader domains, recognizing and binding to the H3K9me3
+histone mark. Chang and co-workers screened a library of ∼2300
+fragments against the isolated TTD of UHRF1 using three separate technologies:
+DSF, AlphaScreen (amplified luminescent proximity homogeneous assay
+screen), and time-resolved-fluorescence resonance energy transfer
+(TR-FRET). These screens yielded primary hits of 175, 145, and 101
+fragments, respectively. Comparing the hits of the three screens,
+just two fragments were identified as hits in all screens. Of these
+two fragments, F1957–0227 was identified as a
+pan-assay interference compound and was not followed up further ( A). The remaining
+hit, F1957–0088 ( A), was screened in a dose-dependent manner
+in all three screening assays, yielding EC50 values of
+45.1 μM and 56.7 μM by TR-FRET and AlphaScreen, respectively,
+with DSF indicating a dose-dependent effect on the melting temperature
+(Tm). Structure–activity relationship
+(SAR) exploration by catalogue then identified 2,4-lutidine as an
+improved inhibitor, with EC50 values of 29.2 μM and
+10.0 μM as assessed by TR-FRET and AlphaScreen, respectively
+( A). 2,4-Lutidine
+was further validated by 1H–15N HSQC
+NMR experiments and was subsequently successfully cocrystallized with
+the isolated TTD of UHRF1. Of particular note is that the crystal
+structure reveals 2,4-lutidine to bind to two distinct sites on UHRF1—both
+of which are known to be functional ( B). One 2,4-lutidine molecule binds to the
+site known to bind trimethylated lysine residues, , stacking onto the side chain of F152. The second 2,4-lutidine molecule
+binds to a regulatory arginine binding site to which, for example,
+R121 of the Lig1 DNA ligase binds, forming
+a key polar contact to D142 of UHRF1. Overall this work highlights
+the importance and efficacy of applying strict validation and triaging
+criteria to primary fragment hits, as well as the power of FBLD in
+identifying previously unliganded binding sites.
+ Curiously, Kori and co-workers independently arrived
+at a surprisingly
+similar chemical end point, though via considerably different methods. Kori et al. used extensive computational methods
+to identify potential inhibitors of the UHRF1 TTD (specifically of
+the UHRF1-Lig1 interaction) by virtually screening a library of 200,000
+compounds (encompassing both fragments and molecules with a MW >
+350
+Da). These computational efforts identified 130 compounds as potential
+inhibitors of the TTD-Lig1 interaction, which were subsequently screened
+experimentally by DSF. These experiments identified just one compound,
+fragment 5A-DMP (5-amino-2,4-dimethylpyridine), to thermally
+stabilize the TDD to any significant degree (ΔTm = 3.1 °C) ( A). 5A-DMP was then assessed by ITC, yielding
+a Kd of 19.3 μM for the TTD. Successful
+cocrystallization of this compound with the isolated TTD of UHRF1
+revealed a binding mode highly similar to one of the binding sites
+of 2,4-lutidine discovered by Chang et al., with 5A-DMP binding to the regulatory arginine binding site ( C), to which the Lig1 DNA ligase
+is known to bind. This work highlights
+the arguably underexplored potential of applying rigorous computational
+methods along with robust experimental validation to discover novel
+fragment binders of a challenging PPI site of an important cancer
+drug target. It further provides an interesting example of a hit finding
+campaign in which both fragments and larger compounds were screened,
+yet only fragments were identified as hits for the target protein.
+
+## PRC1
+Polycomb repressive complex 1 (PRC1) is a key
+epigenetic regulator, able to ubiquitinate histone H2A (on K119) and
+thereby modulate transcriptional activity. The E3 ligase activity of PRC1 is carried out by the heterodimeric
+proteins RING1B and BMI1, the aberrant activity of which has been
+associated with acute myelogenous leukemia (AML) and other cancers. As such, there is a need for inhibitors of the
+E3 ligase activity of PRC1. Toward this end, Shukla and co-workers
+screened a library of around 1000 fragments against a RING1B-BMI1
+fusion protein by 1H–15N NMR. These efforts identified fragment RB-1 as a weak (∼7 mM) binder of RING1B ( ). Extensive chemistry efforts then led to
+the significantly more active RB-2, with a Kd of 11.5 μM (as measured by NMR) and E3 ligase
+inhibitory activity of 12 μM (IC50). A structural
+model of the potential binding mode of RB-2 for RING1B
+was then generated using a combination of X-ray crystallography and
+NMR, enabling the structure-guided improvement of this inhibitor to RB-3, with a Kd for RING1B-BMI1
+of 2.8 μM and an ability to inhibit the E3 ligase activity of
+RING1B-BMI1 of 1.6 μM (IC50). Together, this work
+highlights the ability of FBLD methods to discover novel inhibitors
+of a notoriously hard-to-drug protein fold (i.e., a RING domain) in
+the context of an unmet clinical need.
+ 
+
+## TRIM24
+Tripartite motif-containing protein 24 (TRIM24)
+is a RING E3 ligase known to promote the degradation of p53. Consequently, overexpression of TRIM24 has been
+linked to numerous cancers − with TRIM24 deletion leading
+to p53-dependent apoptosis in human breast cancers. TRIM24 is involved in numerous biological processes, including
+the regulation of nuclear receptors, thus giving it its original name,
+TIF1α (transcription intermediary factor 1 alpha). Like most TRIM proteins, TRIM24 contains a RING
+B-Box coiled-coil (RBCC) domain at its N-terminal region, consisting
+of a RING domain, two B-box domains, and a coiled-coil region. Furthermore,
+TRIM24 belongs to the C–VI subfamily that is characterized
+by a C-terminal region that contains a plant homeodomain (PHD) and
+a bromodomain region; the latter recognizing histone and nonhistone
+tags (e.g., acetylated p53). 
+In
+search of ligands for the bromodomain of TRIM24, Ruan and co-workers
+ran an NMR fragment screen (WaterLOGSY, STD, CPMG) to discover orthogonal and more selective scaffolds to
+known inhibitors. , The primary screen resulted in
+the identification of 22 fragment hits, 5 of which were confirmed
+to bind to the acetyl-lysine recognition pocket of the bromodomain.
+Binding affinities were evaluated by measuring the chemical shift
+perturbations of 15N-labeled TRIM24 PHD-bromodomain upon
+titration of the hits. These were further validated using ITC and
+a fluorescence polarization (FP) assay looking at displacement of
+a fluorescent peptide surrogate of a natural substrate of the bromodomain.
+Two of the hits (not shown) contained the N,N-dimethylbenzimidazolone
+scaffold found in the reported TRIM24 inhibitor IACS-9571 ( A), a compound
+optimized from a chemotype identified in an HTS screen, which included
+a focused library of acetyl lysine mimetics. However, the remainder (1, 2, and 3) were claimed to be “remarkably different” to the known inhibitor and showed a range of binding affinities
+( B). The researchers
+subsequently focused their efforts on identifying the binding mode
+of the three novel scaffolds by soaking them into crystals of the
+bromodomain of TRIM24. Two crystal structures were successfully solved
+revealing 2 and 3 to bind to residue N980
+of the bromodomain, a key residue known to bind acetylated lysine
+substrates. Furthermore, both fragment-TRIM24 complexes showed near
+identical distribution of the five waters observed in the cocrystal
+structure of IACS-9571 with the bromodomain (pdb entry 4yc9, not shown) as represented by the purple waters in the complex
+of 3 with TRIM24 in C.
+ Noting the proximity of one of the conserved waters
+(labeled “w1”
+in C) to the
+fragment hit 3 in the cocrystal structure, the researchers
+appended a polar group on the aminothiazole group in an attempt to
+perturb the water network. Indeed by doing so, an increase in binding
+affinity from 310 μM to 100 μM was noted for 4. Interestingly, a cocrystal structure with TRIM24 revealed the fragment
+to bind 2 Å deeper into the binding pocket, rearranging and partially
+displacing the conserved water network ( C, green waters).
+While the affinity
+of the elaborated fragment 4 is
+still fairly weak, it has an appealing ligand efficiency (LE = 0.37 kcal mol–1 per
+heavy atom). Additionally, the hydrazine functionalities make compound 4 a suboptimal starting
+point for a medicinal chemistry program. Nevertheless, this study
+demonstrates that fragment screening, coupled with a robust structural
+system can enable researchers to identify opportunities to make small
+modifications to fragments resulting in dramatic changes in the binding
+modes of ligands to well characterized pockets. Furthermore, this demonstration of the fruitful perturbation
+of the conserved water network could open new avenues for inhibitor
+optimization for the bromodomain of TRIM24.
+
+## KEAP1 
+Kelch-like ECH-associated
+protein 1 (KEAP1) is a Cullin-RING E3 ligase responsible for the ubiquitination
+and subsequent proteasomal degradation of the transcription factor
+nuclear factor erythroid 2-related factor (NRF2), a master regulator
+of the antioxidative response. , Under normal conditions,
+KEAP1 maintains a homeostatic level of NRF2 in the cell. However,
+under oxidative stress, specific cysteine residues on KEAP1 are modified,
+leading to a conformational change in the protein responsible for
+a cessation of ubiquitination of bound NRF2. , , Newly translated NRF2 is subsequently translocated
+to the nucleus where it switches on the antioxidant defense system
+by promoting the expression of cytoprotective proteins. , , The relationship between KEAP1
+and NRF2 has led to studies aiming to upregulate NRF2 and induce a
+potential therapeutic effect for a range of diseases (e.g., respiratory,
+metabolic diseases) and disorders (e.g., neurodegenerative, autoimmune
+disorders). 
+A number of KEAP1 inhibitors
+capable of intercepting the ubiquitination and degradation of NRF2
+have been reported to date. , These either mimic
+the aforementioned oxidative stress response or directly antagonize
+the NRF2 PPI with the Kelch domain of KEAP1. Potent inhibitors thus
+broadly rely on either (a) electrophilic warheads able to covalently modify key cysteines, (b) multiple acidic
+functionalities necessary to bind to
+the arginine-rich Kelch domain of KEAP1, or (c) acid-rich peptidic
+scaffolds. These compositions, however,
+can lead to suboptimal metabolic, safety, and/or physicochemical properties; the
+latter characteristic often being the culprit for reduced cell activity
+for the inhibitors. 
+In 2016, scientists
+at Astex and GSK disclosed the first fragment
+screen against KEAP1 that was aimed at identifying new hits that could
+eventually be optimized to inhibitors with improved properties over
+the existing equity. Employing a mouse
+KEAP1 Kelch domain construct, a high-throughput X-ray crystallography
+screen was performed using a library of ∼330 fragments. This
+screen identified three fragments binding to distinct locations of
+the Kelch domain that were later characterized as the “acid”, “planar”, and
+“sulfonamide” regions of the pocket
+as represented by fragments 5, 6, and 7, respectively ( ). , Although the hits were weak (e.g., Kd > 1 mM for 5), the screen
+demonstrated
+that non-electrophilic and neutral fragments could bind to the Kelch
+domain of KEAP1. The researchers used the carboxylic acid fragment 5 as an anchor to the protein’s R483 residue and identified
+opportunities for fragment growth into the remaining “sulfonamide” and “planar”
+regions. A combination of fragment merging and skillful structure-based
+drug design (SBDD) (e.g., the rigidification by cyclization of the
+sulfonamide in its bound conformation) resulted in the invention of
+the monoacidic lead KI-696 that has a 1.3 nM affinity
+for KEAP1 as measured by ITC ( A). , At the time of publication, KI-696 represented the most potent small-molecule KEAP1 inhibitor
+capable of activating the NRF2 antioxidative response in human cell-based
+and in vivo models with high selectivity (cell EC50 = 12 nM). This work highlights the value of using FBLD and
+specifically high-throughput crystallographic screening for challenging
+targets such as those containing PPI sites. The small size and chemical
+simplicity of fragments, coupled with a robust structural system can
+help explore chemical space efficiently and thus inspire alternative
+approaches − to designing inhibitors for well-studied binding
+sites with established pharmacophores.
+ Interestingly, scientists at Dana Farber subsequently
+repurposed KI-696 and fused it to JQ1 (a
+known inhibitor of members of the Bromo- and Extra-terminal domain
+(BET) family of proteins) via an alkyl linker to form PROTAC 8 ( ). , This was reported to promote the KEAP1-dependent
+degradation of Bromodomain-containing protein 4 (BRD4), BRD3, and
+BRD2 at a 1 μM concentration in MM.1S multiple myeloma cells.
+The choice of POI ligand perhaps reflects favorable binding and improved
+physicochemical properties of the monoacid KI-696 over
+other KEAP1 inhibitors. It is worth noting that the Jin lab recently
+explored an ester prodrug of a related PROTAC, MS83,
+in order to improve the cell permeability of KI-696-containing
+PROTACs ( ). 
+ 
+
+## Parkin
+Parkin is a neuroprotective protein belonging
+to the RBR E3 ligase family which plays a key role in mitochondrial
+quality control and turnover/mitophagy. Furthermore, mutations within its gene have been linked to an autosomal
+recessive form of Parkinson’s disease, making it an appealing
+target for neurodegenerative disease drug discovery. , 
+With an aim to identify agonists capable of stabilizing functionally
+active Parkin, scientists at Elan pharmaceuticals ran the first disclosed
+SPR fragment screen against an E3 ligase. Their bespoke library comprised of 5260 fragments that were selected
+based on their central nervous system (CNS) “lead-likeness”, chemical diversity, and high solubility. The fragments
+were tested at a single concentration by SPR using full length Parkin
+and subsequently the hits were progressed to dose response experiments.
+A selection of hits were further triaged to STD NMR experiments using
+the R0RBR domain of Parkin, to assist in determining the binding sites
+of the fragments. A range of SPR binding affinities (18–220
+μM) and LEs (0.23–0.50 kcal mol–1 per
+heavy atom) were reported. Despite not disclosing the chemical structures
+of the hits, the researchers noted a prevalence of thiazole and quinoline
+motifs and stated the hits were “excellent candidates
+for hit to lead expansion”.
+
+## XIAP and cIAP1
+X-linked IAP (XIAP) and cellular inhibitor
+of apoptosis 1 (cIAP1) are RING E3 ligases involved in proapoptotic
+and prosurvival signaling. − XIAP prevents apoptosis by binding
+and thus inhibiting caspase-3, −7, and −9 via its baculovirus
+IAP repeat (BIR) domains. cIAP1 is a poor caspase inhibitor; however,
+among other roles, it can prevent tumor necrosis factor alpha (TNFα)-mediated
+apoptosis by interacting with complexes recruited to the TNF receptor. − This facilitates the nondegradative K63-linked polyubiquitination
+of receptor-interacting protein kinase 1 (RIPK1), , , an event key to activating the prosurvival
+canonical NF-κB pathway. Conversely, nonubiquitinated RIPK1
+acts as a proapoptotic adaptor through the binding and activation
+of caspase-8. , − 
+Second mitochondria derived activator of caspases
+(SMAC) is the endogenous antagonist that binds to the BIR2 and BIR3
+domains of IAPs, ultimately leading to the induction of apoptosis. , SMAC binding to XIAP releases caspases, and in the case of cIAP1,
+it leads to the autoubiquitination and subsequent loss of the protein. The BIR3 binding motif of SMAC contains the
+N-terminal AVPI tetrapeptide, upon which many IAP antagonists have
+been based. , The terminal alanine residue
+of AVPI, ubiquitous in these peptidomimetic antagonists, is largely
+responsible for a higher selectivity for cIAP1 over XIAP. This forms
+two charge–charge interactions to acidic residues (D314 and
+E319) in cIAP1; however, it is only able to form one charge–charge
+interaction in XIAP (with E314) since a glutamine is present at position
+319 ( A). Although
+many cIAP1 selective SMAC-mimetic inhibitors are capable of promoting
+cell death, a more balanced potent antagonism of cIAP1 and XIAP has
+been proposed for a more efficient induction of apoptosis. 
+ In order to discover nonpeptidic, dual, and balanced
+antagonists
+of XIAP and cIAP1 for inducing apoptosis in cancer cells, scientists
+at Astex performed a crystallographic and a protein-observed NMR fragment
+screen against XIAP-BIR3. In this screen,
+the Astex fragment library was supplemented with 100 fragments selected
+by VS. , As expected, a number of alanine-based fragments,
+such as 9, with high LEs were identified. Expectedly,
+these were characterized by an unbalanced selectivity profile toward
+cIAP1 ( B).
+The team instead chose to explore an alternative, piperazine-containing
+fragment hit 10 from the supplemented set, as the starting
+point for lead optimization. Fragment 10 was cocrystallized
+with XIAP and the basic piperazine was shown to form a bidentate interaction
+to E314 and the backbone carbonyl of D309 ( C). Although weak (IC50 > 5
+mM)
+and inefficient (LE < 0.21 kcal mol–1 per heavy
+atom), the novel binding mode and the limited exploration of this
+scaffold in the context of XIAP encouraged
+the team to deprioritize alanine-containing fragments and instead
+explore 10 for dual antagonism of cIAP1 and XIAP.
+In the hit to lead campaign ( ), the researchers incorporated the methyl group of
+alanine-containing fragment 9 to fill a small hydrophobic
+pocket identified in the cocrystal structure of XIAP bound by 10 ( C). Additionally, the piperidine was replaced with a 5-azaindoline
+group to afford 11 which exhibited a relatively balanced
+selectivity profile, as determined by cIAP1 and XIAP FP assays. The
+inclusion of the electron deficient aromatic ring in 11 was key in complementing an electronegative region of the protein
+that resulted in a mismatch of electrostatics with earlier electron-rich
+analogues. Drawing inspiration from the binding mode of the SMAC mimetic
+AVPF tetrapeptide to XIAP, 11 was further elaborated into 12. Here, a pendant methoxyethane
+and benzyl group occupy the same regions of the pocket as the valine
+and phenylalanine residues of AVPF, respectively. Despite improving
+the potency overall, the large benzyl group resulted in a bias toward
+cIAP1 activity. Nonetheless, at the time of publication, 12 represented the first nonalanine containing, nM affinity, dual antagonist
+of cIAP1 and XIAP.
+ Scientists at Astex disclosed further optimization , of this series that eventually led to the clinical drug candidate ASTX660, an orally bioavailable cIAP1/XIAP antagonist, for
+patients with advanced solid tumors and lymphomas. Similar to SMAC mimetics, , both 12 and ASTX660 lead to the autodegradation of
+cIAP1. Overall, this study demonstrates how careful selection of novel/underexplored
+fragment hits, however weak, can be merged with known ligands (e.g.,
+alanine and phenylalanine residues of the AVPF tetrapeptide) to provide
+potent inhibitors for PPIs with a differentiated profile over the
+known equity.
+It is worth noting that SMAC mimetic antagonists
+and members of
+the Astex chemical series have been repurposed for the synthesis of
+PROTACs, also known as specific and nongenetic IAP dependent protein
+erasers (SNIPERs), able to induce the degradation of a number of POIs. − 
+
+## CRBN
+Cereblon (CRBN) is a ubiquitously expressed multisubunit
+RING E3 ligase that is involved in the regulation of cell metabolism
+and the healthy function of ion channels. Furthermore, mutations in its gene have been linked to autosomal
+recessive nonsyndromic intellectual disability. CRBN has become a focal point in UPS research since it
+was recognized as the protein that the immunomodulatory imide drugs
+(IMiDs) , thalidomide, pomalidomide, and lenalidomide
+bind to in order to elicit their therapeutic effect via a molecular
+glue mechanism of action (MOA). − It has also become
+infamous following the characterization of its role in thalidomide-induced
+teratogenicity in the unborn child, , arguably
+one of the pharmaceutical industry’s most significant tragedies
+to date. , Furthermore, since the advent
+of the PROTAC modality in the medicinal chemistry community, the ubiquity of CRBN binding motifs in research
+papers and patent applications is noteworthy. Akin to the recognition of its exogenous ligands, it has
+recently been shown that CRBN recognizes the C-terminal cyclic imide
+post-translational modification as a protein damage degron motif. , 
+Building on earlier work that described the binding of uridine
+to CRBN, Boichenko et al. took a knowledge-based
+approach to explore what they referred to as the “chemical
+ligand space of CRBN”. Noting the similarities between uridine’s and thalidomide’s
+uracil and glutarimide rings, respectively, they employed a FRET assay
+to screen a vast selection of a 4–7 membered ring matched molecular
+pair (MMP) fragments to reveal the key pharmacophores for CRBN binding
+( ).
+ Comparing glutarimide (13: Ki = 28 μM, LE = 0.78 kcal mol–1 per
+heavy atom) with the corresponding 2-piperidinone (14: Ki = 146 μM, LE = 0.75 kcal mol–1 per heavy atom) demonstrates the requirement of the
+second carbonyl for appreciable affinity to CRBN. Interestingly, however,
+the azetidine-2-one (15: Ki = 77 μM, LE = 1.1 kcal mol–1 per heavy atom)
+shows a 2-fold improved affinity over 14 despite its
+smaller size. Furthermore, succinimide (16: Ki = 4.3 μM, LE = 1.1 kcal mol–1 per heavy atom) exhibits improved affinity over glutarimide (13: Ki = 28 μM, 0.78 kcal
+mol–1 per heavy atom), suggesting that the 5-membered
+ring may be a better starting point for lead optimization. Introduction
+of an NH appears to be detrimental to binding as indicated by the
+affinities of the dihydrouracil (17: Ki = 88 μM, LE = 0.70 kcal mol–1 per heavy atom) and hydantoin (18: Ki = 43 μM, LE = 0.86 kcal mol–1 per heavy atom) when compared to their MMPs, 13 (Ki = 28 μM, LE = 0.78 kcal mol–1 per heavy atom), and 16 (Ki = 4.3 μM, LE = 1.1 kcal mol–1 per heavy
+atom), respectively. Interestingly, it appears as though the planar
+fragment uracil (19, Ki 
+= 35 μM, LE = 0.76 kcal mol–1 per heavy atom)
+shows improved affinity over the dihydrouracil (17: Ki = 88 μM, LE = 0.70 kcal mol–1 per heavy atom). The researchers even noted some weak binding affinity
+for the acyclic acetyl urea (20: Ki = 522 μM, LE = 0.64 kcal mol–1 per
+heavy atom) and thus postulated that the acetamide group (MeCONH2) may be the minimal pharmacophore for binding to this pocket
+of CRBN. Representative hits were progressed to crystallography studies
+using a bacterial CRBN model system, confirming binding of selected
+active fragments to the same site as the IMiDs ( B).
+This work highlights
+CRBN’s affinity for fragments and thus
+its suitability for a bona fide fragment screen.
+This affinity has allowed for the implementation of a high throughput
+FRET assay, in lieu of the more sensitive biophysical assays used
+in classic fragment screening. The binding affinities, coupled with
+the LEs of the reported fragments already represent highly appealing
+starting points for hit to lead optimization. Nevertheless, the execution
+of a fully fledged fragment screen against CRBN could be particularly
+impactful considering how the fragment-like IMiDs have become indispensable
+tools in cancer treatment but also more
+recently in PROTAC drug discovery, despite
+their infamy. , This beyond rule-of-five modality
+requires careful modulation of physicochemical properties (e.g., MW,
+lipophilicity, and PSA) , in order to achieve
+acceptable in vivo properties, and fragments make
+excellent starting points in this endeavor. It is thus unsurprising
+that the pioneers in the field, Arvinas, have recently started clinical
+trials with two orally bioavailable PROTACs: ARV-471 , (estrogen receptor degrader) and ARV-110 (androgen receptor degrader) that contain the glutarimide substructure
+common to the fragment-like IMiDs.
+
+## GID4
+Glucose-induced degradation protein 4 homologue
+(GID4) is the substrate recognition component of the C-terminal to
+LisH (CTLH) RING E3 ligase complex, the
+orthologous yeast complex of which is involved in glucose metabolism. In an effort to expand the repertoire of E3
+ligases able to be harnessed for targeted protein degradation (i.e.,
+via molecular glues or PROTACs), Chana and co-workers screened human
+GID4 by fragment-based methods in order to find novel small molecule
+binders of this understudied E3 ligase. A library of 1000 Ro3-like fragments was screened against 15N labeled GID4 (residues 124–289) using 1H–15N HSQC NMR. This identified nine fragments as potential hits,
+eight of which were then screened by DSF, with six fragments seen
+to stabilize the protein by greater than 1 °C. Cocrystallization
+trials were then performed on all eight available primary hits, yielding
+crystal structures for three fragments (21, 22, and 23 in A and B). All three fragments were shown to bind to
+the substrate recognition site of GID4, with a shared common interaction
+to residue E237. In an effort to increase the affinity of fragments 21, 22, and 23 for GID4, analogues
+for all three fragments were purchased and screened by DSF, followed
+by assessment of promising compounds using a probe displacement FP
+assay (using a modified version of the GID4 substrate peptide as a
+displacement probe). This brought the weak affinity (below the limit
+of accurate quantification by ITC) of 23 on-scale, yielding
+fragments 24, 25, and 26, with
+IC50 values of 264.0 μM, 148.5 μM, and 113.2
+μM, respectively. No commercially available analogues of 21 or 22 yielded improved binders. However, structure-guided
+synthesis of 30 analogues of 22 resulted in compound 27 ( A and C), with an FP IC50 of 18.9 μM for GID4—a
+marked improvement on the weak affinity (below the limit of accurate
+quantification by ITC) of 22 for GID4. While the ability
+of these optimized hits (24, 25, 26, and 27) to function as molecular glues or PROTACs
+was not reported, the discovery of novel, validated binders of an
+E3 ligase for which no known small molecule binders had been previously
+reported in the literature is noteworthy,
+and the findings reported by Chana and co-workers will undoubtedly form the basis of further investigations
+into the CTLH E3 ligase complex.
+ 
+
+## Covalent Fragment Screens
+PPI sites, which often lack
+deep or well-defined binding pockets,
+make the discovery of weak reversible fragment ligands challenging.
+An alternative to classic reversible fragment screens is the screening–often
+using mass spectrometric techniques—of a library of electrophilic
+fragments, capable of covalently binding to a protein (either reversibly
+or irreversibly). , This approach takes advantage
+of an electrophilic handle appended to a fragment (e.g., acrylamide,
+chloroacetamide), that is capable of augmenting its binding affinity
+by anchoring the fragment to nucleophilic protein residues such as
+cysteines. In theory, during the hit to lead optimization, the covalency
+of the hit can either be maintained , or alternatively
+removed to provide a fully reversible lead. In the context of E3 ligases, covalent fragment screens have proved
+effective at revealing ligandable cysteines for initiation of future
+research programs, as well as inspiring the design of chemical tools
+to probe the biology of E3s and their potential to be harnessed in
+PROTAC drug discovery.
+
+## NEDD4–1
+Neural precursor cell-expressed developmentally
+downregulated 4-1 (NEDD4–1) is a large multidomain E3 ligase
+from the HECT family of E3 ligases. Its
+dysfunction has been linked to several human pathologies including
+Parkinson’s disease, cardiovascular
+disease, and cancer, , and as a result, NEDD4–1 is considered an important drug
+target. With this in mind, Kathman and co-workers screened a library of electrophilic fragments, by mass
+spectrometry, against the isolated HECT domain of NEDD4–1.
+These efforts identified two fragments, 28 and 29, to be selective covalent modifiers of a noncatalytic cysteine
+residue located at a key ubiquitin binding interface on NEDD4–1
+( A). Compound 29 was then cocrystallized with NEDD4–1, yielding the
+first reported crystal structure of a HECT E3 ligase bound by a small
+molecule, and confirming the fragment to covalently bind to a single
+cysteine residue (C627), as well as forming a specific hydrogen bond
+to the backbone carbonyl of Y605 ( B). Compound 29 was then optimized
+to 30 ( A), which was shown by FP to be 22 times more potent than 29. Notably, 30 was then used to help delineate
+the mechanism by which NEDD4–1 catalyzes the formation of polyubiquitin
+chains, providing strong evidence in support of the ubiquitin ligase
+activity of NEDD4–1 being processive (i.e., more than one reaction
+catalyzed per enzyme–substrate binding event) rather than distributive
+(i.e., only one reaction catalyzed per enzyme–substrate binding
+event). This work therefore highlights the ability of fragment-based
+methods to not only generate novel compounds for important drug targets
+but also to help uncover the mechanisms of E3 ligase biology.
+ 
+
+## HOIP
+HOIL-1-interacting protein (HOIP), also known
+as RING finger protein 31 (RNF31) is an E3 ligase from the RBR family
+of E3 ligases and is a key catalytic component of the linear ubiquitin
+chain assembly complex (LUBAC). , The LUBAC
+plays a critical role in the regulation of the NF-κB signaling
+pathway, and thereby influences the regulation of immune and inflammatory
+responses. Dysregulation of the NF-κB pathway is associated
+with a number of diseases, including inflammation and cancer, , and as such, HOIP is considered an important drug target. Toward
+the discovery of novel inhibitors of HOIP, Johansson and co-workers
+screened a small bespoke library of 104 electrophilic fragments by
+protein LC-MS against the isolated RBR domain of HOIP, with the hope of finding fragments able to
+covalently bind to a cysteine residue (C885) known to reside in the
+catalytic site of HOIP. , This screening effort
+yielded 31 as a potential hit ( A), monolabeling the protein in a time-
+and concentration-dependent manner, with an estimated Kd > 400 μM. Johansson et al. were then able to
+solve
+a crystal structure of HOIP (specifically of the C-terminal RING2
+and LDD (linear ubiquitin chain-determining domain) domains) in complex
+with 31, showing the fragment to covalently attach to
+the protein via the catalytic C885 residue, as anticipated, as well
+as forming two hydrogen bonds to the backbone NH and carbonyl groups
+of residue H889 ( B). Functional studies then showed 31 to be able
+to inhibit the polyubiquitination activity of HOIP both in
+vitro and in a cellular system. Together, this work highlights
+the utility in using fragment-based methods to discover validated
+and highly valuable tool compounds to aid the further investigation
+of E3 ligase biology.
+ 
+
+## RNF4, RNF114, FEM1B, CRBN, DCAF1
+In 2019, Nomura and
+co-workers reported an alternative fragment screening strategy to
+discover ligands for E3 ligases that did not rely on sensitive biophysical
+techniques. The team employed a collection
+of fragments, appended with reactive warheads (acrylamides and chloroacetamides),
+to screen for ligands able to covalently label cysteines of RING finger
+protein 4 (RNF4) using gel-based ABPP (activity-based protein profiling). − RNF4 is a RING E3 ligase involved in the recognition and degradation
+of proteins bearing polySUMOylated chains. , The screening method involved treatment of purified RNF4 with the
+covalent fragments, which was followed by incubation with tetramethylrhodamine-5-iodoacetamide
+dihydroiodide (IA-rhodamine). IA-rhodamine served as a fluorescent
+label for the cysteines that did not react with the fragment library
+members. The protein was then subjected to SDS-PAGE and visualized
+by in-gel fluorescence, thus allowing the team to identify the fragments
+that perturbed the fluorescent labeling of RNF4 (as compared to the
+control experiments performed in the absence of the covalent fragments).
+Using this method, the researchers discovered TRH 1–23 as a ligand for RNF4 with an IC50 in the double digit
+μM range ( ). Subsequently, the zinc-coordinating C132 and/or C135, present
+within the RING domain of RNF4, were identified as TRH 1–23’s anchoring residue(s) to the protein. Elaboration of the
+fragment hit afforded the N-benzyl CCW 16, that exhibited an improved IC50 of 1.8 μM.
+ This improved potency encouraged the researchers
+to pursue computational
+docking experiments to both C132 and C135, that assisted in the selection
+of an appropriate exit vector for elaborating the ligand into a covalent
+PROTAC. Extension of the p-OMe functionality to a
+linker conjugated to the BET bromodomain inhibitor JQ1, afforded PROTAC CCW 28–3 with an RNF4 IC50 of 0.54 μM. Treatment of 231MFP
+breast cancer cells with CCW 28–3 resulted in
+the dose-dependent proteasomal degradation of BRD4, marking the first
+discovery of a PROTAC harnessing RNF4 to perform its function.
+In the article, the research group noted that the ligand and its
+corresponding PROTAC are not fully selective for RNF4 nor can they
+achieve good exposure in cells. However, these are the first disclosures
+of chemical tools for RNF4 and will thus serve as excellent chemical
+starting points for future investigations. It is worth noting that
+chemoproteomics approaches employing electrophilic fragments–either
+using purified proteins or cells–have also been used to discover
+small molecule covalent ligands, and in some cases corresponding PROTACs,
+of RING E3 ligases RING finger protein 114 (RNF114), fem-1 homologue B (FEM1B), CRBN, and DDB1- and CUL4-associated
+factor 1 (DCAF1). Among other roles,
+RNF114 is a known regulator of tumor suppressor p21 and FEM1B is a regulator of folliculin-interacting protein
+1 (FNIP1), a protein involved in the
+reductive stress response. DCAF1 is a multifunctional protein involved
+in numerous biological processes including the regulation of p53-mediated
+transcription. 
+
+## FBDR Approaches
+For E3 ligases for which a number of
+ligands have been reported,
+a fragment based deconstruction-reconstruction (FBDR) approach can
+be appealing. Through the deconstruction
+of a potent inhibitor, one can inform a knowledge-based screening
+of a set of fragments that is often more streamlined, and one that
+can lead to higher hit rates, compared to conventional fragment screens.
+Subsequent binding mode identification of the hits can be used to
+reconstruct an inhibitor by merging, growing and linking the fragments
+inspired from the deconstruction exercise. This method can lead to
+the discovery of inhibitors with novel scaffolds, improved activity
+as well as improved physicochemical properties compared to the parent
+inhibitor. − 
+
+## VHL
+A number of groups have investigated whether a
+deconstruction approach could be employed for the challenging class
+of PPI-inhibitors (e.g., inhibitors of Bcl-xL, , VHL, , and MDM2 ).
+Specifically for E3 ligases, Ciulli and co-workers deconstructed lead-like
+inhibitors of the VHL E3 ligase (e.g., 32 in A) to determine
+retrospectively whether their comprising fragments would have been
+identified in a typical fragment screen. The work concluded that, with the exception of 33,
+only fragments that necessitated simultaneous binding to two subpockets
+of the PPI site (e.g., 34 and 35) and that
+violated the Ro3 (e.g., 35) were detectable via any of
+the biophysical methods routinely employed for FBLD (DSF, ITC, NMR,
+FP) at the typical screening concentrations ( B). Crystallographic soaking experiments
+with VCB at a high ligand concentration (25 mM) did however reveal
+fragment 33 to bind exclusively in the expected central
+subpocket, despite showing marginal binding by NMR alone ( C). The researchers
+revisited this investigation and explored more sensitive ligand-based
+NMR screening methods, such as increasing the concentration of the
+fragments and/or VHL protein. Gratifyingly,
+some of the optimized NMR methods proved capable of detecting the
+weak binding affinities of the Ro3 compliant fragments of deconstructed
+VHL inhibitors such as 36 and 37 that had
+previously been classed as nonbinders.
+ 
+
+## MDM2
+Scientists at Roche performed a similar exercise
+on the Nutlin RG7112, a
+potent inhibitor of mouse double minute 2 homologue (MDM2), an E3
+ligase responsible for the ubiquitination and degradation of p53. Similar to Ciulli and co-workers, the researchers
+concluded that only privileged, relatively heavier fragments, capable
+of binding simultaneously to two subpockets of the PPI site responsible
+for recognizing p53, were identified as hits using NMR and/or SPR
+(e.g., 38 with a MW = 305.2 in ). Ro3 compliant molecules such as the MMP 39 and 40 were not detectable by the employed
+biophysical methods (SPR and NMR).
+ Taken together, these investigations highlight
+that adoption of
+at least one of three approaches could help make a success of fragment
+campaigns for challenging PPI sites: (a) X-ray screening at high ligand
+concentration to identify binders that lie beyond the limit of detection
+of biophysical methods, (b) careful fine-tuning of the biophysical
+methods to enable detection of very weak fragments, (c) if an inhibitor
+exists, tailoring a knowledge-based fragment library to encompass
+privileged fragments and ones that lie slightly outside the Ro3 realm
+to maximize the chances of biophysical detection. Although the latter
+method is perhaps not in line with the ethos of fragment screening–which
+aims to take advantage of the structural simplicity of small fragments
+to explore chemical space efficiently–it nevertheless represents
+a worthwhile and perhaps necessary approach for challenging PPI sites.
+
+## KEAP1
+Bach and co-workers recently performed a highly
+comprehensive FBDR study for the discovery of novel KEAP1 inhibitors
+with improved properties. Fragmentation
+of six representative ligands of the Kelch domain , was performed to compile a target-biased library containing 77 fragments,
+mostly compliant with the Ro3. The library was screened for binding
+to KEAP1 in four orthogonal assays (FP, DSF, STD NMR, SPR). Subsequently,
+17 “high priority hits” were progressed
+to crystallographic studies based on a set of criteria (including,
+e.g., activity in >1 assay, validation in SPR dose–response,
+and/or an FP counter assay, affinity, LE, 2D structure, etc.). Encouragingly,
+this work recapitulated the identification of the three binding hot
+spots previously reported for the Kelch KEAP1 domain (vide
+supra). − depicts how this methodology succeeded in identifying two
+millimolar fragments 41 (SPR Kd = 1.1 mM; FP Ki = 3.5 mM) and 42 (SPR Kd = 1.1 mM), through
+the deconstruction of the reported inhibitors 43( , ) and 44, respectively.
+An X-ray structure of 41 and a computational docking
+of 42 to the Kelch domain, inspired the merging of the
+fragments into a novel ligand 45 that exhibited a significantly
+improved affinity and inhibitory profile (SPR Kd = 2.9 μM; FP Ki = 15.6
+μM). Furthermore, an increase in LE, calculated using FP Ki, from 0.20 to 0.24 kcal mol–1 per heavy atom was noted moving from 41 to 45. A cocrystal structure of 45 bound to the Kelch domain
+of KEAP1 confirmed the expected binding mode ( , left crystal structure panel). Subsequent
+SBDD led to the synthesis of a number of novel and highly potent inhibitors
+including 46 (FP Ki = 40
+nM). Interestingly, 46 exhibited a distinctly different
+binding mode to previously reported inhibitors, with the pyrazole’s
+cyclopropyl moiety no longer occupying the P4 pocket of the Kelch
+domain but instead exhibiting a flipped binding mode, with the phenyl
+substituent occupying a hydrophobic region of the P1 pocket ( , right crystal
+structure panel). This novel binding mode could be used to investigate
+underexplored regions of the Kelch domain in future studies. The disclosed
+reconstructed inhibitors benefited from improved mouse microsomal
+stability compared to the parent inhibitor 43, though
+it was noted that they had limited permeability in a parallel artificial
+membrane permeability assay (PAMPA). This comprehensive study underscores
+the value of the FBDR approach, which can be especially fruitful if
+a number of inhibitors, containing a range of functional groups and
+binding modes, are known. This enables the curation of target-tailored
+libraries that can lead to high hit rates and thus a wealth of opportunities
+for novel inhibitor discovery.
+ 
+
+## Fragment Scouts for Discovering E3s for PROTAC Drug Discovery
+By virtue of the irreversible bond formation with protein residues,
+covalent fragments have recently been used to great effect also in
+a cellular context, in combination with proteomics, for proteome-wide
+covalent ligand discovery. In this section
+we describe studies whereby covalent fragments have inspired the design
+of scout heterobifunctional molecules able to reduce the levels of
+POIs via covalent engagement with cell machinery, later revealed to
+be E3 ligases.
+
+## DCAF16 and DCAF11
+Despite the vast number of known
+human E3 ligases (>600), very few have been harnessed by researchers
+to affect the ubiquitination and subsequent degradation of targets
+via either the MGD and/or PROTAC modalities. Cravatt, Zhang, and co-workers recently disclosed
+an inventive approach of exploiting their previously reported electrophilic fragments to identify E3 ligases
+that can be engaged by a covalent PROTAC and lead to the successful
+degradation of a POI. 
+These so-called
+“scout” fragments, in conjunction with
+chemical proteomics in native biological systems, were first used
+in Cravatt’s pioneering work to explore the ligandability of
+cysteines in the human proteome. Due
+to their covalent handle, the scout fragments are, in theory, able
+to access challenging binding sites (e.g., shallow pockets), especially
+when compared to reversible fragments. Leveraging this unique attribute,
+Cravatt and co-workers selected 3 relatively promiscuous scout fragments
+(not shown) and conjugated them to a reversible selective ligand of
+FK506-binding protein 12 (FKBP12) using
+a polyethylene glycol (PEG) linker to construct scout PROTACs. Following
+the treatment of HEK293T cells with these PROTACs, a reduction in
+the levels of nuclear FKBP12 was noted with one example KB02-SLF ( ). This
+reduction was determined to be: (a) proteasome dependent, (b) Cullin-RING
+ubiquitin ligase dependent, and (c) dependent on a covalent interaction.
+Using proteomics, the researchers were able to identify DDB1- and
+CUL4-associated factor 16 (DCAF16) as the E3 ligase that the scout
+PROTAC engages with to elicit the degradation of FKBP12. DCAF16 is
+a Cullin-RING E3 ligase that is localized in the nucleus and one that
+has since been reported to promote the degradation of Spindlin-4 (SPIN4),
+an understudied protein predicted to bind methylated histones. CRISPR-mediated DCAF16 knockouts in HEK293
+cells were subsequently performed to demonstrate that nuclear FKBP12
+levels remained unperturbed following treatment with KB02-SLF, thus further supporting the key role of DCAF16 in the PROTAC’s
+MOA.
+ The researchers then replaced the FKBP12 ligand
+with the potent
+BET bromodomain inhibitor JQ1 and demonstrated
+the concentration- and DCAF16-dependent degradation of BRD4 in HEK293T
+cells treated with PROTAC KB02-JQ1 ( ). In a separate study, in
+collaboration with scientists at Vividion, the scout PROTAC arsenal was expanded to incorporate a larger number
+of electrophilic scouts, some with increased molecular weight. These
+were fruitfully applied using a similar methodology, this time identifying
+DCAF11-dependent PROTAC degraders of FKBP12 (21-SLF)
+and androgen receptor (AR) (21-ARL) ( ). Though the biology of DCAF11 has been previously explored (e.g.,
+in its role in KEAP1-independent degradation of NRF2), − this study represents the first disclosure of a chemical probe that
+may further the community’s understanding of this E3 ligase.
+
+## Conclusions
+The large number of unique E3 ligases in
+human cells (>600) as
+well as their crucial role in the UPS has long established this target
+class as a vastly appealing one to modulate with the aim of discovering
+novel therapeutics. Moreover, the advent of the PROTAC heterobifunctional
+modality in recent years has further increased interest in E3 ligase
+research and ligandability.
+Screening campaigns for E3 ligase
+binders represent a significant
+challenge in part due to the shallow nature of the PPI sites present
+on these proteins. Due to the structural simplicity of fragments,
+FBLD represents one of the most target-agnostic and thus well-suited
+approaches for novel hit-finding for these challenging campaigns.
+As detailed in this perspective, a number of different methodologies
+have been applied and developed by investigators to discover ligands
+to E3 ligases and to probe their biology.
+To date, noncovalent
+fragment screens have been reported on a number
+of E3 ligases and Astex’s KEAP1 and cIAP1/XIAP hit to lead
+campaigns represent two of the most advanced and comprehensive FBLD
+examples in the literature. In both campaigns, the investigators succeeded
+in optimizing mM fragments into nM ligands, demonstrating the potential
+that weak starting points can have for E3 ligase ligand discovery.
+It is interesting to note that in both these campaigns, X-ray crystallography
+played a key role in either the hit discovery and/or the hit optimization.
+Covalent fragment screening is beginning to address some of the
+challenges of liganding the shallow PPI sites of E3 ligases. However,
+for the moment, most reports rely on reactive electrophilic warheads
+and indeed drug-like leads with appropriate physicochemical properties
+are yet to be reported. Work performed by Cravatt and co-workers in
+mapping out the ligandable cysteinome , will be invaluable
+to E3 ligase ligand discovery and further reports of covalent hits
+and leads are expected in the near future.
+The FBDR approach
+represents an elegant methodology for novel hit
+creation, however, it requires precedented ligands for the E3 ligase
+being investigated. Despite this prerequisite, this approach remains
+a formidable asset in the fragment chemist’s toolkit. As mentioned,
+it is also useful in identifying minimal pharmacophores for binding
+to specific E3s and can assist in the design of future screening libraries
+where perhaps inclusion of privileged, beyond Ro3 fragments could
+lead to higher hit rates.
+As has been described in this perspective,
+fragment screening methodologies
+have also been used to probe the biology of E3 ligases. Cravatt and
+co-workers’ scout fragments constitute a unique and powerful
+method of utilizing fragments for the discovery of E3 ligases that
+are capable of being artificially harnessed for the degradation of
+POIs.
+Despite the benefits and recent progress made in the application
+of FBLD approaches to E3 ligases, there of course remain challenges.
+For example, E3 ligases inherently reside in large, multiprotein complexes
+which can pose difficulties for the production of high quality recombinant
+protein. This in turn can impact the feasibility of developing suitable
+biochemical and biophysical assays as well as developing robust structural
+systems. Nevertheless, FBLD represents an invaluable approach for
+hit discovery in the field. The curation of high quality generic-,
+bespoke-, and covalent-fragment libraries will remain the bedrock
+of successful screening campaigns that will eventually lead to novel
+drugs. In addition, the role of structural biology techniques in FBLD
+remains paramount and continued advancements in NMR, X-ray crystallography
+and cryoEM methods will undoubtedly continue impacting the field.
+For example, advancements in cryoEM, a method that typically requires
+lower quantities of protein than X-ray crystallography, could address
+the challenge of recombinant protein production by enabling the use
+of protein samples from endogenous sources. Covalent fragment screening
+has already been used to great effect to probe the biology of E3 ligases
+and increasing developments in the field of proteomics (including
+instrument sensitivity and data analysis rates) will assist in further
+advancing these investigations. Furthermore, designing and screening
+chemotypes that are capable of covalently targeting residues beyond
+cysteine (e.g., tyrosine, lysine) may reveal new opportunities for
+ligand design for this target class. 
+Lastly, although ligands to E3 ligases can serve as potential
+drugs
+in their own right, new discoveries are also expected to impact the
+rapidly developing MGD and PROTAC fields. The E3 ligases artificially
+manipulated in these modalities are currently very limited and expansion
+of the repertoire of E3s and their respective ligands will provide
+ample opportunities for the design of future therapeutics.
+
+## Acknowledgments
+We thank our colleagues S. Lucas, M. Schimpl, J.
+Scott, B. Whitehurst for critical reading of the manuscript and for
+their valued feedback.
+
+## Glossary
+
+## Abbreviations
+ABPPactivity
+based protein profiling
+Alphascreenamplified
+luminescent proximity homogeneous assay screen
+AMLacute myelogenous leukemia
+ARandrogen receptor
+BETBromo- and Extra-terminal
+domain
+BIRbaculovirus
+IAP (inhibitor of apoptosis) repeat
+BMI1B cell-specific Moloney murine leukemia virus
+integration site 1
+BRDbromo domain
+CNScentral nervous system
+CPMGCarr–Purcell–Meiboom–Gill
+CRBNcereblon
+CRISPRclustered regularly
+interspaced short palindromic repeats
+cryo-EMcryogenic electron microscopy
+CTLHC-terminal to LisH
+DCAF1/16/11DDB1- and
+CUL4-associated factor 1/16/11
+DELDNA-encoded library
+DSFdifferential scanning fluorimetry
+E1ubiquitin activating enzyme
+E2ubiquitin conjugating
+enzyme
+E3E3 ubiquitin
+ligase
+ERFBDD,
+fragment based drug discovery
+FBDRfragment based deconstruction-reconstruction
+FBLDfragment based
+lead discovery
+FEM1Bfem-1 homologue B
+FKBP12FK506-binding protein 12
+FNIP1Folliculin-interacting protein 1
+FPfluorescence polarization
+FRETFörster/fluorescence
+resonance energy transfer
+GID4glucose-induced degradation protein 4
+HACheavy atom count
+HBAhydrogen bond acceptor
+HBDhydrogen bond donor
+HECThomologous to
+E6AP C-terminus
+HEKhuman embryonic kidney
+HERCHECT and RCC1-like domain
+HIF1αhypoxia-inducible factor 1-alpha
+HOIPHOIL-1-interacting protein
+HSQCheteronuclear
+single quantum correlation
+HTShigh throughput screen
+IMiDsimmunomodulatory imide drugs
+ITCisothermal titration calorimetry
+KEAP1Kelch-like ECH-associated
+protein 1
+LDDlinear
+ubiquitin chain-determining domain
+LEligand efficiency
+LUBAClinear ubiquitin chain assembly complex
+MDM2mouse double minute
+2 homologue
+MGDmolecular glue degraders
+MMPmatched molecular pair
+MOAmechanism of action
+NEDD4neural precursor cell expressed developmentally
+down-regulated protein 4
+NF-κBnuclear factor k B
+NMRnuclear factor erythroid 2-related factor
+NQO1NADPH quinone acceptor oxidoreductase
+1
+NRF2nuclear factor
+erythroid 2-related factor
+PAMPAparallel artificial membrane permeability assay
+PEGpolyethylene glycol
+PHDplant homeodomain
+POIprotein of interest
+POI-Lprotein of interest
+ligand
+PPIprotein–protein
+interaction
+PRC1Polycomb repressive complex 1
+PROTACproteolysis targeting chimera
+PSApolar surface area
+RBCCRING B-Box coiled-coil
+RBRRING between RING
+Rbx1RING box protein
+1
+RINGreally interesting
+new gene
+RIPK1receptor-interacting
+protein kinase 1
+RNF4/31/114RING finger protein 4/31/114
+Ro3Rule-of-3
+SARstructure–activity relationship
+SBDDstructure-based drug
+design
+SMACsecond
+mitochondria derived activator of caspases
+SNIPERsspecific and nongenetic IAP
+dependent protein erasers
+SPIN4Spindlin-4
+SPRsurface plasmon resonance
+STDsaturation transfer difference
+TF1αtranscription intermediary factor 1
+alpha
+TNFαtumor necrosis factor α
+TR-FRETtime-resolved-Förster/fluorescence resonance
+energy transfer
+TRIMtripartite motif protein
+TSAthermal shift assay
+TTDtandem Tudor domain
+UHRF1ubiquitin-like-containing PHD and RING finger domains 1
+UPSubiquitin proteasome
+system
+VCBVHL elongin
+C elongin B complex
+VHLvon Hippel-Lindau (protein)
+VSvirtual screening
+waterLOGSYwater ligand observed via gradient spectroscopy
+
+## Biographies
+Iacovos N. Michaelides received his MChem degree
+from the University
+of Oxford in 2010. His doctoral studies, under the supervision of
+Professor Darren J. Dixon at the University of Oxford (2010-2014),
+focused on the total synthesis of calyciphylline A-type Daphniphyllum
+alkaloids. Following a postdoctoral research project hosted in the
+laboratory of Professor Thomas Carell in LMU Munich, he began his
+career at AstraZeneca, Cambridge in 2017. He is currently a medicinal
+chemist specializing in fragment based lead discovery, with an interest
+in E3 ligase ligandability and proteolysis targeting chimeras.
+
+Gavin W. Collie received his Ph.D. from the UCL
+School of Pharmacy
+in 2012. He then completed postdoctoral positions at the European
+Institute of Chemistry and Biology (France) and the Institute of Cancer
+Research (UK). He is currently an Associate Principal Scientist at
+AstraZeneca, focussing on structural biology and cancer drug discovery.
+
+## Author Contributions
+The manuscript
+was written through contributions of all authors. All authors have
+given approval to the final version of the manuscript.
+
+The authors
+declare the following competing financial interest(s): All authors
+are employees of AstraZeneca.
+
+This
+paper was published
+ASAP on February 23, 2023, with the footnote missing from Figure 16.
+The corrected version was reposted on February 24, 2023.
+
+## References

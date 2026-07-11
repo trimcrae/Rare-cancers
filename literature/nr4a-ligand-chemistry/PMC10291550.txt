@@ -1,0 +1,519 @@
+822acssdJournal of Medicinal ChemistryJ Med ChemPMC1029155010291550102915503725681910.1021/acs.jmedchem.3c00485De
+Novo Design of Nurr1 Agonists via Fragment-Augmented
+Generative Deep Learning in Low-Data
+Regime
+BallarottoMarco WillemsSabine StillerTanja NawaFelix MarschnerJulian A GrisoniFrancesca MerkDaniel †Department
+of Pharmacy, Ludwig-Maximilians-Universität
+(LMU) München, 81377 Munich, Germany‡Department
+of Pharmaceutical Sciences, Università
+degli Studi di Perugia, 06123 Perugia, Italy§Institute
+for Complex Molecular Systems, Department of Biomedical Engineering, Eindhoven University of Technology, 5612AZ Eindhoven, The Netherlands∥Centre
+for Living Technologies, Alliance TU/e,
+WUR, UU, UMC Utrecht, 3584CB Utrecht, The Netherlands*Email: daniel.merk@cup.lmu.de.
+3152023661281708170–81772762023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Generative neural networks trained on SMILES can design
+innovative
+bioactive molecules de novo. These so-called chemical
+language models (CLMs) have typically been trained on tens of template
+molecules for fine-tuning. However, it is challenging to apply CLM
+to orphan targets with few known ligands. We have fine-tuned a CLM
+with a single potent Nurr1 agonist as template in a fragment-augmented
+fashion and obtained novel Nurr1 agonists using sampling frequency
+for design prioritization. Nanomolar potency and binding affinity
+of the top-ranking design and its structural novelty compared to available
+Nurr1 ligands highlight its value as an early chemical tool and as
+a lead for Nurr1 agonist development, as well as the applicability
+of CLM in very low-data scenarios.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Mar 18; Collection date 2023 Jun 22.
+
+## Introduction
+Chemical language models (CLMs) − are deep learning models
+trained to generate new molecules from scratch in the form of strings,
+such as the simplified molecular input line entry system (SMILES). Recently, CLMs have proven to be able to generate
+novel molecules in a data-driven fashion − and provide access to
+new bioactive designs. , , CLMs
+based on recurrent neural networks with long short-term memory have been particularly successful in designing
+new chemical entities with experimentally confirmed bioactivity on
+the intended targets. , This has been achieved via transfer learning, , which uses
+a model previously trained on a large corpora of data and “fine-tunes”
+it using a target-focused (and smaller) set of molecules. Despite
+being successful, the utilized fine-tuning sets typically consisted
+of several tens of molecules. , , However, scenarios of scarce(r) data are common for underexplored
+targets (e.g., orphan receptors) and have not been
+investigated for prospective de novo design with
+CLMs, despite their high relevance in medicinal chemistry.
+Here,
+we employ a CLM to design agonists of the orphan nuclear
+receptor related 1 (Nurr1) de novo. This neuroprotective
+transcription factor emerged as potential target for Alzheimer’s
+disease, Parkinson’s disease, and multiple sclerosis treatment. , Despite the ongoing efforts to develop Nurr1 ligands as chemical
+tools and drug candidates, potent Nurr1 activators are lacking. We have recently discovered the high-affinity
+Nurr1 agonist 1 (EC50 = 0.4 μM, Kd = 0.7 μM; a), which served
+in this work as template for de novo design with
+a CLM. Due to the very limited availability of Nurr1 agonists, we
+have “augmented” the set of fine-tuning molecules by
+adding five weak Nurr1 agonist fragments (1.2–1.8-fold Nurr1
+activation at 100 μM), which are structurally related to 1 (Table S1). After a two-stage
+fine-tuning procedure, six de novo designs were synthesized
+and tested for Nurr1 agonism. Two designs displayed the desired bioactivity,
+with one of them exhibiting remarkable Nurr1 agonist potency. Our
+results indicate the potential of CLMs to enable de novo design in extremely low-data regimes.
+ 
+
+## Results and Discussion
+
+## CLM Training and De Novo Design
+We
+employed a two-step fine-tuning procedure, to achieve de novo design by CLMs from a very restricted number of known ligands ( a). Previous studies
+on CLMs have observed that fine-tuning
+with a single template reduces the chemical diversity of the designs
+providing a challenge to our objective. We used a previously published
+CLM, which was pre-trained on 365k molecules from ChEMBL and captures the “syntax” of SMILES
+strings (i.e., how to generate chemically valid strings)
+and some general molecular properties. The model was fine-tuned with 1 for 40 epochs, with
+a 10-fold SMILES augmentation procedure, i.e., by using ten different SMILES strings representing 1. We then used beam search to
+identify epochs at which the model was biased toward designing molecules
+most similar to 1. Beam search is a heuristic sampling
+approach, which progressively extends a SMILES string by adding, at
+each step, the k characters with the highest conditional
+probability, given the previous portion of the string (in this work, k = 50). We have previously employed beam search to monitor
+the information captured by a CLM and to devise an optimal training
+strategy. Beam search sampling from epoch
+13 yielded a high number of unique skeletons (graph scaffolds, b) and a high average
+scaffold diversity (1-Tanimoto) based on Morgan fingerprints, which
+capture common substructures ( c). At the same time, designs from epoch 13 exhibited
+the highest similarity to the template 1 based on the
+Weighted Holistic Atom Localization and Entity Shape (WHALES) descriptors, which
+encode three-dimensional molecular shape and partial charges ( d). These results
+thus indicated that the CLM had captured features of the single template
+after epoch 13 without a loss of chemical diversity.
+To maintain
+molecular diversity and explore the chemical space in the vicinity
+of 1, we used a “fragment-augmented” approach
+for further fine-tuning using five weak Nurr1 activating fragments
+(2–6, Table S1) that
+shared structural features with 1. The CLM was trained
+over 100 epochs, and designs were generated for every epoch by beam
+search, as for the previous step. From this collection of designs,
+we prioritized molecules for synthesis by two approaches ( ). As a first selection
+criterion, we exploited the sampling frequency of a given molecule
+as a “CLM-intrinsic” measure of priority for the generated
+designs. This was done under the assumption that, the higher the frequency
+of generation, the higher the probability of a given structure for
+the CLM. This highlighted compounds 7 (50× generated,
+rank 1), 8 (18×, rank 2), and 9 (17×,
+rank 4) as the most frequently sampled molecules. The third and fifth
+ranked molecules (Table S2) shared the
+scaffolds of 7 and 8, respectively, further
+highlighting them as preferred by the model. Additionally, we selected
+three molecules (10–12) exhibiting high similarity
+to the template 1 based on physicochemical descriptors
+and WHALES (Table S3),
+which have proved suitable for external ranking in previous applications
+of CLM for de novo design. , Sampling
+frequency and descriptor similarity prioritized different sets of
+molecules. The highly frequent designs 7–9 comprised
+lower similarity to 1, while the most similar molecules 10–12 were not frequently sampled.
+ 
+
+## Synthesis and In Vitro Characterization of
+Designs
+The computationally selected molecules 7–12 were synthesized over two to four steps according to . 7 was obtained
+by Suzuki reaction of 13 and 14 to 15 followed by Williamson ether formation with benzyl bromide
+and ester hydrolysis. For preparation of 8, 17 was esterified to 18 and then coupled with 19 in a Suzuki reaction to 20 before ester hydrolysis
+afforded 8. Synthesis of the pyrimidinedione 9 commenced with the condensation of phenyl urea (21),
+triethyl orthoformate, and diethyl malonate to 22 which
+cyclized to 9 under basic conditions. Design 10 was prepared by treating 4-hydroxybenzaldehyde (23)
+with ethyl bromoacetate to introduce the side chain in 24. Subsequent oxidation and cyclization of the obtained free carboxylate
+with benzohydrazide gave oxadiazole 25 that underwent
+ester hydrolysis to give 10. 11 was obtained
+from methyl 2-bromothiophene-4-carboxylate (26) by Suzuki
+reaction with phenylboronic acid to 27, ester hydrolysis
+and amide coupling with dimethyl glutamate to 28 and
+another ester hydrolysis. Lastly, preparation of 12 succeeded
+by Fischer indole synthesis of 4-fluorophenylhydrazine hydrochloride
+(29) and 4-fluorophenylacetone (30), N-alkylation of the resulting indole 31 with
+ethyl bromoacetate, and ester hydrolysis. The computational designs 7–12 were hence accessible by standard chemistry and
+mostly obtained in very good yields, demonstrating that the designs
+met the key criterion of synthesizability.
+ Nurr1 modulation
+by 7–12 ( ) was determined in a Gal4-Nurr1
+hybrid reporter gene assay in transiently
+transfected HEK293T cells with Gal4-responsive firefly luciferase
+as the reporter and constitutively expressed Renilla luciferase as
+control gene. The most frequently sampled design 7 exhibited
+remarkable Nurr1 agonism in this assay with an EC50 value
+of 0.07 μM supporting sampling frequency as a valuable measure
+of design quality. The second-most computationally preferred design 8 activated Nurr1 with low micromolar potency and 9 was inactive. Designs 10–12 which were selected
+based on descriptor similarity to template 1 showed no
+Nurr1 agonism. Isothermal titration calorimetry (ITC, , a,b) confirmed binding of 7 and 8 to the recombinant Nurr1 ligand binding domain (LBD) with Kd values of 0.14 μM (7) and
+2.4 μM (8), providing orthogonal validation of
+on-target activity. Moreover, both Nurr1 agonists activated full-length
+human Nurr1 on its monomer response element NBRE with comparable potency
+as observed on the Gal4 hybrid receptor ( ). The most active design 7 was
+additionally profiled for activation of Nurr1 as heterodimer with
+RXR on the DR5 response element which yielded consistent results (EC50 = 0.03 ± 0.01 μM, 2.1 ± 0.1-fold activation).
+In Nurr1 expressing astrocytes (T98G cells), 7 and 8 induced the Nurr1-regulated genes tyrosine hydroxylase (TH)
+and vesicular amino acid transporter 2 (VMAT2) in a dose-dependent
+fashion ( c,d),
+supporting their value as a chemical tool for studies on Nurr1 biology
+and as leads.
+ 
+
+## Structural Novelty of the De Novo Designs
+The de novo design 7 is among the
+most potent Nurr1 agonists discovered so far ( a) and is
+characterized by a favorable ligand efficiency. Comparison of 7 with the template set and with known Nurr1 agonists ( b,c, Table S5) additionally demonstrated high structural
+novelty in terms of substructure and scaffold similarity. The remarkable
+biological activity and structural novelty of 7 suggest
+that the CLM has accessed an uncharted region of Nurr1 ligands in
+chemical space. The Nurr1 agonist 7 constitutes an important
+addition to the available collection of ligands for this understudied
+receptor and appears highly suitable as a lead for systematic optimization
+toward Nurr1 modulating chemical tools.
+ 
+
+## Conclusions
+CLM and other approaches to machine learning-driven de
+novo design , are a very active field of theoretical
+work. Prospective experimental applications of AI to design new bioactive
+compounds are still rare and have mostly focused on target proteins
+with many known ligands. This is not surprising
+since deep learning is “data-hungry” and thus requires
+datasets of sufficient size for training. For this reason, designing
+mimetics from single-template molecules is more challenging than with
+rule-driven de novo design algorithms. We have employed a CLM to develop agonists for
+the orphan receptor Nurr1 for which very little ligand knowledge is available. Our pipeline yielded a high-affinity
+Nurr1 ligand (7) from only one potent template molecule,
+by a fragment-augmentation procedure. For design prioritization, we
+confirmed the sampling frequency as a good model-intrinsic measure
+which avoids external ranking. The success of this approach (2/3 designs
+active) supported its potential as internal design quality indicator.
+Our results show the potential of CLMs for de novo ligand design for orphan targets with little previous knowledge
+on ligands and confirm sampling frequency as another approach for
+model intrinsic design prioritization. Our AI-driven design strategy
+led to a novel, high-affinity Nurr1 agonist, exceeding available Nurr1
+activators in potency, highlighting the still not fully exploited
+potential of machine learning in the development of chemical tools
+for underexplored targets.
+The neuroprotective transcription
+factor Nurr1 holds great promise
+as a potential therapeutic target, but Nurr1 modulators are rare.
+Structural novelty compared to known Nurr1 ligands and superior affinity
+therefore highlight the value of de novo design 7 as a lead for medicinal chemistry to develop potent Nurr1
+agonists as chemical tools and drug candidates.
+
+## Experimental Section
+
+## Chemistry
+
+## General
+All final compounds to be tested in the biological
+evaluation had a purity of >95% according to quantitative NMR.
+NMR
+data are provided in the Supporting Information. General procedures as well as synthesis and analytical characterization
+of 8–12 and precursors are described
+in the Supporting Information.
+
+## 5-(4-(Benzyloxy)phenyl)thiophene-2-carboxylic Acid (7)
+Methyl 5-(4-hydroxyphenyl)thiophene-2-carboxylate (15, 0.094 g, 0.4 mmol, 1.0 equiv) and K2CO3 (0.17 g, 1.2 mmol, 3.0 equiv) were dissolved in dimethylformamide
+(DMF, 4 mL, 0.1 M). Benzyl bromide (0.07
+mL, 0.6 mmol, 1.5 equiv) was added in one portion, and the mixture
+was stirred at room temperature for 5 h when thin-layer chromatography
+(TLC) showed no remaining starting material. The mixture was then
+diluted with water (30 mL) and 2 M aqueous hydrochloric acid (3 mL)
+and extracted with EtOAc (3 × 20 mL). The combined organic layers
+were washed with 5% LiCl solution (1 × 10 mL) and brine (1 ×
+15 mL) and dried over Na2SO4. The solvent was
+removed in vacuo to give 16 as a colorless
+solid in quantitative yield. An aqueous solution of KOH (30% w/v,
+1 mL) was added to a solution of the methyl ester 16 (0.13
+g, 0.4 mmol) in tetrahydrofuran (THF, 3 mL, 0.15 M). MeOH (2 mL) was
+added, and the mixture was stirred at room temperature overnight. TLC indicated that the reaction was completed.
+The volatiles were removed in vacuo, the residue
+was diluted with 2 M aqueous hydrochloric acid (8 mL) and water (15
+mL), and the mixture was extracted with EtOAc (3 × 15 mL). The
+combined organic layers were washed with brine and dried over Na2SO4. The solvent was removed in vacuo and the residue was purified by reverse-phase column chromatography
+(H2O/MeCN 95:5 → 0:100 over 12 CV) to obtain the
+title compound 7 as a pale-yellow solid (0.10 g, 0.32
+mmol, 81% over 2 steps). mp: 238–239 °C (dec.). Rf (isohexanes/EtOAc/AcOH, 50:49:1) = 0.47. 1H NMR (500 MHz, DMSO-d6): δ
+13.05 (br s, 1H), 7.73–7.60 (m, 3H), 7.49–7.43 (m, 3H),
+7.43–7.37 (m, 2H), 7.37–7.30 (m, 1H), 7.09 (d, J = 8.6 Hz, 2H), 5.16 (s, 2H). 13C NMR (126 MHz,
+DMSO-d6): δ 162.9, 158.9, 149.8,
+136.8, 134.3, 132.3, 128.5, 127.9, 127.7, 127.3, 125.7, 123.4, 115.5,
+69.3. HRMS (EI) m/z: calcd 310.0664
+for C18H14O3S+; found,
+310.0652 (M+).
+
+## Methyl 5-(4-Hydroxyphenyl)thiophene-2-carboxylate (15)
+Under a nitrogen atmosphere, 4-hydroxyphenylboronic acid
+(13, 0.33 g, 2.4 mmol, 1.2 equiv), methyl 2-bromothiophen-5-carboxylate
+(14, 0.45 g, 2.0 mmol, 1.0 equiv), and K2CO3 (1.38 g, 10 mmol, 5.0 equiv) were dissolved in a mixture
+of THF/H2O (1:1 v/v, 10 mL total, 0.2 M). The mixture was degassed by purging with nitrogen using
+a needle submerged into the solution for 10 min. After that, Pd(PPh3)4 (0.12 g, 0.1 mmol, 0.05 equiv) was added, and
+the reaction mixture was heated to reflux overnight. After 18 h, TLC
+indicated the completion of the reaction, and the mixture was cooled
+to room temperature, diluted with water (20 mL), adjusted to pH 2–3
+with 2 M aqueous hydrochloric acid, and extracted with EtOAc (3 ×
+20 mL). The combined organic layers were washed with brine (1 ×
+20 mL) and dried over Na2SO4, and the solvents
+were removed in vacuo. The residue was subjected
+to a Fischer esterification in MeOH (30 mL) and 5 drops of conc. H2SO4 at 80 °C for 24 h. The reaction was then
+cooled to room temperature and the solvent was removed in
+vacuo. The residue was dissolved in 10% (w/v) NaHCO3 solution (30 mL) and extracted with EtOAc (3 × 20 mL). The
+combined organic layers were washed with brine and dried over Na2SO4, and the solvent was removed in vacuo. The crude product was purified by automatic flash column chromatography
+(isohexanes/EtOAc, 80:20) to obtain the title compound 15 as a pale-yellow solid (0.22 g, 0.93 mmol, 47%). mp: 171–172
+°C. Rf (isohexanes/EtOAc 70:30) =
+0.57. 1H NMR (400 MHz, CD3OD): δ 7.71
+(d, J = 4.0 Hz, 1H), 7.55–7.49 (m, 2H), 7.26
+(d, J = 4.0 Hz, 1H), 6.86–6.79 (m, 2H), 3.86
+(s, 3H). 13C NMR (101 MHz, CD3OD): δ 164.3,
+159.8, 153.6, 135.8, 131.3, 128.6, 126.1, 123.4, 116.9, 52.6. MS (APCI) m/z: 234.9 ([M + H]+).
+
+## Biological Characterization
+
+## Gal4-Nurr1 Hybrid Reporter Gene Assay
+Nurr1 modulation
+was determined in a Gal4 hybrid reporter gene assay in HEK293T cells
+(German Collection of Microorganisms and Cell Culture GmbH, DSMZ)
+using pFR-Luc (Stratagene, La Jolla, CA, USA; reporter), pRL-SV40
+(Promega, Madison, WI, USA; internal control), and pFA-CMV-hNurr1-LBD, coding for the hinge region and the ligand binding
+domain of the canonical isoform of human Nurr1. Cells were cultured
+in Dulbecco’s modified Eagle’s medium (DMEM), high glucose
+supplemented with 10% fetal calf serum (FCS), sodium pyruvate (1 mM),
+penicillin (100 U/mL), and streptomycin (100 μg/mL) at 37 °C
+and 5% CO2 and seeded in 96-well plates (3 × 104 cells/well). After 24 h, the medium was changed to Opti-MEM
+without supplements, and cells were transiently transfected using
+Lipofectamine LTX reagent (Invitrogen, Carlsbad, CA, USA) according
+to the manufacturer’s protocol. Five hours after transfection,
+cells were incubated with the test compounds in Opti-MEM supplemented
+with penicillin (100 U/mL), streptomycin (100 μg/mL), and 0.1%
+dimethyl sulfoxide (DMSO) for 16 h before luciferase activity was
+measured using the Dual-Glo Luciferase Assay System (Promega) according
+to the manufacturer’s protocol on a Tecan Spark luminometer
+(Tecan Deutschland GmbH, Crailsheim, Germany). Firefly luminescence
+was divided by Renilla luminescence and multiplied by 1000 resulting
+in relative light units (RLU) to normalize for transfection efficiency
+and cell growth. Fold activation was obtained by dividing the mean
+RLU of the test compound by the mean RLU of the untreated control.
+All samples were tested in at least three biologically independent
+experiments in duplicate. For dose–response curve fitting and
+calculation of EC50 values, the equation “[Agonist] vs response - variable slope (four parameters)” was
+used in GraphPad Prism (version 7.00, GraphPad Software, La Jolla,
+CA, USA).
+
+## Full-Length Nurr1 Reporter Gene Assays
+Activation of
+full-length human Nurr1 was studied in transiently transfected HEK293T
+cells using the reporter plasmid pFR-Luc-NBRE or pFR-Luc-DR5, each containing one
+copy of the respective human Nurr1 response element NBRE Nl3 (TGA
+TAT CGA AAA CAA AAG GTC A) or DR5 (TGA TAG GTT CAC CGA AAG GTC A).
+The full-length human nuclear receptor Nurr1 (pcDNA3.1-hNurr1-NE;
+Addgene plasmid no. 102363) and, for DR5, additionally RXRα
+(pSG5-hRXR) were overexpressed. pRL-SV40
+(Promega) was used for normalization of transfection efficacy and
+to observe test compound toxicity. Cells were cultured in DMEM, high
+glucose supplemented with 10% FCS, sodium pyruvate (1 mM), penicillin
+(100 U/mL), and streptomycin (100 μg/mL) at 37 °C and 5%
+CO2 and seeded in 96-well plates (3 × 104 cells/well). After 24 h, the medium was changed to Opti-MEM without
+supplements, and cells were transiently transfected using Lipofectamine
+LTX reagent (Invitrogen) according to the manufacturer’s protocol.
+Five hours after transfection, cells were incubated with the test
+compounds in Opti-MEM supplemented with penicillin (100 U/mL), streptomycin
+(100 μg/mL), and 0.1% DMSO for 16 h before luciferase activity
+was measured using the Dual-Glo Luciferase Assay System (Promega)
+according to the manufacturer’s protocol on a Tecan Spark luminometer
+(Tecan Deutschland GmbH). Firefly luminescence was divided by Renilla
+luminescence and multiplied by 1000 resulting in relative light units
+(RLU) to normalize for transfection efficiency and cell growth. Fold
+activation was obtained by dividing the mean RLU of the test compound
+by the mean RLU of the untreated control. All samples were tested
+in at least three biologically independent experiments in duplicate.
+For dose–response curve fitting and calculation of EC50 values, the equation “[Agonist] vs response
+- variable slope (four parameters)” was used in GraphPad Prism
+(version 7.00, GraphPad Software).
+
+## Recombinant Expression and Purification of Nurr1 LBD Protein
+The Nurr1 LBD (aa 362–598) was subcloned into pNIC28-Bsa4.
+The recombinant protein containing an N-terminal His6-tag
+was expressed in Escherichia coli BL21(DE3)-R3-pRARE2,
+cultured in TB. Expression was induced with 0.5 mM IPTG at 18 °C
+overnight. The protein was purified by Ni2+-affinity chromatography
+followed by TEV treatment to remove the histidine tag. The cleaved
+protein was further purified by reverse Ni2+-affinity chromatography
+and size exclusion chromatography.
+
+## Isothermal Titration Calorimetry
+ITC experiments were
+conducted on an Affinity ITC instrument (TA Instruments, New Castle,
+DE) at 25 °C with a stirring rate of 75 rpm. Nurr1 LBD protein
+(10 or 20 μM) in buffer (20 mM Tris, pH 7.5, 100 mM NaCl, 5%
+glycerol) containing 5% DMSO was titrated with the test compounds
+(50 or 100 μM in the same buffer containing 5% DMSO) in 21 injections
+(1 × 1 and 20 × 5 μL) with an injection interval of
+180 s. As control experiments, the test compounds were titrated to
+the buffer, and the buffer was titrated to the Nurr1 LBD protein under
+otherwise identical conditions. The heats of the compound–protein
+titrations were corrected with the heats of the compound–buffer
+titrations and analyzed using NanoAnalyze software (version 3.11.0,
+TA Instruments, New Castle, DE) with independent binding models.
+
+## Evaluation of Nurr1 Regulated Gene Expression
+T98G
+(ATCC CRL-1690) were grown in DMEM, high glucose supplemented with
+10% FCS, sodium pyruvate (1 mM), penicillin (100 U/mL), and streptomycin
+(100 μg/mL) at 37 °C and 5% CO2 and seeded at
+a density of 2.5 × 105 cells/well in a 12-well plate.
+After 24 h, medium was changed to DMEM, high glucose supplemented
+with 0.2% FCS, penicillin (100 U/mL), and streptomycin (100 μg/mL),
+and the cells were incubated for another 24 h before stimulation with
+the test compounds in the same medium additionally containing 0.1%
+DMSO. After 16 h of incubation, the medium was removed, cells were
+washed with phosphate-buffered saline, and after full aspiration of
+residual liquids immediately frozen at −80 °C until further
+procession. Total RNA was isolated using E.Z.N.A. Total RNA Kit I
+(Omega Bio-tek, Norcross, GA, USA) following the manufacturer’s
+instructions. The RNA concentration and purity were assessed using
+a NanoDrop One UV/vis spectrophotometer (Thermo Fisher Scientific,
+Waltham, MA, USA) at 260/280 nm. Right before reverse transcription
+(RT), RNA was linearized at a concentration of 133 ng/μL at
+65 °C for 10 min and then immediately incubated on ice for at
+least 1 min. RT was performed using 2 μg total RNA, 20 U Recombinant
+RNasin Ribonuclease Inhibitor (Promega), 100 U SuperScript IV Reverse
+Transcriptase including 5× first strand buffer and 0.1 M dithiothreitol
+(Thermo Fisher Scientific), 3.75 ng linear acrylamide, 625 ng random
+hexamer primers (#11277081001, Merck, Darmstadt, Germany), and 11.25
+nmol deoxynucleoside triphosphate mix (2.8 nmol of each ATP, TTP,
+CTP, and GTP; #R0186, Thermo Fisher Scientific) at a volume of 22.45
+μL at 50 °C for 10 min and 80 °C for 10 min using
+a Thermal cycler XT96 (VWR International, Darmstadt, Germany).
+Quantitative polymerase chain reaction (qPCR) was conducted using
+an Applied Biosystems QuantStudio 1 (Waltham, MA, USA) and a SYBR
+green-based detection method. 0.2 μL of prepared cDNA (complementary
+DNA) was added to 6 pmol of forward and reverse primers, respectively,
+0.8 U Taq DNA Polymerase (#M0267, New England Biolabs, Ipswich, MA,
+USA), 40 ppm SYBR Green I (#S9430, Sigma-Aldrich, St. Louis, MO, USA),
+15 nmol deoxynucleoside triphosphate mix (as indicated above), 60
+nmol MgCl2, 4 μg bovine serum albumin (#B14, Thermo
+Fisher Scientific), 20% BioStab PCR Optimizer II (#53833, Merck),
+and 10% Taq buffer without detergents (#B55, Thermo Fisher Scientific)
+were added and the final volume was made up to 20 μL with ddH2O. Samples underwent 40 cycles of 15 s denaturation at 95
+°C, 15 s of primer annealing at 62.4 °C, and 20 s of elongation
+at 68 °C. PCR product specificity was evaluated using a melting
+curve analysis ranging from 65 to 95 °C. TH and VMAT2 mRNA (messenger
+RNA) expression was normalized to GAPDH mRNA expression per each sample
+using the ΔCt-method. The following primers were used. VMAT2
+(SLC18A2): 5′-GCT ATG CCT TCC TGC TGA TTG C-3′ (fw)
+and 5′-CCA AGG CGA TTC CCA TGA CGT T-3′ (rev); TH: 5′-GCT
+GGA CAA GTG TCA TCA CCT G-3′ (fw) and 5′-CCT GTA CTG
+GAA GGC GAT CTC A-3′ (rev); GAPDH: 5′-AGG TCG GAG TCA
+ACG GAT TT-3′ (fw) and 5′-TTC CCG TTC TCA GCC TTG AC-3′
+(rev). Gene expression data were analyzed with QuantStudio Design
+& Analysis Software (v1.5.2; Applied Biosystems) and MS Excel.
+Statistical significance was evaluated by analysis of variance (ANOVA)
+with Bonferroni correction in R (v4.1.2; The R Foundation for Statistical
+Computing).
+
+## Computational Procedures
+
+## Fine-Tuning Sets
+The first fine-tuning set comprising
+compound 1 and the second fine-tuning set comprising
+five Nurr1-activating fragments are shown in .
+
+## Canonical SMILES Generation
+The canonical SMILES of
+molecules used as fine-tuning sets were generated with RDKit (v. 2022.03.1, www.rdkit.org). The SMILES for CLM
+fine-tuning with data augmentation are shown in Table S6. All other input data for the CLM have been described
+previously and are available at https://github.com/ETHmodlab/molecular_design_with_beam_search.
+
+## Chemical Language Model
+This work is based on a previously
+described CLM which is freely available
+at https://github.com/ETHmodlab/molecular_design_with_beam_search. We used the available pre-trained model and performed two consecutive
+rounds of fine-tuning. We used the categorical cross-entropy loss
+and the Adam optimizer. The first round of fine-tuning with 1 as the fine-tuning set was performed with 10-fold data augmentation
+for 40 epochs with a learning rate of 10–4 by keeping
+the first layer frozen. The batch size was 10. The second round of
+fine-tuning with 1 and five Nurr1-activating fragments
+was performed from epoch 13 of the first fine-tuning with 2-fold data
+augmentation for 50 epochs with a learning rate of 10–4 by keeping the first layer 1 frozen. The batch size was 50.
+
+## Beam Search Ranking
+The beam search algorithm was applied
+as previously described. We used a beam
+search width of 50 and defined the maximum SMILES string length as
+140 tokens.
+
+## Molecular Descriptors
+Molecular geometry and WHALES descriptors( ) were computed
+with the code freely available at https://github.com/grisoniFr/scaffold_hopping_whales (v1), with default settings, as previously described. Molecular
+descriptors (molecular weight, total polar surface area, Wildman–Crippen
+logP, number of rotable bonds, and Lipinski-type
+hydrogen bond donors and hydrogen bond acceptors) were generated using
+RDKit (v. 2022.03.1). The two sets of descriptors for 1 and the beam search designs were concatenated and normalized. The
+Euclidean distance based on the descriptors was computed between 1 and the beam search designs.
+
+## Sampling Frequency
+The sampling frequencies of the
+generated beam search designs from the second fine-tuning step were
+calculated over all 50 epochs based on the generated SMILES.
+
+## Fingerprint Calculation and Data Analysis
+Fingerprint
+calculation and data analysis was performed in KNIME (v4.4.4, KNIME
+AG, Zurich, Switzerland) using RDKit and CDK nodes.
+
+## Acknowledgments
+This research was co-funded by the European Union
+(ERC, NeuRoPROBE, 101040355). Views and opinions expressed are however
+those of the author(s) only and do not necessarily reflect those of
+the European Union or the European Research Council. Neither the European
+Union nor the granting authority can be held responsible for them.
+This research was supported by the European Union in the Erasmus+
+Traineeship Mobility of M.B. (project no. 2020-1-IT02-KA103-078486).
+
+## Glossary
+
+## Abbreviations
+CLMchemical
+language model
+ITCisothermal titration
+calorimetry
+Nurr1nuclear receptor related 1
+THtyrosine hydroxylase
+VMAT2vesicular amino acid transporter 2
+
+## Supporting Information Available
+The Supporting Information
+is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jmedchem.3c00485.
+Nurr1 activating fragments related to 1 used for CLM fine-tuning, top-ranking CLM designs based on sampling
+frequency and molecular descriptor similarity, Nurr1 agonists used
+for comparison with de novo design 7, Tanimoto similarity of 7 to the fine-tuning
+molecules 1–6 computed on Morgan Fingerprints and Murcko scaffolds,
+SMILES used for CLM fine-tuning, synthetic procedures, and analytical
+data of 7–17 (PDF)
+Molecular formula strings containing chemical
+structures
+and biological characterization data of 7–12 (CSV)
+
+The authors declare
+no
+competing financial interest.
+
+## Supplementary Material
+jm3c00485_si_001.pdf
+jm3c00485_si_002.csv
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+jm3c00485_si_001.pdf
+jm3c00485_si_002.csv

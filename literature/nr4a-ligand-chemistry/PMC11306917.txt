@@ -1,0 +1,177 @@
+pmcSkin Res TechnolSkin Res Technol4358skinresSRTSkin Research and Technology0909-752X1600-0846WileyPMC11306917PMC11306917.111306917113069173911361510.1111/srt.13916SRT139161Original ArticleOriginal ArticleIdentification of potential therapeutic targets for skin cutaneous melanoma on the basic of transcriptomics
+SHI et al.
+ShiFengling LiTao ShiHuiling WeiYushan WangJuan LiuCanyu canyuliu@126.comLiangRuirong lengbeng@suda.edu.cn
+
+1
+
+Department of Oncology
+The Fourth Affiliated Hospital of Soochow University
+Suzhou Dushu Lake Hospital
+Medical Center of Soochow University
+Suzhou
+China
+
+2
+
+Division of Clinical Oncology
+Medical Center of Soochow University
+Suzhou
+China
+
+3
+
+Department of Radiation Oncology
+The Fourth Affiliated Hospital of Soochow University
+Suzhou Dushu Lake Hospital
+Medical Center of Soochow University
+Suzhou
+China
+
+4
+
+Department of Oncology
+The First Affiliated Hospital of Soochow University
+Suzhou
+China
+
+*
+Correspondence
+Canyu Liu, Department of Radiation Oncology, The Fourth Affiliated Hospital of Soochow University, 9th Chongwen Road, Suzhou, 215124, China. Email: canyuliu@126.com
+Rongrui Liang, Department of Oncology, The Fourth Affiliated Hospital of Soochow University, 9th Chongwen Road, Suzhou, 215124, China. Email: lengbeng@suda.edu.cn
+
+08820248202430846783910.1111/srt.v30.8e13916
+1772024
+2472024
+080820240808202428082024© 2024 The Author(s). Skin Research and Technology published by John Wiley & Sons Ltd.https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+
+## Background
+Advanced skin cutaneous melanoma (SKCM) is responsible for the majority of skin cancer‐related deaths. Apart from the rare BRAF V600F mutation, which can be targeted with specific drugs, there are currently no other novel effective therapeutic targets.
+
+## Methods
+We used SMR analysis with cis‐expressed quantitative trait locus (cis‐eQTL) as the exposure variable and SKCM as the outcome variable to identify potential therapeutic targets for SKCM. Colocalization assays and HEIDI tests are used to test whether SKCM risk and gene expression are driven by common SNPs. Replication analysis further validated the findings, and we also constructed protein–protein interaction networks to explore the relationship between the identified genes and known SKCM targets. Drug prediction and molecular docking further validated the medicinal value of drug targets. Transcriptome differential analysis further validated that there were differences between normal tissues and SKCM for the selected targets.
+
+## Results
+We identified 13 genes significantly associated with the risk of SKCM, including five protective genes and eight harmful genes. The HEIDI test and co‐localization analysis further indicates a causal association between genes (SOX4, MAFF) and SKCM, categorized as Class 1 evidence targets. The remaining 11 genes, except for HELZ2 show a moderately causal association with SKCM, categorized as Class 2 evidence targets. Target druggability predictions from DGIdb suggest that SOX4, MAFF, ACSF3, CDK10, SPG7, and TCF25 are likely to be future drug targets.
+
+## Conclusion
+The study provides genetic evidence for targeting available drug genes for the treatment of SKCM.
+
+drug targetsgeneticsMendelian randomizationskin cutaneous melanomaNational Natural Science Foundation of China
+10.13039/50110000180981402477Natural Science Foundation of Jiangsu Province of ChinaBK20140295Clinical Research Project of Wu Jieping Medical Foundation320.6750.2021‐16‐62Suzhou Science and Technology PlanSZM2021012SKY2022092SZM2023031Beijing Xisike Clinical Oncology Research Foundation
+10.13039/100018904Y‐HH202101‐0059Clinical Medicine peak project of Soochow Medical College, Soochow UniversityML42900423 2.1
+
+## Exposure data
+The discovery blood eQTLs dataset was obtained from eQTLGen Consortium (https://eqtlgen.org/). In brief, the eQTLGen dataset contained 19 960 trait‐associated SNPs and 16 989 cis‐eQTLs from 31 684 blood samples from mostly healthy European individuals. A full description of the data can be found in the original article. The entire cis‐eQTLs data and allele frequency statistics were acquired from the eQTLGen consortium. It was designed as a computational method and combined with data from many existing genome‐wide association studies to identify druggable proteins, linking them to known drugs, to propose druggable genes. Considering that eQTLs are closer to the gene of interest in drug development studies and have more direct regulation of gene expression, the cis‐eQTLs used in this study were limited to SNPs within 1Mb from the center of druggable genes.
+
+2.2
+
+## Outcome data
+For racial consistency with the exposure data, GWAS data from the European pedigree sample of 3194 cases and 314 193 controls were selected as outcome data for this study. The data was obtained from FinnGen Release 10 (https://www.finngen.fi/en), which were released in December 2023. Furthermore, GWAS data from the UKBB (https://gwas.mrcieu.ac.uk/datasets/ieu‐b‐4969/) were utilized for replication analysis, comprising 3751 cases and 372 016 European ancestry controls.
+
+2.3
+
+## Summary‑data‑based MR (SMR) analysis
+We utilized the SMR software (SMR v1.3.1) tool to import and harmonize exposure and outcome data, enabling SMR and HEIDI tests. The SMR and HEIDI tests were implemented in an efficient whole‐genome analysis software tool. The SMR and HEIDI methods use summary data from GWAS and expression Quantitative Trait Loci (eQTL) studies to assess whether transcripts and phenotypes are correlated due to common causal variants (i.e., pleiotropy). In contrast to most other methods for integrated analysis of GWAS and eQTL data, the distinguishing feature of the SMR and HEIDI methods is their ability to differentiate between pleiotropy models (i.e., gene expression and phenotype are correlated due to a single shared genetic variant) and linkage models (i.e., distant genetic variants in linkage disequilibrium independently affecting gene expression and phenotype). The Benjamini‐Hochberg method was employed to adjust p‐value (<0.05) to control the false discovery rate (FDR). FDR‐corrected p‐values less than 0.05 were considered a potential therapeutic target. In the validation phase, only the initially identified genes are subjected to external validation using the SMR method, with the p‐value threshold set at 0.05.
+
+2.4
+
+## Co‐localization analysis
+For genes of significant relevance in both cohorts, co‐localization analysis of SKCM risk was conducted using the COLOC package (version 5.5.3). The analysis utilized cis‐eQTL and comprehensive outcome GWAS for co‐localization analysis., with default prior probabilities set as follows: p1 = 1E−4, p2 = 1E−4, p12 = 1E−5. p1, p2, and p12 are pre‐determined probabilities, representing the substantial connections between SNPs in the test region, gene expression, SKCM risk, or a combination of both. The posterior probabilities obtained from the co‐localization analysis conform to one of the following five hypotheses: PPH0, where the SNP is not correlated with any trait; PPH1, where the SNP is related to gene expression but not to SKCM risk; PPH2, where the SNP is associated with SKCM risk but not with gene expression; PPH3, although the driving gene expression levels and SNP related to SKCM occurrence are different, these two driving SNPs are highly linked. In other words, although they are not the same SNP, they are approximately equivalent from the perspective of genetic linkage; PPH4, where the SNP is related to both SKCM risk and gene expression, driven by common SNPs. The primary significance threshold for co‐localization was set at PPH4 > 0.80, and the secondary criterion was set at PPH3 + PPH4 > 0.8. The HEIDI test in SMR analysis is essentially a form of co‐localization analysis, as a HEIDI test p‐value greater than 0.05 generally indicates that gene expression and disease occurrence may be driven by the same SNP. However, this may be determined by the algorithm and not necessarily represent the true scenario. Neither positive outcomes of HEIDI tests nor co‐localization analyses can definitively confirm that gene expression and disease occurrence are necessarily driven by a single SNP. Therefore, using co‐localization analysis to supplement the HEIDI test findings in SMR analysis, particularly regarding pleiotropy (whether driven by the same causal SNP), aims to uncover more possibilities. We should not overlook those treatment targets with PPH3 + PPH4 > 0.8. Genes co‐localizing with SKCM are considered potential drug target genes.
+
+2.5
+
+## PheWAS analysis of the side effects of SKCM druggable genes
+To further assess the pleiotropy of potential drug targets and potential side effects, a comprehensive phenome‐wide association study (PheWAS) was conducted on the AstraZeneca PheWAS portal (https://azphewas.com/). The initial study utilized approximately 450 000 exome sequencing participants with around 15.5 thousand binary and 1.5 thousand continuous phenotype data points publicly available from the UK Biobank. Refer to the original source for a detailed description of the complete methodology. 
+
+2.6
+
+## Enrichment analysis
+To investigate the functional characteristics and biological relevance of the identified prospective therapeutic target genes, Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment study were done using the R package cluster Profiler, Pathview. About 773 genes used for enrichment analysis are identified as significantly associated genes with p < 0.05 in the SMR analysis. GO includes three terms: biological process (BP), molecular function (MF), and cellular component (CC). The KEGG pathway can provide metabolic pathway information. The Benjamini‐Hochberg method was employed to adjust p‐value (<0.05) to control the false discovery rate (FDR).
+
+2.7
+
+## PPI network construction
+By evaluating and analyzing protein–protein interaction (PPI) networks, researchers can gain a better understanding of how proteins interact within the cell. To explore interactions between genes, we employed the GeneMANIA database (https://genemania.org/) to construct a PPI network. The selected 12 genes and common melanoma target BRAF were used to investigate protein interactions.
+
+2.8
+
+## Candidate drug prediction
+Evaluating the interaction between genes and drugs is crucial for understanding whether a target gene can serve as a practical drug target. We further assessed whether the identified genes can serve as potential therapeutic targets by searching the interactions between these genes and drugs using DGIdb (https://www.dgidb.org/) databases. DGIdb is a quite extensive database, encompassing over 14 000 drug–gene interactions involving 2600 genes and 6300 drugs targeting these genes. Additionally, it includes 6700 other genes that are likely targets for new drugs. Uploading identified target genes to DGIdb allows for predicting candidate drugs to evaluate the drug activity of the target genes.
+
+2.9
+
+## Transcriptome differential analysis
+We compared the expression differences of the 12 candidate genes between normal tissues and malignant melanoma of the skin using R packages (ggplot2[3.3.6], stats[4.2.1], car[3.1.0]) for analysis and visualization. Perform statistical analysis using the Wilcoxon rank sum test method based on the selected data. All mRNA expression data and clinical data of malignant melanoma patients included in this study were sourced from two major databases, namely the TCGA (The Cancer Genome Atlas, TCGA tumors, 469 cases) database and the GTEx (Genotype‐Tissue Expression, normal, 812 cases) database. The TCGA database is a collaborative effort by multiple institutions and contains comprehensive molecular data from tumor samples, while the GTEx database provides genomic and expression data from normal tissues. By utilizing these databases, this study ensured a robust and representative dataset that encompasses both cancerous tissue samples and normal tissue samples, allowing for a comprehensive analysis of the mRNA expression profiles in malignant melanoma patients and their correlation with clinical outcomes.
+
+3
+
+## RESULTS
+3.1
+
+## In the discovery phase, 13 genes were found to be significantly correlated with the risk of SKCM
+We used the FinnGen Release 10 database for the SKCM trait GWAS for discovery. The database comprised 3194 European cases and 314 193 control cases. We employed SMR analysis, and at the whole‐genome threshold level (p value < 5e−8), we identified a total of 773 genes significantly associated with the risk of SKCM. Additionally, the main outcome revealed that the expression of 13 genes is causally related to SKCM, with FDR‐corrected p‐values remaining below 0.05. The forest plot in Figure  indicates that five genes (CDK10, SPATA33, SPG7, MAFF, SOX4) are protective factors associated with the occurrence of SKCM, while eight genes (SPATA2L, ZNF276, DBNDD1, ACSF3, TCF22, DEF8, HELZ2, APBA2) are identified as risk factors. In the heterogeneity test, the p‐value for the HEIDI test is greater than 0.05, indicating that the genes (SOX4, MAFF, HELZ2) are potential drug targets at a higher level.
+ 
+3.2
+
+## The replication of the 13 genes remained significant in both the original cohort and an independent SKCM cohort
+During the replication phase, we utilized GWAS data from the UK Biobank database (https://gwas.mrcieu.ac.uk/datasets/ieu‐b‐4969/), comprising 3751 cases and 372 016 European ancestry controls. By using SMR analysis and HEIDI test, the genetic predicted expression of the 13 genes was replicated, demonstrating a causal relationship with SKCM risk, and all genes remained statistically significant. In the HEIDI test, the p‐values for SOX4, MAFF, and HELZ2 are still more than 0.05, indicating the robustness of our SMR analysis results. The results are presented in Table  .
+ 
+3.3
+
+## Co‐localization analysis
+Previous studies have indicated that significant Mendelian randomization (MR) results may arise from single nucleotide polymorphisms (SNPs) in close linkage disequilibrium, and the SNP‐exposure and SNP‐outcome associations may stem from two different causal SNPs. Although the driving SNPs for gene expression levels and disease occurrence are different, these two driving SNPs exhibit a high degree of linkage. In other words, while they are not the same SNP, they are approximately equivalent from the perspective of genetic linkage. When SNPs are notably associated with both exposure and outcome, co‐localization analysis can be employed to investigate whether exposure and outcome share the same causal SNPs. There is evidence suggesting that gene identified through MR and co‐localization testing have a greater potential to serve as drug targets. Therefore, this study decided to perform co‐localization analysis on the 13 genes proposed in the previous analysis using data from the discovery phase. As shown in Supplementary , the co‐localization of 12 genes indicates their potential candidacy as drug target genes. Co‐localization analysis positivity is essentially a form of pleiotropy, meaning that co‐localization analysis positivity inherently assigns unique biological effects to genes and diseases. Co‐localization analysis further enhance the results of HEIDI tests and seeks potential outcomes for shared SNPs. Co‐localization analysis indicates a strong causal association between genes (SOX4, MAFF) and SKCM, categorized as Class 1 evidence targets (PPH4 > 0.8). APBA2, ACSF3, SPATA33, CDK10, DBNDD1, DEF8, SPATA2L, SPG7, TCF25, and ZNF276 show a moderately causal association with SKCM, categorized as Class 2 evidence targets (PPH3 + PPH4 > 0.8). As showed in Figure  , The colocalization analysis further indicates strong causal associations between these two genes (SOX4 and MAFF) and SKCM.
+ 
+3.4
+
+## Phenome‑wide association analysis
+In order to further assess whether the identified 12 potential drug target genes may have beneficial or harmful effects on other traits, this study conducted phenome‐wide association study (PheWAS) at the gene level using 17 361 binary phenotypes and 1419 quantitative phenotypes from the AstraZeneca PheWAS Portal database. The PheWAS results can be interpreted as associations between genetically determined gene expression and specific diseases or traits. As shown in Supplementary , among the 12 drug targets, there is no significant correlation at the gene level with other traits (genomic correlation p < 1E−8). Only for SPG7, a significant association with ataxia is observed when targeted for treatment, suggesting potential side effects of drugs acting on these targets. The presence of horizontal pleiotropy in these genes may have a minor impact on these targets. This further emphasizes the reliability of the results obtained in this study.
+
+3.5
+
+## Enrich analysis
+GO and KEGG enrichment analysis is commonly used to illustrate the relationships between genes and functional pathways. The significance cutoff for GO and KEGG enrichment analysis is generally set at a corrected p‐value < 0.05. As shown in Figure  and Supplementary , the most important pathways in the Biological Process (BP) category are associated with processes such as mitosis, nuclear division, chromosome segregation, and organelle division. In the cellular component (CC) category, drug target genes are primarily located in the spindle, centromere, and chromosome regions. Molecular function (MF) is mainly associated with functions such as microtubule binding, microtubule motor activity, and chemokine receptor binding. KEGG enrichment analysis primarily enriches pathways related to the cell cycle, cytokine–cytokine receptor interaction, and PPAR signaling.
+ 
+3.6
+
+## PPI
+PPI loads 12 drug target genes and five known targets into the GeneMANIA database for network creation and visualizes the generated files. As showed in Figure  , in addition to the 17 drug target points, the network also includes another 62 potential interacting genes, which including totally 243 interaction connections. Among them, there is gene co‐expression between SPATA2L and TCF25, DBNDD1 and DEF8, CDK10 and SPATA2L, DEF8 and TCF25, CDK10 and ACSF3, SPG7 and ACSF3, APBA2 and SOX4, MAFF and NTRK2, NTRK1 and APBA2, ZNF276 and ACSF3, BRAF and DBNDD1, NTRK3 and APBA2, NTRK2 and APBA2 (Table ). There are interactions between APBA2 and SOX4, NTRK3 and SOX4, NTRK2 and ZNF276, NTRK2 and DBNDD1, NTRK2 and SOX4, NRAS and ZNF276, NRAS and SPG7. Addtionally, BRAF and DEF8 share the same protein structural domains.
+
+3.7
+
+## Candidate drug prediction
+After inputting the 12 drug target genes into the DGIdb database, we found that SOX4, MAFF, ACSF3, CDK10, SPG7, and TCF25 are predicted to be druggable targets. Tables in Supplementary File respectively display the potential druggability results of the targets and the interactions between the screened genes and existing drugs.
+
+3.8
+
+## Transcriptome differential analysis
+We used TCGA_GTEx‐SKCM for differential expression analysis of 12 candidate genes identified by SMR, and the results are shown in Figure  below. Among the 12 genes, 11genes except DEF8 were expressed differently in the SKCM group and the normal control (adjust p value < 0.05).
+
+4
+
+## DISCUSSION
+This study employed SMR as the primary analysis tool and achieved significant research outcomes in the field of SKCM. We explored GWAS data to assess the causal relationships between SKCM and associated targets, aiming to discover new therapeutic targets and conduct in‐depth analyses of the potential druggability of these targets. In this study, we identified a total of thirteen genes (Figure  ). In the replication analysis, we validated all 13 genes, and the results consistent with those of the primary analysis and HEIDI tests. This further suggests a high association of shared causal variation among these genes. To investigate whether these targets have unique biological effects, specifically whether there is possibility for shared SNPs between gene expression levels and disease occurrence, we utilized HEIDI tests and co‐localization analysis to detect whether exposure and outcome share causal SNPs. The primary analysis of HEIDI test supported three genes sharing SNPs, and among these three genes, MAFF and SOX4 also received strong support from co‐localization analysis. Interestingly, except gene HELZ2, the remaining ten genes received secondary support from co‐localization analysis. The positivity of co‐localization analysis actually violates assumption of MR analysis. However, co‐localization analysis yields a unique result because this pleiotropy is orthogonal to genes; in other words, co‐localization analysis positivity does not undermine the principles of MR analysis but instead imparts unique biological significance, namely orthogonal pleiotropy. SNP‐driven changes in gene expression levels leading to disease occurrence. In summary, SOX4 and MAFF have the highest levels of evidence, while the evidence levels for APBA2, ACSF3, SPATA33, CDK10, DBNDD1, DEF8, SPATA2L, SPG7, TCF25, and ZNF276 are in second row. Phewas analysis further captures pleiotropy that SMR analysis did not identify and can also simulate potential drug side effects in targeted therapy. Except for SPG7, which is related to genetic ataxia, no significant side effects were found in the remaining targets. The results revealed no pleiotropy. Furthermore, this study conducted enrichment analysis and protein–protein interaction (PPI) network analysis to understand the biological significance of these drug targets. The results revealed that the related genes are mainly enriched in cell cycle, cytokine receptors and ligands, PPAR signaling pathways, and etc. These analyses help uncover the roles of these genes in biological processes and molecular functions, providing more clues for subsequent experiments and drug design. As BRAF is a known target for SKCM, our study further confirmed the interaction between DEF8, DBNDD1 genes, and BRAF, collectively influencing the occurrence and development of SKCM. We analyzed the differential expression of 12 candidate genes and found that all genes except DEF8 were expressed differently in the SKCM group and the normal control.
+PPI was used to examine whether there is interaction between our drug targets and whether there is interaction between drug targets and BRAF. We confirmed that two targets (DEF8 and DBNDD1) interact with BRAF, further validating the robustness of our results. Although our results do not include the BRAF gene, the presence of genes interacting with BRAF substantiates our findings.
+Diverging from studies that focus solely on specific pathways or biomarkers, we conducted a comprehensive investigation of the entire genome, providing a more thorough and comprehensive understanding of therapeutic targets for malignant melanoma (SKCM). Our research results not only confirmed genes known to be associated with SKCM but also revealed new potential key genes, offering fresh directions for future treatment strategies. In our study, we identified a series of known SKCM‐related genes such as CDK10, SPATA33, and SPG7. However, the most notable findings were the critical genes we discovered, with genes like SOX4 and MAFF showing significant correlations in the occurrence and development of SKCM. SOX4 (SRY‐Box Transcription Factor 4) is a gene encoding a transcription factor associated with the development of various tumor types, including breast cancer, gastric cancer, and malignant melanoma. , Previous research indicates that the SOX4 gene can promote melanoma cell migration and invasion by activating the NF‐κB/p65 signaling pathway. Additionally, SOX4 plays a crucial role in melanoma glycolysis metabolism through the AKT signaling pathway, regulating cell apoptosis and the cell cycle. Therefore, SOX4 emerges as a potential target for melanoma treatment. MAFF is one of the Maf transcription factors belonging to the AP1 superfamily. Several members of the MAFF transcription factor family have been reported to be involved in cancer development. Based on limited research on MAFF function, this gene may participate in tumor occurrence through its involvement in antioxidant reactions. Therefore, further functional studies of this gene in SKCM are necessary. The known BRAF mutations were not identified by our method, possibly due to over‐correction or gene collinearity. However, through PPI analysis, we not only confirmed the importance of BRAF but also revealed its interaction with DEF8 and DBNDD1. This discovery provides new insights into the role of BRAF in a broader network, laying a more comprehensive foundation for future treatment strategies. The identification of these new genes not only expands our understanding of the molecular mechanisms of SKCM but also provides powerful clues for future therapeutic targets.
+Despite offering a series of valuable findings, our study has some limitations. Firstly, these results are based solely on data from European individuals and may vary in other populations. Secondly, our study heavily relies on existing GWAS and eQTL data, and larger‐scale cohort studies and functional experiments in the future will help validate these findings. Thirdly, MR detection relies on blood eQTLs, but different tissues may have different genetic regulatory mechanisms. Focusing only on eQTLs in the blood may not provide a comprehensive understanding of the disease and its potential treatments. Additionally, despite the robust support from co‐localization analysis, more experimental validation is needed to confirm the biological functions and therapeutic potential of these genes. Despite efforts to minimize biases, MR analysis remains susceptible to unmeasured factors or pleiotropy, which could impact the results. Recognizing these limitations and their potential impact on study conclusions is essential. These limitations underscore the need for larger sample sizes and more detailed experimental designs in future research.
+
+5
+
+## CONCLUSION
+In conclusion, this study, through the integrated use of SMR and co‐localization analysis, discovered potential therapeutic target genes, offering new directions for the treatment of SKCM. The identification of two drug targets deemed significant in both cohorts (discovery and replicated cohorts), with support from co‐localization analysis, suggests their relevance. These genes indicate the potential to serve as effective therapeutic targets for SKCM. Future experiments and clinical studies will be needed to validate the therapeutic potential of these genes and drive new advancements in SKCM treatment.
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare that they have no conflict of interest.
+
+## ETHICS STATEMENT
+This research has been approved by the Ethics Committee of the Fourth Affiliated Hospital of Soochow University (Suzhou Dushu Lake Hospital).
+
+## Supporting information
+Supporting information
+
+## ACKNOWLEDGMENTS
+The authors thank the patients with SKCM in the included studies and all the researchers. This research was supported by the National Natural Science Foundation of China (81402477), Natural Science Foundation of Jiangsu Province of China (BK20140295), Jiangsu Government Scholarship for Oversea Studies ([2018] No. 73), Clinical Research Project of Wu Jieping Medical Foundation (320.6750.2021‐16‐62), Suzhou Science and Technology Plan (SZM2021012, SKY2022092, SZM2023031), Beijing Xisike Clinical Oncology Research Foundation (Y‐HH202101‐0059), Clinical Medicine peak project of Soochow Medical College, Soochow University (ML42900423).
+
+## DATA AVAILABILITY STATEMENT
+Data are available in a public, open access repository. Data analyzed in this study were a re‐analysis of existing data, which are openly available at locations cited in the main text.

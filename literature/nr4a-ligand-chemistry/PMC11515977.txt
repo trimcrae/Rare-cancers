@@ -1,0 +1,343 @@
+pmcPLoS OnePLoS One440plosoneplosPLOS ONE1932-6203PLOSPMC11515977PMC11515977.111515977115159773946682010.1371/journal.pone.0309749PONE-D-24-155741Research ArticleMedicine and Health SciencesOncologyCancers and NeoplasmsBreast TumorsBreast CancerBiology and Life SciencesCell BiologyCell ProcessesCellular Stress ResponsesBiology and Life SciencesGeneticsGene TypesRegulator GenesBiology and Life SciencesGeneticsGene ExpressionBiology and Life SciencesCell BiologySignal TransductionCell SignalingSignaling CascadesStress Signaling CascadeBiology and Life SciencesComputational BiologyGenome AnalysisTranscriptome AnalysisBiology and Life SciencesGeneticsGenomicsGenome AnalysisTranscriptome AnalysisBiology and Life SciencesCell BiologyCell ProcessesCellular Stress ResponsesEndoplasmic Reticulum Stress ResponseBiology and Life SciencesCell BiologyCell ProcessesCell DeathApoptosisTranscriptomic analysis of cellular senescence induced by ectopic expression of ATF6α in human breast cancer cells
+Transcriptomic analysis of ATF6α-induced cellular senescenceKimJu WonConceptualizationData curationFormal analysisInvestigationMethodologyResourcesSoftwareValidationVisualizationWriting – original draft BaeSo-HyunConceptualizationData curationFormal analysisInvestigationMethodologyResourcesSoftwareValidationVisualizationWriting – original draft https://orcid.org/0000-0001-9039-9593MoonYesolData curationFormal analysisInvestigationMethodologyResourcesSoftwareValidationVisualization https://orcid.org/0000-0003-1745-6461KimEun KyungData curationFormal analysisInvestigationMethodologyResourcesSoftwareValidationVisualizationWriting – review & editing KimYongjinData curationFormal analysisInvestigationMethodologyResourcesSoftwareSupervisionValidationVisualization ParkYun GyuProject administrationSupervisionWriting – review & editing HanMi-RyungConceptualizationData curationFormal analysisFunding acquisitionProject administrationResourcesSoftwareSupervisionValidationVisualizationWriting – original draftWriting – review & editing https://orcid.org/0000-0003-2395-458XSohnJeongwonConceptualizationData curationFormal analysisFunding acquisitionProject administrationResourcesSoftwareSupervisionValidationVisualizationWriting – original draftWriting – review & editing 1
+Department of Biochemistry and Molecular Biology, Korea University College of Medicine, Seoul, South Korea2
+Division of Life Sciences, College of Life Sciences and Bioengineering, Incheon National University, Incheon, South Korea3
+Korea Institute of Molecular Medicine and Nutrition, Seoul, South KoreaDattaAniruddhaEditor files. In addition, We have deposited our RNAseq data files in the Gene Expression Omnibus (GEO) database. The data generated in this study is available in the GEO database under accession code GSE270286. The URL for accessing the data is https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE270286.
+
+## Data Availability
+All relevant data are within the manuscript and its files. In addition, We have deposited our RNAseq data files in the Gene Expression Omnibus (GEO) database. The data generated in this study is available in the GEO database under accession code GSE270286. The URL for accessing the data is https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE270286.
+
+## Introduction
+Cellular senescence is a stress response activated by various stimuli, such as telomere attrition, oxidative stress, and oncogene activation. Our previous study has revealed that endoplasmic reticulum (ER) stress plays a role in cellular senescence elicited by NBR1 abrogation, UV irradiation, or ectopic expression of HRAS-V12 [ ]. Furthermore, we have discovered that ATF6α, a key unfolded protein response (UPR) sensor molecule, mediates ER stress-induced cellular senescence [ ]. The ectopic expression of ATF6α alone was sufficient to cause cellular senescence in MCF-7 human breast cancer cells as well as Caki-1 human renal cancer cells. To unravel the molecular mechanism underlying cellular senescence driven through the ER stress-ATF6α pathway, we conducted transcriptomic analyses on MCF-7 cells expressing ATF6α. MCF-7 cells are used as a human breast cancer cell line model due to its estrogen receptor (ER) (+)/PR(+)/HER2(−) status [ ]. Indeed, over 70% of breast cancer patients have been known in the status of estrogen receptor (ER) (+)/PR(+)/HER2(−), thus MCF-7 cells are thought to be one of the relevant cancer cell lines for studying breast cancer [ ]. In particular, our study focused on the early stage of cellular senescence, examining transcriptomic changes as early as 6 and 9 hours after ectopic expression of ATF6α.
+Cancer therapies elicit cellular senescence in both cancer cells and their microenvironment, a phenomenon known as therapy-induced cellular senescence (TIS). While TIS may be a desired outcome of cancer therapy, senescent cells can inadvertently promote the growth of neighboring cancer cells through the secretion of growth factors, contributing to the development of therapy resistance by enhancing cell survival. Moreover, cellular senescence has been associated with the promotion of epithelial-mesenchymal transition [ ], metastasis [ ] and generation of cancer stem cells [ ]. During cancer therapy, ER stress is known to be induced [ , ]. Notably, ATF6α pathway of ER stress/UPR enhances cell survival against cancer therapy [ ], suggesting that TIS may be mediated through ER stress, particularly via the ATF6α pathway.
+Transcriptomics, the study of RNA transcripts produced by the genome, connects the genome, proteome, and cellular phenotype. Recent technological advances in sequencing have enabled the comprehensive profiling of senescence-associated signatures at the genomic level. Various experimental models and environmental contexts have been employed to investigate the transcriptomic and proteomic patterns of senescent cells [ – ]. These studies unveiled the heterogenous nature of cellular senescence, with distinct transcriptome signatures associated with cell types and specific senescence-inducing stresses [ ]. Moreover, transcriptomic states of senescent cells evolve over time. Increasing evidence emphasizes the significance of time-series gene expression data for comprehending the progression of disease and developmental processes [ , ]. Given the heterogenous and temporally dynamic nature of cellular senescence, it is essential to explore the transcriptomic profile for each cell type exposed to a specific senescence-inducing stimulus at different stages of cellular senescence. In this study, our goal is to comprehend the early-stage molecular mechanism of cellular senescence induced or mediated by the ER stress-ATF6α pathway in the MCF-7 breast cancer cell line.
+Consequently, the modulation of cellular senescence in cancer therapy is currently an actively investigated area. Understanding the molecular mechanisms underlying ER stress-induced cellular senescence holds promise for the development of novel strategies in cancer therapy. Our study aims to provide insight into the early-stage mechanisms driving ER stress-induced cellular senescence in MCF-7 human breast cancer cells.
+
+## Methods
+
+## Whole transcriptome sequencing
+For the whole transcriptome sequencing of individual MCF-7 cells from three distinct time points (baseline, 6 hours, and 9 hours after ATF6α ectopic expression), total RNA was extracted with Trizol reagent (Invitrogen, USA). Assessment of RNA quality was conducted using the Agilent 2100 bioanalyzer (Agilent Technologies, Amstelveen, NL). RNA quantification was achieved with the ND-2000 Spectrophotometer (Thermo Inc., DE, USA). Libraries were prepared from total RNA utilizing the NEBNext Ultra II Directional RNA-Seq Kit (NEB Inc., UK). mRNA isolation was carried out using the Poly(A) RNA Selection Kit (Lexogen, Inc., Vienna, Austria), and subsequent cDNA synthesis followed the manufacturer’s instructions. Indexing was performed using the Illumina indexes 1–12 (Illumina, Inc., USA). The enrichment step involved PCR. Subsequently, libraries were checked using the Agilent 2100 bioanalyzer and the TapeStation HS D1000 Screen Tape (Agilent Technologies, Amstelveen, NL) to evaluate the mean fragment size. Quantification was performed using the library quantification kit on a StepOne Real-Time PCR System (Life Technologies, Inc., USA). High-throughput sequencing employed paired-end 100 sequencing on HiSeq X10 and NovaSeq 6000 platforms (Illumina, Inc., USA).
+
+## Whole transcriptome analysis
+Quality assessment of raw sequences was performed by FastQC (v.0.11.9). Low-quality and adapter sequences were eliminated with trimgalore (v.0.6.5–1) before the analysis. The remaining sequences were aligned to the human GRCh38 reference genome using the 2-pass method of STAR (v2.7.3a) [ ]. Sequence reads were assigned to genes and the count table was generated by featureCounts (v.2.0.0) [ ].
+
+## Differentially expressed genes (DEGs) analysis
+Differential expression analysis utilized the DESeq2 R package [ ]. For two group comparisons between MCF-7 cells without ATF6α ectopic expression and those after 6 (6h-DEGs) or 9 hours of overexpressing ATF6α (9h-DEGs), the log2 transformed fold change (log2FC) and p-values were calculated. False discovery rate (FDR)-adjusted p-values were generated using the Benjamini–Hochberg method. DEGs were defined by the following criteria: FDR < 0.05 and |log2FC| > 1. To identify significant changes in time-related gene expression patterns across three-time points (time-related DEGs), the maSigPro R package [ ] designed specifically for analyzing time-series gene expression data was employed. Stepwise regression was conducted with an R square of 0.8 and a Benjamini-Hochberg FDR of 0.05.
+
+## Pathway analysis of cellular senescence
+In order to unravel the interconnected pathways associated with DEGs, our study employed Ingenuity pathway analysis (IPA) software (Qiagen, Redwood City, CA). The analysis encompassed network analysis, enriched function annotation, upstream regulator analysis, and canonical pathway analysis. IPA utilizes a network generation algorithm to split the network map between molecules into distinct networks and assigns scores to each network. The scores reflect the degree of concordance with the set of focus genes in the Ingenuity analysis. The resulting networks are graphically represented as diagrams illustrating the biological connections and relationships among genes and their corresponding protein products. The consistency score in upstream regulator analysis denotes the extent of agreement between the predicted activation or inhibition of upstream regulators and the expression patterns of its downstream target genes.
+
+## Gene set enrichment analysis (GSEA)
+To interpret gene expression data by analyzing the shared common biological functions of gene sets, we employed Gene Set Enrichment Analysis software from the Broad Institute [ ]. A pre-ranked GSEA analysis was conducted using the Hallmark gene set collection (50 gene sets) from the Molecular Signature Database (MSigDB v2022.1). According to the established criteria for GSEA, FDR < 0.25 was used as a cutoff value.
+
+## Reverse transcription-polymerase chain reaction (RT-PCR)
+Total cellular RNA was isolated using Trizol reagent (Invitrogen, USA) according to the manufacturer’s instructions. RT-PCR was carried out as previously described [ ] using the following primers: β-actin, 5′-CAGAGCAAAGAGGCATC-3′ (forward) and 5′-GGTAGATGGGCACAGTAT-3′ (reverse); ATF3, 5′-AGGCAATGTACTCTTCCGATGT-3′ (forward) and 5′-ACAGAGGACCTGCCATCATACT-3′ (reverse); ATF6α, 5′-TTTCCGTGACTAAACCTGTCCT-3′ (forward) and 5′-TGTTCCAACATGCTCATAGGTC-3′ (reverse); CHAC1, 5′-TGAATACTTGCTGCGTCTGG-3′ (forward) and 5′-TATCTGCTCAGTGGGCTCAA-3′ (reverse); DDIT3, 5′-CAGATGAAAATGGGGGTACCTA-3′ (forward) and 5′-AATGACCACTCTGTTTCCGTTT-3′ (reverse); EIF2AK3, 5′-AGCCCACCAGTAGCAAATCT-3′ (forward) and 5′-ATCCTGGTCCATTGCAGTCA-3′ (reverse); HERPUD1, 5′-CAGGGACTTGCTTCCAAAGGA-3′ (forward) and 5′-GGTGGAACAAAAGCCCCTGA-3′ (reverse); HSPA5, 5′-TGGACGGTTTCACCACACTT-3′ (forward) and 5′-TTTGCCGAGGGCATCACATA-3′ (reverse).
+
+## Small interfering RNA (siRNA) and plasmid transfection
+The plasmid for ATF6α cDNA (p3xFLAG-ATF6) was acquired from Addgene (Watertown, USA). siRNA and plasmid transfections were performed using Lipofectamine RNAiMAX and LipofectamineTM 2000 (Thermo Fisher Scientific, USA), respectively, according to the manufacturer’s instructions. siRNAs were purchased from Bioneer (Korea). The coding strand sequences of the siRNAs were as follows: 5′-CCUACGCCACCAAUUUCGU-3′ (control), MAP2K1-1, 5′-UCUACUGUGGUGAUCUGUA-3′; MAP2K1-2, 5′-CUGUCUACUGUGGUGAUCU-3′; MAP2K2-1, 5′-UCACCAUCAACCCUACCAU-3′; MAP2K2-2, 5′-CUCACAAACCACACCUUCA-3′; PDGFB-1, 5′-CUCGAUCCGCUCCUUUGAU-3′; PDGFB-2, 5′-GUGUACUGCACAAGGACAU-3′; DDIT3-1, 5′-CAGAAGUGGCUACUGACUA-3′; DDIT3-2, 5′-CUGCAAGAGGUCCUGUCUU-3′.
+
+## Senescence associated-β-galactosidase (SA-β-gal) staining
+SA-β-gal staining was performed as described by Kim et al. [ ]. In brief, cells in 60-mm dishes were fixed with 0.2% glutaraldehyde in PBS for 20 min at 25°C. Subsequently, the fixed cells were incubated in the SA-β-gal staining solution [1 mg/ml 5-bromo- 4-chloro-3-indolyl-β-D-galactopyranoside, 5 mM K3Fe(CN)6, and 2 mM MgCl2 in PBS, (pH 6.0)], for 16 hours at 37°C. The stained cells were observed using an inverted fluorescence microscope (Eclipse 80i, Nikon, USA).
+
+## Results
+
+## DEGs regulated by ATF6α ectopic expression
+To explore the genes exhibiting significant expression changes resulting from ATF6α ectopic expression in MCF-7 cells, we conducted whole transcriptome sequencing across three distinct time points ( ).
+ At 6 and 9 hours after ATF6α overexpression, we identified a total of 12 and 79 genes of DEGs, referred to as 6h-DEGs and 9h-DEGs, respectively. These genes were selected based on a FDR < 0.05 and a lower fold change (FC) cutoff of |log2FC| > 1 (Tables and ).
+ Employing time-series analysis, 20 genes were identified as time-related DEGs ( ).
+ In MCF-7 cells overexpressing ATF6α for 6 hours, genes such as ATF6, DNAJB9, CHAC1, HERPUD1, DDIT3, and ATF3 were included in 6h-DEGs ( ). Notably, all 6h-DEGs were also detected in 9h-DEGs. In MCF-7 cells overexpressing ATF6α for 9 hours, genes that exhibited differential expression compared to the 6-hour time point included WIPI1, PPP1R15A, EIF2AK3, GABARAPL1, HSPA5, PER1, MXD1, IL6, and PIK3R5 ( ). The mRNA levels of selected 6h-DEGs ( , and Figs) and 9h-DEGs ( , and Figs) were validated through RT-PCR analysis. The results show that the majority, though not all, of the indicated DEGs are up-regulated in their mRNA expression in a time-dependent manner following ATF6α overexpression.
+
+## Gene network analysis
+To delineate the implicated pathways and investigate the potential signaling networks among the DEGs, we have employed the IPA software. depicts the networks with the highest scores for each DEGs dataset.
+ The top-scoring network derived from the 6h-DEGs, characterized by ATF3, ATF6, and DDIT3, was related to cell-to-cell signaling and interaction, cellular compromise, and cellular function and maintenance (score = 22, ). The top-scoring network for the 9h-DEGs, also consisting of ATF3, ATF6, and DDIT3, was associated with cell-to-cell signaling and interaction, nutritional disease, and organismal injury and abnormalities (score = 41, ). Additional networks from 9h-DEGs were found to be associated with the signaling pathway of cellular senescence ( ). The network analysis involving time-related DEGs revealed only one network encompassing ATF3, ATF6, and TP53 (score = 9, ). This network was linked to cancer, cell death and survival, and neurological disease.
+
+## Upstream regulator analysis
+Utilizing the regulator effect function of the IPA software, we investigated potential regulators that could explain the differences in expression patterns between MCF-7 cells without overexpressing ATF6α and those with overexpressing ATF6α for 9 hours. This analysis unveiled six key regulators and eleven target genes ( and ).
+ The identified regulators encompass cyclin dependent kinase 19 (CDK19), platelet-derived growth factor BB (PDGFBB), tumor necrosis factor (TNF), RB transcriptional corepressor 1 (RB1), mitogen-activated protein kinase kinase 1/2 (MAP2K1/2), and glycerol-3-phosphate acyltransferase 4 (GPAT4). Notably, CDK19, PDGFBB, TNF, and RB1 are linked to cytostasis, while MAP2K1/2 and GPAT4 are associated with cell viability and cell death of connective tissue cells.
+
+## Enriched functional annotation and canonical pathway analysis
+To discern the functional implications of the three types of DEGs, enriched functional annotation was conducted, identifying significantly enriched biological functions. The top 10 functions along their corresponding p-values are listed in (FDR < 0.05, |log2FC| > 1).
+ Commonly enriched functional annotations in both 6h-DEGs and 9h-DEGs encompass endoplasmic reticulum stress response, asbestosis, and stress response of cells, as well as functions associated with cell death and apoptosis.
+Canonical pathway analysis revealed shared signaling pathways across all three types of DEGs. These included UPR, ER stress pathway, and endocannabinoid cancer inhibition pathway ( ).
+ Notably, genes such as ATF6, ATF3, and DDIT3 were recurrently emerged in these pathways. In addition, canonical pathways derived from both 6h-DEGs and 9h-DEGs included NRF2-mediated oxidative stress response and EIF2 signaling, while those from time-related DEGs encompassed PI3K signaling in B lymphocytes, ID1 signaling pathway and sirtuin signaling pathway ( ). These results suggest that the ectopic expression of ATF6α in breast cancer cells trigger diverse signaling pathways that impact the fate of these cells, including those associated with proliferation, cell death, or senescence.
+
+## GSEA
+To further investigate molecular signaling pathways that are differentially activated in MCF-7 cells overexpressing ATF6α for 6 or 9 hours, GSEA was conducted. The analysis revealed significant differences (FDR < 0.25) in the enrichment of the hallmark gene sets. The top 5 enriched pathways at each time points were selected based on their normalized enriched scores (NES). As shown in , the Myc targets v1 pathway, mTORC1 signaling pathway, UPR pathway, androgen response pathway, and G2M checkpoint pathway were differentially enriched in MCF-7 cells after 6 hours of ATF6α ectopic expression.
+ Additionally, the interferon alpha response pathway, interferon gamma response pathway, IL6-JAK/STAT3 signaling pathway, UPR pathway, and KRAS signaling pathway were enriched in MCF-7 cells after 9 hours of ATF6α ectopic expression ( ). These findings suggest that the Myc and mTORC1 signaling pathways, previously associated with cellular senescence, are among the earliest activated signaling pathways contributing to cellular senescence induction by ectopic expression of ATF6α.
+
+## Validation of regulatory molecules and pathways identified through upstream regulator analysis
+To validate the regulatory molecules and pathways identified through upstream regulator analysis, we conducted functional experiments targeting four regulators, namely PDGF-BB, TNF, MAP2K1/2 and GPAT4, predicted to exhibit increased expression or activity. Using siRNA-mediated knockdown, we individually assessed the impact of these regulators on cellular senescence, measured by senescence-associated β-galactosidase (SA-β-gal) staining ( and ).
+ MCF-7 cells were co-transfected with ATF6α cDNA and siRNA targeting one of the regulatory genes, and after 5 days, cellular senescence was evaluated. Remarkably, knockdown of PDGFB, MAP2K1/2 (MAP2K1 or MAP2K2) or GPAT4 significantly mitigated cellular senescence ( ).
+Subsequently, we explored the roles of downstream targets of PDGF-BB, MAP2K1/2 and GPAT4 in senescence induction. Among the annotated downstream targets of MAP2K1/2 and GPAT4, knockdown of DDIT3 exhibited a preventive effect on cellular senescence ( ). Furthermore, MAP2K1/2 and GPAT4 were observed to upregulate DDIT3 mRNA expression in that knockdown of MAP2K1, MAP2K2 or GPAT4 inhibited the increase in DDIT3 mRNA expression induced by the ectopic expression of ATF6α ( and – Figs).
+ Taken together, these findings suggest that the MAP2K1/2/GPAT4-DDIT3 axis may play a pivotal role in cellular senescence induced by the ectopic expression of ATF6α.
+Similarly, among the annotated targets of PDGF-BB, knockdown of PPP1R15A and IL-6 attenuated cellular senescence ( ). However, RT-PCR analysis revealed that knockdown of PDGFB did not distinctly affect the mRNA expression of PPP1R15A and IL6, indicating that PDGF-BB may not directly regulate their mRNA expression ( and Figs). This finding emphasizes the necessity for further exploration to better understand the roles and interplay between PDGF-BB and PPP1R15A/IL6 in the context of cellular senescence.
+ATF3 was identified as a target of both MAP2K1/2 and GPAT4, frequently appearing in the gene network analysis and enriched functional annotations. However, knockdown of ATF3 did not affect cellular senescence induced by the ectopic expression of ATF6α ( ). This suggests a nuanced relationship between ATF3 and cellular senescence, highlighting the complexity of the regulatory network involved in cellular senescence.
+Since MCF-7 cells have estrogen receptor (ER)(+)/PR(+)/HER2(-) phenotypes, which represent more than 70% of human breast cancers [ ]. We analyzed overall survival (OS) of breast cancer patients with high and low expressions of ATF6α using Kaplan-Meier plotter (https://kmplot.com/analysis), showing that breast cancer patients with high ATF6α expression levels have decreased OS rates compared to those of low ATF6α expression levels. Furthermore, breast cancer patients with high expression levels of the ATF6α-MAP2K1/2-DDIT3 axis also showed decreased OS rates ( ). The data indicate that cellular senescence might be a key event associated with chemoresistance, epithelial mesenchymal transition (EMT), metastasis and production of cancer stem cell (CSC).
+Overall, these results underscore the significance of the MAP2K1/2/GPAT4-DDIT3 axis in the induction of cellular senescence through the ectopic expression of ATF6α in MCF-7 cells.
+
+## Discussion
+In this study, we conducted transcriptomic analysis of MCF-7 cells to unravel the intricate molecular mechanisms driving ER stress-induced cellular senescence. Based on our prior discovery that the ER stress-induced senescence is mediated by the UPR sensor molecule ATF6α [ ], we induced cellular senescence through the ectopic expression of ATF6α in MCF-7 cells. To investigate the initial molecular events triggering cellular senescence, transcriptomic analysis was conducted at early time points, specifically 6 and 9 hours following ATF6α ectopic expression. Employing 6h-DEGs, 9h-DEGs, and time-related-DEGs, we conducted a comprehensive analysis including network analysis, enriched functional annotation, canonical pathway analysis, GSEA, and upstream regulator analysis.
+Validation of the molecules identified in the upstream regulator analysis revealed the significance of the MAP2K1/2-DDIT3 axis in the induction of cellular senescence via ectopic expression of ATF6α. Enriched functional annotation and canonical pathway analyses corroborated the involvement of cellular functions or pathways known for their crucial involvement in cellular senescence, supporting the validity of our analyses. Functional annotations such as ER stress response, asbestosis, stress response of cells and annotations related to cell death and apoptosis were identified from 6h-DEGs and 9h-DEGs. Canonical pathway analysis identified ER stress-related pathways and other pathways associated with cellular senescence, including the ID1 signaling pathway [ ], PI3K signaling pathway [ ], endocannabinoid cancer inhibition pathway [ , ], NRF2-mediated oxidative stress response [ , ], autophagy [ ], and sirtuin signaling pathway [ , ]. Notably, many senescence-related pathways were regulated within 9 hours following ATF6α ectopic expression.
+Top scoring gene networks derived from 6h-DEGs and 9h-DEGs were associated with cell-to-cell signaling and interaction, featuring upregulated nodes such as ATF6, ATF3 and DDIT3. These genes were also identified in enriched functional annotation and canonical pathway analyses. DDIT3 emerged as a key player in cellular senescence induced by ectopic expression of ATF6α, as knockdown of DDIT3 prevented cellular senescence. Also known as GADD153 or CHOP, DDIT3 belongs to the CCAAT/enhancer-binding protein (C/EBP) family transcription factor and is a well-established ER stress marker downstream of UPR activation pathways [ ]. Despite its known role in inducing apoptotic pathways, DDIT3 has been reported to promote senescence in alveolar epithelial cells [ ] and in PCSK6 deficient H9c2 cells [ ]. Moreover, it was demonstrated that DDIT3 expression increases with age [ ], but its direct relevance to human aging has not been conclusively established. Our findings suggest a potentially important role of DDIT3. ATF3, a stress-responsive transcription factor belonging to the ATF/cAMP response element-binding (CREB) protein family, has been implicated in reconstructing chromatin accessibility to facilitate cellular senescence [ ]. However, conflicting reports on the role of ATF3, both promoting and inhibiting effect on cellular senescence, exist in the literature [ , ], highlighting its context-dependent role in this process. In our model system, knockdown of ATF3 did not exhibit any significant impact on cellular senescence. The top scoring gene network derived from 9h-DEGs also included well-known regulators of cellular senescence, such as PI3K [ ], p38 MAPK [ ] and IL-6 [ ]. Additionally, the network identified from time-related-DEGs included TP53, a key gene associated with cellular senescence in responses to stress [ ]. Taken together, among the six common denominator genes, ATF6, DNAJB9, CHAC1, HERPUD1, DDIT3, and ATF3, of 6-DEGs and 9-DEGs ( ), the ATF6, DDIT3, and ATF3 genes were implicated in cellular senescence. The roles of the DNAJB9, CHAC1, HERPUD1 genes in senescence induction have not been reported but these genes are all involved in tumorigenesis in breast cancers [ – ].
+Upstream regulator analysis with 9h-DEGs identified six regulators and eleven targets related to cytostasis and ‘cell viability and cell death of connective tissue cells.’ Among the regulators that were upregulated or predicted-to-be-activated, knockdown MAP2K1/2, PDGFB or GPAT4 significantly prevented cellular senescence induced by ectopic expression of ATF6α. Knockdown of DDIT3, a target of MAP2K1/2 and GPAT4 also inhibited cellular senescence. MAP2K1/2, known as MEK1/2, functions as upstream kinases of ERK1/2, a pathway well-documented in cellular senescence [ , ]. ERK1/2 has been reported to activate DDIT3 expression [ , ]. Our study also provides evidence that ERK1/2 is involved in cellular senescence induced by the ectopic expression of ATF6α, as shown by the prevention of cellular senescence with the chemical inhibitor Ravoxertinib ( ). GPAT4, or Lysophosphatidic Acid Acyltransferase Zeta, catalyzes the conversion of glycerol-3-phosphate to 1-acyl-sn-glycerol-3-phosphate (lysophosphatidic acid) by incorporating an acyl moiety at the sn-1 position of the glycerol backbone. Although the role of GPAT4 in cellular senescence remains largely unknown, a report suggests that silencing lysophosphatidic acid receptor 1 in mesenchymal stem cells confers resistance to cellular senescence [ ]. Our study reveals that ATF6 α overexpression or activation seems to activate MAP2K1/2 (and GPAT4), which in turn regulates the mRNA expression of DDIT3 or increases DDIT3 activity via MAP2K1/2-mediated ERK1/2 activation [ ], underscoring the involvement of MAP2K1/2/GPAT4-DDIT3 pathway in cellular senescence.
+Additionally, upstream regulator analysis also highlights a significant role of PDGF-BB as a regulator in ER stress/ATF6α-induced cellular senescence. PDGF-BB, a mitogenic growth factor composed of two B subunits of PDGF, has been shown to induce cellular senescence in certain cell types such as human dermal fibroblasts [ ] and smooth muscle cells [ ]. Knockdown of its predicted targets, PPP1R15A or IL-6, resulted in the attenuation of cellular senescence. However, inhibition of PDGF-BB did not seem to regulate the mRNA expression of PPP1R15A or IL-6, leaving the intermediate target responsible for PDGF-BB-induced senescence unknown. Further investigation is essential for a comprehensive understanding of the regulatory axis involving PDGF-BB.
+GSEA analysis conducted with 6h-DEGs and 9h-DEGs unveiled enriched signaling pathways potentially driving cellular senescence upon ectopic expression of ATF6α. Specifically, GSEA with 6h-DEGs highlighted the importance of MYC and mTORC1 signaling in driving cellular senescence. A substantial body of literature supports the role of mTOR in cellular senescence [ , ]. mTOR plays a pivotal role in promoting the senescence-associated secretory phenotype, and its inhibition has demonstrated to prevent cellular senescence induced by various cellular stresses. While oncogenic activation of MYC typically induces apoptosis as a failsafe mechanism against cellular transformation, it can also trigger cellular senescence. However, the literature presents both pro-senescent effects [ , ] and anti-senescent effects [ ] of MYC. GSEA analysis with 9h-DEGs indicated the enrichment of the interferon-alpha (IFN-α) response and the interferon-gamma (IFN-γ) response. Previous studies have revealed that IFN-γ [ ] and IFN-α [ ] can induce cellular senescence in various human cell types. IFN-γ not only induces cellular senescence but also leads to oxidative stress and DNA damage [ ]. These results suggest that multiple signaling pathways might be directly or indirectly involved in inducing ER stress-mediated cellular senescence, and over time, changes in the main signaling pathways that induce cellular senescence may occur.
+Comprehending the molecular mechanisms underlying ER stress-induced cellular senescence holds promise for developing new strategies in cancer therapy. Therapy-induced senescence (TIS) mediated through ER stress/UPR can play a pivotal role in promoting therapy resistance, cancer progression and recurrence. Given the highly variable senescence phenotype depending on cell type, senescence-inducing stimuli, and temporal stages of cellular senescence [ ], it becomes necessary to investigate TIS mechanisms individually for each cancer type and at different stages of cellular senescence. Our study contributes valuable insights into the transcriptomic profile and the mechanism of ER stress-induced cellular senescence in a breast cancer cell line, MCF-7, which has estrogen receptor (ER) (+)/PR(+)/HER2(−) phenotypes, specifically focusing on the early stage of cellular senescence. This research provides a foundational understanding that opens potential therapeutic avenues for breast cancer intervention.
+
+## Supporting information
+S1 Fig
+
+## mRNA expression levels of selected genes in the 6h-DEGs and 9h-DEGs after ATF6α ectopic expression.
+(A, B) MCF-7 cells were transfected with ATF6α cDNA or an empty vector DNA as a control. RT-PCR was conducted to assess the mRNA levels of the indicated genes selected from the 6h-DEGs (A) or 9h-DEGs (B) in MCF-7 cells after ATF6α ectopic expression. Data represent three independent experiments with similar results. Ctrl, control; ATF6 O/E, ATF6α overexpression.
+(TIF)
+S2 Fig
+
+## Gene interaction networks of 9h-DEGs.
+(A) Gene network of 9h-DEGs with a score of 24, associated with cell cycle, cellular development, and connective tissue development and function. (B) Gene network of 9h-DEGs with a score of 20, linked to cellular development, cellular growth and proliferation, and cellular movement. (C) Gene network of 9h-DEGs with a score of 18, related to hematological system development and function, humoral immune response, and lymphoid tissue structure and development. (D) Gene network of 9h-DEGs with a score of 8, associated with cell-to-cell signaling and interaction, hematological system development and function, and immune cell trafficking. The legend illustrates the relationship between molecules within the network and their activation state.
+(TIF)
+S3 Fig
+
+## Validation of roles of regulators and targets identified through upstream regulator analysis in cellular senescence induced by ATF6α ectopic expression.
+MCF-7 cells were co-transfected with ATF6α cDNA, and control siRNA (SC) or siRNA for the indicated genes. After 5 days, SA-β-gal staining was performed. (A, C, E, G) Light microscopic images represent three independent experiments. (B, D, F, H) Percentages of SA-β-gal (+) cells were plotted. (I, K, M) Light microscopic images represent three independent experiments. (J, L, N) Percentages of SA-β-gal (+) cells were plotted. Data represent the mean of triplicate determinations ± S.D. (O, P) MCF-7 cells were transfected with ATF6α cDNA or an empty vector and treated with 100 nM Ravoxertinib, an ERK inhibitor, or 500 nM Trametinib, a MEK1/2 inhibitor. After 5 days, SA-β-gal staining was performed. Data represent the mean of triplicate determinations ± S.D. Ctrl, control; ATF6 O/E, ATF6α overexpression. * P<0.05; ** P<0.01; *** P<0.001; ns, non-significant.
+(ZIP)
+S4 Fig
+
+## Regulation of PPP1R15A and IL-6 mRNA expression by PDGF-BB at 9 hours after ATF6α ectopic expression in MCF-7 cells.
+MCF-7 cells were co-transfected with ATF6α cDNA, and control siRNA (si-SC) or PDGFB siRNA. RT-PCR was conducted to assess mRNA levels of PPP1R15A and IL-6 at 9 hours after ATF6α ectopic expression. Data are representative of three independent experiments with similar results.
+(TIF)
+S5 Fig
+
+## Overall Survival (OS) analysis of breast cancer patients with high and low expressions of ATF6α for the ATF6α-MAP2K1/2-DDIT3 axis.
+The OS of breast cancer patients with high and low expressions of ATF6α was analyzed by Kaplan-Meier plotter (https://kmplot.com/analysis). (A) The OS curves of breast cancer patients with high and low expression levels of ATF6. (B) The OS curves of breast cancer patients with high and low expression levels of MAP2K1. (C) The OS curves of breast cancer patients with high and low expression levels of MAP2K2. (D) The OS curves of breast cancer patients with high and low expression levels of DDIT3. Hazard ratio (HR), log rank P values, and the number of patients (n) were indicated in the plots.
+(TIF)
+S6 Fig
+
+## The original gel images of .
+Data represnet the raw uncropped images of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S7 Fig
+
+## The original gel images of .
+Data represnet the raw uncropped images of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S8 Fig
+
+## The original gel images of .
+Data represnet the raw uncropped images of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S9 Fig
+
+## The original gel images of the 6h lane of .
+Data represnet the raw uncropped images of the 6h lane of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S10 Fig
+
+## The original gel images of the 9h lane of .
+Data represnet the raw uncropped images of the 9h lane of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S11 Fig
+
+## The original gel images of the 6h lane of .
+Data represnet the raw uncropped images of the 6h lane of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S12 Fig
+
+## The original gel images of the 9h lane of .
+Data represnet the raw uncropped images of the 9h lane of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+S13 Fig
+
+## The original gel images of .
+Data represnet the raw uncropped images of . M, Molecular weight markers; X, lanes not included in the figures.
+(TIF)
+
+## Abbreviations
+ATF6activating transcription factor 6α
+EREndoplasmic Reticulum
+UPRunfolded protein response
+PRprogesterone receptor
+HER2human epidermal growth factor receptor 2
+TIStherapy-induced cellular senescence
+DEGdifferentially expressed genes
+siRNAsmall interfering RNA
+SA-β-galsenescence associated-β-galactosidase
+ 10.1371/journal.pone.0309749.r001Decision Letter 0
+DattaAniruddhaAcademic Editor© 2024 Aniruddha Datta2024Aniruddha Dattahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+24 May 2024
+
+PONE-D-24-15574Transcriptomic analysis of cellular senescence induced by ectopic expression of ATF6α in human breast cancer cellsPLOS ONE
+Dear Dr. Sohn,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript by Jul 08 2024 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols.
+We look forward to receiving your revised manuscript.
+Kind regards,
+Aniruddha Datta
+Academic Editor
+PLOS ONE
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at 
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and 
+
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+
+2. Thank you for stating the following financial disclosure: 
+"This work was supported by the Basic Science Research Program through the National Research Foundation of Korea (NRF) funded by the Ministry of Education (Grant 2018R1D1A1B07048901 to J.S.) and the Ministry of Science and Technology Information and Communication (Grant 2021R1F1A1063994 to J.S.) of the South Korean government, and the Korea University (Grant K1824361 to J.S.) and the Incheon National University Research Grant in 2021 (to M.-R. H.). "
+Please state what role the funders took in the study.  If the funders had no role, please state: "The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript." 
+If this statement is not correct you must amend it as needed. 
+Please include this amended Role of Funder statement in your cover letter; we will change the online submission form on your behalf.
+3. PLOS ONE now requires that authors provide the original uncropped and unadjusted images underlying all blot or gel results reported in a submission’s figures or Supporting Information files. This policy and the journal’s other requirements for blot/gel reporting and figure preparation are described in detail at https://journals.plos.org/plosone/s/figures#loc-blot-and-gel-reporting-requirements and https://journals.plos.org/plosone/s/figures#loc-preparing-figures-from-image-files. When you submit your revised manuscript, please ensure that your figures adhere fully to these guidelines and provide the original underlying images for all blot or gel data reported in your submission. See the following link for instructions on providing the original image data: https://journals.plos.org/plosone/s/figures#loc-original-images-for-blots-and-gels. 
+In your cover letter, please note whether your blot/gel image data are in Supporting Information or posted at a public data repository, provide the repository URL if relevant, and provide specific details as to which raw blot/gel images, if any, are not available. Email us at plosone@plos.org if you have any questions.
+4. Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+Reviewer #4: Yes
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: N/A
+Reviewer #2: I Don't Know
+Reviewer #3: N/A
+Reviewer #4: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+Reviewer #4: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+Reviewer #4: Yes
+**********
+5. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: This paper covers in great detail the research to study cellular senescence as triggered by various stressors. The paper also describes with ample clarity the entire sequence of steps performed to conduct the analysis. All the wet-lab methods employed for individual steps come with enough information to be able to replicate the study.
+Overall, I am impressed by the authors’ approach and discussion to highlight the molecular mechnanisms underlying the ER stress0induced cellular senescence and the identification of key regulators like MAP2K 1/2 and GPAT4, and their downstream target DDIT3 in the induction of cellular senescence.
+However, I would personally find it more reader-friendly and it would improve the chances of receiving more citations if the authors were to add more content specifically around the phenotypic manifestations of the 20 genes they found were significant in their time-series analysis and also find ways to weave a few lines on how their phenotypic manifestations might be inter-related. Such description can also be extended to offer the authors’ proposed strategies on how that might be used to provide more intuition around personalizing cancer therapies.
+Overall, this is a good paper, and it would just add so much more value if the authors were to provide some additional content.
+Also, I would much prefer the authors shared their NGS sequencing data files.
+Reviewer #2: It requires little more details about the motivation of using 6h and 9h DEGs. It also lacks the details of how specifically MAP2K1/2-DDI3 axis influences cellular senescence via ATF6-alpha expression. The paper does not mention how other could have play some roles in linking the axis.
+Reviewer #3: The authors address an important question on role of ATF6a in cellular senescence. However, the manuscript can be made robust by
+1) Are the DEG the same if they work if a different cell line system?
+2) The use ATF6a as a down stream O/E gene for their analysis. This is a little counterintuitive as they are over expressing the gene and hence this is to be expected.
+3) Can they relate this to patient survival data between patients having high and low ATF6a expression levels? That will provide a nice translation link to their work.
+4) The biological mechanism ATF6a ectopic expression is lacking and could be outside the scope of this work.
+Reviewer #4: I think the article is well written, following are the comments to the authors:
+1. Page 5: Line 62-64, please cite the study for the finding. If it is part of reference 1, please recite or reword the sentence as "our study also led us to discover that ATAF6_alpha..... senescence"
+2. Line 68-70 : can the authors provide the rationale behind studying cell senescence in cancer cell lines and the broader impact of it ?
+3. Lines 86-93 : introduces the importance of cell senescence in this study and should be discussed earlier . Either immediately after line 70 or the authors can briefly discuss why cell senescence is important to study in cancer cell in the paragraph of Line 59-70.
+4. line 99-100 : Why did the authors pick MCF-7 cell line ? How did breast cancer subtype of ER+, PR+ , and glucocorticoid + factor into their analysis ?
+5. Line 225 : Have any of these 6 genes been implicated in cell senescence before ?
+**********
+6. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: Yes: Sangeeta Shukla, PhD
+Reviewer #2: No
+Reviewer #3: No
+Reviewer #4: No
+**********
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+AttachmentSubmitted filename: PONE-D-24-15574.pdf
+10.1371/journal.pone.0309749.r002Author response to Decision Letter 0
+Submission Version1
+8 Jul 2024
+
+We have uploaded a cover letter named 'Response to Reviewers'
+AttachmentSubmitted filename: Response to Reviewers (revision).docx
+10.1371/journal.pone.0309749.r003Decision Letter 1
+DattaAniruddhaAcademic Editor© 2024 Aniruddha Datta2024Aniruddha Dattahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+19 Aug 2024
+
+Transcriptomic analysis of cellular senescence induced by ectopic expression of ATF6α in human breast cancer cells
+PONE-D-24-15574R1
+Dear Dr. Sohn,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice will be generated when your article is formally accepted. Please note, if your institution has a publishing partnership with PLOS and your article meets the relevant criteria, all or part of your publication costs will be covered. Please make sure your user information is up-to-date by logging into Editorial Manager at Editorial Manager® and clicking the ‘Update My Information' link at the top of the page. If you have any questions relating to publication charges, please contact our Author Billing department directly at authorbilling@plos.org.
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Aniruddha Datta
+Academic Editor
+PLOS ONE
+Additional Editor Comments (optional):
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. If the authors have adequately addressed your comments raised in a previous round of review and you feel that this manuscript is now acceptable for publication, you may indicate that here to bypass the “Comments to the Author” section, enter your conflict of interest statement in the “Confidential to Editor” section, and submit your "Accept" recommendation.
+Reviewer #1: (No Response)
+Reviewer #4: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #4: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: N/A
+Reviewer #4: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #4: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #4: Yes
+**********
+6. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: I closely compared the previous and recent versions of your submissions, and still find answers to the feedback/comments earlier not satisfying. However, the work described in the paper is undoubtedly novel and interesting, and I am willing to approve.
+Reviewer #4: The authors have addressed my comments sufficiently and I do not have any further changes to recommend. Good Luck with the submission.
+**********
+7. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #4: No
+**********
+10.1371/journal.pone.0309749.r004Acceptance letter
+DattaAniruddhaAcademic Editor© 2024 Aniruddha Datta2024Aniruddha Dattahttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+27 Aug 2024
+
+PONE-D-24-15574R1 
+PLOS ONE
+Dear Dr. Sohn, 
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS ONE. Congratulations! Your manuscript is now being handed over to our production team.
+At this stage, our production department will prepare your paper for publication. This includes ensuring the following:
+* All references, tables, and figures are properly cited
+* All relevant supporting information is included in the manuscript submission,
+* There are no issues that prevent the paper from being properly typeset
+If revisions are needed, the production department will contact you directly to resolve them. If no revisions are needed, you will receive an email when the publication date has been set. At this time, we do not offer pre-publication proofs to authors during production of the accepted work. Please keep in mind that we are working through a large volume of accepted articles, so please give us a few weeks to review your paper and let you know the next and final steps. 
+Lastly, if your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+If we can help with anything else, please email us at customercare@plos.org.
+Thank you for submitting your work to PLOS ONE and supporting open access. 
+Kind regards, 
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Aniruddha Datta 
+Academic Editor
+PLOS ONE

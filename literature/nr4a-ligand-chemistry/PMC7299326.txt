@@ -1,0 +1,670 @@
+331plosgenPLoS GeneticsPLoS GenetPLOSPMC7299326729932672993263255567310.1371/journal.pgen.1008831Behavioral and brain- transcriptomic synchronization between the two opponents of a fighting pair of the fish Betta splendens
+VuTrieu-DucData curation, Formal analysis, Validation, Writing – original draft, Writing – review & editing IwasakiYukiData curation, Formal analysis, Validation, Writing – review & editing ShigenobuShujiData curation, Formal analysis, Methodology MarukoAkikoWriting – review & editing OshimaKenshiroFormal analysis, Writing – review & editing IiokaEricaWriting – review & editing HuangChao-LiFormal analysis, Writing – review & editing AbeTakashiFormal analysis TamakiSatoshiFormal analysis LinYi-WenFormal analysis ChenChih-KuanWriting – review & editing LuMei-YehWriting – review & editing HojoMasaruFormal analysis WangHao-VenFormal analysis TzengShun-FenFormal analysis HuangHao-JenFormal analysis KanaiAkioFormal analysis GojoboriTakashiSupervision ChiangTzen-YuhSupervision SunH SunnySupervision LiWen-HsiungWriting – review & editing OkadaNorihiroConceptualization, Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Supervision, Validation, Writing – original draft, Writing – review & editing BellAlisonEditor 1School of Pharmacy, Kitasato University, Tokyo, Japan2Foundation for Advancement of International Science, Tsukuba, Japan3Life Sciences and Biotechnology Dept, Tokyo Institute of Technology, Tokyo, Japan4Biodiversity Research Center, Academia Sinica, Taipei, Taiwan5Department of Life Sciences, National Cheng Kung University, Tainan, Taiwan6Nagahama Institute of Bio-Science and Technology, Nagahama, Japan7National Institute for Basic Biology, Okazaki, Japan8Institute of Tropical Plant Sciences, National Cheng Kung University, Tainan, Taiwan9Graduate School of Science and Technology, Niigata University, Niigata, Japan10Institute for Advanced Biosciences, Keio University, Yamagata, Japan11Computational Bioscience Research Center, King Abdullah University of Science and Technology, Thuwal, Kingdom of Saudi Arabia12Institute of Molecular Medicine, National Cheng Kung University, Tainan, Taiwan13Department of Ecology and Evolution, University of Chicago, IL, United States of America14University of Illinois, UNITED STATESThe authors have declared that no competing interests exist.
+✉* E-mail: okadano@pharm.kitasato-u.ac.jp
+#Contributed equally.
+1762020166e1008831e10088311962020© 2020 Vu et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Conspecific male animals fight for resources such as food and mating opportunities but typically stop fighting after assessing their relative fighting abilities to avoid serious injuries. Physiologically, how the fighting behavior is controlled remains unknown. Using the fighting fish Betta splendens, we studied behavioral and brain-transcriptomic changes during the fight between the two opponents. At the behavioral level, surface-breathing, and biting/striking occurred only during intervals between mouth-locking. Eventually, the behaviors of the two opponents became synchronized, with each pair showing a unique behavioral pattern. At the physiological level, we examined the expression patterns of 23,306 brain transcripts using RNA-sequencing data from brains of fighting pairs after a 20-min (D20) and a 60-min (D60) fight. The two opponents in each D60 fighting pair showed a strong gene expression correlation, whereas those in D20 fighting pairs showed a weak correlation. Moreover, each fighting pair in the D60 group showed pair-specific gene expression patterns in a grade of membership analysis (GoM) and were grouped as a pair in the heatmap clustering. The observed pair-specific individualization in brain-transcriptomic synchronization (PIBS) suggested that this synchronization provides a physiological basis for the behavioral synchronization. An analysis using the synchronized genes in fighting pairs of the D60 group found genes enriched for ion transport, synaptic function, and learning and memory. Brain-transcriptomic synchronization could be a general phenomenon and may provide a new cornerstone with which to investigate coordinating and sustaining social interactions between two interacting partners of vertebrates.
+
+## Author summary
+Agonistic encounters induce changes in the brain and behavior, but their underlying molecular mechanisms remain poorly understood. The fighting fish Betta splendens are small freshwater fish that are well known for their aggressiveness and are widely used to study aggression. Here, by measuring aggressive behavior displays (bite/strike/surface-breathing) between two opponents during fighting, we demonstrate that the two opponents in each fighting pair showed similar fighting configurations by influencing each other. In addition, we compared brain gene expression between opponents and showed synchronization of gene expression within a fighting pair, leading to pair-specific synchronization in genes associated with ion transport, synapse function, and learning and memory. This study presents the possibility that similar behaviors in pairs of animals under similar conditions may trigger synchronizing waves of transcription between the individuals, providing a hint to support the idea that fighting behaviors contain cooperative aspects at the molecular level.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2019 Sep 18; Accepted 2020 May 5; Collection date 2020 Jun.
+
+## Introduction
+Animal contests result in an unequal division of resources and thus are a principal driver of natural selection [ ]. Conspecifics animals fight for resources such as food and mating opportunities, but they usually stop fighting after assessing their relative fighting abilities to avoid serious injuries [ – ]. The contest outcomes have been commonly explained by the mutual assessment model [ ], which, for example, was demonstrated in the case of zebrafish [ ] and in the fish Betta splendens [ ]. Yet, how such mutual assessments are carried out at the molecular level during fighting remains unknown.
+Aggression is ubiquitous in animals because it may increase an individual’s chance to survive and to transmit its genes to the next generation [ ]. Various types of aggression in animals have been described [ ]. The fighting fish B. splendens is well known for its long fighting duration. It belongs to the suborder Anabantoidei of the perciform ray-finned freshwater fish, which are distinguished by their possession of a lung-like labyrinth organ that helps them to carry out surface-breathing [ – ]. This fish has been commonly used to study the biological mechanism of aggression for various reasons. B. splendens males are extremely aggressive and have stereotypical social displays [ , ] ( ). In their natural habitats, males fiercely protect their territories, where they build a bubble nest to hold fertilized eggs [ ]. In the laboratory, a male aggressively attacks any intruder or its own mirror image to maintain its territory [ , ]. Previous studies on B. splendens and other fish focused on aggressive displays between males but usually described only one particular behavior (e.g., displaying, biting, or striking) [ , ] or compared global differences in aggressiveness between the loser and the winner [ – ].
+More recently, physiological and neurological studies have been conducted to examine aggressive behaviors using B. splendens in combination with pharmacological treatments, and some important signaling molecules linked to aggression have been discovered, such as serotonin (5-HT) [ ], dopamine [ ], and GABA [ ]. Additionally, a suite of genes linked to aggressiveness has been identified in different fish such as cichlid fish [ ], zebrafish [ ], and rainbow trout [ ]. However, these analyses focused on differentially expressed genes (DEGs) in the brains of the eventual winner and loser, revealing only the differences in the brain-transcriptomic state between them without comparing the brain-transcriptomic responses of the two opponents in a fighting pair during a fight. As a result, no comprehensive molecular analysis of the brain-transcriptomic state of male-male competition during a fight in B. splendens has been attempted at the genomic level. Two major obstacles to such studies were the large number of genes known to influence aggression in animals [ , ] and the lack of a reference genome for this fish, which was released only recently [ ].
+Behavioral and physiological synchronization have long been studied by scientists given its importance in reproductive/mating behavior, cooperative behavior, aggressive behavior, etc. [ , ]. Crucial signaling molecules such as 5-HT and arginine-vasotocin (AVT) modulate the levels of such cooperation at the physiological level in fish [ – ]. Furthermore, recent studies have provided physiological evidence for such synchronization at the neuronal level between two interacting bats or mice [ , ]. Given that clear behavioral evidence over the course of several decades as well as the recent physiological findings described above, we hypothesized that synchronization at the gene expression level between two interacting partners, especially in brain genes associated with synaptic function, ion transport, and aggression, might also occur. We specifically ask the following questions 1) what is the relationship between brain-transcriptomic activity in two individuals that are engaged in social interactions? 2) how does this relationship change across different timescales to facilitate social interactions?
+We evaluated this possibility by examining the behavioral and brain-transcriptomic changes between two interacting opponents of B. splendens during fighting. Males of this fish undergo a stress response during a 15-min fight [ , ]. Over a similar time period, differences in the expression of early genes as well as other socially responsive genes have been detected in various fish [ – ]. Accordingly, we examined a 20-min and a 60-min fighting period to correlate the brain transcriptome responses with behavioral changes [ – ]. Whereas the 20-min fight allowed us to capture immediate early genes (IEGs)-known as genomic markers for brain activity and markedly new experiences for fish, the 60-min fight permitted us to evaluate brain-transcriptomic responses for the full range of volitional behavior in response to an opponent over the course of the encounter. We found the presence of a unique temporal fighting structure by comparing the frequencies of each behavior (i.e., biting/striking, mouth-locking, and surface-breathing) of the two opponents in the intervals between mouth-lockings over the time course of a fight. Also, we discovered the synchronization of the brain transcriptomes between the opponents in a fighting pair by testing for correlation values of gene expression between paired fish and unpaired fish. Furthermore, we identified and examined the synchronized gene sets by analyzing DEGs, gene ontology and gene pathway enrichment to understand what kinds of brain activity might underlie the transcriptomic synchronization during competitive interaction.
+
+## Results
+
+## Behavioral synchronization achieved through fighting interaction
+To examine the behavioral changes of the two opponents of a fighting pair, we selected male fish and allowed them to fight in pairs for a duration of 20 min (D20) or 60 min (D60) or until the conflicts were resolved (typical fighting pairs) ( ). The data obtained from 17 typical fighting pairs revealed that the fighting process in B. splendens proceeded in a stereotypic manner: surface-breathing (started at 0.94 ± 0.24 min), biting/striking (3.49 ± 0.60 min) and mouth-locking (10.60 ± 1.12 min) ( , Video). During a 60-min fight, the mouth-locking events occurred an average of 12.12 ± 2.40 times, and each event lasted for 1.29 ± 0.24 min; therefore, mouth-locking events accounted for ~26.88% of the 60 min. Although the fighting duration varied dramatically among the pairs, surface-breathing, biting/striking, and mouth-locking occurred in this order among all fighting pairs, showing a temporal fighting structure.
+ To understand in detail the fighting configuration, a 60-min fighting period for eight of the 17 typical fighting pairs was analyzed in 2-min windows with a 1-min overlap in terms of the frequency and duration of surface-breathing and biting/striking (see ). Among pairs, the patterns of surface-breathing and biting/striking were very similar between the opponents of each fighting pair ( , ), because these behaviors occur only between two consecutive mouth-lockings. Accordingly, the frequency, duration, and distribution of mouth-lockings during the fighting period determined the fight structure, and each fighting pair showed a pair-specific fighting pattern. More specifically, the frequencies of biting/striking and surface-breathing behaviors of the two opponents showed a high correlation for each of the eight pairs ( and ).
+
+## Brain-transcriptomic response triggered by the fighting experience
+To examine the transcriptome changes during a fight, we conducted RNA-seq analysis of 25 whole-brain RNA samples, including those from five non-fighting individuals (i.e., before fighting group, B), from five pairs after a 20-min fight (the D20 group), and from five pairs after a 60-min fight (the D60 group) ( ; ). A principle component analysis (PCA) and a linear discriminant function analysis (LDA) from the 25 libraries were done on the same dataset—top 50% most variable gene transcripts (11,653 genes) to differentiate the fighting groups (see Methods). While the PCA clearly illustrated that paired fish in the D60 group were closely clustered together ( ), the LDA nicely separated the fighting groups with two significant functions: Function 1 (LD1), which separated the D60 group from the D20 and non-fighting group, explained 69.1% of the variance, and Function 2 (LD2), which separated the non-fighting group from the D60 and D20 groups, explained 30.9% of the variance ( ). A high consistency among the brain transcriptome profiles induced by each social experience (B, D20 and D60) indicates that a particular brain-transcriptomic state (co-regulated gene sets) underlies each behavioral state.
+ To evaluate the brain transcriptomic differences between the D20 and D60 groups, we tested for DEGs. Comparing each social treatment (i.e., D20 or D60) with the non-fighting group (B) revealed a total of 1,082 DEGs (FDR < 0.05, |log FC| > 2), with a greater number of up-regulated genes than down-regulated genes in both fighting groups ( ). Noticeably, FDR means false discovery rate and FC refers to fold change. Whereas 859 and 518 genes showed significant increases, only 40 and 46 genes showed significant decreases in the D60 and D20 groups, respectively ( ). A plot in which the D20 DEGs are projected onto the D60 DEGs and vice versa revealed that most of the genes with down-regulated expression in the D20 group were also down-regulated in the D60 group and that those with up-regulated expression in the D20 group remained up-regulated in the D60 group. There were only three genes (unannotated) that were down-regulated in the D20 but were up-regulated in the D60, whereas just one gene (unannotated) was up-regulated in the D20 but was down-regulated in the D60 ( ).
+Among 1,082 DEGs, 564 genes were specifically expressed in the D60 group (D60-specific genes), 223 genes were specifically expressed in the D20 group (D20-specific genes) and 295 genes were expressed in both the D20 and the D60 groups (common genes) ( , ). We found that the probability of 295 overlapping DEGs between the D20 and D60 groups was greater than that expected by chance (p < 7.2e-298, hypergeometric test). In addition to the attributes of their expression across fighting stages, several of these DEGs genes have previously known to associate with neuronal activity (e.g., c-fos, fosb, egr4), neural plasticity processes related to learning and memory (e.g., bdnf, npas4, nr4a1), neurotransmitter (e.g., grin2a, grik2) and epigenetic function (rnf44) ( and see ) [ , ]. The heatmap generated from all 1,082 DEGs illustrated three main patterns of gene expression that were distinguishable among the fighting groups (B, D20, and D60) ( ). We also note that a large set of unannotated DEGs was uncovered in this analysis ( ).
+ 
+
+## Genes associated with each fighting group (D20 and D60)
+A weighted gene co-expression network analysis (WGCNA) was used to find gene clusters (modules) among all 23,306 genes across all 25 samples (see ). Our goal was to identify modules associated with the fighting groups (D20 and D60). This analysis identified 37 co-expression gene modules, which are represented by different colors as named by the program ( , ). To relate these gene modules to the fighting groups (D20 or D60), associations between the eigengene of each gene module and the fighting groups were computed. The results showed that the two fighting groups were associated with different modules. Particularly, the D20 samples were characterized by an up-regulation of the MEmidnightblue gene module, which included 186 genes that are associated with transcription regulation ( , and ). The D60 group was characterized by three modules: an up-regulation of the MEgrey60 module (168 genes), which is enriched in genes related to stress response, transcription regulation, and MAPK signaling ( , and ); an up-regulation of the MEturquoise module (6,390 genes), which is enriched in genes related to phosphorylation, ion transport, protein transport, and MAPK signaling ( , and ); and an down-regulation of the MEblue module (4,256 genes), which is enriched in genes related to translation, metabolic process, DNA-repair, and MAPK signaling ( , and ).
+ We found that the D20-specific genes, D60-specific genes, and common genes in the DEG analysis appeared in different modules in this WGCNA analysis. The D20-specific genes were present in the MEbrown (104 genes), MEred (86 genes), MEgreen (5 genes), MEdarkgreen (4 genes), and other gene modules ( ). The D60-specifc genes were present in the MEturquoise (444 genes), MEblue (29 genes), MEgrey60 (18 genes), MElightgreen (17 genes), and other gene modules ( ). The common genes were present in the MEbrown (170 genes), MEturquoise (79 genes), MEred (20 genes), and other modules ( ). The DEG and WGCNA analyses used different approaches but showed a high agreement in the characterization of the transcriptome changes associated with each fighting group across the fight.
+
+## Brain-transcriptomic synchronization occurs in a pair-specific manner
+We discovered the presence of brain-transcriptomic synchronization by first testing for the correlation coefficients (r values) of expressed gene transcripts between the paired fish and unpaired fish over the 23,306 gene transcripts for the D20 (D20-paired fish vs. D20-unpaired fish) and D60 (D60-paired fish vs. D60-unpaired fish) fighting groups ( and ). The results revealed that the r values for paired fish were significantly higher than those for unpaired fish in both groups (permutation test, p < 0.05), especially for the D60 group (permutation test, p = 0.001) ( ). Furthermore, the clustering analysis in the heatmap using the top 10% most variable genes (2,330 genes) showed that all five pairs of the D60 group were clustered together, in sharp contrast to the single pair that clustered together in the D20 group ( ). It is interesting to note that similar results were obtained when individual profiles of all the 25 samples using all gene set (23,306 genes) were clustered ( ).
+ Next, we subsequently examined the fine structure of brain-transcriptomic synchronization in each fighting pair by applying the grade of membership (GoM) model to the 25 brain samples, each of which included the 23,306 gene transcripts. This GoM model allowed us to highlight similarities among the samples by determining their similar membership (cluster) proportions (see ). Interestingly, the composition of clusters for individuals in each pair from the D60 group was very similar, and moreover the pattern from any given pair of the D60 group was unique relative to that of the other pairs. This observation suggested that brain-transcriptomic synchronization is achieved according to the specific interactions between the two opponents of a pair, such that a particular set of genes was upregulated or downregulated and synchronized in a pair-specific manner ( ). The top five driving genes (i.e., the genes that were most distinctively differentially expressed) in each cluster were extracted from the total gene transcripts and were found to be unique for each cluster ( ). Altogether, these findings suggest that the brain-transcriptomic state of the two opponents in a pair were mutually influenced during fighting and became synchronized in a pair-specific manner during the fighting process. This synchronization was weak in the D20 group but became strong in the D60 group.
+
+## Characterization of synchronized genes
+To identify synchronized genes, we conducted a two-step analysis (see ). First, we obtained 868 and 2,409 DEGs from the comparison of the D20 and D60 groups relative to the non-fighting group, respectively (FDR ≤ 0.05 and log FC > 0) ( , ). Here we focused on the up-regulated gene sets because the number of these genes was much higher than that of the down-regulated genes among the DEGs in both groups ( ), and we used a less stringent criteria than was used in the analysis of (log FC > 0 instead of |log FC| >2) so that more DEGs will be included for the downstream analysis. Next, from these DEGs, we extracted 172 and 1,522 genes that were synchronized in at least one pair from the D20 and the D60 group, respectively, according to the criteria defined in the Methods ( , ). Comparisons between the two synchronized gene sets showed that the number of synchronized genes within one pair, two pairs, three pairs, four pairs, and five pairs was much higher in the D60 group than the D20 group ( ). The composition of these synchronized gene sets confirmed that brain-transcriptomic synchronization is a major process because more than half (63.2%) of the total DEGs were involved in this process. Moreover, almost half of the synchronized genes were synchronized in five fighting pairs ( ). It is interesting to note, however, that the synchrony levels were different among each particular fighting pair as shown for neuronal activity−associated genes such as bdnf, calm2a, and several other genes ( , ). The overlapping synchronized genes among the five pairs in the Venn diagrams show the number of genes involved in brain-transcriptomic synchronization across all five fighting pairs as well as those that were shared between each particular fighting pair in both the D20 ( ) and D60 ( ) fighting groups.
+ To gain insight into the biological functions of synchronized genes involved in brain-transcriptomic synchronization, we first examined the overrepresentation of the Gene Ontology (GO) terms related to biological process (BP) within the 1,282 synchronized genes (all of which were well annotated) in the D60 using DAVID (p < 0.05) ( ). Accordingly, 49 overrepresented BP terms were enriched ( ); however, as the GO terms obtained from DAVID seemed to be redundant, we next used the REVIGO tool to filter these redundant BP terms. Subsequently, 31 overrepresented BP terms remained ( ). Interestingly, this synchronized gene set was mainly enriched in terms related to neurotransmitter secretion, ion transport, and synapse function ( , ). We also looked for overrepresentations among molecular function (MF) and cellular component (CC) terms. Enriched MF terms were associated with transcription factor activity, receptor activity, and ion channel activity ( ), whereas enriched CC terms were associated with membrane, synapse, and AMPA glutamate receptor complex ( ). Furthermore, overrepresentation analysis of KEGG pathways (p < 0.05) within 1,282 synchronized genes revealed 19 pathways that were significantly enriched and are known to have causal effects on social behavior such as calcium signaling [ ], MAPK signaling [ ], GnRH [ ], and others ( ).
+
+## Brain-transcriptomic synchronization associated with long-term memory genes
+In mice and bats, social interactions between two interacting partners induce inter-brain correlation of neural activity in the prefrontal cortex of their brains [ , ], this activity has been implicated in supporting working memory in human [ ]. Learning and memory are crucial processes in the winner or loser effect phenomenon, in which fish increase or decrease their likelihood of winning or losing in a future fight after experiencing previous wins or losses, respectively [ ]. This motivated us to examine whether genes related to long-term memory were involved in the brain-transcriptomic synchronization in the D60 group.
+We first extracted 378 genes from the 1,522 synchronized genes of the D60 group that were linked to learning or memory (see ). Next, these 378 genes were used for a KEGG pathway enrichment analysis using DAVID ( ). As a result, 19 pathways were significantly enriched such as insulin signaling pathway, calcium signaling pathway, adrenergic signaling pathway, etc. (p < 0.05, ). Among the top significantly enriched pathways shown in , the calcium signaling pathway, which was ranked second when pathways were sorted by p-values, is well known for its involvement in learning and long-term memory formation [ ]. In support of this finding, several genes in this pathway were up-regulated in the route leading to learning and memory ( , ).
+Next, we used the calcium pathway as a proxy for learning and memory examination for other gene sets including 104 synchronized genes in the D20, 567 non-synchronized genes in the D20, and 791 non-synchronized genes in the D60 to see if they were involved in pathways related to learning and memory ( ). By comparing the gene expression of those involved in the calcium pathways generated from the KEGG analysis, we found that the D20 synchronized gene set was not enriched for the calcium pathway, and none of the genes involved in calcium pathways generated from the non-synchronized gene sets were included in the pathway of learning and memory ( and ). Collectively, these results suggest that learning and memory may play a key role in brain transcriptomic synchronization after the fish experience a long period of fighting (see ).
+
+## Discussion
+
+## Behavioral synchronization in vertebrates
+In the case of competition among conspecific male animals for resources and mates, they typically stop fighting after assessing their relative fighting abilities to avoid serious injuries. How animals assess another’s ability remains poorly understood. Here, we demonstrated behavioral synchronization in each B. splendens pair during fighting. Although the behavior sequences (displaying, biting, and striking) in B. splendens are in accordance with other fish such as zebrafish (Danio rerio) [ ] and cichlid fish (Nannacara anomala) [ ], characteristic pair-specific behavioral synchronization as defined by the pattern of mouth-locking behavior is observed only in B. splendens, underscoring the unique behavior of this fish. During fighting, it seems that each B. splendens male in a fighting pair attempts to increase its chance of winning by imposing its aggressive behaviors upon its opponent, leading to tightly synchronized behaviors. A few previous studies have found synchronization in other animal behaviors such as foraging (seeking food) and cooperative hunting [ – ]. For example, during foraging by a pair of sticklebacks or Atlantic salmon fish, if there is an advantage to foraging together, the behavior of both individuals becomes synchronized; however, when one of the two fish receive additional food, they tend to behave independently.
+Our behavior analysis showed the presence of a specific behavioral synchronization pattern for each fighting pair. It is likely that each individual of B. splendens has its own behavioral characteristics, referred to as “personality” (e.g. shy, bold, proactive, or reactive) [ ]. Accordingly, the characteristics of the synchronization pattern for each pair might be influenced by the personality of the individual fish involved (e.g., how shy or bold they are), as each B. splendens individual needs to modify its behavior to match the ability of its competitor. This explanation is consistent with previous studies in other fish such as guppies and sticklebacks and in pair-bonded birds such as the great tits (Parus major), in which the frequency and distribution of their interactions depend on their body length, color, and proactive or passive exploration personality [ , ].
+
+## A model for behavioral and brain-transcriptomic synchronization
+To explain how behavioral synchronization and brain-transcriptomic synchronization occur, we propose the model presented in , in that the mutual assessment could be involved. The repeated attempts of each opponent to match the actions of the other opponent lead to behavioral and then transcriptomic synchronization. At the behavioral level, the two fish initiate and escalate the fight ( ). Their interactions provide signals for the mutual assessment process to assess the opponent’s fighting ability. Moreover, to match the attacks of its opponent, each fish adjusts its fighting behavior to achieve synchronization.
+ At the physiological level ( ), the signals of mutual assessment in each fighting individual trigger a transcriptomic response in neurons leading to changes in the physiology of neurocircuits. The first transcriptional wave after neuronal activation induces rapid transcription of immediate-early genes (IEGs) such as c-fos [ ]; brain-derived neurotrophic factor, bdnf [ ]; and nuclear receptor transcription factor subfamily nr4a(1,3) [ ]. Then, a downstream genomic response cascade takes place with the involvement of synchronized genes ( ) and learning- and/or memory-associated genes such as calm2a, camk2b1, ppp3r1b, and others [ ], eventually leading to the pair-specific individualization of brain-transcriptomic synchronization (PIBS). These processes are mediated by second messengers, intracellular pathways such as the MAPK pathway [ ], ligand-receptor pathways, and/or calcium signaling pathways [ ]. Collectively, PIBS presents a mechanism for coordinating and sustaining interactions between opponents.
+Although our data are correlative and many details of the proposed model at the molecular level remain unclear, the model may provide a useful basis for future study. It will be interesting to see if both behavioral and brain-transcriptomic synchronization also occur during other interactive behaviors.
+
+## Insights into brain-transcriptomic synchronization
+We demonstrated the presence of brain-transcriptomic synchronization, which was observable to a lesser extent after a 20-min fight and was strengthened after a 60-min fight in accordance with behavioral synchronization between fighting pairs of B. splendens. We characterized it as follows.
+First, the DEG analysis illustrated three main patterns of gene expression that reflected changes in the transcriptomic landscapes between the social groups (B, D20, and D60; ), with the involvement of IEGs in both fighting groups. As mentioned above, some IEGs exhibited strong upregulation in the D60 group such as cfos, bdnf, nr4a3, and neurotransmitter transporter glycine member 9 (slc6a9) [ ] ( ), which are involved in long-term memory formation. Thus, a fighting B. splendens seems to activate molecular pathways involved in memory formation during fighting. This observation is further supported by the detected enrichment of the MAPK signaling pathway in the D60-specific gene sets, which is known to be associated with cognitive processes [ ]. Several dual specificity phosphatase (dusp) subunits (dusp2, dusp4, dusp3a, and dusp7), modulators of the MAPK signaling pathway [ ], were upregulated and synchronized. In particular, the involvement of the calcium signaling pathway appears to be crucial. Different routes of Ca2+ entry lead to the activation of different downstream pathways ( ; and ). The activation of genes encoding the NMDAR subunits (grinaa, grin2aa, and grin2b), AMPAR subunit (grm8a), and CaV subunit (cav3, T-type calcium channels and cav1, L-type calcium channels) leads to increases in nuclear Ca2+ [ ], which in turn binds the calmodulin (CALM) subunit (calm2a) to activate the α-calcium calmodulin-dependent protein kinase II (CAMK2) subunits (camk1da, camk2, and camk2b1) and calcineurin (CaN) subunit (ppp3r1b), eventually triggering long-term memory formation [ ]. Noticeably, each fighting pair activates a unique route within the Ca2+ signaling pathway ( ).
+Interestingly, the number of up-regulated genes was much higher than that of down-regulated genes among DEGs in both fighting groups ( ). Our gene enrichment analysis showed that the DEGs in the D20 and D60 were associated with ion transport, synaptic function, and long-term memory. The gene with the highest expression was thoc2, a subunit of three prime repair exonuclease (TREX), which is required for efficient export of polyadenylated RNA and spliced mRNA [ ]. This asymmetry in gene expression variation between the B and D20/D60 groups was quite striking and is consistent with previous studies in sticklebacks [ ], mice [ ], and honeybees [ ] to some extent. These studies demonstrated that up-regulated DEGs were involved in insulin signaling, oxidative phosphorylation, mitochondrial function, and regulation of metabolic processes, showing deeply conserved metabolic signal after challenge and representing a shift in the balance of metabolism [ ]. Together, highly expressed genes from the D20 and D60 groups suggest the possibility of a shift in metabolism that prefigures later neuronal plasticity in the brain. It is also possible that the asymmetry in DEGs between baseline and fighting groups could be a molecular manifestation of increased inhibitory control of gene expression on aggression so as to avoid an over-escalation [ ].
+Second, the heatmap and the GoM analyses of the 25 brain samples collected at three different fighting time points together with DEG analysis revealed the presence of brain-transcriptomic synchronization, with more than a half (63.2%) of all DEGs (B vs. D60) involved in this process (Figs and ). The GoM analysis demonstrated that the composition of multiple clusters from individuals in a pair, especially D60 pairs, was very similar, illustrating nicely the presence of brain-transcriptomic synchronization in a pair-specific manner (PIBS). The GoM model approach has been widely used in population genetics to cluster admixed individuals who have ancestry from multiple populations. Recently, it has been used for assessing global structure in RNA sequencing data in mice and humans [ , ]. Future studies using this approach along with existing and widely used visualization methods such as LDA and hierarchical clustering (heatmap) will provide a richer summary of the information contained within RNA-seq data [ ]. In addition, it will be interesting to find a way to quantify the strength of association between the GoM results and behavioral synchronization of any given pair. Currently, however, as our behavioral analysis here did not include all sets of behaviors requiring synchrony, such as tail-beating, body-orientation, and body-coloration, such quantification will require future studies.
+Third, the WGCNA showed that each of the two groups, D20 and D60, was associated with distinct gene modules: MEgrey60, MEblue, and MEturquoise for the D60 group and MEmidnightblue for the D20 group ( ). Although the DEG analysis and WGCNA represent different approaches, they gave consistent results with respect to the characterization of transcriptome changes associated with each fighting group. Of the 564 D60-specific genes identified by the DEG analysis, 491 (87.06%) were present in the three gene modules associated with D60 based on the WGCNA ( ). Our results are consistent with a study that examined DEGs between the winner, loser, and mirror phenotypes (i.e., when a fish fights against its own image in a mirror) in zebrafish using both DEG and WGCNA approaches [ ]. Although this study identified fewer gene modules, it showed extensive agreement for the DEG numbers between the two methods [ ]. Other recent studies using both DEGs and WGCNA methods have demonstrated fruitful results [ , ]. Thus, this integrative approach is useful for examining the relationship between gene expression and targeted phenotypes, and one can corroborate the other.
+
+## Transcriptome synchronization using whole brains vs. brain regions
+We used the whole brain in this study given that social influences and behavioral changes induce modifications in brain gene expression [ ], and that external information can trigger brief variation from the baseline of brain gene expression [ ]. Although it is uncertain how these changes are conveyed to other organs, clearly the brain plays a key role in where social experience is integrated with physiological changes to carve the phenotypic plasticity [ ]. However, one disadvantage of the analysis using whole brain is that brain tissue consists of a complex mixture of neuronal cell types, each of which has different biological signals, and that some of meaningful signals may be undetected because of their relative low abundance [ , ]. It was found that none of the candidate genes for aggressive behavior in the previous study [ ], such as tryptophan hydroxylase (tph1 and tph2), were identified in studies using whole brain such as those in zebrafish [ ] and cichlid [ ], as well as in the present study. It is possible that these aggression-associated genes were up- or down-regulated in a specific part of the brain but could not be detected by using whole brain, possibly because any changes were diluted. It has been reported that dominant and subordinate zebrafish showed different number of DEGs in different brain regions after social interaction, such that some genes are overexpressed only in the hypothalamus and hindbrain of the dominant, but other genes are overexpressed in the telencephalon and optic tectum of both dominant and subordinate fish [ ]. This suggests that difficulty of analysis for the expression of genes with low abundance in neuronal cells can be overcome by obtaining RNA from smaller area of the brain using microdissection or single cell sequencing method.
+Brain-transcriptomic synchronization was observed in the analysis of the whole brain, suggesting that several parts of the brain could be involved in the synchronization events observed in this study. In recent years, an approach to map a specialized part of the brain by focusing on regions such as the hippocampus, which is involved in learning and memory [ , ], has been developed. A comparison of gene expression profiles among brain regions (e.g., telencephalon, diencephalon, cerebellum) in fish responding to intruders [ ] has been attempted, and analyses of changes in the conserved ‘social behavior network’—a collection of brain nuclei known to regulate social behaviors across vertebrates—based on detailed micro-dissected brain regions in cichlids [ ], zebrafish [ ], and swordtail fish [ ] have been carried out. The limbic region, midbrain, and the cortical region are involved in a variety of motivations in mice [ , , ]. Based on these studies, we propose that the telencephalon region could be a good candidate for further brain-transcriptomic synchronization analysis because it contains structures homologous to the hippocampus and amygdala in mammals and is associated with aggression in other vertebrates [ ]. In particular, loci in this region including the dorsal medial (associated with the fear response), dorsal lateral (associated with spatial learning), lateral spectrum (associated with anxiety), pre-optic area (associated with reproduction), and cerebellum (associated with attention) are of interest [ ]. A better understanding of the involvement of these specific brain loci in brain-transcriptomic synchronization is a promising area for future research.
+
+## Brain-transcriptomic synchronization reflects cooperative fighting aspect
+In the present study, we propose that brain-transcriptomic synchronization might underlie the behavior synchronization between two interacting partners in vertebrates. Furthermore, we speculate that brain-transcriptomic synchronization may occur with collaborative behaviors because of the universality of behavioral synchronization under both competitive and collaborative circumstances, as discussed above.
+As the paired fish had very similar behavioral repertoires overall, any transcriptomic commonalities could reflect transcriptomic responses to fighting effort or allocation of that effort rather than being related to behavioral synchrony per se. One possibility for the role of PIBS is that the brain-transcriptomic response in one individual might encode behaviors of its interacting opponent. Previous studies have identified neurons that are selectively activated during a partner’s action in songbirds, monkeys, and humans [ – ]. Very recent studies reported that there is inter-brain correlation of neuron activity between two individuals of mice [ ] and bats [ ] during social interactions. Strikingly, in the case of the mice, correlated brain activity depends on both the encoding of one’s own behavior at the cellular level and the behavior of the interacting partner. Moreover, deeper similarities in neural responses were found among friends who view the same movie [ ], or between infants and adults while they communicate and play with one another [ ]. Also, highly sharing of emotional state within a judgment task was revealed in ravens (Corvus corax) [ ]. Noticeably, it has been reported that different neuronal activity patterns induce different sets of activity-regulated genes [ ]. Together, the existence of PIBS suggests that correlated brain gene expression may support synchronous neural activity in brains between two interacting partners, reflect cooperative aspects at the molecular level, and indicate the presence of basic forms of empathy in animals [ ].
+
+## Brain-transcriptomic synchronization associated with fighting motivation
+The neurotransmitter serotonin is involved in regulating various motivations in animals [ ]. For example, serotonin plays an important role in prolonging fight duration in lobsters and crayfish [ ]. Similarly, expression differences in the serotonin receptor subunits Htr1b and 5-Ht2c account for increased exercise motivation in mice, suggesting that higher motivation for exercise is modulated, at least in part, by the serotonin signaling mediated by the expression of Htr1b and its surrounding chromatin organization [ , ]. Interestingly, we did find that two additional serotonin receptor subunits, htr7a and htr7c, which belong to the neuroactive ligand-receptor pathway were highly expressed and synchronized in four fighting pairs in our data ( ), suggesting the possible involvement of these genes in the persistence of motivation in this system.
+In summary, this study demonstrates that fighting behaviors and brain gene expression of the fish B. splendens within a fighting pair are highly synchronized. While the behavioral synchronization is observable at an early stage of fighting, the brain-transcriptomic synchronization is discernible after a 20-min fight and is strengthened after a 60-min fight, suggesting the importance of repeated signals for the brain to adjust the expression profiles of certain genes. We demonstrate that brain-transcriptomic synchronization is observed between individuals of a fighting pair in a pair-specific manner after sharing long-term interactions. This is a phenomenon that has been widely known at the behavioral level but has rarely been observed at the molecular level and could occur widely among animals. Altogether, this study provides a framework for an understanding of synchronization at the behavioral and molecular levels that occurs during a contest or collaboration in higher animals through social interactions.
+
+## Methods
+
+## Ethics statement
+The animal experimentation procedures used in this study were approved by the Institutional Animal Care and Use Committee (IACUC) (Approval No.106171) of the National Cheng Kung University, Tainan, Taiwan.
+
+## Animals and maintenance
+Male fighting fish B. splendens used in this experiment were obtained from a local fish shop in Thailand. During delivery, the fish were individually kept in 150-ml glass flasks. In the laboratory, they were transferred to 600-ml glass flasks and housed at 26 ± 2°C with a 12-h dark and 12-h light photoperiod for 2 days for adaptation. They were then transferred to individual tanks in the circulation aquarium system in the laboratory. Fish were fed twice a day with commercial food flakes. The average fish size was 5.2 ± 1.1 cm (standard length).
+
+## Behavioral assays
+Fish were maintained in the aquarium system tanks for 1 week before a fighting experiment. To test for the interaction, a group of five non-fighting individuals (B1, B2, B3, B4, and B5) was used as the control group. Another 20 adult males, matched on the basis of standard length, were used for RNA sequencing. Three experimental sets were conducted in which 10 fish (five pairs: D20_11 vs. D20_12, D20_21 vs. D20_22, D20_31 vs. D20_32, D20_41 vs. D20_42, and D20_51 vs. D20_52) were paired for a 20-min fight, 10 fish (five pairs: D60_11 vs. D60_12, D60_21 vs. D60_22, D60_31 vs. D60_32, D60_41 vs. D60_42, and D60_51 vs. D60_52) were paired for a 60-min fight, and 34 fish were paired until the winner chased the loser; this last group was referred to as typical fighting pairs ( ). Fish were individually recognizable based on their coloring, especially the color of their caudal, anal, and dorsal fins. Each pair of fish was introduced into a 1.7-L PVC tank (18 × 12.5 × 7.5 cm). An opaque PVC partition was temporally used to divide the tank into two parts when the two fish were first introduced into the tank to help them become stabilized. After 1 min, the opaque divider was removed. In the first experimental set, the fish were allowed to fight for 20 min; in the second set, the fighting duration was set for 60 min; and in the third set (referred to as the typical fighting pairs), the fish were allowed to fight until the winner chased the loser. Behavioral interactions were videotaped digitally, and the recordings were subsequently used for detailed behavioral analysis. The fish from each experimental set were immediately killed after the fighting interactions with a lethal dose of MS-222 (Syndel USA; 1,000–1,500 mg/L, anesthetic time was ~1 min at 600 ppm concentration), then stored at -80°C for subsequent analysis. The non-fighting group was killed once the fish were taken out of the tanks, and they were removed from the tanks after all fighting group fish were killed ( ).
+The conflicts in all of the D20 and D60 fighting pairs in this study were not resolved. Data obtained from detailed scrutiny of behavioral patterns exhibited during interactions from the 17 typical fighting pairs revealed that a switching point at which the resolution of the fight took place was observed after a 60-min fight. During the 60-min fights, the fighting strength between two opponents within a fighting pair showed almost the same tendency, and the fighting sequences were consistent among all of the fighting pairs. Thus, it is likely that all pairs characterized as “D20” and “D60” were actually in the same stage with respect to fighting sequences.
+All 25 brain samples, consisting of five non-fighting samples (B), 10 samples from the 20-min fights (D20), and 10 samples from the 60-min fights (D60), were used to generate RNA-seq data for transcriptomic analysis. The 17 typical fighting pairs were used only for behavioral analysis. With these typical pairs, we referred to the fish by a letter and number to indicate different sets of fighting experiments (e.g., M5 vs. M8 indicates “in set M, fish number 5 fights against fish number 8”) and to clarify between the winner and the loser.
+
+## Video analysis
+Recorded videos (Nikon Cool Pix E5400) were analyzed using the video editing software Windows Movie Maker (Microsoft). Activities were recorded with respect to both the frequency and timing of biting/striking, surface-breathing, and mouth-locking. Biting/striking was defined as occurring when one fish made open-mouth contact with the other fish. Surface-breathing was defined as occurring when a fish ceased displaying and began gulping air at the surface, and mouth-locking was defined as occurring when one fish took hold of the other fish’s upper or lower lip.
+
+## Fighting behavioral structure
+To examine the fighting behavioral structure, biting/striking attacks, surface-breathing events, and mouth-locking events were recorded in terms of their frequency and duration. An initial 60-min fight duration was analyzed in which the biting/striking, surface-breathing, and mouth-locking behaviors were broken down into 2-min windows with 1-min overlap for analysis. To consider the entire 60-min fighting process, the time series was broken up into short, overlapping segments (or time windows). Calculation for frequency and duration values are then determined for each of these time windows (1 min in this case). The resultant time sequence of all frequency and duration values from each time window can indicate behavioral changes over time. The length of the time window was determined based on the type of movement considered, along with the observed time scale for behavioral changes [ ]. Pearson correlation coefficients for bite/strike and surface-breathing ( and ) were separately calculated between paired fish using the cor function in R/Bioconductor. The figure panels showing the combination of all behaviors ( , ) were generated using Excel.
+
+## Tissue processing and RNA extraction
+Brains were rapidly dissected from the three groups of frozen fish (B, D20, and D60) in PBS buffer and were individually collected in 1.5-ml tubes containing 1,000 μl Trizol for further processing. Total RNA from each whole brain (0.01 g/brain) was extracted using Trizol and then purified with Quick-RNA MiniPrep (Zymo Research, USA). The concentration and purity of the RNA was determined by Qubit (Eugene, Oregon, USA) and a BioAnalyzer 2100 RNA Nano kit (Agilent, USA), respectively. The RNA quality integrity (RIN) values of the samples ranged from 6.3 to 8.8. Total extracted RNA was kept at –80°C until processing.
+
+## Stranded RNA sequencing
+RNA-seq libraries were constructed using the TruSeq Stranded mRNA Library Prep Kit (Illumina, USA) with proper quality control, and the molar concentrations were normalized using a KAPA Library Quantification Kit (Kapa Biosystems, USA). The 25 RNA libraries were sequenced in two separate groups. Five RNA libraries (B1, B2, B3, D60_11, and D60_12) were sequenced on the Illumina HiSeq 2500 system at Yourgene Bioscience Co., Ltd. (Taipei, Taiwan) using paired-end sequencing. The other 20 samples (B4, B5, D20_11, D20_12, D20_21, D20_22, D20_31, D20_32, D20_41, D20_42, D20_51, D20_52, D20_61, D20_62, D60_21, D60_22, D60_41, D60_42, D60_51, and D60_52) were sequenced on the Illumina HiSeq 2500 system at the NGS High Throughput Genomics Core (Biodiversity Research Center, Academia Sinica, Taiwan) using single-end sequencing. The read lengths and total sequencing reads are shown in .
+Given that the samples had undergone two different sequencing methods, we examined whether the paired-end vs. single-end difference led to any biases in the data using a multidimensional scaling (MDS) plot. The MDS plot, which was color-coded based on the sequencing method, revealed that the two methods resulted in slight or no biases as all samples were clustered together ( ). We further evaluated the extent to which the two methods yielded equivalent results. We used only the forward-reads for the pair-end sequencing samples and analyzed all data in single-end mode throughout the pipeline to minimize any bias. The results obtained were comparable in terms of mapping rates and the total number of genes across all the samples ( ) between the two methods, which is consistent with a previous study [ ] and indicated sufficient quality for further downstream analyses.
+
+## Quality processing and read mapping
+Adaptors were trimmed using the Cutadapt tool [ ] with the following command line, -b GATCGGAAGAGCACACGTCTGAACTCCAGTCAC -b AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -o $1.output file name $1.inputfile name. The low-quality bases and reads were removed by using the fastq_quality_trimmer tool version 0.0.13 (http://hannonlab.cshl.edu/fastx_toolkit/) with the following parameters: fastq_quality_trimmer -t 20 -l 30 -Q 33 -i $1.input file name | fastq_quality_filter -q 20 -p 80 -Q 33 -o $l.output file name.
+The B. splendens genome and its gene IDs were downloaded from http://gigadb.org [ ]. The processed sequencing reads were mapped to the genome using Tophat version 2.1.1 [ ], and its embedded aligner Bowtie2 version 2.1.0 with the default parameters [ ]. The unique mapping reads (reads that matched the reference genome at only one position) were extracted using samtools with the following command line view, -q 4 $1.input file name >$1.output file name. The exon-mapped reads were counted by featureCounts [ ]. The normalized expression levels of genes, represented by the trimmed mean of M-values (TMM) [ ], were generated by the “edgeR” package (version 3.26.8) in R [ ]. In total, 23,306 genes from each brain sample were generated. All raw data are available at Bioinformation and DDBJ Center (https://www.ddbj.nig.ac.jp/index-e.html), accession code number DRA009599.
+
+## Identification of DEGs
+The DEGs were obtained from comparisons of gene expression between the non-fighting group (B) with the D20, and B with the D60. We included genes with at least one count per million in at least one sample. The p-values from all contrasts were adjusted via empirical FDR at once. Cut-off values of FDR ≤ 0.05 and |log FC| > 2 were used to select the DEGs ( ; source code, edgeR).
+
+## Brain-transcriptomic synchronization analysis
+To evaluate the transcriptomic synchronization, we first calculated Pearson correlation coefficients of log2-transformed TMM values (r) separately between two random fish from each group of the D20 and D60 using the pairs function in R. Combinations of all possibilities between two random fish among the 10 fish resulted in a total of 45 pairwise (five paired fish and 40 unpaired fish) for each fighting group (45 = 2-permutations of 10; ). Next, to assess how similar the transcriptomes of paired fish were and to what extent the paired fish were synchronized, we compared the r values from paired fish to the r values from unpaired fish from the same treatment (e.g., D20_paired fish vs. D20_unpaired fish; D60_paired fish vs. D60_unpaired fish) using a permutation test, which is implemented by the "exactRankTests" package in R with all default settings. The hypergeometric test (23,306 total genes analyzed) was conducted by phyper function in the “dplyr package” in R.
+
+## Clustering
+To differentiate transcriptomic responses among the three groups (B, D20, and D60), a principal component analysis (PCA) and a linear discriminant analysis (LDA) were done on the same data set of the top 50% most variable gene transcripts (11,653 genes sorted by standard deviation) from the entire gene set after undergoing DEG analysis in edgeR (n = 23,306 genes). Both the PCA and LDA analyses were implemented using the "MASS" package in R ( ; source code, LDA). To visualize transcriptomic synchronization, a grade of membership (GoM) analysis was performed using the entire gene set (n = 23,306 genes) with ‘7’ as the selected number of clusters based on the “CountClust” package in R [ ] (source code, GoM). To cluster gene expression patterns of each fighting group and each individual, heatmaps were created using the pheatmap ( ) and ggplot2 ( ) functions in R. The consensus tree and bootstrap values for each tree node in and were obtained with the hclust function in the “pvclust” package in R/Bioconductor. A Venn diagram was constructed using webtools (http://bioinformatics.psb.ugent.be/webtools/Venn/).
+
+## WGCNA
+Using normalized expression counts from all the genes that underwent differential expression analysis in edgeR (23,306 genes, described above), we characterized gene expression network dynamics. This analysis was performed using an open-source software, WGCNA package in R [ ]. WGCNA shows patterns of co-expressed genes (modules, which are arbitrarily assigned a color name by the software package) based on the eigengene value (a variable derived from the first principal component of expression in a module that represents the gene expression profile in a module, see [ ] for more details). Our goal was to identify modules associated with the fighting groups (B, D20, and D60). We calculated Pearson correlation coefficients between all gene pairs in all three fighting groups from the experiment: B, D20, and D60. Further, we used DAVID as described below to perform GO and KEGG pathway analyses on the chosen gene modules in WGCNA. The designed matrix for the WGCNA used to identify gene modules is shown in . We used the default parameters for all WGCNA settings (source code, WGCNA).
+
+## Characterizing the synchronized gene set
+We characterized the synchronized gene set with the following two-step method.
+In the first step, the DEGs from the B vs. D20 and B vs. D60 comparisons (FDR < 0.05 and log FC > 0) were obtained as described above.
+In the second step, we divided the procedure into three parts as follows.
+(1) To determine whether a gene i is synchronized or not, the expression distance for each particular gene between two random fish among the total of 45 possible combinations (45 = 2-permutations of 10, five paired fish and 40 unpaired fish) was separately computed for each group (D20 and D60) using the following formula:
+
+Dij=|log10(Aij/Bij)|
+where Dij is the distance for gene i between a random pair j (A and B) and Aij and Bij are the TMM values for gene i of fish A and fish B from the pair j, respectively.
+(2) A permutation test for each Di between the five paired fish and the 40 unpaired fish was separately conducted for each of the fighting groups, D20 (D20-paired fish vs. D20-unpaired fish) and D60 (D60-paired fish vs. D60-unpaired fish), to assess the statistical significance. The tests were implemented by the "exactRankTests" package in R with all default settings. A value of p < 0.05 was considered indicative of a synchronized gene.
+(3) To determine in which fighting pair(s) gene i is synchronized, we first separately computed the expression distance for each particular gene i between two unpaired fish for each group (D20 and D60) using the following formula:
+
+Dup=|log10(Cik/Dik)|
+where Dup is the distance for a gene i between an unpaired fish k (C and D); Cik and Dik are the TMM values for a gene i of fish C and D from the pair k, respectively.
+Then, a baseline for each synchronized gene (Bi) was identified by calculating the 25th percentile value for the distance of each particular gene (i) between the 40 unpaired fish for D20 and D60 separately (see , left). Finally, we compared the distance of synchronized gene i in pair j (Dij) with the baseline (Bi). If Dij < Bi, then the synchronized gene i is defined as synchronized in the pair j.
+
+## Obtain learning and memory genes
+To find genes related to “memory” or “learning”, the sequences from the 1,522 synchronized genes in the D60 group were searched against the amino acid sequences related to “memory” or “learning” obtained from the UniProt database (https://www.uniprot.org/) using blastx with a cut-off E-value of 1e-20.
+
+## Gene annotation
+The protein sequence table of B. splendens was obtained from http://gigadb.org/dataset/100433. These sequences were used for a BLAST analysis against protein databases to find the homologs of zebrafish (Danio rerio) using Blast2GO (https://www.blast2go.com/blast2go-pro). As a result, we obtained 15,754 well-annotated genes for the GO and KEGG pathways analyses.
+
+## Functional gene enrichment analysis
+The significantly enriched Gene Ontology terms (biological process) and KEGG pathways were identified by the Database for Annotation Visualization and Integrated Discovery (DAVID) [ ]. A p-value cut-off of < 0.05 was used to select for significantly enriched functional terms. The GO terms obtained from DAVID were summarized into larger and more general categories to get a general overview of the underlying biology using REVIGO [ ]. Terms were grouped together if they were in a similar pathway and/or based on semantic similarity. GO enrichments along with their respective p-values are in – Tables
+
+## Supporting information
+S1 Video
+
+## Fighting between two males of B. splendens.
+(MP4)
+Click here for additional data file.
+S1 Fig
+
+## Dynamic fighting behaviors of two male B. splendens individuals.
+(A), Two male B. splendens. (B), Sequence of fighting behaviors that take place in order from (1) to (6) throughout the fighting process. (C), Sample collection. We conducted two fighting experiments (n) per day beginning at 1 PM (t0), and fish were immediately sacrificed at specific time points (t1) by submersion in the lethal dose of MS 222. It took 1 day to collect the five individuals for Set 1, 3 days to collect the five pairs for Set 2, followed by another 3 days to collect the five pairs for Set 3 and another 3 days for Set 4. After sacrifice, the samples were immediately transferred to a -80°C freezer and were stored there until subsequent brain dissection, RNA extraction and RNA sequencing.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Behavioral differences among all fighting pairs.
+(A-C, G, H) Behavioral differences among all fighting pairs with respect to biting/striking. (D-F, I, J) Behavioral differences among all fighting pairs with respect to surface-breathing. These are data from five typical fighting pairs (Set 4 in ) that were not included in the D20 or D60 group.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Gene Ontology and KEGG pathways.
+(A-E) Bar charts showing the enriched biological processes associated with four gene modules generated from the WGCNA analysis—MEmidnightblue (A), MEgrey60 (B), MEblue (C) and MEturquoise (D)—and the MAPK signaling pathway components associated with three of these modules (E). (F-I) Significantly enriched KEGG pathways for those modules associated with the fighting groups: MEgrey60 (G), MEblue (H) and MEturquoise (I) for the D60 and MEmidnightblue (F) for the D20; up-regulated genes are shown in red.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Correlation coefficient values (r), representative synchronized genes, WGCNA, and PCA.
+(A) The r values between the TMMs for the 23,306 gene transcripts from the two opponents of the fighting pairs in the D60 group; (B) The r values between the TMMs for the 23,306 gene transcripts from the two opponents of the fighting pairs in the D20 group. The r values in red boxes are for the fighting pairs. Bivariate scatter plots are shown below the diagonal, histograms are shown on the diagonal, and the Pearson correlation values are shown above the diagonal. (C) Representative genes showing pair-specific synchronization of expression. Although these genes were synchronized in all five pairs, the level of synchrony differed for each particular pair. (D) The WGCNA heatmap showing values for r (upper value) and p (lower value in parentheses) in all of the gene modules. (E) Clustering of all 25 brain samples using a principal component analysis (PCA); blue, non-fighting group (B); red, D20 group; and green, D60 group.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## Venn diagram for synchronized genes and heatmap for all gene set.
+(A) Venn diagram generated from the 1,522 synchronized genes from five pairs of the D60 group (D60_11 vs. D60_12, D60_21 vs. D60_22, D60_31 vs. D60_32, D60_41 vs. D60_42, and D60_51 vs. D60_52); (B) Venn diagram generated from the 172 synchronized genes from five pairs of the D20 group (D20_11 vs. D20_12, D20_21 vs. D20_22, D20_31 vs. D20_32, D20_41 vs. D20_42, and D20_51 vs. D20_52). (C) Heatmap using the 25 cDNA libraries with each of the 23,306 gene contigs (all gene set). Intensity of color indicates expression level (red, high expression; blue, low expression). Similarities between individuals within fighting pairs and between fighting pairs as shown by hierarchical clustering can be seen above the heatmap. Bootstrap values at the nodes were obtained by hclust function in R.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## Brain-transcriptomic Synchronization Associated with Long-Term MemoryGenes.
+(A-C) Calcium pathways generated from the synchronized gene set in the D60 group and non-synchronized gene sets of the D20 and D60 group (B, C). (D)
+Glutamate (Glu) is released from the presynaptic terminal and acts on both postsynaptic N-methyl-d-aspartate receptors (NMDARs; grinaa, grin2aa, grin2b subunits) and α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid receptors (AMPARs; grm8a subunit) to depolarize these receptors and release Mg2+. (E) Ca2+ increases in the postsynaptic terminal and binds to Calmodulin (CaM; calm2a subunit) to activate the calmodulin-dependent protein kinase (CAMKII; camk1da, camk2a, camk2b1 subunits). Also, β-adrenergic receptors (β-ARs) are used to recruit more AMPAR to promote long term memory.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## The MDS plot color coded by sequencing methods.
+B, non-fighting group; D20, the D20 fighting group; D60, the D60 fighting group. Red circle clusters the paired-end sequencing and blue circle clusters the singe-end sequencing.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Seventeen typical fighting pairs and those parameters used to construct the representative schematic fighting structure.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Correlation coefficients of biting and striking attacks for eight typical fighting pairs used to visualize behavioral synchronization.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Correlation coefficients of surface-breathing events for eight typical fighting pairs used to visualize behavioral synchronization.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The mapping rate of 25 B. splendens brain samples from the non-fighting, D20, and D60 groups to the reference B. splendens genome.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## Differential Expression Genes List (DEGs) (average TMM value).
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## Number of genes in each module from the WGCNA analysis.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## Top 5 driving genes in each cluster extracted from the Grade of Membership (GoM) analysis.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## List of DEGs generated from a comparison of the expression levels from the non-fighting group vs. the D60 group (FDR ≤ 0.05).
+(XLSX)
+Click here for additional data file.
+S9 Table
+
+## List of synchronized genes expressed in one to five pairs of fighting B. splendens.
+(XLSX)
+Click here for additional data file.
+S10 Table
+
+## GO terms among the synchronized genes and non-synchronized genes in the D60 group with respect to the biological process (BP) list (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S11 Table
+
+## GO terms among the synchronized genes and non-synchronized genes in the D60 group with respect to the molecular function (MF) list (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S12 Table
+
+## GO terms among the synchronized genes and non-synchronized genes in the D60 group with respect to the cellular component (CC) list (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S13 Table
+
+## KEGG analysis using synchronized genes related to learning or memory and for which there were at least two genes in the pathway (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S14 Table
+
+## Commonly enriched pathways and their constitutive components as represented among the synchronized genes in the D60 group (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S15 Table
+
+## Behavioral matrix for the WGCNA analysis.
+(XLSX)
+Click here for additional data file.
+
+## Acknowledgments
+This study was completed at the Foundation for Advancement of International Science (FAIS) and Kitasato University, Japan. We thank Mr. Y. Otake, a president of FAIS, and Mr. T. Sugino, a president of ZENICK Corp., for support. We thank Drs. P-W. Gean and K. Yamaguchi for discussions and the preliminary analysis of the data. We are also grateful to Drs. K. Honma, J. Wang and S. Nishimura for critical reading of the manuscript, to Ms. A. Koizumi for improving the quality of the figures, and to Mr. K. Onodera at FAIS for assistance. We thank Drs. Alison Bell (Guest Editor), Gregory Barsh (Editor-in-Chief), and the three anonymous reviewers for their constructive comments, which have improved the manuscript.
+
+## Data Availability
+The RNA-Seq data are accessible on DDBJ (https://www.ddbj.nig.ac.jp/index-e.html) with this ID: DRA009599.
+
+## Funding Statement
+This study was supported by National Cheng Kung University (NCKU), Taiwan with support from the Aim for the Top University Project of NCKU (D104-38A05 & D105-38A03) and the Ministry of Science and Technology (NSC 102-2621-B-006-002- and MOST 103-2621-B-006-005-) to N.O. and from the Ministry of Science and Technology, Taiwan (MOST 107-2311-B-001-016-MY3) to W-H.L. It was also supported by the Japan Society for the Promotion of Science (JSPS) Grants-in-Aid for Scientific Research, KibanB to N.O. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1008831.r001Decision Letter 0
+BarshGregory SEditor-in-ChiefBellAlisonGuest Editor© 2020 Barsh, BellThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+15 Jan 2020
+
+Dear Dr Okada,
+Thank you very much for submitting your Research Article entitled 'Behavioral and neuro transcriptomic synchronization between the two opponents of a fighting pair of the fish Betta splendens' to PLOS Genetics. Your manuscript was fully evaluated at the editorial level and by independent peer reviewers. The reviewers appreciated the attention to an important problem, but raised some substantial concerns about the current manuscript. Based on the reviews, we will not be able to accept this version of the manuscript, but we would be willing to review again a much-revised version. We cannot, of course, promise publication at that time.
+Should you decide to revise the manuscript for further consideration here, your revisions should address the specific points made by each reviewer. We will also require a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript.
+If you decide to revise the manuscript for further consideration at PLOS Genetics, please aim to resubmit within the next 60 days, unless it will take extra time to address the concerns of the reviewers, in which case we would appreciate an expected resubmission date by email to plosgenetics@plos.org.
+If present, accompanying reviewer attachments are included with this email; please notify the journal office if any appear to be missing. They will also be available for download from the link below. You can use this link to log into the system when you are ready to submit a revised version, having first consulted our Submission Checklist.
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. For instructions see our guidelines.
+Please be aware that our data availability policy requires that all numerical data underlying graphs or summary statistics are included with the submission, and you will need to provide this upon resubmission if not already present. In addition, we do not permit the inclusion of phrases such as "data not shown" or "unpublished results" in manuscripts. All points should be backed up by data provided with the submission.
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool.  PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+PLOS has incorporated Similarity Check, powered by iThenticate, into its journal-wide submission system in order to screen submitted content for originality before publication. Each PLOS journal undertakes screening on a proportion of submitted articles. You will be contacted if needed following the screening process.
+To resubmit, use the link below and 'Revise Submission' in the 'Submissions Needing Revision' folder.
+[LINK]
+We are sorry that we cannot be more positive about your manuscript at this stage. Please do not hesitate to contact us if you have any concerns or questions.
+Yours sincerely,
+Alison Bell
+Guest Editor
+PLOS Genetics
+Gregory Barsh
+Editor-in-Chief
+PLOS Genetics
+Comments from Guest Editor:
+The paper by Yu et al reports the results of a study of synchronization of behavior and brain gene expression in Betta splendens. The authors staged fights between two individual male fish, recorded their behavior, and sacrificed them 20 or 60 minutes after the fight. The authors report behavioral synchrony between individuals within a pair, as well as evidence for brain gene expression synchrony. The authors frame their paper in terms of gaining insights into the molecular mechanisms of assessment, which has been well studied from a behavioral and ecological point of view, but the underlying mechanisms are unknown.
+The paper was reviewed by three expert reviewers. All three reviewers were generally positive about the overall study and motivation but they raised a number of substantive concerns about the presentation of the study, the rationale, the analysis and the interpretation of the results.
+For example, reviewer #1 pointed out that the paper in its present form does not clarify why brain gene expression (as opposed to, say, neural activation) was measured. I strongly agree with this comment – why do the authors think that brain gene expression is operating over a time scale relevant to behavioral synchrony during a fight? The reviewer also pointed out that at present the study presents behavioral and brain gene expression data with some sophisticated analyses but there are no follow-up studies presented, nor attempts at validation. Over the past several years the bar for publishing pure gene expression papers has been raised – are the brain gene expression results sufficiently insightful to merit publication without additional studies of, e.g. neural activation, manipulation of candidate pathways, etc? Reviewer #1 also noted that it wasn’t clear if the fights were resolved in any of the pairs – this is a critical detail that should be clarified.
+Reviewer #2 pointed out several weaknesses of the study that question the biological significance of the findings. Reviewer #2 suggested several different statistical approaches that could strengthen confidence in the findings, e.g. by considering the effect of pair as a random effect, using a two-way ANOVA rather than separate pair wise tests. The authors should also consider Reviewer #2’s point about whether covariance structure was the same among the different treatment groups – this is assumed by the WGCNA analysis and unequal covarainces could cause spurious findings. Reviewer #2 also had some really good ideas for ways to rigorously evaluate evidence for greater synchrony among individuals within versus between pairs, e.g. via permutation. Reviewer #2 also brought up some alternative interpretations of similarity between individuals within a pair, e.g. they reflect similar fighting effort rather than synchrony per se.
+Reviewer #3 was generally enthusiastic about the paper and made a number of helpful suggestions, e.g. justification of the whole brain analysis, and an explicit statement about which brain regions might be good candidates for future study. Reviewer #3 questioned the utility of coining the term “PINS”. This is something the authors should consider. Reviewer #3 also questioned whether the TFBS analysis merits inclusion in the main body of the paper given that the results do not add much to the overall message of the study.
+All three reviewers raised a number of other helpful points that the authors should find useful when revising their paper.
+Overall I agree with all three reviewers and think that this study has the potential to make a valuable contribution to the literature but it needs work. The claims need further substantiation with more detailed and rigorous analyses, and the authors should seriously consider whether they had sufficient statistical power and quantitative resolution (e.g. whole brain) to make some of these claims. It would be more convincing if it was clear that the authors tried many tactics to reject their hypothesis.
+Reviewer's Responses to Questions
+Comments to the Authors:
+Please note here if the review is uploaded as an attachment.
+Reviewer #1: This ms by Vu et al. aims to uncover the changes in whole brain transcriptome in a pair of fighting males that engage in particular mouth locking behaviour. The authors use Betta splendens fish as a model to create fighting pairs. They quantify behaviour and gene expression by RNA-seq in fighting males that are in a fight for 20 minutes and 60 minutes and controls that are isolated. They find that in the later time point, gene expression is correlated between the two males of a pair (compared to controls or compared to a fighting male from another pair).
+As a reader, it is crucial for me to clearly see in a ms what we know on the topic and what we don’t, and why its important to know more about this. In the ms I did not see a clear reason for studying gene expression rather than neural activation. Telling the reader what the ms will bring is essential. I was also surprised that there were no clear hypothesis nor predictions. I have several questions about the methods.
+Specific comments
+Introduction
+After line 100, it wold be essential to explain why the authors want to learn about the neurotranscriptomic state of males during a fight. Why should we study this, what will it bring to our understanding of behaviour in general. This is important for the broad audience that is targeted by this journal. It would be essential to have hypotheses and predictions, at least proposing alternative models of what should happen, and in which type of genes, given the behavioural data that is available and what we know from studies in males that have already resolved conflicts (dominant/subordinate for example).
+Line 106-108 and results line 150-153
+For the whole ms, it is not clear if conflicts were resolved or not in the D20 and D60 fish. If not, can an index of escalation or of when in the timeline the pairs are towards resolution (creating an index based on the “typical fighting pairs” maybe?) be created? This analysis looks like a time series analysis, but we are not sure if each pair characterised as “D20” and “D60” is actually in the same stage. We they always killed while mouth locking? Etc?
+Results
+Line 154
+Please explain why the top 10 000 highly expressed genes were used. And what does highly expressed mean? Highest read count? What does it mean biologically?
+Line 178-179
+Why discuss the fact that some genes have a particular biological function? Is this the result of an enrichment analysis or just cherry picking genes?
+Line 181
+How can duplicates exist? What do they represent? Would it be better to remove them before the statistical analysis of DEG?
+Line 195
+The WGCNA is not explained in the methods and we have no idea how it answers the question about the neurotranscriptomic state of fighters.
+Line 200
+Please explain how a gene module eigen value can be correlated with 3 treatments. How can one correlate continuous values with 3 discrete groups? What can of correlation can be used if one of the variable has no value / cannot be ordered?
+Line 218-224
+What is the meaning of these results? What question do they answer?
+Line 317-337
+This analysis really looks circular to me. The authors need to explain why extracting genes based on their function (learning and memory) are then used in a kegg analysis to find enriched pathways (?) and one of these pathways but not the others (why?) related to calcium signalling pathway is then used to analyse the gene sets (including the one from which the genes related to memory where extracted from in the first place!) to determine if each gene set is enriched for genes related to learning. Please explain how this is not circular.
+METHODS
+Line 604
+Why use a cut off of FC > 2?
+Line 606-607
+If 45 pairwise correlations are done, one needs to correct for multiple testing?
+Line 610-611
+Please give more detail for the LDA and GoM, presently they are impossible to replicate
+Line 612-614
+The heat map combined a k-mean clustering and hierarchical clustering according to the figure caption. Please give detail on the parameters used for the hierarchical clustering (distance measure, model for clusters) and for the k-means (how were the number of k clusters chosen?). Also, how where the TMM data normalised?
+Line 651
+The linux pipeline should be on github or another repository for real reproducibility rather than available on request
+Figures
+Figure 2B is of poor quality
+Figure 3A the venn diagram is for all genes, no matter in which direction they changed expression? Are they always in the same direction in D20 and D60 compared to controls?
+Minor comment
+Line 332
+Here it says log FC > 2, probably mean log FC > 0 ?
+Line 582
+The authors refer to sample D50_21 and D50_22 but I suppose they mean D60?
+Reviewer #2: This manuscript analyzes behavior and gene expression changes in fighting fish. The manuscript is generally well-written and includes sophisticated analyses to address novel questions. My enthusiasm for the paper is reduced by several analysis issues that leave me wondering how many of the findings are trivial consequences of the analyses vs. findings of true biological significance.
+General concerns about behavioral synchronization findings:
+(1) To what extent is the calculated synchronization a trivial consequence of the inherent synchrony of mouth locking + the reality that other behaviors occur in a defined order vs. a more active form of synchronization? Is there a way to evaluate the expected level of synchrony that takes into account mouth-locking as a constraint?
+(2) The methods mention a 1-minute overlap for analysis, but I was not sure what this meant. Please explain more fully the justification for the window approach.
+General concerns about DEG analyses:
+(1) Given the experimental design, I would recommend an ANOVA rather than two pairwise tests. ANOVA would more appropriately take into account the use of the same control group for the D20 and D60 groups & would allow a formal assessment of differences between D20 and D60 directly rather than making inferences based on the lack of or presence of overlap in separate DE analyses. Also, I suggest those models take into account the non-independent nature of the paired fish (e.g. a random effect for pair).
+(2) I read Figure 2A quite differently than the statements on lines 155 – 158. As I see it, Axis 1 separates D20 and control from D60, and Axis 2 separates D20 and D60 from controls.
+General concerns about WGCNA:
+(1) I find it highly likely that the three groups differ in the co-expression structure (especially the control group compared to the fighters, but perhaps D20 and D60 as well). I therefore would not combine all the animals into one WGCNA analysis, as the differential expression between groups should drive the correlations identified and lead directly to findings such as close associations between modules and DEGs as reported in lines 218-219 and discussed in 459-470.
+(2) Line 200 states that the associations between the eigengene and fighting groups were computed using correlations. I am not sure based on this phrasing what analyses were conducted, but I don’t understand how correlations could be applied in this context.
+General concern about transcriptomic synchronization:
+My largest concern with the paper is the transcriptomic synchronization analysis (I adopt the authors’ terminology here, but see my suggestion about this word choice below). The analyses assess whether the transcriptomes of two paired fish have more in common than the transcriptomes of two random fish from unknown behavioral state (so fish that fight have more in common than noise, basically). I’d expect any two fish in the D20 or D60 group – not just those that fought each other – to appear synchronized by this measure. If the manuscript wants to assess how similar the transcriptomes of paired fish are, I recommend revising the analysis to compare the paired fish to unpaired fish from that same treatment, omitting the comparison to the non-fighting fish. Figure S4 does suggest this would be a promising approach, but the t-test of the correlation coefficients presented in Figure S4 is not appropriate because the individual pairwise correlations are not independent of one another. Permutation/resampling approaches would offer appropriate alternatives to make general comparisons as to how much paired fish were synchronized as a first step to warrant follow-up characterization of PINS (e.g. permuting which fish are paired then comparing a metric summarizing all correlations of the two transcriptomes, not the correlations in each gene individually). To identify the PINS, I would suggest designing another permutation or resampling test to set a threshold for which genes are PINS rather than relying on a t-test – both correcting for multiple hypotheses and also not requiring the data meet the assumptions of the t test. Because of this fundamental disagreement with the methods used to identify PINS, I have not commented on the broader discussion of the PINS themselves.
+If a revised analysis as proposed found that transcriptomes for paired fish were more synchronized than fish selected at random, I suggest that the authors consider all possible cause and effect relationships, as the paired fish had very similar behavioral repertoires overall so any transcriptomic commonalities could reflect transcriptomic responses to fighting effort or allocation of that effort rather than being related to behavioral synchrony per se (considering that the behaviors were measured quite a bit before the mRNA expression, and the mRNAs would typically influence physiology only after protein synthesis and trafficking).
+Specific comments:
+Line 57-58: I don’t see the link between data presented and facial convergence or empathy.
+Line 178-180: State method/evidence for this statement.
+Line 433-440: References needed for these statements.
+Line 445-447: The conclusion as stated in this sentence oversteps the evidence presented.
+Line 544-547: How long does this overdose with MS222 take? The main concern would be the extent to which gene expression might change during the euthanasia.
+Line 582: I wasn’t sure if D50_21 and D50_22 was an error in naming or whether these fish had only 50 minutes of fighting?
+Line 578-585: Given that the samples had two difference sequencing methods, I recommend adding a sentence that summarizes the extent to which the methods yielded equivalent results and addressing whether the paired vs single end difference led to any biases in the data. Some sort of MDS or PCA plot color coded by sequencing run might also help assuage concerns.
+Figure 2B has D2_31 listed twice.
+General stylistic suggestions:
+Although ‘neurotranscriptomic’ and similar terms are used in the literature, I think the term ‘transcriptomic’ is preferable given that brain samples include transcripts from many non-neuronal cells that also have dynamic responses to stimuli and may play important functional roles.
+Also, aside from the major concern about the data analysis supporting the transcriptomic synchronization, a terminology suggestion is that the word synchronization implies coordinated timing. The transcriptomic analyses might reflect coordination, but I would avoid the term synchronization because we don’t have temporal dynamics here.
+Reviewer #3: In the manuscript “Behavioral and neurotranscriptomic synchronization between the two opponents of a fighting pair of the fish Betta splendens,” Trieu-Duc et al. analyze the brain transcriptomes of Siamese fighting fish at 20 min and 60 min after the initiation of combat. They find a considerable number of differentially expressed genes, compared to a control group, as well as a remarkable amount of co-variance in gene expression in fighting pairs, especially at the 60 min time point. The authors suggest several explanations for this putative “synchronization.” Overall, this is a well-executed study with many interesting and novel results. Below, I list several general and specific comments, which hopefully will help to improve the manuscript further.
+General comments:
+1) Behavioral and physiological synchronization have long been studied by scientists. Although the authors cite a few studies in the Discussion, their treatment of this phenomenon is superficial, given its importance in reproductive/mating behavior, cooperative behavior, aggressive behavior etc. I suggest the topic is best introduced in the Introduction. Further, the recent papers from the labs of Weizhe Hong and Michael Yartsev (which the authors cite later) provide excellent physiological evidence for synchronization. Decades of behavioral evidence as well as these recent physiological findings suggest synchronization at the gene expression levels as a hypothesis.
+2) The authors examined whole-brain transcriptomes. It would be good to provide a rationale for this decision and discuss its limitations. Then, in the Discussion, when pointing at future experiments, consider which brain regions might be good candidates for further analysis.
+3) What is the rationale for selecting the 10,000 most highly expressed genes in the LDA? Why not instead use the 10,000 (or 50%, or similar) most variable genes?
+4) The asymmetry in gene expression variation between baseline controls and D20 / D60 animals is quite striking (Figure 2C/D). How should we interpret this strong bias towards more highly expressed genes in the fighting animals? How does this result compare to biased transcriptomes described previously in other systems? Also, consider showing volcano plots for both B vs D20 and B vs D60, and consider volcano plots where the D20 DEGs are projected onto the B vs D60 volcano plots and vice versa.
+5) I am not convinced there is good reason to introduce a new acronym “PINS.” What the authors are showing is increased covariance in gene expression between combatants compared to baseline controls, especially at the 60 min mark. They interpret this covariance as “synchronization,” which is fine but should be limited to the Discussion. “PINS” seems a little vacuous and excessively speculative.
+6) Do the observed (synchronized) gene expression patterns give insight into the neuromolecular mechanisms underlying sequential assessment, as laid out by Enquist & Leimar sand many others since then?
+7) The survey of DEG promoters in search of overrepresented transcription factor binding sites is superficial and distracting. It does not add much to the study, so I suggest either to remove it entirely or to move it to supplemental materials.
+Specific comments:
+8) What was the rationale for choosing the 20 min and 60 min time points, respectively?
+9) Figure 3C: This heatmap is fine, though the legend is illegible. I would like to see hierarchical clustering of all samples for, say, the top 50% most variable genes. How clearly are the three groups (B, D20, D60) separated? Do paired individuals cluster together? I believe the heatmap in Figure 5B attempts this (though why is it part of Figure 5?), but has way too many uninformative (i.e., barely variable) genes and the dendrogram has not been bootstrapped. Like all other clustered heatmaps in this study, dendrogram should have bootstrap values (consider using R package pvclust).
+10) What is the co-variance structure between module eigengenes and various behavioral metrics?
+11) The GoM analysis is very cool and convincing! Are there any test statistics that would allow us to estimate the strength of the association? Is there a way to quantify the strength of association between GoM and behavioral synchronization of any given pair?
+12) While much talked about, the “mirror neuron” concept is quite contentious among systems neuroscientists, with good reason to think that they are an artefact. I strongly suggest removing this discussion.
+**********
+Have all data underlying the figures and results presented in the manuscript been provided?
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy, and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: Yes
+Reviewer #2: No: I didn't see mention of where raw sequencing data will be available, but perhaps I missed it?
+Reviewer #3: Yes
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1008831.r002Author response to Decision Letter 0
+1762020166e1008831e1008831Collection date 2020 Jun.
+
+12 Mar 2020
+
+AttachmentSubmitted filename: response_to_reviewers.docx
+Click here for additional data file.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1008831.r003Decision Letter 1
+BarshGregory SEditor-in-ChiefBellAlisonGuest Editor© 2020 Barsh, BellThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+13 Apr 2020
+
+* Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out. *
+Dear Dr Okada,
+Thank you very much for submitting your Research Article entitled 'Behavioral and brain- transcriptomic synchronization between the two opponents of a fighting pair of the fish Betta splendens' to PLOS Genetics. Your manuscript was fully evaluated at the editorial level and by independent peer reviewers. The reviewers appreciated the attention to an important topic but identified some aspects of the manuscript that should be improved.
+We therefore ask you to modify the manuscript according to the review recommendations before we can consider your manuscript for acceptance. Your revisions should address the specific points made by each reviewer.
+In addition we ask that you:
+1) Provide a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript.
+2) Upload a Striking Image with a corresponding caption to accompany your manuscript if one is available (either a new image or an existing one from within your manuscript). If this image is judged to be suitable, it may be featured on our website. Images should ideally be high resolution, eye-catching, single panel square images. For examples, please browse our archive. If your image is from someone other than yourself, please ensure that the artist has read and agreed to the terms and conditions of the Creative Commons Attribution License. Note: we cannot publish copyrighted images.
+We hope to receive your revised manuscript within the next 30 days. If you anticipate any delay in its return, we would ask you to let us know the expected resubmission date by email to plosgenetics@plos.org.
+If present, accompanying reviewer attachments should be included with this email; please notify the journal office if any appear to be missing. They will also be available for download from the link below. You can use this link to log into the system when you are ready to submit a revised version, having first consulted our Submission Checklist.
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+Please be aware that our data availability policy requires that all numerical data underlying graphs or summary statistics are included with the submission, and you will need to provide this upon resubmission if not already present. In addition, we do not permit the inclusion of phrases such as "data not shown" or "unpublished results" in manuscripts. All points should be backed up by data provided with the submission.
+PLOS has incorporated Similarity Check, powered by iThenticate, into its journal-wide submission system in order to screen submitted content for originality before publication. Each PLOS journal undertakes screening on a proportion of submitted articles. You will be contacted if needed following the screening process.
+To resubmit, you will need to go to the link below and 'Revise Submission' in the 'Submissions Needing Revision' folder.
+[LINK]
+Please let us know if you have any questions while making these revisions.
+Yours sincerely,
+Alison Bell
+Guest Editor
+PLOS Genetics
+Gregory Barsh
+Editor-in-Chief
+PLOS Genetics
+The paper by Vu et al is much improved since its earlier version. It was re-reviewed by two of the original reviewers, and both of them were impressed by the way the authors incorporated their suggestions.
+Reviewer #3 noted just a few places in the MS that could be improved. The authors should address these concerns when they revise their manuscript.
+The authors should also please be sure to deposit their data in a depository.
+I have just a few minor editorial suggestions, detailed below.
+Line 42: please replace “higher” with “vertebrate”
+Line 72: females also fight. Please remove “male” and change “conspecific” to “conspecifics”
+Line 109: remove “excellent”
+Line 173: change “discover” to “discovery”
+Line 428: remove “genomics”; integrative genomics typically refers to integrating different types of ‘omics data, e.g. RNASeq, DNASeq, ATAC-Seq, etc
+Reviewer's Responses to Questions
+Comments to the Authors:
+Please note here if the review is uploaded as an attachment.
+Reviewer #1: I have reviewed this revised version of the manuscript by Vu et al and find it much improved. They have addressed my main concerns carefully. In particular, I appreciate the addition of a clear explanation of why they hypothesized that there could be synchronization at the gene expression level in the brain (new paragraph in introduction). They have also modified several of their statistical and transcriptomic analyses and improved them, for example with permutation analyses or by having a more appropriate criteria for gene selection. Their revision goes well beyond cosmetic changes and they have made sure to redo analyses if needed, figures, etc. I think the new figure 5 is very useful and illustrates well the comparison of covariation of transcriptomes of males within a pair and between pairs.
+Reviewer #3: The authors have done a very thorough job addressing the reviewers' comments! This is very well executed study that will be of interest to a broad readership. I have a few small suggestions the authors may want to consider:
+1. I suggest the authors provide a couple of clear hypotheses or predictions before they launch into the Results. This would very much help with the overall framing of the study.
+2. Because linear discriminant analysis (LDA) is supervised, it might be useful to also use principal component analysis (PCA) on this dataset, especially given that the authors did not have a clear expectation on the clustering.
+3. The rationale for using whole brain is improved, though it seems largely based on hindsight, given the results of this study. I still think the authors made an appropriate decision here, but they can justify it better by pointing at previous studies that did whole brain gene expression profiling in the context of aggression or social status.
+4. On lines 391ff. the authors now address the asymmetry in DEGs they discovered, suggesting “the possibility of a shift in metabolism that prefigures later neuronal plasticity in the brain.” This is an intriguing idea, though I wonder how generalizable it is (see, e.g.,
+Cummings et al., ProcRSoc B 275:393, 2008, where fewer genes were highly expressed in the ostensibly more “salient” stimulus situation). Is it possible that the asymmetry in DEGs between baseline and fighting groups is a molecular manifestation of increased inhibitory control of gene expression on aggression (so as to avoid an over-escalation), as suggested by Wong & Hofmann, Encyclopedia of Life Sciences, John Wiley & Sons, Ltd: Chichester.
+DOI: 10.1002/9780470015902.a0022554, 2010)? Also, how could any of these ideas be tested? This is obviously outside of the scope of this study, but I wanted to share these thoughts with the authors.
+5. Also, consider including Figure S8 in the main paper. I think it is important in supporting your argument.
+**********
+Have all data underlying the figures and results presented in the manuscript been provided?
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy, and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: Yes
+Reviewer #3: No: Something that needs to be confirmed upon acceptance
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #3: No
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1008831.r004Author response to Decision Letter 1
+1762020166e1008831e1008831Collection date 2020 Jun.
+
+28 Apr 2020
+
+AttachmentSubmitted filename: 200428_reviewer_ responses.docx
+Click here for additional data file.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1008831.r005Decision Letter 2
+BarshGregory SEditor-in-ChiefBellAlisonGuest Editor© 2020 Barsh, BellThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+5 May 2020
+
+Dear Dr Okada,
+We are pleased to inform you that your manuscript entitled "Behavioral and brain- transcriptomic  synchronization between the two opponents of a fighting pair of the fish Betta splendens" has been editorially accepted for publication in PLOS Genetics. Congratulations!
+Before your submission can be formally accepted and sent to production you will need to complete our formatting changes, which you will receive in a follow up email. Please be aware that it may take several days for you to receive this email; during this time no action is required by you. Please note: the accept date on your published article will reflect the date of this provisional accept, but your manuscript will not be scheduled for publication until the required changes have been made.
+Once your paper is formally accepted, an uncorrected proof of your manuscript will be published online ahead of the final version, unless you’ve already opted out via the online submission form. If, for any reason, you do not want an earlier version of your manuscript published online or are unsure if you have already indicated as such, please let the journal staff know immediately at plosgenetics@plos.org.
+In the meantime, please log into Editorial Manager at https://www.editorialmanager.com/pgenetics/, click the "Update My Information" link at the top of the page, and update your user information to ensure an efficient production and billing process. Note that PLOS requires an ORCID iD for all corresponding authors. Therefore, please ensure that you have an ORCID iD and that it is validated in Editorial Manager. To do this, go to ‘Update my Information’ (in the upper left-hand corner of the main menu), and click on the Fetch/Validate link next to the ORCID field.  This will take you to the ORCID site and allow you to create a new iD or authenticate a pre-existing iD in Editorial Manager.
+If you have a press-related query, or would like to know about one way to make your underlying data available (as you will be aware, this is required for publication), please see the end of this email. If your institution or institutions have a press office, please notify them about your upcoming article at this point, to enable them to help maximise its impact. Inform journal staff as soon as possible if you are preparing a press release for your article and need a publication date.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Genetics!
+Yours sincerely,
+Alison Bell
+Guest Editor
+PLOS Genetics
+Gregory Barsh
+Editor-in-Chief
+PLOS Genetics
+www.plosgenetics.org
+Twitter: @PLOSGenetics
+----------------------------------------------------
+Comments from the reviewers (if applicable):
+The authors have done a commendable job responding to the concerns raised in the last round of review and I am happy to recommend that the paper be accepted for publication in PLoS Genetics.
+----------------------------------------------------
+Data Deposition
+If you have submitted a Research Article or Front Matter that has associated data that are not suitable for deposition in a subject-specific public repository (such as GenBank or ArrayExpress), one way to make that data available is to deposit it in the Dryad Digital Repository. As you may recall, we ask all authors to agree to make data available; this is one way to achieve that. A full list of recommended repositories can be found on our website.
+The following link will take you to the Dryad record for your article, so you won't have to re‐enter its bibliographic information, and can upload your files directly: 
+http://datadryad.org/submit?journalID=pgenetics&manu=PGENETICS-D-19-01565R2
+More information about depositing data in Dryad is available at http://www.datadryad.org/depositing. If you experience any difficulties in submitting your data, please contact help@datadryad.org for support.
+Additionally, please be aware that our data availability policy requires that all numerical data underlying display items are included with the submission, and you will need to provide this before we can formally accept your manuscript, if not already present.
+----------------------------------------------------
+Press Queries
+If you or your institution will be preparing press materials for this manuscript, or if you need to know your paper's publication date for media purposes, please inform the journal staff as soon as possible so that your submission can be scheduled accordingly. Your manuscript will remain under a strict press embargo until the publication date and time. This means an early version of your manuscript will not be published ahead of your final version. PLOS Genetics may also choose to issue a press release for your article. If there's anything the journal should know or you'd like more information, please get in touch via plosgenetics@plos.org.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1008831.r006Acceptance letter
+BarshGregory SEditor-in-ChiefBellAlisonGuest Editor© 2020 Barsh, BellThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+28 May 2020
+
+PGENETICS-D-19-01565R2 
+Behavioral and brain- transcriptomic synchronization between the two opponents of a fighting pair of the fish Betta splendens 
+Dear Dr Okada, 
+We are pleased to inform you that your manuscript entitled "Behavioral and brain- transcriptomic synchronization between the two opponents of a fighting pair of the fish Betta splendens" has been formally accepted for publication in PLOS Genetics! Your manuscript is now with our production department and you will be notified of the publication date in due course.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. 
+Soon after your final files are uploaded, unless you have opted out or your manuscript is a front-matter piece, the early version of your manuscript will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting PLOS Genetics and open-access publishing. We are looking forward to publishing your work! 
+With kind regards,
+Matt Lyles
+PLOS Genetics
+On behalf of:
+The PLOS Genetics Team
+Carlyle House, Carlyle Road, Cambridge CB4 3DN | United Kingdom
+plosgenetics@plos.org | +44 (0) 1223-442823
+plosgenetics.org | Twitter: @PLOSGenetics
+Associated Data
+
+## Supplementary Materials
+S1 Video
+
+## Fighting between two males of B. splendens.
+(MP4)
+Click here for additional data file.
+S1 Fig
+
+## Dynamic fighting behaviors of two male B. splendens individuals.
+(A), Two male B. splendens. (B), Sequence of fighting behaviors that take place in order from (1) to (6) throughout the fighting process. (C), Sample collection. We conducted two fighting experiments (n) per day beginning at 1 PM (t0), and fish were immediately sacrificed at specific time points (t1) by submersion in the lethal dose of MS 222. It took 1 day to collect the five individuals for Set 1, 3 days to collect the five pairs for Set 2, followed by another 3 days to collect the five pairs for Set 3 and another 3 days for Set 4. After sacrifice, the samples were immediately transferred to a -80°C freezer and were stored there until subsequent brain dissection, RNA extraction and RNA sequencing.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Behavioral differences among all fighting pairs.
+(A-C, G, H) Behavioral differences among all fighting pairs with respect to biting/striking. (D-F, I, J) Behavioral differences among all fighting pairs with respect to surface-breathing. These are data from five typical fighting pairs (Set 4 in ) that were not included in the D20 or D60 group.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Gene Ontology and KEGG pathways.
+(A-E) Bar charts showing the enriched biological processes associated with four gene modules generated from the WGCNA analysis—MEmidnightblue (A), MEgrey60 (B), MEblue (C) and MEturquoise (D)—and the MAPK signaling pathway components associated with three of these modules (E). (F-I) Significantly enriched KEGG pathways for those modules associated with the fighting groups: MEgrey60 (G), MEblue (H) and MEturquoise (I) for the D60 and MEmidnightblue (F) for the D20; up-regulated genes are shown in red.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Correlation coefficient values (r), representative synchronized genes, WGCNA, and PCA.
+(A) The r values between the TMMs for the 23,306 gene transcripts from the two opponents of the fighting pairs in the D60 group; (B) The r values between the TMMs for the 23,306 gene transcripts from the two opponents of the fighting pairs in the D20 group. The r values in red boxes are for the fighting pairs. Bivariate scatter plots are shown below the diagonal, histograms are shown on the diagonal, and the Pearson correlation values are shown above the diagonal. (C) Representative genes showing pair-specific synchronization of expression. Although these genes were synchronized in all five pairs, the level of synchrony differed for each particular pair. (D) The WGCNA heatmap showing values for r (upper value) and p (lower value in parentheses) in all of the gene modules. (E) Clustering of all 25 brain samples using a principal component analysis (PCA); blue, non-fighting group (B); red, D20 group; and green, D60 group.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## Venn diagram for synchronized genes and heatmap for all gene set.
+(A) Venn diagram generated from the 1,522 synchronized genes from five pairs of the D60 group (D60_11 vs. D60_12, D60_21 vs. D60_22, D60_31 vs. D60_32, D60_41 vs. D60_42, and D60_51 vs. D60_52); (B) Venn diagram generated from the 172 synchronized genes from five pairs of the D20 group (D20_11 vs. D20_12, D20_21 vs. D20_22, D20_31 vs. D20_32, D20_41 vs. D20_42, and D20_51 vs. D20_52). (C) Heatmap using the 25 cDNA libraries with each of the 23,306 gene contigs (all gene set). Intensity of color indicates expression level (red, high expression; blue, low expression). Similarities between individuals within fighting pairs and between fighting pairs as shown by hierarchical clustering can be seen above the heatmap. Bootstrap values at the nodes were obtained by hclust function in R.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## Brain-transcriptomic Synchronization Associated with Long-Term MemoryGenes.
+(A-C) Calcium pathways generated from the synchronized gene set in the D60 group and non-synchronized gene sets of the D20 and D60 group (B, C). (D)
+Glutamate (Glu) is released from the presynaptic terminal and acts on both postsynaptic N-methyl-d-aspartate receptors (NMDARs; grinaa, grin2aa, grin2b subunits) and α-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid receptors (AMPARs; grm8a subunit) to depolarize these receptors and release Mg2+. (E) Ca2+ increases in the postsynaptic terminal and binds to Calmodulin (CaM; calm2a subunit) to activate the calmodulin-dependent protein kinase (CAMKII; camk1da, camk2a, camk2b1 subunits). Also, β-adrenergic receptors (β-ARs) are used to recruit more AMPAR to promote long term memory.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## The MDS plot color coded by sequencing methods.
+B, non-fighting group; D20, the D20 fighting group; D60, the D60 fighting group. Red circle clusters the paired-end sequencing and blue circle clusters the singe-end sequencing.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Seventeen typical fighting pairs and those parameters used to construct the representative schematic fighting structure.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Correlation coefficients of biting and striking attacks for eight typical fighting pairs used to visualize behavioral synchronization.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Correlation coefficients of surface-breathing events for eight typical fighting pairs used to visualize behavioral synchronization.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The mapping rate of 25 B. splendens brain samples from the non-fighting, D20, and D60 groups to the reference B. splendens genome.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## Differential Expression Genes List (DEGs) (average TMM value).
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## Number of genes in each module from the WGCNA analysis.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## Top 5 driving genes in each cluster extracted from the Grade of Membership (GoM) analysis.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## List of DEGs generated from a comparison of the expression levels from the non-fighting group vs. the D60 group (FDR ≤ 0.05).
+(XLSX)
+Click here for additional data file.
+S9 Table
+
+## List of synchronized genes expressed in one to five pairs of fighting B. splendens.
+(XLSX)
+Click here for additional data file.
+S10 Table
+
+## GO terms among the synchronized genes and non-synchronized genes in the D60 group with respect to the biological process (BP) list (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S11 Table
+
+## GO terms among the synchronized genes and non-synchronized genes in the D60 group with respect to the molecular function (MF) list (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S12 Table
+
+## GO terms among the synchronized genes and non-synchronized genes in the D60 group with respect to the cellular component (CC) list (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S13 Table
+
+## KEGG analysis using synchronized genes related to learning or memory and for which there were at least two genes in the pathway (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S14 Table
+
+## Commonly enriched pathways and their constitutive components as represented among the synchronized genes in the D60 group (p < 0.05).
+(XLSX)
+Click here for additional data file.
+S15 Table
+
+## Behavioral matrix for the WGCNA analysis.
+(XLSX)
+Click here for additional data file.
+AttachmentSubmitted filename: response_to_reviewers.docx
+Click here for additional data file.
+AttachmentSubmitted filename: 200428_reviewer_ responses.docx
+Click here for additional data file.
+
+## Data Availability Statement
+The RNA-Seq data are accessible on DDBJ (https://www.ddbj.nig.ac.jp/index-e.html) with this ID: DRA009599.

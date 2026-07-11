@@ -1,0 +1,272 @@
+Brief BioinformBrief Bioinform721bibbibBriefings in Bioinformatics1467-54631477-4054Oxford University PressPMC7820849PMC7820849.1782084978208493195097210.1093/bib/bbz157bbz1571AcademicSubjects/SCI01060Review ArticleMachine learning approaches and databases for prediction of drug–target interaction: a survey paper
+BagherianMaryam SabetiElyas WangKai SartorMaureen A Nikolovska-ColeskaZaneta NajarianKayvan 1
+Department of Computational Medicine and Bioinformatics, University of Michigan, Ann Arbor, MI, 48109, USA2
+Michigan Institute for Data Science, University of Michigan, Ann Arbor, MI, 48109, USA3
+Department of Biostatistics, School of Public Health, University of Michigan, Ann Arbor, MI, 48109, USA4
+Department of Pathology, University of Michigan, Ann Arbor, MI, 48109, USA5
+Department of Emergency Medicine, Medical School, University of Michigan, Ann Arbor, MI, 48109, USA6
+Department of Electrical Engineering and Computer Science, College of Engineering, University of Michigan, Ann Arbor, MI, 48109, USACorresponding author: Maryam Bagherian and Kayvan Najarian, Department of Computational Medicine and Bioinformatics, University of Michigan, Ann Arbor, MI, 48109, USA. E-mail: bmaryam@umich.edu12021171202022137354824726949201911120197112019170120202701202103042026© The Author(s) 2020. Published by Oxford University Press.2021https://creativecommons.org/licenses/by-nc/4.0/This is an Open Access article distributed under the terms of the Creative Commons Attribution Non-Commercial License (http://creativecommons.org/licenses/by-nc/4.0/), which permits non-commercial re-use, distribution, and reproduction in any medium, provided the original work is properly cited. For commercial re-use, please contact journals.permissions@oup.comErratum to: Machine learning approaches and databases for prediction of drug–target interaction: a survey paper
+2211122020606606Briefings in Bioinformatics10.1093/bib/bbaa020PMC782085632047893
+
+## Abstract
+The task of predicting the interactions between drugs and targets plays a key role in the process of drug discovery. There is a need to develop novel and efficient prediction approaches in order to avoid costly and laborious yet not-always-deterministic experiments to determine drug–target interactions (DTIs) by experiments alone. These approaches should be capable of identifying the potential DTIs in a timely manner. In this article, we describe the data required for the task of DTI prediction followed by a comprehensive catalog consisting of machine learning methods and databases, which have been proposed and utilized to predict DTIs. The advantages and disadvantages of each set of methods are also briefly discussed. Lastly, the challenges one may face in prediction of DTI using machine learning approaches are highlighted and we conclude by shedding some lights on important future research directions.
+
+Machine learningdrug–target interaction predictionDTI softwareDTI databaseNational Institute of Environmental Health Sciences10.13039/100000066P30 ES017885pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC
+
+## 1 Introduction
+In recent years, pharmaceutical scientists have been highly focused on novel drug development strategies that rely on knowledge about existing drugs [ ]. Indeed, the difficulty of the drug discovery task lies in the rarity of existing drug–gene interactions [ ], and a major risk is in unexpected/unintended interaction of drugs with off-target proteins, i.e. side effects [ ]. While most of these side effects are undesired and harmful, occasionally they lead to interesting therapeutic discoveries. For instance, minoxidil was primarily developed to treat ulcers, and Sildenafil (Viagra) was developed to treat angina; however, they are currently used for treatment of hair loss and erectile dysfunction, respectively. As such, novel drug development strategies are currently the principle focus of many pharmacologists. It has been reported that several terms such as drug repositioning, drug repurposing, drug reprofiling, drug redirecting, drug rediscovery and drug delivery have been used in the literature to describe these novel drug development strategies [ ]. While various definitions have been used for these terms [ ], drug repositioning usually refers to the studies that reinvestigate existing drugs that failed approval for new therapeutic indications [ ], while drug repurposing suggests the application of already approved drugs and compounds to treat a different disease [ , ].
+ A major step in the drug discovery process is to identify interactions between drugs and targets (e.g. genes), which can be reliably performed by in vitro experiments. In order to reduce temporal and monetary costs,in silico approaches are gaining more attention [ ]. As such, instead of an exhausting in vitro search, virtual screening is initially performed and possible candidates are then experimentally verified [ ]. Generally, there are two principle approaches for in silico prediction of drug–target interaction (DTI, also refered to as compound–protein interactions): docking simulations and machine learning methods [ ]. In docking simulations, the 3D structure of drug molecules and targets are considered and potential binding sites are identified. While biologically well accepted, the docking simulation process is time-consuming [ ]. Additionally, this process cannot be applied if the 3D structure of the protein is unknown [ ]. For instance, for a class of proteins called G-protein-coupled receptors (GPCR), very few structures have been crystallized (orphan GPCR) [ , ], so docking simulations cannot be applied. To tackle this issue, chemogenomics was introduced as a way to aim at mining the entire chemical space for interaction with the biological space (also refered to as genomic space), instead of considering each protein target independently from other proteins [ , , ].
+The aim of chemogenomics research is to relate this chemical space of possible compounds with the genomic space in order to identify potentially useful compounds such as imaging probes and drug leads [ ]. Chemogenomics approaches are usually categorized as ligand based, target based and target–ligand [ , ], all of which are based on similarities between members proteins and targets. In fact, this salient similarity-based point of view of chemogenomics allowed the machine learning approaches to be suitable for prediction of DTIs. In machine learning methods [ ], knowledge about drugs, targets and already confirmed DTIs are translated into features that are used to train a predictive model, which in turn is used to predict interactions between new drugs and/or new targets. The main assumption of these studies is that if drug is interacting with protein , then (i) drug compounds similar to are likely to interact with protein , (ii) proteins similar to are likely to interact with drug and (iii) drug compounds similar to are likely to interact with proteins similar to . The similarities between drug compounds and protein sequences are usually measured by kernels specifically designed for this purpose [ ]. In practice, based on the availability of knowledge about interacting drug compounds and target proteins, the DTI prediction problem can be categorized into four classes: (i) known drug versus known target, (ii) known drug versus new target candidate, (iii) new drug candidate versus known target and (iv) new drug candidate versus new target candidate. While the ultimate goal of the machine learning methods is interaction prediction for new drug and target candidates, most of the methods in the literature are limited to the 1st three classes.
+In this paper, the state of the art methods, which used machine learning methods for prediction of DTIs, are reviewed. The following studies were excluded:
+
+ studies that do not use machine learning methods for prediction or (e.g. [ ]).
+
+ studies that focus on bioactivity (quantitative structure–activity relationship (SAR), proteochemometric) relationships (e.g. [ ]).
+
+ studies that rely on 3D structures of targets (e.g. [ ]).
+
+ studies that consider only the genomic space or chemical space (e.g. [ , ]).
+
+ studies that focus on gene expression for drug response (e.g. [ ]).
+
+ studies that only use side effect similarities or only predict side effects (e.g. [ ]).
+
+ studies that use disease–gene associations (e.g. [ ]).
+
+ studies that focus on drug–drug interactions or protein–protein interactions (PPI) (e.g. [ ])
+
+ studies that use biomedical documents from which information is extracted by text mining techniques (e.g. [ ]).
+It is worth mentioning that the machine learning methods used in DTI prediction can be thought of as a broader problem of ‘link predictions’ in complex networks [ ]. A section is dedicated to summarize the databases used in these studies as well. An overview of the paper is illustrated in Figure .
+
+## 2 Machine learning methods used in DTI prediction
+Although all the DTI prediction frameworks that uses machine learning are summarized in this manuscript, recent methods that use matrix factorization algorithms have outperformed other methods in terms of efficiency. These methods take advantage of the recommender system approaches [ , ], while using both chemical and genomic information is optimal for the DTI prediction problem. This problem is very similar to the famous Netflix challenge [ ].
+ Machine learning methods used in DTI prediction date back to an early work in pharmacological DTI prediction [ ]. While the focus of their work was not specifically ‘drug discovery’, they aimed at finding a ranked list of molecule ligands that bind with each orphan GPCR where due to lack of crystallized 3D structures, docking simulation could not be used [ ]. Here, the machine learning approaches have been categorized into six groups (Figure ). In the coming section, a description of each category along with a list of methods for each is provided. Moreover, advantages and disadvantages of each group of methods are briefly discussed.
+
+## 2.1 Previous review papers
+There have been few reviews on DTI prediction with various emphases [ ]; however, none of these studies had a machine learning focus. For previous reviews on machine learning methods for DTI prediction, please see [ ]. In particular, [ ] is a brief review of similarity-based machine learning methods used for DTI prediction. As reported in this work, similarity-based approaches have four advantages: (i) the ydo not need feature extraction and feature selection, (ii) similarity measure kernels for both drugs and genes have been fully studied before, (iii) they can be easily incorporated with kernel-based learning methods such as support vector machine (SVM), (iv) they can be used to connect chemical space and the genomic space. In [ ], the focus of the review is on the methods that use both drug chemical structure and target protein sequence to predict DTIs. Mousavian et al. [ ] reviewed machine learning-based methods from supervised and semi-supervised perspectives. Chen et al. [ ] reviewed the well-known databases, web servers and computational models used for DTI prediction. In this paper, computational approaches are divided into network-based methods and machine learning-based methods. Ezzat et al. [ ] provided an ‘empirical’ overview on chemogenomic DTI prediction methods and the databases used. In their work, the chemogenomic methodologies are separated into five models: neighborhood models, bipartite local models, network diffusion models, matrix factorization models and feature-based classification models. Chen et al. [ ] reviewed the machine learning methods and databases that used chemogenomic approaches of DTI prediction. As such, based on the way negative samples are handled, chemogenomic approaches are divided into two categories: (i) supervised learning methods such as similarity-based and feature-based methods, (ii) semi-supervised learning methods. Kurgan et al. [ ] wrote one of the most comprehensive surveys of DTI predictions before April 2018. Sachdev et al. [ ] reviewed feature-based chemogenomic approaches (excluding similarity-based chemogenomic approaches) used for DTI prediction. In this survey, feature-based methods are categorized as: (i) SVM-based methods, (ii) ensemble-based methods (methods that employ decision tree or random forest) and (iii) miscellaneous techniques (neither SVM-based nor ensemble-based). Sercinoglu et al. [ ] reviewed all the available databases for drug repurposing.
+
+## 2.2 Similarity/distance-based methods
+The most popular group of methods used for DTI prediction incorporate drug–drug and target–target similarity measures through similarity or distance functions that are utilized to perform the prediction. These methods have been proposed and employed by several authors, mainly [ , ].
+Generally, the methods consist of a similarity score scheme for either drug–drug, target–target or drug–target associations based on a known pair of drug–drug and target–target similarity measures. Similarily, the similarity measure could be obtained by a distance function that defines how similar (or here ‘close’) a new drug is with respect to the known pairs. There are several ways to define the ‘nearness’ through a distance function for nearest neighbor (NN) algorithms [ , ] among which the Euclidean distance is well known. For instance, authors in [ ] employed the following definition for the NN algorithm; assuming two vector spaces (aka sample spaces) and , with the same dimension, the distance (nearness) of the two samples is denoted by , where \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym} 
+\usepackage{amsfonts} 
+\usepackage{amssymb} 
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+}{}$$\begin{equation*} \mathbf D(V_1,V_2)= 1- \frac{V_1\cdot V_2}{||V_1||\,||V_2||}, \end{equation*}$$\end{document}where and denote the inner product and the Euclidean norm, respectively. One could easily verify that is indeed a distance function satisfying the definition of the distance.
+In addition to the above, the similarity/distance function could be also defined based on the pharmacological similarity of drugs and genomic similarity of protein sequences as well as the topological properties of a multipartite network of the existing drugs and protein targets [ , ]. To this end, authors in [ ] defined five drug–drug similarity measures as chemical based, ligand based, expression based, side effect based and annotation based. The main disadvantage of this group of methods lies in the fact that only a small number of drugs and their interactions are known while there exists copious unlabeled data among the datasets (see Section ). Even though some efforts have attempted to deal with the lack of labeled data [ , , , , ], the challenge has not yet been overcome. A comprehensive list of the methods proposed based on similarity/distance is provided in Table .
+ 
+
+## 2.3 Deep learning methods
+Deep learning is becoming more and more popular given its great performance in many areas, such as speech recognition, image recognition and natural language processing. Applying deep leaning methods to drug discovery has been consistently increasing in recent years [ , ].
+Deep learning approaches appear to overcome certain limitations by reducing the loss of feature information in predicting DTIs. One of the drawbacks in using deep learning methods lays in the fact that there is not always sufficient information available in order to perform deep learning methods. Recently, in order to deal with high dimensional and oftentimes noisy data in DTI predictions in general and in drug repurposing in particular, authors in [ ] proposed and developed deep learning algorithms in the DTI’s machine learning approaches.
+Most of the deep learning-based DTI prediction methods consist of two major steps: generating feature vectors and then applying deep learning to known DTIs. Usually, three types of properties (i.e. biological, topological and physico-chemical information) of drugs and/or targets can be used for generating feature vectors/matrix for deep learning based DTI methods. In recently published works [ ], methods such as deep belief neural networks [ , ], convolutional neural networks [ , ] and multiple layer perceptrons [ , ] were used to establish DTI prediction programs.
+In [ ], instead of using a bipartite network to represent the DTI, a Tripartite Linked Network [ ], derived from the existing linked open datasets in the biomedical domain [ ] were used for new DTI predictions. One advantage of methods employing deep learning over the state-of-the-art feature extraction methods and SVM classifiers is the ability to mine the hidden interactions between drugs and targets.
+Although all of the aforementioned deep learning methods show good performance, there is room for improvement in several aspects. First, creating robust negative datasets for supervised deep learning method is a challenging task. Most previously published deep learning based DTI prediction programs are supervised machine learning methods, so how to establish an unbiased negative DTI dataset for model fitting and testing is a key step. In addition, DTI prediction is to discover new DTIs. How to select real no-interaction drug–target pairs is a tricky task. Second, with more and more different types of drug/target data available, how to incorporate heterogonous data into high-dimensional features from drug and/or target for deep learning methods is also a challenge. Last but not least, deep learning methods that show great performance on the testing dataset do not mean they also can achieve great performance in real drug discovery. More details about applying deep learning in drug discovery can be found in [ ]. In Table , a brief list of deep learning-based methods mentioned in this paper is provided.
+ 
+
+## 2.4 Feature-based methods
+The vast majority of machine learning methods performing DTI prediction fall into this category. It is a broad range of methods including SVM, tree-based methods and other kernel-based methods. Any pairs of drugs and targets would be represented in terms of feature vectors with certain length, often with binary labels that classify the pair vectors into two classes with positive and negative interaction. In other words, assuming feature space where \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym} 
+\usepackage{amsfonts} 
+\usepackage{amssymb} 
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+}{}$$\begin{equation*} \mathbf F= \bigg\{f:=d\oplus t\, \Big|\, d=[d_1, d_2, \cdots, d_n] \ \&\,\, t=[t_1, t_2, \cdots, t_m] \bigg\},\notag \end{equation*}$$\end{document}
+where and denote the target and drug feature vectors of length and , respectively.
+Once the feature space is defined, assorted machine learning methods can be established to perform the DTI prediction task [ , , , , , , , , , , ]. The lack of 3D structures of membrane proteins prevents extracting the main features, which otherwise would have yielded to better prediction performances. Tables and provides a broad list of feature-based methods along with a short description and the papers in which those methods were proposed and employed.
+ 
+
+## 2.5 Matrix factorization methods
+The matrix factorization methods have been shown to outperform other groups of machine learning methods in the prediction of DTI. Given an interaction matrix , \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym} 
+\usepackage{amsfonts} 
+\usepackage{amssymb} 
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+}{}\begin{equation*} X_{n\times m}= \begin{pmatrix} x_{11}& \cdots &x_{1m}\\ \vdots& \vdots&\vdots\\ x_{n1}& \cdots &x_{nm}, \end{pmatrix} \notag \end{equation*}\end{document}
+for and , one may define \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym} 
+\usepackage{amsfonts} 
+\usepackage{amssymb} 
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+}{}$$\begin{align*} x_{ij} & =\begin{cases} 1 & \textrm{if drug}\ d_{i}\ \textrm{and target}\ t_{j}\ \textrm{interact}\\ 0 & \textrm{in the absence of any known interaction} \end{cases} \end{align*}$$\end{document}the primarily goal in DTI prediction is to decompose matrix into two matrices, and , where with (Figure ). Here denotes the transposed matrix of . This will factorize matrix into two matrices with lower orders (i.e. rank reduction), which make it easier to perform the matrix completion techniques in order to handle the missing data.
+In contrast to most machine learning methods used for DTI prediction that need (2D) drug structural similarities, certain matrix factorization methods do not rely on chemical similarity or drug similarities and instead utilize collaborative filtering algorithms, among which one could name probabilistic matrix factorization (PMF) [ ]. Some other methods are inspired by the idea of low-rank embedding (LRE) [ , ] with the goal of finding a low-rank representation of the dataset by an optimization problem and then fixing and minimizing the reconstruction error in the embedded space in a way that the pointwise linear reconstruction (local structure of original samples) is preserved.
+In this group of methods, it is assumed that the drugs and targets are lying in the same distance space such that the distance among drugs and targets can be used to measure the strength of their interactions. Therefore, both drugs and targets can be embedded in a common low-dimensional subspace with some constraints.
+Although this group of methods has been shown to be more reliable than the others, rapid growth in the quantity and variety of data related to a certain drug and/or a target far exceeds the capacity of matrix-based data representations and many current analysis algorithms. A solution to this issue has been proposed in Section . In Table , the matrix factorization methods and the paper(s) in which they are proposed, developed and employed are listed.
+ 
+
+## 2.6 Network-based methods
+The network-based methods refer to those that utilize graph-based techniques in order to perform the task of DTI prediction (Figure ). Among the methods is network-based inference (NBI) for DTI prediction, which is among the simplest yet most reliable inference methods and uses only DT bipartite network topology similarity [ ].
+ Moreover, in certain methods three networks of protein–protein similarity, drug–drug similarity and known DTIs are integrated into a heterogeneous network and assumed similar drugs often target similar proteins [ , ]. A two-layer undirected graphical representation of the network could also be adopted in order to train to predict direct DTIs (usually caused by protein–ligand binding), indirect DTIs and drug mode of actions (binding interaction, activation interaction and inhibition interaction) in addition to performing the DTI prediction task. A pertinent example is proposed in [ ] using Restricted Boltzmann Machine (RBM) [ ]. A list of network-based methods with a short description for each method is provided in Table .
+ 
+
+## 2.7 Hybrid methods
+Hybrid methods refer to all the approaches in which any combination of the feature-based, matrix factorization, deep learning and network-based methods are exploited. This can extend the capability of a prediction algorithm by integrating different sets of information. The hybrid methods in general serve two purposes; they address the problems of unknown interaction in DTIs as well as taking the most advantage of machine learning methods, simultaneously. For instance, authors in [ ] proposed a method integrating feature-based and similarity-based machine learning approaches [ , ]. The hybrid methods performed superior to other state-of-the-art methods by optimizing the feature extraction process by extracting the complex hidden features of drugs and targets [ , , , , , , , , ]. Integrating two machine learning methods in DTI prediction often has a leverage in terms of results as they fully exploit the potential of two methods, simultaneously. However, one should be able to deal with the high complexity (either computational or operational) caused by integrating two groups of methods. A short description of such methods are listed in Table .
+ 
+
+## 2.8 Software and packages
+Sakakibara et al. [ ] developed a web service called Comprehensive Predictor of Interactions between Chemical compounds And Target proteins based on their previous works [ , ] that uses SVM as the DTI predictor. This server seems to be no longer available.
+Cao et al. [ ] developed a Python package called PyDPI based on Random Forest [ ] that integrates chemoinformatics, bioinformatics, proteochemometrics and chemogenomics for DTI prediction. The proposed framework involves the selection of molecular features and uses predefined dictionaries for classification. This package can be used to construct web-based servers and provides an interface for databases such as Kyoto Encyclopedia of Genes and Genomes (KEGG), PubChem, Drugbank and Uniprot. The same group in the same year [ ] also developed a web-based server called PreDPI-Ki (which seems to be no longer available) based on a random forest predictor that takes binding affinities of DT pairs into account in order to better predict interactions.
+ Xiao et al. [ ] established a web server called iGPCR-drug, which is accessible at iGPCR-drug. Moreover, they developed a sequence-based classifier also called iGPCR-drug. In the predictor, the drug compound is formulated by a 2D fingerprint via a 256D vector, GPCRs by the pseudo amino acid composition [ ] generated with the gray model theory and the prediction engine is operated by the fuzzy K-nearest neighbor (KNN) classification method [ ]. The authors validated their method with the jackknife test [ ].
+Yamanishi et al. [ ] designed a web server called DINIES (DTI network inference engine based on supervised analysis) for predicting DTI using various types of biological data such as chemical structures, protein domain and drug side effects (note that studies that primarily focused on side effect are excluded in this paper [ ]) and three supervised algorithms (BGL [ , ], BLM [ ] and pairwise kernel regression [ ]). This is due to the work by Scheiber et al. [ ] that enables the calculation of correlation between any drug compound and pharmacological effects in chemical space. While the training can be performed using KEGG DRUG database, the principle advantage of their web server is the flexibility of the input data, as long as it’s represented a similarity matrix or gene/drug profile.
+Seal et al. [ ] developed a standalone R and Shiny package called Netpredictor based on Random Walk with Restart (NRWRH) [ , ] and NBI [ , ] to predict any missing links between drugs, proteins and drug–proteins in any unipartite or bipartite. The main advantage of this package is the friendly user interface that is provided by package installation.
+Hao et al. [ ] review, compare and reimplemented five state-of-the-art methods (BLM [ ], KronRLS-MKL [ ], DT-Hybrid [ ], the proposed method by Shi et al. [ ] and DNILMF [ ]) and published the source codes in R.
+
+## 3 Databases used in DTIpPrediction
+To support the above methods, many drug-related databases have been established. These databases contain different types of drug-related information and are critical resources for DTI predictions in silico. In this paper, we review all popular used databases associated with this topic. Based on the content of these databases, we classify them into four categories, DTI databases, drug-centered or target centered databases, drug–target binding affinity databases and supporting databases.
+
+## 3.1 DTI databases
+DTI databases are established for collecting DTIs and other related information. In this paper, we list 11 databases in this category. Within these databases, some are not directly proposed as ‘DTI’ databases, but the data contained can be used for DTI research. For example, KEGG is an extensive database that covers many types of biological data from genes/proteins to biological pathways and human diseases. In KEGG [ ], two subdatabases, KEGGDRUG [ ] and KEGGBRITE [ ] contain data that can be used for DTI predictions. ChEMBL [ ] is also not specifically a ‘drug-target’ database and it was established based on collecting bioactive compounds. However, combined with targets and other related biological information, this database can also be used in drug-target repositioning and repurposing. Similar to ChEMBL [ ], IntAct [ ] is a database that contains molecular interactions and can be used for drug research. LINCS is different from the aforementioned two databases. This data portal contains biochemistry data that aims to understand changes in gene expression and cellular processes that are caused by different perturbing agents. Many of the perturbing agents used in LINCS are drugs, so this is also a great data source for DTI research. Other databases included in this group are SuperTarget [ ], Guide to PHARMACOLOGY (GtoPdb) [ ], DrugBank [ ], Therapeutic Targets Database (TTD) [ ], STITCH [ ], ChemProt 3.0 [ ] and DGIdb 3.0 [ ]. The general information for these databases is summarized in Table .
+
+## 3.1.1 ChEMBL
+The data stored in the ChEMBL database [ ] were manually extracted from published literatures. This database was published by European Molecular Biology Laboratory (EMBL)-European Bioinformatics Institute in 2002. Since the latest update in 2018, this database contains more than 1.9 million chemical compounds. Within these compounds, over 10 thousand drugs and more than 12 thousand targets are included in ChEMBL.
+
+## 3.1.2 ChemProt 3.0
+ChemProt [ , , ] was proposed as a disease chemical biology database that integrated data from multiple chemical–protein annotation databases and disease-associated PPI. The first release of ChemProt was in 2011, which collected data from eight public databases, i.e. ChEMBL [ ], BindingDB [ ], PDSP Ki database [ ], DrugBank [ ], PharmGKB [ ], PubChem bioassay [ ], CTD [ ] and STITCH [ ] and two commercial databases, WOMBAT and WOMBAT-PK [ ]. The second update of ChemProt was in 2012 integrated therapeutic effects and adverse drug reactions into the 2.0 version. The latest update (version 3.0) was released in 2015. The third version updated the disease chemical biology data. In addition, several computational methods, such as network biology based enrichment analysis, were also incorporated.
+
+## 3.1.3 DGIdb 3.0
+The first release (in 2013) of DGIdb integrated 13 data sources that cover information in disease-related human genes, drugs, drug interactions and potential druggability [ , ]. The latest update of DGIdb was in 2017 and in total 30 data sources are included in the 3.0 version [ ]. Six new data sources were added and nine of the previous data sources were updated.
+
+## 3.1.4 DrugBank
+DrugBank [ ] is one of the most popular databasesand has been widely used as a drug reference resource. This database was first released in 2006. As a database both in bioinformatics and cheminformatics, DrugBank contains detailed drug data with comprehensive drug target information. The DTI relationships in DrugBank were originally collected from textbooks, published articles and other electronic databases. All data can be freely downloaded from DrugBank.
+
+## 3.1.5 GtoPdb
+This database was established by the International Union of Basic and Clinical Pharmacology/British Pharmacological Society. The GtoPdb [ ] contains the ligand–activity–target relationships data that were collected from pharmacological and medicine chemistry literature.
+
+## 3.1.6 IntAct
+IntAct [ ] is an open source database of molecular interactions populated by data from literature and other data sources. In total, 11 molecular interaction databases (including IntAct) were incorporated into IntAct including AgBase [ ], MINT [ ], UniProt [ ][41], I2D [ ], MBINFO, MatrixDB [ ], Molecular Connections, InnateDN [ ], IMEx [ ] and GOA.
+
+## 3.1.7 KEGG
+KEGG is a comprehensive database that provides many types of knowledge about genes and genomes [ , ]. The whole database can be summarized in four major categories. The first one is systems information, contains three databases: KEGG PATHWAY, KEGG BRITE, and KEGG MODULE. The second category contain genomic information. In this group, four databases are included: KEGG ORTHOLOGY, KEGG GENOME, KEGG GENES and KEGG SSDB. The third category holds the chemical information. Five databases are in this category: KEGG COMPOUND, KEGG GLYCAN, KEGG REACTION, KEGG RCLASS and KEGG ENZYME. The last category is health information that covers four databases: KEGG DISEASE, KEGGDRUG, KEGG DGROUP and KEGG ENVIRON. The KEGG DGROUP database contains information regarding drug interaction networks including DTIs, drug metabolism and indirect interactions with enzymes and target genes.
+
+## 3.1.8 LINCS
+The LINCS program aims to establish a network-based landscape to describe how different perturbing agents influence cellular processes. In total, there are 398 datasets collected in the LINCS database including fluorescence imaging, ELISA and ATAC-seq data, etc. The majority datasets (177 datasets) in LINCS are KINOMEscan kinase-small molecule binding assays. This assay is used to measure binding interactions between test compounds.
+
+## 3.1.9 PROMISCUOUS
+PROMISCUOUS was established in 2011 and proposed as a database for network-based drug repositioning. This database contains three different types of data: drugs, proteins and side effects. The protein data are extracted from UniProt and incorporated with the 3D structure information from Protein Data Bank (PDB). Drugs and side effects are extracted and incorporated from SuperDrug and SIDER, respectively. In addition to DTIs and drug side effects linkages, PROMISCUOUS also includes data on drug–drug similarities and PPI.
+
+## 3.1.10 STITCH
+STITCH [ ] is a database that stores information for interactions between proteins and small molecules. The interaction data are collected from predicted results, other databases (e.g. PubChem [ ]), and literature. The first release of STITCH was in 2008.
+
+## 3.1.11 SuperTarget
+SuperTarget [ ] is a database that covers DTI information with drug metabolism, pathways and Gene Ontology (GO) terms. Medical indications and adverse drug effects are also included in this database. The DTIs information in this database were extracted starting with text mining from 15 million public literature listed in PubMed. Also, potential drug–target relations were also extracted from Medline. Furthermore, the relationships of DTIs from other databases (i.e. DrugBank [ ], KEGG [ ], PDB [ ], SuperLigands [ ] and TTD [ ]) were also used to obtain any missed DTIs that were not included from the previous two strategies.
+
+## 3.1.12 TTD
+TTD provides therapeutic proteins, nucleic acid targets and corresponding drug information [ ]. This database was first described in 2002. The data in TTD was mainly collected from literature. Other databases that contains DTIs information (e.g. KEGG) were also cross-linked to TTD.
+
+## 3.2 Drug-centered or target-centered databases
+In this category, six databases are included. They are BRENDA [ ], PubChem [ ], SuperDRUG2 [ ], DrugCentral [ , ], PDID [ ], Pharos [ ] and ECOdrug [ ].
+Among these databases, SuperDRUG2 and DrugCentral are proposed as ‘drug-centered’ databases. Since PubChem is a database established on collecting millions of chemical compounds, in this paper, we also list this one as a ‘drug-centered’ database. PDID and Pharos are classified as ‘target-centered’ databases. We also included BRENDA as a ‘target database’. The huge amount of enzymes and related ligands stored in BRENDA can be used as targets in DTI research. In addition, we also list ECOdrug here as a target-centered database. Different from the aforementioned ones, this database contains target information in non-human model species. Relative information can be found in Table .
+ 
+
+## 3.2.1 BRENDA
+BRENDA [ , ] is a comprehensive enzyme database that was first established in 1987. This database contains ˜84 000 enzymes and their corresponding enzyme–ligand related information. All data collected in this database was manually evaluated and extracted from ˜140 000 literature references based on the Enzyme Commission (EC) classification system of the International Union of Biochemistry and Molecular Biology. All compounds related to enzyme catalyzed reactions are labeled as ‘ligands’ in BRENDA, such as substrates, products, activators, inhibitors and cofactors. In total, about 205 000 enzyme ligands were collected and stored in the associated ligand database. Users can search the ligand database through the search box on the home page. BRENDA also provides download functionality for users to download all BRENDA data.
+
+## 3.2.2 DrugCentral
+DrugCentral is a comprehensive database that focuses on drug collection [ , ]. This database was released in 2016 and contains approved active pharmaceutical ingredients (drugs) from FDA and other regulatory agencies. For each drug, structure information, bioactivity and regulatory records, as well as pharmacologic actions and indications were incorporated. In this database, all drugs are simply classified into three categories, small molecule active ingredients, biological active ingredients and others.
+
+## 3.2.3 ECOdrug
+In drug discovery research, non-human model species are important in that they are used for drug testing. ECOdrug [ ] is a database that contains DTI data for 640 eukaryotic species. The data stored in ECOdrug can help researchers investigate the conservation of human drug targets across species. The drug information and drug targets are from previous research [ ] and DrugBank [ ].
+
+## 3.2.4 PDID
+PDID [ ] was released in 2014 and covers all known protein–drug interactions and predicted protein–drug interactions for the entire structural human proteome. The known interactions were extracted from DrugBank [ ], BindingDB [ ] and PDB [ ]. The predictions were made by using three different softwares (i.e. ILbind [ ], SMAP [ ] and eFindSite [ , ]).
+
+## 3.2.5 Pharos
+Pharos [ ] is a platform that was established for presenting the data in the Target Central Resource Database (TCRD). TCRD is a comprehensive database that was initially developed for discovering new druggable proteins.
+The data stored in TCRD came from many different sources. It includes biomedical literature, expression data, disease and phenotype association data, bioactivity data, DTI data and databases from Harmonizome [ ].
+
+## 3.2.6 PubChem
+PubChem [ , ] stores the information of chemical substances and corresponding biological actives. This database consists of three sub-databases: Substance, Compound and BioAssay. Substance is the primary repository to store chemical information provided from individual data contributors. The Compound database contains the unique chemical structures extracted from the Substance database. All biological related data of these chemical substance data are saved in the BioAssay database.
+
+## 3.2.7 SuperDRUG2
+SuperDRUG2 [ ] is proposed as a one-stop data source that offers all crucial features of approved and marketed drugs. The drug items in SuperDRUG2 are classified into two categories: small molecules and biological/other drugs. Several public resources like US FDA, CFDA and EMA, etc. were used for drug collections. Drug target information in SuperDRUG2 was extracted from DrugBank [ ], TTD [ ] and ChEMBL [ ]. Besides these drugs and targets information, SuperDRUG2 also provides 2D and 3D structure information of small molecule drugs, drug side effects, drug–drug interactions and drug pharmacokinetic parameters.
+
+## 3.3 Binding affinity databases
+In this category, BindingDB [ , ], PDBBind [ ] and PDSP Ki [ ] are included. All of them contain the data on chemical-protein binding affinities. BindingDB is mainly focused on collection of binding affinity data between drugs (drug-like molecules) and target proteins. PDBbind is established based on binding affinity measurements of biomolecular complexes from PDB. PDSP Ki is similar to BindingDB, which also contains a large number of binding affinity data on DTIs. Table shows the relative information of these three databases.
+ 
+
+## 3.3.1 BindingDB
+BindingDB [ , ] is a repository that contains experimental protein–small molecule interaction information. All of these data were extracted from scientific literature and US patents. In addition, other databases (e.g. ChEMBL [ ], PubChem [ ], etc.) are also linked with BindingDB.
+
+## 3.3.2 PDBbind
+PDBbind [ ] was first released in 2004 and the purpose of this database is to bridge the gap between protein structural information and energetic properties. The data stored in PDBbind were classified by the biomolecular complex data from PDB. Then, the binding affinity data were collected from the associated literature on PDB. PDBbind has regular updates with the growth of PDB database.
+
+## 3.3.3 PDSP Ki
+PDSP Ki [ ] is a public database that stored binding affinities data of drugs/chemical compounds for four different types of proteins, i.e. receptors, neurotransmitter transporters, ion channels and enzymes. This database was developed and maintained by University of North Carolina at Chapel Hill. Search function for both drugs and targets are provided.
+
+## 4 DTI database challenges and future work
+The challenges in making reliable predictions of DTI can be classified into two main categories: the challenges concerning the databases and those concerning computations. Oftentimes, one may overcome the computational difficulties using different prediction methods depending on the nature of the problem. However, major challenges arise due to the source of the databases. Here, we provide some challenges of the first type, also discussed by authors in [ , ], followed by some suggestions on how to deal with the challenges in future work.
+
+## 4.1 Database challenges and future work
+Almost all the methods used in DTI prediction, particularly similarity-based methods, heavily rely on assertions concerning similar drugs and similar targets, the type of database used for the prediction plays a significant role. In terms of databases, lacking a uniform definition of drugs and targets as well as a consistent way of calling and identifying compounds and biomolecules, overlapping with at least one other source in the pool, adopting different identifiers to represent drug and targets are among the main challenges [ , ]. Additionally, incorporating heterogenous data in a database is another challenge to be pointed out. Not all the drugs and targets included in a database have 3D structures and GO/PPI sequences, respectively, which makes similarity scores. As a consequence, the resulting data could vary even if the same literature is used.
+Future predictions should rely on more comprehensive internal databases, which would require a significant effort to map and curate data across the sources that utilize different ways to define, name and identify the drugs and targets. From the data perspective, there is an issue of datasets being of a binary nature; i.e. given an interaction matrix , for and , one may define \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym} 
+\usepackage{amsfonts} 
+\usepackage{amssymb} 
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+}{}$$\begin{align*} x_{ij} & =\begin{cases} 1 & \textrm{if drug}\ d_{i}\ \textrm{and target}\ t_{j}\ \textrm{interact}\\ 0 & \textrm{in the absence of any known interaction.} \end{cases} \end{align*}$$\end{document}This causes a significant problem. Some of the 0’s in may be interactions that are yet undiscovered, which may throw off the training process for the different classifiers. Another point is that in reality DT pairs have binding affinities that vary over a spectrum (interactions are not binary on/off). One suggestion to overcome this challenge is to utilize datasets with continuous values representing DT binding affinities. This have been previously proposed by authors in [ , , , , ]. Our suggestion is to replace each with continuous-valued parameters. Based on the probability of interaction, one may define where . 0, as it should, indicates no interaction while 1 denotes complete interaction. Any number within represents the probability that drug and target interact.
+The trend of using such continuous-valued datasets may eventually catch on as it is more useful and more meaningful, in the sense that it represents the reality better than the binary datasets that have been used in the majority of previous work in DTI prediction. The main challenge, however, lies in the fact that to date, there is a large number of small molecule compounds that have not yet been used as drugs and for the majority of them, their interaction proles with proteins are still unknown.
+Future work on DTI predictions could be categorized in two main approaches. Modifications and suggestions toward the databases in general seem inescapable. On the one hand, the databases should be combined together to collect the most complete set of known drug–protein interactions. On the other hand, the sources should regularly be updated and disseminated, which results in improvements and completeness. A larger number of source databases should be integrated to derive the internal database.
+
+## 4.2 DTI prediction method challenges and future work
+Future research should focus on methods that combine multiple similarities. The ensemble-based models that combine multiple types of similarities are likely to provide more accurate results than the methods that use one similarity. For instance, repurposed drugs have been identified via retrospective clinical analysis (e.g. reviewing side effects), pharmacological analysis or simply serendipity. Given the surprisingly successful early examples (repurposing minoxidil from hypertension to hair loss, sildenafil from angina to erectile dysfunction and thalidomide from morning sickness to multiple myeloma), research is now focusing on how best to adopt a more comprehensive, systematic approach. In addition, a great amount of work is invested to identify molecular drivers of disease development, progression and treatment resistance, providing many candidate targets for drugs across the spectrum of human disease. However, a majority of these molecular drivers have no known drug to target them. Thus, a comprehensive, improved methodology for predicting DTIs would have great benefit. Due to challenges listed in Section , current knowledge of which cellular molecules are targeted by a drug is scarce and is derived from various, sometimes complementary sources.
+As per the formulation of the problem, appropriate representation of datasets seems crucial for gaining insight and effectiveness in DTI predictions. In Big Data applications it is common that data is sparse (mostly zeros) and partially missing. Missing data imputation, especially in the context of sparse, noisy data, is therefore a central problem. To infer the missing entries from the known ones, reasonable assumptions should be made based on commonly observed challenges in the structure of data. Considering matrix factorization methods in predicting DTIs, a common situation is a matrix with missing entries (such as the famous Netflix problem.) Under the assumption that the completed matrix has low rank, the low-rank matrix completion problem is NP hard and highly non-convex [ ], but there are various algorithms that work under certain assumptions of the data. One approach to low rank matrix completion is to use the nuclear norm as a convex relaxation of the matrix rank, and use semidefinite programming to find a completion that minimizes the nuclear norm (see [ , ]). Although the low-rank matrix completion problem does not depend on any metric, most approaches utilize some kind of metric (such as the nuclear norm, the Euclidean metric or an -norm). Such approaches may perform well in completion of certain matrix types but do not cover all types of matrices. Moreover, the structure of the data may be more complicated than a matrix with dimension . To this end, it is our belief that coupled matrices and tensors are very powerful tools to visualize DT data while maintaining the structural information. For , such a dataset is a tensor (a multidimensional array) of order . Tensors are ubiquitous in Big Data. The importance of using tensors in Big Data is illustrated by the fact that they preserve the structure of the data and allow more effective data analysis by incorporating the structure throughout the process. An illustration of coupled matrix–matrix versus coupled tensor–matrix completion is shown in Figure .
+
+## 5 Summary of materials and methodologies
+Table summarizes all the methods we reviewed in this paper along with the databases.
+
+##  
+
+## Key Points
+
+  Machine learning: To our best knowledge, this manuscript is the first which provides a comprehensive list of all the machine learning methods that have been proposed, developed and employed to carry out the task of DTI prediction. A classification of these methods along with advantages and disadvantages of each class of method have been provided.
+
+  DTI software and packages: A list and a short description of all the key software used in DTI predictions is provided. This could help future research, based on their approach to the problem, by helping researchers decide which software and packages suit their problem the best.
+
+  DTI databases: One of the main challenges in the prediction of DTIs is the fact that not all the interactions between drugs and targets are known. In fact, the number of unknown interactions far exceeds the number of known interactions. As a partial solution, a comprehensive list of all databases along with the most recent update dates and the focus are provided.
+
+## Funding
+Michigan Lifestage Environmental Exposures and Disease (M-LEEaD) National Institute of Environmental Health Sciences (NIEHS) Core Center (grant P30 ES017885).
+
+##  
+
+Maryam Bagherian is a postdoctoral research fellow at Department of Computational Medicine and Bioinformatics, University of Michigan, Ann Arbor. Her Ph.D. degree is in applied mathematics and her research includes mathematical physics and mathematical biology.
+
+##  
+
+Elyas Sabeti is a postdoctoral research fellow at the Michigan Institute for Data Science, University of Michigan, Ann Arbor. He conducts research on data science methodology and its application in healthcare research.
+
+##  
+
+Maureen Sartor is an associate professor at Department of Department of Biostatistics, School of Public Health, University of Michigan, Ann Arbor.
+
+##  
+
+Zaneta Nikolovska-Coleska is an associate professor at the Department of Pathology, University of Michigan, Ann Arbor.
+
+##  
+
+Kayvan Najarian is a Professor at Department of Computational Medicine and Bioinformatics, University of Michigan, Ann Arbor. His research focuses on signal/image processing and machine learning methods for medical applications.

@@ -1,0 +1,1019 @@
+3686acsomegaACS OmegaACS OmegaAmerican Chemical SocietyPMC1111271211112712111127123879931810.1021/acsomega.4c01207Structure-Based
+Discovery of Allosteric Inhibitors
+Targeting a New Druggable Site in the Respiratory Syncytial Virus
+Polymerase
+OrabyAhmed
+K BilawchukLeanne WestFrederick G MarchantDavid J †Department
+of Medical Microbiology and Immunology, University of Alberta, Edmonton, AB T6G 2R3, Canada‡Department
+of Chemistry, University of Alberta, Edmonton, Alberta T6G 2G2, Canada§Department
+of Pharmaceutical Organic Chemistry, College of Pharmaceutical Sciences
+and Drug Manufacturing, Misr University
+for Science and Technology, 6th
+of October City P.O. Box 77,Egypt*Email: fwest@ualberta.ca.
+*Email: marchant@ualberta.ca.
+6520249202221322213–222292452024© 2024 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Respiratory syncytial virus (RSV) is a major cause of
+severe lower
+respiratory infections for which effective treatment options remain
+limited. Herein, we employed a computational structure-based design
+strategy aimed at identifying potential targets for a new class of
+allosteric inhibitors. Our investigation led to the discovery of a
+previously undisclosed allosteric binding site within the RSV polymerase,
+the large (L) protein. This discovery was achieved through a combination
+of virtual screening and molecular dynamics simulations. Subsequently,
+we identified two inhibitors, 6a and 10b, which both exhibited promising antiviral activity in the low micromolar
+range. Resistance profiling revealed a distinctive pattern in how
+RSV evaded treatment with this class of inhibitors. This pattern strongly
+suggested that this class of small molecules was targeting a new binding
+site in the RSV L protein, aligning with the computational predictions
+made in our study. This study paves the way for the development of
+more potent inhibitors for combating RSV infections by targeting a
+new druggable pocket within the RdRp which does not overlap with previously
+known resistance sites.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Feb 6; Accepted 2024 Apr 12; Revised 2024 Apr 8; Collection date 2024 May 21.
+
+## Introduction
+Human respiratory syncytial virus (RSV)
+is the leading cause of
+upper and lower respiratory tract infections in pediatric patients
+worldwide. The severity of RSV infections is greatest in infants and
+immunocompromised adults with approximately 60,000 children under
+the age of 5 and ∼ 177,000 adults hospitalized in the USA yearly. − The viral infection can progress from the upper to the lower respiratory
+tract which can result in more complicated symptoms and illness including
+pneumonia, bronchiolitis, asthma, and, in some cases, cardiopulmonary
+distress. − 
+Although the virus was first isolated in 1955
+from chimpanzees,
+only recently was a vaccine approved for the prevention of RSV-related
+respiratory infections in adults. However,
+in pediatrics, there are limited drug treatment options beyond the
+prophylactic drug palivizumab, an expensive monoclonal antibody (mAB)
+used only for high-risk premature infants. , Recently,
+a single injection of Nirsevimab, a monoclonal antibody that targets
+the RSV fusion protein, has proven to protect infants from RSV associated
+lower respiratory tract infection. Ribavirin,
+a well-known antiviral drug, was approved for aerosol treatment against
+RSV infections; however, its use has been curtailed due to risks of
+carcinogenic and teratogenic effects. In summary, the absence of any effective small-molecule antiviral
+drugs represents a significant unmet need in the healthcare delivery
+system.
+RSV exists as two subtypes, A and B, which are found
+within the
+genus Orthopneumovirus, family Pneumoviridae, order Mononegavirales. RSV is an enveloped, negative-sense,
+single-stranded (ss) RNA virus with spherical virion particles of
+100–350 nm in diameter or long filaments of 60–200 nm
+in diameter. The RSV genome is 15.2 kb
+and codes for 11 proteins: nonstructural proteins (NS-1 and NS-2),
+matrix protein (M), nucleoprotein (N), phosphoprotein (P), polymerase
+(L), small hydrophobic protein (SH), glycoprotein (G), fusion protein
+(F), M2-1 and M2-2proteins. , 
+Several targets
+have been investigated for the development of an
+effective therapeutic agent against RSV infections. Viral RNA and
+DNA polymerases are among the most attractive targets for inhibition
+of viral replication and targeting these proteins is the most common
+approach for antiviral drug development due to its critical role in
+regulating viral replication. RSV contains
+a nonsegmented negative-sense RNA genome, which requires the virus-encoded
+RNA-dependent RNA polymerase (RdRp) complex for genome replication
+and transcription of viral RNA. Three
+viral proteins are essential for the replication of the RSV genome:
+the nucleoprotein (N), the large protein (L), and the phosphoprotein
+(P). The large polymerase protein (L) contains the enzymatic domains
+involved in the transcription and replication, and the phosphoprotein
+(P) acts as an essential cofactor ( ). − Recent approaches in drug development
+have identified several chemical moieties that can effectively inhibit
+RSV replication complexes. However, the
+continuous search for small molecules with high potency, selectivity,
+and improved pharmacokinetics remains an ongoing field.
+ Our group previously reported a series of bis-indole
+compounds
+inspired by the natural product isatisine A with demonstrated antiviral
+activity against RSV and Zika viruses. In the present study, we have carried out a structure-based drug
+discovery campaign to identify the exact target of previously discovered
+RSV anti-infective agents for which the replication complex had been
+identified as the likely target. Molecular docking and molecular dynamics
+(MD) simulations were carried out to evaluate the possible binding
+pocket and mode of the previously reported polymerase inhibitors and
+correlate the activity observed with the computational results ( ). These approaches
+could lead to a better understanding of the mechanism by which these
+molecules inhibit viral replication with the ultimate goal of designing
+more potent inhibitors.
+ 
+
+## Results and Discussion
+
+## Assessment of The Replication Complex for Putative Druggable
+Pockets
+Our previous findings support that this class of
+bis-indole compounds is targeting the replication complex of RSV, which consists of the RSV viral RNA-dependent
+RNA polymerase large (L) protein and phosphoprotein (P). In this work,
+we chose to narrow down our search approach and focus on the L protein
+as the primary target. In this context, computational docking and
+MD simulations were employed to elucidate any potential binding with
+RSV L protein.
+The 250 kDa L protein harbors three conserved
+enzymatic domains: the RNA-dependent RNA polymerase (RdRp) domain,
+the polyribonucleotidyl-transferase (PRNTase or capping domain), and
+the methyltransferase (MTase) domain ( ). The cryo-EM
+structure of wild-type RSV L protein was experimentally reported in
+2019 which facilitated our computational investigations. 
+Initially, the fpocket script, Site Finder
+implemented in MOE,
+and SiteMap utility implemented in the Schrodinger discovery suite
+were used to identify putative RSV L binding pockets. − This approach identified 122 possible pockets within the Cryo-EM
+structure of the L protein with a druggability score ranging from
+0 to 0.99 on a scoring range between 0 and 1, where a score of 1 would
+indicate a theoretically ideal druggable site. The search was narrowed
+down by ranking pockets using druggability scores and comparing pockets
+identified by each program, which downsized the search to six possible
+druggable pockets, including the active site ( ). Among the examined pockets, pocket 1 is
+located in close proximity to the template and NTP entry channels
+and is formed of charged amino acids, which aid in the placement of
+incoming NTPs to be placed in the active site. , , The pocket had a druggability score of 0.99,
+and a volume of ∼490 Å3, and the electrostatic
+aspects were taken into consideration in supporting the selection
+of this pocket. Visual inspection of the Cryo-EM structure of L protein
+revealed that the pocket is surrounded by several positively charged
+residues including R621, R747, K20, and K540, which line the NTP entry
+tunnel (Figure S1). These observations
+could support the possibility that binding of non-nucleoside inhibitors
+to this pocket could interfere with the incoming NTPs, the placement
+of the template in the active site, or by allosterically altering
+the conformation of the active site, which will subsequently inhibit
+viral replication.
+ 
+
+## Molecular Dynamics Simulations of the Apo RSV
+L-P Complex
+Molecular dynamics has been used widely in validating
+and refining docking poses to shed light on an accurate representation
+of ligand–protein interactions. Initially, missing loop residues (609–626) from the cryo-EM
+map were built and refined using the Prime module implemented in Schrödinger
+Suite. To understand the dynamicity of
+the RSV L-P complex in the unbound state, a 100 ns long MD simulation
+of the apo structure (PDB ID: 6PZK) was performed.
+The RMSD of the protein backbone equilibrated around 15 ns, and once
+a stable conformation was achieved, the system remained stable with
+a fluctuation of 1.7 Å from its initial coordinates over the
+whole simulation (Figure S2). The flexibility
+of residues was further analyzed using the atomic fluctuation (beta
+factors) of the protein backbone atoms. The majority of the residues
+were stable during the whole simulation with the most flexible regions
+occurring at the N and C termini of the protein. In addition, a region
+from residues 220–250 displayed elasticity during our MD trajectories.
+Despite the displayed flexibility within this region, the RSV L-P
+complex appeared to be quite stable. To evaluate the potential accessibility
+of this pocket to small molecules, the water hydration was studied
+by counting the number of water molecules within the first and second
+hydration shells throughout the MD simulation. The selected pocket
+allowed up to 30 water molecules to enter in the first hydration shell
+while allowing 105 to 120 water molecules in the second hydration
+shell (Figure S2). Moreover, the pocket
+volume was reassessed throughout the MD trajectories using MDpocket. MDpocket analysis revealed that this pocket
+has an average volume of around ∼517 Å3, enough
+to accommodate a small molecule (Figure S3). These results support the possibility that this site could be
+targeted with small molecules. Clusters from the whole simulation
+trajectory were generated, and the lowest energy cluster was then
+used for docking purposes. Interestingly, the pocket is located away
+from the residues that form the QUAD mutations responsible for viral
+escape arising from nucleoside analog inhibitors such as ALS-8112. Moreover, sequence alignment of other negative-stranded
+viruses that have a similar RdRp structure revealed that the residues
+in pocket 1 are conserved among the Mononegavirales viruses analyzed
+(Figure S4). It is worth mentioning that
+Kleiner et al. recently described the
+cryo-EM structure of an allosteric inhibitor (MRK-1) in complex with
+the RSV and human metapneumovirus (HMPV) polymerases that do not overlap
+with the binding site described herein nor do any previously described
+allosteric inhibitor such as AZ-27 or YM-53403, to which RSV quickly
+developed resistance. We believe that
+if targeting this pocket is successful, it could potentially identify
+a new class of inhibitors with a novel mechanism of viral protein
+inhibition.
+
+## Putative Binding Poses of The New Bis-Indole Compounds
+Our previously reported hit, compound 1, was used as
+a docking control since it had shown the best antiviral activity against
+RSV. Compound 1 inhibited
+RSV-induced cytopathic effect with an EC50 of 12 μM.
+To explore how the compounds could potentially bind in the identified
+pockets, molecular docking was employed, and the binding pose and
+docking score were evaluated. Examination of the binding poses of 1 and the correlation between docking scores and the antiviral
+activity revealed that the compound could possibly be binding to pocket
+1 with a docking score of −6.4 kcal/mol, as calculated using
+the the Extra Precision (XP) Glide scoring function implemented in
+Schrödinger Suite. Analysis of
+the ligand–protein complex revealed that the compound formed
+two hydrogen bonds with residues S17 and W893 ( ). Although the active site of the L protein
+is usually considered to be the primary target of any docking simulations,
+it has been excluded from our search due to apparent structural differences
+between nucleoside inhibitors and this class of compounds. This assumption
+was further confirmed by docking of compound 1 in the
+active site, which showed a negligible docking score of −3.2
+kcal/mol.
+ 
+
+## Design of the New Analogues
+Given the ligand–protein
+interactions observed for compound 1 in the putative
+binding pose with the RSV L, we asked whether modifying the indole
+part of the parent compound could be beneficial and could lead to
+enhanced ligand–protein interactions. Visual inspection of
+the binding pocket revealed that several residues could contribute
+to better binding of the lead compound with the L protein. In this
+regard, we wanted to build a stronger hydrogen bonding network to
+increase the capacity of the ligand–protein binding and stability
+following a detailed computational analysis of the hydrophobic and
+hydrophilic properties in the selected pocket. Initial consideration
+was given to substitution with a hydroxyl group on the C5 of the indole
+as this may result in a new hydrogen bond contact with residue K1145
+( ). Moreover,
+the removal of the aryl moiety at the indole C2 position was also
+considered as a means to evaluate the minimum requirements for the
+activity of this class of inhibitors. These modifications were divided
+into two groups of compounds where group A would have the aryl substitution
+at the C2 of the indole removed and an additional hydroxyl group would
+be added at the C5 of the indole and group B will have a single modification
+on 2-phenylindole moiety (Figure S5).
+ A newly designed library of compounds was used
+for the initial
+virtual screening. Docking simulations of Group A showed that the
+absence of the 2-aryl substitution on the indole moiety could be tolerated.
+Compound 6a exhibited five hydrogen bond interactions
+to residues (N895, D899, D16, K20, and K1145) with a docking score
+of −7.21 kcal/mol. Virtual screening of this library was performed,
+and the best scoring poses for each analog was retained for further
+investigation using MD simulations. Since compound 1 and
+its analogs are racemic, evaluation of each enantiomer was crucial
+to determine which isomer would be more suitable for binding and complementing
+the pocket cavity. Initially, both enantiomers were docked, and the
+higher scoring enantiomer was carried forward for the molecular dynamics
+simulation (MD). The (S) enantiomer exhibited better
+binding poses for most of the newly designed compounds, with docking
+scores ≥6 kcal/mol and hence was selected for MD simulations.
+
+## Assessment of Ligands Stability and Poses During MD Simulation
+To evaluate the stability of the L protein complex during MD simulations,
+the root-mean-square deviation (RMSD) value was calculated over a
+25 ns long simulation time. Analysis of the trajectories indicated
+that the S isomer of compound 1 was
+more stable in the binding site during the simulation with an average
+RMSD for the complex of 2.1 Å. The compound showed very strong
+stability in the complex with a small deviation of 0.74 Å from
+the original coordinates throughout the whole trajectory ( ). A representative
+structure of the last 15 ns of simulation for all ligands was obtained
+using clustering in AMBER tools via the average-linkage algorithm.
+Based on the stability observed for the protein–ligand complexes,
+we set the simulation time to 25 ns to evaluate all complexes. Analysis
+of the trajectories revealed that the carbonyl oxygen of the ester
+forms a hydrogen bond with the positively charged ε-amino group
+of residue K20. The nitrogen of the 4-methoxyphenyl indole part of
+the molecule interacted extensively with side chains of residues D899
+and T896 through hydrogen bonding. Moreover, the methoxy oxygen formed
+a hydrogen bond with the backbone of residue N895. The ligand orientation
+placed the benzene part of the indole skeleton into a hydrophobic
+pocket formed of residues L14, I896, and L898, which contributed to
+a more efficient binding by filling the pocket ( ).
+ The results of compound 1 stability
+motivated us to
+explore the tolerability of different functionalities on this moiety.
+Interestingly, the absence of the 2-phenyl substitution on the indole
+did not affect the stability of the ligand binding and the whole complex
+for a simulation of 50 ns.
+Importantly, the extended simulation
+time was crucial at this stage
+to further validate the results and to avoid any false positives.
+The binding of compound 6a to the RSV L protein stabilized
+the replication complex with a mean RMSD of 1.8 Å and a ligand
+RMSD of 0.65 Å ( ). The orientation of 6a was similar to that
+of compound 1 in the binding pocket with a small deviation
+in which the 5-hydroxyl group was placed near residue K1145. This
+orientation led to the desired hydrogen bond interaction between the
+phenolic oxygen of the molecule and the hydrogen of the lysine side
+chain. Interestingly, the compound occupied a hydrophobic cleft inside
+the pocket and the substitutions complemented the electrostatic interactions
+required for that pocket as shown in ( ). These results suggested that modifications
+of the bis-indole parent molecule could be tolerable and might lead
+to a more potent inhibitor.
+ Based on the previous results, another generation
+of compounds
+based on 6a was investigated. In this generation, group
+B, the core structure of the parent compound 1, was maintained.
+The presence of a methoxy group at the C4 was believed to decrease
+the cytotoxicity of this class of compounds. In this work, the introduction of a hydroxyl group at C2 of the
+2-phenyl-4-methoxyindole is sought to potentially contribute to an
+enhanced hydrogen bond network within the pocket. In contrast to previously
+observed binding modes, the indole part of compounds 10b–e flipped from its initial position, after 10
+ns of the simulation, forcing the ligands to rotate inside the pocket,
+perhaps to avoid solvent exposure ( ). Although this rotation did not result
+in any hydrogen bond contact with K1145, the ligands were still able
+to build more hydrogen bonds within the pocket. Ligands maintained
+some of the previously observed hydrogen bonds to D16, T896, and N895.
+An additional hydrogen bond was established between the C2 (−OH) and the backbone oxygen of W893 as demonstrated in
+the putative binding of compound 10b ( ). Although the results were
+very compelling, an accurate binding free energy calculation was needed
+to rank the compounds and understand the ligand contributions to the
+binding.
+ 
+
+## Relative Binding Free Energy Analysis of Ligand–Protein
+Complexes
+The combination of MD simulations and end-point
+free energy calculation such as the molecular mechanics/generalized
+Born surface area (MM/GBSA) has proven to be very useful in the accurate
+assessment of protein–ligand complexes. − Building on
+our previous analysis, the MM-GBSA method was employed on the snapshots
+of the complexes sampled from the MD trajectories to get better insights
+into ligand contributions to binding. The trajectory of each complex
+was sampled at an interval of 10 ps from the last 10 ns of the simulation
+to yield 100 frames for the MM-GBSA rescoring.
+Compounds 6c, 6e, 10c, and 10e showed weak
+binding affinities to the RSV L with values of −24.31 ±
+3.6, −24.84 ± 2.6, −22.11 ± 4.6, and −22.25
+± 4.7 kcal/mol, respectively (Table S1). Further, per-residue decomposition analysis was performed to obtain
+the energetic contributions of each residue in the binding pocket
+toward inhibitor binding. The residues that consistently contributed
+to the binding of compound 1 were identified as D16,
+S17, Y18, T896, and I897, where van der Waals interactions dominated
+the binding. Moreover, the analysis indicated that D899 contributed
+mainly to electrostatic interactions as summarized in Table S2. However, energy decomposition for compound 6a revealed that most pocket residues contributed a small
+portion to van der Waals interactions while electrostatic interactions
+by D899 and T896 were more dominant as shown in Table S2. Based on these results, the two computationally
+investigated libraries were synthesized and evaluated for their antiviral
+activities to build a more accurate SAR based on their antiviral activity.
+
+## Chemical Synthesis
+To explore the structure–activity
+relationships (SAR) at the western part of the bis-indole scaffold,
+the synthesis of several analogues of Group A was achieved according
+to the route outlined in and according to a previously published literature
+procedure. 
+ Starting
+from commercially available anthranilic acid derivatives,
+the route began with a diazotization reaction followed by the addition
+of sodium azide to afford compound 3. The beta-keto ester
+compound 4 was formed, according to the Ti-crossed-Claisen
+condensation reported by Misaki et al., from the reaction of the carboxylic acid 2 with trichloroacetyl
+chloride and methyl acetate promoted by TiCl4 and N-methylimidazole at −45 °C to furnish this
+intermediate in good yields. The Regitz-diazo transfer was the key
+step to produce the diazo-azide intermediate 5 by the
+reaction of 4 with tosyl azide in the presence of triethylamine
+at room temperature for 12 h.
+The synthesis of targeted bis(indole)
+compounds processed through
+a dual catalytic cycle described previously by our group. In this dual catalytic cycle, intermediate 5 was treated with 10 mol % of Cu(OTf)2 in DCM
+to catalytically produce copper metallocarbenes after an in
+situ reduction of copper(II) precatalyst to copper(I) by
+the indole as the reducing agent. This led to the conversion of 5 into a C-acylimine intermediate followed
+by Bro̷nsted acid activation of the imine for the Fridel-Crafts
+alkylation of the indole trap. This step produced our targeted compounds 6a–e in good to moderate yields. In order
+to prepare targeted compounds 10a–e, the intermediate 2-(1H-indol-2-yl)-5-methoxy phenol 9 was synthesized through Fischer indole synthesis by reacting
+2′-hydroxy-4′-methoxyacetophenone 7 with
+phenyl hydrazine under acidic conditions which gave the desired product
+in 68% yield as shown in . The synthesis of compounds 10a–e followed the synthetic route discussed
+above but using compound 9 instead of 5-hydroxy indole
+as shown in .
+ 
+
+## Evaluation of the Antiviral Activity of the Designed Bis-indole
+Compounds against RSV
+To investigate the antiviral activity
+of the newly designed compounds against RSV, all compounds from both
+groups were evaluated to establish a more extensive SAR and to validate
+our model. The antiviral activity of the bis-indole compounds was
+evaluated by the cell-based virus replication assay, measuring RSV
+viral progeny inhibition as a measure of antiviral efficacy. A 10
+μM concentration of the compounds was the threshold for determining
+antiviral activity. Among the tested compounds from group A, compound 6a showed significant reduction in RSV progeny production
+in the progeny inhibition assay with an EC50 = 4 μM
+in the RSV-GFP reporter assay ( A,B). The compound had no effect on the cell viability
+at test concentrations (CC50 ≈ 200 μM) with
+a selectivity index (SI = 50). Although compounds 6b and 6c share the same scaffold but with different substituents
+on the indolinone fragment, both compounds exhibited a nonsignificant
+reduction of the RSV progeny production compared to 6a, which has no substitutions on the indolinone part. Antiviral evaluation
+of group B compounds revealed that compound 10b (which
+has two chlorines at R1 and R3 on the indolinone
+fragment) is the only compound with significant antiviral activity
+with an EC50 of 6.32 μM ( C,D).
+ These results confirm the antiviral activity observed
+in the viral
+progeny assay and come in agreement with our computational model where
+compounds 6a and 10b showed a relative binding
+free energy of −37.60 ± 2.7 and −35.47 ± 2.1
+kcal/mol and complemented the conformation of the allosteric binding
+site while the rest of the tested compounds exhibited a relatively
+low binding free energy ranging from −22.11 to −34.55
+kcal/mol. Based on these precedents, it is notable that the substitutions
+on the bis-indole significantly affect their antiviral activity.
+
+## Resistance Profile of the Bis-indole Chemotype
+The
+emergence of viral resistance following treatment with antiviral drugs
+provides a challenge for future use of the drug, especially if mutants
+arise quickly and/or are then transmitted to become dominant circulating
+variants. Experimental elucidation of susceptibility to resistance
+is therefore important to identify potential for generation of viral
+resistance but also identifying the drug mechanism of action. Our
+previous efforts to develop a resistant mutant against the lead compound 1 were unsuccessful even with 14 serial passages over 5 weeks. This may suggest that there is a high barrier
+to development of resistant mutations to evade this class of compounds.
+To gain insights into the binding site of this class of compounds,
+a viral evolution assay was explored where the virus was serially
+passaged in the presence of two concentrations (10 and 25 μM)
+of compound 1 for 20 passages to force the virus to evade
+the treatment and develop resistance. At passage 6, we first noted
+the appearance of mutations in the RSV-L gene that were associated
+with rebound viral titer in their respective biological replicate
+(Figure S6). We noted that these mutations
+were represented by 100% of the quasispecies by passage number 20
+when the titer started to rebound. Genome sequencing revealed unique
+substitutions that affected residues within the RdRp domains, namely,
+M59I, L81I, N216S, N224S, and V338I. All mutations were located in
+close proximity and clustered near the computationally identified
+bis-indole binding site ( ).
+ These resistance sites are unique and were not
+associated with
+escape from previously reported RSV allosteric polymerase inhibitors.
+Moreover, the sites of these resistant mutants were not located near
+the P binding sites, suggesting that these compounds do not interfere
+with P binding to the L protein for polymerase processivity.
+Based on our sequence alignment with other negative-stranded RNA
+viruses (Figure S4), the mutated residues
+were not conserved whereas the binding site residues were conserved
+and were likely not able to be mutated and maintain the function of
+the polymerase. This may be the reason that the titer did not rebound
+to WT levels because the mutants are less fit.
+
+## Computational Assessment of the Bis-indole Induced Mutations
+on Inhibitors Binding to the RSV L Protein
+We utilized the
+recently published cryo-EM structure of the RSV L bound to the RNA
+template to get insight into the possible mechanism of action of the
+bis-indole chemotype. Interestingly,
+three of the mutated residues, namely M59, N224, and D575, are located
+in close proximity to the template entry channel ( A). Moreover, residue N224
+is located inside our identified pocket ( A). Based on this observation, we believe
+that the M59I and E575D mutations are compensatory mutations that
+are located near the template entrance channel and may play a role
+in viral fitness restoration. This could rationalize the emergence
+of such mutations upon treatment with the bis-indole chemotype; however,
+a site-directed mutagenesis analysis will be performed to confirm
+this hypothesis.
+ To evaluate the impact of specific mutations on
+the binding of
+inhibitors to the allosteric pocket, all six mutations that emerged
+from compound 1 treatment were incorporated into the
+RSV L protein cryo-EM structure. Subsequently, a 100 ns MD simulation
+was conducted, and the resulting trajectory was subjected to clustering.
+The representative structure extracted from the lowest energy cluster
+was employed in a redocking experiment with compound 1, the lead molecule tested in the viral evolution assay. Despite
+repeating the experiment with the same pocket coordinates, the analysis
+of the docked pose revealed that compound 1 exhibited
+negligible binding affinity to the allosteric pocket, indicated by
+a docking score of −3.4 kcal/mol.
+One underlying assumption
+is that the introduced mutations in RSV
+L may have triggered conformational changes in the allosteric pocket.
+To assess this, a 100 ns MD simulation was performed on the apo-mutated
+RSV L protein, and the allosteric pocket’s volume was monitored
+throughout the simulation. Intriguingly, the pocket volume exhibited
+a substantial reduction from approximately 517 Å to around 70
+Å ( B).
+This reduction in pocket size could potentially explain why compound 1 might have difficulty binding effectively to this pocket.
+To validate this finding, a 100 ns MD simulation was conducted
+for compound 1 bound to the mutated RSV L. As anticipated,
+the compound failed to establish robust contacts and diffused away
+from the pocket after 20 ns of the simulation ( C and Movie S1). In summary, our MD simulations indicate that mutations induced
+by the bis-indole chemotype could lead to a conformational change
+in the allosteric pocket, resulting in a reduced pocket size. This
+alteration may adversely impact the druggability of the pocket, potentially
+contributing to the virus’s enhanced ability to regain fitness.
+This result suggests that the bis-indole compounds were targeting
+the RSV L protein and were binding to a unique binding site in agreement
+with our computational model.
+
+## Conclusions
+In this study, we utilized the published
+cryo-EM structures of
+the RSV L protein to structurally guide the design of a novel class
+of non-nucleoside polymerase inhibitors based on our previously discovered
+bis(indole) antivirals. A computational drug design approach has been
+employed to analyze the RSV L protein for possible druggable binding
+sites based on compound 1. Our investigation led to the
+identification of an allosteric binding site located near the NTP
+entry site, and the stability of the residues lining this pocket was
+extensively investigated by MD simulations. Following a 100 ns MD
+simulation of the apoprotein, in silico screening of the two libraries based on the lead compound identified
+several residues that the compound can interact with and form a stable
+complex. We used our model to modify and optimize the lead compound,
+which eventually led to some modifications on the parent molecule.
+All the designed compounds have been ranked for their relative binding
+free energy using the MM/GBSA method to inform our synthesis decision
+and help rationalize SAR of this chemotype.
+The antiviral activity
+of selected compounds represented both designed
+libraries has been screened in vitro for their ability
+to inhibit RSV infectivity. Among the tested compounds, compounds 6a and 10b showed the most promising antiviral
+activity, with EC50 values of 4 and 6.32 μM, respectively.
+This result agreed with our computational model regarding the possible
+binding site of this class of compounds, potentially leading to identifying
+a novel mechanism of viral protein inhibition. Viral resistant mutants
+emerged after incubation with escalating doses of the lead compound
+with the virus leading to mutations in the RdRp domain, which has
+not been associated with previously reported escape mutants from RSV
+allosteric inhibitors. This work serves as a starting point for the
+design and exploration of new chemical spaces as viral RdRp inhibitors
+with potentially novel mechanisms of viral protein inhibition. Future
+work will comprise isolation of the resistance mutants and further
+validation by measuring the fold change in EC50’s
+associated with the treatment with the bis-indole moiety in both RSV
+A and RSV B subtypes.
+
+## Experimental Section
+
+## General Chemistry
+Unless otherwise noted, all commercially
+available reagents were purchased and used without further purification
+unless otherwise noted. Flash chromatography columns were packed with
+230–400 mesh silica gel (Silicycle). Nuclear magnetic resonance
+(NMR) spectra were obtained using Agilent/Varian VNMRS 400, 500, or
+700 MHz spectrometers. For 1H spectra, δ values were
+referenced to CDCl3 (7.26 ppm) or DMSO-d6 (2.49 ppm), and for the 13C spectra, δ
+values were referenced to CDCl3 (77.16 ppm) or DMSO-d6 (39.5 ppm). Low-resolution mass was measured
+using Agilent Technologies 1100MSD LCMS (Single Quadruple) or Waters
+(Micromass) Q-TOF Premier LCMS/MS quadruple time-of-flight (TOF).
+High-resolution mass was measured using an Agilent Technologies 6220
+orthogonal time-of-flight or Kratos Analytical MS-50G double focusing
+sector. The purity of the most active compounds was assessed by LC-UV
+(>95%).
+
+## Intermediate Preparation
+The preparation of the β-keto
+ester intermediates was previously described. , 
+
+## Representative Procedure for the Synthesis of compounds 5a–e
+
+## Synthesis of Methyl 3-(2-Azidophenyl)-2-diazo-3-oxopropanoate
+(5a)
+The title compounds were obtained following . For compound 5a, 2-azidobenzoic acid (0.82 g, 5.0 mmol, 1 equiv) was added
+to a round-bottomed flask charged with DCM (35 mL) under a N2 atmosphere and the suspension was cooled to 0 °C before the
+addition of trichloroacetyl chloride (0.70 mL, 6.0 mmol,1.20 equiv)
+followed by the addition of methyl acetate (0.40 mL, 6.0 mmol, 1.0
+equiv). The solution was then transferred to a suspension of NaH (0.36
+g, 15.0 mmol, 3 equiv) in DCM (10 mL) cooled at 0 °C. The solution
+was stirred at 0 °C for 15 min before being cooled to −45
+°C followed by the addition of 1-methylimidazole (0.48 mL, 6.0
+mmol, 1.2 equiv). After stirring for an additional 10 min at −45
+°C, TiCl4 (2.4 mL, 17.0 mmol, 3.4 equiv) was slowly
+added followed by Et3N (2.8 mL, 20.0 mmol, 4.0 equiv).
+The reaction was kept at −45 °C for 45 min before being
+warmed up to 0 °C and kept at this temperature for an additional
+1 h. The reaction was quenched with water, the organic layer was separated,
+and the aqueous layer was washed three times with dichloromethane.
+The combined organic layers were subsequently washed with water and
+brine, dried over MgSO4, filtered, and concentrated under
+reduced pressure to furnish the crude mixture as an orange oil. The
+crude product was purified by flash chromatography (gradient 1 to
+30% EtOAc in hexane) to afford 930 mg (85%) of the β-keto ester
+product 4a as an orange oil; Rf = 0.60 (7:3 hexanes:EtOAc). The β-keto ester 4a (900 mg, 4.11 mmol, 1.0 equiv) was then added to a stirred solution
+of triethylamine (0.70 mL, 4.93 mmol, 1.20 equiv) in CH3CN (15 mL). Tosyl azide (0.90 mL, 4.11 mmol, 1.0 equiv) in CH3CN (10 mL) was transferred via a cannula into the flask, and
+the reaction was stirred for 12 h. The reaction was monitored by TLC
+and LCMS for the formation of the new product, and upon reaction completion,
+the crude mixture was concentrated in vacuo followed
+by purification via flash chromatography (gradient elution 9:1 then
+8:2 hexane/EtOAc) to afford the desired product 5a as
+a yellow oil (910 mg, 67%); Rf = 0.46
+(7:3 hexanes:EtOAc). 1H NMR (500 MHz, CDCl3)
+δ 7.48–7.41 (m, 1H), 7.26 (dd, J = 7.8,
+1.6 Hz, 1H), 7.18–7.11 (m, 2H), 3.71 (s, 3H). 13C NMR (126 MHz, CDCl3) δ 185.7, 160.9, 137.8, 132.0,
+130.4, 128.5, 124.8, 118.4, 52.4. (N.B.: The 13C signal
+for the diazo carbon was not detected due to quadrupolar broadening.)
+HRMS (ESI) calcd for C10H7N5O3 [M]+ 245.0549, found 245.0549.
+
+## Methyl 3-(2-Azido-4-fluorophenyl)-2-diazo-3-oxopropanoate (5b)
+The title compound was prepared analogously to 5a starting from 2-azido-4-fluorobenzoic acid; isolated as
+reddish oil (200 mg, 62% yield from the β-keto ester intermediate 4b); Rf = 0.56 (7:3 hexanes:EtOAc). 1H NMR (700 MHz, CDCl3) δ 7.32 (dd, J = 9.1, 5.9 Hz, 1H), 6.94–6.88 (m, 2H), 3.77 (s,
+3H). 13C NMR (176 MHz, CDCl3) δ 184.7,
+164.7 (d, J = 253.4 Hz), 160.9, 140.2 (d, J = 9.0 Hz), 130.7 (d, J = 9.9 Hz), 126.6
+(d, J = 3.6 Hz), 112.3 (d, J = 22.1
+Hz), 106.0 (d, J = 25.2 Hz), 52.5. (N.B.: The 13C signal for the diazo carbon was not detected due to quadrupolar
+broadening.) HRMS (ESI) calcd for C10H6FN5O3Na [M + Na] + 286.0347, found 286.0344.
+
+## Methyl 3-(2-Azido-3,5-dichlorophenyl)-2-diazo-3-oxopropanoate
+(5c)
+The title compound was prepared analogously
+to 5a using 2-azido-3,5-dichlorobenzoic acid; isolated
+as a bright yellow oil (400 mg, 63% from the β-keto ester intermediate 4c); Rf = 0.57 (7:3 hexanes:EtOAc). 1H NMR (400 MHz, CDCl3) δ 7.39 (d, J = 2.3 Hz, 1H), 7.31 (d, J = 2.4 Hz, 1H),
+3.82 (s, 3H). 13C NMR (101 MHz, CDCl3) δ
+185.5, 161.2, 143.4, 133.2, 129.9, 121.0, 119.8, 119.4, 52.7. (N.B.:
+the 13C signal for the diazo carbon was not detected due
+to quadrupolar broadening.) HRMS (ESI) calcd for C10H5Cl2N5O3Na [M + Na] + 335.9662, found 335.9660.
+
+## Methyl 3-(2-Azido-4-(trifluoromethyl)phenyl)-2-diazo-3-oxopropanoate
+(5d)
+The title compound was prepared analogously
+to 5a using 2-azido-4-(trifluoromethyl) benzoic acid;
+isolated as a red oil (50 mg, 46% from the β-keto ester intermediate 4d); Rf = 0.50 (7:3 hexanes:EtOAc). 1H NMR (500 MHz, CDCl3) δ 7.45 (ddd, J = 7.9, 1.6, 0.8 Hz, 1H), 7.42–7.38 (m, 2H), 3.77
+(s, 3H).13C NMR (126 MHz, CDCl3) δ 184.8, 160.6,
+138.7, 133.8 (q), 129.0, 124.0, 122.5, 121.7 (q), 115.4 (q), 52.6.
+(N.B.: The 13C signal for the diazo carbon was not detected
+due to quadrupolar broadening.) HRMS (ESI) calcd for C11H6F3N5O3Na [M + Na]+ 336.0315, found 336.0316.
+
+## Methyl 3-(2-Azido-4-chlorophenyl)-2-diazo-3-oxopropanoate (5e)
+The title compound was prepared analogously to 5a using 2-azido-4-chlorobenzoic acid; isolated as a yellow
+oil (1.5 g, 62% from the β-keto ester intermediate 4e); Rf = 0.69 (7:3 hexanes:EtOAc). 1H NMR (500 MHz, CDCl3) δ 7.26–7.21
+(m, 1H), 7.16 (d, J = 6.8 Hz, 2H), 3.76 (s, 3H). 13C NMR (126 MHz, CDCl3) δ 184.7, 160.8, 139.2,
+137.8, 129.7, 128.8, 125.2, 118.6, 52.4. (N.B.: the 13C
+signal for the diazo carbon was not detected due to quadrupolar broadening.)
+HRMS (ESI) calcd for C10H6ClN5O3Na [M + Na] + 302.0051, found 302.0051.
+
+## Representative Procedure for the Synthesis of the Bis-indole
+Compounds (6a–e and 10a–e)
+
+## Synthesis of Methyl 2-(5-Hydroxy-1H-indol-3-yl)-3-oxoindoline-2-carboxylate
+(6a)
+To an oven-dried round-bottomed flask,
+a solution of 5-hydroxy indole (221 mg, 0.60 mmol) in DCM (25 mL)
+and Cu(OTf)2 (6.50 mg, 0.031 mmol) was stirred for 5 min
+followed by the addition of a solution of diazo-azide 5a (75 mg, 0.31 mmol) via a syringe pump over 1 h at room temperature.
+Once the addition was completed, the reaction was monitored by TLC
+for consumption of starting material 5a. After 24 h,
+the starting material was completely consumed, and the reaction mixture
+was concentrated under reduced pressure and purified by flash chromatography
+(silica gel, gradient elution 8:2 then 7:3 hexane/EtOAc) to afford
+the bis-indole product 6a as a yellow oil (90 mg, 91%); Rf = 0.24 (7:3 hexanes:EtOAc). 1H
+NMR (500 MHz, CDCl3) δ 8.08 (s, 1H), 7.69 (d, J = 7.8 Hz, 1H), 7.53 (ddd, J = 8.3, 7.1,
+1.4 Hz, 1H), 7.37 (d, J = 2.7 Hz, 1H), 7.22 (dd, J = 8.7, 0.6 Hz, 1H), 7.03–6.97 (m, 2H), 6.93 (ddd, J = 7.9, 7.1, 0.8 Hz, 1H), 6.78 (dd, J =
+8.7, 2.4 Hz, 1H), 5.69 (s, 1H), 4.55 (s, 1H), 3.81 (s, 3H). 13C NMR (126 MHz, CDCl3) δ 194.6, 168.9, 161.0, 149.9,
+137.9, 131.8, 126.1, 125.4, 124.5, 120.4, 119.9, 113.6, 112.6, 112.3,
+111.0, 104.2, 72.4, 53.8. HRMS (ESI) calcd for C18H13N2O4 [M-H]− 321.0881;
+found 321.0879.
+
+## Methyl 6-Fluoro-2-(5-hydroxy-1H-indol-3-yl)-3-oxoindoline-2-carboxylate
+(6b)
+The title compound was prepared analogously
+to 6a but using (0.16 mmol) of 5a, and the
+product was purified by flash chromatography following the previously
+mentioned procedure and was isolated as yellow oil in 73% yield; Rf = 0.22 (7:3 hexanes:EtOAc). 1H
+NMR (500 MHz, CDCl3) δ 8.12 (s, 1H), 7.68 (ddd, J = 9.1, 5.7, 0.7 Hz, 1H), 7.36 (d, J =
+2.9 Hz, 1H), 7.23 (dd, J = 8.7, 0.6 Hz, 1H), 7.02–6.91
+(m, 2H), 6.82–6.76 (m, 1H), 6.63 (ddd, J =
+8.9, 6.8, 2.1 Hz, 2H), 5.80 (s, 1H), 3.82 (s, 3H). 13C
+NMR (126 MHz, CDCl3) δ 192.7, 168.8 (d, J = 5.8 Hz), 162.5 (d, J = 14.1 Hz), 150.1, 131.9,
+128.9, 127.9 (d, J = 12.4 Hz), 12.50, 126.1, 124.6,
+116.3, 112.6 (d, J = 42.3 Hz), 110.8, 109.2 (d, J = 24.7 Hz), 104.21, 100.0 (d, J = 26.0
+Hz), 73.0, 54.0. HRMS (ESI) calcd for C18H12FN2O4 [M-H]− 339.0787; found
+339.0787.
+
+## Methyl 5,7-Dichloro-2-(5-hydroxy-1H-indol-3-yl)-3-oxoindoline-2-carboxylate
+(6c)
+The title compound was prepared analogously
+to 6a but using (0.14 mmol) of 5c instead
+of 5a, and the product was isolated as yellow oil in
+84% yield; Rf = 0.20 (7:3 hexanes:EtOAc). 1H NMR (500 MHz, CDCl3) δ 8.14 (s, 1H), 7.55
+(dd, J = 12.6, 2.0 Hz, 2H), 7.35 (d, J = 2.8 Hz, 1H), 7.23 (d, J = 8.7 Hz, 1H), 7.01 (d, J = 2.4 Hz, 1H), 6.80 (dd, J = 8.7, 2.4
+Hz, 1H), 5.83 (s, 1H), 3.83 (s, 3H). 13C NMR (126 MHz,
+CDCl3) δ 192.8, 167.8, 155.6, 150.0, 136.4, 131.8,
+125.7, 125.5, 124.5, 123.2, 121.6, 119.2, 112.8, 112.4, 109.9, 104.2,
+73.3, 54.0. HRMS (ESI) calcd for C18H12Cl2N2O4 [M + H]+ 389.0101; found 389.0095.
+
+## Methyl 2-(5-Hydroxy-1H-indol-3-yl)-3-oxo-6-(trifluoromethyl)indoline-2-carboxylate
+(6d)
+The title compound was carried out on a
+small scale (18 mg, 0.060 mmol of the intermediate 5d), prepared and purified analogously to 6a, and the
+product was isolated as yellow oil in 68% yield; Rf = 0.24 (7:3 hexanes:EtOAc). 1H NMR (500 MHz,
+CDCl3) δ 8.11 (s, 1H), 7.78 (d, J = 8.1 Hz, 1H), 7.36 (d, J = 2.8 Hz, 1H), 7.24 (d, J = 8.8 Hz, 2H), 7.15 (d, J = 5.2 Hz, 1H),
+7.08–6.94 (m, 2H), 6.80 (dd, J = 8.7, 2.4
+Hz, 1H), 5.86 (s, 1H), 3.82 (s, 3H).HRMS (ESI) calcd for C19H13F3N2O4Na [M + Na]+ 413.0720; found 413.0720. (Due to the small scale of the
+reaction, no 13C data was obtained.)
+
+## Methyl 6-Chloro-2-(5-hydroxy-1H-indol-3-yl)-3-oxoindoline-2-carboxylate
+(6e)
+The title compound was prepared analogously
+to 6a but using (1.7 mmol) of 5e instead
+of 5a, and the product was isolated as yellow oil in
+98% yield; Rf = 0.22 (7:3 hexanes:EtOAc). 1H NMR (700 MHz, CDCl3) δ 8.11 (s, 1H), 7.60
+(d, J = 8.4 Hz, 1H), 7.35 (d, J =
+2.7 Hz, 1H), 7.22 (d, J = 8.7 Hz, 1H), 6.98 (dd, J = 3.8, 2.0 Hz, 3H), 6.89 (dd, J = 8.2,
+1.7 Hz, 1H), 6.79 (dd, J = 8.7, 2.4 Hz, 1H), 5.75
+(s, 1H), 3.82 (s, 3H). 13C NMR (176 MHz, CDCl3): δ 192.9, 168.0, 155.8, 150.1, 136.5, 131.9, 125.9, 125.6,
+124.6, 123.4, 121.7, 119.4, 112.9, 112.5, 110.0, 104.3, 73.4, 54.1.
+HRMS (ESI) calcd for C18H14ClN2O4 [M + H] + 357.0637; found 357.064.
+
+## 2-(1H-Indol-2-yl)-5-methoxyphenol (9)
+Phenyl hydrazine (3.0 mL, 30.0 mmol) was added to a stirred
+solution of 2′-hydroxy-4′-methoxyacetophenone (5.0 g,
+30.0 mmol) in absolute EtOH (30 mL), followed by 5 drops of HOAc.
+The reaction mixture was heated at 80 °C for 1 h. The reaction
+was allowed to cool to rt, and then the solvent was removed under
+reduced pressure. Polyphosphoric acid (PPA, 10 mL) was added to the
+residue, and the mixture was heated slowly to 130 °C and kept
+at this temperature for 1 h. The reaction mixture was poured onto
+ice and neutralized with 2 M NaOH. After neutralization, the greyish
+solid formed was filtered, washed with water (3 × 100 mL), and
+purified by flash chromatography (gradient 5 to 20% EtOAc in hexane)
+to afford the desired compound 9 as yellow-gray solid
+(4.9 g, 68%). 1H NMR (500 MHz, DMSO-d6) δ 10.96 (s, 1H), 10.20 (s, 1H), 7.65 (d, J = 8.6 Hz, 1H), 7.46 (dd, J = 7.8, 1.2 Hz, 1H),
+7.41 (dd, J = 8.0, 1.0 Hz, 1H), 7.01 (ddd, J = 8.1, 6.9, 1.2 Hz, 1H), 6.94 (ddd, J = 8.0, 7.0, 1.1 Hz, 1H), 6.82 (d, J = 0.9 Hz, 1H),
+6.56 (d, J = 2.5 Hz, 1H), 6.52 (dd, J = 8.6, 2.6 Hz, 1H), 3.75 (s, 3H). 13C NMR (126 MHz, DMSO-d6) δ 159.4, 155.5, 136.0, 135.5, 128.4,
+128.3, 120.4, 119.2, 118.7, 112.1, 111.0, 105.3, 101.8, 99.2, 55.0.
+HRMS (ESI) calcd for C15H13O2 [M-H]− 238.0874; found 238.0872.
+
+## Methyl 2-(2-(2-hydroxy-4-methoxyphenyl)-1H-indol-3-yl)-3-oxoindoline-2-carboxylate
+(10a)
+The title compound was prepared analogously
+to 6a but using 2.0 equiv of compound 9 in
+place of 5-hydroxy indole and (0.017 mmol) of 5a. Compound 10a was isolated as yellow semisolid in 52% yield; Rf = 0.31 (7:3 hexanes:EtOAc). 1H NMR (500
+MHz, CDCl3) δ 8.07 (s, 1H), 7.63 (dd, J = 7.8, 1.3 Hz, 1H), 7.57 (ddd, J = 8.4, 7.1, 1.4
+Hz, 1H), 7.35–7.29 (m, 2H), 7.18 (ddd, J =
+8.1, 7.1, 1.1 Hz, 1H), 7.13 (d, J = 8.4 Hz, 1H),
+7.04–6.90 (m, 3H), 6.56 (d, J = 2.5 Hz, 1H),
+6.52 (dd, J = 8.4, 2.5 Hz, 1H), 5.69 (s, 1H), 3.80
+(s, 3H), 3.29 (s, 3H). (N.B.: The 1H signal for the phenolic
+proton was not detected). 13C NMR (126 MHz, CDCl3) δ
+196.6, 168.3, 162.1, 160.8, 156.8, 138.3, 135.6, 132.3, 131.8, 126.1,
+125.6, 122.9, 120.5, 120.5, 119.8, 119.3, 113.1, 111.2, 111.0, 110.3,
+106.8, 102.1, 73.3, 55.4, 53.3. HRMS (ESI) calcd for C25H20N2O5Na [M + Na] + 451.1264;
+found 451.1257.
+
+## Methyl 5,7-Dichloro-2-(2-(2-hydroxy-4-methoxyphenyl)-1H-indol-3-yl)-3-oxoindoline-2-carboxylate (10b)
+The title compound was prepared analogously to 10a, and the product was isolated as yellow oil in 67% yield; Rf = 0.40 (7:3 hexanes:EtOAc). 1H
+NMR (500 MHz, CDCl3) δ 8.11 (s, 1H), 7.57–7.51
+(m, 1H), 7.48 (dd, J = 2.0, 0.7 Hz, 1H), 7.38–7.32
+(m, 1H), 7.28–7.19 (m, 2H), 7.14–7.03 (m, 2H), 6.56–6.49
+(m, 2H), 3.81 (s, 3H), 3.38 (s, 3H). (N.B.: The 1H signals
+for the phenolic and indolinone protons were not detected). 13C NMR (126 MHz, CDCl3) δ 194.6, 167.6, 162.4, 156.5,
+155.5, 136.7, 135.7, 132.3, 131.9, 126.1, 125.6, 123.3, 123.3, 121.3,
+120.9, 119.6, 119.0, 111.4, 110.9, 109.8, 107.1, 102.0, 74.1, 55.6,
+53.7. HRMS (ESI) calcd for C25H18Cl2N2O5Na [M + Na] + 519.0485; found
+518.0482.
+
+## Methyl 2-(2-(2-Hydroxy-4-methoxyphenyl)-1H-indol-3-yl)-3-oxo-6
+(trifluoromethyl)indoline-2-carboxylate (10c)
+The title compound was prepared analogously to 10a but
+using (0.060 mmol) of 5d instead of 5a,
+and the product was isolated as yellow oil in 58% yield; Rf = 0.35 (7:3 hexanes:EtOAc). 1H NMR (500 MHz,
+CDCl3) δ 8.09 (s, 1H), 7.74–7.68 (m, 1H),
+7.35 (dt, J = 8.2, 0.9 Hz, 1H), 7.28 (dd, J = 8.1, 0.9 Hz, 1H), 7.23–7.20 (m, 2H), 7.16–7.09
+(m, 2H), 7.08–7.01 (m, 1H), 6.96 (s, 1H), 6.54 (d, J = 2.5 Hz, 1H), 6.51 (dd, J = 8.4, 2.5
+Hz, 1H), 5.84 (s, 1H), 3.81 (s, 3H), 3.35 (s, 3H). HRMS (ESI) calcd
+for C26H19F3N2O5Na [M + Na] + 519.1138; found 519.1133. (Due to the small
+scale of the reaction, no 13C data was obtained.)
+
+## Methyl 6-Fluoro-2-(2-(2-hydroxy-4-methoxyphenyl)-1H-indol-3-yl)-3-oxoindoline-2-carboxylate (10d)
+The title compound was prepared analogously to 10a but
+using (0.18 mmol) of 5d instead of 5a, and
+the product was isolated as yellow oil in 58% yield; Rf = 0.30 (7:3 hexanes:EtOAc). 1H NMR (500 MHz,
+CDCl3) δ 8.06 (s, 1H), 7.66–7.60 (m, 1H),
+7.37–7.28 (m, 3H), 7.23–7.16 (m, 1H), 7.13 (d, J = 8.4 Hz, 1H), 7.06–6.99 (m, 1H), 6.64 (dd, J = 9.1, 7.5 Hz, 2H), 6.57 (d, J = 2.5
+Hz, 1H), 6.53 (dd, J = 8.4, 2.5 Hz, 1H), 5.79 (s,
+1H), 3.81 (s, 3H), 3.30 (s, 3H). 13C NMR (126 MHz, CDCl3) 194.6, 168.1, 162.3 (d, J = 3.3 Hz), 156.9,
+135.7, 132.4, 131.9, 128.2 (d, J = 12.5 Hz), 126.1,
+123.2, 120.7, 119.8, 115.9, 111.2 (d, J = 4.1 Hz),
+110.1, 109.3 (d, J = 24.7 Hz), 107.0, 102.3, 99.6
+(d, J = 26.2 Hz), 74.0, 55.5, 53.5. (N.B.: Three
+carbon resonance 13C were missing and could not be properly
+assigned.) HRMS (ESI) calcd for C25H18FN2O5 [M-H]− 445.1205; found 445.1194.
+
+## Methyl 2-(2-(2-Hydroxy-4-methoxyphenyl)-1H-indol-3-yl)-6-methoxy-3-oxoindoline-2-carboxylate
+(10e)
+The title compound was prepared analogously
+to 10a but using (2.0 mmol) of 5e instead
+of 5a, and the product was isolated as yellow oil in
+69% yield; Rf = 0.30 (7:3 hexanes:EtOAc). 1H NMR (500 MHz, CDCl3) δ 8.03 (s, 1H), 7.55
+(d, J = 8.7 Hz, 1H), 7.37–7.30 (m, 2H), 7.21–7.11
+(m, 2H), 7.00 (ddd, J = 8.2, 7.1, 1.0 Hz, 1H), 6.59
+(d, J = 2.5 Hz, 1H), 6.52 (td, J = 8.6, 2.3 Hz, 2H), 6.41 (d, J = 2.1 Hz, 1H), 5.69
+(s, 1H), 3.90 (s, 3H), 3.81 (s, 3H), 3.25 (s, 3H). (N.B.: The 1H signal for the phenolic proton was not detected). 13C NMR (126 MHz, CDCl3) δ 194.3, 168.8, 168.6, 163.3,
+162.2, 157.3, 135.7, 132.4, 131.9, 127.3, 126.2, 123.0, 120.6, 120.0,
+112.7, 111.5, 111.1, 110.5, 106.9, 102.5, 95.3, 73.9, 55.9, 55.5,
+53.3. HRMS (ESI) calcd for C26H22N2O6Na [M + Na] + 481.1370; found 481.1370.
+
+## Computational Details
+
+## Preparation of the Target Protein for MD Simulations
+The cryo-electron microscopy structure of the RSV L protein bound
+to the tetrameric P protein (PDB ID: 6PZK), which has a resolution of 3.20 Å,
+was used for our study. Initially, we started by building up the missing
+loop residues (609–626) using Prime implemented in the Schrödinger
+Small Molecule Discovery Suite. , For the mutated protein,
+mutations were introduced also using the Schrödinger Small
+Molecule Discovery Suite, and the structure was minimized using the
+Protein Preparation Wizard before being prepared for the MD simulations.
+The Protein Preparation Wizard module was used to add hydrogen
+atoms, minimize energy, and create appropriate protonation states
+for amino acid side chains and was then subjected to three stages
+of energy minimization. The AMBERff14SB force field parameters were
+assigned to the protein. The protein
+was then solvated in a cubic box of TIP3P water. The solvated system was then neutralized with the addition
+of Na+/Cl– counterions at a concentration
+of 0.15 M physiological ionic concentration using leap in AmberTools20.
+The system was then carried forward for subsequent MD simulation.
+Details on the MD simulations are discussed below.
+
+## Binding Site Identification
+MD simulation trajectories
+for the RSV L protein were used to identify potential allosteric pockets.
+Three different tools were employed to search for those pockets, including
+fPocket, Site Finder implemented in MOE, and the SiteMap utility implemented in Schrödinger and the MDpocket script on the MD trajectory of the apo protein. Agreement
+between these tools regarding pocket size and druggability scores
+along with the pocket volume obtained from the MD simulations were
+the main criteria for pocket selection.
+
+## Molecular Docking
+The 2D chemical structures of the
+ligands were built using ChemDraw version 19.0, and the structures
+were prepared using the LigPrep wizard implemented in Schrödinger.
+Protonation states at pH 7.0 ± 2.0 for each ligand were assigned
+using Epik and the ligands’ tautomer and conformations were
+calculated using the OPLS3e force field. , The docking grid box was defined in the center of residues N895,
+D899, D16, K20, and K1145 with center coordinates of 149.41, 118.59,
+and 140.67. The Glide scoring function at extra precision (XP) was
+used for the docking simulations. A maximum of 10 poses were generated
+for each compound, and the top-scoring pose was selected for each
+ligand.
+
+## MD Simulations and MM-GBSA Rescoring
+Complexes preparation
+followed the above-described method. The force field parameters for
+the ligands were obtained using the GAFF force field and Antechamber, and the AM1-BCC
+charges were assigned for the ligands. The MD simulations were performed using the AMBER20 molecular dynamics
+package with pmemd.cuda: initial minimization
+steps were performed in order to relax the water and ionic positions
+using 1000 steps of the steepest descent and 1000 steps of conjugate
+gradients minimization, keeping all the complex atoms fixed through
+a harmonic restraint with a force constant of 500 kcal/mol/Å2. This step was followed by 2000 steps of the steepest descent
+followed by 3000 steps of conjugate gradients without restraints.
+The systems were then heated gradually up from 0 to 300 K in 100 ps
+using Langevin dynamics. During the heating
+process, the backbone of the protein and the heavy atoms of the ligand
+were restrained, and a time step of 0.5 fs and periodic volume conditions
+were employed during this phase. The time step has been set to 2 fs,
+and periodic pressure conditions (1 atm) have been imposed and the
+restraints have been gradually released in four phases of 50 ps each.
+The simulations were then continued for 100 ns of production. Analysis
+of the MD trajectory was carried out using CPPTRAJ. Plots were generated using Gnuplot (version 5.4), Matplotlib,
+and figures were generated using PyMol.
+For MD snapshots extracted
+from the production simulations, we calculated the enthalpic portion
+of the binding energy using the molecular mechanics/generalized Born
+surface area (MM/GBSA) method implemented in the MMPBSA.py script. In MM/GBSA, the free energy change due to ligand
+binding is calculated as
+1 where ΔEMM, is the summation of nonbonded and bonded interaction
+energies. The solvation energy, ΔGsolv, is the sum of the polar and nonpolar contributions of solvation,
+where the polar solvation terms are calculated using a generalized
+Born model (igb = 5) and the nonpolar terms are computed based on
+the size of the solvent-accessible surface area. The (TΔS) portion of the equation refers to the
+entropic contribution and is computationally expensive and, therefore,
+is neglected. The pairwise decomposition analysis (idecomp = 4) using
+the MD trajectories were also carried out to identify the key ligand–residue
+energetic contributors to the binding free energy of the complexes.
+
+## Virological Assays
+
+## Cells and Virus
+Henrietta Lack’s (HeLa) cells
+from American Type Culture Collection (ATCC, CCL2) were grown in Dulbecco’s
+modified Eagle’s medium (DMEM) containing l-glutamine,
+glucose, and sodium pyruvate with 10% heat inactivated fetal bovine
+serum (FBS). Human airway epithelial (1HAEo-) cells were grown in
+minimum essential medium (MEM) supplemented with 10% heat inactivated
+FBS. All cell lines were incubated at 37 °C with 5% CO2.
+
+## Compound Evaluation and Infectious RSV Quantification
+Confluent 1HAEo- cells were preincubated with the compounds for 1
+h at 10 μM, followed by infection with RSV-A2-GFP at an MOI
+of 1 for 2 h. At 2 h postinfection, the infectious medium was removed
+from wells to prevent the carryover of infectious virus into progeny
+collections. Cells were fixed and permeabilized with methanol: acetone
+(1:1), blocked with PBS + 5% FBS, and stained with goat polyclonal
+anti-RSV antibody (1:1000 dilution), followed by the addition of an
+antigoat secondary antibody conjugated to β-galactosidase (1:2000
+dilution). Infected cells were stained blue upon the addition of X-Gal
+substrate (5-bromo-4-chloro-3-indoyl-β-galactopyranoside) in
+PBS containing 3 mM potassium ferricyanide, 3 mM potassium ferrocyanide
+and 1 mM magnesium chloride. The cleavage of the X-Gal substrate by
+β-galactosidase generates an insoluble blue precipitate which
+indicates RSV infection. Blue stained cells were manually counted
+as RSV focus-forming units by light microscopy using the EVOS FL Auto
+Cell Imaging System (Invitrogen).
+
+## RSV A2-GFP Viral Replication Assays
+HeLa cells were
+plated at a concentration of 2 × 104 cells per well
+in a black 96-well tray with clear bottom to observe the health of
+the cells. The next day, replicate wells were pretreated with drug
+for 30 min and then infected with low passage RSV-GFP at an MOI of
+0.2. At 4 h post infection, the growth media was changed to fresh
+1x drug and the cells were allowed to incubate at 37 °C, 5% CO2
+for 48 h. The media was then removed and clear DMEM was added before
+reading GFP fluorescence on the Promega GloMax Explorer, Ex: 475 nm,
+Em: 500–550 nm.
+
+## Viral Escape Mutant Assay
+Compound 1 at
+concentrations 10 μM and 25 μM was diluted in DMSO and
+incubated with lab strain rgRSV A2 at an MOI of 0.5 in subconfluent
+HeLa cells. After 4 h post infection, fresh media containing the compound
+was added to the cells and the infection was allowed to proceed at
+37 °C, 5% CO2. After 48 h, virus-conditioned media
+was clarified and then a portion was used to infect a new HeLa cell
+monolayer in the presence of the compound again to repeat the process.
+The viruses were passaged 20 times with the respective compound. RNA
+was harvested for every passage and viral growth was measured by qRT-PCR
+and a foci counting assay to test infectivity.
+
+## Whole Genome Sequencing
+Whole genome sequencing was
+done as described previously. Briefly,
+viral RNA from each passage of the evolution experiment was extracted
+using the QIAamp Viral RNA Mini Kit (Qiagen, 52906). Viral mRNA was
+isolated by poly-A pulldown with oligo d(T) 25 beads using the NEBNext
+Poly(A) mRNA Magnetic Isolation Module (NEB, E7490L). The first strand
+of cDNA was prepared using the High-Capacity cDNA RT Kit (ThermoFisher,
+4368814), and the second strand was synthesized with the large Klenow
+fragment of DNA polymerase 1 (NEB, M0210L). cDNA was purified with
+the MinElute PCR purification kit (Qiagen, 28004). Tagmentation and
+creation of the library was done using the Nextera XT DNA Library
+Preparation Protocol (Illumina, FC-131–1096). Index adapters
+used for sample identification were created by MBSU (Molecular Biology
+Service Unit, University of Alberta, Edmonton, AB, Canada), and libraries
+were cleaned up using the MagJET NGS Cleanup Kit (ThermoFisher, K2821).
+Sample concentration was checked using the NanoDrop 8000 spectrophotometer
+(ThermoFisher, ND-8000-GL), and sample purity was analyzed by the
+Agilent 2100 Bioanalyzer G2938C (Marshall Scientific, AG-2100C) at
+the MBSU. Equal amounts of DNA were combined and sent for sequencing
+to the MBSU for Next Generation Sequencing on the MiSeq System (Illumina,
+SY-410–1003).
+
+## Statistical Analysis
+GraphPad Prism software version
+10.0.1 was used for all statistical analyses. Significance was determined
+by one-way ANOVA with Dunnett’s test of significance vs DMSO.
+Fifty percent maximal effective concentrations (EC50) were
+calculated using four-parameter nonlinear regression modeling.
+
+## Acknowledgments
+This research was enabled in part by the support
+provided by a project grant from the Canadian Institutes for Health
+Research, an operating grant from Striving for Pandemic Preparedness
+– The Alberta Research Consortium (SPP-ARC), and the Digital
+Research Alliance of Canada (alliancecan.ca) for computational resources.
+
+## Glossary
+
+## Abbreviations
+RdRpRNA-dependent
+RNA polymerase
+OPLSoptimized potentials
+for liquid simulations
+MDmolecular dynamics
+SARstructure–activity relationship
+MM/GBSAmolecular mechanics generalized
+Born surface area
+GFPgreen fluorescent protein
+rgRSVreverse engineered respiratory syncytial virus
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsomega.4c01207.
+Surface electrostatic potential of the RSV L-P complex;
+trajectory analysis of the RSV L-P apoprotein; virtual screening library;
+sequence alignment of negative-stranded viruses; summary of docking
+and MM/GBSA results; pair-residue decomposition analysis; RSV viral
+evolution titers; 1H and 13C spectra for key
+intermediates and final compounds; and LC-UV purity assessment for
+compounds 6a and 10b (PDF)
+(Movie S1) MD simulation
+of compound 1 in
+complex with the mutated RSV L; the compound diffused away from the
+binding pocket after 20 ns of the simulation (MP4)
+
+## Author Contributions
+All authors
+have given approval to the final version of the manuscript. A.K.O.
+designed and wrote the manuscript, performed the computational studies,
+synthesized, and characterized all the compounds. L.B. performed the
+antiviral screening. F.G.W. and D.J.M. acquired funding, supervised
+the work, and drafted the manuscript.
+
+The authors
+declare the following competing financial interest(s): The authors
+declare the following conflict of interest. A.K.O, L.B., F.G.W, and
+D.J.M. are inventors on U.S. patent application no. (63/631,132) describing
+the compounds and their method of use.
+
+## Supplementary Material
+ao4c01207_si_001.pdf
+ao4c01207_si_002.mp4
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ao4c01207_si_001.pdf
+ao4c01207_si_002.mp4
