@@ -1,328 +1,358 @@
 {
-  "_title": "Retrospective NR-V04-inspired three-paralogue ternary benchmark (Track B) \u2014 spec",
-  "_goal": "The higher-value method contribution (gate-AI, 2026-07-11): can a BLINDED, ENSEMBLE-based ternary workflow recover the EXPERIMENTALLY KNOWN NR4A1-selective degradation geometry of NR-V04 and distinguish it from the NOT-degraded NR4A2/NR4A3 assemblies? NR-V04 is the FAMILY-MATCHED POSITIVE CONTROL the de-novo NR4A3 system lacks. Only if the workflow passes THIS control do we trust it to rank a prospective NR4A3 degrader.",
-  "_status": "SPEC (2026-07-11). Structure validated; harness build + single-leg-first pilot = next.",
-  "ground_truth": {
-    "source": "Wang et al. J Exp Med 2024;221(3):e20231519 (PMID 38334978); MedChemExpress NR-V04",
-    "degraded": [
-      "NR4A1"
-    ],
-    "spared": [
-      "NR4A2",
-      "NR4A3"
-    ],
-    "mechanism_evidence": "selective degradation + PLA/co-IP NR4A1-VHL complex + VHL/proteasome dependence. NOTE (justified vs unjustified inference): this proves family-selective degradation is ACHIEVABLE; it does NOT prove the selectivity is CAUSED by ternary geometry (no solved ternary structure, no matched cross-paralogue cooperativity). So a workflow RECOVERING the NR4A1 preference is supportive-but-not-proof of the geometric hypothesis.",
-    "the_test": "A workflow that cannot recover NR4A1>>NR4A2/NR4A3 for the KNOWN degrader must not be trusted to discover NR4A3 selectivity de-novo."
-  },
-  "nrv04": {
-    "representative_smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)cc4)CC[C@]3(C)CC[C@]12C",
-    "inchikey": "ADEXNWCZOWYLJV-WOMBUDSUSA-N",
-    "formula": "C62H87N5O11S",
-    "mw": 1110.5,
-    "architecture": "celastrol (warhead, via its solvent-exposed C-28 carboxylic acid) -- amide -- 4-PEG linker -- amide -- VH032-class VHL ligand (two amide bonds; NR-V04 = the 4-PEG variant, most potent; Wang 2024).",
-    "structure_confidence": "representative_reconstruction",
-    "structure_caveat": "REPRESENTATIVE, not a verified DB structure: warhead (celastrol, InChIKey KQJSQWZMSAGSHN) + linker length (4-PEG, two amides) + VHL-ligand class are from the paper's DESCRIBED composition; the exact VH032 connectivity/regiochemistry is my reconstruction. The ChEMBL record named 'NR-V04' (CHEMBL4779766) is a DIFFERENT (CRBN/glutarimide) compound and is NOT used (see published-warhead-registry.md). Linker length is a benchmark VARIABLE (scan) per the E3/linker-sensitivity readout.",
-    "components": {
-      "warhead_celastrol": {
-        "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N",
-        "note": "reactive quinone-methide; C-28 COOH tether"
-      },
-      "vhl_ligand_vh032": {
-        "inchikey": "GFVIEZBZIUKYOG",
-        "note": "hydroxyproline VHL recruiter; trans-OH required, epimer = inactive control"
-      },
-      "linker": {
-        "type": "PEG4",
-        "note": "NR-V04 = 4-PEG; also synthesize inactive-recruiter + free-warhead controls"
-      }
-    }
-  },
-  "systems": {
-    "targets": {
-      "NR4A1": {
-        "acc": "P22736",
-        "lbd": "C-terminal 254 aa",
-        "label": "DEGRADED (positive)"
-      },
-      "NR4A2": {
-        "acc": "P43354",
-        "lbd": "C-terminal 254 aa",
-        "label": "spared (negative)"
-      },
-      "NR4A3": {
-        "acc": "Q92570",
-        "lbd": [
-          373,
-          626
-        ],
-        "label": "spared (negative); the prospective target"
-      }
-    },
-    "e3": {
-      "VHL": "P40337",
-      "context": "VHL functions in the VBC complex (ElonginB P62258 + ElonginC Q15369); include EloB/C context if the co-fold supports it, else VHL alone as a first pass"
-    },
-    "controls": {
-      "vhl_positive": "VHL (+EloB/C) + VH032 ALONE \u2014 does the workflow seat the hydroxyproline ligand in VHL's pocket? (the VHL analogue of the CRBN+lenalidomide control; if it fails, distrust every VHL ternary).",
-      "inactive_recruiter": "epimerized VH032 (cis-hydroxyproline) \u2014 should NOT recruit VHL; a negative control the workflow should score worse.",
-      "free_warhead": "celastrol alone \u2014 no ternary."
-    }
-  },
-  "ensemble_readouts": [
-    "accessible ternary-complex populations (iPTM / ligand-iPTM / confidence DISTRIBUTION across N seeds, not one pose)",
-    "linker strain (PEG conformational energy in the bound pose)",
-    "target-VHL interface: buried area + shape/chemical complementarity",
-    "PPI-interface stability / consistency across seeds + starting models (persistence)",
-    "predicted cooperativity / relative ternary stability (paralogue vs paralogue)",
-    "lysine presentation: solvent-exposed target Lys in a ubiquitination-compatible geometry relative to VHL/CRL4-E2~Ub (proxy only)",
-    "paralogue counterexamples (a seed/pose where NR4A2 or NR4A3 forms a BETTER geometry than NR4A1)",
-    "E3-choice + linker-length sensitivity (scan)"
+ "_title": "Retrospective NR-V04-inspired three-paralogue ternary benchmark (Track B) \u2014 spec",
+ "_goal": "The higher-value method contribution (gate-AI, 2026-07-11): can a BLINDED, ENSEMBLE-based ternary workflow recover the EXPERIMENTALLY KNOWN NR4A1-selective degradation geometry of NR-V04 and distinguish it from the NOT-degraded NR4A2/NR4A3 assemblies? NR-V04 is the FAMILY-MATCHED POSITIVE CONTROL the de-novo NR4A3 system lacks. Only if the workflow passes THIS control do we trust it to rank a prospective NR4A3 degrader.",
+ "_status": "SPEC (2026-07-11). Structure validated; harness build + single-leg-first pilot = next.",
+ "ground_truth": {
+  "source": "Wang et al. J Exp Med 2024;221(3):e20231519 (PMID 38334978); MedChemExpress NR-V04",
+  "degraded": [
+   "NR4A1"
   ],
-  "single_leg_first_pilot": {
-    "rule": "CLAUDE.md: pilot one leg for its RESULT before fanning out an abortable multi-leg spend.",
-    "pilot": "Run FIRST, cheaply: (1) the VHL+VH032 positive control, and (2) the NR4A1 ternary (the KNOWN-degraded case) across a few seeds. ",
-    "abort_if": "the control cannot seat VH032 in VHL (workflow broken), OR the NR4A1 (known-degraded) ternary cannot form a productive, seed-persistent geometry \u2014 because then the workflow cannot even recover the positive case and the full NR4A1/2/3 x seeds x linkers fleet would be wasted spend.",
-    "proceed_if": "control validates AND NR4A1 forms a productive, reproducible ternary geometry -> THEN fan out to NR4A2 + NR4A3 (x seeds x linker variants) and compare paralogues."
-  },
-  "verdict_gate": {
-    "informative": "reproducible signal consistent with NR4A1-favoured degradation geometry (NR4A1 > NR4A2/NR4A3 on the ensemble readouts) -> use the workflow comparatively for prospective NR4A3 architectures.",
-    "inconclusive": "plausible complexes but cannot distinguish paralogues -> use for geometry generation ONLY, not selectivity ranking.",
-    "failed": "favours the wrong paralogue or is initialization-dominated -> do NOT interpret predicted NR4A3 ternary selectivity (this limits the METHOD, not the NR-V04 experiment)."
-  },
-  "reuse": "extends nr4a3_ternary.py / gpu-ternary-aws.yml / boltz_src (Boltz-2 --no_kernels, validated). Changes: E3 CRBN->VHL (+EloB/C); PROTAC = NR-V04 (above); N-seed ensembles; the readouts above; report_ternary.py interface mode extended for VHL + cross-paralogue ranking.",
-  "control_ligand": {
-    "name": "VH032",
-    "smiles": "CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1",
-    "inchikey": "JAHUHEDUDMTTTF-COWZOJLOSA-N",
-    "formula": "C25H34N4O4S",
-    "mw": 486.64,
-    "role": "VHL positive-control ligand (the VHL analogue of the CRBN+lenalidomide control)",
-    "provenance": "literature VH032 VHL ligand entered from its known structure; RDKit-validated (formula/MW match) and its (2S,4R)-4-hydroxyproline + 4-(4-methylthiazol-5-yl)phenyl VHL warhead matches the structure-verified NR-V04 representative SMILES (shared HasSubstructMatch). Used because VH032 does NOT resolve by pref_name in ChEMBL and PubChem name-lookup is unreliable from the job container, which silently skipped the control in the first two pilot runs.",
-    "verified": true
-  },
-  "result": {
-    "date": "2026-07-11",
-    "run": "nrv04-ternary-pilot (S3)",
-    "seeds": [
-      1,
-      2,
-      3
-    ],
-    "with_vbc": true,
-    "control_vh032": {
-      "seated_seeds": "3/3",
-      "closest_pocket_A": "2.57-2.62",
-      "ligand_iptm_mean": 0.989,
-      "note": "VH032 seats in VHL hydroxyproline pocket (S111/H115/W117/Y98/H110) all seeds"
-    },
-    "productive_ternary_bridging": {
-      "NR4A1_degraded": "3/3",
-      "NR4A2_spared": "0/3",
-      "NR4A3_spared": "0/3",
-      "detail": "NR4A1: NR-V04 contacts both NR4A1 (2.4-3.3 A) and VHL (2.3-2.6 A) every seed. NR4A2/NR4A3: warhead seats in VHL (2.0-2.6 A) but target LBD is 6-26 A away -> ligand bound to VHL only, no productive ternary in any seed."
-    },
-    "exposed_lys_to_vhl_A_mean": {
-      "NR4A1": 5.52,
-      "NR4A2": 7.05,
-      "NR4A3": 9.06,
-      "note": "ubiquitin-reach proxy orders correctly: degraded NR4A1 presents the closest exposed Lys to VHL"
-    },
-    "ligand_iptm_mean": {
-      "NR4A1": 0.857,
-      "NR4A2": 0.91,
-      "NR4A3": 0.876,
-      "note": "INVERTS (spared NR4A2 highest) \u2014 ligand-iPTM scores the confidently-placed VHL-warhead half regardless of whether the ternary forms; NOT a valid ternary-selectivity metric on its own."
-    },
-    "verdict": "exploratory-concordance-with-FAILED-affinity-control",
-    "verdict_basis": "EXPLORATORY concordance in ONE retrospective example on the MOIETY-SPECIFIC readout: NR4A1 moiety-bridges 0.67 of samples vs NR4A2/NR4A3 0.0, cutoff-robust + survives leave-one-seed-out. NOT validation; NOT evidence geometry causes the phenotype. n=3 samples with one NR4A1 wrong-end artefact -> thin.",
-    "caveats": [
-      "retrospective n=1 (single positive control, NR-V04); encouraging but not a robust predictor",
-      "NR-V04 selectivity is FOR NR4A1; designing NR4A3 selectivity is a different problem (different paralogue, warhead, interface) \u2014 this makes an NR4A3 program credible, does not transfer directly",
-      "Boltz co-fold + --no_kernels; single linker (NR-V04's 4-PEG); no explicit E3-choice/linker-length scan yet; VHL modeled as VBC (VHL+EloB/C), CRL4/E2~Ub not modeled (Lys reach is a proxy)"
-    ],
-    "verdict_prior": "informative (WITHDRAWN \u2014 over-stated; see review below)",
-    "lys_to_vhl_caveat": "MISNAMED as 'exposed Lys' \u2014 the analyzer takes every modeled Lys NZ and its min distance to VHL, WITHOUT any solvent-accessibility (SASA) calculation. The per-seed ordering is inconsistent (NR4A2 is closer than NR4A1 in 2/3 paired seeds; the NR4A1<NR4A2<NR4A3 order appears only after averaging highly variable values, NR4A1 5.5 A mean with one seed ~9.7 A). REMOVED from the concordance argument; retained only as a crude ubiquitination-ACCESSIBILITY proxy pending SASA + Cullin-RING/E2~Ub geometry.",
-    "ligand_iptm_conclusion": "Ligand-iPTM did NOT reproduce the known degradation ordering in THIS benchmark and should not be used ALONE to rank paralogue-selective ternaries. (Narrowed from the withdrawn categorical claim 'global confidence scores are not a valid ternary-selectivity metric' \u2014 that generalizes beyond one compound, one E3, three paralogues, three top-ranked predictions. The 'rewards the well-placed VHL half' mechanism is an INTERPRETATION, not established.)",
-    "metric_switch_disclosure": "Productive geometry was a PRE-SPECIFIED EXPLORATORY readout; its elevation to the primary interpretive endpoint occurred AFTER ligand-iPTM failed to recover the phenotype. Transparent exploratory analysis, not a pre-specified primary metric.",
-    "moiety_specific_bridging": {
-      "NR4A1_degraded": "2/3 samples (whole-ligand 3/3 OVER-COUNTED: 1 seed was a wrong-end artefact, wrong_end 0.33)",
-      "NR4A2_spared": "0/3 (wrong_end 1.0)",
-      "NR4A3_spared": "0/3 (wrong_end 1.0)",
-      "cutoff_robust": "separation holds at 4.0/4.5/5.0 A",
-      "leave_one_seed_out": "survives",
-      "note": "Correct-ends test (celastrol->NR4A AND VH032->VHL): NR4A1 0.67 vs spared 0.0/0.0. Thinner than the whole-ligand read (n=3, one NR4A1 wrong-end artefact) -> expanded sampling (>3 seeds, all poses) + negative controls required before any downstream ranking."
-    },
-    "metric_name": "correct-half dual-surface proximity (NOT 'productive geometry'; NOT chemically-mapped occupancy)",
-    "headline": "Structure-only gross architecture classifier: thin retrospective concordance (NR4A1 2/3 seeds vs spared 0/3) BUT failed an affinity-sensitive stereochemical control (inactive epimer passed at the same aggregate rate, 0.75) -> unsuitable for prospective affinity/degradation-selectivity/linker ranking."
-  },
-  "review_required_fixes": {
-    "review": "external methods review, 2026-07-11 \u2014 Return for revision; hold full GPU campaign",
-    "before_any_prospective_ranking": [
-      "moiety-specific occupancy: VH032-substructure in the canonical VHL pocket; celastrol-substructure at the intended NR4A site; detect wrong-end / linker-mediated / nonspecific-surface contacts (current bridge test is whole-ligand min-distance and can pass on wrong-end contacts)",
-      "celastrol electrophile <-> NR4A1 Cys551 distance+orientation as a covalent-geometry proxy (or model covalently)",
-      "linker strain + steric clashes + protein-protein interface contacts",
-      "rename/replace 'exposed Lys': compute solvent-accessible Lys; label as crude ubiquitination-accessibility proxy only",
-      "analyze ALL generated ranks/samples, not model_0 only; >3 seeds; bridge fractions WITH uncertainty; cutoff-sensitivity 4.0/4.5/5.0 A; leave-one-seed-out robustness; avoid 'population'/'cooperativity' language",
-      "verify EXACT NR-V04 chemical graph/stereo/attachment points/linker atom count (independently checked), not a representative reconstruction",
-      "controls: inactive VHL-recruiter (cis/epimer), free celastrol/warhead, and ideally NR-V02/NR-V03 linker variants as a limited linker-sensitivity test"
-    ],
-    "capped_pilot_only_after_fixes": "2-3 chemically diverse candidate linkers x all 3 paralogues, fixed balanced compute, additional seeds, ALL poses, scoring rule + failure criteria FROZEN before opening NR4A3 results. Full-scale ranking only if the corrected NR-V04 benchmark RETAINS separation under moiety-specific geometry, controls, expanded sampling, and cutoff-sensitivity."
-  },
-  "frozen_criteria": {
-    "frozen": "2026-07-11 (before expanded-sampling + negative-control re-run; before any prospective linker)",
-    "primary_metric": "moiety-specific bridging fraction at 4.5 A (celastrol-end<=4.5 A of NR4A AND VH032-end<=4.5 A of VHL)",
-    "pass_separation": "NR4A1 moiety-bridged fraction >= 0.5 AND max(NR4A2,NR4A3) < 0.5",
-    "robustness_required": [
-      "cutoff-robust across 4.0/4.5/5.0 A",
-      "survives leave-one-seed-out",
-      "wrong_end fraction for NR4A1 < 0.5"
-    ],
-    "negative_controls_must_FAIL_to_bridge_NR4A1": [
-      "inactive VHL recruiter (VH032 4-OH epimer PROTAC)",
-      "free celastrol (no VHL handle)"
-    ],
-    "failure": "any of: NR4A1 does not separate; NR4A1 wrong_end>=0.5; not cutoff-robust; a negative control DOES bridge NR4A1",
-    "downstream_gate": "prospective linker ranking proceeds ONLY if the expanded corrected benchmark PASSES all of the above"
-  },
-  "control_ligand_negatives": {
-    "free_celastrol": {
-      "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)O)CC[C@]3(C)CC[C@]12C",
-      "formula": "C29H38O4",
-      "mw": 450.62,
-      "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N",
-      "role": "NEGATIVE control \u2014 warhead only, no VHL recruiter; must NOT form a productive NR4A1 ternary",
-      "provenance": "celastrol connectivity from the verified NR-V04 warhead (C-28 acid free); RDKit-validated (C29H38O4/450.6)"
-    },
-    "inactive_vhl_recruiter_epimer": {
-      "note": "NEGATIVE control \u2014 VH032 with the (2S,4R)->(2S,4S) 4-hydroxyproline EPIMER (the 'cis' isomer that does not bind VHL); as a PROTAC (celastrol-linker-epimer) it must NOT recruit VHL. Standalone epimer InChIKey JAHUHEDUDMTTTF-ROZPXGAXSA-N (same connectivity block as active VH032 ...-COWZOJLOSA-N, different stereo). The full inactive PROTAC = NR-V04 SMILES with the hydroxyproline stereocentre inverted.",
-      "vh032_epimer_smiles": "CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1"
-    },
-    "inactive_nrv04_protac": {
-      "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)cc4)CC[C@]3(C)CC[C@]12C",
-      "formula": "C62H87N5O11S",
-      "mw": 1110.5,
-      "inchikey": "ADEXNWCZOWYLJV-JZFJOJHNSA-N",
-      "role": "NEGATIVE control PROTAC \u2014 full NR-V04 with the 4-hydroxyproline epimerised (VHL-inactive cis); must NOT recruit VHL / must NOT form a productive NR4A1 ternary",
-      "provenance": "NR-V04 representative SMILES with the Hyp (2S,4R)->(2S,4S) stereocentre inverted; RDKit: same connectivity block as active NR-V04 (ADEXNWCZOWYLJV-WOMBUDSUSA-N), different stereo block"
-    }
-  },
-  "negative_control_shakeout": {
-    "date": "2026-07-11",
-    "prefix": "nrv04-shakeout",
-    "sampling": "2 seeds x 2 poses (n=4) \u2014 plumbing shakeout",
-    "NR4A1_active": "moiety-bridged 0.75",
-    "neg_celastrol_free_warhead": "moiety-bridged 0.0 (CORRECT \u2014 no VHL handle)",
-    "neg_inactive_hyp_epimer_PROTAC": "moiety-bridged 0.75 (FAILS \u2014 bridges like active)",
-    "negative_controls_pass": false,
-    "finding": "The distance-based moiety-bridging readout captures GROSS one gross architectural failure (no recruiter) detected \u2014 NOT specificity (free celastrol, which lacks a VHL handle, correctly fails to bridge) but NOT fine BINDING-AFFINITY specificity: the VHL-inactive hydroxyproline EPIMER PROTAC \u2014 which differs from active NR-V04 by a single stereocentre that abolishes VHL binding experimentally \u2014 is achieved the SAME aggregate bridge fraction as the active PROTAC (0.75 vs 0.75). A co-fold predicts a STRUCTURE, not affinity, so a geometry-only readout cannot distinguish a well-placed non-binder from a real binder.",
-    "implication": "Per the frozen criteria this is a FAILED negative control -> the productive-geometry readout must NOT be used to RANK prospective linkers on affinity/binding. It can flag whether a linker geometry CAN bridge (architecture triage), but binding must be established by a SEPARATE affinity method (recruiter FEP/ABFE or docking), not the co-fold geometry. This BLOCKS a geometry-only prospective ranking campaign \u2014 the gate's concern (fix 6) was correct.",
-    "caveat": "n=4 shakeout; the full expanded run (more seeds x all poses) is dispatched to confirm robustly."
-  },
-  "chemical_identity": {
-    "status": "NR-V04-INSPIRED REPRESENTATIVE RECONSTRUCTION \u2014 NOT an exact match to the published NR-V04",
-    "unverified": [
-      "exact recruiter connectivity/regiochemistry",
-      "stereochemistry",
-      "attachment points",
-      "linker atom count",
-      "exit vectors"
-    ],
-    "heavy_atoms": 79,
-    "blocker": "Before this can serve as an EXACT retrospective benchmark against the reported NR-V04 phenotype, obtain the exact structure from primary supplementary chemistry / patent / author source and independently validate graph, stereochemistry, linker length, exit vectors; derive the matched inactive epimer from THAT exact graph. Until then it is an 'NR-V04-inspired representative reconstruction' and the manuscript/spec must say so throughout.",
-    "action": "attempt primary-source verification (Wang 2024, PMC10857906) via a CI full-text fetch; else keep the representative label"
-  },
-  "_superseded_language": {
-    "note": "The 2026-07-11 external reviews narrowed this benchmark to an EXPLORATORY, structure-only, gross architecture classifier. The following earlier terms elsewhere in this file are SUPERSEDED and must not be read as claims: 'BLINDED', 'structure validated'/'verified', 'accessible ternary-complex populations', 'predicted cooperativity', 'productive geometry', 'validated lens', 'informative'. Ensemble iPTM/ligand-iPTM are confidence scores, NOT population or cooperativity estimates; the contact metric is renamed 'correct-half dual-surface proximity' (see result.metric_name).",
-    "affected_keys": [
-      "_title",
-      "ensemble_readouts",
-      "single_leg_first_pilot",
-      "verdict_gate"
-    ]
-  },
-  "controls_scheme_v2": {
-    "affinity_negatives": {
-      "members": [
-        "active VH032 recruiter vs its 4-hydroxyproline epimer (VHL-inactive)",
-        "active NR-V04 vs inactive-epimer PROTAC"
-      ],
-      "purpose": "MUST be evaluated by a separate AFFINITY method (FEP/ABFE), NOT the structure-only contact classifier",
-      "status": "the epimer is an AFFINITY negative; the structure-only classifier CANNOT see it (it passed the classifier at the same rate as active) \u2014 this is the decisive failed control."
-    },
-    "architecture_negatives": {
-      "members": [
-        "impossible/severely-shortened linker",
-        "wrong exit vector",
-        "linker or recruiter removed (free celastrol = no-recruiter)",
-        "any construct expected not to span both proteins"
-      ],
-      "purpose": "the ONLY negatives the structure-only architecture classifier is entitled to be judged against",
-      "status": "free celastrol (no VHL handle) is an architecture negative and correctly fails to span; it needs its OWN no-recruiter readout, NOT the moiety fallback."
-    },
-    "rule": "keep the ORIGINAL frozen result as a FAILED control; do not rewrite history. Version this new scheme separately."
-  },
-  "review_required_fixes_v2": {
-    "review": "2nd external methods review, 2026-07-11 \u2014 Return for revision; spot conversion approved separately",
-    "blocking_before_rerun": {
-      "chem_identity": "exact NR-V04 graph/stereo/attachment/linker from primary source, or keep 'representative' label",
-      "atom_map_moiety": "DONE (2026-07-11): atom_map_moieties() maps SMILES<->CIF (atom-order identity verified by exact element-sequence equality, else bond-perception fallback, else fail-closed); SMARTS-defined warhead/recruiter/linker; archived mapping; never whole-ligand fallback",
-      "intended_site_occupancy": "DONE (2026-07-11): recruiter-in-VHL-Hyp-pocket occupancy, warhead-at-NR4A (site flagged undefined), linker-only/nonspecific flag, steric clashes (<2.0A), crude linker-strain proxy \u2014 all separate fields; end-to-end gemmi CIF path PENDING real-CIF forced-restart smoke (validated only via unit-tested numeric core so far; gemmi absent in dev sandbox)",
-      "cys551": "map UniProt NR4A1 551 -> local LBD index programmatically, verify residue identity, test on an actual output CIF; until then say covalent geometry NOT evaluated",
-      "controls": "separate architecture negatives (short/no linker, wrong vector, no recruiter) from affinity negatives (epimer via a separate affinity method); free-celastrol gets its own no-recruiter readout",
-      "pseudoreplication": "seed = primary sampling unit; pose fraction = within-seed summary; identical seeds/settings across systems; paired seed-level contrasts; resample SEEDS not poses; report BOTH seed_n and pose_n in every denominator",
-      "paired_negative_records": "store full per-seed/rank records for negatives (not just aggregate); paired active-vs-epimer table (bridge state, pocket contacts, pose RMSD/contact-map sim, confidence, failure reason)",
-      "pilot_not_evaluated": "a missing-by-design control (fan-out/targets mode) must report 'not-evaluated', NOT ABORT/'workflow suspect'"
-    },
-    "spot_reproducibility_before_rerun": [
-      "pin exact git commit",
-      "pin Boltz package + model/checkpoint version",
-      "dependency lock or container digest",
-      "record generated/cached MSAs",
-      "record command line + env",
-      "immutable run-scoped S3 prefix (do NOT mix old+new predictions)",
-      "test spot restore by forced interruption of a smoke job",
-      "report REALIZED spot savings (workload/availability-dependent, up to ~90%), not an assumed 60-70%"
-    ],
-    "authorization": {
-      "spot_conversion": "APPROVED (with the pinning/checkpoint/forced-restart fixes)",
-      "expanded_rerun": "conditional \u2014 only after chem-identity, atom-map, site-occupancy, Cys551, seed-level stats are corrected; as DESCRIPTIVE characterization, NOT a rescue of the ranking gate",
-      "prospective_pilot": "NOT approved; only under modified-A after a separate affinity method passes the active-vs-epimer control"
-    },
-    "still_pending": [
-      "#1 primary-source exact NR-V04 structure (else 'representative' label stands)",
-      "#9 remainder: immutable per-run S3 prefix convention, forced-restart spot-restore smoke, realized-savings reporting"
-    ],
-    "spot_reproducibility_status": {
-      "DONE_in_code": [
-        "pinned Boltz (boltz==2.2.1 via BOLTZ_SPEC)",
-        "pinned git ref (GIT_REF, full clone+checkout)",
-        "run_provenance.json stamp (resolved commit+boltz spec+args+prefix) written to output"
-      ],
-      "operational_pre_rerun": [
-        "use an IMMUTABLE per-run S3 OUTPUT_PREFIX (e.g. nrv04-corrected-YYYYMMDD-<tag>); never reuse a prefix across runs",
-        "forced-restart spot-restore smoke (interrupt a smoke job; confirm resume from /opt/ml/checkpoints) \u2014 negligible capped GPU",
-        "report REALIZED savings via list-sagemaker mode=savings (billable vs training hours), not an assumed %"
-      ]
-    }
-  },
-  "real_cif_smoke_acceptance": [
-    "an actual Boltz-2.2.1 CIF parsed by gemmi",
-    "expected ligand chain + heavy-atom count found",
-    "atom map archived AND chemically graph-consistent (element-sequence equality is a corruption pre-filter ONLY, not acceptance)",
-    "VHL Hyp-pocket residues found and occupancy evaluable",
-    "Cys551 identity-verified/evaluated OR explicitly not-evaluated",
-    "one complete report JSON generated after a FORCED spot restart (resume from /opt/ml/checkpoints)"
+  "spared": [
+   "NR4A2",
+   "NR4A3"
   ],
-  "review_v3_final": {
-    "review": "3rd external review, 2026-07-11 \u2014 narrow final revision (no redesign)",
-    "items": [
-      "\u00a72.5 updated to the committed atom-mapped analyzer (not the retired sulfur-anchor)",
-      "architecture-control evaluator made explicit tri-state fail-closed (no None/0=pass)",
-      "seed call = STRICT MAJORITY (>0.5); frozen verdict requires default-sep + cutoff-robust + LOO + seed-level wrong-end + valid arch-control",
-      "wrong-end converted to seed-level for the frozen criterion",
-      "active-vs-epimer made actually PAIRED (matched seed/rank sets; paired diff; 'same rate' only under a frozen tolerance)",
-      "atom-map identity branch requires GRAPH corroboration (element-sequence = pre-filter only)"
-    ],
-    "authorization": "capped descriptive seed-level rerun APPROVED after these + a passing real-CIF forced-restart smoke; prospective ranking + affinity/selectivity inference remain prohibited"
+  "mechanism_evidence": "selective degradation + PLA/co-IP NR4A1-VHL complex + VHL/proteasome dependence. NOTE (justified vs unjustified inference): this proves family-selective degradation is ACHIEVABLE; it does NOT prove the selectivity is CAUSED by ternary geometry (no solved ternary structure, no matched cross-paralogue cooperativity). So a workflow RECOVERING the NR4A1 preference is supportive-but-not-proof of the geometric hypothesis.",
+  "the_test": "A workflow that cannot recover NR4A1>>NR4A2/NR4A3 for the KNOWN degrader must not be trusted to discover NR4A3 selectivity de-novo."
+ },
+ "nrv04": {
+  "representative_smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)cc4)CC[C@]3(C)CC[C@]12C",
+  "inchikey": "ADEXNWCZOWYLJV-WOMBUDSUSA-N",
+  "formula": "C62H87N5O11S",
+  "mw": 1110.5,
+  "architecture": "celastrol (warhead, via its solvent-exposed C-28 carboxylic acid) -- amide -- 4-PEG linker -- amide -- VH032-class VHL ligand (two amide bonds; NR-V04 = the 4-PEG variant, most potent; Wang 2024).",
+  "structure_confidence": "representative_reconstruction",
+  "structure_caveat": "REPRESENTATIVE, not a verified DB structure: warhead (celastrol, InChIKey KQJSQWZMSAGSHN) + linker length (4-PEG, two amides) + VHL-ligand class are from the paper's DESCRIBED composition; the exact VH032 connectivity/regiochemistry is my reconstruction. The ChEMBL record named 'NR-V04' (CHEMBL4779766) is a DIFFERENT (CRBN/glutarimide) compound and is NOT used (see published-warhead-registry.md). Linker length is a benchmark VARIABLE (scan) per the E3/linker-sensitivity readout.",
+  "components": {
+   "warhead_celastrol": {
+    "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N",
+    "note": "reactive quinone-methide; C-28 COOH tether"
+   },
+   "vhl_ligand_vh032": {
+    "inchikey": "GFVIEZBZIUKYOG",
+    "note": "hydroxyproline VHL recruiter; trans-OH required, epimer = inactive control"
+   },
+   "linker": {
+    "type": "PEG4",
+    "note": "NR-V04 = 4-PEG; also synthesize inactive-recruiter + free-warhead controls"
+   }
   }
+ },
+ "systems": {
+  "targets": {
+   "NR4A1": {
+    "acc": "P22736",
+    "lbd": "C-terminal 254 aa",
+    "label": "DEGRADED (positive)"
+   },
+   "NR4A2": {
+    "acc": "P43354",
+    "lbd": "C-terminal 254 aa",
+    "label": "spared (negative)"
+   },
+   "NR4A3": {
+    "acc": "Q92570",
+    "lbd": [
+     373,
+     626
+    ],
+    "label": "spared (negative); the prospective target"
+   }
+  },
+  "e3": {
+   "VHL": "P40337",
+   "context": "VHL functions in the VBC complex (ElonginB P62258 + ElonginC Q15369); include EloB/C context if the co-fold supports it, else VHL alone as a first pass"
+  },
+  "controls": {
+   "vhl_positive": "VHL (+EloB/C) + VH032 ALONE \u2014 does the workflow seat the hydroxyproline ligand in VHL's pocket? (the VHL analogue of the CRBN+lenalidomide control; if it fails, distrust every VHL ternary).",
+   "inactive_recruiter": "epimerized VH032 (cis-hydroxyproline) \u2014 should NOT recruit VHL; a negative control the workflow should score worse.",
+   "free_warhead": "celastrol alone \u2014 no ternary."
+  }
+ },
+ "ensemble_readouts": [
+  "accessible ternary-complex populations (iPTM / ligand-iPTM / confidence DISTRIBUTION across N seeds, not one pose)",
+  "linker strain (PEG conformational energy in the bound pose)",
+  "target-VHL interface: buried area + shape/chemical complementarity",
+  "PPI-interface stability / consistency across seeds + starting models (persistence)",
+  "predicted cooperativity / relative ternary stability (paralogue vs paralogue)",
+  "lysine presentation: solvent-exposed target Lys in a ubiquitination-compatible geometry relative to VHL/CRL4-E2~Ub (proxy only)",
+  "paralogue counterexamples (a seed/pose where NR4A2 or NR4A3 forms a BETTER geometry than NR4A1)",
+  "E3-choice + linker-length sensitivity (scan)"
+ ],
+ "single_leg_first_pilot": {
+  "rule": "CLAUDE.md: pilot one leg for its RESULT before fanning out an abortable multi-leg spend.",
+  "pilot": "Run FIRST, cheaply: (1) the VHL+VH032 positive control, and (2) the NR4A1 ternary (the KNOWN-degraded case) across a few seeds. ",
+  "abort_if": "the control cannot seat VH032 in VHL (workflow broken), OR the NR4A1 (known-degraded) ternary cannot form a productive, seed-persistent geometry \u2014 because then the workflow cannot even recover the positive case and the full NR4A1/2/3 x seeds x linkers fleet would be wasted spend.",
+  "proceed_if": "control validates AND NR4A1 forms a productive, reproducible ternary geometry -> THEN fan out to NR4A2 + NR4A3 (x seeds x linker variants) and compare paralogues."
+ },
+ "verdict_gate": {
+  "informative": "reproducible signal consistent with NR4A1-favoured degradation geometry (NR4A1 > NR4A2/NR4A3 on the ensemble readouts) -> use the workflow comparatively for prospective NR4A3 architectures.",
+  "inconclusive": "plausible complexes but cannot distinguish paralogues -> use for geometry generation ONLY, not selectivity ranking.",
+  "failed": "favours the wrong paralogue or is initialization-dominated -> do NOT interpret predicted NR4A3 ternary selectivity (this limits the METHOD, not the NR-V04 experiment)."
+ },
+ "reuse": "extends nr4a3_ternary.py / gpu-ternary-aws.yml / boltz_src (Boltz-2 --no_kernels, validated). Changes: E3 CRBN->VHL (+EloB/C); PROTAC = NR-V04 (above); N-seed ensembles; the readouts above; report_ternary.py interface mode extended for VHL + cross-paralogue ranking.",
+ "control_ligand": {
+  "name": "VH032",
+  "smiles": "CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1",
+  "inchikey": "JAHUHEDUDMTTTF-COWZOJLOSA-N",
+  "formula": "C25H34N4O4S",
+  "mw": 486.64,
+  "role": "VHL positive-control ligand (the VHL analogue of the CRBN+lenalidomide control)",
+  "provenance": "literature VH032 VHL ligand entered from its known structure; RDKit-validated (formula/MW match) and its (2S,4R)-4-hydroxyproline + 4-(4-methylthiazol-5-yl)phenyl VHL warhead matches the structure-verified NR-V04 representative SMILES (shared HasSubstructMatch). Used because VH032 does NOT resolve by pref_name in ChEMBL and PubChem name-lookup is unreliable from the job container, which silently skipped the control in the first two pilot runs.",
+  "verified": true
+ },
+ "result": {
+  "date": "2026-07-11",
+  "run": "nrv04-ternary-pilot (S3)",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "with_vbc": true,
+  "control_vh032": {
+   "seated_seeds": "3/3",
+   "closest_pocket_A": "2.57-2.62",
+   "ligand_iptm_mean": 0.989,
+   "note": "VH032 seats in VHL hydroxyproline pocket (S111/H115/W117/Y98/H110) all seeds"
+  },
+  "productive_ternary_bridging": {
+   "NR4A1_degraded": "3/3",
+   "NR4A2_spared": "0/3",
+   "NR4A3_spared": "0/3",
+   "detail": "NR4A1: NR-V04 contacts both NR4A1 (2.4-3.3 A) and VHL (2.3-2.6 A) every seed. NR4A2/NR4A3: warhead seats in VHL (2.0-2.6 A) but target LBD is 6-26 A away -> ligand bound to VHL only, no productive ternary in any seed."
+  },
+  "exposed_lys_to_vhl_A_mean": {
+   "NR4A1": 5.52,
+   "NR4A2": 7.05,
+   "NR4A3": 9.06,
+   "note": "ubiquitin-reach proxy orders correctly: degraded NR4A1 presents the closest exposed Lys to VHL"
+  },
+  "ligand_iptm_mean": {
+   "NR4A1": 0.857,
+   "NR4A2": 0.91,
+   "NR4A3": 0.876,
+   "note": "INVERTS (spared NR4A2 highest) \u2014 ligand-iPTM scores the confidently-placed VHL-warhead half regardless of whether the ternary forms; NOT a valid ternary-selectivity metric on its own."
+  },
+  "verdict": "exploratory-concordance-with-FAILED-affinity-control",
+  "verdict_basis": "EXPLORATORY concordance in ONE retrospective example on the MOIETY-SPECIFIC readout: NR4A1 moiety-bridges 0.67 of samples vs NR4A2/NR4A3 0.0, cutoff-robust + survives leave-one-seed-out. NOT validation; NOT evidence geometry causes the phenotype. n=3 samples with one NR4A1 wrong-end artefact -> thin.",
+  "caveats": [
+   "retrospective n=1 (single positive control, NR-V04); encouraging but not a robust predictor",
+   "NR-V04 selectivity is FOR NR4A1; designing NR4A3 selectivity is a different problem (different paralogue, warhead, interface) \u2014 this makes an NR4A3 program credible, does not transfer directly",
+   "Boltz co-fold + --no_kernels; single linker (NR-V04's 4-PEG); no explicit E3-choice/linker-length scan yet; VHL modeled as VBC (VHL+EloB/C), CRL4/E2~Ub not modeled (Lys reach is a proxy)"
+  ],
+  "verdict_prior": "informative (WITHDRAWN \u2014 over-stated; see review below)",
+  "lys_to_vhl_caveat": "MISNAMED as 'exposed Lys' \u2014 the analyzer takes every modeled Lys NZ and its min distance to VHL, WITHOUT any solvent-accessibility (SASA) calculation. The per-seed ordering is inconsistent (NR4A2 is closer than NR4A1 in 2/3 paired seeds; the NR4A1<NR4A2<NR4A3 order appears only after averaging highly variable values, NR4A1 5.5 A mean with one seed ~9.7 A). REMOVED from the concordance argument; retained only as a crude ubiquitination-ACCESSIBILITY proxy pending SASA + Cullin-RING/E2~Ub geometry.",
+  "ligand_iptm_conclusion": "Ligand-iPTM did NOT reproduce the known degradation ordering in THIS benchmark and should not be used ALONE to rank paralogue-selective ternaries. (Narrowed from the withdrawn categorical claim 'global confidence scores are not a valid ternary-selectivity metric' \u2014 that generalizes beyond one compound, one E3, three paralogues, three top-ranked predictions. The 'rewards the well-placed VHL half' mechanism is an INTERPRETATION, not established.)",
+  "metric_switch_disclosure": "Productive geometry was a PRE-SPECIFIED EXPLORATORY readout; its elevation to the primary interpretive endpoint occurred AFTER ligand-iPTM failed to recover the phenotype. Transparent exploratory analysis, not a pre-specified primary metric.",
+  "moiety_specific_bridging": {
+   "NR4A1_degraded": "2/3 samples (whole-ligand 3/3 OVER-COUNTED: 1 seed was a wrong-end artefact, wrong_end 0.33)",
+   "NR4A2_spared": "0/3 (wrong_end 1.0)",
+   "NR4A3_spared": "0/3 (wrong_end 1.0)",
+   "cutoff_robust": "separation holds at 4.0/4.5/5.0 A",
+   "leave_one_seed_out": "survives",
+   "note": "Correct-ends test (celastrol->NR4A AND VH032->VHL): NR4A1 0.67 vs spared 0.0/0.0. Thinner than the whole-ligand read (n=3, one NR4A1 wrong-end artefact) -> expanded sampling (>3 seeds, all poses) + negative controls required before any downstream ranking."
+  },
+  "metric_name": "correct-half dual-surface proximity (NOT 'productive geometry'; NOT chemically-mapped occupancy)",
+  "headline": "Structure-only gross architecture classifier: thin retrospective concordance (NR4A1 2/3 seeds vs spared 0/3) BUT failed an affinity-sensitive stereochemical control (inactive epimer passed at the same aggregate rate, 0.75) -> unsuitable for prospective affinity/degradation-selectivity/linker ranking."
+ },
+ "review_required_fixes": {
+  "review": "external methods review, 2026-07-11 \u2014 Return for revision; hold full GPU campaign",
+  "before_any_prospective_ranking": [
+   "moiety-specific occupancy: VH032-substructure in the canonical VHL pocket; celastrol-substructure at the intended NR4A site; detect wrong-end / linker-mediated / nonspecific-surface contacts (current bridge test is whole-ligand min-distance and can pass on wrong-end contacts)",
+   "celastrol electrophile <-> NR4A1 Cys551 distance+orientation as a covalent-geometry proxy (or model covalently)",
+   "linker strain + steric clashes + protein-protein interface contacts",
+   "rename/replace 'exposed Lys': compute solvent-accessible Lys; label as crude ubiquitination-accessibility proxy only",
+   "analyze ALL generated ranks/samples, not model_0 only; >3 seeds; bridge fractions WITH uncertainty; cutoff-sensitivity 4.0/4.5/5.0 A; leave-one-seed-out robustness; avoid 'population'/'cooperativity' language",
+   "verify EXACT NR-V04 chemical graph/stereo/attachment points/linker atom count (independently checked), not a representative reconstruction",
+   "controls: inactive VHL-recruiter (cis/epimer), free celastrol/warhead, and ideally NR-V02/NR-V03 linker variants as a limited linker-sensitivity test"
+  ],
+  "capped_pilot_only_after_fixes": "2-3 chemically diverse candidate linkers x all 3 paralogues, fixed balanced compute, additional seeds, ALL poses, scoring rule + failure criteria FROZEN before opening NR4A3 results. Full-scale ranking only if the corrected NR-V04 benchmark RETAINS separation under moiety-specific geometry, controls, expanded sampling, and cutoff-sensitivity."
+ },
+ "frozen_criteria": {
+  "frozen": "2026-07-11 (before expanded-sampling + negative-control re-run; before any prospective linker)",
+  "primary_metric": "moiety-specific bridging fraction at 4.5 A (celastrol-end<=4.5 A of NR4A AND VH032-end<=4.5 A of VHL)",
+  "pass_separation": "NR4A1 moiety-bridged fraction >= 0.5 AND max(NR4A2,NR4A3) < 0.5",
+  "robustness_required": [
+   "cutoff-robust across 4.0/4.5/5.0 A",
+   "survives leave-one-seed-out",
+   "wrong_end fraction for NR4A1 < 0.5"
+  ],
+  "negative_controls_must_FAIL_to_bridge_NR4A1": [
+   "inactive VHL recruiter (VH032 4-OH epimer PROTAC)",
+   "free celastrol (no VHL handle)"
+  ],
+  "failure": "any of: NR4A1 does not separate; NR4A1 wrong_end>=0.5; not cutoff-robust; a negative control DOES bridge NR4A1",
+  "downstream_gate": "prospective linker ranking proceeds ONLY if the expanded corrected benchmark PASSES all of the above"
+ },
+ "control_ligand_negatives": {
+  "free_celastrol": {
+   "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)O)CC[C@]3(C)CC[C@]12C",
+   "formula": "C29H38O4",
+   "mw": 450.62,
+   "inchikey": "KQJSQWZMSAGSHN-JJWQIEBTSA-N",
+   "role": "NEGATIVE control \u2014 warhead only, no VHL recruiter; must NOT form a productive NR4A1 ternary",
+   "provenance": "celastrol connectivity from the verified NR-V04 warhead (C-28 acid free); RDKit-validated (C29H38O4/450.6)"
+  },
+  "inactive_vhl_recruiter_epimer": {
+   "note": "NEGATIVE control \u2014 VH032 with the (2S,4R)->(2S,4S) 4-hydroxyproline EPIMER (the 'cis' isomer that does not bind VHL); as a PROTAC (celastrol-linker-epimer) it must NOT recruit VHL. Standalone epimer InChIKey JAHUHEDUDMTTTF-ROZPXGAXSA-N (same connectivity block as active VH032 ...-COWZOJLOSA-N, different stereo). The full inactive PROTAC = NR-V04 SMILES with the hydroxyproline stereocentre inverted.",
+   "vh032_epimer_smiles": "CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1"
+  },
+  "inactive_nrv04_protac": {
+   "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)cc4)CC[C@]3(C)CC[C@]12C",
+   "formula": "C62H87N5O11S",
+   "mw": 1110.5,
+   "inchikey": "ADEXNWCZOWYLJV-JZFJOJHNSA-N",
+   "role": "NEGATIVE control PROTAC \u2014 full NR-V04 with the 4-hydroxyproline epimerised (VHL-inactive cis); must NOT recruit VHL / must NOT form a productive NR4A1 ternary",
+   "provenance": "NR-V04 representative SMILES with the Hyp (2S,4R)->(2S,4S) stereocentre inverted; RDKit: same connectivity block as active NR-V04 (ADEXNWCZOWYLJV-WOMBUDSUSA-N), different stereo block"
+  }
+ },
+ "negative_control_shakeout": {
+  "date": "2026-07-11",
+  "prefix": "nrv04-shakeout",
+  "sampling": "2 seeds x 2 poses (n=4) \u2014 plumbing shakeout",
+  "NR4A1_active": "moiety-bridged 0.75",
+  "neg_celastrol_free_warhead": "moiety-bridged 0.0 (CORRECT \u2014 no VHL handle)",
+  "neg_inactive_hyp_epimer_PROTAC": "moiety-bridged 0.75 (FAILS \u2014 bridges like active)",
+  "negative_controls_pass": false,
+  "finding": "The distance-based moiety-bridging readout captures GROSS one gross architectural failure (no recruiter) detected \u2014 NOT specificity (free celastrol, which lacks a VHL handle, correctly fails to bridge) but NOT fine BINDING-AFFINITY specificity: the VHL-inactive hydroxyproline EPIMER PROTAC \u2014 which differs from active NR-V04 by a single stereocentre that abolishes VHL binding experimentally \u2014 is achieved the SAME aggregate bridge fraction as the active PROTAC (0.75 vs 0.75). A co-fold predicts a STRUCTURE, not affinity, so a geometry-only readout cannot distinguish a well-placed non-binder from a real binder.",
+  "implication": "Per the frozen criteria this is a FAILED negative control -> the productive-geometry readout must NOT be used to RANK prospective linkers on affinity/binding. It can flag whether a linker geometry CAN bridge (architecture triage), but binding must be established by a SEPARATE affinity method (recruiter FEP/ABFE or docking), not the co-fold geometry. This BLOCKS a geometry-only prospective ranking campaign \u2014 the gate's concern (fix 6) was correct.",
+  "caveat": "n=4 shakeout; the full expanded run (more seeds x all poses) is dispatched to confirm robustly."
+ },
+ "chemical_identity": {
+  "status": "NR-V04-INSPIRED REPRESENTATIVE RECONSTRUCTION \u2014 NOT an exact match to the published NR-V04",
+  "unverified": [
+   "exact recruiter connectivity/regiochemistry",
+   "stereochemistry",
+   "attachment points",
+   "linker atom count",
+   "exit vectors"
+  ],
+  "heavy_atoms": 79,
+  "blocker": "Before this can serve as an EXACT retrospective benchmark against the reported NR-V04 phenotype, obtain the exact structure from primary supplementary chemistry / patent / author source and independently validate graph, stereochemistry, linker length, exit vectors; derive the matched inactive epimer from THAT exact graph. Until then it is an 'NR-V04-inspired representative reconstruction' and the manuscript/spec must say so throughout.",
+  "action": "attempt primary-source verification (Wang 2024, PMC10857906) via a CI full-text fetch; else keep the representative label"
+ },
+ "_superseded_language": {
+  "note": "The 2026-07-11 external reviews narrowed this benchmark to an EXPLORATORY, structure-only, gross architecture classifier. The following earlier terms elsewhere in this file are SUPERSEDED and must not be read as claims: 'BLINDED', 'structure validated'/'verified', 'accessible ternary-complex populations', 'predicted cooperativity', 'productive geometry', 'validated lens', 'informative'. Ensemble iPTM/ligand-iPTM are confidence scores, NOT population or cooperativity estimates; the contact metric is renamed 'correct-half dual-surface proximity' (see result.metric_name).",
+  "affected_keys": [
+   "_title",
+   "ensemble_readouts",
+   "single_leg_first_pilot",
+   "verdict_gate"
+  ]
+ },
+ "controls_scheme_v2": {
+  "affinity_negatives": {
+   "members": [
+    "active VH032 recruiter vs its 4-hydroxyproline epimer (VHL-inactive)",
+    "active NR-V04 vs inactive-epimer PROTAC"
+   ],
+   "purpose": "MUST be evaluated by a separate AFFINITY method (FEP/ABFE), NOT the structure-only contact classifier",
+   "status": "the epimer is an AFFINITY negative; the structure-only classifier CANNOT see it (it passed the classifier at the same rate as active) \u2014 this is the decisive failed control."
+  },
+  "architecture_negatives": {
+   "members": [
+    "impossible/severely-shortened linker",
+    "wrong exit vector",
+    "linker or recruiter removed (free celastrol = no-recruiter)",
+    "any construct expected not to span both proteins"
+   ],
+   "purpose": "the ONLY negatives the structure-only architecture classifier is entitled to be judged against",
+   "status": "free celastrol (no VHL handle) is an architecture negative and correctly fails to span; it needs its OWN no-recruiter readout, NOT the moiety fallback."
+  },
+  "rule": "keep the ORIGINAL frozen result as a FAILED control; do not rewrite history. Version this new scheme separately."
+ },
+ "review_required_fixes_v2": {
+  "review": "2nd external methods review, 2026-07-11 \u2014 Return for revision; spot conversion approved separately",
+  "blocking_before_rerun": {
+   "chem_identity": "exact NR-V04 graph/stereo/attachment/linker from primary source, or keep 'representative' label",
+   "atom_map_moiety": "DONE (2026-07-11): atom_map_moieties() maps SMILES<->CIF (atom-order identity verified by exact element-sequence equality, else bond-perception fallback, else fail-closed); SMARTS-defined warhead/recruiter/linker; archived mapping; never whole-ligand fallback",
+   "intended_site_occupancy": "DONE (2026-07-11): recruiter-in-VHL-Hyp-pocket occupancy, warhead-at-NR4A (site flagged undefined), linker-only/nonspecific flag, steric clashes (<2.0A), crude linker-strain proxy \u2014 all separate fields; end-to-end gemmi CIF path PENDING real-CIF forced-restart smoke (validated only via unit-tested numeric core so far; gemmi absent in dev sandbox)",
+   "cys551": "map UniProt NR4A1 551 -> local LBD index programmatically, verify residue identity, test on an actual output CIF; until then say covalent geometry NOT evaluated",
+   "controls": "separate architecture negatives (short/no linker, wrong vector, no recruiter) from affinity negatives (epimer via a separate affinity method); free-celastrol gets its own no-recruiter readout",
+   "pseudoreplication": "seed = primary sampling unit; pose fraction = within-seed summary; identical seeds/settings across systems; paired seed-level contrasts; resample SEEDS not poses; report BOTH seed_n and pose_n in every denominator",
+   "paired_negative_records": "store full per-seed/rank records for negatives (not just aggregate); paired active-vs-epimer table (bridge state, pocket contacts, pose RMSD/contact-map sim, confidence, failure reason)",
+   "pilot_not_evaluated": "a missing-by-design control (fan-out/targets mode) must report 'not-evaluated', NOT ABORT/'workflow suspect'"
+  },
+  "spot_reproducibility_before_rerun": [
+   "pin exact git commit",
+   "pin Boltz package + model/checkpoint version",
+   "dependency lock or container digest",
+   "record generated/cached MSAs",
+   "record command line + env",
+   "immutable run-scoped S3 prefix (do NOT mix old+new predictions)",
+   "test spot restore by forced interruption of a smoke job",
+   "report REALIZED spot savings (workload/availability-dependent, up to ~90%), not an assumed 60-70%"
+  ],
+  "authorization": {
+   "spot_conversion": "APPROVED (with the pinning/checkpoint/forced-restart fixes)",
+   "expanded_rerun": "conditional \u2014 only after chem-identity, atom-map, site-occupancy, Cys551, seed-level stats are corrected; as DESCRIPTIVE characterization, NOT a rescue of the ranking gate",
+   "prospective_pilot": "NOT approved; only under modified-A after a separate affinity method passes the active-vs-epimer control"
+  },
+  "still_pending": [
+   "#1 primary-source exact NR-V04 structure (else 'representative' label stands)",
+   "#9 remainder: immutable per-run S3 prefix convention, forced-restart spot-restore smoke, realized-savings reporting"
+  ],
+  "spot_reproducibility_status": {
+   "DONE_in_code": [
+    "pinned Boltz (boltz==2.2.1 via BOLTZ_SPEC)",
+    "pinned git ref (GIT_REF, full clone+checkout)",
+    "run_provenance.json stamp (resolved commit+boltz spec+args+prefix) written to output"
+   ],
+   "operational_pre_rerun": [
+    "use an IMMUTABLE per-run S3 OUTPUT_PREFIX (e.g. nrv04-corrected-YYYYMMDD-<tag>); never reuse a prefix across runs",
+    "forced-restart spot-restore smoke (interrupt a smoke job; confirm resume from /opt/ml/checkpoints) \u2014 negligible capped GPU",
+    "report REALIZED savings via list-sagemaker mode=savings (billable vs training hours), not an assumed %"
+   ]
+  }
+ },
+ "real_cif_smoke_acceptance": [
+  "an actual Boltz-2.2.1 CIF parsed by gemmi",
+  "expected ligand chain + heavy-atom count found",
+  "atom map archived AND chemically graph-consistent (element-sequence equality is a corruption pre-filter ONLY, not acceptance)",
+  "VHL Hyp-pocket residues found and occupancy evaluable",
+  "Cys551 identity-verified/evaluated OR explicitly not-evaluated",
+  "one complete report JSON generated after a FORCED spot restart (resume from /opt/ml/checkpoints)"
+ ],
+ "review_v3_final": {
+  "review": "3rd external review, 2026-07-11 \u2014 narrow final revision (no redesign)",
+  "items": [
+   "\u00a72.5 updated to the committed atom-mapped analyzer (not the retired sulfur-anchor)",
+   "architecture-control evaluator made explicit tri-state fail-closed (no None/0=pass)",
+   "seed call = STRICT MAJORITY (>0.5); frozen verdict requires default-sep + cutoff-robust + LOO + seed-level wrong-end + valid arch-control",
+   "wrong-end converted to seed-level for the frozen criterion",
+   "active-vs-epimer made actually PAIRED (matched seed/rank sets; paired diff; 'same rate' only under a frozen tolerance)",
+   "atom-map identity branch requires GRAPH corroboration (element-sequence = pre-filter only)"
+  ],
+  "authorization": "capped descriptive seed-level rerun APPROVED after these + a passing real-CIF forced-restart smoke; prospective ranking + affinity/selectivity inference remain prohibited"
+ },
+ "real_cif_smoke_result": {
+  "date": "2026-07-11",
+  "prefix": "nrv04-ternary-pilot (real Boltz-2.2.1 CIFs)",
+  "analyzer_commit": "branch claude/nr4a3-degrader-design-3dqcw7 (post gate-review-3 fixes)",
+  "report_file": "report_nrv04_smoke.json",
+  "items_1_5_PASS": {
+   "1_real_cif_parsed_by_gemmi": "PASS \u2014 NR4A1 system: 3 seeds x 1 pose parsed; geometry+moiety computed per sample",
+   "2_ligand_chain_heavyatom_count": "PASS \u2014 ligand heavy-atom count matched SMILES exactly (n_ref=79, n_cif=79)",
+   "3_atom_map_archived_graph_consistent": "PASS \u2014 method=atom_order accepted ONLY after CIF-connectivity graph-isomorphism corroboration (element-sequence used as pre-filter only); warhead/recruiter/linker split = 30/18/31; has_warhead+has_recruiter true; mapping archived",
+   "4_hyp_pocket_found_occupancy_evaluable": "PASS \u2014 recruiter_pocket_occupancy=True (evaluable), recruiter_pocket_min_A present; VHL Hyp-pocket residues 98/110/111/115/117 located",
+   "5_cys551_evaluated": "PASS \u2014 cys551_evaluated=True; celastrol-end\u2192Cys551 SG proxy=27.4 A (covalent-geometry proxy, no covalent bond modeled)"
+  },
+  "item_6_forced_restart_resume": "PASS (2026-07-11) \u2014 nrv04-smoke-restart: initial seeds 1,2 ran + synced to /opt/ml/checkpoints; re-dispatched seeds 1,2,3 \u2192 'seed 1/2: existing CIF found \u2192 resume-skip' (checkpoint restored from S3), seed 3 ran fresh to --out_dir /opt/ml/checkpoints/nr4a1/seed_3 (confirms sm_io.out_dir fix: writes to the checkpoint mount, not /opt/ml/output), exit=0; report_nrv04_smoke_restart.json has all 3 seeds (denominator seeds=3,poses=3,unmapped=0), atom_map graph-corroborated, Hyp-pocket + Cys551 evaluable.",
+  "note": "Items 1-5 validate the committed atom-mapped analyzer against REAL CIFs. The exploratory-concordance verdict remains descriptive-only; prospective affinity/selectivity ranking stays prohibited (failed active-vs-epimer control).",
+  "ALL_SIX_ITEMS": "PASS \u2014 gate-review-3 fully cleared (5 committed fixes + passing real-CIF forced-restart smoke).",
+  "spot_conversion_regressions_fixed_by_this_smoke": [
+   "entry.py store_true --control sentinel broke on the hyperparameter round-trip (--control true) \u2192 parse_known_args + nargs='?'",
+   "sm_io.out_dir() honored $SM_OUTPUT_DIR (=/opt/ml/output on Training) \u2192 all 21 spot entries wrote to the wrong dir; fixed to always prefer /opt/ml/checkpoints"
+  ]
+ },
+ "descriptive_v3_result": {
+  "date": "2026-07-11",
+  "prefix": "nrv04-descriptive-v3",
+  "report": "report_nrv04_descriptive.json",
+  "sampling": "control + NR4A1/2/3 ternary + negatives (Hyp-epimer + free celastrol on NR4A1), 3 seeds",
+  "verdict": "exploratory-architecture-concordance",
+  "architecture_triage": "PASS \u2014 recovers the NR-V04 phenotype at the ARCHITECTURE level: NR4A1 seed-bridged 0.67 vs NR4A2 0.00 / NR4A3 0.00 at 4.5 A; robust across 4.0/4.5/5.0 A; survives leave-one-seed-out; architecture controls ok.",
+  "affinity_control": "FAILS (as expected) \u2014 the VHL-inactive Hyp-epimer PROTAC bridges at 1.00 >= active 0.67 (delta +0.33). The co-fold geometry classifier cannot detect the stereochemical affinity knockout, so it has NO authority to rank affinity/cooperativity/degradation-selectivity \u2014 architecture triage ONLY.",
+  "interpretation": "The ternary workflow is validated AS AN ARCHITECTURE-TRIAGE FILTER (recovers the known family-selective NR-V04 architecture) but the epimer control confirms it must not be used for prospective affinity/selectivity ranking \u2014 consistent with the ternary-selectivity-first strategy (co-fold = early architecture filter; affinity via a separate physics method)."
+ }
 }

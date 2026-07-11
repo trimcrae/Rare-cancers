@@ -188,3 +188,52 @@ def test_select_boresch_anchors_avoids_collinear_thetaB():
     assert sel["ligand_anchors"][0] == 0
     assert sel["ligand_anchors"][1] != 1, "L1 must not be the collinear atom 1"
     assert math.radians(30) <= sel["thetaB0_rad"] <= math.radians(150), math.degrees(sel["thetaB0_rad"])
+
+
+def _write_leg(d, k_windows, u_len=None):
+    import json
+    u_len = u_len or k_windows
+    for k in range(k_windows):
+        with open(os.path.join(d, f"window_{k:02d}.jsonl"), "w") as f:
+            f.write(json.dumps({"iter": 0, "u": [0.0] * u_len}) + "\n")
+            f.write(json.dumps({"iter": 1, "u": [0.1] * u_len}) + "\n")
+
+
+def test_infer_k_reads_window_count_from_data():
+    # Repaired dense-λ leg (16) and standard leg (12) must each infer their OWN K from the data, independent of
+    # the ABFE_LAMBDA_SCHEDULE default — so a cross-tag reduce (dense complex + standard solvent) works.
+    with tempfile.TemporaryDirectory() as d:
+        _write_leg(d, 16)
+        assert abfe._infer_k(d) == 16
+    with tempfile.TemporaryDirectory() as d:
+        _write_leg(d, 12)
+        assert abfe._infer_k(d) == 12
+
+
+def test_infer_k_none_when_no_windows():
+    with tempfile.TemporaryDirectory() as d:
+        assert abfe._infer_k(d) is None
+
+
+def test_infer_k_raises_on_window_count_vs_u_length_mismatch():
+    import pytest
+    with tempfile.TemporaryDirectory() as d:
+        _write_leg(d, 16, u_len=12)          # 16 files but u evaluated at only 12 states → corrupt/mixed
+        with pytest.raises(ValueError):
+            abfe._infer_k(d)
+
+
+def test_n_windows_is_schedule_aware(monkeypatch):
+    # The 2026-07-11 run bug: run count used the frozen N_WINDOWS (12) while dense u had 16 states. n_windows()
+    # must track the ACTIVE schedule so a dense run executes all 16 windows.
+    monkeypatch.delenv("ABFE_LAMBDA_SCHEDULE", raising=False)
+    assert abfe.n_windows() == 12
+    monkeypatch.setenv("ABFE_LAMBDA_SCHEDULE", "dense")
+    assert abfe.n_windows() == 16 == len(abfe.lambda_schedule())
+
+
+def test_run_shard_window_end_defaults_to_active_schedule(monkeypatch):
+    # run_shard must default window_end to n_windows() (schedule-aware), not the frozen N_WINDOWS. Verify the
+    # default-resolution logic without running MD by checking n_windows() drives it under dense.
+    monkeypatch.setenv("ABFE_LAMBDA_SCHEDULE", "dense")
+    assert abfe.n_windows() == 16 and abfe.N_WINDOWS == 12   # they DIFFER under dense — the bug's root

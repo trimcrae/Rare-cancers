@@ -9,6 +9,18 @@ read it before making changes.
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
   do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
+- **⏱️ END-OF-TURN "IN FLIGHT" BOARD — when your final message just leaves work running, close with one line + ETA
+  per job (trimcrae standing rule, 2026-07-11).** trimcrae can't keep up with many concurrent runs from prose.
+  So whenever you end a turn while WAITING on background/AWS work, the LAST thing in your message is a compact
+  **"In flight:"** board — **one scannable line per running item** (bullet or table, NOT prose), each stating
+  **(a)** what it is, **(b)** its current state/progress, and **(c)** an **ETA in ET 12-hour AM/PM** (or an
+  explicit "ETA unknown — <why>", e.g. waiting on spot capacity, when genuinely unknowable). Include what you'll
+  do when each finishes if it's non-obvious, in the same line. **List ONLY actual tests/jobs — the real compute
+  runs trimcrae cares about (SageMaker jobs, CI analysis/reduce/benchmark runs, subagents doing real work). Do
+  NOT list your own internal wake mechanisms — background self-timers, pollers, heartbeat sleeps; those are how
+  YOU stay awake, not work trimcrae needs to track (trimcrae, 2026-07-11).** If no actual jobs are running, say
+  "Nothing in flight" in one line (even if you have a self-timer armed). This composes with rule #1 (ET 12-hour)
+  and the "nothing needs your input" sign-off; it REPLACES long status narration — keep the board terse.
 - **★★ PRIMARY FOCUS (UPDATED 2026-07-11 PM, trimcrae + gate-AI — SUPERSEDES the atlas-anchor reframe from
   earlier the same day; that reframe is retained just below for reference).** The repo's #1 research program is
   **again the NR4A3-SELECTIVE DEGRADER / computational method-development**, NOT the atlas. Rationale (gate-AI,
@@ -35,6 +47,19 @@ read it before making changes.
     Reliable ternary *ranking* is a known open methodological challenge → that gap is exactly where a rigorous,
     honestly-benchmarked contribution is valuable (a benchmarked NR4A-family ternary-selectivity framework,
     THEN prospective NR4A3 designs — only after the workflow passes the NR-V04 control).
+  - **★ WARHEAD-STRATEGY SHARPENING (2026-07-11, external reviewer-AI redirection, ADOPTED; see
+    [research/manuscripts/nr4a3-degrader-strategy-ternary-first.md](./research/manuscripts/nr4a3-degrader-strategy-ternary-first.md)).**
+    The flagship deliverable is now a **synthesis-ready degrader MATRIX (~6–12 compounds)** getting selectivity
+    JOINTLY from a modest binary preference + ternary cooperativity + ubiquitination-compatible geometry — NOT a
+    single de novo "selective warhead." Concretely: (1) warheads come from a **congeneric campaign anchored on
+    Zaienne compound 19** (methyl 5-bromoindole-3-carboxylate, `zaienne_cmpd19`; functional target-engagement,
+    NOT a proven binder), not de novo generation; (2) the primary quantitative tool shifts to **RBFE within the
+    congeneric series** (ABFE demoted to secondary calibration); (3) **ternary is the CENTRAL selectivity
+    variable** (co-fold stays architecture-triage-only — the epimer control forbids affinity/cooperativity
+    ranking; use physics-based ternary calcs). **denovo_401 = benchmark, not lead.** De-prioritized: broad de
+    novo generation, generic ML degrader prediction, AF-2 molecular glue, fusion-junction small-molecule
+    degrader. This SHARPENS (does not contradict) Track B; the NR-V04 retrospective control still gates all
+    prospective ternary ranking.
   - **NR-V04 (Wang 2024) is the CENTRAL positive control.** It degraded NR4A1 but not NR4A2/NR4A3, with
     PLA/co-IP complex evidence + VHL/proteasome dependence — **strong event-level proof that family-selective
     NR4A degradation is achievable** (rebuts "the family is too homologous"). *Justified* inference: a

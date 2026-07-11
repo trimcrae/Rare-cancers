@@ -889,22 +889,37 @@ double-decoupling with a Boresch orientational restraint and MBAR reduction, on 
 diastereomer, SMILES `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1`) against each of NR4A3, NR4A1 and
 NR4A2 in its selected opened conformer.
 
-**Result (three independent-seed replicates; error = between-replicate SD, n = 3).** Raw-engine per-receptor
-ΔG_bind = **+3.5 ± 1.4 (NR4A3) / +8.3 ± 1.1 (NR4A1) / +8.5 ± 0.7 (NR4A2)** kcal/mol, giving
-**ΔΔG(NR4A3 − NR4A1) = −4.76 ± 2.03** and **ΔΔG(NR4A3 − NR4A2) = −4.98 ± 0.68** kcal/mol — both favour NR4A3,
-with the **direction unanimous across all three replicates**. Read at its correct weight this is a *relative,
-conditional* preference for the selected opened NR4A3 conformer over the selected opened paralogue conformers —
-**not** an "NR4A3 engages, paralogues do not" claim. (The NR4A1 contrast SD is wider, ± 2.03, driven by one
-replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agree at −6.9/−4.5.)
+**Result (three independent-seed replicates; small-n statistics, n = 3, 2 dof).** Raw-engine per-receptor
+ΔG_bind = **+3.5 ± 1.4 (NR4A3) / +8.3 ± 1.1 (NR4A1) / +8.5 ± 0.7 (NR4A2)** kcal/mol (means ± between-replicate
+SD). We report each selectivity contrast as its raw replicates, mean, SD, and the small-sample 95% *t*-interval
+(not a Gaussian σ, which n = 3 does not support):
+- **ΔΔG(NR4A3 − NR4A1):** replicates **−6.90, −2.85, −4.53**; mean **−4.76 ± 2.03** (SD); 95% *t*-interval
+  **[−9.80, +0.28]** kcal/mol — the direction is **unanimous across all three replicates but the contrast is
+  *not* resolved from zero** at 95%.
+- **ΔΔG(NR4A3 − NR4A2):** replicates **−5.48, −4.20, −5.26**; mean **−4.98 ± 0.68** (SD); 95% *t*-interval
+  **[−6.67, −3.29]** kcal/mol — **resolved below zero** (statistically; still held provisional for the separate
+  λ-overlap reason in (ii) below).
+
+Both favour NR4A3. Read at its correct weight this is a *relative, conditional* preference for the selected
+opened NR4A3 conformer over the selected opened paralogue conformers — **not** an "NR4A3 engages, paralogues do
+not" claim. Because the NR4A1 interval still spans zero while the NR4A2 interval does not, `denovo_401` is
+described only as **NR4A2-sparing (computational); NR4A1 selectivity provisional** — NR4A2, the harder
+(tighter-contrast) paralogue, is the primary gate and is the one cleared, whereas the NR4A1 contrast is
+directionally supportive but **not statistically resolved** and is not claimed as established. (The wider NR4A1
+SD, ± 2.03, is driven by one replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agree
+at −6.9/−4.5.)
 
 **Three limits bound the reading, and two repairs are in flight.** *(i) The absolute scale is not validated.*
 The same engine on a textbook benchmark (T4-lysozyme L99A + benzene, experimental ΔG_bind = −5.2 kcal/mol)
 returns **+1.90 ± 0.09**, under-binding by **≈ +7.1 kcal/mol** — a failed/strongly-biased absolute benchmark —
 so we interpret **the receptor contrasts rather than the raw absolute values**, never calibrated absolute
 affinities, and do not treat +7.1 as a subtractable constant (a single system cannot establish a
-target-independent offset). The contrast cancels the literally shared solvent leg and any *truly common*
-additive bias, but **remains vulnerable to receptor-specific complex-leg errors** (e.g. the NR4A2 overlap
-defect below) — it is not invariant to all engine error. *(ii) The NR4A2
+target-independent offset). The contrast eliminates the literally shared solvent leg and is a **protocol-matched relative comparison
+expected to reduce some common-mode errors**, but the engine's absolute offset is **not guaranteed to cancel
+across paralogues** — target-specific restraint terms, receptor-/bound-state definitions, protonation, and
+pose errors can remain, and ABFE is especially sensitive to bound-state/restraint/symmetry/standard-state
+treatment; it **remains vulnerable to receptor-specific complex-leg errors** (e.g. the NR4A2 overlap
+defect below) and is not invariant to all engine error. *(ii) The NR4A2
 contrast is provisional.* One complex-NR4A2 λ-window pair is under-overlapped (min adjacent overlap 0.003);
 because that error propagates **directly** into ΔΔG(3−2) (it is receptor-specific and does not cancel via the
 shared solvent leg), the **−4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional** until the
@@ -1201,7 +1216,8 @@ weight, with the following caveats made explicit rather than buried:
    it is also the frame `denovo_401` was *not* generatively fit to, so the above-null result is
    **release-frame-specific (= design-frame-specific)**, not universal. What remains is
    **single-trajectory GB-implicit MD, not ABFE**, so **selectivity ABFE is the quantitative gate — initial
-   three-replicate ABFE complete (three-replicate ΔΔG NR4A3-selective), with the NR4A2 λ-overlap repair
+   three-replicate ABFE complete (three-replicate ΔΔG NR4A3-favoured; NR4A2-sparing resolved below zero,
+   NR4A1 unanimous in direction but not resolved from zero), with the NR4A2 λ-overlap repair
    pending before final interpretation (§3)**;
    the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
 
@@ -1211,7 +1227,7 @@ selectivity claim needs endpoint free energy. The criterion-matched NR4A1/NR4A2 
 the quantitative tier is now **MM-GBSA-run** rather than planned — but single-snapshot MM-GBSA has **no
 entropy and no ensemble average**, so its magnitudes are inflated and only the **verdict/direction** is
 trusted; **selectivity FEP** (the defensible affinity tier) is **now run** (independent-window ABFE;
-three-replicate NR4A3-selective ΔΔG, §3), and even converged FEP on a
+three-replicate NR4A3-favoured ΔΔG, §3), and even converged FEP on a
 cryptic/induced-fit pocket is sampling-limited. **An independent structural cross-check (AF3-class
 co-folding) does not corroborate the pose/pocket, and honestly cannot here.** To test the docked binder
 pose by a physically different method than docking/MD, we co-folded `denovo_401` into each NR4A{3,1,2} LBD

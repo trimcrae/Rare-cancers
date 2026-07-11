@@ -50,6 +50,10 @@ NR4A1_LBD_UNIPROT_FIRST = 345                    # NR4A1 P22736 (598 aa), LBD = 
 #                                                  at the mapped position (fail-closed; review fix #4).
 CLASH_CUTOFF = 2.0                               # Å; heavy-atom–heavy-atom ligand↔protein distance flagged a clash
 POCKET_OCC_CUTOFF = SEAT_CUTOFF                  # Å; recruiter-moiety atom within this of a Hyp-pocket residue = occupancy
+# FROZEN decision thresholds (review-final fixes A/B/C). Stated explicitly so the exact rule is auditable.
+SEED_BRIDGE_MAJORITY = 0.5                       # a seed counts as bridged iff a STRICT MAJORITY (>0.5) of its poses bridge
+ARCH_SPAN_THRESHOLD = 0.5                        # architecture negative is "non-spanning" iff seed-level bridge fraction < this
+AFFINITY_BLIND_TOLERANCE = 0.1                   # active vs epimer seed-level fractions within this = "same rate" → affinity-blind
 
 # ---------------------------------------------------------------------------------------------------------
 # ATOM-MAPPED MOIETIES (2nd external review, fix #2). The moiety decomposition is now defined on the ligand's
@@ -190,6 +194,39 @@ def _map_by_bond_perception(mol, cif_atoms):
     return None
 
 
+def _identity_map_graph_consistent(mol, cif_atoms):
+    """GRAPH corroboration for the atom_order identity branch (review-final fix D). Element-SEQUENCE equality is
+    only a corruption check — for a molecule with many repeated C/O/N it does NOT prove the identity map is the
+    correct (unique) mapping. Here we perceive the CIF connectivity (rdDetermineBonds.DetermineConnectivity — the
+    same bond-perception path _map_by_bond_perception uses) and confirm the identity mapping (ref idx == cif idx)
+    is a valid graph isomorphism onto the SMILES bond graph: the perceived CIF edge set must equal the SMILES
+    edge set under identity. Any failure (RDKit/perception error, edge-set mismatch) → False → caller falls
+    through to the bond-perception graph match (and FAILS CLOSED if that also fails)."""
+    try:
+        from rdkit import Chem
+        from rdkit.Geometry import Point3D
+        from rdkit.Chem import rdDetermineBonds
+        rw = Chem.RWMol()
+        for el, _ in cif_atoms:
+            rw.AddAtom(Chem.Atom(el))
+        conf = Chem.Conformer(rw.GetNumAtoms())
+        for i, (_, (x, y, z)) in enumerate(cif_atoms):
+            conf.SetAtomPosition(i, Point3D(float(x), float(y), float(z)))
+        cm = rw.GetMol()
+        cm.AddConformer(conf, assignId=True)
+        rdDetermineBonds.DetermineConnectivity(cm)                # connectivity only (bond orders unreliable here)
+        cif_edges = set((min(b.GetBeginAtomIdx(), b.GetEndAtomIdx()),
+                         max(b.GetBeginAtomIdx(), b.GetEndAtomIdx())) for b in cm.GetBonds())
+        ref_edges = set((min(b.GetBeginAtomIdx(), b.GetEndAtomIdx()),
+                         max(b.GetBeginAtomIdx(), b.GetEndAtomIdx())) for b in mol.GetBonds())
+        # identity is a graph isomorphism iff every SMILES bond maps to a perceived CIF bond under identity AND
+        # the perceived graph has no extra edges (exact edge-set equality). A permuted/degenerate order breaks the
+        # SMILES bonds under identity → subset fails → rejected.
+        return bool(ref_edges) and cif_edges == ref_edges
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def atom_map_moieties(smiles, cif_atoms):
     """Establish an explicit, ARCHIVED atom-index mapping between the ligand SMILES graph and the CIF ligand atoms,
     then project the chemically-defined warhead / recruiter / linker sets onto CIF indices (review fix #2).
@@ -198,9 +235,11 @@ def atom_map_moieties(smiles, cif_atoms):
 
     Mapping strategy (FAIL CLOSED — never a spatial/whole-ligand fallback):
       1. Parse SMILES → heavy-atom ref graph; require the element MULTISET to match the CIF ligand exactly.
-      2. PRIMARY (atom_order): Boltz-2 writes ligand heavy atoms in the RDKit/SMILES input order. We only trust
-         the identity map when the ORDERED element sequences are identical — an exact, verifiable check. If they
-         differ we do NOT assume identity.
+      2. PRIMARY (atom_order): Boltz-2 writes ligand heavy atoms in the RDKit/SMILES input order. Element-SEQUENCE
+         equality is used ONLY as a fast pre-filter; the identity map is accepted ONLY if it is ALSO graph-consistent
+         (review-final fix D: perceive CIF connectivity and confirm identity is a graph isomorphism onto the SMILES
+         bond graph — sequence equality alone is not a unique mapping for repeated C/O/N). If sequences differ, or the
+         identity map is not graph-consistent, we do NOT assume identity and fall through.
       3. FALLBACK (bond_perception): perceive CIF connectivity and graph-match the SMILES onto it.
       4. If neither yields a full mapping → {"ok": False, ...} and the caller returns unmapped/fail-closed.
     Returns a dict; on success has keys ok, method, mapping (list[ref]->cif), warhead_cif/recruiter_cif/linker_cif,
@@ -218,7 +257,10 @@ def atom_map_moieties(smiles, cif_atoms):
         return {"ok": False, "method": None, "mapping": None,
                 "reason": "FAIL-CLOSED: element composition mismatch (SMILES %s vs CIF %s)"
                           % (dict(Counter(ref_elems)), dict(Counter(cif_elems)))}
-    if ref_elems == cif_elems:
+    # atom_order identity is accepted ONLY when the element sequence matches (fast pre-filter) AND the identity map
+    # is corroborated as a graph isomorphism onto the SMILES bond graph (fix D). Otherwise fall through to the
+    # bond-perception graph match; if that also fails the mapping is None → FAIL CLOSED below.
+    if ref_elems == cif_elems and _identity_map_graph_consistent(mol, cif_atoms):
         mapping, method = list(range(len(ref_elems))), "atom_order"
     else:
         mapping = _map_by_bond_perception(mol, cif_atoms)
@@ -229,8 +271,11 @@ def atom_map_moieties(smiles, cif_atoms):
                            "differs from SMILES order and bond-perception graph match failed)")}
     sets = _moiety_ref_sets(mol)
     to_cif = lambda refset: sorted(mapping[i] for i in refset)
+    reason = ("identity map graph-corroborated (element-sequence pre-filter + CIF-connectivity graph isomorphism "
+              "onto the SMILES bond graph)" if method == "atom_order"
+              else "bond-perception graph match onto the SMILES bond graph")
     return {"ok": True, "method": method, "mapping": mapping, "n_ref": len(ref_elems), "n_cif": len(cif_elems),
-            "reason": "mapped via %s (element multiset matched)" % method,
+            "reason": reason,
             "warhead_cif": to_cif(sets["warhead"]), "recruiter_cif": to_cif(sets["recruiter"]),
             "linker_cif": to_cif(sets["linker"]), "has_warhead": sets["has_warhead"],
             "has_recruiter": sets["has_recruiter"]}
@@ -589,8 +634,21 @@ def _aggregate(samples, kind):
         key = "%.1f" % c
         f, n, d = _frac([m["moiety_bridges"].get(key) for m in moi])
         agg["pose_level_fraction"][key] = {"fraction": f, "n_bridged": n, "n_poses": d}
+    # POSE-level wrong-end (pooled poses — kept, explicitly labelled pose-level; poses are nested/correlated).
     wf, wn, wd = _frac([m.get("wrong_end") for m in moi])
-    agg["wrong_end_fraction"], agg["n_wrong_end"] = wf, wn
+    agg["wrong_end_fraction"], agg["n_wrong_end"] = wf, wn        # pose-level (back-compat key)
+    agg["wrong_end_fraction_pose_level"] = wf
+    # SEED-level wrong-end (review-final fix B3 — seed is the sampling unit): a seed is flagged wrong-end iff a
+    # STRICT MAJORITY (>0.5) of its mapped poses are wrong-end; report the fraction of seeds flagged. The frozen
+    # verdict criterion uses THIS seed-level value, not the pooled pose-level one.
+    per_seed_wrong = {}
+    for s in samples:
+        m = s.get("moiety")
+        if m and m.get("moiety_bridges") and m.get("wrong_end") is not None:
+            per_seed_wrong.setdefault(s["seed"], []).append(bool(m.get("wrong_end")))
+    seed_wrong = [1 if (sum(v) / len(v)) > SEED_BRIDGE_MAJORITY else 0 for v in per_seed_wrong.values()]
+    agg["wrong_end_fraction_seed_level"] = round(sum(seed_wrong) / len(seed_wrong), 3) if seed_wrong else None
+    agg["n_seeds_wrong_end_scored"] = len(seed_wrong)
     # INTENDED-SITE occupancy summaries (review fix #3) — over ALL samples whose moiety was atom-mapped (occupancy
     # fields exist even when moiety_bridges is None, e.g. free-warhead negative). Reported separately from bridging.
     occ = [s.get("moiety") for s in samples if s.get("moiety") and s["moiety"].get("atom_map", {}).get("ok")]
@@ -612,7 +670,8 @@ def _aggregate(samples, kind):
         if m and m.get("moiety_bridges"):
             per_seed.setdefault(s["seed"], []).append(bool(m["moiety_bridges"].get(dk)))
     agg["per_seed_pose_fraction"] = {k: round(sum(v) / len(v), 3) for k, v in per_seed.items()}
-    seed_bridged = [1 if (sum(v) / len(v)) >= 0.5 else 0 for v in per_seed.values()]
+    # seed-call = STRICT MAJORITY (>0.5) of a seed's poses bridge (review-final fix B1; was >= 0.5).
+    seed_bridged = [1 if (sum(v) / len(v)) > SEED_BRIDGE_MAJORITY else 0 for v in per_seed.values()]
     agg["n_seeds_scored"] = len(seed_bridged)
     agg["seed_bridged_fraction"] = round(sum(seed_bridged) / len(seed_bridged), 3) if seed_bridged else None
     # primary readout is now SEED-level; keep the old key name mapped to it for downstream compatibility.
@@ -680,7 +739,8 @@ def _seed_bridged_fraction(system, cutoff_key, drop_seed=None):
             per_seed.setdefault(s["seed"], []).append(bool(m["moiety_bridges"].get(cutoff_key)))
     if not per_seed:
         return None
-    seed_pass = [1 if (sum(v) / len(v)) >= 0.5 else 0 for v in per_seed.values()]
+    # seed-call = STRICT MAJORITY (>0.5) of a seed's poses bridge (review-final fix B1; was >= 0.5).
+    seed_pass = [1 if (sum(v) / len(v)) > SEED_BRIDGE_MAJORITY else 0 for v in per_seed.values()]
     return sum(seed_pass) / len(seed_pass)
 
 
@@ -708,13 +768,19 @@ def _loo_robust(systems):
     return True
 
 
-def full_verdict(systems):
+def full_verdict(systems, architecture_controls_ok=None):
     """EXPLORATORY concordance verdict (per the 2026-07-11 external methods review — NOT a validation of
     ternary-selectivity prediction). Primary readout = MOIETY-SPECIFIC bridging (celastrol end contacts the NR4A
     target AND the VH032 end contacts VHL — via the correct ends, not a wrong-end/linker/surface artefact), at
     the default cutoff, with cutoff-sensitivity (4.0/4.5/5.0 Å) and leave-one-seed-out robustness. ligand-iPTM
     ordering is reported for transparency ONLY. Language deliberately avoids 'validated'/'population'/
-    'cooperativity' — those quantities are not estimated here."""
+    'cooperativity' — those quantities are not estimated here.
+
+    Review-final fix B2: the pass verdict "exploratory-architecture-concordance" is emitted ONLY when EVERY frozen
+    condition holds — default separation passes AND cutoff-robust AND leave-one-seed-out robust AND the NR4A1
+    SEED-level wrong-end fraction < 0.5 AND the architecture controls are ok. If default separation holds but any
+    of those robustness/control gates fail, the verdict is the descriptive, non-pass "insufficient-robustness"
+    (the full vector is still reported). The discordant/inconclusive branches are unchanged."""
     for name in ("nr4a1", "nr4a2", "nr4a3"):
         if name not in systems:
             return {"verdict": "pilot-only", "note": "NR4A2/NR4A3 not present — full verdict needs all three."}
@@ -724,6 +790,11 @@ def full_verdict(systems):
     cutoff_sep = {("%.1f" % c): _sep_at(systems, "%.1f" % c)[0] for c in CUTOFFS}
     cutoff_robust = all(v is True for v in cutoff_sep.values())
     loo = _loo_robust(systems)
+    # frozen wrong-end condition uses the SEED-level fraction (fix B3), not the pooled pose-level value.
+    nr4a1_wrong_seed = systems["nr4a1"]["ensemble"].get("wrong_end_fraction_seed_level")
+    wrong_end_ok = (nr4a1_wrong_seed is not None and nr4a1_wrong_seed < 0.5)
+    arch_ok = bool(architecture_controls_ok)
+    concordance_pass = (sep_default is True and cutoff_robust and loo is True and wrong_end_ok and arch_ok)
 
     def li(name):
         d = systems[name]["ensemble"].get("ligand_iptm")
@@ -737,14 +808,28 @@ def full_verdict(systems):
     counts = {name: systems[name]["ensemble"].get("denominator") for name in ("nr4a1", "nr4a2", "nr4a3")}
     if sep_default is None:
         verdict, basis = "insufficient-data", "seed-level fractions unavailable for all three paralogues"
-    elif sep_default:
+    elif concordance_pass:
         verdict = "exploratory-architecture-concordance"
         basis = ("in ONE retrospective example the correct-half dual-surface proximity classifier (SEED-level) was "
-                 "concordant with the reported phenotype: NR4A1 %.2f of seeds vs NR4A2 %.2f / NR4A3 %.2f at %.1f Å%s%s. "
-                 "Architecture-feasibility only; NOT validation, NOT affinity/selectivity." %
-                 (fr["nr4a1"], fr["nr4a2"], fr["nr4a3"], DEFAULT_CUTOFF,
-                  "; robust across 4.0/4.5/5.0 Å" if cutoff_robust else "; NOT robust across all cutoffs",
-                  "; survives leave-one-seed-out" if loo else ("; does NOT survive leave-one-seed-out" if loo is False else "")))
+                 "concordant with the reported phenotype: NR4A1 %.2f of seeds vs NR4A2 %.2f / NR4A3 %.2f at %.1f Å; "
+                 "robust across 4.0/4.5/5.0 Å; survives leave-one-seed-out; NR4A1 seed-level wrong-end %.2f (<0.5); "
+                 "architecture controls ok. Architecture-feasibility only; NOT validation, NOT affinity/selectivity." %
+                 (fr["nr4a1"], fr["nr4a2"], fr["nr4a3"], DEFAULT_CUTOFF, nr4a1_wrong_seed))
+    elif sep_default:
+        # default separation holds but at least one frozen robustness/control gate failed — do NOT collapse to a pass.
+        failed = []
+        if not cutoff_robust:
+            failed.append("not robust across 4.0/4.5/5.0 Å")
+        if loo is not True:
+            failed.append("does NOT survive leave-one-seed-out" if loo is False else "leave-one-seed-out not evaluable")
+        if not wrong_end_ok:
+            failed.append("NR4A1 seed-level wrong-end fraction not < 0.5 (%s)" % nr4a1_wrong_seed)
+        if not arch_ok:
+            failed.append("architecture controls not ok (missing/failed/not-evaluable)")
+        verdict = "insufficient-robustness"
+        basis = ("default-cutoff SEED-level separation holds (NR4A1 %.2f vs NR4A2 %.2f / NR4A3 %.2f) but the "
+                 "concordance gates were not all met: %s. Vector reported; NOT a pass." %
+                 (fr["nr4a1"], fr["nr4a2"], fr["nr4a3"], "; ".join(failed)))
     elif fr.get("nr4a1", 0) and fr["nr4a1"] >= 0.5:
         verdict = "inconclusive"
         basis = "NR4A1 passes the correct-half proximity criterion but a spared paralogue also does — no clean separation"
@@ -753,10 +838,16 @@ def full_verdict(systems):
         basis = "NR4A1 (known-degraded) does not pass the correct-half proximity criterion in a majority of seeds"
 
     return {"verdict": verdict, "primary_basis": "correct_half_dual_surface_proximity_SEED_level", "basis": basis,
+            "concordance_pass": concordance_pass, "default_separation": sep_default,
             "seed_bridged_fraction_default": fr, "cutoff_sensitivity_seedlevel": cutoff_sep,
-            "cutoff_robust": cutoff_robust, "leave_one_seed_out_robust": loo, "denominators": counts,
+            "cutoff_robust": cutoff_robust, "leave_one_seed_out_robust": loo,
+            "architecture_controls_ok": arch_ok, "denominators": counts,
+            "nr4a1_wrong_end_fraction_seed_level": nr4a1_wrong_seed,
+            "wrong_end_ok": wrong_end_ok,
             "wrong_end_fraction": {name: systems[name]["ensemble"].get("wrong_end_fraction")
                                    for name in ("nr4a1", "nr4a2", "nr4a3")},
+            "wrong_end_fraction_seed_level": {name: systems[name]["ensemble"].get("wrong_end_fraction_seed_level")
+                                              for name in ("nr4a1", "nr4a2", "nr4a3")},
             "ligand_iptm_mean": {"nr4a1": li1, "nr4a2": li2, "nr4a3": li3}, "ligand_iptm_note": li_note,
             "not_an_affinity_gate": ("this is a structure-only architecture-feasibility readout; an inactive "
                                      "stereo-epimer passed it at the active rate — affinity/binding/selectivity "
@@ -765,8 +856,121 @@ def full_verdict(systems):
             "caveats": ["retrospective n=1 (NR-V04-inspired representative reconstruction; exact graph unverified)",
                         "NR4A1-selectivity != NR4A3-selectivity", "phenotype does not establish geometry as the cause",
                         "no CRL4/E2~Ub; Lys reach demoted; Cys551 not evaluated",
-                        "correct-half proximity (conformation-dependent sulfur-anchor, NOT atom-mapped occupancy) "
-                        "elevated to primary AFTER the ligand-iPTM result (exploratory)"]}
+                        "correct-half dual-surface proximity is now computed from ATOM-MAPPED chemical moieties "
+                        "(atom_map_moieties; the retired conformation-dependent sulfur-anchor split is no longer "
+                        "used), and it was elevated to primary AFTER the ligand-iPTM result (exploratory ordering)"]}
+
+
+def architecture_control_status(system):
+    """FAIL-CLOSED tri-state evaluation of a SINGLE architecture negative control (review-final fix A).
+    neg_celastrol (free celastrol — no VHL recruiter handle) is the architecture negative. Returns a dict with a
+    'status' that is NEVER inferred from None-or-0:
+      pass_no_recruiter  — atom mapping succeeded for every sample AND the warhead was found AND the recruiter is
+                           absent-by-design (has_recruiter False) AND the recruiter-pocket occupancy is false.
+      pass_non_spanning  — mapping succeeded AND a recruiter IS present (has_recruiter True) AND the seed-level
+                           bridge fraction is below the frozen threshold (ARCH_SPAN_THRESHOLD).
+      fail_spanning      — mapping succeeded, recruiter present, but the seed-level bridge fraction reaches the
+                           threshold — the architecture negative SPANNED (classifier not even architecture-specific).
+      not_evaluable      — atom-mapping failure / missing output / empty seed denominator / unexpected missing
+                           substructure (e.g. no warhead, or pocket occupied with no recruiter). NEVER a pass.
+    Only a 'pass_*' status counts toward architecture_controls_ok."""
+    system = system or {}
+    samples = system.get("samples") or []
+    ens = system.get("ensemble") or {}
+    if not samples:
+        return {"status": "not_evaluable", "reason": "no samples/output for this architecture control"}
+    mapped = []
+    for s in samples:
+        m = s.get("moiety")
+        if not m:
+            return {"status": "not_evaluable", "reason": "a sample carries no moiety output (fail-closed)"}
+        am = m.get("atom_map") or {}
+        mapped.append({"ok": bool(am.get("ok")), "has_warhead": am.get("has_warhead"),
+                       "has_recruiter": am.get("has_recruiter"),
+                       "recruiter_pocket_occupancy": m.get("recruiter_pocket_occupancy")})
+    if not all(x["ok"] for x in mapped):
+        return {"status": "not_evaluable", "reason": "atom-mapping failed for >=1 sample (fail-closed)"}
+    has_recruiter_any = any(bool(x["has_recruiter"]) for x in mapped)
+    if not has_recruiter_any:
+        # recruiter absent-by-design across all mapped samples → this is the free-warhead architecture.
+        warhead_ok = all(bool(x["has_warhead"]) for x in mapped)
+        pocket_clear = not any(bool(x["recruiter_pocket_occupancy"]) for x in mapped)
+        if warhead_ok and pocket_clear:
+            return {"status": "pass_no_recruiter", "seed_bridged_fraction": ens.get("seed_bridged_fraction"),
+                    "reason": "mapping ok; warhead present; recruiter absent-by-design; Hyp-pocket unoccupied"}
+        why = []
+        if not warhead_ok:
+            why.append("warhead substructure missing (unexpected)")
+        if not pocket_clear:
+            why.append("recruiter-pocket reported occupied despite no recruiter (unexpected)")
+        return {"status": "not_evaluable", "reason": "; ".join(why)}
+    # recruiter present → must be NON-spanning by the frozen seed-level threshold.
+    frac = ens.get("seed_bridged_fraction")
+    if frac is None:
+        return {"status": "not_evaluable", "reason": "recruiter present but seed-level bridge denominator empty"}
+    if frac < ARCH_SPAN_THRESHOLD:
+        return {"status": "pass_non_spanning", "seed_bridged_fraction": frac,
+                "reason": "mapping ok; recruiter present; seed-level bridge fraction %.3f < %.2f" % (frac, ARCH_SPAN_THRESHOLD)}
+    return {"status": "fail_spanning", "seed_bridged_fraction": frac,
+            "reason": "architecture negative SPANNED: seed-level bridge fraction %.3f >= %.2f" % (frac, ARCH_SPAN_THRESHOLD)}
+
+
+def evaluate_architecture_controls(negatives, neg_type):
+    """Aggregate architecture_control_status over the architecture negatives. Returns
+    (per_control_dict, architecture_controls_ok, architecture_control_failed). architecture_controls_ok is True
+    ONLY if there is >=1 architecture control and EVERY one is a 'pass_*' status (fail-closed: no controls → not ok)."""
+    per = {}
+    for name, sysrec in (negatives or {}).items():
+        if neg_type.get(name) == "architecture":
+            per[name] = architecture_control_status(sysrec)
+    ok = bool(per) and all(v["status"].startswith("pass_") for v in per.values())
+    failed = any(v["status"] == "fail_spanning" for v in per.values())
+    return per, ok, failed
+
+
+def paired_active_vs_epimer(systems, negatives):
+    """PAIRED active(nr4a1)-vs-epimer(neg_inactive) affinity-blindness test (review-final fix C). The Hyp
+    (2S,4R)->(2S,4S) epimer is a pure-affinity stereochemical knockout; a structure-only classifier is NOT
+    expected to catch it, so if the epimer bridges at the SAME rate as the active the classifier has no affinity
+    sensitivity ('affinity_blind'). This is only meaningful when the two are actually PAIRED (identical seed/rank
+    sets) and compared under a frozen definition of 'same rate' (seed-level fractions within AFFINITY_BLIND_TOLERANCE)
+    — NOT merely 'the epimer's fraction is >= 0.5'. Returns the matched/unmatched sets, both seed-level fractions,
+    the paired difference, and affinity_blind True ONLY when they are the SAME rate under the frozen tolerance."""
+    active = (systems or {}).get("nr4a1")
+    epimer = (negatives or {}).get("neg_inactive")
+    if not active or not epimer:
+        missing = [x for x, present in (("active(nr4a1)", bool(active)), ("epimer(neg_inactive)", bool(epimer))) if not present]
+        return {"evaluable": False, "affinity_blind": None, "paired": False,
+                "reason": "absent by design: %s" % ", ".join(missing)}
+    def seed_ranks(sysrec):
+        return set((s["seed"], s["rank"]) for s in sysrec.get("samples", []))
+    a_keys, e_keys = seed_ranks(active), seed_ranks(epimer)
+    missing_in_epimer = sorted("%s/%s" % k for k in (a_keys - e_keys))
+    missing_in_active = sorted("%s/%s" % k for k in (e_keys - a_keys))
+    paired = (not missing_in_epimer and not missing_in_active and bool(a_keys))
+    dk = "%.1f" % DEFAULT_CUTOFF
+    active_frac = _seed_bridged_fraction(active, dk)
+    epimer_frac = _seed_bridged_fraction(epimer, dk)
+    out = {"evaluable": True, "paired": paired, "n_matched_seed_rank": len(a_keys & e_keys),
+           "unmatched_missing_in_epimer": missing_in_epimer, "unmatched_missing_in_active": missing_in_active,
+           "active_seed_bridged_fraction": active_frac, "epimer_seed_bridged_fraction": epimer_frac,
+           "tolerance": AFFINITY_BLIND_TOLERANCE}
+    if active_frac is None or epimer_frac is None:
+        out.update({"evaluable": False, "affinity_blind": None,
+                    "reason": "seed-level bridge fraction unavailable for active and/or epimer"})
+        return out
+    diff = round(epimer_frac - active_frac, 3)
+    same_rate = paired and abs(epimer_frac - active_frac) <= AFFINITY_BLIND_TOLERANCE
+    out["paired_difference"] = diff
+    out["same_rate"] = same_rate
+    out["affinity_blind"] = bool(same_rate)
+    out["wording"] = ("epimer passed at %.3f vs active %.3f (Δ=%+.3f)%s" %
+                      (epimer_frac, active_frac, diff,
+                       "; SAME rate under frozen tolerance %.2f → classifier affinity-BLIND" % AFFINITY_BLIND_TOLERANCE
+                       if same_rate else "; different rate (within tolerance %.2f? no) → not shown as same rate" % AFFINITY_BLIND_TOLERANCE))
+    if not paired:
+        out["reason"] = "active and epimer seed/rank sets do NOT match — pairing incomplete (affinity_blind requires pairing)"
+    return out
 
 
 def main():
@@ -806,16 +1010,14 @@ def main():
         for name in ("neg_inactive", "neg_celastrol"):
             if glob.glob(os.path.join(tmp, name, "seed_*")) or glob.glob(os.path.join(tmp, "**", name, "seed_*"), recursive=True):
                 negatives[name] = analyse_system(tmp, name, "ternary", ligand_smiles=smiles_map.get(name))
-        # architecture controls should FAIL the classifier; affinity controls are reported (they define the
-        # classifier's affinity-blindness) but do NOT make the architecture gate 'pass'.
-        arch_pass = None
-        arch = {k: v for k, v in negatives.items() if NEG_TYPE.get(k) == "architecture"}
-        if arch:
-            arch_pass = all((s["ensemble"].get("seed_bridged_fraction") or 0) < 0.5 for s in arch.values())
-        affinity_classifier_blind = None
-        aff = {k: v for k, v in negatives.items() if NEG_TYPE.get(k) == "affinity"}
-        if aff:
-            affinity_classifier_blind = any((s["ensemble"].get("seed_bridged_fraction") or 0) >= 0.5 for s in aff.values())
+        # ARCHITECTURE controls: FAIL-CLOSED tri-state per control (review-final fix A) — never None-or-0=pass.
+        arch_controls, architecture_controls_ok, architecture_control_failed = \
+            evaluate_architecture_controls(negatives, NEG_TYPE)
+        # back-compat scalar: None when no architecture control present, else == architecture_controls_ok.
+        arch_pass = architecture_controls_ok if arch_controls else None
+        # AFFINITY control: PAIRED active-vs-epimer 'same rate' test (review-final fix C) — not a bare >=0.5 any().
+        paired_affinity = paired_active_vs_epimer(systems, negatives)
+        affinity_classifier_blind = paired_affinity.get("affinity_blind")
 
         report = {"prefix": prefix, "bucket": bucket, "mode": prep_data.get("mode"),
                   "seeds": prep_data.get("seeds"), "ground_truth": prep_data.get("ground_truth"),
@@ -823,14 +1025,21 @@ def main():
                   # PAIRED per-seed/rank records preserved for negatives (review fix #7), not just ensembles.
                   "negative_controls": {k: {"type": NEG_TYPE.get(k), "ensemble": v["ensemble"],
                                             "samples": v.get("samples")} for k, v in negatives.items()},
+                  "architecture_controls": arch_controls,
+                  "architecture_controls_ok": architecture_controls_ok,
+                  "architecture_control_failed": architecture_control_failed,
                   "architecture_controls_pass": arch_pass,
+                  "active_vs_epimer_paired": paired_affinity,
                   "affinity_classifier_blind": affinity_classifier_blind}
         report["pilot_gate"] = pilot_verdict(control, systems.get("nr4a1"))
         if all(k in systems for k in ("nr4a1", "nr4a2", "nr4a3")):
-            fg = full_verdict(systems)
+            fg = full_verdict(systems, architecture_controls_ok=architecture_controls_ok)
+            fg["architecture_controls"] = arch_controls
+            fg["architecture_controls_ok"] = architecture_controls_ok
             fg["architecture_controls_pass"] = arch_pass
+            fg["active_vs_epimer_paired"] = paired_affinity
             fg["affinity_classifier_blind"] = affinity_classifier_blind
-            if arch_pass is False:
+            if architecture_control_failed:
                 fg["verdict"] = "failed-architecture-control"
                 fg["basis"] = "an ARCHITECTURE negative (should not span) passed the classifier — not even architecture-specific"
             if affinity_classifier_blind:

@@ -48,6 +48,15 @@ def lambda_schedule():
     return list(zip(LAMBDA_ELEC, LAMBDA_STERICS))
 
 
+def n_windows():
+    """Number of λ-windows for the ACTIVE schedule — 16 under ABFE_LAMBDA_SCHEDULE=dense, else 12. Use this (NOT
+    the module constant N_WINDOWS, which is frozen at import to the 12-window standard) anywhere the RUN decides
+    how many windows to execute. The 2026-07-11 bug: run_shard defaulted window_end to N_WINDOWS=12 while a dense
+    run evaluated each sample's u at 16 states → dense legs ran only 12 windows with 16-entry u (un-reducible).
+    N_WINDOWS is kept for back-compat as 'the standard count', but the run path must be schedule-aware."""
+    return len(lambda_schedule())
+
+
 def _solve_mbar(u_kn, N_k, tag=""):
     """Construct MBAR robustly. pymbar 4's default self-consistent solver can fail check_w_normalized (weights
     don't sum to 1 → 'column sum ... was 7.9') when adjacent λ-windows overlap poorly — which is what the
@@ -616,6 +625,34 @@ def prepare_leg(leg, ligand_sdf, receptor_pdb=None, padding_nm=1.2, ionic_molar=
             "restraint_standard_state_dg": ssc}
 
 
+def _infer_k(out_dir):
+    """Number of λ-windows for a leg, inferred FROM THE DATA (count of window_XX.jsonl files) so a reduce works
+    regardless of the ABFE_LAMBDA_SCHEDULE default — a repaired dense-λ complex leg (16 windows) and a standard
+    solvent leg (12) reduce correctly IN THE SAME run. Cross-checks the count against the length of a sample's
+    reduced-potential vector u (which is evaluated at every λ-state) and raises loudly on a mismatch rather than
+    silently truncating. Returns None if no window files are present (caller falls back to the schedule length)."""
+    import glob
+    files = sorted(glob.glob(os.path.join(out_dir, "window_*.jsonl")))
+    if not files:
+        return None
+    # count must be a contiguous 0..K-1 run
+    k = 0
+    while os.path.exists(os.path.join(out_dir, f"window_{k:02d}.jsonl")):
+        k += 1
+    for p in files:                                            # first non-empty sample's u length must equal k
+        for line in open(p):
+            if line.strip():
+                u = json.loads(line).get("u")
+                if u is not None and len(u) != k:
+                    raise ValueError(f"leg {os.path.basename(out_dir.rstrip('/'))}: {k} window files but sample u "
+                                     f"has {len(u)} energies — inconsistent λ-window count (corrupt/mixed leg)")
+                break
+        else:
+            continue
+        break
+    return k
+
+
 def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False, trace_points=120):
     """Read all windows' per-iteration jsonl → MBAR → leg ΔG (kcal/mol) + SE. With per_iteration=True, return
     the CONVERGENCE TRACE [(n_samples_per_window, dg, se)] by re-running MBAR on the first-n samples for
@@ -627,8 +664,12 @@ def reduce_leg(out_dir, schedule=None, temperature_K=300.0, per_iteration=False,
     visually identical convergence curve. trace_points=None restores the (slow) every-iteration trace."""
     import numpy as np
     from pymbar import MBAR
-    schedule = schedule or lambda_schedule()
-    K = len(schedule)
+    # K = the leg's ACTUAL window count from the data (per-leg; a dense-λ repaired complex leg has 16, a standard
+    # solvent leg 12 — both reduce correctly in one run). Fall back to the schedule length only if no data yet.
+    K = None if schedule is not None else _infer_k(out_dir)
+    if K is None:
+        schedule = schedule or lambda_schedule()
+        K = len(schedule)
     RT = (0.0019872041 * temperature_K)                       # kcal/mol per kT
     we = [[] for _ in range(K)]
     for k in range(K):
@@ -794,10 +835,19 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     `pose_index` picks a starting pose from a multi-pose docked SDF (stronger config independence)."""
     prep = _prepare_or_load_reference(out_dir, leg, ligand_sdf, receptor_pdb=receptor_pdb, pose_name=pose_name,
                                       padding_nm=padding_nm, restraint_K=restraint_K, pose_index=pose_index)
-    we = window_end if window_end is not None else N_WINDOWS
+    we = window_end if window_end is not None else n_windows()   # SCHEDULE-AWARE (dense=16); NOT frozen N_WINDOWS
     os.makedirs(out_dir, exist_ok=True)
     meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
-            "temperature_K": temperature_K, "n_windows": N_WINDOWS, "seed": seed, "pose_index": prep["pose_index"]}
+            "temperature_K": temperature_K, "n_windows": n_windows(), "seed": seed, "pose_index": prep["pose_index"],
+            # SCHEDULE + LIGAND PROVENANCE (repair-prereg §7 semantic audit + §8 cross-tag guard): record the
+            # schedule NAME and the exact per-window (λ_elec, λ_sterics) used, plus the ligand identity + restraint
+            # convention, so a later audit/gate can verify λ value+order (not merely the window count) and a
+            # cross-tag reduce can confirm the SAME ligand + convention across legs — rather than inferring them.
+            "lambda_schedule": os.environ.get("ABFE_LAMBDA_SCHEDULE", "standard"),
+            "lambda": [list(x) for x in lambda_schedule()],
+            "restraint_convention": ("boresch" if leg == "complex" else "none"),
+            "pose_name": pose_name, "ligand_sdf": (os.path.basename(ligand_sdf) if ligand_sdf else None),
+            "ligand_inchikey": prep.get("ligand_inchikey")}
     if leg == "complex":
         meta["restraint_standard_state_dg"] = prep["restraint_standard_state_dg"]
         meta["boresch"] = prep["boresch"]
@@ -871,7 +921,7 @@ def run_hydration_validation(smiles, name, out_dir, known_dg_hyd=None, tol=1.5,
     FEP; a large miss means a real bug (schedule, soft-core, reduced-potential, MBAR sign)."""
     import tempfile
     sdf = molecule_sdf_from_smiles(smiles, name, os.path.join(tempfile.mkdtemp(), f"{name}.sdf"))
-    run_shard("solvent", sdf, out_dir, window_start=0, window_end=N_WINDOWS, n_iter=n_iter,
+    run_shard("solvent", sdf, out_dir, window_start=0, window_end=n_windows(), n_iter=n_iter,
               steps_per_iter=steps_per_iter, temperature_K=temperature_K, platform_name=platform_name,
               pose_name=name, padding_nm=padding_nm)
     dg_dec, se = reduce_leg(out_dir, temperature_K=temperature_K)
@@ -1036,8 +1086,8 @@ def _cli():
               f"(complex {out['complex_dg']:.2f}±{out['complex_se']:.2f}, "
               f"solvent {out['solvent_dg']:.2f}±{out['solvent_se']:.2f}, SSC {out['restraint_standard_state_dg']:.2f})")
         return
-    print(f"[abfe] modern independent-window ABFE — {N_WINDOWS} windows/leg. "
-          f"Modes: --smoke | --run-shard | --reduce.")
+    print(f"[abfe] modern independent-window ABFE — {n_windows()} windows/leg "
+          f"(schedule={os.environ.get('ABFE_LAMBDA_SCHEDULE', 'standard')}). Modes: --smoke | --run-shard | --reduce.")
 
 
 if __name__ == "__main__":

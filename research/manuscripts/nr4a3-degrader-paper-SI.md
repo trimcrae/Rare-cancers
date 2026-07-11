@@ -417,7 +417,10 @@ NR4A3-vs-paralogue ΔΔG per replicate:
 | r3 | +2.83 | +7.36 | +8.10 | **−4.53** | **−5.26** |
 | **mean ± SD** | +3.52 ± 1.39 | +8.28 ± 1.11 | +8.50 ± 0.71 | **−4.76 ± 2.03** | **−4.98 ± 0.68** |
 
-The selectivity **direction is unanimous** across all three replicates for both contrasts. The wider NR4A1
+The selectivity **direction is unanimous** across all three replicates for both contrasts. **Small-n
+statistics (n = 3, 2 dof) — reported as *t*-intervals, not a Gaussian σ, which n = 3 does not support:** the
+95% *t*-interval is **[−9.80, +0.28] kcal/mol for ΔΔG(3−1)** — unanimous in direction but **not resolved from
+zero** — and **[−6.67, −3.29] kcal/mol for ΔΔG(3−2)** — **resolved below zero**. The wider NR4A1
 SD is driven entirely by r2, whose NR4A3 leg sampled ~2.5 kcal/mol weaker (+5.12 vs +2.6/+2.8) — visible in
 the per-replicate values, and the reason the NR4A2 contrast (SD 0.68) is tighter than NR4A1 (SD 2.03).
 

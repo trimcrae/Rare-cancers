@@ -43,7 +43,20 @@ def test_channel_falls_back_to_processing_path(monkeypatch):
     assert sm_io.channel("metad") == "/opt/ml/processing/input/metad"
 
 
-def test_out_dir_honours_override(monkeypatch, tmp_path):
-    monkeypatch.setenv("SM_OUTPUT_DIR", str(tmp_path / "out"))
-    assert sm_io.out_dir() == str(tmp_path / "out")
-    assert os.path.isdir(str(tmp_path / "out"))
+def test_out_dir_prefers_checkpoints_over_sm_output_dir(monkeypatch, tmp_path):
+    # Regression (2026-07-11 ternary smoke): SageMaker Training sets SM_OUTPUT_DIR=/opt/ml/output automatically,
+    # so out_dir() must NOT honor it — the checkpoint mount (continuously synced) always wins when present.
+    ckpt = tmp_path / "checkpoints"
+    ckpt.mkdir()
+    monkeypatch.setattr(sm_io, "_CKPT_DIR", str(ckpt))
+    monkeypatch.setenv("SM_OUTPUT_DIR", str(tmp_path / "output"))     # the trap: must be ignored
+    monkeypatch.setenv("OUT_DIR_OVERRIDE", str(tmp_path / "override"))
+    assert sm_io.out_dir() == str(ckpt)
+
+
+def test_out_dir_uses_override_when_no_checkpoints(monkeypatch, tmp_path):
+    monkeypatch.setattr(sm_io, "_CKPT_DIR", str(tmp_path / "nope"))   # checkpoint mount absent (Processing)
+    monkeypatch.setenv("OUT_DIR_OVERRIDE", str(tmp_path / "ov"))
+    monkeypatch.setenv("SM_OUTPUT_DIR", str(tmp_path / "smout"))      # still ignored
+    assert sm_io.out_dir() == str(tmp_path / "ov")
+    assert os.path.isdir(str(tmp_path / "ov"))

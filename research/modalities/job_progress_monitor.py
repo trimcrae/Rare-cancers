@@ -85,18 +85,28 @@ def detect_kind(text):
 
 def parse_abfe(text):
     """Return the newest ABFE progress state: highest window index reached + its line timestamp, and whether the
-    shard's reduce/DG_BIND has printed (i.e. the leg is essentially done)."""
+    shard's reduce/DG_BIND has printed (i.e. the leg is essentially done). Also records the timestamp at which the
+    previous distinct window was first reached (intra_prev_*) so a SINGLE snapshot can estimate a recent per-window
+    rate + ETA without needing a stored prior sample."""
     last_win, last_ts, done, done_ts = None, None, False, None
+    first_seen = {}          # window index → ts it was FIRST reached (for intra-log recent-rate ETA)
     for line in text.splitlines():
         m = _ABFE_WIN.search(line)
         if m:
             w = int(m.group(1))
+            ts = parse_ts(line)
+            if ts is not None and w not in first_seen:
+                first_seen[w] = ts
             if last_win is None or w >= last_win:
-                last_win, last_ts = w, parse_ts(line) or last_ts
+                last_win, last_ts = w, ts or last_ts
         if _ABFE_DONE.search(line):
             done, done_ts = True, parse_ts(line) or done_ts
+    intra_prev_index, intra_prev_ts = None, None
+    if last_win is not None and (last_win - 1) in first_seen and last_win in first_seen:
+        intra_prev_index, intra_prev_ts = last_win - 1, first_seen[last_win - 1]
     return {"kind": "abfe", "unit": None if last_win is None else "window %d" % last_win,
-            "index": last_win, "last_ts": _iso(last_ts), "done": done, "done_ts": _iso(done_ts)}
+            "index": last_win, "last_ts": _iso(last_ts), "done": done, "done_ts": _iso(done_ts),
+            "intra_prev_index": intra_prev_index, "intra_prev_ts": _iso(intra_prev_ts)}
 
 
 def parse_boltz(text):
@@ -149,9 +159,18 @@ def analyse(cur, prev=None, total_units=None, now_iso=None, hang_min=25.0):
     else:
         out["marker_age_min"], out["hang"] = None, None
     out["last_et"] = _et(cur.get("last_ts"))
-    # Rate + ETA from two samples of the same job (needs an advancing index + elapsed wall time).
-    if prev and prev.get("index") is not None and cur.get("index") is not None \
-            and cur.get("last_ts") and prev.get("last_ts"):
+    # Rate + ETA. Prefer an explicit prior --emit sample (spans the true poll interval); otherwise fall back to the
+    # INTRA-LOG recent rate (time from reaching the previous distinct unit to the current one) so a lone snapshot
+    # still yields an ETA. The intra-log rate reflects only the most recent unit, so flag it as recent_rate=True.
+    rate_src, recent = prev, False
+    if not (prev and prev.get("index") is not None and prev.get("last_ts")) \
+            and cur.get("intra_prev_index") is not None and cur.get("intra_prev_ts"):
+        rate_src = {"index": cur["intra_prev_index"], "last_ts": cur["intra_prev_ts"]}
+        recent = True
+    if rate_src and rate_src.get("index") is not None and cur.get("index") is not None \
+            and cur.get("last_ts") and rate_src.get("last_ts"):
+        prev = rate_src
+        out["recent_rate"] = recent
         d_units = cur["index"] - prev["index"]
         t0 = datetime.strptime(prev["last_ts"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
         d_min = (last - t0).total_seconds() / 60.0
@@ -181,7 +200,7 @@ def render(a, total_units=None):
         line += ", %.0f min ago" % a["marker_age_min"]
     line += ")"
     if a.get("min_per_unit"):
-        line += "  |  %.1f min/unit" % a["min_per_unit"]
+        line += "  |  %.1f min/unit%s" % (a["min_per_unit"], " (recent)" if a.get("recent_rate") else "")
     if a.get("eta_min") is not None:
         line += "  |  ETA ~%.0f min → %s" % (a["eta_min"], a.get("eta_et") or "?")
     if a.get("done"):

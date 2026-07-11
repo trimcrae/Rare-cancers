@@ -1,0 +1,1310 @@
+{
+  "_schema": "congeneric_rbfe_perturbation_map",
+  "version": "1.0.0",
+  "_generated_by": "rbfe_map.py",
+  "_status": "DESIGN ONLY \u2014 no MD/FEP/GPU run. No affinity, \u0394\u0394G, GPU-hour, or convergence is asserted. All energetic and cost quantities are placeholders (TBD \u2014 calibrate from the pilot).",
+  "_inputs": {
+    "nodes_from": "congeneric-warhead-series.json",
+    "receptor_axis_from": "nr4a3-conformer-panel.json"
+  },
+  "anchor": "zaienne_cmpd19",
+  "target": "nr4a3",
+  "paralogues": [
+    "nr4a1",
+    "nr4a2"
+  ],
+  "feeds_scorer": "ensemble_robust_score",
+  "feeds_scorer_note": "per-(receptor, conformer) \u0394\u0394G endpoints feed ensemble_robust_score.robust_score / beats_benchmark / advancement_verdict. This map introduces NO new scorer.",
+  "denovo401_gets_abfe_not_rbfe": true,
+  "pilot_edge_id": "e_zaienne_cmpd19__cw_ev_5nh2",
+  "common_mode_assumption": "RBFE assumes both endpoints of an edge share the SAME binding mode so the common scaffold cancels. Edges exist ONLY between analogues sharing a binding-mode-preserving core (single-site swaps off the anchor). The 3-substituent (bioisostere/microstate 3-position) edges perturb the SAR-critical carboxylate H-bond and are flagged higher-risk: needs_pose_revalidation=true (an endpoint pose check gates trusting the \u0394\u0394G).",
+  "pose_uncertainty_caveat": "Compound 19 (the anchor) has NO solved NR4A3 cocrystal \u2014 only functional target engagement (SMRT/NCoR1 blockade). The binding pose, and with it the '5-position is the linker exit vector' assignment, are HYPOTHESES. This map therefore treats the binding pose as an ENSEMBLE input: every edge is scored across the conformer panel frames and NEVER against a single fixed pose. A per-edge result that holds only in one frame is treated as a geometry artefact (the |receptor effect| > |conformer effect| criterion in ensemble_robust_score.py).",
+  "selectivity_readout": "per edge, per conformer: \u0394\u0394G_bind(NR4A3 frame) \u2212 \u0394\u0394G_bind(paralogue frame). Rank by the WORST conformer; a preference is trusted only if |receptor effect| > |conformer effect| (ensemble_robust_score.receptor_vs_conformer).",
+  "receptor_frames_spec": {
+    "pilot": {
+      "nr4a3": [
+        "nr4a3_design:top_druggable_frame_1"
+      ]
+    },
+    "fleet": {
+      "nr4a3": [
+        "nr4a3_validation:8xtt_druggable_1",
+        "nr4a3_validation:8xtt_druggable_2",
+        "nr4a3_validation:8xtt_druggable_3",
+        "nr4a3_validation:release_heldout_rank4_6"
+      ],
+      "nr4a1": [
+        "nr4a1_antitarget:matched_open_frame"
+      ],
+      "nr4a2": [
+        "nr4a2_antitarget:matched_open_frame"
+      ]
+    },
+    "note": "strings name PANEL ROLES in nr4a3-conformer-panel.json; exact frame indices resolve at panel-build time from that panel's selection_rules / pocket_tracking.py (NOT hardcoded here)."
+  },
+  "microstate_policy": "the 7 microstate_ambiguous compounds run SEPARATE legs per dominant pH-7.4 species (both members of the ambiguous pair); charge-changing legs are flagged for the co-alchemical / analytical charge correction.",
+  "comparator_calibration": {
+    "nodes": [
+      "cw_cmp_denovo401",
+      "cw_cmp_denovo401_desmethyl",
+      "cw_cmp_denovo401_4f"
+    ],
+    "method": "ABFE (absolute) as SECONDARY calibration \u2014 NOT RBFE edges into the indole series.",
+    "reason": "denovo_401 comparators are a different scaffold; the RBFE common-mode assumption is invalid across scaffolds, so no RBFE edge connects them to the congeneric hub.",
+    "anchor_ref": "nr4a3_rbfe.py ANCHOR_401_ABFE (the existing denovo_401 ABFE anchor)."
+  },
+  "abort_criteria": {
+    "_meaning": "PRE-REGISTERED go/no-go thresholds decided a priori. The pilot edge must pass ALL of these on the single nr4a3_design frame BEFORE any fleet edge is scheduled. Failure => the RBFE-primary strategy is called into question on this dynamic, low-population cryptic pocket; do NOT fan out.",
+    "hysteresis_kcal_max": 0.5,
+    "hysteresis_note": "|\u0394G_forward \u2212 \u0394G_reverse| per alchemical leg; above this the morph has not converged.",
+    "cycle_closure_kcal_max": 1.0,
+    "cycle_closure_note": "|\u03a3 \u0394\u0394G around any closed cycle| must be ~0; above this = internally inconsistent maps.",
+    "mbar_overlap_min": 0.03,
+    "mbar_overlap_note": "minimum adjacent-lambda phase-space overlap; below this = insufficient window spacing.",
+    "pocket_survival_frac_min": 0.5,
+    "pocket_survival_note": "fraction of alchemical windows in which the HARMONIZED Pocket-5 lining (fixed lining set; fpocket 4.0; D*=0.53; pocket_tracking.py) remains DETECTED. Below this the cryptic pocket is collapsing during the alchemical MD.",
+    "pocket_volume_collapse": "if the Pocket-5 volume falls below the apo-open reference across >half the windows, the pocket is collapsing under the perturbation -> ABORT the fleet and reassess RBFE-primary (the pocket may be too transient for congeneric RBFE).",
+    "decision_rule": "pilot passes hysteresis AND mbar_overlap AND pocket_survival on one nr4a3_design frame => calibrate n_windows/GPU-h from it and schedule the fleet; pilot FAILS any => halt, the RBFE-primary premise is in doubt, escalate as a strategy fork (do not silently fan out).",
+    "all_values_status": "TBD-tunable design parameters; NOT results. No convergence is claimed."
+  },
+  "cost_note": "per-edge cost {n_windows, est_gpu_h} are TBD \u2014 calibrated from the pilot. The repo forbids trusting stub GPU-hour numbers.",
+  "cycles": [
+    {
+      "cycle_id": "cycle_exitvector_aniline",
+      "region": "star_5position",
+      "edge_ids": [
+        "e_zaienne_cmpd19__cw_ev_5nh2",
+        "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
+        "e_cw_ev_5nh2__cw_ms_5acetamido_ester"
+      ],
+      "constraint": "sum of signed \u0394\u0394G around the loop ~ 0",
+      "tol_kcal": 1.0
+    },
+    {
+      "cycle_id": "cycle_exitvector_ether",
+      "region": "star_5position",
+      "edge_ids": [
+        "e_zaienne_cmpd19__cw_ev_5oh",
+        "e_zaienne_cmpd19__cw_ev_5opropargyl",
+        "e_cw_ev_5oh__cw_ev_5opropargyl"
+      ],
+      "constraint": "sum of signed \u0394\u0394G around the loop ~ 0",
+      "tol_kcal": 1.0
+    },
+    {
+      "cycle_id": "cycle_3carbonyl",
+      "region": "star_3position",
+      "edge_ids": [
+        "e_zaienne_cmpd19__cw_ms_free_acid",
+        "e_zaienne_cmpd19__cw_bio_primary_amide",
+        "e_cw_ms_free_acid__cw_bio_primary_amide"
+      ],
+      "constraint": "sum of signed \u0394\u0394G around the loop ~ 0",
+      "tol_kcal": 1.0
+    }
+  ],
+  "summary": {
+    "n_nodes": 20,
+    "n_nodes_in_rbfe_map": 17,
+    "n_comparator_nodes": 3,
+    "n_edges": 19,
+    "edges_by_class": {
+      "exit_vector_sub": 8,
+      "bioisostere": 5,
+      "microstate_variant": 3,
+      "cycle_closure": 3
+    },
+    "edges_by_star": {
+      "star_5position": 11,
+      "star_3position": 8
+    },
+    "n_cycles": 3,
+    "n_microstate_legs_total": 27,
+    "n_edges_needing_pose_revalidation": 8
+  },
+  "nodes": [
+    {
+      "id": "zaienne_cmpd19",
+      "class": "anchor",
+      "smiles": "COC(=O)c1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 14,
+      "role": "RBFE hub (both stars root here)"
+    },
+    {
+      "id": "cw_ev_5nh2",
+      "class": "exit_vector_sub",
+      "smiles": "COC(=O)c1c[nH]c2ccc(N)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 14
+    },
+    {
+      "id": "cw_ev_5oh",
+      "class": "exit_vector_sub",
+      "smiles": "COC(=O)c1c[nH]c2ccc(O)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 14
+    },
+    {
+      "id": "cw_ev_5cooh",
+      "class": "exit_vector_sub",
+      "smiles": "COC(=O)c1c[nH]c2ccc(C(=O)O)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral_acid",
+        "anionic_carboxylate"
+      ],
+      "heavy_atoms": 16
+    },
+    {
+      "id": "cw_ev_5alkyne",
+      "class": "exit_vector_sub",
+      "smiles": "C#Cc1ccc2[nH]cc(C(=O)OC)c2c1",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 15
+    },
+    {
+      "id": "cw_ev_5ch2nh2",
+      "class": "exit_vector_sub",
+      "smiles": "COC(=O)c1c[nH]c2ccc(CN)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral_amine",
+        "cationic_ammonium"
+      ],
+      "heavy_atoms": 15
+    },
+    {
+      "id": "cw_ev_5opropargyl",
+      "class": "exit_vector_sub",
+      "smiles": "C#CCOc1ccc2[nH]cc(C(=O)OC)c2c1",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 17
+    },
+    {
+      "id": "cw_ev_5piperazine",
+      "class": "exit_vector_sub",
+      "smiles": "COC(=O)c1c[nH]c2ccc(N3CCNCC3)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral",
+        "cationic_monoprotonated"
+      ],
+      "heavy_atoms": 19
+    },
+    {
+      "id": "cw_ev_5pegamine",
+      "class": "exit_vector_sub",
+      "smiles": "COC(=O)c1c[nH]c2ccc(OCCOCCN)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral_amine",
+        "cationic_ammonium"
+      ],
+      "heavy_atoms": 20
+    },
+    {
+      "id": "cw_bio_primary_amide",
+      "class": "bioisostere",
+      "smiles": "NC(=O)c1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 13
+    },
+    {
+      "id": "cw_bio_nmethyl_amide",
+      "class": "bioisostere",
+      "smiles": "CNC(=O)c1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 14
+    },
+    {
+      "id": "cw_bio_tetrazole",
+      "class": "bioisostere",
+      "smiles": "Brc1ccc2[nH]cc(-c3nn[nH]n3)c2c1",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral",
+        "anionic_tetrazolate"
+      ],
+      "heavy_atoms": 15
+    },
+    {
+      "id": "cw_bio_acylsulfonamide",
+      "class": "bioisostere",
+      "smiles": "CS(=O)(=O)NC(=O)c1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral",
+        "anionic"
+      ],
+      "heavy_atoms": 17
+    },
+    {
+      "id": "cw_bio_hydroxamic",
+      "class": "bioisostere",
+      "smiles": "O=C(NO)c1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 14
+    },
+    {
+      "id": "cw_ms_free_acid",
+      "class": "microstate_variant",
+      "smiles": "O=C(O)c1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral_acid",
+        "anionic_carboxylate"
+      ],
+      "heavy_atoms": 13
+    },
+    {
+      "id": "cw_ms_carbinol",
+      "class": "microstate_variant",
+      "smiles": "OCc1c[nH]c2ccc(Br)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 12
+    },
+    {
+      "id": "cw_ms_5acetamido_ester",
+      "class": "microstate_variant",
+      "smiles": "COC(=O)c1c[nH]c2ccc(NC(C)=O)cc12",
+      "is_comparator": false,
+      "in_rbfe_map": true,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 17
+    },
+    {
+      "id": "cw_cmp_denovo401",
+      "class": "comparator",
+      "smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
+      "is_comparator": true,
+      "in_rbfe_map": false,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 22
+    },
+    {
+      "id": "cw_cmp_denovo401_desmethyl",
+      "class": "comparator",
+      "smiles": "C[C@@H](O)C(C)(C)C[C@H]1CC[C@@H]([C@H](CO)c2ccccc2)C1",
+      "is_comparator": true,
+      "in_rbfe_map": false,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 21
+    },
+    {
+      "id": "cw_cmp_denovo401_4f",
+      "class": "comparator",
+      "smiles": "COC[C@H](c1ccc(F)cc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
+      "is_comparator": true,
+      "in_rbfe_map": false,
+      "microstate_species": [
+        "neutral"
+      ],
+      "heavy_atoms": 23
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5nh2",
+      "perturbation": "5-Br -> 5-NH2 (neutral aryl amine; amide/urea vector)",
+      "single_site": true,
+      "n_atoms_changed": 2,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": {
+          "nr4a3": [
+            "nr4a3_design:top_druggable_frame_1"
+          ]
+        },
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": true,
+      "is_cycle_closure": false,
+      "cycle_id": "cycle_exitvector_aniline",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5oh",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5oh",
+      "perturbation": "5-Br -> 5-OH (neutral phenol; ether/carbamate vector)",
+      "single_site": true,
+      "n_atoms_changed": 2,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": "cycle_exitvector_ether",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5cooh",
+      "perturbation": "5-Br -> 5-COOH (amide-coupling vector; ionizable)",
+      "single_site": true,
+      "n_atoms_changed": 4,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral_acid",
+          "state_a": "neutral",
+          "state_b": "neutral_acid",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__anionic_carboxylate",
+          "state_a": "neutral",
+          "state_b": "anionic_carboxylate",
+          "net_charge_change": -1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5alkyne",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5alkyne",
+      "perturbation": "5-Br -> 5-C#CH (neutral terminal alkyne; click handle)",
+      "single_site": true,
+      "n_atoms_changed": 3,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5ch2nh2",
+      "perturbation": "5-Br -> 5-CH2NH2 (benzylic amine; basic/ionizable)",
+      "single_site": true,
+      "n_atoms_changed": 3,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral_amine",
+          "state_a": "neutral",
+          "state_b": "neutral_amine",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__cationic_ammonium",
+          "state_a": "neutral",
+          "state_b": "cationic_ammonium",
+          "net_charge_change": 1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5opropargyl",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5opropargyl",
+      "perturbation": "5-Br -> 5-O-CH2-C#CH (neutral propargyl ether)",
+      "single_site": true,
+      "n_atoms_changed": 5,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "med",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": "cycle_exitvector_ether",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5piperazine",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5piperazine",
+      "perturbation": "5-Br -> 5-piperazin-1-yl (linker node; basic/ionizable)",
+      "single_site": true,
+      "n_atoms_changed": 7,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "med",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__cationic_monoprotonated",
+          "state_a": "neutral",
+          "state_b": "cationic_monoprotonated",
+          "net_charge_change": 1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5pegamine",
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ev_5pegamine",
+      "perturbation": "5-Br -> 5-O-PEG2-NH2 (PEG-amine stub; basic/ionizable)",
+      "single_site": true,
+      "n_atoms_changed": 8,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "med",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral_amine",
+          "state_a": "neutral",
+          "state_b": "neutral_amine",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__cationic_ammonium",
+          "state_a": "neutral",
+          "state_b": "cationic_ammonium",
+          "net_charge_change": 1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "class": "bioisostere",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_bio_primary_amide",
+      "perturbation": "3-CO2Me -> 3-C(=O)NH2 (primary carboxamide)",
+      "single_site": true,
+      "n_atoms_changed": 3,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "med",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": "cycle_3carbonyl",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_bio_nmethyl_amide",
+      "class": "bioisostere",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_bio_nmethyl_amide",
+      "perturbation": "3-CO2Me -> 3-C(=O)NHMe (N-methyl carboxamide)",
+      "single_site": true,
+      "n_atoms_changed": 2,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "med",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_bio_tetrazole",
+      "class": "bioisostere",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_bio_tetrazole",
+      "perturbation": "3-CO2Me -> 3-(1H-tetrazol-5-yl) (anionic isostere)",
+      "single_site": true,
+      "n_atoms_changed": 9,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "high",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__anionic_tetrazolate",
+          "state_a": "neutral",
+          "state_b": "anionic_tetrazolate",
+          "net_charge_change": -1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_bio_acylsulfonamide",
+      "class": "bioisostere",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_bio_acylsulfonamide",
+      "perturbation": "3-CO2Me -> 3-C(=O)NHSO2Me (anionic acylsulfonamide)",
+      "single_site": true,
+      "n_atoms_changed": 7,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "high",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__anionic",
+          "state_a": "neutral",
+          "state_b": "anionic",
+          "net_charge_change": -1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_bio_hydroxamic",
+      "class": "bioisostere",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_bio_hydroxamic",
+      "perturbation": "3-CO2Me -> 3-C(=O)NHOH (hydroxamic acid)",
+      "single_site": true,
+      "n_atoms_changed": 4,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "high",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ms_free_acid",
+      "class": "microstate_variant",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ms_free_acid",
+      "perturbation": "3-CO2Me -> 3-CO2H (free acid; ionizable microstate pair)",
+      "single_site": true,
+      "n_atoms_changed": 1,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "high",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral_acid",
+          "state_a": "neutral",
+          "state_b": "neutral_acid",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "neutral__anionic_carboxylate",
+          "state_a": "neutral",
+          "state_b": "anionic_carboxylate",
+          "net_charge_change": -1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": "cycle_3carbonyl",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
+      "class": "microstate_variant",
+      "star": "star_3position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ms_carbinol",
+      "perturbation": "3-CO2Me -> 3-CH2OH (carbinol; drops the 3-carbonyl SAR)",
+      "single_site": true,
+      "n_atoms_changed": 4,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "high",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": null,
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
+      "class": "microstate_variant",
+      "star": "star_5position",
+      "node_a": "zaienne_cmpd19",
+      "node_b": "cw_ms_5acetamido_ester",
+      "perturbation": "5-Br -> 5-NHAc (neutral capped amide exit vector)",
+      "single_site": true,
+      "n_atoms_changed": 5,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": false,
+      "cycle_id": "cycle_exitvector_aniline",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester",
+      "class": "cycle_closure",
+      "star": "star_5position",
+      "node_a": "cw_ev_5nh2",
+      "node_b": "cw_ms_5acetamido_ester",
+      "perturbation": "5-NH2 -> 5-NHAc (acetylation; single-site)",
+      "single_site": true,
+      "n_atoms_changed": 3,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "low",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": true,
+      "cycle_id": "cycle_exitvector_aniline",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_cw_ev_5oh__cw_ev_5opropargyl",
+      "class": "cycle_closure",
+      "star": "star_5position",
+      "node_a": "cw_ev_5oh",
+      "node_b": "cw_ev_5opropargyl",
+      "perturbation": "5-OH -> 5-O-CH2-C#CH (O-propargylation; single-site)",
+      "single_site": true,
+      "n_atoms_changed": 3,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "med",
+      "needs_pose_revalidation": false,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral__neutral",
+          "state_a": "neutral",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": true,
+      "cycle_id": "cycle_exitvector_ether",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    },
+    {
+      "edge_id": "e_cw_ms_free_acid__cw_bio_primary_amide",
+      "class": "cycle_closure",
+      "star": "star_3position",
+      "node_a": "cw_ms_free_acid",
+      "node_b": "cw_bio_primary_amide",
+      "perturbation": "3-CO2H -> 3-C(=O)NH2 (acid->amide; single-site)",
+      "single_site": true,
+      "n_atoms_changed": 2,
+      "n_atoms_changed_note": "approximate heavy atoms in the alchemical region; authoritative value = RDKit/LOMAP MCS at build time",
+      "common_mode_risk": "high",
+      "needs_pose_revalidation": true,
+      "receptor_frames": {
+        "pilot": null,
+        "fleet": {
+          "nr4a3": [
+            "nr4a3_validation:8xtt_druggable_1",
+            "nr4a3_validation:8xtt_druggable_2",
+            "nr4a3_validation:8xtt_druggable_3",
+            "nr4a3_validation:release_heldout_rank4_6"
+          ],
+          "nr4a1": [
+            "nr4a1_antitarget:matched_open_frame"
+          ],
+          "nr4a2": [
+            "nr4a2_antitarget:matched_open_frame"
+          ]
+        }
+      },
+      "microstate_legs": [
+        {
+          "leg_id": "neutral_acid__neutral",
+          "state_a": "neutral_acid",
+          "state_b": "neutral",
+          "net_charge_change": 0,
+          "charge_change": false
+        },
+        {
+          "leg_id": "anionic_carboxylate__neutral",
+          "state_a": "anionic_carboxylate",
+          "state_b": "neutral",
+          "net_charge_change": 1,
+          "charge_change": true
+        }
+      ],
+      "is_pilot": false,
+      "is_cycle_closure": true,
+      "cycle_id": "cycle_3carbonyl",
+      "cost": {
+        "n_windows": null,
+        "est_gpu_h": null,
+        "status": "TBD \u2014 calibrate from the pilot; the repo forbids trusting stub GPU-hour numbers."
+      }
+    }
+  ]
+}

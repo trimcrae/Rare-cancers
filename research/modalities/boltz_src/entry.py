@@ -20,9 +20,15 @@ def main():
     ap.add_argument("--protac-smiles", default="")
     ap.add_argument("--binary-smiles", default="",
                     help="warhead SMILES → BINARY co-fold (NR4A-LBD + warhead), the AF3-class pose cross-check")
-    ap.add_argument("--control", action="store_true",
-                    help="control-only (no PROTAC); no-op flag so the SageMaker arg list is non-empty")
-    _a = ap.parse_args()
+    ap.add_argument("--control", nargs="?", const=True, default=False,
+                    help="control-only (no PROTAC); no-op sentinel so the SageMaker arg list is non-empty")
+    # parse_known_args (not parse_args): the spot-Training conversion routes `arguments` through SageMaker
+    # HYPERPARAMETERS, which cannot represent a bare store_true flag — a `--control` sentinel arrives as
+    # `--control true`. nargs="?" accepts that value, and parse_known_args tolerates any other stray
+    # hyperparameter-derived token instead of aborting the whole job (the 2026-07-11 ternary smoke failure).
+    _a, _unknown = ap.parse_known_args()
+    if _unknown:
+        print("[sagemaker] ignoring unrecognized args (hyperparameter round-trip): %s" % _unknown, flush=True)
     protac = _a.protac_smiles
     binary = _a.binary_smiles
 
