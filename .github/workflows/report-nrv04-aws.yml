@@ -53,5 +53,11 @@ jobs:
             echo "no change to report_nrv04.json"
           else
             git commit -m "NR-V04 ternary benchmark report (auto, from S3 ${{ inputs.output_prefix }})"
-            git push origin HEAD:${{ github.ref_name }}
+            # race-proof: another session/report may have pushed to the branch between checkout and push;
+            # rebase onto the latest ref and retry a few times before giving up.
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep 3
+            done
           fi
