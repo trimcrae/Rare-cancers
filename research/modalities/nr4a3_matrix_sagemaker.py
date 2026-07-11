@@ -37,10 +37,17 @@ def main():
     bucket = sess.default_bucket()
     here = os.path.dirname(os.path.abspath(__file__))
 
+    # Gate-2 published-chemistry benchmark: activate the verified-SMILES panel (nr4a3_matrix.py reads
+    # BENCHMARK_PANEL) when the output prefix marks a benchmark run, OR when BENCHMARK_PANEL is set explicitly.
+    proc_env = {}
+    if os.environ.get("BENCHMARK_PANEL") == "1" or "benchmark" in out_prefix.lower():
+        proc_env["BENCHMARK_PANEL"] = "1"
+        print("[submit] BENCHMARK_PANEL=1 -> appending the registry verified-SMILES Gate-2 panel", flush=True)
+
     proc = FrameworkProcessor(
         estimator_cls=PyTorch, framework_version="2.3", py_version="py311", role=role,
         instance_count=1, instance_type=instance, max_runtime_in_seconds=max_runtime,
-        base_job_name="nr4a3-matrix", sagemaker_session=sess,
+        base_job_name="nr4a3-matrix", sagemaker_session=sess, env=(proc_env or None),
     )
     inputs = [ProcessingInput(source=f"s3://{bucket}/{prefixes[t]}",
                               destination=f"/opt/ml/processing/input/{t}", input_name=t)

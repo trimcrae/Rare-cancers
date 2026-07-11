@@ -122,6 +122,31 @@ def box_for(conformer_pdb, resseqs, cv_residues, lbd_first):
     return center
 
 
+BENCHMARK_PANEL_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                    "published-chemistry-benchmark-panel.json")
+
+
+def _load_benchmark_panel(seen):
+    """Load the Gate-2 published-chemistry benchmark ligands (VERIFIED SMILES from the registry) as
+    (label, cid, smiles) tuples, skipping any label already docked. Returns (ligands, panel_meta) where
+    panel_meta = [{label, known_preference}]. Pure/CPU (reads a committed JSON; no network). Empty if the
+    panel file is absent (a bare-repo run stays functional)."""
+    try:
+        panel = json.load(open(BENCHMARK_PANEL_JSON))
+    except Exception:  # noqa — missing/invalid panel must not break an ordinary run
+        return [], []
+    out, meta = [], []
+    for lig in panel.get("ligands", []):
+        label, smi = lig.get("label"), lig.get("smiles")
+        cid = lig.get("inchikey") or "reg:" + str(label)
+        if not (label and smi) or (label, cid) in seen:
+            continue
+        out.append((label, cid, smi)); seen.add((label, cid))
+        meta.append({"label": label, "known_preference": lig.get("known_preference", "?"),
+                     "registry_confidence": lig.get("registry_confidence")})
+    return out, meta
+
+
 def main():
     res = {"_note": "NR4A family selectivity matrix: one library docked into the metad-OPENED pocket of "
                     "NR4A3/NR4A1/NR4A2 (state-matched). Cells (selectivity_fingerprint) are triage "
@@ -172,6 +197,15 @@ def main():
             if (label, cid) not in seen:
                 ligands.append((label, cid, smi)); seen.add((label, cid))
         res["candidate_source"] = "ChEMBL NR4A actives"
+        # Gate-2 published-chemistry benchmark: append the registry's VERIFIED-SMILES panel (THPN/TMPA —
+        # the NR4A1 discriminators whose ChEMBL NAME resolution is wrong). Names -> wrong structures, so the
+        # benchmark must use the InChIKey-cross-checked SMILES. Gated on BENCHMARK_PANEL so ordinary matrix
+        # runs are unaffected.
+        if os.environ.get("BENCHMARK_PANEL") == "1":
+            added, prefs = _load_benchmark_panel(seen)
+            ligands.extend(added)
+            res["candidate_source"] = f"ChEMBL NR4A actives + {len(added)} verified-SMILES benchmark ligands"
+            res["benchmark_panel"] = prefs
     if not ligands:
         res["_status"] = "no candidate ligands resolved"
         _write(res); return

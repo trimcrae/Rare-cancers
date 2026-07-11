@@ -1,0 +1,31 @@
+{
+  "_doc": "Gate-2 published-chemistry docking benchmark panel (master brief Phase 5 / section 11). VERIFIED isomeric SMILES from the published_warhead_registry (InChIKey-cross-checked) for the NR4A ligands whose ChEMBL NAME resolution is WRONG (THPN -> CHEMBL575966 MW361; C-DIMs conflated) or worth pinning. nr4a3_matrix.py appends these to the known-ligand dock set when BENCHMARK_PANEL=1, so the benchmark docks correct structures, not name mis-resolutions. Each ligand's known_preference is the paralogue engagement the docking should REPRODUCE for the model to be 'chemically supported' (Gate 2). The NR4A2 side (amodiaquine, chloroquine), cytosporone B (pan) and celastrol already dock correctly via nr4a3_dock.LIGAND_NAMES; here we add the NR4A1 discriminators that names get wrong.",
+  "version": "1.0.0",
+  "ligands": [
+    {
+      "label": "THPN_reg",
+      "smiles": "CCCCCCCCC(=O)c1cc(O)c(O)c(O)c1",
+      "inchikey": "NVFRHTFJDGAFQS-UHFFFAOYSA-N",
+      "known_preference": "NR4A1",
+      "evidence": "Nur77/NR4A1 LBD cocrystal (PDB 4JGV); crystallographic NR4A1 direct-binding anchor",
+      "registry_confidence": "high",
+      "note": "ChEMBL name 'THPN' mis-resolves (CHEMBL575966, MW 361); this SMILES is the InChIKey-verified 1-(3,4,5-trihydroxyphenyl)nonan-1-one (C15H22O4, 266.3)"
+    },
+    {
+      "label": "TMPA_reg",
+      "smiles": "CCCCCCCC(=O)c1cc(OC)c(OC)c(OC)c1CC(=O)OCC",
+      "inchikey": "WCYMJQXRLIDSAQ-UHFFFAOYSA-N",
+      "known_preference": "NR4A1",
+      "evidence": "Binds Nur77 (LKB1 axis); does NOT bind the Nurr1/NR4A2 LBD (Munoz-Tello 2021) -> NR4A1-vs-NR4A2 discriminator",
+      "registry_confidence": "high",
+      "note": "pinned to the verified structure for a clean NR4A1-leaning discriminator"
+    }
+  ],
+  "reference_set_via_ligand_names": {
+    "amodiaquine": "NR4A2/pan (direct Nurr1 LBD binder by NMR)",
+    "chloroquine": "NR4A2 (direct Nurr1 LBD binder by NMR)",
+    "cytosporone B": "pan-NR4A (binds Nur77 + Nurr1 LBD)",
+    "celastrol": "NR4A1 (NR-V04 warhead; reactive/covalent -> interpret with care)"
+  },
+  "gate2_verdict_rule": "Chemically SUPPORTED if docking distinguishes the NR4A1-anchored (THPN/TMPA) from the NR4A2-anchored (amodiaquine/chloroquine) ligands in the correct direction (NR4A1 ligands score better in the NR4A1 opened pocket than in NR4A2, and vice versa); INCONCLUSIVE if within docking noise; INCONSISTENT if reversed (brief 11.3). Docking dG is a triage prior, not affinity."
+}
