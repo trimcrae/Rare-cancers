@@ -112,9 +112,10 @@ def yaml_with_seed(proteins, ligand_smiles, seed):
     return t3.boltz_yaml(proteins, ligand_smiles)
 
 
-def run_ensemble(yaml_path, out_dir, seeds):
-    """Run Boltz on one system across N seeds (the ensemble). Returns {seed: returncode}. Each seed writes to
-    its own subdir so the poses/confidences don't overwrite. run_boltz already uses --no_kernels."""
+def run_ensemble(yaml_path, out_dir, seeds, diffusion_samples=1):
+    """Run Boltz on one system across N seeds (the ensemble). `diffusion_samples`>1 asks Boltz for MULTIPLE
+    poses per seed (all analyzed downstream — review fix 7, 'analyze all generated samples'). Returns
+    {seed: returncode}. Each seed writes to its own subdir. run_boltz already uses --no_kernels."""
     import subprocess
     import shutil
     res = {}
@@ -126,9 +127,24 @@ def run_ensemble(yaml_path, out_dir, seeds):
         os.makedirs(sdir, exist_ok=True)
         cmd = ["boltz", "predict", yaml_path, "--use_msa_server", "--out_dir", sdir,
                "--no_kernels", "--seed", str(s)]
+        if int(diffusion_samples) > 1:
+            cmd += ["--diffusion_samples", str(int(diffusion_samples))]
         print("  running:", " ".join(cmd), file=sys.stderr)
         res[s] = subprocess.run(cmd).returncode
     return res
+
+
+def load_negative_ligands():
+    """The RDKit-validated negative-control ligands from the spec (review fix 6): each MUST FAIL to form a
+    productive NR4A1 ternary. Returns {system_name: (smiles, label)}. Absent keys are skipped."""
+    with open(SPEC) as f:
+        neg = (json.load(f).get("control_ligand_negatives") or {})
+    out = {}
+    if neg.get("inactive_nrv04_protac", {}).get("smiles"):
+        out["neg_inactive"] = (neg["inactive_nrv04_protac"]["smiles"], "NR-V04 Hyp-epimer (VHL-inactive) PROTAC")
+    if neg.get("free_celastrol", {}).get("smiles"):
+        out["neg_celastrol"] = (neg["free_celastrol"]["smiles"], "free celastrol (no VHL recruiter)")
+    return out
 
 
 def _write(out):
@@ -152,9 +168,15 @@ def main():
                     help="comma-sep diffusion seeds = the ternary ENSEMBLE per system")
     ap.add_argument("--with-vbc", default=os.environ.get("WITH_VBC", "1"),
                     help="1 = include ElonginB/C with VHL (the functional VBC complex); 0 = VHL alone")
+    ap.add_argument("--diffusion-samples", default=os.environ.get("DIFFUSION_SAMPLES", "1"),
+                    help="Boltz poses generated per seed (>1 = analyze ALL poses; review fix 7)")
+    ap.add_argument("--negatives", action="store_true",
+                    help="also co-fold NR4A1+VHL with the negative controls (inactive Hyp-epimer PROTAC + free "
+                         "celastrol); each MUST FAIL to bridge NR4A1 (review fix 6)")
     args = ap.parse_args()
     seeds = [int(x) for x in str(args.seeds).split(",") if x.strip()]
     with_vbc = str(args.with_vbc).strip() not in ("0", "", "false", "no")
+    diffusion_samples = int(args.diffusion_samples)
 
     nrv04_smiles, nrv04_src = load_nrv04_smiles()
     control_only = args.control_only
@@ -218,23 +240,43 @@ def main():
         out["targets"][name] = {"accession": acc, "lbd_len": len(seq), "yaml": stem,
                                 "truth": TARGETS[name]["truth"]}
     out["ternary"] = {"complex": "NR4A-LBD + VHL(+VBC) + NR-V04", "n_seeds": len(seeds),
-                      "readouts": "interface area/complementarity, ligand-iPTM distribution across seeds, "
-                                  "linker strain, exposed Lys near VHL (ubiquitin reach), seed persistence; "
+                      "diffusion_samples": diffusion_samples,
+                      "readouts": "moiety-specific bridging (celastrol→NR4A + VH032→VHL) across seeds×poses, "
+                                  "wrong-end fraction, cutoff-sensitivity 4.0/4.5/5.0, leave-one-seed-out; "
                                   "compare NR4A1 vs NR4A2/NR4A3 (see nrv04-ternary-benchmark.json)"}
+
+    # (3) negative controls: NR4A1-LBD + VHL(+VBC) + {inactive Hyp-epimer PROTAC, free celastrol}. Each MUST
+    # FAIL to form a productive NR4A1 ternary (review fix 6). Written as extra systems neg_inactive/neg_celastrol.
+    negatives = load_negative_ligands() if args.negatives else {}
+    if negatives:
+        nseq = t3.lbd_seq(TARGETS["NR4A1"]["acc"], TARGETS["NR4A1"]["lo"], TARGETS["NR4A1"]["hi"])
+        nprot = [("A", nseq)] + e3
+        out["negative_controls"] = {}
+        for sysname, (smi, label) in negatives.items():
+            stem = "%s-nr4a1.yaml" % sysname
+            open(os.path.join(OUT_DIR, stem), "w").write(t3.boltz_yaml(nprot, smi))
+            out["negative_controls"][sysname] = {"label": label, "yaml": stem,
+                                                  "expected": "must NOT bridge NR4A1 (negative control)"}
     _write(out)
 
     if args.run:
         cy = os.path.join(OUT_DIR, "control-vhl-vh032.yaml")
         if os.path.exists(cy):
-            out["status"]["control_run"] = run_ensemble(cy, os.path.join(OUT_DIR, "control"), seeds)
+            out["status"]["control_run"] = run_ensemble(cy, os.path.join(OUT_DIR, "control"), seeds, diffusion_samples)
             _write(out)
         for name in targets:
             yml = os.path.join(OUT_DIR, "%s-nrv04-ternary.yaml" % name.lower())
             if os.path.exists(yml):
-                out["status"]["%s_run" % name] = run_ensemble(yml, os.path.join(OUT_DIR, name.lower()), seeds)
+                out["status"]["%s_run" % name] = run_ensemble(yml, os.path.join(OUT_DIR, name.lower()), seeds, diffusion_samples)
                 _write(out)
-    print("wrote %s (mode=%s, targets=%s, seeds=%s)" % (
-        os.path.join(OUT_DIR, "nrv04-ternary-prep.json"), out["mode"], targets, seeds))
+        for sysname in negatives:
+            yml = os.path.join(OUT_DIR, "%s-nr4a1.yaml" % sysname)
+            if os.path.exists(yml):
+                out["status"]["%s_run" % sysname] = run_ensemble(yml, os.path.join(OUT_DIR, sysname), seeds, diffusion_samples)
+                _write(out)
+    print("wrote %s (mode=%s, targets=%s, seeds=%s, diffusion_samples=%s, negatives=%s)" % (
+        os.path.join(OUT_DIR, "nrv04-ternary-prep.json"), out["mode"], targets, seeds, diffusion_samples,
+        list(negatives)))
 
 
 if __name__ == "__main__":
