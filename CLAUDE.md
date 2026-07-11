@@ -133,6 +133,27 @@ read it before making changes.
   genuinely **outward-facing / irreversible / expensive**, needs **access or data only trimcrae has**, or is a
   **real goal-changing decision** (per the autonomy rules above) — never merely because X is optional. When in
   doubt, do it and show it; a thing built is worth infinitely more than a thing offered.
+- **★★ EVERY HAND-OFF TO trimcrae STARTS WITH A COPYABLE REVIEWER-AI REVIEW BLOCK (trimcrae standing rule,
+  2026-07-11).** trimcrae routes work through a **more powerful, more expensive reviewer AI** as the final QA
+  before anything reaches him / goes outward. So **whenever you present next steps or a hand-off** — and
+  ALWAYS before any outward-facing/irreversible action (sending emails, cutting a release/DOI, publishing,
+  submitting) — the **first thing in your reply is a self-contained, copyable review-request block** that
+  trimcrae can paste straight to that reviewer AI to get its blessing or feedback (which he relays back to
+  you; fold it in before proceeding). Produce it **every time** there are next steps, not just big ones. The
+  block goes in a fenced code box and must carry **enough standalone context for an informed evaluation** —
+  the reviewer sees only what's in the block. Include, at minimum:
+  1. **Role + what to do** — "You are the final reviewer before an unaffiliated researcher (Tristan McRae)
+     acts. Approve, or return a specific list of fixes."
+  2. **Project + goal** — one paragraph (what the repo/effort is, the objective).
+  3. **What was done** — the concrete work/artifacts produced this round (with repo/PR/file paths).
+  4. **The exact proposed next action(s)** requiring sign-off (verbatim: which emails to whom, which release,
+     etc.), including anything permanent/outward-facing and why now.
+  5. **Known risks / uncertainties / judgment calls** — over-claim vs verification level, medical-integrity,
+     ethics/tone, scope of a DOI, anything you're unsure about — stated honestly, not hidden.
+  6. **Specific questions** you want the reviewer to answer, and a request to return either approval or an
+     itemised change list.
+  Keep it tight but complete; a reviewer with no other context should be able to judge it. After trimcrae
+  returns the verdict, apply the changes (self-doable) and only then proceed to the outward-facing step.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs

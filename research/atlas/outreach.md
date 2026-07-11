@@ -183,13 +183,26 @@ group → (3) escalate to the concrete validation/re-analysis offer only with th
 
 ## SEND RUNBOOK — exactly what you do next
 
-**Step 0 — Mint the credential (do this FIRST; ~1–2 hrs).**
-  1. Get a free **ORCID** at orcid.org; add it to `CITATION.cff` and `.zenodo.json` (both already have a TODO line).
-  2. **Cut a GitHub release** so Zenodo archives the repo and mints a **DOI** (see `deploy/release-doi.md`;
-     connect the repo in Zenodo's GitHub settings once, then publish a release). Use the DOI as `[DOI/LINK]`
-     everywhere below. If you'd rather not release the whole repo, make `trimcrae/rare-cancers` public and
-     link `research/atlas/` — but the DOI is the stronger signal.
-  3. Optional: render `collaborator-brief.md` to PDF to attach.
+**Step 0 — Mint the credential (do this FIRST; ~1 hr, mostly waiting). Exact steps:**
+  1. **Get an ORCID (5 min).** Go to https://orcid.org → "Register now" → fill name/email → you get an ID
+     like `0000-0002-1825-0097`. Copy it.
+  2. **Add the ORCID to the metadata (2 min).** In the repo, edit two files and uncomment/fill the ORCID line:
+     - `CITATION.cff` → under `authors:` set `orcid: "https://orcid.org/<your-id>"`
+     - `.zenodo.json` → (optional) add `"orcid": "<your-id>"` to the creator.
+     Commit to `main`. *(Tell me and I'll make this edit for you once you have the ID — it's self-doable for me.)*
+  3. **Connect Zenodo to GitHub (one-time, 5 min).** Sign in at https://zenodo.org **with GitHub** →
+     top-right menu → **GitHub** → find `trimcrae/Rare-cancers` in the repository list → flip the toggle
+     **ON**. (Only releases created *after* the toggle get a DOI.)
+  4. **Cut the release (5 min + a minute for Zenodo).** On GitHub: **Actions → "Release — citable roadmap
+     snapshot" → Run workflow**, from **`main`**, with a `version` like **`v2026.07.11`**. It tags the commit,
+     creates the GitHub Release, and Zenodo automatically archives it and mints a **DOI**. (Per
+     `deploy/release-doi.md`. This is permanent and outward-facing — a DOI can't be un-minted — so do it only
+     after the reviewer-AI sign-off below.)
+  5. **Grab the DOI** from the new Zenodo record and paste it as `[DOI/LINK]` in the emails.
+  6. *(Optional)* export `collaborator-brief.md` to PDF (any Markdown→PDF tool) to attach.
+  - *Alternative if you'd rather not mint a DOI yet:* make `trimcrae/rare-cancers` **public**
+    (GitHub → Settings → General → Change visibility) and link `research/atlas/` — weaker signal than a DOI,
+    but works.
 
 **Step 1 — Parallel track: most-receptive audiences + co-author hunt (week 1).**
   Send **Email A1** to the Rare Cancer Research Foundation (the model-generation lead) and **Email A2** to the
