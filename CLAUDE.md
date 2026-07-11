@@ -9,7 +9,17 @@ read it before making changes.
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;
   do not surface UTC or 24-hour time even if the tool/log emits it. (You keep slipping into UTC and 24-hour — this is why it's rule #1.)
-- **PRIMARY FOCUS (2026-06):** the repo's #1 priority is **publishing work that drives
+- **★ PRIMARY FOCUS (UPDATED 2026-07-11, trimcrae — SUPERSEDES the 2026-06 "two papers first" plan):**
+  the repo's #1 priority remains **advancing/publishing work that drives forward an EMC treatment**, but the
+  approach is **BROADENING**. The NR4A3-degrader and fusion-junction ASO papers **both hit major snags**, so
+  they are **no longer the first-in-line deliverables** (still active routes, NOT dead). The program now runs
+  on the **full multi-route EMC strategy**, anchored by the **EMC Open Target & Drug Atlas
+  ([research/atlas/](./research/atlas/))** — the integrating, provenance-checked evidence system that scores
+  every route (proteostasis-chromatin; fusion-subtype antiangiogenic biomarker; fusion-junction + lineage
+  antigens; direct fusion targeting) and drives **collaborator outreach** (strategy Phase B). Read
+  `research/atlas/README.md` + `STATUS.md` first when resuming treatment work. **The 2026-06 detail below is
+  retained FOR REFERENCE (route status), no longer "publish these two first":**
+- **[PRIOR 2026-06 detail — reference only]** the earlier plan: the repo's #1 priority is **publishing work that drives
   forward an EMC treatment**. **As of 2026-06-26 (trimcrae decision), the TWO papers to publish first are:**
   **(1)** the split-out, target-centric **NR4A3-degrader result paper** —
   **[research/manuscripts/nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md)**
@@ -91,6 +101,26 @@ read it before making changes.
   put them in one AskUserQuestion (up to 4) rather than trickling them out. Reserve the ask for true
   decisions — never for "is this okay?" on work you can just do and show. The failure mode this kills: doing
   one thing, then stopping to ask "what's next?" when there was a pile of obvious, free, warranted work left.
+- **★★ EXHAUST ALL SELF-DOABLE WORK *BEFORE* SURFACING ANYTHING — only come to trimcrae when COMPLETELY STUCK
+  and you have a concrete thing for THEM to do (trimcrae standing rule, 2026-07-11; sharpens the rule above).**
+  Before sending trimcrae *any* message, question, or status, ask: "is there anything at all I can still do
+  myself?" — build/fix/run/verify/commit/iterate/route-through-CI, chase the fix rather than reporting the
+  failure, try the next approach rather than asking which to try. **If yes, DO it first and do not surface.**
+  Only interrupt trimcrae when you are **genuinely, completely blocked** AND the thing that unblocks you is a
+  **specific action or decision that is theirs alone** (approve an outward-facing/irreversible step, resolve a
+  true strategic fork, authorize an expensive spend, provide access/data only they have). When that happens,
+  hand them a **concrete, ready-to-act choice** (`AskUserQuestion`, recommended-first) — not an open "what
+  next?", not a progress update, not an "is this okay?". A bare status report with nothing for them to decide
+  is a violation of this rule. Batch any real decisions into one ask and keep every other thread moving.
+  **★ A "which direction / what should I prioritise next?" question is NEVER a trimcrae decision when every
+  option on the table is work you could just do yourself — choosing the order of self-doable work IS
+  self-doable. Do NOT ask which to do: pick a sensible sequence and DO THEM ALL, then report what you did.**
+  (Example that triggered this rule: after finishing the atlas I asked trimcrae "outreach prep vs deepen vs
+  pivot?" — all three were things I could just do; the correct move was to do all of them.) A
+  direction/prioritisation call only rises to a real trimcrae decision if the options are **mutually
+  exclusive AND at least one is outward-facing / irreversible / expensive, or it changes the GOAL itself** —
+  not merely "which valuable thing first." Outreach *preparation* (drafting, tailoring, building the
+  materials) is self-doable and must just be done; only the outward-facing **act of sending** needs sign-off.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
@@ -177,6 +207,23 @@ read it before making changes.
   with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
   / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
   so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
+- **★ EGRESS-PROXY BLOCK IS NOT "INACCESSIBLE" — ROUTE THE FETCH THROUGH A CI RUNNER (trimcrae standing rule,
+  2026-07-11).** The dev sandbox's egress proxy **403s many data hosts at CONNECT** — NCBI/GEO, PMC,
+  EuropePMC, Springer, UniProt, and similar. When a `curl`/`urllib`/WebFetch to one of these fails with a
+  403/CONNECT-tunnel error, that is a **sandbox limitation, NOT a dead end** — do **NOT** report the data as
+  inaccessible, the verification as impossible, or fall back to abstract-only. **GitHub Actions runners have
+  unrestricted internet and are FREE — prefer them** (AWS jobs also work, use only if you already need AWS).
+  Pattern (verified 2026-07-11 for GEO reprocessing + EuropePMC full-text verification): (1) write a
+  **pure-stdlib** `urllib` script (no pip — matches the CPU-workflow convention); (2) add a
+  `workflow_dispatch` workflow (`permissions: contents: write`) that runs it and **commits the outputs back
+  to the triggering branch** (`git push origin HEAD:${{ github.ref_name }}`) or a cache branch; (3) dispatch
+  it (`mcp__github__actions_run_trigger`); (4) **poll the public Actions API with a `run_in_background` Bash
+  poller** (the self-wake rule above) and, on completion, `git pull` + integrate the raw outputs into the
+  interpreting artifact (add caveats, flip citation `verified` flags). **Exemplars to copy:**
+  `.github/workflows/atlas-data.yml` + `research/atlas/expression_reprocess.py` +
+  `research/atlas/fulltext_verify.py` (GEO/PMC); `.github/workflows/fusion-cpu-extras.yml` (older CPU-extras
+  pattern → `modalities-cache` branch). This is how EMC expression datasets and any PMID/PMCID full text get
+  verified to primary-source standard despite the proxy.
 - **GITHUB AUTH "EXPIRED" IS A FALSE ALARM — RETRY ON YOUR OWN, NEVER ESCALATE TO trimcrae (standing rule,
   2026-07-09).** When any `mcp__github__*` call returns "requires re-authorization / token expired" (or the
   harness reports the github server disconnected / needs auth), **assume YOU are wrong, not the token** — it
