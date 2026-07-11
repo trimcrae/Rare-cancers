@@ -194,6 +194,14 @@
     "inactive_vhl_recruiter_epimer": {
       "note": "NEGATIVE control \u2014 VH032 with the (2S,4R)->(2S,4S) 4-hydroxyproline EPIMER (the 'cis' isomer that does not bind VHL); as a PROTAC (celastrol-linker-epimer) it must NOT recruit VHL. Standalone epimer InChIKey JAHUHEDUDMTTTF-ROZPXGAXSA-N (same connectivity block as active VH032 ...-COWZOJLOSA-N, different stereo). The full inactive PROTAC = NR-V04 SMILES with the hydroxyproline stereocentre inverted.",
       "vh032_epimer_smiles": "CC(=O)N[C@@H](C(C)(C)C)C(=O)N1C[C@@H](O)C[C@H]1C(=O)N[C@@H](C)c1ccc(-c2scnc2C)cc1"
+    },
+    "inactive_nrv04_protac": {
+      "smiles": "CC1=C(O)C(=O)C=C2C1=CC=C1[C@@]2(C)CC[C@@]2(C)[C@@H]3C[C@](C)(C(=O)NCCOCCOCCOCCOCCC(=O)N[C@@H](C(C)(C)C)C(=O)N4C[C@@H](O)C[C@H]4C(=O)NCc4ccc(-c5scnc5C)cc4)CC[C@]3(C)CC[C@]12C",
+      "formula": "C62H87N5O11S",
+      "mw": 1110.5,
+      "inchikey": "ADEXNWCZOWYLJV-JZFJOJHNSA-N",
+      "role": "NEGATIVE control PROTAC \u2014 full NR-V04 with the 4-hydroxyproline epimerised (VHL-inactive cis); must NOT recruit VHL / must NOT form a productive NR4A1 ternary",
+      "provenance": "NR-V04 representative SMILES with the Hyp (2S,4R)->(2S,4S) stereocentre inverted; RDKit: same connectivity block as active NR-V04 (ADEXNWCZOWYLJV-WOMBUDSUSA-N), different stereo block"
     }
   }
 }
