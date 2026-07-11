@@ -27,11 +27,23 @@ def main():
 
     conda = shutil.which("conda") or "/opt/conda/bin/conda"
     print(f"[sagemaker] creating matrix env via {conda}", flush=True)
+    # smina (needs libboost <=1.82) and current rdkit (needs libboost >=1.86) can NO LONGER co-solve in one
+    # conda env (conda-forge drift, 2026-07 — the old single `mx` env now fails to solve). Split them: keep
+    # rdkit/mdtraj/fpocket in `mx`, put smina in its own `sm` env, and expose smina via a PATH wrapper that
+    # runs it inside `sm` (so it loads its own boost libs). nr4a3_matrix.py finds it via _which("smina").
     subprocess.run([conda, "create", "-y", "-n", "mx", "-c", "conda-forge",
-                    "python=3.11", "mdtraj", "fpocket=4.2.3", "smina", "rdkit", "biopython", "numpy",
+                    "python=3.11", "mdtraj", "fpocket=4.2.3", "rdkit", "biopython", "numpy",
                     "matplotlib-base"], check=True)
+    subprocess.run([conda, "create", "-y", "-n", "sm", "-c", "conda-forge", "smina"], check=True)
+    os.makedirs("/usr/local/bin", exist_ok=True)
+    wrapper = "/usr/local/bin/smina"
+    with open(wrapper, "w") as wf:
+        wf.write('#!/bin/bash\nexec %s run --no-capture-output -n sm smina "$@"\n' % conda)
+    os.chmod(wrapper, 0o755)
+    print(f"[sagemaker] smina wrapper -> {wrapper} (runs in env `sm`)", flush=True)
 
     env = os.environ.copy()
+    env["PATH"] = "/usr/local/bin:" + env.get("PATH", "")   # ensure the smina wrapper is discoverable
     env["INPUT_DIR"] = "/opt/ml/processing/input"     # holds nr4a3/ nr4a1/ nr4a2/ subdirs
     env["OUTPUT_DIR"] = OUT
     os.makedirs(OUT, exist_ok=True)
