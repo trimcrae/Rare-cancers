@@ -34,6 +34,22 @@ what this doc is for.**
 4. **Apply to ACCESS** in parallel (free national HPC; slower, needs affiliation) and burn any **$300 cloud
    trial credits** (Google/Oracle) opportunistically.
 
+## GCP GPU + region choice (recorded 2026-07-12; quota request kicked off ahead of need)
+
+**Cheapest GCP GPU for our MD/FEP = NVIDIA L4 on Spot**, region **us-central1** (Iowa, lowest-price US region).
+- **T4** is cheapest *per hour* (~$0.11/hr Spot, 16 GB) but slow (Turing) and 16 GB risks OOM on a solvated
+  complex → cheapest-per-hour, NOT cheapest-per-job.
+- **L4** (~$0.25–0.40/hr all-in Spot, 24 GB, Ada) is ~2–3× faster for MD, so *fewer billed hours* → usually the
+  cheapest **per finished job**, and 24 GB fits the complex leg comfortably. **Default = L4 Spot; T4 Spot as a
+  cheap fallback.** Confirm cheapest-per-ns with the smoke/pilot before committing a fleet. Always Spot
+  (preemptible) — our per-unit checkpointing makes preemption safe and Spot is 3–4× cheaper than on-demand.
+- **Quota to request** (Console → Quotas & System Limits, after upgrading OFF the free trial + enabling the
+  Compute Engine API): `Preemptible NVIDIA L4 GPUs` (us-central1) = 8, `Preemptible NVIDIA T4 GPUs`
+  (us-central1) optional, `GPUs (all regions)` ≥ 8. Justification = independent computational-chemistry
+  research, MD/FEP on checkpointed Spot GPUs. Small Spot requests approve in minutes–hours; large up to ~2 days.
+  **Step 0 gotcha:** GPU quota is denied on a pure trial account — must upgrade to full billing first ($300
+  credit still applies). The `gcp` backend defaults should target `us-central1` + L4 Spot to match this.
+
 ## ★★ COST WATERFALL — burn every free credit before paying a cent (POLICY — trimcrae, 2026-07-12)
 
 **Spend order is FREE-FIRST. Never pay a "cheap" provider (Vast/RunPod) while a free credit sits unused —
