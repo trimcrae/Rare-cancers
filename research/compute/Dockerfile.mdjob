@@ -1,0 +1,30 @@
+# Portable MD/FEP job unit — the SAME container runs on RunPod / Vast / Salad / Modal / a Slurm node.
+# It pulls inputs + prior checkpoints from the S3-compatible object store, runs the RBFE/FEP driver with
+# per-unit checkpointing (continuous upload), and is launched under autoteardown so the GPU is released on
+# completion / failure / timeout (no idle billing) regardless of provider.
+#
+# Build + push once to a registry (Docker Hub / GHCR); every provider pulls it. CUDA 12.x runs on the consumer
+# cards (RTX 3090/4090) the cheap providers offer as well as datacenter A10G/L4/A100.
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends git wget ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# Micromamba + the open MD stack (OpenMM/OpenFE/AmberTools/RDKit) — same env as the AWS jobs.
+RUN wget -qO /usr/local/bin/micromamba https://micro.mamba.pm/api/micromamba/linux-64/latest && \
+    chmod +x /usr/local/bin/micromamba
+ENV MAMBA_ROOT_PREFIX=/opt/mamba
+RUN micromamba create -y -p /opt/mamba/envs/fep -c conda-forge \
+        python=3.11 openmm openff-toolkit openfe ambertools rdkit boto3 && \
+    micromamba clean -a -y
+ENV PATH=/opt/mamba/envs/fep/bin:$PATH
+
+WORKDIR /work
+COPY research/modalities/ /work/research/modalities/
+
+# BACKEND selects the teardown behavior; the entrypoint wraps the real driver argv and guarantees teardown.
+# Object-store creds + endpoint come from env (OBJECT_STORE_ENDPOINT for R2/B2; AWS_* for S3).
+ENV BACKEND=runpod MAX_RUNTIME_S=72000
+ENTRYPOINT ["python", "/work/research/modalities/autoteardown.py"]
+# e.g. docker run ... <image> python /work/research/modalities/nr4a3_rbfe.py   (the FEP driver as the wrapped cmd)
+CMD ["python", "/work/research/modalities/nr4a3_rbfe.py"]

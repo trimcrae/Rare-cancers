@@ -65,6 +65,8 @@ _CAPS = {  # backend -> {gpu -> (vram_gb, approx_usd_per_hr)}   (usd = interrupt
                   "l40s": (48, 0.79), "a100": (80, 1.19)},
     "vast":      {"rtx4090": (24, 0.30), "rtx3090": (24, 0.22), "a10g": (24, 0.30), "a100": (80, 0.80)},
     "salad":     {"rtx4090": (24, 0.20), "rtx3090": (24, 0.12), "rtx4080": (16, 0.15)},  # crowd-sourced, cheapest
+    "modal":     {"l4": (24, 0.80), "a10g": (24, 1.10), "a100": (40, 2.10)},  # serverless premium, but auto-scales
+                 #                                                              to zero (no idle) + free monthly credits
     "access":    {"a100": (40, 0.0), "a10g": (24, 0.0), "l40s": (48, 0.0)},     # NSF allocation -> $0
     "slurm":     {"a100": (40, 0.0), "any": (24, 0.0)},                          # self-hosted / institutional
     "mock":      {"any": (24, 0.0)},
@@ -209,6 +211,29 @@ class SaladBackend(Backend):
         raise NotImplementedError
 
 
+class ModalBackend(Backend):
+    """Modal — SERVERLESS GPU (Python-native: decorate a function, .map() it over the work units). Per-second
+    billing and it **auto-scales to zero the instant a call returns**, so there is NO idle-GPU risk by design —
+    self_terminate_cmd is empty (managed). Per-GPU-hour price carries a serverless premium (higher than
+    Salad/Vast), but the combination of **free monthly credits + zero-idle + zero-ops + native fan-out** makes
+    it the best 'start here / run triage for free' option, and an excellent fit for our many-independent-window
+    FEP pattern. Submit is via the Modal SDK (a deployed function), not a VM."""
+    name = "modal"
+
+    def self_terminate_cmd(self):
+        return []                              # serverless: auto-scales to zero on return (no idle billing)
+
+    def submit(self, spec: JobSpec) -> Handle:
+        try:
+            import modal  # noqa: F401
+        except ImportError:
+            raise RuntimeError("modal backend needs the modal SDK + `modal token new` (create a Modal account).")
+        raise NotImplementedError("define a @app.function(gpu=...) and .spawn()/.map() the units at integration time")
+
+    def status(self, handle):
+        raise NotImplementedError
+
+
 # ---- mock backend (fully functional; for tests + dry runs) ------------------------------------------------
 
 class MockBackend(Backend):
@@ -233,7 +258,8 @@ class MockBackend(Backend):
         self._jobs[handle.job_id] = "completed" if ok else "failed"
 
 
-_REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend(), SaladBackend()]}
+_REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend(),
+                                 SaladBackend(), ModalBackend()]}
 
 
 def get_backend(name: str) -> Backend:

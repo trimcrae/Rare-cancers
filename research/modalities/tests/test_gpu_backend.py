@@ -13,9 +13,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
-    JobSpec, MockBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend, SlurmBackend,
-    VastBackend, get_backend, pick_cheapest,
+    JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
+    SlurmBackend, VastBackend, get_backend, pick_cheapest,
 )
+from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
 
 # ---- the anti-idle-GPU guarantee --------------------------------------------------------------------------
@@ -124,6 +125,26 @@ def test_mock_backend_lifecycle_and_resume_flag():
     assert be.status(h) == "running" and h.extra["resume"] is True
     be.complete(h, ok=True)
     assert be.status(h) == "completed"
+
+
+def test_modal_is_managed_no_idle_by_design():
+    # Modal is serverless: auto-scales to zero on return, so like SageMaker it needs no self-terminate.
+    assert ModalBackend().self_terminate_cmd() == []
+    assert ModalBackend().supports(ResourceSpec(gpu="a10g", min_vram_gb=24))
+
+
+# ---- object store (stateless-provider checkpoint bridge) --------------------------------------------------
+
+def test_object_store_uri_and_key_layout():
+    assert parse_uri("s3://bkt/run/ckpt") == ("bkt", "run/ckpt")
+    assert parse_uri("r2://bkt/x/y") == ("bkt", "x/y")            # any S3-compatible scheme
+    assert checkpoint_key("run/ckpt", "window_03") == "run/ckpt/units/window_03.ckpt"
+
+
+def test_completed_units_drives_resume():
+    prefix = "run/ckpt"
+    keys = [checkpoint_key(prefix, "w0"), checkpoint_key(prefix, "w1"), "run/ckpt/other.log"]
+    assert completed_units(keys, prefix) == {"w0", "w1"}          # resume skips these; ignores non-unit objects
 
 
 def test_get_backend_unknown_raises():
