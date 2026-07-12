@@ -69,6 +69,34 @@ structures/microstates/transformations/replica-count/λ-schedule are frozen (mus
 placeholder); **no production GPU authorized**; **no further scientific check-in required** for these no-spend
 steps once the fixes pass (they do).
 
+### Reviewer round 3 (conditional approval, 2026-07-12) — ALL 7 REQUIREMENTS APPLIED ✅
+The reviewer conditionally approved A′/B/C and required 7 changes; all applied + tested (**652-test suite,
+0 failures**):
+- **Req 1 (numeric α frozen):** Supplementary Table 1 values from Nat Commun 2025 (PMC12480974) frozen in
+  `candidate_systems` — P1 93±41 (9HYN), P2 4.1±1.8 (**7Z77**), P3 5.0±3.5 (9HYB), P4 1.3±0.4 (9HYO),
+  P5 0.6±0.3 (9HYP); SI PDF checksummed; a test recomputes P5 α from its 98/160 nM IC50s.
+- **Req 2:** exact-permutation τ-b reporter + prespecified ordinal tiers P1>{P2,P3}>P4>P5 (robustness only;
+  numeric α stays primary; gate NOT amended to ordinal-only).
+- **Req 3 (sign convention, critical):** gate converts predicted ΔG_coop→α via −RT ln α before τ-b; sign-flip
+  fails; predicted_alpha/ΔG_coop sign disagreement flagged — hard invariant tests.
+- **Req 4:** observable labeled apparent α_TR-FRET = IC50(binary)/IC50(ternary) (not Kd-derived); P5 text
+  (~0.2) vs table (0.6) discrepancy recorded; MM-GBSA-no-correlation narrowed to this dataset+protocol;
+  bands NOT retuned post-hoc.
+- **Req 5 (Plan B):** `ternary_coop_io.py` integration boundary (schemas + env/FF lock + system/ligand hashes
+  + artifact manifest + sign/unit validation + mocked artifact test + STUB-fails-in-execution); production MD
+  engine + submitter DEFERRED until an executable MD env exists.
+- **Req 6 (Plan C):** `rbfe_pilot.docking_preflight()` — the pre-registered pose/microstate preflight
+  (construct frozen, repairs/protonation documented, ligand states enumerated, identical grid, MCS≥0.70,
+  atom-map/param ok, no unresolved net-charge change, minimization without severe strain); output = INPUT
+  STAGING only; 5-Br→5-NH2 flagged NOT gentle.
+- **Req 7:** `cycle_closure_stance` — per-compound ddG_coop computed independently (not a P1-P5 edge tree);
+  pilot hi-vs-lo preregistered nonredundant (no cycle-closure claim); redundant edge required before any
+  relative-edge calibration network.
+**Remaining to complete the SCORED panel** (systems/expected_system_ids still empty): MZ1/BRD4-VHL numeric α
+(Gadd 2017) + a verified inactive stereo control — both need the same primary-SI transcription the reviewer
+did for SMARCA2 (their α also sit in figures/SI). The docking job (Plan C) + the MD engine (Plan B) are the
+next execution steps once an MD env / receptor staging is available.
+
 ### Session progress on the 3 approved no-spend builds (2026-07-12)
 **Testable pure cores for all three tracks are BUILT + committed** (81 tests across the ternary-coop modules;
 full modalities suite 607+ passing):
