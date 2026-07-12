@@ -208,20 +208,24 @@ def main():
         # receptor tag defaults to nr4a3 (RBFE's RECEPTOR); override via DOCKED_RECEPTOR.
         rcpt = os.environ.get("DOCKED_RECEPTOR", "nr4a3")
         combined = os.path.join(OUT, f"docked_{rcpt}.sdf")
+        # Use RDKit's SDWriter (mx env has rdkit) to emit a VALID multi-record SDF with each pose's _Name set,
+        # so the RBFE engine resolves each pose by name AND SMILES. (A prior hand-rolled string concat corrupted
+        # the 2nd record -> the engine only saw the 1st ligand.)
+        from rdkit import Chem
         n_written = 0
-        with open(combined, "w") as cf:
-            for label in [b for b in by_label]:
-                pose = os.path.join(OUT, f"_pose_{label}.sdf")
-                if not os.path.exists(pose):
+        w = Chem.SDWriter(combined)
+        for label in [b for b in by_label]:
+            pose = os.path.join(OUT, f"_pose_{label}.sdf")
+            if not os.path.exists(pose):
+                continue
+            for mol in Chem.SDMolSupplier(pose, removeHs=False, sanitize=False):
+                if mol is None:
+                    print(f"[repurpose] KEEP_POSES WARN: unparseable pose record in {pose}", flush=True)
                     continue
-                for blk in open(pose).read().split("$$$$"):
-                    blk = blk.strip("\n")
-                    if not blk.strip():
-                        continue
-                    lines = blk.split("\n")
-                    lines[0] = label                 # set the SDF title -> RBFE resolves the pose by _Name
-                    cf.write("\n".join(lines) + "\n$$$$\n")
-                    n_written += 1
+                mol.SetProp("_Name", label)
+                w.write(mol)
+                n_written += 1
+        w.close()
         print(f"[repurpose] KEEP_POSES: wrote {combined} ({n_written} pose record(s)) for RBFE staging",
               flush=True)
     print(f"[repurpose] {TAG} DONE {len(todo)} drugs in {time.time() - t0:.0f}s", flush=True)
