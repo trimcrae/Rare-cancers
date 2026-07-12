@@ -42,8 +42,15 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "layer1-vhl-dossi
 # ------------------------------------------------------------------------------------------------------------
 CANDIDATES = [
     {"id": "mz1_brd4_vhl", "expected_class": "cooperative", "independent_vhl": True, "is_mz1": True,
-     "search": {"rcsb_text": "MZ1 BRD4 VHL ternary", "europepmc": "MZ1 BRD4 VHL cooperativity ternary Gadd Ciulli"},
-     "note": "independent VHL transfer control; solved cooperative VHL-BRD4 ternary (Gadd et al. 2017 Nat Chem Biol)."},
+     "search": {"rcsb_text": "MZ1 BRD4 VHL ternary 5T35",
+                "europepmc": "MZ1 BRD4 BET VHL structural basis PROTAC ternary cooperativity Gadd 2017 Nature Chemical Biology"},
+     "note": "independent VHL transfer control; solved cooperative VHL-BRD4(BD2) ternary, PDB 5T35 (Gadd et al. "
+             "2017 Nat Chem Biol). Numeric alpha in that paper's ITC/SI -> archive for reviewer transcription."},
+    {"id": "vhl_inactive_stereo_control", "expected_class": "inactive_control", "independent_vhl": False, "is_mz1": False,
+     "search": {"rcsb_text": "VHL PROTAC inactive cis hydroxyproline epimer diastereomer",
+                "europepmc": "VHL PROTAC inactive cis-hydroxyproline epimer diastereomer negative control ternary cooperativity"},
+     "note": "the >=1 inactive stereo control the composition gate needs — a cis-Hyp (VHL-inactive) epimer that "
+             "must be predicted non-competent. Archive the primary source; transcribe its status for the panel."},
     {"id": "smarca2_vhl_series", "expected_class": "mixed_panel", "independent_vhl": False, "is_mz1": False,
      "search": {"rcsb_text": "SMARCA2 bromodomain VHL PROTAC ternary",
                 "europepmc": "SMARCA2 VHL PROTAC cooperativity ternary Farnaby Ciulli"},
