@@ -54,3 +54,13 @@ def test_cooperativity_snippets_pure_extraction():
 def test_cooperativity_snippets_empty_on_none():
     assert f.cooperativity_snippets(None) == []
     assert f.cooperativity_snippets("") == []
+
+
+def test_extract_tables_preserves_rows():
+    xml = ("<table-wrap><label>Table 1</label><caption><p>Cooperativity of PROTACs</p></caption>"
+           "<table><tr><th>PROTAC</th><th>alpha</th></tr><tr><td>P1</td><td>42</td></tr>"
+           "<tr><td>P5</td><td>0.3</td></tr></table></table-wrap>")
+    t = f.extract_tables(xml)
+    assert len(t) == 1
+    assert "P1 | 42" in t[0] and "P5 | 0.3" in t[0]
+    assert f.extract_tables(None) == [] and f.extract_tables("<article>no tables</article>") == []

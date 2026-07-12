@@ -140,6 +140,30 @@ _COOP_TERMS = ("cooperativ", "α", "alpha", " ITC", "isothermal titration",
                "ternary", "K_d", "Kd ", " Kd", "dissociation constant", "positive coopera", "negative coopera")
 
 
+def extract_tables(xml, max_tables=8, max_len=4000):
+    """Pull <table-wrap> regions from full-text XML with cell text preserved row-wise (measured alpha values
+    for a PROTAC series live in a table; the generic snippet stripper flattens them). Rows are '|'-joined so
+    a curator can read 'P1 | <alpha> | ...'. Capped. Returns [] if no tables."""
+    if not xml:
+        return []
+    import re
+    out = []
+    for tw in re.findall(r"<table-wrap\b.*?</table-wrap>", xml, flags=re.S | re.I)[:max_tables]:
+        label = re.search(r"<label>(.*?)</label>", tw, flags=re.S | re.I)
+        caption = re.search(r"<caption>(.*?)</caption>", tw, flags=re.S | re.I)
+        rows = []
+        for tr in re.findall(r"<tr\b.*?</tr>", tw, flags=re.S | re.I):
+            cells = re.findall(r"<t[hd]\b.*?</t[hd]>", tr, flags=re.S | re.I)
+            cells = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip() for c in cells]
+            if any(cells):
+                rows.append(" | ".join(cells))
+        def _strip(m):
+            return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", m.group(1))).strip() if m else ""
+        block = {"label": _strip(label), "caption": _strip(caption)[:400], "rows": rows}
+        out.append(json.dumps(block)[:max_len])
+    return out
+
+
 def cooperativity_snippets(xml, max_snips=40, window=240):
     """Extract short text passages around cooperativity/ITC/alpha mentions from full-text XML (crude tag-strip;
     the goal is human-readable snippets to CURATE measured alpha from, NOT an automated alpha parse). Returns a
@@ -188,8 +212,9 @@ def build_dossier():
         for p in (papers if isinstance(papers, list) else []):
             xml = europepmc_fulltext(p.get("pmcid"))
             p["fulltext_xml_available"] = xml is not None
-            # pull cooperativity/ITC/alpha snippets for curation (only for OA full text we can read)
+            # pull cooperativity/ITC/alpha snippets + TABLES for curation (only OA full text we can read)
             p["cooperativity_snippets"] = cooperativity_snippets(xml) if xml else []
+            p["tables"] = extract_tables(xml) if xml else []
         out["candidates"].append({
             "id": c["id"], "expected_class": c["expected_class"],
             "independent_vhl": c["independent_vhl"], "is_mz1": c["is_mz1"], "note": c["note"],
