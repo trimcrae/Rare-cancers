@@ -36,6 +36,12 @@ what this doc is for.**
 
 ## GCP GPU + region choice (recorded 2026-07-12; quota request kicked off ahead of need)
 
+> **STATUS 2026-07-12:** trimcrae requested **4× Preemptible L4 + 4× Preemptible T4** (us-central1), pending
+> approval. 4 concurrent is enough for the pilot + early bulk triage; bump to 8 later if the campaign grows
+> (follow-up increases approve faster once the first grant lands). When approved → wire the `gcp` adapter's
+> launch/teardown, then GCP is live and first in line under the free-first waterfall.
+
+
 **Cheapest GCP GPU for our MD/FEP = NVIDIA L4 on Spot**, region **us-central1** (Iowa, lowest-price US region).
 - **T4** is cheapest *per hour* (~$0.11/hr Spot, 16 GB) but slow (Turing) and 16 GB risks OOM on a solvated
   complex → cheapest-per-hour, NOT cheapest-per-job.
