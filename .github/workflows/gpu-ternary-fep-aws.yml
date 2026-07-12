@@ -1,0 +1,70 @@
+name: GPU — Ternary cooperativity FEP (Track B pilot) AWS spot fleet
+
+# Relative-alchemical ternary-COOPERATIVITY pilot (OpenFE): the frozen $200-cap bundle — calib hi→lo +
+# NR-V04 active→epimer, in binary VHL and ternary (SMARCA2 / NR4A1), ≥3 replicas each (prereg
+# nr4a3-ternary-coop-prereg.json → budget.ternary_pilot).
+#   plan   (default) : DRY RUN — tcoop.plan() $200-cap forecast + leg×replica launch list. No spend, no GPU.
+#   smoke            : ONE tiny spot job — openfe env solve + ternary assembly + atom-map + hybrid-topology build.
+#   run              : launch the pilot legs × replicas as spot Training jobs. GATED — ternary pilot is
+#                      authorized under the $200 cap; pilot-one-leg-first (ONLY_LEGS to one binary leg,
+#                      N_REPLICAS=1) then the bundle. Wait out spot capacity (never on-demand).
+#   reduce           : CPU — binary-vs-ternary cooperativity cycle + replicate-SD errors + NR-V04 margins.
+#   jobs | tracelog | stop : liveness / failure-trace / kill diagnostics.
+# REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN (Training + spot quota).
+# NOTE: a brand-new workflow is only API-dispatchable once it exists on the DEFAULT branch — merge to main
+#       first (or run via an already-on-main workflow with ref=<branch>).
+# DEPENDS ON staged inputs at s3://<bucket>/<ternary_prefix>/<leg_id>/{complex.pdb,ligands.sdf} — the assembled
+#       E3[+target] co-fold starting structures + posed PROTAC morph endpoints (from the co-fold benchmark).
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:        { description: "plan | smoke | run | reduce | jobs | tracelog | stop", default: "plan", required: true }
+      tag:         { description: "S3 checkpoint tag/prefix", default: "nr4a3-ternary-coop-pilot", required: false }
+      ternary_prefix: { description: "S3 prefix with <leg_id>/complex.pdb + ligands.sdf", default: "nr4a3-ternary-coop-inputs", required: false }
+      only_legs:   { description: "comma-sep leg-id substring subset (pilot-one-leg-first, e.g. nrv04_active_to_epimer__binary_vhl)", default: "", required: false }
+      n_windows:   { description: "λ-windows over the A→B morph", default: "16", required: false }
+      n_replicas:  { description: "independent replicas per leg (prereg min 3)", default: "3", required: false }
+      directions:  { description: "fwd or 'fwd,rev' (rev adds a forward/reverse hysteresis leg)", default: "fwd", required: false }
+      job:         { description: "tracelog: exact SageMaker job name (blank = latest Failed)", default: "", required: false }
+      spot:        { description: "1 = managed spot", default: "1", required: false }
+      instance:    { description: "SageMaker GPU instance", default: "ml.g5.xlarge", required: false }
+      region:      { description: "AWS region", default: "us-east-2", required: false }
+      git_ref:     { description: "repo ref the job clones + runs", default: "main", required: false }
+
+permissions:
+  contents: read
+
+jobs:
+  ternary-fep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install "sagemaker>=2.200,<3" boto3 rdkit
+      - name: Dispatch ternary-FEP ${{ inputs.mode }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          SAGEMAKER_ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+          MODE: ${{ inputs.mode }}
+          TERNARY_TAG: ${{ inputs.tag }}
+          TERNARY_PREFIX: ${{ inputs.ternary_prefix }}
+          ONLY_LEGS: ${{ inputs.only_legs }}
+          N_WINDOWS: ${{ inputs.n_windows }}
+          N_REPLICAS: ${{ inputs.n_replicas }}
+          DIRECTIONS: ${{ inputs.directions }}
+          TERNARY_JOB: ${{ inputs.job }}
+          SPOT: ${{ inputs.spot }}
+          INSTANCE: ${{ inputs.instance }}
+          GIT_REF: ${{ inputs.git_ref }}
+        run: |
+          if [ "$MODE" != "plan" ] && [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::Add AWS secrets first (or use mode=plan)."; exit 1
+          fi
+          if [ "$MODE" = "run" ]; then
+            echo "::warning::mode=run launches the spot ternary-coop fleet — pilot is authorized under the \$200 cap; pilot-one-leg-first."
+          fi
+          python research/modalities/nr4a3_ternary_fep_sagemaker.py

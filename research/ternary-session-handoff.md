@@ -162,13 +162,24 @@ runnable as-is** — all three are free engineering; **do NOT dispatch a GPU spe
    endpoint poses, then `MODE=plan` (pure-local, no spend — calls `rb.edge_plan(...)` + `_cost_note()`), then
    the single-edge real run. Abort criteria already frozen (hysteresis ≤0.5; overlap ≥0.03; cycle closure ≤1.0;
    Pocket-5 survival ≥50%).
-2. **The physics ternary-cooperativity harness does NOT exist.** Every `*ternary*` script (`nr4a3_ternary.py`,
-   `nrv04_ternary.py`, `nr4a3_ternary_sagemaker.py`) is **Boltz co-fold only** (architecture) — no alchemical
-   binary-vs-ternary FEP engine. Build one (mirror `nr4a3_fep_sagemaker.py`/`nr4a3_rbfe_sagemaker.py` spot +
-   per-window-checkpoint plumbing) implementing `ΔΔG_coop = ΔΔG_alch,ternary − ΔΔG_alch,binary`. The ternary
-   `MODE=plan` for the $200 bundle (prereg §5b; frozen legs `vhl_calib_hi_coop`/`vhl_calib_lo_coop`/
-   `nrv04_active_binary_vhl`/`nrv04_epimer_binary_vhl`/`nrv04_active_nr4a1_ternary`/`nrv04_epimer_nr4a1_ternary`)
-   is gated on freezing the exact Layer-1 pair (item 3) — so item 3 is its critical path.
+2. **The physics ternary-cooperativity harness is now BUILT (2026-07-12) — pending a GPU smoke + staged inputs.**
+   `nr4a3_ternary_fep.py` (engine, mirrors `nr4a3_rbfe.py`; reuses its OpenMM-platform/LOMAP/pose helpers),
+   `sagemaker_src/entry_ternary_fep.py` (spot Training entry, same openfe env), `nr4a3_ternary_fep_sagemaker.py`
+   (fan-out submitter: 4 frozen legs + 2 derived shared-solvent legs × ≥3 replicas; `MODE=plan/smoke/run/reduce/
+   jobs/tracelog/stop` + the `tcoop.plan()` $200-cap preflight), `ternary_fep_reduce.py` (binary-vs-ternary
+   cycle `ΔΔG_coop = ΔΔG_alch,ternary − ΔΔG_alch,binary` with **solvent cancellation**, replicate-SD + t-CI,
+   NR-V04 margins → `ternary_coop_io` records), `.github/workflows/gpu-ternary-fep-aws.yml`, and
+   `tests/test_nr4a3_ternary_fep.py` (13 tests; 109 pass total). Still to run/resolve before any number is
+   trusted: (a) a GPU `MODE=smoke` (openfe env + ternary assembly + hybrid-topology build) then a single real
+   pilot leg; (b) **staged inputs** at `s3://<bucket>/<ternary_prefix>/<leg_id>/{complex.pdb,ligands.sdf}` — the
+   assembled E3[+target] co-fold starting structures + posed PROTAC morph endpoints (from the co-fold benchmark);
+   (c) item 3 — the calib morph endpoints stay `pending` until the Layer-1 hi/lo pair is frozen (Boltz co-fold
+   is single-source biology via `nrv04_ternary`). **NOTE:** at the STUB `unit_gpu_h=3.0`, the frozen 16-window ×
+   3-replica bundle forecasts ~$288 (over the $200 cap) → the preflight correctly says STOP; the honest
+   resolution is to calibrate `unit_gpu_h` on the first real leg (the stub is likely an over-estimate) and/or
+   right-size windows — NOT to drop replicas/convergence. The remaining `*ternary*` scripts (`nr4a3_ternary.py`,
+   `nrv04_ternary.py`, `nr4a3_ternary_sagemaker.py`) stay **Boltz co-fold only** (architecture triage), as
+   designed.
 3. **Layer-1 VHL calibration panel provenance = unfilled Stage-0 blocker AND the ternary-plan critical path.**
    `prereg.json → calibration.layer1_vhl_panel.{systems,expected_system_ids}: []`. Curate the SMARCA2-VHL series
    (+ an independent VHL system, **MZ1/BRD4 preferred**) compound IDs + PDB IDs + **measured α** from primary

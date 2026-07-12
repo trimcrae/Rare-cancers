@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+"""Ternary-COOPERATIVITY compute engine (Track B) — relative-alchemical morph in a binary vs ternary environment.
+
+Runs ONE (leg, replica) alchemical MORPH (A→B) of a PROTAC/degrader analogue pair in ONE environment via OpenFE
+(RelativeHybridTopologyProtocol) — the same validated hybrid-topology + LOMAP + MBAR machinery the binary RBFE
+engine (nr4a3_rbfe.py) uses, so we do NOT hand-roll dual-topology soft-core. The ONLY differences vs the binary
+RBFE are (1) the chemical system is an E3-machinery assembly (VHL + Elongin B/C [+ target LBD]) rather than a
+single receptor, and (2) three environments are supported per morph:
+
+    solvent      : ligand in water (the shared morph reference; cancels in the coop cycle but makes each
+                   environment's ddG a proper RELATIVE BINDING free energy → the recruitment read-out is defined)
+    binary_<e3>  : E3 machinery + PROTAC, NO target  (ddG_alch,binary)
+    ternary_<t>  : E3 machinery + target LBD + PROTAC (ddG_alch,ternary)
+
+Cooperativity is then the binary-vs-ternary cycle (ternary_coop.ddg_coop; prereg §1):
+    ddG_alch,binary  = ΔG_binary_morph  − ΔG_solvent_morph
+    ddG_alch,ternary = ΔG_ternary_morph − ΔG_solvent_morph
+    ddG_coop         = ddG_alch,ternary − ddG_alch,binary        (= ΔG_ternary_morph − ΔG_binary_morph)
+The reducer (ternary_fep_reduce.py) forms these from the per-leg checkpoints across ≥3 replicas (replicate-SD
+error, per prereg — NOT MBAR SE) and emits records the ternary_coop_io schema + ternary_coop_gate consume.
+
+HONESTY / SHAKEOUT (standing rules). This engine cannot run in the dev sandbox (no OpenFE/OpenMM) — heavy deps
+import lazily so the file loads on CPU for the pure leg-planning helpers + tests. It is UNVALIDATED until a GPU
+`mode=smoke` (env solve + assembly + mapping + hybrid-topology build, no MD) then a single real pilot leg pass.
+No α/ΔG/GPU-hour is asserted here. Starting structures (the assembled complex PDBs + posed PROTAC SDFs) are
+staged inputs produced upstream by the co-fold benchmark (nrv04_ternary.py); the calibration morph endpoints
+stay `pending` until the Layer-1 calib pair is frozen (no fabrication).
+
+Env: MODE (smoke|run|reduce), LEG_ID (a frozen/derived pilot leg id), SEED (replica index), DIRECTION
+(fwd|rev), N_WINDOWS, N_ITER, INPUT_DIR (mounts <leg>/complex.pdb + <leg>/ligands.sdf), OUTPUT_DIR/CKPT_DIR.
+"""
+import glob
+import json
+import os
+import sys
+
+import ternary_coop as tcoop
+import ternary_coop_prep as prep
+
+# Reuse the binary RBFE engine's hard-won, GPU-validated low-level helpers (single source of truth for the
+# OpenMM platform probe, LOMAP/Kartograf mapping, and docked-pose repair — all pose/engine logic, no ligand
+# identity baked in). Importing is CPU-safe: nr4a3_rbfe imports openfe lazily inside its functions.
+import nr4a3_rbfe as rbfe
+
+IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
+CKPT = os.environ.get("CKPT_DIR", os.environ.get("OUTPUT_DIR", "/opt/ml/checkpoints"))
+LEG_ID = os.environ.get("LEG_ID", "nrv04_active_to_epimer__binary_vhl")
+SEED = int(os.environ.get("SEED", "0"))
+DIRECTION = os.environ.get("DIRECTION", "fwd")        # rev = B→A, for a forward/reverse hysteresis check
+N_WINDOWS = int(os.environ.get("N_WINDOWS", "16"))
+N_ITER = int(os.environ.get("N_ITER", "1000"))
+
+
+# =============================================================================================================
+# pure leg planning (importable on CPU; used by the submitter, reducer, and tests)
+# =============================================================================================================
+def _environment_of(leg_id):
+    """binary | ternary | solvent, inferred from a leg id suffix."""
+    if leg_id.endswith("__solvent"):
+        return "solvent"
+    spec = tcoop.PILOT_LEG_MAP.get(leg_id)
+    return spec["environment"] if spec else ("ternary" if "__ternary" in leg_id else "binary")
+
+
+def _morph_key(leg_id):
+    """The morph prefix shared by a compound pair's solvent/binary/ternary legs (everything before the env
+    suffix). e.g. nrv04_active_to_epimer__binary_vhl → nrv04_active_to_epimer."""
+    for sep in ("__binary", "__ternary", "__solvent"):
+        if sep in leg_id:
+            return leg_id.split(sep, 1)[0]
+    return leg_id
+
+
+def solvent_leg_id(leg_id):
+    """The shared solvent-morph leg id for a leg's morph pair."""
+    return "%s__solvent" % _morph_key(leg_id)
+
+
+def expand_pilot_legs():
+    """The full set of legs the pilot must run: the 4 FROZEN environment legs (ternary_coop.PILOT_LEG_MAP) +
+    one shared SOLVENT leg per distinct morph (derived; 'extra' legs, allowed by the gate's required-subset
+    rule). The solvent reference makes each environment ddG a relative BINDING free energy → recruitment is
+    defined; it cancels in ddG_coop = ternary − binary, so it never distorts the coupling term."""
+    frozen = tcoop.load_pilot_legs()                       # fails closed on drift vs the frozen JSON
+    ids = [leg["id"] for leg in frozen]
+    solvent = sorted({solvent_leg_id(i) for i in ids})
+    return ids + solvent
+
+
+def leg_spec(leg_id):
+    """Resolve a leg id (frozen or derived-solvent) to its assembly/morph spec via ternary_coop_prep. For a
+    solvent leg we borrow the morph endpoints of any environment leg of the same pair (the ligands are identical;
+    only the protein context differs)."""
+    env = _environment_of(leg_id)
+    if leg_id in tcoop.PILOT_LEG_MAP:
+        leg = dict(id=leg_id, **tcoop.PILOT_LEG_MAP[leg_id])
+    else:
+        # derived solvent leg: clone a sibling environment leg's morph, drop the protein/target
+        morph = _morph_key(leg_id)
+        sib = next((i for i in tcoop.PILOT_LEG_MAP if _morph_key(i) == morph), None)
+        if sib is None:
+            raise ValueError("cannot resolve morph for derived leg %r" % leg_id)
+        leg = dict(tcoop.PILOT_LEG_MAP[sib], id=leg_id, environment="solvent", target=None,
+                   purpose="shared solvent-morph reference for %s (relative-binding denominator)" % morph)
+    return leg, env
+
+
+def _morph_endpoints(leg):
+    """(endpoint_a, endpoint_b, smiles_a, smiles_b) for a leg's morph, resolved via the prep layer (network
+    only for NR-V04; calib stays pending). DIRECTION=rev swaps A/B for a forward/reverse hysteresis leg."""
+    m = prep._morph_endpoints(leg, resolve_smiles=True)
+    a, b, sa, sb = m["endpoint_a"], m["endpoint_b"], m["smiles_a"], m["smiles_b"]
+    if DIRECTION == "rev":
+        a, b, sa, sb = b, a, sb, sa
+    if sa is None or sb is None:
+        raise SystemExit("  ABORT: unresolved morph endpoints for %s (status=%s). Calibration endpoints are "
+                         "PENDING the frozen Layer-1 calib pair; NR-V04 needs network SMILES resolution."
+                         % (leg["id"], m.get("status")))
+    return a, b, sa, sb
+
+
+# =============================================================================================================
+# OpenFE build (mirrors nr4a3_rbfe; the only new piece is the E3-machinery ChemicalSystem)
+# =============================================================================================================
+def _build_components(openfe, rdkit_chem, leg, env, endpoints):
+    """Ligand A/B SmallMoleculeComponents (from the posed PROTAC SDF) + the assembled ProteinComponent for a
+    binary/ternary leg (None for solvent). The complex PDB is the co-folded/assembled starting structure staged
+    at <IN>/<leg_id>/complex.pdb (E3 machinery [+ target]); the two posed PROTAC endpoints at ligands.sdf."""
+    a, b, sa, sb = endpoints
+    lig_dir = os.path.join(IN, leg["id"])
+    sdf = os.path.join(lig_dir, "ligands.sdf")
+    if not os.path.exists(sdf):
+        sdf = next(iter(glob.glob(os.path.join(IN, "**", "ligands.sdf"), recursive=True)), sdf)
+    molA = rbfe._repair_pose(rbfe._sdf_mol(sdf, a, sa, rdkit_chem), sa, rdkit_chem)
+    molB = rbfe._repair_pose(rbfe._sdf_mol(sdf, b, sb, rdkit_chem), sb, rdkit_chem)
+    ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
+    ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
+    protein = None
+    if env in ("binary", "ternary"):
+        pdb = os.path.join(lig_dir, "complex.pdb")
+        if not os.path.exists(pdb):
+            pdb = next(iter(glob.glob(os.path.join(IN, "**", "%s" % os.path.join(leg["id"], "complex.pdb")),
+                                      recursive=True)), pdb)
+        if not os.path.exists(pdb):
+            raise SystemExit("  ABORT: missing assembled complex PDB for %s at %s (stage the co-folded "
+                             "E3%s starting structure first)." % (leg["id"], pdb,
+                             "+target" if env == "ternary" else "-only"))
+        protein = openfe.ProteinComponent.from_pdb_file(pdb)
+    return ligA, ligB, protein
+
+
+def _protocol(openfe):
+    """OpenFE RelativeHybridTopologyProtocol settings for a ternary morph. protocol_repeats=1 PER JOB — the
+    prereg's ≥3 replicas come from THREE independent jobs (SEED=0/1/2), each a single repeat, so the reducer
+    forms a genuine replicate-SD (not an MBAR SE). Everything else mirrors nr4a3_rbfe._protocol (NAGL charges,
+    CUDA→OpenCL platform probe, MD lengths as openff Quantities)."""
+    from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol
+    s = RelativeHybridTopologyProtocol.default_settings()
+    for setter, why in ((lambda: setattr(s, "protocol_repeats", 1), "protocol_repeats"),):
+        try:
+            setter()
+        except Exception as e:  # noqa: BLE001
+            print("  [tfep] WARN %s (%s)" % (why, e), flush=True)
+    try:
+        s.lambda_settings.lambda_windows = N_WINDOWS
+        s.simulation_settings.n_replicas = N_WINDOWS      # OpenFE requires n_replicas == n λ-windows
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN windows→%d (%s); using default" % (N_WINDOWS, e), flush=True)
+    try:
+        from openff.units import unit as _ou
+        s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
+        s.simulation_settings.production_length = 5.0 * _ou.nanosecond
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN MD lengths (%s); using defaults" % e, flush=True)
+    try:
+        s.engine_settings.compute_platform = rbfe._working_platform_name("CUDA")
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN compute_platform (%s)" % e, flush=True)
+    try:
+        s.partial_charge_settings.partial_charge_method = "nagl"
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN nagl charges (%s); using default" % e, flush=True)
+    # seed the sampler per replica where the attribute exists, so SEED=0/1/2 are genuinely independent
+    for path in ("simulation_settings", "integrator_settings"):
+        try:
+            sub = getattr(s, path)
+            for attr in ("random_seed", "sampler_seed"):
+                if hasattr(sub, attr):
+                    setattr(sub, attr, SEED)
+        except Exception:  # noqa: BLE001
+            pass
+    return RelativeHybridTopologyProtocol(s)
+
+
+def _chemical_systems(openfe, ligA, ligB, protein, env):
+    solvent = openfe.SolventComponent()
+    if env in ("binary", "ternary"):
+        A = openfe.ChemicalSystem({"protein": protein, "ligand": ligA, "solvent": solvent})
+        B = openfe.ChemicalSystem({"protein": protein, "ligand": ligB, "solvent": solvent})
+    else:
+        A = openfe.ChemicalSystem({"ligand": ligA, "solvent": solvent})
+        B = openfe.ChemicalSystem({"ligand": ligB, "solvent": solvent})
+    return A, B
+
+
+def run_leg():
+    os.makedirs(CKPT, exist_ok=True)
+    import openfe
+    from rdkit import Chem
+    leg, env = leg_spec(LEG_ID)
+    a, b, sa, sb = _morph_endpoints(leg)
+    print("[tfep] LEG=%s env=%s morph=%s->%s dir=%s seed=%d" % (LEG_ID, env, a, b, DIRECTION, SEED), flush=True)
+    ligA, ligB, protein = _build_components(openfe, Chem, leg, env, (a, b, sa, sb))
+    mapping = rbfe._mapping(openfe, ligA, ligB)
+    n_mapped = len(mapping.componentA_to_componentB)
+    print("  [tfep] mapped %d atoms A->B" % n_mapped, flush=True)
+
+    if os.environ.get("MODE") == "smoke":
+        proto = _protocol(openfe)
+        A, B = _chemical_systems(openfe, ligA, ligB, protein, env)
+        dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+        json.dump({"smoke": "ok", "leg": LEG_ID, "environment": env, "n_mapped_atoms": n_mapped,
+                   "has_protein": protein is not None,
+                   "n_protocol_units": len(getattr(dag, "protocol_units", []) or [])},
+                  open(os.path.join(CKPT, "smoke.json"), "w"), indent=2)
+        print("  [tfep] SMOKE ok — env solves, %s assembly + mapping + hybrid topology build." % env, flush=True)
+        return
+
+    proto = _protocol(openfe)
+    A, B = _chemical_systems(openfe, ligA, ligB, protein, env)
+    dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+    from pathlib import Path
+    from gufe.protocols import execute_DAG
+    shared = Path(CKPT) / "shared"
+    scratch = Path(CKPT) / "scratch"
+    shared.mkdir(parents=True, exist_ok=True)
+    scratch.mkdir(parents=True, exist_ok=True)
+    dagres = execute_DAG(dag, shared_basedir=shared, scratch_basedir=scratch, keep_shared=True)
+    est = proto.gather([dagres])
+    dg = est.get_estimate()
+    unc = est.get_uncertainty()
+    out = {"leg_id": LEG_ID, "environment": env, "morph": "%s->%s" % (a, b), "direction": DIRECTION,
+           "seed": SEED, "dg_morph_kcal": float(dg.to("kilocalorie_per_mole").m),
+           "mbar_se_kcal": float(unc.to("kilocalorie_per_mole").m), "n_mapped_atoms": n_mapped,
+           "n_windows": N_WINDOWS}
+    json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
+    print("  [tfep] LEG DONE %s: ΔG_morph=%.2f ± %.2f (MBAR SE)" % (LEG_ID, out["dg_morph_kcal"],
+                                                                    out["mbar_se_kcal"]), flush=True)
+
+
+def main():
+    mode = os.environ.get("MODE", "smoke")
+    if mode == "reduce":
+        import ternary_fep_reduce
+        ternary_fep_reduce.reduce_all()
+    else:                       # smoke or run both go through run_leg (smoke short-circuits inside)
+        run_leg()
+
+
+if __name__ == "__main__":
+    main()
