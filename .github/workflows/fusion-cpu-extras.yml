@@ -48,6 +48,10 @@ jobs:
         working-directory: research/modalities
         run: python emc_surface_normal_window.py || echo "normal-window failed (continuing)"
 
+      - name: Layer-1 VHL panel dossier (RCSB + Europe PMC; ternary-coop calibration)
+        working-directory: research/modalities
+        run: python layer1_vhl_fetch.py || echo "layer1-vhl-fetch failed (continuing)"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -60,6 +64,7 @@ jobs:
           cp research/modalities/emc-line-data-probe.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/emc-gse4303-crosscheck.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/emc-surface-normal-window.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/layer1-vhl-dossier.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -75,5 +80,6 @@ jobs:
           git add research/modalities/emc-line-data-probe.json 2>/dev/null || true
           git add research/modalities/emc-gse4303-crosscheck.json 2>/dev/null || true
           git add research/modalities/emc-surface-normal-window.json 2>/dev/null || true
-          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe" || { echo "no changes"; exit 0; }
+          git add research/modalities/layer1-vhl-dossier.json 2>/dev/null || true
+          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe + Layer-1 VHL dossier" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
