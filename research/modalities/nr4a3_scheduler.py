@@ -85,13 +85,18 @@ def run_offline_shadow(config, evaluate_fn, budget_gate=None):
             state["spent"] += cost_by_rung.get(rung, 0.0)
             last = ev.get("promise", 0.0)
             # ---- fold terminal evidence for CERTIFICATION (only certifying rungs count) ----
+            # A certifying rung supplies >=1 INDEPENDENT replica per margin: margins[t] may be a scalar (one
+            # replica) or a list (several). Each is folded with a distinct seed/start so the independence check
+            # counts them separately (fix 4).
             if can_certify.get(rung) and ev.get("margins"):
                 meta = ev.get("meta") or {}
-                for t, obs in ev["margins"].items():
+                for t, obs_or_list in ev["margins"].items():
+                    obs_list = obs_or_list if isinstance(obs_or_list, (list, tuple)) else [obs_or_list]
                     m = cand.margins[t]
                     m.from_terminal_rung = True
-                    m.update(obs, seed=meta.get("seed"), start_state=meta.get("start_state"),
-                             parent_traj=meta.get("parent_traj"))
+                    for j, o in enumerate(obs_list):
+                        m.update(o, seed=f"{meta.get('seed')}_{j}",
+                                 start_state=f"{meta.get('start_state')}_{j}", parent_traj=meta.get("parent_traj"))
                 verdict = certify_candidate(cand.margins, bar=cert["bar_kcal"], robustness=cert["robustness_kcal"],
                                             delta_candidate=delta_cand,
                                             min_independent_replicas=cert["min_independent_replicas"],

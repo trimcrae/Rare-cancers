@@ -40,13 +40,15 @@ def offline_shadow_check():
     rng = random.Random(0)
     ctr = {"i": 0}
 
+    nrep = cfg["certification"]["min_independent_replicas"]
+
     def evaluate_fn(cid, rung):
         ctr["i"] += 1
         terminal = rung == cfg["terminal_rung"]
         promise = true[cid] + rng.gauss(0, 0.3)                 # scheduling scalar
         margins = None
-        if terminal:
-            margins = {t: rng.gauss(true[cid], cfg["certification"]["sigma_known"])
+        if terminal:                                            # a certifying rung supplies >=min replicas
+            margins = {t: [rng.gauss(true[cid], cfg["certification"]["sigma_known"]) for _ in range(nrep + 2)]
                        for t in cfg["certification"]["targets"]}
         return {"promise": promise, "terminal": terminal, "margins": margins,
                 "meta": {"seed": ctr["i"], "start_state": ctr["i"]}}
@@ -54,9 +56,8 @@ def offline_shadow_check():
     res = run_offline_shadow(cfg, evaluate_fn, budget_gate=None)
     print("offline shadow:", res)
     assert res["declared"] != decoy, "declared the near-bar decoy — certification failed"
-    if res["declared"] is not None:
-        assert res["declared"] == winner, f"declared {res['declared']}, expected the winner {winner}"
-    print("offline shadow OK (declared the genuine winner or abstained; never the decoy)")
+    assert res["declared"] == winner, f"declared {res['declared']}, expected to CERTIFY the winner {winner}"
+    print(f"offline shadow OK — CERTIFIED the genuine winner {winner} (never the decoy)")
 
 
 def stats_crosscheck():
