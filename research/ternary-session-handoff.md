@@ -92,10 +92,16 @@ The reviewer conditionally approved A′/B/C and required 7 changes; all applied
 - **Req 7:** `cycle_closure_stance` — per-compound ddG_coop computed independently (not a P1-P5 edge tree);
   pilot hi-vs-lo preregistered nonredundant (no cycle-closure claim); redundant edge required before any
   relative-edge calibration network.
-**Remaining to complete the SCORED panel** (systems/expected_system_ids still empty): MZ1/BRD4-VHL numeric α
-(Gadd 2017) + a verified inactive stereo control — both need the same primary-SI transcription the reviewer
-did for SMARCA2 (their α also sit in figures/SI). The docking job (Plan C) + the MD engine (Plan B) are the
-next execution steps once an MD env / receptor staging is available.
+**SCORED PANEL NOW COMPLETE + FROZEN (2026-07-12).** MZ1's α was found **independently** in the primary OA
+full text (Gadd 2017, PMC5392356 Table 1: *"the strongest cooperativity was observed for Brd4 BD2 (α = 18)"*)
+— the independent VHL control, no reviewer transcription needed; the standard cis-Hyp inactive control was
+added (VHL-binding knockout, no measured α). `expected_system_ids` populated with the 7 verified systems
+(P1-P5 + MZ1 + inactive control); composition-valid; a gate test proves the real panel passes coverage.
+Residual caveat recorded: MZ1 = Kd-derived ITC α vs SMARCA2 apparent α_TR-FRET → rank calibration only, no
+cross-assay absolute-thermo claim; MZ1 PDB 5T35 RCSB auto-confirmation pending (transient RCSB error).
+**Next execution steps** (not no-spend/testable, so not done this session): the **Plan-C docking job**
+(authorized ~$5-15; needs an NR4A3 design-frame receptor staged + the preflight run) and the **Plan-B MD
+engine** (deferred until an executable OpenFE/OpenMM env exists — the integration boundary is already built).
 
 ### Session progress on the 3 approved no-spend builds (2026-07-12)
 **Testable pure cores for all three tracks are BUILT + committed** (81 tests across the ternary-coop modules;
