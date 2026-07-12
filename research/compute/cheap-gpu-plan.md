@@ -41,8 +41,18 @@ what this doc is for.**
 - **First/validation runs** → **Modal** (free credits, zero-idle, foolproof).
 - **Bulk short-sampling triage** (the many binary/paralogue rungs) → **Salad** (cheapest) or Vast.
 - **Long full-sampling terminal legs** (the few certifying ternary runs) → **RunPod Secure** or **ACCESS** (a
-  stable host so frequent preemption doesn't force costly MD-env/system reloads).
+  stable host so frequent preemption doesn't force costly MD-env/system reloads); **GCP (below) is the
+  $300-credit reserve for this tier** — its Spot L4/A100 pricing beats Modal's serverless premium on long legs.
 - **AWS SageMaker** → only when specifically warranted (already-staged data, or nothing else set up yet).
+
+> **⏸ GCP is PARKED (trimcrae, 2026-07-12) — adapter built, activation deferred.** The `gcp` backend is wired
+> and unit-tested in `gpu_backend.py` (Spot GCE VM + self-delete anti-idle guard), but trimcrae chose to hold
+> off. **REMINDER TRIGGER (event, not a date):** the *next time we're about to launch a long TERMINAL MD/FEP
+> leg* and I stop to confirm a provider (per the policy above), **surface GCP as an option** and, if chosen,
+> walk trimcrae through: (1) create a **service-account JSON key** (IAM & Admin → Service Accounts → Keys → JSON
+> — NOT the Gemini/AI-Studio API key, a different product); (2) **upgrade off the free trial to a paid account**
+> (the $300 credit still applies) and **request GPU quota** (new accounts start at 0 and Google blocks GPU-quota
+> grants while on the trial). Until a terminal leg is imminent, do not prompt trimcrae about GCP again.
 The provider is a config in the provider-agnostic harness (`research/modalities/gpu_backend.py` +
 `autoteardown.py` + `object_store.py`), not a rewrite — so switching is cheap and `pick_cheapest()` can even
 auto-route within a tier.
