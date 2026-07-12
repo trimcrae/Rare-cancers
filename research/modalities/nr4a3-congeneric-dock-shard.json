@@ -1,0 +1,13 @@
+{
+  "_purpose": "Plan-C docking INPUT STAGING (reviewer 2026-07-12, green-lit): dock the two congeneric binary-RBFE pilot endpoints (5-Br anchor -> 5-NH2) into the frozen nr4a3_design frame (nr4a3-release-druggable primary, Pocket-5 box) to obtain a COMMON binding mode for the RBFE morph. Output is INPUT STAGING ONLY — NOT evidence of binding or selectivity (rbfe_pilot.docking_preflight). Cheap CPU smina; within the ~$5-15 pilot band.",
+  "_edge": "e_zaienne_cmpd19__cw_ev_5nh2 (5-Br -> 5-NH2; single-site; both neutral; NOT a gentle RBFE edge — polarity/H-bond change)",
+  "_receptor": "nr4a3-release-druggable (nr4a3_design primary druggable release frame; Pocket-5 box)",
+  "candidates": [
+    {"name": "zaienne_cmpd19", "smiles": "COC(=O)c1c[nH]c2ccc(Br)cc12",
+     "drug": "methyl 5-bromoindole-3-carboxylate", "moa": "NR4A3 congeneric warhead anchor (functional target engagement; Zaienne 2022)",
+     "microstate": "neutral", "role": "rbfe_endpoint_A"},
+    {"name": "cw_ev_5nh2", "smiles": "COC(=O)c1c[nH]c2ccc(N)cc12",
+     "drug": "methyl 5-aminoindole-3-carboxylate", "moa": "5-NH2 exit-vector analogue (linker-attachment hypothesis)",
+     "microstate": "neutral", "role": "rbfe_endpoint_B"}
+  ]
+}
