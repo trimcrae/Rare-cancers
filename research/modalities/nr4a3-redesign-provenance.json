@@ -1,269 +1,284 @@
 {
-  "_title": "NR4A3 ensemble-robust redesign \u2014 machine-readable provenance + decision ledger",
-  "_spec": "research/modalities/nr4a3-ensemble-redesign-brief.md (Phase 0; deliverables #6 provenance table, #16 decision ledger)",
-  "_rule": "Every reported redesign result gets a `generation` label and a provenance row here. Do NOT silently mix `legacy` and repaired results in one comparison. Append-only for decisions; edit result rows only to add outputs/versions.",
-  "schema_version": 1,
-  "freeze": {
-    "frozen_at_commit": "2460fabb6278c11ca64a86f2a39a3e295b73de91",
-    "frozen_at_ref": "main",
-    "frozen_on": "2026-07-11",
-    "note": "Baseline snapshot before the corrected pocket tracker / dense-lambda / new receptor panels change any comparison. denovo_401's legacy structures, poses, receptor frames and ABFE inputs are preserved in S3 and referenced below; they are NOT to be overwritten.",
-    "environment_note": "GPU/alchemical env versions live in the per-job SageMaker containers (requirements pinned in sagemaker_src/ + boltz_src/); fpocket pinned to 4.0 for the harmonized audit. Per-run software versions are recorded on each result row as they are produced."
+ "_title": "NR4A3 ensemble-robust redesign — machine-readable provenance + decision ledger",
+ "_spec": "research/modalities/nr4a3-ensemble-redesign-brief.md (Phase 0; deliverables #6 provenance table, #16 decision ledger)",
+ "_rule": "Every reported redesign result gets a `generation` label and a provenance row here. Do NOT silently mix `legacy` and repaired results in one comparison. Append-only for decisions; edit result rows only to add outputs/versions.",
+ "schema_version": 1,
+ "freeze": {
+  "frozen_at_commit": "2460fabb6278c11ca64a86f2a39a3e295b73de91",
+  "frozen_at_ref": "main",
+  "frozen_on": "2026-07-11",
+  "note": "Baseline snapshot before the corrected pocket tracker / dense-lambda / new receptor panels change any comparison. denovo_401's legacy structures, poses, receptor frames and ABFE inputs are preserved in S3 and referenced below; they are NOT to be overwritten.",
+  "environment_note": "GPU/alchemical env versions live in the per-job SageMaker containers (requirements pinned in sagemaker_src/ + boltz_src/); fpocket pinned to 4.0 for the harmonized audit. Per-run software versions are recorded on each result row as they are produced."
+ },
+ "generations": {
+  "legacy": "Pre-redesign results (AF2 release-frame nomination, single-frame MM-GBSA/ABFE, pre-harmonized pocket definition). Kept as benchmark/control; never deleted.",
+  "harmonized_tracking": "Results under the score-INDEPENDENT orthosteric-pocket definition (pocket_tracking.py; fixed Pocket-5 lining set; Jaccard/recovery+centroid gate; pinned fpocket 4.0).",
+  "dense_lambda": "Results under the repaired dense-16-window ABFE schedule (soft-core-tail overlap restored). FEP-class; gated (GATE-2).",
+  "ensemble_redesign": "New candidates + scoring on the prespecified conformer panel (design/validation/stress), ranked by worst-case S."
+ },
+ "provenance_columns": [
+  "result_id",
+  "generation",
+  "receptor_structure",
+  "source_pdb_or_model",
+  "trajectory",
+  "frame",
+  "pocket_tracking_impl",
+  "ligand_microstate",
+  "stereoisomer",
+  "software_version",
+  "random_seed",
+  "simulation_protocol",
+  "output_location",
+  "notes"
+ ],
+ "results": [
+  {
+   "result_id": "denovo401_abfe_af2opened",
+   "generation": "legacy",
+   "receptor_structure": "NR4A3 LBD, AF2-opened (MD-opened AlphaFold Q92570)",
+   "source_pdb_or_model": "AF-Q92570 (AlphaFold DB)",
+   "trajectory": "release / metad-opened design frame",
+   "frame": "release-derived design frame (Rg~0.667 primary; 0.74 seed) — EXACT frame id to be pinned by Gate A",
+   "pocket_tracking_impl": "pre-harmonized (outcome-selected highest-druggability LBD cavity)",
+   "ligand_microstate": "neutral",
+   "stereoisomer": "DiffSBDD-generated isomer (gen); iso08 co-best",
+   "software_version": "openmmtools alchemy ABFE (legacy schedule); MM-GBSA GBn2",
+   "random_seed": "n/a (unseeded MD; n=3 replicates)",
+   "simulation_protocol": "legacy ABFE (non-dense lambda), 3 replicates",
+   "output_location": "s3 nr4a3-abfe* (AF2-opened legs)",
+   "notes": "Headline legacy selectivity: dG_bind ~ +3.5 (NR4A3) / +8.3 (NR4A1) / +8.5 (NR4A2); margin ~5 kcal/mol. BENCHMARK — do not delete."
   },
-  "generations": {
-    "legacy": "Pre-redesign results (AF2 release-frame nomination, single-frame MM-GBSA/ABFE, pre-harmonized pocket definition). Kept as benchmark/control; never deleted.",
-    "harmonized_tracking": "Results under the score-INDEPENDENT orthosteric-pocket definition (pocket_tracking.py; fixed Pocket-5 lining set; Jaccard/recovery+centroid gate; pinned fpocket 4.0).",
-    "dense_lambda": "Results under the repaired dense-16-window ABFE schedule (soft-core-tail overlap restored). FEP-class; gated (GATE-2).",
-    "ensemble_redesign": "New candidates + scoring on the prespecified conformer panel (design/validation/stress), ranked by worst-case S."
+  {
+   "result_id": "denovo401_abfe_8xtt",
+   "generation": "legacy",
+   "receptor_structure": "NR4A3 LBD, 8XTT-seeded (experimental NMR druggable model, MD-relaxed)",
+   "source_pdb_or_model": "PDB 8XTT (20-model solution-NMR ensemble; a druggable model)",
+   "trajectory": "8XTT-seeded relaxation",
+   "frame": "persistent druggable frame",
+   "pocket_tracking_impl": "pre-harmonized",
+   "ligand_microstate": "neutral",
+   "stereoisomer": "gen",
+   "software_version": "openmmtools alchemy ABFE (legacy schedule, low soft-core-tail overlap 0.017-0.026)",
+   "random_seed": "n/a (n=3: 7.95/9.24/7.32)",
+   "simulation_protocol": "legacy ABFE, 3 replicates",
+   "output_location": "s3 nr4a3-abfe-8xtt*",
+   "notes": "dG_bind(NR4A3) = +8.17 +/- 0.98 — ~4.7 kcal/mol weaker than AF2-opened, > the whole selectivity margin. PRELIMINARY indication of conformer sensitivity (low lambda overlap; not yet dense-lambda-repaired). Provenance-MISMATCHED vs AF2 paralogue refs — not a fair selectivity comparison."
   },
-  "provenance_columns": [
-    "result_id",
-    "generation",
-    "receptor_structure",
-    "source_pdb_or_model",
-    "trajectory",
-    "frame",
-    "pocket_tracking_impl",
-    "ligand_microstate",
-    "stereoisomer",
-    "software_version",
-    "random_seed",
-    "simulation_protocol",
-    "output_location",
-    "notes"
-  ],
-  "results": [
-    {
-      "result_id": "denovo401_abfe_af2opened",
-      "generation": "legacy",
-      "receptor_structure": "NR4A3 LBD, AF2-opened (MD-opened AlphaFold Q92570)",
-      "source_pdb_or_model": "AF-Q92570 (AlphaFold DB)",
-      "trajectory": "release / metad-opened design frame",
-      "frame": "release-derived design frame (Rg~0.667 primary; 0.74 seed) \u2014 EXACT frame id to be pinned by Gate A",
-      "pocket_tracking_impl": "pre-harmonized (outcome-selected highest-druggability LBD cavity)",
-      "ligand_microstate": "neutral",
-      "stereoisomer": "DiffSBDD-generated isomer (gen); iso08 co-best",
-      "software_version": "openmmtools alchemy ABFE (legacy schedule); MM-GBSA GBn2",
-      "random_seed": "n/a (unseeded MD; n=3 replicates)",
-      "simulation_protocol": "legacy ABFE (non-dense lambda), 3 replicates",
-      "output_location": "s3 nr4a3-abfe* (AF2-opened legs)",
-      "notes": "Headline legacy selectivity: dG_bind ~ +3.5 (NR4A3) / +8.3 (NR4A1) / +8.5 (NR4A2); margin ~5 kcal/mol. BENCHMARK \u2014 do not delete."
-    },
-    {
-      "result_id": "denovo401_abfe_8xtt",
-      "generation": "legacy",
-      "receptor_structure": "NR4A3 LBD, 8XTT-seeded (experimental NMR druggable model, MD-relaxed)",
-      "source_pdb_or_model": "PDB 8XTT (20-model solution-NMR ensemble; a druggable model)",
-      "trajectory": "8XTT-seeded relaxation",
-      "frame": "persistent druggable frame",
-      "pocket_tracking_impl": "pre-harmonized",
-      "ligand_microstate": "neutral",
-      "stereoisomer": "gen",
-      "software_version": "openmmtools alchemy ABFE (legacy schedule, low soft-core-tail overlap 0.017-0.026)",
-      "random_seed": "n/a (n=3: 7.95/9.24/7.32)",
-      "simulation_protocol": "legacy ABFE, 3 replicates",
-      "output_location": "s3 nr4a3-abfe-8xtt*",
-      "notes": "dG_bind(NR4A3) = +8.17 +/- 0.98 \u2014 ~4.7 kcal/mol weaker than AF2-opened, > the whole selectivity margin. PRELIMINARY indication of conformer sensitivity (low lambda overlap; not yet dense-lambda-repaired). Provenance-MISMATCHED vs AF2 paralogue refs \u2014 not a fair selectivity comparison."
-    },
-    {
-      "result_id": "harmonized_pocket_audit",
-      "generation": "harmonized_tracking",
-      "receptor_structure": "all load-bearing NR4A3 ensembles (AF2 static, calibration, 8XTT 20 models, metad, 3 release reps)",
-      "source_pdb_or_model": "AF-Q92570; 8XTT; NR-panel calibration structures",
-      "trajectory": "metad; release_rep0/1/2",
-      "frame": "all propagated frames (per-ensemble)",
-      "pocket_tracking_impl": "harmonized (pocket_tracking.py; fixed Pocket-5 lining set; jaccard_min 0.25 / frac_recovered 0.3 / centroid 8.0 A)",
-      "ligand_microstate": "apo (receptor-only druggability)",
-      "stereoisomer": "n/a",
-      "software_version": "fpocket 4.0 (pinned)",
-      "random_seed": "n/a",
-      "simulation_protocol": "fpocket cavity detection + composite matcher; both-denominator detection",
-      "output_location": "nr4a3-pocket-reharmonize-summary.json (committed); s3 nr4a3-pocket-reharmonize/",
-      "notes": "GATE-1 CLEARED. Canonical site detected 95-100% across all ensembles (score-independent). Druggable (>=D*=0.53): 8XTT 3/20 (0.15); metad 0.68; release pooled 0.59; AF2-static 0/1. Exact-generation-frame row (Gate A) NOT yet in this audit \u2014 pending."
-    }
-  ],
-  "controls": [
-    {
-      "id": "denovo_401",
-      "role": "benchmark / pipeline_positive",
-      "microstate": "neutral",
-      "note": "current best; must be BEATEN on the matched panel (worst-case S and margin)."
-    },
-    {
-      "id": "denovo_924",
-      "role": "negative control",
-      "note": "stays nonselective across tiers (method-discriminating check)."
-    },
-    {
-      "id": "denovo_111",
-      "role": "microstate-sensitivity control",
-      "note": "neutral form selective; cation (pH 7.4) REVERSES -> use to probe protonation fragility."
-    }
-  ],
-  "decision_ledger": [
-    {
-      "date": "2026-07-11",
-      "phase": 0,
-      "item": "provenance freeze + generation labels + this ledger",
-      "decision": "created",
-      "status": "done",
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "gate": "A",
-      "item": "harmonized pocket audit (all ensembles)",
-      "decision": "canonical site confirmed (95-100% detection); druggability low-population experimental (3/20 8XTT). GATE-1 cleared.",
-      "status": "done",
-      "outputs": [
-        "nr4a3-pocket-reharmonize-summary.json"
-      ]
-    },
-    {
-      "date": "2026-07-11",
-      "gate": "A",
-      "item": "EXACT denovo_401 generation-frame dependency audit (does the exact frame match the site, exceed D*, contain the claimed pocket-facing handles?)",
-      "decision": "PENDING \u2014 deliverable #3; must run the harmonized matcher on the exact generation frame specifically (not just pooled release).",
-      "status": "todo"
-    },
-    {
-      "date": "2026-07-11",
-      "gate": "B",
-      "item": "dense-lambda ABFE validation (NR4A2 repair pilot; apply to both NR4A3 variants)",
-      "decision": "FEP-class -> HELD per 'short of a new FEP run' (GATE-2).",
-      "status": "held"
-    },
-    {
-      "date": "2026-07-11",
-      "gate": "B",
-      "item": "T4L L99A-benzene protocol-matched benchmark (final production protocol)",
-      "decision": "alchemical/FEP-class -> HELD.",
-      "status": "held"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 1,
-      "item": "TICA reaction-coordinate validation (bias handling, lag-time, held-out, bootstrap)",
-      "decision": "CPU analysis of existing biased trajectories \u2014 ELIGIBLE now (non-FEP). Note: Phase-2 shakeout already returned NO-GO (0 recrossing, CV too Rg-like) -> coordinate needs redesign; do not launch phase-2 fleet.",
-      "status": "eligible"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 3,
-      "item": "denovo_401 conformer-sensitivity mechanism report (dock/contacts/RMSD/HB/BSA/strain across panel)",
-      "decision": "CPU/spot, non-FEP \u2014 ELIGIBLE after the panel receptor set is built (Phase 2).",
-      "status": "eligible"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 4,
-      "item": "freeze the prespecified receptor-conformer panel (design/validation/stress + matched NR4A1/NR4A2 anti-targets; brief \u00a710.3 / deliverable #40)",
-      "decision": "DONE (rules-level freeze) -> nr4a3-conformer-panel.json. Frozen as DETERMINISTIC selection rules over the harmonized per-frame druggability (D*=0.53), not hand-picked indices, so it is reproducible AND cannot be gamed by shuffling failed conformers into design. design=top-3 unbiased-release druggable (not the AF2 frame); validation=3 druggable 8XTT NMR models + held-out release frames; stress=occluded 8XTT + AF2 + metad-opened; anti-targets=metad-opened NR4A1(524)/NR4A2(125) + opening-MD frames. Consumes a panel-docking run (cheap GPU/CPU <$10) -> ensemble_robust_score. Exact frame indices resolve from S3 at build time.",
-      "status": "done",
-      "outputs": [
-        "nr4a3-conformer-panel.json"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 5,
-      "item": "extend ensemble_robust_score to S = min_c M_c - lambda*sigma - gamma*C - eta*L (add counterexample C + liability L terms, sign-reversal counts)",
-      "decision": "DONE \u2014 added S_ext = S - gamma_c*C - eta*L (kept SEPARATE from the energetic S so S stays pure energy), counterexample_report() (strong counterexamples vs any sign-reversal), and rank by S_ext with per-candidate liabilities. 29/29 unit tests pass (24 original unchanged + 5 new).",
-      "status": "done",
-      "outputs": [
-        "ensemble_robust_score.py",
-        "tests/test_ensemble_robust_score.py"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 5,
-      "item": "Gate-2 published-chemistry docking benchmark (master brief \u00a711): dock the registry's verified panel into state-matched opened NR4A3/1/2 pockets; test reproduction of known paralogue preferences (THPN/TMPA -> NR4A1; amodiaquine/chloroquine -> NR4A2; C-DIM12 non-binder control)",
-      "decision": "DONE (gpu-matrix run 29151841834, nr4a3-chem-benchmark, ~27 min, ~$1-2). VERDICT = chemically ACCOMMODATED but NOT DISCRIMINATING ('inconclusive', brief 11.3): the pocket fits all published NR4A actives (dG -5..-9), but docking-tier scoring reproduces only THPN's known NR4A1 preference cleanly; the other 3 discriminators are within docking noise (|m\u0394|<=0.8), and the one strong 'NR4A3-selective' signal (celastrol +1.25) is the reactive-triterpenoid artifact. Reinforces: docking is a triage prior, selectivity must come from MM-GBSA/FEP/ternary (not single-pose docking). Also FIXED a conda/boost infra bug (smina vs rdkit libboost) that had broken the matrix pipeline for ALL runs. Full result table in published-warhead-registry.md (Gate-2 section).",
-      "status": "done",
-      "outputs": [
-        "nr4a3-chem-benchmark/nr4a3-matrix.json (S3)",
-        "published-warhead-registry.md#gate-2",
-        "sagemaker_src/entry_matrix.py (smina-env fix)"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "gate": "3",
-      "item": "TRACK A \u2014 repaired ABFE validation ($40-80 AUTHORIZED, trimcrae+gate-AI). Single-leg-first pilot: resume NR4A2 dense-16-window replicate r1 to the soft-core-tail windows, then check adjacent overlap before r2/r3.",
-      "decision": "IN PROGRESS. Fixed a diagnostics bug first (detect_K: the validate gate crashed because it assumed 12 windows but the dense repair has 16). Diagnostics now run: r1 had only windows 0-5 (paused ~36%), early-window overlap healthy 0.17-0.26 but the TAIL (9-15, where the defect is) not yet reached. Resumed r1 complex-nr4a2 leg (spot, ~$12, job nr4a3-abfe-nr4a2rep-r1-complex-nr4a2-2026-07-11-14-09). ON r1 tail overlap: >~0.03 -> dense schedule fixed it -> resume r2/r3 for error bars; <0.03 -> ABORT (dense repair insufficient, ABFE can't be the primary selectivity tier).",
-      "status": "in_progress",
-      "outputs": [
-        "nr4a3_abfe_diagnostics.py detect_K fix",
-        "results/nr4a3-abfe/diagnostics/"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 15,
-      "item": "TRACK B \u2014 retrospective NR-V04 3-paralogue ternary benchmark (gate-AI: the higher-value method contribution). Blinded ensemble ternary workflow vs NR-V04 (KNOWN: degrades NR4A1, spares NR4A2/NR4A3) as the family-matched positive control.",
-      "decision": "SPEC + structure DONE. Representative NR-V04 built + RDKit-validated (celastrol C28-COOH + 4-PEG + VH032, two amides; C62H87N5O11S, MW 1110.5, InChIKey ADEXNWCZOWYLJV; flagged representative, NOT the ChEMBL CRBN collision). Full spec (systems, VHL+EloB/C, controls, ensemble readouts, single-leg-first pilot = VHL+VH032 control + NR4A1 first, verdict gate) in nrv04-ternary-benchmark.json. NEXT: build the VHL ternary harness (extend nr4a3_ternary.py CRBN->VHL + N-seed ensembles) and run the pilot.",
-      "status": "in_progress",
-      "outputs": [
-        "nrv04-ternary-benchmark.json"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 5,
-      "item": "Gate-2 at the MM-GBSA tier: does multi-snapshot MM-GBSA reproduce known paralogue preferences where docking couldn't? (mmgbsa run 29152852051 on the 4 reversible discriminators)",
-      "decision": "NEGATIVE \u2014 MM-GBSA does NOT rescue discrimination and produces FALSE NR4A3-selective calls: the neutral NR4A1 ligands THPN/TMPA score NR4A3-tightest (labelled 'rescued'/selective \u2014 false positive, consistent with the opened-NR4A3-frame accommodation confound); the charged 4-aminoquinolines show protonation-fragile ~10-20 kcal electrostatic artifacts favouring NR4A1 (the denovo_111 failure mode). COMBINED Gate-2 (docking+MM-GBSA): neither cheap tier reproduces KNOWN NR4A paralogue preferences on real chemistry -> a strong external negative control on the in-silico selectivity stack; paralogue selectivity must come from FEP with resolved microstates + ensemble controls, or be hedged. Caveats: n=4, single opened frame, cations unresolved.",
-      "status": "done",
-      "outputs": [
-        "nr4a3-chem-benchmark-mmgbsa/nr4a3-mmgbsa.json (S3)",
-        "published-warhead-registry.md#gate-2-mmgbsa"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 1,
-      "item": "published_warhead_registry (master-brief Workstream B / deliverables 30-33): machine-readable catalog of published NR4A chemistry \u2014 Zaienne NOR-1 series, NR4A1/Nur77 + NR4A2/Nurr1 anti-target panels, NR-V04 reference degrader + celastrol warhead + VHL/CRBN E3 handles",
-      "decision": "BUILT \u2014 builder (published_warhead_registry.py) resolves + cross-checks structures across ChEMBL/PubChem/CACTUS (InChIKey-skeleton agreement -> high/medium/unresolved), RDKit-profiles each (QED/SA/PAINS/BRENK/PROTAC handles), flags covalent/reactive warheads (celastrol/DHI/PGA1) for special handling, and records paywalled/novel matter (Zaienne members) HONESTLY as unresolved (never invented). 13 pure-logic tests pass. Runs on the warhead-chem-profile CPU runner (dispatched with ref=<branch>); output published to modalities-cache.",
-      "status": "done",
-      "outputs": [
-        "published_warhead_registry.py",
-        "tests/test_published_warhead_registry.py",
-        "published-warhead-registry.json (modalities-cache)"
-      ],
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 1,
-      "item": "Job-progress monitoring (trimcrae request: 'catch if it hangs and get ETAs as we go') + Track B NR-V04/VHL ternary pilot",
-      "decision": "BUILT monitoring: job_progress_monitor.py parses ABFE/Boltz CloudWatch log tails -> newest progress marker + real event time -> min/unit + ETA + hang verdict (Eastern 12h); tail_cloudwatch.py now prepends each event's REAL CloudWatch timestamp (GitHub was collapsing all lines to the tail-run instant, defeating ETA/hang). Kind-aware hang thresholds: Boltz per-seed markers (~3.5 min) reliable at 25 min; ABFE lambda-windows run 30-100 min on the OpenCL fallback so window-start markers are NOT a hang signal -- authoritative ABFE progress is per-window jsonl checkpoint DEPTH via abfe-progress-aws.yml. RAN Track B NR-V04 pilot (control+NR4A1, 3 seeds): NR4A1 (known-degraded) STRONGLY recovered -- NR-V04 bridges NR4A1 & VHL in 3/3 seeds (lig->target 2.4-3.3 A, lig->VHL 2.3-2.6 A), ligand-iPTM 0.857 (0.82-0.91), exposed Lys53 3.3 A from VHL (ubiquitin-reach proxy). Control initially MISSING (control:null) -- VH032 does not resolve by ChEMBL pref_name so the control YAML was silently skipped; FIXED resolve_vh032_smiles (env->ChEMBL->PubChem->spec) + --control-only cheap re-run (in flight).",
-      "status": "tooling done + merged; Track B pilot NR4A1 leg favourable; control backfill in progress; NR4A2/NR4A3 fan-out gated on control seating (single-leg-first)",
-      "outputs": "research/modalities/job_progress_monitor.py (+12 tests); research/modalities/report_nrv04.py (+10 tests); .github/workflows/report-nrv04-aws.yml; research/modalities/report_nrv04.json (auto, S3 nrv04-ternary-pilot); tail_cloudwatch.py real-timestamp fix; abfe_progress_nr4a2rep_r1.png (modalities-cache)",
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 1,
-      "item": "Track B RESULT: retrospective NR-V04 3-paralogue ternary benchmark (NR4A1 degraded vs NR4A2/NR4A3 spared) \u2014 the family-matched positive control for a paralogue-discriminating ternary workflow",
-      "decision": "RAN full 3-paralogue benchmark (control VH032 + NR4A1/NR4A2/NR4A3 x 3 seeds, VHL+EloB/C, NR-V04). RESULT = INFORMATIVE: the workflow recovers the known NR-V04 selectivity via PRODUCTIVE-TERNARY GEOMETRY. NR4A1 (degraded) bridges NR-V04 to both target(2.4-3.3A) and VHL(2.3-2.6A) in 3/3 seeds; NR4A2/NR4A3 (spared) seat the warhead in VHL(2.0-2.6A) but leave the target LBD 6-26A away -> 0/3 productive ternaries. Exposed-Lys->VHL reach also orders correctly (NR4A1 5.5 < NR4A2 7.1 < NR4A3 9.1 A). KEY METHOD FINDING: ligand-iPTM INVERTS (spared NR4A2 highest, 0.910 vs NR4A1 0.857) because it scores the confidently-placed VHL-warhead half regardless of ternary formation -> confidence scores are NOT a valid ternary-selectivity metric; productive-geometry readouts are. full_verdict rewritten to a transparent composite (geometry primary, ligand-iPTM reported+flagged).",
-      "status": "done \u2014 verdict INFORMATIVE on pre-specified productive-geometry + Lys readouts; retrospective n=1 (NR-V04 only), and NR4A1-selectivity != NR4A3-selectivity, so this LICENSES comparative prospective use of the ternary workflow for NR4A3 designs, it does not validate any specific NR4A3 prediction",
-      "outputs": "research/modalities/report_nrv04.json (full 3-paralogue, S3 nrv04-ternary-pilot); nrv04-ternary-benchmark.json .result; report_nrv04.py composite full_verdict (+11 tests); control_ligand VH032 (InChIKey JAHUHEDUDMTTTF-COWZOJLOSA-N)",
-      "by": "agent"
-    },
-    {
-      "date": "2026-07-11",
-      "phase": 1,
-      "item": "Track B REVISION per external methods review \u2014 narrow NR-V04 ternary claim from 'informative/validated' to 'exploratory concordance'; HOLD full prospective GPU campaign",
-      "decision": "External gate review returned the NR-V04 result FOR REVISION (do not approve as-is). Applied mandatory claim-narrowing: (1) manuscript 2.5 paragraph replaced with the reviewer's exploratory-concordance wording (no 'trustworthy/validated lens/is a valid metric'); (2) verdict downgraded informative -> exploratory-concordance in spec; (3) ligand-iPTM claim restricted to THIS benchmark (not a categorical 'confidence scores are invalid'); (4) metric switch disclosed as post-result elevation of a pre-specified EXPLORATORY readout; (5) 'exposed Lys' claim REMOVED from the concordance argument (analyzer computes no SASA; per-seed Lys ordering inconsistent \u2014 NR4A2 closer in 2/3 seeds); (6) denovo_401 downgraded to 'no modeled paralogue discrimination under the exploratory contact classifier'. Recorded review_required_fixes in nrv04-ternary-benchmark.json: moiety-specific occupancy (VH032-in-VHL, celastrol-at-NR4A, electrophile-Cys551, wrong-end detection, linker strain/clashes), all-rank + >3-seed sampling with uncertainty + cutoff sensitivity, exact NR-V04 chemical-graph verification, and inactive-recruiter/free-warhead/NR-V02-03 controls.",
-      "status": "claim narrowed + committed; analyzer hardening (moiety-specific/all-rank/cutoff-sensitivity) + controls PENDING as a CAPPED method-hardening step; FULL prospective linker campaign ON HOLD until the corrected benchmark retains separation",
-      "outputs": "nr4a3-degrader-paper.md 2.5 (narrowed); nrv04-ternary-benchmark.json .result + .review_required_fixes",
-      "by": "agent"
-    }
-  ]
+  {
+   "result_id": "harmonized_pocket_audit",
+   "generation": "harmonized_tracking",
+   "receptor_structure": "all load-bearing NR4A3 ensembles (AF2 static, calibration, 8XTT 20 models, metad, 3 release reps)",
+   "source_pdb_or_model": "AF-Q92570; 8XTT; NR-panel calibration structures",
+   "trajectory": "metad; release_rep0/1/2",
+   "frame": "all propagated frames (per-ensemble)",
+   "pocket_tracking_impl": "harmonized (pocket_tracking.py; fixed Pocket-5 lining set; jaccard_min 0.25 / frac_recovered 0.3 / centroid 8.0 A)",
+   "ligand_microstate": "apo (receptor-only druggability)",
+   "stereoisomer": "n/a",
+   "software_version": "fpocket 4.0 (pinned)",
+   "random_seed": "n/a",
+   "simulation_protocol": "fpocket cavity detection + composite matcher; both-denominator detection",
+   "output_location": "nr4a3-pocket-reharmonize-summary.json (committed); s3 nr4a3-pocket-reharmonize/",
+   "notes": "GATE-1 CLEARED. Canonical site detected 95-100% across all ensembles (score-independent). Druggable (>=D*=0.53): 8XTT 3/20 (0.15); metad 0.68; release pooled 0.59; AF2-static 0/1. Exact-generation-frame row (Gate A) NOT yet in this audit — pending."
+  }
+ ],
+ "controls": [
+  {
+   "id": "denovo_401",
+   "role": "benchmark / pipeline_positive",
+   "microstate": "neutral",
+   "note": "current best; must be BEATEN on the matched panel (worst-case S and margin)."
+  },
+  {
+   "id": "denovo_924",
+   "role": "negative control",
+   "note": "stays nonselective across tiers (method-discriminating check)."
+  },
+  {
+   "id": "denovo_111",
+   "role": "microstate-sensitivity control",
+   "note": "neutral form selective; cation (pH 7.4) REVERSES -> use to probe protonation fragility."
+  }
+ ],
+ "decision_ledger": [
+  {
+   "date": "2026-07-11",
+   "phase": 0,
+   "item": "provenance freeze + generation labels + this ledger",
+   "decision": "created",
+   "status": "done",
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "gate": "A",
+   "item": "harmonized pocket audit (all ensembles)",
+   "decision": "canonical site confirmed (95-100% detection); druggability low-population experimental (3/20 8XTT). GATE-1 cleared.",
+   "status": "done",
+   "outputs": [
+    "nr4a3-pocket-reharmonize-summary.json"
+   ]
+  },
+  {
+   "date": "2026-07-11",
+   "gate": "A",
+   "item": "EXACT denovo_401 generation-frame dependency audit (does the exact frame match the site, exceed D*, contain the claimed pocket-facing handles?)",
+   "decision": "PENDING — deliverable #3; must run the harmonized matcher on the exact generation frame specifically (not just pooled release).",
+   "status": "todo"
+  },
+  {
+   "date": "2026-07-11",
+   "gate": "B",
+   "item": "dense-lambda ABFE validation (NR4A2 repair pilot; apply to both NR4A3 variants)",
+   "decision": "FEP-class -> HELD per 'short of a new FEP run' (GATE-2).",
+   "status": "held"
+  },
+  {
+   "date": "2026-07-11",
+   "gate": "B",
+   "item": "T4L L99A-benzene protocol-matched benchmark (final production protocol)",
+   "decision": "alchemical/FEP-class -> HELD.",
+   "status": "held"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 1,
+   "item": "TICA reaction-coordinate validation (bias handling, lag-time, held-out, bootstrap)",
+   "decision": "CPU analysis of existing biased trajectories — ELIGIBLE now (non-FEP). Note: Phase-2 shakeout already returned NO-GO (0 recrossing, CV too Rg-like) -> coordinate needs redesign; do not launch phase-2 fleet.",
+   "status": "eligible"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 3,
+   "item": "denovo_401 conformer-sensitivity mechanism report (dock/contacts/RMSD/HB/BSA/strain across panel)",
+   "decision": "CPU/spot, non-FEP — ELIGIBLE after the panel receptor set is built (Phase 2).",
+   "status": "eligible"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 4,
+   "item": "freeze the prespecified receptor-conformer panel (design/validation/stress + matched NR4A1/NR4A2 anti-targets; brief §10.3 / deliverable #40)",
+   "decision": "DONE (rules-level freeze) -> nr4a3-conformer-panel.json. Frozen as DETERMINISTIC selection rules over the harmonized per-frame druggability (D*=0.53), not hand-picked indices, so it is reproducible AND cannot be gamed by shuffling failed conformers into design. design=top-3 unbiased-release druggable (not the AF2 frame); validation=3 druggable 8XTT NMR models + held-out release frames; stress=occluded 8XTT + AF2 + metad-opened; anti-targets=metad-opened NR4A1(524)/NR4A2(125) + opening-MD frames. Consumes a panel-docking run (cheap GPU/CPU <$10) -> ensemble_robust_score. Exact frame indices resolve from S3 at build time.",
+   "status": "done",
+   "outputs": [
+    "nr4a3-conformer-panel.json"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 5,
+   "item": "extend ensemble_robust_score to S = min_c M_c - lambda*sigma - gamma*C - eta*L (add counterexample C + liability L terms, sign-reversal counts)",
+   "decision": "DONE — added S_ext = S - gamma_c*C - eta*L (kept SEPARATE from the energetic S so S stays pure energy), counterexample_report() (strong counterexamples vs any sign-reversal), and rank by S_ext with per-candidate liabilities. 29/29 unit tests pass (24 original unchanged + 5 new).",
+   "status": "done",
+   "outputs": [
+    "ensemble_robust_score.py",
+    "tests/test_ensemble_robust_score.py"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 5,
+   "item": "Gate-2 published-chemistry docking benchmark (master brief §11): dock the registry's verified panel into state-matched opened NR4A3/1/2 pockets; test reproduction of known paralogue preferences (THPN/TMPA -> NR4A1; amodiaquine/chloroquine -> NR4A2; C-DIM12 non-binder control)",
+   "decision": "DONE (gpu-matrix run 29151841834, nr4a3-chem-benchmark, ~27 min, ~$1-2). VERDICT = chemically ACCOMMODATED but NOT DISCRIMINATING ('inconclusive', brief 11.3): the pocket fits all published NR4A actives (dG -5..-9), but docking-tier scoring reproduces only THPN's known NR4A1 preference cleanly; the other 3 discriminators are within docking noise (|mΔ|<=0.8), and the one strong 'NR4A3-selective' signal (celastrol +1.25) is the reactive-triterpenoid artifact. Reinforces: docking is a triage prior, selectivity must come from MM-GBSA/FEP/ternary (not single-pose docking). Also FIXED a conda/boost infra bug (smina vs rdkit libboost) that had broken the matrix pipeline for ALL runs. Full result table in published-warhead-registry.md (Gate-2 section).",
+   "status": "done",
+   "outputs": [
+    "nr4a3-chem-benchmark/nr4a3-matrix.json (S3)",
+    "published-warhead-registry.md#gate-2",
+    "sagemaker_src/entry_matrix.py (smina-env fix)"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "gate": "3",
+   "item": "TRACK A — repaired ABFE validation ($40-80 AUTHORIZED, trimcrae+gate-AI). Single-leg-first pilot: resume NR4A2 dense-16-window replicate r1 to the soft-core-tail windows, then check adjacent overlap before r2/r3.",
+   "decision": "IN PROGRESS. Fixed a diagnostics bug first (detect_K: the validate gate crashed because it assumed 12 windows but the dense repair has 16). Diagnostics now run: r1 had only windows 0-5 (paused ~36%), early-window overlap healthy 0.17-0.26 but the TAIL (9-15, where the defect is) not yet reached. Resumed r1 complex-nr4a2 leg (spot, ~$12, job nr4a3-abfe-nr4a2rep-r1-complex-nr4a2-2026-07-11-14-09). ON r1 tail overlap: >~0.03 -> dense schedule fixed it -> resume r2/r3 for error bars; <0.03 -> ABORT (dense repair insufficient, ABFE can't be the primary selectivity tier).",
+   "status": "in_progress",
+   "outputs": [
+    "nr4a3_abfe_diagnostics.py detect_K fix",
+    "results/nr4a3-abfe/diagnostics/"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 15,
+   "item": "TRACK B — retrospective NR-V04 3-paralogue ternary benchmark (gate-AI: the higher-value method contribution). Blinded ensemble ternary workflow vs NR-V04 (KNOWN: degrades NR4A1, spares NR4A2/NR4A3) as the family-matched positive control.",
+   "decision": "SPEC + structure DONE. Representative NR-V04 built + RDKit-validated (celastrol C28-COOH + 4-PEG + VH032, two amides; C62H87N5O11S, MW 1110.5, InChIKey ADEXNWCZOWYLJV; flagged representative, NOT the ChEMBL CRBN collision). Full spec (systems, VHL+EloB/C, controls, ensemble readouts, single-leg-first pilot = VHL+VH032 control + NR4A1 first, verdict gate) in nrv04-ternary-benchmark.json. NEXT: build the VHL ternary harness (extend nr4a3_ternary.py CRBN->VHL + N-seed ensembles) and run the pilot.",
+   "status": "in_progress",
+   "outputs": [
+    "nrv04-ternary-benchmark.json"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 5,
+   "item": "Gate-2 at the MM-GBSA tier: does multi-snapshot MM-GBSA reproduce known paralogue preferences where docking couldn't? (mmgbsa run 29152852051 on the 4 reversible discriminators)",
+   "decision": "NEGATIVE — MM-GBSA does NOT rescue discrimination and produces FALSE NR4A3-selective calls: the neutral NR4A1 ligands THPN/TMPA score NR4A3-tightest (labelled 'rescued'/selective — false positive, consistent with the opened-NR4A3-frame accommodation confound); the charged 4-aminoquinolines show protonation-fragile ~10-20 kcal electrostatic artifacts favouring NR4A1 (the denovo_111 failure mode). COMBINED Gate-2 (docking+MM-GBSA): neither cheap tier reproduces KNOWN NR4A paralogue preferences on real chemistry -> a strong external negative control on the in-silico selectivity stack; paralogue selectivity must come from FEP with resolved microstates + ensemble controls, or be hedged. Caveats: n=4, single opened frame, cations unresolved.",
+   "status": "done",
+   "outputs": [
+    "nr4a3-chem-benchmark-mmgbsa/nr4a3-mmgbsa.json (S3)",
+    "published-warhead-registry.md#gate-2-mmgbsa"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 1,
+   "item": "published_warhead_registry (master-brief Workstream B / deliverables 30-33): machine-readable catalog of published NR4A chemistry — Zaienne NOR-1 series, NR4A1/Nur77 + NR4A2/Nurr1 anti-target panels, NR-V04 reference degrader + celastrol warhead + VHL/CRBN E3 handles",
+   "decision": "BUILT — builder (published_warhead_registry.py) resolves + cross-checks structures across ChEMBL/PubChem/CACTUS (InChIKey-skeleton agreement -> high/medium/unresolved), RDKit-profiles each (QED/SA/PAINS/BRENK/PROTAC handles), flags covalent/reactive warheads (celastrol/DHI/PGA1) for special handling, and records paywalled/novel matter (Zaienne members) HONESTLY as unresolved (never invented). 13 pure-logic tests pass. Runs on the warhead-chem-profile CPU runner (dispatched with ref=<branch>); output published to modalities-cache.",
+   "status": "done",
+   "outputs": [
+    "published_warhead_registry.py",
+    "tests/test_published_warhead_registry.py",
+    "published-warhead-registry.json (modalities-cache)"
+   ],
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 1,
+   "item": "Job-progress monitoring (trimcrae request: 'catch if it hangs and get ETAs as we go') + Track B NR-V04/VHL ternary pilot",
+   "decision": "BUILT monitoring: job_progress_monitor.py parses ABFE/Boltz CloudWatch log tails -> newest progress marker + real event time -> min/unit + ETA + hang verdict (Eastern 12h); tail_cloudwatch.py now prepends each event's REAL CloudWatch timestamp (GitHub was collapsing all lines to the tail-run instant, defeating ETA/hang). Kind-aware hang thresholds: Boltz per-seed markers (~3.5 min) reliable at 25 min; ABFE lambda-windows run 30-100 min on the OpenCL fallback so window-start markers are NOT a hang signal -- authoritative ABFE progress is per-window jsonl checkpoint DEPTH via abfe-progress-aws.yml. RAN Track B NR-V04 pilot (control+NR4A1, 3 seeds): NR4A1 (known-degraded) STRONGLY recovered -- NR-V04 bridges NR4A1 & VHL in 3/3 seeds (lig->target 2.4-3.3 A, lig->VHL 2.3-2.6 A), ligand-iPTM 0.857 (0.82-0.91), exposed Lys53 3.3 A from VHL (ubiquitin-reach proxy). Control initially MISSING (control:null) -- VH032 does not resolve by ChEMBL pref_name so the control YAML was silently skipped; FIXED resolve_vh032_smiles (env->ChEMBL->PubChem->spec) + --control-only cheap re-run (in flight).",
+   "status": "tooling done + merged; Track B pilot NR4A1 leg favourable; control backfill in progress; NR4A2/NR4A3 fan-out gated on control seating (single-leg-first)",
+   "outputs": "research/modalities/job_progress_monitor.py (+12 tests); research/modalities/report_nrv04.py (+10 tests); .github/workflows/report-nrv04-aws.yml; research/modalities/report_nrv04.json (auto, S3 nrv04-ternary-pilot); tail_cloudwatch.py real-timestamp fix; abfe_progress_nr4a2rep_r1.png (modalities-cache)",
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 1,
+   "item": "Track B RESULT: retrospective NR-V04 3-paralogue ternary benchmark (NR4A1 degraded vs NR4A2/NR4A3 spared) — the family-matched positive control for a paralogue-discriminating ternary workflow",
+   "decision": "RAN full 3-paralogue benchmark (control VH032 + NR4A1/NR4A2/NR4A3 x 3 seeds, VHL+EloB/C, NR-V04). RESULT = INFORMATIVE: the workflow recovers the known NR-V04 selectivity via PRODUCTIVE-TERNARY GEOMETRY. NR4A1 (degraded) bridges NR-V04 to both target(2.4-3.3A) and VHL(2.3-2.6A) in 3/3 seeds; NR4A2/NR4A3 (spared) seat the warhead in VHL(2.0-2.6A) but leave the target LBD 6-26A away -> 0/3 productive ternaries. Exposed-Lys->VHL reach also orders correctly (NR4A1 5.5 < NR4A2 7.1 < NR4A3 9.1 A). KEY METHOD FINDING: ligand-iPTM INVERTS (spared NR4A2 highest, 0.910 vs NR4A1 0.857) because it scores the confidently-placed VHL-warhead half regardless of ternary formation -> confidence scores are NOT a valid ternary-selectivity metric; productive-geometry readouts are. full_verdict rewritten to a transparent composite (geometry primary, ligand-iPTM reported+flagged).",
+   "status": "done — verdict INFORMATIVE on pre-specified productive-geometry + Lys readouts; retrospective n=1 (NR-V04 only), and NR4A1-selectivity != NR4A3-selectivity, so this LICENSES comparative prospective use of the ternary workflow for NR4A3 designs, it does not validate any specific NR4A3 prediction",
+   "outputs": "research/modalities/report_nrv04.json (full 3-paralogue, S3 nrv04-ternary-pilot); nrv04-ternary-benchmark.json .result; report_nrv04.py composite full_verdict (+11 tests); control_ligand VH032 (InChIKey JAHUHEDUDMTTTF-COWZOJLOSA-N)",
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-11",
+   "phase": 1,
+   "item": "Track B REVISION per external methods review — narrow NR-V04 ternary claim from 'informative/validated' to 'exploratory concordance'; HOLD full prospective GPU campaign",
+   "decision": "External gate review returned the NR-V04 result FOR REVISION (do not approve as-is). Applied mandatory claim-narrowing: (1) manuscript 2.5 paragraph replaced with the reviewer's exploratory-concordance wording (no 'trustworthy/validated lens/is a valid metric'); (2) verdict downgraded informative -> exploratory-concordance in spec; (3) ligand-iPTM claim restricted to THIS benchmark (not a categorical 'confidence scores are invalid'); (4) metric switch disclosed as post-result elevation of a pre-specified EXPLORATORY readout; (5) 'exposed Lys' claim REMOVED from the concordance argument (analyzer computes no SASA; per-seed Lys ordering inconsistent — NR4A2 closer in 2/3 seeds); (6) denovo_401 downgraded to 'no modeled paralogue discrimination under the exploratory contact classifier'. Recorded review_required_fixes in nrv04-ternary-benchmark.json: moiety-specific occupancy (VH032-in-VHL, celastrol-at-NR4A, electrophile-Cys551, wrong-end detection, linker strain/clashes), all-rank + >3-seed sampling with uncertainty + cutoff sensitivity, exact NR-V04 chemical-graph verification, and inactive-recruiter/free-warhead/NR-V02-03 controls.",
+   "status": "claim narrowed + committed; analyzer hardening (moiety-specific/all-rank/cutoff-sensitivity) + controls PENDING as a CAPPED method-hardening step; FULL prospective linker campaign ON HOLD until the corrected benchmark retains separation",
+   "outputs": "nr4a3-degrader-paper.md 2.5 (narrowed); nrv04-ternary-benchmark.json .result + .review_required_fixes",
+   "by": "agent"
+  },
+  {
+   "date": "2026-07-12",
+   "phase": 1,
+   "item": "Track A — NR4A2 dense-16-window λ-repair ABFE pilot (r1, tag nr4a3-abfe-nr4a2rep-r1): completed sampling + re-gated; convergence FAILS the pre-registered bar (surfaced to trimcrae for a decision)",
+   "decision": "CORRECTION of a prior optimistic handoff: the r1 complex-nr4a2 leg was NOT actually complete — window 15 had stalled at 1000 of the 2000-iter target while a prior session recorded the extension as 'COMPLETED' (it inferred completion from a job status / assumption, never verified per-window S3 counts; its session then ended on a GitHub-connector drop). The spot job was in fact still running; waited it out and window 15 reached 2000. Re-ran the technical-validity gate on the now-COMPLETE, fully-sampled leg (all 16 windows @2000 iters; ESS_autocorr ~570-620/state >=50 floor; min adjacent MBAR overlap 0.085; completeness/schedule/data-integrity all PASS). RESULT: technically_valid=False — criterion 5 CONVERGENCE fails: half_difference=1.147 kcal/mol (ΔG_full 21.85, ΔG_second-half 20.71) vs the pre-registered 1.0 tol; plateau sub-check PASSES (tail spread 0.42<0.75). Completing window 15 improved half_difference 1.36->1.147 (more sampling moved it the right way, not below 1.0). Per prereg the sole sanctioned extension is ESS-triggered (ESS passes), so the protocol does not itself sanction more sampling for convergence. No headline ΔΔG computed (gated on technical validity). SURFACED to trimcrae (reviewer block + phone push) with options: (A) pre-committed fixed extension to 4000 iters/window re-judged at the SAME bar, (B) accept the technical failure / lean on ternary tier, (C) compute a caveated direction-only ΔΔG first. r2/r3 NOT run (cost override + technical-invalid stop). GATE HARDENING committed (3f6e3c9): added an environment-independent sampling-COMPLETENESS criterion + recorded target n_iter in meta.json + 6 unit tests, so 'job Completed but a window didn't finish' now hard-fails loudly instead of only tripping convergence incidentally.",
+   "status": "awaiting trimcrae decision (extend vs accept-failure); leg sampling complete; gate hardening merged to branch",
+   "outputs": [
+    "abfe_repair_gate.crit_sampling_completeness (+ criterion 0 wiring, CLI print)",
+    "nr4a3_abfe.run_shard: meta.json now records target n_iter",
+    "tests/test_abfe_repair_gate.py (+6 pure completeness tests)",
+    "nr4a3-abfe-repair-prereg.md §2 (criterion 0 documented + process corollary)",
+    "gate re-run run_id 29190987163 (technically_valid=False, criterion 5 half_diff 1.147)"
+   ],
+   "by": "agent"
+  }
+ ]
 }
