@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
 """
-Adaptive multi-fidelity compute allocator for the NR4A3 selective-degrader screen.
+Adaptive multi-fidelity compute ALLOCATOR (scheduling) for the NR4A3 selective-degrader screen.
 
-Best-arm-identification (NOT regret-minimizing MAB): find the selective winner and stop paying for the rest
-ASAP. Pure-function core (no I/O, no GPU) so it is deterministic + unit-testable; the orchestrator wires it to
-the submit_spot fleet. Design: research/modalities/nr4a3-adaptive-allocation-design.md.
+Formalism (corrected per the 2026-07-12 methodology review):
+  * Full-fleet mode  = constrained, multi-fidelity, FIXED-CONFIDENCE BEST-ARM IDENTIFICATION.
+  * Champion modes   = FIXED-CONFIDENCE GOOD-ARM IDENTIFICATION WITH ABSTENTION (return the first arm PROVEN to
+                       exceed a threshold; abstain/escalate otherwise) — NOT "satisficing BAI".
+  * NOT regret-minimizing MAB: computational "pulls" yield information, not recurring reward.
 
-Policy per allocation cycle:
-  1. Bayesian posterior per alive candidate on its selective-hit score S_i ~ Normal(mu, sigma).
-  2. Top-two Thompson: estimate p_i = P(i in top-k at terminal) by Monte-Carlo over posterior draws (exploit).
-  3. Uncertainty reserve rho (explore): force a fraction of slots to highest-sigma survivors; rho DECAYS with
-     rung (explore where compute is cheap, exploit where it is dear).
-  4. Kill candidates with p_i < kill_threshold (validity fails are killed upstream, orthogonally).
-  5. Promote funded survivors to the next rung.
+**ALLOCATION vs CERTIFICATION ARE SEPARATE (hard rule).** Everything in THIS module only *schedules* the next
+computation (Thompson sampling, confirmation-lock, futility, promotion). It must NOT decide whether a candidate
+PASSES. The PASS decision lives solely in `adaptive_certify.py` (anytime-valid bounds, noncompensatory vector
+of per-paralogue margins, pre-declared campaign-wide error budget, terminal-rung evidence only). Top-two
+Thompson is an *allocator*, not a certifier; its guarantees assume a well-specified model and do NOT transfer
+to heterogeneous, biased fidelity rungs — so it may choose what to run, never what to declare.
 
-Sequential within-rung kill (futility) is a separate pure function used on each streamed checkpoint.
+`run_champion_race` / `interruptible_champion_race` below are the SCHEDULING demonstrations; their internal
+"declare on P(clears bar)" shortcut is retained only for the scheduling/behavior unit tests and MUST NOT be
+used to certify a candidate. The certification-integrated driver is `adaptive_certify.certified_champion_race`.
 
-Pure stdlib (random, math, statistics) — matches the repo's CPU convention; runs anywhere.
+Pure stdlib (random, math) — matches the repo's CPU convention; runs anywhere.
 """
 from __future__ import annotations
 
@@ -150,7 +153,9 @@ def champion_order(cands, key=None):
 
 def run_champion_race(order, confirm_fn, budget_gate):
     """
-    Depth-first satisficing search under a HARD budget gate. Walk candidates in prior order; confirm_fn(cid,
+    SCHEDULING DEMO — NOT a certifier (its pass shortcut must not declare a real candidate; use
+    adaptive_certify.certified_champion_race). Depth-first good-arm search under a HARD budget gate.
+    Walk candidates in prior order; confirm_fn(cid,
     remaining_budget) runs that ONE candidate's cheap-first confirm path (internally staged + mini-gated) and
     returns (cost, passes, valid). STOP + DECLARE at the first valid candidate that clears the bar — later
     candidates are never touched. STOP + ESCALATE (come-ask) if cumulative spend reaches budget_gate with no
@@ -177,9 +182,11 @@ def interruptible_champion_race(cands, step_fn, budget_gate, bar, switch_margin=
                                 declare_conf=0.90, kill_conf=0.05, max_steps=2000, seed=0,
                                 lock_conf=0.50, release_conf=0.30):
     """
-    Preemptive champion race: re-rank after EVERY cheap increment and fund the current most-promising
-    candidate, so a champion whose early returns are slipping gets PAUSED (its posterior/checkpoints are
-    preserved; it can be resumed) rather than run to completion out of sunk cost.
+    SCHEDULING DEMO — NOT a certifier (the "declare on P(clears bar)" step is a scheduling illustration; real
+    declarations go through adaptive_certify.certified_champion_race). Preemptive good-arm search: re-rank after
+    EVERY cheap increment and fund the current most-promising candidate, so a champion whose early returns are
+    slipping gets PAUSED (its posterior/checkpoints preserved; resumable) rather than run to completion on sunk
+    cost.
 
     - leader = **Thompson-sampled** best alive candidate (draw a score ~ N(mu, sigma) each and take the max).
       Thompson gives the right explore/exploit balance for free: a tight, observed-good posterior wins

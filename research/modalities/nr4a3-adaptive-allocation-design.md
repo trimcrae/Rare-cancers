@@ -1,11 +1,22 @@
 # Adaptive compute allocation for the NR4A3 selective-degrader screen
 
-**Status:** DESIGN + VALIDATED PROTOTYPE (2026-07-12). A spend-minimizing, exploration/exploitation resource
-allocator that layers on top of the existing staged pipeline (binary RBFE → paralogue RBFE → ternary) and the
-`submit_spot` fleet. Goal: **maximize P(find a selective hit) per dollar**, with granular, well-timed early
-kills. Pure-function core + validation in `adaptive_allocator.py` / `tests/test_adaptive_allocator.py`
-(23 tests). **Not yet wired to the live fleet** — that is a Stage-2 task (after the binary pilot validates the
-RBFE engine and a real candidate set exists). It changes nothing currently running.
+**Status:** DESIGN + OFFLINE PROTOTYPE (2026-07-12; revised after an external methodology review — see §13).
+A spend-minimizing resource allocator over the existing staged pipeline (binary RBFE → paralogue RBFE →
+ternary) and the `submit_spot` fleet. Goal: **maximize P(find a computationally qualified NR4A3-selectivity
+candidate) per dollar**, with granular, well-timed kills and PRE-DECLARED campaign-wide error control.
+Two-module split: `adaptive_allocator.py` = **scheduling only** (Thompson / lock / futility — never declares);
+`adaptive_certify.py` = the **only** PASS authority (anytime-valid bounds, noncompensatory per-paralogue
+margins, terminal-rung evidence, campaign δ). 38 tests (`test_adaptive_allocator.py` +
+`test_adaptive_certify.py`). **KEEP OFFLINE.** The review's disposition: sound for an *offline shadow pilot*
+after fixes 1–6; **fleet wiring requires a separate code-level review + a completed multi-scenario stress
+suite + a real retrospective calibration** (§13). It changes nothing currently running.
+
+**Claim ceiling (non-negotiable):** a candidate that PASSES here is a **"computationally qualified
+NR4A3-selectivity candidate"** — NOT a "selective hit" or "selective degrader." Numerical convergence
+(overlap/hysteresis/cycle/pocket) is not physical correctness: force-field/charge bias, wrong
+protonation/tautomer/pose, hidden slow modes, shared cross-paralogue systematic error, and the terminal
+score being only a *surrogate* for cellular degradation all survive convergence. Only wet-lab data upgrades
+the label.
 
 ## 0. Operating modes (read this first)
 
@@ -14,15 +25,19 @@ Validated costs are from the synthetic screen (§11), illustrative not literal.
 
 | Mode | When to use | Behavior | Sim cost / recovery |
 |---|---|---|---|
-| **Cheap-first champion** (default; §7c) | you believe ≥1 candidate is a hit and just want *a* selective one cheaply | near-free CPU prior ranks all → confirm the top candidate depth-first → **stop at the first that clears the bar; touch nothing else**; hard ~$350 gate → escalate | **~$232/run**, 63% one-touch wins, 0 false declarations, 22% escalate |
+| **Cheap-first champion** (default; §7c) | good-arm ID with abstention: you want *a* qualified candidate cheaply | near-free CPU prior ranks all → confirm the top candidate depth-first → **stop at the first that CERTIFIES; touch nothing else**; hard ~$350 gate → abstain/escalate | **~$232/run**, 63% one-touch wins, 22% escalate (illustrative sim; certification via §3 error control) |
 | **Interruptible champion** (§7c) | same, but don't sunk-cost a slipping #1 | re-rank after every increment; Thompson leader + confirmation-lock (lock a promising one, **pause it if it slips**) + switch hysteresis ~ env cost | **~$105/run**, matches commit-first recovery, ⅓ the waste on a slipping decoy |
 | **Full adaptive fleet** (fallback; §3–7) | champion escalated, OR you must find *THE* best (thorough) | successive-halving rungs + top-two Thompson + sequential futility + env-aware batching | **~$1,681/run** (12/12), ~35% under static halving |
 
 **Default path:** champion (interruptible) under the hard gate → escalate to the full fleet only on failure.
 Blended expected cost to a decision ≈ **$600**, with a **hard ~$350 ceiling before any >$50 sign-off**.
 Everything below is the detail behind this table. **Honesty spine:** the cheap prior only *orders* the
-search; every "it's a hit" call is made on the trustworthy readout (§6), so the machinery makes **zero false
-declarations** — its failure mode is escalation, never a wrong winner.
+search; certification is a **separate** authority (`adaptive_certify.py`, §3) using anytime-valid bounds on a
+noncompensatory vector of per-paralogue margins under a pre-declared campaign-wide error budget δ. The
+defensible guarantee is **not** "zero false declarations" — it is: *no candidate is declared from cheap-prior
+evidence or from numerically invalid calculations, and the campaign-wide false-declaration rate from the
+statistical procedure is controlled to δ under optional stopping* (validated: 0/200 no-hit campaigns, ~95%
+upper bound 0.015, δ=0.05). Converged-but-biased physics can still be wrong — hence the claim ceiling above.
 
 ## 1. Framing — this is best-arm identification, not regret-minimization
 
@@ -175,11 +190,13 @@ for not-yet-cached systems. This overhead-aware cost is what the VOI/\$ ranking 
 granularity floor should optimize against — **the optimal increment size is where marginal VOI ≈ env_overhead**
 (don't split work so fine that env load dominates; don't batch so coarse that you can't kill early).
 
-## 7c. Cheap-first champion mode (satisficing) — the "few hundred $" gate
+## 7c. Cheap-first champion mode (good-arm identification with abstention) — the "few hundred $" gate
 
-**Objective shift.** Best-arm ID ("find THE best of N") is expensive; often all we want is **"find *a*
-candidate that clears the selectivity bar, as cheaply as possible; if the top-ranked one clears it, touch
-nothing else."** That is *satisficing*, and it is far cheaper because you **stop at the first winner**.
+**Objective shift.** Best-arm ID ("find THE best of N") is expensive; often all we want is **"return the first
+arm PROVEN to exceed the threshold, as cheaply as possible; if the top-ranked one clears it, touch nothing
+else — else abstain."** Formally this is **fixed-confidence good-arm identification with abstention** (not
+"satisficing BAI"); it is far cheaper because you **stop at the first CERTIFIED candidate** (certification =
+§3, terminal-rung + anytime-valid + noncompensatory), and it can honestly ABSTAIN rather than force a pick.
 
 **Tier 0 — near-free prior ranking (~$0–20 total, CPU / cheap-inference only).** Before any alchemy, rank
 candidates with a **consensus of decorrelated cheap methods**. The menu, cheapest first:
@@ -228,16 +245,21 @@ expensive tier. (`seed_prior` / `champion_order` / `run_champion_race`.)
 
 **Non-negotiable honesty guardrail.** The cheap prior is a **weak, biased predictor** — docking selectivity
 is notoriously unreliable (the repo already caught a docking-artifact "selective" hit). So the prior **only
-orders the search**; a champion must *earn* "selective hit" on the **trustworthy readout** (ternary-pilot),
-never on its rank. Consequence: the race makes **zero false declarations** (it declares only on a real PASS);
-its failure mode is *escalation*, not a wrong winner.
+orders the search**; a champion must *earn* certification (§3) on **terminal-rung** evidence, never on its
+rank OR on a single pilot rung (the ternary-pilot may PROMOTE but not DECLARE — only the full three-paralogue,
+multi-replica terminal rung certifies). Consequence: no declaration ever rests on the prior or on invalid
+numerics; the failure mode is *abstention/escalation*, not a wrong winner — but "converged" ≠ "physically
+correct," so a passing candidate is a *computationally qualified* candidate, not a proven selective degrader.
 
 **Validated** (`test_adaptive_allocator.py`, imperfect docking-grade prior, 40 seeds, $350 gate):
 mean **~$232/run** to a confirmed bar-clearing candidate (vs ~$1,681 full fleet, ~86% cheaper); mean **~2.0**
 candidates touched; **25/40 (63%) one-touch wins** (#1 was the hit, nothing else touched); **31/40 (78%)**
-declared a genuine hit; **0 false declarations**; **9/40 (22%) escalated** (gate hit without a pass → come-ask,
-the correct cheap-null behavior). Blended expected cost to a decision ≈ **$600** with a **hard ~$350 ceiling
-before any sign-off**.
+declared a genuine bar-clearer in that idealized model; **9/40 (22%) escalated** (gate hit without a pass →
+come-ask). Blended expected cost to a decision ≈ **$600** with a **hard ~$350 ceiling before any sign-off**.
+(This sim uses an idealized unbiased-Gaussian model and is a SOFTWARE/LOGIC demonstration only — it does not
+establish the dollar or hit-rate figures for real chemistry; the authoritative error control is the
+anytime-valid procedure of §3, validated separately by the no-hit campaign test. See §5/§13 for the honest
+limits and the required multi-scenario stress suite.)
 
 **Interruptible (preemptive) champion — never overcommit to a slipping #1.** The race is NOT depth-first
 commit. `interruptible_champion_race` re-ranks after **every cheap increment** so a champion whose early
@@ -326,5 +348,69 @@ cost, and batching + build-caching is what lets you keep the fine-grained kills 
 - Everything rests on the rung→terminal correlations, which are **unknown a priori** and learned from few
   data. Conservative cold-start is a mitigation, not a cure.
 - The allocator cannot rescue a bad *terminal* metric: if the ternary method fails the NR-V04 control, no
-  amount of clever allocation produces a trustworthy selective hit — it just fails cheaply, which is the
-  point.
+  amount of clever allocation produces a trustworthy result — it just fails cheaply, which is the point.
+
+## 13. Methodology-review response (2026-07-12) — fixes applied + what remains before adoption
+
+An external methodology reviewer returned "**not sound to adopt as specified; itemized fix list; keep the
+allocator offline**; after fixes 1–6 it would be sound for an offline shadow pilot; fleet wiring follows a
+separate code-level review + successful no-hit/retrospective calibration." Applied this round:
+
+**Reframed the formalism (fix 1).** Full mode = constrained multi-fidelity **best-arm identification**;
+champion modes = fixed-confidence **good-arm identification with abstention** (not "satisficing BAI"). Top-two
+Thompson is an *allocator*, not a certifier.
+
+**Separated allocation from certification (fix 1.2).** New module `adaptive_certify.py` is the ONLY PASS
+authority; `adaptive_allocator.py` is scheduling-only and its old "declare on P(clears bar)" shortcut is
+explicitly demoted to a scheduling demonstration.
+
+**Noncompensatory vector pass (fix 1.3).** Certification requires BOTH the NR4A3−NR4A1 and NR4A3−NR4A2 margins
+to clear simultaneously (min of anytime lower bounds ≥ bar + robustness) — a strong margin cannot average
+away a weak one.
+
+**Pilot promotes, terminal certifies (fix 1.4).** Only terminal-rung evidence can certify; the ternary-pilot
+may PROMOTE but never DECLARE.
+
+**Deleted "ZERO false declarations" (fix 2).** Replaced with the defensible claim + the **claim ceiling**
+("computationally qualified NR4A3-selectivity candidate"), and the explicit list of why converged ≠ correct.
+
+**Anytime-valid, campaign-wide error control (fix 3).** `anytime_lower_bound` (sub-Gaussian normal-mixture
+confidence sequence, valid under optional stopping), `campaign_delta_split` (union bound over candidates ×
+margins), a robustness margin above the nominal bar, and the 6-state machine (ORDER / PROMOTE / TECHNICAL_STOP
+/ FUTILITY_STOP / PASS_CANDIDATE / ABSTAIN_ESCALATE). The 0.5/0.3 lock/release are labelled **scheduling
+parameters only**. **Validated:** 0/200 no-hit campaigns declared falsely under repeated looks (~95% upper
+0.015; δ=0.05).
+
+**Invalidity ≠ failure (fix 4).** Result-status taxonomy (TECHNICAL_FAIL / GROSS_FAIL / FUTILITY /
+VALID_UNFAVORABLE / VALID_FAVORABLE); technical failure ⇒ abstain/retry, not a chemistry verdict; pocket loss
+recorded as a GROSS scientific outcome separate from estimator failure; a KNOWN fixed σ for the confidence
+sequence (a data-estimated σ would break anytime-validity); replica-independence discounting (distinct
+seed + starting state, not one parent trajectory); **content-addressed** system hash over all scientific
+inputs (structure/protonation/params/restraints/mapping/coords + env), not just the software env.
+
+**Tests added (subset of the required 14):** prior-cannot-enter-pass, pass-requires-terminal-rung,
+noncompensatory, futility-on-upper-bound, technical-fail-abstains, gross-fail-is-futility, correlated-replica
+discount, content-hash distinguishes scientific systems, campaign-δ union bound, permutation invariance,
+anytime coverage under repeated looks, and the **no-hit false-declaration campaign**.
+
+**STILL REQUIRED before fleet wiring (honestly not yet done):**
+1. **The full multi-scenario stress suite (fix 5):** no-hit (done) + multiple-hits, at/just-below threshold,
+   zero/negative and chemotype-specific rung correlation, shared paralogue/FF bias, heavy-tailed/outlier
+   errors, correlated replicas, non-monotonic fidelity, difficulty-correlated failures, prior precision@1 from
+   excellent to adversarial, variable spot cost/preemption/stale-batch, near-tied candidates. Report
+   campaign-wide false-declaration + false-elimination + escalation + recovery + cost distribution +
+   posterior calibration, all with binomial CIs (the 12/12-vs-11/12 "better recovery" is NOT statistically
+   established and must be re-run paired with CIs).
+2. **Real retrospective calibration (fix 6):** freeze the prior formula + weights before unmasking; NR-V04
+   active + inactive Hyp epimer + matched null/nonselective controls + near-negatives; paralogue-label swaps +
+   shuffled divergent-residue masks; leave-one-control-out; evaluate the COMBINED prior; co-fold as an
+   architecture-feasibility FILTER only (not a favorable score contribution), given the epimer result.
+3. **Allocation-robustness tests (fix 8):** arm starvation, stale-posterior updates, double-counted
+   checkpoints, restart/serialization determinism, cache collisions, budget-gate breach via queued/retried
+   jobs, forced-exploration floor, max unreviewed spend per batch.
+4. **The GP surrogate** stays OUT of the claimed methodology until implemented + replay-tested without leakage.
+5. A separate **code-level review** + an **independent terminal confirmation block** (or fully anytime-valid
+   terminal evidence) before any result is reported as a qualified candidate.
+
+**Disposition:** allocator + certifier stay OFFLINE. This round completed fixes 1–4 and part of 5–6; the items
+above gate an offline shadow pilot and, after that, fleet wiring.
