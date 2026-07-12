@@ -30,6 +30,8 @@ import math
 import os
 import sys
 
+import ternary_coop as _tc   # alpha<->dG_coop conversion (single source of the sign convention)
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 FROZEN_JSON = os.path.join(HERE, "nr4a3-ternary-coop-prereg.json")
 _MISSING = object()
@@ -132,6 +134,31 @@ def kendall_tau_b(pairs):
     return (C - D) / denom if denom > 0 else None
 
 
+def tau_b_exact_p(pairs):
+    """EXACT one-sided permutation p-value for tau-b (reviewer 2026-07-12: report exact, not asymptotic —
+    the calibration panel is tiny, n=5..7, so all n! permutations are enumerable). Fixes x, permutes y over
+    every permutation, and returns P(tau_b(perm) >= tau_b(observed)). Returns None if tau is undefined or n>8
+    (guard against a factorial blow-up). Pure."""
+    import itertools
+    n = len(pairs)
+    if n < 2 or n > 8:
+        return None
+    obs = kendall_tau_b(pairs)
+    if obs is None:
+        return None
+    xs = [p[0] for p in pairs]
+    ys = [p[1] for p in pairs]
+    ge = tot = 0
+    for perm in itertools.permutations(ys):
+        t = kendall_tau_b(list(zip(xs, perm)))
+        if t is None:
+            continue
+        tot += 1
+        if t >= obs - 1e-12:
+            ge += 1
+    return (ge / tot) if tot else None
+
+
 def _required_correct(n, floor=5, num=5, den=6):
     """Frozen rule: required = max(floor, ceil(num/den * n))."""
     return max(floor, int(math.ceil(num / float(den) * n)))
@@ -212,11 +239,26 @@ def _panel_system_ok(s):
     if not isinstance(is_mz1, bool):
         reasons.append("system %r: 'is_mz1' must be a boolean" % sid)
     pred = _num(s.get("predicted_alpha"))
+    pred_dg = _num(s.get("predicted_dg_coop"))
+    # SIGN-CONVENTION ENFORCEMENT (reviewer 2026-07-12): the physics method predicts dG_coop; measured is alpha.
+    # dG_coop = -RT ln(alpha) => higher alpha == more-negative (more favorable) dG_coop. To rank on a CONSISTENT
+    # scale we convert a predicted dG_coop to a predicted alpha via the same convention, so tau-b on
+    # (predicted_alpha, measured_alpha) is a POSITIVE rank correspondence. Comparing raw dG_coop with alpha would
+    # invert the conclusion (guarded by the invariant tests). If both are supplied they must AGREE in sign.
+    if pred is None and pred_dg is not None:
+        pred = _tc.alpha_from_dg_coop(pred_dg)
+    elif pred is not None and pred_dg is not None:
+        implied = _tc.alpha_from_dg_coop(pred_dg)
+        if implied is not None and pred > 0 and implied > 0 and (math.log(pred) * math.log(implied) < 0
+                                                                 and abs(math.log(pred) - math.log(implied)) > 1e-6):
+            reasons.append("system %r: predicted_alpha and predicted_dg_coop disagree in SIGN "
+                           "(alpha=%.3g implies dG of opposite sign)" % (sid, pred))
     meas = _num(s.get("measured_alpha"))
     ci = _num(s.get("dg_coop_ci_half_width_kcal"))
     return ({"id": sid, "role": role, "verified": verified, "independent_vhl": independent,
              "is_mz1": bool(is_mz1) if isinstance(is_mz1, bool) else False,
-             "predicted_alpha": pred, "measured_alpha": meas, "dg_coop_ci_half_width_kcal": ci}, reasons)
+             "predicted_alpha": pred, "predicted_dg_coop": pred_dg, "measured_alpha": meas,
+             "dg_coop_ci_half_width_kcal": ci}, reasons)
 
 
 def _score_panel_subset(systems, vp):
@@ -245,7 +287,7 @@ def _score_panel_subset(systems, vp):
                 tau_pairs.append((s["predicted_alpha"], s["measured_alpha"]))
     tau = kendall_tau_b(tau_pairs)
     return {"n": n, "class_correct": correct, "required": required, "tau_b": tau,
-            "inactive_competent": inactive_competent, "n_tau_pairs": len(tau_pairs)}
+            "inactive_competent": inactive_competent, "n_tau_pairs": len(tau_pairs), "tau_pairs": tau_pairs}
 
 
 def gate_vhl_panel(results, frozen):
@@ -338,7 +380,9 @@ def gate_vhl_panel(results, frozen):
 
     return {"passed": not reasons, "available": True, "n_systems": n,
             "class_correct": scored["class_correct"], "required_class_correct": scored["required"],
-            "kendall_tau_b": scored["tau_b"], "composition": {"strong": n_strong, "weak_or_negative": n_weak,
+            "kendall_tau_b": scored["tau_b"],
+            "kendall_tau_b_exact_p": tau_b_exact_p(scored.get("tau_pairs") or []),   # reported, not gated
+            "composition": {"strong": n_strong, "weak_or_negative": n_weak,
             "inactive": n_inactive, "independent_vhl": n_independent, "has_mz1": has_mz1},
             "loo_failures": loo_failures, "failures": reasons}
 

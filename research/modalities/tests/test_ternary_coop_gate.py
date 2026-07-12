@@ -483,3 +483,55 @@ def test_classify_alpha_bands():
     assert g.classify_alpha(0.5, 2.0, 0.5) == "anti_cooperative"
     assert g.classify_alpha(None, 2.0, 0.5) is None
     assert g.classify_alpha(NAN, 2.0, 0.5) is None
+
+
+# =============================================================================================================
+# reviewer 2026-07-12 — sign-convention invariant (Req 3) + exact-permutation reporting (Req 2)
+# =============================================================================================================
+def _panel_with_predicted_dg(sign):
+    """A 6-system panel whose predictions are supplied as predicted_dg_coop. sign=+1 => sign-CONSISTENT
+    (higher measured alpha -> more-negative predicted dG_coop -> ranks POSITIVELY); sign=-1 => anti-consistent
+    (must FAIL the tau gate — comparing raw dG_coop with alpha would otherwise reverse the science)."""
+    import ternary_coop as tc
+    systems = _passing_panel_systems()
+    for s in systems:
+        s.pop("predicted_alpha", None)
+        if s["role"] == "inactive_control" or s["measured_alpha"] is None:
+            s["predicted_dg_coop"] = tc.dg_coop_from_alpha(0.4)   # non-competent
+            continue
+        s["predicted_dg_coop"] = sign * tc.dg_coop_from_alpha(s["measured_alpha"])
+    return {"vhl_panel": {"systems": systems}}
+
+
+def test_sign_consistent_predicted_dg_passes_tau():
+    out = g.gate_vhl_panel(_panel_with_predicted_dg(+1), _frozen())
+    assert out["kendall_tau_b"] is not None and out["kendall_tau_b"] >= 0.5
+    assert out["passed"] is True
+
+
+def test_sign_flipped_predicted_dg_fails_tau():
+    out = g.gate_vhl_panel(_panel_with_predicted_dg(-1), _frozen())
+    assert out["kendall_tau_b"] is not None and out["kendall_tau_b"] < 0.5
+    assert out["passed"] is False
+
+
+def test_predicted_alpha_and_dg_sign_disagreement_flagged():
+    import ternary_coop as tc
+    r = _passing_results()
+    s = r["vhl_panel"]["systems"][0]
+    s["predicted_alpha"] = 40.0
+    s["predicted_dg_coop"] = tc.dg_coop_from_alpha(0.1)   # implies opposite sign
+    out = g.gate_vhl_panel(r, _frozen())
+    assert out["passed"] is False
+    assert any("disagree in SIGN" in x for x in out["failures"])
+
+
+def test_exact_permutation_p_reported():
+    out = g.gate_vhl_panel(_passing_results(), _frozen())
+    p = out["kendall_tau_b_exact_p"]
+    assert p is not None and 0.0 <= p <= 1.0 and p < 0.2   # perfectly-ranked => extreme => small exact p
+
+
+def test_tau_b_exact_p_helper():
+    assert abs(g.tau_b_exact_p([(1, 1), (2, 2), (3, 3), (4, 4)]) - 1.0 / 24) < 1e-9
+    assert g.tau_b_exact_p([(1, 1)]) is None
