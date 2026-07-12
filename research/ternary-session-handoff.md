@@ -69,6 +69,26 @@ structures/microstates/transformations/replica-count/λ-schedule are frozen (mus
 placeholder); **no production GPU authorized**; **no further scientific check-in required** for these no-spend
 steps once the fixes pass (they do).
 
+### Session progress on the 3 approved no-spend builds (2026-07-12)
+**Testable pure cores for all three tracks are BUILT + committed** (81 tests across the ternary-coop modules;
+full modalities suite 607+ passing):
+- **Ternary harness core — `ternary_coop.py`** (13 tests): thermodynamic-cycle bookkeeping (`ΔΔG_coop =
+  ΔΔG_ternary − ΔΔG_binary`, `α↔ΔG_coop`), the two SEPARATE read-outs (recruitment vs coupling), the frozen
+  4-morph-leg PILOT_LEG_MAP, and `MODE=plan` (real GPU-h/cost forecast + $200-cap preflight; unit_gpu_h a
+  labeled STUB). **Remaining:** the heavy OpenFE ternary FEP engine + spot-Training submitter (untestable in
+  sandbox — build against staged inputs + the frozen calib pair).
+- **Binary pilot core — `rbfe_pilot.py`** (14 tests): pilot edge resolution (5-Br→5-NH₂ + SMILES + design
+  frame, from the frozen map), the pre-registered abort gate, and `MODE=plan`. **Remaining:** stage a
+  design-frame receptor PDB + docked endpoint poses, + a single-frame engine/submitter path.
+- **Layer-1 curation — `layer1_vhl_fetch.py`** (7 tests) + 3 CI fetch cycles (RCSB + Europe PMC, off-branch via
+  `fusion-cpu-extras.yml`): **VERIFIED** a real SMARCA2-VHL PROTAC series (P1-P5; PDB 9HYN/9HYB/9HYO/9HYP;
+  ordinal classes P1-P3 cooperative / P4 low / P5 negative; Nat Commun 2025 PMC12480974) + that paper's
+  **MM-GBSA-no-correlation** result (the basis of the prereg's MM-GBSA-not-a-gate rule). Recorded in the
+  prereg's `candidate_systems` workspace (scored `systems` stays EMPTY — no fabrication). **Remaining (well
+  scoped):** exact NUMERIC α per compound lives in Fig 1A / Supplementary (resisted automated text+table
+  extraction across 3 cycles → needs an SI-data-file parse or a figure read), + MZ1 numeric α + a verified
+  inactive stereo control. This gates PRODUCTION ternary runs only (far downstream), NOT the harness build.
+
 ### ⚠ NEITHER authorized pilot is wired to launch yet — the 3 approved no-spend builds (turnkey detail)
 The reviewer *authorized* both pilots (binary RBFE ~$5–15; ternary feasibility capped $200), but **neither is
 runnable as-is** — all three are free engineering; **do NOT dispatch a GPU spend** until built:
