@@ -1,0 +1,44 @@
+name: Modal <-> S3 bridge smoke (checkpoint store on existing AWS S3)
+
+# Proves Modal can read/write the existing AWS S3 bucket with the repo's AWS creds — the checkpoint bridge for
+# the cheap-provider path (compute on Modal, state on S3, no R2). CPU only, ~free. Needs repo secrets:
+# MODAL_TOKEN_ID, MODAL_TOKEN_SECRET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bucket:
+        description: "S3 bucket for the probe (default: existing SageMaker bucket)"
+        default: "sagemaker-us-east-2-646605541856"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -q modal boto3
+      - name: Modal <-> S3 round-trip
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          S3_BUCKET: ${{ inputs.bucket }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$MODAL_TOKEN_ID" ]; then
+            echo "::error::Need MODAL_TOKEN_ID/SECRET + AWS_ACCESS_KEY_ID/SECRET repo secrets."; exit 1
+          fi
+          modal run research/modalities/modal_s3_smoke.py
