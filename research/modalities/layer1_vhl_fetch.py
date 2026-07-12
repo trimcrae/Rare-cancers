@@ -192,9 +192,10 @@ def supplementary_alpha_hits(pmcid, max_hits=60):
             data = r.read()
     except Exception as e:  # noqa: BLE001
         return {"error": "%s: %s" % (type(e).__name__, e)}
-    files, hits = [], []
+    files, hits, archived = [], [], []
     want = re.compile(r"(cooperativ|alpha|α|\bP[1-6]\b|Kd|K_d|ternary|binary)", re.I)
     try:
+        import hashlib
         with zipfile.ZipFile(io.BytesIO(data)) as z:
             for name in z.namelist():
                 files.append(name)
@@ -203,6 +204,9 @@ def supplementary_alpha_hits(pmcid, max_hits=60):
                     raw = z.read(name)
                 except Exception:  # noqa: BLE001
                     continue
+                if low.endswith(".pdf"):   # archive the SI PDF: checksum + size (the numeric-alpha table locator)
+                    archived.append({"file": name, "sha256": hashlib.sha256(raw).hexdigest(),
+                                     "bytes": len(raw)})
                 cells = []
                 if low.endswith(".xlsx"):
                     cells = _xlsx_cell_text(raw)
@@ -212,10 +216,10 @@ def supplementary_alpha_hits(pmcid, max_hits=60):
                     if want.search(cell):
                         hits.append({"file": name, "text": cell[:200]})
                         if len(hits) >= max_hits:
-                            return {"files": files, "hits": hits}
+                            return {"files": files, "hits": hits, "archived_pdfs": archived}
     except Exception as e:  # noqa: BLE001
-        return {"files": files, "error": "%s: %s" % (type(e).__name__, e)}
-    return {"files": files, "hits": hits}
+        return {"files": files, "error": "%s: %s" % (type(e).__name__, e), "archived_pdfs": archived}
+    return {"files": files, "hits": hits, "archived_pdfs": archived}
 
 
 # cooperativity / ITC terms whose surrounding text carries the MEASURED alpha we must curate
