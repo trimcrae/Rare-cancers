@@ -155,3 +155,21 @@ def test_docking_preflight_severe_strain_aborts():
 
 def test_docking_preflight_flags_br_nh2_not_gentle():
     assert "NOT a gentle" in rp.docking_preflight(_passing_prep())["perturbation_note"]
+
+
+def test_dock_derived_preflight_fields_structure():
+    e = rp.pilot_edge()
+    out = rp.dock_derived_preflight_fields(e["smiles_a"], e["smiles_b"])
+    f = out["fields"]
+    # always-known docking-context fields
+    assert f["construct_frozen"] is True and f["docking_grid_identical"] is True
+    assert "NR4A3 373-626" in f["residue_numbering"]
+    # FEP-prep fields are explicitly PENDING, never guessed
+    for k in ("atom_map_ok", "parameterized_ok", "min_ok", "ligand_states_a"):
+        assert k in out["pending_fep_prep"]
+    # RDKit-derived fields: filled when RDKit present, None (pending) in the bare sandbox — both valid
+    if out["rdkit_available"]:
+        assert 0.0 <= f["mcs_overlap_frac"] <= 1.0
+        assert f["net_charge_a"] == 0 and f["net_charge_b"] == 0   # both endpoints neutral
+    else:
+        assert f["mcs_overlap_frac"] is None

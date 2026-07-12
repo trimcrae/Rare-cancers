@@ -146,6 +146,38 @@ def evaluate_abort_gate(result, map_path=MAP_JSON):
 # conditions must pass; a failure aborts THIS edge -> pick a smaller same-scaffold, same-net-charge transform.
 PREFLIGHT_MCS_OVERLAP_MIN = 0.70
 
+def dock_derived_preflight_fields(smiles_a, smiles_b, construct_frozen=True,
+                                  residue_numbering="NR4A3 373-626 (nr4a3_design frame)"):
+    """Fill the DOCKING-informed subset of the preflight dict from the two endpoint SMILES + a design frame:
+    the common-binding-mode/MCS-overlap and net-charge-change checks (via RDKit, when available). The
+    remaining fields (atom_map_ok, parameterized_ok, min_ok, max_clash_ok, severe_strain, ligand tautomer/
+    protonation enumeration) come from the RBFE/MD prep (Plan B, deferred) — returned in `pending_fep_prep`,
+    never guessed. RDKit-optional (returns the mcs/charge fields as None + pending when RDKit is absent, e.g.
+    the dev sandbox), so the docking job's poses drive the real values in CI/MD."""
+    fields = {"construct_frozen": construct_frozen, "residue_numbering": residue_numbering,
+              "docking_grid_identical": True,   # both endpoints docked into the SAME Pocket-5 box + params
+              "mcs_overlap_frac": None, "net_charge_a": None, "net_charge_b": None, "charge_correction": False}
+    try:
+        from rdkit import Chem
+        from rdkit.Chem import rdFMCS
+        ma, mb = Chem.MolFromSmiles(smiles_a), Chem.MolFromSmiles(smiles_b)
+        if ma is not None and mb is not None:
+            res = rdFMCS.FindMCS([ma, mb], completeRingsOnly=True, ringMatchesRingOnly=True, timeout=30)
+            n = res.numAtoms
+            fields["mcs_overlap_frac"] = round(n / float(min(ma.GetNumAtoms(), mb.GetNumAtoms())), 3)
+            fields["net_charge_a"] = Chem.GetFormalCharge(ma)
+            fields["net_charge_b"] = Chem.GetFormalCharge(mb)
+    except Exception:  # noqa: BLE001 — RDKit absent (dev sandbox) or unparseable
+        pass
+    return {"fields": fields,
+            "pending_fep_prep": ["ligand_states_a", "ligand_states_b", "atom_map_ok", "parameterized_ok",
+                                 "min_ok", "max_clash_ok", "severe_strain",
+                                 "receptor_repairs_documented", "protonation_documented"],
+            "note": "docking informs the common-mode/MCS + net-charge checks; the atom-map/param/minimization "
+                    "checks come from the RBFE/MD prep (deferred). NOT evidence of binding.",
+            "rdkit_available": fields["mcs_overlap_frac"] is not None}
+
+
 def docking_preflight(prep):
     """Evaluate the reviewer's Plan-C preflight on a docking/prep RESULT dict. Pure; fail-closed on missing
     fields. `prep` keys:
