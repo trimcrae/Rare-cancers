@@ -62,6 +62,10 @@ jobs:
         working-directory: research/modalities
         run: python safe2025_verify.py || echo "safe2025-verify failed (continuing)"
 
+      - name: Zaienne-2022 anchor paralogue-counter-screen check (Europe PMC)
+        working-directory: research/modalities
+        run: python zaienne_selectivity_verify.py || echo "zaienne-selectivity-verify failed (continuing)"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -77,6 +81,7 @@ jobs:
           cp research/modalities/layer1-vhl-dossier.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/smarca2-ic50-extract.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/safe2025-verify.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/zaienne-selectivity-verify.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -95,5 +100,6 @@ jobs:
           git add research/modalities/layer1-vhl-dossier.json 2>/dev/null || true
           git add research/modalities/smarca2-ic50-extract.json 2>/dev/null || true
           git add research/modalities/safe2025-verify.json 2>/dev/null || true
+          git add research/modalities/zaienne-selectivity-verify.json 2>/dev/null || true
           git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe + Layer-1 VHL dossier + Safe-2025 verify" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
