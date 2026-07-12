@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from adaptive_allocator import (  # noqa: E402
     Candidate, allocate, batch_cost, bayes_normal_update, champion_order, efficacy_promote, futility_kill,
-    plan_jobs, prob_top_k, run_champion_race, seed_prior,
+    interruptible_champion_race, plan_jobs, prob_clears, prob_top_k, run_champion_race, seed_prior,
 )
 
 
@@ -446,6 +446,89 @@ def test_champion_race_is_cheap_and_usually_touches_one():
     assert touched / n < 3.0
     # (c) when it declares, it declares a genuinely bar-clearing candidate (prior only ordered; readout decided)
     assert correct >= int(0.7 * n)
+
+
+# ---- interruptible (preemptive) champion: don't overcommit to a slipping #1 -------------------------------
+
+STEP_NOISE, STEP_COST, BAR = 0.35, 25.0, 0.65
+
+
+def _world(seed):
+    """A world where the PRIOR mis-ranks: an ambiguous near-bar decoy (true 0.60) is prior-ranked #1, above
+    the genuine winner (true 0.90)."""
+    rng = random.Random(seed)
+    true = {f"c{i}": min(1.0, max(0.0, rng.betavariate(1.5, 6))) for i in range(10)}
+    true["c0"] = 0.90                                   # genuine winner
+    true["c1"] = 0.60                                   # ambiguous near-bar decoy (slow to reject)
+    prior = {c: true[c] + rng.gauss(0, 0.22) for c in true}
+    prior["c1"], prior["c0"] = 0.88, 0.80              # decoy prior-ranked ABOVE the winner
+    return true, prior
+
+
+def _mk(seed):
+    true, prior = _world(seed)
+    cands = [Candidate(cid=c) for c in true]
+    seed_prior(cands, prior, prior_sigma=1.2)
+    return true, cands, random.Random(9000 + seed)
+
+
+def _run_interruptible(seed, gate=600.0):
+    true, cands, irng = _mk(seed)
+
+    def step(c):
+        obs = irng.gauss(true[c.cid], STEP_NOISE)
+        c.mu, c.sigma = bayes_normal_update(c.mu, c.sigma, obs, STEP_NOISE)
+        return STEP_COST
+    res = interruptible_champion_race(cands, step, budget_gate=gate, bar=BAR, switch_margin=0.05)
+    ok = res["declared"] is not None and true[res["declared"]] >= BAR
+    return ok, res["spent"], res["touched"].count("c1")     # increments spent on the decoy
+
+
+def _run_commit(seed, gate=600.0, per_cand_cap=8):
+    """Commit-first: run the current prior candidate to a verdict OR a per-candidate cap, then move on."""
+    true, cands, irng = _mk(seed)
+    by = {c.cid: c for c in cands}
+    spent, c1_steps = 0.0, 0
+    for cid in champion_order(cands):
+        c = by[cid]
+        for _ in range(per_cand_cap):
+            obs = irng.gauss(true[cid], STEP_NOISE)
+            c.mu, c.sigma = bayes_normal_update(c.mu, c.sigma, obs, STEP_NOISE)
+            spent += STEP_COST
+            if cid == "c1":
+                c1_steps += 1
+            p = prob_clears(c.mu, c.sigma, BAR)
+            if p > 0.90:
+                return true[cid] >= BAR, spent, c1_steps
+            if p < 0.05 or spent >= gate:
+                break
+        if spent >= gate:
+            return False, spent, c1_steps
+    return False, spent, c1_steps
+
+
+def test_interruptible_wastes_less_on_slipping_champion_than_commit_first():
+    seeds = range(40)
+    i_ok = i_cost = i_c1 = 0.0
+    c_ok = c_cost = c_c1 = 0.0
+    for s in seeds:
+        ok, cost, c1 = _run_interruptible(s)
+        i_ok += ok
+        i_cost += cost
+        i_c1 += c1
+        ok2, cost2, c1b = _run_commit(s)
+        c_ok += ok2
+        c_cost += cost2
+        c_c1 += c1b
+    n = len(list(seeds))
+    print(f"interruptible: {int(i_ok)}/{n} found winner, ${i_cost/n:.0f}/run, {i_c1/n:.1f} incr on decoy | "
+          f"commit-first: {int(c_ok)}/{n} found winner, ${c_cost/n:.0f}/run, {c_c1/n:.1f} incr on decoy")
+    # (a) interruptible pours FAR fewer increments into the slipping decoy champion
+    assert i_c1 / n < c_c1 / n
+    # (b) it finds the true winner at least as reliably ...
+    assert i_ok >= c_ok
+    # (c) ... and cheaper on average (no sunk-cost resolution of the ambiguous #1)
+    assert i_cost / n < c_cost / n
 
 
 if __name__ == "__main__":

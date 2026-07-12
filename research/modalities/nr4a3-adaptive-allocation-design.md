@@ -161,11 +161,44 @@ granularity floor should optimize against — **the optimal increment size is wh
 candidate that clears the selectivity bar, as cheaply as possible; if the top-ranked one clears it, touch
 nothing else."** That is *satisficing*, and it is far cheaper because you **stop at the first winner**.
 
-**Tier 0 — near-free prior ranking (~$0–20 total, CPU only).** Before any alchemy, score every candidate with
-cheap signals: ensemble docking into NR4A3 + NR4A1 + NR4A2, MM-GBSA rescore, interaction-fingerprint
-divergence at the paralogue-divergent residues, cheap **co-fold ternary-architecture triage** (Boltz —
-triage-only, per the prereg), and rigid-body linker-strain sampling. Combine → a **prior selectivity
-ranking**. This buys the *order* cheaply — no FEP.
+**Tier 0 — near-free prior ranking (~$0–20 total, CPU / cheap-inference only).** Before any alchemy, rank
+candidates with a **consensus of decorrelated cheap methods**. The menu, cheapest first:
+
+*Binary-affinity priors (weak for selectivity alone):*
+- **Ensemble / consensus docking** into NR4A3 + NR4A1 + NR4A2 (smina + vina + gnina-CNN; multiple conformers)
+  — cheap, but docking *selectivity* is notoriously unreliable (the repo already caught a docking-artifact
+  "selective" hit), so never a decider.
+- **Endpoint free-energy rescoring:** MM-GBSA / MM-PBSA; **WaterMap-style hydration** analysis (a candidate
+  that displaces an *unhappy* water in NR4A3 but not the paralogue is a real selectivity signal).
+- **ML affinity/scoring:** gnina CNN, graph-net affinity models, Boltz-2 affinity head.
+
+*Selectivity-NATIVE priors (score the ΔΔ, not the affinity — much higher value):*
+- **Interaction-fingerprint (IFP/PLIF) divergence** computed *only over the paralogue-divergent pocket
+  residues* (`selectivity_fingerprint.py`): a candidate whose predicted advantage comes from contacts with
+  **divergent** residues is a far better bet than one leaning on **conserved** residues (likely noise).
+- **Per-residue energy decomposition** (MM-GBSA attributed to divergent vs conserved residues).
+- **Electrostatic / shape-complementarity difference maps** across the three paralogue pockets.
+
+*Ternary-NATIVE priors (where selectivity actually lives — the highest-value axis):*
+- **Cheap co-fold ternary-architecture triage** (Boltz / AF3): geometry + confidence (ipTM/PAE) as a triage
+  prior — **triage-only** per the prereg (the epimer control forbids affinity/cooperativity ranking).
+- **Rigid-body / FFT protein–protein docking** of E3+target with the warhead as a restraint (PRosettaC /
+  Megadock-style): accessible ternary populations + interface complementarity, no MD.
+- **Linker conformational sampling / strain** (RDKit ETKDG ensembles): is a productive ternary geometry
+  reachable without strain?
+- **Lys-presentation / ubiquitination-zone scan**: is a substrate Lys presented to the E2~Ub in the modeled
+  ternary?
+
+*Physics-lite bridge (medium cost, much more predictive than docking):*
+- **Fast/approximate FEP** — non-equilibrium switching (Jarzynski/Crooks fast pulling) or reduced-sampling
+  RBFE — a cheaper prior that correlates strongly with the eventual full RBFE ranking.
+
+**Combine, don't pick.** Fuse the decorrelated signals by **rank aggregation** (Borda / Bayesian rank fusion)
+rather than trusting any one; decorrelated errors cancel. Then **improve the prior online** with a
+**hierarchical / GP surrogate over the congeneric series** (§7): each real RBFE point sharpens the predicted
+ranking of the un-run neighbors. A better prior's payoff is concrete — **higher precision@1 → fewer touches,
+fewer escalations, cheaper champion race.** Still buys the *order* only; the PASS decision stays on the
+trustworthy readout.
 
 **The champion race (depth-first + hard gate).** Walk candidates in prior order; take the #1 depth-first
 through its cheap-first confirm path (binary pre-filter → ternary-pilot), and **STOP + DECLARE the moment it
@@ -185,6 +218,19 @@ candidates touched; **25/40 (63%) one-touch wins** (#1 was the hit, nothing else
 declared a genuine hit; **0 false declarations**; **9/40 (22%) escalated** (gate hit without a pass → come-ask,
 the correct cheap-null behavior). Blended expected cost to a decision ≈ **$600** with a **hard ~$350 ceiling
 before any sign-off**.
+
+**Interruptible (preemptive) champion — never overcommit to a slipping #1.** The race is NOT depth-first
+commit. `interruptible_champion_race` re-ranks after **every cheap increment** so a champion whose early
+returns are worsening is **paused** (its posterior + checkpoints preserved, resumable) rather than run to a
+verdict out of sunk cost. Mechanics: leader = **Thompson-sampled** best alive candidate (a tight observed-good
+posterior wins consistently → concentrate; an inflated-but-uncertain prior wins only occasionally → probe then
+drop, no chasing); a **confirmation lock** — once a candidate's P(clears bar) ≥ `lock_conf` (0.5) we lock on
+and drive it to a verdict, **releasing (pausing) it if it slips below `release_conf` (0.3)**; a **switch
+hysteresis** (`switch_margin` ~ the env/reload cost) so physical champion switches only happen when the
+posterior gap justifies a warm-worker reload (no thrashing env load). Validated (40 seeds, prior deliberately
+mis-ranks an ambiguous near-bar decoy to #1): interruptible **matched** commit-first on winner-recovery
+(32/40 = 32/40) at **~$105 vs ~$233/run (~55% cheaper)** and **1.8 vs 6.3** wasted increments on the slipping
+decoy. This is the "pause the top candidate if early returns say it won't pan out" behavior, quantified.
 
 **Calibrate the prior on NR-V04.** Whether champion-first is trustworthy depends on the prior's precision@1.
 Test it on the retrospective control: **does the cheap prior rank NR-V04's selective NR4A1/VHL assembly #1

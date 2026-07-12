@@ -168,6 +168,79 @@ def run_champion_race(order, confirm_fn, budget_gate):
     return {"declared": None, "spent": round(spent, 2), "touched": touched, "escalate": True}
 
 
+def prob_clears(mu, sigma, bar):
+    """Posterior probability the true score clears the selectivity bar."""
+    return 1.0 - _normal_cdf(bar, mu, sigma)
+
+
+def interruptible_champion_race(cands, step_fn, budget_gate, bar, switch_margin=0.0,
+                                declare_conf=0.90, kill_conf=0.05, max_steps=2000, seed=0,
+                                lock_conf=0.50, release_conf=0.30):
+    """
+    Preemptive champion race: re-rank after EVERY cheap increment and fund the current most-promising
+    candidate, so a champion whose early returns are slipping gets PAUSED (its posterior/checkpoints are
+    preserved; it can be resumed) rather than run to completion out of sunk cost.
+
+    - leader = **Thompson-sampled** best alive candidate (draw a score ~ N(mu, sigma) each and take the max).
+      Thompson gives the right explore/exploit balance for free: a tight, observed-good posterior wins
+      consistently (so we concentrate + drive it to a verdict), while an inflated-but-uncertain PRIOR wins only
+      occasionally (so a mis-ranked #1 gets probed then dropped, not chased) — fixing the churn that plain
+      argmax-mean causes. A hysteresis band (`switch_margin`, set ~ the env/reload cost) suppresses physical
+      champion switches below the value that justifies a warm-worker reload, so we don't thrash env load.
+    - step_fn(candidate) runs ONE cheap increment, mutates its (mu, sigma) posterior, returns the increment $.
+    - DECLARE when the leader's P(clears bar) > declare_conf (enough trustworthy evidence accrued).
+    - KILL a candidate when its P(clears bar) < kill_conf; then re-pick a leader.
+    - ESCALATE (come-ask) when spend reaches budget_gate with no declaration.
+
+    Returns {declared, spent, touched, escalate, switches}.
+    """
+    spent, touched, switches = 0.0, [], 0
+    current = locked = None
+    for step_i in range(max_steps):
+        alive = [c for c in cands if c.alive]
+        if not alive:
+            break
+        # CONFIRMATION LOCK: once a candidate looks genuinely promising (P(clears) >= lock_conf), concentrate
+        # on it to drive it to a verdict — UNLESS it has slipped back below release_conf, in which case pause
+        # it (release the lock) and go back to exploring. This is the "commit to confirming a promising one,
+        # but don't overcommit to a slipping one" behavior.
+        if locked is not None and locked.alive and prob_clears(locked.mu, locked.sigma, bar) >= release_conf:
+            leader = locked
+        else:
+            locked = None
+            rng = random.Random(seed * 100003 + step_i)
+            leader = max(alive, key=lambda c: rng.gauss(c.mu, max(c.sigma, 1e-9)))   # Thompson draw
+            # hysteresis: only pay a physical switch when the challenger's MEAN clears current by switch_margin
+            # (a warm champion is cheap to continue; the margin ~ the env/reload cost avoids thrashing)
+            if current is not None and current.alive and leader.cid != current.cid:
+                if (leader.mu - current.mu) < switch_margin:
+                    leader = current
+        if current is None or leader.cid != current.cid:
+            if current is not None:
+                switches += 1
+            current = leader
+
+        spent += step_fn(leader)                       # one cheap increment; updates leader's posterior
+        touched.append(leader.cid)
+        if prob_clears(leader.mu, leader.sigma, bar) >= lock_conf:
+            locked = leader                            # promising -> lock on and confirm
+
+        p = prob_clears(leader.mu, leader.sigma, bar)
+        if p > declare_conf:
+            return {"declared": leader.cid, "spent": round(spent, 2), "touched": touched,
+                    "escalate": False, "switches": switches}
+        if p < kill_conf:
+            leader.alive = False
+            current = None
+            if locked is leader:
+                locked = None
+        if spent >= budget_gate:
+            return {"declared": None, "spent": round(spent, 2), "touched": touched,
+                    "escalate": True, "switches": switches}
+    return {"declared": None, "spent": round(spent, 2), "touched": touched,
+            "escalate": True, "switches": switches}
+
+
 def batch_cost(jobs, compute_cost_fn, env_overhead, build_cost=0.0, built_keys=None):
     """
     Total $ for a set of packed jobs: per job, env_overhead once + build_cost once per NOT-yet-cached env key
