@@ -38,8 +38,10 @@ tracking), while the replicas do **not** yet agree on a **common quantitative fr
 null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution) leaves a
 single candidate, **denovo_401**, whose NR4A3-favoured preference is probed by **initial three-replicate
 absolute-binding free-energy calculations conditional on selected opened conformers** (favouring NR4A3 over
-both paralogues in the AF2-opened states; error bars from a receptor-specific λ-overlap repair are still in
-progress, and the engine's *absolute* scale is not validated). A completed **experiment-anchored (8XTT)
+both paralogues in the AF2-opened states; the receptor-specific λ-overlap repair pilot was run and classified a
+technical failure on the pre-registered temporal-stability criterion, so no gated NR4A2 selectivity ΔΔG is
+reported and the standard-schedule NR4A2 contrast remains provisional, and the engine's *absolute* scale is not
+validated). A completed **experiment-anchored (8XTT)
 recalculation of the NR4A3 leg** shows the absolute ΔG_bind is **strongly conformer-dependent** (+8.17 ± 0.98
 vs +3.5 kcal/mol on the AF2-opened conformer, a ≈ 4.7 kcal/mol shift larger than the selectivity margin), so
 the selectivity is reported as **conditional on the chosen opened conformers**; a matched experiment-anchored
@@ -919,11 +921,22 @@ expected to reduce some common-mode errors**, but the engine's absolute offset i
 across paralogues** — target-specific restraint terms, receptor-/bound-state definitions, protonation, and
 pose errors can remain, and ABFE is especially sensitive to bound-state/restraint/symmetry/standard-state
 treatment; it **remains vulnerable to receptor-specific complex-leg errors** (e.g. the NR4A2 overlap
-defect below) and is not invariant to all engine error. *(ii) The NR4A2
-contrast is provisional.* One complex-NR4A2 λ-window pair is under-overlapped (min adjacent overlap 0.003);
-because that error propagates **directly** into ΔΔG(3−2) (it is receptor-specific and does not cancel via the
-shared solvent leg), the **−4.98 ± 0.68 NR4A2 contrast is an initial estimate held provisional** until the
-λ-repair — **in progress** — lands (SI §S7). *(iii) The ΔΔG is conditional on the opened state.* It compares
+defect below) and is not invariant to all engine error. *(ii) The NR4A2 contrast is provisional, and the
+pre-registered λ-overlap repair did not rescue it.* One complex-NR4A2 λ-window pair in the standard 12-window
+schedule is under-overlapped (min adjacent overlap 0.003); because that error propagates **directly** into
+ΔΔG(3−2) (it is receptor-specific and does not cancel via the shared solvent leg), the **−4.98 ± 0.68 NR4A2
+contrast is an under-overlapped initial estimate held provisional**. A pre-registered dense 16-window λ-repair
+pilot (replicate r1) was run to restore soft-core-tail overlap and evaluated against a committed
+technical-validity gate. **The repaired pilot was complete and passed the pre-specified schedule,
+data-integrity, overlap (min adjacent 0.085), ESS (≥ 50/state) and plateau checks, but it did not satisfy the
+pre-registered temporal-stability criterion: the full-versus-second-half ΔG difference was 1.147 kcal/mol
+against a 1.0 kcal/mol limit. The pilot was therefore classified as a technical failure, and no gated NR4A2
+selectivity ΔΔG is reported** from the repair route (the full/half-trajectory ΔG values are retained only as
+quality-control diagnostics, not as a validated result). Per the pre-registration the sole sanctioned extra
+sampling is ESS-triggered (ESS passed), so a convergence-triggered extension would be outcome-contingent and is
+not a continuation under this gate; the standard-schedule −4.98 is **not** upgraded. **This finding concerns the
+reliability of this ABFE protocol for the NR4A2 leg and does not establish that `denovo_401` is nonselective**
+(SI §S7). *(iii) The ΔΔG is conditional on the opened state.* It compares
 binding to *selected opened* conformers and omits the receptor-specific free-energy cost of populating that
 cryptic-opened state, which is potentially decisive and may differ across paralogues (§4).
 
@@ -941,7 +954,10 @@ selectivity refutation. A *matched* experiment-anchored contrast would require *
 (Nurr1 1OVL / Nur77 3V3E are collapsed apo crystals, so it additionally needs a pocket-opening MD step), flagged
 as the decisive follow-up (§4). Caveat carried forward: the 8XTT complex legs share the same low soft-core-tail
 λ-overlap (min adjacent 0.017–0.026) as the paralogue legs, so **+8.17 is itself provisional** pending the same
-dense-schedule λ-repair before it is read as a converged absolute. Per-replicate paired ΔΔG, λ-overlap
+dense-schedule λ-repair before it is read as a converged absolute — and, as noted in (ii), the one repair pilot
+actually run (NR4A2) passed every check except the pre-registered temporal-stability criterion (1.147 vs
+1.0 kcal/mol) and was classified a technical failure, so a dense-schedule repair is **not assured** to yield a
+gated absolute on these legs either. Per-replicate paired ΔΔG, λ-overlap
 matrices, effective sample sizes, forward/reverse convergence traces, and the per-receptor component
 decomposition are in **SI §S7**; the lead-optimization ABFE cross-check (`lo_m0_NCCO`, an FEP tie not an
 advance) is in **SI §S5**.
@@ -1196,7 +1212,9 @@ weight, with the following caveats made explicit rather than buried:
    needed to explain candidate advancement.)
 7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
    re-scoring are now run, and `denovo_401` clears them — leaving ABFE as the last tier: initial
-   three-replicate ABFE complete, with the NR4A2 λ-overlap repair pending before final interpretation (§3).** The de-novo
+   three-replicate ABFE complete; the NR4A2 λ-overlap repair pilot was subsequently run and classified a
+   technical failure on the pre-registered temporal-stability criterion (§2.8), so no gated NR4A2 ΔΔG is
+   reported and the standard-schedule contrast stays provisional.** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
    (a receptor-model asymmetry whose *direction* on selectivity is uncertain — §2.6), and the single-snapshot, single-pose MM-GBSA carries
    no replicate/ensemble average and **fails the decoy control** (§2.6). Two follow-up controls
@@ -1255,8 +1273,9 @@ multi-snapshot decoy null in its design frame** (§2.7), and which is the subjec
 selectivity FEP (§3). (The earlier decoy-calibrated single-snapshot foothold `denovo_111` — +15.7 vs the +13.1
 95th-percentile bar; §2.6 — was subsequently **withdrawn**: its cationic form reverses selectivity, §2.7.)
 It remains a **screening-grade, single-trajectory GB-implicit, unsynthesized, no-wet-lab** candidate —
-supported by **initial conditional ABFE receptor contrasts** (NR4A2 λ-repair and the NR4A3 structural-model
-sensitivity test still pending) but not experimentally validated. With no wet lab, the strongest honest claim is
+supported by **initial conditional ABFE receptor contrasts** (the NR4A2 λ-repair pilot was run and failed its
+pre-registered temporal-stability gate — no gated NR4A2 ΔΔG; the NR4A3 structural-model sensitivity test still
+pending) but not experimentally validated. With no wet lab, the strongest honest claim is
 **"computationally designed for an NR4A3-favoured profile and supported by initial ABFE receptor contrasts
 conditional on selected opened conformers,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (SI §S4); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity

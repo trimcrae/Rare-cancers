@@ -92,7 +92,8 @@ degradation prediction. We therefore add the standard **three-body cooperative-e
 cooperativity α into the numbers that actually decide a degrader: **DC50, Dmax, and the hook effect**. Because
 absolute affinities and α are exactly the quantities the current ABFE does **not** validate (the absolute
 scale fails the T4L benchmark, §3; the initial three-replicate ABFE gives a *conditional receptor contrast*
-only, with an NR4A2 λ-overlap repair still pending — and MM-GBSA ΔG is likewise not a calibrated Kd), the
+only, and the NR4A2 λ-overlap repair pilot was run and classified a technical failure on the pre-registered
+temporal-stability criterion (S7), leaving no gated NR4A2 ΔΔG — and MM-GBSA ΔG is likewise not a calibrated Kd), the
 model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd** that would
 accept experimentally measured or validated ensemble-weighted affinities in future work, **not** a
 point DC50 derived from the current raw ABFE absolutes — in an illustrative potent regime it reproduces the expected behaviour (DC50 425 → 16 nM as α 1 →
@@ -465,6 +466,38 @@ shared solvent leg and any common charge/protonation error — not system-depend
 this one.) Per-leg overlap matrices, effective
 sample sizes, and forward/reverse convergence traces are in `results/nr4a3-abfe/diagnostics/`
 (`overlap_*.png`, `ess_*.png`, `convergence_*.png`).
+
+**λ-overlap repair pilot — outcome (pre-registered; technical failure).** The repair was pre-registered before
+the dense runs completed (`research/modalities/nr4a3-abfe-repair-prereg.md`) to fix the stopping rule,
+acceptance criteria, statistics and promotion terminology in advance. A dense **16-window** schedule (four
+added windows in the soft-core endpoint region) was run for the complex-NR4A2 leg as a single technical pilot,
+replicate **r1** (S3 tag `nr4a3-abfe-nr4a2rep-r1`). *Provenance/completeness correction:* the pilot's endpoint
+window 15 was initially incomplete (1000 of the target 2000 iterations) while a job had reported `Completed`;
+this was detected by re-gating against the actual per-window S3 counts (a SageMaker `Completed` status means
+only that the container exited 0, not that every window reached its target `n_iter`), the leg was carried to
+completion (**all 16 windows at 2000 iterations**), and the target `n_iter` is now recorded in each leg's
+`meta.json` so the completeness check has an explicit reference. On the completed leg the pre-registered
+technical-validity gate (`abfe_repair_gate.py`, prereg §2) returned: **sampling-completeness, schedule
+identity, data integrity, connected MBAR overlap (min adjacent 0.085, up from 0.003), ESS (≥ 50 independent
+samples/state; observed autocorrelation-ESS ≈ 570–620) and the plateau sub-check all PASS**, but the
+**temporal-stability criterion FAILED** — the full-versus-second-half ΔG difference was **1.147 kcal/mol
+against the pre-registered 1.0 kcal/mol limit** (ΔG_full 21.85, ΔG_second-half 20.71). Completing window 15
+improved this from 1.36 to 1.147 (more sampling moved it the right way, but not below the limit). The pilot is
+therefore **classified as a technical failure**, and **no gated NR4A2 selectivity ΔΔG is reported** from the
+repaired leg; the ΔG_full/ΔG_second-half values are retained only as quality-control diagnostics, not as a
+validated binding or selectivity result. Per the pre-registration the sole sanctioned extra sampling is
+ESS-triggered (ESS passed), so a convergence-triggered extension would be outcome-contingent optional sampling
+and is **not** a continuation under this gate; the error-bar replicates r2/r3 are **not** unlocked, and the
+standard-schedule −4.98 ± 0.68 contrast is **not** upgraded. Any later 4000-iteration run may be conducted
+**only as a separately declared exploratory method diagnostic** (fixed total iterations, no intermediate
+looks, identical estimator/equilibration/overlap/convergence/plateau definitions and software version) that
+**cannot** change r1 from FAIL to PASS, unlock r2/r3, be described as the pre-registered pilot, or support a
+confirmatory selectivity claim — a favourable exploratory result could only motivate a newly pre-registered
+protocol or fresh pilot. **This outcome concerns the reliability of this ABFE protocol for the NR4A2 leg under
+the pre-registered sampling; it does not establish that `denovo_401` is nonselective.** *Reproducibility
+handles:* gate re-run GitHub Actions `run_id` 29190987163; the completeness guard + `meta.json` `n_iter`
+recording were added in commit `3f6e3c9`, a procedural-integrity improvement that **did not alter the
+convergence threshold** (the 1.0 kcal/mol limit is unchanged from the pre-registration).
 
 ## S8. Single-snapshot de-novo archaeology — the falsification record (not carried in the main text)
 

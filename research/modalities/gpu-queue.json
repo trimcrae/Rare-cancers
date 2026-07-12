@@ -2,31 +2,43 @@
   "_doc": "Durable queue of pending GPU work for the hourly fleet check (fleet-progress-aws.yml reports FREE SLOTS). On a free spot-Training slot the hourly check dispatches the highest-priority item with auto_launch=true whose preconditions are met, marks it in_flight, and commits this file. Items with auto_launch=false are EXPENSIVE/multi-leg (autonomy threshold) and are surfaced to the user for sign-off, never auto-launched. Keep this file current as work is launched/finished/approved.",
   "spot_train_quota": 8,
   "_user_hold": "2026-07-11 — USER DIRECTIVE (supersedes the 2026-07-10 9:55 PM ET hold for NON-FEP work): NON-FEP GPU work on free spot shards is AUTHORIZED — 'get as far as you can short of starting a new FEP run' (8 spot shards, free ones available). STILL HELD: any new FEP-class run — lambda-repair ABFE (nr4a2rep-r2/r3 resumes), paralogue ABFE, new-compound ABFE — these remain gated on the user (GATE-2 in nr4a3-ensemble-redesign-plan.md). CPU/$0 work and monitoring always fine. Immediate authorized non-FEP work: the harmonized pocket-tracking audit (gpu-pocket-reharmonize, CPU) as the redesign's GATE-1 unblocker.",
-  "updated": "2026-07-11",
+  "updated": "2026-07-12",
   "items": [
     {
       "id": "nr4a2rep-r2-resume",
       "desc": "NR4A2 λ-repair ABFE replicate 2 (complex leg) — PAUSED ~18% for validate-first (prove the dense-16-window schedule restores soft-core-tail MBAR overlap on r1 BEFORE spending on the error-bar replicates)",
       "workflow": "gpu-abfe-aws.yml (or the nr4a2rep submitter) — re-dispatch with the SAME checkpoint prefix nr4a3-abfe-nr4a2rep-r2 to resume from checkpoint",
-      "inputs": {"lambda_schedule": "dense"},
+      "inputs": {
+        "lambda_schedule": "dense"
+      },
       "slots": 1,
       "cost_est_usd": "13-20",
       "auto_launch": false,
-      "status": "paused_validation_gate",
-      "preconditions": ["r1 reaches the repaired tail windows (~9-15)", "adjacent MBAR overlap recovered to >~0.03", "then resume for the error bar"],
-      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved in S3 (resumes from ~18%, loses <=1 window). ** USER HOLD 2026-07-10 9:55 PM ET: NO NEW GPU RUNS THIS SESSION — do NOT resume even if the r1 validation gate (window 9 overlap check) passes. The gate diagnostic (CPU) may still run; if it validates, SURFACE to the user and wait, do NOT re-dispatch. ** Gated on the r1 overlap check AND the user hold."
+      "status": "BLOCKED_r1_gate_failed",
+      "preconditions": [
+        "r1 reaches the repaired tail windows (~9-15)",
+        "adjacent MBAR overlap recovered to >~0.03",
+        "then resume for the error bar"
+      ],
+      "note": "Do NOT run. The r1 dense-repair pilot was completed and FAILED the pre-registered temporal-stability gate (half-difference 1.147 > 1.0 kcal/mol; prereg §2.5/§9). Reviewer decision 2026-07-12: accept the technical failure; r2/r3 are NOT unlocked under this pre-registration and MUST NOT be run as a continuation. Any 4000-iter run is a separately declared exploratory diagnostic only (prereg §9), which cannot change r1 FAIL->PASS or unlock these. Removing from the runnable queue."
     },
     {
       "id": "nr4a2rep-r3-resume",
       "desc": "NR4A2 λ-repair ABFE replicate 3 (complex leg) — PAUSED ~17% for validate-first (same gate as r2)",
       "workflow": "gpu-abfe-aws.yml (or the nr4a2rep submitter) — re-dispatch with the SAME checkpoint prefix nr4a3-abfe-nr4a2rep-r3 to resume from checkpoint",
-      "inputs": {"lambda_schedule": "dense"},
+      "inputs": {
+        "lambda_schedule": "dense"
+      },
       "slots": 1,
       "cost_est_usd": "13-20",
       "auto_launch": false,
-      "status": "paused_validation_gate",
-      "preconditions": ["r1 reaches the repaired tail windows (~9-15)", "adjacent MBAR overlap recovered to >~0.03", "then resume for the error bar"],
-      "note": "Stopped 2026-07-10 ~6:05 PM ET. Checkpoint preserved. ** USER HOLD 2026-07-10 9:55 PM ET: NO NEW GPU RUNS THIS SESSION — do NOT resume even if the r1 validation gate passes; surface to the user and wait. ** Gated on the r1 overlap check AND the user hold."
+      "status": "BLOCKED_r1_gate_failed",
+      "preconditions": [
+        "r1 reaches the repaired tail windows (~9-15)",
+        "adjacent MBAR overlap recovered to >~0.03",
+        "then resume for the error bar"
+      ],
+      "note": "Do NOT run. The r1 dense-repair pilot was completed and FAILED the pre-registered temporal-stability gate (half-difference 1.147 > 1.0 kcal/mol; prereg §2.5/§9). Reviewer decision 2026-07-12: accept the technical failure; r2/r3 are NOT unlocked under this pre-registration and MUST NOT be run as a continuation. Any 4000-iter run is a separately declared exploratory diagnostic only (prereg §9), which cannot change r1 FAIL->PASS or unlock these. Removing from the runnable queue."
     },
     {
       "id": "phase2-shakeout",
@@ -44,12 +56,16 @@
       "id": "phase2-fleet",
       "desc": "Full Phase 2 opening-FE fleet — 8 runs: NR4A3 seeds 2,3 + NR4A1 r1/2/3 + NR4A2 r1/2/3, ~50 ns each, tica_combine CV, to get the paralogue-differential opening free energy",
       "workflow": "metad-tica-shakeout-aws.yml (per run; TARGET/SEED vary — a fleet submitter can be added when approved)",
-      "inputs": {"ns": "50"},
+      "inputs": {
+        "ns": "50"
+      },
       "slots": 8,
       "cost_est_usd": "100-200",
       "auto_launch": false,
       "status": "blocked_cv_redesign",
-      "preconditions": ["a re-shakeout with an improved CV shows closed<->open recrossing"],
+      "preconditions": [
+        "a re-shakeout with an improved CV shows closed<->open recrossing"
+      ],
       "note": "BLOCKED 2026-07-10 9:47 PM ET: the shakeout returned 0 recrossings — the distances-only CV (corr(s,Rg)=0.816) is too Rg-like and stayed in the closed basin. The user's contingent pre-approval was for a shakeout that 'comes back looking how we want it'; it did NOT, so the fleet is NOT launched. Redesign before re-shaking: (1) fit the CV with the RICHER feature set (gate chi1 sin/cos + pocket SASA + lining distances) to reach the Phase-1 corr(s,Rg)~0.68, and tighten the fit gate from 0.90 to ~0.75; (2) run a LONGER shard (~20-30 ns > the ~17 ns slow timescale) before committing the fleet. Also fix the recrossing boundary to be data-driven (median of the explored range) not the grid midpoint. Only re-approach the $100-200 fleet after a re-shakeout recrosses."
     }
   ]

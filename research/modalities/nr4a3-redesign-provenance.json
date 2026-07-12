@@ -279,6 +279,21 @@
     "gate re-run run_id 29190987163 (technically_valid=False, criterion 5 half_diff 1.147)"
    ],
    "by": "agent"
+  },
+  {
+   "date": "2026-07-12",
+   "phase": 1,
+   "item": "Track A — NR4A2 ABFE r1 dense-repair pilot: DECISION (accept the pre-registered technical failure; no rescue extension)",
+   "decision": "Reviewer/trimcrae decision: ACCEPT the pre-registered technical failure. The completed r1 leg passed completeness/schedule/data-integrity/overlap(0.085)/ESS/plateau but FAILED §2.5 temporal-stability (|ΔG_full − ΔG_second-half| = 1.147 > 1.0 kcal/mol). Do NOT run a rescue extension: the §1 sanctioned extension is ESS-triggered ONLY and expressly excludes convergence-triggered extensions; extending because the convergence diagnostic failed is outcome-contingent optional sampling, forbidden by the pre-registration. Closeness to threshold and the passing plateau do NOT offset the conjunctive §2.5 failure. Binding constraints: (1) r1 recorded as a technical-gate failure; r2/r3 NOT unlocked; (2) no additional sampling may retroactively pass r1 or be called the pre-registered pilot; (3) no gate relaxation/rounding/plateau-only acceptance; (4) biological reading stays narrow — does NOT show 401 is nonselective, only that this NR4A2 ABFE leg under the pre-registered protocol was not technically stable enough to yield a gated estimate; (5) NO headline ΔΔG computed/promoted from the failed leg (cross-tag reduce NOT run); (6) provenance preserved incl. commit 3f6e3c9 as a procedural-integrity improvement that did not alter the 1.0 threshold. Any 4000-iter run is a separately declared exploratory diagnostic (prereg §9) that cannot flip r1 or unlock r2/r3. Strategic: ABFE is secondary; rely on the ternary-complex workflow; 401 stays computational warhead / priority-synthesis at most.",
+   "status": "CLOSED — failure accepted; manuscript §2.8 + SI §S7 + prereg §9 + gpu-queue updated; r2/r3 blocked",
+   "outputs": [
+    "manuscript §2.8 limit (ii) + 8XTT paragraph + intro + roadmap rewritten to the integrity-clean language",
+    "SI §S7: 'λ-overlap repair pilot — outcome (technical failure)' paragraph added; line-95 caveat updated",
+    "nr4a3-abfe-repair-prereg.md §9 (outcome + binding constraints + exploratory-amendment rules + reporting language)",
+    "gpu-queue.json: nr4a2rep-r2/r3 -> BLOCKED_r1_gate_failed",
+    "no ΔΔG computed from the failed leg"
+   ],
+   "by": "agent"
   }
  ]
 }

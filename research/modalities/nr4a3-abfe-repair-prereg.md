@@ -129,3 +129,52 @@ subtracting the two per-receptor ABFEs.
 technically valid; use the result to decide whether 401 enters the degrader matrix as a *computational warhead
 candidate*. Do **not** promote it to "lead" from selectivity-only ABFE; do **not** claim broad NR4A3 paralogue
 selectivity while NR4A1 remains statistically unresolved.
+
+## 9. OUTCOME of r1 + amendment rules (recorded 2026-07-12)
+**r1 result — TECHNICAL FAILURE (accepted; not to be rescued).** The dense-16-window complex-NR4A2 pilot (tag
+`nr4a3-abfe-nr4a2rep-r1`) was carried to completion (all 16 windows at 2000 iters, after correcting an
+endpoint window-15 that had stalled at 1000 while a job reported `Completed`) and re-gated. It **passed**
+completeness (§2.0), schedule identity (§2.1), data integrity (§2.2), connected overlap (§2.3; min adjacent
+0.085), ESS (§2.4; all states ≥ 50) and the plateau sub-check, but **FAILED the temporal-stability criterion
+(§2.5): |ΔG(full) − ΔG(second half)| = 1.147 kcal/mol > the pre-registered 1.0 limit** (ΔG_full 21.85,
+ΔG_second-half 20.71; completing window 15 improved it 1.36 → 1.147). Per §2 this is a **technical failure**.
+**Reviewer decision (2026-07-12): accept the failure; do NOT run a rescue extension.** Rationale: the §1
+sanctioned extension is **ESS-triggered only** and expressly excludes convergence-triggered extensions; a
+convergence-triggered extension here is **outcome-contingent optional sampling** (even as a single look), which
+the pre-registration forbids. Closeness to the threshold does not change the gate outcome.
+
+**Binding constraints going forward (do not violate):**
+1. r1 is recorded as a **technical-gate failure** on §2.5; the r2/r3 error-bar replicates are **NOT** unlocked.
+2. **No additional sampling may retroactively pass r1.** A later 4000-iteration result must not (a) change r1
+   FAIL→PASS, (b) unlock r2/r3 under this pre-registration, (c) be described as "the pre-registered pilot
+   result", or (d) support a confirmatory selectivity claim.
+3. **Do not relax or reinterpret the gate:** no plateau-only acceptance, no rounding 1.147 → 1.0, no
+   "negligible excess". The conjunctive §2.5 (half-difference AND plateau) requirement stands; the passing
+   plateau and the 1.36 → 1.147 improvement are diagnostics, not offsets.
+4. **Biological reading stays narrow:** this does NOT show `denovo_401` lacks NR4A2 selectivity — it shows this
+   NR4A2 ABFE leg, under the pre-registered protocol, was not technically stable enough to yield a gated
+   selectivity estimate. The full/half ΔG are QC diagnostics only.
+5. **No headline ΔΔG** is computed or promoted from this failed leg (the cross-tag reduce was NOT run).
+6. **Preserved provenance:** the previously-incomplete state, the completed 2000-iteration state, job/trajectory
+   provenance, target `n_iter` in `meta.json`, gate output (`run_id` 29190987163) and software commit hashes.
+   Commit `3f6e3c9` (sampling-completeness guard + `meta.json` `n_iter`) was a **procedural-integrity
+   improvement that did NOT alter the convergence threshold.**
+
+**Optional exploratory extension (only if separately declared).** A 4000-iteration run may be conducted ONLY as
+a **separately declared exploratory method diagnostic**, not a continuation under this gate. Before launch, a
+timestamped amendment must specify: exactly 4000 total iterations for every window; **no** examination or
+decisions at intermediate iteration counts; unchanged estimator, equilibration treatment, inclusion rules,
+overlap calculation, convergence formula, plateau definition and software version; whether trajectories are
+appended or restarted; that **r1 remains FAILED regardless of the exploratory outcome**; and that a favourable
+result may only motivate a **newly pre-registered** ABFE protocol or fresh pilot, subject to the cost override.
+Doubling to 4000 is a clean operational choice justified by simplicity + diagnostic value — **not** a
+prospective power/convergence calculation — and the same 1.0 threshold alone does not make it non-p-hacked,
+because the decision to extend was triggered by the observed failure.
+
+**Integrity-clean reporting language (use this phrasing):** *"The repaired NR4A2 complex ABFE pilot was
+complete and passed the pre-specified schedule, data-integrity, overlap, ESS and plateau checks, but it did not
+satisfy the pre-registered temporal-stability criterion: the full-versus-second-half difference was 1.147
+kcal/mol against a 1.0 kcal/mol limit. The pilot was therefore classified as a technical failure, and no gated
+NR4A2 selectivity ΔΔG was reported. This finding concerns the reliability of this ABFE protocol for the NR4A2
+leg and does not establish that denovo_401 is nonselective."* Prefer this to "did not converge," which can
+sound like an absolute physical conclusion rather than failure of a particular finite-sampling diagnostic.
