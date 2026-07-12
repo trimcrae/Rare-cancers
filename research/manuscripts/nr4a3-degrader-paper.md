@@ -911,7 +911,8 @@ directionally supportive but **not statistically resolved** and is not claimed a
 SD, ± 2.03, is driven by one replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agree
 at −6.9/−4.5.)
 
-**Three limits bound the reading, and two repairs are in flight.** *(i) The absolute scale is not validated.*
+**Three limits bound the reading; the pre-registered λ-overlap repair was run for the NR4A2 leg and did not
+pass its technical gate (ii), so no gated repaired contrast is reported.** *(i) The absolute scale is not validated.*
 The same engine on a textbook benchmark (T4-lysozyme L99A + benzene, experimental ΔG_bind = −5.2 kcal/mol)
 returns **+1.90 ± 0.09**, under-binding by **≈ +7.1 kcal/mol** — a failed/strongly-biased absolute benchmark —
 so we interpret **the receptor contrasts rather than the raw absolute values**, never calibrated absolute
