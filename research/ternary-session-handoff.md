@@ -172,9 +172,14 @@ runnable as-is** — all three are free engineering; **do NOT dispatch a GPU spe
    `tests/test_nr4a3_ternary_fep.py` (13 tests; 109 pass total). Still to run/resolve before any number is
    trusted: (a) a GPU `MODE=smoke` (openfe env + ternary assembly + hybrid-topology build) then a single real
    pilot leg; (b) **staged inputs** at `s3://<bucket>/<ternary_prefix>/<leg_id>/{complex.pdb,ligands.sdf}` — the
-   assembled E3[+target] co-fold starting structures + posed PROTAC morph endpoints (from the co-fold benchmark);
-   (c) item 3 — the calib morph endpoints stay `pending` until the Layer-1 hi/lo pair is frozen (Boltz co-fold
-   is single-source biology via `nrv04_ternary`). **NOTE:** at the STUB `unit_gpu_h=3.0`, the frozen 16-window ×
+   staging TOOL now exists (`ternary_fep_stage.py`: tested pure planner `staging_manifest()` + SHAKEOUT-PENDING
+   gemmi assembler `stage_from_cofold()` that derives all 3 env legs of a morph from ONE ternary co-fold —
+   ternary keeps all chains, binary drops the target, solvent is ligand-only); it just needs real co-fold
+   outputs to run against (a CI/CPU runner); (c) item 3 — the calib morph endpoints stay `pending` until the
+   Layer-1 hi/lo pair is frozen; the DRAFT selection + freeze procedure (P1 α=93 / P5 α=0.6, both
+   crystallographic 9HYN/9HYP; CI-fetch the ligand SMILES, confirm congenericity, then freeze) is in
+   `ternary-calib-pair-draft.md`. **The NR-V04 arm needs neither (c) nor a calib freeze — its endpoints resolve
+   from `nrv04_ternary`, so it is the nearer-term runnable "does-it-recover-NR4A1" test.** **NOTE:** at the STUB `unit_gpu_h=3.0`, the frozen 16-window ×
    3-replica bundle forecasts ~$288 (over the $200 cap) → the preflight correctly says STOP; the honest
    resolution is to calibrate `unit_gpu_h` on the first real leg (the stub is likely an over-estimate) and/or
    right-size windows — NOT to drop replicas/convergence. The remaining `*ternary*` scripts (`nr4a3_ternary.py`,
