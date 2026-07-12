@@ -51,9 +51,16 @@ ligandable at cryptic/alternative sites.* Our route sits inside that consensus.
 **And NR4A3 itself is now experimentally ligandable, not just its paralogues.** Zaienne et al. (*ChemMedChem*
 2022 — titled, aptly, a *"Druggability Evaluation of NOR-1"*) fragment-screened NOR-1/NR4A3 and, despite a
 <1 % hit rate, obtained three ligand chemotypes, one elaborated to a **low-micromolar inverse NOR-1 agonist**
-that altered NOR-1-regulated gene expression in cells; and Safe's group reports **NR4A3-selective
-carboxymethyl-indole-3-carbinol analogues** (cpds 1 & 19, IC₅₀ ≈ 8–47 µM) that de-repress the NR4A3 target
-gene *MYC* (reviewed in Safe 2025). These are *pharmacological* druggability results that leave the binding
+that altered NOR-1-regulated gene expression in cells. **[CORRECTED 2026-07-12, primary-source verified:** the
+Safe 2025 *review* (PMC12263127) describes "Compounds 1 and 19, carboxymethyl analogs of indole-3-carbinol,
+IC₅₀ ≈ 8–47 µM, de-repressing *MYC*" — but its full text ("library screening produced two hits with potential
+inverse agonist activities, Compounds 1 and 19") and matching MYC/inverse-agonist readout make this a loose
+**secondary paraphrase of the SAME Zaienne 2022 compounds**, NOT a distinct NR4A3-selective series. There is
+**no separate Safe NR4A3-selective compound**; Safe's own primary indole chemistry is NR4A1/NR4A2 bis-indole
+(C-DIM) ligands. Moreover Zaienne 2022 itself ran **no NR4A1/NR4A2 counter-screen** (verified verbatim,
+PMC9542104: no "paralog/off-target/counter-screen/cross-react"; single Gal4-NOR-1-LBD reporter), so **no
+NR4A3-vs-paralogue selectivity is demonstrated for these compounds** — they are NR4A3 *engagers* of unmeasured
+paralogue selectivity.]** These are *pharmacological* druggability results that leave the binding
 site structurally undefined — which is exactly the gap our pocket-dynamics analysis fills: we supply a
 candidate *structural* mechanism (a breathing orthosteric pocket) for a ligandability that experiment has
 already demonstrated. This flips the framing of our result from "does a pocket exist?" to "here is where the

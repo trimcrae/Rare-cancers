@@ -57,10 +57,12 @@ fact **dynamic and expands** from the collapsed crystal conformation to bind fat
 an MD study reported a cryptic druggable pocket in Nur77 (Lanig 2015), and validated NR4A ligands engage
 cryptic/surface sites. **NR4A3 itself is experimentally ligandable — pharmacologically, though not yet
 structurally.** A fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three ligand chemotypes, one
-elaborated to a **low-micromolar inverse agonist** that shifted NOR-1-regulated gene expression in cells
-(Zaienne 2022, a paper titled, aptly, a *"Druggability Evaluation of NOR-1"*), and NR4A3-selective
-carboxymethyl-indole-3-carbinol analogues (IC₅₀ ≈ 8–47 µM) de-repress the NR4A3 target gene *MYC* (Safe
-2025). These independent, experimental results establish that NR4A3 *can* be engaged by small molecules, but
+elaborated to a **low-micromolar inverse agonist** (compound 19) that shifted NOR-1-regulated gene expression
+in cells, de-repressing the NR4A3 target gene *MYC* (IC₅₀ ≈ 8–47 µM; Zaienne 2022, a paper titled, aptly, a
+*"Druggability Evaluation of NOR-1"*; the same compounds are recapitulated in the Safe 2025 review). We note
+explicitly that these compounds were characterized **on NR4A3/NOR-1 only** — no NR4A1/NR4A2 counter-screen was
+reported — so they establish NR4A3 *engagement*, **not** paralogue selectivity. These experimental results
+establish that NR4A3 *can* be engaged by small molecules, but
 leave the binding site structurally undefined: NR4A3's LBD has an experimental structure only as a
 recently released **apo solution-NMR ensemble (PDB 8XTT, 2025)** — **no ligand-bound structure and no
 published pocket-dynamics analysis** exist — the structural gap this paper addresses (our in-silico

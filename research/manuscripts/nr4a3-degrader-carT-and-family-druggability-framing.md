@@ -159,7 +159,7 @@ already in [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md):
 | Ingredient the reframe needs | Where the paper already has it |
 |---|---|
 | The family is *canonically* undruggable | Abstract + §1: occluded Nurr1 crystal, no NR4A3 structure, "ligand-independent" reputation |
-| …but experimentally ligandable | §1: Zaienne 2022 low-µM inverse agonist; Safe 2025 selective analogues |
+| …but experimentally ligandable | §1: Zaienne 2022 low-µM inverse NOR-1 agonist (cpd 19; **paralogue selectivity NOT tested** — no NR4A1/2 counter-screen, verified PMC9542104). NB "Safe 2025 selective analogues" = a review's loose paraphrase of the *same* Zaienne cpds 1 & 19, **not a distinct NR4A3-selective series** (corrected 2026-07-12). |
 | A *dynamically* druggable cryptic pocket exists | §2.2: metad breathing → unbiased **release run** metastable + druggable ~24% of frames |
 | Orthogonal, independent corroboration | §2.1: **PocketMiner** flags the same site from the apo structure |
 | The finding generalises across the family | §2.4: **same metadynamics run on NR4A1 and NR4A2** → state-matched opened pockets for all three |
@@ -257,5 +257,5 @@ Folded into paper §3 + the abstract. No molecule synthesized; the honest-weight
   *Nature* 2019;567:530–534. (The pan-NR4A / exhaustion landmark.)
 - Mullican SE, et al. NR4A (Nur77/Nurr1/NOR-1) as myeloid tumour suppressors (loss → AML). 2007. (AML
   anti-target bound.)
-- Zaienne 2022 (NOR-1/NR4A3 druggability evaluation); Safe 2025 (NR4A3-selective analogues); de Vera 2019
+- Zaienne 2022 (NOR-1/NR4A3 druggability evaluation; cpd 19, no paralogue counter-screen); Safe 2025 (a *review* — its "NR4A3-selective analogues" are a loose paraphrase of the same Zaienne cpds 1 & 19, not a distinct series; corrected 2026-07-12); de Vera 2019
   (Nurr1 breathing pocket); PocketMiner (Meller et al., *Nat Commun* 2023). — as cited in the lead paper.
