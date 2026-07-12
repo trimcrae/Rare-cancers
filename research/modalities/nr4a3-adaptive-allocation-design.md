@@ -1,8 +1,28 @@
 # Adaptive compute allocation for the NR4A3 selective-degrader screen
 
-**Status:** DESIGN (2026-07-12). A spend-minimizing, exploration/exploitation resource allocator that layers
-on top of the existing staged pipeline (binary RBFE → paralogue RBFE → ternary) and the `submit_spot` fleet.
-Goal: **maximize P(find a selective hit) per dollar**, with granular, well-timed early kills.
+**Status:** DESIGN + VALIDATED PROTOTYPE (2026-07-12). A spend-minimizing, exploration/exploitation resource
+allocator that layers on top of the existing staged pipeline (binary RBFE → paralogue RBFE → ternary) and the
+`submit_spot` fleet. Goal: **maximize P(find a selective hit) per dollar**, with granular, well-timed early
+kills. Pure-function core + validation in `adaptive_allocator.py` / `tests/test_adaptive_allocator.py`
+(23 tests). **Not yet wired to the live fleet** — that is a Stage-2 task (after the binary pilot validates the
+RBFE engine and a real candidate set exists). It changes nothing currently running.
+
+## 0. Operating modes (read this first)
+
+Three modes on one shared machinery; pick by how much you trust the prior and how thorough you must be.
+Validated costs are from the synthetic screen (§11), illustrative not literal.
+
+| Mode | When to use | Behavior | Sim cost / recovery |
+|---|---|---|---|
+| **Cheap-first champion** (default; §7c) | you believe ≥1 candidate is a hit and just want *a* selective one cheaply | near-free CPU prior ranks all → confirm the top candidate depth-first → **stop at the first that clears the bar; touch nothing else**; hard ~$350 gate → escalate | **~$232/run**, 63% one-touch wins, 0 false declarations, 22% escalate |
+| **Interruptible champion** (§7c) | same, but don't sunk-cost a slipping #1 | re-rank after every increment; Thompson leader + confirmation-lock (lock a promising one, **pause it if it slips**) + switch hysteresis ~ env cost | **~$105/run**, matches commit-first recovery, ⅓ the waste on a slipping decoy |
+| **Full adaptive fleet** (fallback; §3–7) | champion escalated, OR you must find *THE* best (thorough) | successive-halving rungs + top-two Thompson + sequential futility + env-aware batching | **~$1,681/run** (12/12), ~35% under static halving |
+
+**Default path:** champion (interruptible) under the hard gate → escalate to the full fleet only on failure.
+Blended expected cost to a decision ≈ **$600**, with a **hard ~$350 ceiling before any >$50 sign-off**.
+Everything below is the detail behind this table. **Honesty spine:** the cheap prior only *orders* the
+search; every "it's a hit" call is made on the trustworthy readout (§6), so the machinery makes **zero false
+declarations** — its failure mode is escalation, never a wrong winner.
 
 ## 1. Framing — this is best-arm identification, not regret-minimization
 
