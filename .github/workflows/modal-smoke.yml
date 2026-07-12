@@ -1,0 +1,33 @@
+name: Modal smoke (free GPU end-to-end check)
+
+# Proves the Modal path works: GitHub Actions authenticates to Modal with the repo secrets, provisions the
+# cheapest GPU (T4), runs nvidia-smi on it, and Modal auto-scales to zero. Fractions of a cent of the free
+# monthly credits. Needs repo secrets MODAL_TOKEN_ID + MODAL_TOKEN_SECRET.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Modal SDK
+        run: python -m pip install -q modal
+      - name: Run Modal GPU smoke
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+        run: |
+          if [ -z "$MODAL_TOKEN_ID" ]; then
+            echo "::error::MODAL_TOKEN_ID/SECRET secrets missing — add them in repo Settings → Secrets → Actions."
+            exit 1
+          fi
+          modal run research/modalities/modal_smoke.py
