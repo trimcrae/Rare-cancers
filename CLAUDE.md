@@ -484,6 +484,22 @@ read it before making changes.
   (or the CRBN/lenalidomide control) first** and abort if the workflow can't even recover the known geometry,
   before paying for the full NR4A1/2/3 × seeds × linkers fleet. Don't fan out a big spend on a hypothesis a
   single cheap leg could have falsified.
+- **★★ SINGLE-SHARD-FIRST *ONLY* WHEN THE RESULT CAN SHORT-CIRCUIT THE FLEET — ONCE YOU'D RUN THE WHOLE FLEET
+  NO MATTER WHAT, GO FULL PARALLEL IMMEDIATELY (up to the 8-wide spot quota) (trimcrae, 2026-07-12; sharpens
+  pilot-one-leg-first).** The ONLY reason to run one shard/leg at a time is **early-abort/short-circuit value**:
+  a real chance that that one result comes back unfavorable/uninformative and **kills the desire to run the
+  rest**, saving the fleet spend. **Litmus test before serializing:** *"Is there a result this shard could
+  return that would make me NOT run the rest of the fleet?"* If **yes** → run the one shard first (pick the
+  highest-abort-information one). If **no** — you're going to run the entire fleet regardless of what this shard
+  shows — then **serializing is pure wasted wall-clock for zero decision value; fan out ALL shards at once**
+  (bounded by the ~8 spot-Training shards available). Parallelizing costs the **same GPU-$** as serial (same
+  total compute, just spread across concurrent instances) so once the abort-decision is settled there is never
+  a reason to drip one-at-a-time. Applies at whatever granularity the fan-out is abortable: pilot ONE edge
+  before a multi-edge RBFE tranche (edge-level abort value), but once committed to that tranche run its legs
+  8-way parallel — don't serialize legs whose results can't change the go-decision. (Caveat that is NOT this
+  rule: coupled units that physically cannot be split — e.g. HREX λ-windows exchanging configs within one
+  OpenFE transformation — are serial by *physics*, not by this choice; parallelize by adding more independent
+  legs/shards, not by trying to split a coupled simulation.)
 - **No dependencies, no build step.** Keep it that way.
 - **Deploy:** GitHub Pages (`.github/workflows/pages.yml`) on push to `main`;
   keep all URLs relative.
