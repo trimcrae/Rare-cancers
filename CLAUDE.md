@@ -444,6 +444,17 @@ read it before making changes.
   `max_run` and FAILS, **re-dispatch it** (same tag → resumes from checkpoint). Keep `max_wait` generous
   (≥ run + expected wait; ABFE uses 20h vs 12h run). On-demand is only for jobs that genuinely can't be spot
   (no spot quota for the type, or truly can't checkpoint) — never as a capacity workaround.
+- **★ EVERY SUBSTANTIAL GPU RUN NAMES A PREFERRED CLOUD PROVIDER, CONFIRMED WITH trimcrae IN ADVANCE (trimcrae
+  standing rule, 2026-07-12).** Before kicking off any big/fleet GPU run, state the **recommended provider** and
+  confirm it with trimcrae *before* launch — do NOT silently default to AWS. The repo is now provider-agnostic
+  (`research/modalities/gpu_backend.py` + `autoteardown.py` + `object_store.py`; full plan + accounts +
+  free-credit offers in **[research/compute/cheap-gpu-plan.md](./research/compute/cheap-gpu-plan.md)**), so the
+  provider is a config, not a rewrite. Default mapping: **Modal** for free/validation first runs (free credits +
+  zero-idle-by-design, but PRICIER/hr — not the cheapest); **Salad** (cheapest) or Vast for bulk short-sampling
+  triage; **RunPod Secure** or **ACCESS** (free HPC) for long full-sampling terminal legs (a stable host so
+  preemption doesn't force costly MD-env reloads); **AWS SageMaker** only when specifically warranted. Compose
+  this with the existing >$50 / expensive-spend confirmation — state the provider in the SAME advance
+  confirmation. The auto-teardown wrapper guarantees no idle-GPU billing on any provider.
 - **DEFAULT EVERY GPU RUN TO MANAGED SPOT — reframe on-demand jobs to spot *Training* whenever possible
   (trimcrae standing rule, 2026-07-03).** Spot is ~60-70% cheaper AND draws on the larger spot *Training* quota
   (8) instead of the on-demand *Processing* quota (1), so spot jobs also run more-concurrently. **The ~60-70%

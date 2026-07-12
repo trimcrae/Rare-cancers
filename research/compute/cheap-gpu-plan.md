@@ -23,13 +23,29 @@ what this doc is for.**
 ## TL;DR — the recommended path (fastest to cheapest)
 
 1. **Start on Modal** (free monthly credits, serverless = **zero idle-GPU risk by design**, Python-native).
-   Run the whole triage tier and shake out the pipeline for ~free.
+   Run the whole triage tier and shake out the pipeline for ~free. **NOTE: Modal is the easy/free *starting*
+   option, NOT the cheapest — per GPU-hour it's PRICIER than Salad (serverless premium). It's #1 only for the
+   free credits + inherent no-idle + easiest setup.**
 2. **Put the checkpoint bucket on Cloudflare R2** (free egress — matters because trajectories move between
    providers). This is the shared state that makes compute swappable.
-3. **Add SaladCloud + RunPod** for the cheap sustained fleet — Salad for the many short triage runs, RunPod
-   Secure for the few long terminal legs.
+3. **Add SaladCloud + RunPod** for the cheap sustained fleet — **Salad is the actual cost winner (cheapest per
+   hour)** and should carry the bulk triage volume once Modal's credits are used; RunPod Secure for the few
+   long terminal legs.
 4. **Apply to ACCESS** in parallel (free national HPC; slower, needs affiliation) and burn any **$300 cloud
    trial credits** (Google/Oracle) opportunistically.
+
+## Provider choice per GPU run (POLICY — trimcrae, 2026-07-12)
+
+**Every substantial GPU run from here on names a preferred provider, confirmed with trimcrae BEFORE kickoff**
+(no silent default to AWS). Default mapping by tier:
+- **First/validation runs** → **Modal** (free credits, zero-idle, foolproof).
+- **Bulk short-sampling triage** (the many binary/paralogue rungs) → **Salad** (cheapest) or Vast.
+- **Long full-sampling terminal legs** (the few certifying ternary runs) → **RunPod Secure** or **ACCESS** (a
+  stable host so frequent preemption doesn't force costly MD-env/system reloads).
+- **AWS SageMaker** → only when specifically warranted (already-staged data, or nothing else set up yet).
+The provider is a config in the provider-agnostic harness (`research/modalities/gpu_backend.py` +
+`autoteardown.py` + `object_store.py`), not a rewrite — so switching is cheap and `pick_cheapest()` can even
+auto-route within a tier.
 
 ---
 
