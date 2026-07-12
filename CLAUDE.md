@@ -325,6 +325,29 @@ read it before making changes.
   with nothing new (just re-poll). **`CronCreate` is NOT reliable here** — a cron *vanished twice* within ~25 min
   / at the context-window boundary (reported "session-only" even with `durable:true`, `CronList` empty after),
   so don't depend on it. **`ScheduleWakeup` did NOT fire** outside `/loop` dynamic mode.
+- **★★ THE DEV SANDBOX IS NOT YOUR EXECUTION LIMIT — AWS + GITHUB ACTIONS ARE THE WAY OUT (trimcrae standing
+  rule, 2026-07-12, after I repeatedly declared work "can't be done / can't be tested / needs an env I don't
+  have in this sandbox" and STOPPED, when I had two standing escape hatches the whole time).** "I can't run
+  X in this sandbox" (no GPU, no OpenFE/OpenMM/RDKit/MD stack, no network to a host, no PDF library, no
+  compiler, …) is **NEVER a reason to defer, mark deferred, or hand back to trimcrae.** You have **AWS
+  (SageMaker spot GPU/CPU) + GitHub Actions runners** — both are full Linux environments with internet,
+  `pip`/`apt`, GPUs, and the repo's conda containers. **The correct move is ALWAYS: build it, then RUN and
+  VALIDATE it out there**, not shelve it. Decision rule when something "can't run here":
+  1. **Networked / data / light-CPU / PDF / scraping / pip-needs** → a **GitHub Actions runner** (free,
+     unrestricted internet, `pip install` + `apt-get install` allowed — e.g. `pip install pdfplumber`,
+     `apt-get install poppler-utils`). Dispatch an on-main `workflow_dispatch` with `ref=<branch>` (the
+     run-CI-off-a-feature-branch rule) and commit/print the output.
+  2. **GPU / MD / FEP / heavy compute** → a **SageMaker managed-spot Training job** (the existing
+     `submit_spot` + entry-shim infra; the openfe/openmm/amber containers already exist). VALIDATE-FIRST:
+     `mode=smoke` → `n_shards=1` (one real leg) → full fleet; checkpoint per unit.
+  3. **"I can't TEST it here"** → that's what the **spot smoke / single-shard shakeout** is for: the job runs
+     the real stack on real hardware and tells you if it works. Untestable-in-sandbox ≠ untestable.
+  So: writing "hundreds of lines of code that can't be exercised here" is **fine** — you exercise it on AWS.
+  A production MD engine, an OpenFE RBFE run, a PDF-table parse, a structure download — all are **DOABLE NOW**
+  via (1) or (2). Reserve "deferred" for things blocked by a **real** external dependency (a spend crossing
+  the >$50 review gate, data only trimcrae has, an upstream capability that genuinely does not exist yet) —
+  never merely because the *dev sandbox* lacks the tool. This SHARPENS the egress-proxy rule below (which is
+  the special case of this for networked fetches) and composes with pilot-one-leg-first + wait-out-spot.
 - **★ EGRESS-PROXY BLOCK IS NOT "INACCESSIBLE" — ROUTE THE FETCH THROUGH A CI RUNNER (trimcrae standing rule,
   2026-07-11).** The dev sandbox's egress proxy **403s many data hosts at CONNECT** — NCBI/GEO, PMC,
   EuropePMC, Springer, UniProt, and similar. When a `curl`/`urllib`/WebFetch to one of these fails with a
