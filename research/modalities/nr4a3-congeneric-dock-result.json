@@ -1,0 +1,27 @@
+{
+  "_title": "Plan-C congeneric docking-prep result (INPUT STAGING ONLY — not evidence of binding/selectivity)",
+  "_status": "COMPLETE 2026-07-12. Reviewer-green-lit docking prep for the binary-RBFE pilot edge.",
+  "_honesty": "smina docking dG is a PRIOR / pose-prioritization signal, NOT affinity and NOT selectivity (the report log itself says 'PRIOR, not affinity'). This artifact stages a COMMON BINDING MODE for the RBFE morph; it clears NONE of the FEP-prep preflight checks (atom-map / parameterization / minimization) which require the deferred RBFE/MD prep.",
+  "edge": "e_zaienne_cmpd19__cw_ev_5nh2 (5-Br -> 5-NH2; single-site; both neutral)",
+  "receptor": "nr4a3-release-druggable (nr4a3_design primary druggable release frame; Pocket-5 box)",
+  "job": {"workflow": "gpu-repurpose-dock-aws.yml", "run_id": 29175736795, "engine": "smina", "exhaustiveness": 8,
+          "instance": "ml.c5.2xlarge (CPU spot)", "report_run_id": 29175918066},
+  "result": {
+    "records": 2, "docked": 2, "failed_or_embed_skip": 0,
+    "endpoints": [
+      {"name": "zaienne_cmpd19", "role": "rbfe_endpoint_A", "docking_dG": -6.09, "handle_contacts": "5/5", "core_contacts": "3/3"},
+      {"name": "cw_ev_5nh2", "role": "rbfe_endpoint_B", "docking_dG": -6.07, "handle_contacts": "5/5", "core_contacts": "2/3"}
+    ],
+    "common_mode_signal": "both endpoints dock into the SAME Pocket-5 with near-identical dG (delta 0.02) and full engageable-handle engagement (5/5) -> consistent with a common binding mode, the prerequisite for a common-mode RBFE morph. NOT a quantitative claim."
+  },
+  "preflight_status": {
+    "docking_informed_and_supported": ["docking_grid_identical (same Pocket-5 box + params for both endpoints)",
+      "common binding mode (near-identical dG + full handle contacts) -> MCS-overlap check to be computed by rbfe_pilot.dock_derived_preflight_fields (RDKit)",
+      "net-charge change: both endpoints NEUTRAL -> net_charge_a == net_charge_b == 0 (no correction needed)",
+      "construct/residue-numbering frozen (nr4a3_design, NR4A3 373-626)"],
+    "pending_fep_prep_deferred_to_MD_env": ["ligand tautomer/protonation enumeration", "atom_map_ok",
+      "parameterized_ok", "restrained-minimization (min_ok / max_clash_ok / severe_strain)",
+      "documented receptor repairs + protonation"],
+    "verdict": "docking prep DONE; the edge is NOT yet fully preflight-cleared -> the FEP-prep checks run when the deferred RBFE/MD prep (Plan B) executes. If any FEP-prep check fails, abort this edge and pick a smaller same-scaffold same-net-charge transform (reviewer 2026-07-12)."
+  }
+}

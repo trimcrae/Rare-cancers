@@ -99,9 +99,18 @@ added (VHL-binding knockout, no measured α). `expected_system_ids` populated wi
 (P1-P5 + MZ1 + inactive control); composition-valid; a gate test proves the real panel passes coverage.
 Residual caveat recorded: MZ1 = Kd-derived ITC α vs SMARCA2 apparent α_TR-FRET → rank calibration only, no
 cross-assay absolute-thermo claim; MZ1 PDB 5T35 RCSB auto-confirmation pending (transient RCSB error).
-**Next execution steps** (not no-spend/testable, so not done this session): the **Plan-C docking job**
-(authorized ~$5-15; needs an NR4A3 design-frame receptor staged + the preflight run) and the **Plan-B MD
-engine** (deferred until an executable OpenFE/OpenMM env exists — the integration boundary is already built).
+**Plan-C docking prep — DONE 2026-07-12** (`nr4a3-congeneric-dock-result.json`). Both RBFE endpoints docked
+cleanly into the `nr4a3_design` frame (Pocket-5) via CPU spot smina: `zaienne_cmpd19` dG −6.09 (handles 5/5,
+core 3/3) and `cw_ev_5nh2` dG −6.07 (5/5, 2/3); 2/2 docked, near-identical dG → a **common-binding-mode**
+signal (the RBFE prerequisite). INPUT STAGING only — dG is a docking PRIOR, not affinity/selectivity. The
+docking-informed preflight fields (common mode/MCS, both-neutral net charge, frozen construct) are supported;
+the **FEP-prep checks (atom-map / parameterization / minimization / ligand-state enumeration) remain for the
+deferred Plan-B MD-env step** — `rbfe_pilot.dock_derived_preflight_fields()` computes the RDKit-derivable
+subset in CI; the rest fills when the RBFE/MD prep runs.
+**Still deferred:** the **Plan-B production MD engine + submitter** (ternary alchemical FEP + the binary
+single-frame RBFE execution) until an executable OpenFE/OpenMM env exists — the integration boundary
+(`ternary_coop_io.py`) + assembly layer (`ternary_coop_prep.py`) + abort/preflight gates are already built and
+tested, so the engine plugs into a fixed validated contract.
 
 ### Session progress on the 3 approved no-spend builds (2026-07-12)
 **Testable pure cores for all three tracks are BUILT + committed** (81 tests across the ternary-coop modules;
