@@ -127,6 +127,47 @@ def plan_jobs(promotions, env_key_fn, max_batch=8):
     return jobs
 
 
+# ---- cheap-first champion mode (satisficing: cheapest path to ANY bar-clearing candidate) -----------------
+# Objective shift: not "find THE best of N" (expensive best-arm ID) but "find A candidate that clears the
+# selectivity bar, as cheaply as possible; if the top-ranked one clears it, touch nothing else." Uses a
+# near-free CPU prior only to ORDER a depth-first champion race; the PASS decision must be made on the
+# trustworthy readout inside confirm_fn, never on the cheap prior.
+
+def seed_prior(cands, prior_scores, prior_sigma=1.5):
+    """Seed posterior means from a CHEAP prior (docking/MM-GBSA/co-fold triage). sigma stays WIDE because the
+    prior is only weakly predictive of terminal selectivity — it buys ordering, not belief."""
+    for c in cands:
+        if c.cid in prior_scores:
+            c.mu = prior_scores[c.cid]
+            c.sigma = prior_sigma
+
+
+def champion_order(cands, key=None):
+    """Prior-best-first ordering of alive candidates (the depth-first race order)."""
+    key = key or (lambda c: c.mu)
+    return [c.cid for c in sorted((c for c in cands if c.alive), key=key, reverse=True)]
+
+
+def run_champion_race(order, confirm_fn, budget_gate):
+    """
+    Depth-first satisficing search under a HARD budget gate. Walk candidates in prior order; confirm_fn(cid,
+    remaining_budget) runs that ONE candidate's cheap-first confirm path (internally staged + mini-gated) and
+    returns (cost, passes, valid). STOP + DECLARE at the first valid candidate that clears the bar — later
+    candidates are never touched. STOP + ESCALATE (come-ask) if cumulative spend reaches budget_gate with no
+    pass. Returns {declared, spent, touched, escalate}.
+    """
+    spent, touched = 0.0, []
+    for cid in order:
+        cost, passes, valid = confirm_fn(cid, budget_gate - spent)
+        spent += cost
+        touched.append(cid)
+        if valid and passes:
+            return {"declared": cid, "spent": round(spent, 2), "touched": touched, "escalate": False}
+        if spent >= budget_gate:
+            return {"declared": None, "spent": round(spent, 2), "touched": touched, "escalate": True}
+    return {"declared": None, "spent": round(spent, 2), "touched": touched, "escalate": True}
+
+
 def batch_cost(jobs, compute_cost_fn, env_overhead, build_cost=0.0, built_keys=None):
     """
     Total $ for a set of packed jobs: per job, env_overhead once + build_cost once per NOT-yet-cached env key

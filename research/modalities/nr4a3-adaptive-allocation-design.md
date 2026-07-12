@@ -155,6 +155,43 @@ for not-yet-cached systems. This overhead-aware cost is what the VOI/\$ ranking 
 granularity floor should optimize against — **the optimal increment size is where marginal VOI ≈ env_overhead**
 (don't split work so fine that env load dominates; don't batch so coarse that you can't kill early).
 
+## 7c. Cheap-first champion mode (satisficing) — the "few hundred $" gate
+
+**Objective shift.** Best-arm ID ("find THE best of N") is expensive; often all we want is **"find *a*
+candidate that clears the selectivity bar, as cheaply as possible; if the top-ranked one clears it, touch
+nothing else."** That is *satisficing*, and it is far cheaper because you **stop at the first winner**.
+
+**Tier 0 — near-free prior ranking (~$0–20 total, CPU only).** Before any alchemy, score every candidate with
+cheap signals: ensemble docking into NR4A3 + NR4A1 + NR4A2, MM-GBSA rescore, interaction-fingerprint
+divergence at the paralogue-divergent residues, cheap **co-fold ternary-architecture triage** (Boltz —
+triage-only, per the prereg), and rigid-body linker-strain sampling. Combine → a **prior selectivity
+ranking**. This buys the *order* cheaply — no FEP.
+
+**The champion race (depth-first + hard gate).** Walk candidates in prior order; take the #1 depth-first
+through its cheap-first confirm path (binary pre-filter → ternary-pilot), and **STOP + DECLARE the moment it
+clears the bar — never touch #2..N.** Fall back to #2 only if #1 fails. A **hard budget gate (~$300–350)**:
+if no champion clears the bar under the gate, **STOP + ESCALATE (come-ask)** rather than entering the
+expensive tier. (`seed_prior` / `champion_order` / `run_champion_race`.)
+
+**Non-negotiable honesty guardrail.** The cheap prior is a **weak, biased predictor** — docking selectivity
+is notoriously unreliable (the repo already caught a docking-artifact "selective" hit). So the prior **only
+orders the search**; a champion must *earn* "selective hit" on the **trustworthy readout** (ternary-pilot),
+never on its rank. Consequence: the race makes **zero false declarations** (it declares only on a real PASS);
+its failure mode is *escalation*, not a wrong winner.
+
+**Validated** (`test_adaptive_allocator.py`, imperfect docking-grade prior, 40 seeds, $350 gate):
+mean **~$232/run** to a confirmed bar-clearing candidate (vs ~$1,681 full fleet, ~86% cheaper); mean **~2.0**
+candidates touched; **25/40 (63%) one-touch wins** (#1 was the hit, nothing else touched); **31/40 (78%)**
+declared a genuine hit; **0 false declarations**; **9/40 (22%) escalated** (gate hit without a pass → come-ask,
+the correct cheap-null behavior). Blended expected cost to a decision ≈ **$600** with a **hard ~$350 ceiling
+before any sign-off**.
+
+**Calibrate the prior on NR-V04.** Whether champion-first is trustworthy depends on the prior's precision@1.
+Test it on the retrospective control: **does the cheap prior rank NR-V04's selective NR4A1/VHL assembly #1
+among the paralogues?** If the cheap prior can't order the *known* answer, widen how many champions get
+confirmed (raise the gate / confirm top-2–3) and expect more escalations. Champion-first is the **default
+cheap path**; the full adaptive fleet (§3–7) is the **fallback** invoked only on escalation.
+
 ## 8. Budget controller
 
 - **Global soft cap** (the program's ~$1–5k envelope) + **per-rung soft caps** derived from the

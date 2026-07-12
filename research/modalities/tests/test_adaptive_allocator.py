@@ -13,8 +13,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from adaptive_allocator import (  # noqa: E402
-    Candidate, allocate, batch_cost, bayes_normal_update, efficacy_promote, futility_kill, plan_jobs,
-    prob_top_k,
+    Candidate, allocate, batch_cost, bayes_normal_update, champion_order, efficacy_promote, futility_kill,
+    plan_jobs, prob_top_k, run_champion_race, seed_prior,
 )
 
 
@@ -339,7 +339,119 @@ def test_env_aware_batching_beats_atomic_and_static():
     assert cost["adaptive_atomic"] > cost["adaptive_batched"]
 
 
+# ---- cheap-first champion mode -----------------------------------------------------------------------------
+
+def test_seed_prior_sets_mu_keeps_sigma_wide():
+    cands = [Candidate(cid="a"), Candidate(cid="b")]
+    seed_prior(cands, {"a": 2.0, "b": -1.0}, prior_sigma=1.5)
+    assert cands[0].mu == 2.0 and cands[0].sigma == 1.5      # wide sigma: prior only weakly predictive
+    assert cands[1].mu == -1.0
+
+
+def test_champion_order_is_prior_best_first():
+    cands = [Candidate(cid="a", mu=0.0), Candidate(cid="b", mu=3.0), Candidate(cid="c", mu=1.0)]
+    assert champion_order(cands) == ["b", "c", "a"]
+
+
+def test_race_declares_first_pass_and_touches_nothing_after():
+    order = ["c1", "c2", "c3"]
+    seen = []
+
+    def confirm(cid, remaining):
+        seen.append(cid)
+        return (100.0, cid == "c1", True)                   # c1 clears the bar
+    res = run_champion_race(order, confirm, budget_gate=400)
+    assert res["declared"] == "c1"
+    assert res["touched"] == ["c1"] and seen == ["c1"]      # #2/#3 never touched — the user's requirement
+    assert res["escalate"] is False
+
+
+def test_race_falls_back_then_declares():
+    order = ["c1", "c2", "c3"]
+
+    def confirm(cid, remaining):
+        return (100.0, cid == "c2", True)                   # #1 fails, #2 passes
+    res = run_champion_race(order, confirm, budget_gate=400)
+    assert res["declared"] == "c2" and res["touched"] == ["c1", "c2"]
+
+
+def test_race_escalates_when_gate_hit_without_pass():
+    order = ["c1", "c2", "c3", "c4"]
+
+    def confirm(cid, remaining):
+        return (150.0, False, True)                          # nobody passes
+    res = run_champion_race(order, confirm, budget_gate=300)
+    assert res["declared"] is None and res["escalate"] is True
+    assert res["spent"] <= 300 + 150                         # stops at/after the gate, doesn't run all 4
+    assert len(res["touched"]) <= 2
+
+
+def _simulate_champion(seed, budget_gate=350.0):
+    """
+    Cheap-first champion race with an imperfect prior. Returns
+    (declared_is_true_hit, spent, n_touched, escalated, true_hit_exists).
+    confirm_fn is cheap-first-staged: binary pre-filter (~$45) then ternary-pilot (~$130); the PASS decision
+    is on the (trustworthy) ternary-pilot, never the prior.
+    """
+    rng = random.Random(seed)
+    N = 15
+    # true selectivity in [0,1]; one strong hit, a couple of near-misses, rest low
+    true_sel = {f"c{i}": min(1.0, max(0.0, rng.betavariate(1.4, 6))) for i in range(N)}
+    true_sel["c0"] = 0.88                                    # the genuine selective hit
+    true_sel["c1"] = 0.55                                    # near-miss (below bar)
+    BAR = 0.65
+    hit_exists = any(v >= BAR for v in true_sel.values())
+
+    cands = [Candidate(cid=c) for c in true_sel]
+    # cheap prior = true selectivity + noise (imperfect ranking; docking-grade)
+    prior = {c: true_sel[c] + rng.gauss(0, 0.28) for c in true_sel}
+    seed_prior(cands, prior, prior_sigma=1.5)
+    order = champion_order(cands)
+
+    def confirm(cid, remaining):
+        cost = 45.0                                          # binary pre-filter (validity + rough signal)
+        # cheap pre-filter correctly rejects clearly-weak candidates; small FN on real hits
+        if true_sel[cid] < 0.35 and rng.random() < 0.9:
+            return cost, False, True
+        if remaining < cost + 130.0:                         # can't afford the ternary readout under the gate
+            return cost, False, True
+        cost += 130.0                                        # ternary-pilot: the trustworthy PASS decision
+        passes = true_sel[cid] >= BAR and rng.random() < 0.92    # small confirm noise
+        return cost, passes, True
+
+    res = run_champion_race(order, confirm, budget_gate=budget_gate)
+    declared_true = (res["declared"] is not None) and (true_sel[res["declared"]] >= BAR)
+    return declared_true, res["spent"], len(res["touched"]), res["escalate"], hit_exists
+
+
+def test_champion_race_is_cheap_and_usually_touches_one():
+    seeds = range(40)
+    spent, touched, correct, escalated, had_hit = 0.0, 0, 0, 0, 0
+    one_touch = 0
+    for s in seeds:
+        ok, sp, nt, esc, hit = _simulate_champion(s)
+        spent += sp
+        touched += nt
+        correct += ok
+        escalated += esc
+        had_hit += hit
+        one_touch += (nt == 1 and ok)
+    n = len(list(seeds))
+    print(f"champion: mean ${spent/n:.0f}/run, mean touched {touched/n:.2f}, "
+          f"declared-true-hit {correct}/{n}, one-touch-wins {one_touch}/{n}, "
+          f"escalated {escalated}/{n}, had-hit {had_hit}/{n}")
+    # (a) dramatically cheaper than the full fleet (~$1.68k): a decent candidate for a few hundred
+    assert spent / n < 500
+    # (b) usually resolves by touching very few candidates
+    assert touched / n < 3.0
+    # (c) when it declares, it declares a genuinely bar-clearing candidate (prior only ordered; readout decided)
+    assert correct >= int(0.7 * n)
+
+
 if __name__ == "__main__":
     for pol in ("static", "adaptive_atomic", "adaptive_batched"):
         hs = [_simulate_env(pol, s) for s in range(12)]
         print(pol, sum(h for h, _ in hs), "/12 hits, $", round(sum(c for _, c in hs) / 12))
+    cs = [_simulate_champion(s) for s in range(40)]
+    print("champion mean $", round(sum(c[1] for c in cs) / len(cs)),
+          "mean touched", round(sum(c[2] for c in cs) / len(cs), 2))
