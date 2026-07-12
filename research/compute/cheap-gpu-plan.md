@@ -34,25 +34,53 @@ what this doc is for.**
 4. **Apply to ACCESS** in parallel (free national HPC; slower, needs affiliation) and burn any **$300 cloud
    trial credits** (Google/Oracle) opportunistically.
 
+## ★★ COST WATERFALL — burn every free credit before paying a cent (POLICY — trimcrae, 2026-07-12)
+
+**Spend order is FREE-FIRST. Never pay a "cheap" provider (Vast/RunPod) while a free credit sits unused —
+$300 is a lot of GPU-hours.** Reach for compute in this order, dropping to the next tier only when the one
+above is exhausted or genuinely can't run the job:
+
+1. **Modal free monthly (~$30/mo, recurring)** — zero friction, already wired. First choice for validation +
+   any work that fits inside the monthly grant. Recurs, so it never fully "runs out" — it caps per month.
+2. **GCP $300 trial (90-day window)** — the biggest, most reliable free GPU credit. First stop once a job
+   exceeds Modal's monthly grant. *This SUPERSEDES the old "GCP = terminal-leg reserve only" framing:* it's
+   free money, so we use it wherever it fits (bulk triage OR terminal legs), not reserved for one tier.
+3. **Oracle $300 trial (30-day window)** — burn if usable, but **low confidence**: Oracle trial accounts are
+   notoriously GPU-starved (shapes often out-of-capacity / quota 0 until you convert to pay-as-you-go), and the
+   window is only 30 days. Treat its $300 as a *bonus if a GPU shape actually launches*, not a planned tier.
+4. **Any other signup credits** (RunPod/Salad occasional promos) — opportunistic.
+5. **PAID cheap providers (Vast → RunPod Secure)** — ONLY after the free tiers above are spent/unavailable.
+   `VAST_API_KEY` is staged and ready; it's the first *out-of-pocket* dollar, not the first dollar.
+
+**Honest friction to plan around (why free ≠ instant):**
+- **GCP:** needs a **service-account JSON key** (IAM & Admin → Service Accounts → Keys → JSON — NOT the
+  Gemini/AI-Studio API key) **and** an **upgrade off the free trial to a paid account** (the $300 still applies)
+  **plus a GPU-quota request** (new accounts start at 0; Google blocks GPU-quota grants while on pure trial).
+  Quota approval has **lead time (hours–days)** → when a bulk campaign gets scheduled, kick the quota request
+  a couple days ahead so the credit is usable when needed. We are **NOT** in a race (§ operating regime), so
+  this hump is fine to absorb on the normal timeline.
+- **Oracle:** expect to convert to pay-as-you-go and still possibly find no GPU capacity on trial. Validate one
+  GPU launch before counting on it.
+
+**ACTIVATION TRIGGER (event, not a date):** the *first time a bulk GPU campaign is scheduled that would exceed
+Modal's monthly grant*, un-park GCP FIRST (start the account-upgrade + quota request), burn the $300, then
+Oracle, then paid Vast — and name that free-credit provider in the standing "confirm provider before kickoff"
+step. Until such a run is imminent, don't prompt trimcrae to do the GCP/Oracle setup (no GPU work to burn it on
+yet). The `gcp` backend is already wired + unit-tested in `gpu_backend.py` (Spot GCE VM + self-delete anti-idle
+guard); only the account-side setup above is deferred.
+
 ## Provider choice per GPU run (POLICY — trimcrae, 2026-07-12)
 
 **Every substantial GPU run from here on names a preferred provider, confirmed with trimcrae BEFORE kickoff**
-(no silent default to AWS). Default mapping by tier:
+(no silent default to AWS). The provider named must respect the FREE-FIRST waterfall above. Default mapping by
+tier (as a *capability* guide — the waterfall decides *which funded account* pays):
 - **First/validation runs** → **Modal** (free credits, zero-idle, foolproof).
-- **Bulk short-sampling triage** (the many binary/paralogue rungs) → **Salad** (cheapest) or Vast.
-- **Long full-sampling terminal legs** (the few certifying ternary runs) → **RunPod Secure** or **ACCESS** (a
-  stable host so frequent preemption doesn't force costly MD-env/system reloads); **GCP (below) is the
-  $300-credit reserve for this tier** — its Spot L4/A100 pricing beats Modal's serverless premium on long legs.
+- **Bulk short-sampling triage** (the many binary/paralogue rungs) → free credit first (**GCP $300**), then
+  **paid Vast** once free credit is spent.
+- **Long full-sampling terminal legs** (the few certifying ternary runs) → free credit first (**GCP $300**;
+  its Spot L4/A100 pricing is ideal here), then **RunPod Secure** or **ACCESS** (a stable host so frequent
+  preemption doesn't force costly MD-env/system reloads).
 - **AWS SageMaker** → only when specifically warranted (already-staged data, or nothing else set up yet).
-
-> **⏸ GCP is PARKED (trimcrae, 2026-07-12) — adapter built, activation deferred.** The `gcp` backend is wired
-> and unit-tested in `gpu_backend.py` (Spot GCE VM + self-delete anti-idle guard), but trimcrae chose to hold
-> off. **REMINDER TRIGGER (event, not a date):** the *next time we're about to launch a long TERMINAL MD/FEP
-> leg* and I stop to confirm a provider (per the policy above), **surface GCP as an option** and, if chosen,
-> walk trimcrae through: (1) create a **service-account JSON key** (IAM & Admin → Service Accounts → Keys → JSON
-> — NOT the Gemini/AI-Studio API key, a different product); (2) **upgrade off the free trial to a paid account**
-> (the $300 credit still applies) and **request GPU quota** (new accounts start at 0 and Google blocks GPU-quota
-> grants while on the trial). Until a terminal leg is imminent, do not prompt trimcrae about GCP again.
 The provider is a config in the provider-agnostic harness (`research/modalities/gpu_backend.py` +
 `autoteardown.py` + `object_store.py`), not a rewrite — so switching is cheap and `pick_cheapest()` can even
 auto-route within a tier.
