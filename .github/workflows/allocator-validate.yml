@@ -1,0 +1,33 @@
+name: Allocator/certifier validation (library-backed scheduler)
+
+# Exercises the corrected allocate/certify architecture where its dependencies exist (the dev sandbox lacks
+# optuna/confseq). Scheduling is delegated to Optuna (successive halving); certification is our adaptive_certify
+# layer; the anytime-valid bound is cross-checked against the confseq reference library. Also runs the pure
+# stdlib test suites. OFFLINE validation only — does not touch the SageMaker fleet.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Pure-stdlib test suites (allocator scheduling + certification)
+        run: |
+          python -m pip install -q pytest
+          python -m pytest research/modalities/tests/test_adaptive_allocator.py \
+                            research/modalities/tests/test_adaptive_certify.py -q
+
+      - name: Library-backed scheduler + certification + confseq cross-check
+        run: |
+          python -m pip install -q optuna confseq numpy
+          python research/modalities/nr4a3_scheduler_validate.py

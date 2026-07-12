@@ -421,3 +421,38 @@ anytime coverage under repeated looks, and the **no-hit false-declaration campai
 
 **Disposition:** allocator + certifier stay OFFLINE. This round completed fixes 1–4 and part of 5–6; the items
 above gate an offline shadow pilot and, after that, fleet wiring.
+
+## 14. Corrected architecture, instantiated on the real NR4A3 problem (2026-07-12)
+
+After confirming that the *allocation* half is standard, established machinery (successive-halving/Hyperband,
+multi-fidelity BO, active-learning FEP), we stopped reinventing it and split the system so each half uses the
+right thing:
+
+- **Scheduling = a maintained library, not hand-rolled.** `nr4a3_scheduler.py` delegates candidate scheduling
+  to **Optuna's successive-halving pruner** (the library implementation of the method we had hand-coded), over
+  our FIXED congeneric candidate set. Continuous multi-fidelity BO (Ax/BoTorch, active-learning FEP) is noted
+  as the correct tool *only if* candidates become GENERATED from a chemical space — for the fixed 19-compound
+  set, racing/successive-halving is the right shape. The stdlib `adaptive_allocator.py` is now explicitly an
+  **offline design prototype only**, superseded for production by the library-backed scheduler.
+- **Certification = ours (the only genuinely novel piece), kept separate.** `adaptive_certify.py` is unchanged
+  as the sole PASS authority; the scheduler calls it but the pruner never declares. Its anytime-valid bound is
+  **cross-checked against the `confseq` reference library** in CI (so we don't rely on a hand-derived bound).
+- **Instantiated on the real problem.** `nr4a3_screen_config.py` binds it to: the real candidate set
+  (`congeneric-warhead-series.json`, anchor `zaienne_cmpd19`, 20 arms); the real rung ladder (docking → binary
+  → paralogue → ternary-pilot → **ternary-terminal**, only the terminal rung certifies); the two anti-target
+  margins NR4A1 + NR4A2 as a **noncompensatory vector**; and certification thresholds pulled from the
+  **prereg's frozen criteria** — `bar_kcal` = the family-transfer `each_difference_min_kcal` (= **1.0
+  kcal/mol**, read from `nr4a3-ternary-coop-prereg.json`, not invented), δ_total = 0.05, the pose/conformer
+  sensitivity + CI-excludes-zero requirements, and co-fold as an **architecture-feasibility filter only**.
+- **Calibration gate as a hard precondition.** The config encodes that the **NR-V04 retrospective control
+  must pass first** (freeze the prior before unmasking; active + Hyp-epimer + matched-null + near-negative
+  controls; label-swap / shuffled-mask adversarials) — the bias control, since bias (not variance) is the
+  dominant risk.
+- **CI validation where deps exist.** `.github/workflows/allocator-validate.yml` runs the stdlib suites +
+  `pip install optuna confseq` + an offline-shadow run (scheduler + certifier compose; declares the genuine
+  winner or abstains, never the near-bar decoy) + the confseq stats cross-check. The dev sandbox lacks these
+  deps; this is the "run it where the tools live" path. **Still OFFLINE** (simulated `evaluate_fn`, no fleet).
+
+Net: the scaffolding is now honest — established tools do the established job; we own and validate only the
+thin, novel certification layer; and it is wired to the actual NR4A3 candidates, rungs, and frozen thresholds,
+behind the NR-V04 calibration gate.
