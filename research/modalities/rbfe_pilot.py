@@ -139,6 +139,74 @@ def evaluate_abort_gate(result, map_path=MAP_JSON):
 
 
 # =============================================================================================================
+# DOCKING / PREP PREFLIGHT (reviewer 2026-07-12, Plan C) — input staging is NOT evidence of binding
+# =============================================================================================================
+# The 5-Br -> 5-NH2 change is NOT an especially gentle RBFE perturbation: it substantially changes polarity +
+# H-bonding and may alter heterocycle microstate preferences. Before the edge is executable, ALL preflight
+# conditions must pass; a failure aborts THIS edge -> pick a smaller same-scaffold, same-net-charge transform.
+PREFLIGHT_MCS_OVERLAP_MIN = 0.70
+
+def docking_preflight(prep):
+    """Evaluate the reviewer's Plan-C preflight on a docking/prep RESULT dict. Pure; fail-closed on missing
+    fields. `prep` keys:
+      construct_frozen (bool), residue_numbering (str), receptor_repairs_documented (bool),
+      protonation_documented (bool), ligand_states_a (list), ligand_states_b (list),
+      docking_grid_identical (bool), mcs_overlap_frac (float), atom_map_ok (bool), parameterized_ok (bool),
+      net_charge_a (int), net_charge_b (int), charge_correction (bool),
+      min_ok (bool), max_clash_ok (bool), severe_strain (bool).
+    Returns {passed, failures, decision}. Output is INPUT STAGING, never evidence of binding/selectivity."""
+    reasons = []
+
+    def _reqbool(k):
+        v = prep.get(k, None)
+        if not isinstance(v, bool):
+            reasons.append("%s: required boolean missing/non-bool" % k)
+            return None
+        return v
+
+    if _reqbool("construct_frozen") is not True:
+        reasons.append("NR4A3 construct/residue-numbering not frozen")
+    if not prep.get("residue_numbering"):
+        reasons.append("residue_numbering not documented")
+    if _reqbool("receptor_repairs_documented") is not True:
+        reasons.append("receptor repairs not documented")
+    if _reqbool("protonation_documented") is not True:
+        reasons.append("receptor protonation not documented")
+    for k in ("ligand_states_a", "ligand_states_b"):
+        if not prep.get(k):
+            reasons.append("%s: ligand tautomer/protonation states not enumerated" % k)
+    if _reqbool("docking_grid_identical") is not True:
+        reasons.append("docking grid/constraints not identical for both endpoints")
+    mcs = prep.get("mcs_overlap_frac")
+    if not isinstance(mcs, (int, float)) or isinstance(mcs, bool) or mcs < PREFLIGHT_MCS_OVERLAP_MIN:
+        reasons.append("MCS overlap %r < %.2f (common binding mode not adequate)" % (mcs, PREFLIGHT_MCS_OVERLAP_MIN))
+    if _reqbool("atom_map_ok") is not True:
+        reasons.append("atom mapping failed")
+    if _reqbool("parameterized_ok") is not True:
+        reasons.append("parameterization failed")
+    # net-charge: must be equal OR an explicit charge correction declared
+    ca, cb = prep.get("net_charge_a"), prep.get("net_charge_b")
+    if not isinstance(ca, int) or not isinstance(cb, int) or isinstance(ca, bool) or isinstance(cb, bool):
+        reasons.append("net charges missing/non-int")
+    elif ca != cb and prep.get("charge_correction") is not True:
+        reasons.append("unresolved net-charge change (%s -> %s) with no charge_correction" % (ca, cb))
+    if _reqbool("min_ok") is not True:
+        reasons.append("restrained minimization failed")
+    if _reqbool("max_clash_ok") is not True:
+        reasons.append("persistent clashes after minimization")
+    if prep.get("severe_strain") is True:
+        reasons.append("severe ligand strain after minimization")
+
+    passed = not reasons
+    return {"passed": passed, "failures": reasons,
+            "perturbation_note": "5-Br->5-NH2 is NOT a gentle RBFE edge (polarity/H-bond/microstate change); "
+                                 "preflight is mandatory",
+            "output_status": "INPUT STAGING ONLY — not evidence of binding or selectivity",
+            "decision": ("edge executable — proceed to the RBFE morph" if passed
+                         else "ABORT this edge; select a smaller same-scaffold, same-net-charge transformation")}
+
+
+# =============================================================================================================
 # MODE=plan — pilot forecast (2 legs; cheap by design)
 # =============================================================================================================
 def plan(n_windows=12, unit_gpu_h=2.0, spot_hourly=0.50):

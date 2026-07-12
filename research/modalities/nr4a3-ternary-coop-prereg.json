@@ -105,6 +105,11 @@
       "nrv04_active_to_epimer__binary_vhl",
       "nrv04_active_to_epimer__ternary_nr4a1"
     ],
+    "cycle_closure_stance": {
+      "_note": "reviewer 2026-07-12 Req 7. The Layer-1 calibration computes EACH compound's ddG_coop INDEPENDENTLY (a matched binary + ternary alchemical pair per compound), NOT as a relative-edge tree over P1-P5 -> so per-compound cooperativity is not exposed to a single-bad-edge tree distortion. The ternary PILOT's calibration comparison (hi-vs-lo) IS a single relative edge, hence NONREDUNDANT.",
+      "pilot": "PREREGISTERED as a nonredundant pilot: NO cycle-closure claim is made for the hi-vs-lo calibration edge.",
+      "before_any_relative_edge_network": "if a future calibration is built as an RBFE edge network connecting P1-P5 (a 5-node tree = 4 edges, no cycle), add >=1 independently-selected redundant edge for a cycle-closure diagnostic BEFORE treating it as a strict calibration, OR preregister no cycle-closure claim. A single bad edge in a tree can distort several reconstructed node rankings."
+    },
     "_leg_semantics": "each leg is a RELATIVE-alchemical MORPH in ONE environment. Cooperativity uses the binary-vs-ternary cycle: ddG_coop(A->B) = ddG_alch(ternary) - ddG_alch(binary). Calibration pair (hi->lo) needs both binary + ternary legs to recover the known Delta-alpha; NR-V04 active->epimer needs binary (affinity knockout) + ternary-NR4A1 (the coop test). This is the ternary_coop.py PILOT_LEG_MAP; a mismatch between these IDs and that table fails closed.",
     "leg_coverage_rule": "required-subset: every ternary_pilot_expected_leg_id must appear as a results['legs'][*].name (extra legs allowed)",
     "layer1_expected_system_ids_coverage_rule": "when calibration.layer1_vhl_panel.expected_system_ids is non-empty, every id must appear (required-subset) among results['vhl_panel']['systems'][*].id"

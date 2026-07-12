@@ -110,3 +110,48 @@ def test_plan_is_two_legs_and_cheap():
 def test_plan_labels_stub():
     p = rp.plan()
     assert "unit_gpu_h_STUB" in p and "STUB" in p["honesty"]
+
+
+# --- docking preflight (reviewer 2026-07-12, Plan C) --------------------------------------------------------
+def _passing_prep():
+    return {"construct_frozen": True, "residue_numbering": "NR4A3 373-626", "receptor_repairs_documented": True,
+            "protonation_documented": True, "ligand_states_a": ["neutral"], "ligand_states_b": ["neutral"],
+            "docking_grid_identical": True, "mcs_overlap_frac": 0.9, "atom_map_ok": True,
+            "parameterized_ok": True, "net_charge_a": 0, "net_charge_b": 0, "charge_correction": False,
+            "min_ok": True, "max_clash_ok": True, "severe_strain": False}
+
+
+def test_docking_preflight_pass():
+    out = rp.docking_preflight(_passing_prep())
+    assert out["passed"] is True and "proceed" in out["decision"]
+    assert "INPUT STAGING" in out["output_status"]
+
+
+def test_docking_preflight_low_mcs_aborts():
+    p = _passing_prep()
+    p["mcs_overlap_frac"] = 0.4
+    out = rp.docking_preflight(p)
+    assert out["passed"] is False and "ABORT" in out["decision"]
+
+
+def test_docking_preflight_net_charge_change_needs_correction():
+    p = _passing_prep()
+    p["net_charge_a"], p["net_charge_b"] = 0, -1
+    assert rp.docking_preflight(p)["passed"] is False
+    p["charge_correction"] = True
+    assert rp.docking_preflight(p)["passed"] is True
+
+
+def test_docking_preflight_missing_fields_fail_closed():
+    assert rp.docking_preflight({})["passed"] is False
+    p = _passing_prep(); del p["ligand_states_b"]
+    assert rp.docking_preflight(p)["passed"] is False
+
+
+def test_docking_preflight_severe_strain_aborts():
+    p = _passing_prep(); p["severe_strain"] = True
+    assert rp.docking_preflight(p)["passed"] is False
+
+
+def test_docking_preflight_flags_br_nh2_not_gentle():
+    assert "NOT a gentle" in rp.docking_preflight(_passing_prep())["perturbation_note"]
