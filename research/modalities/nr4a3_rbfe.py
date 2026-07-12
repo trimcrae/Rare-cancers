@@ -140,18 +140,42 @@ def _mapping(openfe, ligA, ligB):
     # map for the 5-substituent, so LOMAP returns an empty generator. Fall back to element_change=True: the
     # shared scaffold still maps 1:1 and Br<->N becomes the mutating atom. threed=False in BOTH cases, so the
     # map stays pose-independent -> the RBFE cycle (same A->B map in solvent + every complex leg) stays valid.
-    try:
-        return _suggest(False)
-    except StopIteration:
+    for ec in (False, True):
         try:
-            m = _suggest(True)
-            print(f"[rbfe] LOMAP: element_change=True required for {LIGAND_A}->{LIGAND_B} "
-                  f"(single-point element mutation; scaffold still maps 1:1, pose-independent)", flush=True)
+            m = _suggest(ec)
+            if ec:
+                print(f"[rbfe] LOMAP: element_change=True required for {LIGAND_A}->{LIGAND_B} "
+                      f"(single-point element mutation; scaffold maps 1:1, pose-independent)", flush=True)
             return m
         except StopIteration:
-            raise RuntimeError(f"LOMAP found NO atom mapping for {LIGAND_A}->{LIGAND_B} "
-                               f"(receptor {RECEPTOR}) even with element_change=True in 2D — check the ligand "
-                               f"records in docked_{RECEPTOR}.sdf")
+            continue
+
+    # LOMAP found nothing under either setting. Emit DIAGNOSTICS (the sandbox can't run openfe, so print what
+    # the engine actually built) + try Kartograf (a more permissive geometric mapper) before giving up.
+    import rdkit.Chem as _C
+    from rdkit.Chem import rdFMCS
+    rmA, rmB = ligA.to_rdkit(), ligB.to_rdkit()
+    smiA, smiB = _C.MolToSmiles(_C.RemoveHs(_C.Mol(rmA))), _C.MolToSmiles(_C.RemoveHs(_C.Mol(rmB)))
+    mcs = rdFMCS.FindMCS([_C.RemoveHs(_C.Mol(rmA)), _C.RemoveHs(_C.Mol(rmB))],
+                         completeRingsOnly=True, ringMatchesRingOnly=True, timeout=30)
+    print(f"[rbfe] MAPPING DIAG: A={LIGAND_A} smiles={smiA} atoms={rmA.GetNumAtoms()} | "
+          f"B={LIGAND_B} smiles={smiB} atoms={rmB.GetNumAtoms()} | rdFMCS n_atoms={mcs.numAtoms} "
+          f"smarts={mcs.smartsString} canceled={mcs.canceled}", flush=True)
+    try:
+        from kartograf import KartografAtomMapper
+        km = next(KartografAtomMapper().suggest_mappings(ligA, ligB))
+        print(f"[rbfe] Kartograf produced a mapping for {LIGAND_A}->{LIGAND_B} "
+              f"(LOMAP failed; using Kartograf)", flush=True)
+        return km
+    except StopIteration:
+        pass
+    except Exception as e:  # noqa: BLE001 — kartograf missing/other; report + fall through
+        print(f"[rbfe] Kartograf unavailable/failed: {type(e).__name__}: {e}", flush=True)
+
+    raise RuntimeError(f"NO atom mapping for {LIGAND_A}->{LIGAND_B} (receptor {RECEPTOR}) via LOMAP "
+                       f"(element_change False+True) OR Kartograf; rdFMCS core={mcs.numAtoms} atoms. See "
+                       f"MAPPING DIAG above — if the core is large but mappers fail, the docked-pose molecule "
+                       f"is likely mis-repaired (check the SDF records / pose repair).")
 
 
 _PLATFORM_NAME = None
