@@ -349,6 +349,13 @@ cost, and batching + build-caching is what lets you keep the fine-grained kills 
   data. Conservative cold-start is a mitigation, not a cure.
 - The allocator cannot rescue a bad *terminal* metric: if the ternary method fails the NR-V04 control, no
   amount of clever allocation produces a trustworthy result — it just fails cheaply, which is the point.
+- **The statistical control handles variance + optional-stopping, NOT bias (validated).** In the no-hit stress
+  test the false-declaration rate is 0.00 under the CS's assumptions, but adding a +0.9 *systematic* bias to
+  every observation drives it to **0.71**. A shared force-field / charge / pose / cross-paralogue bias defeats
+  the confidence sequence entirely. This is precisely why (a) the claim ceiling is "computationally qualified
+  candidate," never "selective degrader," and (b) fix 6 — independent retrospective calibration on NR-V04 +
+  matched controls, and orthogonal-method agreement — is a **hard prerequisite**, not an enhancement. No
+  amount of anytime-valid machinery substitutes for a bias control.
 
 ## 13. Methodology-review response (2026-07-12) — fixes applied + what remains before adoption
 

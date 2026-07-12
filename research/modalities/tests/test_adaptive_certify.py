@@ -161,9 +161,10 @@ def test_classify_result_taxonomy():
 
 # ---- THE centerpiece: no-hit campaign controls false declaration under repeated looks ---------------------
 
-def _no_hit_campaign(seed, delta_total=0.05, bar=0.5):
+def _no_hit_campaign(seed, delta_total=0.05, bar=0.5, bias=0.0):
     """A campaign where NO candidate truly clears the bar; every declaration is FALSE. Streamed replicas are
-    peeked at every step (optional stopping), true margins are drawn strictly below the bar."""
+    peeked at every step (optional stopping); true margins strictly below the bar. `bias` adds a SYSTEMATIC
+    error to every observation (unmodeled by the confidence sequence)."""
     rng = random.Random(seed)
     N = 8
     KNOWN_SIGMA = 1.0
@@ -176,7 +177,7 @@ def _no_hit_campaign(seed, delta_total=0.05, bar=0.5):
 
     def step(cid):
         counter["i"] += 1
-        obs = {t: step_rng.gauss(true[cid][t], KNOWN_SIGMA) for t in ("NR4A1", "NR4A2")}
+        obs = {t: step_rng.gauss(true[cid][t] + bias, KNOWN_SIGMA) for t in ("NR4A1", "NR4A2")}
         return 5.0, obs, VALID_FAVORABLE, True, {"seed": counter["i"], "start_state": counter["i"]}
     res = certified_champion_race(cands, step, budget_gate=6000, bar=bar, robustness=0.0,
                                   delta_total=delta_total, min_independent_replicas=3, seed=seed)
@@ -193,6 +194,58 @@ def test_no_hit_campaign_controls_false_declaration_rate():
     print(f"no-hit false declarations: {false_decls}/{trials} (rate {rate:.4f}, ~95% upper {upper95:.4f}); "
           f"pre-declared delta_total={delta_total}")
     assert rate <= delta_total                         # campaign-wide false-declaration controlled
+
+
+def test_systematic_bias_defeats_the_statistical_control():
+    """HONEST failure-mode: the confidence sequence controls VARIANCE + optional-stopping, NOT bias. A shared
+    systematic error inflates both margins and drives false declarations WELL ABOVE delta — which is exactly
+    why (a) the claim ceiling is 'computationally qualified candidate' not 'selective degrader', and (b) fix 6
+    (independent retrospective calibration + orthogonal controls) is mandatory. This test documents the
+    vulnerability rather than pretending the allocator handles it."""
+    trials = 120
+    unbiased = sum(_no_hit_campaign(s, bias=0.0) for s in range(trials)) / trials
+    biased = sum(_no_hit_campaign(s, bias=0.9) for s in range(trials)) / trials
+    print(f"no-hit false-declaration rate: unbiased={unbiased:.3f}, with +0.9 systematic bias={biased:.3f}")
+    assert unbiased <= 0.05                             # statistical control holds under its assumptions
+    assert biased > unbiased + 0.10                     # bias breaks it — a limitation, not a bug
+
+
+def _multi_hit_campaign(seed, bar=0.5, robustness=0.0):
+    """Several TRUE bar-clearers exist. The race should declare one of them (a genuine bar-clearer), not a
+    non-clearer, and not falsely eliminate all of them."""
+    rng = random.Random(seed)
+    N, KNOWN_SIGMA = 8, 0.6
+    true = {f"c{i}": {t: rng.uniform(bar - 1.0, bar - 0.2) for t in ("NR4A1", "NR4A2")} for i in range(N)}
+    hits = {"c0", "c3"}
+    for h in hits:                                      # genuine bar-clearers, comfortably above bar+robustness
+        true[h] = {t: bar + robustness + 0.8 for t in ("NR4A1", "NR4A2")}
+    cands = [CertCandidate(cid=c, prior=rng.gauss(0, 1)) for c in true]
+    for c in cands:
+        c.margins = {t: MarginEvidence(target=t, sigma=KNOWN_SIGMA, sigma_fixed=True) for t in ("NR4A1", "NR4A2")}
+    step_rng = random.Random(seed * 11 + 5)
+    counter = {"i": 0}
+
+    def step(cid):
+        counter["i"] += 1
+        obs = {t: step_rng.gauss(true[cid][t], KNOWN_SIGMA) for t in ("NR4A1", "NR4A2")}
+        return 5.0, obs, VALID_FAVORABLE, True, {"seed": counter["i"], "start_state": counter["i"]}
+    res = certified_champion_race(cands, step, budget_gate=8000, bar=bar, robustness=robustness,
+                                  delta_total=0.05, min_independent_replicas=3, seed=seed)
+    d = res["declared"]
+    return d, (d in hits) if d is not None else None
+
+
+def test_multiple_hits_declares_a_genuine_bar_clearer():
+    trials = 60
+    declared, correct = 0, 0
+    for s in range(trials):
+        d, ok = _multi_hit_campaign(s)
+        if d is not None:
+            declared += 1
+            correct += ok
+    print(f"multi-hit: declared {declared}/{trials}, of which genuine bar-clearers {correct}/{declared}")
+    assert declared >= int(0.7 * trials)               # usually resolves to a declaration
+    assert correct == declared                          # EVERY declaration is a genuine bar-clearer
 
 
 def test_permutation_invariance_of_certify():
