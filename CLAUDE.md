@@ -193,6 +193,27 @@ read it before making changes.
   genuinely **outward-facing / irreversible / expensive**, needs **access or data only trimcrae has**, or is a
   **real goal-changing decision** (per the autonomy rules above) — never merely because X is optional. When in
   doubt, do it and show it; a thing built is worth infinitely more than a thing offered.
+- **★★ APPROVAL IS A GREEN LIGHT TO BUILD, NOT A CHECKPOINT TO REPORT — and finishing ONE deliverable is not a
+  stopping point while approved work remains (trimcrae standing rule, 2026-07-11, after I TWICE stopped to
+  "report completion / present next steps" while sitting on reviewer-approved, free, no-spend engineering that
+  I could just write — trimcrae had to prod "are you writing that code?").** The moment a piece of work becomes
+  **{approved/blessed by trimcrae or the reviewer-AI, OR self-doable without needing approval} AND free/no-spend
+  AND ready-or-ready-to-build**, that is the trigger to **WRITE IT NOW** and keep going through the *entire*
+  approved/self-doable backlog — NOT to summarize, "close the loop," or hand off. Specifically **these are NOT
+  stopping points** and must not end a turn while such work remains:
+  - a reviewer-AI or trimcrae **approval / "APPROVED" / "go build (a)(b)(c)" / "no further check-in needed"** —
+    approval means *execute*, not *report that it was approved*;
+  - **completing the one discrete thing that was explicitly asked** when the same plan has more approved/free
+    steps queued behind it (finishing the prereg ≠ done, if the harness/pilot/curation it unlocks are free);
+  - a "**natural review checkpoint**", a clean commit, or "this feels like a good place to update trimcrae."
+  The **reviewer-review-block rule below does NOT require pausing self-doable no-spend work**: produce the block
+  only when an **outward-facing/irreversible** step is actually imminent, and keep building everything else in
+  the meantime. The ONLY things that legitimately halt the build are the usual real blockers — a spend crossing
+  the **expensive** threshold (multi-leg GPU / hundreds of $ / multi-day), an **outward-facing/irreversible**
+  action, **access/data only trimcrae has**, or a **genuine goal-changing decision**. Absent one of those,
+  "I'll report where things stand and continue next turn" is the violation: continue THIS turn until you hit a
+  real blocker or genuinely run out of self-doable work. A report is what you write **after** the backlog is
+  exhausted or a real blocker is hit — never instead of doing the next approved, free, ready thing.
 - **★★ EVERY HAND-OFF TO trimcrae STARTS WITH A COPYABLE REVIEWER-AI REVIEW BLOCK (trimcrae standing rule,
   2026-07-11).** trimcrae routes work through a **more powerful, more expensive reviewer AI** as the final QA
   before anything reaches him / goes outward. So **whenever you present next steps or a hand-off** — and
