@@ -130,12 +130,28 @@ def _mapping(openfe, ligA, ligB):
          401 and lo_m0_NCCO poses were too far apart → empty generator → StopIteration (nr4a1 failed twice).
     For this clean congeneric append the MCS is unambiguous, so 2D gives the correct 1:1 scaffold map."""
     from openfe.setup import LomapAtomMapper
-    mapper = LomapAtomMapper(time=20, threed=False, element_change=False)
+
+    def _suggest(element_change):
+        return next(LomapAtomMapper(time=20, threed=False,
+                                    element_change=element_change).suggest_mappings(ligA, ligB))
+
+    # Prefer the STRICT map (element_change=False): correct for a pure APPEND edge (401->NCCO adds atoms of the
+    # same element). But a single-point ELEMENT MUTATION (e.g. the congeneric 5-Br -> 5-NH2) has no same-element
+    # map for the 5-substituent, so LOMAP returns an empty generator. Fall back to element_change=True: the
+    # shared scaffold still maps 1:1 and Br<->N becomes the mutating atom. threed=False in BOTH cases, so the
+    # map stays pose-independent -> the RBFE cycle (same A->B map in solvent + every complex leg) stays valid.
     try:
-        return next(mapper.suggest_mappings(ligA, ligB))
+        return _suggest(False)
     except StopIteration:
-        raise RuntimeError(f"LOMAP found NO atom mapping for {LIGAND_A}->{LIGAND_B} "
-                           f"(receptor {RECEPTOR}) even in 2D — check the ligand records in docked_{RECEPTOR}.sdf")
+        try:
+            m = _suggest(True)
+            print(f"[rbfe] LOMAP: element_change=True required for {LIGAND_A}->{LIGAND_B} "
+                  f"(single-point element mutation; scaffold still maps 1:1, pose-independent)", flush=True)
+            return m
+        except StopIteration:
+            raise RuntimeError(f"LOMAP found NO atom mapping for {LIGAND_A}->{LIGAND_B} "
+                               f"(receptor {RECEPTOR}) even with element_change=True in 2D — check the ligand "
+                               f"records in docked_{RECEPTOR}.sdf")
 
 
 _PLATFORM_NAME = None
