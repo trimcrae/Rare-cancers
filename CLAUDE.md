@@ -214,15 +214,19 @@ read it before making changes.
   "I'll report where things stand and continue next turn" is the violation: continue THIS turn until you hit a
   real blocker or genuinely run out of self-doable work. A report is what you write **after** the backlog is
   exhausted or a real blocker is hit — never instead of doing the next approved, free, ready thing.
-- **★★ EVERY HAND-OFF TO trimcrae STARTS WITH A COPYABLE REVIEWER-AI REVIEW BLOCK (trimcrae standing rule,
-  2026-07-11).** trimcrae routes work through a **more powerful, more expensive reviewer AI** as the final QA
-  before anything reaches him / goes outward. So **whenever you present next steps or a hand-off** — and
-  ALWAYS before any outward-facing/irreversible action (sending emails, cutting a release/DOI, publishing,
-  submitting) — the **first thing in your reply is a self-contained, copyable review-request block** that
-  trimcrae can paste straight to that reviewer AI to get its blessing or feedback (which he relays back to
-  you; fold it in before proceeding). Produce it **every time** there are next steps, not just big ones. The
-  block goes in a fenced code box and must carry **enough standalone context for an informed evaluation** —
-  the reviewer sees only what's in the block. Include, at minimum:
+- **★★ RESERVE REVIEWER-AI REVIEW BLOCKS FOR (a) MAJOR PROGRAM-SHIFTING DECISIONS or (b) SIGNIFICANT (>$50)
+  GPU SPEND — everything else with a good plan, JUST DO IT YOURSELF (trimcrae standing rule, 2026-07-12,
+  CORRECTS the earlier "every hand-off gets a block" rule after I over-escalated: routing a review for
+  finished free work + panel curation I should have just completed).** trimcrae routes work through a more
+  powerful reviewer AI, but that channel is **expensive and interrupts him**, so it is ONLY for the two triggers
+  above (plus any genuinely **outward-facing/irreversible** act — sending emails, cutting a release/DOI,
+  publishing, submitting). **A review block is NOT for:** finished free/no-spend engineering, curation you can
+  verify yourself, choosing the order of self-doable work, "closing the loop," reporting completion, or
+  cheap (≤$50) authorized runs. For all of those: **if you have a good plan, execute it and report the result**
+  — do not manufacture a review request. **The default is DO, not ASK.** When one of the two triggers *does*
+  apply, produce the block as the first thing in your reply (a self-contained, copyable, fenced code box with
+  enough standalone context for an informed evaluation — the reviewer sees only what's in the block), and fire
+  the phone notification per the rule below. Include, at minimum:
   1. **Role + what to do** — "You are the final reviewer before an unaffiliated researcher (Tristan McRae)
      acts. Approve, or return a specific list of fixes."
   2. **Project + goal** — one paragraph (what the repo/effort is, the objective).
