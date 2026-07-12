@@ -456,3 +456,16 @@ right thing:
 Net: the scaffolding is now honest — established tools do the established job; we own and validate only the
 thin, novel certification layer; and it is wired to the actual NR4A3 candidates, rungs, and frozen thresholds,
 behind the NR-V04 calibration gate.
+
+**Sampling length is itself a fidelity knob (trimcrae, 2026-07-12).** The rung ladder rations *sampling ns*,
+not just test type: cheap rungs run **SHORT** MD (binary triage 2 ns/window; ternary-pilot 2 ns) so a
+candidate that can't even show NR4A3 preference dies on a short run, and the **full field-standard suite (5
+ns/window × ≥3 independent replicas × 3 paralogues)** is spent only on candidates that earn the terminal rung.
+Encoded in `nr4a3_screen_config.py` as per-rung `sampling_ns`/`replicas`, with a hard invariant: **every
+certifying rung uses the full suite** (`sampling_ns == FULL_SUITE_SAMPLING_NS = 5.0`). Consequence —
+**any candidate published as a wet-lab candidate has, by construction, the full-suite sampling**, never a
+short triage run; you cannot certify on cheap MD. This is where the ~5 ns-vs-2 ns cost lever lives: the
+expensive 5 ns is confined to the handful of candidates that survive the short-sampling gates, so the ladder's
+rationing already caps the total 5 ns spend without under-sampling anything that matters. (For reference: the
+current binary *pilot* deliberately runs the full 5 ns because its job is engine + convergence validation, not
+triage.)

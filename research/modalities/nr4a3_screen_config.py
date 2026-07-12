@@ -33,24 +33,36 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 RT_298 = 0.5924849                                  # kcal/mol at 298.15 K (frozen in the prereg)
 
 # ---- the real NR4A3 multi-fidelity rung ladder --------------------------------------------------------------
-# cost_usd is a spot-GPU order-of-magnitude per candidate (design doc §3); fidelity is ordinal. Only the
-# terminal rung may CERTIFY (fix 1.4: the ternary-pilot promotes, it does not declare).
+# cost_usd is a spot-GPU order-of-magnitude per candidate (design doc §3); fidelity is ordinal. SAMPLING LENGTH
+# IS ITSELF A FIDELITY KNOB (trimcrae, 2026-07-12): early rungs run SHORT sampling for cheap triage (a candidate
+# that can't even show NR4A3 preference dies on a short run), and full field-standard sampling is reserved for
+# candidates that earn it. `sampling_ns` = production ns/window; `replicas` = independent replicas. Only the
+# terminal rung may CERTIFY (fix 1.4: the ternary-pilot promotes, it does not declare), and it MUST use the
+# FULL field-standard suite — so any candidate published as a wet-lab candidate has, by construction, the full
+# 5 ns x 3 replicas x 3 paralogues, never a short triage run.
+FULL_SUITE_SAMPLING_NS = 5.0                        # OpenFE/FEP+ field standard for RBFE production/window
 RUNGS = [
     {"rung": 0, "name": "prior_dock",      "measures": "geometry + cheap selectivity prior", "cost_usd": 0.0,
-     "can_certify": False, "note": "ensemble/consensus docking + IFP divergence over divergent residues + "
-                                    "co-fold triage (feasibility filter only) + linker-strain/Lys scan"},
+     "sampling_ns": None, "replicas": 0, "can_certify": False,
+     "note": "ensemble/consensus docking + IFP divergence over divergent residues + co-fold triage "
+             "(feasibility filter only) + linker-strain/Lys scan"},
     {"rung": 1, "name": "binary_rbfe",     "measures": "NR4A3 engagement, validity",         "cost_usd": 10,
-     "can_certify": False, "note": "1 replica, NR4A3, 1 druggable conformer"},
+     "sampling_ns": 2.0, "replicas": 1, "can_certify": False, "note": "SHORT 2 ns triage, NR4A3, 1 conformer"},
     {"rung": 2, "name": "binary_rbfe_rep", "measures": "tightened NR4A3 ΔΔG_bind",           "cost_usd": 30,
-     "can_certify": False, "note": "+2 replicas + conformer panel"},
+     "sampling_ns": 2.0, "replicas": 3, "can_certify": False, "note": "2 ns x 3 replicas + conformer panel"},
     {"rung": 3, "name": "paralogue_rbfe",  "measures": "binary paralogue preference",        "cost_usd": 80,
-     "can_certify": False, "note": "matched NR4A1 + NR4A2 conformers — first selectivity signal"},
+     "sampling_ns": 3.0, "replicas": 2, "can_certify": False,
+     "note": "3 ns, matched NR4A1 + NR4A2 conformers — first selectivity signal"},
     {"rung": 4, "name": "ternary_pilot",   "measures": "first ΔΔG_coop (PROMOTE only)",      "cost_usd": 120,
-     "can_certify": False, "note": "1 replica, NR4A3 + key paralogue, VHL — MAY PROMOTE, MAY NOT DECLARE"},
+     "sampling_ns": 2.0, "replicas": 1, "can_certify": False,
+     "note": "SHORT ternary, NR4A3 + key paralogue, VHL — MAY PROMOTE, MAY NOT DECLARE"},
     {"rung": 5, "name": "ternary_terminal", "measures": "certifiable ΔΔG_coop selectivity",  "cost_usd": 500,
-     "can_certify": True,  "note": "≥3 independent replicas x 3 paralogues + geometry — the ONLY certifying rung"},
+     "sampling_ns": FULL_SUITE_SAMPLING_NS, "replicas": 3, "can_certify": True,
+     "note": "FULL SUITE: 5 ns x >=3 independent replicas x 3 paralogues + geometry — the ONLY certifying rung"},
 ]
 TERMINAL_RUNG = max(r["rung"] for r in RUNGS if r["can_certify"])
+# invariant: every certifying rung runs the full field-standard sampling (no certifying on a short triage run)
+assert all(r["sampling_ns"] == FULL_SUITE_SAMPLING_NS for r in RUNGS if r["can_certify"])
 
 # ---- certification config, mapped onto the prereg's frozen family-transfer criteria -------------------------
 # Selectivity is a VECTOR of per-paralogue margins (kcal/mol of relative ternary stability, NR4A3 favored).
@@ -67,6 +79,8 @@ CERT = {
     "interval_excludes_zero": True,                 # prereg: each difference's CI must exclude zero
     "survives_pose_and_conformer_sensitivity": True,  # prereg: ranking robust to starting pose + conformer
     "cofold_role": "architecture_feasibility_filter_only",  # NOT a favorable score (epimer control forbids it)
+    "full_suite_sampling_ns": FULL_SUITE_SAMPLING_NS,  # a wet-lab-publishable candidate MUST have the full suite;
+                                                       # short-sampling triage rungs can PROMOTE/kill but never certify
 }
 
 # ---- NR-V04 retrospective precondition (bias control) -------------------------------------------------------
