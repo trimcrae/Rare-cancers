@@ -135,6 +135,89 @@ def europepmc_fulltext(pmcid):
         return None
 
 
+# ------------------------------------------------------------------------------------------------------------
+# Supplementary DATA files — the numeric alpha per compound usually lives in a Source-Data xlsx/csv, NOT the
+# body XML. Download the Europe PMC supplementaryFiles ZIP and pull cells/lines mentioning cooperativity/alpha
+# + the compound labels, so the MEASURED values become curatable. Pure stdlib (zipfile parses xlsx too).
+# ------------------------------------------------------------------------------------------------------------
+def _xlsx_cell_text(zbytes):
+    """Extract all cell strings from an .xlsx (a zip of XML) with stdlib only: sharedStrings + inline values.
+    Returns a flat list of non-empty cell texts (order roughly row-major per sheet)."""
+    import io
+    import re
+    import zipfile
+    out = []
+    try:
+        with zipfile.ZipFile(io.BytesIO(zbytes)) as z:
+            shared = []
+            if "xl/sharedStrings.xml" in z.namelist():
+                ss = z.read("xl/sharedStrings.xml").decode("utf-8", "replace")
+                shared = [re.sub(r"<[^>]+>", "", m) for m in re.findall(r"<si>(.*?)</si>", ss, flags=re.S)]
+            for name in z.namelist():
+                if not re.match(r"xl/worksheets/sheet\d+\.xml", name):
+                    continue
+                sx = z.read(name).decode("utf-8", "replace")
+                for cell in re.findall(r"<c\b[^>]*?>.*?</c>|<c\b[^>]*?/>", sx, flags=re.S):
+                    tmatch = re.search(r't="([^"]+)"', cell)
+                    vmatch = re.search(r"<v>(.*?)</v>", cell, flags=re.S)
+                    if not vmatch:
+                        continue
+                    val = vmatch.group(1)
+                    if tmatch and tmatch.group(1) == "s":       # shared-string index
+                        try:
+                            val = shared[int(val)]
+                        except (ValueError, IndexError):
+                            pass
+                    val = re.sub(r"\s+", " ", val).strip()
+                    if val:
+                        out.append(val)
+    except Exception:  # noqa: BLE001
+        return []
+    return out
+
+
+def supplementary_alpha_hits(pmcid, max_hits=60):
+    """Download the OA supplementary-files ZIP and return cells/lines that mention cooperativity/alpha OR a
+    PROTAC label (P1..P6), from any .xlsx/.csv/.txt/.tsv member — the raw material to curate numeric alpha
+    from. Returns {files:[...], hits:[...]} (best-effort; {} on any failure)."""
+    if not pmcid:
+        return {}
+    import io
+    import re
+    import zipfile
+    url = "https://www.ebi.ac.uk/europepmc/webservices/rest/%s/supplementaryFiles" % pmcid
+    try:
+        req = urllib.request.Request(url, headers=UA)
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+            data = r.read()
+    except Exception as e:  # noqa: BLE001
+        return {"error": "%s: %s" % (type(e).__name__, e)}
+    files, hits = [], []
+    want = re.compile(r"(cooperativ|alpha|α|\bP[1-6]\b|Kd|K_d|ternary|binary)", re.I)
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as z:
+            for name in z.namelist():
+                files.append(name)
+                low = name.lower()
+                try:
+                    raw = z.read(name)
+                except Exception:  # noqa: BLE001
+                    continue
+                cells = []
+                if low.endswith(".xlsx"):
+                    cells = _xlsx_cell_text(raw)
+                elif low.endswith((".csv", ".tsv", ".txt")):
+                    cells = [ln.strip() for ln in raw.decode("utf-8", "replace").splitlines() if ln.strip()]
+                for cell in cells:
+                    if want.search(cell):
+                        hits.append({"file": name, "text": cell[:200]})
+                        if len(hits) >= max_hits:
+                            return {"files": files, "hits": hits}
+    except Exception as e:  # noqa: BLE001
+        return {"files": files, "error": "%s: %s" % (type(e).__name__, e)}
+    return {"files": files, "hits": hits}
+
+
 # cooperativity / ITC terms whose surrounding text carries the MEASURED alpha we must curate
 _COOP_TERMS = ("cooperativ", "α", "alpha", " ITC", "isothermal titration",
                "ternary", "K_d", "Kd ", " Kd", "dissociation constant", "positive coopera", "negative coopera")
@@ -215,6 +298,11 @@ def build_dossier():
             # pull cooperativity/ITC/alpha snippets + TABLES for curation (only OA full text we can read)
             p["cooperativity_snippets"] = cooperativity_snippets(xml) if xml else []
             p["tables"] = extract_tables(xml) if xml else []
+        # supplementary DATA files (Source-Data xlsx/csv) for the top OA full-text papers — where numeric alpha
+        # usually lives. Bounded to the first 2 FT papers per candidate to cap runtime/bandwidth.
+        ft_papers = [p for p in (papers if isinstance(papers, list) else []) if p.get("fulltext_xml_available")]
+        for p in ft_papers[:2]:
+            p["supplementary_alpha"] = supplementary_alpha_hits(p.get("pmcid"))
         out["candidates"].append({
             "id": c["id"], "expected_class": c["expected_class"],
             "independent_vhl": c["independent_vhl"], "is_mz1": c["is_mz1"], "note": c["note"],

@@ -56,6 +56,21 @@ def test_cooperativity_snippets_empty_on_none():
     assert f.cooperativity_snippets("") == []
 
 
+def test_xlsx_cell_text_pure_parse():
+    import io
+    import zipfile
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("xl/sharedStrings.xml",
+                   "<sst><si><t>P1 cooperativity alpha 42</t></si><si><t>P5 alpha 0.3</t></si></sst>")
+        z.writestr("xl/worksheets/sheet1.xml",
+                   '<worksheet><sheetData><row><c t="s"><v>0</v></c>'
+                   '<c t="s"><v>1</v></c></row></sheetData></worksheet>')
+    cells = f._xlsx_cell_text(buf.getvalue())
+    assert any("42" in c for c in cells) and any("0.3" in c for c in cells)
+    assert f._xlsx_cell_text(b"not a zip") == []      # fails closed on bad input
+
+
 def test_extract_tables_preserves_rows():
     xml = ("<table-wrap><label>Table 1</label><caption><p>Cooperativity of PROTACs</p></caption>"
            "<table><tr><th>PROTAC</th><th>alpha</th></tr><tr><td>P1</td><td>42</td></tr>"
