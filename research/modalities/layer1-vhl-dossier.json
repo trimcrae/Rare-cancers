@@ -1,0 +1,189 @@
+{
+  "_purpose": "primary-source material to CURATE the Layer-1 VHL cooperativity panel; measured_alpha is deliberately NULL \u2014 it is a curation output, never a scrape guess",
+  "_prereg": "nr4a3-ternary-coop-prereg.json calibration.layer1_vhl_panel",
+  "fetched_at_utc": "2026-07-12T00:06:57.135720Z",
+  "candidates": [
+    {
+      "id": "mz1_brd4_vhl",
+      "expected_class": "cooperative",
+      "independent_vhl": true,
+      "is_mz1": true,
+      "note": "independent VHL transfer control; solved cooperative VHL-BRD4 ternary (Gadd et al. 2017 Nat Chem Biol).",
+      "rcsb_search": "MZ1 BRD4 VHL ternary",
+      "pdb_hits": {
+        "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      },
+      "pdb_entries": [],
+      "europepmc_search": "MZ1 BRD4 VHL cooperativity ternary Gadd Ciulli",
+      "papers": [
+        {
+          "pmid": "42133863",
+          "pmcid": "PMC13220276",
+          "doi": "10.1021/acs.chemrev.5c00800",
+          "title": "Methods to Study the Molecular Mechanism and Drive the Design of Protein Degraders.",
+          "journal": "Chem Rev",
+          "year": "2026",
+          "is_oa": true,
+          "cited_by": 0,
+          "fulltext_xml_available": true
+        },
+        {
+          "pmid": "39392888",
+          "pmcid": "PMC11468923",
+          "doi": "10.1126/sciadv.ado6492",
+          "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+          "journal": "Sci Adv",
+          "year": "2024",
+          "is_oa": true,
+          "cited_by": 58,
+          "fulltext_xml_available": true
+        },
+        {
+          "pmid": null,
+          "pmcid": null,
+          "doi": "10.1101/2024.02.05.578957",
+          "title": "Mechanism of degrader-targeted protein ubiquitinability",
+          "journal": null,
+          "year": "2024",
+          "is_oa": true,
+          "cited_by": 2,
+          "fulltext_xml_available": false
+        },
+        {
+          "pmid": "36961978",
+          "pmcid": "PMC10240388",
+          "doi": "10.1021/jacs.2c09387",
+          "title": "High Accuracy Prediction of PROTAC Complex Structures.",
+          "journal": "J Am Chem Soc",
+          "year": "2023",
+          "is_oa": false,
+          "cited_by": 36,
+          "fulltext_xml_available": false
+        },
+        {
+          "pmid": "38322348",
+          "pmcid": "PMC10840439",
+          "doi": "10.1016/j.apsb.2023.09.003",
+          "title": "Overview of epigenetic degraders based on PROTAC, molecular glue, and hydrophobic tagging technologies.",
+          "journal": "Acta Pharm Sin B",
+          "year": "2024",
+          "is_oa": true,
+          "cited_by": 54,
+          "fulltext_xml_available": true
+        }
+      ],
+      "measured_alpha": null,
+      "verified": false,
+      "curation_todo": "read the OA full-text / structure to extract MEASURED alpha per compound; only then set measured_alpha + verified and promote into the frozen scored manifest"
+    },
+    {
+      "id": "smarca2_vhl_series",
+      "expected_class": "mixed_panel",
+      "independent_vhl": false,
+      "is_mz1": false,
+      "note": "the SMARCA2-VHL degrader series spans weak..strong alpha + inactive cis-Hyp stereo controls (Farnaby et al. 2019 Nat Chem Biol); curation must split it into the >=2 strong / >=2 weak-neg / >=1 inactive systems the prereg composition requires.",
+      "rcsb_search": "SMARCA2 bromodomain VHL PROTAC ternary",
+      "pdb_hits": [
+        "9DTY",
+        "9MR9",
+        "9HYB",
+        "9HYN",
+        "9HYO",
+        "9HYP"
+      ],
+      "pdb_entries": [
+        {
+          "pdb_id": "9DTY",
+          "title": "Crystal structure of PRT3789 in complex with the bromodomain of human BRM (SMARCA2) and pVHL:ElonginC:ElonginB",
+          "ligands": []
+        },
+        {
+          "pdb_id": "9MR9",
+          "title": "Crystal structure of AU-15330 in complex with the bromodomain of human BRM (SMARCA2) and pVHL:ElonginC:ElonginB",
+          "ligands": []
+        },
+        {
+          "pdb_id": "9HYB",
+          "title": "CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P3",
+          "ligands": []
+        },
+        {
+          "pdb_id": "9HYN",
+          "title": "CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P1",
+          "ligands": []
+        },
+        {
+          "pdb_id": "9HYO",
+          "title": "CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P4",
+          "ligands": []
+        },
+        {
+          "pdb_id": "9HYP",
+          "title": "CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P5",
+          "ligands": []
+        }
+      ],
+      "europepmc_search": "SMARCA2 VHL PROTAC cooperativity ternary Farnaby Ciulli",
+      "papers": [
+        {
+          "pmid": "41022846",
+          "pmcid": "PMC12480974",
+          "doi": "10.1038/s41467-025-63713-7",
+          "title": "Frustration in the protein-protein interface plays a central role in the cooperativity of PROTAC ternary complexes.",
+          "journal": "Nat Commun",
+          "year": "2025",
+          "is_oa": true,
+          "cited_by": 6,
+          "fulltext_xml_available": true
+        },
+        {
+          "pmid": "41530095",
+          "pmcid": "PMC12856895",
+          "doi": "10.1021/jacs.5c14840",
+          "title": "Allosteric PROTACs: Expanding the Horizon of Targeted Protein Degradation.",
+          "journal": "J Am Chem Soc",
+          "year": "2026",
+          "is_oa": true,
+          "cited_by": 4,
+          "fulltext_xml_available": true
+        },
+        {
+          "pmid": null,
+          "pmcid": null,
+          "doi": "10.1101/2024.12.03.626645",
+          "title": "Frustration in the Protein-Protein interface Plays a Central Role in the Cooperativity of PROTAC Ternary Complexes",
+          "journal": null,
+          "year": "2024",
+          "is_oa": true,
+          "cited_by": 1,
+          "fulltext_xml_available": false
+        },
+        {
+          "pmid": "36216795",
+          "pmcid": "PMC9551036",
+          "doi": "10.1038/s41467-022-33430-6",
+          "title": "A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation in vivo.",
+          "journal": "Nat Commun",
+          "year": "2022",
+          "is_oa": true,
+          "cited_by": 174,
+          "fulltext_xml_available": true
+        },
+        {
+          "pmid": "35671157",
+          "pmcid": "PMC10237031",
+          "doi": "10.1039/d2cs00193d",
+          "title": "PROTACs: past, present and future.",
+          "journal": "Chem Soc Rev",
+          "year": "2022",
+          "is_oa": false,
+          "cited_by": 517,
+          "fulltext_xml_available": false
+        }
+      ],
+      "measured_alpha": null,
+      "verified": false,
+      "curation_todo": "read the OA full-text / structure to extract MEASURED alpha per compound; only then set measured_alpha + verified and promote into the frozen scored manifest"
+    }
+  ]
+}
