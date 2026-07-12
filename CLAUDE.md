@@ -214,6 +214,25 @@ read it before making changes.
      itemised change list.
   Keep it tight but complete; a reviewer with no other context should be able to judge it. After trimcrae
   returns the verdict, apply the changes (self-doable) and only then proceed to the outward-facing step.
+- **★★ PHONE-NOTIFY THE MOMENT A COPYABLE REVIEWER-AI BLOCK IS READY — trimcrae shouldn't have to keep checking
+  (trimcrae standing rule, 2026-07-12).** trimcrae routes reviewer/decision blocks to a separate reviewer AI and
+  is often away from the chat. So **every time you present a copyable reviewer-AI review/decision block (or any
+  hand-off asking trimcrae to route something and paste a response back), fire a phone notification IN THE SAME
+  turn.** This is an explicit opt-in, so it OVERRIDES PushNotification's default "err toward not sending." Use
+  **belt-and-braces** for reliability (phone delivery is flaky and each single channel can silently miss):
+  1. **Always** call **`PushNotification`** (`status: proactive`) with a one-line body (<200 chars, no markdown)
+     naming what's ready and any deadline-ish context, e.g. `"Reviewer block ready to route: NR4A3 ternary
+     method + budget decision"`. It pushes to the phone when Remote Control is connected and harmlessly no-ops
+     ("not sent") if trimcrae is already at the terminal — that's fine.
+  2. **Also**, unless there is genuinely nothing for trimcrae to decide, raise the accompanying choice via
+     **`AskUserQuestion`** (the repo's PROVEN-reliable phone ping — see the autonomy rules), recommended-option
+     first, referencing the block. There is almost always a legitimate question to attach ("route this; meanwhile
+     should I proceed on <self-doable X> or hold?" / which fork), so in practice BOTH fire — AskUserQuestion is
+     the guaranteed ping, PushNotification the extra nudge. Keep the copyable block itself in the message text;
+     the notification is just the ALERT that it's there.
+  Only skip the notification if trimcrae is CLEARLY actively chatting in this session right now (the chat already
+  reached them). Never fire it for routine progress — ONLY for a ready-to-route reviewer/decision block or an
+  explicit "notify me" ask.
 - **★ ENGINEERING EFFORT IS FREE — only real compute $ is a cost (trimcrae, 2026-07-08).** trimcrae runs
   this on a **Claude Max flat-rate subscription**, so agent/engineering time (writing code, refactoring a
   pipeline, converting a job to spot, adding checkpoint/resume, building a new workflow, more unit tests) costs
