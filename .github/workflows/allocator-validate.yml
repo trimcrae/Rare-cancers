@@ -29,5 +29,8 @@ jobs:
 
       - name: Library-backed scheduler + certification + confseq cross-check
         run: |
-          python -m pip install -q optuna confseq numpy
+          python -m pip install -q optuna numpy            # required (scheduler + shadow run)
+          # confseq is a compiled pkg (CMake/C++) and may not build on the runner; the cross-check is
+          # best-effort and the validate script skips it gracefully if the import fails.
+          python -m pip install -q confseq || echo "confseq unavailable (compiled build failed) — cross-check will SKIP"
           python research/modalities/nr4a3_scheduler_validate.py
