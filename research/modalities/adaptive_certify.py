@@ -67,13 +67,15 @@ def anytime_upper_bound(xbar: float, n: int, sigma: float, delta: float, rho: fl
     return xbar + (xbar - anytime_lower_bound(xbar, n, sigma, delta, rho)) if n > 0 else float("inf")
 
 
-def campaign_delta_split(delta_total: float, n_candidates: int, n_margins: int = 2) -> float:
+def campaign_delta_split(delta_total: float, n_candidates: int) -> float:
     """
-    Split a PRE-DECLARED campaign-wide false-declaration budget delta_total across candidates and anti-target
-    margins by a union bound. Declaring ANY of n_candidates on ALL of n_margins, at any stopping time, keeps
-    the campaign-wide false-declaration probability <= delta_total.
+    PER-CANDIDATE slice of a PRE-DECLARED campaign-wide false-declaration budget (union bound over candidates).
+    `certify_candidate` then splits THIS further across the candidate's anti-target margins, so the overall
+    union over candidates x margins x all stopping times keeps the campaign false-declaration prob <=
+    delta_total. Do NOT also divide by n_margins here — that double-counts the margin split and makes
+    certification over-conservative (a strong winner can then never certify).
     """
-    return delta_total / max(1, n_candidates) / max(1, n_margins)
+    return delta_total / max(1, n_candidates)
 
 
 # ---- per-margin evidence (fix 1.3: noncompensatory vector pass) --------------------------------------------
@@ -227,7 +229,7 @@ def certified_champion_race(cands, step_fn, budget_gate, bar, robustness=0.0, de
     'computationally qualified NR4A3-selectivity candidate', not a 'hit'), `spent`, `touched`, `states`,
     and the per-candidate `delta` used.
     """
-    delta_cand = campaign_delta_split(delta_total, len(cands), n_margins=len(targets))
+    delta_cand = campaign_delta_split(delta_total, len(cands))       # certify splits this across margins
     lock_promise = bar if lock_promise is None else lock_promise
     release_promise = (bar - 0.3) if release_promise is None else release_promise
     by = {c.cid: c for c in cands}

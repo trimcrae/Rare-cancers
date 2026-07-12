@@ -124,8 +124,9 @@ def test_content_hash_distinguishes_scientific_systems():
 
 
 def test_campaign_delta_split_union_bounds():
-    d = campaign_delta_split(0.05, n_candidates=10, n_margins=2)
-    assert abs(d - 0.05 / 20) < 1e-12
+    # per-candidate slice; certify_candidate splits this again across margins (no double-count here)
+    d = campaign_delta_split(0.05, n_candidates=10)
+    assert abs(d - 0.05 / 10) < 1e-12
 
 
 # ---- state machine: invalidity != candidate failure -------------------------------------------------------

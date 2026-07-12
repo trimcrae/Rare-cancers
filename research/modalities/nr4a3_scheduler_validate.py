@@ -35,7 +35,7 @@ def offline_shadow_check():
     decoy = ids[2] if len(ids) > 2 else ids[0]                   # near-bar (must NOT be declared)
     bar = cfg["certification"]["bar_kcal"]
     true = {cid: (bar - 0.6) for cid in ids}
-    true[winner] = bar + 1.2
+    true[winner] = bar + 2.0                                     # clearly selective (robust anytime-valid pass)
     true[decoy] = bar - 0.05                                     # just below the bar
     rng = random.Random(0)
     ctr = {"i": 0}

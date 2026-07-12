@@ -65,7 +65,7 @@ def run_offline_shadow(config, evaluate_fn, budget_gate=None):
     ids = [c["id"] for c in config["candidates"]]
     rungs = [r["rung"] for r in config["rungs"]]
     terminal = config["terminal_rung"]
-    delta_cand = campaign_delta_split(cert["delta_total"], len(ids), n_margins=len(cert["targets"]))
+    delta_cand = campaign_delta_split(cert["delta_total"], len(ids))    # certify splits this across margins
     state = {"declared": None, "spent": 0.0, "pruned": 0,
              "cands": {cid: CertCandidate(cid=cid) for cid in ids}}
     for cid in ids:
