@@ -23,6 +23,9 @@ SMILES = {
     "denovo_401":     "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
     "lo_m0_NCCO_gen": "COC[C@H](c1ccccc1NC(C)=O)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
     "lo_m0_CC":       "CCc1ccccc1[C@@H](COC)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",   # ethyl sibling (2nd edge)
+    # congeneric binary-RBFE pilot edge (Zaienne-19 anchor -> 5-NH2 exit vector; both neutral, single-site)
+    "zaienne_cmpd19": "COC(=O)c1c[nH]c2ccc(Br)cc12",
+    "cw_ev_5nh2":     "COC(=O)c1c[nH]c2ccc(N)cc12",
 }
 
 # denovo_401 ABFE anchor (per-receptor ΔG_bind, kcal/mol) — the numbers RBFE rides to convert its ΔΔG into B's

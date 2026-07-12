@@ -20,11 +20,16 @@ def _by_id():
     return {s["id"]: s for s in _panel()["candidate_systems"]}
 
 
-def test_p5_alpha_recomputed_from_ic50_columns():
-    # reviewer Req 1: recompute the central alpha from the two IC50 columns. alpha_TR-FRET = IC50(binary)/IC50(ternary)
-    p5 = _by_id()["smarca2_p5"]
-    recomputed = p5["ic50_binary_nM"] / float(p5["ic50_ternary_nM"])
-    assert abs(recomputed - p5["measured_alpha"]) <= 0.1        # 98/160 = 0.61 ~ 0.6 (table)
+def test_all_five_alpha_recompute_from_ic50():
+    # reviewer Req 1: recompute ALL FIVE central alpha from the binary/ternary IC50 columns (transcribed from
+    # the checksum-verified SI Table 1 via the CI pdfplumber extraction). alpha_TR-FRET = IC50(binary)/IC50(ternary).
+    b = _by_id()
+    for sid, tol in (("smarca2_p1", 3.0), ("smarca2_p2", 0.2), ("smarca2_p3", 0.2),
+                     ("smarca2_p4", 0.1), ("smarca2_p5", 0.1)):
+        s = b[sid]
+        recomputed = s["ic50_binary_nM"] / float(s["ic50_ternary_nM"])
+        assert abs(recomputed - s["measured_alpha"]) <= tol, (sid, recomputed, s["measured_alpha"])
+        assert isinstance(s["n_binary"], int) and isinstance(s["n_ternary"], int)   # replicate metadata present
 
 
 def test_all_five_smarca2_verified_with_pdb():
