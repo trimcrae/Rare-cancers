@@ -59,16 +59,36 @@ def strip_tags(xml):
 
 
 def sentences_with_keywords(text):
+    # LOOSENED: any sentence mentioning the indole-carbinol/carboxymethyl chemistry, OR an
+    # NR4A3/NOR-1 selectivity/MYC statement. We want to read exactly what the review claims, not
+    # pre-filter it, so the anchor decision rests on verbatim text.
     hits = []
     for sent in re.split(r"(?<=[.!?])\s+", text):
         low = sent.lower()
         matched = [k for k in KW if k.lower() in low]
-        # require a compound/selectivity keyword co-occurring with an NR4A3 keyword to reduce noise
-        has_cpd = any(k.lower() in low for k in ["carboxymethyl", "indole-3-carbinol", "cdim", "c-dim", "diindolyl"])
-        has_tgt = any(k.lower() in low for k in ["nor-1", "nor1", "nr4a3", "myc"])
-        if has_cpd and (has_tgt or "selective" in low or "ic50" in low or "ic₅₀" in low):
+        has_cpd = any(k in low for k in ["carboxymethyl", "carbinol", "cdim", "c-dim", "diindolyl", "bis-indol", "bis(3"])
+        has_sel = ("selectiv" in low and ("nr4a3" in low or "nor-1" in low or "nor1" in low))
+        has_myc = "myc" in low and ("nr4a3" in low or "nor-1" in low or "nor1" in low or "carbinol" in low or "carboxymethyl" in low)
+        if has_cpd or has_sel or has_myc:
             hits.append({"text": sent.strip()[:800], "keywords": sorted(set(matched))})
-    return hits[:40]
+    return hits[:60]
+
+
+def raw_windows(text, needles=("carbinol", "carboxymethyl", "NR4A3-selective", "NR4A3 selective")):
+    """Verbatim ±350-char windows around each needle, so nothing is lost to sentence-splitting."""
+    wins = []
+    low = text.lower()
+    for nd in needles:
+        start = 0
+        while True:
+            i = low.find(nd.lower(), start)
+            if i < 0:
+                break
+            wins.append({"needle": nd, "context": text[max(0, i - 350):i + 350]})
+            start = i + len(nd)
+            if len(wins) >= 30:
+                return wins
+    return wins
 
 
 def reference_entries(xml):
@@ -101,8 +121,10 @@ def main():
         xml = ft["body"]
         text = strip_tags(xml)
         out["compound_passages"] = sentences_with_keywords(text)
+        out["raw_windows"] = raw_windows(text)
         out["candidate_primary_refs"] = reference_entries(xml)
         out["n_passages"] = len(out["compound_passages"])
+        out["n_raw_windows"] = len(out["raw_windows"])
         out["n_candidate_refs"] = len(out["candidate_primary_refs"])
     else:
         out["error"] = "Could not fetch review full text; retry or supply an alternate OA source."
