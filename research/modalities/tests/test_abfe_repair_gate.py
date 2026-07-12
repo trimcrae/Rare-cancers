@@ -181,6 +181,66 @@ def test_crit2_parse_errors_flagged(tmp_path):
 
 
 # ===============================================================================================================
+# CRITERION 0 — sampling completeness (pure) — the guard against 'job said done but a window didn't finish'
+# ===============================================================================================================
+def test_crit0_complete_leg_passes():
+    # every window at the same (target) count → complete
+    windows = {k: {"index": k, "n_dedup": 2000, "samples": []} for k in range(K)}
+    c = gate.crit_sampling_completeness(windows, K, meta={"n_iter": 2000})
+    assert c["passed"] is True
+    assert c["incomplete_windows"] == []
+    assert c["target_per_window"] == 2000
+    assert c["target_source"] == "meta.n_iter"
+
+
+def test_crit0_ragged_leg_flags_undersampled_window_via_meta_target():
+    # window 15 at half the target → INCOMPLETE (this is the exact real failure mode)
+    windows = {k: {"index": k, "n_dedup": (2000 if k != 15 else 1000), "samples": []} for k in range(K)}
+    c = gate.crit_sampling_completeness(windows, K, meta={"n_iter": 2000})
+    assert c["passed"] is False
+    assert [w["window"] for w in c["incomplete_windows"]] == [15]
+    assert c["incomplete_windows"][0]["fraction_of_target"] == 0.5
+
+
+def test_crit0_ragged_leg_caught_without_meta_via_max_heuristic():
+    # meta predates n_iter recording → fall back to max-window-count; the lone short window still stands out
+    windows = {k: {"index": k, "n_dedup": (2000 if k != 15 else 1000), "samples": []} for k in range(K)}
+    c = gate.crit_sampling_completeness(windows, K, meta=None)
+    assert c["target_source"] == "max_window_count(heuristic)"
+    assert c["target_per_window"] == 2000
+    assert c["passed"] is False
+    assert [w["window"] for w in c["incomplete_windows"]] == [15]
+
+
+def test_crit0_minor_spot_trim_still_complete():
+    # a window a few iters short (1960/2000 = 98%, e.g. last-checkpoint spot loss) is NOT flagged (0.9 tol)
+    windows = {k: {"index": k, "n_dedup": (2000 if k != 14 else 1960), "samples": []} for k in range(K)}
+    c = gate.crit_sampling_completeness(windows, K, meta={"n_iter": 2000})
+    assert c["passed"] is True
+
+
+def test_crit0_missing_window_is_incomplete():
+    windows = {k: {"index": k, "n_dedup": 2000, "samples": []} for k in range(K) if k != 7}
+    c = gate.crit_sampling_completeness(windows, K, meta={"n_iter": 2000})
+    assert c["passed"] is False
+    assert c["all_windows_present"] is False
+    assert 7 in [w["window"] for w in c["incomplete_windows"]]
+
+
+def test_evaluate_gate_incomplete_leg_is_hard_false_without_pymbar(tmp_path):
+    # THE robustness assertion: an under-sampled window makes technically_valid FALSE (not None/deferred),
+    # environment-independently — so it can never be mistaken for 'not yet failed' / a finished run.
+    leg = str(tmp_path / "leg")
+    we = _flat_we(N=100)
+    we[15] = we[15][:40]                      # window 15 grossly under-sampled (40 of 100)
+    _write_leg(leg, we, meta={"leg": "complex", "n_windows": 16, "n_iter": 100, "temperature_K": 300.0})
+    res = gate.evaluate_repair_gate(leg, schedule="dense")
+    assert res["criteria"]["0_sampling_completeness"]["passed"] is False
+    assert res["technically_valid"] is False          # definitive FAIL, even with no pymbar
+    assert "INCOMPLETE" in (res["overall_note"] or "")
+
+
+# ===============================================================================================================
 # overlap-graph connectivity helper (pure — no MBAR solve)
 # ===============================================================================================================
 def _chain_overlap(K, adj_val, off=0.0):

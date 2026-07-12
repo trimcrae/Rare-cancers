@@ -66,6 +66,9 @@ HARD_ADJ_OVERLAP = 0.01     # §2.3 hard floor — no adjacent pair may sit near
 OVERLAP_EDGE_THRESHOLD = 0.01  # graph edge exists if overlap > this (end-to-end connectivity test)
 HALF_DIFF_TOL = 1.0         # §2.5 |ΔG(full) − ΔG(second half)| ceiling, kcal/mol
 PLATEAU_TOL = 0.75          # §2.5 plateau: last-third ΔG spread ceiling (kcal/mol) OR within 2·mean-SE
+COMPLETE_FRAC = 0.9         # completeness: a window with < this fraction of the target sample count is
+                            # grossly UNDER-SAMPLED (catches 'job said done but a window didn't finish';
+                            # 0.9 tolerates the ≤1-checkpoint spot-loss trim, rejects a half-sampled window)
 
 
 # =============================================================================================================
@@ -299,6 +302,56 @@ def crit_data_integrity(windows, K):
 
 
 # =============================================================================================================
+# CRITERION 0 — sampling completeness (pure; environment-independent HARD guard)
+# =============================================================================================================
+def crit_sampling_completeness(windows, K, meta, complete_frac=COMPLETE_FRAC):
+    """Every scheduled window must actually have REACHED (near) the target per-window sample count.
+
+    This is the guard against the failure mode where a leg's job exited 'Completed' (SageMaker container
+    exit 0 only means exit 0 — NOT that every window ran to n_iter) or a session ASSUMED completion, yet one or
+    more windows are far short of the intended n_iter. That is exactly what let an under-sampled window-15
+    (1000 of a 2000 target) be briefly mistaken for a finished run: it passed data-integrity (1000 valid
+    samples) and ESS (≥50) and only tripped convergence INCIDENTALLY. Completeness is distinct from convergence
+    (crit 5): a leg can look 'flat' yet be grossly under-sampled in one window.
+
+    Target per-window count = meta['n_iter'] if recorded (the intended n_iter — now written by run_shard),
+    else the MAX dedup count across this leg's windows (a ragged-leg heuristic that works even on legs whose
+    meta predates n_iter recording — a lone half-length window still stands out). A window is INCOMPLETE if its
+    dedup sample count < complete_frac × target. PURE stdlib (no MBAR) → this HARD-fails an incomplete leg in
+    ANY environment, including the dev sandbox, so 'the job said done but a window didn't finish' can never be
+    silently promoted."""
+    present = sorted(windows)
+    counts = {i: windows[i]["n_dedup"] for i in present if windows[i]["n_dedup"] > 0}
+    meta_target = None
+    if meta and meta.get("n_iter") is not None:
+        try:
+            v = int(meta.get("n_iter"))
+            meta_target = v if v > 0 else None
+        except Exception:  # noqa: BLE001
+            meta_target = None
+    max_count = max(counts.values()) if counts else 0
+    target = meta_target if meta_target is not None else max_count
+    target_source = "meta.n_iter" if meta_target is not None else "max_window_count(heuristic)"
+    threshold = complete_frac * target if target else 0.0
+
+    per_window, incomplete = [], []
+    for i in range(K):
+        n = counts.get(i, 0)
+        ok = (target > 0) and (n >= threshold)
+        per_window.append({"window": i, "n_dedup": n, "complete": bool(ok)})
+        if not ok:
+            incomplete.append({"window": i, "n_dedup": n, "target": target,
+                               "fraction_of_target": (round(n / target, 4) if target else None)})
+    all_present = len(counts) == K and all(i in counts for i in range(K))
+    passed = bool(all_present and not incomplete and target > 0)
+    return {"passed": passed, "available": True,
+            "target_per_window": target, "target_source": target_source,
+            "complete_frac": complete_frac, "threshold_samples": threshold,
+            "all_windows_present": all_present, "n_windows_with_data": len(counts),
+            "incomplete_windows": incomplete, "per_window_counts": per_window}
+
+
+# =============================================================================================================
 # CRITERION 3 — connected overlap network (MBAR)
 # =============================================================================================================
 def crit_connected_overlap(leg_dir, K, warn_adj=WARN_ADJ_OVERLAP, hard_adj=HARD_ADJ_OVERLAP,
@@ -429,28 +482,42 @@ def evaluate_repair_gate(leg_dir, schedule="dense", floor=ESS_FLOOR, warn_adj=WA
     meta = _load_meta(leg_dir)
     windows = read_windows(leg_dir)
 
+    c0 = crit_sampling_completeness(windows, K, meta)
     c1 = crit_schedule_identity(windows, ref, meta)
     c2 = crit_data_integrity(windows, K)
     c3 = crit_connected_overlap(leg_dir, K, warn_adj=warn_adj, hard_adj=hard_adj, edge_threshold=edge_threshold)
     c4 = crit_ess(leg_dir, K, floor=floor)
     c5 = crit_convergence(leg_dir, K, meta, half_diff_tol=half_diff_tol, plateau_tol=plateau_tol)
 
-    criteria = {"1_schedule_identity": c1, "2_data_integrity": c2, "3_connected_overlap": c3,
-                "4_ess": c4, "5_convergence": c5}
+    criteria = {"0_sampling_completeness": c0, "1_schedule_identity": c1, "2_data_integrity": c2,
+                "3_connected_overlap": c3, "4_ess": c4, "5_convergence": c5}
 
-    # §2 overall rule: 1,2,3,5 must all PASS; criterion 4 must PASS or its failures be low-ESS states eligible
-    # for the single §1 extension. Any MBAR criterion that could not be evaluated (no pymbar) → verdict None.
-    hard = [c1, c2, c3, c5]
-    hard_available = all(c.get("available") for c in hard) and c4.get("available")
-    if not hard_available:
-        technically_valid = None
-        overall_note = ("verdict deferred: one or more MBAR criteria (3/4/5) could not be evaluated here "
-                        "(numpy/pymbar absent) — run in CI. Pure criteria 1-2 were still evaluated.")
+    # SAMPLING-COMPLETENESS is a PURE, environment-independent HARD gate: a leg with a grossly under-sampled
+    # window is INVALID regardless of the MBAR criteria (and even when pymbar is absent). This is what makes
+    # 'the job exited Completed but a window didn't finish' a definitive FAIL you can catch anywhere — it must
+    # short-circuit BEFORE the pymbar-availability deferral, so an incomplete leg never returns None ("deferred")
+    # and get mistaken for "not yet failed".
+    if c0["passed"] is False:
+        technically_valid = False
+        overall_note = ("INCOMPLETE leg: windows %s are below %.0f%% of the target %s sample count "
+                        "(source: %s). A 'Completed' job status only means the container exited 0 — it does "
+                        "NOT prove every window reached the target n_iter; finish the sampling and re-run."
+                        % ([w["window"] for w in c0["incomplete_windows"]], 100 * c0["complete_frac"],
+                           c0["target_per_window"], c0["target_source"]))
     else:
-        hard_pass = all(bool(c.get("passed")) for c in hard)
-        c4_ok = bool(c4.get("passed")) or bool(c4.get("extension_eligible"))
-        technically_valid = bool(hard_pass and c4_ok)
-        overall_note = None
+        # §2 overall rule: 1,2,3,5 must all PASS; criterion 4 must PASS or its failures be low-ESS states
+        # eligible for the single §1 extension. Any MBAR criterion that could not be evaluated → verdict None.
+        hard = [c1, c2, c3, c5]
+        hard_available = all(c.get("available") for c in hard) and c4.get("available")
+        if not hard_available:
+            technically_valid = None
+            overall_note = ("verdict deferred: one or more MBAR criteria (3/4/5) could not be evaluated here "
+                            "(numpy/pymbar absent) — run in CI. Pure criteria 0-2 were still evaluated.")
+        else:
+            hard_pass = all(bool(c.get("passed")) for c in hard)
+            c4_ok = bool(c4.get("passed")) or bool(c4.get("extension_eligible"))
+            technically_valid = bool(hard_pass and c4_ok)
+            overall_note = None
 
     extension_recommended = bool(c4.get("available") and not c4.get("passed") and c4.get("extension_eligible"))
 
@@ -492,6 +559,10 @@ def _cli(argv=None):
             print("  [%s] %s" % (tag, name))
             for fl in c.get("flags", []) or []:
                 print("        flag: %s" % fl)
+            for iw in c.get("incomplete_windows", []) or []:
+                print("        INCOMPLETE window %s: %s/%s samples (%.0f%% of target %s)"
+                      % (iw["window"], iw["n_dedup"], iw["target"],
+                         100 * (iw["fraction_of_target"] or 0), c.get("target_source", "?")))
             if c.get("error"):
                 print("        error: %s" % c["error"])
             if c.get("note"):

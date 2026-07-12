@@ -35,6 +35,18 @@ now schedule-aware and `reduce_leg` infers K from data and fails closed on misma
   recommendation before the r2/r3 spend (expensive-spend rule) rather than firing automatically.
 
 ## 2. Technical acceptance criteria for a dense repaired leg (ALL required)
+0. **Sampling completeness (added 2026-07-12; environment-independent HARD gate):** every scheduled window
+   must have actually REACHED (≥90% of) the target per-window sample count. Target = `meta.json`'s recorded
+   `n_iter` (now written by `run_shard`), else the max window count across the leg (a ragged-leg heuristic).
+   A leg with any grossly under-sampled window is **technically INVALID regardless of the MBAR criteria, and
+   even when pymbar is absent** — this is a pure check so it fails in any environment. *Why this exists:* a
+   SageMaker "Completed" status only means the container exited 0; it does NOT prove every window ran to
+   `n_iter`, and a session once briefly treated an under-sampled window-15 (1000 of a 2000 target) as a
+   finished run. The under-sampled window passed data-integrity (valid samples) and ESS (≥50) and only tripped
+   convergence *incidentally* — so completeness is now an explicit, named, first-class FAIL
+   (`abfe_repair_gate.crit_sampling_completeness`), not something inferred from a convergence miss. **Process
+   corollary:** a leg is never "done"/"valid" on a job status or an assumed completion — only on the gate
+   PASSING against the actual S3 per-window counts.
 1. **Schedule identity, not just dimensions:** exactly 16 source windows; each sample's u is a 16-vector; the
    per-window (λ_elec, λ_sterics) values AND their ordering match `LAMBDA_*_DENSE` exactly. (Not merely
    "u has 16 entries.")
@@ -50,8 +62,9 @@ now schedule-aware and `reduce_leg` infers K from data and fails closed on misma
 6. **Independent reduction:** for ≥1 repaired replicate, a **separately written** MBAR input-assembly +
    reduction reproduces ΔG to within tolerance (guards the reduction path itself, not just the data).
 
-A leg failing any of 1–3, 5, or 6 is a **technical failure**. A leg failing 4 triggers the one extension,
-then re-evaluates.
+A leg failing any of 0–3, 5, or 6 is a **technical failure**. A leg failing 4 triggers the one extension,
+then re-evaluates. (A leg failing 0 — incomplete sampling — is not a *scientific* failure of the method; it
+means the run simply has not finished. Complete the sampling and re-gate before drawing any conclusion.)
 
 ## 3. Statistics — report small-n honestly; NO Gaussian "sigma"
 With n=3 independent replicates, use **t-statistics on the standard error (2 dof)**, not "σ". Report the raw

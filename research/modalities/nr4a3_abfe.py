@@ -839,6 +839,11 @@ def run_shard(leg, ligand_sdf, out_dir, receptor_pdb=None, window_start=0, windo
     os.makedirs(out_dir, exist_ok=True)
     meta = {"leg": leg, "n_receptor_atoms": prep["n_receptor_atoms"], "n_ligand_atoms": prep["n_ligand_atoms"],
             "temperature_K": temperature_K, "n_windows": n_windows(), "seed": seed, "pose_index": prep["pose_index"],
+            # TARGET per-window sample count (intended n_iter). Recorded so a later reduce/gate can verify every
+            # window actually REACHED the target — a job exiting 'Completed' (container exit 0) or an assumed
+            # completion does NOT prove full sampling. (Guard added after an under-sampled window-15 [1000 of a
+            # 2000 target] was briefly mistaken for a finished run; see abfe_repair_gate.crit_sampling_completeness.)
+            "n_iter": n_iter,
             # SCHEDULE + LIGAND PROVENANCE (repair-prereg §7 semantic audit + §8 cross-tag guard): record the
             # schedule NAME and the exact per-window (λ_elec, λ_sterics) used, plus the ligand identity + restraint
             # convention, so a later audit/gate can verify λ value+order (not merely the window count) and a
