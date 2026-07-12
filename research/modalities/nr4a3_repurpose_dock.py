@@ -178,11 +178,12 @@ def main():
             cc = wh.handle_contacts(conf, pose, c_res).get(label, 0) if dg is not None else 0
         except Exception as e:  # noqa: BLE001 — one bad drug must never kill the shard
             dg, note, hc, cc = None, f"error:{e}", 0, 0
-        for p in (lig, pose):                       # keep the box clean under high fan-out
-            try:
-                os.remove(p)
-            except OSError:
-                pass
+        if os.environ.get("KEEP_POSES") != "1":     # keep the box clean under high fan-out (default)
+            for p in (lig, pose):
+                try:
+                    os.remove(p)
+                except OSError:
+                    pass
         return {"label": label, "drug": m["drug"], "moa": m["moa"], "phase": m["phase"],
                 "smiles": smi, "dG_NR4A3": dg, "handle_contacts": hc, "conserved_contacts": cc, "note": note}
 
@@ -200,6 +201,29 @@ def main():
                 _write_summary(jsonl, meta, status="in_progress")
 
     _write_summary(jsonl, meta, status="ok")
+
+    if os.environ.get("KEEP_POSES") == "1":
+        # RBFE staging: assemble a combined docked_<receptor>.sdf (each pose retitled to its label) in OUT so
+        # the checkpoint prefix is a ready RBFE receptor input (<r>-opened.pdb already written above). The
+        # receptor tag defaults to nr4a3 (RBFE's RECEPTOR); override via DOCKED_RECEPTOR.
+        rcpt = os.environ.get("DOCKED_RECEPTOR", "nr4a3")
+        combined = os.path.join(OUT, f"docked_{rcpt}.sdf")
+        n_written = 0
+        with open(combined, "w") as cf:
+            for label in [b for b in by_label]:
+                pose = os.path.join(OUT, f"_pose_{label}.sdf")
+                if not os.path.exists(pose):
+                    continue
+                for blk in open(pose).read().split("$$$$"):
+                    blk = blk.strip("\n")
+                    if not blk.strip():
+                        continue
+                    lines = blk.split("\n")
+                    lines[0] = label                 # set the SDF title -> RBFE resolves the pose by _Name
+                    cf.write("\n".join(lines) + "\n$$$$\n")
+                    n_written += 1
+        print(f"[repurpose] KEEP_POSES: wrote {combined} ({n_written} pose record(s)) for RBFE staging",
+              flush=True)
     print(f"[repurpose] {TAG} DONE {len(todo)} drugs in {time.time() - t0:.0f}s", flush=True)
 
 

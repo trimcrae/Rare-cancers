@@ -58,6 +58,10 @@ def main():
         checkpoint_s3_uri=ckpt, checkpoint_local_path="/opt/ml/checkpoints",
         hyperparameters={"git-ref": git_ref, "shard": shard, "tag": tag,
                          "exhaustiveness": exhaustiveness, "per-ligand-timeout": per_ligand_timeout},
+        # KEEP_POSES=1 retains docked poses + writes a combined docked_<r>.sdf into the checkpoint (RBFE
+        # staging); default off (disk hygiene). Propagates to the dock subprocess via entry's os.environ.copy().
+        environment={"KEEP_POSES": os.environ.get("KEEP_POSES", "0"),
+                     "DOCKED_RECEPTOR": os.environ.get("DOCKED_RECEPTOR", "nr4a3")},
     )
     print(f"submitting repurpose dock [{tag}]: {instance} spot={spot}, shard={shard}, exh={exhaustiveness}, "
           f"receptor s3://{bucket}/{receptor_prefix} → checkpoints {ckpt}", flush=True)

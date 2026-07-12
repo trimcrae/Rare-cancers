@@ -49,6 +49,10 @@ on:
         description: "repo ref the job clones + runs (must contain the shard JSON + driver)"
         default: "main"
         required: false
+      keep_poses:
+        description: "1 = retain docked poses + write a combined docked_<r>.sdf into the checkpoint (RBFE staging)"
+        default: "0"
+        required: false
 
 permissions:
   contents: read
@@ -77,6 +81,7 @@ jobs:
           SPOT: ${{ inputs.spot }}
           MAX_RUNTIME: ${{ inputs.max_runtime }}
           GIT_REF: ${{ inputs.git_ref }}
+          KEEP_POSES: ${{ inputs.keep_poses }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."

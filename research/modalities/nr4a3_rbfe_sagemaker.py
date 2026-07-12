@@ -63,8 +63,68 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "stop") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "stop", "stage") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
+
+    if MODE == "stage":
+        # Assemble the RBFE receptor prefix (<r>-opened.pdb + docked_<r>.sdf) from the congeneric DOCKING
+        # output (the smina job already wrote nr4a3-opened.pdb + _pose_<lig>.sdf into its checkpoint). Pure
+        # S3/boto3 in the GH runner — no SageMaker job, no GPU. Then MODE=smoke/run mount RECEPTOR_PREFIX.
+        import boto3
+        import sagemaker
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        dock_prefix = os.environ.get("DOCK_PREFIX", "nr4a3-congeneric-dock/congeneric-pilot-ckpt").rstrip("/")
+        dest = RECEPTOR_PREFIX.rstrip("/")
+        receptor = RECEPTORS[0]
+        keys = []
+        tok = None
+        while True:
+            kw = {"Bucket": bucket, "Prefix": dock_prefix + "/"}
+            if tok:
+                kw["ContinuationToken"] = tok
+            resp = s3.list_objects_v2(**kw)
+            keys += [o["Key"] for o in resp.get("Contents", [])]
+            if not resp.get("IsTruncated"):
+                break
+            tok = resp["NextContinuationToken"]
+        print(f"[rbfe-stage] {len(keys)} objs under s3://{bucket}/{dock_prefix}/", flush=True)
+
+        def _find(suffix):
+            m = [k for k in keys if k.endswith(suffix)]
+            return m[0] if m else None
+
+        pdb_key = _find("nr4a3-opened.pdb") or _find("-opened.pdb")
+        pose_a = _find(f"_pose_{LIGAND_A}.sdf")
+        pose_b = _find(f"_pose_{LIGAND_B}.sdf")
+        if not (pdb_key and pose_a and pose_b):
+            print("[rbfe-stage] KEYS:", *keys, sep="\n  ")
+            sys.exit(f"[rbfe-stage] missing inputs: pdb={pdb_key} poseA={pose_a} poseB={pose_b}")
+
+        def _get(k):
+            return s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+
+        def _retitle(sdf_text, name):
+            """Set each SDF record's title line (line 0 of the molblock) to `name` so the RBFE engine resolves
+            the pose by _Name; also keeps the SMILES fallback. Returns record(s) + a trailing $$$$ delimiter."""
+            out = []
+            for blk in sdf_text.split("$$$$"):
+                blk = blk.strip("\n")
+                if not blk.strip():
+                    continue
+                lines = blk.split("\n")
+                lines[0] = name
+                out.append("\n".join(lines))
+            return "".join(b + "\n$$$$\n" for b in out)
+
+        docked = _retitle(_get(pose_a), LIGAND_A) + _retitle(_get(pose_b), LIGAND_B)
+        s3.put_object(Bucket=bucket, Key=f"{dest}/docked_{receptor}.sdf", Body=docked.encode())
+        s3.copy_object(Bucket=bucket, CopySource={"Bucket": bucket, "Key": pdb_key},
+                       Key=f"{dest}/{receptor}-opened.pdb")
+        print(f"[rbfe-stage] wrote s3://{bucket}/{dest}/{receptor}-opened.pdb + docked_{receptor}.sdf "
+              f"(poses: {LIGAND_A}, {LIGAND_B}). Now dispatch MODE=smoke then run with "
+              f"receptor_prefix={dest}.", flush=True)
+        return
 
     if MODE == "tracelog":
         # Full CloudWatch traceback of a failed leg (FailureReason only carries the last line). RBFE_JOB=<name>
