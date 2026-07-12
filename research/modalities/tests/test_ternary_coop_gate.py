@@ -18,9 +18,21 @@ FROZEN = os.path.join(os.path.dirname(HERE), "nr4a3-ternary-coop-prereg.json")
 NAN = float("nan")
 INF = float("inf")
 
+# The real frozen JSON now pins a SPECIFIC 7-system calibration panel via expected_system_ids. The synthetic-
+# panel MECHANISM tests below use their own ids, so they run against a copy with expected_system_ids blanked
+# (coverage is exercised separately by test_real_panel_expected_ids_* against the real file).
+import json as _json  # noqa: E402
+import tempfile  # noqa: E402
+_mech = g.load_frozen(FROZEN)
+_mech["calibration"]["layer1_vhl_panel"]["expected_system_ids"] = []
+_FMECH = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False)
+_json.dump(_mech, _FMECH)
+_FMECH.close()
+FROZEN_MECH = _FMECH.name
+
 
 def _frozen():
-    return g.load_frozen(FROZEN)
+    return g.load_frozen(FROZEN_MECH)
 
 
 # =============================================================================================================
@@ -80,13 +92,13 @@ def _passing_results():
 # top-level verdict
 # =============================================================================================================
 def test_full_pass_authorizes_prospective():
-    res = g.evaluate_retrospective_bar(_passing_results(), FROZEN)
+    res = g.evaluate_retrospective_bar(_passing_results(), FROZEN_MECH)
     assert res["prospective_ranking_authorized"] is True, res["sub_gates"]
     assert all(s["passed"] is True for s in res["sub_gates"].values())
 
 
 def test_empty_results_defers_everything():
-    res = g.evaluate_retrospective_bar({}, FROZEN)
+    res = g.evaluate_retrospective_bar({}, FROZEN_MECH)
     assert res["prospective_ranking_authorized"] is None
     assert all(s["passed"] is None for s in res["sub_gates"].values())
 
@@ -95,7 +107,7 @@ def test_any_available_fail_makes_verdict_false_even_with_deferred():
     bad = {"nrv04_affinity_control": {"active_vs_epimer_binary_vhl_kcal": 0.5, "binary_vhl_ci_low": -1.0,
            "binary_vhl_ci_high": 2.0, "active_vs_epimer_effective_ternary_kcal": 0.1,
            "any_retained_pose_reverses": True}}
-    res = g.evaluate_retrospective_bar(bad, FROZEN)
+    res = g.evaluate_retrospective_bar(bad, FROZEN_MECH)
     assert res["prospective_ranking_authorized"] is False
 
 
@@ -535,3 +547,45 @@ def test_exact_permutation_p_reported():
 def test_tau_b_exact_p_helper():
     assert abs(g.tau_b_exact_p([(1, 1), (2, 2), (3, 3), (4, 4)]) - 1.0 / 24) < 1e-9
     assert g.tau_b_exact_p([(1, 1)]) is None
+
+
+# =============================================================================================================
+# the REAL frozen 7-system calibration panel (P1-P5 + MZ1 + inactive control) — expected_system_ids coverage
+# =============================================================================================================
+def _real_panel_systems():
+    """A composition-valid predictions panel using the ACTUAL frozen expected_system_ids + measured alpha."""
+    return [
+        {"id": "smarca2_p1", "role": "cooperative", "verified": True, "independent_vhl": False, "is_mz1": False,
+         "predicted_alpha": 80.0, "measured_alpha": 93.0, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "smarca2_p2", "role": "cooperative", "verified": True, "independent_vhl": False, "is_mz1": False,
+         "predicted_alpha": 4.0, "measured_alpha": 4.1, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "smarca2_p3", "role": "cooperative", "verified": True, "independent_vhl": False, "is_mz1": False,
+         "predicted_alpha": 5.5, "measured_alpha": 5.0, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "smarca2_p4", "role": "neutral", "verified": True, "independent_vhl": False, "is_mz1": False,
+         "predicted_alpha": 1.2, "measured_alpha": 1.3, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "smarca2_p5", "role": "neutral", "verified": True, "independent_vhl": False, "is_mz1": False,
+         "predicted_alpha": 0.7, "measured_alpha": 0.6, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "mz1_brd4bd2_vhl", "role": "cooperative", "verified": True, "independent_vhl": True, "is_mz1": True,
+         "predicted_alpha": 16.0, "measured_alpha": 18.0, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "vhl_cis_hyp_inactive_control", "role": "inactive_control", "verified": True,
+         "independent_vhl": False, "is_mz1": False, "predicted_alpha": 0.4, "measured_alpha": None,
+         "dg_coop_ci_half_width_kcal": None},
+    ]
+
+
+def test_real_frozen_panel_ids_pass_coverage():
+    out = g.gate_vhl_panel({"vhl_panel": {"systems": _real_panel_systems()}}, g.load_frozen(FROZEN))
+    assert out["passed"] is True, out["failures"]
+
+
+def test_real_frozen_panel_missing_id_fails_coverage():
+    sysm = [s for s in _real_panel_systems() if s["id"] != "mz1_brd4bd2_vhl"]  # drop a frozen expected id
+    out = g.gate_vhl_panel({"vhl_panel": {"systems": sysm}}, g.load_frozen(FROZEN))
+    assert out["passed"] is False
+    assert any("missing expected" in x for x in out["failures"])
+
+
+def test_frozen_expected_ids_are_the_seven_verified_systems():
+    ids = g.load_frozen(FROZEN)["calibration"]["layer1_vhl_panel"]["expected_system_ids"]
+    assert set(ids) == {"smarca2_p1", "smarca2_p2", "smarca2_p3", "smarca2_p4", "smarca2_p5",
+                        "mz1_brd4bd2_vhl", "vhl_cis_hyp_inactive_control"}

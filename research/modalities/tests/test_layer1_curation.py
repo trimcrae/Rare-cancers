@@ -74,3 +74,36 @@ def test_si_checksum_archived():
 def test_prespecified_tie_is_p2_p3():
     tiers = _panel()["prespecified_ordinal_tiers"]
     assert ["smarca2_p2", "smarca2_p3"] in tiers["tie_groups"]
+
+
+# --- panel completion: MZ1 (independent control) + inactive control + frozen expected_system_ids ------------
+def test_mz1_alpha_frozen_from_gadd_2017():
+    mz1 = _by_id()["mz1_brd4bd2_vhl"]
+    assert mz1["measured_alpha"] == 18.0          # Gadd 2017 Table 1, Brd4 BD2
+    assert mz1["independent_vhl"] is True and mz1["is_mz1"] is True and mz1["verified"] is True
+    assert mz1["primary_ref"]["pmcid"] == "PMC5392356"
+    assert "18" in mz1["primary_ref"]["quote"]
+
+
+def test_inactive_control_present_and_knockout():
+    ic = _by_id()["vhl_cis_hyp_inactive_control"]
+    assert ic["measured_class"] == "inactive_control"
+    assert ic["measured_alpha"] is None           # knockout — no measured cooperative alpha
+    assert ic["verified"] is True
+
+
+def test_expected_system_ids_populated_with_seven():
+    ids = _panel()["expected_system_ids"]
+    assert set(ids) == {"smarca2_p1", "smarca2_p2", "smarca2_p3", "smarca2_p4", "smarca2_p5",
+                        "mz1_brd4bd2_vhl", "vhl_cis_hyp_inactive_control"}
+
+
+def test_panel_composition_valid():
+    b = _by_id()
+    # >=2 strong cooperative (alpha >= 2): P1,P2,P3,MZ1 ; >=2 weak/negative (alpha < 2 here): P4,P5 ;
+    # >=1 inactive control ; >=1 independent VHL (MZ1)
+    coop = [k for k in b if b[k].get("measured_alpha") not in (None,) and b[k]["measured_alpha"] >= 2.0]
+    weak = [k for k in b if b[k].get("measured_alpha") not in (None,) and b[k]["measured_alpha"] < 2.0]
+    assert len(coop) >= 2 and len(weak) >= 2
+    assert any(b[k].get("measured_class") == "inactive_control" for k in b)
+    assert any(b[k].get("independent_vhl") for k in b)
