@@ -23,6 +23,16 @@ now schedule-aware and `reduce_leg` infers K from data and fails closed on misma
 - **Predefined extension (the only allowed numerical trigger):** if, after the standard sampling, a
   *problematic* state's effective independent samples fall below the §2 floor, extend sampling for that leg
   once (double the iterations of the offending windows) before declaring technical failure.
+- **★ COST OVERRIDE (trimcrae, 2026-07-12) — SUPERSEDES the reviewer's "run r2/r3 regardless of r1's number"
+  above for the specific case of an UNFAVORABLE r1.** The reviewer's rule exists to avoid outcome-dependent
+  selection bias; trimcrae has knowingly accepted that tradeoff on cost grounds. So: **do NOT auto-fan-out to
+  r2/r3.** When a *technically-valid* r1 reduces, look at the repaired ΔΔG(NR4A3−NR4A2): if it **suggests
+  401 is NOT NR4A3-selective** (the contrast collapses toward/above zero, i.e. the favourable direction is
+  lost), **STOP and SURFACE to trimcrae** (reviewer block + phone ping) rather than spend the ~$10–30 on
+  r2/r3 to confirm a likely dead end. Preserve honesty: a non-selective r1 is a **reason to surface for a
+  decision, NOT a conclusion** that 401 is dead (one replicate can't settle it — the reviewer's caveat stands;
+  trimcrae decides whether the r2/r3 spend is worth it). If r1 is favourable, still surface the result +
+  recommendation before the r2/r3 spend (expensive-spend rule) rather than firing automatically.
 
 ## 2. Technical acceptance criteria for a dense repaired leg (ALL required)
 1. **Schedule identity, not just dimensions:** exactly 16 source windows; each sample's u is a 16-vector; the
