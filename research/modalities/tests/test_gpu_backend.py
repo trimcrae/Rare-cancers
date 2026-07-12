@@ -13,8 +13,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
-    JobSpec, MockBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SlurmBackend, VastBackend,
-    get_backend, pick_cheapest,
+    JobSpec, MockBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend, SlurmBackend,
+    VastBackend, get_backend, pick_cheapest,
 )
 
 
@@ -92,6 +92,21 @@ def test_pick_cheapest_prefers_free_hpc_then_marketplace():
     assert pick_cheapest(res, backends=["access", "vast", "runpod", "sagemaker"]) == "access"
     # without free HPC, the cheapest marketplace wins (vast rtx3090/4090 < sagemaker)
     assert pick_cheapest(res, backends=["vast", "runpod", "sagemaker"]) == "vast"
+
+
+def test_salad_is_cheapest_marketplace_but_orchestrator_managed_teardown():
+    res = ResourceSpec(gpu="any", min_vram_gb=24)
+    # among paid marketplaces (no free HPC), Salad (crowd-sourced consumer GPUs) is the cheapest
+    assert pick_cheapest(res, backends=["salad", "vast", "runpod", "sagemaker"]) == "salad"
+    # Salad teardown is NOT in-pod self-destruct: self_terminate is empty; the anti-idle guard is
+    # orchestrator stop() (scale the container group to 0), which is why stop() is defined for it.
+    sb = SaladBackend()
+    assert sb.self_terminate_cmd() == []
+    try:
+        sb.stop(None)                                     # defined (unlike the default) -> NotImplementedError stub
+        assert False
+    except NotImplementedError:
+        pass
 
 
 def test_supports_and_hourly_usd():

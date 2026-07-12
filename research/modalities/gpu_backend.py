@@ -64,6 +64,7 @@ _CAPS = {  # backend -> {gpu -> (vram_gb, approx_usd_per_hr)}   (usd = interrupt
     "runpod":    {"rtx4090": (24, 0.44), "a10g": (24, 0.40), "l4": (24, 0.43),
                   "l40s": (48, 0.79), "a100": (80, 1.19)},
     "vast":      {"rtx4090": (24, 0.30), "rtx3090": (24, 0.22), "a10g": (24, 0.30), "a100": (80, 0.80)},
+    "salad":     {"rtx4090": (24, 0.20), "rtx3090": (24, 0.12), "rtx4080": (16, 0.15)},  # crowd-sourced, cheapest
     "access":    {"a100": (40, 0.0), "a10g": (24, 0.0), "l40s": (48, 0.0)},     # NSF allocation -> $0
     "slurm":     {"a100": (40, 0.0), "any": (24, 0.0)},                          # self-hosted / institutional
     "mock":      {"any": (24, 0.0)},
@@ -180,6 +181,34 @@ class VastBackend(Backend):
         raise NotImplementedError
 
 
+class SaladBackend(Backend):
+    """SaladCloud — crowd-sourced consumer GPUs (gamers' idle PCs); typically the CHEAPEST tier, but the
+    HIGHEST churn (a node drops the instant its owner uses the PC). Lifecycle is ORCHESTRATOR-MANAGED: you run
+    a Container Group of N replicas and Salad reclaims/replaces nodes; a node cannot meaningfully self-destruct,
+    so self_terminate_cmd is EMPTY. The anti-idle-GPU guard therefore lives at the CONTROL PLANE — the
+    orchestrator MUST stop() the container group (scale to 0 / delete via the Salad API) when the work queue
+    drains, else the group keeps billing replicas. Best fit: the many SHORT triage rungs, where high preemption
+    + our per-unit checkpointing cancel out; NOT ideal for the few long full-sampling terminal legs, where
+    frequent preemption forces repeated MD-env/system reloads that can eat the price advantage (see the
+    env-load economics, design doc 7b)."""
+    name = "salad"
+
+    def self_terminate_cmd(self):
+        return []                              # node can't self-destroy; teardown = orchestrator stop() below
+
+    def submit(self, spec: JobSpec) -> Handle:
+        if not os.environ.get("SALAD_API_KEY"):
+            raise RuntimeError("salad backend needs SALAD_API_KEY + org/project (create a SaladCloud account).")
+        raise NotImplementedError("create a Container Group via the Salad API at integration time")
+
+    def stop(self, handle: Handle) -> None:
+        # THE anti-idle guard for Salad: the orchestrator scales the group to 0 / deletes it when done.
+        raise NotImplementedError("DELETE/scale the Salad container group to 0 via the Salad API")
+
+    def status(self, handle):
+        raise NotImplementedError
+
+
 # ---- mock backend (fully functional; for tests + dry runs) ------------------------------------------------
 
 class MockBackend(Backend):
@@ -204,7 +233,7 @@ class MockBackend(Backend):
         self._jobs[handle.job_id] = "completed" if ok else "failed"
 
 
-_REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend()]}
+_REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend(), SaladBackend()]}
 
 
 def get_backend(name: str) -> Backend:
@@ -218,7 +247,7 @@ def get_backend(name: str) -> Backend:
 def pick_cheapest(res: ResourceSpec, backends=None) -> str:
     """Return the name of the cheapest backend that can satisfy `res`. Free managed-HPC (access/slurm) wins
     when eligible; otherwise the cheapest marketplace. Ties broken by registration order."""
-    names = backends or ["access", "slurm", "vast", "runpod", "sagemaker"]
+    names = backends or ["access", "slurm", "salad", "vast", "runpod", "sagemaker"]
     priced = []
     for n in names:
         caps = _CAPS.get(n, {})
