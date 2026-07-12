@@ -76,34 +76,57 @@ def test_prespecified_tie_is_p2_p3():
     assert ["smarca2_p2", "smarca2_p3"] in tiers["tie_groups"]
 
 
-# --- panel completion: MZ1 (independent control) + inactive control + frozen expected_system_ids ------------
-def test_mz1_alpha_frozen_from_gadd_2017():
+# --- panel completion: MZ1 (independent ITC control) + cisMZ1 inactive + frozen expected_system_ids ---------
+def test_mz1_alpha_is_kd_derived_and_recomputable():
     mz1 = _by_id()["mz1_brd4bd2_vhl"]
-    assert mz1["measured_alpha"] == 18.0          # Gadd 2017 Table 1, Brd4 BD2
+    # reviewer 2026-07-12: alpha_ITC = Kd(binary)/Kd(ternary) = 67/4.4 = 15.2273 (NOT the text's 18)
+    assert abs(mz1["measured_alpha"] - 15.2273) < 1e-3
+    assert abs(67.0 / 4.4 - mz1["measured_alpha"]) < 1e-3    # recompute from the Kd components
+    assert mz1["observable_type"] == "alpha_ITC"            # NOT alpha_TR-FRET
+    assert mz1["pdb"] == "5T35"
     assert mz1["independent_vhl"] is True and mz1["is_mz1"] is True and mz1["verified"] is True
-    assert mz1["primary_ref"]["pmcid"] == "PMC5392356"
-    assert "18" in mz1["primary_ref"]["quote"]
+    assert "18" in mz1["text_discrepancy"]                 # the text-stated 18 is recorded, not dropped
+    assert mz1["derived_alpha_uncertainty"] and mz1["uncertainty_method"]
 
 
-def test_inactive_control_present_and_knockout():
-    ic = _by_id()["vhl_cis_hyp_inactive_control"]
+def test_cismz1_inactive_control():
+    ic = _by_id()["cismz1_inactive_control"]
     assert ic["measured_class"] == "inactive_control"
-    assert ic["measured_alpha"] is None           # knockout — no measured cooperative alpha
+    assert ic["measured_alpha"] is None                    # NOT zero (would make -RT ln(alpha) undefined)
+    assert ic["control_status"] == "noncompetent_vhl_stereocontrol"
+    assert ic["numeric_score_eligible"] is False           # excluded from tau-b + free-energy conversion
     assert ic["verified"] is True
+    assert ic["primary_ref"]["pmcid"] == "PMC5392356"
 
 
 def test_expected_system_ids_populated_with_seven():
     ids = _panel()["expected_system_ids"]
     assert set(ids) == {"smarca2_p1", "smarca2_p2", "smarca2_p3", "smarca2_p4", "smarca2_p5",
-                        "mz1_brd4bd2_vhl", "vhl_cis_hyp_inactive_control"}
+                        "mz1_brd4bd2_vhl", "cismz1_inactive_control"}
+
+
+def test_assay_types_preserved_per_system():
+    b = _by_id()
+    for k in ("smarca2_p1", "smarca2_p2", "smarca2_p3", "smarca2_p4", "smarca2_p5"):
+        assert b[k]["observable_type"] == "alpha_TR-FRET"
+    assert b["mz1_brd4bd2_vhl"]["observable_type"] == "alpha_ITC"
+
+
+def test_same_assay_reporting_required():
+    rep = _panel()["assay_heterogeneity_reporting"]["required_reports"]
+    assert any("FIVE-SMARCA2" in r or "five" in r.lower() for r in rep)
+    assert any("pooled" in r.lower() and "alongside" in r.lower() for r in rep)
+
+
+def test_p5_not_unqualified_neutral():
+    p5 = _by_id()["smarca2_p5"]
+    assert p5["measured_class"] == "weakly_negative_near_neutral"   # not unqualified "neutral"
 
 
 def test_panel_composition_valid():
     b = _by_id()
-    # >=2 strong cooperative (alpha >= 2): P1,P2,P3,MZ1 ; >=2 weak/negative (alpha < 2 here): P4,P5 ;
-    # >=1 inactive control ; >=1 independent VHL (MZ1)
-    coop = [k for k in b if b[k].get("measured_alpha") not in (None,) and b[k]["measured_alpha"] >= 2.0]
-    weak = [k for k in b if b[k].get("measured_alpha") not in (None,) and b[k]["measured_alpha"] < 2.0]
-    assert len(coop) >= 2 and len(weak) >= 2
+    coop = [k for k in b if isinstance(b[k].get("measured_alpha"), (int, float)) and b[k]["measured_alpha"] >= 2.0]
+    weak = [k for k in b if isinstance(b[k].get("measured_alpha"), (int, float)) and b[k]["measured_alpha"] < 2.0]
+    assert len(coop) >= 2 and len(weak) >= 2               # P1,P2,P3,MZ1 vs P4,P5
     assert any(b[k].get("measured_class") == "inactive_control" for k in b)
     assert any(b[k].get("independent_vhl") for k in b)

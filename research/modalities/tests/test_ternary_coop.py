@@ -46,6 +46,18 @@ def test_delta_alpha_ratio_direction():
     assert abs(tc.delta_alpha_ratio(0.0) - 1.0) < 1e-12
 
 
+def test_frozen_temperature_and_RT_match_code():
+    import json
+    import os
+    fr = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                     "nr4a3-ternary-coop-prereg.json")))
+    m = fr["method"]
+    assert m["temperature_K"] == tc.DEFAULT_T
+    assert abs(m["RT_kcal_per_mol"] - tc.R_KCAL * tc.DEFAULT_T) < 1e-6
+    assert abs(m["R_kcal_per_mol_K"] - tc.R_KCAL) < 1e-12
+    assert m["energy_units"] == "kcal/mol"
+
+
 def test_recruitment_and_coupling_are_separate():
     out = tc.recruitment_and_coupling(-4.0, -1.5)
     assert out["effective_ternary_recruitment"] == -4.0

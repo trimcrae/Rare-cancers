@@ -566,8 +566,8 @@ def _real_panel_systems():
         {"id": "smarca2_p5", "role": "neutral", "verified": True, "independent_vhl": False, "is_mz1": False,
          "predicted_alpha": 0.7, "measured_alpha": 0.6, "dg_coop_ci_half_width_kcal": 1.0},
         {"id": "mz1_brd4bd2_vhl", "role": "cooperative", "verified": True, "independent_vhl": True, "is_mz1": True,
-         "predicted_alpha": 16.0, "measured_alpha": 18.0, "dg_coop_ci_half_width_kcal": 1.0},
-        {"id": "vhl_cis_hyp_inactive_control", "role": "inactive_control", "verified": True,
+         "predicted_alpha": 14.0, "measured_alpha": 15.2273, "dg_coop_ci_half_width_kcal": 1.0},
+        {"id": "cismz1_inactive_control", "role": "inactive_control", "verified": True,
          "independent_vhl": False, "is_mz1": False, "predicted_alpha": 0.4, "measured_alpha": None,
          "dg_coop_ci_half_width_kcal": None},
     ]
@@ -588,4 +588,4 @@ def test_real_frozen_panel_missing_id_fails_coverage():
 def test_frozen_expected_ids_are_the_seven_verified_systems():
     ids = g.load_frozen(FROZEN)["calibration"]["layer1_vhl_panel"]["expected_system_ids"]
     assert set(ids) == {"smarca2_p1", "smarca2_p2", "smarca2_p3", "smarca2_p4", "smarca2_p5",
-                        "mz1_brd4bd2_vhl", "vhl_cis_hyp_inactive_control"}
+                        "mz1_brd4bd2_vhl", "cismz1_inactive_control"}
