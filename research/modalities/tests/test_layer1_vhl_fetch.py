@@ -36,3 +36,21 @@ def test_fetcher_never_fabricates_measured_alpha():
 def test_candidate_search_seeds_present():
     for c in f.CANDIDATES:
         assert "rcsb_text" in c["search"] and "europepmc" in c["search"]
+
+
+def test_cooperativity_snippets_pure_extraction():
+    xml = ("<article><p>The PROTAC formed a ternary complex with positive cooperativity "
+           "(alpha = 17) measured by ITC.</p><sec>Unrelated methods text about crystals.</sec>"
+           "<p>A negative cooperativity system showed alpha = 0.3.</p></article>")
+    snips = f.cooperativity_snippets(xml)
+    joined = " ".join(snips).lower()
+    assert snips                       # found something
+    assert "cooperativity" in joined and "itc" in joined
+    assert "alpha = 17" in joined or "alpha = 0.3" in joined
+    # no HTML tags survive
+    assert "<" not in joined and ">" not in joined
+
+
+def test_cooperativity_snippets_empty_on_none():
+    assert f.cooperativity_snippets(None) == []
+    assert f.cooperativity_snippets("") == []

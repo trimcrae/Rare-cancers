@@ -56,10 +56,21 @@ UA = {"User-Agent": "rare-cancers-layer1-vhl-fetch/1.0 (research; contact via re
 TIMEOUT = 30
 
 
-def _get(url, headers=None):
-    req = urllib.request.Request(url, headers={**UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-        return r.read().decode("utf-8", "replace")
+def _get(url, headers=None, retries=2, backoff=2.0):
+    """GET with a small retry (RCSB/EuropePMC intermittently return non-JSON under burst load). Sleeps are fine
+    here — this runs on a CI runner, not a resumable workflow."""
+    import time
+    last = None
+    for attempt in range(retries + 1):
+        try:
+            req = urllib.request.Request(url, headers={**UA, **(headers or {})})
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+                return r.read().decode("utf-8", "replace")
+        except Exception as e:  # noqa: BLE001
+            last = e
+            if attempt < retries:
+                time.sleep(backoff * (attempt + 1))
+    raise last
 
 
 def _get_json(url, headers=None):
@@ -112,16 +123,51 @@ def europepmc_search(query, rows=5):
         return {"error": "%s: %s" % (type(e).__name__, e)}
 
 
-def europepmc_fulltext_available(pmcid):
-    """Does Europe PMC expose OA full-text XML for this PMCID? (Retrieve a small head to confirm.)"""
+def europepmc_fulltext(pmcid):
+    """Fetch the OA full-text XML for a PMCID (or None). Returns the raw XML string (may be large)."""
     if not pmcid:
-        return False
+        return None
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/%s/fullTextXML" % pmcid
     try:
         txt = _get(url)
-        return len(txt) > 500 and "<article" in txt
+        return txt if (len(txt) > 500 and "<article" in txt) else None
     except Exception:  # noqa: BLE001
-        return False
+        return None
+
+
+# cooperativity / ITC terms whose surrounding text carries the MEASURED alpha we must curate
+_COOP_TERMS = ("cooperativ", "α", "alpha", " ITC", "isothermal titration",
+               "ternary", "K_d", "Kd ", " Kd", "dissociation constant", "positive coopera", "negative coopera")
+
+
+def cooperativity_snippets(xml, max_snips=40, window=240):
+    """Extract short text passages around cooperativity/ITC/alpha mentions from full-text XML (crude tag-strip;
+    the goal is human-readable snippets to CURATE measured alpha from, NOT an automated alpha parse). Returns a
+    capped list of de-duplicated passages."""
+    if not xml:
+        return []
+    import re
+    text = re.sub(r"<[^>]+>", " ", xml)          # strip tags
+    text = re.sub(r"\s+", " ", text)
+    low = text.lower()
+    hits, seen = [], set()
+    for term in _COOP_TERMS:
+        t = term.lower()
+        start = 0
+        while True:
+            i = low.find(t, start)
+            if i < 0:
+                break
+            a, b = max(0, i - window), min(len(text), i + len(term) + window)
+            snip = text[a:b].strip()
+            key = snip[:80]
+            if key not in seen:
+                seen.add(key)
+                hits.append(snip)
+            start = i + len(term)
+            if len(hits) >= max_snips:
+                return hits
+    return hits
 
 
 # ------------------------------------------------------------------------------------------------------------
@@ -133,12 +179,17 @@ def build_dossier():
                        "is deliberately NULL — it is a curation output, never a scrape guess",
            "_prereg": "nr4a3-ternary-coop-prereg.json calibration.layer1_vhl_panel",
            "fetched_at_utc": datetime.datetime.utcnow().isoformat() + "Z", "candidates": []}
+    import time
     for c in CANDIDATES:
         pdb_ids = rcsb_search(c["search"]["rcsb_text"])
+        time.sleep(1.0)   # ease RCSB burst limits between candidates (the MZ1 search hit a transient error)
         entries = [rcsb_entry(p) for p in (pdb_ids[:6] if isinstance(pdb_ids, list) else [])]
         papers = europepmc_search(c["search"]["europepmc"])
         for p in (papers if isinstance(papers, list) else []):
-            p["fulltext_xml_available"] = europepmc_fulltext_available(p.get("pmcid"))
+            xml = europepmc_fulltext(p.get("pmcid"))
+            p["fulltext_xml_available"] = xml is not None
+            # pull cooperativity/ITC/alpha snippets for curation (only for OA full text we can read)
+            p["cooperativity_snippets"] = cooperativity_snippets(xml) if xml else []
         out["candidates"].append({
             "id": c["id"], "expected_class": c["expected_class"],
             "independent_vhl": c["independent_vhl"], "is_mz1": c["is_mz1"], "note": c["note"],
