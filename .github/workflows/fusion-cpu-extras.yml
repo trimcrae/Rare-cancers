@@ -58,6 +58,10 @@ jobs:
           pip install pdfplumber >/dev/null 2>&1 || echo "pdfplumber install failed"
           python extract_smarca2_ic50.py || echo "ic50-extract failed (continuing)"
 
+      - name: Safe-2025 NR4A3-selective series primary-source verification (Europe PMC)
+        working-directory: research/modalities
+        run: python safe2025_verify.py || echo "safe2025-verify failed (continuing)"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -72,6 +76,7 @@ jobs:
           cp research/modalities/emc-surface-normal-window.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/layer1-vhl-dossier.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/smarca2-ic50-extract.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/safe2025-verify.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -89,5 +94,6 @@ jobs:
           git add research/modalities/emc-surface-normal-window.json 2>/dev/null || true
           git add research/modalities/layer1-vhl-dossier.json 2>/dev/null || true
           git add research/modalities/smarca2-ic50-extract.json 2>/dev/null || true
-          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe + Layer-1 VHL dossier" || { echo "no changes"; exit 0; }
+          git add research/modalities/safe2025-verify.json 2>/dev/null || true
+          git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe + Layer-1 VHL dossier + Safe-2025 verify" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
