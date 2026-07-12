@@ -69,6 +69,22 @@ structures/microstates/transformations/replica-count/λ-schedule are frozen (mus
 placeholder); **no production GPU authorized**; **no further scientific check-in required** for these no-spend
 steps once the fixes pass (they do).
 
+### Binary RBFE pilot — RUNNING ON GPU (2026-07-12) via the AWS escape hatch
+The congeneric binary-RBFE pilot edge (`zaienne_cmpd19` 5-Br → `cw_ev_5nh2` 5-NH₂) is EXECUTING on SageMaker
+GPU spot. The OpenFE env solves, the docked poses are staged (`docked_nr4a3.sdf` at
+`nr4a3-congeneric-dock/congeneric-poses2-ckpt`), the hybrid topology builds (smoke passed). Three engine bugs
+were diagnosed+fixed from CloudWatch tracelogs: (1) combined-SDF only had 1 record → RDKit `SDWriter`; (2)
+LOMAP rejected the Br→N element mutation → `element_change=True` fallback; (3) LOMAP still found no map on the
+rigid indole → **Kartograf fallback** (+ rdFMCS diagnostics) in `nr4a3_rbfe._mapping`.
+**Two legs launched** (tag `nr4a3-congeneric-rbfe`, receptor_prefix `nr4a3-congeneric-dock/congeneric-poses2-ckpt`):
+`nr4a3-congeneric-rbfe-solvent-2026-07-12-10-58-55-400` + `nr4a3-congeneric-rbfe-complex-nr4a3-2026-07-12-10-58-56-564`.
+Per-window checkpointed to S3 (spot-safe), ~8–25 h wall for the complex leg.
+**WHEN BOTH LEGS COMPLETE →** dispatch `gpu-rbfe-aws.yml` `mode=reduce`, `tag=nr4a3-congeneric-rbfe`,
+`ligand_a=zaienne_cmpd19`, `ligand_b=cw_ev_5nh2`, `only_legs=solvent,complex-nr4a3`, `git_ref=<branch>` →
+ΔΔG_bind(5-Br→5-NH₂) on the design frame + the pre-registered abort-criteria check (hysteresis ≤0.5,
+min adjacent-λ MBAR overlap ≥0.03, cycle closure, Pocket-5 survival ≥50%). Monitor job status via
+`gpu-rbfe-aws.yml mode=jobs` or `list-sagemaker-aws.yml`. This is INPUT to warhead qualification, NOT a lead.
+
 ### Reviewer round 3 (conditional approval, 2026-07-12) — ALL 7 REQUIREMENTS APPLIED ✅
 The reviewer conditionally approved A′/B/C and required 7 changes; all applied + tested (**652-test suite,
 0 failures**):
