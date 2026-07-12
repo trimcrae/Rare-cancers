@@ -128,6 +128,33 @@ substituent). Then a completed leg on one analog **sharpens the posterior on its
 allocator can skip or shorten redundant tests. This is the highest-leverage enhancement for real-dollar
 savings and is unique to a congeneric (vs. unrelated) library.
 
+## 7b. Env-load economics — the hidden cost of granularity (and how to beat it)
+
+Every SageMaker job pays a **fixed overhead before any science happens**: spot acquisition + container pull +
+conda/heavy-import activation (the openfe/openmm/amber env — the smoke test skips it precisely because it is
+heavy) + S3 input staging + the **system build** (solvate → parameterize → minimize → equilibrate the
+complex). A naive reading of §4–5 ("kill at the finest granularity, run one replica at a time") is a **trap**:
+each atomic job re-pays all of that, so finer granularity silently *increases* cost. The fix is three levers,
+all pure engineering (free):
+
+1. **Batch within a shared env.** Promote a whole rung-cohort (same rung + same receptor/system) in **one
+   job**, looping over units internally — one container pull + one conda load amortized across the batch.
+   Sequential futility still applies *inside* the warm job (skip a unit's remaining replicas), so batching
+   does **not** cost us the early kills — it only stops us re-paying env load to get them.
+2. **Warm-worker queue.** Keep a few (≤ the 8-wide spot cap) long-lived workers that pull work-items from an
+   S3 manifest; the env loads **once per worker lifetime**, not once per unit. The allocator updates the
+   queue each cycle instead of launching a fresh job per promotion.
+3. **Cache the shared system build.** Solvate/parameterize/equilibrate each receptor (and each ternary
+   architecture) **once**, cache to S3 (the ABFE "cached reference system" pattern), and every edge/replica
+   on that system mounts it. This converts a per-job O(system-build) — often the *largest* slice of "env"
+   time — into a one-time cost per receptor.
+
+**Cost model.** Total \$ = Σ_jobs [ `env_overhead` + (`build_cost` if the system isn't cached yet) + Σ_units
+compute ]. `plan_jobs()` packs units sharing an env key into one job; `batch_cost()` charges `build_cost` only
+for not-yet-cached systems. This overhead-aware cost is what the VOI/\$ ranking (§4.4) and the
+granularity floor should optimize against — **the optimal increment size is where marginal VOI ≈ env_overhead**
+(don't split work so fine that env load dominates; don't batch so coarse that you can't kill early).
+
 ## 8. Budget controller
 
 - **Global soft cap** (the program's ~$1–5k envelope) + **per-rung soft caps** derived from the
@@ -173,6 +200,12 @@ decisive (the terminal rung dominates cost). NOTE the honest scope: this is one 
 win is regime-dependent (largest when the terminal rung dominates cost and a winner becomes decisive before
 it). The robust, always-present benefit is a **better winner-recovery-per-dollar**, not a guaranteed
 lower absolute cost in every regime.
+
+**Env-load-aware validation** (same test, now charging per-job env_overhead + one-time-per-receptor
+build_cost): static 11/12 @ ~\$2,571; **adaptive naive-atomic** (one job per unit) 12/12 @ **~\$2,226** — env
+overhead erased much of the compute saving; **adaptive batched + cached build** 12/12 @ **~\$1,681** (~35%
+under static, ~24% under naive-atomic). This is the concrete proof of §7b: **granularity has a hidden env
+cost, and batching + build-caching is what lets you keep the fine-grained kills without paying for them.**
 
 - **~30–50% fewer wasted GPU-$** vs. fixed-fraction halving in the regime where a few candidates are clearly
   hopeless and one is clearly promising (the sequential kills + VOI ranking harvest that early) — the ~36%

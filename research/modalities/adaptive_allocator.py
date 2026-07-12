@@ -103,6 +103,48 @@ def efficacy_promote(mu: float, sigma: float, promotion_bar: float, eps_eff: flo
 DEFAULT_RHO_SCHEDULE = {1: 0.5, 2: 0.33, 3: 0.2, 4: 0.1, 5: 0.0}  # exploration reserve by rung
 
 
+# ---- env-load / job-packing economics ---------------------------------------------------------------------
+# Every SageMaker job pays a FIXED overhead before productive compute: container pull + conda/import
+# activation + S3 staging (env_overhead), plus a one-time-per-shared-system build cost (build_cost) that is
+# cacheable and reused across every unit sharing that system. A naive "one job per (candidate, rung, replica)"
+# allocator re-pays env_overhead on every unit and rebuilds the system every time — so finer granularity is
+# silently penalized. plan_jobs() amortizes env_overhead by batching units that share an env key into one
+# job; batch_cost() charges build_cost only for env keys not already cached.
+
+def plan_jobs(promotions, env_key_fn, max_batch=8):
+    """
+    Pack promotions [(cid, rung), ...] into jobs, one job per (env_key, batch-of-<=max_batch). Units sharing
+    an env key (e.g. same rung + same receptor/system) ride ONE container/conda load. Returns
+    [ (env_key, [(cid,rung), ...]) , ... ].
+    """
+    groups: dict = {}
+    for cid, rung in promotions:
+        groups.setdefault(env_key_fn(cid, rung), []).append((cid, rung))
+    jobs = []
+    for key, items in groups.items():
+        for i in range(0, len(items), max_batch):
+            jobs.append((key, items[i:i + max_batch]))
+    return jobs
+
+
+def batch_cost(jobs, compute_cost_fn, env_overhead, build_cost=0.0, built_keys=None):
+    """
+    Total $ for a set of packed jobs: per job, env_overhead once + build_cost once per NOT-yet-cached env key
+    + sum of per-unit productive compute. Mutates built_keys (a set) to mark systems now cached, so later
+    jobs on the same system skip the build. Returns total cost.
+    """
+    built = built_keys if built_keys is not None else set()
+    total = 0.0
+    for key, items in jobs:
+        total += env_overhead                       # container pull + conda + imports + staging, once/job
+        if key not in built:
+            total += build_cost                     # solvate/param/equilibrate the shared system, once
+            built.add(key)
+        for cid, rung in items:
+            total += compute_cost_fn(cid, rung)     # productive GPU-$ per unit
+    return total
+
+
 def allocate(
     cands: list[Candidate],
     free_slots: int,
