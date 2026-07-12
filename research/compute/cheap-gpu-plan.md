@@ -10,6 +10,11 @@ checkpoint bridge so compute is stateless and swappable (`object_store.py`), a p
 16 unit tests pass. **Only the real per-provider `submit()` calls remain — those need live accounts, which is
 what this doc is for.**
 
+> 📱 **Phone-only, no terminal.** Every signup + API-key step below is done in a mobile browser; the
+> key values go straight into the repo's GitHub Actions secrets (github.com -> repo -> Settings -> Secrets and
+> variables -> Actions -> New secret). ALL command-line / deploy work is done by me via CI — you never open a
+> terminal.
+>
 > ⚠️ **Free-credit amounts and promos change constantly.** The figures below are typical recent offers — verify
 > the current amount on each signup page. I have not fabricated promo codes; there are none to enter.
 
