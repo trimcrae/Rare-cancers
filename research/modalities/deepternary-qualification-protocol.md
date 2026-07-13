@@ -167,6 +167,23 @@ until predictions are frozen. (DeepTernary peer review flagged dataset similarit
 generalization, ligand-pose evaluation, and absence of induced fit — so this matters more than adding familiar
 benchmarks.)
 
+> **STEP-3 FOUNDATION BUILT (2026-07-13) — leakage audit + sourced post-cutoff candidate finder.** Selecting a
+> valid blind control requires two things first, and both are done from PRIMARY data (integrity gate: no
+> memory-based structure facts): (A) the **exclusion set** — every PDB ID DeepTernary may have seen — and
+> (B) a **sourced list of degrader-ternary structures deposited AFTER** that horizon. Built:
+> `research/modalities/deepternary_blind_controls.py` (pure stdlib) + `.github/workflows/deepternary-blind-controls.yml`
+> (push-triggered CPU runner) + `tests/test_deepternary_blind_controls.py` (5 passing, parser/regex/provenance).
+> The workflow clones DeepTernary@`827821d`, downloads the v1.0.0 release + v1.0.1 TernaryDB, extracts every
+> PDB ID from all split/list/manifest files (with per-ID provenance), then via the **public RCSB search + data
+> APIs** (reachable from the runner; egress-blocked in-sandbox) computes the max deposit date in the exclusion
+> set = the data horizon and enumerates PROTAC/degrader/glue ternaries (≥2 protein entities) deposited after it,
+> annotating each with deposit date, protein names, **UniProt-classified E3 identity** (VHL/CRBN/cIAP/… by
+> accession, not guessed), and degrader-sized ligands. Output = `deepternary_blind_controls.json` on the
+> `deepternary-qualify-cache` branch, with a `shortlist_hint` for curating the final 2–3 controls. **This is the
+> foundation, not the blind test itself** — the actual blind prediction (inputs prepped from separate binary
+> structures, native pose blinded, DockQ + input-sensitivity sweep per §4) is the next step once controls are
+> curated from this table.
+
 **4. Input-sensitivity test.** For every blind control AND NR-V04, vary: receptor conformer; initial warhead pose;
 warhead attachment-vector rotamer; E3 binary structure; protonation/tautomer. Question is not "can 1/40 runs
 recover native?" but **"does the native-like architecture survive reasonable input uncertainty, and does the model

@@ -1,0 +1,118 @@
+name: DeepTernary Step-3 — leakage audit + post-cutoff blind-control candidates (CPU)
+
+# Reviewer-verdict Option A* qualification, STEP 3 foundation: the training-set-leakage audit (risk #5) and
+# the SOURCED list of degrader-ternary structures deposited AFTER DeepTernary's data horizon, from which the
+# final 2-3 prospective-like BLIND controls are curated. Protocol:
+# research/modalities/deepternary-qualification-protocol.md
+#
+# PUSH-TRIGGERED so it runs off THIS feature branch with no main dependency (the deepternary-qualify.yml
+# pattern). Path-scoped so only edits to the workflow or its script re-run it. It clones DeepTernary at the
+# frozen commit + downloads the release/TernaryDB to build the exclusion set, then queries RCSB (public,
+# reachable from the runner) for candidates. Results self-report to a cache branch (MCP-independent readout).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/deepternary-blind-controls.yml
+      - research/modalities/deepternary_blind_controls.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deepternary-blind-controls
+  cancel-in-progress: false
+
+env:
+  DT_COMMIT: "827821dccca31a5918bd0355e2d6bf70c072b6dd"   # frozen provenance (2025-11-29), Apache-2.0
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/nr4a3-ternary-coop-prereg-5ml7r2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Clone DeepTernary at frozen commit + gather list/manifest files
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP"
+          git clone https://github.com/youqingxiaozhua/DeepTernary.git dt
+          cd dt
+          git checkout "$DT_COMMIT"
+          echo "=== PROVENANCE ==="; git rev-parse HEAD; git log -1 --format='%ci %s'
+          mkdir -p "$RUNNER_TEMP/dtrelease"
+          # repo-side split/list files (small, always present)
+          cp -r data "$RUNNER_TEMP/dtrelease/repo_data" 2>/dev/null || echo "no data/ dir"
+          echo "=== repo list files ==="; find "$RUNNER_TEMP/dtrelease/repo_data" -type f \
+            \( -name '*.txt' -o -name '*.csv' -o -name '*.json' -o -name '*.lst' -o -name '*.list' \) | head -60 || true
+
+      - name: Download released examples (v1.0.0) + TernaryDB split lists (v1.0.1)
+        continue-on-error: true
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dtrelease"
+          BASE=https://github.com/youqingxiaozhua/DeepTernary/releases/download
+          # v1.0.0 output.zip: contains output/protac22/<ID>/ example dirs -> the 22 test IDs by dir name
+          wget -q "$BASE/v1.0.0/output.zip" || echo "output.zip download failed"
+          if [ -f output.zip ]; then
+            # only need the DIRECTORY NAMES under output/protac22 (the test IDs) + any list files
+            unzip -Z1 output.zip | grep -iE 'protac22/|\.txt$|\.csv$|\.json$|\.lst$' > output_zip_manifest.txt || true
+            head -80 output_zip_manifest.txt || true
+            # extract just small list files if any
+            unzip -o output.zip '*.txt' '*.csv' '*.json' -d output_lists 2>/dev/null || true
+          fi
+          # v1.0.1 TernaryDB.tar.gz: the full ~22k complexes. Extract ONLY list/split/manifest files
+          # (wildcards) so disk stays small even though the stream is large; best-effort.
+          wget -q "$BASE/v1.0.1/TernaryDB.tar.gz" || echo "TernaryDB.tar.gz download failed"
+          if [ -f TernaryDB.tar.gz ]; then
+            echo "TernaryDB.tar.gz size: $(du -h TernaryDB.tar.gz)"
+            mkdir -p ternarydb_lists
+            tar -xzf TernaryDB.tar.gz --wildcards -C ternarydb_lists \
+              '*.txt' '*.csv' '*.json' '*.lst' '*.list' 2>/dev/null || echo "selective extract incomplete"
+            find ternarydb_lists -type f | head -60 || true
+          fi
+          # convert the output.zip protac22 dir names into a synthetic list file the parser will pick up
+          if [ -f output_zip_manifest.txt ]; then
+            grep -oiE 'protac22/[0-9A-Za-z_]+' output_zip_manifest.txt | sed 's#protac22/##' \
+              | sort -u > protac22_dirnames.txt || true
+          fi
+          echo "=== dtrelease tree (files) ==="; find "$RUNNER_TEMP/dtrelease" -type f | head -80
+
+      - name: Run leakage audit + RCSB candidate search
+        run: |
+          set -eux
+          cd "$GITHUB_WORKSPACE"
+          python research/modalities/deepternary_blind_controls.py \
+            --dt-dir "$RUNNER_TEMP/dtrelease" \
+            --out "$RUNNER_TEMP/deepternary_blind_controls.json" \
+            --fallback-cutoff 2024-06-01 \
+            2>&1 | tee "$RUNNER_TEMP/blind_controls.log"
+
+      - name: Publish results to cache branch (MCP-independent readout)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          cd "$RUNNER_TEMP"
+          URL="https://x-access-token:${GH_TOKEN}@github.com/trimcrae/rare-cancers.git"
+          rm -rf pub
+          git clone --depth 1 --branch deepternary-qualify-cache "$URL" pub 2>/dev/null \
+            && cd pub \
+            || { git clone --depth 1 "$URL" pub && cd pub && git checkout --orphan deepternary-qualify-cache && git rm -rf . >/dev/null 2>&1 || true; }
+          OUT=research/modalities/deepternary_qualify_out
+          mkdir -p "$OUT"
+          cp "$RUNNER_TEMP/deepternary_blind_controls.json" "$OUT/" 2>/dev/null || echo "no json produced" > "$OUT/blind_controls_MISSING.txt"
+          cp "$RUNNER_TEMP/blind_controls.log" "$OUT/blind_controls.log" 2>/dev/null || true
+          git config user.email "noreply@anthropic.com"; git config user.name "claude"
+          git add -A && git commit -m "deepternary Step-3 leakage audit + candidates (run $GITHUB_RUN_ID)" \
+            && git push origin HEAD:deepternary-qualify-cache || echo "nothing to commit"
