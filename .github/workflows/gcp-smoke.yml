@@ -1,0 +1,103 @@
+name: GCP validate — auth + L4 spot quota + provision/teardown smoke
+
+# Validate-first for the GCP spot-L4 backend (the cheapest free-credit workhorse; quota approved 2026-07-13)
+# BEFORE running real RBFE legs on it. Proves, in order: (1) the GCP_SA_KEY secret is present; (2) gcloud auth
+# works + project resolves from the key; (3) L4 spot is available/quota'd in us-central1; (4) a Spot L4 GCE VM
+# provisions, has a GPU (nvidia-smi), and (5) tears down cleanly (no idle billing). This is the plumbing gate
+# for the gcp_backend adapter (whose submit() is still a stub). Independent of the RBFE pilot's cost calibration.
+#
+# Needs one repo secret: GCP_SA_KEY = a service-account JSON key (IAM & Admin -> Service Accounts -> Keys ->
+# JSON), on a paid-but-credit-funded project with L4 quota. If absent, this fails fast with a clear message.
+
+on:
+  workflow_dispatch:
+    inputs:
+      zone:   { description: "GCE zone (L4 = g2 family)", default: "us-central1-a", required: false }
+      machine: { description: "machine type (1x L4)", default: "g2-standard-4", required: false }
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/gcp-smoke.yml
+
+concurrency:
+  group: gcp-smoke
+  cancel-in-progress: false
+
+jobs:
+  gcp-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      MACHINE: ${{ github.event.inputs.machine || 'g2-standard-4' }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+    steps:
+      - name: Guard — GCP_SA_KEY present?
+        run: |
+          if [ -z "$GCP_SA_KEY" ]; then
+            echo "::error::GCP_SA_KEY secret is NOT set. Create a service-account JSON key (GCP console -> IAM & Admin -> Service Accounts -> Keys -> Add key -> JSON) on the credit-funded project with L4 quota, then add it as repo secret GCP_SA_KEY (Settings -> Secrets and variables -> Actions). Re-run after that."
+            exit 1
+          fi
+          echo "GCP_SA_KEY is set (length ${#GCP_SA_KEY})."
+
+      - name: Auth + resolve project from the key
+        run: |
+          set -eo pipefail
+          printf '%s' "$GCP_SA_KEY" > /tmp/sa.json
+          PROJECT=$(python3 -c "import json;print(json.load(open('/tmp/sa.json'))['project_id'])")
+          echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
+          gcloud auth activate-service-account --key-file=/tmp/sa.json
+          gcloud config set project "$PROJECT"
+          echo "authenticated to project: $PROJECT"
+
+      - name: Check L4 availability + GPU quota in the region
+        run: |
+          set -eo pipefail
+          echo "=== L4 accelerator zones in us-central1 ==="
+          gcloud compute accelerator-types list --filter="name=nvidia-l4 AND zone~us-central1" --format="table(zone,name)" || true
+          echo "=== GPU quota (region us-central1) ==="
+          gcloud compute regions describe us-central1 --format="json(quotas)" \
+            | python3 -c "import sys,json;[print(q['metric'],q['limit']) for q in json.load(sys.stdin)['quotas'] if 'GPU' in q['metric'] or 'PREEMPTIBLE' in q['metric']]" || true
+
+      - name: Provision Spot L4 VM + nvidia-smi smoke
+        id: vm
+        run: |
+          set -eo pipefail
+          VM="gcp-smoke-${GITHUB_RUN_ID}"
+          echo "VM=$VM" >> "$GITHUB_ENV"
+          # startup script: prove the GPU, print a sentinel, then power off (belt to the runner's braces delete)
+          cat > /tmp/startup.sh <<'SS'
+          #!/bin/bash
+          echo "=== GCP-SMOKE start $(date -u) ==="
+          for i in $(seq 1 30); do nvidia-smi && break || { echo "waiting for driver..."; sleep 10; }; done
+          nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv
+          echo "=== GCP-SMOKE-DONE ==="
+          SS
+          gcloud compute instances create "$VM" \
+            --zone="$ZONE" --machine-type="$MACHINE" \
+            --provisioning-model=SPOT --instance-termination-action=DELETE \
+            --maintenance-policy=TERMINATE \
+            --image-family=common-cu124-debian-11 --image-project=deeplearning-platform-release \
+            --boot-disk-size=50GB --no-restart-on-failure \
+            --metadata-from-file=startup-script=/tmp/startup.sh \
+            --metadata=install-nvidia-driver=True
+          echo "VM $VM created in $ZONE; polling serial console for the smoke sentinel..."
+          ok=0
+          for i in $(seq 1 24); do
+            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+            if echo "$OUT" | grep -q "GCP-SMOKE-DONE"; then
+              echo "=== nvidia-smi from the L4 VM ==="
+              echo "$OUT" | grep -A3 "GCP-SMOKE start" | head -20
+              echo "$OUT" | grep -iE "NVIDIA L4|driver_version|L4," | head
+              ok=1; break
+            fi
+            sleep 20
+          done
+          [ "$ok" = 1 ] && echo "GCP L4 SPOT SMOKE: PASS" || { echo "::error::smoke did not report GPU in time (spot capacity or driver delay)"; exit 1; }
+
+      - name: Teardown (always — no idle billing)
+        if: always()
+        run: |
+          if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op (already gone / never created)"
+          fi
