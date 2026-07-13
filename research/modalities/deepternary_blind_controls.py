@@ -294,6 +294,33 @@ def entry_metadata(pdb_ids: list) -> dict:
     return out
 
 
+def entry_ligands(pdb_id: str, deposit_date=None) -> dict:
+    """Lightweight per-entry annotation for input sourcing: title + protein names + ALL non-polymer
+    ligands (comp id, name, MW). Unlike entry_metadata's E3-only ligand pass, this fetches ligands for
+    every entry (POI apo/binary candidates carry no E3 UniProt but still need their warhead ligand shown)."""
+    ent = _rest(f"entry/{pdb_id}")
+    if not ent:
+        return {"pdb": pdb_id, "deposit_date": deposit_date, "proteins": [], "ligands": [], "error": "no-entry"}
+    ci = ent.get("rcsb_entry_container_identifiers") or {}
+    prots = []
+    for eid in (ci.get("polymer_entity_ids") or []):
+        pe = _rest(f"polymer_entity/{pdb_id}/{eid}")
+        if pe:
+            desc = ((pe.get("rcsb_polymer_entity") or {}).get("pdbx_description") or "").strip()
+            if desc:
+                prots.append(desc)
+    ligs = []
+    for eid in (ci.get("non_polymer_entity_ids") or []):
+        ne = _rest(f"nonpolymer_entity/{pdb_id}/{eid}")
+        comp = ((ne or {}).get("pdbx_entity_nonpoly") or {}).get("comp_id") if ne else None
+        if not comp:
+            continue
+        mw, name = _comp_mw(comp)
+        ligs.append({"id": comp, "name": name, "mw": mw})
+    return {"pdb": pdb_id, "deposit_date": (ent.get("rcsb_accession_info") or {}).get("deposit_date", deposit_date),
+            "proteins": prots, "ligands": ligs}
+
+
 def source_input_structures(controls: list, exclude_native: set) -> dict:
     """For each curated control, find SEPARATE binary/apo structures for blind input prep.
 
@@ -341,12 +368,9 @@ def source_input_structures(controls: list, exclude_native: set) -> dict:
         if ids:
             dd = deposit_dates(ids)
             ids.sort(key=lambda p: dd.get(p, {}).get("deposit_date", ""), reverse=True)
-        # annotate the top handful with ligands so a human can pick the warhead/anchor binary
-        meta = entry_metadata(ids[:12]) if ids else {}
-        return [{"pdb": pid, "deposit_date": meta.get(pid, {}).get("deposit_date"),
-                 "proteins": meta.get(pid, {}).get("protein_names"),
-                 "ligands": [{"id": l["id"], "mw": l.get("mw")} for l in meta.get(pid, {}).get("ligands", [])]}
-                for pid in ids[:12]]
+        # annotate the top handful with ligands (ALL entities, incl. POI candidates that carry no E3
+        # UniProt) so a human can pick the warhead/anchor binary
+        return [entry_ligands(pid, dd.get(pid, {}).get("deposit_date")) for pid in ids[:12]]
 
     out = {}
     for ctl in controls:
