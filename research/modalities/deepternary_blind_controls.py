@@ -316,9 +316,6 @@ def source_input_structures(controls: list, exclude_native: set) -> dict:
             {"type": "terminal", "service": "text", "parameters": {
                 "attribute": "rcsb_entry_info.polymer_entity_count_protein",
                 "operator": "less_or_equal", "value": max_prot}},
-            {"type": "terminal", "service": "text", "parameters": {
-                "attribute": "rcsb_entry_info.deposited_nonpolymer_entity_count",
-                "operator": "greater_or_equal", "value": 1}},
         ]}
         req = {"query": query, "return_type": "entry",
                "request_options": {"paginate": {"start": 0, "rows": 60},
