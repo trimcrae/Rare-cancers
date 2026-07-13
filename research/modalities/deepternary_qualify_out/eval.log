@@ -1,0 +1,49 @@
+=== DIAGNOSTICS Mon Jul 13 10:35:58 UTC 2026 ===
+nproc=4
+Python 3.10.20
+-- key pkgs --
+dgl                     2.3.0
+mmcv-lite               2.2.0
+mmengine                0.10.3
+numpy                   1.26.4
+rdkit                   2023.9.3
+torch                   2.3.1+cpu
+torchdata               0.8.0
+-- output/checkpoints --
+total 16
+drwxr-xr-x 4 runner runner 4096 Jun 27  2024 .
+drwxr-xr-x 4 runner runner 4096 Feb 16  2025 ..
+drwxr-xr-x 3 runner runner 4096 Feb 16  2025 MGD
+drwxr-xr-x 3 runner runner 4096 Feb 16  2025 PROTAC
+20240301_081911
+checkpoint.pth
+last_checkpoint
+result_20240515193524.txt
+-- output/protac22 count --
+23
+=== subset test list ===
+5T35_H_E_759
+6HAX_B_A_FWZ
+6HR2_B_A_FWZ
+6BOY_B_C_RN6
+6BN7_B_C_RN3
+OK 5T35_H_E_759
+OK 6HAX_B_A_FWZ
+OK 6HR2_B_A_FWZ
+OK 6BOY_B_C_RN6
+OK 6BN7_B_C_RN3
+=== predict_cpu start Mon Jul 13 10:35:58 UTC 2026 ===
+/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
+################################################################################
+WARNING!
+The 'datapipes', 'dataloader2' modules are deprecated and will be removed in a
+future torchdata release! Please see https://github.com/pytorch/data/issues/1196
+to learn more and leave feedback.
+################################################################################
+
+  deprecation_warning()
+Traceback (most recent call last):
+  File "/home/runner/work/_temp/dt/predict_cpu.py", line 723, in <module>
+    assert len(files) == 1, 'more than one config file found'
+AssertionError: more than one config file found
+=== predict_cpu end Mon Jul 13 10:36:02 UTC 2026 ===
