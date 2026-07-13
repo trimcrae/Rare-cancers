@@ -1,0 +1,93 @@
+name: DeepTernary Step-3 — inspect unbound-input format (fast, CPU)
+
+# Dumps exactly how DeepTernary consumes PROTAC "unbound" inputs, so the Step-3 blind-prep harness is
+# designed from the real code + a real example, not guessed. Fast: clones the frozen commit + downloads only
+# the v1.0.0 release (no TernaryDB). Self-reports to the cache branch.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/deepternary-inspect-io.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deepternary-inspect-io
+  cancel-in-progress: false
+
+env:
+  DT_COMMIT: "827821dccca31a5918bd0355e2d6bf70c072b6dd"
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Clone DeepTernary at frozen commit
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP"
+          git clone https://github.com/youqingxiaozhua/DeepTernary.git dt
+          cd dt && git checkout "$DT_COMMIT"
+
+      - name: Dump unbound-input handling + example layout
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          OUT="$RUNNER_TEMP/io_report.txt"
+          {
+            echo "############ predict.py: predict_one_unbound + input reading ############"
+            # print the unbound function + any input-loading helpers it calls
+            grep -nE 'def predict_one_unbound|def .*unbound|read_|load_|\.sdf|\.pdb|\.mol|complex_names_path|data_root|input' predict.py | head -80 || true
+            echo "==== predict_one_unbound (full function body) ===="
+            awk '/def predict_one_unbound/{f=1} f{print} f&&/^def [a-zA-Z]/&&!/predict_one_unbound/{if(++n>1)exit}' predict.py | head -200 || true
+            echo "############ predict_cpu.py entry + how it builds work items ############"
+            grep -nE 'def |protac22|complex_names|SEED_NUM|DockQ|cal_dockq|unbound|data|\.sdf|\.pdb' predict_cpu.py | head -80 || true
+            echo "############ config: data paths + input schema ############"
+            sed -n '1,120p' deepternary/configs/protac.py || true
+            echo "############ dataset loader (what files per complex) ############"
+            find deepternary -name '*.py' | xargs grep -lE 'unbound|protac|ligand.*sdf|receptor.*pdb' 2>/dev/null | head || true
+          } | tee "$OUT"
+
+      - name: Download v1.0.0 example inputs + dump one complex's file layout
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          wget -q https://github.com/youqingxiaozhua/DeepTernary/releases/download/v1.0.0/output.zip || echo "dl failed"
+          if [ -f output.zip ]; then
+            # extract only the smallest example dir to inspect input file names/formats
+            EX=$(unzip -Z1 output.zip | grep -iE 'protac22/[^/]+/' | head -1 | sed -E 's#(.*protac22/[^/]+/).*#\1#' | head -1)
+            echo "example dir: $EX"
+            unzip -o output.zip "${EX}*" -d ex >/dev/null 2>&1 || unzip -o output.zip 'output/protac22/*' -d ex >/dev/null 2>&1 || true
+            {
+              echo "############ released example input/output file layout ############"
+              find ex -type f | head -60
+              echo "==== first PROTAC example dir listing ===="
+              d=$(find ex -type d -path '*protac22/*' | head -1); echo "DIR=$d"; ls -la "$d" || true
+              echo "==== head of any .sdf/.mol/.pdb inputs (first 25 lines each) ===="
+              for f in $(find "$d" -maxdepth 1 -type f \( -name '*.sdf' -o -name '*.mol' -o -name '*.pdb' -o -name '*.txt' -o -name '*.csv' \) 2>/dev/null | head -8); do
+                echo "----- $f -----"; head -25 "$f"; echo;
+              done
+            } | tee -a "$RUNNER_TEMP/io_report.txt"
+          fi
+
+      - name: Publish io report to cache branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          cd "$RUNNER_TEMP"
+          URL="https://x-access-token:${GH_TOKEN}@github.com/trimcrae/rare-cancers.git"
+          rm -rf pub
+          git clone --depth 1 --branch deepternary-qualify-cache "$URL" pub 2>/dev/null && cd pub \
+            || { git clone --depth 1 "$URL" pub && cd pub && git checkout --orphan deepternary-qualify-cache && git rm -rf . >/dev/null 2>&1 || true; }
+          OUT=research/modalities/deepternary_qualify_out
+          mkdir -p "$OUT"
+          cp "$RUNNER_TEMP/io_report.txt" "$OUT/io_format_report.txt" 2>/dev/null || echo "no report" > "$OUT/io_format_report.txt"
+          git config user.email "noreply@anthropic.com"; git config user.name "claude"
+          git add -A && git commit -m "deepternary unbound-input format report (run $GITHUB_RUN_ID)" \
+            && git push origin HEAD:deepternary-qualify-cache || echo "nothing to commit"
