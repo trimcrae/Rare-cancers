@@ -1,0 +1,530 @@
+############ predict.py: predict_one_unbound + input reading ############
+14:        --lig /path/to/ligand.pdb \
+15:        --p1 /path/to/unbound_protein1.pdb \
+16:        --p2 /path/to/unbound_protein2.pdb \
+17:        --unbound-lig1 /path/to/unbound_lig1.pdb \
+18:        --unbound-lig2 /path/to/unbound_lig2.pdb \
+19:        --lig1-mask /path/to/lig1_mask.pdb \
+20:        --lig2-mask /path/to/lig2_mask.pdb \
+27:        --lig /path/to/ligand.pdb \
+28:        --p1 /path/to/protein1.pdb \
+29:        --p2 /path/to/protein2.pdb \
+55:from biopandas.pdb import PandasPdb
+66:from deepternary.models.pdb_utils import (
+80:    read_molecule,
+88:def auto_download_ideal_sdf(lig_name):
+91:    ideal_sdf_path = f'{IDEAL_PATH}/{lig_name}_ideal.sdf'
+94:        url = f'https://files.rcsb.org/ligands/download/{lig_name}_ideal.sdf'
+185:            print(f"{name} RDKit coordinate generation failed. Using ideal.sdf")
+187:            ideal_path = auto_download_ideal_sdf(name.split('_')[-1])
+188:            ideal_mol = read_molecule(ideal_path, sanitize=True, remove_hs=True)
+271:def replace_to_unbound_coords(whole_coords, part_coords):
+321:def _load_model(config_path: str, checkpoint_path: str, device: str):
+346:def _prepare_protac_inputs(
+366:    lig_origin = read_molecule(lig_path, sanitize=True, remove_hs=ds_cfg.remove_h)
+403:    unbound_lig1 = read_molecule(unbound_lig1_path, sanitize=True, remove_hs=True)
+404:    unbound_lig2 = read_molecule(unbound_lig2_path, sanitize=True, remove_hs=True)
+412:        lig1_mask_mol = read_molecule(lig1_mask_path, sanitize=True, remove_hs=True)
+413:        lig2_mask_mol = read_molecule(lig2_mask_path, sanitize=True, remove_hs=True)
+462:        lig1_mask_mol=read_molecule(lig1_mask_path, sanitize=True, remove_hs=True) if use_fix_two_ends else None,
+463:        lig2_mask_mol=read_molecule(lig2_mask_path, sanitize=True, remove_hs=True) if use_fix_two_ends else None,
+483:    prepared = _prepare_protac_inputs(
+506:    unbound_lig1 = read_molecule(unbound_lig1_path, sanitize=True, remove_hs=True)
+507:    unbound_lig2 = read_molecule(unbound_lig2_path, sanitize=True, remove_hs=True)
+570:            rec2_coords_input=[p2_graph.ndata["x"]],
+595:        data['rec2_coords_input'] = [data['rec2_graph'].ndata['x']]
+604:        pred_p2_coords = rotate_and_translate(data['rec2_coords_input'][0], rot2, trans2)
+618:            lig_pred_path = os.path.join(tmpdir, f"lig_pred_{name}_{len(results)}.pdb")
+625:            p1_pred_file = os.path.join(tmpdir, f"p1_pred_{name}_{len(results)}.pdb")
+626:            p1_pdb = PandasPdb().read_pdb(p1_path)
+631:            p2_pred_file = os.path.join(tmpdir, f"p2_pred_{name}_{len(results)}.pdb")
+632:            p2_pdb = PandasPdb().read_pdb(p2_path)
+646:                outdir, f"complex_pred_{name}_{len(results)}.pdb"
+698:    lig_origin = read_molecule(lig_path, sanitize=True, remove_hs=ds_cfg.remove_h)
+755:        rec2_coords_input=[p2_graph.ndata["x"]],
+790:        lig_pred_path = os.path.join(tmpdir, f"lig_pred_{name}_0.pdb")
+797:        p1_pred_file = os.path.join(tmpdir, f"p1_pred_{name}_0.pdb")
+798:        p1_pdb = PandasPdb().read_pdb(p1_path)
+803:        p2_pred_file = os.path.join(tmpdir, f"p2_pred_{name}_0.pdb")
+804:        p2_pdb = PandasPdb().read_pdb(p2_path)
+815:        complex_path = os.path.join(outdir, f"complex_pred_{name}_0.pdb")
+835:    p.add_argument("--lig", required=True, help="Ligand file (.pdb or .sdf)")
+911:    cfg, model = _load_model(auto_config, auto_ckpt, args.device)
+915:        # Validate required PROTAC inputs
+==== predict_one_unbound (full function body) ====
+############ predict_cpu.py entry + how it builds work items ############
+1:"""use preprocessed dataset as input"""
+16:from biopandas.pdb import PandasPdb
+38:from deepternary.models.pdb_utils import (
+65:def auto_download_ideal_sdf(lig_name):
+67:    ideal_sdf_path = f'{IDEAL_PATH}/{lig_name}_ideal.sdf'
+70:        url = f'https://files.rcsb.org/ligands/download/{lig_name}_ideal.sdf'
+77:def adjust_bounds(bounds_mat, atom_map, mol):
+106:def get_rdkit_coords_with_fixed_ends(ligand, lig1, lig2, seed=None):
+131:def get_lig_graph_protac(
+154:            print(f"{name} RDKit coordinate generation failed. Using ideal.sdf")
+232:    graph.ndata["feat"] = lig_atom_featurizer(mol)
+233:    graph.edata["feat"] = distance_featurizer(
+236:    graph.ndata["x"] = torch.from_numpy(np.array(true_lig_coords).astype(np.float32))
+237:    graph.ndata["mu_r_norm"] = torch.from_numpy(np.array(mean_norm_list).astype(np.float32))
+239:        graph.ndata["new_x"] = torch.from_numpy(np.array(lig_coords).astype(np.float32))
+245:def save_mol_to_pdb(mol, path):
+250:def RMSD(pred, gt):
+260:def get_lig_coords(lig_path):
+267:def classify_prediction(f_nat, l_rms, i_rms):
+282:def replace_to_unbound_coords(whole_coords, part_coords):
+285:    part_coords: unbound lig1 or unbound lig2
+290:    # Update to the closed unbound atom coords
+300:def parse_arguments():
+310:def predict_one_unbound(name, cfg=None, seed_num=40):
+314:    ds_cfg = cfg.test_dataloader.dataset
+316:    UNBOUND_FOLDER = 'output/protac22'
+318:    lig_path = os.path.join(UNBOUND_FOLDER, name, 'ligand.pdb')
+319:    p1_path = os.path.join(UNBOUND_FOLDER, name, 'unbound_protein1.pdb')
+320:    p2_path = os.path.join(UNBOUND_FOLDER, name, 'unbound_protein2.pdb')
+341:    protein2_coords_gt = deepcopy(p2_graph_origin.ndata['x'])
+344:        lig1 = read_molecule(os.path.join(UNBOUND_FOLDER, name, 'unbound_lig1.pdb'), sanitize=True, remove_hs=True)
+345:        lig2 = read_molecule(os.path.join(UNBOUND_FOLDER, name, 'unbound_lig2.pdb'), sanitize=True, remove_hs=True)
+365:        # find unbound pocket
+366:        lig_coods_gt = deepcopy(lig_graph.ndata['x'])
+369:            # unbound anchor and warhead
+370:            lig1_coords = get_lig_coords(os.path.join(UNBOUND_FOLDER, name, 'unbound_lig1.pdb'))
+371:            lig2_coords = get_lig_coords(os.path.join(UNBOUND_FOLDER, name, 'unbound_lig2.pdb'))
+372:            lig_coods_gt, update_mask1 = replace_to_unbound_coords(lig_coods_gt, lig1_coords)
+373:            lig_coods_gt, update_mask2 = replace_to_unbound_coords(lig_coods_gt, lig2_coords)
+377:            lig_coods_gt, p1_graph.ndata['x'], cutoff=ds_cfg.pocket_cutoff)
+379:            lig_coods_gt, p2_graph.ndata['x'], cutoff=ds_cfg.pocket_cutoff)
+393:            pockt_rdkit_coords = lig_graph.ndata['new_x'][pocket_mask]
+394:            pocket_gt_coords = lig_graph.ndata['x'][pocket_mask]
+397:        data = dict(
+417:            lig_coords_to_move = data['lig_graph'].ndata['new_x']
+419:            lig_coords_to_move = data['lig_graph'].ndata['x']
+421:        data['lig_graph'].ndata['new_x'] = (rot_T @ (lig_coords_to_move - mean_to_remove).T).T + rot_b
+422:        data['p1lig_lig_pocket_coords'][0] = (rot_T @ (data['p1lig_lig_pocket_coords'][0] - mean_to_remove).T).T + rot_b
+423:        data['p2lig_lig_pocket_coords'][0] = (rot_T @ (data['p2lig_lig_pocket_coords'][0] - mean_to_remove).T).T + rot_b
+427:        protein2_coord_to_move = data['rec2_graph'].ndata['x']
+429:        data['rec2_graph'].ndata['x'] = (protein2_rot_T @ (protein2_coord_to_move - protein2_mean_to_remove).T).T + protein2_rot_b
+430:        data['p2lig_p2_pocket_coords'][0] = (protein2_rot_T @ (data['p2lig_p2_pocket_coords'][0] - protein2_mean_to_remove).T).T + protein2_rot_b
+431:        data['rec2_coords_input'] = [data['rec2_graph'].ndata['x']]
+434:            model_outputs = model(**data, mode='predict')[0]
+440:        lig_coords_gt = data['lig_graph'].ndata['x'].to(prediction.device)
+446:        # lig_path = os.path.join(PDB_PATH, name, 'ligand.pdb')
+447:        # lig_pred_file = os.path.join(tmp_dir.name, f'lig_pred_{name}.pdb')
+454:            prediction = correct_ligand(prediction, lig_graph.ndata['new_x'], lig)
+457:        lig_pred_path = os.path.join(cfg.tmp_dir.name, f'lig_pred_{name}_{seed}.pdb')
+463:        p2_gt = data['rec2_coords'][0].to(prediction.device)
+464:        p2_pred = rotate_and_translate(data['rec2_coords_input'][0].to(prediction.device),
+467:        p1_gt = p1_graph.ndata['x']
+472:        p1_path = os.path.join(UNBOUND_FOLDER, name, 'protein1.pdb')
+473:        p2_path = os.path.join(UNBOUND_FOLDER, name, 'protein2.pdb')
+474:        p2_pred_file = os.path.join(cfg.tmp_dir.name, f'p2_pred_{name}_{seed}.pdb')
+480:        complex_save_path = os.path.join(cfg.tmp_dir.name, f'complex_pred_{name}_{seed}.pdb')
+490:        # compute DockQ score
+491:        from DockQ.dockq_util import cal_dockq
+493:            fnat, irms, Lrms, DockQ = cal_dockq(
+495:                os.path.join(UNBOUND_FOLDER, name, 'gt_complex.pdb'))
+498:            DockQ = 0.
+499:        # print(f'Predicted Aligned Error: {p2_rmsd_pred:.2f}, GT Aligned Error: {p2_rmsd_gt:.2f}, DockQ: {DockQ:.2f}')
+504:            dockq=DockQ,
+514:        # shutil.copyfile(complex_save_path, os.path.join(results_save_folder, f'{name}_DockQ{DockQ*100:.2f}.pdb'))
+524:def predict_one_bound(name, cfg=None, seed_num=1):
+528:    ds_cfg = cfg.test_dataloader.dataset
+530:    lig_path = os.path.join(PDB_PATH, name, 'ligand.pdb')
+531:    p1_path = os.path.join(PDB_PATH, name, 'protein1.pdb')
+532:    p2_path = os.path.join(PDB_PATH, name, 'protein2.pdb')
+534:    # lig_path = f'data/PDBBind/{name}/{name}_ligand.mol2'
+############ config: data paths + input schema ############
+
+# _base_ = './equibind.py'
+from mmengine.config import read_base
+from deepternary.models.metrics import TripletBindMetric
+from deepternary.models.ternary_pdb import TernaryPreprocessedDataset
+from deepternary.models.triplet_dock import TripletDock
+from deepternary.models.custom_collate import dgl_collate
+with read_base():
+    from .equibind import *
+    from .equibind import model, default_hooks
+
+
+model.update(dict(
+    type=TripletDock,
+    iegmn_class='IEGMN_QueryDecoder_KnownPocket_GtVal',
+    # iegmn_class='IEGMN_QueryDecoder_KnownPocket_Predict',
+    align_method='p1-lig-p2',
+    known_pocket_info=(
+    'p1_mask',
+    'lig1_mask',
+    'lig1_coord',
+    'lig2_mask',
+    'lig2_coord',
+    'p2_mask'
+    ),
+    lig1_coords_mode='pocket',
+    lig2_coords_mode='aligned_pocket',
+    lig_kpt_mode_train='mask_pocket',
+    lig_kpt_mode_val='mask_predict',
+    rec_kpt_mode_train='mask_pocket',
+    rec_kpt_mode_val='mask_pocket',
+    kpt_transformer_depth=1,
+    kpt_transformer_heads=1,
+    residue_emb_dim=256,
+    iegmn_lay_hid_dim=256,
+    noise_initial=2,
+    num_att_heads=1,
+))
+model['loss_cfg'].update(dict(
+    ot_loss_weight=1,
+    rec2_coord_weight=0.,
+    p2_rmsd_pred_weight=1,
+    ))
+
+
+
+dataset_args = {
+    ### triplet preprocess dataset args start
+    'min_lig_atoms': 3,
+    'min_pocket_atoms': 3,
+    'preprocess_sub_path': 'pdb2311_merge',
+    'freeze': 'protein1',
+    'random_flip_proteins': True,
+    ### triplet preprocess dataset args end
+    "geometry_regularization_ring": True,
+    "use_rdkit_coords": True,
+    "bsp_proteins": False,
+    "dataset_size": None,
+    "translation_distance": 5.0,
+    "n_jobs": 20,
+    "chain_radius": 10,
+    "rec_graph_radius": 30,
+    "c_alpha_max_neighbors": 10,
+    "lig_graph_radius": 5,
+    "lig_max_neighbors": None,
+    "pocket_cutoff": 6,     # pocket cutoff between alpha C of protein and the ligand
+    'pocket_cutoff_p12': 10,    # pocket cutoff between alpha C of proteins
+    "pocket_mode": "match_atoms_to_lig",
+    "remove_h": True,
+    "only_polar_hydrogens": False,
+    "use_rec_atoms": False,
+    "surface_max_neighbors": 5,
+    "surface_graph_cutoff": 5,
+    "surface_mesh_cutoff": 2,
+    "subgraph_augmentation": False,
+    "min_shell_thickness": 3,
+    "rec_subgraph": False,
+    "subgraph_radius": 10,
+    "subgraph_max_neigbor": 8,
+    "subgraph_cutoff": 4}
+
+train_dataloader = dict(
+    batch_size=16,
+    num_workers=4,
+    dataset=dict(
+        type=TernaryPreprocessedDataset,
+        complex_names_path='data/PROTAC/train_clusters_poc6.json',
+        unrepresent_aug_rate=0.8,
+        lig_predictions_name=None,
+        is_train_data=True,
+        **dataset_args,
+        pipeline=[]),
+    collate_fn=dict(type=dgl_collate),
+    sampler=dict(type='DefaultSampler', shuffle=True),
+    persistent_workers=True,
+    drop_last=True,)
+
+val_dataloader = dict(
+    batch_size=16,
+    num_workers=2,
+    dataset=dict(
+        # type='PDBBind',
+        # complex_names_path='data/timesplit_no_lig_overlap_val',
+        type=TernaryPreprocessedDataset,
+        complex_names_path='data/PROTAC/protac22.txt',
+        # complex_names_path='data/DeepTernary/protac22.txt',
+        # complex_names_path='data/MolecularGlue/group1_representative.txt',
+        lig_predictions_name=None,
+        is_train_data=False,
+        **dataset_args,
+        pipeline=[]),
+    collate_fn=dict(type=dgl_collate),
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    persistent_workers=True,
+    drop_last=False)
+
+# train_dataloader = val_dataloader
+test_dataloader = val_dataloader
+
+val_evaluator = dict(
+############ dataset loader (what files per complex) ############
+deepternary/configs/equibind.py
+deepternary/configs/protac.py
+deepternary/configs/glue.py
+deepternary/models/pdbbind.py
+deepternary/models/iegmn_gtval.py
+deepternary/models/ternary_pdb.py
+############ released example input/output file layout ############
+ex/output/protac22/5T35_D_A_759/unbound_lig2_moved.pdb
+ex/output/protac22/5T35_D_A_759/ligand_noHs.pdb
+ex/output/protac22/5T35_D_A_759/warhead.pdb
+ex/output/protac22/5T35_D_A_759/unbound_protein2_lig2.pdb
+ex/output/protac22/5T35_D_A_759/complex.pdb
+ex/output/protac22/5T35_D_A_759/unbound_protein1_lig1.pdb
+ex/output/protac22/5T35_D_A_759/ligand_ideal.sdf
+ex/output/protac22/5T35_D_A_759/ligand.sdf
+ex/output/protac22/5T35_D_A_759/unbound_lig1_align.pdb
+ex/output/protac22/5T35_D_A_759/unbound_protein1.pdb
+ex/output/protac22/5T35_D_A_759/unbound_lig2.pdb
+ex/output/protac22/5T35_D_A_759/anchor.pdb
+ex/output/protac22/5T35_D_A_759/unbound_protein2.pdb
+ex/output/protac22/5T35_D_A_759/unbound_protein2_moved.pdb
+ex/output/protac22/5T35_D_A_759/ligand.pdb
+ex/output/protac22/5T35_D_A_759/complex_obabel_reduce.pdb
+ex/output/protac22/5T35_D_A_759/protein2.pdb
+ex/output/protac22/5T35_D_A_759/binder.pdb
+ex/output/protac22/5T35_D_A_759/protein2_rotated.pdb
+ex/output/protac22/5T35_D_A_759/protein1.pdb
+ex/output/protac22/5T35_D_A_759/gt_complex.pdb
+ex/output/protac22/5T35_D_A_759/unbound_lig1.pdb
+==== first PROTAC example dir listing ====
+DIR=ex/output/protac22/5T35_D_A_759
+total 1508
+drwxr-xr-x 2 runner runner   4096 May  1  2024 .
+drwxr-xr-x 3 runner runner   4096 Jul 13 11:24 ..
+-rw-r--r-- 1 runner runner   2894 Nov 29  2023 anchor.pdb
+-rw-r--r-- 1 runner runner   2638 Nov 29  2023 binder.pdb
+-rw-r--r-- 1 runner runner 177858 Nov 29  2023 complex.pdb
+-rw-r--r-- 1 runner runner 346416 Nov 29  2023 complex_obabel_reduce.pdb
+-rw-r--r-- 1 runner runner 175684 Apr 18  2024 gt_complex.pdb
+-rw-r--r-- 1 runner runner   6640 Apr 18  2024 ligand.pdb
+-rw-r--r-- 1 runner runner   6610 Nov 29  2023 ligand.sdf
+-rw-r--r-- 1 runner runner  12855 Nov 29  2023 ligand_ideal.sdf
+-rw-r--r-- 1 runner runner   6640 Nov 29  2023 ligand_noHs.pdb
+-rw-r--r-- 1 runner runner  98415 Apr 18  2024 protein1.pdb
+-rw-r--r-- 1 runner runner  71685 Apr 18  2024 protein2.pdb
+-rw-r--r-- 1 runner runner  71774 Nov 29  2023 protein2_rotated.pdb
+-rw-r--r-- 1 runner runner   2762 Nov 29  2023 unbound_lig1.pdb
+-rw-r--r-- 1 runner runner   3807 Dec  6  2023 unbound_lig1_align.pdb
+-rw-r--r-- 1 runner runner   2713 May  1  2024 unbound_lig2.pdb
+-rw-r--r-- 1 runner runner   2991 May  1  2024 unbound_lig2_moved.pdb
+-rw-r--r-- 1 runner runner  93239 Nov 29  2023 unbound_protein1.pdb
+-rw-r--r-- 1 runner runner 189976 Nov 29  2023 unbound_protein1_lig1.pdb
+-rw-r--r-- 1 runner runner  72341 Nov 29  2023 unbound_protein2.pdb
+-rw-r--r-- 1 runner runner  77755 Nov 29  2023 unbound_protein2_lig2.pdb
+-rw-r--r-- 1 runner runner  72856 May  1  2024 unbound_protein2_moved.pdb
+-rw-r--r-- 1 runner runner   2213 Nov 29  2023 warhead.pdb
+==== head of any .sdf/.mol/.pdb inputs (first 25 lines each) ====
+----- ex/output/protac22/5T35_D_A_759/unbound_lig2_moved.pdb -----
+CRYST1   55.826   64.544   75.287  90.00  90.00  90.00 P 21 21 21    8
+HETATM    1 CL1  0S6 A 501      41.103 -39.616 -29.462  1.00 33.93          Cl
+HETATM    2  C15 0S6 A 501      40.001 -39.317 -28.157  1.00 31.93           C
+HETATM    3  C16 0S6 A 501      38.641 -39.330 -28.367  1.00 30.76           C
+HETATM    4  C17 0S6 A 501      37.759 -39.093 -27.330  1.00 31.35           C
+HETATM    5  C13 0S6 A 501      40.480 -39.057 -26.896  1.00 31.12           C
+HETATM    6  C14 0S6 A 501      39.594 -38.821 -25.866  1.00 33.07           C
+HETATM    7  C12 0S6 A 501      38.224 -38.832 -26.055  1.00 33.02           C
+HETATM    8  C8  0S6 A 501      37.305 -38.586 -24.914  1.00 33.70           C
+HETATM    9  C5  0S6 A 501      37.734 -37.759 -23.799  1.00 32.77           C
+HETATM   10  C4  0S6 A 501      38.348 -36.474 -23.881  1.00 33.57           C
+HETATM   11  C7  0S6 A 501      38.630 -35.766 -25.141  1.00 33.61           C
+HETATM   12  C2  0S6 A 501      38.646 -35.939 -22.642  1.00 33.27           C
+HETATM   13  C6  0S6 A 501      39.282 -34.649 -22.322  1.00 32.40           C
+HETATM   14  S1  0S6 A 501      38.168 -36.979 -21.362  1.00 32.52           S
+HETATM   15  C3  0S6 A 501      37.583 -38.149 -22.480  1.00 32.64           C
+HETATM   16  N9  0S6 A 501      36.951 -39.324 -22.072  1.00 31.90           N
+HETATM   17  C11 0S6 A 501      37.178 -40.226 -21.064  1.00 30.66           C
+HETATM   18  C28 0S6 A 501      38.329 -40.198 -20.144  1.00 29.17           C
+HETATM   19  N27 0S6 A 501      36.225 -41.127 -21.023  1.00 29.79           N
+HETATM   20  N21 0S6 A 501      35.341 -40.839 -22.018  1.00 31.15           N
+HETATM   21  C19 0S6 A 501      35.778 -39.763 -22.634  1.00 31.94           C
+HETATM   22  N10 0S6 A 501      36.152 -39.188 -24.909  1.00 32.50           N
+HETATM   23  C20 0S6 A 501      35.190 -39.068 -23.798  1.00 32.17           C
+HETATM   24  C22 0S6 A 501      33.856 -39.657 -24.206  1.00 35.29           C
+
+----- ex/output/protac22/5T35_D_A_759/ligand_noHs.pdb -----
+HETATM    1  CAA 759 D 301      12.190 -24.097 -13.186  1.00 48.69           C  
+HETATM    2  CBZ 759 D 301      12.780 -22.874 -12.467  1.00 42.06           C  
+HETATM    3  NBI 759 D 301      11.974 -21.922 -11.944  1.00 36.86           N  
+HETATM    4  CAV 759 D 301      12.591 -20.893 -11.358  1.00 32.29           C  
+HETATM    5  SBR 759 D 301      14.202 -21.167 -11.474  1.00 38.71           S  
+HETATM    6  CCH 759 D 301      14.088 -22.649 -12.309  1.00 38.55           C  
+HETATM    7  CCF 759 D 301      15.121 -23.432 -12.695  1.00 39.05           C  
+HETATM    8  CAU 759 D 301      16.173 -23.624 -11.798  1.00 38.57           C  
+HETATM    9  CAQ 759 D 301      17.269 -24.424 -12.127  1.00 48.74           C  
+HETATM   10  CAT 759 D 301      15.207 -24.071 -13.946  1.00 33.25           C  
+HETATM   11  CAP 759 D 301      16.310 -24.876 -14.275  1.00 34.00           C  
+HETATM   12  CCA 759 D 301      17.369 -25.057 -13.373  1.00 37.89           C  
+HETATM   13  CBC 759 D 301      18.457 -25.866 -13.693  1.00 32.40           C  
+HETATM   14  NBM 759 D 301      19.691 -25.324 -13.065  1.00 31.92           N  
+HETATM   15  C   759 D 301      20.526 -24.439 -13.664  1.00 37.59           C  
+HETATM   16  O   759 D 301      20.361 -24.010 -14.811  1.00 33.65           O  
+HETATM   17  CA  759 D 301      21.622 -24.014 -12.859  1.00 31.40           C  
+HETATM   18  CB  759 D 301      21.212 -22.814 -12.006  1.00 28.98           C  
+HETATM   19  CG  759 D 301      22.483 -21.995 -11.841  1.00 34.10           C  
+HETATM   20  OD1 759 D 301      23.265 -22.490 -10.738  1.00 29.80           O  
+HETATM   21  CD2 759 D 301      23.254 -22.188 -13.148  1.00 32.17           C  
+HETATM   22  N   759 D 301      22.869 -23.553 -13.617  1.00 33.08           N  
+HETATM   23  CBW 759 D 301      23.490 -24.353 -14.506  1.00 36.08           C  
+HETATM   24  OAK 759 D 301      23.097 -25.492 -14.761  1.00 36.09           O  
+HETATM   25  CCN 759 D 301      24.791 -23.861 -15.155  1.00 36.68           C  
+
+----- ex/output/protac22/5T35_D_A_759/warhead.pdb -----
+HETATM    1  CCL 759 D 301      21.582 -33.640 -16.175  1.00 44.46           C  
+HETATM    2  NBH 759 D 301      22.860 -33.097 -15.675  1.00 44.81           N  
+HETATM    3  CCG 759 D 301      21.682 -35.052 -16.073  1.00 50.76           C  
+HETATM    4  NBK 759 D 301      21.511 -35.910 -17.084  1.00 52.19           N  
+HETATM    5  NBJ 759 D 301      21.665 -37.086 -16.659  1.00 46.24           N  
+HETATM    6  CCB 759 D 301      21.940 -37.028 -15.358  1.00 43.32           C  
+HETATM    7  CAB 759 D 301      22.182 -38.240 -14.461  1.00 42.32           C  
+HETATM    8  NCP 759 D 301      21.970 -35.762 -14.974  1.00 47.60           N  
+HETATM    9  CCJ 759 D 301      22.180 -35.204 -13.775  1.00 44.91           C  
+HETATM   10  SBS 759 D 301      21.584 -35.854 -12.289  1.00 39.73           S  
+HETATM   11  CCC 759 D 301      22.187 -34.630 -11.397  1.00 46.97           C  
+HETATM   12  CAC 759 D 301      22.046 -34.523  -9.872  1.00 42.80           C  
+HETATM   13  CCD 759 D 301      22.815 -33.743 -12.192  1.00 45.51           C  
+HETATM   14  CAD 759 D 301      23.474 -32.495 -11.582  1.00 48.61           C  
+HETATM   15  CCI 759 D 301      22.826 -34.053 -13.518  1.00 38.18           C  
+HETATM   16  CBX 759 D 301      23.402 -33.295 -14.471  1.00 35.70           C  
+HETATM   17  CCE 759 D 301      24.643 -32.687 -14.291  1.00 32.60           C  
+HETATM   18  CAR 759 D 301      25.730 -33.377 -13.756  1.00 37.56           C  
+HETATM   19  CAN 759 D 301      26.962 -32.739 -13.583  1.00 34.91           C  
+HETATM   20  CBY 759 D 301      27.125 -31.408 -13.950  1.00 34.97           C  
+HETATM   21  CL1 759 D 301      28.680 -30.578 -13.729  1.00 39.12          CL  
+HETATM   22  CAO 759 D 301      26.041 -30.730 -14.495  1.00 39.61           C  
+HETATM   23  CAS 759 D 301      24.811 -31.362 -14.665  1.00 36.35           C  
+CONECT    1    2    3
+CONECT    2   16
+
+----- ex/output/protac22/5T35_D_A_759/unbound_protein2_lig2.pdb -----
+SEQRES   1 A  109  SER HIS MET GLU GLN LEU LYS CYS CYS SER GLY ILE LEU
+SEQRES   2 A  109  LYS GLU MET PHE ALA LYS LYS HIS ALA ALA TYR ALA TRP
+SEQRES   3 A  109  PRO PHE TYR LYS PRO VAL ASP VAL GLU ALA LEU GLY LEU
+SEQRES   4 A  109  HIS ASP TYR CYS ASP ILE ILE LYS HIS PRO MET ASP MET
+SEQRES   5 A  109  SER THR ILE LYS SER LYS LEU GLU ALA ARG GLU TYR ARG
+SEQRES   6 A  109  ASP ALA GLN GLU PHE GLY ALA ASP VAL ARG LEU MET PHE
+SEQRES   7 A  109  SER ASN CYS TYR LYS TYR ASN PRO PRO ASP HIS GLU VAL
+SEQRES   8 A  109  VAL ALA MET ALA ARG LYS LEU GLN ASP VAL PHE GLU MET
+SEQRES   9 A  109  ARG PHE ALA LYS MET
+HELIX    1   1 SER A  349  PHE A  365  1                                  17
+HELIX    2   2 HIS A  369  TRP A  374  1                                   6
+HELIX    3   3 PRO A  375  TYR A  377  1                                   3
+HELIX    4   4 ASP A  381  GLY A  386  1                                   6
+HELIX    5   5 ASP A  389  ILE A  394  1                                   6
+HELIX    6   6 ASP A  399  ALA A  409  1                                  11
+HELIX    7   7 ASP A  414  ASN A  433  1                                  20
+HELIX    8   8 HIS A  437  LYS A  456  1                                  20
+CRYST1   55.826   64.544   75.287  90.00  90.00  90.00 P 21 21 21    8
+ATOM      1  N   SER A 349      24.506 -70.042  -5.051  1.00 60.15           N
+ATOM      2  CA  SER A 349      25.470 -69.443  -5.979  1.00 59.38           C
+ATOM      3  C   SER A 349      25.243 -67.935  -6.139  1.00 61.28           C
+ATOM      4  O   SER A 349      26.192 -67.153  -6.016  1.00 60.69           O
+ATOM      5  CB  SER A 349      25.410 -70.136  -7.338  1.00 63.13           C
+ATOM      6  OG  SER A 349      24.080 -70.200  -7.830  1.00 72.57           O
+ATOM      7  N   HIS A 350      23.981 -67.537  -6.397  1.00 56.26           N
+
+----- ex/output/protac22/5T35_D_A_759/complex.pdb -----
+ATOM      1  N   LYS A 349      27.034 -69.694  -4.273  1.00 121.22           N 
+ATOM      2  CA  LYS A 349      27.480 -69.167  -5.601  1.00 120.93           C 
+ATOM      3  C   LYS A 349      26.730 -67.889  -5.968  1.00 114.97           C 
+ATOM      4  O   LYS A 349      27.351 -66.865  -6.258  1.00 124.38           O 
+ATOM      5  CB  LYS A 349      27.293 -70.219  -6.699  1.00 119.00           C 
+ATOM      6  N   VAL A 350      25.399 -67.954  -5.947  1.00 113.55           N 
+ATOM      7  CA  VAL A 350      24.549 -66.798  -6.265  1.00 118.06           C 
+ATOM      8  C   VAL A 350      24.571 -65.764  -5.130  1.00 117.03           C 
+ATOM      9  O   VAL A 350      24.645 -64.559  -5.387  1.00 108.52           O 
+ATOM     10  CB  VAL A 350      23.088 -67.220  -6.565  1.00 113.01           C 
+ATOM     11  CG1 VAL A 350      22.197 -66.000  -6.790  1.00 104.46           C 
+ATOM     12  CG2 VAL A 350      23.037 -68.146  -7.775  1.00 107.43           C 
+ATOM     13  N   SER A 351      24.516 -66.240  -3.886  1.00 99.16           N  
+ATOM     14  CA  SER A 351      24.533 -65.359  -2.718  1.00 93.02           C  
+ATOM     15  C   SER A 351      25.898 -64.690  -2.505  1.00 91.80           C  
+ATOM     16  O   SER A 351      25.963 -63.559  -2.021  1.00 94.21           O  
+ATOM     17  CB  SER A 351      24.122 -66.129  -1.459  1.00 93.03           C  
+ATOM     18  OG  SER A 351      23.856 -65.244  -0.384  1.00 91.64           O  
+ATOM     19  N   GLU A 352      26.976 -65.386  -2.867  1.00 89.92           N  
+ATOM     20  CA  GLU A 352      28.336 -64.839  -2.747  1.00 85.52           C  
+ATOM     21  C   GLU A 352      28.616 -63.775  -3.806  1.00 80.37           C  
+ATOM     22  O   GLU A 352      29.333 -62.811  -3.544  1.00 85.56           O  
+ATOM     23  CB  GLU A 352      29.383 -65.952  -2.843  1.00 83.92           C  
+ATOM     24  CG  GLU A 352      29.273 -67.005  -1.747  1.00 96.20           C  
+ATOM     25  CD  GLU A 352      29.409 -66.418  -0.350  1.00 96.45           C  
+
+----- ex/output/protac22/5T35_D_A_759/unbound_protein1_lig1.pdb -----
+SEQRES   1 I  162  GLY SER MET GLU ALA GLY ARG PRO ARG PRO VAL LEU ARG
+SEQRES   2 I  162  SER VAL ASN SER ARG GLU PRO SER GLN VAL ILE PHE CAS
+SEQRES   3 I  162  ASN ARG SER PRO ARG VAL VAL LEU PRO VAL TRP LEU ASN
+SEQRES   4 I  162  PHE ASP GLY GLU PRO GLN PRO TYR PRO THR LEU PRO PRO
+SEQRES   5 I  162  GLY THR GLY ARG ARG ILE HIS SER TYR ARG GLY HIS LEU
+SEQRES   6 I  162  TRP LEU PHE ARG ASP ALA GLY THR HIS ASP GLY LEU LEU
+SEQRES   7 I  162  VAL ASN GLN THR GLU LEU PHE VAL PRO SER LEU ASN VAL
+SEQRES   8 I  162  ASP GLY GLN PRO ILE PHE ALA ASN ILE THR LEU PRO VAL
+SEQRES   9 I  162  TYR THR LEU LYS GLU ARG CYS LEU GLN VAL VAL ARG SER
+SEQRES  10 I  162  LEU VAL LYS PRO GLU ASN TYR ARG ARG LEU ASP ILE VAL
+SEQRES  11 I  162  ARG SER LEU TYR GLU ASP LEU GLU ASP HIS PRO ASN VAL
+SEQRES  12 I  162  GLN LYS ASP LEU GLU ARG LEU THR GLN GLU ARG ILE ALA
+SEQRES  13 I  162  HIS GLN ARG MET GLY ASP
+HELIX    1   1 THR I  157  VAL I  170  1                                  14
+HELIX    2   2 LYS I  171  LEU I  178  1                                   8
+HELIX    3   3 VAL I  181  ASP I  190  1                                  10
+HELIX    4   4 ASN I  193  GLU I  204  1                                  12
+SHEET    1   1 1 PRO I  71  ASN I  78  0
+SHEET    2   2 1 VAL I  84  LEU I  89  0
+SHEET    3   3 1 PRO I  95  PRO I  97  0
+SHEET    4   4 1 GLY I 106  TYR I 112  0
+SHEET    5   5 1 LEU I 116  ASP I 121  0
+SHEET    6   6 1 LEU I 129  VAL I 130  0
+SHEET    7   7 1 ILE I 147  THR I 152  0
+CRYST1   92.980   92.980  364.372 90.000 90.000 90.000 P 41 2 2     32
+
+----- ex/output/protac22/5T35_D_A_759/ligand_ideal.sdf -----
+759
+  -OEChem-06092315463D
+
+131137  0     1  0  0  0  0  0999 V2000
+  -14.0650    4.9380   -1.0380 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.7840    4.9420    0.2870 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.6670    5.9480    0.5720 N   0  0  0  0  0  0  0  0  0  0  0  0
+  -16.3100    5.8500    1.8930 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -15.5690    4.3200    2.5760 S   0  0  0  0  0  0  0  0  0  0  0  0
+  -14.5540    3.9630    1.1610 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.6390    2.8150    0.9910 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -13.6930    2.0430   -0.1710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.8360    0.9730   -0.3240 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -12.7140    2.5020    1.9880 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.8630    1.4290    1.8220 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -11.9250    0.6640    0.6710 C   0  0  0  0  0  0  0  0  0  0  0  0
+  -10.9920   -0.5060    0.4970 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -9.7590   -0.0560   -0.1540 N   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.7730   -0.9370   -0.4130 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -8.9060   -2.1030   -0.1080 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5050   -0.4740   -1.0830 C   0  0  2  0  0  0  0  0  0  0  0  0
+   -7.8270    0.0940   -2.4810 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.5310   -1.1050   -3.4200 C   0  0  1  0  0  0  0  0  0  0  0  0
+   -7.1800   -0.6560   -4.7300 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.3190   -1.7610   -2.7140 C   0  0  0  0  0  0  0  0  0  0  0  0
+
+----- ex/output/protac22/5T35_D_A_759/ligand.sdf -----
+/opt/data/DeepTernary/pdb2311/5T35_D_A_759/ligand.pdb
+ OpenBabel11232317593D
+
+ 69 75  0  0  1  0  0  0  0  0999 V2000
+   12.1900  -24.0970  -13.1860 C   0  0  0  0  0  0  0  0  0  0  0  0
+   12.7800  -22.8740  -12.4670 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.9740  -21.9220  -11.9440 N   0  0  0  0  0  0  0  0  0  0  0  0
+   12.5910  -20.8930  -11.3580 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.2020  -21.1670  -11.4740 S   0  0  0  0  0  0  0  0  0  0  0  0
+   14.0880  -22.6490  -12.3090 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.1210  -23.4320  -12.6950 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.1730  -23.6240  -11.7980 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.2690  -24.4240  -12.1270 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.2070  -24.0710  -13.9460 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.3100  -24.8760  -14.2750 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.3690  -25.0570  -13.3730 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.4570  -25.8660  -13.6930 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.6910  -25.3240  -13.0650 N   0  0  0  0  0  0  0  0  0  0  0  0
+   20.5260  -24.4390  -13.6640 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.3610  -24.0100  -14.8110 O   0  0  0  0  0  0  0  0  0  0  0  0
+   21.6220  -24.0140  -12.8590 C   0  0  2  0  0  0  0  0  0  0  0  0
+   21.2120  -22.8140  -12.0060 C   0  0  0  0  0  0  0  0  0  0  0  0
+   22.4830  -21.9950  -11.8410 C   0  0  1  0  0  0  0  0  0  0  0  0
+   23.2650  -22.4900  -10.7380 O   0  0  0  0  0  0  0  0  0  0  0  0
+   23.2540  -22.1880  -13.1480 C   0  0  0  0  0  0  0  0  0  0  0  0
+
