@@ -44,13 +44,19 @@ Vast), not Modal. Bake this ~3× pace into the A3 fleet budget.
 **Effective routing (2026-07-13):** tiny smokes only → **Modal** (<$1; a full RBFE leg is too big for $30). **A1
 (both legs) → GCP spot L4** once quota lands (~$11/leg of the $300; quota resubmit ~07-15) — else **Vast**. **B1
 smoke → Modal.** GCP is the primary workhorse for A3/B3. Confirm-before-launch still applies to A3/B3, now with
-the corrected ~$18-AWS / ~$11-GCP per-complex-leg baseline. **Open item — the ~3× slowness:** avg ~21.6 s/iter
-(30 GPU-h ÷ ~5000 iters); the tracelog's 8s→40s swing is intra-job (λ-window phase + periodic MBAR/checkpoint/
-per-window-setup overhead), NOT a different workload or the GPU degrading. **The fast-8s/slow-40s bimodality
-HINTS the slow iters may be CPU-BOUND overhead (GPU idling on MBAR/IO/setup), not GPU-bound MD** → **before the
-A3 fleet, profile GPU utilization during a slow stretch (nvidia-smi); if CPU-bound, `g5.2xlarge` (same A10G,
-2× vCPU) may cut wall-clock+cost cheaply.** Otherwise (genuinely GPU-bound): revisit window-sharding / fewer ns
-only if the `reduce` shows the sampling was more than needed.
+the corrected ~$18-AWS / ~$11-GCP per-complex-leg baseline.
+
+**★ DIAGNOSED (2026-07-13, live CloudWatch probe `sm_gpu_util.py` on the running leg): the ~3× slowness is a
+CPU BOTTLENECK, not heavy MD — the A10G is IDLE ~65% of the run.** 90-min window: **GPU util avg 29%** (0% for
+~53 of 82 min, then 90-100%); **GPU mem 2-8%**; **CPU pegged ~100% (ONE core), occasionally 200%.** The long
+0%-GPU / 100%-CPU stretch = **per-window single-threaded setup** (OpenFF ligand parameterization / charge gen /
+hybrid-system build — the tracelog's "Generating residue template using openff-2.1.1"), repeated for each of 12
+windows. **Consequences:** (1) we're paying for a mostly-idle GPU; (2) `g5.2xlarge` will NOT help — the bottleneck
+is SINGLE-THREADED, so more vCPUs at the same per-core speed do nothing. **FIX (before A3, could cut leg cost/time
+~2-3×):** parameterize the ligands/system ONCE and reuse across all 12 windows (cache the OpenFF-parameterized
+system) instead of re-doing it per window; verify minimization is on the GPU, not CPU. Next: pinpoint the exact
+CPU hog (parameterization vs minimization vs MBAR) in `nr4a3_rbfe.py` and cache it. This is a real efficiency win
+that improves the whole RBFE track's economics (A1/A3), so do it before fanning out A3.
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
