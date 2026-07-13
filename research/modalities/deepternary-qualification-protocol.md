@@ -93,6 +93,14 @@ example** before any scientific evaluation.
 > - Harness: **push-triggered** workflow `.github/workflows/deepternary-qualify.yml` (runs off this feature
 >   branch with no main dependency — the `modalities-run.yml` pattern). Reported DockQ (paper): PROTAC 0.65 /
 >   MGD 0.23 best-of-40; **operational top-1 much weaker** — record PAE-top-1 + best-of-40 both (see step 2).
+> - **CPU install caveat resolved:** upstream reqs pull NumPy 2.x → rdkit 2023.9.3 crashes (`_ARRAY_API not
+>   found`); harness pins **`numpy<2`** last.
+>
+> **✅ STEP-1 RESULT — PASS (2026-07-13, CI run 29218681617).** DeepTernary installs on a **free CPU GitHub
+> runner** and reproduces the released **5T35** PROTAC example: 8 predicted complex PDBs + `summary_5T35-qual.csv`,
+> per-seed internal `pred_p2_rmsd` = 1.71/1.73/1.78/1.94/2.54/2.62/2.62/4.89 Å (clash 0 except the 4.89 Å seed at
+> 0.10). Install + released-example reproduction confirmed. **Caveat:** `pred_p2_rmsd` is DeepTernary's *internal
+> surrogate*, NOT DockQ-vs-crystal — that (+ PAE-top-1 vs best-of-N) is **Step 2** (public crystal controls).
 
 **2. Installation-reproduction controls (label as SOFTWARE-REPRODUCTION, not independent validation).** Use
 **4–6 public crystal ternaries**: **≥2 VHL, ≥2 CRBN**, preferably +1 other E3 class if it may enter the matrix; mix
