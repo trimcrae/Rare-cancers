@@ -86,9 +86,18 @@ jobs:
           printf '%s\n' 5T35_H_E_759 6HAX_B_A_FWZ 6HR2_B_A_FWZ 6BOY_B_C_RN6 6BN7_B_C_RN3 > data/PROTAC/protac22.txt
           echo "=== subset test list ===" | tee -a eval.log; cat data/PROTAC/protac22.txt | tee -a eval.log
           for c in $(cat data/PROTAC/protac22.txt); do ls output/protac22/$c/ >/dev/null 2>&1 && echo "OK $c" || echo "MISSING $c"; done | tee -a eval.log
+          # diagnose config location (the released checkpoint dir nests the config in a timestamped subdir)
+          { echo "=== checkpoint dir layout ==="; find output/checkpoints/PROTAC -maxdepth 3 | head -40; } | tee -a eval.log
+          # FIX 1: predict_cpu.py hardcodes device='cuda' (line 733) -> patch to cpu for the CPU runner
+          sed -i "s/^    device = 'cuda'/    device = 'cpu'/" predict_cpu.py
+          # CPU-feasible seed count
           sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
           echo "=== predict_cpu start $(date -u) ===" | tee -a eval.log
-          python predict_cpu.py output/checkpoints/PROTAC 2>&1 | tee -a eval.log | tail -140
+          # FIX 2: pass the repo PROTAC config explicitly (auto-detect fails on the nested layout); the repo
+          # config uses complex_names_path=data/PROTAC/protac22.txt so the subset override above applies.
+          python predict_cpu.py output/checkpoints/PROTAC \
+            --config deepternary/configs/protac.py \
+            --checkpoint output/checkpoints/PROTAC/checkpoint.pth 2>&1 | tee -a eval.log | tail -140
           echo "=== predict_cpu end $(date -u) ===" | tee -a eval.log
 
       - name: Step 2 — report DockQ panel
