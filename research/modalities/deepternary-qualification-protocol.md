@@ -129,6 +129,30 @@ example** before any scientific evaluation.
 >   if promising). Labelled **SOFTWARE-REPRODUCTION control**, not independent validation (these are in
 >   DeepTernary's published benchmark).
 
+> **✅ STEP-2 RESULT (2026-07-13, CI run 29243531774; self-reported via `deepternary-qualify-cache` branch).**
+> Ran on CPU (avg 9.3 s/prediction) after fixing 2 bugs the self-report surfaced: released checkpoint nests its
+> config in a timestamped subdir → pass `--config deepternary/configs/protac.py --checkpoint .../checkpoint.pth`
+> explicitly; and `predict_cpu.py` hardcodes `device='cuda'` → patched to `cpu`. **Preliminary best-of-16**
+> (not 40), N=5, **SOFTWARE-REPRODUCTION control** (these are in DeepTernary's own benchmark — NOT independent
+> validation).
+>
+> | Complex | E3 | PAE-top-1 DockQ | Best-of-16 DockQ | RMSD<10 | Acceptable |
+> |---|---|---|---|---|---|
+> | 5T35 (BRD4) | VHL | 0.66 | 0.83 | 0.88 | ✅ |
+> | 6HAX (SMARCA2) | VHL | 0.62 | 0.62 | 1.00 | ✅ |
+> | 6HR2 (SMARCA4) | VHL | 0.62 | 0.62 | 1.00 | ✅ |
+> | 6BOY (BRD4/dBET6) | CRBN | 0.06 | 0.15 | 0.06 | ❌ |
+> | 6BN7 (BRD4) | CRBN | 0.51 | 0.51 | 0.63 | ✅ |
+> | **mean** | | **0.49** | **0.54** | **0.71** | **0.8 rate** |
+>
+> **Reading (honest):** (a) best-of-16 mean 0.54 is in the paper's best-of-40 ~0.65 ballpark (fewer seeds,
+> tiny N) → install/pipeline reproduces. (b) On THIS subset the PAE-top-1 (0.49) is close to best-of-N (0.54)
+> — the internal `pred_p2_rmsd` ranking held up better than the reviewer's ~0.32–0.4 caution warned (but N=5,
+> don't over-read). (c) **VHL recovered well (0.62–0.83); CRBN mixed — 6BOY fails outright (0.06/0.15).** So
+> DeepTernary is not uniformly reliable even on its own benchmark; per-case failures happen (exactly why we
+> keep it architecture-triage-only, union-of-clusters, never a ranker). NEXT: Step 3 = prospective-like BLIND
+> controls (the test that actually resembles NR4A3); optionally re-run this subset at 40 seeds if worthwhile.
+
 **2. Installation-reproduction controls (label as SOFTWARE-REPRODUCTION, not independent validation).** Use
 **4–6 public crystal ternaries**: **≥2 VHL, ≥2 CRBN**, preferably +1 other E3 class if it may enter the matrix; mix
 rigid and difficult linker/interface geometries. (May overlap DeepTernary's 22-structure benchmark / "unbound"
