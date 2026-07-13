@@ -44,9 +44,13 @@ Vast), not Modal. Bake this ~3× pace into the A3 fleet budget.
 **Effective routing (2026-07-13):** tiny smokes only → **Modal** (<$1; a full RBFE leg is too big for $30). **A1
 (both legs) → GCP spot L4** once quota lands (~$11/leg of the $300; quota resubmit ~07-15) — else **Vast**. **B1
 smoke → Modal.** GCP is the primary workhorse for A3/B3. Confirm-before-launch still applies to A3/B3, now with
-the corrected ~$18-AWS / ~$11-GCP per-complex-leg baseline. **Open item:** the ~3× slowness vs estimate is
-likely real alchemical-RBFE cost (hybrid topology), not a bug — revisit (faster GPU tier / window-sharding /
-fewer ns) ONLY if the pilot `reduce` shows the sampling wasn't even needed; otherwise accept it.
+the corrected ~$18-AWS / ~$11-GCP per-complex-leg baseline. **Open item — the ~3× slowness:** avg ~21.6 s/iter
+(30 GPU-h ÷ ~5000 iters); the tracelog's 8s→40s swing is intra-job (λ-window phase + periodic MBAR/checkpoint/
+per-window-setup overhead), NOT a different workload or the GPU degrading. **The fast-8s/slow-40s bimodality
+HINTS the slow iters may be CPU-BOUND overhead (GPU idling on MBAR/IO/setup), not GPU-bound MD** → **before the
+A3 fleet, profile GPU utilization during a slow stretch (nvidia-smi); if CPU-bound, `g5.2xlarge` (same A10G,
+2× vCPU) may cut wall-clock+cost cheaply.** Otherwise (genuinely GPU-bound): revisit window-sharding / fewer ns
+only if the `reduce` shows the sampling was more than needed.
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
