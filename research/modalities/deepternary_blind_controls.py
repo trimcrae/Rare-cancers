@@ -67,6 +67,9 @@ E3_INTERFACE_UNIPROT = {"P40337": "VHL", "Q96SW2": "CRBN", "Q13490": "cIAP1", "Q
                         "Q8TEB1": "DCAF11"}
 
 PDBID_RE = re.compile(r"\b([1-9][A-Za-z0-9]{3})\b")
+# protac-style token head: "5T35_H_E_759" -> "5T35" (unambiguous structure ID, has chain fields after)
+PROTAC_STYLE_RE = re.compile(r"\b([1-9][A-Za-z0-9]{3})_[A-Za-z0-9]")
+HAS_ALPHA_RE = re.compile(r"[A-Za-z]")
 
 UA = {"User-Agent": "rare-cancers-deepternary-qual/1.0 (research; contact trimcrae@gmail.com)"}
 
@@ -86,9 +89,17 @@ def _post_json(url: str, payload: dict, timeout: int = 90) -> dict:
 
 # ------------------------------------------------------------------ A. exclusion set from DT release ---
 def build_exclusion_set(dt_dir: str) -> dict:
-    """Scan the DeepTernary release/TernaryDB tree for PDB IDs, keeping provenance per ID."""
+    """Scan the DeepTernary release/TernaryDB tree for PDB IDs, keeping provenance per ID.
+
+    Two extraction tiers to avoid training-log contamination (the vis_data/scalars.json files log loss
+    curves + iteration counts as bare 4-digit numbers that match a naive PDB-ID regex):
+      - protac-style tokens `PDB_chain_chain_lig` are ALWAYS taken (unambiguous structure IDs).
+      - bare 4-char tokens are taken ONLY from real list files AND only if they contain >=1 letter
+        (drops pure-numeric training-log integers; no PROTAC/MGD training complex has a numeric-only ID).
+      - files under a `vis_data/` dir or named `scalars.json` are skipped entirely (pure training logs).
+    """
     provenance: dict[str, set] = {}
-    scanned = []
+    scanned, skipped = [], []
     for root, _dirs, files in os.walk(dt_dir):
         for fn in files:
             low = fn.lower()
@@ -96,9 +107,13 @@ def build_exclusion_set(dt_dir: str) -> dict:
                 continue
             path = os.path.join(root, fn)
             rel = os.path.relpath(path, dt_dir)
-            # skip huge non-list files defensively (>20MB); PDB-ID list files are tiny
+            # skip pure training-log files: they carry loss/iteration integers, not structure IDs
+            if "vis_data" in rel.split(os.sep) or low == "scalars.json":
+                skipped.append(rel)
+                continue
             try:
                 if os.path.getsize(path) > 20 * 1024 * 1024:
+                    skipped.append(rel)
                     continue
                 with open(path, "r", errors="ignore") as fh:
                     text = fh.read()
@@ -106,25 +121,20 @@ def build_exclusion_set(dt_dir: str) -> dict:
                 continue
             scanned.append(rel)
             found = set()
-            # protac-style IDs "5T35_H_E_759" -> first field; plus any bare 4-char PDB tokens
-            for line in text.replace(",", " ").split():
-                tok = line.strip()
-                head = tok.split("_")[0]
-                for cand in (head, tok):
-                    m = PDBID_RE.fullmatch(cand)
-                    if m:
-                        found.add(cand.upper())
-            # also sweep the raw text for embedded PDB IDs (json values etc.)
-            for m in PDBID_RE.findall(text):
+            # tier 1: protac-style heads anywhere in the text (chain fields => unambiguous structure ID)
+            for m in PROTAC_STYLE_RE.findall(text):
                 found.add(m.upper())
+            # tier 2: bare 4-char PDB tokens, but require >=1 letter to reject training-log integers
+            for m in PDBID_RE.findall(text):
+                if HAS_ALPHA_RE.search(m):
+                    found.add(m.upper())
             for pid in found:
                 provenance.setdefault(pid, set()).add(rel)
-    # A bare-token regex over prose is noisy (e.g. 4-char words). Keep only IDs that appear in a file whose
-    # name/path looks like a structure list, OR appear as a protac-style "<PDB>_<ch>_<ch>_<lig>" token.
     return {
         "ids": sorted(provenance),
         "provenance": {k: sorted(v) for k, v in provenance.items()},
         "files_scanned": sorted(scanned),
+        "files_skipped_as_logs": sorted(skipped),
     }
 
 
@@ -190,73 +200,105 @@ def search_candidates(after_date: str, terms: list, rows: int = 300) -> list:
     return sorted(ids)
 
 
+def _rest(path: str):
+    """GET a RCSB REST data-API endpoint; return parsed JSON or None (404/obsolete tolerated)."""
+    try:
+        return json.loads(_get("https://data.rcsb.org/rest/v1/core/" + path, timeout=40))
+    except urllib.error.HTTPError as e:
+        if e.code not in (404,):
+            sys.stderr.write(f"[rest] {path} HTTP {e.code}\n")
+        return None
+    except Exception as e:  # noqa: BLE001
+        sys.stderr.write(f"[rest] {path} failed: {e}\n")
+        return None
+
+
+_CHEMCOMP_MW: dict = {}
+
+
+def _comp_mw(comp_id: str):
+    if comp_id in _CHEMCOMP_MW:
+        return _CHEMCOMP_MW[comp_id]
+    j = _rest(f"chemcomp/{comp_id}")
+    mw = None
+    name = None
+    if j:
+        cc = j.get("chem_comp") or {}
+        mw = cc.get("formula_weight")
+        name = cc.get("name")
+    _CHEMCOMP_MW[comp_id] = (mw, name)
+    return _CHEMCOMP_MW[comp_id]
+
+
 def entry_metadata(pdb_ids: list) -> dict:
-    """Batch GraphQL: full metadata per candidate for curation (title, dates, entities, UniProts, ligs)."""
+    """REST data-API metadata per candidate for curation (title, dates, entities, UniProts, ligands).
+
+    Two passes to keep call volume modest: pass 1 fetches entry + polymer-entity data (UniProts) for every
+    candidate; pass 2 fetches ligand comp IDs + MW only for entries that carry a known-E3 UniProt (the
+    shortlist candidates). REST is used (not the batched GraphQL) because the large GraphQL query silently
+    returned empty and cannot be validated from the egress-blocked sandbox; REST endpoints are stable.
+    """
     out = {}
-    url = "https://data.rcsb.org/graphql"
-    q = """query($ids:[String!]!){entries(entry_ids:$ids){
-      rcsb_id
-      struct{title}
-      rcsb_accession_info{deposit_date initial_release_date}
-      rcsb_entry_info{deposited_polymer_entity_count deposited_nonpolymer_entity_count
-                      polymer_entity_count_protein}
-      polymer_entities{
-        rcsb_polymer_entity{pdbx_description}
-        rcsb_polymer_entity_container_identifiers{
-          reference_sequence_identifiers{database_accession database_name}}
-      }
-      nonpolymer_entities{
-        nonpolymer_comp{chem_comp{id name formula_weight}}
-      }
-    }}"""
-    for i in range(0, len(pdb_ids), 40):
-        batch = pdb_ids[i:i + 40]
-        try:
-            res = _post_json(url, {"query": q, "variables": {"ids": batch}})
-        except Exception as e:  # noqa: BLE001
-            sys.stderr.write(f"[meta] batch {i} failed: {e}\n")
+    for n, pid in enumerate(pdb_ids):
+        ent = _rest(f"entry/{pid}")
+        if not ent:
             continue
-        for e in (res.get("data", {}).get("entries") or []):
-            pid = e["rcsb_id"].upper()
-            ai = e.get("rcsb_accession_info") or {}
-            ei = e.get("rcsb_entry_info") or {}
-            prots, uniprots = [], []
-            for pe in (e.get("polymer_entities") or []):
-                desc = ((pe.get("rcsb_polymer_entity") or {}).get("pdbx_description") or "").strip()
-                if desc:
-                    prots.append(desc)
-                cid = pe.get("rcsb_polymer_entity_container_identifiers") or {}
-                for rs in (cid.get("reference_sequence_identifiers") or []):
-                    if (rs.get("database_name") or "").upper().startswith("UNIPROT"):
-                        uniprots.append(rs.get("database_accession"))
-            ligs = []
-            for ne in (e.get("nonpolymer_entities") or []):
-                cc = ((ne.get("nonpolymer_comp") or {}).get("chem_comp") or {})
-                if cc.get("id"):
-                    ligs.append({"id": cc["id"], "name": cc.get("name"),
-                                 "mw": cc.get("formula_weight")})
-            e3_hits = {u: E3_INTERFACE_UNIPROT[u] for u in uniprots if u in E3_INTERFACE_UNIPROT}
-            # a degrader-sized ligand = any HETATM comp with MW > 450 that isn't a common buffer/ion
-            big_ligs = [l for l in ligs if (l.get("mw") or 0) and l["mw"] > 450]
-            out[pid] = {
-                "title": (e.get("struct") or {}).get("title"),
-                "deposit_date": (ai.get("deposit_date") or "")[:10],
-                "initial_release_date": (ai.get("initial_release_date") or "")[:10],
-                "n_protein_entities": ei.get("polymer_entity_count_protein"),
-                "n_nonpolymer": ei.get("deposited_nonpolymer_entity_count"),
-                "protein_names": prots,
-                "uniprots": sorted(set(u for u in uniprots if u)),
-                "e3_uniprot_hits": e3_hits,
-                "ligands": ligs,
-                "degrader_sized_ligands": big_ligs,
-            }
-        time.sleep(0.3)
+        ai = ent.get("rcsb_accession_info") or {}
+        ei = ent.get("rcsb_entry_info") or {}
+        ci = ent.get("rcsb_entry_container_identifiers") or {}
+        prots, uniprots = [], []
+        for eid in (ci.get("polymer_entity_ids") or []):
+            pe = _rest(f"polymer_entity/{pid}/{eid}")
+            if not pe:
+                continue
+            desc = ((pe.get("rcsb_polymer_entity") or {}).get("pdbx_description") or "").strip()
+            if desc:
+                prots.append(desc)
+            pci = pe.get("rcsb_polymer_entity_container_identifiers") or {}
+            for rs in (pci.get("reference_sequence_identifiers") or []):
+                if (rs.get("database_name") or "").upper().startswith("UNIPROT"):
+                    uniprots.append(rs.get("database_accession"))
+        uniprots = sorted(set(u for u in uniprots if u))
+        e3_hits = {u: E3_INTERFACE_UNIPROT[u] for u in uniprots if u in E3_INTERFACE_UNIPROT}
+        out[pid] = {
+            "title": (ent.get("struct") or {}).get("title"),
+            "deposit_date": (ai.get("deposit_date") or "")[:10],
+            "initial_release_date": (ai.get("initial_release_date") or "")[:10],
+            "n_protein_entities": ei.get("polymer_entity_count_protein"),
+            "n_nonpolymer": ei.get("deposited_nonpolymer_entity_count"),
+            "protein_names": prots,
+            "uniprots": uniprots,
+            "e3_uniprot_hits": e3_hits,
+            "nonpolymer_entity_ids": list(ci.get("non_polymer_entity_ids") or []),
+            "ligands": [],
+            "degrader_sized_ligands": [],
+        }
+        if n % 25 == 0:
+            time.sleep(0.2)
+    # pass 2: ligand detail only for E3-positive entries (the shortlist)
+    for pid, m in out.items():
+        if not m["e3_uniprot_hits"]:
+            continue
+        ligs = []
+        for eid in m["nonpolymer_entity_ids"]:
+            ne = _rest(f"nonpolymer_entity/{pid}/{eid}")
+            comp = None
+            if ne:
+                comp = ((ne.get("pdbx_entity_nonpoly") or {}).get("comp_id"))
+            if not comp:
+                continue
+            mw, name = _comp_mw(comp)
+            ligs.append({"id": comp, "name": name, "mw": mw})
+        m["ligands"] = ligs
+        m["degrader_sized_ligands"] = [l for l in ligs if (l.get("mw") or 0) and l["mw"] > 450]
     return out
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dt-dir", help="path to extracted DeepTernary release + TernaryDB")
+    ap.add_argument("--exclusion-file", help="prebuilt exclusion-set JSON (skips --dt-dir / TernaryDB "
+                    "download); expects keys ids[] + data_horizon_max_deposit_date")
     ap.add_argument("--out", default="deepternary_blind_controls.json")
     ap.add_argument("--fallback-cutoff", default="2024-06-01",
                     help="used for the search window if the exclusion set yields no dates")
@@ -266,18 +308,30 @@ def main() -> int:
     report = {"_protocol": "research/modalities/deepternary-qualification-protocol.md (Step 3 + risk #5)",
               "_generated_note": "All PDB facts sourced from RCSB; DeepTernary IDs from the frozen release."}
 
-    # A. exclusion set
-    excl = {"ids": [], "provenance": {}, "files_scanned": []}
-    if args.dt_dir and os.path.isdir(args.dt_dir):
+    # A. exclusion set — from a prebuilt file (fast path) or freshly from the DeepTernary release
+    prebuilt_horizon = None
+    excl = {"ids": [], "provenance": {}, "files_scanned": [], "files_skipped_as_logs": []}
+    prebuilt_dates = {}
+    if args.exclusion_file and os.path.isfile(args.exclusion_file):
+        pj = json.load(open(args.exclusion_file))
+        excl = {"ids": pj.get("ids", []), "provenance": pj.get("provenance", {}),
+                "files_scanned": pj.get("files_scanned", []),
+                "files_skipped_as_logs": pj.get("files_skipped_as_logs", [])}
+        prebuilt_horizon = pj.get("data_horizon_max_deposit_date")
+        prebuilt_dates = pj.get("exclusion_set_deposit_dates", {})
+    elif args.dt_dir and os.path.isdir(args.dt_dir):
         excl = build_exclusion_set(args.dt_dir)
     report["exclusion_set"] = {"count": len(excl["ids"]), "ids": excl["ids"],
                                "files_scanned": excl["files_scanned"],
+                               "files_skipped_as_logs": excl.get("files_skipped_as_logs", []),
                                "provenance": excl["provenance"]}
 
     # B. data horizon
     horizon = args.fallback_cutoff
-    dates = {}
-    if excl["ids"]:
+    dates = prebuilt_dates
+    if prebuilt_horizon:
+        horizon = prebuilt_horizon
+    elif excl["ids"]:
         dates = deposit_dates(excl["ids"])
         dep = sorted([d["deposit_date"] for d in dates.values() if d.get("deposit_date")])
         if dep:

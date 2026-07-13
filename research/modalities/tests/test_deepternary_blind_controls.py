@@ -22,6 +22,10 @@ def _tree():
         f.write("6boy 6bn7 1abc\n")
     with open(os.path.join(d, "TernaryDB/meta.json"), "w") as f:
         f.write('{"pdb":"6HAX","junk":"zzzz"}\n')
+    # a training-log file whose loss/iteration integers must NOT enter the exclusion set
+    os.makedirs(os.path.join(d, "output/checkpoints/PROTAC/20240301/vis_data"))
+    with open(os.path.join(d, "output/checkpoints/PROTAC/20240301/vis_data/scalars.json"), "w") as f:
+        f.write('{"step":1000,"loss":2867,"iter":5000}\n')
     return d
 
 
@@ -45,6 +49,15 @@ def test_exclusion_set_extracts_from_protac_style_and_lists():
         assert pid in res["ids"], (pid, res["ids"])
     # a 4-letter prose token that is NOT a PDB ID must not leak in
     assert "ZZZZ" not in res["ids"]
+
+
+def test_exclusion_set_rejects_training_log_integers():
+    res = m.build_exclusion_set(_tree())
+    # loss/iteration integers from vis_data/scalars.json must NOT be mistaken for PDB IDs
+    for junk in ("1000", "2867", "5000"):
+        assert junk not in res["ids"], junk
+    # and the log file itself is recorded as skipped
+    assert any("scalars.json" in s for s in res["files_skipped_as_logs"])
 
 
 def test_exclusion_set_provenance_records_source_file():
