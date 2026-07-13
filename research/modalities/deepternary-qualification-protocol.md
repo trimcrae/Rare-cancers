@@ -231,6 +231,32 @@ benchmarks.)
 > input assembly per control, the multi-seed prediction run, DockQ vs sealed native, and the §4 input-sensitivity
 > sweep — to be built + validated on the DeepTernary CPU env (as Steps 1–2 were).
 
+> **STEP-3 STATE (2026-07-13 end-of-session) — FOUNDATION COMPLETE; sourced binaries in hand; blind RUN is the
+> next focused build.** Committed + verifiable so far: exclusion set (`deepternary_exclusion_set.json`), curated
+> controls (`deepternary_step3_controls.json`), pre-registered execution recipe (above), input contract (above),
+> the blind-prep harness (`deepternary_blind_prep.py` + 4 offline tests), and the **sourced per-control binary
+> input-candidate table** (`deepternary_step3_input_candidates.json`, CI run 29247191166) — POI+warhead and
+> E3+anchor binary candidates each with deposit date + bound-ligand IDs/MW, e.g.:
+> - **9RKC (KRAS/VHL):** POI KRAS-G12D+inhibitor binaries `10NU`(A1C6Y 608)/`10JT`(A1C5K 720)/`36OI`(A1AOL 906)…
+>   (all GDP/GNP-bound); E3 VCB+VH032-class binaries `7KHH`(WEP 1096)/`7Q2J`(8KH 1012)/`7Z6L`(IEI 1038)….
+> - **23SR (CDK2/CRBN):** POI CDK2+inhibitor binaries `1PXI-P`(CK1-8)/`1OIU`(N76)…; E3 CRBN/DDB1 binaries
+>   `9DUR`(A1IQT 676)/`9E2U`(RN9 494)….
+> - **9SAF (BRD4-BD1/CRBN):** POI BRD4-BD1+inhibitor binaries `4CL9`(IES 552)/`4CLB`(83T)/`4C66`(H4C)…; E3 CRBN
+>   binaries as above.
+> **The next build (do carefully — trustworthiness > speed; a wrong warhead fragment = meaningless DockQ):**
+> (1) **Warhead/anchor MATCHING** — fetch each degrader's CCD SMILES (9RKC `A1JHI` ~970 Da, 9SAF `A1JM8`
+> ~739 Da) + each candidate ligand's SMILES, RDKit-MCS to confirm which binary's ligand is a real substructure of
+> the degrader's warhead/anchor (verify overlap, don't guess); pick one POI+warhead + one E3+anchor binary per
+> control. **⚠ Curation catch (2026-07-13): 23SR's degrader `A1E59` is ~490 Da = GLUE-sized, not PROTAC-sized —
+> likely a molecular glue with NO separable warhead/anchor, so it is a POOR PROTAC blind control. SWAP 23SR for a
+> proper CRBN PROTAC** with a linker (candidates already sourced: `9YA9` BCL6-CRBN LDD `A1CTU` 628, `9Q03` BCL6
+> `A1CM7` 715, or `8RQ9` CRBN+BRD4-BD2 `A1H2F` 824) so the CRBN arm stays a true bifunctional-degrader test.
+> The matching step's MW/linker check catches exactly this — verify each degrader is PROTAC-sized + splittable
+> before committing a control. (2) Fill `deepternary_blind_prep.py` configs, run prep in the DeepTernary CI env, VALIDATE the 6 input
+> files + gt-not-in-predict-dir. (3) Multi-seed `predict_one_unbound` per control → freeze all seeds → DockQ vs
+> the sealed native (PAE-top-1 + best-of-N + rank-of-first-acceptable). (4) §4 input-sensitivity sweep. (5)
+> Risk-#5 reveal-time leakage re-check. Validate-first on ONE control (likely 9SAF, cleanest inputs) before all 3.
+
 **4. Input-sensitivity test.** For every blind control AND NR-V04, vary: receptor conformer; initial warhead pose;
 warhead attachment-vector rotamer; E3 binary structure; protonation/tautomer. Question is not "can 1/40 runs
 recover native?" but **"does the native-like architecture survive reasonable input uncertainty, and does the model
