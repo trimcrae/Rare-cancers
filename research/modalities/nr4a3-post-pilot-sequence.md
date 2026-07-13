@@ -33,11 +33,20 @@ Provider facts + budgets (2026-07-13):
 - **Vast** (key staged) / **Salad** (cheapest bulk) — spot-like, for bulk once needed.
 - **Oracle $300** — later in the waterfall.
 
-**Effective routing (2026-07-13, while GCP quota is pending resubmit):** cheap smokes → **Modal** ($30, don't
-exceed). **A1 near-term:** NR4A2 leg (pilot-first) → **Modal** (~$10–27, fits $30); NR4A1 leg → **GCP spot L4
-once quota lands** (~2+ days), else **Vast** (key staged). **B1 smoke → Modal.** Once GCP quota is granted it
-becomes the primary workhorse (cheapest + $300) for A3/B3 and any re-runs. Confirm-before-launch still applies
-to the EXPENSIVE fleets (A3, B3).
+**★ REAL COST BASELINE (from the pilot's billing data, 2026-07-13 — supersedes the optimistic estimate).** The
+pilot complex leg trained **30.0 GPU-h for ~6–7 of 12 windows** (`training_h`≈`wall-clock`, so it was genuinely
+computing the whole time — **NOT a spot outage**; `billable_h`=10.0≈$10; the ~67% "savings" is just the flat
+managed-spot discount, present on every job). So an alchemical RBFE **complex leg ≈ ~55 GPU-h** (~4.5 GPU-h/
+window, ~2–3× the old "15–25 GPU-h/12-window" guess). Per-leg cost ≈ **~$11 GCP-L4-spot / ~$18 AWS-spot /
+~$44 Modal**. **Consequence: a full complex leg does NOT fit Modal's $30 cap** — A1/A3 legs must go on GCP (or
+Vast), not Modal. Bake this ~3× pace into the A3 fleet budget.
+
+**Effective routing (2026-07-13):** tiny smokes only → **Modal** (<$1; a full RBFE leg is too big for $30). **A1
+(both legs) → GCP spot L4** once quota lands (~$11/leg of the $300; quota resubmit ~07-15) — else **Vast**. **B1
+smoke → Modal.** GCP is the primary workhorse for A3/B3. Confirm-before-launch still applies to A3/B3, now with
+the corrected ~$18-AWS / ~$11-GCP per-complex-leg baseline. **Open item:** the ~3× slowness vs estimate is
+likely real alchemical-RBFE cost (hybrid topology), not a bug — revisit (faster GPU tier / window-sharding /
+fewer ns) ONLY if the pilot `reduce` shows the sampling wasn't even needed; otherwise accept it.
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
