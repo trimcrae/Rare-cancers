@@ -1,0 +1,43 @@
+name: SageMaker GPU/CPU utilization probe (CloudWatch) — diagnose slow RBFE leg
+
+# Reads SageMaker-published GPUUtilization/CPUUtilization from CloudWatch for the LIVE running job to decide if
+# the ~3x-slow RBFE complex leg is GPU-bound (real cost) or CPU-bound overhead (fixable with more vCPU). Must run
+# WHILE a leg is training. Push-triggered on this branch (auto-detects the running complex leg; no inputs).
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_name: { description: "exact training job name (blank = auto-detect running complex leg)", default: "", required: false }
+      minutes:  { description: "lookback window (min)", default: "90", required: false }
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/sm-gpu-util-aws.yml
+      - research/modalities/sm_gpu_util.py
+
+concurrency:
+  group: sm-gpu-util
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/nr4a3-ternary-coop-prereg-5ml7r2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Probe CloudWatch GPU/CPU util
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+          JOB_NAME: ${{ github.event.inputs.job_name }}
+          MINUTES: ${{ github.event.inputs.minutes || '90' }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::AWS secrets missing"; exit 1; fi
+          python research/modalities/sm_gpu_util.py
