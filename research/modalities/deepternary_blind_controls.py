@@ -294,6 +294,78 @@ def entry_metadata(pdb_ids: list) -> dict:
     return out
 
 
+def source_input_structures(controls: list, exclude_native: set) -> dict:
+    """For each curated control, find SEPARATE binary/apo structures for blind input prep.
+
+    DeepTernary unbound PROTAC inputs (from predict.py) need, per control: a POI structure +
+    the warhead fragment in that POI frame (from a POI+warhead binary co-crystal), and an E3
+    structure + the anchor fragment in that E3 frame (from an E3+anchor binary). Neither may be
+    the native ternary. This queries RCSB for candidate binaries by UniProt accession + entity
+    count, so the input structures are SOURCED (human curates the final pick per the integrity gate).
+    Blindness note: using public 'POI binds warhead-class ligand' structures is NOT native-pose
+    leakage — only the native ternary POSE stays sealed.
+    """
+    def _by_uniprot(uniprot: str, max_prot: int, label: str, exclude: set) -> list:
+        query = {"type": "group", "logical_operator": "and", "nodes": [
+            {"type": "terminal", "service": "text", "parameters": {
+                "attribute": "rcsb_polymer_entity_container_identifiers.reference_sequence_identifiers.database_accession",
+                "operator": "exact_match", "value": uniprot}},
+            {"type": "terminal", "service": "text", "parameters": {
+                "attribute": "rcsb_polymer_entity_container_identifiers.reference_sequence_identifiers.database_name",
+                "operator": "exact_match", "value": "UniProt"}},
+            {"type": "terminal", "service": "text", "parameters": {
+                "attribute": "rcsb_entry_info.polymer_entity_count_protein",
+                "operator": "less_or_equal", "value": max_prot}},
+            {"type": "terminal", "service": "text", "parameters": {
+                "attribute": "rcsb_entry_info.deposited_nonpolymer_entity_count",
+                "operator": "greater_or_equal", "value": 1}},
+        ]}
+        req = {"query": query, "return_type": "entry",
+               "request_options": {"paginate": {"start": 0, "rows": 60},
+                                   "results_content_type": ["experimental"],
+                                   "sort": [{"sort_by": "rcsb_accession_info.deposit_date", "direction": "desc"}]}}
+        url = "https://search.rcsb.org/rcsbsearch/v2/query?json=" + urllib.parse.quote(json.dumps(req))
+        try:
+            res = json.loads(_get(url))
+        except Exception as e:  # noqa: BLE001
+            sys.stderr.write(f"[src:{label}] {uniprot} failed: {e}\n")
+            return []
+        ids = [r["identifier"].upper() for r in res.get("result_set", [])
+               if r["identifier"].upper() not in exclude]
+        time.sleep(0.4)
+        # annotate the top handful with ligands so a human can pick the warhead/anchor binary
+        meta = entry_metadata(ids[:12]) if ids else {}
+        return [{"pdb": pid, "deposit_date": meta.get(pid, {}).get("deposit_date"),
+                 "proteins": meta.get(pid, {}).get("protein_names"),
+                 "ligands": [{"id": l["id"], "mw": l.get("mw")} for l in meta.get(pid, {}).get("ligands", [])]}
+                for pid in ids[:12]]
+
+    out = {}
+    for ctl in controls:
+        pid = ctl["pdb"]
+        poi_uni = None
+        # POI uniprot = the control's uniprot that is NOT an E3/adapter component
+        adapters = set(E3_INTERFACE_UNIPROT) | {"Q15369", "Q15370", "P62877", "Q16531",
+                                                "Q13617", "Q13619", "P62979", "P0CG48"}
+        for u in ctl.get("uniprots", []):
+            if u not in adapters:
+                poi_uni = u
+                break
+        # controls file stores e3 as a label string ("VHL"/"CRBN"); recover the accession
+        inv = {v: k for k, v in E3_INTERFACE_UNIPROT.items()}
+        e3_uni = inv.get(ctl.get("e3"))
+        excl = exclude_native | {pid}
+        out[pid] = {
+            "poi": ctl.get("target_of_interest"),
+            "poi_uniprot": poi_uni,
+            "e3": ctl.get("e3"),
+            "e3_uniprot": e3_uni,
+            "poi_binary_candidates": _by_uniprot(poi_uni, 2, f"{pid}:POI", excl) if poi_uni else [],
+            "e3_binary_candidates": _by_uniprot(e3_uni, 4, f"{pid}:E3", excl) if e3_uni else [],
+        }
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dt-dir", help="path to extracted DeepTernary release + TernaryDB")
@@ -303,7 +375,28 @@ def main() -> int:
     ap.add_argument("--fallback-cutoff", default="2024-06-01",
                     help="used for the search window if the exclusion set yields no dates")
     ap.add_argument("--search-terms", default="PROTAC,degrader,molecular glue,ternary complex")
+    ap.add_argument("--source-inputs", help="curated controls JSON; emit per-control binary input-structure "
+                    "candidates instead of running the candidate search")
     args = ap.parse_args()
+
+    # input-sourcing mode: given curated controls, find their separate binary input structures
+    if args.source_inputs:
+        controls_doc = json.load(open(args.source_inputs))
+        native = set()
+        for c in controls_doc.get("controls", []):
+            native.add(c["pdb"])
+        src = source_input_structures(controls_doc.get("controls", []), native)
+        rep = {"_protocol": "deepternary-qualification-protocol.md Step 3 blind input prep",
+               "_note": "SOURCED binary input-structure candidates (RCSB). Human curates the final POI+warhead "
+                        "and E3+anchor binary per control; native ternary pose stays sealed.",
+               "input_structure_candidates": src}
+        with open(args.out, "w") as fh:
+            json.dump(rep, fh, indent=1)
+        for pid, s in src.items():
+            print(f"\n{pid}  POI={s['poi']}({s['poi_uniprot']})  E3={s['e3']}({s['e3_uniprot']})")
+            print(f"  POI binary candidates: {[c['pdb'] for c in s['poi_binary_candidates']]}")
+            print(f"  E3  binary candidates: {[c['pdb'] for c in s['e3_binary_candidates']]}")
+        return 0
 
     report = {"_protocol": "research/modalities/deepternary-qualification-protocol.md (Step 3 + risk #5)",
               "_generated_note": "All PDB facts sourced from RCSB; DeepTernary IDs from the frozen release."}

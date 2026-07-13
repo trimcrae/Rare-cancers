@@ -1,0 +1,57 @@
+name: DeepTernary Step-3 — source separate binary input structures per control (fast, CPU)
+
+# For each curated blind control, find the SEPARATE POI+warhead and E3+anchor binary/apo structures the
+# blind DeepTernary inputs will be built from (RCSB search by UniProt). Fast: no DeepTernary clone, no
+# TernaryDB download — just RCSB. Self-reports to the cache branch. Native ternary pose stays sealed.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/deepternary-source-inputs.yml
+      - research/modalities/deepternary_step3_controls.json
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deepternary-source-inputs
+  cancel-in-progress: false
+
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/nr4a3-ternary-coop-prereg-5ml7r2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Source binary input structures (RCSB)
+        run: |
+          set -eux
+          python research/modalities/deepternary_blind_controls.py \
+            --source-inputs research/modalities/deepternary_step3_controls.json \
+            --out "$RUNNER_TEMP/deepternary_step3_input_candidates.json" \
+            2>&1 | tee "$RUNNER_TEMP/source_inputs.log"
+      - name: Publish to cache branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          cd "$RUNNER_TEMP"
+          URL="https://x-access-token:${GH_TOKEN}@github.com/trimcrae/rare-cancers.git"
+          rm -rf pub
+          git clone --depth 1 --branch deepternary-qualify-cache "$URL" pub 2>/dev/null && cd pub \
+            || { git clone --depth 1 "$URL" pub && cd pub && git checkout --orphan deepternary-qualify-cache && git rm -rf . >/dev/null 2>&1 || true; }
+          OUT=research/modalities/deepternary_qualify_out
+          mkdir -p "$OUT"
+          cp "$RUNNER_TEMP/deepternary_step3_input_candidates.json" "$OUT/" 2>/dev/null || echo "no json" > "$OUT/input_candidates_MISSING.txt"
+          cp "$RUNNER_TEMP/source_inputs.log" "$OUT/source_inputs.log" 2>/dev/null || true
+          git config user.email "noreply@anthropic.com"; git config user.name "claude"
+          git add -A && git commit -m "deepternary Step-3 input-structure candidates (run $GITHUB_RUN_ID)" \
+            && git push origin HEAD:deepternary-qualify-cache || echo "nothing to commit"

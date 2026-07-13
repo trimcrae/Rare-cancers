@@ -208,6 +208,29 @@ benchmarks.)
 > format from `predict.py`, source separate apo/binary POI+E3 PDBs per control (CI, sourced not guessed), build the
 > blind-prep + prediction + DockQ harness, freeze predictions, THEN unseal natives.
 
+> **DeepTernary UNBOUND-INPUT CONTRACT (2026-07-13, CI run 29246136067 read of `predict.py`/`predict_cpu.py`).**
+> `predict_one_unbound(name)` reads from `output/protac22/<name>/`; the files a blind-prep must CREATE per control:
+> - `unbound_protein1.pdb` — POI, from a structure that is NOT the native ternary.
+> - `unbound_lig1.pdb` — the WARHEAD fragment coords in that POI frame (from a POI+warhead binary co-crystal).
+> - `unbound_protein2.pdb` — E3, from a non-native structure.
+> - `unbound_lig2.pdb` — the E3-ANCHOR fragment coords in that E3 frame (from an E3+anchor binary).
+> - `ligand.pdb`/`ligand.sdf` — the FULL degrader (RDKit/`ligand_ideal.sdf` coords, NOT the native bound pose;
+>   `auto_download_ideal_sdf` pulls the CCD ideal SDF by comp id).
+> - `gt_complex.pdb` — the native ternary; **used ONLY at `cal_dockq(...)` for scoring — kept SEALED until
+>   predictions are frozen.**
+> Mechanics: `replace_to_unbound_coords` maps the warhead/anchor atoms of the full degrader onto the unbound
+> fragment coords, finds each protein's pocket near its fragment (`pocket_cutoff` 6 Å), then predicts the relative
+> protein placement + linker (proteins are RIGID; `freeze: protein1`; `random_flip_proteins`). So the blind inputs
+> reduce to: **one POI+warhead binary + one E3+anchor binary + the CCD degrader** — the native pose enters nowhere
+> except DockQ. Training snapshot is `pdb2311` (Nov 2023) — corroborates the 2023-10-14 horizon.
+> **Input-structure sourcing (`--source-inputs` mode + `deepternary-source-inputs.yml`):** queries RCSB by POI/E3
+> UniProt (KRAS P01116, CDK2 P24941, BRD4 O60885; VHL P40337, CRBN Q96SW2) for separate binary candidates
+> (≤2 protein entities for the POI, ≤4 for the E3, ≥1 ligand), excluding the native → `deepternary_step3_input_candidates.json`
+> for human curation of the exact warhead/anchor binaries. Remaining harness (the heavy, iteration-worthy build):
+> fragment extraction (warhead substructure ↔ full-degrader atom map for `replace_to_unbound_coords`), the 6-file
+> input assembly per control, the multi-seed prediction run, DockQ vs sealed native, and the §4 input-sensitivity
+> sweep — to be built + validated on the DeepTernary CPU env (as Steps 1–2 were).
+
 **4. Input-sensitivity test.** For every blind control AND NR-V04, vary: receptor conformer; initial warhead pose;
 warhead attachment-vector rotamer; E3 binary structure; protonation/tautomer. Question is not "can 1/40 runs
 recover native?" but **"does the native-like architecture survive reasonable input uncertainty, and does the model
