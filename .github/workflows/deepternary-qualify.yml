@@ -53,7 +53,10 @@ jobs:
           pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
           pip install dgl==2.3.0 -f https://data.dgl.ai/wheels/torch-2.3/repo.html
           pip install -r requirements-cpu.txt
-          python -c "import torch, dgl, rdkit, mmengine; print('torch', torch.__version__, 'dgl', dgl.__version__, 'rdkit', rdkit.__version__)"
+          # rdkit 2023.9.3 (and other pinned wheels) are built against NumPy 1.x — force <2 LAST to avoid
+          # the "_ARRAY_API not found / compiled with NumPy 1.x cannot run in NumPy 2" crash.
+          pip install "numpy<2"
+          python -c "import numpy, torch, dgl, rdkit, mmengine; print('numpy', numpy.__version__, 'torch', torch.__version__, 'dgl', dgl.__version__, 'rdkit', rdkit.__version__)"
 
       - name: Download pretrained checkpoint + PROTAC unbound structures (release v1.0.0)
         run: |
