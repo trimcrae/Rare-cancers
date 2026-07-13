@@ -199,6 +199,53 @@ negative FUNCTIONAL control**, explicitly allowing generators to give it a simil
 
 ---
 
+## Step-3 EXECUTION RECIPE — frozen 2026-07-13, BEFORE any control is picked or any native pose is seen
+
+Pre-registered so the blind test stays blind (analogous to `nr4a3-abfe-repair-prereg.md` discipline). Fill the
+bracketed control IDs from `deepternary_blind_controls.json` once the audit run lands; do **not** alter any
+threshold below after seeing a native structure.
+
+**Control selection (from the audit's `shortlist_hint`).** Pick **2–3** entries that ALL satisfy: (a) NOT in the
+exclusion set; (b) `deposit_date` strictly after `deepternary_data_horizon.max_deposit_date_in_exclusion_set`;
+(c) a UniProt-classified E3 in our matrix scope (prefer ≥1 VHL + ≥1 CRBN to mirror Step 2); (d) ≥2 protein
+entities + a degrader-sized ligand. Record for each the exact native ternary PDB (kept SEALED) and the SEPARATE
+binary/apo PDBs used to build inputs. If <2 qualify, widen the search window or record the shortfall honestly —
+do NOT relax (a) or (b).
+
+**Blind input preparation (native pose never consulted).** For each control: (1) take the POI from a DIFFERENT
+PDB than the native ternary (apo, or bound to the warhead only); (2) take the E3 from a DIFFERENT PDB (apo, or
+bound to the E3 anchor only); (3) build the degrader molecule from its 2D chemistry (SMILES/CCD), NOT from the
+native bound conformer; (4) supply DeepTernary the two separated proteins + degrader in its "unbound" PROTAC
+protocol; (5) freeze predictions (all seeds) to disk BEFORE unsealing the native ternary. The native is used
+ONLY to compute DockQ after freezing.
+
+**Metrics (report ALL — reporting only best-of-N overstates operational performance).** Per control:
+PAE-selected top-1 DockQ; top-5 success; best-of-N DockQ (state N); rank of first acceptable pose (DockQ≥0.23);
+ligand + endpoint RMSDs; interface-contact recovery; clash counts; #/diversity of pose clusters.
+
+**Input-sensitivity matrix (§4), frozen.** For EACH control, run the prediction under each single-variable
+perturbation and report whether the native-like cluster survives (not "did 1/N seeds hit native"):
+| Axis | Variation |
+|---|---|
+| Receptor conformer (POI) | ≥2 defensible POI frames (alt PDB / alt chain / minimised) |
+| Warhead binary pose | re-dock the warhead into the POI pocket, take top-2 distinct poses |
+| Attachment-vector rotamer | rotate the exit-vector torsion to a 2nd low-energy rotamer |
+| E3 binary structure | ≥2 E3 frames (alt PDB of the same ligase) |
+| Protonation/tautomer | degrader protonation state at pH 7.0 vs a defensible alternate |
+Pass = the native-like architecture recurs across a MAJORITY of single-axis perturbations AND the model exposes
+residual uncertainty as multiple clusters (not one deceptively stable wrong answer). This maps to **adoption
+criteria 3 (prospective-like) + 4 (not catastrophically unstable)**.
+
+**Leakage re-check at reveal.** Before trusting any control, re-run the risk-#5 checks against the sealed native
+(homologues, VHL/target-pair priors, celastrol/scaffold analogues, curated benchmark files) — exclusion from the
+exclusion set is necessary but not sufficient.
+
+**Honest-null handling.** A control where blind prep is infeasible (no separate POI/E3 structure exists) is
+RECORDED as not-runnable, not silently dropped; DeepTernary failing a blind control is a real Step-3 result, not
+a bug to engineer around (cf. the 6BOY 0.06 failure in Step 2).
+
+---
+
 ## ⚠ NR-V04 REFRAMED — the largest required change
 
 NR-V04 has **no deposited NR4A1–NR-V04–VHL structure** (selective degradation + VHL/proteasome dependence + PLA/
