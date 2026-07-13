@@ -84,12 +84,21 @@ linker-length-matched pairs; ≥2 exit vectors; VHL + CRBN representatives; one 
 one **binary-favoured-but-ternary-unfavoured control**. Far more collaborator-actionable than a single generated
 ligand with an uncertain pose and a large conditional ABFE margin.
 
-## Gate that still governs everything (unchanged, and the reviewer agrees)
+## Gate that still governs everything (unchanged; NR-V04 REFRAMED per reviewer 2026-07-13)
 Before ANY prospective ternary ranking is trusted, the ternary workflow must pass the **retrospective, blinded
-NR-V04 control** (recover the known NR4A1-selective / NR4A2·NR4A3-spared outcome as *architecture concordance*,
-honestly caveated as descriptive-only). That validation is what the in-flight `nrv04-smoke-restart` work
-finishes. Prospective affinity/selectivity inference stays prohibited until the RBFE + physics-based ternary
-tools — not the co-fold — support it.
+NR-V04 control**. **CRITICAL CORRECTION (reviewer-AI, 2026-07-13):** NR-V04 has **NO experimentally-determined
+NR4A1–NR-V04–VHL ternary structure** — the Wang 2024 paper establishes selective NR4A1 degradation
+(sparing NR4A2/3), VHL/proteasome dependence, and ternary formation **functionally / by proximity (PLA + co-IP)**,
+with the NR4A1 ligand designed by docking. So NR-V04 is **NOT** a "reproduce the known ternary architecture"
+structural test, and it must **NOT** be described as *architecture concordance*. It is an **END-TO-END FUNCTIONAL
+retrospective gate**: whether the generated NR4A1/NR4A2/NR4A3 ensembles, passed **unchanged** through the physics +
+ubiquitination pipeline, recover the known **NR4A1-degraded / NR4A2·NR4A3-spared** outcome (with the VHL-inactive
+hydroxyproline epimer as a negative *functional* control — generators are explicitly **allowed** to give the epimer
+a similar geometry; demanding geometric discrimination would repeat the original co-fold category error).
+Boltz↔DeepTernary agreement on NR-V04 would be **inter-model agreement, not structural validation**. Prospective
+affinity/selectivity inference stays prohibited until the RBFE + physics-based ternary tools — not any
+generator — support it. Full qualification protocol:
+[research/modalities/deepternary-qualification-protocol.md](../modalities/deepternary-qualification-protocol.md).
 
 ## Explicitly de-prioritized (reviewer + repo agree)
 - Broad additional **de novo pocket generation** (demonstrated failure modes: unstable chemistry, winner's-curse
