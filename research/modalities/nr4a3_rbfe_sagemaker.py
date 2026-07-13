@@ -29,8 +29,14 @@ INSTANCE = os.environ.get("INSTANCE", "ml.g5.xlarge")
 # spot jobs → wall ≈ one leg. Window-sharding (fan a leg across GPUs, à la fep_sharding.py) is the right upgrade
 # IF we escalate to a 3-replicate campaign; it's deferred here (single replicate, not worth the OpenFE-MBAR-
 # combine re-engineering + shakeout risk).
-MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "30"))          # fits a serial 12-window complex morph leg
-MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "40"))        # run + generous spot capacity wait
+# INCIDENT 2026-07-13: the congeneric pilot complex leg HIT the 30 h max_run (~6-7/12 windows done) — the
+# "15-25 GPU-h" estimate above was ~2-3x optimistic; the leg actually paced ~4-5 h/window (iter times drifted
+# 8s->40s, likely A10G spot-hardware variability), i.e. ~50-60 h for 12 windows. It was NOT a crash/interruption
+# (a spot interrupt auto-resumes within max_wait; a max_run hit is terminal). Fix: size max_run to the OBSERVED
+# slow pace so a single dispatch finishes even a slow 12-window leg (bills actual time, so no cost if it finishes
+# early); checkpoint-per-window + the monitor's re-dispatch remain the belt-and-braces if it still stops.
+MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "60"))          # fits a SLOW serial 12-window complex leg (obs. ~50-60 h)
+MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "75"))        # run + generous spot capacity/auto-resume wait
 LIGAND_A = os.environ.get("RBFE_LIGAND_A", rb.LIGAND_A)          # reference (401)
 LIGAND_B = os.environ.get("RBFE_LIGAND_B", rb.LIGAND_B)          # lead (lo_m0_NCCO_gen)
 GIT_REF = os.environ.get("GIT_REF", "main")
