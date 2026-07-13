@@ -107,22 +107,43 @@ we have every input ready when it becomes relevant. Do not let it block the curr
 **The question.** This program is currently framed **Level 1 = NR4A3-selective** (degrade NR4A3, spare NR4A1/2).
 But the NR4A3 **LBD is IDENTICAL in the fusion and in wild-type NR4A3**, so an LBD-recruiting degrader also
 removes **wild-type NR4A3**. Before committing prospective design, revisit whether to aim instead for
-**Level 2 = fusion-exclusive** (spare wild-type NR4A3 too, and ideally NR4A1/2). Three tightening levels
-(from [`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md)):
-tumour-vs-normal (weak) → **NR4A3-selective (Level 1, us)** → **fusion-exclusive (Level 2, the prize)**.
+**Level 2 = fusion-exclusive** (spare wild-type NR4A3 too, and ideally NR4A1/2). **Tightening levels**
+(corrected 2026-07-13 per reviewer — note the tractable INTERMEDIATE):
+tumour-vs-normal (weak) → **NR4A3-selective (Level 1, current — co-degrades WT NR4A3)** →
+**fusion-PREFERENTIAL (Level 1.5 — a *single-arm* LBD–E3 degrader that removes the fusion MORE than WT NR4A3
+because the EWSR1 appendage changes the ternary interface, lysine presentation, localization + ubiquitination
+geometry; NOT a guaranteed molecular gate, but reachable WITHIN the current ternary program with no new ligand)**
+→ **fusion-EXCLUSIVE (Level 2, the prize — a hard molecular AND-gate; blocked at second-arm ligand validation)**
+(cf. [`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md)).
 
 **Why Level 2 could matter.** Wild-type NR4A3 is **tumour-suppressive** (combined NR4A1/NR4A3 loss is
 leukaemogenic — Mullican 2007; tumour-suppressor roles in HCC/breast/lymphoma — Safe & Karki 2021), so
 systemic co-degradation of WT NR4A3 is an **on-target liability**. Level 2 removes it → lowest-toxicity,
 truly tumour-specific.
 
-**Why Level 2 is harder (the crux).** Binary LBD binding **cannot** distinguish fusion from WT (identical site)
-— the *same wall* as paralogue selectivity. Fusion-exclusivity for a **degrader** must therefore come from a
-**coincidence ("AND-gate") mechanism**: arm 1 on the shared NR4A3 LBD + arm 2 on a **fusion-restricted** feature
-(the appended EWSR1 low-complexity/IDR domain or its condensate), each arm individually too weak, so only the
-chain presenting BOTH is engaged by avidity. Full feasibility analysis (avidity model, ~5–11× *binding* window,
-binding≠degradation, and the unsolved gate = **arm-2 IDR ligand does not yet exist**):
-[`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md).
+**Why Level 2 is harder (the crux) — CORRECTED 2026-07-13 (reviewer).** Binary LBD binding **cannot** distinguish
+fusion from WT (identical LBD) — the *same wall* as paralogue selectivity. **KEY CORRECTION: the EWSR1
+low-complexity (LC/IDR) domain is NOT itself fusion-restricted — wild-type EWSR1 also carries it.** What is
+fusion-specific is the **covalent adjacency *in cis*** of EWSR1-LC to the NR4A3-LBD on one polypeptide
+(`EWSR1-LC :: NR4A3-LBD`). So an EWSR1-LC binder *alone* would also grab normal EWSR1; fusion specificity can
+only come from **requiring both features in cis**. Hard fusion-exclusivity therefore needs a **trivalent
+degrader — NR4A3-LBD arm + EWSR1/junction arm + E3 recruiter** — each target-arm deliberately too weak alone, so
+avidity engages only the chain presenting both (precedent for two-sites-on-one-protein selectivity exists, but
+with *structured tandem domains*, not an IDR).
+- **The gate, stated narrowly:** **no validated, selective, cell-active, chemically-tractable ligand is currently
+  established for the retained EWSR1-LC segment (or the junction) suitable as a second degrader arm.** (YK-4-279 /
+  TK216 bind *recombinant* EWS::FLI1 and perturb its RNA-helicase-A interaction, but that does **not** establish a
+  transferable EWSR1-LC ligand, an LC epitope, or a qualified arm for EWSR1::NR4A3.) A cleaner-uniqueness second
+  arm could instead target the **exact fusion junction**, a **fusion-created neo-interface**, an **EWSR1-LC
+  conformation/condensate state**, or a **fusion-specific partner complex** — the junction gives the cleanest
+  molecular uniqueness, though breakpoint variation + disorder make it hard.
+- **Extra AND-gate failure mode (must be qualified):** even with two arms, the molecule could bind **WT NR4A3 and
+  WT EWSR1 as two separate proteins *in trans*** (especially inside transcriptional condensates), faking fusion
+  specificity. Qualification must demonstrate **K_eff(cis fusion) ≫ K_eff(WT NR4A3 + WT EWSR1 in trans)** via
+  linker reach, effective molarity, and geometric constraints.
+- Feasibility analysis (avidity model, ~5–11× *binding* window, binding≠degradation):
+  [`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md) (note: that paper's
+  "arm-2 target = fusion-restricted" wording is corrected by the *cis-adjacency* point above).
 
 **Key reassurance — Level 1 now does NOT foreclose Level 2.** The current warhead + ternary work **IS the
 foundation of the AND-gate's arm 1** (an NR4A3-LBD ternary binder + the validated ternary method transfer
@@ -158,6 +179,21 @@ that wastes current effort. Proceeding Level 1 is the shared prerequisite for ei
 
 **Default if unresolved at the gate:** proceed with the Level-1 warhead/ternary work (shared foundation), keep
 Level 2 open, and let inputs #1 (WT-loss tolerability) and #3 (arm-2 handle existence) drive the call.
+
+**Recommended framing (reviewer 2026-07-13) — keep TWO separate programs, don't conflate:**
+- **Current, tractable:** LBD–E3 degraders seeking **EWSR1::NR4A3-PREFERENTIAL** (Level 1.5), *not* fusion-exclusive,
+  degradation via ternary + ubiquitination geometry — reachable now, and a natural extension of the current ternary
+  workflow (model the fusion `EWSR1-LC::NR4A3-LBD` vs WT-NR4A3 ternary; no new ligand required). This upgrades the
+  honest ceiling of the current program from "NR4A3-selective (co-degrades WT)" toward "fusion-preferential" — to be
+  *tested*, not assumed.
+- **Future, fusion-exclusive:** discover + validate an **EWSR1/junction second-arm ligand**, then build a
+  coincidence-gated **trivalent** degrader. For a computational-only program this is **presently BLOCKED at ligand
+  validation** → present it as a **research hypothesis, NOT among synthesis-ready degrader claims.**
+
+**Canonical statement to reuse (do not drift from this):** *Binary NR4A3-LBD binding cannot distinguish
+EWSR1::NR4A3 from wild-type NR4A3. Ternary geometry might still produce fusion-PREFERENTIAL degradation, but hard
+fusion-EXCLUSIVE recognition would require a second cis-recognition event directed at the EWSR1 segment, the fusion
+junction, or another fusion-specific feature. No suitably validated second-arm ligand is currently available.*
 
 ## Explicitly de-prioritized (reviewer + repo agree)
 - Broad additional **de novo pocket generation** (demonstrated failure modes: unstable chemistry, winner's-curse
