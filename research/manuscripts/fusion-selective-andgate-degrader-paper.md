@@ -15,6 +15,21 @@
 
 ---
 
+> **⚠ CORRECTION / ERRATUM (2026-07-13, reviewer-AI) — read before the draft.** This draft repeatedly calls the
+> EWSR1 low-complexity (LC/IDR) domain a "**fusion-restricted** feature … present only in the chimera." **That is
+> imprecise and is corrected here:** wild-type EWSR1 also carries the N-terminal LC/transactivation domain. What is
+> genuinely fusion-specific is the **covalent adjacency *in cis*** of EWSR1-LC to the NR4A3-LBD on one polypeptide
+> (`EWSR1-LC :: NR4A3-LBD`), **not** the LC domain itself. The avidity/AND-gate logic below is unchanged and still
+> valid (it relies on each arm being individually weak), but two consequences must be read into it: (1) an EWSR1-LC
+> arm *alone* would also bind normal EWSR1 — specificity comes ONLY from requiring **both** sites in cis; (2) a new
+> dominant failure mode — the bivalent molecule binding **WT NR4A3 + WT EWSR1 as two separate proteins *in trans***
+> (especially in transcriptional condensates) — must be excluded by demonstrating **K_eff(cis fusion) ≫
+> K_eff(trans)** (linker reach / effective molarity / geometry). The blocking gate, stated narrowly: **no validated,
+> selective, cell-active, chemically-tractable EWSR1-LC (or junction) second-arm ligand currently exists** —
+> YK-4-279 / TK216 bind *recombinant* EWS::FLI1 but do **not** qualify as a transferable EWSR1-LC arm. Because of
+> this gate, the fusion-EXCLUSIVE degrader is a **research hypothesis, NOT a synthesis-ready claim.** Full corrected
+> treatment: [`nr4a3-degrader-strategy-ternary-first.md` → "DEFERRED DECISION — selectivity TARGET"](./nr4a3-degrader-strategy-ternary-first.md).
+
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma (EMC) is defined in the large majority of cases by an in-frame fusion
@@ -27,8 +42,10 @@ fusion-selective**: it also removes tumour-suppressive wild-type NR4A3, whose lo
 in HCC/breast/lymphoma [Mullican 2007; Safe & Karki 2021]. This manuscript designs the protein-level route
 to the feature the LBD degrader structurally cannot reach: **true fusion-exclusivity.** We exploit
 **coincidence detection (an "AND-gate")**. Arm 1 binds the shared NR4A3 LBD (the opened cryptic pocket of
-the companion paper); arm 2 binds a **fusion-restricted** feature — the EWSR1 low-complexity/transactivation
-domain (LC/IDR) or its phase-separated micro-environment, present only in the chimera. Each arm is chosen
+the companion paper); arm 2 binds the EWSR1 low-complexity/transactivation
+domain (LC/IDR) or its phase-separated micro-environment — a feature whose *fusion-specificity comes from its
+cis-adjacency to the NR4A3-LBD*, NOT from the LC domain being unique to the chimera (WT EWSR1 has it too; see
+Erratum). Each arm is chosen
 **deliberately too weak** to occupy its target alone. Only the fusion presents *both* features on one
 polypeptide, so once one arm engages, the second arm's high effective concentration (effective molarity,
 EM) drives bivalent, avidity-enhanced binding; wild-type NR4A3, seen by arm 1 only, stays largely unbound.

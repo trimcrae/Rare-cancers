@@ -67,6 +67,8 @@ _CAPS = {  # backend -> {gpu -> (vram_gb, approx_usd_per_hr)}   (usd = interrupt
     "salad":     {"rtx4090": (24, 0.20), "rtx3090": (24, 0.12), "rtx4080": (16, 0.15)},  # crowd-sourced, cheapest
     "modal":     {"l4": (24, 0.80), "a10g": (24, 1.10), "a100": (40, 2.10)},  # serverless premium, but auto-scales
                  #                                                              to zero (no idle) + free monthly credits
+    "gcp":       {"t4": (16, 0.11), "l4": (24, 0.20), "a100": (40, 1.10)},   # Compute Engine SPOT VMs; $300 trial
+                 #                                                            credit funds these (see catch below)
     "access":    {"a100": (40, 0.0), "a10g": (24, 0.0), "l40s": (48, 0.0)},     # NSF allocation -> $0
     "slurm":     {"a100": (40, 0.0), "any": (24, 0.0)},                          # self-hosted / institutional
     "mock":      {"any": (24, 0.0)},
@@ -211,6 +213,38 @@ class SaladBackend(Backend):
         raise NotImplementedError
 
 
+class GCPBackend(Backend):
+    """Google Compute Engine GPU VMs — funded by the $300 free-trial credit. NOT serverless: a raw GCE VM
+    **bills every second it is up**, so like the marketplaces it MUST self-terminate or it idles on the meter.
+    The guard is a VM that deletes ITSELF at job end: `gcloud compute instances delete <name> --zone <zone>`.
+    Name+zone come from the instance metadata server; a startup script exports them as GCP_INSTANCE_NAME/GCP_ZONE
+    so this static argv resolves. Auth is a SERVICE-ACCOUNT JSON key (NOT a Gemini/AI-Studio API key — a
+    different product) via GOOGLE_APPLICATION_CREDENTIALS. Two real catches (documented in cheap-gpu-plan.md):
+    (1) new accounts have GPU quota = 0 and Google blocks GPU-quota grants while on the free trial, so you must
+    upgrade to a paid (still credit-funded) account and request quota before any GPU VM launches; (2) use SPOT
+    (preemptible) VMs for the price in _CAPS — our per-unit checkpointing makes preemption safe. Best fit: the
+    $300 credit is the reserve for the few long terminal MD legs where L4/A100 pricing beats Modal's serverless
+    premium; keep Modal for free validation/triage."""
+    name = "gcp"
+
+    def self_terminate_cmd(self):
+        # delete THIS VM from inside it; startup script exports name/zone from the metadata server.
+        return ["gcloud", "compute", "instances", "delete",
+                os.environ.get("GCP_INSTANCE_NAME", "$GCP_INSTANCE_NAME"),
+                "--zone", os.environ.get("GCP_ZONE", "$GCP_ZONE"), "--quiet"]
+
+    def submit(self, spec: JobSpec) -> Handle:
+        if not (os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or os.environ.get("GCP_SA_KEY")):
+            raise RuntimeError("gcp backend needs a service-account JSON key "
+                               "(GOOGLE_APPLICATION_CREDENTIALS or GCP_SA_KEY) + a project with GPU quota.")
+        raise NotImplementedError(
+            "create a Spot GCE VM (accelerator + startup script running the command, then self_terminate_cmd) "
+            "via the Compute Engine API at integration time")
+
+    def status(self, handle):
+        raise NotImplementedError
+
+
 class ModalBackend(Backend):
     """Modal — SERVERLESS GPU (Python-native: decorate a function, .map() it over the work units). Per-second
     billing and it **auto-scales to zero the instant a call returns**, so there is NO idle-GPU risk by design —
@@ -259,7 +293,7 @@ class MockBackend(Backend):
 
 
 _REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend(),
-                                 SaladBackend(), ModalBackend()]}
+                                 SaladBackend(), ModalBackend(), GCPBackend()]}
 
 
 def get_backend(name: str) -> Backend:
@@ -273,7 +307,7 @@ def get_backend(name: str) -> Backend:
 def pick_cheapest(res: ResourceSpec, backends=None) -> str:
     """Return the name of the cheapest backend that can satisfy `res`. Free managed-HPC (access/slurm) wins
     when eligible; otherwise the cheapest marketplace. Ties broken by registration order."""
-    names = backends or ["access", "slurm", "salad", "vast", "runpod", "sagemaker"]
+    names = backends or ["access", "slurm", "salad", "gcp", "vast", "runpod", "sagemaker"]
     priced = []
     for n in names:
         caps = _CAPS.get(n, {})

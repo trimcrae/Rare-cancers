@@ -18,7 +18,9 @@ read it before making changes.
   do when each finishes if it's non-obvious, in the same line. **List ONLY actual tests/jobs — the real compute
   runs trimcrae cares about (SageMaker jobs, CI analysis/reduce/benchmark runs, subagents doing real work). Do
   NOT list your own internal wake mechanisms — background self-timers, pollers, heartbeat sleeps; those are how
-  YOU stay awake, not work trimcrae needs to track (trimcrae, 2026-07-11).** If no actual jobs are running, say
+  YOU stay awake, not work trimcrae needs to track (trimcrae, 2026-07-11). ALSO do NOT list SCHEDULED ROUTINES
+  (e.g. the weekly field-scan newsletter cron) — a schedule is not running compute; only list things actually
+  executing now (trimcrae, 2026-07-13).** If no actual jobs are running, say
   "Nothing in flight" in one line (even if you have a self-timer armed). This composes with rule #1 (ET 12-hour)
   and the "nothing needs your input" sign-off; it REPLACES long status narration — keep the board terse.
 - **★★ PRIMARY FOCUS (UPDATED 2026-07-11 PM, trimcrae + gate-AI — SUPERSEDES the atlas-anchor reframe from

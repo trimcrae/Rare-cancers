@@ -1,0 +1,46 @@
+name: Modal OpenMM-CUDA + S3-checkpoint smoke (last plumbing check before a real FEP leg)
+
+# Proves the three things a real FEP leg needs on Modal, cheaply (seconds on a T4, ~free):
+#   1. the OpenMM image builds on Modal, 2. OpenMM's CUDA platform runs on the Modal GPU,
+#   3. an OpenMM checkpoint round-trips through the existing AWS S3 bucket AND resumes.
+# Does NOT run a real RBFE leg (that's a substantial GPU run, confirmed with trimcrae first).
+# Needs repo secrets: MODAL_TOKEN_ID, MODAL_TOKEN_SECRET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bucket:
+        description: "S3 bucket for the checkpoint probe"
+        default: "sagemaker-us-east-2-646605541856"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -q modal boto3
+      - name: Modal OpenMM-CUDA + S3 checkpoint round-trip
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          S3_BUCKET: ${{ inputs.bucket }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$MODAL_TOKEN_ID" ]; then
+            echo "::error::Need MODAL_TOKEN_ID/SECRET + AWS_ACCESS_KEY_ID/SECRET repo secrets."; exit 1
+          fi
+          modal run research/modalities/modal_openmm_smoke.py

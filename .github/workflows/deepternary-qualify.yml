@@ -1,0 +1,132 @@
+name: DeepTernary qualification — Step 1 (software & provenance, CPU)
+
+# Reviewer-verdict Option A* qualification, Step 1: prove DeepTernary installs + reproduces a released
+# example on a FREE CPU runner (no GPU). Provenance frozen at a pinned commit. Protocol:
+# research/modalities/deepternary-qualification-protocol.md
+#
+# PUSH-TRIGGERED so it runs off THIS feature branch with no main dependency (the modalities-run.yml pattern).
+# Path-scoped so only edits to this workflow re-run it (each edit = an iteration of the CPU-dep shakeout).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-51wqw9]
+    paths:
+      - .github/workflows/deepternary-qualify.yml
+
+permissions:
+  contents: write   # publish eval log + diagnostics to a cache branch (readable via git, no MCP needed)
+
+concurrency:
+  group: deepternary-qualify
+  cancel-in-progress: false   # don't let a re-trigger cancel a real in-progress benchmark
+
+env:
+  DT_COMMIT: "827821dccca31a5918bd0355e2d6bf70c072b6dd"   # frozen provenance (2025-11-29), Apache-2.0
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Clone DeepTernary at frozen commit (provenance)
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP"
+          git clone https://github.com/youqingxiaozhua/DeepTernary.git dt
+          cd dt
+          git checkout "$DT_COMMIT"
+          echo "=== PROVENANCE ==="; git rev-parse HEAD; git log -1 --format='%ci %s'
+          head -3 LICENSE
+
+      - name: Install CPU deps (swap the CUDA-pinned torch/dgl for CPU wheels)
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          python -m pip install --upgrade pip
+          # strip the CUDA-pinned lines; install CPU torch + CPU dgl explicitly, then the rest.
+          grep -viE 'cu121|^torch==|^dgl==|--extra-index-url|--find-links' requirements.txt > requirements-cpu.txt
+          pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install dgl==2.3.0 -f https://data.dgl.ai/wheels/torch-2.3/repo.html
+          pip install -r requirements-cpu.txt
+          # rdkit 2023.9.3 (and other pinned wheels) are built against NumPy 1.x — force <2 LAST to avoid
+          # the "_ARRAY_API not found / compiled with NumPy 1.x cannot run in NumPy 2" crash.
+          pip install "numpy<2"
+          python -c "import numpy, torch, dgl, rdkit, mmengine; print('numpy', numpy.__version__, 'torch', torch.__version__, 'dgl', dgl.__version__, 'rdkit', rdkit.__version__)"
+
+      - name: Download pretrained checkpoint + PROTAC unbound structures (release v1.0.0)
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          wget -q https://github.com/youqingxiaozhua/DeepTernary/releases/download/v1.0.0/output.zip
+          unzip -q output.zip
+          echo "=== output tree (depth 2) ==="; find output -maxdepth 2 -type d | head -40
+          ls output/protac22/5T35_H_E_759/ || echo "5T35 example dir not found — will adapt"
+
+      # STEP 2 — installation-reproduction controls: DockQ vs native on a SOURCED 3-VHL + 2-CRBN subset
+      # of DeepTernary's own protac22 benchmark (labelled software-reproduction, NOT independent validation).
+      # SEED_NUM reduced 40->16 for CPU-CI feasibility (preliminary best-of-16 + PAE-top-1; note the count).
+      - name: Step 2 — subset benchmark (DockQ, 5 complexes, CPU)
+        continue-on-error: true
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          # --- diagnostics preamble captured to eval.log (so the committed log explains any fast exit) ---
+          { echo "=== DIAGNOSTICS $(date -u) ==="; echo "nproc=$(nproc)"; python --version;
+            echo "-- key pkgs --"; pip list 2>/dev/null | grep -iE 'torch|dgl|rdkit|numpy|mmengine|mmcv' || true;
+            echo "-- output/checkpoints --"; ls -la output/checkpoints 2>/dev/null || echo "MISSING output/checkpoints";
+            ls output/checkpoints/PROTAC 2>/dev/null || echo "MISSING output/checkpoints/PROTAC";
+            echo "-- output/protac22 count --"; ls output/protac22 2>/dev/null | wc -l || echo "MISSING output/protac22";
+          } | tee eval.log
+          # override the test list with the E3-sourced subset (config points at data/PROTAC/protac22.txt)
+          printf '%s\n' 5T35_H_E_759 6HAX_B_A_FWZ 6HR2_B_A_FWZ 6BOY_B_C_RN6 6BN7_B_C_RN3 > data/PROTAC/protac22.txt
+          echo "=== subset test list ===" | tee -a eval.log; cat data/PROTAC/protac22.txt | tee -a eval.log
+          for c in $(cat data/PROTAC/protac22.txt); do ls output/protac22/$c/ >/dev/null 2>&1 && echo "OK $c" || echo "MISSING $c"; done | tee -a eval.log
+          # diagnose config location (the released checkpoint dir nests the config in a timestamped subdir)
+          { echo "=== checkpoint dir layout ==="; find output/checkpoints/PROTAC -maxdepth 3 | head -40; } | tee -a eval.log
+          # FIX 1: predict_cpu.py hardcodes device='cuda' (line 733) -> patch to cpu for the CPU runner
+          sed -i "s/^    device = 'cuda'/    device = 'cpu'/" predict_cpu.py
+          # CPU-feasible seed count
+          sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
+          echo "=== predict_cpu start $(date -u) ===" | tee -a eval.log
+          # FIX 2: pass the repo PROTAC config explicitly (auto-detect fails on the nested layout); the repo
+          # config uses complex_names_path=data/PROTAC/protac22.txt so the subset override above applies.
+          python predict_cpu.py output/checkpoints/PROTAC \
+            --config deepternary/configs/protac.py \
+            --checkpoint output/checkpoints/PROTAC/checkpoint.pth 2>&1 | tee -a eval.log | tail -140
+          echo "=== predict_cpu end $(date -u) ===" | tee -a eval.log
+
+      - name: Step 2 — report DockQ panel
+        continue-on-error: true
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          echo "=== DockQ / metric lines from eval.log ==="
+          grep -iE "dockq|rmsd|average|acceptable|best|rank|--[0-9A-Z]" eval.log | tail -80 || echo "no metric lines"
+          echo "=== any results dirs ==="; ls -R results 2>/dev/null | head -60 || echo "no results dir"
+
+      # Publish the eval log + a summary to a cache branch so it is readable via `git fetch` WITHOUT the
+      # github MCP (the repo's results-to-branch pattern). Runs even if the benchmark step failed.
+      - name: Publish results to cache branch (MCP-independent readout)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          cd "$RUNNER_TEMP"
+          URL="https://x-access-token:${GH_TOKEN}@github.com/trimcrae/rare-cancers.git"
+          rm -rf pub
+          git clone --depth 1 --branch deepternary-qualify-cache "$URL" pub 2>/dev/null \
+            && cd pub \
+            || { git clone --depth 1 "$URL" pub && cd pub && git checkout --orphan deepternary-qualify-cache && git rm -rf . >/dev/null 2>&1 || true; }
+          OUT=research/modalities/deepternary_qualify_out
+          mkdir -p "$OUT"
+          cp "$RUNNER_TEMP/dt/eval.log" "$OUT/eval.log" 2>/dev/null || echo "no eval.log produced" > "$OUT/eval.log"
+          { echo "run=$GITHUB_RUN_ID at $(date -u)"; echo "--- results tree ---"; ls -R "$RUNNER_TEMP/dt/results" 2>/dev/null | head -100 || echo "no results dir"; \
+            echo "--- summary CSVs ---"; find "$RUNNER_TEMP/dt/results" -name 'summary_*.csv' -exec cat {} \; 2>/dev/null || true; } > "$OUT/summary.txt"
+          git config user.email "noreply@anthropic.com"; git config user.name "claude"
+          git add -A && git commit -m "deepternary qualify output (run $GITHUB_RUN_ID)" && git push origin HEAD:deepternary-qualify-cache

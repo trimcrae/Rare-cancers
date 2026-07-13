@@ -17,6 +17,14 @@ targeting something the fusion has that **neither parent** does: the mRNA juncti
 neopeptide, or the fusion-emergent protein behaviour (the appended EWS low-complexity domain and its
 condensate / coactivator activity).
 
+> **LIVE DEFERRED DECISION (2026-07-13):** the active ternary-first **NR4A3-degrader** program (Level 1,
+> spares NR4A1/2 but co-degrades WT NR4A3) carries an explicit, deferred choice about whether to escalate to
+> **Level 2 (fusion-exclusive)** — decided at its post-NR-V04-validation / pre-design gate. The full input
+> checklist (esp. *quantifying* the WT-NR4A3-co-degradation liability, and the arm-2 IDR-ligand gate that
+> makes a Level-2 *degrader* buildable-or-not) lives in
+> [`nr4a3-degrader-strategy-ternary-first.md` → "DEFERRED DECISION — selectivity TARGET"](./nr4a3-degrader-strategy-ternary-first.md).
+> That decision may route Level 2 to the **ASO** (paper 1) rather than the AND-gate degrader (paper 3).
+
 ## The five manuscripts
 1. **RNA — fusion-junction ASO / siRNA** → [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)
 2. **Immune — fusion-junction neoantigen** (vaccine / TCR-T / soluble-TCR) → [`fusion-junction-neoantigen-paper.md`](./fusion-junction-neoantigen-paper.md)
