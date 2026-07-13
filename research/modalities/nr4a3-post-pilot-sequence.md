@@ -52,11 +52,15 @@ CPU BOTTLENECK, not heavy MD — the A10G is IDLE ~65% of the run.** 90-min wind
 0%-GPU / 100%-CPU stretch = **per-window single-threaded setup** (OpenFF ligand parameterization / charge gen /
 hybrid-system build — the tracelog's "Generating residue template using openff-2.1.1"), repeated for each of 12
 windows. **Consequences:** (1) we're paying for a mostly-idle GPU; (2) `g5.2xlarge` will NOT help — the bottleneck
-is SINGLE-THREADED, so more vCPUs at the same per-core speed do nothing. **FIX (before A3, could cut leg cost/time
-~2-3×):** parameterize the ligands/system ONCE and reuse across all 12 windows (cache the OpenFF-parameterized
-system) instead of re-doing it per window; verify minimization is on the GPU, not CPU. Next: pinpoint the exact
-CPU hog (parameterization vs minimization vs MBAR) in `nr4a3_rbfe.py` and cache it. This is a real efficiency win
-that improves the whole RBFE track's economics (A1/A3), so do it before fanning out A3.
+is SINGLE-THREADED, so more vCPUs at the same per-core speed do nothing. **MECHANISM (confirmed in `nr4a3_rbfe.py`
+`_protocol`):** OpenFE `RelativeHybridTopologyProtocol` makes each of the 12 λ-windows an independent ProtocolUnit
+that RE-charges (NAGL) + RE-builds the hybrid system → 12× the CPU setup. **FIX (before A3; est. ~2-3× cheaper/
+faster legs):** (a) compute the two ligands' partial charges ONCE and attach them to the `SmallMoleculeComponent`s
+so every window reuses them (OpenFE skips regen when charges are present) — kills the repeated NAGL cost; (b) check
+whether the per-window hybrid-system build / minimization is the residual CPU hog and whether it's cacheable / on
+GPU. **Validate with a 1-window GPU smoke re-running `sm_gpu_util.py` (GPU-idle fraction should drop) BEFORE the A3
+fleet.** Not blocking: the current leg finishes as-is (gives the `reduce`); A1 can run unoptimized (~$11-18/leg) or
+wait for the fix; the fix's payoff is at A3 scale, so land + validate it before fanning out A3.
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
