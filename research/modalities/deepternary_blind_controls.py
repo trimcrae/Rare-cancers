@@ -322,17 +322,28 @@ def source_input_structures(controls: list, exclude_native: set) -> dict:
         ]}
         req = {"query": query, "return_type": "entry",
                "request_options": {"paginate": {"start": 0, "rows": 60},
-                                   "results_content_type": ["experimental"],
-                                   "sort": [{"sort_by": "rcsb_accession_info.deposit_date", "direction": "desc"}]}}
+                                   "results_content_type": ["experimental"]}}
         url = "https://search.rcsb.org/rcsbsearch/v2/query?json=" + urllib.parse.quote(json.dumps(req))
         try:
             res = json.loads(_get(url))
+        except urllib.error.HTTPError as e:
+            body = ""
+            try:
+                body = e.read().decode()[:400]
+            except Exception:  # noqa: BLE001
+                pass
+            sys.stderr.write(f"[src:{label}] {uniprot} HTTP {e.code}: {body}\n")
+            return []
         except Exception as e:  # noqa: BLE001
             sys.stderr.write(f"[src:{label}] {uniprot} failed: {e}\n")
             return []
         ids = [r["identifier"].upper() for r in res.get("result_set", [])
                if r["identifier"].upper() not in exclude]
         time.sleep(0.4)
+        # sort by deposition date (desc) via the fast batched date lookup, then annotate the top 12
+        if ids:
+            dd = deposit_dates(ids)
+            ids.sort(key=lambda p: dd.get(p, {}).get("deposit_date", ""), reverse=True)
         # annotate the top handful with ligands so a human can pick the warhead/anchor binary
         meta = entry_metadata(ids[:12]) if ids else {}
         return [{"pdb": pid, "deposit_date": meta.get(pid, {}).get("deposit_date"),
