@@ -2,9 +2,19 @@
 
 **Purpose.** This program's bottleneck is *methods*, not ideas: several routes unlock the
 moment a specific in-silico capability becomes usable. This file is the **watch config +
-trigger table** (what to look for, and what to do when it appears). The periodic search
-itself is automated — `scripts/method-watch.mjs`, run monthly by
-`.github/workflows/method-watch.yml` — which emits a dated **digest**.
+trigger table** (what to look for, and what to do when it appears).
+
+**Two automated layers now run this watch (trimcrae, 2026-07-13):**
+1. **Weekly AI newsletter → EMAILED to trimcrae** (the user-facing one). Routine
+   `trig_01QVwizuA4a9VfSLeCHDayPm` ("Weekly NR4A3 degrader field-scan"), cron `0 12 * * 1`
+   (**Mondays 8:00 AM ET**), spawns a fresh session that web-searches the past week (open-source
+   methods, NR4A/EMC papers, degrader methodology), writes a curated newsletter, **emails it**,
+   and appends it to `research/field-scan-log.md` on branch `field-scan-log`. This is the thing
+   you actually read. Manage via the claude-code-remote trigger tools (list/update/delete).
+2. **Monthly mechanical digest** (raw feed). `scripts/method-watch.mjs` via
+   `.github/workflows/method-watch.yml` (cron `0 7 1 * *`) — a keyword scan of EBI/GitHub that
+   commits a dated digest to the `method-watch-cache` branch. NOT emailed, NOT synthesized;
+   it's the comprehensive raw-hit backstop the weekly newsletter can consult, not a deliverable.
 
 **Operating assumption (trimcrae, standing).** In-silico drug-discovery capability is on a
 **steep, rising frontier** — the limits of today are not the limits in 6–12 months — and this is
@@ -37,7 +47,7 @@ below, do the paired action and open the follow-up; otherwise no action.
 | When this capability becomes usable | …do this |
 |---|---|
 | virtual-cell / perturbation model predicts held-out **knockdown phenotype** | test EMC **EWSR1::NR4A3 fusion-dependence** — the degrader/ASO make-or-break |
-| open **AF3-class ternary-complex** prediction | model **NR4A3–PROTAC–E3** degradability geometry |
+| open **AF3-class ternary-complex** prediction **[⚠ PARTIALLY FIRED 2026-07-13]** — open tools now exist: **DeepTernary** (SE(3)-equivariant GNN, GitHub youqingxiaozhua/DeepTernary, "TernaryDB" ~20k structures — verify that set; PDB has few true PROTAC ternaries), **FKSFold** (Feynman–Kac-steered diffusion for molecular-glue ternaries) | model **NR4A3–PROTAC–E3** degradability geometry → **ACTION: evaluate DeepTernary as a ternary-GENERATION axis for the matrix stage** (free, new evidence axis per breadth-first). Caveat: these predict ternary *structure*, NOT reliable *cooperativity ranking* — the ranking crux (NR-V04 control) is unaffected; use them to seed poses, not to rank selectivity |
 | reliable **structure-based generative + selectivity** scoring | design the **NR4A3 warhead** at the `nr4a-selectivity.json` divergent handles |
 | robust **cryptic-pocket** prediction | re-grade the NR4A3 LBD **undruggability** prior without GPU MD |
 | **cheap generative conformational-ensemble** model (BioEmu / AlphaFlow / subsampled-MSA AlphaFold) **validated against known cryptic pockets** — i.e. it recovers CryptoSite/PocketMiner benchmark sites without GPU-days of MD | **(a)** re-grade the NR4A3 LBD cryptic-pocket ensemble at near-zero cost as a cross-check on the metadynamics; **(b)** flips the **cryptic-pocket druggability atlas for neglected targets** (`IDEAS.md` Platform/vision #4) from focused-target-class-only to **proteome-scale feasible** — the per-target "open the pocket" step collapses from GPU-days to pennies. Integrity guardrail: a cheap ensemble is a hypothesis generator; a druggable-pocket claim still needs the fpocket/energetics gate, and each atlas entry stays an unvalidated, confidence-calibrated hypothesis benchmarked on held-out known cryptic sites |
@@ -223,3 +233,18 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
 - **[2026-06-24] Virtual-cell target discovery warming up** — *"Discovery of candidate therapeutic
   targets with Geneformer"* (MED/42026145, 2026-04). Not yet a held-out-knockdown predictor, but the
   capability behind the EMC fusion-dependence trigger is maturing; keep watching. Status: **watch**.
+
+## Open-source landscape snapshot (2026-07-13, web scan)
+
+The state-of-the-art we can actually RUN (closed IsoDDE / "AlphaFold 4" is inaccessible, so it does not
+count). Captured so a future session doesn't re-derive it; the weekly newsletter keeps it current.
+- **Co-fold / structure (generation):** **Boltz-2** (MIT, open, affinity head — we already use it);
+  **Protenix** (ByteDance, v1 Feb 2026, **Apache-2.0**, claims >AF3 — benchmark vs Boltz);
+  **Chai-1** (drug-opt, semi-open); **OpenFold3** (fully-open AF3 reimpl).
+- **Ternary / degrader (generation):** **DeepTernary** (open GNN, SOTA ternary structure — evaluate as a
+  generation axis); **FKSFold** (glue-ternary diffusion). Both predict *structure*, not cooperativity ranking.
+- **Binary affinity / FEP (warhead):** **OpenFE** (MIT RBFE, ~commercial accuracy, 1700+ ligands — we use it);
+  **FEP-SPell-ABFE** (open ABFE); ML+active-learning-FEP for cost.
+- **Honest gap vs closed IsoDDE:** no OPEN model yet gives FEP-level affinity *without* a starting
+  structure; Boltz-2's affinity head is the closest open analog but not validated to that bar. And nothing
+  open solves *ternary cooperativity/selectivity ranking* — the crux the NR-V04 control gates.
