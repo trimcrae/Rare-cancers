@@ -69,6 +69,13 @@ jobs:
           set -eo pipefail
           VM="gcp-smoke-${GITHUB_RUN_ID}"
           echo "VM=$VM" >> "$GITHUB_ENV"
+          # resolve a CURRENT Deep-Learning-VM GPU image family (names churn: common-cuXXX-debianYY)
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'gpu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          echo "using DLVM image family: ${IMG_FAMILY:-<none-found>}"
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no Deep-Learning-VM GPU image family found"; exit 1; }
           cat > /tmp/startup.sh <<'SS'
           #!/bin/bash
           echo "=== GCP-SMOKE start $(date -u) ==="
@@ -80,7 +87,7 @@ jobs:
             --zone="$ZONE" --machine-type="$MACHINE" \
             --provisioning-model=SPOT --instance-termination-action=DELETE \
             --maintenance-policy=TERMINATE \
-            --image-family=common-cu124-debian-11 --image-project=deeplearning-platform-release \
+            --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
             --boot-disk-size=50GB --no-restart-on-failure \
             --metadata-from-file=startup-script=/tmp/startup.sh \
             --metadata=install-nvidia-driver=True
