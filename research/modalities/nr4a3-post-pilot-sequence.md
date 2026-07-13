@@ -10,6 +10,16 @@ positive CONTROL**, not the target. We recover its NR4A1-over-NR4A2/3 *degradati
 structure → functional recovery, not structural replication) to **validate** the ternary method, then design
 NR4A3-selective degraders. NR4A2 = primary anti-target gate; NR4A1 provisional.
 
+**★ PROVIDER POLICY (trimcrae, 2026-07-13 — no exceptions).** Wiring any harness to any provider via
+`gpu_backend` is FREE engineering; real cloud $ is the only cost. Therefore **burn free credits FIRST for EVERY
+GPU run regardless of size — Modal → GCP $300 → Oracle $300 → only then paid** (Vast/RunPod/AWS). There is NO
+"saving credits for the expensive fleets" — holding free credits while paying is pure waste. AWS is used ONLY
+to (a) finish a job already checkpointed there (killing it to move wastes progress, not money), or (b) a run
+that genuinely needs an AWS-only capability. So all of A1/A2/A3/B1/B2/B3 below default to **Modal** (then the
+waterfall); the current in-flight pilot finishes on AWS spot because it is already running + checkpointed.
+Confirm-before-launch still applies to the EXPENSIVE fleets (A3, B3), but the recommended provider there is
+Modal/free-credits, not AWS.
+
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
 only_legs=solvent,complex-nr4a3, receptor_prefix=nr4a3-congeneric-dock/congeneric-poses2-ckpt).
