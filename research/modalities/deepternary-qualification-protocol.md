@@ -102,6 +102,22 @@ example** before any scientific evaluation.
 > 0.10). Install + released-example reproduction confirmed. **Caveat:** `pred_p2_rmsd` is DeepTernary's *internal
 > surrogate*, NOT DockQ-vs-crystal — that (+ PAE-top-1 vs best-of-N) is **Step 2** (public crystal controls).
 
+> **STEP-2 MECHANICS MAPPED (2026-07-13, from the frozen clone) — ready to build the subset run:**
+> - Benchmark test list = **`data/PROTAC/protac22.txt`** (22 complexes, IDs = `PDB_chainP1_chainP2_lig`, e.g.
+>   `5T35_H_E_759`, `6HR2_B_A_FWZ`, `6W8I_D_A_TKY`, `7KHH_C_D_WEP`, `7Q2J_C_D_8KH`, …). Full list captured in
+>   session notes.
+> - `predict_cpu.py <work_dir>` reads that list, runs **`predict_one_unbound`** (PROTAC) at **SEED_NUM=40**, and
+>   **computes DockQ per seed** via `DockQ/dockq_util.cal_dockq` → returns `fnat, irms, Lrms, DockQ` plus
+>   `pred_p2_rmsd` (the PAE surrogate), `gt_p2_rmsd`, `sm_rmsd`, `lig_rmsd`. Results are **sorted by
+>   `pred_p2_rmsd`** → this gives the **PAE-selected top-1** AND the **best-of-N** the reviewer wants both of.
+>   Supports `multiprocessing.Pool(THREAD_NUM)` → use runner cores.
+> - **Runtime reality:** 22×40 seeds on CPU is impractical (~hours-to-15h) → **MUST subset to the reviewer's
+>   4–6 (≥2 VHL + ≥2 CRBN)** and/or thread it + bump the job timeout.
+> - **⚠ INTEGRITY GATE before launch:** the ≥2-VHL + ≥2-CRBN split needs **reliable E3 annotation per PDB — do
+>   NOT guess/fabricate labels.** Confident VHL anchors: 5T35 (BRD4–MZ1–VHL), 6HAX/6HAY/6HR2 (SMARCA2–VHL). CRBN
+>   members must be **sourced** (paper SI / PDB) before use. NEXT ACTION: source E3 labels → subset test list →
+>   run with THREAD_NUM + raised timeout → capture the full metric panel below.
+
 **2. Installation-reproduction controls (label as SOFTWARE-REPRODUCTION, not independent validation).** Use
 **4–6 public crystal ternaries**: **≥2 VHL, ≥2 CRBN**, preferably +1 other E3 class if it may enter the matrix; mix
 rigid and difficult linker/interface geometries. (May overlap DeepTernary's 22-structure benchmark / "unbound"
