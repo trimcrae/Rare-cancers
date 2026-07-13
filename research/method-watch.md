@@ -248,3 +248,21 @@ count). Captured so a future session doesn't re-derive it; the weekly newsletter
 - **Honest gap vs closed IsoDDE:** no OPEN model yet gives FEP-level affinity *without* a starting
   structure; Boltz-2's affinity head is the closest open analog but not validated to that bar. And nothing
   open solves *ternary cooperativity/selectivity ranking* — the crux the NR-V04 control gates.
+
+## 🔄 Auto-captured (weekly field-scan)
+
+Appended automatically by the weekly field-scan Routine (and manual scans). Items here are NEW methods/tools/
+triggers not yet integrated into the curated sections above — review + fold in. Dated + sourced; no fabrication.
+
+- **2026-07-13 — Ternary/glue cooperativity FEP prior art (Track B benchmark set).** JCTC `5c00736`
+  (induced-PPI + cooperative-solvation decomposition, pathway-independent) and JCTC `5c00064` (glue
+  cooperativity vs experiment). Direct prior art our ΔG_coop method must cite + benchmark against.
+  https://pubs.acs.org/doi/10.1021/acs.jctc.5c00736 · https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12159975/
+- **2026-07-13 — IntFold (arXiv 2507.02025).** Controllable co-folding foundation model — add to the
+  breadth-first architecture-proposal generator list (alongside Boltz-2, Protenix, DeepTernary); never a ranker.
+  https://arxiv.org/pdf/2507.02025
+- **2026-07-13 — Boltz 2.1 is closed-source but API-ACCESSIBLE.** Not ruled out: usable via the Boltz-hosted
+  API (inference-only). Open Boltz-1/-2 suffice for our co-fold role; recommend the 2.1 API (not self-hosting)
+  only if a fast affinity pre-filter is ever wanted — physics stays the ranker. https://rowansci.com/tools/boltz-2
+- **2026-07-13 — Independent Boltz-2 reliability eval (arXiv 2603.05532).** Strong binary classifier, weak
+  quantitative ranking — reinforces "generator scores never enter S_d." https://arxiv.org/html/2603.05532v1

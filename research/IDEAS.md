@@ -229,3 +229,28 @@ drug**; the medical-integrity labeling discipline gets MORE important as this go
    classic scope-expansion that quietly eats months meant for the EMC lead program — scope now, build only once
    the degrader + ASO preprints are posted. *(An orthogonal PocketMiner cross-check on the NR4A3 LBD itself is
    being run now as a paper-strengthening step — task #15 — independent of this atlas idea.)*
+
+## 🔄 Auto-captured field-scan advances (review + integrate into the board above)
+
+Appended automatically by the weekly field-scan Routine (and manual scans). Items here are NEW routes/advances
+not yet integrated into the curated route board above — review + fold in. Dated + sourced; no fabrication.
+These are unvalidated leads with the same medical-integrity guardrail as the rest of the board.
+
+- **2026-07-13 — ★ NEW candidate route: bivalent fusion-TF "rewiring" / TCIP (Transcriptional Chemical-Induced
+  Proximity).** Bivalent small molecules that *co-opt* a tumour-specific fusion TF (recruit a transcriptional
+  effector) rather than degrading it — demonstrated on **EWSR1::FLI1** in Ewing sarcoma. Directly conceptually
+  transferable to **EWSR1::NR4A3** (a fusion TF); a small-molecule route distinct from the LBD degrader and the
+  ASO. ⚠ may warrant a new row on the route board — for human review.
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC12851799/
+- **2026-07-13 — Fusion-junction neoantigen immunotherapy: external validation for the (currently "hard")
+  fusion-junction TCR/ImmTAC idea.** **Tecelra (afami-cel)** got FULL FDA approval for synovial sarcoma (age
+  ≥12; ASCO 2026 update) — first engineered TCR-T for a fusion-driven sarcoma; plus fusion-derived public-
+  neoantigen TCRs for **SYT-SSX** (synovial) and **EWSR1-WT1** (DSRCT) show fusion-junction TCRs CAN work in
+  other FET/fusion sarcomas. Raises the prior on an EWSR1::NR4A3-junction TCR/ImmTAC (still gated by the weak-
+  junction-pHLA problem noted on the board). https://www.mskcc.org/news/immunotherapy-clinical-trial-shows-promise-for-treating-rare-sarcomas
+  · https://aacrjournals.org/cancerres/article/84/6_Supplement/6/738983 · https://pmc.ncbi.nlm.nih.gov/articles/PMC11821884/
+- **2026-07-13 — ASO delivery advances (relevant to the fusion-junction ASO route's delivery gate).**
+  Imaging-assisted tumour-targeted ASO delivery (https://pmc.ncbi.nlm.nih.gov/articles/PMC11503958/),
+  MOF-nanoparticle ASO delivery (https://pubmed.ncbi.nlm.nih.gov/41712689/), and **AZD8701** (FOXP3 ASO) in a
+  Phase-I solid-tumour trial — clinical precedent for systemic ASO in solid tumours
+  (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11995004/). Chip away at the ASO route's one remaining gate.
