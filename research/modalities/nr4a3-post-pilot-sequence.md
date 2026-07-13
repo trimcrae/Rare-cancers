@@ -20,18 +20,24 @@ Provider facts + budgets (2026-07-13):
 - **Modal** — wired + validated, but **NO spot tier** (per-second ON-DEMAND, ~3× AWS-spot/hr) and only **$30
   free credit**. → **Reserve Modal for cheap validation/smokes + single small legs.** RULE: **never launch a run
   on Modal projected to exceed $30** (forecast from the pilot `reduce`'s calibrated `unit_gpu_h` BEFORE launch).
-- **GCP preemptible/spot L4** — the **cheapest** option AND the big **$300** credit → the **PRIMARY workhorse**
-  for the actual RBFE legs + fleets. **Quota APPROVED (2026-07-13)**: 4× L4 + 4× T4 spot, us-central1 (→ up to
-  4 concurrent L4 spot; A1's 2 legs fit easily). The GCP Compute-Engine adapter exists (`gpu_backend`) but was
-  parked → **validate-first: a smoke / single-shard shakeout on GCP before the real legs** (per the
-  single-shard-first rule).
+- **GCP preemptible/spot L4** — the **cheapest** option AND the big **$300** credit → intended **PRIMARY
+  workhorse** for the RBFE legs + fleets. **OUR SIDE FULLY VALIDATED 2026-07-13:** keyless **Workload Identity
+  Federation** auth (the org policy `iam.disableServiceAccountKeyCreation` blocks SA JSON keys, so WIF, not a
+  key), `gcp-smoke.yml`, dynamic DLVM image lookup, VM provision command + teardown all pass. **BLOCKED on GCP
+  quota:** the global `GPUS_ALL_REGIONS` quota is **0** and Google **DENIED** the increase (2026-07-13) because
+  the project/billing account is brand-new — "wait 48h and resubmit, or until the billing account has history."
+  → **Action: resubmit the `GPUS_ALL_REGIONS` request ~2026-07-15.** Until granted, GCP GPU is unavailable; the
+  moment it lands, GCP just runs (everything else is ready). WIF provider = `projects/878095411563/locations/
+  global/workloadIdentityPools/github-pool/providers/github-provider`; SA = `gpu-runner@project-a7ebde30-e2ed-
+  4b8d-9a9.iam.gserviceaccount.com` (both non-secret, hardcoded in `gcp-smoke.yml`).
 - **Vast** (key staged) / **Salad** (cheapest bulk) — spot-like, for bulk once needed.
 - **Oracle $300** — later in the waterfall.
 
-**Effective routing:** cheap smokes/single-shard shakeouts → **Modal** ($30, don't exceed). Real RBFE legs +
-all fleets → **GCP spot L4** (cheapest + $300 credit). So **A1 (both NR4A2 + NR4A1 legs) → GCP spot L4**
-(~$7–14 of the $300); **B1 smoke → Modal** (or GCP; trivial). Confirm-before-launch still applies to the
-EXPENSIVE fleets (A3, B3) — but the recommended provider there is now GCP spot L4, not AWS.
+**Effective routing (2026-07-13, while GCP quota is pending resubmit):** cheap smokes → **Modal** ($30, don't
+exceed). **A1 near-term:** NR4A2 leg (pilot-first) → **Modal** (~$10–27, fits $30); NR4A1 leg → **GCP spot L4
+once quota lands** (~2+ days), else **Vast** (key staged). **B1 smoke → Modal.** Once GCP quota is granted it
+becomes the primary workhorse (cheapest + $300) for A3/B3 and any re-runs. Confirm-before-launch still applies
+to the EXPENSIVE fleets (A3, B3).
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
