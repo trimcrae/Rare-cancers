@@ -1,4 +1,4 @@
-=== DIAGNOSTICS Mon Jul 13 10:35:58 UTC 2026 ===
+=== DIAGNOSTICS Mon Jul 13 10:40:49 UTC 2026 ===
 nproc=4
 Python 3.10.20
 -- key pkgs --
@@ -32,7 +32,19 @@ OK 6HAX_B_A_FWZ
 OK 6HR2_B_A_FWZ
 OK 6BOY_B_C_RN6
 OK 6BN7_B_C_RN3
-=== predict_cpu start Mon Jul 13 10:35:58 UTC 2026 ===
+=== checkpoint dir layout ===
+output/checkpoints/PROTAC
+output/checkpoints/PROTAC/last_checkpoint
+output/checkpoints/PROTAC/20240301_081911
+output/checkpoints/PROTAC/20240301_081911/20240301_081911.log
+output/checkpoints/PROTAC/20240301_081911/vis_data
+output/checkpoints/PROTAC/20240301_081911/vis_data/config.py
+output/checkpoints/PROTAC/20240301_081911/vis_data/scalars.json
+output/checkpoints/PROTAC/20240301_081911/vis_data/20240301_081911.json
+output/checkpoints/PROTAC/20240301_081911/vis_data/events.out.tfevents.1709252357.yq01-qianmo-com-127-2-20.yq01.baidu.com.7447.0
+output/checkpoints/PROTAC/result_20240515193524.txt
+output/checkpoints/PROTAC/checkpoint.pth
+=== predict_cpu start Mon Jul 13 10:40:49 UTC 2026 ===
 /opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
 ################################################################################
 WARNING!
@@ -42,8 +54,339 @@ to learn more and leave feedback.
 ################################################################################
 
   deprecation_warning()
-Traceback (most recent call last):
-  File "/home/runner/work/_temp/dt/predict_cpu.py", line 723, in <module>
-    assert len(files) == 1, 'more than one config file found'
-AssertionError: more than one config file found
-=== predict_cpu end Mon Jul 13 10:36:02 UTC 2026 ===
+Loads checkpoint by local backend from path: output/checkpoints/PROTAC/checkpoint.pth
+/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
+################################################################################
+WARNING!
+The 'datapipes', 'dataloader2' modules are deprecated and will be removed in a
+future torchdata release! Please see https://github.com/pytorch/data/issues/1196
+to learn more and leave feedback.
+################################################################################
+
+  deprecation_warning()
+/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
+################################################################################
+WARNING!
+The 'datapipes', 'dataloader2' modules are deprecated and will be removed in a
+future torchdata release! Please see https://github.com/pytorch/data/issues/1196
+to learn more and leave feedback.
+################################################################################
+
+  deprecation_warning()
+/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
+################################################################################
+WARNING!
+The 'datapipes', 'dataloader2' modules are deprecated and will be removed in a
+future torchdata release! Please see https://github.com/pytorch/data/issues/1196
+to learn more and leave feedback.
+################################################################################
+
+  deprecation_warning()
+/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
+################################################################################
+WARNING!
+The 'datapipes', 'dataloader2' modules are deprecated and will be removed in a
+future torchdata release! Please see https://github.com/pytorch/data/issues/1196
+to learn more and leave feedback.
+################################################################################
+
+  deprecation_warning()
+/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/torchdata/datapipes/__init__.py:18: UserWarning: 
+################################################################################
+WARNING!
+The 'datapipes', 'dataloader2' modules are deprecated and will be removed in a
+future torchdata release! Please see https://github.com/pytorch/data/issues/1196
+to learn more and leave feedback.
+################################################################################
+
+  deprecation_warning()
+[10:40:59] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:00] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:00] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:00] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:01] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:01] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:01] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:02] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:03] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:04] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:04] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:04] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:05] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:06] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:06] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:07] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:07] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:07] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:08] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:09] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:10] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:10] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:10] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:10] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:11] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:12] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:12] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:12] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:13] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:14] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:15] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:16] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:18] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:18] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:19] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:20] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:20] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:20] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:21] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:22] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:22] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:23] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:23] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:24] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:25] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:25] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:25] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:26] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:26] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:27] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:28] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:28] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:28] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:29] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:29] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:29] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:31] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:31] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:31] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:32] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:32] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:33] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:33] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:34] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:34] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:35] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:35] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:36] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:36] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:37] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:37] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:38] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:38] Molecule does not have explicit Hs. Consider calling AddHs()
+[10:41:38] Molecule does not have explicit Hs. Consider calling AddHs()
+--6HAX_B_A_FWZ--
+Pocket RMSD:  6.2638444900512695
+Ligand RMSD:  5.69
+fnat:	0.1429, IRMSD:	2.1615, LRMSD:	5.9917, DockQ:	0.3787
+Pocket RMSD:  6.2638444900512695
+Ligand RMSD:  5.73
+fnat:	0.2381, IRMSD:	1.9869, LRMSD:	4.9903, DockQ:	0.4483
+Pocket RMSD:  4.61538028717041
+Ligand RMSD:  5.53
+fnat:	0.0476, IRMSD:	1.8406, LRMSD:	5.8865, DockQ:	0.3742
+Pocket RMSD:  5.089389801025391
+Ligand RMSD:  3.56
+fnat:	0.1905, IRMSD:	1.5793, LRMSD:	5.2006, DockQ:	0.4641
+Pocket RMSD:  6.220297813415527
+Ligand RMSD:  4.97
+fnat:	0.1429, IRMSD:	1.9999, LRMSD:	5.4387, DockQ:	0.4041
+Pocket RMSD:  5.162872791290283
+Ligand RMSD:  6.32
+fnat:	0.2857, IRMSD:	1.6441, LRMSD:	4.2417, DockQ:	0.5135
+Pocket RMSD:  5.954744338989258
+Ligand RMSD:  3.49
+fnat:	0.0476, IRMSD:	1.9208, LRMSD:	5.5496, DockQ:	0.3759
+Pocket RMSD:  5.639462471008301
+Ligand RMSD:  4.51
+fnat:	0.0476, IRMSD:	1.7912, LRMSD:	5.6184, DockQ:	0.3853
+Pocket RMSD:  5.934485912322998
+Ligand RMSD:  4.72
+fnat:	0.3333, IRMSD:	4.0112, LRMSD:	13.0966, DockQ:	0.2508
+Pocket RMSD:  5.509631156921387
+Ligand RMSD:  4.14
+fnat:	0.2381, IRMSD:	2.6515, LRMSD:	8.4573, DockQ:	0.3277
+Pocket RMSD:  4.814036846160889
+Ligand RMSD:  4.92
+fnat:	0.1905, IRMSD:	1.8536, LRMSD:	5.2354, DockQ:	0.4371
+Pocket RMSD:  5.279670238494873
+Ligand RMSD:  5.28
+fnat:	0.1905, IRMSD:	3.2963, LRMSD:	9.6933, DockQ:	0.2656
+Pocket RMSD:  5.962104320526123
+Ligand RMSD:  5.41
+fnat:	0.0952, IRMSD:	1.8652, LRMSD:	4.3850, DockQ:	0.4259
+Pocket RMSD:  5.243627548217773
+Ligand RMSD:  4.83
+fnat:	0.2381, IRMSD:	1.6648, LRMSD:	4.3901, DockQ:	0.4919
+Pocket RMSD:  5.358705043792725
+Ligand RMSD:  4.78
+fnat:	0.2381, IRMSD:	1.6895, LRMSD:	3.5630, DockQ:	0.5098
+Pocket RMSD:  4.337618827819824
+Ligand RMSD:  4.71
+fnat:	0.3333, IRMSD:	1.2080, LRMSD:	2.5747, DockQ:	0.6186
+--5T35_H_E_759--
+Pocket RMSD:  5.081690788269043
+Ligand RMSD:  4.11
+fnat:	0.7500, IRMSD:	0.9123, LRMSD:	4.0402, DockQ:	0.7652
+Pocket RMSD:  5.081690788269043
+Ligand RMSD:  4.51
+fnat:	0.7500, IRMSD:	0.8693, LRMSD:	3.7696, DockQ:	0.7781
+Pocket RMSD:  5.473297119140625
+Ligand RMSD:  3.65
+fnat:	0.7500, IRMSD:	0.7577, LRMSD:	2.3198, DockQ:	0.8258
+Pocket RMSD:  5.260651588439941
+Ligand RMSD:  4.91
+fnat:	0.5000, IRMSD:	1.2889, LRMSD:	5.2387, DockQ:	0.6000
+Pocket RMSD:  4.833454132080078
+Ligand RMSD:  5.02
+fnat:	0.1667, IRMSD:	2.3435, LRMSD:	8.8109, DockQ:	0.3131
+Pocket RMSD:  6.370457172393799
+Ligand RMSD:  5.87
+fnat:	0.1667, IRMSD:	9.5272, LRMSD:	26.5183, DockQ:	0.0947
+Pocket RMSD:  4.302515506744385
+Ligand RMSD:  5.25
+fnat:	0.1667, IRMSD:	2.5420, LRMSD:	10.4726, DockQ:	0.2740
+Pocket RMSD:  4.843116760253906
+Ligand RMSD:  5.89
+fnat:	0.4167, IRMSD:	1.2529, LRMSD:	4.8166, DockQ:	0.5876
+Pocket RMSD:  5.177433967590332
+Ligand RMSD:  3.81
+fnat:	0.4167, IRMSD:	1.0932, LRMSD:	3.0827, DockQ:	0.6512
+Pocket RMSD:  5.212594032287598
+Ligand RMSD:  4.51
+fnat:	0.5833, IRMSD:	0.8135, LRMSD:	2.9604, DockQ:	0.7493
+Pocket RMSD:  5.7993059158325195
+Ligand RMSD:  5.25
+fnat:	0.8333, IRMSD:	1.1075, LRMSD:	2.2586, DockQ:	0.8049
+Pocket RMSD:  5.281935214996338
+Ligand RMSD:  4.35
+fnat:	0.6667, IRMSD:	0.7946, LRMSD:	1.8190, DockQ:	0.8012
+Pocket RMSD:  4.684008598327637
+Ligand RMSD:  4.93
+fnat:	0.6667, IRMSD:	1.2389, LRMSD:	5.3066, DockQ:	0.6602
+Pocket RMSD:  4.975473403930664
+Ligand RMSD:  4.88
+fnat:	0.8333, IRMSD:	0.9364, LRMSD:	2.1855, DockQ:	0.8303
+Pocket RMSD:  4.504723072052002
+Ligand RMSD:  5.46
+fnat:	0.0833, IRMSD:	4.7956, LRMSD:	18.1810, DockQ:	0.1173
+Pocket RMSD:  5.657049655914307
+Ligand RMSD:  5.15
+fnat:	0.7500, IRMSD:	1.9549, LRMSD:	5.2068, DockQ:	0.6159
+--6HR2_B_A_FWZ--
+Pocket RMSD:  5.482290744781494
+Ligand RMSD:  6.04
+fnat:	0.1667, IRMSD:	1.7030, LRMSD:	4.1812, DockQ:	0.4696
+Pocket RMSD:  5.482290744781494
+Ligand RMSD:  6.07
+fnat:	0.2222, IRMSD:	1.6284, LRMSD:	3.7444, DockQ:	0.5062
+Pocket RMSD:  4.644337177276611
+Ligand RMSD:  4.13
+fnat:	0.2778, IRMSD:	1.5996, LRMSD:	3.7404, DockQ:	0.5278
+Pocket RMSD:  5.3300323486328125
+Ligand RMSD:  4.67
+fnat:	0.0556, IRMSD:	1.9921, LRMSD:	5.4800, DockQ:	0.3746
+Pocket RMSD:  6.421047210693359
+Ligand RMSD:  3.53
+fnat:	0.1667, IRMSD:	1.8878, LRMSD:	4.1765, DockQ:	0.4531
+Pocket RMSD:  4.8828558921813965
+Ligand RMSD:  5.59
+fnat:	0.3333, IRMSD:	1.5316, LRMSD:	3.6246, DockQ:	0.5563
+Pocket RMSD:  5.692226886749268
+Ligand RMSD:  5.63
+fnat:	0.0556, IRMSD:	1.9743, LRMSD:	4.6650, DockQ:	0.3967
+Pocket RMSD:  5.431315898895264
+Ligand RMSD:  5.47
+fnat:	0.1667, IRMSD:	1.7491, LRMSD:	4.5341, DockQ:	0.4563
+Pocket RMSD:  5.10022497177124
+Ligand RMSD:  4.01
+fnat:	0.1111, IRMSD:	1.9407, LRMSD:	4.6205, DockQ:	0.4190
+Pocket RMSD:  5.3253302574157715
+Ligand RMSD:  5.95
+fnat:	0.2778, IRMSD:	1.5557, LRMSD:	3.9691, DockQ:	0.5268
+Pocket RMSD:  4.756886005401611
+Ligand RMSD:  4.37
+fnat:	0.2222, IRMSD:	1.5680, LRMSD:	3.9841, DockQ:	0.5066
+Pocket RMSD:  4.956343173980713
+Ligand RMSD:  5.06
+fnat:	0.0556, IRMSD:	1.6564, LRMSD:	4.8651, DockQ:	0.4198
+Pocket RMSD:  5.41554069519043
+Ligand RMSD:  5.14
+fnat:	0.0000, IRMSD:	1.9334, LRMSD:	4.5606, DockQ:	0.3841
+Pocket RMSD:  5.885617733001709
+Ligand RMSD:  5.11
+fnat:	0.1111, IRMSD:	1.8699, LRMSD:	4.7409, DockQ:	0.4218
+Pocket RMSD:  6.668712139129639
+Ligand RMSD:  5.71
+fnat:	0.0556, IRMSD:	1.6821, LRMSD:	4.2069, DockQ:	0.4339
+Pocket RMSD:  4.288450717926025
+Ligand RMSD:  4.09
+fnat:	0.3889, IRMSD:	1.2825, LRMSD:	2.8306, DockQ:	0.6222
+--6BN7_B_C_RN3--
+Pocket RMSD:  3.1182284355163574
+Ligand RMSD:  6.73
+fnat:	0.7500, IRMSD:	3.1954, LRMSD:	11.7221, DockQ:	0.4251
+Pocket RMSD:  3.1182284355163574
+Ligand RMSD:  6.63
+fnat:	0.7500, IRMSD:	3.1845, LRMSD:	11.8801, DockQ:	0.4234
+Pocket RMSD:  3.2777655124664307
+Ligand RMSD:  4.94
+fnat:	0.2500, IRMSD:	3.1790, LRMSD:	5.7850, DockQ:	0.3718
+Pocket RMSD:  4.395148754119873
+Ligand RMSD:  4.48
+fnat:	0.4722, IRMSD:	4.8866, LRMSD:	18.0220, DockQ:	0.2468
+Pocket RMSD:  4.04034423828125
+Ligand RMSD:  5.20
+fnat:	0.5833, IRMSD:	3.9278, LRMSD:	13.7226, DockQ:	0.3293
+Pocket RMSD:  4.192652702331543
+Ligand RMSD:  3.13
+fnat:	0.2500, IRMSD:	7.8352, LRMSD:	23.3212, DockQ:	0.1342
+Pocket RMSD:  3.254605531692505
+Ligand RMSD:  4.11
+fnat:	0.0833, IRMSD:	3.8371, LRMSD:	8.4797, DockQ:	0.2390
+Pocket RMSD:  4.531099796295166
+Ligand RMSD:  5.73
+fnat:	0.0556, IRMSD:	11.4367, LRMSD:	28.6919, DockQ:	0.0511
+Pocket RMSD:  4.525859355926514
+Ligand RMSD:  6.95
+fnat:	0.0000, IRMSD:	11.8317, LRMSD:	36.6197, DockQ:	0.0223
+Pocket RMSD:  3.323442220687866
+Ligand RMSD:  3.80
+fnat:	0.6389, IRMSD:	2.1263, LRMSD:	7.7420, DockQ:	0.5059
+Pocket RMSD:  3.305992364883423
+Ligand RMSD:  4.74
+fnat:	0.1389, IRMSD:	3.3675, LRMSD:	6.4497, DockQ:	0.3130
+Pocket RMSD:  4.443038463592529
+Ligand RMSD:  3.91
+fnat:	0.2500, IRMSD:	8.4416, LRMSD:	25.3364, DockQ:	0.1273
+Pocket RMSD:  4.279982566833496
+Ligand RMSD:  5.74
+fnat:	0.0833, IRMSD:	12.7720, LRMSD:	33.0067, DockQ:	0.0530
+Pocket RMSD:  4.180550575256348
+Ligand RMSD:  4.80
+fnat:	0.1389, IRMSD:	12.2112, LRMSD:	28.7816, DockQ:	0.0780
+Pocket RMSD:  3.4450366497039795
+Ligand RMSD:  6.02
+fnat:	0.5833, IRMSD:	2.7192, LRMSD:	9.0849, DockQ:	0.4278
+Pocket RMSD:  3.6258232593536377
+Ligand RMSD:  4.05
+fnat:	0.0833, IRMSD:	4.0670, LRMSD:	9.9989, DockQ:	0.2075
+average time: 9.28575577735901
++------------+------------+-----------+-------------+----------+----------+-----------+----------+
+| pred dockq | best dockq | best rank | best SmRMSD | sm rank  | RMSD<10  | hit_count | hit_rate |
++------------+------------+-----------+-------------+----------+----------+-----------+----------+
+|   0.6602   |   0.8303   |     1     |    3.4238   |    7     |  0.8750  |   1/6/6   |  0.8125  |
+|   0.6186   |   0.6186   |     1     |    3.0152   |    3     |  1.0000  |   1/2/0   |  0.1875  |
+|   0.6222   |   0.6222   |     1     |    3.4082   |    11    |  1.0000  |   4/2/0   |  0.3750  |
+|   0.0612   |   0.1472   |    None   |    3.8691   |    7     |  0.0625  |   2/0/0   |  0.1250  |
+|   0.5059   |   0.5059   |     1     |    2.7745   |    3     |  0.6250  |   2/6/0   |  0.5000  |
+|  --mean--  |  --mean--  |  --mean-- |   --mean--  | --mean-- | --mean-- |  --mean-- | --mean-- |
+|   0.4936   |   0.5449   |   1.0000  |    3.2981   |  6.2000  |  0.7125  |           |  0.4000  |
++------------+------------+-----------+-------------+----------+----------+-----------+----------+
+Acceptable Rate:  0.8
+=== predict_cpu end Mon Jul 13 10:41:40 UTC 2026 ===
