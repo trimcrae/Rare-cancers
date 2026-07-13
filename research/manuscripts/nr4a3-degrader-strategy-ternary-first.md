@@ -100,6 +100,65 @@ affinity/selectivity inference stays prohibited until the RBFE + physics-based t
 generator — support it. Full qualification protocol:
 [research/modalities/deepternary-qualification-protocol.md](../modalities/deepternary-qualification-protocol.md).
 
+## ⏸ DEFERRED DECISION — selectivity TARGET: NR4A3-selective (Level 1, current) vs EWSR1::NR4A3-FUSION-exclusive (Level 2) [trimcrae, 2026-07-13]
+**Do NOT decide now; decide at the post-NR-V04-validation / pre-prospective-design gate. This section exists so
+we have every input ready when it becomes relevant. Do not let it block the current validation work.**
+
+**The question.** This program is currently framed **Level 1 = NR4A3-selective** (degrade NR4A3, spare NR4A1/2).
+But the NR4A3 **LBD is IDENTICAL in the fusion and in wild-type NR4A3**, so an LBD-recruiting degrader also
+removes **wild-type NR4A3**. Before committing prospective design, revisit whether to aim instead for
+**Level 2 = fusion-exclusive** (spare wild-type NR4A3 too, and ideally NR4A1/2). Three tightening levels
+(from [`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md)):
+tumour-vs-normal (weak) → **NR4A3-selective (Level 1, us)** → **fusion-exclusive (Level 2, the prize)**.
+
+**Why Level 2 could matter.** Wild-type NR4A3 is **tumour-suppressive** (combined NR4A1/NR4A3 loss is
+leukaemogenic — Mullican 2007; tumour-suppressor roles in HCC/breast/lymphoma — Safe & Karki 2021), so
+systemic co-degradation of WT NR4A3 is an **on-target liability**. Level 2 removes it → lowest-toxicity,
+truly tumour-specific.
+
+**Why Level 2 is harder (the crux).** Binary LBD binding **cannot** distinguish fusion from WT (identical site)
+— the *same wall* as paralogue selectivity. Fusion-exclusivity for a **degrader** must therefore come from a
+**coincidence ("AND-gate") mechanism**: arm 1 on the shared NR4A3 LBD + arm 2 on a **fusion-restricted** feature
+(the appended EWSR1 low-complexity/IDR domain or its condensate), each arm individually too weak, so only the
+chain presenting BOTH is engaged by avidity. Full feasibility analysis (avidity model, ~5–11× *binding* window,
+binding≠degradation, and the unsolved gate = **arm-2 IDR ligand does not yet exist**):
+[`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md).
+
+**Key reassurance — Level 1 now does NOT foreclose Level 2.** The current warhead + ternary work **IS the
+foundation of the AND-gate's arm 1** (an NR4A3-LBD ternary binder + the validated ternary method transfer
+directly). So this is a decision about whether to **add a fusion-restricted second layer later**, not a fork
+that wastes current effort. Proceeding Level 1 is the shared prerequisite for either endpoint.
+
+**Information ALREADY IN HAND (cross-refs — read these at the gate):**
+- Three-level framework + 5-route fusion-exclusive comparison (ranked by likelihood-of-working; leads with the
+  ASO) → [`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md).
+- AND-gate degrader feasibility + its blocking gate (arm-2 IDR ligand) →
+  [`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md).
+- The **sequence-clean** fusion-exclusive alternative *modality* (junction ASO/siRNA — fusion-exclusive by
+  base-pairing, spares WT NR4A3; gated on tumour **delivery**, not biology) →
+  [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md).
+- WT-NR4A3 tumour-suppressor liability citations: Mullican 2007; Safe & Karki 2021.
+
+**Information STILL NEEDED before deciding (assemble at the gate):**
+1. **QUANTIFY the WT-co-degradation liability (the pivotal input).** Normal-tissue NR4A3 expression +
+   therapeutic-window estimate; tolerability of **single-gene** NR4A3 loss (single-KO phenotype vs the
+   *combined*-loss leukaemogenesis, which may not apply to NR4A3-only depletion); whether tumour-localized /
+   transient / incomplete degradation mitigates it. **If WT co-degradation is tolerable → Level 1 suffices and
+   Level 2's extra difficulty isn't worth it. If it is toxic → Level 2 is justified.** This input decides it.
+2. **Does the fusion retain a near-intact LBD across the relevant breakpoint variants?** (Common type: yes.
+   Confirm variant coverage — a variant that truncates the LBD would make an LBD-degrader miss the fusion
+   entirely, independently arguing against the LBD-degrader for those patients.)
+3. **Arm-2 handle status (method-watch trigger).** Has any EWS-LC / condensate-partitioning / IDR-contacting
+   ligand emerged? Currently none → a Level-2 *degrader* is **not yet buildable**; this gates feasibility.
+4. **Modality comparison for the fusion-exclusive goal.** If WT-sparing turns out essential, weigh the AND-gate
+   degrader vs the **junction ASO** (fusion-exclusive by sequence, delivery-gated) vs neoantigen — do NOT assume
+   the degrader is the vehicle for Level 2. The ASO may be the better fusion-exclusive route.
+5. **Transfer check.** Quantify how much of the validated ternary workflow + warhead carries into the AND-gate's
+   arm 1 (expected: most) — this sets the true marginal cost of Level 2.
+
+**Default if unresolved at the gate:** proceed with the Level-1 warhead/ternary work (shared foundation), keep
+Level 2 open, and let inputs #1 (WT-loss tolerability) and #3 (arm-2 handle existence) drive the call.
+
 ## Explicitly de-prioritized (reviewer + repo agree)
 - Broad additional **de novo pocket generation** (demonstrated failure modes: unstable chemistry, winner's-curse
   selection, frame conditioning, pan-NR4A drift).
