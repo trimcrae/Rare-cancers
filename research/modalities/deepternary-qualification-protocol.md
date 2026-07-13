@@ -76,6 +76,24 @@ version; input-prep scripts; random seeds; model/DB versions. Record dependency 
 project SBOM (Apache-2.0 code; paper states academic/personal/commercial availability). **Reproduce ≥1 released
 example** before any scientific evaluation.
 
+> **STEP-1 SBOM / PROVENANCE FROZEN (2026-07-13):**
+> - Repo: `github.com/youqingxiaozhua/DeepTernary` — pinned commit **`827821dccca31a5918bd0355e2d6bf70c072b6dd`**
+>   (2025-11-29). **License: Apache-2.0** (confirmed in-repo).
+> - Runs on **CPU** (`predict_cpu.py` / `predict.py --device cpu`) — no GPU needed for qualification → **free CPU
+>   GitHub-Actions runner**. Env: Python 3.10, `mmengine==0.10.3`, `mmcv-lite==2.2.0`, `rdkit==2023.9.3`,
+>   `biopandas==0.5.1`, `dgl==2.3.0`, `POT==0.9.4`, `torch==2.3.1`. **CAVEAT:** upstream `requirements.txt` pins
+>   **CUDA** wheels (`torch/dgl +cu121`); the CPU harness swaps in CPU wheels (`torch==2.3.1` cpu index +
+>   `dgl==2.3.0` from the torch-2.3 CPU wheel repo, remaining reqs minus the cu121 lines).
+> - Pretrained checkpoint + PROTAC unbound structures: release **v1.0.0 `output.zip`**
+>   (`.../releases/download/v1.0.0/output.zip`). TernaryDB (for the leakage audit, risk #5): release
+>   **v1.0.1 `TernaryDB.tar.gz`** (~22k two-protein/one-ligand complexes; PROTAC/MGD test lists inside).
+> - Released-example reproduction: single case **5T35_H_E_759** via `predict.py --task PROTAC` (unbound,
+>   multi-seed) → per-seed complex PDBs + `summary_<name>.csv` (top-1 = lowest predicted P2 RMSD). Whole
+>   PROTAC test set via `predict_cpu.py output/checkpoints/PROTAC` (step-2 metrics).
+> - Harness: **push-triggered** workflow `.github/workflows/deepternary-qualify.yml` (runs off this feature
+>   branch with no main dependency — the `modalities-run.yml` pattern). Reported DockQ (paper): PROTAC 0.65 /
+>   MGD 0.23 best-of-40; **operational top-1 much weaker** — record PAE-top-1 + best-of-40 both (see step 2).
+
 **2. Installation-reproduction controls (label as SOFTWARE-REPRODUCTION, not independent validation).** Use
 **4–6 public crystal ternaries**: **≥2 VHL, ≥2 CRBN**, preferably +1 other E3 class if it may enter the matrix; mix
 rigid and difficult linker/interface geometries. (May overlap DeepTernary's 22-structure benchmark / "unbound"

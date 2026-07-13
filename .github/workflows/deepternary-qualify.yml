@@ -1,0 +1,87 @@
+name: DeepTernary qualification — Step 1 (software & provenance, CPU)
+
+# Reviewer-verdict Option A* qualification, Step 1: prove DeepTernary installs + reproduces a released
+# example on a FREE CPU runner (no GPU). Provenance frozen at a pinned commit. Protocol:
+# research/modalities/deepternary-qualification-protocol.md
+#
+# PUSH-TRIGGERED so it runs off THIS feature branch with no main dependency (the modalities-run.yml pattern).
+# Path-scoped so only edits to this workflow re-run it (each edit = an iteration of the CPU-dep shakeout).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-51wqw9]
+    paths:
+      - .github/workflows/deepternary-qualify.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deepternary-qualify
+  cancel-in-progress: true
+
+env:
+  DT_COMMIT: "827821dccca31a5918bd0355e2d6bf70c072b6dd"   # frozen provenance (2025-11-29), Apache-2.0
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Clone DeepTernary at frozen commit (provenance)
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP"
+          git clone https://github.com/youqingxiaozhua/DeepTernary.git dt
+          cd dt
+          git checkout "$DT_COMMIT"
+          echo "=== PROVENANCE ==="; git rev-parse HEAD; git log -1 --format='%ci %s'
+          head -3 LICENSE
+
+      - name: Install CPU deps (swap the CUDA-pinned torch/dgl for CPU wheels)
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          python -m pip install --upgrade pip
+          # strip the CUDA-pinned lines; install CPU torch + CPU dgl explicitly, then the rest.
+          grep -viE 'cu121|^torch==|^dgl==|--extra-index-url|--find-links' requirements.txt > requirements-cpu.txt
+          pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install dgl==2.3.0 -f https://data.dgl.ai/wheels/torch-2.3/repo.html
+          pip install -r requirements-cpu.txt
+          python -c "import torch, dgl, rdkit, mmengine; print('torch', torch.__version__, 'dgl', dgl.__version__, 'rdkit', rdkit.__version__)"
+
+      - name: Download pretrained checkpoint + PROTAC unbound structures (release v1.0.0)
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          wget -q https://github.com/youqingxiaozhua/DeepTernary/releases/download/v1.0.0/output.zip
+          unzip -q output.zip
+          echo "=== output tree (depth 2) ==="; find output -maxdepth 2 -type d | head -40
+          ls output/protac22/5T35_H_E_759/ || echo "5T35 example dir not found — will adapt"
+
+      - name: Reproduce released example (single case 5T35, CPU, modest seeds)
+        continue-on-error: true
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          C=output/protac22/5T35_H_E_759
+          python predict.py \
+            --task PROTAC --name 5T35-qual \
+            --lig $C/ligand.pdb --p1 $C/unbound_protein1.pdb --p2 $C/unbound_protein2.pdb \
+            --unbound-lig1 $C/unbound_lig1.pdb --unbound-lig2 $C/unbound_lig2.pdb \
+            --lig1-mask $C/unbound_lig1.pdb --lig2-mask $C/unbound_lig2.pdb \
+            --outdir ./results/5T35 --seeds 8 --device cpu 2>&1 | tail -60
+
+      - name: Report outputs (step-1 success = example produced poses + summary)
+        continue-on-error: true
+        run: |
+          set -eux
+          cd "$RUNNER_TEMP/dt"
+          echo "=== result files ==="; ls -la results/5T35/ || echo "no results dir"
+          echo "=== summary CSV ==="; cat results/5T35/summary_*.csv 2>/dev/null || echo "no summary CSV"
+          echo "=== predicted complex PDBs ==="; ls results/5T35/*.pdb 2>/dev/null | head || echo "no complex PDBs"
