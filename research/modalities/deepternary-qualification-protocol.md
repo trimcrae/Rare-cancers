@@ -113,10 +113,21 @@ example** before any scientific evaluation.
 >   Supports `multiprocessing.Pool(THREAD_NUM)` → use runner cores.
 > - **Runtime reality:** 22×40 seeds on CPU is impractical (~hours-to-15h) → **MUST subset to the reviewer's
 >   4–6 (≥2 VHL + ≥2 CRBN)** and/or thread it + bump the job timeout.
-> - **⚠ INTEGRITY GATE before launch:** the ≥2-VHL + ≥2-CRBN split needs **reliable E3 annotation per PDB — do
->   NOT guess/fabricate labels.** Confident VHL anchors: 5T35 (BRD4–MZ1–VHL), 6HAX/6HAY/6HR2 (SMARCA2–VHL). CRBN
->   members must be **sourced** (paper SI / PDB) before use. NEXT ACTION: source E3 labels → subset test list →
->   run with THREAD_NUM + raised timeout → capture the full metric panel below.
+> - **⚠ INTEGRITY GATE — CLEARED 2026-07-13 (E3 labels SOURCED from RCSB, not guessed).** My memory-based
+>   guesses were WRONG on three (6BOY/6BN7 are CRBN not VHL; 6W7O/6W8I are cIAP not CRBN) — hence the gate.
+>   Verified E3 per PDB:
+>   - **VHL:** `5T35` (BRD4^BD2–MZ1–pVHL:EloC:EloB, Ciulli 2017), `6HAX`/`6HAY` (SMARCA2–PROTAC–VHL),
+>     `6HR2` (SMARCA4–PROTAC–VHL).
+>   - **CRBN:** `6BOY` (DDB1–CRBN–BRD4(BD1)–dBET6), `6BN7` (CRBN–BRD4, dBET-series).
+>   - **cIAP (excluded — not our matrix's E3):** `6W7O`, `6W8I` (BTK).
+>   Sources: rcsb.org/structure/{5T35,6HR2,6HAY,6HAX,6BOY}.
+> - **STEP-2 SUBSET (5 complexes, 3 VHL + 2 CRBN, spanning BRD4/SMARCA2/SMARCA4):**
+>   `5T35_H_E_759` (VHL), `6HAX_B_A_FWZ` (VHL), `6HR2_B_A_FWZ` (VHL), `6BOY_B_C_RN6` (CRBN),
+>   `6BN7_B_C_RN3` (CRBN). Run = overwrite `data/PROTAC/protac22.txt` with this list → `predict_cpu.py
+>   output/checkpoints/PROTAC`. CI-feasibility: SEED_NUM reduced from 40 → **16 for the first pass** (CPU
+>   runtime); report as preliminary best-of-16 + PAE-top-1, and note the seed count honestly (full 40 later
+>   if promising). Labelled **SOFTWARE-REPRODUCTION control**, not independent validation (these are in
+>   DeepTernary's published benchmark).
 
 **2. Installation-reproduction controls (label as SOFTWARE-REPRODUCTION, not independent validation).** Use
 **4–6 public crystal ternaries**: **≥2 VHL, ≥2 CRBN**, preferably +1 other E3 class if it may enter the matrix; mix

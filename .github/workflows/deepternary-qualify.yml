@@ -27,7 +27,7 @@ env:
 jobs:
   qualify:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 120
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -67,24 +67,35 @@ jobs:
           echo "=== output tree (depth 2) ==="; find output -maxdepth 2 -type d | head -40
           ls output/protac22/5T35_H_E_759/ || echo "5T35 example dir not found — will adapt"
 
-      - name: Reproduce released example (single case 5T35, CPU, modest seeds)
+      # STEP 2 — installation-reproduction controls: DockQ vs native on a SOURCED 3-VHL + 2-CRBN subset
+      # of DeepTernary's own protac22 benchmark (labelled software-reproduction, NOT independent validation).
+      # SEED_NUM reduced 40->16 for CPU-CI feasibility (preliminary best-of-16 + PAE-top-1; note the count).
+      - name: Step 2 — subset benchmark (DockQ, 5 complexes, CPU)
         continue-on-error: true
         run: |
           set -eux
           cd "$RUNNER_TEMP/dt"
-          C=output/protac22/5T35_H_E_759
-          python predict.py \
-            --task PROTAC --name 5T35-qual \
-            --lig $C/ligand.pdb --p1 $C/unbound_protein1.pdb --p2 $C/unbound_protein2.pdb \
-            --unbound-lig1 $C/unbound_lig1.pdb --unbound-lig2 $C/unbound_lig2.pdb \
-            --lig1-mask $C/unbound_lig1.pdb --lig2-mask $C/unbound_lig2.pdb \
-            --outdir ./results/5T35 --seeds 8 --device cpu 2>&1 | tail -60
+          # override the test list with the E3-sourced subset (config points at data/PROTAC/protac22.txt)
+          cat > data/PROTAC/protac22.txt <<'EOF'
+          5T35_H_E_759
+          6HAX_B_A_FWZ
+          6HR2_B_A_FWZ
+          6BOY_B_C_RN6
+          6BN7_B_C_RN3
+          EOF
+          sed -i 's/^\( *\)//' data/PROTAC/protac22.txt   # strip YAML heredoc indentation
+          echo "=== subset test list ==="; cat data/PROTAC/protac22.txt
+          # confirm each subset complex has its unbound structures in output/protac22
+          for c in $(cat data/PROTAC/protac22.txt); do ls output/protac22/$c/ >/dev/null 2>&1 && echo "OK $c" || echo "MISSING $c"; done
+          # CPU-feasible seed count
+          sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
+          python predict_cpu.py output/checkpoints/PROTAC 2>&1 | tee eval.log | tail -120
 
-      - name: Report outputs (step-1 success = example produced poses + summary)
+      - name: Step 2 — report DockQ panel
         continue-on-error: true
         run: |
           set -eux
           cd "$RUNNER_TEMP/dt"
-          echo "=== result files ==="; ls -la results/5T35/ || echo "no results dir"
-          echo "=== summary CSV ==="; cat results/5T35/summary_*.csv 2>/dev/null || echo "no summary CSV"
-          echo "=== predicted complex PDBs ==="; ls results/5T35/*.pdb 2>/dev/null | head || echo "no complex PDBs"
+          echo "=== DockQ / metric lines from eval.log ==="
+          grep -iE "dockq|rmsd|average|acceptable|best|rank|--[0-9A-Z]" eval.log | tail -80 || echo "no metric lines"
+          echo "=== any results dirs ==="; ls -R results 2>/dev/null | head -60 || echo "no results dir"
