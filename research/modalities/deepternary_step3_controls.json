@@ -1,0 +1,113 @@
+{
+ "_protocol": "deepternary-qualification-protocol.md Step 3 (prospective-like blind controls) + Step-3 execution recipe",
+ "_horizon": "2023-10-14",
+ "_selection_rule": "NOT in exclusion set; deposited strictly after horizon; UniProt-classified E3 in matrix scope; PROTAC (bifunctional linker, not molecular glue); POI+E3 have separable apo/binary structures; span VHL+CRBN; prefer >=2 with NO target-E3-pair training prior. All facts sourced from RCSB (run 29245576499).",
+ "controls": [
+  {
+   "pdb": "9RKC",
+   "deposit_date": "2025-06-13",
+   "e3": "VHL",
+   "target_of_interest": "KRAS G12D",
+   "title": "Crystal Structure of ACBI4-mediated ternary complex of KRAS G12D C118S GDP with pVHL:ElonginC:ElonginB",
+   "proteins": [
+    "Elongin-B",
+    "Elongin-C",
+    "von Hippel-Lindau disease tumor suppressor",
+    "GTPase KRas"
+   ],
+   "uniprots": [
+    "P01116",
+    "P40337",
+    "Q15369",
+    "Q15370"
+   ],
+   "degrader_ligand": [
+    {
+     "id": "A1JHI",
+     "mw": 970.198
+    }
+   ],
+   "target_E3_pair_training_prior": "none",
+   "role": "primary_blind_no_prior",
+   "notes": "ACBI4 PROTAC (published Boehringer degrader). KRAS-VHL pair post-horizon (earliest KRAS-VCB PROTAC 8QVU dep 2023-10-18, 4d after the 2023-10-14 horizon) => no training prior. Crystal structure. Strongest NR4A3-like blind test: novel target-E3 pairing + real pose uncertainty. Blind inputs: KRAS-G12D-GDP apo + VCB(VHL/EloB/EloC) apo, both abundant.",
+   "in_exclusion_set": false
+  },
+  {
+   "pdb": "23SR",
+   "deposit_date": "2026-02-16",
+   "e3": "CRBN",
+   "target_of_interest": "CDK2",
+   "title": "Cryo-EM structure of CDK2 in complex with CRBN/DDB1 and B11",
+   "proteins": [
+    "Protein cereblon",
+    "Oplophorus-luciferin 2-monooxygenase catalytic subunit,Cyclin-dependent kinase 2,GFP-like fluorescent chromoprotein",
+    "DNA damage-binding protein 1"
+   ],
+   "uniprots": [
+    "P24941",
+    "Q96SW2"
+   ],
+   "degrader_ligand": [
+    {
+     "id": "A1E59",
+     "mw": 490.912
+    }
+   ],
+   "target_E3_pair_training_prior": "none",
+   "role": "primary_blind_no_prior_CRBN",
+   "notes": "CDK2-CRBN/DDB1 PROTAC (compound B11). CDK2-CRBN degrader structures all post-horizon (9D0W 2024-08 earliest) => no training prior. CRBN was the Step-2 weak arm (6BOY failed 0.06) so a no-prior CRBN blind control is high-value. POI entity is a NanoBiT/GFP reporter FUSION of CDK2 for cryo-EM: use the CDK2 kinase domain (abundant apo) for blind prep, note the fusion tags.",
+   "in_exclusion_set": false
+  },
+  {
+   "pdb": "9SAF",
+   "deposit_date": "2025-08-07",
+   "e3": "CRBN",
+   "target_of_interest": "BRD4-BD1",
+   "title": "Ternary PROTAC-mediated complex of BRD4-BD1/CRBN/DDB1 and JQ1-AcQ bifunctional degrader",
+   "proteins": [
+    "DNA damage-binding protein 1",
+    "Protein cereblon",
+    "Bromodomain-containing protein 4"
+   ],
+   "uniprots": [
+    "O60885",
+    "Q16531",
+    "Q96SW2"
+   ],
+   "degrader_ligand": [
+    {
+     "id": "A1JM8",
+     "mw": 739.327
+    }
+   ],
+   "target_E3_pair_training_prior": "present",
+   "role": "familiar_pair_operational",
+   "notes": "BRD4-BD1/CRBN/DDB1 + JQ1-AcQ bifunctional PROTAC. Target-E3 pair BRD4+CRBN HAS a training prior (6BOY dBET6, 6BN7 in the protac22 benchmark) => NOT a novel-pair test; included to check operational blind-prep on a well-behaved, clean-input case. Blind inputs: BRD4-BD1+JQ1 binary + CRBN/DDB1 apo, both abundant.",
+   "in_exclusion_set": false
+  }
+ ],
+ "alternates": [
+  {
+   "pdb": "9N88",
+   "e3": "VHL",
+   "poi": "IRE1",
+   "prior": "none",
+   "note": "PROTAC-induced IRE1 ternary; kinase/RNase, novel fold; backup VHL no-prior control."
+  },
+  {
+   "pdb": "9YA9",
+   "e3": "CRBN",
+   "poi": "BCL6",
+   "prior": "none",
+   "note": "BCL6-CRBN-DDB1 LDD (BMS-986458); backup CRBN no-prior control."
+  },
+  {
+   "pdb": "9HYO",
+   "e3": "VHL",
+   "poi": "SMARCA2",
+   "prior": "none",
+   "note": "SMARCA2-VCB PROTAC P4; overlaps the ternary-coop Layer-1 calibration panel (dual-use); backup."
+  }
+ ],
+ "leakage_recheck_required_at_reveal": "Per risk #5: before trusting any control, re-check the sealed native for homologues, VHL/target-pair priors, and celastrol/scaffold analogues (exclusion-set membership is necessary, not sufficient)."
+}

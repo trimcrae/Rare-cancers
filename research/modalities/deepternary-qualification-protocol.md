@@ -184,6 +184,30 @@ benchmarks.)
 > structures, native pose blinded, DockQ + input-sensitivity sweep per §4) is the next step once controls are
 > curated from this table.
 
+> **STEP-3 RUN CLEAN + CONTROLS CURATED (2026-07-13, CI run 29245576499).** A parser bug (training-log
+> `vis_data/scalars.json` loss/iteration integers matched a naive PDB-ID regex → false IDs like `1000`) and a
+> silently-empty batched GraphQL metadata query were both fixed (parser now skips training logs + requires ≥1
+> letter in bare tokens; metadata now via the stable REST data API). Clean result:
+> **exclusion set = 4,471 PDB IDs** (committed durable artifact `deepternary_exclusion_set.json`), **data horizon
+> = 2023-10-14**, **266 post-horizon degrader-ternary candidates** (0 overlap with the exclusion set), 12 passing
+> the E3+degrader-ligand shortlist filter. **Curated 3 blind controls** (`deepternary_step3_controls.json`), all
+> post-horizon, all verified NOT in the exclusion set, PROTACs (not glues), spanning VHL+CRBN, with separable
+> apo/binary inputs:
+> - **9RKC** — VHL / **KRAS G12D** / ACBI4 PROTAC (dep 2025-06-13). **No target-E3-pair training prior** (earliest
+>   KRAS-VCB PROTAC 8QVU is 2023-10-18, 4 d after horizon). *Strongest NR4A3-like blind test* (novel pairing + real
+>   pose uncertainty). Inputs: KRAS-G12D-GDP apo + VCB apo.
+> - **23SR** — CRBN / **CDK2** / cpd B11 (dep 2026-02-16). **No prior.** Second CRBN case (CRBN was the Step-2 weak
+>   arm — 6BOY failed 0.06/0.15) with a NanoBiT/GFP reporter-fusion POI (use the CDK2 kinase domain for blind prep,
+>   note the tags).
+> - **9SAF** — CRBN / **BRD4-BD1** / JQ1-AcQ PROTAC (dep 2025-08-07). **Target-E3-pair prior PRESENT** (6BOY/6BN7
+>   dBET are in the protac22 benchmark) → NOT a novel-pair test; a familiar, well-behaved *operational* blind-prep
+>   control. Prior noted explicitly.
+> Alternates on file: 9N88 (VHL/IRE1), 9YA9 (CRBN/BCL6), 9HYO (VHL/SMARCA2, dual-use w/ the ternary-coop calib
+> panel). **Risk-#5 leakage re-check at reveal is still required** (homologues, target-pair priors, scaffold
+> analogues; exclusion-set membership is necessary, not sufficient). **Next:** understand DeepTernary's unbound-input
+> format from `predict.py`, source separate apo/binary POI+E3 PDBs per control (CI, sourced not guessed), build the
+> blind-prep + prediction + DockQ harness, freeze predictions, THEN unseal natives.
+
 **4. Input-sensitivity test.** For every blind control AND NR-V04, vary: receptor conformer; initial warhead pose;
 warhead attachment-vector rotamer; E3 binary structure; protonation/tautomer. Question is not "can 1/40 runs
 recover native?" but **"does the native-like architecture survive reasonable input uncertainty, and does the model
