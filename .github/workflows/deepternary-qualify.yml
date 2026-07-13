@@ -15,11 +15,11 @@ on:
       - .github/workflows/deepternary-qualify.yml
 
 permissions:
-  contents: read
+  contents: write   # publish eval log + diagnostics to a cache branch (readable via git, no MCP needed)
 
 concurrency:
   group: deepternary-qualify
-  cancel-in-progress: true
+  cancel-in-progress: false   # don't let a re-trigger cancel a real in-progress benchmark
 
 env:
   DT_COMMIT: "827821dccca31a5918bd0355e2d6bf70c072b6dd"   # frozen provenance (2025-11-29), Apache-2.0
@@ -75,21 +75,21 @@ jobs:
         run: |
           set -eux
           cd "$RUNNER_TEMP/dt"
+          # --- diagnostics preamble captured to eval.log (so the committed log explains any fast exit) ---
+          { echo "=== DIAGNOSTICS $(date -u) ==="; echo "nproc=$(nproc)"; python --version;
+            echo "-- key pkgs --"; pip list 2>/dev/null | grep -iE 'torch|dgl|rdkit|numpy|mmengine|mmcv' || true;
+            echo "-- output/checkpoints --"; ls -la output/checkpoints 2>/dev/null || echo "MISSING output/checkpoints";
+            ls output/checkpoints/PROTAC 2>/dev/null || echo "MISSING output/checkpoints/PROTAC";
+            echo "-- output/protac22 count --"; ls output/protac22 2>/dev/null | wc -l || echo "MISSING output/protac22";
+          } | tee eval.log
           # override the test list with the E3-sourced subset (config points at data/PROTAC/protac22.txt)
-          cat > data/PROTAC/protac22.txt <<'EOF'
-          5T35_H_E_759
-          6HAX_B_A_FWZ
-          6HR2_B_A_FWZ
-          6BOY_B_C_RN6
-          6BN7_B_C_RN3
-          EOF
-          sed -i 's/^\( *\)//' data/PROTAC/protac22.txt   # strip YAML heredoc indentation
-          echo "=== subset test list ==="; cat data/PROTAC/protac22.txt
-          # confirm each subset complex has its unbound structures in output/protac22
-          for c in $(cat data/PROTAC/protac22.txt); do ls output/protac22/$c/ >/dev/null 2>&1 && echo "OK $c" || echo "MISSING $c"; done
-          # CPU-feasible seed count
+          printf '%s\n' 5T35_H_E_759 6HAX_B_A_FWZ 6HR2_B_A_FWZ 6BOY_B_C_RN6 6BN7_B_C_RN3 > data/PROTAC/protac22.txt
+          echo "=== subset test list ===" | tee -a eval.log; cat data/PROTAC/protac22.txt | tee -a eval.log
+          for c in $(cat data/PROTAC/protac22.txt); do ls output/protac22/$c/ >/dev/null 2>&1 && echo "OK $c" || echo "MISSING $c"; done | tee -a eval.log
           sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
-          python predict_cpu.py output/checkpoints/PROTAC 2>&1 | tee eval.log | tail -120
+          echo "=== predict_cpu start $(date -u) ===" | tee -a eval.log
+          python predict_cpu.py output/checkpoints/PROTAC 2>&1 | tee -a eval.log | tail -140
+          echo "=== predict_cpu end $(date -u) ===" | tee -a eval.log
 
       - name: Step 2 — report DockQ panel
         continue-on-error: true
@@ -99,3 +99,25 @@ jobs:
           echo "=== DockQ / metric lines from eval.log ==="
           grep -iE "dockq|rmsd|average|acceptable|best|rank|--[0-9A-Z]" eval.log | tail -80 || echo "no metric lines"
           echo "=== any results dirs ==="; ls -R results 2>/dev/null | head -60 || echo "no results dir"
+
+      # Publish the eval log + a summary to a cache branch so it is readable via `git fetch` WITHOUT the
+      # github MCP (the repo's results-to-branch pattern). Runs even if the benchmark step failed.
+      - name: Publish results to cache branch (MCP-independent readout)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          cd "$RUNNER_TEMP"
+          URL="https://x-access-token:${GH_TOKEN}@github.com/trimcrae/rare-cancers.git"
+          rm -rf pub
+          git clone --depth 1 --branch deepternary-qualify-cache "$URL" pub 2>/dev/null \
+            && cd pub \
+            || { git clone --depth 1 "$URL" pub && cd pub && git checkout --orphan deepternary-qualify-cache && git rm -rf . >/dev/null 2>&1 || true; }
+          OUT=research/modalities/deepternary_qualify_out
+          mkdir -p "$OUT"
+          cp "$RUNNER_TEMP/dt/eval.log" "$OUT/eval.log" 2>/dev/null || echo "no eval.log produced" > "$OUT/eval.log"
+          { echo "run=$GITHUB_RUN_ID at $(date -u)"; echo "--- results tree ---"; ls -R "$RUNNER_TEMP/dt/results" 2>/dev/null | head -100 || echo "no results dir"; \
+            echo "--- summary CSVs ---"; find "$RUNNER_TEMP/dt/results" -name 'summary_*.csv' -exec cat {} \; 2>/dev/null || true; } > "$OUT/summary.txt"
+          git config user.email "noreply@anthropic.com"; git config user.name "claude"
+          git add -A && git commit -m "deepternary qualify output (run $GITHUB_RUN_ID)" && git push origin HEAD:deepternary-qualify-cache
