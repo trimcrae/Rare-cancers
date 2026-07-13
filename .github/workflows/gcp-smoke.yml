@@ -37,20 +37,12 @@ jobs:
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
       MACHINE: ${{ github.event.inputs.machine || 'g2-standard-4' }}
     steps:
-      - name: Guard — WIF variables present?
-        run: |
-          if [ -z "${{ vars.GCP_WIF_PROVIDER }}" ] || [ -z "${{ vars.GCP_SA_EMAIL }}" ]; then
-            echo "::error::Set repo Variables GCP_WIF_PROVIDER (workload-identity provider resource name) and GCP_SA_EMAIL (gpu-runner@PROJECT.iam.gserviceaccount.com) under Settings -> Secrets and variables -> Actions -> Variables, then re-run."
-            exit 1
-          fi
-          echo "WIF provider + SA email variables are set."
-
       - id: auth
         name: Authenticate to GCP (keyless, WIF)
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_SA_EMAIL }}
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
@@ -58,7 +50,7 @@ jobs:
       - name: Resolve project + confirm identity
         run: |
           set -eo pipefail
-          PROJECT=$(printf '%s' "${{ vars.GCP_SA_EMAIL }}" | sed 's/.*@//; s/\.iam\.gserviceaccount\.com$//')
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
           echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
           gcloud config set project "$PROJECT"
           echo "project: $PROJECT ; authenticated as: $(gcloud config get-value account 2>/dev/null)"
