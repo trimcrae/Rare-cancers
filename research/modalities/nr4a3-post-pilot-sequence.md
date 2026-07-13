@@ -11,14 +11,25 @@ structure → functional recovery, not structural replication) to **validate** t
 NR4A3-selective degraders. NR4A2 = primary anti-target gate; NR4A1 provisional.
 
 **★ PROVIDER POLICY (trimcrae, 2026-07-13 — no exceptions).** Wiring any harness to any provider via
-`gpu_backend` is FREE engineering; real cloud $ is the only cost. Therefore **burn free credits FIRST for EVERY
-GPU run regardless of size — Modal → GCP $300 → Oracle $300 → only then paid** (Vast/RunPod/AWS). There is NO
-"saving credits for the expensive fleets" — holding free credits while paying is pure waste. AWS is used ONLY
-to (a) finish a job already checkpointed there (killing it to move wastes progress, not money), or (b) a run
-that genuinely needs an AWS-only capability. So all of A1/A2/A3/B1/B2/B3 below default to **Modal** (then the
-waterfall); the current in-flight pilot finishes on AWS spot because it is already running + checkpointed.
-Confirm-before-launch still applies to the EXPENSIVE fleets (A3, B3), but the recommended provider there is
-Modal/free-credits, not AWS.
+`gpu_backend` is FREE engineering; real cloud $ is the only cost. **Burn free credits FIRST for EVERY GPU run
+regardless of size — no "saving" for later (holding free credits while paying is pure waste).** AWS is used
+ONLY to (a) finish a job already checkpointed there, or (b) a genuine AWS-only capability. The in-flight pilot
+finishes on AWS spot because it is already running + checkpointed.
+
+Provider facts + budgets (2026-07-13):
+- **Modal** — wired + validated, but **NO spot tier** (per-second ON-DEMAND, ~3× AWS-spot/hr) and only **$30
+  free credit**. → **Reserve Modal for cheap validation/smokes + single small legs.** RULE: **never launch a run
+  on Modal projected to exceed $30** (forecast from the pilot `reduce`'s calibrated `unit_gpu_h` BEFORE launch).
+- **GCP preemptible/spot L4** — the **cheapest** option AND the big **$300** credit → the right home for the
+  actual RBFE legs + fleets. **Quota PENDING approval** (4× L4 + 4× T4 spot, us-central1).
+- **Vast** (key staged) / **Salad** (cheapest bulk) — spot-like, for bulk once needed.
+- **Oracle $300** — later in the waterfall.
+
+**Effective routing:** cheap smokes/single-shard shakeouts → **Modal** ($30, don't exceed). Real RBFE legs +
+all fleets → **GCP spot L4** when quota lands (cheapest + $300); until then, at most ONE RBFE leg fits Modal's
+$30, so run the pilot-first leg (NR4A2) there only if its calibrated forecast is < $30, and hold the rest for
+GCP/Vast rather than blowing the cap or silently paying AWS. Confirm-before-launch still applies to the
+EXPENSIVE fleets (A3, B3).
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
