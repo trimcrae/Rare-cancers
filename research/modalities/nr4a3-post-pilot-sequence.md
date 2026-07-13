@@ -20,16 +20,18 @@ Provider facts + budgets (2026-07-13):
 - **Modal** — wired + validated, but **NO spot tier** (per-second ON-DEMAND, ~3× AWS-spot/hr) and only **$30
   free credit**. → **Reserve Modal for cheap validation/smokes + single small legs.** RULE: **never launch a run
   on Modal projected to exceed $30** (forecast from the pilot `reduce`'s calibrated `unit_gpu_h` BEFORE launch).
-- **GCP preemptible/spot L4** — the **cheapest** option AND the big **$300** credit → the right home for the
-  actual RBFE legs + fleets. **Quota PENDING approval** (4× L4 + 4× T4 spot, us-central1).
+- **GCP preemptible/spot L4** — the **cheapest** option AND the big **$300** credit → the **PRIMARY workhorse**
+  for the actual RBFE legs + fleets. **Quota APPROVED (2026-07-13)**: 4× L4 + 4× T4 spot, us-central1 (→ up to
+  4 concurrent L4 spot; A1's 2 legs fit easily). The GCP Compute-Engine adapter exists (`gpu_backend`) but was
+  parked → **validate-first: a smoke / single-shard shakeout on GCP before the real legs** (per the
+  single-shard-first rule).
 - **Vast** (key staged) / **Salad** (cheapest bulk) — spot-like, for bulk once needed.
 - **Oracle $300** — later in the waterfall.
 
 **Effective routing:** cheap smokes/single-shard shakeouts → **Modal** ($30, don't exceed). Real RBFE legs +
-all fleets → **GCP spot L4** when quota lands (cheapest + $300); until then, at most ONE RBFE leg fits Modal's
-$30, so run the pilot-first leg (NR4A2) there only if its calibrated forecast is < $30, and hold the rest for
-GCP/Vast rather than blowing the cap or silently paying AWS. Confirm-before-launch still applies to the
-EXPENSIVE fleets (A3, B3).
+all fleets → **GCP spot L4** (cheapest + $300 credit). So **A1 (both NR4A2 + NR4A1 legs) → GCP spot L4**
+(~$7–14 of the $300); **B1 smoke → Modal** (or GCP; trivial). Confirm-before-launch still applies to the
+EXPENSIVE fleets (A3, B3) — but the recommended provider there is now GCP spot L4, not AWS.
 
 ## Step 0 — read the pilot verdict (when both legs Complete) — AUTONOMOUS
 `gpu-rbfe-aws.yml mode=reduce` (tag=nr4a3-congeneric-rbfe, ligand_a=zaienne_cmpd19, ligand_b=cw_ev_5nh2,
