@@ -69,7 +69,7 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "stop", "stage") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "forensic", "stop", "stage") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
 
     if MODE == "stage":
@@ -183,6 +183,90 @@ def main():
                     except Exception as e:  # noqa: BLE001
                         print(f"    (read {k} failed: {e})")
                     break
+        return
+
+    if MODE == "forensic":
+        # DEFINITIVE checkpoint forensic (answers: is the original production data still in S3, or did the resume
+        # truncate/overwrite it — and is a full re-run actually necessary). For TAG's ckpt tree, report per-leg /
+        # per-OpenFE-unit .nc file sizes + mtimes and the furthest production iteration actually preserved in each
+        # simulation_real_time_analysis.yaml. Two things we're checking:
+        #   (1) MULTIPLE OpenFE unit dirs per leg  -> the resume started a FRESH unit (new UUID from proto.create()),
+        #       so the original run's .nc is ORPHANED-BUT-PRESENT in the older dir => recoverable without re-running.
+        #   (2) ONE unit dir whose simulation.nc mtime is recent + small  -> it was overwritten => original lost.
+        # The max "iteration:" across all yamls = the furthest production sampling that currently survives in S3.
+        # Pure S3 read in the GH runner ($0). No SageMaker job, no GPU. (pyyaml-free: regex the iteration ints.)
+        import re
+        from collections import defaultdict
+
+        import boto3
+        import sagemaker
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        prefix = f"{TAG}/ckpt/"
+        objs = []
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
+            for o in page.get("Contents", []):
+                objs.append((o["Key"], o["Size"], o["LastModified"]))
+        if not objs:
+            print(f"[forensic] NO objects under s3://{bucket}/{prefix} (nothing checkpointed for this tag).")
+            return
+        print(f"[forensic] s3://{bucket}/{prefix}  ({len(objs)} objects)\n")
+
+        def unit_of(rest):
+            # the OpenFE shared unit dir (gufe names it 'shared_<ProtocolUnitKey>_attempt_<n>'); one per repeat.
+            for comp in rest.split("/"):
+                if comp.startswith(("shared_", "scratch_")) or "ProtocolUnit" in comp:
+                    return comp
+            parts = rest.split("/")
+            return parts[1] if len(parts) > 2 else "(leg-root)"
+
+        legs = defaultdict(list)
+        for key, size, mt in objs:
+            rest = key.split(prefix, 1)[1]
+            legs[rest.split("/", 1)[0]].append((key, rest, size, mt))
+
+        global_max_iter = {}
+        for leg in sorted(legs):
+            items = legs[leg]
+            mts = [mt for _, _, _, mt in items]
+            leg_mb = sum(s for _, _, s, _ in items) / 1e6
+            print(f"=== LEG {leg}: {len(items)} objs, {leg_mb:.1f} MB, "
+                  f"mtime {min(mts).strftime('%m-%d %H:%M')}Z .. {max(mts).strftime('%m-%d %H:%M')}Z")
+            units = defaultdict(list)
+            for key, rest, size, mt in items:
+                units[unit_of(rest)].append((key, rest, size, mt))
+            leg_max_iter = -1
+            for u in sorted(units):
+                ui = units[u]
+                umts = [mt for *_, mt in ui]
+                ncs = [(key, rest, s, mt) for key, rest, s, mt in ui if rest.endswith(".nc")]
+                print(f"  -- unit {u}: {len(ui)} files, {sum(s for _, _, s, _ in ui)/1e6:.1f} MB, "
+                      f".nc={len(ncs)} ({sum(s for _, _, s, _ in ncs)/1e6:.1f} MB), "
+                      f"mtime {min(umts).strftime('%m-%d %H:%M')}Z..{max(umts).strftime('%m-%d %H:%M')}Z")
+                for key, rest, s, mt in sorted(ncs, key=lambda x: x[1]):
+                    print(f"       .nc {rest.split('/')[-1]:36s} {s/1e6:9.1f} MB  {mt.strftime('%m-%d %H:%M:%S')}Z")
+                # furthest iteration preserved in this unit's real-time-analysis yaml(s)
+                for key, rest, s, mt in ui:
+                    if rest.endswith("real_time_analysis.yaml"):
+                        try:
+                            body = s3.get_object(Bucket=bucket, Key=key)["Body"].read().decode("utf-8", "replace")
+                            iters = [int(x) for x in re.findall(r"iteration:\s*(\d+)", body)]
+                            fes = re.findall(r"free_energy_in_kT:\s*([-\d.eE]+)", body)
+                            mx = max(iters) if iters else -1
+                            leg_max_iter = max(leg_max_iter, mx)
+                            print(f"       yaml {rest.split('/')[-1]:35s} max_iter={mx}  "
+                                  f"n_snapshots={len(iters)}  last_FE_kT={fes[-1] if fes else 'n/a'}  "
+                                  f"{mt.strftime('%m-%d %H:%M:%S')}Z")
+                        except Exception as e:  # noqa: BLE001
+                            print(f"       yaml {rest.split('/')[-1]} read failed: {e}")
+            global_max_iter[leg] = leg_max_iter
+            nunits = len([u for u in units if u != "(leg-root)"])
+            print(f"  >> {leg}: {nunits} OpenFE unit dir(s); furthest production iteration preserved = "
+                  f"{leg_max_iter if leg_max_iter >= 0 else 'n/a (no yaml)'} / {N_ITER}\n")
+        print("[forensic] READ:")
+        for leg, mx in global_max_iter.items():
+            print(f"  {leg}: furthest surviving iteration = {mx}. >1 unit dir => original run ORPHANED-but-present "
+                  f"(recoverable); 1 unit dir with recent small .nc => overwritten (lost).")
         return
 
     if MODE == "jobs":
