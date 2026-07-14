@@ -22,40 +22,46 @@ def main() -> int:
 
     p(f"[introspect] openfe version: {getattr(openfe, '__version__', '?')}")
     from openfe.protocols import openmm_rfe as M
-    # find the ProtocolUnit class (has _execute) and the Protocol class
-    unit_cls = proto_cls = None
+    # OpenFE 1.12 splits into HybridTopologySetupUnit (CPU build) -> ...SimulationUnit (GPU MD) -> ...AnalysisUnit.
+    # Find ALL ProtocolUnit classes (those with _execute) + the Protocol class (has create()).
+    unit_classes, proto_cls = [], None
     for name in dir(M):
         obj = getattr(M, name)
         if inspect.isclass(obj):
-            if name.endswith("ProtocolUnit") and hasattr(obj, "_execute"):
-                unit_cls = obj
-            if name.endswith("Protocol") and not name.endswith("ProtocolUnit") and hasattr(obj, "create"):
+            if hasattr(obj, "_execute") and name.endswith("Unit"):
+                unit_classes.append(obj)
+            if name.endswith("Protocol") and not name.endswith("Unit") and hasattr(obj, "create"):
                 proto_cls = obj
     p(f"[introspect] Protocol class: {proto_cls.__name__ if proto_cls else None}")
-    p(f"[introspect] ProtocolUnit class: {unit_cls.__name__ if unit_cls else None}")
-    if unit_cls is None:
-        p("[introspect] could not locate a *ProtocolUnit with _execute; dir(openmm_rfe):", dir(M))
+    p(f"[introspect] ProtocolUnit classes: {[c.__name__ for c in unit_classes]}")
+    if not unit_classes:
+        p("[introspect] no *Unit with _execute; dir(openmm_rfe):", dir(M))
         return 1
 
-    # method inventory
-    methods = [n for n, _ in inspect.getmembers(unit_cls, predicate=inspect.isfunction)]
-    p(f"[introspect] {unit_cls.__name__} methods: {methods}")
-
-    # gather source of the execute path + likely helpers
-    want = [m for m in methods if m in ("_execute", "run", "_run", "execute") or
-            re.search(r"hybrid|system|sampler|simulat|minim|equil|restart|resume|setup|charge", m, re.I)]
     full = io.StringIO()
-    for m in sorted(set(want)):
-        try:
-            src = inspect.getsource(getattr(unit_cls, m))
-        except (TypeError, OSError) as e:
-            p(f"[introspect]   (no source for {m}: {e})")
-            continue
-        try:
-            _, ln = inspect.getsourcelines(getattr(unit_cls, m))
-        except Exception:  # noqa: BLE001
-            ln = "?"
-        print(f"\n===== {unit_cls.__name__}.{m}  (starts ~line {ln}) =====\n{src}", file=full)
+    # dump the Protocol.create() FIRST — it shows how the units are wired into the DAG (setup->sim->analysis
+    # input dependencies) which is exactly what we need to run them on separate instances.
+    if proto_cls:
+        for m in ("_create", "create"):
+            if hasattr(proto_cls, m):
+                try:
+                    print(f"\n===== {proto_cls.__name__}.{m} =====\n{inspect.getsource(getattr(proto_cls, m))}",
+                          file=full)
+                except (TypeError, OSError):
+                    pass
+    for unit_cls in unit_classes:
+        methods = [n for n, _ in inspect.getmembers(unit_cls, predicate=inspect.isfunction)]
+        p(f"[introspect] {unit_cls.__name__} methods: {methods}")
+        want = [m for m in methods if m in ("_execute", "run", "_run", "execute", "__init__") or
+                re.search(r"hybrid|system|sampler|simulat|minim|equil|restart|resume|setup|charge|serial", m, re.I)]
+        for m in sorted(set(want)):
+            try:
+                src = inspect.getsource(getattr(unit_cls, m))
+                _, ln = inspect.getsourcelines(getattr(unit_cls, m))
+            except (TypeError, OSError) as e:
+                p(f"[introspect]   (no source for {unit_cls.__name__}.{m}: {e})")
+                continue
+            print(f"\n===== {unit_cls.__name__}.{m}  (starts ~line {ln}) =====\n{src}", file=full)
 
     src_all = full.getvalue()
     # boundary signals: where GPU/MD begins vs where the CPU hybrid build is
