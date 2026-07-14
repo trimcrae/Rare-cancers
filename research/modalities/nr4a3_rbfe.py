@@ -592,6 +592,20 @@ def _save_outputs(outputs, path):
     print(f"  [rbfe] wrote {path} (keys: {list(ser)})", flush=True)
 
 
+# outputs that are FILE PATHS: JSON stores them as str, but OpenFE's deserialize()/readers expect pathlib.Path
+# (e.g. deserialize does `filename.parent`). Rehydrate these keys to Path when a downstream unit loads them.
+_PATH_KEYS = ("system", "positions", "pdb_structure", "nc", "checkpoint", "trajectory", "structural_analysis")
+
+
+def _load_outputs(path):
+    from pathlib import Path
+    d = json.load(open(path))
+    for k in _PATH_KEYS:
+        if isinstance(d.get(k), str):
+            d[k] = Path(d[k])
+    return d
+
+
 def run_setup():
     """CPU job: build + serialize the hybrid system (the ~1 h single-threaded work — belongs on cheap CPU)."""
     os.makedirs(CKPT, exist_ok=True)
@@ -608,7 +622,7 @@ def run_simulate():
     os.makedirs(CKPT, exist_ok=True)
     import openfe
     _proto, _dag, byname, _n = _prep_units(openfe)
-    setup_outputs = json.load(open(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json")))
+    setup_outputs = _load_outputs(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json"))
     _start_watchdog(CKPT, stall_min=float(os.environ.get("RBFE_STALL_MIN", "45")))
     res = _one_unit(byname, "HybridTopologyMultiStateSimulationUnit").execute(
         context=_mk_ctx("sim"), raise_error=True, setup_results=_Res(setup_outputs))
@@ -622,8 +636,8 @@ def run_analyze():
     os.makedirs(CKPT, exist_ok=True)
     import openfe
     proto, _dag, byname, n_mapped = _prep_units(openfe)
-    setup_outputs = json.load(open(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json")))
-    sim_outputs = json.load(open(os.path.join(CKPT, f"sim_{RECEPTOR}_{LEG}.json")))
+    setup_outputs = _load_outputs(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json"))
+    sim_outputs = _load_outputs(os.path.join(CKPT, f"sim_{RECEPTOR}_{LEG}.json"))
     res = _one_unit(byname, "HybridTopologyMultiStateAnalysisUnit").execute(
         context=_mk_ctx("ana"), raise_error=True,
         setup_results=_Res(setup_outputs), simulation_results=_Res(sim_outputs))
