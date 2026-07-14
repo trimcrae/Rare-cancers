@@ -83,7 +83,7 @@ def _cost_note():
 
 def main():
     role = os.environ.get("SAGEMAKER_ROLE_ARN")
-    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "forensic", "stop", "stage") and not role:
+    if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "forensic", "eta", "stop", "stage") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
 
     if MODE == "stage":
@@ -281,6 +281,72 @@ def main():
         for leg, mx in global_max_iter.items():
             print(f"  {leg}: furthest surviving iteration = {mx}. >1 unit dir => original run ORPHANED-but-present "
                   f"(recoverable); 1 unit dir with recent small .nc => overwritten (lost).")
+        return
+
+    if MODE == "eta":
+        # RIGOROUS live ETA (trimcrae 2026-07-14: "track iteration progress + speed on each window, update ETAs as
+        # you go"). Reads the running complex leg's openmmtools simulation_real_time_analysis.yaml from S3 (written
+        # every analysis interval during PRODUCTION) and reports, from real data: current production iteration,
+        # the per-snapshot seconds/iteration trend (each iteration propagates ALL 12 λ-windows/replicas + attempts
+        # exchanges — so s/iter IS the per-window pace), ns/day, the running MBAR ΔG±SE (convergence), and a
+        # self-computed absolute finish time = now + remaining_iters × recent_avg_s/iter (unambiguous UTC->ET, not
+        # the engine's tz-ambiguous localtime field). Also compares pace to the first attempt (~20 s/iter avg) so
+        # we can SEE it running faster. Before production starts (setup/solvate/minimize/equilibrate) there is no
+        # yaml yet -> says so + points at tracelog for the live 'Equilibration iteration N/1000'. Pure S3 read ($0).
+        import datetime
+        import boto3
+        import sagemaker
+        import yaml as _yaml
+        s3 = boto3.client("s3")
+        bucket = sagemaker.Session().default_bucket()
+        leg = (os.environ.get("ONLY_LEGS", "").split(",")[0].strip() or "complex-nr4a3")
+        prefix = f"{TAG}/ckpt/{leg}/"
+        yamls = []
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
+            for o in page.get("Contents", []):
+                if o["Key"].endswith("simulation_real_time_analysis.yaml"):
+                    yamls.append((o["Key"], o["LastModified"]))
+        print(f"[eta] leg={leg}  s3://{bucket}/{prefix}")
+        if not yamls:
+            print("[eta] no production real_time_analysis.yaml yet -> still in setup/solvation/minimization/"
+                  "equilibration (openmmtools writes this file only once PRODUCTION starts). Use mode=tracelog to "
+                  "see the live 'Equilibration iteration N/1000' or 'Iteration N/5000' counter.")
+            return
+        key, mt = max(yamls, key=lambda x: x[1])
+        snaps = _yaml.safe_load(s3.get_object(Bucket=bucket, Key=key)["Body"].read()) or []
+        snaps = [s for s in snaps if isinstance(s, dict) and "iteration" in s]
+        if not snaps:
+            print(f"[eta] yaml present but no parseable snapshots yet ({key}, written {mt.strftime('%H:%M:%S')}Z).")
+            return
+        last = snaps[-1]
+        it = int(last["iteration"])
+        pct = float(last.get("percent_complete") or 0.0)
+        total = round(it / (pct / 100.0)) if pct else int(os.environ.get("ETA_TOTAL", "5000"))
+        td = last.get("timing_data", {}) or {}
+        avg = float(td.get("average_seconds_per_iteration") or 0.0)
+        ns_day = td.get("ns_per_day")
+        mb = last.get("mbar_analysis", {}) or {}
+        fe, se = mb.get("free_energy_in_kT"), mb.get("standard_error_in_kT")
+        # recent per-snapshot s/iter trend (the last ~10) so we SEE speed per window over time
+        print(f"[eta] production {it}/{total} ({100*it/total:.1f}%)  |  MBAR ΔG={fe} ± {se} kT  |  yaml @ "
+              f"{mt.strftime('%H:%M:%S')}Z")
+        print("[eta] recent snapshots (iteration : seconds/iter : ns/day):")
+        for s in snaps[-10:]:
+            t = s.get("timing_data", {}) or {}
+            print(f"        {int(s['iteration']):5d} : {float(t.get('iteration_seconds', 0)):6.1f}s : "
+                  f"{float(t.get('ns_per_day', 0)):5.1f}")
+        # rigorous absolute ETA: remaining production iters × recent avg s/iter, from UTC now -> ET (UTC-4), 12-hr.
+        remaining = max(0, total - it)
+        eta_s = remaining * avg if avg else 0
+        now = datetime.datetime.utcnow()
+        fin_et = (now + datetime.timedelta(seconds=eta_s)) - datetime.timedelta(hours=4)
+        hrs = eta_s / 3600.0
+        first_avg = 20.0  # first attempt's ~avg s/iter (2026-07-13 yaml) for a faster/slower comparison
+        pace = ("FASTER" if avg and avg < first_avg else "slower" if avg else "n/a")
+        print(f"[eta] recent avg = {avg:.1f} s/iter (first attempt ~{first_avg:.0f} s/iter -> {pace}); "
+              f"ns/day = {ns_day}")
+        print(f"[eta] remaining {remaining} prod iters × {avg:.1f}s = {hrs:.1f} h  ->  finish ~"
+              f"{fin_et.strftime('%b-%d %-I:%M %p')} ET  (production phase only; equilibration already done)")
         return
 
     if MODE == "jobs":

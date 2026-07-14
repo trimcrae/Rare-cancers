@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: pip install "sagemaker>=2.200,<3" boto3 rdkit
+      - run: pip install "sagemaker>=2.200,<3" boto3 rdkit pyyaml
       - name: Dispatch RBFE ${{ inputs.mode }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
