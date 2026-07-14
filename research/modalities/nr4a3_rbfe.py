@@ -143,9 +143,19 @@ def _mapping(openfe, ligA, ligB):
     for ec in (False, True):
         try:
             m = _suggest(ec)
+            nmap = len(m.componentA_to_componentB)
+            print(f"[rbfe] LOMAP element_change={ec}: {nmap} mapped atoms for {LIGAND_A}->{LIGAND_B}", flush=True)
             if ec:
                 print(f"[rbfe] LOMAP: element_change=True required for {LIGAND_A}->{LIGAND_B} "
                       f"(single-point element mutation; scaffold maps 1:1, pose-independent)", flush=True)
+            # A LOMAP map far smaller than the rdFMCS core (see MAPPING DIAG) is degenerate — for a congeneric
+            # edge LOMAP should map ~the whole shared scaffold. If element_change=False returns a tiny map (it can
+            # collapse to the mutating-atom neighborhood on a single-point element change), try element_change=True
+            # which maps the scaffold 1:1 with Br<->N as the mutation. Only accept the small map if BOTH fail.
+            if nmap <= 2 and ec is False:
+                print(f"[rbfe] LOMAP element_change=False gave a DEGENERATE {nmap}-atom map; trying "
+                      f"element_change=True before accepting", flush=True)
+                continue
             return m
         except StopIteration:
             continue
