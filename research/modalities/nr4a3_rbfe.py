@@ -291,9 +291,11 @@ def _protocol(openfe):
         if os.environ.get("RBFE_TINY") == "1":
             # free-CI split-plumbing shakeout: a few ps so setup->simulate->analyze runs in minutes on CPU. NOT
             # science — validates the 3-unit hand-off + serialization only.
-            s.simulation_settings.equilibration_length = 2.0 * _ou.picosecond
-            s.simulation_settings.production_length = 4.0 * _ou.picosecond
-            print("  [rbfe] RBFE_TINY=1 — 2ps/4ps MD (plumbing shakeout only, not a real result)", flush=True)
+            # lengths MUST be multiples of the MC-move interval (625 steps × 4 fs = 2.5 ps) or OpenFE's
+            # settings validation rejects them. 2.5 ps equil / 10 ps prod = a handful of MBAR iterations.
+            s.simulation_settings.equilibration_length = 2.5 * _ou.picosecond
+            s.simulation_settings.production_length = 10.0 * _ou.picosecond
+            print("  [rbfe] RBFE_TINY=1 — 2.5ps/10ps MD (plumbing shakeout only, not a real result)", flush=True)
         else:
             s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
             s.simulation_settings.production_length = 5.0 * _ou.nanosecond
