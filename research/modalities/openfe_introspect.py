@@ -38,6 +38,26 @@ def main() -> int:
         p("[introspect] no *Unit with _execute; dir(openmm_rfe):", dir(M))
         return 1
 
+    # DEFAULT settings — to answer definitively where "ps per iteration" comes from (we only set the total
+    # equilibration/production lengths; time_per_iteration is OpenFE's own default, which we never override).
+    if proto_cls and hasattr(proto_cls, "default_settings"):
+        try:
+            ds = proto_cls.default_settings()
+            ss = getattr(ds, "simulation_settings", None)
+            for a in ("time_per_iteration", "equilibration_length", "production_length", "n_replicas",
+                      "real_time_analysis_interval", "sampler_method"):
+                if ss is not None and hasattr(ss, a):
+                    p(f"[introspect] DEFAULT simulation_settings.{a} = {getattr(ss, a)}")
+            ig = getattr(ds, "integrator_settings", None)
+            for a in ("timestep", "n_steps", "nsteps"):
+                if ig is not None and hasattr(ig, a):
+                    p(f"[introspect] DEFAULT integrator_settings.{a} = {getattr(ig, a)}")
+            ls = getattr(ds, "lambda_settings", None)
+            if ls is not None and hasattr(ls, "lambda_windows"):
+                p(f"[introspect] DEFAULT lambda_settings.lambda_windows = {getattr(ls, 'lambda_windows')}")
+        except Exception as e:  # noqa: BLE001
+            p(f"[introspect] default-settings dump failed: {e}")
+
     full = io.StringIO()
     # dump the Protocol.create() FIRST — it shows how the units are wired into the DAG (setup->sim->analysis
     # input dependencies) which is exactly what we need to run them on separate instances.
