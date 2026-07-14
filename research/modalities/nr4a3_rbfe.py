@@ -93,6 +93,36 @@ def _repair_pose(mol, expected_smiles, rdkit_chem):
         return mol
 
 
+def _align_pose(mol_move, mol_ref, rdkit_chem):
+    """Rigid-body superimpose mol_move onto mol_ref on their maximum common substructure so the shared scaffold
+    COINCIDES in 3D (required for a physically-sensible RBFE morph, and to stop LOMAP's distance filter from
+    rejecting an otherwise-valid topological map when the two docked poses were placed in different frames — the
+    2026-07-14 n_mapped=1 root cause). Only moves mol_move as a rigid body; its internal geometry is unchanged.
+    Falls back to the raw pose on any failure (logged), so it can never make the mapping worse than before."""
+    try:
+        from rdkit.Chem import rdFMCS, rdMolAlign
+        refH = rdkit_chem.RemoveHs(rdkit_chem.Mol(mol_ref))
+        movH = rdkit_chem.RemoveHs(rdkit_chem.Mol(mol_move))
+        mcs = rdFMCS.FindMCS([refH, movH], completeRingsOnly=True, ringMatchesRingOnly=True, timeout=30)
+        if mcs.numAtoms < 3:
+            print(f"  [rbfe] align: MCS too small ({mcs.numAtoms}); using raw pose", flush=True)
+            return mol_move
+        patt = rdkit_chem.MolFromSmarts(mcs.smartsString)
+        m_ref = mol_ref.GetSubstructMatch(patt)          # heavy-atom indices in the FULL (with-H) mols
+        m_mov = mol_move.GetSubstructMatch(patt)
+        if not m_ref or not m_mov or len(m_ref) != len(m_mov):
+            print(f"  [rbfe] align: substruct match failed (ref={len(m_ref)} mov={len(m_mov)}); raw pose",
+                  flush=True)
+            return mol_move
+        rmsd = rdMolAlign.AlignMol(mol_move, mol_ref, atomMap=list(zip(m_mov, m_ref)))
+        print(f"  [rbfe] aligned {LIGAND_B}->{LIGAND_A} on {len(m_ref)} MCS atoms (RMSD {rmsd:.2f} Å); scaffold "
+              f"now co-located for the morph", flush=True)
+        return mol_move
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe] align WARN ({e}); using raw pose", flush=True)
+        return mol_move
+
+
 def _build_components(openfe, rdkit_chem):
     """Build the OpenFE ligand A/B SmallMoleculeComponents (+ receptor ProteinComponent for the complex leg),
     from the mounted docked poses. Returns (ligA, ligB, protein_or_None)."""
@@ -107,6 +137,13 @@ def _build_components(openfe, rdkit_chem):
                         rb.SMILES.get(LIGAND_A), rdkit_chem)
     molB = _repair_pose(_sdf_mol(sdf, LIGAND_B, rb.SMILES.get(LIGAND_B), rdkit_chem),
                         rb.SMILES.get(LIGAND_B), rdkit_chem)
+    # RBFE morph requires the shared scaffold of A and B to be CO-LOCATED (the hybrid topology reuses one set of
+    # coordinates for the mapped atoms). The congeneric dock placed zaienne_cmpd19 / cw_ev_5nh2 in DIFFERENT frames
+    # (2026-07-14 smoke: LOMAP returned "no mapping after filters" and Kartograf mapped only 1 atom — the signature
+    # of spatially-offset scaffolds), collapsing n_mapped to 1. Superimpose B onto A on their MCS so the scaffold
+    # coincides -> LOMAP's distance filter passes and the morph shares a frame. Pose-independent 2D MCS still
+    # defines the correspondence; this only fixes the geometry.
+    molB = _align_pose(molB, molA, rdkit_chem)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
