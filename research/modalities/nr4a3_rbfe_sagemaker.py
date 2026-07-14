@@ -493,7 +493,7 @@ def main():
     env_pass = {k: os.environ[k] for k in
                 ("RBFE_RESUME", "RBFE_STALL_MIN", "RBFE_MIN_MAPPED", "RBFE_MIN_MAPPED_FRAC") if os.environ.get(k)}
 
-    def make_estimator(name, hp, instance=None, ckpt_name=None, spot=None):
+    def make_estimator(name, hp, instance=None, ckpt_name=None, spot=None, extra_env=None):
         use_spot = SPOT if spot is None else spot
         kw = dict(
             entry_point="entry_rbfe.py", source_dir=os.path.join(here, "sagemaker_src"),
@@ -504,8 +504,9 @@ def main():
             # job downloads the setup job's serialized system + the analyze job reads the sim's .nc.
             checkpoint_s3_uri=f"s3://{bucket}/{TAG}/ckpt/{ckpt_name or name}/",
             checkpoint_local_path="/opt/ml/checkpoints", hyperparameters=hp)
-        if env_pass:
-            kw["environment"] = env_pass
+        merged_env = {**env_pass, **(extra_env or {})}
+        if merged_env:
+            kw["environment"] = merged_env
         if IMAGE_URI:
             kw["image_uri"] = IMAGE_URI
         else:
@@ -563,8 +564,10 @@ def main():
         for name, receptor, leg in legs:
             if only and name not in only and leg not in only and receptor not in only:
                 continue
+            # setup/analyze run on CPU boxes → force the CPU OpenMM platform (skip the CUDA/OpenCL probe).
+            extra = {"RBFE_PLATFORM": "CPU"} if MODE != "simulate" else None
             est = make_estimator(f"{name}-{MODE}", {**common, "mode": MODE, "receptor": receptor, "leg": leg},
-                                 instance=inst, ckpt_name=name, spot=spot)
+                                 instance=inst, ckpt_name=name, spot=spot, extra_env=extra)
             inputs = {"ligand": TrainingInput(matrix)}
             if leg == "complex":
                 inputs["receptor"] = TrainingInput(matrix)

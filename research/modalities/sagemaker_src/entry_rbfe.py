@@ -48,7 +48,12 @@ def main():
     ap.add_argument("--prebaked", default="0")
     args, _ = ap.parse_known_args()
 
-    subprocess.run(["nvidia-smi"], check=False)
+    # nvidia-smi is absent on CPU instances (the split's setup/analyze jobs) — check=False suppresses non-zero
+    # EXIT codes, NOT a missing binary (that raises FileNotFoundError). Guard it so CPU jobs don't crash at line 1.
+    try:
+        subprocess.run(["nvidia-smi"], check=False)
+    except FileNotFoundError:
+        print("[entry_rbfe] no nvidia-smi (CPU instance) — expected for setup/analyze", flush=True)
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"], check=False)
     _sh(["git", "clone", "--depth", "1", "--branch", args.git_ref or "main",
          "https://github.com/trimcrae/Rare-cancers", "/tmp/repo"])
