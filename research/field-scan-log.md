@@ -6,9 +6,10 @@ that run fails. **Scope is broader than the degrader path**: also ASO delivery, 
 new solid-tumor modality that could apply to a fusion-driven sarcoma. It ALSO carries a **Tooling &
 operating-environment watch** (added 2026-07-14, trimcrae): (a) new releases/changelogs of our in-silico
 software stack (OpenFE, OpenMM, openmmtools, gufe, OpenFF/NAGL, LOMAP/Kartograf, RDKit, Boltz — esp. bumps that
-change defaults/accuracy, e.g. the OpenFE v1.7 time_per_iteration 1.0→2.5 ps change); (b) changes to Anthropic's
-bio/biosecurity guardrail policy (Usage Policy / RSP / ASL bio-CBRN); (c) whether OpenAI Codex has gained
-phone-without-Remote-Desktop control (a Claude-Code-style mobile control surface). Each entry should highlight
+change defaults/accuracy, e.g. the OpenFE v1.7 time_per_iteration 1.0→2.5 ps change); (b) whether the cancer/bio-research RESTRICTION on
+Fable (claude-fable-5) — and on any future frontier model at least as capable — is relaxed, so we could use a
+top-tier model for this NR4A3/EMC bio work; (c) whether OpenAI Codex has gained phone-without-Remote-Desktop
+control (a Claude-Code-style mobile control surface). Each entry should highlight
 the **delta vs the previous entry**. Sources are real search hits; novelty/dating flagged where unverified. No
 fabricated papers.
 
