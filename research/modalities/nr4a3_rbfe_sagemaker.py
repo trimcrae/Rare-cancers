@@ -421,6 +421,12 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     matrix = f"s3://{bucket}/{RECEPTOR_PREFIX}/"
 
+    # Pass the never-again knobs straight to the training container as env vars (entry_rbfe copies os.environ into
+    # the conda subprocess, so nr4a3_rbfe.py reads them): RBFE_RESUME=1 activates the deterministic-DAG resume
+    # (stable unit dirs across spot restarts), RBFE_STALL_MIN tunes the watchdog, RBFE_MIN_MAPPED* the map guard.
+    env_pass = {k: os.environ[k] for k in
+                ("RBFE_RESUME", "RBFE_STALL_MIN", "RBFE_MIN_MAPPED", "RBFE_MIN_MAPPED_FRAC") if os.environ.get(k)}
+
     def make_estimator(name, hp):
         kw = dict(
             entry_point="entry_rbfe.py", source_dir=os.path.join(here, "sagemaker_src"),
@@ -429,6 +435,8 @@ def main():
             max_run=int(MAX_RUN_H * 3600), max_wait=int(MAX_WAIT_H * 3600) if SPOT else None,
             checkpoint_s3_uri=f"s3://{bucket}/{TAG}/ckpt/{name}/", checkpoint_local_path="/opt/ml/checkpoints",
             hyperparameters=hp)
+        if env_pass:
+            kw["environment"] = env_pass
         if IMAGE_URI:
             kw["image_uri"] = IMAGE_URI
         else:
