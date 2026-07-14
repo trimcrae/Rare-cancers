@@ -587,7 +587,13 @@ def _one_unit(byname, key):
 
 
 def _save_outputs(outputs, path):
-    ser = {k: (str(v) if hasattr(v, "__fspath__") else v) for k, v in outputs.items()}
+    def _ser(v):
+        if hasattr(v, "__fspath__"):
+            return str(v)                    # pathlib.Path -> str
+        if hasattr(v, "tolist"):
+            return v.tolist()                # numpy array (e.g. selection_indices) -> real list, NOT "[...]" str
+        return v
+    ser = {k: _ser(v) for k, v in outputs.items()}
     json.dump(ser, open(path, "w"), indent=2, default=str)
     print(f"  [rbfe] wrote {path} (keys: {list(ser)})", flush=True)
 
