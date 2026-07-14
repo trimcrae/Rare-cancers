@@ -383,34 +383,35 @@ def _start_watchdog(ckpt, stall_min):
 
 
 def _build_or_resume_dag(openfe, proto, A, B, mapping):
-    """FIX #3 scaffold (2026-07-14 forensic — Bug A: each restart called proto.create(), minting FRESH ProtocolUnit
-    UUIDs => a NEW shared_<uuid>/ dir => the job ignored all prior dirs and restarted from iteration 0; the pilot
-    accumulated 7 such throwaway dirs). To make a restart CONTINUE the same unit dir (so OpenFE/openmmtools can pick
-    up the existing simulation.nc), the DAG's unit identity must be STABLE across dispatches. We persist the created
-    DAG to CKPT on first build and reload it on restart, so unit keys — and therefore shared_<key>/ dir names —
-    match. OFF by default (RBFE_RESUME=1 to enable): the immediate re-run finishes in ONE uninterrupted allocation
-    (no-interruption provider), where resume is never exercised; enable + VALIDATE this on a spot provider (kill
-    mid-leg, re-dispatch, confirm it continues the .nc) before trusting it for the A3 spot fleet."""
-    if os.environ.get("RBFE_RESUME", "0") != "1":
-        return proto.create(stateA=A, stateB=B, mapping=mapping)
-    from gufe.protocols import ProtocolDAG
-    from gufe.tokenization import JSON_HANDLER
-    dag_path = os.path.join(CKPT, f"dag_{RECEPTOR}_{LEG}.json")
-    if os.path.exists(dag_path):
-        try:
-            dag = ProtocolDAG.from_dict(json.load(open(dag_path), cls=JSON_HANDLER.decoder))
-            print(f"  [rbfe][resume] reloaded persisted DAG {dag_path} -> STABLE unit keys (restart continues the "
-                  f"same shared dirs); OpenFE resumes any existing simulation.nc", flush=True)
-            return dag
-        except Exception as e:  # noqa: BLE001 — corrupt/incompatible persisted DAG: rebuild fresh (safe fallback)
-            print(f"  [rbfe][resume] WARN could not reload {dag_path} ({e}); building a fresh DAG", flush=True)
-    dag = proto.create(stateA=A, stateB=B, mapping=mapping)
-    try:
-        json.dump(dag.to_dict(), open(dag_path, "w"), cls=JSON_HANDLER.encoder)
-        print(f"  [rbfe][resume] persisted DAG -> {dag_path} (future restarts reuse these unit keys)", flush=True)
-    except Exception as e:  # noqa: BLE001
-        print(f"  [rbfe][resume] WARN could not persist DAG ({e}); restart will rebuild (fresh keys)", flush=True)
-    return dag
+    """Build the ProtocolDAG. Always a FRESH proto.create().
+
+    ★ FINDING (2026-07-14, spot stress-test on nr4a3-congeneric-rbfe-v2): the deterministic-DAG "resume" (persist
+    the DAG, reload it on restart so unit keys are STABLE) DOES NOT WORK and was actively HARMFUL — it caused
+    `FileExistsError` in `gufe.protocols.execute_DAG`, which does a plain `shared.mkdir()` (no exist_ok) on the
+    per-unit dir `shared_<unit.key>_attempt_0`. With stable keys, a spot restart's dir name collides with the one
+    restored from the S3 checkpoint → hard crash. More fundamentally, **gufe.execute_DAG cannot resume a
+    partially-completed ProtocolUnit at all**: it re-runs each unit from scratch and REQUIRES a fresh shared dir.
+    So there is no supported way to continue a preempted leg via the shared_basedir mechanism. Reverted to fresh
+    keys every run (the crash only appears with reused keys). RBFE_RESUME is retained only to `_clear_stale_shared`
+    leftover partial dirs before execute_DAG (defensive; prevents disk bloat / any stray collision), NOT to resume.
+    Consequence: a leg must COMPLETE IN ONE UNINTERRUPTED ALLOCATION (→ on-demand, or a build+MD that fits a spot
+    window). True resumability needs bypassing gufe's dir handling + OpenFE's .nc restart — tracked separately."""
+    return proto.create(stateA=A, stateB=B, mapping=mapping)
+
+
+def _clear_stale_shared(ckpt):
+    """Remove leftover OpenFE shared/scratch unit dirs from a preempted prior attempt so a fresh execute_DAG (fresh
+    unit keys) starts clean — prevents the checkpoint from accumulating throwaway partial-build dirs across spot
+    restarts. Safe because gufe cannot reuse them anyway (see _build_or_resume_dag)."""
+    import shutil
+    for sub in ("shared", "scratch"):
+        d = os.path.join(ckpt, sub)
+        if os.path.isdir(d):
+            try:
+                shutil.rmtree(d)
+                print(f"  [rbfe] cleared stale {sub}/ from a prior (unresumable) attempt", flush=True)
+            except Exception as e:  # noqa: BLE001
+                print(f"  [rbfe] WARN could not clear {sub}/ ({e})", flush=True)
 
 
 def _check_mapping_sane(mapping, ligA, ligB, n_mapped):
@@ -460,11 +461,14 @@ def run_leg():
     proto = _protocol(openfe)
     A, B = _chemical_systems(openfe, ligA, ligB, protein)
     dag = _build_or_resume_dag(openfe, proto, A, B, mapping)
+    _clear_stale_shared(CKPT)   # remove a preempted attempt's partial dirs so gufe's per-unit mkdir doesn't collide
     _start_watchdog(CKPT, stall_min=float(os.environ.get("RBFE_STALL_MIN", "45")))
     from gufe.protocols import execute_DAG
     from pathlib import Path
     # gufe's execute_DAG does `shared_basedir / f"..."`, so these MUST be pathlib.Path, not str (a str `/` str
     # is the "TypeError: unsupported operand type(s) for /: 'str' and 'str'" that killed the first real-MD legs).
+    # NB: gufe's INTERNAL per-unit `shared_<key>_attempt_0` mkdir has no exist_ok — a restored-from-checkpoint dir
+    # of the same key crashes it (2026-07-14 FileExistsError); _clear_stale_shared above prevents that.
     shared = Path(CKPT) / "shared"
     scratch = Path(CKPT) / "scratch"
     shared.mkdir(parents=True, exist_ok=True)
