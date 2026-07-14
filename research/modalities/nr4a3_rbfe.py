@@ -359,12 +359,18 @@ def _chemical_systems(openfe, ligA, ligB, protein):
 
 
 def _start_watchdog(ckpt, stall_min):
-    """FIX #2 (2026-07-14): the REAL hang-guard. max_run is only a distant runaway-cost backstop; this catches a
-    genuinely WEDGED leg (dead/hung GPU) in minutes so it hard-exits and the run is re-dispatched, instead of
-    burning the whole allocation on a stalled job (the failure the old 30 h max_run masked). A daemon thread
-    watches the newest simulation*.nc mtime under the OpenFE shared dir; it ARMS only after the first .nc appears
-    (so the long, .nc-less setup/charge/equilibration phase never trips it), then hard-exits if that mtime stops
-    advancing for stall_min minutes. Slow-but-progressing work keeps advancing the .nc, so it is never killed."""
+    """Hang-guard: hard-exit a genuinely WEDGED leg so the allocation isn't burned. DISABLED when stall_min <= 0.
+
+    ★ FIX (2026-07-14): the first version false-KILLED a healthy complex leg — openmmtools does NOT write the
+    production simulation.nc during the long EQUILIBRATION phase (~2.5 h for the complex), so a watchdog that armed
+    the instant the .nc file merely EXISTS saw a static mtime and wrongly declared a stall at 45 min (the solvent
+    leg only survived because its equilibration is < 45 min). Correct rule: only start the stall clock once the .nc
+    has actually ADVANCED at least once (i.e. PRODUCTION is writing). During equilibration the .nc never advances,
+    so the guard stays dormant; once production begins updating it (every checkpoint_interval), a real stall of
+    stall_min with no update is caught. Requires `seen_progress` before it can ever fire."""
+    if stall_min <= 0:
+        print("  [rbfe][watchdog] DISABLED (RBFE_STALL_MIN<=0)", flush=True)
+        return
     import glob as _glob
     import threading
     import time
@@ -374,26 +380,31 @@ def _start_watchdog(ckpt, stall_min):
         return max((os.path.getmtime(p) for p in ncs), default=None)
 
     def _loop():
-        last_mtime, last_change = None, None
+        last_mtime, last_change, seen_progress = None, None, False
         while True:
             time.sleep(60)
             mt = _newest_nc_mtime()
             if mt is None:
-                continue                                  # setup phase: no MD trajectory yet -> don't arm
+                continue                                  # setup phase: no .nc yet
             now = time.time()
-            if last_mtime is None or mt > last_mtime + 1:
+            if last_mtime is None:
                 last_mtime, last_change = mt, now
+                continue
+            if mt > last_mtime + 1:                       # .nc ADVANCED -> production is actively writing
+                last_mtime, last_change, seen_progress = mt, now, True
+                continue
+            if not seen_progress:                         # .nc exists but never advanced (equilibration) -> dormant
                 continue
             stalled_min = (now - last_change) / 60.0
             if stalled_min >= stall_min:
-                print(f"  [rbfe][watchdog] STALL: trajectory .nc unchanged {stalled_min:.0f} min "
-                      f"(>= {stall_min:.0f}); GPU appears wedged -> hard-exit 42 to force re-dispatch rather than "
-                      f"burn the allocation.", flush=True)
+                print(f"  [rbfe][watchdog] STALL: production .nc unchanged {stalled_min:.0f} min "
+                      f"(>= {stall_min:.0f}) after previously advancing; GPU appears wedged -> hard-exit 42.",
+                      flush=True)
                 os._exit(42)
 
     threading.Thread(target=_loop, daemon=True).start()
-    print(f"  [rbfe][watchdog] armed: hard-exit if the trajectory .nc stalls >= {stall_min:.0f} min after MD starts",
-          flush=True)
+    print(f"  [rbfe][watchdog] armed: fires only AFTER production .nc starts advancing, then if it stalls "
+          f">= {stall_min:.0f} min (equilibration never trips it)", flush=True)
 
 
 def _build_or_resume_dag(openfe, proto, A, B, mapping):
