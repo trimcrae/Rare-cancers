@@ -17,6 +17,9 @@ on:
       - .github/workflows/rbfe-split-shakeout.yml
       - research/modalities/nr4a3_rbfe.py
 
+permissions:
+  contents: write
+
 concurrency:
   group: rbfe-split-shakeout
   cancel-in-progress: true
@@ -74,5 +77,17 @@ jobs:
           cd research/modalities
           python nr4a3_rbfe.py
           echo "===== produced files ====="; ls -la "$CKPT_DIR" || true
-          echo "===== leg json (ΔG) ====="; cat "$CKPT_DIR"/leg_*.json 2>/dev/null || echo "(no leg json — see analysis_raw)"
           echo "===== analysis_raw ====="; cat "$CKPT_DIR"/analysis_raw_*.json 2>/dev/null || true
+          # GATE: a green run must have produced a ΔG (leg json). If not, the ΔG-key extraction failed -> fail loudly.
+          if ! ls "$CKPT_DIR"/leg_*.json >/dev/null 2>&1; then
+            echo "::error::split ran but no leg_*.json — analyze could not extract ΔG (fix the key from analysis_raw above)"; exit 1
+          fi
+          echo "===== leg json (ΔG) ====="; cat "$CKPT_DIR"/leg_*.json
+          # commit the result artifacts so they can be read cleanly (logs get buried under conda cleanup)
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git checkout -B rbfe-split-cache
+          mkdir -p research/modalities/_splitshake
+          cp "$CKPT_DIR"/leg_*.json "$CKPT_DIR"/analysis_raw_*.json research/modalities/_splitshake/ 2>/dev/null || true
+          git add research/modalities/_splitshake/ && git commit -m "split shakeout ΔG result" || echo "nothing to commit"
+          for i in 1 2 3; do git push -f origin rbfe-split-cache && break || sleep $((2**i)); done
