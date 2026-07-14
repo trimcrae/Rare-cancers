@@ -237,6 +237,11 @@ def _working_platform_name(preferred="CUDA"):
     global _PLATFORM_NAME
     if _PLATFORM_NAME:
         return _PLATFORM_NAME
+    forced = os.environ.get("RBFE_PLATFORM", "").strip()   # e.g. CPU for the free-CI split shakeout (no GPU)
+    if forced:
+        _PLATFORM_NAME = forced
+        print(f"[rbfe] OpenMM platform FORCED = {forced} (RBFE_PLATFORM)", flush=True)
+        return forced
     import openmm
     from openmm import unit as ou
     for name in [preferred] + [p for p in ("CUDA", "OpenCL") if p != preferred]:
@@ -283,8 +288,15 @@ def _protocol(openfe):
     # ("TypeError: str / str"), which the DAG-build-only smoke never triggers (caught by the solvent one-leg).
     try:
         from openff.units import unit as _ou
-        s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
-        s.simulation_settings.production_length = 5.0 * _ou.nanosecond
+        if os.environ.get("RBFE_TINY") == "1":
+            # free-CI split-plumbing shakeout: a few ps so setup->simulate->analyze runs in minutes on CPU. NOT
+            # science — validates the 3-unit hand-off + serialization only.
+            s.simulation_settings.equilibration_length = 2.0 * _ou.picosecond
+            s.simulation_settings.production_length = 4.0 * _ou.picosecond
+            print("  [rbfe] RBFE_TINY=1 — 2ps/4ps MD (plumbing shakeout only, not a real result)", flush=True)
+        else:
+            s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
+            s.simulation_settings.production_length = 5.0 * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
     # FIX #4 (2026-07-14 forensic — Bug B: a killed leg's simulation.nc never reached S3). Write checkpoints more
@@ -510,8 +522,163 @@ def reduce_receptor():
           flush=True)
 
 
+# ---- CPU-build / GPU-MD SPLIT (2026-07-14) ---------------------------------------------------------------------
+# OpenFE 1.12 already splits the RBFE protocol into three of its OWN ProtocolUnits (verified by introspection):
+#   HybridTopologySetupUnit          — CPU: parameterize + build the hybrid OpenMM System, serialize it +
+#                                      positions to files (hybrid_system.xml.bz2, hybrid_positions.npy).
+#   HybridTopologyMultiStateSimulationUnit — GPU: deserialize system+positions, run the MultiState MD; RESUMES
+#                                      from the .nc automatically (its _check_restart looks for the nc+checkpoint
+#                                      in the shared dir) -> spot-safe.
+#   HybridTopologyMultiStateAnalysisUnit   — CPU: MBAR -> ΔG.
+# We run each unit as its OWN job on the right/cheapest hardware (setup on cheap CPU, sim on GPU, analyze on CPU),
+# passing each unit's outputs via a small JSON + the shared files (moved through the shared S3 checkpoint prefix).
+# This reuses OpenFE's validated machinery verbatim — NO hand-rolled alchemy. Modes: setup | simulate | analyze
+# (production, separate jobs) and splittest (all three in one process, RBFE_TINY, for the free-CI plumbing shakeout).
+# gufe API: unit.execute(context=Context(shared,scratch), raise_error=True, **dep_results) -> ProtocolUnitResult;
+# the sim/analysis units only touch dep_result.outputs, so a light stand-in object carrying .outputs suffices.
+
+
+class _Res:
+    """Minimal stand-in for a gufe ProtocolUnitResult across jobs — sim/analysis units only read `.outputs`
+    (a dict of file paths + inline values + the openmm/openfe/gufe versions they verify against)."""
+    def __init__(self, outputs):
+        self.outputs = outputs
+
+
+def _prep_units(openfe):
+    from rdkit import Chem
+    ligA, ligB, protein = _build_components(openfe, Chem)
+    mapping = _mapping(openfe, ligA, ligB)
+    n_mapped = len(mapping.componentA_to_componentB)
+    print(f"  [rbfe] {RECEPTOR}/{LEG}: mapped {n_mapped} atoms A->B ({LIGAND_A}->{LIGAND_B})", flush=True)
+    _check_mapping_sane(mapping, ligA, ligB, n_mapped)
+    proto = _protocol(openfe)
+    A, B = _chemical_systems(openfe, ligA, ligB, protein)
+    dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+    byname = {}
+    for u in dag.protocol_units:
+        byname.setdefault(type(u).__name__, []).append(u)
+    print(f"  [rbfe] DAG units: {{{', '.join(f'{k}:{len(v)}' for k, v in byname.items())}}}", flush=True)
+    return proto, dag, byname, n_mapped
+
+
+def _mk_ctx(name):
+    from pathlib import Path
+    from gufe import Context
+    sh = Path(CKPT) / f"{name}_shared"
+    sc = Path(CKPT) / f"{name}_scratch"
+    sh.mkdir(parents=True, exist_ok=True)
+    sc.mkdir(parents=True, exist_ok=True)
+    try:
+        return Context(shared=sh, scratch=sc)
+    except TypeError:                                  # older/newer gufe may want more fields
+        return Context(shared=sh, scratch=sc, permanent=sh)
+
+
+def _one_unit(byname, key):
+    us = byname.get(key) or []
+    if not us:
+        sys.exit(f"  ABORT: no {key} in DAG (units: {list(byname)}) — is openfe >= 1.12 (3-unit split)?")
+    if len(us) > 1:
+        print(f"  [rbfe] NOTE {len(us)} {key} (protocol_repeats>1); using the first", flush=True)
+    return us[0]
+
+
+def _save_outputs(outputs, path):
+    ser = {k: (str(v) if hasattr(v, "__fspath__") else v) for k, v in outputs.items()}
+    json.dump(ser, open(path, "w"), indent=2, default=str)
+    print(f"  [rbfe] wrote {path} (keys: {list(ser)})", flush=True)
+
+
+def run_setup():
+    """CPU job: build + serialize the hybrid system (the ~1 h single-threaded work — belongs on cheap CPU)."""
+    os.makedirs(CKPT, exist_ok=True)
+    import openfe
+    _proto, _dag, byname, _n = _prep_units(openfe)
+    res = _one_unit(byname, "HybridTopologySetupUnit").execute(context=_mk_ctx("setup"), raise_error=True)
+    _save_outputs(res.outputs, os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json"))
+    print(f"  [rbfe][setup] DONE {RECEPTOR}/{LEG}", flush=True)
+
+
+def run_simulate():
+    """GPU job: deserialize the setup system and run the MultiState MD. Resumes from the .nc on spot restart
+    (OpenFE's own _check_restart), so this is the ONLY leg that needs the GPU and it is spot-safe."""
+    os.makedirs(CKPT, exist_ok=True)
+    import openfe
+    _proto, _dag, byname, _n = _prep_units(openfe)
+    setup_outputs = json.load(open(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json")))
+    _start_watchdog(CKPT, stall_min=float(os.environ.get("RBFE_STALL_MIN", "45")))
+    res = _one_unit(byname, "HybridTopologyMultiStateSimulationUnit").execute(
+        context=_mk_ctx("sim"), raise_error=True, setup_results=_Res(setup_outputs))
+    _save_outputs(res.outputs, os.path.join(CKPT, f"sim_{RECEPTOR}_{LEG}.json"))
+    print(f"  [rbfe][sim] DONE {RECEPTOR}/{LEG}", flush=True)
+
+
+def run_analyze():
+    """CPU job: MBAR over the trajectory -> ΔG_morph. Writes leg_<r>_<leg>.json (same shape run_leg wrote, so the
+    existing reduce_receptor forms ΔΔG unchanged)."""
+    os.makedirs(CKPT, exist_ok=True)
+    import openfe
+    proto, _dag, byname, n_mapped = _prep_units(openfe)
+    setup_outputs = json.load(open(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json")))
+    sim_outputs = json.load(open(os.path.join(CKPT, f"sim_{RECEPTOR}_{LEG}.json")))
+    res = _one_unit(byname, "HybridTopologyMultiStateAnalysisUnit").execute(
+        context=_mk_ctx("ana"), raise_error=True,
+        setup_results=_Res(setup_outputs), simulation_results=_Res(sim_outputs))
+    print(f"  [rbfe][analyze] outputs keys={list(res.outputs)}", flush=True)
+    # dump raw analysis outputs so a shakeout reveals the exact ΔG key, then extract robustly.
+    json.dump({k: str(v) for k, v in res.outputs.items()},
+              open(os.path.join(CKPT, f"analysis_raw_{RECEPTOR}_{LEG}.json"), "w"), indent=2, default=str)
+    dg = unc = None
+    for k in ("unit_estimate", "estimate", "dg", "DG"):
+        v = res.outputs.get(k)
+        if v is not None:
+            try:
+                dg = float(v.to("kilocalorie_per_mole").m); break
+            except Exception:  # noqa: BLE001
+                try:
+                    dg = float(v); break
+                except Exception:  # noqa: BLE001
+                    pass
+    for k in ("unit_estimate_error", "uncertainty", "dg_error", "error"):
+        v = res.outputs.get(k)
+        if v is not None:
+            try:
+                unc = float(v.to("kilocalorie_per_mole").m); break
+            except Exception:  # noqa: BLE001
+                try:
+                    unc = float(v); break
+                except Exception:  # noqa: BLE001
+                    pass
+    if dg is None:
+        print(f"  [rbfe][analyze] WARN could not find ΔG key in {list(res.outputs)}; see analysis_raw_*.json",
+              flush=True)
+        return
+    out = {"receptor": RECEPTOR, "leg": LEG, "ligand_a": LIGAND_A, "ligand_b": LIGAND_B,
+           "dg_morph_kcal": dg, "unc_kcal": unc if unc is not None else 0.0, "n_mapped_atoms": n_mapped,
+           "via": "split(setup|simulate|analyze)"}
+    json.dump(out, open(os.path.join(CKPT, f"leg_{RECEPTOR}_{LEG}.json"), "w"), indent=2)
+    print(f"  [rbfe][analyze] DONE {RECEPTOR}/{LEG}: ΔG_morph={dg:.2f} ± {out['unc_kcal']:.2f}", flush=True)
+
+
+def run_splittest():
+    """Free-CI plumbing shakeout: setup -> simulate -> analyze in ONE process (RBFE_TINY + RBFE_PLATFORM=CPU), so
+    the 3-unit hand-off + JSON serialization is validated end-to-end for $0 before any GPU spend."""
+    run_setup()
+    run_simulate()
+    run_analyze()
+
+
 def main():
     mode = os.environ.get("MODE", "smoke")
+    if mode == "setup":
+        return run_setup()
+    if mode == "simulate":
+        return run_simulate()
+    if mode == "analyze":
+        return run_analyze()
+    if mode == "splittest":
+        return run_splittest()
     if mode == "cudaprobe":
         # Fast, no-MD diagnostic: report the driver's CUDA + which OpenMM GPU platform actually runs on this g5.
         # Decides whether the RBFE can move off the pathologically-slow OpenCL hybrid-Context path onto CUDA.

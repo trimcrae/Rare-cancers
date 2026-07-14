@@ -24,7 +24,11 @@ IN = "/opt/ml/input/data"
 # pathologically-slow OpenCL hybrid-kernel JIT that wedged the complex legs (confirmed by mode=cudaprobe on
 # 2026-07-08: driver 12.8, openmm 8.1.2, CUDA 222 → OpenCL). Pinning cuda-version ≤ driver makes NVRTC emit PTX
 # the driver accepts, so the CUDA platform loads and the hybrid Context builds fast (no giant runtime compile).
-OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "importlib_resources", "openff-toolkit",
+
+# openfe>=1.12: the 3-unit split (HybridTopologySetupUnit / ...SimulationUnit / ...AnalysisUnit) that lets us run
+# the CPU hybrid-system BUILD on cheap CPU and only the MD on GPU (2026-07-14). Older openfe was the MONOLITHIC
+# RelativeHybridTopologyProtocolUnit (single unit, build+MD welded) — the version our earlier env resolved.
+OPENFE_PKGS = ["python=3.11", "openfe>=1.12", "pydantic>=2", "importlib_resources", "openff-toolkit",
                "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "cuda-version=12.6",
                "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
 

@@ -1,0 +1,78 @@
+name: RBFE split shakeout — setup|simulate|analyze end-to-end on FREE CI (CPU, tiny MD)
+
+# Validate the CPU-build/GPU-MD split PLUMBING for $0 before any GPU spend: run OpenFE 1.12's 3 units
+# (HybridTopologySetupUnit -> ...SimulationUnit -> ...AnalysisUnit) in one process via MODE=splittest with
+# RBFE_TINY=1 + RBFE_PLATFORM=CPU on the small ligand-only SOLVENT leg. Confirms unit extraction, the
+# execute() calls, the JSON hand-off between units, and the ΔG extraction — all on a free runner. NOT science.
+
+on:
+  workflow_dispatch:
+    inputs:
+      leg:      { description: "leg (solvent = smallest/fastest)", default: "solvent", required: false }
+      receptor: { description: "receptor (shared for solvent)", default: "shared", required: false }
+      windows:  { description: "n lambda windows (tiny)", default: "4", required: false }
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/rbfe-split-shakeout.yml
+      - research/modalities/nr4a3_rbfe.py
+
+concurrency:
+  group: rbfe-split-shakeout
+  cancel-in-progress: true
+
+jobs:
+  shakeout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/nr4a3-ternary-coop-prereg-5ml7r2
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: rbfe
+          python-version: "3.11"
+      - name: Install openfe 1.12 stack (mamba)
+        run: |
+          mamba install -n rbfe -y -c conda-forge \
+            "openfe>=1.12" pydantic openff-toolkit openff-nagl openff-nagl-models \
+            openmmforcefields rdkit lomap2 kartograf numpy scipy boto3
+      - name: Fetch solvent-leg input from S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::AWS secrets missing"; exit 1; fi
+          mkdir -p _in/ligand _ck
+          python - <<'PY'
+          import boto3
+          b = "sagemaker-us-east-2-646605541856"
+          k = "nr4a3-congeneric-dock/congeneric-poses2-ckpt/docked_nr4a3.sdf"
+          boto3.client("s3").download_file(b, k, "_in/ligand/docked_nr4a3.sdf")
+          print("downloaded", k)
+          PY
+      - name: Run split shakeout (setup -> simulate -> analyze, tiny/CPU)
+        env:
+          MODE: splittest
+          RBFE_TINY: "1"
+          RBFE_PLATFORM: CPU
+          LEG: ${{ github.event.inputs.leg || 'solvent' }}
+          RECEPTOR: ${{ github.event.inputs.receptor || 'shared' }}
+          LIGAND_A: zaienne_cmpd19
+          LIGAND_B: cw_ev_5nh2
+          N_WINDOWS: ${{ github.event.inputs.windows || '4' }}
+          INPUT_DIR: ${{ github.workspace }}/_in
+          CKPT_DIR: ${{ github.workspace }}/_ck
+          RBFE_STALL_MIN: "20"
+        run: |
+          cd research/modalities
+          python nr4a3_rbfe.py
+          echo "===== produced files ====="; ls -la "$CKPT_DIR" || true
+          echo "===== leg json (ΔG) ====="; cat "$CKPT_DIR"/leg_*.json 2>/dev/null || echo "(no leg json — see analysis_raw)"
+          echo "===== analysis_raw ====="; cat "$CKPT_DIR"/analysis_raw_*.json 2>/dev/null || true
