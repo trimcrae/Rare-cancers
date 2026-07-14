@@ -1,10 +1,16 @@
 # NR4A3-selective degrader — weekly field-scan log
 
 Dated summaries of new/relevant literature + methods for the in-silico NR4A3 program (EMC / EWSR1::NR4A3).
-Produced by the weekly field-scan Routine (Mon 8 AM ET), or manually when that run fails. **Scope is broader
-than the degrader path**: also ASO delivery, immunotherapy/neoantigen, and any new solid-tumor modality that
-could apply to a fusion-driven sarcoma. Each entry should highlight the **delta vs the previous entry**. Sources
-are real search hits; novelty/dating flagged where unverified. No fabricated papers.
+Produced by the weekly field-scan Routine (**Fri 8 AM ET**, `trig_0195bCWjobUPB6S6nM25bCL1`), or manually when
+that run fails. **Scope is broader than the degrader path**: also ASO delivery, immunotherapy/neoantigen, and any
+new solid-tumor modality that could apply to a fusion-driven sarcoma. It ALSO carries a **Tooling &
+operating-environment watch** (added 2026-07-14, trimcrae): (a) new releases/changelogs of our in-silico
+software stack (OpenFE, OpenMM, openmmtools, gufe, OpenFF/NAGL, LOMAP/Kartograf, RDKit, Boltz — esp. bumps that
+change defaults/accuracy, e.g. the OpenFE v1.7 time_per_iteration 1.0→2.5 ps change); (b) changes to Anthropic's
+bio/biosecurity guardrail policy (Usage Policy / RSP / ASL bio-CBRN); (c) whether OpenAI Codex has gained
+phone-without-Remote-Desktop control (a Claude-Code-style mobile control surface). Each entry should highlight
+the **delta vs the previous entry**. Sources are real search hits; novelty/dating flagged where unverified. No
+fabricated papers.
 
 ---
 
