@@ -23,20 +23,34 @@ import rbfe_edges as rb
 TAG = os.environ.get("RBFE_TAG", "nr4a3-rbfe-401-nccogen")
 MODE = os.environ.get("MODE", "plan")
 INSTANCE = os.environ.get("INSTANCE", "ml.g5.xlarge")
-# A complex-morph leg runs its 12 λ-windows SERIALLY on one A10G (OpenFE execute_DAG has no intra-leg GPU
-# fan-out), ~12 windows × 6 ns ≈ 15-25 GPU-h, so MAX_RUN must exceed that (the old 10 h killed complex legs
-# mid-run). max_wait ≥ run + expected spot wait. For a SINGLE replicate the 3 complex legs run as 3 concurrent
-# spot jobs → wall ≈ one leg. Window-sharding (fan a leg across GPUs, à la fep_sharding.py) is the right upgrade
-# IF we escalate to a 3-replicate campaign; it's deferred here (single replicate, not worth the OpenFE-MBAR-
-# combine re-engineering + shakeout risk).
-# INCIDENT 2026-07-13: the congeneric pilot complex leg HIT the 30 h max_run (~6-7/12 windows done) — the
-# "15-25 GPU-h" estimate above was ~2-3x optimistic; the leg actually paced ~4-5 h/window (iter times drifted
-# 8s->40s, likely A10G spot-hardware variability), i.e. ~50-60 h for 12 windows. It was NOT a crash/interruption
-# (a spot interrupt auto-resumes within max_wait; a max_run hit is terminal). Fix: size max_run to the OBSERVED
-# slow pace so a single dispatch finishes even a slow 12-window leg (bills actual time, so no cost if it finishes
-# early); checkpoint-per-window + the monitor's re-dispatch remain the belt-and-braces if it still stops.
-MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "60"))          # fits a SLOW serial 12-window complex leg (obs. ~50-60 h)
-MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "75"))        # run + generous spot capacity/auto-resume wait
+# TIMEOUT PHILOSOPHY (rewritten 2026-07-14 after the forensic below): max_run is a RUNAWAY-COST BACKSTOP, NOT a
+# schedule — it must sit FAR above the true worst-case runtime so it can only ever catch a genuine hang, never
+# kill healthy work. You cannot turn it off: SageMaker requires MaxRuntimeInSeconds and DEFAULTS it to 24 h if
+# unset — worse than any explicit value. It bills only ACTUAL training seconds, so a high ceiling costs $0 when
+# the job finishes early. The REAL hang-guard is the per-window watchdog inside the entry (no-progress kill),
+# NOT this number. A complex leg's observed worst case is ~46 h training (the furthest attempt billed ~30 h for
+# 3250/5000 iters → ~46 h for 5000); 120 h gives ~2.5x headroom = non-binding. Sharding a leg across GPUs is a
+# later upgrade (deferred: single replicate).
+#
+# ★ FORENSIC 2026-07-14 (mode=forensic on s3://.../nr4a3-congeneric-rbfe/ckpt/ — the DEFINITIVE record):
+#   The complex-nr4a3 leg accumulated SEVEN separate OpenFE unit dirs (shared_...ProtocolUnit-<UUID>_attempt_0),
+#   one per dispatch/spot-restart over 07-12..07-14. This proves TWO compounding bugs, NOT a slow-compute problem:
+#     BUG A — the "resume" never resumes. Each run calls proto.create(), which mints a FRESH ProtocolUnit UUID →
+#             a NEW shared dir → the job ignores every prior dir and restarts from iteration 0. 7 attempts, all
+#             from scratch. This is why we kept seeing low iteration counters after a restart.
+#     BUG B — the trajectory isn't durably uploaded. The furthest attempt (190a9cf1) reached iter 3250/5000 but
+#             its dir holds ONLY db.json + hybrid_system.pdb + the progress yaml — .nc = 0 bytes in S3. The 3250
+#             iters of actual MD are GONE (spot kill before the big simulation.nc flushed/uploaded). The only
+#             complex .nc in S3 is the latest partial attempt's 6.5 MB (early). => the complex leg CANNOT be
+#             resumed or MBAR-gathered; it must be RE-RUN. (The solvent leg finished clean: 5000/5000, leg json
+#             written, ΔG=13.74 kcal — SAFE, not re-run.)
+#   NEVER-AGAIN fixes (gate the re-run): (1) non-binding max_run [this change]; (2) per-window no-progress
+#   watchdog = the real hang-guard; (3) deterministic DAG/unit identity + point openmmtools at the existing .nc so
+#   a restart CONTINUES the same unit dir; (4) flush + continuously-upload simulation.nc so a spot kill loses ≤ one
+#   checkpoint interval; (5) the pre-charge speedup shortens a leg enough to finish inside one spot allocation
+#   (primary defense — if it never needs to resume, Bug A/B can't bite). Belt-and-braces, not any single lever.
+MAX_RUN_H = float(os.environ.get("MAX_RUN_HOURS", "120"))         # NON-BINDING backstop (~2.5x the ~46 h worst case); bills actual time
+MAX_WAIT_H = float(os.environ.get("MAX_WAIT_HOURS", "140"))       # ≥ max_run + generous spot capacity/auto-resume wait
 LIGAND_A = os.environ.get("RBFE_LIGAND_A", rb.LIGAND_A)          # reference (401)
 LIGAND_B = os.environ.get("RBFE_LIGAND_B", rb.LIGAND_B)          # lead (lo_m0_NCCO_gen)
 GIT_REF = os.environ.get("GIT_REF", "main")
