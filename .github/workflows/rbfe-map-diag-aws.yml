@@ -1,0 +1,42 @@
+name: RBFE map diagnostic — root-cause the degenerate atom map (rdkit-only, free CI)
+
+# Isolates the 2026-07-14 n_mapped=1 collapse for the congeneric pilot edge (zaienne_cmpd19 -> cw_ev_5nh2) WITHOUT
+# a GPU or the openfe conda solve: pulls the real docked SDF from S3 and runs the engine's own _sdf_mol +
+# _repair_pose + rdFMCS with rdkit only. $0 (CI runner). Push-triggered on this branch (path-scoped) — a brand-new
+# workflow_dispatch would 404 until it reaches main, so we trigger on push per the repo pattern.
+
+on:
+  workflow_dispatch:
+    inputs:
+      prefixes: { description: "comma-sep S3 prefixes to search for docked_nr4a3.sdf", default: "", required: false }
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/rbfe-map-diag-aws.yml
+      - research/modalities/rbfe_map_diag.py
+
+concurrency:
+  group: rbfe-map-diag
+  cancel-in-progress: false
+
+jobs:
+  mapdiag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/nr4a3-ternary-coop-prereg-5ml7r2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install rdkit boto3 "sagemaker>=2.200,<3"
+      - name: Run map diagnostic
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+          MAP_PREFIXES: ${{ github.event.inputs.prefixes }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::AWS secrets missing"; exit 1; fi
+          python research/modalities/rbfe_map_diag.py

@@ -240,6 +240,33 @@ def _protocol(openfe):
         s.simulation_settings.production_length = 5.0 * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
+    # FIX #4 (2026-07-14 forensic — Bug B: a killed leg's simulation.nc never reached S3). Write checkpoints more
+    # often so a kill/preemption loses <= one interval of trajectory instead of the whole leg, and so the
+    # continuously-synced /opt/ml/checkpoints has a recent .nc to upload. Best-effort: the attribute name/type
+    # varies by openfe version, so probe both setting groups and both int/Quantity forms, guarded (smoke reports
+    # which one took). Default openmmtools interval can be large; 50 iters (~50 ps at 1 ps/iter) is a cheap floor.
+    _ck_set = False
+    for grp_name in ("simulation_settings", "output_settings"):
+        grp = getattr(s, grp_name, None)
+        if grp is None or not hasattr(grp, "checkpoint_interval"):
+            continue
+        for val in (50, None):
+            try:
+                if val is None:
+                    from openff.units import unit as _ou3
+                    grp.checkpoint_interval = 50 * _ou3.picosecond
+                else:
+                    grp.checkpoint_interval = val
+                print(f"  [rbfe] checkpoint_interval set via {grp_name} -> {grp.checkpoint_interval}", flush=True)
+                _ck_set = True
+                break
+            except Exception as e:  # noqa: BLE001
+                last = e
+        if _ck_set:
+            break
+    if not _ck_set:
+        print("  [rbfe] WARN checkpoint_interval not set (no matching attribute); relying on openmmtools default",
+              flush=True)
     try:
         # PROBE CUDA -> OpenCL (mirror nr4a3_abfe._select_platform) instead of hard-forcing OpenCL. The hybrid
         # (perses) complex system JIT-compiles pathologically slowly on OpenCL — the 2026-07-08 complex legs
@@ -270,6 +297,98 @@ def _chemical_systems(openfe, ligA, ligB, protein):
     return A, B
 
 
+def _start_watchdog(ckpt, stall_min):
+    """FIX #2 (2026-07-14): the REAL hang-guard. max_run is only a distant runaway-cost backstop; this catches a
+    genuinely WEDGED leg (dead/hung GPU) in minutes so it hard-exits and the run is re-dispatched, instead of
+    burning the whole allocation on a stalled job (the failure the old 30 h max_run masked). A daemon thread
+    watches the newest simulation*.nc mtime under the OpenFE shared dir; it ARMS only after the first .nc appears
+    (so the long, .nc-less setup/charge/equilibration phase never trips it), then hard-exits if that mtime stops
+    advancing for stall_min minutes. Slow-but-progressing work keeps advancing the .nc, so it is never killed."""
+    import glob as _glob
+    import threading
+    import time
+
+    def _newest_nc_mtime():
+        ncs = _glob.glob(os.path.join(ckpt, "**", "simulation*.nc"), recursive=True)
+        return max((os.path.getmtime(p) for p in ncs), default=None)
+
+    def _loop():
+        last_mtime, last_change = None, None
+        while True:
+            time.sleep(60)
+            mt = _newest_nc_mtime()
+            if mt is None:
+                continue                                  # setup phase: no MD trajectory yet -> don't arm
+            now = time.time()
+            if last_mtime is None or mt > last_mtime + 1:
+                last_mtime, last_change = mt, now
+                continue
+            stalled_min = (now - last_change) / 60.0
+            if stalled_min >= stall_min:
+                print(f"  [rbfe][watchdog] STALL: trajectory .nc unchanged {stalled_min:.0f} min "
+                      f"(>= {stall_min:.0f}); GPU appears wedged -> hard-exit 42 to force re-dispatch rather than "
+                      f"burn the allocation.", flush=True)
+                os._exit(42)
+
+    threading.Thread(target=_loop, daemon=True).start()
+    print(f"  [rbfe][watchdog] armed: hard-exit if the trajectory .nc stalls >= {stall_min:.0f} min after MD starts",
+          flush=True)
+
+
+def _build_or_resume_dag(openfe, proto, A, B, mapping):
+    """FIX #3 scaffold (2026-07-14 forensic — Bug A: each restart called proto.create(), minting FRESH ProtocolUnit
+    UUIDs => a NEW shared_<uuid>/ dir => the job ignored all prior dirs and restarted from iteration 0; the pilot
+    accumulated 7 such throwaway dirs). To make a restart CONTINUE the same unit dir (so OpenFE/openmmtools can pick
+    up the existing simulation.nc), the DAG's unit identity must be STABLE across dispatches. We persist the created
+    DAG to CKPT on first build and reload it on restart, so unit keys — and therefore shared_<key>/ dir names —
+    match. OFF by default (RBFE_RESUME=1 to enable): the immediate re-run finishes in ONE uninterrupted allocation
+    (no-interruption provider), where resume is never exercised; enable + VALIDATE this on a spot provider (kill
+    mid-leg, re-dispatch, confirm it continues the .nc) before trusting it for the A3 spot fleet."""
+    if os.environ.get("RBFE_RESUME", "0") != "1":
+        return proto.create(stateA=A, stateB=B, mapping=mapping)
+    from gufe.protocols import ProtocolDAG
+    from gufe.tokenization import JSON_HANDLER
+    dag_path = os.path.join(CKPT, f"dag_{RECEPTOR}_{LEG}.json")
+    if os.path.exists(dag_path):
+        try:
+            dag = ProtocolDAG.from_dict(json.load(open(dag_path), cls=JSON_HANDLER.decoder))
+            print(f"  [rbfe][resume] reloaded persisted DAG {dag_path} -> STABLE unit keys (restart continues the "
+                  f"same shared dirs); OpenFE resumes any existing simulation.nc", flush=True)
+            return dag
+        except Exception as e:  # noqa: BLE001 — corrupt/incompatible persisted DAG: rebuild fresh (safe fallback)
+            print(f"  [rbfe][resume] WARN could not reload {dag_path} ({e}); building a fresh DAG", flush=True)
+    dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+    try:
+        json.dump(dag.to_dict(), open(dag_path, "w"), cls=JSON_HANDLER.encoder)
+        print(f"  [rbfe][resume] persisted DAG -> {dag_path} (future restarts reuse these unit keys)", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [rbfe][resume] WARN could not persist DAG ({e}); restart will rebuild (fresh keys)", flush=True)
+    return dag
+
+
+def _check_mapping_sane(mapping, ligA, ligB, n_mapped):
+    """Guard against a DEGENERATE atom map (the 2026-07-14 solvent-leg forensic showed n_mapped_atoms=1 for a
+    Br->NH2 congeneric edge whose MCS is ~13 atoms — a map that small alchemically transforms nearly the whole
+    molecule, so ΔG_morph is garbage and the whole ΔΔG is invalid). A real relative edge maps most of the smaller
+    ligand's heavy atoms. HARD-FAIL before any MD spend if the map is implausibly small; tune with RBFE_MIN_MAPPED_
+    FRAC (default 0.4 of the smaller ligand's heavy-atom count) / RBFE_MIN_MAPPED (absolute floor, default 3)."""
+    try:
+        hA = ligA.to_rdkit().GetNumHeavyAtoms()
+        hB = ligB.to_rdkit().GetNumHeavyAtoms()
+    except Exception:  # noqa: BLE001
+        hA = hB = None
+    frac = float(os.environ.get("RBFE_MIN_MAPPED_FRAC", "0.4"))
+    floor = int(os.environ.get("RBFE_MIN_MAPPED", "3"))
+    need = floor
+    if hA and hB:
+        need = max(floor, int(frac * min(hA, hB)))
+    if n_mapped < need:
+        raise SystemExit(f"  ABORT: degenerate atom map — mapped {n_mapped} atoms for {LIGAND_A}->{LIGAND_B} "
+                         f"(heavy atoms {hA}/{hB}); expected >= {need}. A map this small makes ΔG_morph (hence "
+                         f"ΔΔG) invalid. Fix the mapping/pose before spending on MD (see _mapping diagnostics).")
+    print(f"  [rbfe] map sanity OK: {n_mapped} mapped >= {need} (heavy atoms {hA}/{hB})", flush=True)
+
+
 def run_leg():
     os.makedirs(CKPT, exist_ok=True)
     import openfe
@@ -278,6 +397,7 @@ def run_leg():
     mapping = _mapping(openfe, ligA, ligB)
     n_mapped = len(mapping.componentA_to_componentB)
     print(f"  [rbfe] {RECEPTOR}/{LEG}: mapped {n_mapped} atoms A->B ({LIGAND_A}->{LIGAND_B})", flush=True)
+    _check_mapping_sane(mapping, ligA, ligB, n_mapped)
 
     if os.environ.get("MODE") == "smoke":
         # validate env + mapping + hybrid-topology build ONLY (no MD) — the cheap shakeout.
@@ -292,7 +412,8 @@ def run_leg():
 
     proto = _protocol(openfe)
     A, B = _chemical_systems(openfe, ligA, ligB, protein)
-    dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+    dag = _build_or_resume_dag(openfe, proto, A, B, mapping)
+    _start_watchdog(CKPT, stall_min=float(os.environ.get("RBFE_STALL_MIN", "45")))
     from gufe.protocols import execute_DAG
     from pathlib import Path
     # gufe's execute_DAG does `shared_basedir / f"..."`, so these MUST be pathlib.Path, not str (a str `/` str
