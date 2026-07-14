@@ -493,14 +493,17 @@ def main():
     env_pass = {k: os.environ[k] for k in
                 ("RBFE_RESUME", "RBFE_STALL_MIN", "RBFE_MIN_MAPPED", "RBFE_MIN_MAPPED_FRAC") if os.environ.get(k)}
 
-    def make_estimator(name, hp):
+    def make_estimator(name, hp, instance=None, ckpt_name=None, spot=None):
+        use_spot = SPOT if spot is None else spot
         kw = dict(
             entry_point="entry_rbfe.py", source_dir=os.path.join(here, "sagemaker_src"),
-            role=role, instance_count=1, instance_type=INSTANCE, sagemaker_session=sess,
-            base_job_name=f"{TAG}-{name}", use_spot_instances=SPOT,
-            max_run=int(MAX_RUN_H * 3600), max_wait=int(MAX_WAIT_H * 3600) if SPOT else None,
-            checkpoint_s3_uri=f"s3://{bucket}/{TAG}/ckpt/{name}/", checkpoint_local_path="/opt/ml/checkpoints",
-            hyperparameters=hp)
+            role=role, instance_count=1, instance_type=instance or INSTANCE, sagemaker_session=sess,
+            base_job_name=f"{TAG}-{name}", use_spot_instances=use_spot,
+            max_run=int(MAX_RUN_H * 3600), max_wait=int(MAX_WAIT_H * 3600) if use_spot else None,
+            # ckpt_name lets the split's setup|simulate|analyze jobs SHARE one prefix (ckpt/<leg>/) so the sim
+            # job downloads the setup job's serialized system + the analyze job reads the sim's .nc.
+            checkpoint_s3_uri=f"s3://{bucket}/{TAG}/ckpt/{ckpt_name or name}/",
+            checkpoint_local_path="/opt/ml/checkpoints", hyperparameters=hp)
         if env_pass:
             kw["environment"] = env_pass
         if IMAGE_URI:
@@ -544,6 +547,33 @@ def main():
                      "solvent": TrainingInput(f"s3://{bucket}/{TAG}/ckpt/solvent/")}, wait=False)
             print(f"[rbfe] launched reduce-{receptor}: {est.latest_training_job.name}")
         print("[rbfe] reduce jobs launched → ΔΔG_bind per receptor + rbfe_edges.selectivity_from_rbfe.")
+        return
+
+    if MODE in ("setup", "simulate", "analyze"):
+        # CPU-build / GPU-MD SPLIT (2026-07-14, trimcrae): run OpenFE 1.12's own 3 units as separate jobs so the
+        # ~1 h single-threaded hybrid-system BUILD runs on CHEAP CPU (never on an idle GPU), only the MD on GPU.
+        #   setup    -> CPU (on-demand: can't resume, but a cheap-CPU redo is trivial) -> serializes the system.
+        #   simulate -> GPU SPOT (resumes from its own .nc via OpenFE _check_restart -> spot interruption safe).
+        #   analyze  -> CPU (on-demand) -> MBAR -> leg_<r>_<leg>.json (reduce reads it, unchanged).
+        # All three SHARE ckpt/<leg>/ (ckpt_name=name) so files flow setup->sim->analyze via the S3 checkpoint.
+        cpu_inst = os.environ.get("CPU_INSTANCE", "ml.m5.2xlarge")   # 8 vCPU/32 GB — RAM for the solvated build
+        inst = INSTANCE if MODE == "simulate" else cpu_inst
+        spot = None if MODE == "simulate" else False                # sim=spot(resumes); setup/analyze=on-demand CPU
+        launched = []
+        for name, receptor, leg in legs:
+            if only and name not in only and leg not in only and receptor not in only:
+                continue
+            est = make_estimator(f"{name}-{MODE}", {**common, "mode": MODE, "receptor": receptor, "leg": leg},
+                                 instance=inst, ckpt_name=name, spot=spot)
+            inputs = {"ligand": TrainingInput(matrix)}
+            if leg == "complex":
+                inputs["receptor"] = TrainingInput(matrix)
+            est.fit(inputs, wait=False)
+            launched.append(est.latest_training_job.name)
+            print(f"[rbfe] launched {MODE} {name} ({leg}/{receptor}) on {inst} "
+                  f"(spot={'default' if spot is None else spot}): {launched[-1]}  ckpt {TAG}/ckpt/{name}/")
+        nxt = {"setup": "simulate", "simulate": "analyze", "analyze": "reduce"}[MODE]
+        print(f"[rbfe] {len(launched)} {MODE} job(s) launched → when Complete, run MODE={nxt}. Jobs: {launched}")
         return
 
     # MODE == run
