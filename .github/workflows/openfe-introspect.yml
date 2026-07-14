@@ -1,0 +1,55 @@
+name: OpenFE introspect — find the CPU-build / GPU-MD split boundary (free CI, no GPU)
+
+# Design aid for the CPU-prep -> GPU-MD split (trimcrae 2026-07-14): dump the INSTALLED openfe ProtocolUnit's
+# execute-path source + build/MD boundary signals so we can split reusing OpenFE's machinery (not hand-rolling).
+# Free CI runner (unrestricted internet; the sandbox egress proxy 403s GitHub). Commits the full source dump to
+# the rbfe-introspect-cache branch so it can be read in full (logs truncate). Push-triggered on this branch.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [claude/nr4a3-ternary-coop-prereg-5ml7r2]
+    paths:
+      - .github/workflows/openfe-introspect.yml
+      - research/modalities/openfe_introspect.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: openfe-introspect
+  cancel-in-progress: false
+
+jobs:
+  introspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/nr4a3-ternary-coop-prereg-5ml7r2
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: ofe
+          python-version: "3.11"
+      - name: Install openfe (mamba)
+        run: |
+          mamba install -n ofe -y -c conda-forge openfe || conda install -n ofe -y -c conda-forge openfe
+      - name: Run introspection
+        env:
+          INTROSPECT_OUT: openfe_unit_source.txt
+        run: |
+          python research/modalities/openfe_introspect.py | tee introspect_report.txt
+      - name: Commit dumps to cache branch
+        run: |
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git checkout -B rbfe-introspect-cache
+          mkdir -p research/modalities/_introspect
+          mv openfe_unit_source.txt introspect_report.txt research/modalities/_introspect/ 2>/dev/null || true
+          git add research/modalities/_introspect/ || true
+          git commit -m "openfe introspection dump (CPU/GPU split design)" || echo "nothing to commit"
+          for i in 1 2 3 4; do git push -f origin rbfe-introspect-cache && break || sleep $((2**i)); done
