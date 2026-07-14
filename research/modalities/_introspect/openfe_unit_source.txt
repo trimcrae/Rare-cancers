@@ -1,0 +1,1481 @@
+openfe 1.12.0
+unit=HybridTopologySetupUnit
+
+
+===== RelativeHybridTopologyProtocol._create =====
+    def _create(
+        self,
+        stateA: ChemicalSystem,
+        stateB: ChemicalSystem,
+        mapping: Optional[Union[gufe.ComponentMapping, list[gufe.ComponentMapping]]],
+        extends: Optional[gufe.ProtocolDAGResult] = None,
+    ) -> list[gufe.ProtocolUnit]:
+        # validate inputs
+        self.validate(stateA=stateA, stateB=stateB, mapping=mapping, extends=extends)
+
+        # get alchemical components and mapping
+        alchem_comps = system_validation.get_alchemical_components(stateA, stateB)
+        ligandmapping = mapping[0] if isinstance(mapping, list) else mapping
+
+        # actually create and return Units
+        Anames = ",".join(c.name for c in alchem_comps["stateA"])
+        Bnames = ",".join(c.name for c in alchem_comps["stateB"])
+
+        # DAG dependency is setup -> simulation -> analysis
+        #                     |--------------------->
+        setup_units = []
+        simulation_units = []
+        analysis_units = []
+
+        for i in range(self.settings.protocol_repeats):
+            repeat_id = int(uuid.uuid4())
+
+            setup = HybridTopologySetupUnit(
+                protocol=self,
+                stateA=stateA,
+                stateB=stateB,
+                ligandmapping=ligandmapping,
+                alchemical_components=alchem_comps,
+                generation=0,
+                repeat_id=repeat_id,
+                name=(f"HybridTopology Setup: {Anames} to {Bnames} repeat {i} generation 0"),
+            )
+
+            simulation = HybridTopologyMultiStateSimulationUnit(
+                protocol=self,
+                setup_results=setup,
+                generation=0,
+                repeat_id=repeat_id,
+                name=(f"HybridTopology Simulation: {Anames} to {Bnames} repeat {i} generation 0"),
+            )
+
+            analysis = HybridTopologyMultiStateAnalysisUnit(
+                protocol=self,
+                setup_results=setup,
+                simulation_results=simulation,
+                generation=0,
+                repeat_id=repeat_id,
+                name=(f"HybridTopology Analysis: {Anames} to {Bnames} repeat {i} generation 0"),
+            )
+            setup_units.append(setup)
+            simulation_units.append(simulation)
+            analysis_units.append(analysis)
+
+        return [*setup_units, *simulation_units, *analysis_units]
+
+
+===== RelativeHybridTopologyProtocol.create =====
+    def create(
+        self,
+        *,
+        stateA: ChemicalSystem,
+        stateB: ChemicalSystem,
+        mapping: ComponentMapping | list[ComponentMapping] | dict[str, ComponentMapping] | None,
+        extends: ProtocolDAGResult | None = None,
+        name: str | None = None,
+        transformation_key: GufeKey | None = None,
+    ) -> ProtocolDAG:
+        r"""Prepare a `ProtocolDAG` with all information required for execution.
+
+        A :class:`.ProtocolDAG` is composed of :class:`.ProtocolUnit` \s, with
+        dependencies established between them. These form a directed, acyclic
+        graph, and each `ProtocolUnit` can be executed once its dependencies have
+        completed.
+
+        A `ProtocolDAG` can be passed to a `Scheduler` for execution on its
+        resources. A `ProtocolDAGResult` can be retrieved from the `Scheduler`
+        upon completion of all `ProtocolUnit`s in the `ProtocolDAG`.
+
+        Parameters
+        ----------
+        stateA : ChemicalSystem
+            The starting `ChemicalSystem` for the transformation.
+        stateB : ChemicalSystem
+            The ending `ChemicalSystem` for the transformation.
+        mapping : Optional[Union[ComponentMapping, list[ComponentMapping]]]
+            Mappings of e.g. atoms between a labelled component in the
+            stateA and stateB `ChemicalSystem` .
+        extends : Optional[ProtocolDAGResult]
+            If provided, then the `ProtocolDAG` produced will start from the
+            end state of the given `ProtocolDAGResult`. This allows for
+            extension from a previously-run `ProtocolDAG`.
+        name : Optional[str]
+            A user supplied identifier for the resulting DAG
+        transformation_key : Optional[GufeKey]
+            Key of the `Transformation` that this `Protocol` corresponds to, if
+            applicable. This will be used to label the resulting `ProtocolDAG`,
+            and can be used for identifying its source. This label will be
+            passed on to the `ProtocolDAGResult` resulting from execution of
+            this `ProtocolDAG`.
+
+        Returns
+        -------
+        ProtocolDAG
+            A directed, acyclic graph that can be executed by a `Scheduler`.
+        """
+        if isinstance(mapping, dict):
+            warnings.warn(
+                ("mapping input as a dict is deprecated, instead use either a single Mapping or list"),
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            mapping = list(mapping.values())
+
+        return ProtocolDAG(
+            name=name,
+            protocol_units=self._create(
+                stateA=stateA,
+                stateB=stateB,
+                mapping=mapping,
+                extends=extends,
+            ),
+            transformation_key=transformation_key,
+            extends_key=extends.key if extends is not None else None,
+        )
+
+
+===== HybridTopologyMultiStateAnalysisUnit.__init__  (starts ~line 267) =====
+    def __init__(self, *, name: str | None = None, **inputs):
+        """Create an instance of a ProtocolUnit.
+
+        Parameters
+        ----------
+        name : str
+            Custom name to give this
+        **inputs
+            Keyword arguments, which can include other `ProtocolUnit`s on which
+            this `ProtocolUnit` is dependent. Should be either `gufe` objects
+            or JSON-serializables.
+
+        """
+        self._name = name
+        self._inputs = inputs
+
+        # for caching
+        self._dependencies = None
+
+
+===== HybridTopologyMultiStateAnalysisUnit._execute  (starts ~line 1650) =====
+    def _execute(
+        self,
+        ctx: gufe.Context,
+        *,
+        setup_results,
+        simulation_results,
+        **inputs,
+    ) -> dict[str, Any]:
+        log_system_probe(logging.INFO, paths=[ctx.scratch])
+
+        # Ensure that we the environment hasn't changed
+        self._verify_execution_environment(setup_results.outputs)
+
+        pdb_file = setup_results.outputs["pdb_structure"]
+        selection_indices = setup_results.outputs["selection_indices"]
+        trajectory = simulation_results.outputs["nc"]
+        checkpoint = simulation_results.outputs["checkpoint"]
+
+        outputs = self.run(
+            pdb_file=pdb_file,
+            trajectory=trajectory,
+            checkpoint=checkpoint,
+            scratch_basepath=ctx.scratch,
+            shared_basepath=ctx.shared,
+        )
+
+        return {
+            "repeat_id": self._inputs["repeat_id"],
+            "generation": self._inputs["generation"],
+            # We include various other outputs here to make
+            # things easier when gathering.
+            "pdb_structure": pdb_file,
+            "trajectory": trajectory,
+            "checkpoint": checkpoint,
+            "selection_indices": selection_indices,
+            **outputs,
+        }
+
+
+===== HybridTopologyMultiStateAnalysisUnit.execute  (starts ~line 332) =====
+    def execute(
+        self, *, context: Context, raise_error: bool = False, **inputs
+    ) -> ProtocolUnitResult | ProtocolUnitFailure:
+        """Given `ProtocolUnitResult` s from dependencies, execute this `ProtocolUnit`.
+
+        Parameters
+        ----------
+        context : Context
+            Execution context for this `ProtocolUnit`; includes e.g. ``shared``
+            and ``scratch`` `Path` s.
+        raise_error : bool
+            If True, raise any errors instead of catching and returning a
+            `ProtocolUnitFailure` default False
+        **inputs
+            Keyword arguments giving the named inputs to `_execute`.
+            These can include `ProtocolUnitResult` objects from `ProtocolUnit`
+            objects this unit is dependent on.
+
+        """
+        result: ProtocolUnitResult | ProtocolUnitFailure
+        start = datetime.datetime.now()
+
+        def extract_bytes(context_dir) -> dict | None:
+            """Iterate over directory of files (depth 1) and create
+            dictionary containing their contents.
+            """
+            record_dict = {}
+            if context_dir:
+                for entry in context_dir.iterdir():
+                    if entry.is_file():
+                        with entry.open("rb") as f:
+                            record_dict[entry.name] = f.read()
+            return record_dict
+
+        try:
+            outputs = self._execute(context, **inputs)
+
+            stderr = extract_bytes(context.stderr)
+            stdout = extract_bytes(context.stdout)
+
+            result = ProtocolUnitResult(
+                name=self.name,
+                source_key=self.key,
+                inputs=inputs,
+                outputs=outputs,
+                stderr=stderr,
+                stdout=stdout,
+                start_time=start,
+                end_time=datetime.datetime.now(),
+            )
+        except (KeyboardInterrupt, ExecutionInterrupt):
+            # NOTE: this statement is for clarity, these Interrupts will raise regardless.
+            raise
+        except Exception as e:
+            if raise_error:
+                raise
+
+            stderr = extract_bytes(context.stderr)
+            stdout = extract_bytes(context.stdout)
+
+            result = ProtocolUnitFailure(
+                name=self._name,
+                source_key=self.key,
+                inputs=inputs,
+                outputs=dict(),
+                stderr=stderr,
+                stdout=stdout,
+                exception=(e.__class__.__qualname__, e.args),
+                traceback=traceback.format_exc(),
+                start_time=start,
+                end_time=datetime.datetime.now(),
+            )
+
+        return result
+
+
+===== HybridTopologyMultiStateAnalysisUnit.run  (starts ~line 1570) =====
+    def run(
+        self,
+        *,
+        pdb_file: pathlib.Path,
+        trajectory: pathlib.Path,
+        checkpoint: pathlib.Path,
+        dry: bool = False,
+        verbose: bool = True,
+        scratch_basepath: pathlib.Path | None = None,
+        shared_basepath: pathlib.Path | None = None,
+    ) -> dict[str, Any]:
+        """Analyze the multistate simulation.
+
+        Parameters
+        ----------
+        pdb_file : pathlib.Path
+          Path to the PDB file representing the subsampled structure.
+        trajectory : pathlib.Path
+          Path to the MultiStateReporter generated NetCDF file.
+        checkpoint : pathlib.Path
+          Path to the checkpoint file generated by MultiStateReporter.
+        dry : bool
+          Do a dry run of the calculation, creating all necessary hybrid
+          system components (topology, system, sampler, etc...) but without
+          running the simulation.
+        verbose : bool
+          Verbose output of the simulation progress. Output is provided via
+          INFO level logging.
+        scratch_basepath: pathlib.Path | None
+          Where to store temporary files, defaults to current working directory
+        shared_basepath : pathlib.Path | None
+          Where to run the calculation, defaults to current working directory
+
+        Returns
+        -------
+        dict
+          Outputs created in the basepath directory or the debug objects
+          (i.e. sampler) if ``dry==True``.
+
+        Raises
+        ------
+        error
+          Exception if anything failed
+        """
+        # Prepare paths & verbosity
+        self._prepare(verbose, scratch_basepath, shared_basepath)
+
+        if self.verbose:
+            self.logger.info("Starting simulation analysis unit")
+
+        # Get the settings
+        settings = self._get_settings(self._inputs["protocol"].settings)
+
+        # Energies analysis
+        if verbose:
+            self.logger.info("Analyzing energies")
+
+        energy_analysis = self._analyze_multistate_energies(
+            trajectory=trajectory,
+            checkpoint=checkpoint,
+            sampler_method=settings["simulation_settings"].sampler_method.lower(),
+            output_directory=self.shared_basepath,
+            dry=dry,
+        )
+
+        # Structural analysis
+        if verbose:
+            self.logger.info("Analyzing structural outputs")
+
+        structural_analysis = self._structural_analysis(
+            pdb_file=pdb_file,
+            trj_file=trajectory,
+            output_directory=self.shared_basepath,
+            dry=dry,
+        )
+
+        # Return relevant things
+        outputs = energy_analysis | structural_analysis
+        return outputs
+
+
+===== HybridTopologyMultiStateSimulationUnit.__init__  (starts ~line 267) =====
+    def __init__(self, *, name: str | None = None, **inputs):
+        """Create an instance of a ProtocolUnit.
+
+        Parameters
+        ----------
+        name : str
+            Custom name to give this
+        **inputs
+            Keyword arguments, which can include other `ProtocolUnit`s on which
+            this `ProtocolUnit` is dependent. Should be either `gufe` objects
+            or JSON-serializables.
+
+        """
+        self._name = name
+        self._inputs = inputs
+
+        # for caching
+        self._dependencies = None
+
+
+===== HybridTopologyMultiStateSimulationUnit._check_restart  (starts ~line 850) =====
+    @staticmethod
+    def _check_restart(output_settings: SettingsBaseModel, shared_path: pathlib.Path):
+        """
+        Check if we are doing a restart.
+
+        Parameters
+        ----------
+        output_settings : SettingsBaseModel
+          The simulation output settings
+        shared_path : pathlib.Path
+          The shared directory where we should be looking for existing files.
+
+        Notes
+        -----
+        For now this just checks if the netcdf files are present in the
+        shared directory but in the future this may expand depending on
+        how warehouse works.
+
+        Raises
+        ------
+        IOError
+          If either the checkpoint or trajectory files don't exist.
+        """
+        trajectory = shared_path / output_settings.output_filename
+        checkpoint = shared_path / output_settings.checkpoint_storage_filename
+
+        if trajectory.is_file() and checkpoint.is_file():
+            return True
+        elif trajectory.is_file() ^ checkpoint.is_file():
+            if trajectory.is_file():
+                errmsg = "the trajectory file is present but not the checkpoint file. "
+            else:
+                errmsg = "the checkpoint file is present but not the trajectory file. "
+
+            errmsg = (
+                "Attempting to restart but "
+                + errmsg
+                + "This should not happen under normal circumstances."
+            )
+            raise IOError(errmsg)
+        else:
+            return False
+
+
+===== HybridTopologyMultiStateSimulationUnit._execute  (starts ~line 1418) =====
+    def _execute(
+        self,
+        ctx: gufe.Context,
+        *,
+        setup_results,
+        **inputs,
+    ) -> dict[str, Any]:
+        log_system_probe(logging.INFO, paths=[ctx.scratch])
+        # Ensure that the environment hasn't changed
+        self._verify_execution_environment(setup_results.outputs)
+
+        # Get the relevant inputs for running the unit
+        system = deserialize(setup_results.outputs["system"])
+        positions = to_openmm(np.load(setup_results.outputs["positions"]) * offunit.nm)
+        selection_indices = setup_results.outputs["selection_indices"]
+
+        # Run the unit
+        outputs = self.run(
+            system=system,
+            positions=positions,
+            selection_indices=selection_indices,
+            scratch_basepath=ctx.scratch,
+            shared_basepath=ctx.shared,
+        )
+
+        return {
+            "repeat_id": self._inputs["repeat_id"],
+            "generation": self._inputs["generation"],
+            **outputs,
+        }
+
+
+===== HybridTopologyMultiStateSimulationUnit._get_sampler  (starts ~line 1014) =====
+    @staticmethod
+    def _get_sampler(
+        system: openmm.System,
+        positions: openmm.unit.Quantity,
+        lambdas: _rfe_utils.lambdaprotocol.LambdaProtocol,
+        integrator: openmmtools.mcmc.MCMCMove,
+        reporter: multistate.MultiStateReporter,
+        simulation_settings: MultiStateSimulationSettings,
+        thermo_settings: ThermoSettings,
+        alchem_settings: AlchemicalSettings,
+        platform: openmm.Platform,
+        restart: bool,
+        dry: bool,
+    ) -> multistate.MultiStateSampler:
+        """
+        Get the MultiStateSampler.
+
+        Parameters
+        ----------
+        system : openmm.System
+          The OpenMM System to simulate.
+        positions : openmm.unit.Quantity
+          The positions of the OpenMM System.
+        lambdas : LambdaProtocol
+          The lambda protocol to sample along.
+        integrator : openmmtools.mcmc.MCMCMove
+          The integrator to use.
+        reporter : multistate.MultiStateReporter
+          The reporter to attach to the sampler.
+        simulation_settings : MultiStateSimulationSettings
+          The simulation control settings.
+        thermo_settings : ThermoSettings
+          The thermodynamic control settings.
+        alchem_settings : AlchemicalSettings
+          The alchemical transformation settings.
+        platform : openmm.Platform
+          The compute platform to use.
+        restart : bool
+          ``True`` if we are doing a simulation restart.
+        dry : bool
+          Whether or not this is a dry run.
+
+        Returns
+        -------
+        sampler : multistate.MultiStateSampler
+          The requested sampler.
+        """
+        _SAMPLERS = {
+            "repex": _rfe_utils.multistate.HybridRepexSampler,
+            "sams": _rfe_utils.multistate.HybridSAMSSampler,
+            "independent": _rfe_utils.multistate.HybridMultiStateSampler,
+        }
+
+        # note we if/else around sampler method because in the future
+        # we will try to reuse this method and just have _SAMPLERs be
+        # defined elsewhere
+        sampler_method = simulation_settings.sampler_method.lower()
+        try:
+            sampler_class = _SAMPLERS[sampler_method]
+        except KeyError:
+            errmsg = f"Unknown sampler {sampler_method}"
+            raise AttributeError(errmsg)
+
+        # Get the real time analysis values to use
+        rta_its, rta_min_its = settings_validation.convert_real_time_analysis_iterations(
+            simulation_settings=simulation_settings,
+        )
+
+        # Get the number of production iterations to run for
+        steps_per_iteration = integrator.n_steps
+        timestep = from_openmm(integrator.timestep)
+        number_of_iterations = int(
+            settings_validation.get_simsteps(
+                sim_length=simulation_settings.production_length,
+                timestep=timestep,
+                mc_steps=steps_per_iteration,
+            )
+            / steps_per_iteration
+        )
+
+        # convert early_termination_target_error from kcal/mol to kT
+        early_termination_target_error = (
+            settings_validation.convert_target_error_from_kcal_per_mole_to_kT(
+                thermo_settings.temperature,
+                simulation_settings.early_termination_target_error,
+            )
+        )
+
+        sampler_kwargs = {
+            "mcmc_moves": integrator,
+            "hybrid_system": system,
+            "hybrid_positions": positions,
+            "online_analysis_interval": rta_its,
+            "online_analysis_target_error": early_termination_target_error,
+            "online_analysis_minimum_iterations": rta_min_its,
+            "number_of_iterations": number_of_iterations,
+        }
+
+        if sampler_method == "sams":
+            sampler_kwargs |= {
+                "flatness_criteria": simulation_settings.sams_flatness_criteria,
+                "gamma0": simulation_settings.sams_gamma0,
+            }
+
+        if sampler_method == "repex":
+            sampler_kwargs |= {"replica_mixing_scheme": "swap-all"}
+
+        # Restarting doesn't need any setup, we just rebuild from storage.
+        if restart:
+            sampler = sampler_class.from_storage(reporter)  # type: ignore[attr-defined]
+
+            # We do some checks to make sure we are running the same system
+            system_validation.assert_multistate_system_equality(
+                ref_system=system,
+                stored_system=sampler._thermodynamic_states[0].get_system(remove_thermostat=True),
+            )
+
+            # We do check to make sure we have the same thermodynamic
+            # parameters and that the lambda schedule is the same.
+            for index, thermostate in enumerate(sampler._thermodynamic_states):
+                assert thermostate.temperature == to_openmm(thermo_settings.temperature)
+                assert thermostate.pressure == to_openmm(thermo_settings.pressure)
+
+                for key in lambdas.functions:
+                    lambda_value = lambdas.lambda_schedule[index]
+                    expected = lambdas.functions[key](lambda_value)
+                    stored = getattr(thermostate, key)
+                    assert expected == stored
+
+            # Finally we check that some of the sampler parameters haven't changed
+            if (
+                (simulation_settings.n_replicas != sampler.n_states)
+                or (simulation_settings.n_replicas != sampler.n_replicas)
+                or (sampler.mcmc_moves[0].n_steps != steps_per_iteration)
+                or (sampler.mcmc_moves[0].timestep != integrator.timestep)
+            ):
+                errmsg = "Sampler in checkpoint does not match Protocol settings, cannot resume."
+                raise ValueError(errmsg)
+
+        else:
+            sampler = sampler_class(**sampler_kwargs)
+
+            sampler.setup(
+                n_replicas=simulation_settings.n_replicas,
+                reporter=reporter,
+                lambda_protocol=lambdas,
+                temperature=to_openmm(thermo_settings.temperature),
+                endstates=alchem_settings.endstate_dispersion_correction,
+                minimization_platform=platform.getName(),
+                # Set minimization steps to None when running in dry mode
+                # otherwise do a very small one to avoid NaNs
+                minimization_steps=100 if not dry else None,
+            )
+
+        # Get and set the context caches
+        sampler.energy_context_cache = openmmtools.cache.ContextCache(
+            capacity=None,
+            time_to_live=None,
+            platform=platform,
+        )
+        sampler.sampler_context_cache = openmmtools.cache.ContextCache(
+            capacity=None,
+            time_to_live=None,
+            platform=platform,
+        )
+
+        return sampler
+
+
+===== HybridTopologyMultiStateSimulationUnit._run_simulation  (starts ~line 1182) =====
+    def _run_simulation(
+        self,
+        sampler: multistate.MultiStateSampler,
+        reporter: multistate.MultiStateReporter,
+        simulation_settings: MultiStateSimulationSettings,
+        integrator_settings: IntegratorSettings,
+        output_settings: MultiStateOutputSettings,
+        dry: bool,
+    ):
+        """
+        Run the simulation.
+
+        Parameters
+        ----------
+        sampler : multistate.MultiStateSampler.
+          The sampler associated with the simulation to run.
+        reporter : multistate.MultiStateReporter
+          The reporter associated with the sampler.
+        simulation_settings : MultiStateSimulationSettings
+          Simulation control settings.
+        integrator_settings : IntegratorSettings
+          Integrator control settings.
+        output_settings : MultiStateOutputSettings
+          Simulation output control settings.
+        dry : bool
+          Whether or not to dry run the simulation.
+        """
+        # Get the relevant simulation steps
+        mc_steps = settings_validation.convert_steps_per_iteration(
+            simulation_settings=simulation_settings,
+            integrator_settings=integrator_settings,
+        )
+
+        equil_steps = settings_validation.get_simsteps(
+            sim_length=simulation_settings.equilibration_length,
+            timestep=integrator_settings.timestep,
+            mc_steps=mc_steps,
+        )
+        prod_steps = settings_validation.get_simsteps(
+            sim_length=simulation_settings.production_length,
+            timestep=integrator_settings.timestep,
+            mc_steps=mc_steps,
+        )
+
+        if not dry:  # pragma: no-cover
+            # No productions steps have been taken, so start from scratch
+            if sampler._iteration == 0:
+                # minimize
+                if self.verbose:
+                    self.logger.info("minimizing systems")
+
+                sampler.minimize(max_iterations=simulation_settings.minimization_steps)
+
+                # equilibrate
+                if self.verbose:
+                    self.logger.info("equilibrating systems")
+
+                sampler.equilibrate(int(equil_steps / mc_steps))
+
+            # At this point we are ready for production
+            if self.verbose:
+                self.logger.info("running production phase")
+
+            # We use `run` so that we're limited by the number of iterations
+            # we passed when we built the sampler.
+            # TODO: I'm being extra prudent by passing in n_iterations here - remove?
+            sampler.run(n_iterations=int(prod_steps / mc_steps) - sampler._iteration)
+
+            if self.verbose:
+                self.logger.info("production phase complete")
+        else:
+            # We ran a dry simulation
+            # close reporter when you're done, prevent file handle clashes
+            reporter.close()
+
+            # TODO: review this is likely no longer necessary
+            # clean up the reporter file
+            fns = [
+                self.shared_basepath / output_settings.output_filename,
+                self.shared_basepath / output_settings.checkpoint_storage_filename,
+            ]
+            for fn in fns:
+                os.remove(fn)
+
+
+===== HybridTopologyMultiStateSimulationUnit.execute  (starts ~line 332) =====
+    def execute(
+        self, *, context: Context, raise_error: bool = False, **inputs
+    ) -> ProtocolUnitResult | ProtocolUnitFailure:
+        """Given `ProtocolUnitResult` s from dependencies, execute this `ProtocolUnit`.
+
+        Parameters
+        ----------
+        context : Context
+            Execution context for this `ProtocolUnit`; includes e.g. ``shared``
+            and ``scratch`` `Path` s.
+        raise_error : bool
+            If True, raise any errors instead of catching and returning a
+            `ProtocolUnitFailure` default False
+        **inputs
+            Keyword arguments giving the named inputs to `_execute`.
+            These can include `ProtocolUnitResult` objects from `ProtocolUnit`
+            objects this unit is dependent on.
+
+        """
+        result: ProtocolUnitResult | ProtocolUnitFailure
+        start = datetime.datetime.now()
+
+        def extract_bytes(context_dir) -> dict | None:
+            """Iterate over directory of files (depth 1) and create
+            dictionary containing their contents.
+            """
+            record_dict = {}
+            if context_dir:
+                for entry in context_dir.iterdir():
+                    if entry.is_file():
+                        with entry.open("rb") as f:
+                            record_dict[entry.name] = f.read()
+            return record_dict
+
+        try:
+            outputs = self._execute(context, **inputs)
+
+            stderr = extract_bytes(context.stderr)
+            stdout = extract_bytes(context.stdout)
+
+            result = ProtocolUnitResult(
+                name=self.name,
+                source_key=self.key,
+                inputs=inputs,
+                outputs=outputs,
+                stderr=stderr,
+                stdout=stdout,
+                start_time=start,
+                end_time=datetime.datetime.now(),
+            )
+        except (KeyboardInterrupt, ExecutionInterrupt):
+            # NOTE: this statement is for clarity, these Interrupts will raise regardless.
+            raise
+        except Exception as e:
+            if raise_error:
+                raise
+
+            stderr = extract_bytes(context.stderr)
+            stdout = extract_bytes(context.stdout)
+
+            result = ProtocolUnitFailure(
+                name=self._name,
+                source_key=self.key,
+                inputs=inputs,
+                outputs=dict(),
+                stderr=stderr,
+                stdout=stdout,
+                exception=(e.__class__.__qualname__, e.args),
+                traceback=traceback.format_exc(),
+                start_time=start,
+                end_time=datetime.datetime.now(),
+            )
+
+        return result
+
+
+===== HybridTopologyMultiStateSimulationUnit.run  (starts ~line 1266) =====
+    def run(
+        self,
+        *,
+        system: openmm.System,
+        positions: openmm.unit.Quantity,
+        selection_indices: npt.NDArray,
+        dry: bool = False,
+        verbose: bool = True,
+        scratch_basepath: pathlib.Path | None = None,
+        shared_basepath: pathlib.Path | None = None,
+    ) -> dict[str, Any]:
+        """Run the free energy calculation using a multistate sampler.
+
+        Parameters
+        ----------
+        system : openmm.System
+          The System to simulate.
+        positions : openmm.unit.Quantity
+          The positions of the System.
+        selection_indices : npt.NDArray
+          Indices of the System particles to write to file.
+        dry : bool
+          Do a dry run of the calculation, creating all necessary hybrid
+          system components (topology, system, sampler, etc...) but without
+          running the simulation.
+        verbose : bool
+          Verbose output of the simulation progress. Output is provided via
+          INFO level logging.
+        scratch_basepath: pathlib.Path | None
+          Where to store temporary files, defaults to current working directory
+        shared_basepath : pathlib.Path | None
+          Where to run the calculation, defaults to current working directory
+
+        Returns
+        -------
+        dict
+          Outputs created in the basepath directory or the debug objects
+          (i.e. sampler) if ``dry==True``.
+
+        Raises
+        ------
+        error
+          Exception if anything failed
+        """
+        # Prepare paths & verbosity
+        self._prepare(verbose, scratch_basepath, shared_basepath)
+
+        if self.verbose:
+            self.logger.info("Starting simulation unit")
+
+        # Get the settings
+        settings = self._get_settings(self._inputs["protocol"].settings)
+
+        # Check for a restart
+        self.restart = self._check_restart(
+            output_settings=settings["output_settings"], shared_path=self.shared_basepath
+        )
+
+        # Get the lambda schedule
+        # TODO - this should be better exposed to users
+        lambdas = _rfe_utils.lambdaprotocol.LambdaProtocol(
+            functions=settings["lambda_settings"].lambda_functions,
+            windows=settings["lambda_settings"].lambda_windows,
+        )
+
+        # Get the compute platform
+        restrict_cpu = settings["forcefield_settings"].nonbonded_method.lower() == "nocutoff"
+        platform = omm_compute.get_openmm_platform(
+            platform_name=settings["engine_settings"].compute_platform,
+            gpu_device_index=settings["engine_settings"].gpu_device_index,
+            restrict_cpu_count=restrict_cpu,
+        )
+
+        # Get the integrator
+        integrator = self._get_integrator(
+            integrator_settings=settings["integrator_settings"],
+            simulation_settings=settings["simulation_settings"],
+            system=system,
+        )
+
+        try:
+            # Get the reporter
+            reporter = self._get_reporter(
+                storage_path=self.shared_basepath,
+                selection_indices=selection_indices,
+                output_settings=settings["output_settings"],
+                simulation_settings=settings["simulation_settings"],
+            )
+
+            # Get the sampler
+            sampler = self._get_sampler(
+                system=system,
+                positions=positions,
+                lambdas=lambdas,
+                integrator=integrator,
+                reporter=reporter,
+                simulation_settings=settings["simulation_settings"],
+                thermo_settings=settings["thermo_settings"],
+                alchem_settings=settings["alchemical_settings"],
+                platform=platform,
+                restart=self.restart,
+                dry=dry,
+            )
+
+            # Run the simulation
+            self._run_simulation(
+                sampler=sampler,
+                reporter=reporter,
+                simulation_settings=settings["simulation_settings"],
+                integrator_settings=settings["integrator_settings"],
+                output_settings=settings["output_settings"],
+                dry=dry,
+            )
+        finally:
+            # Have to wrap this in a try/except, because we might
+            # be in a situation where the reporter or sampler wasn't created
+            try:
+                # Order is reporter, contexts, sampler, integrator
+                reporter.close()  # close to prevent file handle clashes
+
+                # clear GPU context
+                # Note: use cache.empty() when openmmtools #690 is resolved
+                for context in list(sampler.energy_context_cache._lru._data.keys()):
+                    del sampler.energy_context_cache._lru._data[context]
+                for context in list(sampler.sampler_context_cache._lru._data.keys()):
+                    del sampler.sampler_context_cache._lru._data[context]
+                # cautiously clear out the global context cache too
+                for context in list(openmmtools.cache.global_context_cache._lru._data.keys()):
+                    del openmmtools.cache.global_context_cache._lru._data[context]
+
+                del sampler.sampler_context_cache, sampler.energy_context_cache
+
+                # Keep these around in a dry run so we can inspect things
+                if not dry:
+                    # At this point we know the sampler exists, so we del the integrator
+                    # first since it's associated with the sampler
+                    del integrator, sampler
+            except UnboundLocalError:
+                pass
+
+        if not dry:  # pragma: no-cover
+            return {
+                "nc": self.shared_basepath / settings["output_settings"].output_filename,
+                "checkpoint": self.shared_basepath
+                / settings["output_settings"].checkpoint_storage_filename,
+            }
+        else:
+            return {
+                "sampler": sampler,
+                "integrator": integrator,
+            }
+
+
+===== HybridTopologySetupUnit.__init__  (starts ~line 267) =====
+    def __init__(self, *, name: str | None = None, **inputs):
+        """Create an instance of a ProtocolUnit.
+
+        Parameters
+        ----------
+        name : str
+            Custom name to give this
+        **inputs
+            Keyword arguments, which can include other `ProtocolUnit`s on which
+            this `ProtocolUnit` is dependent. Should be either `gufe` objects
+            or JSON-serializables.
+
+        """
+        self._name = name
+        self._inputs = inputs
+
+        # for caching
+        self._dependencies = None
+
+
+===== HybridTopologySetupUnit._assign_partial_charges  (starts ~line 207) =====
+    @staticmethod
+    def _assign_partial_charges(
+        charge_settings: OpenFFPartialChargeSettings,
+        small_mols: dict[SmallMoleculeComponent, OFFMolecule],
+    ) -> None:
+        """
+        Assign partial charges to the OpenFF Molecules associated with all
+        the SmallMoleculeComponents in the transformation.
+
+        Parameters
+        ----------
+        charge_settings : OpenFFPartialChargeSettings
+          Settings for controlling how the partial charges are assigned.
+        small_mols : dict[SmallMoleculeComponent, openff.toolkit.Molecule]
+          Dictionary of OpenFF Molecules to add, keyed by
+          their associated SmallMoleculeComponent.
+        """
+        for smc, mol in small_mols.items():
+            charge_generation.assign_offmol_partial_charges(
+                offmol=mol,
+                overwrite=False,
+                method=charge_settings.partial_charge_method,
+                toolkit_backend=charge_settings.off_toolkit_backend,
+                generate_n_conformers=charge_settings.number_of_conformers,
+                nagl_model=charge_settings.nagl_model,
+            )
+
+
+===== HybridTopologySetupUnit._create_stateA_system  (starts ~line 279) =====
+    @staticmethod
+    def _create_stateA_system(
+        small_mols: dict[SmallMoleculeComponent, OFFMolecule],
+        protein_component: ProteinComponent | None,
+        solvent_component: SolventComponent | None,
+        system_generator: SystemGenerator,
+        solvation_settings: OpenMMSolvationSettings,
+    ) -> tuple[
+        openmm.System, openmm.app.Topology, openmm.unit.Quantity, dict[Component, npt.NDArray]
+    ]:
+        """
+        Create an OpenMM System for state A.
+
+        Parameters
+        ----------
+        small_mols : dict[SmallMoleculeComponent, openff.toolkit.Molecule]
+          A list of small molecules to include in the System.
+        protein_component : ProteinComponent | None
+          Optionally, the protein component to include in the System.
+        solvent_component : SolventComponent | None
+          Optionally, the solvent component to include in the System.
+        system_generator : SystemGenerator
+          The SystemGenerator object ot use to construct the System.
+        solvation_settings : OpenMMSolvationSettings
+          Settings defining how to build the System.
+
+        Returns
+        -------
+        system : openmm.System
+          The System that defines state A.
+        topology : openmm.app.Topology
+          The Topology defining the returned System.
+        positions : openmm.unit.Quantity
+          The positions of the particles in the System.
+        comp_residues : dict[Component, npt.NDArray]
+          A dictionary defining which residues in the System
+          belong to which ChemicalSystem Component.
+        """
+        modeller, comp_resids = system_creation.get_omm_modeller(
+            protein_comp=protein_component,
+            solvent_comp=solvent_component,
+            small_mols=small_mols,
+            omm_forcefield=system_generator.forcefield,
+            solvent_settings=solvation_settings,
+        )
+
+        topology = modeller.getTopology()
+        # Note: roundtrip positions to remove vec3 issues
+        positions = to_openmm(from_openmm(modeller.getPositions()))
+
+        system = system_generator.create_system(
+            modeller.topology,
+            molecules=list(small_mols.values()),
+        )
+
+        return system, topology, positions, comp_resids
+
+
+===== HybridTopologySetupUnit._create_stateB_system  (starts ~line 336) =====
+    @staticmethod
+    def _create_stateB_system(
+        small_mols: dict[SmallMoleculeComponent, OFFMolecule],
+        mapping: LigandAtomMapping,
+        stateA_topology: openmm.app.Topology,
+        exclude_resids: npt.NDArray,
+        system_generator: SystemGenerator,
+    ) -> tuple[openmm.System, openmm.app.Topology, npt.NDArray]:
+        """
+        Create the state B System from the state A Topology.
+
+        Parameters
+        ----------
+        small_mols : dict[SmallMoleculeComponent, openff.toolkit.Molecule]
+          Dictionary of OpenFF Molecules keyed by SmallMoleculeComponent
+          to be present in system B.
+        mapping : LigandAtomMapping
+          LigandAtomMapping defining the correspondence between state A
+          and B's alchemical ligand.
+        stateA_topology : openmm.app.Topology
+          The OpenMM topology for state A.
+        exclude_resids : npt.NDArray
+          A list of residues to exclude from state A when building state B.
+        system_generator : SystemGenerator
+          The SystemGenerator to use to build System B.
+
+        Returns
+        -------
+        system : openmm.System
+          The state B System.
+        topology : openmm.app.Topology
+          The OpenMM Topology associated with the state B System.
+        alchem_resids : npt.NDArray
+          The residue indices of the state B alchemical species.
+        """
+        topology, alchem_resids = _rfe_utils.topologyhelpers.combined_topology(
+            topology1=stateA_topology,
+            topology2=small_mols[mapping.componentB].to_topology().to_openmm(),
+            exclude_resids=exclude_resids,
+        )
+
+        system = system_generator.create_system(
+            topology,
+            molecules=list(small_mols.values()),
+        )
+
+        return system, topology, alchem_resids
+
+
+===== HybridTopologySetupUnit._execute  (starts ~line 826) =====
+    def _execute(
+        self,
+        ctx: gufe.Context,
+        **inputs,
+    ) -> dict[str, Any]:
+        log_system_probe(logging.INFO, paths=[ctx.scratch])
+        outputs = self.run(scratch_basepath=ctx.scratch, shared_basepath=ctx.shared)
+
+        return {
+            "repeat_id": self._inputs["repeat_id"],
+            "generation": self._inputs["generation"],
+            "openmm_version": openmm.__version__,
+            "openfe_version": openfe.__version__,
+            "gufe_version": gufe.__version__,
+            **outputs,
+        }
+
+
+===== HybridTopologySetupUnit._get_alchemical_system  (starts ~line 581) =====
+    @staticmethod
+    def _get_alchemical_system(
+        stateA_system: openmm.System,
+        stateA_positions: openmm.unit.Quantity,
+        stateA_topology: openmm.app.Topology,
+        stateB_system: openmm.System,
+        stateB_positions: openmm.unit.Quantity,
+        stateB_topology: openmm.app.Topology,
+        system_mappings: dict[str, dict[int, int]],
+        alchemical_settings: AlchemicalSettings,
+    ):
+        """
+        Get the hybrid topology alchemical system.
+
+        Parameters
+        ----------
+        stateA_system : openmm.System
+          State A OpenMM System
+        stateA_positions : openmm.unit.Quantity
+          Positions of state A System
+        stateA_topology : openmm.app.Topology
+          Topology of state A System
+        stateB_system : openmm.System
+          State B OpenMM System
+        stateB_positions : openmm.unit.Quantity
+          Positions of state B System
+        stateB_topology : openmm.app.Topology
+          Topology of state B System
+        system_mappings : dict[str, dict[int, int]]
+          Mapping of corresponding atoms between the two Systems.
+        alchemical_settings : AlchemicalSettings
+          The alchemical settings defining how the alchemical system
+          will be built.
+
+        Returns
+        -------
+        hybrid_factory : HybridTopologyFactory
+          The factory creating the hybrid system.
+        hybrid_system : openmm.System
+          The hybrid System.
+        """
+        if alchemical_settings.softcore_LJ.lower() == "gapsys":
+            softcore_LJ_v2 = True
+        elif alchemical_settings.softcore_LJ.lower() == "beutler":
+            softcore_LJ_v2 = False
+
+        hybrid_factory = _rfe_utils.relative.HybridTopologyFactory(
+            stateA_system,
+            stateA_positions,
+            stateA_topology,
+            stateB_system,
+            stateB_positions,
+            stateB_topology,
+            old_to_new_atom_map=system_mappings["old_to_new_atom_map"],
+            old_to_new_core_atom_map=system_mappings["old_to_new_core_atom_map"],
+            use_dispersion_correction=alchemical_settings.use_dispersion_correction,
+            softcore_alpha=alchemical_settings.softcore_alpha,
+            softcore_LJ_v2=softcore_LJ_v2,
+            softcore_LJ_v2_alpha=alchemical_settings.softcore_alpha,
+            interpolate_old_and_new_14s=alchemical_settings.turn_off_core_unique_exceptions,
+        )
+
+        return hybrid_factory, hybrid_factory.hybrid_system
+
+
+===== HybridTopologySetupUnit._get_system_generator  (starts ~line 234) =====
+    @staticmethod
+    def _get_system_generator(
+        settings: dict[str, SettingsBaseModel],
+        solvent_component: SolventComponent | None,
+        openff_molecules: list[OFFMolecule] | None,
+        ffcache: pathlib.Path | None,
+    ) -> SystemGenerator:
+        """
+        Get an OpenMM SystemGenerator.
+
+        Parameters
+        ----------
+        settings : dict[str, SettingsBaseModel]
+          A dictionary of protocol settings.
+        solvent_component : SolventComponent | None
+          The solvent component of the system, if any.
+        openff_molecules : list[openff.toolkit.Molecule] | None
+          A list of openff molecules to generate templates for, if any.
+        ffcache : pathlib.Path | None
+          Path to the force field parameter cache.
+
+        Returns
+        -------
+        system_generator : openmmtools.SystemGenerator
+          The SystemGenerator for the protocol.
+        """
+        system_generator = system_creation.get_system_generator(
+            forcefield_settings=settings["forcefield_settings"],
+            integrator_settings=settings["integrator_settings"],
+            thermo_settings=settings["thermo_settings"],
+            cache=ffcache,
+            has_solvent=solvent_component is not None,
+        )
+
+        # Handle openff Molecule templates
+        # TODO: revisit this once the SystemGenerator update happens
+        # and we start loading the whole protein into OpenFF Topologies
+        if openff_molecules is None:
+            return system_generator
+
+        # Register all the templates, pass unique molecules to avoid clashes
+        system_generator.add_molecules(list(set(openff_molecules)))
+
+        return system_generator
+
+
+===== HybridTopologySetupUnit._handle_net_charge  (starts ~line 384) =====
+    @staticmethod
+    def _handle_net_charge(
+        stateA_topology: openmm.app.Topology,
+        stateA_positions: openmm.unit.Quantity,
+        stateB_topology: openmm.app.Topology,
+        stateB_system: openmm.System,
+        charge_difference: int,
+        system_mappings: dict[str, dict[int, int]],
+        distance_cutoff: Quantity,
+        forcefield: openmm.app.ForceField,
+    ) -> None:
+        """
+        Handle system net charge by adding an alchemical water.
+
+        Parameters
+        ----------
+        stateA_topology : openmm.app.Topology
+        stateA_positions : openmm.unit.Quantity
+        stateB_topology : openmm.app.Topology
+        stateB_system : openmm.System
+        charge_difference : int
+        system_mappings : dict[str, dict[int, int]]
+        distance_cutoff : Quantity
+        forcefield: openmm.app.ForceField
+        """
+        # Base case, return if no net charge
+        if charge_difference == 0:
+            return
+
+        # Get the residue ids for waters to turn alchemical
+        alchem_water_resids = _rfe_utils.topologyhelpers.get_alchemical_waters(
+            topology=stateA_topology,
+            positions=stateA_positions,
+            charge_difference=charge_difference,
+            distance_cutoff=distance_cutoff,
+        )
+
+        # In-place modify state B alchemical waters to ions
+        _rfe_utils.topologyhelpers.handle_alchemical_waters(
+            water_resids=alchem_water_resids,
+            topology=stateB_topology,
+            system=stateB_system,
+            system_mapping=system_mappings,
+            charge_difference=charge_difference,
+            forcefield=forcefield,
+        )
+
+
+===== HybridTopologySetupUnit.execute  (starts ~line 332) =====
+    def execute(
+        self, *, context: Context, raise_error: bool = False, **inputs
+    ) -> ProtocolUnitResult | ProtocolUnitFailure:
+        """Given `ProtocolUnitResult` s from dependencies, execute this `ProtocolUnit`.
+
+        Parameters
+        ----------
+        context : Context
+            Execution context for this `ProtocolUnit`; includes e.g. ``shared``
+            and ``scratch`` `Path` s.
+        raise_error : bool
+            If True, raise any errors instead of catching and returning a
+            `ProtocolUnitFailure` default False
+        **inputs
+            Keyword arguments giving the named inputs to `_execute`.
+            These can include `ProtocolUnitResult` objects from `ProtocolUnit`
+            objects this unit is dependent on.
+
+        """
+        result: ProtocolUnitResult | ProtocolUnitFailure
+        start = datetime.datetime.now()
+
+        def extract_bytes(context_dir) -> dict | None:
+            """Iterate over directory of files (depth 1) and create
+            dictionary containing their contents.
+            """
+            record_dict = {}
+            if context_dir:
+                for entry in context_dir.iterdir():
+                    if entry.is_file():
+                        with entry.open("rb") as f:
+                            record_dict[entry.name] = f.read()
+            return record_dict
+
+        try:
+            outputs = self._execute(context, **inputs)
+
+            stderr = extract_bytes(context.stderr)
+            stdout = extract_bytes(context.stdout)
+
+            result = ProtocolUnitResult(
+                name=self.name,
+                source_key=self.key,
+                inputs=inputs,
+                outputs=outputs,
+                stderr=stderr,
+                stdout=stdout,
+                start_time=start,
+                end_time=datetime.datetime.now(),
+            )
+        except (KeyboardInterrupt, ExecutionInterrupt):
+            # NOTE: this statement is for clarity, these Interrupts will raise regardless.
+            raise
+        except Exception as e:
+            if raise_error:
+                raise
+
+            stderr = extract_bytes(context.stderr)
+            stdout = extract_bytes(context.stdout)
+
+            result = ProtocolUnitFailure(
+                name=self._name,
+                source_key=self.key,
+                inputs=inputs,
+                outputs=dict(),
+                stderr=stderr,
+                stdout=stdout,
+                exception=(e.__class__.__qualname__, e.args),
+                traceback=traceback.format_exc(),
+                start_time=start,
+                end_time=datetime.datetime.now(),
+            )
+
+        return result
+
+
+===== HybridTopologySetupUnit.run  (starts ~line 705) =====
+    def run(
+        self,
+        *,
+        dry: bool = False,
+        verbose: bool = True,
+        scratch_basepath: pathlib.Path | None = None,
+        shared_basepath: pathlib.Path | None = None,
+    ) -> dict[str, Any]:
+        """Setup a hybrid topology system.
+
+        Parameters
+        ----------
+        dry : bool
+          Do a dry run of the calculation, creating all necessary hybrid
+          system components (topology, system, sampler, etc...) but without
+          running the simulation.
+        verbose : bool
+          Verbose output of the simulation progress. Output is provided via
+          INFO level logging.
+        scratch_basepath: pathlib.Path | None
+          Where to store temporary files, defaults to current working directory
+        shared_basepath : pathlib.Path | None
+          Where to run the calculation, defaults to current working directory
+
+        Returns
+        -------
+        dict
+          Outputs created by the setup unit or the debug objects
+          (e.g. HybridTopologyFactory) if ``dry==True``.
+
+        Raises
+        ------
+        error
+          Exception if anything failed
+        """
+        # Prepare paths & verbosity
+        self._prepare(verbose, scratch_basepath, shared_basepath)
+
+        if self.verbose:
+            self.logger.info("Starting system setup unit")
+
+        # Get settings
+        settings = self._get_settings(self._inputs["protocol"].settings)
+
+        # Get components
+        stateA = self._inputs["stateA"]
+        stateB = self._inputs["stateB"]
+        mapping = self._inputs["ligandmapping"]
+        alchem_comps = self._inputs["alchemical_components"]
+        solvent_comp, protein_comp, small_mols = self._get_components(stateA, stateB)
+
+        # Assign partial charges now to avoid any discrepancies later
+        self._assign_partial_charges(settings["charge_settings"], small_mols)
+
+        (
+            stateA_system,
+            stateA_topology,
+            stateA_positions,
+            stateB_system,
+            stateB_topology,
+            stateB_positions,
+            system_mappings,
+        ) = self._get_omm_objects(
+            stateA=stateA,
+            stateB=stateB,
+            mapping=mapping,
+            settings=settings,
+            protein_component=protein_comp,
+            solvent_component=solvent_comp,
+            small_mols=small_mols,
+        )
+
+        # Get the hybrid factory & system
+        hybrid_factory, hybrid_system = self._get_alchemical_system(
+            stateA_system=stateA_system,
+            stateA_positions=stateA_positions,
+            stateA_topology=stateA_topology,
+            stateB_system=stateB_system,
+            stateB_positions=stateB_positions,
+            stateB_topology=stateB_topology,
+            system_mappings=system_mappings,
+            alchemical_settings=settings["alchemical_settings"],
+        )
+
+        # Subselect system based on user inputs & write initial PDB
+        selection_indices = self._subsample_topology(
+            hybrid_topology=hybrid_factory.hybrid_topology,
+            hybrid_positions=hybrid_factory.hybrid_positions,
+            output_selection=settings["output_settings"].output_indices,
+            output_filename=settings["output_settings"].output_structure,
+            atom_classes=hybrid_factory._atom_classes,
+        )
+
+        # Serialize things
+        # OpenMM System
+        system_outfile = self.shared_basepath / "hybrid_system.xml.bz2"
+        serialize(hybrid_system, system_outfile)
+
+        # Positions
+        positions_outfile = self.shared_basepath / "hybrid_positions.npy"
+        npy_positions = from_openmm(hybrid_factory.hybrid_positions).to("nanometer").m
+        np.save(positions_outfile, npy_positions)
+
+        unit_results_dict = {
+            "system": system_outfile,
+            "positions": positions_outfile,
+            "pdb_structure": self.shared_basepath / settings["output_settings"].output_structure,
+            "selection_indices": selection_indices,
+        }
+
+        if dry:
+            unit_results_dict |= {
+                # Adding unserialized objects so we can directly use them
+                # to chain units in tests
+                "hybrid_factory": hybrid_factory,
+                "hybrid_system": hybrid_system,
+                "hybrid_positions": hybrid_factory.hybrid_positions,
+            }
+
+        return unit_results_dict
+

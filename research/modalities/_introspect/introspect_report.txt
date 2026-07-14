@@ -1,0 +1,119 @@
+[introspect] openfe version: 1.12.0
+[introspect] Protocol class: RelativeHybridTopologyProtocol
+[introspect] ProtocolUnit classes: ['HybridTopologyMultiStateAnalysisUnit', 'HybridTopologyMultiStateSimulationUnit', 'HybridTopologySetupUnit']
+[introspect] DEFAULT simulation_settings.time_per_iteration = 2.5 picosecond
+[introspect] DEFAULT simulation_settings.equilibration_length = 1.0 nanosecond
+[introspect] DEFAULT simulation_settings.production_length = 5.0 nanosecond
+[introspect] DEFAULT simulation_settings.n_replicas = 11
+[introspect] DEFAULT simulation_settings.real_time_analysis_interval = 250.0 picosecond
+[introspect] DEFAULT simulation_settings.sampler_method = repex
+[introspect] DEFAULT integrator_settings.timestep = 4.0 femtosecond
+[introspect] DEFAULT lambda_settings.lambda_windows = 11
+[introspect] HybridTopologyMultiStateAnalysisUnit methods: ['__deepcopy__', '__eq__', '__hash__', '__init__', '__lt__', '__reduce_ex__', '__repr__', '_analyze_multistate_energies', '_execute', '_get_settings', '_gufe_tokenize', '_prepare', '_set_key', '_structural_analysis', '_to_dict', '_verify_execution_environment', 'copy_with_replacements', 'execute', 'run', 'to_dict', 'to_json', 'to_keyed_chain', 'to_keyed_dict', 'to_msgpack', 'to_shallow_dict']
+[introspect] HybridTopologyMultiStateSimulationUnit methods: ['__deepcopy__', '__eq__', '__hash__', '__init__', '__lt__', '__reduce_ex__', '__repr__', '_check_restart', '_execute', '_get_integrator', '_get_reporter', '_get_sampler', '_get_settings', '_gufe_tokenize', '_prepare', '_run_simulation', '_set_key', '_to_dict', '_verify_execution_environment', 'copy_with_replacements', 'execute', 'run', 'to_dict', 'to_json', 'to_keyed_chain', 'to_keyed_dict', 'to_msgpack', 'to_shallow_dict']
+[introspect] HybridTopologySetupUnit methods: ['__deepcopy__', '__eq__', '__hash__', '__init__', '__lt__', '__reduce_ex__', '__repr__', '_assign_partial_charges', '_create_stateA_system', '_create_stateB_system', '_execute', '_get_alchemical_system', '_get_components', '_get_omm_objects', '_get_settings', '_get_system_generator', '_gufe_tokenize', '_handle_net_charge', '_prepare', '_set_key', '_subsample_topology', '_to_dict', '_verify_execution_environment', 'copy_with_replacements', 'execute', 'run', 'to_dict', 'to_json', 'to_keyed_chain', 'to_keyed_dict', 'to_msgpack', 'to_shallow_dict']
+
+[introspect] SIGNAL HITS in the execute-path source (term: count):
+    HybridTopologyFactory        3
+    hybrid_system                8
+    MultiStateSampler            6
+    MultiStateReporter           6
+    from_storage                 1
+    reporter                     22
+    minimize                     2
+    equilibrate                  2
+    production                   7
+    serialize                    3
+    checkpoint                   22
+    dry                          34
+    n_replicas                   5
+    lambda                       22
+    create_system                2
+    assign_partial_charges       3
+    Context                      11
+    positions                    47
+    openmm.System                15
+    extend                       10
+    resume                       1
+
+  >> near 'HybridTopologyFactory':
+        -------
+        hybrid_factory : HybridTopologyFactory
+          The factory creating the hybrid system.
+
+  >> near 'HybridTopologyFactory':
+
+        hybrid_factory = _rfe_utils.relative.HybridTopologyFactory(
+            stateA_system,
+
+  >> near 'HybridTopologyFactory':
+          Outputs created by the setup unit or the debug objects
+          (e.g. HybridTopologyFactory) if ``dry==True``.
+
+
+  >> near 'hybrid_system':
+            "mcmc_moves": integrator,
+            "hybrid_system": system,
+            "hybrid_positions": positions,
+
+  >> near 'hybrid_system':
+          The factory creating the hybrid system.
+        hybrid_system : openmm.System
+          The hybrid System.
+
+  >> near 'hybrid_system':
+
+        return hybrid_factory, hybrid_factory.hybrid_system
+
+
+  >> near 'MultiStateSampler':
+        dry: bool,
+    ) -> multistate.MultiStateSampler:
+        """
+
+  >> near 'MultiStateSampler':
+        """
+        Get the MultiStateSampler.
+
+
+  >> near 'MultiStateSampler':
+        -------
+        sampler : multistate.MultiStateSampler
+          The requested sampler.
+
+  >> near 'from_storage':
+        if restart:
+            sampler = sampler_class.from_storage(reporter)  # type: ignore[attr-defined]
+
+
+  >> near 'def _execute':
+===== HybridTopologyMultiStateAnalysisUnit._execute  (starts ~line 1650) =====
+    def _execute(
+        self,
+
+  >> near 'def _execute':
+===== HybridTopologyMultiStateSimulationUnit._execute  (starts ~line 1418) =====
+    def _execute(
+        self,
+
+  >> near 'def _execute':
+===== HybridTopologySetupUnit._execute  (starts ~line 826) =====
+    def _execute(
+        self,
+
+  >> near 'minimize':
+            if sampler._iteration == 0:
+                # minimize
+                if self.verbose:
+
+  >> near 'minimize':
+
+                sampler.minimize(max_iterations=simulation_settings.minimization_steps)
+
+
+  >> near 'sampler.run':
+            # TODO: I'm being extra prudent by passing in n_iterations here - remove?
+            sampler.run(n_iterations=int(prod_steps / mc_steps) - sampler._iteration)
+
+
+[introspect] wrote full execute-path source (55183 chars) -> openfe_unit_source.txt
