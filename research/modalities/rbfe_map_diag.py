@@ -23,18 +23,30 @@ import rbfe_edges as rb  # noqa: E402
 
 EDGE = (os.environ.get("MAP_LIGAND_A", "zaienne_cmpd19"), os.environ.get("MAP_LIGAND_B", "cw_ev_5nh2"))
 # candidate S3 prefixes that may hold docked_<r>.sdf (the RBFE receptor input). Search broadly; first hit wins.
-CANDIDATE_PREFIXES = [p for p in os.environ.get("MAP_PREFIXES",
+# NB: `os.environ.get(x, default)` returns "" when the CI passes an EMPTY input (the var IS set) — so `or` the
+# default, don't rely on the get() fallback (that empty-string override is what made the first run search []).
+CANDIDATE_PREFIXES = [p.strip() for p in ((os.environ.get("MAP_PREFIXES") or "").strip() or
     "nr4a3-congeneric-dock/congeneric-poses2-ckpt,nr4a3-congeneric-dock,nr4a3-leadopt-species,"
     "nr4a3-congeneric-dock/congeneric-pilot-ckpt").split(",") if p.strip()]
 
 
 def _find_sdf(s3, bucket):
     for pfx in CANDIDATE_PREFIXES:
-        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=pfx.strip()):
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=pfx):
             for o in page.get("Contents", []):
                 if o["Key"].endswith("docked_nr4a3.sdf"):
                     return o["Key"]
-    return None
+    # not under the candidates — bucket-wide fallback: report ALL docked*.sdf keys so we learn the real location.
+    print(f"[mapdiag] no docked_nr4a3.sdf under {CANDIDATE_PREFIXES}; scanning the whole bucket for docked*.sdf ...")
+    hits = []
+    for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket):
+        for o in page.get("Contents", []):
+            k = o["Key"]
+            if k.endswith(".sdf") and "docked" in k.lower():
+                hits.append(k)
+    for k in hits[:60]:
+        print(f"[mapdiag]   found: {k}")
+    return next((k for k in hits if k.endswith("docked_nr4a3.sdf")), hits[0] if hits else None)
 
 
 def main() -> int:
