@@ -143,7 +143,8 @@ def q1_openfe_source():
                                       or "RFEUnit" in name):
             print(f"\n[Q1] class {name}: {[m for m in dir(obj) if not m.startswith('__')][:40]}",
                   flush=True)
-            for meth in ("_execute", "run", "_run_simulation"):
+            for meth in ("_execute", "run", "_run_simulation", "_check_restart",
+                         "_get_reporter", "_get_sampler", "_get_integrator", "_prepare"):
                 m = getattr(obj, meth, None)
                 if callable(m):
                     try:
