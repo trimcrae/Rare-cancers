@@ -572,7 +572,7 @@ def main():
         print("[rbfe] reduce jobs launched → ΔΔG_bind per receptor + rbfe_edges.selectivity_from_rbfe.")
         return
 
-    if MODE in ("setup", "simulate", "analyze"):
+    if MODE in ("setup", "simulate", "analyze", "ckptread"):
         # CPU-build / GPU-MD SPLIT (2026-07-14, trimcrae): run OpenFE 1.12's own 3 units as separate jobs so the
         # ~1 h single-threaded hybrid-system BUILD runs on CHEAP CPU (never on an idle GPU), only the MD on GPU.
         #   setup    -> CPU (on-demand: can't resume, but a cheap-CPU redo is trivial) -> serializes the system.
@@ -597,8 +597,9 @@ def main():
             launched.append(est.latest_training_job.name)
             print(f"[rbfe] launched {MODE} {name} ({leg}/{receptor}) on {inst} "
                   f"(spot={'default' if spot is None else spot}): {launched[-1]}  ckpt {TAG}/ckpt/{name}/")
-        nxt = {"setup": "simulate", "simulate": "analyze", "analyze": "reduce"}[MODE]
-        print(f"[rbfe] {len(launched)} {MODE} job(s) launched → when Complete, run MODE={nxt}. Jobs: {launched}")
+        nxt = {"setup": "simulate", "simulate": "analyze", "analyze": "reduce"}.get(MODE)
+        tail = f"→ when Complete, run MODE={nxt}. " if nxt else "(read-only diagnostic) "
+        print(f"[rbfe] {len(launched)} {MODE} job(s) launched {tail}Jobs: {launched}")
         return
 
     # MODE == run

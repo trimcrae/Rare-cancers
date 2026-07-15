@@ -633,6 +633,50 @@ def run_setup():
     print(f"  [rbfe][setup] DONE {RECEPTOR}/{LEG}", flush=True)
 
 
+def _read_last_iters(shared_dir, out_filename="simulation.nc", chk_filename="checkpoint.chk"):
+    """Return (analysis_iter, checkpoint_iter) for an openmmtools MultiState storage — the DEFINITIVE resume
+    point. from_storage resumes at read_last_iteration(last_checkpoint=True); if that is 0 while the analysis
+    iteration is >0, a restart RE-EQUILIBRATES (the root-cause pathology). openmmtools-only; no MD."""
+    from pathlib import Path
+    from openmmtools.multistate import MultiStateReporter
+    sh = Path(shared_dir)
+    rep = MultiStateReporter(str(sh / out_filename), open_mode="r", checkpoint_storage=chk_filename)
+    try:
+        ana = rep.read_last_iteration(last_checkpoint=False)
+        ck = rep.read_last_iteration(last_checkpoint=True)
+    finally:
+        rep.close()
+    return ana, ck
+
+
+def _ckpt_integrity_guard(shared_path, out_filename, chk_filename):
+    """Before a restart executes: read the TRUE resume iteration, BACK UP the checkpoint so a re-equilibration
+    can never destroy good production data (the self-perpetuating overwrite that made a single failed resume
+    corrupt a leg permanently), and loudly flag the corruption signature. Best-effort; never blocks the run."""
+    import shutil
+    from pathlib import Path
+    sh = Path(shared_path)
+    try:
+        ana, ck = _read_last_iters(sh, out_filename, chk_filename)
+        print(f"  [ckpt-integrity] resume point read_last_iteration: checkpoint={ck} analysis={ana}", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [ckpt-integrity] could not read resume point ({e!r}); backing up defensively", flush=True)
+        ana = ck = None
+    try:
+        bak = Path(CKPT) / f"sim_shared_bak_ana{ana}_ck{ck}"
+        if not bak.exists():
+            shutil.copytree(sh, bak)
+            print(f"  [ckpt-integrity] backed up checkpoint set -> {bak} (survives S3 sync; "
+                  "re-equilibration can no longer destroy the good checkpoint)", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [ckpt-integrity] backup failed: {e!r}", flush=True)
+    if (ck or 0) == 0 and (ana or 0) > 0:
+        print(f"  [ckpt-integrity] ⚠⚠ CORRUPTION SIGNATURE: checkpoint has NO production state (resume=0) but "
+              f"analysis reached {ana}. from_storage will RE-EQUILIBRATE and OVERWRITE — the leg's good data "
+              "was already lost upstream (torn spot-kill upload). Backup above preserves what remains.",
+              flush=True)
+
+
 def run_simulate():
     """GPU job: deserialize the setup system and run the MultiState MD. Resumes from the .nc on spot restart
     (OpenFE's own _check_restart), so this is the ONLY leg that needs the GPU and it is spot-safe."""
@@ -664,6 +708,8 @@ def run_simulate():
         would = (sh / of).is_file() and (sh / cf).is_file()
         print(f"  [restart-diag] => _check_restart WOULD return restart={would} "
               f"({'RESUME production' if would else 'FRESH minimize+equilibrate'})", flush=True)
+        if would:
+            _ckpt_integrity_guard(sh, of, cf)
     except Exception as e:  # noqa: BLE001
         print(f"  [restart-diag] diag error: {e!r}", flush=True)
     res = _one_unit(byname, "HybridTopologyMultiStateSimulationUnit").execute(
@@ -737,6 +783,22 @@ def main():
         return run_analyze()
     if mode == "splittest":
         return run_splittest()
+    if mode == "ckptread":
+        # Read-only A/B diagnostic (no MD): report the DEFINITIVE resume point for this leg's restored checkpoint.
+        # If checkpoint==analysis>0 the restart would RESUME; if checkpoint==0 while analysis>0 it re-equilibrates.
+        # Run against the COMPLETED solvent leg (analysis reached 2000) to prove whether openmmtools persists a
+        # resumable PRODUCTION checkpoint at all (settles torn-upload-A vs never-persisted-B).
+        sh = os.path.join(CKPT, "sim_shared")
+        print(f"[ckptread] leg={RECEPTOR}/{LEG} shared={sh} exists={os.path.isdir(sh)}", flush=True)
+        try:
+            ana, ck = _read_last_iters(sh)
+            print(f"[ckptread] read_last_iteration: analysis={ana} checkpoint(resume)={ck}", flush=True)
+            print(f"[ckptread] => a restart of this leg would "
+                  f"{'RESUME at %d' % ck if (ck or 0) > 0 else 'RE-EQUILIBRATE (checkpoint has no production state)'}"
+                  f"; analysis had reached {ana}", flush=True)
+        except Exception as e:  # noqa: BLE001
+            print(f"[ckptread] read failed: {e!r}", flush=True)
+        return
     if mode == "cudaprobe":
         # Fast, no-MD diagnostic: report the driver's CUDA + which OpenMM GPU platform actually runs on this g5.
         # Decides whether the RBFE can move off the pathologically-slow OpenCL hybrid-Context path onto CUDA.
