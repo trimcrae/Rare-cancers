@@ -1,0 +1,164 @@
+name: GCP CPU billing-history spend (self-terminating, WIF keyless)
+
+# Purpose: accrue a small, deliberate amount of genuine Compute Engine spend (~$2) on the paid
+# billing account so it stops looking brand-new, which is what GCP's automated quota reviewer is
+# gating the "GPUs (all regions)" aggregate increase on (0 -> 4 keeps auto-denying pending billing
+# history). CPU-only, so it needs NO GPU quota.
+#
+# SAFETY (no runaway billing): every VM is created with GCE's server-enforced
+#   --max-run-duration=<t> --instance-termination-action=DELETE
+# so Google itself deletes the VM at the deadline regardless of anything this workflow or the VM
+# does. A startup-script self-delete (via the metadata API, no gcloud dependency) fires slightly
+# earlier as belt-and-braces. On any failure of the create step, an if:failure() sweep deletes
+# every VM this run created. The `smoke` mode PROVES the GCE auto-DELETE works before any real spend.
+#
+# Auth: reuses the repo's existing keyless Workload Identity Federation setup (same provider + SA as
+# gcp-smoke.yml). No secrets, no stored key.
+#
+# HOW TO RUN:
+#   * Pushing this file (mode falls back to `smoke`) => validate auth + teardown only, ~$0.
+#   * To do the real ~$2 spend after smoke passes: change the MODE fallback below from 'smoke' to
+#     'spend' and push again (or workflow_dispatch with mode=spend once this file is on main).
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "smoke (validate teardown, ~$0) or spend (real ~$2 CPU batch)"
+        default: "smoke"
+        required: false
+      count:
+        description: "number of VMs (spend mode)"
+        default: "2"
+        required: false
+      machine:
+        description: "machine type (spend mode)"
+        default: "e2-standard-4"
+        required: false
+      minutes:
+        description: "how long each VM stays up before self-deleting (spend mode)"
+        default: "420"
+        required: false
+      zone:
+        description: "GCE zone"
+        default: "us-central1-a"
+        required: false
+  push:
+    branches: [claude/gcp-gpu-quota-increase-61pnzu]
+    paths:
+      - .github/workflows/gcp-billing-history.yml
+
+permissions:
+  id-token: write   # for the GitHub OIDC token WIF consumes
+  contents: read
+
+concurrency:
+  group: gcp-billing-history
+  cancel-in-progress: false
+
+jobs:
+  billing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PROJECT: project-a7ebde30-e2ed-4b8d-9a9
+      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      # On a plain push, mode defaults to `smoke`. Flip 'smoke' -> 'spend' here and push for the real run.
+      MODE: ${{ github.event.inputs.mode || 'smoke' }}
+      COUNT: ${{ github.event.inputs.count || '2' }}
+      MACHINE: ${{ github.event.inputs.machine || 'e2-standard-4' }}
+      MINUTES: ${{ github.event.inputs.minutes || '420' }}
+    steps:
+      - id: auth
+        name: Authenticate to GCP (keyless, WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Resolve project + confirm identity + CPU quota
+        run: |
+          set -eo pipefail
+          gcloud config set project "$PROJECT"
+          echo "project: $PROJECT ; authenticated as: $(gcloud config get-value account 2>/dev/null)"
+          echo "MODE=$MODE COUNT=$COUNT MACHINE=$MACHINE MINUTES=$MINUTES ZONE=$ZONE"
+          echo "=== CPU quota (region us-central1) ==="
+          gcloud compute regions describe us-central1 --format="json(quotas)" \
+            | python3 -c "import sys,json;[print(q['metric'],q['usage'],'/',q['limit']) for q in json.load(sys.stdin)['quotas'] if q['metric'] in ('CPUS','CPUS_ALL_REGIONS','E2_CPUS','N2_CPUS','C2_CPUS','DISKS_TOTAL_GB')]" || true
+
+      - name: SMOKE — prove GCE auto-DELETE tears a VM down (no real spend)
+        if: env.MODE == 'smoke'
+        run: |
+          set -eo pipefail
+          VM="gcp-bill-smoke-${GITHUB_RUN_ID}"
+          echo "creating tiny e2-small with a 180s hard max-run-duration + DELETE..."
+          gcloud compute instances create "$VM" \
+            --zone="$ZONE" --machine-type=e2-small \
+            --provisioning-model=STANDARD \
+            --max-run-duration=180s --instance-termination-action=DELETE \
+            --image-family=debian-12 --image-project=debian-cloud \
+            --boot-disk-size=10GB --no-restart-on-failure \
+            --labels=purpose=gcp-billing-history-smoke,run="${GITHUB_RUN_ID}"
+          echo "created $VM; GCE should DELETE it at ~180s. Waiting up to ~5 min to confirm..."
+          gone=0
+          for i in $(seq 1 18); do
+            sleep 20
+            if ! gcloud compute instances describe "$VM" --zone="$ZONE" >/dev/null 2>&1; then
+              echo "CONFIRMED: $VM was auto-deleted by GCE (server-enforced teardown works)."
+              gone=1; break
+            fi
+            echo "  still present at ~$((i*20))s..."
+          done
+          if [ "$gone" != 1 ]; then
+            echo "::error::smoke VM was NOT auto-deleted in time — force-deleting and failing (do NOT proceed to spend)."
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet || true
+            exit 1
+          fi
+          echo "SMOKE PASS — auth + WIF + project + CPU-VM create + GCE auto-DELETE all verified."
+
+      - name: SPEND — launch self-terminating CPU VMs (~a couple dollars)
+        if: env.MODE == 'spend'
+        run: |
+          set -eo pipefail
+          SECS=$(( MINUTES * 60 ))
+          HARD=$(( SECS + 900 ))   # GCE hard backstop 15 min after the script self-delete
+          echo "launching $COUNT x $MACHINE for ${MINUTES} min each (self-delete at ${SECS}s, GCE DELETE backstop at ${HARD}s)"
+          # startup script: sleep, then self-delete via the metadata API (no gcloud needed on the VM)
+          cat > /tmp/startup.sh <<SS
+          #!/bin/bash
+          sleep ${SECS}
+          TOK=\$(curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)
+          NAME=\$(curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/name")
+          ZN=\$(curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/zone" | awk -F/ '{print \$NF}')
+          curl -s -X DELETE -H "Authorization: Bearer \$TOK" "https://compute.googleapis.com/compute/v1/projects/${PROJECT}/zones/\${ZN}/instances/\${NAME}"
+          SS
+          : > /tmp/created.txt
+          for n in $(seq 1 "$COUNT"); do
+            VM="gcp-bill-${GITHUB_RUN_ID}-${n}"
+            gcloud compute instances create "$VM" \
+              --zone="$ZONE" --machine-type="$MACHINE" \
+              --provisioning-model=STANDARD \
+              --max-run-duration="${HARD}s" --instance-termination-action=DELETE \
+              --image-family=debian-12 --image-project=debian-cloud \
+              --boot-disk-size=10GB --no-restart-on-failure \
+              --service-account=gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com \
+              --scopes=cloud-platform \
+              --metadata-from-file=startup-script=/tmp/startup.sh \
+              --labels=purpose=gcp-billing-history,run="${GITHUB_RUN_ID}"
+            echo "$VM" >> /tmp/created.txt
+            echo "created $VM"
+          done
+          echo "=== launched; these self-delete in ~${MINUTES} min (GCE hard-deletes by ~$((HARD/60)) min no matter what) ==="
+          cat /tmp/created.txt
+
+      - name: Cleanup on failure (delete any VM this run created)
+        if: failure()
+        run: |
+          gcloud compute instances list \
+            --filter="labels.run=${GITHUB_RUN_ID}" \
+            --format="value(name,zone)" 2>/dev/null | while read -r NAME ZN; do
+              [ -n "$NAME" ] && gcloud compute instances delete "$NAME" --zone="$ZN" --quiet && echo "swept $NAME" || true
+            done
