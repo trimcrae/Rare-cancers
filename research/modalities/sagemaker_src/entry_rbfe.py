@@ -30,7 +30,7 @@ IN = "/opt/ml/input/data"
 # RelativeHybridTopologyProtocolUnit (single unit, build+MD welded) — the version our earlier env resolved.
 OPENFE_PKGS = ["python=3.11", "openfe>=1.12", "pydantic>=2", "importlib_resources", "openff-toolkit",
                "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "cuda-version=12.6",
-               "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
+               "rdkit", "lomap2", "kartograf", "numpy", "scipy", "boto3"]  # boto3: spot-safe driver's S3CommitStore
 
 
 def _sh(cmd, **kw):
