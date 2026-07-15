@@ -5,6 +5,19 @@ manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degr
 pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)) before launching
 anything. Last updated 2026-06-26.
 
+> **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15). READ THIS FIRST — it re-scopes everything below.**
+> The de novo warhead / **ABFE-validation track is SHELVED** (parked, revisit-when-warranted, not deleted). The
+> program is now the Track B ternary workflow, expressed as trimcrae's **three-step spine**: **(1)** verify FEP
+> converges on the **known literature NR4A3 molecule** — congeneric **RBFE** on Zaienne cmpd19 (RBFE not ABFE;
+> "converges" = reproducible *relative* ΔG on modeled druggable conformers, no crystal pose to match);
+> **(2)** verify we can **replicate the patented NR4A1 degrader's selectivity in-silico** — the retrospective
+> **NR-V04** functional control (the GATE); **(3)** **design + ternary-test degraders on the cmpd19 anchor — a
+> selective hit is the win** (only after the gate passes). Steps 1 & 2 are parallel; 3 gates on both. RBFE is
+> KEPT as the warhead input; **denovo_401 → side comparator only**; the ABFE λ-repair / replicates / T4L
+> benchmark are shelved. Much of the ABFE/denovo_401 detail below is now **historical context**, not the active
+> plan. Canonical calendar: [`../manuscripts/degrader-paper-schedule.json`](../manuscripts/degrader-paper-schedule.json);
+> strategy: [`../manuscripts/nr4a3-degrader-strategy-ternary-first.md`](../manuscripts/nr4a3-degrader-strategy-ternary-first.md).
+
 > **ENSEMBLE-ROBUST REDESIGN (2026-07-11, branch `claude/nr4a3-ensemble-redesign`).** trimcrae directed a
 > redesign against an *ensemble-defined* target (not another molecule against one selected frame), motivated
 > by the two single-frame failure modes we hit (metad-frame decoy null flip; 8XTT provenance moving ΔG by more

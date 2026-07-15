@@ -19,13 +19,28 @@ Automated emails to trimcrae (trimcrae@gmail.com). All times **US Eastern, 12-ho
 
 So an email always sends; it just gets nicer prose when (1) or (2) is available.
 
-## The one remaining step — Option B: a scheduled Claude session writes the summary (no API key)
-trimcrae chose Option B ("you're Claude, write it yourself"). It needs a **Routine** (scheduled trigger)
-that wakes a fresh Claude session at **6:30 AM ET**, writes the summary, and commits it to
-`email-outbox/daily-summary.md`; the 7:00 AM cron then sends it. Creating that Routine requires the
-**scheduled-triggers / claude-code-remote connector to be authorized** — it was NOT authorized in the
-session that built this (every `create_trigger`/`list_triggers` call returned "requires approval").
-**Retry from a session where that connector is enabled.**
+## Option B — a scheduled Claude session writes the summary (no API key) — ✅ LIVE (2026-07-15)
+trimcrae chose Option B ("you're Claude, write it yourself"). A **Routine** (scheduled trigger) wakes a
+fresh Claude session each morning (**set to 6:00 AM ET** in the live Routine), writes the summary, and
+commits it to `email-outbox/daily-summary.md`; the 7:00 AM cron then sends it.
+
+**STATUS: created + verified working end-to-end 2026-07-15.** The Routine (`Daily degrader ...`, connector
+`Claude_Code_Remote`, source repo `trimcrae/Rare-cancers` attached, daily 6:00 AM EDT) ran via "Run now":
+it dispatched the `daily-degrader-email.yml` dry-run, read the FACTS log, and committed a correctly-shaped
+summary to `email-outbox:daily-summary.md` (commit "Daily status summary for 2026-07-15"). No further
+setup needed.
+
+**⚠️ MUST be created from the claude.ai Routines UI, NOT via the `create_trigger` MCP tool (verified
+2026-07-15).** A session CAN create the Routine via `create_trigger`, and it fires — BUT the fired
+fresh sessions run **without any `mcp__github__*` connector tools**: `create_trigger` only passes
+through connectors the *calling* session holds *and* that are marked passable, and the GitHub grant is
+not passable. So a Routine created that way spins up a session every morning that has no way to dispatch
+the workflow, read its logs, or commit the summary — it silently does nothing (empirically confirmed:
+test fire dispatched no run and left `daily-summary.md` untouched). **Fix: create the Routine from the
+claude.ai Routines UI and ATTACH the repo `trimcrae/Rare-cancers` as a source** — that repo source (NOT
+anything in the "Connectors" dropdown, which shows "No more connectors available") is what grants the
+fired sessions the `mcp__github__*` tools. Verified: a UI Routine with the repo attached dispatched the
+workflow and committed the summary successfully. Use the exact name / cron / prompt below.
 
 ### Create it with these exact parameters (`create_trigger`)
 - **name**: `Daily degrader-paper summary writer`

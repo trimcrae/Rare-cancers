@@ -205,8 +205,25 @@ junction, or another fusion-specific feature. No suitably validated second-arm l
 - **Fusion-junction small-molecule degrader** design (no experimentally-anchored pocket; adds structural
   uncertainty).
 
+## ★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15)
+The de novo warhead / **ABFE-validation track is SHELVED** (parked, revisit-when-warranted — not deleted). The
+program is now this ternary workflow, expressed as trimcrae's **three-step spine**:
+1. **FEP converges on the known literature NR4A3 molecule** — congeneric **RBFE** on Zaienne cmpd19 (§2 above;
+   RBFE not ABFE; "converges" = reproducible *relative* ΔG on modeled druggable conformers — cmpd19 has no
+   solved pose, so this is NOT matching a crystal structure). *(RBFE KEPT as the warhead input, trimcrae
+   2026-07-15.)*
+2. **Replicate the patented NR4A1 degrader's selectivity in-silico** — the retrospective **NR-V04** functional
+   control (the gate; §"Gate that still governs everything"). NOT a known-architecture match (Wang 2024 has no
+   solved ternary).
+3. **Design + ternary-test degraders on the cmpd19 anchor — a selective hit is the win** (§§3–5; only after the
+   NR-V04 gate passes).
+Steps 1 and 2 run in parallel; step 3 gates on both. Canonical calendar:
+[degrader-paper-schedule.json](./degrader-paper-schedule.json). **denovo_401 → side comparator only.** The
+shelved ABFE (λ-repair, replicates, T4L benchmark) is retained in that file's `shelved` block.
+
 ## What carries over unchanged
 Ensemble-robust redesign machinery (worst-conformer objective, conformer panels, receptor>conformer criterion);
 the published-warhead registry (the anchored chemistry + honest evidence classes); the retrospective NR-V04
-ternary workflow + its honest limitations; the running denovo_401 ABFE (finishes as a **benchmark/methodology**
-data point, not a lead); the atlas as support infrastructure.
+ternary workflow + its honest limitations; the atlas as support infrastructure. **(Updated 2026-07-15: the
+denovo_401 ABFE is no longer "running as a benchmark" — Track A is shelved; denovo_401 is at most a side
+comparator series within the congeneric RBFE.)**
