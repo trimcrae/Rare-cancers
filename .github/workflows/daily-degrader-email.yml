@@ -25,6 +25,10 @@ on:
         description: "AWS region (SageMaker + SES)"
         default: "us-east-2"
         required: false
+      summary:
+        description: "optional: use this exact text as the top summary (a Claude session can pass its own prose)"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -43,9 +47,29 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install boto3
+      - name: Pick up today's Claude-written summary (from email-outbox, if fresh)
+        id: sum
+        run: |
+          git fetch origin email-outbox --depth=1 2>/dev/null || true
+          if git cat-file -e origin/email-outbox:daily-summary.md 2>/dev/null; then
+            last=$(git log -1 --format=%cI origin/email-outbox -- daily-summary.md 2>/dev/null || echo "")
+            today=$(TZ=America/New_York date +%Y-%m-%d)
+            lastday=$(TZ=America/New_York date -d "$last" +%Y-%m-%d 2>/dev/null || echo "")
+            if [ "$lastday" = "$today" ]; then
+              git show origin/email-outbox:daily-summary.md > /tmp/summary.md
+              echo "Using Claude-written summary from email-outbox (dated $lastday)."
+              echo "file=/tmp/summary.md" >> "$GITHUB_OUTPUT"
+            else
+              echo "email-outbox summary is stale ($lastday != $today); using generated summary."
+            fi
+          else
+            echo "No email-outbox summary; using generated summary."
+          fi
       - name: Compose + deliver status email
         env:
           MODE: ${{ github.event_name == 'schedule' && 'send' || inputs.mode }}
+          SUMMARY_OVERRIDE_FILE: ${{ steps.sum.outputs.file }}
+          SUMMARY_OVERRIDE: ${{ inputs.summary }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
