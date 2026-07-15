@@ -64,7 +64,7 @@ jobs:
       PROJECT: project-a7ebde30-e2ed-4b8d-9a9
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
       # On a plain push, mode defaults to `smoke`. Flip 'smoke' -> 'spend' here and push for the real run.
-      MODE: ${{ github.event.inputs.mode || 'smoke' }}
+      MODE: ${{ github.event.inputs.mode || 'spend' }}
       COUNT: ${{ github.event.inputs.count || '2' }}
       MACHINE: ${{ github.event.inputs.machine || 'e2-standard-4' }}
       MINUTES: ${{ github.event.inputs.minutes || '420' }}
