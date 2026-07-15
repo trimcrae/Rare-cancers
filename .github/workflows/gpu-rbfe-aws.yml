@@ -26,7 +26,7 @@ on:
       stall_min:   { description: "watchdog: hard-exit if trajectory .nc stalls N min (blank=45)", default: "", required: false }
       max_run_h:   { description: "hard cap on the training job wall-clock (blank=120). Set ~18 for a bounded on-demand leg so a hung equilibration can't bill 120h.", default: "", required: false }
       spot_safe:   { description: "1 = two-phase spot-safe driver (warmup-as-run + validated commit/restore) for the simulate leg", default: "0", required: false }
-      warmup_iters:{ description: "spot-safe SMOKE: override warmup iterations (blank=from settings)", default: "", required: false }
+      warmup_iters: { description: "spot-safe SMOKE: override warmup iterations (blank=from settings)", default: "", required: false }
       prod_iters:  { description: "spot-safe SMOKE: override production iterations (blank=from settings)", default: "", required: false }
       kill_after:  { description: "spot-safe SMOKE: hard-exit after N committed boundaries (tests restore on re-dispatch)", default: "", required: false }
       instance:    { description: "SageMaker GPU instance", default: "ml.g5.xlarge", required: false }
