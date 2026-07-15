@@ -371,6 +371,55 @@ def main():
               f"{fin_et.strftime('%b-%d %-I:%M %p')} ET  (production phase only; equilibration already done)")
         return
 
+    if MODE == "describe":
+        # AIRTIGHT diagnosis of a Starting/Insufficient-capacity job (is it REALLY spot capacity, or us?).
+        # Dumps: spot flag + ResourceConfig (proves it's a spot g5 job), the FULL SecondaryStatusTransitions
+        # timeline (proves it's been continuously capacity-retrying for the whole wait, not failed/misconfigured),
+        # and — best-effort — our Service-Quotas applied value for "ml.g5.xlarge for spot training job usage"
+        # (rules out a quota problem masquerading as capacity). Pure describe, $0, no GPU.
+        import boto3
+        import datetime
+        sm = boto3.client("sagemaker")
+        name = os.environ.get("RBFE_JOB", "").strip()
+        if not name:
+            print("[describe] set RBFE_JOB to the exact training-job name.")
+            return
+        d = sm.describe_training_job(TrainingJobName=name)
+        rc = d.get("ResourceConfig", {})
+        created = d.get("CreationTime")
+        now = datetime.datetime.now(datetime.timezone.utc)
+        waited = (now - created).total_seconds() / 60.0 if created else 0
+        print(f"[describe] {name}")
+        print(f"  status={d.get('TrainingJobStatus')} secondary={d.get('SecondaryStatus')}  "
+              f"created {created.strftime('%m-%d %H:%M:%SZ') if created else '?'}  waited ~{waited:.0f} min")
+        print(f"  EnableManagedSpotTraining={d.get('EnableManagedSpotTraining')}  "
+              f"InstanceType={rc.get('InstanceType')}  InstanceCount={rc.get('InstanceCount')}  "
+              f"max_wait={d.get('StoppingCondition',{}).get('MaxWaitTimeInSeconds')}s")
+        print("  SecondaryStatusTransitions (Status @ Start .. End : Message):")
+        for t in d.get("SecondaryStatusTransitions", []):
+            st = t.get("StartTime"); en = t.get("EndTime")
+            print(f"    {t.get('Status'):14s} {st.strftime('%H:%M:%SZ') if st else '?'} .. "
+                  f"{en.strftime('%H:%M:%SZ') if en else 'now':8s}  {(t.get('StatusMessage','') or '')[:100]}")
+        # best-effort spot quota for g5.xlarge (confirms we HAVE spot quota -> so it's capacity, not quota)
+        try:
+            sq = boto3.client("service-quotas")
+            found = []
+            paginator = sq.get_paginator("list_service_quotas")
+            for page in paginator.paginate(ServiceCode="sagemaker"):
+                for q in page.get("Quotas", []):
+                    n = q.get("QuotaName", "")
+                    if "g5.xlarge" in n and "spot" in n.lower():
+                        found.append((n, q.get("Value")))
+            if found:
+                print("  service-quota (g5.xlarge spot):")
+                for n, v in found:
+                    print(f"    {n} = {v}")
+            else:
+                print("  service-quota: no matching g5.xlarge-spot quota row surfaced (best-effort).")
+        except Exception as e:  # noqa: BLE001
+            print(f"  service-quota lookup unavailable (role perms): {e!r}")
+        return
+
     if MODE == "jobs":
         # Track the fire-and-forget legs. list_training_jobs(NameContains=...) paginates flakily (returned 0/1/4
         # across identical calls), so BROAD-list then filter by tag in Python, AND print an S3 checkpoint census
