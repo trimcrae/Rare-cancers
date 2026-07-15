@@ -39,10 +39,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      # mode=ommprobe: CPU-only, FREE. Solve openfe+openmmtools and dump the restart/equilibration
-      # source + resume semantics (no SageMaker, no GPU, no AWS). Used to design the spot-resume fix.
-      - name: OpenMM/OpenFE restart-semantics probe (CPU, free)
-        if: ${{ inputs.mode == 'ommprobe' }}
+      # mode=ommprobe / ommtest: CPU-only, FREE (no SageMaker, no GPU, no AWS). ommprobe dumps the
+      # restart/equilibration source + resume semantics; ommtest runs the spot-checkpoint
+      # crash-resume acceptance test. Both are used to build/validate the spot-resume fix.
+      - name: Solve openfe/openmmtools (CPU, free)
+        if: ${{ inputs.mode == 'ommprobe' || inputs.mode == 'ommtest' }}
         uses: mamba-org/setup-micromamba@v2
         with:
           environment-name: omm
@@ -53,10 +54,14 @@ jobs:
         if: ${{ inputs.mode == 'ommprobe' }}
         shell: bash -el {0}
         run: micromamba run -n omm python research/modalities/openmm_resume_probe.py
+      - name: Run ommtest (spot-checkpoint crash-resume)
+        if: ${{ inputs.mode == 'ommtest' }}
+        shell: bash -el {0}
+        run: micromamba run -n omm python research/modalities/rbfe_spot_checkpoint_test.py
       - run: pip install "sagemaker>=2.200,<3" boto3 rdkit pyyaml
-        if: ${{ inputs.mode != 'ommprobe' }}
+        if: ${{ inputs.mode != 'ommprobe' && inputs.mode != 'ommtest' }}
       - name: Dispatch RBFE ${{ inputs.mode }}
-        if: ${{ inputs.mode != 'ommprobe' }}
+        if: ${{ inputs.mode != 'ommprobe' && inputs.mode != 'ommtest' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
