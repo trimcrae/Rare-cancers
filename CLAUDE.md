@@ -61,9 +61,15 @@ read it before making changes.
     covalent adduct model + C551A + warhead/recruiter controls, report **directional concordance** not "recovered
     degradation"; (5) prospective matrix = **staged gates + Pareto** (not a tunable scalar), modeling
     **EWSR1::NR4A3 in fusion context** + lysines beyond the LBD + full CRL/E2~Ub ensembles; matrix is **24–36
-    before controls** (downselect, not 6–12). **PROCEED NOW: Step 0 + Validation A + Step 1 pilot; HOLD ABFE +
-    prospective matrix until their gates are green.** Language: "predicted selective candidate", never imply
-    efficacy/safety/therapeutic-window/clinical-readiness.
+    before controls** (downselect, not 6–12). **SPEND-GATED LADDER + NO PRE-AUTHORIZATION (trimcrae, 2026-07-15):
+    NOTHING is pre-staged/auto-launched — every GPU run is presented at its gate with a pinned cost + the prior
+    result and waits for an explicit go (only $0 CPU/CI work runs without a nod). Order is cheapest-decisive-first:
+    RUNG 0 (free — step0 running + emc_e3 + pocket_reanalysis) → RUNG 1 valA_mini (~$25, the KILL-SWITCH: if the
+    exact pipeline can't reproduce known ΔΔG, stop/pivot) → RUNG 2 step1_pilot + valB_mini (~$110) → RUNG 3 full
+    benchmarks + NR-V04 covalent feasibility (~$345) → RUNG 4 step1_fanout + NR-V04 retrospective (~$655) → RUNG 5
+    the ~$150–400 prospective matrix (biggest spend; only after 4 cheaper gates say GO) → RUNG 6 write/ship.
+    dg_open + ABFE are OPTIONAL/HELD. Each rung is priced in the schedule's `cost_est_usd`.** Language: "predicted
+    selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.
   - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15; ordering now per the reviewer-revised master plan
     above).** The de novo warhead track is **SHELVED** (parked, revisit-when-warranted — not deleted). The
     program is the **Track B ternary workflow**. The original **three-step spine** (superseded as ordering by the

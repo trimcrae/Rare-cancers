@@ -99,123 +99,144 @@ below one-for-one. When work lands, update BOTH this file's stage status line an
 
 ---
 
-## THE ORDERED PLAN — this is "what's next", always read top-to-bottom
+## SPENDING RULES (read before launching anything)
 
-Stage status legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = may run in parallel (off critical path).
-
-### `[~]` Step 0 — RBFE infra shakeout  *(id: step0_rbfe_mechanics · GPU)*
-Get ONE OpenFE RBFE edge to complete end-to-end on managed-spot GPU with a sane ΔG. Not science yet — proves
-the pipeline. Prerequisite for everything. **Currently running** (re-dispatched several times fixing an
-`ExecuteUserScriptError`). **Done =** one edge completes end-to-end, sane ΔG.
-
-### `[ ]` Validation A — compact PUBLIC RBFE accuracy benchmark  *(id: valA_rbfe_accuracy_benchmark · GPU)*
-10–20 transformations from 1–2 curated congeneric series with **measured ΔΔG + supported poses + similar
-charge-state complexity + some receptor flexibility**, through the EXACT NR4A container/protocol/FF/water/
-sampling/analysis. Purpose: verify OUR implementation (target expectation ≈ OpenFE public weighted pairwise
-RMSE ~1.7 kcal/mol over 58 systems — we are checking our build, not re-running that benchmark). **Gate:** Step 1
-fan-out and any absolute-affinity work do not proceed unless this behaves adequately.
-
-### `[ ]` Step 1 pilot — cmpd19 conditional RBFE, 1–2 edges  *(id: step1_pilot_cmpd19 · GPU · ∥ with Val A)*
-Reframed: *conditional relative FE for a hypothesized cmpd19 binding mode within preselected open NR4A
-conformers.* Run the 1–2 best-behaved edges with **independent replicas + pose/state sensitivity**. Tests
-reproducibility + receptor-sensitivity of the model — NOT correctness of the pose. Early-abort if the pilot is
-pathological.
-
-### `[ ]` Validation B — known-answer NONCOVALENT ternary benchmark  *(id: valB_ternary_knownanswer · GPU · ∥)*
-VHL–BRD4 or VHL–SMARCA2 series (experimental ternary structure + measured ternary affinity/cooperativity +
-analogue/linker series). Calibrates the ternary method against ground truth and **fixes the preregistered
-scoring rules**. **Gate:** the prospective matrix (Step 8) never runs unless this passes.
-
-### `[ ]` NR-V04 feasibility — covalent parameterization + reduced control panel  *(id: nrv04_feasibility_covalent · GPU)*
-Build the **covalent celastrol–NR4A1 (C551) adduct model**; noncovalent-vs-covalent sensitivity; NR4A1 **C551A**
-control; warhead-only + active/inactive recruiter controls. This is the pilot-one-leg gate on the full NR-V04
-retrospective — abort/adjust if covalency dominates or the reduced panel misbehaves.
-
-### `[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide  *(id: step1_fanout_cmpd19 · GPU)*
-**Gate:** only if Validation A passed AND the Step 1 pilot behaved. Fan out the congeneric perturbation map
-across druggable 8XTT conformers, release-derived NR4A3 conformers, matched NR4A1/NR4A2 open conformers, and
-resolved microstates. Rank by worst conformer AND by receptor-effect-exceeds-conformer-effect — as **conditional**
-hypotheses, with sensitivity ranges (no synthetic ensemble affinity).
-
-### `[ ]` NR-V04 retrospective — preregistered biological-selectivity holdout  *(id: nrv04_retrospective · GPU)*
-**Gate:** depends on Validation B + NR-V04 feasibility + Step 1 fan-out. Run the full NR4A1/2/3 ensembles through
-the physics + ubiquitination pipeline **with NO tuning**, preregistered scoring, VHL-inactive epimer as negative
-functional control. Report **directional concordance/discordance** with the known degraded-NR4A1 / spared-NR4A2·3
-outcome — never "recovered degradation."
-
-### `[ ]` Step 8 — prospective matrix (hypothesis prioritization only)  *(id: ternary_prospective_matrix · GPU)*
-**Gate:** only if Validation B passed AND NR-V04 is at least directionally concordant. Enumerate {2–3 warheads}
-× {2 exit vectors} × {VHL, CRBN} × {3 linkers} (**24–36**; downselect to ~6–12 by a preregistered cheap screen
-preserving diversity). Select by **staged gates → Pareto front** (binary → ternary → linker strain →
-ubiquitination geometry → physchem/synthetic), uncertainty on every axis. Model **EWSR1::NR4A3** in fusion
-context; lysines beyond the LBD; DNA/chromatin sensitivity; full CRL/E2~Ub geometry ensembles. Deliverable =
-predicted selective **candidates**, degradation experimentally unvalidated.
-
-### `[ ]` Step 9 — OPTIONAL conditional ABFE  *(id: abfe_conditional · GPU · ∥ · EXPENSIVE — needs provider+budget nod)*
-**HELD.** Only after Val A passes + opening-penalty handled (or conditional interpretation accepted) + multiple
-poses handled + no T4L offset applied. Report **raw** ABFE as *pose-plausibility*, T4L discrepancy separately.
-T4L·benzene (+ ideally several T4L ligands / a host–guest panel) = implementation smoke test only.
-
-### `[ ]` ΔG_open per paralogue  *(id: dg_open_paralogue · GPU · ∥ · supporting, feeds selectivity + Step 9)*
-Converged, uncertainty-bearing pocket-opening free energy per paralogue — the preferred fix for Mandatory
-Change 2. If not run, ALL affinity/selectivity results must be stated as explicitly conditional.
-
-### `[ ]` EMC E3-ligase expression analysis  *(id: emc_e3_expression · CPU · ∥ · cheap — route via CI runner)*
-Public-data VHL and CRBN expression in EMC samples (informs ligase choice; supports the matrix). Free CPU.
-
-### `[ ]` Pocket-tracking re-analysis  *(id: pocket_reanalysis · CPU · ∥ · cheap)*
-Harmonized re-analysis to finalize the paper's Gate-2 druggability wording.
-
-### `[ ]` Fold results into paper  *(id: fold_results · write)*
-Single source = [nr4a3-degrader-paper.md](./nr4a3-degrader-paper.md) (+ SI). Apply ALL language discipline above;
-QM/torsion validation at degrader linker junctions; physicochemical + retrosynthetic assessment of the final
-matrix; re-render figures.
-
-### `[ ]` Final red-team + review-response  *(id: final_redteam · write)*
-Honest-weight every claim; medical-integrity check; reviewer-AI block before the outward-facing step.
-
-### `[ ]` Post + submit  *(id: post_submit · submit · OUTWARD-FACING — needs trimcrae sign-off)*
-Post ChemRxiv (CC-BY) = JCIM submission; send outreach emails. Finish line.
+1. **NO PRE-AUTHORIZATION, NO PRE-STAGING.** Nothing is ever "launch-ready" or queued to auto-fire. **Every GPU
+   run is presented at its gate** with (a) the prior step's result, (b) a pinned cost estimate (from realized
+   GPU-h, not a guess), and (c) a wait for an explicit trimcrae "go." Only $0 CPU/CI work runs without a nod.
+2. **SPEND-GATED LADDER: cheap-decisive-first.** The plan is ordered so the *cheapest run that could kill the
+   paper* comes first, and **each rung's bigger spend is unlocked only if the previous, cheaper rung's result
+   looks promising.** We never pay for an expensive stage on a hypothesis a cheap stage could have falsified.
+3. **GO/NO-GO after every priced rung.** Each rung below ends with an explicit GO / NO-GO test. NO-GO = stop or
+   pivot; do not spend the next rung.
+4. **Every step is priced** (spot $, honest range). Anchors: g5.xlarge spot ≈ $0.40–0.60/GPU-h; repo 3-receptor
+   RBFE ≈ $18–60 spot; ABFE ≈ $80–200 spot. Ranges are wide until the Step-0 edge gives us a realized GPU-h/edge.
 
 ---
+
+## THE ORDERED PLAN (spend-gated) — this is "what's next", always read top-to-bottom
+
+Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable. **Price = est. spot $ for THAT step.**
+"Cum." = cumulative spend if we've said GO at every gate up to and including this step (mid-range).
+
+### RUNG 0 — free / already-running (do regardless; ~$0 new)
+
+- **`[~]` Step 0 — RBFE infra shakeout** *(step0_rbfe_mechanics · GPU)* — **Price: ~$5–15 (mostly sunk, running)**
+  Get ONE OpenFE RBFE edge to complete end-to-end with a sane ΔG. Proves the pipeline; not science.
+  **GO/NO-GO:** one edge finishes clean → proceed. If it can't be made to run at all → the whole FEP program is
+  blocked; stop and reconsider tooling.
+- **`[ ]` EMC E3-ligase expression analysis** *(emc_e3_expression · CPU/CI)* — **Price: ~$0**
+  Public VHL/CRBN expression in EMC samples; informs VHL-vs-CRBN choice. Free — just do it (route fetch via CI).
+- **`[ ]` Pocket-tracking re-analysis** *(pocket_reanalysis · CPU)* — **Price: ~$0**
+  Finalize the paper's Gate-2 druggability wording. Free — just do it.
+
+### RUNG 1 — cheapest decisive accuracy gate *(the "is this paper even going to work" kill-switch)*
+
+- **`[ ]` Validation A-mini — 3–4 public measured-ΔΔG edges** *(valA_mini · GPU)* — **Price: ~$15–40 · Cum. ~$25**
+  A SUBSET of the public accuracy benchmark through the EXACT NR4A pipeline. This is the single cheapest run that
+  can tell us the whole quantitative approach is sound.
+  **GO/NO-GO:** if these track measured ΔΔG within ~1.5–2 kcal/mol → GO to Rung 2. If they're wildly off →
+  **NO-GO: the exact pipeline can't reproduce known answers → do NOT spend on cmpd19/ternary/matrix.** Pivot to a
+  qualitative/structural or a methods-limitations paper. This is the point where a bad paper dies cheaply.
+
+### RUNG 2 — cheap precision + cheap probes *(only if Rung 1 = GO)*
+
+- **`[ ]` Step 1 pilot — cmpd19 conditional RBFE, 1–2 edges** *(step1_pilot_cmpd19 · GPU · ∥)* — **Price: ~$15–40 · Cum. ~$50**
+  Conditional relative FE for a hypothesized cmpd19 mode in preselected open conformers; replicas + pose/state
+  sensitivity. Tests reproducibility + receptor-sensitivity, NOT pose correctness.
+  **GO/NO-GO:** reproducible, receptor-sensitive, pocket doesn't collapse → GO. Pathological/irreproducible → the
+  cmpd19 anchor is too fragile to build on; reconsider before any fan-out.
+- **`[ ]` Validation B-mini — 2–3 known-answer ternary edges** *(valB_mini · GPU · ∥)* — **Price: ~$40–80 · Cum. ~$110**
+  A cheap probe of the VHL–BRD4/SMARCA2 ternary benchmark before committing to the full series.
+  **GO/NO-GO:** the ternary method moves in the right direction on the known-answer probe → GO to the full
+  ternary benchmark. Flat/wrong → **the flagship (prospective matrix) is not defensible → do NOT spend on it;**
+  the paper becomes binary-RBFE + honest ternary-limitations only.
+
+### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
+
+- **`[ ]` Validation A-full — expand to 10–20 edges** *(valA_full · GPU)* — **Price: ~$50–140 · Cum. ~$205**
+  Complete the public accuracy benchmark to publishable size. **GO/NO-GO:** benchmark RMSE in a defensible band
+  (~≤2 kcal/mol, comparable to OpenFE public ~1.7) → GO. Otherwise report as a hard accuracy caveat / pivot.
+- **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$345**
+  Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
+  matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
+- **`[ ]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU)* — **Price: ~$40–100 · Cum. ~$410**
+  Covalent celastrol–NR4A1 (C551) adduct + noncov/cov sensitivity + C551A + warhead/recruiter controls.
+  **GO/NO-GO:** covalency doesn't swamp the signal and the reduced panel behaves → GO to the full NR-V04.
+
+### RUNG 4 — the real science spends *(only after all benchmarks are green)*
+
+- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU)* — **Price: ~$60–150 · Cum. ~$515**
+  Full congeneric map across conformer panels + matched paralogues + microstates, as conditional hypotheses with
+  sensitivity ranges. **Gate:** Val A-full passed AND Step 1 pilot behaved.
+- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU)* — **Price: ~$80–200 · Cum. ~$655**
+  Full NR4A1/2/3 ensembles through the pipeline, NO tuning, epimer control. Report **directional concordance**,
+  never "recovered degradation." **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out.
+  **GO/NO-GO:** at least directionally concordant with the known NR4A1-degraded / NR4A2·3-spared outcome → GO to
+  the prospective matrix. Discordant → **the prospective matrix is not justified;** publish the honest negative.
+
+### RUNG 5 — the flagship spend *(the single biggest spend; only after the go/no-go gate)*
+
+- **`[ ]` Prospective matrix — hypothesis prioritization** *(ternary_prospective_matrix · GPU)* — **Price: ~$150–400 · Cum. ~$930**
+  {2–3 warheads}×{2 exit vectors}×{VHL,CRBN}×{3 linkers} = **24–36** → preregistered cheap-screen downselect to
+  ~6–12. Staged gates → Pareto front; EWSR1::NR4A3 fusion context; lysines beyond the LBD; full CRL/E2~Ub
+  ensembles. Deliverable = predicted selective **candidates**, degradation experimentally unvalidated.
+
+### OPTIONAL / HELD — only if a specific claim needs them AND a budget nod is given
+
+- **`[ ]` ΔG_open per paralogue** *(dg_open_paralogue · GPU · ∥)* — **Price: ~$120–300**
+  Only if we want *unconditional* affinity/selectivity instead of reporting conditional. Otherwise **skip** and
+  report everything conditional on the open state (fully defensible, $0).
+- **`[ ]` Conditional ABFE (pose-plausibility)** *(abfe_conditional · GPU · ∥)* — **Price: ~$80–200**
+  HELD. Raw values, T4L discrepancy reported separately, no offset, does NOT prove "binds at all." Launch only if
+  the pose-plausibility question is worth it after everything above, with an explicit nod.
+
+### RUNG 6 — write & ship (~$0)
+
+- **`[ ]` Fold results into paper** *(fold_results · write)* — **Price: ~$0** — apply all language discipline; add
+  QM/torsion validation at linker junctions + physicochemical + retrosynthetic assessment; re-render figures.
+- **`[ ]` Final red-team + review-response** *(final_redteam · write)* — **Price: ~$0**
+- **`[ ]` Post + submit** *(post_submit · submit)* — **Price: ~$0** — OUTWARD-FACING, needs trimcrae sign-off.
+
+---
+
+## Spend summary
+
+| Checkpoint | What we've learned by here | Cumulative spot $ (mid) |
+|---|---|---|
+| After Rung 1 (Val A-mini) | Does the exact FEP pipeline reproduce known ΔΔG at all? | **~$25** |
+| After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does ternary move right? | **~$110** |
+| After Rung 3 (full benchmarks) | Are both benchmarks publishable-defensible? | **~$345** |
+| After Rung 4 (fan-out + NR-V04) | Real selectivity picture + NR-V04 concordance | **~$655** |
+| After Rung 5 (matrix) | The flagship candidate matrix | **~$930** |
+| Optional ΔG_open / ABFE | unconditional affinity / pose-plausibility | +$200–500 |
+
+**The whole point:** we can kill a non-viable paper for **~$25**, and we never reach the ~$150–400 flagship
+matrix spend until four cheaper gates (Val A-mini → pilot/Val B-mini → full benchmarks → NR-V04) have each said
+"this is working." Full-program GPU is ~$0.9–1.5k *only if every gate says GO*. Every launch still waits for an
+explicit go — nothing is pre-authorized.
 
 ## Dependency spine (compact)
 
 ```
-step0 ──► valA ───────────────┐
-   │                          ▼
-   ├──► step1_pilot ──► step1_fanout ──► nrv04_retrospective ──► ternary_prospective_matrix ──► fold ──► redteam ──► post
-   │        (∥ valA)              ▲              ▲                        ▲
-   ├──► valB ─────────────────────┼──────────────┘                        │  (valB also gates the matrix)
-   ├──► nrv04_feasibility ────────┘                                        │
-   ├──► dg_open_paralogue ∥ ───────────────► (feeds selectivity + abfe) ───┘
-   ├──► abfe_conditional ∥  (HELD: needs valA + dg_open/conditional + budget nod)
-   ├──► emc_e3_expression ∥ (cheap CPU)
-   └──► pocket_reanalysis ∥ (cheap CPU)
+RUNG0  step0 (running) + emc_e3 (CPU $0) + pocket_reanalysis (CPU $0)
+          │
+RUNG1  valA_mini  ──[GO?]──►                                   (cheap kill-switch, ~$25)
+          │
+RUNG2  step1_pilot ∥ valB_mini  ──[GO?]──►                     (~$110)
+          │
+RUNG3  valA_full + valB_full + nrv04_feasibility  ──[GO?]──►   (~$345)
+          │
+RUNG4  step1_fanout ──► nrv04_retrospective  ──[concordant?]──► (~$655)
+          │
+RUNG5  ternary_prospective_matrix                              (~$930; biggest single spend)
+          │
+RUNG6  fold ──► redteam ──► post/submit                        ($0)
+
+OPTIONAL/HELD (only with an explicit nod): dg_open_paralogue, abfe_conditional
 ```
 
-## Estimated NEW GPU spend the reviewer changes add (spot, honest ranges)
-
-These are the runs that did **not** exist in the pre-reviewer plan. Anchors: g5.xlarge spot ≈ $0.40–0.60/GPU-h;
-repo's 3-receptor RBFE ≈ $18–60 spot; ABFE ≈ $80–200 spot.
-
-| Stage | What's new | Assumptions | Est. spot $ |
-|---|---|---|---|
-| **Validation A** | public measured-ΔΔG RBFE benchmark | 10–20 edges × ~8–15 GPU-h/edge, exact pipeline, some receptor flexibility | **~$60–180** |
-| **Validation B** | known-answer noncovalent ternary benchmark | larger ternary complexes (target+E3+ligand+linker), ~4–8 linker-series edges + cooperativity legs | **~$100–250** |
-| **NR-V04 covalent feasibility** | covalent adduct + C551A + reduced controls | small control panel, reused geometry | **~$40–100** |
-| _Supporting (optional):_ ΔG_open per paralogue | enhanced-sampling opening FE ×3 paralogues | preferred fix for conditional-affinity; can be deferred to "report conditional" | _~$120–300_ |
-
-**Bottom line: the two mandatory *validation* benchmarks (A + B) add roughly ~$160–430 of new spot spend** (mid
-estimate ≈ **$250–300**). Adding the covalent NR-V04 feasibility panel brings the reviewer-mandated new work to
-**~$200–530**. The optional ΔG_open sampling (only if we want *unconditional* affinity rather than conditional
-reporting) would add ~$120–300 on top. Ranges are wide because per-edge GPU-h depends on lambda count, sampling
-length, and receptor flexibility — I'll pin a tighter number from the Step-0 edge's realized GPU-h before
-launching each. No new fixed infra cost (same spot fleet). Note this is **new** spend but it also lets us
-**retire** the old un-shelved ABFE-anchor spend (~$80–200) as a mandatory item — it's now HELD/optional.
-
-**Right now:** Step 0 is running. The moment it completes clean, the next things to launch are **Validation A**
-(public accuracy benchmark) and the **Step 1 pilot** (1–2 cmpd19 edges) — those two in parallel — plus the cheap
-CPU supports (EMC E3 expression, pocket re-analysis) which need no GPU. **Validation B** and **NR-V04 covalent
-feasibility** geometry prep can also start. **Do NOT** launch the ABFE or the prospective matrix until their
-gates above are green.
+**Right now:** Step 0 is running (~$0 new). The only $0 work I'll do without asking is the two CPU supports
+(EMC E3 expression, pocket re-analysis). **Nothing else launches without an explicit go** — when Step 0 finishes
+clean I'll bring you Rung 1 (Val A-mini, ~$15–40) with a pinned cost from the Step-0 edge's realized GPU-h, and
+we decide GO/NO-GO from its result before any further spend.
