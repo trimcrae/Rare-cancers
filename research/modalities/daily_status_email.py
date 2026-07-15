@@ -28,6 +28,9 @@ import urllib.request
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from mailer import llm_summarize, md_to_html, send_email  # noqa: E402
+
 ET = ZoneInfo("America/New_York")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEDULE_FILE = REPO_ROOT / "research" / "manuscripts" / "degrader-paper-schedule.json"
@@ -210,8 +213,11 @@ def project_schedule(sched, today: dt.date):
     return ordered, horizon
 
 
+
+
 # ----------------------------------------------------------------------------- rendering
-def build_bodies(region):
+def gather(region):
+    """Collect all the raw material once; used by both the LLM summary and the fallback."""
     now = now_et()
     ran, running, spot_in_use, aws_err = sagemaker_status(region)
     actions, gh_err = recent_actions_runs()
@@ -220,241 +226,150 @@ def build_bodies(region):
     ordered, horizon = project_schedule(sched, today)
     active = [m for m in ordered if m.get("status") != "done"]
     completion = active[-1]["finish_date"] if active else today
-    SPOT_QUOTA = 8
+    return dict(now=now, today=today, ran=ran, running=running, spot_in_use=spot_in_use,
+                aws_err=aws_err, actions=actions, gh_err=gh_err, sched=sched, ordered=ordered,
+                active=active, horizon=horizon, completion=completion)
+
+
+def facts_block(g):
+    """A compact plain-text digest of the raw state — the LLM's input, and the deterministic fallback's source."""
+    L = []
+    L.append(f"DATE: {fmt_date(g['today'])} (all times US Eastern, 12-hour).")
+    L.append(f"PROJECTED PAPER COMPLETION (optimistic): {fmt_date(g['completion'])} (~{g['horizon']} days out).")
+    L.append("")
+    L.append("FINISHED IN LAST ~30h:")
+    if g["aws_err"]:
+        L.append(f"  (AWS unavailable: {g['aws_err']})")
+    elif not g["ran"]:
+        L.append("  (nothing finished)")
+    for j in g["ran"]:
+        extra = f" FAILURE: {j['failure']}" if j["failure"] else ""
+        L.append(f"  - {j['name']}: {j['status']}, {j['instance']}, billable {j['billable_h']}, "
+                 f"ended {fmt_dt(j['ended']) if j['ended'] else '?'}.{extra}")
+    fails = [a for a in g["actions"] if a["failures"]]
+    if fails:
+        L.append("  CI runs with failures (may include retried/infra noise, not necessarily science): "
+                 + "; ".join(f"{a['name']} ({a['failures']}/{a['total']})" for a in fails))
+    L.append("")
+    L.append("RUNNING NOW:")
+    if not g["running"]:
+        L.append("  (nothing running)")
+    for j in g["running"]:
+        L.append(f"  - {j['name']}: {j['instance']}, {j['secondary']}, elapsed {j['elapsed']}, "
+                 f"started {fmt_dt(j['started'])}.")
+    if g["running"]:
+        L.append(f"  Spot slots in use: {g['spot_in_use']}/8.")
+    L.append("")
+    L.append("OPTIMISTIC SCHEDULE (milestone: status, start -> finish):")
+    for m in g["ordered"]:
+        when = "done" if m.get("status") == "done" else f"{fmt_date(m['start_date'])} -> {fmt_date(m['finish_date'])}"
+        L.append(f"  - {m['title']} [{m.get('status')}, {m.get('track')}]: {when}")
+    L.append(f"VENUE: {g['sched'].get('target_venue','?')}.")
+    return "\n".join(L)
+
+
+LLM_SYSTEM = (
+    "You write a SHORT daily status email for Tristan (trimcrae), a solo researcher, about his NR4A3 "
+    "PROTAC-degrader computational paper. You are given raw facts. Turn them into a bite-sized brief he can "
+    "read at a glance on his phone. Rules: under ~170 words; NO tables; short bullets and plain prose; bold "
+    "sparingly for the few things that matter. Lead with ONE headline line stating whether things are on "
+    "track and the optimistic completion date. Then three tiny sections: '**Since yesterday**' (what "
+    "finished; if a job FAILED or a run looks stalled, say so FIRST and plainly), '**Running now**' (or "
+    "'nothing running'), and '**Path to done**' — a one-or-two-sentence prose timeline of the next few "
+    "milestones with their optimistic dates, ending at the completion date. Keep all times/dates as given "
+    "(US Eastern). Do not invent numbers. If nothing changed, say so briefly rather than padding."
+)
+
+
+def fallback_summary(g):
+    """Deterministic bite-sized summary when no LLM key is present."""
+    S = []
+    n_run, n_fin = len(g["running"]), len(g["ran"])
+    fails = sum(1 for j in g["ran"] if j["failure"])  # SageMaker job failures only; CI noise excluded
+    head = f"On track for **{fmt_date(g['completion'])}** (optimistic)."
+    if fails:
+        head = f"⚠ {fails} failure(s) to check — " + head
+    S.append(head)
+    S.append("")
+    S.append("**Since yesterday**")
+    if g["aws_err"]:
+        S.append(f"- AWS status unavailable ({g['aws_err']}).")
+    elif n_fin:
+        for j in g["ran"][:6]:
+            flag = "❌ " if j["failure"] else ""
+            S.append(f"- {flag}{j['name']} — {j['status']}")
+    else:
+        S.append("- No compute jobs finished.")
+    S.append("")
+    S.append("**Running now**")
+    if n_run:
+        for j in g["running"][:6]:
+            S.append(f"- {j['name']} — {j['secondary'] or 'in progress'}, {j['elapsed']} in")
+        S.append(f"- Spot slots: {g['spot_in_use']}/8")
+    else:
+        S.append("- Nothing running.")
+    S.append("")
+    S.append("**Path to done**")
+    nxt = [m for m in g["active"] if m.get("status") != "done"][:3]
+    for m in nxt:
+        S.append(f"- {m['title'].split(' - ')[0].split(' (')[0]} → {fmt_date(m['finish_date'])}")
+    S.append(f"- Projected completion: **{fmt_date(g['completion'])}**")
+    return "\n".join(S)
+
+
+def build_bodies(region):
+    g = gather(region)
+    facts = facts_block(g)
+    summary_md = llm_summarize(facts, LLM_SYSTEM) or fallback_summary(g)
 
     # ---- plain text ----
-    L = []
-    L.append(f"NR4A3 PROTAC-degrader paper - daily status")
-    L.append(f"Generated {fmt_dt(now)}")
-    L.append("")
-    L.append(f"Projected paper completion (optimistic, if all goes to plan): {fmt_date(completion)}"
-             f"  (~{horizon} days out)")
-    L.append("=" * 68)
-
-    L.append("")
-    L.append("1) WHAT RAN YESTERDAY (SageMaker jobs finished in the last ~30h)")
-    L.append("-" * 68)
-    if aws_err:
-        L.append(f"  [AWS unavailable: {aws_err}]")
-    if not ran and not aws_err:
-        L.append("  (no training jobs finished in the window)")
-    for j in ran:
-        tag = {"Completed": "OK", "Stopped": "STOPPED", "Failed": "FAILED"}.get(j["status"], j["status"])
-        line = f"  [{tag}] {j['name']}  ({j['instance']}, spot={j['spot']})"
-        if j["ended"]:
-            line += f"  ended {fmt_dt(j['ended'])}"
-        L.append(line)
-        L.append(f"           billable {j['billable_h']}, spot-savings {j['savings']}")
-        if j["failure"]:
-            L.append(f"           reason: {j['failure']}")
-    if actions:
-        L.append("")
-        L.append("  Recent GitHub Actions workflows (last ~30h, run count / failures):")
-        for a in actions:
-            fail = f", {a['failures']} failed" if a["failures"] else ""
-            L.append(f"    - {a['name']}  ({a['total']} run{'s' if a['total'] != 1 else ''}{fail})")
-    elif gh_err:
-        L.append(f"  [GitHub Actions: {gh_err}]")
-
-    L.append("")
-    L.append("2) WHAT IS RUNNING NOW (in-progress SageMaker jobs)")
-    L.append("-" * 68)
-    if not running and not aws_err:
-        L.append("  Nothing in flight.")
-    for j in running:
-        L.append(f"  * {j['name']}  ({j['instance']}, spot={j['spot']})")
-        L.append(f"      {j['secondary']}, elapsed {j['elapsed']}, started {fmt_dt(j['started'])}")
-    if running:
-        L.append(f"  Spot instances in use: {spot_in_use} / {SPOT_QUOTA}  "
-                 f"({max(0, SPOT_QUOTA - spot_in_use)} free slots)")
-
-    L.append("")
-    L.append("3) OPTIMISTIC SCHEDULE TO PAPER COMPLETION (day by day, if all goes to plan)")
-    L.append("-" * 68)
-    if sched.get("error"):
-        L.append(f"  [schedule file unreadable: {sched['error']}]")
-    L.append(f"  Venue: {sched.get('target_venue','?')}")
-    L.append("")
-    L.append("  Milestones (optimistic start -> finish):")
-    for m in ordered:
-        mark = {"done": "[x]", "in_progress": "[~]", "pending": "[ ]"}.get(m.get("status"), "[ ]")
-        when = "DONE" if m.get("status") == "done" else f"{fmt_date(m['start_date'])} -> {fmt_date(m['finish_date'])}"
-        L.append(f"  {mark} ({m.get('track','')[:4]:>4}) {m['title']}")
-        L.append(f"        {when}")
-    # day-by-day agenda
-    L.append("")
-    L.append("  Day-by-day (active milestones each day):")
-    for off in range(0, horizon + 1):
-        day = today + dt.timedelta(days=off)
-        todays = [m for m in active if m["_start_off"] <= off < m["_finish_off"]]
-        # a milestone that finishes exactly today is worth showing as landing
-        landing = [m for m in active if m["_finish_off"] == off and off > 0]
-        label = "TODAY" if off == 0 else fmt_date(day)
-        if todays:
-            names = "; ".join(f"{m['id']}" for m in todays)
-            L.append(f"    {label}: {names}")
-        elif landing:
-            L.append(f"    {label}: (buffer)")
-        else:
-            L.append(f"    {label}: (buffer / no scheduled milestone)")
-        for m in landing:
-            L.append(f"        -> lands: {m['title']}")
-    L.append("")
-    L.append(f"  Finish line: {ordered[-1]['title'] if ordered else '?'} on {fmt_date(completion)}.")
-    L.append("  Durations are optimistic ('all goes to plan'); spot-capacity waits, failed shards, and")
-    L.append("  red-team findings routinely add days. Source: research/manuscripts/degrader-paper-schedule.json")
-    text = "\n".join(L)
+    T = [f"NR4A3 PROTAC-degrader — daily status  ·  {fmt_dt(g['now'])}", "=" * 60, "",
+         summary_md, "", "-" * 60,
+         "Full detail (schedule source: research/manuscripts/degrader-paper-schedule.json):", ""]
+    T.append(facts)
+    text = "\n".join(T)
 
     # ---- HTML ----
-    def esc(s):
-        return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
-
     H = ['<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;'
-         'font-size:14px;color:#1a1a1a;max-width:760px;line-height:1.5">']
-    H.append('<h2 style="margin:0 0 2px">NR4A3 PROTAC-degrader paper — daily status</h2>')
-    H.append(f'<div style="color:#666;font-size:12px">Generated {esc(fmt_dt(now))}</div>')
-    H.append(f'<div style="margin:10px 0;padding:10px 14px;background:#eef6ff;border-left:4px solid #2b6cb0;'
-             f'border-radius:4px"><b>Projected completion (optimistic):</b> {esc(fmt_date(completion))} '
-             f'<span style="color:#666">(~{horizon} days out)</span></div>')
-
-    H.append('<h3 style="margin:18px 0 4px;border-bottom:2px solid #ddd;padding-bottom:3px">'
-             '1 · What ran yesterday</h3>')
-    if aws_err:
-        H.append(f'<div style="color:#a00">AWS unavailable: {esc(aws_err)}</div>')
-    if not ran and not aws_err:
-        H.append('<div style="color:#666">No training jobs finished in the window.</div>')
-    if ran:
-        H.append('<table style="border-collapse:collapse;width:100%;font-size:13px">')
-        H.append('<tr style="text-align:left;color:#666">'
-                 '<th style="padding:3px 6px">Job</th><th>Status</th><th>Instance</th>'
-                 '<th>Billable</th><th>Ended</th></tr>')
-        colors = {"Completed": "#2f855a", "Stopped": "#b7791f", "Failed": "#c53030"}
-        for j in ran:
-            c = colors.get(j["status"], "#333")
-            ended = fmt_dt(j["ended"]) if j["ended"] else "-"
-            H.append(f'<tr style="border-top:1px solid #eee"><td style="padding:3px 6px;font-family:monospace">'
-                     f'{esc(j["name"])}</td>'
-                     f'<td style="color:{c};font-weight:600">{esc(j["status"])}</td>'
-                     f'<td>{esc(j["instance"])}</td><td>{esc(j["billable_h"])}</td>'
-                     f'<td style="white-space:nowrap">{esc(ended)}</td></tr>')
-            if j["failure"]:
-                H.append(f'<tr><td colspan="5" style="padding:0 6px 4px;color:#c53030;font-size:12px">'
-                         f'{esc(j["failure"])}</td></tr>')
-        H.append("</table>")
-    if actions:
-        def _act(a):
-            c = "#c53030" if a["failures"] else "#666"
-            extra = f', {a["failures"]} failed' if a["failures"] else ""
-            return f'{esc(a["name"])} (<span style="color:{c}">{a["total"]} run{"s" if a["total"]!=1 else ""}{extra}</span>)'
-        H.append('<div style="margin-top:8px;font-size:12px;color:#555"><b>Recent Actions workflows:</b> '
-                 + ", ".join(_act(a) for a in actions) + "</div>")
-
-    H.append('<h3 style="margin:18px 0 4px;border-bottom:2px solid #ddd;padding-bottom:3px">'
-             '2 · What is running now</h3>')
-    if not running and not aws_err:
-        H.append('<div style="color:#666">Nothing in flight.</div>')
-    if running:
-        H.append('<table style="border-collapse:collapse;width:100%;font-size:13px">')
-        H.append('<tr style="text-align:left;color:#666"><th style="padding:3px 6px">Job</th>'
-                 '<th>Instance</th><th>Phase</th><th>Elapsed</th><th>Started</th></tr>')
-        for j in running:
-            H.append(f'<tr style="border-top:1px solid #eee"><td style="padding:3px 6px;font-family:monospace">'
-                     f'{esc(j["name"])}</td><td>{esc(j["instance"])}</td><td>{esc(j["secondary"])}</td>'
-                     f'<td>{esc(j["elapsed"])}</td><td style="white-space:nowrap">{esc(fmt_dt(j["started"]))}</td></tr>')
-        H.append("</table>")
-        H.append(f'<div style="font-size:12px;color:#555;margin-top:4px">Spot instances in use: '
-                 f'{spot_in_use}/{SPOT_QUOTA} ({max(0,SPOT_QUOTA-spot_in_use)} free slots)</div>')
-
-    H.append('<h3 style="margin:18px 0 4px;border-bottom:2px solid #ddd;padding-bottom:3px">'
-             '3 · Optimistic schedule to completion</h3>')
-    H.append(f'<div style="font-size:12px;color:#555;margin-bottom:6px">Venue: {esc(sched.get("target_venue","?"))}</div>')
-    H.append('<table style="border-collapse:collapse;width:100%;font-size:13px">')
-    H.append('<tr style="text-align:left;color:#666"><th style="padding:3px 6px"></th><th>Milestone</th>'
-             '<th>Track</th><th style="white-space:nowrap">Optimistic window</th></tr>')
-    badge = {"done": ("✓", "#2f855a"), "in_progress": ("▶", "#2b6cb0"), "pending": ("○", "#999")}
-    for m in ordered:
-        sym, c = badge.get(m.get("status"), ("○", "#999"))
-        when = "done" if m.get("status") == "done" else f'{fmt_date(m["start_date"])} → {fmt_date(m["finish_date"])}'
-        H.append(f'<tr style="border-top:1px solid #eee"><td style="padding:3px 6px;color:{c};font-weight:700">'
-                 f'{sym}</td><td>{esc(m["title"])}</td><td style="color:#666">{esc(m.get("track",""))}</td>'
-                 f'<td style="white-space:nowrap">{esc(when)}</td></tr>')
-    H.append("</table>")
-    # day-by-day
-    H.append('<div style="margin-top:10px;font-size:12px"><b>Day-by-day (active milestones):</b>'
-             '<ul style="margin:4px 0;padding-left:18px">')
-    for off in range(0, horizon + 1):
-        day = today + dt.timedelta(days=off)
-        todays = [m for m in active if m["_start_off"] <= off < m["_finish_off"]]
-        landing = [m for m in active if m["_finish_off"] == off and off > 0]
-        label = "<b>Today</b>" if off == 0 else esc(fmt_date(day))
-        if todays:
-            body = "; ".join(esc(m["id"]) for m in todays)
-        else:
-            body = '<span style="color:#999">buffer</span>'
-        line = f"<li>{label}: {body}"
-        if landing:
-            line += " — <i>lands: " + "; ".join(esc(m["title"]) for m in landing) + "</i>"
-        H.append(line + "</li>")
-    H.append("</ul></div>")
-    H.append(f'<div style="margin-top:8px;color:#666;font-size:11px">Optimistic — spot-capacity waits, '
-             f'failed shards, and red-team findings routinely add days. '
-             f'Source: research/manuscripts/degrader-paper-schedule.json</div>')
+         'font-size:15px;color:#1a1a1a;max-width:640px;line-height:1.55;margin:0 auto">']
+    H.append('<div style="font-size:12px;color:#888">NR4A3 PROTAC-degrader — daily status · '
+             f'{md_esc(fmt_dt(g["now"]))}</div>')
+    H.append('<div style="margin:10px 0;padding:14px 16px;background:#f7f9fc;border:1px solid #e3e8ef;'
+             'border-radius:10px">')
+    H.append(md_to_html(summary_md))
+    H.append("</div>")
+    # slim details, collapsed-feel (not tables)
+    H.append('<details style="margin-top:6px"><summary style="cursor:pointer;color:#2b6cb0;font-size:13px">'
+             'Full detail &amp; schedule</summary>'
+             '<pre style="white-space:pre-wrap;font-size:12px;color:#444;background:#fafafa;'
+             'border:1px solid #eee;border-radius:8px;padding:10px;margin-top:6px">'
+             f'{md_esc(facts)}</pre></details>')
+    H.append('<div style="margin-top:10px;color:#aaa;font-size:11px">Optimistic dates — spot-capacity waits, '
+             'failed shards and red-team findings routinely add days.</div>')
     H.append("</div>")
     html = "\n".join(H)
 
-    subject = (f"NR4A3 degrader — {len(running)} running, {len(ran)} finished; "
-               f"target {completion.strftime('%b %-d')}")
+    fails = sum(1 for j in g["ran"] if j["failure"])  # SageMaker job failures only
+    flag = "⚠ " if fails else ""
+    subject = (f"{flag}NR4A3 degrader — {len(g['running'])} running, {len(g['ran'])} finished; "
+               f"target {g['completion'].strftime('%b %-d')}")
     return subject, text, html
 
 
-# ----------------------------------------------------------------------------- delivery
-def send_ses(region, mail_from, mail_to, subject, text, html):
-    import boto3
-    ses = boto3.client("ses", region_name=region)
-    ses.send_email(
-        Source=mail_from,
-        Destination={"ToAddresses": [mail_to]},
-        Message={
-            "Subject": {"Data": subject},
-            "Body": {"Text": {"Data": text}, "Html": {"Data": html}},
-        },
-    )
-    print(f"Sent via SES: {mail_from} -> {mail_to}")
+def md_esc(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def send_smtp(mail_from, mail_to, subject, text, html):
-    import smtplib
-    from email.mime.multipart import MIMEMultipart
-    from email.mime.text import MIMEText
-    host = os.environ.get("SMTP_HOST") or "smtp.gmail.com"
-    port = int(os.environ.get("SMTP_PORT") or "465")
-    user = os.environ.get("MAIL_USERNAME") or mail_from
-    pw = os.environ["MAIL_PASSWORD"]
-    msg = MIMEMultipart("alternative")
-    msg["Subject"], msg["From"], msg["To"] = subject, mail_from, mail_to
-    msg.attach(MIMEText(text, "plain"))
-    msg.attach(MIMEText(html, "html"))
-    with smtplib.SMTP_SSL(host, port) as s:
-        s.login(user, pw)
-        s.sendmail(mail_from, [mail_to], msg.as_string())
-    print(f"Sent via SMTP ({host}:{port}): {mail_from} -> {mail_to}")
-
-
+# ----------------------------------------------------------------------------- SES helpers (setup only)
 def ses_probe(region):
     import boto3
     ses = boto3.client("ses", region_name=region)
     q = ses.get_send_quota()
     enabled = ses.get_account_sending_enabled().get("Enabled")
     ids = ses.list_identities().get("Identities", [])
-    print(f"SES region={region}")
-    print(f"  account sending enabled: {enabled}")
-    print(f"  24h quota: {q.get('Max24HourSend')}  sent(24h): {q.get('SentLast24Hours')}  rate: {q.get('MaxSendRate')}/s")
-    print(f"  (sandbox accounts have a 200/day quota and can only send to VERIFIED identities)")
+    print(f"SES region={region}\n  account sending enabled: {enabled}")
+    print(f"  24h quota: {q.get('Max24HourSend')}  sent(24h): {q.get('SentLast24Hours')}")
     print(f"  identities: {ids or '(none)'}")
-    if ids:
-        attrs = ses.get_identity_verification_attributes(Identities=ids).get("VerificationAttributes", {})
-        for i in ids:
-            print(f"    {i}: {attrs.get(i, {}).get('VerificationStatus')}")
 
 
 def ses_verify(region, addrs):
@@ -462,20 +377,20 @@ def ses_verify(region, addrs):
     ses = boto3.client("ses", region_name=region)
     for a in addrs:
         ses.verify_email_identity(EmailAddress=a)
-        print(f"  verification email requested for {a} (click the link AWS sends)")
+        print(f"  verification email requested for {a}")
 
 
 # ----------------------------------------------------------------------------- main
 def main():
     region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
     mode = os.environ.get("MODE", "send").strip().lower()
-    mail_to = (os.environ.get("MAIL_TO") or "trimcrae@gmail.com").strip()
-    mail_from = (os.environ.get("MAIL_FROM") or mail_to).strip()
 
     if mode == "probe":
         ses_probe(region)
         return
     if mode == "verify":
+        mail_to = (os.environ.get("MAIL_TO") or "trimcrae@gmail.com").strip()
+        mail_from = (os.environ.get("MAIL_FROM") or mail_to).strip()
         ses_verify(region, sorted({mail_from, mail_to}))
         return
 
@@ -484,16 +399,10 @@ def main():
     if mode == "dry_run":
         Path("email_preview.txt").write_text(text)
         Path("email_preview.html").write_text(html)
-        print(f"Subject: {subject}\n")
-        print(text)
-        print("\n[dry_run] wrote email_preview.txt and email_preview.html; nothing sent.")
+        print(f"Subject: {subject}\n\n{text}\n\n[dry_run] wrote email_preview.{{txt,html}}; nothing sent.")
         return
 
-    # send
-    if os.environ.get("MAIL_PASSWORD"):
-        send_smtp(mail_from, mail_to, subject, text, html)
-    else:
-        send_ses(region, mail_from, mail_to, subject, text, html)
+    send_email(subject, text, html)
 
 
 if __name__ == "__main__":
