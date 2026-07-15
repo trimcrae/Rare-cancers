@@ -48,9 +48,26 @@ read it before making changes.
   self-executable*, whereas the atlas's highest-impact claims ultimately depend on **other groups choosing to
   run EMC experiments** — an external dependency you cannot solve by making the atlas more comprehensive.
   **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.**
-  - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15).** The de novo warhead / ABFE-validation track
-    (Track A below) is **SHELVED** (parked, revisit-when-warranted — not deleted). The program is now the
-    **Track B ternary workflow**, expressed as trimcrae's **three-step spine**:
+  - **★★ EXECUTION PLAN REVISED 2026-07-15 (external reviewer-AI — conditional approval + 5 mandatory changes).
+    The three-step spine below is SUPERSEDED as the *ordering*; the thesis is unchanged.** READ THE ORDERED
+    MASTER PLAN for "what's next": **[research/manuscripts/degrader-paper-plan-v2-ordered.md](./research/manuscripts/degrader-paper-plan-v2-ordered.md)**
+    (+ verbatim verdict [research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md](./research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md)).
+    The 5 mandatory changes: (1) separate three validations — a **public measured-ΔΔG accuracy benchmark** +
+    cmpd19 RBFE as **conditional hypotheses** (no pose) + a **known-answer ternary benchmark (VHL–BRD4/SMARCA2)**,
+    with **NR-V04 demoted to a biological holdout, not the ternary calibrator**; (2) cryptic-pocket affinities are
+    **conditional (ΔG_bind|open)** and ΔG_open enters selectivity — estimate it per paralogue or report
+    conditional (and **delete** "true binding likely stronger"); (3) **ABFE HELD/reframed** — no transferable
+    T4L offset, report raw, it does NOT prove "binds at all"; (4) **NR-V04 celastrol is covalent (C551)** →
+    covalent adduct model + C551A + warhead/recruiter controls, report **directional concordance** not "recovered
+    degradation"; (5) prospective matrix = **staged gates + Pareto** (not a tunable scalar), modeling
+    **EWSR1::NR4A3 in fusion context** + lysines beyond the LBD + full CRL/E2~Ub ensembles; matrix is **24–36
+    before controls** (downselect, not 6–12). **PROCEED NOW: Step 0 + Validation A + Step 1 pilot; HOLD ABFE +
+    prospective matrix until their gates are green.** Language: "predicted selective candidate", never imply
+    efficacy/safety/therapeutic-window/clinical-readiness.
+  - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15; ordering now per the reviewer-revised master plan
+    above).** The de novo warhead track is **SHELVED** (parked, revisit-when-warranted — not deleted). The
+    program is the **Track B ternary workflow**. The original **three-step spine** (superseded as ordering by the
+    revised plan above, retained for the thesis):
     **(1)** verify **FEP converges on the known literature NR4A3 molecule** — RBFE on the **Zaienne cmpd19**
     congeneric series (`rbfe_congeneric`; the primary quantitative tool, RBFE not ABFE; cmpd19 is *functional*
     engagement, no solved pose, so "converges" = reproducible **relative** ΔG on modeled druggable conformers,
