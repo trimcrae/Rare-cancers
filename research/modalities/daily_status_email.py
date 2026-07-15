@@ -426,9 +426,9 @@ def send_smtp(mail_from, mail_to, subject, text, html):
     import smtplib
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
-    host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
-    port = int(os.environ.get("SMTP_PORT", "465"))
-    user = os.environ.get("MAIL_USERNAME", mail_from)
+    host = os.environ.get("SMTP_HOST") or "smtp.gmail.com"
+    port = int(os.environ.get("SMTP_PORT") or "465")
+    user = os.environ.get("MAIL_USERNAME") or mail_from
     pw = os.environ["MAIL_PASSWORD"]
     msg = MIMEMultipart("alternative")
     msg["Subject"], msg["From"], msg["To"] = subject, mail_from, mail_to
@@ -469,8 +469,8 @@ def ses_verify(region, addrs):
 def main():
     region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
     mode = os.environ.get("MODE", "send").strip().lower()
-    mail_to = os.environ.get("MAIL_TO", "trimcrae@gmail.com").strip()
-    mail_from = os.environ.get("MAIL_FROM", mail_to).strip()
+    mail_to = (os.environ.get("MAIL_TO") or "trimcrae@gmail.com").strip()
+    mail_from = (os.environ.get("MAIL_FROM") or mail_to).strip()
 
     if mode == "probe":
         ses_probe(region)
