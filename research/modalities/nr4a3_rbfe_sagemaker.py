@@ -591,6 +591,16 @@ def main():
             # checkpoint (SageMaker doesn't sync it mid-run — 2026-07-15 forensic). Same prefix as checkpoint_s3_uri.
             if MODE == "simulate":
                 extra = {"CKPT_S3_URI": f"s3://{bucket}/{TAG}/ckpt/{name}/"}
+                # spot-safe two-phase driver (opt-in via RBFE_SPOT_SAFE=1). Commit store uses a
+                # DISTINCT prefix from checkpoint_s3_uri so SageMaker native sync is never truth.
+                if os.environ.get("RBFE_SPOT_SAFE") == "1":
+                    extra["RBFE_SPOT_SAFE"] = "1"
+                    extra["RBFE_SPOT_COMMIT_S3"] = f"s3://{bucket}/{TAG}/spot-commits/{name}/"
+                    for k in ("RBFE_WARMUP_ITERS", "RBFE_PROD_ITERS", "RBFE_WARMUP_CKPT_ITERS",
+                              "RBFE_PROD_CKPT_ITERS", "RBFE_SPOT_KILL_AFTER"):
+                        v = os.environ.get(k)
+                        if v:
+                            extra[k] = v
             else:
                 extra = {"RBFE_PLATFORM": "CPU"}
             est = make_estimator(f"{name}-{MODE}", {**common, "mode": MODE, "receptor": receptor, "leg": leg},

@@ -679,6 +679,40 @@ def _ckpt_integrity_guard(shared_path, out_filename, chk_filename):
               flush=True)
 
 
+def _run_simulate_spot_safe(proto, byname, setup_outputs):
+    """SPOT-SAFE simulate (RBFE_SPOT_SAFE=1): bypass OpenFE's _run_simulation (non-resumable
+    equilibrate) and drive warmup-as-checkpointed-run() -> production via rbfe_spot_driver, with
+    validated versioned snapshots committed to a CommitStore (S3 if RBFE_SPOT_COMMIT_S3 set, at a
+    DISTINCT prefix from checkpoint_s3_uri; else local). Root cause + design: infra-gotchas doc."""
+    from pathlib import Path
+    from urllib.parse import urlparse
+    import openfe.protocols.openmm_rfe.equil_rfe_methods as erm
+    import rbfe_spot_checkpoint as spot
+    import rbfe_spot_driver as drv
+    unit = _one_unit(byname, "HybridTopologyMultiStateSimulationUnit")
+    ctx = _mk_ctx("sim")
+    system = erm.deserialize(setup_outputs["system"])
+    positions = erm.to_openmm(erm.np.load(setup_outputs["positions"]) * erm.offunit.nm)
+    selection_indices = setup_outputs["selection_indices"]
+    commit_uri = os.environ.get("RBFE_SPOT_COMMIT_S3")
+    if commit_uri:
+        u = urlparse(commit_uri)
+        store = spot.S3CommitStore(u.netloc, u.path.lstrip("/"))
+        print(f"  [spot-safe] commit store: s3://{u.netloc}/{u.path.lstrip('/')}", flush=True)
+    else:
+        store = spot.LocalCommitStore(Path(CKPT) / "spot_commits")
+        print(f"  [spot-safe] commit store: LOCAL {CKPT}/spot_commits", flush=True)
+    wci = int(os.environ.get("RBFE_WARMUP_CKPT_ITERS", "10"))
+    pci = int(os.environ.get("RBFE_PROD_CKPT_ITERS", "20"))
+    outputs = drv.run_spot_safe(
+        unit=unit, protocol=proto, system=system, positions=positions,
+        selection_indices=selection_indices, shared_basepath=ctx.shared,
+        scratch_basepath=ctx.scratch, commit_store=store,
+        warmup_checkpoint_iters=wci, production_checkpoint_iters=pci)
+    _save_outputs(outputs, os.path.join(CKPT, f"sim_{RECEPTOR}_{LEG}.json"))
+    print(f"  [rbfe][sim][spot-safe] DONE {RECEPTOR}/{LEG}", flush=True)
+
+
 def run_simulate():
     """GPU job: deserialize the setup system and run the MultiState MD. Resumes from the .nc on spot restart
     (OpenFE's own _check_restart), so this is the ONLY leg that needs the GPU and it is spot-safe."""
@@ -687,6 +721,8 @@ def run_simulate():
     proto, _dag, byname, _n = _prep_units(openfe)
     setup_outputs = _load_outputs(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json"))
     _start_watchdog(CKPT, stall_min=float(os.environ.get("RBFE_STALL_MIN", "45")))
+    if os.environ.get("RBFE_SPOT_SAFE") == "1":
+        return _run_simulate_spot_safe(proto, byname, setup_outputs)
     # === RESTART DIAGNOSTIC (2026-07-14) — authoritative view of what OpenFE _check_restart(shared_path=ctx.shared)
     # will see. _check_restart returns True iff BOTH ctx.shared/output_filename AND ctx.shared/checkpoint_storage_filename
     # exist; else it silently re-equilibrates. Print ctx.shared, its contents, and the two exact files it needs.

@@ -107,32 +107,54 @@ def _pos_vel_intervals(output_settings, sim_settings):
     return pos, vel
 
 
-def run_spot_safe(*, unit, system, positions, selection_indices, shared_basepath,
-                  scratch_basepath, commit_store, lambdas, platform, settings,
+def run_spot_safe(*, unit, protocol, system, positions, selection_indices, shared_basepath,
+                  scratch_basepath, commit_store,
                   warmup_checkpoint_iters=10, production_checkpoint_iters=20, log=print):
     """Drive the leg spot-safely. `unit` is a HybridTopologyMultiStateSimulationUnit (used only
-    for its static builders). `settings` is unit._get_settings(protocol.settings). `commit_store`
-    is an rbfe_spot_checkpoint CommitStore. Returns {"nc","checkpoint"} for the production pair."""
+    for its static/instance builders); `protocol` is the OpenFE protocol (for .settings).
+    `commit_store` is an rbfe_spot_checkpoint CommitStore. Builds settings/lambdas/platform via
+    OpenFE's own module globals (no guessed import paths). Returns {"nc","checkpoint"} for the
+    production pair."""
+    import openfe.protocols.openmm_rfe.equil_rfe_methods as erm
     from openmmtools.multistate import MultiStateReporter
-    from openff.units.openmm import to_openmm
 
     shared = Path(shared_basepath)
     shared.mkdir(parents=True, exist_ok=True)
+    unit._prepare(True, scratch_basepath, shared)
+    settings = unit._get_settings(protocol.settings)
     sim_s = settings["simulation_settings"]
     out_s = settings["output_settings"]
     integ_s = settings["integrator_settings"]
     thermo_s = settings["thermo_settings"]
     alchem_s = settings["alchemical_settings"]
 
+    # lambda schedule + compute platform, exactly as OpenFE's run() builds them (reuse its globals)
+    lambdas = erm._rfe_utils.lambdaprotocol.LambdaProtocol(
+        functions=settings["lambda_settings"].lambda_functions,
+        windows=settings["lambda_settings"].lambda_windows)
+    restrict_cpu = settings["forcefield_settings"].nonbonded_method.lower() == "nocutoff"
+    platform = erm.omm_compute.get_openmm_platform(
+        platform_name=settings["engine_settings"].compute_platform,
+        gpu_device_index=settings["engine_settings"].gpu_device_index,
+        restrict_cpu_count=restrict_cpu)
+
     integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
                                       system=system)
-    warmup_iters = _iters_from_time(sim_s, integrator, sim_s.equilibration_length)
-    prod_iters = _iters_from_time(sim_s, integrator, sim_s.production_length)
+    # iteration targets from settings; env overrides (RBFE_WARMUP_ITERS/RBFE_PROD_ITERS) let a
+    # GPU SMOKE run a handful of iters to validate the machinery without the full ~15 h science.
+    warmup_iters = int(os.environ.get("RBFE_WARMUP_ITERS", "0")) or \
+        _iters_from_time(sim_s, integrator, sim_s.equilibration_length)
+    prod_iters = int(os.environ.get("RBFE_PROD_ITERS", "0")) or \
+        _iters_from_time(sim_s, integrator, sim_s.production_length)
     # round targets down to a checkpoint multiple so run_to_target lands exactly on a boundary.
     warmup_target = (warmup_iters // warmup_checkpoint_iters) * warmup_checkpoint_iters or \
         warmup_checkpoint_iters
     prod_target = (prod_iters // production_checkpoint_iters) * production_checkpoint_iters or \
         production_checkpoint_iters
+    # optional forced-crash after N committed boundaries (GPU smoke restore test); hard-exit so
+    # nothing flushes — the next dispatch must recover purely from the committed snapshot.
+    kill_after = int(os.environ.get("RBFE_SPOT_KILL_AFTER", "0"))
+    _commits = [0]
     pos_iv, vel_iv = _pos_vel_intervals(out_s, sim_s)
     prod_nc, prod_chk = out_s.output_filename, out_s.checkpoint_storage_filename
     log(f"[spot-driver] warmup_target={warmup_target} (ci={warmup_checkpoint_iters}) "
@@ -149,6 +171,11 @@ def run_spot_safe(*, unit, system, positions, selection_indices, shared_basepath
     def _commit(phase, nc_name, chk_name, ci):
         def _cb(it):
             commit_store.commit(phase, it, shared / nc_name, shared / chk_name, ci)
+            _commits[0] += 1
+            if kill_after and _commits[0] >= kill_after:
+                log(f"[spot-driver] RBFE_SPOT_KILL_AFTER={kill_after} reached "
+                    f"({phase}@iter {it}) -> hard exit to simulate a spot kill")
+                os._exit(137)
         return _cb
 
     # ================= PRODUCTION already underway: resume it and finish ======================
