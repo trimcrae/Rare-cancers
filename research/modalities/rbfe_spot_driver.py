@@ -115,8 +115,11 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     `commit_store` is an rbfe_spot_checkpoint CommitStore. Builds settings/lambdas/platform via
     OpenFE's own module globals (no guessed import paths). Returns {"nc","checkpoint"} for the
     production pair."""
-    import openfe.protocols.openmm_rfe.equil_rfe_methods as erm
+    import sys
     from openmmtools.multistate import MultiStateReporter
+    # _rfe_utils + omm_compute are globals of the module where the unit CLASS (and its run()) live —
+    # that's the exact namespace OpenFE's run() resolves; resolve it from the instance, don't guess.
+    umod = sys.modules[type(unit).__module__]
 
     shared = Path(shared_basepath)
     shared.mkdir(parents=True, exist_ok=True)
@@ -129,11 +132,11 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     alchem_s = settings["alchemical_settings"]
 
     # lambda schedule + compute platform, exactly as OpenFE's run() builds them (reuse its globals)
-    lambdas = erm._rfe_utils.lambdaprotocol.LambdaProtocol(
+    lambdas = umod._rfe_utils.lambdaprotocol.LambdaProtocol(
         functions=settings["lambda_settings"].lambda_functions,
         windows=settings["lambda_settings"].lambda_windows)
     restrict_cpu = settings["forcefield_settings"].nonbonded_method.lower() == "nocutoff"
-    platform = erm.omm_compute.get_openmm_platform(
+    platform = umod.omm_compute.get_openmm_platform(
         platform_name=settings["engine_settings"].compute_platform,
         gpu_device_index=settings["engine_settings"].gpu_device_index,
         restrict_cpu_count=restrict_cpu)

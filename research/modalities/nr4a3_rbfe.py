@@ -684,15 +684,19 @@ def _run_simulate_spot_safe(proto, byname, setup_outputs):
     equilibrate) and drive warmup-as-checkpointed-run() -> production via rbfe_spot_driver, with
     validated versioned snapshots committed to a CommitStore (S3 if RBFE_SPOT_COMMIT_S3 set, at a
     DISTINCT prefix from checkpoint_s3_uri; else local). Root cause + design: infra-gotchas doc."""
+    import sys as _sys
     from pathlib import Path
     from urllib.parse import urlparse
-    import openfe.protocols.openmm_rfe.equil_rfe_methods as erm
     import rbfe_spot_checkpoint as spot
     import rbfe_spot_driver as drv
     unit = _one_unit(byname, "HybridTopologyMultiStateSimulationUnit")
+    # deserialize/to_openmm/np/offunit are globals of the module where the unit CLASS is defined
+    # (that's what OpenFE's own _execute resolves) — NOT necessarily equil_rfe_methods. Resolve it
+    # from the instance so we use the exact same namespace and never guess an import path.
+    umod = _sys.modules[type(unit).__module__]
     ctx = _mk_ctx("sim")
-    system = erm.deserialize(setup_outputs["system"])
-    positions = erm.to_openmm(erm.np.load(setup_outputs["positions"]) * erm.offunit.nm)
+    system = umod.deserialize(setup_outputs["system"])
+    positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
     selection_indices = setup_outputs["selection_indices"]
     commit_uri = os.environ.get("RBFE_SPOT_COMMIT_S3")
     if commit_uri:
