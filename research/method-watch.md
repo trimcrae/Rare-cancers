@@ -6,18 +6,20 @@ trigger table** (what to look for, and what to do when it appears).
 
 **Two automated layers now run this watch (trimcrae, 2026-07-13):**
 1. **Weekly AI newsletter → EMAILED to trimcrae** (the user-facing one). Routine
-   `trig_012EaGDpsjzQH2RNfNeduvU5` ("Weekly NR4A3 field-scan (newsletter + auto-capture to main)"),
+   `trig_01X5xHy1cmkLjkATEijZSNJf` ("Weekly NR4A3 field-scan (newsletter + auto-capture to main)"),
    cron `0 12 * * 5` (**Fridays 8:00 AM ET**), spawns a fresh session that web-searches the past week
    (open-source methods, NR4A/EMC papers, degrader methodology, non-degrader routes, AND — added
-   2026-07-14 — a **tooling & operating-environment watch**: our software-library releases incl. OpenFE
+   2026-07-14/15 — a **tooling & operating-environment watch**: our software-library releases incl. OpenFE
    & the MD/FEP stack, whether Fable (claude-fable-5) — and any future model at least as capable — has its
-   cancer/bio-research restriction relaxed so we could use a top-tier model for this bio work, and OpenAI
-   Codex phone-without-Remote-Desktop capability), writes a curated newsletter, **emails it**, and **appends
+   cancer/bio-research restriction relaxed so we could use a top-tier model for this bio work, OpenAI
+   Codex phone-without-Remote-Desktop capability, AND **compute-cost / GPU-market** changes — provider price
+   drops, new/free-credit GPU providers, and better-FLOPS/$ GPUs for our MD (auto-captured to
+   `research/compute/cheap-gpu-plan.md`)), writes a curated newsletter, **emails it**, and **appends
    it + auto-captures advances
-   directly to `main`** (`research/field-scan-log.md`, plus append-only captures to this file and
-   `IDEAS.md`). This is the thing you actually read. Manage via the claude-code-remote trigger tools
-   (list/update/delete). NB: `update_trigger` cannot edit a Routine's PROMPT — to change the scan scope,
-   recreate the trigger (delete + create) as was done 2026-07-14.
+   directly to `main`** (`research/field-scan-log.md`, plus append-only captures to this file,
+   `IDEAS.md`, and `compute/cheap-gpu-plan.md`). This is the thing you actually read. Manage via the
+   claude-code-remote trigger tools (list/update/delete). NB: `update_trigger` cannot edit a Routine's PROMPT —
+   to change the scan scope, recreate the trigger (delete + create) as was done 2026-07-14/15.
 2. **Monthly mechanical digest** (raw feed). `scripts/method-watch.mjs` via
    `.github/workflows/method-watch.yml` (cron `0 7 1 * *`) — a keyword scan of EBI/GitHub that
    commits a dated digest to the `method-watch-cache` branch. NOT emailed, NOT synthesized;
