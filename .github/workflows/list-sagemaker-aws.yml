@@ -23,6 +23,10 @@ on:
         description: "savings mode only: restrict to instance types containing this string, e.g. ml.g5.xlarge"
         default: ""
         required: false
+      ses_probe:
+        description: "set '1' to also report SES sending state (quota/sandbox/verified identities); '2' to verify MAIL_TO"
+        default: ""
+        required: false
 
 permissions:
   contents: read
@@ -50,3 +54,12 @@ jobs:
             exit 1
           fi
           python research/modalities/list_sagemaker.py
+      - name: SES probe / verify (optional; for daily-email delivery setup)
+        if: ${{ inputs.ses_probe == '1' || inputs.ses_probe == '2' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+          MODE: ${{ inputs.ses_probe == '2' && 'verify' || 'probe' }}
+          MAIL_TO: ${{ vars.MAIL_TO }}
+        run: python research/modalities/daily_status_email.py
