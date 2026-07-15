@@ -43,9 +43,11 @@ def _mk_env():
     return thermo, sstate, move
 
 
-def _reporter(path, ci, mode="w"):
+def _reporter(path, ci):
+    # NOTE: default (lazy) open mode — do NOT pass open_mode="w", which pre-creates the .nc and
+    # makes sampler.create() refuse ("Storage file already exists"). create() opens it itself.
     from openmmtools.multistate import MultiStateReporter
-    return MultiStateReporter(str(path), open_mode=mode, checkpoint_interval=ci)
+    return MultiStateReporter(str(path), checkpoint_interval=ci)
 
 
 def main():
