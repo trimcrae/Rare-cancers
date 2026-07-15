@@ -159,14 +159,36 @@ def main():
             jobname = next((j["TrainingJobName"] for j in r.get("TrainingJobSummaries", [])
                             if j["TrainingJobStatus"] == "Failed"), "")
         print(f"[rbfe] TRACELOG for {jobname or '(none found)'}")
+        # RBFE_LOG_GREP=<substr>: full-scan the WHOLE stream head->tail (paginate) and print only matching lines
+        # — needed to extract boot-time diagnostics (e.g. [ckpt-restore-probe]) that the default tail misses.
+        grep = os.environ.get("RBFE_LOG_GREP", "").strip()
         if jobname:
             grp = "/aws/sagemaker/TrainingJobs"
             for st in logs.describe_log_streams(logGroupName=grp, logStreamNamePrefix=jobname,
                                                 orderBy="LogStreamName").get("logStreams", []):
-                ev = logs.get_log_events(logGroupName=grp, logStreamName=st["logStreamName"], limit=250,
-                                         startFromHead=False)
-                for e in ev.get("events", [])[-150:]:
-                    print(e["message"].rstrip())
+                if grep:
+                    tok, seen, hits = None, 0, 0
+                    while True:
+                        kw = dict(logGroupName=grp, logStreamName=st["logStreamName"], limit=10000,
+                                  startFromHead=True)
+                        if tok:
+                            kw["nextToken"] = tok
+                        ev = logs.get_log_events(**kw)
+                        evs = ev.get("events", [])
+                        seen += len(evs)
+                        for e in evs:
+                            if grep in e["message"]:
+                                print(e["message"].rstrip()); hits += 1
+                        nt = ev.get("nextForwardToken")
+                        if not evs or nt == tok:
+                            break
+                        tok = nt
+                    print(f"[rbfe] grep {grep!r}: {hits} match(es) over {seen} events in {st['logStreamName']}")
+                else:
+                    ev = logs.get_log_events(logGroupName=grp, logStreamName=st["logStreamName"], limit=250,
+                                             startFromHead=False)
+                    for e in ev.get("events", [])[-150:]:
+                        print(e["message"].rstrip())
         return
 
     if MODE == "ckpt":

@@ -20,6 +20,7 @@ on:
       n_windows:   { description: "λ-windows over the A→B morph", default: "12", required: false }
       only_legs:   { description: "comma-sep subset (e.g. solvent) for validate-first", default: "", required: false }
       job:         { description: "tracelog: exact SageMaker job name to trace (any status). Blank = latest Failed", default: "", required: false }
+      log_grep:    { description: "tracelog: full-scan the stream and print only lines containing this substring (e.g. ckpt-restore-probe)", default: "", required: false }
       spot:        { description: "1 = managed spot", default: "1", required: false }
       resume:      { description: "1 = deterministic-DAG resume (stable unit dirs across spot restarts)", default: "0", required: false }
       stall_min:   { description: "watchdog: hard-exit if trajectory .nc stalls N min (blank=45)", default: "", required: false }
@@ -52,6 +53,7 @@ jobs:
           RBFE_N_WINDOWS: ${{ inputs.n_windows }}
           ONLY_LEGS: ${{ inputs.only_legs }}
           RBFE_JOB: ${{ inputs.job }}
+          RBFE_LOG_GREP: ${{ inputs.log_grep }}
           SPOT: ${{ inputs.spot }}
           RBFE_RESUME: ${{ inputs.resume }}
           RBFE_STALL_MIN: ${{ inputs.stall_min }}
