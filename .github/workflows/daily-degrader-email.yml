@@ -1,0 +1,95 @@
+name: Daily degrader-paper status email
+
+# Sends trimcrae a once-a-day email: (1) what ran yesterday, (2) what is running now,
+# (3) an optimistic day-by-day schedule to PROTAC-degrader-paper completion.
+# All times rendered US Eastern / 12-hour AM/PM. Read-only against AWS + GitHub; starts nothing.
+#
+# Delivery: AWS SES by default (reuses AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY). If a MAIL_PASSWORD
+# secret is set, Gmail SMTP is used instead. One-time setup needed for SES sandbox: run mode=probe to
+# see state, then mode=verify to have AWS email a verification link to MAIL_TO (click it once).
+#
+# Optional repo variables (Settings > Variables): MAIL_TO, MAIL_FROM (both default trimcrae@gmail.com).
+# Optional secrets for the SMTP path: MAIL_PASSWORD (Gmail app password), MAIL_USERNAME, SMTP_HOST, SMTP_PORT.
+
+on:
+  schedule:
+    # 11:00 UTC = 7:00 AM EDT (6:00 AM EST). GitHub cron is UTC and does not follow DST.
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "send | dry_run (compose+print, no send) | probe (SES state) | verify (SES sandbox setup)"
+        default: "dry_run"
+        required: false
+      region:
+        description: "AWS region (SageMaker + SES)"
+        default: "us-east-2"
+        required: false
+      summary:
+        description: "optional: use this exact text as the top summary (a Claude session can pass its own prose)"
+        default: ""
+        required: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: daily-degrader-email
+  cancel-in-progress: false
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install boto3
+      - name: Pick up today's Claude-written summary (from email-outbox, if fresh)
+        id: sum
+        run: |
+          git fetch origin email-outbox --depth=1 2>/dev/null || true
+          if git cat-file -e origin/email-outbox:daily-summary.md 2>/dev/null; then
+            last=$(git log -1 --format=%cI origin/email-outbox -- daily-summary.md 2>/dev/null || echo "")
+            today=$(TZ=America/New_York date +%Y-%m-%d)
+            lastday=$(TZ=America/New_York date -d "$last" +%Y-%m-%d 2>/dev/null || echo "")
+            if [ "$lastday" = "$today" ]; then
+              git show origin/email-outbox:daily-summary.md > /tmp/summary.md
+              echo "Using Claude-written summary from email-outbox (dated $lastday)."
+              echo "file=/tmp/summary.md" >> "$GITHUB_OUTPUT"
+            else
+              echo "email-outbox summary is stale ($lastday != $today); using generated summary."
+            fi
+          else
+            echo "No email-outbox summary; using generated summary."
+          fi
+      - name: Compose + deliver status email
+        env:
+          MODE: ${{ github.event_name == 'schedule' && 'send' || inputs.mode }}
+          SUMMARY_OVERRIDE_FILE: ${{ steps.sum.outputs.file }}
+          SUMMARY_OVERRIDE: ${{ inputs.summary }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+          MAIL_TO: ${{ vars.MAIL_TO }}
+          MAIL_FROM: ${{ vars.MAIL_FROM }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        run: python research/modalities/daily_status_email.py
+      - name: Upload email preview (dry_run only)
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.mode == 'dry_run' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: email-preview
+          path: |
+            email_preview.txt
+            email_preview.html
+          if-no-files-found: ignore

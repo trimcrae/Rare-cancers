@@ -12,7 +12,7 @@ name: Method-watch
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 7 1 * *"   # 07:00 UTC on the 1st of each month
+    - cron: "0 11 * * 5"   # 11:00 UTC Fridays = 7:00 AM ET (weekly newsletter; UTC-based, no DST tracking)
 
 permissions:
   contents: write
@@ -29,11 +29,34 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
       - name: Generate method-watch digest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/method-watch.mjs research/method-watch-digest.md
+
+      - name: Email the digest (bite-sized summary + full digest)
+        if: ${{ vars.NEWSLETTER_EMAIL != 'off' }}
+        env:
+          DIGEST_FILE: research/method-watch-digest.md
+          DIGEST_TITLE: "Method-watch newsletter"
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+          MAIL_TO: ${{ vars.MAIL_TO }}
+          MAIL_FROM: ${{ vars.MAIL_FROM }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+        run: |
+          pip install boto3 >/dev/null 2>&1 || true
+          python3 research/modalities/email_digest.py
 
       - name: Publish digest to method-watch-cache branch
         if: always()

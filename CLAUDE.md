@@ -47,12 +47,29 @@ read it before making changes.
   counter-screening, microstate analysis, benchmarking, reproducible manuscripts+software) is *entirely
   self-executable*, whereas the atlas's highest-impact claims ultimately depend on **other groups choosing to
   run EMC experiments** — an external dependency you cannot solve by making the atlas more comprehensive.
-  **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.** Two linked tracks:
-  - **Track A — qualify an NR4A3-engaging WARHEAD.** Finish the repaired ABFE validation (matched NR4A1/2 +
+  **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.**
+  - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15).** The de novo warhead / ABFE-validation track
+    (Track A below) is **SHELVED** (parked, revisit-when-warranted — not deleted). The program is now the
+    **Track B ternary workflow**, expressed as trimcrae's **three-step spine**:
+    **(1)** verify **FEP converges on the known literature NR4A3 molecule** — RBFE on the **Zaienne cmpd19**
+    congeneric series (`rbfe_congeneric`; the primary quantitative tool, RBFE not ABFE; cmpd19 is *functional*
+    engagement, no solved pose, so "converges" = reproducible **relative** ΔG on modeled druggable conformers,
+    NOT matching a crystal structure); **(2)** verify we can **replicate the patented NR4A1 degrader's
+    selectivity in-silico** — the retrospective **NR-V04** control (`ternary_nrv04`; functional
+    degraded-NR4A1 / spared-NR4A2·NR4A3 outcome, NOT a known-architecture match — Wang 2024 has no solved
+    ternary); this is the **gate** on step 3; **(3)** **design + ternary-test degraders on the cmpd19 anchor —
+    a selective hit is the win** (`ternary_prospective`, depends on 1 + 2). Steps 1 and 2 run in parallel; 3
+    gates on both. Wrapping them: a cheap CPU pocket re-analysis + write-up → red-team → post/submit. The
+    NR4A3-selective-vs-fusion-exclusive TARGET decision stays parked at the post-NR-V04 gate. RBFE is KEPT as
+    the warhead input to the ternary matrix (trimcrae, 2026-07-15). **denovo_401 → side comparator only.**
+    Canonical schedule: [research/manuscripts/degrader-paper-schedule.json](./research/manuscripts/degrader-paper-schedule.json).
+  - **[SHELVED 2026-07-15] Track A — qualify an NR4A3-engaging WARHEAD.** Finish the repaired ABFE validation (matched NR4A1/2 +
     multiple NR4A3 conformers + explicit microstates + T4L benchmark + independent replicas + honest
     receptor-state limits). The question is whether **denovo_401 is a credible INPUT to degrader design**, NOT
-    whether ABFE proves a drug. ($40–80 ABFE-repair spend AUTHORIZED, trimcrae 2026-07-11.)
-  - **Track B — a PARALOGUE-DISCRIMINATING TERNARY workflow (the higher-value long-term contribution).** Do
+    whether ABFE proves a drug. ($40–80 ABFE-repair spend AUTHORIZED, trimcrae 2026-07-11.) *(Superseded by
+    the Track-A-shelved decision above; retained for context. Revisit only if the ternary workflow needs an
+    absolute-affinity anchor a coming method makes cheap.)*
+  - **Track B — a PARALOGUE-DISCRIMINATING TERNARY workflow (the higher-value long-term contribution) — NOW THE PROGRAM.** Do
     **NOT** get trapped chasing perfect *binary* NR4A3 selectivity before addressing ternary — the real
     hypothesis is that selectivity emerges from the combined **warhead × linker × E3 × ternary-interface
     geometry** even if binary selectivity is incomplete. **First benchmark is RETROSPECTIVE + blinded against
