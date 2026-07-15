@@ -10,10 +10,14 @@
     "`track`: gpu | cpu | write | submit.  `parallel_ok`: true = may overlap other gpu legs up to the 8-wide spot quota.",
     "Keep the human-readable rationale for each item in nr4a3-degrader-next-steps.md; this file is just the schedule.",
     "",
-    "2026-07-15 (trimcrae): TRACK A SHELVED, GO TRACK B. The plan is now trimcrae's three-step spine:",
+    "2026-07-15 (trimcrae): TRACK A SHELVED, GO TRACK B. The plan is now trimcrae's three-step spine, preceded by an infra step 0:",
+    "  (0) step0_rbfe_mechanics - get OpenFE RBFE running on managed-spot GPU (the job running now); prereq for BOTH 1 and 2.",
     "  (1) rbfe_congeneric  - verify FEP converges on the KNOWN literature NR4A3 molecule (Zaienne cmpd19); RBFE.",
     "  (2) ternary_nrv04    - verify we can replicate the patented NR4A1 degrader's selectivity in-silico (the GATE).",
     "  (3) ternary_prospective - design + ternary-test degraders on the cmpd19 anchor; a selective hit is the WIN.",
+    "2026-07-15 (trimcrae): steps 1 and 2 are NO LONGER treated as fully parallel. Step 2's quantitative ternary ranking",
+    "  reuses the same physics-based free-energy machinery step 1 validates, so a step-1 failure invalidates step 2's numbers",
+    "  too - step 2 now depends_on step 1 as a validity gate (geometry-only prep may overlap; the ternary FE spend waits).",
     "The ABFE warhead-validation milestones (abfe_lambda_repair, abfe_replicates, t4l_benchmark) are moved to the",
     "`shelved` block below - the email projector only reads `milestones`, so they are excluded from the calendar",
     "but preserved (parked, revisit-when-warranted; NOT deleted)."
@@ -23,15 +27,26 @@
   "last_reviewed": "2026-07-15",
   "milestones": [
     {
+      "id": "step0_rbfe_mechanics",
+      "title": "Step 0: get RBFE running on OpenFE + managed-spot GPU (infra shakeout - NOT science yet)",
+      "status": "in_progress",
+      "track": "gpu",
+      "optimistic_days": 2,
+      "remaining_days": 2,
+      "parallel_ok": false,
+      "depends_on": [],
+      "note": "The GPU job running RIGHT NOW. Working out the mechanics of driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO as the shakeout edge). congeneric-RBFE-v3 was failing with ExecuteUserScriptError - re-dispatched ~7x on 2026-07-15 while fixing it. This is a PREREQUISITE for BOTH science steps 1 and 2: neither can produce a valid free-energy result until the OpenFE-on-spot pipeline runs clean. Done = one edge completes end-to-end with a sane dG."
+    },
+    {
       "id": "rbfe_congeneric",
       "title": "Step 1: FEP converges on the known literature NR4A3 molecule - congeneric RBFE (Zaienne cmpd19-anchored warhead matrix; primary quantitative tool)",
-      "status": "in_progress",
+      "status": "pending",
       "track": "gpu",
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
-      "depends_on": [],
-      "note": "RBFE not ABFE; cmpd19 is functional engagement (no solved pose), so 'converges' = reproducible RELATIVE dG on modeled druggable conformers. Pilot one edge, then fan the tranche out 8-wide. NB: congeneric-RBFE-v3 jobs were failing (ExecuteUserScriptError) - fix before more retries."
+      "depends_on": ["step0_rbfe_mechanics"],
+      "note": "RBFE not ABFE; cmpd19 is functional engagement (no solved pose), so 'converges' = reproducible RELATIVE dG on modeled druggable conformers. Pilot one edge, then fan the tranche out 8-wide. Needs step 0 (working OpenFE-on-spot) first."
     },
     {
       "id": "ternary_nrv04",
@@ -39,9 +54,9 @@
       "status": "pending",
       "track": "gpu",
       "optimistic_days": 5,
-      "parallel_ok": true,
-      "depends_on": [],
-      "note": "The GATE on all prospective ranking. Functional retrospective control (Wang 2024 has NO solved ternary structure - not an architecture match). Pilot one paralogue / the epimer functional control first; abort if the known outcome is not recovered. Runs in parallel with step 1."
+      "parallel_ok": false,
+      "depends_on": ["step0_rbfe_mechanics", "rbfe_congeneric"],
+      "note": "The GATE on all prospective ranking. Functional retrospective control (Wang 2024 has NO solved ternary structure - not an architecture match). DEPENDS ON STEP 1 as a validity gate: step 2's quantitative selectivity ranking uses the SAME physics-based free-energy machinery step 1 validates, so if step 1 can't reproduce a known binder we can't trust step 2's numbers either (trimcrae, 2026-07-15). Geometry-only parts (ternary pose / interface / Lys presentation) can be prepped in parallel, but the ternary free-energy spend waits on step 1's green light (pilot-one-leg-first). Pilot one paralogue / the epimer functional control first; abort if the known outcome is not recovered."
     },
     {
       "id": "ternary_prospective",
