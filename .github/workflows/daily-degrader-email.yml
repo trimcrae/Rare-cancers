@@ -51,6 +51,8 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region || 'us-east-2' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
           MAIL_TO: ${{ vars.MAIL_TO }}
           MAIL_FROM: ${{ vars.MAIL_FROM }}
           MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
