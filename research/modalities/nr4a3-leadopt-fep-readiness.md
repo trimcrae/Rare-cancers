@@ -106,6 +106,16 @@ lo_m0_NCCO rides 401's **offset-corrected** converged ABFE (rbfe_edges.ANCHOR_40
 the RBFE ΔΔG and the selectivity *change* are offset-free and do not depend on the anchor at all.
 
 ## Role of `denovo_401`: affinity ANCHOR, not a disposable "pathfinder" (clarification, 2026-07-15)
+**⚠ TRACK CONTEXT (2026-07-15) — read first.** This 401 lead-opt RBFE track is part of the now-**SHELVED
+Track A** (de novo warhead / ABFE-validation). The **LIVE program is Track B**, whose primary quantitative RBFE
+is the **Zaienne cmpd19 congeneric series** (`nr4a3-congeneric-rbfe-plan.md`; anchor = `zaienne_cmpd19`, a real
+literature compound with functional NR4A3 engagement), and in which **`denovo_401` is a *side comparator only*.**
+So the *flagship warhead RBFE is cmpd19-anchored, NOT 401-anchored.* Everything below is accurate **within the
+401 track** (where 401 is that track's anchor), but do not read it as "401 anchors the live program." The
+`nr4a3-rbfe-spotsmoke` / v3 runs use a **401 edge purely because its atom map is clean + already validated** — a
+low-risk vehicle to shake out the spot-checkpoint *code*; the **first real science RBFE should be a cmpd19
+congeneric edge**, not 401.
+
 Two different senses of "first run" get conflated — keep them separate:
 - **`denovo_401` = the affinity ANCHOR of the relative-FE network (load-bearing, stays central).** RBFE yields
   only a *difference* (ΔΔG) between two congeneric analogues; it cannot place any candidate on an absolute
