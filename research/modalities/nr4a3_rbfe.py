@@ -301,24 +301,28 @@ def _protocol(openfe):
             s.simulation_settings.production_length = 5.0 * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
-    # FIX #4 (2026-07-14 forensic — Bug B: a killed leg's simulation.nc never reached S3). Write checkpoints more
-    # often so a kill/preemption loses <= one interval of trajectory instead of the whole leg, and so the
-    # continuously-synced /opt/ml/checkpoints has a recent .nc to upload. Best-effort: the attribute name/type
-    # varies by openfe version, so probe both setting groups and both int/Quantity forms, guarded (smoke reports
-    # which one took). Default openmmtools interval can be large; 50 iters (~50 ps at 1 ps/iter) is a cheap floor.
+    # FIX (2026-07-15, ROOT-CAUSED + ckptread-verified). The complex leg's iter-100 checkpoint never reached S3
+    # as a *resumable* checkpoint before the 2-min spot-kill window closed (torn/lagging upload); the restart then
+    # restored iteration-0, re-equilibrated, and OVERWROTE the good data (self-perpetuating corruption). The
+    # ckptread A/B PROVED openmmtools persists fully-resumable production checkpoints (solvent resume=2000), so the
+    # failure was upload FREQUENCY, not persistence. Fix: checkpoint EVERY iteration (checkpoint_interval ==
+    # time_per_iteration, ~2.5 ps) so the continuously-synced /opt/ml/checkpoints always holds a valid checkpoint
+    # <= 1 iteration behind — any spot kill then resumes losing at most one iteration. Paired with the
+    # run_simulate _ckpt_integrity_guard (backs up before a restart so re-equilibration can never destroy data).
+    # The checkpoint write is sub-second (~12 MB) and the file is idle between writes, so per-iteration is safe.
+    from openff.units import unit as _ou3
+    _tpi = getattr(getattr(s, "simulation_settings", None), "time_per_iteration", None)
+    _every_iter = _tpi if _tpi is not None else (2.5 * _ou3.picosecond)   # Quantity form (a time == 1 iteration)
     _ck_set = False
     for grp_name in ("simulation_settings", "output_settings"):
         grp = getattr(s, grp_name, None)
         if grp is None or not hasattr(grp, "checkpoint_interval"):
             continue
-        for val in (50, None):
+        for val in (_every_iter, 1):   # Quantity (every iteration) first; int-iterations (1) as fallback
             try:
-                if val is None:
-                    from openff.units import unit as _ou3
-                    grp.checkpoint_interval = 50 * _ou3.picosecond
-                else:
-                    grp.checkpoint_interval = val
-                print(f"  [rbfe] checkpoint_interval set via {grp_name} -> {grp.checkpoint_interval}", flush=True)
+                grp.checkpoint_interval = val
+                print(f"  [rbfe] checkpoint_interval set via {grp_name} -> {grp.checkpoint_interval} "
+                      f"(EVERY ITERATION — spot-kill loses <=1 iter)", flush=True)
                 _ck_set = True
                 break
             except Exception as e:  # noqa: BLE001
