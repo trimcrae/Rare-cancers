@@ -339,13 +339,19 @@ def _protocol(openfe):
         s.engine_settings.compute_platform = _working_platform_name("CUDA")
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN compute_platform ({e})", flush=True)
-    # Partial charges: default am1bcc needs OpenEye or a working AmberTools antechamber (antechamber exit-1'd
-    # in this env). Use openff-nagl (GNN am1bcc surrogate) — no antechamber/OpenEye. This is what killed all 4
-    # real-MD legs at ligand charging (caught by the one-leg shakeout; smoke never charges).
+    # Partial charges: use the STANDARD am1bcc method (via AmberTools antechamber/sqm, CPU). The RBFE env now
+    # ships ambertools>=23 (environment-rbfe.yml) — the earlier antechamber exit-1 was simply that the env had NO
+    # ambertools installed, not that am1bcc "doesn't work" here. Running the documented am1bcc method (vs the
+    # NAGL surrogate) keeps us on OpenFE's published-benchmark protocol, so we can CITE that validation instead
+    # of paying to re-derive it. NAGL is retained in the env as a documented fallback only.
+    # CHARGE_METHOD env override lets a shakeout force "nagl" if a specific ligand's sqm ever fails.
+    import os as _os
+    _charge = _os.environ.get("CHARGE_METHOD", "am1bcc")
     try:
-        s.partial_charge_settings.partial_charge_method = "nagl"
+        s.partial_charge_settings.partial_charge_method = _charge
     except Exception as e:  # noqa: BLE001
-        print(f"  [rbfe] WARN could not set partial_charge_method=nagl ({e}); using default", flush=True)
+        print(f"  [rbfe] WARN could not set partial_charge_method={_charge} ({e}); using default", flush=True)
+    print(f"  [rbfe] partial_charge_method = {_charge} (am1bcc via AmberTools sqm; set CHARGE_METHOD=nagl to fall back)", flush=True)
     return RelativeHybridTopologyProtocol(s)
 
 

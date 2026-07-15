@@ -13,8 +13,15 @@ dependencies:
   - importlib_resources    # openfe imports the backport explicitly; conda didn't pull it transitively
   - openff-toolkit
   - openmmforcefields      # gaff-2.11 + ff14SB, same params as the ABFE/MM-GBSA legs
-  - openff-nagl            # GNN am1bcc surrogate for ligand partial charges (am1bcc needs OpenEye/antechamber)
-  - openff-nagl-models
+  - ambertools>=23         # PRIMARY partial-charge path: am1bcc via AmberTools antechamber/sqm (CPU). The RBFE
+                           # env originally SHIPPED WITHOUT ambertools, so am1bcc charging exit-1'd on the real
+                           # MD leg and we fell back to the NAGL surrogate — which then created a pipeline
+                           # DEVIATION we'd otherwise have to validate against a paid public benchmark. Installing
+                           # ambertools puts us on the standard, documented am1bcc method (what OpenFE's published
+                           # benchmark rests on), so we can lean on that validation instead of paying to re-derive
+                           # it. sqm is CPU-only, so this fix is verifiable for ~$0.
+  - openff-nagl            # RETAINED as a documented fallback surrogate only (am1bccelf10-trained GNN); no longer
+  - openff-nagl-models     # the primary charge method now that ambertools is present.
   - ocl-icd-system         # OpenCL fallback vendor ICD (nvidia.icd) — only used if CUDA still can't load
   - cuda-version=12.6      # pin CUDA <= g5 driver (12.8) so OpenMM's CUDA PTX loads (default pulled >12.8 -> err 222)
   - rdkit

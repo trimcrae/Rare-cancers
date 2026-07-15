@@ -51,7 +51,7 @@
       "remaining_days": 2,
       "parallel_ok": false,
       "depends_on": [],
-      "note": "The GPU job running RIGHT NOW. Driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO). Re-dispatched ~7x on 2026-07-15 while fixing an ExecuteUserScriptError. Prerequisite for ALL science. GO/NO-GO: one edge completes end-to-end with a sane dG -> proceed; if it can't run at all -> FEP program blocked, reconsider tooling. Also gives us the realized GPU-h/edge to pin every downstream cost."
+      "note": "The GPU job running RIGHT NOW. Driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO). Re-dispatched ~7x on 2026-07-15 while fixing an ExecuteUserScriptError. Prerequisite for ALL science. CHARGE-MODEL FIX (2026-07-15, free engineering): root-caused the earlier am1bcc failure = the RBFE conda env shipped WITHOUT ambertools; added ambertools>=23 + set partial_charge_method='am1bcc' (CHARGE_METHOD=nagl fallback). The NEXT shakeout uses am1bcc and confirms CPU charging succeeds (~$0 marginal); this puts us on the documented reference method so we can CITE OpenFE's validation and cut Val A to a near-free smoke. GO/NO-GO: one edge completes end-to-end with a sane dG -> proceed; if it can't run at all -> FEP program blocked, reconsider tooling. Also gives us the realized GPU-h/edge to pin every downstream cost."
     },
     {
       "id": "emc_e3_expression",
@@ -79,15 +79,15 @@
     },
     {
       "id": "valA_mini",
-      "title": "RUNG 1 (KILL-SWITCH): 3-4 public measured-ddG RBFE edges through the EXACT pipeline",
+      "title": "RUNG 1: reference-reproduction smoke + CITE OpenFE (reduced from a paid benchmark by the am1bcc fix)",
       "status": "pending",
       "track": "gpu",
-      "cost_est_usd": "15-40",
-      "optimistic_days": 2,
-      "remaining_days": 2,
+      "cost_est_usd": "0-15",
+      "optimistic_days": 1,
+      "remaining_days": 1,
       "parallel_ok": true,
       "depends_on": ["step0_rbfe_mechanics"],
-      "note": "Mandatory change 1A (subset). The single cheapest run that can tell us the whole quantitative approach is sound. GO/NO-GO: tracks measured ddG within ~1.5-2 kcal/mol -> GO to Rung 2. Wildly off -> NO-GO: exact pipeline can't reproduce known answers; do NOT spend on cmpd19/ternary/matrix; pivot to a qualitative/structural or methods-limitations paper. A bad paper dies here for ~$25. NOT pre-authorized - presented with a pinned cost after step 0."
+      "note": "Mandatory change 1A, REDUCED. The RUNG-0 charge-model fix (added ambertools>=23 to environment-rbfe.yml; partial_charge_method='am1bcc') put us on the STANDARD documented method, so am1bcc is what OpenFE's published ~1.7 kcal/mol benchmark rests on - we CITE that and only run a minimal 1-2 public known-answer edge to confirm OUR container build reproduces a known ddG (charging verify is CPU/$0; confirming MD edge ~$5-15). Does NOT touch NR4A - build-consistency check. GO/NO-GO: 1-2 edges land near known ddG -> build sound, GO. Off -> real container bug, fix before spending. FALLBACK: if am1bcc charging ever fails on a specific ligand, set CHARGE_METHOD=nagl and Val A reverts to the paid ~$25 NAGL-validation benchmark. NOT pre-authorized - presented with a pinned cost after step 0."
     },
     {
       "id": "step1_pilot_cmpd19",

@@ -121,8 +121,17 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 ### RUNG 0 — free / already-running (do regardless; ~$0 new)
 
+- **`[x]` Charge-model fix — put am1bcc back on the standard path** *(free engineering, CPU-verifiable)* — **Price: ~$0**
+  Root cause of the earlier "am1bcc doesn't work" was simply that **the RBFE conda env shipped WITHOUT
+  AmberTools** (`environment-rbfe.yml` had `openff-nagl` but no `ambertools`), so am1bcc's `antechamber`/`sqm`
+  charging exit-1'd and we fell back to the NAGL surrogate — which is what *created* the whole Val A validation
+  burden. **Fixed 2026-07-15:** added `ambertools>=23` to the env and set `partial_charge_method="am1bcc"`
+  (`CHARGE_METHOD=nagl` env-override retained as fallback). Charging is CPU-only, so this is verifiable for ~$0
+  on the next shakeout. **Effect: we're now on the documented am1bcc reference method, so we can CITE OpenFE's
+  published validation instead of paying to re-derive it.**
 - **`[~]` Step 0 — RBFE infra shakeout** *(step0_rbfe_mechanics · GPU)* — **Price: ~$5–15 (mostly sunk, running)**
-  Get ONE OpenFE RBFE edge to complete end-to-end with a sane ΔG. Proves the pipeline; not science.
+  Get ONE OpenFE RBFE edge to complete end-to-end with a sane ΔG. Proves the pipeline; not science. **Next
+  shakeout uses am1bcc** and confirms charging succeeds (CPU, ~$0 marginal).
   **GO/NO-GO:** one edge finishes clean → proceed. If it can't be made to run at all → the whole FEP program is
   blocked; stop and reconsider tooling.
 - **`[ ]` EMC E3-ligase expression analysis** *(emc_e3_expression · CPU/CI)* — **Price: ~$0**
@@ -130,14 +139,21 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 - **`[ ]` Pocket-tracking re-analysis** *(pocket_reanalysis · CPU)* — **Price: ~$0**
   Finalize the paper's Gate-2 druggability wording. Free — just do it.
 
-### RUNG 1 — cheapest decisive accuracy gate *(the "is this paper even going to work" kill-switch)*
+### RUNG 1 — cheap reference-reproduction smoke *(now mostly a citation, not a paid benchmark)*
 
-- **`[ ]` Validation A-mini — 3–4 public measured-ΔΔG edges** *(valA_mini · GPU)* — **Price: ~$15–40 · Cum. ~$25**
-  A SUBSET of the public accuracy benchmark through the EXACT NR4A pipeline. This is the single cheapest run that
-  can tell us the whole quantitative approach is sound.
-  **GO/NO-GO:** if these track measured ΔΔG within ~1.5–2 kcal/mol → GO to Rung 2. If they're wildly off →
-  **NO-GO: the exact pipeline can't reproduce known answers → do NOT spend on cmpd19/ternary/matrix.** Pivot to a
-  qualitative/structural or a methods-limitations paper. This is the point where a bad paper dies cheaply.
+- **`[ ]` Validation A — reference-reproduction smoke + cite OpenFE** *(valA_mini · GPU)* — **Price: ~$0–15 · Cum. ~$15**
+  **Reduced from a paid benchmark to a near-free smoke** now that the charge-model fix (RUNG 0) puts us on the
+  standard **am1bcc** method. Because we run the documented OpenFE reference protocol, we **cite OpenFE's
+  published ~1.7 kcal/mol accuracy** for the method and only run a minimal **1–2 public known-answer edge** to
+  confirm OUR container build reproduces a known ΔΔG (charging verify is CPU/$0; the confirming MD edge is ~$5–15).
+  **This does NOT touch NR4A** — it's a build-consistency check.
+  **GO/NO-GO:** the 1–2 edges land near the known ΔΔG → build is sound, GO to Rung 2. Off → the container build
+  has a real bug; fix it before spending further. *(If am1bcc charging ever fails on a specific ligand, fall back
+  to NAGL via `CHARGE_METHOD=nagl` — in that case Val A reverts to the paid ~$25 NAGL-validation benchmark.)*
+  **GO/NO-GO (legacy NAGL path):** if forced onto NAGL and its edges track measured ΔΔG within ~1.5–2 kcal/mol →
+  GO. If wildly off → **NO-GO: fix the charge model, or the quantitative approach can't support a defensible
+  paper** (do NOT
+  spend on cmpd19/ternary/matrix; pivot to qualitative/structural). A bad paper dies here for ~$25.
 
 ### RUNG 2 — cheap precision + cheap probes *(only if Rung 1 = GO)*
 
@@ -154,9 +170,12 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
-- **`[ ]` Validation A-full — expand to 10–20 edges** *(valA_full · GPU)* — **Price: ~$50–140 · Cum. ~$205**
-  Complete the public accuracy benchmark to publishable size. **GO/NO-GO:** benchmark RMSE in a defensible band
-  (~≤2 kcal/mol, comparable to OpenFE public ~1.7) → GO. Otherwise report as a hard accuracy caveat / pivot.
+- **`[ ]` Validation A-full — expand to 10–20 edges** *(valA_full · GPU · CONDITIONAL — often skippable)* — **Price: ~$50–140 · Cum. ~$205**
+  **Only run if valA_mini shows NAGL introduces error worth characterizing.** If valA_mini reproduces known ΔΔG
+  cleanly, this is largely **redundant with OpenFE's published benchmark** — in that case **skip it**, cite
+  OpenFE's ~1.7 kcal/mol for the reference protocol, and present valA_mini as confirming the NAGL substitution
+  doesn't break accuracy (saves ~$50–140). Run the full set only to *characterize/repair* a charge-model
+  discrepancy the mini surfaces. **GO/NO-GO (if run):** RMSE in a defensible band (~≤2 kcal/mol) → GO.
 - **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$345**
   Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
   matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
@@ -204,7 +223,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 | Checkpoint | What we've learned by here | Cumulative spot $ (mid) |
 |---|---|---|
-| After Rung 1 (Val A-mini) | Does the exact FEP pipeline reproduce known ΔΔG at all? | **~$25** |
+| After Rung 1 (Val A smoke) | Does our am1bcc build reproduce a known ΔΔG? (charge-model fixed → cite OpenFE) | **~$15** |
 | After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does ternary move right? | **~$110** |
 | After Rung 3 (full benchmarks) | Are both benchmarks publishable-defensible? | **~$345** |
 | After Rung 4 (fan-out + NR-V04) | Real selectivity picture + NR-V04 concordance | **~$655** |
