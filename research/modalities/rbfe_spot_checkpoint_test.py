@@ -43,11 +43,13 @@ def _mk_env():
     return thermo, sstate, move
 
 
-def _reporter(path, ci):
-    # NOTE: default (lazy) open mode — do NOT pass open_mode="w", which pre-creates the .nc and
-    # makes sampler.create() refuse ("Storage file already exists"). create() opens it itself.
+def _reporter(path, ci, chk_name):
+    # NOTE: (1) default (lazy) open mode — do NOT pass open_mode="w", which pre-creates the .nc
+    # and makes sampler.create() refuse. (2) set checkpoint_storage EXPLICITLY (as OpenFE does,
+    # "checkpoint.chk") so we control the checkpoint filename; the openmmtools default is a
+    # different name and our snapshot/commit code needs to know it. Placed alongside `path`.
     from openmmtools.multistate import MultiStateReporter
-    return MultiStateReporter(str(path), checkpoint_interval=ci)
+    return MultiStateReporter(str(path), checkpoint_interval=ci, checkpoint_storage=str(chk_name))
 
 
 def main():
@@ -65,7 +67,7 @@ def main():
     print("\n=== T1 warmup checkpointed run() + crash-resume ===", flush=True)
     wnc, wchk = work / "warmup.nc", work / "warmup.chk"
     smp = ReplicaExchangeSampler(mcmc_moves=move, number_of_iterations=WARMUP_TARGET)
-    smp.create(thermodynamic_states=thermo, sampler_states=sstate, storage=_reporter(wnc, CI))
+    smp.create(thermodynamic_states=thermo, sampler_states=sstate, storage=_reporter(wnc, CI, wchk.name))
     smp.minimize(max_iterations=5)
     rep = smp._reporter
 
@@ -121,7 +123,7 @@ def main():
     prod.create(
         thermodynamic_states=warmup_final["thermodynamic_states"],
         sampler_states=warmup_final["sampler_states"],
-        storage=_reporter(pnc, CI),
+        storage=_reporter(pnc, CI, pchk.name),
         initial_thermodynamic_states=warmup_final["replica_state_indices"],
         metadata=warmup_final["metadata"] or None,
     )
