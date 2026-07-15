@@ -104,3 +104,24 @@ offset-corrected ABFE of ~−4.5 kcal/mol); the lead beats 401 by the *same* che
 is the pre-FEP nomination bar — RBFE is the arbiter of *how much* tighter. Anchor note: RBFE's absolute for
 lo_m0_NCCO rides 401's **offset-corrected** converged ABFE (rbfe_edges.ANCHOR_401_ABFE, updated 2026-07-06);
 the RBFE ΔΔG and the selectivity *change* are offset-free and do not depend on the anchor at all.
+
+## Role of `denovo_401`: affinity ANCHOR, not a disposable "pathfinder" (clarification, 2026-07-15)
+Two different senses of "first run" get conflated — keep them separate:
+- **`denovo_401` = the affinity ANCHOR of the relative-FE network (load-bearing, stays central).** RBFE yields
+  only a *difference* (ΔΔG) between two congeneric analogues; it cannot place any candidate on an absolute
+  scale by itself. You anchor the whole network on ONE molecule whose absolute ΔG is pinned by an independent
+  method — here `denovo_401`, whose offset-corrected converged **ABFE** (`rbfe_edges.ANCHOR_401_ABFE`,
+  `nr4a3-abfe-calibration.json`) every RBFE edge rides. So 401 is **not** a scout that gets discarded once the
+  bigger fan-out starts: as more candidate edges are added (e.g. `lo_m0_NCCO_iso01`, `lo_m0_CC`, and any future
+  warheads), they all hang off — and are put on the same absolute scale by — the 401 ABFE anchor. Remove 401 and
+  the network loses its absolute reference. (The ΔΔG and selectivity *change* are anchor-free; the absolute ΔG of
+  every downstream candidate is not.)
+- **`denovo_401` is a de novo BENCHMARK, not a synthesis lead.** It is a generated reference compound, not a
+  molecule we would make. The leads are its congeneric derivatives (`lo_m0_NCCO` = 401 + ortho-acetamido, the
+  "better-than-401 lead") and the parallel `zaienne_cmpd19` congeneric campaign
+  (`nr4a3-congeneric-rbfe-plan.md`); 401 is the fixed baseline they are measured against.
+- **The *pipeline* pathfinder is a SEPARATE notion (about infra, not about 401).** We run one edge first — the
+  `401 → lo_m0_NCCO_gen` solvent/complex leg on a throwaway/pilot tag — to shake out the RBFE + spot-checkpoint
+  machinery end-to-end before fanning out to the full edge set. That validates the *infrastructure*; it does
+  **not** mean 401 is a throwaway molecule. (A tiny-iteration `nr4a3-rbfe-spotsmoke` run is purely a code test
+  and its ΔG is discarded; the real 401-anchored edges are the science.)
