@@ -39,14 +39,14 @@
     },
     {
       "id": "rbfe_congeneric",
-      "title": "Step 1: FEP converges on the known literature NR4A3 molecule - congeneric RBFE (Zaienne cmpd19-anchored warhead matrix; primary quantitative tool)",
+      "title": "Step 1: does relative FEP CONVERGE self-consistently on the literature-anchored warhead series (Zaienne cmpd19 congeneric map) - method-validity check, NOT a reproduce-the-experiment match",
       "status": "pending",
       "track": "gpu",
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
       "depends_on": ["step0_rbfe_mechanics"],
-      "note": "RBFE not ABFE; cmpd19 is functional engagement (no solved pose), so 'converges' = reproducible RELATIVE dG on modeled druggable conformers. Pilot one edge, then fan the tranche out 8-wide. Needs step 0 (working OpenFE-on-spot) first."
+      "note": "IMPORTANT (do not overstate): cmpd19 has NO measured affinity and NO solved pose (functional target-engagement only), so there is nothing experimental to reproduce. 'Converges' here = SELF-CONSISTENCY of the calculation: forward=reverse hysteresis <=0.5 kcal/mol, adjacent-lambda MBAR overlap, closed-loop cycle closure <=1.0, and the cryptic pocket does NOT collapse during the alchemical MD. It is a PRECISION/does-the-method-behave check on a literature-anchored congeneric series - NOT an accuracy/match-reality check (that would need a public RBFE benchmark set with measured ddG, out of scope). RBFE not ABFE (rides denovo_401's existing ABFE as the absolute anchor). NB the 401->lo_m0_NCCO edge running now uses OUR de novo molecules (lead-opt comparison + step-0 pipeline shakeout), a SEPARATE edge from the Zaienne convergence pilot. Pilot the most well-behaved edge, then fan out 8-wide. Needs step 0 (working OpenFE-on-spot) first."
     },
     {
       "id": "ternary_nrv04",
