@@ -871,34 +871,43 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
-- **🛑 SAGEMAKER MANAGED-SPOT DOES NOT SYNC OPEN/APPENDED CHECKPOINT FILES TO S3 MID-RUN — USE THE UPLOADER
-  SIDECAR (root-caused + fixed 2026-07-15).** On a SageMaker managed-**spot** Training job with
-  `checkpoint_s3_uri` + `checkpoint_local_path=/opt/ml/checkpoints`, files that a long-lived process holds
-  **open and appends in place** — the openmmtools MD reporter's `simulation.nc` (trajectory/energies) and
-  `checkpoint.chk` (full state, the file `from_storage` resumes from) — are **NOT propagated to S3 during the
-  run**; they stay frozen at job-start and only reach S3 on a *clean* job exit. A small file that is **rewritten
-  atomically** each cycle (openmmtools' ~1 KB `simulation_real_time_analysis.yaml`) **does** sync (with ~30-min
-  lag). **Consequence:** a spot interruption restores the **stale job-start** checkpoint → OpenFE `_check_restart`
-  finds `_iteration==0` → the whole leg **re-equilibrates from scratch** ("must finish in one uninterrupted
-  allocation"), and the re-equilibration then overwrites the good checkpoint (self-perpetuating). **PROVEN**
-  (`mode=forensic`): a complex RBFE leg's S3 `.nc`/`.chk` sat at mtime = job-start for 3-4 h of running incl.
-  production, while its yaml advanced; observed live resetting from production iter 113 on a real spot kill.
-  **FIX (in the repo): a checkpoint-uploader SIDECAR** — `entry_rbfe.py` spawns a daemon thread (base env has
-  boto3) that every ~5 min uploads `sim_shared/{simulation.nc,checkpoint.chk,*.yaml}` to the SAME
-  `checkpoint_s3_uri` prefix SageMaker restores from, so a recent RESUMABLE checkpoint always exists in S3 → a
-  spot kill resumes losing ≤ one interval. Gated on `mode=simulate` + `CKPT_S3_URI` (the submitter passes it in
-  the simulate leg's `extra_env`). Validated 2026-07-15 (uploads succeed every 5 min). Pairs with the
-  `_ckpt_integrity_guard` backup in `nr4a3_rbfe.py` (backs up before a restart so re-equilibration can't destroy
-  the good checkpoint). **CAVEATS / what is NOT proven:** (1) the *effect* is proven, but not AWS's internal
-  mechanism (open-file-handle non-detection vs mtime vs a size threshold) — a config fix may exist. (2) This is
-  **NOT an OpenFE bug** (OpenFE restart works; the files just never reach durable storage). (3) The sidecar
-  uploads the *local* files, so it only helps if openmmtools flushes the local `.chk` mid-run (it does, per
-  checkpoint_interval) — confirm the uploaded `.chk` **size advances** in production, not just constant restored
-  bytes. **RULE OF THUMB:** any openmmtools/OpenMM (or other long-open-file) MD on SageMaker spot needs this
-  sidecar (or an equivalent explicit periodic upload) — do NOT trust SageMaker's checkpoint sync for the large
-  resume-critical files. `checkpoint_interval` frequency is NOT the lever (the `.chk` keeps a full history and
-  every-iteration just balloons it to GB scale — an earlier wrong fix, reverted). trimcrae decision 2026-07-15:
-  keep this INTERNAL (documented here) — not filed to AWS/OpenFE.
+- **🛑 OPENFE/openmmtools RBFE ON SAGEMAKER SPOT RE-EQUILIBRATES FOREVER — the real cause is NON-RESUMABLE
+  EQUILIBRATION, and the fix is a WARMUP-AS-run() + validated-snapshot COMMIT/RESTORE layer (root-caused +
+  CPU-validated 2026-07-15; supersedes the earlier "uploader sidecar fixes it" note, which was WRONG).**
+  DOMINANT failure: OpenFE's `HybridTopologyMultiStateSimulationUnit._run_simulation` runs, when
+  `sampler._iteration == 0`, `minimize()` + `equilibrate()` BEFORE production. openmmtools `equilibrate()` does
+  **not** increment `_iteration` and writes sampler states only once, at the end, back to iteration 0 — and even
+  that final write updates coords but **not** the replica↔thermodynamic-state assignments (openmmtools #759), so
+  it is not a consistent restart frame. => a spot preemption anywhere in the ~1.5 h equilibration restores
+  `_iteration==0` and **re-equilibrates from scratch**; since preemptions arrive more often than 1.5 h, the leg
+  never reaches sustained production. **PROVEN 2026-07-15** on the v3 complex leg: `[restart-diag]` showed both
+  files present (`_check_restart`→restart=True) but `[ckpt-integrity]` read `checkpoint=0 analysis=0` on BOTH
+  post-preemption allocations, and the live log showed `Equilibration iteration N/400`.
+  **CORRECTIONS to the earlier diagnosis (from an external expert review, adopted):** (1) openmmtools **DOES**
+  flush/sync the NetCDF during production (`write_last_iteration()` calls `sync()`); the durability gap is
+  SageMaker's cross-file sync of a PAIR of live NetCDF files, not a missing flush. (2) **File SIZE is not a valid
+  integrity signal** — HDF5/NetCDF updates in place; you must READ a frame (`read_last_iteration` + actually read
+  the sampler states) to know a checkpoint is resumable. (3) the `simulation_real_time_analysis.yaml` is
+  **append-only monitoring**, not authoritative — a stale "ghost" iteration in it is expected; never decide
+  resume state from it. (4) The old **checkpoint-uploader sidecar was never actually validated for its purpose**
+  — the leg never reached production, so its uploads were the constant iteration-0 files; do NOT rely on it.
+  **THE FIX (implemented + CPU-validated, `research/modalities/rbfe_spot_checkpoint.py` + `_test.py`, `mode=ommtest`
+  all green 2026-07-15):** bypass OpenFE's SimulationUnit and drive the sampler ourselves —
+  (A) run **warmup as ordinary checkpointed `run()` iterations** in a SEPARATE storage pair (`equilibration.nc/.chk`),
+  then `create()` a fresh production pair from the final warmup sampler states + replica↔state assignments;
+  (B) advance in **checkpoint-aligned chunks** (`run_to_target`), and at each quiescent boundary make an immutable
+  local snapshot, **validate it by reading the frame**, upload to **versioned/immutable** S3 keys, and write a
+  `COMMITTED.json` manifest **LAST** (a generation with no manifest is ignored); use a **distinct S3 prefix** from
+  `checkpoint_s3_uri` (`S3CommitStore`), so SageMaker native sync is never the source of truth;
+  (C) on startup, **restore the newest VALID committed snapshot** (walk newest→older, validate each by reading the
+  frame) before opening any reporter — never trust size/mtime/yaml/existence. This shrinks the non-resumable
+  window to setup+minimize+one warmup checkpoint interval (minutes, not 1.5 h). **STATUS:** core + warmup→production
+  transition + corrupted-generation fallback all pass on CPU (`mode=ommtest`). **REMAINING:** wire into
+  `run_simulate` (reuse OpenFE's `_get_reporter/_get_sampler/_get_integrator` builders; replace `_run_simulation`
+  with warmup→barrier→production→commit driven by `HybridRepexSampler` + `S3CommitStore`), then GPU spot smoke +
+  a forced-SIGKILL matrix (warmup iters 1/mid/last; between the two S3 objects; before the manifest; production
+  iters 1/boundary±1). Pin exact `openfe/gufe/openmmtools/openmm/netCDF4/pymbar` versions (OpenFE 1.12 only pins
+  `openmmtools>=0.26`, so behavior can drift). This is **NOT** filed to AWS/OpenFE (trimcrae 2026-07-15, internal).
 - **🛑 ABFE ENGINE POLICY — Yank is the CURRENT engine but END-OF-LIFE; the NEXT *fresh* FEP uses a MODERN,
   MAINTAINED stack (trimcrae decision, 2026-07-04).** The denovo_401 selectivity FEP runs on **Yank 0.25.2
   (2020, unmaintained)** — chosen for turnkey *declarative* ABFE, but it cost ~a full day of dependency/schema
