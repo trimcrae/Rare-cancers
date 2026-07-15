@@ -194,6 +194,26 @@ step0 ──► valA ───────────────┐
    └──► pocket_reanalysis ∥ (cheap CPU)
 ```
 
+## Estimated NEW GPU spend the reviewer changes add (spot, honest ranges)
+
+These are the runs that did **not** exist in the pre-reviewer plan. Anchors: g5.xlarge spot ≈ $0.40–0.60/GPU-h;
+repo's 3-receptor RBFE ≈ $18–60 spot; ABFE ≈ $80–200 spot.
+
+| Stage | What's new | Assumptions | Est. spot $ |
+|---|---|---|---|
+| **Validation A** | public measured-ΔΔG RBFE benchmark | 10–20 edges × ~8–15 GPU-h/edge, exact pipeline, some receptor flexibility | **~$60–180** |
+| **Validation B** | known-answer noncovalent ternary benchmark | larger ternary complexes (target+E3+ligand+linker), ~4–8 linker-series edges + cooperativity legs | **~$100–250** |
+| **NR-V04 covalent feasibility** | covalent adduct + C551A + reduced controls | small control panel, reused geometry | **~$40–100** |
+| _Supporting (optional):_ ΔG_open per paralogue | enhanced-sampling opening FE ×3 paralogues | preferred fix for conditional-affinity; can be deferred to "report conditional" | _~$120–300_ |
+
+**Bottom line: the two mandatory *validation* benchmarks (A + B) add roughly ~$160–430 of new spot spend** (mid
+estimate ≈ **$250–300**). Adding the covalent NR-V04 feasibility panel brings the reviewer-mandated new work to
+**~$200–530**. The optional ΔG_open sampling (only if we want *unconditional* affinity rather than conditional
+reporting) would add ~$120–300 on top. Ranges are wide because per-edge GPU-h depends on lambda count, sampling
+length, and receptor flexibility — I'll pin a tighter number from the Step-0 edge's realized GPU-h before
+launching each. No new fixed infra cost (same spot fleet). Note this is **new** spend but it also lets us
+**retire** the old un-shelved ABFE-anchor spend (~$80–200) as a mandatory item — it's now HELD/optional.
+
 **Right now:** Step 0 is running. The moment it completes clean, the next things to launch are **Validation A**
 (public accuracy benchmark) and the **Step 1 pilot** (1–2 cmpd19 edges) — those two in parallel — plus the cheap
 CPU supports (EMC E3 expression, pocket re-analysis) which need no GPU. **Validation B** and **NR-V04 covalent

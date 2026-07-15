@@ -59,7 +59,7 @@
       "remaining_days": 3,
       "parallel_ok": true,
       "depends_on": ["step0_rbfe_mechanics"],
-      "note": "Mandatory change 1A. 10-20 transformations from 1-2 curated congeneric series with MEASURED ddG + supported poses + similar charge-state complexity + some receptor flexibility, run through the EXACT container/protocol/FF/water/sampling/analysis used for NR4A. Purpose = verify OUR implementation (target ~ OpenFE public weighted pairwise RMSE ~1.7 kcal/mol over 58 systems - we check our build, not re-run that benchmark). Cycle closure / fwd-rev / MBAR overlap are PRECISION diagnostics, NOT accuracy. GATE: Step 1 fan-out + any absolute-affinity work do not proceed unless this behaves adequately."
+      "note": "Mandatory change 1A. 10-20 transformations from 1-2 curated congeneric series with MEASURED ddG + supported poses + similar charge-state complexity + some receptor flexibility, run through the EXACT container/protocol/FF/water/sampling/analysis used for NR4A. Purpose = verify OUR implementation (target ~ OpenFE public weighted pairwise RMSE ~1.7 kcal/mol over 58 systems - we check our build, not re-run that benchmark). Cycle closure / fwd-rev / MBAR overlap are PRECISION diagnostics, NOT accuracy. GATE: Step 1 fan-out + any absolute-affinity work do not proceed unless this behaves adequately. NEW SPEND (not in the pre-reviewer plan): ~$60-180 spot (10-20 edges x ~8-15 GPU-h; g5 spot). Pin a tighter number from the Step-0 edge's realized GPU-h before launch."
     },
     {
       "id": "step1_pilot_cmpd19",
@@ -81,7 +81,7 @@
       "remaining_days": 4,
       "parallel_ok": true,
       "depends_on": ["step0_rbfe_mechanics"],
-      "note": "Mandatory change 1C. A system with an EXPERIMENTAL ternary structure + measured binary/ternary affinity or cooperativity + a small analogue/linker series. Calibrates the ternary method against ground truth and FIXES the preregistered scoring rules. GATE: the prospective matrix (Step 8) never runs unless this passes. NR-V04 is a biological HOLDOUT, not the calibrator."
+      "note": "Mandatory change 1C. A system with an EXPERIMENTAL ternary structure + measured binary/ternary affinity or cooperativity + a small analogue/linker series. Calibrates the ternary method against ground truth and FIXES the preregistered scoring rules. GATE: the prospective matrix (Step 8) never runs unless this passes. NR-V04 is a biological HOLDOUT, not the calibrator. NEW SPEND (not in the pre-reviewer plan): ~$100-250 spot (larger ternary complexes; ~4-8 linker-series edges + cooperativity legs)."
     },
     {
       "id": "nrv04_feasibility_covalent",
@@ -92,7 +92,7 @@
       "remaining_days": 3,
       "parallel_ok": true,
       "depends_on": ["step0_rbfe_mechanics"],
-      "note": "Mandatory change 4. Build the preformed COVALENT celastrol-NR4A1 (C551) adduct model; noncovalent-vs-covalent sensitivity; NR4A1 C551A control; warhead-only + active/inactive recruiter controls. Pilot-one-leg gate on the full NR-V04 retrospective - abort/adjust if covalency dominates or the reduced panel misbehaves. Geometry/param can start in parallel; the ternary FE spend waits."
+      "note": "Mandatory change 4. Build the preformed COVALENT celastrol-NR4A1 (C551) adduct model; noncovalent-vs-covalent sensitivity; NR4A1 C551A control; warhead-only + active/inactive recruiter controls. Pilot-one-leg gate on the full NR-V04 retrospective - abort/adjust if covalency dominates or the reduced panel misbehaves. Geometry/param can start in parallel; the ternary FE spend waits. NEW SPEND: ~$40-100 spot (small control panel, reused geometry)."
     },
     {
       "id": "step1_fanout_cmpd19",
