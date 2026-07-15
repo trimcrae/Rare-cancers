@@ -638,11 +638,36 @@ def run_simulate():
     (OpenFE's own _check_restart), so this is the ONLY leg that needs the GPU and it is spot-safe."""
     os.makedirs(CKPT, exist_ok=True)
     import openfe
-    _proto, _dag, byname, _n = _prep_units(openfe)
+    proto, _dag, byname, _n = _prep_units(openfe)
     setup_outputs = _load_outputs(os.path.join(CKPT, f"setup_{RECEPTOR}_{LEG}.json"))
     _start_watchdog(CKPT, stall_min=float(os.environ.get("RBFE_STALL_MIN", "45")))
+    # === RESTART DIAGNOSTIC (2026-07-14) — authoritative view of what OpenFE _check_restart(shared_path=ctx.shared)
+    # will see. _check_restart returns True iff BOTH ctx.shared/output_filename AND ctx.shared/checkpoint_storage_filename
+    # exist; else it silently re-equilibrates. Print ctx.shared, its contents, and the two exact files it needs.
+    ctx = _mk_ctx("sim")
+    try:
+        from pathlib import Path as _P
+        os_ = __import__("os")
+        oset = proto.settings.output_settings if hasattr(proto, "settings") else None
+        of = getattr(oset, "output_filename", "simulation.nc")
+        cf = getattr(oset, "checkpoint_storage_filename", "checkpoint.chk")
+        print(f"  [restart-diag] ctx.shared = {ctx.shared}", flush=True)
+        print(f"  [restart-diag] _check_restart needs: output_filename={of!r} checkpoint_storage_filename={cf!r}",
+              flush=True)
+        sh = _P(ctx.shared)
+        listing = sorted(str(p.relative_to(sh)) for p in sh.rglob("*") if p.is_file()) if sh.is_dir() else []
+        print(f"  [restart-diag] ctx.shared contents ({len(listing)} files): {listing}", flush=True)
+        for fn in (of, cf):
+            fp = sh / fn
+            print(f"  [restart-diag]   need {fn!r}: is_file={fp.is_file()}"
+                  f"{f' size={fp.stat().st_size}B' if fp.is_file() else ''}", flush=True)
+        would = (sh / of).is_file() and (sh / cf).is_file()
+        print(f"  [restart-diag] => _check_restart WOULD return restart={would} "
+              f"({'RESUME production' if would else 'FRESH minimize+equilibrate'})", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [restart-diag] diag error: {e!r}", flush=True)
     res = _one_unit(byname, "HybridTopologyMultiStateSimulationUnit").execute(
-        context=_mk_ctx("sim"), raise_error=True, setup_results=_Res(setup_outputs))
+        context=ctx, raise_error=True, setup_results=_Res(setup_outputs))
     _save_outputs(res.outputs, os.path.join(CKPT, f"sim_{RECEPTOR}_{LEG}.json"))
     print(f"  [rbfe][sim] DONE {RECEPTOR}/{LEG}", flush=True)
 

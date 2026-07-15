@@ -5,6 +5,21 @@ read it before making changes.
 
 ## TL;DR for agents
 
+- **🔬 ALWAYS ROOT-CAUSE AN ERROR WITH A REAL DIAGNOSTIC — NEVER HAND-WAVE A "probably X" EXPLANATION (trimcrae
+  standing rule, 2026-07-14).** When anything fails, stalls, resets, returns a wrong/surprising value, or behaves
+  unexpectedly, you must **produce the actual evidence that proves the mechanism** before you explain it, act on
+  it, or report it — do NOT settle for a plausible-sounding guess ("it probably re-equilibrated because the .nc
+  wasn't restored", "likely a spot thing", "must be a filename mismatch"). A plausible story is a HYPOTHESIS, not
+  a diagnosis. **Method:** (1) state the competing hypotheses; (2) find the ONE observation that discriminates
+  between them — pull the real log (`tail-cloudwatch`, CloudWatch head/startup stream, CI job log), inspect the
+  real artifact (S3 object sizes/mtimes/keys via `mode=forensic`/`ckpt`), read the real source
+  (introspect-cache dumps), or **instrument the code and run a controlled reproduction** (add a startup dump of
+  the exact state the failing check sees, then re-run — engineering is free, and a controlled restart that
+  costs a few negligible iterations is worth a definitive root cause); (3) only then state the cause, with the
+  evidence cited. "I couldn't run it here" is never the stopping point — route the diagnostic through AWS/CI
+  (see the dev-sandbox-is-not-your-limit rule). This composes with "UNEXPECTED SLOWNESS IS A SIGNAL —
+  INVESTIGATE, DON'T REASSURE": investigation means *evidence*, not a confident narrative. If you catch yourself
+  writing "probably / likely / must be / I think it's because" about a failure, STOP and go get the data.
 - **⏰ TIMES: ALWAYS US EASTERN (ET), 12-HOUR AM/PM, NEVER UTC / NEVER 24-HOUR (trimcrae standing rule).** Every
   time you report to trimcrae — ETAs, job timestamps, "as of HH:MM", watch cadences, anything — MUST be Eastern
   (EDT = UTC−4) AND written in 12-hour AM/PM format (e.g. "1:00 PM ET", not "13:00 ET"). Convert before writing;

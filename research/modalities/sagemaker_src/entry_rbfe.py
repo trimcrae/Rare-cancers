@@ -66,6 +66,36 @@ def main():
                 "N_WINDOWS": args.n_windows, "N_ITER": args.n_iter, "SEED": args.seed})
     os.makedirs(CKPT, exist_ok=True)
 
+    # === CKPT-RESTORE PROBE (2026-07-14 root-cause diagnostic) ===============================================
+    # DEFINITIVE test of "did SageMaker restore the spot checkpoint to local disk?". Runs at container boot,
+    # BEFORE the slow conda solve, so it prints within ~1 min. SageMaker downloads checkpoint_s3_uri ->
+    # checkpoint_local_path (=/opt/ml/checkpoints=CKPT) during bootstrap, so whatever is here now is exactly
+    # what OpenFE's _check_restart will see. It checks shared_path/output_filename + shared_path/
+    # checkpoint_storage_filename (defaults simulation.nc / checkpoint.chk) under ctx.shared (= CKPT/sim_shared).
+    # If those two files are ABSENT here but present in S3 -> restore/config bug; if PRESENT -> the bug is
+    # downstream (filename/path/clearing). No dependency on the conda env — pure stdlib.
+    try:
+        print("[ckpt-restore-probe] ===== restored contents of %s (before conda) =====" % CKPT, flush=True)
+        _n = 0
+        for root, _dirs, files in os.walk(CKPT):
+            for f in sorted(files):
+                p = os.path.join(root, f)
+                try:
+                    st = os.stat(p)
+                    print("[ckpt-restore-probe]   %10d B  %s" % (st.st_size, os.path.relpath(p, CKPT)), flush=True)
+                except OSError:
+                    pass
+                _n += 1
+        print("[ckpt-restore-probe] total files restored: %d" % _n, flush=True)
+        for rel in ("sim_shared/simulation.nc", "sim_shared/checkpoint.chk"):
+            fp = os.path.join(CKPT, rel)
+            ok = os.path.isfile(fp)
+            print("[ckpt-restore-probe]   _check_restart needs %-30s present=%s%s" % (
+                rel, ok, (" size=%dB" % os.path.getsize(fp)) if ok else ""), flush=True)
+    except Exception as e:  # noqa: BLE001
+        print("[ckpt-restore-probe] probe error: %r" % e, flush=True)
+    # =========================================================================================================
+
     conda = shutil_which("conda") or "/opt/conda/bin/conda"
     # OpenCL vendor ICD so OpenMM's OpenCL platform registers the A10G — the conda OpenMM CUDA build targets a
     # newer CUDA than the g5 driver supports (CUDA_ERROR_UNSUPPORTED_PTX_VERSION), so we run on OpenCL instead
