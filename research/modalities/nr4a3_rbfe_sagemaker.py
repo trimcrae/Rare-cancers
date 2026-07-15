@@ -587,7 +587,12 @@ def main():
             if only and name not in only and leg not in only and receptor not in only:
                 continue
             # setup/analyze run on CPU boxes → force the CPU OpenMM platform (skip the CUDA/OpenCL probe).
-            extra = {"RBFE_PLATFORM": "CPU"} if MODE != "simulate" else None
+            # simulate → pass CKPT_S3_URI so entry_rbfe's checkpoint-uploader sidecar knows where to push the
+            # checkpoint (SageMaker doesn't sync it mid-run — 2026-07-15 forensic). Same prefix as checkpoint_s3_uri.
+            if MODE == "simulate":
+                extra = {"CKPT_S3_URI": f"s3://{bucket}/{TAG}/ckpt/{name}/"}
+            else:
+                extra = {"RBFE_PLATFORM": "CPU"}
             est = make_estimator(f"{name}-{MODE}", {**common, "mode": MODE, "receptor": receptor, "leg": leg},
                                  instance=inst, ckpt_name=name, spot=spot, extra_env=extra)
             inputs = {"ligand": TrainingInput(matrix)}

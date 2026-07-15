@@ -96,6 +96,21 @@ def main():
         print("[ckpt-restore-probe] probe error: %r" % e, flush=True)
     # =========================================================================================================
 
+    # === CHECKPOINT-UPLOADER SIDECAR (2026-07-15 root-cause fix) ==============================================
+    # DIAGNOSED: SageMaker does NOT push the checkpoint to S3 during a run — the complex leg's S3 checkpoint
+    # stayed frozen at job-start (mtime 10:42Z) for ~3h while it ran through equilibration + production. So a spot
+    # kill loses everything since job start (restore then brings iteration-0 -> re-equilibrate). FIX: upload the
+    # sim_shared checkpoint files to S3 OURSELVES every few minutes (base env has boto3; runs as a daemon thread
+    # alongside the MD), so a recent RESUMABLE checkpoint always exists in S3 -> a spot kill resumes losing at
+    # most one upload interval. Gated on simulate (the only GPU/MD leg) + CKPT_S3_URI (passed by the submitter).
+    if (args.mode or "") == "simulate" and os.environ.get("CKPT_S3_URI"):
+        _start_ckpt_uploader(os.path.join(CKPT, "sim_shared"), os.environ["CKPT_S3_URI"],
+                             int(os.environ.get("CKPT_UPLOAD_SECONDS", "300")))
+    else:
+        print("[ckpt-uploader] not started (mode=%s CKPT_S3_URI=%s)" % (
+            args.mode, bool(os.environ.get("CKPT_S3_URI"))), flush=True)
+    # =========================================================================================================
+
     conda = shutil_which("conda") or "/opt/conda/bin/conda"
     # OpenCL vendor ICD so OpenMM's OpenCL platform registers the A10G — the conda OpenMM CUDA build targets a
     # newer CUDA than the g5 driver supports (CUDA_ERROR_UNSUPPORTED_PTX_VERSION), so we run on OpenCL instead
@@ -125,6 +140,47 @@ def main():
                        cwd=work, env=env)
     if r.returncode != 0:
         sys.exit(r.returncode)
+
+
+def _start_ckpt_uploader(local_dir, s3_uri, interval_s=300):
+    """Daemon thread: every interval_s, upload the sim_shared checkpoint files to S3 ourselves (SageMaker's own
+    checkpoint sync does NOT push mid-run — verified by forensic). Guarantees a recent resumable checkpoint in
+    S3 so a spot interruption resumes losing <= interval_s of MD instead of the whole leg. Best-effort; a failed
+    upload just logs and retries next cycle. Uploads to the SAME prefix SageMaker restores from on start."""
+    import threading
+    import time as _t
+    from urllib.parse import urlparse
+    try:
+        import boto3
+    except Exception as e:  # noqa: BLE001
+        print("[ckpt-uploader] boto3 unavailable (%r) — sidecar disabled; relying on SageMaker end-of-job sync"
+              % e, flush=True)
+        return
+    u = urlparse(s3_uri)
+    bucket, prefix = u.netloc, u.path.lstrip("/")            # prefix e.g. "<tag>/ckpt/<leg>/"
+    dest = prefix + "sim_shared/"
+    files = ("simulation.nc", "checkpoint.chk", "simulation_real_time_analysis.yaml")
+    s3 = boto3.client("s3")
+
+    def _loop():
+        while True:
+            _t.sleep(interval_s)
+            up = []
+            for fn in files:
+                fp = os.path.join(local_dir, fn)
+                if os.path.isfile(fp):
+                    try:
+                        s3.upload_file(fp, bucket, dest + fn)
+                        up.append("%s(%dB)" % (fn, os.path.getsize(fp)))
+                    except Exception as e:  # noqa: BLE001
+                        print("[ckpt-uploader] upload %s failed: %r" % (fn, e), flush=True)
+            stamp = _t.strftime("%H:%M:%SZ", _t.gmtime())
+            print("[ckpt-uploader] %s -> s3://%s/%s  uploaded=[%s]" % (stamp, bucket, dest, ", ".join(up)),
+                  flush=True)
+
+    threading.Thread(target=_loop, daemon=True).start()
+    print("[ckpt-uploader] STARTED: every %ds  %s -> s3://%s/%s" % (interval_s, local_dir, bucket, dest),
+          flush=True)
 
 
 def shutil_which(x):
