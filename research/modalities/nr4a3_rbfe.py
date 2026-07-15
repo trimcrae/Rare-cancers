@@ -301,28 +301,26 @@ def _protocol(openfe):
             s.simulation_settings.production_length = 5.0 * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set MD lengths as Quantity ({e}); using OpenFE defaults", flush=True)
-    # FIX (2026-07-15, ROOT-CAUSED + ckptread-verified). The complex leg's iter-100 checkpoint never reached S3
-    # as a *resumable* checkpoint before the 2-min spot-kill window closed (torn/lagging upload); the restart then
-    # restored iteration-0, re-equilibrated, and OVERWROTE the good data (self-perpetuating corruption). The
-    # ckptread A/B PROVED openmmtools persists fully-resumable production checkpoints (solvent resume=2000), so the
-    # failure was upload FREQUENCY, not persistence. Fix: checkpoint EVERY iteration (checkpoint_interval ==
-    # time_per_iteration, ~2.5 ps) so the continuously-synced /opt/ml/checkpoints always holds a valid checkpoint
-    # <= 1 iteration behind — any spot kill then resumes losing at most one iteration. Paired with the
-    # run_simulate _ckpt_integrity_guard (backs up before a restart so re-equilibration can never destroy data).
-    # The checkpoint write is sub-second (~12 MB) and the file is idle between writes, so per-iteration is safe.
+    # CHECKPOINT INTERVAL (2026-07-15, ckptread-corrected). The openmmtools .chk keeps a FULL history of
+    # checkpoints (verified: solvent .chk holds every checkpoint at iters 0,20,...,2000, all filled) — it is NOT
+    # latest-only, and the mechanism resumes correctly on a clean sync (solvent resume=2000). The complex
+    # spot-kill failure was NOT the interval and NOT persistence: it was that the (large) .chk did not reach S3
+    # with its recent checkpoints before the 2-min spot-kill window closed (a SYNC problem). So DO NOT chase this
+    # with frequency — an every-iteration .chk balloons to GB scale (solvent is 44 MB at interval=20 for 2000
+    # iters; interval=1 => ~0.9 GB solvent / multi-GB complex) and makes the continuous S3 sync WORSE. Keep a
+    # moderate interval: 20 iters (50 ps) — proven-good size (~44 MB) and resume granularity. The spot-kill sync
+    # gap is handled separately (the run_simulate _ckpt_integrity_guard backup + a sync-behaviour check).
     from openff.units import unit as _ou3
-    _tpi = getattr(getattr(s, "simulation_settings", None), "time_per_iteration", None)
-    _every_iter = _tpi if _tpi is not None else (2.5 * _ou3.picosecond)   # Quantity form (a time == 1 iteration)
     _ck_set = False
     for grp_name in ("simulation_settings", "output_settings"):
         grp = getattr(s, grp_name, None)
         if grp is None or not hasattr(grp, "checkpoint_interval"):
             continue
-        for val in (_every_iter, 1):   # Quantity (every iteration) first; int-iterations (1) as fallback
+        for val in (50 * _ou3.picosecond, 20):   # 50 ps == 20 iters (Quantity first, int-iterations fallback)
             try:
                 grp.checkpoint_interval = val
                 print(f"  [rbfe] checkpoint_interval set via {grp_name} -> {grp.checkpoint_interval} "
-                      f"(EVERY ITERATION — spot-kill loses <=1 iter)", flush=True)
+                      f"(20 iters / 50 ps — moderate; .chk stays ~44 MB)", flush=True)
                 _ck_set = True
                 break
             except Exception as e:  # noqa: BLE001
