@@ -788,20 +788,66 @@ def main():
     if mode == "splittest":
         return run_splittest()
     if mode == "ckptread":
-        # Read-only A/B diagnostic (no MD): report the DEFINITIVE resume point for this leg's restored checkpoint.
-        # If checkpoint==analysis>0 the restart would RESUME; if checkpoint==0 while analysis>0 it re-equilibrates.
-        # Run against the COMPLETED solvent leg (analysis reached 2000) to prove whether openmmtools persists a
-        # resumable PRODUCTION checkpoint at all (settles torn-upload-A vs never-persisted-B).
-        sh = os.path.join(CKPT, "sim_shared")
-        print(f"[ckptread] leg={RECEPTOR}/{LEG} shared={sh} exists={os.path.isdir(sh)}", flush=True)
+        # Read-only diagnostic (no MD). Beyond the resume point, dump the RAW iteration COVERAGE of both files so
+        # we can answer trimcrae's question: with checkpoint_interval=20, why did a kill at iter 100 restore
+        # iteration 0 instead of 80? Reveals (a) whether the .chk keeps a HISTORY of checkpoints [0,20,40,...] or
+        # only the LATEST, and (b) whether the large .chk sync LAGS the small .nc (analysis>0 but checkpoint=0).
+        # CKPTREAD_SUBDIR overrides "sim_shared" (e.g. a sim_shared_bak_* backup of a corrupted checkpoint).
+        subdir = os.environ.get("CKPTREAD_SUBDIR", "sim_shared")
+        sh = os.path.join(CKPT, subdir)
+        print(f"[ckptread] leg={RECEPTOR}/{LEG} CKPT={CKPT} subdir={subdir} exists={os.path.isdir(sh)}", flush=True)
+        try:
+            print(f"[ckptread] CKPT dir listing: {sorted(os.listdir(CKPT))}", flush=True)
+        except Exception:  # noqa: BLE001
+            pass
         try:
             ana, ck = _read_last_iters(sh)
-            print(f"[ckptread] read_last_iteration: analysis={ana} checkpoint(resume)={ck}", flush=True)
-            print(f"[ckptread] => a restart of this leg would "
-                  f"{'RESUME at %d' % ck if (ck or 0) > 0 else 'RE-EQUILIBRATE (checkpoint has no production state)'}"
-                  f"; analysis had reached {ana}", flush=True)
+            print(f"[ckptread] read_last_iteration: analysis={ana} checkpoint(resume)={ck} -> a restart would "
+                  f"{'RESUME at %d' % ck if (ck or 0) > 0 else 'RE-EQUILIBRATE'}", flush=True)
         except Exception as e:  # noqa: BLE001
-            print(f"[ckptread] read failed: {e!r}", flush=True)
+            print(f"[ckptread] read_last_iteration failed: {e!r}", flush=True)
+        # RAW netCDF coverage of each file.
+        try:
+            import netCDF4
+            import numpy as _np
+            for label, fn in (("analysis", "simulation.nc"), ("checkpoint", "checkpoint.chk")):
+                fp = os.path.join(sh, fn)
+                if not os.path.isfile(fp):
+                    print(f"[ckptread]   {label} {fn}: MISSING", flush=True)
+                    continue
+                ds = netCDF4.Dataset(fp, "r")
+                try:
+                    dims = {d: (len(ds.dimensions[d]) if not ds.dimensions[d].isunlimited()
+                                else f"UNLIM={len(ds.dimensions[d])}") for d in ds.dimensions}
+                    # Which iterations actually hold data? Probe a representative per-iteration variable and count
+                    # leading iteration-slots that are NOT fully masked/fill — that is the real coverage.
+                    cov = "n/a"
+                    for vn in ("positions", "box_vectors", "energies", "states"):
+                        if vn in ds.variables:
+                            v = ds.variables[vn]
+                            try:
+                                a = v[:]
+                                n = a.shape[0]
+                                flat = a.reshape(n, -1)
+                                if hasattr(flat, "mask") and flat.mask is not _np.ma.nomask:
+                                    has = ~flat.mask.all(axis=1)
+                                else:
+                                    has = _np.isfinite(_np.asarray(flat, dtype=float)).any(axis=1)
+                                idx = [int(i) for i in _np.where(has)[0]]
+                                head = idx[:6]
+                                tail = idx[-3:] if len(idx) > 9 else []
+                                cov = (f"var={vn} slots={n} filled={len(idx)} "
+                                       f"iters={head}{'...'+str(tail) if tail else ''}")
+                                break
+                            except Exception as ee:  # noqa: BLE001
+                                cov = f"var={vn} probe-failed {ee!r}"
+                    print(f"[ckptread]   {label} {fn}: size={os.path.getsize(fp)}B dims={dims} "
+                          f"vars={list(ds.variables)[:10]}", flush=True)
+                    print(f"[ckptread]   {label} coverage: {cov}", flush=True)
+                finally:
+                    ds.close()
+        except Exception as e:  # noqa: BLE001
+            print(f"[ckptread]   raw netCDF probe failed: {e!r}", flush=True)
         return
     if mode == "cudaprobe":
         # Fast, no-MD diagnostic: report the driver's CUDA + which OpenMM GPU platform actually runs on this g5.
