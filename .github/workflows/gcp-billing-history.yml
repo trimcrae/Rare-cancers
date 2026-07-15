@@ -93,20 +93,29 @@ jobs:
         if: env.MODE == 'smoke'
         run: |
           set -eo pipefail
+          ZONES="us-central1-a us-central1-b us-central1-c us-central1-f us-east1-b us-east1-c us-east1-d us-west1-a us-west1-b"
           VM="gcp-bill-smoke-${GITHUB_RUN_ID}"
-          echo "creating tiny e2-small with a 180s hard max-run-duration + DELETE..."
-          gcloud compute instances create "$VM" \
-            --zone="$ZONE" --machine-type=e2-small \
-            --provisioning-model=STANDARD \
-            --max-run-duration=180s --instance-termination-action=DELETE \
-            --image-family=debian-12 --image-project=debian-cloud \
-            --boot-disk-size=10GB --no-restart-on-failure \
-            --labels=purpose=gcp-billing-history-smoke,run="${GITHUB_RUN_ID}"
-          echo "created $VM; GCE should DELETE it at ~180s. Waiting up to ~5 min to confirm..."
+          CZ=""
+          for Z in $ZONES; do
+            echo "trying e2-medium in $Z (180s hard max-run-duration + DELETE)..."
+            if gcloud compute instances create "$VM" \
+                --zone="$Z" --machine-type=e2-medium \
+                --provisioning-model=STANDARD \
+                --max-run-duration=180s --instance-termination-action=DELETE \
+                --image-family=debian-12 --image-project=debian-cloud \
+                --boot-disk-size=10GB --no-restart-on-failure \
+                --labels=purpose=gcp-billing-history-smoke,run="${GITHUB_RUN_ID}" 2>/tmp/err; then
+              CZ="$Z"; echo "created $VM in $Z"; break
+            fi
+            if grep -q ZONE_RESOURCE_POOL_EXHAUSTED /tmp/err; then echo "  capacity out in $Z, next zone"; continue; fi
+            echo "--- create error (non-capacity) ---"; cat /tmp/err; exit 1
+          done
+          [ -z "$CZ" ] && { echo "::error::no zone had e2-medium capacity right now"; exit 1; }
+          echo "GCE should DELETE $VM at ~180s. Waiting up to ~5 min to confirm..."
           gone=0
           for i in $(seq 1 18); do
             sleep 20
-            if ! gcloud compute instances describe "$VM" --zone="$ZONE" >/dev/null 2>&1; then
+            if ! gcloud compute instances describe "$VM" --zone="$CZ" >/dev/null 2>&1; then
               echo "CONFIRMED: $VM was auto-deleted by GCE (server-enforced teardown works)."
               gone=1; break
             fi
@@ -114,7 +123,7 @@ jobs:
           done
           if [ "$gone" != 1 ]; then
             echo "::error::smoke VM was NOT auto-deleted in time — force-deleting and failing (do NOT proceed to spend)."
-            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet || true
+            gcloud compute instances delete "$VM" --zone="$CZ" --quiet || true
             exit 1
           fi
           echo "SMOKE PASS — auth + WIF + project + CPU-VM create + GCE auto-DELETE all verified."
@@ -135,21 +144,29 @@ jobs:
           ZN=\$(curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/zone" | awk -F/ '{print \$NF}')
           curl -s -X DELETE -H "Authorization: Bearer \$TOK" "https://compute.googleapis.com/compute/v1/projects/${PROJECT}/zones/\${ZN}/instances/\${NAME}"
           SS
+          ZONES="${ZONE} us-central1-b us-central1-c us-central1-f us-east1-b us-east1-c us-east1-d us-west1-a us-west1-b"
           : > /tmp/created.txt
           for n in $(seq 1 "$COUNT"); do
             VM="gcp-bill-${GITHUB_RUN_ID}-${n}"
-            gcloud compute instances create "$VM" \
-              --zone="$ZONE" --machine-type="$MACHINE" \
-              --provisioning-model=STANDARD \
-              --max-run-duration="${HARD}s" --instance-termination-action=DELETE \
-              --image-family=debian-12 --image-project=debian-cloud \
-              --boot-disk-size=10GB --no-restart-on-failure \
-              --service-account=gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com \
-              --scopes=cloud-platform \
-              --metadata-from-file=startup-script=/tmp/startup.sh \
-              --labels=purpose=gcp-billing-history,run="${GITHUB_RUN_ID}"
-            echo "$VM" >> /tmp/created.txt
-            echo "created $VM"
+            made=0
+            for Z in $ZONES; do
+              echo "creating $VM ($MACHINE) in $Z ..."
+              if gcloud compute instances create "$VM" \
+                  --zone="$Z" --machine-type="$MACHINE" \
+                  --provisioning-model=STANDARD \
+                  --max-run-duration="${HARD}s" --instance-termination-action=DELETE \
+                  --image-family=debian-12 --image-project=debian-cloud \
+                  --boot-disk-size=10GB --no-restart-on-failure \
+                  --service-account=gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com \
+                  --scopes=cloud-platform \
+                  --metadata-from-file=startup-script=/tmp/startup.sh \
+                  --labels=purpose=gcp-billing-history,run="${GITHUB_RUN_ID}" 2>/tmp/err; then
+                echo "$VM $Z" >> /tmp/created.txt; echo "created $VM in $Z"; made=1; break
+              fi
+              if grep -q ZONE_RESOURCE_POOL_EXHAUSTED /tmp/err; then echo "  capacity out in $Z, next zone"; continue; fi
+              echo "--- create error (non-capacity) ---"; cat /tmp/err; exit 1
+            done
+            [ "$made" != 1 ] && { echo "::error::no zone had $MACHINE capacity for $VM"; exit 1; }
           done
           echo "=== launched; these self-delete in ~${MINUTES} min (GCE hard-deletes by ~$((HARD/60)) min no matter what) ==="
           cat /tmp/created.txt
