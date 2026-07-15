@@ -317,10 +317,24 @@ def fallback_summary(g):
     return "\n".join(S)
 
 
+def _summary_override():
+    """A summary written elsewhere (e.g. by a scheduled Claude session, committed to email-outbox).
+
+    SUMMARY_OVERRIDE_FILE (a path) takes precedence over SUMMARY_OVERRIDE (inline text). Empty => None.
+    """
+    ov_file = (os.environ.get("SUMMARY_OVERRIDE_FILE") or "").strip()
+    if ov_file and Path(ov_file).exists():
+        txt = Path(ov_file).read_text().strip()
+        if txt:
+            return txt
+    return (os.environ.get("SUMMARY_OVERRIDE") or "").strip() or None
+
+
 def build_bodies(region):
     g = gather(region)
     facts = facts_block(g)
-    summary_md = llm_summarize(facts, LLM_SYSTEM) or fallback_summary(g)
+    # Priority: a Claude-written summary (override) > Anthropic API > deterministic fallback.
+    summary_md = _summary_override() or llm_summarize(facts, LLM_SYSTEM) or fallback_summary(g)
 
     # ---- plain text ----
     T = [f"NR4A3 PROTAC-degrader — daily status  ·  {fmt_dt(g['now'])}", "=" * 60, "",
