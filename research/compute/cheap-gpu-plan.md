@@ -10,6 +10,14 @@ checkpoint bridge so compute is stateless and swappable (`object_store.py`), a p
 16 unit tests pass. **Only the real per-provider `submit()` calls remain — those need live accounts, which is
 what this doc is for.**
 
+> **⚠ SPOT/PREEMPTIBLE CHECKPOINT DURABILITY (must-read before any spot MD run).** SageMaker managed-spot does
+> NOT sync files a process holds **open and appends** (the openmmtools `.nc`/`.chk`) to S3 mid-run — only at
+> clean job end — so a spot kill loses the whole leg. Fix = the **checkpoint-uploader sidecar** (explicit
+> periodic boto3 upload of the resume-critical files). Root cause, proof, fix, and caveats:
+> **[nr4a3-degrader-next-steps.md → "Infra gotchas" → SageMaker managed-spot checkpoint sync](../modalities/nr4a3-degrader-next-steps.md#infra-gotchas-a-fresh-session-must-know)**.
+> Any provider whose checkpoint sync you don't control needs the same explicit-upload pattern — bake it into
+> each `submit()`.
+
 > 📱 **Phone-only, no terminal.** Every signup + API-key step below is done in a mobile browser; the
 > key values go straight into the repo's GitHub Actions secrets (github.com -> repo -> Settings -> Secrets and
 > variables -> Actions -> New secret). ALL command-line / deploy work is done by me via CI — you never open a
