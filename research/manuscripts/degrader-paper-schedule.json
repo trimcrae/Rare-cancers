@@ -1,0 +1,119 @@
+{
+  "_README": [
+    "OPTIMISTIC critical-path plan for the NR4A3 PROTAC-degrader paper (ChemRxiv preprint + JCIM).",
+    "This file is the SINGLE SOURCE the daily status email projects into a day-by-day calendar.",
+    "It is MAINTAINED BY SESSIONS: as work lands, update each milestone's `status` and, for an",
+    "in-progress item, `remaining_days` (what's left, not the original estimate). The email walks the",
+    "milestones in dependency order from *today* and assigns optimistic start/finish dates.",
+    "Durations are OPTIMISTIC planning estimates ('if all goes to plan'), NOT commitments — GPU spot",
+    "capacity waits, failed shards, and red-team findings routinely add days. `status`: done | in_progress | pending.",
+    "`track`: gpu | cpu | write | submit.  `parallel_ok`: true = may overlap other gpu legs up to the 8-wide spot quota.",
+    "Keep the human-readable rationale for each item in nr4a3-degrader-next-steps.md; this file is just the schedule."
+  ],
+  "paper": "research/manuscripts/nr4a3-degrader-paper.md",
+  "target_venue": "ChemRxiv (CC-BY, free) + JCIM subscription route ($0)",
+  "last_reviewed": "2026-07-15",
+  "milestones": [
+    {
+      "id": "abfe_lambda_repair",
+      "title": "ABFE lambda-overlap repair (r1: NR4A2 soft-core tail; validate adjacent-window overlap)",
+      "status": "in_progress",
+      "track": "gpu",
+      "optimistic_days": 2,
+      "remaining_days": 2,
+      "parallel_ok": true,
+      "depends_on": [],
+      "note": "Pilot leg gates the r2/r3 error-bar replicates (pilot-one-leg-first rule)."
+    },
+    {
+      "id": "abfe_replicates",
+      "title": "ABFE 3 independent replicates - NR4A3 conformers + matched NR4A1/NR4A2, explicit microstates, replicate-SD error bars",
+      "status": "pending",
+      "track": "gpu",
+      "optimistic_days": 4,
+      "parallel_ok": true,
+      "depends_on": ["abfe_lambda_repair"],
+      "note": "Field-standard ABFE: converged forward/reverse + ~3 replicates. Stop at standard."
+    },
+    {
+      "id": "t4l_benchmark",
+      "title": "T4L-L99A ABFE benchmark (known-answer validation control for the ABFE engine)",
+      "status": "pending",
+      "track": "gpu",
+      "optimistic_days": 3,
+      "parallel_ok": true,
+      "depends_on": [],
+      "note": "Runs in parallel with the replicate fleet (independent shards, 8-wide spot quota)."
+    },
+    {
+      "id": "pocket_reanalysis",
+      "title": "Harmonized pocket-tracking re-analysis (finalize Gate 2 druggability classification)",
+      "status": "pending",
+      "track": "cpu",
+      "optimistic_days": 2,
+      "parallel_ok": true,
+      "depends_on": [],
+      "note": "Cheap; unblocks the ensemble-redesign cheap work and finalizes the paper's Gate-2 wording."
+    },
+    {
+      "id": "rbfe_congeneric",
+      "title": "Congeneric RBFE series (Zaienne cmpd19-anchored warhead matrix; primary quantitative tool)",
+      "status": "pending",
+      "track": "gpu",
+      "optimistic_days": 4,
+      "parallel_ok": true,
+      "depends_on": ["abfe_lambda_repair"],
+      "note": "Pilot one edge, then fan the tranche out 8-wide."
+    },
+    {
+      "id": "ternary_nrv04",
+      "title": "Retrospective NR-V04 ternary control - can an ensemble workflow recover NR4A1>NR4A2/NR4A3 selectivity?",
+      "status": "pending",
+      "track": "gpu",
+      "optimistic_days": 5,
+      "parallel_ok": true,
+      "depends_on": [],
+      "note": "Gates ALL prospective ternary ranking. Pilot one paralogue / the CRBN control first; abort if geometry not recovered."
+    },
+    {
+      "id": "ternary_prospective",
+      "title": "Prospective NR4A3 ternary ranking of the degrader matrix (only if NR-V04 control passes)",
+      "status": "pending",
+      "track": "gpu",
+      "optimistic_days": 4,
+      "parallel_ok": false,
+      "depends_on": ["ternary_nrv04", "rbfe_congeneric"],
+      "note": "Selectivity emerges jointly from warhead x linker x E3 x ternary geometry."
+    },
+    {
+      "id": "fold_results",
+      "title": "Fold all results into paper (abstract/S2/S3/S4 + SI) and re-render figures",
+      "status": "pending",
+      "track": "write",
+      "optimistic_days": 2,
+      "parallel_ok": false,
+      "depends_on": ["abfe_replicates", "t4l_benchmark", "pocket_reanalysis", "ternary_prospective"],
+      "note": "Single source of truth = nr4a3-degrader-paper.md (+ SI)."
+    },
+    {
+      "id": "final_redteam",
+      "title": "Final red-team + review-response pass (honest-weight every claim; medical-integrity check)",
+      "status": "pending",
+      "track": "write",
+      "optimistic_days": 2,
+      "parallel_ok": false,
+      "depends_on": ["fold_results"],
+      "note": "Reviewer-AI block before the outward-facing post/submit step."
+    },
+    {
+      "id": "post_submit",
+      "title": "Post ChemRxiv (CC-BY) + submit JCIM + send outreach emails",
+      "status": "pending",
+      "track": "submit",
+      "optimistic_days": 1,
+      "parallel_ok": false,
+      "depends_on": ["final_redteam"],
+      "note": "OUTWARD-FACING / irreversible - needs trimcrae sign-off (not auto). This is the finish line."
+    }
+  ]
+}
