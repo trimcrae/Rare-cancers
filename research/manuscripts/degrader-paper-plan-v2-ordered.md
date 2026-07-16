@@ -1,5 +1,19 @@
 # NR4A3-degrader paper — MASTER ORDERED PLAN (v2, reviewer-revised 2026-07-15)
 
+> # ★ GOLD-STANDARD SINGLE SOURCE OF TRUTH ★
+> **This file IS the plan for the NR4A3-degrader paper.** CLAUDE.md points here. If any other doc (the strategy
+> note, the schedule JSON, an older manuscript section, a commit message) conflicts with this file, **this file
+> wins** — reconcile the other doc to it. Anyone asking "what's the plan / what's next / how much will it cost"
+> gets answered from here. Keep it current: when work lands, update the stage's `[ ]/[~]/[x]` status here AND the
+> mirrored `status` in [degrader-paper-schedule.json](./degrader-paper-schedule.json) (its milestone `id`s match
+> the stage tags below one-for-one; that JSON is the machine calendar the daily email projects — it is a MIRROR
+> of this file, not a competing source).
+>
+> **Companion docs (detail only, subordinate to this file):**
+> [nr4a3-degrader-reviewer-revisions-2026-07-15.md](./nr4a3-degrader-reviewer-revisions-2026-07-15.md) (verbatim
+> reviewer verdict) · [nr4a3-degrader-strategy-ternary-first.md](./nr4a3-degrader-strategy-ternary-first.md)
+> (biological/chemotype rationale) · [nr4a3-degrader-paper.md](./nr4a3-degrader-paper.md) (the manuscript itself).
+
 **This is the single human-readable source of truth for WHAT WE RUN, IN WHAT ORDER, AND WHAT'S NEXT.**
 The machine calendar that the daily email projects is
 [degrader-paper-schedule.json](./degrader-paper-schedule.json) — its milestone `id`s match the stage tags
@@ -98,6 +112,30 @@ below one-for-one. When work lands, update BOTH this file's stage status line an
   **preregistered cheap-screen downselection** that preserves warhead / exit-vector / ligase / linker diversity.
 
 ---
+
+## Method-validation rationale (why Val A is nearly free but Val B is load-bearing)
+
+Two of the reviewer's mandated validations look similar ("benchmark the method on a known answer") but have
+**opposite cost/necessity**, because of whether the method is standard-and-citeable or our own construction:
+
+- **Val A (binary RBFE accuracy) — cheap, mostly a citation.** We run OpenFE's *standard* RelativeHybridTopology
+  protocol, which OpenFE already benchmarked (~1.7 kcal/mol over 58 public systems). The only thing that had made
+  it non-citeable was a self-inflicted deviation: the RBFE conda env shipped **without AmberTools**, so am1bcc
+  charging failed and we fell back to the **NAGL** surrogate. **Root-caused + fixed 2026-07-15** (added
+  `ambertools>=23`; `partial_charge_method="am1bcc"`, CPU-verifiable for ~$0). Now on the documented method, we
+  **cite OpenFE** and run only a ~$0–15 build-consistency smoke. *(The same fix was propagated to the ternary
+  engine `nr4a3_ternary_fep.py`, which had hardcoded NAGL — binary and ternary legs must share charges or the
+  cooperativity cycle's cancellation breaks.)*
+- **Val B (ternary cooperativity) — genuinely needed, cannot be cited away.** Our ternary method
+  (`nr4a3_ternary_fep.py`) is a **cooperativity cycle we built**: `ΔΔG_coop = ternary_morph − binary_morph`. It
+  reuses OpenFE's validated per-leg machinery, but **no published benchmark exercises this cooperativity
+  protocol** — so there is nothing to cite. `ΔΔG_coop` is the entire basis for the paper's central claim
+  (selectivity from ternary cooperativity), and NR-V04 can't calibrate it (no solved ternary; celastrol is
+  covalent, so it doesn't even exercise this noncovalent morph). The **only** way to know our cooperativity
+  numbers mean anything is to run one known-answer PROTAC system (VHL–BRD4 / VHL–SMARCA2) ourselves.
+  **Val B-mini (~$40–80) is therefore the highest-value dollar in the plan** — the cheapest possible gate on the
+  ~$150–400 prospective matrix. Dropping Val B entirely = abandoning the quantitative ternary-selectivity claim,
+  i.e. the paper's novel contribution. Keep Val B-mini; keep Val B-full conditional on it.
 
 ## SPENDING RULES (read before launching anything)
 

@@ -48,6 +48,14 @@ read it before making changes.
   self-executable*, whereas the atlas's highest-impact claims ultimately depend on **other groups choosing to
   run EMC experiments** — an external dependency you cannot solve by making the atlas more comprehensive.
   **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.**
+  - **★★★ THE PLAN — GOLD-STANDARD SINGLE SOURCE OF TRUTH:
+    [research/manuscripts/degrader-paper-plan-v2-ordered.md](./research/manuscripts/degrader-paper-plan-v2-ordered.md).**
+    For "what's the plan / what's next / what does each step cost", READ THAT FILE — it is authoritative and wins
+    over any other doc (this bullet, the strategy note, the schedule JSON, an older manuscript section) if they
+    conflict; reconcile the others to it. It carries the full spend-gated ordered ladder (every step priced, with
+    GO/NO-GO gates), the 5 mandatory reviewer changes, and the method-validation rationale. The schedule JSON
+    [research/manuscripts/degrader-paper-schedule.json](./research/manuscripts/degrader-paper-schedule.json) is a
+    machine MIRROR of it (keep both in sync). This bullet is a summary pointer, not the plan.
   - **★★ EXECUTION PLAN REVISED 2026-07-15 (external reviewer-AI — conditional approval + 5 mandatory changes).
     The three-step spine below is SUPERSEDED as the *ordering*; the thesis is unchanged.** READ THE ORDERED
     MASTER PLAN for "what's next": **[research/manuscripts/degrader-paper-plan-v2-ordered.md](./research/manuscripts/degrader-paper-plan-v2-ordered.md)**
