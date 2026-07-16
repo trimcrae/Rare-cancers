@@ -118,13 +118,12 @@ jobs:
           export PATH=/tmp/mf/envs/rbfe/bin:\$PATH
           echo "antechamber: \$(command -v antechamber || echo MISSING) ; sqm: \$(command -v sqm || echo MISSING)"
           # SPOT-SAFE: checkpoint/resume the simulate leg to GCS via GCSCommitStore (keyless — the VM's SA + ADC).
-          # Ensure the checkpoint bucket exists (idempotent; VM SA has cloud-platform scope). A DISTINCT prefix per
-          # (leg) so complex/solvent don't collide. RBFE_SPOT_SAFE=1 routes run_simulate -> _run_simulate_spot_safe.
+          # The bucket is PRE-CREATED and the VM SA (878095411563-compute@…) was granted roles/storage.objectAdmin
+          # on it (one-time, by the project owner) — object writes/reads work; no bucket-admin needed. A DISTINCT
+          # prefix per leg so complex/solvent don't collide. RBFE_SPOT_SAFE=1 routes run_simulate -> spot-safe.
           SPOT_ENV=""
           if [ "$SPOT_SAFE" = 1 ]; then
-            echo "--- spot-safe: GCS commit store ---"
-            gcloud storage buckets describe gs://$BUCKET >/dev/null 2>&1 \
-              || gcloud storage buckets create gs://$BUCKET --location=us --uniform-bucket-level-access 2>&1 | tail -3
+            echo "--- spot-safe: GCS commit store gs://$BUCKET (pre-created, SA has objectAdmin) ---"
             SPOT_ENV="RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valA-tyk2/$LEG"
             # tiny validation: small checkpoint intervals so the few-iteration MD actually commits to GCS
             # (proves the GCSCommitStore upload path). real runs use the driver defaults (10/20).
