@@ -34,7 +34,7 @@ concurrency:
 jobs:
   gcp-rbfe:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 360
     env:
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
       MODE: ${{ github.event.inputs.mode || 'tiny' }}

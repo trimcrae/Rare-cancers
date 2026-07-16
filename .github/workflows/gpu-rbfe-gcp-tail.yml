@@ -75,3 +75,11 @@ jobs:
           printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/(complex|solvent)/(warmup|production)/iter-[0-9]+" | sort -u | wc -l | xargs echo "total committed boundaries:"
           echo "--- completed leg results ---"
           printf '%s\n' "$ALL" | grep -aE "results/.*\.json" || echo "(no completed leg JSONs persisted)"
+          # ===== CHECKPOINT TIMING PROBE: interval between commits = MD + commit overhead per 20 iters =====
+          echo "=================== CHECKPOINT TIMING PROBE (complex/production) ==================="
+          echo "commit timestamps (gap between consecutive = wall time per 20-iter chunk incl. validate+sha256+upload):"
+          gcloud storage ls -l "$B/complex/production/**/COMMITTED.json" 2>/dev/null \
+            | grep -aE "gs://.*COMMITTED.json" | tail -12 || echo "(no production commits yet)"
+          echo "--- latest complex checkpoint FILE SIZES (growing = growing per-commit overhead) ---"
+          LATEST=$(printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/complex/production/iter-[0-9]+" | sort -u | tail -1)
+          [ -n "$LATEST" ] && gcloud storage ls -l "gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/$LATEST/**" 2>/dev/null | grep -aE "\.chk|\.nc" | tail -4
