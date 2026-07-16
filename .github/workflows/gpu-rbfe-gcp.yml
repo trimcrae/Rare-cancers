@@ -85,6 +85,11 @@ jobs:
           echo "=== RBFE boot \$(date -u) mode=$MODE leg=$LEG ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
+          # [gpu-util] background saturation logger (2026-07-16): every 30 s dump SM + mem utilization so each leg
+          # SELF-REPORTS whether one HREX replica already saturates the L4. This is the decisive evidence for
+          # whether NVIDIA-MPS / MPI-parallel replicas have headroom (repo rule #1: measure, never guess "probably
+          # underutilized"). The serial-tailer greps '[gpu-util]'. Negligible overhead; the loop dies with the VM.
+          ( while true; do echo "[gpu-util] \$(date -u +%H:%M:%S) util(gpu,mem)%,memMiB,W: \$(nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,power.draw --format=csv,noheader,nounits 2>/dev/null | tr '\n' ' | ')"; sleep 30; done ) &
           export DEBIAN_FRONTEND=noninteractive
           apt-get update -qq && apt-get install -y -qq git >/dev/null 2>&1
           echo "--- Miniforge + mamba (conda-forge CUDA openmm auto-matched to driver) ---"
