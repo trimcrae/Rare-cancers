@@ -49,7 +49,7 @@ read it before making changes.
   run EMC experiments** — an external dependency you cannot solve by making the atlas more comprehensive.
   **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.**
   - **★★★ THE PLAN — GOLD-STANDARD SINGLE SOURCE OF TRUTH:
-    [research/manuscripts/degrader-paper-plan-v2-ordered.md](./research/manuscripts/degrader-paper-plan-v2-ordered.md).**
+    [STRATEGY.md](./STRATEGY.md).**
     For "what's the plan / what's next / what does each step cost", READ THAT FILE — it is authoritative and wins
     over any other doc (this bullet, the strategy note, the schedule JSON, an older manuscript section) if they
     conflict; reconcile the others to it. It carries the full spend-gated ordered ladder (every step priced, with
@@ -58,7 +58,7 @@ read it before making changes.
     machine MIRROR of it (keep both in sync). This bullet is a summary pointer, not the plan.
   - **★★ EXECUTION PLAN REVISED 2026-07-15 (external reviewer-AI — conditional approval + 5 mandatory changes).
     The three-step spine below is SUPERSEDED as the *ordering*; the thesis is unchanged.** READ THE ORDERED
-    MASTER PLAN for "what's next": **[research/manuscripts/degrader-paper-plan-v2-ordered.md](./research/manuscripts/degrader-paper-plan-v2-ordered.md)**
+    MASTER PLAN for "what's next": **[STRATEGY.md](./STRATEGY.md)**
     (+ verbatim verdict [research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md](./research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md)).
     The 5 mandatory changes: (1) separate three validations — a **public measured-ΔΔG accuracy benchmark** +
     cmpd19 RBFE as **conditional hypotheses** (no pose) + a **known-answer ternary benchmark (VHL–BRD4/SMARCA2)**,

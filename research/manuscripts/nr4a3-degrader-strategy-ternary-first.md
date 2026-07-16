@@ -4,7 +4,7 @@
 > changes).** The *thesis* below stands unchanged (selectivity from binary × ternary × ubiquitination geometry),
 > but the naive **three-step spine** (RBFE → NR-V04 → prospective) is replaced by a **3-kinds-of-validation
 > architecture** with a fixed ordered plan. **For WHAT WE RUN AND IN WHAT ORDER, read
-> [degrader-paper-plan-v2-ordered.md](./degrader-paper-plan-v2-ordered.md)** (the master ordered plan) and
+> [STRATEGY.md](./STRATEGY.md)** (the master ordered plan) and
 > [nr4a3-degrader-reviewer-revisions-2026-07-15.md](./nr4a3-degrader-reviewer-revisions-2026-07-15.md) (the
 > verbatim verdict). Key deltas: add a **public measured-ΔΔG accuracy benchmark** + a **known-answer ternary
 > benchmark (VHL–BRD4/SMARCA2)**; treat cmpd19 RBFE as **conditional hypotheses** (no pose); affinities are

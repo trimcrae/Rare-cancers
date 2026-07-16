@@ -3,7 +3,7 @@
     "OPTIMISTIC critical-path plan for the NR4A3 PROTAC-degrader paper (ChemRxiv preprint + JCIM).",
     "This file is the SINGLE MACHINE SOURCE the daily status email projects into a day-by-day calendar.",
     "HUMAN-READABLE MASTER (read this for the full rationale, GO/NO-GO gates + 'what's next'):",
-    "  degrader-paper-plan-v2-ordered.md. Milestone `id`s here match the stage tags in that master plan.",
+    "  STRATEGY.md. Milestone `id`s here match the stage tags in that master plan.",
     "Keep the two in sync: when work lands, update each milestone's `status` and, for an in-progress item,",
     "`remaining_days`. `status`: done | in_progress | pending. `track`: gpu | cpu | write | submit.",
     "`parallel_ok`: true = may overlap other legs up to the 8-wide spot quota. `cost_est_usd`: est. SPOT $ for",
@@ -35,7 +35,7 @@
     "  cmpd19 MYC induction is a LIABILITY, not benefit."
   ],
   "paper": "research/manuscripts/nr4a3-degrader-paper.md",
-  "master_plan": "research/manuscripts/degrader-paper-plan-v2-ordered.md",
+  "master_plan": "STRATEGY.md",
   "reviewer_verdict": "research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md",
   "target_venue": "ChemRxiv (CC-BY, free) + JCIM subscription route ($0)",
   "spend_policy": "NO pre-authorization. Every GPU run waits for an explicit go at its gate with a pinned cost. Cheapest-decisive-first: never spend an expensive rung unless the previous cheaper rung's result is promising.",

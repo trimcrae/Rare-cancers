@@ -1,6 +1,13 @@
 # NR4A3 degrader — in-silico program state & how to run the warhead next (handoff)
 
-**Single source of truth for resuming the degrader work from a fresh session.** Read this + the
+> **⚠️ SCOPE: this is the INFRA / HOW-TO-RUN handoff, NOT the plan.** For WHAT WE RUN, IN WHAT ORDER, AND WHY
+> (the authoritative spend-gated ordered plan + costs), read the overarching strategy:
+> **[`/STRATEGY.md`](../../STRATEGY.md)**. That file WINS over anything here on ordering/scope. This doc is
+> subordinate — it holds infra gotchas, run commands, and the historical program state. The "three-step spine"
+> banner just below is SUPERSEDED as the *ordering* by STRATEGY.md's reviewer-revised ladder (thesis unchanged).
+
+**Source of truth for HOW to resume/run the degrader compute from a fresh session** (infra + run commands). Read
+this alongside the plan ([`/STRATEGY.md`](../../STRATEGY.md)), the
 manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)) and the
 pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)) before launching
 anything. Last updated 2026-06-26.

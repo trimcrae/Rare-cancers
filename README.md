@@ -1,90 +1,42 @@
-# Rare Cancer Info Hub → EMC treatment-advancement project
+# EMC treatment-advancement project
 
-> **Primary focus (2026-06):** this repo's number-one priority is **publishing work that
-> drives forward a treatment for extraskeletal myxoid chondrosarcoma (EMC)**. Its crux is a
-> tracked portfolio of candidate treatment ideas — why each is encouraging or unlikely, and how to
-> advance it **with no wet lab** (either a paper convincing enough that others test it, or in-silico
-> evaluation we run ourselves).
+> **Primary focus:** this repo's number-one priority is **computational work that drives forward a treatment for
+> extraskeletal myxoid chondrosarcoma (EMC)**, an ultra-rare sarcoma driven by the EWSR1::NR4A3 fusion — with
+> **no wet lab** (either a paper convincing enough that others test it, or in-silico evaluation we run ourselves).
 >
-> - **Start here:** [`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md) — the prioritized portfolio (the crux).
-> - **Live tracker board:** [`research/IDEAS.md`](./research/IDEAS.md) — every candidate, status, next step.
-> - All other manuscripts/code exist to advance entries in that tracker.
+> ## Start here
 >
-> **The patient-facing info-hub site below is SHELVED** (deprioritized, not deleted) — see
-> "Patient-facing info hub (shelved)" below. Medical-integrity rules in [AGENTS.md](./AGENTS.md)
-> still apply to everything.
+> - **📋 [`STRATEGY.md`](./STRATEGY.md) — the overarching research strategy and the single source of truth for the
+>   plan.** What we run, in what order, why, each step priced, with GO/NO-GO gates. The #1 program is the
+>   **NR4A3-selective degrader paper**; its full spend-gated execution ladder is there.
+> - **[`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md)** —
+>   the broader route portfolio (all treatment routes ranked; context beneath `STRATEGY.md`).
+> - **[`research/IDEAS.md`](./research/IDEAS.md)** — live tracker board: every candidate route, status, next step.
+>
+> Everything clinical must be cited and never fabricated — medical-integrity rules in [AGENTS.md](./AGENTS.md)
+> apply to all of it.
 
----
+## Repo layout
+
+- **`STRATEGY.md`** — the plan (read first).
+- **`research/`** — the treatment-discovery work: manuscripts, modalities (structure/FEP/ternary pipelines),
+  the EMC atlas, and compute infra. `research/manuscripts/` holds the papers; `research/modalities/` holds the
+  in-silico pipelines and how-to-run handoffs.
+- **`AGENTS.md`** / **`CLAUDE.md`** — the maintenance guide and agent instructions.
+- **`METHODOLOGY.md`** — how registry data is cited and pooled (read before touching `registry`).
+- **`data/`, `cancers/`, `scripts/`** — the shelved patient-facing static site (see below).
 
 ## Patient-facing info hub (shelved)
 
-Hard-to-find information, gathered in one place — for cancers too rare to
-research alone.
+The repo also contains a zero-build static site of one-page-per-rare-cancer information hubs (first page: EMC).
+It is **deprioritized/shelved** — kept working if touched, but not under active development. If you do touch it,
+`node scripts/validate.mjs` must pass, and it deploys via GitHub Pages (`.github/workflows/pages.yml`) on push to
+`main`. See [AGENTS.md](./AGENTS.md) for the site playbook and the medical-integrity rules.
 
-This project was started by a patient diagnosed with **extraskeletal myxoid
-chondrosarcoma (EMC)** at age 29, who found almost nothing useful online. The
-goal is a simple, fast page for each rare cancer that brings together the tools
-a newly diagnosed person actually wishes they had.
-
-## What each cancer page gives you
-
-- 🔬 **Every study** we can find, plus live search links for new ones
-- 👥 **Pooled patient data** from across published reports
-- 📊 **Outcomes** presented like an outcomes study (survival, recurrence, spread)
-- 🎛️ **"People like me" filter** — enter your age / grade / stage / size to see
-  how similar patients did
-- 💬 **Support groups** (Facebook, Reddit, real-life networks)
-- 🏥 **Centres of excellence** worldwide + a **find-a-specialist-near-me** tool
-- 🩺 **Treatment plans**, filterable by stage
-- 💡 **New & promising treatments** under investigation
-- 🧪 **Clinical trials** — find actively enrolling/upcoming trials and how to join
-- 🔁 **Monitoring plans** for remission
-- ❓ **Good questions** to ask your oncologist
-
-> **Not medical advice.** This is patient-built educational information drawn
-> from public literature. It cannot replace your own oncology/sarcoma team.
-> See [MEDICAL_DISCLAIMER.md](./MEDICAL_DISCLAIMER.md).
-
-## Live pages
-
-- **EMC** — Extraskeletal Myxoid Chondrosarcoma — `cancers/emc/`
-
-## Run it locally
-
-It's a zero-build static site. Serve the folder over HTTP (the pages fetch JSON,
-so opening files directly won't work):
-
-```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
-```
-
-## Add or improve a cancer page
-
-A whole cancer page is driven by **one JSON file** — no build step, no framework.
-
-```bash
-node scripts/new-cancer.mjs <slug> "Full Name" "ABBR" "Category"
-# then edit data/cancers/<slug>.json
-node scripts/validate.mjs
-```
-
-See **[AGENTS.md](./AGENTS.md)** for the full playbook (and the medical-integrity
-rules) and **[CONTRIBUTING.md](./CONTRIBUTING.md)** for how to contribute data.
-
-## Hosting
-
-Deployed via **GitHub Pages** (`.github/workflows/pages.yml`). Every push to
-`main` validates the data and publishes the site.
-
-One-time setup by the repo owner: **Settings → Pages → Build and deployment →
-Source: _GitHub Actions_**. After that it's automatic.
-
-The site itself is host-agnostic (all relative URLs), so it can also be served
-from any other static host or a subpath without changes.
+> **Not medical advice.** Any patient-facing content is educational information drawn from public literature and
+> cannot replace an oncology/sarcoma team. See [MEDICAL_DISCLAIMER.md](./MEDICAL_DISCLAIMER.md).
 
 ## Licence
 
-Code is under the repository's [LICENSE](./LICENSE) (Apache-2.0). Linked medical
-content belongs to its original publishers; we link to sources rather than
-reproduce them.
+Code is under the repository's [LICENSE](./LICENSE) (Apache-2.0). Linked medical content belongs to its original
+publishers; we link to sources rather than reproduce them.

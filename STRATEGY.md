@@ -1,30 +1,40 @@
-# NR4A3-degrader paper — MASTER ORDERED PLAN (v2, reviewer-revised 2026-07-15)
+# STRATEGY — the overarching research plan (NR4A3-selective degrader paper)
 
-> # ★ GOLD-STANDARD SINGLE SOURCE OF TRUTH ★
-> **This file IS the plan for the NR4A3-degrader paper.** CLAUDE.md points here. If any other doc (the strategy
-> note, the schedule JSON, an older manuscript section, a commit message) conflicts with this file, **this file
-> wins** — reconcile the other doc to it. Anyone asking "what's the plan / what's next / how much will it cost"
-> gets answered from here. Keep it current: when work lands, update the stage's `[ ]/[~]/[x]` status here AND the
-> mirrored `status` in [degrader-paper-schedule.json](./degrader-paper-schedule.json) (its milestone `id`s match
-> the stage tags below one-for-one; that JSON is the machine calendar the daily email projects — it is a MIRROR
-> of this file, not a competing source).
+> # ★ GOLD-STANDARD SINGLE SOURCE OF TRUTH FOR THE RESEARCH STRATEGY ★
+> **This file is THE strategy.** It is the top-level, authoritative plan for the repo's #1 research program —
+> the **NR4A3-selective degrader paper** — and it is what CLAUDE.md and README.md point to for "what's the plan /
+> what's next / what does each step cost." If any other doc (the schedule JSON, the ternary-strategy note, the
+> in-silico next-steps handoff, the route-portfolio capstone, an older manuscript section, a commit message)
+> conflicts with this file, **this file wins** — reconcile the other doc to it.
+>
+> **Where this sits (scope).** The repo's primary focus is the NR4A3 degrader / computational method-development
+> program (≈70–80% of effort); its full execution plan is below. The broader EMC treatment **route portfolio**
+> (the degrader is #1 within it, plus the fusion-junction ASO and other routes as support/backup) is context
+> beneath this file — see [emc-treatment-strategy.md](research/manuscripts/emc-treatment-strategy.md) (route
+> ranking) and [research/IDEAS.md](research/IDEAS.md) (live route board). Those are subordinate to this file for
+> the overarching plan.
+>
+> **Keep it current:** when work lands, update the stage's `[ ]/[~]/[x]` status here AND the mirrored `status` in
+> [degrader-paper-schedule.json](research/manuscripts/degrader-paper-schedule.json) (its milestone `id`s match the
+> stage tags below one-for-one; that JSON is the machine calendar the daily email projects — a MIRROR of this
+> file, not a competing source).
 >
 > **Companion docs (detail only, subordinate to this file):**
-> [nr4a3-degrader-reviewer-revisions-2026-07-15.md](./nr4a3-degrader-reviewer-revisions-2026-07-15.md) (verbatim
-> reviewer verdict) · [nr4a3-degrader-strategy-ternary-first.md](./nr4a3-degrader-strategy-ternary-first.md)
-> (biological/chemotype rationale) · [nr4a3-degrader-paper.md](./nr4a3-degrader-paper.md) (the manuscript itself).
+> [nr4a3-degrader-reviewer-revisions-2026-07-15.md](research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md) (verbatim
+> reviewer verdict) · [nr4a3-degrader-strategy-ternary-first.md](research/manuscripts/nr4a3-degrader-strategy-ternary-first.md)
+> (biological/chemotype rationale) · [nr4a3-degrader-paper.md](research/manuscripts/nr4a3-degrader-paper.md) (the manuscript itself).
 
 **This is the single human-readable source of truth for WHAT WE RUN, IN WHAT ORDER, AND WHAT'S NEXT.**
 The machine calendar that the daily email projects is
-[degrader-paper-schedule.json](./degrader-paper-schedule.json) — its milestone `id`s match the stage tags
+[degrader-paper-schedule.json](research/manuscripts/degrader-paper-schedule.json) — its milestone `id`s match the stage tags
 below one-for-one. When work lands, update BOTH this file's stage status line and the JSON.
 
 - **Supersedes:** the naive "three-step spine" (Step 1 RBFE → Step 2 NR-V04 → Step 3 prospective) captured in
-  [nr4a3-degrader-strategy-ternary-first.md](./nr4a3-degrader-strategy-ternary-first.md). The *thesis* is
+  [nr4a3-degrader-strategy-ternary-first.md](research/manuscripts/nr4a3-degrader-strategy-ternary-first.md). The *thesis* is
   unchanged (paralogue selectivity emerges jointly from binary × ternary × ubiquitination geometry); the
   *validation architecture and ordering* are revised per an external reviewer-AI verdict.
 - **Reviewer verdict (verbatim capture, so it is not re-litigated):**
-  [nr4a3-degrader-reviewer-revisions-2026-07-15.md](./nr4a3-degrader-reviewer-revisions-2026-07-15.md).
+  [nr4a3-degrader-reviewer-revisions-2026-07-15.md](research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md).
 - **Verdict headline:** *conditional approval with five mandatory changes.* Proceed NOW with Step 0, the
   compact public accuracy benchmark, and the Step 1 pilot. **HOLD** full ABFE (Step 9) and all prospective
   ternary spend (Step 8) until the validation architecture below is in place.
