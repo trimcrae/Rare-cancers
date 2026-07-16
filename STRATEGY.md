@@ -177,11 +177,17 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
   (`CHARGE_METHOD=nagl` env-override retained as fallback). Charging is CPU-only, so this is verifiable for ~$0
   on the next shakeout. **Effect: we're now on the documented am1bcc reference method, so we can CITE OpenFE's
   published validation instead of paying to re-derive it.**
-- **`[~]` Step 0 — RBFE infra shakeout** *(step0_rbfe_mechanics · GPU)* — **Price: ~$5–15 (mostly sunk, running)**
-  Get ONE OpenFE RBFE edge to complete end-to-end with a sane ΔG. Proves the pipeline; not science. **Next
-  shakeout uses am1bcc** and confirms charging succeeds (CPU, ~$0 marginal).
-  **GO/NO-GO:** one edge finishes clean → proceed. If it can't be made to run at all → the whole FEP program is
-  blocked; stop and reconsider tooling.
+- **`[x]` Step 0 — RBFE infra shakeout** *(step0_rbfe_mechanics · GPU)* — **DONE 2026-07-16 · realized ~$1–2 spot**
+  **PASSED.** One OpenFE RBFE edge (the shared solvent morph denovo_401→lo_m0_NCCO_gen) ran end-to-end via the
+  spot-safe split (setup CPU → simulate GPU-spot → analyze MBAR) and returned a converged
+  **ΔG_morph = −48.75 ± 0.57 kcal/mol** (MBAR). Confirmed: (1) **am1bcc charging succeeds on real hardware**
+  (leg reached MD); (2) the **spot-safe warmup→production→commit/restore driver** (main `f5f9bbb`,
+  `RBFE_SPOT_SAFE=1`) is **GPU-validated on our real edge** — closes the "GPU spot smoke" item left open in the
+  infra-gotchas doc; live S3 commits observed during production. Realized wall: solvent GPU leg ~1 h on
+  g5.xlarge spot (spot-acquire + env + charging + ~40 min MD) + cheap CPU setup/analyze. Bug fixed en route: the
+  legacy welded `mode=run` path is NOT resume-safe (no uploader) — switched to the split; also a self-inflicted
+  stop/setup name-substring race (`only_legs=solvent` matched `…-solvent-setup-…`) → re-run on a fresh `…-v2` tag.
+  **GO/NO-GO:** one edge finished clean → **GO** to Rung 1.
 - **`[ ]` EMC E3-ligase expression analysis** *(emc_e3_expression · CPU/CI)* — **Price: ~$0**
   Public VHL/CRBN expression in EMC samples; informs VHL-vs-CRBN choice. Free — just do it (route fetch via CI).
 - **`[ ]` Pocket-tracking re-analysis** *(pocket_reanalysis · CPU)* — **Price: ~$0**
