@@ -149,7 +149,14 @@ jobs:
             if [ "$SPOT_SAFE" = 1 ]; then
               echo "--- spot-safe: GCS commit store gs://$BUCKET (pre-created, SA has objectAdmin) ---"
               SPOT_ENV="RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valA-tyk2/$LEG"
-              [ "\$TINY" = 1 ] && SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
+              # Checkpoint interval controls BOTH the .chk frame frequency AND the GCS upload frequency
+              # (rbfe_spot_driver: reporter checkpoint_interval = production_checkpoint_iters). At 20 the .chk
+              # grows to ~1 GB (a ~10 MB frame/checkpoint) and is re-uploaded 100x (measured 2026-07-16: ~209s/
+              # 20-iter chunk, .chk 224 MB at iter 420 and climbing). 100 => 5x fewer, ~5x smaller .chk => ~25x
+              # less checkpoint I/O; preemption loses <=100 iters (~250 ps) — negligible. tiny keeps 2 (needs a
+              # commit within its few iters to validate the path).
+              if [ "\$TINY" = 1 ]; then SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
+              else SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=50 RBFE_PROD_CKPT_ITERS=100"; fi
               echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
             fi
             echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE mode=$MODE) on \$(basename \$PY) ---"
