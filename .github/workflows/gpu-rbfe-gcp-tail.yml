@@ -61,8 +61,10 @@ jobs:
           echo "=================== GCS CHECKPOINT CENSUS (liveness) ==================="
           B=gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valA-tyk2
           echo "--- FULL recursive listing of $B/ (robust; no glob) ---"
-          ALL=$(gcloud storage ls -lr "$B/" 2>&1 || true)
+          ALL=$(gcloud storage ls --recursive "$B/" 2>&1 || true)
           printf '%s\n' "$ALL" | tail -40
+          echo "--- object count under $B/ ---"
+          printf '%s\n' "$ALL" | grep -ac "gs://" || echo 0
           echo "--- latest checkpoint COMMIT boundaries (phase/iter-N) ---"
           printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/[a-z]+/iter-[0-9]+" | sort -u | tail -12 \
             || echo "(no commit boundaries yet)"
