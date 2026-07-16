@@ -1,0 +1,131 @@
+name: GCP GPU — L4/T4 spot MD throughput benchmark (WIF keyless)
+
+# L4-vs-T4 cost benchmark for the "which GCP GPU going forward" decision. Keyless WIF auth (org policy blocks SA
+# keys). Measures OpenMM ns/day on the chosen GPU so the pick = cheapest (spot $/hr / throughput) = $/ns, among
+# GPUs whose VRAM fits the job (T4=16 GB vs L4=24 GB can override raw $/ns for the big complex legs).
+#
+#   machine=g2-standard-4  -> L4 (24 GB, built-in accelerator)
+#   machine=n1-standard-4  -> T4 (16 GB, needs --accelerator=type=nvidia-tesla-t4,count=1)
+#
+# Reuses the repo VARIABLES/WIF already proven by gcp-smoke.yml. Teardown is unconditional (no idle billing).
+# Fixes the smoke's flaws: longer poll window, no redundant install-nvidia-driver, dumps serial tail on timeout.
+
+on:
+  workflow_dispatch:
+    inputs:
+      zone:    { description: "GCE zone", default: "us-central1-a", required: false }
+      machine: { description: "g2-standard-4 (L4) | n1-standard-4 (T4)", default: "g2-standard-4", required: false }
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: gcp-gpu-bench-${{ github.event.inputs.machine }}
+  cancel-in-progress: false
+
+jobs:
+  gcp-bench:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      MACHINE: ${{ github.event.inputs.machine || 'g2-standard-4' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to GCP (keyless, WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Resolve project
+        run: |
+          set -eo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
+          gcloud config set project "$PROJECT"
+          echo "authenticated as: $(gcloud config get-value account 2>/dev/null)"
+
+      - name: Provision Spot GPU VM + run MD throughput benchmark
+        run: |
+          set -eo pipefail
+          VM="gcp-bench-${GITHUB_RUN_ID}"
+          echo "VM=$VM" >> "$GITHUB_ENV"
+          ACCEL=""
+          case "$MACHINE" in
+            n1-*) ACCEL="--accelerator=type=nvidia-tesla-t4,count=1" ;;
+          esac
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          echo "image: $IMG_FAMILY ; machine: $MACHINE ; accel: ${ACCEL:-<built-in>}"
+
+          B64=$(base64 -w0 research/modalities/gpu_md_bench.py)
+          cat > /tmp/startup.sh <<SS
+          #!/bin/bash
+          exec > >(tee /var/log/bench.log) 2>&1
+          echo "=== BENCH boot \$(date -u) ==="
+          for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
+          nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
+          PY=/opt/conda/bin/python; PIP=/opt/conda/bin/pip
+          \$PIP install --quiet "openmm" 2>&1 | tail -3 || echo "openmm pip install FAILED"
+          echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
+          BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py || echo "BENCH_RESULT tag=$MACHINE status=RUNFAIL"
+          echo "=== BENCH-DONE ==="
+          SS
+
+          gcloud compute instances create "$VM" \
+            --zone="$ZONE" --machine-type="$MACHINE" $ACCEL \
+            --provisioning-model=SPOT --instance-termination-action=DELETE \
+            --maintenance-policy=TERMINATE --no-restart-on-failure \
+            --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+            --boot-disk-size=75GB \
+            --metadata-from-file=startup-script=/tmp/startup.sh
+          echo "VM $VM ($MACHINE) created; polling serial for BENCH_RESULT (up to ~30 min)…"
+          RES=""; OUT=""
+          for i in $(seq 1 60); do
+            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+            if echo "$OUT" | grep -q "BENCH-DONE"; then
+              RES=$(echo "$OUT" | grep "BENCH_RESULT tag=$MACHINE status=" | tail -1)
+              echo "=== serial (GPU + result) ==="; echo "$OUT" | grep -iE "NVIDIA|BENCH_RESULT|memory.total" | tail -20
+              break
+            fi
+            sleep 30
+          done
+          if [ -z "$RES" ]; then
+            echo "::warning::no BENCH-DONE in time — serial tail:"; echo "$OUT" | tail -60
+            echo "::error::benchmark did not complete in time"; exit 1
+          fi
+          echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
+          echo "BENCH RESULT: $RES"
+
+      - name: Teardown (always — no idle billing)
+        if: always()
+        run: |
+          if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
+          fi
+
+      - name: Cost note (throughput × approx spot price)
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os, re
+          price = {"g2-standard-4": 0.24, "n1-standard-4": 0.13}   # approx us-central1 spot all-in $/hr; refine from Billing
+          m = os.environ.get("MACHINE", ""); line = os.environ.get("RESULT_LINE", "")
+          mo = re.search(r"ns_per_day=([\d.]+)", line)
+          if not mo:
+              print(f"[cost] no ns/day for {m}: {line!r}"); raise SystemExit(0)
+          nsday = float(mo.group(1)); p = price.get(m)
+          if p:
+              usd_per_ns = p / (nsday / 24.0)
+              print(f"[cost] machine={m} ns/day={nsday:.1f} spot~${p}/hr -> ${usd_per_ns:.4f}/ns (lower wins)")
+          else:
+              print(f"[cost] machine={m} ns/day={nsday:.1f} (no price)")
+          PY
