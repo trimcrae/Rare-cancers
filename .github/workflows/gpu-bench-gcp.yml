@@ -77,16 +77,15 @@ jobs:
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
-          # This DLVM image is BARE Ubuntu 24.04 + CUDA — NO /opt/conda. Use system python venv (install the
-          # python3-venv apt pkg that Ubuntu 24.04 omits) + pip openmm (PyPI wheel bundles the CUDA runtime).
-          echo "--- system python venv + pip openmm (no conda on this image) ---"
-          export DEBIAN_FRONTEND=noninteractive
-          apt-get update -qq 2>&1 | tail -2
-          apt-get install -y -qq python3-venv python3-pip 2>&1 | tail -4
-          python3 -m venv /tmp/venv 2>&1 | tail -5
-          /tmp/venv/bin/pip install --no-input --quiet --upgrade pip 2>&1 | tail -2
-          /tmp/venv/bin/pip install --no-input openmm 2>&1 | tail -25
-          PY=/tmp/venv/bin/python
+          # CUDA build: the pip wheel gives OpenCL (its CUDA build didn't match the driver). conda-forge openmm
+          # is compiled per-CUDA-version and mamba auto-selects the build matching THIS driver via the __cuda
+          # virtual package -> a working CUDA platform. Miniforge installer is a reliable self-contained .sh
+          # (unlike the micromamba tarball that failed) and bundles mamba (fast solver, no 25-min classic solve).
+          echo "--- Miniforge + mamba openmm (conda-forge CUDA build, auto-matched to driver) ---"
+          curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh || echo "miniforge download FAILED"
+          bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -5
+          /tmp/mf/bin/mamba install -y -p /tmp/mf openmm 2>&1 | tail -25
+          PY=/tmp/mf/bin/python
           [ -x "\$PY" ] || PY=\$(command -v python3)
           echo "bench python: \$PY (\$(\$PY --version 2>&1))"
           IMPORT=\$(\$PY -c "import openmm; print('openmm', openmm.version.version, 'platforms', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
@@ -94,7 +93,7 @@ jobs:
           LINE=""
           if echo "\$IMPORT" | grep -q "^openmm "; then
             echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
-            OUT=\$(BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
+            OUT=\$(BENCH_TAG=$MACHINE BENCH_REQUIRE_CUDA=1 \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
             LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
           fi
           [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=$MACHINE status=NOOPENMM"
