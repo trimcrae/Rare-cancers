@@ -57,6 +57,8 @@ jobs:
           set -eo pipefail
           VM="gcp-bench-${GITHUB_RUN_ID}"
           echo "VM=$VM" >> "$GITHUB_ENV"
+          BUCKET="${PROJECT}-gpubench"; RUNID="${GITHUB_RUN_ID}"
+          gcloud storage buckets create "gs://$BUCKET" --location=us-central1 2>/dev/null && echo "created bucket $BUCKET" || echo "bucket $BUCKET exists"
           ACCEL=""
           case "$MACHINE" in
             n1-*) ACCEL="--accelerator=type=nvidia-tesla-t4,count=1" ;;
@@ -66,18 +68,33 @@ jobs:
           [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
           echo "image: $IMG_FAMILY ; machine: $MACHINE ; accel: ${ACCEL:-<built-in>}"
 
+          # startup script: verbose openmm install (pip -> conda fallback -> import check), run bench, write the
+          # result to GCS (robust — replaces flaky serial-console scraping). $B64/$MACHINE/$BUCKET/$RUNID bake in
+          # (unquoted heredoc); \$-escaped vars survive to VM runtime.
           B64=$(base64 -w0 research/modalities/gpu_md_bench.py)
           cat > /tmp/startup.sh <<SS
           #!/bin/bash
           exec > >(tee /var/log/bench.log) 2>&1
+          set +e
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
           PY=/opt/conda/bin/python; PIP=/opt/conda/bin/pip
-          \$PIP install --quiet "openmm" 2>&1 | tail -3 || echo "openmm pip install FAILED"
+          [ -x "\$PIP" ] || { PY=\$(command -v python3); PIP="\$PY -m pip"; }
+          echo "--- openmm install (py=\$(\$PY --version 2>&1)) ---"
+          \$PIP install --no-cache-dir openmm 2>&1 | tail -25
+          if ! \$PY -c "import openmm; print('openmm', openmm.version.version, 'import OK')"; then
+            echo "--- pip openmm import failed; trying conda ---"
+            /opt/conda/bin/conda install -y -c conda-forge openmm 2>&1 | tail -25
+            \$PY -c "import openmm; print('openmm', openmm.version.version, 'import OK (conda)')" || echo "OPENMM UNAVAILABLE"
+          fi
           echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
-          BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py || echo "BENCH_RESULT tag=$MACHINE status=RUNFAIL"
-          echo "=== BENCH-DONE ==="
+          OUT=\$(BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
+          LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
+          [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=$MACHINE status=RUNFAIL"
+          echo "\$LINE" > /tmp/bench_result.txt
+          for i in \$(seq 1 12); do gcloud storage cp /tmp/bench_result.txt gs://$BUCKET/bench-$RUNID.txt && break || sleep 15; done
+          echo "=== BENCH-DONE \$LINE ==="
           SS
 
           # Spot capacity is zone-specific + transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout). Try candidate
@@ -90,6 +107,7 @@ jobs:
                 --zone="$Z" --machine-type="$MACHINE" $ACCEL \
                 --provisioning-model=SPOT --instance-termination-action=DELETE \
                 --maintenance-policy=TERMINATE --no-restart-on-failure \
+                --scopes=cloud-platform \
                 --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                 --boot-disk-size=75GB \
                 --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
@@ -98,20 +116,17 @@ jobs:
             echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
           done
           [ -z "$CREATED" ] && { echo "::error::no Spot $MACHINE capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
-          echo "VM $VM ($MACHINE) created in $ZONE; polling serial for BENCH_RESULT (up to ~30 min)…"
-          RES=""; OUT=""
-          for i in $(seq 1 60); do
-            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
-            if echo "$OUT" | grep -q "BENCH-DONE"; then
-              RES=$(echo "$OUT" | grep "BENCH_RESULT tag=$MACHINE status=" | tail -1)
-              echo "=== serial (GPU + result) ==="; echo "$OUT" | grep -iE "NVIDIA|BENCH_RESULT|memory.total" | tail -20
-              break
-            fi
+          echo "VM $VM ($MACHINE) created in $ZONE; polling GCS gs://$BUCKET/bench-$RUNID.txt for result (up to ~25 min)…"
+          RES=""
+          for i in $(seq 1 50); do
+            RES=$(gcloud storage cat "gs://$BUCKET/bench-$RUNID.txt" 2>/dev/null || true)
+            [ -n "$RES" ] && break
             sleep 30
           done
           if [ -z "$RES" ]; then
-            echo "::warning::no BENCH-DONE in time — serial tail:"; echo "$OUT" | tail -60
-            echo "::error::benchmark did not complete in time"; exit 1
+            echo "::warning::no GCS result in time — final serial dump for diagnosis:"
+            gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null | tail -80 || true
+            echo "::error::benchmark produced no result"; exit 1
           fi
           echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
           echo "BENCH RESULT: $RES"
