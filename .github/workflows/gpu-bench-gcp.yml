@@ -77,12 +77,14 @@ jobs:
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
-          CONDA=/opt/conda/bin/conda; PY=/opt/conda/bin/python
+          CONDA=/opt/conda/bin/conda
+          [ -x "\$CONDA" ] || CONDA=\$(command -v conda || command -v mamba || echo /opt/conda/bin/mamba)
+          echo "conda: \$CONDA (\$(\$CONDA --version 2>&1))"
+          echo "--- creating dedicated openmm env (conda-forge) ---"
+          \$CONDA create -y -n mm -c conda-forge python=3.11 openmm 2>&1 | tail -40
+          PY=/opt/conda/envs/mm/bin/python
           [ -x "\$PY" ] || PY=\$(command -v python3)
-          echo "python: \$PY (\$(\$PY --version 2>&1)); conda: \$CONDA"
-          echo "--- openmm via conda-forge ---"
-          [ -x "\$CONDA" ] && \$CONDA install -y -c conda-forge openmm 2>&1 | tail -30
-          \$PY -c "import openmm" 2>/dev/null || { echo "--- conda absent/failed; pip fallback ---"; \$PY -m pip install --no-input openmm 2>&1 | tail -30; }
+          echo "bench python: \$PY (\$(\$PY --version 2>&1))"
           IMPORT=\$(\$PY -c "import openmm; print('openmm', openmm.version.version, 'platforms', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
           echo "import: \$IMPORT"
           LINE=""
@@ -125,8 +127,10 @@ jobs:
             [ -n "$RES" ] && break
             sleep 30
           done
+          echo "--- VM serial (tail 150) for visibility (openmm/bench detail) ---"
+          printf '%s' "$OUT" | grep -aE "conda:|creating dedicated|import:|nvidia-smi|BENCHRESULT|openmm|Solving|Preparing|Executing|error|Error|CondaError|ns_per_day|atoms=" | tail -80 || true
           if [ -z "$RES" ]; then
-            echo "::warning::no result marker — serial dump (tail 200) for diagnosis:"
+            echo "::warning::no result marker — full serial tail 200:"
             printf '%s' "$OUT" | tail -200 || true
             echo "::error::benchmark produced no result"; exit 1
           fi
