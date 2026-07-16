@@ -1,0 +1,57 @@
+name: GCP RBFE — tail live serial (monitor a running L4 VM)
+
+# The GCP analog of tail-cloudwatch: reads the LIVE serial console of a running gpu-rbfe-gcp VM so we can watch
+# MD progress (λ-window / openmmtools iteration / spot-driver checkpoint commits) WITHOUT waiting for the main
+# job's in-progress logs (GitHub 404s those). Auto-finds the running gcp-rbfe-* instance (or pass vm+zone).
+# Read-only: dumps a filtered + raw serial tail, then exits. No teardown (never touches the running job's VM).
+
+on:
+  workflow_dispatch:
+    inputs:
+      vm:   { description: "instance name (blank = auto-find the running gcp-rbfe-*)", default: "", required: false }
+      zone: { description: "zone (blank = auto)", default: "", required: false }
+      grep: { description: "extra serial grep filter", default: "", required: false }
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  tail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Tail serial
+        env:
+          VM_IN: ${{ github.event.inputs.vm }}
+          ZONE_IN: ${{ github.event.inputs.zone }}
+          GREP_IN: ${{ github.event.inputs.grep }}
+        run: |
+          set -eo pipefail
+          export CLOUDSDK_CORE_PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          VM="$VM_IN"; ZONE="$ZONE_IN"
+          if [ -z "$VM" ]; then
+            echo "--- auto-finding running gpu-rbfe VM ---"
+            LINE=$(gcloud compute instances list --filter="name~'^gcp-rbfe-' AND status=RUNNING" \
+              --format="csv[no-heading](name,zone.basename(),status)" 2>/dev/null | head -1)
+            echo "found: ${LINE:-<none>}"
+            VM=$(echo "$LINE" | cut -d, -f1); ZONE=$(echo "$LINE" | cut -d, -f2)
+          fi
+          [ -z "$VM" ] && { echo "::warning::no running gpu-rbfe VM found"; exit 0; }
+          echo "VM=$VM ZONE=$ZONE"
+          gcloud compute instances describe "$VM" --zone="$ZONE" \
+            --format="value(status,machineType.basename(),lastStartTimestamp)" 2>/dev/null || true
+          OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+          echo "=================== RBFE PROGRESS (filtered) ==================="
+          # openmmtools MultiState logs the iteration ('Iteration N/M'); the spot-driver logs warmup/barrier
+          # commits; analyze/setup mark phase boundaries. This tells us exactly how far the MD has gotten.
+          FILT="Iteration [0-9]|iteration [0-9]|spot-driver|barrier|committed checkpoint|WARMUP|PRODUCTION|\[rbfe\]|analyze|OpenMM platform|mapped|Solving|Replica|mixing|ns/day|estimated|equilibrat|ETA|Traceback|Error|error|nan|NaN"
+          [ -n "$GREP_IN" ] && FILT="$FILT|$GREP_IN"
+          printf '%s' "$OUT" | grep -aE "$FILT" | tail -60 || echo "(no progress markers yet — still in env build?)"
+          echo "=================== RAW SERIAL TAIL (last 40) ==================="
+          printf '%s' "$OUT" | tail -40 || true
