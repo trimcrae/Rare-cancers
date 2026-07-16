@@ -108,6 +108,12 @@ jobs:
           RUNMODE=splittest
           [ "$MODE" = real ] && RUNMODE=run   # 'real' full sampling not wired for spot-safety yet; tiny=splittest
           TINY=1; [ "$MODE" = real ] && TINY=0
+          # ACTIVATE the env (put its bin on PATH). Running \$PY directly is enough for python IMPORTS, but
+          # openff-toolkit's AmberTools wrapper does shutil.which("antechamber") — without the env bin on PATH the
+          # am1bcc charge assignment fails "AmberTools not available" even though ambertools IS installed. AWS runs
+          # via 'conda run -n rbfe' which activates; mirror that by prepending the env bin.
+          export PATH=/tmp/mf/envs/rbfe/bin:\$PATH
+          echo "antechamber: \$(command -v antechamber || echo MISSING) ; sqm: \$(command -v sqm || echo MISSING)"
           echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG) on \$(basename \$PY) ---"
           OUT=\$( cd \$WORK && MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
             RECEPTOR=nr4a3 LEG=$LEG LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
@@ -126,16 +132,16 @@ jobs:
           echo "=== RBFE-DONE \$LINE ==="
           SS
 
-          # L4 Spot quota is REGION-specific and we are provisioned ONLY in us-central1 — so search ITS zones only
-          # (other regions would just quota-fail). Capacity there is transient (ZONE_RESOURCE_POOL_EXHAUSTED =
-          # stockout); the repo rule is WAIT IT OUT, never on-demand. So retry the central zones in rounds with a
-          # short sleep between them (no VM = $0 while waiting), up to a wait budget that still leaves time for the
-          # ~10-min env solve + MD inside the 55-min job. Fall back g2-standard-8 -> -4 (better capacity; 16 GB is
-          # enough for the tiny shakeout).
+          # L4 Spot capacity is transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout); the repo rule is WAIT IT OUT,
+          # never on-demand. Prefer us-central1, but FALL BACK to other US L4 regions — EMPIRICALLY (run 29508604977)
+          # a g2-standard-8 provisioned in us-east1-c when all central zones were stocked out, so we have at least
+          # burst L4 quota there. Retry the whole (machine, zone) set in rounds with a short sleep (no VM = $0 while
+          # waiting), up to a budget that still leaves time for the ~4-min env solve + MD inside the 55-min job.
+          # Fall back g2-standard-8 -> -4 (better capacity; 16 GB is enough for the tiny shakeout).
           MACHINES="g2-standard-8 g2-standard-4"
-          ZONES="us-central1-a us-central1-b us-central1-c"
+          ZONES="us-central1-a us-central1-b us-central1-c us-east1-b us-east1-c us-east1-d us-east4-a us-east4-b us-east4-c us-west1-a us-west1-b us-west4-a us-west4-b"
           CREATED=""
-          for round in $(seq 1 10); do          # ~10 rounds x ~2 min sleep = up to ~20 min wait-out
+          for round in $(seq 1 8); do           # ~8 rounds x ~2 min sleep = up to ~16 min wait-out
             for M in $MACHINES; do
               for Z in $ZONES; do
                 if gcloud compute instances create "$VM" \
