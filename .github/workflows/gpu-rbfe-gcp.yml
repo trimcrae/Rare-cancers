@@ -8,8 +8,9 @@ name: GCP GPU — OpenFE RBFE on L4 (valA TYK2 known-answer; WIF keyless)
 #   mode=tiny  -> RBFE_TINY splittest (setup->simulate->analyze in one process, 2.5ps/10ps MD) — PLUMBING SHAKEOUT
 #                 on the L4 GPU under CUDA. Minutes, ~$0.05. Proves the openfe env solves + the RBFE path runs on
 #                 GCP before the real spend. This is what the first dispatch runs.
-#   mode=real  -> full valA sampling (NOT YET — needs GCS checkpoint/restore for the multi-hour spot-safe run;
-#                 tracked as the next build once tiny confirms the plumbing).
+#   mode=real  -> full valA sampling (5ns/window) via the SAME spot-safe split. ONE leg per dispatch
+#                 (leg=complex|solvent), each persisted to GCS results/ + idempotently skipped if already there
+#                 (cross-dispatch resume across the ~4-5h run); then leg=reduce combines both -> ΔΔG + valA verdict.
 #
 # The VM self-stages the PUBLIC TYK2 edge (valA_bench_stage.py clones openforcefield/protein-ligand-benchmark —
 # the VM has unrestricted internet), so there is NO S3/GCS input dependency for the shakeout.
@@ -18,8 +19,8 @@ on:
   workflow_dispatch:
     inputs:
       zone:      { description: "GCE zone", default: "us-central1-a", required: false }
-      mode:      { description: "tiny (splittest shakeout) | real (full valA — not yet)", default: "tiny", required: false }
-      leg:       { description: "complex | solvent", default: "complex", required: false }
+      mode:      { description: "tiny (splittest shakeout) | real (full valA, spot-safe)", default: "tiny", required: false }
+      leg:       { description: "complex | solvent | reduce (mode=real: combine both legs)", default: "complex", required: false }
       spot_safe: { description: "1 = checkpoint/resume to GCS (GCSCommitStore); 0 = welded", default: "0", required: false }
 
 permissions:
@@ -33,7 +34,7 @@ concurrency:
 jobs:
   gcp-rbfe:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 350
     env:
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
       MODE: ${{ github.event.inputs.mode || 'tiny' }}
@@ -108,46 +109,67 @@ jobs:
           cp /tmp/valA/staged/nr4a3-opened.pdb \$IN/receptor/ 2>&1 || echo "no receptor pdb"
           cp /tmp/valA/staged/valA_manifest.json \$IN/ 2>&1 || true
           echo "staged input tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null || true
-          RUNMODE=splittest
-          [ "$MODE" = real ] && RUNMODE=run   # 'real' full sampling not wired for spot-safety yet; tiny=splittest
-          TINY=1; [ "$MODE" = real ] && TINY=0
-          # ACTIVATE the env (put its bin on PATH). Running \$PY directly is enough for python IMPORTS, but
-          # openff-toolkit's AmberTools wrapper does shutil.which("antechamber") — without the env bin on PATH the
-          # am1bcc charge assignment fails "AmberTools not available" even though ambertools IS installed. AWS runs
-          # via 'conda run -n rbfe' which activates; mirror that by prepending the env bin.
+          # tiny = splittest on 2.5ps/10ps (plumbing); real = full sampling via the SAME split (spot-safe). Both
+          # use RUNMODE=splittest (setup->simulate->analyze in one process); real just sets RBFE_TINY=0.
+          RUNMODE=splittest; TINY=1; [ "$MODE" = real ] && TINY=0
+          # ACTIVATE the env (put its bin on PATH) so openff-toolkit's shutil.which("antechamber") finds am1bcc
+          # (mirrors AWS 'conda run -n rbfe'; running \$PY directly is fine for imports but not subprocess lookups).
           export PATH=/tmp/mf/envs/rbfe/bin:\$PATH
           echo "antechamber: \$(command -v antechamber || echo MISSING) ; sqm: \$(command -v sqm || echo MISSING)"
-          # SPOT-SAFE: checkpoint/resume the simulate leg to GCS via GCSCommitStore (keyless — the VM's SA + ADC).
-          # The bucket is PRE-CREATED and the VM SA (878095411563-compute@…) was granted roles/storage.objectAdmin
-          # on it (one-time, by the project owner) — object writes/reads work; no bucket-admin needed. A DISTINCT
-          # prefix per leg so complex/solvent don't collide. RBFE_SPOT_SAFE=1 routes run_simulate -> spot-safe.
-          SPOT_ENV=""
-          if [ "$SPOT_SAFE" = 1 ]; then
-            echo "--- spot-safe: GCS commit store gs://$BUCKET (pre-created, SA has objectAdmin) ---"
-            SPOT_ENV="RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valA-tyk2/$LEG"
-            # tiny validation: small checkpoint intervals so the few-iteration MD actually commits to GCS
-            # (proves the GCSCommitStore upload path). real runs use the driver defaults (10/20).
-            [ "\$TINY" = 1 ] && SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
-            echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
+          RESULTS=gs://$BUCKET/valA-tyk2/results   # per-leg analyze JSONs + final ddg persist here (cross-dispatch)
+          mkdir -p /tmp/rbfe_out
+
+          # ===== mode=real, leg=reduce : combine both legs -> ΔΔG_bind + valA GO/NO-GO verdict =====
+          if [ "$MODE" = real ] && [ "$LEG" = reduce ]; then
+            echo "--- reduce: fetch both leg analyze JSONs from GCS ---"
+            for L in complex solvent; do
+              gcloud storage cp \$RESULTS/leg_nr4a3_\$L.json /tmp/rbfe_out/ 2>&1 | tail -1 || echo "MISSING leg \$L in GCS"
+            done
+            ( cd \$WORK && MODE=reduce RECEPTOR=nr4a3 LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
+                INPUT_DIR=\$IN CKPT_DIR=/tmp/rbfe_out OUTPUT_DIR=/tmp/rbfe_out \$PY nr4a3_rbfe.py 2>&1 | tail -30 )
+            gcloud storage cp /tmp/rbfe_out/ddg_nr4a3.json \$RESULTS/ 2>&1 | tail -1 || true
+            if [ -f /tmp/rbfe_out/ddg_nr4a3.json ]; then
+              LINE=\$(\$PY -c "import json;d=json.load(open('/tmp/rbfe_out/ddg_nr4a3.json'));v=d.get('valA_benchmark') or {};print('RBFE_RESULT status=OK reduce ddg_bind=%.3f ddg_exp=%s abs_err=%s verdict=%s'%(d['ddg_bind_kcal'],v.get('ddG_exp_kcal'),v.get('abs_error_kcal'),v.get('verdict')))" 2>&1)
+            else
+              LINE="RBFE_RESULT status=NORESULT reduce (missing a leg JSON in GCS)"
+            fi
+            for k in \$(seq 1 6); do echo "###RBFERESULT### \$LINE ###END###"; sleep 3; done
+            echo "=== RBFE-DONE \$LINE ==="
+            exit 0
           fi
-          echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE) on \$(basename \$PY) ---"
-          OUT=\$( cd \$WORK && env \$SPOT_ENV MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
-            RECEPTOR=nr4a3 LEG=$LEG LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
-            INPUT_DIR=\$IN OUTPUT_DIR=/tmp/rbfe_out CKPT_DIR=/tmp/rbfe_out \
-            \$PY nr4a3_rbfe.py 2>&1 )
-          echo "\$OUT" | tail -60
-          # spot-safe evidence: show the committed snapshots that landed in GCS (proves GCSCommitStore upload).
-          if [ "$SPOT_SAFE" = 1 ]; then
-            echo "--- GCS commit tree (gs://$BUCKET/valA-tyk2/$LEG) ---"
-            gcloud storage ls -r "gs://$BUCKET/valA-tyk2/$LEG/**" 2>&1 | tail -30 || echo "(no commits listed)"
+
+          # ===== a single leg (complex|solvent). mode=real is IDEMPOTENT: skip if this leg is already in GCS =====
+          OUT=""
+          if [ "$MODE" = real ] && gcloud storage ls \$RESULTS/leg_nr4a3_$LEG.json >/dev/null 2>&1; then
+            echo "leg $LEG already complete in GCS — idempotent skip (cross-dispatch resume)"
+            gcloud storage cp \$RESULTS/leg_nr4a3_$LEG.json /tmp/rbfe_out/ 2>&1 | tail -1
+          else
+            # SPOT-SAFE: checkpoint/resume the simulate leg to GCS (GCSCommitStore, keyless via the VM SA + ADC).
+            SPOT_ENV=""
+            if [ "$SPOT_SAFE" = 1 ]; then
+              echo "--- spot-safe: GCS commit store gs://$BUCKET (pre-created, SA has objectAdmin) ---"
+              SPOT_ENV="RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valA-tyk2/$LEG"
+              [ "\$TINY" = 1 ] && SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
+              echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
+            fi
+            echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE mode=$MODE) on \$(basename \$PY) ---"
+            OUT=\$( cd \$WORK && env \$SPOT_ENV MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
+              RECEPTOR=nr4a3 LEG=$LEG LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
+              INPUT_DIR=\$IN OUTPUT_DIR=/tmp/rbfe_out CKPT_DIR=/tmp/rbfe_out \
+              \$PY nr4a3_rbfe.py 2>&1 )
+            echo "\$OUT" | tail -60
+            # persist the completed leg analyze JSON to GCS (feeds the reduce step + idempotent cross-dispatch skip)
+            if [ "$MODE" = real ] && [ -f /tmp/rbfe_out/leg_nr4a3_$LEG.json ]; then
+              gcloud storage cp /tmp/rbfe_out/leg_nr4a3_$LEG.json \$RESULTS/ 2>&1 | tail -1 && echo "persisted leg $LEG -> GCS"
+            fi
           fi
           # scrape the analyze result JSON (leg_nr4a3_<leg>.json) for ΔG_morph
           LEGJSON=/tmp/rbfe_out/leg_nr4a3_$LEG.json
           if [ -f "\$LEGJSON" ]; then
             LINE=\$(\$PY -c "import json;d=json.load(open('\$LEGJSON'));print('RBFE_RESULT status=OK leg=%s dg_morph=%.3f unc=%.3f mapped=%s via=%s'%(d.get('leg'),d.get('dg_morph_kcal',0),d.get('unc_kcal',0),d.get('n_mapped_atoms'),d.get('via')))" 2>&1)
           else
-            PLAT=\$(echo "\$OUT" | grep -oE "OpenMM platform: [A-Za-z]+" | tail -1)
-            LINE="RBFE_RESULT status=NORESULT leg=$LEG \${PLAT:-noplat} tail=\$(echo "\$OUT" | grep -iE 'error|abort|required|Traceback' | tail -1 | cut -c1-120)"
+            PLAT=\$(echo "\${OUT:-}" | grep -oE "OpenMM platform: [A-Za-z]+" | tail -1)
+            LINE="RBFE_RESULT status=NORESULT leg=$LEG \${PLAT:-noplat} tail=\$(echo "\${OUT:-}" | grep -iE 'error|abort|required|Traceback' | tail -1 | cut -c1-120)"
           fi
           for k in \$(seq 1 6); do echo "###RBFERESULT### \$LINE ###END###"; sleep 3; done
           echo "=== RBFE-DONE \$LINE ==="
@@ -195,6 +217,9 @@ jobs:
           # restores the newest committed snapshot from the GCS commit store (resume, losing ≤1 checkpoint). Fast
           # preemption detection (vm_alive) breaks the poll immediately instead of polling a dead VM for 45 min.
           MAX_ATTEMPTS=1; [ "$SPOT_SAFE" = 1 ] && MAX_ATTEMPTS=4
+          # per-attempt poll cap: tiny finishes in ~15 min; a real full leg is ~2-3 h, so poll for hours (bounded
+          # by the job timeout). Breaks early on result OR preemption regardless.
+          POLL_ITERS=70; [ "$MODE" = real ] && POLL_ITERS=680
           RES=""; OUT=""
           for attempt in $(seq 1 $MAX_ATTEMPTS); do
             if ! vm_alive 2>/dev/null; then
@@ -202,7 +227,7 @@ jobs:
               provision || { echo "::error::no L4 Spot capacity after wait-out budget — re-dispatch later (resumes from GCS)"; exit 1; }
               echo "VM $VM up in $ZONE; polling serial for RBFE result…"
             fi
-            for i in $(seq 1 70); do            # ~35 min/attempt cap; breaks early on result OR preemption
+            for i in $(seq 1 $POLL_ITERS); do   # breaks early on result OR preemption
               OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
               RES=$(printf '%s' "$OUT" | grep -oE '###RBFERESULT### .* ###END###' | tail -1 | sed -E 's/^###RBFERESULT### //; s/ ###END###$//' || true)
               [ -n "$RES" ] && break
