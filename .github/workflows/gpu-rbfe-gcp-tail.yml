@@ -52,6 +52,16 @@ jobs:
           # commits; analyze/setup mark phase boundaries. This tells us exactly how far the MD has gotten.
           FILT="Iteration [0-9]|iteration [0-9]|spot-driver|barrier|committed checkpoint|WARMUP|PRODUCTION|\[rbfe\]|analyze|OpenMM platform|mapped|Solving|Replica|mixing|ns/day|estimated|equilibrat|ETA|Traceback|Error|error|nan|NaN"
           [ -n "$GREP_IN" ] && FILT="$FILT|$GREP_IN"
-          printf '%s' "$OUT" | grep -aE "$FILT" | tail -60 || echo "(no progress markers yet — still in env build?)"
-          echo "=================== RAW SERIAL TAIL (last 40) ==================="
-          printf '%s' "$OUT" | tail -40 || true
+          printf '%s' "$OUT" | grep -aE "$FILT" | tail -40 || echo "(no progress markers yet — still in env build?)"
+          echo "=================== RAW SERIAL TAIL (last 20) ==================="
+          printf '%s' "$OUT" | tail -20 || true
+          # The REAL liveness signal (the leg run captures MD output into a shell var, so serial goes quiet mid-run):
+          # the spot-safe driver commits a checkpoint to GCS every ~20 iterations. Latest COMMITTED.json + its
+          # timestamp = MD alive + how far it's gotten (the GCP analog of the AWS ckpt census / mode=forensic).
+          echo "=================== GCS CHECKPOINT CENSUS (liveness) ==================="
+          B=gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valA-tyk2
+          echo "latest committed checkpoints (path shows phase/iter-N; time = last write):"
+          gcloud storage ls -l "$B/**/COMMITTED.json" 2>/dev/null | grep -aE "COMMITTED|iter-" | sort | tail -10 \
+            || echo "(no commits yet — still in setup/equilibration before the first checkpoint boundary)"
+          echo "--- completed leg results in GCS ---"
+          gcloud storage ls -l "$B/results/" 2>/dev/null || echo "(no completed legs yet)"
