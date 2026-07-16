@@ -360,6 +360,22 @@ def _protocol(openfe):
     if not _ck_set:
         print("  [rbfe] WARN checkpoint_interval not set (no matching attribute); relying on openmmtools default",
               flush=True)
+    # ANALYSIS .nc SIZE (2026-07-16, netCDF-proven): the analysis simulation.nc stores positions AND velocities of
+    # the full ~4760-atom solute × 12 replicas EVERY iteration when positions_write_frequency/velocities_write_
+    # frequency are set (an OpenFE default that flipped on between env solves) → ~0.5 MB/iter → ~1 GB by 2000 iters,
+    # re-uploaded whole each spot commit. MBAR/ΔG needs ONLY energies (always written), so force pos/vel writing
+    # OFF → energy-only .nc (~10 MB, matching the earlier known-good run). Optional structural analysis degrades
+    # gracefully (analyze reports structural_analysis_error, ΔG unaffected). Guarded: attr names/units vary by
+    # openfe version, so try None; never let this block the build.
+    oset = getattr(s, "output_settings", None)
+    for _attr in ("positions_write_frequency", "velocities_write_frequency"):
+        if oset is not None and hasattr(oset, _attr):
+            try:
+                setattr(oset, _attr, None)
+                print(f"  [rbfe] output_settings.{_attr} -> None (energy-only .nc; avoids the ~1 GB trajectory bloat)",
+                      flush=True)
+            except Exception as e:  # noqa: BLE001
+                print(f"  [rbfe] WARN could not disable {_attr} ({e}); .nc may store trajectory positions", flush=True)
     try:
         # PROBE CUDA -> OpenCL (mirror nr4a3_abfe._select_platform) instead of hard-forcing OpenCL. The hybrid
         # (perses) complex system JIT-compiles pathologically slowly on OpenCL — the 2026-07-08 complex legs
