@@ -65,8 +65,13 @@ jobs:
           printf '%s\n' "$ALL" | tail -40
           echo "--- object count under $B/ ---"
           printf '%s\n' "$ALL" | grep -ac "gs://" || echo 0
-          echo "--- latest checkpoint COMMIT boundaries (phase/iter-N) ---"
-          printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/[a-z]+/iter-[0-9]+" | sort -u | tail -12 \
-            || echo "(no commit boundaries yet)"
+          echo "--- FURTHEST checkpoint per leg/phase (the live progress) ---"
+          for LG in complex solvent; do
+            for PH in warmup production; do
+              MAX=$(printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/$LG/$PH/iter-[0-9]+" | grep -aoE "[0-9]+\$" | sort -n | tail -1)
+              [ -n "$MAX" ] && echo "  $LG/$PH: furthest committed iteration = $MAX"
+            done
+          done
+          printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/(complex|solvent)/(warmup|production)/iter-[0-9]+" | sort -u | wc -l | xargs echo "total committed boundaries:"
           echo "--- completed leg results ---"
           printf '%s\n' "$ALL" | grep -aE "results/.*\.json" || echo "(no completed leg JSONs persisted)"
