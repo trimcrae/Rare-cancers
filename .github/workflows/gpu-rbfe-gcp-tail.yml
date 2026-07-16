@@ -86,23 +86,7 @@ jobs:
             if [ -n "$LATEST_NC" ]; then
               gcloud storage cp "$LATEST_NC" /tmp/s.nc 2>&1 | tail -1
               pip install -q netCDF4 2>/dev/null || pip3 install -q netCDF4 2>/dev/null
-              python3 - <<'PY' || echo "(netcdf read failed)"
-import netCDF4, os
-ds = netCDF4.Dataset('/tmp/s.nc', 'r')
-print("dims:", {d: (len(ds.dimensions[d]) if not ds.dimensions[d].isunlimited() else 'UNLIM=%d'%len(ds.dimensions[d])) for d in ds.dimensions})
-print("vars:", list(ds.variables))
-for v in ("positions","box_vectors","energies","states","velocities"):
-    if v in ds.variables:
-        print(f"  {v}: shape={ds.variables[v].shape} dtype={ds.variables[v].dtype}")
-# the number of analysis particles = the atom dimension of positions (n_atoms stored per replica)
-if "positions" in ds.variables:
-    sh = ds.variables["positions"].shape
-    print(f"  ==> ANALYSIS ATOMS STORED PER FRAME = {sh[-2] if len(sh)>=2 else '?'} (this drives .nc size)")
-else:
-    print("  ==> NO positions variable — .nc is energies-only (small)")
-print("file size MB:", round(os.path.getsize('/tmp/s.nc')/1e6,1))
-ds.close()
-PY
+              python3 -c "import netCDF4,os; ds=netCDF4.Dataset('/tmp/s.nc'); print('dims', {k:len(ds.dimensions[k]) for k in ds.dimensions}); print('vars', list(ds.variables)); p=(ds.variables['positions'].shape if 'positions' in ds.variables else None); print('positions_shape', p); print('==> ANALYSIS ATOMS PER FRAME =', (p[-2] if p else 'NONE (energies-only .nc)')); print('sizeMB', round(os.path.getsize('/tmp/s.nc')/1e6,1))" || echo "(netcdf read failed)"
             fi
           fi
           if [ "$DELETE_IN" = 1 ] && [ -n "$VM" ]; then
