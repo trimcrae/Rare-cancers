@@ -914,13 +914,32 @@ the family metad (in flight) is the fix.
   `checkpoint_s3_uri` (`S3CommitStore`), so SageMaker native sync is never the source of truth;
   (C) on startup, **restore the newest VALID committed snapshot** (walk newest→older, validate each by reading the
   frame) before opening any reporter — never trust size/mtime/yaml/existence. This shrinks the non-resumable
-  window to setup+minimize+one warmup checkpoint interval (minutes, not 1.5 h). **STATUS:** core + warmup→production
-  transition + corrupted-generation fallback all pass on CPU (`mode=ommtest`). **REMAINING:** wire into
-  `run_simulate` (reuse OpenFE's `_get_reporter/_get_sampler/_get_integrator` builders; replace `_run_simulation`
-  with warmup→barrier→production→commit driven by `HybridRepexSampler` + `S3CommitStore`), then GPU spot smoke +
-  a forced-SIGKILL matrix (warmup iters 1/mid/last; between the two S3 objects; before the manifest; production
-  iters 1/boundary±1). Pin exact `openfe/gufe/openmmtools/openmm/netCDF4/pymbar` versions (OpenFE 1.12 only pins
-  `openmmtools>=0.26`, so behavior can drift). This is **NOT** filed to AWS/OpenFE (trimcrae 2026-07-15, internal).
+  window to setup+minimize+one warmup checkpoint interval (minutes, not 1.5 h).
+  **STATUS — CPU-validated AND GPU-validated on the real stack (2026-07-16):**
+  - CPU: core barrier/commit/restore + warmup→production transition + corrupted-generation fallback +
+    manifest-is-commit-point all green (`mode=ommtest`, `rbfe_spot_checkpoint_test.py`).
+  - GPU (real OpenFE 1.12 `HybridRepexSampler`, `mode=simulate spot_safe=1` on tag `nr4a3-rbfe-spotsmoke`,
+    solvent leg, ml.g5.xlarge spot): the `[spot-driver]` log shows `restore -> none (fresh)` →
+    `WARMUP from iter 0 -> 10` → `PRODUCTION created from warmup; run -> 20`, and `[barrier] committed checkpoint
+    at iteration 10/10` + `20/20` (both validated snapshots written to `S3CommitStore` — a DISTINCT
+    `<tag>/spot-commits/<leg>/` prefix), job **Completed**. This proves the fragile pieces on real hardware: the
+    warmup-as-`run()` path, the `create()`-from-warmup transition carrying replica↔state assignments, `run_to_target`
+    barriers, `validate_reporter_pair` (frame read), and the boto3/S3 commit path.
+  - Implemented in `nr4a3_rbfe.py::_run_simulate_spot_safe` (behind `RBFE_SPOT_SAFE=1`) + `rbfe_spot_driver.py`,
+    reusing OpenFE's `_get_reporter/_get_sampler/_get_integrator` builders. Submitter passes `RBFE_SPOT_COMMIT_S3`
+    (distinct prefix) for the simulate leg; workflow exposes `spot_safe/warmup_iters/prod_iters/kill_after`.
+  - **THREE real-stack env/wiring bugs fixed en route (each surfaced one at a time on GPU):** (1) resolve OpenFE's
+    module globals (`deserialize`/`to_openmm`/`np`/`offunit`/`_rfe_utils`/`omm_compute`) via
+    `sys.modules[type(unit).__module__]` — they are NOT attrs of `equil_rfe_methods` (the unit class lives in a
+    submodule); (2) add `boto3` to `OPENFE_PKGS` (the driver runs in the `rbfe` conda env, which lacked it — only
+    the base container had boto3); (3) added `mode=describe` to the submitter for airtight spot-capacity diagnosis
+    (`SecondaryStatusTransitions` timeline + spot config; g5.xlarge spot was genuinely capacity-out for hours on
+    2026-07-15, verified — NOT a quota/config problem).
+  **REMAINING (optional — not blocking):** the GPU forced-kill RESTORE test (`kill_after=1` → re-dispatch → confirm
+  `[spot-driver] resume PRODUCTION at iter N`, NOT re-equilibrate) — restore is already CPU-validated (ommtest
+  T1–T3) and the smoke exercised the restore-scan (`restore -> none (fresh)`); a full SIGKILL matrix is nice-to-have.
+  Pin exact `openfe/gufe/openmmtools/openmm/netCDF4/pymbar` versions (OpenFE 1.12 only pins `openmmtools>=0.26`, so
+  behavior can drift). This is **NOT** filed to AWS/OpenFE (trimcrae 2026-07-15, internal).
 - **🛑 ABFE ENGINE POLICY — Yank is the CURRENT engine but END-OF-LIFE; the NEXT *fresh* FEP uses a MODERN,
   MAINTAINED stack (trimcrae decision, 2026-07-04).** The denovo_401 selectivity FEP runs on **Yank 0.25.2
   (2020, unmaintained)** — chosen for turnkey *declarative* ABFE, but it cost ~a full day of dependency/schema
