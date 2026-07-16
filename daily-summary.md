@@ -1,12 +1,12 @@
-On track for **Thu Jul 30** (optimistic), though an overnight cluster of job failures is worth watching.
+On track for **Tue Aug 11, 2026** (optimistic) — the RBFE infra shakeout (RUNG 0) is now running clean after early script failures.
 
 **Since yesterday**
-- 4 congeneric-RBFE-v3 jobs (solvent-setup + complex-leg) failed with the same `AlgorithmError: ExecuteUserScriptError` — a recurring bug worth fixing before more spend goes into retries.
-- 6 more complex-leg jobs were stopped early from spot preemption (short billable time each, no real loss).
-- 7 jobs completed cleanly: congeneric RBFE solvent-leg setup, simulate, analyze, and checkpoint-restart steps, plus an RBFE spot-smoke solvent setup.
+- Two spot-smoke RBFE solvent-simulate runs failed Wed evening with script errors (`ExecuteUserScriptError`); a fixed "am1bcc-v2" pipeline then reran solvent setup → simulate → analysis end-to-end successfully overnight.
+- Step0 RBFE (OpenFE + managed-spot GPU shakeout) now completes cleanly — this is the last gate before real RBFE science starts.
+- A congeneric-RBFE-v3 checkpoint-resume test also completed.
 
 **Running now**
-- RBFE spot-smoke solvent simulation, about 40 minutes in (1/8 spot slots in use).
+Nothing running.
 
 **Path to done**
-The ABFE λ-overlap repair and pocket-tracking re-analysis finish by Jul 17, the T4L-L99A ABFE benchmark by Jul 18, and the NR-V04 ternary control by Jul 20; those gate the congeneric RBFE series and prospective ternary ranking, with the paper folded together and red-teamed by Jul 29, landing on ChemRxiv/JCIM by **Thu Jul 30**.
+Next: reference-reproduction smoke (RUNG 1, ~Jul 19), then known-answer ternary + cmpd19 conditional RBFE (RUNG 2, Jul 19–22), benchmark expansion + NR-V04 covalent feasibility (RUNG 3, Jul 22–26), the prospective degrader matrix (RUNG 5, Jul 31–Aug 5), and manuscript write-up/submission (RUNG 6) — landing at the projected completion of **Tue Aug 11, 2026**.
