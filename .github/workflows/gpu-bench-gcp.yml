@@ -77,13 +77,16 @@ jobs:
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
-          CONDA=/opt/conda/bin/conda
-          [ -x "\$CONDA" ] || CONDA=\$(command -v conda || command -v mamba || echo /opt/conda/bin/mamba)
-          echo "conda: \$CONDA (\$(\$CONDA --version 2>&1))"
-          echo "--- dedicated env (conda py3.11, no solve) + pip openmm [fast; conda-forge solver takes 25-40min] ---"
-          \$CONDA create -y -n mm python=3.11 2>&1 | tail -15
-          /opt/conda/envs/mm/bin/pip install --no-input openmm 2>&1 | tail -25
-          PY=/opt/conda/envs/mm/bin/python
+          # This DLVM image is BARE Ubuntu 24.04 + CUDA — NO /opt/conda. Use system python venv (install the
+          # python3-venv apt pkg that Ubuntu 24.04 omits) + pip openmm (PyPI wheel bundles the CUDA runtime).
+          echo "--- system python venv + pip openmm (no conda on this image) ---"
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq 2>&1 | tail -2
+          apt-get install -y -qq python3-venv python3-pip 2>&1 | tail -4
+          python3 -m venv /tmp/venv 2>&1 | tail -5
+          /tmp/venv/bin/pip install --no-input --quiet --upgrade pip 2>&1 | tail -2
+          /tmp/venv/bin/pip install --no-input openmm 2>&1 | tail -25
+          PY=/tmp/venv/bin/python
           [ -x "\$PY" ] || PY=\$(command -v python3)
           echo "bench python: \$PY (\$(\$PY --version 2>&1))"
           IMPORT=\$(\$PY -c "import openmm; print('openmm', openmm.version.version, 'platforms', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
