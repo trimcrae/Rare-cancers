@@ -60,8 +60,11 @@ jobs:
           # timestamp = MD alive + how far it's gotten (the GCP analog of the AWS ckpt census / mode=forensic).
           echo "=================== GCS CHECKPOINT CENSUS (liveness) ==================="
           B=gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valA-tyk2
-          echo "latest committed checkpoints (path shows phase/iter-N; time = last write):"
-          gcloud storage ls -l "$B/**/COMMITTED.json" 2>/dev/null | grep -aE "COMMITTED|iter-" | sort | tail -10 \
-            || echo "(no commits yet — still in setup/equilibration before the first checkpoint boundary)"
-          echo "--- completed leg results in GCS ---"
-          gcloud storage ls -l "$B/results/" 2>/dev/null || echo "(no completed legs yet)"
+          echo "--- FULL recursive listing of $B/ (robust; no glob) ---"
+          ALL=$(gcloud storage ls -lr "$B/" 2>&1 || true)
+          printf '%s\n' "$ALL" | tail -40
+          echo "--- latest checkpoint COMMIT boundaries (phase/iter-N) ---"
+          printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/[a-z]+/iter-[0-9]+" | sort -u | tail -12 \
+            || echo "(no commit boundaries yet)"
+          echo "--- completed leg results ---"
+          printf '%s\n' "$ALL" | grep -aE "results/.*\.json" || echo "(no completed leg JSONs persisted)"
