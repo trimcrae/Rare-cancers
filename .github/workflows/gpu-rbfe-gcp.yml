@@ -64,11 +64,10 @@ jobs:
           set -eo pipefail
           VM="gcp-rbfe-${GITHUB_RUN_ID}"
           echo "VM=$VM" >> "$GITHUB_ENV"
-          MACHINE="g2-standard-8"   # L4 + 8 vCPU/32GB — the openfe hybrid BUILD + solvation want more RAM than -4
           IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
             --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
           [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
-          echo "image: $IMG_FAMILY ; machine: $MACHINE ; mode: $MODE ; leg: $LEG ; ref: $GITREF"
+          echo "image: $IMG_FAMILY ; mode: $MODE ; leg: $LEG ; ref: $GITREF"
 
           # startup script (unquoted heredoc): bare $VAR = workflow-baked (MODE/LEG/GITREF/MACHINE); \$-escaped =
           # runtime on the VM. DLVM image is bare Ubuntu+CUDA (NO conda) -> Miniforge+mamba (conda-forge openmm =
@@ -127,23 +126,31 @@ jobs:
           echo "=== RBFE-DONE \$LINE ==="
           SS
 
-          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-central1-f"
+          # L4 Spot capacity is zone-specific + transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout). Broaden the
+          # search across ALL major US L4 (g2) regions AND fall back g2-standard-8 -> g2-standard-4 (the -4 has
+          # better capacity — the bench provisioned on it — and 16 GB is enough for the tiny shakeout). Try every
+          # (machine, zone) combo until one provisions. Wait-out-capacity, never on-demand (repo standing rule).
+          MACHINES="g2-standard-8 g2-standard-4"
+          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-east1-b us-east1-c us-east1-d us-east4-a us-east4-b us-east4-c us-west1-a us-west1-b us-west4-a us-west4-b"
           CREATED=""
-          for Z in $ZONES; do
-            echo "--- trying zone $Z ---"
-            if gcloud compute instances create "$VM" \
-                --zone="$Z" --machine-type="$MACHINE" \
-                --provisioning-model=SPOT --instance-termination-action=DELETE \
-                --maintenance-policy=TERMINATE --no-restart-on-failure \
-                --scopes=cloud-platform \
-                --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
-                --boot-disk-size=100GB \
-                --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
-              ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; break
-            fi
-            echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
+          for M in $MACHINES; do
+            for Z in $ZONES; do
+              echo "--- trying $M in $Z ---"
+              if gcloud compute instances create "$VM" \
+                  --zone="$Z" --machine-type="$M" \
+                  --provisioning-model=SPOT --instance-termination-action=DELETE \
+                  --maintenance-policy=TERMINATE --no-restart-on-failure \
+                  --scopes=cloud-platform \
+                  --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                  --boot-disk-size=100GB \
+                  --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+                ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z"; break 2
+              fi
+              grep -iqE "stockout|exhausted|does not have enough" /tmp/cerr && echo "  stockout" \
+                || { echo "  other:"; grep -iE "not available|unsupported|quota|does not exist" /tmp/cerr | head -1 || tail -1 /tmp/cerr; }
+            done
           done
-          [ -z "$CREATED" ] && { echo "::error::no Spot L4 capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
+          [ -z "$CREATED" ] && { echo "::error::no Spot L4 capacity in any candidate (machine,zone) — transient stockout, re-dispatch later"; exit 1; }
           echo "VM $VM created in $ZONE; polling serial console for RBFE result (up to ~45 min: env solve ~10 + MD)…"
           RES=""; OUT=""
           for i in $(seq 1 90); do
