@@ -54,16 +54,18 @@ hybrid-system build — the tracelog's "Generating residue template using openff
 windows. **Consequences:** (1) we're paying for a mostly-idle GPU; (2) `g5.2xlarge` will NOT help — the bottleneck
 is SINGLE-THREADED, so more vCPUs at the same per-core speed do nothing. **MECHANISM (confirmed in `nr4a3_rbfe.py`
 `_protocol`):** OpenFE `RelativeHybridTopologyProtocol` makes each of the 12 λ-windows an independent ProtocolUnit
-that RE-charges (NAGL) + RE-builds the hybrid system → 12× the CPU setup. **FIX (before A3; est. ~2-3× cheaper/
+that RE-charges (am1bcc via AmberTools sqm — see the charge-model fix; was NAGL) + RE-builds the hybrid system →
+12× the CPU setup. **FIX (before A3; est. ~2-3× cheaper/
 faster legs):** (a) compute the two ligands' partial charges ONCE and attach them to the `SmallMoleculeComponent`s
-so every window reuses them (OpenFE skips regen when charges are present) — kills the repeated NAGL cost; (b) check
+so every window reuses them (OpenFE skips regen when charges are present) — kills the repeated charging cost (now
+even more valuable: sqm/am1bcc per window is heavier than the old NAGL); (b) check
 whether the per-window hybrid-system build / minimization is the residual CPU hog and whether it's cacheable / on
 GPU. **VALIDATION WITH ZERO THROWAWAY COMPUTE (trimcrae, 2026-07-13):** do NOT run a dedicated validation smoke —
 (i) `mode=smoke` SKIPS charging (per `nr4a3_rbfe.py`) so it can't test this fix; (ii) can't hot-patch the running
 job (code is fixed at launch), so the current pilot leg's remaining windows can't be used either; (iii) the CURRENT
 leg is already the "before" baseline (GPU idle ~65%, measured free); (iv) fold the "after" test into the **first
 real A1 leg (NR4A2)** we run anyway — run it with the fix + point `sm_gpu_util.py` at it; GPU-idle should collapse.
-Same NAGL charges (computed once) ⇒ science identical; failure modes are cheap on that one leg (OpenFE ignores
+Same am1bcc charges (computed once) ⇒ science identical; failure modes are cheap on that one leg (OpenFE ignores
 cached charges = correct + no-speedup, or attach errors before any MD). Pilot-one-leg-first doing double duty.
 The current leg finishes as-is (gives the `reduce`); land the fix before the A3 fan-out.
 

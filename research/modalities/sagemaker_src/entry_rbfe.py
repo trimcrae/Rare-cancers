@@ -17,8 +17,12 @@ IN = "/opt/ml/input/data"
 # resolved an OLD openfe (0.x, legacy setup.methods.openmm + pydantic-v1 Settings) against pydantic 2.11 → an
 # import-time PydanticUserError. The classic solver happened to pick a modern openfe; the pin makes EITHER
 # solver deterministic. pydantic>=2 is explicit for the same reason.
-# openff-nagl + models: a GNN AM1-BCC surrogate for partial charges. OpenFE defaults to am1bcc, which needs
-# OpenEye (unlicensed here) or a working AmberTools antechamber (fails in this env) — NAGL avoids both.
+# ambertools: provides antechamber/sqm so OpenFE's default am1bcc partial charges work (CPU). This env
+# ORIGINALLY shipped without ambertools, so am1bcc exit-1'd and we fell back to the NAGL surrogate — a
+# deviation from OpenFE's benchmarked reference protocol. ambertools puts us back on the standard am1bcc method
+# (nr4a3_rbfe.py sets partial_charge_method=am1bcc; CHARGE_METHOD=nagl overrides). openff-nagl + models are
+# RETAINED only as a documented fallback surrogate. NOTE: keep this list in sync with
+# entry_ternary_fep.OPENFE_PKGS + rbfe-split-shakeout.yml + environment-rbfe.yml (all build the SAME env).
 # cuda-version=12.6: the g5 driver (570.x) supports up to CUDA 12.8, but the default solve pulled an OpenMM CUDA
 # runtime whose PTX is NEWER than 12.8 → CUDA_ERROR_UNSUPPORTED_PTX_VERSION (222) at Context load, forcing the
 # pathologically-slow OpenCL hybrid-kernel JIT that wedged the complex legs (confirmed by mode=cudaprobe on
@@ -29,8 +33,9 @@ IN = "/opt/ml/input/data"
 # the CPU hybrid-system BUILD on cheap CPU and only the MD on GPU (2026-07-14). Older openfe was the MONOLITHIC
 # RelativeHybridTopologyProtocolUnit (single unit, build+MD welded) — the version our earlier env resolved.
 OPENFE_PKGS = ["python=3.11", "openfe>=1.12", "pydantic>=2", "importlib_resources", "openff-toolkit",
-               "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "cuda-version=12.6",
-               "rdkit", "lomap2", "kartograf", "numpy", "scipy", "boto3"]  # boto3: spot-safe driver's S3CommitStore
+               "ambertools>=23", "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system",
+               "cuda-version=12.6", "rdkit", "lomap2", "kartograf", "numpy", "scipy",
+               "boto3"]  # ambertools: am1bcc charges (main); boto3: spot-safe driver's S3CommitStore
 
 
 def _sh(cmd, **kw):

@@ -1,5 +1,14 @@
 # FEP-readiness dossier — lo_m0_NCCO (the better-than-401 lead), 2026-07-06
 
+> **⚠️ SUPERSEDED / HISTORICAL (2026-07-15) — read [`/STRATEGY.md`](../../STRATEGY.md) for the live plan.**
+> This dossier is **Track-A (de novo warhead / denovo_401) work, which is SHELVED**; denovo_401 / lo_m0_NCCO are
+> now at most a **side comparator series**, not the lead. Two specific claims here are **RETIRED per reviewer
+> mandate 3:** (a) the **"+7.1 kcal/mol offset-corrected ABFE"** — there is **no transferable T4L offset**; ABFE
+> is reframed as a conditional pose-plausibility calc reported **raw**, and it does **not** prove the molecule
+> "binds"; (b) "denovo_401/lo_m0_NCCO is a favourable selective binder (offset-corrected)" — **do not claim
+> this.** The current anchor is the literature **Zaienne cmpd19** congeneric RBFE, not denovo_401. Retained for
+> historical record only.
+
 **Purpose.** Everything needed to fire the selectivity FEP on the scaffold-lead-opt winner the *moment* the
 FEP GPUs are available — the candidate is de-risked through every cheap pre-FEP gate the program uses. Nothing
 here needs GPU; the one gated action is the FEP itself.

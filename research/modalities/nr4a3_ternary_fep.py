@@ -152,8 +152,9 @@ def _build_components(openfe, rdkit_chem, leg, env, endpoints):
 def _protocol(openfe):
     """OpenFE RelativeHybridTopologyProtocol settings for a ternary morph. protocol_repeats=1 PER JOB — the
     prereg's ≥3 replicas come from THREE independent jobs (SEED=0/1/2), each a single repeat, so the reducer
-    forms a genuine replicate-SD (not an MBAR SE). Everything else mirrors nr4a3_rbfe._protocol (NAGL charges,
-    CUDA→OpenCL platform probe, MD lengths as openff Quantities)."""
+    forms a genuine replicate-SD (not an MBAR SE). Everything else mirrors nr4a3_rbfe._protocol (am1bcc charges
+    via AmberTools — MUST match the binary engine for the coop cycle; CUDA→OpenCL platform probe, MD lengths as
+    openff Quantities)."""
     from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol
     s = RelativeHybridTopologyProtocol.default_settings()
     for setter, why in ((lambda: setattr(s, "protocol_repeats", 1), "protocol_repeats"),):
@@ -176,10 +177,15 @@ def _protocol(openfe):
         s.engine_settings.compute_platform = rbfe._working_platform_name("CUDA")
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN compute_platform (%s)" % e, flush=True)
+    # Charges MUST match the binary RBFE engine (am1bcc via AmberTools, now that ambertools>=23 is in the env):
+    # ddG_coop subtracts the binary and ternary morphs, so a charge-model mismatch between them would break the
+    # cycle's cancellation. Same CHARGE_METHOD override as nr4a3_rbfe (set CHARGE_METHOD=nagl to fall back).
+    _charge = os.environ.get("CHARGE_METHOD", "am1bcc")
     try:
-        s.partial_charge_settings.partial_charge_method = "nagl"
+        s.partial_charge_settings.partial_charge_method = _charge
     except Exception as e:  # noqa: BLE001
-        print("  [tfep] WARN nagl charges (%s); using default" % e, flush=True)
+        print("  [tfep] WARN charges=%s (%s); using default" % (_charge, e), flush=True)
+    print("  [tfep] partial_charge_method = %s (must match binary RBFE)" % _charge, flush=True)
     # seed the sampler per replica where the attribute exists, so SEED=0/1/2 are genuinely independent
     for path in ("simulation_settings", "integrator_settings"):
         try:

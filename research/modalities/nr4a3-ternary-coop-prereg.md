@@ -200,6 +200,15 @@ co-fold + ensemble checks.
   **reported as separate quantities**, never silently merged.
 
 ### 4b. Binary↔ternary combination rule (frozen at Stage 0 — no post-hoc weights)
+
+> **⚠️ AMENDED 2026-07-15 (reviewer mandate 5 — see [`/STRATEGY.md`](../../STRATEGY.md)).** The scalar `S_d`
+> below is **SUPERSEDED as the selection method** by **staged gates → Pareto-front selection** (binary → ternary
+> → linker-strain → ubiquitination-geometry → physchem/synthetic; select candidates that stay nondominated
+> across plausible parameter settings, with uncertainty on every axis). A single weighted scalar — even with
+> weights frozen pre-results — mixes units and invites retrospective tuning, which the reviewer rejected. The
+> per-axis quantities defined in this prereg are RETAINED (they become the Pareto axes); only their *collapse
+> into one score* is retired. The `S_d` form is kept below as the original time-stamped pre-registration record.
+
 The ranking objective is the strategy doc's `S_d` skeleton with **weights and the exact functional form
 frozen HERE, before results**:
 ```

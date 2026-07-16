@@ -43,7 +43,7 @@ jobs:
       - name: Install openfe 1.12 stack (mamba)
         run: |
           mamba install -n rbfe -y -c conda-forge \
-            "openfe>=1.12" pydantic openff-toolkit openff-nagl openff-nagl-models \
+            "openfe>=1.12" pydantic openff-toolkit "ambertools>=23" openff-nagl openff-nagl-models \
             openmmforcefields rdkit lomap2 kartograf numpy scipy boto3
       - name: Fetch solvent-leg input from S3
         env:

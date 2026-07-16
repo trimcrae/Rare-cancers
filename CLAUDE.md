@@ -48,9 +48,40 @@ read it before making changes.
   self-executable*, whereas the atlas's highest-impact claims ultimately depend on **other groups choosing to
   run EMC experiments** — an external dependency you cannot solve by making the atlas more comprehensive.
   **Allocation ≈ 70–80% degrader/method-dev, 20–30% atlas/supporting-biology.**
-  - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15).** The de novo warhead / ABFE-validation track
-    (Track A below) is **SHELVED** (parked, revisit-when-warranted — not deleted). The program is now the
-    **Track B ternary workflow**, expressed as trimcrae's **three-step spine**:
+  - **★★★ THE PLAN — GOLD-STANDARD SINGLE SOURCE OF TRUTH:
+    [STRATEGY.md](./STRATEGY.md).**
+    For "what's the plan / what's next / what does each step cost", READ THAT FILE — it is authoritative and wins
+    over any other doc (this bullet, the strategy note, the schedule JSON, an older manuscript section) if they
+    conflict; reconcile the others to it. It carries the full spend-gated ordered ladder (every step priced, with
+    GO/NO-GO gates), the 5 mandatory reviewer changes, and the method-validation rationale. The schedule JSON
+    [research/manuscripts/degrader-paper-schedule.json](./research/manuscripts/degrader-paper-schedule.json) is a
+    machine MIRROR of it (keep both in sync). This bullet is a summary pointer, not the plan.
+  - **★★ EXECUTION PLAN REVISED 2026-07-15 (external reviewer-AI — conditional approval + 5 mandatory changes).
+    The three-step spine below is SUPERSEDED as the *ordering*; the thesis is unchanged.** READ THE ORDERED
+    MASTER PLAN for "what's next": **[STRATEGY.md](./STRATEGY.md)**
+    (+ verbatim verdict [research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md](./research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md)).
+    The 5 mandatory changes: (1) separate three validations — a **public measured-ΔΔG accuracy benchmark** +
+    cmpd19 RBFE as **conditional hypotheses** (no pose) + a **known-answer ternary benchmark (VHL–BRD4/SMARCA2)**,
+    with **NR-V04 demoted to a biological holdout, not the ternary calibrator**; (2) cryptic-pocket affinities are
+    **conditional (ΔG_bind|open)** and ΔG_open enters selectivity — estimate it per paralogue or report
+    conditional (and **delete** "true binding likely stronger"); (3) **ABFE HELD/reframed** — no transferable
+    T4L offset, report raw, it does NOT prove "binds at all"; (4) **NR-V04 celastrol is covalent (C551)** →
+    covalent adduct model + C551A + warhead/recruiter controls, report **directional concordance** not "recovered
+    degradation"; (5) prospective matrix = **staged gates + Pareto** (not a tunable scalar), modeling
+    **EWSR1::NR4A3 in fusion context** + lysines beyond the LBD + full CRL/E2~Ub ensembles; matrix is **24–36
+    before controls** (downselect, not 6–12). **SPEND-GATED LADDER + NO PRE-AUTHORIZATION (trimcrae, 2026-07-15):
+    NOTHING is pre-staged/auto-launched — every GPU run is presented at its gate with a pinned cost + the prior
+    result and waits for an explicit go (only $0 CPU/CI work runs without a nod). Order is cheapest-decisive-first:
+    RUNG 0 (free — step0 running + emc_e3 + pocket_reanalysis) → RUNG 1 valA_mini (~$25, the KILL-SWITCH: if the
+    exact pipeline can't reproduce known ΔΔG, stop/pivot) → RUNG 2 step1_pilot + valB_mini (~$110) → RUNG 3 full
+    benchmarks + NR-V04 covalent feasibility (~$345) → RUNG 4 step1_fanout + NR-V04 retrospective (~$655) → RUNG 5
+    the ~$150–400 prospective matrix (biggest spend; only after 4 cheaper gates say GO) → RUNG 6 write/ship.
+    dg_open + ABFE are OPTIONAL/HELD. Each rung is priced in the schedule's `cost_est_usd`.** Language: "predicted
+    selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.
+  - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15; ordering now per the reviewer-revised master plan
+    above).** The de novo warhead track is **SHELVED** (parked, revisit-when-warranted — not deleted). The
+    program is the **Track B ternary workflow**. The original **three-step spine** (superseded as ordering by the
+    revised plan above, retained for the thesis):
     **(1)** verify **FEP converges on the known literature NR4A3 molecule** — RBFE on the **Zaienne cmpd19**
     congeneric series (`rbfe_congeneric`; the primary quantitative tool, RBFE not ABFE; cmpd19 is *functional*
     engagement, no solved pose, so "converges" = reproducible **relative** ΔG on modeled druggable conformers,

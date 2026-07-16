@@ -1,5 +1,18 @@
 # NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored
 
+> **⚠️ EXECUTION-PLAN SUPERSEDED 2026-07-15 (external reviewer-AI verdict — conditional approval + 5 mandatory
+> changes).** The *thesis* below stands unchanged (selectivity from binary × ternary × ubiquitination geometry),
+> but the naive **three-step spine** (RBFE → NR-V04 → prospective) is replaced by a **3-kinds-of-validation
+> architecture** with a fixed ordered plan. **For WHAT WE RUN AND IN WHAT ORDER, read
+> [STRATEGY.md](./STRATEGY.md)** (the master ordered plan) and
+> [nr4a3-degrader-reviewer-revisions-2026-07-15.md](./nr4a3-degrader-reviewer-revisions-2026-07-15.md) (the
+> verbatim verdict). Key deltas: add a **public measured-ΔΔG accuracy benchmark** + a **known-answer ternary
+> benchmark (VHL–BRD4/SMARCA2)**; treat cmpd19 RBFE as **conditional hypotheses** (no pose); affinities are
+> **conditional on the open state** (ΔG_open enters selectivity); **ABFE is HELD/reframed** (no transferable
+> T4L offset; does not prove "binds at all"); **NR-V04 celastrol is covalent (C551)** → covalent controls;
+> prospective matrix = **staged gates + Pareto**, modeling **EWSR1::NR4A3 in fusion context**. §§ below are
+> retained for their (still-valid) biological + chemotype rationale.
+
 **Status: ADOPTED 2026-07-11 (external reviewer-AI recommendation, relayed by trimcrae; reconciled with the
 existing Track B primacy in CLAUDE.md).** This note is the authoritative capture of the redirection so it is
 not re-litigated. It **supersedes the binary-warhead-first de novo funnel** as the program's flagship. It does
@@ -71,6 +84,9 @@ compatibility with the larger Cullin–RING/E2~Ub assembly. **The co-fold stays 
 no authority to rank affinity, cooperativity, or degradation selectivity** (the epimer control forbids it).
 
 ### 4. Paralogue-specific ternary objective
+**[SUPERSEDED as the selection method 2026-07-15 — see the top banner + [`/STRATEGY.md`](../../STRATEGY.md)
+mandate 5: use staged gates → Pareto front, NOT this scalar. The `S_d` below is retained only to show the axes,
+which become the Pareto dimensions.]**
 Rank degraders on a ternary-selectivity-centered score (conceptually):
 `S_d = min_c ΔG_ternary-selectivity,c − λ·SD_c − γ·max(NR4A1/2 counterexample) − η·linker_strain −
 ρ·ubiquitination_incompatibility`. The central variable is **ternary** selectivity, not binary-warhead
