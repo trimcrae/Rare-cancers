@@ -51,6 +51,19 @@ what this doc is for.**
 
 
 **Cheapest GCP GPU for our MD/FEP = NVIDIA L4 on Spot**, region **us-central1** (Iowa, lowest-price US region).
+
+> **★ MEASURED + CONFIRMED 2026-07-16 (L4 vs T4 head-to-head, `gpu-bench-gcp.yml`).** Same 35,211-atom TIP3P/PME
+> system, 4000 steps @ 4 fs HMR, OpenMM **OpenCL** on both (see CUDA note below), us-central1-a Spot:
+> **L4 (g2-standard-4) = 484.9 ns/day**, **T4 (n1-standard-4) = 228.2 ns/day** → L4 is **2.13× faster**. At
+> est. Spot ~$0.24/hr (L4) vs ~$0.13/hr (T4): **L4 $0.0119/ns vs T4 $0.0137/ns** — L4 ~13% cheaper *per finished
+> job*, confirming the cheapest-per-job hypothesis. **DECISION: L4 is the going-forward GCP GPU** (faster +
+> cheaper/ns + 24 GB headroom; wins all three axes). Caveats: (1) the $/ns margin is within the uncertainty of
+> the *estimated* Spot prices — pin real prices from Billing before a big fleet, but the pick is robust because
+> L4 also wins on speed + VRAM outright; (2) both ran **OpenCL** because the pip OpenMM wheel's CUDA build didn't
+> match the driver (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION` fallback — same reason the AWS pipeline uses OpenCL);
+> moving production to **CUDA** (pin OpenMM's cuda-version to the driver, or bake an image) speeds both up and
+> **widens L4's lead**. Proof-of-concept milestone: OpenMM MD runs end-to-end on a GCP Spot GPU VM (~6 min, ~$0.01/run).
+
 - **T4** is cheapest *per hour* (~$0.11/hr Spot, 16 GB) but slow (Turing) and 16 GB risks OOM on a solvated
   complex → cheapest-per-hour, NOT cheapest-per-job.
 - **L4** (~$0.25–0.40/hr all-in Spot, 24 GB, Ada) is ~2–3× faster for MD, so *fewer billed hours* → usually the
