@@ -8,9 +8,10 @@ name: GCP RBFE — tail live serial (monitor a running L4 VM)
 on:
   workflow_dispatch:
     inputs:
-      vm:   { description: "instance name (blank = auto-find the running gcp-rbfe-*)", default: "", required: false }
-      zone: { description: "zone (blank = auto)", default: "", required: false }
-      grep: { description: "extra serial grep filter", default: "", required: false }
+      vm:     { description: "instance name (blank = auto-find the running gcp-rbfe-*)", default: "", required: false }
+      zone:   { description: "zone (blank = auto)", default: "", required: false }
+      grep:   { description: "extra serial grep filter", default: "", required: false }
+      delete: { description: "1 = DELETE the found VM after showing status (cleanup a finished detached leg)", default: "0", required: false }
 
 permissions:
   id-token: write
@@ -31,6 +32,7 @@ jobs:
           VM_IN: ${{ github.event.inputs.vm }}
           ZONE_IN: ${{ github.event.inputs.zone }}
           GREP_IN: ${{ github.event.inputs.grep }}
+          DELETE_IN: ${{ github.event.inputs.delete }}
         run: |
           set -eo pipefail
           export CLOUDSDK_CORE_PROJECT=project-a7ebde30-e2ed-4b8d-9a9
@@ -75,6 +77,10 @@ jobs:
           printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/(complex|solvent)/(warmup|production)/iter-[0-9]+" | sort -u | wc -l | xargs echo "total committed boundaries:"
           echo "--- completed leg results ---"
           printf '%s\n' "$ALL" | grep -aE "results/.*\.json" || echo "(no completed leg JSONs persisted)"
+          if [ "$DELETE_IN" = 1 ] && [ -n "$VM" ]; then
+            echo "--- DELETE requested: tearing down $VM in $ZONE ---"
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete failed / already gone"
+          fi
           # ===== CHECKPOINT TIMING PROBE: interval between commits = MD + commit overhead per 20 iters =====
           echo "=================== CHECKPOINT TIMING PROBE (complex/production) ==================="
           echo "commit timestamps (gap between consecutive = wall time per 20-iter chunk incl. validate+sha256+upload):"

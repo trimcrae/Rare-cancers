@@ -22,6 +22,7 @@ on:
       mode:      { description: "tiny (splittest shakeout) | real (full valA, spot-safe)", default: "tiny", required: false }
       leg:       { description: "complex | solvent | reduce (mode=real: combine both legs)", default: "complex", required: false }
       spot_safe: { description: "1 = checkpoint/resume to GCS (GCSCommitStore); 0 = welded", default: "0", required: false }
+      detach:    { description: "1 = launch VM + exit (VM runs independently, result->GCS; monitor via tail); 0 = poll in-job", default: "0", required: false }
 
 permissions:
   id-token: write
@@ -40,6 +41,7 @@ jobs:
       MODE: ${{ github.event.inputs.mode || 'tiny' }}
       LEG:  ${{ github.event.inputs.leg || 'complex' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
+      DETACH: ${{ github.event.inputs.detach || '0' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -204,6 +206,7 @@ jobs:
                   if gcloud compute instances create "$VM" \
                       --zone="$Z" --machine-type="$M" \
                       --provisioning-model=SPOT --instance-termination-action=DELETE \
+                      --max-run-duration=25200s \
                       --maintenance-policy=TERMINATE --no-restart-on-failure --scopes=cloud-platform \
                       --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                       --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
@@ -222,18 +225,27 @@ jobs:
             case "$st" in RUNNING|PROVISIONING|STAGING|REPAIRING) return 0 ;; *) echo "  VM status=$st"; return 1 ;; esac
           }
 
-          # RESUME LOOP: a Spot preemption DELETEs the VM; on spot_safe runs we RE-CREATE it and its startup
-          # restores the newest committed snapshot from the GCS commit store (resume, losing ≤1 checkpoint). Fast
-          # preemption detection (vm_alive) breaks the poll immediately instead of polling a dead VM for 45 min.
+          # DETACHED LAUNCHER (detach=1, default for real multi-hour legs): provision the VM ONCE and EXIT. The VM
+          # runs INDEPENDENTLY of this job (no GitHub timeout in the loop), bounded by the 7h max-run-duration
+          # backstop; it streams to serial, commits to GCS, and drops leg_nr4a3_<leg>.json into results/ on
+          # completion — that GCS object is the completion signal. Monitoring + resume are driven from Claude Code
+          # (gpu-rbfe-gcp-tail for live progress; re-dispatch this launcher to RESUME from the GCS checkpoint if the
+          # VM is preempted before the result lands). This mirrors how we ran SageMaker jobs on AWS.
+          if [ "$DETACH" = 1 ]; then
+            provision || { echo "::error::no L4 Spot capacity after wait-out budget — re-dispatch later (resumes from GCS)"; exit 1; }
+            echo "DETACHED: $VM launched in $ZONE (7h max-run backstop). Runs independently; result -> gs://$BUCKET/valA-tyk2/results/leg_nr4a3_$LEG.json. Monitor via gpu-rbfe-gcp-tail. This job EXITS now (no teardown — the VM must keep running)."
+            exit 0
+          fi
+
+          # IN-JOB poll + resume loop (detach=0 — tiny shakeouts that finish in minutes). A Spot preemption DELETEs
+          # the VM; vm_alive() fast-detects it and re-provisions to RESUME from the GCS commit.
           MAX_ATTEMPTS=1; [ "$SPOT_SAFE" = 1 ] && MAX_ATTEMPTS=4
-          # per-attempt poll cap: tiny finishes in ~15 min; a real full leg is ~2-3 h, so poll for hours (bounded
-          # by the job timeout). Breaks early on result OR preemption regardless.
           POLL_ITERS=70; [ "$MODE" = real ] && POLL_ITERS=680
           RES=""; OUT=""
           for attempt in $(seq 1 $MAX_ATTEMPTS); do
             if ! vm_alive 2>/dev/null; then
               echo "--- attempt $attempt/$MAX_ATTEMPTS: provisioning $VM ---"
-              provision || { echo "::error::no L4 Spot capacity after wait-out budget — re-dispatch later (resumes from GCS)"; exit 1; }
+              provision || { echo "::error::no L4 Spot capacity after wait-out budget"; exit 1; }
               echo "VM $VM up in $ZONE; polling serial for RBFE result…"
             fi
             for i in $(seq 1 $POLL_ITERS); do   # breaks early on result OR preemption
@@ -256,9 +268,10 @@ jobs:
           echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
           echo "RBFE RESULT: $RES"
 
-      - name: Teardown (always — no idle billing)
+      - name: Teardown (skip for detached — the VM must keep running after the job exits)
         if: always()
         run: |
+          if [ "$DETACH" = 1 ]; then echo "detached run — leaving VM $VM up (self-bounded by max-run + Claude-Code cleanup)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
