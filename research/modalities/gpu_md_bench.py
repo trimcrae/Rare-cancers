@@ -44,7 +44,9 @@ def _bench(edge_nm, steps, warmup, dt_fs):
     print(f"[bench] platforms={plats}", flush=True)
     if fails:
         print(f"[bench] plugin_load_failures={fails}", flush=True)
-    require_cuda = os.environ.get("BENCH_REQUIRE_CUDA") == "1"
+    # canonical OPENMM_REQUIRE_CUDA (shared with the production rbfe/abfe selectors); BENCH_REQUIRE_CUDA alias.
+    _rc = os.environ.get("OPENMM_REQUIRE_CUDA", os.environ.get("BENCH_REQUIRE_CUDA", "")).strip().lower()
+    require_cuda = _rc in ("1", "true", "yes", "on")
     if require_cuda and "CUDA" not in plats:
         raise RuntimeError(f"CUDA platform REQUIRED but unavailable. platforms={plats}; failures={fails}")
     plat_name = "CUDA" if "CUDA" in plats else ("OpenCL" if "OpenCL" in plats else "CPU")

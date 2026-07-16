@@ -169,7 +169,13 @@ def _select_platform(preferred="CUDA", allow_cpu_fallback=False):
     order = [preferred] + [p for p in ("CUDA", "OpenCL") if p != preferred]
     if preferred == "CPU" or allow_cpu_fallback:
         order.append("CPU")
+    # REQUIRE-CUDA gate (trimcrae 2026-07-16, "require CUDA on all platforms") — mirror nr4a3_rbfe._require_cuda:
+    # CUDA is ~1.3-2x faster than OpenCL on NVIDIA, so by default refuse to silently accept the OpenCL fallback.
+    # Exempt CPU/allow_cpu_fallback callers (unit tests, CPU shakeouts). Escape hatch: OPENMM_REQUIRE_CUDA=0.
+    rc = os.environ.get("OPENMM_REQUIRE_CUDA", os.environ.get("BENCH_REQUIRE_CUDA", "1")).strip().lower()
+    require_cuda = rc not in ("0", "false", "no", "off", "") and preferred != "CPU" and not allow_cpu_fallback
     last = None
+    validated = []
     for name in order:
         try:
             plat = openmm.Platform.getPlatformByName(name)
@@ -179,12 +185,23 @@ def _select_platform(preferred="CUDA", allow_cpu_fallback=False):
             ctx.setPositions([openmm.Vec3(0, 0, 0)] * unit.nanometer)
             ctx.getState(getEnergy=True).getPotentialEnergy()          # forces kernel load → catches bad PTX
             del ctx, integ
+            validated.append(name)
+            if require_cuda and name != "CUDA":
+                print(f"[abfe] platform {name} works but CUDA is REQUIRED — not accepting the OpenCL fallback",
+                      flush=True)
+                continue
             _PLATFORM_CACHE[preferred] = plat
             print(f"[abfe] OpenMM platform: {name}", flush=True)
             return plat
         except Exception as e:  # noqa: BLE001 — registered but unusable; try the next
             print(f"[abfe] platform {name} unavailable: {str(e)[:90]}", flush=True)
             last = e
+    if require_cuda:
+        raise RuntimeError(
+            f"CUDA OpenMM platform REQUIRED but did not validate (validated non-CUDA: {validated or 'none'}; "
+            f"last error: {last}). CUDA is ~1.3-2x faster than OpenCL — refusing to silently run on OpenCL. Fix "
+            "the CUDA build/driver match (environment-abfe.yml pins cuda-version<=driver) or set "
+            "OPENMM_REQUIRE_CUDA=0 to allow the OpenCL fallback.")
     raise RuntimeError(f"no working OpenMM platform (tried {order}); last error: {last}")
 
 

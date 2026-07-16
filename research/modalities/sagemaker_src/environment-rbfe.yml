@@ -23,7 +23,11 @@ dependencies:
   - openff-nagl            # RETAINED as a documented fallback surrogate only (am1bccelf10-trained GNN); no longer
   - openff-nagl-models     # the primary charge method now that ambertools is present.
   - ocl-icd-system         # OpenCL fallback vendor ICD (nvidia.icd) — only used if CUDA still can't load
-  - cuda-version=12.6      # pin CUDA <= g5 driver (12.8) so OpenMM's CUDA PTX loads (default pulled >12.8 -> err 222)
+  - cuda-version=12.6      # pin CUDA <= g5 driver (12.8) so OpenMM's CUDA PTX loads (default pulled >12.8 -> err 222).
+                           # This pin is what makes the require-CUDA default (OPENMM_REQUIRE_CUDA=1, trimcrae
+                           # 2026-07-16) safe on AWS: the runtime now HARD-FAILS rather than silently running the
+                           # ~1.3-2x-slower OpenCL fallback, so if this pin ever drifts above the driver the job
+                           # fails loudly (fix the pin, or set OPENMM_REQUIRE_CUDA=0 to allow OpenCL for one run).
   - rdkit
   - lomap2                 # atom-mapping
   - kartograf              # atom-mapping (fallback / 3D)
