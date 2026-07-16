@@ -126,31 +126,35 @@ jobs:
           echo "=== RBFE-DONE \$LINE ==="
           SS
 
-          # L4 Spot capacity is zone-specific + transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout). Broaden the
-          # search across ALL major US L4 (g2) regions AND fall back g2-standard-8 -> g2-standard-4 (the -4 has
-          # better capacity — the bench provisioned on it — and 16 GB is enough for the tiny shakeout). Try every
-          # (machine, zone) combo until one provisions. Wait-out-capacity, never on-demand (repo standing rule).
+          # L4 Spot quota is REGION-specific and we are provisioned ONLY in us-central1 — so search ITS zones only
+          # (other regions would just quota-fail). Capacity there is transient (ZONE_RESOURCE_POOL_EXHAUSTED =
+          # stockout); the repo rule is WAIT IT OUT, never on-demand. So retry the central zones in rounds with a
+          # short sleep between them (no VM = $0 while waiting), up to a wait budget that still leaves time for the
+          # ~10-min env solve + MD inside the 55-min job. Fall back g2-standard-8 -> -4 (better capacity; 16 GB is
+          # enough for the tiny shakeout).
           MACHINES="g2-standard-8 g2-standard-4"
-          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-east1-b us-east1-c us-east1-d us-east4-a us-east4-b us-east4-c us-west1-a us-west1-b us-west4-a us-west4-b"
+          ZONES="us-central1-a us-central1-b us-central1-c"
           CREATED=""
-          for M in $MACHINES; do
-            for Z in $ZONES; do
-              echo "--- trying $M in $Z ---"
-              if gcloud compute instances create "$VM" \
-                  --zone="$Z" --machine-type="$M" \
-                  --provisioning-model=SPOT --instance-termination-action=DELETE \
-                  --maintenance-policy=TERMINATE --no-restart-on-failure \
-                  --scopes=cloud-platform \
-                  --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
-                  --boot-disk-size=100GB \
-                  --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
-                ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z"; break 2
-              fi
-              grep -iqE "stockout|exhausted|does not have enough" /tmp/cerr && echo "  stockout" \
-                || { echo "  other:"; grep -iE "not available|unsupported|quota|does not exist" /tmp/cerr | head -1 || tail -1 /tmp/cerr; }
+          for round in $(seq 1 10); do          # ~10 rounds x ~2 min sleep = up to ~20 min wait-out
+            for M in $MACHINES; do
+              for Z in $ZONES; do
+                if gcloud compute instances create "$VM" \
+                    --zone="$Z" --machine-type="$M" \
+                    --provisioning-model=SPOT --instance-termination-action=DELETE \
+                    --maintenance-policy=TERMINATE --no-restart-on-failure \
+                    --scopes=cloud-platform \
+                    --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                    --boot-disk-size=100GB \
+                    --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+                  ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; break 3
+                fi
+                grep -iqE "quota|exceeded" /tmp/cerr && { echo "::error::QUOTA error for $M in $Z (not a stockout):"; grep -iE "quota|exceeded" /tmp/cerr | head -1; }
+              done
             done
+            echo "round $round: all central zones stocked out (L4 Spot); waiting 120s to retry…"
+            sleep 120
           done
-          [ -z "$CREATED" ] && { echo "::error::no Spot L4 capacity in any candidate (machine,zone) — transient stockout, re-dispatch later"; exit 1; }
+          [ -z "$CREATED" ] && { echo "::error::no us-central1 L4 Spot capacity after wait-out budget — transient stockout, re-dispatch later"; exit 1; }
           echo "VM $VM created in $ZONE; polling serial console for RBFE result (up to ~45 min: env solve ~10 + MD)…"
           RES=""; OUT=""
           for i in $(seq 1 90); do
