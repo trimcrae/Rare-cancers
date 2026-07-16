@@ -567,6 +567,34 @@ def reduce_receptor():
            "absolute_dg_B": round(rb.absolute_dg_B(ddg, RECEPTOR), 3),
            "note": "ΔΔG_bind(401->lo_m0_NCCO); negative = lo_m0_NCCO binds tighter. absolute_dg_B anchors on "
                    "401's preliminary ABFE (rbfe_edges.ANCHOR_401_ABFE)."}
+    # valA known-answer benchmark (STRATEGY.md RUNG 1 kill-switch): if a valA_manifest.json with a measured
+    # ΔΔG_exp is staged alongside the legs, compare the COMPUTED ΔΔG_bind to it. GO if |Δ| ≲ 1.5-2 kcal/mol —
+    # i.e. this exact container/protocol reproduces a public measured ΔΔG. NO-GO ⇒ stop/pivot before NR4A science.
+    man = None
+    for base in (IN, CKPT):
+        for p in glob.glob(os.path.join(base, "**", "valA_manifest.json"), recursive=True):
+            try:
+                man = json.load(open(p))
+            except Exception:  # noqa: BLE001
+                man = None
+            if man:
+                break
+        if man:
+            break
+    if man and man.get("ddG_exp_kcal") is not None:
+        ddg_exp = float(man["ddG_exp_kcal"])
+        abs_err = abs(ddg - ddg_exp)
+        tol = float(os.environ.get("VALA_GO_TOL_KCAL", "2.0"))
+        out["valA_benchmark"] = {
+            "ddG_exp_kcal": round(ddg_exp, 3), "ddG_computed_kcal": round(ddg, 3),
+            "abs_error_kcal": round(abs_err, 3), "go_tol_kcal": tol,
+            "verdict": "GO" if abs_err <= tol else "NO-GO",
+            "source": man.get("source"), "edge": f"{man.get('source_name_a')}->{man.get('source_name_b')}",
+            "note": "GO = this container+protocol reproduced the public measured ΔΔG within tolerance "
+                    "(build sound); NO-GO = stop/pivot (RUNG-1 kill-switch).",
+        }
+        print(f"  [rbfe] valA BENCHMARK: ΔΔG_computed={ddg:.2f} vs ΔΔG_exp={ddg_exp:.2f} "
+              f"→ |err|={abs_err:.2f} kcal/mol (tol {tol}) → {out['valA_benchmark']['verdict']}", flush=True)
     os.makedirs(CKPT, exist_ok=True)
     json.dump(out, open(os.path.join(CKPT, f"ddg_{RECEPTOR}.json"), "w"), indent=2)
     print(f"  [rbfe] REDUCE {RECEPTOR}: ΔΔG_bind={ddg:.2f} kcal/mol → B absolute {out['absolute_dg_B']:.2f}",
@@ -734,9 +762,14 @@ def _run_simulate_spot_safe(proto, byname, setup_outputs):
     system = umod.deserialize(setup_outputs["system"])
     positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
     selection_indices = setup_outputs["selection_indices"]
-    commit_uri = os.environ.get("RBFE_SPOT_COMMIT_S3")
-    if commit_uri:
-        u = urlparse(commit_uri)
+    commit_s3 = os.environ.get("RBFE_SPOT_COMMIT_S3")
+    commit_gcs = os.environ.get("RBFE_SPOT_COMMIT_GCS")   # gs://bucket/prefix (GCP provider path)
+    if commit_gcs:
+        u = urlparse(commit_gcs)
+        store = spot.GCSCommitStore(u.netloc, u.path.lstrip("/"))
+        print(f"  [spot-safe] commit store: gs://{u.netloc}/{u.path.lstrip('/')}", flush=True)
+    elif commit_s3:
+        u = urlparse(commit_s3)
         store = spot.S3CommitStore(u.netloc, u.path.lstrip("/"))
         print(f"  [spot-safe] commit store: s3://{u.netloc}/{u.path.lstrip('/')}", flush=True)
     else:

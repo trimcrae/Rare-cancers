@@ -68,6 +68,34 @@ what this doc is for.**
 > moving production to **CUDA** (pin OpenMM's cuda-version to the driver, or bake an image) speeds both up and
 > **widens L4's lead**. Proof-of-concept milestone: OpenMM MD runs end-to-end on a GCP Spot GPU VM (~6 min, ~$0.01/run).
 
+> **★★ GCP RBFE PLUMBING PROVEN 2026-07-16 (`gpu-rbfe-gcp.yml`, run 29509433578).** The FULL OpenFE
+> RelativeHybridTopology RBFE pipeline now runs end-to-end on a GCE Spot L4 VM: openfe 1.12 env built via
+> Miniforge+mamba, VM self-staged the public TYK2 valA edge (no S3), LOMAP mapped 31 atoms
+> (tyk2_ejm_31→tyk2_ejm_42), and **setup → simulate → analyze** completed **on CUDA** (require-CUDA validated
+> the CUDA platform on the L4) → `status=OK dg_morph=13.262±0.268 via=split`. This was a `RBFE_TINY` plumbing
+> shakeout (2.5ps/10ps MD — the ΔG value is NOT science), but it answers the load-bearing question **"can we run
+> RBFE on GCP at all" → YES.** Two bugs found + fixed en route: (1) L4 Spot stockout in us-central1 → hybrid
+> zone search across us-central1/east1/east4/west1/west4 with wait-retry (a g2-standard-8 provisioned in
+> **us-east1-c** — we have at least burst L4 quota beyond central); (2) `AmberTools not available` at am1bcc
+> charge assignment → the env python was run directly instead of activated, so openff-toolkit's
+> `shutil.which("antechamber")` missed the env bin → fixed by prepending the env bin to PATH (mirrors AWS
+> `conda run -n rbfe`). NEXT: `mode=real` full spot-safe valA_mini (RUNG 1 kill-switch) — needs GCS
+> checkpoint/restore for the multi-hour run.
+
+> **★★ GCP SPOT-SAFE GCS CHECKPOINT PROVEN 2026-07-16 (`gpu-rbfe-gcp.yml` spot_safe=1, run 29519188186).** The
+> full spot-safe path ran end-to-end on a GCE L4: setup → **simulate committing checkpoints to `GCSCommitStore`**
+> (gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt, keyless via the VM SA + ADC) → analyze → `status=OK`. Commits
+> are MANDATORY in the spot-safe driver (a failed GCS write raises + aborts — as the first attempt did when the
+> bucket was absent), so reaching analyze-DONE PROVES every commit boundary wrote to GCS. Setup (one-time, owner):
+> pre-created the bucket + granted the compute SA `roles/storage.objectAdmin` on it (S3-from-GCP was rejected — it
+> would put AWS creds in GCE metadata; the scoped GCS grant is keyless + more secure). Also built: a
+> **spot-preemption RESUME LOOP** (`vm_alive()` fast-detects preemption; re-creates the VM, whose startup restores
+> the newest GCS-committed snapshot and resumes, ≤1 checkpoint lost) — run 29515433285 had been killed by an
+> un-resumed preemption, which motivated it. REMAINING for the real kill-switch: wire `mode=real` to run BOTH legs
+> (complex+solvent) at FULL sampling through the split + reduce → ΔΔG vs the known TYK2 value (the valA GO/NO-GO
+> verdict is already in `reduce_receptor`); the ~4-5 h run needs multi-dispatch resumability (each GH job runs to
+> its timeout, re-dispatch resumes from GCS).
+
 > **★ CROSS-GPU / CROSS-PROVIDER $/ns — L4 vs A10G, and "is there something better" (analysis 2026-07-16,
 > answering trimcrae's three questions).** KEY PHYSICS: OpenMM PME explicit-solvent MD is **memory-bandwidth
 > bound**, not FLOP-bound — so for our workload the GPU's **GB/s** predicts ns/day far better than its TFLOPS.
