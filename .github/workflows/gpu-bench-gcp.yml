@@ -80,14 +80,25 @@ jobs:
           echo "=== BENCH-DONE ==="
           SS
 
-          gcloud compute instances create "$VM" \
-            --zone="$ZONE" --machine-type="$MACHINE" $ACCEL \
-            --provisioning-model=SPOT --instance-termination-action=DELETE \
-            --maintenance-policy=TERMINATE --no-restart-on-failure \
-            --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
-            --boot-disk-size=75GB \
-            --metadata-from-file=startup-script=/tmp/startup.sh
-          echo "VM $VM ($MACHINE) created; polling serial for BENCH_RESULT (up to ~30 min)…"
+          # Spot capacity is zone-specific + transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout). Try candidate
+          # zones until one provisions — the GCP analog of waiting out spot capacity.
+          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-central1-f"
+          CREATED=""
+          for Z in $ZONES; do
+            echo "--- trying zone $Z ---"
+            if gcloud compute instances create "$VM" \
+                --zone="$Z" --machine-type="$MACHINE" $ACCEL \
+                --provisioning-model=SPOT --instance-termination-action=DELETE \
+                --maintenance-policy=TERMINATE --no-restart-on-failure \
+                --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                --boot-disk-size=75GB \
+                --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+              ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; break
+            fi
+            echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
+          done
+          [ -z "$CREATED" ] && { echo "::error::no Spot $MACHINE capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
+          echo "VM $VM ($MACHINE) created in $ZONE; polling serial for BENCH_RESULT (up to ~30 min)…"
           RES=""; OUT=""
           for i in $(seq 1 60); do
             OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
