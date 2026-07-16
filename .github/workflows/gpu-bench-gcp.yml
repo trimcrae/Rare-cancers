@@ -121,7 +121,7 @@ jobs:
           RES=""; OUT=""
           for i in $(seq 1 50); do
             OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
-            RES=$(printf '%s' "$OUT" | grep -oE '###BENCHRESULT### .* ###END###' | tail -1 | sed -E 's/^###BENCHRESULT### //; s/ ###END###$//')
+            RES=$(printf '%s' "$OUT" | grep -oE '###BENCHRESULT### .* ###END###' | tail -1 | sed -E 's/^###BENCHRESULT### //; s/ ###END###$//' || true)
             [ -n "$RES" ] && break
             sleep 30
           done
