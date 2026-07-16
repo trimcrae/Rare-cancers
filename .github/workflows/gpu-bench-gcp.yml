@@ -80,8 +80,9 @@ jobs:
           CONDA=/opt/conda/bin/conda
           [ -x "\$CONDA" ] || CONDA=\$(command -v conda || command -v mamba || echo /opt/conda/bin/mamba)
           echo "conda: \$CONDA (\$(\$CONDA --version 2>&1))"
-          echo "--- creating dedicated openmm env (conda-forge) ---"
-          \$CONDA create -y -n mm -c conda-forge python=3.11 openmm 2>&1 | tail -40
+          echo "--- dedicated env (conda py3.11, no solve) + pip openmm [fast; conda-forge solver takes 25-40min] ---"
+          \$CONDA create -y -n mm python=3.11 2>&1 | tail -15
+          /opt/conda/envs/mm/bin/pip install --no-input openmm 2>&1 | tail -25
           PY=/opt/conda/envs/mm/bin/python
           [ -x "\$PY" ] || PY=\$(command -v python3)
           echo "bench python: \$PY (\$(\$PY --version 2>&1))"
