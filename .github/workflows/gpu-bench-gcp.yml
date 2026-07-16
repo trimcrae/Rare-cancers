@@ -80,12 +80,14 @@ jobs:
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
           cd /tmp
-          echo "--- fetching micromamba + creating openmm env ---"
-          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba || echo "micromamba fetch FAILED"
-          export MAMBA_ROOT_PREFIX=/tmp/mmroot
-          ./bin/micromamba create -y -p /tmp/mmenv -c conda-forge python=3.11 openmm 2>&1 | tail -20
-          PY=/tmp/mmenv/bin/python
-          if ! \$PY -c "import openmm; print('openmm', openmm.version.version, 'OK')"; then
+          echo "--- venv + pip openmm (PyPI wheel bundles CUDA runtime; no conda/micromamba) ---"
+          PYBASE=\$(command -v python3 || echo /opt/conda/bin/python3)
+          echo "base python: \$PYBASE (\$(\$PYBASE --version 2>&1))"
+          \$PYBASE -m venv /tmp/venv 2>&1 | tail -5
+          /tmp/venv/bin/pip install --quiet --upgrade pip 2>&1 | tail -3
+          /tmp/venv/bin/pip install openmm 2>&1 | tail -30
+          PY=/tmp/venv/bin/python
+          if ! \$PY -c "import openmm; print('openmm', openmm.version.version, 'OK'); print('platforms:', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])"; then
             echo "OPENMM UNAVAILABLE"; report "BENCH_RESULT tag=$MACHINE status=NOOPENMM"; echo "=== BENCH-DONE ==="; exit 0
           fi
           echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
