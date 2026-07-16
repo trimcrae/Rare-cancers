@@ -12,6 +12,7 @@ on:
       zone:   { description: "zone (blank = auto)", default: "", required: false }
       grep:   { description: "extra serial grep filter", default: "", required: false }
       delete: { description: "1 = DELETE the found VM after showing status (cleanup a finished detached leg)", default: "0", required: false }
+      inspect_nc: { description: "1 = download the latest complex .nc and dump its netCDF dims/vars (diagnose .nc size)", default: "0", required: false }
 
 permissions:
   id-token: write
@@ -33,6 +34,7 @@ jobs:
           ZONE_IN: ${{ github.event.inputs.zone }}
           GREP_IN: ${{ github.event.inputs.grep }}
           DELETE_IN: ${{ github.event.inputs.delete }}
+          INSPECT_NC: ${{ github.event.inputs.inspect_nc }}
         run: |
           set -eo pipefail
           export CLOUDSDK_CORE_PROJECT=project-a7ebde30-e2ed-4b8d-9a9
@@ -77,6 +79,32 @@ jobs:
           printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/(complex|solvent)/(warmup|production)/iter-[0-9]+" | sort -u | wc -l | xargs echo "total committed boundaries:"
           echo "--- completed leg results ---"
           printf '%s\n' "$ALL" | grep -aE "results/.*\.json" || echo "(no completed leg JSONs persisted)"
+          if [ "$INSPECT_NC" = 1 ]; then
+            echo "=================== .nc STRUCTURE INSPECTION (what is being stored per iteration) ==================="
+            LATEST_NC=$(printf '%s\n' "$ALL" | grep -aE "complex/production/iter-[0-9]+/.*/simulation\.nc" | tail -1 | grep -aoE "gs://[^ ]+")
+            echo "latest complex .nc: $LATEST_NC"
+            if [ -n "$LATEST_NC" ]; then
+              gcloud storage cp "$LATEST_NC" /tmp/s.nc 2>&1 | tail -1
+              pip install -q netCDF4 2>/dev/null || pip3 install -q netCDF4 2>/dev/null
+              python3 - <<'PY' || echo "(netcdf read failed)"
+import netCDF4, os
+ds = netCDF4.Dataset('/tmp/s.nc', 'r')
+print("dims:", {d: (len(ds.dimensions[d]) if not ds.dimensions[d].isunlimited() else 'UNLIM=%d'%len(ds.dimensions[d])) for d in ds.dimensions})
+print("vars:", list(ds.variables))
+for v in ("positions","box_vectors","energies","states","velocities"):
+    if v in ds.variables:
+        print(f"  {v}: shape={ds.variables[v].shape} dtype={ds.variables[v].dtype}")
+# the number of analysis particles = the atom dimension of positions (n_atoms stored per replica)
+if "positions" in ds.variables:
+    sh = ds.variables["positions"].shape
+    print(f"  ==> ANALYSIS ATOMS STORED PER FRAME = {sh[-2] if len(sh)>=2 else '?'} (this drives .nc size)")
+else:
+    print("  ==> NO positions variable — .nc is energies-only (small)")
+print("file size MB:", round(os.path.getsize('/tmp/s.nc')/1e6,1))
+ds.close()
+PY
+            fi
+          fi
           if [ "$DELETE_IN" = 1 ] && [ -n "$VM" ]; then
             echo "--- DELETE requested: tearing down $VM in $ZONE ---"
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete failed / already gone"
