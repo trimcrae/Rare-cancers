@@ -84,6 +84,9 @@ compatibility with the larger Cullin–RING/E2~Ub assembly. **The co-fold stays 
 no authority to rank affinity, cooperativity, or degradation selectivity** (the epimer control forbids it).
 
 ### 4. Paralogue-specific ternary objective
+**[SUPERSEDED as the selection method 2026-07-15 — see the top banner + [`/STRATEGY.md`](../../STRATEGY.md)
+mandate 5: use staged gates → Pareto front, NOT this scalar. The `S_d` below is retained only to show the axes,
+which become the Pareto dimensions.]**
 Rank degraders on a ternary-selectivity-centered score (conceptually):
 `S_d = min_c ΔG_ternary-selectivity,c − λ·SD_c − γ·max(NR4A1/2 counterexample) − η·linker_strain −
 ρ·ubiquitination_incompatibility`. The central variable is **ternary** selectivity, not binary-warhead

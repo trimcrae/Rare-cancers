@@ -16,8 +16,10 @@ IN = "/opt/ml/input/data"
 # Identical package set to entry_rbfe.OPENFE_PKGS (single source of truth for the openfe/openmm stack — the
 # ternary morph uses the SAME RelativeHybridTopologyProtocol, so the env must not diverge).
 OPENFE_PKGS = ["python=3.11", "openfe>=1.1", "pydantic>=2", "importlib_resources", "openff-toolkit",
-               "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system", "cuda-version=12.6",
-               "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
+               "ambertools>=23", "openmmforcefields", "openff-nagl", "openff-nagl-models", "ocl-icd-system",
+               "cuda-version=12.6", "rdkit", "lomap2", "kartograf", "numpy", "scipy"]
+# ambertools>=23 provides am1bcc (via antechamber/sqm) so binary + ternary legs share the SAME charge method
+# (nr4a3_ternary_fep.py sets am1bcc; the coop cycle subtracts binary/ternary morphs so charges MUST match).
 
 
 def _sh(cmd, **kw):
