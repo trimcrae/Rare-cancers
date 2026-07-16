@@ -68,6 +68,45 @@ what this doc is for.**
 > moving production to **CUDA** (pin OpenMM's cuda-version to the driver, or bake an image) speeds both up and
 > **widens L4's lead**. Proof-of-concept milestone: OpenMM MD runs end-to-end on a GCP Spot GPU VM (~6 min, ~$0.01/run).
 
+> **★ CROSS-GPU / CROSS-PROVIDER $/ns — L4 vs A10G, and "is there something better" (analysis 2026-07-16,
+> answering trimcrae's three questions).** KEY PHYSICS: OpenMM PME explicit-solvent MD is **memory-bandwidth
+> bound**, not FLOP-bound — so for our workload the GPU's **GB/s** predicts ns/day far better than its TFLOPS.
+> That single fact reorders the "best GPU" ranking:
+>
+> | GPU | Arch | BW (GB/s) | FP32 TFLOPS | VRAM | Spot $/hr (typ) | ns/day | $/ns | source |
+> |---|---|---|---|---|---|---|---|---|
+> | **L4** | Ada | **300** | ~30 | 24 GB | ~$0.24 (GCP) | **628** | **$0.0092** | **MEASURED (CUDA)** |
+> | T4 | Turing | 320 | ~8 | 16 GB | ~$0.13 (GCP) | 228 | $0.0137 | measured (OpenCL) |
+> | **A10G** | Ampere | **600** | ~31 | 24 GB | ~$0.40 (AWS g5) | ~900–1100 *(est)* | ~$0.0087–0.0107 *(est)* | estimate |
+> | **RTX 4090** | Ada | **1008** | ~82 | 24 GB | ~$0.20–0.35 (Vast/Salad) | ~1500–2500 *(est)* | **~$0.003–0.006 *(est)*** | estimate |
+> | L40S | Ada | 864 | ~91 | 48 GB | ~$0.80–1.10 | ~1400–2000 *(est)* | ~$0.010–0.019 *(est)* | estimate |
+> | A100 40/80 | Ampere | 1555–2039 | ~19 | 40/80 GB | ~$1.0–1.5 | ~2000–3000 *(est)* | ~$0.008–0.018 *(est)* | estimate |
+>
+> **Answers:**
+> 1. **Would L4 beat A10G on price/compute? NOT clearly — it's ~a wash.** A10G has **2× L4's bandwidth** (600 vs
+>    300 GB/s) at similar TFLOPS, so A10G should deliver **more ns/day** (est. ~1.4–1.75× L4). L4 wins on $/hr,
+>    A10G wins on throughput; the two roughly cancel on **$/ns**. So switching AWS off A10G *onto* L4 (via g6)
+>    would **not** save money — no reason to do it. The A10G number is an ESTIMATE; a measured A10G-CUDA run is
+>    the only way to settle it (see sweep below).
+> 2. **Switch all providers to L4? No.** On **GCP** L4 is already the right pick (it's the best MD-$/ns card GCP
+>    offers — GCP has no consumer 4090/L40S; its A100/H100 are bandwidth-huge but overpriced for our small
+>    systems). On **AWS**, A10G (g5) is already ~cost-equal to L4 and is what we use — leave it. "L4 everywhere"
+>    is not a win; the right rule is **per-provider pick the best MD-$/ns card that provider offers**, which the
+>    require-CUDA default now makes automatic.
+> 3. **Is there a better GPU than L4? YES — RTX 4090**, on $/ns, by a wide margin, *because* of bandwidth: 1008
+>    GB/s (3.4× L4) at ~$0.20–0.35/hr Spot on Vast/Salad → est. **~2–3× cheaper per finished job than L4.** The
+>    catch is the PROVIDER, not the card: Vast/Salad are interruptible community clouds (no managed-spot resume,
+>    flakier hosts, MD-env reload cost on preemption) — which is exactly why the waterfall already slots them for
+>    *bulk short-sampling triage* and reserves stable hosts (RunPod Secure / ACCESS) for long terminal legs.
+>    **L40S** (48 GB, 864 GB/s) is the pick only when a system needs >24 GB. **A100 is a trap** for us —
+>    huge bandwidth but its price kills $/ns on our ~35k-atom legs.
+>
+> **BOTTOM LINE:** for the **current GCP credit-burn phase, L4-CUDA stays the pick** (best card GCP offers, and
+> it's on free credits). The definitive cross-provider ranking wants a **measured $/ns sweep on CUDA** — A10G
+> (AWS g5), L4 (baseline), L40S, RTX 4090 (Vast/Salad) — but that spends on AWS/Vast, so it's **deferred until we
+> move off GCP credits and are optimizing $ hard**; RTX 4090 on a stable-enough host is the a-priori winner to
+> confirm then. No provider switch is warranted now.
+
 - **T4** is cheapest *per hour* (~$0.11/hr Spot, 16 GB) but slow (Turing) and 16 GB risks OOM on a solvated
   complex → cheapest-per-hour, NOT cheapest-per-job.
 - **L4** (~$0.25–0.40/hr all-in Spot, 24 GB, Ada) is ~2–3× faster for MD, so *fewer billed hours* → usually the
