@@ -153,11 +153,13 @@ jobs:
               echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
             fi
             echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE mode=$MODE) on \$(basename \$PY) ---"
-            OUT=\$( cd \$WORK && env \$SPOT_ENV MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
+            # STREAM (via tee) instead of capturing into a var, so MD progress reaches serial LIVE and the
+            # gpu-rbfe-gcp-tail monitor can watch iteration-by-iteration (a captured \$(...) goes silent mid-run).
+            ( cd \$WORK && env \$SPOT_ENV MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
               RECEPTOR=nr4a3 LEG=$LEG LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
               INPUT_DIR=\$IN OUTPUT_DIR=/tmp/rbfe_out CKPT_DIR=/tmp/rbfe_out \
-              \$PY nr4a3_rbfe.py 2>&1 )
-            echo "\$OUT" | tail -60
+              \$PY nr4a3_rbfe.py 2>&1 ) | tee /tmp/rbfe_run.log
+            OUT=\$(cat /tmp/rbfe_run.log 2>/dev/null)
             # persist the completed leg analyze JSON to GCS (feeds the reduce step + idempotent cross-dispatch skip)
             if [ "$MODE" = real ] && [ -f /tmp/rbfe_out/leg_nr4a3_$LEG.json ]; then
               gcloud storage cp /tmp/rbfe_out/leg_nr4a3_$LEG.json \$RESULTS/ 2>&1 | tail -1 && echo "persisted leg $LEG -> GCS"
