@@ -54,6 +54,10 @@ what this doc is for.**
 
 > **★ MEASURED + CONFIRMED 2026-07-16 (L4 vs T4 head-to-head, `gpu-bench-gcp.yml`).** Same 35,211-atom TIP3P/PME
 > system, 4000 steps @ 4 fs HMR, OpenMM **OpenCL** on both (see CUDA note below), us-central1-a Spot:
+> **CUDA UPDATE 2026-07-16:** forcing OpenMM's **CUDA** platform (Miniforge+mamba conda-forge openmm, auto-matched
+> to the driver via `__cuda`; `BENCH_REQUIRE_CUDA=1`) gives **L4 = 628.0 ns/day / $0.0092/ns on CUDA** vs 484.9 /
+> $0.0119 on OpenCL — **1.30× faster, ~23% cheaper/ns**. CUDA is the production default going forward (widens L4's
+> lead further). The OpenCL numbers below are the original apples-to-apples L4-vs-T4 comparison.
 > **L4 (g2-standard-4) = 484.9 ns/day**, **T4 (n1-standard-4) = 228.2 ns/day** → L4 is **2.13× faster**. At
 > est. Spot ~$0.24/hr (L4) vs ~$0.13/hr (T4): **L4 $0.0119/ns vs T4 $0.0137/ns** — L4 ~13% cheaper *per finished
 > job*, confirming the cheapest-per-job hypothesis. **DECISION: L4 is the going-forward GCP GPU** (faster +
