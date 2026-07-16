@@ -6,23 +6,20 @@ OUR container build + protocol reproduces a MEASURED ΔΔG (STRATEGY.md RUNG 1, 
 Runs in a GitHub Actions runner (unrestricted network + AWS creds) via the rbfe submitter's `mode=stagebench`.
 NOT science on NR4A — a build-consistency check against a public measured ΔΔG.
 
-WHAT IT DOES
-  1. `git clone --depth 1` the OpenFF protein-ligand-benchmark (public GitHub → reachable from a CI runner;
-     the egress-proxy that blocks the dev sandbox does not apply here).
-  2. Locate the TYK2 target's protein PDB + ligands SDF (poses in the protein frame) + the experimental
-     affinity table — by GLOBBING the tree (robust to the repo's layout drift), never a hardcoded path.
-  3. OBSERVE + PRINT the real schema (tree, ligand SD-property keys, a sample of the affinity file) so the
-     known-answer ΔΔG is read from the actual published data, not guessed. (Rule: don't fabricate a "known"
-     number — extract it.)
-  4. Pick ONE edge (a documented small-perturbation pair if present, else the two ligands with the largest
-     shared MCS), compute the experimental ΔΔG = ΔG_exp(B) − ΔG_exp(A) from the published affinities.
-  5. Write `docked_<receptor>.sdf` (the two records retitled to LIGAND_A/LIGAND_B so the engine resolves them
-     by _Name) + `<receptor>-opened.pdb` to s3://<bucket>/<RECEPTOR_PREFIX>/, and a manifest JSON (chosen
-     ligands, SMILES, per-ligand ΔG_exp, ΔΔG_exp, units/method, source commit) to the same prefix + stdout.
+PIPELINE
+  1. `git clone --depth 1` the OpenFF protein-ligand-benchmark (public GitHub → reachable from a CI runner).
+  2. Locate the TYK2 target's protein PDB + ligands SDF (poses in the protein frame) + the affinity data files
+     by GLOBBING the tree (robust to layout drift).
+  3. Read the experimental ΔG per ligand from the REAL published data (measurement: type/unit/value in the
+     ligand yml, else SD props) and convert Ki/IC50/pIC50 → kcal/mol. Never guess a "known" number.
+  4. Pick the deterministic edge lig_ejm_31 → lig_ejm_42 (well-characterized TYK2 pair; MCS fallback if absent),
+     compute ΔΔG_exp = ΔG(B) − ΔG(A).
+  5. Write docked_<slot>.sdf (2 records retitled to LIGAND_A/LIGAND_B so the engine resolves by _Name) +
+     <slot>-opened.pdb + valA_manifest.json to s3://<bucket>/<RECEPTOR_PREFIX>/.
 
-The RBFE run then uses the SAME setup→simulate(spot_safe=1)→analyze split as Step 0, tag=valA-tyk2,
-receptor slot reused as `nr4a3` COSMETICALLY (this is TYK2 data — see manifest.target), restricted via
-ONLY_LEGS=solvent,nr4a3. GO/NO-GO: computed ΔΔG_bind within ~1.5–2 kcal/mol of ΔΔG_exp → build sound.
+2026-07-16 v2 fixes (from the v1 CI log): ligand names carry a `lig_` prefix (v1 matched `ejm_31`→miss→wrong
+MCS pair); affinities are NOT in the SDF (v1 dumped every 03_edges/*.yml and buried the schema). v2 uses the
+prefix, parses the ligand measurement yml, and only dumps ligand/affinity data (not the edge-map files).
 """
 import glob
 import json
@@ -33,11 +30,10 @@ import sys
 
 REPO = "https://github.com/openforcefield/protein-ligand-benchmark"
 TARGET = os.environ.get("VALA_TARGET", "tyk2")
-# Preferred canonical edge (well-characterized single-R-group perturbation in the TYK2 ejm series). If either
-# name is absent in the fetched data, fall back to an MCS-chosen pair — reported in the manifest.
-PREF_A = os.environ.get("VALA_LIG_A", "ejm_31")
-PREF_B = os.environ.get("VALA_LIG_B", "ejm_42")
+PREF_A = os.environ.get("VALA_LIG_A", "lig_ejm_31")   # note the real PLB `lig_` prefix
+PREF_B = os.environ.get("VALA_LIG_B", "lig_ejm_42")
 RT_KCAL = 0.001987204259 * 298.15   # kcal/mol at 298.15 K
+_UNIT = {"m": 1.0, "molar": 1.0, "mm": 1e-3, "um": 1e-6, "µm": 1e-6, "nm": 1e-9, "pm": 1e-12}
 
 
 def _sh(cmd, **kw):
@@ -55,35 +51,93 @@ def _clone(workdir):
 
 
 def _find_target_dir(plb):
-    # glob for a directory named exactly TARGET anywhere in the tree (layout drifts across versions)
     cands = [d for d in glob.glob(os.path.join(plb, "**", TARGET), recursive=True) if os.path.isdir(d)]
     if not cands:
         cands = [d for d in glob.glob(os.path.join(plb, "**", f"*{TARGET}*"), recursive=True)
                  if os.path.isdir(d)]
     if not cands:
         sys.exit(f"[valA-stage] could not locate target dir for '{TARGET}' under {plb}")
-    # prefer the shallowest match
     cands.sort(key=lambda p: p.count(os.sep))
     return cands[0]
-
-
-def _tree(root, maxdepth=3):
-    out = []
-    base = root.rstrip("/").count(os.sep)
-    for dirpath, dirs, files in os.walk(root):
-        depth = dirpath.count(os.sep) - base
-        if depth > maxdepth:
-            dirs[:] = []
-            continue
-        out.append("  " * depth + os.path.basename(dirpath) + "/")
-        for f in sorted(files):
-            out.append("  " * (depth + 1) + f)
-    return "\n".join(out)
 
 
 def _read(p):
     with open(p, "r", errors="replace") as fh:
         return fh.read()
+
+
+def _dg_from_measurement(meas):
+    """PLB measurement dict {type, unit, value} → (ΔG kcal/mol, how). None if unparseable."""
+    if not isinstance(meas, dict):
+        return None, None
+    typ = str(meas.get("type", "")).lower()
+    val = meas.get("value")
+    unit = str(meas.get("unit", "")).lower().replace(" ", "")
+    try:
+        val = float(val)
+    except (TypeError, ValueError):
+        return None, None
+    if typ in ("pic50", "pki", "pkd", "pactivity"):
+        return -RT_KCAL * math.log(10) * val, f"{typ}=-2.303RT*p"
+    if typ in ("ki", "kd", "ic50", "ec50"):
+        f = _UNIT.get(unit)
+        if f is None:
+            return None, f"{typ} unit={unit}?"
+        molar = val * f
+        if molar <= 0:
+            return None, f"{typ} value<=0"
+        return RT_KCAL * math.log(molar), f"{typ}({unit})=RTln"
+    if typ in ("dg", "deltag") and unit in ("kcal/mol", "kcalmol-1", "kcal", ""):
+        return val, f"{typ} direct"
+    return None, f"unhandled type={typ} unit={unit}"
+
+
+def _build_affinity_map(aff_files):
+    """Parse every non-edge data file; return {ligand_name: measurement_dict} across known PLB shapes."""
+    import yaml
+    aff = {}
+    for f in aff_files:
+        try:
+            data = yaml.safe_load(_read(f))
+        except Exception as e:  # noqa: BLE001
+            print(f"[valA-stage] WARN yaml parse {os.path.basename(f)}: {e}", flush=True)
+            continue
+        # shape A: {ligname: {measurement: {...}}}   shape B: {"ligands": {ligname: {...}}}
+        blocks = data if isinstance(data, dict) else {}
+        if "ligands" in blocks and isinstance(blocks["ligands"], dict):
+            blocks = blocks["ligands"]
+        for k, v in blocks.items():
+            if not isinstance(v, dict):
+                continue
+            meas = v.get("measurement") or v.get("measured") or v.get("affinity") or v
+            if isinstance(meas, dict) and ("value" in meas or "type" in meas):
+                aff[k] = meas
+    return aff
+
+
+def _sd_measurement(mol):
+    """Fallback: pull a measurement from a ligand SDF record's SD properties."""
+    props = {k.lower(): mol.GetProp(k) for k in mol.GetPropNames()}
+    for typ in ("pic50", "pki"):
+        if typ in props:
+            try:
+                return {"type": typ, "value": float(props[typ].split()[0])}
+            except ValueError:
+                pass
+    for typ in ("ki", "ic50", "kd"):
+        for key in (typ, f"{typ}[nm]", f"{typ} (nm)", f"{typ}_nm"):
+            if key in props:
+                try:
+                    return {"type": typ, "unit": "nm", "value": float(props[key].split()[0])}
+                except ValueError:
+                    pass
+    for key in ("dg_exp", "exp_dg", "dg[kcal/mol]", "dg"):
+        if key in props:
+            try:
+                return {"type": "dg", "unit": "kcal/mol", "value": float(props[key].split()[0])}
+            except ValueError:
+                pass
+    return None
 
 
 def main():
@@ -92,107 +146,73 @@ def main():
     plb, sha = _clone(workdir)
     tdir = _find_target_dir(plb)
     print(f"[valA-stage] target dir: {tdir}  (source {REPO}@{sha})", flush=True)
-    print("[valA-stage] ===== target tree =====\n" + _tree(tdir), flush=True)
 
-    # locate the pieces by glob (robust to layout)
     pdbs = sorted(glob.glob(os.path.join(tdir, "**", "*.pdb"), recursive=True))
     sdfs = sorted(glob.glob(os.path.join(tdir, "**", "*.sdf"), recursive=True))
-    ymls = sorted(glob.glob(os.path.join(tdir, "**", "*.yml"), recursive=True)
-                  + glob.glob(os.path.join(tdir, "**", "*.yaml"), recursive=True)
-                  + glob.glob(os.path.join(tdir, "**", "*.json"), recursive=True)
-                  + glob.glob(os.path.join(tdir, "**", "*.csv"), recursive=True))
+    data_files = [f for f in (glob.glob(os.path.join(tdir, "**", "*.yml"), recursive=True)
+                              + glob.glob(os.path.join(tdir, "**", "*.yaml"), recursive=True)
+                              + glob.glob(os.path.join(tdir, "**", "*.json"), recursive=True)
+                              + glob.glob(os.path.join(tdir, "**", "*.csv"), recursive=True))
+                  if "03_edges" not in f and "edge" not in os.path.basename(f).lower()]
     print("[valA-stage] PDBs:", *pdbs, sep="\n  ", flush=True)
     print("[valA-stage] SDFs:", *sdfs, sep="\n  ", flush=True)
-    print("[valA-stage] data files:", *ymls, sep="\n  ", flush=True)
+    print("[valA-stage] affinity/data files (edges excluded):", *data_files, sep="\n  ", flush=True)
 
-    # ---- OBSERVE ligand SDF schema (print names + SD-property keys of the first records) ----
     try:
         from rdkit import Chem
     except Exception as e:  # noqa: BLE001
-        sys.exit(f"[valA-stage] rdkit unavailable in the runner ({e}); add it to the workflow pip install")
+        sys.exit(f"[valA-stage] rdkit unavailable in the runner ({e})")
 
-    # choose the ligands SDF = the one with the most records (the multi-ligand file)
     lig_sdf, recs = None, []
     for s in sdfs:
         rr = [m for m in Chem.SDMolSupplier(s, removeHs=False) if m is not None]
         if len(rr) > len(recs):
             lig_sdf, recs = s, rr
     if not recs:
-        sys.exit("[valA-stage] no ligand records parsed from any SDF")
-    print(f"[valA-stage] ligands SDF: {lig_sdf}  ({len(recs)} records)", flush=True)
+        sys.exit("[valA-stage] no ligand records parsed")
     names = [m.GetProp("_Name") if m.HasProp("_Name") else f"rec{i}" for i, m in enumerate(recs)]
-    print("[valA-stage] ligand names:", names, flush=True)
-    print("[valA-stage] first-record SD keys:", list(recs[0].GetPropNames()), flush=True)
-    for m in recs[:3]:
-        props = {k: m.GetProp(k) for k in m.GetPropNames()}
-        print(f"[valA-stage]   {m.GetProp('_Name') if m.HasProp('_Name') else '?'}: {props}", flush=True)
-
-    # print heads of the data files so the affinity schema is visible in the log
-    for y in ymls:
-        head = _read(y)[:1500]
-        print(f"[valA-stage] ===== {os.path.relpath(y, tdir)} (head) =====\n{head}", flush=True)
-
-    # ---- extract experimental ΔG per ligand (best-effort across known PLB schemas) ----
-    def _dg_exp(mol):
-        """Return (dG_kcal, how) from a ligand record's SD props, trying common PLB keys."""
-        props = {k.lower(): mol.GetProp(k) for k in mol.GetPropNames()}
-        for k in ("dg_exp", "exp_dg", "measured_dg", "dg", "affinity_dg[kcal/mol]"):
-            if k in props:
-                try:
-                    return float(props[k].split()[0]), f"SD:{k}"
-                except ValueError:
-                    pass
-        for k in ("ki", "ic50", "exp_ki", "ki (nm)", "ic50 (nm)"):
-            if k in props:
-                try:
-                    v = float(props[k].split()[0])
-                    # assume nM if the key mentions nM; PLB commonly stores nM
-                    ki_m = v * 1e-9
-                    return RT_KCAL * math.log(ki_m), f"SD:{k}=-RTln"
-                except (ValueError, ZeroDivisionError):
-                    pass
-        for k in ("pic50", "pki", "pactivity"):
-            if k in props:
-                try:
-                    p = float(props[k].split()[0])
-                    return -RT_KCAL * math.log(10) * p, f"SD:{k}=-2.303RT*p"
-                except ValueError:
-                    pass
-        return None, None
-
     by_name = {n: m for n, m in zip(names, recs)}
+    print(f"[valA-stage] ligands SDF: {lig_sdf}  ({len(recs)} records)\n  names={names}", flush=True)
+
+    affmap = _build_affinity_map(data_files)
+    print(f"[valA-stage] affinity map: {len(affmap)} ligands parsed; keys sample={list(affmap)[:6]}", flush=True)
+
+    def _dg(name, mol):
+        meas = affmap.get(name) or _sd_measurement(mol)
+        dg, how = _dg_from_measurement(meas) if meas else (None, None)
+        return dg, how, meas
 
     def _pick_edge():
         if PREF_A in by_name and PREF_B in by_name:
             return PREF_A, PREF_B, "preferred"
-        # fall back: two ligands with the largest MCS (most-congeneric)
         from rdkit.Chem import rdFMCS
-        best, pair = -1, (names[0], names[1] if len(names) > 1 else names[0])
+        best, pair = -1, (names[0], names[min(1, len(names) - 1)])
         for i in range(len(recs)):
             for j in range(i + 1, len(recs)):
                 try:
-                    mcs = rdFMCS.FindMCS([recs[i], recs[j]], timeout=5)
-                    if mcs.numAtoms > best:
-                        best, pair = mcs.numAtoms, (names[i], names[j])
+                    n = rdFMCS.FindMCS([recs[i], recs[j]], timeout=5).numAtoms
+                    if n > best:
+                        best, pair = n, (names[i], names[j])
                 except Exception:  # noqa: BLE001
                     continue
         return pair[0], pair[1], f"mcs({best})"
 
-    a_name, b_name, how_edge = _pick_edge()
-    molA, molB = by_name[a_name], by_name[b_name]
-    dgA, howA = _dg_exp(molA)
-    dgB, howB = _dg_exp(molB)
+    a_src, b_src, how_edge = _pick_edge()
+    molA, molB = by_name[a_src], by_name[b_src]
+    dgA, howA, measA = _dg(a_src, molA)
+    dgB, howB, measB = _dg(b_src, molB)
     ddg_exp = (dgB - dgA) if (dgA is not None and dgB is not None) else None
-    print(f"[valA-stage] EDGE {a_name}->{b_name} ({how_edge}); "
-          f"ΔG_exp: {a_name}={dgA} ({howA}), {b_name}={dgB} ({howB}); ΔΔG_exp={ddg_exp}", flush=True)
+    # focused evidence (NOT the whole tree): exactly the two chosen ligands
+    print(f"[valA-stage] CHOSEN EDGE {a_src}->{b_src} ({how_edge})", flush=True)
+    print(f"[valA-stage]   {a_src}: measurement={measA} -> ΔG_exp={dgA} ({howA})", flush=True)
+    print(f"[valA-stage]   {b_src}: measurement={measB} -> ΔG_exp={dgB} ({howB})", flush=True)
+    print(f"[valA-stage]   ΔΔG_exp = {ddg_exp} kcal/mol", flush=True)
 
-    # ---- retitle the two records to the names the RBFE engine will request, write the docked SDF ----
-    lig_a = os.environ.get("RBFE_LIGAND_A", f"{TARGET}_{a_name}")
-    lig_b = os.environ.get("RBFE_LIGAND_B", f"{TARGET}_{b_name}")
-    receptor = os.environ.get("VALA_RECEPTOR_SLOT", "nr4a3")  # cosmetic reuse of the slot; data is TARGET
-    protein_pdb = pdbs[0] if pdbs else None
-    if protein_pdb is None:
-        sys.exit("[valA-stage] no protein PDB found in target dir")
+    lig_a = os.environ.get("RBFE_LIGAND_A", f"{TARGET}_{a_src.replace('lig_', '')}")
+    lig_b = os.environ.get("RBFE_LIGAND_B", f"{TARGET}_{b_src.replace('lig_', '')}")
+    receptor = os.environ.get("VALA_RECEPTOR_SLOT", "nr4a3")
+    if not pdbs:
+        sys.exit("[valA-stage] no protein PDB found")
 
     outdir = os.path.join(workdir, "staged")
     os.makedirs(outdir, exist_ok=True)
@@ -201,40 +221,41 @@ def main():
         mol.SetProp("_Name", nm)
         w.write(mol)
     w.close()
-    # copy protein PDB
-    with open(protein_pdb, "r", errors="replace") as fh, \
-         open(os.path.join(outdir, f"{receptor}-opened.pdb"), "w") as out:
-        out.write(fh.read())
+    with open(os.path.join(outdir, f"{receptor}-opened.pdb"), "w") as out:
+        out.write(_read(pdbs[0]))
 
     manifest = {
         "_what": "valA_mini public known-answer RBFE benchmark (build-consistency; NOT NR4A science)",
         "target": TARGET, "source": f"{REPO}@{sha}",
-        "receptor_slot_cosmetic": receptor, "note_slot": "receptor slot reused; DATA IS %s" % TARGET.upper(),
-        "ligand_a": lig_a, "ligand_b": lig_b, "edge_selection": how_edge,
+        "receptor_slot_cosmetic": receptor, "note_slot": f"receptor slot reused; DATA IS {TARGET.upper()}",
+        "ligand_a": lig_a, "ligand_b": lig_b, "source_name_a": a_src, "source_name_b": b_src,
+        "edge_selection": how_edge,
         "dG_exp_a_kcal": dgA, "dG_exp_b_kcal": dgB, "ddG_exp_kcal": ddg_exp,
-        "dG_method_a": howA, "dG_method_b": howB,
+        "dG_method_a": howA, "dG_method_b": howB, "measurement_a": measA, "measurement_b": measB,
         "smiles_a": Chem.MolToSmiles(Chem.RemoveHs(molA)), "smiles_b": Chem.MolToSmiles(Chem.RemoveHs(molB)),
-        "go_no_go": "computed ΔΔG_bind within ~1.5-2 kcal/mol of ddG_exp_kcal -> build sound (GO)",
+        "go_no_go": "computed ΔΔG_bind(A->B) within ~1.5-2 kcal/mol of ddG_exp_kcal -> build sound (GO)",
     }
     with open(os.path.join(outdir, "valA_manifest.json"), "w") as fh:
         json.dump(manifest, fh, indent=2)
     print("[valA-stage] MANIFEST\n" + json.dumps(manifest, indent=2), flush=True)
 
-    # ---- upload to S3 (RECEPTOR_PREFIX) ----
-    dest = os.environ.get("RECEPTOR_PREFIX", "valA-tyk2-bench").rstrip("/")
     if os.environ.get("VALA_NO_UPLOAD") == "1":
-        print("[valA-stage] VALA_NO_UPLOAD=1 — skipping S3 upload (dry run).", flush=True)
+        print("[valA-stage] VALA_NO_UPLOAD=1 — dry run, no S3 upload.", flush=True)
         return
+    if ddg_exp is None and os.environ.get("VALA_ALLOW_NO_DDG") != "1":
+        sys.exit("[valA-stage] ABORT: ΔΔG_exp is None (affinity schema not parsed) — not staging a test with no "
+                 "known answer. See the measurement/data dumps above; fix the parser or set VALA_ALLOW_NO_DDG=1.")
     import boto3
     import sagemaker
     s3 = boto3.client("s3")
     bucket = sagemaker.Session().default_bucket()
+    dest = os.environ.get("RECEPTOR_PREFIX", "valA-tyk2-bench").rstrip("/")
     for fn in (f"docked_{receptor}.sdf", f"{receptor}-opened.pdb", "valA_manifest.json"):
         s3.upload_file(os.path.join(outdir, fn), bucket, f"{dest}/{fn}")
         print(f"[valA-stage] uploaded s3://{bucket}/{dest}/{fn}", flush=True)
-    print(f"[valA-stage] DONE. Now: setup->simulate(spot_safe=1)->analyze with "
-          f"receptor_prefix={dest} tag=valA-tyk2 ligand_a={lig_a} ligand_b={lig_b} "
-          f"only_legs=solvent,{receptor}. Then reduce; compare ΔΔG_bind to ddG_exp_kcal={ddg_exp}.", flush=True)
+    print(f"[valA-stage] DONE. RBFE: setup->simulate(spot_safe=1)->analyze receptor_prefix={dest} tag=valA-tyk2 "
+          f"ligand_a={lig_a} ligand_b={lig_b} only_legs=solvent,{receptor}; reduce; compare ΔΔG_bind to "
+          f"ddG_exp={ddg_exp}.", flush=True)
 
 
 if __name__ == "__main__":
