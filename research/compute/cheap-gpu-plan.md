@@ -3,6 +3,12 @@
 **Goal:** move the NR4A3 MD/FEP fleet off AWS SageMaker onto cheaper (or free) GPU before the Stage-2 fan-out.
 The current pilot run finishes on AWS untouched; **nothing new kicks off until this is set up.**
 
+> **Sibling doc:** this is *which GPU / what it costs per hour*. For *how fast and how many sims per GPU we
+> drive it* — NVIDIA-MPS GPU-packing, $/ns hardware choice, HMR/precision, energy-only `.nc`, and every other
+> throughput/cost lever with its status + gate — see **[md-throughput-optimizations.md](./md-throughput-optimizations.md)**
+> (deep-dive ledger, 2026-07-16). The two decisions compose: a faster card with idle SMs packs *more* MPS
+> processes, so pick the matrix GPU by measured **$/ns**, not $/hr.
+
 **What's already scaffolded (in `research/modalities/`):** a provider-agnostic harness (`gpu_backend.py`),
 the auto-teardown guarantee so no provider ever idles a GPU on the meter (`autoteardown.py`), an S3-compatible
 checkpoint bridge so compute is stateless and swappable (`object_store.py`), a portable job container
