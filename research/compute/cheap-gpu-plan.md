@@ -68,6 +68,20 @@ what this doc is for.**
 > moving production to **CUDA** (pin OpenMM's cuda-version to the driver, or bake an image) speeds both up and
 > **widens L4's lead**. Proof-of-concept milestone: OpenMM MD runs end-to-end on a GCP Spot GPU VM (~6 min, ~$0.01/run).
 
+> **★★ GCP RBFE PLUMBING PROVEN 2026-07-16 (`gpu-rbfe-gcp.yml`, run 29509433578).** The FULL OpenFE
+> RelativeHybridTopology RBFE pipeline now runs end-to-end on a GCE Spot L4 VM: openfe 1.12 env built via
+> Miniforge+mamba, VM self-staged the public TYK2 valA edge (no S3), LOMAP mapped 31 atoms
+> (tyk2_ejm_31→tyk2_ejm_42), and **setup → simulate → analyze** completed **on CUDA** (require-CUDA validated
+> the CUDA platform on the L4) → `status=OK dg_morph=13.262±0.268 via=split`. This was a `RBFE_TINY` plumbing
+> shakeout (2.5ps/10ps MD — the ΔG value is NOT science), but it answers the load-bearing question **"can we run
+> RBFE on GCP at all" → YES.** Two bugs found + fixed en route: (1) L4 Spot stockout in us-central1 → hybrid
+> zone search across us-central1/east1/east4/west1/west4 with wait-retry (a g2-standard-8 provisioned in
+> **us-east1-c** — we have at least burst L4 quota beyond central); (2) `AmberTools not available` at am1bcc
+> charge assignment → the env python was run directly instead of activated, so openff-toolkit's
+> `shutil.which("antechamber")` missed the env bin → fixed by prepending the env bin to PATH (mirrors AWS
+> `conda run -n rbfe`). NEXT: `mode=real` full spot-safe valA_mini (RUNG 1 kill-switch) — needs GCS
+> checkpoint/restore for the multi-hour run.
+
 > **★ CROSS-GPU / CROSS-PROVIDER $/ns — L4 vs A10G, and "is there something better" (analysis 2026-07-16,
 > answering trimcrae's three questions).** KEY PHYSICS: OpenMM PME explicit-solvent MD is **memory-bandwidth
 > bound**, not FLOP-bound — so for our workload the GPU's **GB/s** predicts ns/day far better than its TFLOPS.
