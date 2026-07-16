@@ -33,7 +33,7 @@ concurrency:
 jobs:
   gcp-rbfe:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 90
     env:
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
       MODE: ${{ github.event.inputs.mode || 'tiny' }}
@@ -161,37 +161,59 @@ jobs:
           # Fall back g2-standard-8 -> -4 (better capacity; 16 GB is enough for the tiny shakeout).
           MACHINES="g2-standard-8 g2-standard-4"
           ZONES="us-central1-a us-central1-b us-central1-c us-east1-b us-east1-c us-east1-d us-east4-a us-east4-b us-east4-c us-west1-a us-west1-b us-west4-a us-west4-b"
-          CREATED=""
-          for round in $(seq 1 8); do           # ~8 rounds x ~2 min sleep = up to ~16 min wait-out
-            for M in $MACHINES; do
-              for Z in $ZONES; do
-                if gcloud compute instances create "$VM" \
-                    --zone="$Z" --machine-type="$M" \
-                    --provisioning-model=SPOT --instance-termination-action=DELETE \
-                    --maintenance-policy=TERMINATE --no-restart-on-failure \
-                    --scopes=cloud-platform \
-                    --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
-                    --boot-disk-size=100GB \
-                    --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
-                  ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; break 3
-                fi
-                grep -iqE "quota|exceeded" /tmp/cerr && { echo "::error::QUOTA error for $M in $Z (not a stockout):"; grep -iE "quota|exceeded" /tmp/cerr | head -1; }
+
+          # provision the Spot VM across (machine,zone), waiting out stockout (WAIT IT OUT, never on-demand). A
+          # g2-standard-8 once provisioned in us-east1-c when central was stocked out, so we have burst L4 quota
+          # beyond central. Returns 0 + sets ZONE on success.
+          provision() {
+            local round M Z
+            for round in $(seq 1 8); do
+              for M in $MACHINES; do
+                for Z in $ZONES; do
+                  if gcloud compute instances create "$VM" \
+                      --zone="$Z" --machine-type="$M" \
+                      --provisioning-model=SPOT --instance-termination-action=DELETE \
+                      --maintenance-policy=TERMINATE --no-restart-on-failure --scopes=cloud-platform \
+                      --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                      --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+                    ZONE="$Z"; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; return 0
+                  fi
+                  grep -iqE "quota|exceeded" /tmp/cerr && { echo "::error::QUOTA for $M in $Z:"; grep -iE "quota|exceeded" /tmp/cerr | head -1; }
+                done
               done
+              echo "round $round: L4 Spot stocked out; waiting 120s to retry…"; sleep 120
             done
-            echo "round $round: all central zones stocked out (L4 Spot); waiting 120s to retry…"
-            sleep 120
-          done
-          [ -z "$CREATED" ] && { echo "::error::no us-central1 L4 Spot capacity after wait-out budget — transient stockout, re-dispatch later"; exit 1; }
-          echo "VM $VM created in $ZONE; polling serial console for RBFE result (up to ~45 min: env solve ~10 + MD)…"
+            return 1
+          }
+          # 0 while the VM exists + is healthy; 1 once it's gone/TERMINATED (spot preemption -> DELETE).
+          vm_alive() {
+            local st; st=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(status)" 2>/dev/null || echo GONE)
+            case "$st" in RUNNING|PROVISIONING|STAGING|REPAIRING) return 0 ;; *) echo "  VM status=$st"; return 1 ;; esac
+          }
+
+          # RESUME LOOP: a Spot preemption DELETEs the VM; on spot_safe runs we RE-CREATE it and its startup
+          # restores the newest committed snapshot from the GCS commit store (resume, losing ≤1 checkpoint). Fast
+          # preemption detection (vm_alive) breaks the poll immediately instead of polling a dead VM for 45 min.
+          MAX_ATTEMPTS=1; [ "$SPOT_SAFE" = 1 ] && MAX_ATTEMPTS=4
           RES=""; OUT=""
-          for i in $(seq 1 90); do
-            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
-            RES=$(printf '%s' "$OUT" | grep -oE '###RBFERESULT### .* ###END###' | tail -1 | sed -E 's/^###RBFERESULT### //; s/ ###END###$//' || true)
+          for attempt in $(seq 1 $MAX_ATTEMPTS); do
+            if ! vm_alive 2>/dev/null; then
+              echo "--- attempt $attempt/$MAX_ATTEMPTS: provisioning $VM ---"
+              provision || { echo "::error::no L4 Spot capacity after wait-out budget — re-dispatch later (resumes from GCS)"; exit 1; }
+              echo "VM $VM up in $ZONE; polling serial for RBFE result…"
+            fi
+            for i in $(seq 1 70); do            # ~35 min/attempt cap; breaks early on result OR preemption
+              OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+              RES=$(printf '%s' "$OUT" | grep -oE '###RBFERESULT### .* ###END###' | tail -1 | sed -E 's/^###RBFERESULT### //; s/ ###END###$//' || true)
+              [ -n "$RES" ] && break
+              if ! vm_alive; then echo "  VM gone (preempted) on attempt $attempt after ~$((i*30))s"; break; fi
+              sleep 30
+            done
             [ -n "$RES" ] && break
-            sleep 30
+            [ "$SPOT_SAFE" = 1 ] && echo "attempt $attempt: no result yet — re-provisioning to RESUME from the GCS checkpoint…"
           done
           echo "--- VM serial (filtered tail) ---"
-          printf '%s' "$OUT" | grep -aE "import:|nvidia-smi|RBFERESULT|openfe|OpenMM platform|Solving|mapped|ΔG_morph|dg_morph|valA-stage|error|Error|Traceback|REQUIRED|ABORT|staged input" | tail -90 || true
+          printf '%s' "$OUT" | grep -aE "import:|nvidia-smi|RBFERESULT|openfe|OpenMM platform|Solving|mapped|ΔG_morph|dg_morph|valA-stage|spot-safe|commit|restore|error|Error|Traceback|REQUIRED|ABORT|staged input" | tail -90 || true
           if [ -z "$RES" ]; then
             echo "::warning::no result marker — full serial tail 200:"
             printf '%s' "$OUT" | tail -200 || true
