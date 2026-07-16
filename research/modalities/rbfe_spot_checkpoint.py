@@ -279,6 +279,57 @@ class S3CommitStore(_BaseCommitStore):
         return nc, chk
 
 
+class GCSCommitStore(_BaseCommitStore):
+    """Google Cloud Storage-backed commit store — the GCP-provider analog of S3CommitStore, so a
+    spot-safe RBFE leg run on a preemptible GCE L4 checkpoints/resumes exactly like on AWS. Auth is
+    keyless: google-cloud-storage uses Application Default Credentials, which on a GCE VM with the
+    cloud-platform scope resolve to the attached service account (no HMAC keys). Same versioned,
+    manifest-written-LAST commit contract as the S3 store."""
+
+    def __init__(self, bucket: str, base_prefix: str):
+        from google.cloud import storage  # lazy — only the GCP path needs it
+        self._bucket = storage.Client().bucket(bucket)
+        self.bucket_name = bucket
+        self.base_prefix = base_prefix.rstrip("/")
+
+    def _key(self, *parts) -> str:
+        return "/".join([self.base_prefix, *parts])
+
+    def _persist(self, phase, iteration, generation, snap_nc, snap_chk, manifest):
+        gp = self._gen_prefix(phase, iteration, generation)
+        b_nc = self._bucket.blob(self._key(gp, snap_nc.name))
+        b_nc.metadata = {"sha256": manifest["analysis_sha256"], "iteration": str(iteration), "phase": phase}
+        b_nc.upload_from_filename(str(snap_nc))
+        b_chk = self._bucket.blob(self._key(gp, snap_chk.name))
+        b_chk.metadata = {"sha256": manifest["checkpoint_sha256"], "iteration": str(iteration), "phase": phase}
+        b_chk.upload_from_filename(str(snap_chk))
+        # manifest LAST — its presence is the commit signal (an interrupted upload has no manifest).
+        self._bucket.blob(self._key(gp, self.MANIFEST)).upload_from_string(
+            json.dumps(manifest, sort_keys=True), content_type="application/json")
+
+    def list_committed(self, phase: str) -> list:
+        out = []
+        pref = self._key(phase) + "/"
+        for blob in self._bucket.list_blobs(prefix=pref):
+            if blob.name.endswith(self.MANIFEST):
+                man = json.loads(blob.download_as_bytes())
+                parts = blob.name.split("/")        # .../<phase>/iter-XXXXXXXX/<generation>/COMMITTED.json
+                it = int(parts[-3].split("iter-")[1])
+                gen = parts[-2]
+                out.append((it, gen, man))
+        out.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        return out
+
+    def fetch(self, phase, iteration, generation, dest_dir):
+        gp = self._gen_prefix(phase, iteration, generation)
+        man = json.loads(self._bucket.blob(self._key(gp, self.MANIFEST)).download_as_bytes())
+        nc = dest_dir / man["analysis_name"]
+        chk = dest_dir / man["checkpoint_name"]
+        self._bucket.blob(self._key(gp, man["analysis_name"])).download_to_filename(str(nc))
+        self._bucket.blob(self._key(gp, man["checkpoint_name"])).download_to_filename(str(chk))
+        return nc, chk
+
+
 # --------------------------------------------------------------------------------------------
 # writer-controlled barrier: run in checkpoint-aligned chunks, commit at each boundary
 # --------------------------------------------------------------------------------------------

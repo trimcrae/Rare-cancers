@@ -17,9 +17,10 @@ name: GCP GPU — OpenFE RBFE on L4 (valA TYK2 known-answer; WIF keyless)
 on:
   workflow_dispatch:
     inputs:
-      zone:    { description: "GCE zone", default: "us-central1-a", required: false }
-      mode:    { description: "tiny (splittest shakeout) | real (full valA — not yet)", default: "tiny", required: false }
-      leg:     { description: "complex | solvent", default: "complex", required: false }
+      zone:      { description: "GCE zone", default: "us-central1-a", required: false }
+      mode:      { description: "tiny (splittest shakeout) | real (full valA — not yet)", default: "tiny", required: false }
+      leg:       { description: "complex | solvent", default: "complex", required: false }
+      spot_safe: { description: "1 = checkpoint/resume to GCS (GCSCommitStore); 0 = welded", default: "0", required: false }
 
 permissions:
   id-token: write
@@ -37,6 +38,7 @@ jobs:
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
       MODE: ${{ github.event.inputs.mode || 'tiny' }}
       LEG:  ${{ github.event.inputs.leg || 'complex' }}
+      SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -67,7 +69,8 @@ jobs:
           IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
             --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
           [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
-          echo "image: $IMG_FAMILY ; mode: $MODE ; leg: $LEG ; ref: $GITREF"
+          BUCKET="${PROJECT}-rbfe-ckpt"   # GCS checkpoint bucket for spot-safe runs (created on the VM if absent)
+          echo "image: $IMG_FAMILY ; mode: $MODE ; leg: $LEG ; spot_safe: $SPOT_SAFE ; bucket: $BUCKET ; ref: $GITREF"
 
           # startup script (unquoted heredoc): bare $VAR = workflow-baked (MODE/LEG/GITREF/MACHINE); \$-escaped =
           # runtime on the VM. DLVM image is bare Ubuntu+CUDA (NO conda) -> Miniforge+mamba (conda-forge openmm =
@@ -89,7 +92,7 @@ jobs:
           \$MAMBA create -y -p /tmp/mf/envs/rbfe -c conda-forge \
             python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
             "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
-            cuda-version=12.6 rdkit lomap2 kartograf numpy scipy pyyaml 2>&1 | tail -20
+            cuda-version=12.6 rdkit lomap2 kartograf numpy scipy pyyaml netcdf4 google-cloud-storage 2>&1 | tail -20
           PY=/tmp/mf/envs/rbfe/bin/python
           [ -x "\$PY" ] || { echo "###RBFERESULT### RBFE_RESULT status=ENVFAIL ###END###"; sleep 5; exit 0; }
           IMP=\$(\$PY -c "import openfe, openmm; print('openfe', openfe.__version__, 'openmm', openmm.version.version, 'plats', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
@@ -114,12 +117,31 @@ jobs:
           # via 'conda run -n rbfe' which activates; mirror that by prepending the env bin.
           export PATH=/tmp/mf/envs/rbfe/bin:\$PATH
           echo "antechamber: \$(command -v antechamber || echo MISSING) ; sqm: \$(command -v sqm || echo MISSING)"
-          echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG) on \$(basename \$PY) ---"
-          OUT=\$( cd \$WORK && MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
+          # SPOT-SAFE: checkpoint/resume the simulate leg to GCS via GCSCommitStore (keyless — the VM's SA + ADC).
+          # Ensure the checkpoint bucket exists (idempotent; VM SA has cloud-platform scope). A DISTINCT prefix per
+          # (leg) so complex/solvent don't collide. RBFE_SPOT_SAFE=1 routes run_simulate -> _run_simulate_spot_safe.
+          SPOT_ENV=""
+          if [ "$SPOT_SAFE" = 1 ]; then
+            echo "--- spot-safe: GCS commit store ---"
+            gcloud storage buckets describe gs://$BUCKET >/dev/null 2>&1 \
+              || gcloud storage buckets create gs://$BUCKET --location=us --uniform-bucket-level-access 2>&1 | tail -3
+            SPOT_ENV="RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valA-tyk2/$LEG"
+            # tiny validation: small checkpoint intervals so the few-iteration MD actually commits to GCS
+            # (proves the GCSCommitStore upload path). real runs use the driver defaults (10/20).
+            [ "\$TINY" = 1 ] && SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
+            echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
+          fi
+          echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE) on \$(basename \$PY) ---"
+          OUT=\$( cd \$WORK && env \$SPOT_ENV MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
             RECEPTOR=nr4a3 LEG=$LEG LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
             INPUT_DIR=\$IN OUTPUT_DIR=/tmp/rbfe_out CKPT_DIR=/tmp/rbfe_out \
             \$PY nr4a3_rbfe.py 2>&1 )
           echo "\$OUT" | tail -60
+          # spot-safe evidence: show the committed snapshots that landed in GCS (proves GCSCommitStore upload).
+          if [ "$SPOT_SAFE" = 1 ]; then
+            echo "--- GCS commit tree (gs://$BUCKET/valA-tyk2/$LEG) ---"
+            gcloud storage ls -r "gs://$BUCKET/valA-tyk2/$LEG/**" 2>&1 | tail -30 || echo "(no commits listed)"
+          fi
           # scrape the analyze result JSON (leg_nr4a3_<leg>.json) for ΔG_morph
           LEGJSON=/tmp/rbfe_out/leg_nr4a3_$LEG.json
           if [ -f "\$LEGJSON" ]; then

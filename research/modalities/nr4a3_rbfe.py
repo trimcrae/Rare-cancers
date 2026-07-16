@@ -734,9 +734,14 @@ def _run_simulate_spot_safe(proto, byname, setup_outputs):
     system = umod.deserialize(setup_outputs["system"])
     positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
     selection_indices = setup_outputs["selection_indices"]
-    commit_uri = os.environ.get("RBFE_SPOT_COMMIT_S3")
-    if commit_uri:
-        u = urlparse(commit_uri)
+    commit_s3 = os.environ.get("RBFE_SPOT_COMMIT_S3")
+    commit_gcs = os.environ.get("RBFE_SPOT_COMMIT_GCS")   # gs://bucket/prefix (GCP provider path)
+    if commit_gcs:
+        u = urlparse(commit_gcs)
+        store = spot.GCSCommitStore(u.netloc, u.path.lstrip("/"))
+        print(f"  [spot-safe] commit store: gs://{u.netloc}/{u.path.lstrip('/')}", flush=True)
+    elif commit_s3:
+        u = urlparse(commit_s3)
         store = spot.S3CommitStore(u.netloc, u.path.lstrip("/"))
         print(f"  [spot-safe] commit store: s3://{u.netloc}/{u.path.lstrip('/')}", flush=True)
     else:
