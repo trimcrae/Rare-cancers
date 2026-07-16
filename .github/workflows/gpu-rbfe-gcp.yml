@@ -1,0 +1,181 @@
+name: GCP GPU — OpenFE RBFE on L4 (valA TYK2 known-answer; WIF keyless)
+
+# Runs the repo's OpenFE RBFE flow on a GCE Spot L4 VM — the GCP port of the AWS SageMaker RBFE pipeline, so the
+# valA_mini known-answer benchmark (STRATEGY.md RUNG 1, the kill-switch) can run on GCP per the "burn the $300
+# credits before AWS" directive. Reuses gpu-bench-gcp.yml's proven machinery (WIF auth, zone-fallback Spot create,
+# Miniforge+mamba CUDA OpenMM, serial-console result reporting, unconditional teardown).
+#
+#   mode=tiny  -> RBFE_TINY splittest (setup->simulate->analyze in one process, 2.5ps/10ps MD) — PLUMBING SHAKEOUT
+#                 on the L4 GPU under CUDA. Minutes, ~$0.05. Proves the openfe env solves + the RBFE path runs on
+#                 GCP before the real spend. This is what the first dispatch runs.
+#   mode=real  -> full valA sampling (NOT YET — needs GCS checkpoint/restore for the multi-hour spot-safe run;
+#                 tracked as the next build once tiny confirms the plumbing).
+#
+# The VM self-stages the PUBLIC TYK2 edge (valA_bench_stage.py clones openforcefield/protein-ligand-benchmark —
+# the VM has unrestricted internet), so there is NO S3/GCS input dependency for the shakeout.
+
+on:
+  workflow_dispatch:
+    inputs:
+      zone:    { description: "GCE zone", default: "us-central1-a", required: false }
+      mode:    { description: "tiny (splittest shakeout) | real (full valA — not yet)", default: "tiny", required: false }
+      leg:     { description: "complex | solvent", default: "complex", required: false }
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: gcp-gpu-rbfe-${{ github.event.inputs.mode }}
+  cancel-in-progress: false
+
+jobs:
+  gcp-rbfe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      MODE: ${{ github.event.inputs.mode || 'tiny' }}
+      LEG:  ${{ github.event.inputs.leg || 'complex' }}
+      GITREF: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to GCP (keyless, WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Resolve project
+        run: |
+          set -eo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
+          gcloud config set project "$PROJECT"
+          echo "authenticated as: $(gcloud config get-value account 2>/dev/null)"
+
+      - name: Provision Spot L4 VM + run OpenFE RBFE
+        run: |
+          set -eo pipefail
+          VM="gcp-rbfe-${GITHUB_RUN_ID}"
+          echo "VM=$VM" >> "$GITHUB_ENV"
+          MACHINE="g2-standard-8"   # L4 + 8 vCPU/32GB — the openfe hybrid BUILD + solvation want more RAM than -4
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          echo "image: $IMG_FAMILY ; machine: $MACHINE ; mode: $MODE ; leg: $LEG ; ref: $GITREF"
+
+          # startup script (unquoted heredoc): bare $VAR = workflow-baked (MODE/LEG/GITREF/MACHINE); \$-escaped =
+          # runtime on the VM. DLVM image is bare Ubuntu+CUDA (NO conda) -> Miniforge+mamba (conda-forge openmm =
+          # driver-matched CUDA build). Then build the openfe 'rbfe' env, self-stage the TYK2 edge, run splittest.
+          cat > /tmp/startup.sh <<SS
+          #!/bin/bash
+          exec > >(tee /var/log/rbfe.log) 2>&1
+          set +e
+          echo "=== RBFE boot \$(date -u) mode=$MODE leg=$LEG ==="
+          for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
+          nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq && apt-get install -y -qq git >/dev/null 2>&1
+          echo "--- Miniforge + mamba (conda-forge CUDA openmm auto-matched to driver) ---"
+          curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh || echo "miniforge dl FAILED"
+          bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -3
+          MAMBA=/tmp/mf/bin/mamba
+          echo "--- create openfe 'rbfe' env (this is the ~5-10 min solve) ---"
+          \$MAMBA create -y -p /tmp/mf/envs/rbfe -c conda-forge \
+            python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
+            "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
+            cuda-version=12.6 rdkit lomap2 kartograf numpy scipy pyyaml 2>&1 | tail -20
+          PY=/tmp/mf/envs/rbfe/bin/python
+          [ -x "\$PY" ] || { echo "###RBFERESULT### RBFE_RESULT status=ENVFAIL ###END###"; sleep 5; exit 0; }
+          IMP=\$(\$PY -c "import openfe, openmm; print('openfe', openfe.__version__, 'openmm', openmm.version.version, 'plats', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
+          echo "import: \$IMP"
+          echo "--- clone repo ($GITREF) ---"
+          git clone --depth 1 --branch "$GITREF" https://github.com/trimcrae/Rare-cancers /tmp/repo 2>&1 | tail -2
+          WORK=/tmp/repo/research/modalities
+          # self-stage the public TYK2 edge into the RBFE input layout (no S3; VALA_NO_UPLOAD returns before upload)
+          echo "--- stage TYK2 valA input ---"
+          IN=/tmp/rbfe_in; mkdir -p \$IN/ligand \$IN/receptor
+          (cd \$WORK && VALA_NO_UPLOAD=1 VALA_WORKDIR=/tmp/valA \$PY valA_bench_stage.py 2>&1 | tail -25)
+          cp /tmp/valA/staged/docked_nr4a3.sdf \$IN/ligand/ 2>&1 || echo "no docked sdf"
+          cp /tmp/valA/staged/nr4a3-opened.pdb \$IN/receptor/ 2>&1 || echo "no receptor pdb"
+          cp /tmp/valA/staged/valA_manifest.json \$IN/ 2>&1 || true
+          echo "staged input tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null || true
+          RUNMODE=splittest
+          [ "$MODE" = real ] && RUNMODE=run   # 'real' full sampling not wired for spot-safety yet; tiny=splittest
+          TINY=1; [ "$MODE" = real ] && TINY=0
+          echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG) on \$(basename \$PY) ---"
+          OUT=\$( cd \$WORK && MODE=\$RUNMODE RBFE_TINY=\$TINY OPENMM_REQUIRE_CUDA=1 \
+            RECEPTOR=nr4a3 LEG=$LEG LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
+            INPUT_DIR=\$IN OUTPUT_DIR=/tmp/rbfe_out CKPT_DIR=/tmp/rbfe_out \
+            \$PY nr4a3_rbfe.py 2>&1 )
+          echo "\$OUT" | tail -60
+          # scrape the analyze result JSON (leg_nr4a3_<leg>.json) for ΔG_morph
+          LEGJSON=/tmp/rbfe_out/leg_nr4a3_$LEG.json
+          if [ -f "\$LEGJSON" ]; then
+            LINE=\$(\$PY -c "import json;d=json.load(open('\$LEGJSON'));print('RBFE_RESULT status=OK leg=%s dg_morph=%.3f unc=%.3f mapped=%s via=%s'%(d.get('leg'),d.get('dg_morph_kcal',0),d.get('unc_kcal',0),d.get('n_mapped_atoms'),d.get('via')))" 2>&1)
+          else
+            PLAT=\$(echo "\$OUT" | grep -oE "OpenMM platform: [A-Za-z]+" | tail -1)
+            LINE="RBFE_RESULT status=NORESULT leg=$LEG \${PLAT:-noplat} tail=\$(echo "\$OUT" | grep -iE 'error|abort|required|Traceback' | tail -1 | cut -c1-120)"
+          fi
+          for k in \$(seq 1 6); do echo "###RBFERESULT### \$LINE ###END###"; sleep 3; done
+          echo "=== RBFE-DONE \$LINE ==="
+          SS
+
+          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-central1-f"
+          CREATED=""
+          for Z in $ZONES; do
+            echo "--- trying zone $Z ---"
+            if gcloud compute instances create "$VM" \
+                --zone="$Z" --machine-type="$MACHINE" \
+                --provisioning-model=SPOT --instance-termination-action=DELETE \
+                --maintenance-policy=TERMINATE --no-restart-on-failure \
+                --scopes=cloud-platform \
+                --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                --boot-disk-size=100GB \
+                --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+              ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; break
+            fi
+            echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
+          done
+          [ -z "$CREATED" ] && { echo "::error::no Spot L4 capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
+          echo "VM $VM created in $ZONE; polling serial console for RBFE result (up to ~45 min: env solve ~10 + MD)…"
+          RES=""; OUT=""
+          for i in $(seq 1 90); do
+            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+            RES=$(printf '%s' "$OUT" | grep -oE '###RBFERESULT### .* ###END###' | tail -1 | sed -E 's/^###RBFERESULT### //; s/ ###END###$//' || true)
+            [ -n "$RES" ] && break
+            sleep 30
+          done
+          echo "--- VM serial (filtered tail) ---"
+          printf '%s' "$OUT" | grep -aE "import:|nvidia-smi|RBFERESULT|openfe|OpenMM platform|Solving|mapped|ΔG_morph|dg_morph|valA-stage|error|Error|Traceback|REQUIRED|ABORT|staged input" | tail -90 || true
+          if [ -z "$RES" ]; then
+            echo "::warning::no result marker — full serial tail 200:"
+            printf '%s' "$OUT" | tail -200 || true
+            echo "::error::RBFE produced no result"; exit 1
+          fi
+          echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
+          echo "RBFE RESULT: $RES"
+
+      - name: Teardown (always — no idle billing)
+        if: always()
+        run: |
+          if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
+          fi
+
+      - name: Result summary
+        if: always()
+        run: |
+          echo "mode=$MODE leg=$LEG"
+          echo "RESULT: ${RESULT_LINE:-<none>}"
+          case "${RESULT_LINE:-}" in
+            *status=OK*) echo "✅ OpenFE RBFE ran end-to-end on GCP L4 (CUDA) — GCP RBFE plumbing PROVEN" ;;
+            *ENVFAIL*)   echo "❌ openfe env build failed on the VM" ;;
+            *) echo "⚠️ no clean OK result — see serial tail above" ;;
+          esac

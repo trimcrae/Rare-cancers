@@ -66,41 +66,76 @@ jobs:
           [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
           echo "image: $IMG_FAMILY ; machine: $MACHINE ; accel: ${ACCEL:-<built-in>}"
 
+          # startup script: OpenMM via the DLVM's OWN conda (/opt/conda has a working python+ensurepip; the system
+          # py3.12 lacked venv). conda-forge = canonical CUDA build; pip fallback. Report result + FULL log to GCS
+          # (perms granted above). $B64/$MACHINE/$BUCKET/$RUNID bake in (unquoted heredoc); \$-escaped survive.
           B64=$(base64 -w0 research/modalities/gpu_md_bench.py)
           cat > /tmp/startup.sh <<SS
           #!/bin/bash
           exec > >(tee /var/log/bench.log) 2>&1
+          set +e
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
-          PY=/opt/conda/bin/python; PIP=/opt/conda/bin/pip
-          \$PIP install --quiet "openmm" 2>&1 | tail -3 || echo "openmm pip install FAILED"
-          echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
-          BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py || echo "BENCH_RESULT tag=$MACHINE status=RUNFAIL"
-          echo "=== BENCH-DONE ==="
+          # CUDA build: the pip wheel gives OpenCL (its CUDA build didn't match the driver). conda-forge openmm
+          # is compiled per-CUDA-version and mamba auto-selects the build matching THIS driver via the __cuda
+          # virtual package -> a working CUDA platform. Miniforge installer is a reliable self-contained .sh
+          # (unlike the micromamba tarball that failed) and bundles mamba (fast solver, no 25-min classic solve).
+          echo "--- Miniforge + mamba openmm (conda-forge CUDA build, auto-matched to driver) ---"
+          curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh || echo "miniforge download FAILED"
+          bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -5
+          /tmp/mf/bin/mamba install -y -p /tmp/mf openmm 2>&1 | tail -25
+          PY=/tmp/mf/bin/python
+          [ -x "\$PY" ] || PY=\$(command -v python3)
+          echo "bench python: \$PY (\$(\$PY --version 2>&1))"
+          IMPORT=\$(\$PY -c "import openmm; print('openmm', openmm.version.version, 'platforms', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
+          echo "import: \$IMPORT"
+          LINE=""
+          if echo "\$IMPORT" | grep -q "^openmm "; then
+            echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
+            OUT=\$(BENCH_TAG=$MACHINE BENCH_REQUIRE_CUDA=1 \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
+            LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
+          fi
+          [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=$MACHINE status=NOOPENMM"
+          # report via SERIAL console (no GCS/IAM/guest-attr): print the result sentinel-wrapped, repeated, so
+          # the workflow's serial poll can't miss it (the v3/v4 dumps confirmed the result reaches serial).
+          for k in \$(seq 1 6); do echo "###BENCHRESULT### \$LINE ###END###"; sleep 3; done
+          echo "=== BENCH-DONE \$LINE ==="
           SS
 
-          gcloud compute instances create "$VM" \
-            --zone="$ZONE" --machine-type="$MACHINE" $ACCEL \
-            --provisioning-model=SPOT --instance-termination-action=DELETE \
-            --maintenance-policy=TERMINATE --no-restart-on-failure \
-            --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
-            --boot-disk-size=75GB \
-            --metadata-from-file=startup-script=/tmp/startup.sh
-          echo "VM $VM ($MACHINE) created; polling serial for BENCH_RESULT (up to ~30 min)…"
-          RES=""; OUT=""
-          for i in $(seq 1 60); do
-            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
-            if echo "$OUT" | grep -q "BENCH-DONE"; then
-              RES=$(echo "$OUT" | grep "BENCH_RESULT tag=$MACHINE status=" | tail -1)
-              echo "=== serial (GPU + result) ==="; echo "$OUT" | grep -iE "NVIDIA|BENCH_RESULT|memory.total" | tail -20
-              break
+          # Spot capacity is zone-specific + transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout). Try candidate
+          # zones until one provisions — the GCP analog of waiting out spot capacity.
+          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-central1-f"
+          CREATED=""
+          for Z in $ZONES; do
+            echo "--- trying zone $Z ---"
+            if gcloud compute instances create "$VM" \
+                --zone="$Z" --machine-type="$MACHINE" $ACCEL \
+                --provisioning-model=SPOT --instance-termination-action=DELETE \
+                --maintenance-policy=TERMINATE --no-restart-on-failure \
+                --scopes=cloud-platform \
+                --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                --boot-disk-size=75GB \
+                --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+              ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; break
             fi
+            echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
+          done
+          [ -z "$CREATED" ] && { echo "::error::no Spot $MACHINE capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
+          echo "VM $VM ($MACHINE) created in $ZONE; polling serial console for result marker (up to ~25 min)…"
+          RES=""; OUT=""
+          for i in $(seq 1 50); do
+            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+            RES=$(printf '%s' "$OUT" | grep -oE '###BENCHRESULT### .* ###END###' | tail -1 | sed -E 's/^###BENCHRESULT### //; s/ ###END###$//' || true)
+            [ -n "$RES" ] && break
             sleep 30
           done
+          echo "--- VM serial (tail 150) for visibility (openmm/bench detail) ---"
+          printf '%s' "$OUT" | grep -aE "conda:|creating dedicated|import:|nvidia-smi|BENCHRESULT|openmm|Solving|Preparing|Executing|error|Error|CondaError|ns_per_day|atoms=" | tail -80 || true
           if [ -z "$RES" ]; then
-            echo "::warning::no BENCH-DONE in time — serial tail:"; echo "$OUT" | tail -60
-            echo "::error::benchmark did not complete in time"; exit 1
+            echo "::warning::no result marker — full serial tail 200:"
+            printf '%s' "$OUT" | tail -200 || true
+            echo "::error::benchmark produced no result"; exit 1
           fi
           echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
           echo "BENCH RESULT: $RES"

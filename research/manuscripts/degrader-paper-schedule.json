@@ -44,14 +44,14 @@
     {
       "id": "step0_rbfe_mechanics",
       "title": "RUNG 0: get RBFE running on OpenFE + managed-spot GPU (infra shakeout - NOT science yet)",
-      "status": "in_progress",
+      "status": "done",
       "track": "gpu",
-      "cost_est_usd": "5-15 (mostly sunk, running)",
+      "cost_est_usd": "5-15 (realized ~1-2)",
       "optimistic_days": 2,
-      "remaining_days": 2,
+      "remaining_days": 0,
       "parallel_ok": false,
       "depends_on": [],
-      "note": "The GPU job running RIGHT NOW. Driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO). Re-dispatched ~7x on 2026-07-15 while fixing an ExecuteUserScriptError. Prerequisite for ALL science. CHARGE-MODEL FIX (2026-07-15, free engineering): root-caused the earlier am1bcc failure = the RBFE conda env shipped WITHOUT ambertools; added ambertools>=23 + set partial_charge_method='am1bcc' (CHARGE_METHOD=nagl fallback). The NEXT shakeout uses am1bcc and confirms CPU charging succeeds (~$0 marginal); this puts us on the documented reference method so we can CITE OpenFE's validation and cut Val A to a near-free smoke. GO/NO-GO: one edge completes end-to-end with a sane dG -> proceed; if it can't run at all -> FEP program blocked, reconsider tooling. Also gives us the realized GPU-h/edge to pin every downstream cost."
+      "note": "DONE 2026-07-16 (PASSED, GO). One OpenFE RBFE edge (shared solvent morph denovo_401->lo_m0_NCCO_gen) ran end-to-end via the spot-safe split (setup CPU -> simulate GPU-spot RBFE_SPOT_SAFE=1 -> analyze MBAR); converged dG_morph = -48.75 +/- 0.57 kcal/mol. Confirmed am1bcc charging works on real hardware AND the spot-safe warmup->production->commit/restore driver (main f5f9bbb) is GPU-validated on our real edge (live S3 commits seen in production). Realized ~$1-2 spot. HISTORICAL: Driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO). Re-dispatched ~7x on 2026-07-15 while fixing an ExecuteUserScriptError. Prerequisite for ALL science. CHARGE-MODEL FIX (2026-07-15, free engineering): root-caused the earlier am1bcc failure = the RBFE conda env shipped WITHOUT ambertools; added ambertools>=23 + set partial_charge_method='am1bcc' (CHARGE_METHOD=nagl fallback). The NEXT shakeout uses am1bcc and confirms CPU charging succeeds (~$0 marginal); this puts us on the documented reference method so we can CITE OpenFE's validation and cut Val A to a near-free smoke. GO/NO-GO: one edge completes end-to-end with a sane dG -> proceed; if it can't run at all -> FEP program blocked, reconsider tooling. Also gives us the realized GPU-h/edge to pin every downstream cost."
     },
     {
       "id": "emc_e3_expression",

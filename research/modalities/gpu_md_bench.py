@@ -37,8 +37,18 @@ def _bench(edge_nm, steps, warmup, dt_fs):
                              hydrogenMass=4.0 * u.amu)   # HMR -> 4 fs, our production setting
     integrator = mm.LangevinMiddleIntegrator(300 * u.kelvin, 1.0 / u.picosecond, dt_fs * u.femtoseconds)
 
-    # pick the fastest available platform + report it
+    # pick the platform + report it. CUDA is ~1.5-2x faster than OpenCL on NVIDIA; the CUDA plugin only loads if
+    # OpenMM's CUDA build matches the driver — getPluginLoadFailures() says exactly why it didn't if so.
     plats = [mm.Platform.getPlatform(i).getName() for i in range(mm.Platform.getNumPlatforms())]
+    fails = [str(f) for f in mm.Platform.getPluginLoadFailures()]
+    print(f"[bench] platforms={plats}", flush=True)
+    if fails:
+        print(f"[bench] plugin_load_failures={fails}", flush=True)
+    # canonical OPENMM_REQUIRE_CUDA (shared with the production rbfe/abfe selectors); BENCH_REQUIRE_CUDA alias.
+    _rc = os.environ.get("OPENMM_REQUIRE_CUDA", os.environ.get("BENCH_REQUIRE_CUDA", "")).strip().lower()
+    require_cuda = _rc in ("1", "true", "yes", "on")
+    if require_cuda and "CUDA" not in plats:
+        raise RuntimeError(f"CUDA platform REQUIRED but unavailable. platforms={plats}; failures={fails}")
     plat_name = "CUDA" if "CUDA" in plats else ("OpenCL" if "OpenCL" in plats else "CPU")
     platform = mm.Platform.getPlatformByName(plat_name)
     props = {"Precision": "mixed"} if plat_name in ("CUDA", "OpenCL") else {}

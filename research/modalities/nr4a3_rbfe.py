@@ -228,6 +228,15 @@ def _mapping(openfe, ligA, ligB):
 _PLATFORM_NAME = None
 
 
+def _require_cuda():
+    """Whether a validated CUDA platform is MANDATORY (no silent OpenCL fallback). Default ON (trimcrae
+    2026-07-16: "require CUDA on all platforms"). Canonical env var OPENMM_REQUIRE_CUDA; BENCH_REQUIRE_CUDA is
+    honored as a back-compat alias so the GCP bench workflow keeps working. Set OPENMM_REQUIRE_CUDA=0 to allow
+    the OpenCL fallback on a driver that genuinely can't run CUDA."""
+    v = os.environ.get("OPENMM_REQUIRE_CUDA", os.environ.get("BENCH_REQUIRE_CUDA", "1")).strip().lower()
+    return v not in ("0", "false", "no", "off", "")
+
+
 def _working_platform_name(preferred="CUDA"):
     """First OpenMM platform that ACTUALLY runs, validated by a 1-particle energy eval that forces kernel/module
     load (registration != usable: the conda CUDA build's PTX can be too new for the g5 driver → CUDA registers
@@ -244,6 +253,14 @@ def _working_platform_name(preferred="CUDA"):
         return forced
     import openmm
     from openmm import unit as ou
+    # REQUIRE-CUDA gate (trimcrae 2026-07-16, "require CUDA on all platforms"): CUDA is ~1.3-2x faster than
+    # OpenCL on NVIDIA (measured: L4 CUDA 628 vs OpenCL 485 ns/day; the perses hybrid Context also JIT-compiles
+    # pathologically slowly on OpenCL). Silently falling back to OpenCL burns real $ on the slow platform without
+    # anyone noticing — so by DEFAULT we hard-fail if CUDA can't validate, forcing a driver/env fix rather than a
+    # silent tax. Escape hatch: OPENMM_REQUIRE_CUDA=0 restores the old CUDA→OpenCL soft fallback (use only when a
+    # driver genuinely can't run CUDA). The forced (RBFE_PLATFORM) and CPU-preferred paths above are exempt.
+    require_cuda = _require_cuda() and preferred != "CPU"
+    validated = []
     for name in [preferred] + [p for p in ("CUDA", "OpenCL") if p != preferred]:
         try:
             plat = openmm.Platform.getPlatformByName(name)
@@ -253,11 +270,24 @@ def _working_platform_name(preferred="CUDA"):
             ctx.setPositions([openmm.Vec3(0, 0, 0)] * ou.nanometer)
             ctx.getState(getEnergy=True).getPotentialEnergy()          # forces kernel load → catches bad PTX
             del ctx, integ
+            validated.append(name)
+            if require_cuda and name != "CUDA":
+                # CUDA required but this (validated) platform is OpenCL — don't accept it; report and fail below.
+                print(f"[rbfe] platform {name} works but CUDA is REQUIRED — not accepting the OpenCL fallback",
+                      flush=True)
+                continue
             print(f"[rbfe] OpenMM platform: {name}", flush=True)
             _PLATFORM_NAME = name
             return name
         except Exception as e:  # noqa: BLE001 — registered but unusable; try the next
             print(f"[rbfe] platform {name} unavailable: {str(e)[:140]}", flush=True)
+    if require_cuda:
+        raise RuntimeError(
+            "CUDA OpenMM platform REQUIRED but did not validate on this host "
+            f"(validated non-CUDA platforms: {validated or 'none'}). CUDA is ~1.3-2x faster than OpenCL and the "
+            "hybrid Context JIT-compiles far faster on it, so we refuse to silently run on OpenCL. Fix the CUDA "
+            "build/driver match (env pins cuda-version<=driver; see environment-rbfe.yml) — or set "
+            "OPENMM_REQUIRE_CUDA=0 to explicitly allow the OpenCL fallback for this run.")
     print("[rbfe] WARN no GPU platform validated; using OpenCL string", flush=True)
     _PLATFORM_NAME = "OpenCL"
     return _PLATFORM_NAME

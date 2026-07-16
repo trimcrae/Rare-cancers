@@ -86,6 +86,13 @@ def main():
     if MODE not in ("plan", "ls", "jobs", "tracelog", "ckpt", "forensic", "eta", "stop", "stage") and not role:
         sys.exit("SAGEMAKER_ROLE_ARN not set")
 
+    if MODE == "stagebench":
+        # valA_mini: fetch a PUBLIC known-answer RBFE system (TYK2) + stage ONE edge into RECEPTOR_PREFIX.
+        # Runs here in the GH runner (network + AWS creds); no SageMaker job. See valA_bench_stage.py.
+        import valA_bench_stage
+        valA_bench_stage.main()
+        return
+
     if MODE == "stage":
         # Assemble the RBFE receptor prefix (<r>-opened.pdb + docked_<r>.sdf) from the congeneric DOCKING
         # output (the smina job already wrote nr4a3-opened.pdb + _pose_<lig>.sdf into its checkpoint). Pure
