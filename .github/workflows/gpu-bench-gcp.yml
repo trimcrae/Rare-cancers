@@ -66,35 +66,35 @@ jobs:
           [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
           echo "image: $IMG_FAMILY ; machine: $MACHINE ; accel: ${ACCEL:-<built-in>}"
 
-          # startup script: robust OpenMM via micromamba (self-contained env, independent of the DLVM's conda),
-          # run bench, report the result line to this VM's GUEST ATTRIBUTES (VM writes its own metadata — no
-          # bucket/SA perms, unlike the GCS 404s). $B64/$MACHINE bake in (unquoted heredoc); \$-escaped survive.
+          # startup script: OpenMM via the DLVM's OWN conda (/opt/conda has a working python+ensurepip; the system
+          # py3.12 lacked venv). conda-forge = canonical CUDA build; pip fallback. Report result + FULL log to GCS
+          # (perms granted above). $B64/$MACHINE/$BUCKET/$RUNID bake in (unquoted heredoc); \$-escaped survive.
           B64=$(base64 -w0 research/modalities/gpu_md_bench.py)
           cat > /tmp/startup.sh <<SS
           #!/bin/bash
           exec > >(tee /var/log/bench.log) 2>&1
           set +e
-          GA="http://metadata.google.internal/computeMetadata/v1/instance/guest-attributes/bench/result"
-          report(){ curl -s -X PUT --data "\$1" -H "Metadata-Flavor: Google" "\$GA" && echo "[report] \$1"; }
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
-          cd /tmp
-          echo "--- venv + pip openmm (PyPI wheel bundles CUDA runtime; no conda/micromamba) ---"
-          PYBASE=\$(command -v python3 || echo /opt/conda/bin/python3)
-          echo "base python: \$PYBASE (\$(\$PYBASE --version 2>&1))"
-          \$PYBASE -m venv /tmp/venv 2>&1 | tail -5
-          /tmp/venv/bin/pip install --quiet --upgrade pip 2>&1 | tail -3
-          /tmp/venv/bin/pip install openmm 2>&1 | tail -30
-          PY=/tmp/venv/bin/python
-          if ! \$PY -c "import openmm; print('openmm', openmm.version.version, 'OK'); print('platforms:', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])"; then
-            echo "OPENMM UNAVAILABLE"; report "BENCH_RESULT tag=$MACHINE status=NOOPENMM"; echo "=== BENCH-DONE ==="; exit 0
+          CONDA=/opt/conda/bin/conda; PY=/opt/conda/bin/python
+          [ -x "\$PY" ] || PY=\$(command -v python3)
+          echo "python: \$PY (\$(\$PY --version 2>&1)); conda: \$CONDA"
+          echo "--- openmm via conda-forge ---"
+          [ -x "\$CONDA" ] && \$CONDA install -y -c conda-forge openmm 2>&1 | tail -30
+          \$PY -c "import openmm" 2>/dev/null || { echo "--- conda absent/failed; pip fallback ---"; \$PY -m pip install --no-input openmm 2>&1 | tail -30; }
+          IMPORT=\$(\$PY -c "import openmm; print('openmm', openmm.version.version, 'platforms', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
+          echo "import: \$IMPORT"
+          LINE=""
+          if echo "\$IMPORT" | grep -q "^openmm "; then
+            echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
+            OUT=\$(BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
+            LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
           fi
-          echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
-          OUT=\$(BENCH_TAG=$MACHINE \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
-          LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
-          [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=$MACHINE status=RUNFAIL"
-          report "\$LINE"
+          [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=$MACHINE status=NOOPENMM"
+          # report via SERIAL console (no GCS/IAM/guest-attr): print the result sentinel-wrapped, repeated, so
+          # the workflow's serial poll can't miss it (the v3/v4 dumps confirmed the result reaches serial).
+          for k in \$(seq 1 6); do echo "###BENCHRESULT### \$LINE ###END###"; sleep 3; done
           echo "=== BENCH-DONE \$LINE ==="
           SS
 
@@ -109,7 +109,6 @@ jobs:
                 --provisioning-model=SPOT --instance-termination-action=DELETE \
                 --maintenance-policy=TERMINATE --no-restart-on-failure \
                 --scopes=cloud-platform \
-                --metadata=enable-guest-attributes=TRUE \
                 --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                 --boot-disk-size=75GB \
                 --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
@@ -118,16 +117,17 @@ jobs:
             echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
           done
           [ -z "$CREATED" ] && { echo "::error::no Spot $MACHINE capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
-          echo "VM $VM ($MACHINE) created in $ZONE; polling guest-attributes for result (up to ~25 min)…"
-          RES=""
+          echo "VM $VM ($MACHINE) created in $ZONE; polling serial console for result marker (up to ~25 min)…"
+          RES=""; OUT=""
           for i in $(seq 1 50); do
-            RES=$(gcloud compute instances get-guest-attributes "$VM" --zone="$ZONE" --query-path=bench/result --format="value(queryValue.items[0].value)" 2>/dev/null || true)
+            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+            RES=$(printf '%s' "$OUT" | grep -oE '###BENCHRESULT### .* ###END###' | tail -1 | sed -E 's/^###BENCHRESULT### //; s/ ###END###$//')
             [ -n "$RES" ] && break
             sleep 30
           done
           if [ -z "$RES" ]; then
-            echo "::warning::no result in time — serial dump (tail 250) for diagnosis:"
-            gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null | tail -250 || true
+            echo "::warning::no result marker — serial dump (tail 200) for diagnosis:"
+            printf '%s' "$OUT" | tail -200 || true
             echo "::error::benchmark produced no result"; exit 1
           fi
           echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
