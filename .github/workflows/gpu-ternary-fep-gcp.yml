@@ -147,6 +147,16 @@ jobs:
           fi
           for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
           echo "=== TFEP-DONE \$LINE ==="
+          # SELF-DELETE on success (result already in GCS) so a detached VM never idle-bills to the 7h backstop.
+          # On NO-result keep the VM for post-mortem via gpu-rbfe-gcp-tail (still bounded by max-run).
+          case "\$LINE" in
+            *status=OK*)
+              NAME=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+              SZ=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
+              echo "self-deleting \$NAME in \$SZ (result in GCS; avoid idle billing)"
+              gcloud compute instances delete "\$NAME" --zone="\$SZ" --quiet || echo "self-delete no-op" ;;
+            *) echo "no OK result — leaving VM for post-mortem (max-run backstop)" ;;
+          esac
           SS
 
           MACHINES="g2-standard-8 g2-standard-4"
@@ -225,6 +235,7 @@ jobs:
         if: always()
         run: |
           echo "mode=$MODE leg=$LEG_ID"
+          if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi
           echo "RESULT: ${RESULT_LINE:-<none>}"
           case "${RESULT_LINE:-}" in
             *status=OK*smoke*) echo "✅ ternary assembly+map+hybrid-topology built on GCP L4 — valB_mini plumbing PROVEN" ;;
