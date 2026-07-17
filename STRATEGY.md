@@ -238,11 +238,22 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
   sensitivity. Tests reproducibility + receptor-sensitivity, NOT pose correctness.
   **GO/NO-GO:** reproducible, receptor-sensitive, pocket doesn't collapse → GO. Pathological/irreproducible → the
   cmpd19 anchor is too fragile to build on; reconsider before any fan-out.
-- **`[ ]` Validation B-mini — 2–3 known-answer ternary edges** *(valB_mini · GPU · ∥)* — **Price: ~$40–80 · Cum. ~$110**
-  A cheap probe of the VHL–BRD4/SMARCA2 ternary benchmark before committing to the full series.
-  **GO/NO-GO:** the ternary method moves in the right direction on the known-answer probe → GO to the full
-  ternary benchmark. Flat/wrong → **the flagship (prospective matrix) is not defensible → do NOT spend on it;**
-  the paper becomes binary-RBFE + honest ternary-limitations only.
+- **`[~]` Validation B-mini — PROTAC 2 → cis-PROTAC 2 known-answer ternary edge** *(valB_mini · GPU · ∥)* — **Price: ~$40–80 · Cum. ~$110**
+  **REDESIGNED 2026-07-17 (reviewer verdict — full record: [research/manuscripts/valB-reviewer-decision-2026-07-17.md](./research/manuscripts/valB-reviewer-decision-2026-07-17.md)).**
+  The original hi→lo SMARCA2–VHL panel edge is **not congeneric** (P1↔P5 = 32 perturbed heavy atoms; the whole
+  same-assay panel 32–47), and a wide RCSB search found **no clean same-assay congeneric both-α edge** in the
+  public record. Approved substitute: **PROTAC 2 → cis-PROTAC 2** (Farnaby 2019 SMARCA2–VHL; same-assay TR-FRET
+  **α = 18 → 1.0**; a single-stereocenter VHL 4-hydroxyproline trans→cis; staged from **6HAX**), preregistered
+  **ΔΔG_exp = −RT·ln(1/18) = +1.71 kcal/mol**. Built: `ternary-calib-epimer-frozen.json` +
+  `ternary_pdb_stage.py` + `gpu-ternary-fep-gcp.yml` (GCP L4). **GO/NO-GO:** positive sign, CI excludes 0,
+  within 1.0 of +1.71, repeats + fwd/rev agree ~0.5, overlap/sampling pass → **GO to valB_full**. Wrong sign /
+  err > 1.0 / restraint-dependent → NO-GO. CI-includes-0 / hysteresis / cis non-representable → **Indeterminate
+  (NOT a pass)**. **Mandatory cis-endpoint diagnostics** (ligand RMSD, VHL contact occupancy, restraint
+  work/sensitivity); a pass from forcibly retaining the active pose is **not** a pass. **valB_mini gates
+  valB_full only — it does NOT authorize the NR4A matrix.** Until valB_full passes, **NR4A ternary scores are
+  EXPLORATORY** (no validated-ranking claim; keep binary/ternary separable; don't present the matrix as
+  validated). **valB_full** must add ≥1 **all-binding graded** congeneric edge (reviewer preflight: Wurz et al.
+  1→4, α 12.8→2.6 ≈ +0.94 kcal/mol) before any productive-complex ranking claim.
   - **Readiness + cost anatomy (assessed 2026-07-17).** Unlike valA_mini (which collapsed to a ~$0–15 *smoke*
     because it runs OpenFE's standard, already-published RBFE protocol → we cite OpenFE and just confirm the
     build), **valB_mini is a real known-answer test** — it exercises the bespoke `ΔΔG_coop = ternary − binary`

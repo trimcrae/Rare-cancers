@@ -104,15 +104,15 @@
     },
     {
       "id": "valB_mini",
-      "title": "RUNG 2: 2-3 known-answer NONCOVALENT ternary edges (VHL-BRD4/SMARCA2 probe)",
-      "status": "pending",
+      "title": "RUNG 2: known-answer ternary edge PROTAC 2 -> cis-PROTAC 2 (SMARCA2-VHL, 6HAX; ddG_exp=+1.71)",
+      "status": "in_progress",
       "track": "gpu",
       "cost_est_usd": "40-80",
       "optimistic_days": 3,
       "remaining_days": 3,
       "parallel_ok": true,
       "depends_on": ["valA_mini"],
-      "note": "Mandatory change 1C (probe). Cheap probe of the ternary benchmark before committing to the full series. GO/NO-GO: ternary method moves in the right direction -> GO to the full ternary benchmark. Flat/wrong -> the flagship prospective matrix is NOT defensible; do NOT spend on it; paper becomes binary-RBFE + honest ternary-limitations only."
+      "note": "Mandatory change 1C. REDESIGNED 2026-07-17 per the reviewer verdict (research/manuscripts/valB-reviewer-decision-2026-07-17.md): the original SMARCA2-VHL hi->lo panel edge (P1->P5) is NOT congeneric (32-47 perturbed atoms; proven by RCSB+RDKit) and a wide RCSB search found NO clean same-assay congeneric both-alpha edge in the public record. APPROVED substitute = PROTAC 2 -> cis-PROTAC 2 (Farnaby 2019 SMARCA2-VHL, same-assay TR-FRET alpha 18->1.0, single-stereocenter VHL 4-hydroxyproline trans->cis, staged from 6HAX), preregistered ddG_exp = -RT ln(1/18) = +1.71 kcal/mol. Built: ternary-calib-epimer-frozen.json + ternary_pdb_stage.py + gpu-ternary-fep-gcp.yml on GCP. GATES: GO to valB_full (positive sign, CI excludes 0, within 1.0 of +1.71, repeats+fwd/rev agree ~0.5, overlap/sampling pass); NO-GO (wrong sign / err>1.0 / restraint-dependent); INDETERMINATE=not a pass (CI includes 0 / hysteresis / cis non-representable). MANDATORY cis-endpoint diagnostics (ligand RMSD, VHL contact occupancy, restraint work+sensitivity): a pass from forcibly retaining the active pose is NOT a pass. valB_mini GATES valB_full only; it does NOT authorize the NR4A matrix. Until valB_full passes, NR4A ternary scores are EXPLORATORY (no validated ranking claim; keep binary/ternary separable; do not present the matrix as validated)."
     },
     {
       "id": "valA_full",
@@ -136,7 +136,7 @@
       "remaining_days": 4,
       "parallel_ok": true,
       "depends_on": ["valB_mini"],
-      "note": "Mandatory change 1C (full). Only if the valB_mini probe was promising. Completes VHL-BRD4/SMARCA2 series; FIXES preregistered ternary scoring. GATE: the prospective matrix never runs unless this passes. GO/NO-GO: recovers known ternary cooperativity ranking -> GO."
+      "note": "Mandatory change 1C (full). Only if valB_mini = GO. Must ADD >=1 ALL-BINDING graded congeneric edge (both productive binders) before any claim that the method ranks cooperativity among productive ternary complexes (reviewer 2026-07-17) - the epimer mini only tests the sign/knockout. Reviewer preflight candidate: Wurz et al. SMARCA2-VHL compound 1->4 (alpha 12.8->2.6 ~ +0.94 kcal/mol); a FREE preflight first establishes mapper quality + staging from one template + a small congener (both endpoints need NOT be separately solved). FIXES preregistered ternary scoring. GATE: the prospective matrix never runs unless this passes. GO/NO-GO: recovers known ternary cooperativity ranking -> GO."
     },
     {
       "id": "nrv04_feasibility_covalent",
