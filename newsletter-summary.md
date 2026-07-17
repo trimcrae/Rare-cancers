@@ -1,12 +1,10 @@
-# Method-watch — week of July 17
+# NR4A3 method-watch — week of July 17
 
-**Quiet week — nothing crossed a trigger.**
+**Quiet week — nothing that changes the plan.**
 
-No new capability, tool release, or NR4A3/EMC advance this week that changes the plan. All tracked repos (AlphaFold3, Boltz, Protenix, BioEmu, RFdiffusion, chai-lab) are at the same versions as last week's snapshot — no bumps to check.
+- **DruGUI 2.0** (Jul 1) shipped — a probe-based-MD protein druggability mapper. Possibly worth a quick look against the NR4A3 cryptic-pocket re-grade queue as a cross-check, but not urgent — no indication yet it beats the existing metadynamics workflow.
+- The already-watched tools (AlphaFold3, BioEmu, Protenix, RFdiffusion, Boltz) show no new capability-relevant releases this week — just old/known versions still sitting in the tracker.
+- No new EWSR1::NR4A3 or EMC-specific chemical/biological matter turned up.
+- Everything else in this week's digest is noise: a wave of "ASO Author Reflections" hits are *Annals of Surgical Oncology* papers (unrelated to antisense oligos), plus generic PROTAC/degrader papers on other targets (AURKB, SETDB1, ATR, RET), unrelated case reports, and generic ML/generative-design surveys — none actionable.
 
-The literature scan turned up a batch of hits, but on inspection they're all keyword-collision noise, not real signal:
-- "ASO" hits are almost all *Annals of Surgical Oncology* "Author Reflections" pieces (post-hepatectomy, frailty, radiomics) — nothing to do with antisense oligonucleotides.
-- The NR4A3 hits are unrelated case reports (a poroma fusion variant, a myoepithelioma case series) and off-target hits (a diabetes/ITGB1 paper, an amyloid assay) — no chemical or biological matter against NR4A3 or the fusion.
-- Cryptic-pocket, delivery, and virtual-cell sections are routine incremental papers, none reaching a validated/turnkey trigger.
-
-Nothing actioned, nothing needed from you this week.
+Nothing here crosses a trigger. No action needed; will re-check next cycle.
