@@ -1,0 +1,31 @@
+{
+  "record_type": "provenance_correction",
+  "subject": "E3 machinery Elongin B UniProt accession",
+  "corrected_on": "2026-07-17",
+  "authority": "reviewer (valB_mini required change #2, 2026-07-17)",
+  "erroneous_value": {
+    "field": "ELONGIN_B",
+    "accession": "P62258",
+    "actual_protein_for_that_accession": "14-3-3 protein epsilon (YWHAE), human",
+    "where_emitted": [
+      "research/modalities/nrv04_ternary.py ELONGIN_B (constant)",
+      "research/modalities/ternary_coop_prep.py E3_VHL.partners -> the e3_construct_signature recorded in the valB_mini 5-part smoke gate (item3) artifact smoke_calib_hi_to_lo__ternary_vhl.json",
+      "research/modalities/nrv04-ternary-benchmark.json context note"
+    ]
+  },
+  "corrected_value": {
+    "field": "ELONGIN_B",
+    "accession": "Q15370",
+    "protein": "Elongin B (ELOB), human"
+  },
+  "physical_impact": "NONE on the valB benchmark. The valB ternary/binary staging resolves E3 chains from RCSB "
+                     "8G1Q via ternary_pdb_stage.role_to_chains -> UNIPROT_ROLE, which already mapped Elongin B "
+                     "to the correct Q15370; the staged complex.pdb Elongin B chain is the real 8G1Q Elongin B. "
+                     "The error was confined to the RECORDED metadata label (the e3_construct_signature) and to "
+                     "the NR-V04 co-fold sequence-fetch constant (a separate, parked workstream). No physical "
+                     "rerun of any valB leg is required; the staged coordinates and parameterized chain are "
+                     "confirmed unaffected.",
+  "attaches_to": "valB_mini ternary seed 0 (calib_hi_to_lo__ternary_vhl, fwd, r0) provenance",
+  "note": "This record intentionally preserves BOTH the originally-emitted erroneous accession (P62258) and the "
+          "correction, per the reviewer's archival requirement, so the benchmark record is auditable."
+}

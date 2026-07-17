@@ -33,8 +33,13 @@ OUT_DIR = os.environ.get("OUTPUT_DIR", os.path.join(HERE, "nrv04_ternary_out"))
 SPEC = os.path.join(HERE, "nrv04-ternary-benchmark.json")
 
 # E3 machinery — VHL and its VBC partners (VHL is only functional in the ElonginB/C complex).
+# CORRECTED 2026-07-17 (reviewer): Elongin B is UniProt Q15370 (human ELOB). The prior value P62258 is human
+# 14-3-3 protein epsilon (YWHAE) — a copy-paste error. The valB staging never used this constant (it resolves
+# chains from RCSB via ternary_pdb_stage.UNIPROT_ROLE, which already had Q15370), so the staged coordinates +
+# parameterized chain were UNAFFECTED; only the recorded metadata label was wrong. See
+# e3-provenance-correction.json for the machine-readable correction record.
 VHL = "P40337"
-ELONGIN_B = "P62258"
+ELONGIN_B = "Q15370"
 ELONGIN_C = "Q15369"
 # NR4A targets + the retrospective ground truth (Wang 2024): NR4A1 degraded; NR4A2/NR4A3 spared.
 TARGETS = {
