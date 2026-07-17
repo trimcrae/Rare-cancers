@@ -92,16 +92,40 @@ jobs:
           ( while true; do echo "[gpu-util] \$(date -u +%H:%M:%S) util(gpu,mem)%,memMiB,W: \$(nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,power.draw --format=csv,noheader,nounits 2>/dev/null | tr '\n' ' | ')"; sleep 30; done ) &
           export DEBIAN_FRONTEND=noninteractive
           apt-get update -qq && apt-get install -y -qq git >/dev/null 2>&1
-          echo "--- Miniforge + mamba (conda-forge CUDA openmm auto-matched to driver) ---"
-          curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh || echo "miniforge dl FAILED"
-          bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -3
-          MAMBA=/tmp/mf/bin/mamba
-          echo "--- create openfe 'rbfe' env (this is the ~5-10 min solve) ---"
-          \$MAMBA create -y -p /tmp/mf/envs/rbfe -c conda-forge \
-            python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
-            "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
-            cuda-version=12.6 rdkit lomap2 kartograf numpy scipy pyyaml netcdf4 google-cloud-storage 2>&1 | tail -20
+          # ---- ENV CACHE (2026-07-17): the openfe env solve is ~8-13 min and is WASTED whenever a spot VM is
+          # preempted during the build (the dominant churn on contended-capacity nights). Cache the built env as a
+          # single tar in GCS; on a HIT, download+extract (~2-3 min) and SKIP Miniforge+mamba entirely. Key = image
+          # family + a manual spec tag (bump the tag's -vN when the ENV package list below changes → forces a clean
+          # rebuild + re-cache). SAFETY: an 'import openfe, openmm' gate guards both paths, so a missing/corrupt/
+          # mismatched cache silently falls through to the full mamba solve — worst case == the old behavior. The
+          # env extracts to the SAME /tmp/mf/envs/rbfe path it was built at, so conda's hardcoded paths match (no
+          # relocation). gcloud is preinstalled on the DLVM image, so the probe works before Miniforge exists.
+          ENV_KEY=\$(echo "$IMG_FAMILY|openfe1.12-am1bcc-cu126-v1" | sha256sum | cut -c1-16)
+          ENV_CACHE="gs://$BUCKET/env-cache/rbfe-\$ENV_KEY.tar"
           PY=/tmp/mf/envs/rbfe/bin/python
+          USED_CACHE=0
+          echo "--- env-cache: probing \$ENV_CACHE (key \$ENV_KEY) ---"
+          if gcloud storage cp "\$ENV_CACHE" /tmp/rbfe-env.tar 2>/dev/null; then
+            mkdir -p /tmp/mf/envs && tar -C /tmp/mf/envs -xf /tmp/rbfe-env.tar 2>&1 | tail -1 && USED_CACHE=1
+            rm -f /tmp/rbfe-env.tar
+          fi
+          if [ "\$USED_CACHE" = 1 ] && \$PY -c "import openfe, openmm" 2>/dev/null; then
+            echo "--- env-cache HIT: skipped Miniforge+mamba (~10 min saved on this resume) ---"
+          else
+            echo "--- env-cache MISS/invalid -> Miniforge + mamba (conda-forge CUDA openmm; ~8-13 min) ---"
+            curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh || echo "miniforge dl FAILED"
+            bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -3
+            MAMBA=/tmp/mf/bin/mamba
+            echo "--- create openfe 'rbfe' env (this is the ~5-10 min solve) ---"
+            \$MAMBA create -y -p /tmp/mf/envs/rbfe -c conda-forge \
+              python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
+              "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
+              cuda-version=12.6 rdkit lomap2 kartograf numpy scipy pyyaml netcdf4 google-cloud-storage 2>&1 | tail -20
+            if [ -x "\$PY" ] && \$PY -c "import openfe, openmm" 2>/dev/null; then
+              echo "--- caching freshly-built env -> \$ENV_CACHE (so the NEXT preempted resume skips the solve) ---"
+              ( cd /tmp/mf/envs && tar -cf - rbfe | gcloud storage cp - "\$ENV_CACHE" 2>&1 | tail -1 ) || echo "  (env-cache upload failed; non-fatal)"
+            fi
+          fi
           [ -x "\$PY" ] || { echo "###RBFERESULT### RBFE_RESULT status=ENVFAIL ###END###"; sleep 5; exit 0; }
           IMP=\$(\$PY -c "import openfe, openmm; print('openfe', openfe.__version__, 'openmm', openmm.version.version, 'plats', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
           echo "import: \$IMP"
