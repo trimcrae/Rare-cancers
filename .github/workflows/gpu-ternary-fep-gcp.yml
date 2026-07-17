@@ -22,7 +22,7 @@ on:
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
-      template_pdb:{ description: "crystal template", default: "6HAX", required: false }
+      template_pdb: { description: "crystal template", default: "6HAX", required: false }
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
   push:
