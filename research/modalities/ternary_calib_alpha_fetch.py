@@ -50,18 +50,31 @@ def _citation(pdb: str) -> dict:
     if not e:
         return {}
     cit = (e.get("rcsb_primary_citation") or {})
-    return {"title": cit.get("title"), "doi": cit.get("pdbx_database_id_doi"),
-            "pubmed": cit.get("pdbx_database_id_pub_med"), "journal": cit.get("rcsb_journal_abbrev"),
-            "year": cit.get("year")}
+    # RCSB REST field names vary by case; try the known variants for DOI + PubMed.
+    doi = (cit.get("pdbx_database_id_doi") or cit.get("pdbx_database_id_DOI")
+           or cit.get("pdbx_database_id_doi".upper()))
+    pmid = (cit.get("pdbx_database_id_pub_med") or cit.get("pdbx_database_id_PubMed"))
+    return {"title": cit.get("title"), "doi": doi, "pubmed": pmid,
+            "journal": cit.get("rcsb_journal_abbrev"), "year": cit.get("year")}
 
 
-def _epmc_record(doi: str | None, pmid) -> dict:
-    q = f"DOI:{doi}" if doi else (f"EXT_ID:{pmid}" if pmid else None)
-    if not q:
-        return {}
-    d = _get(EPMC_SEARCH.format(q=urllib.parse.quote(q)))
-    hits = ((d or {}).get("resultList") or {}).get("result") or []
-    return hits[0] if hits else {}
+def _epmc_record(doi: str | None, pmid, title: str | None = None) -> dict:
+    """Resolve the EuropePMC core record. Prefer DOI/PMID; FALL BACK to an exact-title search (RCSB often omits
+    the DOI/PMID, as for 7Z76 — a missing id must not be misread as 'no cooperativity data')."""
+    queries = []
+    if doi:
+        queries.append(f"DOI:{doi}")
+    if pmid:
+        queries.append(f"EXT_ID:{pmid}")
+    if title:
+        t = title.strip().rstrip(".").replace('"', "")
+        queries.append(f'TITLE:"{t}"')
+    for q in queries:
+        d = _get(EPMC_SEARCH.format(q=urllib.parse.quote(q)))
+        hits = ((d or {}).get("resultList") or {}).get("result") or []
+        if hits:
+            return hits[0]
+    return {}
 
 
 def _coop_sentences(text: str, limit=40) -> list:
@@ -79,7 +92,7 @@ def _coop_sentences(text: str, limit=40) -> list:
 
 def fetch_one(pdb: str) -> dict:
     cit = _citation(pdb)
-    rec = _epmc_record(cit.get("doi"), cit.get("pubmed"))
+    rec = _epmc_record(cit.get("doi"), cit.get("pubmed"), cit.get("title"))
     abstract = rec.get("abstractText") or ""
     src, pid = rec.get("source"), rec.get("id")
     is_oa = str(rec.get("isOpenAccess", "")).upper() in ("Y", "TRUE")
