@@ -16,7 +16,7 @@ name: Modal RBFE — step1 cmpd19 pilot (L4, Modal credits)
 on:
   workflow_dispatch:
     inputs:
-      mode:      { description: "tiny | real | reduce | tail (S3 census) | stop (stop the running Modal app)", default: "tiny", required: true }
+      mode:      { description: "tiny | real | reduce | tail | stop | bench (ns/$ across GPUs)", default: "tiny", required: true }
       leg:       { description: "complex | solvent (mode=real)", default: "complex", required: false }
       n_windows: { description: "λ-windows over the A→B morph", default: "12", required: false }
       gpu:       { description: "Modal GPU: L4 | A10G | A100 | A100-80GB | L40S | H100", default: "L4", required: false }
@@ -56,6 +56,12 @@ jobs:
           NW: ${{ github.event.inputs.n_windows || '12' }}
           MODAL_GPU: ${{ github.event.inputs.gpu || 'L4' }}
         run: |
+          # mode=bench: GPU ns/$ benchmark (Modal-only; no AWS/S3). MODAL_GPU carries the comma-separated list.
+          if [ "$MODE" = "bench" ]; then
+            if [ -z "$MODAL_TOKEN_ID" ]; then echo "::error::MODAL_TOKEN_ID/SECRET missing."; exit 1; fi
+            modal run research/modalities/modal_gpu_bench.py --gpus "$MODAL_GPU"
+            exit 0
+          fi
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::AWS creds missing — the RBFE checkpoint store is on S3."; exit 1
           fi
