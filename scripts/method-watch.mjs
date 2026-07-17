@@ -137,7 +137,6 @@ const REPOS = [
 ];
 
 const SINCE_DAYS = Number(process.env.METHOD_WATCH_DAYS || 120);
-const ANTHROPIC_MODEL = process.env.ANTHROPIC_MODEL || "claude-haiku-4-5";
 
 async function epmc(query) {
   const url =
@@ -170,105 +169,10 @@ function recent(dateStr) {
   return (Date.now() - d) / 86400000 <= SINCE_DAYS;
 }
 
-// Strip a ```json ... ``` (or bare ```) fence the model sometimes wraps JSON in.
-function stripFence(s) {
-  const m = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  return (m ? m[1] : s).trim();
-}
-
-// LLM RELEVANCE FILTER. The raw EuropePMC keyword search is a firehose dominated by
-// keyword-collision FALSE POSITIVES (e.g. "ASO Author Reflections" where ASO = Annals of
-// Surgical Oncology, not antisense oligonucleotide; "protein dynamics" in a forensics paper;
-// unrelated NR4A3 case reports). This makes the digest unreadable. So — mirroring the daily
-// status email's LLM step, but applied at generation time so the published digest itself is
-// clean — we ask the model to keep ONLY hits that genuinely advance each capability, and to
-// write a one-line note per topic + a headline. Returns a Map keyed by topic index string
-// -> {relevant:Set<id>, note}, plus a "__headline" entry; or null when unavailable/failed, in
-// which case the caller falls back to the raw (unfiltered) rendering and nothing breaks.
-async function llmFilter(topicHits) {
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) return null;
-  const payload = topicHits.map((t, i) => ({
-    topic: i,
-    capability: t.key,
-    unlocks: t.trigger,
-    hits: t.hits.map((h) => ({ id: h.id, date: h.date, title: h.title })),
-  }));
-  const system =
-    "You are a STRICT relevance filter for a computational-biology method-watch digest for a solo " +
-    "researcher whose program is an NR4A3 / EWSR1::NR4A3 (extraskeletal myxoid chondrosarcoma) degrader " +
-    "and antisense-oligonucleotide effort. For each capability topic you get literature hits from a broad " +
-    "keyword search. MANY ARE FALSE POSITIVES from keyword collisions (e.g. 'ASO Author Reflections' where " +
-    "ASO = Annals of Surgical Oncology, NOT antisense oligonucleotide; 'protein dynamics' in a forensic " +
-    "post-mortem paper; 'generative model' in a dermatology-education review; unrelated NR4A3 case reports " +
-    "with no chemical/biological matter). Keep ONLY hits that genuinely advance THIS capability for THIS " +
-    "program — a new/validated method, tool, model, dataset, or a direct NR4A3/EMC advance. Be aggressive: " +
-    "when a hit is off-topic or merely shares a keyword, DROP it. Return ONLY JSON (no prose, no code fence) " +
-    'of the exact form {"headline":"<one plain sentence: did anything material land this period? name it, ' +
-    'else say nothing material>","topics":[{"topic":<int>,"relevant":["<hit id>",...],"note":"<<=1 sentence ' +
-    'on what matters in this topic, or empty string if nothing relevant>"}]}. Include EVERY topic index once. ' +
-    "relevant lists only ids you kept and may be empty. Use hit ids exactly as given.";
-  const body = JSON.stringify({
-    model: ANTHROPIC_MODEL,
-    max_tokens: 2000,
-    system,
-    messages: [{ role: "user", content: JSON.stringify(payload) }],
-  });
-  try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": key,
-        "anthropic-version": "2023-06-01",
-      },
-      body,
-    });
-    if (!r.ok) throw new Error(`Anthropic ${r.status}`);
-    const j = await r.json();
-    const txt = (j.content || [])
-      .filter((b) => b.type === "text")
-      .map((b) => b.text)
-      .join("")
-      .trim();
-    const parsed = JSON.parse(stripFence(txt));
-    const map = new Map();
-    map.set("__headline", (parsed.headline || "").trim());
-    for (const t of parsed.topics || []) {
-      map.set(String(t.topic), {
-        relevant: new Set(t.relevant || []),
-        note: (t.note || "").trim(),
-      });
-    }
-    return map;
-  } catch (e) {
-    console.error(`[llmFilter] skipped (${e.message}); falling back to raw digest.`);
-    return null;
-  }
-}
-
 async function main() {
   const out = process.argv[2] ||
     join(dirname(fileURLToPath(import.meta.url)), "..", "research", "method-watch-digest.md");
   const today = new Date().toISOString().slice(0, 10);
-
-  // 1. Gather every topic's raw hits up front (needed as one batch for the LLM filter).
-  const topicHits = [];
-  for (const t of TOPICS) {
-    let hits = [];
-    let err = null;
-    try {
-      hits = await epmc(t.query);
-    } catch (e) {
-      err = e.message;
-    }
-    topicHits.push({ ...t, hits, err });
-  }
-
-  // 2. LLM relevance filter (drops keyword-collision noise). null => fall back to raw digest.
-  const filter = await llmFilter(topicHits);
-  const filtered = !!filter;
-
   const L = [];
   L.push(`# Method-watch digest — ${today}`);
   L.push("");
@@ -276,63 +180,25 @@ async function main() {
   L.push(`unlock blocked routes. **Triage, don't trust:** a hit is a prompt to check the trigger`);
   L.push(`table in [research/method-watch.md](./method-watch.md), not a decision. Newest results`);
   L.push(`first; "🆕" = within ${SINCE_DAYS} days.`);
-  if (filtered) {
-    L.push("");
-    L.push(`Literature hits are **LLM-filtered** for relevance (\`${ANTHROPIC_MODEL}\`): off-topic`);
-    L.push(`keyword-collision matches are dropped; the full unfiltered search output is preserved in`);
-    L.push(`the appendix at the bottom.`);
-  } else {
-    L.push("");
-    L.push(`_(LLM relevance filter unavailable — showing the raw unfiltered search output.)_`);
-  }
   L.push("");
 
-  // 3a. Headline + per-topic "what matters" — the readable brief, only when filtered.
-  if (filtered) {
-    const headline = filter.get("__headline");
-    L.push(`## What matters this period`);
-    L.push("");
-    L.push(headline || "_No headline produced._");
-    const notes = [];
-    for (let i = 0; i < topicHits.length; i++) {
-      const f = filter.get(String(i));
-      if (f && f.note && f.relevant.size) notes.push(`- **${topicHits[i].key}** — ${f.note}`);
-    }
-    if (notes.length) {
-      L.push("");
-      L.push(...notes);
-    }
-    L.push("");
-  }
-
-  // 3b. Literature watch — filtered hits only (with a count of what was dropped).
-  L.push(`## Literature watch${filtered ? " (filtered)" : ""}`);
-  for (let i = 0; i < topicHits.length; i++) {
-    const t = topicHits[i];
+  L.push(`## Literature watch`);
+  for (const t of TOPICS) {
     L.push("");
     L.push(`### ${t.key}`);
     L.push(`*Unlocks:* ${t.trigger}`);
-    if (t.err) {
-      L.push(`- _query failed: ${t.err}_`);
-      continue;
-    }
-    if (!t.hits.length) {
-      L.push(`- _(no hits)_`);
-      continue;
-    }
-    const f = filtered ? filter.get(String(i)) : null;
-    const shown = f ? t.hits.filter((h) => f.relevant.has(h.id)) : t.hits;
-    if (!shown.length) {
-      L.push(`- _no on-topic hits — ${t.hits.length} raw hit(s) filtered out (see appendix)_`);
-      continue;
-    }
-    for (const h of shown) {
-      const flag = recent(h.date) ? "🆕 " : "";
-      L.push(`- ${flag}**${h.date}** — ${h.title} (${h.source}:${h.id})`);
-    }
-    const dropped = t.hits.length - shown.length;
-    if (filtered && dropped > 0) {
-      L.push(`- _(+${dropped} off-topic hit(s) filtered — see appendix)_`);
+    try {
+      const hits = await epmc(t.query);
+      if (!hits.length) {
+        L.push(`- _(no hits)_`);
+      } else {
+        for (const h of hits) {
+          const flag = recent(h.date) ? "🆕 " : "";
+          L.push(`- ${flag}**${h.date}** — ${h.title} (${h.source}:${h.id})`);
+        }
+      }
+    } catch (e) {
+      L.push(`- _query failed: ${e.message}_`);
     }
   }
 
@@ -357,33 +223,8 @@ async function main() {
   L.push(`_Next: if any 🆕 line crosses its trigger, act per research/method-watch.md and open the`);
   L.push(`corresponding follow-up; otherwise no action. Re-run monthly (CI) or \`node scripts/method-watch.mjs\`._`);
 
-  // 4. Appendix — the full unfiltered search output, kept for audit when the digest is filtered.
-  if (filtered) {
-    L.push("");
-    L.push(`---`);
-    L.push(`## Appendix — all raw hits (unfiltered)`);
-    L.push(`_Complete EuropePMC search output, kept for audit/verification. The filtered digest above`);
-    L.push(`is what to read._`);
-    for (const t of topicHits) {
-      L.push("");
-      L.push(`### ${t.key}`);
-      if (t.err) {
-        L.push(`- _query failed: ${t.err}_`);
-        continue;
-      }
-      if (!t.hits.length) {
-        L.push(`- _(no hits)_`);
-        continue;
-      }
-      for (const h of t.hits) {
-        const flag = recent(h.date) ? "🆕 " : "";
-        L.push(`- ${flag}**${h.date}** — ${h.title} (${h.source}:${h.id})`);
-      }
-    }
-  }
-
   writeFileSync(out, L.join("\n") + "\n");
-  console.error(`wrote ${out}${filtered ? " (LLM-filtered)" : " (raw; no LLM filter)"}`);
+  console.error(`wrote ${out}`);
 }
 
 main().catch((e) => {

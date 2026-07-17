@@ -11,6 +11,11 @@ name: Method-watch
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "send (generate digest + email) | dry_run (generate + publish digest, no email — used by the summary-writer Routine)"
+        default: "send"
+        required: false
   schedule:
     - cron: "0 11 * * 5"   # 11:00 UTC Fridays = 7:00 AM ET (weekly newsletter; UTC-based, no DST tracking)
 
@@ -33,18 +38,40 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Generate method-watch digest (LLM-filtered for relevance)
+      - name: Generate method-watch digest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
         run: node scripts/method-watch.mjs research/method-watch-digest.md
 
+      # Pick up a Claude-written newsletter summary (the "LLM filter") if a scheduled Claude session
+      # committed a fresh one to email-outbox. Weekly cadence, so accept up to ~2 days old. Mirrors the
+      # daily email's "Pick up today's Claude-written summary" step.
+      - name: Pick up Claude-written newsletter summary (from email-outbox, if fresh)
+        id: sum
+        run: |
+          git fetch origin email-outbox --depth=1 2>/dev/null || true
+          if git cat-file -e origin/email-outbox:newsletter-summary.md 2>/dev/null; then
+            last=$(git log -1 --format=%cI origin/email-outbox -- newsletter-summary.md 2>/dev/null || echo "")
+            now=$(date -u +%s)
+            lastsec=$(date -u -d "$last" +%s 2>/dev/null || echo 0)
+            age_days=$(( (now - lastsec) / 86400 ))
+            if [ "$lastsec" -gt 0 ] && [ "$age_days" -le 2 ]; then
+              git show origin/email-outbox:newsletter-summary.md > "$RUNNER_TEMP/newsletter-summary.md"
+              echo "Using Claude-written newsletter summary from email-outbox (age ${age_days}d)."
+              echo "file=$RUNNER_TEMP/newsletter-summary.md" >> "$GITHUB_OUTPUT"
+            else
+              echo "email-outbox newsletter summary is stale (age ${age_days}d); using generated summary."
+            fi
+          else
+            echo "No email-outbox newsletter summary; using generated summary."
+          fi
+
       - name: Email the digest (bite-sized summary + full digest)
-        if: ${{ vars.NEWSLETTER_EMAIL != 'off' }}
+        if: ${{ vars.NEWSLETTER_EMAIL != 'off' && (github.event_name == 'schedule' || inputs.mode != 'dry_run') }}
         env:
           DIGEST_FILE: research/method-watch-digest.md
           DIGEST_TITLE: "Method-watch newsletter"
+          SUMMARY_OVERRIDE_FILE: ${{ steps.sum.outputs.file }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
           MAIL_TO: ${{ vars.MAIL_TO }}

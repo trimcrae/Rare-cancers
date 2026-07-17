@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """Email a Markdown digest (e.g. the method-watch newsletter) as a bite-sized brief.
 
-Reads a Markdown file, writes a short human-readable TL;DR at the top (LLM via ANTHROPIC_API_KEY, with a
-deterministic fallback), and sends it through the shared mailer (Gmail SMTP / SES). Reused for any digest.
+Reads a Markdown file, writes a short human-readable TL;DR at the top, and sends it through the shared
+mailer (Gmail SMTP / SES). Reused for any digest.
+
+The TL;DR is chosen in priority order: (1) a Claude-written summary passed via SUMMARY_OVERRIDE_FILE /
+SUMMARY_OVERRIDE (a scheduled Claude session filters the digest and commits it to email-outbox — the
+newsletter's real "LLM filter", same pattern as the daily status email); else (2) the Anthropic API
+(ANTHROPIC_API_KEY); else (3) a deterministic fallback. An email always sends.
 
 Usage:  DIGEST_FILE=research/method-watch-digest.md DIGEST_TITLE="Method-watch" \
         python research/modalities/email_digest.py
+Env:    SUMMARY_OVERRIDE_FILE (path) | SUMMARY_OVERRIDE (inline text) — optional Claude-written TL;DR.
 Modes:  MODE=send (default) | MODE=dry_run (print + write digest_email.html, send nothing).
 """
 import os
@@ -25,6 +31,21 @@ SYSTEM = (
     "materially changed, say that plainly instead of padding. Do not invent anything not in the digest. End "
     "with one line pointing to the full digest below."
 )
+
+
+def _summary_override():
+    """A summary written elsewhere (e.g. by a scheduled Claude session that reads the digest and
+    filters it down, committed to email-outbox/newsletter-summary.md). This is the newsletter's
+    equivalent of the daily email's Claude-written summary — the primary "LLM filter".
+
+    SUMMARY_OVERRIDE_FILE (a path) takes precedence over SUMMARY_OVERRIDE (inline text). Empty => None.
+    """
+    ov_file = (os.environ.get("SUMMARY_OVERRIDE_FILE") or "").strip()
+    if ov_file and Path(ov_file).exists():
+        txt = Path(ov_file).read_text().strip()
+        if txt:
+            return txt
+    return (os.environ.get("SUMMARY_OVERRIDE") or "").strip() or None
 
 
 def esc(s):
@@ -59,10 +80,10 @@ def main():
         print("digest empty; nothing to send.")
         return 0
 
-    # Summarize only the filtered part of the digest, not the raw-hits appendix — otherwise the
-    # TL;DR re-ingests the keyword-collision noise the generator's LLM filter already dropped.
-    summary_src = md.split("\n## Appendix — all raw hits", 1)[0]
-    summary_md = llm_summarize(summary_src, SYSTEM, max_tokens=900) or fallback_summary(md, title)
+    # Priority (mirrors the daily status email): a Claude-written summary (override) > Anthropic API
+    # > deterministic fallback. The override is the newsletter's real "LLM filter": a scheduled Claude
+    # session reads this digest, drops the keyword-collision noise, and commits the readable summary.
+    summary_md = _summary_override() or llm_summarize(md, SYSTEM, max_tokens=900) or fallback_summary(md, title)
 
     text = f"{title}\n{'='*len(title)}\n\n{summary_md}\n\n{'-'*60}\nFULL DIGEST:\n\n{md}"
     html = (
