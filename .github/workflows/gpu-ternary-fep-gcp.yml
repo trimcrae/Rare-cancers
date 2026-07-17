@@ -18,7 +18,7 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | tail", default: "smoke", required: true }
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
@@ -71,7 +71,31 @@ jobs:
           PROJECT=project-a7ebde30-e2ed-4b8d-9a9
           echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
           gcloud config set project "$PROJECT"
+      - name: Tail / monitor detached ternary VMs (mode=tail)
+        if: ${{ github.event.inputs.mode == 'tail' }}
+        run: |
+          set -eo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          BUCKET="${PROJECT}-rbfe-ckpt"; RESULTS="gs://$BUCKET/valB-6hax/results"
+          echo "=== live gcp-ternary VMs ==="
+          gcloud compute instances list --filter="name~'^gcp-ternary-'" \
+            --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "(none)"
+          echo "=== valB-6hax results in GCS ==="
+          gcloud storage ls "$RESULTS/" 2>/dev/null || echo "(no results yet)"
+          VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
+          case "$VM_IN" in gcp-ternary-*) TVM="$VM_IN" ;; *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;; esac
+          if [ -n "$TVM" ]; then
+            TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
+            echo "=== serial tail: $TVM ($TZONE) ==="
+            gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null \
+              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet" | tail -70 || echo "(no serial yet)"
+            if [ "${{ github.event.inputs.detach }}" = 1 ]; then
+              echo "deleting $TVM (requested via detach=1 on a tail call)"
+              gcloud compute instances delete "$TVM" --zone="$TZONE" --quiet || true
+            fi
+          fi
       - name: Provision Spot L4 VM + run ternary-FEP
+        if: ${{ github.event.inputs.mode != 'tail' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
