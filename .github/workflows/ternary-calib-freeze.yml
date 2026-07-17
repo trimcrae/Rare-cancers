@@ -51,6 +51,7 @@ jobs:
           cp research/modalities/ternary-calib-pair-frozen.json "$RUNNER_TEMP/res/"
           git fetch origin modalities-cache || true
           git reset --hard
+          git clean -fd research/modalities/   # drop the untracked frozen json so the cache-branch checkout doesn't abort
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
             git checkout -B modalities-cache origin/modalities-cache
           else

@@ -58,20 +58,6 @@ _aws = modal.Secret.from_dict({
 })
 
 
-def _retitle(sdf_text: str, name: str) -> str:
-    """Set each SDF record's title line to `name` so the RBFE engine resolves the pose by _Name (identical to
-    nr4a3_rbfe_sagemaker._retitle)."""
-    out = []
-    for blk in sdf_text.split("$$$$"):
-        blk = blk.strip("\n")
-        if not blk.strip():
-            continue
-        lines = blk.split("\n")
-        lines[0] = name
-        out.append("\n".join(lines))
-    return "".join(b + "\n$$$$\n" for b in out)
-
-
 def _stage_inputs(bucket: str, dock_prefix: str, receptor: str, lig_a: str, lig_b: str, dest: str):
     """Assemble the RBFE input tree (dest/receptor/<r>-opened.pdb + dest/ligand/docked_<r>.sdf) from the S3
     docking output. Reuses the tested stage-mode contract; writes LOCAL files for the Modal run. Exits loudly
@@ -111,9 +97,31 @@ def _stage_inputs(bucket: str, dock_prefix: str, receptor: str, lig_a: str, lig_
     os.makedirs(os.path.join(dest, "ligand"), exist_ok=True)
     with open(os.path.join(dest, "receptor", f"{receptor}-opened.pdb"), "w") as f:
         f.write(_get(pdb_key))
-    with open(os.path.join(dest, "ligand", f"docked_{receptor}.sdf"), "w") as f:
-        f.write(_retitle(_get(pose_a), lig_a) + _retitle(_get(pose_b), lig_b))
-    print(f"[stage] staged receptor {pdb_key} + poses {lig_a},{lig_b} -> {dest}", flush=True)
+
+    # Combine the two docked poses into one SDF via RDKit (robust: raw-text $$$$ splicing produced a malformed
+    # 2nd record — RDKit round-trips valid molblocks + sets the _Name the engine resolves by). Keep 3D coords.
+    import io as _io
+
+    from rdkit import Chem
+
+    def _first_mol(sdf_text: str, name: str):
+        supplier = Chem.ForwardSDMolSupplier(_io.BytesIO(sdf_text.encode()), sanitize=False, removeHs=False)
+        for mol in supplier:
+            if mol is not None:
+                mol.SetProp("_Name", name)
+                return mol
+        raise SystemExit(f"[stage] RDKit could not read a molecule from pose SDF for {name}")
+
+    out_sdf = os.path.join(dest, "ligand", f"docked_{receptor}.sdf")
+    w = Chem.SDWriter(out_sdf)
+    for pose_key, name in ((pose_a, lig_a), (pose_b, lig_b)):
+        w.write(_first_mol(_get(pose_key), name))
+    w.close()
+    # confirm both records are present + named, so a staging defect fails HERE (loudly), not mid-RBFE
+    names = [m.GetProp("_Name") for m in Chem.SDMolSupplier(out_sdf, sanitize=False) if m is not None]
+    if lig_a not in names or lig_b not in names:
+        raise SystemExit(f"[stage] combined SDF missing an endpoint: wrote {names}, need {lig_a},{lig_b}")
+    print(f"[stage] staged receptor {pdb_key} + poses {names} -> {dest}", flush=True)
 
 
 def _run_leg(mode: str, leg: str, tiny: bool, n_windows: int) -> str:
