@@ -156,8 +156,81 @@ def freeze() -> dict:
     return result
 
 
+def _all_candidates() -> list:
+    """Every verified panel member (id, pdb, measured_alpha, class) from the prereg — the search space for the
+    widest MAPPABLE hi/lo edge when the preferred P1→P5 is too large a morph."""
+    d = json.load(open(PREREG))
+    out = []
+    for c in d["calibration"]["layer1_vhl_panel"].get("candidate_systems", []):
+        if c.get("verified") and c.get("pdb") and c.get("measured_alpha") is not None:
+            out.append({"id": c["id"], "pdb": c["pdb"], "alpha": float(c["measured_alpha"]),
+                        "alpha_sd": c.get("measured_alpha_sd"),
+                        "class": c.get("measured_class_verified") or c.get("measured_class")})
+    return out
+
+
+def sweep_panel(min_log10_delta: float = 0.7) -> dict:
+    """Fetch every panel member's degrader, compute the full pairwise MCS/mappability matrix, and RECOMMEND the
+    widest-Δα pair that (a) is a mappable congeneric edge and (b) spans a real cooperativity-class difference
+    (|log10 α_hi/α_lo| >= min_log10_delta, ~5×). This is the data-driven fallback the calib-pair draft calls for
+    when P1↔P5 cannot map. No chemistry fabricated — a member whose ligand RCSB can't return is skipped + noted."""
+    import math
+
+    cands = _all_candidates()
+    ligs, missing = {}, []
+    for c in cands:
+        lig = _degrader_ligand(c["pdb"])
+        if lig:
+            ligs[c["id"]] = {**c, "ligand": lig}
+        else:
+            missing.append(c["id"])
+    pairs = []
+    ids = [c["id"] for c in cands if c["id"] in ligs]
+    for i in range(len(ids)):
+        for j in range(len(ids)):
+            if i == j:
+                continue
+            hi, lo = ligs[ids[i]], ligs[ids[j]]
+            if hi["alpha"] < lo["alpha"]:
+                continue  # enumerate each unordered pair once, hi = higher α
+            m = _rdkit_map(hi["ligand"]["smiles"], lo["ligand"]["smiles"])
+            log10d = (round(math.log10(hi["alpha"] / lo["alpha"]), 2)
+                      if lo["alpha"] > 0 else None)
+            pairs.append({
+                "hi": hi["id"], "hi_pdb": hi["pdb"], "hi_alpha": hi["alpha"],
+                "lo": lo["id"], "lo_pdb": lo["pdb"], "lo_alpha": lo["alpha"],
+                "log10_delta_alpha": log10d,
+                "mappable_congeneric": m.get("mappable_congeneric"),
+                "mcs_atoms": m.get("mcs_atoms"), "frac_scaffold_shared": m.get("frac_scaffold_shared"),
+                "max_perturbed_heavy": max(m.get("perturbed_heavy_hi", 999), m.get("perturbed_heavy_lo", 999)),
+            })
+    # eligible = mappable AND a real class gap; rank by Δα width (then by smaller perturbation as tiebreak)
+    eligible = [p for p in pairs if p["mappable_congeneric"] and p["log10_delta_alpha"]
+                and p["log10_delta_alpha"] >= min_log10_delta]
+    eligible.sort(key=lambda p: (-(p["log10_delta_alpha"] or 0), p["max_perturbed_heavy"]))
+    rec = eligible[0] if eligible else None
+    return {"pairs": sorted(pairs, key=lambda p: -(p["log10_delta_alpha"] or 0)),
+            "missing_ligands": missing, "min_log10_delta": min_log10_delta,
+            "recommended_pair": rec,
+            "recommendation": (
+                f"FREEZE {rec['hi']} (α={rec['hi_alpha']}, {rec['hi_pdb']}) → {rec['lo']} "
+                f"(α={rec['lo_alpha']}, {rec['lo_pdb']}): widest mappable Δα (log10={rec['log10_delta_alpha']}, "
+                f"MCS={rec['mcs_atoms']}, max_perturbed={rec['max_perturbed_heavy']})." if rec else
+                "NO mappable panel pair spans a real class gap — the series is not congeneric enough for a clean "
+                "RBFE calibration edge; escalate (co-fold/ABFE ternary calib, or a different published series).")}
+
+
 def main() -> int:
     r = freeze()
+    # If the preferred P1→P5 is not a clean congeneric edge, sweep the whole panel for the best mappable pair.
+    if r.get("mapping") and not r["mapping"].get("mappable_congeneric"):
+        print("[freeze] P1→P5 not mappable — sweeping the full panel for the widest MAPPABLE class-gap pair...",
+              flush=True)
+        r["panel_sweep"] = sweep_panel()
+        rec = r["panel_sweep"].get("recommended_pair")
+        if rec:
+            r["_status"] = "FROZEN (fallback pair from panel sweep)"
+            r["decision"] = r["panel_sweep"]["recommendation"]
     with open(OUT, "w") as f:
         json.dump(r, f, indent=2)
     print(json.dumps(r, indent=2), flush=True)

@@ -1,0 +1,64 @@
+name: Modal RBFE — step1 cmpd19 pilot (L4, Modal credits)
+
+# RUNG 2 step1_pilot_cmpd19 on a Modal serverless GPU (burns Modal free credits instead of AWS). Runs the same
+# OpenFE RBFE engine as the AWS/GCP lanes (nr4a3_rbfe.py) on the pilot edge zaienne_cmpd19 → cw_ev_5nh2.
+#   mode=tiny  (default, and what PUSH runs) : FREE plumbing shakeout — env solve + S3 stage + LOMAP map +
+#              hybrid-topology + a 2.5ps/10ps CUDA MD + analyze on the real complex edge. ~$0.05.
+#   mode=real  : the paid ~$30 pilot — full 5ns sampling, ONE leg per dispatch (leg=complex|solvent),
+#              spot-safe S3 checkpoint/resume + idempotent skip. Then mode=reduce → ΔΔG_bind.
+#   mode=reduce: CPU — combine complex+solvent legs.
+# Secrets: MODAL_TOKEN_ID, MODAL_TOKEN_SECRET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (S3 checkpoint store).
+#
+# NEW workflow → not API-dispatchable from a feature branch. The FREE tiny shakeout auto-runs on PUSH (paths =
+# the app + this file). The paid mode=real needs workflow_dispatch (available once this file is on the default
+# branch) — the real spend is the gate anyway.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:      { description: "tiny (free shakeout) | real (paid leg) | reduce", default: "tiny", required: true }
+      leg:       { description: "complex | solvent (mode=real)", default: "complex", required: false }
+      n_windows: { description: "λ-windows over the A→B morph", default: "12", required: false }
+      git_ref:   { description: "repo ref the Modal job clones + runs", default: "claude/rung-2-parallel-7asnpk", required: false }
+  push:
+    branches: [claude/rung-2-parallel-7asnpk]
+    paths:
+      - .github/workflows/modal-rbfe.yml
+      - research/modalities/nr4a3_rbfe_modal.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: modal-rbfe-${{ github.event.inputs.mode || 'tiny' }}
+  cancel-in-progress: false
+
+jobs:
+  modal-rbfe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python -m pip install -q modal
+      - name: Run Modal RBFE (${{ github.event.inputs.mode || 'tiny (push)' }})
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+          GIT_REF: ${{ github.event.inputs.git_ref || github.ref_name }}
+          MODE: ${{ github.event.inputs.mode || 'tiny' }}
+          LEG: ${{ github.event.inputs.leg || 'complex' }}
+          NW: ${{ github.event.inputs.n_windows || '12' }}
+        run: |
+          if [ -z "$MODAL_TOKEN_ID" ]; then
+            echo "::error::MODAL_TOKEN_ID/SECRET missing — add them in repo Settings → Secrets → Actions."; exit 1
+          fi
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "::error::AWS creds missing — the RBFE checkpoint store is on S3."; exit 1
+          fi
+          [ "$MODE" = "real" ] && echo "::warning::mode=real launches the PAID ~\$30 pilot leg on Modal credits."
+          modal run research/modalities/nr4a3_rbfe_modal.py --mode "$MODE" --leg "$LEG" --n-windows "$NW"
