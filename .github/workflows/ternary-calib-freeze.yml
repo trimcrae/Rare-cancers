@@ -16,6 +16,7 @@ on:
     paths:
       - .github/workflows/ternary-calib-freeze.yml
       - research/modalities/ternary_calib_freeze.py
+      - research/modalities/ternary_calib_search.py
 
 permissions:
   contents: write
@@ -40,18 +41,23 @@ jobs:
       - name: Fetch + validate + MCS-map the calib hi/lo pair
         working-directory: research/modalities
         run: python ternary_calib_freeze.py
+      - name: Search RCSB for a congeneric VHL-PROTAC cooperativity pair
+        if: always()
+        working-directory: research/modalities
+        run: python ternary_calib_search.py
       - name: Publish frozen pair to modalities-cache branch
         if: always()
         run: |
           set -e
-          test -f research/modalities/ternary-calib-pair-frozen.json || { echo "no frozen json produced"; exit 0; }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p "$RUNNER_TEMP/res"
-          cp research/modalities/ternary-calib-pair-frozen.json "$RUNNER_TEMP/res/"
+          cp research/modalities/ternary-calib-pair-frozen.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/ternary-calib-congeneric-search.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          ls "$RUNNER_TEMP/res/" | grep -q json || { echo "no json produced"; exit 0; }
           git fetch origin modalities-cache || true
           git reset --hard
-          git clean -fd research/modalities/   # drop the untracked frozen json so the cache-branch checkout doesn't abort
+          git clean -fd research/modalities/   # drop untracked outputs so the cache-branch checkout doesn't abort
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
             git checkout -B modalities-cache origin/modalities-cache
           else
@@ -59,7 +65,7 @@ jobs:
             git rm -rf . >/dev/null 2>&1 || true
           fi
           mkdir -p research/modalities
-          cp "$RUNNER_TEMP"/res/ternary-calib-pair-frozen.json research/modalities/
-          git add research/modalities/ternary-calib-pair-frozen.json
-          git commit -m "Ternary calib pair freeze: SMARCA2-VHL P1/9HYN → P5/9HYP (RCSB+RDKit) [skip ci]" || { echo "no changes"; exit 0; }
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
+          git add research/modalities/ternary-calib-pair-frozen.json research/modalities/ternary-calib-congeneric-search.json 2>/dev/null || true
+          git commit -m "Ternary calib: freeze panel_sweep + congeneric VHL-PROTAC search (RCSB+RDKit) [skip ci]" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
