@@ -1,0 +1,64 @@
+name: Ternary calib pair freeze (RCSB + RDKit, CPU, free)
+
+# valB_mini prerequisite: fetch the bound-PROTAC chemistry for the SMARCA2–VHL hi/lo calibration anchors
+# (P1/9HYN, P5/9HYP) from RCSB, RDKit-validate, and MCS-map them to decide whether P1→P5 is a mappable
+# congeneric RBFE edge (or fall back per ternary-calib-pair-draft.md). Free CPU; the dev sandbox can't reach
+# RCSB (egress proxy), so it runs on a GitHub runner. Prints the full freeze JSON to the log AND publishes it
+# to the modalities-cache branch for durable provenance. No structure is fabricated.
+#
+# NEW workflow → not API-dispatchable from a feature branch (404), so it runs on PUSH to the branch. The paths
+# filter is the workflow + the freeze script only, so the committed output never re-triggers it.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/rung-2-parallel-7asnpk]
+    paths:
+      - .github/workflows/ternary-calib-freeze.yml
+      - research/modalities/ternary_calib_freeze.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ternary-calib-freeze
+  cancel-in-progress: true
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install RDKit
+        run: |
+          python -m pip install --upgrade pip
+          pip install rdkit
+      - name: Fetch + validate + MCS-map the calib hi/lo pair
+        working-directory: research/modalities
+        run: python ternary_calib_freeze.py
+      - name: Publish frozen pair to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          test -f research/modalities/ternary-calib-pair-frozen.json || { echo "no frozen json produced"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          cp research/modalities/ternary-calib-pair-frozen.json "$RUNNER_TEMP/res/"
+          git fetch origin modalities-cache || true
+          git reset --hard
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/ternary-calib-pair-frozen.json research/modalities/
+          git add research/modalities/ternary-calib-pair-frozen.json
+          git commit -m "Ternary calib pair freeze: SMARCA2-VHL P1/9HYN → P5/9HYP (RCSB+RDKit) [skip ci]" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
