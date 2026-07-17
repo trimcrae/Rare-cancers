@@ -1,0 +1,76 @@
+{
+  "_status": "FROZEN",
+  "_provenance": "SMILES + comp_id from RCSB data API; measured \u03b1 from verified prereg (PMC12480974).",
+  "calib_hi": {
+    "panel_id": "smarca2_p1",
+    "pdb": "9HYN",
+    "role": "calib_hi",
+    "measured": {
+      "measured_alpha": 93.0,
+      "measured_alpha_sd": 41.0,
+      "measured_class": "high positive cooperativity",
+      "primary_ref": {
+        "pmcid": "PMC12480974",
+        "doi": "10.1038/s41467-025-63713-7",
+        "journal": "Nat Commun",
+        "year": 2025,
+        "table": "Supplementary Table 1"
+      },
+      "pdb_in_prereg": "9HYN"
+    },
+    "ligand": {
+      "ccd": "A1IYO",
+      "smiles": "Cc1c(scn1)c2ccc(c(c2)OCCOCC[NH+]3CCN(CC3)CC4=CN5c6cccc(c6C(=O)N=C5N4C)Br)CNC(=O)[C@@H]7C[C@H](CN7C(=O)[C@H](C(C)(C)C)NC(=O)C8(CC8)F)O",
+      "smiles_stereo": "Cc1c(scn1)c2ccc(c(c2)OCCOCC[NH+]3CCN(CC3)CC4=CN5c6cccc(c6C(=O)N=C5N4C)Br)CNC(=O)[C@@H]7C[C@H](CN7C(=O)[C@H](C(C)(C)C)NC(=O)C8(CC8)F)O",
+      "name": "(2~{S},4~{R})-~{N}-[[2-[2-[2-[4-[(6-bromanyl-3-methyl-5-oxidanylidene-4~{H}-imidazo[1,2-a]quinazolin-2-yl)methyl]piperazin-1-yl]ethoxy]ethoxy]-4-(4-methyl-1,3-thiazol-5-yl)phenyl]methyl]-1-[(2~{S})-2-[(1-fluoranylcyclopropyl)carbonylamino]-3,3-dimethyl-butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+      "mw": 979.976,
+      "formula": "C46 H58 Br F N9 O7 S"
+    },
+    "source": "https://data.rcsb.org/rest/v1/core/entry/9HYN"
+  },
+  "calib_lo": {
+    "panel_id": "smarca2_p5",
+    "pdb": "9HYP",
+    "role": "calib_lo",
+    "measured": {
+      "measured_alpha": 0.6,
+      "measured_alpha_sd": 0.3,
+      "measured_class": "negative/weakly-negative cooperativity (alpha=0.6<1); operational label weakly_negative_near_neutral (NOT unqualified neutral); frozen band unchanged",
+      "primary_ref": {
+        "pmcid": "PMC12480974",
+        "doi": "10.1038/s41467-025-63713-7",
+        "journal": "Nat Commun",
+        "year": 2025,
+        "table": "Supplementary Table 1"
+      },
+      "pdb_in_prereg": "9HYP"
+    },
+    "ligand": {
+      "ccd": "A1IYM",
+      "smiles": "Cc1c(scn1)c2ccc(c(c2)OCCCC[NH+]3CCC(CC3)c4ccc5c(c4)N(C6=NC(=O)c7c(cccc7Br)N56)C8CCCC8)CNC(=O)[C@@H]9C[C@H](CN9C(=O)[C@H](C(C)(C)C)NC(=O)C1(CC1)F)O",
+      "smiles_stereo": "Cc1c(scn1)c2ccc(c(c2)OCCCC[NH+]3CCC(CC3)c4ccc5c(c4)N(C6=NC(=O)c7c(cccc7Br)N56)C8CCCC8)CNC(=O)[C@@H]9C[C@H](CN9C(=O)[C@H](C(C)(C)C)NC(=O)C1(CC1)F)O",
+      "name": "(2~{S},4~{R})-~{N}-[[2-[4-[4-(4-bromanyl-7-cyclopentyl-5-oxidanylidene-6~{H}-benzimidazolo[1,2-a]quinazolin-9-yl)piperidin-1-yl]butoxy]-4-(4-methyl-1,3-thiazol-5-yl)phenyl]methyl]-1-[(2~{S})-2-[(1-fluoranylcyclopropyl)carbonylamino]-3,3-dimethyl-butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+      "mw": 1053.111,
+      "formula": "C54 H65 Br F N8 O6 S"
+    },
+    "source": "https://data.rcsb.org/rest/v1/core/entry/9HYP"
+  },
+  "mapping": {
+    "ok": true,
+    "n_heavy_hi": 65,
+    "n_heavy_lo": 71,
+    "mcs_atoms": 39,
+    "perturbed_heavy_hi": 26,
+    "perturbed_heavy_lo": 32,
+    "frac_scaffold_shared": 0.549,
+    "mcs_smarts": "[#6&!R]-&!@[#6]1:&@[#6](:&@[#16]:&@[#6]:&@[#7]:&@1)-&!@[#6]1:&@[#6]:&@[#6]:&@[#6](:&@[#6](:&@[#6]:&@1)-&!@[#8&!R]-&!@[#6&!R]-&!@[#6&!R])-&!@[#6&!R]-&!@[#7&!R]-&!@[#6&!R](=&!@[#8&!R])-&!@[#6]1-&@[#6]-&@[#6](-&@[#6]-&@[#7]-&@1-&!@[#6&!R](=&!@[#8&!R])-&!@[#6&!R](-&!@[#6&!R](-&!@[#6&!R])(-&!@[#6&!R])-&!@[#6&!R])-&!@[#7&!R]-&!@[#6&!R](=&!@[#8&!R])-&!@[#6]1(-&@[#6]-&@[#6]-&@1)-&!@[#9&!R])-&!@[#8&!R]",
+    "mappable_congeneric": false,
+    "threshold": "frac_shared>=0.6 AND max_perturbed_heavy<=22 (curation pre-check; engine LOMAP is authoritative)"
+  },
+  "delta_alpha": {
+    "hi": 93.0,
+    "lo": 0.6,
+    "log10_ratio": 2.19
+  },
+  "decision": "FALLBACK: P1\u2194P5 perturbation too large to map cleanly \u2014 fall back to the widest CONGENERIC pair spanning a real class difference (P1\u2192P4 etc.); re-run with that pair."
+}
