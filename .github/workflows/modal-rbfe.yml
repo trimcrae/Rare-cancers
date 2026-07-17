@@ -16,7 +16,7 @@ name: Modal RBFE — step1 cmpd19 pilot (L4, Modal credits)
 on:
   workflow_dispatch:
     inputs:
-      mode:      { description: "tiny (free shakeout) | real (paid leg) | reduce | tail (S3 checkpoint census, no GPU)", default: "tiny", required: true }
+      mode:      { description: "tiny | real | reduce | tail (S3 census) | stop (stop the running Modal app)", default: "tiny", required: true }
       leg:       { description: "complex | solvent (mode=real)", default: "complex", required: false }
       n_windows: { description: "λ-windows over the A→B morph", default: "12", required: false }
       gpu:       { description: "Modal GPU: L4 | A10G | A100 | A100-80GB | L40S | H100", default: "L4", required: false }
@@ -67,5 +67,10 @@ jobs:
           if [ -z "$MODAL_TOKEN_ID" ]; then
             echo "::error::MODAL_TOKEN_ID/SECRET missing — add them in repo Settings → Secrets → Actions."; exit 1
           fi
-          [ "$MODE" = "real" ] && echo "::warning::mode=real launches the PAID ~\$30 pilot leg on Modal credits."
+          if [ "$MODE" = "stop" ]; then
+            echo "--- running Modal apps ---"; modal app list 2>&1 | tail -20 || true
+            modal app stop nr4a3-rbfe-pilot 2>&1 | tail -5 || echo "stop no-op (already gone?)"
+            exit 0
+          fi
+          [ "$MODE" = "real" ] && echo "::warning::mode=real launches the PAID ~\$30 pilot leg on Modal credits (GPU=${MODAL_GPU})."
           modal run research/modalities/nr4a3_rbfe_modal.py --mode "$MODE" --leg "$LEG" --n-windows "$NW"
