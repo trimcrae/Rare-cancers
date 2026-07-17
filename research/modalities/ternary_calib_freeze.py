@@ -101,8 +101,9 @@ def _degrader_ligand(pdb: str) -> dict | None:
     return best
 
 
-def _rdkit_map(smiles_hi: str, smiles_lo: str) -> dict:
-    """RDKit sanity + MCS mapping between the two degraders → congenericity verdict for the RBFE edge."""
+def _rdkit_map(smiles_hi: str, smiles_lo: str, timeout: int = 120) -> dict:
+    """RDKit sanity + MCS mapping between the two degraders → congenericity verdict for the RBFE edge.
+    `timeout` bounds the MCS search per pair (low for a fast wide sweep; the default is fine for a single pair)."""
     from rdkit import Chem
     from rdkit.Chem import rdFMCS
 
@@ -111,7 +112,7 @@ def _rdkit_map(smiles_hi: str, smiles_lo: str) -> dict:
         return {"ok": False, "reason": "RDKit could not parse one/both SMILES"}
     nh, nl = mh.GetNumHeavyAtoms(), ml.GetNumHeavyAtoms()
     # Ring-matching + element/bond strictness comparable to a LOMAP/Kartograf pre-check.
-    res = rdFMCS.FindMCS([mh, ml], timeout=120, matchValences=False,
+    res = rdFMCS.FindMCS([mh, ml], timeout=timeout, matchValences=False,
                          ringMatchesRingOnly=True, completeRingsOnly=True,
                          bondCompare=rdFMCS.BondCompare.CompareOrderExact,
                          atomCompare=rdFMCS.AtomCompare.CompareElements)

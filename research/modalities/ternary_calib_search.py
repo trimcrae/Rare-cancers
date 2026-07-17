@@ -100,11 +100,34 @@ def search() -> dict:
 
     alpha = _prereg_alpha_by_pdb()
     pdbs = sorted(ligs)
+
+    # Precompute heavy-atom counts once so we can CHEAPLY prune pairs before the (expensive) MCS: since
+    # max_perturbed_heavy >= |n_heavy_a - n_heavy_b|, any pair whose atom counts differ by more than PERTURB_MAX
+    # cannot pass the congeneric gate — skip its MCS entirely. (This is what blew the 20-min budget: 2080 pairs ×
+    # a 120 s MCS timeout. The prune leaves only plausibly-congeneric pairs, and we cap each MCS at 8 s.)
+    from rdkit import Chem, DataStructs
+    from rdkit.Chem import rdFingerprintGenerator
+    _mfp = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
+    nheavy, fp = {}, {}
+    for p in pdbs:
+        mm = Chem.MolFromSmiles(ligs[p]["smiles"])
+        if mm is not None:
+            nheavy[p] = mm.GetNumHeavyAtoms()
+            fp[p] = _mfp.GetFingerprint(mm)
+    n_pruned = 0
     congeneric = []
     for i in range(len(pdbs)):
         for j in range(i + 1, len(pdbs)):
             pa, pb = pdbs[i], pdbs[j]
-            m = tcf._rdkit_map(ligs[pa]["smiles"], ligs[pb]["smiles"])
+            # cheap prunes before the expensive MCS: (a) atom counts too far apart to be a <=PERTURB_MAX edge;
+            # (b) low Morgan-Tanimoto → not congeneric (a real single-site/linker edge stays highly similar).
+            if pa in nheavy and pb in nheavy and abs(nheavy[pa] - nheavy[pb]) > PERTURB_MAX:
+                n_pruned += 1
+                continue
+            if pa in fp and pb in fp and DataStructs.TanimotoSimilarity(fp[pa], fp[pb]) < 0.5:
+                n_pruned += 1
+                continue
+            m = tcf._rdkit_map(ligs[pa]["smiles"], ligs[pb]["smiles"], timeout=8)
             if not m.get("ok"):
                 continue
             frac = m.get("frac_scaffold_shared", 0)
@@ -130,6 +153,7 @@ def search() -> dict:
         "gate": {"frac_scaffold_shared_min": FRAC_MIN, "max_perturbed_heavy": PERTURB_MAX,
                  "note": "tight CLEAN-RBFE-edge gate; far tighter than the panel_sweep GO check"},
         "n_vhl_entries": len(entries), "n_with_degrader": len(ligs),
+        "n_pairs_pruned_by_atomcount": n_pruned,
         "congeneric_pairs": congeneric,
         "ready_calib_edges": ready,
         "recommendation": (
