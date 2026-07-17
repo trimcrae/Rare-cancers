@@ -14,6 +14,8 @@ on:
     paths:
       - research/modalities/smarca2_model.py
       - research/modalities/smarca2_validate.py
+      - research/modalities/ternary_stage_validate.py
+      - research/modalities/ternary_pdb_stage.py
       - .github/workflows/smarca2-model-validate.yml
 
 permissions:
@@ -36,7 +38,7 @@ jobs:
         with:
           environment-name: smarca2
           create-args: >-
-            python=3.11 openmm pdbfixer biopython gemmi numpy
+            python=3.11 openmm pdbfixer biopython gemmi rdkit numpy
           condarc: |
             channels:
               - conda-forge
@@ -45,3 +47,8 @@ jobs:
         env:
           SMARCA2_SOLVENT: vacuum   # fast clash-relief for CPU validation; the GPU lane uses gbn2 (same API/path)
         run: python smarca2_validate.py
+      - name: Validate the FULL ternary staging (E3 + SMARCA2 model + PROTAC pose) from 8G1Q
+        working-directory: research/modalities
+        env:
+          SMARCA2_SOLVENT: vacuum
+        run: python ternary_stage_validate.py
