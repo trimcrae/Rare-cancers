@@ -106,6 +106,8 @@ jobs:
           printf '%s\n' "$ALL" | grep -aoE "valA-tyk2/(complex|solvent)/(warmup|production)/iter-[0-9]+" | sort -u | wc -l | xargs echo "total committed boundaries:"
           echo "--- completed leg results ---"
           printf '%s\n' "$ALL" | grep -aE "results/.*\.json" || echo "(no completed leg JSONs persisted)"
+          echo "--- env-cache objects (env-cache/rbfe-<key>.tar = the cached conda env; size ~5-8 GB when primed) ---"
+          gcloud storage ls -l "gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/env-cache/" 2>/dev/null || echo "(no env-cache primed yet)"
           if [ "$INSPECT_NC" = 1 ]; then
             echo "=================== .nc STRUCTURE INSPECTION (what is being stored per iteration) ==================="
             LATEST_NC=$(printf '%s\n' "$ALL" | grep -aE "complex/production/iter-[0-9]+/.*/simulation\.nc" | tail -1 | grep -aoE "gs://[^ ]+")
