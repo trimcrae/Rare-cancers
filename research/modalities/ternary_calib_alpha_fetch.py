@@ -94,14 +94,22 @@ def fetch_one(pdb: str) -> dict:
     cit = _citation(pdb)
     rec = _epmc_record(cit.get("doi"), cit.get("pubmed"), cit.get("title"))
     abstract = rec.get("abstractText") or ""
-    src, pid = rec.get("source"), rec.get("id")
     is_oa = str(rec.get("isOpenAccess", "")).upper() in ("Y", "TRUE")
-    fulltext_sents, ft_status = [], "not_open_access_or_unavailable"
-    if is_oa and src and pid:
+    pmcid = rec.get("pmcid")
+    # The fullTextXML endpoint wants source=PMC + the PMCID; the record's own source/id are often MED/PMID
+    # (which 404s). Prefer PMC/pmcid, then fall back to the record's source/id.
+    ft_attempts = []
+    if pmcid:
+        ft_attempts.append(("PMC", pmcid))
+    if rec.get("source") and rec.get("id"):
+        ft_attempts.append((rec["source"], rec["id"]))
+    fulltext_sents, ft_status = [], "no_fulltext"
+    for src, pid in ft_attempts:
         ft = _get(EPMC_FULLTEXT.format(src=src, pid=pid), as_json=False)
-        if ft:
+        if ft and len(ft) > 500:
             fulltext_sents = _coop_sentences(ft)
-            ft_status = f"open_access_fulltext ({len(fulltext_sents)} coop sentences)"
+            ft_status = f"fulltext {src}/{pid} ({len(fulltext_sents)} coop sentences)"
+            break
     abstract_hit = bool(COOP_RE.search(abstract))
     return {
         "pdb": pdb, "citation": cit,
