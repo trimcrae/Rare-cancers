@@ -68,8 +68,13 @@ jobs:
             echo "::error::MODAL_TOKEN_ID/SECRET missing — add them in repo Settings → Secrets → Actions."; exit 1
           fi
           if [ "$MODE" = "stop" ]; then
-            echo "--- running Modal apps ---"; modal app list 2>&1 | tail -20 || true
-            modal app stop nr4a3-rbfe-pilot 2>&1 | tail -5 || echo "stop no-op (already gone?)"
+            # Ephemeral `modal run` apps are addressed by App ID (ap-...), NOT by name — parse the list + stop each
+            # nr4a3-rbfe app by ID so no stale invocation keeps writing the S3 checkpoint prefix.
+            echo "--- running Modal apps ---"; modal app list 2>&1 | tee /tmp/apps.txt || true
+            IDS=$(grep -i "nr4a3-rbfe" /tmp/apps.txt | grep -oE 'ap-[A-Za-z0-9]+' | sort -u)
+            [ -z "$IDS" ] && { echo "no running nr4a3-rbfe apps"; exit 0; }
+            for A in $IDS; do echo "stopping $A"; modal app stop "$A" 2>&1 | tail -3 || echo "  stop $A no-op"; done
+            sleep 5; echo "--- after stop ---"; modal app list 2>&1 | grep -i nr4a3-rbfe || echo "  (none running)"
             exit 0
           fi
           [ "$MODE" = "real" ] && echo "::warning::mode=real launches the PAID ~\$30 pilot leg on Modal credits (GPU=${MODAL_GPU})."
