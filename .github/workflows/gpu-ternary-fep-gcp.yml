@@ -1,0 +1,212 @@
+name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF keyless)
+
+# The GCP port of the ternary-cooperativity FEP (nr4a3_ternary_fep.py) for the reviewer-approved valB_mini edge
+# PROTAC 2 -> cis-PROTAC 2 (SMARCA2-VHL, staged from 6HAX; ddG_exp=+1.71 kcal/mol). Reuses gpu-rbfe-gcp.yml's
+# proven machinery (WIF auth, zone-fallback Spot L4 create, Miniforge+mamba CUDA openmm, env-cache, serial-console
+# reporting, unconditional teardown). The VM SELF-STAGES the leg from 6HAX (ternary_pdb_stage.py; unrestricted
+# internet), so there is NO S3/GCS input dependency for the smoke.
+#
+#   mode=smoke : env solve + 6HAX stage + ternary assembly + atom-map + hybrid-topology build (NO MD). Minutes,
+#                ~$1-2. The FIRST-EVER GPU run of the ternary assembly. Runs one leg (default the ternary leg).
+#   mode=run   : full 5ns sampling for ONE leg x ONE replica (leg_id + seed), spot-safe re-dispatch, result->GCS.
+#                The valB_mini bundle = {binary_vhl, ternary_smarca2} x {solvent} x SEED 0/1/2 (prereg >=3 reps).
+#   mode=reduce: CPU — ddG_coop = ternary - binary + replicate-SD + compare to +1.71; cis-endpoint diagnostics.
+# NEW workflow -> not API-dispatchable from a feature branch until on the default branch; the smoke auto-runs on
+# PUSH (paths = this file + the engine/stager). The paid mode=run needs workflow_dispatch (once on main) or a
+# push with run=1 marker.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:        { description: "smoke | run | reduce", default: "smoke", required: true }
+      leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
+      seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
+      n_windows:   { description: "lambda windows", default: "12", required: false }
+      template_pdb:{ description: "crystal template", default: "6HAX", required: false }
+      zone:        { description: "GCE zone", default: "us-central1-a", required: false }
+      spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
+  push:
+    branches: [claude/rung-2-parallel-7asnpk]
+    paths:
+      - .github/workflows/gpu-ternary-fep-gcp.yml
+      - research/modalities/ternary_pdb_stage.py
+      - research/modalities/nr4a3_ternary_fep.py
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: gcp-gpu-ternary-${{ github.event.inputs.mode || 'smoke' }}
+  cancel-in-progress: false
+
+jobs:
+  gcp-ternary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      MODE: ${{ github.event.inputs.mode || 'smoke' }}
+      LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
+      SEED: ${{ github.event.inputs.seed || '0' }}
+      NWIN: ${{ github.event.inputs.n_windows || '12' }}
+      TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '6HAX' }}
+      SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
+      GITREF: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: auth
+        name: Authenticate to GCP (keyless, WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+      - name: Resolve project
+        run: |
+          set -eo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          echo "PROJECT=$PROJECT" >> "$GITHUB_ENV"
+          gcloud config set project "$PROJECT"
+      - name: Provision Spot L4 VM + run ternary-FEP
+        run: |
+          set -eo pipefail
+          VM="gcp-ternary-${GITHUB_RUN_ID}"
+          echo "VM=$VM" >> "$GITHUB_ENV"
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          RESULTS="gs://$BUCKET/valB-6hax/results"
+          echo "image=$IMG_FAMILY mode=$MODE leg=$LEG_ID seed=$SEED ref=$GITREF"
+
+          cat > /tmp/startup.sh <<SS
+          #!/bin/bash
+          exec > >(tee /var/log/tfep.log) 2>&1
+          set +e
+          echo "=== TFEP boot \$(date -u) mode=$MODE leg=$LEG_ID seed=$SEED ==="
+          for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq && apt-get install -y -qq git >/dev/null 2>&1
+          # env-cache (openfe + gemmi for staging); distinct key from the RBFE lane (adds gemmi).
+          ENV_KEY=\$(echo "$IMG_FAMILY|openfe1.12-am1bcc-gemmi-cu126-v1" | sha256sum | cut -c1-16)
+          ENV_CACHE="gs://$BUCKET/env-cache/ternary-\$ENV_KEY.tar"
+          PY=/tmp/mf/envs/rbfe/bin/python
+          USED_CACHE=0
+          if gcloud storage cp "\$ENV_CACHE" /tmp/env.tar 2>/dev/null; then
+            mkdir -p /tmp/mf/envs && tar -C /tmp/mf/envs -xf /tmp/env.tar 2>&1 | tail -1 && USED_CACHE=1; rm -f /tmp/env.tar
+          fi
+          if [ "\$USED_CACHE" = 1 ] && \$PY -c "import openfe, openmm, gemmi, rdkit" 2>/dev/null; then
+            echo "--- env-cache HIT ---"
+          else
+            echo "--- env-cache MISS -> Miniforge+mamba (~8-13 min) ---"
+            curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+            bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -3
+            /tmp/mf/bin/mamba create -y -p /tmp/mf/envs/rbfe -c conda-forge \
+              python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
+              "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
+              cuda-version=12.6 rdkit lomap2 kartograf gemmi pdbfixer numpy scipy pyyaml netcdf4 google-cloud-storage 2>&1 | tail -20
+            if [ -x "\$PY" ] && \$PY -c "import openfe, openmm, gemmi" 2>/dev/null; then
+              ( cd /tmp/mf/envs && tar -cf - rbfe | gcloud storage cp - "\$ENV_CACHE" 2>&1 | tail -1 ) || echo "(env-cache upload failed; non-fatal)"
+            fi
+          fi
+          [ -x "\$PY" ] || { echo "###TFEPRESULT### TFEP_RESULT status=ENVFAIL ###END###"; sleep 5; exit 0; }
+          export PATH=/tmp/mf/envs/rbfe/bin:\$PATH
+          echo "import: \$(\$PY -c 'import openfe,openmm,gemmi,rdkit;print(openfe.__version__)' 2>&1)"
+          git clone --depth 1 --branch "$GITREF" https://github.com/trimcrae/Rare-cancers /tmp/repo 2>&1 | tail -2
+          WORK=/tmp/repo/research/modalities
+          IN=/tmp/ternary_in; OUT=/tmp/tout; mkdir -p \$OUT
+          echo "--- stage $LEG_ID from $TEMPLATE_PDB ---"
+          ( cd \$WORK && \$PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out \$IN 2>&1 | tail -25 )
+          echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
+          TMODE=smoke; [ "$MODE" = run ] && TMODE=run
+          echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
+          ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
+              OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \
+              \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
+          # scrape a result + persist
+          if [ "\$TMODE" = smoke ] && [ -f \$OUT/smoke.json ]; then
+            LINE=\$(\$PY -c "import json;d=json.load(open('\$OUT/smoke.json'));print('TFEP_RESULT status=OK smoke leg=%s env=%s mapped=%s has_protein=%s units=%s'%(d.get('leg'),d.get('environment'),d.get('n_mapped_atoms'),d.get('has_protein'),d.get('n_protocol_units')))")
+            gcloud storage cp \$OUT/smoke.json $RESULTS/smoke_$LEG_ID.json 2>&1 | tail -1 || true
+          elif ls \$OUT/leg_${LEG_ID}_*.json >/dev/null 2>&1; then
+            LJ=\$(ls \$OUT/leg_${LEG_ID}_*.json | head -1)
+            LINE=\$(\$PY -c "import json;d=json.load(open('\$LJ'));print('TFEP_RESULT status=OK run leg=%s dg_morph=%.3f se=%.3f'%(d.get('leg_id'),d.get('dg_morph_kcal',0),d.get('mbar_se_kcal',0)))")
+            gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+          else
+            LINE="TFEP_RESULT status=NORESULT leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|missing' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
+          fi
+          for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
+          echo "=== TFEP-DONE \$LINE ==="
+          SS
+
+          MACHINES="g2-standard-8 g2-standard-4"
+          ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
+          provision() {
+            local round M Z
+            for round in $(seq 1 8); do
+              for M in $MACHINES; do
+                for Z in $ZONES; do
+                  if gcloud compute instances create "$VM" \
+                      --zone="$Z" --machine-type="$M" \
+                      --provisioning-model=SPOT --instance-termination-action=DELETE \
+                      --max-run-duration=25200s --maintenance-policy=TERMINATE --no-restart-on-failure \
+                      --scopes=cloud-platform --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                      --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
+                    ZONE="$Z"; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; return 0
+                  fi
+                  grep -iqE "quota|exceeded" /tmp/cerr && { echo "::error::QUOTA for $M in $Z:"; grep -iE "quota|exceeded" /tmp/cerr | head -1; }
+                done
+              done
+              echo "round $round: L4 Spot stocked out; waiting 120s…"; sleep 120
+            done
+            return 1
+          }
+          vm_alive() {
+            local st; st=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(status)" 2>/dev/null || echo GONE)
+            case "$st" in RUNNING|PROVISIONING|STAGING|REPAIRING) return 0 ;; *) echo "  VM status=$st"; return 1 ;; esac
+          }
+
+          MAX_ATTEMPTS=1; [ "$SPOT_SAFE" = 1 ] && MAX_ATTEMPTS=3
+          POLL_ITERS=90; [ "$MODE" = run ] && POLL_ITERS=680
+          RES=""; OUT=""
+          for attempt in $(seq 1 $MAX_ATTEMPTS); do
+            if ! vm_alive 2>/dev/null; then
+              echo "--- attempt $attempt/$MAX_ATTEMPTS: provisioning $VM ---"
+              provision || { echo "::error::no L4 Spot capacity after wait-out budget"; exit 1; }
+            fi
+            for i in $(seq 1 $POLL_ITERS); do
+              OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+              RES=$(printf '%s' "$OUT" | grep -oE '###TFEPRESULT### .* ###END###' | tail -1 | sed -E 's/^###TFEPRESULT### //; s/ ###END###$//' || true)
+              [ -n "$RES" ] && break
+              if ! vm_alive; then echo "  VM gone (preempted) attempt $attempt after ~$((i*30))s"; break; fi
+              sleep 30
+            done
+            [ -n "$RES" ] && break
+          done
+          echo "--- VM serial (filtered tail) ---"
+          printf '%s' "$OUT" | grep -aE "import:|nvidia-smi|TFEPRESULT|openfe|OpenMM|mapped|SMOKE|stage|staged|assembly|hybrid|error|Error|Traceback|ABORT|missing" | tail -90 || true
+          if [ -z "$RES" ]; then
+            echo "::warning::no result marker — serial tail 200:"; printf '%s' "$OUT" | tail -200 || true
+            echo "::error::ternary-FEP produced no result"; exit 1
+          fi
+          echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
+          echo "TFEP RESULT: $RES"
+
+      - name: Teardown
+        if: always()
+        run: |
+          if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
+          fi
+      - name: Result summary
+        if: always()
+        run: |
+          echo "mode=$MODE leg=$LEG_ID"
+          echo "RESULT: ${RESULT_LINE:-<none>}"
+          case "${RESULT_LINE:-}" in
+            *status=OK*smoke*) echo "✅ ternary assembly+map+hybrid-topology built on GCP L4 — valB_mini plumbing PROVEN" ;;
+            *status=OK*run*)   echo "✅ ternary FEP leg ran end-to-end on GCP L4" ;;
+            *ENVFAIL*)         echo "❌ openfe/gemmi env build failed on the VM" ;;
+            *) echo "⚠️ no clean OK result — see serial tail above" ;;
+          esac
