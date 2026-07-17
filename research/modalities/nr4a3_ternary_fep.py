@@ -412,7 +412,9 @@ def run_leg():
     assert_constitutional_edge(sa, sb)
     print("[tfep] LEG=%s env=%s morph=%s->%s dir=%s seed=%d" % (LEG_ID, env, a, b, DIRECTION, SEED), flush=True)
     ligA, ligB, protein = _build_components(openfe, Chem, leg, env, (a, b, sa, sb))
-    mapping = rbfe._mapping(openfe, ligA, ligB)
+    # prefer_element_change: the calib edge is a single-ring-atom element change (cmpd1 pyridine N -> cmpd4
+    # benzene C); take the near-complete element_change=True map (N<->C alchemical), not the degenerate strict map.
+    mapping = rbfe._mapping(openfe, ligA, ligB, prefer_element_change=True)
     n_mapped = len(mapping.componentA_to_componentB)
     # Positively confirm the ACTUAL built molecules are the intended endpoints (the LOMAP log alone is
     # unverifiable — the mapper's name string can leak stale globals). Canonicalize the built ligands and the

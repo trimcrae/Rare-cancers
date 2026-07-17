@@ -155,8 +155,15 @@ def _build_components(openfe, rdkit_chem):
     return ligA, ligB, protein
 
 
-def _mapping(openfe, ligA, ligB):
+def _mapping(openfe, ligA, ligB, prefer_element_change=False):
     """LOMAP atom-map A→B (shared scaffold maps 1:1; the ortho-acetamido is the unique region).
+
+    prefer_element_change=True (the ternary lane's N->CH linker edge): a RING single-atom element change
+    (pyridine N -> benzene C) leaves element_change=False able to map the shared scaffold MINUS the whole ring
+    region (a degenerate map that is NOT tiny, e.g. 37 atoms, so the <=2 guard below does not catch it), whereas
+    element_change=True maps the ring 1:1 with N<->C as the single alchemical atom (~complete). So when asked,
+    compute BOTH and return the LARGER map (the correct near-complete one). The binary lane keeps the default
+    (strict-first) behaviour, so this cannot change any validated binary result.
 
     threed=False (2D topology MCS), NOT threed=True, for TWO reasons:
       1. CORRECTNESS — the RBFE cycle ΔΔG = ΔG_complex − ΔG_solvent is only valid if the A→B atom
@@ -178,6 +185,25 @@ def _mapping(openfe, ligA, ligB):
     # wrong molecules when it did not. Prefer ligA.name/ligB.name; fall back to the globals only if unnamed.
     nA = getattr(ligA, "name", None) or LIGAND_A
     nB = getattr(ligB, "name", None) or LIGAND_B
+
+    if prefer_element_change:
+        # Compute BOTH maps and return the one that maps MORE atoms (a ring element change makes the strict map
+        # drop the whole ring region; element_change=True maps it 1:1 with the single N<->C alchemical atom).
+        best = None
+        for ec in (True, False):
+            try:
+                m = _suggest(ec)
+                n = len(m.componentA_to_componentB)
+                print(f"[rbfe] LOMAP element_change={ec}: {n} mapped atoms for {nA}->{nB} (prefer-element-change)",
+                      flush=True)
+                if best is None or n > best[0]:
+                    best = (n, m)
+            except StopIteration:
+                continue
+        if best is not None:
+            print(f"[rbfe] prefer_element_change -> using the {best[0]}-atom map for {nA}->{nB}", flush=True)
+            return best[1]
+        # neither setting mapped -> fall through to the diagnostics + Kartograf path below
 
     # Prefer the STRICT map (element_change=False): correct for a pure APPEND edge (401->NCCO adds atoms of the
     # same element). But a single-point ELEMENT MUTATION (e.g. the congeneric 5-Br -> 5-NH2) has no same-element
