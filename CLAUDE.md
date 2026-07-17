@@ -509,6 +509,15 @@ read it before making changes.
   `max_run` and FAILS, **re-dispatch it** (same tag → resumes from checkpoint). Keep `max_wait` generous
   (≥ run + expected wait; ABFE uses 20h vs 12h run). On-demand is only for jobs that genuinely can't be spot
   (no spot quota for the type, or truly can't checkpoint) — never as a capacity workaround.
+- **★ SPOT PREEMPTIONS ARE NORMAL — NEVER FLAG trimcrae ABOUT THEM, JUST HANDLE THEM (trimcrae standing rule,
+  2026-07-16).** A spot VM getting preempted (GCE DELETEs it; SageMaker interrupts it) is **expected spot
+  behavior, not a problem worth a message.** Handle it **silently**: re-dispatch to resume from the checkpoint
+  (GCE) or let managed-spot auto-resume (SageMaker), wait out capacity, and re-arm the quiet check-in — do NOT
+  send trimcrae a status update, an "In flight" note, or an AskUserQuestion about a preemption or a routine
+  re-dispatch, no matter how many times it repeats. Composes with WAIT-OUT-SPOT + EXHAUST-SELF-DOABLE-WORK: a
+  preemption is self-doable recovery, never a surface-worthy event. Only message trimcrae about the **result**
+  (the leg's verdict / a newly-available decision-relevant reading) or a **genuine non-preemption failure** (env
+  build error, quota error, a real traceback, a spend decision) — never about the churn of getting there.
 - **★ GCP GPU = us-central1 ONLY — NEVER SWITCH/ADD REGIONS (trimcrae standing rule, 2026-07-16).** This GCP
   project has L4 / G2 quota **only in us-central1**. Do **NOT** pass a non-central `zone` input, do **NOT** add
   `us-east*` / `us-west*` zones to any provisioning `ZONES` list, and do **NOT** "try another region" to dodge a
