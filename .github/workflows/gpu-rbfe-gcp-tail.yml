@@ -13,6 +13,7 @@ on:
       grep:   { description: "extra serial grep filter", default: "", required: false }
       delete: { description: "1 = DELETE the found VM after showing status (cleanup a finished detached leg)", default: "0", required: false }
       inspect_nc: { description: "1 = download the latest complex .nc and dump its netCDF dims/vars (diagnose .nc size)", default: "0", required: false }
+      sweep_stale: { description: "1 = DELETE every non-rbfe leftover VM (gcp-bill-*, gcp-smoke-*, gpu-bench-*) across all zones (idle-billing sweep)", default: "0", required: false }
 
 permissions:
   id-token: write
@@ -35,9 +36,29 @@ jobs:
           GREP_IN: ${{ github.event.inputs.grep }}
           DELETE_IN: ${{ github.event.inputs.delete }}
           INSPECT_NC: ${{ github.event.inputs.inspect_nc }}
+          SWEEP_STALE: ${{ github.event.inputs.sweep_stale }}
         run: |
           set -eo pipefail
           export CLOUDSDK_CORE_PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          # ===== FULL-PROJECT VM CENSUS (runs FIRST, before the rbfe-specific early-exit) — the "is anything I =====
+          # forgot still billing?" check. Raw GCE VMs do NOT self-delete on workload-exit (only the
+          # --max-run-duration=DELETE backstop reaps them), so this is the belt-and-braces idle-billing audit.
+          echo "=================== ALL COMPUTE INSTANCES IN PROJECT (every zone) ==================="
+          ALLVMS=$(gcloud compute instances list \
+            --format="table(name,zone.basename(),machineType.basename(),status,scheduling.provisioningModel,creationTimestamp)" 2>&1 || true)
+          printf '%s\n' "$ALLVMS"
+          RUNNING_CT=$(gcloud compute instances list --filter="status=RUNNING" --format="value(name)" 2>/dev/null | grep -ac . || echo 0)
+          echo "running instance count: $RUNNING_CT"
+          if [ "$SWEEP_STALE" = 1 ]; then
+            echo "--- SWEEP_STALE=1: deleting non-rbfe leftover VMs (gcp-bill-*, gcp-smoke-*, gpu-bench-*) ---"
+            gcloud compute instances list --filter="name~'^(gcp-bill|gcp-smoke|gpu-bench)-'" \
+              --format="value(name,zone.basename())" 2>/dev/null | while read -r N Z; do
+              [ -z "$N" ] && continue
+              echo "deleting $N in $Z ..."
+              gcloud compute instances delete "$N" --zone="$Z" --quiet 2>&1 | tail -1 || echo "  (delete failed / already gone)"
+            done
+            echo "--- sweep done ---"
+          fi
           VM="$VM_IN"; ZONE="$ZONE_IN"
           if [ -z "$VM" ]; then
             echo "--- auto-finding running gpu-rbfe VM ---"
