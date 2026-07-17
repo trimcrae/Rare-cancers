@@ -243,6 +243,25 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
   **GO/NO-GO:** the ternary method moves in the right direction on the known-answer probe → GO to the full
   ternary benchmark. Flat/wrong → **the flagship (prospective matrix) is not defensible → do NOT spend on it;**
   the paper becomes binary-RBFE + honest ternary-limitations only.
+  - **Readiness + cost anatomy (assessed 2026-07-17).** Unlike valA_mini (which collapsed to a ~$0–15 *smoke*
+    because it runs OpenFE's standard, already-published RBFE protocol → we cite OpenFE and just confirm the
+    build), **valB_mini is a real known-answer test** — it exercises the bespoke `ΔΔG_coop = ternary − binary`
+    cooperativity cycle that "cannot be cited away" (see the Val B rationale above), so it CANNOT shrink to a
+    build-confirmation. The harness is **BUILT + unit-tested** (`nr4a3_ternary_fep.py` + `entry_ternary_fep.py` +
+    `nr4a3_ternary_fep_sagemaker.py` fan-out submitter + `ternary_fep_reduce.py` cooperativity cycle +
+    `gpu-ternary-fep-aws.yml`; 100+ tests pass) **but has NEVER run on GPU.** A "mini like Val A" = **one
+    hi→lo cooperativity edge** on a public crystallographic PROTAC — recommended **SMARCA2–VHL P1→P5** (α 93→0.6,
+    both crystallographic 9HYN/9HYP, same TR-FRET assay → cleanest Δα; MZ1–BRD4^BD2–VHL α=18 / PDB 5T35 is the
+    alternative) — checking ΔΔG_coop recovers the measured Δα, exactly parallel to valA_mini's one TYK2 edge.
+    True sequence + cost: (1) freeze the edge + stage crystal structures (**free CI**, per
+    `ternary-calib-pair-draft.md` — needs an RCSB ligand-chemistry fetch to confirm hi→lo is mappable, P1→P4
+    fallback documented); (2) a **~$1–2 GPU smoke** = the *first-ever* GPU run of the ternary assembly/hybrid-
+    topology build (Step 0 did this for binary RBFE; ternary is unsmoked); (3) the **~$40–80 real mini edge**.
+    Caveats: the submitter's `unit_gpu_h` is a **STUB** (the smoke/first leg calibrates it; the full frozen
+    16-window × 3-replica bundle forecasts ~$288 → that is **Val B-full**, not mini); and the ternary harness is
+    **AWS-SageMaker-wired only** (valA_mini ran on a **GCP L4**) → run valB_mini on AWS spot (harness ready) or
+    port to the GCP lane first. **STATUS: HELD (trimcrae, 2026-07-17) — no spend, no CI prep launched.** Ready to
+    launch on an explicit go.
 
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
