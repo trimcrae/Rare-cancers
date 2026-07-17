@@ -136,16 +136,33 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
   **cite OpenFE** and run only a ~$0–15 build-consistency smoke. *(The same fix was propagated to the ternary
   engine `nr4a3_ternary_fep.py`, which had hardcoded NAGL — binary and ternary legs must share charges or the
   cooperativity cycle's cancellation breaks.)*
-- **Val B (ternary cooperativity) — genuinely needed, cannot be cited away.** Our ternary method
-  (`nr4a3_ternary_fep.py`) is a **cooperativity cycle we built**: `ΔΔG_coop = ternary_morph − binary_morph`. It
-  reuses OpenFE's validated per-leg machinery, but **no published benchmark exercises this cooperativity
-  protocol** — so there is nothing to cite. `ΔΔG_coop` is the entire basis for the paper's central claim
-  (selectivity from ternary cooperativity), and NR-V04 can't calibrate it (no solved ternary; celastrol is
-  covalent, so it doesn't even exercise this noncovalent morph). The **only** way to know our cooperativity
-  numbers mean anything is to run one known-answer PROTAC system (VHL–BRD4 / VHL–SMARCA2) ourselves.
+- **Val B (ternary cooperativity) — genuinely needed, but for PIPELINE-validation reasons, not method-novelty.**
+  Our ternary method (`nr4a3_ternary_fep.py`) is a **cooperativity cycle we wired up**:
+  `ΔΔG_coop = ternary_morph − binary_morph`, reusing OpenFE's validated per-leg machinery.
+  **CORRECTION (2026-07-17), replacing an earlier overstatement ("no published benchmark exercises this
+  protocol → there is nothing to cite"):** the *general approach* is NOT novel and IS citeable. All-atom
+  alchemical ternary-cooperativity free-energy calculations — the same `ΔΔG_coop = ternary − binary`
+  thermodynamic cycle, including the VHL–BRD4/MZ1 known-answer system and even paralogue-selectivity
+  applications — are an active published area (2022–2025): coarse-grained alchemical cooperativity on
+  BRD4^BD2–VHL/MZ1 (Chen et al., *J. Phys. Chem. B* 2023), combined protein+ligand *pathway-independent* FEP for
+  molecular-glue cooperativity / paralogue selectivity (*JCTC* 2025, `10.1021/acs.jctc.5c00064`; and *JCTC* 2025
+  `10.1021/acs.jctc.5c00736`), endpoint (MM/GBSA-type) PROTAC cooperativity (*JCIM* 2024,
+  `10.1021/acs.jcim.4c01227`), and FEP+cofolding molecular-glue optimization (ChemRxiv 2025). **So this cannot be
+  positioned as "first ternary selectivity in silico," and the paper MUST cite and benchmark against this prior
+  art** (it also gives us ready known-answer systems and expected error bars to borrow). What genuinely *cannot*
+  be cited away is **the accuracy validation of OUR specific pipeline** — you never certify your own container /
+  force field / charge model / ternary wiring by pointing at someone else's engine's benchmark (this is exactly
+  the reviewer's Mandatory Change 1: run the compact PUBLIC known-answer control through the *exact* protocol you
+  use for NR4A). OpenFE itself ships **no** ternary/PROTAC protocol (RBFE/ABFE for single-protein systems only),
+  so an *open-source OpenFE-based* implementation + the honest NR4A-paralogue application is at most an
+  **incremental** methods contribution, not a landmark — right-size the novelty claim accordingly.
+  `ΔΔG_coop` is still the basis for the paper's central *biological* claim (selectivity from ternary
+  cooperativity), and NR-V04 can't calibrate it (no solved ternary; celastrol is covalent, so it doesn't even
+  exercise this noncovalent morph). The **only** way to know OUR cooperativity numbers mean anything is to run a
+  known-answer PROTAC system (VHL–BRD4 / VHL–SMARCA2) through our pipeline ourselves.
   **Val B-mini (~$40–80) is therefore the highest-value dollar in the plan** — the cheapest possible gate on the
-  ~$150–400 prospective matrix. Dropping Val B entirely = abandoning the quantitative ternary-selectivity claim,
-  i.e. the paper's novel contribution. Keep Val B-mini; keep Val B-full conditional on it.
+  ~$150–400 prospective matrix. Dropping Val B entirely = abandoning the quantitative ternary-selectivity claim.
+  Keep Val B-mini; keep Val B-full conditional on it.
 
 ## SPENDING RULES (read before launching anything)
 
