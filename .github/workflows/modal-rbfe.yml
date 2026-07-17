@@ -16,14 +16,14 @@ name: Modal RBFE — step1 cmpd19 pilot (L4, Modal credits)
 on:
   workflow_dispatch:
     inputs:
-      mode:      { description: "tiny (free shakeout) | real (paid leg) | reduce", default: "tiny", required: true }
+      mode:      { description: "tiny (free shakeout) | real (paid leg) | reduce | tail (S3 checkpoint census, no GPU)", default: "tiny", required: true }
       leg:       { description: "complex | solvent (mode=real)", default: "complex", required: false }
       n_windows: { description: "λ-windows over the A→B morph", default: "12", required: false }
       git_ref:   { description: "repo ref the Modal job clones + runs", default: "claude/rung-2-parallel-7asnpk", required: false }
   push:
     branches: [claude/rung-2-parallel-7asnpk]
     paths:
-      - .github/workflows/modal-rbfe.yml
+      # NOT the .yml itself (avoid re-running the shakeout on workflow edits) — only the Modal app.
       - research/modalities/nr4a3_rbfe_modal.py
 
 permissions:
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: python -m pip install -q modal
+      - run: python -m pip install -q modal boto3
       - name: Run Modal RBFE (${{ github.event.inputs.mode || 'tiny (push)' }})
         env:
           MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
@@ -54,11 +54,16 @@ jobs:
           LEG: ${{ github.event.inputs.leg || 'complex' }}
           NW: ${{ github.event.inputs.n_windows || '12' }}
         run: |
-          if [ -z "$MODAL_TOKEN_ID" ]; then
-            echo "::error::MODAL_TOKEN_ID/SECRET missing — add them in repo Settings → Secrets → Actions."; exit 1
-          fi
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::AWS creds missing — the RBFE checkpoint store is on S3."; exit 1
+          fi
+          # mode=tail: read-only S3 checkpoint census (live progress of the running Modal leg) — no Modal, no GPU.
+          if [ "$MODE" = "tail" ]; then
+            python research/modalities/rbfe_s3_census.py
+            exit 0
+          fi
+          if [ -z "$MODAL_TOKEN_ID" ]; then
+            echo "::error::MODAL_TOKEN_ID/SECRET missing — add them in repo Settings → Secrets → Actions."; exit 1
           fi
           [ "$MODE" = "real" ] && echo "::warning::mode=real launches the PAID ~\$30 pilot leg on Modal credits."
           modal run research/modalities/nr4a3_rbfe_modal.py --mode "$MODE" --leg "$LEG" --n-windows "$NW"
