@@ -42,4 +42,6 @@ jobs:
               - conda-forge
       - name: Build + validate the SMARCA4->SMARCA2 relaxed models from 8G1Q
         working-directory: research/modalities
+        env:
+          SMARCA2_SOLVENT: vacuum   # fast clash-relief for CPU validation; the GPU lane uses gbn2 (same API/path)
         run: python smarca2_validate.py

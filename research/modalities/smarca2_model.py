@@ -114,7 +114,13 @@ def build_smarca2_model(smarca4_pdb: str, chain_id: str, out_dir: str, n_models:
     from openmm.app import ForceField, HBonds, NoCutoff, PDBFile, Simulation
     from pdbfixer import PDBFixer
 
-    ff = ForceField("amber14-all.xml", "implicit/gbn2.xml")
+    # GBn2 implicit solvent is proper for relaxation but its Born-radii eval is slow on CPU. The FAST CPU
+    # validation lane sets SMARCA2_SOLVENT=vacuum (clash-relief only); the GPU lane keeps gbn2 (cheap on GPU).
+    # Same OpenMM API either way, so the whole build/assembly/divergence code path is validated in both.
+    if os.environ.get("SMARCA2_SOLVENT", "gbn2").lower() == "vacuum":
+        ff = ForceField("amber14-all.xml")
+    else:
+        ff = ForceField("amber14-all.xml", "implicit/gbn2.xml")
     models = []
     pocket_coords = []
     for k in range(n_models):
