@@ -156,6 +156,22 @@ runaway, and this may be subsumed by the broader provider migration in `cheap-gp
 all auto-teardown by design). Belt-and-braces audit meanwhile: `gpu-rbfe-gcp-tail.yml` now runs a full-project
 VM census + `sweep_stale=1` to reap any leftover non-rbfe VM across all zones.
 
+## Ops lever — kill the conda-env rebuild on every spot preemption
+
+**Observed 2026-07-16:** the valA complex leg was spot-preempted twice in ~1 h on us-central1 L4; each
+re-dispatch rebuilds the openfe conda env from scratch (~10 min Miniforge + mamba solve) before it can resume
+from the iter-checkpoint. On a contended-capacity night that env rebuild — **not** lost MD iters (those are
+checkpointed) — is the dominant wasted wall-clock (~2× ~10 min here for zero MD progress). Fixes, cheapest first:
+- **Bake the env into a GCE custom image** (or a prebuilt boot disk): build the `rbfe` env once, snapshot the
+  disk, and have the launcher provision from that image → re-provision skips the solve, resume is ~1 min not
+  ~11. Free engineering; the biggest single win against preemption churn. (We already have
+  `research/compute/Dockerfile.mdjob` — a container the same env — which a Vertex/Batch path would use directly.)
+- **Persistent host for terminal legs** (`cheap-gpu-plan.md`: RunPod Secure / ACCESS) — a non-preemptible host
+  so the long final legs don't reload the MD env at all. Trades spot's price for stability; right for the
+  end-game full-sampling legs, not the cheap early gates.
+NB: GPU quota is **us-central1 only** — never switch regions to dodge a preemption (a preempted region still
+has create-capacity; any spot zone can preempt). See CLAUDE.md standing rule (2026-07-16).
+
 ## Priority-ordered action list
 
 1. **[free, in flight]** `[gpu-util]` logger merged → **read single-sim L4 utilization off the next leg.** Gates Tier 1 & 2.
