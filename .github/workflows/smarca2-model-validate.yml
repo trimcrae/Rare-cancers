@@ -1,0 +1,45 @@
+name: SMARCA2 model validate (8G1Q SMARCA4->SMARCA2 relax, CPU, free)
+
+# valB_mini gate item 4: validate the mandated SMARCA4->SMARCA2 bromodomain model build on a CPU runner (no GPU).
+# Fetches SMARCA2/SMARCA4 sequences (UniProt) + the 8G1Q SMARCA4 chain, applies the substitution (PDBFixer),
+# relaxes >=2 independent models (OpenMM implicit solvent), and checks the model-to-model divergence. The GPU
+# ternary smoke reuses the SAME smarca2_model code path, so getting it green here de-risks the paid lane for $0.
+#
+# NEW workflow -> runs on PUSH (paths = the model/driver + this file); mode is the whole job (no inputs needed).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/rung-2-parallel-7asnpk]
+    paths:
+      - research/modalities/smarca2_model.py
+      - research/modalities/smarca2_validate.py
+      - .github/workflows/smarca2-model-validate.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smarca2-model-validate
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: smarca2
+          create-args: >-
+            python=3.11 openmm pdbfixer biopython gemmi numpy
+          condarc: |
+            channels:
+              - conda-forge
+      - name: Build + validate the SMARCA4->SMARCA2 relaxed models from 8G1Q
+        working-directory: research/modalities
+        run: python smarca2_validate.py

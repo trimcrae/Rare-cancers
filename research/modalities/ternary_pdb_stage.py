@@ -34,10 +34,14 @@ RCSB_POLY = "https://data.rcsb.org/rest/v1/core/polymer_entity/{pdb}/{eid}"
 RCSB_CIF = "https://files.rcsb.org/download/{pdb}.cif"
 RCSB_LIG_SDF = ("https://models.rcsb.org/v1/{pdb}/ligand?auth_comp_id={ccd}&encoding=sdf&copy_all_categories=false")
 
-UNIPROT_ROLE = {"P40337": "VHL", "Q15370": "ElonginB", "Q15369": "ElonginC", "P51531": "SMARCA2"}
+# The DEGRADATION TARGET bromodomain: SMARCA2 (P51531) OR SMARCA4 (P51532). The valB template 8G1Q resolves
+# SMARCA4; the stager substitutes it to a relaxed SMARCA2 model (smarca2_model.py) per the reviewer's item 4.
+UNIPROT_ROLE = {"P40337": "VHL", "Q15370": "ElonginB", "Q15369": "ElonginC",
+                "P51531": "TARGET_BD", "P51532": "TARGET_BD"}
+TARGET_ACC_NAME = {"P51531": "SMARCA2", "P51532": "SMARCA4"}
 ROLE_CHAINS_FOR_ENV = {  # which protein ROLES each environment keeps
     "binary": ["VHL", "ElonginB", "ElonginC"],
-    "ternary": ["VHL", "ElonginB", "ElonginC", "SMARCA2"],
+    "ternary": ["VHL", "ElonginB", "ElonginC", "TARGET_BD"],
 }
 
 
@@ -53,7 +57,9 @@ def _get(url: str, as_json=True, binary=False):
 
 
 def role_to_chains(pdb: str) -> dict:
-    """{role: [auth_chain_ids]} resolved from RCSB entity->UniProt->auth chains (no guessing)."""
+    """{role: [auth_chain_ids]} resolved from RCSB entity->UniProt->auth chains (no guessing). Also records
+    _target_acc (P51531 SMARCA2 | P51532 SMARCA4) so the caller knows whether a SMARCA4->SMARCA2 substitution
+    is required for the TARGET_BD chain."""
     entry = _get(RCSB_ENTRY.format(pdb=pdb))
     eids = (entry.get("rcsb_entry_container_identifiers", {}) or {}).get("polymer_entity_ids") or []
     out: dict = {}
@@ -68,6 +74,8 @@ def role_to_chains(pdb: str) -> dict:
             if role:
                 out.setdefault(role, [])
                 out[role].extend(c for c in auth_chains if c not in out[role])
+                if role == "TARGET_BD":
+                    out["_target_acc"] = acc
     return out
 
 
