@@ -122,17 +122,89 @@ def _morph_endpoints(leg):
 # =============================================================================================================
 # OpenFE build (mirrors nr4a3_rbfe; the only new piece is the E3-machinery ChemicalSystem)
 # =============================================================================================================
+def _canon_smiles(x, rdkit_chem):
+    """Canonical isomeric SMILES of an RDKit mol or a SMILES string (None-safe)."""
+    m = x if hasattr(x, "GetNumAtoms") else rdkit_chem.MolFromSmiles(x)
+    if m is None:
+        return None
+    try:
+        return rdkit_chem.MolToSmiles(rdkit_chem.RemoveHs(m))
+    except Exception:  # noqa: BLE001
+        return rdkit_chem.MolToSmiles(m)
+
+
+def _pyridine_to_benzene_pose(mol, rdkit_chem):
+    """Mutate the UNIQUE aromatic 6-membered single-N ring (pyridine) N -> CH in place, PRESERVING 3D coords, to
+    build the benzene-linker analogue pose (Wurz cmpd1 crystal pose -> cmpd4). This is the ligand-level analogue
+    of the SMARCA4->SMARCA2 residue substitution: an N->C element change cannot be done by bond-order repair. The
+    ring atom keeps its position (N and C are near-identical size); the added H is placed by AddHs(addCoords).
+    Returns None if the molecule does not have exactly one pyridine (so the caller fails closed)."""
+    m = rdkit_chem.RWMol(mol)
+    try:
+        rdkit_chem.SanitizeMol(m)
+    except Exception:  # noqa: BLE001
+        pass
+    ri = m.GetRingInfo()
+    cand = []
+    for ring in ri.AtomRings():
+        if len(ring) != 6:
+            continue
+        atoms = [m.GetAtomWithIdx(i) for i in ring]
+        if not all(a.GetIsAromatic() for a in atoms):
+            continue
+        ns = [a.GetIdx() for a in atoms if a.GetSymbol() == "N"]
+        if len(ns) == 1:
+            cand.append(ns[0])
+    if len(cand) != 1:
+        return None
+    at = m.GetAtomWithIdx(cand[0])
+    at.SetAtomicNum(6)
+    at.SetNumExplicitHs(0)
+    at.SetNoImplicit(False)
+    out = m.GetMol()
+    try:
+        rdkit_chem.SanitizeMol(out)
+        out = rdkit_chem.AddHs(out, addCoords=True)
+    except Exception:  # noqa: BLE001
+        return None
+    return out
+
+
+def _endpoint_pose(sdf, name, target_smiles, base_smiles, rdkit_chem):
+    """Build the 3D pose for endpoint `name` so it MATCHES target_smiles, starting from the crystal pose (whose
+    true identity is base_smiles — the co-crystallized ligand, e.g. Wurz cmpd1). If target == base, bond-order
+    repair suffices (e.g. calib_hi = cmpd1). If target differs by an ELEMENT change (calib_lo = cmpd4, linker
+    pyridine N->CH), bond-order repair CANNOT convert N->C, so mutate the pose (pyridine->benzene) then repair.
+    Verifies the built pose's canonical SMILES equals the target and FAILS CLOSED otherwise — never runs a leg on
+    the wrong molecule (this is the bug the 5-part gate's endpoints_match check caught)."""
+    base = rbfe._sdf_mol(sdf, name, base_smiles, rdkit_chem)
+    clean = rbfe._repair_pose(base, base_smiles, rdkit_chem)
+    want = _canon_smiles(target_smiles, rdkit_chem)
+    if _canon_smiles(clean, rdkit_chem) == want:
+        return clean                                     # target == crystal identity (calib_hi = cmpd1)
+    mut = _pyridine_to_benzene_pose(clean, rdkit_chem)   # element-change endpoint (cmpd4 benzene linker)
+    if mut is not None:
+        mut = rbfe._repair_pose(mut, target_smiles, rdkit_chem)
+        if _canon_smiles(mut, rdkit_chem) == want:
+            return mut
+    raise SystemExit("  ABORT: endpoint %s could not be built to match its target SMILES (element-change pose "
+                     "mutation failed) — refusing a wrong-molecule leg." % name)
+
+
 def _build_components(openfe, rdkit_chem, leg, env, endpoints):
     """Ligand A/B SmallMoleculeComponents (from the posed PROTAC SDF) + the assembled ProteinComponent for a
     binary/ternary leg (None for solvent). The complex PDB is the co-folded/assembled starting structure staged
-    at <IN>/<leg_id>/complex.pdb (E3 machinery [+ target]); the two posed PROTAC endpoints at ligands.sdf."""
+    at <IN>/<leg_id>/complex.pdb (E3 machinery [+ target]); the two posed PROTAC endpoints at ligands.sdf. BOTH
+    endpoints are staged from the SAME crystal pose (the co-crystallized ligand = calib_hi's SMILES sa); each is
+    built to match its own target, mutating element changes (e.g. cmpd1->cmpd4 linker N->CH) so neither is a
+    wrong-molecule/null endpoint."""
     a, b, sa, sb = endpoints
     lig_dir = os.path.join(IN, leg["id"])
     sdf = os.path.join(lig_dir, "ligands.sdf")
     if not os.path.exists(sdf):
         sdf = next(iter(glob.glob(os.path.join(IN, "**", "ligands.sdf"), recursive=True)), sdf)
-    molA = rbfe._repair_pose(rbfe._sdf_mol(sdf, a, sa, rdkit_chem), sa, rdkit_chem)
-    molB = rbfe._repair_pose(rbfe._sdf_mol(sdf, b, sb, rdkit_chem), sb, rdkit_chem)
+    molA = _endpoint_pose(sdf, a, sa, sa, rdkit_chem)    # crystal identity = sa (calib_hi = cmpd1)
+    molB = _endpoint_pose(sdf, b, sb, sa, rdkit_chem)    # cmpd1 pose -> cmpd4 (element-change mutation)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None

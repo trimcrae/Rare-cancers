@@ -43,6 +43,19 @@ def main() -> int:
                   f"rmsd={smm.get('divergence_ca_rmsd_A')}", flush=True)
             ok = ok and smm.get("smarca4_to_smarca2_substituted") and smm.get("divergence_ok") \
                 and (smm.get("n_relaxed_models") or 0) >= 2
+            # ENDPOINT BUILD CHECK (rdkit-only, no openfe): the built cmpd1/cmpd4 poses must match the requested
+            # SMILES — the bug the GPU-smoke gate caught (cmpd4's N->CH can't be done by bond-order repair).
+            import nr4a3_ternary_fep as eng
+            from rdkit import Chem
+            legspec, _env = eng.leg_spec(leg)
+            a, b, sa, sb = eng._morph_endpoints(legspec)
+            sdf = os.path.join(d, "ligands.sdf")
+            molA = eng._endpoint_pose(sdf, a, sa, sa, Chem)
+            molB = eng._endpoint_pose(sdf, b, sb, sa, Chem)
+            mA = eng._canon_smiles(molA, Chem) == eng._canon_smiles(sa, Chem)
+            mB = eng._canon_smiles(molB, Chem) == eng._canon_smiles(sb, Chem)
+            print(f"  [ternary] endpoint build: A(cmpd1) match={mA}  B(cmpd4) match={mB}", flush=True)
+            ok = ok and mA and mB
     print(f"\n[stage-validate] {'PASS' if ok else 'FAIL'}", flush=True)
     return 0 if ok else 2
 
