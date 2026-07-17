@@ -20,5 +20,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install pytest numpy scipy pymbar
+      # rdkit is needed for the null-map guard regression test (stereo-only edges must fail setup) and the
+      # structural-alerts / nrv04 tests; without it those importorskip-skip and the guard goes untested.
+      - run: pip install pytest numpy scipy pymbar rdkit
       - run: python -m pytest research/modalities/tests -q

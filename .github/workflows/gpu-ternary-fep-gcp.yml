@@ -1,12 +1,14 @@
 name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF keyless)
 
 # The GCP port of the ternary-cooperativity FEP (nr4a3_ternary_fep.py) for the reviewer-approved valB_mini edge
-# PROTAC 2 -> cis-PROTAC 2 (SMARCA2-VHL, staged from 6HAX; ddG_exp=+1.71 kcal/mol). Reuses gpu-rbfe-gcp.yml's
-# proven machinery (WIF auth, zone-fallback Spot L4 create, Miniforge+mamba CUDA openmm, env-cache, serial-console
-# reporting, unconditional teardown). The VM SELF-STAGES the leg from 6HAX (ternary_pdb_stage.py; unrestricted
-# internet), so there is NO S3/GCS input dependency for the smoke.
+# Wurz compound 1 -> compound 4 (SMARCA2-VHL, staged from 8G1Q; linker pyridine->benzene; ddG_coop_exp=+0.94
+# kcal/mol, alpha_SPR). Reuses gpu-rbfe-gcp.yml's proven machinery (WIF auth, zone-fallback Spot L4 create,
+# Miniforge+mamba CUDA openmm, env-cache, serial-console reporting, unconditional teardown). The VM SELF-STAGES
+# the leg from 8G1Q (ternary_pdb_stage.py; unrestricted internet) INCLUDING the mandated SMARCA4->SMARCA2 model
+# substitution+relax, so there is NO S3/GCS input dependency for the smoke.
 #
-#   mode=smoke : env solve + 6HAX stage + ternary assembly + atom-map + hybrid-topology build (NO MD). Minutes,
+#   mode=smoke : env solve + 8G1Q stage (+SMARCA4->SMARCA2 relax) + ternary assembly + atom-map + hybrid-topology
+#                build + the 5-part $0 gate (NO MD). Minutes,
 #                ~$1-2. The FIRST-EVER GPU run of the ternary assembly. Runs one leg (default the ternary leg).
 #   mode=run   : full 5ns sampling for ONE leg x ONE replica (leg_id + seed), spot-safe re-dispatch, result->GCS.
 #                The valB_mini bundle = {binary_vhl, ternary_smarca2} x {solvent} x SEED 0/1/2 (prereg >=3 reps).
@@ -22,7 +24,7 @@ on:
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
-      template_pdb: { description: "crystal template", default: "6HAX", required: false }
+      template_pdb: { description: "crystal template (Wurz 8G1Q for valB_mini cmpd1->cmpd4)", default: "8G1Q", required: false }
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
@@ -51,7 +53,7 @@ jobs:
       LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
       SEED: ${{ github.event.inputs.seed || '0' }}
       NWIN: ${{ github.event.inputs.n_windows || '12' }}
-      TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '6HAX' }}
+      TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
       DETACH: ${{ github.event.inputs.detach || '0' }}
       GITREF: ${{ github.ref_name }}
