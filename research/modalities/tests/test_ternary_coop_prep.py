@@ -48,13 +48,20 @@ def test_calib_ternary_target_is_smarca2():
     assert tgt["name"] == "SMARCA2"
 
 
-def test_nrv04_endpoints_identified_calib_pending():
+def test_nrv04_endpoints_identified_calib_resolved_or_pending():
     a = _by_id()
     nrv04 = a["nrv04_active_to_epimer__binary_vhl"]["morph"]
     assert nrv04["endpoint_a"].startswith("NRV04") and nrv04["endpoint_b"].startswith("NRV04")
     calib = a["calib_hi_to_lo__binary_vhl"]["morph"]
-    assert calib["status"] == "pending_calib_pair_freeze"       # NOT fabricated
-    assert calib["smiles_a"] is None and calib["smiles_b"] is None
+    # The reviewer-approved PROTAC 2 -> cis-PROTAC 2 pair is frozen in ternary-calib-epimer-frozen.json; when it
+    # is present the calib endpoints resolve to real (local, non-fabricated) SMILES, else they stay pending.
+    if pp._load_calib_frozen() is not None:
+        assert calib["status"] == "resolved_calib_epimer"
+        assert calib["smiles_a"] and calib["smiles_b"]
+        assert calib["smiles_a"] != calib["smiles_b"]           # active vs cis epimer (stereo differs)
+    else:
+        assert calib["status"] == "pending_calib_pair_freeze"
+        assert calib["smiles_a"] is None and calib["smiles_b"] is None
 
 
 def test_coop_cycle_roles():

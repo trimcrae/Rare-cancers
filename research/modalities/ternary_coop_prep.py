@@ -34,7 +34,10 @@ NR4A_LBD = _nv.TARGETS   # {'NR4A1':{acc,lo,hi,...}, 'NR4A2':..., 'NR4A3':...}
 
 # Target of the SMARCA2-VHL calibration series (bromodomain). Sequence/definition frozen at curation time with
 # the calib pair; recorded here as the target identity only.
-CALIB_TARGET = {"name": "SMARCA2", "domain": "bromodomain", "note": "exact residue range frozen with the calib pair"}
+CALIB_TARGET = {"name": "SMARCA2", "acc": "P51531", "domain": "bromodomain",
+                "template_pdb": "6HAX",
+                "note": "SMARCA2 bromodomain; the exact construct = the SMARCA2 chain of the 6HAX ternary "
+                        "(PROTAC 2 / VHL-EloB-EloC-SMARCA2), which the staging extracts directly."}
 
 
 def _e3_components(with_vbc=True):
@@ -55,15 +58,32 @@ def _target_component(leg):
         return {"role": "target", "name": tgt, "acc": d["acc"], "lbd_lo": d["lo"], "lbd_hi": d["hi"],
                 "lbd_rule": "C-terminal 254 residues (NR4A3 explicit 373-626)"}
     if tgt == "SMARCA2":
-        return {"role": "target", "name": "SMARCA2", "domain": CALIB_TARGET["domain"], "acc": None,
-                "note": "frozen with the calib pair"}
+        return {"role": "target", "name": "SMARCA2", "domain": CALIB_TARGET["domain"],
+                "acc": CALIB_TARGET["acc"], "template_pdb": CALIB_TARGET["template_pdb"],
+                "note": "SMARCA2 bromodomain from the 6HAX ternary crystal (staged directly)"}
     return {"role": "target", "name": tgt, "note": "unresolved target"}
+
+
+CALIB_FROZEN_JSON = os.path.join(HERE, "ternary-calib-epimer-frozen.json")
+
+
+def _load_calib_frozen(path=CALIB_FROZEN_JSON):
+    """The reviewer-approved frozen calib edge (PROTAC 2 -> cis-PROTAC 2, 6HAX). Returns None if absent (keeps
+    the harness importable before the freeze CI has run). SMILES are local (no network) — pure + testable."""
+    if not os.path.exists(path):
+        return None
+    try:
+        d = json.load(open(path))
+    except Exception:  # noqa: BLE001
+        return None
+    return d if str(d.get("_status", "")).startswith("FROZEN") else None
 
 
 def _morph_endpoints(leg, resolve_smiles=False):
     """The two alchemical endpoints (A->B) for a leg's morph. NR-V04 active/epimer resolve from the existing
-    benchmark chemistry; the calibration hi/lo endpoints stay `pending` until the Layer-1 calib pair is frozen.
-    resolve_smiles=True triggers the (network) NR-V04 SMILES load; default False keeps this pure/testable."""
+    benchmark chemistry; the calibration hi/lo endpoints resolve from the FROZEN reviewer-approved epimer pair
+    (PROTAC 2 -> cis-PROTAC 2, ternary-calib-epimer-frozen.json) — local SMILES, no network. If the freeze file
+    is absent they stay `pending`. resolve_smiles=True triggers the (network) NR-V04 SMILES load."""
     morph = leg["morph"]  # e.g. 'NRV04_active -> NRV04_epimer' or 'calib_hi -> calib_lo'
     a, b = [s.strip() for s in morph.split("->")]
     smiles_a = smiles_b = None
@@ -80,8 +100,14 @@ def _morph_endpoints(leg, resolve_smiles=False):
                 status = "smiles_unresolved (network)"
         else:
             status = "nrv04_endpoints_available_lazy"
-    else:  # calibration hi/lo — PENDING the frozen Layer-1 calib pair (no fabrication)
-        status = "pending_calib_pair_freeze"
+    else:  # calibration hi/lo — resolve from the frozen reviewer-approved epimer pair (no fabrication)
+        frozen = _load_calib_frozen()
+        if frozen:
+            by_role = {"calib_hi": frozen["calib_hi"]["smiles"], "calib_lo": frozen["calib_lo"]["smiles"]}
+            smiles_a, smiles_b = by_role.get(a), by_role.get(b)
+            status = "resolved_calib_epimer" if (smiles_a and smiles_b) else "calib_role_unmatched"
+        else:
+            status = "pending_calib_pair_freeze"
     return {"endpoint_a": a, "endpoint_b": b, "smiles_a": smiles_a, "smiles_b": smiles_b, "status": status}
 
 
