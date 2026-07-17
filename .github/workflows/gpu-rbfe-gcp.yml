@@ -165,12 +165,18 @@ jobs:
               # HIGHER = smaller total upload (openmmtools .chk keeps FULL checkpoint history — ~52 MB/frame for 12
               # replicas — and is re-uploaded WHOLE each commit, so total upload ~ (N/P)^2). 2026-07-16: a
               # preemption at iter ~1000 with P=100 could have cost ~100 iters (~17 min); trimcrae asked to commit
-              # a little more often since it costs no throughput. P=50 => ~2x more commits, worst-case loss ~50
-              # iters (~9 min), total upload ~2x (still a few GB / a couple min over a ~6 h run, GCS ingress free —
-              # negligible). Don't go much lower: the (N/P)^2 .chk re-upload growth is the only thing that bites.
-              # tiny keeps 2 (needs a commit within its few iters to validate the path).
+              # more often since it costs no throughput. Worst-case preemption loss = exactly one interval P, so
+              # smaller P IS strictly safer. The counter-cost is the (N/P)^2 upload: at P=20 the back-half commits
+              # re-upload a ~5 GB .chk SYNCHRONOUSLY every 20 iters (~2% wall near iter 2000); P=40 is ~4x less of
+              # that for only ~3.5 min more worst-case loss than P=20. P=40 chosen: 2.5x more frequent than 100,
+              # ~7-min worst-case loss, upload growth still negligible (~2-3 min over a ~6 h run, GCS ingress free).
+              # Kept a MULTIPLE OF 20 so this path stays consistent with the welded path's _protocol
+              # checkpoint_interval=20 (not required here — the driver sets checkpoint_interval=P itself — but it
+              # avoids confusion when reading the two paths together). Going lower buys little: to commit far more
+              # often for free we'd need to background the upload (feasible — manifest is already written LAST — but
+              # unscoped). tiny keeps 2 (needs a commit within its few iters to validate the path).
               if [ "\$TINY" = 1 ]; then SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
-              else SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=25 RBFE_PROD_CKPT_ITERS=50"; fi
+              else SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=20 RBFE_PROD_CKPT_ITERS=40"; fi
               echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
             fi
             echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE mode=$MODE) on \$(basename \$PY) ---"
