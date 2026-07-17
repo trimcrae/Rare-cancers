@@ -213,19 +213,21 @@ def _run_leg(mode: str, leg: str, tiny: bool, n_windows: int) -> str:
     return line
 
 
-# GPU + host sizing. GPU_KIND is overridable (MODAL_GPU env) so we can A/B L4 vs A100/L40S without code edits;
-# cpu=8/memory=32G MATCHES valA's GCP g2-standard-8 so the 12-replica HREX sampler + netCDF checkpointing isn't
-# CPU-starved (the leading suspect for the observed ~3x slowdown vs GCP L4 — measure via the GPU/cores log above).
+# GPU choice. MEASURED 2026-07-17 (modal_gpu_bench): L4 = 631 ns/day = 32.9 ns/$ — the ns/$ WINNER on Modal (a
+# fixed $30 credit → max ns = max ns/$; L40S/A10G/T4 all lose). Modal's L4 is NOT throttled (matches GCP's 628).
+# GPU_KIND stays overridable (MODAL_GPU env) but L4 is the default for a reason. NOTE: the earlier cpu=8 reserve
+# did NOT improve throughput (the ~103 iters/hr is HREX/warmup orchestration, not CPU) and only costs reserved
+# cores, so we use Modal's default CPU to preserve ns/$. memory kept modest for the ~1 GB checkpoints.
 GPU_KIND = os.environ.get("MODAL_GPU", "L4")
 
 
-@app.function(image=image, gpu=GPU_KIND, cpu=8.0, memory=32768, secrets=[_aws], timeout=60 * 30)
+@app.function(image=image, gpu=GPU_KIND, memory=16384, secrets=[_aws], timeout=60 * 30)
 def tiny_shakeout(leg: str = "complex", n_windows: int = 12) -> str:
     """FREE plumbing shakeout: setup → tiny MD → analyze on the real cmpd19 edge (RBFE_TINY=1)."""
     return _run_leg("tiny", leg, tiny=True, n_windows=n_windows)
 
 
-@app.function(image=image, gpu=GPU_KIND, cpu=8.0, memory=32768, secrets=[_aws], timeout=60 * 60 * 20)
+@app.function(image=image, gpu=GPU_KIND, memory=16384, secrets=[_aws], timeout=60 * 60 * 20)
 def real_leg(leg: str = "complex", n_windows: int = 12) -> str:
     """The paid pilot: full-sampling RBFE, one leg, spot-safe S3 checkpoint/resume."""
     return _run_leg("real", leg, tiny=False, n_windows=n_windows)
