@@ -119,15 +119,16 @@ jobs:
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           export DEBIAN_FRONTEND=noninteractive
           apt-get update -qq && apt-get install -y -qq git >/dev/null 2>&1
-          # env-cache (openfe + gemmi for staging); distinct key from the RBFE lane (adds gemmi).
-          ENV_KEY=\$(echo "$IMG_FAMILY|openfe1.12-am1bcc-gemmi-cu126-v1" | sha256sum | cut -c1-16)
+          # env-cache (openfe + gemmi + pdbfixer + biopython for the SMARCA4->SMARCA2 staging); distinct key from
+          # the RBFE lane. v2 = adds biopython (smarca2_model alignment) -> forces a one-time rebuild.
+          ENV_KEY=\$(echo "$IMG_FAMILY|openfe1.12-am1bcc-gemmi-pdbfixer-biopython-cu126-v2" | sha256sum | cut -c1-16)
           ENV_CACHE="gs://$BUCKET/env-cache/ternary-\$ENV_KEY.tar"
           PY=/tmp/mf/envs/rbfe/bin/python
           USED_CACHE=0
           if gcloud storage cp "\$ENV_CACHE" /tmp/env.tar 2>/dev/null; then
             mkdir -p /tmp/mf/envs && tar -C /tmp/mf/envs -xf /tmp/env.tar 2>&1 | tail -1 && USED_CACHE=1; rm -f /tmp/env.tar
           fi
-          if [ "\$USED_CACHE" = 1 ] && \$PY -c "import openfe, openmm, gemmi, rdkit" 2>/dev/null; then
+          if [ "\$USED_CACHE" = 1 ] && \$PY -c "import openfe, openmm, gemmi, rdkit, pdbfixer, Bio" 2>/dev/null; then
             echo "--- env-cache HIT ---"
           else
             echo "--- env-cache MISS -> Miniforge+mamba (~8-13 min) ---"
@@ -136,8 +137,8 @@ jobs:
             /tmp/mf/bin/mamba create -y -p /tmp/mf/envs/rbfe -c conda-forge \
               python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
               "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
-              cuda-version=12.6 rdkit lomap2 kartograf gemmi pdbfixer numpy scipy pyyaml netcdf4 google-cloud-storage 2>&1 | tail -20
-            if [ -x "\$PY" ] && \$PY -c "import openfe, openmm, gemmi" 2>/dev/null; then
+              cuda-version=12.6 rdkit lomap2 kartograf gemmi pdbfixer biopython numpy scipy pyyaml netcdf4 google-cloud-storage 2>&1 | tail -20
+            if [ -x "\$PY" ] && \$PY -c "import openfe, openmm, gemmi, pdbfixer, Bio" 2>/dev/null; then
               ( cd /tmp/mf/envs && tar -cf - rbfe | gcloud storage cp - "\$ENV_CACHE" 2>&1 | tail -1 ) || echo "(env-cache upload failed; non-fatal)"
             fi
           fi
