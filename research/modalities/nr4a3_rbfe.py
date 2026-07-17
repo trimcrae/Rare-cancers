@@ -172,6 +172,13 @@ def _mapping(openfe, ligA, ligB):
         return next(LomapAtomMapper(time=20, threed=False,
                                     element_change=element_change).suggest_mappings(ligA, ligB))
 
+    # Log the ACTUAL component names being mapped, NOT the module globals LIGAND_A/LIGAND_B. When another engine
+    # (e.g. the ternary lane) reuses this mapper with its own SmallMoleculeComponents, the globals are stale
+    # RBFE defaults (denovo_401/lo_m0_NCCO_gen) — printing them made a ternary smoke look like it mapped the
+    # wrong molecules when it did not. Prefer ligA.name/ligB.name; fall back to the globals only if unnamed.
+    nA = getattr(ligA, "name", None) or LIGAND_A
+    nB = getattr(ligB, "name", None) or LIGAND_B
+
     # Prefer the STRICT map (element_change=False): correct for a pure APPEND edge (401->NCCO adds atoms of the
     # same element). But a single-point ELEMENT MUTATION (e.g. the congeneric 5-Br -> 5-NH2) has no same-element
     # map for the 5-substituent, so LOMAP returns an empty generator. Fall back to element_change=True: the
@@ -181,9 +188,9 @@ def _mapping(openfe, ligA, ligB):
         try:
             m = _suggest(ec)
             nmap = len(m.componentA_to_componentB)
-            print(f"[rbfe] LOMAP element_change={ec}: {nmap} mapped atoms for {LIGAND_A}->{LIGAND_B}", flush=True)
+            print(f"[rbfe] LOMAP element_change={ec}: {nmap} mapped atoms for {nA}->{nB}", flush=True)
             if ec:
-                print(f"[rbfe] LOMAP: element_change=True required for {LIGAND_A}->{LIGAND_B} "
+                print(f"[rbfe] LOMAP: element_change=True required for {nA}->{nB} "
                       f"(single-point element mutation; scaffold maps 1:1, pose-independent)", flush=True)
             # A LOMAP map far smaller than the rdFMCS core (see MAPPING DIAG) is degenerate — for a congeneric
             # edge LOMAP should map ~the whole shared scaffold. If element_change=False returns a tiny map (it can

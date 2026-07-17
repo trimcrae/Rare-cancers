@@ -170,7 +170,7 @@ jobs:
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist
           if [ "\$TMODE" = smoke ] && [ -f \$OUT/smoke.json ]; then
-            LINE=\$(\$PY -c "import json;d=json.load(open('\$OUT/smoke.json'));print('TFEP_RESULT status=OK smoke leg=%s env=%s mapped=%s has_protein=%s units=%s'%(d.get('leg'),d.get('environment'),d.get('n_mapped_atoms'),d.get('has_protein'),d.get('n_protocol_units')))")
+            LINE=\$(\$PY -c "import json;d=json.load(open('\$OUT/smoke.json'));print('TFEP_RESULT status=OK smoke leg=%s env=%s mapped=%s has_protein=%s endpoints=%s->%s match=%s units=%s'%(d.get('leg'),d.get('environment'),d.get('n_mapped_atoms'),d.get('has_protein'),d.get('endpoint_a'),d.get('endpoint_b'),d.get('endpoints_match_requested'),d.get('n_protocol_units')))")
             gcloud storage cp \$OUT/smoke.json $RESULTS/smoke_$LEG_ID.json 2>&1 | tail -1 || true
           elif ls \$OUT/leg_${LEG_ID}_*.json >/dev/null 2>&1; then
             LJ=\$(ls \$OUT/leg_${LEG_ID}_*.json | head -1)

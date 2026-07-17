@@ -219,6 +219,17 @@ def run_leg():
     ligA, ligB, protein = _build_components(openfe, Chem, leg, env, (a, b, sa, sb))
     mapping = rbfe._mapping(openfe, ligA, ligB)
     n_mapped = len(mapping.componentA_to_componentB)
+    # Positively confirm the ACTUAL built molecules are the intended endpoints (the LOMAP log alone is
+    # unverifiable — the mapper's name string can leak stale globals). Canonicalize the built ligands and the
+    # requested SMILES so a smoke definitively shows WHICH chemistry it ran (e.g. PROTAC_2 -> cis-PROTAC_2).
+    def _canon(s):
+        m = Chem.MolFromSmiles(s) if s else None
+        return Chem.MolToSmiles(m) if m is not None else None
+    built_a = _canon(Chem.MolToSmiles(Chem.RemoveHs(ligA.to_rdkit())))
+    built_b = _canon(Chem.MolToSmiles(Chem.RemoveHs(ligB.to_rdkit())))
+    want_a, want_b = _canon(sa), _canon(sb)
+    endpoints_ok = (built_a == want_a) and (built_b == want_b)
+    print("  [tfep] endpoints: A=%s B=%s | built matches requested SMILES: %s" % (a, b, endpoints_ok), flush=True)
     print("  [tfep] mapped %d atoms A->B" % n_mapped, flush=True)
 
     if os.environ.get("MODE") == "smoke":
@@ -227,9 +238,14 @@ def run_leg():
         dag = proto.create(stateA=A, stateB=B, mapping=mapping)
         json.dump({"smoke": "ok", "leg": LEG_ID, "environment": env, "n_mapped_atoms": n_mapped,
                    "has_protein": protein is not None,
+                   "endpoint_a": a, "endpoint_b": b,
+                   "built_smiles_a": built_a, "built_smiles_b": built_b,
+                   "requested_smiles_a": want_a, "requested_smiles_b": want_b,
+                   "endpoints_match_requested": endpoints_ok,
                    "n_protocol_units": len(getattr(dag, "protocol_units", []) or [])},
                   open(os.path.join(CKPT, "smoke.json"), "w"), indent=2)
-        print("  [tfep] SMOKE ok — env solves, %s assembly + mapping + hybrid topology build." % env, flush=True)
+        print("  [tfep] SMOKE ok — env solves, %s assembly + mapping + hybrid topology build "
+              "(endpoints_match=%s)." % (env, endpoints_ok), flush=True)
         return
 
     proto = _protocol(openfe)
