@@ -165,8 +165,21 @@ def freeze(chosen_ring_N_idx: int | None = None) -> dict:
     with open(DIAG, "w") as f:
         json.dump(diag, f, indent=2)
 
+    # AUTO-SELECT the linker when the molecule has exactly ONE pyridine ring: then the pyridine->benzene 1->4
+    # transformation is UNAMBIGUOUS (no other single-N aromatic 6-ring exists to confuse it). compound 1's other
+    # N-heterocycles are the thiazole (5-membered) and the aminopyridazine (two ring N) -> neither is a pyridine,
+    # so 8G1Q's ligand yields exactly one candidate = the pyridine-4-carbonyl LINKER. An explicit chosen_ring_N_idx
+    # still overrides (defensive, if a future template has multiple pyridines).
+    auto = None
+    if chosen_ring_N_idx is None and variants.get("ok") and variants.get("n_pyridine_rings") == 1:
+        auto = variants["candidates"][0]["ring_N_idx"]
+        print(f"[wurz] exactly one pyridine ring -> auto-selecting the linker (ring_N_idx={auto})", flush=True)
+    chosen_ring_N_idx = chosen_ring_N_idx if chosen_ring_N_idx is not None else auto
+
     if chosen_ring_N_idx is None or not variants.get("ok"):
-        return {"_status": "INCOMPLETE - pyridine linker ring not yet chosen (see wurz-calib-diagnostic.json)",
+        n = variants.get("n_pyridine_rings")
+        return {"_status": f"INCOMPLETE - {n} pyridine rings; linker not auto-selectable, pin WURZ_LINKER_N_IDX "
+                           "(see wurz-calib-diagnostic.json)",
                 "diagnostic": DIAG, **{k: diag[k] for k in ("cmpd1_pdb", "citation", "cmpd1_ccd", "cmpd1_smiles")}}
 
     chosen = next((c for c in variants["candidates"] if c["ring_N_idx"] == chosen_ring_N_idx), None)
@@ -189,7 +202,9 @@ def freeze(chosen_ring_N_idx: int | None = None) -> dict:
         "calib_lo": {"role": "calib_lo", "name": "Wurz_cmpd4", "state": "productive_ternary_low_coop",
                      "modeled_from": CMPD1_PDB, "smiles": c4_smiles, "alpha_SPR": ALPHA_4,
                      "derivation": {"transform": "linker pyridine N -> CH (pyridine -> benzene)",
-                                    "chosen_ring_N_idx": chosen_ring_N_idx, "ring_atom_idx": chosen["ring_atom_idx"]},
+                                    "chosen_ring_N_idx": chosen_ring_N_idx, "ring_atom_idx": chosen["ring_atom_idx"],
+                                    "auto_selected_unique_pyridine": (auto is not None and auto == chosen_ring_N_idx),
+                                    "n_pyridine_rings_in_cmpd1": variants.get("n_pyridine_rings")},
                      "note": "DERIVED (no separate crystal); the 5-part smoke gate re-checks built-vs-frozen "
                              "identity and that this is a genuine N->CH element edge, not identity/stereo-only."},
         "morph": "Wurz_cmpd1 -> Wurz_cmpd4 (pyridine linker -> benzene linker; ring N -> CH)",
