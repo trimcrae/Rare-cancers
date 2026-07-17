@@ -9,12 +9,18 @@ SUMMARY_OVERRIDE (a scheduled Claude session filters the digest and commits it t
 newsletter's real "LLM filter", same pattern as the daily status email); else (2) the Anthropic API
 (ANTHROPIC_API_KEY); else (3) a deterministic fallback. An email always sends.
 
+The email is a real newsletter: a masthead, the filtered summary as the body, and a small footer. The
+raw firehose digest is NOT inlined by default (it stays published on the method-watch-cache branch);
+set NEWSLETTER_FULL_DIGEST=1 to append it, rendered as clean HTML rather than a monospace dump.
+
 Usage:  DIGEST_FILE=research/method-watch-digest.md DIGEST_TITLE="Method-watch" \
         python research/modalities/email_digest.py
 Env:    SUMMARY_OVERRIDE_FILE (path) | SUMMARY_OVERRIDE (inline text) — optional Claude-written TL;DR.
+        NEWSLETTER_FULL_DIGEST=1 — append the full digest (off by default for a condensed read).
 Modes:  MODE=send (default) | MODE=dry_run (print + write digest_email.html, send nothing).
 """
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -53,24 +59,86 @@ def esc(s):
 
 
 def fallback_summary(md, title):
-    """Headline + the first few section headings/bullets when no LLM key is present."""
-    heads = [ln.strip() for ln in md.splitlines() if ln.lstrip().startswith("#")][1:7]
-    S = [f"**{title}** — latest digest.", ""]
-    if heads:
-        S.append("In this issue:")
-        for h in heads:
-            S.append(f"- {h.lstrip('# ').strip()}")
+    """Graceful placeholder when neither a Claude-written summary nor the API is available.
+
+    We deliberately do NOT dump section headings here (that read as noise). Just say the filtered
+    brief is unavailable and point to the full digest, so a bad week degrades to one honest line.
+    """
+    return (
+        "**This week's filtered brief wasn't generated.** No summary was written for this issue, so "
+        "there's nothing condensed to show. See the full digest (link below) for the raw watch, or "
+        "re-run the summary writer."
+    )
+
+
+def digest_date(md):
+    """The date/label from the digest's first heading, e.g. 'Method-watch digest — 2026-07-17'."""
+    first = next((ln for ln in md.splitlines() if ln.strip()), "")
+    return first.lstrip("# ").strip()
+
+
+def subject_line(summary_md, date_line):
+    """Lead the subject with the summary's headline so the newsletter is scannable in the inbox."""
+    first = next((ln for ln in summary_md.splitlines() if ln.strip()), "")
+    first = re.sub(r"[*_`#>-]", "", first).strip()
+    tail = first or date_line
+    return f"Method-watch · {tail[:72]}"
+
+
+FOOTER = (
+    "Auto-filtered brief — triage, not decisions. The full digest with every source lives on the "
+    "<code>method-watch-cache</code> branch (<code>research/method-watch-digest.md</code>)."
+)
+
+
+def build_html(summary_md, date_line, md, include_full):
+    """A clean, mobile-first newsletter: masthead, filtered summary body, small footer."""
+    summary_html = md_to_html(summary_md)
+    P = []
+    P.append('<div style="background:#eef2f7;padding:20px 12px;margin:0">')
+    P.append('<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,'
+             'sans-serif;max-width:600px;margin:0 auto;background:#ffffff;border-radius:14px;'
+             'overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08)">')
+    # masthead
+    P.append('<div style="padding:22px 24px 14px">'
+             '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#2b6cb0;'
+             'font-weight:700">Method-Watch Newsletter</div>'
+             f'<div style="font-size:20px;font-weight:700;color:#1a202c;margin-top:4px">{esc(date_line)}</div>'
+             '<div style="font-size:13px;color:#718096;margin-top:4px">The in-silico capabilities and '
+             'NR4A3 advances worth knowing about this week.</div></div>')
+    P.append('<div style="height:1px;background:#e2e8f0;margin:0 24px"></div>')
+    # body (the filtered summary IS the newsletter)
+    P.append(f'<div style="padding:16px 24px 8px;font-size:15px;line-height:1.6;color:#2d3748">'
+             f'{summary_html}</div>')
+    # optional full digest, rendered as clean HTML (never a monospace dump)
+    if include_full:
+        P.append('<div style="padding:0 24px 8px"><details><summary style="cursor:pointer;color:#2b6cb0;'
+                 'font-size:13px;font-weight:600">Full digest — every source</summary>'
+                 f'<div style="font-size:13px;line-height:1.5;color:#4a5568;margin-top:8px">'
+                 f'{md_to_html(md)}</div></details></div>')
+    # footer
+    P.append('<div style="padding:14px 24px 22px;border-top:1px solid #edf2f7;margin-top:8px">'
+             f'<div style="font-size:12px;color:#a0aec0;line-height:1.5">{FOOTER}</div></div>')
+    P.append("</div></div>")
+    return "\n".join(P)
+
+
+def build_text(summary_md, date_line, md, include_full):
+    L = ["METHOD-WATCH NEWSLETTER", date_line, "=" * 40, "", summary_md, ""]
+    if include_full:
+        L += ["-" * 40, "FULL DIGEST (every source):", "", md]
     else:
-        S.append("See the full digest below.")
-    S.append("")
-    S.append("Full digest below.")
-    return "\n".join(S)
+        L += ["-" * 40,
+              "Full digest with every source: method-watch-cache branch "
+              "(research/method-watch-digest.md)."]
+    return "\n".join(L)
 
 
 def main():
     path = os.environ.get("DIGEST_FILE", "research/method-watch-digest.md")
     title = os.environ.get("DIGEST_TITLE", "Method-watch newsletter")
     mode = os.environ.get("MODE", "send").strip().lower()
+    include_full = (os.environ.get("NEWSLETTER_FULL_DIGEST") or "").strip().lower() in ("1", "true", "yes", "on")
     try:
         md = Path(path).read_text()
     except Exception as e:  # noqa: BLE001
@@ -85,20 +153,10 @@ def main():
     # session reads this digest, drops the keyword-collision noise, and commits the readable summary.
     summary_md = _summary_override() or llm_summarize(md, SYSTEM, max_tokens=900) or fallback_summary(md, title)
 
-    text = f"{title}\n{'='*len(title)}\n\n{summary_md}\n\n{'-'*60}\nFULL DIGEST:\n\n{md}"
-    html = (
-        '<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:15px;'
-        'color:#1a1a1a;max-width:640px;line-height:1.55;margin:0 auto">'
-        f'<h2 style="margin:0 0 8px">{esc(title)}</h2>'
-        '<div style="padding:14px 16px;background:#f7f9fc;border:1px solid #e3e8ef;border-radius:10px">'
-        f'{md_to_html(summary_md)}</div>'
-        '<details style="margin-top:8px"><summary style="cursor:pointer;color:#2b6cb0;font-size:13px">'
-        'Full digest</summary>'
-        f'<pre style="white-space:pre-wrap;font-size:12px;color:#444;background:#fafafa;border:1px solid #eee;'
-        f'border-radius:8px;padding:10px;margin-top:6px">{esc(md)}</pre></details>'
-        "</div>"
-    )
-    subject = f"{title} — {md.splitlines()[0].lstrip('# ').strip()[:70]}" if md.strip() else title
+    date_line = digest_date(md)
+    subject = subject_line(summary_md, date_line)
+    text = build_text(summary_md, date_line, md, include_full)
+    html = build_html(summary_md, date_line, md, include_full)
 
     if mode == "dry_run":
         Path("digest_email.html").write_text(html)
