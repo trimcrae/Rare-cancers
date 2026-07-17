@@ -33,9 +33,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Generate method-watch digest
+      - name: Generate method-watch digest (LLM-filtered for relevance)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
         run: node scripts/method-watch.mjs research/method-watch-digest.md
 
       - name: Email the digest (bite-sized summary + full digest)

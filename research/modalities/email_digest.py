@@ -59,7 +59,10 @@ def main():
         print("digest empty; nothing to send.")
         return 0
 
-    summary_md = llm_summarize(md, SYSTEM, max_tokens=900) or fallback_summary(md, title)
+    # Summarize only the filtered part of the digest, not the raw-hits appendix — otherwise the
+    # TL;DR re-ingests the keyword-collision noise the generator's LLM filter already dropped.
+    summary_src = md.split("\n## Appendix — all raw hits", 1)[0]
+    summary_md = llm_summarize(summary_src, SYSTEM, max_tokens=900) or fallback_summary(md, title)
 
     text = f"{title}\n{'='*len(title)}\n\n{summary_md}\n\n{'-'*60}\nFULL DIGEST:\n\n{md}"
     html = (
