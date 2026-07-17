@@ -73,7 +73,7 @@ jobs:
             echo "--- running Modal apps ---"; modal app list 2>&1 | tee /tmp/apps.txt || true
             IDS=$(grep -i "nr4a3-rbfe" /tmp/apps.txt | grep -oE 'ap-[A-Za-z0-9]+' | sort -u)
             [ -z "$IDS" ] && { echo "no running nr4a3-rbfe apps"; exit 0; }
-            for A in $IDS; do echo "stopping $A"; modal app stop "$A" 2>&1 | tail -3 || echo "  stop $A no-op"; done
+            for A in $IDS; do echo "stopping $A"; modal app stop "$A" -y 2>&1 | tail -3 || echo "  stop $A no-op"; done
             sleep 5; echo "--- after stop ---"; modal app list 2>&1 | grep -i nr4a3-rbfe || echo "  (none running)"
             exit 0
           fi
