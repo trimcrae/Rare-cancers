@@ -133,6 +133,29 @@ the prereg, not here.
 
 ---
 
+## Ops lever — kill manual VM teardown (managed-job auto-teardown)
+
+**Why we delete VMs by hand today:** the GCP launcher uses **raw GCE VMs** (the IaaS layer — the equivalent of
+a bare EC2 instance), not a managed *job* service. A GCE VM has no concept of "the workload finished" — it just
+runs a startup script and keeps billing until something stops it. SageMaker never needs a manual delete because
+a **Training/Processing job** is a managed abstraction whose instance lifecycle is tied to the process: exit /
+timeout / failure ⇒ AWS auto-deprovisions.
+
+**We are NOT exposed to runaway billing even so:** every GCE VM is launched with
+`--max-run-duration=25200s` (7 h) + `--instance-termination-action=DELETE` — GCE's native backstop that
+**hard-deletes the VM after 7 h no matter what** (this is what reaped yesterday's `gcp-bill-*` CPU VMs). The
+manual `delete=1` only stops billing *promptly* when a leg finishes early (e.g. at 4 h) instead of idling to the
+7 h cap.
+
+**The clean fix (removes manual teardown entirely):** GCP *does* have SageMaker-equivalent managed job services
+that auto-provision **and** auto-deprovision on completion — **Vertex AI Custom Training Jobs** (closest analog),
+**GCP Batch**, or a **GKE Job**. Migrating the launcher to Vertex AI Custom Jobs (we already have
+`research/compute/Dockerfile.mdjob` + `research/modalities/autoteardown.py`) gives exactly SageMaker's
+"job ends → instance dies" behavior. **Gated, not urgent:** the 7 h DELETE backstop already prevents idle-billing
+runaway, and this may be subsumed by the broader provider migration in `cheap-gpu-plan.md` (Modal/RunPod/Salad
+all auto-teardown by design). Belt-and-braces audit meanwhile: `gpu-rbfe-gcp-tail.yml` now runs a full-project
+VM census + `sweep_stale=1` to reap any leftover non-rbfe VM across all zones.
+
 ## Priority-ordered action list
 
 1. **[free, in flight]** `[gpu-util]` logger merged → **read single-sim L4 utilization off the next leg.** Gates Tier 1 & 2.
