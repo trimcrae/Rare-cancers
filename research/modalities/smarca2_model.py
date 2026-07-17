@@ -123,6 +123,8 @@ def build_smarca2_model(smarca4_pdb: str, chain_id: str, out_dir: str, n_models:
         chains = list(fixer.topology.chains())
         drop = [c.index for c in chains if c.id != chain_id]
         fixer.removeChains(drop)
+        fixer.removeHeterogens(False)   # drop ions (e.g. the 8G1Q Na+), waters, any bound het — the amber14/gbn2
+                                        # implicit FF has no template for a bare Na+ in the chain; protein only.
         # apply SMARCA4->SMARCA2 substitutions (PDBFixer wants ["FROM-<resnum>-TO", ...] with 3-letter codes)
         mut_strs = ["%s-%d-%s" % (AA3[f], num, AA3[t]) for (num, f, t) in aln["mutations"]]
         if mut_strs:
