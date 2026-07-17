@@ -167,16 +167,21 @@ runaway, and this may be subsumed by the broader provider migration in `cheap-gp
 all auto-teardown by design). Belt-and-braces audit meanwhile: `gpu-rbfe-gcp-tail.yml` now runs a full-project
 VM census + `sweep_stale=1` to reap any leftover non-rbfe VM across all zones.
 
-## Ops lever — kill the conda-env rebuild on every spot preemption
+## Ops lever — kill the conda-env rebuild on every spot preemption ✅ DONE (env-cache, 2026-07-17)
 
-**Observed 2026-07-16:** the valA complex leg was spot-preempted twice in ~1 h on us-central1 L4; each
-re-dispatch rebuilds the openfe conda env from scratch (~10 min Miniforge + mamba solve) before it can resume
-from the iter-checkpoint. On a contended-capacity night that env rebuild — **not** lost MD iters (those are
-checkpointed) — is the dominant wasted wall-clock (~2× ~10 min here for zero MD progress). Fixes, cheapest first:
-- **Bake the env into a GCE custom image** (or a prebuilt boot disk): build the `rbfe` env once, snapshot the
-  disk, and have the launcher provision from that image → re-provision skips the solve, resume is ~1 min not
-  ~11. Free engineering; the biggest single win against preemption churn. (We already have
-  `research/compute/Dockerfile.mdjob` — a container the same env — which a Vertex/Batch path would use directly.)
+**Observed 2026-07-16 (then confirmed hard the same night):** the valA complex leg was spot-preempted **~9×**
+over one night on contended us-central1 L4; each re-dispatch rebuilt the openfe conda env from scratch (~8–13 min
+Miniforge + mamba solve) before it could resume from the iter-checkpoint. Several preemptions landed *during* the
+rebuild → whole cycles of **zero MD progress**. That env rebuild — **not** lost MD iters (those are checkpointed)
+— was the dominant wasted wall-clock. **FIX SHIPPED: a GCS env-cache** (`gpu-rbfe-gcp.yml`, 2026-07-17): the first
+VM that builds the env tars it to `gs://<bucket>/env-cache/rbfe-<key>.tar` (key = image family + a manual spec
+tag); every subsequent VM downloads+extracts it (~2–3 min) and **skips Miniforge+mamba entirely**. An
+`import openfe, openmm` gate guards both paths, so a missing/corrupt/mismatched cache silently falls through to
+the full solve — **worst case == old behavior** (zero-risk fallback). The env extracts to the same
+`/tmp/mf/envs/rbfe` path it was built at (no conda relocation). Bump the spec tag's `-vN` when the package list
+changes → clean rebuild + re-cache. Remaining (not needed now): a full **GCE custom image** or **Vertex/Batch**
+managed job (we have `research/compute/Dockerfile.mdjob`) would remove even the ~2–3 min extract, but the
+env-cache already collapses the vulnerable rebuild window from ~11 min to ~2–3 min.
 - **Persistent host for terminal legs** (`cheap-gpu-plan.md`: RunPod Secure / ACCESS) — a non-preemptible host
   so the long final legs don't reload the MD env at all. Trades spot's price for stability; right for the
   end-game full-sampling legs, not the cheap early gates.
@@ -193,8 +198,9 @@ has create-capacity; any spot zone can preempt). See CLAUDE.md standing rule (20
 3. **[held]** MPS revisited **only** on a bigger GPU that doesn't saturate on one replica-set — and even then $/ns
    on the faster card usually wins over MPS packing. Not worth building for the L4.
 4. **[reviewed no-ops]** online-analysis interval, cutoff/PME, precision — leave as-is (documented above).
-5. **[free eng, high value]** Ops wins independent of MPS: **bake the conda env into a GCE image** (kills the
-   ~10-min rebuild-on-preemption) and, longer-term, **Vertex/Batch managed jobs** (auto-teardown). See Ops levers.
+5. **[✅ DONE 2026-07-17]** GCS **env-cache** shipped — collapses the rebuild-on-preemption window from ~11 min to
+   ~2–3 min (import-gated fallback = zero-risk). Longer-term **Vertex/Batch managed jobs** (auto-teardown) remain
+   optional. See Ops levers above.
 
 **Spend discipline:** item 2 needs one **< $50** validation leg (autonomy threshold = just-do-it, but name the
 provider first per the standing rule). The matrix GPU choice is where real $ lands → present at its gate with the

@@ -1074,6 +1074,21 @@ state-weighted ΔG_bind — is **not done here** and is a primary revision task 
 as **conditional-on-opened-conformer** selectivity. Full calibration record:
 [`../modalities/nr4a3-abfe-calibration.json`](../modalities/nr4a3-abfe-calibration.json).
 
+**Relative-FEP pipeline — independent known-answer validation (2026-07-17).** Separately from the absolute
+(ABFE) scale above, the same OpenMM/OpenFE infrastructure's **relative binding FEP** path —
+`RelativeHybridTopologyProtocol` (Hamiltonian replica exchange), the standard engine for congeneric ΔΔG and the
+tool any relative warhead campaign would rely on — was validated end-to-end against a **public known-answer
+edge**: the TYK2 congeneric pair `ejm_31→ejm_42` from the OpenFE protein–ligand benchmark, at full sampling
+(5 ns/window × 12 λ-windows, am1bcc charges, CUDA) on the GCP-Spot L4 pipeline (`gpu-rbfe-gcp.yml`). It
+reproduced the experimental relative binding free energy — **ΔΔG_bind = +0.37 vs experimental −0.24 kcal/mol,
+absolute error 0.61 kcal/mol** — inside the ~1 kcal/mol chemical-accuracy band and consistent with OpenFE's
+published accuracy for this protocol. This is a **build-consistency check on the relative-FEP path** (it does not
+touch NR4A and makes no NR4A3 claim), but it establishes two operationally relied-upon facts: our container
+reproduces a known ΔΔG — i.e. the *relative*-FEP tooling is sound, in explicit contrast to the un-calibrated
+*absolute* scale above — and the **spot-safe GCS checkpoint/resume infrastructure** carries a multi-hour FEP
+through repeated real spot preemptions with zero lost work (relevant to any future large FEP fan-out). Result
+artifact: `valA-tyk2/results/ddg_nr4a3.json`.
+
 **Lead-optimization cross-check.** A single scaffold-decorated variant (`lo_m0_NCCO` = `denovo_401` + ortho-acetamido) was put through the identical ABFE engine as an affinity-grade check of an MM-GBSA-predicted tightening and lands **within statistical noise of `denovo_401`** — no resolved improvement under this protocol (free energy does not reproduce the MM-GBSA-predicted gain), so `denovo_401` remains the sole candidate advanced through the funnel; detail in **SI §S5**.
 
 **Why absolute
