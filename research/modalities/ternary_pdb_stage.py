@@ -99,28 +99,53 @@ def _write_complex_pdb(cif_text: str, keep_chains: list, out_pdb: str):
     n_res = sum(len(ch) for ch in st[0])
     if n_res == 0:
         raise SystemExit(f"[stage] no residues left after chain surgery (keep={keep_chains}) — check role mapping")
+    # CA centroid of the kept complex (used to pick the ligand instance in THIS copy's pocket)
+    cx = cy = cz = 0.0
+    n = 0
+    for ch in st[0]:
+        for res in ch:
+            for at in res:
+                if at.name == "CA":
+                    cx += at.pos.x; cy += at.pos.y; cz += at.pos.z; n += 1
     os.makedirs(os.path.dirname(out_pdb), exist_ok=True)
     st.write_pdb(out_pdb)
+    return (cx / n, cy / n, cz / n) if n else None
 
 
-def _write_ligands_sdf(pdb: str, ccd: str, endpoint_names, out_sdf: str):
-    """Fetch the bound PROTAC pose (crystal coords) from the RCSB ModelServer as SDF and write it once per
-    endpoint name (calib_hi / calib_lo) — the engine re-imposes each endpoint's stereo from its SMILES."""
+def _mol_centroid(mol):
+    conf = mol.GetConformer()
+    import numpy as np
+    pos = conf.GetPositions()
+    return tuple(np.asarray(pos).mean(axis=0))
+
+
+def _write_ligands_sdf(pdb: str, ccd: str, endpoint_names, out_sdf: str, protein_centroid=None):
+    """Fetch the bound PROTAC pose(s) (crystal coords) from the RCSB ModelServer and write ONE instance twice —
+    once per endpoint name (calib_hi / calib_lo). If protein_centroid is given (6HAX has 2 complexes in the ASU),
+    pick the ligand instance in THIS copy's pocket (nearest centroid); else the first. The engine re-imposes each
+    endpoint's bond orders/stereo from its SMILES, so the two records share the same crystal pose."""
     import io
 
     from rdkit import Chem
 
     sdf_text = _get(RCSB_LIG_SDF.format(pdb=pdb, ccd=urllib.parse.quote(ccd)), as_json=False)
     supplier = Chem.ForwardSDMolSupplier(io.BytesIO(sdf_text.encode()), sanitize=False, removeHs=False)
-    mol = next((m for m in supplier if m is not None), None)
-    if mol is None:
+    mols = [m for m in supplier if m is not None and m.GetNumConformers() > 0]
+    if not mols:
         raise SystemExit(f"[stage] ModelServer returned no usable ligand SDF for {pdb}/{ccd}")
+    if protein_centroid is not None and len(mols) > 1:
+        import numpy as np
+        pc = np.asarray(protein_centroid)
+        mol = min(mols, key=lambda m: float(np.linalg.norm(np.asarray(_mol_centroid(m)) - pc)))
+    else:
+        mol = mols[0]
     os.makedirs(os.path.dirname(out_sdf), exist_ok=True)
     w = Chem.SDWriter(out_sdf)
     for nm in endpoint_names:
         mol.SetProp("_Name", nm)
         w.write(mol)
     w.close()
+    return len(mols)
 
 
 def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
@@ -133,10 +158,9 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
     os.makedirs(leg_dir, exist_ok=True)
 
     ccd = _ligand_ccd(template_pdb)
-    _write_ligands_sdf(template_pdb, ccd, endpoint_names, os.path.join(leg_dir, "ligands.sdf"))
-
     made_pdb = False
     chains_used: list = []
+    centroid = None
     if env in ("binary", "ternary"):
         roles = ROLE_CHAINS_FOR_ENV[env]
         r2c = role_to_chains(template_pdb)
@@ -144,14 +168,19 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
         if missing:
             raise SystemExit(f"[stage] {template_pdb}: could not resolve chains for roles {missing} "
                              f"(resolved: { {k: v for k, v in r2c.items()} }). Stage nothing.")
-        chains_used = [c for role in roles for c in r2c[role]]
+        # ONE copy: keep the first chain per role (6HAX has 2 ternary complexes in the ASU; one is enough and
+        # halves the system/cost). The nearest-ligand pick below keeps the PROTAC pose consistent with this copy.
+        chains_used = [r2c[role][0] for role in roles]
         cif = _get(RCSB_CIF.format(pdb=template_pdb), as_json=False)
-        _write_complex_pdb(cif, chains_used, os.path.join(leg_dir, "complex.pdb"))
+        centroid = _write_complex_pdb(cif, chains_used, os.path.join(leg_dir, "complex.pdb"))
         made_pdb = True
+
+    n_lig = _write_ligands_sdf(template_pdb, ccd, endpoint_names, os.path.join(leg_dir, "ligands.sdf"),
+                               protein_centroid=centroid)
 
     return {"leg_id": leg_id, "environment": env, "template_pdb": template_pdb, "ligand_ccd": ccd,
             "endpoint_names": endpoint_names, "complex_chains": chains_used, "wrote_complex_pdb": made_pdb,
-            "wrote_ligands_sdf": True, "out_dir": leg_dir}
+            "n_ligand_instances_in_crystal": n_lig, "wrote_ligands_sdf": True, "out_dir": leg_dir}
 
 
 def main(argv=None) -> int:
