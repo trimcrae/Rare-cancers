@@ -1,0 +1,66 @@
+{
+  "_status": "FROZEN",
+  "_provenance": "PROTAC 2 SMILES from RCSB 6HAX; cis-PROTAC 2 = defined single-stereocenter inversion of the VHL 4-hydroxyproline; alpha values from Farnaby et al. 2019 (same TR-FRET table).",
+  "reviewer_approval": "valB_mini per reviewer 2026-07-17 conditional approval (modified Option A).",
+  "calib_hi": {
+    "role": "calib_hi",
+    "name": "PROTAC_2",
+    "state": "active",
+    "pdb": "6HAX",
+    "ccd": "FWZ",
+    "smiles": "Cc1c(scn1)c2ccc(c(c2)OCCc3ccc(cc3)CN4CCN(CC4)c5cc(nnc5N)c6ccccc6O)CNC(=O)[C@@H]7C[C@H](CN7C(=O)[C@H](C(C)(C)C)NC(=O)C8(CC8)F)O",
+    "mw": 920.105,
+    "alpha_TR_FRET": 18.0,
+    "source": "RCSB 6HAX / Farnaby 2019"
+  },
+  "calib_lo": {
+    "role": "calib_lo",
+    "name": "cis_PROTAC_2",
+    "state": "epimer_inactive",
+    "modeled_from": "6HAX",
+    "smiles": "Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@H](O)CN2C(=O)[C@@H](NC(=O)C2(F)CC2)C(C)(C)C)c(OCCc2ccc(CN3CCN(c4cc(-c5ccccc5O)nnc4N)CC3)cc2)c1",
+    "alpha_TR_FRET": 1.0,
+    "epimerization": {
+      "ok": true,
+      "epimer_smiles": "Cc1ncsc1-c1ccc(CNC(=O)[C@@H]2C[C@H](O)CN2C(=O)[C@@H](NC(=O)C2(F)CC2)C(C)(C)C)c(OCCc2ccc(CN3CCN(c4cc(-c5ccccc5O)nnc4N)CC3)cc2)c1",
+      "inverted_atom_idx": 48,
+      "inverted_atom_env": "C[C@H](O)C"
+    },
+    "note": "cis-4-hydroxyproline; abolishes VHL binding (weak/non-binder) \u2014 the reviewer's cis-endpoint diagnostics (ligand RMSD, VHL contact occupancy, restraint work + sensitivity) MUST be reported; a pass produced only by forcibly retaining the active crystallographic pose is NOT a pass."
+  },
+  "morph": "PROTAC_2 -> cis_PROTAC_2 (active -> epimer)",
+  "preregistered_target": {
+    "ddG_exp_kcal_per_mol": 1.713,
+    "temperature_K": 298.15,
+    "formula": "ddG_exp = -RT ln(alpha_cis/alpha_active) = -RT ln(1/18)",
+    "alpha_active": 18.0,
+    "alpha_cis": 1.0
+  },
+  "prereg_gates": {
+    "GO_to_valB_full": [
+      "positive sign",
+      "combined uncertainty excludes zero",
+      "estimate within 1.0 kcal/mol of +1.71",
+      "independent repeats AND fwd/rev agree within ~0.5 kcal/mol",
+      "overlap + sampling diagnostics pass"
+    ],
+    "NO_GO": [
+      "converged wrong sign",
+      "converged error > 1.0 kcal/mol",
+      "strong dependence on restraints or initialization"
+    ],
+    "INDETERMINATE_not_a_pass": [
+      "CI includes zero",
+      "unresolved hysteresis",
+      "cis endpoint cannot be represented as a defensible thermodynamic state"
+    ],
+    "scope": "valB_mini GATES spending on valB_full; it does NOT by itself authorize the NR4A flagship matrix. valB_full must add >=1 all-binding graded congeneric edge (e.g. Wurz 1->4)."
+  },
+  "validation": {
+    "same_2d_constitution": true,
+    "differ_in_stereo": true,
+    "n_heavy": 66,
+    "congeneric_edge": true,
+    "note": "an active->epimer edge is a 0-heavy-atom perturbation (pure stereocenter inversion) \u2014 the cleanest possible congeneric RBFE morph; the mapper maps every heavy atom."
+  }
+}
