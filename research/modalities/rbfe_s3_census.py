@@ -63,6 +63,28 @@ def main() -> int:
     if latest:
         print(f"--- most-recent object: {latest[0].isoformat()}  {latest[2]} B  {latest[1]} ---", flush=True)
 
+    # timing probe: last committed boundaries + iters/hr (is the pace sane vs valA ~320 iters/hr on L4?)
+    if committed:
+        committed.sort()
+        recent = committed[-12:]
+        print("--- recent commit timestamps (COMMITTED.json) ---", flush=True)
+        prev_t = prev_it = None
+        rates = []
+        for lm, k in recent:
+            m = ITER_RE.search(k)
+            it = int(m.group(1)) if m else None
+            phase = "/".join(k[len(PREFIX) + 1:].split("/")[:2])
+            print(f"  {lm.isoformat()}  {phase}  iter {it}", flush=True)
+            if prev_t is not None and it is not None and prev_it is not None and it > prev_it:
+                dt_min = (lm - prev_t).total_seconds() / 60.0
+                if dt_min > 0:
+                    rates.append((it - prev_it) / dt_min)
+            prev_t, prev_it = lm, it
+        if rates:
+            avg = sum(rates) / len(rates)
+            print(f"--- pace: ~{avg*60:.0f} iters/hr (valA on L4 was ~320/hr production; "
+                  f"warmup~400 then production~2000 iters/leg) ---", flush=True)
+
     # finished leg / ddg results
     res = [k for k, _, _ in keys if "/results/" in k and k.endswith(".json")]
     print(f"--- result JSONs: {res if res else '(none yet — leg not finished)'} ---", flush=True)
