@@ -31,7 +31,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: modal-rbfe-${{ github.event.inputs.mode || 'tiny' }}
+  # Include the leg so complex + solvent (both mode=real) run CONCURRENTLY on Modal's serverless GPUs instead
+  # of the solvent GH job serializing behind the still-streaming complex one — the two legs are independent
+  # (they only combine at reduce), so parallelizing halves step1 wall-clock and burns the fixed Modal credit
+  # sooner. Distinct legs => distinct groups; same leg still can't double-run (idempotent S3 skip guards anyway).
+  group: modal-rbfe-${{ github.event.inputs.mode || 'tiny' }}-${{ github.event.inputs.leg || 'na' }}
   cancel-in-progress: false
 
 jobs:
