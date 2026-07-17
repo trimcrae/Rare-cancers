@@ -146,17 +146,24 @@ def build_smarca2_model(smarca4_pdb: str, chain_id: str, out_dir: str, n_models:
         except Exception:  # noqa: BLE001
             sim = Simulation(fixer.topology, system, integ)
         sim.context.setPositions(fixer.positions)
-        sim.minimizeEnergy(maxIterations=2000)
+        # GBn2 implicit-solvent minimization is the CPU bottleneck; keep iters modest (this is a STARTING model
+        # that then gets full FEP MD). Overridable via env for a deeper relax on the GPU lane.
+        mi1 = int(os.environ.get("SMARCA2_MIN1_ITERS", "600"))
+        md_steps = int(os.environ.get("SMARCA2_MD_STEPS", "600"))   # ~1.2 ps thermal relax for model independence
+        mi2 = int(os.environ.get("SMARCA2_MIN2_ITERS", "300"))
+        sim.minimizeEnergy(maxIterations=mi1)
         # brief independent relaxation so the two models are genuinely independent (not the same minimum)
         sim.context.setVelocitiesToTemperature(300 * ou.kelvin, 4321 + k)
-        sim.step(2500)                          # ~5 ps implicit-solvent relaxation
-        sim.minimizeEnergy(maxIterations=1000)
+        sim.step(md_steps)
+        sim.minimizeEnergy(maxIterations=mi2)
         state = sim.context.getState(getPositions=True)
         out_pdb = os.path.join(out_dir, f"smarca2_model_{k}.pdb")
         with open(out_pdb, "w") as fh:
             PDBFile.writeFile(fixer.topology, state.getPositions(), fh)
         models.append(out_pdb)
         pocket_coords.append(_pocket_ca(out_pdb))
+        print("[smarca2] model %d/%d relaxed (%d muts, min1=%d md=%d min2=%d)"
+              % (k + 1, n_models, len(aln["mutations"]), mi1, md_steps, mi2), flush=True)
 
     div = _divergence_rmsd(pocket_coords) if len(pocket_coords) >= 2 else None
     div_ok = (div is not None and div <= 2.5)    # A; materially-different binding modes => STOP
