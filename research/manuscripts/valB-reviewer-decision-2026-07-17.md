@@ -69,3 +69,59 @@ Frozen (`ternary-calib-epimer-frozen.json`), harness wired (`ternary_coop_prep._
 `resolved_calib_epimer`, tests pass), 6HAX staging built + CPU-validated (`ternary_pdb_stage.py`; one clean
 SMARCA2·VHL·EloB·EloC complex + matching PROTAC pose), GCP L4 ternary lane built
 (`gpu-ternary-fep-gcp.yml`); GPU assembly smoke running. Next: real mini (mode=run, ~$40–80) → reduce vs +1.71.
+
+---
+
+## Reviewer decision UPDATE — 2026-07-17 PM (Option-1 GO): epimer RETIRED → **Wurz cmpd1 → cmpd4**
+
+**Why the epimer edge was retired.** A pre-spend endpoint-verification smoke proved the PROTAC 2 → cis-PROTAC 2
+edge is a **pure single-stereocenter inversion** (identical 2D constitution; the two frozen SMILES differ by one
+token `[C@@H]`↔`[C@H]` at the VHL 4-hydroxyproline C4). Under the production **complete single-topology map**
+(LOMAP mapped 124/124 atoms 1:1) this is a **NULL alchemical transformation**: epimers have identical force-field
+parameters and every atom maps 1:1, so the hybrid Hamiltonian is unchanged and ΔΔG ≈ 0 ± charge noise — it
+**cannot** recover the +1.71. (The smoke also caught a build bug: both endpoints were being staged from the one
+crystal pose, so the "cis" endpoint was built as trans — `built_A == built_B`, a literal null morph.) Stereocenter
+flips are a known relative-FEP failure mode requiring a bespoke partial/dummy map — **not the production protocol**
+the NR4A matrix will use. The reviewer therefore **withdrew** the epimer recommendation.
+
+**Approved replacement — a GENUINE CONSTITUTIONAL edge (same-paper SPR):**
+**Wurz compound 1 → compound 4** (SMARCA2–VHL), from **PDB 8G1Q** (Wurz et al., *Nat Commun* 2023).
+- **α_SPR = 12.8 (cmpd 1) → 2.6 (cmpd 4)**; minimal **linker pyridine → benzene** = a ring **N → CH** element
+  change (a real perturbation the single-topology `element_change` map represents), NOT an identity/stereo morph.
+- **Preregistered target:** ΔΔG_coop = −RT·ln(α₄/α₁) = −RT·ln(2.6/12.8) = **+0.94 kcal/mol** at 298.15 K.
+- **Chemistry (frozen, `wurz-calib-frozen.json`):** cmpd 1 = the 8G1Q co-crystallized PROTAC (CCD `YHB`); cmpd 4 =
+  its defined linker-pyridine N→CH analogue (auto-selected: 8G1Q's ligand has exactly one pyridine). Validated
+  as a genuine constitutional edge (ΔN=−1, ΔC=+1, differs ignoring stereo, not identity, 59↔59 heavy atoms).
+
+**Starting model (mandate item 4).** 8G1Q is a **3.73 Å SMARCA4–cmpd1–VHL** structure — **NOT** a SMARCA2 crystal.
+Build the SMARCA2 model by substituting the SMARCA4 BD sequence with the experimental **SMARCA2 (P51531)** BD and
+relaxing (as the original investigators did); keep **≥2 independently relaxed models** and **STOP** if they give
+materially different binding modes before production. Recorded as an explicit valB_mini **limitation**.
+
+**Mandatory $0 pre-spend gate — GPU runs only when the smoke records all five:**
+1. **Chemical identity** — built A/B match the published structures; A and B are not graph-identical after stereo
+   removal.
+2. **Non-null map** — the linker N→C is in the map; endpoint parameters differ; real perturbation; no unintended
+   stereocenter change.
+3. **Environment consistency** — identical E3/PROTAC constructs + the **same atom map** in the binary and ternary
+   legs.
+4. **Starting-model** — 8G1Q → SMARCA4→SMARCA2 substitution + relax; ≥2 models; divergence OK.
+5. **Preregistration** — label **α_SPR** (not TR-FRET); target **+0.94**; SMARCA2-model limitation recorded.
+
+**valB_mini decision rule (NEW — the ±1.0 kcal/mol band is REMOVED; separation < 1 kcal/mol makes a noisy
+positive point estimate INDETERMINATE, not a pass):** PASS requires ALL of — correct **positive sign**; combined
+uncertainty **excludes zero**; no unresolved forward/reverse disagreement; no collapse / ligand escape /
+restraint-dominated result; broad consistency with **+0.94**.
+
+**Disposition of the other options.** (2) stereo-aware partial map → future methods-dev, NOT valB (would validate a
+bespoke protocol, not the production one). (3) pose/ensemble comparison → useful separate negative control, cannot
+discharge valB. (4) run-the-null → do NOT spend; instead a permanent **null-map regression unit test**: any
+stereo-only / all-mapped / identical-parameter edge MUST fail setup (`assert_constitutional_edge`;
+`tests/test_null_map_guard.py`). PROTAC 2 → cis-PROTAC 2 is kept ONLY as that test fixture + an endpoint-builder.
+
+### Option-1 build status (2026-07-17 PM)
+Wurz edge frozen (`wurz-calib-frozen.json`, RCSB 8G1Q, validated genuine N→CH); resolver re-pointed
+(`resolved_calib_wurz`, `CALIB_TARGET` template 6HAX→8G1Q); null-map guard + regression test (green in `tests.yml`);
+5-part `_five_part_gate` recorded in the smoke; `smarca2_model.py` (SMARCA4→SMARCA2 substitution + ≥2 relaxed
+models + divergence) + full `stage_leg` assembly built, iterating green on the CPU lane (`smarca2-model-validate.yml`).
+**No GPU spent** — the gate self-blocks it. Next: CPU lane green → GPU smoke (gate_all_pass) → real mini (mode=run) → reduce vs +0.94.
