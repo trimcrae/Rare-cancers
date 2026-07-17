@@ -205,13 +205,14 @@ jobs:
           SS
 
           # L4 Spot capacity is transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout); the repo rule is WAIT IT OUT,
-          # never on-demand. Prefer us-central1, but FALL BACK to other US L4 regions — EMPIRICALLY (run 29508604977)
-          # a g2-standard-8 provisioned in us-east1-c when all central zones were stocked out, so we have at least
-          # burst L4 quota there. Retry the whole (machine, zone) set in rounds with a short sleep (no VM = $0 while
-          # waiting), up to a budget that still leaves time for the ~4-min env solve + MD inside the 55-min job.
-          # Fall back g2-standard-8 -> -4 (better capacity; 16 GB is enough for the tiny shakeout).
+          # never on-demand. *** us-central1 ONLY — this project has L4/G2 quota ONLY in us-central1 (trimcrae,
+          # 2026-07-16). DO NOT add us-east*/us-west* zones back: a one-off provision in us-east1-c was a fluke, not
+          # standing quota, and switching regions only wastes provision attempts where create will fail. *** Diversify
+          # across the FOUR us-central1 zones (a/b/c/f) for spot-capacity resilience; retry the whole (machine,zone)
+          # set in rounds with a short sleep (no VM = $0 while waiting). Fall back g2-standard-8 -> -4 (better
+          # capacity; 16 GB is enough for the tiny shakeout).
           MACHINES="g2-standard-8 g2-standard-4"
-          ZONES="us-central1-a us-central1-b us-central1-c us-east1-b us-east1-c us-east1-d us-east4-a us-east4-b us-east4-c us-west1-a us-west1-b us-west4-a us-west4-b"
+          ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
 
           # provision the Spot VM across (machine,zone), waiting out stockout (WAIT IT OUT, never on-demand). A
           # g2-standard-8 once provisioned in us-east1-c when central was stocked out, so we have burst L4 quota

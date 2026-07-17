@@ -509,6 +509,16 @@ read it before making changes.
   `max_run` and FAILS, **re-dispatch it** (same tag → resumes from checkpoint). Keep `max_wait` generous
   (≥ run + expected wait; ABFE uses 20h vs 12h run). On-demand is only for jobs that genuinely can't be spot
   (no spot quota for the type, or truly can't checkpoint) — never as a capacity workaround.
+- **★ GCP GPU = us-central1 ONLY — NEVER SWITCH/ADD REGIONS (trimcrae standing rule, 2026-07-16).** This GCP
+  project has L4 / G2 quota **only in us-central1**. Do **NOT** pass a non-central `zone` input, do **NOT** add
+  `us-east*` / `us-west*` zones to any provisioning `ZONES` list, and do **NOT** "try another region" to dodge a
+  spot stockout — those regions have no quota, so `gcloud compute instances create` just fails there and wastes
+  provision attempts. A one-off past provision in us-east1-c was a fluke, not standing quota. For spot-capacity
+  resilience, diversify across the **four us-central1 zones (a/b/c/f)** only. This composes with WAIT-OUT-SPOT
+  above: an `INSUFFICIENT_CAPACITY`/`ZONE_RESOURCE_POOL_EXHAUSTED` in central is waited out (re-dispatch to
+  resume from checkpoint on GCE, which DELETEs the VM on preemption), never dodged by leaving the region.
+  Enforced in `gpu-rbfe-gcp.yml` provision() ZONES (central-only); `gpu-bench-gcp.yml` / `gcp-smoke.yml` already
+  central-only — keep them that way.
 - **★ EVERY SUBSTANTIAL GPU RUN NAMES A PREFERRED CLOUD PROVIDER, CONFIRMED WITH trimcrae IN ADVANCE (trimcrae
   standing rule, 2026-07-12).** Before kicking off any big/fleet GPU run, state the **recommended provider** and
   confirm it with trimcrae *before* launch — do NOT silently default to AWS. The repo is now provider-agnostic
