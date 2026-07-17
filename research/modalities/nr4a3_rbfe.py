@@ -892,6 +892,99 @@ def run_analyze():
     print(f"  [rbfe][analyze] DONE {RECEPTOR}/{LEG}: ΔG_morph={dg:.2f} ± {out['unc_kcal']:.2f}", flush=True)
 
 
+def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
+                                 warmup_env="RBFE_WARMUP_CKPT_ITERS", prod_env="RBFE_PROD_CKPT_ITERS",
+                                 commit_s3_env="RBFE_SPOT_COMMIT_S3", commit_gcs_env="RBFE_SPOT_COMMIT_GCS"):
+    """GENERIC spot-safe execution of ANY RelativeHybridTopology DAG (setup -> simulate[commit-per-iteration to a
+    versioned CommitStore] -> analyze), returning (dg_kcal, unc_kcal, analysis_keys). This is the SAME resumable
+    path RBFE's run_setup/_run_simulate_spot_safe/run_analyze use (rbfe_spot_driver.run_spot_safe), factored out
+    so the ternary engine inherits identical resume-on-preemption behaviour — nothing we run should be welded.
+    The MD commits to GCS/S3 per interval, so a re-dispatch RESUMES from the last committed iteration (setup is
+    cheap-redone on a fresh VM; the expensive sampling never restarts from zero). Caller writes its own leg JSON."""
+    import sys as _sys
+    from pathlib import Path
+    from urllib.parse import urlparse
+
+    from gufe import Context
+    import rbfe_spot_checkpoint as spot
+    import rbfe_spot_driver as drv
+
+    byname = {}
+    for u in dag.protocol_units:
+        byname.setdefault(type(u).__name__, []).append(u)
+
+    def _ctx(name):
+        sh = Path(ckpt) / ("%s_%s_shared" % (tag, name))
+        sc = Path(ckpt) / ("%s_%s_scratch" % (tag, name))
+        sh.mkdir(parents=True, exist_ok=True)
+        sc.mkdir(parents=True, exist_ok=True)
+        try:
+            return Context(shared=sh, scratch=sc)
+        except TypeError:
+            return Context(shared=sh, scratch=sc, permanent=sh)
+
+    def _unit(key):
+        us = byname.get(key) or []
+        if not us:
+            raise SystemExit("  ABORT: no %s in DAG (units=%s); openfe>=1.12?" % (key, list(byname)))
+        return us[0]
+
+    # SETUP (build/serialize the hybrid system; redone cheaply on a fresh VM after a preemption)
+    setup_outputs = _unit("HybridTopologySetupUnit").execute(context=_ctx("setup"), raise_error=True).outputs
+    # SIMULATE — spot-safe: drive the MultiState unit via rbfe_spot_driver with a durable CommitStore
+    sim_unit = _unit("HybridTopologyMultiStateSimulationUnit")
+    umod = _sys.modules[type(sim_unit).__module__]
+    sctx = _ctx("sim")
+    system = umod.deserialize(setup_outputs["system"])
+    positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
+    commit_gcs = os.environ.get(commit_gcs_env)
+    commit_s3 = os.environ.get(commit_s3_env)
+    if commit_gcs:
+        u = urlparse(commit_gcs)
+        store = spot.GCSCommitStore(u.netloc, u.path.lstrip("/"))
+        print("  [spot-safe] commit store: gs://%s/%s" % (u.netloc, u.path.lstrip("/")), flush=True)
+    elif commit_s3:
+        u = urlparse(commit_s3)
+        store = spot.S3CommitStore(u.netloc, u.path.lstrip("/"))
+        print("  [spot-safe] commit store: s3://%s/%s" % (u.netloc, u.path.lstrip("/")), flush=True)
+    else:
+        store = spot.LocalCommitStore(Path(ckpt) / ("spot_commits_%s" % tag))
+        print("  [spot-safe] commit store: LOCAL (no commit URI set)", flush=True)
+    wci = int(os.environ.get(warmup_env, "10"))
+    pci = int(os.environ.get(prod_env, "20"))
+    sim_outputs = drv.run_spot_safe(
+        unit=sim_unit, protocol=proto, system=system, positions=positions,
+        selection_indices=setup_outputs["selection_indices"], shared_basepath=sctx.shared,
+        scratch_basepath=sctx.scratch, commit_store=store,
+        warmup_checkpoint_iters=wci, production_checkpoint_iters=pci)
+    # ANALYZE — MBAR over the trajectory
+    ana_outputs = _unit("HybridTopologyMultiStateAnalysisUnit").execute(
+        context=_ctx("ana"), raise_error=True,
+        setup_results=_Res(setup_outputs), simulation_results=_Res(sim_outputs)).outputs
+    dg = unc = None
+    for k in ("unit_estimate", "estimate", "dg", "DG"):
+        v = ana_outputs.get(k)
+        if v is not None:
+            try:
+                dg = float(v.to("kilocalorie_per_mole").m); break
+            except Exception:  # noqa: BLE001
+                try:
+                    dg = float(v); break
+                except Exception:  # noqa: BLE001
+                    pass
+    for k in ("unit_estimate_error", "uncertainty", "dg_error", "error"):
+        v = ana_outputs.get(k)
+        if v is not None:
+            try:
+                unc = float(v.to("kilocalorie_per_mole").m); break
+            except Exception:  # noqa: BLE001
+                try:
+                    unc = float(v); break
+                except Exception:  # noqa: BLE001
+                    pass
+    return dg, unc, list(ana_outputs)
+
+
 def run_splittest():
     """Free-CI plumbing shakeout: setup -> simulate -> analyze in ONE process (RBFE_TINY + RBFE_PLATFORM=CPU), so
     the 3-unit hand-off + JSON serialization is validated end-to-end for $0 before any GPU spend."""

@@ -143,8 +143,10 @@ jobs:
           git clone --depth 1 --branch "$GITREF" https://github.com/trimcrae/Rare-cancers /tmp/repo 2>&1 | tail -2
           WORK=/tmp/repo/research/modalities
           IN=/tmp/ternary_in; OUT=/tmp/tout; mkdir -p \$OUT
-          # idempotent cross-dispatch skip: a completed real leg already in GCS is not recomputed (resume after a
-          # spot preemption re-runs the WHOLE leg since the ternary engine is welded — but a finished leg is kept).
+          # idempotent cross-dispatch skip: a completed real leg already in GCS is not recomputed. The ternary
+          # engine is now SPOT-SAFE (execute_hybrid_dag_spot_safe commits MD per-interval to the GCS CommitStore
+          # below), so a preempted leg RESUMES from its last committed iteration on re-dispatch — a finished leg
+          # is still kept via this skip.
           if [ "$MODE" = run ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
             echo "leg ${LEG_ID} seed $SEED already in GCS — idempotent skip"
             for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} (idempotent-skip) ###END###"; sleep 3; done
@@ -154,9 +156,17 @@ jobs:
           ( cd \$WORK && \$PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out \$IN 2>&1 | tail -25 )
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
+          # SPOT-SAFE commit store (mode=run only): the MultiState sampling commits per-interval to this versioned
+          # GCS prefix so a re-dispatch on a fresh VM RESUMES from the last committed iteration instead of from
+          # zero. Keyed by leg+seed so replicas/legs never collide. Smoke skips it (no MD to checkpoint).
+          COMMIT_ENV=""
+          if [ "\$TMODE" = run ]; then
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED RBFE_WARMUP_CKPT_ITERS=20 RBFE_PROD_CKPT_ITERS=40"
+            echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+          fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
-              OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \
+              OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist
           if [ "\$TMODE" = smoke ] && [ -f \$OUT/smoke.json ]; then

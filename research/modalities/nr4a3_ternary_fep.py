@@ -235,23 +235,22 @@ def run_leg():
     proto = _protocol(openfe)
     A, B = _chemical_systems(openfe, ligA, ligB, protein, env)
     dag = proto.create(stateA=A, stateB=B, mapping=mapping)
-    from pathlib import Path
-    from gufe.protocols import execute_DAG
-    shared = Path(CKPT) / "shared"
-    scratch = Path(CKPT) / "scratch"
-    shared.mkdir(parents=True, exist_ok=True)
-    scratch.mkdir(parents=True, exist_ok=True)
-    dagres = execute_DAG(dag, shared_basedir=shared, scratch_basedir=scratch, keep_shared=True)
-    est = proto.gather([dagres])
-    dg = est.get_estimate()
-    unc = est.get_uncertainty()
+    # SPOT-SAFE (trimcrae standing rule: everything we run must be spot-safe). Instead of the welded execute_DAG
+    # (which restarts the expensive MD from zero on every spot preemption — the valB ternary leg lost all work
+    # TWICE this way), drive the hybrid-topology DAG through rbfe.execute_hybrid_dag_spot_safe, which commits the
+    # MultiState sampling per interval to a versioned GCS/S3 CommitStore and RESUMES from the last committed
+    # iteration on re-dispatch. Same battle-tested path valA survived 9 preemptions on.
+    tag = "%s_%s_r%d" % (LEG_ID, DIRECTION, SEED)
+    dg_kcal, unc_kcal, _ana_keys = rbfe.execute_hybrid_dag_spot_safe(proto, dag, CKPT, tag)
     out = {"leg_id": LEG_ID, "environment": env, "morph": "%s->%s" % (a, b), "direction": DIRECTION,
-           "seed": SEED, "dg_morph_kcal": float(dg.to("kilocalorie_per_mole").m),
-           "mbar_se_kcal": float(unc.to("kilocalorie_per_mole").m), "n_mapped_atoms": n_mapped,
-           "n_windows": N_WINDOWS}
+           "seed": SEED, "dg_morph_kcal": float(dg_kcal) if dg_kcal is not None else None,
+           "mbar_se_kcal": float(unc_kcal) if unc_kcal is not None else None, "n_mapped_atoms": n_mapped,
+           "n_windows": N_WINDOWS, "spot_safe": True}
     json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
-    print("  [tfep] LEG DONE %s: ΔG_morph=%.2f ± %.2f (MBAR SE)" % (LEG_ID, out["dg_morph_kcal"],
-                                                                    out["mbar_se_kcal"]), flush=True)
+    _dg = out["dg_morph_kcal"]; _se = out["mbar_se_kcal"]
+    print("  [tfep] LEG DONE %s: ΔG_morph=%s ± %s (MBAR SE) [spot-safe]" % (
+        LEG_ID, ("%.2f" % _dg) if _dg is not None else "None",
+        ("%.2f" % _se) if _se is not None else "None"), flush=True)
 
 
 def main():
