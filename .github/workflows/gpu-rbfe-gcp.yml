@@ -157,13 +157,20 @@ jobs:
               echo "--- spot-safe: GCS commit store gs://$BUCKET (pre-created, SA has objectAdmin) ---"
               SPOT_ENV="RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valA-tyk2/$LEG"
               # Checkpoint interval controls BOTH the .chk frame frequency AND the GCS upload frequency
-              # (rbfe_spot_driver: reporter checkpoint_interval = production_checkpoint_iters). At 20 the .chk
-              # grows to ~1 GB (a ~10 MB frame/checkpoint) and is re-uploaded 100x (measured 2026-07-16: ~209s/
-              # 20-iter chunk, .chk 224 MB at iter 420 and climbing). 100 => 5x fewer, ~5x smaller .chk => ~25x
-              # less checkpoint I/O; preemption loses <=100 iters (~250 ps) — negligible. tiny keeps 2 (needs a
-              # commit within its few iters to validate the path).
+              # (rbfe_spot_driver: reporter checkpoint_interval = production_checkpoint_iters, so the commit
+              # boundary IS the checkpoint frame — no alignment concern). COMMIT FREQUENCY IS THROUGHPUT-NEUTRAL
+              # (measured 2026-07-16: 10.42 s/iter at interval-100 vs 10.45 s/iter at interval-20 — identical; MD
+              # is GPU-bound, and the ~209s/20-iter "chunk" is ~all MD time, ~1s of it commit). So the ONLY real
+              # trade-off is resilience vs cumulative upload volume: LOWER = less work lost on a spot preemption,
+              # HIGHER = smaller total upload (openmmtools .chk keeps FULL checkpoint history — ~52 MB/frame for 12
+              # replicas — and is re-uploaded WHOLE each commit, so total upload ~ (N/P)^2). 2026-07-16: a
+              # preemption at iter ~1000 with P=100 could have cost ~100 iters (~17 min); trimcrae asked to commit
+              # a little more often since it costs no throughput. P=50 => ~2x more commits, worst-case loss ~50
+              # iters (~9 min), total upload ~2x (still a few GB / a couple min over a ~6 h run, GCS ingress free —
+              # negligible). Don't go much lower: the (N/P)^2 .chk re-upload growth is the only thing that bites.
+              # tiny keeps 2 (needs a commit within its few iters to validate the path).
               if [ "\$TINY" = 1 ]; then SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=2 RBFE_PROD_CKPT_ITERS=2"
-              else SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=50 RBFE_PROD_CKPT_ITERS=100"; fi
+              else SPOT_ENV="\$SPOT_ENV RBFE_WARMUP_CKPT_ITERS=25 RBFE_PROD_CKPT_ITERS=50"; fi
               echo "spot commit prefix: gs://$BUCKET/valA-tyk2/$LEG ; SPOT_ENV=\$SPOT_ENV"
             fi
             echo "--- RBFE \$RUNMODE (TINY=\$TINY leg=$LEG spot_safe=$SPOT_SAFE mode=$MODE) on \$(basename \$PY) ---"
