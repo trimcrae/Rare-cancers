@@ -156,8 +156,53 @@ def _write_ligands_sdf(pdb: str, ccd: str, endpoint_names, out_sdf: str, protein
     return len(mols)
 
 
+def _write_e3_pdb(cif_text: str, e3_chains: list, out_pdb: str):
+    """Write ONLY the E3 machinery chains (VHL+EloB+EloC, no target/het/water) from the CIF -> PDB (gemmi).
+    Returns (structure, ca_centroid) so the target model can be appended into the SAME frame."""
+    import gemmi
+    st = gemmi.make_structure_from_block(gemmi.cif.read_string(cif_text).sole_block())
+    st.setup_entities()
+    st.remove_alternative_conformations()
+    st.remove_hydrogens()
+    st.remove_ligands_and_waters()
+    keep = set(e3_chains)
+    for name in [ch.name for ch in st[0]]:
+        if name not in keep:
+            st[0].remove_chain(name)
+    st.remove_empty_chains()
+    os.makedirs(os.path.dirname(out_pdb), exist_ok=True)
+    st.write_pdb(out_pdb)
+    return st
+
+
+def _append_model_chain(e3_pdb: str, model_pdb: str, out_pdb: str):
+    """Merge the relaxed SMARCA2 model chain into the E3 complex (both in the 8G1Q frame) -> the assembled
+    complex.pdb the engine mounts. Text-level ATOM merge with a fresh chain id, robust across gemmi/openmm PDB."""
+    import gemmi
+    e3 = gemmi.read_structure(e3_pdb)
+    used = {ch.name for ch in e3[0]}
+    newname = next(c for c in "TSUVWXYZABCDEFGHIJKLMNOPQR" if c not in used)
+    mdl = gemmi.read_structure(model_pdb)
+    src = mdl[0][0]                     # single-chain SMARCA2 model
+    ch = gemmi.Chain(newname)
+    for res in src:
+        ch.add_residue(res)
+    e3[0].add_chain(ch)
+    # CA centroid of the full assembled complex (for the nearest-ligand pick)
+    cx = cy = cz = 0.0; n = 0
+    for chn in e3[0]:
+        for res in chn:
+            for at in res:
+                if at.name == "CA":
+                    cx += at.pos.x; cy += at.pos.y; cz += at.pos.z; n += 1
+    e3.write_pdb(out_pdb)
+    return (cx / n, cy / n, cz / n) if n else None, newname
+
+
 def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
-    """Stage one leg's complex.pdb (+ ligands.sdf) from the crystal template. Returns a manifest dict."""
+    """Stage one leg's complex.pdb (+ ligands.sdf) from the crystal template. For a TERNARY leg whose target is
+    SMARCA4 (the 8G1Q Wurz template), substitute the SMARCA4 BD -> a relaxed SMARCA2 model (smarca2_model.py,
+    reviewer item 4) and assemble E3 + model. Writes staging_manifest.json (item-4 evidence). Returns a manifest."""
     env = eng._environment_of(leg_id)
     leg, _ = eng.leg_spec(leg_id)
     m = eng.prep._morph_endpoints(leg)
@@ -169,26 +214,65 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
     made_pdb = False
     chains_used: list = []
     centroid = None
+    model_manifest = None
     if env in ("binary", "ternary"):
         roles = ROLE_CHAINS_FOR_ENV[env]
         r2c = role_to_chains(template_pdb)
         missing = [role for role in roles if not r2c.get(role)]
         if missing:
             raise SystemExit(f"[stage] {template_pdb}: could not resolve chains for roles {missing} "
-                             f"(resolved: { {k: v for k, v in r2c.items()} }). Stage nothing.")
-        # ONE copy: keep the first chain per role (6HAX has 2 ternary complexes in the ASU; one is enough and
-        # halves the system/cost). The nearest-ligand pick below keeps the PROTAC pose consistent with this copy.
-        chains_used = [r2c[role][0] for role in roles]
+                             f"(resolved: { {k: v for k, v in r2c.items() if not k.startswith('_')} }). Stage nothing.")
         cif = _get(RCSB_CIF.format(pdb=template_pdb), as_json=False)
-        centroid = _write_complex_pdb(cif, chains_used, os.path.join(leg_dir, "complex.pdb"))
+        e3_chains = [r2c[role][0] for role in ("VHL", "ElonginB", "ElonginC")]
+        complex_pdb = os.path.join(leg_dir, "complex.pdb")
+
+        if env == "ternary":
+            target_chain = r2c["TARGET_BD"][0]
+            target_acc = r2c.get("_target_acc")
+            if target_acc == "P51532":     # SMARCA4 template -> build + relax a SMARCA2 model (item 4)
+                import smarca2_model as sm
+                full_pdb = os.path.join(leg_dir, "_template_full.pdb")
+                gm = __import__("gemmi")
+                st = gm.make_structure_from_block(gm.cif.read_string(cif).sole_block())
+                st.setup_entities(); st.write_pdb(full_pdb)
+                model_manifest = sm.build_smarca2_model(full_pdb, target_chain,
+                                                        os.path.join(leg_dir, "smarca2_model"), n_models=2)
+                if not model_manifest.get("ok"):
+                    raise SystemExit(f"[stage] SMARCA2 model build failed: {model_manifest.get('reason')}")
+                e3_pdb = os.path.join(leg_dir, "_e3.pdb")
+                _write_e3_pdb(cif, e3_chains, e3_pdb)
+                centroid, model_chain = _append_model_chain(e3_pdb, model_manifest["model_pdbs"][0], complex_pdb)
+                chains_used = e3_chains + [model_chain]
+            else:                          # already SMARCA2 (a real SMARCA2 crystal): use the chain directly
+                chains_used = e3_chains + [target_chain]
+                centroid = _write_complex_pdb(cif, chains_used, complex_pdb)
+        else:                              # binary: E3 machinery only (drop the target)
+            chains_used = e3_chains
+            centroid = _write_complex_pdb(cif, chains_used, complex_pdb)
         made_pdb = True
 
     n_lig = _write_ligands_sdf(template_pdb, ccd, endpoint_names, os.path.join(leg_dir, "ligands.sdf"),
                                protein_centroid=centroid)
 
+    # staging_manifest.json — the 5-part smoke gate item 4 reads n_relaxed_models / divergence_ok / substitution.
+    sm_manifest = {"template_pdb": template_pdb, "is_smarca2_crystal": False if template_pdb == "8G1Q" else None,
+                   "environment": env}
+    if model_manifest:
+        sm_manifest.update({
+            "smarca4_to_smarca2_substituted": model_manifest.get("smarca4_to_smarca2_substituted"),
+            "n_relaxed_models": model_manifest.get("n_relaxed_models"),
+            "divergence_ca_rmsd_A": model_manifest.get("divergence_ca_rmsd_A"),
+            "divergence_ok": model_manifest.get("divergence_ok"),
+            "n_mutations": model_manifest.get("n_mutations"),
+            "seq_identity_observed_to_target": model_manifest.get("seq_identity_observed_to_target"),
+            "limitation": model_manifest.get("limitation")})
+    with open(os.path.join(leg_dir, "staging_manifest.json"), "w") as f:
+        json.dump(sm_manifest, f, indent=2)
+
     return {"leg_id": leg_id, "environment": env, "template_pdb": template_pdb, "ligand_ccd": ccd,
             "endpoint_names": endpoint_names, "complex_chains": chains_used, "wrote_complex_pdb": made_pdb,
-            "n_ligand_instances_in_crystal": n_lig, "wrote_ligands_sdf": True, "out_dir": leg_dir}
+            "n_ligand_instances_in_crystal": n_lig, "wrote_ligands_sdf": True, "out_dir": leg_dir,
+            "smarca2_model": sm_manifest}
 
 
 def main(argv=None) -> int:
