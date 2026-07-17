@@ -82,6 +82,8 @@ jobs:
             --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "(none)"
           echo "=== valB-6hax results in GCS ==="
           gcloud storage ls "$RESULTS/" 2>/dev/null || echo "(no results yet)"
+          echo "=== smoke.json (endpoint-verification: built vs requested SMILES) ==="
+          gcloud storage cat "$RESULTS/smoke_${LEG_ID}.json" 2>/dev/null || echo "(no smoke.json for $LEG_ID)"
           VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
           case "$VM_IN" in gcp-ternary-*) TVM="$VM_IN" ;; *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;; esac
           if [ -n "$TVM" ]; then
