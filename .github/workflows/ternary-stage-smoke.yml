@@ -1,0 +1,49 @@
+name: Ternary 6HAX staging smoke (CPU, free)
+
+# valB_mini pre-GPU validation: prove ternary_pdb_stage.py assembles the PROTAC 2 / SMARCA2-VHL leg inputs from
+# the 6HAX crystal — RCSB entity->UniProt->chain mapping, gemmi chain surgery (binary drops SMARCA2; ternary
+# keeps it), and the RCSB ModelServer posed-ligand SDF (retitled calib_hi/calib_lo). Free CPU; the dev sandbox
+# can't reach RCSB. Reports chain mapping + file sizes for all three legs; fails if any staged file is empty.
+# New workflow -> runs on PUSH (paths = the stager + this file).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/rung-2-parallel-7asnpk]
+    paths:
+      - .github/workflows/ternary-stage-smoke.yml
+      - research/modalities/ternary_pdb_stage.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ternary-stage-smoke
+  cancel-in-progress: true
+
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install gemmi + rdkit
+        run: |
+          python -m pip install --upgrade pip
+          pip install gemmi rdkit
+      - name: Resolve 6HAX chain roles + stage all three calib legs
+        working-directory: research/modalities
+        run: |
+          set -e
+          python -c "import ternary_pdb_stage as s; import json; print('6HAX role->chains:', json.dumps(s.role_to_chains('6HAX')))"
+          for leg in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl calib_hi_to_lo__solvent; do
+            echo "=== staging $leg ==="
+            python ternary_pdb_stage.py --leg-id "$leg" --template-pdb 6HAX --out "$RUNNER_TEMP/tstage"
+          done
+          echo "=== staged tree ==="
+          find "$RUNNER_TEMP/tstage" -type f -printf '  %s B  %p\n'
+          echo "=== ternary complex.pdb chain summary ==="
+          grep -h '^ATOM\|^HETATM' "$RUNNER_TEMP/tstage/calib_hi_to_lo__ternary_vhl/complex.pdb" | cut -c22 | sort | uniq -c || true
