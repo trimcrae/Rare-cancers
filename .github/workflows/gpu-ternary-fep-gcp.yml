@@ -25,10 +25,11 @@ on:
       template_pdb: { description: "crystal template", default: "6HAX", required: false }
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
+      detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
   push:
     branches: [claude/rung-2-parallel-7asnpk]
     paths:
-      - .github/workflows/gpu-ternary-fep-gcp.yml
+      # NOT the .yml itself (smoke already passed; workflow edits shouldn't re-burn GPU) — only science changes.
       - research/modalities/ternary_pdb_stage.py
       - research/modalities/nr4a3_ternary_fep.py
 
@@ -52,6 +53,7 @@ jobs:
       NWIN: ${{ github.event.inputs.n_windows || '12' }}
       TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '6HAX' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
+      DETACH: ${{ github.event.inputs.detach || '0' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -117,6 +119,13 @@ jobs:
           git clone --depth 1 --branch "$GITREF" https://github.com/trimcrae/Rare-cancers /tmp/repo 2>&1 | tail -2
           WORK=/tmp/repo/research/modalities
           IN=/tmp/ternary_in; OUT=/tmp/tout; mkdir -p \$OUT
+          # idempotent cross-dispatch skip: a completed real leg already in GCS is not recomputed (resume after a
+          # spot preemption re-runs the WHOLE leg since the ternary engine is welded — but a finished leg is kept).
+          if [ "$MODE" = run ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
+            echo "leg ${LEG_ID} seed $SEED already in GCS — idempotent skip"
+            for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} (idempotent-skip) ###END###"; sleep 3; done
+            exit 0
+          fi
           echo "--- stage $LEG_ID from $TEMPLATE_PDB ---"
           ( cd \$WORK && \$PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out \$IN 2>&1 | tail -25 )
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
@@ -167,6 +176,18 @@ jobs:
             case "$st" in RUNNING|PROVISIONING|STAGING|REPAIRING) return 0 ;; *) echo "  VM status=$st"; return 1 ;; esac
           }
 
+          # DETACHED launcher (default for mode=run — real legs are multi-hour, past the 90-min GH job): provision
+          # ONCE and EXIT; the VM runs independently (7h max-run backstop), streams to serial, writes the leg JSON
+          # to GCS results/ on completion. Monitor with gpu-rbfe-gcp-tail (vm=gcp-ternary-<runid>); re-dispatch to
+          # resume (idempotent GCS skip above). Teardown is skipped so the VM keeps running.
+          DO_DETACH="$DETACH"; [ "$MODE" = run ] && DO_DETACH=1
+          if [ "$DO_DETACH" = 1 ]; then
+            provision || { echo "::error::no L4 Spot capacity — re-dispatch later (idempotent GCS skip)"; exit 1; }
+            echo "DETACHED=1" >> "$GITHUB_ENV"
+            echo "DETACHED: $VM launched in $ZONE (7h backstop). Result -> $RESULTS/. Monitor: gpu-rbfe-gcp-tail vm=$VM. This job EXITS now."
+            exit 0
+          fi
+
           MAX_ATTEMPTS=1; [ "$SPOT_SAFE" = 1 ] && MAX_ATTEMPTS=3
           POLL_ITERS=90; [ "$MODE" = run ] && POLL_ITERS=680
           RES=""; OUT=""
@@ -193,9 +214,10 @@ jobs:
           echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
           echo "TFEP RESULT: $RES"
 
-      - name: Teardown
+      - name: Teardown (skip for detached — the VM must keep running)
         if: always()
         run: |
+          if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
