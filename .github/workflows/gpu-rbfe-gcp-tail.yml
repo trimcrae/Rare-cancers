@@ -67,19 +67,25 @@ jobs:
             echo "found: ${LINE:-<none>}"
             VM=$(echo "$LINE" | cut -d, -f1); ZONE=$(echo "$LINE" | cut -d, -f2)
           fi
-          [ -z "$VM" ] && { echo "::warning::no running gpu-rbfe VM found"; exit 0; }
-          echo "VM=$VM ZONE=$ZONE"
-          gcloud compute instances describe "$VM" --zone="$ZONE" \
-            --format="value(status,machineType.basename(),lastStartTimestamp)" 2>/dev/null || true
-          OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
-          echo "=================== RBFE PROGRESS (filtered) ==================="
-          # openmmtools MultiState logs the iteration ('Iteration N/M'); the spot-driver logs warmup/barrier
-          # commits; analyze/setup mark phase boundaries. This tells us exactly how far the MD has gotten.
-          FILT="Iteration [0-9]|iteration [0-9]|spot-driver|barrier|committed checkpoint|WARMUP|PRODUCTION|\[rbfe\]|\[gpu-util\]|analyze|OpenMM platform|mapped|Solving|Replica|mixing|ns/day|estimated|equilibrat|ETA|Traceback|Error|error|nan|NaN"
-          [ -n "$GREP_IN" ] && FILT="$FILT|$GREP_IN"
-          printf '%s' "$OUT" | grep -aE "$FILT" | tail -40 || echo "(no progress markers yet — still in env build?)"
-          echo "=================== RAW SERIAL TAIL (last 20) ==================="
-          printf '%s' "$OUT" | tail -20 || true
+          # NB: do NOT early-exit when no VM is found — a preemption/finish leaves no VM but the GCS checkpoint
+          # census below (furthest committed iteration = how far the leg got) is VM-INDEPENDENT and is exactly
+          # what we need to see on a preemption. Only the VM-serial dump is skipped when there's no VM.
+          if [ -z "$VM" ]; then
+            echo "::warning::no running gpu-rbfe VM (preempted or finished) — skipping serial dump; GCS census below shows progress"
+          else
+            echo "VM=$VM ZONE=$ZONE"
+            gcloud compute instances describe "$VM" --zone="$ZONE" \
+              --format="value(status,machineType.basename(),lastStartTimestamp)" 2>/dev/null || true
+            OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
+            echo "=================== RBFE PROGRESS (filtered) ==================="
+            # openmmtools MultiState logs the iteration ('Iteration N/M'); the spot-driver logs warmup/barrier
+            # commits; analyze/setup mark phase boundaries. This tells us exactly how far the MD has gotten.
+            FILT="Iteration [0-9]|iteration [0-9]|spot-driver|barrier|committed checkpoint|WARMUP|PRODUCTION|\[rbfe\]|\[gpu-util\]|analyze|OpenMM platform|mapped|Solving|Replica|mixing|ns/day|estimated|equilibrat|ETA|Traceback|Error|error|nan|NaN"
+            [ -n "$GREP_IN" ] && FILT="$FILT|$GREP_IN"
+            printf '%s' "$OUT" | grep -aE "$FILT" | tail -40 || echo "(no progress markers yet — still in env build?)"
+            echo "=================== RAW SERIAL TAIL (last 20) ==================="
+            printf '%s' "$OUT" | tail -20 || true
+          fi
           # The REAL liveness signal (the leg run captures MD output into a shell var, so serial goes quiet mid-run):
           # the spot-safe driver commits a checkpoint to GCS every ~20 iterations. Latest COMMITTED.json + its
           # timestamp = MD alive + how far it's gotten (the GCP analog of the AWS ckpt census / mode=forensic).
