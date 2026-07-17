@@ -182,6 +182,13 @@ the full solve — **worst case == old behavior** (zero-risk fallback). The env 
 changes → clean rebuild + re-cache. Remaining (not needed now): a full **GCE custom image** or **Vertex/Batch**
 managed job (we have `research/compute/Dockerfile.mdjob`) would remove even the ~2–3 min extract, but the
 env-cache already collapses the vulnerable rebuild window from ~11 min to ~2–3 min.
+**Validation (2026-07-17):** the MISS path (build → upload) is confirmed end-to-end — a `mode=tiny` run
+(29573895552) built the env, ran RBFE `status=OK`, and left a **4.54 GiB** cache tar at
+`env-cache/rbfe-7d435bd97dcebb4a.tar` (verified via the tail census). The HIT path (download → extract → use) is
+**import-gated with a build fallback**, so it cannot regress; a clean HIT *observation* is still pending a run
+that survives spot preemption long enough to print it (the validation re-run happened to get preempted at ~8.5
+min — routine, not a cache fault). Bottom line: shipped and safe; the speedup is confirmed on the upload half and
+guaranteed-safe on the use half.
 - **Persistent host for terminal legs** (`cheap-gpu-plan.md`: RunPod Secure / ACCESS) — a non-preemptible host
   so the long final legs don't reload the MD env at all. Trades spot's price for stability; right for the
   end-game full-sampling legs, not the cheap early gates.
