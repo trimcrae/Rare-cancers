@@ -1,12 +1,10 @@
-On track for **Tue Aug 11, 2026** (optimistic) — the RBFE infra shakeout (RUNG 0) is now running clean after early script failures.
+On track for **Sun Aug 9, 2026** (optimistic paper completion).
 
 **Since yesterday**
-- Two spot-smoke RBFE solvent-simulate runs failed Wed evening with script errors (`ExecuteUserScriptError`); a fixed "am1bcc-v2" pipeline then reran solvent setup → simulate → analysis end-to-end successfully overnight.
-- Step0 RBFE (OpenFE + managed-spot GPU shakeout) now completes cleanly — this is the last gate before real RBFE science starts.
-- A congeneric-RBFE-v3 checkpoint-resume test also completed.
+- Both RUNG 0 solvent jobs (analysis + simulation) for the RBFE/OpenFE infra shakeout completed cleanly — no failures.
 
 **Running now**
 Nothing running.
 
 **Path to done**
-Next: reference-reproduction smoke (RUNG 1, ~Jul 19), then known-answer ternary + cmpd19 conditional RBFE (RUNG 2, Jul 19–22), benchmark expansion + NR-V04 covalent feasibility (RUNG 3, Jul 22–26), the prospective degrader matrix (RUNG 5, Jul 31–Aug 5), and manuscript write-up/submission (RUNG 6) — landing at the projected completion of **Tue Aug 11, 2026**.
+Next up are two free CPU RUNG 0 analyses: the EMC VHL/CRBN expression check (informs ligase choice), due Sat Jul 18, and the pocket-tracking re-analysis (finalizing Gate 2 druggability wording), due Sun Jul 19. Then GPU work resumes with RUNG 2 — the known-answer VHL–BRD4/SMARCA2 ternary probe and cmpd19 conditional relative-FE edges — targeted for Mon Jul 20, feeding into the RUNG 3 accuracy/ternary benchmarks and the RUNG 5 prospective matrix, with the paper write-up and submission landing around the projected completion of **Sun Aug 9, 2026**.
