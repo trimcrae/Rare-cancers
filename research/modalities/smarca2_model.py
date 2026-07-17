@@ -145,17 +145,27 @@ def build_smarca2_model(smarca4_pdb: str, chain_id: str, out_dir: str, n_models:
             sim = Simulation(fixer.topology, system, integ, plat)
         except Exception:  # noqa: BLE001
             sim = Simulation(fixer.topology, system, integ)
-        sim.context.setPositions(fixer.positions)
-        # GBn2 implicit-solvent minimization is the CPU bottleneck; keep iters modest (this is a STARTING model
-        # that then gets full FEP MD). Overridable via env for a deeper relax on the GPU lane.
-        mi1 = int(os.environ.get("SMARCA2_MIN1_ITERS", "600"))
-        md_steps = int(os.environ.get("SMARCA2_MD_STEPS", "600"))   # ~1.2 ps thermal relax for model independence
+        # GBn2 implicit-solvent MD is the CPU bottleneck. Default: SKIP MD and get model INDEPENDENCE from a small
+        # per-model random position perturbation before minimization (fast + reproducible via seed k). A brief MD
+        # relax is available (SMARCA2_MD_STEPS>0) for the GPU lane where GBn2 dynamics are cheap. Both keep the SAME
+        # amber14/gbn2 forcefield; this is a STARTING model that gets full solvated FEP MD downstream.
+        mi1 = int(os.environ.get("SMARCA2_MIN1_ITERS", "500"))
+        md_steps = int(os.environ.get("SMARCA2_MD_STEPS", "0"))
         mi2 = int(os.environ.get("SMARCA2_MIN2_ITERS", "300"))
+        pos = fixer.positions
+        if md_steps <= 0 and k > 0:
+            import numpy as _np
+            rng = _np.random.default_rng(20260717 + k)
+            arr = _np.array([[v.x, v.y, v.z] for v in pos.value_in_unit(ou.nanometer)])
+            arr = arr + rng.normal(0.0, 0.02, arr.shape)      # ~0.2 A jitter -> an independent minimization basin
+            from openmm import Vec3
+            pos = [Vec3(*row) for row in arr] * ou.nanometer
+        sim.context.setPositions(pos)
         sim.minimizeEnergy(maxIterations=mi1)
-        # brief independent relaxation so the two models are genuinely independent (not the same minimum)
-        sim.context.setVelocitiesToTemperature(300 * ou.kelvin, 4321 + k)
-        sim.step(md_steps)
-        sim.minimizeEnergy(maxIterations=mi2)
+        if md_steps > 0:                                       # optional thermal relax (GPU lane)
+            sim.context.setVelocitiesToTemperature(300 * ou.kelvin, 4321 + k)
+            sim.step(md_steps)
+            sim.minimizeEnergy(maxIterations=mi2)
         state = sim.context.getState(getPositions=True)
         out_pdb = os.path.join(out_dir, f"smarca2_model_{k}.pdb")
         with open(out_pdb, "w") as fh:
