@@ -37,9 +37,12 @@ choice) — that doc is *which GPU*; this doc is *how fast and how many-per-GPU*
 
 ---
 
-## TIER 1 — GPU sharing (NVIDIA MPS): the big untapped lever
+## TIER 1 — GPU sharing (NVIDIA MPS): investigated, **RULED OUT on the L4** (measured 2026-07-16)
 
-**Are we using MPS? NO.** And our workload is close to the textbook case for it.
+**Are we using MPS? No — and, now measured, we shouldn't on the L4:** a single complex HREX replica-set already
+saturates the card (88–100% util, at its 72 W TDP), so there's no idle capacity for MPS to fill. Full evidence in
+"The gate" below. The analysis that motivated the measurement is kept for the record (and for the bigger-GPU
+case), but the bottom line is **MPS is not a win here — go to Tier 2 ($/ns).**
 
 **Why it matters.** [NVIDIA's OpenMM+MPS result](https://developer.nvidia.com/blog/maximizing-openmm-molecular-dynamics-throughput-with-nvidia-multi-process-service/):
 packing *multiple* OpenMM simulations onto one GPU via the Multi-Process Service (kernels from different
@@ -69,16 +72,24 @@ launch a simulation unit under `mpirun`) is **real engineering** and the gain on
 35k-atom complex replica may already be closer to saturating the small L4 than DHFR is on an L40S. Lower
 priority than 1A; revisit if 1A's utilization measurement shows big single-sim headroom.
 
-### The gate (now instrumented — free)
+### The gate — MEASURED 2026-07-16: NO MPS headroom on the L4 (complex leg) ❌
 Both sub-levers are sized by **one number: single-sim GPU utilization on the L4.** Guessing it violates repo
-rule #1, so as of 2026-07-16 every GCP leg runs a **background `[gpu-util]` logger** (`gpu-rbfe-gcp.yml`
-startup: `nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,power.draw` every 30 s → serial;
-surfaced by `gpu-rbfe-gcp-tail.yml`). The **next real leg** will report it. Reading:
-- util persistently **< ~60%** on the complex leg → real headroom → **build 1A** (MPS launcher; pack 2–3
-  edges/legs/GPU), validate on one packed leg (~$5–15), then apply to the matrix.
-- solvent leg (~5k atoms) will show the **most** idle SMs → strong MPS case there regardless.
-- util near **~90%+** → the complex leg already saturates → 1A gain is small for complex (still worth it for
-  solvent + ABFE); skip 1B.
+rule #1, so every GCP leg now runs a **background `[gpu-util]` logger** (`gpu-rbfe-gcp.yml` startup:
+`nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,power.draw` every 30 s → serial;
+surfaced by `gpu-rbfe-gcp-tail.yml`). **Result on the valA complex HREX leg (12 replicas, ~35k atoms):**
+```
+gpu 88–100% util, power 69–74 W — i.e. AT the L4's 72 W TDP (power-capped), across all active-MD samples.
+```
+⇒ **a single HREX replica-set already SATURATES the L4** (continuously busy + power-limited). MPS fills *idle*
+SM time; there is essentially none here, so **MPS gives ~no throughput gain on the L4** — neither the
+intra-HREX (1B) nor the pack-multiple-edges/legs (1A) variant. This is the measured kill of the MPS idea for our
+expensive work on this GPU, *before* building infra that wouldn't have paid off. Caveats kept honest:
+`utilization.gpu` is a "GPU-busy" metric, not SM occupancy — but the **power-at-TDP** corroborates genuine
+saturation. Two places MPS could still matter (not worth building now): (i) the **solvent leg** (~5k atoms)
+likely underfills the L4 — but it's the cheap/fast leg, so packing it saves little; (ii) a **bigger GPU**
+(L40S/A100, more SMs) may *not* saturate on one replica-set → MPS headroom returns there — but at that point the
+simpler win is just running the faster card on $/ns (Tier 2), not MPS. **Action: MPS is OFF the table for the L4;
+fold the throughput effort into Tier 2 (GPU/$ per ns).**
 
 **Action:** read `[gpu-util]` off the next leg → if headroom, implement the MPS launcher (1A) as a free
 engineering change; the only $ is one cheap validation leg (< $50 → within the autonomy threshold, but flag the
@@ -103,8 +114,8 @@ Numbers are indicative — the honest move is to **measure $/ns directly**: the 
 wall-clock; adding one line of `ns/day` readout per leg (openmmtools logs it) turns every validation leg into a
 free $/ns benchmark. **Action:** on the next validation round, run the *same* single leg on L4 vs A10G (and, if
 convenient, a Vast/Salad 4090) and pick the matrix GPU by measured $/ns. Zero code beyond a machine-type/provider
-string — composes directly with `cheap-gpu-plan.md` (provider is a config, not a rewrite) and MPS Tier 1
-(a faster card with headroom packs *more* MPS processes).
+string — composes directly with `cheap-gpu-plan.md` (provider is a config, not a rewrite). **With MPS ruled out
+on the L4 (Tier 1, measured), this is the PRIMARY throughput lever for the matrix.**
 
 ---
 
@@ -174,15 +185,17 @@ has create-capacity; any spot zone can preempt). See CLAUDE.md standing rule (20
 
 ## Priority-ordered action list
 
-1. **[free, in flight]** `[gpu-util]` logger merged → **read single-sim L4 utilization off the next leg.** Gates Tier 1 & 2.
-2. **[free eng + 1 cheap leg]** If headroom: build the **MPS multi-process launcher (Tier 1A)** — pack K
-   independent edges/legs/ABFE-windows per GPU. Biggest effort:value item; slashes matrix GPU-hours.
-3. **[~zero code + 1 cheap leg]** Add `ns/day` readout → **benchmark $/ns on L4 vs A10G (± 4090)** → pick the
-   **matrix** GPU by measured $/ns (Tier 2).
-4. **[held]** Intra-HREX MPI+MPS (Tier 1B) — only if 1A's utilization shows large single-sim headroom.
-5. **[reviewed no-ops]** online-analysis interval, cutoff/PME, precision — leave as-is (documented above).
+1. **[DONE 2026-07-16]** `[gpu-util]` logger → **measured: L4 saturates on one complex HREX replica-set (88–100%
+   util, ~72 W/72 W TDP).** ⇒ **MPS is OFF the table for the L4** (Tier 1A + 1B dropped). Kept as a permanent
+   instrument for any future GPU.
+2. **[~zero code + 1 cheap leg]** Add `ns/day` readout → **benchmark $/ns on L4 vs A10G/L40S (± 4090)** → pick the
+   **matrix** GPU by measured $/ns (Tier 2). This is now the PRIMARY throughput lever (MPS having been ruled out).
+3. **[held]** MPS revisited **only** on a bigger GPU that doesn't saturate on one replica-set — and even then $/ns
+   on the faster card usually wins over MPS packing. Not worth building for the L4.
+4. **[reviewed no-ops]** online-analysis interval, cutoff/PME, precision — leave as-is (documented above).
+5. **[free eng, high value]** Ops wins independent of MPS: **bake the conda env into a GCE image** (kills the
+   ~10-min rebuild-on-preemption) and, longer-term, **Vertex/Batch managed jobs** (auto-teardown). See Ops levers.
 
-**Spend discipline:** items 2–3 each need one **< $50** validation leg (autonomy threshold = just-do-it, but
-name the provider first per the standing rule). The matrix GPU choice + any MPS rollout to the matrix is where
-real $ lands → present at its gate with the measured $/ns + utilization in hand. Everything else here is free
-engineering or a documented no-op.
+**Spend discipline:** item 2 needs one **< $50** validation leg (autonomy threshold = just-do-it, but name the
+provider first per the standing rule). The matrix GPU choice is where real $ lands → present at its gate with the
+measured $/ns in hand. Everything else here is free engineering or a documented no-op.
