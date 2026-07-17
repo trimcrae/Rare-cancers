@@ -17,6 +17,7 @@ on:
       - .github/workflows/ternary-calib-freeze.yml
       - research/modalities/ternary_calib_freeze.py
       - research/modalities/ternary_calib_search.py
+      - research/modalities/ternary_calib_alpha_fetch.py
 
 permissions:
   contents: write
@@ -45,6 +46,10 @@ jobs:
         if: always()
         working-directory: research/modalities
         run: python ternary_calib_search.py
+      - name: Fetch cooperativity evidence for the congeneric-pair member(s) lacking alpha
+        if: always()
+        working-directory: research/modalities
+        run: python ternary_calib_alpha_fetch.py
       - name: Publish frozen pair to modalities-cache branch
         if: always()
         run: |
@@ -54,6 +59,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/res"
           cp research/modalities/ternary-calib-pair-frozen.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/ternary-calib-congeneric-search.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/ternary-calib-alpha-evidence.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           ls "$RUNNER_TEMP/res/" | grep -q json || { echo "no json produced"; exit 0; }
           git fetch origin modalities-cache || true
           git reset --hard
@@ -66,6 +72,6 @@ jobs:
           fi
           mkdir -p research/modalities
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
-          git add research/modalities/ternary-calib-pair-frozen.json research/modalities/ternary-calib-congeneric-search.json 2>/dev/null || true
+          git add research/modalities/ternary-calib-pair-frozen.json research/modalities/ternary-calib-congeneric-search.json research/modalities/ternary-calib-alpha-evidence.json 2>/dev/null || true
           git commit -m "Ternary calib: freeze panel_sweep + congeneric VHL-PROTAC search (RCSB+RDKit) [skip ci]" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
