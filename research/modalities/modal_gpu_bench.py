@@ -16,8 +16,13 @@ import re
 import modal
 
 app = modal.App("nr4a3-gpu-bench")
-# openmm wheel bundles CUDA libs; the Modal GPU host provides the driver (same as modal_openmm_smoke).
-image = modal.Image.debian_slim().pip_install("openmm", "numpy")
+# Use the SAME conda-forge CUDA OpenMM the production RBFE leg runs (driver-matched CUDA that actually works on
+# the Modal GPU) — the pip wheel on debian_slim only exposed Reference/CPU. openmm-only (no openfe) keeps it light.
+image = (
+    modal.Image.micromamba(python_version="3.11")
+    .micromamba_install("openmm", "cuda-version=12.6", "ocl-icd-system", "numpy", "git",
+                        channels=["conda-forge"])
+)
 
 GIT_REF = os.environ.get("GIT_REF", "claude/rung-2-parallel-7asnpk")
 
