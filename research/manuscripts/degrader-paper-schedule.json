@@ -80,7 +80,8 @@
     {
       "id": "valA_mini",
       "title": "RUNG 1: reference-reproduction smoke + CITE OpenFE (reduced from a paid benchmark by the am1bcc fix)",
-      "status": "pending",
+      "status": "done",
+      "result": "PASS/GO 2026-07-17 (GCP L4 CUDA, spot-safe, run 29566859637). TYK2 ejm31->ejm42, full 5ns x 12-window RBFE both legs: ddg_bind=+0.366 vs ddg_exp=-0.24 kcal/mol -> abs_err=0.606 < 2.0 GO-tol => GO. Our OpenFE container reproduces a known ddG, so the build is sound (kill-switch cleared). Solvent leg ddG=13.703+/-0.079. Result in gs://.../valA-tyk2/results/ddg_nr4a3.json. Ran on GCP to burn $300 credits; survived ~9 spot preemptions purely via the GCS checkpoint/resume path (validated end-to-end).",
       "track": "gpu",
       "cost_est_usd": "0-15",
       "optimistic_days": 1,

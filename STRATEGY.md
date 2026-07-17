@@ -195,7 +195,12 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 ### RUNG 1 — cheap reference-reproduction smoke *(now mostly a citation, not a paid benchmark)*
 
-- **`[ ]` Validation A — reference-reproduction smoke + cite OpenFE** *(valA_mini · GPU)* — **Price: ~$0–15 · Cum. ~$15**
+- **`[x]` Validation A — reference-reproduction smoke + cite OpenFE** *(valA_mini · GPU)* — **Price: ~$0–15 · Cum. ~$15**
+  **✅ DONE 2026-07-17 — PASS/GO.** Ran the full 5 ns × 12-window RBFE on the public TYK2 `ejm31→ejm42` edge
+  (both legs) on a **GCP L4 (CUDA), spot-safe**: **ΔΔG_bind = +0.366 vs ΔΔG_exp = −0.24 kcal/mol → abs err
+  0.61 kcal/mol**, inside the 2.0 kcal/mol tolerance → **GO**. Our OpenFE container reproduces a known ΔΔG, so
+  the build is sound (kill-switch cleared → proceed to Rung 2). It also proved the GCS checkpoint/resume path
+  end-to-end (survived ~9 spot preemptions overnight with zero lost work). Result: `.../valA-tyk2/results/ddg_nr4a3.json`.
   **Reduced from a paid benchmark to a near-free smoke** now that the charge-model fix (RUNG 0) puts us on the
   standard **am1bcc** method. Because we run the documented OpenFE reference protocol, we **cite OpenFE's
   published ~1.7 kcal/mol accuracy** for the method and only run a minimal **1–2 public known-answer edge** to
